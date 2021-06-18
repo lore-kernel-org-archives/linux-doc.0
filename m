@@ -2,407 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA3DC48BE8
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 12:19:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0010C48BE8
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 13:09:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6B7A613EB
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 12:19:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B45F613EB
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 13:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbhFRMVu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 08:21:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42886 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232143AbhFRMVu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 08:21:50 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E60C3F0;
-        Fri, 18 Jun 2021 14:19:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624018778;
-        bh=HPD5ZoGlWdOIECxj10GgGh2v+JP4odXwRHXa6St/N4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EeUYubsGe4S9W/vAmID3xcMVOplCuiOYs7kvcPteBLS/vAVIJcp08lh3hHw5er+rG
-         LLRQldZX+3NaoZb+fy2LdZ1z75uo5VIrPf/4gnAWTQjeWDhoBtIjqbK1EHc+olxNy1
-         bGVToRBGVhmHOdKMBHCg6ngvk9XUojenka7SLkkM=
-Date:   Fri, 18 Jun 2021 15:19:15 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Simon Ser <contact@emersion.fr>, Liviu Dudau <liviu.dudau@arm.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Steven Price <steven.price@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Chen-Yu Tsai <wens@csie.org>, Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Huang Rui <ray.huang@amd.com>,
-        Yannick Fertr e <yannick.fertre@foss.st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YMyPQ/gLspPGn/zg@pendragon.ideasonboard.com>
-References: <YMh21WBrADbZDcbp@pendragon.ideasonboard.com>
- <20210615131656.2ecefdc4@eldfell>
- <YMpnlDmzn0Re4Urn@pendragon.ideasonboard.com>
- <20210617102701.28f820b2@eldfell>
- <YMskHF8Bo/z3kqxf@pendragon.ideasonboard.com>
- <20210617143311.19896458@eldfell>
- <YMtQClnvjGNDhn9q@pendragon.ideasonboard.com>
- <20210618115152.79af3537@erebos>
- <YMxuWZWpmggDtvT9@pendragon.ideasonboard.com>
- <20210618143200.7e145f95@erebos>
+        id S232090AbhFRNL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 09:11:58 -0400
+Received: from mga09.intel.com ([134.134.136.24]:44518 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230430AbhFRNL5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Jun 2021 09:11:57 -0400
+IronPort-SDR: 8H10y1Asdv9zuikdoDgPhnhxiVofy/YZTjK1F16dHshL1DSTRN0R+MMx4QTqMyH4aGJiVLGJpW
+ mBEaJJvYgtJw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="206501766"
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; 
+   d="scan'208";a="206501766"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2021 06:09:46 -0700
+IronPort-SDR: k0VNKFgc6/+ZCs+/29CFEINWXy8j5ryxt4Kiuk5WVmtQSAapGGKzOhEQiK4osW6tBDtXBMXpFP
+ /enHauR5gPDQ==
+X-IronPort-AV: E=Sophos;i="5.83,283,1616482800"; 
+   d="scan'208";a="485683414"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.157]) ([10.254.212.157])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2021 06:09:42 -0700
+Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linuxarm@huawei.com,
+        thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v14 1/6] iommu: Deprecate Intel and AMD cmdline methods to
+ enable strict mode
+To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, robin.murphy@arm.com,
+        corbet@lwn.net
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1624016058-189713-2-git-send-email-john.garry@huawei.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <31d7ec79-79e8-4ae9-6705-e08c1256f432@linux.intel.com>
+Date:   Fri, 18 Jun 2021 21:09:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210618143200.7e145f95@erebos>
+In-Reply-To: <1624016058-189713-2-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pekka,
-
-On Fri, Jun 18, 2021 at 02:32:00PM +0300, Pekka Paalanen wrote:
-> On Fri, 18 Jun 2021 12:58:49 +0300 Laurent Pinchart wrote:
-> > On Fri, Jun 18, 2021 at 11:55:38AM +0300, Pekka Paalanen wrote:
-> > > On Thu, 17 Jun 2021 16:37:14 +0300 Laurent Pinchart wrote:  
-> > > > On Thu, Jun 17, 2021 at 02:33:11PM +0300, Pekka Paalanen wrote:  
-> > > > > On Thu, 17 Jun 2021 13:29:48 +0300 Laurent Pinchart wrote:    
-> > > > > > On Thu, Jun 17, 2021 at 10:27:01AM +0300, Pekka Paalanen wrote:    
-> > > > > > > On Thu, 17 Jun 2021 00:05:24 +0300 Laurent Pinchart wrote:      
-> > > > > > > > On Tue, Jun 15, 2021 at 01:16:56PM +0300, Pekka Paalanen wrote:      
+On 2021/6/18 19:34, John Garry wrote:
+> Now that the x86 drivers support iommu.strict, deprecate the custom
+> methods.
 > 
-> ...
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> Acked-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>   Documentation/admin-guide/kernel-parameters.txt | 9 ++-------
+>   drivers/iommu/amd/init.c                        | 4 +++-
+>   drivers/iommu/intel/iommu.c                     | 1 +
+>   3 files changed, 6 insertions(+), 8 deletions(-)
 > 
-> > This isn't about human perception, but about the ability to check if the
-> > driver correctly configures the device :-) For driver testing, I don't
-> > care if the colours look right or not if userspace misconfigures the
-> > colour pipeline. What I need is to catch regressions when my driver
-> > messes up the hardware configuration. This particular device processes
-> > the images in stripes, and it's very easy for a stripe to be one pixel
-> > off (or actually a fraction of a pixel when the scaler is involved).
-> > 
-> > Testing if a device correctly implements colour processing is of course
-> > also useful, but is a distinct goal. Both need to be considered, when
-> > stating requirements such as fully documented properties with a VKMS
-> > software implementation and pixel-perfect tests in IGT.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 30e9dd52464e..673952379900 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -290,10 +290,7 @@
+>   	amd_iommu=	[HW,X86-64]
+>   			Pass parameters to the AMD IOMMU driver in the system.
+>   			Possible values are:
+> -			fullflush - enable flushing of IO/TLB entries when
+> -				    they are unmapped. Otherwise they are
+> -				    flushed before they will be reused, which
+> -				    is a lot of faster
+> +			fullflush - Deprecated, equivalent to iommu.strict=1
+>   			off	  - do not initialize any AMD IOMMU found in
+>   				    the system
+>   			force_isolation - Force device isolation for all
+> @@ -1948,9 +1945,7 @@
+>   			this case, gfx device will use physical address for
+>   			DMA.
+>   		strict [Default Off]
+> -			With this option on every unmap_single operation will
+> -			result in a hardware IOTLB flush operation as opposed
+> -			to batching them for performance.
+> +			Deprecated, equivalent to iommu.strict=1.
+>   		sp_off [Default Off]
+>   			By default, super page will be supported if Intel IOMMU
+>   			has the capability. With this option, super page will
+> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+> index 46280e6e1535..3a2fb805f11e 100644
+> --- a/drivers/iommu/amd/init.c
+> +++ b/drivers/iommu/amd/init.c
+> @@ -3098,8 +3098,10 @@ static int __init parse_amd_iommu_intr(char *str)
+>   static int __init parse_amd_iommu_options(char *str)
+>   {
+>   	for (; *str; ++str) {
+> -		if (strncmp(str, "fullflush", 9) == 0)
+> +		if (strncmp(str, "fullflush", 9) == 0) {
+> +			pr_warn("amd_iommu=fullflush deprecated; use iommu.strict=1 instead\n");
+>   			amd_iommu_unmap_flush = true;
+> +		}
+>   		if (strncmp(str, "force_enable", 12) == 0)
+>   			amd_iommu_force_enable = true;
+>   		if (strncmp(str, "off", 3) == 0)
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index bd93c7ec879e..29497113d748 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -454,6 +454,7 @@ static int __init intel_iommu_setup(char *str)
+>   			pr_warn("intel_iommu=forcedac deprecated; use iommu.forcedac instead\n");
+>   			iommu_dma_forcedac = true;
+>   		} else if (!strncmp(str, "strict", 6)) {
+> +			pr_warn("intel_iommu=strict deprecated; use iommu.strict=1 instead\n");
+>   			pr_info("Disable batched IOTLB flush\n");
+>   			intel_iommu_strict = 1;
+>   		} else if (!strncmp(str, "sp_off", 6)) {
 > 
-> Right. Your driver testing requirements are different. You know how your
-> hardware works, so you can build your tests to suit.
-> 
-> What this thread is about is KMS UAPI, and verifying that a KMS
-> implementation matches the KMS UAPI specification. The UAPI
-> specification is the only thing I can look at when writing userspace.
-> As a userspace and compositor developer, I am specifically concerned
-> about how humans will perceive the final image.
 
-Yes, the thread has gone in a few different directions.
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-> If you use your hardware-specific tests to ensure that your driver
-> programs the hardware correctly, and IGT tests ensure that the KMS UAPI
-> is implemented to the KMS UAPI spec, then I would hope that everything
-> is fine. By reading the KMS UAPI spec I can decide to use or not use
-> specific KMS features.
-> 
-> ...in an ideal world.
-
-I wish I knew where that world was ;-)
-
-I do agree with you though, you need predictability in userspace,
-otherwise it's quite useless (or not very useful). This brings back many
-memories (so unfortunately not too distant) with cameras. No latter than
-yesterday, I heard from a person with lots of involvement in GPU API
-design that GPUs seem easy compared to cameras. Hopefully this means
-we'll be able to solve this on the display side :-)
-
-> > > > One very typical difference between devices is the order of the
-> > > > processing blocks. By modelling the KMS pipeline as degamma -> ccm ->
-> > > > gamma, we can accommodate hardware that have any combination of
-> > > > [1-2] * 1D LUTs + 1 * CCM. Now, throw one 3D LUT into the mix, at  
-> > > 
-> > > But you cannot represent pipelines like
-> > > 1D LUT -> 1D LUT -> CCM
-> > > because the abstract pipeline just doesn't have the elements for that.
-> > > OTOH, maybe that ordering does not even make sense to have in hardware?
-> > > So maybe not all combinations are actually needed.  
-> > 
-> > If userspace wanted such a pipeline (I'm not sure why it would), then it
-> > could just combine the two LUTs in one.
-> 
-> Maybe? You can also combine the 1D LUTs into the 3D LUT in the
-> middle, too, but the result is not generally the same as using them
-> separately when the 3D LUT size is limited.
-
-Yes, my 3D LUT has 17 points, I've heard about LUTs up to 33 points
-(with bilinear interpolation), that's quite little if used as a 1D LUT.
-There's also the fact that interpolation will result in cross-talk
-between the three colour channels.
-
-> > > > different points in the pipeline depending on the device, and it will
-> > > > start getting complicated, even if the use case is quite simple and
-> > > > common. This is getting a bit out of topic, but how would you solve this
-> > > > one in particular ?  
-> > > 
-> > > By defining all the points in the abstract color pipeline where a 3D
-> > > LUT could exist. Then each point would probably need its own KMS
-> > > property.  
-> > 
-> > And when we'll add the next object ? This can't scale I'm afraid. You'll
-> > have a spec that tells you that things can be in any order, and may well
-> > be able to expose the order to userspace, but you won't be able to
-> > implement a generic userspace that makes use of it.
-> 
-> Are you saying that generic userspace cannot happen? On top of KMS
-> UAPI, that is.
-> 
-> Why would a generic userspace library API be a more feasible effort?
-
-I'll make a parallel with the camera world again, because I think
-display hardware is taking a similar path, just later.
-
-We used to have capture devices that offered a fairly high-level
-interface at the hardware or firmware level, with a set of features that
-were more or less standard. Devices could be exposed with an abstract
-model, as done in KMS today, with a set of standardized controls (V4L2
-uses the word control when KMS uses property). We had way less automated
-testing, and didn't enough attention to consistency of the userspace API
-(we're talking about code from the beginning of the century, if not
-earlier, the world was different), so different drivers were not
-consistent in how the API was implemented (for instance the API didn't
-specify gain units, so drivers would use different units), but more or
-less, you could write a standard V4L2 application that would work with
-most devices, with a few quirks here and there.
-
-Then the world changed. Cameras become more complex, with the raw sensor
-and the ISP exposed to Linux in the OMAP3 that Nokia used in the N900
-and N9 phones. For a while we tried to stick with V4L2, and implement
-ISP control within the kernel, with the help of a userspace daemon
-behind the scenes to which the kernel driver called back. The daemon was
-required, as control of the camera required complicated computation that
-really benefited from floating point math. It was horrible, and the
-daemon was closed-source, but from an application point of view, it was
-still high-level V4L2 as before. This hit a big wall though, to expose a
-high-level API on top of a low-level hardware interface, we had to
-bridge the gap in the kernel. This meant hardcoding use cases on the
-kernel side, which clearly wouldn't scale, as not everybody had the same
-use cases (an industrial vision application and a smartphone camera
-application really don't see the world the same way).  We were facing a
-dead end.
-
-We then decided to expose a lower-level API from kernel to userspace,
-giving userspace the ability to control everything. That's how the Media
-Controller API was born (its purpose is to expose the internal topology
-of the device as a graph of connected entities, that's about it), as
-well as the V4L2 subdev userspace API (in KMS term, that would mean more
-or less exposing DRM bridges to userspace, with the ability to control
-them individually). This simplified the kernel implementation (no more
-hardcoded use cases, no more daemon behind the scenes), but at the same
-time resulted in an API that wasn't a good fit for applications to
-consume directly. One step closer to the hardware, one step further from
-the user. You can think of this as the API exposed by GPU kernel
-drivers, it's not enough, a userspace component to translate to a
-higher-level API is needed.
-
-This was followed by 10 years of limbo as Nokia pulled the plug from
-Linux (and then smartphone) development. Fast forward, at the end of
-2018, we created libcamera as the mesa of the camera world to solve this
-issue. It offers a standard camera stack with a high-level API, where
-device-specific code can be added (and kept to the minimum, as a
-centralized framework means we can share code that is common between
-devices).
-
-I see lots of parallel with display pipelines getting more complex. It
-wouldn't be fair to expose a very low-level API and ask every single
-compositor to know about all the devices out there, but at the same
-time, we're reaching a level of hardware complexity that I believe makes
-it a dead end to try to abstract and standardize everything at the
-kernel level. This doesn't mean we should allow all vendors to throw in
-any kind of crappy properties or other API extensions, we can still
-enforce some ground rules, such as proper documentation, reasonable
-effort for standardization, and reference open-source userspace
-implementation in a project we would consider to be the equalivant of
-mesa for KMS.
-
-> > BTW, if we want to expose a finer-grained topology of processing blocks,
-> > I'd recommend looking at the Media Controller API, it was designed just
-> > for that purpose.
-> 
-> Sure. However, right now we have KMS properties instead. Or maybe they
-> should just go all unused?
-> 
-> Maybe the rule should be to not add any more KMS properties and tell
-> people to design something completely new based on Media Controller API
-> instead?
-
-No, I think that would be too harsh, my point was that if we want to
-expose how the building blocks are layed out, the MC API is meant to
-expose a graph of connected entities, so it's a good match. Controlling
-the device should still go through KMS properties I believe.
-
-> I've never looked at Media Controller API, so I have no idea how it
-> would suit display servers.
-> 
-> I very much think that I cannot use processing blocks exposed by
-> KMS if I cannot have guarantees that they work the same across all
-> Linux drivers.
->
-> > > We already have the KMS pipeline exactly as degamma -> ctm -> gamma and
-> > > drivers need to respect that order.
-> > > 
-> > > If the combinatorial explosion gets out of hand, maybe we need a KMS
-> > > property to switch to whole another abstract pipeline which defines a
-> > > different ordering on the same and/or different KMS properties.
-> > > 
-> > > From what I've learnt recently, if you have a 3D LUT, you want a 1D LUT
-> > > on each side of it for memory vs. precision optimization. And after the
-> > > degamma -> ctm -> gamma pipeline you may want one more ctm for
-> > > RGB-to-YCbCr conversion. So I have hope that the abstract pipeline with
-> > > all actually implemented hardware features might not go totally out of
-> > > hand.  
-> > 
-> > On the output of the CRTC, I have, in this order
-> > 
-> > - RGB to YUV conversion (can only use presets for BT.601 and BT.709, with
-> >   limited or full range)
-> > - 3D LUT
-> > - 1D LUT
-> > - YUV to RGB conversion (presets only)
-> > 
-> > The RGB to YUV and YUV to RGB conversions can be bypassed. That's it.
-> > 
-> > There's also a histogram engine, to allow implementation of dynamic
-> > gamma correction. This would require userspace to read the histogram
-> > data for every frame, and update the LUTs accordingly.
-> 
-> Interesting, but almost none of that would be used by the color
-> management pipeline model I'm familiar with. I wonder what kind of use
-> cases doing LUTs in YUV have been designed for, and *after* blending,
-> even.
-
-I'm afraid I can't tell as I don't know. This reaches the limit of my
-display colour management knowledge.
-
-> ...
-> 
-> > I really think we'll end up needing device-specific userspace
-> > components. Given the example above, with histogram calculation and
-> > dynamic gamma correction, there's no way we'll be able to have a single
-> > userspace implementation that would support these kind of features for
-> > all devices. It doesn't have to be solved now, but we probably want to
-> > start thinking about an API to plug device-specific components in
-> > compositors. This is the kind of problem that the libcamera project is
-> > tackling on the camera side, I believe a similar approach will be needed
-> > for displays too.
-> 
-> To be able to plug device-specific components in compositors, we need a
-> driver-agnostic API through which compositors can use those device
-> specific components. Still the same problem, now just in userspace than
-> at the UAPI level.
-
-Agreed, it pushes the problem to a different place :-) I however think
-it may be easier to solve it in userspace, as it's a better place to
-hardcode use cases. A general-purpose compositor may not want to make
-use of all hardware features, while a specific-purpose compositor may
-want to exercise the hardware features differently. This however opens
-the door to introducing badly-designed and un(der-)documented
-properties, which is not something I want, so we would still need to set
-ground rules, such as documentation and reference implementation in a
-given userspace compositor/stack.
-
-On that note, I think we need to do a bit more hand-holding. I'm sitting
-on a patch series that is several years old to add 3D LUT support to my
-driver, and while I believe I'm quite experienced with KMS development,
-adding support for this in a reference compositor in userspace is a
-really big task that I don't know how to tackle. I also know very little
-about colour management, and have nobody in the team who has that
-knowledge and could help me. I'm thus facing a bit of a dead-end, not
-because I don't want to spend the time required for this, but because
-the bar is so high that I just can't do it. I would expect many
-developers to be facing the same challenges. If the community doesn't
-make an effort in fostering collaboration between developers (most
-kernel developers won't even know who to ask for help if they have to
-step out of the kernel to userspace) and providing good documentation,
-we'll just scare developers away. It took me weeks to figure out how to
-run Weston on this device, as it has no GPU that I can use, and falling
-back to a software compositor required finding out that lots of
-documentation is outdated and referenced command line options that were
-not accurate anymore (or I could mention painfully finding out that an
-issue I was blocked with for days was solved by plugging in a USB mouse
-to the board, as Weston didn't want to start without an input device).
-Another developer from my team tried before me and gave up, thinking it
-was impossible. That's the reality that many kernel developers are
-facing, the same way I suppose than me saying saying "you just need to
-recompile the kernel with this option enabled" is not very helpful for
-lots of userspace developers.
-
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+baolu
