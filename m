@@ -2,116 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B0CC48BDF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE2AC48BDF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 15:20:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F25D61369
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 14:38:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12589613F0
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Jun 2021 15:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234586AbhFROlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Jun 2021 10:41:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234232AbhFROlF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 10:41:05 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA17C06175F
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 07:38:56 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id h24-20020a9d64180000b029036edcf8f9a6so9908739otl.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 07:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=T9YZ9nd9UJQBiMGTA8SwSx9fF/IkYT4ggh3TTtYGORU=;
-        b=ELMedzfqm5gGYiZMpebilxyhIz30HP+7MOrFhLWMfRM7CNAGCIQMGLIobxyzi2vTvr
-         aj3eqq2G0rINF61dtcVNMqxlKrb2V4BxLPEmPZiRqvpDoudbV/EgJiamQGWpXpxflQmO
-         ND3tV4XYaw4ZeFHRCzpd+EOeGFKQC2rJD985zQdcFF3mqvI4ET4kgMto7ucO5bfXIzvY
-         /cBGMYPqdnkSCTr4+YLVPB0A5rpI9N5gZtGLbFQa1CNCzSRtYfXQmZ4FMBc/itdFoj/X
-         Z09tQjkcsSNNkxC1pLW0oyfttF9xqvdh30nPpapcASD+YC/vcdSisam+uu+KYMjXS1oZ
-         jueQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=T9YZ9nd9UJQBiMGTA8SwSx9fF/IkYT4ggh3TTtYGORU=;
-        b=RKETwSUtNmNGcuHuuOyQNImWobyBZ0CD5COGxlh1x0NFKQNxWPfjKWS8BGlG6p4CD9
-         EicLV8Q2GD9Hj9nk4cMwHG4D4XNtB3aPl485D6N+eHgFCFwcaWds6mRvsLOqZcwMh2ol
-         OEZLP8RKP+aWv/JOQ9DlKaQ2g0nejsdqvOpHuRWN5qqWCjB/EG3tpBq6i3cu/hq0xn5U
-         eUqRCle1+VNp1UOvXJB6qAV7tQf7q+10WHOUdTnKZfpFOjFkjFCZc30j6IjL8X91qsDx
-         a84qrY3hUT3gTMR9eRz1Bg1XQdf+yzPqmCE8HsiBixxrhVFQ1XhKxfgjR0OZkHqyfesN
-         vfMw==
-X-Gm-Message-State: AOAM531xQ7reHZwqEMO7rA4serJF96NJheEC66AcQYCRVfvZVZKuA+yq
-        byCqS3YmIqzgrWE48f0TTnlJ8g==
-X-Google-Smtp-Source: ABdhPJzHAmLUNJckmU3abFOD9WQomHPPF2qlw1+78hJMYelf0T+g8MkjAjpQ3BD9i4JwVNNbP4pUfw==
-X-Received: by 2002:a9d:426:: with SMTP id 35mr9427857otc.162.1624027135675;
-        Fri, 18 Jun 2021 07:38:55 -0700 (PDT)
-Received: from [192.168.1.134] ([198.8.77.61])
-        by smtp.gmail.com with ESMTPSA id l2sm2126772otl.27.2021.06.18.07.38.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jun 2021 07:38:55 -0700 (PDT)
-Subject: Re: remove the legacy ide driver v2
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org
-References: <20210616134658.1471835-1-hch@lst.de>
- <4b003372-41d0-507a-b74b-b73aa33189f4@kernel.dk>
-Message-ID: <57488a7b-02fa-3b3a-6719-81ab8dd64b53@kernel.dk>
-Date:   Fri, 18 Jun 2021 08:38:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <4b003372-41d0-507a-b74b-b73aa33189f4@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S235110AbhFRPWV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Jun 2021 11:22:21 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:59527 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235002AbhFRPVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jun 2021 11:21:48 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1624029579; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=J9yXQ6oRlJ+lpMcEvlTUhkm+Zl/MViuXSRM8imLm6O4=; b=UzbSigZHrkmkeyXNDuQfr3BTQDepUXz4khPHzfTuIhh7a5gMRjmFzjhhK+y/ctGT6j+L6qZ1
+ NQt7FLAPEF31zhupgoEtBtTM8z8e5H/BWJOQ/5qgEZgPgWfwvELoHjITzDJIKN0+M05VHqdW
+ euJyxSt/RKecm3ZxQ97YoxPULPw=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60ccb979e27c0cc77f914613 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Jun 2021 15:19:21
+ GMT
+Sender: charante=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 67E5BC4323A; Fri, 18 Jun 2021 15:19:20 +0000 (UTC)
+Received: from hu-charante-hyd.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D8E01C4360C;
+        Fri, 18 Jun 2021 15:19:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D8E01C4360C
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
+From:   Charan Teja Reddy <charante@codeaurora.org>
+To:     akpm@linux-foundation.org, vbabka@suse.cz, corbet@lwn.net,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, rientjes@google.com, mchehab+huawei@kernel.org,
+        lokeshgidra@google.com, andrew.a.klychkov@gmail.com,
+        xi.fengfei@h3c.com, nigupta@nvidia.com,
+        dave.hansen@linux.intel.com, famzheng@amazon.com,
+        mateusznosek0@gmail.com, oleksandr@redhat.com, sh_def@163.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        Charan Teja Reddy <charante@codeaurora.org>
+Subject: [PATCH V4,0/3] mm: compaction: proactive compaction trigger by user
+Date:   Fri, 18 Jun 2021 20:48:52 +0530
+Message-Id: <cover.1624028025.git.charante@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/21 8:52 AM, Jens Axboe wrote:
-> On 6/16/21 7:46 AM, Christoph Hellwig wrote:
->> Hi all,
->>
->> we've been trying to get rid of the legacy ide driver for a while now,
->> and finally scheduled a removal for 2021, which is three month old now.
->>
->> In general distros and most defconfigs have switched to libata long ago,
->> but there are a few exceptions.  This series first switches over all
->> remaining defconfigs to use libata and then removes the legacy ide
->> driver.
->>
->> libata mostly covers all hardware supported by the legacy ide driver.
->> There are three mips drivers that are not supported, but the linux-mips
->> list could not identify any users of those.  There also are two m68k
->> drivers that do not have libata equivalents, which might or might not
->> have users, so we'll need some input and possibly help from the m68k
->> community here.
->>
->> This series is against Jens' for-5.14/libata branch.
-> 
-> Unless someone complains loudly, I plan on queueing this up end this
-> week.
+These patches support triggering of proactive compaction by user on write
+to the /proc/sys/vm/compaction_proactiveness.
 
-This has now been applied for 5.14, thanks.
+Changes in V4:
+  -- Changed the code as the 'proactive_defer' counter is removed.
+  -- No changes in the logic of triggering the proactive compaction.
+  -- Removed the 'proactive_defer' counter.
+
+Changes in V3:
+  -- Fixed review comments from Vlastimil and others.
+  -- Fixed wake up logic when compaction_proactiveness is zero.
+  -- https://lore.kernel.org/patchwork/patch/1438211/
+
+Changes in V2:
+  -- remove /proc/../proactive_compact_memory interface trigger for proactive compaction
+  -- Intention is same that add a way to trigger proactive compaction by user.
+  -- https://lore.kernel.org/patchwork/patch/1431283/
+
+Changes in V1:
+  -- Created the new /proc/sys/vm/proactive_compact_memory in
+     interface to trigger proactive compaction from user 
+  -- https://lore.kernel.org/lkml/1619098678-8501-1-git-send-email-charante@codeaurora.org/
+
+
+Charan Teja Reddy (3):
+  mm: compaction:  optimize proactive compaction deferrals
+  mm: compaction: support triggering of proactive compaction by user
+  mm: compaction: fix wakeup logic of proactive compaction
+
+ Documentation/admin-guide/sysctl/vm.rst |  3 +-
+ include/linux/compaction.h              |  2 ++
+ include/linux/mmzone.h                  |  1 +
+ kernel/sysctl.c                         |  2 +-
+ mm/compaction.c                         | 61 +++++++++++++++++++++++++++------
+ 5 files changed, 56 insertions(+), 13 deletions(-)
 
 -- 
-Jens Axboe
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of the Code Aurora Forum, hosted by The Linux Foundation
 
