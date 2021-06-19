@@ -2,96 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5921BC2B9F4
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 15:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D170FC2B9F4
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 16:22:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 313AE61042
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 15:22:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1EDD61222
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 16:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbhFSPYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Jun 2021 11:24:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35732 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230024AbhFSPYP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Jun 2021 11:24:15 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4849A60FE5;
-        Sat, 19 Jun 2021 15:22:04 +0000 (UTC)
-Date:   Sat, 19 Jun 2021 11:22:02 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [RFC PATCH 1/2] ftrace: Introduce cmdline argument
- ftrace_disabled
-Message-ID: <20210619112202.0a2c7196@gandalf.local.home>
-In-Reply-To: <1624084160-3342-2-git-send-email-yangtiezhu@loongson.cn>
-References: <1624084160-3342-1-git-send-email-yangtiezhu@loongson.cn>
-        <1624084160-3342-2-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S234744AbhFSQYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Jun 2021 12:24:54 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:45213 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232640AbhFSQYx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 19 Jun 2021 12:24:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=From:To:Date; bh=GKlF5EB7mGKaD81zQzs2lJshK1lmZDvSaejdz
+        KZHWQw=; b=j36DGc4bRuRL3t9UyhVzad/Zgb04ItD/fQgPJ+30iDh/60nGkhlQv
+        mC0OYlLnHYQxyGbeHGNhZHFraNOeMzU1F1/GSuD/43afGOSbVpItLjj92TaMsRYA
+        azEOYObC6oyV4c2j3rEloz+FDdPceu/IR+3+UUW5jxVbr3HB3jQoCE=
+Received: from localhost.localdomain (unknown [113.251.9.208])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgA30jXPGc5gjs8ZAA--.42881S2;
+        Sun, 20 Jun 2021 00:22:39 +0800 (CST)
+From:   Hu Haowen <src.res@email.cn>
+To:     alexs@kernel.org, corbet@lwn.net
+Cc:     bobwxc@email.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: add a missing space character
+Date:   Sun, 20 Jun 2021 00:22:38 +0800
+Message-Id: <20210619162238.12665-1-src.res@email.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LCKnCgA30jXPGc5gjs8ZAA--.42881S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw4rtr4UXr4DtFyfZr1kZrb_yoW8GF4rp3
+        y29r97Ka48Cw1Y93yxGr4IgFWfGF97uay7GFnFy34qgr1kCw1vvrZrKryDKr9xWryrZayU
+        Zr40kFy3WryIvFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgm1xkIjI8I6I8E6xAIw20EY4v20xvaj40_JFC_Wr1l8cAvFVAK
+        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4
+        x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28E
+        F7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4
+        xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWU
+        JVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r
+        1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkE
+        bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+        AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+        42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+        IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2
+        KfnxnUUI43ZEXa7VU86Hq7UUUUU==
+X-Originating-IP: [113.251.9.208]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 19 Jun 2021 14:29:19 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+"LinusTorvalds" is not pretty. Replace it with "Linus Torvalds".
 
-> If set CONFIG_FUNCTION_TRACER=y, we can use the following command to
-> disable ftrace after boot up:
-> echo 0 > /proc/sys/kernel/ftrace_enabled
+Signed-off-by: Hu Haowen <src.res@email.cn>
+---
+ Documentation/translations/zh_CN/process/2.Process.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'd love to just remove that. It's original purpose was to stop function
-tracing when the latency tracers were active. That's now done via a tracefs
-option. The "ftrace_enabled" really has no use anymore.
-
-> 
-> ftrace_disabled is much stronger than ftrace_enabled, introduce a new
-> cmdline argument ftrace_disabled for user to control whether to disable
-> ftrace when boot up.
-
-"ftrace_disabled" is triggered when an anomaly is detected, and for the
-safety of the system, ftrace shuts down. It was never meant to be a user
-triggered event.
-
-You have no rationale for this change. What's the purpose of this?
-
--- Steve
-
-
-> 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->  kernel/trace/ftrace.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
-> index 72ef4dc..a015699 100644
-> --- a/kernel/trace/ftrace.c
-> +++ b/kernel/trace/ftrace.c
-> @@ -5517,6 +5517,14 @@ static char ftrace_filter_buf[FTRACE_FILTER_SIZE] __initdata;
->  /* Used by function selftest to not test if filter is set */
->  bool ftrace_filter_param __initdata;
->  
-> +static int __init set_ftrace_disabled(char *str)
-> +{
-> +	pr_info("Set ftrace_disabled to disable ftrace\n");
-> +	ftrace_disabled = 1;
-> +	return 1;
-> +}
-> +__setup("ftrace_disabled", set_ftrace_disabled);
-> +
->  static int __init set_ftrace_notrace(char *str)
->  {
->  	ftrace_filter_param = true;
+diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
+index 229629e305ca..0e69737e9889 100644
+--- a/Documentation/translations/zh_CN/process/2.Process.rst
++++ b/Documentation/translations/zh_CN/process/2.Process.rst
+@@ -47,7 +47,7 @@
+ （顺便说一句，值得注意的是，合并窗口期间集成的更改并不是凭空产生的；它们是经
+ 提前收集、测试和分级的。稍后将详细描述该过程的工作方式。）
+ 
+-合并窗口持续大约两周。在这段时间结束时，LinusTorvalds将声明窗口已关闭，并
++合并窗口持续大约两周。在这段时间结束时，Linus Torvalds将声明窗口已关闭，并
+ 释放第一个“rc”内核。例如，对于目标为5.6的内核，在合并窗口结束时发生的释放
+ 将被称为5.6-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
+ 个内核的时间已经到来。
+-- 
+2.25.1
 
