@@ -2,201 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD536C48BE5
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD51C2B9F4
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 07:03:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 917D061007
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:59:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B5406120A
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 07:03:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbhFSHBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Jun 2021 03:01:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbhFSHBd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jun 2021 03:01:33 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C40C06175F
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 23:58:46 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id t9so9706604pgn.4
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 23:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y5Tj5VBfCDbHRxlPn8EtoNBakme15m1U4y437Ov6/kw=;
-        b=Zmz0Z57zzTZN7vi+XP62G9zO+kHJ3UaMg5mFKyYQdIyu+26sNfCxPtP67wwyyQRXah
-         NFvcbF7aNBAOkwI0T5s9T0LcoblIGAggFwTJBU7O9SztNvJ9ijCzw/c6JzEVUFo7b4lX
-         iQ8AkJOcNXj+Pi2vhepIP2cFpbD077ujcNJtgkcfsL7FrGpVxXtdRdPmwCDdh72tuLZ3
-         /10HhOoPOO1LzYgcK/hJEYxo8QE+F7VqeiKzRVQ6N/PW2A9OusIcNGgAkZxFLtS1hn/M
-         E09LD3JEpUbfE3IlMCZcP7GTpVuqC4QUBd2EYXsSKqh8Kv29EkicGMIEwuumYqRddBhP
-         Fgqw==
+        id S234219AbhFSHFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Jun 2021 03:05:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51209 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234148AbhFSHF1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jun 2021 03:05:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624086196;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8ML4REiy5OkcaqfJ6brk7+RfQQvQg3ZqoRzOqMYC4CQ=;
+        b=J0F5GsHhMdf4BjcqmRPbvxjekUgLvI8ieIlqkO+70qHtKV/eoSgGnb4CRKOZTdUAGtzPKe
+        Dt/NNKKWK5OPBPGQ9nNJ2RT0HATEAatgN9CHg5AFwI9RXhmIlqNCyz27mmtrcEyTCyKunB
+        YTAmIpKU/GxGZeXwEmh7hPdQAP+/QGI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-PKAV6sYbNiOd3hWTJSrHmg-1; Sat, 19 Jun 2021 03:03:15 -0400
+X-MC-Unique: PKAV6sYbNiOd3hWTJSrHmg-1
+Received: by mail-ed1-f72.google.com with SMTP id a16-20020aa7cf100000b0290391819a774aso2970786edy.8
+        for <linux-doc@vger.kernel.org>; Sat, 19 Jun 2021 00:03:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=Y5Tj5VBfCDbHRxlPn8EtoNBakme15m1U4y437Ov6/kw=;
-        b=ogTud+hamz2C13IXWjbnq8l9+POX8Zk+fof71lFbCeTRECE9mSQiOQTK4nINix/cIt
-         PWCb5amohlE2zGrzsu2sl5W1t8oJHG6NFPTNYWCojDkRNoLUQdjgRNgjTT2yPrCybRJ6
-         mvvv/tNAL3lZtSZf1u+o+MiLgPG+5UfF9HwtmdFmADluNIZ0J2ZHjG/DAuoBkGe4HH8Q
-         frrfYA005k9WGISSRiaDXQCUrzgxDH+D28/E4wQOMEN9I4NU/K61/Wo8kLJO5FkD89W/
-         k9I2AJ0axd+ZRWY4rWwsvKW2DbFBkrP9lu95v9rS/L68NTnSdOUNRVlI42LbZ/zOUFX7
-         JGqQ==
-X-Gm-Message-State: AOAM5322BgsgBkREzInNH35Ng5z+128PSpCp+CITt9gECmgiDo0dw7Tl
-        Zs/zgAZpOHDov7Y97WK5byts5w==
-X-Google-Smtp-Source: ABdhPJzPs85UcA/yDB5qZB1bEIJzU2KAQlxMsL2vm1BBiNkWPW/rGjtp8QleDURaiSUBQCMWz6jMDA==
-X-Received: by 2002:aa7:83c3:0:b029:2e8:f2ba:3979 with SMTP id j3-20020aa783c30000b02902e8f2ba3979mr8852013pfn.8.1624085925610;
-        Fri, 18 Jun 2021 23:58:45 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id b21sm10769551pgj.74.2021.06.18.23.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 23:58:45 -0700 (PDT)
-Date:   Fri, 18 Jun 2021 23:58:45 -0700 (PDT)
-X-Google-Original-Date: Fri, 18 Jun 2021 23:58:32 PDT (-0700)
-Subject:     Re: [PATCH v3] riscv: Ensure BPF_JIT_REGION_START aligned with PMD size
-In-Reply-To: <20210618220913.6fde1957@xhacker>
-CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, ryabinin.a.a@gmail.com, glider@google.com,
-        andreyknvl@gmail.com, dvyukov@google.com, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, alex@ghiti.fr, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     jszhang3@mail.ustc.edu.cn, schwab@linux-m68k.org
-Message-ID: <mhng-3008635e-9a78-413a-8b99-d20a14c5494b@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8ML4REiy5OkcaqfJ6brk7+RfQQvQg3ZqoRzOqMYC4CQ=;
+        b=pgdD2uGgd7eQMJ6bufdOnc0/mFt97uXofb3hk8OUiTAd0uFSysJtyw7CZ0FQyaWbx8
+         a62A1f3S5giSO8DmBKRENBovTq17C+KNSPnyFasjtflURQLyt4UfmMBWNRD3VI/GqfOv
+         Z7XSoYNHnHlfm2yODwNNs9GCeUPRSH5EOjHI27wAzYqzpzsdkWtip0NgQvz2HDhRTAbq
+         JE4m0wGH3GfWJ1vDOFJCMj03HS09AToRPNN45AQzjLehTXAu5jpVsskLpqzE20HiV+MA
+         nZTktCFhXtxXoND/TdWe+fW9mi+80oVB3xriAgFNrP2tlrys/2O02bMyhKnpAzPjkCoj
+         xnvw==
+X-Gm-Message-State: AOAM531dc702/+4nnzxM27kiRChTMeREvDp0U3y9VPx+80WILog1QFA3
+        nUDOv9aY0Jp65hx48GOaZotkZNpY8tUaTxMgo61gWhcpOVOmcHFDtwqCLSQGDYuco3dEGGgOkt3
+        fCbGWltE+kjRp2LEdOW5P
+X-Received: by 2002:a05:6402:2317:: with SMTP id l23mr9400532eda.265.1624086194034;
+        Sat, 19 Jun 2021 00:03:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhkU4ORZu2NUVqekm38wER3uTsadAxLzHjeKIBOfzZkIl9xiP0Gksb8acUUBxOaPCJVpfJRA==
+X-Received: by 2002:a05:6402:2317:: with SMTP id l23mr9400523eda.265.1624086193880;
+        Sat, 19 Jun 2021 00:03:13 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id hx18sm448140ejc.82.2021.06.19.00.03.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Jun 2021 00:03:13 -0700 (PDT)
+Subject: Re: [PATCH v3 8/8] KVM: x86: avoid loading PDPTRs after migration
+ when possible
+To:     Sean Christopherson <seanjc@google.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, Joerg Roedel <joro@8bytes.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H. Peter Anvin" <hpa@zytor.com>
+References: <20210607090203.133058-1-mlevitsk@redhat.com>
+ <20210607090203.133058-9-mlevitsk@redhat.com> <YM0H3Hvs8/3+twnc@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <289ac328-703f-6eb0-292e-99b1eda08784@redhat.com>
+Date:   Sat, 19 Jun 2021 09:03:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <YM0H3Hvs8/3+twnc@google.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Jun 2021 07:09:13 PDT (-0700), jszhang3@mail.ustc.edu.cn wrote:
-> From: Jisheng Zhang <jszhang@kernel.org>
->
-> Andreas reported commit fc8504765ec5 ("riscv: bpf: Avoid breaking W^X")
-> breaks booting with one kind of defconfig, I reproduced a kernel panic
-> with the defconfig:
->
-> [    0.138553] Unable to handle kernel paging request at virtual address ffffffff81201220
-> [    0.139159] Oops [#1]
-> [    0.139303] Modules linked in:
-> [    0.139601] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.13.0-rc5-default+ #1
-> [    0.139934] Hardware name: riscv-virtio,qemu (DT)
-> [    0.140193] epc : __memset+0xc4/0xfc
-> [    0.140416]  ra : skb_flow_dissector_init+0x1e/0x82
-> [    0.140609] epc : ffffffff8029806c ra : ffffffff8033be78 sp : ffffffe001647da0
-> [    0.140878]  gp : ffffffff81134b08 tp : ffffffe001654380 t0 : ffffffff81201158
-> [    0.141156]  t1 : 0000000000000002 t2 : 0000000000000154 s0 : ffffffe001647dd0
-> [    0.141424]  s1 : ffffffff80a43250 a0 : ffffffff81201220 a1 : 0000000000000000
-> [    0.141654]  a2 : 000000000000003c a3 : ffffffff81201258 a4 : 0000000000000064
-> [    0.141893]  a5 : ffffffff8029806c a6 : 0000000000000040 a7 : ffffffffffffffff
-> [    0.142126]  s2 : ffffffff81201220 s3 : 0000000000000009 s4 : ffffffff81135088
-> [    0.142353]  s5 : ffffffff81135038 s6 : ffffffff8080ce80 s7 : ffffffff80800438
-> [    0.142584]  s8 : ffffffff80bc6578 s9 : 0000000000000008 s10: ffffffff806000ac
-> [    0.142810]  s11: 0000000000000000 t3 : fffffffffffffffc t4 : 0000000000000000
-> [    0.143042]  t5 : 0000000000000155 t6 : 00000000000003ff
-> [    0.143220] status: 0000000000000120 badaddr: ffffffff81201220 cause: 000000000000000f
-> [    0.143560] [<ffffffff8029806c>] __memset+0xc4/0xfc
-> [    0.143859] [<ffffffff8061e984>] init_default_flow_dissectors+0x22/0x60
-> [    0.144092] [<ffffffff800010fc>] do_one_initcall+0x3e/0x168
-> [    0.144278] [<ffffffff80600df0>] kernel_init_freeable+0x1c8/0x224
-> [    0.144479] [<ffffffff804868a8>] kernel_init+0x12/0x110
-> [    0.144658] [<ffffffff800022de>] ret_from_exception+0x0/0xc
-> [    0.145124] ---[ end trace f1e9643daa46d591 ]---
->
-> After some investigation, I think I found the root cause: commit
-> 2bfc6cd81bd ("move kernel mapping outside of linear mapping") moves
-> BPF JIT region after the kernel:
->
-> | #define BPF_JIT_REGION_START	PFN_ALIGN((unsigned long)&_end)
->
-> The &_end is unlikely aligned with PMD size, so the front bpf jit
-> region sits with part of kernel .data section in one PMD size mapping.
-> But kernel is mapped in PMD SIZE, when bpf_jit_binary_lock_ro() is
-> called to make the first bpf jit prog ROX, we will make part of kernel
-> .data section RO too, so when we write to, for example memset the
-> .data section, MMU will trigger a store page fault.
->
-> To fix the issue, we need to ensure the BPF JIT region is PMD size
-> aligned. This patch acchieve this goal by restoring the BPF JIT region
-> to original position, I.E the 128MB before kernel .text section. The
-> modification to kasan_init.c is inspired by Alexandre.
->
-> Fixes: fc8504765ec5 ("riscv: bpf: Avoid breaking W^X")
-> Reported-by: Andreas Schwab <schwab@linux-m68k.org>
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> ---
-> Since v2:
->  - Split the local vars rename modification into another patch per Alexandre
->    suggestion
->  - Add Fixes tag
->
-> Since v1:
->  - Fix early boot hang when kasan is enabled
->  - Update Documentation/riscv/vm-layout.rst
->
->  Documentation/riscv/vm-layout.rst | 4 ++--
->  arch/riscv/include/asm/pgtable.h  | 5 ++---
->  arch/riscv/mm/kasan_init.c        | 2 +-
->  3 files changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-> index 329d32098af4..b7f98930d38d 100644
-> --- a/Documentation/riscv/vm-layout.rst
-> +++ b/Documentation/riscv/vm-layout.rst
-> @@ -58,6 +58,6 @@ RISC-V Linux Kernel SV39
->                                                                |
->    ____________________________________________________________|____________________________________________________________
->                      |            |                  |         |
-> -   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules
-> -   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel, BPF
-> +   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
-> +   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
->    __________________|____________|__________________|_________|____________________________________________________________
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 9469f464e71a..380cd3a7e548 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -30,9 +30,8 @@
->
->  #define BPF_JIT_REGION_SIZE	(SZ_128M)
->  #ifdef CONFIG_64BIT
-> -/* KASLR should leave at least 128MB for BPF after the kernel */
-> -#define BPF_JIT_REGION_START	PFN_ALIGN((unsigned long)&_end)
-> -#define BPF_JIT_REGION_END	(BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
-> +#define BPF_JIT_REGION_START	(BPF_JIT_REGION_END - BPF_JIT_REGION_SIZE)
-> +#define BPF_JIT_REGION_END	(MODULES_END)
->  #else
->  #define BPF_JIT_REGION_START	(PAGE_OFFSET - BPF_JIT_REGION_SIZE)
->  #define BPF_JIT_REGION_END	(VMALLOC_END)
-> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-> index 9daacae93e33..55c113345460 100644
-> --- a/arch/riscv/mm/kasan_init.c
-> +++ b/arch/riscv/mm/kasan_init.c
-> @@ -201,7 +201,7 @@ void __init kasan_init(void)
->
->  	/* Populate kernel, BPF, modules mapping */
->  	kasan_populate(kasan_mem_to_shadow((const void *)MODULES_VADDR),
-> -		       kasan_mem_to_shadow((const void *)BPF_JIT_REGION_END));
-> +		       kasan_mem_to_shadow((const void *)MODULES_VADDR + SZ_2G));
->
->  	for (i = 0; i < PTRS_PER_PTE; i++)
->  		set_pte(&kasan_early_shadow_pte[i],
+On 18/06/21 22:53, Sean Christopherson wrote:
+> The bool is essentially an extension of
+> KVM_REQ_GET_NESTED_STATE_PAGES, I think it makes sense to clear the flag whenever
+> KVM_REQ_GET_NESTED_STATE_PAGES is cleared.
 
-Thanks, this is on fixes.  With the previous fix also applied it still 
-boots for me.
+So in vcpu_enter_guest?
 
-Andreas: I saw you indicate that a subset of this (without the kasan 
-chunk, which was breaking for me) fixed your boot issue, but I don't see 
-a direct confirmation of that.  LMK if there's still an issue on your 
-end, otherwise I'm going to assume this is solved.
+> Another thing that's not obvious is the required ordering between KVM_SET_SREGS2
+> and KVM_SET_NESTED_STATE.  AFAICT it's not documented, but that may be PEBKAC on
+> my end.  E.g. what happens if walk_mmu == &root_mmu (L1 active in targte KVM)
+> when SET_SREGS2 is called, and_then_  KVM_SET_NESTED_STATE is called?
 
-Thanks for sorting this out!
+Either ordering should work.
+
+Paolo
+
