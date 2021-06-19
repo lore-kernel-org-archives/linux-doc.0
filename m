@@ -2,165 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A12A5C49361
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A57C49361
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:28:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E4CF61164
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:23:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9884611B0
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbhFSGZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Jun 2021 02:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231350AbhFSGZ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jun 2021 02:25:59 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B814C061760
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 23:23:47 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id w1so79036oie.13
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jun 2021 23:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g86XYumTkqevhSftkAkowJoLhtGajRxQu1ICRJSfKts=;
-        b=AiAri9rbrByHK1bVXqA5i4n0sG+9/HzQeQlxk47cWkrzB91qDsqgXEWXwqRfR/qmI5
-         O7J3kWdV9NTf2pj30dkdsnelW1snTjbKgAQbYOLuRWGRvaUWltWVMs1VzHVZPWluXyQi
-         5aPlTiYluh+hpW27Q00Uhj9j6GhpPOJJLXr1wZhtNkUjEhGReif0cNTC1pNThtEcwjle
-         3j3oMGbJVF0aUGKMYxSyHbmrO09K91xJfjwbNcMlItXJEM7EC7w04IzHUc37Q81vIPgs
-         lytLMs+QRpzm9Jt+2bt5zhDWoABcGCs6z0Jls9mKdEJPpIc15MiOU0P36iLsuBrdpEOM
-         QKNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g86XYumTkqevhSftkAkowJoLhtGajRxQu1ICRJSfKts=;
-        b=ZrEdQn4k+cu3EH6lzLUgDwZKH2Di8AbZiZam8aW1XP/6i1mj5hVaYAU1959VqeN/vT
-         ljQVAspv/a25CWtQRI4/zzu7thhNSmUA/noWqem1lgSq27AvUZeDii8+0WMJ35gv8bRL
-         L5VyH+nrFMyXgKfcu9xPeu4nDV+ppYHoIbP1pfoeFhjBVSmTFn888ffjkSjOwARYgVHS
-         GrrhARzHW7WXjf1RqDSZhrsXEYz39mCTAVm60Nf+fBpYr5TLVX+kOzKuR00eT6bFMQ71
-         hOvX0bEDfLJo2pHybxN1B3+Uv2sTeX6lu8Mc3DNb3DgyuDgJg4fvHvcrU+aYAezHLXtx
-         REqA==
-X-Gm-Message-State: AOAM530o+u6mQmfAOaXh7NAhQVDIDO0oq4yvcnbvOu04XAkqSUaqD49B
-        TKh/GZZK8ZNC2c78uatWL3OGA5e1FNwlY4cBDg498GEy6QaPhA==
-X-Google-Smtp-Source: ABdhPJzFUFNpegpIeES3PrgNs0oQAYXu9Zv+u3+jjIWrBmz2eX3sDR9vbpC4yUPQd/zVVMKtGRueFOAVUjoCXlPod9Y=
-X-Received: by 2002:aca:ba06:: with SMTP id k6mr9924648oif.70.1624083815429;
- Fri, 18 Jun 2021 23:23:35 -0700 (PDT)
+        id S232515AbhFSGa7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Jun 2021 02:30:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45276 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232246AbhFSGa6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 19 Jun 2021 02:30:58 -0400
+Received: from localhost.localdomain (unknown [223.106.58.132])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr0KVjs1gWBcUAA--.23753S2;
+        Sat, 19 Jun 2021 14:28:39 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH v3 0/2] Translate core api cpu_hotplug
+Date:   Sat, 19 Jun 2021 14:29:08 +0800
+Message-Id: <cover.1624083828.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210618233023.1360185-1-ndesaulniers@google.com> <20210618233023.1360185-3-ndesaulniers@google.com>
-In-Reply-To: <20210618233023.1360185-3-ndesaulniers@google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Sat, 19 Jun 2021 08:23:23 +0200
-Message-ID: <CANpmjNNK-iYXucjz7Degh1kJPF_Z_=8+2vNLtUW17x0UnfgtPg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for
- GCOV and PGO
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Martin Liska <mliska@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
-        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr0KVjs1gWBcUAA--.23753S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw1rKF1xKF1UZFy3JF4UCFg_yoW3KFc_AF
+        1kXFZ2ywn2yFn7tFW5Wr13JFWYvw4Y9rW0k3W8tayqyrZrGrWDu3sFq3sY9w15Wws8CrW7
+        KFZ3C34fXrnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbxkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+        xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+        MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+        0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v2
+        6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+        XdbUUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 19 Jun 2021 at 01:30, Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> We don't want compiler instrumentation to touch noinstr functions, which
-> are annotated with the no_profile function attribute. Add a Kconfig test
-> for this and make PGO and GCOV depend on it.
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
-> Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
-> Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  init/Kconfig        | 3 +++
->  kernel/gcov/Kconfig | 1 +
->  kernel/pgo/Kconfig  | 3 ++-
->  3 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 1ea12c64e4c9..540f862b40c6 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -83,6 +83,9 @@ config TOOLS_SUPPORT_RELR
->  config CC_HAS_ASM_INLINE
->         def_bool $(success,echo 'void foo(void) { asm inline (""); }' | $(CC) -x c - -c -o /dev/null)
->
-> +config CC_HAS_NO_PROFILE_FN_ATTR
-> +       def_bool $(success,echo '__attribute__((no_profile)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
-> +
->  config CONSTRUCTORS
->         bool
->
-> diff --git a/kernel/gcov/Kconfig b/kernel/gcov/Kconfig
-> index 58f87a3092f3..19facd4289cd 100644
-> --- a/kernel/gcov/Kconfig
-> +++ b/kernel/gcov/Kconfig
-> @@ -5,6 +5,7 @@ config GCOV_KERNEL
->         bool "Enable gcov-based kernel profiling"
->         depends on DEBUG_FS
->         depends on !CC_IS_CLANG || CLANG_VERSION >= 110000
-> +       depends on !X86 || (X86 && CC_HAS_NO_PROFILE_FN_ATTR)
+v3:
 
-[+Cc Mark]
+* pick Xiangcheng's Reviewed-by tag.
+* modify two strings.
 
-arm64 is also starting to rely on noinstr working properly.
+v2:
 
-This should probably be a 'select ARCH_HAS_GCOV_PROFILE_ALL if
-CC_HAS_NO_PROFILE_FN_ATTR' in the relevant arch/../Kconfig.
+PATCH 1/2 fix a typo.
 
-Alternatively, using:
-https://lkml.kernel.org/r/YMcssV/n5IBGv4f0@hirez.programming.kicks-ass.net
+PATCH 2/2  Modified some words under Xiangcheng's advices;
+add 校译者(proofreading) sign.If you don't want me to do this, please let me know.
 
-But I'd probably not overcomplicate things at this point and just use
-ARCH_HAS_GCOV_PROFILE_ALL, because GCOV seems to be a) rarely used,
-and b) if someone decides to selectively instrument stuff like entry
-code, we can just say it's user error.
+v1:
 
+PATCH 1/2 Modify the layout of the origin document and remove unnecessary symbols.
+PATCH 2/2 Translate Documentation/core-api/cpu_hotplug.rst into Chinese.
 
->         select CONSTRUCTORS
->         default n
->         help
-> diff --git a/kernel/pgo/Kconfig b/kernel/pgo/Kconfig
-> index d2053df1111c..26f75ac4c6c1 100644
-> --- a/kernel/pgo/Kconfig
-> +++ b/kernel/pgo/Kconfig
-> @@ -8,7 +8,8 @@ config PGO_CLANG
->         bool "Enable clang's PGO-based kernel profiling"
->         depends on DEBUG_FS
->         depends on ARCH_SUPPORTS_PGO_CLANG
-> -       depends on CC_IS_CLANG && CLANG_VERSION >= 120000
-> +       depends on CC_IS_CLANG
-> +       depends on CC_HAS_NO_PROFILE_FN_ATTR
->         help
->           This option enables clang's PGO (Profile Guided Optimization) based
->           code profiling to better optimize the kernel.
-> --
-> 2.32.0.288.g62a8d224e6-goog
->
+Yanteng Si (2):
+  docs/core-api: Modify document layout
+  docs/zh_CN: add core api cpu_hotplug translation
+
+ Documentation/core-api/cpu_hotplug.rst        |  38 +-
+ .../zh_CN/core-api/cpu_hotplug.rst            | 348 ++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ 3 files changed, 373 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+
+-- 
+2.27.0
+
