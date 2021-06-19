@@ -2,110 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8DDC49361
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 11:32:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5921BC2B9F4
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 15:22:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A06626127C
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 11:32:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 313AE61042
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 15:22:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233805AbhFSLeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Jun 2021 07:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbhFSLeb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jun 2021 07:34:31 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69842C061574;
-        Sat, 19 Jun 2021 04:32:20 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id c138so17794661qkg.5;
-        Sat, 19 Jun 2021 04:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wzF+HDIW4RpiFDwS3pehtK/Z2s3VtrcKXebmPCvAZ0Q=;
-        b=X+Qf5RWTBKQu6s7dtYculR2/zvfqf8gdMKqjVYzEv3qNetrKxMPAZvzz1cv4lqJJCZ
-         BrrhDIMj1wZnX/GbuH72DXqZH4gxo2hEmwxP9FXWh3fWaUR2BOkRNxB0vpdLjw/HVo95
-         dJPnzLlar08ywytPHAaNIBGbK56LyRTP1xkBdF3gdbQ0V/1IojPRvl6Rm80Ee4IEqPJV
-         l0Ldrs566oPH7TDjkfqgZ7pzyBXDroT3o5goUsH1lgBiK/2WWPFpdeOzG+YmgDi4HRov
-         ufMvi8cIShMHu3HgzKIU9+Vdu0Rd1+Zsv+fBgfiZ/XPBdcI+QUtLuzws+6HLXwOpEN33
-         WJ0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wzF+HDIW4RpiFDwS3pehtK/Z2s3VtrcKXebmPCvAZ0Q=;
-        b=jDuDNqsTt12tdy873VUmv8k8LBO7zNtHau86E2qkbO/8Cuo83kQpFvc6wSpSdbnTgh
-         SM4KBogxIbCgFULJ/Y3CJS4wyw5J01btkg6acesDY+yfI673ZtokYSYGGEgmgbsZZUcD
-         IH0M882gwDJNJ+eygpLUfAL6RHtFrVmH8Up5a0Gte26PkPkq1hf15G0MHuA2pQE76kTY
-         1MSyCk/5y5CbxHKRAroADIjN5LqTsYmin1uM+8JRGDCBoh2mwrgIGcXGXqGM/ZlV0g5e
-         0tU/k/Xx91zeS+nbUwr7ya0hY4hcAh50sDW68HgN8086oNiUPvE+9363roz3X1n/W+8r
-         Z90A==
-X-Gm-Message-State: AOAM533RIEq3oR9SdwXA3anNPu0oOpckOpSBqyxcUYuwV47Hp1UVj7ha
-        b5PPmU+HKrfCDVJqtJatUDZxAcluG3jIoJTFMWA=
-X-Google-Smtp-Source: ABdhPJx92e5rLjLDFjNc+QgHX4Z6IHN/Br95iCNXiblcUb6SA9kzIrWK8a3IFw+BgDRLkdt6KKpgOVMgSlR04EbJ/MA=
-X-Received: by 2002:a25:880f:: with SMTP id c15mr18259680ybl.247.1624102339591;
- Sat, 19 Jun 2021 04:32:19 -0700 (PDT)
+        id S232117AbhFSPYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Jun 2021 11:24:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35732 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230024AbhFSPYP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 19 Jun 2021 11:24:15 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4849A60FE5;
+        Sat, 19 Jun 2021 15:22:04 +0000 (UTC)
+Date:   Sat, 19 Jun 2021 11:22:02 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xuefeng Li <lixuefeng@loongson.cn>
+Subject: Re: [RFC PATCH 1/2] ftrace: Introduce cmdline argument
+ ftrace_disabled
+Message-ID: <20210619112202.0a2c7196@gandalf.local.home>
+In-Reply-To: <1624084160-3342-2-git-send-email-yangtiezhu@loongson.cn>
+References: <1624084160-3342-1-git-send-email-yangtiezhu@loongson.cn>
+        <1624084160-3342-2-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210618233023.1360185-1-ndesaulniers@google.com>
- <20210618233023.1360185-2-ndesaulniers@google.com> <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
-In-Reply-To: <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 19 Jun 2021 13:32:08 +0200
-Message-ID: <CANiq72nbbqeD2dv3z0y3rN-_kdnh=9-pD7oSyWUfaG8oJ2y_8A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] compiler_attributes.h: define __no_profile, add to noinstr
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
-        Marco Elver <elver@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
-        linux-toolchains@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 1:26 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> I am not sure if it is best or not to have the GCC link in order to be
-> consistent with the rest of the links (they are for the docs only). Do
-> we know if GCC going to implement it soon?
+On Sat, 19 Jun 2021 14:29:19 +0800
+Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 
-i.e. if GCC does not implement it yet we use elsewhere this kind of
-marker instead:
+> If set CONFIG_FUNCTION_TRACER=y, we can use the following command to
+> disable ftrace after boot up:
+> echo 0 > /proc/sys/kernel/ftrace_enabled
 
-     * Optional: not supported by gcc
+I'd love to just remove that. It's original purpose was to stop function
+tracing when the latency tracers were active. That's now done via a tracefs
+option. The "ftrace_enabled" really has no use anymore.
 
-The first of its kind, normally it is clang/icc there ;-)
+> 
+> ftrace_disabled is much stronger than ftrace_enabled, introduce a new
+> cmdline argument ftrace_disabled for user to control whether to disable
+> ftrace when boot up.
 
-We could nevertheless have the link there, something like:
+"ftrace_disabled" is triggered when an anomaly is detected, and for the
+safety of the system, ftrace shuts down. It was never meant to be a user
+triggered event.
 
-    * Optional: not supported by GCC
-                https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
+You have no rationale for this change. What's the purpose of this?
 
-Cheers,
-Miguel
+-- Steve
+
+
+> 
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>  kernel/trace/ftrace.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 72ef4dc..a015699 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -5517,6 +5517,14 @@ static char ftrace_filter_buf[FTRACE_FILTER_SIZE] __initdata;
+>  /* Used by function selftest to not test if filter is set */
+>  bool ftrace_filter_param __initdata;
+>  
+> +static int __init set_ftrace_disabled(char *str)
+> +{
+> +	pr_info("Set ftrace_disabled to disable ftrace\n");
+> +	ftrace_disabled = 1;
+> +	return 1;
+> +}
+> +__setup("ftrace_disabled", set_ftrace_disabled);
+> +
+>  static int __init set_ftrace_notrace(char *str)
+>  {
+>  	ftrace_filter_param = true;
+
