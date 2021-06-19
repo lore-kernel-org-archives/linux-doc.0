@@ -2,99 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFDFC2B9F4
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 10:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19362C49361
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 11:26:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9B3760FF2
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 10:35:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01E5D60FEE
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 11:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbhFSKhb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Jun 2021 06:37:31 -0400
-Received: from m32-153.88.com ([43.250.32.153]:27558 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230430AbhFSKhb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Jun 2021 06:37:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=+uYqnPvtogFyEN7LANfThcJt1DZC50wi6LCxp
-        +VDjU8=; b=TmhHGoCH4RLIsmp6ST0wqP76vEcjnMgDcBLRA57F7sSyvX1DMAixb
-        MR5fAuUj+XC1q4jfGe8TlzSYDjJjKAYx9ACiDu4tDMaE/2+AQx3B/B1TlMJQmlev
-        oeZHnFoW9WxjBdRWNPp1s62fHpX33KV4ldPNBTj8q78HHuWrp1JAiA=
-Received: from [0.0.0.0] (unknown [113.251.9.208])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCnffxjyM1g3SIeAA--.13172S3;
-        Sat, 19 Jun 2021 18:35:17 +0800 (CST)
-Subject: Re: [PATCH v2] docs: add traditional Chinese translation for kernel
- Documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210618014527.59826-1-src.res@email.cn>
- <87o8c3qd9n.fsf@meer.lwn.net>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <2a38e8ad-84d1-dd36-f6bd-3bf06a77f6f5@email.cn>
-Date:   Sat, 19 Jun 2021 18:35:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S233614AbhFSL3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Jun 2021 07:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233146AbhFSL3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jun 2021 07:29:00 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C35DC061574;
+        Sat, 19 Jun 2021 04:26:48 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id f70so17668132qke.13;
+        Sat, 19 Jun 2021 04:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3qptZHIBpv3JxNQPkyiO+mSheyAcYqB/CsUvSm+UpOU=;
+        b=vdXQ0zFaCYeb3u6QxofEl6GX56wlrAOqgRXV8CZe9Vlc7Uevz6a5sP5aeuPNNrxx1j
+         /8iJsG8vNyasPhbG87LpsE5NTTvPhTAEgZGtLUruqLYIrPg+ZjibFeQUKZNubCHUpRoo
+         HtZqojcW3xs35EeNV9lFWLCgFJ2HngBTnMux0lsScchul7xMlpGLiKIUrAhzqd3KPrPv
+         emCjGqcHpuKkj9GOC9eeVzdr8bj8a312siQrobqErLBk8g7FGNchsLNwZJ4B7F0Vta+G
+         vcwJcnkVa0A0wQJXFWcZoo+Rpn0YAkfWlpvYq6veEgt1u6lg2Cp5x5hROb11Kj1eIHbL
+         d58w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3qptZHIBpv3JxNQPkyiO+mSheyAcYqB/CsUvSm+UpOU=;
+        b=lC8LBk8PpKKw6vW3mDE/lFbyr3sq7ya/Hg+2YriiW3LdMplVMxUxrKydD1C1DUWOkc
+         JUcFMcUE+Ymk9yYwvBiuI/N+Dd0jXcEvMsRoJhhiTVEd6wBS7Ylu9tu7B6c81vKqdECS
+         bjSfRDSno9lhgcEp1gjr+gi0h4RQb/yAJDxYml3h6VGxlzyEz51HMsP+VYAsb8IGZIkg
+         vwaCI/ASHdsl+C8/hQV23Qa7HL+UBassWwI6t0Y8Z+9ml8aU8T4M+uFuUQv67SrVgEyn
+         /8Oxmz2F8i2JhPV/8wl0ODzN8RowEI9nnkl51PSmZvCGfoWopVEUp8PLjV7CVOQtK0Zf
+         vpDA==
+X-Gm-Message-State: AOAM531MxG7f6wqepoWGH+Rx6isf490chOyYwdljTuIRvdra0F9p2vFl
+        LxVWF+RWrUEM3jNXlH3lyLPTCOTcs40kPk3KvYk=
+X-Google-Smtp-Source: ABdhPJy1asqv8Q5Z5vk+ewOuWO+vnAY3L/cXdjdtq+Yq0qTpukFXoDsNrmSnALn1koXZNPc6uasYqmp5kayEy3tGsM4=
+X-Received: by 2002:a5b:892:: with SMTP id e18mr19183246ybq.22.1624102007702;
+ Sat, 19 Jun 2021 04:26:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87o8c3qd9n.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: GiKnCgCnffxjyM1g3SIeAA--.13172S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF4fAr1kGw1DArWxCryxGrg_yoWftrXEy3
-        sakFn2kw17AryIqF4fAFsIkFsFka93Krs8Cr1kJryxZa4Utw4kuFWDW3sav3s5t3y8Cr9x
-        GFs7Xry2qrnxujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbw8YjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6r1S6rWUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
-        1lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l
-        4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-        AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-        cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
-        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-        6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UbAwxUUUUU=
-X-Originating-IP: [113.251.9.208]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+References: <20210618233023.1360185-1-ndesaulniers@google.com> <20210618233023.1360185-2-ndesaulniers@google.com>
+In-Reply-To: <20210618233023.1360185-2-ndesaulniers@google.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 19 Jun 2021 13:26:37 +0200
+Message-ID: <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] compiler_attributes.h: define __no_profile, add to noinstr
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
+        Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
+        linux-toolchains@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-ÔÚ 2021/6/19 ÉÏÎç1:43, Jonathan Corbet Ð´µÀ:
-> Hu Haowen <src.res@email.cn> writes:
+On Sat, Jun 19, 2021 at 1:30 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
->> Add traditional Chinese translation (zh_TW) for the Linux Kernel
->> documentation with a series of translated files.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
-> So this patch still adds a build warning:
->
->    /stuff/k/git/kernel/Documentation/translations/zh_TW/admin-guide/security-bugs.rst:31: WARNING: unknown document: ../process/submitting-patches
->
-> Please do not resubmit this until you have built the result and know
-> that it adds no further problems.  Take your time; I'm about to draw the
-> line for 5.14, so there is no hurry at this point.
->
-> When you do post a new version (of any patch), please include a comment
-> describing what has changed since the previous posting.
+> +/*
+> + * Optional: only supported since clang >= 13
+> + *      gcc: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
+> + *    clang: https://clang.llvm.org/docs/AttributeReference.html#no_profile
+> + */
 
+I am not sure if it is best or not to have the GCC link in order to be
+consistent with the rest of the links (they are for the docs only). Do
+we know if GCC going to implement it soon?
 
+Otherwise, it looks good to me.
 
-No problem. I'll go to check everything over and provide the well-tested
-version after Linux 5.14 release.
-
-
-Thx,
-Hu Haowen
-
-
-> Thanks,
->
-> jon
-
+Cheers,
+Miguel
