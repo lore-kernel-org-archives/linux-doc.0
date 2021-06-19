@@ -2,77 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F51C2B9F4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FB4C49361
 	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:37:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1D4761001
+	by mail.kernel.org (Postfix) with ESMTP id CD1E9611B0
 	for <linux-doc@archiver.kernel.org>; Sat, 19 Jun 2021 06:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbhFSGjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S232505AbhFSGjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 19 Jun 2021 02:39:10 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46834 "EHLO loongson.cn"
+Received: from mail.loongson.cn ([114.242.206.163]:46836 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231637AbhFSGjJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Jun 2021 02:39:09 -0400
+        id S232279AbhFSGjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 19 Jun 2021 02:39:10 -0400
 Received: from localhost.localdomain (unknown [223.106.58.132])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOKGkM1gPBgUAA--.32920S2;
-        Sat, 19 Jun 2021 14:36:54 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOKGkM1gPBgUAA--.32920S3;
+        Sat, 19 Jun 2021 14:36:55 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v2 0/2] docs/core-api: add memory_hotplug and protection keys translation
-Date:   Sat, 19 Jun 2021 14:37:25 +0800
-Message-Id: <cover.1624084273.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 1/2] docs/zh_CN: add core api memory_hotplug translation
+Date:   Sat, 19 Jun 2021 14:37:26 +0800
+Message-Id: <23c813cd7f6ff40b95562a519bd33c3f7e0dba4a.1624084273.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1624084273.git.siyanteng@loongson.cn>
+References: <cover.1624084273.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxwOKGkM1gPBgUAA--.32920S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw4rAFy8CF18GryxCrW7urg_yoWxKFg_Za
-        1kXFW0kw4xZFn3tFWrWr13JrWj9r4093s5KF15t3yDt3y5trnrCryDX3sYgFW5JF4DArW3
-        GFZ7Ww1SqFnrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-        Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-        1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxkIecxEwVAFwVW8AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
-        WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
-        67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
-        IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1U
-        MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-        VFxhVjvjDU0xZFpf9x0JUkhLnUUUUU=
+X-CM-TRANSID: AQAAf9BxwOKGkM1gPBgUAA--.32920S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw4xAw43ZFWxZrWxZr1fJFb_yoWxCw43p3
+        sFv3s3ta18Ca4kuF4IkryUWr18Cay8Cay3K397Ar1SvF1UZrWFyF47KFy3Wr93W34xAFyq
+        kF4Yyry0kFyFvw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPK14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
+        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+        v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+        IY04v7MxkIecxEwVAFwVW8AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+        0xZFpf9x0JUaPfdUUUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v2:
+Translate Documentation/core-api/memory_hotplug.rst into Chinese.
 
-PATCH 1/2:
-* Modified some words under Xiangcheng's advices;
-* add 校译者(proofreading) sign.If you don't want me to do this, please let me know.
-
-Yanteng Si (2):
-  docs/zh_CN: add core api memory_hotplug translation
-  docs/zh_CN: add core api protection keys translation
-
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
  .../translations/zh_CN/core-api/index.rst     |   2 +-
  .../zh_CN/core-api/memory-hotplug.rst         | 126 ++++++++++++++++++
- .../zh_CN/core-api/protection-keys.rst        |  98 ++++++++++++++
- 3 files changed, 225 insertions(+), 1 deletion(-)
+ 2 files changed, 127 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/core-api/memory-hotplug.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/protection-keys.rst
 
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index b4bde9396339..14012c5b0f40 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -80,12 +80,12 @@ Todolist:
+    :maxdepth: 1
+ 
+    cachetlb
++   memory-hotplug
+ 
+ Todolist:
+ 
+ 
+    cpu_hotplug
+-   memory-hotplug
+    genericirq
+    protection-keys
+ 
+diff --git a/Documentation/translations/zh_CN/core-api/memory-hotplug.rst b/Documentation/translations/zh_CN/core-api/memory-hotplug.rst
+new file mode 100644
+index 000000000000..161f4d2c18cc
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/memory-hotplug.rst
+@@ -0,0 +1,126 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/memory_hotplug.rst
++
++:翻译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++:校译:
++
++ 吴想成 Wu XiangCheng <bobwxc@email.cn>
++
++.. _cn_core-api_memory-hotplug:
++
++==========
++内存热插拔
++==========
++
++内存热拔插事件通知器
++====================
++
++热插拔事件被发送到一个通知队列中。
++
++在 ``include/linux/memory.h`` 中定义了六种类型的通知：
++
++MEM_GOING_ONLINE
++  在新内存可用之前生成，以便能够为子系统处理内存做准备。页面分配器仍然无法从新
++  的内存中进行分配。
++
++MEM_CANCEL_ONLINE
++  如果MEM_GOING_ONLINE失败，则生成。
++
++MEM_ONLINE
++  当内存成功上线时产生。回调可以从新的内存中分配页面。
++
++MEM_GOING_OFFLINE
++  在开始对内存进行下线处理时生成。从内存中的分配不再可能，但是一些要下线的内存
++  仍然在使用。回调可以用来释放一个子系统在指定内存块中已知的内存。
++
++MEM_CANCEL_OFFLINE
++  如果MEM_GOING_OFFLINE失败，则生成。来自我们试图离线的内存块中的内存又可以使
++  用了。
++
++MEM_OFFLINE
++  在内存下线完成后生成。
++
++可以通过调用如下函数来注册一个回调程序:
++
++  hotplug_memory_notifier(callback_func, priority)
++
++优先级数值较高的回调函数在数值较低的回调函数之前被调用。
++
++一个回调函数必须有以下原型::
++
++  int callback_func(
++    struct notifier_block *self, unsigned long action, void *arg);
++
++回调函数的第一个参数（self）是指向回调函数本身的通知器链块的一个指针。第二个参
++数（action）是上述的事件类型之一。第三个参数（arg）传递一个指向
++memory_notify结构体的指针::
++
++	struct memory_notify {
++		unsigned long start_pfn;
++		unsigned long nr_pages;
++		int status_change_nid_normal;
++		int status_change_nid_high;
++		int status_change_nid;
++	}
++
++- start_pfn是在线/离线内存的start_pfn。
++
++- nr_pages是在线/离线内存的页数。
++
++- status_change_nid_normal是当nodemask的N_NORMAL_MEMORY被设置/清除时设置节
++  点id，如果是-1，则nodemask状态不改变。
++
++- status_change_nid_high是当nodemask的N_HIGH_MEMORY被设置/清除时设置的节点
++  id，如果这个值为-1，那么nodemask状态不会改变。
++
++- status_change_nid是当nodemask的N_MEMORY被（将）设置/清除时设置的节点id。这
++  意味着一个新的（没上线的）节点通过联机获得新的内存，而一个节点失去了所有的内
++  存。如果这个值为-1，那么nodemask的状态就不会改变。
++
++  如果 status_changed_nid* >= 0，回调应该在必要时为节点创建/丢弃结构体。
++
++回调程序应返回 ``include/linux/notifier.h`` 中定义的NOTIFY_DONE, NOTIFY_OK,
++NOTIFY_BAD, NOTIFY_STOP中的一个值。
++
++NOTIFY_DONE和NOTIFY_OK对进一步处理没有影响。
++
++NOTIFY_BAD是作为对MEM_GOING_ONLINE、MEM_GOING_OFFLINE、MEM_ONLINE或MEM_OFFLINE
++动作的回应，用于取消热插拔。它停止对通知队列的进一步处理。
++
++NOTIFY_STOP停止对通知队列的进一步处理。
++
++内部锁
++======
++
++当添加/删除使用内存块设备（即普通RAM）的内存时，device_hotplug_lock应该被保持
++为:
++
++- 针对在线/离线请求进行同步（例如，通过sysfs）。这样一来，内存块设备只有在内存
++  被完全添加后才能被用户空间访问（.online/.state属性）。而在删除内存时，我们知
++  道没有人在临界区。
++
++- 与CPU热拔插或类似操作同步（例如ACPI和PPC相关操作）
++
++特别是，在添加内存和用户空间试图以比预期更快的速度上线该内存时，有可能出现锁反转，
++使用device_hotplug_lock可以避免此情况:
++
++- device_online()将首先接受device_lock()，然后是mem_hotplug_lock。
++
++- add_memory_resource()将首先使用mem_hotplug_lock，然后是device_lock()（在创
++  建设备时，在bus_add_device()期间）。
++
++由于在使用device_lock()之前，设备对用户空间是可见的，这可能导致锁的反转。
++
++内存的上线/下线应该通过device_online()/device_offline()完成————确保它与通过
++sysfs进行的操作正确同步。建议持有device_hotplug_lock（例如，保护online_type）。
++
++当添加/删除/上线/下线内存或者添加/删除异构或设备内存时，我们应该始终持有写模式的
++mem_hotplug_lock，以序列化内存热插拔（例如访问全局/区域变量）。
++
++此外，mem_hotplug_lock（与device_hotplug_lock相反）在读取模式下允许一个相当
++有效的get_online_mems/put_online_mems实现，所以访问内存的代码可以防止该内存
++消失。
 -- 
 2.27.0
 
