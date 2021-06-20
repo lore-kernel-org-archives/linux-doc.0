@@ -2,110 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF23C48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 08:09:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7288EC48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 10:41:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 543CF610EA
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 08:09:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48BA061002
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 10:41:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbhFTIL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Jun 2021 04:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbhFTILZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 04:11:25 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8D0C061756
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 01:09:13 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id c7so13628220edn.6
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 01:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sjSERqxDFGCyYrNN/qxA0ZiGx1EeVNWA0j1N532j0OQ=;
-        b=O2mTGoMFVrnU3bwMOM112hgs3Z+LFM4ZVxbnAnn0MS6irjyF75/GvO5dfdLXAua/jf
-         Xr9hkcbrhzoJeXx749WGZo5lY1lvdo6hJxC4KFtzwB3jn1rRG7394JGVBvd0Ob/gP29q
-         a47ABW2L/YWjZLpn8qksbTNjdDK2Sx1CAVTfSy9CedEO1bOiy1EXeBESvHoVdA4N6qK6
-         XkfOlaniy9s4/al3V9Uk7xVW+8qhPb4i3Vm77HwnS4TAGg97oj4vJcU7qPGsWdNNr42U
-         7lcG6SaugtzlbgSzIq8V+B9eXVuT+24QuimRe1JDeLCLqVDFQ4nZyLGgsg6Sb7ivd1LT
-         24tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sjSERqxDFGCyYrNN/qxA0ZiGx1EeVNWA0j1N532j0OQ=;
-        b=WYEAyuh2ckGKi8atp0Yv+tOkt3nBO6vY33Z1Vr2bmya/UnQuaPZj/5RfDGnfKuQODZ
-         lmXGJunLZ9M7g476LKF6yT7JEW7qB0Ml7fAIoRUudTGnwoqm3uuEr4cVoQOiNurgPnPT
-         p3zVuM3QAUzLYkUuU2aCz0dcbFF6u212cPG878oOhA/k4HPJTzoBlViQeQkYel14fCvc
-         07tp0yVQn3WS9X0+4Z/aMT3MfbOdWOuFyfu3CZdhYnuJsNhnhcEyotqbEEHAhkm+Drgx
-         b90FkbgBEhqz48Fn4y6mHn0w3GDJkcy6ssfI4OJsxKcMbgLJw4p+ElR2htT71Q8V2leG
-         mnHA==
-X-Gm-Message-State: AOAM533tWAknzg3b8BDOd7HX/d6pcz9VqcdUyt/h1i8UQy3nLoTLBgx+
-        ielmb8UR+bh+kJFeFD4Ypkhp53cqoPmmTOx9+KEH
-X-Google-Smtp-Source: ABdhPJxRZvXKUEReti5s+grcd26OnOp3TX95hRrWOLTxyIX7eH6LObWJfBvB5fJdxksmCiFp5/LqjsTtg64W+ZisT2k=
-X-Received: by 2002:a05:6402:946:: with SMTP id h6mr14509058edz.261.1624176549643;
- Sun, 20 Jun 2021 01:09:09 -0700 (PDT)
+        id S229579AbhFTKnN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Jun 2021 06:43:13 -0400
+Received: from m32-153.88.com ([43.250.32.153]:29570 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229553AbhFTKnM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 20 Jun 2021 06:43:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=oeiGwaMEXFJgezB4CrmAuWjFv/Qb0Xdcjx0Mv
+        W0gGa4=; b=j4MCscuSVuINwbc8orgmEpH0HUD6AN9W8PJqlCx/YpftcnGPgIIPv
+        IGP2GOn4siwZ6iyDER9Zs+9zpgHFhnDgzo+mzL3HfafwFwrKEX4egbpcAlvPt9bd
+        5Cgr/pG9V/U0yQl5w2vdH05e26Oo7w1NnG1fGGMzX5QtRffYxMUTFs=
+Received: from bobwxc.top (unknown [120.238.248.220])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXrfwnG89gWlYgAA--.2306S2;
+        Sun, 20 Jun 2021 18:40:41 +0800 (CST)
+Date:   Sun, 20 Jun 2021 18:40:39 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH 0/2] docs/zh_CN: Add two new translations in zh_CN/admin-guide
+Message-ID: <cover.1624169811.git.bobwxc@email.cn>
 MIME-Version: 1.0
-References: <20210618233023.1360185-1-ndesaulniers@google.com> <202106181945.AC10BF38ED@keescook>
-In-Reply-To: <202106181945.AC10BF38ED@keescook>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sun, 20 Jun 2021 01:08:58 -0700
-Message-ID: <CAGG=3QXcn0QMGj0AB9N2cSHHGpCmYWg-3Wq8M1jLM2AehEWh5A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] no_profile fn attr and Kconfig for GCOV+PGO
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
-        Marco Elver <elver@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
-        linux-toolchains@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgDXrfwnG89gWlYgAA--.2306S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFyxCF4UJFWDAw1fZw1fZwb_yoWxCFgEvw
+        n7XrZYyF17AFyxGFW8ur1UAFyDCF4Yg3yqyFy5trWUJ3yDGw4DXr1kXF1kG3yrWr4qyrW5
+        G3ykJryfKrnrWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbYxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8twCF04k20x
+        vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4U
+        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+        AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+        cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
+        43ZEXa7xRRXdb5UUUUU==
+X-Originating-IP: [120.238.248.220]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 7:45 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Fri, Jun 18, 2021 at 04:30:21PM -0700, Nick Desaulniers wrote:
-> > When we say noinstr, we mean noinstr.  GCOV and PGO can both instrument
-> > functions. Add a new function annotation __no_profile that expands to
-> > __attribute__((__no_profile__)) and Kconfig value
-> > CC_HAS_NO_PROFILE_FN_ATTR.
-> >
-> > Base is
-> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=for-next/clang/pgo.
-> >
-> > Nick Desaulniers (2):
-> >   compiler_attributes.h: define __no_profile, add to noinstr
-> >   Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
->
-> Oh, awesome! Thanks for the fast work on this. If there are no objections,
-> I'll apply this in front of the PGO series and put it in -next.
->
-That works for me! Thanks, Nick and Kees!
+Add two new translations 
+    zh_CN/admin-guide/efi-stub.rst
+    zh_CN/admin-guide/initrd.rst
 
--bw
+Wu XiangCheng (2):
+  docs/zh_CN: Add translation zh_CN/admin-guide/efi-stub.rst
+  docs/zh_CN: Add translation zh_CN/admin-guide/initrd.rst
+
+ .../zh_CN/admin-guide/efi-stub.rst            |  86 +++++
+ .../translations/zh_CN/admin-guide/index.rst  |   4 +-
+ .../translations/zh_CN/admin-guide/initrd.rst | 324 ++++++++++++++++++
+ 3 files changed, 412 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/efi-stub.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/initrd.rst
+
+-- 
+2.20.1
+
