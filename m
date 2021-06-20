@@ -2,122 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27016C48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 07:56:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF23C48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 08:09:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F40D2610CD
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 07:56:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 543CF610EA
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 08:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbhFTH6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Jun 2021 03:58:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
+        id S229541AbhFTIL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Jun 2021 04:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbhFTH6T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 03:58:19 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3E0C061574;
-        Sun, 20 Jun 2021 00:56:06 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id bb20so3942309pjb.3;
-        Sun, 20 Jun 2021 00:56:06 -0700 (PDT)
+        with ESMTP id S229516AbhFTILZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 04:11:25 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8D0C061756
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 01:09:13 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id c7so13628220edn.6
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 01:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mBb+RU0gqel0E1yBhYTHwa8RFBIhcQsP0uK9Q/ciAQE=;
-        b=AIKNEp0mKsNXK3iZftK2H+ZPDw8eVD2rhiEuk75d3J3Jx+9azfxfVwH96H0LpgcM4x
-         gDzIa1gTPNV6I9mldGI6aDUfqTzEztIsXDHPc6Cm3Qw6zIYO9+N83aRvNCeHJ1tS9YUR
-         LjGqGHYcaTFBxV+IIY5Eu1VShPqSOjE/OzC5lHD6gwu2t4IwVVTbvH457pnph5ADyUwA
-         xlnAdnFdGaQHgRMBoz7kl7c+8uYT6Mlxoyp7Idpdl5a4XbIhvWtFdYvrLg+bC7n+cOhu
-         cTIFlO4r6cgYKCJGanu/u75BKtLQKHIQoSvf4ZF1tUT1p9eeeQ1YWWbRsUSLGPx7ab69
-         f3/A==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sjSERqxDFGCyYrNN/qxA0ZiGx1EeVNWA0j1N532j0OQ=;
+        b=O2mTGoMFVrnU3bwMOM112hgs3Z+LFM4ZVxbnAnn0MS6irjyF75/GvO5dfdLXAua/jf
+         Xr9hkcbrhzoJeXx749WGZo5lY1lvdo6hJxC4KFtzwB3jn1rRG7394JGVBvd0Ob/gP29q
+         a47ABW2L/YWjZLpn8qksbTNjdDK2Sx1CAVTfSy9CedEO1bOiy1EXeBESvHoVdA4N6qK6
+         XkfOlaniy9s4/al3V9Uk7xVW+8qhPb4i3Vm77HwnS4TAGg97oj4vJcU7qPGsWdNNr42U
+         7lcG6SaugtzlbgSzIq8V+B9eXVuT+24QuimRe1JDeLCLqVDFQ4nZyLGgsg6Sb7ivd1LT
+         24tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mBb+RU0gqel0E1yBhYTHwa8RFBIhcQsP0uK9Q/ciAQE=;
-        b=TkdISKsmQ/8EiU9O0dWTFLjMmw+xy7dNPXa4XaXsW6MReyOiqHTraIEKKFfrIeKEvU
-         w63mNnlUazxhlYJER238gRoNw2UwNl2fFnY2mc5+YwvYY1weyGMxtUNVEt2+mMoHZTaW
-         KT/ZfC0DU57HA0bcnlPwcLJYy2AfxtwGki0D62klL4oHelYOaXmiwzrGyHQL+9BuVMa1
-         XykaFW7M7QHJ0MB/Cw+VSYTkvY+zwtx8xXANWJPQ0lGUdkS4Rs2y7n4Z7E3viBZ/XlOb
-         BDNpFpbIIN8a48vwZu2io7tJu5uI+H4TyIEH1Xl8y6A0Kv0lJjah/MPjeElETFes9oit
-         QTlw==
-X-Gm-Message-State: AOAM531eeXRzRTO1rfuuia00tmmQgc6suSGep/Zd8dVuaxdUDhn5/nPO
-        eqg0cEj/SewuSg26B2aZ9wrUBl22HRSJ0g==
-X-Google-Smtp-Source: ABdhPJwRkI7s8IX5KPDlcnMh/6MZlljGLwPoHpbqa3xtD5XygKIcUuN7lDMP5R+bI+tP1rBQYLupPQ==
-X-Received: by 2002:a17:902:d50a:b029:11e:a5f0:523e with SMTP id b10-20020a170902d50ab029011ea5f0523emr12582746plg.73.1624175765679;
-        Sun, 20 Jun 2021 00:56:05 -0700 (PDT)
-Received: from [172.28.99.179] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id m4sm4361575pjv.41.2021.06.20.00.56.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Jun 2021 00:56:05 -0700 (PDT)
-Subject: Re: [PATCH v2] docs/zh_CN: add a missing space character
-To:     Hu Haowen <src.res@email.cn>, alexs@kernel.org, corbet@lwn.net
-Cc:     bobwxc@email.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210620010733.25002-1-src.res@email.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <45aab0e8-d0ab-396f-6c21-32cbb84e754f@gmail.com>
-Date:   Sun, 20 Jun 2021 15:56:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sjSERqxDFGCyYrNN/qxA0ZiGx1EeVNWA0j1N532j0OQ=;
+        b=WYEAyuh2ckGKi8atp0Yv+tOkt3nBO6vY33Z1Vr2bmya/UnQuaPZj/5RfDGnfKuQODZ
+         lmXGJunLZ9M7g476LKF6yT7JEW7qB0Ml7fAIoRUudTGnwoqm3uuEr4cVoQOiNurgPnPT
+         p3zVuM3QAUzLYkUuU2aCz0dcbFF6u212cPG878oOhA/k4HPJTzoBlViQeQkYel14fCvc
+         07tp0yVQn3WS9X0+4Z/aMT3MfbOdWOuFyfu3CZdhYnuJsNhnhcEyotqbEEHAhkm+Drgx
+         b90FkbgBEhqz48Fn4y6mHn0w3GDJkcy6ssfI4OJsxKcMbgLJw4p+ElR2htT71Q8V2leG
+         mnHA==
+X-Gm-Message-State: AOAM533tWAknzg3b8BDOd7HX/d6pcz9VqcdUyt/h1i8UQy3nLoTLBgx+
+        ielmb8UR+bh+kJFeFD4Ypkhp53cqoPmmTOx9+KEH
+X-Google-Smtp-Source: ABdhPJxRZvXKUEReti5s+grcd26OnOp3TX95hRrWOLTxyIX7eH6LObWJfBvB5fJdxksmCiFp5/LqjsTtg64W+ZisT2k=
+X-Received: by 2002:a05:6402:946:: with SMTP id h6mr14509058edz.261.1624176549643;
+ Sun, 20 Jun 2021 01:09:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210620010733.25002-1-src.res@email.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210618233023.1360185-1-ndesaulniers@google.com> <202106181945.AC10BF38ED@keescook>
+In-Reply-To: <202106181945.AC10BF38ED@keescook>
+From:   Bill Wendling <morbo@google.com>
+Date:   Sun, 20 Jun 2021 01:08:58 -0700
+Message-ID: <CAGG=3QXcn0QMGj0AB9N2cSHHGpCmYWg-3Wq8M1jLM2AehEWh5A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] no_profile fn attr and Kconfig for GCOV+PGO
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
+        Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
+        linux-toolchains@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+On Fri, Jun 18, 2021 at 7:45 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Jun 18, 2021 at 04:30:21PM -0700, Nick Desaulniers wrote:
+> > When we say noinstr, we mean noinstr.  GCOV and PGO can both instrument
+> > functions. Add a new function annotation __no_profile that expands to
+> > __attribute__((__no_profile__)) and Kconfig value
+> > CC_HAS_NO_PROFILE_FN_ATTR.
+> >
+> > Base is
+> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=for-next/clang/pgo.
+> >
+> > Nick Desaulniers (2):
+> >   compiler_attributes.h: define __no_profile, add to noinstr
+> >   Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
+>
+> Oh, awesome! Thanks for the fast work on this. If there are no objections,
+> I'll apply this in front of the PGO series and put it in -next.
+>
+That works for me! Thanks, Nick and Kees!
 
-BTW, it should be v3 as your posting history.
-
-
-On 6/20/21 9:07 AM, Hu Haowen wrote:
-> "LinusTorvalds" is not pretty. Replace it with "Linus Torvalds".
-> 
-> Signed-off-by: Hu Haowen <src.res@email.cn>
-> ---
->  Documentation/translations/zh_CN/process/2.Process.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
-> index 229629e305ca..636f74b11c65 100644
-> --- a/Documentation/translations/zh_CN/process/2.Process.rst
-> +++ b/Documentation/translations/zh_CN/process/2.Process.rst
-> @@ -47,7 +47,7 @@
->  （顺便说一句，值得注意的是，合并窗口期间集成的更改并不是凭空产生的；它们是经
->  提前收集、测试和分级的。稍后将详细描述该过程的工作方式。）
->  
-> -合并窗口持续大约两周。在这段时间结束时，LinusTorvalds将声明窗口已关闭，并
-> +合并窗口持续大约两周。在这段时间结束时，Linus Torvalds将声明窗口已关闭，并
->  释放第一个“rc”内核。例如，对于目标为5.6的内核，在合并窗口结束时发生的释放
->  将被称为5.6-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
->  个内核的时间已经到来。
-> @@ -152,7 +152,7 @@ Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发
->    驱动程序维护者接受，那么您应该坚持不懈地将补丁更新到当前内核使其可被正常
->    应用，并不断地发送它以供审查和合并。
->  
-> -- 合并到主线。最终，一个成功的补丁将被合并到由LinusTorvalds管理的主线存储库
-> +- 合并到主线。最终，一个成功的补丁将被合并到由Linus Torvalds管理的主线存储库
->    中。此时可能会出现更多的评论和/或问题；对开发人员来说应对这些问题并解决
->    出现的任何问题仍很重要。
->  
-> @@ -168,7 +168,7 @@ Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发
->  补丁如何进入内核
->  ----------------
->  
-> -只有一个人可以将补丁合并到主线内核存储库中：LinusTorvalds。但是，在进入
-> +只有一个人可以将补丁合并到主线内核存储库中：Linus Torvalds。但是，在进入
->  2.6.38内核的9500多个补丁中，只有112个（大约1.3%）是由Linus自己直接选择的。
->  内核项目已经发展到一个没有一个开发人员可以在没有支持的情况下检查和选择每个
->  补丁的规模。内核开发人员处理这种增长的方式是使用围绕信任链构建的助理系统。
-> 
+-bw
