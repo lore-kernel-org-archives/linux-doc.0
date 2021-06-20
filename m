@@ -2,184 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 482CDC48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 22:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E10C48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 23:56:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24864611AC
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 22:25:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DAEB600D1
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 23:56:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbhFTW1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Jun 2021 18:27:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48382 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229901AbhFTW1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 18:27:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624227929;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=crwPYk9/LCjPOHjUmfS2MavxdcK4sFFcOYXWTbXDKlk=;
-        b=iAu5azhfdFP8nQAdWXMqWBdAFkV26dzyKQGgV6Ga+1THjppaYKr4nmKX8UNcdB5J+q2wc6
-        4yNTBd0rMuJBsie7pfmScvrYG9TviRywE1bMRZMv50cmMIyWZ8rQovblWHyUEFW3lhGZ51
-        PUmySUu8qixt/0KT2CTtPIzUB0+oCe0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-cldV6BLFPKSG5AdxXLOuTw-1; Sun, 20 Jun 2021 18:25:27 -0400
-X-MC-Unique: cldV6BLFPKSG5AdxXLOuTw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0541636268;
-        Sun, 20 Jun 2021 22:25:25 +0000 (UTC)
-Received: from starship (unknown [10.40.192.10])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 492C460C9D;
-        Sun, 20 Jun 2021 22:25:20 +0000 (UTC)
-Message-ID: <7df87b7f0b2e029b483d08611e70291aab4e4d0b.camel@redhat.com>
-Subject: Re: [PATCH v3 8/8] KVM: x86: avoid loading PDPTRs after migration
- when possible
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>, Joerg Roedel <joro@8bytes.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
+        id S229877AbhFTX64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Jun 2021 19:58:56 -0400
+Received: from mail-eopbgr1410083.outbound.protection.outlook.com ([40.107.141.83]:10495
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229872AbhFTX64 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 20 Jun 2021 19:58:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h4O1FWFIF08N6d46CpxhVy2P5ncGwmE+Xi5iNMBmgcADCLm8qT1x71ic4mRynND/7YyzvHjuIJkhLiKDG0eG0QBcVbG4pkhL12ON3mBP7AYgkVub/hUOrBCLLxXoYvrmyE5ILm4vsMLsswmmFP4xZPBJ7HM/wxGqT2lftY1EjcjsCxvSDfL+wieRFPwXWJqEeCIbWm2aCXnD4mTxf3PUEq+jqkhlodHPF/Qhh4wgIP/nxp/YcoojBMBoLR6+aMq55d6t1hEUK4noIt8yGlURbMJD1MoWOusVtc/ak0EFcuoypXMK9b22AwFwVzObpzyGZJgv8wtckUxBPe5wg3wkaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PC7YrNmDWmDT48EE/aZcPpX7l/ITmbOy8enMlQnvph4=;
+ b=RBZ7nKnQ+bMW0ibuOC6o0gu8WSm5jQDXgV/eYwomsViPBR64fleNt6tON78M5IBbuu1mjGP8/EI9sUVy3A3fHEBjaWYXKfMh4MtAjIq06vla5Tzf7i+mpluHP4JsIEdH3od8oBReDqm8taY9dv7D2INgNq37ybuhdNMmg9RmRlqaSnQIfbKBIkeF9HOX+bs7vcsNtFzkvB+HQmB2KJWiIyGEN1vKCRIzOoQc95X50ty3fLc3GiMFBOLhu5n2txV2KPWX06vylkQWYQzdMySIAMfXQ4Gkf/hqf8XObeqBIaOg/dgV+NGbrHcnRG2hOqbt2G48qtZY2A649NyYeMMWSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nec.com; dmarc=pass action=none header.from=nec.com; dkim=pass
+ header.d=nec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nec.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PC7YrNmDWmDT48EE/aZcPpX7l/ITmbOy8enMlQnvph4=;
+ b=bwjR/g4R8dxrhRrMEtuvH571sUE9kY36Ga7YhIX8bEPmdevQ2vBIQbF8sK39cOeZ1Xy4mLvIcE8G/NsD8S/feQSeHbSFH2hxr687u8QllRCShk2VYh/gV1LD9nvukyFOM3PvhcRDPAvr31kxRRYtEu4Gmh3BhiUjbiqmzDpeYQ4=
+Received: from TY1PR01MB1852.jpnprd01.prod.outlook.com (2603:1096:403:8::12)
+ by TYCPR01MB5936.jpnprd01.prod.outlook.com (2603:1096:400:42::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Sun, 20 Jun
+ 2021 23:56:40 +0000
+Received: from TY1PR01MB1852.jpnprd01.prod.outlook.com
+ ([fe80::751b:afbb:95df:b563]) by TY1PR01MB1852.jpnprd01.prod.outlook.com
+ ([fe80::751b:afbb:95df:b563%5]) with mapi id 15.20.4242.023; Sun, 20 Jun 2021
+ 23:56:40 +0000
+From:   =?utf-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPo+OAgOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>
+To:     Joao Martins <joao.m.martins@oracle.com>
+CC:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Date:   Mon, 21 Jun 2021 01:25:18 +0300
-In-Reply-To: <YM0H3Hvs8/3+twnc@google.com>
-References: <20210607090203.133058-1-mlevitsk@redhat.com>
-         <20210607090203.133058-9-mlevitsk@redhat.com> <YM0H3Hvs8/3+twnc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 01/14] memory-failure: fetch compound_head after
+ pgmap_pfn_valid()
+Thread-Topic: [PATCH v2 01/14] memory-failure: fetch compound_head after
+ pgmap_pfn_valid()
+Thread-Index: AQHXY6kOgb5KALe1DUigPyAAfQFQTKsdmH+A
+Date:   Sun, 20 Jun 2021 23:56:39 +0000
+Message-ID: <20210620235639.GA2590787@hori.linux.bs1.fc.nec.co.jp>
+References: <20210617184507.3662-1-joao.m.martins@oracle.com>
+ <20210617184507.3662-2-joao.m.martins@oracle.com>
+In-Reply-To: <20210617184507.3662-2-joao.m.martins@oracle.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=nec.com;
+x-originating-ip: [165.225.97.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8bf256a9-84be-4203-11c4-08d934470c1d
+x-ms-traffictypediagnostic: TYCPR01MB5936:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYCPR01MB59365BCB4F99076451AB14AFE70B9@TYCPR01MB5936.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tCs6LU9t6EfDruaw+O+HgkUg4px4tq6AwacQ9hK/e3hRjGLQtcLwT9s/MVxVKOfKO+oto1yi9CJ0ZOSg4xoQOhLxg/uB59NgjpBpennkdE6s4KeqveG1o5VesOPlvgqcS85Y6bhZHMucMmFwJgz8uLn+3AFK1fm9xDRKLtFxSOTQfTtI+hrzoWVNadZuoziEDHsPZsIL8nghAgoZKbTO5a2InV7D/3awealkrWKMgeyU2jMo/VEBf9ZPtljWVhY0CU5CJRpERMLOWRW1/a2L/ZQpm70NgxvpZtELxZbf8qL5tLcVN1Qxds2qorJgrNZoL2f4u+sy9uPfAlXBMGPh4yH7oZEk/H69+5WUU5D2D5QHevcpqGfcKOL5zNpcvaO1t+qFNtZNCJ9NS3DI1oHRnGEOStOpZqqeP5M88D5wf5KoHzw8vk/QJPYLtHN/Q4xO+dTDLiSY9R8oy7NOEGyVqv2fOjtlRxzwmWPP/8gn69Vu6YSjvGuwxEmu9+4dvs0LTs7+Vn4iypHXMg+45arPHv7buPf1eG9xRLxLpdr5bCA2h751ds05sPWK0Z0L1+1ZIahd0EW9MQ3owfmDY4RfcR8QgBe/1mdJZSPkcOitoTs=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY1PR01MB1852.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(346002)(136003)(396003)(122000001)(2906002)(186003)(71200400001)(8676002)(33656002)(1076003)(5660300002)(478600001)(26005)(6512007)(9686003)(66946007)(55236004)(54906003)(86362001)(76116006)(7416002)(38100700002)(66446008)(66476007)(83380400001)(6486002)(6506007)(6916009)(64756008)(66556008)(85182001)(316002)(8936002)(4326008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SkVoQnNKRWxybXJrYWhhcWtORzBOU2tyNS9BaEhGclF0ZFoyZmhjUldlZHlE?=
+ =?utf-8?B?UTZQMG9iTi9DQkNiTHZUbDBrVVdpb0MwNWxQQnAxeGlZczNEaDR6V05mcXJh?=
+ =?utf-8?B?Sjc1ek5aN001aVBjem4zTU83U0lOekZIcE9UUXl2d0wrRTRIaW9EUDFkT2JO?=
+ =?utf-8?B?SEdTcHhsTlk4bVkyRTlDZ0JwT2dsOWFmQ2tVVWh3N25Yc3FCMHRmSzhtazdh?=
+ =?utf-8?B?Rk96aVBqL2VNZlNoYXhOcEhsWUJrUjcvT3NHU3ZaaFlXNXdqcDNWL3dMWXlm?=
+ =?utf-8?B?NnloNGF0aHU0V09YY243ZmRtZDlBMjMwZkxJckRGWnJ6M1czUmsrallVUmEx?=
+ =?utf-8?B?ckpLTk1seHJDWFBrdWR2bnN0SzRtT1hqOTRsNG1COW9MbW82eHJ6V2MwQjky?=
+ =?utf-8?B?eW1RZ0l3b3VNWEtjbFBiYk01bmNVU09pcUI0c25ZdHA2RUUxaEt4dUQ2QnNR?=
+ =?utf-8?B?bllJamFUNTlaYlc5QWxBNWRobWN0SHY4WFhRVmpLMUlZdlJQcEV1R2Y3S0tC?=
+ =?utf-8?B?bkVpNTlpTnVWQzNiMnhNWjhTUFkzVWJzNXAvTGdvZFRPb01ua1ZNK3IxRFB6?=
+ =?utf-8?B?UHZ0QWEreHgxZlNRRnd4R0NyRE9QaktUSVVZZUptRGFlaHNJZEdncENDYWtX?=
+ =?utf-8?B?cXllQ29CSnh1SHVzVkxSR3NubkYxMDQ4ZTFvbjhOd0Y4dCtLc1Y2ZjU5d1lz?=
+ =?utf-8?B?UnVKWDNFSHdSZjhIZVhnU0R0TjB6QXFZa3RETXVEMGNydzlkLzRWNHBOOEdi?=
+ =?utf-8?B?MHViNGRvbGQrbmdZVkxKMitSV2JycytzSHpNeTc3Y1BSeTlubEV5bzczZEd0?=
+ =?utf-8?B?VklQelBhaEZwWDNndnFXQi92aXMzNzNBVGRucXVKdEhXNmpmZE15YU8wa28r?=
+ =?utf-8?B?Ym1jVUZ2aTdPdVg3eG5iUDd5cGNqUlRHTzBxbGdGNU5HVUVXMXlPc2toYW1j?=
+ =?utf-8?B?NkVjODdpYUN4UE53dXJsejFIc1c4cDhrb0NiNGZHa1Y5WlQyU05oeFZPMnYr?=
+ =?utf-8?B?bXlNTWY3Nzc5Q1U3L3dHeUNMRm1Iamx0RFREOXBzNjdhakN6Y3hvN0JCMVlB?=
+ =?utf-8?B?R0JPbmRNSnVTT1BjVVpOWVFBTXR2N0ZnYUUyWFROcmt6MU1GK1RHNkFpUnIw?=
+ =?utf-8?B?dDRLWW04SmpONVJDRGxKYk42RjQxa21iT3hFbThjSjg1MmlDcit1SUN2bTMv?=
+ =?utf-8?B?aFMwQUg1SExiVkVseGFhbTFCWC96V01YeHFQN0N3cHAvYXVrN24wU1djTy82?=
+ =?utf-8?B?cVZqcjRVYnQ0S0F5aFBHU2RSTnJVWllQdFYzQVlScjdOTG94MHdSVDY2YkxY?=
+ =?utf-8?B?bGtHMWk5WkdwVWlsd2hTYkhxV0VCSFZ6ZXh1cFE5Z2pXTWVxSE5RdWY3dzhB?=
+ =?utf-8?B?cjNZNmdIaHg1VnlwUVF3ZWU1WFlQY0luekg1S0dLYTAwNmNRckxBd2lXRFZv?=
+ =?utf-8?B?TkExSFAzVE9uRUxtYkFDS1p5enZqTEIyNTY5aVhzT0ladDNBOHljRFl2T0sz?=
+ =?utf-8?B?WXhWdHRXb05ORmowblJOcHJYR1dDUDRpbDRxdGlSR2E5RGlUdVZBWjZGd290?=
+ =?utf-8?B?LzRhcmd4djJvbjVPdnN5WTFXaXhFL21MemxtcXJzUVdQdCsrR09MS3BBTU5u?=
+ =?utf-8?B?UzNjN0t4UnNXYm1KdkdqZWpSaU55QnpqbFozV2Z5MTBCdWF3S2MreUlONWhn?=
+ =?utf-8?B?ZmRaMEJOY3VRRVVrYURNWm5vdVNFdDdUUWVZalA4RjBVaWFpdm9mWUVRdUlE?=
+ =?utf-8?Q?NtFLFIjNaz/7TrZ7umAjdkO6WKKr9bH3Hezh0YI?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9403C49398D2B446B5A37C3E11416E27@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-OriginatorOrg: nec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY1PR01MB1852.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bf256a9-84be-4203-11c4-08d934470c1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2021 23:56:39.9300
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e67df547-9d0d-4f4d-9161-51c6ed1f7d11
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MqWnyMHGYQk9ei6zyD0L9JGb7nFAlPsoKK4K8CQIt8cZOeYBtPaL4tAWtHXEy1xkXvrTh6Q90gPZneQG5Sxd2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5936
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-06-18 at 20:53 +0000, Sean Christopherson wrote:
-> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> > index 11260e83518f..eadfc9caf500 100644
-> > --- a/arch/x86/kvm/x86.c
-> > +++ b/arch/x86/kvm/x86.c
-> > @@ -815,6 +815,8 @@ int load_pdptrs(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu, unsigned long cr3)
-> >  
-> >  	memcpy(mmu->pdptrs, pdpte, sizeof(mmu->pdptrs));
-> >  	kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
-> > +	vcpu->arch.pdptrs_restored_oob = false;
-> > +
-> >  out:
-> >  
-> >  	return ret;
-> > @@ -10113,6 +10115,7 @@ static int __set_sregs2(struct kvm_vcpu *vcpu, struct kvm_sregs2 *sregs2)
-> >  
-> >  		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
-> >  		mmu_reset_needed = 1;
-> > +		vcpu->arch.pdptrs_restored_oob = true;
-> 
-> Setting pdptrs_restored_oob[*] here and _only_ clearing it on successful
-> load_pdptrs() is not robust.  Potential problems once the flag is set:
-
-Hi Sean Christopherson!
-Thanks for the review!
-
-I also thought about the exact same thing when I submitted the last version of
-this patches (prior version didn't clear the flag at all but I noticed that
-while doing self review of my patches).
-
-
-> 
->   1.  Userspace calls KVM_SET_SREGS{,2} without valid PDPTRs.  Flag is now stale.
-
-True. It isn't that big issue though since the only way to this is to also disable PAE mode
-in CR4 during the call or before it, thus PDPTRs becomes irrelevant.
-Once PAE is enabled again, PDPTRs will be loaded again, resetting this flag.
-
-Something to note is that we also don't clear available/dirty status of VCPU_EXREG_PDPTR
-in this case.
-
-
-
->   2.  kvm_check_nested_events() VM-Exits to L1 before the flag is processed.
->       Flag is now stale.
-
-Also true. However this means that we enter L1 now, and once we are ready to enter
-L2 again, we will load PDPTRS from guest memory as thankfully VM entries in PAE mode
-do load PDPTRS from guest memory (both on Intel and AMD).
-
-
-
-> 
-> (2) might not be problematic in practice since the "normal" load_pdptrs()
-> should reset the flag on the next VM-Enter, but it's really, really hard to tell.
-> E.g. what if an SMI causes an exit and _that_ non-VM-Enter reload of L2 state
-> is the first to trip the flag?  The bool is essentially an extension of
-> KVM_REQ_GET_NESTED_STATE_PAGES, I think it makes sense to clear the flag whenever
-> KVM_REQ_GET_NESTED_STATE_PAGES is cleared.
-
-Could you expalain a bit better about SMM case? When SMM entry is done, at least Intel
-spec is silent on if PDPTRs are preserved in SMRAM (and it doesn't have any place allocated
-for them).
-
-We currently don't preserve PDTPRS on SMM entry and we reload them via CR3/CR0 write 
-when we exit SMM.
-
-Ah I see now, on VMX the non VM-Enter code path is also used for returns from SMM,
-and it sets the KVM_REQ_GET_NESTED_STATE_PAGES, so this is a real issue.
-If SMM code enabled PAE, and then KVM_SET_SREGS2 was used, and followed by
-RSM, we indeed have a risk of not loading the PDPTRs.
-
-I think that this is best fixed by resetting this flag in vmx_leave_smm,
-since RSM loads PDPTRS from memory always otherwise.
-
-I also note that we don't do KVM_REQ_GET_NESTED_STATE_PAGES on SVM,
-on return from SMM at all,
-thus on SVM I think I broke the resume from SMM to a guest if the guest is PAE.
-Oh well....
-
-I will now extend the testing I usually do to SMM and prepare a patch to fix this.
-
-> 
-> Another thing that's not obvious is the required ordering between KVM_SET_SREGS2
-> and KVM_SET_NESTED_STATE.  AFAICT it's not documented, but that may be PEBKAC on
-> my end.  E.g. what happens if walk_mmu == &root_mmu (L1 active in targte KVM)
-> when SET_SREGS2 is called, and _then_ KVM_SET_NESTED_STATE is called?
-
-Isn't that exactly the current ordering (and reason why I had to do this patch series)
-First the KVM_SET_SREGS is called indeed prior to KVM_SET_NESTED_STATE and it can
-potentially load wrong PDPTRS, and then KVM_SET_NESTED_STATE is called which used
-to 'fix' this by reloading them always.
-
-
-
-> 
-> [*] pdptrs_from_userspace in Paolo's tree.
-> 
-
-
-I think that strictly speaking this flag should be cleared when PAE mode is disabled,
-and together with clearing of availablity of VCPU_EXREG_PDPTR.
-
-I don't agree that this flag is an extension of the KVM_REQ_GET_NESTED_STATE_PAGES.
-I think this flag is more like an extra property of VCPU_EXREG_PDPTR.
-In addition to being dirty/available, this "register" can be loaded from memory
-or restored from migration stream.
-
-Thanks again for the review,
-Best regards,
-	Maxim Levitsky
-
+T24gVGh1LCBKdW4gMTcsIDIwMjEgYXQgMDc6NDQ6NTRQTSArMDEwMCwgSm9hbyBNYXJ0aW5zIHdy
+b3RlOg0KPiBtZW1vcnlfZmFpbHVyZV9kZXZfcGFnZW1hcCgpIGF0IHRoZSBtb21lbnQgYXNzdW1l
+cyBiYXNlIHBhZ2VzIChlLmcuDQo+IGRheF9sb2NrX3BhZ2UoKSkuICBGb3IgcGFnZW1hcCB3aXRo
+IGNvbXBvdW5kIHBhZ2VzIGZldGNoIHRoZQ0KPiBjb21wb3VuZF9oZWFkIGluIGNhc2UgYSB0YWls
+IHBhZ2UgbWVtb3J5IGZhaWx1cmUgaXMgYmVpbmcgaGFuZGxlZC4NCj4gDQo+IEN1cnJlbnRseSB0
+aGlzIGlzIGEgbm9wLCBidXQgaW4gdGhlIGFkdmVudCBvZiBjb21wb3VuZCBwYWdlcyBpbg0KPiBk
+ZXZfcGFnZW1hcCBpdCBhbGxvd3MgbWVtb3J5X2ZhaWx1cmVfZGV2X3BhZ2VtYXAoKSB0byBrZWVw
+IHdvcmtpbmcuDQo+IA0KPiBSZXBvcnRlZC1ieTogSmFuZSBDaHUgPGphbmUuY2h1QG9yYWNsZS5j
+b20+DQo+IFNpZ25lZC1vZmYtYnk6IEpvYW8gTWFydGlucyA8am9hby5tLm1hcnRpbnNAb3JhY2xl
+LmNvbT4NCg0KTG9va3MgZ29vZCB0byBtZS4NCg0KUmV2aWV3ZWQtYnk6IE5hb3lhIEhvcmlndWNo
+aSA8bmFveWEuaG9yaWd1Y2hpQG5lYy5jb20+DQoNCj4gLS0tDQo+ICBtbS9tZW1vcnktZmFpbHVy
+ZS5jIHwgNiArKysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gDQo+
+IGRpZmYgLS1naXQgYS9tbS9tZW1vcnktZmFpbHVyZS5jIGIvbW0vbWVtb3J5LWZhaWx1cmUuYw0K
+PiBpbmRleCBlNjg0YjNkNWM2YTYuLmYxYmU1NzhlNDg4ZiAxMDA2NDQNCj4gLS0tIGEvbW0vbWVt
+b3J5LWZhaWx1cmUuYw0KPiArKysgYi9tbS9tZW1vcnktZmFpbHVyZS5jDQo+IEBAIC0xNTE5LDYg
+KzE1MTksMTIgQEAgc3RhdGljIGludCBtZW1vcnlfZmFpbHVyZV9kZXZfcGFnZW1hcCh1bnNpZ25l
+ZCBsb25nIHBmbiwgaW50IGZsYWdzLA0KPiAgCQlnb3RvIG91dDsNCj4gIAl9DQo+ICANCj4gKwkv
+Kg0KPiArCSAqIFBhZ2VzIGluc3RhbnRpYXRlZCBieSBkZXZpY2UtZGF4IChub3QgZmlsZXN5c3Rl
+bS1kYXgpDQo+ICsJICogbWF5IGJlIGNvbXBvdW5kIHBhZ2VzLg0KPiArCSAqLw0KPiArCXBhZ2Ug
+PSBjb21wb3VuZF9oZWFkKHBhZ2UpOw0KPiArDQo+ICAJLyoNCj4gIAkgKiBQcmV2ZW50IHRoZSBp
+bm9kZSBmcm9tIGJlaW5nIGZyZWVkIHdoaWxlIHdlIGFyZSBpbnRlcnJvZ2F0aW5nDQo+ICAJICog
+dGhlIGFkZHJlc3Nfc3BhY2UsIHR5cGljYWxseSB0aGlzIHdvdWxkIGJlIGhhbmRsZWQgYnkNCj4g
+LS0gDQo+IDIuMTcuMQ0KPiA=
