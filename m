@@ -2,103 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F701C48BDF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 14:53:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 482CDC48BDF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 22:25:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FC04611B0
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 14:53:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24864611AC
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Jun 2021 22:25:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbhFTOzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Jun 2021 10:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbhFTOzb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 10:55:31 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D1BC061574;
-        Sun, 20 Jun 2021 07:53:17 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id bm25so9005342qkb.0;
-        Sun, 20 Jun 2021 07:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LVm+BTGafhxRvZqtNEKilS0FyUHlzax8QFALCeDTe2Q=;
-        b=Q63+XIaQozXY/ZR3IPtw3Ez5KYNZP3gf07w6RAATGkueUBDeS6sIssciNhr7b6kZ5A
-         HJy0kLVzp2Ieqg2iWCWaVoJgOU7ZK6zN/izIV3+dyETAhMFBWeQ0KweGozf9QWV7QnGY
-         6tAJhLUuHSrI3DC9diNxnbsDnciZnlKKLpdi+MMVQwjGJWH3cG+MJQSsitrx7Xe4ggcR
-         pb7bEeqHgQOYbws5/hpvCDvGBeYwFEPcoU1IT2zXck5tMg/+kx6FSw0U0Pwjezo2MOyH
-         NZRsDl3EXf2Z34to7JDNyDSULwy7j3DIZK+jKKyqqnNB2muMmyGXVsOCUKwudnvNIY5e
-         Nzdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LVm+BTGafhxRvZqtNEKilS0FyUHlzax8QFALCeDTe2Q=;
-        b=XrJ6FEYI1kHq2AsJ0wLni3X1VPxkmU64odl0T3M+G47oylliRe/kOv05sTvmnp9v2m
-         HHfMd6B3u5jduWa81i2TPbx0LKVWRwYXbRjmRupDdUqa0PumwSbcTMQg6XZwu2WEKDn1
-         RpOWYk8ol0Oq2iBKlUWOhfv5jjwbte+lyHWdTQe0zQ8PsOT4cMx9KK1UQRtT0YU6PHlQ
-         PYKhA8B2yUwn9FTJ6uhIRTOa0LqBMtstV+ks0viyncUuUWouyRkBxBNupj/9EEsKOsjN
-         rLzyS+budjrdQi+ZBtQkOJ4HmCJVqza4HCRqsQOtWCpF+arjt6muaDQSxj6csuILJ7jm
-         rOYQ==
-X-Gm-Message-State: AOAM530QTFciq9Zud/Er2WYQAzRwmYaaJqHAfEG65VIzkJ5tDpiPDcBT
-        w4gVfCaknJH6Jhy9iNigYR2pXTtVvgGcyb9wm1E=
-X-Google-Smtp-Source: ABdhPJxxYg0bDZCWlJBrC+utGt1wfx0PW5vTXUzPwc7cVgZxVmjzWHEfwpkPsAVKAt0DDqVl6euVP9BVz7h4W6YMQrY=
-X-Received: by 2002:a25:880f:: with SMTP id c15mr24720201ybl.247.1624200796182;
- Sun, 20 Jun 2021 07:53:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210618233023.1360185-1-ndesaulniers@google.com> <202106181945.AC10BF38ED@keescook>
-In-Reply-To: <202106181945.AC10BF38ED@keescook>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 20 Jun 2021 16:53:05 +0200
-Message-ID: <CANiq72mwT3WpNcjehXq5njwdrA3U=U+U6H47AQPKRk_BDRsNow@mail.gmail.com>
-Subject: Re: [PATCH 0/2] no_profile fn attr and Kconfig for GCOV+PGO
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        id S230039AbhFTW1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Jun 2021 18:27:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48382 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229901AbhFTW1m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jun 2021 18:27:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624227929;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=crwPYk9/LCjPOHjUmfS2MavxdcK4sFFcOYXWTbXDKlk=;
+        b=iAu5azhfdFP8nQAdWXMqWBdAFkV26dzyKQGgV6Ga+1THjppaYKr4nmKX8UNcdB5J+q2wc6
+        4yNTBd0rMuJBsie7pfmScvrYG9TviRywE1bMRZMv50cmMIyWZ8rQovblWHyUEFW3lhGZ51
+        PUmySUu8qixt/0KT2CTtPIzUB0+oCe0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-cldV6BLFPKSG5AdxXLOuTw-1; Sun, 20 Jun 2021 18:25:27 -0400
+X-MC-Unique: cldV6BLFPKSG5AdxXLOuTw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0541636268;
+        Sun, 20 Jun 2021 22:25:25 +0000 (UTC)
+Received: from starship (unknown [10.40.192.10])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 492C460C9D;
+        Sun, 20 Jun 2021 22:25:20 +0000 (UTC)
+Message-ID: <7df87b7f0b2e029b483d08611e70291aab4e4d0b.camel@redhat.com>
+Subject: Re: [PATCH v3 8/8] KVM: x86: avoid loading PDPTRs after migration
+ when possible
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, Joerg Roedel <joro@8bytes.org>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
-        Marco Elver <elver@google.com>,
+        Jim Mattson <jmattson@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>, johannes.berg@intel.com,
-        linux-toolchains@vger.kernel.org
+        "H. Peter Anvin" <hpa@zytor.com>
+Date:   Mon, 21 Jun 2021 01:25:18 +0300
+In-Reply-To: <YM0H3Hvs8/3+twnc@google.com>
+References: <20210607090203.133058-1-mlevitsk@redhat.com>
+         <20210607090203.133058-9-mlevitsk@redhat.com> <YM0H3Hvs8/3+twnc@google.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 4:45 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Oh, awesome! Thanks for the fast work on this. If there are no objections,
-> I'll apply this in front of the PGO series and put it in -next.
+On Fri, 2021-06-18 at 20:53 +0000, Sean Christopherson wrote:
+> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > index 11260e83518f..eadfc9caf500 100644
+> > --- a/arch/x86/kvm/x86.c
+> > +++ b/arch/x86/kvm/x86.c
+> > @@ -815,6 +815,8 @@ int load_pdptrs(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu, unsigned long cr3)
+> >  
+> >  	memcpy(mmu->pdptrs, pdpte, sizeof(mmu->pdptrs));
+> >  	kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
+> > +	vcpu->arch.pdptrs_restored_oob = false;
+> > +
+> >  out:
+> >  
+> >  	return ret;
+> > @@ -10113,6 +10115,7 @@ static int __set_sregs2(struct kvm_vcpu *vcpu, struct kvm_sregs2 *sregs2)
+> >  
+> >  		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
+> >  		mmu_reset_needed = 1;
+> > +		vcpu->arch.pdptrs_restored_oob = true;
+> 
+> Setting pdptrs_restored_oob[*] here and _only_ clearing it on successful
+> load_pdptrs() is not robust.  Potential problems once the flag is set:
 
-If you are picking both patches on your tree, please see my comment on
-the first commit.
+Hi Sean Christopherson!
+Thanks for the review!
 
-With that solved, for the first commit:
+I also thought about the exact same thing when I submitted the last version of
+this patches (prior version didn't clear the flag at all but I noticed that
+while doing self review of my patches).
 
-    Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-Cheers,
-Miguel
+> 
+>   1.  Userspace calls KVM_SET_SREGS{,2} without valid PDPTRs.  Flag is now stale.
+
+True. It isn't that big issue though since the only way to this is to also disable PAE mode
+in CR4 during the call or before it, thus PDPTRs becomes irrelevant.
+Once PAE is enabled again, PDPTRs will be loaded again, resetting this flag.
+
+Something to note is that we also don't clear available/dirty status of VCPU_EXREG_PDPTR
+in this case.
+
+
+
+>   2.  kvm_check_nested_events() VM-Exits to L1 before the flag is processed.
+>       Flag is now stale.
+
+Also true. However this means that we enter L1 now, and once we are ready to enter
+L2 again, we will load PDPTRS from guest memory as thankfully VM entries in PAE mode
+do load PDPTRS from guest memory (both on Intel and AMD).
+
+
+
+> 
+> (2) might not be problematic in practice since the "normal" load_pdptrs()
+> should reset the flag on the next VM-Enter, but it's really, really hard to tell.
+> E.g. what if an SMI causes an exit and _that_ non-VM-Enter reload of L2 state
+> is the first to trip the flag?  The bool is essentially an extension of
+> KVM_REQ_GET_NESTED_STATE_PAGES, I think it makes sense to clear the flag whenever
+> KVM_REQ_GET_NESTED_STATE_PAGES is cleared.
+
+Could you expalain a bit better about SMM case? When SMM entry is done, at least Intel
+spec is silent on if PDPTRs are preserved in SMRAM (and it doesn't have any place allocated
+for them).
+
+We currently don't preserve PDTPRS on SMM entry and we reload them via CR3/CR0 write 
+when we exit SMM.
+
+Ah I see now, on VMX the non VM-Enter code path is also used for returns from SMM,
+and it sets the KVM_REQ_GET_NESTED_STATE_PAGES, so this is a real issue.
+If SMM code enabled PAE, and then KVM_SET_SREGS2 was used, and followed by
+RSM, we indeed have a risk of not loading the PDPTRs.
+
+I think that this is best fixed by resetting this flag in vmx_leave_smm,
+since RSM loads PDPTRS from memory always otherwise.
+
+I also note that we don't do KVM_REQ_GET_NESTED_STATE_PAGES on SVM,
+on return from SMM at all,
+thus on SVM I think I broke the resume from SMM to a guest if the guest is PAE.
+Oh well....
+
+I will now extend the testing I usually do to SMM and prepare a patch to fix this.
+
+> 
+> Another thing that's not obvious is the required ordering between KVM_SET_SREGS2
+> and KVM_SET_NESTED_STATE.  AFAICT it's not documented, but that may be PEBKAC on
+> my end.  E.g. what happens if walk_mmu == &root_mmu (L1 active in targte KVM)
+> when SET_SREGS2 is called, and _then_ KVM_SET_NESTED_STATE is called?
+
+Isn't that exactly the current ordering (and reason why I had to do this patch series)
+First the KVM_SET_SREGS is called indeed prior to KVM_SET_NESTED_STATE and it can
+potentially load wrong PDPTRS, and then KVM_SET_NESTED_STATE is called which used
+to 'fix' this by reloading them always.
+
+
+
+> 
+> [*] pdptrs_from_userspace in Paolo's tree.
+> 
+
+
+I think that strictly speaking this flag should be cleared when PAE mode is disabled,
+and together with clearing of availablity of VCPU_EXREG_PDPTR.
+
+I don't agree that this flag is an extension of the KVM_REQ_GET_NESTED_STATE_PAGES.
+I think this flag is more like an extra property of VCPU_EXREG_PDPTR.
+In addition to being dirty/available, this "register" can be loaded from memory
+or restored from migration stream.
+
+Thanks again for the review,
+Best regards,
+	Maxim Levitsky
+
