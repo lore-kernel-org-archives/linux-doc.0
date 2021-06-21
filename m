@@ -2,137 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADA5C49EA2
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CAD4C4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 10:00:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC2CD601FD
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:25:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61C3B61206
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 10:00:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbhFUJ1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 05:27:14 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39661 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230175AbhFUJ1N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 05:27:13 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 27B8E580729;
-        Mon, 21 Jun 2021 05:24:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 21 Jun 2021 05:24:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=QxyRCw56RmwfC4S1d/yB2NPnff0
-        BTF8jycj1UZFZOJo=; b=npjXHHvytKMSpcHy05FREqM6WoH2QfHaRWOwoh1gTJI
-        +P897+R0OniZWpBHMj9k+WJltAyyrpa6Yp+2/MP5r/bP+eNP+AQAPDprewP+3/yu
-        g/OgybLvwOM2yn4dIzUnzEkK024WlgwpkF3X+hY4Dtr5HEfOW7RMjRuZk/TsuXIw
-        u6ogHxxUOkDo3A4ahIHkKu0dcIgyZrM2YofZK0WRODW7D2tSVB9AF48kBU4NrXYc
-        Gp6xb8U5Hwe2PyQP8oSoDk05eDoRlgMczrr3igl2+Z+H1s0HdpImoRqXjtsCToLC
-        7MTKEtfQC/adkCZkT4+gv6z7RhSemxIkXI6d2gVF1jQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=QxyRCw
-        56RmwfC4S1d/yB2NPnff0BTF8jycj1UZFZOJo=; b=M48pTmlIx68Lnx1QR85eFG
-        Zwirpl1+Ql7Ue8l5TzNtlAxuTKvF8uZkgXPhUL6SYTaMXEMwzkzDs9j7sq7KG3Zz
-        hCcQ59ufyWliuzam7l3L2K/YTZ/8lYpfd7nydQuX837KZQC6T+MTLqGYUBE7YCWv
-        EYrEKMtrIVxw5LVLKAAXbpYPhEsNc8wD3YYxJ6Fcil1B1VvY6nL8FE4Dl0QSrSz/
-        CJ/kLly3Kz1PBo/LevXybi2yBr95P4B/979iVvexZDK9JOI9fD99GA6XAALqwjir
-        6LgKmK82gGRelYox0cvSCYVx6Vwi0L3HvgEdybLLs80K+jxRYB7Ib1Odr+ziOAeQ
-        ==
-X-ME-Sender: <xms:6FrQYN1fMBgyxnejtjwDiDUmGWoArg3IOR1Icv8LWs7JYFKeA9CrCQ>
-    <xme:6FrQYEF7axDha0Qwas79kvOP82YbN3QtP5OeZfm1ScKbMb2QkbR20kcHlWpS06hIk
-    YFUtyD9zbY-zyirE7I>
-X-ME-Received: <xmr:6FrQYN44zIPubjZytZ67_2R1ybQBDgBuDhjaXPhM04YsfnaFUtaBhGASZg7F77ASIy5p3OJrvXt78jIVwvU6GnnRrhoulqZAyHWx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefledgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:6FrQYK0Wl87_Xs__Vs_2d1BZLkXeyN8sKhgNI5CJu5zN4IjsshyEPg>
-    <xmx:6FrQYAHac96gY3gmP-yAvwfg3Lgeiw7AMJKGlxcj_2DSobH7ltxCJA>
-    <xmx:6FrQYL9UAyVtYBm1Hm3YnFUVGMOmLZr1p3JGgl4PrDQHAJUGHqQGzA>
-    <xmx:61rQYI_u-BujOaCITJgA5pOANeuHUhQNrNjwiEp81SBTaApWjb2Vnw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Jun 2021 05:24:56 -0400 (EDT)
-Date:   Mon, 21 Jun 2021 11:24:54 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Tomohito Esaki <etom@igel.co.jp>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devlel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-Message-ID: <20210621092454.jvdmelk2h427jn5v@gilmour>
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+        id S229747AbhFUKCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 06:02:48 -0400
+Received: from mga18.intel.com ([134.134.136.126]:4721 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229641AbhFUKCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jun 2021 06:02:47 -0400
+IronPort-SDR: Svb8YS3vppKP2m48CdaVawxBdtvMiG512cIrDGzwLSOhB24qgG9o+I/agYWJjCBpnhbeCXdiKJ
+ qKXht+R3md8A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10021"; a="194123643"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="194123643"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2021 03:00:31 -0700
+IronPort-SDR: sfKkS2pGcsLCq+ai4r7335G8stFAKnSGccjXqqvwZwqpJZTBJS97KEo/uX69xlsptIa9Osx+rb
+ NK9JEsmx0yIw==
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="452131304"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.211.249]) ([10.254.211.249])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2021 03:00:27 -0700
+Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linuxarm@huawei.com,
+        thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
+        linux-doc@vger.kernel.org
+To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, robin.murphy@arm.com,
+        corbet@lwn.net
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1624016058-189713-7-git-send-email-john.garry@huawei.com>
+ <c062ef9e-c106-4218-ba2a-c94fdcb6d955@linux.intel.com>
+ <60bdd7c3-d73e-c005-ddf7-069bc5065bce@huawei.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v14 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+Message-ID: <855dd109-1449-7bc6-3d25-7ffeeeffa82a@linux.intel.com>
+Date:   Mon, 21 Jun 2021 18:00:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xz4kqr3jldf7e74a"
-Content-Disposition: inline
-In-Reply-To: <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+In-Reply-To: <60bdd7c3-d73e-c005-ddf7-069bc5065bce@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2021/6/21 16:12, John Garry wrote:
+> On 21/06/2021 06:17, Lu Baolu wrote:
+>> On 2021/6/18 19:34, John Garry wrote:
+>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>>> index 60b1ec42e73b..ff221d3ddcbc 100644
+>>> --- a/drivers/iommu/iommu.c
+>>> +++ b/drivers/iommu/iommu.c
+>>> @@ -349,10 +349,9 @@ static int __init iommu_dma_setup(char *str)
+>>>   }
+>>>   early_param("iommu.strict", iommu_dma_setup);
+>>> -void iommu_set_dma_strict(bool strict)
+>>> +void iommu_set_dma_strict(void)
+>>>   {
+>>> -    if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>> -        iommu_dma_strict = strict;
+>>> +    iommu_dma_strict = true;
+>>>   }
+>>
+> 
+> Hi baolu,
 
---xz4kqr3jldf7e74a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi John,
 
-Hi,
+> 
+>> Sorry for this late comment.
+>>  > Normally the cache invalidation policy should come from the user. We
+>> have pre-build kernel option and also a kernel boot command iommu.strict
+>> to override it. These seem reasonable.
+>>
+>> We also have a helper (iommu_set_dma_strict()) so that the vendor iommu
+>> driver could squeeze in and change the previous settings mostly due to:
+>>
+>> a) vendor iommu driver specific kernel boot command. (We are about to
+>>     deprecate those.)
+>>
+>> b) quirky hardware.
+>>
+>> c) kernel optimization (e.x. strict mode in VM environment).
+>>
+>> a) and b) are mandatory, while c) is optional. In any instance should c)
+>> override the flush mode specified by the user. Hence, probably we should
+>> also have another helper like:
+>>
+>> void iommu_set_dma_strict_optional()
+>> {
+>>      if (!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>          iommu_dma_strict = true;
+>> }
+>>
+>> Any thoughts?
+> 
+> What you are suggesting is a change in policy from mainline code. 
+> Currently for c) we always set strict enabled, regardless of any user 
+> cmdline input. But now you are saying that you want iommu.strict to 
+> override in particular scenario, right?
+> 
+> In that case I would think it's better to rework the current API, like 
+> adding an option to "force" strict mode:
+> 
+> void iommu_set_dma_strict(bool force)
+> {
+>           if (force == true)
+>          iommu_dma_strict = true;
+>      else if (!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>          iommu_dma_strict = true;
+> }
+> 
+> So we would use iommu_set_dma_strict(true) for a) and b), but 
+> iommu_set_dma_strict(false) for c).
 
-On Mon, Jun 21, 2021 at 09:10:19AM +0200, Thomas Zimmermann wrote:
-> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
-> > Virtual DRM splits the overlay planes of a display controller into mult=
-iple
-> > virtual devices to allow each plane to be accessed by each process.
-> >=20
-> > This makes it possible to overlay images output from multiple processes=
- on a
-> > display. For example, one process displays the camera image without com=
-positor
-> > while another process overlays the UI.
->=20
-> I briefly looked over your patches. I didn't understand how this is
-> different to the functionality of a compositor? Shouldn't this be solved =
-in
-> userspace?
+Yes. We need to distinguish the "must" and "nice-to-have" cases of
+setting strict mode.
 
-I think there could be a bunch of use-cases for something that could
-"steal" a plane without the compositor knowing.
+> 
+> Then I am not sure what you want to do with the accompanying print for 
+> c). It was:
+> "IOMMU batching is disabled due to virtualization"
+> 
+> And now is from this series:
+> "IOMMU batching disallowed due to virtualization"
+> 
+> Using iommu_get_dma_strict(domain) is not appropriate here to know the 
+> current mode (so we know whether to print).
+> 
+> Note that this change would mean that the current series would require 
+> non-trivial rework, which would be unfortunate so late in the cycle.
 
-Something I'd really like to work at some point for example is that the
-downstream RaspberryPi display driver has a visual clue when it's
-running too hot or is in over-current.
+This patch series looks good to me and I have added by reviewed-by.
+Probably we could make another patch series to improve it so that the
+kernel optimization should not override the user setting.
 
-I don't think this is the right solution though. The DT binding makes it
-far too static, and if there's a compositor I'd assume it would want to
-know about it somehow (at least if it's from the userspace) ?
-
-Maxime
-
---xz4kqr3jldf7e74a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNBa5gAKCRDj7w1vZxhR
-xSSHAQDsK7MmbKj9NbX4esOTIjfHi+miWdtqwdA1VXPu7OAU+wEAsmJeTq9Unwha
-ZjKrYBAvq23DkfZ79MOPlRjn2sRbjA4=
-=pjsJ
------END PGP SIGNATURE-----
-
---xz4kqr3jldf7e74a--
+Best regards,
+baolu
