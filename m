@@ -2,42 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5D83C4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:00:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A0BC4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:23:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91E5A61245
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:00:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E6536115A
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbhFUOCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 10:02:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57306 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229747AbhFUOCU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Jun 2021 10:02:20 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 099646120D;
-        Mon, 21 Jun 2021 14:00:05 +0000 (UTC)
-Date:   Mon, 21 Jun 2021 10:00:04 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Subject: Re: [RFC PATCH 1/2] ftrace: Introduce cmdline argument
- ftrace_disabled
-Message-ID: <20210621100004.7c1505be@oasis.local.home>
-In-Reply-To: <6847bf76-698d-a314-0825-803b48cb8740@loongson.cn>
-References: <1624084160-3342-1-git-send-email-yangtiezhu@loongson.cn>
-        <1624084160-3342-2-git-send-email-yangtiezhu@loongson.cn>
-        <20210619112202.0a2c7196@gandalf.local.home>
-        <6847bf76-698d-a314-0825-803b48cb8740@loongson.cn>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S229790AbhFUO0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 10:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229765AbhFUO0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 10:26:11 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357AAC061574;
+        Mon, 21 Jun 2021 07:23:57 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id v7so14305636pgl.2;
+        Mon, 21 Jun 2021 07:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kVtvrkXwk8kxj6gf2PfX3z+ND5YYrSne7FW7uUZ08Dw=;
+        b=dCHE9btcAzLdOQNJxrfq5n3gJYinNziLY0jlOiSL9JROQMDzUAajHgn9svP3Oe3JJK
+         6mOfRue2H5FEI/vLv51iVQPaq5yGuXP77BATzpOKrf85nRPFGwT+Oj1bVuQhbOYaLrfj
+         b4Es2ukCzR01vc3oQO+ptqlqsXM2QpQ9OokusqaeNmg3KFd63GYvTarM6DipF9gPWCMT
+         ErtLhAbZ0VznZIq/XtzslxfoxBJRZh0SSbghf2yn+P5VHHHZ3Wi4LR7RIkLijJVaOOYk
+         N5dQjwWdAGyJkQT/pwN4E9kANLKmdepn9lIucdxnWaUlsy7CF/1GxvrpJEJNiAZiM8zL
+         u0NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kVtvrkXwk8kxj6gf2PfX3z+ND5YYrSne7FW7uUZ08Dw=;
+        b=eUoCc7MwKSIfxMW4c7nPBficEjIVP2QFl+5U7fhNO4lt/KlHW/nk58zaQsR3MDEfLA
+         u/vpISYHZebemLklrOGGe4/7w4IeDvRodPWE3C6zluWqut5pO6wYkf4Geutf0NUZQ153
+         XaktWRe91Y7ctL4LVa3H5P6Pcs51vljSyPAW9wZ29Flwae2Dy3WoGFXAz4hGf6nMufFU
+         +Z897eRQYVaWNyIPS2uOVaEKwrdY93XKh4eOjV6lLt+EbYqAkGwdG+kuxFne184i3RAg
+         j7lYxeS/3YKyaltrtYlR9bSzE8ZyOoXZsEY8u5Jx06GpiRGfeJUYxpJ1aOzYWnkulGSG
+         NAHQ==
+X-Gm-Message-State: AOAM532iTpUfsxVy2zLiTYFuQo0xcmWDTqW4J7UU7upr2OVocsVtD1Fm
+        zpWU/dGG6nBsfN6jyWciCtOIRJXjDt6bWV+kF5piqw==
+X-Google-Smtp-Source: ABdhPJx6n4RsO3FpTM1sGeIPMkBKHgRDvBpaGzbYt9EsytZKaCMXqgsu2xMZ9I5dj5w2tHMKbog02Q==
+X-Received: by 2002:a63:ec43:: with SMTP id r3mr23909330pgj.344.1624285436618;
+        Mon, 21 Jun 2021 07:23:56 -0700 (PDT)
+Received: from localhost ([101.190.237.11])
+        by smtp.gmail.com with ESMTPSA id gz15sm2827138pjb.49.2021.06.21.07.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 07:23:56 -0700 (PDT)
+Date:   Tue, 22 Jun 2021 00:23:46 +1000
+From:   Ian Fleming <wholehepple@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] certs: Documentation/admin-guide/module-signing.rst and
+ root .gitignore
+Message-ID: <20210622002212.0c069334@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -45,46 +71,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Jun 2021 09:21:31 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+From: Ian Fleming <wholehepple@gmail.com>
 
-> >
-> > You have no rationale for this change. What's the purpose of this?  
-> 
-> The "System Benchmarks Index Score" of UnixBench under FUNCTION_TRACER
-> is lower than !FUNCTION_TRACER, I want to use this new cmdline argument
-> ftrace_disabled to test it, this is the original intention.
-> 
-> I see the following help info of "config FUNCTION_TRACER":
-> 
-> [If it's runtime disabled (the bootup default), then the overhead of the
-> instructions is very small and not measurable even in micro-benchmarks.]
+Commit b31f2a495debc71bdfefefea8056ade429f79c4b changes mrproper targets for files generated from module signing.
+Root .gitignore also has 5 lines to be removed. One thing to note is how the openssl command example has been changed in module-signing.rst: kernel_key.pem to signing_key.pem so mrproper cleans up automatically generated and in case of manually generated from the example.
 
-Those benchmarks were done a long time ago, and they may be measurable today :-/
+Signed-off-by: Ian Fleming <wholehepple@gmail.com>
+---
+.gitignore                                   |  9 ---------
+Documentation/admin-guide/module-signing.rst | 32 +++++++++++++++-----------------
+2 files changed, 15 insertions(+), 26 deletions(-)
 
-> 
-> I am not quite understand the above description, could you tell me how to
-> avoid the runtime performance overhead under FUNCTION_TRACER?
+diff --git a/.gitignore b/.gitignore
+index 7afd412dadd2..624604e3ec6a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -133,15 +133,6 @@ ID
+ *~
+ \#*#
+ 
+-#
+-# Leavings from module signing
+-#
+-extra_certificates
+-signing_key.pem
+-signing_key.priv
+-signing_key.x509
+-x509.genkey
+-
+ # Kconfig presets
+ /all.config
+ /alldef.config
 
-Anyway, your patch wont do anything to change the benchmarks.
-
-When CONFIG_FUNCTION_TRACER is enabled, on x86_64, most functions will
-start with a call to fentry. At boot up, these functions will be
-converted over to become a nop. And thinking about it, "ftrace_disable"
-stops all conversions, so if you add that to the kernel command line,
-those calls to fentry, wont be converted to nops, and you'll make
-things much worse!
-
-Now, some versions of gcc (and perhaps clang) can do the conversion to
-nops at compile time (in which case, your patch would keep the nops and
-not the calls to fentry).
-
-The overhead that FUNCTION_TRACER adds is the 5 byte nop at the start
-of most functions. This causes a slight hit to instruction cache, and a
-minuscule amount of time in the instruction pipeline of the CPU. This
-is the "overhead" that is talked about. Your patch doesn't do anything
-to address it. The only way to remove that overhead is to compile the
-kernel without CONFIG_FUNCTION_TRACER.
-
--- Steve
-
+diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
+index 7d7c7c8a545c..2ac462b6c832 100644
+--- a/Documentation/admin-guide/module-signing.rst
++++ b/Documentation/admin-guide/module-signing.rst
+@@ -132,23 +132,19 @@ it can be deleted or stored securely.  The public key gets built into the
+ kernel so that it can be used to check the signatures as the modules are
+ loaded.
+ 
+-Under normal conditions, when ``CONFIG_MODULE_SIG_KEY`` is unchanged from its
+-default, the kernel build will automatically generate a new keypair using
+-openssl if one does not exist in the file::
++If ``CONFIG_MODULE_SIG_KEY`` is unchanged from its default, the kernel build will
++automatically generate a new keypair using openssl if one does not exist in the file::
+ 
+ 	certs/signing_key.pem
+ 
+-during the building of vmlinux (the public part of the key needs to be built
+-into vmlinux) using parameters in the::
++the public part of the key needs to be built into the kernel using parameters in the::
+ 
+ 	certs/x509.genkey
+ 
+ file (which is also generated if it does not already exist).
+ 
+-It is strongly recommended that you provide your own x509.genkey file.
+-
+-Most notably, in the x509.genkey file, the req_distinguished_name section
+-should be altered from the default::
++It is strongly recommended that you provide your own x509.genkey file.  Most notably the
++the *req_distinguished_name* section should be altered from the default::
+ 
+ 	[ req_distinguished_name ]
+ 	#O = Unspecified company
+@@ -160,15 +156,17 @@ The generated RSA key size can also be set with::
+ 	[ req ]
+ 	default_bits = 4096
+ 
++It is also possible to manually generate the private/public key files using openssl
++and the key generation configuration file::
++
++        certs/x509.genkey
+ 
+-It is also possible to manually generate the key private/public files using the
+-x509.genkey key generation configuration file in the root node of the Linux
+-kernel sources tree and the openssl command.  The following is an example to
+-generate the public/private key files::
++The following is an example of how to generate the X.509 keypair to be used for
++signing modules::
+ 
+-	openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+-	   -config x509.genkey -outform PEM -out kernel_key.pem \
+-	   -keyout kernel_key.pem
++	$ openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
++	     -config x509.genkey -outform PEM -out signing_key.pem \
++	     -keyout signing_key.pem
+ 
+ The full pathname for the resulting kernel_key.pem file can then be specified
+ in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key therein will
+@@ -276,7 +274,7 @@ Administering/protecting the private key
+ Since the private key is used to sign modules, viruses and malware could use
+ the private key to sign modules and compromise the operating system.  The
+ private key must be either destroyed or moved to a secure location and not kept
+-in the root node of the kernel source tree.
++in the certs/ directory of the kernel source tree.
+ 
+ If you use the same private key to sign modules for multiple kernel
+ configurations, you must ensure that the module version information is
