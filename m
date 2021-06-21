@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 437BEC48BE5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 23:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3600FC4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 23:19:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3100F61245
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 23:18:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1983C61164
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 23:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231792AbhFUXVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 19:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37516 "EHLO
+        id S231745AbhFUXVN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 19:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231680AbhFUXVK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 19:21:10 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647F3C061756
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 16:18:55 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id n6-20020a3759060000b02903ad3598ec02so15749753qkb.17
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 16:18:55 -0700 (PDT)
+        with ESMTP id S231755AbhFUXVM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 19:21:12 -0400
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2881C061767
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 16:18:57 -0700 (PDT)
+Received: by mail-qv1-xf49.google.com with SMTP id z6-20020a0cfec60000b0290263740e5b2aso956009qvs.6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 16:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=2N9bjWxC1f9f54oNFWZySIPRwoyseYMLbsiVnq37oAQ=;
-        b=vXVDzsEzurcdRRJt5TZ/exgrf5jWqqP6v6+f4EHT6jni7xg/fCT7hRB0bEFjBHCf1k
-         UQbAMcvlmxB9n0rZNZRgsRFrTm5BkeLenopg1zaZq07ceL0perNNhOj/iZ+iLGHWfqLu
-         zsEzegqhyP5yfaz9CPRcHT2LgIx1Csa4VDTgmNz+Jz0zPPx9NSZpNljvdkMkIRZfY7CQ
-         a/dsR3+I9XJ8sov7Hy7DJRJLboxLkUritm2R/l5OKTIZt8KtDAuiq7OnqVg9qP3y9Qcm
-         SL5In+wgcNf1Jz8tWXabtpxG7NZQ8MCw/7jxGfNWnTAUOT1ZsYO40ygPnUyILdOS3Xsa
-         RCJA==
+        bh=rjB5gl/OyQ1mYdw8idF1qN2FUIQyyWYhNBNVDiw+uvU=;
+        b=Fx/5r3tL8gCFAJtd4rl2DAmVtq/Hcag/FqOXfbZTiumpQvK7IpCiwSoO4s2r3Pg4kG
+         DjgqzwZbw38zdRoLWEIFqajlU0HyzgooEI43aq0nXoB3xcXQkKM3CW4mob90gDiP9WK2
+         hHrDsQKAVpOhYF9U5V1S3QpzKlSx5rhNkESwPwwewApEl53L6IrVLx7uL19uIuHFuiOo
+         6lolqnl8of8SHB6qJI16xb6wkcrAAnCL9U5ewHgz0C+f0vibak7dCVxmIJY/mPLRKbjo
+         OXIV6b2Ew6sgl0PP+wDqL797jk1u3lvn2QWTbcBZRMFj+LYkj51nlwS6pHOjBj5NB8Kb
+         CkNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=2N9bjWxC1f9f54oNFWZySIPRwoyseYMLbsiVnq37oAQ=;
-        b=jioDvFJckvLWXAl+KutaOkob38yRdvSW34vwK4KrzwmMysYaxcReld8Yu8OzxcL2Tj
-         HTP9lMZzoniT0o9gA9w853UeiBXfiCMFAwiF0jFPirE32tvmt4aMyJHQM5h0+nyxag0H
-         cPvJUnYLZNh65AKiWXvTJu6LbLI/5IYv/tG/ZQfY/hZTHMTBt2l14FBavb1g7TVSPcol
-         b6eN8YtyQaYNZEUyELPcGPsbDFNvS+lNj2OfRs1ejR94msXj5FKR3+9HfgSQD0AiB80W
-         qm88xwKAK6Pqjfn0s+wV8ZjD5781chbzQI7Y5HkxPlI7We0RykZRLjOAj6m1IOgucN0d
-         1m9g==
-X-Gm-Message-State: AOAM530PHJRnMfZLukM2DwEzGKcpB7IYvWMcaTOjnFMKq0K5kYQpX0p9
-        mTu5PR7kLuK6I/zCTpjCfVlcM375ZapinwroEjk=
-X-Google-Smtp-Source: ABdhPJwjfIQo78aB8H6zV1xNOpuaeWEgoPd6DNwDkvyEKXQKuITcPpo/8OJYzqUHE7GlfjZiG+d9QDZJyQFf8J65NtU=
+        bh=rjB5gl/OyQ1mYdw8idF1qN2FUIQyyWYhNBNVDiw+uvU=;
+        b=Vitknpnj2DDujLWl4QU8KkJzkIjR6YHNbeTZpQbuF0PIuEvEB2eTVXl0kn96EuNi1Y
+         9ZW0DmQYcyeKghUGnAInCjtygvg6oTUtLngCTS+bLSf9jhQGehJXMG3n2LfQuDIMAGSh
+         cFJFfqm9HUI1NEQ0DhpJ60u8Vc62T7YEzeaehF3aVMxwq5XAuqcl7bdTL6xMRiZusyxk
+         X6+uZGYH7Wugqkd2VW4onXEqB2cvIebQbYAyX7jyxlMpYT1falSKZ+6g6Jg+HbWjDDVW
+         lz7Si1WJY+EUD8wpa8zkGnX6samQcfrI8kulAgYnbgLYICKcAYYQx3UK22uGqZHiRibH
+         aPxw==
+X-Gm-Message-State: AOAM531P7A0TQmSH72ZnQRghH0jLfB5jdLtweudc7OngNwfaiDAHLsau
+        P13yKFTu2KzrRmecV+OoqdgJfvWjLgyg5CN4XSo=
+X-Google-Smtp-Source: ABdhPJyXTOipiZC/T1Rh2LGkpucm8jFtJ6//dT3xhNEPf1PixdbviPLfrtW8WqYG2ren4BZlrLSA6JcmNbcRdaRhqhk=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:dfd:ebf9:4ec7:1783])
- (user=ndesaulniers job=sendgmr) by 2002:a25:3626:: with SMTP id
- d38mr817378yba.338.1624317534496; Mon, 21 Jun 2021 16:18:54 -0700 (PDT)
-Date:   Mon, 21 Jun 2021 16:18:20 -0700
+ (user=ndesaulniers job=sendgmr) by 2002:a25:aea4:: with SMTP id
+ b36mr794382ybj.428.1624317536807; Mon, 21 Jun 2021 16:18:56 -0700 (PDT)
+Date:   Mon, 21 Jun 2021 16:18:21 -0700
 In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
-Message-Id: <20210621231822.2848305-2-ndesaulniers@google.com>
+Message-Id: <20210621231822.2848305-3-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <20210621231822.2848305-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-Subject: [PATCH v2 1/3] compiler_attributes.h: define __no_profile, add to noinstr
+Subject: [PATCH v2 2/3] compiler_attributes.h: cleanups for GCC 4.9+
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -93,75 +93,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-noinstr implies that we would like the compiler to avoid instrumenting a
-function.  Add support for the compiler attribute
-no_profile_instrument_function to compiler_attributes.h, then add
-__no_profile to the definition of noinstr.
+Since
+commit 6ec4476ac825 ("Raise gcc version requirement to 4.9")
+we no longer support building the kernel with GCC 4.8; drop the
+preprocess checks for __GNUC_MINOR__ version. It's implied that if
+__GNUC_MAJOR__ is 4, then the only supported version of __GNUC_MINOR__
+left is 9.
 
-Link: https://lore.kernel.org/lkml/20210614162018.GD68749@worktop.programming.kicks-ass.net/
-Link: https://reviews.llvm.org/D104257
-Link: https://reviews.llvm.org/D104475
-Link: https://reviews.llvm.org/D104658
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
-Reviewed-by: Fangrui Song <maskray@google.com>
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
-Changes V1 -> V2:
-* s/no_profile/no_profile_instrument_function/
-* fix trailing double underscore on GCC 4 define, as per Fangrui+Miguel.
-* Pick up Fangrui + Miguel's reviewed-by tag.
-* Add link to GCC's doc.
-* Fix clang's doc format; will appear once clang-13 is released.
-
- include/linux/compiler_attributes.h | 13 +++++++++++++
- include/linux/compiler_types.h      |  2 +-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ include/linux/compiler_attributes.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-index c043b8d2b17b..225511b17223 100644
+index 225511b17223..84b1c970acb3 100644
 --- a/include/linux/compiler_attributes.h
 +++ b/include/linux/compiler_attributes.h
-@@ -33,6 +33,7 @@
+@@ -27,7 +27,7 @@
+  */
+ #ifndef __has_attribute
+ # define __has_attribute(x) __GCC4_has_attribute_##x
+-# define __GCC4_has_attribute___assume_aligned__      (__GNUC_MINOR__ >= 9)
++# define __GCC4_has_attribute___assume_aligned__      1
+ # define __GCC4_has_attribute___copy__                0
+ # define __GCC4_has_attribute___designated_init__     0
  # define __GCC4_has_attribute___externally_visible__  1
- # define __GCC4_has_attribute___no_caller_saved_registers__ 0
+@@ -35,8 +35,8 @@
  # define __GCC4_has_attribute___noclone__             1
-+# define __GCC4_has_attribute___no_profile_instrument_function__ 0
+ # define __GCC4_has_attribute___no_profile_instrument_function__ 0
  # define __GCC4_has_attribute___nonstring__           0
- # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
- # define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
-@@ -237,6 +238,18 @@
- # define __nonstring
+-# define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
+-# define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
++# define __GCC4_has_attribute___no_sanitize_address__ 1
++# define __GCC4_has_attribute___no_sanitize_undefined__ 1
+ # define __GCC4_has_attribute___fallthrough__         0
  #endif
- 
-+/*
-+ * Optional: only supported since GCC >= 7.1, clang >= 13.0.
-+ *
-+ *      gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-no_005fprofile_005finstrument_005ffunction-function-attribute
-+ *    clang: https://clang.llvm.org/docs/AttributeReference.html#no-profile-instrument-function
-+ */
-+#if __has_attribute(__no_profile_instrument_function__)
-+# define __no_profile                  __attribute__((__no_profile_instrument_function__))
-+#else
-+# define __no_profile
-+#endif
-+
- /*
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noreturn-function-attribute
-  * clang: https://clang.llvm.org/docs/AttributeReference.html#noreturn
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index d29bda7f6ebd..d509169860f1 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -210,7 +210,7 @@ struct ftrace_likely_data {
- /* Section for code which can't be instrumented at all */
- #define noinstr								\
- 	noinline notrace __attribute((__section__(".noinstr.text")))	\
--	__no_kcsan __no_sanitize_address
-+	__no_kcsan __no_sanitize_address __no_profile
- 
- #endif /* __KERNEL__ */
  
 -- 
 2.32.0.288.g62a8d224e6-goog
