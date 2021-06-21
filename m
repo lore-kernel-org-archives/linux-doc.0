@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFFCC48BC2
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 18:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3999BC49EA4
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 18:49:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A91EF6124B
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 18:49:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24C3160FEE
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 18:49:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231743AbhFUSwF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 14:52:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26547 "EHLO
+        id S231873AbhFUSwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 14:52:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27653 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231127AbhFUSwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 14:52:05 -0400
+        by vger.kernel.org with ESMTP id S231706AbhFUSwG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 14:52:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624301390;
+        s=mimecast20190719; t=1624301391;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=a3Hgg1XgaMSsbVd330JUCd8UUvif2vzvATq1jEUWKfo=;
-        b=fIq9l3GLxpxrw3rJlmt1Kf/Rx/AImgci5ORFqHv0DlhSuXQF2J1a5W3DRVv4G+DnMIbuhs
-        P6M6yNan0l2M2REpOHSOF4qG6HIN+M36DFT9WYQktMxbaeg8h3SWvvL1qO85PGXdLeeW+H
-        GaMGiv/kj2K6RKyyXNSTK3HcopURwDM=
+         to:to:cc:cc; bh=8+0lAgdKmEikh/Be8Z1O35k9BkrQgmcKMiwbRtHdQCs=;
+        b=JntsES3jccO/r2dloSUHjcKpY6CudYGLMquLk/YvMXtEnhGL60eqcdWHeGUXIKo7DepVSm
+        oWBEMGjicP4iknxkBP3Lz2MpvVGya6pQP1BN9vQ59kHjyO78/o8G57EvdI7dGGeGVHiwqW
+        djo4VFXX6tlTQMGkJg/wPLAUcy9vBoo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-5ZeRV1qzMkiCAyu6EhE7Yw-1; Mon, 21 Jun 2021 14:49:49 -0400
-X-MC-Unique: 5ZeRV1qzMkiCAyu6EhE7Yw-1
+ us-mta-356-zSqeXrXOMZ6GWiIus38YDg-1; Mon, 21 Jun 2021 14:49:47 -0400
+X-MC-Unique: zSqeXrXOMZ6GWiIus38YDg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4134134912;
-        Mon, 21 Jun 2021 18:49:47 +0000 (UTC)
-Received: from llong.com (ovpn-114-127.rdu2.redhat.com [10.10.114.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A83D65DA2D;
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86E7D653;
         Mon, 21 Jun 2021 18:49:45 +0000 (UTC)
+Received: from llong.com (ovpn-114-127.rdu2.redhat.com [10.10.114.127])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2DE705D9CA;
+        Mon, 21 Jun 2021 18:49:37 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -50,125 +49,59 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v2 1/6] cgroup/cpuset: Miscellaneous code cleanup
-Date:   Mon, 21 Jun 2021 14:49:19 -0400
-Message-Id: <20210621184924.27493-2-longman@redhat.com>
-In-Reply-To: <20210621184924.27493-1-longman@redhat.com>
-References: <20210621184924.27493-1-longman@redhat.com>
+Subject: [PATCH v2 0/6] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
+Date:   Mon, 21 Jun 2021 14:49:18 -0400
+Message-Id: <20210621184924.27493-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use more descriptive variable names for update_prstate(), remove
-unnecessary code and fix some typos. There is no functional change.
+v2:
+ - Drop v1 patch 1.
+ - Break out some cosmetic changes into a separate patch (patch #1).
+ - Add a new patch to clarify the transition to invalid partition root
+   is mainly caused by hotplug events.
+ - Enhance the partition root state test including CPU online/offline
+   behavior and fix issues found by the test.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+This patchset makes the following three major changes to the cpuset v2 code:
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index adb5190c4429..d4164e07c61b 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1114,7 +1114,7 @@ enum subparts_cmd {
-  * cpus_allowed can be granted or an error code will be returned.
-  *
-  * For partcmd_disable, the cpuset is being transofrmed from a partition
-- * root back to a non-partition root. any CPUs in cpus_allowed that are in
-+ * root back to a non-partition root. Any CPUs in cpus_allowed that are in
-  * parent's subparts_cpus will be taken away from that cpumask and put back
-  * into parent's effective_cpus. 0 should always be returned.
-  *
-@@ -1225,7 +1225,7 @@ static int update_parent_subparts_cpumask(struct cpuset *cpuset, int cmd,
- 		/*
- 		 * partcmd_update w/o newmask:
- 		 *
--		 * addmask = cpus_allowed & parent->effectiveb_cpus
-+		 * addmask = cpus_allowed & parent->effective_cpus
- 		 *
- 		 * Note that parent's subparts_cpus may have been
- 		 * pre-shrunk in case there is a change in the cpu list.
-@@ -1937,30 +1937,28 @@ static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- 
- /*
-  * update_prstate - update partititon_root_state
-- * cs:	the cpuset to update
-- * val: 0 - disabled, 1 - enabled
-+ * cs: the cpuset to update
-+ * new_prs: new partition root state
-  *
-  * Call with cpuset_mutex held.
-  */
--static int update_prstate(struct cpuset *cs, int val)
-+static int update_prstate(struct cpuset *cs, int new_prs)
- {
- 	int err;
- 	struct cpuset *parent = parent_cs(cs);
--	struct tmpmasks tmp;
-+	struct tmpmasks tmpmask;
- 
--	if ((val != 0) && (val != 1))
--		return -EINVAL;
--	if (val == cs->partition_root_state)
-+	if (new_prs == cs->partition_root_state)
- 		return 0;
- 
- 	/*
- 	 * Cannot force a partial or invalid partition root to a full
- 	 * partition root.
- 	 */
--	if (val && cs->partition_root_state)
-+	if (new_prs && (cs->partition_root_state < 0))
- 		return -EINVAL;
- 
--	if (alloc_cpumasks(NULL, &tmp))
-+	if (alloc_cpumasks(NULL, &tmpmask))
- 		return -ENOMEM;
- 
- 	err = -EINVAL;
-@@ -1978,7 +1976,7 @@ static int update_prstate(struct cpuset *cs, int val)
- 			goto out;
- 
- 		err = update_parent_subparts_cpumask(cs, partcmd_enable,
--						     NULL, &tmp);
-+						     NULL, &tmpmask);
- 		if (err) {
- 			update_flag(CS_CPU_EXCLUSIVE, cs, 0);
- 			goto out;
-@@ -1997,7 +1995,7 @@ static int update_prstate(struct cpuset *cs, int val)
- 		}
- 
- 		err = update_parent_subparts_cpumask(cs, partcmd_disable,
--						     NULL, &tmp);
-+						     NULL, &tmpmask);
- 		if (err)
- 			goto out;
- 
-@@ -2015,11 +2013,11 @@ static int update_prstate(struct cpuset *cs, int val)
- 		update_tasks_cpumask(parent);
- 
- 	if (parent->child_ecpus_count)
--		update_sibling_cpumasks(parent, cs, &tmp);
-+		update_sibling_cpumasks(parent, cs, &tmpmask);
- 
- 	rebuild_sched_domains_locked();
- out:
--	free_cpumasks(NULL, &tmp);
-+	free_cpumasks(NULL, &tmpmask);
- 	return err;
- }
- 
-@@ -3060,7 +3058,7 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
- 		goto retry;
- 	}
- 
--	parent =  parent_cs(cs);
-+	parent = parent_cs(cs);
- 	compute_effective_cpumask(&new_cpus, cs, parent);
- 	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
- 
+ Patch 2: Clarify the use of invalid partition root and add new checks
+ to make sure that normal cpuset control file operations will not be
+ allowed to create invalid partition root. It also fixes some of the
+ issues in existing code.
+
+ Patch 3: Add a new partition state "isolated" to create a partition
+ root without load balancing. This is for handling intermitten workloads
+ that have a strict low latency requirement.
+
+ Patch 4: Allow partition roots that are not the top cpuset to distribute
+ all its cpus to child partitions as long as there is no task associated
+ with that partition root. This allows more flexibility for middleware
+ to manage multiple partitions.
+
+Patch 5 updates the cgroup-v2.rst file accordingly. Patch 5 adds a new
+cpuset test to test the new cpuset partition code.
+
+
+Waiman Long (6):
+  cgroup/cpuset: Miscellaneous code cleanup
+  cgroup/cpuset: Clarify the use of invalid partition root
+  cgroup/cpuset: Add a new isolated cpus.partition type
+  cgroup/cpuset: Allow non-top parent partition root to distribute out
+    all CPUs
+  cgroup/cpuset: Update description of cpuset.cpus.partition in
+    cgroup-v2.rst
+  kselftest/cgroup: Add cpuset v2 partition root state test
+
+ Documentation/admin-guide/cgroup-v2.rst       |  65 +-
+ kernel/cgroup/cpuset.c                        | 285 ++++++---
+ tools/testing/selftests/cgroup/Makefile       |   2 +-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 558 ++++++++++++++++++
+ 4 files changed, 794 insertions(+), 116 deletions(-)
+ create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+
 -- 
 2.18.1
 
