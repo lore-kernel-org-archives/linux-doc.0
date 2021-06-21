@@ -2,171 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A0BC4743C
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 521C8C4743C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E6536115A
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:23:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 287286124B
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 14:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbhFUO0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 10:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbhFUO0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 10:26:11 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357AAC061574;
-        Mon, 21 Jun 2021 07:23:57 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id v7so14305636pgl.2;
-        Mon, 21 Jun 2021 07:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVtvrkXwk8kxj6gf2PfX3z+ND5YYrSne7FW7uUZ08Dw=;
-        b=dCHE9btcAzLdOQNJxrfq5n3gJYinNziLY0jlOiSL9JROQMDzUAajHgn9svP3Oe3JJK
-         6mOfRue2H5FEI/vLv51iVQPaq5yGuXP77BATzpOKrf85nRPFGwT+Oj1bVuQhbOYaLrfj
-         b4Es2ukCzR01vc3oQO+ptqlqsXM2QpQ9OokusqaeNmg3KFd63GYvTarM6DipF9gPWCMT
-         ErtLhAbZ0VznZIq/XtzslxfoxBJRZh0SSbghf2yn+P5VHHHZ3Wi4LR7RIkLijJVaOOYk
-         N5dQjwWdAGyJkQT/pwN4E9kANLKmdepn9lIucdxnWaUlsy7CF/1GxvrpJEJNiAZiM8zL
-         u0NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVtvrkXwk8kxj6gf2PfX3z+ND5YYrSne7FW7uUZ08Dw=;
-        b=eUoCc7MwKSIfxMW4c7nPBficEjIVP2QFl+5U7fhNO4lt/KlHW/nk58zaQsR3MDEfLA
-         u/vpISYHZebemLklrOGGe4/7w4IeDvRodPWE3C6zluWqut5pO6wYkf4Geutf0NUZQ153
-         XaktWRe91Y7ctL4LVa3H5P6Pcs51vljSyPAW9wZ29Flwae2Dy3WoGFXAz4hGf6nMufFU
-         +Z897eRQYVaWNyIPS2uOVaEKwrdY93XKh4eOjV6lLt+EbYqAkGwdG+kuxFne184i3RAg
-         j7lYxeS/3YKyaltrtYlR9bSzE8ZyOoXZsEY8u5Jx06GpiRGfeJUYxpJ1aOzYWnkulGSG
-         NAHQ==
-X-Gm-Message-State: AOAM532iTpUfsxVy2zLiTYFuQo0xcmWDTqW4J7UU7upr2OVocsVtD1Fm
-        zpWU/dGG6nBsfN6jyWciCtOIRJXjDt6bWV+kF5piqw==
-X-Google-Smtp-Source: ABdhPJx6n4RsO3FpTM1sGeIPMkBKHgRDvBpaGzbYt9EsytZKaCMXqgsu2xMZ9I5dj5w2tHMKbog02Q==
-X-Received: by 2002:a63:ec43:: with SMTP id r3mr23909330pgj.344.1624285436618;
-        Mon, 21 Jun 2021 07:23:56 -0700 (PDT)
-Received: from localhost ([101.190.237.11])
-        by smtp.gmail.com with ESMTPSA id gz15sm2827138pjb.49.2021.06.21.07.23.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 07:23:56 -0700 (PDT)
-Date:   Tue, 22 Jun 2021 00:23:46 +1000
-From:   Ian Fleming <wholehepple@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH] certs: Documentation/admin-guide/module-signing.rst and
- root .gitignore
-Message-ID: <20210622002212.0c069334@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S229765AbhFUOen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 10:34:43 -0400
+Received: from mga18.intel.com ([134.134.136.126]:23931 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229747AbhFUOem (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jun 2021 10:34:42 -0400
+IronPort-SDR: uKDcpUG8rmEejBglAC+D+ZplvlyaVUqP6/CH5vYAf1IjkRn1S+1oOCRAFskCk0PQyKPBygWiVe
+ DDRmzxdo478A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="194166731"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="194166731"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2021 07:32:27 -0700
+IronPort-SDR: cfhxQQ5ewZfVr+5/hQUnHw/3u4dWOLVNI2UCwgbLVYWO71pF34FtHl/G+gqIyXbe9r1OMtNXqN
+ 293YgkrRky2w==
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; 
+   d="scan'208";a="486509598"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.211.249]) ([10.254.211.249])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2021 07:32:23 -0700
+Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linuxarm@huawei.com,
+        thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
+        linux-doc@vger.kernel.org
+To:     Robin Murphy <robin.murphy@arm.com>,
+        John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1624016058-189713-7-git-send-email-john.garry@huawei.com>
+ <c062ef9e-c106-4218-ba2a-c94fdcb6d955@linux.intel.com>
+ <60bdd7c3-d73e-c005-ddf7-069bc5065bce@huawei.com>
+ <855dd109-1449-7bc6-3d25-7ffeeeffa82a@linux.intel.com>
+ <fc52069d-46c5-5ca5-1b44-2fa7cf287d5a@huawei.com>
+ <2330bb52-1768-5122-9378-7923034c82bd@arm.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v14 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+Message-ID: <5564e4b7-99af-c357-594a-1a6efe0c1464@linux.intel.com>
+Date:   Mon, 21 Jun 2021 22:32:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <2330bb52-1768-5122-9378-7923034c82bd@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ian Fleming <wholehepple@gmail.com>
+Hi Robin,
 
-Commit b31f2a495debc71bdfefefea8056ade429f79c4b changes mrproper targets for files generated from module signing.
-Root .gitignore also has 5 lines to be removed. One thing to note is how the openssl command example has been changed in module-signing.rst: kernel_key.pem to signing_key.pem so mrproper cleans up automatically generated and in case of manually generated from the example.
+On 2021/6/21 19:59, Robin Murphy wrote:
+> On 2021-06-21 11:34, John Garry wrote:
+>> On 21/06/2021 11:00, Lu Baolu wrote:
+>>>> void iommu_set_dma_strict(bool force)
+>>>> {
+>>>>           if (force == true)
+>>>>          iommu_dma_strict = true;
+>>>>      else if (!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>>>          iommu_dma_strict = true;
+>>>> }
+>>>>
+>>>> So we would use iommu_set_dma_strict(true) for a) and b), but 
+>>>> iommu_set_dma_strict(false) for c).
+>>>
+>>> Yes. We need to distinguish the "must" and "nice-to-have" cases of
+>>> setting strict mode.
+>>>
+>>>>
+>>>> Then I am not sure what you want to do with the accompanying print 
+>>>> for c). It was:
+>>>> "IOMMU batching is disabled due to virtualization"
+>>>>
+>>>> And now is from this series:
+>>>> "IOMMU batching disallowed due to virtualization"
+>>>>
+>>>> Using iommu_get_dma_strict(domain) is not appropriate here to know 
+>>>> the current mode (so we know whether to print).
+>>>>
+>>>> Note that this change would mean that the current series would 
+>>>> require non-trivial rework, which would be unfortunate so late in 
+>>>> the cycle.
+>>>
+>>> This patch series looks good to me and I have added by reviewed-by.
+>>> Probably we could make another patch series to improve it so that the
+>>> kernel optimization should not override the user setting.
+>>
+>> On a personal level I would be happy with that approach, but I think 
+>> it's better to not start changing things right away in a follow-up 
+>> series.
+>>
+>> So how about we add this patch (which replaces 6/6 "iommu: Remove mode 
+>> argument from iommu_set_dma_strict()")?
+>>
+>> Robin, any opinion?
+> 
+> For me it boils down to whether there are any realistic workloads where 
+> non-strict mode *would* still perform better under virtualisation. The 
 
-Signed-off-by: Ian Fleming <wholehepple@gmail.com>
----
-.gitignore                                   |  9 ---------
-Documentation/admin-guide/module-signing.rst | 32 +++++++++++++++-----------------
-2 files changed, 15 insertions(+), 26 deletions(-)
+At present, we see that strict mode has better performance in the
+virtualization environment because it will make the shadow page table
+management more efficient. When the hardware supports nested
+translation, we may have to re-evaluate this since there's no need for
+a shadowing page table anymore.
 
-diff --git a/.gitignore b/.gitignore
-index 7afd412dadd2..624604e3ec6a 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -133,15 +133,6 @@ ID
- *~
- \#*#
- 
--#
--# Leavings from module signing
--#
--extra_certificates
--signing_key.pem
--signing_key.priv
--signing_key.x509
--x509.genkey
--
- # Kconfig presets
- /all.config
- /alldef.config
+> only reason for the user to explicitly pass "iommu.strict=0" is because 
+> they expect it to increase unmap performance; if it's only ever going to 
+> lead to an unexpected performance loss, I don't see any value in 
+> overriding the kernel's decision purely for the sake of subservience.
+> 
+> If there *are* certain valid cases for allowing it for people who really 
+> know what they're doing, then we should arguably also log a counterpart 
+> message to say "we're honouring your override but beware it may have the 
+> opposite effect to what you expect" for the benefit of other users who 
+> assume it's a generic go-faster knob. At that point it starts getting 
+> non-trivial enough that I'd want to know for sure it's worthwhile.
+> 
+> The other reason this might be better to revisit later is that an AMD 
+> equivalent is still in flight[1], and there might be more that can 
+> eventually be factored out. I think both series are pretty much good to 
+> merge for 5.14, but time's already tight to sort out the conflicts which 
+> exist as-is, without making them any worse.
 
-diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
-index 7d7c7c8a545c..2ac462b6c832 100644
---- a/Documentation/admin-guide/module-signing.rst
-+++ b/Documentation/admin-guide/module-signing.rst
-@@ -132,23 +132,19 @@ it can be deleted or stored securely.  The public key gets built into the
- kernel so that it can be used to check the signatures as the modules are
- loaded.
- 
--Under normal conditions, when ``CONFIG_MODULE_SIG_KEY`` is unchanged from its
--default, the kernel build will automatically generate a new keypair using
--openssl if one does not exist in the file::
-+If ``CONFIG_MODULE_SIG_KEY`` is unchanged from its default, the kernel build will
-+automatically generate a new keypair using openssl if one does not exist in the file::
- 
- 	certs/signing_key.pem
- 
--during the building of vmlinux (the public part of the key needs to be built
--into vmlinux) using parameters in the::
-+the public part of the key needs to be built into the kernel using parameters in the::
- 
- 	certs/x509.genkey
- 
- file (which is also generated if it does not already exist).
- 
--It is strongly recommended that you provide your own x509.genkey file.
--
--Most notably, in the x509.genkey file, the req_distinguished_name section
--should be altered from the default::
-+It is strongly recommended that you provide your own x509.genkey file.  Most notably the
-+the *req_distinguished_name* section should be altered from the default::
- 
- 	[ req_distinguished_name ]
- 	#O = Unspecified company
-@@ -160,15 +156,17 @@ The generated RSA key size can also be set with::
- 	[ req ]
- 	default_bits = 4096
- 
-+It is also possible to manually generate the private/public key files using openssl
-+and the key generation configuration file::
-+
-+        certs/x509.genkey
- 
--It is also possible to manually generate the key private/public files using the
--x509.genkey key generation configuration file in the root node of the Linux
--kernel sources tree and the openssl command.  The following is an example to
--generate the public/private key files::
-+The following is an example of how to generate the X.509 keypair to be used for
-+signing modules::
- 
--	openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
--	   -config x509.genkey -outform PEM -out kernel_key.pem \
--	   -keyout kernel_key.pem
-+	$ openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
-+	     -config x509.genkey -outform PEM -out signing_key.pem \
-+	     -keyout signing_key.pem
- 
- The full pathname for the resulting kernel_key.pem file can then be specified
- in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key therein will
-@@ -276,7 +274,7 @@ Administering/protecting the private key
- Since the private key is used to sign modules, viruses and malware could use
- the private key to sign modules and compromise the operating system.  The
- private key must be either destroyed or moved to a secure location and not kept
--in the root node of the kernel source tree.
-+in the certs/ directory of the kernel source tree.
- 
- If you use the same private key to sign modules for multiple kernel
- configurations, you must ensure that the module version information is
+Agreed. We could revisit it later.
+
+Best regards,
+baolu
+
+
