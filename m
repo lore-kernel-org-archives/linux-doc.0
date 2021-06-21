@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DAEC49EA4
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 06:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FBF1C49EA3
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 06:45:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0F5F6102A
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 06:44:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D31F610EA
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 06:45:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbhFUGrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 02:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37662 "EHLO
+        id S230217AbhFUGrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 02:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbhFUGrD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 02:47:03 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F471C0617AF
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:45 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id p13so12919982pfw.0
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:45 -0700 (PDT)
+        with ESMTP id S230235AbhFUGrF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 02:47:05 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C039C06121D
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:49 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id p13so12920086pfw.0
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jun 2021 23:44:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MngqRxxEHl2ppcxz+/r0UlSDgAGtoX4UkbK2llRyjcc=;
-        b=iDFn5N19FrrTYa7TxJRsUW4oiVbP2ALDloiMjEcD7XYz+nk/kVL3RD3W1cpYEQ77Wf
-         yCQx1eT/Ap8/72YEUDmRPU8BNore/4yJOawiFSuZrOPXawDt8kboJNj1qJL4EjZSrTFb
-         dKRiO0JPvqtD2qjEEWM5HJ7tnlRdqtKHqKMi5ABX4V/THftJJCqZ4djRotOE7ziKO2Sb
-         EicQkU/b23u+GAsfO568WK76/I87GlwVTSUJkXAC6fc3saRmNPBv0bP5rxh34tdo1JWL
-         y7GOdTjclhbn1hJ65xdQwcO2k5iZ9WA2glv0eRpHWpxon2kT38OHQAq+aMUgvzuM1LLx
-         xPDQ==
+        bh=MByV6cpfz5xYL+DMP3l1hiWnj/Gzo6aYK3LpWdzWngw=;
+        b=b29mzE46OF31Q0CDVIkCAi2dK/16TmoZc6FE32WuI0K0eE59eopnCwAo/XS+aCT4GD
+         vB678ZVcP9xoXMVTsUk/OR0Mp4ts1fhMvmiktvVyUyAQTpBttVz8JcQwp4b1Tdconwgw
+         8zZWW7a9Xn2iGmAREWcAEk1GMReMXDFhOUGuG5ciepZCDjsZIk+ArbLPLDhRJy9/mGdh
+         zW0hRFKpx3RbUO24fU/jL3PEyRpQhlckS0HPgcphPygMzI+PY49rzRGCrpTxkecJs8q2
+         zy/GFkZ04RTUajYooN0PEQZQKFt5xsLgIJa5cBfu8VOd3Gdtpi0WXSeUA6RDAdJVgT63
+         yZog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MngqRxxEHl2ppcxz+/r0UlSDgAGtoX4UkbK2llRyjcc=;
-        b=SuLWr0OTW/+FaV0jxYnW2jqQPjnDkSsLSyNeQTtczy0alWNOiAn0pxGOKOaAodarm7
-         WoIVJtfsmgIiixSw9CE/7+De+cSacjFOZWAX11yrCT8zxcCJABkbKkC2qTxlM8Ots4SZ
-         +UNb+9o1o6+IwgaVJQWIZwTHTS8SCGX4Pdc0gFto26cL06cdf7e3KtBvrSsLkCBxoagr
-         BTZH1hQjgfheAx4Ldw9YIcRyY/t6TYgfsuWN2fye8C06GLCSk5T+Ng4UG2PmR26EVeeh
-         xLafjUe3KOmDyIxOVxLPhp1ULOUlne5v1cpQfhuvmH3wfNCmQxmNvCRh8pJ61RlU/vCS
-         f60Q==
-X-Gm-Message-State: AOAM530Nt1UzAp9Ksi0axVa8e215z6HPjja/nWVUaET1D8Ux/36yYzeR
-        teZFjyWGHWumdPySbud5oS2cCKka//TgS56Y
-X-Google-Smtp-Source: ABdhPJz3uS2NIZaMaM/MYhOpgEafGu609FiIcSOzqpTKLKoyHWUGdazm9z6mtIzuamYok1wtYwHFuA==
-X-Received: by 2002:a63:451f:: with SMTP id s31mr22278023pga.209.1624257884801;
-        Sun, 20 Jun 2021 23:44:44 -0700 (PDT)
+        bh=MByV6cpfz5xYL+DMP3l1hiWnj/Gzo6aYK3LpWdzWngw=;
+        b=Mll1ERmjn1eX/M3lD0vo8Nl9LArFBBZLPhFtBij7vZelO4Y/7b1PhoPMctccvWzyc3
+         F97mWbvDim6i0vWzRjw5WcamCXxGfYKF2jL/zDk04dmJNqwitLEPOG67H5Qcm/IlPwTJ
+         ijwqbdu9HO+c/3KOa1Lm8+U+EtaEknERK7Raqf4d/2ptFxe1JLKKFpJM4BoCKCNhcsm8
+         8ucS1iGuntUjrMk+sA0ETkCYzIjSSln3HMABpkrI232NPxz5WOFTnR5hVbGGVZl6IZ40
+         vbYz9Hpshagk9RlxEydWbXbRzyb4Byx7YCStHQY3vUGV/JYdX/LOS53gK51OyHEq9FsR
+         T5Zg==
+X-Gm-Message-State: AOAM5334ffteZH9B3Szoa0XAlcKPyKyGQP+6Od8pcHxUmO9s13yOnB4G
+        gyt+euEApV+OZnKSnO3aIlGXpg==
+X-Google-Smtp-Source: ABdhPJwH4/eLR8eUZGuKN8dGXC6akwtVCwhZ4Ipv8+e+H+PA4zXKM/he9uNlz8M414i8BGg/A2nyGQ==
+X-Received: by 2002:a63:ed08:: with SMTP id d8mr22298931pgi.373.1624257888998;
+        Sun, 20 Jun 2021 23:44:48 -0700 (PDT)
 Received: from localhost.localdomain ([240b:10:c9a0:ca00:61b8:26ec:dc30:8823])
-        by smtp.gmail.com with ESMTPSA id o34sm12744450pgm.6.2021.06.20.23.44.41
+        by smtp.gmail.com with ESMTPSA id o34sm12744450pgm.6.2021.06.20.23.44.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 23:44:44 -0700 (PDT)
+        Sun, 20 Jun 2021 23:44:48 -0700 (PDT)
 From:   Tomohito Esaki <etom@igel.co.jp>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -66,9 +66,9 @@ To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-doc@vger.kernel.org, Tomohito Esaki <etom@igel.co.jp>
-Subject: [PATH 3/4] dt-bindings: display: Add virtual DRM
-Date:   Mon, 21 Jun 2021 15:44:02 +0900
-Message-Id: <20210621064403.26663-4-etom@igel.co.jp>
+Subject: [PATH 4/4] doc-rst: Add virtual DRM documentation
+Date:   Mon, 21 Jun 2021 15:44:03 +0900
+Message-Id: <20210621064403.26663-5-etom@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621064403.26663-1-etom@igel.co.jp>
 References: <20210621064403.26663-1-etom@igel.co.jp>
@@ -78,87 +78,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add device tree bindings documentation for virtual DRM.
-
 Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
 ---
- .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
+ Documentation/gpu/drivers.rst |  1 +
+ Documentation/gpu/vdrm.rst    | 51 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 Documentation/gpu/vdrm.rst
 
-diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index b4a0ed3ca961..bad0226de972 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -19,6 +19,7 @@ GPU Driver Documentation
+    xen-front
+    afbc
+    komeda-kms
++   vdrm
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/gpu/vdrm.rst b/Documentation/gpu/vdrm.rst
 new file mode 100644
-index 000000000000..6493bb0fc09f
+index 000000000000..2ab1699c2f42
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/vdrm.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/vdrm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/Documentation/gpu/vdrm.rst
+@@ -0,0 +1,51 @@
++=============================
++ drm/vdrm virtual DRM driver
++=============================
 +
-+title: Virtual DRM Device Tree Bindings
++Virtual DRM splits the overlay planes of a display controller into multiple
++virtual devices to allow each plane to be accessed by each process.
 +
-+description:
-+  This document defines device tree properties virtual DRM. The initial
-+  position, size and z-position of the plane used in the virtual DRM is
-+  specified.
-+  The current limitation is that these settings are applied to all crtc.
++This makes it possible to overlay images output from multiple processes on a
++display. For example, one process displays the camera image without compositor
++while another process overlays the UI.
 +
-+properties:
-+  compatible:
-+    const: virt-drm
++The virtual DRM creates standalone virtual device and make DRM planes from a
++master device (e.g. card0) accessible via one or more virtual device. However,
++these plane are no longer accessible from the original device.
++Each virtual device (and plane) can be accessed via a separate device file.
 +
-+patternProperties:
-+  "^plane(@.*)?$":
-+    description: Information of the planes used in virtual DRM
-+    type: object
++The virtual DRM driver doesn't directly control the display hardware and has
++no access to the physical bus. Instead, the virtual DRM driver issues requests
++to the standard DRM device driver ("master" driver) when the hardware needs to
++be controlled. The master driver is modified to notify the virtual DRM driver
++of interrupt events from the display hardware.
 +
-+    properties:
-+      x:
-+        type: int
-+        description: x-coordinate of the left-top of the plane in pixels
++Plane position and size
++=======================
++The initial position, size and z-position of the plane used in virtual DRM is
++specified in the device tree. The position and size of the planes are set as
++properties and can be updated. The name of each property is as
++follows:
++* vdrm_offset_x: x-coordinate of the left-top of the plane on the screen
++* vdrm_offset_y: y-coordinate of the left-top of the plane on the screen
++* vdrm_width: width of the plane
++* vdrm_height: height of the plane
 +
-+      y:
-+        type: int
-+        description: y-coordinate of the left-top of the plane in pixels
++Virtual DRM Functions Reference
++===============================
 +
-+      width:
-+        type: int
-+        description: width of the plane in pixels
++.. kernel-doc:: drivers/gpu/drm/vdrm/vdrm_api.h
++    :internal:
 +
-+      height:
-+        type: int
-+	description: height of the plane in pixels
++.. kernel-doc:: drivers/gpu/drm/vdrm/vdrm_drv.c
++    :export:
 +
-+      zpos:
-+        type: int
-+        description: z-position of the plane
++Driver limitations
++==================
++1. Each virtual DRM device only supports one plane per CRTC.
 +
-+    required:
-+      - x
-+      - y
-+      - width
-+      - height
-+      - zpos
++2. Virtual DRM doesn't support hot plug connector.
 +
-+required:
-+  - compatible
-+  - "^plane(@.*)?$"
-+
-+examples:
-+ - |
-+   vdrm@0 {
-+       compatible = "virt-drm";
-+       plane@0 {
-+           x = <200>;
-+	   y = <100>;
-+	   width = <800>;
-+	   height = <600>;
-+	   zpos = <1>;
-+       };
-+   };
++3. If virtual DRM has multiple CRTCs, the initial position and size of the
++   virtual DRM planes is the same for all planes, since they cannot be set
++   for each plane in the device tree.
 -- 
 2.25.1
 
