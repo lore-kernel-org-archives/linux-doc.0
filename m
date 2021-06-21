@@ -2,99 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98230C49361
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:12:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EADA5C49EA2
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:25:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E89B61059
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:12:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC2CD601FD
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Jun 2021 09:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhFUJO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 05:14:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbhFUJO5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 05:14:57 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58D4EC06175F;
-        Mon, 21 Jun 2021 02:12:43 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id n12so4898274pgs.13;
-        Mon, 21 Jun 2021 02:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vNahs62Fmfx/BFehZDtgJGwFkVF24WzuhgTfY7ZDHBM=;
-        b=AxxQmzgqY38wRE8BMMgQrfHQ8Z8niCLeBXhdpVzeQ9HgZlCnNTTJ/HZbmyRN3S+2uj
-         WzpxnjokByOx1OLKi2Nm6wk3u1atDMyrdeWXcu4WxQRAW2630tLc6PJC6xmt74/dC0XP
-         jecQhlFDlEgt3X4z8JVduYlVRNHikJkSOraSf0nRO9vbf83omv5YZwoR9+eGYc1DpwnK
-         o27sRhAxOz+JZaLRZn4a/+o3HOOQZ3Vr4vzM1/1O32p3fjAUyl9v8Y86JDe+fv46WAos
-         uQRNrZX2+1lduaA8k1PpN/zjRIuPS2fNE/OnWb86FVBQr6ly1s0hycB+Z39CqEFEDvia
-         4fxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vNahs62Fmfx/BFehZDtgJGwFkVF24WzuhgTfY7ZDHBM=;
-        b=FhIK1DcihmFsQzSnk4LEz5JDGqWc4M1WoNe0UalR81a0uZnjnbIQryYbQ2RIEB9Gps
-         aStg/iM9EuhGKT2/i76UMUeXlaYoBPnPBxRLrERdAsetWUh8Jujsco7tMPTf1SSjtEEB
-         tqqC1I0Wo+WO0KCcvSa+EnaI81oWnQczZKydfAUQSoX0XXKwhAleWFwS90dUIelotORs
-         FyGW2jh4zitcl/MqcB/0bzujojGKAhFYuS1JCRMxyC0GKFkd7Vqkt6QkNqGWV1bfvsxQ
-         uQLB/Bk4lH21VQhJ7PeKI+239cy3pH/GuYgFz0+RjMwtQEXyG0Y0sDhgECXauW1TijyU
-         KyLg==
-X-Gm-Message-State: AOAM530ctIPWCbe/APphMkHQIqPtN3HlxInmZkvPnPTw4BJAtU37/eAH
-        gtZuRAqhjBdsZJ4ymL62EW7S3feGqqtuGA==
-X-Google-Smtp-Source: ABdhPJySs0uYjwsomNdKtMjK07pIvmWmaGGZVRKqBy1Unvp5XR7gZNPq/3oyl0m7t54m0YVi1Pyesw==
-X-Received: by 2002:a63:1c0a:: with SMTP id c10mr22799984pgc.306.1624266762738;
-        Mon, 21 Jun 2021 02:12:42 -0700 (PDT)
-Received: from [172.28.99.179] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id v14sm16450326pgo.89.2021.06.21.02.12.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jun 2021 02:12:42 -0700 (PDT)
-Subject: Re: [PATCH] Doc: correct the url of linux-next.
-To:     Zhou Yuheng <zzjzxq33@yeah.net>, alexs@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <4b28d69.493.17a2934b77b.Coremail.zzjzxq33@yeah.net>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <8d838343-1bcd-15e3-7033-8fa4c2768125@gmail.com>
-Date:   Mon, 21 Jun 2021 17:12:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230296AbhFUJ1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 05:27:14 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39661 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230175AbhFUJ1N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 05:27:13 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 27B8E580729;
+        Mon, 21 Jun 2021 05:24:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 21 Jun 2021 05:24:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=QxyRCw56RmwfC4S1d/yB2NPnff0
+        BTF8jycj1UZFZOJo=; b=npjXHHvytKMSpcHy05FREqM6WoH2QfHaRWOwoh1gTJI
+        +P897+R0OniZWpBHMj9k+WJltAyyrpa6Yp+2/MP5r/bP+eNP+AQAPDprewP+3/yu
+        g/OgybLvwOM2yn4dIzUnzEkK024WlgwpkF3X+hY4Dtr5HEfOW7RMjRuZk/TsuXIw
+        u6ogHxxUOkDo3A4ahIHkKu0dcIgyZrM2YofZK0WRODW7D2tSVB9AF48kBU4NrXYc
+        Gp6xb8U5Hwe2PyQP8oSoDk05eDoRlgMczrr3igl2+Z+H1s0HdpImoRqXjtsCToLC
+        7MTKEtfQC/adkCZkT4+gv6z7RhSemxIkXI6d2gVF1jQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=QxyRCw
+        56RmwfC4S1d/yB2NPnff0BTF8jycj1UZFZOJo=; b=M48pTmlIx68Lnx1QR85eFG
+        Zwirpl1+Ql7Ue8l5TzNtlAxuTKvF8uZkgXPhUL6SYTaMXEMwzkzDs9j7sq7KG3Zz
+        hCcQ59ufyWliuzam7l3L2K/YTZ/8lYpfd7nydQuX837KZQC6T+MTLqGYUBE7YCWv
+        EYrEKMtrIVxw5LVLKAAXbpYPhEsNc8wD3YYxJ6Fcil1B1VvY6nL8FE4Dl0QSrSz/
+        CJ/kLly3Kz1PBo/LevXybi2yBr95P4B/979iVvexZDK9JOI9fD99GA6XAALqwjir
+        6LgKmK82gGRelYox0cvSCYVx6Vwi0L3HvgEdybLLs80K+jxRYB7Ib1Odr+ziOAeQ
+        ==
+X-ME-Sender: <xms:6FrQYN1fMBgyxnejtjwDiDUmGWoArg3IOR1Icv8LWs7JYFKeA9CrCQ>
+    <xme:6FrQYEF7axDha0Qwas79kvOP82YbN3QtP5OeZfm1ScKbMb2QkbR20kcHlWpS06hIk
+    YFUtyD9zbY-zyirE7I>
+X-ME-Received: <xmr:6FrQYN44zIPubjZytZ67_2R1ybQBDgBuDhjaXPhM04YsfnaFUtaBhGASZg7F77ASIy5p3OJrvXt78jIVwvU6GnnRrhoulqZAyHWx>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefledgudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:6FrQYK0Wl87_Xs__Vs_2d1BZLkXeyN8sKhgNI5CJu5zN4IjsshyEPg>
+    <xmx:6FrQYAHac96gY3gmP-yAvwfg3Lgeiw7AMJKGlxcj_2DSobH7ltxCJA>
+    <xmx:6FrQYL9UAyVtYBm1Hm3YnFUVGMOmLZr1p3JGgl4PrDQHAJUGHqQGzA>
+    <xmx:61rQYI_u-BujOaCITJgA5pOANeuHUhQNrNjwiEp81SBTaApWjb2Vnw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Jun 2021 05:24:56 -0400 (EDT)
+Date:   Mon, 21 Jun 2021 11:24:54 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Tomohito Esaki <etom@igel.co.jp>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devlel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210621092454.jvdmelk2h427jn5v@gilmour>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <4b28d69.493.17a2934b77b.Coremail.zzjzxq33@yeah.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xz4kqr3jldf7e74a"
+Content-Disposition: inline
+In-Reply-To: <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On 6/20/21 7:35 PM, Zhou Yuheng wrote:
-> There was a full angle query in the url of linux-next.
-> Signed-off-by: Zhou Yuheng <zzjzxq33@yeah.net>
-> ---
->  Documentation/translations/zh_CN/process/howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-> index ee3dee476..52c66461f 100644
-> --- a/Documentation/translations/zh_CN/process/howto.rst
-> +++ b/Documentation/translations/zh_CN/process/howto.rst
-> @@ -252,7 +252,7 @@ Linux-next 集成测试树
->  在将子系统树的更新合并到主线树之前，需要对它们进行集成测试。为此，存在一个
->  特殊的测试存储库，其中几乎每天都会提取所有子系统树：
->  
-> -        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
-> +        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
->  
->  通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
->  展望。非常欢冒险的测试者运行测试Linux-next。
-> 
+--xz4kqr3jldf7e74a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Jun 21, 2021 at 09:10:19AM +0200, Thomas Zimmermann wrote:
+> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
+> > Virtual DRM splits the overlay planes of a display controller into mult=
+iple
+> > virtual devices to allow each plane to be accessed by each process.
+> >=20
+> > This makes it possible to overlay images output from multiple processes=
+ on a
+> > display. For example, one process displays the camera image without com=
+positor
+> > while another process overlays the UI.
+>=20
+> I briefly looked over your patches. I didn't understand how this is
+> different to the functionality of a compositor? Shouldn't this be solved =
+in
+> userspace?
+
+I think there could be a bunch of use-cases for something that could
+"steal" a plane without the compositor knowing.
+
+Something I'd really like to work at some point for example is that the
+downstream RaspberryPi display driver has a visual clue when it's
+running too hot or is in over-current.
+
+I don't think this is the right solution though. The DT binding makes it
+far too static, and if there's a compositor I'd assume it would want to
+know about it somehow (at least if it's from the userspace) ?
+
+Maxime
+
+--xz4kqr3jldf7e74a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNBa5gAKCRDj7w1vZxhR
+xSSHAQDsK7MmbKj9NbX4esOTIjfHi+miWdtqwdA1VXPu7OAU+wEAsmJeTq9Unwha
+ZjKrYBAvq23DkfZ79MOPlRjn2sRbjA4=
+=pjsJ
+-----END PGP SIGNATURE-----
+
+--xz4kqr3jldf7e74a--
