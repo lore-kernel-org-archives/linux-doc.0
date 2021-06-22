@@ -2,181 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C29CC2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 11:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBEF5C2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 11:10:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1274D613B2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 11:06:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94ABF610C7
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 11:10:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhFVLJE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 07:09:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:47102 "EHLO foss.arm.com"
+        id S229682AbhFVLNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 07:13:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40116 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229769AbhFVLJE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Jun 2021 07:09:04 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 779A231B;
-        Tue, 22 Jun 2021 04:06:48 -0700 (PDT)
-Received: from [10.57.9.136] (unknown [10.57.9.136])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 880143F694;
-        Tue, 22 Jun 2021 04:06:46 -0700 (PDT)
-Subject: Re: [PATCH v2 12/12] iommu: Do not allow IOMMU passthrough with
- Secure Launch
-To:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     dpsmith@apertussolutions.com, luto@amacapital.net,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, tglx@linutronix.de,
-        trenchboot-devel@googlegroups.com
-References: <1624032777-7013-1-git-send-email-ross.philipson@oracle.com>
- <1624032777-7013-13-git-send-email-ross.philipson@oracle.com>
- <53edcf0e-c094-876c-ac3d-7c9752e9ea99@arm.com>
- <34d05f0e-b24c-b8cf-c521-8b30cc1df532@oracle.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8376f5ec-f228-0e82-a032-401f91b6aa3b@arm.com>
-Date:   Tue, 22 Jun 2021 12:06:39 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S229668AbhFVLND (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Jun 2021 07:13:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 127D561076;
+        Tue, 22 Jun 2021 11:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624360248;
+        bh=lqtyp4Cx8BPhhiC+aCM09V0C4tGXRAm837DZNpt2OJ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KgzLPLsxIOuVtQHlDR17vMyUPdcC12xCtUIm8CspHkucEl2g9RtOc/WA0x0LjBX5U
+         ROxBCI2MAhTjJs/ePvAcnlUrPPOjYXAXEp21q0Xd0dzrI7mrswW6gP5orF7bdEVuGz
+         PP3DpGsCCfmZXiI8aXvJur33iRUnVNbSZxfFAL3PQ6LA3aBbqPXruw87dLOzrGNb/U
+         1nc4pbAfhxQJybnHHTX76kC6nTfQJV7BB+vJGJjQ5Z9a1XadLl/XZWQQrjRd7rCloL
+         azVz4DNCF4YYfD6ORrWj/RjxgwH0F/93X8CtoSwpy8aXFohiLBqibYnA2p8UFYApLF
+         15UyZTdo5hkug==
+Date:   Tue, 22 Jun 2021 12:10:39 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] Kconfig: add
+ ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
+Message-ID: <20210622111039.GA30757@willie-the-truck>
+References: <20210621231822.2848305-1-ndesaulniers@google.com>
+ <20210621231822.2848305-4-ndesaulniers@google.com>
+ <20210622090540.GA67232@C02TD0UTHF1T.local>
 MIME-Version: 1.0
-In-Reply-To: <34d05f0e-b24c-b8cf-c521-8b30cc1df532@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622090540.GA67232@C02TD0UTHF1T.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-06-21 18:51, Ross Philipson wrote:
-> On 6/18/21 2:32 PM, Robin Murphy wrote:
->> On 2021-06-18 17:12, Ross Philipson wrote:
->>> The IOMMU should always be set to default translated type after
->>> the PMRs are disabled to protect the MLE from DMA.
->>>
->>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
->>> ---
->>>    drivers/iommu/intel/iommu.c | 5 +++++
->>>    drivers/iommu/iommu.c       | 6 +++++-
->>>    2 files changed, 10 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
->>> index be35284..4f0256d 100644
->>> --- a/drivers/iommu/intel/iommu.c
->>> +++ b/drivers/iommu/intel/iommu.c
->>> @@ -41,6 +41,7 @@
->>>    #include <linux/dma-direct.h>
->>>    #include <linux/crash_dump.h>
->>>    #include <linux/numa.h>
->>> +#include <linux/slaunch.h>
->>>    #include <asm/irq_remapping.h>
->>>    #include <asm/cacheflush.h>
->>>    #include <asm/iommu.h>
->>> @@ -2877,6 +2878,10 @@ static bool device_is_rmrr_locked(struct device
->>> *dev)
->>>     */
->>>    static int device_def_domain_type(struct device *dev)
->>>    {
->>> +    /* Do not allow identity domain when Secure Launch is configured */
->>> +    if (slaunch_get_flags() & SL_FLAG_ACTIVE)
->>> +        return IOMMU_DOMAIN_DMA;
->>
->> Is this specific to Intel? It seems like it could easily be done
->> commonly like the check for untrusted external devices.
+On Tue, Jun 22, 2021 at 10:05:40AM +0100, Mark Rutland wrote:
+> On Mon, Jun 21, 2021 at 04:18:22PM -0700, Nick Desaulniers wrote:
+> > We don't want compiler instrumentation to touch noinstr functions, which
+> > are annotated with the no_profile_instrument_function function
+> > attribute. Add a Kconfig test for this and make PGO and GCOV depend on
+> > it.
+> > 
+> > If an architecture is using noinstr, it should denote that via this
+> > Kconfig value. That makes Kconfigs that depend on noinstr able to
+> > express dependencies in an architecturally agnostic way.
+> > 
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
+> > Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
+> > Suggested-by: Nathan Chancellor <nathan@kernel.org>
+> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 > 
-> It is currently Intel only but that will change. I will look into what
-> you suggest.
-
-Yeah, it's simple and unobtrusive enough that I reckon it's worth going 
-straight to the common version if it's worth doing at all.
-
->>> +
->>>        if (dev_is_pci(dev)) {
->>>            struct pci_dev *pdev = to_pci_dev(dev);
->>>    diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->>> index 808ab70d..d49b7dd 100644
->>> --- a/drivers/iommu/iommu.c
->>> +++ b/drivers/iommu/iommu.c
->>> @@ -23,6 +23,7 @@
->>>    #include <linux/property.h>
->>>    #include <linux/fsl/mc.h>
->>>    #include <linux/module.h>
->>> +#include <linux/slaunch.h>
->>>    #include <trace/events/iommu.h>
->>>      static struct kset *iommu_group_kset;
->>> @@ -2761,7 +2762,10 @@ void iommu_set_default_passthrough(bool cmd_line)
->>>    {
->>>        if (cmd_line)
->>>            iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
->>> -    iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
->>> +
->>> +    /* Do not allow identity domain when Secure Launch is configured */
->>> +    if (!(slaunch_get_flags() & SL_FLAG_ACTIVE))
->>> +        iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
->>
->> Quietly ignoring the setting and possibly leaving iommu_def_domain_type
->> uninitialised (note that 0 is not actually a usable type) doesn't seem
->> great. AFAICS this probably warrants similar treatment to the
+> FWIW, this looks good to me:
 > 
-> Ok so I guess it would be better to set it to IOMMU_DOMAIN_DMA event
-> though passthrough was requested. Or perhaps something more is needed here?
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
 > 
->> mem_encrypt_active() case - there doesn't seem a great deal of value in
->> trying to save users from themselves if they care about measured boot
->> yet explicitly pass options which may compromise measured boot. If you
->> really want to go down that route there's at least the sysfs interface
->> you'd need to nobble as well, not to mention the various ways of
->> completely disabling IOMMUs...
-> 
-> Doing a secure launch with the kernel is not a general purpose user use
-> case. A lot of work is done to secure the environment. Allowing
-> passthrough mode would leave the secure launch kernel exposed to DMA. I
-> think what we are trying to do here is what we intend though there may
-> be a better way or perhaps it is incomplete as you suggest.
+> Catalin, Will, are you happy iwth the arm64 bit?
 
-On second thoughts this is overkill anyway - if you do hook 
-iommu_get_def_domain_type(), you're done (in terms of the kernel-managed 
-setting, at least); it doesn't matter what iommu_def_domain_type gets 
-set to if will never get used. However, since this isn't really a 
-per-device thing, it might be more semantically appropriate to leave 
-that alone and instead only massage the default type in 
-iommu_subsys_init(), as for memory encryption.
+Looks fine to me.
 
-When you say "secure the environment", what's the actual threat model 
-here, i.e. who's securing what against whom? If it's a device lockdown 
-type thing where the system owner wants to defend against the end user 
-trying to mess with the software stack or gain access to parts they 
-shouldn't, then possibly you can trust the command line, but there are 
-definitely other places which need consideration. If on the other hand 
-it's more about giving the end user confidence that their choice of 
-software stack isn't being interfered with by a malicious host or 
-external third parties, then it probably leans towards the opposite 
-being true...
-
-If the command line *is* within the threat model, consider "iommu=off" 
-and/or "intel_iommu=off" for example: I don't know how PMRs work, but I 
-can only imagine that that's liable to leave things either wide open, or 
-blocked to the point of no DMA working at all, neither of which seems to 
-be what you want. I'm guessing "intel_iommu=tboot_noforce" might have 
-some relevant implications too.
-
->> It might be reasonable to make IOMMU_DEFAULT_PASSTHROUGH depend on
->> !SECURE_LAUNCH for clarity though.
-> 
-> This came from a specific request to not make disabling IOMMU modes
-> build time dependent. This is because a secure launch enabled kernel can
-> also be booted as a general purpose kernel in cases where this is desired.
-
-Ah, thanks for clarifying - I was wondering about that aspect. FWIW, 
-note that that wouldn't actually change any functionality - it's a 
-non-default config option anyway, and users could still override it 
-either way in a non-secure-launch setup - but it sounds like it might be 
-effectively superfluous if you do need to make a more active runtime 
-decision anyway.
-
-Cheers,
-Robin.
+Will
