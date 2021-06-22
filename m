@@ -2,107 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F60C2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 20:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB2AC2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 22:25:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 099726128C
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 20:52:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8B2261026
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 22:25:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhFVUyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 16:54:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48774 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbhFVUyP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 16:54:15 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406ABC061574
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 13:51:59 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id d7so642282edx.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 13:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZY3YaHE10SpvWGlFOYAiGNFzyBoBoxG7r17DT+vqrXQ=;
-        b=Lkkzz8xgvR4WijuDgBCSmNfFcjiHP1ZaGCOPnAYe06FmobkuzmkXtqFUhxHgxT8y8a
-         s1e8UekMvWi4xMuXwtVNTsCjRDv+ZvIcJ/sAUbcjE4pCaFOmcM2dvYClmlB/fadIxAUP
-         ooLWq5/OVVj4Jl2ULqLpOazUlV7XgDMzD+j8w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZY3YaHE10SpvWGlFOYAiGNFzyBoBoxG7r17DT+vqrXQ=;
-        b=tIufTGWpJzlGvctkOjOyBQNRtKcoOYHqhzXliZNegeSOYh7CAbUNTt7DVEjMViYzu+
-         6TUuw5tfUzo77AW1AYh39kaEnz7qwJ6kn5QfGcOqqXURaWEX93NCfds1gPFukip+8vO4
-         QbrdYFOEo72Kd/sKT/3bOAOvyRBLDvw1LY45XQsdSWQcYRqD4cOFT6ghAtFcfQrTzWPu
-         PdW2IbNMqRV0IAfXAHYAN97dcM77x92MfciTh/PTWo4qZPTpFwV7yHXN8U3FzLwqzzbr
-         E+A2v1QDtuILA6nlkNTmas2DZu9TYqaljCgJHPxBbMsBTISK03eJAZfWD+KAHO8m9m+x
-         NoyQ==
-X-Gm-Message-State: AOAM531iLSBtP9ERtQz8D73GrkS9k7QMFKI0lRZpNC1/86yH3o8dKTcG
-        VrdJasro+VItZb1N99c4W4jKmw==
-X-Google-Smtp-Source: ABdhPJx9zQm41CmxJvLsDsSorsOThIixs2MfsXafuymEJPCWCUufv3lIBA9vynUopa82psJxXTYfFA==
-X-Received: by 2002:a05:6402:34c6:: with SMTP id w6mr7851532edc.174.1624395117905;
-        Tue, 22 Jun 2021 13:51:57 -0700 (PDT)
-Received: from [192.168.1.149] ([80.208.64.110])
-        by smtp.gmail.com with ESMTPSA id g16sm6356357ejh.92.2021.06.22.13.51.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 13:51:57 -0700 (PDT)
-Subject: Re: [PATCH v5 4/4] lib/test_printf.c: add test cases for '%pD'
-To:     Jia He <justin.he@arm.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com
-References: <20210622140634.2436-1-justin.he@arm.com>
- <20210622140634.2436-5-justin.he@arm.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <03f59e85-bba3-2e2c-ebaa-48daa93d6fec@rasmusvillemoes.dk>
-Date:   Tue, 22 Jun 2021 22:51:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229718AbhFVW1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 18:27:38 -0400
+Received: from foss.arm.com ([217.140.110.172]:56108 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229675AbhFVW1i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Jun 2021 18:27:38 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB477ED1;
+        Tue, 22 Jun 2021 15:25:21 -0700 (PDT)
+Received: from [10.57.9.136] (unknown [10.57.9.136])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 08D383F694;
+        Tue, 22 Jun 2021 15:25:19 -0700 (PDT)
+Subject: Re: [PATCH v14 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+To:     Lu Baolu <baolu.lu@linux.intel.com>,
+        John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linuxarm@huawei.com, thunder.leizhen@huawei.com,
+        chenxiang66@hisilicon.com, linux-doc@vger.kernel.org
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1624016058-189713-7-git-send-email-john.garry@huawei.com>
+ <c062ef9e-c106-4218-ba2a-c94fdcb6d955@linux.intel.com>
+ <60bdd7c3-d73e-c005-ddf7-069bc5065bce@huawei.com>
+ <855dd109-1449-7bc6-3d25-7ffeeeffa82a@linux.intel.com>
+ <fc52069d-46c5-5ca5-1b44-2fa7cf287d5a@huawei.com>
+ <2330bb52-1768-5122-9378-7923034c82bd@arm.com>
+ <5564e4b7-99af-c357-594a-1a6efe0c1464@linux.intel.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <cff9f6ef-0f51-797d-0853-5237f5c10555@arm.com>
+Date:   Tue, 22 Jun 2021 23:25:14 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210622140634.2436-5-justin.he@arm.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <5564e4b7-99af-c357-594a-1a6efe0c1464@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/06/2021 16.06, Jia He wrote:
-> After the behaviour of specifier '%pD' is changed to print the full path
-> of struct file, the related test cases are also updated.
+On 2021-06-21 15:32, Lu Baolu wrote:
+> Hi Robin,
 > 
-> Given the full path string of '%pD' is prepended from the end of the scratch
-> buffer, the check of "wrote beyond the nul-terminator" should be skipped
-> for '%pD'.
+> On 2021/6/21 19:59, Robin Murphy wrote:
+>> On 2021-06-21 11:34, John Garry wrote:
+>>> On 21/06/2021 11:00, Lu Baolu wrote:
+>>>>> void iommu_set_dma_strict(bool force)
+>>>>> {
+>>>>>           if (force == true)
+>>>>>          iommu_dma_strict = true;
+>>>>>      else if (!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>>>>          iommu_dma_strict = true;
+>>>>> }
+>>>>>
+>>>>> So we would use iommu_set_dma_strict(true) for a) and b), but 
+>>>>> iommu_set_dma_strict(false) for c).
+>>>>
+>>>> Yes. We need to distinguish the "must" and "nice-to-have" cases of
+>>>> setting strict mode.
+>>>>
+>>>>>
+>>>>> Then I am not sure what you want to do with the accompanying print 
+>>>>> for c). It was:
+>>>>> "IOMMU batching is disabled due to virtualization"
+>>>>>
+>>>>> And now is from this series:
+>>>>> "IOMMU batching disallowed due to virtualization"
+>>>>>
+>>>>> Using iommu_get_dma_strict(domain) is not appropriate here to know 
+>>>>> the current mode (so we know whether to print).
+>>>>>
+>>>>> Note that this change would mean that the current series would 
+>>>>> require non-trivial rework, which would be unfortunate so late in 
+>>>>> the cycle.
+>>>>
+>>>> This patch series looks good to me and I have added by reviewed-by.
+>>>> Probably we could make another patch series to improve it so that the
+>>>> kernel optimization should not override the user setting.
+>>>
+>>> On a personal level I would be happy with that approach, but I think 
+>>> it's better to not start changing things right away in a follow-up 
+>>> series.
+>>>
+>>> So how about we add this patch (which replaces 6/6 "iommu: Remove 
+>>> mode argument from iommu_set_dma_strict()")?
+>>>
+>>> Robin, any opinion?
+>>
+>> For me it boils down to whether there are any realistic workloads 
+>> where non-strict mode *would* still perform better under 
+>> virtualisation. The 
 > 
-> Parameterize the new using_scratch_space in __test, do_test to skip the
-> test case mentioned above,
+> At present, we see that strict mode has better performance in the
+> virtualization environment because it will make the shadow page table
+> management more efficient. When the hardware supports nested
+> translation, we may have to re-evaluate this since there's no need for
+> a shadowing page table anymore.
 
-I actually prefer the first suggestion of just having a file-global bool.
+I guess I was assuming that in most cases, proper nested mode could look 
+distinct enough that we'd be able to treat it differently in the first 
+place. For instance, if it's handing guest tables directly to the 
+hardware, would the host have any reason to still set the "caching mode" 
+ID bit?
 
-If and when we get other checks that need to be done selectively [e.g.
-"snprintf into a too short buffer produces a prefix of the full string",
-which also came up during this discussion but was ultimately kept]
-depending on the %<whatever> being exercised, we can add a "u32 nocheck"
-with a bunch of bits saying what to elide.
-
-Not insisting either way, just my $0.02.
-
-Rasmus
+Robin.
