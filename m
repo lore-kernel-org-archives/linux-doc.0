@@ -2,84 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52810C48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 415D1C2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:43:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CD4061374
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:41:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15CA5611BF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:43:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231972AbhFVOn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 10:43:58 -0400
-Received: from mga07.intel.com ([134.134.136.100]:21429 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231964AbhFVOn4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Jun 2021 10:43:56 -0400
-IronPort-SDR: 4q8jBg3OzPoi6SDV5nlefjbb7iIUucBBE3t1EVMsxeaHVMyYnbsmNexzz/R5C3UheK2MgICuPo
- WswDY/VSsROA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="270912498"
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="270912498"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 07:41:39 -0700
-IronPort-SDR: D0TgOxHz7vjeNIF82vRPSn4mBD8aa7i11oQRY+c3CiLeKlwJRI9SwkqpZI+twzK4Mjt8abRRdM
- REl5eNYH5Qrg==
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="406347546"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 07:41:33 -0700
-Received: from andy by smile with local (Exim 4.94.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lvhai-004Uof-Q5; Tue, 22 Jun 2021 17:41:28 +0300
-Date:   Tue, 22 Jun 2021 17:41:28 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jia He <justin.he@arm.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S231248AbhFVOpQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 10:45:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57199 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230433AbhFVOpQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 10:45:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624372980;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=YkIxsEDPLHnGfiq04+FCr+iD6zz/V2l/POGdMIk2Mts=;
+        b=XOjOKs0q8CYK06wB4JGTuJqbDc+XS2t6cNDBkk/fGqz5n3eNmNYGJLYR1fyG1229ReliEJ
+        uK9tNbZgegQ9ODOZGGtpQFcrntFVOqsFecrLFT9xOKcOjkAbEmOvh25Zl1XvOED/vP/UzO
+        9ytqTtqGXpgagiQi36u1GXy5dM9orsg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-KaPBVBFwPm2LsLUuDjrNBg-1; Tue, 22 Jun 2021 10:42:57 -0400
+X-MC-Unique: KaPBVBFwPm2LsLUuDjrNBg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 351C9100A45F;
+        Tue, 22 Jun 2021 14:42:55 +0000 (UTC)
+Received: from x1.bristot.me.homenet.telecomitalia.it (unknown [10.10.115.243])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A61035D9CA;
+        Tue, 22 Jun 2021 14:42:40 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com
-Subject: Re: [PATCH v5 4/4] lib/test_printf.c: add test cases for '%pD'
-Message-ID: <YNH2mDwgsd5r+1Xs@smile.fi.intel.com>
-References: <20210622140634.2436-1-justin.he@arm.com>
- <20210622140634.2436-5-justin.he@arm.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH V5 00/14] hwlat improvements and osnoise/timerlat tracers
+Date:   Tue, 22 Jun 2021 16:42:18 +0200
+Message-Id: <cover.1624372313.git.bristot@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210622140634.2436-5-justin.he@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 22, 2021 at 10:06:34PM +0800, Jia He wrote:
-> After the behaviour of specifier '%pD' is changed to print the full path
-> of struct file, the related test cases are also updated.
-> 
-> Given the full path string of '%pD' is prepended from the end of the scratch
-> buffer, the check of "wrote beyond the nul-terminator" should be skipped
-> for '%pD'.
-> 
-> Parameterize the new using_scratch_space in __test, do_test to skip the
+This series proposes a set of improvements and new features for the
+tracing subsystem to facilitate the debugging of low latency
+deployments.
 
-__test()
+Currently, hwlat runs on a single CPU at a time, migrating across a
+set of CPUs in a round-robin fashion. This series improves hwlat 
+to allow hwlat to run on multiple CPUs in parallel, increasing the
+chances of detecting a hardware latency, at the cost of using more
+CPU time.
 
-> test case mentioned above,
+It also proposes a new tracer named osnoise, that aims to help users
+of isolcpus= (or a similar method) to measure how much noise the OS
+and the hardware add to the isolated application. The osnoise tracer
+bases on the hwlat detector code. The difference is that, instead of
+sampling with interrupts disabled, the osnoise tracer samples the CPU with
+interrupts and preemption enabled. In this way, the sampling thread will
+suffer any source of noise from the OS. The detection and classification
+of the type of noise are then made by observing the entry points of NMIs,
+IRQs, SoftIRQs, and threads. If none of these sources of noise is detected,
+the tool associates the noise with the hardware. The tool periodically
+prints a status, printing the total noise of the period, the max single
+noise observed, the percentage of CPU available for the task, along with
+the counters of each source of the noise. To debug the sources of noise,
+the tracer also adds a set of tracepoints that print any NMI, IRQ, SofIRQ,
+and thread occurrence. These tracepoints print the starting time and the
+noise's net duration at the end of the noise. In this way, it reduces the
+number of tracepoints (one instead of two) and the need to manually
+accounting the contribution of each noise independently.
+
+Finaly, the timerlat tracer aims to help the preemptive kernel developers
+to find sources of wakeup latencies of real-time threads. The tracer
+creates a per-cpu kernel thread with real-time priority. The tracer thread
+sets a periodic timer to wakeup itself, and goes to sleep waiting for the
+timer to fire. At the wakeup, the thread then computes a wakeup latency
+value as the difference between the current time and the absolute time
+that the timer was set to expire. The tracer prints two lines at every
+activation. The first is the timer latency observed at the hardirq context
+before the activation of the thread. The second is the timer latency
+observed by the thread, which is the same level that cyclictest reports.
+The ACTIVATION ID field serves to relate the irq execution to its
+respective thread execution. The tracer is build on top of osnoise tracer,
+and the osnoise: events can be used to trace the source of interference
+from NMI, IRQs and other threads. It also enables the capture of the
+stacktrace at the IRQ context, which helps to identify the code path
+that can cause thread delay.
+
+Changes from v4:
+ - If tracing_threshold is set to 0, use 5 us as the osnoise
+   threshold - instead of the 1 us previously used. (Bristot)
+ - Fix references to stop_tracing_us/stop_tracing_total_us on
+   timerlat documentation (Bristot).
+ - Raname ULL_STR_SIZE to U64_STR_SIZE (Bristot)
+ - Make ULL_STR_SIZE 24 (Rostedt)
+ - Fix ifdefs on arch/x86/kernel/trace.c (Rostedt)
+ - Remove unneeded kernel/trace/trace_osnoise.h (Rostedt)
+ - Fix hotplug locking issues (Rostedt)
+ - Fix <spaces> on places of <tab> (Rostedt)
+
+Changes from v3:
+ - Remove /** from comments (Rostedt)
+ - Support hotplug operations (Rostedt)
+ - Change the name of ull_config to trace_min_max - and
+   improve patch description (Rostedt)
+ - Remove leftovers from older versions (Juri Lelli)
+ - Remove printk from main loop - use trace buffer instead
+   (Rostedt)
+ - Move the arch specific code to arch/*/kernel/trace.c (Rostedt)
+ - Improve timerlat documentation (Rostedt)
+ - Add () around params usage of "value" on __print_ns_to_secs(value)
+   (Rostedt)
+ - Rename osnoise/stop_tracing* files (Rostedt)
+ - Reduce the size of the per-cpu data to store stack tracers on
+   timerlat (Rostedt)
+ - Add osn_* prefix to structures (Rostedt)
+ - Fix stop tracing to work with trace instances (Rostedt)
+ - Changing osnoise/cpus restarts the threads accordingly (Rostedt)
+ - Lots of cosmetics/typos changes (Rostedt)
+
+Changes from v2:
+ - osnoise sample reports in nanoseconds (as all other osnoise tracepoints)
+   (Bristot)
+ - Remove divisions from osnoise main loop (Bristot)
+ - Make the tracers work well when starting via kernel-cmdline
+   (Red Hat's performance team need)
+ - Rename main/interrupt functions (Bristot)
+ - Fix timerlat reset (Juri Lelli)
+ - Fix timerlat start (Juri Lelli)
+
+Changes from v1:
+ - Remove `` from RST (Corbet)
+ - Add RST files to the index (Corbet)
+ - Fix text and typos (Rostedt)
+ - Remove the cpus from hwlat (Rostedt)
+ - Remove the disable_migrate/fallback to mode none on hwlat (Rostedt)
+ - Add a generic way to read/write u64 and use it on
+   hwlat/osnoise/timerlat (Rostedt)
+ - Make osnoise/timerlat to work properly with trace-cmd/tracer
+   instances (Rostedt)
+ - osnoise using the tracing_threshold (Rostedt)
+ - Rearrange tracepoint structure to avoid "holes" (Rostedt)
+
+Daniel Bristot de Oliveira (13):
+  trace/hwlat: Fix Clark's email
+  trace/hwlat: Implement the mode config option
+  trace/hwlat: Switch disable_migrate to mode none
+  trace/hwlat: Implement the per-cpu mode
+  trace: Add a generic function to read/write u64 values from tracefs
+  trace/hwlat: Use trace_min_max_param for width and window params
+  trace/hwlat: Remove printk from sampling loop
+  trace: Add osnoise tracer
+  trace: Add timerlat tracer
+  trace/hwlat: Protect kdata->kthread with get/put_online_cpus
+  trace: Protect tr->tracing_cpumask with get/put_online_cpus
+  trace/hwlat: Support hotplug operations
+  trace/osnoise: Support hotplug operations
+
+Steven Rostedt (1):
+  trace: Add __print_ns_to_secs() and __print_ns_without_secs() helpers
+
+ Documentation/trace/hwlat_detector.rst  |   13 +-
+ Documentation/trace/index.rst           |    2 +
+ Documentation/trace/osnoise-tracer.rst  |  152 ++
+ Documentation/trace/timerlat-tracer.rst |  181 ++
+ arch/x86/kernel/Makefile                |    1 +
+ arch/x86/kernel/trace.c                 |  236 +++
+ include/linux/ftrace_irq.h              |   13 +
+ include/trace/events/osnoise.h          |  142 ++
+ include/trace/trace_events.h            |   25 +
+ kernel/trace/Kconfig                    |   62 +
+ kernel/trace/Makefile                   |    1 +
+ kernel/trace/trace.c                    |   91 +
+ kernel/trace/trace.h                    |   29 +-
+ kernel/trace/trace_entries.h            |   41 +
+ kernel/trace/trace_hwlat.c              |  534 ++++--
+ kernel/trace/trace_osnoise.c            | 2051 +++++++++++++++++++++++
+ kernel/trace/trace_output.c             |  119 +-
+ 17 files changed, 3543 insertions(+), 150 deletions(-)
+ create mode 100644 Documentation/trace/osnoise-tracer.rst
+ create mode 100644 Documentation/trace/timerlat-tracer.rst
+ create mode 100644 arch/x86/kernel/trace.c
+ create mode 100644 include/trace/events/osnoise.h
+ create mode 100644 kernel/trace/trace_osnoise.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.31.1
 
