@@ -2,165 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACFDC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:17:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E322CC2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:37:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 763E661363
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:17:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD45A600D1
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbhFVEUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 00:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47064 "EHLO
+        id S229775AbhFVEjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 00:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbhFVET7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 00:19:59 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B198FC061760
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:17:43 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id t19-20020a17090ae513b029016f66a73701so949255pjy.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:17:43 -0700 (PDT)
+        with ESMTP id S229774AbhFVEjK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 00:39:10 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C4FC06175F
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:36:53 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id p13so15485988pfw.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JZM6Q8vJXHp7Mr1v3JiA0bDju7mUR1U5h794eAQV5aw=;
-        b=UIPqOBjy1eyoYO72vBZ6igOUbFKMBwnRVkLoQ6pVvLam5Nl79QNxK6nzpixJPNGvNY
-         3uw1tqkaLkGzEfG/t3E2jN9Sa5BBQSbtly4Yp9c90RDfOFPpgx2kTr3dhSO4BROEN9Pj
-         LV4XWmOdkkekB27C+bQ/HfSY+nHSB5mvAoaV+kU29/bvJnYv4QqC/ybjNKJrIuuC3uqG
-         /tMawnBWXdOZ0deoNLqEJx6i7Xxfkr5/S0zolacngmc684FZzBIIa5qLx52IIF9gmjuA
-         tENo/tzcDNMpMyh7xRFR4BZy2mVTYjXAXU4hHg2uRAHL3vHG0LLxaTZ7uzMgirlVfN/D
-         l/fg==
+        bh=x0OTjMJvAfeLoTPBJP6etPppl+ZEtis/BAKC/ypcfLY=;
+        b=hqIMgklIYCbPoWvruF1SrCXtAPkvGYkEupgh8pS1NnV5PeDpCRTcfzkzY9xGS0Vygu
+         K+tgvDXKNAHeFAfW1sBafjWfoMfDv6TsKe9K0H7A8HvPnRWmqCVs0onai8+9LB/6swDW
+         hbwl8fsX3/WkPm3C88BHOqOIJ6eKJS+cMadMtuy5JfKpPnuKSBpR2qQTtU8tRvrYoPPp
+         K5uZZwfYEqCat/yfVM1RZHSLOaMpokZVmq2BI1oBpzcFsbYFpFvwjUQytpUnW71QlCb/
+         n2Q4p8JfeUh5E6bG79LuVhinFhvpizZjkRbNJnzeJcj4Of9i/Lu7cN4kJMgBY8PzTi4x
+         ueJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=JZM6Q8vJXHp7Mr1v3JiA0bDju7mUR1U5h794eAQV5aw=;
-        b=D7RxkRX1A3efGxHcqthuw6j//CWMoV2frlzsJK74hO3zy47D+NQj3Z+Pe44EwUlI0i
-         Dm2F8llLt1ve9UgAc0Qc8CKc7YQYMWOjFIC5tPX1iMilnaO36KoRPG8XNhwpgLY7KwYr
-         VEPMgu8aFzQJjJJ6S9ZfT1TQlWbuCf0wGfAqdbQ1L9IMEc59DMOzjMZgxNLMkKi68t1k
-         77HZ1a+vYgqpKTEvGl9aqdXNDrh4nt09t8WbR3DV31RelgufLp4yEkgxX0AFrnjzprEI
-         aBq5qPMs0yAv+y2m9x3L0mIuxMoDQv9S17ot+9hWKwaRolo+5+wdpKejNKNdHGahk0lx
-         sqIQ==
-X-Gm-Message-State: AOAM5319jsnZH8A1A1UXf8zvIhUiYn3e6lfsfOCjujhnNInDToKJLV0O
-        jZAOeaftucQ2LDuZJYdwNhX+Eg==
-X-Google-Smtp-Source: ABdhPJx84ffi7OI821n8zjaouu0FzA1+OoHfQ1z9QSqm0sGmqVyWEP/1AWzlHUSwFLQayzu+7vys2A==
-X-Received: by 2002:a17:90a:4d86:: with SMTP id m6mr1645984pjh.44.1624335463047;
-        Mon, 21 Jun 2021 21:17:43 -0700 (PDT)
+        bh=x0OTjMJvAfeLoTPBJP6etPppl+ZEtis/BAKC/ypcfLY=;
+        b=Wiw7YqNMhe9M3ESEgIeLsizuTwoWbdvCL7Ci8xWEFlebBSofXTuTCi1Wu2tfbUZYYQ
+         VcRLWrS7ib5ENU+pvZMU/MefYHbXdBwa+JRa5J5Gb3arCaKj40d+hgkD6NYwX35lhdSL
+         E6xhEUpQX+eL48/UyB0SelLCaJLMr5/uYlf6btaGHJrY5O7DAtZep5pNUNwRYC6QVJns
+         Dvg1+cAWtcdLht8U/LeziH5M7H+goUlxcwNvT/MyHhr3WXnRmZrp4w6zssyX5XE/OLtg
+         zuLfUigQ71Knvxoy9vm50U221LCfQnwTMpQCFfGWO/ix7+l58rFXPKtGGzBEWdTUZnr8
+         SV+w==
+X-Gm-Message-State: AOAM530aHWafGQoxnCaGHFOUdpvf/WXLmj4maPQFjCdybGEOyKSoebtc
+        WDKqj+OmfQKkXbS6IGbuWtblkQ==
+X-Google-Smtp-Source: ABdhPJyVFgbiyVEtWiW2ogdgXBcuFbb6yQHmciWpvs/ERr+twW2fzx2afjd/q+TZIjHpTR95aay5eA==
+X-Received: by 2002:a62:7b0b:0:b029:301:40a6:9e64 with SMTP id w11-20020a627b0b0000b029030140a69e64mr1707873pfc.33.1624336613115;
+        Mon, 21 Jun 2021 21:36:53 -0700 (PDT)
 Received: from ?IPv6:240b:10:c9a0:ca00:5192:32ad:e5be:23cd? ([240b:10:c9a0:ca00:5192:32ad:e5be:23cd])
-        by smtp.gmail.com with ESMTPSA id u1sm18863425pgh.80.2021.06.21.21.17.39
+        by smtp.gmail.com with ESMTPSA id t13sm17084284pfh.97.2021.06.21.21.36.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jun 2021 21:17:42 -0700 (PDT)
-Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
+        Mon, 21 Jun 2021 21:36:52 -0700 (PDT)
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org,
         Damian Hobson-Garcia <dhobsong@igel.co.jp>,
         Takanari Hayama <taki@igel.co.jp>
-References: <20210621064403.26663-1-etom@igel.co.jp>
- <20210621064403.26663-4-etom@igel.co.jp>
- <1624297202.341994.1161630.nullmailer@robh.at.kernel.org>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+ <20210621092454.jvdmelk2h427jn5v@gilmour>
 From:   Esaki Tomohito <etom@igel.co.jp>
-Message-ID: <d722105a-44f6-1b9c-d91c-d140b926f7c5@igel.co.jp>
-Date:   Tue, 22 Jun 2021 13:17:38 +0900
+Message-ID: <cc08f858-7440-05f9-0d10-243f5115d209@igel.co.jp>
+Date:   Tue, 22 Jun 2021 13:36:48 +0900
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1624297202.341994.1161630.nullmailer@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210621092454.jvdmelk2h427jn5v@gilmour>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Rob
+Hi, Maxime
+Thank you for reply.
 
-Thank you for the error report and advice.
-I will recheck DT binding.
+On 2021/06/21 18:24, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Jun 21, 2021 at 09:10:19AM +0200, Thomas Zimmermann wrote:
+>> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
+>>> Virtual DRM splits the overlay planes of a display controller into multiple
+>>> virtual devices to allow each plane to be accessed by each process.
+>>>
+>>> This makes it possible to overlay images output from multiple processes on a
+>>> display. For example, one process displays the camera image without compositor
+>>> while another process overlays the UI.
+>>
+>> I briefly looked over your patches. I didn't understand how this is
+>> different to the functionality of a compositor? Shouldn't this be solved in
+>> userspace?
+> 
+> I think there could be a bunch of use-cases for something that could
+> "steal" a plane without the compositor knowing.
+> 
+> Something I'd really like to work at some point for example is that the
+> downstream RaspberryPi display driver has a visual clue when it's
+> running too hot or is in over-current.
+> 
+> I don't think this is the right solution though. The DT binding makes it
+> far too static, and if there's a compositor I'd assume it would want to
+> know about it somehow (at least if it's from the userspace) ?
+> 
 
-Best regards
+I will reconsider the DT bindings.
+
+We want to separate the resources from the master in units of planes,
+so we proposed virtual DRM.
+By separating the plane from the master and making it appear as
+a virtual DRM devicein userland, the plane can be accessed from
+userland using the general DRM API.
+What do you think about this idea?
+
+Best Regards
 Tomohito Esaki
-
-On 2021/06/22 2:40, Rob Herring wrote:
-> On Mon, 21 Jun 2021 15:44:02 +0900, Tomohito Esaki wrote:
->> Add device tree bindings documentation for virtual DRM.
->>
->> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
->> ---
->>  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
->>  1 file changed, 67 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
->>
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/display/vdrm.yaml:39:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
-> 
-> dtschema/dtc warnings/errors:
-> make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/vdrm.example.dts'
-> Traceback (most recent call last):
->   File "/usr/local/bin/dt-extract-example", line 45, in <module>
->     binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
->   File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
->     return constructor.get_single_data()
->   File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 120, in get_single_data
->     node = self.composer.get_single_node()
->   File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
->   File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
->   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
->   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
->   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
->   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
->   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
->   File "_ruamel_yaml.pyx", line 731, in _ruamel_yaml.CParser._compose_node
->   File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-> ruamel.yaml.scanner.ScannerError: while scanning a plain scalar
->   in "<unicode string>", line 38, column 15
-> found a tab character that violates indentation
->   in "<unicode string>", line 39, column 1
-> make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/display/vdrm.example.dts] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> ./Documentation/devicetree/bindings/display/vdrm.yaml:  while scanning a plain scalar
->   in "<unicode string>", line 38, column 15
-> found a tab character that violates indentation
->   in "<unicode string>", line 39, column 1
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/vdrm.yaml: ignoring, error parsing file
-> warning: no schema found in file: ./Documentation/devicetree/bindings/display/vdrm.yaml
-> make: *** [Makefile:1416: dt_binding_check] Error 2
-> \ndoc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/patch/1494913
-> 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
-> 
