@@ -2,392 +2,508 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189EFC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 12:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CEEC2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 13:40:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F37F060FF2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 12:39:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC8E360FDC
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 13:40:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231743AbhFVMlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 08:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbhFVMlG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 08:41:06 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53930C06121D
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 05:38:49 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1lvffW-0001dp-6e; Tue, 22 Jun 2021 14:38:18 +0200
-Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1lvffS-0002QN-PX; Tue, 22 Jun 2021 14:38:14 +0200
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v2 6/6] KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
-Date:   Tue, 22 Jun 2021 14:37:52 +0200
-Message-Id: <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1dfbb73645d917b3c76d01290804a3410bd9932e.1624364386.git-series.a.fatoum@pengutronix.de>
-References: <cover.1dfbb73645d917b3c76d01290804a3410bd9932e.1624364386.git-series.a.fatoum@pengutronix.de>
+        id S230397AbhFVNm2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 09:42:28 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55030 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229907AbhFVNm0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Jun 2021 09:42:26 -0400
+Received: from localhost.localdomain (unknown [112.20.109.145])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0Iy6NFghO4VAA--.3962S2;
+        Tue, 22 Jun 2021 21:40:03 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2] docs/zh_CN: add core api genericirq translation
+Date:   Tue, 22 Jun 2021 21:41:09 +0800
+Message-Id: <20210622134109.1872740-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-CM-TRANSID: AQAAf9Dxz0Iy6NFghO4VAA--.3962S2
+X-Coremail-Antispam: 1UD129KBjvAXoWfJw15JFWDKFy5CF4DZFW8WFg_yoW8Xr4xJo
+        WFyr1Ykw48CF45J34IqFsrWr15Ar4fCr4kG3Z3Kr12k345uay5Xw1DJr45ury3Zw45Za43
+        tw13X3yfuF1UZF4Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUYf7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+        x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
+        JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+        C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
+        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUjHGQDUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-built into many newer i.MX and QorIQ SoCs by NXP.
+translate Documentation/core-api/genericirq.rst into Chinese.
 
-The CAAM does crypto acceleration, hardware number generation and
-has a blob mechanism for encapsulation/decapsulation of sensitive material.
-
-This blob mechanism depends on a device specific random 256-bit One Time
-Programmable Master Key that is fused in each SoC at manufacturing
-time. This key is unreadable and can only be used by the CAAM for AES
-encryption/decryption of user data.
-
-This makes it a suitable backend (source) for kernel trusted keys.
-
-Previous commits generalized trusted keys to support multiple backends
-and added an API to access the CAAM blob mechanism. Based on these,
-provide the necessary glue to use the CAAM for trusted keys.
-
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
-To: Jonathan Corbet <corbet@lwn.net>
-To: David Howells <dhowells@redhat.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-To: James Bottomley <jejb@linux.ibm.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: "Horia Geantă" <horia.geanta@nxp.com>
-Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Udit Agarwal <udit.agarwal@nxp.com>
-Cc: Eric Biggers <ebiggers@kernel.org>
-Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-Cc: David Gstir <david@sigma-star.at>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>
-Cc: keyrings@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt   |  1 +-
- Documentation/security/keys/trusted-encrypted.rst | 42 ++++++++-
- include/keys/trusted_caam.h                       | 11 ++-
- security/keys/trusted-keys/Kconfig                | 11 +-
- security/keys/trusted-keys/Makefile               |  2 +-
- security/keys/trusted-keys/trusted_caam.c         | 74 ++++++++++++++++-
- security/keys/trusted-keys/trusted_core.c         |  6 +-
- 7 files changed, 143 insertions(+), 4 deletions(-)
- create mode 100644 include/keys/trusted_caam.h
- create mode 100644 security/keys/trusted-keys/trusted_caam.c
+v2:
+* Modified some words under Xiangcheng's advices;
+* add 校译者(proofreading) sign.If you don't want me to do this, please let me know.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f8bdc898c354..4a95369c2bc7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5639,6 +5639,7 @@
- 			sources:
- 			- "tpm"
- 			- "tee"
-+			- "caam"
- 			If not specified then it defaults to iterating through
- 			the trust source list starting with TPM and assigns the
- 			first trust source as a backend which is initialized
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 3fb5562ee937..3461746b1fbd 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -35,6 +35,13 @@ safe.
-          Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
-          fuses and is accessible to TEE only.
- 
-+     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
-+
-+         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
-+         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
-+         randomly generated and fused into each SoC at manufacturing time.
-+         Otherwise, a common fixed test key is used instead.
-+
-   *  Execution isolation
- 
-      (1) TPM
-@@ -46,6 +53,10 @@ safe.
-          Customizable set of operations running in isolated execution
-          environment verified via Secure/Trusted boot process.
- 
-+     (3) CAAM
-+
-+         Fixed set of operations running in isolated execution environment.
-+
-   * Optional binding to platform integrity state
- 
-      (1) TPM
-@@ -63,6 +74,11 @@ safe.
-          Relies on Secure/Trusted boot process for platform integrity. It can
-          be extended with TEE based measured boot process.
- 
-+     (3) CAAM
-+
-+         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
-+         for platform integrity.
-+
-   *  Interfaces and APIs
- 
-      (1) TPM
-@@ -74,10 +90,13 @@ safe.
-          TEEs have well-documented, standardized client interface and APIs. For
-          more details refer to ``Documentation/staging/tee.rst``.
- 
-+     (3) CAAM
-+
-+         Interface is specific to silicon vendor.
- 
-   *  Threat model
- 
--     The strength and appropriateness of a particular TPM or TEE for a given
-+     The strength and appropriateness of a particular trust source for a given
-      purpose must be assessed when using them to protect security-relevant data.
- 
- 
-@@ -104,8 +123,14 @@ selected trust source:
-      from platform specific hardware RNG or a software based Fortuna CSPRNG
-      which can be seeded via multiple entropy sources.
- 
-+  *  CAAM: Kernel RNG
-+
-+     The normal kernel random number generator is used. To seed it from the
-+     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
-+     can be probed.
-+
- Optionally, users may specify ``trusted.kernel_rng=1`` on the kernel
--command-line to override the used RNG with the kernel's random number pool.
-+command-line to force use of the kernel's random number pool.
- 
- Encrypted Keys
- --------------
-@@ -192,6 +217,19 @@ Usage::
- specific to TEE device implementation.  The key length for new keys is always
- in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
- 
-+Trusted Keys usage: CAAM
-+------------------------
-+
-+Usage::
-+
-+    keyctl add trusted name "new keylen" ring
-+    keyctl add trusted name "load hex_blob" ring
-+    keyctl print keyid
-+
-+"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
-+specific to CAAM device implementation.  The key length for new keys is always
-+in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-+
- Trusted Keys: import plain-text key for development
- ---------------------------------------------------
- 
-diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
+ .../zh_CN/core-api/genericirq.rst             | 409 ++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ 2 files changed, 410 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/genericirq.rst
+
+diff --git a/Documentation/translations/zh_CN/core-api/genericirq.rst b/Documentation/translations/zh_CN/core-api/genericirq.rst
 new file mode 100644
-index 000000000000..2fba0996b0b0
+index 000000000000..be0066cdbe38
 --- /dev/null
-+++ b/include/keys/trusted_caam.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
++++ b/Documentation/translations/zh_CN/core-api/genericirq.rst
+@@ -0,0 +1,409 @@
++.. include:: ../disclaimer-zh_CN.rst
 +
-+#ifndef __CAAM_TRUSTED_KEY_H
-+#define __CAAM_TRUSTED_KEY_H
++:Original: Documentation/core-api/genericirq.rst
 +
-+extern struct trusted_key_ops caam_trusted_key_ops;
++:翻译:
 +
-+#endif
-diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
-index 8bd69b252bf9..641bed8923ec 100644
---- a/security/keys/trusted-keys/Kconfig
-+++ b/security/keys/trusted-keys/Kconfig
-@@ -20,7 +20,16 @@ config TRUSTED_KEYS_TEE
- 	  Enable use of the Trusted Execution Environment (TEE) as trusted
- 	  key backend.
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++:校译:
++
++ 吴想成 Wu XiangCheng <bobwxc@email.cn>
++
++.. include:: <isonum.txt>
++
++.. _cn_core-api_genericirq:
++
++================
++Linux通用IRQ处理
++================
++
++:版权: |copy| 2005-2010: Thomas Gleixner
++:版权: |copy| 2005-2006:  Ingo Molnar
++
++简介
++====
++
++通用中断处理层是为了给设备驱动程序提供一个完整的中断处理抽象（层）。它能够处
++理所有不同类型的中断控制器硬件。设备驱动程序使用通用API函数来请求、启用、禁
++用和释放中断。驱动程序不需要知道任何关于硬件处理中断的细节，所以它们可以在不同的
++平台上使用而不需要修改代码。
++
++本文档提供给那些希望在通用IRQ处理层的帮助下实现基于其架构的中断子系统的开发
++者。
++
++理论依据
++========
++
++Linux中中断处理的原始实现使用__do_IRQ()超级处理程序，它能够处理每种类型的
++中断逻辑。
++
++最初，Russell King确定了不同类型的处理程序，以便为Linux 2.5/2.6中的ARM中
++断处理程序实现建立一个相当通用的集合。他区分了以下几种类型:
++
++-  电平触发型
++
++-  边沿触发型
++
++-  简单型
++
++在实现过程中，我们发现了另一种类型:
++
++-  响应EOI（end of interrupt）型
++
++在SMP的__do_IRQ()超级处理程序中，还需定义一种类型：
++
++-  每cpu型（针对CPU SMP）
++
++这种高层IRQ处理程序的拆分实现使我们能够为每个特定的中断类型优化中断处理的流
++程。这减少了该特定代码路径的复杂性，并允许对特定类型进行优化处理。
++
++最初的通用IRQ实现使用hw_interrupt_type结构体及其 ``->ack`` ``->end`` 等回
++调来区分超级处理程序中的流控制。这导致了流逻辑和低级硬件逻辑的混合，也导致了
++不必要的代码重复：例如i386中的 ``ioapic_level_irq`` 和 ``ioapic_edge_irq`` ，
++这两个IRQ类型共享许多低级的细节，但有不同的流处理。
++
++一个更自然的抽象是“irq流”和“芯片细节”的干净分离。
++
++分析一些架构的IRQ子系统的实现可以发现，他们中的大多数可以使用一套通用的“irq
++流”方法，只需要添加芯片级的特定代码。这种分离对于那些需要IRQ流本身而不需要芯
++片细节的特定（子）架构也很有价值——以提供了一个更透明的IRQ子系统设计。
++
++每个中断描述符都被分配给它自己的高层流程处理程序，这通常是一个通用的实现。(这
++种高层次的流程处理程序的实现也使得提供解复用处理程序变得简单，这可以在各种架
++构的嵌入式平台上找到。)
++
++这种分离使得通用中断处理层更加灵活和可扩展。例如，一个（子）架构可以使用通用
++的IRQ流实现“电平触发型”中断，并添加一个（子）架构特定的“边沿型”实现。
++
++为了使向新模型的过渡更容易，并防止破坏现有实现，__do_IRQ()超级处理程序仍然
++可用。这导致了一种暂时的双重性。随着时间的推移，新的模型应该在越来越多的架构中
++被使用，因为它能使IRQ子系统更小更干净。它已经被废弃三年了，即将被删除。
++
++已知的缺陷和假设
++================
++
++没有（但愿如此）。
++
++抽象层
++======
++
++中断代码中主要有三个抽象层次:
++
++1. 高级别的驱动API
++
++2. 高级别的IRQ流处理器
++
++3. 芯片级的硬件封装
++
++中断控制流
++----------
++
++每个中断都由一个中断描述符结构体irq_desc来描述。中断是由一个“无符号整型”的数值来
++引用的，它在描述符结构体数组中选择相应的中断描述符结构体。描述符结构体包含状态
++信息和指向中断流方法和中断芯片结构的指针，这些都是分配给这个中断的。
++
++每当中断触发时，低级架构代码通过调用desc->handle_irq()调用到通用中断代码中。
++这个高层IRQ处理函数只使用由分配的芯片描述符结构体引用的desc->irq_data.chip
++基元。
++
++高级驱动程序API
++---------------
++
++高层驱动API由以下函数组成:
++
++-  request_irq()
++
++-  request_threaded_irq()
++
++-  free_irq()
++
++-  disable_irq()
++
++-  enable_irq()
++
++-  disable_irq_nosync() (SMP only)
++
++-  synchronize_irq() (SMP only)
++
++-  irq_set_irq_type()
++
++-  irq_set_irq_wake()
++
++-  irq_set_handler_data()
++
++-  irq_set_chip()
++
++-  irq_set_chip_data()
++
++详见自动生成的函数文档。
++
++.. note::
++
++    由于文档构建流程所限，中文文档中并没有引入自动生成的函数文档，所以请读者直接
++    阅读源码注释。
++
++电平触发型IRQ流处理程序
++-----------------------
++
++通用层提供了一套预定义的irq-flow方法:
++
++-  handle_level_irq()
++
++-  handle_edge_irq()
++
++-  handle_fasteoi_irq()
++
++-  handle_simple_irq()
++
++-  handle_percpu_irq()
++
++-  handle_edge_eoi_irq()
++
++-  handle_bad_irq()
++
++中断流处理程序（无论是预定义的还是架构特定的）由架构在启动期间或设备初始化期间分配给
++特定中断。
++
++默认流实现
++~~~~~~~~~~
++
++辅助函数
++^^^^^^^^
++
++辅助函数调用芯片基元，并被默认流实现所使用。以下是实现的辅助函数（简化摘录）::
++
++    default_enable(struct irq_data *data)
++    {
++        desc->irq_data.chip->irq_unmask(data);
++    }
++
++    default_disable(struct irq_data *data)
++    {
++        if (!delay_disable(data))
++            desc->irq_data.chip->irq_mask(data);
++    }
++
++    default_ack(struct irq_data *data)
++    {
++        chip->irq_ack(data);
++    }
++
++    default_mask_ack(struct irq_data *data)
++    {
++        if (chip->irq_mask_ack) {
++            chip->irq_mask_ack(data);
++        } else {
++            chip->irq_mask(data);
++            chip->irq_ack(data);
++        }
++    }
++
++    noop(struct irq_data *data))
++    {
++    }
++
++
++
++默认流处理程序的实现
++~~~~~~~~~~~~~~~~~~~~
++
++电平触发型IRQ流处理器
++^^^^^^^^^^^^^^^^^^^^^
++
++handle_level_irq为电平触发型的中断提供了一个通用实现。
++
++实现的控制流如下（简化摘录）::
++
++    desc->irq_data.chip->irq_mask_ack();
++    handle_irq_event(desc->action);
++    desc->irq_data.chip->irq_unmask();
++
++
++默认的需回应IRQ流处理器
++^^^^^^^^^^^^^^^^^^^^^^^
++
++handle_fasteoi_irq为中断提供了一个通用的实现，它只需要在处理程序的末端有一个EOI。
++
++实现的控制流如下（简化摘录）::
++
++    handle_irq_event(desc->action);
++    desc->irq_data.chip->irq_eoi();
++
++
++默认的边沿触发型IRQ流处理器
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++handle_edge_irq为边沿触发型的中断提供了一个通用的实现。
++
++实现的控制流如下（简化摘录）::
++
++    if (desc->status & running) {
++        desc->irq_data.chip->irq_mask_ack();
++        desc->status |= pending | masked;
++        return;
++    }
++    desc->irq_data.chip->irq_ack();
++    desc->status |= running;
++    do {
++        if (desc->status & masked)
++            desc->irq_data.chip->irq_unmask();
++        desc->status &= ~pending;
++        handle_irq_event(desc->action);
++    } while (status & pending);
++    desc->status &= ~running;
++
++
++默认的简单型IRQ流处理器
++^^^^^^^^^^^^^^^^^^^^^^^
++
++handle_simple_irq提供了一个简单型中断的通用实现。
++
++.. note::
++
++   简单型的流处理程序不调用任何处理程序/芯片基元。
++
++实现的控制流程如下（简化摘录）::
++
++    handle_irq_event(desc->action);
++
++
++默认的每CPU型流处理程序
++^^^^^^^^^^^^^^^^^^^^^^^
++
++handle_percpu_irq为每CPU型中断提供一个通用的实现。
++
++每个CPU中断只在SMP上可用，该处理程序提供了一个没有锁的简化版本。
++
++以下是控制流的实现（简化摘录）::
++
++    if (desc->irq_data.chip->irq_ack)
++        desc->irq_data.chip->irq_ack();
++    handle_irq_event(desc->action);
++    if (desc->irq_data.chip->irq_eoi)
++        desc->irq_data.chip->irq_eoi();
++
++
++EOI边沿型IRQ流处理器
++^^^^^^^^^^^^^^^^^^^^
++
++handle_edge_eoi_irq提供了一个异常的边沿触发型处理程序，它只用于拯救powerpc/cell
++上的一个严重失控的irq控制器。
++
++坏的IRQ流处理器
++^^^^^^^^^^^^^^^
++
++handle_bad_irq用于处理没有真正分配处理程序的假中断。
++
++特殊性和优化
++~~~~~~~~~~~~
++
++通用函数是为“干净”的架构和芯片设计的，它们没有平台特定的IRQ处理特殊性。如果一
++个架构需要在“流”的层面上实现特殊性，那么它可以通过覆盖高层的IRQ-流处理程序来实
++现。
++
++延迟中断禁用
++~~~~~~~~~~~~
++
++每个中断可选择的功能是由Russell King在ARM中断实现中引入的，当调用disable_irq()
++时，不会在硬件层面上屏蔽中断。中断保持启用状态，而在中断事件发生时在流处理器中被
++屏蔽。这可以防止在硬件上丢失边沿中断，因为硬件上不存储边沿中断事件，而中断在硬件
++级被禁用。当一个中断在IRQ_DISABLED标志被设置时到达，那么该中断在硬件层面被屏蔽，
++IRQ_PENDING位被设置。当中断被enable_irq()重新启用时，将检查挂起位，如果它被设置，
++中断将通过硬件或软件重发机制重新发送。(当你想使用延迟中断禁用功能，而你的硬件又不
++能重新触发中断时，有必要启用CONFIG_HARDIRQS_SW_RESEND。) 延迟中断禁止功能是不可
++配置的。
++
++芯片级硬件封装
++--------------
++
++芯片级硬件描述符结构体 :c:type:`irq_chip` 包含了所有与芯片直接相关的功能，这些功
++能可以被irq流实现所利用。
++
++-  ``irq_ack``
++
++-  ``irq_mask_ack`` - 可选的，建议使用的性能
++
++-  ``irq_mask``
++
++-  ``irq_unmask``
++
++-  ``irq_eoi`` - 可选的，EOI流处理程序需要
++
++-  ``irq_retrigger`` - 可选的
++
++-  ``irq_set_type`` - 可选的
++
++-  ``irq_set_wake`` - 可选的
++
++这些基元的意思是严格意义上的：ack是指ACK，masking是指对IRQ线的屏蔽，等等。这取决
++于流处理器如何使用这些基本的低级功能单元。
++
++__do_IRQ入口点
++==============
++
++最初的实现__do_IRQ()是所有类型中断的替代入口点。它已经不存在了。
++
++这个处理程序被证明不适合所有的中断硬件，因此被重新实现了边沿/级别/简单/超高速中断
++的拆分功能。这不仅是一个功能优化。它也缩短了中断的代码路径。
++
++在SMP上的锁
++===========
++
++芯片寄存器的锁定是由定义芯片基元的架构决定的。每个寄存器的结构通过desc->lock，由
++通用层保护。
++
++通用中断芯片
++============
++
++为了避免复制相同的IRQ芯片实现，核心提供了一个可配置的通用中断芯片实现。开发者在自
++己实现相同的功能之前，应该仔细检查通用芯片是否符合他们的需求，并以稍微不同的方式实
++现相同的功能。
++
++该API在以下内核代码中:
++
++kernel/irq/generic-chip.c
++
++结构体
++======
++
++本章包含自动生成的结构体文档，这些结构体在通用IRQ层中使用。
++
++该API在以下内核代码中:
++
++include/linux/irq.h
++
++include/linux/interrupt.h
++
++提供的通用函数
++==============
++
++这一章包含了自动生成的内核API函数的文档，这些函数被导出。
++
++该API在以下内核代码中:
++
++kernel/irq/manage.c
++
++kernel/irq/chip.c
++
++提供的内部函数
++==============
++
++本章包含自动生成的内部函数的文档。
++
++该API在以下内核代码中:
++
++kernel/irq/irqdesc.c
++
++kernel/irq/handle.c
++
++kernel/irq/chip.c
++
++鸣谢
++====
++
++感谢以下人士对本文档作出的贡献：
++
++1. Thomas Gleixner tglx@linutronix.de
++
++2. Ingo Molnar mingo@elte.hu
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index b4bde9396339..71a212a2a9db 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -80,13 +80,13 @@ Todolist:
+    :maxdepth: 1
  
--if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
-+config TRUSTED_KEYS_CAAM
-+	bool "CAAM-based trusted keys"
-+	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
-+	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
-+	default y
-+	help
-+	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
-+	  (CAAM) as trusted key backend.
-+
-+if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
- comment "No trust source selected!"
- endif
+    cachetlb
++   genericirq
  
-diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-index 96fc6c377398..5788bc07a2ab 100644
---- a/security/keys/trusted-keys/Makefile
-+++ b/security/keys/trusted-keys/Makefile
-@@ -14,3 +14,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) += tpm2key.asn1.o
- trusted-$(CONFIG_TRUSTED_KEYS_TEE) += trusted_tee.o
+ Todolist:
  
- trusted-$(CONFIG_TEE) += trusted_tee.o
-+
-+trusted-$(CONFIG_TRUSTED_KEYS_CAAM) += trusted_caam.o
-diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-new file mode 100644
-index 000000000000..01adfd18adda
---- /dev/null
-+++ b/security/keys/trusted-keys/trusted_caam.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
-+
-+#include <keys/trusted_caam.h>
-+#include <keys/trusted-type.h>
-+#include <linux/build_bug.h>
-+#include <linux/key-type.h>
-+#include <soc/fsl/caam-blob.h>
-+
-+static struct caam_blob_priv *blobifier;
-+
-+#define KEYMOD "kernel:trusted"
-+
-+static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
-+static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-+
-+static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-+	int ret;
-+
-+	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
-+	if (ret)
-+		return ret;
-+
-+	p->blob_len = length;
-+	return 0;
-+}
-+
-+static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->blob_len;
-+	int ret;
-+
-+	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
-+	if (ret)
-+		return ret;
-+
-+	p->key_len = length - CAAM_BLOB_OVERHEAD;
-+	return 0;
-+}
-+
-+static int trusted_caam_init(void)
-+{
-+	int ret;
-+
-+	blobifier = caam_blob_gen_init();
-+	if (IS_ERR(blobifier)) {
-+		pr_err("Job Ring Device allocation for transform failed\n");
-+		return PTR_ERR(blobifier);
-+	}
-+
-+	ret = register_key_type(&key_type_trusted);
-+	if (ret)
-+		caam_blob_gen_exit(blobifier);
-+
-+	return ret;
-+}
-+
-+static void trusted_caam_exit(void)
-+{
-+	unregister_key_type(&key_type_trusted);
-+	caam_blob_gen_exit(blobifier);
-+}
-+
-+struct trusted_key_ops caam_trusted_key_ops = {
-+	.migratable = 0, /* non-migratable */
-+	.init = trusted_caam_init,
-+	.seal = trusted_caam_seal,
-+	.unseal = trusted_caam_unseal,
-+	.exit = trusted_caam_exit,
-+};
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index 8d829e6866ca..21997a5debde 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -9,6 +9,7 @@
- #include <keys/user-type.h>
- #include <keys/trusted-type.h>
- #include <keys/trusted_tee.h>
-+#include <keys/trusted_caam.h>
- #include <keys/trusted_tpm.h>
- #include <linux/capability.h>
- #include <linux/err.h>
-@@ -29,7 +30,7 @@ MODULE_PARM_DESC(kernel_rng, "Generate key material from kernel RNG");
  
- static char *trusted_key_source;
- module_param_named(source, trusted_key_source, charp, 0);
--MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-+MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
+    cpu_hotplug
+    memory-hotplug
+-   genericirq
+    protection-keys
  
- static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TRUSTED_KEYS_TPM)
-@@ -38,6 +39,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TRUSTED_KEYS_TEE)
- 	{ "tee", &trusted_key_tee_ops },
- #endif
-+#if defined(CONFIG_TRUSTED_KEYS_CAAM)
-+	{ "caam", &caam_trusted_key_ops },
-+#endif
- };
  
- DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
 -- 
-git-series 0.9.1
+2.27.0
+
