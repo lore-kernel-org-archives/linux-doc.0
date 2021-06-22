@@ -2,331 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1934CC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 09:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4226AC48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 09:25:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03CFB611BF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 09:17:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 294506044F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 09:25:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbhFVJTx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 05:19:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58184 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbhFVJTx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 05:19:53 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F78C061574;
-        Tue, 22 Jun 2021 02:17:36 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id k16so19062693ios.10;
-        Tue, 22 Jun 2021 02:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JfGGm3A0osvaWjVUXnJuD0zVkoSqPf/CdaQhYVovLJw=;
-        b=s8wiHnrhnNsy03Nqc2tTrf60sXuAsJZd3ZIaaLyl+jgT+EYZpodabGnTr51ZzLJ+5Q
-         1APqi13xjPWrgQVmmVDGBKwJGrHJ4XQMIsbSQAmK9X5aZgUoFrfSg/tZh3aVD2lTUXh1
-         Pf6nV4CuxjAPHGZRrVi4BmxRCGOJrHAbpPGH0tWFScmURuJ9Fhy+rGw1wANKGv39pGcE
-         5IbSz+uVJgjka8/7iISwUvApVKFTyTb2XUncshzihBAMG1KtF9vUAkgcTgeQlvpKje9Q
-         2hFfpAxaXTbpOY6V/+SwzReMTRhsI/0uIm5L6BtiEu8hbKUe7/5zX9lC9K8C81serfu7
-         KQvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JfGGm3A0osvaWjVUXnJuD0zVkoSqPf/CdaQhYVovLJw=;
-        b=AYY5F7qe8dDSDOxyz6WnJ6pfbWviLyaP69ewEC9wRFMwGxEEN6cS/R4nfVaoDSXO2a
-         xAg8T280XDQs8jMYtAHNk2HTLVpggGzSnbpmfoHJEAGl35U34b3OCavN1PFrTh8m6dxS
-         pfj6CAP5FZwT+IVi3ShWlR0F9rGWuQHJN3u93ayHlUaeAyVUZMjQ7IwP/r0KC1b9CfxO
-         6TqVHlTvs0EZdYUuBDG+w8t+NGVLvrOyGGFGvMPaWDhGYUjsyDmkLXJ5aZSUVDxqPINT
-         wps73JG1vB4ZK+Q+Ycaw5lBlTeSGg1Iq5kFRWkCn162Y+jqhtq75s/aJGGQ7jiQchewv
-         ub3g==
-X-Gm-Message-State: AOAM53192jWGdrEDpQQf78gNCBKdWeFXcc73bMW0AWEup78iNEkV0ixy
-        YZtFFBQpP4kqp+c9ttm5fBAbjMorcb9Nwf2k96E=
-X-Google-Smtp-Source: ABdhPJwRMEwBjH5ZAnx1/AgqocIGBntSPbCgNJufPKMqFt7zTV26W1WP3IL4RJhu+nx2CZyEV+vO3/Q3YxewaTG1YhM=
-X-Received: by 2002:a6b:c707:: with SMTP id x7mr620726iof.160.1624353456226;
- Tue, 22 Jun 2021 02:17:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210622090025.39313-1-ainux.wang@gmail.com>
-In-Reply-To: <20210622090025.39313-1-ainux.wang@gmail.com>
-From:   Ainux Wang <ainux.wang@gmail.com>
-Date:   Tue, 22 Jun 2021 17:16:58 +0800
-Message-ID: <CAPWE4_wxqOS0VsW9gkh+w9vTyYjzH-q5_Vw=S6hQHQYwVs2YbA@mail.gmail.com>
-Subject: Re: [PATCH v4] hwmon: (pmbus) Add support for MPS MP2949A
-To:     jdelvare@suse.com, Guenter Roeck <linux@roeck-us.net>,
+        id S229674AbhFVJ15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 05:27:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55128 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229490AbhFVJ15 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Jun 2021 05:27:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E7FB76128E;
+        Tue, 22 Jun 2021 09:25:36 +0000 (UTC)
+Date:   Tue, 22 Jun 2021 10:25:34 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Bill Wendling <morbo@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ainux Wang <ainux.wang@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        teng sterling <sterlingteng@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
+        Fangrui Song <maskray@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        linux-toolchains@vger.kernel.org, Marco Elver <elver@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>
+Subject: Re: [PATCH 2/2] Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for
+ GCOV and PGO
+Message-ID: <20210622092533.GB3555@arm.com>
+References: <20210618233023.1360185-1-ndesaulniers@google.com>
+ <20210618233023.1360185-3-ndesaulniers@google.com>
+ <CANpmjNNK-iYXucjz7Degh1kJPF_Z_=8+2vNLtUW17x0UnfgtPg@mail.gmail.com>
+ <CAKwvOdmxGt6nAj+dDZEPdQtXNbYb8N6y3XwoCvCD+Qazskh7zw@mail.gmail.com>
+ <CAGG=3QXeAxaf0AhKsg8P1-j2uHOoXne2KCOCEhq9SKa-e2dnag@mail.gmail.com>
+ <CAKwvOd=9oAGPeuQmWnAMOxZn2ii_CRmyWnheoyXGcd09-U_CwA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=9oAGPeuQmWnAMOxZn2ii_CRmyWnheoyXGcd09-U_CwA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Guenter and others,
-    This is right subject, [PATCH v4] hwmon: (pmbus) Add support for
-MPS MP2949A.
-Best regards,
-Ainux Wang.
+On Mon, Jun 21, 2021 at 01:43:54PM -0700, Nick Desaulniers wrote:
+> On Mon, Jun 21, 2021 at 11:50 AM Bill Wendling <morbo@google.com> wrote:
+> > On Mon, Jun 21, 2021 at 11:22 AM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > > On Fri, Jun 18, 2021 at 11:23 PM Marco Elver <elver@google.com> wrote:
+> > > > On Sat, 19 Jun 2021 at 01:30, Nick Desaulniers <ndesaulniers@google.com> wrote:
+> > > > > We don't want compiler instrumentation to touch noinstr functions, which
+> > > > > are annotated with the no_profile function attribute. Add a Kconfig test
+> > > > > for this and make PGO and GCOV depend on it.
+> > > > >
+> > > > > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > > > > Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > > > > Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
+> > > > > Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
+> > > > > Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> > > > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > > > > ---
+> > > > >  init/Kconfig        | 3 +++
+> > > > >  kernel/gcov/Kconfig | 1 +
+> > > > >  kernel/pgo/Kconfig  | 3 ++-
+> > > > >  3 files changed, 6 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/init/Kconfig b/init/Kconfig
+> > > > > index 1ea12c64e4c9..540f862b40c6 100644
+> > > > > --- a/init/Kconfig
+> > > > > +++ b/init/Kconfig
+> > > > > @@ -83,6 +83,9 @@ config TOOLS_SUPPORT_RELR
+> > > > >  config CC_HAS_ASM_INLINE
+> > > > >         def_bool $(success,echo 'void foo(void) { asm inline (""); }' | $(CC) -x c - -c -o /dev/null)
+> > > > >
+> > > > > +config CC_HAS_NO_PROFILE_FN_ATTR
+> > > > > +       def_bool $(success,echo '__attribute__((no_profile)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
+> > > > > +
+> > > > >  config CONSTRUCTORS
+> > > > >         bool
+> > > > >
+> > > > > diff --git a/kernel/gcov/Kconfig b/kernel/gcov/Kconfig
+> > > > > index 58f87a3092f3..19facd4289cd 100644
+> > > > > --- a/kernel/gcov/Kconfig
+> > > > > +++ b/kernel/gcov/Kconfig
+> > > > > @@ -5,6 +5,7 @@ config GCOV_KERNEL
+> > > > >         bool "Enable gcov-based kernel profiling"
+> > > > >         depends on DEBUG_FS
+> > > > >         depends on !CC_IS_CLANG || CLANG_VERSION >= 110000
+> > > > > +       depends on !X86 || (X86 && CC_HAS_NO_PROFILE_FN_ATTR)
+> > > >
+> > > > [+Cc Mark]
+> > > >
+> > > > arm64 is also starting to rely on noinstr working properly.
+> > >
+> > > Sure,
+> > > Will, Catalin, other arm64 folks:
+> > > Any thoughts on requiring GCC 7.1+/Clang 13.0+ for GCOV support?  That
+> > > way we can better guarantee that GCOV (and eventually, PGO) don't
+> > > touch noinstr functions?
+> > >
+> > > If that's ok, I'll add modify the above like:
+> > >
+> > > + depends on !ARM64 || (ARM64 && CC_HAS_NO_PROFILE_FN_ATTR)
+> >
+> > Wouldn't "!ARM64 || CC_HAS_NO_PROFILE_FN_ATTR" be more succinct?
+> 
+> We need to be able to express via Kconfig "GCOV should not be enabled
+> for architectures that use noinstr when the toolchain does not support
+> __attribute__((no_profile_instrument_function))."
+> 
+> Where "architectures that use noinstr" are currently arm64, s390, and
+> x86.  So I guess we could do:
+> 
+> + depends on !ARM64 || !S390 || !X86 || CC_HAS_NO_PROFILE_FN_ATTR
 
-On Tue, 22 Jun 2021 at 17:00, <ainux.wang@gmail.com> wrote:
->
-> From: "Ainux.Wang" <ainux.wang@gmail.com>
->
-> Add support for MP2949A device from Monolithic Power Systems, Inc. (MPS).
-> This is a triple-loop, digital, multi-phase controller.
-> This device:
-> - Supports up to three power rail.
-> - Provides 6 pulse-width modulations (PWMs), and can be configured up
->   to 6-phase operation for Rail A , up to 2-phase operation for Rail B
->   and up to 1-phase operation for Rail C.
-> - The PMBus registers are distributed into three pages: Page 0, Page 1,
->   Page 2. Page 0 contains the registers for Rail A and most of the common
->   settings for all of the rails. Page 1 contains register information for
->   Rail B. Page 2 contains register information for Rail C.
-> - The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
->   IMVP9.
->
-> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
->
-> v4:
-> - Removed mp2949a_read_byte_data().
-> - Added space before and after '-' and fixed a bug that is '~' on line 35.
->
-> v3:
-> - Added change log here.
-> - Errors in the document have been modified.
-> - Fixed PMBUS_VOUT_MODE to MP2949A_MFR_VR_CONFIG.
-> - Removed unnecessary vout_params and empty line.
->
-> v2:
-> - Reference has been added to Documentation/hwmon/index.rst.
-> - Droped 'vendor'.
-> - Removed change codes of the PMBus core and added mp2949a_identify()
->   and mp2949a_read_byte_data() to this driver.
->
-> v1:
-> - Add support for MPS MP2949A.
-> ---
->  Documentation/hwmon/index.rst   |   1 +
->  Documentation/hwmon/mp2949a.rst |  44 ++++++++++++++
->  drivers/hwmon/pmbus/Kconfig     |   9 +++
->  drivers/hwmon/pmbus/Makefile    |   1 +
->  drivers/hwmon/pmbus/mp2949a.c   | 102 ++++++++++++++++++++++++++++++++
->  5 files changed, 157 insertions(+)
->  create mode 100644 Documentation/hwmon/mp2949a.rst
->  create mode 100644 drivers/hwmon/pmbus/mp2949a.c
->
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 9ed60fa84cbe..56aac3b1678d 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -137,6 +137,7 @@ Hardware Monitoring Kernel Drivers
->     mcp3021
->     menf21bmc
->     mlxreg-fan
-> +   mp2949a
->     mp2975
->     nct6683
->     nct6775
-> diff --git a/Documentation/hwmon/mp2949a.rst b/Documentation/hwmon/mp2949a.rst
-> new file mode 100644
-> index 000000000000..0235dec70f63
-> --- /dev/null
-> +++ b/Documentation/hwmon/mp2949a.rst
-> @@ -0,0 +1,44 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver mp2949a
-> +====================
-> +
-> +Supported chips:
-> +
-> +  * MPS MP2949A
-> +
-> +    Prefix: 'mp2949a'
-> +
-> +Author:
-> +
-> +       Ainux Wang <ainux.wang@gmail.com>
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
-> +triple-loop, digital, multi-phase controller MP2949A.
-> +
-> +This device:
-> +
-> +- Supports up to three power rail.
-> +- Provides 6 pulse-width modulations (PWMs), and can be configured for
-> +  to 6-phase operation for Rail A , up to 2-phase operation for Rail B,
-> +  and up to 1-phase operation for Rail C.
-> +- The PMBus registers are distributed into three pages: Page 0, Page 1,
-> +  Page 2. Page 0 contains the registers for Rail A and most of the common
-> +  settings for all of the rails. Page 1 contains register information for
-> +  Rail B. Page 2 contains register information for Rail C.
-> +- The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
-> +  IMVP9.
-> +
-> +Device supports:
-> +
-> +- SVID interface.
-> +- PMBus rev 1.2 interface.
-> +
-> +Device supports direct format for reading output power.
-> +Device supports linear format for reading input voltage, output current,
-> +and temperature.
-> +Device supports VID for reading output voltage.
-> +The below VID modes are supported: VR12, VR13, IMVP8, IMVP9.
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 37a5c39784fa..b1344b265976 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -248,6 +248,15 @@ config SENSORS_MAX8688
->           This driver can also be built as a module. If so, the module will
->           be called max8688.
->
-> +config SENSORS_MP2949A
-> +       tristate "MPS MP2949A"
-> +       help
-> +         If you say yes here you get hardware monitoring support for MPS
-> +         MP2949A Triple Loop Digital Multi-Phase Controller.
-> +
-> +         This driver can also be built as a module. If so, the module will
-> +         be called mp2949a.
-> +
->  config SENSORS_MP2975
->         tristate "MPS MP2975"
->         help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index f8dcc27cd56a..bfb55ab12da1 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_SENSORS_MAX20751)        += max20751.o
->  obj-$(CONFIG_SENSORS_MAX31785) += max31785.o
->  obj-$(CONFIG_SENSORS_MAX34440) += max34440.o
->  obj-$(CONFIG_SENSORS_MAX8688)  += max8688.o
-> +obj-$(CONFIG_SENSORS_MP2949A)  += mp2949a.o
->  obj-$(CONFIG_SENSORS_MP2975)   += mp2975.o
->  obj-$(CONFIG_SENSORS_PM6764TR) += pm6764tr.o
->  obj-$(CONFIG_SENSORS_PXE1610)  += pxe1610.o
-> diff --git a/drivers/hwmon/pmbus/mp2949a.c b/drivers/hwmon/pmbus/mp2949a.c
-> new file mode 100644
-> index 000000000000..d1f36c008e58
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/mp2949a.c
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for Monolithic Power Systems MP2949A
-> + *
-> + * Copyright (c) 2021 Lemote Technologies. All rights reserved.
-> + * Copyright (c) 2021 Ainux <ainux.wang@gmail.com>
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include "pmbus.h"
-> +
-> +#define MP2949A_PAGE_NUM               3
-> +
-> +#define MP2949A_MFR_VR_CONFIG  0xE4
-> +
-> +static int mp2949a_identify(struct i2c_client *client,
-> +                           struct pmbus_driver_info *info)
-> +{
-> +       int i, ret;
-> +
-> +       for (i = 0; i < MP2949A_PAGE_NUM; i++) {
-> +               ret = pmbus_read_byte_data(client, i, MP2949A_MFR_VR_CONFIG);
-> +               if (ret < 0)
-> +                       return ret;
-> +
-> +               /*
-> +                * Rail A bit 5, Rail B bit 4, Rail C bit 3.
-> +                * 1'b1: 5mV  (vr12/imvp8)
-> +                * 1'b0: 10mv (imvp9)
-> +                */
-> +               info->vrm_version[i] = (ret & BIT(5 - i)) ? vr12 : imvp9;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static struct pmbus_driver_info mp2949a_info = {
-> +       .pages = MP2949A_PAGE_NUM,
-> +       .format[PSC_VOLTAGE_IN] = linear,
-> +       .format[PSC_VOLTAGE_OUT] = vid,
-> +       .format[PSC_CURRENT_OUT] = linear,
-> +       .format[PSC_TEMPERATURE] = linear,
-> +       .format[PSC_POWER] = direct,
-> +       .m[PSC_POWER] = 1,
-> +       .b[PSC_POWER] = 0,
-> +       .R[PSC_POWER] = 0,
-> +       .func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> +               PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +               PMBUS_HAVE_TEMP | PMBUS_HAVE_POUT,
-> +       .func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> +               PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +               PMBUS_HAVE_POUT,
-> +       .func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> +               PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +               PMBUS_HAVE_POUT,
-> +       .identify = mp2949a_identify,
-> +};
-> +
-> +static int mp2949a_probe(struct i2c_client *client,
-> +                         const struct i2c_device_id *id)
-> +{
-> +       struct pmbus_driver_info *info;
-> +
-> +       info = devm_kmemdup(&client->dev, &mp2949a_info, sizeof(*info),
-> +                           GFP_KERNEL);
-> +       if (!info)
-> +               return -ENOMEM;
-> +
-> +       return pmbus_do_probe(client, info);
-> +}
-> +
-> +static const struct i2c_device_id mp2949a_id[] = {
-> +       {"mp2949a", 0},
-> +       {}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, mp2949a_id);
-> +
-> +static const struct of_device_id mp2949a_of_match[] = {
-> +       {.compatible = "mps,mp2949a"},
-> +       {}
-> +};
-> +MODULE_DEVICE_TABLE(of, mp2949a_of_match);
-> +
-> +static struct i2c_driver mp2949a_driver = {
-> +       .driver = {
-> +               .name = "mp2949a",
-> +               .of_match_table = of_match_ptr(mp2949a_of_match),
-> +       },
-> +       .probe = mp2949a_probe,
-> +       .id_table = mp2949a_id,
-> +};
-> +
-> +module_i2c_driver(mp2949a_driver);
-> +
-> +MODULE_AUTHOR("Ainux <ainux.wang@gmail.com>");
-> +MODULE_DESCRIPTION("PMBus driver for Monolithic Power Systems MP2949A");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.18.1
->
+I think you want:
+
+  depends on !(ARM64 || S390 || X86) || CC_HAS_NO_PROFILE_FN_ATTR
+
+> (We could add a Kconfig for ARCH_WANTS_NO_INSTR, which might be more
+> informative than listed out architectures which might be non-obvious
+> to passers-by).
+
+That would probably look better.
+
+-- 
+Catalin
