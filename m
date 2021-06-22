@@ -2,122 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C16C2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 03:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C28CC2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:03:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D5C361002
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 03:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 265796128C
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 04:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231147AbhFVDXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 23:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
+        id S229452AbhFVEFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 00:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230118AbhFVDXx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 23:23:53 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B9CC061574;
-        Mon, 21 Jun 2021 20:21:37 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id j12so620235qtv.11;
-        Mon, 21 Jun 2021 20:21:36 -0700 (PDT)
+        with ESMTP id S229490AbhFVEFV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 00:05:21 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 795B3C061760
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:03:05 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id w31so15996956pga.6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jun 2021 21:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tg/j861/b54HVSOeClLT8QfFckb9TmiVSdubGvNwtSU=;
-        b=ORSfYcN8IwFmo9qTvMX0yuoION5QXuA82EV0y7lz2XatYKNee5Ri/dLT93GaApKIg7
-         gSUSw05+KUpFtGUu0rLkzrpXeQa45tZDlIZYbeDUd99ZrkRpq3yIn5vH6iHnPaXtiqjC
-         2AxJh2fmF6epsjtdxA3WZvPiCEZeDtD/SIBwxhJrsBbYbOQjof/iLI1+X1qCTcBjAdCl
-         WAd9bQ7HqxYRUuQKcpdVaxcdrlzxm4HXSj1Eibel7cGvbENtHMSnM5fDBXQloOlYpz3q
-         Rj6cxh/QdEM89xg8vRszWSoCuKLloRXrLWJrOiML8a4mjniL2mI+scx1WiHWkdbRziPQ
-         lEVg==
+        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LCU0yJ9k9lkuiH4BXOzJ8l7LNMuqUv70T9bND/kl8Tc=;
+        b=2IRIENBoxAqdiYLU9/rOfm8louoM9XJGUrNr4bDU2GLRrypkgatHI8hkFkeTbyRLbG
+         GT8Nb16qpHMXS+sHckMEspeY/jRj+8I0oJ+xQDQY5gwUOxmGciFsHz3INa2KoN5DLghx
+         887kkP0AQGfaUA7l3YlEg0I4iq//vGSCtuiTAZpnAOyBu3j7nNkuE0F3ZHhE1m/ZRszu
+         YsdAHz3Cv5q0n9L2hHkLVzqTOCsD3GXOzpOyjxV34rQc12+D55Tva5Rpcj3R7b7qcXn5
+         Y1pc9qLwY7Lt6RKJIVyCzGTtxHovj1ReEzkFjNi5lnJ9NA39zpgHg7q+s9topcsVBFe9
+         rOjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tg/j861/b54HVSOeClLT8QfFckb9TmiVSdubGvNwtSU=;
-        b=eUUdLIctOpn1gDDj1wUXel1SdpUftmzjIzxTzu+hYAYlg2S1Y4YTfJaxaClccW87RQ
-         l00EfzPycXMO2Mr0CSuv3fytQBqnymzECg7NmSZrChw2FFAHJ6kd4LPwMM9IcytT5D5T
-         Ygl+XkRJMqo3aCmnN7g0hCM6Fv/O8fzwmSVHETrQRYmtgAgrDtAfWHIRSIh0kfE066yH
-         YsRQ3kd+W7x2NQokOyFpRskYez9bppMzSxnoLYaf9XLCFC9+Shf/8YUap0p0LS1bbeaJ
-         9BhbS+HycnBxhBV3swP9KEs29B2Fit96BJgnqf32ewjYR1l0OizapgPztdohk0NOZoZL
-         yQ1Q==
-X-Gm-Message-State: AOAM530VXf5VOF7hkUExzhf5pdTF35BlCXdBG3z1hlhxfMK90U17PWVm
-        amy8RbfdhSjU52ng1yakNQ==
-X-Google-Smtp-Source: ABdhPJwulfis05xxcZtcUkeFIlRp7hYtaS+/X+LDIPdtaCiZP0jTKb2VehoBHn+N+oXpzvJvM2nXjQ==
-X-Received: by 2002:a05:622a:c1:: with SMTP id p1mr1649816qtw.231.1624332096237;
-        Mon, 21 Jun 2021 20:21:36 -0700 (PDT)
-Received: from localhost.localdomain ([209.94.140.245])
-        by smtp.gmail.com with ESMTPSA id o15sm791308qtw.5.2021.06.21.20.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 20:21:35 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <jroedel@suse.de>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Zefang Han <hanzefang@gmail.com>,
-        Wei Lin Chang <r09922117@csie.ntu.edu.tw>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [PATCH] docs: x86: Remove obsolete information about x86_64 vmalloc() faulting
-Date:   Mon, 21 Jun 2021 23:19:10 -0400
-Message-Id: <20210622031910.141262-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=LCU0yJ9k9lkuiH4BXOzJ8l7LNMuqUv70T9bND/kl8Tc=;
+        b=Z86qzOkRXGtOJmkaYzUhMSXRs0LuLlnrOBesWyaeSV/GXorlL8toJbp8j/9FyR0e5w
+         juBHU9l4/Bnho9O2WdCe5duzjmwun/3pvRL2CcRIHNYS1sm29cdPbMCENC7fHXVT1cMt
+         I/Gb05mCy6ZA7AdRtwI7yh4gOxY0zHZCWYpz3qKl+INhGFn+/MOpHP247LW7f6rbGLV8
+         Z7mjP+JaZMxevJ8gPUe1F05cs/Pdz9r8f4L6jabfqUWm8KWbtWIIlOXQce2HOtzOtZho
+         +khGdqCSUdVsyeATMKPLCy8olrUcfStUhAqKH5Cy4QItDWD/88RttxdZNa+ufegAAIqE
+         Dlng==
+X-Gm-Message-State: AOAM5339jq/tnSgD1HflBq/tYb5tH+kK66/hiwVj/AIq7Ru1fM53z2A3
+        LGGatbtyN++P4xIsgxavbbg/Sg==
+X-Google-Smtp-Source: ABdhPJyKj/BVU5tSTB/YxCiCQydfHrVE81rBbCx40oGNuZ57J9fDCnwKUCuoM0Jyxaso51VahEdMJw==
+X-Received: by 2002:a05:6a00:1515:b029:2f1:d29:2a44 with SMTP id q21-20020a056a001515b02902f10d292a44mr1605587pfu.51.1624334584489;
+        Mon, 21 Jun 2021 21:03:04 -0700 (PDT)
+Received: from ?IPv6:240b:10:c9a0:ca00:5192:32ad:e5be:23cd? ([240b:10:c9a0:ca00:5192:32ad:e5be:23cd])
+        by smtp.gmail.com with ESMTPSA id x20sm16719962pfh.112.2021.06.21.21.03.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jun 2021 21:03:03 -0700 (PDT)
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+From:   Esaki Tomohito <etom@igel.co.jp>
+Message-ID: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+Date:   Tue, 22 Jun 2021 13:02:59 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-x86_64 vmalloc() mappings are no longer "lazily synchronized" among page
-tables via page fault handling since commit 7f0a002b5a21 ("x86/mm: remove
-vmalloc faulting").  Subsequently, commit 6eb82f994026 ("x86/mm:
-Pre-allocate P4D/PUD pages for vmalloc area") rendered it unnecessary to
-synchronize, whether lazily or not, x86_64 vmalloc() mappings at runtime,
-since the corresponding P4D or PUD pages are now preallocated during
-system initialization by preallocate_vmalloc_pages().  Drop the "lazily
-synchronized" description for less confusion.
+Hi, Thomas
+Thank you for reply.
 
-It is worth noting, however, that there is still a slight complication for
-x86_32; see commit 4819e15f740e ("x86/mm/32: Bring back vmalloc faulting
-on x86_32") for details.
+On 2021/06/21 16:10, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
+>> Virtual DRM splits the overlay planes of a display controller into
+>> multiple
+>> virtual devices to allow each plane to be accessed by each process.
+>>
+>> This makes it possible to overlay images output from multiple
+>> processes on a
+>> display. For example, one process displays the camera image without
+>> compositor
+>> while another process overlays the UI.
+> 
+> I briefly looked over your patches. I didn't understand how this is
+> different to the functionality of a compositor? Shouldn't this be solved
+> in userspace?
 
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-Hi all,
+I think when latency is important (e.g., AR, VR, for displaying camera
+images in IVI systems), there may be use cases where the compositor
+cannot be used.
+Normally, when the image is passed through the compositor, it is
+displayed after 2 VSYNC at most, because the compositor combines the
+image with VSYNC synchronization. On the other hand, if we use vDRM, the
+image will be displayed at the next VSYNC, so it will be displayed after
+1 VSYNC at most.
 
-I was trying to understand vmalloc() when I saw this "lazily synchronized"
-statement, which confused me for a while.  Please correct me if my
-understanding is wrong or out of date.
+Also, since the compositor is a single point of failure, we may not want
+to make it dependent on it.
 
-Thank you,
-Peilin Ye
-
- Documentation/x86/x86_64/mm.rst | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
-index ede1875719fb..9798676bb0bf 100644
---- a/Documentation/x86/x86_64/mm.rst
-+++ b/Documentation/x86/x86_64/mm.rst
-@@ -140,10 +140,6 @@ The direct mapping covers all memory in the system up to the highest
- memory address (this means in some cases it can also include PCI memory
- holes).
- 
--vmalloc space is lazily synchronized into the different PML4/PML5 pages of
--the processes using the page fault handler, with init_top_pgt as
--reference.
--
- We map EFI runtime services in the 'efi_pgd' PGD in a 64Gb large virtual
- memory window (this size is arbitrary, it can be raised later if needed).
- The mappings are not part of any other kernel PGD and are only available
--- 
-2.25.1
-
+Best regards
+Tomohito Esaki
