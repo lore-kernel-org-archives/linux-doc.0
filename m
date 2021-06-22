@@ -2,155 +2,200 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A32C49EA2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 08:09:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3752C48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 08:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38B9F60FE9
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 08:09:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD71361356
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 08:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbhFVILl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 04:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
+        id S230013AbhFVIPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 04:15:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhFVILl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 04:11:41 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D425AC06175F
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 01:09:24 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id v22-20020a0568301416b029044e2d8e855eso11218944otp.8
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 01:09:24 -0700 (PDT)
+        with ESMTP id S229954AbhFVIO7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 04:14:59 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315C3C061574;
+        Tue, 22 Jun 2021 01:12:44 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id d25so820675lji.7;
+        Tue, 22 Jun 2021 01:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+KIhMHmG9xEoplSTe5YdDdzfi1paJ8XARniBwjTg03k=;
-        b=Ym455ybyRuVNtnqTpdt7P8X+q69idT6SEJDlahlRmKJV8J1gpOx0evM0YjyJjusrTf
-         a8cXrmGrAxJi7wlgusfO0uVUo/9QC971ql1DFoeOSzqCDZzmmHzsiKbu8s3eDfoCSt6G
-         P2swb91IEChiat4UVcQfZ6vzmOk8Glck115Ho3zoNfvpzah8z5QZpvwHE39XDIyAgBuv
-         5gKW3tUs6lXErSCW6dacjs/ovleLewk67xUMAYNuTPq0/GqpoqUPtJ4oQBzqKf+sfFss
-         /PtP6vNZC9LNRq6pivnr+kGJzasgfAfQuYKy+cVS8XlVMpWthsCQBcaV6ll+O2N9Akmy
-         ksdg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=l80hFXzIVguJ2ISI6NvoXUY8Ngy0ZHuL8PmMh8jl6og=;
+        b=FAtsu82bSvKCc9BzPjAKU6upCOD8/CotbXoiLjuYIBWWv7A66ZjxWqsLPWkJZMsz8Z
+         tuLi8xFXyaLrld8RhiaxbpIRqZhMpuh6M3i3W1g0BnR4AbFA58fl9YPXk9Vfv9jhus2Y
+         o78sz7GI0GEybcqwBgio8xnaEHmwdK3MMJmgddNu9fisMg8hKYkRCeXwXSg0tIL+gCrz
+         CqbMUSH2+klJDWY5myaySJTErd5/8TmLiLwrUcIo3mVXQPzjBEixYFRdRa9KkQoJQ7+0
+         fGz4bBWBeDYnA6cFszLlG1nt2zIOHYzcokCOHQXHTgNC1tBiYZZYFm7NOZNFvIcgNp76
+         pcYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+KIhMHmG9xEoplSTe5YdDdzfi1paJ8XARniBwjTg03k=;
-        b=mR+zLrQaLS4KPdiWr66lNBYtDiNYaLCWxC5YAlgkH4A6lnV2fNn0NqdHQflikHtDlo
-         XBKo4cAKb0y7E7l93ya5f+HOIyDJxNmXFRPZqWNklsM/80Wpd7YgmP39XVc5WQ/mxHrm
-         bLOYOLImPDJb7KgZbyhIScW2h2ddeCmGsiMqxlnJV0hxjmQ80Pz2EBbqXWG4k5W4suVD
-         YMg+zap9SuWGTBwWQlL9SYnkQrnBl/5nwIvZM0iImTlS3x0OG2IxrpTc90wkbDBQqDVC
-         /Zm3l44DWXA1gXNMF2IMjfiqw+PG7vebVTw0i+e0glUCqL0ZI1sbW1TG/GIor4J8Lb8r
-         LMZg==
-X-Gm-Message-State: AOAM531DAFxq5ziLTVP0hkXT+JyjENsykddjdThM6jvxzfFYj0h1zBKW
-        JVYDFeWNbxb+SDq7Roowpo1iDKKHLVyNBE0EJswimw==
-X-Google-Smtp-Source: ABdhPJxgFSBmdcbDb55PtEoRgnwSIeaz86uH0dDuE3fvOVYXbp9t15kLoyQklb8X4sv2BZbnmGZBqSmyIw3TqpcW5Eg=
-X-Received: by 2002:a05:6830:1bcb:: with SMTP id v11mr2131100ota.251.1624349363988;
- Tue, 22 Jun 2021 01:09:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=l80hFXzIVguJ2ISI6NvoXUY8Ngy0ZHuL8PmMh8jl6og=;
+        b=l4OZ3qvMWCiMvGrKOJ4DDH1X2ciuqqtk+3tPJK1Y7JKZweVD3NL3BvFdOZgpVLyZM4
+         jRJDV/qbVx6hgwHjigm3SlYwl4+nbwJSkZmMr6wNJ1tknd/O0otuAHP21w2pMsavGorT
+         Z59rGGyjQPfuOi2qYq4++DJ8ZavG3O86qNrMC9F2iqNCLR0FBTFRuVbSU73ggR1gX+DJ
+         nbI6yG0PCQGu+7qHgydbMuWMzdh7HjCPEC1yhM2KnopMPExBjperkG9/XknNJ5MlWe34
+         rSNge3fFCzaSaluStXTGYpum4WW+bNzz0aG5DIsOyhhCagjHMFkKdqxzFEnj9vMpz1bC
+         kBpA==
+X-Gm-Message-State: AOAM531L7GsqhTCLRIdfmD1j75pVHOoi6dg5S+uS+ejo90LPrlBgnR9+
+        ywqrLwX5QZtoeRF6Cv/GwFg=
+X-Google-Smtp-Source: ABdhPJzTEya+DK/dLqz4GNf60M0oDM35gbd62pS5Hcq3OiM3+lZjB0AsJ69A5UWRga08aSjmBP+YAw==
+X-Received: by 2002:a2e:b548:: with SMTP id a8mr2178007ljn.346.1624349562553;
+        Tue, 22 Jun 2021 01:12:42 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id q6sm2127899lfj.88.2021.06.22.01.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 01:12:42 -0700 (PDT)
+Date:   Tue, 22 Jun 2021 11:12:39 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Esaki Tomohito <etom@igel.co.jp>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210622111239.73aa87aa@eldfell>
+In-Reply-To: <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+        <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+        <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210621231822.2848305-1-ndesaulniers@google.com>
- <20210621231822.2848305-4-ndesaulniers@google.com> <YNGQhgKd9Ruti5qZ@hirez.programming.kicks-ass.net>
-In-Reply-To: <YNGQhgKd9Ruti5qZ@hirez.programming.kicks-ass.net>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 22 Jun 2021 10:09:10 +0200
-Message-ID: <CANpmjNMsM+tgf2Moy72Xd2oAxpVsAkXXYFtOodvVP5vRZDwdaA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR,
- depend on for GCOV and PGO
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Martin Liska <mliska@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
-        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Jun 2021 at 09:26, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Jun 21, 2021 at 04:18:22PM -0700, Nick Desaulniers wrote:
-> > We don't want compiler instrumentation to touch noinstr functions, which
-> > are annotated with the no_profile_instrument_function function
-> > attribute. Add a Kconfig test for this and make PGO and GCOV depend on
-> > it.
-> >
-> > If an architecture is using noinstr, it should denote that via this
-> > Kconfig value. That makes Kconfigs that depend on noinstr able to
-> > express dependencies in an architecturally agnostic way.
-> >
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
-> > Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
-> > Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
-> > Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> > Changes V1 -> V2:
-> > * Add ARCH_WANTS_NO_INSTR
-> > * Change depdendencies to be !ARCH_WANTS_NO_INSTR || CC_HAS_NO_PROFILE_FN_ATTR
-> >   rather than list architectures explicitly, as per Nathan.
-> > * s/no_profile/no_profile_instrument_function/
-> >
-> >  arch/Kconfig        | 7 +++++++
-> >  arch/arm64/Kconfig  | 1 +
-> >  arch/s390/Kconfig   | 1 +
-> >  arch/x86/Kconfig    | 1 +
-> >  init/Kconfig        | 3 +++
-> >  kernel/gcov/Kconfig | 1 +
-> >  kernel/pgo/Kconfig  | 3 ++-
-> >  7 files changed, 16 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index 2b4109b0edee..2113c6b3b801 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -285,6 +285,13 @@ config ARCH_THREAD_STACK_ALLOCATOR
-> >  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
-> >       bool
-> >
-> > +config ARCH_WANTS_NO_INSTR
-> > +     bool
-> > +     help
-> > +       An architecure should select this if the noinstr macro is being used on
-> > +       functions to denote that the toolchain should avoid instrumenting such
-> > +       functions and is required for correctness.
-> > +
-> >  config ARCH_32BIT_OFF_T
-> >       bool
-> >       depends on !64BIT
->
-> There's also CC_HAS_WORKING_NOSANITIZE_ADDRESS in lib/Kconfig.kasan that
-> might want to be hooked into this, but that can be done separately I
-> suppose.
+--Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-KASAN already depends on this for all compiler instrumentation modes,
-not just for 'noinstr' but also to avoid false positives. So it's not
-just for noinstr's benefit, and we should not weaken the requirement
-there.
+On Tue, 22 Jun 2021 13:03:39 +0900
+Esaki Tomohito <etom@igel.co.jp> wrote:
+
+> Hi, Enrico Weigelt
+> Thank you for reply.
+>=20
+> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
+> > On 21.06.21 08:27, Tomohito Esaki wrote:
+> >=20
+> > Hi,
+> >  =20
+> >> Virtual DRM splits the overlay planes of a display controller into mul=
+tiple
+> >> virtual devices to allow each plane to be accessed by each process.
+> >>
+> >> This makes it possible to overlay images output from multiple processe=
+s on a
+> >> display. For example, one process displays the camera image without co=
+mpositor
+> >> while another process overlays the UI. =20
+> >=20
+> > Are you attempting to create an simple in-kernel compositor ? =20
+>=20
+> I think the basic idea is the same as DRMlease.
+
+Hi,
+
+indeed. Why not use DRM leases instead?
+
+> We want to separate the resources from the master in units of planes,
+> so we proposed virtual DRM.
+> I think the advantage of vDRM is that you can use general DRM APIs
+> in userland.
+
+You do that with DRM leases too.
+
+> > I don't think that's not the way to go, at least not by touching each
+> > single display driver, and not hardcoding the planes in DT. =20
+>=20
+> Thank you for comment. I will reconsider about DT.
+>=20
+> > What's the actual use case you're doing that for ? Why not using some
+> > userland compositor ? =20
+>=20
+> I think when latency is important (e.g., AR, VR, for displaying camera
+> images in IVI systems), there may be use cases where the compositor
+> cannot be used.
+> Normally, when the image is passed through the compositor, it is
+> displayed after 2 VSYNC at most, because the compositor combines the
+> image with VSYNC synchronization. On the other hand, if we use vDRM, the
+> image will be displayed at the next VSYNC, so it will be displayed after
+> 1 VSYNC at most.
+
+As I said in my other email, this is false in the general sense.
+
+> Also, since the compositor is a single point of failure, we may not want
+> to make it dependent on it.
+
+This... I'm not quite sure I buy it. If any of all the programs using
+virtual KMS crashes, you still lose some crucial components from your
+display. Maybe that program, while crashing, uploads such a bad state
+to its very own KMS plane, that it causes other KMS planes to
+malfunction. Then you need to detect this situation and still restart
+everything, not just the crashed program.
+
+I would think a userspace compositor approach is actually more
+reliable. You write the compositor to be extremely robust. Exactly
+because the compositor is in control of the complete display device and
+not just little pieces of it, it can see what is happening and it can
+mitigate problems. If you have more unreliable components needing
+access to display, make those clients to the compositor, so they can
+crash and malfunction on their own without potentially killing the
+whole display device. If you are as concerned about latency as XR
+people are, then use DRM leases.
+
+Also, what if your virtual KMS driver has a bug? Restarting the kernel
+is much harder that restarting a userspace compositor that hands out
+DRM leases.
+
+The userspace compositor could even be such that it does nothing more
+than handing out DRM leases. However, DRM leases have the problem that
+there is no single entity responsible for keeping the display device
+working, but that responsibility is split between several processes and
+none of them sees the whole picture.
+
+
+Btw. VKMS is an existing DRM driver, so your name choice is conflicting.
+
+
+Thanks,
+pq
+
+--Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDRm3cACgkQI1/ltBGq
+qqdYIRAAja56P3aL+jh8qcOULrgGk62ujpwQF8VBpOOdE7mT5c3nR4kvTk233Yde
+LSzSECRrIiVFMCdPwt0J27DtT/2NSkwT5tTRr4Rl0uA+TdNYdcnVpLUjFMXKQl0W
+WOQoOIGCK7evGbY0v5nzQBTCuOQ5va6/1yUWLjsPl57/fmNwCrppmynWIf+m1nPJ
+jSqrMdbkisAkMcnVR/s9cZWj2x0mUs6xV7OIgtAkrI6gnbPejGHmPXz/a3Atmg25
+hc9FzwOZk/zTR7GeMsZjjRTMKsutbHTR7SSIcV6D6cYVxyro4aRRxHmAIr5q43qM
+VjKM0XZFNvCt+TPkmUeMgG/LyiqjgRD6iqIpZjt2nGmMwPTXq4r7qDsKf0kWeLh4
+bjZ6JqfwD6JM+qInpjTycefcrerWip+debLK3m87HzVxUogFWrR1+SyhESzMVL3f
+bGVBdiDkRf8p/lkNuDF7c1F1NDipbzB9z2HYl9hGHplpZGVkN8r4FmJkdHv/Cv9p
+XfUNLhvBvHwgvWnCC20TLws3LFRs/Uq2gEYG+4hHZE3EuFsP00i+/zBCwzLtE829
+4v/m32+BJivsy7HGJS+JM4hd2LkMpLxLxKHdxlolw++m5J05YQyMjmSD3LGuDneE
+WxQsX/R8PwKe2FOAxVGqnDJ+bnfl8OT0XTYorm4fRWh1qk+oq4I=
+=UJJD
+-----END PGP SIGNATURE-----
+
+--Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl--
