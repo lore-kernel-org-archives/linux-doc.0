@@ -2,103 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2284DC2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 15:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD02FC48BE5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 16:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08D24611CE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 15:02:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BF3E61358
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 16:55:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbhFVPET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 11:04:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbhFVPES (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 11:04:18 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279CCC061574
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 08:02:01 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id u11so19643922ljh.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 08:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=28TZlx5g29Z7lxePs7VfFCILquiSUttASzI3ApneZ7Q=;
-        b=aBcu+A4/lQWZECURkhUgBN1tY7A9rJoOOHga1WM/ZZUL0jFnBhEzPRlnrdSV0Ze9eW
-         8u3BHWwH2P9EObMhC6KW1ja0ooaXkFWMTQTckWsPz+zuNDZ/VF/Jra7Jmheug2/BZP1G
-         4Z9DtLacA0TW42AL0NG3qlFRxz5lUuUs/zKZHJ4/ERv4nOxK4sv+CGqtRUzoO5c2w19h
-         u2sy7rQ9CdQc/OxZpsx8wOwgkoT1fdGTzXJYVI8lVKlQp58Fp4HvGCyZPF6tQzYN2Ksc
-         El8yjv61qEJ3FoRxAYaNNrb+++ItTVy4m8BEg9MlNuZC/qLFXleGnhNqB/GSQc5cafM6
-         IL+g==
+        id S231351AbhFVQ5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 12:57:18 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:36713 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230182AbhFVQ5R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 12:57:17 -0400
+Received: by mail-io1-f54.google.com with SMTP id s19so14336618ioc.3;
+        Tue, 22 Jun 2021 09:55:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=28TZlx5g29Z7lxePs7VfFCILquiSUttASzI3ApneZ7Q=;
-        b=AoSn6GCWqrnY1xnwAikB1ql47dOFT0S/JwoXp7GDCUJScQuvc8Fd/Wki/fxGnhp5gP
-         Myw3CAKGVyc2baipALIgR/QzwgcIuDyt/3xzv/y6Cl4pNO5j1sLC/X6w2lzhUjJpVgeG
-         VzMIY8UsTZVNFc19XCQhSMa76d01mPdFeNmIPz/Qu5k3fKImOHpm0IbNJBW7+xb8/Agp
-         t8KZKI4nOsAL6nDL/XPvOtsGke80xdzzBPZl6IDlVM6bj0I9KffjGdjHRlcb2hGM+B7f
-         gEZpUenZB8xvstLQUKtfiIxSh/hrN163qA7bBJmGHuJ+PUK1oLtRqUmK5JRI8mO11BvS
-         AXcA==
-X-Gm-Message-State: AOAM531dPLxc/UdWgHNdiSNN/x42i2gUuknRz6gc7fnqhSksjLJLDuFd
-        YTKkqz5VqqFwHUuA9fA3h9DfhKcDabpkh4AyUQydGA==
-X-Google-Smtp-Source: ABdhPJxtYKOpUQ48QtgAzeyFQUUzdj7UZSXDeRImsG9VNTn6/WfIXoNp6br9Tlnn7xa81vObDJRDeDu9qV0NlNvgnyQ=
-X-Received: by 2002:a2e:9252:: with SMTP id v18mr3795173ljg.122.1624374119184;
- Tue, 22 Jun 2021 08:01:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Nst9vbRv3atdsjiAwZVyleOKg/gFLJsFk5FhmXQlxQw=;
+        b=DxZ5e5mKsAkEECIccCAPv9tAUPCs8zTmDxoKWsPy0y+mMtWznX/7sz/5Hv7Y8bq/5s
+         0GNjJN25xZv4ZAEp+TrLHBbd5roOfiW0lsiSmHqkCmJKUFCu5lUpROuRw0+PxWYLHQvI
+         S4dGuyaCcFR9QsSLo2gm5bfQOJtitqPUvA6ZUlMcOZPZCiCEXbMpPbYX3nwDKCvgJrpZ
+         1ECYaPWWbADBPn/7/cYBGBlEEu692oRcBgjSF7aKNlZimD/DtrKNbkNJcW5eFk+ugtwf
+         7LLsOkCYDaqn/AuNrvotKDGP0EhEHTSZD+HOyFh2GGMUv8Swrn8nJue27rbWnxvktx/A
+         xlGg==
+X-Gm-Message-State: AOAM532z1O1g8nZuSLoUFFGfWJZHiC9u2GEHrkxfcaATbsvYMyYKkNMt
+        y6/+gMNc3Ac/wYwuL6Vma9pZV6FoBw==
+X-Google-Smtp-Source: ABdhPJwxes1QyEmFowKSsudJkkyqhfPKqc6A8x0/51AML0FVdLusi2ElghJUf8zau5B5LBuX3hvUjQ==
+X-Received: by 2002:a05:6638:12cd:: with SMTP id v13mr4854440jas.104.1624380900931;
+        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id g4sm2282474ilk.37.2021.06.22.09.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
+Received: (nullmailer pid 3837213 invoked by uid 1000);
+        Tue, 22 Jun 2021 16:54:56 -0000
+Date:   Tue, 22 Jun 2021 10:54:56 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Tomohito Esaki <etom@igel.co.jp>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
+Message-ID: <20210622165456.GA3756306@robh.at.kernel.org>
+References: <20210621064403.26663-1-etom@igel.co.jp>
+ <20210621064403.26663-4-etom@igel.co.jp>
 MIME-Version: 1.0
-References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-7-sj38.park@gmail.com>
-In-Reply-To: <20210621083108.17589-7-sj38.park@gmail.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 22 Jun 2021 08:01:48 -0700
-Message-ID: <CALvZod5UUE6xjrhXCGH=CKKK_JZUL7MV2y48dX1EzqVYN-q6Pg@mail.gmail.com>
-Subject: Re: [PATCH v31 06/13] mm/damon: Add a tracepoint
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, greg@kroah.com,
-        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        sieberf@amazon.com, snu@zelle79.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        zgf574564920@gmail.com, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> This commit adds a tracepoint for DAMON.  It traces the monitoring
-> results of each region for each aggregation interval.  Using this, DAMON
-> can easily integrated with tracepoints supporting tools such as perf.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> Reviewed-by: Fernand Sieber <sieberf@amazon.com>
+On Mon, Jun 21, 2021 at 03:44:02PM +0900, Tomohito Esaki wrote:
+> Add device tree bindings documentation for virtual DRM.
 
-Acked-by: Shakeel Butt <shakeelb@google.com>
+DRM is a Linuxism. What's virtual DRM? Why does it need to be in DT? 
+What's the usecase? You're going to need a lot more reasoning to justify 
+this for DT.
+
+> 
+> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> ---
+>  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
+> new file mode 100644
+> index 000000000000..6493bb0fc09f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/vdrm.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/vdrm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Virtual DRM Device Tree Bindings
+> +
+> +description:
+> +  This document defines device tree properties virtual DRM. The initial
+> +  position, size and z-position of the plane used in the virtual DRM is
+> +  specified.
+> +  The current limitation is that these settings are applied to all crtc.
+> +
+> +properties:
+> +  compatible:
+> +    const: virt-drm
+> +
+> +patternProperties:
+> +  "^plane(@.*)?$":
+> +    description: Information of the planes used in virtual DRM
+> +    type: object
+> +
+> +    properties:
+> +      x:
+> +        type: int
+> +        description: x-coordinate of the left-top of the plane in pixels
+> +
+> +      y:
+> +        type: int
+> +        description: y-coordinate of the left-top of the plane in pixels
+> +
+> +      width:
+> +        type: int
+> +        description: width of the plane in pixels
+> +
+> +      height:
+> +        type: int
+> +	description: height of the plane in pixels
+> +
+> +      zpos:
+> +        type: int
+> +        description: z-position of the plane
+> +
+> +    required:
+> +      - x
+> +      - y
+> +      - width
+> +      - height
+> +      - zpos
+> +
+> +required:
+> +  - compatible
+> +  - "^plane(@.*)?$"
+> +
+> +examples:
+> + - |
+> +   vdrm@0 {
+> +       compatible = "virt-drm";
+> +       plane@0 {
+> +           x = <200>;
+> +	   y = <100>;
+> +	   width = <800>;
+> +	   height = <600>;
+> +	   zpos = <1>;
+> +       };
+> +   };
+> -- 
+> 2.25.1
+> 
+> 
