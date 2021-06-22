@@ -2,332 +2,318 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A82AC48BE5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 01:50:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E2DC4743C
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 02:20:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0258E61040
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 01:50:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B5456128C
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 02:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230311AbhFVBwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Jun 2021 21:52:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbhFVBwl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jun 2021 21:52:41 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FBC8C061574;
-        Mon, 21 Jun 2021 18:50:25 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id 21so203507pfp.3;
-        Mon, 21 Jun 2021 18:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WEh2C5RTplB4m7kF5vDh4E3kFBNUQxdOONC7KLyqYPA=;
-        b=G6bOR7Byn893MtwEjnuZcrLTyCVISi5lgTSONuekJ99BgjkEuyegYMRfU2RkR3pVmk
-         nJKAV2t2HmSD+aGE0vQWmpw0UI2lNH1+EdNooFFm1Kp4WFVSFvow0qgtsMnFvqilNqT1
-         z2/KC2uveUK7Cp9N/Mf1hUK382aLgUqIJXpI8l8mB7roO5OqfLMLBT/j6U7WJy8fz4rF
-         +TQCRxHe2tXXCvrvWc5jkuZooHqZBCLWUIGb46wzQ9Gp2/PM7knwg/78h3FqN+as5wXz
-         HXq4Yben4rBUho20CEoxxX1CFZAtAnAwJ7qm/Y9yjSbNzzyxqYD0S6PhIbNGb3fPXAA5
-         OtIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WEh2C5RTplB4m7kF5vDh4E3kFBNUQxdOONC7KLyqYPA=;
-        b=o2blxC1dS3mqm4o/KMcr7Ssni7Q69CTZNU0vKT27Pu2uN1JeiatcqIS11IArtj6QZX
-         cfcRPS1Ufk1Hu8wvW8yenPTSqYdLENOAGyjI4DDTDgC2dhkerStd6mS9GIqSg0wJ2cYT
-         0se/ebG83kexGoimg0e1TnG5Oehf0TH0JU5fWtwErVoSKgCX97efGJWslbsLwLwRbq1F
-         5Sj6nixUb0B/7EWhDecl0oFClEg/nPSufJzCVE3XEeOwSNallVV8WnPs4GCYCLqUkBeX
-         HYjRt63io9VQc4cT7BVTXfUyT2IK0a4k4TrKSTaaWdzaUTNoEFFvHu4izo19mIqX22tx
-         8nfw==
-X-Gm-Message-State: AOAM533fdp3k9mGFCwDN+xkYHuVp/agJjEr3QP+q3+Syist7qakWBd/T
-        7iDL4YwsqQXMRU30ZrdWXVU=
-X-Google-Smtp-Source: ABdhPJyFk7XLXGGUktQPnXMN2S08gUxxutkUp6HWP1/f83mzpzffDffw/K7MUxfrr9HqrKDDJzSJeQ==
-X-Received: by 2002:a62:7b4c:0:b029:300:6209:83e with SMTP id w73-20020a627b4c0000b02903006209083emr1096198pfc.59.1624326624875;
-        Mon, 21 Jun 2021 18:50:24 -0700 (PDT)
-Received: from localhost.localdomain ([52.184.54.196])
-        by smtp.gmail.com with ESMTPSA id 125sm7345710pfx.175.2021.06.21.18.50.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 18:50:24 -0700 (PDT)
-From:   ainux.wang@gmail.com
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        ainux.wang@gmail.com
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        sterlingteng@gmail.com, chenhuacai@kernel.org,
-        chenhuacai@loongson.cn
-Subject: [PATCH v3] hwmon: (pmbus) Add support for MPS MP2949A
-Date:   Tue, 22 Jun 2021 09:50:11 +0800
-Message-Id: <20210622015011.5703-1-ainux.wang@gmail.com>
-X-Mailer: git-send-email 2.18.1
+        id S231137AbhFVCWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Jun 2021 22:22:52 -0400
+Received: from mail-eopbgr10042.outbound.protection.outlook.com ([40.107.1.42]:29763
+        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230338AbhFVCWv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jun 2021 22:22:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lXusYSd3ePqi3wpJGn5sKhpW9+GlZ7X0ZmQ6aLoZ6ec=;
+ b=m2JSBMt2OLFTevGKYoEcs82h1DPN6R5mKaxANNpoijcsZBa1gjP9sGH7FvZAvIyeW1MDL/FHX8CJYTv2OWTddsCzbD+FkrmEjhGSzm9r3BV9etQr5ttzJVj8yrWFGPPNzHZ6XKcNzg1cRsfTQI3WUiuQWWas5d5iitgo4X7JGIM=
+Received: from AM6PR10CA0024.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::37)
+ by VE1PR08MB5278.eurprd08.prod.outlook.com (2603:10a6:803:10b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Tue, 22 Jun
+ 2021 02:20:21 +0000
+Received: from AM5EUR03FT004.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:89:cafe::fa) by AM6PR10CA0024.outlook.office365.com
+ (2603:10a6:209:89::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18 via Frontend
+ Transport; Tue, 22 Jun 2021 02:20:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=pass action=none
+ header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT004.mail.protection.outlook.com (10.152.16.163) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Tue, 22 Jun 2021 02:20:21 +0000
+Received: ("Tessian outbound 7799c3c2ab28:v96"); Tue, 22 Jun 2021 02:20:20 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from a23af9e5cb02.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id CFFF3DDD-4B66-40E2-A3AE-F4D01946537B.1;
+        Tue, 22 Jun 2021 02:20:14 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a23af9e5cb02.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 22 Jun 2021 02:20:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kumFo7UnmyEcb+XYa6zbp2osuiOAaBB8pJtOdN7CU9LmE0vGWlR6Y1zv+X1FfOdeaCBhgC4hwLgLYyKW2X2l1TxlYm3XnoQDw/AmZYYCKlBkPm/D6XNI19kzTjwsr9H3QDCm+P6dy5HkxskDPaGDA9/1r+TxsRJY/2hh8GeyFT2KlE5rmBdrl9Qsj4yo9Hd3TAOsV25nY+GwLfzscYcpw+CBBlTm6kXSpo2i2XygL5ivVk0I33zALuhoVhYWI8yldInGxU7pv75kRUi6sbHqS9JFlaIwvYO6E4cAG1IfxhGIk+H/csPI6pNvi6jFwsEhmpna0H6eA+Tfxm8Pa0Xgig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lXusYSd3ePqi3wpJGn5sKhpW9+GlZ7X0ZmQ6aLoZ6ec=;
+ b=faZAqK0aOEbsCug+G/H/w14UUuaID1KPEkiYXiZffulEw5XwNrrIxrbe45WyfDikGqUVWpXbCcNGDfPs1Eun+Xpfkcp+FaOhx42ZOnQ/zk02krxRntUcaGKUH3iHGNHRYkd9OTRVyv1tieqV/yzLPvJyeB8uxyJjJX2aGujWJJUdZe6bsiBS2TYfVWAA8Gw+7EYjI2G5RfN+hYB3C1MEJ0pam8K3z94/CZk8mxmNwW/9igx589V1XiMdnaVSS7Xtf4PKHuR8MkrQWZzjHm510Gm0yQn6bCXkskDXySfdrHmqJGCEPIkq92LigzHnr21CFKN812uqCZ6PO0XqHhM0zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lXusYSd3ePqi3wpJGn5sKhpW9+GlZ7X0ZmQ6aLoZ6ec=;
+ b=m2JSBMt2OLFTevGKYoEcs82h1DPN6R5mKaxANNpoijcsZBa1gjP9sGH7FvZAvIyeW1MDL/FHX8CJYTv2OWTddsCzbD+FkrmEjhGSzm9r3BV9etQr5ttzJVj8yrWFGPPNzHZ6XKcNzg1cRsfTQI3WUiuQWWas5d5iitgo4X7JGIM=
+Received: from AM6PR08MB4376.eurprd08.prod.outlook.com (2603:10a6:20b:bb::21)
+ by AM6PR08MB4055.eurprd08.prod.outlook.com (2603:10a6:20b:a7::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Tue, 22 Jun
+ 2021 02:20:12 +0000
+Received: from AM6PR08MB4376.eurprd08.prod.outlook.com
+ ([fe80::3452:c711:d09a:d8a1]) by AM6PR08MB4376.eurprd08.prod.outlook.com
+ ([fe80::3452:c711:d09a:d8a1%5]) with mapi id 15.20.4242.023; Tue, 22 Jun 2021
+ 02:20:12 +0000
+From:   Justin He <Justin.He@arm.com>
+To:     Petr Mladek <pmladek@suse.com>
+CC:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: RE: [PATCH RFCv4 2/4] lib/vsprintf.c: make '%pD' print full path for
+ file
+Thread-Topic: [PATCH RFCv4 2/4] lib/vsprintf.c: make '%pD' print full path for
+ file
+Thread-Index: AQHXYf4pVLUB+XxbIUiVpgPGMeKRTKsYQOcAgAcTzuA=
+Date:   Tue, 22 Jun 2021 02:20:12 +0000
+Message-ID: <AM6PR08MB437657CEE896E9E99C1D8CA9F7099@AM6PR08MB4376.eurprd08.prod.outlook.com>
+References: <20210615154952.2744-1-justin.he@arm.com>
+ <20210615154952.2744-3-justin.he@arm.com> <YMtXshP8G4RZvr4m@alley>
+In-Reply-To: <YMtXshP8G4RZvr4m@alley>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: 57A99EE09FBF4D4DB0ABD5BB528750CD.0
+x-checkrecipientchecked: true
+Authentication-Results-Original: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=arm.com;
+x-originating-ip: [203.126.0.111]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: d262cff3-6152-46fe-11e4-08d935244920
+x-ms-traffictypediagnostic: AM6PR08MB4055:|VE1PR08MB5278:
+X-Microsoft-Antispam-PRVS: <VE1PR08MB52783D2C25208CFCDAAB67BDF7099@VE1PR08MB5278.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: a4rJQQzFaf59KVRqvKmGidTQBcQ3i1BYjBQ6JzurJAeVq96yVIe75mG5cs29SXrDZDK0LBnFZFV0d7egudcrIUaxpXKJNJdggVr8Ju7uhrDHeWIRYhZ/IcQAU6KSlN3b0qsJQAGYoUKxioSn/YvRJgZMfZ+ONlsM5G2Gf0k3B4CzNwpyHeXmJDHcailo2g/5lfTaxmqxiSqDYljpTJmunNmXLO/3kljMKLH4W8r2V0pQ8BMDH+GH5JcpgjXAdsiPaQuNBuMkf/911VV26exIPp6UScA1yV8m8/97h6cpa5vWdh5XOl+c+axhbCXgsmLSvymK479XHlXIaSSZtD5+3aT8IV1lk22a2jGZH8YzxT5JfX2yzpKsGWTdmvZKkZ5YMvbA+cyZoXsSQ9D48KeTkFbTaddVH7vekRmo8hkxi1iih/aQ+jSePXJJC88DSQcbZym+w6VLdkwY/aln+7gSOArNtGTpMZc6+hvksoHhzigfL0iqi5WPQJ0XK25uGtcw8pWtgXioalSgJheUSTynzjzCKglyivS0zx8qI0qQ9KPIVC6SU3nWn47scLG5ON111uvbx9PoRbTdGKJ9fh70/WCOHnaq+1AUohgD5n4ls4/y5PeOkqwNqddkPiI7i1A4zKUpLFES/9y0zmej4d9EXFndFaH/MzMoa66+HOhTHjG7GGpeuUllxnhSG7cz1BYh/UrgiUUwn+A7/YzAExFG8qaUYMClNleB/ZZRGe7Ga7o=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4376.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39850400004)(376002)(396003)(136003)(7416002)(966005)(55016002)(54906003)(5660300002)(4326008)(26005)(6506007)(52536014)(33656002)(8676002)(71200400001)(7696005)(316002)(122000001)(38100700002)(6916009)(478600001)(66476007)(8936002)(2906002)(83380400001)(53546011)(66946007)(76116006)(9686003)(64756008)(86362001)(66556008)(186003)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RObW8HgCPMX2mwq/nFMzMGmfKiQVlOMcnzYYOEU92eAmVouI6puzBeTzs4Pg?=
+ =?us-ascii?Q?kabWig4r2a/V7x9sSqT+oyVtD7/jxuDutraDMEVPIWFliRCJ47N/jjRljsCx?=
+ =?us-ascii?Q?mpA1HxTq3ZXzM9oKx562MzrqZlh6ijwWr+nfEaZlplC2NsEJOCUrp6lDjF3b?=
+ =?us-ascii?Q?neYH9AiDH4Yq+5tYux4vUqCtFxgDJ3EqjopcIgoLZKOyMR57nAHtoRHeA3d9?=
+ =?us-ascii?Q?noChrA0b/sswatVXEqL4+NCs3qc8idl/vI7Ak22tpm6UHs1exGWduQJ4gk8+?=
+ =?us-ascii?Q?v9xVbaMKGDo6RNuSphwsvKyUvwkTipE8IhRVvtl7sedSg7vktqdJvo2sPHVQ?=
+ =?us-ascii?Q?v/ZAFlm6k8Fj5qhUr6GopcOZwQNY7ciZLxvq2lEtYZedsnwn+3xF7O8RKFag?=
+ =?us-ascii?Q?wI58MEawqkF2mFkJABYVhOJn8ViQoFIYB373DIqX+BmGiXuHBQx3qr3rh9sX?=
+ =?us-ascii?Q?Ikl2VOkeDTLXpnliXVb4HJX6jZjlLfjmqO1f+hOS2CHy1kNaFFvoO4JM5JLx?=
+ =?us-ascii?Q?EZATsxcqD1gweiQU9455NBk0dCz9p27zPLW390PjN0S5wbVVlHmUiMz2/Kv7?=
+ =?us-ascii?Q?q7LXPaijrEjbJxRudsu8atJkVBDP0uTXic3INNEYoXywih+MnjjvhFzEzNDC?=
+ =?us-ascii?Q?fR5vTpGO2YfxeWb/kFghzVeuYcVvO5QWiyo+cIdQqYD6P9LTNdaOiKKPteKL?=
+ =?us-ascii?Q?kFpU4T7Hzhka3ytYgcH7Y/l8JqewERL5reuqeph3kcpObZCZ1njbPzDFGSv4?=
+ =?us-ascii?Q?dKx6YJI0Dg8uEZtvrTWhZCfAdGJJjO4m8I0wKKs+ZoveEHh/UJ6YkyqcVKVg?=
+ =?us-ascii?Q?nygugsUDTHjTzlOJQnIufFvrCDnDlTiNhd/csvrysl9W1F+bw0x66nQ0VRfH?=
+ =?us-ascii?Q?lterXymWPpoUDPHupgXR2wTmHJihJMRVYYOMhy+f2CUxbdLazN6aHRX5lsBM?=
+ =?us-ascii?Q?C6GS3poa9WVOJ/YLnoWpsauBzq5j5U8GcmO7okVTVWKP0xq79OTIgrPY1lvX?=
+ =?us-ascii?Q?c4S7NKqEEQroPGPLufr8kRtkuX/n6Ud6PP2YxyblMSCVa2sf/kh94IVefvlY?=
+ =?us-ascii?Q?Ytzn4HfZJh7NXNTeUEfCeBWgJMq4T4n5A7pzO2VHnIK+r5Jp27q2n0wN8bCF?=
+ =?us-ascii?Q?kyPDbhFCtUibA26gIoCvkzUignJTMMsB62IXj7yluGIuJKSS2YOTL0DxHpLw?=
+ =?us-ascii?Q?YbjZDMroBBPwT6td0ou+agcLHkKY4pkIOSOo2FMyAfDJ1HYL+GNW+t3GSmYy?=
+ =?us-ascii?Q?KXkeCCXRL0N2uhmn7JM8tMcS5kTK+iEKCN0JBaCx0whdOI41zfQsxc2OMyIS?=
+ =?us-ascii?Q?umD/0s62MA+qoCFtjbJCmR53?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4055
+Original-Authentication-Results: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT004.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 96f26064-5342-4694-c423-08d9352443f5
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8x/vuub3lrf+Gr2tioTMIsxNjGR7YMt/UFz6rF0TgZ9Yysm0ayhXUySW1dGq+Q/FtkjNmJLWBEqxoN1AqarnscEoyt2nXDNrafyvOXXMvB1h6B0ZmHMCY5PS/Y+L1zw5uGzzEAjImFU7AC8sY7ply7tqiCxU80+Sp9hNet7O4YshLvm1hpVk3RftWd/0G3M+jDO2IZCwl8OnFwCrS/rGpmKKVIGvVnZvh1tNVnKIlyFpvMKvDVxrF+ZbzUIwmES9u45mhlL51LL4Grjp9Sf1C9fSopVKVIRPqjswtBVq+iI4e94u3JKBuapOQtuZL1JN8iAkNM6c/48JrKt6I2F0N8usTdGI2XPPWOVdyBHqBhg+P6TaWbV18C9HFWCHxTUohea9w42wcuCfoO2zKMZHrbO2hv7GNgaglj3zx7TtU+M4XPA8VR/ZEHAg3aCoKNWAcdfcacYTdbKKbA3Dy6VcBexDuvm5o4Y0FuxtAOuktXf4vAtv8eYS8HfngT1vr/MGmQZ6pbzsT/yFxShnGimCVL3KwFHUu1t2+Mdrh5BCiKC0JgM3mlsPJUZ7Wxnuro48/xeb3C0hbiKuPaGUuGGNdFwK5V1Dkkr+tz+9QsKGUyW3KQRfsrYsRDMCWAnC5d63E9artNRwFTdy+hgPBw/SMPfiBTULnBDgpVILNitCRGKbwEo9aacgw8svdGVUzXJuVMgGfGCLH4OlZzjE3NuuL89TOkysVnoTy1INgkx89Giz4SQ7qfKyIiTDaCID9oqsLugAd1vKDZ7YOvWBNS/rtw==
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(346002)(39850400004)(396003)(136003)(376002)(36840700001)(46966006)(83380400001)(82310400003)(450100002)(107886003)(7696005)(316002)(6862004)(966005)(26005)(8676002)(2906002)(478600001)(86362001)(33656002)(52536014)(9686003)(336012)(4326008)(356005)(8936002)(70206006)(82740400003)(53546011)(55016002)(6506007)(54906003)(36860700001)(70586007)(81166007)(47076005)(186003)(5660300002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 02:20:21.0549
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d262cff3-6152-46fe-11e4-08d935244920
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT004.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5278
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Ainux.Wang" <ainux.wang@gmail.com>
+Hi Petr
 
-Add support for MP2949A device from Monolithic Power Systems, Inc. (MPS).
-This is a triple-loop, digital, multi-phase controller.
-This device:
-- Supports up to three power rail.
-- Provides 6 pulse-width modulations (PWMs), and can be configured up
-  to 6-phase operation for Rail A , up to 2-phase operation for Rail B
-  and up to 1-phase operation for Rail C.
-- The PMBus registers are distributed into three pages: Page 0, Page 1,
-  Page 2. Page 0 contains the registers for Rail A and most of the common
-  settings for all of the rails. Page 1 contains register information for
-  Rail B. Page 2 contains register information for Rail C.
-- The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
-  IMVP9.
+> -----Original Message-----
+> From: Petr Mladek <pmladek@suse.com>
+> Sent: Thursday, June 17, 2021 10:10 PM
+> To: Justin He <Justin.He@arm.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>; Sergey Senozhatsky
+> <senozhatsky@chromium.org>; Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com>; Rasmus Villemoes
+> <linux@rasmusvillemoes.dk>; Jonathan Corbet <corbet@lwn.net>; Alexander
+> Viro <viro@zeniv.linux.org.uk>; Linus Torvalds <torvalds@linux-
+> foundation.org>; Peter Zijlstra (Intel) <peterz@infradead.org>; Eric
+> Biggers <ebiggers@google.com>; Ahmed S. Darwish <a.darwish@linutronix.de>=
+;
+> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> fsdevel@vger.kernel.org; Matthew Wilcox <willy@infradead.org>
+> Subject: Re: [PATCH RFCv4 2/4] lib/vsprintf.c: make '%pD' print full path
+> for file
+>
+> On Tue 2021-06-15 23:49:50, Jia He wrote:
+> > Previously, the specifier '%pD' is for printing dentry name of struct
+> > file. It may not be perfect (by default it only prints one component.)
+> >
+> > As suggested by Linus at [1]:
+> > A dentry has a parent, but at the same time, a dentry really does
+> > inherently have "one name" (and given just the dentry pointers, you
+> > can't show mount-related parenthood, so in many ways the "show just
+> > one name" makes sense for "%pd" in ways it doesn't necessarily for
+> > "%pD"). But while a dentry arguably has that "one primary component",
+> > a _file_ is certainly not exclusively about that last component.
+> >
+> > Hence change the behavior of '%pD' to print full path of that file.
+> >
+> > Precision is never going to be used with %p (or any of its kernel
+> > extensions) if -Wformat is turned on.
+> > .
+> >
+> > [1] https://lore.kernel.org/lkml/CAHk-=3DwimsMqGdzik187YWLb-
+> ru+iktb4MYbMQG1rnZ81dXYFVg@mail.gmail.com/
+> >
+> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > Signed-off-by: Jia He <justin.he@arm.com>
+>
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -920,13 +921,41 @@ char *dentry_name(char *buf, char *end, const
+> struct dentry *d, struct printf_sp
+> >  }
+> >
+> >  static noinline_for_stack
+> > -char *file_dentry_name(char *buf, char *end, const struct file *f,
+> > +char *file_d_path_name(char *buf, char *end, const struct file *f,
+> >                     struct printf_spec spec, const char *fmt)
+> >  {
+> > +   const struct path *path;
+> > +   char *p;
+> > +   int prepend_len, reserved_size, dpath_len;
+> > +
+> >     if (check_pointer(&buf, end, f, spec))
+> >             return buf;
+> >
+> > -   return dentry_name(buf, end, f->f_path.dentry, spec, fmt);
+> > +   path =3D &f->f_path;
+> > +   if (check_pointer(&buf, end, path, spec))
+> > +           return buf;
+> > +
+> > +   p =3D d_path_unsafe(path, buf, end - buf, &prepend_len);
+> > +
+> > +   /* Calculate the full d_path length, ignoring the tail '\0' */
+> > +   dpath_len =3D end - buf - prepend_len - 1;
+> > +
+> > +   reserved_size =3D max_t(int, dpath_len, spec.field_width);
+>
+> "reserved_size" is kind of confusing. "dpath_widen_len" or just "widen_le=
+n"
+> look much more obvious.
 
-Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
+Okay
 
-v3:
-- Added change log here.
-- Errors in the document have been modified.
-- Fixed PMBUS_VOUT_MODE to MP2949A_MFR_VR_CONFIG.
-- Removed unnecessary vout_params and empty line.
+>
+> The below comments are not bad. But they still made me thing about it
+> more than I wanted ;-) I wonder if it following is better:
+>
+> > +   /* case 1: no space at all, forward the buf with reserved size */
+> > +   if (buf >=3D end)
+> > +           return buf + reserved_size;
+>
+>       /* Case 1: Already started past the buffer. Just forward @buf. */
+>       if (buf >=3D end)
+>               return buf + widen_len;
+>
+Okay
+> > +
+> > +   /*
+> > +    * case 2: small scratch space for long d_path name. The space
+> > +    * [buf,end] has been filled with truncated string. Hence use the
+> > +    * full dpath_len for further string widening.
+> > +    */
+> > +   if (prepend_len < 0)
+> > +           return widen_string(buf + dpath_len, dpath_len, end, spec);
+>
+>       /*
+>        * Case 2: The entire remaining space of the buffer filled by
+>        * the truncated path. Still need to get moved right when
+>        * the filed width is greather than the full path length.
+>        */
+>       if (prepend_len < 0)
+>               return widen_string(buf + dpath_len, dpath_len, end, spec);
+>
+Okay
+> > +   /* case3: space is big enough */
+> > +   return string_nocheck(buf, end, p, spec);
+>
+>       /*
+>        * Case 3: The full path is printed at the end of the buffer.
+>        * Print it at the right location in the same buffer.
+>        */
+>       return string_nocheck(buf, end, p, spec);
+Okay
+> >  }
+> >  #ifdef CONFIG_BLOCK
+> >  static noinline_for_stack
+>
+> In each case, I am happy that it was possible to simplify the logic.
+> I got lost several times in the previous version.
 
-v2:
-- Reference has been added to Documentation/hwmon/index.rst.
-- Droped 'vendor'.
-- Removed change codes of the PMBus core and added mp2949a_identify()
-  and mp2949a_read_byte_data() to this driver.
+Indeed, the cases can be much simpler if we don't consider spec.precision.
+More than that, maybe we could remove the spec.precision consideration for
+'%pd' or other pointer related specifiers also
 
-v1:
-- Add support for MPS MP2949A.
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/mp2949a.rst |  44 ++++++++++++
- drivers/hwmon/pmbus/Kconfig     |   9 +++
- drivers/hwmon/pmbus/Makefile    |   1 +
- drivers/hwmon/pmbus/mp2949a.c   | 118 ++++++++++++++++++++++++++++++++
- 5 files changed, 173 insertions(+)
- create mode 100644 Documentation/hwmon/mp2949a.rst
- create mode 100644 drivers/hwmon/pmbus/mp2949a.c
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9ed60fa84cbe..56aac3b1678d 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -137,6 +137,7 @@ Hardware Monitoring Kernel Drivers
-    mcp3021
-    menf21bmc
-    mlxreg-fan
-+   mp2949a
-    mp2975
-    nct6683
-    nct6775
-diff --git a/Documentation/hwmon/mp2949a.rst b/Documentation/hwmon/mp2949a.rst
-new file mode 100644
-index 000000000000..0235dec70f63
---- /dev/null
-+++ b/Documentation/hwmon/mp2949a.rst
-@@ -0,0 +1,44 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver mp2949a
-+====================
-+
-+Supported chips:
-+
-+  * MPS MP2949A
-+
-+    Prefix: 'mp2949a'
-+
-+Author:
-+
-+	Ainux Wang <ainux.wang@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver implements support for Monolithic Power Systems, Inc. (MPS)
-+triple-loop, digital, multi-phase controller MP2949A.
-+
-+This device:
-+
-+- Supports up to three power rail.
-+- Provides 6 pulse-width modulations (PWMs), and can be configured for
-+  to 6-phase operation for Rail A , up to 2-phase operation for Rail B,
-+  and up to 1-phase operation for Rail C.
-+- The PMBus registers are distributed into three pages: Page 0, Page 1,
-+  Page 2. Page 0 contains the registers for Rail A and most of the common
-+  settings for all of the rails. Page 1 contains register information for
-+  Rail B. Page 2 contains register information for Rail C.
-+- The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
-+  IMVP9.
-+
-+Device supports:
-+
-+- SVID interface.
-+- PMBus rev 1.2 interface.
-+
-+Device supports direct format for reading output power.
-+Device supports linear format for reading input voltage, output current,
-+and temperature.
-+Device supports VID for reading output voltage.
-+The below VID modes are supported: VR12, VR13, IMVP8, IMVP9.
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 37a5c39784fa..b1344b265976 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -248,6 +248,15 @@ config SENSORS_MAX8688
- 	  This driver can also be built as a module. If so, the module will
- 	  be called max8688.
- 
-+config SENSORS_MP2949A
-+	tristate "MPS MP2949A"
-+	help
-+	  If you say yes here you get hardware monitoring support for MPS
-+	  MP2949A Triple Loop Digital Multi-Phase Controller.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called mp2949a.
-+
- config SENSORS_MP2975
- 	tristate "MPS MP2975"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index f8dcc27cd56a..bfb55ab12da1 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -28,6 +28,7 @@ obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
- obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
- obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
- obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
-+obj-$(CONFIG_SENSORS_MP2949A)	+= mp2949a.o
- obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
- obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
- obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
-diff --git a/drivers/hwmon/pmbus/mp2949a.c b/drivers/hwmon/pmbus/mp2949a.c
-new file mode 100644
-index 000000000000..744c88b8ebca
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mp2949a.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Hardware monitoring driver for Monolithic Power Systems MP2949A
-+ *
-+ * Copyright (c) 2021 Lemote Technologies. All rights reserved.
-+ * Copyright (c) 2021 Ainux <ainux.wang@gmail.com>
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include "pmbus.h"
-+
-+#define MP2949A_PAGE_NUM		3
-+
-+#define MP2949A_MFR_VR_CONFIG	0xE4
-+
-+static int mp2949a_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		/*
-+		 * This chip do not support the VOUT_MODE command.
-+		 * There is not VOUT_MODE command in MP2949A datasheet P29~P31.
-+		 * So there is a EINVAL in here.
-+		 */
-+		return -EINVAL;
-+	default:
-+		return -ENODATA;
-+	}
-+}
-+
-+static int mp2949a_identify(struct i2c_client *client,
-+			    struct pmbus_driver_info *info)
-+{
-+	int i, ret;
-+
-+	for (i = 0; i < MP2949A_PAGE_NUM; i++) {
-+		ret = pmbus_read_byte_data(client, i, MP2949A_MFR_VR_CONFIG);
-+		if (ret < 0)
-+			return ret;
-+
-+		/*
-+		 * Rail A bit 5, Rail B bit 4, Rail C bit 3.
-+		 * 1'b1: 5mV  (vr12/imvp8)
-+		 * 1'b0: 10mv (imvp9)
-+		 */
-+		info->vrm_version[i] = (ret & ~BIT(5-i)) ? vr12 : imvp9;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct pmbus_driver_info mp2949a_info = {
-+	.pages = MP2949A_PAGE_NUM,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = vid,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.format[PSC_POWER] = direct,
-+	.m[PSC_POWER] = 1,
-+	.b[PSC_POWER] = 0,
-+	.R[PSC_POWER] = 0,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-+		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-+		PMBUS_HAVE_TEMP | PMBUS_HAVE_POUT,
-+	.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-+		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-+		PMBUS_HAVE_POUT,
-+	.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-+		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-+		PMBUS_HAVE_POUT,
-+	.identify = mp2949a_identify,
-+	.read_byte_data = mp2949a_read_byte_data,
-+};
-+
-+static int mp2949a_probe(struct i2c_client *client,
-+			  const struct i2c_device_id *id)
-+{
-+	struct pmbus_driver_info *info;
-+
-+	info = devm_kmemdup(&client->dev, &mp2949a_info, sizeof(*info),
-+			    GFP_KERNEL);
-+	if (!info)
-+		return -ENOMEM;
-+
-+	return pmbus_do_probe(client, info);
-+}
-+
-+static const struct i2c_device_id mp2949a_id[] = {
-+	{"mp2949a", 0},
-+	{}
-+};
-+
-+MODULE_DEVICE_TABLE(i2c, mp2949a_id);
-+
-+static const struct of_device_id mp2949a_of_match[] = {
-+	{.compatible = "mps,mp2949a"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mp2949a_of_match);
-+
-+static struct i2c_driver mp2949a_driver = {
-+	.driver = {
-+		.name = "mp2949a",
-+		.of_match_table = of_match_ptr(mp2949a_of_match),
-+	},
-+	.probe = mp2949a_probe,
-+	.id_table = mp2949a_id,
-+};
-+
-+module_i2c_driver(mp2949a_driver);
-+
-+MODULE_AUTHOR("Ainux <ainux.wang@gmail.com>");
-+MODULE_DESCRIPTION("PMBus driver for Monolithic Power Systems MP2949A");
-+MODULE_LICENSE("GPL");
--- 
-2.18.1
+--
+Cheers,
+Justin (Jia He)
 
+
+IMPORTANT NOTICE: The contents of this email and any attachments are confid=
+ential and may also be privileged. If you are not the intended recipient, p=
+lease notify the sender immediately and do not disclose the contents to any=
+ other person, use it for any purpose, or store or copy the information in =
+any medium. Thank you.
