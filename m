@@ -2,188 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B1DC2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 19:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E54C48BE5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 20:05:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22DB061042
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 19:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A41661370
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 20:05:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232649AbhFVTPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 15:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232418AbhFVTPN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 15:15:13 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13964C061574
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 12:12:57 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id r16so551392oiw.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 12:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w+PkCKWzFX6ch68xMO5vdAGxWd4TzqP1oTkPZJt/SU8=;
-        b=ekUmPFB2M5VXXbkvlmuIKKlnSZHE29amdGhmgguDVqbcLNLaIs1QogG56KPe2c/vyH
-         47uJ2q9OZDaYEG6CEUo7/rardPggTELJZvSoOfm61uUlH+6CfCG34FrFSWa9h55lCXn0
-         VhP3FsAkxvxFYJIxZtygDVHH2mDIhjNb+GaYA=
+        id S232617AbhFVUHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 16:07:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34285 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231597AbhFVUHv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 16:07:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624392335;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+7yL79kXlqJ1cF+wnNe/WiHmKwK4NVGvHq2uE2hHHEM=;
+        b=Hn1iUzwaM9PNdWmXpp3Ml8Tet2s/fkcnb+dgGKclCxpEE2c/05IBVKzFWh1Xiwdpu9LxdQ
+        aHLZBbwOZibP+lQkE5Y40fTPQnycn6DAWMWhe+4i7jocXX7k8uMq2alAuX1dS1ohvaGcna
+        huOc9U09jAzyNU1D7Xl3fAFBvf3EzXs=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-p-nd3XOyOOyGafXuz3xeQA-1; Tue, 22 Jun 2021 16:05:33 -0400
+X-MC-Unique: p-nd3XOyOOyGafXuz3xeQA-1
+Received: by mail-oo1-f70.google.com with SMTP id q14-20020a4adc4e0000b0290249480f62d9so362039oov.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 13:05:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w+PkCKWzFX6ch68xMO5vdAGxWd4TzqP1oTkPZJt/SU8=;
-        b=OsdCsRj21du72G2hiIyQTcvQVB42i5KzLtIoXudXvDSh5e9cTl+lYy+ZB9ncInmZah
-         H4m+GW8cNtvHQ2FNTCdHuqyGbarKBLmbrvZZcvLrw1+3Tw7u8ydeaW/qCn1yV54wgfjj
-         gTOgeqK5MS3L47mRrCcaGor0bLT+wUdi9+H6anxNovB70DXZ4Xz3TOZWGRCYFhgrC2GB
-         c83YwbT6wRuD5asA34I+j7B3yXRge7uxMCS5jMidB2r+G4qc7J+R2MDO5vglGOomMpEZ
-         WtlTPE6/uUc6WfjflU5zjnmSo4GmdXLriLVmxJZk82B18O8O78feHOzCKNeU16yIJ8c1
-         cugg==
-X-Gm-Message-State: AOAM533N4bCbOjEL1Vif7AVtbSwX4JEFeK0DP5w78Q+/GdSqfIx9a5HF
-        YOPH5i1mqcXN0dtcvkX6mUO9KcRmeV6OHemB4C6WCA==
-X-Google-Smtp-Source: ABdhPJz/k3FiF0tgCVxa1om8nqMYiaOhW6/mWSjaPKKrNyT19R2NPRvfMrw2F8iAAUjfxj0wnpihMIckW3pT3vGMqhU=
-X-Received: by 2002:aca:1a0c:: with SMTP id a12mr253218oia.14.1624389176394;
- Tue, 22 Jun 2021 12:12:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+7yL79kXlqJ1cF+wnNe/WiHmKwK4NVGvHq2uE2hHHEM=;
+        b=QYnaff6+xYvUHmnAFK5ydkKcLCx3hpGzQOFVmRPzV4CVdiyDOZAx7smszZ1ClNxNdH
+         +bbfudN6KPZkmKA165qqgkSI8A5n8kCIDxy+cdGMOpYsPNlaBoV5cc5/6y27fv5eaoGn
+         bwD/xAZVbIQBsQBpYF51WKjt08WkoxkF/2Bx7i9Zdy/cNuzm154xM4NDEmv1UZPOamhK
+         M6KmF8vhBmBTPSIqRq5A2EUUXJFDJHXgqIOtrmrgwLf35k3WbFrq/ixfh/7X2WXngGWu
+         wemdeDZXmBanTOT42UzvURykuOe35rmYWP8PoO8cmxDYpU+f+8pfXxvJDhq/plqagrnj
+         +vWA==
+X-Gm-Message-State: AOAM532qqBoUKDM+RvgVk8aBRM2V4hoIVDPs8DeJJpF+SsYhL0eJIENo
+        i8KgJg3T1c93hHWPoA+iDF8Gq3x7R2X0Ai8VUNy9V+V1PTxQLWZe3i4v3IUOHPUQmQIUq1pS9a6
+        nTfdxUPh+L0r81cj2/Dnh
+X-Received: by 2002:a4a:8901:: with SMTP id f1mr2411652ooi.66.1624392333213;
+        Tue, 22 Jun 2021 13:05:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3dnFMjbbQ8plJaDFAWlMQYqm2DfJBNA/R99XQY8DnX1W7mOpVij0632BgGrJXlchtHXj6Gg==
+X-Received: by 2002:a4a:8901:: with SMTP id f1mr2411622ooi.66.1624392332999;
+        Tue, 22 Jun 2021 13:05:32 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id 5sm727184oot.29.2021.06.22.13.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 13:05:32 -0700 (PDT)
+From:   trix@redhat.com
+To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        michal.simek@xilinx.com, gregkh@linuxfoundation.org,
+        nava.manne@xilinx.com, dinguyen@kernel.org,
+        krzysztof.kozlowski@canonical.com, yilun.xu@intel.com,
+        davidgow@google.com, fpacheco@redhat.com,
+        russell.h.weight@intel.com, richard.gong@intel.com,
+        luca@lucaceresoli.net
+Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH v5 0/4]  fpga: reorganize to subdirs
+Date:   Tue, 22 Jun 2021 13:05:06 -0700
+Message-Id: <20210622200511.3739914-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210621062742.26073-1-etom@igel.co.jp> <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
- <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp> <20210622111239.73aa87aa@eldfell>
-In-Reply-To: <20210622111239.73aa87aa@eldfell>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 22 Jun 2021 21:12:45 +0200
-Message-ID: <CAKMK7uGhx0O4yFESWxoN1nDnEFH24cC6pRRDEBYDWHrnci_j+Q@mail.gmail.com>
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Esaki Tomohito <etom@igel.co.jp>,
-        devicetree <devicetree@vger.kernel.org>,
-        Takanari Hayama <taki@igel.co.jp>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 22, 2021 at 10:12 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Tue, 22 Jun 2021 13:03:39 +0900
-> Esaki Tomohito <etom@igel.co.jp> wrote:
->
-> > Hi, Enrico Weigelt
-> > Thank you for reply.
-> >
-> > On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
-> > > On 21.06.21 08:27, Tomohito Esaki wrote:
-> > >
-> > > Hi,
-> > >
-> > >> Virtual DRM splits the overlay planes of a display controller into multiple
-> > >> virtual devices to allow each plane to be accessed by each process.
-> > >>
-> > >> This makes it possible to overlay images output from multiple processes on a
-> > >> display. For example, one process displays the camera image without compositor
-> > >> while another process overlays the UI.
-> > >
-> > > Are you attempting to create an simple in-kernel compositor ?
-> >
-> > I think the basic idea is the same as DRMlease.
->
-> Hi,
->
-> indeed. Why not use DRM leases instead?
->
-> > We want to separate the resources from the master in units of planes,
-> > so we proposed virtual DRM.
-> > I think the advantage of vDRM is that you can use general DRM APIs
-> > in userland.
->
-> You do that with DRM leases too.
->
-> > > I don't think that's not the way to go, at least not by touching each
-> > > single display driver, and not hardcoding the planes in DT.
-> >
-> > Thank you for comment. I will reconsider about DT.
-> >
-> > > What's the actual use case you're doing that for ? Why not using some
-> > > userland compositor ?
-> >
-> > I think when latency is important (e.g., AR, VR, for displaying camera
-> > images in IVI systems), there may be use cases where the compositor
-> > cannot be used.
-> > Normally, when the image is passed through the compositor, it is
-> > displayed after 2 VSYNC at most, because the compositor combines the
-> > image with VSYNC synchronization. On the other hand, if we use vDRM, the
-> > image will be displayed at the next VSYNC, so it will be displayed after
-> > 1 VSYNC at most.
->
-> As I said in my other email, this is false in the general sense.
->
-> > Also, since the compositor is a single point of failure, we may not want
-> > to make it dependent on it.
->
-> This... I'm not quite sure I buy it. If any of all the programs using
-> virtual KMS crashes, you still lose some crucial components from your
-> display. Maybe that program, while crashing, uploads such a bad state
-> to its very own KMS plane, that it causes other KMS planes to
-> malfunction. Then you need to detect this situation and still restart
-> everything, not just the crashed program.
+From: Tom Rix <trix@redhat.com>
 
-This, a hundred times. At least in general it's impossible to
-guarantee resource isolation between different parts of a kms device -
-everything is shared at least in some driver in funny ways.
+The incoming xrt patchset has a toplevel subdir xrt/
+The current fpga/ uses a single dir with filename prefixes to subdivide owners
+For consistency, there should be only one way to organize the fpga/ dir.
+Because the subdir model scales better, refactor to use it.
+The discussion wrt xrt is here:
+https://lore.kernel.org/linux-fpga/68e85a4f-4a10-1ff9-0443-aa565878c855@redhat.com/
 
-The only thing we try to guarantee is that if you keep flipping the
-same plane with same pixel format, stride, offset, absolutely
-everything except the memory block unchanged, then that's guaranteed
-to work. Everything else is off the table.
+Follow drivers/net/ethernet/ which has control configs
+NET_VENDOR_BLA that map to drivers/net/ethernet/bla
+Since fpgas do not have many vendors, drop the 'VENDOR' and use
+FPGA_BLA.
 
-This is why the drm-lease design ended up with revoke support, because
-if something goes wrong a superior instance (the compositor, the
-kernel can't decide that for userspace) needs to decide whom to shoot
-and revoke their access.
+There are several new subdirs
+altera/
+dfl/
+lattice/
+xilinx/
 
-> I would think a userspace compositor approach is actually more
-> reliable. You write the compositor to be extremely robust. Exactly
-> because the compositor is in control of the complete display device and
-> not just little pieces of it, it can see what is happening and it can
-> mitigate problems. If you have more unreliable components needing
-> access to display, make those clients to the compositor, so they can
-> crash and malfunction on their own without potentially killing the
-> whole display device. If you are as concerned about latency as XR
-> people are, then use DRM leases.
->
-> Also, what if your virtual KMS driver has a bug? Restarting the kernel
-> is much harder that restarting a userspace compositor that hands out
-> DRM leases.
->
-> The userspace compositor could even be such that it does nothing more
-> than handing out DRM leases. However, DRM leases have the problem that
-> there is no single entity responsible for keeping the display device
-> working, but that responsibility is split between several processes and
-> none of them sees the whole picture.
+Each subdir has a Kconfig that has a new/reused
 
-Yeah I think a compositor for this use-case, written in Rust and
-heavily audited/proofed is probably a lot more reliable than cobbling
-ill-defined kernel driver code on top of barely-defined hw semantics
-in resource-sharing cases.
+if FPGA_BLA
+  ... existing configs ...
+endif FPGA_BLA
 
-> Btw. VKMS is an existing DRM driver, so your name choice is conflicting.
+Which is sourced into the main fpga/Kconfig
 
-Yeah that too :-)
--Daniel
+Each subdir has a Makefile whose transversal is controlled in the
+fpga/Makefile by
+
+obj-$(CONFIG_FPGA_BLA) += bla/
+
+Some cleanup to arrange thing alphabetically and make fpga/Makefile's
+whitespace look more like net/'s
+
+Changes from
+v1
+  Drop renaming files
+  Cleanup makefiles
+
+v2
+  Expand commit messages
+  Add SPDX to Kconfig
+  Expand new Kconfig variable help messages
+
+v3
+  Update Documentation/fpga/dfl.rst for fpga/dfl/
+
+v4
+  Restore HAS_IOMEM depends in dfl/Kconfig
+  Fix vendor names in Kconfig's
+
+Tom Rix (4):
+  fpga: dfl: reorganize to subdir layout
+  fpga: xilinx: reorganize to subdir layout
+  fpga: altera: reorganize to subdir layout
+  fpga: lattice: reorganize to subdir layout
+
+ Documentation/fpga/dfl.rst                    |   4 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/fpga/Kconfig                          | 204 +-----------------
+ drivers/fpga/Makefile                         |  47 +---
+ drivers/fpga/altera/Kconfig                   |  85 ++++++++
+ drivers/fpga/altera/Makefile                  |  12 ++
+ drivers/fpga/{ => altera}/altera-cvp.c        |   0
+ drivers/fpga/{ => altera}/altera-fpga2sdram.c |   0
+ .../fpga/{ => altera}/altera-freeze-bridge.c  |   0
+ drivers/fpga/{ => altera}/altera-hps2fpga.c   |   0
+ .../{ => altera}/altera-pr-ip-core-plat.c     |   0
+ drivers/fpga/{ => altera}/altera-pr-ip-core.c |   0
+ drivers/fpga/{ => altera}/altera-ps-spi.c     |   0
+ drivers/fpga/{ => altera}/socfpga-a10.c       |   0
+ drivers/fpga/{ => altera}/socfpga.c           |   0
+ drivers/fpga/{ => altera}/stratix10-soc.c     |   0
+ drivers/fpga/{ => altera}/ts73xx-fpga.c       |   0
+ drivers/fpga/dfl/Kconfig                      |  83 +++++++
+ drivers/fpga/dfl/Makefile                     |  16 ++
+ drivers/fpga/{ => dfl}/dfl-afu-dma-region.c   |   0
+ drivers/fpga/{ => dfl}/dfl-afu-error.c        |   0
+ drivers/fpga/{ => dfl}/dfl-afu-main.c         |   0
+ drivers/fpga/{ => dfl}/dfl-afu-region.c       |   0
+ drivers/fpga/{ => dfl}/dfl-afu.h              |   0
+ drivers/fpga/{ => dfl}/dfl-fme-br.c           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-error.c        |   0
+ drivers/fpga/{ => dfl}/dfl-fme-main.c         |   0
+ drivers/fpga/{ => dfl}/dfl-fme-mgr.c          |   0
+ drivers/fpga/{ => dfl}/dfl-fme-perf.c         |   0
+ drivers/fpga/{ => dfl}/dfl-fme-pr.c           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-pr.h           |   0
+ drivers/fpga/{ => dfl}/dfl-fme-region.c       |   0
+ drivers/fpga/{ => dfl}/dfl-fme.h              |   0
+ drivers/fpga/{ => dfl}/dfl-n3000-nios.c       |   0
+ drivers/fpga/{ => dfl}/dfl-pci.c              |   0
+ drivers/fpga/{ => dfl}/dfl.c                  |   0
+ drivers/fpga/{ => dfl}/dfl.h                  |   0
+ drivers/fpga/lattice/Kconfig                  |  29 +++
+ drivers/fpga/lattice/Makefile                 |   4 +
+ drivers/fpga/{ => lattice}/ice40-spi.c        |   0
+ drivers/fpga/{ => lattice}/machxo2-spi.c      |   0
+ drivers/fpga/xilinx/Kconfig                   |  55 +++++
+ drivers/fpga/xilinx/Makefile                  |   6 +
+ .../fpga/{ => xilinx}/xilinx-pr-decoupler.c   |   0
+ drivers/fpga/{ => xilinx}/xilinx-spi.c        |   0
+ drivers/fpga/{ => xilinx}/zynq-fpga.c         |   0
+ drivers/fpga/{ => xilinx}/zynqmp-fpga.c       |   0
+ 47 files changed, 305 insertions(+), 242 deletions(-)
+ create mode 100644 drivers/fpga/altera/Kconfig
+ create mode 100644 drivers/fpga/altera/Makefile
+ rename drivers/fpga/{ => altera}/altera-cvp.c (100%)
+ rename drivers/fpga/{ => altera}/altera-fpga2sdram.c (100%)
+ rename drivers/fpga/{ => altera}/altera-freeze-bridge.c (100%)
+ rename drivers/fpga/{ => altera}/altera-hps2fpga.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core-plat.c (100%)
+ rename drivers/fpga/{ => altera}/altera-pr-ip-core.c (100%)
+ rename drivers/fpga/{ => altera}/altera-ps-spi.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga-a10.c (100%)
+ rename drivers/fpga/{ => altera}/socfpga.c (100%)
+ rename drivers/fpga/{ => altera}/stratix10-soc.c (100%)
+ rename drivers/fpga/{ => altera}/ts73xx-fpga.c (100%)
+ create mode 100644 drivers/fpga/dfl/Kconfig
+ create mode 100644 drivers/fpga/dfl/Makefile
+ rename drivers/fpga/{ => dfl}/dfl-afu-dma-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-error.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-main.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-afu.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-br.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-error.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-main.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-mgr.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-perf.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-pr.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-pr.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme-region.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-fme.h (100%)
+ rename drivers/fpga/{ => dfl}/dfl-n3000-nios.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl-pci.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl.c (100%)
+ rename drivers/fpga/{ => dfl}/dfl.h (100%)
+ create mode 100644 drivers/fpga/lattice/Kconfig
+ create mode 100644 drivers/fpga/lattice/Makefile
+ rename drivers/fpga/{ => lattice}/ice40-spi.c (100%)
+ rename drivers/fpga/{ => lattice}/machxo2-spi.c (100%)
+ create mode 100644 drivers/fpga/xilinx/Kconfig
+ create mode 100644 drivers/fpga/xilinx/Makefile
+ rename drivers/fpga/{ => xilinx}/xilinx-pr-decoupler.c (100%)
+ rename drivers/fpga/{ => xilinx}/xilinx-spi.c (100%)
+ rename drivers/fpga/{ => xilinx}/zynq-fpga.c (100%)
+ rename drivers/fpga/{ => xilinx}/zynqmp-fpga.c (100%)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.3
+
