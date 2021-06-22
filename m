@@ -2,175 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0CFEC48BDF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB4DC48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:19:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D89B7611CE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:12:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA879611CE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232347AbhFVSPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 14:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41018 "EHLO
+        id S231579AbhFVSV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 14:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbhFVSPG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 14:15:06 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9296CC061756
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:12:49 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id p7so37263403lfg.4
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:12:49 -0700 (PDT)
+        with ESMTP id S232225AbhFVSV2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 14:21:28 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11919C06175F
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:19:11 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id 21so233649pfp.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CZ8ZYzj6hHuJXsmZpwyIWIWw0nLJtjqqsF2RiG/A2YM=;
-        b=kMmn25DaPZRRY3V65IMoK6joZt/2Rx0PQGhQ7nqJRDs7n/4KFlbx4nvlU6vYnDJoJ5
-         FqN2m2BLT2LbAl24AWIhH15trb47pLTYpEYQab6qIbz/RGNfT4FyfxGWsPWQOqhDhCyy
-         gUkP2NoWypK6UmXFHo9NNR14cgrc7797pp6DGXRw0QLpR3vmDsiTr21+/k7YUckC00D4
-         WBlruau/FcBMV3DWRffttnXsZ88TxMH9gT1cw6XQbBZ3AQYVFwVqhogptbDcN2YZZzKh
-         ZmEnLURq81Wlqyq69lvsaVJpGrrTp9yXsKZOzRX7ji5zmGd6D9aZyNlzGGmMa6OUrcw8
-         KLhg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vHkhwZ3qyE8u/Wp9tD1mKmbxO9a75mKPe922mGmNuX0=;
+        b=G3jEIXi56zPU55St8PRRGBMvj09eVkzxvRA4j3a1Za4m32F8oowfljy+MLrjkKMMOY
+         gqCyhY+LaI3GsChNsKPysbVlP3uhepiq30BvlWZBsdYL/ga6P7P2Ql75RzMmVgX95CO5
+         C8o41QTJPpFtZIvtVtKZ99d5hUQlvpZ6nyYkI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CZ8ZYzj6hHuJXsmZpwyIWIWw0nLJtjqqsF2RiG/A2YM=;
-        b=WLBnue/xJlOX4Avd24h3NL9DsbCoraVw3xmQtEOyR0PfLiAfmfJBcyZi9TGD6fWb1R
-         eq6Ukq7wsg+xQqC1HIrMlGY+Ub9TE1pETIStBZnewg11XBQBmOuVNOBZt1n5C9z9RNyJ
-         edDu2dg7KHJZIXoTTKBw/oNuWbVQvA6t/TM07HG3/O/VLg5KPXWmSezc/YRUBOK4zyg4
-         DGfG+9SonCCPfhvAqSOBwfbZXpM9rT5YbJ9TndbfcfC5qBnqsZco89Ma6hvVQFPb2z2Q
-         VPzL1T2H6qrBMKmnzru5PXyvs9yORr9JQ88RuLxlbs5N3TvNCUDeT6eJasLpDALEZCis
-         5ChQ==
-X-Gm-Message-State: AOAM531h4uxf7EVHTgHdutqlBNOx3WwIj0RDNMDhN8XspN+CYGKsaBPP
-        xyWHiaKNrRIkdFa3g0ZZD0/8AWxAU4TmsS1Up7luIQ==
-X-Google-Smtp-Source: ABdhPJxUlgpQBKy/3D4j5dmdUJ0JGTdKqWGeL13RGTa29Fy9JVnyl3fcIOuuJCIDbl+vREG69KynIfInYDadqBzOrz8=
-X-Received: by 2002:a05:6512:1191:: with SMTP id g17mr1605160lfr.347.1624385567602;
- Tue, 22 Jun 2021 11:12:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-8-sj38.park@gmail.com>
-In-Reply-To: <20210621083108.17589-8-sj38.park@gmail.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 22 Jun 2021 11:12:36 -0700
-Message-ID: <CALvZod61B66+Z4J1n6DG6UnvY9j8TE0diz=o1XXOBSZ5DaKSDQ@mail.gmail.com>
-Subject: Re: [PATCH v31 07/13] mm/damon: Implement a debugfs-based user space interface
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        Brendan Higgins <brendanhiggins@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vHkhwZ3qyE8u/Wp9tD1mKmbxO9a75mKPe922mGmNuX0=;
+        b=IF5MUE8bo1eHeqzj142V6Ushm76uRUEhKfWhLo0Xonj7QIOuOTAEID11nZmW9XqeuW
+         bCLonR1j2qoEjaOMdlQjaNmSKx8zYD2EeYYjKLdjguWDzQaJbbkJ1s7mQ22JLaMpdcZ3
+         c4b7tSmvIGcObIYhGm1p8e0stwBo+HJ+a2h6wCsZTOtCaip8F2AcFUnQQ3OkGohU/On6
+         ADKlYk7bLzBvZ3aPN+NK2ZOKSEAitbTuaWKwsESGf4AyElKUDkNL22G+kJGHWOrZ8Mcx
+         yITlZNZl3F2nTx84nkf3lvL9NDY1cBt+89aBRdzQkql1vwJK+jkVWCqcfzWRo013bV9E
+         ztdA==
+X-Gm-Message-State: AOAM531Zp3s6ll5njTASIyRqW3eroGrT98aEmCNeOrLrBIS7eMPQVDAL
+        chHfoxJSYO3N3ogiRqjN7N+Pxg==
+X-Google-Smtp-Source: ABdhPJzRGvSboU8eph/ltxaJQHvbwX778zfYgQtOZGbY2hs/9WNU7B/bJjJmayoVyP+gq+Yk/M1xDA==
+X-Received: by 2002:a63:a51e:: with SMTP id n30mr24200pgf.104.1624385950559;
+        Tue, 22 Jun 2021 11:19:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w7sm2921928pjy.11.2021.06.22.11.19.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 11:19:09 -0700 (PDT)
+Date:   Tue, 22 Jun 2021 11:19:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, greg@kroah.com,
-        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        sieberf@amazon.com, snu@zelle79.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        zgf574564920@gmail.com, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
+Message-ID: <202106221118.34BE990@keescook>
+References: <20210621231822.2848305-1-ndesaulniers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> DAMON is designed to be used by kernel space code such as the memory
-> management subsystems, and therefore it provides only kernel space API.
-> That said, letting the user space control DAMON could provide some
-> benefits to them.  For example, it will allow user space to analyze
-> their specific workloads and make their own special optimizations.
->
-> For such cases, this commit implements a simple DAMON application kernel
-> module, namely 'damon-dbgfs', which merely wraps the DAMON api and
-> exports those to the user space via the debugfs.
->
-> 'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
-> ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
->
-> Attributes
-> ----------
->
-> Users can read and write the ``sampling interval``, ``aggregation
-> interval``, ``regions update interval``, and min/max number of
-> monitoring target regions by reading from and writing to the ``attrs``
-> file.  For example, below commands set those values to 5 ms, 100 ms,
-> 1,000 ms, 10, 1000 and check it again::
->
->     # cd <debugfs>/damon
->     # echo 5000 100000 1000000 10 1000 > attrs
->     # cat attrs
->     5000 100000 1000000 10 1000
->
-> Target IDs
-> ----------
->
-> Some types of address spaces supports multiple monitoring target.  For
-> example, the virtual memory address spaces monitoring can have multiple
-> processes as the monitoring targets.  Users can set the targets by
-> writing relevant id values of the targets to, and get the ids of the
-> current targets by reading from the ``target_ids`` file.  In case of the
-> virtual address spaces monitoring, the values should be pids of the
-> monitoring target processes.  For example, below commands set processes
-> having pids 42 and 4242 as the monitoring targets and check it again::
->
->     # cd <debugfs>/damon
->     # echo 42 4242 > target_ids
->     # cat target_ids
->     42 4242
->
-> Note that setting the target ids doesn't start the monitoring.
->
-> Turning On/Off
-> --------------
->
-> Setting the files as described above doesn't incur effect unless you
-> explicitly start the monitoring.  You can start, stop, and check the
-> current status of the monitoring by writing to and reading from the
-> ``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
-> of the targets with the attributes.  Writing ``off`` to the file stops
-> those.  DAMON also stops if every targets are invalidated (in case of
-> the virtual memory monitoring, target processes are invalidated when
-> terminated).  Below example commands turn on, off, and check the status
-> of DAMON::
->
->     # cd <debugfs>/damon
->     # echo on > monitor_on
->     # echo off > monitor_on
->     # cat monitor_on
->     off
->
-> Please note that you cannot write to the above-mentioned debugfs files
-> while the monitoring is turned on.  If you write to the files while
-> DAMON is running, an error code such as ``-EBUSY`` will be returned.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> Reviewed-by: Fernand Sieber <sieberf@amazon.com>
+On Mon, Jun 21, 2021 at 04:18:19PM -0700, Nick Desaulniers wrote:
+> Add a new function annotation __no_profile that expands to
+> __attribute__((__no_profile_instrument_function__)) and Kconfig values
+> CC_HAS_NO_PROFILE_FN_ATTR and ARCH_WANTS_NO_INSTR. Make GCOV and PGO
+> depend on either !ARCH_WANTS_NO_INSTR or CC_HAS_NO_PROFILE_FN_ATTR.
 
+Awesome; thanks everyone! I'm doing a Clang rebuild now, and will do
+kernel testing and push this to my for-next/clang/features tree shortly.
 
-The high level comment I have for this patch is the layering of pid
-reference counting. The dbgfs should treat the targets as abstract
-objects and vaddr should handle the reference counting of pids. More
-specifically move find_get_pid from dbgfs to vaddr and to add an
-interface to the primitive for set_targets.
-
-At the moment, the pid reference is taken in dbgfs and put in vaddr.
-This will be the source of bugs in future.
+-- 
+Kees Cook
