@@ -2,138 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8359CC2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 07:26:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A60B2C49EA4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 07:58:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 653FC60FD8
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 07:26:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B4F360234
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 07:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbhFVH23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 03:28:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60618 "EHLO
+        id S230286AbhFVIAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 04:00:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhFVH21 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 03:28:27 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A58C061574;
-        Tue, 22 Jun 2021 00:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ChDiBXqAGycwZ327ht94EElL6EgZhmaY+P0RC9fzg+o=; b=rJKaj++3CD7nUku99L5fJotGEg
-        uUjeh5s9rmUqKpotWRKo2zVAKEjdLH8B2uuaTM7VaE2rxjkdzh45KWQ2LopSeLxML1jCwuVCi2C+j
-        B1Jj0sD6Co17xseOWgDQ5HADsMRV5M7KJjwtwssBDr7i+UfuMrXjcWtZSsuNFrY5n/FpZ10Kat2hu
-        afrbaeew3uAsYwfV5zhX3VQq8tonNrFc2+ms2TQzRNVDzSLxdQweJhoe8Oegig4Y/kK9RbUpILRgY
-        x5qePMZvd92Es+wvM7ZUkQ9NyQHGZAPDbRh/vpGoJ+lajt7uHm7IuKpmnN3HW+WJIHtaK80rkwu/h
-        W6j5OZFA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lvanA-00AWLV-FD; Tue, 22 Jun 2021 07:25:59 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D55373002C5;
-        Tue, 22 Jun 2021 09:25:58 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C45BD2C6EEC7C; Tue, 22 Jun 2021 09:25:58 +0200 (CEST)
-Date:   Tue, 22 Jun 2021 09:25:58 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>, Bill Wendling <wcw@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
-        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 3/3] Kconfig: add
- ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
-Message-ID: <YNGQhgKd9Ruti5qZ@hirez.programming.kicks-ass.net>
-References: <20210621231822.2848305-1-ndesaulniers@google.com>
- <20210621231822.2848305-4-ndesaulniers@google.com>
+        with ESMTP id S230182AbhFVIAS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 04:00:18 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A60C061574;
+        Tue, 22 Jun 2021 00:58:02 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id u11so17896031ljh.2;
+        Tue, 22 Jun 2021 00:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=u8GLty3tOXL1FdPiA/Irm6Dck8CZ9gdJPuMIDM8NO+g=;
+        b=d7iFiJQ73FVsnECWrp/feRn6JQJRkwTvGErWNpA2d1IoBAezEyvzoYNpLC6ucfTCBu
+         I6loo0sLSeysO9MpFd99ZcYndA3NYU2TqdipUr9scVYTOPsyA3KxxScRq0Wp9PmFfKrb
+         cb3uDYYRjpauTOuB4ksrAX153C1jryvrvgR2b9PghLdwh5vqtUGgoKCrDZfBcOyYVDds
+         qRj/rmJ4z44Qtx9Bxi9g0Z5z6i/dX+Gac9i5Ixc0Xw9u/cbJulJJ4CztAqPbODcH+bA7
+         PA7MxdYWbvdXTBcvRay2UzNJNN6YUS/vqWBUHm1kYuccBeTrSMoLBHIy0O+IKNGN7CcJ
+         jgXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=u8GLty3tOXL1FdPiA/Irm6Dck8CZ9gdJPuMIDM8NO+g=;
+        b=MVzUS//3Yd0KA9I28lNVlVwXCpjqlrQDSPDzgGKxlhzsLPzEWU9WKbn0vPo9EGv5NG
+         ERrOcW3l50NiTjJmWZtCbEDR5cnGxjbH54OdipKW5SaurINgkLtCTcJKOh0bZIn4YTic
+         oT5JIQjyaYwIKUsB9kcIlfmCwD7+Y7X6mw0QZE5ZJZBHr2g0qCEjmJXozR+JGMiCideY
+         cP3ue3KH7JdyBtKZ+YyX7qMEHrR1aqMjZeK+M5L77rhWi3oiKZbSv00HfGELNFV2Qy3K
+         6mZ8OKTowXrNam2wkAKjCDquwBjOmqxbv7bFtA6yS2DirTjt+nIz3Y+72SSgieL5WK/X
+         JnLQ==
+X-Gm-Message-State: AOAM531FH/pw778RW+RI0N/tTjdfBNiw7pKCJEl9J1X/HrDj5QgWnysB
+        ufUZtMyvxJG7uUunSUCpSYI=
+X-Google-Smtp-Source: ABdhPJwpT7cg8PaaS+cBElIDaTgWonJwsRlSSCUx8dbqTLht5p2QNMd+5QPV5OR6nXmvC+gWz/IOsA==
+X-Received: by 2002:a2e:90ca:: with SMTP id o10mr2043374ljg.299.1624348680814;
+        Tue, 22 Jun 2021 00:58:00 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id u2sm2521546ljg.134.2021.06.22.00.58.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 00:58:00 -0700 (PDT)
+Date:   Tue, 22 Jun 2021 10:57:57 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Esaki Tomohito <etom@igel.co.jp>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210622105757.2b9dec32@eldfell>
+In-Reply-To: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+        <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+        <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621231822.2848305-4-ndesaulniers@google.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/k_Ny_BZtmz_EeVKX1+Wmizg"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 04:18:22PM -0700, Nick Desaulniers wrote:
-> We don't want compiler instrumentation to touch noinstr functions, which
-> are annotated with the no_profile_instrument_function function
-> attribute. Add a Kconfig test for this and make PGO and GCOV depend on
-> it.
-> 
-> If an architecture is using noinstr, it should denote that via this
-> Kconfig value. That makes Kconfigs that depend on noinstr able to
-> express dependencies in an architecturally agnostic way.
-> 
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
-> Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
-> Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
-> Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Changes V1 -> V2:
-> * Add ARCH_WANTS_NO_INSTR
-> * Change depdendencies to be !ARCH_WANTS_NO_INSTR || CC_HAS_NO_PROFILE_FN_ATTR
->   rather than list architectures explicitly, as per Nathan.
-> * s/no_profile/no_profile_instrument_function/
-> 
->  arch/Kconfig        | 7 +++++++
->  arch/arm64/Kconfig  | 1 +
->  arch/s390/Kconfig   | 1 +
->  arch/x86/Kconfig    | 1 +
->  init/Kconfig        | 3 +++
->  kernel/gcov/Kconfig | 1 +
->  kernel/pgo/Kconfig  | 3 ++-
->  7 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 2b4109b0edee..2113c6b3b801 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -285,6 +285,13 @@ config ARCH_THREAD_STACK_ALLOCATOR
->  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
->  	bool
->  
-> +config ARCH_WANTS_NO_INSTR
-> +	bool
-> +	help
-> +	  An architecure should select this if the noinstr macro is being used on
-> +	  functions to denote that the toolchain should avoid instrumenting such
-> +	  functions and is required for correctness.
-> +
->  config ARCH_32BIT_OFF_T
->  	bool
->  	depends on !64BIT
+--Sig_/k_Ny_BZtmz_EeVKX1+Wmizg
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-There's also CC_HAS_WORKING_NOSANITIZE_ADDRESS in lib/Kconfig.kasan that
-might want to be hooked into this, but that can be done separately I
-suppose.
+On Tue, 22 Jun 2021 13:02:59 +0900
+Esaki Tomohito <etom@igel.co.jp> wrote:
+
+> Hi, Thomas
+> Thank you for reply.
+>=20
+> On 2021/06/21 16:10, Thomas Zimmermann wrote:
+> > Hi
+> >=20
+> > Am 21.06.21 um 08:27 schrieb Tomohito Esaki: =20
+> >> Virtual DRM splits the overlay planes of a display controller into
+> >> multiple
+> >> virtual devices to allow each plane to be accessed by each process.
+> >>
+> >> This makes it possible to overlay images output from multiple
+> >> processes on a
+> >> display. For example, one process displays the camera image without
+> >> compositor
+> >> while another process overlays the UI. =20
+> >=20
+> > I briefly looked over your patches. I didn't understand how this is
+> > different to the functionality of a compositor? Shouldn't this be solved
+> > in userspace? =20
+>=20
+> I think when latency is important (e.g., AR, VR, for displaying camera
+> images in IVI systems), there may be use cases where the compositor
+> cannot be used.
+
+Hi,
+
+> Normally, when the image is passed through the compositor, it is
+> displayed after 2 VSYNC at most, because the compositor combines the
+> image with VSYNC synchronization.
+
+This is not a universal fact. You can write a Wayland compositor that
+consistently reaches app-to-screen latency of less than one monitor
+refresh cycle, while also using KMS planes.
+
+I believe Weston succeeds in this already if you write the Wayland
+application accordingly.
+
+
+Thanks,
+pq
+
+--Sig_/k_Ny_BZtmz_EeVKX1+Wmizg
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDRmAUACgkQI1/ltBGq
+qqdYpg//Tcc55meE4KCzD3QCdOiQc2prqhBvHDue3YiwQ0FlPdcACn6NwO+TayH6
+DJbfxrv6K3VIPD81uw41OmvkE2Y5vcoFAruFI2garh5gZHY0b0PskyPookMUD4Vm
+YZVrrfqM8fHqaWWlOXryniTB1EbfV5KFahNIXgPEGJdVDPDGPV/kUXCdg0iXZfE1
+qvIzwzqQoHEN2uK9F0QTYmR7BkMISGFTzTdKYomBrbk5SlovGBxzBSOrsl7e5/ZV
+oeO1rAGO4HN7DpKAUdyBK/bcPqsgA5G5UyMgtM917bVDh11bCML1uKAoy7fLBOsE
+JfNT7etocMwkiDcDQnPPx7NiYE1+9H371IC5Dm5OBKt9zbZ2AVaq9ArArMmustcC
+wqxS45KbeR2jlKjT5rEthLi3fKszweNIZqHmarO+RcyuKCoJHmkKLHOlof0w25y3
+ximBQhYJWVJOqp2KDU/h7U5R9HfmofyzbjQRRqG1Hb2MOBK9UpdLeaGCKIdhyiFi
+TBy4pUUgoHQCHgA+jFM7kdJk7yUAkZB1wNPbx+NawRRuh2yOM8fpDYupGw8SAUbL
+pjjQv6C0cw9E8eLAHU1ovt8VnX4uD5ugh/V1WT63JxzqhSeCf4HxnQL2cyGNGsnS
+3NHmKM+Uh8oU4CzGBNJjiyb77RCRan82wzBTx3pwJowBf9SRTXw=
+=GNDC
+-----END PGP SIGNATURE-----
+
+--Sig_/k_Ny_BZtmz_EeVKX1+Wmizg--
