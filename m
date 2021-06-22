@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F6AC2B9F4
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACA2C2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:59:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C0E8611CE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C7116134F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:59:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbhFVPBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 11:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52600 "EHLO
+        id S232099AbhFVPCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 11:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232094AbhFVPBs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 11:01:48 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBC7C061766
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 07:59:32 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id q23so20121193ljh.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 07:59:32 -0700 (PDT)
+        with ESMTP id S232102AbhFVPCF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 11:02:05 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F93BC06175F
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 07:59:48 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id r16so30576979ljk.9
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 07:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RA8ZD9ClukMzIKl1MArz2ae3thSxvhEA0gqsTc1XYss=;
-        b=Pb4LQYmNj3prWXaEvsu8+rvfYImNKOOFVO+YElWuhVGmGRuzjKH3ziJIRpyoScfWkq
-         CtFTKrqB7bLWr3dbBYb/lObqKFZtynQCNjOKG4XgFCSzPIuj8Cq3KKhd3TmrtlHlqgED
-         SafREWJtEpmXpAzkZuiZx9uJG1MHLKvv0RhzehuvcKx1aEcAfMsYsULjKYqMLOkFXgQ+
-         SXieBM52oa/d16NaRVwpOaypC3AyhGlXY8ya/3N0yFfVohmHUFpNW/6GvNFYew3hCdVj
-         esSl1xYrpRwRjF6yq543gA9qCZrqpYjO7GGiGfzFegaccFxdLq9RKHxf51AdT9+N4tP+
-         ffYA==
+        bh=qwYAfiYXqjI2nwrVAYIcKqS0ZhT5P4dOm2JQEAubKpQ=;
+        b=EUy5hSQvlr8ahlU4CaiCb2eNOofiUSD+vYfRdctNN157O9jl4+Qq6tJH0mQqexJocZ
+         dFdPNn1PjMVEHq0IZrzaliNGMXUSDFSr0EdImVqstiim9tRoM3nKofzeXq7b/mU/6fty
+         anECsJMjFdAuTnUKKVJ11E+l4p0WdjrMpeySt/wlkJTwGd7SsFHtEeXIXcNuTjGHMvif
+         9h2PLYOQfdmOMXX7EfR8VWZPsOkylWcIVTdCA+Bj5Me7VVI2kDE2ii9bRPqlXimNXQvk
+         oD5k6m6h/LW9X2W11+sf10Dr+i9o0gQYG4rsiI9twScaF761lflMTuA++iJv/mB9b7z6
+         PwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RA8ZD9ClukMzIKl1MArz2ae3thSxvhEA0gqsTc1XYss=;
-        b=qmP7yDJ96Ne+keBxhQL9bjhY2CjoKsy7QAgEOquzHXrB1T90lE2Cnqz/1xHv/2uLdn
-         f8l/ZIOrPgEXjVBKgeFg/K0VhbGcf4TnPjEUJdczHoaV261pa7jNAY0MyGdi0f989+zK
-         lT9xSdhLDRajOfVnT7KsJpz6akjIjq7qDWsFBMSOsXdDvsKmbNXAisJ2/8v/SRzm8jUF
-         opZEZtvdj17UdaUQrYnN4nLOEyUM+tjrDuIxBBBJapkmLaFhxqi4ZmS7Oe19DqotquRu
-         5a2OkmK3wK+ljZnFQWxzW5lakUGEif19++16h4oIMzN2lqlXYx8z3SftuMUdDceHBZpw
-         r7MA==
-X-Gm-Message-State: AOAM533rV5/+E2iBPaGmIZDLkZT/T49wOFdiBN3Y34iuxFjypkSWQUf7
-        LisT84/qAtwkWH7rdxgwR0ehftC64N+fjBxbvbwv+A==
-X-Google-Smtp-Source: ABdhPJxulhjPL3w9xH/DtXwDuOpTPs0GBBZVsrKKsHxqzu/ANLShEMXKYExXbngsiCwr7f1lxiXoFteJooEKw+KviKg=
-X-Received: by 2002:a05:651c:49d:: with SMTP id s29mr3703265ljc.279.1624373970420;
- Tue, 22 Jun 2021 07:59:30 -0700 (PDT)
+        bh=qwYAfiYXqjI2nwrVAYIcKqS0ZhT5P4dOm2JQEAubKpQ=;
+        b=P+4YgHzrcZeOU0osN8Bykm0OjZUccvR9Y9BrJW3rpKs7qOkITJ88fC8j0gQbg8zsAa
+         OcOZS13ExfUJJ+9T+gw70cUIrTnuxUjgWaB2Q3KnBSTPlPWUuYP+VioFm+CVPI2FdnmZ
+         UWlIsb7D3bjnuxZgPfBJretrMHI/mLDyp4n1gnRZtPWDYaX/ZjR+pygVL2iu+oDecrLy
+         wvnYX5GugBj0kx51N6l79UDy+wZa36QBrp/P9V3D5MLi9Jjh0ZfS2xX4WjXE4H4Jyryf
+         PchhvgXw2admkHi8kfDTQStMogn6X6HpFWKAbcMIlmc8HkrjCoyZgigLyz7RnY50la0S
+         DMjw==
+X-Gm-Message-State: AOAM531nxRaxO+eP5x+VgL+SrODAyiiTHo4x6d2UK5s8cMR6cZHijg6d
+        WZyUrkfZdfqTQPsx5xDW9Bzw3Xi6IjkXM1Ayul3CAA==
+X-Google-Smtp-Source: ABdhPJxnakeCsIeusqxGOiH57rUIiE9gS1DlKbFj5pW3GBl5tNKGv95nzwlgEJzP4ve+0FfyN/FCxE/tKR0t7RUWsLQ=
+X-Received: by 2002:a2e:8190:: with SMTP id e16mr3684033ljg.81.1624373986663;
+ Tue, 22 Jun 2021 07:59:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-3-sj38.park@gmail.com>
-In-Reply-To: <20210621083108.17589-3-sj38.park@gmail.com>
+References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-4-sj38.park@gmail.com>
+In-Reply-To: <20210621083108.17589-4-sj38.park@gmail.com>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 22 Jun 2021 07:59:19 -0700
-Message-ID: <CALvZod7mJivKs+u8cTKrYuUg=X+XFjXZ3zBnureFzTqK+BLrYQ@mail.gmail.com>
-Subject: Re: [PATCH v31 02/13] mm/damon/core: Implement region-based sampling
+Date:   Tue, 22 Jun 2021 07:59:35 -0700
+Message-ID: <CALvZod7uzDuWAMnnxubv7=vx5Qktmw5o=2ivS-tUa2YA+5QzzA@mail.gmail.com>
+Subject: Re: [PATCH v31 03/13] mm/damon: Adaptively adjust regions
 To:     SeongJae Park <sj38.park@gmail.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
@@ -92,28 +92,38 @@ On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
 >
 > From: SeongJae Park <sjpark@amazon.de>
 >
-> To avoid the unbounded increase of the overhead, DAMON groups adjacent
-> pages that are assumed to have the same access frequencies into a
-> region.  As long as the assumption (pages in a region have the same
-> access frequencies) is kept, only one page in the region is required to
-> be checked.  Thus, for each ``sampling interval``,
+> Even somehow the initial monitoring target regions are well constructed
+> to fulfill the assumption (pages in same region have similar access
+> frequencies), the data access pattern can be dynamically changed.  This
+> will result in low monitoring quality.  To keep the assumption as much
+> as possible, DAMON adaptively merges and splits each region based on
+> their access frequency.
 >
->  1. the 'prepare_access_checks' primitive picks one page in each region,
->  2. waits for one ``sampling interval``,
->  3. checks whether the page is accessed meanwhile, and
->  4. increases the access count of the region if so.
+> For each ``aggregation interval``, it compares the access frequencies of
+> adjacent regions and merges those if the frequency difference is small.
+> Then, after it reports and clears the aggregated access frequency of
+> each region, it splits each region into two or three regions if the
+> total number of regions will not exceed the user-specified maximum
+> number of regions after the split.
 >
-> Therefore, the monitoring overhead is controllable by adjusting the
-> number of regions.  DAMON allows both the underlying primitives and user
-> callbacks to adjust regions for the trade-off.  In other words, this
-> commit makes DAMON to use not only time-based sampling but also
-> space-based sampling.
->
-> This scheme, however, cannot preserve the quality of the output if the
-> assumption is not guaranteed.  Next commit will address this problem.
+> In this way, DAMON provides its best-effort quality and minimal overhead
+> while keeping the upper-bound overhead that users set.
 >
 > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 > Reviewed-by: Fernand Sieber <sieberf@amazon.com>
+[...]
+>
+> +unsigned int damon_nr_regions(struct damon_target *t)
+> +{
+> +       struct damon_region *r;
+> +       unsigned int nr_regions = 0;
+> +
+> +       damon_for_each_region(r, t)
+> +               nr_regions++;
 
-Acked-by: Shakeel Butt <shakeelb@google.com>
+This bugs me everytime. Please just have nr_regions field in the
+damon_target instead of traversing the list to count the number of
+regions.
+
+Other than that, it looks good to me.
