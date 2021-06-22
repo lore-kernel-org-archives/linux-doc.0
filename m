@@ -5,42 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F164FC49EA2
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:45:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14626C2B9F4
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:45:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB8A461378
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00EDB6115A
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 14:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232112AbhFVOrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 10:47:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23897 "EHLO
+        id S232014AbhFVOr1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 10:47:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54073 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231260AbhFVOrV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 10:47:21 -0400
+        by vger.kernel.org with ESMTP id S232101AbhFVOrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 10:47:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624373105;
+        s=mimecast20190719; t=1624373108;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=9V4odNhyFX2TvRRuUOjoRnqMcZXz21M4FWh3G4T9vMU=;
-        b=M6J7zJkGGPa8xrW8cCNJwMUyAFgkIlNePLXSxGQ1K+dvlf2XhW2ahV1A81YHIiVW09MS+o
-        xrLpBxL2GlzKbkiLP52FkpElIrkzD6N6lqRSYR1taChxJCxfjRdVWzyVQhjkA8NaIuCjs5
-        FzsJU7jQvOksmPgiZVDkFkSRoXLTzEc=
+        bh=eebi0WrpI9Gy43hWF2jkUFa8UxVoGGi5E6o3ye5YN84=;
+        b=YWkdOu0/nWhI9+mLSZYTOEIXJsD0vIsl2dm25fSz4qg+Yyo89Myrp/Nu/kykkbR6AdBsoo
+        ataU8zCSsKLFQfLb+s+zYjLspiVXws90caE8JdZ7bcyQ9xbdz4h+XUgzKGI10HI0mtlfDY
+        2TwtpbwAm7vjg85eGOCw1IalUQDM4Ww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-OnQ1gda6NIWz7FO0TLIpIw-1; Tue, 22 Jun 2021 10:44:51 -0400
-X-MC-Unique: OnQ1gda6NIWz7FO0TLIpIw-1
+ us-mta-401-4a7nCJmSMDSwDM7wVkmNpQ-1; Tue, 22 Jun 2021 10:45:07 -0400
+X-MC-Unique: 4a7nCJmSMDSwDM7wVkmNpQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74466101F002;
-        Tue, 22 Jun 2021 14:44:49 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D032C1084F57;
+        Tue, 22 Jun 2021 14:45:05 +0000 (UTC)
 Received: from x1.bristot.me.homenet.telecomitalia.it (unknown [10.10.115.243])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9045D9CA;
-        Tue, 22 Jun 2021 14:44:44 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D6FA15D9CA;
+        Tue, 22 Jun 2021 14:44:57 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Phil Auld <pauld@redhat.com>,
@@ -58,9 +58,9 @@ Cc:     Phil Auld <pauld@redhat.com>,
         Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V5 12/14] trace: Protect tr->tracing_cpumask with get/put_online_cpus
-Date:   Tue, 22 Jun 2021 16:42:30 +0200
-Message-Id: <38d2ef13b33c42fcf424a6213a27c8b5246548e0.1624372313.git.bristot@redhat.com>
+Subject: [PATCH V5 14/14] trace/osnoise: Support hotplug operations
+Date:   Tue, 22 Jun 2021 16:42:32 +0200
+Message-Id: <39f98590b3caeb3c32f09526214058efe0e9272a.1624372313.git.bristot@redhat.com>
 In-Reply-To: <cover.1624372313.git.bristot@redhat.com>
 References: <cover.1624372313.git.bristot@redhat.com>
 MIME-Version: 1.0
@@ -70,9 +70,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation to the hotplug support on tracers with workload,
-protect tr->tracing_cpumask with get/put_online_cpus() to avoid
-concurrency with hotplug operations.
+Enable and disable osnoise/timerlat thread during on CPU hotplug online
+and offline operations respectivelly.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -90,27 +89,234 @@ Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 ---
- kernel/trace/trace.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ kernel/trace/trace_osnoise.c | 165 ++++++++++++++++++++++++++++-------
+ 1 file changed, 135 insertions(+), 30 deletions(-)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 52fc9438b7b4..c14f33db147e 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -5053,7 +5053,13 @@ int tracing_set_cpumask(struct trace_array *tr,
- 	arch_spin_unlock(&tr->max_lock);
- 	local_irq_enable();
+diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
+index f4b1330ac89d..e8a63af1aeb6 100644
+--- a/kernel/trace/trace_osnoise.c
++++ b/kernel/trace/trace_osnoise.c
+@@ -1414,22 +1414,67 @@ static int timerlat_main(void *data)
+ #endif /* CONFIG_TIMERLAT_TRACER */
  
-+	/*
-+	 * tracing_cpumask is read by tracers that support CPU
-+	 * hotplug.
-+	 */
+ /*
+- * stop_per_cpu_kthread - stop per-cpu threads
++ * stop_kthread - stop a workload thread
++ */
++static void stop_kthread(unsigned int cpu)
++{
++	struct task_struct *kthread;
++
++	kthread = per_cpu(per_cpu_osnoise_var, cpu).kthread;
++	if (kthread)
++		kthread_stop(kthread);
++	per_cpu(per_cpu_osnoise_var, cpu).kthread = NULL;
++}
++
++/*
++ * stop_per_cpu_kthread - Stop per-cpu threads
+  *
+  * Stop the osnoise sampling htread. Use this on unload and at system
+  * shutdown.
+  */
+ static void stop_per_cpu_kthreads(void)
+ {
+-	struct task_struct *kthread;
+ 	int cpu;
+ 
+-	for_each_online_cpu(cpu) {
+-		kthread = per_cpu(per_cpu_osnoise_var, cpu).kthread;
+-		if (kthread)
+-			kthread_stop(kthread);
+-		per_cpu(per_cpu_osnoise_var, cpu).kthread = NULL;
 +	get_online_cpus();
- 	cpumask_copy(tr->tracing_cpumask, tracing_cpumask_new);
++
++	for_each_online_cpu(cpu)
++		stop_kthread(cpu);
++
 +	put_online_cpus();
++}
++
++/*
++ * start_kthread - Start a workload tread
++ */
++static int start_kthread(unsigned int cpu)
++{
++	struct task_struct *kthread;
++	void *main = osnoise_main;
++	char comm[24];
++
++#ifdef CONFIG_TIMERLAT_TRACER
++	if (osnoise_data.timerlat_tracer) {
++		snprintf(comm, 24, "timerlat/%d", cpu);
++		main = timerlat_main;
++	} else {
++		snprintf(comm, 24, "osnoise/%d", cpu);
+ 	}
++#else
++	snprintf(comm, 24, "osnoise/%d", cpu);
++#endif
++	kthread = kthread_create_on_cpu(main, NULL, cpu, comm);
++
++	if (IS_ERR(kthread)) {
++		pr_err(BANNER "could not start sampling thread\n");
++		stop_per_cpu_kthreads();
++		return -ENOMEM;
++	}
++
++	per_cpu(per_cpu_osnoise_var, cpu).kthread = kthread;
++	wake_up_process(kthread);
++
++	return 0;
+ }
  
+ /*
+@@ -1441,9 +1486,7 @@ static void stop_per_cpu_kthreads(void)
+ static int start_per_cpu_kthreads(struct trace_array *tr)
+ {
+ 	struct cpumask *current_mask = &save_cpumask;
+-	struct task_struct *kthread;
+-	char comm[24];
+-	void *main = osnoise_main;
++	int retval;
+ 	int cpu;
+ 
+ 	get_online_cpus();
+@@ -1455,37 +1498,91 @@ static int start_per_cpu_kthreads(struct trace_array *tr)
+ 	 * And the CPU is online.
+ 	 */
+ 	cpumask_and(current_mask, cpu_online_mask, current_mask);
+-	put_online_cpus();
+ 
+-	for_each_online_cpu(cpu)
++	for_each_possible_cpu(cpu)
+ 		per_cpu(per_cpu_osnoise_var, cpu).kthread = NULL;
+ 
+ 	for_each_cpu(cpu, current_mask) {
+-#ifdef CONFIG_TIMERLAT_TRACER
+-		if (osnoise_data.timerlat_tracer) {
+-			snprintf(comm, 24, "timerlat/%d", cpu);
+-			main = timerlat_main;
+-		} else {
+-			snprintf(comm, 24, "osnoise/%d", cpu);
+-		}
+-#else
+-		snprintf(comm, 24, "osnoise/%d", cpu);
+-#endif
+-		kthread = kthread_create_on_cpu(main, NULL, cpu, comm);
+-
+-		if (IS_ERR(kthread)) {
+-			pr_err(BANNER "could not start sampling thread\n");
++		retval = start_kthread(cpu);
++		if (retval) {
+ 			stop_per_cpu_kthreads();
+-			return -ENOMEM;
++			return retval;
+ 		}
+-
+-		per_cpu(per_cpu_osnoise_var, cpu).kthread = kthread;
+-		wake_up_process(kthread);
+ 	}
+ 
++	put_online_cpus();
++
  	return 0;
  }
+ 
++#ifdef CONFIG_HOTPLUG_CPU
++static void osnoise_hotplug_workfn(struct work_struct *dummy)
++{
++	struct trace_array *tr = osnoise_trace;
++	unsigned int cpu = smp_processor_id();
++
++
++	mutex_lock(&trace_types_lock);
++
++	if (!osnoise_busy)
++		goto out_unlock_trace;
++
++	mutex_lock(&interface_lock);
++	get_online_cpus();
++
++	if (!cpumask_test_cpu(cpu, &osnoise_cpumask))
++		goto out_unlock;
++
++	if (!cpumask_test_cpu(cpu, tr->tracing_cpumask))
++		goto out_unlock;
++
++	start_kthread(cpu);
++
++out_unlock:
++	put_online_cpus();
++	mutex_unlock(&interface_lock);
++out_unlock_trace:
++	mutex_unlock(&trace_types_lock);
++}
++
++static DECLARE_WORK(osnoise_hotplug_work, osnoise_hotplug_workfn);
++
++/*
++ * osnoise_cpu_init - CPU hotplug online callback function
++ */
++static int osnoise_cpu_init(unsigned int cpu)
++{
++	schedule_work_on(cpu, &osnoise_hotplug_work);
++	return 0;
++}
++
++/*
++ * osnoise_cpu_die - CPU hotplug offline callback function
++ */
++static int osnoise_cpu_die(unsigned int cpu)
++{
++	stop_kthread(cpu);
++	return 0;
++}
++
++static void osnoise_init_hotplug_support(void)
++{
++	int ret;
++
++	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "trace/osnoise:online",
++				osnoise_cpu_init, osnoise_cpu_die);
++	if (ret < 0)
++		pr_warn(BANNER "Error to init cpu hotplug support\n");
++
++	return;
++}
++#else /* CONFIG_HOTPLUG_CPU */
++static void osnoise_init_hotplug_support(void)
++{
++	return 0;
++}
++#endif /* CONFIG_HOTPLUG_CPU */
++
+ /*
+  * osnoise_cpus_read - Read function for reading the "cpus" file
+  * @filp: The active open file structure
+@@ -1581,7 +1678,14 @@ osnoise_cpus_write(struct file *filp, const char __user *ubuf, size_t count,
+ 		osnoise_tracer_stop(tr);
+ 
+ 	mutex_lock(&interface_lock);
++	/*
++	 * osnoise_cpumask is read by CPU hotplug operations.
++	 */
++	get_online_cpus();
++
+ 	cpumask_copy(&osnoise_cpumask, osnoise_cpumask_new);
++
++	put_online_cpus();
+ 	mutex_unlock(&interface_lock);
+ 
+ 	if (running)
+@@ -1938,6 +2042,7 @@ __init static int init_osnoise_tracer(void)
+ 		return ret;
+ 	}
+ #endif
++	osnoise_init_hotplug_support();
+ 
+ 	init_tracefs();
+ 
 -- 
 2.31.1
 
