@@ -2,159 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD02FC48BE5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 16:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0CFEC48BDF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:12:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BF3E61358
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 16:55:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D89B7611CE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Jun 2021 18:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbhFVQ5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Jun 2021 12:57:18 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:36713 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230182AbhFVQ5R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 12:57:17 -0400
-Received: by mail-io1-f54.google.com with SMTP id s19so14336618ioc.3;
-        Tue, 22 Jun 2021 09:55:01 -0700 (PDT)
+        id S232347AbhFVSPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Jun 2021 14:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41018 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230146AbhFVSPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jun 2021 14:15:06 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9296CC061756
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:12:49 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id p7so37263403lfg.4
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 11:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CZ8ZYzj6hHuJXsmZpwyIWIWw0nLJtjqqsF2RiG/A2YM=;
+        b=kMmn25DaPZRRY3V65IMoK6joZt/2Rx0PQGhQ7nqJRDs7n/4KFlbx4nvlU6vYnDJoJ5
+         FqN2m2BLT2LbAl24AWIhH15trb47pLTYpEYQab6qIbz/RGNfT4FyfxGWsPWQOqhDhCyy
+         gUkP2NoWypK6UmXFHo9NNR14cgrc7797pp6DGXRw0QLpR3vmDsiTr21+/k7YUckC00D4
+         WBlruau/FcBMV3DWRffttnXsZ88TxMH9gT1cw6XQbBZ3AQYVFwVqhogptbDcN2YZZzKh
+         ZmEnLURq81Wlqyq69lvsaVJpGrrTp9yXsKZOzRX7ji5zmGd6D9aZyNlzGGmMa6OUrcw8
+         KLhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Nst9vbRv3atdsjiAwZVyleOKg/gFLJsFk5FhmXQlxQw=;
-        b=DxZ5e5mKsAkEECIccCAPv9tAUPCs8zTmDxoKWsPy0y+mMtWznX/7sz/5Hv7Y8bq/5s
-         0GNjJN25xZv4ZAEp+TrLHBbd5roOfiW0lsiSmHqkCmJKUFCu5lUpROuRw0+PxWYLHQvI
-         S4dGuyaCcFR9QsSLo2gm5bfQOJtitqPUvA6ZUlMcOZPZCiCEXbMpPbYX3nwDKCvgJrpZ
-         1ECYaPWWbADBPn/7/cYBGBlEEu692oRcBgjSF7aKNlZimD/DtrKNbkNJcW5eFk+ugtwf
-         7LLsOkCYDaqn/AuNrvotKDGP0EhEHTSZD+HOyFh2GGMUv8Swrn8nJue27rbWnxvktx/A
-         xlGg==
-X-Gm-Message-State: AOAM532z1O1g8nZuSLoUFFGfWJZHiC9u2GEHrkxfcaATbsvYMyYKkNMt
-        y6/+gMNc3Ac/wYwuL6Vma9pZV6FoBw==
-X-Google-Smtp-Source: ABdhPJwxes1QyEmFowKSsudJkkyqhfPKqc6A8x0/51AML0FVdLusi2ElghJUf8zau5B5LBuX3hvUjQ==
-X-Received: by 2002:a05:6638:12cd:: with SMTP id v13mr4854440jas.104.1624380900931;
-        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id g4sm2282474ilk.37.2021.06.22.09.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
-Received: (nullmailer pid 3837213 invoked by uid 1000);
-        Tue, 22 Jun 2021 16:54:56 -0000
-Date:   Tue, 22 Jun 2021 10:54:56 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Tomohito Esaki <etom@igel.co.jp>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
-Message-ID: <20210622165456.GA3756306@robh.at.kernel.org>
-References: <20210621064403.26663-1-etom@igel.co.jp>
- <20210621064403.26663-4-etom@igel.co.jp>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CZ8ZYzj6hHuJXsmZpwyIWIWw0nLJtjqqsF2RiG/A2YM=;
+        b=WLBnue/xJlOX4Avd24h3NL9DsbCoraVw3xmQtEOyR0PfLiAfmfJBcyZi9TGD6fWb1R
+         eq6Ukq7wsg+xQqC1HIrMlGY+Ub9TE1pETIStBZnewg11XBQBmOuVNOBZt1n5C9z9RNyJ
+         edDu2dg7KHJZIXoTTKBw/oNuWbVQvA6t/TM07HG3/O/VLg5KPXWmSezc/YRUBOK4zyg4
+         DGfG+9SonCCPfhvAqSOBwfbZXpM9rT5YbJ9TndbfcfC5qBnqsZco89Ma6hvVQFPb2z2Q
+         VPzL1T2H6qrBMKmnzru5PXyvs9yORr9JQ88RuLxlbs5N3TvNCUDeT6eJasLpDALEZCis
+         5ChQ==
+X-Gm-Message-State: AOAM531h4uxf7EVHTgHdutqlBNOx3WwIj0RDNMDhN8XspN+CYGKsaBPP
+        xyWHiaKNrRIkdFa3g0ZZD0/8AWxAU4TmsS1Up7luIQ==
+X-Google-Smtp-Source: ABdhPJxUlgpQBKy/3D4j5dmdUJ0JGTdKqWGeL13RGTa29Fy9JVnyl3fcIOuuJCIDbl+vREG69KynIfInYDadqBzOrz8=
+X-Received: by 2002:a05:6512:1191:: with SMTP id g17mr1605160lfr.347.1624385567602;
+ Tue, 22 Jun 2021 11:12:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
+References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-8-sj38.park@gmail.com>
+In-Reply-To: <20210621083108.17589-8-sj38.park@gmail.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Tue, 22 Jun 2021 11:12:36 -0700
+Message-ID: <CALvZod61B66+Z4J1n6DG6UnvY9j8TE0diz=o1XXOBSZ5DaKSDQ@mail.gmail.com>
+Subject: Re: [PATCH v31 07/13] mm/damon: Implement a debugfs-based user space interface
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        foersleo@amazon.de, greg@kroah.com,
+        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
+        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        sieberf@amazon.com, snu@zelle79.org,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        zgf574564920@gmail.com, linux-damon@amazon.com,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 03:44:02PM +0900, Tomohito Esaki wrote:
-> Add device tree bindings documentation for virtual DRM.
+On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
+>
+> From: SeongJae Park <sjpark@amazon.de>
+>
+> DAMON is designed to be used by kernel space code such as the memory
+> management subsystems, and therefore it provides only kernel space API.
+> That said, letting the user space control DAMON could provide some
+> benefits to them.  For example, it will allow user space to analyze
+> their specific workloads and make their own special optimizations.
+>
+> For such cases, this commit implements a simple DAMON application kernel
+> module, namely 'damon-dbgfs', which merely wraps the DAMON api and
+> exports those to the user space via the debugfs.
+>
+> 'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
+> ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
+>
+> Attributes
+> ----------
+>
+> Users can read and write the ``sampling interval``, ``aggregation
+> interval``, ``regions update interval``, and min/max number of
+> monitoring target regions by reading from and writing to the ``attrs``
+> file.  For example, below commands set those values to 5 ms, 100 ms,
+> 1,000 ms, 10, 1000 and check it again::
+>
+>     # cd <debugfs>/damon
+>     # echo 5000 100000 1000000 10 1000 > attrs
+>     # cat attrs
+>     5000 100000 1000000 10 1000
+>
+> Target IDs
+> ----------
+>
+> Some types of address spaces supports multiple monitoring target.  For
+> example, the virtual memory address spaces monitoring can have multiple
+> processes as the monitoring targets.  Users can set the targets by
+> writing relevant id values of the targets to, and get the ids of the
+> current targets by reading from the ``target_ids`` file.  In case of the
+> virtual address spaces monitoring, the values should be pids of the
+> monitoring target processes.  For example, below commands set processes
+> having pids 42 and 4242 as the monitoring targets and check it again::
+>
+>     # cd <debugfs>/damon
+>     # echo 42 4242 > target_ids
+>     # cat target_ids
+>     42 4242
+>
+> Note that setting the target ids doesn't start the monitoring.
+>
+> Turning On/Off
+> --------------
+>
+> Setting the files as described above doesn't incur effect unless you
+> explicitly start the monitoring.  You can start, stop, and check the
+> current status of the monitoring by writing to and reading from the
+> ``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
+> of the targets with the attributes.  Writing ``off`` to the file stops
+> those.  DAMON also stops if every targets are invalidated (in case of
+> the virtual memory monitoring, target processes are invalidated when
+> terminated).  Below example commands turn on, off, and check the status
+> of DAMON::
+>
+>     # cd <debugfs>/damon
+>     # echo on > monitor_on
+>     # echo off > monitor_on
+>     # cat monitor_on
+>     off
+>
+> Please note that you cannot write to the above-mentioned debugfs files
+> while the monitoring is turned on.  If you write to the files while
+> DAMON is running, an error code such as ``-EBUSY`` will be returned.
+>
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> Reviewed-by: Fernand Sieber <sieberf@amazon.com>
 
-DRM is a Linuxism. What's virtual DRM? Why does it need to be in DT? 
-What's the usecase? You're going to need a lot more reasoning to justify 
-this for DT.
 
-> 
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-> ---
->  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
-> new file mode 100644
-> index 000000000000..6493bb0fc09f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/vdrm.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/vdrm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Virtual DRM Device Tree Bindings
-> +
-> +description:
-> +  This document defines device tree properties virtual DRM. The initial
-> +  position, size and z-position of the plane used in the virtual DRM is
-> +  specified.
-> +  The current limitation is that these settings are applied to all crtc.
-> +
-> +properties:
-> +  compatible:
-> +    const: virt-drm
-> +
-> +patternProperties:
-> +  "^plane(@.*)?$":
-> +    description: Information of the planes used in virtual DRM
-> +    type: object
-> +
-> +    properties:
-> +      x:
-> +        type: int
-> +        description: x-coordinate of the left-top of the plane in pixels
-> +
-> +      y:
-> +        type: int
-> +        description: y-coordinate of the left-top of the plane in pixels
-> +
-> +      width:
-> +        type: int
-> +        description: width of the plane in pixels
-> +
-> +      height:
-> +        type: int
-> +	description: height of the plane in pixels
-> +
-> +      zpos:
-> +        type: int
-> +        description: z-position of the plane
-> +
-> +    required:
-> +      - x
-> +      - y
-> +      - width
-> +      - height
-> +      - zpos
-> +
-> +required:
-> +  - compatible
-> +  - "^plane(@.*)?$"
-> +
-> +examples:
-> + - |
-> +   vdrm@0 {
-> +       compatible = "virt-drm";
-> +       plane@0 {
-> +           x = <200>;
-> +	   y = <100>;
-> +	   width = <800>;
-> +	   height = <600>;
-> +	   zpos = <1>;
-> +       };
-> +   };
-> -- 
-> 2.25.1
-> 
-> 
+The high level comment I have for this patch is the layering of pid
+reference counting. The dbgfs should treat the targets as abstract
+objects and vaddr should handle the reference counting of pids. More
+specifically move find_get_pid from dbgfs to vaddr and to add an
+interface to the primitive for set_targets.
+
+At the moment, the pid reference is taken in dbgfs and put in vaddr.
+This will be the source of bugs in future.
