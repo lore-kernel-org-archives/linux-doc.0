@@ -2,128 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B799CC4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DB3C4743C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 07:23:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D51E6044F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:56:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 624746128A
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 07:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbhFWG62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 02:58:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229920AbhFWG62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 02:58:28 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1094C061574
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id y4so1552391pfi.9
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
-        b=i/0NPDjzGLbE4LBA80Uu7k//DWQ1Wq/Nxeco/bkPsBwFX9NoqdaNYW0UDh00crxFEu
-         iI09uAZ5j9N/sYzrfBKkJ7gxuW0f1N5rs/KbhmonH06zT0Vymn7OwzIKayU4i9Uo7j36
-         rYdsiH9bXq/aOqiYNs0DwBDpzP7OG2Z8uwKmnX/huUPh1DWE/SrkPGpv/kUfnEN0fKnG
-         HI5QBp6EsjJ0G0woKTmwVlmkEF+IDCrXTidlTNqlJQvbiXr5Yfpx2PS2xmnX8yL1IQE/
-         59gSycl8xySsOcTgB8zvz79sg0QRagUAvcgEfWieWBAwIU7mpOw5NYvs0iIju/vBP/xG
-         rsEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
-        b=Tb7S5YaMTUF+GzPeQOL7MfphmiafQEkf9YnVqpr+DnMK+i9tjGfMfd+aKXimciDk7C
-         snbACGUmvRQLE5JA9yF6d5RnLrpJRHrTqr0ddlyvpwty1eoqBD5YtSw7oAypzMeRGkqZ
-         4ejvfVYtdgobLaP1CuQ8aeEnolcJH4laQXaBARR0iiqM6tYCBfjgOmiQ78Yx0aOWShlP
-         Md/HyhrSSaLm1DoRsa2RevBhfW3zZOuqKgwYlHo1HUOcFYB7YhGuqT9MVTHcRXPao2iM
-         hWrVnp22mkGn0+RlTWajOMnRJtbQzDwgmsnBLskZEXuAyTutna6HUk7YwKDaGgMMGsaK
-         A8kQ==
-X-Gm-Message-State: AOAM5309uBuH6jvOdT78ta1oAM+PcOgZzmxHbJYQi3CE8OSfghVcK8fy
-        lOVxrewQhxgToQVdOznrHs3F3w==
-X-Google-Smtp-Source: ABdhPJxuCyhd1JeMWCXAj2NaviXdgvZBzY0G06KEl//E3ieHfTlplnQbfOEvqSdIRXIZ33PF2clRNg==
-X-Received: by 2002:a62:1782:0:b029:2f7:dcbe:c292 with SMTP id 124-20020a6217820000b02902f7dcbec292mr7593771pfx.63.1624431369445;
-        Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
-Received: from ?IPv6:240b:10:c9a0:ca00:1102:c007:eee:4478? ([240b:10:c9a0:ca00:1102:c007:eee:4478])
-        by smtp.gmail.com with ESMTPSA id v69sm1507491pfc.18.2021.06.22.23.56.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 23:56:08 -0700 (PDT)
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
- <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
- <20210622111239.73aa87aa@eldfell>
-From:   Esaki Tomohito <etom@igel.co.jp>
-Message-ID: <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
-Date:   Wed, 23 Jun 2021 15:56:05 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229886AbhFWHZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 03:25:26 -0400
+Received: from mga02.intel.com ([134.134.136.20]:1857 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229660AbhFWHZX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Jun 2021 03:25:23 -0400
+IronPort-SDR: YxqLphSPVDa1R8kxD3TcslnVxLgR3GQzN/4lsiGPQOOSZ4hjUQqWAEUDmwV3RLIsWdFSzSFrso
+ KskzXLoT/fAA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="194350349"
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
+   d="scan'208";a="194350349"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 00:23:04 -0700
+IronPort-SDR: 5p2hsF6F1g10FIA+84l+UYLpV4WLkIZZYHvLdM3kKNv95RLieT9SKgJaHWsSwrvraxNXUaRyTV
+ 4yFCcsE/s7Ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
+   d="scan'208";a="490587560"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.118]) ([10.239.159.118])
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jun 2021 00:23:00 -0700
+Cc:     baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linuxarm@huawei.com,
+        thunder.leizhen@huawei.com, chenxiang66@hisilicon.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v14 6/6] iommu: Remove mode argument from
+ iommu_set_dma_strict()
+To:     Robin Murphy <robin.murphy@arm.com>,
+        John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, dwmw2@infradead.org, corbet@lwn.net
+References: <1624016058-189713-1-git-send-email-john.garry@huawei.com>
+ <1624016058-189713-7-git-send-email-john.garry@huawei.com>
+ <c062ef9e-c106-4218-ba2a-c94fdcb6d955@linux.intel.com>
+ <60bdd7c3-d73e-c005-ddf7-069bc5065bce@huawei.com>
+ <855dd109-1449-7bc6-3d25-7ffeeeffa82a@linux.intel.com>
+ <fc52069d-46c5-5ca5-1b44-2fa7cf287d5a@huawei.com>
+ <2330bb52-1768-5122-9378-7923034c82bd@arm.com>
+ <5564e4b7-99af-c357-594a-1a6efe0c1464@linux.intel.com>
+ <cff9f6ef-0f51-797d-0853-5237f5c10555@arm.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <3f8b003a-98bd-df7b-eacc-50c04e0177b1@linux.intel.com>
+Date:   Wed, 23 Jun 2021 15:21:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210622111239.73aa87aa@eldfell>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <cff9f6ef-0f51-797d-0853-5237f5c10555@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Thank you all for your comments.
-
-On 2021/06/22 17:12, Pekka Paalanen wrote:
-> On Tue, 22 Jun 2021 13:03:39 +0900
-> Esaki Tomohito <etom@igel.co.jp> wrote:
-> 
->> Hi, Enrico Weigelt
->> Thank you for reply.
+On 6/23/21 6:25 AM, Robin Murphy wrote:
+> On 2021-06-21 15:32, Lu Baolu wrote:
+>> Hi Robin,
 >>
->> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
->>> On 21.06.21 08:27, Tomohito Esaki wrote:
->>>
->>> Hi,
->>>   
->>>> Virtual DRM splits the overlay planes of a display controller into multiple
->>>> virtual devices to allow each plane to be accessed by each process.
+>> On 2021/6/21 19:59, Robin Murphy wrote:
+>>> On 2021-06-21 11:34, John Garry wrote:
+>>>> On 21/06/2021 11:00, Lu Baolu wrote:
+>>>>>> void iommu_set_dma_strict(bool force)
+>>>>>> {
+>>>>>>           if (force == true)
+>>>>>>          iommu_dma_strict = true;
+>>>>>>      else if (!(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
+>>>>>>          iommu_dma_strict = true;
+>>>>>> }
+>>>>>>
+>>>>>> So we would use iommu_set_dma_strict(true) for a) and b), but 
+>>>>>> iommu_set_dma_strict(false) for c).
+>>>>>
+>>>>> Yes. We need to distinguish the "must" and "nice-to-have" cases of
+>>>>> setting strict mode.
+>>>>>
+>>>>>>
+>>>>>> Then I am not sure what you want to do with the accompanying print 
+>>>>>> for c). It was:
+>>>>>> "IOMMU batching is disabled due to virtualization"
+>>>>>>
+>>>>>> And now is from this series:
+>>>>>> "IOMMU batching disallowed due to virtualization"
+>>>>>>
+>>>>>> Using iommu_get_dma_strict(domain) is not appropriate here to know 
+>>>>>> the current mode (so we know whether to print).
+>>>>>>
+>>>>>> Note that this change would mean that the current series would 
+>>>>>> require non-trivial rework, which would be unfortunate so late in 
+>>>>>> the cycle.
+>>>>>
+>>>>> This patch series looks good to me and I have added by reviewed-by.
+>>>>> Probably we could make another patch series to improve it so that the
+>>>>> kernel optimization should not override the user setting.
 >>>>
->>>> This makes it possible to overlay images output from multiple processes on a
->>>> display. For example, one process displays the camera image without compositor
->>>> while another process overlays the UI.  
+>>>> On a personal level I would be happy with that approach, but I think 
+>>>> it's better to not start changing things right away in a follow-up 
+>>>> series.
+>>>>
+>>>> So how about we add this patch (which replaces 6/6 "iommu: Remove 
+>>>> mode argument from iommu_set_dma_strict()")?
+>>>>
+>>>> Robin, any opinion?
 >>>
->>> Are you attempting to create an simple in-kernel compositor ?  
+>>> For me it boils down to whether there are any realistic workloads 
+>>> where non-strict mode *would* still perform better under 
+>>> virtualisation. The 
 >>
->> I think the basic idea is the same as DRMlease.
+>> At present, we see that strict mode has better performance in the
+>> virtualization environment because it will make the shadow page table
+>> management more efficient. When the hardware supports nested
+>> translation, we may have to re-evaluate this since there's no need for
+>> a shadowing page table anymore.
 > 
-> Hi,
+> I guess I was assuming that in most cases, proper nested mode could look 
+> distinct enough that we'd be able to treat it differently in the first 
+> place. For instance, if it's handing guest tables directly to the 
+> hardware, would the host have any reason to still set the "caching mode" 
+> ID bit?
+
+For Intel VT-d, yes, simply for compatible purpose. The guest kernel
+may use page tables that are not compatible with the first level
+translation. In this case, we must roll back to shadow page table.
+
 > 
-> indeed. Why not use DRM leases instead?
-> 
+> Robin.
 
-In this use case, I understand that this is not possible with DRM lease,
-am I wrong?
-I understand that it�s not possible to lease a plane and update planes
-on the same output independently from different processes in current DRM
-lease.
-
-If this is correct, what do you think of adding support for plane leases
-to the DRM lease to handle this case?
-
-Thanks,
-Tomohito Esaki
+Best regards,
+baolu
