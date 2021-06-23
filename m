@@ -2,114 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A19F3C4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B799CC4743C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:56:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80DAE6115A
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D51E6044F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:56:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbhFWGrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 02:47:14 -0400
-Received: from m32-153.88.com ([43.250.32.153]:33388 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229660AbhFWGrO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Jun 2021 02:47:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=rdN4HJ1hlOhREHsAIXECXfmBOlSZBmFRowSRR
-        zuOojQ=; b=MtV/taTXXj/2YdeBTnA6MT3ltdWZG+SdlLC1NC6DAtSe5gqPghqqr
-        TqgaiA98gwY+7r3l/UWpE6W83hJu954JbbrQvda+0qZrnWNIDKlCLEkNfoI5ferI
-        nkz8824CuhNmTeNaZa6mBNWZ9PuhmcYUbfQLf5MQD0N1ZOXQO2CA8s=
-Received: from bobwxc.top (unknown [120.238.248.220])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXrfxl2NJg3dQlAA--.15163S2;
-        Wed, 23 Jun 2021 14:44:54 +0800 (CST)
-Date:   Wed, 23 Jun 2021 14:44:53 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH 1/2] docs/zh_CN: Add translation
- zh_CN/admin-guide/efi-stub.rst
-Message-ID: <20210623064452.GB20445@bobwxc.top>
-References: <cover.1624169811.git.bobwxc@email.cn>
- <3341764131722e5bac894fe5b5699bbaf07e2e8a.1624169811.git.bobwxc@email.cn>
- <CAMU9jJrd05LsTtUJ8YgSP3XNYgwPjMVxfMS+6uYZGfwCCWqqnQ@mail.gmail.com>
+        id S230006AbhFWG62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 02:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229920AbhFWG62 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 02:58:28 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1094C061574
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id y4so1552391pfi.9
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
+        b=i/0NPDjzGLbE4LBA80Uu7k//DWQ1Wq/Nxeco/bkPsBwFX9NoqdaNYW0UDh00crxFEu
+         iI09uAZ5j9N/sYzrfBKkJ7gxuW0f1N5rs/KbhmonH06zT0Vymn7OwzIKayU4i9Uo7j36
+         rYdsiH9bXq/aOqiYNs0DwBDpzP7OG2Z8uwKmnX/huUPh1DWE/SrkPGpv/kUfnEN0fKnG
+         HI5QBp6EsjJ0G0woKTmwVlmkEF+IDCrXTidlTNqlJQvbiXr5Yfpx2PS2xmnX8yL1IQE/
+         59gSycl8xySsOcTgB8zvz79sg0QRagUAvcgEfWieWBAwIU7mpOw5NYvs0iIju/vBP/xG
+         rsEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=t2pWY37sQS7wYmTZFWeBBAVB8lvXIPkxw14DD6JgFyw=;
+        b=Tb7S5YaMTUF+GzPeQOL7MfphmiafQEkf9YnVqpr+DnMK+i9tjGfMfd+aKXimciDk7C
+         snbACGUmvRQLE5JA9yF6d5RnLrpJRHrTqr0ddlyvpwty1eoqBD5YtSw7oAypzMeRGkqZ
+         4ejvfVYtdgobLaP1CuQ8aeEnolcJH4laQXaBARR0iiqM6tYCBfjgOmiQ78Yx0aOWShlP
+         Md/HyhrSSaLm1DoRsa2RevBhfW3zZOuqKgwYlHo1HUOcFYB7YhGuqT9MVTHcRXPao2iM
+         hWrVnp22mkGn0+RlTWajOMnRJtbQzDwgmsnBLskZEXuAyTutna6HUk7YwKDaGgMMGsaK
+         A8kQ==
+X-Gm-Message-State: AOAM5309uBuH6jvOdT78ta1oAM+PcOgZzmxHbJYQi3CE8OSfghVcK8fy
+        lOVxrewQhxgToQVdOznrHs3F3w==
+X-Google-Smtp-Source: ABdhPJxuCyhd1JeMWCXAj2NaviXdgvZBzY0G06KEl//E3ieHfTlplnQbfOEvqSdIRXIZ33PF2clRNg==
+X-Received: by 2002:a62:1782:0:b029:2f7:dcbe:c292 with SMTP id 124-20020a6217820000b02902f7dcbec292mr7593771pfx.63.1624431369445;
+        Tue, 22 Jun 2021 23:56:09 -0700 (PDT)
+Received: from ?IPv6:240b:10:c9a0:ca00:1102:c007:eee:4478? ([240b:10:c9a0:ca00:1102:c007:eee:4478])
+        by smtp.gmail.com with ESMTPSA id v69sm1507491pfc.18.2021.06.22.23.56.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Jun 2021 23:56:08 -0700 (PDT)
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+ <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+ <20210622111239.73aa87aa@eldfell>
+From:   Esaki Tomohito <etom@igel.co.jp>
+Message-ID: <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+Date:   Wed, 23 Jun 2021 15:56:05 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210622111239.73aa87aa@eldfell>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMU9jJrd05LsTtUJ8YgSP3XNYgwPjMVxfMS+6uYZGfwCCWqqnQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgDXrfxl2NJg3dQlAA--.15163S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF4kZFW7tw13ZryDZFW7CFg_yoW8Xw45pa
-        4qkFyfK3Z7Jry3Gr4fGF47JF43AFW8u398t3Wxtw1rAwnYyF4ktrWUKry7Wr93Wry8Aayr
-        uF45KFy5Cr40vrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6r47MxAIw2
-        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
-        UjIFyTuYvjxU8UUUUUUUU
-X-Originating-IP: [120.238.248.220]
-X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 11:28:46AM +0800, teng sterling wrote:
-> Wu XiangCheng <bobwxc@email.cn> 于2021年6月20日周日 下午6:41写道：
-> >
-> > Add a new translation
-> >   Documentation/translations/zh_CN/admin-guide/efi-stub.rst
-> > and link it to zh_CN/admin-guide/index.rst
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> > ---
-> >  .../zh_CN/admin-guide/efi-stub.rst            | 86 +++++++++++++++++++
-> >  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
-> >  2 files changed, 87 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/translations/zh_CN/admin-guide/efi-stub.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/admin-guide/efi-stub.rst b/Documentation/translations/zh_CN/admin-guide/efi-stub.rst
-> > new file mode 100644
-> > index 000000000000..b6a4cedec8eb
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/admin-guide/efi-stub.rst
-> > @@ -0,0 +1,86 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/admin-guide/efi-stub.rst
-> > +
-> > +:译者:
-> > +
-> > + 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> > +
-> > +=========
-> > +EFI引导桩
-> > +=========
-> > +
-> > +在x86和ARM平台上，内核zImage/bzImage可以伪装成PE/COFF映像，从而使EFI固件加载
-> > +程序加载其作为EFI可执行文件。修改bzImage头以及固件加载程序跳转特定入口点的
-> how about:
-> 将其作为EFI可执行文件加载？
+Hi,
+Thank you all for your comments.
 
-OK, good.
+On 2021/06/22 17:12, Pekka Paalanen wrote:
+> On Tue, 22 Jun 2021 13:03:39 +0900
+> Esaki Tomohito <etom@igel.co.jp> wrote:
+> 
+>> Hi, Enrico Weigelt
+>> Thank you for reply.
+>>
+>> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
+>>> On 21.06.21 08:27, Tomohito Esaki wrote:
+>>>
+>>> Hi,
+>>>   
+>>>> Virtual DRM splits the overlay planes of a display controller into multiple
+>>>> virtual devices to allow each plane to be accessed by each process.
+>>>>
+>>>> This makes it possible to overlay images output from multiple processes on a
+>>>> display. For example, one process displays the camera image without compositor
+>>>> while another process overlays the UI.  
+>>>
+>>> Are you attempting to create an simple in-kernel compositor ?  
+>>
+>> I think the basic idea is the same as DRMlease.
+> 
+> Hi,
+> 
+> indeed. Why not use DRM leases instead?
+> 
+
+In this use case, I understand that this is not possible with DRM lease,
+am I wrong?
+I understand that it�s not possible to lease a plane and update planes
+on the same output independently from different processes in current DRM
+lease.
+
+If this is correct, what do you think of adding support for plane leases
+to the DRM lease to handle this case?
 
 Thanks,
-	Wu
-
-> 
-> Thanks,
-> 
-> Yanteng
-
+Tomohito Esaki
