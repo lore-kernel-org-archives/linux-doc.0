@@ -2,123 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C911C4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48486C4743C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:50:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47BE0608FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:34:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E289611AD
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:50:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhFWFhG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 01:37:06 -0400
-Received: from m32-153.88.com ([43.250.32.153]:26810 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229665AbhFWFhG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Jun 2021 01:37:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=bpukb5ZEIpEhOWbx0Jc4tB2OJGavh3UCtW/yz
-        QlKs7w=; b=OnaOAZWRejQKHZT6OyA+keIZ67MaBVt/yFlw+T2zBSuTXfIeX7FRt
-        YBCqM8VukQ0P7NNbz1+uOqbcBZIXfxpuVsRTyvowoQaJ2fsnxNN74GZ/y91lSmGg
-        zxP/c+JBnFygpUXDuKzmQ6/I3JYr0nko3q0nacZlgWJJ4duaieTqg8=
-Received: from bobwxc.top (unknown [120.238.248.220])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXrfzux9Jgr70lAA--.14949S2;
-        Wed, 23 Jun 2021 13:34:40 +0800 (CST)
-Date:   Wed, 23 Jun 2021 13:34:38 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com
-Subject: Re: [PATCH v2] docs/zh_CN: add core api genericirq translation
-Message-ID: <20210623053438.GA17155@bobwxc.top>
-References: <20210622134109.1872740-1-siyanteng@loongson.cn>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
-Content-Disposition: inline
-In-Reply-To: <20210622134109.1872740-1-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgDXrfzux9Jgr70lAA--.14949S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GrWUZF13Cw47uF1rZw1fZwb_yoWDXwb_Aa
-        1kAFW0kF4jvFn3KF4rJF1UJrW7uF4Sk34kKFn8t3s8J3y5Gr4kCw1kXF95WayDCanrurZr
-        Ka9ruwn2qFnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbYAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-        87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-        Yx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04
-        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
-        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
-        UjIFyTuYvj4RRbyZUUUUU
-X-Originating-IP: [120.238.248.220]
-X-CM-SenderInfo: pere453f6hztlloou0/
+        id S229833AbhFWFwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 01:52:50 -0400
+Received: from foss.arm.com ([217.140.110.172]:57944 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229726AbhFWFwu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Jun 2021 01:52:50 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95C2CED1;
+        Tue, 22 Jun 2021 22:50:32 -0700 (PDT)
+Received: from entos-ampere-02.shanghai.arm.com (entos-ampere-02.shanghai.arm.com [10.169.214.103])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 656BF3F694;
+        Tue, 22 Jun 2021 22:50:27 -0700 (PDT)
+From:   Jia He <justin.he@arm.com>
+To:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>, nd@arm.com,
+        Jia He <justin.he@arm.com>
+Subject: [PATCH v2 0/4] make '%pD' print the full path of file
+Date:   Wed, 23 Jun 2021 13:50:07 +0800
+Message-Id: <20210623055011.22916-1-justin.he@arm.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Background
+==========
+Linus suggested printing the full path of file instead of printing
+the components as '%pd'.
 
---NzB8fVQJ5HfG6fxh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Typically, there is no need for printk specifiers to take any real locks
+(ie mount_lock or rename_lock). So I introduce a new helper
+d_path_unsafe() which is similar to d_path() except it doesn't take any
+seqlock/spinlock.
 
-On Tue, Jun 22, 2021 at 09:41:09PM +0800, Yanteng Si wrote:
-> translate Documentation/core-api/genericirq.rst into Chinese.
->=20
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+This series is based on Al Viro's d_path() cleanup patches [1] which
+lifted the inner lockless loop into a new helper. 
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Test
+====
+The cases I tested:
+1. print '%pD' with full path of ext4 file
+2. mount a ext4 filesystem upon a ext4 filesystem, and print the file
+   with '%pD'
+3. all test_print selftests, including the new '%14pD' '%-14pD'
+4. kasprintf
 
-> ---
-> v2:
-> * Modified some words under Xiangcheng's advices;
-> * add =E6=A0=A1=E8=AF=91=E8=80=85(proofreading) sign.If you don't want me=
- to do this, please let me know.
->=20
->  .../zh_CN/core-api/genericirq.rst             | 409 ++++++++++++++++++
->  .../translations/zh_CN/core-api/index.rst     |   2 +-
->  2 files changed, 410 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/genericirq.=
-rst
->=20
-> diff --git a/Documentation/translations/zh_CN/core-api/genericirq.rst b/D=
-ocumentation/translations/zh_CN/core-api/genericirq.rst
-> new file mode 100644
-> index 000000000000..be0066cdbe38
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/genericirq.rst
-> @@ -0,0 +1,409 @@
-[...]
+TODO
+====
+I plan to do the followup work after '%pD' behavior is changed.
+- s390/hmcdrv: remove the redundant directory path in printing string.
+- fs/iomap: simplify the iomap_swapfile_fail() with '%pD'.
+- simplify the string printing when file_path() is invoked(in some
+  cases, not all).
+- change the previous '%pD[2,3,4]' to '%pD'
+   
+Changelog
+=========
+v2:
+- refine the commit msg/comments (Andy)
+- pass the validator check by "make C=1 W=1"
+- add the R-b for patch 4/4 from Andy
 
-Thanks,
-	Wu X.C.
+v1: https://lkml.org/lkml/2021/6/22/680
+- remove the RFC tag
+- refine the commit msg/comments(by Petr, Andy)
+- make using_scratch_space a new parameter of the test case 
 
---NzB8fVQJ5HfG6fxh
-Content-Type: application/pgp-signature; name="signature.asc"
+RFCv4:
+- don't support spec.precision anymore for '%pD'
+- add Rasmus's patch into this series
+ 
+RFCv3:
+- implement new d_path_unsafe to use [buf, end] instead of stack space for
+  filling bytes (by Matthew)
+- add new test cases for '%pD'
+- drop patch "hmcdrv: remove the redundant directory path" before removing rfc.
 
------BEGIN PGP SIGNATURE-----
+RFCv2: 
+- implement new d_path_fast based on Al Viro's patches
+- add check_pointer check (by Petr)
+- change the max full path size to 256 in stack space
 
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmDSx+sACgkQtlsoEiKC
-sIWMygwAxZRK9pZKM+QDlSoXklxkO6t9reGLIwSffKiOzAOE2SpQli6HyKGskq5V
-HbltxNYlV3JhPqNWVXEvBeWSrw5MCCITNaqu3aw9U8GzQVo+piTp5wIuJIDvwjOa
-4sN9NO0MSTSKdau7VA9GsgECdp20pwmMupEBqOEYsDiID9V8JwuGJkYH1E8GkWXv
-GBBWyNgvlh21s7W3ZV7EpaQ0S6gDGoqLK5bzp+4NPUNNvzgkgpxcfWnaxFMeVZwN
-oEEtaZxByar6Tejdmp7yaN/Jovqzi3zafWWV/nt5Fv2CACs0jgPXJXnZEnx32KMR
-VzQnJ3lY8lJZ0dooGoAkFTH/Q4FcZAJeUMp7XT4fEWiNuC0VyqWcR2/J1Di1LGqu
-3cqEgcwWBMjNTYugOHOEtxbYqjCrouMYH4csomcbi9WruyvuzjrSJpnbtgAjKd9N
-oE8E8m/VaT9ttFCAeM7z/pZeBPdM4IPKY4uBOUr9a4Wt0ebR75evqmi7v3R7qQs1
-S27FffAq
-=EP3U
------END PGP SIGNATURE-----
+RFCv1: https://lkml.org/lkml/2021/5/8/122
 
---NzB8fVQJ5HfG6fxh--
+Link: https://lkml.org/lkml/2021/5/18/1260 [1]
+
+Jia He (3):
+  fs: introduce helper d_path_unsafe()
+  lib/vsprintf.c: make '%pD' print the full path of file
+  lib/test_printf.c: add test cases for '%pD'
+
+Rasmus Villemoes (1):
+  lib/test_printf.c: split write-beyond-buffer check in two
+
+ Documentation/core-api/printk-formats.rst |   5 +-
+ fs/d_path.c                               | 122 ++++++++++++++++++++--
+ include/linux/dcache.h                    |   1 +
+ lib/test_printf.c                         |  54 ++++++++--
+ lib/vsprintf.c                            |  40 ++++++-
+ 5 files changed, 199 insertions(+), 23 deletions(-)
+
+-- 
+2.17.1
 
