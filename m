@@ -2,39 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9AEC4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 09:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5261EC4743C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 09:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A95A600CC
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 09:15:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36AB2601FF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 09:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229918AbhFWJRa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 05:17:30 -0400
-Received: from mga02.intel.com ([134.134.136.20]:10430 "EHLO mga02.intel.com"
+        id S230013AbhFWJSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 05:18:39 -0400
+Received: from mga03.intel.com ([134.134.136.65]:28254 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230109AbhFWJR3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Jun 2021 05:17:29 -0400
-IronPort-SDR: pDYcOQpaICIBdF5nXwuMg84KeDntFcDiFTpCv7BdRHBxyJj/f94v2Rv5gzNuETV1NlZpY2++lO
- lZ7lZzrPC0Mg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="194365959"
+        id S229833AbhFWJSh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Jun 2021 05:18:37 -0400
+IronPort-SDR: MWDb4sVHSf+/bxn5C2jYdb9SzEXLSMm90pY5gFkQAAhhvvC3+7pqBI6fl4HY4wVbauawivm7kB
+ 0arplk1Rxefw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="207267619"
 X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
-   d="scan'208";a="194365959"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 02:15:03 -0700
-IronPort-SDR: QTCrY2/uZS/S33R68erMlwME/oA/hQ2PKXj+baFV/MK+DVQU5hA9srQVTcaUNMIY/f8SYRuyp0
- z1hgqEuMoCeg==
+   d="scan'208";a="207267619"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 02:16:19 -0700
+IronPort-SDR: nR4vg6G/TC9WdS1fhqF0Ckg4oLkq3z69gTz4q9LGfBnQsLskdHMeNGDlGxg3vaY+6IhXzyxg4A
+ RWCLvhwdcCFg==
 X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
-   d="scan'208";a="556083384"
+   d="scan'208";a="406623987"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 02:14:59 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 02:16:15 -0700
 Received: from andy by smile with local (Exim 4.94.2)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lvyyF-004hbq-Ag; Wed, 23 Jun 2021 12:14:55 +0300
-Date:   Wed, 23 Jun 2021 12:14:55 +0300
+        id 1lvyzQ-004hcu-Pv; Wed, 23 Jun 2021 12:16:08 +0300
+Date:   Wed, 23 Jun 2021 12:16:08 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Jia He <justin.he@arm.com>
 Cc:     Petr Mladek <pmladek@suse.com>,
@@ -51,50 +52,92 @@ Cc:     Petr Mladek <pmladek@suse.com>,
         linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         Christoph Hellwig <hch@infradead.org>, nd@arm.com
-Subject: Re: [PATCH v2 2/4] lib/vsprintf.c: make '%pD' print the full path of
- file
-Message-ID: <YNL7j2GfSbUCetZ0@smile.fi.intel.com>
+Subject: Re: [PATCH v2 3/4] lib/test_printf.c: split write-beyond-buffer
+ check in two
+Message-ID: <YNL72KwP8oyNzons@smile.fi.intel.com>
 References: <20210623055011.22916-1-justin.he@arm.com>
- <20210623055011.22916-3-justin.he@arm.com>
+ <20210623055011.22916-4-justin.he@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210623055011.22916-3-justin.he@arm.com>
+In-Reply-To: <20210623055011.22916-4-justin.he@arm.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 01:50:09PM +0800, Jia He wrote:
-> Previously, the specifier '%pD' is for printing dentry name of struct
-> file. It may not be perfect (by default it only prints one component.)
+On Wed, Jun 23, 2021 at 01:50:10PM +0800, Jia He wrote:
+> From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 > 
-> As suggested by Linus [1]:
-> > A dentry has a parent, but at the same time, a dentry really does
-> > inherently have "one name" (and given just the dentry pointers, you
-> > can't show mount-related parenthood, so in many ways the "show just
-> > one name" makes sense for "%pd" in ways it doesn't necessarily for
-> > "%pD"). But while a dentry arguably has that "one primary component",
-> > a _file_ is certainly not exclusively about that last component.
+> Before each invocation of vsnprintf(), do_test() memsets the entire
+> allocated buffer to a sentinel value. That buffer includes leading and
+> trailing padding which is never included in the buffer area handed to
+> vsnprintf (spaces merely for clarity):
 > 
-> Hence change the behavior of '%pD' to print the full path of that file.
+>   pad  test_buffer      pad
+>   **** **************** ****
 > 
-> If someone invokes snprintf() with small but positive space,
-> prepend_name_with_len() moves or truncates the string partially. More
-> than that, kasprintf() will pass NULL @buf and @end as the parameters,
-> and @end - @buf can be negative in some case. Hence make it return at
-> the very beginning with false in these cases.
+> Then vsnprintf() is invoked with a bufsize argument <=
+> BUF_SIZE. Suppose bufsize=10, then we'd have e.g.
 > 
-> Precision is never going to be used with %p (or any of its kernel
-> extensions) if -Wformat is turned on.
+>  |pad |   test_buffer    |pad |
+>   **** pizza0 **** ****** ****
+>  A    B      C    D           E
+> 
+> where vsnprintf() was given the area from B to D.
+> 
+> It is obviously a bug for vsnprintf to touch anything between A and B
+> or between D and E. The former is checked for as one would expect. But
+> for the latter, we are actually a little stricter in that we check the
+> area between C and E.
+> 
+> Split that check in two, providing a clearer error message in case it
+> was a genuine buffer overrun and not merely a write within the
+> provided buffer, but after the end of the generated string.
+> 
+> So far, no part of the vsnprintf() implementation has had any use for
+> using the whole buffer as scratch space, but it's not unreasonable to
+> allow that, as long as the result is properly nul-terminated and the
+> return value is the right one. However, it is somewhat unusual, and
+> most %<something> won't need this, so keep the [C,D] check, but make
+> it easy for a later patch to make that part opt-out for certain tests.
 
-...
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> +	char *p;
-> +	const struct path *path;
-> +	int prepend_len, widen_len, dpath_len;
-
-Reversed xmas tree order?
+> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Tested-by: Jia He <justin.he@arm.com>
+> Signed-off-by: Jia He <justin.he@arm.com>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> ---
+>  lib/test_printf.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index ec0d5976bb69..d1d2f898ebae 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -78,12 +78,17 @@ do_test(int bufsize, const char *expect, int elen,
+>  		return 1;
+>  	}
+>  
+> -	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, BUF_SIZE + PAD_SIZE - (written + 1))) {
+> +	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
+>  		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
+>  			bufsize, fmt);
+>  		return 1;
+>  	}
+>  
+> +	if (memchr_inv(test_buffer + bufsize, FILL_CHAR, BUF_SIZE + PAD_SIZE - bufsize)) {
+> +		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond buffer\n", bufsize, fmt);
+> +		return 1;
+> +	}
+> +
+>  	if (memcmp(test_buffer, expect, written)) {
+>  		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
+>  			bufsize, fmt, test_buffer, written, expect);
+> -- 
+> 2.17.1
+> 
 
 -- 
 With Best Regards,
