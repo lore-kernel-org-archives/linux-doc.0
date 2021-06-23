@@ -2,110 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7EEC4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F96C49EA5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:17:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9616E611AD
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:54:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 050196101D
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:17:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbhFWF43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 01:56:29 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:55240 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229660AbhFWF43 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Jun 2021 01:56:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=ogn7OtqgyC6Ll1d0xreZzZe5OVRC1T66L2dxg
-        kGVBGU=; b=fp9ADgOjjYv65d5KUZwG987B+dE7ziQHFTREG/trz1NSFyR6W04gm
-        wP7O3CwLuim4iH4u2Xx/yOZLvW2RBAnNsAsCSr2jf1N2n3PEPcHFGKrz2CAjzdMB
-        0pxNhspWV1JMHsUBGdv2KBHNRY+LTCIiAF2X8hOqBSVwzyQimRw0q4=
-Received: from bobwxc.top (unknown [120.238.248.220])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBX8zZ6zNJgZQEgAA--.1031S2;
-        Wed, 23 Jun 2021 13:54:05 +0800 (CST)
-Date:   Wed, 23 Jun 2021 13:54:02 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com
-Subject: Re: [PATCH v3 1/2] docs/zh_CN: add core api memory_hotplug
- translation
-Message-ID: <20210623055402.GA20108@bobwxc.top>
-References: <cover.1624370078.git.siyanteng@loongson.cn>
- <c8363a35d70e0781d81fa678ad7b95a4b5690664.1624370078.git.siyanteng@loongson.cn>
+        id S229853AbhFWGUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 02:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229812AbhFWGUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 02:20:12 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86DF8C061574
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id g4so932378pjk.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
+        b=IfQNjiTjlHeOtyJvGTlaSnVIszGJHPIXd2ZLetG7fRg3/1qxDfxJBGaFvglBkjs0A9
+         aOMIVfHWFPggoGKFJebTQaAcngMdomXFzJAZ41RUF+nNb5iUr+j1EYwDMOdnmcyBzx+S
+         UXKJ+LYCQxpE3JB9b/Xuh6JN1PZmT/I96wE8Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
+        b=jwcnfr2K/3IboQOhf/s7IuKAheRr38gn/Qo2YxqUmiOysBbbOMelcM5qrDj78aPFOF
+         eW2qZEP2hlUHcn9wHqUrLWkRyo7I6UU2snrevCnXAhOwCYwwuOLi4oCLFwtkaJzaV9XV
+         Ro+Z5BP3KP8QIFW6mwuHe3iMZOFeqQUpmYTrB4rZSMocYvGM4LEXTNIojVZ4ezKDfHiC
+         8yfHU0Ri4mLZsP8fTvP9TtKvv1MHamjoaYDw34COV69OXplWhU+vFRFYt6PVm4fYqXji
+         JbCTfSTbzsiLL3bSd3zcJa164gTdVnv7op1keJhRlXgnjrm/JAn0951wfnSfafpkTks6
+         sLBg==
+X-Gm-Message-State: AOAM533rZxt6SD91/TJnLmcuyFZSt13r+KCSeOjuqhudOZ7yeIBRrYqq
+        Wqdn+eJWmIcU4aS2T7SefLFfAQ==
+X-Google-Smtp-Source: ABdhPJzn0CH+45cTEhcoIwl87qkwPrIemELQImLMLCSKtRYhh9WOlPotlexcZ8zGNKPJxyuXXn3TWw==
+X-Received: by 2002:a17:90b:2241:: with SMTP id hk1mr7714688pjb.97.1624429074073;
+        Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z18sm1113249pfe.214.2021.06.22.23.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 23:17:53 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-arm-kernel@lists.infradead.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Bill Wendling <wcw@google.com>, Arnd Bergmann <arnd@arndb.de>,
+        johannes.berg@intel.com, clang-built-linux@googlegroups.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Martin Liska <mliska@suse.cz>,
+        linux-toolchains@vger.kernel.org, x86@kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
+Date:   Tue, 22 Jun 2021 23:15:50 -0700
+Message-Id: <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
+References: <20210621231822.2848305-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
-In-Reply-To: <c8363a35d70e0781d81fa678ad7b95a4b5690664.1624370078.git.siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgBX8zZ6zNJgZQEgAA--.1031S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5C7k0a2IF6F4UM7kC6x804xWl1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-        x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWU
-        JVW8JwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-        1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487M2AExVA0xI801c8C04v7Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4
-        x0Y48IcVAKI48JMxkIecxEwVAFwVW8WwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
-        6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
-        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
-        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUUO6pPUUUUU==
-X-Originating-IP: [120.238.248.220]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 21 Jun 2021 16:18:19 -0700, Nick Desaulniers wrote:
+> The kernel has been using noinstr for correctness to politely request
+> that the compiler avoid adding various forms of instrumentation to
+> certain functions.
+> 
+> GCOV and PGO can both instrument functions, yet the function attribute
+> to disable such instrumentation (no_profile_instrument_function) was not
+> being used to suppress such implementation. Also, clang only just
+> recently gained support for no_profile_instrument_function. GCC has
+> supported that since 7.1+.
+> 
+> [...]
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to for-next/clang/features, thanks!
 
-On Tue, Jun 22, 2021 at 10:00:17PM +0800, Yanteng Si wrote:
-> Translate Documentation/core-api/memory_hotplug.rst into Chinese.
->=20
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+[1/3] compiler_attributes.h: define __no_profile, add to noinstr
+      https://git.kernel.org/kees/c/380d53c45ff2
+[2/3] compiler_attributes.h: cleanups for GCC 4.9+
+      https://git.kernel.org/kees/c/ae4d682dfd33
+[3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
+      https://git.kernel.org/kees/c/51c2ee6d121c
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Note that I've tweaked the series slightly to move the PGO Kconfig change into
+the PGO patch.
 
-> ---
->  .../translations/zh_CN/core-api/index.rst     |   2 +-
->  .../zh_CN/core-api/memory-hotplug.rst         | 126 ++++++++++++++++++
->  2 files changed, 127 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/memory-hotp=
-lug.rst
-[...]
-
-Thanks,
-	Wu X.C.
-
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmDSzHkACgkQtlsoEiKC
-sIV7ewv/TInD8t+FXc68FO1NEUrKAMVmaTSbc2FXgYRaY55pb43isQwH+iY0DHiK
-fg1+oYSCbQDnsFrulf9CEA054VTUEs5/D+AdPxgtfk5s/hEzIuHhMlLwFWQi6SSL
-43i5HHgOKLzjV6z3fI7aE5JBmhk/+V6cq+1ZdGZX0rJSnKPC/FO9CK+nZQcSO/cj
-9FVFguJhcpFEWsUv24SWUC0AFO3Fd/8MaFnzqgxpEC/qNi8LWnYh8OHj605lSl7w
-KXT/CJLh+wdtFSse7gt/xQoe+/Fj1KWrOVaDPf/8kX7A09+oh1tT7KZebjyz7CvL
-jHqNIIT7jIgQPu6xeRYjpi+Tb1kbAVtcxztNqIM70Gap329sQ3OV9ZhRrruYATx4
-FNjY21e+LWeHknlJsjl6AuB9vvrSzOvzLJKqzlion5HqO1mKWwXa5zOBU6mOzXTA
-OP6xF6k+Np5zbwYL3ygZJKFJE+fNMy9gGU1CqD5GerB/VkcdvuNLFalQblrFS6Cl
-SKEJY1n7
-=+w22
------END PGP SIGNATURE-----
-
---C7zPtVaVf+AK4Oqc--
+-- 
+Kees Cook
 
