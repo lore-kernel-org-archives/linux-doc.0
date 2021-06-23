@@ -2,124 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F96C49EA5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D13CCC48BC2
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:32:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 050196101D
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:17:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B57876128A
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 06:32:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229853AbhFWGUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 02:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32848 "EHLO
+        id S229844AbhFWGfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 02:35:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbhFWGUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 02:20:12 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86DF8C061574
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id g4so932378pjk.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+        with ESMTP id S229660AbhFWGfA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 02:35:00 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 854D0C061574;
+        Tue, 22 Jun 2021 23:32:42 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id l11so913505pji.5;
+        Tue, 22 Jun 2021 23:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
-        b=IfQNjiTjlHeOtyJvGTlaSnVIszGJHPIXd2ZLetG7fRg3/1qxDfxJBGaFvglBkjs0A9
-         aOMIVfHWFPggoGKFJebTQaAcngMdomXFzJAZ41RUF+nNb5iUr+j1EYwDMOdnmcyBzx+S
-         UXKJ+LYCQxpE3JB9b/Xuh6JN1PZmT/I96wE8Y=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xJdnFfE3PfYVnhG5Z/vLXv7ETsm3m4letYFLnkEV8dM=;
+        b=kKHO+F2wzhMRj9EgaZlyVg552Sm6hloAXa1E534iJAGvKsRIAfUGHZgw5SCARpeos2
+         c+YI6/QunZgQrWlyJUuEFqGbOTV4Zg6JOwhhRK7AteFqZrKM66i/PIrqjYK0mY1Te9Vj
+         eQLz35+73moIyCLaWsHyg6af8MNf4C/uhnrcHtitmPsQfiKQTz5zXMeKzpRKNXwjFfq/
+         5ALRlubNloYGJvNbeHLdpi4HcCHCseTIByVTaWc8oRxjr4VVI+zZ08bTi7GEOT21nZc1
+         tGUfqhXumPJJIanSTGOduA40fTI5hHRx6LzB3fXEwlw3ywPI/rKNZrtXmFmw0pIcskNr
+         +nSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
-        b=jwcnfr2K/3IboQOhf/s7IuKAheRr38gn/Qo2YxqUmiOysBbbOMelcM5qrDj78aPFOF
-         eW2qZEP2hlUHcn9wHqUrLWkRyo7I6UU2snrevCnXAhOwCYwwuOLi4oCLFwtkaJzaV9XV
-         Ro+Z5BP3KP8QIFW6mwuHe3iMZOFeqQUpmYTrB4rZSMocYvGM4LEXTNIojVZ4ezKDfHiC
-         8yfHU0Ri4mLZsP8fTvP9TtKvv1MHamjoaYDw34COV69OXplWhU+vFRFYt6PVm4fYqXji
-         JbCTfSTbzsiLL3bSd3zcJa164gTdVnv7op1keJhRlXgnjrm/JAn0951wfnSfafpkTks6
-         sLBg==
-X-Gm-Message-State: AOAM533rZxt6SD91/TJnLmcuyFZSt13r+KCSeOjuqhudOZ7yeIBRrYqq
-        Wqdn+eJWmIcU4aS2T7SefLFfAQ==
-X-Google-Smtp-Source: ABdhPJzn0CH+45cTEhcoIwl87qkwPrIemELQImLMLCSKtRYhh9WOlPotlexcZ8zGNKPJxyuXXn3TWw==
-X-Received: by 2002:a17:90b:2241:: with SMTP id hk1mr7714688pjb.97.1624429074073;
-        Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z18sm1113249pfe.214.2021.06.22.23.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 23:17:53 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-arm-kernel@lists.infradead.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Bill Wendling <wcw@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        johannes.berg@intel.com, clang-built-linux@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>,
-        linux-toolchains@vger.kernel.org, x86@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
-Date:   Tue, 22 Jun 2021 23:15:50 -0700
-Message-Id: <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
-References: <20210621231822.2848305-1-ndesaulniers@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xJdnFfE3PfYVnhG5Z/vLXv7ETsm3m4letYFLnkEV8dM=;
+        b=Lo+fZ2Ym+QYTcbIAAKjhz3CW9SPwh7dqfCq1k7WhwL8Q0G5Apd7HVsUI2LzW2Lr4J2
+         fnCvXSWD3buKp7r1v3M1TUi2NCNCpW31T7H98jV68RrmrRzdUGh6qTgUvyJX7YpgGCdt
+         qMAliqO6JDCsZIYNGPSQtpsDdcod5o3KKT2Dl1WeWx3uoQxRtSNr93iTN3ytk/j+b93t
+         UqHtYT7IiRmv0x1+sIA95XeCI5Vge6YlGnVu+bDYA+4efaAEjTvVHke22M0SPIM6yiiv
+         iD1lUwSu4DV+N2wGOvV8vdrh36FMem9RN0JgoHmOaK1g6EyPmO9229Gswz4QzNJwoG3G
+         8QIw==
+X-Gm-Message-State: AOAM531YE7wAr4WFvFcOA9Dz3OBBWu5Ax7LB3ZVHbcovONR0f/dY3rJO
+        GHqjZrvFZjgrr1tT2KLYYaJJYgNCC/yYAnV9GUU=
+X-Google-Smtp-Source: ABdhPJw7ScLCZDYlVN5RUxJ2w8iUMF+Ur6lP6oF1HYkj6gfGi5L79ao+U07v6Dvsaeg8fFnx8/lPuZSFVglkCmSvQWg=
+X-Received: by 2002:a17:90a:8589:: with SMTP id m9mr7956572pjn.168.1624429961937;
+ Tue, 22 Jun 2021 23:32:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20210622185647.3705104-1-i.maximets@ovn.org>
+In-Reply-To: <20210622185647.3705104-1-i.maximets@ovn.org>
+From:   Magnus Karlsson <magnus.karlsson@gmail.com>
+Date:   Wed, 23 Jun 2021 08:32:30 +0200
+Message-ID: <CAJ8uoz3Wbfq4C2NeXS6f_1aUk6tb9qRmsKQK7fDyqsgZEXKoSA@mail.gmail.com>
+Subject: Re: [PATCH] docs: af_xdp: consistent indentation in examples
+To:     Ilya Maximets <i.maximets@ovn.org>
+Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Jun 2021 16:18:19 -0700, Nick Desaulniers wrote:
-> The kernel has been using noinstr for correctness to politely request
-> that the compiler avoid adding various forms of instrumentation to
-> certain functions.
-> 
-> GCOV and PGO can both instrument functions, yet the function attribute
-> to disable such instrumentation (no_profile_instrument_function) was not
-> being used to suppress such implementation. Also, clang only just
-> recently gained support for no_profile_instrument_function. GCC has
-> supported that since 7.1+.
-> 
-> [...]
+On Tue, Jun 22, 2021 at 8:57 PM Ilya Maximets <i.maximets@ovn.org> wrote:
+>
+> Examples in this document use all kinds of indentation from 3 to 5
+> spaces and even mixed with tabs.  Making them all even and equal to
+> 4 spaces.
+>
+> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+> ---
+>  Documentation/networking/af_xdp.rst | 32 ++++++++++++++---------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 
-Applied to for-next/clang/features, thanks!
+Thanks for the cleanup Ilya.
 
-[1/3] compiler_attributes.h: define __no_profile, add to noinstr
-      https://git.kernel.org/kees/c/380d53c45ff2
-[2/3] compiler_attributes.h: cleanups for GCC 4.9+
-      https://git.kernel.org/kees/c/ae4d682dfd33
-[3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
-      https://git.kernel.org/kees/c/51c2ee6d121c
+Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
 
-Note that I've tweaked the series slightly to move the PGO Kconfig change into
-the PGO patch.
-
--- 
-Kees Cook
-
+> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+> index 2ccc5644cc98..42576880aa4a 100644
+> --- a/Documentation/networking/af_xdp.rst
+> +++ b/Documentation/networking/af_xdp.rst
+> @@ -290,19 +290,19 @@ round-robin example of distributing packets is shown below:
+>     #define MAX_SOCKS 16
+>
+>     struct {
+> -        __uint(type, BPF_MAP_TYPE_XSKMAP);
+> -        __uint(max_entries, MAX_SOCKS);
+> -        __uint(key_size, sizeof(int));
+> -        __uint(value_size, sizeof(int));
+> +       __uint(type, BPF_MAP_TYPE_XSKMAP);
+> +       __uint(max_entries, MAX_SOCKS);
+> +       __uint(key_size, sizeof(int));
+> +       __uint(value_size, sizeof(int));
+>     } xsks_map SEC(".maps");
+>
+>     static unsigned int rr;
+>
+>     SEC("xdp_sock") int xdp_sock_prog(struct xdp_md *ctx)
+>     {
+> -       rr = (rr + 1) & (MAX_SOCKS - 1);
+> +       rr = (rr + 1) & (MAX_SOCKS - 1);
+>
+> -       return bpf_redirect_map(&xsks_map, rr, XDP_DROP);
+> +       return bpf_redirect_map(&xsks_map, rr, XDP_DROP);
+>     }
+>
+>  Note, that since there is only a single set of FILL and COMPLETION
+> @@ -379,7 +379,7 @@ would look like this for the TX path:
+>  .. code-block:: c
+>
+>     if (xsk_ring_prod__needs_wakeup(&my_tx_ring))
+> -      sendto(xsk_socket__fd(xsk_handle), NULL, 0, MSG_DONTWAIT, NULL, 0);
+> +       sendto(xsk_socket__fd(xsk_handle), NULL, 0, MSG_DONTWAIT, NULL, 0);
+>
+>  I.e., only use the syscall if the flag is set.
+>
+> @@ -442,9 +442,9 @@ purposes. The supported statistics are shown below:
+>  .. code-block:: c
+>
+>     struct xdp_statistics {
+> -         __u64 rx_dropped; /* Dropped for reasons other than invalid desc */
+> -         __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
+> -         __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
+> +       __u64 rx_dropped; /* Dropped for reasons other than invalid desc */
+> +       __u64 rx_invalid_descs; /* Dropped due to invalid descriptor */
+> +       __u64 tx_invalid_descs; /* Dropped due to invalid descriptor */
+>     };
+>
+>  XDP_OPTIONS getsockopt
+> @@ -483,15 +483,15 @@ like this:
+>  .. code-block:: c
+>
+>      // struct xdp_rxtx_ring {
+> -    //         __u32 *producer;
+> -    //         __u32 *consumer;
+> -    //         struct xdp_desc *desc;
+> +    //     __u32 *producer;
+> +    //     __u32 *consumer;
+> +    //     struct xdp_desc *desc;
+>      // };
+>
+>      // struct xdp_umem_ring {
+> -    //         __u32 *producer;
+> -    //         __u32 *consumer;
+> -    //         __u64 *desc;
+> +    //     __u32 *producer;
+> +    //     __u32 *consumer;
+> +    //     __u64 *desc;
+>      // };
+>
+>      // typedef struct xdp_rxtx_ring RING;
+> --
+> 2.26.3
+>
