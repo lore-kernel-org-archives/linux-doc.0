@@ -2,144 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1152DC48BE5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 04:25:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C911C4743C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:34:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E73EA6135A
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 04:25:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47BE0608FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 05:34:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230464AbhFWE11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 00:27:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbhFWE10 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 00:27:26 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD839C061756
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 21:25:08 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id d12so666138pgd.9
-        for <linux-doc@vger.kernel.org>; Tue, 22 Jun 2021 21:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IsYDkx5V1mJjZwOsL/IXqLmlqBdgt7SKxZu32NLqyoA=;
-        b=KoW+3L+nAzHaFgbRElzs5uOdutafEIWxBC8B5+GDKPJmQleXVfldK7z7iqfjfcts1Q
-         rPL0kfSafE8oFpk6vrVZuNwIRU6AgR8g80QroxtsUVS3fgsrxmhUjcHJybPvXNrlECFn
-         AAucYr0aZJMlHLGw09t3jUjQgj2XGLYNcQaGeuAUDeAoyhWbX1LrqiB6kBBDGV/8z/CN
-         ++aB+n41chkQUj2WNQ3WqdialMd1lKj6yKzDF0hXvNUGzITEYsvfRPlJpIra4FVwPNQk
-         b7US4tsXnrqo0EG6dj8k2TY/Ebg3EXPdt97zdZ9/IXIIO+2y6YkdmcBVH7hSDt3Fb6qh
-         gNqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IsYDkx5V1mJjZwOsL/IXqLmlqBdgt7SKxZu32NLqyoA=;
-        b=hnX2TTKFdfJ0pb55sIXTLr4wzgi75T8ullc730j6f4hC2JajV1FD/CqAfg+lLHaPpy
-         bcCdDQHIih2XOBczEiKwmdj91Q7wfqUcUMeq2ekubY0tDFz7ULYhpAsiWpchBY6XV1SK
-         fLb0cajPm266rqbI3BoMSpUXOpG41MI1/B2fodmUB+G++4djg1MPIYj7y/pOaAa9I6lF
-         kTrCYylVEJ2rsDmGvRW9b+kfDAU12BVfJhRSq5QQ7eaCZajmoex5GNFiuZ27ah40lrVl
-         Raq8UNwxI863oE03vOq/Z7bMqY1z22TD7r0e9NcvmiNxdkbp8p+E2PzZQBgeg4hvy6rr
-         qjHQ==
-X-Gm-Message-State: AOAM530l92MxuCk7zV0CyIdk29Fzd11x8epXvrZ0PHBX7BTmZSqp+VxU
-        aRlte9aPLS8WhjGsfgEFBEeOXA==
-X-Google-Smtp-Source: ABdhPJykxyALIdJtvZ3O3tAzyqaObMPTohAMm6rjwil0SUh9TpEoeEcPD3F2IEayX6QLESd2Wz/U6g==
-X-Received: by 2002:a63:5743:: with SMTP id h3mr1946424pgm.362.1624422308452;
-        Tue, 22 Jun 2021 21:25:08 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
-        by smtp.gmail.com with ESMTPSA id u11sm3770311pjf.46.2021.06.22.21.25.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 21:25:08 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
-Cc:     linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V4 4/4] cpufreq: Remove stop_cpu() callback
-Date:   Wed, 23 Jun 2021 09:54:42 +0530
-Message-Id: <56e8fadcecf014ef0786499fbf4e93975b123483.1624421816.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1624421816.git.viresh.kumar@linaro.org>
-References: <cover.1624421816.git.viresh.kumar@linaro.org>
+        id S229758AbhFWFhG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 01:37:06 -0400
+Received: from m32-153.88.com ([43.250.32.153]:26810 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229665AbhFWFhG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 Jun 2021 01:37:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=bpukb5ZEIpEhOWbx0Jc4tB2OJGavh3UCtW/yz
+        QlKs7w=; b=OnaOAZWRejQKHZT6OyA+keIZ67MaBVt/yFlw+T2zBSuTXfIeX7FRt
+        YBCqM8VukQ0P7NNbz1+uOqbcBZIXfxpuVsRTyvowoQaJ2fsnxNN74GZ/y91lSmGg
+        zxP/c+JBnFygpUXDuKzmQ6/I3JYr0nko3q0nacZlgWJJ4duaieTqg8=
+Received: from bobwxc.top (unknown [120.238.248.220])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDXrfzux9Jgr70lAA--.14949S2;
+        Wed, 23 Jun 2021 13:34:40 +0800 (CST)
+Date:   Wed, 23 Jun 2021 13:34:38 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH v2] docs/zh_CN: add core api genericirq translation
+Message-ID: <20210623053438.GA17155@bobwxc.top>
+References: <20210622134109.1872740-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
+Content-Disposition: inline
+In-Reply-To: <20210622134109.1872740-1-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgDXrfzux9Jgr70lAA--.14949S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GrWUZF13Cw47uF1rZw1fZwb_yoWDXwb_Aa
+        1kAFW0kF4jvFn3KF4rJF1UJrW7uF4Sk34kKFn8t3s8J3y5Gr4kCw1kXF95WayDCanrurZr
+        Ka9ruwn2qFnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbYAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
+        87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wASzI0EjI02j7AqF2xKxwAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+        Yx0E74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04
+        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
+        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+        AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
+        UjIFyTuYvj4RRbyZUUUUU
+X-Originating-IP: [120.238.248.220]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that all users of stop_cpu() are migrated to use other callbacks,
-lets remove its support from the core.
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- Documentation/cpu-freq/cpu-drivers.rst                    | 3 ---
- Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 3 ---
- drivers/cpufreq/cpufreq.c                                 | 3 ---
- include/linux/cpufreq.h                                   | 1 -
- 4 files changed, 10 deletions(-)
+--NzB8fVQJ5HfG6fxh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
-index a697278ce190..74fac797c396 100644
---- a/Documentation/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/cpu-freq/cpu-drivers.rst
-@@ -71,9 +71,6 @@ And optionally
-  .exit - A pointer to a per-policy cleanup function called during
-  CPU_POST_DEAD phase of cpu hotplug process.
- 
-- .stop_cpu - A pointer to a per-policy stop function called during
-- CPU_DOWN_PREPARE phase of cpu hotplug process.
--
-  .suspend - A pointer to a per-policy suspend function which is called
-  with interrupts disabled and _after_ the governor is stopped for the
-  policy.
-diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-index 0ca2cb646666..9570e9c9e939 100644
---- a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-@@ -76,9 +76,6 @@ 并且可选择
-  .exit - 一个指向per-policy清理函数的指针，该函数在cpu热插拔过程的CPU_POST_DEAD
-  阶段被调用。
- 
-- .stop_cpu - 一个指向per-policy停止函数的指针，该函数在cpu热插拔过程的CPU_DOWN_PREPARE
-- 阶段被调用。
--
-  .suspend - 一个指向per-policy暂停函数的指针，该函数在关中断且在该策略的调节器停止
-  后被调用。
- 
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index cbab834c37a0..5e4b5316d254 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -1606,9 +1606,6 @@ static int cpufreq_offline(unsigned int cpu)
- 		policy->cdev = NULL;
- 	}
- 
--	if (cpufreq_driver->stop_cpu)
--		cpufreq_driver->stop_cpu(policy);
--
- 	if (has_target())
- 		cpufreq_exit_governor(policy);
- 
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index 353969c7acd3..2e2267a36502 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -371,7 +371,6 @@ struct cpufreq_driver {
- 	int		(*online)(struct cpufreq_policy *policy);
- 	int		(*offline)(struct cpufreq_policy *policy);
- 	int		(*exit)(struct cpufreq_policy *policy);
--	void		(*stop_cpu)(struct cpufreq_policy *policy);
- 	int		(*suspend)(struct cpufreq_policy *policy);
- 	int		(*resume)(struct cpufreq_policy *policy);
- 
--- 
-2.31.1.272.g89b43f80a514
+On Tue, Jun 22, 2021 at 09:41:09PM +0800, Yanteng Si wrote:
+> translate Documentation/core-api/genericirq.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+> ---
+> v2:
+> * Modified some words under Xiangcheng's advices;
+> * add =E6=A0=A1=E8=AF=91=E8=80=85(proofreading) sign.If you don't want me=
+ to do this, please let me know.
+>=20
+>  .../zh_CN/core-api/genericirq.rst             | 409 ++++++++++++++++++
+>  .../translations/zh_CN/core-api/index.rst     |   2 +-
+>  2 files changed, 410 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/genericirq.=
+rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/genericirq.rst b/D=
+ocumentation/translations/zh_CN/core-api/genericirq.rst
+> new file mode 100644
+> index 000000000000..be0066cdbe38
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/genericirq.rst
+> @@ -0,0 +1,409 @@
+[...]
+
+Thanks,
+	Wu X.C.
+
+--NzB8fVQJ5HfG6fxh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmDSx+sACgkQtlsoEiKC
+sIWMygwAxZRK9pZKM+QDlSoXklxkO6t9reGLIwSffKiOzAOE2SpQli6HyKGskq5V
+HbltxNYlV3JhPqNWVXEvBeWSrw5MCCITNaqu3aw9U8GzQVo+piTp5wIuJIDvwjOa
+4sN9NO0MSTSKdau7VA9GsgECdp20pwmMupEBqOEYsDiID9V8JwuGJkYH1E8GkWXv
+GBBWyNgvlh21s7W3ZV7EpaQ0S6gDGoqLK5bzp+4NPUNNvzgkgpxcfWnaxFMeVZwN
+oEEtaZxByar6Tejdmp7yaN/Jovqzi3zafWWV/nt5Fv2CACs0jgPXJXnZEnx32KMR
+VzQnJ3lY8lJZ0dooGoAkFTH/Q4FcZAJeUMp7XT4fEWiNuC0VyqWcR2/J1Di1LGqu
+3cqEgcwWBMjNTYugOHOEtxbYqjCrouMYH4csomcbi9WruyvuzjrSJpnbtgAjKd9N
+oE8E8m/VaT9ttFCAeM7z/pZeBPdM4IPKY4uBOUr9a4Wt0ebR75evqmi7v3R7qQs1
+S27FffAq
+=EP3U
+-----END PGP SIGNATURE-----
+
+--NzB8fVQJ5HfG6fxh--
 
