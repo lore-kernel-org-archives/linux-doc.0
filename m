@@ -2,134 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D74BFC4743C
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 12:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D61C48BC2
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 12:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9D6A6102A
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 12:29:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62C5561076
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Jun 2021 12:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbhFWMbe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 08:31:34 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:38155 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230430AbhFWMbZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 08:31:25 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 44CF35805E0;
-        Wed, 23 Jun 2021 08:29:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 23 Jun 2021 08:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=LYmysgAYQbYf4D5WIV3nX+JHKv4
-        gcr5JH0CPAhQp3EQ=; b=2eJlQpIHzliDahyhagWavmKnGgwp95ZisZfiYEn9MQr
-        kFnx2PwYMwEwfxbsdSuu5H0iwUSDqsdvFTmGqElDbDAKRvHLLvLCIS1C2D4DLieT
-        tdt+ULQRftMO8WV54GoiYsTiwbC3K1wUdoLrhvxobU6PNICaLAhzZZh5qwYIYHgW
-        Qot3r07h03x4S/7gR4qA7Boi0D2f9UFjmRPBw0qSmGz4XnDhs7jQPkAAdv7QCFLi
-        nJ9LVhD5NkgH7pPP4p/GixwP9y3ZHmJ2RmYL33AYyyR72L0/7xJhBtB7rBKnw5uJ
-        aGzyS9WSLYNaGC0bdDafCdCCbAUf/zU12Sh0GMJYOCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LYmysg
-        AYQbYf4D5WIV3nX+JHKv4gcr5JH0CPAhQp3EQ=; b=lcr+uzMgCh79q2GtuWp50h
-        xEyL0RWnfNYX34/c26G/ynQQcmDVGgDu76mPvLqRRyrlHWQm54BVa78BABb3nkjD
-        RiE2e7XdKfj1iVGoZVQ27NgzEBxvM/5y4zx4W6Nd0dTIpqxtQgmQdEcaiXvm0Yp5
-        MIGwT6Y0dztc9joSc9wgrs7/e2oOtOMeCndXFrRRrlCoirJE24OTBUeJF+EMLOdE
-        APyK+Rzg9kPtZD+blzODFda0w24L/NONnXqZOovMh6kY6zlKzZLQlAwKiaN0GlyK
-        eVGAOHLp5rFyuNX7+j7zSLsA1ePkLNUQVn59JahN0ZKhhonk+V1xtXGWaY3MxZaw
-        ==
-X-ME-Sender: <xms:ESnTYK_C-21U2l2QozyILoNSlPVqKfpTp1q6YqEseQtERYTgD7wEjA>
-    <xme:ESnTYKs6ZYg2RUE3T4E6_4WYfh7byUamSHlJxrXSRIO9zEAnf3vP53J6ISh3gHTex
-    vjveIKAZEot9ElXG9Q>
-X-ME-Received: <xmr:ESnTYAD101y1Z0cSzKC5muGw7O86ArnMv0EERbPkuBkRESwg4ufvcqvrEDGFH43cICse_euQkCXeR5wF_iBFxf7l5AzuiVuIDg2F>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegfedgheefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ESnTYCe9QBXtVFJhfKsnRwaDl-xkxqvQydUEScUwiqPYbRcEi1TlPQ>
-    <xmx:ESnTYPNXuaRR8kEvEfb-7qU59Zify5c9K1HKVr_vC8Om2KWmtIZAxg>
-    <xmx:ESnTYMlg2fbk5mkdtWnpb4rpr71L0d4YVRQ-KoHTE6BfyypN_1u9OQ>
-    <xmx:EynTYCdX2W4keJN3BziO7ALHGBYvumNaAZ_6JzvRr3sRzPLV1XkbCg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Jun 2021 08:29:04 -0400 (EDT)
-Date:   Wed, 23 Jun 2021 14:29:03 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     nicolas saenz julienne <nsaenz@kernel.org>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Tim Gover <tim.gover@raspberrypi.com>,
-        Dom Cobley <dom@raspberrypi.com>, linux-doc@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-rpi-kernel@lists.infradead.org,
+        id S230334AbhFWMeq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Jun 2021 08:34:46 -0400
+Received: from smtp-190a.mail.infomaniak.ch ([185.125.25.10]:34005 "EHLO
+        smtp-190a.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230286AbhFWMek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 08:34:40 -0400
+X-Greylist: delayed 328 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Jun 2021 08:34:40 EDT
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4G92ZP0TT1zMprpm;
+        Wed, 23 Jun 2021 14:26:53 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4G92ZN3lv2zlmrrs;
+        Wed, 23 Jun 2021 14:26:52 +0200 (CEST)
+Subject: Re: [PATCH v2 27/29] docs: userspace-api: landlock.rst: avoid using
+ ReST :doc:`foo` markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 10/12] drm/vc4: hdmi: Register HDMI codec
-Message-ID: <20210623122903.nvkm7hagt324n4pd@gilmour>
-References: <20210525132354.297468-1-maxime@cerno.tech>
- <20210525132354.297468-11-maxime@cerno.tech>
- <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <cover.1623824363.git.mchehab+huawei@kernel.org>
+ <24888a9c5da3c505b2bc274fcd83be348dbaf972.1623824363.git.mchehab+huawei@kernel.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <7ebe5a4d-8835-6737-c006-3d065e50dc8a@digikod.net>
+Date:   Wed, 23 Jun 2021 14:26:43 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ed3s3jfq3fuhw3ac"
-Content-Disposition: inline
-In-Reply-To: <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
+In-Reply-To: <24888a9c5da3c505b2bc274fcd83be348dbaf972.1623824363.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---ed3s3jfq3fuhw3ac
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 16/06/2021 08:27, Mauro Carvalho Chehab wrote:
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/userspace-api/landlock.rst | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 
-On Tue, Jun 01, 2021 at 11:26:24AM +0200, nicolas saenz julienne wrote:
-> On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
-> > The hdmi-codec brings a lot of advanced features, including the HDMI
-> > channel mapping. Let's use it in our driver instead of our own codec.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
->=20
-> Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Acked-by: Mickaël Salaün <mic@linux.microsoft.com>
 
-Applied 6 to 10, I'll resend 11
+Like others, I think it would be nice to explain the reason of this
+change in the commit message, and why it is better than the current way
+to do it.
 
-Thanks!
-Maxime
-
---ed3s3jfq3fuhw3ac
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNMpDwAKCRDj7w1vZxhR
-xTtEAQCsRUnfy20Se4iYG9OnMpYBOcMIXkIlk4MHoGG22GbIhgD+KEWBCy8hUjqQ
-hXB++Vu4wHH9EPXj1HdCg3lwFXxWrQI=
-=QYZn
------END PGP SIGNATURE-----
-
---ed3s3jfq3fuhw3ac--
+> 
+> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+> index 62c9361a3c7f..f35552ff19ba 100644
+> --- a/Documentation/userspace-api/landlock.rst
+> +++ b/Documentation/userspace-api/landlock.rst
+> @@ -145,7 +145,8 @@ Bind mounts and OverlayFS
+>  
+>  Landlock enables to restrict access to file hierarchies, which means that these
+>  access rights can be propagated with bind mounts (cf.
+> -:doc:`/filesystems/sharedsubtree`) but not with :doc:`/filesystems/overlayfs`.
+> +Documentation/filesystems/sharedsubtree.rst) but not with
+> +Documentation/filesystems/overlayfs.rst.
+>  
+>  A bind mount mirrors a source file hierarchy to a destination.  The destination
+>  hierarchy is then composed of the exact same files, on which Landlock rules can
+> @@ -170,8 +171,8 @@ Inheritance
+>  
+>  Every new thread resulting from a :manpage:`clone(2)` inherits Landlock domain
+>  restrictions from its parent.  This is similar to the seccomp inheritance (cf.
+> -:doc:`/userspace-api/seccomp_filter`) or any other LSM dealing with task's
+> -:manpage:`credentials(7)`.  For instance, one process's thread may apply
+> +Documentation/userspace-api/seccomp_filter.rst) or any other LSM dealing with
+> +task's :manpage:`credentials(7)`.  For instance, one process's thread may apply
+>  Landlock rules to itself, but they will not be automatically applied to other
+>  sibling threads (unlike POSIX thread credential changes, cf.
+>  :manpage:`nptl(7)`).
+> @@ -278,7 +279,7 @@ Memory usage
+>  ------------
+>  
+>  Kernel memory allocated to create rulesets is accounted and can be restricted
+> -by the :doc:`/admin-guide/cgroup-v1/memory`.
+> +by the Documentation/admin-guide/cgroup-v1/memory.rst.
+>  
+>  Questions and answers
+>  =====================
+> @@ -303,7 +304,7 @@ issues, especially when untrusted processes can manipulate them (cf.
+>  Additional documentation
+>  ========================
+>  
+> -* :doc:`/security/landlock`
+> +* Documentation/security/landlock.rst
+>  * https://landlock.io
+>  
+>  .. Links
+> 
