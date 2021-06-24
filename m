@@ -2,142 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39702C48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E98C48BDF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:39:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BC296054E
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:32:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B769613FA
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:39:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231499AbhFXMe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 08:34:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbhFXMe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:34:26 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B46C061574;
-        Thu, 24 Jun 2021 05:32:07 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id v5-20020a0568301bc5b029045c06b14f83so5338543ota.13;
-        Thu, 24 Jun 2021 05:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=544/8df+bmPFH+cWBj59xOz69dHyhs3v7jqO6mT7lUE=;
-        b=HVA1pAfBwnLo32ReUkni8iP8wc1Yw681MdrU0HGTZbO/3FBpPYofsU29k3BtUTd0mm
-         ONlly1krZscSIzfl5HEqUgPWQJetG8RcjGoEFx5COUpVcmY55cwmiIrdalFVguCMfSmp
-         BDJDryzBp/HugnPLwBtyMRQUbh7l05wMdJ91k87ZFScN6wTN0U5y12mInuxDSkWgBN+t
-         YXOrlRTiFFLPsaV4F4ZRLERyThv4lPi5UXp3CRXR8dSW3LiWVi/n9rmhfjJm5m0ua0gx
-         bfVWZ1vbrhp7WK7vTjxrkdVznntuEKB7xcb1MinaKYnVYi2JXd1m5W8nFabaA+TwqNxY
-         wHvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=544/8df+bmPFH+cWBj59xOz69dHyhs3v7jqO6mT7lUE=;
-        b=LSMwHEmuOOsL8cHjPrZC3F6PQWFDDWUmw1OEE2WUygOsPXPoNbFx9Y/Mn8rw2oIwnm
-         QC0Kre46FwsB+E5I92RE7Y4ekxqx8i7uk1phbqaC5CXUrbnEZf1CxAAb+M8BrSqDoux8
-         BsA5SzDWqV8ylijO4DlqhyhEVdxSNidZLBQ0DMCRZRlvSpsaZyzTmilZ2uAIUW1KCIQ8
-         EUmhO+Vq6L7IWOQk8LhZDIKjN9V71WyB9F9+PPqvezLpydCq9n/zkrHQtK/dqmFVlngk
-         IUMUT6T612xKqIM66unotMGK6Sh2UvUXqPzPmGg2kUUG7FCFJ8MBS01jTexngDk1/oeA
-         pqnQ==
-X-Gm-Message-State: AOAM533ScnWy9cgEf5cmNEVh5ZH6SUSLAUkHDhAxBqxCnPUBev0h0x2s
-        HlwE2/o16Jyu/nEkFf37aheVZ78Vt/8=
-X-Google-Smtp-Source: ABdhPJxILzRWvP568GHRBBRCRceiYeOH3loqWG3cuQelodzyoWakcZSrnlFTzban8jw6/SRgQ0260Q==
-X-Received: by 2002:a9d:4d87:: with SMTP id u7mr4449938otk.131.1624537926748;
-        Thu, 24 Jun 2021 05:32:06 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w20sm662124otl.51.2021.06.24.05.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 05:32:05 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 24 Jun 2021 05:32:04 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     ainux.wang@gmail.com
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterlingteng@gmail.com,
-        chenhuacai@kernel.org, chenhuacai@loongson.cn
-Subject: Re: [RFC] hwmon: (pmbus) Some questions about PMBUS_STATUS
-Message-ID: <20210624123204.GA1670703@roeck-us.net>
-References: <20210624022327.6192-1-ainux.wang@gmail.com>
+        id S230028AbhFXMlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 08:41:45 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:58695 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229573AbhFXMlp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:41:45 -0400
+X-UUID: f67ee3b2ab0443539a473b3e01faec5e-20210624
+X-UUID: f67ee3b2ab0443539a473b3e01faec5e-20210624
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        (envelope-from <rocco.yue@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1818821037; Thu, 24 Jun 2021 20:39:23 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 24 Jun 2021 20:39:21 +0800
+Received: from localhost.localdomain (10.15.20.246) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 24 Jun 2021 20:39:20 +0800
+From:   Rocco Yue <rocco.yue@mediatek.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <bpf@vger.kernel.org>,
+        <wsd_upstream@mediatek.com>, <chao.song@mediatek.com>,
+        <kuohong.wang@mediatek.com>, Rocco Yue <rocco.yue@mediatek.com>
+Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
+Date:   Thu, 24 Jun 2021 20:24:35 +0800
+Message-ID: <20210624122435.11887-1-rocco.yue@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <YNRKhJB9/K4SKPdR@kroah.com>
+References: <YNRKhJB9/K4SKPdR@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624022327.6192-1-ainux.wang@gmail.com>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 10:23:27AM +0800, ainux.wang@gmail.com wrote:
-> From: "Ainux.Wang" <ainux.wang@gmail.com>
+On Thu, 2021-06-24 at 11:04 +0200, Greg KH wrote:
+On Thu, Jun 24, 2021 at 02:13:10PM +0800, Rocco Yue wrote:
+>> On Thu, 2021-06-24 at 07:29 +0200, Greg KH wrote:
+>>> 
+>>> Thanks for the explaination, why is this hardware somehow "special" in
+>>> this way that this has never been needed before?
+>>> 
+>>> thanks,
+>>> 
+>>> greg k-h
+>>> 
+>> 
+>> Before kernel-4.18, RAWIP was the same as PUREIP, neither of them
+>> automatically generates an IPv6 link-local address, and the way to
+>> generate an IPv6 global address is the same.
+>> 
+>> After kernel-4.18 (include 4.18 version), the behavior of RAWIP had
+>> changed due to the following patch:
+>> @@  static int ipv6_generate_eui64(u8 *eui, struct net_device *dev)
+>> +	case ARPHRD_RAWIP:
+>> +		return addrconf_ifid_rawip(eui, dev);
+>>  	}
+>>  	return -1;
+>> }
+>> 
+>> the reason why the kernel doesn't need to generate the link-local
+>> address automatically is as follows:
+>> 
+>> In the 3GPP 29.061, here is some description as follows:
+>> "in order to avoid any conflict between the link-local address of
+>> MS and that of the GGSN, the Interface-Identifier used by the MS to
+>> build its link-local address shall be assigned by the GGSN. The GGSN
+>> ensures the uniqueness of this Interface-Identifier. Then MT shall
+>> then enforce the use of this Interface-Identifier by the TE"
+>> 
+>> In other words, in the cellular network, GGSN determines whether to
+>> reply to the Router Solicitation message of UE by identifying the
+>> low 64bits of UE interface's ipv6 link-local address.
+>> 
+>> When using a new kernel and RAWIP, kernel will generate an EUI64
+>> format ipv6 link-local address, and if the device uses this address
+>> to send RS, GGSN will not reply RA message.
+>> 
+>> Therefore, in that background, we came up with PUREIP to make kernel
+>> doesn't generate a ipv6 link-local address in any address generate
+>> mode.
 > 
-> There are some questions about PMBUS_STATUS in core.
+> Thanks for the better description.  That should go into the changelog
+> text somewhere so that others know what is going on here with this new
+> option.
+>
+
+Does changelog mean adding these details to the commit message ?
+I am willing do it.
+
+> And are these user-visable flags documented in a man page or something
+> else somewhere?  If not, how does userspace know about them?
 > 
-I am curious - why do you think such questions would be appropriate as
-comment in the code ?
 
-> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
-> ---
->  drivers/hwmon/pmbus/pmbus_core.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-> index bbd745178147..e16c85997148 100644
-> --- a/drivers/hwmon/pmbus/pmbus_core.c
-> +++ b/drivers/hwmon/pmbus/pmbus_core.c
-> @@ -2200,6 +2200,19 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
->  	 * Some PMBus chips don't support PMBUS_STATUS_WORD, so try
->  	 * to use PMBUS_STATUS_BYTE instead if that is the case.
->  	 * Bail out if both registers are not supported.
-> +	 *
-> +	 * Question 1:
-> +	 *  Why bail out if both registers are not supported?
-> +	 *  MP2949A both registers are not supported.
-> +	 *
+There are mappings of these device types value in the libc:
+"/bionic/libc/kernel/uapi/linux/if_arp.h".
+userspace can get it from here.
 
-The status registers are essential for chip operation.
+But I also failed to find a man page or a description of these
+device types.
 
-_Normally_ the chip should return an error when trying to access an
-unsupported command/register, and it should set an error bit in the
-status register. Obviusly the second part won't work here.
+Thanks,
+Rocco
 
-> +	 * Question 2:
-> +	 *  Use i2c_smbus_read_word_data() or i2c_smbus_read_byte_data
-> +	 *  to read, the MP2949A will return undetermined value, although
-> +	 *  we already known this chip do not support both registers.
-> +	 *  What should we do?
-
-PMBus drivers should never call those functions directly but use the functions
-provided by the PMBUs core.
-
-> +	 *  Can we use pmbus_read_status_byte() or pmbus_read_status_word()?
-> +	 *  and in MP2949A driver's .read_byte_data and .read_word_data to
-> +	 *  filter out both registers?
-
-You would use those functions, but not to filter out both commands but to
-simulate one of them and filter out the other.
-
-In general, it is acceptable to simulate or filter out a command if a chip
-doesn't support it but does not return an error when accessing it. If you
-may recall, I asked you several times why you wanted to filter out the
-PMBUS_VOUT_MODE command. You always answered with "the chip does not
-support it". Again, that is not a reason to filter out a command. However,
-if a chip does not support a command but does not return an error when
-accessing it either, it is perfectly valid (and even necessary) to filter
-out or simulate such unsupported commands. This is, however, only
-acceptable if a chip does not return an error when trying to access the
-unsupported registers. Such situations need to be documented in the code,
-which should include a comment such as "This chip does not support the
-following command(s) and returns random data when reading from them/it".
-
->  	 */
->  	data->read_status = pmbus_read_status_word;
->  	ret = i2c_smbus_read_word_data(client, PMBUS_STATUS_WORD);
-> -- 
-> 2.18.1
-> 
