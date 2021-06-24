@@ -7,58 +7,58 @@ X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21124C49EAB
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFB2C49EA6
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A6D0613EC
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:34:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C818E613F2
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:42:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbhFXOhO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 10:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45650 "EHLO
+        id S232146AbhFXOpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 10:45:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231735AbhFXOhN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 10:37:13 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 138EAC061756
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 07:34:52 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id a15so2873843lfr.6
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 07:34:52 -0700 (PDT)
+        with ESMTP id S232079AbhFXOpR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 10:45:17 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17886C061574
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 07:42:58 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id i13so10710765lfc.7
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 07:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GJrgmUk4MBeaLhPgL5J6HKmLfh86Hi7USjfP1jfq3Xg=;
-        b=HkKrqNlJCRqVpsIJ0cu3IhrKJ2TsbGOb9M1uFceUtw6oX+ZSkuYkbbg4tyuKiUqINX
-         FWkLJOsD3N/Wd0VK3P431vkL+OQ3kakrPNc8UCnvSL+cJYkadLEzexqZiJqn37a9Yvs/
-         e295QEmuKGLZEHicPtisW9GeALJg0px/oJqTtl58TFFhrPxJTbFwhezbnfIig+GO0QbO
-         wyNFQVAEzc3GbzAp3M/Oe+Py087BDI5VZBiZP6NJyItpoqQ0faP1RZWyPW43wEnNCHpa
-         y5crsTxCeneBsRlbpXvfVTvRb02W5dLX242iJx2LReJimvMRz0c4DHNyAOYmMVqA7ls1
-         xsBQ==
+        bh=zPDOtaL+XLEb4/llfBA4wK0O+KTaocWklfCim100ic0=;
+        b=AwNSCHRt5qjpDmU6yijGBadrKOXnnr9hVNiLlx/FbaOFqI7Oxqf65VBlsJ84NPRVUf
+         Uk6MvF+XRWYMyea/gmTHmIUsLYO7xcwg9uhua6HSTwUNSWCMFDs8TG7TzLmj03SLlMLu
+         nm+U/p9FibYIcXKi7fSqx93PopR7gtjTiBZHR3bsaYo0FD2sFQhJS5DGD3A8rJJh5InC
+         +SOGjQ6qrQ/au6Oy7sPYBw1TPZPaqdfRUaAmVvuVuXWe2YEZ5fRR/HxaJPTbhGqJHLGE
+         N1zbWFHepM00ofYSoqSVnrlyxnmfStngqHMx949hyPQtNpJz+7vR6NuPH/uXYf1W6sge
+         jWiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GJrgmUk4MBeaLhPgL5J6HKmLfh86Hi7USjfP1jfq3Xg=;
-        b=FrYumiAMLfwXOHh8vz9HzZmQHKRKtLyeFbGFOqmyz8iJtuLJBoMXot3Me4vuVJqSjG
-         5vNTrqUwPOpHeKi9o3wZd2/zyZcLWvX8geZL9KbG4HnZyZkOjWOK68GRXfBT7L01uJPl
-         ZTcvUVz8wOPzFhwyUawOynGiP6YNJJD6XECnZWlF47J4jI0P3zM1AQOf5K/+peJ5ZsNF
-         a9WUW95UCMHsLHq6oliAN7UUPI7j7WK949GHs0Jks43cbZJ/oW/jqNQroZIriX8+NDSw
-         D6UCvSpB2nxo8Kf4bscINq9b0d8y4fzEH10b/uuIoZHTaXaZPubGRvXIfan2eoXjHXM1
-         bNsQ==
-X-Gm-Message-State: AOAM530R7siQjPxD/a9A5x65bNnt3Ihl+6MEen86kp72+6ALteUc0us+
-        OuJ6VpttqIkvO6fEZU+Iuwn20w8/oH6RELdRD8HeQg==
-X-Google-Smtp-Source: ABdhPJxBYv0UJTTLxHw1kaaaspf3Pmt0iwRN3IFZOKILLHVb0uLwmK4KT9JpC6yVOxPpLZDIvKuugOV8lPtmkTuH9DI=
-X-Received: by 2002:a05:6512:1104:: with SMTP id l4mr349702lfg.549.1624545290734;
- Thu, 24 Jun 2021 07:34:50 -0700 (PDT)
+        bh=zPDOtaL+XLEb4/llfBA4wK0O+KTaocWklfCim100ic0=;
+        b=KTv3IwwtzSEOXmxqiDvqoYKbNoHRDmMSqGC2lh8O5UxhKYzRdi5+SbTCsB+nEHAovf
+         s1tilvByOX1ST5eTF+AihiBo5dhcpj8JrBmWALwZqQUHxb+BfnAT8NbEehI3MkhcLrZs
+         JyYvGaXMAXu/8rdHLt9P1gkGKYCBGDkBTbE7QBQOA1LEKbaKDbxk0ptsALQaH6+ZT2e3
+         xzHoxwPhdIWAmgrqjOiGuuRwhNccIXS6iOspoj8jfCZhVW5y7u5TGvTbgIR60aO7MPdx
+         Q0u83+onOEV84/fYISY78dZgC5j395r11XrECpVn+0zg13PPLAHbO3pIu7Ry/b77SKJa
+         82zg==
+X-Gm-Message-State: AOAM530S4lkuDG85AQG8+nMkM3ylYhbAMLsFPkQJc/QL3y1R1V/t+Rhc
+        tJMui59ID3+rboqotc9ey3XFTUZsGfcCzzoSJLFg2g==
+X-Google-Smtp-Source: ABdhPJz9FhxmntnQWK4wpCGRR5Ld+FnwOhzVQjZ+p6hzlK1H8jz79mEJvtqeIDnDWjY+USditIlEcEmoOoq3XuphUdY=
+X-Received: by 2002:a05:6512:3155:: with SMTP id s21mr4064815lfi.358.1624545776093;
+ Thu, 24 Jun 2021 07:42:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <CALvZod7byYA5jfzF3Vtr1czwWoiaHjkqn9M4e1Ajn1PP47k9=w@mail.gmail.com>
- <20210624102623.24563-1-sjpark@amazon.de>
-In-Reply-To: <20210624102623.24563-1-sjpark@amazon.de>
+References: <20210624102623.24563-1-sjpark@amazon.de> <20210624102623.24563-3-sjpark@amazon.de>
+In-Reply-To: <20210624102623.24563-3-sjpark@amazon.de>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Thu, 24 Jun 2021 07:34:39 -0700
-Message-ID: <CALvZod4xDNSAHuoAyJHtAccELOeM0pAc30mJ_-ahkK2KPDJVPg@mail.gmail.com>
-Subject: Re: [PATCH v31 01/13] mm: Introduce Data Access MONitor (DAMON)
+Date:   Thu, 24 Jun 2021 07:42:44 -0700
+Message-ID: <CALvZod5dFVxJVFUP4zBCC97C7rr5pGjRZQoixzs=GcNRAosKgw@mail.gmail.com>
+Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual
+ memory address spaces
 To:     SeongJae Park <sj38.park@gmail.com>
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
         acme@kernel.org, alexander.shishkin@linux.intel.com,
@@ -91,32 +91,48 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Thu, Jun 24, 2021 at 3:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
 >
 [...]
-> > >         if time() % update_interval == 0:
+> > > +/*
+> > > + * Get the three regions in the given target (task)
+> > > + *
+> > > + * Returns 0 on success, negative error code otherwise.
+> > > + */
+> > > +static int damon_va_three_regions(struct damon_target *t,
+> > > +                               struct damon_addr_range regions[3])
+> > > +{
+> > > +       struct mm_struct *mm;
+> > > +       int rc;
+> > > +
+> > > +       mm = damon_get_mm(t);
+> > > +       if (!mm)
+> > > +               return -EINVAL;
+> > > +
+> > > +       mmap_read_lock(mm);
+> > > +       rc = __damon_va_three_regions(mm->mmap, regions);
+> > > +       mmap_read_unlock(mm);
 > >
-> > regions_update_interval?
+> > This is being called for each target every second by default. Seems
+> > too aggressive. Applications don't change their address space every
+> > second. I would recommend to default ctx->primitive_update_interval to
+> > a higher default value.
 >
-> It used the name before.  But, I changed the name in this way to use it as a
-> general periodic updates of monitoring primitives.  Of course we can use the
-> specific name only in this specific example, but also want to make this as
-> similar to the actual code as possible.
+> Good point.  If there are many targets and each target has a huge number of
+> VMAs, the overhead could be high.  Nevertheless, I couldn't find the overhead
+> in my test setup.  Also, it seems someone are already started exploring DAMON
+> patchset with the default value. and usages from others.  Silently changing the
+> default value could distract such people.  So, if you think it's ok, I'd like
+> to change the default value only after someone finds the overhead from their
+> usages and asks a change.
 >
-> If you strongly want to rename this, please feel free to let me know.
->
-
-Nah, it is ok.
-
-[...]
-
-> >
-> > Any reason to not use kthread_stop() here?
->
-> Using 'kthread_stop()' here will make the code much simpler.  But, 'kdamond'
-> also stops itself when all monitoring targets became invalid (e.g., all
-> monitoring target processes terminated).  However, 'kthread_stop()' is not easy
-> to be used for the use case (self stopping).  It's of course possible, but it
-> would make the code longer.  That's why I use 'kdamond_stop' flag here.  So,
-> I'd like leave this as is.  If you think 'kthread_stop()' should be used,
-> please feel free to let me know.
+> If you disagree or you found the overhead from your usage, please feel free to
+> let me know.
 >
 
-Fine as it is.
+mmap lock is a source contention in the real world workloads. We do
+observe in our fleet and many others (like Facebook) do complain on
+this issue. This is the whole motivation behind SFP, maple tree and
+many other mmap lock scalability work. I would be really careful to
+add another source of contention on mmap lock. Yes, the user can
+change this interval themselves but we should not burden them with
+this internal knowledge like "oh if you observe high mmap contention
+you may want to increase this specific interval". We should set a good
+default value to avoid such situations (most of the time).
