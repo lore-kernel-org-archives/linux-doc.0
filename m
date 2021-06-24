@@ -2,92 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2BEC48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D84FC49EA6
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6ECC761404
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:49:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40916613F0
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbhFXKwI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 06:52:08 -0400
-Received: from mga11.intel.com ([192.55.52.93]:35377 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232191AbhFXKwI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Jun 2021 06:52:08 -0400
-IronPort-SDR: w2IF1V6UF0o+iSWS7neQO8zQEvB9dSUnXtYcNzNYMfrlpEuOAXX/UHtdqi1rcc0T+04gJTGNp1
- y8gBkbtQoMxw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="204438803"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="204438803"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 03:49:49 -0700
-IronPort-SDR: bloUs6MTuopNNLA1Xl4hUG6pB2P7g9WQuQTLWQKu4SZmVZ3c4WP5g+1xC3v1QQDtzb2ljbVg9o
- IHTrS/tto6Ug==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="487710028"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 03:49:43 -0700
-Received: from andy by smile with local (Exim 4.94.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lwMvT-004yd4-Bm; Thu, 24 Jun 2021 13:49:39 +0300
-Date:   Thu, 24 Jun 2021 13:49:39 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Jia He <justin.he@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S230188AbhFXMLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 08:11:05 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:48535 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229448AbhFXMLF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:11:05 -0400
+X-UUID: 9d6e04b807e64a3da003119c7e3ea53a-20210624
+X-UUID: 9d6e04b807e64a3da003119c7e3ea53a-20210624
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        (envelope-from <rocco.yue@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1175979880; Thu, 24 Jun 2021 20:08:41 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 24 Jun 2021 20:08:39 +0800
+Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 24 Jun 2021 20:08:38 +0800
+From:   Rocco Yue <rocco.yue@mediatek.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com
-Subject: Re: [PATCH v2 2/4] lib/vsprintf.c: make '%pD' print the full path of
- file
-Message-ID: <YNRjQ5dJpSYWbbRP@smile.fi.intel.com>
-References: <20210623055011.22916-1-justin.he@arm.com>
- <20210623055011.22916-3-justin.he@arm.com>
- <YNRJ61m6duXjpGrp@alley>
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <bpf@vger.kernel.org>,
+        <wsd_upstream@mediatek.com>, <chao.song@mediatek.com>,
+        <kuohong.wang@mediatek.com>, Rocco Yue <rocco.yue@mediatek.com>
+Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
+Date:   Thu, 24 Jun 2021 19:53:49 +0800
+Message-ID: <20210624115349.2264-1-rocco.yue@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <YNNv1AxDNBdPcQ1U@kroah.com>
+References: <YNNv1AxDNBdPcQ1U@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNRJ61m6duXjpGrp@alley>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 11:01:31AM +0200, Petr Mladek wrote:
-> On Wed 2021-06-23 13:50:09, Jia He wrote:
-
-...
-
-> > If someone invokes snprintf() with small but positive space,
-> > prepend_name_with_len() moves or truncates the string partially.
+On Wed, 2021-06-23 at 19:31 +0200, Greg KH wrote:
+On Wed, Jun 23, 2021 at 07:34:52PM +0800, Rocco Yue wrote:
+>> +static int ccmni_open(struct net_device *ccmni_dev)
+>> +{
+>> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
+>> +
+>> +	netif_tx_start_all_queues(ccmni_dev);
+>> +	netif_carrier_on(ccmni_dev);
+>> +
+>> +	if (atomic_inc_return(&ccmni->usage) > 1) {
+>> +		atomic_dec(&ccmni->usage);
+>> +		netdev_err(ccmni_dev, "dev already open\n");
+>> +		return -EINVAL;
 > 
-> Does this comment belong to the 1st patch?
-> prepend_name_with_len() is not called in this patch.
+> You only check this _AFTER_ starting up?  If so, why even check a count
+> at all?  Why does it matter as it's not keeping anything from working
+> here.
 > 
-> > More
-> > than that, kasprintf() will pass NULL @buf and @end as the parameters,
-> > and @end - @buf can be negative in some case. Hence make it return at
-> > the very beginning with false in these cases.
+
+Thanks for your review.
+Looking back at this code block, it does have some ploblems,
+ccmni->usage hasn't been used to protect some resources or do
+some specific things in the current code, I will delete them.
+
 > 
-> Same here. file_d_path_name() does not return bool.
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ccmni_close(struct net_device *ccmni_dev)
+>> +{
+>> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
+>> +
+>> +	atomic_dec(&ccmni->usage);
+>> +	netif_tx_disable(ccmni_dev);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static netdev_tx_t
+>> +ccmni_start_xmit(struct sk_buff *skb, struct net_device *ccmni_dev)
+>> +{
+>> +	struct ccmni_inst *ccmni = NULL;
+>> +
+>> +	if (unlikely(!ccmni_hook_ready))
+>> +		goto tx_ok;
+>> +
+>> +	if (!skb || !ccmni_dev)
+>> +		goto tx_ok;
+>> +
+>> +	ccmni = netdev_priv(ccmni_dev);
+>> +
+>> +	/* some process can modify ccmni_dev->mtu */
+>> +	if (skb->len > ccmni_dev->mtu) {
+>> +		netdev_err(ccmni_dev, "xmit fail: len(0x%x) > MTU(0x%x, 0x%x)",
+>> +			   skb->len, CCMNI_MTU, ccmni_dev->mtu);
+>> +		goto tx_ok;
+>> +	}
+>> +
+>> +	/* hardware driver send packet will return a negative value
+>> +	 * ask the Linux netdevice to stop the tx queue
+>> +	 */
+>> +	if ((s_ccmni_ctlb->xmit_pkt(ccmni->index, skb, 0)) < 0)
+>> +		return NETDEV_TX_BUSY;
+>> +
+>> +	return NETDEV_TX_OK;
+>> +tx_ok:
+>> +	dev_kfree_skb(skb);
+>> +	ccmni_dev->stats.tx_dropped++;
+>> +	return NETDEV_TX_OK;
+>> +}
+>> +
+>> +static int ccmni_change_mtu(struct net_device *ccmni_dev, int new_mtu)
+>> +{
+>> +	if (new_mtu < 0 || new_mtu > CCMNI_MTU)
+>> +		return -EINVAL;
+>> +
+>> +	if (unlikely(!ccmni_dev))
+>> +		return -EINVAL;
+>> +
+>> +	ccmni_dev->mtu = new_mtu;
+>> +	return 0;
+>> +}
+>> +
+>> +static void ccmni_tx_timeout(struct net_device *ccmni_dev, unsigned int txqueue)
+>> +{
+>> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
+>> +
+>> +	ccmni_dev->stats.tx_errors++;
+>> +	if (atomic_read(&ccmni->usage) > 0)
+>> +		netif_tx_wake_all_queues(ccmni_dev);
+> 
+> Why does it matter what the reference count is?  What happens if it
+> drops _RIGHT_ after testing for it?
+> 
+> Anytime you do an atomic_read() call, it's almost always a sign that the
+> logic is not correct.
+> 
+> Again, why have this reference count at all?  What is it protecting?
+> 
 
-It was my (apparently unclear) suggestion either to move it here, or be
-rewritten in generic way as you suggested in the other thread.
+The jedgment of ccmni->usage here is to ensure that the ccmnix interface
+is already up when do wake up tx queue behavior.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Then I re-read the kernel code, I think my previous ider should be
+wrong. the reason is that before calling ccmni_tx_timeout(), it
+will check whether the dev exist or not, for example, it will be
+checked in dev_watchdog().
 
+I can delete this code.
+
+>> +/* exposed API
+>> + * receive incoming datagrams from the Modem and push them to the
+>> + * kernel networking system
+>> + */
+>> +int ccmni_rx_push(unsigned int ccmni_idx, struct sk_buff *skb)
+> 
+> Ah, so this driver doesn't really do anything on its own, as there is no
+> modem driver for it.
+> 
+> So without a modem driver, it will never be used?  Please submit the
+> modem driver at the same time, otherwise it's impossible to review this
+> correctly.
+> 
+
+without MTK ap ccci driver (modem driver), ccmni_rx_push() and
+ccmni_hif_hook() are not be used.
+
+Both of them are exported as symbols because MTK ap ccci driver
+will be complied to the ccci.ko file.
+
+In current codes, I implementated the basic functionality of ccmni,
+such as open, close, xmit packet, rcv packet. And my original 
+intention was that I can gradually complete some of the more
+functions of ccmni on this basis, such as sw-gro, napi, or meet the
+requirement of high throughput performance.
+
+In addition, the code of MTK's modem driver is a bit complicated,
+because this part has more than 30,000 lines of code and contains
+more than 10 modules. We are completeing the upload of this huge
+code step by step. Our original intention was to upload the ccmni
+driver that directly interacts with the kernel first, and then
+complete the code from ccmni to the bottom layer one by one from
+top to bottom. We expect the completion period to be about 1 year.
+
+> +++ b/drivers/net/ethernet/mediatek/ccmni/ccmni.h
+> 
+> Why do you have a .h file for a single .c file?  that shouldn't be
+> needed.
+
+I add a .h file to facilitate subsequent code expansion. If it's
+not appropriate to do this here, I can add the content of .h into
+.c file.
+
+Thanks,
+Rocco
 
