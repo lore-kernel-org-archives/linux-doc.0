@@ -2,79 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCE9C49EA6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 20:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AABDC49EA5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 21:39:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F6AE613B3
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 20:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65826613C7
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 21:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232854AbhFXUCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 16:02:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42394 "EHLO mail.kernel.org"
+        id S232695AbhFXVl0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 17:41:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232759AbhFXUCY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Jun 2021 16:02:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 96DD2613C2;
-        Thu, 24 Jun 2021 20:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624564804;
-        bh=iqW6OKBD+Pd54AIhc1V9/0r7UUpEJ54FfBFonNp4wlQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=oO0ysNuqPIwg2+FIj618DpHbY3F9IM19JHT03HnM2bg2fLL9mt2LeQKyLud9xlY21
-         zSflRO4c20dChYfj5BAZVGjwOte81EnxtHgtC9OmYnWvRYyhZDImJX3lUl22WSi9eJ
-         HZ83SW57j5kSiwoLxBHA1hZ9fK/H1FCCSuWXO/cPLEzEBoqlyKnRCYFu3071Z1i/vV
-         R1O2mWpDKI6oOCQVQaQYGVhM7+0RfE+odUPeQ4rlim2J0xuZX3Qjsr7xOwkPfLVVEQ
-         70caBPBDFoMTuihe3TPz2hF9G0u4hfaMv0tUUNe63ponVWDxdSnwJHUxew+HW++O2f
-         tIJizK1qU5h6g==
-Content-Type: text/plain; charset="utf-8"
+        id S232029AbhFXVlZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Jun 2021 17:41:25 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EDB6C613A9;
+        Thu, 24 Jun 2021 21:39:03 +0000 (UTC)
+Date:   Thu, 24 Jun 2021 17:39:02 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V5 12/14] trace: Protect tr->tracing_cpumask with
+ get/put_online_cpus
+Message-ID: <20210624173902.57f4f34f@oasis.local.home>
+In-Reply-To: <38d2ef13b33c42fcf424a6213a27c8b5246548e0.1624372313.git.bristot@redhat.com>
+References: <cover.1624372313.git.bristot@redhat.com>
+        <38d2ef13b33c42fcf424a6213a27c8b5246548e0.1624372313.git.bristot@redhat.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/2] Document the NXP SJA1110 switch as supported
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162456480458.15446.9074214993699449470.git-patchwork-notify@kernel.org>
-Date:   Thu, 24 Jun 2021 20:00:04 +0000
-References: <20210624145524.944878-1-olteanv@gmail.com>
-In-Reply-To: <20210624145524.944878-1-olteanv@gmail.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
-        f.fainelli@gmail.com, andrew@lunn.ch, vivien.didelot@gmail.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, vladimir.oltean@nxp.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Tue, 22 Jun 2021 16:42:30 +0200
+Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-This series was applied to netdev/net-next.git (refs/heads/master):
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 52fc9438b7b4..c14f33db147e 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -5053,7 +5053,13 @@ int tracing_set_cpumask(struct trace_array *tr,
+>  	arch_spin_unlock(&tr->max_lock);
+>  	local_irq_enable();
+>  
+> +	/*
+> +	 * tracing_cpumask is read by tracers that support CPU
+> +	 * hotplug.
+> +	 */
+> +	get_online_cpus();
+>  	cpumask_copy(tr->tracing_cpumask, tracing_cpumask_new);
+> +	put_online_cpus();
+>  
+>  	return 0;
 
-On Thu, 24 Jun 2021 17:55:22 +0300 you wrote:
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
-> 
-> Now that most of the basic work for SJA1110 support has been done in the
-> sja1105 DSA driver, let's add the missing documentation bits to make it
-> clear that the driver can be used.
-> 
-> Vladimir Oltean (2):
->   Documentation: net: dsa: add details about SJA1110
->   net: dsa: sja1105: document the SJA1110 in the Kconfig
-> 
-> [...]
+Hmm, the tracing_cpumask is only touched in he work function, with the
+necessary locks. How is get_online_cpus() protecting it here?
 
-Here is the summary with links:
-  - [net-next,1/2] Documentation: net: dsa: add details about SJA1110
-    https://git.kernel.org/netdev/net-next/c/44531076338f
-  - [net-next,2/2] net: dsa: sja1105: document the SJA1110 in the Kconfig
-    https://git.kernel.org/netdev/net-next/c/75e994709f8a
+That is, tracing_cpumask isn't touched in the path of bringing up or
+taking down a CPU, and shouldn't be an issue here.
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Should I just drop this patch?
 
-
+-- Steve
