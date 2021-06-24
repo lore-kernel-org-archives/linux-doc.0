@@ -2,140 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21DE3C49EAB
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED478C49EA5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D333613C0
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:14:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAADB613C7
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232024AbhFXQRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 12:17:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23791 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232037AbhFXQQ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 12:16:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624551276;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wE3C8fAY2Ke4f8GlbED3jZxKdHMupZo0qHgep6Jpwjw=;
-        b=W39kIwqf1rdihPTb9VtEfKSdfyq8VAaXVX+iFQ60maw1/ysAxhtbSN6NTlqc+AwrbTRsrO
-        H0XE5qbypr4NIMA9gw9q0+uyN//IrB/4cKGa1KPX+fpDkO6NUCtqgr1Oj+0FlZXT0zDQYE
-        IYUXTGRlBl1MrxwH1Rr7wx2+aDXQllk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-kn1rgtX5OaScVNH41hFkNw-1; Thu, 24 Jun 2021 12:14:32 -0400
-X-MC-Unique: kn1rgtX5OaScVNH41hFkNw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA39801596;
-        Thu, 24 Jun 2021 16:14:29 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.10.110.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1E91A19C66;
-        Thu, 24 Jun 2021 16:14:24 +0000 (UTC)
-Message-ID: <0548d1daa7e1eee9d8202481668bbe4975c9b33d.camel@redhat.com>
-Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
-From:   Dan Williams <dcbw@redhat.com>
-To:     Rocco Yue <rocco.yue@mediatek.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        David Ahern <dsahern@gmail.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S231157AbhFXQXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 12:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230480AbhFXQXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 12:23:48 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D1BC061574;
+        Thu, 24 Jun 2021 09:21:29 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id hz1so10474315ejc.1;
+        Thu, 24 Jun 2021 09:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NuMe55P+TSN90iFcn8h08HfAcManWaQKAl9XfEn/uQE=;
+        b=SZ6LvCUG3OX627cXClI5uJbOeJoJwfiOwRvsofhO740Abe2n2MC49LxNInzn/M4QLo
+         MKI5RqzblyGSNDylXAPCeyaGPDlLEgIIa1AiQOBle7IHbD1avIHlYxjjiUdcowYVpg1e
+         LggzDQngZIXFxr8gOATwDHzPUjhgyR/GjD30WzEv4lZBP1p7UN3fHeixo0LRc5JVlNUL
+         OddmNX0a3hxstQL7SzE0Gegl91q0f3oKiYWnhpx2ez1JyVsIXcgH9PCcprw9xBB4qrAV
+         p7HalKtKQwudgikbOQt2RrJRUkf//4xPR4QH1MaTmm6zD2/ti67PX4azbwG5ecPbGzLM
+         98Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=NuMe55P+TSN90iFcn8h08HfAcManWaQKAl9XfEn/uQE=;
+        b=UIp5JBDCvApPZESp4ElEIIS9QC4OcedTqZR+RAfJ1z5XcdodaNC8Sx+RsiQ61pCXys
+         UQeeksDGgfls2Zxl4j4hPznoUvea9j4TGQcymi45x7hpGqiQ1HZTQaAX6ZcOQ8NIzARr
+         nrizuWfbPWHHP+cTO1HqI+iBx+5SnO2S3MLcsdCTz8PkGnS5AcwoP2a5CKJpC9CeFBxn
+         zm7wvy0XLQOXgeywnb8fc2ycYPu43YGvKp5oXWp5OAHDS4tQ4pG0wdpFFjwu3ekpEfnt
+         ZyxuDIi709mJ+t1wdNC0LcaiTgZZodSruCcoe89dIRyUVlgR3fqgReycz3dJ5te3O/aD
+         U89A==
+X-Gm-Message-State: AOAM532PNaK7BdHnMHyJQGkL8gfjo4+dPyR2f2jUJUO7HsLnkEbLLspJ
+        cz7pEE2D6TSaGgJRYmmevBKUZBrbJFvo4A==
+X-Google-Smtp-Source: ABdhPJwOFIzd6fHW1kJLsiuz7iDdx4PyJmlXzjBpKRA7k2yfodo30VC7JyWWAJ25NYKbmPzl8Jq/ww==
+X-Received: by 2002:a17:906:6c97:: with SMTP id s23mr6094625ejr.248.1624551687584;
+        Thu, 24 Jun 2021 09:21:27 -0700 (PDT)
+Received: from stitch.. ([82.192.166.82])
+        by smtp.gmail.com with ESMTPSA id p18sm1332832edu.8.2021.06.24.09.21.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jun 2021 09:21:27 -0700 (PDT)
+Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
+From:   Emil Renner Berthing <esmil@mailme.dk>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
-        wsd_upstream@mediatek.com, chao.song@mediatek.com,
-        kuohong.wang@mediatek.com
-Date:   Thu, 24 Jun 2021 11:14:24 -0500
-In-Reply-To: <20210624061310.12315-1-rocco.yue@mediatek.com>
-References: <YNQYHfE09Dx5kWyg@kroah.com>
-         <20210624061310.12315-1-rocco.yue@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.2 (3.40.2-1.fc34) 
+        Samin Guo <samin.guo@starfivetech.com>
+Cc:     Emil Renner Berthing <kernel@esmil.dk>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] hwmon: Add StarFive JH7100 temperature sensor
+Date:   Thu, 24 Jun 2021 18:21:06 +0200
+Message-Id: <20210624162108.832518-1-esmil@mailme.dk>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-06-24 at 14:13 +0800, Rocco Yue wrote:
-> On Thu, 2021-06-24 at 07:29 +0200, Greg KH wrote:
-> > 
-> > Thanks for the explaination, why is this hardware somehow "special"
-> > in
-> > this way that this has never been needed before?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> Before kernel-4.18, RAWIP was the same as PUREIP, neither of them
-> automatically generates an IPv6 link-local address, and the way to
-> generate an IPv6 global address is the same.
+From: Emil Renner Berthing <kernel@esmil.dk>
 
-This distinction seems confusing from a kernel standpoint if it only
-changes how v6 IIDs are determined. Do we really need something that's
-also reflected to userspace (in struct ifinfomsg -> ifi_type) if the
-kernel is handling the behavior that's different? Why should userspace
-care?
+This adds a driver for the temperature sensor on the JH7100, a RISC-V
+SoC by StarFive Technology Co. Ltd., and most likely also the upcoming
+JH7110 version.
 
-I'm also curious why this isn't an issue for the ipa/rmnet (Qualcomm)
-modem drivers. There's probably a good reason, but would be good to
-know what that is from Alex Elder or Loic or Bjorn...
+The SoC is used on the BeagleV Starlight board:
+https://github.com/beagleboard/beaglev-starlight
 
-Dan
+Support for this SoC is not yet upstreamed, but is actively worked on,
+so it should only be a matter of time before that happens.
 
-> 
-> After kernel-4.18 (include 4.18 version), the behavior of RAWIP had
-> changed due to the following patch:
-> @@  static int ipv6_generate_eui64(u8 *eui, struct net_device *dev)
-> +       case ARPHRD_RAWIP:
-> +               return addrconf_ifid_rawip(eui, dev);
->         }
->         return -1;
-> }
-> 
-> the reason why the kernel doesn't need to generate the link-local
-> address automatically is as follows:
-> 
-> In the 3GPP 29.061, here is some description as follows:
-> "in order to avoid any conflict between the link-local address of
-> MS and that of the GGSN, the Interface-Identifier used by the MS to
-> build its link-local address shall be assigned by the GGSN. The GGSN
-> ensures the uniqueness of this Interface-Identifier. Then MT shall
-> then enforce the use of this Interface-Identifier by the TE"
-> 
-> In other words, in the cellular network, GGSN determines whether to
-> reply to the Router Solicitation message of UE by identifying the
-> low 64bits of UE interface's ipv6 link-local address.
-> 
-> When using a new kernel and RAWIP, kernel will generate an EUI64
-> format ipv6 link-local address, and if the device uses this address
-> to send RS, GGSN will not reply RA message.
-> 
-> Therefore, in that background, we came up with PUREIP to make kernel
-> doesn't generate a ipv6 link-local address in any address generate
-> mode.
-> 
-> Thanks,
-> Rocco
-> 
+v2:
+* Fix checkpatch.pl --strict warnings
+  - Add myself to MAINTAINERS
+  - Fix multiline comments
+  - Use proper case and whitespace for #defines
+  - Add comment to sfctemp::lock mutex.
+* Remaining comments by Guenter Roeck
+  - Add Documentation/hwmon/sfctemp.rst
+  - Use devm_add_action() and devm_hwmon_device_register_with_info()
+    instead of a driver .remove function.
+  - Don't do test conversion at probe time.
+  - #include <linux/io.h>
+  - Remove unused #defines
+  - Use int return variable in sfctemp_convert().
+* Add Samin's Signed-off-by to patch 2/2
 
+Emil Renner Berthing (2):
+  dt-bindings: hwmon: add starfive,jh7100-temp bindings
+  hwmon: (sfctemp) Add StarFive JH7100 temperature sensor
+
+ .../bindings/hwmon/starfive,jh7100-temp.yaml  |  43 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/sfctemp.rst               |  32 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/sfctemp.c                       | 288 ++++++++++++++++++
+ 7 files changed, 383 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh7100-temp.yaml
+ create mode 100644 Documentation/hwmon/sfctemp.rst
+ create mode 100644 drivers/hwmon/sfctemp.c
+
+-- 
+2.32.0
 
