@@ -2,128 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C843CC48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCC0C49EA5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:48:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC09A613FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:26:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECD39613FF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 10:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbhFXK3K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 06:29:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232228AbhFXK3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 06:29:08 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5522FC061574;
-        Thu, 24 Jun 2021 03:26:48 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id f16so2997488qvs.7;
-        Thu, 24 Jun 2021 03:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to;
-        bh=KxS5ydGPGSrGpr8bpknASMX+EaA4On+/9KPX0g5P9o0=;
-        b=Y46p3HJAOO0UApSgTJ/BNEu/h3xZ7r0dnW0ioPlm8N1OmHoyiMf7/up+Bymi3gAwsO
-         ZIwwsCtsmaez9PhsLYnyEzQvlA6dy2S5O+WWRIEO7iBsrt3xhqMmOkRysQOzVRafR7+s
-         DmfoZhzALS5JTyeGFw70a1QQqWdjy58RQJUoim9iBDisO2WVxX29QErw9GRZBiE5DZwM
-         ZsFOiR5oRRVAhy+M0WwF8EG3wj2ZKckxbWjgiQzElBAKYlmdYKc4wJ9knJH5Z7o9JaaY
-         jNSOLSnuMQTx8UUhLDYG5GIgi19wkZR/tPa8AwXJOxF9d+igaxCPYc/eIvc7mQOLeBZg
-         utbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to;
-        bh=KxS5ydGPGSrGpr8bpknASMX+EaA4On+/9KPX0g5P9o0=;
-        b=DM2kobYEjYmJtWhupmCxwYCE6No7mahI45Mvi3s4vOrAJ1q4dk41sdc7rcLEQ6PbFB
-         T/rsK6uNEY0srKuv9ggyX2UU3/O5z9iW5ebIxvPmERsrCBPWT5UndDiI98FXO34BfSuK
-         jHcbWuX+/botOz421Qv7xQLaSHTxaXOUmdnNctEmR1ZvteiNCKCjpeE7+1HSwQDeQUN0
-         aXgnWzrte7o/DmFaKaot1gFlLr0dONNCQsrVVmAsT1zxrJC+TYrVisaDnJbIFa9WmEOh
-         +gSh7ByD+oDkqkEUTtCUFKUrXbhwSQ7AT0rZOKgJ0/QQnj7yxwRv8BSMIC5gkpmZbxK8
-         hZlw==
-X-Gm-Message-State: AOAM530Gi/EqSsX20cIA2hlyN4Sd0oN/eFyKQG15G22vLlevBdEXi42M
-        xPI1GYUnsuO/e0o/BkPzfxM=
-X-Google-Smtp-Source: ABdhPJzz84D03CiKPqZ8W17GBXg5Z7jOn2ynPlYRpZuazv6R5do/6ygSamxJ9F3m5NSnGJ2w4NPLzA==
-X-Received: by 2002:a05:6214:15c2:: with SMTP id p2mr4674594qvz.8.1624530407601;
-        Thu, 24 Jun 2021 03:26:47 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id w195sm2132842qkb.127.2021.06.24.03.26.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 03:26:47 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     SeongJae Park <sj38.park@gmail.com>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        Brendan Higgins <brendanhiggins@google.com>,
+        id S232271AbhFXKue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 06:50:34 -0400
+Received: from mga12.intel.com ([192.55.52.136]:40968 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232254AbhFXKue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Jun 2021 06:50:34 -0400
+IronPort-SDR: pBGr1bc1vInlTQAPtpuc7mlvw3x7pufkzoAaH2P31bHBRsd0ZEJv3IjU+K+U5R1wbdh+gD2WUY
+ 20Wq6Nw7sZkQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="187132570"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
+   d="scan'208";a="187132570"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 03:48:14 -0700
+IronPort-SDR: eEghCN/Qvia56WaoGh3LGi+jefvIHH1Kk8fQi7G0evpIAh7cBuF62uih7BxUW5iBA/D+5as8au
+ couLtI9FV+IA==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
+   d="scan'208";a="624148275"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 03:48:10 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lwMty-004ycA-BM; Thu, 24 Jun 2021 13:48:06 +0300
+Date:   Thu, 24 Jun 2021 13:48:06 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Jia He <justin.he@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, greg@kroah.com,
-        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        sieberf@amazon.com, snu@zelle79.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        zgf574564920@gmail.com, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v31 08/13] mm/damon/dbgfs: Export kdamond pid to the user space
-Date:   Thu, 24 Jun 2021 10:26:23 +0000
-Message-Id: <20210624102623.24563-5-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210624102623.24563-1-sjpark@amazon.de>
-References: <20210624102623.24563-1-sjpark@amazon.de>
-In-Reply-To: <CALvZod703WD0Ab8EMpd6+JxzhKEjnwZkYRA9VB5LoUmG_yccSQ@mail.gmail.com>
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>, nd@arm.com
+Subject: Re: [PATCH v5 1/4] fs: introduce helper d_path_unsafe()
+Message-ID: <YNRi5tZFjjpI2Fi3@smile.fi.intel.com>
+References: <20210622140634.2436-1-justin.he@arm.com>
+ <20210622140634.2436-2-justin.he@arm.com>
+ <YNH1d0aAu1WRiua1@smile.fi.intel.com>
+ <YNRP3QjSK8ayzCzC@alley>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YNRP3QjSK8ayzCzC@alley>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
-
-On Tue, 22 Jun 2021 11:23:12 -0700 Shakeel Butt <shakeelb@google.com> wrote:
-
-> On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > For CPU usage accounting, knowing pid of the monitoring thread could be
-> > helpful.  For example, users could use cpuaccount cgroups with the pid.
-> >
-> > This commit therefore exports the pid of currently running monitoring
-> > thread to the user space via 'kdamond_pid' file in the debugfs
-> > directory.
-> >
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > Reviewed-by: Fernand Sieber <sieberf@amazon.com>
-> > ---
+On Thu, Jun 24, 2021 at 11:26:53AM +0200, Petr Mladek wrote:
+> On Tue 2021-06-22 17:36:39, Andy Shevchenko wrote:
+> > On Tue, Jun 22, 2021 at 10:06:31PM +0800, Jia He wrote:
+> > > This helper is similar to d_path() except that it doesn't take any
+> > > seqlock/spinlock. It is typical for debugging purposes. Besides,
+> > > an additional return value *prenpend_len* is used to get the full
+> > > path length of the dentry, ingoring the tail '\0'.
+> > > the full path length = end - buf - prepend_length - 1
+> > 
+> > Missed period at the end of sentence.
+> > 
+> > > Previously it will skip the prepend_name() loop at once in
+> > > __prepen_path() when the buffer length is not enough or even negative.
+> > > prepend_name_with_len() will get the full length of dentry name
+> > > together with the parent recursively regardless of the buffer length.
+> > 
+> > > If someone invokes snprintf() with small but positive space,
+> > > prepend_name_with_len() moves and copies the string partially.
+> > > 
+> > > More than that, kasprintf() will pass NULL _buf_ and _end_ as the
+> > > parameters. Hence return at the very beginning with false in this case.
+> > 
+> > These two paragraphs are talking about printf() interface, while patch has
+> > nothing to do with it. Please, rephrase in a way that it doesn't refer to the
+> > particular callers. Better to mention them in the corresponding printf()
+> > patch(es).
 > 
-> [...]
+> The two paragraphs are actually repeated in the 2nd
+> patch. Unfortunately, they do not make sense there either because they
+> comment code that is modified in this patch.
 > 
-> >
-> > +static const struct file_operations kdamond_pid_fops = {
-> > +       .owner = THIS_MODULE,
+> We could describe it here a generic way. For example:
 > 
-> I don't think you need to set the owner (and for other fops) as these
-> files are built into modules. Otherwise it looks good.
+>   prepend_name_with_len() moves and copies the path when the given
+>   buffer is not big enough. It cuts off the end of the path.
+>   It returns immediately when there is no buffer at all.
 
-Good point.  Will remove those from the next spin.
+Yes, that's my point, but sorry if I made it unclear.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Thanks,
-SeongJae Park
