@@ -2,150 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89742C48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC946C48BDF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:59:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71CF2613FA
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:51:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 925B2613F6
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231265AbhFXMyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 08:54:03 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:52992 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbhFXMyD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:54:03 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id C59AA1FD35;
-        Thu, 24 Jun 2021 12:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1624539102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OStIT+/k9HjAMVEft/RiVSrSrqRUKVMppJc/bLZhAsc=;
-        b=h1TVxq0gwwlLbYqvb8tWbr/SwshfATjxvexZQDFL2biMzuzXxMfRnglO5nSJ12QdFh3lZZ
-        FArNIcJjJMRUX5Blw8IDk3onyywNZfB2DYPVTIBceONow2v4WnuszUCeCPzCtPz99jrNKs
-        yidy5cAz7L/uV6PBm7+zmb9Z1OtOTTM=
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id 68DE211A97;
-        Thu, 24 Jun 2021 12:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1624539102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OStIT+/k9HjAMVEft/RiVSrSrqRUKVMppJc/bLZhAsc=;
-        b=h1TVxq0gwwlLbYqvb8tWbr/SwshfATjxvexZQDFL2biMzuzXxMfRnglO5nSJ12QdFh3lZZ
-        FArNIcJjJMRUX5Blw8IDk3onyywNZfB2DYPVTIBceONow2v4WnuszUCeCPzCtPz99jrNKs
-        yidy5cAz7L/uV6PBm7+zmb9Z1OtOTTM=
-Received: from director2.suse.de ([192.168.254.72])
-        by imap3-int with ESMTPSA
-        id p7OQGN5/1GAWSQAALh3uQQ
-        (envelope-from <mkoutny@suse.com>); Thu, 24 Jun 2021 12:51:42 +0000
-Date:   Thu, 24 Jun 2021 14:51:41 +0200
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <fweisbec@gmail.com>
-Subject: Re: [PATCH v2 3/6] cgroup/cpuset: Add a new isolated cpus.partition
- type
-Message-ID: <YNR/3fydXvAi3OsN@blackbook>
-References: <20210621184924.27493-1-longman@redhat.com>
- <20210621184924.27493-4-longman@redhat.com>
+        id S231241AbhFXNCH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 09:02:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45478 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229995AbhFXNCH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:02:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A02BA61003;
+        Thu, 24 Jun 2021 12:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624539588;
+        bh=NrylstX705yNk/gBhk/kQsLmF1qJb5ZhvHEk4pQj6ic=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qflNF5efbR1bsvxJDtWltJYXFHXia/rlBkrtnRDvntcxtztyNU3n1NBN9mFLmtbY5
+         ICtG/5sy+28vA/HT11Cr0xqTTD2yRUBhRmyPmoLqs9su58Xh4l4Y2xPzxTt/U1fRIp
+         NOr8CAvud2+PGzXgIXeuuuHUGKAzI00k/pPrWJdyI4YcCbxVqTYJS3qBQR94mqAbBP
+         0P9Hms952dYNckojVQg+t6q8A27c88A6nbo0Delje0Aqp1q6NC7th3ZDd7jMCwBSvK
+         O7pwxrsE/NB7TPAxbR7pYj80RC0Fq7JoYlijPNx7B0MM/BHQeAte9ikRjfqdSoEgiE
+         DcxcLbbq14geQ==
+Date:   Thu, 24 Jun 2021 14:59:43 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, "Wu X.C." <bobwxc@email.cn>,
+        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK
+ ascii-art
+Message-ID: <20210624145943.001f8115@coco.lan>
+In-Reply-To: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7y/hTF6KceCxU12n"
-Content-Disposition: inline
-In-Reply-To: <20210621184924.27493-4-longman@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Thu, 24 Jun 2021 21:06:59 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
---7y/hTF6KceCxU12n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Subject: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK ascii-art
+> 
+> Hi all,
+> 
+> This is another attempt to improve translations' pdf output.
+> I see there is a mismatch in the font choice for CJK documents, which
+> causes poor-looking ascii-art where CJK characters and Latin letters
+> are mixed used.
+> 
+> One of noticeable examples of such ascii-art can be found in
+> Korean translation of memory-barriers.txt.
+> 
+> Hence the author of Korean translation of memory-barriers.txt is
+> in the CC list.
+> 
+> At first, I thought the issue could be fixed by simply selecting
+> "Noto Sans Mono CJK SC" as both of monofont and CJKmonofont.
+> It fixed the mis-alignment in the Chinese translation, but failed
+> in the Korean translation.
+> 
+> It turns out that Hangul characters in "Noto Sans Mono CJK SC"
+> are slightly narrower than Chinese and Japanese counterparts.
+> I have no idea why the so-called "mono" font has non-uniform
+> character widths.
+> 
+> GNU Unifont is an alternative monospace font which covers
+> almost all Unicode codepoints.
+> However, due to its bitmap-font nature, the resulting document
+> might not be acceptable to Korean readers, I guess.
+> 
+> As a compromise, Patch 2/3 enables Unifont only when it is available.
+> 
+> A comparison of some of ascii-art figures before and after this change
+> can be found in the attached PDF.
 
-Hello.
+Argh! Yeah, it sounds that those translations will always be
+problematic.
 
-On Mon, Jun 21, 2021 at 02:49:21PM -0400, Waiman Long <longman@redhat.com> =
-wrote:
->     cgroup/cpuset: Add a new isolated cpus.partition type
->=20
->     Cpuset v1 uses the sched_load_balance control file to determine if lo=
-ad
->     balancing should be enabled.  Cpuset v2 gets rid of sched_load_balance
->     as its use may require disabling load balancing at cgroup root.
->=20
->     For workloads that require very low latency like DPDK, the latency
->     jitters caused by periodic load balancing may exceed the desired
->     latency limit.
->=20
->     When cpuset v2 is in use, the only way to avoid this latency cost is =
-to
->     use the "isolcpus=3D" kernel boot option to isolate a set of CPUs. Af=
-ter
->     the kernel boot, however, there is no way to add or remove CPUs from
->     this isolated set. For workloads that are more dynamic in nature, that
->     means users have to provision enough CPUs for the worst case situation
->     resulting in excess idle CPUs.
->=20
->     To address this issue for cpuset v2, a new cpuset.cpus.partition type
->     "isolated" is added which allows the creation of a cpuset partition
->     without load balancing. This will allow system administrators to
->     dynamically adjust the size of isolated partition to the current need
->     of the workload without rebooting the system.
+Your patch series makes sense to me (although I didn't try to
+test). Perhaps one way would be to split the translations into
+one separate book per language, although I suspect that such
+change would offer their own problems, as cross-references
+will be broken[1].
 
-I like this work.
-Would it be worth generalizing the API to be on par with what isolcpus=3D
-can configure? (I.e. not only load balancing but the other dimensions of
-isolation (like the flags nohz and managed_irq now).)
+[1] There is a sphinx extension that solves it:
+	https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 
-I don't know if all such behaviors could be implemented dynamically
-(likely not easy) but the API could initially implement just what you do
-here with the "isolated" partition type.
+But not sure how easy/hard would be to setup this one.
 
-The variant I'm thinking of would keep just the "root" and "member"
-partitions type and the "root" type could be additionally configured via
-cpuset.cpus.partition.flags (for example).
+> 
+> Patch 1/3 is a preparation of Patch 2/3.
+> It converts font-availability check in python to LaTeX and make the
+> resulting LaTeX code portable across systems with different sets of
+> installed fonts.
+> 
+> Patch 3/3 is an independent white space fix (or a workaround of Sphinx
+> mis-handling of tabs behind CJK characters) in Korean translation
+> of memory-barriers.txt.
+> 
+> Any feedback is welcome!
+> 
+> Side note:
+> 
+> In Korean translation's PDF, I see there is another issue of missing
+> white spaces between Hangul "phrase groups" in normal text.
+> Looks like the pair of xelatex + xeCJK just ignores white spaces
+> between CJK characters.
+> 
+> There is a package named "xetexko", which might (or might not) be
+> a reasonable choice for Korean translation.
+> 
+> It should be possible to use a language-specific preamble once
+> we figure out the way to load per-directory Sphinx configuration
+> and move translation docs into per-language subdirectories.  
+> 
+> As I am not familiar with Korean LaTeX typesetting, I must defer to
+> those who are well aware of such conventions.
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   docs: pdfdocs: Refactor config for CJK document
+>   docs: pdfdocs: Add font settings for CJK ascii-art
+>   docs: ko_KR: Use white spaces behind CJK characters in ascii-art
+> 
+>  Documentation/conf.py                         | 26 +++++++++++--------
+>  .../translations/ko_KR/memory-barriers.txt    | 14 +++++-----
+>  2 files changed, 22 insertions(+), 18 deletions(-)
+> 
 
-WDYT?
 
-Michal
 
---7y/hTF6KceCxU12n
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmDUf9gACgkQia1+riC5
-qSgrew/9Hq4FG5rOCmGFt93pb5UT4E9slWA9EWdsCCpq97TsB9YXl8KsEYana9aP
-4ZCRW2ySHqn0LpjKlgbYruhXX9IICNAOr6KHHKW8RgKTPnBHsXpwuhQhDJdDLQ54
-U1DGX+WfTTuTFM8dO2VJcdSHl3c/7xxr1L5rp9Z3Soetzp219w6p/SE3WDZYW1Q1
-ur+Yq/Fjl6x8YU/7U1c18sHP1H7xTw9yC94NxZ/gwhyJzxxR8LDWTvTr9ZJcN2qP
-ywzJbuhH6dcZrAJUYbR990SryS1mDDD8nZx5iZJC005oR4m5Ce7kahU/lmv5Oe0n
-TCgPjA0idwjXED3pCeARRVdl6nuFmi+hXO9SV9HpLwoDVTWF2F2g6wb49g2tkIwK
-0BNtpYv2F0Mg0hmY3wCJH5IDBMkJemNgCUj+SRlwngJgYRbNcUvLmCloapbFLsC+
-3JziiJqkeOhlAIfpMYHsEXV0OHDkYLuHsf5cZ/We2qFoY955niGZti9EE+rMfh0V
-DNMwk7vmSSCffEFOzwP0cwGiyF6AC83JgX3eEpPAfArt+4CReEYi6r0gmdD8VYUG
-8ezyxEa9/zVgARjzB5U7/7r2OSquhmEg/uKhRs/XqeFP53MyAaJnPWIEXehyIsXL
-SgRvceYyw+U0Pvm/oYplJF8VLNIadWNzMOK9yqQCnNx6y9ogShU=
-=SVZh
------END PGP SIGNATURE-----
-
---7y/hTF6KceCxU12n--
+Thanks,
+Mauro
