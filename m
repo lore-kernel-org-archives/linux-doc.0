@@ -2,218 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D84FC49EA6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F87C48BDF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40916613F0
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF43E613EB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230188AbhFXMLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 08:11:05 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:48535 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229448AbhFXMLF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:11:05 -0400
-X-UUID: 9d6e04b807e64a3da003119c7e3ea53a-20210624
-X-UUID: 9d6e04b807e64a3da003119c7e3ea53a-20210624
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <rocco.yue@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1175979880; Thu, 24 Jun 2021 20:08:41 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Jun 2021 20:08:39 +0800
-Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 24 Jun 2021 20:08:38 +0800
-From:   Rocco Yue <rocco.yue@mediatek.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <bpf@vger.kernel.org>,
-        <wsd_upstream@mediatek.com>, <chao.song@mediatek.com>,
-        <kuohong.wang@mediatek.com>, Rocco Yue <rocco.yue@mediatek.com>
-Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
-Date:   Thu, 24 Jun 2021 19:53:49 +0800
-Message-ID: <20210624115349.2264-1-rocco.yue@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <YNNv1AxDNBdPcQ1U@kroah.com>
-References: <YNNv1AxDNBdPcQ1U@kroah.com>
+        id S231129AbhFXMLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 08:11:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229448AbhFXMLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 08:11:13 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04827C061767;
+        Thu, 24 Jun 2021 05:08:53 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id c5so4980461pfv.8;
+        Thu, 24 Jun 2021 05:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1HIae1IsTpNnOLreRylFk4etMZm5amtWa1pmqvSZnbI=;
+        b=BU698jLDNATJW6K6T1wqHj8gJs1B/N/MXT3RyNcUyJ+CRBqFWVSHBBSHRCC9Nt2RhY
+         BuWxOee+vntpLjNRZSvAd0VL/cEhXmDVciNiyDsIdjtGEMLesgbuO8VN1EPJiEjVVkeX
+         GUY5MXTDZ13VCyRnjSaPrKrNOV5LUHf6bCbPyRQMKs7uyHyjbo03pIGzOO+5R7c4mvMJ
+         s3F0St50qe4dG1e1qTS7xxss7XEE90hjoQUcngLQqHSYQPDCAtShv76gw3bEKpZ+wm/F
+         wWMARP6xL44vr+FV+GJATF206EB+M1ijehcALssmEkzNaXTTeqyVziAy+QpChrgHXQly
+         8NqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1HIae1IsTpNnOLreRylFk4etMZm5amtWa1pmqvSZnbI=;
+        b=WYbLXo3NTxdOiMFTCS+nBbf/Zqm3BrJ9HKB/WXgIRvK8zwnQZd/5c9hqMR44t+KndO
+         BpmAhW4QQ7NzJPWQnxP1rfOFLZ72tSEBpc6SIdUwW7wviWt9GAkQB4eIOjV7f0a504Jd
+         sJ8mHMzdusLKVlGgrnhDgrEU/vxgOwACXzB3/XgUlcBjvAl4XXzGzlHAWniBA0Jr6KO1
+         m/37EbVHZFte75wIPoRecmpg0IhGmTyckjTmCcTtl7hw5mE3mjcCf9rSp0kYcGR96rVC
+         gHf7O+kQBfZpU54AQXn78oq6R6gly/yZmMAJnNx11XrGtezZl2kNMYWQlFxBoZJuRN8n
+         Qwig==
+X-Gm-Message-State: AOAM530C8kinFOOHrzscaxbzU/NuY+6fH3c8YJ9n6Fmybt4kH4bX0BjZ
+        UbFgOO6fBERO4W4nlmkgbqk=
+X-Google-Smtp-Source: ABdhPJxbM57+WaQXftV0IBJ3FOSmK0pLsvwcVVpBQo6DPJ5c8+lQF8BYK02Rbj5gasrCDEpg549iLQ==
+X-Received: by 2002:a63:6e87:: with SMTP id j129mr4490153pgc.45.1624536532533;
+        Thu, 24 Jun 2021 05:08:52 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id lb14sm8237455pjb.5.2021.06.24.05.08.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jun 2021 05:08:52 -0700 (PDT)
+Subject: [RFC PATCH 1/3] docs: pdfdocs: Refactor config for CJK document
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <45a7b96a-bc27-ade4-716a-c319715e1b4d@gmail.com>
+Date:   Thu, 24 Jun 2021 21:08:49 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-06-23 at 19:31 +0200, Greg KH wrote:
-On Wed, Jun 23, 2021 at 07:34:52PM +0800, Rocco Yue wrote:
->> +static int ccmni_open(struct net_device *ccmni_dev)
->> +{
->> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
->> +
->> +	netif_tx_start_all_queues(ccmni_dev);
->> +	netif_carrier_on(ccmni_dev);
->> +
->> +	if (atomic_inc_return(&ccmni->usage) > 1) {
->> +		atomic_dec(&ccmni->usage);
->> +		netdev_err(ccmni_dev, "dev already open\n");
->> +		return -EINVAL;
-> 
-> You only check this _AFTER_ starting up?  If so, why even check a count
-> at all?  Why does it matter as it's not keeping anything from working
-> here.
-> 
+To make generated LaTeX code portable across systems with different sets
+of available fonts, convert font-availability check in python code to
+LaTeX code by using a conditional command provided by the "fontspec"
+package.
 
-Thanks for your review.
-Looking back at this code block, it does have some ploblems,
-ccmni->usage hasn't been used to protect some resources or do
-some specific things in the current code, I will delete them.
+This will help those who want to run Sphinx on one machine/container
+and run latexmk on other machines/containers with different font
+configurations.
 
-> 
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int ccmni_close(struct net_device *ccmni_dev)
->> +{
->> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
->> +
->> +	atomic_dec(&ccmni->usage);
->> +	netif_tx_disable(ccmni_dev);
->> +
->> +	return 0;
->> +}
->> +
->> +static netdev_tx_t
->> +ccmni_start_xmit(struct sk_buff *skb, struct net_device *ccmni_dev)
->> +{
->> +	struct ccmni_inst *ccmni = NULL;
->> +
->> +	if (unlikely(!ccmni_hook_ready))
->> +		goto tx_ok;
->> +
->> +	if (!skb || !ccmni_dev)
->> +		goto tx_ok;
->> +
->> +	ccmni = netdev_priv(ccmni_dev);
->> +
->> +	/* some process can modify ccmni_dev->mtu */
->> +	if (skb->len > ccmni_dev->mtu) {
->> +		netdev_err(ccmni_dev, "xmit fail: len(0x%x) > MTU(0x%x, 0x%x)",
->> +			   skb->len, CCMNI_MTU, ccmni_dev->mtu);
->> +		goto tx_ok;
->> +	}
->> +
->> +	/* hardware driver send packet will return a negative value
->> +	 * ask the Linux netdevice to stop the tx queue
->> +	 */
->> +	if ((s_ccmni_ctlb->xmit_pkt(ccmni->index, skb, 0)) < 0)
->> +		return NETDEV_TX_BUSY;
->> +
->> +	return NETDEV_TX_OK;
->> +tx_ok:
->> +	dev_kfree_skb(skb);
->> +	ccmni_dev->stats.tx_dropped++;
->> +	return NETDEV_TX_OK;
->> +}
->> +
->> +static int ccmni_change_mtu(struct net_device *ccmni_dev, int new_mtu)
->> +{
->> +	if (new_mtu < 0 || new_mtu > CCMNI_MTU)
->> +		return -EINVAL;
->> +
->> +	if (unlikely(!ccmni_dev))
->> +		return -EINVAL;
->> +
->> +	ccmni_dev->mtu = new_mtu;
->> +	return 0;
->> +}
->> +
->> +static void ccmni_tx_timeout(struct net_device *ccmni_dev, unsigned int txqueue)
->> +{
->> +	struct ccmni_inst *ccmni = netdev_priv(ccmni_dev);
->> +
->> +	ccmni_dev->stats.tx_errors++;
->> +	if (atomic_read(&ccmni->usage) > 0)
->> +		netif_tx_wake_all_queues(ccmni_dev);
-> 
-> Why does it matter what the reference count is?  What happens if it
-> drops _RIGHT_ after testing for it?
-> 
-> Anytime you do an atomic_read() call, it's almost always a sign that the
-> logic is not correct.
-> 
-> Again, why have this reference count at all?  What is it protecting?
-> 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/conf.py | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-The jedgment of ccmni->usage here is to ensure that the ccmnix interface
-is already up when do wake up tx queue behavior.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 7d92ec3e5b6e..22f083bafaae 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -358,26 +358,23 @@ latex_elements = {
+ # At least one book (translations) may have Asian characters
+ # with are only displayed if xeCJK is used
+ 
+-cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
+-if cjk_cmd.find("Noto Sans CJK SC") >= 0:
+-    latex_elements['preamble']  += '''
++latex_elements['preamble']  += '''
++    \\IfFontExistsTF{Noto Sans CJK SC}{
+ 	% This is needed for translations
+-        \\usepackage{xeCJK}
+-        \\setCJKmainfont{Noto Sans CJK SC}
++	\\usepackage{xeCJK}
++	\\setCJKmainfont{Noto Sans CJK SC}
+ 	% Define custom macros to on/off CJK
+ 	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
+ 	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
+-	% To customize \sphinxtableofcontents
++	% Inactivate CJK after tableofcontents (using etoolbox)
+ 	\\usepackage{etoolbox}
+-	% Inactivate CJK after tableofcontents
+ 	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
+-     '''
+-else:
+-    latex_elements['preamble']  += '''
++    }{ % No CJK font
+ 	% Custom macros to on/off CJK (Dummy)
+ 	\\newcommand{\\kerneldocCJKon}{}
+ 	\\newcommand{\\kerneldocCJKoff}{}
+-     '''
++    }
++'''
+ 
+ # Fix reference escape troubles with Sphinx 1.4.x
+ if major == 1:
+-- 
+2.17.1
 
-Then I re-read the kernel code, I think my previous ider should be
-wrong. the reason is that before calling ccmni_tx_timeout(), it
-will check whether the dev exist or not, for example, it will be
-checked in dev_watchdog().
-
-I can delete this code.
-
->> +/* exposed API
->> + * receive incoming datagrams from the Modem and push them to the
->> + * kernel networking system
->> + */
->> +int ccmni_rx_push(unsigned int ccmni_idx, struct sk_buff *skb)
-> 
-> Ah, so this driver doesn't really do anything on its own, as there is no
-> modem driver for it.
-> 
-> So without a modem driver, it will never be used?  Please submit the
-> modem driver at the same time, otherwise it's impossible to review this
-> correctly.
-> 
-
-without MTK ap ccci driver (modem driver), ccmni_rx_push() and
-ccmni_hif_hook() are not be used.
-
-Both of them are exported as symbols because MTK ap ccci driver
-will be complied to the ccci.ko file.
-
-In current codes, I implementated the basic functionality of ccmni,
-such as open, close, xmit packet, rcv packet. And my original 
-intention was that I can gradually complete some of the more
-functions of ccmni on this basis, such as sw-gro, napi, or meet the
-requirement of high throughput performance.
-
-In addition, the code of MTK's modem driver is a bit complicated,
-because this part has more than 30,000 lines of code and contains
-more than 10 modules. We are completeing the upload of this huge
-code step by step. Our original intention was to upload the ccmni
-driver that directly interacts with the kernel first, and then
-complete the code from ccmni to the bottom layer one by one from
-top to bottom. We expect the completion period to be about 1 year.
-
-> +++ b/drivers/net/ethernet/mediatek/ccmni/ccmni.h
-> 
-> Why do you have a .h file for a single .c file?  that shouldn't be
-> needed.
-
-I add a .h file to facilitate subsequent code expansion. If it's
-not appropriate to do this here, I can add the content of .h into
-.c file.
-
-Thanks,
-Rocco
 
