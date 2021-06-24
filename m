@@ -2,148 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC946C48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB35DC48BDF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 13:06:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 925B2613F6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 12:59:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C48B8613FB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 13:06:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbhFXNCH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 09:02:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45478 "EHLO mail.kernel.org"
+        id S229995AbhFXNIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 09:08:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47386 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229995AbhFXNCH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:02:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A02BA61003;
-        Thu, 24 Jun 2021 12:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624539588;
-        bh=NrylstX705yNk/gBhk/kQsLmF1qJb5ZhvHEk4pQj6ic=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qflNF5efbR1bsvxJDtWltJYXFHXia/rlBkrtnRDvntcxtztyNU3n1NBN9mFLmtbY5
-         ICtG/5sy+28vA/HT11Cr0xqTTD2yRUBhRmyPmoLqs9su58Xh4l4Y2xPzxTt/U1fRIp
-         NOr8CAvud2+PGzXgIXeuuuHUGKAzI00k/pPrWJdyI4YcCbxVqTYJS3qBQR94mqAbBP
-         0P9Hms952dYNckojVQg+t6q8A27c88A6nbo0Delje0Aqp1q6NC7th3ZDd7jMCwBSvK
-         O7pwxrsE/NB7TPAxbR7pYj80RC0Fq7JoYlijPNx7B0MM/BHQeAte9ikRjfqdSoEgiE
-         DcxcLbbq14geQ==
-Date:   Thu, 24 Jun 2021 14:59:43 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, "Wu X.C." <bobwxc@email.cn>,
-        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK
- ascii-art
-Message-ID: <20210624145943.001f8115@coco.lan>
-In-Reply-To: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
-References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229940AbhFXNIb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:08:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D974C613C3;
+        Thu, 24 Jun 2021 13:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1624539971;
+        bh=X5fgruXZAH6/dwtIj9BUqyJ6jlUiiRQEvoljwULOpAw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OGYINAbuGasSG7nLZAa1F5HYrm1MRw/U0QA6imTs9s2BE2lPupOdkJkq0gZ87x0Sb
+         yesHqPbqTj80zcQ+MmgtI5bRE7sFF0bQV4SBJdQRyd99mOxV4POTAfrCs9pMok1y/Q
+         M8IzFW4pQrZMldEaFQlwECzz5es9sGGbKy5izkaY=
+Date:   Thu, 24 Jun 2021 15:06:09 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Rocco Yue <rocco.yue@mediatek.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
+        wsd_upstream@mediatek.com, chao.song@mediatek.com,
+        kuohong.wang@mediatek.com
+Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
+Message-ID: <YNSDQbp/h/aadpmV@kroah.com>
+References: <YNRKhJB9/K4SKPdR@kroah.com>
+ <20210624122435.11887-1-rocco.yue@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210624122435.11887-1-rocco.yue@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 24 Jun 2021 21:06:59 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Thu, Jun 24, 2021 at 08:24:35PM +0800, Rocco Yue wrote:
+> On Thu, 2021-06-24 at 11:04 +0200, Greg KH wrote:
+> On Thu, Jun 24, 2021 at 02:13:10PM +0800, Rocco Yue wrote:
+> >> On Thu, 2021-06-24 at 07:29 +0200, Greg KH wrote:
+> >>> 
+> >>> Thanks for the explaination, why is this hardware somehow "special" in
+> >>> this way that this has never been needed before?
+> >>> 
+> >>> thanks,
+> >>> 
+> >>> greg k-h
+> >>> 
+> >> 
+> >> Before kernel-4.18, RAWIP was the same as PUREIP, neither of them
+> >> automatically generates an IPv6 link-local address, and the way to
+> >> generate an IPv6 global address is the same.
+> >> 
+> >> After kernel-4.18 (include 4.18 version), the behavior of RAWIP had
+> >> changed due to the following patch:
+> >> @@  static int ipv6_generate_eui64(u8 *eui, struct net_device *dev)
+> >> +	case ARPHRD_RAWIP:
+> >> +		return addrconf_ifid_rawip(eui, dev);
+> >>  	}
+> >>  	return -1;
+> >> }
+> >> 
+> >> the reason why the kernel doesn't need to generate the link-local
+> >> address automatically is as follows:
+> >> 
+> >> In the 3GPP 29.061, here is some description as follows:
+> >> "in order to avoid any conflict between the link-local address of
+> >> MS and that of the GGSN, the Interface-Identifier used by the MS to
+> >> build its link-local address shall be assigned by the GGSN. The GGSN
+> >> ensures the uniqueness of this Interface-Identifier. Then MT shall
+> >> then enforce the use of this Interface-Identifier by the TE"
+> >> 
+> >> In other words, in the cellular network, GGSN determines whether to
+> >> reply to the Router Solicitation message of UE by identifying the
+> >> low 64bits of UE interface's ipv6 link-local address.
+> >> 
+> >> When using a new kernel and RAWIP, kernel will generate an EUI64
+> >> format ipv6 link-local address, and if the device uses this address
+> >> to send RS, GGSN will not reply RA message.
+> >> 
+> >> Therefore, in that background, we came up with PUREIP to make kernel
+> >> doesn't generate a ipv6 link-local address in any address generate
+> >> mode.
+> > 
+> > Thanks for the better description.  That should go into the changelog
+> > text somewhere so that others know what is going on here with this new
+> > option.
+> >
+> 
+> Does changelog mean adding these details to the commit message ?
 
-> Subject: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK ascii-art
-> 
-> Hi all,
-> 
-> This is another attempt to improve translations' pdf output.
-> I see there is a mismatch in the font choice for CJK documents, which
-> causes poor-looking ascii-art where CJK characters and Latin letters
-> are mixed used.
-> 
-> One of noticeable examples of such ascii-art can be found in
-> Korean translation of memory-barriers.txt.
-> 
-> Hence the author of Korean translation of memory-barriers.txt is
-> in the CC list.
-> 
-> At first, I thought the issue could be fixed by simply selecting
-> "Noto Sans Mono CJK SC" as both of monofont and CJKmonofont.
-> It fixed the mis-alignment in the Chinese translation, but failed
-> in the Korean translation.
-> 
-> It turns out that Hangul characters in "Noto Sans Mono CJK SC"
-> are slightly narrower than Chinese and Japanese counterparts.
-> I have no idea why the so-called "mono" font has non-uniform
-> character widths.
-> 
-> GNU Unifont is an alternative monospace font which covers
-> almost all Unicode codepoints.
-> However, due to its bitmap-font nature, the resulting document
-> might not be acceptable to Korean readers, I guess.
-> 
-> As a compromise, Patch 2/3 enables Unifont only when it is available.
-> 
-> A comparison of some of ascii-art figures before and after this change
-> can be found in the attached PDF.
+Yes please.
 
-Argh! Yeah, it sounds that those translations will always be
-problematic.
+> > And are these user-visable flags documented in a man page or something
+> > else somewhere?  If not, how does userspace know about them?
+> > 
+> 
+> There are mappings of these device types value in the libc:
+> "/bionic/libc/kernel/uapi/linux/if_arp.h".
+> userspace can get it from here.
 
-Your patch series makes sense to me (although I didn't try to
-test). Perhaps one way would be to split the translations into
-one separate book per language, although I suspect that such
-change would offer their own problems, as cross-references
-will be broken[1].
+Yes, they will show up in a libc definition, but where is it documented
+in text form what the flag does?
 
-[1] There is a sphinx extension that solves it:
-	https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
+thanks,
 
-But not sure how easy/hard would be to setup this one.
-
-> 
-> Patch 1/3 is a preparation of Patch 2/3.
-> It converts font-availability check in python to LaTeX and make the
-> resulting LaTeX code portable across systems with different sets of
-> installed fonts.
-> 
-> Patch 3/3 is an independent white space fix (or a workaround of Sphinx
-> mis-handling of tabs behind CJK characters) in Korean translation
-> of memory-barriers.txt.
-> 
-> Any feedback is welcome!
-> 
-> Side note:
-> 
-> In Korean translation's PDF, I see there is another issue of missing
-> white spaces between Hangul "phrase groups" in normal text.
-> Looks like the pair of xelatex + xeCJK just ignores white spaces
-> between CJK characters.
-> 
-> There is a package named "xetexko", which might (or might not) be
-> a reasonable choice for Korean translation.
-> 
-> It should be possible to use a language-specific preamble once
-> we figure out the way to load per-directory Sphinx configuration
-> and move translation docs into per-language subdirectories.  
-> 
-> As I am not familiar with Korean LaTeX typesetting, I must defer to
-> those who are well aware of such conventions.
-> 
->         Thanks, Akira
-> --
-> Akira Yokosawa (3):
->   docs: pdfdocs: Refactor config for CJK document
->   docs: pdfdocs: Add font settings for CJK ascii-art
->   docs: ko_KR: Use white spaces behind CJK characters in ascii-art
-> 
->  Documentation/conf.py                         | 26 +++++++++++--------
->  .../translations/ko_KR/memory-barriers.txt    | 14 +++++-----
->  2 files changed, 22 insertions(+), 18 deletions(-)
-> 
-
-
-
-Thanks,
-Mauro
+greg k-h
