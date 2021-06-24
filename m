@@ -2,116 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E7CC49EA7
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 185A7C49EA5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:01:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F88961375
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 14:55:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0333E613C0
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232310AbhFXO6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 10:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232257AbhFXO6G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 10:58:06 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F6BC061574;
-        Thu, 24 Jun 2021 07:55:45 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id h2so8985948edt.3;
-        Thu, 24 Jun 2021 07:55:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OTyJyw/htMO1AJRTiqLNMT+bM+APi/6nePJGAuCnKuo=;
-        b=QPbH8Y0VnStaK5O89g2nrwrNN5J0s5bfhGzIO4itFkEgwj8CclZ4Ga7IvsjkXvrwgW
-         SA97Axc3KveRv3pk/yAZepAi2V6UCCghIzxJratOvWrCX3eWktpMcS7b3a+8l8Q4i2rT
-         y4+sS3nXeZtlAtxratWy3c/aeF7YDtIapTa+dDHw9i5S2r+kIsbkbqW5+F7i2DKY/v5v
-         FQNUl77flGdQZEukyQoGees8vWPw+Vydal77GbCFhGsWU1esVwW8sDMxE7Om9LAwyUSk
-         abfH0wl5ESRQsE5g0UrNAddPJEaGwKXEv12GUnDWEDz3fr3HtWXOW9upPJ9l1TsXEyKf
-         F6tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OTyJyw/htMO1AJRTiqLNMT+bM+APi/6nePJGAuCnKuo=;
-        b=SOZf7rAy7/74lRzNMeyi8b4uGf/HFpYIyrxzwNaf1wzuo/F0X55N/ajh8O31Zxu2Hj
-         jkxXavxpZib+hj0IpAE+GXyCYInGDEQquIm70hH+DFs7nTwNVVk6c9rPriJgJXKyI1AN
-         FFblAML4U0hhLcYuy3iaqDvpiI8VbcVV3rYXaoclJRmtvjf/0YpzhWFsCoG1lMT/ZUje
-         8zjoHEYLsfgQ2GPL622r8QKSGZK3aI1vN1V7PDDpll7DA1cuv2oS0Um2ZIOYiOTNu8uj
-         ksMb6XAP/S/2U8Wktfap/DdsknM/cI3RAeik0NGppzXZwUq8ESiDuK+HrBoDrec55V4p
-         loCA==
-X-Gm-Message-State: AOAM530TK/bZnLz1VfcpXsI/0DyY5sZBKrTiPHR8DPbvSUoFQhcw3QnR
-        aYuZBZBc8oV628MpsFXpEFA=
-X-Google-Smtp-Source: ABdhPJypUVd6MVY4SDNAARmzzWBKlMDaIUg0/n63hwpAF/qvc3fcA0N9SR3X1S71H6VwhmZHcDpoZg==
-X-Received: by 2002:aa7:d9cc:: with SMTP id v12mr7753769eds.232.1624546544524;
-        Thu, 24 Jun 2021 07:55:44 -0700 (PDT)
-Received: from localhost.localdomain ([188.26.224.68])
-        by smtp.gmail.com with ESMTPSA id n2sm2034061edi.32.2021.06.24.07.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 07:55:44 -0700 (PDT)
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: [PATCH net-next 2/2] net: dsa: sja1105: document the SJA1110 in the Kconfig
-Date:   Thu, 24 Jun 2021 17:55:24 +0300
-Message-Id: <20210624145524.944878-3-olteanv@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210624145524.944878-1-olteanv@gmail.com>
-References: <20210624145524.944878-1-olteanv@gmail.com>
+        id S232344AbhFXPDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 11:03:22 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:43334 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230267AbhFXPDV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 11:03:21 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15OF0I1n070523;
+        Thu, 24 Jun 2021 10:00:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1624546818;
+        bh=pxpiC6BVI9g4NL2xx5Bt4qIO5YjlhGqvffc+sdE9s40=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=d/BKExzlYgQhjb7mEOLnCHqbh7Jwg0po/7SK2j+9iw8KJTH8zl0YJc2UJRPUhr1pf
+         Xl6h4MelEyxRtlXlI1RmXdNzFEwBoTcsuLTWUdGm16WygZFFLDQjmJBR0WLKAgAR+b
+         KHX17RYAFD3KkF17LFfxfgdPXWdyNAa0Jv13sOYs=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15OF0IEw033674
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 24 Jun 2021 10:00:18 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 24
+ Jun 2021 10:00:17 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 24 Jun 2021 10:00:17 -0500
+Received: from [10.250.232.28] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15OF0AKN061030;
+        Thu, 24 Jun 2021 10:00:11 -0500
+Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210616211630.GA3007203@bjorn-Precision-5520>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <0fd19e28-e0a6-fd79-672a-b588fb2763ba@ti.com>
+Date:   Thu, 24 Jun 2021 20:30:09 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210616211630.GA3007203@bjorn-Precision-5520>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
+Hi Lorenzo,
 
-Mention support for the SJA1110 in menuconfig.
+On 17/06/21 2:46 am, Bjorn Helgaas wrote:
+> On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
+>> Hi Lorenzo, Bjorn,
+>>
+>> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
+>>> Patch series
+>>> *) Adds support to add virtual functions to enable endpoint controller
+>>>    which supports SR-IOV capability
+>>> *) Add support in Cadence endpoint driver to configure virtual functions
+>>> *) Enable pci_endpoint_test driver to create pci_device for virtual
+>>>    functions
+>>>
+>>> v1 of the patch series can be found at [1]
+>>> v2 of the patch series can be found at [2]
+>>> v3 of the patch series can be found at [3]
+>>> v4 of the patch series can be found at [4]
+>>> v5 of the patch series can be found at [5]
+>>>
+>>> Here both physical functions and virtual functions use the same
+>>> pci_endpoint_test driver and existing pcitest utility can be used
+>>> to test virtual functions as well.
+>>>
+>>> Changes from v5:
+>>> *) Rebased to 5.13-rc1
+>>>
+>>> Changes from v4:
+>>> *) Added a fix in Cadence driver which was overwriting BAR configuration
+>>>    of physical function.
+>>> *) Didn't include Tom's Acked-by since Cadence driver is modified in
+>>>    this revision.
+>>>
+>>> Changes from v3:
+>>> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
+>>>
+>>> Changes from v2:
+>>> *) Fixed DT binding documentation comment by Rob
+>>> *) Fixed the error check in pci-epc-core.c
+>>>
+>>> Changes from v1:
+>>> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+>>>    binding for EP)
+>>>
+>>> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+>>> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+>>> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+>>> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+>>> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+>>
+>> Can this series be merged for 5.14? It already includes Ack from Rob for
+>> dt-binding changes and Ack from Tom for Cadence driver changes.
+> 
+> Sorry, I think this was assigned to me in patchwork, but Lorenzo
+> usually takes care of the endpoint stuff.  He's away this week, but no
+> doubt will look at it when he returns.
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
- drivers/net/dsa/sja1105/Kconfig | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Can you consider merging this series for 5.14?
 
-diff --git a/drivers/net/dsa/sja1105/Kconfig b/drivers/net/dsa/sja1105/Kconfig
-index 8383cd6d2178..b29d41e5e1e7 100644
---- a/drivers/net/dsa/sja1105/Kconfig
-+++ b/drivers/net/dsa/sja1105/Kconfig
-@@ -7,8 +7,8 @@ tristate "NXP SJA1105 Ethernet switch family support"
- 	select PACKING
- 	select CRC32
- 	help
--	  This is the driver for the NXP SJA1105 automotive Ethernet switch
--	  family. These are 5-port devices and are managed over an SPI
-+	  This is the driver for the NXP SJA1105 (5-port) and SJA1110 (10-port)
-+	  automotive Ethernet switch family. These are managed over an SPI
- 	  interface. Probing is handled based on OF bindings and so is the
- 	  linkage to PHYLINK. The driver supports the following revisions:
- 	    - SJA1105E (Gen. 1, No TT-Ethernet)
-@@ -17,6 +17,10 @@ tristate "NXP SJA1105 Ethernet switch family support"
- 	    - SJA1105Q (Gen. 2, No SGMII, TT-Ethernet)
- 	    - SJA1105R (Gen. 2, SGMII, No TT-Ethernet)
- 	    - SJA1105S (Gen. 2, SGMII, TT-Ethernet)
-+	    - SJA1110A (Gen. 3, SGMII, TT-Ethernet, 100base-TX PHY, 10 ports)
-+	    - SJA1110B (Gen. 3, SGMII, TT-Ethernet, 100base-TX PHY, 9 ports)
-+	    - SJA1110C (Gen. 3, SGMII, TT-Ethernet, 100base-TX PHY, 7 ports)
-+	    - SJA1110D (Gen. 3, SGMII, TT-Ethernet, no 100base-TX PHY, 7 ports)
- 
- config NET_DSA_SJA1105_PTP
- 	bool "Support for the PTP clock on the NXP SJA1105 Ethernet switch"
--- 
-2.25.1
-
+Thank You,
+Kishon
