@@ -2,256 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A9FC49EB7
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C5BC49EA6
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B4BB60E0C
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:18:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5092E613DC
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbhFXRUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 13:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54806 "EHLO
+        id S229464AbhFXRlJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 13:41:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232186AbhFXRUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 13:20:46 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FEBC06175F
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 10:18:27 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id x16so5719809pfa.13
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 10:18:27 -0700 (PDT)
+        with ESMTP id S229928AbhFXRlH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 13:41:07 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1139C061574;
+        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id 19so5869836qky.13;
+        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IsTJoDNngEMlkAn/n6JPF2A0qmwgdP70DkZ0WXOjNOY=;
-        b=YxZMzszw+nsXLPhGNhV2myye4gK/wRHBlmjreXJlWAVzJm0ZFytYlX9Rhu7tXDdANy
-         XP1z9XjdXqim9N+/fnHAr0XwqqNu+9bp2809pZLHqN7ql8Lr5NEoIcZuY3dcG8iAoXf+
-         A/rp72coTwhCjbCFAAXwSsCuz5cEkE50kotnQ=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=USIvcW2GRTbxr6DQIhIcD3oRQUCmqXrjMxJlSlcyZyY=;
+        b=kbR6mQPR3V5N+3juXGRBcBiazil8iZpsxfWzxd9BvUFR3SpS9O350b+QwJv7cVfd6W
+         qmn9n8UtxJAx8JoVnoN7znSebG/jRlB7ZGrQNXz8XtSTx7r4iM/eekYQC1EQLNPcBtkk
+         tA1JBxd4jXacZTtvOSKqLEpkl7Dzjpd8db6iH+n/jL5mrKjORyvQB0dFbRB+M38TtY4S
+         3L0NcRdwJuMeZ3/gPAwdYCyUt4b+Q6E7JybJHYoWhqxaZ3DKY+BdaxmATNjy8eJ05Xm4
+         9Ba/QGQ+cmFAcmMN3URpDChlQGHE8gz1WgUGX+I7X1TD9Ba1nTqqJFZSeK43L17Fu8t8
+         uwgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IsTJoDNngEMlkAn/n6JPF2A0qmwgdP70DkZ0WXOjNOY=;
-        b=Uz/XK2wYQ51MFvOsj0RIptXPASADlTC2AaRPAgRMP5BcNVDuNcCv5luLi2Ihd6/Pxr
-         LL3sXBbYwafa7WPfPY5H8Vwn54geCNp035YV1Z9x9iJpeNLrnXbrWKnpX+lKR8l851es
-         iFI62tLTP/Kyi2JY5Gti925QtRTKAKz4xN0jg/dcVOtp4m9Bn0fTnhvbx2WDR8pY3XCj
-         1NXXAgQCJmXJTMk8pu013efGdo8enuLM+IJP/H0i6ZUZBesheEAjx3PSVXGCGfi+ldhb
-         JMlumif6FW/NFs7ERn8ITTo4jpXPft37JpJJoDIZ8fWev/CqiU6v7QakfVxYhA+zGUal
-         lk0w==
-X-Gm-Message-State: AOAM5312FYeg4uxQgtHVU2gop4Cz7MZgITShhOjpv5ZyMl6JLOvAJnZ2
-        pBLr3dp1FUzZzUGYUJt4LFEh5w==
-X-Google-Smtp-Source: ABdhPJwajpWmjQoylie1eDc67SDX5JHn0tkLIkBmw0/8N+zayKuUy7HrB9/qTrgy2P3lRFk7RypkmA==
-X-Received: by 2002:a63:ee11:: with SMTP id e17mr5579673pgi.323.1624555106903;
-        Thu, 24 Jun 2021 10:18:26 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:fd74:62bc:19e3:a43b])
-        by smtp.gmail.com with ESMTPSA id z9sm3365960pfa.2.2021.06.24.10.18.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=USIvcW2GRTbxr6DQIhIcD3oRQUCmqXrjMxJlSlcyZyY=;
+        b=I0HuYQVMkWHwP89hSCBcxzGk2ZyfhrP82Gib6gajFxvV1gG0tRIbZZScDOEZGd1TUv
+         mssO5+aVwgx7oGOl47pAOYrFNwDANymmH8RwuHkMuSXQj106eEosqpGPjSVaNaIr3hw7
+         YvXQLT+gInpBsM7Wi5Piw1wispqACvRBzTHRLlI3tQqqLGPWZPp+NpKie7sYze4JS/SC
+         J4sNey2rA/N304DIoY7YCZ/6DrQ+0qTBfFIwcA6vuPNXTqp9wRyrdqF5F24v8ACcFTuw
+         AFrwTUOml/W69OebsijLTyoyRlJD1K1BWTVX8gVdA8OOBWZPfI02NGxEsBDBO78HJA4D
+         DSwQ==
+X-Gm-Message-State: AOAM533VZTzxvOrQEG7RwgxkFuTXS81y/R9ChH4j8FgRharItMG+AHMf
+        idNHRF5zSjIOHKDTMGScMtI=
+X-Google-Smtp-Source: ABdhPJxsAxEekOJRnWG7tLXyRAMmuBFyqd4fVq5FToPvGsrdsQqeT0S7KrBF8UWNZT4FhKuSR1CeKQ==
+X-Received: by 2002:a37:9d90:: with SMTP id g138mr3040398qke.212.1624556326108;
+        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id 61sm1110156qtf.37.2021.06.24.10.38.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 10:18:26 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
-        bjorn.andersson@linaro.org, ulf.hansson@linaro.org,
-        adrian.hunter@intel.com, bhelgaas@google.com
-Cc:     john.garry@huawei.com, robdclark@chromium.org,
-        quic_c_gdjako@quicinc.com, saravanak@google.com,
-        rajatja@google.com, saiprakash.ranjan@codeaurora.org,
-        vbadigan@codeaurora.org, linux-mmc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-        iommu@lists.linux-foundation.org, sonnyrao@chromium.org,
-        joel@joelfernandes.org, Douglas Anderson <dianders@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Thu, 24 Jun 2021 10:38:45 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     SeongJae Park <sj38.park@gmail.com>, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org,
+        Brendan Higgins <brendanhiggins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] iommu: Add per-domain strictness and combine with the global default
-Date:   Thu, 24 Jun 2021 10:17:57 -0700
-Message-Id: <20210624101557.v2.1.Id84a954e705fcad3fdb35beb2bc372e4bf2108c7@changeid>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-In-Reply-To: <20210624171759.4125094-1-dianders@chromium.org>
-References: <20210624171759.4125094-1-dianders@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        foersleo@amazon.de, greg@kroah.com,
+        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
+        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        sieberf@amazon.com, snu@zelle79.org,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        zgf574564920@gmail.com, linux-damon@amazon.com,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual memory address spaces
+Date:   Thu, 24 Jun 2021 17:38:39 +0000
+Message-Id: <20210624173839.1766-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod682cg_fTf+vQxN=q_5A+GanJ3m7kVn_0gFut21_Xmu0A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Strictness has the semantic of being a per-domain property. This is
-why iommu_get_dma_strict() takes a "struct iommu_domain" as a
-parameter. Let's add knowledge to the "struct iommu_domain" so we can
-know whether we'd like each domain to be strict.
+From: SeongJae Park <sjpark@amazon.de>
 
-In this patch nothing sets the per-domain strictness, it just paves
-the way for future patches to do so.
+On Thu, 24 Jun 2021 09:33:07 -0700 Shakeel Butt <shakeelb@google.com> wrote:
 
-Prior to this patch we could only affect strictness at a global
-level. We'll still honor the global strictness level if it has been
-explicitly set and it's stricter than the one requested per-domain.
+> On Thu, Jun 24, 2021 at 8:21 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > On Thu, 24 Jun 2021 07:42:44 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+> >
+> > > On Thu, Jun 24, 2021 at 3:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> > > >
+> > > [...]
+> > > > > > +/*
+> > > > > > + * Get the three regions in the given target (task)
+> > > > > > + *
+> > > > > > + * Returns 0 on success, negative error code otherwise.
+> > > > > > + */
+> > > > > > +static int damon_va_three_regions(struct damon_target *t,
+> > > > > > +                               struct damon_addr_range regions[3])
+> > > > > > +{
+> > > > > > +       struct mm_struct *mm;
+> > > > > > +       int rc;
+> > > > > > +
+> > > > > > +       mm = damon_get_mm(t);
+> > > > > > +       if (!mm)
+> > > > > > +               return -EINVAL;
+> > > > > > +
+> > > > > > +       mmap_read_lock(mm);
+> > > > > > +       rc = __damon_va_three_regions(mm->mmap, regions);
+> > > > > > +       mmap_read_unlock(mm);
+> > > > >
+> > > > > This is being called for each target every second by default. Seems
+> > > > > too aggressive. Applications don't change their address space every
+> > > > > second. I would recommend to default ctx->primitive_update_interval to
+> > > > > a higher default value.
+> > > >
+> > > > Good point.  If there are many targets and each target has a huge number of
+> > > > VMAs, the overhead could be high.  Nevertheless, I couldn't find the overhead
+> > > > in my test setup.  Also, it seems someone are already started exploring DAMON
+> > > > patchset with the default value. and usages from others.  Silently changing the
+> > > > default value could distract such people.  So, if you think it's ok, I'd like
+> > > > to change the default value only after someone finds the overhead from their
+> > > > usages and asks a change.
+> > > >
+> > > > If you disagree or you found the overhead from your usage, please feel free to
+> > > > let me know.
+> > > >
+> > >
+> > > mmap lock is a source contention in the real world workloads. We do
+> > > observe in our fleet and many others (like Facebook) do complain on
+> > > this issue. This is the whole motivation behind SFP, maple tree and
+> > > many other mmap lock scalability work. I would be really careful to
+> > > add another source of contention on mmap lock. Yes, the user can
+> > > change this interval themselves but we should not burden them with
+> > > this internal knowledge like "oh if you observe high mmap contention
+> > > you may want to increase this specific interval". We should set a good
+> > > default value to avoid such situations (most of the time).
+> >
+> > Thank you for this nice clarification.  I can understand your concern because I
+> > also worked for an HTM-based solution of the scalability issue before.
+> >
+> > However, I have neither strong preference nor confidence for the new default
+> > value at the moment.  Could you please recommend one if you have?
+> >
+> 
+> I would say go with a conservative value like 60 seconds. Though there
+> is no scientific reason behind this specific number, I think it would
+> be a good compromise. Applications usually don't change their address
+> space layout that often.
 
-NOTE: it's even more obvious that iommu_set_dma_strict() and
-iommu_get_dma_strict() are non-symmetric after this change. However,
-they have always been asymmetric by design [0].
+Ok, I will use that from the next spin.  Thank you for this nice suggestion.
 
-The function iommu_get_dma_strict() should now make it super obvious
-where strictness comes from and who overides who. Though the function
-changed a bunch to make the logic clearer, the only two new rules
-should be:
-* Devices can force strictness for themselves, overriding the cmdline
-  "iommu.strict=0" or a call to iommu_set_dma_strict(false)).
-* Devices can request non-strictness for themselves, assuming there
-  was no cmdline "iommu.strict=1" or a call to
-  iommu_set_dma_strict(true).
 
-[0] https://lore.kernel.org/r/a023af85-5060-0a3c-4648-b00f8b8c0430@arm.com/
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-This patch clearly will cause conflicts if John Garry's patches [1]
-land before it. It shouldn't be too hard to rebase,
-though. Essentially with John's patches it'll be impossible for what's
-called `cmdline_dma_strict` in my patch to be "default". It'll
-probably make sense to rearrange the logic/names a bit though just to
-make things clearer.
-
-[1] https://lore.kernel.org/r/1624016058-189713-1-git-send-email-john.garry@huawei.com/
-
-Changes in v2:
-- No longer based on changes adding strictness to "struct device"
-- Updated kernel-parameters docs.
-
- .../admin-guide/kernel-parameters.txt         |  5 ++-
- drivers/iommu/iommu.c                         | 43 +++++++++++++++----
- include/linux/iommu.h                         |  7 +++
- 3 files changed, 45 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb89dbdedc46..7675fd79f9a9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1995,9 +1995,12 @@
- 			  throughput at the cost of reduced device isolation.
- 			  Will fall back to strict mode if not supported by
- 			  the relevant IOMMU driver.
--			1 - Strict mode (default).
-+			1 - Strict mode.
- 			  DMA unmap operations invalidate IOMMU hardware TLBs
- 			  synchronously.
-+			NOTE: if "iommu.strict" is not specified in the command
-+			line then it's up to the system to try to determine the
-+			proper strictness.
- 
- 	iommu.passthrough=
- 			[ARM64, X86] Configure DMA to bypass the IOMMU by default.
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 808ab70d5df5..7943d2105b2f 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -29,7 +29,8 @@ static struct kset *iommu_group_kset;
- static DEFINE_IDA(iommu_group_ida);
- 
- static unsigned int iommu_def_domain_type __read_mostly;
--static bool iommu_dma_strict __read_mostly = true;
-+static enum iommu_strictness cmdline_dma_strict __read_mostly;
-+static enum iommu_strictness driver_dma_strict __read_mostly;
- static u32 iommu_cmd_line __read_mostly;
- 
- struct iommu_group {
-@@ -69,7 +70,6 @@ static const char * const iommu_group_resv_type_string[] = {
- };
- 
- #define IOMMU_CMD_LINE_DMA_API		BIT(0)
--#define IOMMU_CMD_LINE_STRICT		BIT(1)
- 
- static int iommu_alloc_default_domain(struct iommu_group *group,
- 				      struct device *dev);
-@@ -334,27 +334,52 @@ static int __init iommu_set_def_domain_type(char *str)
- }
- early_param("iommu.passthrough", iommu_set_def_domain_type);
- 
-+static inline enum iommu_strictness bool_to_strictness(bool strict)
-+{
-+	return strict ? IOMMU_STRICT : IOMMU_NOT_STRICT;
-+}
-+
- static int __init iommu_dma_setup(char *str)
- {
--	int ret = kstrtobool(str, &iommu_dma_strict);
-+	bool strict;
-+	int ret = kstrtobool(str, &strict);
- 
- 	if (!ret)
--		iommu_cmd_line |= IOMMU_CMD_LINE_STRICT;
-+		cmdline_dma_strict = bool_to_strictness(strict);
- 	return ret;
- }
- early_param("iommu.strict", iommu_dma_setup);
- 
- void iommu_set_dma_strict(bool strict)
- {
--	if (strict || !(iommu_cmd_line & IOMMU_CMD_LINE_STRICT))
--		iommu_dma_strict = strict;
-+	/*
-+	 * Valid transitions:
-+	 * - DEFAULT -> NON_STRICT
-+	 * - DEFAULT -> STRICT
-+	 * - NON_STRICT -> STRICT
-+	 *
-+	 * Everything else is ignored.
-+	 */
-+	if (driver_dma_strict != IOMMU_STRICT)
-+		driver_dma_strict = bool_to_strictness(strict);
- }
- 
- bool iommu_get_dma_strict(struct iommu_domain *domain)
- {
--	/* only allow lazy flushing for DMA domains */
--	if (domain->type == IOMMU_DOMAIN_DMA)
--		return iommu_dma_strict;
-+	/* Non-DMA domains or anyone forcing it to strict makes it strict */
-+	if (domain->type != IOMMU_DOMAIN_DMA ||
-+	    cmdline_dma_strict == IOMMU_STRICT ||
-+	    driver_dma_strict == IOMMU_STRICT ||
-+	    domain->strictness == IOMMU_STRICT)
-+		return true;
-+
-+	/* Anyone requesting non-strict (if no forces) makes it non-strict */
-+	if (cmdline_dma_strict == IOMMU_NOT_STRICT ||
-+	    driver_dma_strict == IOMMU_NOT_STRICT ||
-+	    domain->strictness == IOMMU_NOT_STRICT)
-+		return false;
-+
-+	/* Nobody said anything, so it's strict by default */
- 	return true;
- }
- EXPORT_SYMBOL_GPL(iommu_get_dma_strict);
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 32d448050bf7..2e172059c931 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -79,8 +79,15 @@ struct iommu_domain_geometry {
- #define IOMMU_DOMAIN_DMA	(__IOMMU_DOMAIN_PAGING |	\
- 				 __IOMMU_DOMAIN_DMA_API)
- 
-+enum iommu_strictness {
-+	IOMMU_DEFAULT_STRICTNESS = 0,	/* zero-init ends up at default */
-+	IOMMU_NOT_STRICT,
-+	IOMMU_STRICT,
-+};
-+
- struct iommu_domain {
- 	unsigned type;
-+	enum iommu_strictness strictness;
- 	const struct iommu_ops *ops;
- 	unsigned long pgsize_bitmap;	/* Bitmap of page sizes in use */
- 	iommu_fault_handler_t handler;
--- 
-2.32.0.93.g670b81a890-goog
-
+Thanks,
+SeongJae Park
