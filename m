@@ -2,38 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73074C49EA5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 03:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD5FC48BDF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 05:15:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5968A613C7
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 03:49:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F165613C1
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 05:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbhFXDvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Jun 2021 23:51:22 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:39818 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229850AbhFXDvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jun 2021 23:51:22 -0400
-X-UUID: 0e541a2a7cb5412db0d434357bec808b-20210624
-X-UUID: 0e541a2a7cb5412db0d434357bec808b-20210624
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <rocco.yue@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 358019924; Thu, 24 Jun 2021 11:48:58 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Jun 2021 11:48:56 +0800
-Received: from localhost.localdomain (10.15.20.246) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 24 Jun 2021 11:48:54 +0800
-From:   Rocco Yue <rocco.yue@mediatek.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "David S . Miller" <davem@davemloft.net>,
+        id S230082AbhFXFR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 01:17:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229508AbhFXFR0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 01:17:26 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29A39C061574;
+        Wed, 23 Jun 2021 22:15:07 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id n99-20020a9d206c0000b029045d4f996e62so4391065ota.4;
+        Wed, 23 Jun 2021 22:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ygVK/gHTe32gLfYg+HdMiky3oi3YqC6Bf5Vvmj5Zl+8=;
+        b=sBvyWoSY43NEdsQuD2mpylbcW+pJ2OA/rEmAizwqasIEpG7j1cRvGQdQqkQOkkEPoD
+         jpE3P/r6WjYYSBbhSZBQH6KGNMohNQcO6+z0iK2Y95X5k2ZgaK7/kVwW21/1M+cZLOLm
+         +pn6HwIxlO4hGsf5ZyX5tUteSuhW447ykhqPhjxNjA2CpPvDIuWE0ZHcKy0SJZ4TMHSg
+         xnowYIvUE235ox1gs2Dvrv6cr1JQaAvNcLP4tx15fIPWZ7xE52ILxsqbcgn65ydkxTP5
+         IMNUkvi+5B9Qm7Ecw4HlIRVwE4W6ToiloA4yHh0q5xsFy3CKA58Lox3+wgbW4c+YcAHb
+         UevQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ygVK/gHTe32gLfYg+HdMiky3oi3YqC6Bf5Vvmj5Zl+8=;
+        b=QW+0+pCUrM/1LjCNEA64uLhtEKrvZO7DLtV++B7Li2zFN1TYsxEHnwdBYJtyLgh1Nq
+         H2Tw5iFsj2scwEKB6YagkEL5aw1HxHII4+lsrqPeTDRiMaGmoUhQrAj7msduIto323v6
+         BI52A/sxgn3FIcCCJ25iP5Xdq9X+rsg6+1e4F0RkBzStcL8XUdJpSmT9/wn9v4WnLj/n
+         avVsNo86FSNobD3443l+Pcb54yafP/MOwkZEmAbZ+eTZ0nMv+UHCgdE15QTCpnIX9yFn
+         SpVC6bDUUHzj1Y/KcoKvzRuYHfx9903KnNPTIMa1y2lu+qHKmlm9LOSUd7bwfdWly0Ay
+         JCaw==
+X-Gm-Message-State: AOAM530fg++bvMgXNOaZt8TJx2UkWzuOnzDLtyakeyXOTTuzRP1B8gqb
+        Sgz6Uz7ZFE+Q7oBjsUnLgRY=
+X-Google-Smtp-Source: ABdhPJzFTXWfeFhKgI+SmmsouB3/cWaqzN1wX0lKKpc8lOfLNfz97zh7StsBeRMv+x1D6+Quas1v3Q==
+X-Received: by 2002:a05:6830:4cf:: with SMTP id s15mr3108209otd.72.1624511706557;
+        Wed, 23 Jun 2021 22:15:06 -0700 (PDT)
+Received: from Davids-MacBook-Pro.local ([8.48.134.38])
+        by smtp.googlemail.com with ESMTPSA id 61sm62037otl.30.2021.06.23.22.15.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 22:15:06 -0700 (PDT)
+Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
+To:     Rocco Yue <rocco.yue@mediatek.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
@@ -41,84 +67,53 @@ CC:     "David S . Miller" <davem@davemloft.net>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
         Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <bpf@vger.kernel.org>,
-        <wsd_upstream@mediatek.com>, <chao.song@mediatek.com>,
-        <kuohong.wang@mediatek.com>, Rocco Yue <rocco.yue@mediatek.com>
-Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
-Date:   Thu, 24 Jun 2021 11:33:53 +0800
-Message-ID: <20210624033353.25636-1-rocco.yue@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <YNNtN3cdDL71SiNt@kroah.com>
+        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
+        wsd_upstream@mediatek.com, chao.song@mediatek.com,
+        kuohong.wang@mediatek.com
 References: <YNNtN3cdDL71SiNt@kroah.com>
+ <20210624033353.25636-1-rocco.yue@mediatek.com>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <020403ac-0c2a-4ad8-236b-d32e59aef772@gmail.com>
+Date:   Wed, 23 Jun 2021 23:15:03 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <20210624033353.25636-1-rocco.yue@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-06-23 at 19:19 +0200, Greg KH wrote:
-On Wed, Jun 23, 2021 at 07:34:49PM +0800, Rocco Yue wrote:
->> This patch add the definition of ARPHRD_PUREIP which can for
->> example be used by mobile ccmni device as device type.
->> ARPHRD_PUREIP means that this device doesn't need kernel to
->> generate ipv6 link-local address in any addr_gen_mode.
->> 
->> Signed-off-by: Rocco Yue <rocco.yue@mediatek.com>
->> ---
->>  include/uapi/linux/if_arp.h | 1 +
->>  1 file changed, 1 insertion(+)
->> 
->> diff --git a/include/uapi/linux/if_arp.h b/include/uapi/linux/if_arp.h
->> index c3cc5a9e5eaf..4463c9e9e8b4 100644
->> --- a/include/uapi/linux/if_arp.h
->> +++ b/include/uapi/linux/if_arp.h
->> @@ -61,6 +61,7 @@
->>  #define ARPHRD_DDCMP    517		/* Digital's DDCMP protocol     */
->>  #define ARPHRD_RAWHDLC	518		/* Raw HDLC			*/
->>  #define ARPHRD_RAWIP    519		/* Raw IP                       */
->> +#define ARPHRD_PUREIP	520		/* Pure IP			*/
+On 6/23/21 9:33 PM, Rocco Yue wrote:
 > 
-> In looking at the patches, what differs "PUREIP" from "RAWIP"?  It seems
-
-Thanks for your review.
-
-The difference between RAWIP and PUREIP is that they generate IPv6
-link-local address and IPv6 global address in different ways.
-
-RAWIP:
-~~~~~~
-In the ipv6_generate_eui64() function, using RAWIP will always return 0,
-which will cause the kernel to automatically generate an IPv6 link-local
-address in EUI64 format and an IPv6 global address in EUI64 format.
-
-PUREIP:
-~~~~~~~
-After this patch set, when using PUREIP, kernel doesn't generate IPv6
-link-local address regardless of which IN6_ADDR_GEN_MODE is used.
-
-@@  static void addrconf_dev_config(struct net_device *dev)
-+       if (dev->type == ARPHRD_PUREIP)
-+               return;
-
-And after recving RA message, kernel iterates over the link-local address
-that exists for the interface and uses the low 64bits of the link-local
-address to generate the IPv6 global address.
-The general process is as follows:
-ndisc_router_discovery() -> addrconf_prefix_rcv() -> ipv6_generate_eui64() -> ipv6_inherit_eui64()
-
-> to be the same to me.  If they are different, where is that documented?
+> The difference between RAWIP and PUREIP is that they generate IPv6
+> link-local address and IPv6 global address in different ways.
 > 
-> thanks,
+> RAWIP:
+> ~~~~~~
+> In the ipv6_generate_eui64() function, using RAWIP will always return 0,
+> which will cause the kernel to automatically generate an IPv6 link-local
+> address in EUI64 format and an IPv6 global address in EUI64 format.
 > 
-> greg k-h
+> PUREIP:
+> ~~~~~~~
+> After this patch set, when using PUREIP, kernel doesn't generate IPv6
+> link-local address regardless of which IN6_ADDR_GEN_MODE is used.
+> 
+> @@  static void addrconf_dev_config(struct net_device *dev)
+> +       if (dev->type == ARPHRD_PUREIP)
+> +               return;
+> 
+> And after recving RA message, kernel iterates over the link-local address
+> that exists for the interface and uses the low 64bits of the link-local
+> address to generate the IPv6 global address.
+> The general process is as follows:
+> ndisc_router_discovery() -> addrconf_prefix_rcv() -> ipv6_generate_eui64() -> ipv6_inherit_eui64()
+> 
 
-I tried to find corresponding documents about other device types, but I
-am sorry I didn't find it. If it is needed, I am willing to provide.
-
-Thanks,
-Rocco
-
+please add that to the commit message.
