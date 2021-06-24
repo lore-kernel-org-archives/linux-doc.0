@@ -2,126 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1D5C49EA5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F9AC49EA7
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:18:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1A2C61419
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 16:51:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1402613EE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbhFXQyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 12:54:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52152 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229881AbhFXQyB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Jun 2021 12:54:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C31D96140A;
-        Thu, 24 Jun 2021 16:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1624553502;
-        bh=8VJ9gHpfNusEy0hnsToOzf7TUZAq4xvU5hO1AlbgRro=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pq5SVqGhwbOimMrJsmsORyiGbAYYOTTL6ujg1C56oBKp9zZJhsWzg/zNRpvAVCL1t
-         W4iw9z/Znfp6VjndwmcbTgWTviXGQA7kExYTPH2HiU0L1F8rrW9y0rnTUy5BrHlqM5
-         FZL8G89I7CwqGIIunZk2ANNGuue/yUF6qRZvGEro=
-Date:   Thu, 24 Jun 2021 18:51:39 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Rocco Yue <rocco.yue@mediatek.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S229464AbhFXRUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 13:20:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232077AbhFXRUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 13:20:45 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E55C061766
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 10:18:25 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id f10so3322231plg.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 10:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XWNwGk9GjelPq0lKH2dxtU8MIJBYkaGELFI1ssqXZTY=;
+        b=axtIMnpDVdkjRLH4nX+f7Hd/a94NGXarbbRZp9pKXtT6TpJu7knFwnxzm/B9XB9U5q
+         ADPy7uRDHNfp2pRHlI7Plj6WxokjAj3ZwsFS7vr4aASPUFiyzw/o62bdKWis8u+5oBW4
+         Vikei2WzAFO6FSuuPDtR+qxX1leJS0yoWKXB8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XWNwGk9GjelPq0lKH2dxtU8MIJBYkaGELFI1ssqXZTY=;
+        b=n2xH8CG74Ytu1D58ptlTLNGi2CXzGoBPQIhGcCY2xOj2BbMODUOuDJuStwyqm+fEyk
+         kfzfiEy9eIpig80NjA92MsGyruWbDl18612xeDMEARM6EgWshpoyIOj4YV8X0NqckY/J
+         75uOOmNIYE97+aLZrIf8EiceAkRi6yqFbVK5LBgCYTBkD1EY0YngUeRjLZ60C6IzICIy
+         HVZytWqAtpcQGZT5QJrlgmoSaMkaVLCyCXELqpRdfNlDJtsqglDrkJCPpOdfxYqgagAU
+         NNN6YMyCyZj9hTrgloSGdHQ75eQFZi3CZX1wzd44I6MRIq28JWPMjM/ws9MY7nNwMfGD
+         5pOw==
+X-Gm-Message-State: AOAM531Ka3QTIfPTy1aJCPD+YOtimn0ms8dTD2f1DweJNElr+jdf7Jx6
+        n8O43qhld1EX5BwxK4wOSbs0hg==
+X-Google-Smtp-Source: ABdhPJyDDZAEVmImuYqq+gOLGeBE++WkFuVJuSBHo1MrycS/xGTXZy6Yo8US/jLhBHewMabX0cuR6g==
+X-Received: by 2002:a17:90b:4d8d:: with SMTP id oj13mr6232430pjb.184.1624555104750;
+        Thu, 24 Jun 2021 10:18:24 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:fd74:62bc:19e3:a43b])
+        by smtp.gmail.com with ESMTPSA id z9sm3365960pfa.2.2021.06.24.10.18.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jun 2021 10:18:24 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+        bjorn.andersson@linaro.org, ulf.hansson@linaro.org,
+        adrian.hunter@intel.com, bhelgaas@google.com
+Cc:     john.garry@huawei.com, robdclark@chromium.org,
+        quic_c_gdjako@quicinc.com, saravanak@google.com,
+        rajatja@google.com, saiprakash.ranjan@codeaurora.org,
+        vbadigan@codeaurora.org, linux-mmc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+        iommu@lists.linux-foundation.org, sonnyrao@chromium.org,
+        joel@joelfernandes.org, Douglas Anderson <dianders@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
-        wsd_upstream@mediatek.com, chao.song@mediatek.com,
-        kuohong.wang@mediatek.com
-Subject: Re: [PATCH 4/4] drivers: net: mediatek: initial implementation of
- ccmni
-Message-ID: <YNS4GzYHpxMWIH+1@kroah.com>
-References: <YNR5QuYqknaZS9+j@kroah.com>
- <20210624155501.10024-1-rocco.yue@mediatek.com>
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+Date:   Thu, 24 Jun 2021 10:17:56 -0700
+Message-Id: <20210624171759.4125094-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624155501.10024-1-rocco.yue@mediatek.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 11:55:02PM +0800, Rocco Yue wrote:
-> On Thu, 2021-06-24 at 14:23 +0200, Greg KH wrote:
-> On Thu, Jun 24, 2021 at 07:53:49PM +0800, Rocco Yue wrote:
-> >> 
-> >> without MTK ap ccci driver (modem driver), ccmni_rx_push() and
-> >> ccmni_hif_hook() are not be used.
-> >> 
-> >> Both of them are exported as symbols because MTK ap ccci driver
-> >> will be compiled to the ccci.ko file.
-> > 
-> > But I do not see any code in this series that use these symbols.  We can
-> 
-> will delete these symbols.
-> 
-> > not have exports that no one uses.  Please add the driver to this patch
-> > series when you resend it.
-> > 
-> 
-> I've just took a look at what the Linux staging tree is. It looks like
-> a good choice for the current ccmni driver.
-> 
-> honstly, If I simply upload the relevant driver code B that calls
-> A (e.g. ccmni_rx_push), there is still a lack of code to call B.
-> This seems to be a continuty problem, unless all drivers codes are
-> uploaded (e.g. power on modem, get hardware status, complete tx/rx flow).
 
-Great, send it all!  Why is it different modules, it's only for one
-chunk of hardware, no need to split it up into tiny pieces.  That way
-only causes it to be more code overall.
+The goal of this patch series is to get better SD/MMC performance on
+Qualcomm eMMC controllers and in generally nudge us forward on the
+path of allowing some devices to be in strict mode and others to be in
+non-strict mode. This patch series doesn't save the world but
+hopefully at least moves us in the right direction while accomplishing
+something useful. Specifically:
+- No attempt is made to touch the PCI subsystem or cleanup the way
+  that it requests strict vs. non-strict.
+- No fully generic mechanism is come up with that makes it super easy
+  for everyone to be in non-strict mode.
 
-> >> In addition, the code of MTK's modem driver is a bit complicated,
-> >> because this part has more than 30,000 lines of code and contains
-> >> more than 10 modules. We are completeing the upload of this huge
-> >> code step by step. Our original intention was to upload the ccmni
-> >> driver that directly interacts with the kernel first, and then
-> >> complete the code from ccmni to the bottom layer one by one from
-> >> top to bottom. We expect the completion period to be about 1 year.
-> > 
-> > Again, we can not add code to the kernel that is not used, sorry.  That
-> > would not make any sense, would you want to maintain such a thing?
-> > 
-> > And 30k of code seems a bit excesive for a modem driver.   Vendors find
-> > that when they submit code for inclusion in the kernel tree, in the end,
-> > they end up 1/3 the original size, so 10k is reasonable.
-> > 
-> > I can also take any drivers today into the drivers/staging/ tree, and
-> > you can do the cleanups there as well as getting help from others.
-> > 
-> > 1 year seems like a long time to do "cleanup", good luck!
-> > 
-> 
-> Thanks~
-> 
-> Can I resend patch set as follows:
-> (1) supplement the details of pureip for patch 1/4;
-> (2) the document of ccmni.rst still live in the Documentation/...
-> (3) modify ccmni and move it into the drivers/staging/...
+This patch conflicts with a few other patch series that are in
+flight. I've tried to call them out "after the cut" in patches. I
+assume other in flight patches will land before this one, so I'd
+expect to send a rebased version when that happens, assuming that this
+series isn't NAKed into the ground.
 
-for drivers/staging/ the code needs to be "self contained" in that it
-does not require adding anything outside of the directory for it.
+Changes in v2:
+- No longer based on changes adding strictness to "struct device"
+- Updated kernel-parameters docs.
+- Patch moving check for strictness in arm-smmu new for v2.
+- Now accomplish the goal by putting rules in the IOMMU driver.
+- Reworded commit message to clarify things pointed out by Greg.
 
-If you still require this core networking change, that needs to be
-accepted first by the networking developers and maintainers.
+Douglas Anderson (3):
+  iommu: Add per-domain strictness and combine with the global default
+  iommu/arm-smmu: Check for strictness after calling
+    impl->init_context()
+  mmc: sdhci-msm: Request non-strict IOMMU mode
 
-thanks,
+ .../admin-guide/kernel-parameters.txt         |  5 ++-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c    | 19 ++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  6 +--
+ drivers/iommu/iommu.c                         | 43 +++++++++++++++----
+ include/linux/iommu.h                         |  7 +++
+ 5 files changed, 67 insertions(+), 13 deletions(-)
 
-greg k-h
+-- 
+2.32.0.93.g670b81a890-goog
+
