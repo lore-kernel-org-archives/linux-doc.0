@@ -2,143 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 185A7C49EA5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D9DC49EA5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:21:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0333E613C0
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:01:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAF11613DA
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232344AbhFXPDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 11:03:22 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:43334 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbhFXPDV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 11:03:21 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15OF0I1n070523;
-        Thu, 24 Jun 2021 10:00:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1624546818;
-        bh=pxpiC6BVI9g4NL2xx5Bt4qIO5YjlhGqvffc+sdE9s40=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=d/BKExzlYgQhjb7mEOLnCHqbh7Jwg0po/7SK2j+9iw8KJTH8zl0YJc2UJRPUhr1pf
-         Xl6h4MelEyxRtlXlI1RmXdNzFEwBoTcsuLTWUdGm16WygZFFLDQjmJBR0WLKAgAR+b
-         KHX17RYAFD3KkF17LFfxfgdPXWdyNAa0Jv13sOYs=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15OF0IEw033674
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 24 Jun 2021 10:00:18 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 24
- Jun 2021 10:00:17 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 24 Jun 2021 10:00:17 -0500
-Received: from [10.250.232.28] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15OF0AKN061030;
-        Thu, 24 Jun 2021 10:00:11 -0500
-Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
-To:     Bjorn Helgaas <helgaas@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
+        id S230267AbhFXPX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 11:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230008AbhFXPXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 11:23:55 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05C2C061574;
+        Thu, 24 Jun 2021 08:21:36 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id g3so769956qth.11;
+        Thu, 24 Jun 2021 08:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=XTZcBFmJD64rk0L0Ti7cLCSZOK6HZ1i75AWgRbmnkT0=;
+        b=DTWibfbFd03qYiZGv8C80cChp1eOSQiI21lvhjpC4tj8lC6nSetbmAiFCyXo/JicEh
+         4ObQ/MekbB9/HJ7I02SIaLcRG4zjb8XHfRZrGU9yglcYCZqR7aLVGINU3CAJR+QIcBRo
+         1+P8j5KD/T7x37XHZBfSlFJnn7fj19cACdYFSRfeYdWX9PfVXaZ7iJ4o8hnKUUQoBVFS
+         whvHg8Pnq+tjsTgU4wi+QTL8yHMvRugPSrEw3oIMlwRNrKGByzIgxOjkGKTQwIJpKbu7
+         /HCWvj92kEF3aHp0D6gzJi5ACJRbGVajYxGvEEE/haNiMe7urLOSNTyH0B9FUZUXTC68
+         LRdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=XTZcBFmJD64rk0L0Ti7cLCSZOK6HZ1i75AWgRbmnkT0=;
+        b=WN/nMbHgy0iLZOf5MkWcVaMFId3XDy6jSS5iNDPbb3f+DYkhcSaK1w1rGfHeQ3o1rx
+         ZkJC+6EnAqwJ3rkhZFlFC66jTMms0EBe5cECqa5q2jyks9a4CUFdf9BvDEy1qoZNmKye
+         wD536wuTpLtJf4jzHgxArxAV32jV73+hXueeDahRXZo+BrByWUfArwRRXahCnOmNIF48
+         9ckXLMN044Swrza6nw619ukOxd/uYbpwHHM2GJuj4ZZsYg7OsqJLvr6OTvy6QRL46wd1
+         EvGaqm5ASQ3TPa2y3bDJmnOKuHa59deQU5eHHS737jJV5Fhek9gMlDGSkuG3vqg6Sy2B
+         B7/w==
+X-Gm-Message-State: AOAM531lrWqjeIcCMz1ILfHLhgyYZ5NzCe9EcVSh3DRcgkI/zUNSjDr/
+        HnVwXSn/5x3GtJACjREEndA=
+X-Google-Smtp-Source: ABdhPJwuYrd3WsqGm7dLq9ddX8OCu6a+36K8C3d4Ru9zdbUjafqg7nYbhAE1pOb+IQPgZNSujUy5jQ==
+X-Received: by 2002:ac8:5ec3:: with SMTP id s3mr5372912qtx.312.1624548095857;
+        Thu, 24 Jun 2021 08:21:35 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id 6sm2849236qks.0.2021.06.24.08.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jun 2021 08:21:35 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     SeongJae Park <sj38.park@gmail.com>, Jonathan.Cameron@huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        Brendan Higgins <brendanhiggins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210616211630.GA3007203@bjorn-Precision-5520>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <0fd19e28-e0a6-fd79-672a-b588fb2763ba@ti.com>
-Date:   Thu, 24 Jun 2021 20:30:09 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210616211630.GA3007203@bjorn-Precision-5520>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        foersleo@amazon.de, greg@kroah.com,
+        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
+        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        sieberf@amazon.com, snu@zelle79.org,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        zgf574564920@gmail.com, linux-damon@amazon.com,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual memory address spaces
+Date:   Thu, 24 Jun 2021 15:21:30 +0000
+Message-Id: <20210624152130.877-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod5dFVxJVFUP4zBCC97C7rr5pGjRZQoixzs=GcNRAosKgw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lorenzo,
+From: SeongJae Park <sjpark@amazon.de>
 
-On 17/06/21 2:46 am, Bjorn Helgaas wrote:
-> On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
->> Hi Lorenzo, Bjorn,
->>
->> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
->>> Patch series
->>> *) Adds support to add virtual functions to enable endpoint controller
->>>    which supports SR-IOV capability
->>> *) Add support in Cadence endpoint driver to configure virtual functions
->>> *) Enable pci_endpoint_test driver to create pci_device for virtual
->>>    functions
->>>
->>> v1 of the patch series can be found at [1]
->>> v2 of the patch series can be found at [2]
->>> v3 of the patch series can be found at [3]
->>> v4 of the patch series can be found at [4]
->>> v5 of the patch series can be found at [5]
->>>
->>> Here both physical functions and virtual functions use the same
->>> pci_endpoint_test driver and existing pcitest utility can be used
->>> to test virtual functions as well.
->>>
->>> Changes from v5:
->>> *) Rebased to 5.13-rc1
->>>
->>> Changes from v4:
->>> *) Added a fix in Cadence driver which was overwriting BAR configuration
->>>    of physical function.
->>> *) Didn't include Tom's Acked-by since Cadence driver is modified in
->>>    this revision.
->>>
->>> Changes from v3:
->>> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
->>>
->>> Changes from v2:
->>> *) Fixed DT binding documentation comment by Rob
->>> *) Fixed the error check in pci-epc-core.c
->>>
->>> Changes from v1:
->>> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
->>>    binding for EP)
->>>
->>> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
->>> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
->>> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
->>> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
->>> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
->>
->> Can this series be merged for 5.14? It already includes Ack from Rob for
->> dt-binding changes and Ack from Tom for Cadence driver changes.
+On Thu, 24 Jun 2021 07:42:44 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+
+> On Thu, Jun 24, 2021 at 3:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
+> >
+> [...]
+> > > > +/*
+> > > > + * Get the three regions in the given target (task)
+> > > > + *
+> > > > + * Returns 0 on success, negative error code otherwise.
+> > > > + */
+> > > > +static int damon_va_three_regions(struct damon_target *t,
+> > > > +                               struct damon_addr_range regions[3])
+> > > > +{
+> > > > +       struct mm_struct *mm;
+> > > > +       int rc;
+> > > > +
+> > > > +       mm = damon_get_mm(t);
+> > > > +       if (!mm)
+> > > > +               return -EINVAL;
+> > > > +
+> > > > +       mmap_read_lock(mm);
+> > > > +       rc = __damon_va_three_regions(mm->mmap, regions);
+> > > > +       mmap_read_unlock(mm);
+> > >
+> > > This is being called for each target every second by default. Seems
+> > > too aggressive. Applications don't change their address space every
+> > > second. I would recommend to default ctx->primitive_update_interval to
+> > > a higher default value.
+> >
+> > Good point.  If there are many targets and each target has a huge number of
+> > VMAs, the overhead could be high.  Nevertheless, I couldn't find the overhead
+> > in my test setup.  Also, it seems someone are already started exploring DAMON
+> > patchset with the default value. and usages from others.  Silently changing the
+> > default value could distract such people.  So, if you think it's ok, I'd like
+> > to change the default value only after someone finds the overhead from their
+> > usages and asks a change.
+> >
+> > If you disagree or you found the overhead from your usage, please feel free to
+> > let me know.
+> >
 > 
-> Sorry, I think this was assigned to me in patchwork, but Lorenzo
-> usually takes care of the endpoint stuff.  He's away this week, but no
-> doubt will look at it when he returns.
+> mmap lock is a source contention in the real world workloads. We do
+> observe in our fleet and many others (like Facebook) do complain on
+> this issue. This is the whole motivation behind SFP, maple tree and
+> many other mmap lock scalability work. I would be really careful to
+> add another source of contention on mmap lock. Yes, the user can
+> change this interval themselves but we should not burden them with
+> this internal knowledge like "oh if you observe high mmap contention
+> you may want to increase this specific interval". We should set a good
+> default value to avoid such situations (most of the time).
 
-Can you consider merging this series for 5.14?
+Thank you for this nice clarification.  I can understand your concern because I
+also worked for an HTM-based solution of the scalability issue before.
 
-Thank You,
-Kishon
+However, I have neither strong preference nor confidence for the new default
+value at the moment.  Could you please recommend one if you have?
+
+
+Thanks,
+SeongJae Park
