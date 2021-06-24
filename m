@@ -2,165 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C5BC49EA6
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5729C49EAB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 19:36:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5092E613DC
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 17:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2F09613EE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 19:36:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbhFXRlJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 13:41:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59444 "EHLO
+        id S232684AbhFXTix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 15:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229928AbhFXRlH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 13:41:07 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1139C061574;
-        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id 19so5869836qky.13;
-        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
+        with ESMTP id S232549AbhFXTiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 15:38:52 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF57C061574
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 12:36:31 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id f13so9268549ljp.10
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 12:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=USIvcW2GRTbxr6DQIhIcD3oRQUCmqXrjMxJlSlcyZyY=;
-        b=kbR6mQPR3V5N+3juXGRBcBiazil8iZpsxfWzxd9BvUFR3SpS9O350b+QwJv7cVfd6W
-         qmn9n8UtxJAx8JoVnoN7znSebG/jRlB7ZGrQNXz8XtSTx7r4iM/eekYQC1EQLNPcBtkk
-         tA1JBxd4jXacZTtvOSKqLEpkl7Dzjpd8db6iH+n/jL5mrKjORyvQB0dFbRB+M38TtY4S
-         3L0NcRdwJuMeZ3/gPAwdYCyUt4b+Q6E7JybJHYoWhqxaZ3DKY+BdaxmATNjy8eJ05Xm4
-         9Ba/QGQ+cmFAcmMN3URpDChlQGHE8gz1WgUGX+I7X1TD9Ba1nTqqJFZSeK43L17Fu8t8
-         uwgw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DBxJ+5KzUAKH3jFhz3Iwj54r7FIMmamDMI5BPojMuJc=;
+        b=dYwgZ9h27ndDmBg/0m6WgW1LArwbOWa26M1LqVXc1zXOs48DVQSrbhzbUHQNug9tkZ
+         q3D/blHDOzdEPPo3bUbcejYyoWtIr90hLC1edUbfhTBynk7E/lW8P7SUK5oshAMiOmFX
+         FeRaN/eolsikGjmZPU9y6AUewwJAliXCcfTymEfHi6vZeTmBr6Za33JjUQEKoIma9MIH
+         60/9CviuXnS+3c4YVp9qGGcMQhNtn2lmtSgyFcUHq31vytlepnUZklgtNq/7dhZtrUUg
+         hpgep8ai+pEDiiw3BFbc+F7+MngfSWxqoXsDHvEwoPx91W+DP0I0ZSb+JRDZjl/qFqfB
+         BW4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=USIvcW2GRTbxr6DQIhIcD3oRQUCmqXrjMxJlSlcyZyY=;
-        b=I0HuYQVMkWHwP89hSCBcxzGk2ZyfhrP82Gib6gajFxvV1gG0tRIbZZScDOEZGd1TUv
-         mssO5+aVwgx7oGOl47pAOYrFNwDANymmH8RwuHkMuSXQj106eEosqpGPjSVaNaIr3hw7
-         YvXQLT+gInpBsM7Wi5Piw1wispqACvRBzTHRLlI3tQqqLGPWZPp+NpKie7sYze4JS/SC
-         J4sNey2rA/N304DIoY7YCZ/6DrQ+0qTBfFIwcA6vuPNXTqp9wRyrdqF5F24v8ACcFTuw
-         AFrwTUOml/W69OebsijLTyoyRlJD1K1BWTVX8gVdA8OOBWZPfI02NGxEsBDBO78HJA4D
-         DSwQ==
-X-Gm-Message-State: AOAM533VZTzxvOrQEG7RwgxkFuTXS81y/R9ChH4j8FgRharItMG+AHMf
-        idNHRF5zSjIOHKDTMGScMtI=
-X-Google-Smtp-Source: ABdhPJxsAxEekOJRnWG7tLXyRAMmuBFyqd4fVq5FToPvGsrdsQqeT0S7KrBF8UWNZT4FhKuSR1CeKQ==
-X-Received: by 2002:a37:9d90:: with SMTP id g138mr3040398qke.212.1624556326108;
-        Thu, 24 Jun 2021 10:38:46 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 61sm1110156qtf.37.2021.06.24.10.38.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 10:38:45 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     SeongJae Park <sj38.park@gmail.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org,
-        Brendan Higgins <brendanhiggins@google.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DBxJ+5KzUAKH3jFhz3Iwj54r7FIMmamDMI5BPojMuJc=;
+        b=kjFK+aTi8vP05POo1e0xw2sGbgUw8FWszMtVddHyDilPRfcrX25mQGTbvHf5txf/fc
+         lsipPM3rd1dRmwEUWu1yyqcq0JFS8NPxc9hS69a0rDANiV2BWSfB7kCUFJvjjLCDHMF5
+         Wh2QFZIOnkIgMnKr12pNMAX0oKIC8WNlzsOiyler/mQrP2u91K3bHV19lxaebKW/ADLE
+         DrKy3qiwM9ceZ0k0S41qs65kUh+evSqmi2EmK/tAYsMFgv/DLJRSf1/BWInSXWrK0P6Q
+         HOw+P8LsVL9AM+8a9a7wztdkLSckt1bIxkfKXIAlVYFszSnJC6B6K0xYTd6rA48X9KS7
+         0v6w==
+X-Gm-Message-State: AOAM5303sJD78GT7r7VHD1FGVOjzq1mWKR+tKTWQEY8pNzQ5e1td0oJq
+        CS1aCcKOOIePc1Yb8j2mJg3eN+vCKmCpbY/Liugs8A==
+X-Google-Smtp-Source: ABdhPJzoUDYNMlMYAnSTK9W/UbT/cdGV/rjMVbZjtFi2SSd63uN2ZxNPWm3CGKEFKMm5AO4RdSLIU6HwJ2an34Rr8QQ=
+X-Received: by 2002:a2e:92cc:: with SMTP id k12mr5168790ljh.116.1624563389245;
+ Thu, 24 Jun 2021 12:36:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210621231822.2848305-1-ndesaulniers@google.com> <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
+In-Reply-To: <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 24 Jun 2021 12:36:18 -0700
+Message-ID: <CAKwvOdkC4E5AvyrWzzN4q3xjceHZG3xQSjO6tp6vGK5Yc204YA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-arm-kernel@lists.infradead.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Bill Wendling <wcw@google.com>, Arnd Bergmann <arnd@arndb.de>,
+        johannes.berg@intel.com, clang-built-linux@googlegroups.com,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, greg@kroah.com,
-        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        sieberf@amazon.com, snu@zelle79.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        zgf574564920@gmail.com, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Thu, 24 Jun 2021 17:38:39 +0000
-Message-Id: <20210624173839.1766-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod682cg_fTf+vQxN=q_5A+GanJ3m7kVn_0gFut21_Xmu0A@mail.gmail.com>
+        Martin Liska <mliska@suse.cz>,
+        linux-toolchains@vger.kernel.org, x86@kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Tue, Jun 22, 2021 at 11:17 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Mon, 21 Jun 2021 16:18:19 -0700, Nick Desaulniers wrote:
+> > The kernel has been using noinstr for correctness to politely request
+> > that the compiler avoid adding various forms of instrumentation to
+> > certain functions.
+> >
+> > GCOV and PGO can both instrument functions, yet the function attribute
+> > to disable such instrumentation (no_profile_instrument_function) was not
+> > being used to suppress such implementation. Also, clang only just
+> > recently gained support for no_profile_instrument_function. GCC has
+> > supported that since 7.1+.
+> >
+> > [...]
+>
+> Applied to for-next/clang/features, thanks!
+>
+> [1/3] compiler_attributes.h: define __no_profile, add to noinstr
+>       https://git.kernel.org/kees/c/380d53c45ff2
+> [2/3] compiler_attributes.h: cleanups for GCC 4.9+
+>       https://git.kernel.org/kees/c/ae4d682dfd33
+> [3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
+>       https://git.kernel.org/kees/c/51c2ee6d121c
+>
+> Note that I've tweaked the series slightly to move the PGO Kconfig change into
+> the PGO patch.
 
-On Thu, 24 Jun 2021 09:33:07 -0700 Shakeel Butt <shakeelb@google.com> wrote:
-
-> On Thu, Jun 24, 2021 at 8:21 AM SeongJae Park <sj38.park@gmail.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > On Thu, 24 Jun 2021 07:42:44 -0700 Shakeel Butt <shakeelb@google.com> wrote:
-> >
-> > > On Thu, Jun 24, 2021 at 3:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
-> > > >
-> > > [...]
-> > > > > > +/*
-> > > > > > + * Get the three regions in the given target (task)
-> > > > > > + *
-> > > > > > + * Returns 0 on success, negative error code otherwise.
-> > > > > > + */
-> > > > > > +static int damon_va_three_regions(struct damon_target *t,
-> > > > > > +                               struct damon_addr_range regions[3])
-> > > > > > +{
-> > > > > > +       struct mm_struct *mm;
-> > > > > > +       int rc;
-> > > > > > +
-> > > > > > +       mm = damon_get_mm(t);
-> > > > > > +       if (!mm)
-> > > > > > +               return -EINVAL;
-> > > > > > +
-> > > > > > +       mmap_read_lock(mm);
-> > > > > > +       rc = __damon_va_three_regions(mm->mmap, regions);
-> > > > > > +       mmap_read_unlock(mm);
-> > > > >
-> > > > > This is being called for each target every second by default. Seems
-> > > > > too aggressive. Applications don't change their address space every
-> > > > > second. I would recommend to default ctx->primitive_update_interval to
-> > > > > a higher default value.
-> > > >
-> > > > Good point.  If there are many targets and each target has a huge number of
-> > > > VMAs, the overhead could be high.  Nevertheless, I couldn't find the overhead
-> > > > in my test setup.  Also, it seems someone are already started exploring DAMON
-> > > > patchset with the default value. and usages from others.  Silently changing the
-> > > > default value could distract such people.  So, if you think it's ok, I'd like
-> > > > to change the default value only after someone finds the overhead from their
-> > > > usages and asks a change.
-> > > >
-> > > > If you disagree or you found the overhead from your usage, please feel free to
-> > > > let me know.
-> > > >
-> > >
-> > > mmap lock is a source contention in the real world workloads. We do
-> > > observe in our fleet and many others (like Facebook) do complain on
-> > > this issue. This is the whole motivation behind SFP, maple tree and
-> > > many other mmap lock scalability work. I would be really careful to
-> > > add another source of contention on mmap lock. Yes, the user can
-> > > change this interval themselves but we should not burden them with
-> > > this internal knowledge like "oh if you observe high mmap contention
-> > > you may want to increase this specific interval". We should set a good
-> > > default value to avoid such situations (most of the time).
-> >
-> > Thank you for this nice clarification.  I can understand your concern because I
-> > also worked for an HTM-based solution of the scalability issue before.
-> >
-> > However, I have neither strong preference nor confidence for the new default
-> > value at the moment.  Could you please recommend one if you have?
-> >
-> 
-> I would say go with a conservative value like 60 seconds. Though there
-> is no scientific reason behind this specific number, I think it would
-> be a good compromise. Applications usually don't change their address
-> space layout that often.
-
-Ok, I will use that from the next spin.  Thank you for this nice suggestion.
-
-
+Ok, LGTM.
+-- 
 Thanks,
-SeongJae Park
+~Nick Desaulniers
