@@ -2,115 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A08FC48BDF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 09:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCC1C49EA6
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 09:06:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79207613BE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 09:04:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7408E613EA
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 09:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhFXJG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 05:06:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230013AbhFXJG1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 Jun 2021 05:06:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DCAE613DC;
-        Thu, 24 Jun 2021 09:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1624525448;
-        bh=rby+ZPgSSxK8+RzLEO6EAEviTD7NAgOLS/9KpTQJ4FU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YwvmEv3TARAfMjBW8u0BmYQnLofpa8rvMy3sGduJ2AW5d4eg6GWV6H7og8F0G+vTV
-         5f3ZCXj78qe5lizHerdHMjDRZXlMwvBNzuwctQrXCK0bjoZaJu5cPlJBSM417NzGqO
-         YinHgu09t22NltJkxV+4C25ZsjzZtgAP9awWL/XE=
-Date:   Thu, 24 Jun 2021 11:04:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Rocco Yue <rocco.yue@mediatek.com>
-Cc:     David Ahern <dsahern@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
-        wsd_upstream@mediatek.com, chao.song@mediatek.com,
-        kuohong.wang@mediatek.com
-Subject: Re: [PATCH 1/4] net: if_arp: add ARPHRD_PUREIP type
-Message-ID: <YNRKhJB9/K4SKPdR@kroah.com>
-References: <YNQYHfE09Dx5kWyg@kroah.com>
- <20210624061310.12315-1-rocco.yue@mediatek.com>
+        id S230158AbhFXJIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 05:08:18 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:58668 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230142AbhFXJIR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 Jun 2021 05:08:17 -0400
+Received: from localhost.localdomain (unknown [112.20.109.145])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LwStRgo_0WAA--.5330S4;
+        Thu, 24 Jun 2021 17:05:55 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH 2/8] docs/zh_CN: add infiniband core_locking translation
+Date:   Thu, 24 Jun 2021 17:06:51 +0800
+Message-Id: <630622fe95877503196f875e3cd1af57dc200d6d.1624525360.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1624525360.git.siyanteng@loongson.cn>
+References: <cover.1624525360.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624061310.12315-1-rocco.yue@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxL0LwStRgo_0WAA--.5330S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw13KF4DWFWrKFyUur13CFg_yoW7CrW8pF
+        9rK34fG3ZrZF9FyFWDur1UJF17Wa4IkayUurZ7X347Xrn5Xas8trsIyFy3JFZxWryIyrW5
+        tF4S9FWxCrW5Aw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPG14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+        A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+        xKxwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
+        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
+        v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
+        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
+        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
+        yTuYvjfUjoGQDUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 02:13:10PM +0800, Rocco Yue wrote:
-> On Thu, 2021-06-24 at 07:29 +0200, Greg KH wrote:
-> > 
-> > Thanks for the explaination, why is this hardware somehow "special" in
-> > this way that this has never been needed before?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> Before kernel-4.18, RAWIP was the same as PUREIP, neither of them
-> automatically generates an IPv6 link-local address, and the way to
-> generate an IPv6 global address is the same.
-> 
-> After kernel-4.18 (include 4.18 version), the behavior of RAWIP had
-> changed due to the following patch:
-> @@  static int ipv6_generate_eui64(u8 *eui, struct net_device *dev)
-> +	case ARPHRD_RAWIP:
-> +		return addrconf_ifid_rawip(eui, dev);
->  	}
->  	return -1;
-> }
-> 
-> the reason why the kernel doesn't need to generate the link-local
-> address automatically is as follows:
-> 
-> In the 3GPP 29.061, here is some description as follows:
-> "in order to avoid any conflict between the link-local address of
-> MS and that of the GGSN, the Interface-Identifier used by the MS to
-> build its link-local address shall be assigned by the GGSN. The GGSN
-> ensures the uniqueness of this Interface-Identifier. Then MT shall
-> then enforce the use of this Interface-Identifier by the TE"
-> 
-> In other words, in the cellular network, GGSN determines whether to
-> reply to the Router Solicitation message of UE by identifying the
-> low 64bits of UE interface's ipv6 link-local address.
-> 
-> When using a new kernel and RAWIP, kernel will generate an EUI64
-> format ipv6 link-local address, and if the device uses this address
-> to send RS, GGSN will not reply RA message.
-> 
-> Therefore, in that background, we came up with PUREIP to make kernel
-> doesn't generate a ipv6 link-local address in any address generate
-> mode.
+Translate Documentation/core-api/infiniband/core_locking.rst into Chinese.
 
-Thanks for the better description.  That should go into the changelog
-text somewhere so that others know what is going on here with this new
-option.
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../zh_CN/infiniband/core_locking.rst         | 114 ++++++++++++++++++
+ .../translations/zh_CN/infiniband/index.rst   |   3 +-
+ 2 files changed, 116 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/core_locking.rst
 
-And are these user-visable flags documented in a man page or something
-else somewhere?  If not, how does userspace know about them?
+diff --git a/Documentation/translations/zh_CN/infiniband/core_locking.rst b/Documentation/translations/zh_CN/infiniband/core_locking.rst
+new file mode 100644
+index 000000000000..567058246304
+--- /dev/null
++++ b/Documentation/translations/zh_CN/infiniband/core_locking.rst
+@@ -0,0 +1,114 @@
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/infiniband/core_locking.rst
++
++:翻译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++:校译:
++
++ <sign>
++
++.. _cn_infiniband_core_locking:
++
++================
++无线带宽中间层锁
++================
++
++  本指南试图明确无线带宽中间层的锁假设。它描述了对位于中间层以下的低
++  级驱动程序和使用中间层的上层协议的要求。
++
++睡眠和中断环境
++==============
++
++  除了以下异常情况，ib_device结构体中所有方法的低级驱动实现都可以睡眠。
++  这些异常情况是列表中的任意的方法:
++
++    - create_ah
++    - modify_ah
++    - query_ah
++    - destroy_ah
++    - post_send
++    - post_recv
++    - poll_cq
++    - req_notify_cq
++
++    他们可能不可以睡眠，而且必须可以从任何上下文中调用。
++
++    向上层协议使用者输出的相应函数:
++
++    - rdma_create_ah
++    - rdma_modify_ah
++    - rdma_query_ah
++    - rdma_destroy_ah
++    - ib_post_send
++    - ib_post_recv
++    - ib_req_notify_cq
++
++    因此，在任何情况下都可以安全调用（它们）。
++
++  此外，该函数
++
++    - ib_dispatch_event
++
++  被底层驱动用来通过中间层调度异步事件的“A”，也可以从任何上下文中安全调
++  用。
++
++可重入性
++--------
++
++  由低级驱动程序导出的ib_device结构体中的所有方法必须是完全可重入的。
++  即使使用同一对象的多个函数调用被同时运行，低级驱动程序也需要执行所有
++  必要的同步以保持一致性。
++
++  IB中间层不执行任何函数调用的序列化。
++
++  因为低级驱动程序是可重入的，所以不要求上层协议使用者任何顺序执行。然
++  而，为了得到合理的结果，可能需要一些顺序。例如，一个使用者可以在多个
++  CPU上同时安全地调用ib_poll_cq()。然而，不同的ib_poll_cq()调用之间
++  的工作完成信息的顺序没有被定义。
++
++回调
++----
++
++  低级驱动程序不得直接从与ib_device方法调用相同的调用链中执行回调。例
++  如，低级驱动程序不允许从post_send方法直接调用使用者的完成事件处理程
++  序。相反，低级驱动程序应该推迟这个回调，例如，调度一个tasklet来执行
++  这个回调。
++
++  低层驱动负责确保同一CQ的多个完成事件处理程序不被同时调用。驱动程序必
++  须保证一个给定的CQ的事件处理程序在同一时间只有一个在运行。换句话说，
++  以下情况是不允许的::
++
++          CPU1                                    CPU2
++
++    low-level driver ->
++      consumer CQ event callback:
++        /* ... */
++        ib_req_notify_cq(cq, ...);
++                                          low-level driver ->
++        /* ... */                           consumer CQ event callback:
++                                              /* ... */
++        return from CQ event handler
++
++  完成事件和异步事件回调的运行环境没有被定义。 根据低级别的驱动程序，它可能是
++  进程上下文、softirq上下文或中断上下文。上层协议使用者可能不会在回调中睡眠。
++
++热插拔
++------
++
++  当一个低级驱动程序调用ib_register_device()时，它宣布一个设备已经
++  准备好供使用者使用，所有的初始化必须在这个调用之前完成。设备必须保
++  持可用，直到驱动对ib_unregister_device()的调用返回。
++
++  低级驱动程序必须从进程上下文调用ib_register_device()和
++  ib_unregister_device()。如果使用者在这些调用中回调到驱动程序，它
++  不能持有任何可能导致死锁的semaphores。
++
++  一旦其结构体ib_client的add方法被调用，上层协议使用者就可以开始使用
++  一个IB设备。使用者必须在从移除方法返回之前完成所有的清理工作并释放
++  与设备相关的所有资源。
++
++  使用者被允许在其添加和删除方法中睡眠。
+diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
+index 2ad0b3714443..588b66e8e43f 100644
+--- a/Documentation/translations/zh_CN/infiniband/index.rst
++++ b/Documentation/translations/zh_CN/infiniband/index.rst
+@@ -21,9 +21,10 @@
+ .. toctree::
+    :maxdepth: 1
+ 
++   core_locking
++
+ TODOLIST:
+ 
+-   core_locking
+    ipoib
+    opa_vnic
+    sysfs
+-- 
+2.27.0
 
-thanks,
-
-greg k-h
