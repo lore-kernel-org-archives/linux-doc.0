@@ -2,151 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D9DC49EA5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F28C49EA7
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:23:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAF11613DA
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:21:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8560A613FB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Jun 2021 15:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhFXPX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Jun 2021 11:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbhFXPXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 11:23:55 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05C2C061574;
-        Thu, 24 Jun 2021 08:21:36 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id g3so769956qth.11;
-        Thu, 24 Jun 2021 08:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=XTZcBFmJD64rk0L0Ti7cLCSZOK6HZ1i75AWgRbmnkT0=;
-        b=DTWibfbFd03qYiZGv8C80cChp1eOSQiI21lvhjpC4tj8lC6nSetbmAiFCyXo/JicEh
-         4ObQ/MekbB9/HJ7I02SIaLcRG4zjb8XHfRZrGU9yglcYCZqR7aLVGINU3CAJR+QIcBRo
-         1+P8j5KD/T7x37XHZBfSlFJnn7fj19cACdYFSRfeYdWX9PfVXaZ7iJ4o8hnKUUQoBVFS
-         whvHg8Pnq+tjsTgU4wi+QTL8yHMvRugPSrEw3oIMlwRNrKGByzIgxOjkGKTQwIJpKbu7
-         /HCWvj92kEF3aHp0D6gzJi5ACJRbGVajYxGvEEE/haNiMe7urLOSNTyH0B9FUZUXTC68
-         LRdg==
+        id S231294AbhFXP0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Jun 2021 11:26:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56715 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232172AbhFXP0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jun 2021 11:26:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624548229;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=V6782uv/lR78IFZdWPlWYnzNvjYHBRQ4Y4k+rewPDws=;
+        b=cCJrE5diLfQTcZvUvuxVxrqaiOl4tKRDuZ7QNo3pMQzvXzERM3riKOa5h3B0Fhn0umEzmI
+        1an5aPee9f+xm+C3k7DTEClH2veWkXtcyQIrL9zZdxp7zymd/gt8s8EXbTGnIX3zhFrRyP
+        Ndnf0lQttVe4cck7T5M3MYbKwIGbFQg=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-s20TpwIrMXK_lScYm6gmhw-1; Thu, 24 Jun 2021 11:23:47 -0400
+X-MC-Unique: s20TpwIrMXK_lScYm6gmhw-1
+Received: by mail-qv1-f72.google.com with SMTP id q20-20020a0cf5d40000b029027498137223so7416510qvm.15
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 08:23:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=XTZcBFmJD64rk0L0Ti7cLCSZOK6HZ1i75AWgRbmnkT0=;
-        b=WN/nMbHgy0iLZOf5MkWcVaMFId3XDy6jSS5iNDPbb3f+DYkhcSaK1w1rGfHeQ3o1rx
-         ZkJC+6EnAqwJ3rkhZFlFC66jTMms0EBe5cECqa5q2jyks9a4CUFdf9BvDEy1qoZNmKye
-         wD536wuTpLtJf4jzHgxArxAV32jV73+hXueeDahRXZo+BrByWUfArwRRXahCnOmNIF48
-         9ckXLMN044Swrza6nw619ukOxd/uYbpwHHM2GJuj4ZZsYg7OsqJLvr6OTvy6QRL46wd1
-         EvGaqm5ASQ3TPa2y3bDJmnOKuHa59deQU5eHHS737jJV5Fhek9gMlDGSkuG3vqg6Sy2B
-         B7/w==
-X-Gm-Message-State: AOAM531lrWqjeIcCMz1ILfHLhgyYZ5NzCe9EcVSh3DRcgkI/zUNSjDr/
-        HnVwXSn/5x3GtJACjREEndA=
-X-Google-Smtp-Source: ABdhPJwuYrd3WsqGm7dLq9ddX8OCu6a+36K8C3d4Ru9zdbUjafqg7nYbhAE1pOb+IQPgZNSujUy5jQ==
-X-Received: by 2002:ac8:5ec3:: with SMTP id s3mr5372912qtx.312.1624548095857;
-        Thu, 24 Jun 2021 08:21:35 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 6sm2849236qks.0.2021.06.24.08.21.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 08:21:35 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     SeongJae Park <sj38.park@gmail.com>, Jonathan.Cameron@huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        Brendan Higgins <brendanhiggins@google.com>,
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=V6782uv/lR78IFZdWPlWYnzNvjYHBRQ4Y4k+rewPDws=;
+        b=tFPtrUar5qIFXe703do1WQ0HKLpcdYf5hCCUhrIT/wKMOmNAME92aw4dE6S5jigVrF
+         Mb2SXRfH++3AUKiJI+mkap3H52zM7gTw2w+v4eW1+L0SylvOMjLbxIOQ4lVIRqzLUawx
+         U2cV3ZKbA+lB9vl2j5z13zuofdFoB8U9HjJv4AtrJQXYc9FW1Ry1Wk6lm/1FmfkUqfXG
+         iRPt6WvJ6RiAAnwL5yG05Ck5e2bUTGhtJ9mhzDvQ3wyv3ohP+JHAoXzrc5d0nXVecfYu
+         AgHPN23NG6OR+Z2I3nwKsNF3f64pWr8lE7k2qD57txfKfZgUjBcLMQne2FFLlEiQjY70
+         NmsA==
+X-Gm-Message-State: AOAM531rTFQ9rahJKuPRi8gMnxhVHi8E+NTaum+oyDVrkFEqwOhyuEfv
+        mK7TA54EHErv6IhiKWOqdLJ3zl25ktZQvlwspwGw0O7FO8Zsd/Jps2C3umo90hRJ41sgm83lV7S
+        rVofB271LMhW+mrQ3O3WX
+X-Received: by 2002:ac8:58c5:: with SMTP id u5mr5197973qta.173.1624548227376;
+        Thu, 24 Jun 2021 08:23:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYuNEZN+9M5YXJudVbsP8p1092eOJS1bJJ8jW9TETrlaT7t2iO4Ywmwh2AvAPDOjtmD90/qw==
+X-Received: by 2002:ac8:58c5:: with SMTP id u5mr5197943qta.173.1624548227156;
+        Thu, 24 Jun 2021 08:23:47 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id k1sm2096694qtm.49.2021.06.24.08.23.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jun 2021 08:23:46 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v2 3/6] cgroup/cpuset: Add a new isolated cpus.partition
+ type
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, greg@kroah.com,
-        Greg Thelen <gthelen@google.com>, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, Mel Gorman <mgorman@suse.de>, mheyne@amazon.de,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        sieberf@amazon.com, snu@zelle79.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        zgf574564920@gmail.com, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Thu, 24 Jun 2021 15:21:30 +0000
-Message-Id: <20210624152130.877-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod5dFVxJVFUP4zBCC97C7rr5pGjRZQoixzs=GcNRAosKgw@mail.gmail.com>
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <fweisbec@gmail.com>
+References: <20210621184924.27493-1-longman@redhat.com>
+ <20210621184924.27493-4-longman@redhat.com> <YNR/3fydXvAi3OsN@blackbook>
+Message-ID: <58c87587-417b-1498-185f-1db6bb612c82@redhat.com>
+Date:   Thu, 24 Jun 2021 11:23:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+MIME-Version: 1.0
+In-Reply-To: <YNR/3fydXvAi3OsN@blackbook>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On 6/24/21 8:51 AM, Michal Koutný wrote:
+> Hello.
+>
+> On Mon, Jun 21, 2021 at 02:49:21PM -0400, Waiman Long <longman@redhat.com> wrote:
+>>      cgroup/cpuset: Add a new isolated cpus.partition type
+>>
+>>      Cpuset v1 uses the sched_load_balance control file to determine if load
+>>      balancing should be enabled.  Cpuset v2 gets rid of sched_load_balance
+>>      as its use may require disabling load balancing at cgroup root.
+>>
+>>      For workloads that require very low latency like DPDK, the latency
+>>      jitters caused by periodic load balancing may exceed the desired
+>>      latency limit.
+>>
+>>      When cpuset v2 is in use, the only way to avoid this latency cost is to
+>>      use the "isolcpus=" kernel boot option to isolate a set of CPUs. After
+>>      the kernel boot, however, there is no way to add or remove CPUs from
+>>      this isolated set. For workloads that are more dynamic in nature, that
+>>      means users have to provision enough CPUs for the worst case situation
+>>      resulting in excess idle CPUs.
+>>
+>>      To address this issue for cpuset v2, a new cpuset.cpus.partition type
+>>      "isolated" is added which allows the creation of a cpuset partition
+>>      without load balancing. This will allow system administrators to
+>>      dynamically adjust the size of isolated partition to the current need
+>>      of the workload without rebooting the system.
+> I like this work.
+> Would it be worth generalizing the API to be on par with what isolcpus=
+> can configure? (I.e. not only load balancing but the other dimensions of
+> isolation (like the flags nohz and managed_irq now).)
+Good point, the isolated partition is equivalent to isolcpus=domain. I 
+will need to evaluate the nohz and managed_irq options to see if they 
+can be done dynamically without adding a lot of overhead. If so, we can 
+extend the functionality to cover that in future patches. Right now, 
+this is for the domain functionality only. If we can cover the nohz and 
+managed_irq options, we can deprecate isolcpus and advocate the use of 
+cgroup instead.
+>
+> I don't know if all such behaviors could be implemented dynamically
+> (likely not easy) but the API could initially implement just what you do
+> here with the "isolated" partition type.
+>
+> The variant I'm thinking of would keep just the "root" and "member"
+> partitions type and the "root" type could be additionally configured via
+> cpuset.cpus.partition.flags (for example).
+>
+> WDYT?
 
-On Thu, 24 Jun 2021 07:42:44 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+What I am thinking is that "isolated" means "isolated:domain" or one can 
+do "isolated:nohz,domain,manged_irq" just like the current isolcpus boot 
+option. I don't think we really need to add an extra flags control file.
 
-> On Thu, Jun 24, 2021 at 3:26 AM SeongJae Park <sj38.park@gmail.com> wrote:
-> >
-> [...]
-> > > > +/*
-> > > > + * Get the three regions in the given target (task)
-> > > > + *
-> > > > + * Returns 0 on success, negative error code otherwise.
-> > > > + */
-> > > > +static int damon_va_three_regions(struct damon_target *t,
-> > > > +                               struct damon_addr_range regions[3])
-> > > > +{
-> > > > +       struct mm_struct *mm;
-> > > > +       int rc;
-> > > > +
-> > > > +       mm = damon_get_mm(t);
-> > > > +       if (!mm)
-> > > > +               return -EINVAL;
-> > > > +
-> > > > +       mmap_read_lock(mm);
-> > > > +       rc = __damon_va_three_regions(mm->mmap, regions);
-> > > > +       mmap_read_unlock(mm);
-> > >
-> > > This is being called for each target every second by default. Seems
-> > > too aggressive. Applications don't change their address space every
-> > > second. I would recommend to default ctx->primitive_update_interval to
-> > > a higher default value.
-> >
-> > Good point.  If there are many targets and each target has a huge number of
-> > VMAs, the overhead could be high.  Nevertheless, I couldn't find the overhead
-> > in my test setup.  Also, it seems someone are already started exploring DAMON
-> > patchset with the default value. and usages from others.  Silently changing the
-> > default value could distract such people.  So, if you think it's ok, I'd like
-> > to change the default value only after someone finds the overhead from their
-> > usages and asks a change.
-> >
-> > If you disagree or you found the overhead from your usage, please feel free to
-> > let me know.
-> >
-> 
-> mmap lock is a source contention in the real world workloads. We do
-> observe in our fleet and many others (like Facebook) do complain on
-> this issue. This is the whole motivation behind SFP, maple tree and
-> many other mmap lock scalability work. I would be really careful to
-> add another source of contention on mmap lock. Yes, the user can
-> change this interval themselves but we should not burden them with
-> this internal knowledge like "oh if you observe high mmap contention
-> you may want to increase this specific interval". We should set a good
-> default value to avoid such situations (most of the time).
-
-Thank you for this nice clarification.  I can understand your concern because I
-also worked for an HTM-based solution of the scalability issue before.
-
-However, I have neither strong preference nor confidence for the new default
-value at the moment.  Could you please recommend one if you have?
+Cheers,
+Longman
 
 
-Thanks,
-SeongJae Park
