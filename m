@@ -2,124 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B10C2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6CEC2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 19:27:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7384461954
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:27:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E10061976
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 19:27:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbhFYS3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 14:29:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41388 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229531AbhFYS3a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 14:29:30 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15PIHfKK066681;
-        Fri, 25 Jun 2021 14:27:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=j+O/cYCsFsuCEcRnngzouHlCzfCZ1Z52WLywB4Dg6VI=;
- b=pujvexLTn5Z1jhQ38Nusv+0EOCH7mHFlyG01EJymf+fIp/YPPSC+aEINwop0eDx7NJI5
- vkU1o16IvxqasSu0w5mawTkG0zF3jLd1krbGWkEE52Iqax14cE5VU+E24q1vr7HL/xyG
- MUNXohU0nPvGTtkKcA+9G5QsOydBK8vZsddOXfG6R1KRcQiPHi1o4/fnv3e596mFaHU5
- 0R1Ld9FA8cG+0qL3Xm3+K0EchhpuBS/SH2Nx9fBQrUWtDzUDZuXf7LBriBJ/NyKeZHzq
- 6KWJicseC/6G12IskZrnQm8JoQ66iBPLgaDAV+pXR6i8e/05AZSkFEH3MXeYQeHPJKNl 7A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 39dma009dr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Jun 2021 14:27:05 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15PIHr5G067038;
-        Fri, 25 Jun 2021 14:27:04 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 39dma009cm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Jun 2021 14:27:04 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15PIIHHi004448;
-        Fri, 25 Jun 2021 18:27:02 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma06ams.nl.ibm.com with ESMTP id 3997uhb5n3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 25 Jun 2021 18:27:02 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 15PIQxO429295034
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 25 Jun 2021 18:27:00 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DE8DBAE058;
-        Fri, 25 Jun 2021 18:26:59 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 09F8CAE053;
-        Fri, 25 Jun 2021 18:26:57 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.9.226])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 25 Jun 2021 18:26:56 +0000 (GMT)
-Message-ID: <25951cc27ce8a42893e98f9ea442296ae04b6988.camel@linux.ibm.com>
-Subject: Re: [RFC][PATCH 01/12] ima: Add digest, algo, measured parameters
- to ima_measure_critical_data()
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>
-Cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        selinux@vger.kernel.org, Prakhar Srivastava <prsriva02@gmail.com>,
-        Tushar Sugandhi <tusharsu@linux.microsoft.com>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-Date:   Fri, 25 Jun 2021 14:26:55 -0400
-In-Reply-To: <20210625165614.2284243-2-roberto.sassu@huawei.com>
-References: <20210625165614.2284243-1-roberto.sassu@huawei.com>
-         <20210625165614.2284243-2-roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 42B1uptXA-wFAtKBlzryfp64uWpnOmi4
-X-Proofpoint-GUID: ta77Re1fJ_j3pnVE_gpDpee0U3H_Snnk
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-06-25_07:2021-06-25,2021-06-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 malwarescore=0 clxscore=1011 spamscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106250105
+        id S229796AbhFYT3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 15:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229531AbhFYT3o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 15:29:44 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FA0C061574
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 12:27:22 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id o22so5984518wms.0
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 12:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H/oK0jQ+nVsuIPUgqjRK3RcXtuf8pq3P6VppZA/DQBw=;
+        b=VqNjh531wCKGPAl5s6XZxUqHtmXV5UmxMAs4/YdF8gdDDB+VuSb+emB79imNcvnU/U
+         1mIQciLAquL6p5WhuU5ix5H1P35IvDlShVdp5qhzIhGg28jmpChu35Iz2AwkaL+tcI68
+         OGWP0oO7wsKcqz8OaIBrz6eQZHaoLEX6MA0izS5yvIr/BzfTd9CkzPUXUU/6AzuuEJn1
+         C+4euc9Q76k5SVQr8ZfxZh5jhLMFxG/2YixWMwhKc+zRGiXoc7uDWrF8We3tPUhPNYGf
+         p4I0xxnwoRGNVN+59j6TQD/uokKelJjKsqfYnjXlL8w8y0SKimsdipqdCU+aWlFh4QtE
+         IzxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H/oK0jQ+nVsuIPUgqjRK3RcXtuf8pq3P6VppZA/DQBw=;
+        b=L6Ex8fonwDuSTD/hwabQPV8BEmxv7pm+FknlF/H0Tv5agHedMdEJf+3paZ/6fjJ2Da
+         8MYgopgiZgMGGROZUg/5S5mHzgo/ZXpYeiEGzXnIBwABZdZiKE1oJ2X+KjYlRFacuUs8
+         sw2f/10A/0vc58Q7iGygSaKE9YKbvFxooVM4yd2vFe4uTTW+Kjfz7QHdF4KlBGZ39UjL
+         Czvp3fDliO0h5FcSVRfeNtr4ASHFCO4aeTwm7mrvu3vhisxhBiOzYQAEOrSBatdE3Bkl
+         X1qsE4FlFPP+OEKyU55JQXy6EyDdgi/oYHJOqJwf/Afio+j8lbJ8Z9/RnFnBWd55e9tw
+         qYfg==
+X-Gm-Message-State: AOAM531MDJ/0fScTsl1/Pmx6fSh6NFb13qozKYEdoHfXhWBuWp4k5RWE
+        7yHRogfRLc4pJ47KGub/6aZ+ZMVHinDtkS7h/ho=
+X-Google-Smtp-Source: ABdhPJwOVnoGxAFANTW/yzbr3iO8FLtZF/BAXXMIYRzGTVvabdpwuQJYaPfYIPpObqmgEzyAun+Op6ZaSD4Xo5Osm9w=
+X-Received: by 2002:a05:600c:4417:: with SMTP id u23mr12520669wmn.26.1624649241220;
+ Fri, 25 Jun 2021 12:27:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAE7jHC_r86KNb_+beU10Vq3DU9wGA3X=sHpDjH-QQNrDGU5taw@mail.gmail.com>
+ <YJP6bH/RXxcd/0Xf@mit.edu>
+In-Reply-To: <YJP6bH/RXxcd/0Xf@mit.edu>
+From:   Constantine Shulyupin <constantine.shulyupin@gmail.com>
+Date:   Fri, 25 Jun 2021 22:27:09 +0300
+Message-ID: <CAE7jHC-mPi285C4ydzQ3ZEydNEJGewEjxoLFEwozyD-_XB2RmQ@mail.gmail.com>
+Subject: Re: Wikibook Linux kernel
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     linux-doc@vger.kernel.org,
+        kernelnewbies <kernelnewbies@kernelnewbies.org>, aaptel@suse.com,
+        aisheng.dong@nxp.com, alexandru.elisei@arm.com,
+        alex.williamson@redhat.com, andreyknvl@google.com,
+        anshuman.khandual@arm.com, aquini@redhat.com,
+        Arnd Bergmann <arnd@arndb.de>, ast@kernel.org, axboe@kernel.dk,
+        bernard@vivo.com, bobwxc@email.cn, bp@alien8.de,
+        brijesh.singh@amd.com, broonie@kernel.org, catalin.marinas@arm.com,
+        chris.packham@alliedtelesis.co.nz,
+        Jonathan Corbet <corbet@lwn.net>, cw00.choi@samsung.com,
+        daniel@iogearbox.net, davem@davemloft.net,
+        David Gow <davidgow@google.com>, dhowells@redhat.com,
+        dikshita@codeaurora.org, Daniel Latypov <dlatypov@google.com>,
+        eesposit@redhat.com, eric.auger@redhat.com,
+        Erik Flodin <erik@flodin.me>, erik.rosen@metormote.com,
+        federico.vaga@vaga.pv.it, festevam@gmail.com,
+        georgi.djakov@linaro.org, gi-oh.kim@cloud.ionos.com,
+        gi-oh.kim@ionos.com, gregkh@linuxfoundation.org,
+        Gustavo.Pimentel@synopsys.com, haren@linux.ibm.com,
+        hca@linux.ibm.com, hch@lst.de, hdegoede@redhat.com,
+        heikki.krogerus@linux.intel.com, hengqi.chen@gmail.com,
+        hverkuil-cisco@xs4all.nl, i@zenithal.me, jaegeuk@kernel.org,
+        James.Bottomley@hansenpartnership.com,
+        jamorris@linux.microsoft.com, jarkko@kernel.org, jgg@nvidia.com,
+        jianyong.wu@arm.com, jonas@protocubo.io,
+        Jonathan.Cameron@huawei.com, kabel@kernel.org,
+        Kees Cook <keescook@chromium.org>, kuba@kernel.org,
+        kubernat@cesnet.cz, Linus Walleij <linus.walleij@linaro.org>,
+        linux@leemhuis.info, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Guenter Roeck <linux@roeck-us.net>, luzmaximilian@gmail.com,
+        macro@orcam.me.uk, marcan@marcan.st, masahiroy@kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>, maz@kernel.org,
+        mchehab+huawei@kernel.org, mic@linux.microsoft.com,
+        mkl@pengutronix.de, mpe@ellerman.id.au, mszeredi@redhat.com,
+        natet@google.com, Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        niklas.soderlund+renesas@ragnatech.se, npiggin@gmail.com,
+        ogabbay@kernel.org, parav@nvidia.com, pbonzini@redhat.com,
+        Peter Collingbourne <pcc@google.com>, peterz@infradead.org,
+        pmladek@suse.com, rafael.j.wysocki@intel.com, rppt@linux.ibm.com,
+        saeedm@nvidia.com, sakari.ailus@linux.intel.com,
+        sbhat@linux.ibm.com, schnelle@linux.ibm.com,
+        sean.j.christopherson@intel.com, sebastian.reichel@collabora.com,
+        shy828301@gmail.com, siyanteng@loongson.cn,
+        skhan@linuxfoundation.org, sozeri@habana.ai,
+        Steve Rutherford <srutherford@google.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        stephane.blondon@gmail.com, stern@rowland.harvard.edu,
+        stfrench@microsoft.com, sumit.garg@linaro.org,
+        tamar.mashiah@intel.com, tglx@linutronix.de,
+        tom.zanussi@linux.intel.com, torvalds@linux-foundation.org,
+        unixbhaskar@gmail.com, vbabka@suse.cz, vincenzo.frascino@arm.com,
+        vkoul@kernel.org, vladyslavt@nvidia.com,
+        wilken.gottwalt@posteo.net, willy@infradead.org, yangbo.lu@nxp.com,
+        yangtiezhu@loongson.cn, yuchao0@huawei.com, yuzenghui@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-06-25 at 18:56 +0200, Roberto Sassu wrote:
-> ima_measure_critical_data() allows any caller in the kernel to provide a
-> buffer, so that is measured by IMA if an appropriate policy is set. Some
-> information that could be useful to the callers are the digest of the
-> buffer included in the new measurement entry, the digest algorithm and
-> whether the buffer was measured.
-> 
-> This patch modifies the definition of ima_measure_critical_data() to
-> include three new parameters: digest, algo and measured. If they are NULL,
-> the function behaves as before and just measures the buffer, if requested
-> with the IMA policy. Otherwise, it also writes the digest, algorithm and
-> whether the buffer is measured to the provided pointers.
-> 
-> If the pointers are not NULL, the digest is calculated also if there is no
-> matching rule in the IMA policy.
+Thank you, Ted, for pointing to https://wiki.kernel.org/.
+Out of 29 wikis 8 are outdated. Here is a summary:
+https://en.wikibooks.org/wiki/The_Linux_Kernel/wikis
 
-As much as possible, let's not define additional
-ima_measure_critical_data() arguments.  Probably the only new variable
-really need is "digest".  The hash algorithm doesn't change.  How about
-defining and exporting a new function to return the system defined
-ima_hash_algo.  In terms of failure, have ima_measure_critical_data()
-return errno.
+Regards
 
-thanks,
 
-Mimi
+On Thu, 6 May 2021 at 17:18, Theodore Ts'o <tytso@mit.edu> wrote:
+>
+> On Thu, May 06, 2021 at 01:58:35PM +0300, Constantine Shulyupin wrote:
+> > Dear Linux kernel documentation writers and readers:
+> >
+> > Writing Linux documentation is a huge complex collaborative process.
+> > To make it better I invite you to contribute to
+> > https://en.wikibooks.org/wiki/The_Linux_Kernel
+>
+> There are some wiki's that are available at *.wiki.kernel.org.  For
+> example, ext4.wiki.kernel.org.  We've largely abandoned it, in favor
+> of using Documentation in the kernel sources, because if you leave it
+> "updated by anyone", unless you have people constantly watching for
+> spam or trash updates which have to be reverted, it quickly becomes a
+> mess.  Or you can keep tight control over who you give accounts to,
+> but then it doesn't get updated all that often.
+>
+> Keeping the documentation in sync with the kernel sources means it's
+> much more likely for the documentation to be updated when the kernel
+> is updated, and so for example we've migrated:
+>
+> https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout
+>
+> to:
+>
+> https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html
+>
+> with the sources available at:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/tree/Documentation/filesystems/ext4
+>
+> ... and been much happier with the result.
+>
+> Cheers,
+>
+>                                         - Ted
 
+
+
+-- 
+Constantine Shulyupin
