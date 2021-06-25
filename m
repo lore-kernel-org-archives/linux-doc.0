@@ -2,112 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9438C2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 11:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1453C49EAB
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 12:21:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82864614A5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 11:32:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3F25616E9
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 12:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbhFYLfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 07:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
+        id S230088AbhFYMXv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 08:23:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbhFYLfN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 07:35:13 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A18C061574;
-        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id a127so7782940pfa.10;
-        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
+        with ESMTP id S229498AbhFYMXu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 08:23:50 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE956C061574;
+        Fri, 25 Jun 2021 05:21:28 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id bj15so18777906qkb.11;
+        Fri, 25 Jun 2021 05:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=F1FYj5t4XYoxvLoXBqTjudiXE+LHqymCGK2OtEnIdlM=;
-        b=Vug1MX4WgKzGeIKZiGV5dxk5+sQypFDvIqvNce+do+Xf1qJI5YDIW5x+EkBUMKbFZv
-         061HMvrNuq2wndVfN9CQuQF33iB4BmdWea+nTuChqpiQgKd7EsXGWHy2nBgydestG4El
-         +lXae4pXaHOS5LBVFJcIMtnDiRN5AquOufxLJ4U597XCdmPUvfmxqJIeoTABhhB4aZlM
-         lOSgROHM9u/ewbFS3Pz/JGILAWewkl0Gtct8bJs0WBhgsseUQwFQkKEhWaYBGQH2KWAJ
-         BTG/+8SvHSZ1Ct82Z0RdQ50KtUuaQNUPcSJwcqYGFaeNUl9irWFRDv4086PzBdiJQkB3
-         ULjg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L4Q8/3z6OXZZ/9ZPmsJ32/nlpjgIm8YhI1f+Jp/7/2Y=;
+        b=WL+io1HK1tNOQKxbIBVMbIy/T9/bxFpeWFQvqPXHqNMk5T4+AzsEpeX0jFWiv9/8JZ
+         jZtyRkg67eHuVI9mrtSDtLdoKttYBAd0QtM+kiimuZXFrImzRoEIj4tiiCiZuZWVK3at
+         /2AQyUybsp5Wvx+iUGQt65JBdrZ4UBQ+4YsR+UmhadndSpBw46mHRT+rxy1HlaLvPWmD
+         lk6c6KCfWGhg9b0ALrbaPrmS5kl3oyUk15k5Q/4T2sPvGaUwZXqkpGQrqPVjsMUrl/VF
+         Aw166696i0P9ahVNEqPGnX1zw3YB7HbKbk5AxMmT1p/qUnAHnZvv8Rqr9wjh4N2KBZsq
+         nGvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=F1FYj5t4XYoxvLoXBqTjudiXE+LHqymCGK2OtEnIdlM=;
-        b=rxe41zgyDujC5eO7PNriJrTdil11Bi+oIl7XOilgd1Lw6hcIiGPU0RTM2GnHBYXYGT
-         nYY2ZLHkemy7Q9pvAJeq8/d9zMRFrjp66njXtDpETi+5bFp3neLQExWk0gkQxW7HDaKS
-         zcGQbpvcDOcZHpVJvzrTwGi6vbboBHljGm/kf1LMJoGAYZe81PwM3w7PN0YnwvDZ3Ktw
-         GqY8+2Ih76tR8qVYn0YKwuJ/tIGZF2beuzpYWN6DGVt/+/8oPL+3cBbjOIfh97bLy5ci
-         DhpZPu2+D1z0s6aCfgs8cmCxGNyYgp9hwk/8H5bsYuvXzIomaqMg4bsjDITjFVwq+nyb
-         2z4A==
-X-Gm-Message-State: AOAM532WeNWSJ/cdjy3M+Q92S9jPTBGVIGufBqBVD7iKdbjrNQZo/JGj
-        LC4HtuEpCt0CDWKovrqYb3WBAor74EE=
-X-Google-Smtp-Source: ABdhPJyCNRv0sPV9O1TfxSLrNyApdRWlKjaBdFiSvyJknsyaKQa3mPDUVQAcCZlLu7/LKuopSdCBOA==
-X-Received: by 2002:a63:3d8a:: with SMTP id k132mr9302612pga.7.1624620771620;
-        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id j20sm4999136pfc.85.2021.06.25.04.32.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK ascii-art
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
-        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
- <20210625065524.GA11219@bobwxc.top> <20210625095059.7f97fd62@coco.lan>
- <ae0a7623-7ec4-937b-4b93-8435f2e94eb9@gmail.com>
- <20210625122423.4435c5e9@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b6ea891e-b6f3-318a-1b40-268f436c6860@gmail.com>
-Date:   Fri, 25 Jun 2021 20:32:47 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L4Q8/3z6OXZZ/9ZPmsJ32/nlpjgIm8YhI1f+Jp/7/2Y=;
+        b=WjZGKOXbtkk5rE2Y2IKfbJsfDPIN/ldzTISdruO8cG3RyD17bJAyWfW9edo8AEraH0
+         kaw0QpwNmWix8L27DV361ejsLmQIfFpIYpN+oEpXdZfcMJZCjSqITf2MEyzQsRPAIXm9
+         fExhZCzFG5UXWbE0NjgA+2JYP0HBJDaQgmAU2T6DooLqea14spAiNjkX13liEiiHwE81
+         zG30yGzrsuod9TptlCZxurR8ymXE5HFrl+w/D2nxIA+H4kc/jqi6Xe0LMVw3zgtpVLt5
+         p3nj5ARdAZBvoi3nr+kIZZ2Gs4JHYhG5IKGyq3j5wBdcNvP8WqAephuzQcmmWQSWQFCR
+         tulA==
+X-Gm-Message-State: AOAM531/3NqTRrJ4mGhGn+HTaPbkbMT3tVE28fBRbtm6RIhuxduDrK7V
+        mXdBU/59lTOjjeMhMFQlm8I2Rpslmwb6KEVJ74Y=
+X-Google-Smtp-Source: ABdhPJx/f94SRCZdAiHGi/ly1dG35ye7G0aXHvgj8OgWk+mDDpVCnednOPUsuVtmlcQHWovAMDoeKz0kkOsoi5QKHGA=
+X-Received: by 2002:a37:9005:: with SMTP id s5mr10980983qkd.108.1624623687811;
+ Fri, 25 Jun 2021 05:21:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210625122423.4435c5e9@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210614201620.30451-1-richard@nod.at> <20210614201620.30451-2-richard@nod.at>
+In-Reply-To: <20210614201620.30451-2-richard@nod.at>
+From:   Richard Weinberger <richard.weinberger@gmail.com>
+Date:   Fri, 25 Jun 2021 14:21:16 +0200
+Message-ID: <CAFLxGvyyybqsgXOQ2f2BmpTCnC=7UdWhwnCpGfZMxYuK-AQ-_w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] crypto: mxs-dcp: Add support for hardware provided keys
+To:     Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     keyrings@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        David Howells <dhowells@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel@lists.infradead.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Jun 2021 12:24:23 +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 25 Jun 2021 18:22:26 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> On Fri, 25 Jun 2021 09:50:59 +0200, Mauro Carvalho Chehab wrote:
-[...]
->>
->> One minor problem might be that the Sarasa font needs manual
->> download (and install).
->>
->>         Thanks, Akira
-> 
-> If this is not yet packaged as part of texlive packages
-> on distros, this won't be a minor issue, as we'll need
-> to find procedures and test it for all distros supported
-> by the script.
+Herbert,
 
-Existence of "Sarasa Mono SC" can be checked by the command:
+On Mon, Jun 14, 2021 at 10:18 PM Richard Weinberger <richard@nod.at> wrote:
+>
+> DCP is capable to performing AES with hardware-bound keys.
+> These keys are not stored in main memory and are therefore not directly
+> accessible by the operating system.
+>
+> So instead of feeding the key into DCP, we need to place a
+> reference to such a key before initiating the crypto operation.
+> Keys are referenced by a one byte identifiers.
+>
+> DCP supports 6 different keys: 4 slots in the secure memory area,
+> a one time programmable key which can be burnt via on-chip fuses
+> and an unique device key.
+>
+> Using these keys is restricted to in-kernel users that use them as building
+> block for other crypto tools such as trusted keys. Allowing userspace
+> (e.g. via AF_ALG) to use these keys to crypt or decrypt data is a security
+> risk, because there is no access control mechanism.
+>
+> Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Cc: David Gstir <david@sigma-star.at>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-security-module@vger.kernel.org
+> Cc: Mimi Zohar <zohar@linux.ibm.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Co-developed-by: David Gstir <david@sigma-star.at>
+> Signed-off-by: David Gstir <david@sigma-star.at>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> ---
+>  drivers/crypto/mxs-dcp.c | 110 ++++++++++++++++++++++++++++++++++-----
+>  include/linux/mxs-dcp.h  |  19 +++++++
+>  2 files changed, 117 insertions(+), 12 deletions(-)
+>  create mode 100644 include/linux/mxs-dcp.h
 
-    fc-list | grep "Sarasa Mono SC," | grep "style=Regular" | wc -l
+This patch was judged as not applicable in your patchwork.
+Is something missing? How can we proceed?
 
-If the result is *not* "0", you have the font somewhere in your
-fontconfig path.
-
-I think this is portable across distros.
-Wouldn't this suffice for sphinx-pre-install?
-
-        Thanks, Akira
-> 
-> Thanks,
-> Mauro
-> 
+-- 
+Thanks,
+//richard
