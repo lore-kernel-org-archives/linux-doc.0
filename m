@@ -7,60 +7,61 @@ X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6483C49EB7
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 23:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61499C49EA7
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 23:48:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B878861960
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 23:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4719D61960
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 23:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbhFYXue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 19:50:34 -0400
-Received: from mail-bn7nam10on2061.outbound.protection.outlook.com ([40.107.92.61]:41056
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        id S230049AbhFYXug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 19:50:36 -0400
+Received: from mail-dm3nam07on2086.outbound.protection.outlook.com ([40.107.95.86]:5633
+        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229949AbhFYXub (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Jun 2021 19:50:31 -0400
+        id S230006AbhFYXuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jun 2021 19:50:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EDxBDeO6BfjLvFSUgeJjAFOApsMRXDuvG2niVVe1eUAGca1wS9rQ1sllEyQMAyqIumRcq+GCclBbcZVV+cloiMWfXvVBDb8XWLLzqtghOTALOduUX5tMKTh+xT3XCOZXWJcr4pXx9Uj0ixz0f8mY4GxpTz3AvTBzPr4JGsA1JDV9HyqKxuS6rgIZvLf3JpLRjDHbINx4cRxC1c1Iojn4W10sVIWt0KySj8YXvEtf1N9oC/4ppVXl1mykkEUZO+eUAKQE32PNHqSzzdyv66hAft4B0BmEVyyYscs2SqCsGMl9OD/DaISu6QF6lgjZ9qIOusvs3hMeSbtRJaRn9Nc9Pg==
+ b=WXFVEv3y6Mogmmz6QNdWTnVNyC85fK6HeZFcWGdmvVHSillaIjN2fmm5kQsPjGBNUgkb8wmex3imD9e+m9uHWIvYPdsBDDCngcvipsyQTH6v9KVngLyldZNWamqzxfV0BdvZFfSqi6xal10nZfyFShoInTlPYOaPuK5wnNQr+MviC3kVSFKxCY9n0B81hsea04HkO7njfkfBSzJnnHsbzLLn9IBPFuyG6IduglF5mEElu5PrTNcOPD/K2Yq/mPQ74unPyA/dXZ+Hznnwcsww5pQOFDWd17H4JuUrA2VHWairKtRsZTyDSllffPItlgWACUfsx/pg72j045kOkGpLwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h1Uooo13bao1tkRQ9nBe5/2lUTbZ/TDftD6QtLlohuc=;
- b=NKRArZGUyGX9sRtwjMUEhv6/BDnfWpsoxBdJG9qp1dTuiwX0+Ekvl07tXjnVCy+UK+Q3uiAsvzHlUrVzQ5+HOaGsKO+iaUMTMT3/XaVFT/ju7swyZM+efmmgNCBVPjz9nVBZOtsMolT5lvNXArRA/MlgBQIkwRV0XlR4OhN8cIfRu17Hs2U3eK9Rf/XpLYFizEd60/J2hZqUy0fojD7Ei4HimribyD4pRUuixIpGF3aDvx+GocDySOPpmahXbK06gkuc8986UOpMtGYgECGa3WFRI+6BJuHMxHVqs7abDqloJ+oIh0LwJbHiqzRt3U6N/y7VAOafUn8bTtfkVhpUvA==
+ bh=k+vTLa3j2mLPzL9LT8PMnb/9OEuqJN/KlHOpKUOcK2U=;
+ b=cFUToL6B5eKKkVVK1kf+3lcn+cKHEdzlee9zon7PtyiYVFPvrfFnSXsjj8c7W/xqppZlq8mWkuCZN2vz1Ftn0ACQcVpymnosrmopGOqbJm+xSgRZIzHcZKRysN6l0e19P7/r4rSlHAS93ai7+bVZqhY1j0iuDceAqDgBQwDGnao+k5oqob3BvSf56VWtRmsNIa6x0p/KV/j2HVlDW0OOaHfornXh19VxOoRg+Ol0f0Ip2VnOQdvpMm27iUgmzoYV9exC/VaHvtr1lctmqKvp6kFMXLJPfOlAiOHxaTcUzfnSic3km5GMo2nWjCSax4GtmlNcpiAN991FYdQ6UBLLYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.36) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ 216.228.112.34) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h1Uooo13bao1tkRQ9nBe5/2lUTbZ/TDftD6QtLlohuc=;
- b=Wg0bOwAb/S3HaXLLgD5K8ZCfAMHGgOi4xVuuiNhOP9aAhZEFVIHG0ptehaa7SPSI7/AmF3BWeMpCy4hJuP41w3h63T7ABeGAot/Q41PXE8uwQr6f8nZNN2IP9VcgE+vRzaU7W8iU5PwWiD/9IDViLumdDkOkN5r4nbdYhwGj+FsteOTdGdRAu7sFKD6BrYVH1p6yBCMv6hc3zYnBO2fbwuvEnn6oFBp/AWDmnel3qMssmuxF84T8B+N2LpHhqqQ1NpqHTzuW1e13oYFwlWsYwvuHnn2f4vidjmgxhMPsNPMkC7atGPjAsf6jujgHId3lhU8j2+Q/aRw9l1l2TnSzzQ==
-Received: from DM6PR03CA0022.namprd03.prod.outlook.com (2603:10b6:5:40::35) by
- BN8PR12MB4788.namprd12.prod.outlook.com (2603:10b6:408:a3::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.23; Fri, 25 Jun 2021 23:48:08 +0000
-Received: from DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:40:cafe::e6) by DM6PR03CA0022.outlook.office365.com
- (2603:10b6:5:40::35) with Microsoft SMTP Server (version=TLS1_2,
+ bh=k+vTLa3j2mLPzL9LT8PMnb/9OEuqJN/KlHOpKUOcK2U=;
+ b=UF/Gnzw+jA2eUS8Q2uySUlxdF8jaowu2UNUwBteDpcGWiRIQ0HcPaAOoLXxVyYkgRAR8RLVM2sehwnseogXNboCgiQjtkfOH/s/YjYyMCd7C6rPhfDr6p4+vjVHkCH1Heh77sPJ5qWKMw5lnGYqAzsgVoiVurJTGHDe4pXTJdVOR7GWQ9Dxx7y23HZb5E1tS1enWIDNPzWZ9Gae4i3cn5qlKgNZHcnx5AYHjGOKi2A824qEA4PFNH2LxFcWI2ygfU4gDz4TqV0WJRY5F5H06424logyvteO2Pr2PBggP8jh/Qyv+0b/ifn4KkZq+OvFkABWAtZ22LcuSuuCkWfHTuA==
+Received: from BN0PR03CA0004.namprd03.prod.outlook.com (2603:10b6:408:e6::9)
+ by MN2PR12MB3037.namprd12.prod.outlook.com (2603:10b6:208:c2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Fri, 25 Jun
+ 2021 23:48:11 +0000
+Received: from BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::e1) by BN0PR03CA0004.outlook.office365.com
+ (2603:10b6:408:e6::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
- Transport; Fri, 25 Jun 2021 23:48:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
+ Transport; Fri, 25 Jun 2021 23:48:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.36; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.36) by
- DM6NAM11FT040.mail.protection.outlook.com (10.13.173.133) with Microsoft SMTP
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT049.mail.protection.outlook.com (10.13.177.157) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 23:48:08 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 25 Jun
- 2021 23:48:07 +0000
+ 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 23:48:10 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 25 Jun
+ 2021 23:48:09 +0000
 Received: from dipenp.nvidia.com (172.20.187.6) by mail.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 25 Jun 2021 23:48:07 +0000
+ Transport; Fri, 25 Jun 2021 23:48:09 +0000
 From:   Dipen Patel <dipenp@nvidia.com>
 To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
@@ -68,9 +69,9 @@ To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <bgolaszewski@baylibre.com>, <warthog618@gmail.com>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <dipenp@nvidia.com>, <robh+dt@kernel.org>
-Subject: [RFC 03/11] hte: Add tegra194 HTE kernel provider
-Date:   Fri, 25 Jun 2021 16:55:24 -0700
-Message-ID: <20210625235532.19575-4-dipenp@nvidia.com>
+Subject: [RFC 05/11] hte: Add Tegra194 IRQ HTE test driver
+Date:   Fri, 25 Jun 2021 16:55:26 -0700
+Message-ID: <20210625235532.19575-6-dipenp@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210625235532.19575-1-dipenp@nvidia.com>
 References: <20210625235532.19575-1-dipenp@nvidia.com>
@@ -79,198 +80,91 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 421cf8e2-3bb6-47ca-d70b-08d93833af22
-X-MS-TrafficTypeDiagnostic: BN8PR12MB4788:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB4788A7A4F7BBEAFB5C3F1EACAE069@BN8PR12MB4788.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-MS-Office365-Filtering-Correlation-Id: 0a72ce9f-675c-4695-538d-08d93833b0d7
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3037:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3037352E5735C415D1BD55C7AE069@MN2PR12MB3037.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 70TPkPR2/lEn4VncdH1WfStxb0Vuqtk6IBc1C598DpxNL8sREBZOY0vl3B0reSKkGbWZjT+EMirUDZF8br/3U9f2gXAW+I7e7kv8R3m2dxVHnbQaFtzCPcwbDRCcqJMZJWM2f8AHn4w00UN8LOfYMSXSTMlH3RYjEvdFu/xQusxtZib03IO0Ri1lOHkrkOydjFCuKONuUAsC8SOLMzps2ug7PyweGvaAEG9dzSo1OFs+h5vfOVZWoD7Hw2ilWfyxwqjsv9goWt5Ko7XHjnSmh9+ARCdmKA2qJHnR1FVpJrD/jy9+S0pvNpnFYSC8PKUbDZY+43IoCqoB7+ffIe3AGg5kgxNI8SSZl7DYpM2aLs6a18sCb64X+9je8zxMn2XfeAM8xn6wlpx2Nojk0Io+IrkSkrOoC2IOZlAR7XlGGn+tiom5mEabbOYmZrLBlxFuPiOF3cOdJDvQLCf/xGjSjSNSNpL1An59ObSX6Rdp5a/ycxyBfaOElnwrC+/22nGsoD4Jsda7gcLJxVdh2dEgl82S7PT8C4/nLghk2rI1lRiTEadESweewV2Ctf+RAYgYm2a1fyUDcquK8tho9eE5pfgV5XIPoHvGyJ8KHcHPsWmNMi+0c3lBgvv6w0xAVQaBP/cKxClkjHjtsga8Ljq4hyIQ5Oyt1/3J02+qnIza5/2XW3uf2fTdkDJ0s5lJZ1usc3snAF+2iNUchMX3HYcUXvKF3kt2m4vwTdYa27idI4friWao98EvTmdB8q1Aohct1ptDOP/5x3ze7Qq7X8a4FQ==
-X-Forefront-Antispam-Report: CIP:216.228.112.36;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid05.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(46966006)(36840700001)(2616005)(82310400003)(36756003)(86362001)(8676002)(83380400001)(186003)(6666004)(5660300002)(26005)(7696005)(316002)(110136005)(1076003)(70586007)(70206006)(8936002)(7636003)(7416002)(921005)(426003)(30864003)(478600001)(82740400003)(47076005)(2906002)(356005)(36860700001)(336012)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: namCGCHJp0peKU9rlZ42PSaUdMNLewSk8sJpqCIqxiJYWQjt4AEGDY0EP+w9Ofutc0QbUVPIOWC0A6kA+LJAbt2t+rdjkXu26T/PywA30UEbgrpAdz4t+Rj0ga6yDQPg9joyRRcPhQ1VZ/3FOmT4iax+ZyUoAhlraI5grjuCklsZ252cXxy+XkMvbVhUfP/FvdT6nk/AtPjLi7WQyKC8cs2BpWTHRylK13a1hIfdKMwN8IAztRSimWggxVe9hg2q1xp9Icwj3eewldkiSSJk5dLIGe0SKqHNmV4Os0jtuKzewXKXmG8G623T6UagBU2+5OgYZhayqWvN52emR81QekYPHOcl7Z2W4krMPFM+7hK6JPYZ7+OAfxvj1KH6V3aUw1+Vj2M+zF9ro+Yz726Xq4Bq9xFGAs+yp9W0R/g1Z3okuXXGV2Mh1STQL9Tq2hdYBv1InTJ8FiUW5kztpgpwKsoTa14S7EkXYcTbz8olMCGjGqMl+AIZ9aImel+UqHN7VDxI8w2mvTdwX3G/H7kH4U/wna7XBpUkSEBmrKActp79OTfXExQ6NcDpvbxbie2T3TbQ147OWLCps72kyqRD86MM8NAgIGmQ3oGNPFPdvsZgN8+3GONTFbxaBR+AmXx+P8rbgUo23jeFumG/g1xCe9CkpPXnYbax2+xzPszLMbveUMu5PD/Erh5lXUH31zh++ClV5jM3d6DrtACjExplF2uGUae5qrCapel41dA7Q9J0EvPJ/SiiXkRNBA8ynWy54CI15MOdqGetrVe0tknmYA==
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(346002)(39860400002)(396003)(136003)(36840700001)(46966006)(70586007)(47076005)(86362001)(1076003)(186003)(6666004)(36860700001)(26005)(478600001)(2616005)(356005)(70206006)(8936002)(5660300002)(336012)(426003)(36756003)(7416002)(7636003)(2906002)(30864003)(921005)(8676002)(316002)(7696005)(82740400003)(83380400001)(82310400003)(110136005)(2101003)(83996005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 23:48:08.1190
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 23:48:10.9276
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 421cf8e2-3bb6-47ca-d70b-08d93833af22
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a72ce9f-675c-4695-538d-08d93833b0d7
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.36];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB4788
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3037
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tegra194 device has multiple HTE instances also known as GTE
-(Generic hardware Timestamping Engine) which can timestamp subset of
-SoC lines/signals. This provider driver focuses on IRQ and GPIO lines
-and exposes timestamping ability on those lines to the consumers
-through HTE subsystem.
+Tegra194 has IRQ HTE provider which can timestamp IRQ lines in realtime
+, this test driver implements consumer side which tests such provider
+through HTE subsystem. During its probe, it registers sysfs interface
+to easily navigate from userspace as below.
 
-Also, with this patch, added:
-- documentation about this provider and its capabilities at
-Documentation/hte.
-- Compilation support in Makefile and Kconfig
+All the files are at /sys/kernel/tegra_hte_irq_test/.
+
+- en_dis - Write only, Value 1 enables HTE line, 0 disables it
+- buf_len - Write/Read, sets/gets per line buffer length
+- watermark - Write/Read, sets/gets software threshold/watermark
+
+Its devicetree detail can be accessed from
+Documentation/hte/tegra194-hte.rst.
+
+This driver can be compiled as loadable module and is tested on Jetson
+AGX platform using 0x19 IRQ line which belongs to one of the
+i2c controller 3160000.i2c.
+
+i2cdetect -y 1 from the userspace on this platform should be enough to
+generate this IRQ at such point HTE should be able to generate
+timestamps for this test consumer driver.
 
 Signed-off-by: Dipen Patel <dipenp@nvidia.com>
 ---
- Documentation/hte/index.rst        |  21 ++
- Documentation/hte/tegra194-hte.rst |  65 ++++
- Documentation/index.rst            |   1 +
- drivers/hte/Kconfig                |  12 +
- drivers/hte/Makefile               |   1 +
- drivers/hte/hte-tegra194.c         | 554 +++++++++++++++++++++++++++++
- 6 files changed, 654 insertions(+)
- create mode 100644 Documentation/hte/index.rst
- create mode 100644 Documentation/hte/tegra194-hte.rst
- create mode 100644 drivers/hte/hte-tegra194.c
+ drivers/hte/Kconfig                 |   7 +
+ drivers/hte/Makefile                |   3 +-
+ drivers/hte/hte-tegra194-irq-test.c | 400 ++++++++++++++++++++++++++++
+ 3 files changed, 409 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/hte/hte-tegra194-irq-test.c
 
-diff --git a/Documentation/hte/index.rst b/Documentation/hte/index.rst
-new file mode 100644
-index 000000000000..f311ebec6b47
---- /dev/null
-+++ b/Documentation/hte/index.rst
-@@ -0,0 +1,21 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================================
-+The Linux Hardware Timestamping Engine (HTE)
-+============================================
-+
-+The HTE Subsystem
-+=================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   hte
-+
-+HTE Tegra Provider
-+==================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   tegra194-hte
-\ No newline at end of file
-diff --git a/Documentation/hte/tegra194-hte.rst b/Documentation/hte/tegra194-hte.rst
-new file mode 100644
-index 000000000000..c23eaafcf080
---- /dev/null
-+++ b/Documentation/hte/tegra194-hte.rst
-@@ -0,0 +1,65 @@
-+HTE Kernel provider driver
-+==========================
-+
-+Description
-+-----------
-+The Nvidia tegra194 chip has many hardware timestamping engine (HTE) instances
-+known as generic timestamping engine (GTE). This provider driver implements
-+two GTE instances 1) GPIO GTE and 2) IRQ GTE. The both GTEs instances get the
-+timestamp from the system counter TSC which has 31.25MHz clock rate, and the
-+driver converts clock tick rate to nano seconds before storing it as timestamp
-+value.
-+
-+GPIO GTE
-+--------
-+
-+This GTE instance help timestamps GPIO in real time, for that to happen GPIO
-+needs to be configured as input and IRQ needs to ba enabled as well. The only
-+always on (AON) gpio controller instance supports timestamping GPIOs in
-+realtime and it has 39 GPIO lines. There is also a dependency on AON GPIO
-+controller as it requires very specific bits to be set in GPIO config register.
-+It in a way creates cyclic dependency between GTE and GPIO controller. The GTE
-+GPIO functionality is accessed from the GPIOLIB. It can support both the in
-+kernel and userspace consumers. In the later case, requests go through GPIOLIB
-+CDEV framework. The below APIs are added in GPIOLIB framework to access HTE
-+subsystem and GPIO GTE for in kernel consumers.
-+
-+.. c:function:: int gpiod_hw_timestamp_control( struct gpio_desc *desc, bool enable )
-+
-+	To enable HTE on given GPIO line.
-+
-+.. c:function:: u64 gpiod_get_hw_timestamp( struct gpio_desc *desc, bool block )
-+
-+	To retrieve hardwre timestamp in nano seconds.
-+
-+.. c:function:: bool gpiod_is_hw_timestamp_enabled( const struct gpio_desc *desc )
-+
-+	To query if HTE is enabled on the given GPIO.
-+
-+There is hte-tegra194-gpio-test.c, located in ``drivers/hte/`` directory, test
-+driver which demonstrates above APIs for the Jetson AGX platform. For userspace
-+consumers, GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE flag must be specifed during
-+IOCTL calls, refer ``tools/gpio/gpio-event-mon.c``, which returns the timestamp
-+in nano second.
-+
-+IRQ GTE
-+--------
-+
-+This GTE instance helps timestamp LIC IRQ lines in real time. There are 352 IRQ
-+lines which this instance can help timestamp realtime. The hte devicetree
-+binding described at ``Documentation/devicetree/bindings/hte/`` gives out
-+example how consumer can request IRQ line, since it is one to one mapping,
-+consumers can simply specify IRQ number that they are interested in. There is
-+no userspace consumer support for this GTE instance. The sample test code
-+hte-tegra194-irq-test.c, located in ``drivers/hte/`` directory,
-+demonstrates how to use IRQ GTE instance. The below is sample device tree
-+snippet code for the test driver::
-+
-+ tegra_hte_irq_test {
-+        compatible = "nvidia,tegra194-hte-irq-test";
-+        htes = <&tegra_hte_lic 0x19>;
-+        hte-names = "hte-lic";
-+ };
-+
-+The source code of the driver both IRQ and GPIO GTE is locate at
-+``drivers/hte/hte-tegra194.c``.
-\ No newline at end of file
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 1b13c2445e87..b41118577fe6 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -138,6 +138,7 @@ needed).
-    misc-devices/index
-    scheduler/index
-    mhi/index
-+   hte/index
- 
- Architecture-agnostic documentation
- -----------------------------------
 diff --git a/drivers/hte/Kconfig b/drivers/hte/Kconfig
-index 394e112f7dfb..f7b01fcc7190 100644
+index f7b01fcc7190..c4d335c41254 100644
 --- a/drivers/hte/Kconfig
 +++ b/drivers/hte/Kconfig
-@@ -20,3 +20,15 @@ menuconfig HTE
+@@ -31,4 +31,11 @@ config HTE_TEGRA194
+ 	  systems-on-chip. The driver supports 352 LIC IRQs and 39 AON GPIOs
+ 	  lines for timestamping in realtime.
  
-           If unsure, say no.
- 
-+if HTE
++config HTE_TEGRA194_IRQ_TEST
++        tristate "NVIDIA Tegra194 HTE LIC IRQ Test"
++        depends on HTE_TEGRA194
++        help
++          The NVIDIA Tegra194 GTE IRQ test driver demonstrates HTE subsystem
++	  usage for the LIC IRQ hardware timestamp.
 +
-+config HTE_TEGRA194
-+	tristate "NVIDIA Tegra194 HTE Support"
-+	depends on ARCH_TEGRA_194_SOC
-+	help
-+	  Enable this option for integrated hardware timestamping engine also
-+	  known as generic timestamping engine (GTE) support on NVIDIA Tegra194
-+	  systems-on-chip. The driver supports 352 LIC IRQs and 39 AON GPIOs
-+	  lines for timestamping in realtime.
-+
-+endif
+ endif
 diff --git a/drivers/hte/Makefile b/drivers/hte/Makefile
-index 9899dbe516f7..52f978cfc913 100644
+index 52f978cfc913..b1cde6bc939b 100644
 --- a/drivers/hte/Makefile
 +++ b/drivers/hte/Makefile
-@@ -1 +1,2 @@
+@@ -1,2 +1,3 @@
  obj-$(CONFIG_HTE)		+= hte.o
-+obj-$(CONFIG_HTE_TEGRA194)	+= hte-tegra194.o
+-obj-$(CONFIG_HTE_TEGRA194)	+= hte-tegra194.o
 \ No newline at end of file
-diff --git a/drivers/hte/hte-tegra194.c b/drivers/hte/hte-tegra194.c
++obj-$(CONFIG_HTE_TEGRA194)	+= hte-tegra194.o
++obj-$(CONFIG_HTE_TEGRA194_IRQ_TEST) += hte-tegra194-irq-test.o
+\ No newline at end of file
+diff --git a/drivers/hte/hte-tegra194-irq-test.c b/drivers/hte/hte-tegra194-irq-test.c
 new file mode 100644
-index 000000000000..8ad10efd3641
+index 000000000000..c51eaeb3d1ea
 --- /dev/null
-+++ b/drivers/hte/hte-tegra194.c
-@@ -0,0 +1,554 @@
++++ b/drivers/hte/hte-tegra194-irq-test.c
+@@ -0,0 +1,400 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2021 NVIDIA Corporation
@@ -278,552 +172,398 @@ index 000000000000..8ad10efd3641
 + * Author: Dipen Patel <dipenp@nvidia.com>
 + */
 +
++#include <linux/version.h>
 +#include <linux/err.h>
-+#include <linux/io.h>
 +#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/stat.h>
++#include <linux/moduleparam.h>
 +#include <linux/interrupt.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
 +#include <linux/hte.h>
-+#include <linux/uaccess.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/workqueue.h>
 +
-+#define HTE_SUSPEND	0
++/*
++ * Tegra194 On chip HTE (hardware timestamping engine) also known as GTE
++ * (generic timestamping engine) can monitor LIC (Legacy interrupt controller)
++ * IRQ lines for the event and timestamp accordingly in realtime. Follow
++ * technical reference manual for the IRQ numbers and descriptions.
++ *
++ * This sample HTE IRQ test driver demonstrating HTE API usage by enabling
++ * lic irq line in HTE to monitor and timestamp.
++ */
 +
-+/* HTE source clock TSC is 31.25MHz */
-+#define HTE_TS_CLK_RATE_HZ	31250000ULL
-+#define HTE_CLK_RATE_NS		32
-+#define HTE_TS_NS_SHIFT	__builtin_ctz(HTE_CLK_RATE_NS)
++/*
++ * Used to increase line buffer length to this power in case of the dropped
++ * timestamps.
++ */
++static unsigned int len_pow = 2;
++module_param(len_pow, uint, 0660);
 +
-+#define NV_AON_SLICE_INVALID	-1
++static struct tegra_hte_test {
++	size_t buf_len;
++	bool update_buf_len;
++	struct hte_ts_desc *desc;
++	struct work_struct ev_work;
++	struct kobject *kobj;
++	struct device *pdev;
++} hte;
 +
-+/* AON HTE line map For slice 1 */
-+#define NV_AON_HTE_SLICE1_IRQ_GPIO_28	12
-+#define NV_AON_HTE_SLICE1_IRQ_GPIO_29	13
-+
-+/* AON HTE line map For slice 2 */
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_0	0
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_1	1
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_2	2
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_3	3
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_4	4
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_5	5
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_6	6
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_7	7
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_8	8
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_9	9
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_10	10
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_11	11
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_12	12
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_13	13
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_14	14
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_15	15
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_16	16
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_17	17
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_18	18
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_19	19
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_20	20
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_21	21
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_22	22
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_23	23
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_24	24
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_25	25
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_26	26
-+#define NV_AON_HTE_SLICE2_IRQ_GPIO_27	27
-+
-+/* AON GPIO port AA pins */
-+#define NV_AON_GPIO_PORT_AA_0		0
-+#define NV_AON_GPIO_PORT_AA_1		1
-+#define NV_AON_GPIO_PORT_AA_2		2
-+#define NV_AON_GPIO_PORT_AA_3		3
-+#define NV_AON_GPIO_PORT_AA_4		4
-+#define NV_AON_GPIO_PORT_AA_5		5
-+#define NV_AON_GPIO_PORT_AA_6		6
-+#define NV_AON_GPIO_PORT_AA_7		7
-+
-+/* AON GPIO port BB pins */
-+#define NV_AON_GPIO_PORT_BB_0		8
-+#define NV_AON_GPIO_PORT_BB_1		9
-+#define NV_AON_GPIO_PORT_BB_2		10
-+#define NV_AON_GPIO_PORT_BB_3		11
-+
-+/* AON GPIO port CC pins */
-+#define NV_AON_GPIO_PORT_CC_0		16
-+#define NV_AON_GPIO_PORT_CC_1		17
-+#define NV_AON_GPIO_PORT_CC_2		18
-+#define NV_AON_GPIO_PORT_CC_3		19
-+#define NV_AON_GPIO_PORT_CC_4		20
-+#define NV_AON_GPIO_PORT_CC_5		21
-+#define NV_AON_GPIO_PORT_CC_6		22
-+#define NV_AON_GPIO_PORT_CC_7		23
-+
-+/* AON GPIO port DD pins */
-+#define NV_AON_GPIO_PORT_DD_0		24
-+#define NV_AON_GPIO_PORT_DD_1		25
-+#define NV_AON_GPIO_PORT_DD_2		26
-+
-+/* AON GPIO port EE pins */
-+#define NV_AON_GPIO_PORT_EE_0		32
-+#define NV_AON_GPIO_PORT_EE_1		33
-+#define NV_AON_GPIO_PORT_EE_2		34
-+#define NV_AON_GPIO_PORT_EE_3		35
-+#define NV_AON_GPIO_PORT_EE_4		36
-+#define NV_AON_GPIO_PORT_EE_5		37
-+#define NV_AON_GPIO_PORT_EE_6		38
-+
-+
-+#define HTE_TECTRL		0x0
-+#define HTE_TETSCH		0x4
-+#define HTE_TETSCL		0x8
-+#define HTE_TESRC		0xC
-+#define HTE_TECCV		0x10
-+#define HTE_TEPCV		0x14
-+#define HTE_TECMD		0x1C
-+#define HTE_TESTATUS		0x20
-+#define HTE_SLICE0_TETEN	0x40
-+#define HTE_SLICE1_TETEN	0x60
-+
-+#define HTE_SLICE_SIZE		(HTE_SLICE1_TETEN - HTE_SLICE0_TETEN)
-+
-+#define HTE_TECTRL_ENABLE_ENABLE	0x1
-+
-+#define HTE_TECTRL_OCCU_SHIFT		0x8
-+#define HTE_TECTRL_INTR_SHIFT		0x1
-+#define HTE_TECTRL_INTR_ENABLE		0x1
-+
-+#define HTE_TESRC_SLICE_SHIFT		16
-+#define HTE_TESRC_SLICE_DEFAULT_MASK	0xFF
-+
-+#define HTE_TECMD_CMD_POP		0x1
-+
-+#define HTE_TESTATUS_OCCUPANCY_SHIFT	8
-+#define HTE_TESTATUS_OCCUPANCY_MASK	0xFF
-+
-+struct hte_slices {
-+	u32 r_val;
-+	unsigned long flags;
-+	/* to prevent lines mapped to same slice updating its register */
-+	spinlock_t s_lock;
-+};
-+
-+struct tegra_hte_line_mapped {
-+	int slice;
-+	u32 bit_index;
-+};
-+
-+struct tegra_hte_line_table {
-+	int map_sz;
-+	const struct tegra_hte_line_mapped *map;
-+};
-+
-+struct tegra_hte_soc {
-+	int hte_irq;
-+	u32 itr_thrshld;
-+	u32 conf_rval;
-+	struct hte_slices *sl;
-+	const struct tegra_hte_line_table *line_map;
-+	struct hte_chip *chip;
-+	void __iomem *regs;
-+};
-+
-+static const struct tegra_hte_line_mapped tegra194_aon_gpio_map[] = {
-+	/* gpio, slice, bit_index */
-+	[NV_AON_GPIO_PORT_AA_0]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_11},
-+	[NV_AON_GPIO_PORT_AA_1]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_10},
-+	[NV_AON_GPIO_PORT_AA_2]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_9},
-+	[NV_AON_GPIO_PORT_AA_3]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_8},
-+	[NV_AON_GPIO_PORT_AA_4]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_7},
-+	[NV_AON_GPIO_PORT_AA_5]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_6},
-+	[NV_AON_GPIO_PORT_AA_6]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_5},
-+	[NV_AON_GPIO_PORT_AA_7]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_4},
-+	[NV_AON_GPIO_PORT_BB_0]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_3},
-+	[NV_AON_GPIO_PORT_BB_1]  = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_2},
-+	[NV_AON_GPIO_PORT_BB_2] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_1},
-+	[NV_AON_GPIO_PORT_BB_3] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_0},
-+	[12] = {NV_AON_SLICE_INVALID, 0},
-+	[13] = {NV_AON_SLICE_INVALID, 0},
-+	[14] = {NV_AON_SLICE_INVALID, 0},
-+	[15] = {NV_AON_SLICE_INVALID, 0},
-+	[NV_AON_GPIO_PORT_CC_0] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_22},
-+	[NV_AON_GPIO_PORT_CC_1] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_21},
-+	[NV_AON_GPIO_PORT_CC_2] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_20},
-+	[NV_AON_GPIO_PORT_CC_3] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_19},
-+	[NV_AON_GPIO_PORT_CC_4] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_18},
-+	[NV_AON_GPIO_PORT_CC_5] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_17},
-+	[NV_AON_GPIO_PORT_CC_6] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_16},
-+	[NV_AON_GPIO_PORT_CC_7] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_15},
-+	[NV_AON_GPIO_PORT_DD_0] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_14},
-+	[NV_AON_GPIO_PORT_DD_1] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_13},
-+	[NV_AON_GPIO_PORT_DD_2] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_12},
-+	[27] = {NV_AON_SLICE_INVALID, 0},
-+	[28] = {NV_AON_SLICE_INVALID, 0},
-+	[29] = {NV_AON_SLICE_INVALID, 0},
-+	[30] = {NV_AON_SLICE_INVALID, 0},
-+	[31] = {NV_AON_SLICE_INVALID, 0},
-+	[NV_AON_GPIO_PORT_EE_0] = {1, NV_AON_HTE_SLICE1_IRQ_GPIO_29},
-+	[NV_AON_GPIO_PORT_EE_1] = {1, NV_AON_HTE_SLICE1_IRQ_GPIO_28},
-+	[NV_AON_GPIO_PORT_EE_2] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_27},
-+	[NV_AON_GPIO_PORT_EE_3] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_26},
-+	[NV_AON_GPIO_PORT_EE_4] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_25},
-+	[NV_AON_GPIO_PORT_EE_5] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_24},
-+	[NV_AON_GPIO_PORT_EE_6] = {2, NV_AON_HTE_SLICE2_IRQ_GPIO_23},
-+};
-+
-+static const struct tegra_hte_line_table aon_hte_map = {
-+	.map_sz = ARRAY_SIZE(tegra194_aon_gpio_map),
-+	.map = tegra194_aon_gpio_map,
-+};
-+
-+static inline u32 tegra_hte_readl(struct tegra_hte_soc *hte, u32 reg)
++static void hte_callback(enum hte_notify n)
 +{
-+	return readl(hte->regs + reg);
-+}
-+
-+static inline void tegra_hte_writel(struct tegra_hte_soc *hte, u32 reg,
-+				    u32 val)
-+{
-+	writel(val, hte->regs + reg);
-+}
-+
-+static inline int tegra_hte_map_to_line_id(u32 eid, struct tegra_hte_soc *gs,
-+					  u32 *mapped)
-+{
-+	const struct tegra_hte_line_mapped *m;
-+
-+	if (gs->line_map) {
-+		m = gs->line_map->map;
-+		if (eid > gs->line_map->map_sz)
-+			return -EINVAL;
-+		if (m[eid].slice == NV_AON_SLICE_INVALID)
-+			return -EINVAL;
-+
-+		*mapped = (m[eid].slice << 5) + m[eid].bit_index;
++	if (n == HTE_TS_AVAIL) {
++		hte.update_buf_len = false;
++	} else if (n == HTE_TS_DROPPED) {
++		dev_info(hte.pdev, "Timestamp dropped\n");
++		hte.update_buf_len = true;
 +	} else {
-+		*mapped = eid;
++		dev_dbg(hte.pdev, "Wrong notify value (%d)\n", n);
++		return;
 +	}
-+
-+	return 0;
++	schedule_work(&hte.ev_work);
 +}
 +
-+static int tegra_hte_line_xlate(struct hte_chip *gc,
-+				 const struct of_phandle_args *args,
-+				 struct hte_ts_desc *desc, u32 *xlated_id)
++static void tegra_hte_irq_get_ts(void)
 +{
-+	int ret = 0;
++	int ret, i;
++	size_t avail;
++	struct hte_ts_data *el;
 +
-+	if (!gc || !desc || !xlated_id)
-+		return -EINVAL;
++	avail = hte_available_ts(hte.desc);
 +
-+	if (args) {
-+		if (gc->of_hte_n_cells < 1)
-+			return -EINVAL;
-+
-+		if (args->args_count != gc->of_hte_n_cells)
-+			return -EINVAL;
-+
-+		desc->con_id = args->args[0];
++	/*
++	 * Workqueue only got scheduled from the hte_callback, it is highly
++	 * unlikely that there is no timestamp to retrieve.
++	 */
++	if (unlikely(!avail)) {
++		dev_dbg(hte.pdev, "timestamp not available\n");
++		goto error;
 +	}
 +
-+	ret = tegra_hte_map_to_line_id(desc->con_id, gc->data,
-+				       xlated_id);
++	el = kzalloc(avail * sizeof(*el), GFP_KERNEL);
++	if (!el) {
++		dev_dbg(hte.pdev, "Can not allocate %lu bytes memory\n",
++			avail * sizeof(*el));
++		/*
++		 * We have two options here:
++		 * 1. Release the line as system is running low memory.
++		 * 2. Run an loop to retrieve an element till its drained.
++		 *
++		 * We will use 1st option.
++		 */
++		goto error;
++	}
++
++	ret = hte_retrieve_ts_ns_wait(hte.desc, el, avail);
 +	if (ret < 0) {
-+		dev_dbg(gc->dev, "con_id:%u mapping failed\n",
-+			desc->con_id);
-+		return ret;
++		dev_dbg(hte.pdev,
++			"Something went wrong retrieving timestamp data\n");
++		kfree(el);
++		goto error;
 +	}
 +
-+	if (*xlated_id > gc->nlines)
-+		return -EINVAL;
-+
-+	dev_dbg(gc->dev, "requested id:%u, xlated id:%u\n",
-+		desc->con_id, *xlated_id);
-+
-+	return 0;
-+}
-+
-+static int tegra_hte_en_dis_common(struct hte_chip *chip, u32 line_id, bool en)
-+{
-+	u32 slice, sl_bit_shift, line_bit, val, reg;
-+	struct tegra_hte_soc *gs;
-+
-+	sl_bit_shift = __builtin_ctz(HTE_SLICE_SIZE);
-+
-+	if (!chip)
-+		return -EINVAL;
-+
-+	gs = (struct tegra_hte_soc *)chip->data;
-+
-+	if (line_id > chip->nlines) {
-+		dev_err(chip->dev,
-+			"line id: %u is not supported by this controller\n",
-+			line_id);
-+		return -EINVAL;
++	for (i = 0; i < avail; i++) {
++		dev_info(hte.pdev, "IRQ HW timestamp(%llu): %llu, edge: %s\n",
++			 el[i].seq, el[i].tsc,
++			 (el[i].dir == 1) ? "rising" : "falling");
 +	}
 +
-+	slice = line_id >> sl_bit_shift;
-+	line_bit = line_id & (HTE_SLICE_SIZE - 1);
-+	reg = (slice << sl_bit_shift) + HTE_SLICE0_TETEN;
++	kfree(el);
 +
-+	spin_lock(&gs->sl[slice].s_lock);
++	return;
 +
-+	if (test_bit(HTE_SUSPEND, &gs->sl[slice].flags)) {
-+		spin_unlock(&gs->sl[slice].s_lock);
-+		dev_dbg(chip->dev, "device suspended");
-+		return -EBUSY;
-+	}
-+
-+	val = tegra_hte_readl(gs, reg);
-+	if (en)
-+		val = val | (1 << line_bit);
-+	else
-+		val = val & (~(1 << line_bit));
-+	tegra_hte_writel(gs, reg, val);
-+
-+	spin_unlock(&gs->sl[slice].s_lock);
-+
-+	dev_dbg(chip->dev, "line: %u, slice %u, line_bit %u, reg:0x%x\n",
-+		line_id, slice, line_bit, reg);
-+
-+	return 0;
++error:
++	hte_release_ts(hte.desc);
 +}
 +
-+static int tegra_hte_request(struct hte_chip *chip, u32 line_id)
++static void hte_ts_work(struct work_struct *data)
 +{
-+	return tegra_hte_en_dis_common(chip, line_id, true);
-+}
++	size_t temp;
++	int ret;
++	(void) data;
 +
-+static int tegra_hte_release(struct hte_chip *chip, u32 line_id)
-+{
-+	return tegra_hte_en_dis_common(chip, line_id, false);
-+}
-+
-+static int tegra_hte_clk_src_info(struct hte_chip *chip,
-+				  struct hte_clk_info *ci)
-+{
-+	(void)chip;
-+
-+	ci->hz = HTE_TS_CLK_RATE_HZ;
-+	ci->type = CLOCK_MONOTONIC;
-+
-+	return 0;
-+}
-+
-+static void tegra_hte_read_fifo(struct tegra_hte_soc *gs)
-+{
-+	u32 tsh, tsl, src, pv, cv, acv, slice, bit_index, line_id;
-+	u64 tsc;
-+	int dir;
-+	struct hte_ts_data el;
-+
-+	while ((tegra_hte_readl(gs, HTE_TESTATUS) >>
-+		HTE_TESTATUS_OCCUPANCY_SHIFT) &
-+		HTE_TESTATUS_OCCUPANCY_MASK) {
-+		tsh = tegra_hte_readl(gs, HTE_TETSCH);
-+		tsl = tegra_hte_readl(gs, HTE_TETSCL);
-+		tsc = (((u64)tsh << 32) | tsl);
-+
-+		src = tegra_hte_readl(gs, HTE_TESRC);
-+		slice = (src >> HTE_TESRC_SLICE_SHIFT) &
-+			    HTE_TESRC_SLICE_DEFAULT_MASK;
-+
-+		pv = tegra_hte_readl(gs, HTE_TEPCV);
-+		cv = tegra_hte_readl(gs, HTE_TECCV);
-+		acv = pv ^ cv;
-+		while (acv) {
-+			bit_index = __builtin_ctz(acv);
-+			if ((pv >> bit_index) & BIT(0))
-+				dir = HTE_EVENT_RISING_EDGE;
-+			else
-+				dir = HTE_EVENT_FALLING_EDGE;
-+
-+			line_id = bit_index + (slice << 5);
-+			el.dir = dir;
-+			el.tsc = tsc << HTE_TS_NS_SHIFT;
-+			hte_push_ts_ns_atomic(gs->chip, line_id, &el,
-+					      sizeof(el));
-+			acv &= ~BIT(bit_index);
++	if (hte.update_buf_len) {
++		ret = hte_disable_ts(hte.desc);
++		if (ret) {
++			dev_err(hte.pdev, "Not able to disable line\n");
++			goto error;
 +		}
-+		tegra_hte_writel(gs, HTE_TECMD, HTE_TECMD_CMD_POP);
++
++		temp = hte.buf_len * len_pow;
++		ret = hte_set_buf_len(hte.desc, temp);
++		if (ret) {
++			dev_err(hte.pdev, "Not able to set new buf len (%lu)\n",
++				temp);
++			goto error;
++		}
++
++		hte.buf_len = hte_get_buf_len(hte.desc);
++		if (unlikely(hte.buf_len != temp)) {
++			dev_err(hte.pdev, "New length is (%lu) != (%lu)\n",
++				hte.buf_len, temp);
++			goto error;
++		}
++
++		dev_dbg(hte.pdev, "New buffer length (%lu)\n", hte.buf_len);
++		hte.update_buf_len = false;
++		ret = hte_enable_ts(hte.desc);
++		if (ret) {
++			dev_err(hte.pdev, "failed to enable line\n");
++			goto error;
++		}
++
++		return;
 +	}
++
++	tegra_hte_irq_get_ts();
++
++	return;
++
++error:
++	hte_release_ts(hte.desc);
 +}
 +
-+static irqreturn_t tegra_hte_isr(int irq, void *dev_id)
++/*
++ * Sysfs attribute to request/release HTE IRQ line.
++ */
++static ssize_t store_en_dis(struct kobject *kobj,
++			    struct kobj_attribute *attr,
++			    const char *buf, size_t count)
 +{
-+	struct tegra_hte_soc *gs = dev_id;
++	int ret = count;
++	unsigned long val = 0;
++	struct hte_clk_info ci;
 +
-+	tegra_hte_read_fifo(gs);
++	if (kstrtoul(buf, 10, &val) < 0) {
++		ret = -EINVAL;
++		goto error;
++	}
 +
-+	return IRQ_HANDLED;
++	if (val == 1) {
++		if (hte.desc) {
++			ret = -EEXIST;
++			goto error;
++		}
++
++		hte.desc = devm_of_hte_request_ts(hte.pdev, "hte-lic",
++						  hte_callback);
++		if (IS_ERR(hte.desc)) {
++			ret = PTR_ERR(hte.desc);
++			hte.desc = NULL;
++			goto error;
++		}
++
++		hte_get_clk_src_info(hte.desc, &ci);
++		dev_info(hte.pdev, "clk rate:%llu, clk type: %d\n",
++			 ci.hz, ci.type);
++
++		hte.buf_len = hte_get_buf_len(hte.desc);
++		if (hte.buf_len < 0) {
++			ret = hte.buf_len;
++			hte_release_ts(hte.desc);
++			hte.desc = NULL;
++			goto error;
++		}
++	} else if (val == 0) {
++		if (!hte.desc) {
++			ret = -EINVAL;
++			goto error;
++		}
++		/*
++		 * Ideally, you never need to call this API, simply removing
++		 * this module should be enough, it is being called here just
++		 * for demonstration.
++		 */
++		ret = devm_hte_release_ts(hte.pdev, hte.desc);
++		if (ret)
++			goto error;
++
++		hte.desc = NULL;
++	}
++
++	ret = count;
++
++error:
++	return ret;
 +}
 +
-+static const struct of_device_id tegra_hte_of_match[] = {
-+	{ .compatible = "nvidia,tegra194-gte-lic"},
-+	{ .compatible = "nvidia,tegra194-gte-aon", .data = &aon_hte_map},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, tegra_hte_of_match);
++struct kobj_attribute en_dis_attr =
++		__ATTR(en_dis, 0220, NULL, store_en_dis);
 +
-+static const struct hte_ops g_ops = {
-+	.request = tegra_hte_request,
-+	.release = tegra_hte_release,
-+	.enable = tegra_hte_request,
-+	.disable = tegra_hte_release,
-+	.get_clk_src_info = tegra_hte_clk_src_info,
++/*
++ * Sysfs attribute to set/get watermark.
++ */
++static ssize_t store_watermark(struct kobject *kobj,
++			       struct kobj_attribute *attr,
++			       const char *buf, size_t count)
++{
++	int ret = count;
++	size_t val = 0;
++
++	if (kstrtoul(buf, 10, &val) < 0) {
++		ret = -EINVAL;
++		goto error;
++	}
++
++	if (hte.desc) {
++		ret = hte_set_buf_watermark(hte.desc, val);
++		if (ret < 0)
++			goto error;
++	} else {
++		ret = -EINVAL;
++		goto error;
++	}
++
++	ret = count;
++
++error:
++	return ret;
++}
++
++static ssize_t show_watermark(struct kobject *kobj,
++			      struct kobj_attribute *attr,
++			      char *buf)
++{
++	size_t ret;
++
++	if (hte.desc) {
++		ret = hte_get_buf_watermark(hte.desc);
++		if (!ret)
++			goto error;
++	} else {
++		goto error;
++	}
++
++	return scnprintf(buf, PAGE_SIZE, "%lu\n", ret);
++
++error:
++	return -EINVAL;
++}
++
++struct kobj_attribute watermark_attr =
++		__ATTR(watermark, 0660, show_watermark, store_watermark);
++
++/*
++ * Sysfs attribute to set/get buffer.
++ */
++static ssize_t store_buf_len(struct kobject *kobj,
++			     struct kobj_attribute *attr,
++			     const char *buf, size_t count)
++{
++	int ret = count;
++	size_t val = 0;
++
++	if (kstrtoul(buf, 10, &val) < 0) {
++		ret = -EINVAL;
++		goto error;
++	}
++
++	if (hte.desc) {
++		ret = hte_set_buf_len(hte.desc, val);
++		if (ret < 0)
++			goto error;
++	} else {
++		ret = -EINVAL;
++		goto error;
++	}
++
++	ret = count;
++
++error:
++	return ret;
++}
++
++static ssize_t show_buf_len(struct kobject *kobj,
++			    struct kobj_attribute *attr,
++			    char *buf)
++{
++	size_t ret;
++
++	if (hte.desc) {
++		ret = hte_get_buf_len(hte.desc);
++		if (!ret)
++			goto error;
++	} else {
++		goto error;
++	}
++
++	return scnprintf(buf, PAGE_SIZE, "%lu\n", ret);
++
++error:
++	return -EINVAL;
++}
++
++struct kobj_attribute buf_len_attr =
++		__ATTR(buf_len, 0660, show_buf_len, store_buf_len);
++
++static struct attribute *attrs[] = {
++	&en_dis_attr.attr,
++	&watermark_attr.attr,
++	&buf_len_attr.attr,
++	NULL,
 +};
 +
-+static int tegra_hte_probe(struct platform_device *pdev)
++static struct attribute_group tegra_hte_test_attr_group = {
++	.attrs = attrs,
++};
++
++static int tegra_hte_test_sysfs_create(void)
 +{
 +	int ret;
-+	u32 i, slices, val = 0;
-+	struct device *dev;
-+	struct tegra_hte_soc *hte_dev;
-+	struct hte_chip *gc;
 +
-+	dev = &pdev->dev;
-+
-+	hte_dev = devm_kzalloc(dev, sizeof(*hte_dev), GFP_KERNEL);
-+	if (!hte_dev)
++	/* Creates /sys/kernel/tegra_hte_irq_test */
++	hte.kobj = kobject_create_and_add("tegra_hte_irq_test", kernel_kobj);
++	if (!hte.kobj)
 +		return -ENOMEM;
 +
-+	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-+	if (!gc)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&pdev->dev, hte_dev);
-+	hte_dev->line_map = of_device_get_match_data(&pdev->dev);
-+
-+	hte_dev->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(hte_dev->regs))
-+		return PTR_ERR(hte_dev->regs);
-+
-+	ret = of_property_read_u32(dev->of_node, "int-threshold",
-+				   &hte_dev->itr_thrshld);
-+	if (ret != 0)
-+		hte_dev->itr_thrshld = 1;
-+
-+	ret = of_property_read_u32(dev->of_node, "slices", &slices);
-+	if (ret != 0) {
-+		dev_err(dev, "Could not read slices\n");
-+		return -EINVAL;
-+	}
-+
-+	hte_dev->sl = devm_kzalloc(dev, sizeof(struct hte_slices) * slices,
-+				   GFP_KERNEL);
-+	if (!hte_dev->sl)
-+		return -ENOMEM;
-+
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0) {
-+		dev_err(dev, "get irq failed.\n");
-+		return ret;
-+	}
-+	hte_dev->hte_irq = ret;
-+	ret = devm_request_irq(dev, hte_dev->hte_irq, tegra_hte_isr, 0,
-+			       dev_name(dev), hte_dev);
-+	if (ret < 0) {
-+		dev_err(dev, "request irq failed.\n");
-+		return ret;
-+	}
-+
-+	gc->nlines = slices << 5;
-+	gc->ops = &g_ops;
-+	gc->dev = dev;
-+	hte_dev->chip = gc;
-+	gc->data = (void *)hte_dev;
-+	gc->xlate = tegra_hte_line_xlate;
-+	gc->of_hte_n_cells = 1;
-+
-+	ret = hte_register_chip(hte_dev->chip);
-+
++	ret = sysfs_create_group(hte.kobj, &tegra_hte_test_attr_group);
 +	if (ret)
-+		dev_err(gc->dev, "hte chip register failed");
-+
-+	for (i = 0; i < slices; i++) {
-+		hte_dev->sl[i].flags = 0;
-+		spin_lock_init(&hte_dev->sl[i].s_lock);
-+	}
-+
-+	val = HTE_TECTRL_ENABLE_ENABLE |
-+	      (HTE_TECTRL_INTR_ENABLE << HTE_TECTRL_INTR_SHIFT) |
-+	      (hte_dev->itr_thrshld << HTE_TECTRL_OCCU_SHIFT);
-+	tegra_hte_writel(hte_dev, HTE_TECTRL, val);
-+
-+	dev_dbg(gc->dev, "lines: %d, slices:%d", gc->nlines, slices);
-+	return 0;
++		kobject_put(hte.kobj);
++	return ret;
 +}
 +
-+static int tegra_hte_remove(struct platform_device *pdev)
-+{
-+	struct tegra_hte_soc *gs = dev_get_drvdata(&pdev->dev);
-+
-+	tegra_hte_writel(gs, HTE_TECTRL, 0);
-+
-+	return hte_unregister_chip(gs->chip);
-+}
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int tegra_hte_resume_early(struct device *dev)
-+{
-+	u32 i;
-+	struct tegra_hte_soc *gs = dev_get_drvdata(dev);
-+	u32 slices = gs->chip->nlines >> 5;
-+	u32 sl_bit_shift = __builtin_ctz(HTE_SLICE_SIZE);
-+
-+	tegra_hte_writel(gs, HTE_TECTRL, gs->conf_rval);
-+
-+	for (i = 0; i < slices; i++) {
-+		spin_lock(&gs->sl[i].s_lock);
-+		tegra_hte_writel(gs,
-+				 ((i << sl_bit_shift) + HTE_SLICE0_TETEN),
-+				 gs->sl[i].r_val);
-+		clear_bit(HTE_SUSPEND, &gs->sl[i].flags);
-+		spin_unlock(&gs->sl[i].s_lock);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tegra_hte_suspend_late(struct device *dev)
-+{
-+	u32 i;
-+	struct tegra_hte_soc *gs = dev_get_drvdata(dev);
-+	u32 slices = gs->chip->nlines >> 5;
-+	u32 sl_bit_shift = __builtin_ctz(HTE_SLICE_SIZE);
-+
-+	gs->conf_rval = tegra_hte_readl(gs, HTE_TECTRL);
-+	for (i = 0; i < slices; i++) {
-+		spin_lock(&gs->sl[i].s_lock);
-+		gs->sl[i].r_val = tegra_hte_readl(gs,
-+				((i << sl_bit_shift) + HTE_SLICE0_TETEN));
-+		set_bit(HTE_SUSPEND, &gs->sl[i].flags);
-+		spin_unlock(&gs->sl[i].s_lock);
-+	}
-+
-+	return 0;
-+}
-+#endif
-+
-+static const struct dev_pm_ops tegra_hte_pm = {
-+	SET_LATE_SYSTEM_SLEEP_PM_OPS(tegra_hte_suspend_late,
-+				     tegra_hte_resume_early)
++static const struct of_device_id tegra_hte_irq_test_of_match[] = {
++	{ .compatible = "nvidia,tegra194-hte-irq-test"},
++	{ }
 +};
++MODULE_DEVICE_TABLE(of, tegra_hte_irq_test_of_match);
 +
-+static struct platform_driver tegra_hte_driver = {
-+	.probe = tegra_hte_probe,
-+	.remove = tegra_hte_remove,
++static int tegra_hte_test_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	dev_set_drvdata(&pdev->dev, &hte);
++	hte.pdev = &pdev->dev;
++
++	ret = tegra_hte_test_sysfs_create();
++	if (ret != 0) {
++		dev_err(hte.pdev, "sysfs creation failed\n");
++		return -ENXIO;
++	}
++
++	INIT_WORK(&hte.ev_work, hte_ts_work);
++
++	return 0;
++}
++
++static int tegra_hte_test_remove(struct platform_device *pdev)
++{
++	cancel_work_sync(&hte.ev_work);
++	kobject_put(hte.kobj);
++
++	return 0;
++}
++
++static struct platform_driver tegra_hte_irq_test_driver = {
++	.probe = tegra_hte_test_probe,
++	.remove = tegra_hte_test_remove,
 +	.driver = {
-+		.name = "tegra_hte",
-+		.pm = &tegra_hte_pm,
-+		.of_match_table = tegra_hte_of_match,
++		.name = "tegra_hte_irq_test",
++		.of_match_table = tegra_hte_irq_test_of_match,
 +	},
 +};
-+
-+module_platform_driver(tegra_hte_driver);
++module_platform_driver(tegra_hte_irq_test_driver);
 +
 +MODULE_AUTHOR("Dipen Patel <dipenp@nvidia.com>");
-+MODULE_DESCRIPTION("NVIDIA Tegra HTE (Hardware Timestamping Engine) driver");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.17.1
