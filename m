@@ -2,142 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF04CC2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:24:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E050C2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:35:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 956416143C
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:24:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 273CC6143D
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231357AbhFYK0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 06:26:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45232 "EHLO mail.kernel.org"
+        id S230436AbhFYKh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 06:37:58 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:7730 "EHLO pegase1.c-s.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230415AbhFYK0s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Jun 2021 06:26:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EF7A6143A;
-        Fri, 25 Jun 2021 10:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624616668;
-        bh=JOa2aODdvv5nC4XSkenIOmeGwvK4PewRAGSrpjXeLM0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AOMvPMSGDWnxWfbU8uTMmCA5dgJIm1k2JHo9sF411sSHSvSTn4g84b/ZpyGbyVPcj
-         gzJX8da29H7/szVsel2p1h+I7rtOsoVyyefCqLD2sb7wBPwh9FRlFbbqI7iYS9iOFc
-         1xntmeKZMC1prvDYVpEXF7L018msd/qea6yRYVccrdac4l52UWyGgwya7eQl00Br7Y
-         THL7OHInjROnrnB5pEWmCgWNPuVLrqBI1KmoUmKLFSiyXFnOKTVTn9qm3m5fWOk9oK
-         OYyHOu346xZDQiD3+AhCKLYKQjDsNg1mxsrjU4IwewBFw0qYnp3CFpmeYKUzdeL+t9
-         y7pb8affg5tqw==
-Date:   Fri, 25 Jun 2021 12:24:23 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
-        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK
- ascii-art
-Message-ID: <20210625122423.4435c5e9@coco.lan>
-In-Reply-To: <ae0a7623-7ec4-937b-4b93-8435f2e94eb9@gmail.com>
-References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
-        <20210625065524.GA11219@bobwxc.top>
-        <20210625095059.7f97fd62@coco.lan>
-        <ae0a7623-7ec4-937b-4b93-8435f2e94eb9@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229956AbhFYKh4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jun 2021 06:37:56 -0400
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+        by localhost (Postfix) with ESMTP id 4GBD0z3dZ6zB9GQ;
+        Fri, 25 Jun 2021 12:35:31 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id DPWbp_anq0a9; Fri, 25 Jun 2021 12:35:31 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 4GBD0y1tdWzB9HV;
+        Fri, 25 Jun 2021 12:35:30 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 3003D8B802;
+        Fri, 25 Jun 2021 12:35:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id yWD0eHdKLnYP; Fri, 25 Jun 2021 12:35:25 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 617A68B7FF;
+        Fri, 25 Jun 2021 12:35:24 +0200 (CEST)
+Subject: Re: [PATCH] powerpc: mark local variables around longjmp as volatile
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20210429080708.1520360-1-arnd@kernel.org>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <5e3a48a2-3ce2-fadb-ee3d-4241bacf618f@csgroup.eu>
+Date:   Fri, 25 Jun 2021 12:35:11 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210429080708.1520360-1-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 25 Jun 2021 18:22:26 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> On Fri, 25 Jun 2021 09:50:59 +0200, Mauro Carvalho Chehab wrote:
-> > Em Fri, 25 Jun 2021 14:55:24 +0800
-> > "Wu X.C." <bobwxc@email.cn> escreveu:
-> >  =20
-> >> On Thu, Jun 24, 2021 at 09:06:59PM +0900, Akira Yokosawa wrote: =20
-> >>> Subject: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK asci=
-i-art
-> >>>
-> >>> Hi all,   =20
-> >>
-> >> Hi Akira,
-> >> =20
-> >>>
-> >>> This is another attempt to improve translations' pdf output.
-> >>> I see there is a mismatch in the font choice for CJK documents, which
-> >>> causes poor-looking ascii-art where CJK characters and Latin letters
-> >>> are mixed used.
-> >>>
-> >>> One of noticeable examples of such ascii-art can be found in
-> >>> Korean translation of memory-barriers.txt.
-> >>>
-> >>> Hence the author of Korean translation of memory-barriers.txt is
-> >>> in the CC list.
-> >>>
-> >>> At first, I thought the issue could be fixed by simply selecting
-> >>> "Noto Sans Mono CJK SC" as both of monofont and CJKmonofont.
-> >>> It fixed the mis-alignment in the Chinese translation, but failed
-> >>> in the Korean translation.
-> >>>
-> >>> It turns out that Hangul characters in "Noto Sans Mono CJK SC"
-> >>> are slightly narrower than Chinese and Japanese counterparts.
-> >>> I have no idea why the so-called "mono" font has non-uniform
-> >>> character widths.
-> >>>
-> >>> GNU Unifont is an alternative monospace font which covers
-> >>> almost all Unicode codepoints.
-> >>> However, due to its bitmap-font nature, the resulting document
-> >>> might not be acceptable to Korean readers, I guess.   =20
-> >>
-> >> OK, it works.
-> >>
-> >> But I still want to say that the display effect of Unifont is really
-> >> not good. Unifont's lattice is too small, and only one size.
-> >> http://fars.ee/QA1k.jpg	    http://fars.ee/GAAv.jpg
-> >> Looks like computers 20 years ago, LOL :)
-> >>
-> >> It there any chance to use other fonts, like *Sarasa Mono* ?
-> >>                                               =E7=AD=89=E8=B7=9D=E6=9B=
-=B4=E7=B4=97=E9=BB=91=E9=AB=94
-> >> Looks more beautifull http://fars.ee/DTT6.jpg
-> >> But I guess not many people installed it. =20
->=20
-> Thank you for the nice suggestion.
-> Yes, Hangul characters in "Sarasa Mono" have the same widths.
->=20
-> >=20
-> > Does Sarasa mono looks nice for Japanese, Chinese and Korean
-> > (plus latin)? =20
->=20
-> Yes, I tested "Sarasa Mono SC" and it covers all CJK fonts.
-> The SC variant has Simple Chinese glyph where other languages
-> have their own preferred glyph, but that is same in "Noto Sans
-> Mono SC".
->=20
-> Currently, there is no verbatim/literal blocks in the Japanese
-> translation, so I tested with only a short Japanese sentence.
->=20
-> I'll post a v2 which uses "Sarasa Mono SC" instead of Unifont.
->=20
-> >=20
-> > If so, I guess it shouldn't be a problem to use it, as the
-> > ./scripts/sphinx-pre-install can be patched to recommend
-> > its install. =20
->=20
-> One minor problem might be that the Sarasa font needs manual
-> download (and install).
->=20
->         Thanks, Akira
 
-If this is not yet packaged as part of texlive packages
-on distros, this won't be a minor issue, as we'll need
-to find procedures and test it for all distros supported
-by the script.
+Le 29/04/2021 à 10:06, Arnd Bergmann a écrit :
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> gcc-11 points out that modifying local variables next to a
+> longjmp/setjmp may cause undefined behavior:
+> 
+> arch/powerpc/kexec/crash.c: In function 'crash_kexec_prepare_cpus.constprop':
+> arch/powerpc/kexec/crash.c:108:22: error: variable 'ncpus' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbere
+> d]
+> arch/powerpc/kexec/crash.c:109:13: error: variable 'tries' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbere
+> d]
+> arch/powerpc/xmon/xmon.c: In function 'xmon_print_symbol':
+> arch/powerpc/xmon/xmon.c:3625:21: error: variable 'name' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'stop_spus':
+> arch/powerpc/xmon/xmon.c:4057:13: error: variable 'i' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'restart_spus':
+> arch/powerpc/xmon/xmon.c:4098:13: error: variable 'i' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'dump_opal_msglog':
+> arch/powerpc/xmon/xmon.c:3008:16: error: variable 'pos' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'show_pte':
+> arch/powerpc/xmon/xmon.c:3207:29: error: variable 'tsk' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'show_tasks':
+> arch/powerpc/xmon/xmon.c:3302:29: error: variable 'tsk' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c: In function 'xmon_core':
+> arch/powerpc/xmon/xmon.c:494:13: error: variable 'cmd' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c:860:21: error: variable 'bp' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c:860:21: error: variable 'bp' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> arch/powerpc/xmon/xmon.c:492:48: error: argument 'fromipi' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
+> 
+> According to the documentation, marking these as 'volatile' is
+> sufficient to avoid the problem, and it shuts up the warning.
 
-Thanks,
-Mauro
+
+I think this change deserves some comment in the code, and maybe also an update of 
+https://www.kernel.org/doc/html/latest/process/volatile-considered-harmful.html
+
+Otherwise, there's a risk that one day or another, someone removes those 'volatile' markings.
+
+Christophe
+
+
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   arch/powerpc/kexec/crash.c |  4 ++--
+>   arch/powerpc/xmon/xmon.c   | 22 +++++++++++-----------
+>   2 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+> index 0196d0c211ac..10f997e6bb95 100644
+> --- a/arch/powerpc/kexec/crash.c
+> +++ b/arch/powerpc/kexec/crash.c
+> @@ -105,8 +105,8 @@ void crash_ipi_callback(struct pt_regs *regs)
+>   static void crash_kexec_prepare_cpus(int cpu)
+>   {
+>   	unsigned int msecs;
+> -	unsigned int ncpus = num_online_cpus() - 1;/* Excluding the panic cpu */
+> -	int tries = 0;
+> +	volatile unsigned int ncpus = num_online_cpus() - 1;/* Excluding the panic cpu */
+> +	volatile int tries = 0;
+>   	int (*old_handler)(struct pt_regs *regs);
+>   
+>   	printk(KERN_EMERG "Sending IPI to other CPUs\n");
+> diff --git a/arch/powerpc/xmon/xmon.c b/arch/powerpc/xmon/xmon.c
+> index c8173e92f19d..ce0eacf77645 100644
+> --- a/arch/powerpc/xmon/xmon.c
+> +++ b/arch/powerpc/xmon/xmon.c
+> @@ -489,10 +489,10 @@ static void xmon_touch_watchdogs(void)
+>   	touch_nmi_watchdog();
+>   }
+>   
+> -static int xmon_core(struct pt_regs *regs, int fromipi)
+> +static int xmon_core(struct pt_regs *regs, volatile int fromipi)
+>   {
+> -	int cmd = 0;
+> -	struct bpt *bp;
+> +	volatile int cmd = 0;
+> +	struct bpt *volatile bp;
+>   	long recurse_jmp[JMP_BUF_LEN];
+>   	bool locked_down;
+>   	unsigned long offset;
+> @@ -857,7 +857,7 @@ static inline void force_enable_xmon(void)
+>   static struct bpt *at_breakpoint(unsigned long pc)
+>   {
+>   	int i;
+> -	struct bpt *bp;
+> +	struct bpt *volatile bp;
+>   
+>   	bp = bpts;
+>   	for (i = 0; i < NBPTS; ++i, ++bp)
+> @@ -3005,7 +3005,7 @@ static void dump_opal_msglog(void)
+>   {
+>   	unsigned char buf[128];
+>   	ssize_t res;
+> -	loff_t pos = 0;
+> +	volatile loff_t pos = 0;
+>   
+>   	if (!firmware_has_feature(FW_FEATURE_OPAL)) {
+>   		printf("Machine is not running OPAL firmware.\n");
+> @@ -3160,7 +3160,7 @@ memzcan(void)
+>   		printf("%.8lx\n", a - mskip);
+>   }
+>   
+> -static void show_task(struct task_struct *tsk)
+> +static void show_task(struct task_struct *volatile tsk)
+>   {
+>   	char state;
+>   
+> @@ -3204,7 +3204,7 @@ static void format_pte(void *ptep, unsigned long pte)
+>   static void show_pte(unsigned long addr)
+>   {
+>   	unsigned long tskv = 0;
+> -	struct task_struct *tsk = NULL;
+> +	struct task_struct *volatile tsk = NULL;
+>   	struct mm_struct *mm;
+>   	pgd_t *pgdp;
+>   	p4d_t *p4dp;
+> @@ -3299,7 +3299,7 @@ static void show_pte(unsigned long addr)
+>   static void show_tasks(void)
+>   {
+>   	unsigned long tskv;
+> -	struct task_struct *tsk = NULL;
+> +	struct task_struct *volatile tsk = NULL;
+>   
+>   	printf("     task_struct     ->thread.ksp    ->thread.regs    PID   PPID S  P CMD\n");
+>   
+> @@ -3622,7 +3622,7 @@ static void xmon_print_symbol(unsigned long address, const char *mid,
+>   			      const char *after)
+>   {
+>   	char *modname;
+> -	const char *name = NULL;
+> +	const char *volatile name = NULL;
+>   	unsigned long offset, size;
+>   
+>   	printf(REG, address);
+> @@ -4054,7 +4054,7 @@ void xmon_register_spus(struct list_head *list)
+>   static void stop_spus(void)
+>   {
+>   	struct spu *spu;
+> -	int i;
+> +	volatile int i;
+>   	u64 tmp;
+>   
+>   	for (i = 0; i < XMON_NUM_SPUS; i++) {
+> @@ -4095,7 +4095,7 @@ static void stop_spus(void)
+>   static void restart_spus(void)
+>   {
+>   	struct spu *spu;
+> -	int i;
+> +	volatile int i;
+>   
+>   	for (i = 0; i < XMON_NUM_SPUS; i++) {
+>   		if (!spu_info[i].spu)
+> 
