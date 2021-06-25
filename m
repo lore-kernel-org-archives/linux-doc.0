@@ -2,110 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91511C49EA7
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9438C2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 11:32:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79F0861444
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:37:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82864614A5
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 11:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbhFYKkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 06:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
+        id S229723AbhFYLfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 07:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbhFYKkG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 06:40:06 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA375C061766
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id s129so3919455ybf.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
+        with ESMTP id S229458AbhFYLfN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 07:35:13 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A18C061574;
+        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id a127so7782940pfa.10;
+        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j6XeqvwioJzGji6/V4D6QblypBkwkFKvIMSZgeY/xpU=;
-        b=vFu+Y+G+MND1bMG9cj4xq1Madmq4tXHM9sgxuP/oSedGnbq6z3JXPItCBzh2SPnH7+
-         DhyJVzxS7YduipJrSNzKfhTYgsyiZn8/BEEAVa0q3OrKuy1DsRjOv4BWu1JwjW3BttoW
-         GdVjjWm9otv8up6jKnaKJSXVexm966YvB4B4vOb15gzoG6h/hCsRNcvfcx67axMy8A1C
-         EMNW6uqJdt2+Y0/qhwWS+fqoedAIoCngT1eu+MUFO2gC2l0nVkBu8eaIj7XCsCNmI8iz
-         I22IrowsSfiuFCc2SyRFoZr3QNfV29b9OPvWeeqDKYBL1Es7GTFM7uRSZ45CVBsQI8D/
-         R/nQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=F1FYj5t4XYoxvLoXBqTjudiXE+LHqymCGK2OtEnIdlM=;
+        b=Vug1MX4WgKzGeIKZiGV5dxk5+sQypFDvIqvNce+do+Xf1qJI5YDIW5x+EkBUMKbFZv
+         061HMvrNuq2wndVfN9CQuQF33iB4BmdWea+nTuChqpiQgKd7EsXGWHy2nBgydestG4El
+         +lXae4pXaHOS5LBVFJcIMtnDiRN5AquOufxLJ4U597XCdmPUvfmxqJIeoTABhhB4aZlM
+         lOSgROHM9u/ewbFS3Pz/JGILAWewkl0Gtct8bJs0WBhgsseUQwFQkKEhWaYBGQH2KWAJ
+         BTG/+8SvHSZ1Ct82Z0RdQ50KtUuaQNUPcSJwcqYGFaeNUl9irWFRDv4086PzBdiJQkB3
+         ULjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j6XeqvwioJzGji6/V4D6QblypBkwkFKvIMSZgeY/xpU=;
-        b=pCklC6l2+V+b2/u3q233X6CHO5SdTjnCu8dD1S5mI+8rnE4VM/Spk9Kc8IKEahwJoL
-         vY7jWKI2KCc0QBwPnIs7hUfLAN/uh/cngGtSTQuNiZKo9khYjE/d7R3N8PruvpO682cb
-         rAZapKPpHGnkk5H5AGNS4s4OObqLwO3ogj+h7mv2eV1D781Qjw3KbMEwUANPSaP3CLW4
-         fhI/U4pMdy0Ztxe2gYNsPcpnK+sBKZDWHivglPpLU5Ui2kW351pS78/7GDa1DHRwh2lH
-         YoCPwME3IVzyDOS5ron3Cw0QTfurNgQzkQ4wC5sYGYPTPuxskV5gODNLOkyUd8oJkGAp
-         Kcdg==
-X-Gm-Message-State: AOAM533gt5E08yXrPuhVChNYJa9lqejH7RPn7vOV4tUGJTrKKliienE5
-        Kf1a4hc8EgjlA2wdWD4vP4X6HcIlx2GIPGAgicZgmQ==
-X-Google-Smtp-Source: ABdhPJxc93bfE1vaCKQGKslN7h1GqLpHt52fBEz+aUCkpB4CjQFVdiFg5tvFcEtt80z/I3CW0n7HpE8/Y7ekn33y+uw=
-X-Received: by 2002:a25:738e:: with SMTP id o136mr11371053ybc.469.1624617465175;
- Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=F1FYj5t4XYoxvLoXBqTjudiXE+LHqymCGK2OtEnIdlM=;
+        b=rxe41zgyDujC5eO7PNriJrTdil11Bi+oIl7XOilgd1Lw6hcIiGPU0RTM2GnHBYXYGT
+         nYY2ZLHkemy7Q9pvAJeq8/d9zMRFrjp66njXtDpETi+5bFp3neLQExWk0gkQxW7HDaKS
+         zcGQbpvcDOcZHpVJvzrTwGi6vbboBHljGm/kf1LMJoGAYZe81PwM3w7PN0YnwvDZ3Ktw
+         GqY8+2Ih76tR8qVYn0YKwuJ/tIGZF2beuzpYWN6DGVt/+/8oPL+3cBbjOIfh97bLy5ci
+         DhpZPu2+D1z0s6aCfgs8cmCxGNyYgp9hwk/8H5bsYuvXzIomaqMg4bsjDITjFVwq+nyb
+         2z4A==
+X-Gm-Message-State: AOAM532WeNWSJ/cdjy3M+Q92S9jPTBGVIGufBqBVD7iKdbjrNQZo/JGj
+        LC4HtuEpCt0CDWKovrqYb3WBAor74EE=
+X-Google-Smtp-Source: ABdhPJyCNRv0sPV9O1TfxSLrNyApdRWlKjaBdFiSvyJknsyaKQa3mPDUVQAcCZlLu7/LKuopSdCBOA==
+X-Received: by 2002:a63:3d8a:: with SMTP id k132mr9302612pga.7.1624620771620;
+        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id j20sm4999136pfc.85.2021.06.25.04.32.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jun 2021 04:32:51 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK ascii-art
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
+        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+ <20210625065524.GA11219@bobwxc.top> <20210625095059.7f97fd62@coco.lan>
+ <ae0a7623-7ec4-937b-4b93-8435f2e94eb9@gmail.com>
+ <20210625122423.4435c5e9@coco.lan>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <b6ea891e-b6f3-318a-1b40-268f436c6860@gmail.com>
+Date:   Fri, 25 Jun 2021 20:32:47 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1623824363.git.mchehab+huawei@kernel.org> <506a41353937c455c2e79b5960b0976edc8aa9e9.1623824363.git.mchehab+huawei@kernel.org>
-In-Reply-To: <506a41353937c455c2e79b5960b0976edc8aa9e9.1623824363.git.mchehab+huawei@kernel.org>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Fri, 25 Jun 2021 12:37:34 +0200
-Message-ID: <CAMpxmJVAgFcSoVE5jE9hPT=o_7o+fpvG-gGfxS+3=S3K91tnDg@mail.gmail.com>
-Subject: Re: [PATCH v2 14/29] docs: driver-api: gpio: using-gpio.rst: avoid
- using ReST :doc:`foo` markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210625122423.4435c5e9@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 8:27 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> The :doc:`foo` tag is auto-generated via automarkup.py.
-> So, use the filename at the sources, instead of :doc:`foo`.
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/driver-api/gpio/using-gpio.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
-> index dda069444032..64c8d3f76c3a 100644
-> --- a/Documentation/driver-api/gpio/using-gpio.rst
-> +++ b/Documentation/driver-api/gpio/using-gpio.rst
-> @@ -9,13 +9,13 @@ with them.
->
->  For examples of already existing generic drivers that will also be good
->  examples for any other kernel drivers you want to author, refer to
-> -:doc:`drivers-on-gpio`
-> +Documentation/driver-api/gpio/drivers-on-gpio.rst
->
->  For any kind of mass produced system you want to support, such as servers,
->  laptops, phones, tablets, routers, and any consumer or office or business goods
->  using appropriate kernel drivers is paramount. Submit your code for inclusion
->  in the upstream Linux kernel when you feel it is mature enough and you will get
-> -help to refine it, see :doc:`../../process/submitting-patches`.
-> +help to refine it, see Documentation/process/submitting-patches.rst.
->
->  In Linux GPIO lines also have a userspace ABI.
->
-> --
-> 2.31.1
->
+On Fri, 25 Jun 2021 12:24:23 +0200, Mauro Carvalho Chehab wrote:
+> Em Fri, 25 Jun 2021 18:22:26 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+>> On Fri, 25 Jun 2021 09:50:59 +0200, Mauro Carvalho Chehab wrote:
+[...]
+>>
+>> One minor problem might be that the Sarasa font needs manual
+>> download (and install).
+>>
+>>         Thanks, Akira
+> 
+> If this is not yet packaged as part of texlive packages
+> on distros, this won't be a minor issue, as we'll need
+> to find procedures and test it for all distros supported
+> by the script.
 
-Applied, thanks!
+Existence of "Sarasa Mono SC" can be checked by the command:
 
-Bartosz
+    fc-list | grep "Sarasa Mono SC," | grep "style=Regular" | wc -l
+
+If the result is *not* "0", you have the font somewhere in your
+fontconfig path.
+
+I think this is portable across distros.
+Wouldn't this suffice for sphinx-pre-install?
+
+        Thanks, Akira
+> 
+> Thanks,
+> Mauro
+> 
