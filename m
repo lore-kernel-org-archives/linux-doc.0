@@ -2,221 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E050C2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:35:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91511C49EA7
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:37:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 273CC6143D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:35:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79F0861444
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 10:37:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbhFYKh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 06:37:58 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:7730 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229956AbhFYKh4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Jun 2021 06:37:56 -0400
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-        by localhost (Postfix) with ESMTP id 4GBD0z3dZ6zB9GQ;
-        Fri, 25 Jun 2021 12:35:31 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id DPWbp_anq0a9; Fri, 25 Jun 2021 12:35:31 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4GBD0y1tdWzB9HV;
-        Fri, 25 Jun 2021 12:35:30 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 3003D8B802;
-        Fri, 25 Jun 2021 12:35:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id yWD0eHdKLnYP; Fri, 25 Jun 2021 12:35:25 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 617A68B7FF;
-        Fri, 25 Jun 2021 12:35:24 +0200 (CEST)
-Subject: Re: [PATCH] powerpc: mark local variables around longjmp as volatile
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20210429080708.1520360-1-arnd@kernel.org>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <5e3a48a2-3ce2-fadb-ee3d-4241bacf618f@csgroup.eu>
-Date:   Fri, 25 Jun 2021 12:35:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S231439AbhFYKkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 06:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229956AbhFYKkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 06:40:06 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA375C061766
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id s129so3919455ybf.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j6XeqvwioJzGji6/V4D6QblypBkwkFKvIMSZgeY/xpU=;
+        b=vFu+Y+G+MND1bMG9cj4xq1Madmq4tXHM9sgxuP/oSedGnbq6z3JXPItCBzh2SPnH7+
+         DhyJVzxS7YduipJrSNzKfhTYgsyiZn8/BEEAVa0q3OrKuy1DsRjOv4BWu1JwjW3BttoW
+         GdVjjWm9otv8up6jKnaKJSXVexm966YvB4B4vOb15gzoG6h/hCsRNcvfcx67axMy8A1C
+         EMNW6uqJdt2+Y0/qhwWS+fqoedAIoCngT1eu+MUFO2gC2l0nVkBu8eaIj7XCsCNmI8iz
+         I22IrowsSfiuFCc2SyRFoZr3QNfV29b9OPvWeeqDKYBL1Es7GTFM7uRSZ45CVBsQI8D/
+         R/nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j6XeqvwioJzGji6/V4D6QblypBkwkFKvIMSZgeY/xpU=;
+        b=pCklC6l2+V+b2/u3q233X6CHO5SdTjnCu8dD1S5mI+8rnE4VM/Spk9Kc8IKEahwJoL
+         vY7jWKI2KCc0QBwPnIs7hUfLAN/uh/cngGtSTQuNiZKo9khYjE/d7R3N8PruvpO682cb
+         rAZapKPpHGnkk5H5AGNS4s4OObqLwO3ogj+h7mv2eV1D781Qjw3KbMEwUANPSaP3CLW4
+         fhI/U4pMdy0Ztxe2gYNsPcpnK+sBKZDWHivglPpLU5Ui2kW351pS78/7GDa1DHRwh2lH
+         YoCPwME3IVzyDOS5ron3Cw0QTfurNgQzkQ4wC5sYGYPTPuxskV5gODNLOkyUd8oJkGAp
+         Kcdg==
+X-Gm-Message-State: AOAM533gt5E08yXrPuhVChNYJa9lqejH7RPn7vOV4tUGJTrKKliienE5
+        Kf1a4hc8EgjlA2wdWD4vP4X6HcIlx2GIPGAgicZgmQ==
+X-Google-Smtp-Source: ABdhPJxc93bfE1vaCKQGKslN7h1GqLpHt52fBEz+aUCkpB4CjQFVdiFg5tvFcEtt80z/I3CW0n7HpE8/Y7ekn33y+uw=
+X-Received: by 2002:a25:738e:: with SMTP id o136mr11371053ybc.469.1624617465175;
+ Fri, 25 Jun 2021 03:37:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210429080708.1520360-1-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <cover.1623824363.git.mchehab+huawei@kernel.org> <506a41353937c455c2e79b5960b0976edc8aa9e9.1623824363.git.mchehab+huawei@kernel.org>
+In-Reply-To: <506a41353937c455c2e79b5960b0976edc8aa9e9.1623824363.git.mchehab+huawei@kernel.org>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Fri, 25 Jun 2021 12:37:34 +0200
+Message-ID: <CAMpxmJVAgFcSoVE5jE9hPT=o_7o+fpvG-gGfxS+3=S3K91tnDg@mail.gmail.com>
+Subject: Re: [PATCH v2 14/29] docs: driver-api: gpio: using-gpio.rst: avoid
+ using ReST :doc:`foo` markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-Le 29/04/2021 à 10:06, Arnd Bergmann a écrit :
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> gcc-11 points out that modifying local variables next to a
-> longjmp/setjmp may cause undefined behavior:
-> 
-> arch/powerpc/kexec/crash.c: In function 'crash_kexec_prepare_cpus.constprop':
-> arch/powerpc/kexec/crash.c:108:22: error: variable 'ncpus' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbere
-> d]
-> arch/powerpc/kexec/crash.c:109:13: error: variable 'tries' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbere
-> d]
-> arch/powerpc/xmon/xmon.c: In function 'xmon_print_symbol':
-> arch/powerpc/xmon/xmon.c:3625:21: error: variable 'name' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'stop_spus':
-> arch/powerpc/xmon/xmon.c:4057:13: error: variable 'i' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'restart_spus':
-> arch/powerpc/xmon/xmon.c:4098:13: error: variable 'i' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'dump_opal_msglog':
-> arch/powerpc/xmon/xmon.c:3008:16: error: variable 'pos' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'show_pte':
-> arch/powerpc/xmon/xmon.c:3207:29: error: variable 'tsk' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'show_tasks':
-> arch/powerpc/xmon/xmon.c:3302:29: error: variable 'tsk' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c: In function 'xmon_core':
-> arch/powerpc/xmon/xmon.c:494:13: error: variable 'cmd' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c:860:21: error: variable 'bp' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c:860:21: error: variable 'bp' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> arch/powerpc/xmon/xmon.c:492:48: error: argument 'fromipi' might be clobbered by 'longjmp' or 'vfork' [-Werror=clobbered]
-> 
-> According to the documentation, marking these as 'volatile' is
-> sufficient to avoid the problem, and it shuts up the warning.
-
-
-I think this change deserves some comment in the code, and maybe also an update of 
-https://www.kernel.org/doc/html/latest/process/volatile-considered-harmful.html
-
-Otherwise, there's a risk that one day or another, someone removes those 'volatile' markings.
-
-Christophe
-
-
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jun 16, 2021 at 8:27 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> The :doc:`foo` tag is auto-generated via automarkup.py.
+> So, use the filename at the sources, instead of :doc:`foo`.
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->   arch/powerpc/kexec/crash.c |  4 ++--
->   arch/powerpc/xmon/xmon.c   | 22 +++++++++++-----------
->   2 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
-> index 0196d0c211ac..10f997e6bb95 100644
-> --- a/arch/powerpc/kexec/crash.c
-> +++ b/arch/powerpc/kexec/crash.c
-> @@ -105,8 +105,8 @@ void crash_ipi_callback(struct pt_regs *regs)
->   static void crash_kexec_prepare_cpus(int cpu)
->   {
->   	unsigned int msecs;
-> -	unsigned int ncpus = num_online_cpus() - 1;/* Excluding the panic cpu */
-> -	int tries = 0;
-> +	volatile unsigned int ncpus = num_online_cpus() - 1;/* Excluding the panic cpu */
-> +	volatile int tries = 0;
->   	int (*old_handler)(struct pt_regs *regs);
->   
->   	printk(KERN_EMERG "Sending IPI to other CPUs\n");
-> diff --git a/arch/powerpc/xmon/xmon.c b/arch/powerpc/xmon/xmon.c
-> index c8173e92f19d..ce0eacf77645 100644
-> --- a/arch/powerpc/xmon/xmon.c
-> +++ b/arch/powerpc/xmon/xmon.c
-> @@ -489,10 +489,10 @@ static void xmon_touch_watchdogs(void)
->   	touch_nmi_watchdog();
->   }
->   
-> -static int xmon_core(struct pt_regs *regs, int fromipi)
-> +static int xmon_core(struct pt_regs *regs, volatile int fromipi)
->   {
-> -	int cmd = 0;
-> -	struct bpt *bp;
-> +	volatile int cmd = 0;
-> +	struct bpt *volatile bp;
->   	long recurse_jmp[JMP_BUF_LEN];
->   	bool locked_down;
->   	unsigned long offset;
-> @@ -857,7 +857,7 @@ static inline void force_enable_xmon(void)
->   static struct bpt *at_breakpoint(unsigned long pc)
->   {
->   	int i;
-> -	struct bpt *bp;
-> +	struct bpt *volatile bp;
->   
->   	bp = bpts;
->   	for (i = 0; i < NBPTS; ++i, ++bp)
-> @@ -3005,7 +3005,7 @@ static void dump_opal_msglog(void)
->   {
->   	unsigned char buf[128];
->   	ssize_t res;
-> -	loff_t pos = 0;
-> +	volatile loff_t pos = 0;
->   
->   	if (!firmware_has_feature(FW_FEATURE_OPAL)) {
->   		printf("Machine is not running OPAL firmware.\n");
-> @@ -3160,7 +3160,7 @@ memzcan(void)
->   		printf("%.8lx\n", a - mskip);
->   }
->   
-> -static void show_task(struct task_struct *tsk)
-> +static void show_task(struct task_struct *volatile tsk)
->   {
->   	char state;
->   
-> @@ -3204,7 +3204,7 @@ static void format_pte(void *ptep, unsigned long pte)
->   static void show_pte(unsigned long addr)
->   {
->   	unsigned long tskv = 0;
-> -	struct task_struct *tsk = NULL;
-> +	struct task_struct *volatile tsk = NULL;
->   	struct mm_struct *mm;
->   	pgd_t *pgdp;
->   	p4d_t *p4dp;
-> @@ -3299,7 +3299,7 @@ static void show_pte(unsigned long addr)
->   static void show_tasks(void)
->   {
->   	unsigned long tskv;
-> -	struct task_struct *tsk = NULL;
-> +	struct task_struct *volatile tsk = NULL;
->   
->   	printf("     task_struct     ->thread.ksp    ->thread.regs    PID   PPID S  P CMD\n");
->   
-> @@ -3622,7 +3622,7 @@ static void xmon_print_symbol(unsigned long address, const char *mid,
->   			      const char *after)
->   {
->   	char *modname;
-> -	const char *name = NULL;
-> +	const char *volatile name = NULL;
->   	unsigned long offset, size;
->   
->   	printf(REG, address);
-> @@ -4054,7 +4054,7 @@ void xmon_register_spus(struct list_head *list)
->   static void stop_spus(void)
->   {
->   	struct spu *spu;
-> -	int i;
-> +	volatile int i;
->   	u64 tmp;
->   
->   	for (i = 0; i < XMON_NUM_SPUS; i++) {
-> @@ -4095,7 +4095,7 @@ static void stop_spus(void)
->   static void restart_spus(void)
->   {
->   	struct spu *spu;
-> -	int i;
-> +	volatile int i;
->   
->   	for (i = 0; i < XMON_NUM_SPUS; i++) {
->   		if (!spu_info[i].spu)
-> 
+>  Documentation/driver-api/gpio/using-gpio.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
+> index dda069444032..64c8d3f76c3a 100644
+> --- a/Documentation/driver-api/gpio/using-gpio.rst
+> +++ b/Documentation/driver-api/gpio/using-gpio.rst
+> @@ -9,13 +9,13 @@ with them.
+>
+>  For examples of already existing generic drivers that will also be good
+>  examples for any other kernel drivers you want to author, refer to
+> -:doc:`drivers-on-gpio`
+> +Documentation/driver-api/gpio/drivers-on-gpio.rst
+>
+>  For any kind of mass produced system you want to support, such as servers,
+>  laptops, phones, tablets, routers, and any consumer or office or business goods
+>  using appropriate kernel drivers is paramount. Submit your code for inclusion
+>  in the upstream Linux kernel when you feel it is mature enough and you will get
+> -help to refine it, see :doc:`../../process/submitting-patches`.
+> +help to refine it, see Documentation/process/submitting-patches.rst.
+>
+>  In Linux GPIO lines also have a userspace ABI.
+>
+> --
+> 2.31.1
+>
+
+Applied, thanks!
+
+Bartosz
