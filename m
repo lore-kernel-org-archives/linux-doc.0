@@ -2,83 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BBBC2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 21:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D94DC2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 21:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91A1C61949
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 21:27:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FB4D6194C
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 21:55:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhFYV3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 17:29:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbhFYV3h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 17:29:37 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1F8C061574
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 14:27:16 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id c8so8469944pfp.5
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jun 2021 14:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xRxE71rC/IWPeumP7C1MZE8K9Wv2pifNDPEqkqJ42DQ=;
-        b=fRwIMlDaWV0fntevPeIwqIuwZA9SOE+D3GJyYH4A5O3MEchBAxYKHVqyzp+eXW4VT6
-         wkaJlszvY8HnkF2duefyJC1I3qVf+p1ig/BgstcUWTRUVWul6Oo3rP7bs9ApaUaWR57a
-         i1sqycmWuqiX4+9R/GcLQAbrcWSMKP3JcKrGbbxKYF74XMqLPxckIlosyP1sfnD5unHM
-         G4t5VwXQ0Z91lF1lVVeeYJGmplujg8vw5ac9Uczs83849SpRl9uKdLtYz6IAxTGck7vD
-         yGl4xBs5TFy7nkqOqJEwPi/srgDSom6k7oU2oYvhoXlul5zFOmjkXkOvhoEoTQXSC1dN
-         Xxuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xRxE71rC/IWPeumP7C1MZE8K9Wv2pifNDPEqkqJ42DQ=;
-        b=lZDTWSKbrnjuQ3/EM5xTRM+dWoGpzpaGTonW1/RXBTDXyMBkBFU5ZWLesq6oS4QqRx
-         g5tFw1mOtplbWDdw2CnNZTB1spiGgDIO2H3IZ/D8IEdUfcSEWO+3m8G78L/vOScuZ2sB
-         OoiRMopfOK5IQp0j7CZHWmZd9SyC9J7AmDlf/qRAK99X4jMQEGY2efOgLMvQfvUTWX/4
-         Mr4MRNxh7AzwTkPWTw2wcaJqKqScfotdbZe9HnXgubqFezgTuf8yY008YBMPzxIfHJIB
-         PuVlxucJTpVY/1LhawyfxiWxrqnIZ9UAIw9hTFOsQP59ZcJwy9qbAfkacaVVDFt3jXDf
-         4Ojg==
-X-Gm-Message-State: AOAM530w0qNZKAyWI6aLw/Dgt1ZK9irb8Y0VePowm5crn7UldKPRljIe
-        mBWcQ8YPUdH5exw5G+C/21A1bRh1757i/0IfufOsxg==
-X-Google-Smtp-Source: ABdhPJwCGwSk6BZTuRmUOtwJhakAAFLWcIBXw8yjzjt+AT3O/BJZ7dHeP6UboGbcWP27Q9QqLf2aHP6UNR6pscUXNeo=
-X-Received: by 2002:a63:d0d:: with SMTP id c13mr11573133pgl.384.1624656435782;
- Fri, 25 Jun 2021 14:27:15 -0700 (PDT)
+        id S229630AbhFYV5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 17:57:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39656 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229531AbhFYV5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jun 2021 17:57:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DEEA161946;
+        Fri, 25 Jun 2021 21:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624658102;
+        bh=GSOsH6IpZZHhvWBQhMeEjpX7aKWrlZrJfSzabd36Wqk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FVU+DIffQzYvXm6boLgv2mZoGFOPXT9sHuInvDecA0aHmd9brzTsBu3g/TwbQLTrx
+         5yLQ8SYSGnrccSGN2EFXMfhl5t84Kbf1Q01bpcBwZtjDWnvQ0MCRMEKMKwrZKVobG/
+         jHaMOSYPQkTq6hI2StWv2t5E9KzIcmoqg0CVC02qSKDyTH5iL2IR8HMwehERnEfn44
+         I/6/vz19kURp8CVuWPof6AU3BlsiVF2daDB5ps+/kI+y/ZKvmyRgV7TddacGNCN7Lz
+         t1Yp6piogCFZkfOvOPGdhzLRyVsWfovEFntAVB3dryiDVnFNvmCCGeUcQ8TNUsfvY0
+         wmZcySNm0b5OA==
+Received: by pali.im (Postfix)
+        id 9F804A7D; Fri, 25 Jun 2021 23:54:59 +0200 (CEST)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: arm: marvell: Add few missing models and documentation files
+Date:   Fri, 25 Jun 2021 23:54:37 +0200
+Message-Id: <20210625215437.2156-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1623824363.git.mchehab+huawei@kernel.org> <6fde409079959a95b62b9b2692503608d7ff0dbd.1623824363.git.mchehab+huawei@kernel.org>
-In-Reply-To: <6fde409079959a95b62b9b2692503608d7ff0dbd.1623824363.git.mchehab+huawei@kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 25 Jun 2021 14:27:04 -0700
-Message-ID: <CAFd5g443AK+vxaupGiBQC5wB-5PG+5vV11y1NjevUh8don+VJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/29] docs: dev-tools: kunit: avoid using ReST
- :doc:`foo` markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 11:27 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> The :doc:`foo` tag is auto-generated via automarkup.py.
-> So, use the filename at the sources, instead of :doc:`foo`.
->
-> Reviewed-by: David Gow <davidgow@google.com>
-> Acked-by: Brendan Higgins <brendanhiggins@google.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Pali Rohár <pali@kernel.org>
+---
+ Documentation/arm/marvell.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Hi, can you please rebase and resend your patch on top of
+diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+index c50be711ec72..4d75826b4939 100644
+--- a/Documentation/arm/marvell.rst
++++ b/Documentation/arm/marvell.rst
+@@ -58,11 +58,19 @@ Kirkwood family
+                 - Product Brief  : https://web.archive.org/web/20120616201621/http://www.marvell.com/embedded-processors/kirkwood/assets/88F6180-003_ver1.pdf
+                 - Hardware Spec  : https://web.archive.org/web/20130730091654/http://www.marvell.com/embedded-processors/kirkwood/assets/HW_88F6180_OpenSource.pdf
+                 - Functional Spec: https://web.archive.org/web/20130730091033/http://www.marvell.com/embedded-processors/kirkwood/assets/FS_88F6180_9x_6281_OpenSource.pdf
++        - 88F6280
++
++                - Product Brief  : https://web.archive.org/web/20130730091058/http://www.marvell.com/embedded-processors/kirkwood/assets/88F6280_SoC_PB-001.pdf
+         - 88F6281
+ 
+                 - Product Brief  : https://web.archive.org/web/20120131133709/http://www.marvell.com/embedded-processors/kirkwood/assets/88F6281-004_ver1.pdf
+                 - Hardware Spec  : https://web.archive.org/web/20120620073511/http://www.marvell.com/embedded-processors/kirkwood/assets/HW_88F6281_OpenSource.pdf
+                 - Functional Spec: https://web.archive.org/web/20130730091033/http://www.marvell.com/embedded-processors/kirkwood/assets/FS_88F6180_9x_6281_OpenSource.pdf
++        - 88F6321
++        - 88F6322
++        - 88F6323
++
++                - Product Brief  : https://web.archive.org/web/20120616201639/http://www.marvell.com/embedded-processors/kirkwood/assets/88f632x_pb.pdf
+   Homepage:
+ 	https://web.archive.org/web/20160513194943/http://www.marvell.com/embedded-processors/kirkwood/
+   Core:
+@@ -89,6 +97,10 @@ Discovery family
+ 
+         - MV76100
+ 
++                - Product Brief  : https://web.archive.org/web/20140722064429/http://www.marvell.com/embedded-processors/discovery-innovation/assets/MV76100-002_WEB.pdf
++                - Hardware Spec  : https://web.archive.org/web/20140722064425/http://www.marvell.com/embedded-processors/discovery-innovation/assets/HW_MV76100_OpenSource.pdf
++                - Functional Spec: https://web.archive.org/web/20111110081125/http://www.marvell.com/embedded-processors/discovery-innovation/assets/FS_MV76100_78100_78200_OpenSource.pdf
++
+                 Not supported by the Linux kernel.
+ 
+   Core:
+@@ -124,17 +136,23 @@ EBU Armada family
+ 
+   Armada 38x Flavors:
+ 	- 88F6810	Armada 380
++	- 88F6811 Armada 381
++	- 88F6821 Armada 382
++	- 88F6W21 Armada 383
+ 	- 88F6820 Armada 385
+ 	- 88F6828 Armada 388
+ 
+     - Product infos:   https://web.archive.org/web/20181006144616/http://www.marvell.com/embedded-processors/armada-38x/
+     - Functional Spec: https://web.archive.org/web/20200420191927/https://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-embedded-processors-armada-38x-functional-specifications-2015-11.pdf
++    - Hardware Spec:   https://web.archive.org/web/20180713105318/https://www.marvell.com/docs/embedded-processors/assets/marvell-embedded-processors-armada-38x-hardware-specifications-2017-03.pdf
++    - Design guide:    https://web.archive.org/web/20180712231737/https://www.marvell.com/docs/embedded-processors/assets/marvell-embedded-processors-armada-38x-hardware-design-guide-2017-08.pdf
+ 
+   Core:
+ 	ARM Cortex-A9
+ 
+   Armada 39x Flavors:
+ 	- 88F6920 Armada 390
++	- 88F6925 Armada 395
+ 	- 88F6928 Armada 398
+ 
+     - Product infos: https://web.archive.org/web/20181020222559/http://www.marvell.com/embedded-processors/armada-39x/
+-- 
+2.20.1
 
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=kunit-fixes
