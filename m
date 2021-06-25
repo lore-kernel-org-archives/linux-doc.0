@@ -2,107 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBADC48BC2
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 13:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F72C49EA7
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 13:19:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DFD061954
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 13:12:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AA3F61965
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 13:19:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231501AbhFYNOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 09:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbhFYNOx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 09:14:53 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2F4C061574;
-        Fri, 25 Jun 2021 06:12:32 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id c23so18952509qkc.10;
-        Fri, 25 Jun 2021 06:12:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EtH+YaguYetgfT8kdoojx9dl0VFAOn0Yx63g1VXsJew=;
-        b=ibebuR7OhuuvKztdC31VfGhCLFYwF5mP1pV/+hJ3huZCAhmuaKBvXpB1tjgs9IIMr9
-         kTpQ++d8sLN88ao1wBevONYfKDcD/mCLTqaTEEQhvwrAgQ6MhQJ66epchgndDQjHyVh5
-         Z+Jmv6umAuv435h93xu44fqA9IkyadeNoFp9G+XwLX2Yjil+8Y+IY3CRxsEvxggMxW7D
-         JyeF3c2fUUFPtgYf0vfL3g18kIHJRNdH+wSRaileVeU715wrAIbj7N50gz5J9LsMHEPJ
-         IYYVngXW/9d46V1Zn8Uqe1SSGNgswJ0er2+QI/NfBav9egxI0h+kZ3RgR2yGNCxjQPDt
-         w3DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EtH+YaguYetgfT8kdoojx9dl0VFAOn0Yx63g1VXsJew=;
-        b=U6s6QHm0iM95vfCwde4UlhuLxEAgr20xrNVk+aTStvskBk03xe7Y7t4OhhwIyX7BYk
-         0q7FL+TWFYwJ6EylRJ0Uq7eMwzPXZezi9AOoBoMe2RDDpFfvrozpnROLt1+OvSOzNIoV
-         MTjCaFs5m2ZsNkdYJ7I12lZdhicbSZ+3s974Hk37g70coQS+laG5+ClW6cmzqhgWcItW
-         N9p/Tufvf2C+iqFXAD3pBiIs+t15SNSBmSlKZvYmNoCyFP8QmKht6Bx16+3vpDtX7k5f
-         4aDoYklSfSUfVSYJBPquwco+z/gBeavrNLyWOrEK8x0XOk91NYfF7b5+GkVwijSKAQh1
-         k6yA==
-X-Gm-Message-State: AOAM532riY9QBMDTOnE/JXVi1h29bbBVfBR7ISSWXjlaPiZKASiFFeET
-        FJiXs1HoyX7jRIWXJAscgImxEm2uP2po1uv7sFQ=
-X-Google-Smtp-Source: ABdhPJwtcJBfZh6+UIt9Kg9D23mEveqk6UdDJLrv+I1aDYiyVGB7RwiNeAuD+xRyfZcD0pFjoPQMpri+pbEPlM5lJ0o=
-X-Received: by 2002:a37:e110:: with SMTP id c16mr11117736qkm.237.1624626751519;
- Fri, 25 Jun 2021 06:12:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210614201620.30451-1-richard@nod.at> <20210614201620.30451-2-richard@nod.at>
- <CAFLxGvyyybqsgXOQ2f2BmpTCnC=7UdWhwnCpGfZMxYuK-AQ-_w@mail.gmail.com> <20210625122848.GA26048@gondor.apana.org.au>
-In-Reply-To: <20210625122848.GA26048@gondor.apana.org.au>
-From:   Richard Weinberger <richard.weinberger@gmail.com>
-Date:   Fri, 25 Jun 2021 15:12:20 +0200
-Message-ID: <CAFLxGvyFy-BWjLF5z2=TaQ+MPEh+Djj3-PSAMArMoquekLWgBQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] crypto: mxs-dcp: Add support for hardware provided keys
-To:     Herbert Xu <herbert@gondor.apana.org.au>
-Cc:     keyrings@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        David Howells <dhowells@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        James Morris <jmorris@namei.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
+        id S231501AbhFYNVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 09:21:23 -0400
+Received: from 8bytes.org ([81.169.241.247]:52276 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230151AbhFYNVW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jun 2021 09:21:22 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id A7AA23FC; Fri, 25 Jun 2021 15:18:59 +0200 (CEST)
+Date:   Fri, 25 Jun 2021 15:18:58 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     will@kernel.org, robin.murphy@arm.com, bjorn.andersson@linaro.org,
+        ulf.hansson@linaro.org, adrian.hunter@intel.com,
+        bhelgaas@google.com, john.garry@huawei.com, robdclark@chromium.org,
+        quic_c_gdjako@quicinc.com, saravanak@google.com,
+        rajatja@google.com, saiprakash.ranjan@codeaurora.org,
+        vbadigan@codeaurora.org, linux-mmc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+        iommu@lists.linux-foundation.org, sonnyrao@chromium.org,
+        joel@joelfernandes.org, Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+Message-ID: <YNXXwvuErVnlHt+s@8bytes.org>
+References: <20210624171759.4125094-1-dianders@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210624171759.4125094-1-dianders@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Herbert,
+Hi Douglas,
 
-On Fri, Jun 25, 2021 at 2:29 PM Herbert Xu <herbert@gondor.apana.org.au> wrote:
-> > This patch was judged as not applicable in your patchwork.
-> > Is something missing? How can we proceed?
->
-> I'm happy to take this patch.  I marked it as not applicable
-> mainly because the other two patches didn't have acks and I'm
-> not sure if they were meant for the crypto tree or not.
+On Thu, Jun 24, 2021 at 10:17:56AM -0700, Douglas Anderson wrote:
+> The goal of this patch series is to get better SD/MMC performance on
+> Qualcomm eMMC controllers and in generally nudge us forward on the
+> path of allowing some devices to be in strict mode and others to be in
+> non-strict mode.
 
-Maybe we have a chicken/egg situation and integrity folks wait for you. ;-)
+So if I understand it right, this patch-set wants a per-device decision
+about setting dma-mode to strict vs. non-strict.
 
-> Would you like me to take just the first patch?
+I think we should get to the reason why strict mode is used by default
+first. Is the default on ARM platforms to use iommu-strict mode by
+default and if so, why?
 
-IMHO all three patches should go through the integrity tree.
-Given that you're fine with the first patch, can you please ack it?
+The x86 IOMMUs use non-strict mode by default (yes, it is a security
+trade-off).
 
--- 
-Thanks,
-//richard
+Regards,
+
+	Joerg
