@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAD1C2B9F4
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 05:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DFD3C2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 05:04:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4FF56141D
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 05:04:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3654D6141C
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 05:04:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230173AbhFYFHA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 01:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42732 "EHLO
+        id S230359AbhFYFHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 01:07:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbhFYFG7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 01:06:59 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1D0C061574
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 22:04:38 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id p4-20020a17090a9304b029016f3020d867so4832975pjo.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 22:04:38 -0700 (PDT)
+        with ESMTP id S230193AbhFYFHO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 01:07:14 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB44C061574
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 22:04:54 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id f10so4139990plg.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jun 2021 22:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sRWtm3lVw/PonY56r55HZevy/tAJsBAAZ09qqgiQZmA=;
-        b=tYACRf64XW8z12m3Rcu0/CdkkQYOUZ6ecPi5b2zd6tevjez/uVX+mSrnEfHYWViLnv
-         sgEbOtxErl394somw5+yMSEKN/lYQhyD2Wnn77VRxys1RaB0bLhKW/DuPj0bbQA/Kdbl
-         P0YIhs3Kl6q+GhwYK2lPxSSe5mwv+XTGM02xr/AnQV51TJq4PyLnExHfP+yerTFXtn8A
-         ZHwv5Z9McAjgPAARuLTDivMRcfUmKOxE51LJtL0u657tJuV+/GtHL6liVo5h/EwIkBNu
-         ivydUPnoVlUtaYlsqv1/FOPEJkv07+onuIXp6n7RSuzsDYYdBZ6VDl3xhgGp1VekcYFb
-         nWJg==
+        bh=vdRkA0G6L/3wuQW2XhcEFmwQEh1NSF/qfRRNJp14DH8=;
+        b=V6pFTp/oj8rbgge5ZYBZBLDSsbAK30+c2M+j7RWZvYWVou8bYQKt8XBa6sn7m4dcMU
+         RKhtYuROyCZkeb4ULP7jKHEERIS59JUrnsW8epAtjlWpVAUkjCt4sAc0HzzFu0POFGAK
+         5+sW45SG2BIDsd+JWfmWYdLFTPI4RaLYSE+zlQLLPF5oGhZ2rkKnJU6BA394rB5qi/3o
+         aARQJO5uCoZt4YnqHicbeByTkFw5EOs9upunFRufTQTIWkCffwd6aLKVGqs8ZOShtg75
+         mDttKfTCkJiITJsJtUaXpzMRUUsZ7Wf5M1sFhy4yOU9pHuKivZEmxG2FTzltH5uamIap
+         V+iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sRWtm3lVw/PonY56r55HZevy/tAJsBAAZ09qqgiQZmA=;
-        b=r0PRA5l8e24h9V4OcqMn5XLoXFxTxvfZ6K44GFdHQ7GdCq2j4yK9u3JE1GJj7Rk8B4
-         yyF3kVCGlv6ztumnXBL/oZoF9GTXLwtmowGBgCh8S+DiAip32u+S51vHpfXzPfbfpo6P
-         N+G7I/YxayejHq4ID8O7WojL/a6UeejzITZqtPUKU6GYID5bsuHJ72u/ezUGFL9Y1P5Z
-         Kc8zWBsnGktDMIkt3veRKg8t5xhVZ5tL9u4WiB0Vp2cI9LErWcDeKTiD/Ax0kAgrDZN8
-         1+P+NPpvXfdu1PvpcvUokTwShIC5SaRQnBuK94rvKF8adoj4KSCHwUovhjSOI4mHkwsh
-         p7Uw==
-X-Gm-Message-State: AOAM53398f8c6kEEfkDvWMsuO0Sxy47nrXxP+M2+vcZ7T6Vg5zYcIsh+
-        27G+/8cxbKd0JipNiXgcwnI=
-X-Google-Smtp-Source: ABdhPJxQA8fWmLUKf70pPW+TTq49Uw9cqcr8vB7JEXP9tn6k9mwTa6P9zgJBdEhmUcF8sLOxAKOkhA==
-X-Received: by 2002:a17:90b:4a90:: with SMTP id lp16mr9127339pjb.137.1624597478474;
-        Thu, 24 Jun 2021 22:04:38 -0700 (PDT)
+        bh=vdRkA0G6L/3wuQW2XhcEFmwQEh1NSF/qfRRNJp14DH8=;
+        b=D8JblNdcsXfLHDY/9ILxZz5vO45ulHC4d5zYbdjT7clGS0TQJ3feluy3r7JQ0cy2VJ
+         biV0vwy3EYuwNmQYGBlDVcrYmtrdaGju9oVtYRfujcw6nohro/I935ca43r9gOpD+Fmf
+         uYhUAZAXQj7UiaSRA2e10vaBVhYyDn+NlOcck+Wkwug8DI4DGxRlUSiG07k1roSLFO6q
+         vovfSbqCCtj20VADN9u33RW7P50f7bxFSMwymm8B4pv4QYsnrUE8kb331sVVF1xFaTKM
+         R34o+z41C3iwaGBSyzzTuf0mUNRI1rjltQwZHKzvl0Iyx4BJujh5ae0o31aUcZErwzRk
+         A8oQ==
+X-Gm-Message-State: AOAM533680mGNJo+RNA9J7biZ1T9w/3SIcBEixuuKsDXj6eQ5GBz9Xhl
+        GxYSoxQBLju7HRlZXyYWFIA=
+X-Google-Smtp-Source: ABdhPJyjDtJddHrIhz9U8FZUqoAAJ3IjxPxmKgbaLr49qpgEJU6tZIowjEvZHaffpvqlLVkeJN5gHg==
+X-Received: by 2002:a17:90a:e50f:: with SMTP id t15mr9271598pjy.75.1624597493872;
+        Thu, 24 Jun 2021 22:04:53 -0700 (PDT)
 Received: from [172.28.99.179] ([119.28.155.243])
-        by smtp.gmail.com with ESMTPSA id s4sm3999403pju.17.2021.06.24.22.04.33
+        by smtp.gmail.com with ESMTPSA id k9sm3969862pgq.27.2021.06.24.22.04.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Jun 2021 22:04:38 -0700 (PDT)
-Subject: Re: [PATCH v4 2/2] docs/zh_CN: add core api protection keys
+        Thu, 24 Jun 2021 22:04:53 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] docs/zh_CN: add core api memory_hotplug
  translation
 To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         alexs@kernel.org, bobwxc@email.cn
@@ -65,14 +65,14 @@ Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
         linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
         siyanteng01@gmail.com
 References: <cover.1624517569.git.siyanteng@loongson.cn>
- <08eb8c44573add030015b1abb182dde21f8f45d6.1624517569.git.siyanteng@loongson.cn>
+ <2e3f18827d9405337e00d47b3425125fdbbdde09.1624517569.git.siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <9470c024-b5b2-2063-6e22-08f7dc15bf30@gmail.com>
-Date:   Fri, 25 Jun 2021 13:04:31 +0800
+Message-ID: <75800da2-67ea-600b-8728-b1f28d6546dd@gmail.com>
+Date:   Fri, 25 Jun 2021 13:04:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <08eb8c44573add030015b1abb182dde21f8f45d6.1624517569.git.siyanteng@loongson.cn>
+In-Reply-To: <2e3f18827d9405337e00d47b3425125fdbbdde09.1624517569.git.siyanteng@loongson.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -83,9 +83,8 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 On 6/24/21 3:30 PM, Yanteng Si wrote:
-> Translate Documentation/core-api/protection-keys.rst into Chinese.
+> Translate Documentation/core-api/memory_hotplug.rst into Chinese.
 > 
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
 Reviewed-by: Alex Shi <alexs@kernel.org>
