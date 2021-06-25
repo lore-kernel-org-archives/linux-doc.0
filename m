@@ -2,88 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07FFDC49EA7
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F1BC2B9F4
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC7BB61929
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:00:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD5FF61946
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Jun 2021 18:11:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230003AbhFYSCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Jun 2021 14:02:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48640 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbhFYSCl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jun 2021 14:02:41 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EE4C061574;
-        Fri, 25 Jun 2021 11:00:20 -0700 (PDT)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lwq69-00CB0n-0a; Fri, 25 Jun 2021 17:58:37 +0000
-Date:   Fri, 25 Jun 2021 17:58:36 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Justin He <Justin.He@arm.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 13/14] d_path: prepend_path() is unlikely to return
- non-zero
-Message-ID: <YNYZTIP+anazsz/U@zeniv-ca.linux.org.uk>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-13-viro@zeniv.linux.org.uk>
- <AM6PR08MB43762B63D11A43FE84849748F7069@AM6PR08MB4376.eurprd08.prod.outlook.com>
+        id S229630AbhFYSNk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Jun 2021 14:13:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55630 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229531AbhFYSNi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jun 2021 14:13:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3ECC761945;
+        Fri, 25 Jun 2021 18:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624644677;
+        bh=ljavae+JwaMWTTQ9gygPEjViWVs4hBz7ZeLQPoxemTY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BtBGEBiLA4QWxTwWKGcURCb6ZGAEdJW1tceujDj4yTvRZC971UrZvBafL3Xm8Qz6B
+         FXDcDKImQrAIUPFeYjohdpyBqHJbGp0O0AotAWtvMOLxCwrXEVg7kQ/kHLQLAMeXuC
+         AhEzn+dvPGwY/9nvm+n+hMrEa7E2Q3EAGkmVWv2lx18PYhT077sVjNXD4GU2olCxgK
+         QV27lBaIb2QIyqHtLg3KAalFJCc5jhHoZkD+IXvC8MVC/0B2XOoN0ucGkPndJmjmlx
+         5ob63RczVcAtATiPVtPHbVQLgTNxn83tx4whIgOEPt36xCYwIM+8grzWAVtSg9qeI+
+         9a3PYOvU45rPA==
+Date:   Fri, 25 Jun 2021 20:11:13 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
+        SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] docs: pdfdocs: Improve alignment of CJK
+ ascii-art
+Message-ID: <20210625201113.337b3ecd@coco.lan>
+In-Reply-To: <b6ea891e-b6f3-318a-1b40-268f436c6860@gmail.com>
+References: <386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com>
+        <20210625065524.GA11219@bobwxc.top>
+        <20210625095059.7f97fd62@coco.lan>
+        <ae0a7623-7ec4-937b-4b93-8435f2e94eb9@gmail.com>
+        <20210625122423.4435c5e9@coco.lan>
+        <b6ea891e-b6f3-318a-1b40-268f436c6860@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM6PR08MB43762B63D11A43FE84849748F7069@AM6PR08MB4376.eurprd08.prod.outlook.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 08:00:49AM +0000, Justin He wrote:
-> --- a/fs/d_path.c
-> +++ b/fs/d_path.c
-> @@ -210,6 +210,7 @@ static int prepend_path(const struct path *path,
->         b = *p;
->         read_seqbegin_or_lock(&rename_lock, &seq);
->         error = __prepend_path(path->dentry, real_mount(path->mnt), root, &b);
-> +       printk("prepend=%d",error);
->         if (!(seq & 1))
->                 rcu_read_unlock();
->         if (need_seqretry(&rename_lock, seq)) {
-> 
-> Then the result seems a little different:
-> root@entos-ampere-02:~# dmesg |grep prepend=1 |wc -l
-> 7417
-> root@entos-ampere-02:~# dmesg |grep prepend=0 |wc -l
-> 772
-> 
-> The kernel is 5.13.0-rc2+ + this series + my '%pD' series
-> 
-> Any thoughts?
+Em Fri, 25 Jun 2021 20:32:47 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-On which loads?  1 here is "mount/dentry pair is in somebody
-else's namespace or outside of the subtree we are chrooted
-into".  IOW, what's calling d_path() on your setup?
+> On Fri, 25 Jun 2021 12:24:23 +0200, Mauro Carvalho Chehab wrote:
+> > Em Fri, 25 Jun 2021 18:22:26 +0900
+> > Akira Yokosawa <akiyks@gmail.com> escreveu:
+> >   
+> >> On Fri, 25 Jun 2021 09:50:59 +0200, Mauro Carvalho Chehab wrote:  
+> [...]
+> >>
+> >> One minor problem might be that the Sarasa font needs manual
+> >> download (and install).
+> >>
+> >>         Thanks, Akira  
+> > 
+> > If this is not yet packaged as part of texlive packages
+> > on distros, this won't be a minor issue, as we'll need
+> > to find procedures and test it for all distros supported
+> > by the script.  
+> 
+> Existence of "Sarasa Mono SC" can be checked by the command:
+> 
+>     fc-list | grep "Sarasa Mono SC," | grep "style=Regular" | wc -l
+> 
+> If the result is *not* "0", you have the font somewhere in your
+> fontconfig path.
+> 
+> I think this is portable across distros.
+> Wouldn't this suffice for sphinx-pre-install?
+
+No. The sphinx-pre-install tool generate a list of commands
+needed to install the pre-reqs on a given distro.
+
+For instance, if you run on opensuse without texlive, it would
+print:
+
+
+	# ./scripts/sphinx-pre-install 
+	Detected OS: openSUSE Tumbleweed 20210515.
+	Sphinx version: 3.5.4
+
+	Warning: better to also install "latexmk".
+...
+	Warning: better to also install "xelatex".
+	You should run:
+
+	sudo zypper install --no-recommends texlive-latexmk-bin texlive-amscls texlive-amsfonts texlive-amsmath texlive-anyfontsize texlive-babel-english texlive-capt-of texlive-caption texlive-cmap texlive-colortbl texlive-courier texlive-dvips texlive-ec texlive-eqparbox texlive-euenc texlive-fancybox texlive-fancyvrb texlive-float texlive-fncychap texlive-framed texlive-helvetic texlive-luatex85 texlive-makeindex texlive-mdwtools texlive-metafont texlive-metapost texlive-multirow texlive-needspace texlive-oberdiek texlive-palatino texlive-parskip texlive-polyglossia texlive-preview texlive-psnfss texlive-tabulary texlive-threeparttable texlive-times texlive-titlesec texlive-tools texlive-ucs texlive-upquote texlive-wrapfig texlive-zapfchan texlive-zapfding texlive-xetex-bin
+
+The same command, when executed on a different distro will
+print a different set of packages and commands.
+
+Thanks,
+Mauro
