@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB21C49EAB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E1AC49EAF
 	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1C2B61C73
+	by mail.kernel.org (Postfix) with ESMTP id B60CD61C41
 	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhFZNID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Jun 2021 09:08:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34050 "EHLO mail.kernel.org"
+        id S230147AbhFZNIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Jun 2021 09:08:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33858 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230090AbhFZNIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 26 Jun 2021 09:08:00 -0400
+        id S230097AbhFZNIB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 26 Jun 2021 09:08:01 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0CF9B61C43;
+        by mail.kernel.org (Postfix) with ESMTPSA id B73C261C37;
         Sat, 26 Jun 2021 13:05:38 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.94.2)
         (envelope-from <rostedt@goodmis.org>)
-        id 1lx809-000El1-1h; Sat, 26 Jun 2021 09:05:37 -0400
-Message-ID: <20210626130536.889613063@goodmis.org>
+        id 1lx809-000EnH-Pc; Sat, 26 Jun 2021 09:05:37 -0400
+Message-ID: <20210626130537.639504615@goodmis.org>
 User-Agent: quilt/0.66
-Date:   Sat, 26 Jun 2021 09:04:17 -0400
+Date:   Sat, 26 Jun 2021 09:04:21 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Ingo Molnar <mingo@kernel.org>,
@@ -49,7 +49,7 @@ Cc:     Ingo Molnar <mingo@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-doc@vger.kernel.org,
         Daniel Bristot de Oliveira <bristot@redhat.com>
-Subject: [for-next][PATCH 13/24] trace/hwlat: Switch disable_migrate to mode none
+Subject: [for-next][PATCH 17/24] trace/hwlat: Remove printk from sampling loop
 References: <20210626130404.033700863@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,18 +59,18 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Daniel Bristot de Oliveira <bristot@redhat.com>
 
-When in the round-robin mode, if the tracer detects a change in the
-hwlatd thread affinity by an external tool, e.g., taskset, the
-round-robin logic is disabled. The disable_migrate variable currently
-tracks this.
+hwlat has some time operation checks on the sample loop, and it is
+currently using pr_err (printk) to report them. The problem is that
+this can lead the system to an unresponsible state due to an overflow of
+printk messages. This problem can be mitigated by writing the error
+message to the trace buffer.
 
-With the addition of the "mode" config and the mode "none," the
-disable_migrate logic is equivalent to switch to the "none" mode.
+Remove the printk messages from the sampling loop, switching the to
+messages in the trace buffer.
 
-Hence, instead of using a hidden variable to track this behavior,
-switch the mode to none, informing the user about this change.
+No functional change.
 
-Link: https://lkml.kernel.org/r/a679af672458d6b1f62252605905c5214030f247.1624372313.git.bristot@redhat.com
+Link: https://lkml.kernel.org/r/9d77c34869748aa105e965c769d24642914eea3a.1624372313.git.bristot@redhat.com
 
 Cc: Phil Auld <pauld@redhat.com>
 Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
@@ -91,66 +91,55 @@ Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- kernel/trace/trace_hwlat.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ kernel/trace/trace_hwlat.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
-index 43a436d85a01..bae74b95cf55 100644
+index 44f46bc1140f..a625bfdb844e 100644
 --- a/kernel/trace/trace_hwlat.c
 +++ b/kernel/trace/trace_hwlat.c
-@@ -286,7 +286,6 @@ static int get_sample(void)
+@@ -182,6 +182,15 @@ void trace_hwlat_callback(bool enter)
+ 		kdata->nmi_count++;
  }
  
- static struct cpumask save_cpumask;
--static bool disable_migrate;
++/*
++ * hwlat_err - report a hwlat error.
++ */
++#define hwlat_err(msg) ({							\
++	struct trace_array *tr = hwlat_trace;					\
++										\
++	trace_array_printk_buf(tr->array_buffer.buffer, _THIS_IP_, msg);	\
++})
++
+ /**
+  * get_sample - sample the CPU TSC and look for likely hardware latencies
+  *
+@@ -225,7 +234,7 @@ static int get_sample(void)
+ 			outer_diff = time_to_us(time_sub(t1, last_t2));
+ 			/* This shouldn't happen */
+ 			if (outer_diff < 0) {
+-				pr_err(BANNER "time running backwards\n");
++				hwlat_err(BANNER "time running backwards\n");
+ 				goto out;
+ 			}
+ 			if (outer_diff > outer_sample)
+@@ -237,7 +246,7 @@ static int get_sample(void)
  
- static void move_to_next_cpu(void)
- {
-@@ -294,15 +293,13 @@ static void move_to_next_cpu(void)
- 	struct trace_array *tr = hwlat_trace;
- 	int next_cpu;
+ 		/* Check for possible overflows */
+ 		if (total < last_total) {
+-			pr_err("Time total overflowed\n");
++			hwlat_err("Time total overflowed\n");
+ 			break;
+ 		}
+ 		last_total = total;
+@@ -253,7 +262,7 @@ static int get_sample(void)
  
--	if (disable_migrate)
--		return;
- 	/*
- 	 * If for some reason the user modifies the CPU affinity
- 	 * of this thread, then stop migrating for the duration
- 	 * of the current test.
- 	 */
- 	if (!cpumask_equal(current_mask, current->cpus_ptr))
--		goto disable;
-+		goto change_mode;
+ 		/* This shouldn't happen */
+ 		if (diff < 0) {
+-			pr_err(BANNER "time running backwards\n");
++			hwlat_err(BANNER "time running backwards\n");
+ 			goto out;
+ 		}
  
- 	get_online_cpus();
- 	cpumask_and(current_mask, cpu_online_mask, tr->tracing_cpumask);
-@@ -313,7 +310,7 @@ static void move_to_next_cpu(void)
- 		next_cpu = cpumask_first(current_mask);
- 
- 	if (next_cpu >= nr_cpu_ids) /* Shouldn't happen! */
--		goto disable;
-+		goto change_mode;
- 
- 	cpumask_clear(current_mask);
- 	cpumask_set_cpu(next_cpu, current_mask);
-@@ -321,8 +318,9 @@ static void move_to_next_cpu(void)
- 	sched_setaffinity(0, current_mask);
- 	return;
- 
-- disable:
--	disable_migrate = true;
-+ change_mode:
-+	hwlat_data.thread_mode = MODE_NONE;
-+	pr_info(BANNER "cpumask changed while in round-robin mode, switching to mode none\n");
- }
- 
- /*
-@@ -744,7 +742,6 @@ static int hwlat_tracer_init(struct trace_array *tr)
- 
- 	hwlat_trace = tr;
- 
--	disable_migrate = false;
- 	hwlat_data.count = 0;
- 	tr->max_latency = 0;
- 	save_tracing_thresh = tracing_thresh;
 -- 
 2.30.2
