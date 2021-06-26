@@ -2,99 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A01A2C49EA7
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 10:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C13F1C49EAB
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82BB76192F
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 10:53:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B26BF61C66
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229871AbhFZK4L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Jun 2021 06:56:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbhFZK4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Jun 2021 06:56:11 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DFA3C061574;
-        Sat, 26 Jun 2021 03:53:48 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id j6so6009826qvp.3;
-        Sat, 26 Jun 2021 03:53:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5IakmMrURhycOrgMfR07LYIjzM4DIOC86+dJLV+QXtE=;
-        b=tJM12ZzFZGep9dgrfo5utS8xjiFj8xNgXdKhGD3A9SmaJVv55z2dbAFR71Tbmn6Sea
-         IygyNuEsD+k0js/M1w4rmHPEwGAIilhGD+DNFHa8L+iIXBZipBJ9EHHHqNYTIXeg4Fex
-         1EG9vUpbZN5Quo1q3/NZTu9X6LlyML8XgkDM1Ubf3CVPwWLHNe1HfkCnMVt449oWv9zB
-         ei8oGQnjwQ3R4FpWQKR9KiXEY+NSGqxidKhNSsGscePbTanOWZrgBfdBgs9Ls2RuMv7Z
-         qg7pkDppgBYjycxMvMR5DhVz7Fk/CB+AT5rvnP0oGp3kI/M7eHMhvJS8OX7yYZPQDhsr
-         CAZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=5IakmMrURhycOrgMfR07LYIjzM4DIOC86+dJLV+QXtE=;
-        b=fqwK3xMRHPj0p1gJUnEp7UPn3xII2DpJ6RCjPbUlqp0lb8Os9fTBcE70BTEOF2nNZu
-         lKmtbB+6BgnAPV+9icpN82lBkZ96XFsfxDSFQ08ldXfyBKYMmC0eHtFmcb+ueAzqf8j/
-         yYkF4O73JLKZFCCZJs2q/5S5lSE0cxJcY/TjhFpB9XsNcY+90Jzs/Db2MCyz5UrYH1Rn
-         ojOTIQjhqtovick9gM8A/2O19Noo+Hgr0DorHNQs0pejx7UCIj/XUc1t0MxiyGqKxXiL
-         F9EuzoXaIvEeRgVck85ZdmZ5AogGokHo59l6CLcHtkBd/81z3srvOh27foo5fwmao0qz
-         qHVQ==
-X-Gm-Message-State: AOAM532E/+c8Jxw/ano0SF0fIDY993JvDd8yaY7o9S3aeYWc3L/QnUg/
-        aiF1HVDj5riIIRoojlvjAis=
-X-Google-Smtp-Source: ABdhPJxAO5H8E1B0+d8SzThxc1r9kU7/5m1zewXew59PcHar/YlNWyF8Ut7yR+4xSgYn0Oo3jNv58A==
-X-Received: by 2002:a0c:f543:: with SMTP id p3mr12291007qvm.58.1624704827706;
-        Sat, 26 Jun 2021 03:53:47 -0700 (PDT)
-Received: from localhost ([199.192.137.73])
-        by smtp.gmail.com with ESMTPSA id i3sm5365745qtp.2.2021.06.26.03.53.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jun 2021 03:53:47 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Sat, 26 Jun 2021 06:53:45 -0400
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
+        id S230103AbhFZNIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Jun 2021 09:08:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230093AbhFZNIA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 26 Jun 2021 09:08:00 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6085361C3C;
+        Sat, 26 Jun 2021 13:05:38 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.94.2)
+        (envelope-from <rostedt@goodmis.org>)
+        id 1lx809-000Em9-Dq; Sat, 26 Jun 2021 09:05:37 -0400
+Message-ID: <20210626130537.271428380@goodmis.org>
+User-Agent: quilt/0.66
+Date:   Sat, 26 Jun 2021 09:04:19 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Ingo Molnar <mingo@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Phil Auld <pauld@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Kate Carcia <kcarcia@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH v2 2/6] cgroup/cpuset: Clarify the use of invalid
- partition root
-Message-ID: <YNcHOe3o//pIiByh@mtj.duckdns.org>
-References: <20210621184924.27493-1-longman@redhat.com>
- <20210621184924.27493-3-longman@redhat.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Subject: [for-next][PATCH 15/24] trace: Add a generic function to read/write u64 values from tracefs
+References: <20210626130404.033700863@goodmis.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621184924.27493-3-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Waiman.
+From: Daniel Bristot de Oliveira <bristot@redhat.com>
 
-On Mon, Jun 21, 2021 at 02:49:20PM -0400, Waiman Long wrote:
->  1) A partition root can't be changed to member if it has child partition
->     roots.
->  2) Removing CPUs from cpuset.cpus that causes it to become invalid is
->     not allowed.
+The hwlat detector and (in preparation for) the osnoise/timerlat tracers
+have a set of u64 parameters that the user can read/write via tracefs.
+For instance, we have hwlat_detector's window and width.
 
-I'm not a fan of this approach. No matter what we have to be able to handle
-CPU removals which are user-iniated operations anyway, so I don't see why
-we're adding a different way of handling a different set of operations. Just
-handle them the same?
+To reduce the code duplication, hwlat's window and width share the same
+read function. However, they do not share the write functions because
+they do different parameter checks. For instance, the width needs to
+be smaller than the window, while the window needs to be larger
+than the window. The same pattern repeats on osnoise/timerlat, and
+a large portion of the code was devoted to the write function.
 
-Thanks.
+Despite having different checks, the write functions have the same
+structure:
 
+   read a user-space buffer
+   take the lock that protects the value
+   check for minimum and maximum acceptable values
+      save the value
+   release the lock
+   return success or error
+
+To reduce the code duplication also in the write functions, this patch
+provides a generic read and write implementation for u64 values that
+need to be within some minimum and/or maximum parameters, while
+(potentially) being protected by a lock.
+
+To use this interface, the structure trace_min_max_param needs to be
+filled:
+
+ struct trace_min_max_param {
+         struct mutex    *lock;
+         u64             *val;
+         u64             *min;
+         u64             *max;
+ };
+
+The desired value is stored on the variable pointed by *val. If *min
+points to a minimum acceptable value, it will be checked during the
+write operation. Likewise, if *max points to a maximum allowable value,
+it will be checked during the write operation. Finally, if *lock points
+to a mutex, it will be taken at the beginning of the operation and
+released at the end.
+
+The definition of a trace_min_max_param needs to passed as the
+(private) *data for tracefs_create_file(), and the trace_min_max_fops
+(added by this patch) as the *fops file_operations.
+
+Link: https://lkml.kernel.org/r/3e35760a7c8b5c55f16ae5ad5fc54a0e71cbe647.1624372313.git.bristot@redhat.com
+
+Cc: Phil Auld <pauld@redhat.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Kate Carcia <kcarcia@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
+Cc: Clark Willaims <williams@redhat.com>
+Cc: John Kacur <jkacur@redhat.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: x86@kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
+Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+---
+ kernel/trace/trace.c | 85 ++++++++++++++++++++++++++++++++++++++++++++
+ kernel/trace/trace.h | 18 ++++++++++
+ 2 files changed, 103 insertions(+)
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index d352fb4b7709..27bf203ef05a 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -7583,6 +7583,91 @@ static const struct file_operations snapshot_raw_fops = {
+ 
+ #endif /* CONFIG_TRACER_SNAPSHOT */
+ 
++/*
++ * trace_min_max_write - Write a u64 value to a trace_min_max_param struct
++ * @filp: The active open file structure
++ * @ubuf: The userspace provided buffer to read value into
++ * @cnt: The maximum number of bytes to read
++ * @ppos: The current "file" position
++ *
++ * This function implements the write interface for a struct trace_min_max_param.
++ * The filp->private_data must point to a trace_min_max_param structure that
++ * defines where to write the value, the min and the max acceptable values,
++ * and a lock to protect the write.
++ */
++static ssize_t
++trace_min_max_write(struct file *filp, const char __user *ubuf, size_t cnt, loff_t *ppos)
++{
++	struct trace_min_max_param *param = filp->private_data;
++	u64 val;
++	int err;
++
++	if (!param)
++		return -EFAULT;
++
++	err = kstrtoull_from_user(ubuf, cnt, 10, &val);
++	if (err)
++		return err;
++
++	if (param->lock)
++		mutex_lock(param->lock);
++
++	if (param->min && val < *param->min)
++		err = -EINVAL;
++
++	if (param->max && val > *param->max)
++		err = -EINVAL;
++
++	if (!err)
++		*param->val = val;
++
++	if (param->lock)
++		mutex_unlock(param->lock);
++
++	if (err)
++		return err;
++
++	return cnt;
++}
++
++/*
++ * trace_min_max_read - Read a u64 value from a trace_min_max_param struct
++ * @filp: The active open file structure
++ * @ubuf: The userspace provided buffer to read value into
++ * @cnt: The maximum number of bytes to read
++ * @ppos: The current "file" position
++ *
++ * This function implements the read interface for a struct trace_min_max_param.
++ * The filp->private_data must point to a trace_min_max_param struct with valid
++ * data.
++ */
++static ssize_t
++trace_min_max_read(struct file *filp, char __user *ubuf, size_t cnt, loff_t *ppos)
++{
++	struct trace_min_max_param *param = filp->private_data;
++	char buf[U64_STR_SIZE];
++	int len;
++	u64 val;
++
++	if (!param)
++		return -EFAULT;
++
++	val = *param->val;
++
++	if (cnt > sizeof(buf))
++		cnt = sizeof(buf);
++
++	len = snprintf(buf, sizeof(buf), "%llu\n", val);
++
++	return simple_read_from_buffer(ubuf, cnt, ppos, buf, len);
++}
++
++const struct file_operations trace_min_max_fops = {
++	.open		= tracing_open_generic,
++	.read		= trace_min_max_read,
++	.write		= trace_min_max_write,
++};
++
+ #define TRACING_LOG_ERRS_MAX	8
+ #define TRACING_LOG_LOC_MAX	128
+ 
+diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+index cd80d046c7a5..22f8c652ef8b 100644
+--- a/kernel/trace/trace.h
++++ b/kernel/trace/trace.h
+@@ -1952,4 +1952,22 @@ static inline bool is_good_name(const char *name)
+ 	return true;
+ }
+ 
++/*
++ * This is a generic way to read and write a u64 value from a file in tracefs.
++ *
++ * The value is stored on the variable pointed by *val. The value needs
++ * to be at least *min and at most *max. The write is protected by an
++ * existing *lock.
++ */
++struct trace_min_max_param {
++	struct mutex	*lock;
++	u64		*val;
++	u64		*min;
++	u64		*max;
++};
++
++#define U64_STR_SIZE		24	/* 20 digits max */
++
++extern const struct file_operations trace_min_max_fops;
++
+ #endif /* _LINUX_KERNEL_TRACE_H */
 -- 
-tejun
+2.30.2
