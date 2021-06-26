@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E1AC49EAF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE564C49EB9
 	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B60CD61C41
+	by mail.kernel.org (Postfix) with ESMTP id D295261C65
 	for <linux-doc@archiver.kernel.org>; Sat, 26 Jun 2021 13:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbhFZNIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Jun 2021 09:08:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33858 "EHLO mail.kernel.org"
+        id S230138AbhFZNIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Jun 2021 09:08:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33972 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230097AbhFZNIB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 26 Jun 2021 09:08:01 -0400
+        id S230085AbhFZNH7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 26 Jun 2021 09:07:59 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B73C261C37;
-        Sat, 26 Jun 2021 13:05:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9372761C33;
+        Sat, 26 Jun 2021 13:05:37 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.94.2)
         (envelope-from <rostedt@goodmis.org>)
-        id 1lx809-000EnH-Pc; Sat, 26 Jun 2021 09:05:37 -0400
-Message-ID: <20210626130537.639504615@goodmis.org>
+        id 1lx808-000Ejs-Ls; Sat, 26 Jun 2021 09:05:36 -0400
+Message-ID: <20210626130536.517201655@goodmis.org>
 User-Agent: quilt/0.66
-Date:   Sat, 26 Jun 2021 09:04:21 -0400
+Date:   Sat, 26 Jun 2021 09:04:15 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Ingo Molnar <mingo@kernel.org>,
@@ -49,7 +49,7 @@ Cc:     Ingo Molnar <mingo@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-doc@vger.kernel.org,
         Daniel Bristot de Oliveira <bristot@redhat.com>
-Subject: [for-next][PATCH 17/24] trace/hwlat: Remove printk from sampling loop
+Subject: [for-next][PATCH 11/24] trace/hwlat: Fix Clarks email
 References: <20210626130404.033700863@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,18 +59,11 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Daniel Bristot de Oliveira <bristot@redhat.com>
 
-hwlat has some time operation checks on the sample loop, and it is
-currently using pr_err (printk) to report them. The problem is that
-this can lead the system to an unresponsible state due to an overflow of
-printk messages. This problem can be mitigated by writing the error
-message to the trace buffer.
-
-Remove the printk messages from the sampling loop, switching the to
-messages in the trace buffer.
+Clark's email is williams@redhat.com.
 
 No functional change.
 
-Link: https://lkml.kernel.org/r/9d77c34869748aa105e965c769d24642914eea3a.1624372313.git.bristot@redhat.com
+Link: https://lkml.kernel.org/r/6fa4b49e17ab8a1ff19c335ab7cde38d8afb0e29.1624372313.git.bristot@redhat.com
 
 Cc: Phil Auld <pauld@redhat.com>
 Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
@@ -91,55 +84,21 @@ Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- kernel/trace/trace_hwlat.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ kernel/trace/trace_hwlat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
-index 44f46bc1140f..a625bfdb844e 100644
+index 632ef88131a9..0a5635401125 100644
 --- a/kernel/trace/trace_hwlat.c
 +++ b/kernel/trace/trace_hwlat.c
-@@ -182,6 +182,15 @@ void trace_hwlat_callback(bool enter)
- 		kdata->nmi_count++;
- }
- 
-+/*
-+ * hwlat_err - report a hwlat error.
-+ */
-+#define hwlat_err(msg) ({							\
-+	struct trace_array *tr = hwlat_trace;					\
-+										\
-+	trace_array_printk_buf(tr->array_buffer.buffer, _THIS_IP_, msg);	\
-+})
-+
- /**
-  * get_sample - sample the CPU TSC and look for likely hardware latencies
+@@ -34,7 +34,7 @@
+  * Copyright (C) 2008-2009 Jon Masters, Red Hat, Inc. <jcm@redhat.com>
+  * Copyright (C) 2013-2016 Steven Rostedt, Red Hat, Inc. <srostedt@redhat.com>
   *
-@@ -225,7 +234,7 @@ static int get_sample(void)
- 			outer_diff = time_to_us(time_sub(t1, last_t2));
- 			/* This shouldn't happen */
- 			if (outer_diff < 0) {
--				pr_err(BANNER "time running backwards\n");
-+				hwlat_err(BANNER "time running backwards\n");
- 				goto out;
- 			}
- 			if (outer_diff > outer_sample)
-@@ -237,7 +246,7 @@ static int get_sample(void)
- 
- 		/* Check for possible overflows */
- 		if (total < last_total) {
--			pr_err("Time total overflowed\n");
-+			hwlat_err("Time total overflowed\n");
- 			break;
- 		}
- 		last_total = total;
-@@ -253,7 +262,7 @@ static int get_sample(void)
- 
- 		/* This shouldn't happen */
- 		if (diff < 0) {
--			pr_err(BANNER "time running backwards\n");
-+			hwlat_err(BANNER "time running backwards\n");
- 			goto out;
- 		}
- 
+- * Includes useful feedback from Clark Williams <clark@redhat.com>
++ * Includes useful feedback from Clark Williams <williams@redhat.com>
+  *
+  */
+ #include <linux/kthread.h>
 -- 
 2.30.2
