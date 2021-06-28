@@ -2,129 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D789FC2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED22C2B9F4
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:12:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6FA4619AB
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:06:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E638C61C6C
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:12:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233103AbhF1NJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 09:09:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52868 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233105AbhF1NJW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 09:09:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624885616;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3Wsog/UA6NQRm36wrbUHXM3ftcSt/9+OFEW6vcsabAY=;
-        b=RiR40TU4jrtl9rNUACuQNyx3biuO0jOUfjOJYa6ZdFJNcIR0kwK6zXRf2i3JB2TrDYifVN
-        0FV9Ko9m9P8GhPRbog+ijE+UScWmqlp/0xhj/bYB6w8PgRoJMkNhtEGDh0NoqEpJHxOz9G
-        7oYHPVAH1UquSbN7FuPBdlf2OObnwZ4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-Aw_PXXwNPiWZVGhOMxdVSg-1; Mon, 28 Jun 2021 09:06:53 -0400
-X-MC-Unique: Aw_PXXwNPiWZVGhOMxdVSg-1
-Received: by mail-qt1-f198.google.com with SMTP id b11-20020ac812cb0000b0290250bfff0028so1866687qtj.9
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 06:06:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=3Wsog/UA6NQRm36wrbUHXM3ftcSt/9+OFEW6vcsabAY=;
-        b=EhraK3UaJifUUwg+xJJKmSJAAhTe/rQjTw8IvhCIE7SturLDm/Yt+HqKZgFZSsLUi2
-         K4ylhPkcyUqBO8DMpm22OUEchrHjlE40rV3I6fhlRXBoRwyNbxqd33ATUI962hZky6Di
-         wbYL50QsiPt/BDw9nlxz9volYAFBFxX9bZdBBhaQI4b7BpYxjH2RllKuzLTu6Cow/7Ti
-         JOw0dAOCD+c2RFLKpHIOif9y0sOQUKQadv5+atQeN1kZVojPkH+fPXf/wgTNTd7KpEr/
-         5b1cWqEP2X7aEQBx6fZy1R94+5GxNvALGH/E2Y5wGEQ5eq3Py8slFR7c3Er+T5mILcF6
-         aqpA==
-X-Gm-Message-State: AOAM533gmu39TYMPJOgo0zNKli35tNajWxv/y6ZFFcziTOwWvZwYhyP3
-        IsRnmU91+i5un+xGXyoU3+OJRWlF4lMDGEZ9BbLCldPFjJaAzoWlcoCAkeD2O4gtry02cu+7yPr
-        wv9vH6ApiUTa1pVmZNtDr
-X-Received: by 2002:a37:9986:: with SMTP id b128mr25711691qke.485.1624885612616;
-        Mon, 28 Jun 2021 06:06:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUlJHxYKkE1I0xN1vBM5amAltWfY9ckZGLT37Njz1aTkLclF02YuG2OEJBVFBBcLl/BywiTA==
-X-Received: by 2002:a37:9986:: with SMTP id b128mr25711669qke.485.1624885612428;
-        Mon, 28 Jun 2021 06:06:52 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id h128sm10222579qkc.94.2021.06.28.06.06.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jun 2021 06:06:51 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v2 2/6] cgroup/cpuset: Clarify the use of invalid
- partition root
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
+        id S233004AbhF1NOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 09:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232502AbhF1NOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 09:14:33 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEA5C061574;
+        Mon, 28 Jun 2021 06:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DoOU4Ye85iqHkPCggtrUrtpKi/JT315TV3vpm+/Y/5M=; b=NIDwCLJywS5m/1hR5mnTPJw6YX
+        QUTpMMJZVek78cmbuFGnRBKc9NmFD4E3bv7HNyuGKTY6bM1EmdW/dMYJUHLlLsQzCtJf+7nH3kuPJ
+        0acr8oPi7TvFmmiIDhAyKjuqAnRsqBb4Fg3DIegHzRcoTPg4x/44pnC1Bf914Np5Nc3V6JTq1LHVo
+        UYz1iyyu1J7o49tkc8k7I3pDjRgSdk6coI2muUKFYug1wNI4RH+Stsw/FBh9jtQJywtWXBIju/VHd
+        lMC3HIFrJ/nROziYSHf9/qy1pMXjHSEJmCM87h4SH9Y+OWel1TFZ4W4xFcx8Mv5KEq9/zNj+mu7Zh
+        5TG2eFBw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lxr22-002zqx-NA; Mon, 28 Jun 2021 13:10:52 +0000
+Date:   Mon, 28 Jun 2021 14:10:34 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <20210621184924.27493-1-longman@redhat.com>
- <20210621184924.27493-3-longman@redhat.com>
- <YNcHOe3o//pIiByh@mtj.duckdns.org>
-Message-ID: <6ea1ac38-73e1-3f78-a5d2-a4c23bcd8dd1@redhat.com>
-Date:   Mon, 28 Jun 2021 09:06:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Jann Horn <jannh@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] mm: introduce reference pages
+Message-ID: <YNnKSkcAM05tmPta@casper.infradead.org>
+References: <20210619092002.1791322-1-pcc@google.com>
 MIME-Version: 1.0
-In-Reply-To: <YNcHOe3o//pIiByh@mtj.duckdns.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210619092002.1791322-1-pcc@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/26/21 6:53 AM, Tejun Heo wrote:
-> Hello, Waiman.
->
-> On Mon, Jun 21, 2021 at 02:49:20PM -0400, Waiman Long wrote:
->>   1) A partition root can't be changed to member if it has child partition
->>      roots.
->>   2) Removing CPUs from cpuset.cpus that causes it to become invalid is
->>      not allowed.
-> I'm not a fan of this approach. No matter what we have to be able to handle
-> CPU removals which are user-iniated operations anyway, so I don't see why
-> we're adding a different way of handling a different set of operations. Just
-> handle them the same?
+On Sat, Jun 19, 2021 at 02:20:02AM -0700, Peter Collingbourne wrote:
+> +++ b/include/linux/mm.h
+> @@ -32,6 +32,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/pgtable.h>
+>  #include <linux/kasan.h>
+> +#include <linux/fs.h>
 
-The main reason for doing this is because normal cpuset control file 
-actions are under the direct control of the cpuset code. So it is up to 
-us to decide whether to grant it or deny it. Hotplug, on the other hand, 
-is not under the control of cpuset code. It can't deny a hotplug 
-operation. This is the main reason why the partition root error state 
-was added in the first place.
+No.
 
-Normally, users can set cpuset.cpus to whatever value they want even 
-though they are not actually granted. However, turning on partition root 
-is under more strict control. You can't turn on partition root if the 
-CPUs requested cannot actually be granted. The problem with setting the 
-state to just partition error is that users may not be aware that the 
-partition creation operation fails.  We can't assume all users will do 
-the proper error checking. I would rather let them know the operation 
-fails rather than relying on them doing the proper check afterward.
+> +++ b/include/linux/mman.h
+> @@ -2,6 +2,7 @@
+>  #ifndef _LINUX_MMAN_H
+>  #define _LINUX_MMAN_H
+>  
+> +#include <linux/fs.h>
 
-Yes, I agree that it is a different philosophy than the original cpuset 
-code, but I thought one reason of doing cgroup v2 is to simplify the 
-interface and make it a bit more erorr-proof. Since partition root 
-creation is a relatively rare operation, we can afford to make it more 
-strict than the other operations.
-
-Cheers,
-Longman
+No.
 
