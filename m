@@ -2,86 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DF4C2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA9AC49EAF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCD0D61C49
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:47:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6121561C61
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbhF1Jth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 05:49:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24431 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232596AbhF1Jtf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 05:49:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624873629;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TCxxjPOMK626lwweSQwJ6p0VG+Oz3KmoKLw/q0UxjIE=;
-        b=HggTBY2lHfsBGWEfsQMn9dwMWP+Vyjx/JSA/VMPKTdkpZqLwx67ix6GVIj2o1utfI6Co7t
-        KEaHt9oZdUtZoBQi3D2teU6WI8y8S2UKOzZ9VUZVIDTD4LX1eQqv4KQ3iPXY//Gg+RiC89
-        4wAmegPho3YYDTimjKrrl3tTh35kdUM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-yHvpfYCHP3GWqwFZz7t2Dw-1; Mon, 28 Jun 2021 05:47:05 -0400
-X-MC-Unique: yHvpfYCHP3GWqwFZz7t2Dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7731519067E3;
-        Mon, 28 Jun 2021 09:47:04 +0000 (UTC)
-Received: from x1.bristot.me.homenet.telecomitalia.it (ovpn-113-121.rdu2.redhat.com [10.10.113.121])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EE06E60C9F;
-        Mon, 28 Jun 2021 09:47:01 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [PATCH 4/4] Documentation: Fix a typo on trace/osnoise-tracer
-Date:   Mon, 28 Jun 2021 11:45:50 +0200
-Message-Id: <43e5160422a967218aa651c47f523e8d32d6a59e.1624872608.git.bristot@redhat.com>
-In-Reply-To: <cover.1624872608.git.bristot@redhat.com>
-References: <cover.1624872608.git.bristot@redhat.com>
+        id S232524AbhF1JyS convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 05:54:18 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3325 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232488AbhF1JyR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 05:54:17 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GD2gH5Vd0z6N4QG;
+        Mon, 28 Jun 2021 17:41:31 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 11:51:49 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
+ Mon, 28 Jun 2021 11:51:49 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC][PATCH 03/12] digest_lists: Basic definitions
+Thread-Topic: [RFC][PATCH 03/12] digest_lists: Basic definitions
+Thread-Index: AQHXaeMP1hrQEcpfKUiTvUrYdI7FlqsnkBuAgAGHhID//+c5gIAAIpgw///qPACAACIkMA==
+Date:   Mon, 28 Jun 2021 09:51:49 +0000
+Message-ID: <ae8418b544884467bbc5f7b4664b7e42@huawei.com>
+References: <20210625165614.2284243-1-roberto.sassu@huawei.com>
+ <20210625165614.2284243-4-roberto.sassu@huawei.com>
+ <YNhYu3BXh7f9GkVk@kroah.com> <860717cce60f47abb3c9dc3c1bd32ab7@huawei.com>
+ <YNmMX4EODT0c4zqk@kroah.com> <4acc7e8f15834b83b310b9e2ff9ba3d2@huawei.com>
+ <YNmXIk7orQavkEME@kroah.com>
+In-Reply-To: <YNmXIk7orQavkEME@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/RUNTIME IN USE/RUNTIME IN US/
+> From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> Sent: Monday, June 28, 2021 11:32 AM
+> On Mon, Jun 28, 2021 at 09:27:05AM +0000, Roberto Sassu wrote:
+> > > From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> > > Sent: Monday, June 28, 2021 10:46 AM
+> > > On Mon, Jun 28, 2021 at 08:30:32AM +0000, Roberto Sassu wrote:
+> > > > > > +struct compact_list_hdr {
+> > > > > > +	__u8 version;
+> > > > >
+> > > > > You should never need a version, that way lies madness.
+> > > >
+> > > > We wanted to have a way to switch to a new format, if necessary.
+> > >
+> > > Then just add a new ioctl if you need that in the future, no need to try
+> > > to cram it into this one.
+> >
+> > Given that digest lists are generated elsewhere, it would be still
+> > unclear when the ioctl() would be issued. Maybe the kernel needs
+> > to parse both v1 and v2 digest lists (I expect that v1 cannot be easily
+> > converted to v2, if they are signed).
+> >
+> >  It would be also unpractical if digest lists are loaded at kernel
+> > initialization time (I didn't send the patch yet).
+> 
+> Then that is up to your api design, I do not know.  But note that
+> "version" fields almost always never work, so be careful about assuming
+> that this will solve any future issues.
+> 
+> > > > > > +	__le16 type;
+> > > > > > +	__le16 modifiers;
+> > > > > > +	__le16 algo;
+> > > > > > +	__le32 count;
+> > > > > > +	__le32 datalen;
+> > > > >
+> > > > > Why are user/kernel apis specified in little endian format?  Why would
+> > > > > that matter?  Shouldn't they just be "native" endian?
+> > > >
+> > > > I thought this would make it clear that the kernel always expects the
+> > > > digest lists to be in little endian.
+> > >
+> > > Why would a big endian system expect the data from userspace to be in
+> > > little endian?  Shouldn't this always just be "native" endian given that
+> > > this is not something that is being sent to hardware?
+> >
+> > The digest list might come from a system with different endianness.
+> 
+> Ok, I have no idea what digests really are used for then.  So stick with
+> little endian and be sure to properly convert within the kernel as
+> needed.
 
-Fixes: bce29ac9ce0b ("trace: Add osnoise tracer")
-Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
----
- Documentation/trace/osnoise-tracer.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The most intuitive use case is to extend secure boot to the OS.
 
-diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
-index 37a3c10fb216..b648cb9bf1f0 100644
---- a/Documentation/trace/osnoise-tracer.rst
-+++ b/Documentation/trace/osnoise-tracer.rst
-@@ -77,7 +77,7 @@ In addition to the regular trace fields (from TASK-PID to TIMESTAMP), the
- tracer prints a message at the end of each period for each CPU that is
- running an osnoise/ thread. The osnoise specific fields report:
- 
-- - The RUNTIME IN USE reports the amount of time in microseconds that
-+ - The RUNTIME IN US reports the amount of time in microseconds that
-    the osnoise thread kept looping reading the time.
-  - The NOISE IN US reports the sum of noise in microseconds observed
-    by the osnoise tracer during the associated runtime.
--- 
-2.31.1
+The kernel might be configured to accept only digest lists signed
+with a trusted key.
 
+Once the database is populated, execution and mmap can be denied
+if the calculated file or metadata digest is not found in the database
+(the file has not been released by the vendor).
+
+Roberto
+
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Li Peng, Li Jian, Shi Yanli
+
+> thanks,
+> 
+> greg k-h
