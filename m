@@ -2,507 +2,612 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40558C49361
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D516C49361
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:34:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20B6161463
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:31:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BE1B61C75
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 13:34:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbhF1Ndo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 09:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51300 "EHLO
+        id S231985AbhF1Ngb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 09:36:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbhF1Ndo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 09:33:44 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A8DC061574
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 06:31:18 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id v20-20020a05600c2154b02901dcefb16af0so11197161wml.5
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 06:31:18 -0700 (PDT)
+        with ESMTP id S231964AbhF1Nga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 09:36:30 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285CDC061574;
+        Mon, 28 Jun 2021 06:34:04 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id b2so1301505qka.7;
+        Mon, 28 Jun 2021 06:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Th9N8qAUg71XbtsrIkA00pOpc5UVan7wB6GzY/X2PZw=;
-        b=ZnYvXe5fEIvXzCJfwa1QsMbSlcQJ2s17B2nwf5FulN1EsZTcemOW1J14gEMeXwYVCR
-         sW6VERXly9xovmPYCsYXW8/HGXrV7ga4HzIf7Md8L/XQz8hseejEO7Oy9+DZekjCLS3/
-         N/UDBY5KEofKB4zSud+OZyclICxmcgKMhG36QTvhiNmKw3CcRwTsfSTarJWc9pHrskQz
-         gBbMT33PpUEeVp63gh3tCjWYhIUd2TPLwrVFuBaf4ekEmPYi01zRn0gLVtK/FikDKwLK
-         +3wYNqQGC7D05MDA5I8ubZfyo/8yYkCgcJJX+q9FVQ03Py/gpaNyvBtL0TmK05T12Bld
-         OBfw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=JDhjQhICpuQlRyLWQb++A9q5hExVkD9ocgB3tMSNnRI=;
+        b=dUVCP9dT+WdnU19VeFpTZ+2QN1CYo0vGowO2KnL1YpphdLQUtfE/1YsDaaXfefrdyh
+         RFxF/DRDxgnDiiyPdJjRRgNkTH9zv2Wk5DD7uT9/g+mxM2W4Ui30uopw82QB65i1GlLa
+         piDa0fZAb3joKQvcF5l0+URgGOfNxmTWfdX+rgsI9cT9P6qcv+9RZAvYuT1/aUCeIN1+
+         LhKINuP4s5HpuYdTPCl4OP8C4BF/CAwJj0j1Q2WjzDO5grbCN6BKjazTNtHy0QPJiUtY
+         8eHY9gkiI/UM4Quv5blxwxjR1F4AvD2GudXK2ajCGvvkkAEfWyXIhwTiO5fNVBmlvbMH
+         2khg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Th9N8qAUg71XbtsrIkA00pOpc5UVan7wB6GzY/X2PZw=;
-        b=W4fczCy0al8hxNqhKqiqk0zF4GrmFN16CCGeCZ3fJVKJ4//EhZjA8W5kfLFz2gKkhf
-         b9m+vAIksu8zQrOuOm7o5cNgcON0WBVDvmQdiBuS/NOG4EsZx7CayIHgqB3W8QUkfXSa
-         G/HdNIx8J8npG2B48dhEgK9aBlNLCKkoo6ypyq1JB1UWDcgU7BkXRLwcd9Mcg8u9qAxk
-         q9LEenkPfDp3Nczne9xcKgAWw+KFovkkniFb5SCV86NRd1jZKcQTMCNSPacCvrBa69Fa
-         8azjwIoz/Y92pbtekDyW6BG5zhJAhxlWLyRSRcUkB2KbQRa1OcUO/yVDL5Xn2bJuP2mK
-         GPqw==
-X-Gm-Message-State: AOAM533fRWFe9wXmLm7Pg4nt8yMcfvHuQSTMziahrpJOtDdUzHiD9cIe
-        cih6BWIfgP1889WEAKUvwhqc2WtJBCFtsWjPKgXipg==
-X-Google-Smtp-Source: ABdhPJwm9TvWmsxlTvTwmHZfiJ0noPuS0pkprMprNdU8QsOdDz37srWFv0WEPLpGQHEv5kEi9FOBj49lsL6yNqVB8AE=
-X-Received: by 2002:a1c:4b05:: with SMTP id y5mr26948051wma.5.1624887076796;
- Mon, 28 Jun 2021 06:31:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414191903.18349-1-mike.leach@linaro.org> <20210414191903.18349-6-mike.leach@linaro.org>
- <dfbb1acf-b174-1990-33d3-39e2ab746959@arm.com> <CANLsYkyR-kUO7CiK4vuw+DNFMxCCsLN24s3mZ2Uw4vAq5aPD3g@mail.gmail.com>
- <CAJ9a7Vjsmu88ZY1h11o13VMu9C9gaBr_8HEmSa5iAH3NvwM=NA@mail.gmail.com> <815e1569-7e46-7891-4982-f3d38d734658@arm.com>
-In-Reply-To: <815e1569-7e46-7891-4982-f3d38d734658@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Mon, 28 Jun 2021 14:31:05 +0100
-Message-ID: <CAJ9a7Vjc-NcYYe3uqR4yrBKuHXV2YhJFkei-obf5e1R26-9_ew@mail.gmail.com>
-Subject: Re: [PATCH v7 05/10] coresight: syscfg: Add API to activate and
- enable configurations
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Branislav Rankov <branislav.rankov@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Yabin Cui <yabinc@google.com>, Jon Corbet <corbet@lwn.net>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Tingwei Zhang <tingwei@codeaurora.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        nd <nd@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=JDhjQhICpuQlRyLWQb++A9q5hExVkD9ocgB3tMSNnRI=;
+        b=XvfA3NCpcp2HoJmGSTZVg138L8xCvwJ4gmxAajqkClytutwo5gylXt5e0/DnhoERhJ
+         go6VtxuiC8Tt6sezO+q0XhgfvrI+kc6mP07NaWvHJIzd1L7RrSq6W/4oN+Vf9ldV47tz
+         hf6znMv39g9UqWXZIsArncHl4RzH6CUZNHOa9itrG88Tist2WRyDOSbzYtTcXVpXHFd6
+         m8CYBouFksw940Ml8vkpkbHjJZD5WsqayBMi9bYVJXEsYDSX1hwAtYDz8bAWRDU4mTcf
+         Zq7YiXGJCn44X35XdjcitPHxc4v6SntJUaHFbqeETzxJKLT7zGJdx/Am658XRQ/IPbuw
+         0uNw==
+X-Gm-Message-State: AOAM5314uqC4aALZ5oYyha1ASpM7dM4y0UHZRFGo2a6WLz1bQ79EIbMK
+        Y2gKCIFyFxbDzD8LpUOWJEI=
+X-Google-Smtp-Source: ABdhPJx7HrFTxYbokUXwi2kDBmKLMjR2bnazQESmchrHDiKg3w5Lf+c46x2c9GPhv05WaHuzrwI1zQ==
+X-Received: by 2002:ae9:f30c:: with SMTP id p12mr6225701qkg.19.1624887242980;
+        Mon, 28 Jun 2021 06:34:02 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id h1sm2276030qkm.50.2021.06.28.06.34.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jun 2021 06:34:02 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, jgowans@amazon.com, mgorman@suse.de,
+        mheyne@amazon.de, minchan@kernel.org, mingo@redhat.com,
+        namhyung@kernel.org, peterz@infradead.org, riel@surriel.com,
+        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+        shakeelb@google.com, shuah@kernel.org, sieberf@amazon.com,
+        sj38.park@gmail.com, snu@zelle79.org, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v32 00/13] Introduce Data Access MONitor (DAMON)
+Date:   Mon, 28 Jun 2021 13:33:42 +0000
+Message-Id: <20210628133355.18576-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HI Suzuki,
+From: SeongJae Park <sjpark@amazon.de>
 
+Changes from Previous Version (v31)
+===================================
 
-On Fri, 25 Jun 2021 at 16:09, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->
-> On 25/06/2021 15:37, Mike Leach wrote:
-> > HI Branislav, Mathieu,
-> >
-> > I have started to look into this as a top priority.
-> >
-> > However, when I enable the CONFIG_DEBUG_ option my board fails to boot
-> > at all. (Dragonboard DB410c), so the resolution make take a little
-> > time.
-> >
-> > At this point I am assuming that the mutex will need to be replaced by
-> > a spinlock - so a re-design + v8 set may well be required.
->
-> Or may be a refcount on the "config" instance may work too ?
-> i.e, when the config is loaded onto a device, a refcount could be
-> taken on the config and dropped on unload.
->
-> Whoever drops it to zero could release it.
->
+Compared to the v31
+(https://lore.kernel.org/linux-mm/20210621083108.17589-1-sj38.park@gmail.com/),
+this version contains below minor changes.
 
-Config activate  / deactivate is protected by a refcount - and when
-dynamic loading we prevent unload if active.
+- Rebase on latest -mm tree (v5.13-rc7-mmots-2021-06-24-20-54)
+- Collect 'Acked-by:' tags from Shakeel Butt
+- Use 'kthread_run()' (Shakeel Butt)
+- Change default 'update_interval' to 60 seconds (Shakeel Butt)
+- Utilize 'nr_regions' field in each 'damon_target' object (Shakeel Butt)
+- Remove unused parameters in some functions (Shakeel Butt)
+- Use variable name 'ctx' for 'damon_ctx' (Shakeel Butt)
+- Make 'dbgfs' to completely manage pid reference counting (Shakeel Butt)
+- Remove '.owner' setting for debugfs files (Shakeel Butt)
 
-The issue here is dertermining which config instance on the device to
-program up when enabling the device.
-perf will activate the config when it goes through setup_aux (at the
-same time as all the coresight paths / sinks are activated).
-the coresight device (ETM /ETE) will enable the config on a specific
-ETM instance when that ETM is enabled for the perf event. To do this
-it checks the event data to determine which config is active for the
-event and then calls this API to enable it.
-conversely when the perf event causes a disable ETM - then the config
-will be disabled - which may mean saving some registers.
-perf will deactivate the config in the free_event_data, once the perf
-session disappears.
+Now all patches of this patchset has at least one 'Reviewed-by:' tags.  Andrew,
+could you please consider merging this into the -mm tree?
 
-So, as the event is scheduled on and off etms, the config is
-programmed or deprogrammed on the etm  - so it is not really a case of
-ref counting, as it is either on or off.
-This allows for the event moving when --per-thread - only devices in
-use by perf are programmed with the config - and also ensures that
-this scales to support multiple perf sessions with differing configs
-(when we support multiple perf sessions).
+Introduction
+============
 
-The requirement here is to protect the list of loaded configs in the
-instance while we determine which one matches the active config for
-the perf session.
+DAMON is a data access monitoring framework for the Linux kernel.  The core
+mechanisms of DAMON called 'region based sampling' and 'adaptive regions
+adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
+the detail) make it
 
-Moving from a cscfg global mutex, to a per csdev instance list
-splnlock makes sense in this context.
+ - accurate (The monitored information is useful for DRAM level memory
+   management. It might not appropriate for Cache-level accuracy, though.),
+ - light-weight (The monitoring overhead is low enough to be applied online
+   while making no impact on the performance of the target workloads.), and
+ - scalable (the upper-bound of the instrumentation overhead is controllable
+   regardless of the size of target workloads.).
 
-Regards
+Using this framework, therefore, several memory management mechanisms such as
+reclamation and THP can be optimized to aware real data access patterns.
+Experimental access pattern aware memory management optimization works that
+incurring high instrumentation overhead will be able to have another try.
 
-Mike
+Though DAMON is for kernel subsystems, it can be easily exposed to the user
+space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
+have some special workloads will be able to write personalized tools or
+applications for deeper understanding and specialized optimizations of their
+systems.
 
+DAMON is also merged in two public Amazon Linux kernel trees that based on
+v5.4.y[1] and v5.10.y[2].
 
+[1] https://github.com/amazonlinux/linux/tree/amazon-5.4.y/master/mm/damon
+[2] https://github.com/amazonlinux/linux/tree/amazon-5.10.y/master/mm/damon
 
+Long-term Plan
+--------------
 
-> Thoughts ?
->
-> Suzuki
->
->
-> >
-> > Regards
-> >
-> > Mike
-> >
-> > On Mon, 14 Jun 2021 at 18:03, Mathieu Poirier
-> > <mathieu.poirier@linaro.org> wrote:
-> >>
-> >> Hi Branislav,
-> >>
-> >> On Thu, 10 Jun 2021 at 05:05, Branislav Rankov <branislav.rankov@arm.com> wrote:
-> >>>
-> >>>
-> >>> On 4/14/21 8:18 PM, Mike Leach wrote:
-> >>>> Configurations are first activated, then when any coresight device is
-> >>>> enabled, the active configurations are checked and any matching
-> >>>> one is enabled.
-> >>>>
-> >>>> This patch provides the activation / enable API.
-> >>>>
-> >>>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> >>>> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> >>>> ---
-> >>>>    .../hwtracing/coresight/coresight-config.h    |   2 +
-> >>>>    .../hwtracing/coresight/coresight-syscfg.c    | 172 ++++++++++++++++++
-> >>>>    .../hwtracing/coresight/coresight-syscfg.h    |   8 +
-> >>>>    include/linux/coresight.h                     |   2 +
-> >>>>    4 files changed, 184 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> >>>> index 0667581822c1..25eb6c632692 100644
-> >>>> --- a/drivers/hwtracing/coresight/coresight-config.h
-> >>>> +++ b/drivers/hwtracing/coresight/coresight-config.h
-> >>>> @@ -127,6 +127,7 @@ struct cscfg_feature_desc {
-> >>>>     * @nr_total_params:        Sum of all parameters declared by used features
-> >>>>     * @presets:                Array of preset values.
-> >>>>     * @event_ea:               Extended attribute for perf event value
-> >>>> + * @active_cnt:              ref count for activate on this configuration.
-> >>>>     *
-> >>>>     */
-> >>>>    struct cscfg_config_desc {
-> >>>> @@ -139,6 +140,7 @@ struct cscfg_config_desc {
-> >>>>        int nr_total_params;
-> >>>>        const u64 *presets; /* nr_presets * nr_total_params */
-> >>>>        struct dev_ext_attribute *event_ea;
-> >>>> +     atomic_t active_cnt;
-> >>>>    };
-> >>>>
-> >>>>    /**
-> >>>> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
-> >>>> index e35f8c0ac2f8..b234e45c153f 100644
-> >>>> --- a/drivers/hwtracing/coresight/coresight-syscfg.c
-> >>>> +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
-> >>>> @@ -283,6 +283,7 @@ static int cscfg_load_config(struct cscfg_config_desc *config_desc)
-> >>>>                return err;
-> >>>>
-> >>>>        list_add(&config_desc->item, &cscfg_mgr->config_desc_list);
-> >>>> +     atomic_set(&config_desc->active_cnt, 0);
-> >>>>        return 0;
-> >>>>    }
-> >>>>
-> >>>> @@ -468,6 +469,176 @@ void cscfg_unregister_csdev(struct coresight_device *csdev)
-> >>>>    }
-> >>>>    EXPORT_SYMBOL_GPL(cscfg_unregister_csdev);
-> >>>>
-> >>>> +/**
-> >>>> + * cscfg_csdev_reset_feats - reset features for a CoreSight device.
-> >>>> + *
-> >>>> + * Resets all parameters and register values for any features loaded
-> >>>> + * into @csdev to their default values.
-> >>>> + *
-> >>>> + * @csdev: The CoreSight device.
-> >>>> + */
-> >>>> +void cscfg_csdev_reset_feats(struct coresight_device *csdev)
-> >>>> +{
-> >>>> +     struct cscfg_feature_csdev *feat_csdev;
-> >>>> +
-> >>>> +     mutex_lock(&cscfg_csdev_mutex);
-> >>>> +     if (list_empty(&csdev->feature_csdev_list))
-> >>>> +             goto unlock_exit;
-> >>>> +
-> >>>> +     list_for_each_entry(feat_csdev, &csdev->feature_csdev_list, node)
-> >>>> +             cscfg_reset_feat(feat_csdev);
-> >>>> +
-> >>>> +unlock_exit:
-> >>>> +     mutex_unlock(&cscfg_csdev_mutex);
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(cscfg_csdev_reset_feats);
-> >>>> +
-> >>>> +/**
-> >>>> + * cscfg_activate_config -  Mark a configuration descriptor as active.
-> >>>> + *
-> >>>> + * This will be seen when csdev devices are enabled in the system.
-> >>>> + * Only activated configurations can be enabled on individual devices.
-> >>>> + * Activation protects the configuration from alteration or removal while
-> >>>> + * active.
-> >>>> + *
-> >>>> + * Selection by hash value - generated from the configuration name when it
-> >>>> + * was loaded and added to the cs_etm/configurations file system for selection
-> >>>> + * by perf.
-> >>>> + *
-> >>>> + * Increments the configuration descriptor active count and the global active
-> >>>> + * count.
-> >>>> + *
-> >>>> + * @cfg_hash: Hash value of the selected configuration name.
-> >>>> + */
-> >>>> +int cscfg_activate_config(unsigned long cfg_hash)
-> >>>> +{
-> >>>> +     struct cscfg_config_desc *config_desc;
-> >>>> +     int err = -EINVAL;
-> >>>> +
-> >>>> +     mutex_lock(&cscfg_mutex);
-> >>>> +
-> >>>> +     list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
-> >>>> +             if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
-> >>>> +                     /*
-> >>>> +                      * increment the global active count - control changes to
-> >>>> +                      * active configurations
-> >>>> +                      */
-> >>>> +                     atomic_inc(&cscfg_mgr->sys_active_cnt);
-> >>>> +
-> >>>> +                     /*
-> >>>> +                      * mark the descriptor as active so enable config on a
-> >>>> +                      * device instance will use it
-> >>>> +                      */
-> >>>> +                     atomic_inc(&config_desc->active_cnt);
-> >>>> +
-> >>>> +                     err = 0;
-> >>>> +                     dev_dbg(cscfg_device(), "Activate config %s.\n", config_desc->name);
-> >>>> +                     break;
-> >>>> +             }
-> >>>> +     }
-> >>>> +     mutex_unlock(&cscfg_mutex);
-> >>>> +
-> >>>> +     return err;
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(cscfg_activate_config);
-> >>>> +
-> >>>> +/**
-> >>>> + * cscfg_deactivate_config -  Mark a config descriptor as inactive.
-> >>>> + *
-> >>>> + * Decrement the configuration and global active counts.
-> >>>> + *
-> >>>> + * @cfg_hash: Hash value of the selected configuration name.
-> >>>> + */
-> >>>> +void cscfg_deactivate_config(unsigned long cfg_hash)
-> >>>> +{
-> >>>> +     struct cscfg_config_desc *config_desc;
-> >>>> +
-> >>>> +     mutex_lock(&cscfg_mutex);
-> >>>> +
-> >>>> +     list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
-> >>>> +             if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
-> >>>> +                     atomic_dec(&config_desc->active_cnt);
-> >>>> +                     atomic_dec(&cscfg_mgr->sys_active_cnt);
-> >>>> +                     dev_dbg(cscfg_device(), "Deactivate config %s.\n", config_desc->name);
-> >>>> +                     break;
-> >>>> +             }
-> >>>> +     }
-> >>>> +     mutex_unlock(&cscfg_mutex);
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(cscfg_deactivate_config);
-> >>>> +
-> >>>> +/**
-> >>>> + * cscfg_csdev_enable_active_config - Enable matching active configuration for device.
-> >>>> + *
-> >>>> + * Enables the configuration selected by @cfg_hash if the configuration is supported
-> >>>> + * on the device and has been activated.
-> >>>> + *
-> >>>> + * If active and supported the CoreSight device @csdev will be programmed with the
-> >>>> + * configuration, using @preset parameters.
-> >>>> + *
-> >>>> + * Should be called before driver hardware enable for the requested device, prior to
-> >>>> + * programming and enabling the physical hardware.
-> >>>> + *
-> >>>> + * @csdev:   CoreSight device to program.
-> >>>> + * @cfg_hash:        Selector for the configuration.
-> >>>> + * @preset:  Preset parameter values to use, 0 for current / default values.
-> >>>> + */
-> >>>> +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
-> >>>> +                                  unsigned long cfg_hash, int preset)
-> >>>> +{
-> >>>> +     struct cscfg_config_csdev *config_csdev_active = NULL, *config_csdev_item;
-> >>>> +     const struct cscfg_config_desc *config_desc;
-> >>>> +     int err = 0;
-> >>>> +
-> >>>> +     /* quickly check global count */
-> >>>> +     if (!atomic_read(&cscfg_mgr->sys_active_cnt))
-> >>>> +             return 0;
-> >>>> +
-> >>>> +     mutex_lock(&cscfg_csdev_mutex);
-> >>>> +     list_for_each_entry(config_csdev_item, &csdev->config_csdev_list, node) {
-> >>>> +             config_desc = config_csdev_item->config_desc;
-> >>>> +             if ((atomic_read(&config_desc->active_cnt)) &&
-> >>>> +                 ((unsigned long)config_desc->event_ea->var == cfg_hash)) {
-> >>>> +                     config_csdev_active = config_csdev_item;
-> >>>> +                     break;
-> >>>> +             }
-> >>>> +     }
-> >>>> +     if (config_csdev_active) {
-> >>>> +             err = cscfg_csdev_enable_config(config_csdev_active, preset);
-> >>>> +             if (!err)
-> >>>> +                     csdev->active_cscfg_ctxt = (void *)config_csdev_active;
-> >>>> +     }
-> >>>> +     mutex_unlock(&cscfg_csdev_mutex);
-> >>>> +     return err;
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
-> >>>> +
-> >>>> +/**
-> >>>> + * cscfg_csdev_disable_active_config - disable an active config on the device.
-> >>>> + *
-> >>>> + * Disables the active configuration on the CoreSight device @csdev.
-> >>>> + * Disable will save the values of any registers marked in the configurations
-> >>>> + * as save on disable.
-> >>>> + *
-> >>>> + * Should be called after driver hardware disable for the requested device,
-> >>>> + * after disabling the physical hardware and reading back registers.
-> >>>> + *
-> >>>> + * @csdev: The CoreSight device.
-> >>>> + */
-> >>>> +void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
-> >>>> +{
-> >>>> +     struct cscfg_config_csdev *config_csdev;
-> >>>> +
-> >>>> +     mutex_lock(&cscfg_csdev_mutex);
-> >>>
-> >>> This line seems to cause a bug report when the kernel is compiled with CONFIG_DEBUG_ATOMIC_SLEEP=y
-> >>>
-> >>> I have tested this by applying the series to 5.10 kernel on Dragonboard 845c.
-> >>>
-> >>> It only happens when strobing is used.
-> >>
-> >> Thanks for reporting this.  Unfortunately Mike is away and likely
-> >> won't be able to look at this in time for the merge window.  As such I
-> >> backed out the complex configuration feature from the next branch but
-> >> that code is still available on next-complex-configuration.
-> >>
-> >> Thanks,
-> >> Mathieu
-> >>
-> >>>
-> >>> The report is this:
-> >>>
-> >>> [13431.885395] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:283
-> >>> [13431.893919] in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 3525, name: perf
-> >>> [13431.901882] CPU: 0 PID: 3525 Comm: perf Tainted: G        W         5.10.0-rc5-17282-g923b456a55fb #124
-> >>> [13431.911436] Hardware name: Thundercomm Dragonboard 845c (DT)
-> >>> [13431.917450] Call trace:
-> >>> [13431.919938]  dump_backtrace+0x0/0x1a0
-> >>> [13431.923644]  show_stack+0x18/0x68
-> >>> [13431.927008]  dump_stack+0xd0/0x12c
-> >>> [13431.930444]  ___might_sleep+0xf0/0x130
-> >>> [13431.934228]  __might_sleep+0x54/0x90
-> >>> [13431.937945]  mutex_lock+0x28/0x80
-> >>> [13431.941468]  cscfg_csdev_disable_active_config+0x24/0x50
-> >>> [13431.946952]  etm4_disable+0xf0/0x100
-> >>> [13431.950571]  etm_event_stop+0xb8/0x130
-> >>> [13431.954380]  etm_event_del+0x14/0x20
-> >>> [13431.958008]  event_sched_out.isra.0+0x84/0x1c8
-> >>> [13431.962496]  group_sched_out.part.0+0x44/0xc8
-> >>> [13431.967010]  __perf_event_disable+0xe4/0x198
-> >>> [13431.971549]  event_function+0x8c/0xe8
-> >>> [13431.975256]  remote_function+0x64/0x78
-> >>> [13431.979161]  generic_exec_single+0xa0/0x100
-> >>> [13431.983876]  smp_call_function_single+0x158/0x1d8
-> >>> [13431.988629]  event_function_call+0x128/0x138
-> >>> [13431.992942]  _perf_event_disable+0x48/0x70
-> >>> [13431.997082]  perf_event_for_each_child+0x3c/0x90
-> >>> [13432.001751]  _perf_ioctl+0x198/0x4a8
-> >>> [13432.005359]  perf_ioctl+0x4c/0x78
-> >>> [13432.008715]  __arm64_sys_ioctl+0xa8/0xf0
-> >>> [13432.012835]  el0_svc_common.constprop.0+0x78/0x1a0
-> >>> [13432.017767]  do_el0_svc+0x24/0x90
-> >>> [13432.021616]  el0_sync_handler+0x160/0x168
-> >>> [13432.025670]  el0_sync+0x174/0x180
-> >>>
-> >>>
-> >>>> +     config_csdev = (struct cscfg_config_csdev *)csdev->active_cscfg_ctxt;
-> >>>> +     if (config_csdev) {
-> >>>> +             cscfg_csdev_disable_config(config_csdev);
-> >>>> +             csdev->active_cscfg_ctxt = NULL;
-> >>>> +     }
-> >>>> +     mutex_unlock(&cscfg_csdev_mutex);
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(cscfg_csdev_disable_active_config);
-> >>>> +
-> >>>>    /* Initialise system configuration management device. */
-> >>>>
-> >>>>    struct device *cscfg_device(void)
-> >>>> @@ -536,6 +707,7 @@ int __init cscfg_init(void)
-> >>>>        INIT_LIST_HEAD(&cscfg_mgr->csdev_desc_list);
-> >>>>        INIT_LIST_HEAD(&cscfg_mgr->feat_desc_list);
-> >>>>        INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
-> >>>> +     atomic_set(&cscfg_mgr->sys_active_cnt, 0);
-> >>>>
-> >>>>        dev_info(cscfg_device(), "CoreSight Configuration manager initialised");
-> >>>>        return 0;
-> >>>> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
-> >>>> index 5bcae3b374c6..a52775890670 100644
-> >>>> --- a/drivers/hwtracing/coresight/coresight-syscfg.h
-> >>>> +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
-> >>>> @@ -24,12 +24,14 @@
-> >>>>     * @csdev_desc_list:        List of coresight devices registered with the configuration manager.
-> >>>>     * @feat_desc_list: List of feature descriptors to load into registered devices.
-> >>>>     * @config_desc_list:       List of system configuration descriptors to load into registered devices.
-> >>>> + * @sys_active_cnt:  Total number of active config descriptor references.
-> >>>>     */
-> >>>>    struct cscfg_manager {
-> >>>>        struct device dev;
-> >>>>        struct list_head csdev_desc_list;
-> >>>>        struct list_head feat_desc_list;
-> >>>>        struct list_head config_desc_list;
-> >>>> +     atomic_t sys_active_cnt;
-> >>>>    };
-> >>>>
-> >>>>    /* get reference to dev in cscfg_manager */
-> >>>> @@ -61,5 +63,11 @@ int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
-> >>>>    int cscfg_register_csdev(struct coresight_device *csdev, u32 match_flags,
-> >>>>                         struct cscfg_csdev_feat_ops *ops);
-> >>>>    void cscfg_unregister_csdev(struct coresight_device *csdev);
-> >>>> +int cscfg_activate_config(unsigned long cfg_hash);
-> >>>> +void cscfg_deactivate_config(unsigned long cfg_hash);
-> >>>> +void cscfg_csdev_reset_feats(struct coresight_device *csdev);
-> >>>> +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
-> >>>> +                                  unsigned long cfg_hash, int preset);
-> >>>> +void cscfg_csdev_disable_active_config(struct coresight_device *csdev);
-> >>>>
-> >>>>    #endif /* CORESIGHT_SYSCFG_H */
-> >>>> diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-> >>>> index 6fb516e1b22e..a348049ee08b 100644
-> >>>> --- a/include/linux/coresight.h
-> >>>> +++ b/include/linux/coresight.h
-> >>>> @@ -222,6 +222,7 @@ struct coresight_sysfs_link {
-> >>>>     * @has_conns_grp: Have added a "connections" group for sysfs links.
-> >>>>     * @feature_csdev_list: List of complex feature programming added to the device.
-> >>>>     * @config_csdev_list:  List of system configurations added to the device.
-> >>>> + * @active_cscfg_ctxt:  Context information for current active system configuration.
-> >>>>     */
-> >>>>    struct coresight_device {
-> >>>>        struct coresight_platform_data *pdata;
-> >>>> @@ -246,6 +247,7 @@ struct coresight_device {
-> >>>>        /* system configuration and feature lists */
-> >>>>        struct list_head feature_csdev_list;
-> >>>>        struct list_head config_csdev_list;
-> >>>> +     void *active_cscfg_ctxt;
-> >>>>    };
-> >>>>
-> >>>>    /*
-> >>>>
-> >
-> >
-> >
->
+DAMON is a part of a project called Data Access-aware Operating System (DAOS).
+As the name implies, I want to improve the performance and efficiency of
+systems using fine-grained data access patterns.  The optimizations are for
+both kernel and user spaces.  I will therefore modify or create kernel
+subsystems, export some of those to user space and implement user space library
+/ tools.  Below shows the layers and components for the project.
 
+    ---------------------------------------------------------------------------
+    Primitives:     PTE Accessed bit, PG_idle, rmap, (Intel CMT), ...
+    Framework:      DAMON
+    Features:       DAMOS, virtual addr, physical addr, ...
+    Applications:   DAMON-debugfs, (DARC), ...
+    ^^^^^^^^^^^^^^^^^^^^^^^    KERNEL SPACE    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
---
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+    Raw Interface:  debugfs, (sysfs), (damonfs), tracepoints, (sys_damon), ...
+
+    vvvvvvvvvvvvvvvvvvvvvvv    USER SPACE      vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    Library:        (libdamon), ...
+    Tools:          DAMO, (perf), ...
+    ---------------------------------------------------------------------------
+
+The components in parentheses or marked as '...' are not implemented yet but in
+the future plan.  IOW, those are the TODO tasks of DAOS project.  For more
+detail, please refer to the plans:
+https://lore.kernel.org/linux-mm/20201202082731.24828-1-sjpark@amazon.com/
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 24
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v24 DAMON patchset is applied.
+
+DAMON is lightweight.  It increases system memory usage by 0.39% and slows
+target workloads down by 1.16%.
+
+DAMON is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, namely 'ethp', removes
+76.15% of THP memory overheads while preserving 51.25% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 93.38% of residential sets and 23.63% of system memory footprint while
+incurring only 1.22% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimental THP optimization and proactive reclamation are not
+for production but only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in this patchset for detailed evaluation setup and
+results.
+
+[1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
+
+Real-world User Story
+=====================
+
+In summary, DAMON has used on production systems and proved its usefulness.
+
+DAMON as a profiler
+-------------------
+
+We analyzed characteristics of a large scale production systems of our
+customers using DAMON.  The systems utilize 70GB DRAM and 36 CPUs.  From this,
+we were able to find interesting things below.
+
+There were obviously different access pattern under idle workload and active
+workload.  Under the idle workload, it accessed large memory regions with low
+frequency, while the active workload accessed small memory regions with high
+freuqnecy.
+
+DAMON found a 7GB memory region that showing obviously high access frequency
+under the active workload.  We believe this is the performance-effective
+working set and need to be protected.
+
+There was a 4KB memory region that showing highest access frequency under not
+only active but also idle workloads.  We think this must be a hottest code
+section like thing that should never be paged out.
+
+For this analysis, DAMON used only 0.3-1% of single CPU time.  Because we used
+recording-based analysis, it consumed about 3-12 MB of disk space per 20
+minutes.  This is only small amount of disk space, but we can further reduce
+the disk usage by using non-recording-based DAMON features.  I'd like to argue
+that only DAMON can do such detailed analysis (finding 4KB highest region in
+70GB memory) with the light overhead.
+
+DAMON as a system optimization tool
+-----------------------------------
+
+We also found below potential performance problems on the systems and made
+DAMON-based solutions.
+
+The system doesn't want to make the workload suffer from the page reclamation
+and thus it utilizes enough DRAM but no swap device.  However, we found the
+system is actively reclaiming file-backed pages, because the system has
+intensive file IO.  The file IO turned out to be not performance critical for
+the workload, but the customer wanted to ensure performance critical
+file-backed pages like code section to not mistakenly be evicted.
+
+Using direct IO should or `mlock()` would be a straightforward solution, but
+modifying the user space code is not easy for the customer.  Alternatively, we
+could use DAMON-based operation scheme[1].  By using it, we can ask DAMON to
+track access frequency of each region and make
+'process_madvise(MADV_WILLNEED)[2]' call for regions having specific size and
+access frequency for a time interval.
+
+We also found the system is having high number of TLB misses.  We tried
+'always' THP enabled policy and it greatly reduced TLB misses, but the page
+reclamation also been more frequent due to the THP internal fragmentation
+caused memory bloat.  We could try another DAMON-based operation scheme that
+applies 'MADV_HUGEPAGE' to memory regions having >=2MB size and high access
+frequency, while applying 'MADV_NOHUGEPAGE' to regions having <2MB size and low
+access frequency.
+
+We do not own the systems so we only reported the analysis results and possible
+optimization solutions to the customers.  The customers satisfied about the
+analysis results and promised to try the optimization guides.
+
+[1] https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-api/20200622192900.22757-4-minchan@kernel.org/
+
+Comparison with Idle Page Tracking
+==================================
+
+Idle Page Tracking allows users to set and read idleness of pages using a
+bitmap file which represents each page with each bit of the file.  One
+recommended usage of it is working set size detection.  Users can do that by
+
+    1. find PFN of each page for workloads in interest,
+    2. set all the pages as idle by doing writes to the bitmap file,
+    3. wait until the workload accesses its working set, and
+    4. read the idleness of the pages again and count pages became not idle.
+
+NOTE: While Idle Page Tracking is for user space users, DAMON is primarily
+designed for kernel subsystems though it can easily exposed to the user space.
+Hence, this section only assumes such user space use of DAMON.
+
+For what use cases Idle Page Tracking would be better?
+------------------------------------------------------
+
+1. Flexible usecases other than hotness monitoring.
+
+Because Idle Page Tracking allows users to control the primitive (Page
+idleness) by themselves, Idle Page Tracking users can do anything they want.
+Meanwhile, DAMON is primarily designed to monitor the hotness of each memory
+region.  For this, DAMON asks users to provide sampling interval and
+aggregation interval.  For the reason, there could be some use case that using
+Idle Page Tracking is simpler.
+
+2. Physical memory monitoring.
+
+Idle Page Tracking receives PFN range as input, so natively supports physical
+memory monitoring.
+
+DAMON is designed to be extensible for multiple address spaces and use cases by
+implementing and using primitives for the given use case.  Therefore, by
+theory, DAMON has no limitation in the type of target address space as long as
+primitives for the given address space exists.  However, the default primitives
+introduced by this patchset supports only virtual address spaces.
+
+Therefore, for physical memory monitoring, you should implement your own
+primitives and use it, or simply use Idle Page Tracking.
+
+Nonetheless, RFC patchsets[1] for the physical memory address space primitives
+is already available.  It also supports user memory same to Idle Page Tracking.
+
+[1] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
+
+For what use cases DAMON is better?
+-----------------------------------
+
+1. Hotness Monitoring.
+
+Idle Page Tracking let users know only if a page frame is accessed or not.  For
+hotness check, the user should write more code and use more memory.  DAMON do
+that by itself.
+
+2. Low Monitoring Overhead
+
+DAMON receives user's monitoring request with one step and then provide the
+results.  So, roughly speaking, DAMON require only O(1) user/kernel context
+switches.
+
+In case of Idle Page Tracking, however, because the interface receives
+contiguous page frames, the number of user/kernel context switches increases as
+the monitoring target becomes complex and huge.  As a result, the context
+switch overhead could be not negligible.
+
+Moreover, DAMON is born to handle with the monitoring overhead.  Because the
+core mechanism is pure logical, Idle Page Tracking users might be able to
+implement the mechanism on thier own, but it would be time consuming and the
+user/kernel context switching will still more frequent than that of DAMON.
+Also, the kernel subsystems cannot use the logic in this case.
+
+3. Page granularity working set size detection.
+
+Until v22 of this patchset, this was categorized as the thing Idle Page
+Tracking could do better, because DAMON basically maintains additional metadata
+for each of the monitoring target regions.  So, in the page granularity working
+set size detection use case, DAMON would incur (number of monitoring target
+pages * size of metadata) memory overhead.  Size of the single metadata item is
+about 54 bytes, so assuming 4KB pages, about 1.3% of monitoring target pages
+will be additionally used.
+
+All essential metadata for Idle Page Tracking are embedded in 'struct page' and
+page table entries.  Therefore, in this use case, only one counter variable for
+working set size accounting is required if Idle Page Tracking is used.
+
+There are more details to consider, but roughly speaking, this is true in most
+cases.
+
+However, the situation changed from v23.  Now DAMON supports arbitrary types of
+monitoring targets, which don't use the metadata.  Using that, DAMON can do the
+working set size detection with no additional space overhead but less
+user-kernel context switch.  A first draft for the implementation of monitoring
+primitives for this usage is available in a DAMON development tree[1].  An RFC
+patchset for it based on this patchset will also be available soon.
+
+From v24, the arbitrary type support is dropped from this patchset because this
+patchset doesn't introduce real use of the type.  You can still get it from the
+DAMON development tree[2], though.
+
+[1] https://github.com/sjp38/linux/tree/damon/pgidle_hack
+[2] https://github.com/sjp38/linux/tree/damon/master
+
+4. More future usecases
+
+While Idle Page Tracking has tight coupling with base primitives (PG_Idle and
+page table Accessed bits), DAMON is designed to be extensible for many use
+cases and address spaces.  If you need some special address type or want to use
+special h/w access check primitives, you can write your own primitives for that
+and configure DAMON to use those.  Therefore, if your use case could be changed
+a lot in future, using DAMON could be better.
+
+Can I use both Idle Page Tracking and DAMON?
+--------------------------------------------
+
+Yes, though using them concurrently for overlapping memory regions could result
+in interference to each other.  Nevertheless, such use case would be rare or
+makes no sense at all.  Even in the case, the noise would bot be really
+significant.  So, you can choose whatever you want depending on the
+characteristics of your use cases.
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damon
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.png.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.png.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the -mm tree.  More specifically,
+v5.13-rc7-mmots-2021-06-24-20-54 of https://github.com/hnaz/linux-mm.  You can
+also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b damon/patches/v32
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon/patches/v32
+
+Development Trees
+-----------------
+
+There are a couple of trees for entire DAMON patchset series and
+features for future release.
+
+- For latest release: https://github.com/sjp38/linux/tree/damon/master
+- For next release: https://github.com/sjp38/linux/tree/damon/next
+
+Long-term Support Trees
+-----------------------
+
+For people who want to test DAMON but using LTS kernels, there are another
+couple of trees based on two latest LTS kernels respectively and containing the
+'damon/master' backports.
+
+- For v5.4.y: https://github.com/sjp38/linux/tree/damon/for-v5.4.y
+- For v5.10.y: https://github.com/sjp38/linux/tree/damon/for-v5.10.y
+
+Amazon Linux Kernel Trees
+-------------------------
+
+DAMON is also merged in two public Amazon Linux kernel trees that based on
+v5.4.y[1] and v5.10.y[2].
+
+[1] https://github.com/amazonlinux/linux/tree/amazon-5.4.y/master/mm/damon
+[2] https://github.com/amazonlinux/linux/tree/amazon-5.10.y/master/mm/damon
+
+Git Tree for Diff of Patches
+============================
+
+For easy review of diff between different versions of each patch, I prepared a
+git tree containing all versions of the DAMON patchset series:
+https://github.com/sjp38/damon-patches
+
+You can clone it and use 'diff' for easy review of changes between different
+versions of the patchset.  For example:
+
+    $ git clone https://github.com/sjp38/damon-patches && cd damon-patches
+    $ diff -u damon/v31 damon/v32
+
+Sequence Of Patches
+===================
+
+First three patches implement the core logics of DAMON.  The 1st patch
+introduces basic sampling based hotness monitoring for arbitrary types of
+targets.  Following two patches implement the core mechanisms for control of
+overhead and accuracy, namely regions based sampling (patch 2) and adaptive
+regions adjustment (patch 3).
+
+Now the essential parts of DAMON is complete, but it cannot work unless someone
+provides monitoring primitives for a specific use case.  The following two
+patches make it just work for virtual address spaces monitoring.  The 4th patch
+makes 'PG_idle' can be used by DAMON and the 5th patch implements the virtual
+memory address space specific monitoring primitives using page table Accessed
+bits and the 'PG_idle' page flag.
+
+Now DAMON just works for virtual address space monitoring via the kernel space
+api.  To let the user space users can use DAMON, following four patches add
+interfaces for them.  The 6th patch adds a tracepoint for monitoring results.
+The 7th patch implements a DAMON application kernel module, namely damon-dbgfs,
+that simply wraps DAMON and exposes DAMON interface to the user space via the
+debugfs interface.  The 8th patch further exports pid of monitoring thread
+(kdamond) to user space for easier cpu usage accounting, and the 9th patch
+makes the debugfs interface to support multiple contexts.
+
+Three patches for maintainability follows.  The 10th patch adds documentations
+for both the user space and the kernel space.  The 11th patch provides unit
+tests (based on the kunit) while the 12th patch adds user space tests (based on
+the kselftest).
+
+Finally, the last patch (13th) updates the MAINTAINERS file.
+
+Patch History
+=============
+
+Chages from v31
+(https://lore.kernel.org/linux-mm/20210621083108.17589-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.13-rc7-mmots-2021-06-24-20-54)
+- Add 'Acked-by:' tags from Shakeel Butt
+- Use 'kthread_run()' (Shakeel Butt)
+- Change default 'update_interval' to 60 seconds (Shakeel Butt)
+- Utilize 'nr_regions' field in each 'damon_target' object (Shakeel Butt)
+- Remove unused parameters in some functions (Shakeel Butt)
+- Use variable name 'ctx' for 'damon_ctx' (Shakeel Butt)
+- Make 'dbgfs' to completely manage pid reference counting (Shakeel Butt)
+- Remove '.owner' of debugfs files (Shakeel Butt)
+
+Changes from v30
+(https://lore.kernel.org/linux-mm/20210616073119.16758-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.13-rc6-mmots-2021-06-16-22-17)
+- selftest: Fix wrong file content comparison (Markus Boehme)
+- Collect 'Reviewed-by:' tags from Markus
+
+Changes from v29
+(https://lore.kernel.org/linux-mm/20210520075629.4332-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.13-rc6-mmots-2021-06-15-20-28)
+- Remove unnecessary documents
+- Wordsmith commit message for PAGE_IDLE separation (Amit Shah)
+- selftests: Fix shellcheck warnings and cleanup (Maximilian Heyne)
+- Wordsmith the document (Markus Boehme)
+- Fix a typo in comments (Fernand Sieber)
+- Collect 'Reviewed-by:' tags from "Fernand Sieber <sieberf@amazon.com>"
+
+Changes from v28
+(https://lore.kernel.org/linux-mm/20210413142904.556-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.13-rc1-mmots-2021-05-13-17-23)
+
+Changes from v27
+(https://lore.kernel.org/linux-mm/20210408134854.31625-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc7-mmots-2021-04-11-20-49)
+- dbgfs: Fix wrong failure handlings (Stefan Nuernberger)
+- dbgfs: Change return type of 'dbgfs_fill_ctx_dir()' to void (Greg KH)
+
+Changes from v26
+(https://lore.kernel.org/linux-mm/20210330090537.12143-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc6-mmots-2021-04-06-22-33)
+- Check kmalloc() failures in dbgfs init (Greg KH)
+- Fix a typo: s/stollen/stolen/ (Stefan Nuernberger)
+- Update document for updated user space tool path
+
+Changes from v25
+(https://lore.kernel.org/linux-mm/20210318100856.34715-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc4-mmots-2021-03-28-16-40)
+- Remove unnecessary test code that dependent on record feature
+- Handle special mappings having no corresponding 'struct page' (Guoju Fang)
+
+Please refer to the v25 patchset to get older history.
+
+SeongJae Park (13):
+  mm: Introduce Data Access MONitor (DAMON)
+  mm/damon/core: Implement region-based sampling
+  mm/damon: Adaptively adjust regions
+  mm/idle_page_tracking: Make PG_idle reusable
+  mm/damon: Implement primitives for the virtual memory address spaces
+  mm/damon: Add a tracepoint
+  mm/damon: Implement a debugfs-based user space interface
+  mm/damon/dbgfs: Export kdamond pid to the user space
+  mm/damon/dbgfs: Support multiple contexts
+  Documentation: Add documents for DAMON
+  mm/damon: Add kunit tests
+  mm/damon: Add user space selftests
+  MAINTAINERS: Update for DAMON
+
+ Documentation/admin-guide/mm/damon/index.rst  |  15 +
+ Documentation/admin-guide/mm/damon/start.rst  | 114 +++
+ Documentation/admin-guide/mm/damon/usage.rst  | 112 +++
+ Documentation/admin-guide/mm/index.rst        |   1 +
+ Documentation/vm/damon/api.rst                |  20 +
+ Documentation/vm/damon/design.rst             | 166 ++++
+ Documentation/vm/damon/faq.rst                |  51 ++
+ Documentation/vm/damon/index.rst              |  30 +
+ Documentation/vm/index.rst                    |   1 +
+ MAINTAINERS                                   |  12 +
+ include/linux/damon.h                         | 268 +++++++
+ include/linux/page-flags.h                    |   4 +-
+ include/linux/page_ext.h                      |   2 +-
+ include/linux/page_idle.h                     |   6 +-
+ include/trace/events/damon.h                  |  43 ++
+ include/trace/events/mmflags.h                |   2 +-
+ mm/Kconfig                                    |  10 +
+ mm/Makefile                                   |   1 +
+ mm/damon/Kconfig                              |  69 ++
+ mm/damon/Makefile                             |   5 +
+ mm/damon/core-test.h                          | 253 ++++++
+ mm/damon/core.c                               | 720 ++++++++++++++++++
+ mm/damon/dbgfs-test.h                         | 126 +++
+ mm/damon/dbgfs.c                              | 624 +++++++++++++++
+ mm/damon/vaddr-test.h                         | 329 ++++++++
+ mm/damon/vaddr.c                              | 613 +++++++++++++++
+ mm/page_ext.c                                 |  12 +-
+ mm/page_idle.c                                |  10 -
+ tools/testing/selftests/damon/Makefile        |   7 +
+ .../selftests/damon/_chk_dependency.sh        |  28 +
+ .../testing/selftests/damon/debugfs_attrs.sh  |  75 ++
+ 31 files changed, 3711 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
+ create mode 100644 Documentation/vm/damon/api.rst
+ create mode 100644 Documentation/vm/damon/design.rst
+ create mode 100644 Documentation/vm/damon/faq.rst
+ create mode 100644 Documentation/vm/damon/index.rst
+ create mode 100644 include/linux/damon.h
+ create mode 100644 include/trace/events/damon.h
+ create mode 100644 mm/damon/Kconfig
+ create mode 100644 mm/damon/Makefile
+ create mode 100644 mm/damon/core-test.h
+ create mode 100644 mm/damon/core.c
+ create mode 100644 mm/damon/dbgfs-test.h
+ create mode 100644 mm/damon/dbgfs.c
+ create mode 100644 mm/damon/vaddr-test.h
+ create mode 100644 mm/damon/vaddr.c
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+
+-- 
+2.17.1
+
