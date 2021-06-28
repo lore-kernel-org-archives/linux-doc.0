@@ -7,145 +7,100 @@ X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D1D7C2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E42C49EA7
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:32:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 301A161C5B
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:30:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4899C61C5B
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 09:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232535AbhF1JdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 05:33:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32900 "EHLO mail.kernel.org"
+        id S232426AbhF1Jes (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 05:34:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34710 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232426AbhF1JdL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Jun 2021 05:33:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D96461C5A;
-        Mon, 28 Jun 2021 09:30:44 +0000 (UTC)
+        id S232152AbhF1Jer (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Jun 2021 05:34:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 968D5619C5;
+        Mon, 28 Jun 2021 09:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1624872646;
-        bh=tko4HhpTn1KfqSQcG6rk256TdCkSHRTiZNDg1gfOL1U=;
+        s=korg; t=1624872742;
+        bh=lsamg+PxzeY+uZhhCSlp8N3GB8mjamZ+vBUc2M5/IYQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mdirt+wh3MtaZ7eNyZ9G3nbYCW5idUpb0uLyW3y3Pff8g1i8FeRt120hCx8rMfLOA
-         LnRoyQZ6znqLxXb5WQ4POqk3nvJJlxgEnyIMLyf/4xRDnJ3jrCYholI79Dx7JQswRh
-         BPPsck43uFy1epGSrPj0zjj0CnIzhGXT51/oNF84=
-Date:   Mon, 28 Jun 2021 11:30:41 +0200
+        b=UyJ9GaPwLeevhfj1fFwQA3wbu0RqZcRtqjK2xyU8GUAuPRE2DQ0WerR6AvwzpJaZs
+         4FvFkl0XcIQDnn9boKYDXPBNRul/IT0PuqxAXR53l+yfYs9QBQgZWHwL1GB64S2JWB
+         MCn4MTwXS/iybIsQIU+StErstpj64CMUH/GH/RXA=
+Date:   Mon, 28 Jun 2021 11:32:18 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Rocco Yue <rocco.yue@mediatek.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, bpf@vger.kernel.org,
-        wsd_upstream@mediatek.com, chao.song@mediatek.com,
-        kuohong.wang@mediatek.com
-Subject: Re: [PATCH 4/4] drivers: net: mediatek: initial implementation of
- ccmni
-Message-ID: <YNmWwSsZ02iigiHC@kroah.com>
-References: <YNS4GzYHpxMWIH+1@kroah.com>
- <20210628071829.14925-1-rocco.yue@mediatek.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC][PATCH 03/12] digest_lists: Basic definitions
+Message-ID: <YNmXIk7orQavkEME@kroah.com>
+References: <20210625165614.2284243-1-roberto.sassu@huawei.com>
+ <20210625165614.2284243-4-roberto.sassu@huawei.com>
+ <YNhYu3BXh7f9GkVk@kroah.com>
+ <860717cce60f47abb3c9dc3c1bd32ab7@huawei.com>
+ <YNmMX4EODT0c4zqk@kroah.com>
+ <4acc7e8f15834b83b310b9e2ff9ba3d2@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210628071829.14925-1-rocco.yue@mediatek.com>
+In-Reply-To: <4acc7e8f15834b83b310b9e2ff9ba3d2@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 28, 2021 at 03:18:30PM +0800, Rocco Yue wrote:
-> On Thu, 2021-06-24 at 18:51 +0200, Greg KH wrote:
-> On Thu, Jun 24, 2021 at 11:55:02PM +0800, Rocco Yue wrote:
-> >> On Thu, 2021-06-24 at 14:23 +0200, Greg KH wrote:
-> >> On Thu, Jun 24, 2021 at 07:53:49PM +0800, Rocco Yue wrote:
-> >>> 
-> >>> not have exports that no one uses.  Please add the driver to this patch
-> >>> series when you resend it.
-> >>> 
-> >> 
-> >> I've just took a look at what the Linux staging tree is. It looks like
-> >> a good choice for the current ccmni driver.
-> >> 
-> >> honstly, If I simply upload the relevant driver code B that calls
-> >> A (e.g. ccmni_rx_push), there is still a lack of code to call B.
-> >> This seems to be a continuty problem, unless all drivers codes are
-> >> uploaded (e.g. power on modem, get hardware status, complete tx/rx flow).
+On Mon, Jun 28, 2021 at 09:27:05AM +0000, Roberto Sassu wrote:
+> > From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> > Sent: Monday, June 28, 2021 10:46 AM
+> > On Mon, Jun 28, 2021 at 08:30:32AM +0000, Roberto Sassu wrote:
+> > > > > +struct compact_list_hdr {
+> > > > > +	__u8 version;
+> > > >
+> > > > You should never need a version, that way lies madness.
+> > >
+> > > We wanted to have a way to switch to a new format, if necessary.
 > > 
-> > Great, send it all!  Why is it different modules, it's only for one
-> > chunk of hardware, no need to split it up into tiny pieces.  That way
-> > only causes it to be more code overall.
-> > 
-> >> 
-> >> Thanks~
-> >> 
-> >> Can I resend patch set as follows:
-> >> (1) supplement the details of pureip for patch 1/4;
-> >> (2) the document of ccmni.rst still live in the Documentation/...
-> >> (3) modify ccmni and move it into the drivers/staging/...
-> > 
-> > for drivers/staging/ the code needs to be "self contained" in that it
-> > does not require adding anything outside of the directory for it.
-> > 
-> > If you still require this core networking change, that needs to be
-> > accepted first by the networking developers and maintainers.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
+> > Then just add a new ioctl if you need that in the future, no need to try
+> > to cram it into this one.
 > 
-> Hi Greg,
+> Given that digest lists are generated elsewhere, it would be still
+> unclear when the ioctl() would be issued. Maybe the kernel needs
+> to parse both v1 and v2 digest lists (I expect that v1 cannot be easily
+> converted to v2, if they are signed).
 > 
-> I am grateful for your help.
+>  It would be also unpractical if digest lists are loaded at kernel
+> initialization time (I didn't send the patch yet).
+
+Then that is up to your api design, I do not know.  But note that
+"version" fields almost always never work, so be careful about assuming
+that this will solve any future issues.
+
+> > > > > +	__le16 type;
+> > > > > +	__le16 modifiers;
+> > > > > +	__le16 algo;
+> > > > > +	__le32 count;
+> > > > > +	__le32 datalen;
+> > > >
+> > > > Why are user/kernel apis specified in little endian format?  Why would
+> > > > that matter?  Shouldn't they just be "native" endian?
+> > >
+> > > I thought this would make it clear that the kernel always expects the
+> > > digest lists to be in little endian.
+> > 
+> > Why would a big endian system expect the data from userspace to be in
+> > little endian?  Shouldn't this always just be "native" endian given that
+> > this is not something that is being sent to hardware?
 > 
-> Both ccmni change and networking changes are needed, because as far
-> as I know, usually a device type should have at least one device to
-> use it, and pureip is what the ccmni driver needs, so I uploaded the
-> networking change and ccmni driver together;
-> 
-> Since MTK’s modem driver has a large amount of code and strong code
-> coupling, it takes some time to clean up them. At this stage, it may
-> be difficult to upstream all the codes together.
+> The digest list might come from a system with different endianness.
 
-Why?  Just dump the whole thing in a drivers/staging/mtk/ directory
-structure and all should be fine.
-
-> During this period, even if ccmni is incomplete, can I put the ccmni
-> driver initial code in the driver/staging first ? After that, we will
-> gradually implement more functions of ccmni in the staging tree, and
-> we can also gradually sort out and clean up modem driver in the staging.
-
-I do not know, let's see the code first.  But we can not add frameworks
-with no in-kernel users, as that does not make any sense at all.
-
-> In addition, due to the requirements of GKI 2.0,
-
-That is a Google requirement, not a kernel.org requirement.  Please work
-with Google if you have questions/issues about that, there is NOTHING we
-can do about that here in the community for obvious reasons.
-
-> if ccmni device
-> uses RAWIP or NONE, it will hit ipv6 issue; and if ccmni uses
-> a device type other than PUREIP/RAWIP/NONE, there will be tethering
-> ebpf offload or clat ebpf offload can not work problems.
-> 
-> I hope PUREIP and ccmni can be accepted by the Linux community.
-
-As I stated before you need to have an in-kernel user for us to be able
-to accept frameworks and functions into the tree.  Otherwise Linux would
-quickly become unmanagable and unmaintainable.  Would you want to try to
-maintain code with no in-tree users?  What would you do if you were in
-our position?
-
-But for networking flags like this that go into userspace, I do not know
-what the maintainers of the networking stack require, so that really is
-up to them, not me.
+Ok, I have no idea what digests really are used for then.  So stick with
+little endian and be sure to properly convert within the kernel as
+needed.
 
 thanks,
 
