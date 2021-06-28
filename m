@@ -2,94 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6184C11F66
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BBBC11F65
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:36:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9798661C93
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD68A613F2
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236541AbhF1Tbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 15:31:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47260 "EHLO
+        id S237078AbhF1Tia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 15:38:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236526AbhF1Tby (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 15:31:54 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94FCC061760
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 12:29:27 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id z3-20020a17090a3983b029016bc232e40bso762202pjb.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 12:29:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZJ6u2k6/dJhmtJ+a/0MHT0Ak2qWLb/bcwrC6FvorPSQ=;
-        b=n8uh5BL5JUgY4xOLSY/QFzLUx4h8+eiR4ud8YSIx+mmGU6c63SdHzwx80jLkxQ9F0X
-         cXGjXnat+9O9uXio1+z/Ddfrr4DgcSmFCVAscxsdku5pADBHOYwd0tRP0Hko3vanwFOZ
-         wGTHwxwKuKFVFh3JknoR1UpDe9WJ3gcTeZd/o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZJ6u2k6/dJhmtJ+a/0MHT0Ak2qWLb/bcwrC6FvorPSQ=;
-        b=eR72kKYDsrxiwH7zHhemNQUwuRu+tQ/sOPTw94DwhAcRzjF59DZUHLNYIYqAWIGe3Y
-         55HRK8NkyX72SL4k4fl4MUhs9DWWSEPgYqdJV8GVbLcqAi7eMjvOkJCOI28jeD3/3EuQ
-         grj5ovF03S9BnMf6RNDjTFcZNPviWp8L/S79rdN0If/s0xYVHARm/9C5UbK6hcIhGf0C
-         DMGS8zqs+ml4u1a3RRVPqzH61L0VlXm5BQkDW6V+X+qaY8kkHQ2KU5vcrMsbqC7ZLK/D
-         KQDK0rZMwEI+SYcd/fkKSUj6ji4hZdMSEX2B+8nx1MRAf2PZPJoX7pW24BPJyubrnG3D
-         qyNg==
-X-Gm-Message-State: AOAM530HtUev9sY/+Btr0wCME9yPx2+W7pMnNT/0zjOdXv1R5IVzf9Hh
-        ulTmlwbmosSuKamVdcWjD0YqfA==
-X-Google-Smtp-Source: ABdhPJz1uj/MMaj6X3iG0Y158vKYXBq1/oub7G1h8/NnL5WdpAzImby8uj7C6j+B72ZmmUCSgoaJQw==
-X-Received: by 2002:a17:902:720b:b029:113:19d7:2da7 with SMTP id ba11-20020a170902720bb029011319d72da7mr23791449plb.55.1624908566889;
-        Mon, 28 Jun 2021 12:29:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n12sm14973518pfu.5.2021.06.28.12.29.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jun 2021 12:29:26 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>,
-        clang-built-linux@googlegroups.com,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Bill Wendling <wcw@google.com>, linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] pgo: rectify comment to proper kernel-doc syntax
-Date:   Mon, 28 Jun 2021 12:29:19 -0700
-Message-Id: <162490855630.2191955.7188154193447975503.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210628055947.6948-1-lukas.bulwahn@gmail.com>
-References: <20210628055947.6948-1-lukas.bulwahn@gmail.com>
+        with ESMTP id S237004AbhF1Ti3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 15:38:29 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE24C061574;
+        Mon, 28 Jun 2021 12:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=gFOuyW3wyuM/PP9zDs6kHOxY1vtd3EJQ4+qFhD6k1H8=; b=raSjpWt4jQDzFP75XKdDSen7eF
+        SQMJWt/dhtS5EpCidxC94OF31jwKvNi3kmOoRCJH6GOx5QOix6lNKN0LWYYXjMuq1dx8uga9FDp+C
+        IPiEvu3afbmclCCZTx4TcC4f+BG3R2bWtn1JgmPIJbST1JCP4w2gD1m/xrA/jaZNHGYyKkQSfkJl7
+        roXWdTUJCoo6rFs6vs94BdzQUngDDg1G1tDbfJ9xB7YJvfGHvXVkj7Y2s22ap/v5WJzd3HYv3QH7+
+        5kPldy7NmRHqXIt5BqCqoys+qAqBk+LiZGCSJkRPqvvyPHRrPSI53ziY85xEJAf+gI3F9HgGxny4f
+        2BgZE/dQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lxx0h-003NPt-84; Mon, 28 Jun 2021 19:33:43 +0000
+Date:   Mon, 28 Jun 2021 20:33:35 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Jann Horn <jannh@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] mm: introduce reference pages
+Message-ID: <YNokDwjyysHGwTy/@casper.infradead.org>
+References: <20210619092002.1791322-1-pcc@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210619092002.1791322-1-pcc@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Jun 2021 07:59:47 +0200, Lukas Bulwahn wrote:
-> The command ./scripts/kernel-doc -none kernel/pgo/pgo.h warns:
-> 
->   kernel/pgo/pgo.h:112: warning: cannot understand function prototype: 'struct llvm_prf_value_node_data '
-> 
-> This is due to a slightly invalid use of kernel-doc syntax for the comment
-> of this struct, that must have probably just slipped through refactoring
-> and review before.
-> 
-> [...]
+On Sat, Jun 19, 2021 at 02:20:02AM -0700, Peter Collingbourne wrote:
+> +void prep_refpage_private_data(struct refpage_private_data *priv)
+> +{
+> +	u8 *addr = page_address(priv->refpage);
+> +	u8 pattern = addr[0];
+> +	int i;
+> +
+> +	for (i = 1; i != PAGE_SIZE; ++i)
+> +		if (addr[i] != pattern)
+> +			return;
+> +
+> +	priv->optzn_kind = REFPAGE_OPTZN_PATTERN;
+> +	priv->optzn_info = pattern;
+> +}
+> +
+> +void copy_refpage(struct page *page, unsigned long addr,
+> +		  struct vm_area_struct *vma)
+> +{
+> +	struct refpage_private_data *priv = vma->vm_private_data;
+> +
+> +	if (priv->optzn_kind == REFPAGE_OPTZN_PATTERN)
+> +		memset(page_address(page), priv->optzn_info, PAGE_SIZE);
+> +	else
+> +		copy_user_highpage(page, priv->refpage, addr, vma);
+> +}
 
-Applied to for-next/clang/features, thanks!
+I wonder if single-byte captures enough of the useful possibilities.
+In the kernel we have memset32() and memset64() [1] so we could support
+a larger pattern than just an 8-bit byte.  It all depends what userspace
+would find useful.
 
-[1/1] pgo: rectify comment to proper kernel-doc syntax
-      https://git.kernel.org/kees/c/6a0544606ec7
-
--- 
-Kees Cook
-
+[1] Along with memset_p(), memset_l() and memset16() that aren't terribly
+relevant to this use case.  Although maybe memset_l() would be the right
+one to use since there probably aren't too many 32-bit apps that want
+a 64-bit pattern and memset64() might not be the fastest on a 32-bit
+kernel).
