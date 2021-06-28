@@ -2,129 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A200AC2B9F4
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 07:33:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C71F1C49EA7
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 08:14:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 756A961C29
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 07:33:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAF8461C2F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 08:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbhF1HgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 03:36:22 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:53400 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232246AbhF1HgV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 03:36:21 -0400
-X-UUID: 574c76e2c2aa4ea5935980c50dcfcddf-20210628
-X-UUID: 574c76e2c2aa4ea5935980c50dcfcddf-20210628
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <rocco.yue@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 253331028; Mon, 28 Jun 2021 15:33:51 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 28 Jun 2021 15:33:43 +0800
-Received: from localhost.localdomain (10.15.20.246) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 28 Jun 2021 15:33:42 +0800
-From:   Rocco Yue <rocco.yue@mediatek.com>
+        id S231683AbhF1IRJ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 04:17:09 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3322 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229692AbhF1IRJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 04:17:09 -0400
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GD0ZG2Tw0z6FBMy;
+        Mon, 28 Jun 2021 16:07:02 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 10:14:41 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
+ Mon, 28 Jun 2021 10:14:41 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
 To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <bpf@vger.kernel.org>,
-        <wsd_upstream@mediatek.com>, <chao.song@mediatek.com>,
-        <kuohong.wang@mediatek.com>, Rocco Yue <rocco.yue@mediatek.com>
-Subject: Re: [PATCH 4/4] drivers: net: mediatek: initial implementation of ccmni
-Date:   Mon, 28 Jun 2021 15:18:30 +0800
-Message-ID: <20210628071829.14925-1-rocco.yue@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <YNS4GzYHpxMWIH+1@kroah.com>
-References: <YNS4GzYHpxMWIH+1@kroah.com>
+CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC][PATCH 04/12] digest_lists: Objects
+Thread-Topic: [RFC][PATCH 04/12] digest_lists: Objects
+Thread-Index: AQHXaeMQ882MDA2nPUO25iJDWY5SoqsnkMmAgAF5OpA=
+Date:   Mon, 28 Jun 2021 08:14:41 +0000
+Message-ID: <22fff08f1a70460da814d3f21b497f8b@huawei.com>
+References: <20210625165614.2284243-1-roberto.sassu@huawei.com>
+ <20210625165614.2284243-5-roberto.sassu@huawei.com>
+ <YNhZTR5VSin7ABZP@kroah.com>
+In-Reply-To: <YNhZTR5VSin7ABZP@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MTK:  N
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-06-24 at 18:51 +0200, Greg KH wrote:
-On Thu, Jun 24, 2021 at 11:55:02PM +0800, Rocco Yue wrote:
->> On Thu, 2021-06-24 at 14:23 +0200, Greg KH wrote:
->> On Thu, Jun 24, 2021 at 07:53:49PM +0800, Rocco Yue wrote:
->>> 
->>> not have exports that no one uses.  Please add the driver to this patch
->>> series when you resend it.
->>> 
->> 
->> I've just took a look at what the Linux staging tree is. It looks like
->> a good choice for the current ccmni driver.
->> 
->> honstly, If I simply upload the relevant driver code B that calls
->> A (e.g. ccmni_rx_push), there is still a lack of code to call B.
->> This seems to be a continuty problem, unless all drivers codes are
->> uploaded (e.g. power on modem, get hardware status, complete tx/rx flow).
+> From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> Sent: Sunday, June 27, 2021 12:56 PM
+> On Fri, Jun 25, 2021 at 06:56:06PM +0200, Roberto Sassu wrote:
+> > +++ b/security/integrity/digest_lists/digest_lists.h
+> > @@ -0,0 +1,117 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2005,2006,2007,2008 IBM Corporation
+> > + * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
+> > + *
+> > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > + *
+> > + * This program is free software; you can redistribute it and/or
+> > + * modify it under the terms of the GNU General Public License as
+> > + * published by the Free Software Foundation, version 2 of the
+> > + * License.
+> > + *
+> > + * File: digest_lists.h
+> > + *      Unexported definitions for digest lists.
 > 
-> Great, send it all!  Why is it different modules, it's only for one
-> chunk of hardware, no need to split it up into tiny pieces.  That way
-> only causes it to be more code overall.
+> Unexported to whom?
+
+Hi Greg
+
+I meant not placed in include/linux.
+
+> > + */
+> > +
+> > +#ifndef __DIGEST_LISTS_INTERNAL_H
+> > +#define __DIGEST_LISTS_INTERNAL_H
+> > +
+> > +#include <linux/types.h>
+> > +#include <linux/crypto.h>
+> > +#include <linux/fs.h>
+> > +#include <linux/security.h>
+> > +#include <linux/hash.h>
+> > +#include <linux/tpm.h>
+> > +#include <linux/audit.h>
+> > +#include <crypto/hash_info.h>
+> > +#include <linux/hash_info.h>
+> > +#include <uapi/linux/digest_lists.h>
+> > +
+> > +#define MAX_DIGEST_SIZE	64
+> > +#define HASH_BITS 10
+> > +#define MEASURE_HTABLE_SIZE (1 << HASH_BITS)
+> > +
+> > +struct digest_list_item {
+> > +	loff_t size;
+> > +	u8 *buf;
+> > +	u8 actions;
+> > +	u8 digest[64];
+> > +	enum hash_algo algo;
+> > +	const char *label;
+> > +};
+> > +
+> > +struct digest_list_item_ref {
+> > +	struct digest_list_item *digest_list;
+> > +	loff_t digest_offset;
+> > +	loff_t hdr_offset;
+> > +};
+> > +
+> > +struct digest_item {
+> > +	/* hash table pointers */
+> > +	struct hlist_node hnext;
+> > +	/* digest list references (protected by RCU) */
+> > +	struct digest_list_item_ref *refs;
+> > +};
+> > +
+> > +struct h_table {
+> > +	atomic_long_t len;
 > 
->> 
->> Thanks~
->> 
->> Can I resend patch set as follows:
->> (1) supplement the details of pureip for patch 1/4;
->> (2) the document of ccmni.rst still live in the Documentation/...
->> (3) modify ccmni and move it into the drivers/staging/...
+> Why is this atomic?  Why would that matter?
+
+Yes, it shouldn't be. There are not concurrent updates.
+
+> > +	struct hlist_head queue[MEASURE_HTABLE_SIZE];
+> > +};
+> > +
+> > +static inline unsigned int hash_key(u8 *digest)
+> > +{
+> > +	return (digest[0] | digest[1] << 8) % MEASURE_HTABLE_SIZE;
+> > +}
 > 
-> for drivers/staging/ the code needs to be "self contained" in that it
-> does not require adding anything outside of the directory for it.
+> Don't we have hashing functions in the kernel already?
+
+We had a discussion before:
+
+https://lore.kernel.org/linux-integrity/1587739544.5190.14.camel@linux.ibm.com/
+
+It seems there is no real advantage in hashing a digest.
+
+> > +
+> > +static inline struct compact_list_hdr *get_hdr(
+> > +					struct digest_list_item *digest_list,
+> > +					loff_t hdr_offset)
+> > +{
+> > +	return (struct compact_list_hdr *)(digest_list->buf + hdr_offset);
+> > +}
 > 
-> If you still require this core networking change, that needs to be
-> accepted first by the networking developers and maintainers.
-> 
+> pointer math feels rough, are you shure you want to do this this way?
+
+Maybe, I could change digest_list_item_ref to:
+
+struct digest_list_item_ref {
+	struct digest_list_item *digest_list;
+	u8 *digest;
+	struct compact_list_hdr *hdr;
+};
+
+where digest and hdr are calculated in the same way.
+
+Or you have a different suggestion?
+
+Thanks
+
+Roberto
+
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Li Peng, Li Jian, Shi Yanli
+
 > thanks,
 > 
 > greg k-h
-> 
-
-Hi Greg,
-
-I am grateful for your help.
-
-Both ccmni change and networking changes are needed, because as far
-as I know, usually a device type should have at least one device to
-use it, and pureip is what the ccmni driver needs, so I uploaded the
-networking change and ccmni driver together;
-
-Since MTK’s modem driver has a large amount of code and strong code
-coupling, it takes some time to clean up them. At this stage, it may
-be difficult to upstream all the codes together.
-
-During this period, even if ccmni is incomplete, can I put the ccmni
-driver initial code in the driver/staging first ? After that, we will
-gradually implement more functions of ccmni in the staging tree, and
-we can also gradually sort out and clean up modem driver in the staging.
-
-In addition, due to the requirements of GKI 2.0, if ccmni device
-uses RAWIP or NONE, it will hit ipv6 issue; and if ccmni uses
-a device type other than PUREIP/RAWIP/NONE, there will be tethering
-ebpf offload or clat ebpf offload can not work problems.
-
-I hope PUREIP and ccmni can be accepted by the Linux community.
-
-Thanks,
-Rocco
-
