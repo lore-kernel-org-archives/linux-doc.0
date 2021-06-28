@@ -2,288 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F2DC49EAB
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 03:28:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA75C49EAB
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 04:10:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C97E61C2E
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 03:28:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81A5761C2F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 04:10:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231958AbhF1DbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Jun 2021 23:31:08 -0400
-Received: from mail-eopbgr50057.outbound.protection.outlook.com ([40.107.5.57]:59944
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231678AbhF1DbH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 27 Jun 2021 23:31:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1EDHZP/GRhZsqTGBW8CK0Bd5c/AyNZORm+JSokaaM6Q=;
- b=1PUqTD7NJxNwyRdQQwtFYJuFIxp2qfpom+cCgr/8A+i5XOwKYfJeCim0xcJLDa5Sc+bW7wWVPuq/dB/ySWZeJ1feq0wCAsARni3ed7vN5y7OqfKkBSzvvJernWj+hCEJMd/wG3RaQbnMucUR1oStmvRIr1Tu3WlfupyDhGWQFhw=
-Received: from AS8PR04CA0024.eurprd04.prod.outlook.com (2603:10a6:20b:310::29)
- by AM0PR08MB3186.eurprd08.prod.outlook.com (2603:10a6:208:5d::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Mon, 28 Jun
- 2021 03:28:38 +0000
-Received: from AM5EUR03FT048.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:310:cafe::ad) by AS8PR04CA0024.outlook.office365.com
- (2603:10a6:20b:310::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
- Transport; Mon, 28 Jun 2021 03:28:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=bestguesspass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM5EUR03FT048.mail.protection.outlook.com (10.152.17.177) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Mon, 28 Jun 2021 03:28:37 +0000
-Received: ("Tessian outbound df524a02e6bb:v97"); Mon, 28 Jun 2021 03:28:36 +0000
-X-CR-MTA-TID: 64aa7808
-Received: from 00fdcb5a7aa1.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 7C5E434E-8ACE-434C-BF11-96A547AF8EE7.1;
-        Mon, 28 Jun 2021 03:28:29 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 00fdcb5a7aa1.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 28 Jun 2021 03:28:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UOS6PyyorPgpbu2PgdKskX6rPJzGRcA2N0tLuadbHV8vpdXlhCu/NMu/m+ePlAP9Uw0sWqYRWKp/4tOuWj1hIkWpkTDQjzfkqVQgyRBxgN1vdOFQuCeFItElx3EJgcN3GAOMTgd78h4GSNvpd412uq3Qut92sKv36Q4mHidgny42l9S0Qe/XDXP+KfzVxOSjklitudYswrwhYjyHOdLnI4vpRX6Yj73DldT/5mZc9zDhnmZRhNhTdWsD/Rr2QnJGaa0Sqcf+fZC0+PHOYvWDWF4sYQle/1RVEh4OGAB2wE2d4q1veVILlc4nb+59e/wgWeU0RUSEk12YQB3iRfEy3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1EDHZP/GRhZsqTGBW8CK0Bd5c/AyNZORm+JSokaaM6Q=;
- b=eefvUhGv7LNW+HDlF4q1es8ehZw2KN2EvB1m/wj9G0xVEROFSEa546bqwrN6tfOlFIRjGA3X2ku6NWIlUhPoxz6oAATm2HPs6E6G6+uFDGvqtwJX8LyUQZG8+WGyQpqt+yxbRLqosYmjC4cvkLrvy4jF0mdwGg1IWDg4Nae5K1BAM1ifQIKxwf0RUse3YTms27ZPPt65eWRbtZN7qsmLkJPzjjHwXTCch+eY2GiPWU6siWmJY9y07Dl4eylfnlAJzwDrzoWrregh/brml1kGSolEQaAO9gPuBmr2cSzn7WlqqVqUxH9VZR5r0Z0Lvpo0ly7j82zOIrbwihGaOiha+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1EDHZP/GRhZsqTGBW8CK0Bd5c/AyNZORm+JSokaaM6Q=;
- b=1PUqTD7NJxNwyRdQQwtFYJuFIxp2qfpom+cCgr/8A+i5XOwKYfJeCim0xcJLDa5Sc+bW7wWVPuq/dB/ySWZeJ1feq0wCAsARni3ed7vN5y7OqfKkBSzvvJernWj+hCEJMd/wG3RaQbnMucUR1oStmvRIr1Tu3WlfupyDhGWQFhw=
-Received: from AM6PR08MB4376.eurprd08.prod.outlook.com (2603:10a6:20b:bb::21)
- by AS8PR08MB6341.eurprd08.prod.outlook.com (2603:10a6:20b:33f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.22; Mon, 28 Jun
- 2021 03:28:25 +0000
-Received: from AM6PR08MB4376.eurprd08.prod.outlook.com
- ([fe80::3452:c711:d09a:d8a1]) by AM6PR08MB4376.eurprd08.prod.outlook.com
- ([fe80::3452:c711:d09a:d8a1%5]) with mapi id 15.20.4264.026; Mon, 28 Jun 2021
- 03:28:19 +0000
-From:   Justin He <Justin.He@arm.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-CC:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S229910AbhF1EMq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 00:12:46 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:51614 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229592AbhF1EMe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 00:12:34 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 15S49fKm059338;
+        Sun, 27 Jun 2021 23:09:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1624853381;
+        bh=GNU1vUWoanvJ92XdB4nexwD2JVJqd69WagBGfaf6suA=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=mu5a+hQh7vJ9G0ABfC7bLJiQYRwVGkbagBr2vVw6qNOKFlRlurlvSii0+Fes6CvVQ
+         OEOpT6s0KS699UN4t0jZp7N7fmUOsNFB+Gl+PUzpKJm5uSlclhBEYN9/NNoCERVURP
+         qodihYQZWDOv6WWRlBehZhmP0K9aWQ5VxULnokmQ=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 15S49fX1100414
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 27 Jun 2021 23:09:41 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Sun, 27
+ Jun 2021 23:09:40 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Sun, 27 Jun 2021 23:09:41 -0500
+Received: from [10.250.232.148] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 15S49XI6013993;
+        Sun, 27 Jun 2021 23:09:33 -0500
+Subject: Re: [PATCH v6 0/7] Add SR-IOV support in PCIe Endpoint Core
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: RE: [PATCH 13/14] d_path: prepend_path() is unlikely to return
- non-zero
-Thread-Topic: [PATCH 13/14] d_path: prepend_path() is unlikely to return
- non-zero
-Thread-Index: AQHXTEjX4vA9qb1/tUuDI9sxRSQuQasklodQgACoVwCAA7zVQA==
-Date:   Mon, 28 Jun 2021 03:28:19 +0000
-Message-ID: <AM6PR08MB43769E57C213CD2C92476F2CF7039@AM6PR08MB4376.eurprd08.prod.outlook.com>
-References: <YKRfI29BBnC255Vp@zeniv-ca.linux.org.uk>
- <20210519004901.3829541-1-viro@zeniv.linux.org.uk>
- <20210519004901.3829541-13-viro@zeniv.linux.org.uk>
- <AM6PR08MB43762B63D11A43FE84849748F7069@AM6PR08MB4376.eurprd08.prod.outlook.com>
- <YNYZTIP+anazsz/U@zeniv-ca.linux.org.uk>
-In-Reply-To: <YNYZTIP+anazsz/U@zeniv-ca.linux.org.uk>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: CB6421B20A6A944D9DF13BCBB5286C75.0
-x-checkrecipientchecked: true
-Authentication-Results-Original: zeniv.linux.org.uk; dkim=none (message not
- signed) header.d=none;zeniv.linux.org.uk; dmarc=none action=none
- header.from=arm.com;
-x-originating-ip: [203.126.0.112]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: fa6a8db3-911a-4a8e-a4c2-08d939e4d100
-x-ms-traffictypediagnostic: AS8PR08MB6341:|AM0PR08MB3186:
-X-Microsoft-Antispam-PRVS: <AM0PR08MB31869DD834B576AA6095148FF7039@AM0PR08MB3186.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: Y3eG7STbpi626Qqz1uuMLIH8TE9bDSNr+YJk7zJTChKE1Q34gdGEj9utoZNhDVM0ymL/k2bnFlsZsZYaWkP4eeDx6MobGJZojGh4cHzl/sl1acwpAQYR5b5slyMijt9YbvO3qZm9Q1g/2zIA2Ed8lua6/mGHiLttE2q3V+i9xCJr56QDkU/eZRG/q3XRSz3TbT0AHepAkYh0TYYz7ZeiF++vTrK3AhUgjwrmz0SEnDYcDbLNfmT5ElT0axGuP59NR0nVmWMRD0kIRAby6PCtJkvuG07Nvgg5K9GRIHyaxyXuAhHX/cEP7hz+nU5tALUr8q2YX7FwOi5W/jghMj+Qhjbw/Sy2mU/cejOxIFXpEsZPmcOLEXKQq08+TnBFUDw/SUyl5IqIcoWGTuFr3k0hyTZhuT614em4MIqJN25Vb+07rUtEkQ2sRpz0TQaYkPDoIb/RxtwR6vjrOeQm66PD4eEc+M7xHxwkXo97bdHbA4UKprLYjzE/Kf42AZuNDEvjiwRaGe4NObTAJldnU0WJx8WGDUyQb8jmlC2atalcW1bOWBd7O1sf5BZF5RX7TrKIf8bRhfmhlGmPJDFCXReMJErDvQvYjhbC/XKcZB5Oe+OMR6fYrkg6IS96kmTqKe5txQy46vdBEy2bc3gdUVvtnxMqpFeIf80SzQGDg2DfQZCfgAQ1pHXtiS1AwWUiTqdgbL5sjhhCfNJWz7nzITyKAaKp3NUzPva+kp/CQOwjl+0=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4376.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(396003)(39850400004)(346002)(376002)(186003)(6916009)(9686003)(66446008)(64756008)(55016002)(966005)(76116006)(122000001)(66946007)(66556008)(26005)(66476007)(478600001)(83380400001)(5660300002)(38100700002)(2906002)(316002)(52536014)(54906003)(33656002)(7416002)(53546011)(6506007)(86362001)(8676002)(71200400001)(7696005)(8936002)(4326008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?neU8MdLZ9yEcqOLKVcMKm6l1Y3loMiUMFOxG2ZazKRSorqB3oLhWxhjHos/P?=
- =?us-ascii?Q?OF1YKmU7YCw1ULfyhc1m/w8fmNobR004UNUAlMsg4n5Y4hmd+LyquO2G9lJV?=
- =?us-ascii?Q?pbZ/QfA2N6uWYNLuWrVZP21kMP00yjN+60dKBdf993pWWsQoV4DKby2zhDuk?=
- =?us-ascii?Q?xOeYTor1a0VQeND8UJv/vRUJOq4y17ID+P5Wg76mYjMf3BnOTLPbZheJ046M?=
- =?us-ascii?Q?UEzXoxefrApqZtZEZUyd3UHbNM1nxZd3pSDHVlP0xDbJRaOvjziWhjnkPlXK?=
- =?us-ascii?Q?d4Ipea5JX55v/tsLZ/XN3L6a+3vg7QHcJgMXDIYKrnol0gaOyZLyxmHF0HHr?=
- =?us-ascii?Q?jPlK+VKCpYCUMkq9BnqhT/8Xigq4DFxt52vlUxjzHuPuxxBN7T1Xe6hDsy3E?=
- =?us-ascii?Q?yULHuPEvfsWmwB49xgTWG2FbfwdSm6kK5Y0bZSsnSlAhnHoOrDp1r07oAKP1?=
- =?us-ascii?Q?/vQsrTjl8/Ffvb5A7lMTB/u9eAaENDXULg5MFzLWN14NINfXpWaO6eJLYXv7?=
- =?us-ascii?Q?ZszVPKClbrQ6gyHr3u5/eFsoH3x9aXBwFZQKZdTGGLpbwnpBbbEdk92OFvSp?=
- =?us-ascii?Q?rBO7pfkkLMNgxEyW38Kfj98GEaV2CnWOBCjUkZ9YlPV1klsh8Fvk9DblQ4EQ?=
- =?us-ascii?Q?LU8adHUS7oMAIWpf29GVVLgU41hOdMUyWsn1bSkSk25Wu3up0c/XxV8lVcH2?=
- =?us-ascii?Q?FQ+FxkgwWzT5NZ4dIaq1o+P5tlyKyBO8jEeM10fVpF4yXTDNx3Z9SqIBry7+?=
- =?us-ascii?Q?rjZcXBaMHb2vCLWXHr626CTe5RFv3i1pN+ES+fl1bjTGHQNrIIU5LjCHZNEn?=
- =?us-ascii?Q?sfU9ysEkP9Oovwryv4vaKD1Mj0jWadkLIxhlq7V/Rqx09l/9GQXnAp6O3eLg?=
- =?us-ascii?Q?VSvsV1xQ6CuPAbM71ytdfiUMor1lUg5rv8bjfcFQPp1NHYd5uHDTDcNki8qm?=
- =?us-ascii?Q?cVoUZUi2Yq50rYzVBTes87tiDU4rUBcEyCLm4cO5erkNZNv94jgMA3F7ppPa?=
- =?us-ascii?Q?9u+C1UQe+7WSpS7nqcr1ZN+a5dAcxCw9B7jbqW4UEew9qGJkjQbH7+j/4cMC?=
- =?us-ascii?Q?jo8J+7OdSIQb1DUEXQ4NWmDwCzrWFisTGN5mbmvct6mh7xOMG5Pt1QVcEb4p?=
- =?us-ascii?Q?Np2RousLMNxHuh3Ldt41tL2ehpna7P1sOxi9VLNVTZZstPDr99AZW/aBp3qd?=
- =?us-ascii?Q?bg2kABm/B/V179zt44Fz5RjRR7ZF2RtQVLkxN0h6IDJSuAsqat07fNnIg5lG?=
- =?us-ascii?Q?B+cgPXYq4FDfcTmvHQjoUqvIXUD2qbUxmM28dyXOenBAhU/QXfdPezM9SFot?=
- =?us-ascii?Q?9/p3dMTeumijBzPdvv947A70?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210616211630.GA3007203@bjorn-Precision-5520>
+ <0fd19e28-e0a6-fd79-672a-b588fb2763ba@ti.com>
+ <20210625161528.GA21595@lpieralisi>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <8bf024da-d35b-80d5-4351-c1c1d68ef59c@ti.com>
+Date:   Mon, 28 Jun 2021 09:39:32 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6341
-Original-Authentication-Results: zeniv.linux.org.uk; dkim=none (message not signed)
- header.d=none;zeniv.linux.org.uk; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT048.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: b5db230a-0312-4b26-0144-08d939e4c6c1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QUAlCdr2EYLT6sm/UPbzkm29QhBhXxmnFGhBWnxhTbyHkMDcN3uUnJdIY/pi0E0VCzZa6hZIN6id46qH+PZi8A42l0sKKaS/j1yxYc/xOs3JoygEhuI81nvpyRcV4+0DuUb72ulXM6oKYaf2YAd3Dz8C6noMxrHQV2HEIVE8RDH5yqXMyw6jFUU9DBCtB9QLBK4V2bZjQ6X798PkcZEZ+Y9fVUsuAcBYNIytEPCXXS8dTkFGsbwbPgqPP+Icq1Oz67fiskYLbQeFCnhv0pHHbpxTogJ7Fb33uIPjgijGrWddOi0iDf+hITRuMyFx7KjQ43YqweuEgakNBPaDOC1cgXo/lL5bBLcktIT8XvxHI7RSln9tv4L0d5RpOD1XsqB33FPkoEOft51Rdfc42BCUFMLw2gQdY6NFXBQGapsiwiGxbEHvfDF2jpYPIf5Z7uREYGBK94hf9Ac5zk+HQOW/1gBiaLYKDYqBKnvt6k+Vkgc/7FAc7HXo/GT6K8TPRa7jRpaHRaMWfBAkjLufuI0r7IgSqTY8+ghO8vH7QoSPzDWhIIQTzyTj9MUXi3hb86eGAZjr7utl3dmGN5qD9906uruuN1jMSfv9ADsg1NDNb65PJpQvJexAJHvr67U98FlNNNGVgis8C9TkZLVbZ4ryZQJ5BOKGMb/LXBvlbyoDEQlUpQ9QLcfonugCSH7fyhVFUX+MIDF/JjllwaW28YCf62AKzGXdN7JprK6RgG6gQsJhIBoLC2Ie0RLEZzyfKltr8juPpLqHxCEyEXp4VPZ5MNgidbI6NspikJY+E7JJInPF7/dB1lGeKoXcGNqiN45p/j5WQwO8KhmGKEm1KpfiDg==
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(396003)(39850400004)(46966006)(36840700001)(6506007)(8676002)(47076005)(53546011)(4326008)(82310400003)(336012)(2906002)(450100002)(966005)(70586007)(70206006)(478600001)(86362001)(5660300002)(52536014)(81166007)(316002)(186003)(83380400001)(356005)(9686003)(8936002)(54906003)(7696005)(26005)(36860700001)(55016002)(33656002)(82740400003)(6862004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2021 03:28:37.0153
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa6a8db3-911a-4a8e-a4c2-08d939e4d100
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT048.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3186
+In-Reply-To: <20210625161528.GA21595@lpieralisi>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Al
+Hi Lorenzo,
 
-> -----Original Message-----
-> From: Al Viro <viro@ftp.linux.org.uk> On Behalf Of Al Viro
-> Sent: Saturday, June 26, 2021 1:59 AM
-> To: Justin He <Justin.He@arm.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>; Petr Mladek
-> <pmladek@suse.com>; Steven Rostedt <rostedt@goodmis.org>; Sergey
-> Senozhatsky <senozhatsky@chromium.org>; Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com>; Rasmus Villemoes
-> <linux@rasmusvillemoes.dk>; Jonathan Corbet <corbet@lwn.net>; Heiko
-> Carstens <hca@linux.ibm.com>; Vasily Gorbik <gor@linux.ibm.com>; Christia=
-n
-> Borntraeger <borntraeger@de.ibm.com>; Eric W . Biederman
-> <ebiederm@xmission.com>; Darrick J. Wong <darrick.wong@oracle.com>; Peter
-> Zijlstra (Intel) <peterz@infradead.org>; Ira Weiny <ira.weiny@intel.com>;
-> Eric Biggers <ebiggers@google.com>; Ahmed S. Darwish
-> <a.darwish@linutronix.de>; open list:DOCUMENTATION <linux-
-> doc@vger.kernel.org>; Linux Kernel Mailing List <linux-
-> kernel@vger.kernel.org>; linux-s390 <linux-s390@vger.kernel.org>; linux-
-> fsdevel <linux-fsdevel@vger.kernel.org>
-> Subject: Re: [PATCH 13/14] d_path: prepend_path() is unlikely to return
-> non-zero
->
-> On Fri, Jun 25, 2021 at 08:00:49AM +0000, Justin He wrote:
-> > --- a/fs/d_path.c
-> > +++ b/fs/d_path.c
-> > @@ -210,6 +210,7 @@ static int prepend_path(const struct path *path,
-> >         b =3D *p;
-> >         read_seqbegin_or_lock(&rename_lock, &seq);
-> >         error =3D __prepend_path(path->dentry, real_mount(path->mnt), r=
-oot,
-> &b);
-> > +       printk("prepend=3D%d",error);
-> >         if (!(seq & 1))
-> >                 rcu_read_unlock();
-> >         if (need_seqretry(&rename_lock, seq)) {
-> >
-> > Then the result seems a little different:
-> > root@entos-ampere-02:~# dmesg |grep prepend=3D1 |wc -l
-> > 7417
-> > root@entos-ampere-02:~# dmesg |grep prepend=3D0 |wc -l
-> > 772
-> >
-> > The kernel is 5.13.0-rc2+ + this series + my '%pD' series
-> >
-> > Any thoughts?
->
-> On which loads?  1 here is "mount/dentry pair is in somebody
-> else's namespace or outside of the subtree we are chrooted
-> into".  IOW, what's calling d_path() on your setup?
+On 25/06/21 9:45 pm, Lorenzo Pieralisi wrote:
+> On Thu, Jun 24, 2021 at 08:30:09PM +0530, Kishon Vijay Abraham I wrote:
+>> Hi Lorenzo,
+>>
+>> On 17/06/21 2:46 am, Bjorn Helgaas wrote:
+>>> On Wed, Jun 16, 2021 at 07:35:33PM +0530, Kishon Vijay Abraham I wrote:
+>>>> Hi Lorenzo, Bjorn,
+>>>>
+>>>> On 17/05/21 1:17 pm, Kishon Vijay Abraham I wrote:
+>>>>> Patch series
+>>>>> *) Adds support to add virtual functions to enable endpoint controller
+>>>>>    which supports SR-IOV capability
+>>>>> *) Add support in Cadence endpoint driver to configure virtual functions
+>>>>> *) Enable pci_endpoint_test driver to create pci_device for virtual
+>>>>>    functions
+>>>>>
+>>>>> v1 of the patch series can be found at [1]
+>>>>> v2 of the patch series can be found at [2]
+>>>>> v3 of the patch series can be found at [3]
+>>>>> v4 of the patch series can be found at [4]
+>>>>> v5 of the patch series can be found at [5]
+>>>>>
+>>>>> Here both physical functions and virtual functions use the same
+>>>>> pci_endpoint_test driver and existing pcitest utility can be used
+>>>>> to test virtual functions as well.
+>>>>>
+>>>>> Changes from v5:
+>>>>> *) Rebased to 5.13-rc1
+>>>>>
+>>>>> Changes from v4:
+>>>>> *) Added a fix in Cadence driver which was overwriting BAR configuration
+>>>>>    of physical function.
+>>>>> *) Didn't include Tom's Acked-by since Cadence driver is modified in
+>>>>>    this revision.
+>>>>>
+>>>>> Changes from v3:
+>>>>> *) Fixed Rob's comment and added his Reviewed-by as suggested by him.
+>>>>>
+>>>>> Changes from v2:
+>>>>> *) Fixed DT binding documentation comment by Rob
+>>>>> *) Fixed the error check in pci-epc-core.c
+>>>>>
+>>>>> Changes from v1:
+>>>>> *) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+>>>>>    binding for EP)
+>>>>>
+>>>>> [1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+>>>>> [2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+>>>>> [3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+>>>>> [4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+>>>>> [5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+>>>>
+>>>> Can this series be merged for 5.14? It already includes Ack from Rob for
+>>>> dt-binding changes and Ack from Tom for Cadence driver changes.
+>>>
+>>> Sorry, I think this was assigned to me in patchwork, but Lorenzo
+>>> usually takes care of the endpoint stuff.  He's away this week, but no
+>>> doubt will look at it when he returns.
+>>
+>> Can you consider merging this series for 5.14?
+> 
+> I am running late this cycle on reviews and the merge window is about
+> to open, I will review it and queue it first thing for the next cycle.
 
-No special loads, merely collecting the results after kernel boots up.
+Sure, thanks!
 
-To narrow down, I tested your branch [1] *without* my '%pD' series:
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git/log/?h=3Dw=
-ork.d_path
-
-The result is the same after kernel boots up.
-
-The call trace are as follows:
-The prepend_path returns 1:
-  Call trace:
-   prepend_path+0x144/0x340
-   d_absolute_path+0x6c/0xb8
-   aa_path_name+0x1c0/0x3d8
-   profile_transition+0x90/0x908
-   apparmor_bprm_creds_for_exec+0x914/0xaf0
-   security_bprm_creds_for_exec+0x34/0x50
-   bprm_execve+0x178/0x668
-   do_execveat_common.isra.47+0x1b4/0x1c8
-   __arm64_sys_execve+0x44/0x58
-   invoke_syscall+0x54/0x110
-   el0_svc_common.constprop.2+0x5c/0xe0
-   do_el0_svc+0x34/0xa0
-   el0_svc+0x20/0x30
-   el0_sync_handler+0x88/0xb0
-   el0_sync+0x148/0x180
-
-The prepend_path returns 0:
-  Call trace:
-   prepend_path+0x144/0x340
-   d_path+0x110/0x158
-   proc_pid_readlink+0xbc/0x1b8
-   vfs_readlink+0x14c/0x170
-   do_readlinkat+0x134/0x168
-   __arm64_sys_readlinkat+0x28/0x38
-   invoke_syscall+0x54/0x110
-   el0_svc_common.constprop.2+0x5c/0xe0
-   do_el0_svc+0x34/0xa0
-   el0_svc+0x20/0x30
-   el0_sync_handler+0x88/0xb0
-   el0_sync+0x148/0x180
-
-
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+Best Regards,
+Kishon
