@@ -2,130 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2F1C11F65
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 17:39:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6184C11F66
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:29:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0256D61C6F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 17:39:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9798661C93
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Jun 2021 19:29:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbhF1Rlb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 13:41:31 -0400
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:37725 "EHLO
-        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbhF1Rla (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 13:41:30 -0400
-Received: by mail-wr1-f47.google.com with SMTP id i94so22280470wri.4;
-        Mon, 28 Jun 2021 10:39:04 -0700 (PDT)
+        id S236541AbhF1Tbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 15:31:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236526AbhF1Tby (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 15:31:54 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94FCC061760
+        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 12:29:27 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id z3-20020a17090a3983b029016bc232e40bso762202pjb.4
+        for <linux-doc@vger.kernel.org>; Mon, 28 Jun 2021 12:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZJ6u2k6/dJhmtJ+a/0MHT0Ak2qWLb/bcwrC6FvorPSQ=;
+        b=n8uh5BL5JUgY4xOLSY/QFzLUx4h8+eiR4ud8YSIx+mmGU6c63SdHzwx80jLkxQ9F0X
+         cXGjXnat+9O9uXio1+z/Ddfrr4DgcSmFCVAscxsdku5pADBHOYwd0tRP0Hko3vanwFOZ
+         wGTHwxwKuKFVFh3JknoR1UpDe9WJ3gcTeZd/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=x1KLh0OYEF3ex6ks4cGytJzCjqrl5yb7/zSlprVlZ9E=;
-        b=ow+OuMEXMARv3vGv4h5FMsIRVFBk+ifeuhbUVUWRFRxiZBiIqb1PZBsAX0R3fy5GHm
-         IxkNYEHz4t4U6VZeH7vxAn6tUfY1UouesHQl1iOxhDakUyURPr4LX7mIfRAVtOOauqZf
-         wLt5MsP6TzufI5bDWztd9YeZNh1Or9UR9y/NKCW9CDhxjrOwGpOkU/oGdvRGSfKYWq44
-         Bg+Ip4nesgdq3fbieTrHwufDZ7V30hBdmshzxZM8mV10QKTe26kJXnW5PyEcS3wHzm7l
-         TKCLYpKeDy8mFzI8W+aSzRPeYFSNPF4MD4oTWlhCFQkhddBUsJYwESY2JG5AVqGzZU5x
-         024A==
-X-Gm-Message-State: AOAM531uVFETJCNldOZb2ELzdodji45JXAF2PvFTou1xRqsu8CX3PKLz
-        CPbFoEWafkXT+viJIpJJOik=
-X-Google-Smtp-Source: ABdhPJy8sUmcsCDQYEl9DOnlkHfDZbMvrgtz16KwsCG84MBS1mY8T+kwNuvosWWiPDoeK+PHVLtoPg==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id l7mr9632102wrx.177.1624901943832;
-        Mon, 28 Jun 2021 10:39:03 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id t16sm176520wmi.2.2021.06.28.10.39.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZJ6u2k6/dJhmtJ+a/0MHT0Ak2qWLb/bcwrC6FvorPSQ=;
+        b=eR72kKYDsrxiwH7zHhemNQUwuRu+tQ/sOPTw94DwhAcRzjF59DZUHLNYIYqAWIGe3Y
+         55HRK8NkyX72SL4k4fl4MUhs9DWWSEPgYqdJV8GVbLcqAi7eMjvOkJCOI28jeD3/3EuQ
+         grj5ovF03S9BnMf6RNDjTFcZNPviWp8L/S79rdN0If/s0xYVHARm/9C5UbK6hcIhGf0C
+         DMGS8zqs+ml4u1a3RRVPqzH61L0VlXm5BQkDW6V+X+qaY8kkHQ2KU5vcrMsbqC7ZLK/D
+         KQDK0rZMwEI+SYcd/fkKSUj6ji4hZdMSEX2B+8nx1MRAf2PZPJoX7pW24BPJyubrnG3D
+         qyNg==
+X-Gm-Message-State: AOAM530HtUev9sY/+Btr0wCME9yPx2+W7pMnNT/0zjOdXv1R5IVzf9Hh
+        ulTmlwbmosSuKamVdcWjD0YqfA==
+X-Google-Smtp-Source: ABdhPJz1uj/MMaj6X3iG0Y158vKYXBq1/oub7G1h8/NnL5WdpAzImby8uj7C6j+B72ZmmUCSgoaJQw==
+X-Received: by 2002:a17:902:720b:b029:113:19d7:2da7 with SMTP id ba11-20020a170902720bb029011319d72da7mr23791449plb.55.1624908566889;
+        Mon, 28 Jun 2021 12:29:26 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n12sm14973518pfu.5.2021.06.28.12.29.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jun 2021 10:39:03 -0700 (PDT)
-Date:   Mon, 28 Jun 2021 17:39:01 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     longli@linuxonhyperv.com, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, Long Li <longli@microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
-Subject: Re: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
-Message-ID: <20210628173901.mwo4ydfdmf3zd2zt@liuwe-devbox-debian-v2>
-References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
- <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
- <ff05bb0d-bcad-8445-d410-7756e7502352@metux.net>
+        Mon, 28 Jun 2021 12:29:26 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>,
+        clang-built-linux@googlegroups.com,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Bill Wendling <wcw@google.com>, linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH] pgo: rectify comment to proper kernel-doc syntax
+Date:   Mon, 28 Jun 2021 12:29:19 -0700
+Message-Id: <162490855630.2191955.7188154193447975503.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210628055947.6948-1-lukas.bulwahn@gmail.com>
+References: <20210628055947.6948-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff05bb0d-bcad-8445-d410-7756e7502352@metux.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 28, 2021 at 07:12:40PM +0200, Enrico Weigelt, metux IT consult wrote:
-> On 26.06.21 08:30, longli@linuxonhyperv.com wrote:
+On Mon, 28 Jun 2021 07:59:47 +0200, Lukas Bulwahn wrote:
+> The command ./scripts/kernel-doc -none kernel/pgo/pgo.h warns:
 > 
-> Hi,
+>   kernel/pgo/pgo.h:112: warning: cannot understand function prototype: 'struct llvm_prf_value_node_data '
 > 
-> > From: Long Li <longli@microsoft.com>
-> > 
-> > Azure Blob storage provides scalable and durable data storage for Azure.
-> > (https://azure.microsoft.com/en-us/services/storage/blobs/)
+> This is due to a slightly invalid use of kernel-doc syntax for the comment
+> of this struct, that must have probably just slipped through refactoring
+> and review before.
 > 
-> It's a bit hard to quickly find out the exact semantics of that (w/o fully
-> reading the library code ...).  :(
-> 
-> > This driver adds support for accelerated access to Azure Blob storage. As an
-> > alternative to REST APIs, it provides a fast data path that uses host native
-> > network stack and secure direct data link for storage server access.
-> 
-> I don't think that yet another misc device with some very specific API
-> is a good thing. We should have a more generic userland interface.
-> 
-> Maybe a file system ?
+> [...]
 
-This can already be done if I'm not mistaken:
+Applied to for-next/clang/features, thanks!
 
-https://docs.microsoft.com/en-us/azure/storage/blobs/storage-how-to-mount-container-linux
-https://docs.microsoft.com/en-us/azure/storage/blobs/network-file-system-protocol-support-how-to
+[1/1] pgo: rectify comment to proper kernel-doc syntax
+      https://git.kernel.org/kees/c/6a0544606ec7
 
-> 
-> OTOH, I've been considering adding other kind of blob stores (eg. venti
-> and similar things) and inventing an own subsys for that, so we'd have
-> some more universal interface. Unfortunately always been busy with other
-> things.
-> 
-> Maybe we should go that route instead of introducing yet another device
-> specific uapi.
+-- 
+Kees Cook
 
-This work of course does not preclude anyone from going that route.
-
-Wei.
-
-> 
-> 
-> --mtx
-> 
-> -- 
-> ---
-> Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-> werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-> GPG/PGP-Schlüssel zu.
-> ---
-> Enrico Weigelt, metux IT consult
-> Free software and Linux embedded engineering
-> info@metux.net -- +49-151-27565287
