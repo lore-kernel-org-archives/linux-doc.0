@@ -2,401 +2,473 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1E2C11F67
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 08:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CE3C11F68
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 09:37:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62D1761DC8
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 08:43:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB5EA61DE7
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 09:37:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232411AbhF2Ipf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Jun 2021 04:45:35 -0400
-Received: from mail-ed1-f48.google.com ([209.85.208.48]:35674 "EHLO
-        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232401AbhF2Ipf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jun 2021 04:45:35 -0400
-Received: by mail-ed1-f48.google.com with SMTP id df12so30204705edb.2;
-        Tue, 29 Jun 2021 01:43:06 -0700 (PDT)
+        id S232854AbhF2JkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Jun 2021 05:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232840AbhF2JkR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jun 2021 05:40:17 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3698C061760
+        for <linux-doc@vger.kernel.org>; Tue, 29 Jun 2021 02:37:50 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id j2so25012431wrs.12
+        for <linux-doc@vger.kernel.org>; Tue, 29 Jun 2021 02:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vbqHJLRYqpxALDaxBDkycdMmvBO1q1rxJlwGgAXC1dE=;
+        b=YWeTDwoOj0Qk14S4+YvOY7g3OZD/J/F912bsjOITbBw7aRjEOHCu8mQZfrAk/uOwQ5
+         yz0fK09KJw+PUh6eJI+B+krYjL9xCp4bj0pwt3PJlCPR3O3Gm2n9cteQ8ETiVejk6hPF
+         PGpukqq8r2DjSRDhYZVo4gegZIjuDC7AL4O6yIk7VOWwC6ns0zdHN9NAOB1R+44kj4hj
+         72vbZKk0Qo/607nj1Hm2Wb3dhAeGLAF7T+JW+LwnRiyDN0PXoD1yxEU4ClvEfaTn/Hpe
+         0kjeILi144PqGQRbtpvwesuGxJI1doLbN7oVHP/vMYu/H5Db6mTT9Hyzm8dZCnMcyDkE
+         SUnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vr9wv3OGfZSryviafokTMo7ZyJHMYGFWE5upUcJfT6g=;
-        b=Uz4CMLbxX6eoqXBOqtxElSJkTOrgh6V0tphBTvlAuHRFV88vah7RxXRcpi7amg7tOq
-         jOy2WIp9/NTTJzq+VT6z44pMrghqmwh5aFuHoyZUQ8ai7EaWQjLam/JB/LyWXlRUdDNn
-         Xer9SXUeX+C+2ikVuwOwZ1v5TFVyFkth0WH9JCCpjJakKmRDhaOR/gZ2T8BsrFn0VU0k
-         RYmXytxyTcWd55gUw3iQv8SE1709/Z33pP8Xqma8b4dxOuoNU8mPVNRcjXq/a106y1gn
-         GfF0vyR4C0OMQA77UedqnqLfVXIggyirFXJ7bOCtNbL+/B6ca0XE4jOl6vKR430s6dfE
-         FXbg==
-X-Gm-Message-State: AOAM5330GqqGkgIs77iqfT9/57s7a0/i6M7ktDV0I/q3pLgkMsNvJHIC
-        lW7Dq0abJzrcj36/2qgzMgKHjBBswpO6Nw==
-X-Google-Smtp-Source: ABdhPJzLc2HwWhEsTCwtnIcTW1x53+fUQkhioghQMxKM6EYv525La+1RWENlgbXjHHFqo8Dk65LMpQ==
-X-Received: by 2002:aa7:c54b:: with SMTP id s11mr29079920edr.373.1624956185789;
-        Tue, 29 Jun 2021 01:43:05 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
-        by smtp.gmail.com with ESMTPSA id c23sm10917610eds.57.2021.06.29.01.43.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jun 2021 01:43:05 -0700 (PDT)
-Subject: Re: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
-To:     longli@linuxonhyperv.com, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Cc:     Long Li <longli@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
-References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
- <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <f5155516-4054-459a-c23c-a787fa429e5e@kernel.org>
-Date:   Tue, 29 Jun 2021 10:43:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vbqHJLRYqpxALDaxBDkycdMmvBO1q1rxJlwGgAXC1dE=;
+        b=hsp9q41MZe6icZ7iYUuYmqrafDwBmEjPXIcGRGHYFDdHHcA1W9GWyjhpL6XF8+CE2h
+         DACL7PlNaC81Gk8d5CkEQ1brhpbeauhEFYHrwQhGIdnTm5bcRncLT+BAW6dwzax3ui98
+         I1B+YajW8jML2IrlQE+tMPz3OEB6V+rfAfEJwNTX0JGizIZnvoEQ6knS/vuSaczT9CQ+
+         +wr5Adg8Qkq2i1bKtf8h6936Mw5tv4rKsLE55emjDaHBOTYqqMZ0S6gv9eF1H6vkmUom
+         1K5auH7Wvu1CG6xII4MV/0EYbuv01pu9CrX7df6F3jyS+z8tHPv8l2Ttp1ceDf/7FOAM
+         PreQ==
+X-Gm-Message-State: AOAM531wJMpHkKmJWcrKNe0XPdfQtKq0xzSuLY7F5K8Mzlwz39heRL84
+        +VEAMvcS+16yTIgN2c5CD91jvcMeMN0JVPbQ2wpC6g==
+X-Google-Smtp-Source: ABdhPJynxNbm6qSA6stl5iaZvHTMRxAqsHlYsi72I4p8qy0YHNbvMRFjEEyUS71yekzFlRKVC5rrrSQhlORHi1G9r98=
+X-Received: by 2002:a5d:65d1:: with SMTP id e17mr3440421wrw.275.1624959469161;
+ Tue, 29 Jun 2021 02:37:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210414191903.18349-1-mike.leach@linaro.org> <20210414191903.18349-6-mike.leach@linaro.org>
+ <dfbb1acf-b174-1990-33d3-39e2ab746959@arm.com> <CANLsYkyR-kUO7CiK4vuw+DNFMxCCsLN24s3mZ2Uw4vAq5aPD3g@mail.gmail.com>
+ <CAJ9a7Vjsmu88ZY1h11o13VMu9C9gaBr_8HEmSa5iAH3NvwM=NA@mail.gmail.com> <20210628195610.GA1200359@p14s>
+In-Reply-To: <20210628195610.GA1200359@p14s>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Tue, 29 Jun 2021 10:37:38 +0100
+Message-ID: <CAJ9a7Vj1eyAbk9Yv1upHv3AcWd+PrfSsS_FVjNqyHWAaaR_Dcg@mail.gmail.com>
+Subject: Re: [PATCH v7 05/10] coresight: syscfg: Add API to activate and
+ enable configurations
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     Branislav Rankov <branislav.rankov@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Yabin Cui <yabinc@google.com>, Jon Corbet <corbet@lwn.net>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tingwei Zhang <tingwei@codeaurora.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        nd <nd@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26. 06. 21, 8:30, longli@linuxonhyperv.com wrote:
-> Azure Blob storage provides scalable and durable data storage for Azure.
-> (https://azure.microsoft.com/en-us/services/storage/blobs/)
-> 
-> This driver adds support for accelerated access to Azure Blob storage. As an
-> alternative to REST APIs, it provides a fast data path that uses host native
-> network stack and secure direct data link for storage server access.
-> 
-...
-> Cc: Jiri Slaby <jirislaby@kernel.org>
+On Mon, 28 Jun 2021 at 20:56, Mathieu Poirier
+<mathieu.poirier@linaro.org> wrote:
+>
+> On Fri, Jun 25, 2021 at 03:37:16PM +0100, Mike Leach wrote:
+> > HI Branislav, Mathieu,
+> >
+> > I have started to look into this as a top priority.
+>
+> Perfect.
+>
+> There was also a report from a build bot realted to an undefined reference to
+> config_group_init_type_name().  Please see if there is something to do on that
+> one as well - I haven't had the opportunity to look at the report.
+>
+> Thanks,
+> Mathieu
+>
 
-I am just curious, why am I CCed? Anyway, some comments below:
+I spotted that too - its also on my todo list.
 
-> --- /dev/null
-> +++ b/drivers/hv/azure_blob.c
-> @@ -0,0 +1,655 @@
-...
-> +static void az_blob_on_channel_callback(void *context)
-> +{
-> +	struct vmbus_channel *channel = (struct vmbus_channel *)context;
+Mike
 
-Have you fed this patch through checkpatch?
+> >
+> > However, when I enable the CONFIG_DEBUG_ option my board fails to boot
+> > at all. (Dragonboard DB410c), so the resolution make take a little
+> > time.
+> >
+> > At this point I am assuming that the mutex will need to be replaced by
+> > a spinlock - so a re-design + v8 set may well be required.
+> >
+> > Regards
+> >
+> > Mike
+> >
+> > On Mon, 14 Jun 2021 at 18:03, Mathieu Poirier
+> > <mathieu.poirier@linaro.org> wrote:
+> > >
+> > > Hi Branislav,
+> > >
+> > > On Thu, 10 Jun 2021 at 05:05, Branislav Rankov <branislav.rankov@arm.com> wrote:
+> > > >
+> > > >
+> > > > On 4/14/21 8:18 PM, Mike Leach wrote:
+> > > > > Configurations are first activated, then when any coresight device is
+> > > > > enabled, the active configurations are checked and any matching
+> > > > > one is enabled.
+> > > > >
+> > > > > This patch provides the activation / enable API.
+> > > > >
+> > > > > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > > > > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > > > > ---
+> > > > >   .../hwtracing/coresight/coresight-config.h    |   2 +
+> > > > >   .../hwtracing/coresight/coresight-syscfg.c    | 172 ++++++++++++++++++
+> > > > >   .../hwtracing/coresight/coresight-syscfg.h    |   8 +
+> > > > >   include/linux/coresight.h                     |   2 +
+> > > > >   4 files changed, 184 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+> > > > > index 0667581822c1..25eb6c632692 100644
+> > > > > --- a/drivers/hwtracing/coresight/coresight-config.h
+> > > > > +++ b/drivers/hwtracing/coresight/coresight-config.h
+> > > > > @@ -127,6 +127,7 @@ struct cscfg_feature_desc {
+> > > > >    * @nr_total_params:        Sum of all parameters declared by used features
+> > > > >    * @presets:                Array of preset values.
+> > > > >    * @event_ea:               Extended attribute for perf event value
+> > > > > + * @active_cnt:              ref count for activate on this configuration.
+> > > > >    *
+> > > > >    */
+> > > > >   struct cscfg_config_desc {
+> > > > > @@ -139,6 +140,7 @@ struct cscfg_config_desc {
+> > > > >       int nr_total_params;
+> > > > >       const u64 *presets; /* nr_presets * nr_total_params */
+> > > > >       struct dev_ext_attribute *event_ea;
+> > > > > +     atomic_t active_cnt;
+> > > > >   };
+> > > > >
+> > > > >   /**
+> > > > > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > > > > index e35f8c0ac2f8..b234e45c153f 100644
+> > > > > --- a/drivers/hwtracing/coresight/coresight-syscfg.c
+> > > > > +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > > > > @@ -283,6 +283,7 @@ static int cscfg_load_config(struct cscfg_config_desc *config_desc)
+> > > > >               return err;
+> > > > >
+> > > > >       list_add(&config_desc->item, &cscfg_mgr->config_desc_list);
+> > > > > +     atomic_set(&config_desc->active_cnt, 0);
+> > > > >       return 0;
+> > > > >   }
+> > > > >
+> > > > > @@ -468,6 +469,176 @@ void cscfg_unregister_csdev(struct coresight_device *csdev)
+> > > > >   }
+> > > > >   EXPORT_SYMBOL_GPL(cscfg_unregister_csdev);
+> > > > >
+> > > > > +/**
+> > > > > + * cscfg_csdev_reset_feats - reset features for a CoreSight device.
+> > > > > + *
+> > > > > + * Resets all parameters and register values for any features loaded
+> > > > > + * into @csdev to their default values.
+> > > > > + *
+> > > > > + * @csdev: The CoreSight device.
+> > > > > + */
+> > > > > +void cscfg_csdev_reset_feats(struct coresight_device *csdev)
+> > > > > +{
+> > > > > +     struct cscfg_feature_csdev *feat_csdev;
+> > > > > +
+> > > > > +     mutex_lock(&cscfg_csdev_mutex);
+> > > > > +     if (list_empty(&csdev->feature_csdev_list))
+> > > > > +             goto unlock_exit;
+> > > > > +
+> > > > > +     list_for_each_entry(feat_csdev, &csdev->feature_csdev_list, node)
+> > > > > +             cscfg_reset_feat(feat_csdev);
+> > > > > +
+> > > > > +unlock_exit:
+> > > > > +     mutex_unlock(&cscfg_csdev_mutex);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(cscfg_csdev_reset_feats);
+> > > > > +
+> > > > > +/**
+> > > > > + * cscfg_activate_config -  Mark a configuration descriptor as active.
+> > > > > + *
+> > > > > + * This will be seen when csdev devices are enabled in the system.
+> > > > > + * Only activated configurations can be enabled on individual devices.
+> > > > > + * Activation protects the configuration from alteration or removal while
+> > > > > + * active.
+> > > > > + *
+> > > > > + * Selection by hash value - generated from the configuration name when it
+> > > > > + * was loaded and added to the cs_etm/configurations file system for selection
+> > > > > + * by perf.
+> > > > > + *
+> > > > > + * Increments the configuration descriptor active count and the global active
+> > > > > + * count.
+> > > > > + *
+> > > > > + * @cfg_hash: Hash value of the selected configuration name.
+> > > > > + */
+> > > > > +int cscfg_activate_config(unsigned long cfg_hash)
+> > > > > +{
+> > > > > +     struct cscfg_config_desc *config_desc;
+> > > > > +     int err = -EINVAL;
+> > > > > +
+> > > > > +     mutex_lock(&cscfg_mutex);
+> > > > > +
+> > > > > +     list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
+> > > > > +             if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
+> > > > > +                     /*
+> > > > > +                      * increment the global active count - control changes to
+> > > > > +                      * active configurations
+> > > > > +                      */
+> > > > > +                     atomic_inc(&cscfg_mgr->sys_active_cnt);
+> > > > > +
+> > > > > +                     /*
+> > > > > +                      * mark the descriptor as active so enable config on a
+> > > > > +                      * device instance will use it
+> > > > > +                      */
+> > > > > +                     atomic_inc(&config_desc->active_cnt);
+> > > > > +
+> > > > > +                     err = 0;
+> > > > > +                     dev_dbg(cscfg_device(), "Activate config %s.\n", config_desc->name);
+> > > > > +                     break;
+> > > > > +             }
+> > > > > +     }
+> > > > > +     mutex_unlock(&cscfg_mutex);
+> > > > > +
+> > > > > +     return err;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(cscfg_activate_config);
+> > > > > +
+> > > > > +/**
+> > > > > + * cscfg_deactivate_config -  Mark a config descriptor as inactive.
+> > > > > + *
+> > > > > + * Decrement the configuration and global active counts.
+> > > > > + *
+> > > > > + * @cfg_hash: Hash value of the selected configuration name.
+> > > > > + */
+> > > > > +void cscfg_deactivate_config(unsigned long cfg_hash)
+> > > > > +{
+> > > > > +     struct cscfg_config_desc *config_desc;
+> > > > > +
+> > > > > +     mutex_lock(&cscfg_mutex);
+> > > > > +
+> > > > > +     list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
+> > > > > +             if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
+> > > > > +                     atomic_dec(&config_desc->active_cnt);
+> > > > > +                     atomic_dec(&cscfg_mgr->sys_active_cnt);
+> > > > > +                     dev_dbg(cscfg_device(), "Deactivate config %s.\n", config_desc->name);
+> > > > > +                     break;
+> > > > > +             }
+> > > > > +     }
+> > > > > +     mutex_unlock(&cscfg_mutex);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(cscfg_deactivate_config);
+> > > > > +
+> > > > > +/**
+> > > > > + * cscfg_csdev_enable_active_config - Enable matching active configuration for device.
+> > > > > + *
+> > > > > + * Enables the configuration selected by @cfg_hash if the configuration is supported
+> > > > > + * on the device and has been activated.
+> > > > > + *
+> > > > > + * If active and supported the CoreSight device @csdev will be programmed with the
+> > > > > + * configuration, using @preset parameters.
+> > > > > + *
+> > > > > + * Should be called before driver hardware enable for the requested device, prior to
+> > > > > + * programming and enabling the physical hardware.
+> > > > > + *
+> > > > > + * @csdev:   CoreSight device to program.
+> > > > > + * @cfg_hash:        Selector for the configuration.
+> > > > > + * @preset:  Preset parameter values to use, 0 for current / default values.
+> > > > > + */
+> > > > > +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+> > > > > +                                  unsigned long cfg_hash, int preset)
+> > > > > +{
+> > > > > +     struct cscfg_config_csdev *config_csdev_active = NULL, *config_csdev_item;
+> > > > > +     const struct cscfg_config_desc *config_desc;
+> > > > > +     int err = 0;
+> > > > > +
+> > > > > +     /* quickly check global count */
+> > > > > +     if (!atomic_read(&cscfg_mgr->sys_active_cnt))
+> > > > > +             return 0;
+> > > > > +
+> > > > > +     mutex_lock(&cscfg_csdev_mutex);
+> > > > > +     list_for_each_entry(config_csdev_item, &csdev->config_csdev_list, node) {
+> > > > > +             config_desc = config_csdev_item->config_desc;
+> > > > > +             if ((atomic_read(&config_desc->active_cnt)) &&
+> > > > > +                 ((unsigned long)config_desc->event_ea->var == cfg_hash)) {
+> > > > > +                     config_csdev_active = config_csdev_item;
+> > > > > +                     break;
+> > > > > +             }
+> > > > > +     }
+> > > > > +     if (config_csdev_active) {
+> > > > > +             err = cscfg_csdev_enable_config(config_csdev_active, preset);
+> > > > > +             if (!err)
+> > > > > +                     csdev->active_cscfg_ctxt = (void *)config_csdev_active;
+> > > > > +     }
+> > > > > +     mutex_unlock(&cscfg_csdev_mutex);
+> > > > > +     return err;
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
+> > > > > +
+> > > > > +/**
+> > > > > + * cscfg_csdev_disable_active_config - disable an active config on the device.
+> > > > > + *
+> > > > > + * Disables the active configuration on the CoreSight device @csdev.
+> > > > > + * Disable will save the values of any registers marked in the configurations
+> > > > > + * as save on disable.
+> > > > > + *
+> > > > > + * Should be called after driver hardware disable for the requested device,
+> > > > > + * after disabling the physical hardware and reading back registers.
+> > > > > + *
+> > > > > + * @csdev: The CoreSight device.
+> > > > > + */
+> > > > > +void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
+> > > > > +{
+> > > > > +     struct cscfg_config_csdev *config_csdev;
+> > > > > +
+> > > > > +     mutex_lock(&cscfg_csdev_mutex);
+> > > >
+> > > > This line seems to cause a bug report when the kernel is compiled with CONFIG_DEBUG_ATOMIC_SLEEP=y
+> > > >
+> > > > I have tested this by applying the series to 5.10 kernel on Dragonboard 845c.
+> > > >
+> > > > It only happens when strobing is used.
+> > >
+> > > Thanks for reporting this.  Unfortunately Mike is away and likely
+> > > won't be able to look at this in time for the merge window.  As such I
+> > > backed out the complex configuration feature from the next branch but
+> > > that code is still available on next-complex-configuration.
+> > >
+> > > Thanks,
+> > > Mathieu
+> > >
+> > > >
+> > > > The report is this:
+> > > >
+> > > > [13431.885395] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:283
+> > > > [13431.893919] in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 3525, name: perf
+> > > > [13431.901882] CPU: 0 PID: 3525 Comm: perf Tainted: G        W         5.10.0-rc5-17282-g923b456a55fb #124
+> > > > [13431.911436] Hardware name: Thundercomm Dragonboard 845c (DT)
+> > > > [13431.917450] Call trace:
+> > > > [13431.919938]  dump_backtrace+0x0/0x1a0
+> > > > [13431.923644]  show_stack+0x18/0x68
+> > > > [13431.927008]  dump_stack+0xd0/0x12c
+> > > > [13431.930444]  ___might_sleep+0xf0/0x130
+> > > > [13431.934228]  __might_sleep+0x54/0x90
+> > > > [13431.937945]  mutex_lock+0x28/0x80
+> > > > [13431.941468]  cscfg_csdev_disable_active_config+0x24/0x50
+> > > > [13431.946952]  etm4_disable+0xf0/0x100
+> > > > [13431.950571]  etm_event_stop+0xb8/0x130
+> > > > [13431.954380]  etm_event_del+0x14/0x20
+> > > > [13431.958008]  event_sched_out.isra.0+0x84/0x1c8
+> > > > [13431.962496]  group_sched_out.part.0+0x44/0xc8
+> > > > [13431.967010]  __perf_event_disable+0xe4/0x198
+> > > > [13431.971549]  event_function+0x8c/0xe8
+> > > > [13431.975256]  remote_function+0x64/0x78
+> > > > [13431.979161]  generic_exec_single+0xa0/0x100
+> > > > [13431.983876]  smp_call_function_single+0x158/0x1d8
+> > > > [13431.988629]  event_function_call+0x128/0x138
+> > > > [13431.992942]  _perf_event_disable+0x48/0x70
+> > > > [13431.997082]  perf_event_for_each_child+0x3c/0x90
+> > > > [13432.001751]  _perf_ioctl+0x198/0x4a8
+> > > > [13432.005359]  perf_ioctl+0x4c/0x78
+> > > > [13432.008715]  __arm64_sys_ioctl+0xa8/0xf0
+> > > > [13432.012835]  el0_svc_common.constprop.0+0x78/0x1a0
+> > > > [13432.017767]  do_el0_svc+0x24/0x90
+> > > > [13432.021616]  el0_sync_handler+0x160/0x168
+> > > > [13432.025670]  el0_sync+0x174/0x180
+> > > >
+> > > >
+> > > > > +     config_csdev = (struct cscfg_config_csdev *)csdev->active_cscfg_ctxt;
+> > > > > +     if (config_csdev) {
+> > > > > +             cscfg_csdev_disable_config(config_csdev);
+> > > > > +             csdev->active_cscfg_ctxt = NULL;
+> > > > > +     }
+> > > > > +     mutex_unlock(&cscfg_csdev_mutex);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(cscfg_csdev_disable_active_config);
+> > > > > +
+> > > > >   /* Initialise system configuration management device. */
+> > > > >
+> > > > >   struct device *cscfg_device(void)
+> > > > > @@ -536,6 +707,7 @@ int __init cscfg_init(void)
+> > > > >       INIT_LIST_HEAD(&cscfg_mgr->csdev_desc_list);
+> > > > >       INIT_LIST_HEAD(&cscfg_mgr->feat_desc_list);
+> > > > >       INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
+> > > > > +     atomic_set(&cscfg_mgr->sys_active_cnt, 0);
+> > > > >
+> > > > >       dev_info(cscfg_device(), "CoreSight Configuration manager initialised");
+> > > > >       return 0;
+> > > > > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > > > > index 5bcae3b374c6..a52775890670 100644
+> > > > > --- a/drivers/hwtracing/coresight/coresight-syscfg.h
+> > > > > +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > > > > @@ -24,12 +24,14 @@
+> > > > >    * @csdev_desc_list:        List of coresight devices registered with the configuration manager.
+> > > > >    * @feat_desc_list: List of feature descriptors to load into registered devices.
+> > > > >    * @config_desc_list:       List of system configuration descriptors to load into registered devices.
+> > > > > + * @sys_active_cnt:  Total number of active config descriptor references.
+> > > > >    */
+> > > > >   struct cscfg_manager {
+> > > > >       struct device dev;
+> > > > >       struct list_head csdev_desc_list;
+> > > > >       struct list_head feat_desc_list;
+> > > > >       struct list_head config_desc_list;
+> > > > > +     atomic_t sys_active_cnt;
+> > > > >   };
+> > > > >
+> > > > >   /* get reference to dev in cscfg_manager */
+> > > > > @@ -61,5 +63,11 @@ int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
+> > > > >   int cscfg_register_csdev(struct coresight_device *csdev, u32 match_flags,
+> > > > >                        struct cscfg_csdev_feat_ops *ops);
+> > > > >   void cscfg_unregister_csdev(struct coresight_device *csdev);
+> > > > > +int cscfg_activate_config(unsigned long cfg_hash);
+> > > > > +void cscfg_deactivate_config(unsigned long cfg_hash);
+> > > > > +void cscfg_csdev_reset_feats(struct coresight_device *csdev);
+> > > > > +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+> > > > > +                                  unsigned long cfg_hash, int preset);
+> > > > > +void cscfg_csdev_disable_active_config(struct coresight_device *csdev);
+> > > > >
+> > > > >   #endif /* CORESIGHT_SYSCFG_H */
+> > > > > diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+> > > > > index 6fb516e1b22e..a348049ee08b 100644
+> > > > > --- a/include/linux/coresight.h
+> > > > > +++ b/include/linux/coresight.h
+> > > > > @@ -222,6 +222,7 @@ struct coresight_sysfs_link {
+> > > > >    * @has_conns_grp: Have added a "connections" group for sysfs links.
+> > > > >    * @feature_csdev_list: List of complex feature programming added to the device.
+> > > > >    * @config_csdev_list:  List of system configurations added to the device.
+> > > > > + * @active_cscfg_ctxt:  Context information for current active system configuration.
+> > > > >    */
+> > > > >   struct coresight_device {
+> > > > >       struct coresight_platform_data *pdata;
+> > > > > @@ -246,6 +247,7 @@ struct coresight_device {
+> > > > >       /* system configuration and feature lists */
+> > > > >       struct list_head feature_csdev_list;
+> > > > >       struct list_head config_csdev_list;
+> > > > > +     void *active_cscfg_ctxt;
+> > > > >   };
+> > > > >
+> > > > >   /*
+> > > > >
+> >
+> >
+> >
+> > --
+> > Mike Leach
+> > Principal Engineer, ARM Ltd.
+> > Manchester Design Centre. UK
 
-> +	const struct vmpacket_descriptor *desc;
-> +
-> +	az_blob_dbg("entering interrupt from vmbus\n");
-> +	foreach_vmbus_pkt(desc, channel) {
-> +		struct az_blob_vsp_request_ctx *request_ctx;
-> +		struct az_blob_vsp_response *response;
-> +		u64 cmd_rqst = vmbus_request_addr(&channel->requestor,
-> +					desc->trans_id);
-> +		if (cmd_rqst == VMBUS_RQST_ERROR) {
-> +			az_blob_err("incorrect transaction id %llu\n",
-> +				desc->trans_id);
-> +			continue;
-> +		}
-> +		request_ctx = (struct az_blob_vsp_request_ctx *) cmd_rqst;
-> +		response = hv_pkt_data(desc);
-> +
-> +		az_blob_dbg("got response for request %pUb status %u "
-> +			"response_len %u\n",
-> +			&request_ctx->request->guid, response->error,
-> +			response->response_len);
-> +		request_ctx->request->response.status = response->error;
-> +		request_ctx->request->response.response_len =
-> +			response->response_len;
-> +		complete(&request_ctx->wait_vsp);
-> +	}
-> +
-> +}
-...
-> +static long az_blob_ioctl_user_request(struct file *filp, unsigned long arg)
-> +{
-> +	struct az_blob_device *dev = &az_blob_dev;
-> +	struct az_blob_file_ctx *file_ctx = filp->private_data;
-> +	char __user *argp = (char __user *) arg;
-> +	struct az_blob_request_sync request;
-> +	struct az_blob_vsp_request_ctx request_ctx;
-> +	unsigned long flags;
-> +	int ret;
-> +	size_t request_start, request_num_pages = 0;
-> +	size_t response_start, response_num_pages = 0;
-> +	size_t data_start, data_num_pages = 0, total_num_pages;
-> +	struct page **request_pages = NULL, **response_pages = NULL;
-> +	struct page **data_pages = NULL;
-> +	struct vmbus_packet_mpb_array *desc;
-> +	u64 *pfn_array;
-> +	int desc_size;
-> +	int page_idx;
-> +	struct az_blob_vsp_request *vsp_request;
-
-Ugh, see further.
-
-> +
-> +	/* Fast fail if device is being removed */
-> +	if (dev->removing)
-> +		return -ENODEV;
-> +
-> +	if (!az_blob_safe_file_access(filp)) {
-> +		az_blob_dbg("process %d(%s) changed security contexts after"
-> +			" opening file descriptor\n",
-> +			task_tgid_vnr(current), current->comm);
-> +		return -EACCES;
-> +	}
-> +
-> +	if (copy_from_user(&request, argp, sizeof(request))) {
-> +		az_blob_dbg("don't have permission to user provided buffer\n");
-> +		return -EFAULT;
-> +	}
-> +
-> +	az_blob_dbg("az_blob ioctl request guid %pUb timeout %u request_len %u"
-> +		" response_len %u data_len %u request_buffer %llx "
-> +		"response_buffer %llx data_buffer %llx\n",
-> +		&request.guid, request.timeout, request.request_len,
-> +		request.response_len, request.data_len, request.request_buffer,
-> +		request.response_buffer, request.data_buffer);
-> +
-> +	if (!request.request_len || !request.response_len)
-> +		return -EINVAL;
-> +
-> +	if (request.data_len && request.data_len < request.data_valid)
-> +		return -EINVAL;
-> +
-> +	init_completion(&request_ctx.wait_vsp);
-> +	request_ctx.request = &request;
-> +
-> +	/*
-> +	 * Need to set rw to READ to have page table set up for passing to VSP.
-> +	 * Setting it to WRITE will cause the page table entry not allocated
-> +	 * as it's waiting on Copy-On-Write on next page fault. This doesn't
-> +	 * work in this scenario because VSP wants all the pages to be present.
-> +	 */
-> +	ret = get_buffer_pages(READ, (void __user *) request.request_buffer,
-
-Does this need __force for sparse not to complain?
-
-> +		request.request_len, &request_pages, &request_start,
-> +		&request_num_pages);
-> +	if (ret)
-> +		goto get_user_page_failed;
-> +
-> +	ret = get_buffer_pages(READ, (void __user *) request.response_buffer,
-> +		request.response_len, &response_pages, &response_start,
-> +		&response_num_pages);
-> +	if (ret)
-> +		goto get_user_page_failed;
-> +
-> +	if (request.data_len) {
-> +		ret = get_buffer_pages(READ,
-> +			(void __user *) request.data_buffer, request.data_len,
-> +			&data_pages, &data_start, &data_num_pages);
-> +		if (ret)
-> +			goto get_user_page_failed;
-> +	}
-> +
-> +	total_num_pages = request_num_pages + response_num_pages +
-> +				data_num_pages;
-> +	if (total_num_pages > AZ_BLOB_MAX_PAGES) {
-> +		az_blob_dbg("number of DMA pages %lu buffer exceeding %u\n",
-> +			total_num_pages, AZ_BLOB_MAX_PAGES);
-> +		ret = -EINVAL;
-> +		goto get_user_page_failed;
-> +	}
-> +
-> +	/* Construct a VMBUS packet and send it over to VSP */
-> +	desc_size = sizeof(struct vmbus_packet_mpb_array) +
-> +			sizeof(u64) * total_num_pages;
-> +	desc = kzalloc(desc_size, GFP_KERNEL);
-
-Smells like a call for struct_size().
-
-> +	vsp_request = kzalloc(sizeof(*vsp_request), GFP_KERNEL);
-> +	if (!desc || !vsp_request) {
-> +		kfree(desc);
-> +		kfree(vsp_request);
-> +		ret = -ENOMEM;
-> +		goto get_user_page_failed;
-> +	}
-> +
-> +	desc->range.offset = 0;
-> +	desc->range.len = total_num_pages * PAGE_SIZE;
-> +	pfn_array = desc->range.pfn_array;
-> +	page_idx = 0;
-> +
-> +	if (request.data_len) {
-> +		fill_in_page_buffer(pfn_array, &page_idx, data_pages,
-> +			data_num_pages);
-> +		vsp_request->data_buffer_offset = data_start;
-> +		vsp_request->data_buffer_length = request.data_len;
-> +		vsp_request->data_buffer_valid = request.data_valid;
-> +	}
-> +
-> +	fill_in_page_buffer(pfn_array, &page_idx, request_pages,
-> +		request_num_pages);
-> +	vsp_request->request_buffer_offset = request_start +
-> +						data_num_pages * PAGE_SIZE;
-> +	vsp_request->request_buffer_length = request.request_len;
-> +
-> +	fill_in_page_buffer(pfn_array, &page_idx, response_pages,
-> +		response_num_pages);
-> +	vsp_request->response_buffer_offset = response_start +
-> +		(data_num_pages + request_num_pages) * PAGE_SIZE;
-> +	vsp_request->response_buffer_length = request.response_len;
-> +
-> +	vsp_request->version = 0;
-> +	vsp_request->timeout_ms = request.timeout;
-> +	vsp_request->operation_type = AZ_BLOB_DRIVER_USER_REQUEST;
-> +	guid_copy(&vsp_request->transaction_id, &request.guid);
-> +
-> +	spin_lock_irqsave(&file_ctx->vsp_pending_lock, flags);
-> +	list_add_tail(&request_ctx.list, &file_ctx->vsp_pending_requests);
-> +	spin_unlock_irqrestore(&file_ctx->vsp_pending_lock, flags);
-> +
-> +	az_blob_dbg("sending request to VSP\n");
-> +	az_blob_dbg("desc_size %u desc->range.len %u desc->range.offset %u\n",
-> +		desc_size, desc->range.len, desc->range.offset);
-> +	az_blob_dbg("vsp_request data_buffer_offset %u data_buffer_length %u "
-> +		"data_buffer_valid %u request_buffer_offset %u "
-> +		"request_buffer_length %u response_buffer_offset %u "
-> +		"response_buffer_length %u\n",
-> +		vsp_request->data_buffer_offset,
-> +		vsp_request->data_buffer_length,
-> +		vsp_request->data_buffer_valid,
-> +		vsp_request->request_buffer_offset,
-> +		vsp_request->request_buffer_length,
-> +		vsp_request->response_buffer_offset,
-> +		vsp_request->response_buffer_length);
-> +
-> +	ret = vmbus_sendpacket_mpb_desc(dev->device->channel, desc, desc_size,
-> +		vsp_request, sizeof(*vsp_request), (u64) &request_ctx);
-> +
-> +	kfree(desc);
-> +	kfree(vsp_request);
-> +	if (ret)
-> +		goto vmbus_send_failed;
-> +
-> +	wait_for_completion(&request_ctx.wait_vsp);
-
-Provided this is ioctl, this should likely be interruptible. You don't 
-want to account to I/O load. The same likely for az_blob_fop_release.
-
-> +
-> +	/*
-> +	 * At this point, the response is already written to request
-> +	 * by VMBUS completion handler, copy them to user-mode buffers
-> +	 * and return to user-mode
-> +	 */
-> +	if (copy_to_user(argp +
-> +			offsetof(struct az_blob_request_sync,
-> +				response.status),
-> +			&request.response.status,
-
-This is ugly, why don't you make argp the appropriate pointer instead of 
-char *? You'd need not do copy_to_user twice then, right?
-
-> +			sizeof(request.response.status))) {
-> +		ret = -EFAULT;
-> +		goto vmbus_send_failed;
-> +	}
-> +
-> +	if (copy_to_user(argp +
-> +			offsetof(struct az_blob_request_sync,
-> +				response.response_len),
-
-The same here.
-
-> +			&request.response.response_len,
-> +			sizeof(request.response.response_len)))
-> +		ret = -EFAULT;
-> +
-> +vmbus_send_failed:
-> +	spin_lock_irqsave(&file_ctx->vsp_pending_lock, flags);
-> +	list_del(&request_ctx.list);
-> +	if (list_empty(&file_ctx->vsp_pending_requests))
-> +		wake_up(&file_ctx->wait_vsp_pending);
-> +	spin_unlock_irqrestore(&file_ctx->vsp_pending_lock, flags);
-> +
-> +get_user_page_failed:
-> +	free_buffer_pages(request_num_pages, request_pages);
-> +	free_buffer_pages(response_num_pages, response_pages);
-> +	free_buffer_pages(data_num_pages, data_pages);
-> +
-> +	return ret;
-> +}
-
-This function is overly long. Care to split it (e.g. moving away the 
-initialization of the structs and the debug stuff)?
-
-> +
-> +static long az_blob_fop_ioctl(struct file *filp, unsigned int cmd,
-> +	unsigned long arg)
-> +{
-> +	long ret = -EIO;
-
-EINVAL would be more appropriate.
-
-> +
-> +	switch (cmd) {
-> +	case IOCTL_AZ_BLOB_DRIVER_USER_REQUEST:
-> +		if (_IOC_SIZE(cmd) != sizeof(struct az_blob_request_sync))
-> +			return -EINVAL;
-
-How can that happen, provided the switch (cmd) and case?
-
-> +		ret = az_blob_ioctl_user_request(filp, arg);
-> +		break;
-
-Simply:
-return az_blob_ioctl_user_request(filp, arg);
-
-> +
-> +	default:
-> +		az_blob_dbg("unrecognized IOCTL code %u\n", cmd);
-> +	}
-> +
-> +	return ret;
-
-So return -EINVAL here directly now.
-
-> +}
-...
-> +static int az_blob_connect_to_vsp(struct hv_device *device, u32 ring_size)
-> +{
-> +	int ret;
-...
-> +	int rc;
 
 
-Sometimes ret, sometimes rc, could you unify the two?
-
-> +static int __init az_blob_drv_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = vmbus_driver_register(&az_blob_drv);
-> +	return ret;
-
-Simply:
-return vmbus_driver_register(&az_blob_drv);
-
-regards,
 -- 
--- 
-js
-suse labs
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
