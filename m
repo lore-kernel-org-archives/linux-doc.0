@@ -2,163 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C983C11F64
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 02:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7387EC11F64
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 03:34:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45BB361D00
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 02:49:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E6F261D34
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 03:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231332AbhF2Cvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Jun 2021 22:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231219AbhF2Cvj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jun 2021 22:51:39 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31989C061574;
-        Mon, 28 Jun 2021 19:49:12 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id k11so24867976ioa.5;
-        Mon, 28 Jun 2021 19:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4pGYnfbKQETEAKdXNWRGKa4i4FYZw839aiP9K57DQKI=;
-        b=OVFmIZPDk6KlNwyhu7E63CFwZOYklW0CSM0oYNCKgqOmt/AC3edk0PtdHL8gr0PITS
-         h/hOSOXcLTy2SDbwEXKwjMQByVuhdmwqxSamQy4s1MXhl/12IMQkfLIuCzFGjHiEwdYH
-         rSv+DzBmKMPkFAoIZKyP1pDBIHlejYErQZ7GrhRjhhtQJcVDfLGKWVVBfQVOlXkmxbb6
-         GOHUHwPZzcxpWpLGqxuzcfj5hPnv6F+4jY1GRxyy7fLKV6fISTY+EWBNxMj87CWl6aTW
-         1+Zttz490ua2bcKI/2h2pjPB1J97thXdmlh6W89hIhRfH7Qb4M0d6a4hspMkOsAHA0e2
-         G8ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4pGYnfbKQETEAKdXNWRGKa4i4FYZw839aiP9K57DQKI=;
-        b=VylcDNBC4cKmMEcCHa/2TyggK76fzRtnIe5y7y56G2RO29cbta3iz/0ON+2lzWMn7V
-         hTcmHqZWMDPslKlYwOnR1QXA4G0jMebU9O6dzKNZiairFFGEMoDCVRmlmi1vOaXsL6rP
-         0X4V6OpuprIcLPZg/EnnRuDPTIpZhDWkgivv6aUYyGxocEWelLWvomPscf15YONqXVkV
-         0ML98M8vTU0pn8eSHS9DKVE0JaRsmvb1g/VkMJgAcW/nUdEKTimmLFXsCpP1uwzKGai+
-         NUhEMagrbEtcKOAarzM1vEUeTKxYLSLzMsju02dwxIe8DkZ8u/gm/8I/5ZU/34sbierr
-         UEKA==
-X-Gm-Message-State: AOAM5322fiotrZTsjY9hbbANFDoOfd+yqgdSU/oTCkjuauCQZBsJp8Lw
-        mQkCJ9isPD8e8KToP9Pfz3rTTCj/THnmS64+HTc=
-X-Google-Smtp-Source: ABdhPJx9811AFz4O4szBF1T/od4Nhnh3j/LT+KAqZzs/XIJR6AFBugpc7N1jDz/UbqN7XF5NhymXfeIc8TC/PC/tB70=
-X-Received: by 2002:a6b:490d:: with SMTP id u13mr2063866iob.176.1624934951615;
- Mon, 28 Jun 2021 19:49:11 -0700 (PDT)
+        id S231741AbhF2DhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Jun 2021 23:37:19 -0400
+Received: from mail-bn8nam12on2077.outbound.protection.outlook.com ([40.107.237.77]:30113
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231598AbhF2DhS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Jun 2021 23:37:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IPToyWc0zOd5yvSaldLiSQJQJ15pmfxy10k+sbjsVMZ7SGzEgtiEsiiLVGKl1TYCvfx5HU94Dv9wmUR1qQvD57QPZaXi6++ASkK8Uqv+VGAzWngl0Hbf/UbVVICHQs1JeWyFMNWTY6fvCev2QIaa/pfI8/JTToYtM3Cdq0GYjFAxB3KzUEew5+26Io+iXIp6G3G+xWr/Lzm6UaXeoIE0Y90jktZVPoUHjoP3QorFJeyF4YZeZXWYrvq0b0fWUdW5k3sfZWdaTAB6v+Vk5d3xb00SM3G2h0awt6I7npVhhXpKqHtXH/EWqQeDFFWdRXdo6rlYmh+S4z0tNJxU954CkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8et/drsZ/8ewsfmdZr4C0iLIiJPRcBPd+4bhBdwpnIw=;
+ b=YsK1XuBdeRoeyLP7Kb/+mEtm0bpMvGIPNNISQeAyPOU/QbPZmqsRSKb8j/RgxdSp5TledAYcJWEW5Xvz0hTLvZNYXJbS0XLYQw9BDIkVJPpy0lvi7dUkyqj0BXghHe67d2S+lLn4ajHXnfVCcGpX68TAvyVEKsMtDAZjzzNNIYw3o3zHqy1EoPm4sa2lIYZ/TmQ7eenKWnREzT8RUdZ1Y7YIl6T85B6jR8yeevaAhFhy3q2tFUO3YQiq33OSfz/66tcZKdO8JuwIUjtHAZEVnQFokfKa5eTEgF2SozM80Ik1ITZJDkFczymTagUPAzZeNpDblX6kay6/hoehQSmO8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8et/drsZ/8ewsfmdZr4C0iLIiJPRcBPd+4bhBdwpnIw=;
+ b=tENbx2YGBi1ymrtHu4iLhOEsOKvPSA8nTu9IIEq4YMVRn/2HLgMsctPG9cOdabB6Toq685r6t37rV8fwAOnNWiNQtfg4cTCbsJA1pdvdNN31EHWI9V4Qj6UIKShkIO8hhZPi3/9NS32mHBDwrCxrCmPnR9OZTCpuQGgKSOcwjrs=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5357.namprd12.prod.outlook.com (2603:10b6:5:39b::24)
+ by DM8PR12MB5415.namprd12.prod.outlook.com (2603:10b6:8:25::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.20; Tue, 29 Jun 2021 03:34:49 +0000
+Received: from DM4PR12MB5357.namprd12.prod.outlook.com
+ ([fe80::9d97:11b:bb35:d2e6]) by DM4PR12MB5357.namprd12.prod.outlook.com
+ ([fe80::9d97:11b:bb35:d2e6%5]) with mapi id 15.20.4264.026; Tue, 29 Jun 2021
+ 03:34:49 +0000
+Date:   Tue, 29 Jun 2021 11:34:37 +0800
+From:   Wesley Sheng <wesley.sheng@amd.com>
+To:     Oliver O'Halloran <oohall@gmail.com>, linasvepstas@gmail.com,
+        ruscur@russell.cc, bhelgaas@google.com, corbet@lwn.net,
+        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     wesleyshenggit@sina.com, wesley.sheng@amd.com
+Subject: Re: [PATCH] Documentation: PCI: pci-error-recovery: rearrange the
+ general sequence
+Message-ID: <20210629033437.GB1492@buildhost>
+References: <20210618060446.7969-1-wesley.sheng@amd.com>
+ <CAOSf1CHaLCAsnB42Je+ynJ6xv-M8qmScbfOLSHVze7D4fEh66Q@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOSf1CHaLCAsnB42Je+ynJ6xv-M8qmScbfOLSHVze7D4fEh66Q@mail.gmail.com>
+X-Originating-IP: [165.204.134.244]
+X-ClientProxiedBy: HK2PR02CA0148.apcprd02.prod.outlook.com
+ (2603:1096:202:16::32) To DM4PR12MB5357.namprd12.prod.outlook.com
+ (2603:10b6:5:39b::24)
 MIME-Version: 1.0
-References: <20210623005426.15731-1-ainux.wang@gmail.com> <20210624131752.GA2788536@roeck-us.net>
- <CAPWE4_xsY0ZAwm5g=Ujm_63WiS-sYMV42cpMD=cr65QNWLZaGQ@mail.gmail.com> <a55cde2b-ce51-fc7c-6b73-e4394d584ee4@roeck-us.net>
-In-Reply-To: <a55cde2b-ce51-fc7c-6b73-e4394d584ee4@roeck-us.net>
-From:   Ainux Wang <ainux.wang@gmail.com>
-Date:   Tue, 29 Jun 2021 10:48:36 +0800
-Message-ID: <CAPWE4_y4wsY596RK_U2r1ZaGtfAAxxs=wR0OkvBP_PSgsgXcPA@mail.gmail.com>
-Subject: Re: [PATCH v5] hwmon: (pmbus) Add support for MPS MP2949A
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        teng sterling <sterlingteng@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from buildhost (165.204.134.244) by HK2PR02CA0148.apcprd02.prod.outlook.com (2603:1096:202:16::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend Transport; Tue, 29 Jun 2021 03:34:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7367617e-588d-4295-a7a9-08d93aaed908
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5415:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM8PR12MB5415677AE4EDF810EDCCEC6E95029@DM8PR12MB5415.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sF7fUv40fNnppXkNiw3HGJEuZcv2bX9Y0xNzyYUtf5tkzTx9UzhGOqQU1EQP/iOswYI3gsZ7fJEF/ZVI4wJsfL1YHuhpQwPj00f7RHqe50dbUSmW/SypdQg3NVui3JP6l4k9dN8CoPEhhVM+0qZfPPt3fiT1x+humi65o6BdYkhO0SGLEGU4j4NTSpqT01uqMXe/GeqBVNYCehapcsojTOtOrIbg2+Z0+ME/zXV23oNBuhwvatxaWV4GmJyYWsEgjEbsx0urOovPA9pcB8FUTPMSIemBgeqd585hI3fQbmvEkeQA4AHZgHNI/fbgm5fuspIMXKWpZORWtUH141z29sLnzt2MYcTEUUebWGwUHyuxfOIkTAVh+MZQ9A51YtDdQhpeKmL3mnztGHH3ynAkITiSGmVfHXxkCIyOB1+/TX14veY5RSqPnfqRByB9JlF7SJ27lCqFrISHKHCPE+qgYUqdXwFEecy6mknYh1AwxHh+hnYLoFAJmqxeOJCRrAibFl2TJNdaGwrDef1++alBR0O/ldb5FbuOv3XtzfD7L6nCZn5SB1MtrgYiHMz40GSrm6HKFnWCDh1y1iAJiA2m8wVenRxqrY1ik+Gi7Fi/ZT2bji3dPVRiP4zxG7vnIyWGam2IfE9UlTK26YNonZE8lmj/X1jeKKZb+NnnIG1ONdtgu0isn+KJQPfDgjomf0SeaH2hgbj/q/GzeUdHDEI2yQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5357.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(316002)(53546011)(66946007)(52116002)(86362001)(66556008)(5660300002)(2906002)(9576002)(33656002)(83380400001)(44832011)(26005)(7416002)(66476007)(478600001)(186003)(33716001)(8936002)(1076003)(8676002)(16526019)(38350700002)(6496006)(9686003)(38100700002)(956004)(6666004)(55016002)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JeT6kvfg2oX7l7p/Qe1amfRY2U451W+o+Uz2n51ABR/hxex2/pFInnKMKkWG?=
+ =?us-ascii?Q?so0keRqvZG09vETxiPzmtpxE+arFrkVxKDwEZeHTXb4EJDhTFOOntFCRSZR4?=
+ =?us-ascii?Q?iJasG7pVCLnXo/72EHO3PMA1NP255k/cBhfF4NQWX/2K0Q3o3peH+fMF9U3V?=
+ =?us-ascii?Q?MAC8MXLUo/n6TqXYBJ4ooMuH56nJVoI9t8qRaKy/Uk1X/KNwclZ5TYKrkb5Q?=
+ =?us-ascii?Q?RuJSK6KBRW5mA2t+T8DVM/uYqRCrCP/L2moMxHKKC8X9dV7uMjoqK8iQpAQ8?=
+ =?us-ascii?Q?BJMFchbuzsEuG8DT+hV3wdR6cu/TGhe46TAy866sn1+p5n+0dUr4a3eu4K73?=
+ =?us-ascii?Q?8w7I0chh+ITobg6MMmJPgc+mpd5E5qkZ8Z47MFsr70JBrte0NtId5lZ2YROq?=
+ =?us-ascii?Q?yO9h/4fCbMDZAWiPTmlJblGOo8O9FrY4qEzS5xTG0vZJMk2vIkHwyn3VY0QC?=
+ =?us-ascii?Q?rGttA2itHwMf0NZDWrX7pKskJPULgZKF+tP4ck4cJmEZWMLoKDRKhLmWao/I?=
+ =?us-ascii?Q?i6yJxVyCyTV2szi94zBmu9DPK/XTRerOHDpjagNOXgpOX+vkr8359TdgT1Em?=
+ =?us-ascii?Q?/2uLpW2S3Zv6Z/LVeCA/H3Lg02+xiEayCXINfjBuy38KKaC5eVc2aH+G/kF/?=
+ =?us-ascii?Q?XBizSIUGBbjwo/XygHUGJj7dFa5bX5+4tTGw+R4Y2WhOrinrOS357PGVgJPx?=
+ =?us-ascii?Q?rHTbUsITjdxXj/1J0hnkutLwcteVZ0k0EyO01ytqrrrixF360kRC+v9OBB7A?=
+ =?us-ascii?Q?yLOpBlSQzjBJnd+QuqbjpY3sht49bs6S2j/qMDZdeTrT40sVgOF564YLr+Vo?=
+ =?us-ascii?Q?lQyIIOf4fC74Bmsx45b2mGyV901bzWdbBmIuN0PY/Mn8GjtWECRW4f2lHVau?=
+ =?us-ascii?Q?WOTA7QwmwdJUUidJHcTkWmvuxQnglmgN0sPckfCgtbIuG9itwRioX+XDNdKE?=
+ =?us-ascii?Q?LJc/Q4CJ4yCU/CbxyETUYoToSOWZPrhnmPOSyEAtF55zFc+orb1p4LML6F+x?=
+ =?us-ascii?Q?a7JkJGYkfwwdhS6vH3DQaSEgpt/pWiydsF1WRINgH2+0dY5LPqpAu0RqBqQH?=
+ =?us-ascii?Q?l1RgeUUYLJzKejROUVZafqZGgPCCgp7BRannn5xoQ/qHV5EXPwHVwpa/BpTU?=
+ =?us-ascii?Q?ljtAyD0bYC99gZ/8dXW2QCC97fThAVewoKKtQprWu/lUTpt7VBYaI36+oG8G?=
+ =?us-ascii?Q?SAfQRt73zoKy/lgm+VAaYQH+4p7X7476DARZc67ddd3qdYH4VL7BUH8uDBbZ?=
+ =?us-ascii?Q?g7QtTX0oY7Hkio7ATbrqIX99V8WvZF8Ho0OarIeDpLSBYPKZvVHTTD+f2FYM?=
+ =?us-ascii?Q?d6+Rg3mE/JZylWdQva3TKurY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7367617e-588d-4295-a7a9-08d93aaed908
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5357.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 03:34:49.1281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RqNcb/AKvTeUtpEGw/GUoAAS8ZClav+S3is9n4Q7W/o7PYIPrsK5bPQGqiMhVwlXy50jOTEVyqAN9cIa0ft4Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5415
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Jun 2021 at 10:20, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 6/28/21 6:26 PM, Ainux Wang wrote:
-> > On Thu, 24 Jun 2021 at 21:17, Guenter Roeck <linux@roeck-us.net> wrote:
-> >>
-> >> On Wed, Jun 23, 2021 at 08:54:26AM +0800, ainux.wang@gmail.com wrote:
-> >>> From: "Ainux.Wang" <ainux.wang@gmail.com>
-> >>>
-> >>> Add support for MP2949A device from Monolithic Power Systems, Inc. (MPS).
-> >>> This is a triple-loop, digital, multi-phase controller.
-> >>> This device:
-> >>> - Supports up to three power rail.
-> >>> - Provides 6 pulse-width modulations (PWMs), and can be configured up
-> >>>    to 6-phase operation for Rail A , up to 2-phase operation for Rail B
-> >>>    and up to 1-phase operation for Rail C.
-> >>> - The PMBus registers are distributed into three pages: Page 0, Page 1,
-> >>>    Page 2. Page 0 contains the registers for Rail A and most of the common
-> >>>    settings for all of the rails. Page 1 contains register information for
-> >>>    Rail B. Page 2 contains register information for Rail C.
-> >>> - The MP2949A supports both 5mV VID step and 10mv VID step for IMVP8 and
-> >>>    IMVP9.
-> >>>
-> >>> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
-> >>> ---
-> >>> v5:
-> >>> - Moved change log to right here.
-> >>> v4:
-> >>> - Removed mp2949a_read_byte_data().
-> >>
-> >> Your other question left me confused. I had previously asked to provide
-> >> a rationale for filtering out the PMBUS_VOUT_MODE command, and I had
-> >> stated that "the chip does not support it" is not a valid reason. However,
-> >> "the chip does not support it but does not report an error when reading
-> >> it" _is_ a valid reason. So what happens when the PMBus core reads
-> >> PMBUS_VOUT_MODE ? Does the chip return an error, or some random data ?
-> >>
-> >> Thanks,
-> >> Guenter
-> >>
-> > Hi, Guenter
+On Fri, Jun 18, 2021 at 05:21:32PM +1000, Oliver O'Halloran wrote:
+> On Fri, Jun 18, 2021 at 4:05 PM Wesley Sheng <wesley.sheng@amd.com> wrote:
 > >
-> > I have not been clear about the cause of this problem that
-> > "the chip does not support it is not a valid reason".
-> >
-> > However, i have added some "printk", i found the chip will return some
-> > random data,
-> > when the PMbus core reads PMBUS_STATUS and PMBUS_VOUT_MODE.
-> >
-> > So, I do not known what should i do, when the PMbus core reads PMBUS_STATUS.
-> > and i have knwon that use "This chip do not support the VOUT_MODE command,
-> > the chip does not support it but return some random data when reading
-> > " instead of
-> > "
-> >                 /*
-> >                  * This chip do not support the VOUT_MODE command.
-> >                  * There is not VOUT_MODE command in MP2949A datasheet P29~P31.
-> >                  * So this is EINVAL in here.
-> >                 */
-> > "
-> > Now, there is only one question left, what should the PMbus do, the
-> > chip return random data,
-> > when it reads PMBUS_STATUS by i2c_smbus_read_word_data() or
-> > i2c_smbus_read_byte_data()?
-> > Can the PMbus core use  pmbus_read_status_byte() and
-> > pmbus_read_status_word() instead of
-> > i2c_smbus_read_byte_data() and i2c_smbus_read_word_data() ?
-> >
->
-> The driver should implement a read_byte_data() function and either
-> simulate PMBUS_VOUT_MODE and let it return whatever makes sense for
-> the driver, or have it return -EINVAL.
->
-> For the status register, handling is a bit more difficult. For this, we will
-> need an introductory patch. That patch needs to change pmbus_init_common()
-> to call pmbus_read_status_word() and pmbus_read_status_byte() instead
-> of i2c_smbus_read_word_data() and i2c_smbus_read_byte_data() (with page set
-> to -1).
-> The driver patch then needs to implement a read_word_data() function and
-> have it simulate the PMBUS_STATUS_WORD command. Or, alternatively,
-> have the read_word_data() function return -EINVAL for PMBUS_STATUS_WORD,
-> and simulate PMBUS_STATUS_BYTE in the read_byte_data callback.
->
-> Thanks,
-> Guenter
-Hi, Guenter
+> > Reset_link() callback function was called before mmio_enabled() in
+> > pcie_do_recovery() function actually, so rearrange the general
+> > sequence betwen step 2 and step 3 accordingly.
+> 
+> I don't think this is true in all cases. If pcie_do_recovery() is
+> called with state==pci_channel_io_normal (i.e. non-fatal AER) the link
+> won't be reset. EEH (ppc PCI error recovery thing) also uses
+> .mmio_enabled() as described.
 
-Very nice, that is what i mean, we have the same idea, I am going to
-revise pmbus_init_common(),
-pmbus_check_register and so on.
+Yes, in case of non-fatal AER, reset_link() callback (aer_root_reset() for 
+AER and dpc_reset_link() for DPC) will not be invoked. And if 
+.error_detected() return PCI_ERS_RESULT_CAN_RECOVER, .mmio_enabled() be
+called followed.
 
-Best regards,
-Ainux Wang.
+But if pcie_do_recovery() is called with state == pci_channel_io_frozen,
+reset_link() callback is called after .error_detected() but before
+.mmio_enabled(). So I thought Step 2: MMIO Enabled and Step 3: Link Reset
+should rearrange their sequence.
