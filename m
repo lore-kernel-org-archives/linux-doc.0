@@ -2,83 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 426CDC11F68
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 12:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD12C11F68
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 12:18:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 158D961D49
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 12:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CAA461D8A
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Jun 2021 12:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233110AbhF2MCZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Jun 2021 08:02:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40102 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233051AbhF2MCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jun 2021 08:02:25 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05089C061760;
-        Tue, 29 Jun 2021 04:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=EfGY/OU/KHfnG+UMGD4fPTRavasXM5eyvCC2dckCs1o=; b=gG8b4uQtZu3LtHZvhjVjE6eKeh
-        mb6voMJdBc4w74OLxlAHDfv0I70o3sV1NZts8Y4twxMW+k9P9mCD2EDM/cWlkiqC90vsVPJ669eWj
-        lZgGikNzFyNWYCDEJPn7j5xUYpvHVLl1GoLqY6K+K0gXcf4WyEeXDEgTiszc0GMebP/iQRgVO2Ya6
-        +Xe8pNph8SF7iQWHYF4FYqeSNgTF2hreghioOP4wLDtEFEfd3H1rD3C247eJ3GKqQHGYj1qdJckj5
-        OdOw/3L4NLBkpohRg7QvcnEOW2aapPWv/U6EPmzh+ciVaP5dmmZvw2e/+d79gsyJt07UVkB9vrjst
-        TW9OQ+dg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lyCO1-00442t-NH; Tue, 29 Jun 2021 11:58:46 +0000
-Date:   Tue, 29 Jun 2021 12:58:41 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Peter Collingbourne <pcc@google.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Jann Horn <jannh@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] mm: introduce reference pages
-Message-ID: <YNsK8bZ+S3VtsK9g@casper.infradead.org>
-References: <20210619092002.1791322-1-pcc@google.com>
- <51c68f8f-dea1-c0c6-7cfb-28d42338ba88@nvidia.com>
+        id S233631AbhF2MVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Jun 2021 08:21:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38618 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233610AbhF2MVS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Jun 2021 08:21:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B791761D86;
+        Tue, 29 Jun 2021 12:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1624969130;
+        bh=872Gg2Zmdh+gmSqjKfRbCr6B39qxF+MacSlFiVQN7QM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mvZ3PKvTp3ZR39pA3R9bsxYXDyZQDIdyCdoYveKxHv+8EyGtOU58Y7LFaH9R+IE/e
+         OCOVrYHB9FEAvP5nupqEcNnzH/NujBMrObXyNNditVBpvBHGqeJbEIwsWPS4MjW3Gp
+         qCtKGjDkf08JCvP8ngyowvxL/GE3abgJ4fgrwQ/4=
+Date:   Tue, 29 Jun 2021 14:18:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     longli@linuxonhyperv.com, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, Long Li <longli@microsoft.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
+Subject: Re: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+Message-ID: <YNsPqJNb1lAafi7U@kroah.com>
+References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
+ <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
+ <YNq8p1320VkH2T/c@kroah.com>
+ <0391b223-5f8e-42c0-35f2-a7ec337c55ac@metux.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <51c68f8f-dea1-c0c6-7cfb-28d42338ba88@nvidia.com>
+In-Reply-To: <0391b223-5f8e-42c0-35f2-a7ec337c55ac@metux.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 29, 2021 at 12:19:22AM -0700, John Hubbard wrote:
-> > +SYSCALL_DEFINE2(refpage_create, const void *__user, content, unsigned long,
-> > +		flags)
+On Tue, Jun 29, 2021 at 12:41:49PM +0200, Enrico Weigelt, metux IT consult wrote:
+> On 29.06.21 08:24, Greg Kroah-Hartman wrote:
 > 
-> From the API discussion (and using a simpler syntax to illustrate this), it
-> seems like the following would be close:
+> Hi folks,
 > 
-> enum content_type {
-> 	BYTE_PATTERN,
-> 	FOUR_BYTE_PATTERN,
-> 	...
-> 	FULL_4KB_PAGE
-> };
+> > Again, no.
+> > 
+> > Just use dev_dbg(), dev_warn(), and dev_err() and there is no need for
+> > anything "special".  This is just one tiny driver, do not rewrite logic
+> > like this for no reason.
 > 
-> int refpage_create(const void *__user content, enum content_type, unsigned long flags);
-> 
-> ...and if content_type == BYTE_PATTERN, then content is a pointer to just one byte of
-> data, and so forth for the other enum values.
+> Maybe worth mentioning that we have the pr_fmt macro that can be
+> defined if some wants to do things like adding some prefix.
 
-That seems a little more complicated and non-extensible.
+No, no driver should mess with that, just use dev_*() calls instead
+please.
 
-int refpage_create(const void *__user content, unsigned int size,
-		unsigned long flags);
-
+greg k-h
