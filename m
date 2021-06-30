@@ -7,93 +7,77 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB27C11F6A
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Jun 2021 10:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C98C11F65
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Jun 2021 10:22:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0041461CF6
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Jun 2021 10:22:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D385061864
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Jun 2021 10:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234212AbhF3KZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Jun 2021 06:25:10 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40670 "EHLO loongson.cn"
+        id S234215AbhF3KZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Jun 2021 06:25:13 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40726 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234208AbhF3KZK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Jun 2021 06:25:10 -0400
+        id S234216AbhF3KZN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Jun 2021 06:25:13 -0400
 Received: from localhost.localdomain (unknown [112.20.109.145])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxf0PoRdxgKsUaAA--.10417S4;
-        Wed, 30 Jun 2021 18:22:36 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxf0PoRdxgKsUaAA--.10417S6;
+        Wed, 30 Jun 2021 18:22:38 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH 2/6] docs/zh_CN: add core-api unaligned-memory-access translation
-Date:   Wed, 30 Jun 2021 18:23:24 +0800
-Message-Id: <a2cbbe2eb022b41943008825ebf18858c50636e9.1625048200.git.siyanteng@loongson.cn>
+Subject: [PATCH 4/6] docs/zh_CN: add core-api genalloc translation
+Date:   Wed, 30 Jun 2021 18:23:26 +0800
+Message-Id: <0aeff021f3d80e443a940226eed3b0bf9962b1a4.1625048200.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1625048200.git.siyanteng@loongson.cn>
 References: <cover.1625048200.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxf0PoRdxgKsUaAA--.10417S4
-X-Coremail-Antispam: 1UD129KBjvAXoW3tFyUGr4kuw1fXFykCF4fuFg_yoW8JF48Go
-        Z0k3Z0k393Aw13J3Waga98Jay7Jrs8GrsxZan2kw47Aay7Jry8Aws5Jw13AF1YvrWYqF43
-        Kr18Xa17uFZrJa4Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOo7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
-        kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJw
-        A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-        xKxwCY02Avz4vE14v_Gw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
-        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
-        v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
-        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
-        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
-        yTuYvjfU8yCGUUUUU
+X-CM-TRANSID: AQAAf9Dxf0PoRdxgKsUaAA--.10417S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxtrWfWF1DJFW5JF4xJF1fZwb_yoWxtw45pr
+        WIkr1xK3Wrta4Yyr9Ygw1kXF18Gayxu3y3Ka1xG3srZFn3Xr45tw47tFWY9r1xZryv9FyD
+        JF4IyFZYvFyvkwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+        z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
+        1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
+        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+        IY04v7MxkIecxEwVAFwVW8twCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+        0xZFpf9x0JUQFxUUUUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/unaligned-memory-access.rst into Chinese.
+Translate Documentation/core-api/genalloc.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
+ .../translations/zh_CN/core-api/genalloc.rst  | 109 ++++++++++++++++++
  .../translations/zh_CN/core-api/index.rst     |   2 +-
- .../core-api/unaligned-memory-access.rst      | 229 ++++++++++++++++++
- 2 files changed, 230 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
+ 2 files changed, 110 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/genalloc.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 9367128c4cb7..9bc1dfeab98e 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -100,10 +100,10 @@ Todolist:
-    :maxdepth: 1
- 
-    memory-allocation
-+   unaligned-memory-access
- 
- Todolist:
- 
--   unaligned-memory-access
-    dma-api
-    dma-api-howto
-    dma-attributes
-diff --git a/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst b/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
+diff --git a/Documentation/translations/zh_CN/core-api/genalloc.rst b/Documentation/translations/zh_CN/core-api/genalloc.rst
 new file mode 100644
-index 000000000000..f5c1ac80b705
+index 000000000000..689709ba7a2a
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
-@@ -0,0 +1,229 @@
++++ b/Documentation/translations/zh_CN/core-api/genalloc.rst
+@@ -0,0 +1,109 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/unaligned-memory-access.rst
++:Original: Documentation/core-api/genalloc.rst
 +
 +:翻译:
 +
@@ -103,223 +87,123 @@ index 000000000000..f5c1ac80b705
 +
 +
 +
-+.. _cn_core-api_unaligned-memory-access:
++.. _cn_core-api_genalloc:
 +
-+==============
-+非对齐内存访问
-+==============
-+
-+:作者: Daniel Drake <dsd@gentoo.org>,
-+:作者: Johannes Berg <johannes@sipsolutions.net>
-+
-+:感谢他们的帮助: Alan Cox, Avuton Olrich, Heikki Orsila, Jan Engelhardt,
-+  Kyle McMartin, Kyle Moffett, Randy Dunlap, Robert Hancock, Uli Kunitz,
-+  Vadim Lobanov
-+
-+
-+Linux运行在各种各样的架构上，这些架构在内存访问方面有不同的表现。本文介绍了一些
-+关于不对齐访问的细节，为什么你需要编写不引起不对齐访问的代码，以及如何编写这样的
-+代码
-+
-+
-+非对齐访问的定义
-+================
-+
-+当你试图从一个不被N偶数整除的地址（即addr % N != 0）开始读取N字节的数据时，就
-+会发生无对齐内存访问。例如，从地址0x10004读取4个字节的数据是可以的，但从地址
-+0x10005读取4个字节的数据将是一个不对齐的内存访问。
-+
-+上述内容可能看起来有点模糊，因为内存访问可以以不同的方式发生。这里的背景是在机器
-+码层面上：某些指令在内存中读取或写入一些字节（例如x86汇编中的movb、movw、movl）。
-+正如将变得清晰的那样，相对容易发现那些将编译为多字节内存访问指令的C语句，即在处理
-+u16、u32和u64等类型时。
-+
-+
-+自然对齐
-+========
-+
-+上面提到的规则构成了我们所说的自然对齐。当访问N个字节的内存时，基础内存地址必须被
-+N平均分割，即addr % N == 0。
-+
-+在编写代码时，假设目标架构有自然对齐的要求。
-+
-+在现实中，只有少数架构在所有大小的内存访问上都要求自然对齐。然而，我们必须考虑所
-+有支持的架构；编写满足自然对齐要求的代码是实现完全可移植性的最简单方法。
-+
-+
-+为什么非对齐访问时坏事
++genalloc/genpool子系统
 +======================
 +
-+执行非对齐内存访问的效果因架构不同而不同。在这里写一整篇关于这些差异的文档是很容
-+易的；下面是对常见情况的总结:
++内核中有许多内存分配子系统，每一个都是针对特定的需求。然而，有时候，内核开发者需
++要为特定范围的特殊用途的内存实现一个新的分配器；通常这个内存位于某个设备上。该设
++备的驱动程序的作者当然可以写一个小的分配器来完成工作，但这是让内核充满几十个测试
++差劲的分配器的方法。早在2005年，Jes Sorensen从sym53c8xx_2驱动中提取了其中的一
++个分配器，并将其作为一个通用模块发布，用于创建特设的内存分配器。这段代码在2.6.13
++版本中被合并；此后它被大大地修改了。
 +
-+ - 一些架构能够透明地执行非对齐内存访问，但通常会有很大的性能代价。
-+ - 当不对齐的访问发生时，一些架构会引发处理器异常。异常处理程序能够纠正不对齐的
-+   访问，但要付出很大的性能代价。
-+ - 一些架构在发生不对齐访问时，会引发处理器异常，但异常中并没有包含足够的信息来
-+   纠正不对齐访问。
-+ - 有些架构不能进行无对齐内存访问，但会默默地执行与请求不同的内存访问，从而导致
-+   难以发现的微妙的代码错误!
++.. _posted: https://lwn.net/Articles/125842/
 +
-+从上文可以看出，如果你的代码导致不对齐的内存访问发生，那么你的代码在某些平台上将无
-+法正常工作，在其他平台上将导致性能问题。
++使用这个分配器的代码应该包括<linux/genalloc.h>。这个动作从创建一个池开始，使用
++一个:
 +
-+不会导致非对齐访问的代码
-+========================
++该API在以下内核代码中:
 +
-+起初，上面的概念似乎有点难以与实际编码实践联系起来。毕竟，你对某些变量的内存地址没
-+有很大的控制权，等等。
++lib/genalloc.c
 +
-+幸运的是事情并不复杂，因为在大多数情况下，编译器会确保事情为你工作。例如，以下面的
-+结构体为例::
++对gen_pool_create()的调用将创建一个内存池。分配的粒度由min_alloc_order设置；它
++是一个log-base-2（以2为底的对数）的数字，就像页面分配器使用的数字一样，但它指的是
++字节而不是页面。因此，如果min_alloc_order被传递为3，那么所有的分配将是8字节的倍数。
++增加min_alloc_order可以减少跟踪池中内存所需的内存。nid参数指定哪一个NUMA节点应该被
++用于分配管家结构体；如果调用者不关心，它可以是-1。
 +
-+	struct foo {
-+		u16 field1;
-+		u32 field2;
-+		u8 field3;
-+	};
++“管理的”接口devm_gen_pool_create()将内存池与一个特定的设备联系起来。在其他方面，
++当给定的设备被销毁时，它将自动清理内存池。
 +
-+让我们假设上述结构体的一个实例驻留在从地址0x10000开始的内存中。根据基本的理解，访问
-+field2会导致非对齐访问，这并不是不合理的。你会期望field2位于该结构体的2个字节的偏移
-+量，即地址0x10002，但该地址不能被4平均整除（注意，我们在这里读一个4字节的值）。
++一个内存池池被关闭的方法是:
 +
-+幸运的是，编译器理解对齐约束，所以在上述情况下，它会在field1和field2之间插入2个字节
-+的填充。因此，对于标准的结构体类型，你总是可以依靠编译器来填充结构体，以便对字段的访
-+问可以适当地对齐（假设你没有将字段定义不同长度的类型）。
++该API在以下内核代码中:
 +
-+同样，你也可以依靠编译器根据变量类型的大小，将变量和函数参数对齐到一个自然对齐的方案。
++lib/genalloc.c
 +
-+在这一点上，应该很清楚，访问单个字节（u8或char）永远不会导致无对齐访问，因为所有的内
-+存地址都可以被1均匀地整除。
++值得注意的是，如果在给定的内存池中仍有未完成的分配，这个函数将采取相当极端的步骤，调用
++BUG()，使整个系统崩溃。你已经被警告了。
 +
-+在一个相关的话题上，考虑到上述因素，你可以观察到，你可以对结构体中的字段进行重新排序，
-+以便将字段放在不重排就会插入填充物的地方，从而减少结构体实例的整体常驻内存大小。上述
-+例子的最佳布局是::
++一个新创建的内存池没有内存可以分配。在这种状态下，它是相当无用的，所以首要任务之一通常
++是向内存池里添加内存。这可以通过以下方式完成:
 +
-+	struct foo {
-+		u32 field2;
-+		u16 field1;
-+		u8 field3;
-+	};
++该API在以下内核代码中:
 +
-+对于一个自然对齐方案，编译器只需要在结构的末尾添加一个字节的填充。添加这种填充是为了满
-+足这些结构的数组的对齐约束。
++include/linux/genalloc.h
 +
-+另一点值得一提的是在结构体类型上使用__attribute__((packed))。这个GCC特有的属性告诉编
-+译器永远不要在结构体中插入任何填充，当你想用C结构体来表示一些“off the wire”的固定排列
-+的数据时，这个属性很有用。
++lib/genalloc.c
 +
-+你可能会倾向于认为，在访问不满足架构对齐要求的字段时，使用这个属性很容易导致不对齐的访
-+问。然而，编译器也意识到了对齐的限制，并且会产生额外的指令来执行内存访问，以避免造成不
-+对齐的访问。当然，与非打包的情况相比，额外的指令显然会造成性能上的损失，所以打包属性应
-+该只在避免结构填充很重要的时候使用。
++对gen_pool_add()的调用将把从地址（在内核的虚拟地址空间）开始的内存的大小字节放入
++给定的池中，再次使用nid作为节点ID进行辅助内存分配。gen_pool_add_virt()变体将显式
++物理地址与内存联系起来；只有在内存池被用于DMA分配时，这才是必要的。
 +
++从内存池中分配内存（并将其放回）的函数是:
 +
-+导致非对齐访问的代码
-+====================
++该API在以下内核代码中:
 +
-+考虑到上述情况，让我们来看看一个现实生活中可能导致非对齐内存访问的函数的例子。下面这个
-+函数取自include/linux/etherdevice.h，是一个优化的例程，用于比较两个以太网MAC地址是否
-+相等::
++include/linux/genalloc.h
 +
-+  bool ether_addr_equal(const u8 *addr1, const u8 *addr2)
-+  {
-+  #ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
-+	u32 fold = ((*(const u32 *)addr1) ^ (*(const u32 *)addr2)) |
-+		   ((*(const u16 *)(addr1 + 4)) ^ (*(const u16 *)(addr2 + 4)));
++lib/genalloc.c
 +
-+	return fold == 0;
-+  #else
-+	const u16 *a = (const u16 *)addr1;
-+	const u16 *b = (const u16 *)addr2;
-+	return ((a[0] ^ b[0]) | (a[1] ^ b[1]) | (a[2] ^ b[2])) == 0;
-+  #endif
-+  }
++正如人们所期望的，gen_pool_alloc()将从给定的池中分配size<字节。gen_pool_dma_alloc()
++变量分配内存用于DMA操作，返回dma所指向的空间中的相关物理地址。这只有在内存是用
++gen_pool_add_virt()添加的情况下才会起作用。请注意，这个函数偏离了genpool通常使用
++无符号长值来表示内核地址的模式；它返回一个void * 来代替。
 +
-+在上述函数中，当硬件具有高效的非对齐访问能力时，这段代码没有问题。但是当硬件不能在任意
-+边界上访问内存时，对a[0]的引用导致从地址addr1开始的2个字节（16位）被读取。
++这一切看起来都比较简单；事实上，一些开发者显然认为这太简单了。毕竟，上面的接口没有提
++供对分配函数如何选择返回哪块特定内存的控制。如果需要这样的控制，下面的函数将是有意义
++的:
 +
-+想一想，如果addr1是一个奇怪的地址，如0x10003，会发生什么？(提示：这将是一个非对齐访
-+问。)
++该API在以下内核代码中:
 +
-+尽管上述函数存在潜在的非对齐访问问题，但它还是被包含在内核中，但被理解为只在16位对齐
-+的地址上正常工作。调用者应该确保这种对齐方式或者根本不使用这个函数。这个不对齐的函数
-+仍然是有用的，因为它是在你能确保对齐的情况下的一个很好的优化，这在以太网网络环境中几
-+乎是一直如此。
++lib/genalloc.c
 +
++使用gen_pool_alloc_algo()进行的分配指定了一种用于选择要分配的内存的算法；默认算法可
++以用gen_pool_set_algo()来设置。数据值被传递给算法；大多数算法会忽略它，但偶尔也会需
++要它。当然，人们可以写一个特殊用途的算法，但是已经有一套公平的算法可用了:
 +
-+下面是另一个可能导致非对齐访问的代码的例子::
++- gen_pool_first_fit是一个简单的初配分配器；如果没有指定其他算法，这是默认算法。
 +
-+	void myfunc(u8 *data, u32 value)
-+	{
-+		[...]
-+		*((u32 *) data) = cpu_to_le32(value);
-+		[...]
-+	}
++- gen_pool_first_fit_align强迫分配有一个特定的对齐方式（通过genpool_data_align结
++  构中的数据传递）。
 +
-+每当数据参数指向的地址不被4均匀整除时，这段代码就会导致非对齐访问。
++- gen_pool_first_fit_order_align 按照大小的顺序排列分配。例如，一个60字节的分配将
++  以64字节对齐。
 +
-+综上所述，你可能遇到非对齐访问问题的两种主要情况包括:
++- gen_pool_best_fit，正如人们所期望的，是一个简单的最佳匹配分配器。
 +
-+ 1. 将变量定义不同长度的类型
-+ 2. 指针算术后可访问至少2个字节的数据
++- gen_pool_fixed_alloc在池中的一个特定偏移量（通过数据参数在genpool_data_fixed结
++  构中传递）进行分配。如果指定的内存不可用，则分配失败。
 +
++还有一些其他的函数，主要是为了查询内存池中的可用空间或迭代内存块等目的。然而，大多数
++用户应该不需要以上描述的功能。如果幸运的话，对这个模块的广泛认识将有助于防止在未来编
++写特殊用途的内存分配器。
 +
-+避免非对齐访问
-+==============
++该API在以下内核代码中:
 +
-+避免非对齐访问的最简单方法是使用<asm/unaligned.h>头文件提供的get_unaligned()和
-+put_unaligned()宏。
-+
-+回到前面的一个可能导致非对齐访问的代码例子::
-+
-+	void myfunc(u8 *data, u32 value)
-+	{
-+		[...]
-+		*((u32 *) data) = cpu_to_le32(value);
-+		[...]
-+	}
-+
-+为了避免非对齐的内存访问，你可以将其改写如下::
-+
-+	void myfunc(u8 *data, u32 value)
-+	{
-+		[...]
-+		value = cpu_to_le32(value);
-+		put_unaligned(value, (u32 *) data);
-+		[...]
-+	}
-+
-+get_unaligned()宏的工作原理与此类似。假设'data'是一个指向内存的指针，并且你希望避免
-+非对齐访问，其用法如下::
-+
-+	u32 value = get_unaligned((u32 *) data);
-+
-+这些宏适用于任何长度的内存访问（不仅仅是上面例子中的32位）。请注意，与标准的对齐内存
-+访问相比，使用这些宏来访问非对齐内存可能会在性能上付出代价。
-+
-+如果使用这些宏不方便，另一个选择是使用memcpy()，其中源或目标（或两者）的类型为u8*或
-+非对齐char*。由于这种操作的字节性质，避免了非对齐访问。
-+
-+
-+对齐 vs. 网络
-+=============
-+
-+在需要对齐负载的架构上，网络要求IP头在四字节边界上对齐，以优化IP栈。对于普通的以太网
-+硬件，常数NET_IP_ALIGN被使用。在大多数架构上，这个常数的值是2，因为正常的以太网头是
-+14个字节，所以为了获得适当的对齐，需要DMA到一个可以表示为4*n+2的地址。一个值得注意的
-+例外是powerpc，它将NET_IP_ALIGN定义为0，因为DMA到未对齐的地址可能非常昂贵，与未对齐
-+的负载的成本相比相形见绌。
-+
-+对于一些不能DMA到未对齐地址的以太网硬件，如4*n+2或非以太网硬件，这可能是一个问题，这
-+时需要将传入的帧复制到一个对齐的缓冲区。因为这在可以进行非对齐访问的架构上是不必要的，
-+所以可以使代码依赖于CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS，像这样::
-+
-+	#ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
-+		skb = original skb
-+	#else
-+		skb = copy skb
-+	#endif
++lib/genalloc.c
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index e5d2f4d5413c..1e8c5963c499 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -102,6 +102,7 @@ Todolist:
+    memory-allocation
+    unaligned-memory-access
+    mm-api
++   genalloc
+ 
+ Todolist:
+ 
+@@ -109,7 +110,6 @@ Todolist:
+    dma-api-howto
+    dma-attributes
+    dma-isa-lpc
+-   genalloc
+    pin_user_pages
+    boot-time-mm
+    gfp_mask-from-fs-io
 -- 
 2.27.0
 
