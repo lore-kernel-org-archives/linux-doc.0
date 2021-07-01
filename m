@@ -2,214 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94170C11F67
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 22:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9A3C11F6C
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 23:56:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 784046141F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 22:41:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C648161429
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 23:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233913AbhGAWnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 18:43:42 -0400
-Received: from mail-bn7nam10on2116.outbound.protection.outlook.com ([40.107.92.116]:3168
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232637AbhGAWnl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Jul 2021 18:43:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EuFzV2zncQppsOB/tstT2uAemMjJ1h9huvpOdRDCgHV/ECd9LDnW3uoekLmVPHQk6jM1sdGl/MWF6EhslxnFUxwHm35DHxYLfE3LVGa9ZH3Z3GTlAQF7wpQ2T3UL+O2XPli/ExIphOWyw29q80tO9GacUcoWK9ZTBCTcfQFD8bDpSaSgBbbWpH2v4rKc2K2bTad0V/fX9ZbN5CybrpGJN2a3XD7wWXBxRAlmu4DkW3nR1/jJvDahkCWk/fWhFdQrvC+TkjWpRmGqntNtHiZhhSK2nzBfA3r1WYtZBxRrAK6Fdac0n+U9keHnoZ7GWsvJvuzb644aTNHmZoBzyPTXHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ip6H4+GKtIobjVqijMLU5EVn/WcydCM4ajnIL8F6zck=;
- b=IJC+N3FuRsxuBdhKA3N3XnMaYt2ClQiFaQNgnwpmyfx71QVQhmds8nEmIDU4JC7wXTpoprql4fLmvAECISQlRh21xdnl070ZoHIOENUm2RqENQCXH6kJVQ09diLtW6fwjlekuxzPQCaE1Ya13mli3CBqGxg01hg2ZfRhRnq+wIGrE9CnYU5J07DmuoHsdB4bLhq9M6iZV8VlTaS2YgztSrSBX2yQYR53gKT3dVj7rwTsssNAsCbLpp44dcL6oMVOqJyfsBN46Yph/pLB8hNF4ss7brFcs+WpFJdJnLDyXfgavsXDwh/BrLnaZ1pYyagAgRxpdfZoszkLP83WP7TEGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ip6H4+GKtIobjVqijMLU5EVn/WcydCM4ajnIL8F6zck=;
- b=h4aVrP5J8RIFw6Ro7RphevG5qtqFFZMnDKMXGAlkDVESou68MMJhp0lUfVSrx0n5EuxEop3HH7ZQuC+o0/xY364SrdjaYaBejBGpZdD6ObJrFB2gdJIQBQicC6ycq75WtZxqtd84RjU0AOYHv/Wm8KaJ5ya/SxbJpUFFoeXu4r0=
-Received: from BY5PR21MB1506.namprd21.prod.outlook.com (2603:10b6:a03:23d::12)
- by BY5PR21MB1443.namprd21.prod.outlook.com (2603:10b6:a03:21f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.6; Thu, 1 Jul
- 2021 22:41:07 +0000
-Received: from BY5PR21MB1506.namprd21.prod.outlook.com
- ([fe80::f126:bfd2:f903:62a3]) by BY5PR21MB1506.namprd21.prod.outlook.com
- ([fe80::f126:bfd2:f903:62a3%5]) with mapi id 15.20.4308.007; Thu, 1 Jul 2021
- 22:41:07 +0000
-From:   Long Li <longli@microsoft.com>
-To:     Joe Perches <joe@perches.com>, Jiri Slaby <jirislaby@kernel.org>,
-        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        id S234106AbhGAX6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 19:58:35 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:41754 "EHLO
+        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234063AbhGAX6f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 19:58:35 -0400
+Date:   Thu, 01 Jul 2021 23:55:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
+        t=1625183728; bh=vHKTUFhjrBhE16qbi5KjG4YoGMyuu2TJDAhJMIvSDHc=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=ZWl1K/duuR6AkGbFqdy6cxxNtf7pKljObHGE4X/oR6EYdDyUwWCwF2Ff/bEdjc9nX
+         ef/FbVZ++YU88xuXpiILi13tx+OleonACFBno8YKNjjiKfNTD0zGi/qFQzQvSjRHyJ
+         4ZWqP8fqn77rZH37BgnXHbwSt20DAWMhVpdgLvjTOQhfS9WlQ6UZmhaeYxxxmLJZP9
+         rHo2jA5qUmZnHl6/dCDgriCLD8rKyIsu1vFt8y2qlUhsd/OgtjpZ2oaMhsJRzv1aO+
+         vzPRrkg/9OdFkwIV2Pk3+FSTQ1/RAtbrOfbUMHwDRlq54u89NrK8RoJsrvDeWwfvIO
+         ewHvePbW8p0tQ==
+To:     John Wood <john.wood@gmx.com>
+From:   Alexander Lobakin <alobakin@pm.me>
+Cc:     Alexander Lobakin <alobakin@pm.me>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Arnd Bergmann <arnd@arndb.de>, Andi Kleen <ak@linux.intel.com>,
+        valdis.kletnieks@vt.edu,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
-Thread-Topic: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
-Thread-Index: AQHXalTR5lVKFlOZkEmq8/y9Kgt/basqsOKAgAMHtBCAAIrAgIAAfCEA
-Date:   Thu, 1 Jul 2021 22:41:07 +0000
-Message-ID: <BY5PR21MB15069F0532A1580C75CCF898CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
-References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
-         <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
-         <f5155516-4054-459a-c23c-a787fa429e5e@kernel.org>
-         <BY5PR21MB15062914C8301F2EF9C24F15CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
- <59794f7f5a481e670a2490017649a872a8639be2.camel@perches.com>
-In-Reply-To: <59794f7f5a481e670a2490017649a872a8639be2.camel@perches.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=fd7eaf91-f24b-4d4e-aee6-ee27ed525d65;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-07-01T22:40:17Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: perches.com; dkim=none (message not signed)
- header.d=none;perches.com; dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d7a01256-7461-44b9-187a-08d93ce15119
-x-ms-traffictypediagnostic: BY5PR21MB1443:
-x-ms-exchange-transport-forked: True
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <BY5PR21MB14431C6D44B3F08E4EEB266FCE009@BY5PR21MB1443.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2201;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 38EQGgulssjNINM/0YF6HSH/QAl+qqfUt7Q6eVOACJ5amRHWW8CjVpxeUUjgzhGyCUvB3iZ6U7vfdgVO9b/9Kkh7HsIHkxoh4K4fN3E9MDVcrRL8aqh582ZJhF7II1dlBAYIooixHRHYXYkcKch3Ldec7Fw4cQHEcKHlx0vW1UW2S96K+wjj4xMs1typnJGtseOLA2nA2D5NY5Xr3Tiq7dJhoBPIOSpMNicsmP/axXveOQJ+HBozbYjgRxbjKLhclLcBxagWIESm1qXpP1VbYbejCt1CVgNpKh6S/pkCQufFsPVZP8g2XtKRkJ5VRgoZJMzjcf2Ye+dABIuPE2+MgOUqr0rl53GaKERUWWMENb7Sz32bD9/aCwvR3ObhbdMBmg+cRI/VFjYWgWaga6k6I9cjhADbAuzL6j8BcVCx4i1aGa6ivdyWbiCQNCjbs4v2uZ1itt83q0oC2nQPOuA9b7yxk8LN+P08Drm5HC6vN/f3stHcEs3VN+Y0Xtw1EQG5OIEFJ9SC2iNP2OokZlHLG3mhYjHNaNJhAGyuOedcjlRsTuahL355q9YN0AczCIOrmwAigZHeyQ1mg2ll68yWIZFSXpbEAg/D/v9cSClW+5iU1dc0Fh6s7VjnaZC46bUeAneL2VjZcm4dBd4lElWBQw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR21MB1506.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(7416002)(26005)(9686003)(5660300002)(478600001)(110136005)(82950400001)(122000001)(38100700002)(8936002)(54906003)(10290500003)(316002)(186003)(55016002)(76116006)(52536014)(2906002)(86362001)(6506007)(33656002)(8676002)(66556008)(71200400001)(7696005)(66446008)(8990500004)(66946007)(83380400001)(66476007)(4326008)(82960400001)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xFr//D50Ov0wksf7dnxCm6hoBqI0YCzLpEyX4KJCTrHcNSvAZyfWavanfIgK?=
- =?us-ascii?Q?WPWi5zKG5U5HdgXmBtzp5XT43NxDQrcs1NVl4cFVNRDuatdjTw29yOUHGtY7?=
- =?us-ascii?Q?U4Iy3O+Wv1far/fOA4IucEnfsSIlM+1HKzKLNzXKTX3pqTlQvxGmcfh/zeBK?=
- =?us-ascii?Q?xx7YceveEgdS1KFTCZGhfUGG18CY/cLIxDnc+FwpU2Q5rIWCd2XGM7nCPEB1?=
- =?us-ascii?Q?kup3jHr2uw3MAdelbGVzitO/gr/4kW0/hYw8mCUz1DvTiyQS+q1SRMnL0oDO?=
- =?us-ascii?Q?yg2kn7SJJ+ILcxRzY+EC53Ga+KRFHaUbK8aqnGJpW/56kqPararhH/wovx5h?=
- =?us-ascii?Q?/n8xZxlc6JOEG53j7K+94q0gOUSm+SUtF8+Tet2cLpBgc9z0uB+1semIzxyI?=
- =?us-ascii?Q?REmbHUiF8iRuckMZadBXTGNxD9qpW9txWoNpmRNhzvyXQS2whezf9UXiJyB4?=
- =?us-ascii?Q?mf22i28HLzBTR38cV/YIYgnwyjdKn7KljO9i9n0RIZsC+vJSZbkt+WswAgKi?=
- =?us-ascii?Q?DVP/VkxBMQqwG/t77MAGNMnjKwHbPgHlhrnNv2jkAcydUI+bzJ8AKaRP3NtO?=
- =?us-ascii?Q?0KjDMYtL4l5bQIUS4kV0fjN1vxqf6g3G9pwXtr5DN+w3Lh5uhSuS/FZB4cLT?=
- =?us-ascii?Q?L63fD6XKQukxHNmlA08RYKWioVSnsU5jSXiiEv4SZhEUz7asSdsyjQ1FCuPa?=
- =?us-ascii?Q?F18uRifp7b2d9KINKwtY39S8LGSgia3KT4+UHPU/D5oC+OQyaOT7hSRvYcQX?=
- =?us-ascii?Q?IRPp2u4aSQ4d26ELSjlf6T4qq+YJXM5T4a/nPjqPPCR9jG245rbWwJOKvVzI?=
- =?us-ascii?Q?lDAxJ9SgxCIcplKwkqg2k+CfG6N7FiPYPVArSUNVp+F37UqkX3gZUcMef+A/?=
- =?us-ascii?Q?l1GAe+I4ZohqAUegpxnMSgSHNZC7uaoTsE/jitCpvTeFTEbba9cRfc0Wcy7B?=
- =?us-ascii?Q?XM5VcFl76DjXESR81REFKXKFYrrjtSt9M3KrwP0Fqz7UnQ/+LHBJHh93Kchs?=
- =?us-ascii?Q?oM7kk2P2uJ5TdisbiztaZIAGGuOQ63i7pE+l0747Q2qn8TCnxDZBPliZtnmj?=
- =?us-ascii?Q?ASYU3UzphnP2BFYjmciP/svP2HLFCnk3awZkJicfsutCaBYqBDDRh9VxA23b?=
- =?us-ascii?Q?igzayMOMVaKPjASLK6As+v40fbMOZuZLPt9KtKgwHjVad6eu/S0ARWPpYKi8?=
- =?us-ascii?Q?LR9Czz09zNGGwtFYeo/fJ2jPsrtmFj3HRGnoioXjcsPMtZrit3qf5BlKN62j?=
- =?us-ascii?Q?UPrazfANkhbW+RJOl3q3tbT7pDZlmdCa3nB0lNZMC5soLeI939+kdgKio4Ks?=
- =?us-ascii?Q?F4G2tIOhqbbRImfowkaesGSN?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Reply-To: Alexander Lobakin <alobakin@pm.me>
+Subject: Re: [PATCH v8 3/8] security/brute: Detect a brute force attack
+Message-ID: <20210701234807.50453-1-alobakin@pm.me>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR21MB1506.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7a01256-7461-44b9-187a-08d93ce15119
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2021 22:41:07.3920
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +G5eFTGP2ssQxN6RdYe//GQZFJhCV1nqO4xAqjbLEDeJlUF3dx+tPtR+gvn4ZANaxRyQUuDF4V08+NZwd74+fg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR21MB1443
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Subject: Re: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
->=20
-> On Thu, 2021-07-01 at 07:09 +0000, Long Li wrote:
-> > > On 26. 06. 21, 8:30, longli@linuxonhyperv.com wrote:
->=20
-> > > Have you fed this patch through checkpatch?
-> >
-> > Yes, it didn't throw out any errors.
->=20
-> Several warnings and checks though.
->=20
-> $ ./scripts/checkpatch.pl 2.patch --strict --terse
+Hi,
 
-Thanks for the pointer. I didn't check with "--strict".
+From: John Wood <john.wood@gmx.com>
+Date: Sat, 5 Jun 2021 17:04:00 +0200
 
-Will fix this.
+> For a correct management of a fork brute force attack it is necessary to
+> track all the information related to the application crashes. To do so,
+> use the extended attributes (xattr) of the executable files and define a
+> statistical data structure to hold all the necessary information shared
+> by all the fork hierarchy processes. This info is the number of crashes,
+> the last crash timestamp and the crash period's moving average.
+>
+> The same can be achieved using a pointer to the fork hierarchy
+> statistical data held by the task_struct structure. But this has an
+> important drawback: a brute force attack that happens through the execve
+> system call losts the faults info since these statistics are freed when
+> the fork hierarchy disappears. Using this method makes not possible to
+> manage this attack type that can be successfully treated using extended
+> attributes.
+>
+> Also, to avoid false positives during the attack detection it is
+> necessary to narrow the possible cases. So, only the following scenarios
+> are taken into account:
+>
+> 1.- Launching (fork()/exec()) a setuid/setgid process repeatedly until a
+>     desirable memory layout is got (e.g. Stack Clash).
+> 2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedly
+>     until a desirable memory layout is got (e.g. what CTFs do for simple
+>     network service).
+> 3.- Launching processes without exec() (e.g. Android Zygote) and
+>     exposing state to attack a sibling.
+> 4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly
+>     until the previously shared memory layout of all the other children
+>     is exposed (e.g. kind of related to HeartBleed).
+>
+> In each case, a privilege boundary has been crossed:
+>
+> Case 1: setuid/setgid process
+> Case 2: network to local
+> Case 3: privilege changes
+> Case 4: network to local
+>
+> To mark that a privilege boundary has been crossed it is only necessary
+> to create a new stats for the executable file via the extended attribute
+> and only if it has no previous statistical data. This is done using four
+> different LSM hooks, one per privilege boundary:
+>
+> setuid/setgid process --> bprm_creds_from_file hook (based on secureexec
+>                           flag).
+> network to local -------> socket_accept hook (taking into account only
+>                           external connections).
+> privilege changes ------> task_fix_setuid and task_fix_setgid hooks.
+>
+> To detect a brute force attack it is necessary that the executable file
+> statistics be updated in every fatal crash and the most important data
+> to update is the application crash period. To do so, use the new
+> "task_fatal_signal" LSM hook added in a previous step.
+>
+> The application crash period must be a value that is not prone to change
+> due to spurious data and follows the real crash period. So, to compute
+> it, the exponential moving average (EMA) is used.
+>
+> Based on the updated statistics two different attacks can be handled. A
+> slow brute force attack that is detected if the maximum number of faults
+> per fork hierarchy is reached and a fast brute force attack that is
+> detected if the application crash period falls below a certain
+> threshold.
+>
+> Moreover, only the signals delivered by the kernel are taken into
+> account with the exception of the SIGABRT signal since the latter is
+> used by glibc for stack canary, malloc, etc failures, which may indicate
+> that a mitigation has been triggered.
+>
+> Signed-off-by: John Wood <john.wood@gmx.com>
+>
+> <snip>
+>
+> +static int brute_get_xattr_stats(struct dentry *dentry, struct inode *in=
+ode,
+> +=09=09=09=09 struct brute_stats *stats)
+> +{
+> +=09int rc;
+> +=09struct brute_raw_stats raw_stats;
+> +
+> +=09rc =3D __vfs_getxattr(dentry, inode, XATTR_NAME_BRUTE, &raw_stats,
+> +=09=09=09    sizeof(raw_stats));
+> +=09if (rc < 0)
+> +=09=09return rc;
+> +
+> +=09stats->faults =3D le32_to_cpu(raw_stats.faults);
+> +=09stats->nsecs =3D le64_to_cpu(raw_stats.nsecs);
+> +=09stats->period =3D le64_to_cpu(raw_stats.period);
+> +=09stats->flags =3D raw_stats.flags;
+> +=09return 0;
+> +}
+>
+> <snip>
+>
+> +static int brute_task_execve(struct linux_binprm *bprm, struct file *fil=
+e)
+> +{
+> +=09struct dentry *dentry =3D file_dentry(bprm->file);
+> +=09struct inode *inode =3D file_inode(bprm->file);
+> +=09struct brute_stats stats;
+> +=09int rc;
+> +
+> +=09inode_lock(inode);
+> +=09rc =3D brute_get_xattr_stats(dentry, inode, &stats);
+> +=09if (WARN_ON_ONCE(rc && rc !=3D -ENODATA))
+> +=09=09goto unlock;
 
-> 2.patch:68: WARNING: Possible unwrapped commit description (prefer a
-> maximum 75 chars per line)
-> 2.patch:148: WARNING: added, moved or deleted file(s), does MAINTAINERS
-> need updating?
-> 2.patch:173: CHECK: spinlock_t definition without comment
-> 2.patch:220: CHECK: spinlock_t definition without comment
-> 2.patch:250: CHECK: Alignment should match open parenthesis
-> 2.patch:255: CHECK: Alignment should match open parenthesis
-> 2.patch:257: CHECK: Macro argument 'level' may be better as '(level)' to =
-avoid
-> precedence issues
-> 2.patch:280: CHECK: Alignment should match open parenthesis
-> 2.patch:283: CHECK: No space is necessary after a cast
-> 2.patch:287: WARNING: quoted string split across lines
-> 2.patch:296: CHECK: Blank lines aren't necessary before a close brace '}'
-> 2.patch:303: CHECK: Please don't use multiple blank lines
-> 2.patch:308: CHECK: Please don't use multiple blank lines
-> 2.patch:331: CHECK: Alignment should match open parenthesis
-> 2.patch:348: CHECK: Alignment should match open parenthesis
-> 2.patch:362: CHECK: Alignment should match open parenthesis
-> 2.patch:371: CHECK: Alignment should match open parenthesis
-> 2.patch:381: CHECK: Alignment should match open parenthesis
-> 2.patch:404: CHECK: No space is necessary after a cast
-> 2.patch:426: WARNING: quoted string split across lines
-> 2.patch:437: WARNING: quoted string split across lines
-> 2.patch:438: WARNING: quoted string split across lines
-> 2.patch:458: CHECK: No space is necessary after a cast
-> 2.patch:459: CHECK: Alignment should match open parenthesis
-> 2.patch:464: CHECK: No space is necessary after a cast
-> 2.patch:465: CHECK: Alignment should match open parenthesis
-> 2.patch:472: CHECK: Alignment should match open parenthesis
-> 2.patch:472: CHECK: No space is necessary after a cast
-> 2.patch:482: CHECK: Alignment should match open parenthesis
-> 2.patch:506: CHECK: Alignment should match open parenthesis
-> 2.patch:513: CHECK: Alignment should match open parenthesis
-> 2.patch:519: CHECK: Alignment should match open parenthesis
-> 2.patch:535: CHECK: Alignment should match open parenthesis
-> 2.patch:537: WARNING: quoted string split across lines
-> 2.patch:538: WARNING: quoted string split across lines
-> 2.patch:539: WARNING: quoted string split across lines
-> 2.patch:549: CHECK: Alignment should match open parenthesis
-> 2.patch:549: CHECK: No space is necessary after a cast
-> 2.patch:565: CHECK: Alignment should match open parenthesis
-> 2.patch:574: CHECK: Alignment should match open parenthesis
-> 2.patch:595: CHECK: Alignment should match open parenthesis
-> 2.patch:634: WARNING: quoted string split across lines
-> 2.patch:639: CHECK: Alignment should match open parenthesis
-> 2.patch:643: CHECK: Alignment should match open parenthesis
-> 2.patch:646: CHECK: Alignment should match open parenthesis
-> 2.patch:648: CHECK: Alignment should match open parenthesis
-> 2.patch:650: CHECK: Alignment should match open parenthesis
-> 2.patch:694: CHECK: braces {} should be used on all arms of this statemen=
-t
-> 2.patch:696: CHECK: Alignment should match open parenthesis
-> 2.patch:703: CHECK: Unbalanced braces around else statement
-> 2.patch:724: CHECK: Alignment should match open parenthesis
-> 2.patch:744: CHECK: Alignment should match open parenthesis
-> total: 0 errors, 10 warnings, 42 checks, 749 lines checked
->=20
+I think I caught a problem here. Have you tested this with
+initramfs?
+
+According to init/do_mount.c's
+init_rootfs()/rootfs_init_fs_context(), when `root=3D` cmdline
+parameter is not empty, kernel creates rootfs of type ramfs
+(tmpfs otherwise).
+The thing about ramfs is that it doesn't support xattrs.
+
+I'm running this v8 on a regular PC with initramfs and having
+`root=3D` in cmdline, and Brute doesn't allow the kernel to run
+any init processes (/init, /sbin/init, ...) with err =3D=3D -95
+(-EOPNOTSUPP) -- I'm getting a
+
+WARNING: CPU: 0 PID: 173 at brute_task_execve+0x15d/0x200
+<snip>
+Failed to execute /init (error -95)
+
+and so on (and a panic at the end).
+
+If I omit `root=3D` from cmdline, then the kernel runs init process
+just fine -- I guess because initramfs is then placed inside tmpfs
+with xattr support.
+
+As for me, this ramfs/tmpfs selection based on `root=3D` presence
+is ridiculous and I don't see or know any reasons behind that.
+But that's another story, and ramfs might be not the only one
+system without xattr support.
+I think Brute should have a fallback here, e.g. it could simply
+ignore files from xattr-incapable filesystems instead of such
+WARNING splats and stuff.
+
+> +
+> +=09if (rc =3D=3D -ENODATA && bprm->secureexec) {
+> +=09=09brute_reset_stats(&stats);
+> +=09=09rc =3D brute_set_xattr_stats(dentry, inode, &stats);
+> +=09=09if (WARN_ON_ONCE(rc))
+> +=09=09=09goto unlock;
+> +=09}
+> +
+> +=09rc =3D 0;
+> +unlock:
+> +=09inode_unlock(inode);
+> +=09return rc;
+> +}
+> +
+>
+> <snip>
+
+Thanks,
+Al
 
