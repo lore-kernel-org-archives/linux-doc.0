@@ -2,98 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4931EC11F67
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 20:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87233C11F67
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 22:22:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FFAC613FE
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 20:43:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57EE260C3F
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 22:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234417AbhGAUpa convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 16:45:30 -0400
-Received: from lithops.sigma-star.at ([195.201.40.130]:51298 "EHLO
-        lithops.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbhGAUp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 16:45:29 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 6216D6108476;
-        Thu,  1 Jul 2021 22:42:56 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id kLydErpcW5Ws; Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id C39FC6108472;
-        Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id LbgvkTJUFHdW; Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 844066083273;
-        Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
-Date:   Thu, 1 Jul 2021 22:42:55 +0200 (CEST)
-From:   Richard Weinberger <richard@nod.at>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        kernel <kernel@pengutronix.de>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        horia geanta <horia.geanta@nxp.com>,
-        aymen sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        davem <davem@davemloft.net>, Udit Agarwal <udit.agarwal@nxp.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        david <david@sigma-star.at>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        "open list, ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>
-Message-ID: <1850833581.13438.1625172175436.JavaMail.zimbra@nod.at>
-In-Reply-To: <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
-References: <cover.1dfbb73645d917b3c76d01290804a3410bd9932e.1624364386.git-series.a.fatoum@pengutronix.de> <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
-Subject: Re: [PATCH v2 6/6] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
+        id S236867AbhGAWZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 18:25:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234270AbhGAWZE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Jul 2021 18:25:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 246E660FEF;
+        Thu,  1 Jul 2021 22:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625178153;
+        bh=vHv2EmVbmoccIEw3MnI/N38IXw9z66PK+b14NXf/dXI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=gemx/2iUrYpN84KVj+anuEwN/8nHXK+/RcBU6rNLNBH4ckKg5pQs833U3Z/wKvKxd
+         inKFmkq1rbdEiAWa1DAgATbEaGQ4UMOmVEXx/f4Y1bRmRq5ij8P70isa6TqnP5CMyF
+         c2Lf4CPTYzDaEo8CwfT96i/PvBauV4u7ho8Nh+Qp5pmczTJpNCiOYY3iiFHnsLoP49
+         sza0B9nHEObfVd60VG24CKuc4VkrnEi0afpvCV5WkVqGsjuFS40WT+HX6clRDRfEDV
+         wKKWQbMpuJAy/NgsvqZ6kxE2dOy7zqw2lNkbumI8xrwxqYESsiHbBC3lGYo3RbQCPf
+         YpYEIB+L6JHkg==
+Date:   Thu, 1 Jul 2021 17:22:31 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Wesley Sheng <wesley.sheng@amd.com>
+Cc:     linasvepstas@gmail.com, ruscur@russell.cc, oohall@gmail.com,
+        bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, wesleyshenggit@sina.com
+Subject: Re: [PATCH] Documentation: PCI: pci-error-recovery: rearrange the
+ general sequence
+Message-ID: <20210701222231.GA102933@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
-Thread-Topic: KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
-Thread-Index: g8issG6CVMbkLEBHiev9vrinZL1Dqw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618060446.7969-1-wesley.sheng@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ahmad,
+Please make the subject a little more specific.  "rearrange the
+general sequence" doesn't say anything about what was affected.
 
------ Ursprüngliche Mail -----
-> Von: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
-> +static struct caam_blob_priv *blobifier;
+On Fri, Jun 18, 2021 at 02:04:46PM +0800, Wesley Sheng wrote:
+> Reset_link() callback function was called before mmio_enabled() in
+> pcie_do_recovery() function actually, so rearrange the general
+> sequence betwen step 2 and step 3 accordingly.
+
+s/betwen/between/
+
+Not sure "general" adds anything in this sentence.  "Step 2 and step
+3" are not meaningful here in the commit log.  It needs to spell out
+what those steps are so the log makes sense by itself.
+
+"reset_link" does not appear in pcie_do_recovery().  I'm guessing
+you're referring to the "reset_subordinates" function pointer?
+
+> Signed-off-by: Wesley Sheng <wesley.sheng@amd.com>
+
+I didn't quite understand your response to Oliver, so I'll wait for
+your corrections and his ack before proceeding.
+
+> ---
+>  Documentation/PCI/pci-error-recovery.rst | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+> index 187f43a03200..ac6a8729ef28 100644
+> --- a/Documentation/PCI/pci-error-recovery.rst
+> +++ b/Documentation/PCI/pci-error-recovery.rst
+> @@ -184,7 +184,14 @@ is STEP 6 (Permanent Failure).
+>     and prints an error to syslog.  A reboot is then required to
+>     get the device working again.
+>  
+> -STEP 2: MMIO Enabled
+> +STEP 2: Link Reset
+> +------------------
+> +The platform resets the link.  This is a PCI-Express specific step
+> +and is done whenever a fatal error has been detected that can be
+> +"solved" by resetting the link.
 > +
-> +#define KEYMOD "kernel:trusted"
+> +
+> +STEP 3: MMIO Enabled
+>  --------------------
+>  The platform re-enables MMIO to the device (but typically not the
+>  DMA), and then calls the mmio_enabled() callback on all affected
+> @@ -197,8 +204,8 @@ information, if any, and eventually do things like trigger a device local
+>  reset or some such, but not restart operations. This callback is made if
+>  all drivers on a segment agree that they can try to recover and if no automatic
+>  link reset was performed by the HW. If the platform can't just re-enable IOs
+> -without a slot reset or a link reset, it will not call this callback, and
+> -instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
+> +without a slot reset, it will not call this callback, and
+> +instead will have gone directly or STEP 4 (Slot Reset)
 
-I'm still think that hard coding the key modifier is not wise.
-As I said[0], there are folks out there that want to provide their own modifier,
-so it is not only about being binary compatible with other CAAM blob patches in the wild.
+s/or/to/  ?
 
-I'll happily implement that feature after your patches got merged but IMHO we should first agree on an interface.
-How about allowing another optional parameter to Opt_new and Opt_load and having a key modifier
-per struct trusted_key_payload instance?
+>  .. note::
+>  
+> @@ -210,7 +217,7 @@ instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
+>     such an error might cause IOs to be re-blocked for the whole
+>     segment, and thus invalidate the recovery that other devices
+>     on the same segment might have done, forcing the whole segment
+> -   into one of the next states, that is, link reset or slot reset.
+> +   into next states, that is, slot reset.
 
-Thanks,
-//richard
+s/into next states/into the next state/ ?
 
-[0]
-https://patchwork.kernel.org/project/linux-crypto/patch/319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de/#24085397
-
+>  The driver should return one of the following result codes:
+>    - PCI_ERS_RESULT_RECOVERED
+> @@ -233,17 +240,11 @@ The driver should return one of the following result codes:
+>  
+>  The next step taken depends on the results returned by the drivers.
+>  If all drivers returned PCI_ERS_RESULT_RECOVERED, then the platform
+> -proceeds to either STEP3 (Link Reset) or to STEP 5 (Resume Operations).
+> +proceeds to STEP 5 (Resume Operations).
+>  
+>  If any driver returned PCI_ERS_RESULT_NEED_RESET, then the platform
+>  proceeds to STEP 4 (Slot Reset)
+>  
+> -STEP 3: Link Reset
+> -------------------
+> -The platform resets the link.  This is a PCI-Express specific step
+> -and is done whenever a fatal error has been detected that can be
+> -"solved" by resetting the link.
+> -
+>  STEP 4: Slot Reset
+>  ------------------
+>  
+> -- 
+> 2.25.1
+> 
