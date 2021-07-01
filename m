@@ -2,306 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43108C11F67
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 14:24:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8DBAC11F64
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:16:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26309613E8
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 14:24:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D3CE613F8
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:16:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234051AbhGAO1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 10:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233950AbhGAO1L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 10:27:11 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF536C061762;
-        Thu,  1 Jul 2021 07:24:40 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id in17-20020a17090b4391b0290170ba0ec7fcso6732887pjb.4;
-        Thu, 01 Jul 2021 07:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mW1av2xdS1y2jG3ZVCe9a+vSXQ1T1E+gfBtuwxq5unk=;
-        b=nvfJR6qQdw1paCfrrtoYPSZdPb8p2EjkJxnL4srGXcI6juBkHU6iUXG5h458hRWEIv
-         21lfzIuboj+UfJaHB2XKPmSay/KTTdCgHXKogF8/ChqCJw4YEt3JfcsyivGs+CGaLePz
-         Gcj6NsTpOHJBZmHFMWtOymA8Wa7MSvn+8aG/8Eq6NXKxbjljMXGp4df0bcCRmYX3fO4K
-         zV5x9ax1Wq0JoEbPOjxIkjCbxOivNEd727bhdiY6qXpHH/G0WrhL8A/4LpsTSUXuPfsz
-         18KFP2ABfTLduVpF2HPj5eiEhqVjWAvo14BcciV6S4kPqzd1pKC+jKhqDcfWL8IfTzul
-         Lfkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mW1av2xdS1y2jG3ZVCe9a+vSXQ1T1E+gfBtuwxq5unk=;
-        b=HvZR/OpuDGMwGeH3hHSFAQQhp4lVKzdLvWk7wC1gXQH2yu5lYbk/ZVO7cp8WbBoxSB
-         +ADPVzocQWhH3fogetl8fVgT1wMVDGLy2z/2HvkhX/U59d/F4lFQDvNxQ4m3f2aJ0xzX
-         gIKRJY0eN0zcAzTzcGfBGX4f0GcJ0VEKzqKDeOBKVlga0uMpZdvSe6L3xrz4CV3YnOQT
-         rdamfHiFTQVpRQVvpZ2yq7KDk6TwHHJHrtxnRB9vJqFDkbzDzKNZQ2tk1BephzeP390W
-         o4CdFF38ORaV7aFc1yStAmy8oWhZd+2YD/Dr0LZRuU7h2f57tNQReSojM2HhCGcxdam7
-         9nQQ==
-X-Gm-Message-State: AOAM533hhhOxSXF4cLeCFbX1nUEFHGHXZL/3LBlX8xSDO1bqSYmvpVKh
-        ctBTxFDT67wGBIfkMSqEJCM=
-X-Google-Smtp-Source: ABdhPJwN8TK5iwZB8PkGLcVbcZBrAQy2hxo1r4BcZKhVigrizTzGD6K+OZwq5uWYe/dzjVShDlT/qg==
-X-Received: by 2002:a17:90a:3ccf:: with SMTP id k15mr28417657pjd.226.1625149480366;
-        Thu, 01 Jul 2021 07:24:40 -0700 (PDT)
-Received: from sol (106-69-174-4.dyn.iinet.net.au. [106.69.174.4])
-        by smtp.gmail.com with ESMTPSA id t3sm204251pfl.44.2021.07.01.07.24.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 07:24:39 -0700 (PDT)
-Date:   Thu, 1 Jul 2021 22:24:33 +0800
-From:   Kent Gibson <warthog618@gmail.com>
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [RFC 08/11] gpiolib: cdev: Add hardware timestamp clock type
-Message-ID: <20210701142433.GC34285@sol>
-References: <20210625235532.19575-1-dipenp@nvidia.com>
- <20210625235532.19575-9-dipenp@nvidia.com>
+        id S233278AbhGAPSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 11:18:40 -0400
+Received: from smtprelay0081.hostedemail.com ([216.40.44.81]:40116 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233064AbhGAPSj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 11:18:39 -0400
+Received: from omf10.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 09FFB182CF670;
+        Thu,  1 Jul 2021 15:16:08 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id E6EFF2351FC;
+        Thu,  1 Jul 2021 15:16:02 +0000 (UTC)
+Message-ID: <59794f7f5a481e670a2490017649a872a8639be2.camel@perches.com>
+Subject: Re: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+From:   Joe Perches <joe@perches.com>
+To:     Long Li <longli@microsoft.com>, Jiri Slaby <jirislaby@kernel.org>,
+        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Date:   Thu, 01 Jul 2021 08:16:01 -0700
+In-Reply-To: <BY5PR21MB15062914C8301F2EF9C24F15CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
+References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
+         <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
+         <f5155516-4054-459a-c23c-a787fa429e5e@kernel.org>
+         <BY5PR21MB15062914C8301F2EF9C24F15CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210625235532.19575-9-dipenp@nvidia.com>
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: dsf3h6ga59m8sx4ehmp9tsmrym5oi8tz
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: E6EFF2351FC
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+tjnrxZq5D3ZdkY3toM7Ry7rBvXa0HGQU=
+X-HE-Tag: 1625152562-567931
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 04:55:29PM -0700, Dipen Patel wrote:
-> This patch adds new clock type for the GPIO controller which can
-> timestamp gpio lines using hardware means. To expose such
-> functionalities to the userspace, code has been added in this patch
-> where during line create call, it checks for new clock type and if
-> requested, calls hardware timestamp related API from gpiolib.c.
-> During line change event, it retrieves timestamp in nano seconds by
-> calling gpiod_get_hw_timestamp API from gpiolib.c. At the line release,
-> it disables this functionality by calling gpiod_hw_timestamp_control.
+On Thu, 2021-07-01 at 07:09 +0000, Long Li wrote:
+> > On 26. 06. 21, 8:30, longli@linuxonhyperv.com wrote:
+
+> > Have you fed this patch through checkpatch?
 > 
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
-> ---
->  drivers/gpio/gpiolib-cdev.c | 65 +++++++++++++++++++++++++++++++++++--
->  include/uapi/linux/gpio.h   |  1 +
->  2 files changed, 64 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
-> index 1631727bf0da..9f98c727e937 100644
-> --- a/drivers/gpio/gpiolib-cdev.c
-> +++ b/drivers/gpio/gpiolib-cdev.c
-> @@ -518,6 +518,7 @@ struct linereq {
->  	 GPIO_V2_LINE_DRIVE_FLAGS | \
->  	 GPIO_V2_LINE_EDGE_FLAGS | \
->  	 GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME | \
-> +	 GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE | \
->  	 GPIO_V2_LINE_BIAS_FLAGS)
->  
->  static void linereq_put_event(struct linereq *lr,
-> @@ -540,9 +541,20 @@ static void linereq_put_event(struct linereq *lr,
->  
->  static u64 line_event_timestamp(struct line *line)
->  {
-> +	bool block;
-> +
->  	if (test_bit(FLAG_EVENT_CLOCK_REALTIME, &line->desc->flags))
->  		return ktime_get_real_ns();
->  
-> +	if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &line->desc->flags)) {
-> +		if (irq_count())
-> +			block = false;
-> +		else
-> +			block = true;
-> +
-> +		return gpiod_get_hw_timestamp(line->desc, block);
-> +	}
-> +
+> Yes, it didn't throw out any errors.
 
-Use in_task() instead of block?
+Several warnings and checks though.
 
->  	return ktime_get_ns();
->  }
->  
-> @@ -828,6 +840,7 @@ static int edge_detector_setup(struct line *line,
->  		return ret;
->  
->  	line->irq = irq;
-> +
->  	return 0;
->  }
->  
+$ ./scripts/checkpatch.pl 2.patch --strict --terse
+2.patch:68: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+2.patch:148: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+2.patch:173: CHECK: spinlock_t definition without comment
+2.patch:220: CHECK: spinlock_t definition without comment
+2.patch:250: CHECK: Alignment should match open parenthesis
+2.patch:255: CHECK: Alignment should match open parenthesis
+2.patch:257: CHECK: Macro argument 'level' may be better as '(level)' to avoid precedence issues
+2.patch:280: CHECK: Alignment should match open parenthesis
+2.patch:283: CHECK: No space is necessary after a cast
+2.patch:287: WARNING: quoted string split across lines
+2.patch:296: CHECK: Blank lines aren't necessary before a close brace '}'
+2.patch:303: CHECK: Please don't use multiple blank lines
+2.patch:308: CHECK: Please don't use multiple blank lines
+2.patch:331: CHECK: Alignment should match open parenthesis
+2.patch:348: CHECK: Alignment should match open parenthesis
+2.patch:362: CHECK: Alignment should match open parenthesis
+2.patch:371: CHECK: Alignment should match open parenthesis
+2.patch:381: CHECK: Alignment should match open parenthesis
+2.patch:404: CHECK: No space is necessary after a cast
+2.patch:426: WARNING: quoted string split across lines
+2.patch:437: WARNING: quoted string split across lines
+2.patch:438: WARNING: quoted string split across lines
+2.patch:458: CHECK: No space is necessary after a cast
+2.patch:459: CHECK: Alignment should match open parenthesis
+2.patch:464: CHECK: No space is necessary after a cast
+2.patch:465: CHECK: Alignment should match open parenthesis
+2.patch:472: CHECK: Alignment should match open parenthesis
+2.patch:472: CHECK: No space is necessary after a cast
+2.patch:482: CHECK: Alignment should match open parenthesis
+2.patch:506: CHECK: Alignment should match open parenthesis
+2.patch:513: CHECK: Alignment should match open parenthesis
+2.patch:519: CHECK: Alignment should match open parenthesis
+2.patch:535: CHECK: Alignment should match open parenthesis
+2.patch:537: WARNING: quoted string split across lines
+2.patch:538: WARNING: quoted string split across lines
+2.patch:539: WARNING: quoted string split across lines
+2.patch:549: CHECK: Alignment should match open parenthesis
+2.patch:549: CHECK: No space is necessary after a cast
+2.patch:565: CHECK: Alignment should match open parenthesis
+2.patch:574: CHECK: Alignment should match open parenthesis
+2.patch:595: CHECK: Alignment should match open parenthesis
+2.patch:634: WARNING: quoted string split across lines
+2.patch:639: CHECK: Alignment should match open parenthesis
+2.patch:643: CHECK: Alignment should match open parenthesis
+2.patch:646: CHECK: Alignment should match open parenthesis
+2.patch:648: CHECK: Alignment should match open parenthesis
+2.patch:650: CHECK: Alignment should match open parenthesis
+2.patch:694: CHECK: braces {} should be used on all arms of this statement
+2.patch:696: CHECK: Alignment should match open parenthesis
+2.patch:703: CHECK: Unbalanced braces around else statement
+2.patch:724: CHECK: Alignment should match open parenthesis
+2.patch:744: CHECK: Alignment should match open parenthesis
+total: 0 errors, 10 warnings, 42 checks, 749 lines checked
 
-Remove gratuitous whitespace changes.
-If you dislike the formatting then suggest it in a separate patch.
 
-> @@ -891,7 +904,6 @@ static int gpio_v2_line_flags_validate(u64 flags)
->  	/* Return an error if an unknown flag is set */
->  	if (flags & ~GPIO_V2_LINE_VALID_FLAGS)
->  		return -EINVAL;
-> -
->  	/*
->  	 * Do not allow both INPUT and OUTPUT flags to be set as they are
->  	 * contradictory.
-> @@ -900,6 +912,14 @@ static int gpio_v2_line_flags_validate(u64 flags)
->  	    (flags & GPIO_V2_LINE_FLAG_OUTPUT))
->  		return -EINVAL;
->  
-
-Same here.
-
-> +	/*
-> +	 * Do not mix with any other clocks if hardware assisted timestamp is
-> +	 * asked.
-> +	 */
-> +	if ((flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME) &&
-> +	    (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE))
-> +		return -EINVAL;
-> +
-
-The comment is very hw timestamp centric. It should just be something
-along the lines of "only allow one event clock source".
-
->  	/* Edge detection requires explicit input. */
->  	if ((flags & GPIO_V2_LINE_EDGE_FLAGS) &&
->  	    !(flags & GPIO_V2_LINE_FLAG_INPUT))
-> @@ -992,6 +1012,8 @@ static void gpio_v2_line_config_flags_to_desc_flags(u64 flags,
->  
->  	assign_bit(FLAG_EVENT_CLOCK_REALTIME, flagsp,
->  		   flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME);
-> +	assign_bit(FLAG_EVENT_CLOCK_HARDWARE, flagsp,
-> +		   flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE);
->  }
->  
->  static long linereq_get_values(struct linereq *lr, void __user *ip)
-> @@ -1139,6 +1161,18 @@ static long linereq_set_config_unlocked(struct linereq *lr,
->  			int val = gpio_v2_line_config_output_value(lc, i);
->  
->  			edge_detector_stop(&lr->lines[i]);
-> +
-> +			/*
-> +			 * Assuming line was input before and hardware
-> +			 * assisted timestamp only timestamps the input
-> +			 * lines.
-> +			 */
-> +			if (gpiod_is_hw_timestamp_enabled(desc)) {
-> +				ret = gpiod_hw_timestamp_control(desc, false);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +
-
-So if you fail to disable the hw timestamp then you fail the set_config?
-Does that make sense?
-It should be impossible to fail, as per the preceding edge_detector_stop(),
-or any failure in this context is irrelevant and so can be ignored.
-
->  			ret = gpiod_direction_output(desc, val);
->  			if (ret)
->  				return ret;
-> @@ -1152,6 +1186,13 @@ static long linereq_set_config_unlocked(struct linereq *lr,
->  					polarity_change);
->  			if (ret)
->  				return ret;
-> +
-> +			/* Check if new config sets hardware assisted clock */
-> +			if (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE) {
-> +				ret = gpiod_hw_timestamp_control(desc, true);
-> +				if (ret)
-> +					return ret;
-> +			}
->  		}
->  
-
-The error code here can come from the pinctrl timestamp_control(), so it
-should be sanitised before being returned to userspace.
-
->  		blocking_notifier_call_chain(&desc->gdev->notifier,
-> @@ -1281,8 +1322,12 @@ static void linereq_free(struct linereq *lr)
->  
->  	for (i = 0; i < lr->num_lines; i++) {
->  		edge_detector_stop(&lr->lines[i]);
-> -		if (lr->lines[i].desc)
-> +		if (lr->lines[i].desc) {
-> +			if (gpiod_is_hw_timestamp_enabled(lr->lines[i].desc))
-> +				gpiod_hw_timestamp_control(lr->lines[i].desc,
-> +							   false);
->  			gpiod_free(lr->lines[i].desc);
-> +		}
-
-Potential race on gpiod_is_hw_timestamp_enabled() and the call to
-gpiod_hw_timestamp_control()?
-Why not put the gpiod_is_hw_timestamp_enabled() check inside
-gpiod_hw_timestamp_control()?
-
-And the gpiod_hw_timestamp_control() call should be moved inside
-gpiod_free(), or more correctly gpiod_free_commit().
-i.e. whenever you free the gpio you release any associated hw timestamp.
-
->  	}
->  	kfifo_free(&lr->events);
->  	kfree(lr->label);
-> @@ -1409,6 +1454,15 @@ static int linereq_create(struct gpio_device *gdev, void __user *ip)
->  					flags & GPIO_V2_LINE_EDGE_FLAGS);
->  			if (ret)
->  				goto out_free_linereq;
-> +
-> +			/*
-> +			 * Check if hardware assisted timestamp is requested
-> +			 */
-> +			if (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE) {
-> +				ret = gpiod_hw_timestamp_control(desc, true);
-> +				if (ret)
-> +					goto out_free_linereq;
-> +			}
->  		}
->  
-
-Comment can fit on one line, and probably isn't even necessary - the
-code is clear enough.
-
->  		blocking_notifier_call_chain(&desc->gdev->notifier,
-> @@ -1956,8 +2010,15 @@ static void gpio_desc_to_lineinfo(struct gpio_desc *desc,
->  	if (test_bit(FLAG_EDGE_FALLING, &desc->flags))
->  		info->flags |= GPIO_V2_LINE_FLAG_EDGE_FALLING;
->  
-> +	/*
-> +	 * Practically it is possible that user will want both the real time
-> +	 * and hardware timestamps on GPIO events, for now however lets just
-> +	 * work with either clocks
-> +	 */
->  	if (test_bit(FLAG_EVENT_CLOCK_REALTIME, &desc->flags))
->  		info->flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME;
-> +	else if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &desc->flags))
-> +		info->flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE;
->
-
-If there is any need or intent to support multiple clock sources then
-avoid creeping API changes and add it now.
-Either way, drop the comment.
-
->  	debounce_period_us = READ_ONCE(desc->debounce_period_us);
->  	if (debounce_period_us) {
-> diff --git a/include/uapi/linux/gpio.h b/include/uapi/linux/gpio.h
-> index eaaea3d8e6b4..d360545b4c21 100644
-> --- a/include/uapi/linux/gpio.h
-> +++ b/include/uapi/linux/gpio.h
-> @@ -80,6 +80,7 @@ enum gpio_v2_line_flag {
->  	GPIO_V2_LINE_FLAG_BIAS_PULL_DOWN	= _BITULL(9),
->  	GPIO_V2_LINE_FLAG_BIAS_DISABLED		= _BITULL(10),
->  	GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME	= _BITULL(11),
-> +	GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE	= _BITULL(12),
->  };
->  
->  /**
-> -- 
-> 2.17.1
-> 
-
-Cheers,
-Kent.
