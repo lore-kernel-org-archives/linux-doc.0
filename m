@@ -2,79 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A29C11F64
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 19:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4931EC11F67
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 20:43:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CAF7161410
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 19:46:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FFAC613FE
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 20:43:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbhGATse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 15:48:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49514 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229894AbhGATsd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Jul 2021 15:48:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF76361405;
-        Thu,  1 Jul 2021 19:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625168762;
-        bh=NPkS1ghP8adWFqTQtg/FLb8BIjLGbYN/OQB5Qfuakjo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DLRuk6JalTWH0mDWe7EC6fEfJgk7g+FtSBLJIHt3CgATtLxj6XtPeCTq1tI3bQyrv
-         cxr5ZW7XgFfP8OByZ0B3m3xBX8mb80llXmuMrmvd/xsrKFX3PS+KUb4PLbe7ixozuF
-         khnSIEHvGcHyXCrzuuXrvY+NU6x0e3+QsYlrrehReV7nmaUIqeG+k4SMS07BoFPdIX
-         iKwlf/Uebmy9o7NcjKDER/Zk2Xn7UzksS4vLCPs9VzPc79S8AE8zn/JzV5YjvTCuEA
-         kEiaxXjNS4zH3vakx6EY5YRJzmSZSyNxtIJWbDXdDjGv9bZpw7fRe84JgjjorHHx/u
-         Az/6ZOpQvvGkQ==
-Date:   Thu, 1 Jul 2021 22:45:52 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Dave Young <dyoung@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/3] x86/setup: always reserve the first 1M of RAM
-Message-ID: <YN4bcMK3pX7X4AiX@kernel.org>
-References: <20210601075354.5149-1-rppt@kernel.org>
- <20210601075354.5149-2-rppt@kernel.org>
- <cc655618-9e30-9377-4fcf-c967707b4b0b@intel.com>
+        id S234417AbhGAUpa convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 16:45:30 -0400
+Received: from lithops.sigma-star.at ([195.201.40.130]:51298 "EHLO
+        lithops.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230063AbhGAUp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 16:45:29 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 6216D6108476;
+        Thu,  1 Jul 2021 22:42:56 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id kLydErpcW5Ws; Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id C39FC6108472;
+        Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id LbgvkTJUFHdW; Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 844066083273;
+        Thu,  1 Jul 2021 22:42:55 +0200 (CEST)
+Date:   Thu, 1 Jul 2021 22:42:55 +0200 (CEST)
+From:   Richard Weinberger <richard@nod.at>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        kernel <kernel@pengutronix.de>, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        horia geanta <horia.geanta@nxp.com>,
+        aymen sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        davem <davem@davemloft.net>, Udit Agarwal <udit.agarwal@nxp.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        david <david@sigma-star.at>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        "open list, ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>
+Message-ID: <1850833581.13438.1625172175436.JavaMail.zimbra@nod.at>
+In-Reply-To: <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
+References: <cover.1dfbb73645d917b3c76d01290804a3410bd9932e.1624364386.git-series.a.fatoum@pengutronix.de> <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
+Subject: Re: [PATCH v2 6/6] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc655618-9e30-9377-4fcf-c967707b4b0b@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
+Thread-Topic: KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
+Thread-Index: g8issG6CVMbkLEBHiev9vrinZL1Dqw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 01, 2021 at 10:15:29AM -0700, Dave Hansen wrote:
-> On 6/1/21 12:53 AM, Mike Rapoport wrote:
-> > There are BIOSes that are known to corrupt the memory under 1M, or more
-> > precisely under 640K because the memory above 640K is anyway reserved for
-> > the EGA/VGA frame buffer and BIOS.
-> 
-> Should there have been a Cc: stable@ on this?
-> 
-> Seems like the kind of thing we'd want backported.
+Ahmad,
 
-The commit this patch is fixing (a799c2bd29d1) went to v5.13-rc1, so there
-is no need to backport it.
+----- Ursprüngliche Mail -----
+> Von: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
+> +static struct caam_blob_priv *blobifier;
+> +
+> +#define KEYMOD "kernel:trusted"
 
--- 
-Sincerely yours,
-Mike.
+I'm still think that hard coding the key modifier is not wise.
+As I said[0], there are folks out there that want to provide their own modifier,
+so it is not only about being binary compatible with other CAAM blob patches in the wild.
+
+I'll happily implement that feature after your patches got merged but IMHO we should first agree on an interface.
+How about allowing another optional parameter to Opt_new and Opt_load and having a key modifier
+per struct trusted_key_payload instance?
+
+Thanks,
+//richard
+
+[0]
+https://patchwork.kernel.org/project/linux-crypto/patch/319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de/#24085397
+
