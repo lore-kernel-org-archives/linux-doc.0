@@ -5,59 +5,60 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F608C11F68
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 00:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BBDC11F66
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 00:18:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B0AD61467
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 00:08:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3D0861451
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 00:18:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236738AbhGAAKg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Jun 2021 20:10:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
+        id S237838AbhGAAUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Jun 2021 20:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbhGAAKf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jun 2021 20:10:35 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13631C0617A8
-        for <linux-doc@vger.kernel.org>; Wed, 30 Jun 2021 17:08:05 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id h15so8342211lfv.12
-        for <linux-doc@vger.kernel.org>; Wed, 30 Jun 2021 17:08:04 -0700 (PDT)
+        with ESMTP id S236997AbhGAAUw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jun 2021 20:20:52 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD83C0617A8
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jun 2021 17:18:21 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id k10so8336989lfv.13
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jun 2021 17:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0vibCQHRcBzovbP098YQJ8mdWoX2J5W8wiaM7M9niEQ=;
-        b=e+BOa5lVh8fknuCBWWZJqvx/9unwfYZPGN/BgA6mFJfxXAR3MsYl2UaPqSISg1aemm
-         CckSbHg9T6n+da7WWFpBAZ19uz/mPHl35kTBjAfx3HZ5AJVbYw6XF5KDLJKf5+8dyYf0
-         eC0MVxMARYtz4R3YUWDRwpdZXUTpJcXAbenKfunsIzgQm82ewVZHwtcsg66USaN7rrs7
-         Gef0I9NiO3dD+8MHYvBRjrZV8WGIaZ4pu3o85U2v/VMGVXzlsGf91B0I4berjf8tusiK
-         5SC0NWeI+yuxx9nZHdRM4gFyh/an4RKZOi7AhehE7juhNmVlPDCFBUO3rbEyg87sW8lS
-         jtQA==
+        bh=CmjVxgCuZa7W1IB2rE7Ahs8xwAc6kD7PBq+4uE9+JOg=;
+        b=MwGuYq470DmmxyRW4pUzKJAiI4H+QXWtWt+NTxQliXHh0rcaeFKoVfPZgD6OBSkoeG
+         YFK7kzI7NdXqOnjvIk9UbPglOGKun5fmzyA7G09R69iUwxLwGFkfLbQu2SHKAC88o91m
+         g0aY9S4Y8QJy8Sy6GgZAZtSNU5JQmRivsHihX1qNcdnmjhYbEOGPjgliq8iesXVK3S3P
+         w59/vFnMZbpLHyfmLBy0+tgwGLmD3CoPbifnp6OsA+FgqfJTdBgWQbRbKz38k7JdCjZ1
+         J4UlP0kiYjFkxQAye44s4FCOOvw+H/ydsXoCp7JfjR0eVeW2R72lPix4v4E91Wjnj41K
+         1AIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0vibCQHRcBzovbP098YQJ8mdWoX2J5W8wiaM7M9niEQ=;
-        b=hdwQLL2z9jUV30I3+a2DtcXVIYYJI3oD96kQAav+g7eUgZXriSHZ1l9W+FZQo4Je0R
-         YXbDWVKGNWffPbnbTbUX2rkiEE7ljITg+K4zRXr3GTK5hZ68Cfg6IX5ToFZetOofWzO0
-         BYRSlArDCcC3MFLFOVjGwxdUDMiVpofpEUuD7eVvnZhc3pKa3o40PhQ+N5v1xnfGhSyw
-         npngZghlZi1LWVcJuskyke/BN+YElmXLwMn5GfZ9bMuEMwszDMwV+JKVZlxkrxzYugjt
-         hooCPiwL+llwUWDli5NdYLrXjOya1S8W8Q/V6lKkJT1rbRG0lfgw/B+3lGiCNgucnV+E
-         Jmig==
-X-Gm-Message-State: AOAM532QWAh3n1ncoaAVjf7PgBGK87lV+QJ/5gr6AVrVoBXp0qAUC26K
-        K0x4IcYHGwNLB1DlYDMbC/H4HmTd5+Upq6i0PAswCw==
-X-Google-Smtp-Source: ABdhPJxmyDJBfSyvbdI9dLWs8zeazyEu5My7Y4TtfaD2ngwyDX1ng6dTOgkazyM8zq5NQfwyTeaMmDjfcRV2sJdGoAs=
-X-Received: by 2002:a19:5016:: with SMTP id e22mr16576212lfb.299.1625098083067;
- Wed, 30 Jun 2021 17:08:03 -0700 (PDT)
+        bh=CmjVxgCuZa7W1IB2rE7Ahs8xwAc6kD7PBq+4uE9+JOg=;
+        b=BeC+/fw4iQF1CS94S7E3TFmgCoMR7CyxGPfhWDQtIMo7O6qEK6sfQtdA+idOshNpwy
+         C1qpHHSx4oEudL+06wvyvf1lb1jEz9mkSHFrifLR3mLDCYBlzdiXoxnOzByEY7VA6ust
+         SAtaA6u927bD8e0EdMfQtcak+Eem/UI71ihqOeYi3XlCsJ+AuN4KsLqu3Pn4PQBShAzx
+         7pMNeO6GsCJphZDVBzLAAGHYOHVJviEl3uK8xi2I1/RsJy3v3+qwl3eZZUb3c4FoODzB
+         vwu+KK6H2J2XOy4SOHU4xyaTHrHKFt82tfPosLtFj5rjMCEC3Xpt0BNVgARLvErhAQDr
+         24/g==
+X-Gm-Message-State: AOAM5307cSxsM/6H2WdfC6f4ZwuKeRd35Nw8I4DBfwjKp2uGTt2jI89d
+        rYwPgd7H0/L7km5+P30AdnXMmoTc0YHpIgnPaC0ZAg==
+X-Google-Smtp-Source: ABdhPJxhdsug23dO9aKrK0MJcADXuwga3FJN8Rqu74M+5beXZR3CMYGYDeoM6AE7Daeb6YUcq+j6pJ9NWKihh6AqwT8=
+X-Received: by 2002:a19:5016:: with SMTP id e22mr16601403lfb.299.1625098698637;
+ Wed, 30 Jun 2021 17:18:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210628133355.18576-1-sj38.park@gmail.com> <20210628133355.18576-4-sj38.park@gmail.com>
-In-Reply-To: <20210628133355.18576-4-sj38.park@gmail.com>
+References: <20210621083108.17589-1-sj38.park@gmail.com> <20210621083108.17589-6-sj38.park@gmail.com>
+In-Reply-To: <20210621083108.17589-6-sj38.park@gmail.com>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 30 Jun 2021 17:07:51 -0700
-Message-ID: <CALvZod6jTB=L34gh2awfOH=+3jZ0DCxXPtmj7NO95DzfqJ_MGA@mail.gmail.com>
-Subject: Re: [PATCH v32 03/13] mm/damon: Adaptively adjust regions
+Date:   Wed, 30 Jun 2021 17:18:07 -0700
+Message-ID: <CALvZod4zE812VjubFKfbTG_jF7-uX5kT48=XQ+2cYxnzsY9-fQ@mail.gmail.com>
+Subject: Re: [PATCH v31 05/13] mm/damon: Implement primitives for the virtual
+ memory address spaces
 To:     SeongJae Park <sj38.park@gmail.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
@@ -88,26 +89,64 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 28, 2021 at 6:34 AM SeongJae Park <sj38.park@gmail.com> wrote:
+On Mon, Jun 21, 2021 at 1:31 AM SeongJae Park <sj38.park@gmail.com> wrote:
 >
 > From: SeongJae Park <sjpark@amazon.de>
 >
-> Even somehow the initial monitoring target regions are well constructed
-> to fulfill the assumption (pages in same region have similar access
-> frequencies), the data access pattern can be dynamically changed.  This
-> will result in low monitoring quality.  To keep the assumption as much
-> as possible, DAMON adaptively merges and splits each region based on
-> their access frequency.
+> This commit introduces a reference implementation of the address space
+> specific low level primitives for the virtual address space, so that
+> users of DAMON can easily monitor the data accesses on virtual address
+> spaces of specific processes by simply configuring the implementation to
+> be used by DAMON.
 >
-> For each ``aggregation interval``, it compares the access frequencies of
-> adjacent regions and merges those if the frequency difference is small.
-> Then, after it reports and clears the aggregated access frequency of
-> each region, it splits each region into two or three regions if the
-> total number of regions will not exceed the user-specified maximum
-> number of regions after the split.
+> The low level primitives for the fundamental access monitoring are
+> defined in two parts:
 >
-> In this way, DAMON provides its best-effort quality and minimal overhead
-> while keeping the upper-bound overhead that users set.
+> 1. Identification of the monitoring target address range for the address
+>    space.
+> 2. Access check of specific address range in the target space.
+>
+> The reference implementation for the virtual address space does the
+> works as below.
+>
+> PTE Accessed-bit Based Access Check
+> -----------------------------------
+>
+> The implementation uses PTE Accessed-bit for basic access checks.  That
+> is, it clears the bit for the next sampling target page and checks
+> whether it is set again after one sampling period.  This could disturb
+> the reclaim logic.  DAMON uses ``PG_idle`` and ``PG_young`` page flags
+> to solve the conflict, as Idle page tracking does.
+>
+> VMA-based Target Address Range Construction
+> -------------------------------------------
+>
+> Only small parts in the super-huge virtual address space of the
+> processes are mapped to physical memory and accessed.  Thus, tracking
+> the unmapped address regions is just wasteful.  However, because DAMON
+> can deal with some level of noise using the adaptive regions adjustment
+> mechanism, tracking every mapping is not strictly required but could
+> even incur a high overhead in some cases.  That said, too huge unmapped
+> areas inside the monitoring target should be removed to not take the
+> time for the adaptive mechanism.
+>
+> For the reason, this implementation converts the complex mappings to
+> three distinct regions that cover every mapped area of the address
+> space.  Also, the two gaps between the three regions are the two biggest
+> unmapped areas in the given address space.  The two biggest unmapped
+> areas would be the gap between the heap and the uppermost mmap()-ed
+> region, and the gap between the lowermost mmap()-ed region and the stack
+> in most of the cases.  Because these gaps are exceptionally huge in
+> usual address spaces, excluding these will be sufficient to make a
+> reasonable trade-off.  Below shows this in detail::
+>
+>     <heap>
+>     <BIG UNMAPPED REGION 1>
+>     <uppermost mmap()-ed region>
+>     (small mmap()-ed regions and munmap()-ed regions)
+>     <lowermost mmap()-ed region>
+>     <BIG UNMAPPED REGION 2>
+>     <stack>
 >
 > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
