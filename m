@@ -2,166 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2717C11F6F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD004C11F64
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:54:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD38861418
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:41:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B488613CB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 15:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233908AbhGAPnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 11:43:45 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:33460 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233478AbhGAPnn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 11:43:43 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5115C1FF9F;
-        Thu,  1 Jul 2021 15:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1625154071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=G69zxKbsxOLrDAWJJ9Z7GaK6BkQv1ecXGrGE66wDZY4=;
-        b=k7diIjgxgp519Bws0M2apgmMZPQgcbkXdwQN0TZznNqdv7u0OBYRhwd01KU7/d0cHYZqvN
-        Raw++g2sMPDaMefuQdXLRLj4Frw/LkHiTFHwERBRZFJSCcbJjbg1aPfhqGLeEOfvDO3P9l
-        fiUMpmBUOxjHRVzt8Iu/eYUHt+n5uu8=
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        by imap.suse.de (Postfix) with ESMTP id DE10511CD6;
-        Thu,  1 Jul 2021 15:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1625154071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=G69zxKbsxOLrDAWJJ9Z7GaK6BkQv1ecXGrGE66wDZY4=;
-        b=k7diIjgxgp519Bws0M2apgmMZPQgcbkXdwQN0TZznNqdv7u0OBYRhwd01KU7/d0cHYZqvN
-        Raw++g2sMPDaMefuQdXLRLj4Frw/LkHiTFHwERBRZFJSCcbJjbg1aPfhqGLeEOfvDO3P9l
-        fiUMpmBUOxjHRVzt8Iu/eYUHt+n5uu8=
-Received: from director2.suse.de ([192.168.254.72])
-        by imap3-int with ESMTPSA
-        id QPcVNRbi3WAOFwAALh3uQQ
-        (envelope-from <jgross@suse.com>); Thu, 01 Jul 2021 15:41:10 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH 6/6] x86/kvm: add boot parameter for setting max number of vcpus per guest
-Date:   Thu,  1 Jul 2021 17:41:05 +0200
-Message-Id: <20210701154105.23215-7-jgross@suse.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210701154105.23215-1-jgross@suse.com>
-References: <20210701154105.23215-1-jgross@suse.com>
+        id S233840AbhGAP5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 11:57:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233585AbhGAP5T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Jul 2021 11:57:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B78246141C;
+        Thu,  1 Jul 2021 15:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625154888;
+        bh=O06CAm7WJ4496cl30laeh/1AvJeU0pg7XZCQUJVmPNI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QlSj3zmd+DKrGqUvD72miBdMUZIXTb216PgVdkwcPqnvLsMr867mXlEqDq3QnwZ+o
+         Wql2K9G2Vll5l1DyycbEqKM0DGtSU39lyIkdjUgiQgDgjG7FQgJzC8SDIFdEm9xhAx
+         /cSZaF4kge8xK8zZ2YK4jmtvQdud1z14C+9V7SVHkdqJ1McdaF6qj72Rp6GcZfLLBd
+         sgBNRCUF5z0/Q8NYKdTha1V0p6O8IuQSLUCrloWxfH4zSeDPEwQI7TKPj5KwfDfbfQ
+         dxyauCjZ4GtC8vlAnNaRkDGazuU2kcCQJOtyPBRncRnGFg+fwanYeReKmO1kdnZrHC
+         5WjElVD6y/z4A==
+Received: by mail-ed1-f45.google.com with SMTP id t3so9078714edt.12;
+        Thu, 01 Jul 2021 08:54:48 -0700 (PDT)
+X-Gm-Message-State: AOAM530KU7gRY7sryMQqoLck0aZAab2Xcmng5anq5ETrgf/KI/b9Yu1H
+        tvYMjP5cyamfkwlcVOjgU9mRs2KTb6ZufTTpkg==
+X-Google-Smtp-Source: ABdhPJyDGAPIxTTNb6EWHJ2bVQwwFnuQfTQVDIiAx37Nf4MM2e0CE5x4dJwLmA9fI5C6HgKQd8YK6NB1MjuOVMKZnSU=
+X-Received: by 2002:aa7:c54b:: with SMTP id s11mr627155edr.373.1625154887254;
+ Thu, 01 Jul 2021 08:54:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210625235532.19575-1-dipenp@nvidia.com> <20210625235532.19575-5-dipenp@nvidia.com>
+In-Reply-To: <20210625235532.19575-5-dipenp@nvidia.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 1 Jul 2021 09:54:35 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLUc=_oyutBQ0rQP7uGhwh2dQeOng0ZEAfgOdqjGbiwOA@mail.gmail.com>
+Message-ID: <CAL_JsqLUc=_oyutBQ0rQP7uGhwh2dQeOng0ZEAfgOdqjGbiwOA@mail.gmail.com>
+Subject: Re: [RFC 04/11] dt-bindings: Add HTE bindings
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        warthog618@gmail.com, devicetree@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Today the maximum number of vcpus of a kvm guest is set via a #define
-in a header file.
+On Fri, Jun 25, 2021 at 5:48 PM Dipen Patel <dipenp@nvidia.com> wrote:
+>
+> Introduces HTE devicetree binding details for the HTE subsystem. It
+> includes examples for the consumers, binding details for the providers
+> and specific binding details for the Tegra194 based HTE providers.
+>
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> ---
+>  .../devicetree/bindings/hte/hte-consumer.yaml | 47 +++++++++++
+>  .../devicetree/bindings/hte/hte.yaml          | 34 ++++++++
+>  .../bindings/hte/nvidia,tegra194-hte.yaml     | 83 +++++++++++++++++++
+>  3 files changed, 164 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/hte.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/hte/hte-consumer.yaml b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+> new file mode 100644
+> index 000000000000..79ae1f7d5185
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+> @@ -0,0 +1,47 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/hte-consumer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HTE Consumer Device Tree Bindings
+> +
+> +maintainers:
+> +  - Dipen Patel <dipenp@nvidia.com>
+> +
+> +description: |
+> +  HTE properties should be named "htes". The exact meaning of each htes
+> +  property must be documented in the device tree binding for each device.
+> +  An optional property "hte-names" may contain a list of strings to label
+> +  each of the HTE devices listed in the "htes" property.
+> +
+> +  The "hte-names" property if specified is used to map the name of the HTE
+> +  device requested by the devm_of_hte_request_ts() or of_hte_request_ts
+> +  call to an index into the list given by the "htes" property.
+> +
+> +properties:
+> +  htes:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      The list of HTE provider phandle. The provider must document the number
+> +      of cell that must be passed in this property along with phandle.
+> +
+> +  hte-names:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    description:
+> +      An optional string property.
+> +
+> +required:
+> +  - "htes"
+> +
+> +dependencies:
+> +  hte-names: [ htes ]
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    hte_irq_consumer {
+> +              htes = <&tegra_hte_lic 0x19>;
+> +              hte-names = "hte-irq";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/hte/hte.yaml b/Documentation/devicetree/bindings/hte/hte.yaml
+> new file mode 100644
+> index 000000000000..e285c38f1a05
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/hte.yaml
+> @@ -0,0 +1,34 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/hte.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HTE providers
+> +
+> +maintainers:
+> +  - Dipen Patel <dipenp@nvidia.com>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^hte(@.*|-[0-9a-f])*$"
+> +
+> +  "#hte-cells":
+> +    description:
+> +      Number of cells in a HTE specifier.
+> +
+> +required:
+> +  - "#hte-cells"
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    tegra_hte_aon: hte@c1e0000 {
+> +              compatible = "nvidia,tegra194-gte-aon";
+> +              reg = <0xc1e0000 0x10000>;
+> +              interrupts = <0 13 0x4>;
+> +              int-threshold = <1>;
+> +              slices = <3>;
+> +              #hte-cells = <1>;
+> +    };
+> \ No newline at end of file
+> diff --git a/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> new file mode 100644
+> index 000000000000..bb76cc1971f0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/nvidia,tegra194-hte.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Tegra194 on chip generic hardware timestamping engine (HTE)
 
-In order to support higher vcpu numbers for guests without generally
-increasing the memory consumption of guests on the host especially on
-very large systems add a boot parameter for specifying the number of
-allowed vcpus for guests.
+I had to read until here to know what HTE is.
 
-The default will still be the current setting of 288. The value 0 has
-the special meaning to limit the number of possible vcpus to the
-number of possible cpus of the host.
+Is there another example of this type of h/w that this should be a
+generic binding?
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
- arch/x86/include/asm/kvm_host.h                 |  5 ++++-
- arch/x86/kvm/x86.c                              |  7 +++++++
- 3 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 99bfa53a2bbd..8eb856396ffa 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2373,6 +2373,16 @@
- 			guest can't have more vcpus than the set value + 1.
- 			Default: 1023
- 
-+	kvm.max_vcpus=	[KVM,X86] Set the maximum allowed numbers of vcpus per
-+			guest. The special value 0 sets the limit to the number
-+			of physical cpus possible on the host (including not
-+			yet hotplugged cpus). Higher values will result in
-+			slightly higher memory consumption per guest. Depending
-+			on the value and the virtual topology the maximum
-+			allowed vcpu-id might need to be raised, too (see
-+			kvm.max_vcpu_id parameter).
-+			Default: 288
-+
- 	l1tf=           [X86] Control mitigation of the L1TF vulnerability on
- 			      affected CPUs
- 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 39cbc4b6bffb..65ae82a5d444 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -37,7 +37,8 @@
- 
- #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
- 
--#define KVM_MAX_VCPUS 288
-+#define KVM_DEFAULT_MAX_VCPUS 288
-+#define KVM_MAX_VCPUS max_vcpus
- #define KVM_SOFT_MAX_VCPUS 240
- #define KVM_DEFAULT_MAX_VCPU_ID 1023
- #define KVM_MAX_VCPU_ID max_vcpu_id
-@@ -1509,6 +1510,8 @@ extern u64  kvm_max_tsc_scaling_ratio;
- extern u64  kvm_default_tsc_scaling_ratio;
- /* bus lock detection supported? */
- extern bool kvm_has_bus_lock_exit;
-+/* maximum number of vcpus per guest */
-+extern unsigned int max_vcpus;
- /* maximum vcpu-id */
- extern unsigned int max_vcpu_id;
- /* per cpu vcpu bitmasks (disable preemption during usage) */
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index a9b0bb2221ea..888c4507504d 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -177,6 +177,10 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
- int __read_mostly pi_inject_timer = -1;
- module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
- 
-+unsigned int __read_mostly max_vcpus = KVM_DEFAULT_MAX_VCPUS;
-+module_param(max_vcpus, uint, S_IRUGO);
-+EXPORT_SYMBOL_GPL(max_vcpus);
-+
- unsigned int __read_mostly max_vcpu_id = KVM_DEFAULT_MAX_VCPU_ID;
- module_param(max_vcpu_id, uint, S_IRUGO);
- 
-@@ -10648,6 +10652,9 @@ int kvm_arch_hardware_setup(void *opaque)
- 	if (boot_cpu_has(X86_FEATURE_XSAVES))
- 		rdmsrl(MSR_IA32_XSS, host_xss);
- 
-+	if (max_vcpus == 0)
-+		max_vcpus = num_possible_cpus();
-+
- 	kvm_pcpu_vcpu_mask = __alloc_percpu(KVM_VCPU_MASK_SZ,
- 					    sizeof(unsigned long));
- 	kvm_hv_vp_bitmap = __alloc_percpu(KVM_HV_VPMAP_SZ, sizeof(u64));
--- 
-2.26.2
-
+Rob
