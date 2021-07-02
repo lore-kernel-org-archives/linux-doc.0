@@ -2,116 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D466FC07E97
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 18:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2213C07E95
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 21:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD7B36141D
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 18:20:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87B7F613F5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 21:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbhGBSWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jul 2021 14:22:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51793 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229455AbhGBSWh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jul 2021 14:22:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625250005;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ljBkCCbVc5OdHhjmFR2eMLVXMDCuwitek0RrMPP1ROw=;
-        b=CbuS5pXuK+a+M6SL6pxksOea0CdJ6oAcvw+BJZucHx+0ttcLscql1f4ImITZIWbqgyVzY4
-        8l8yCUF6bdF4QvQXIvgmm/82TsmBfO6LWVjsOCtT9k58HCejNO8aL7gojJOZNHuMcVlY9+
-        eRttqT6UB90PGWfel/sDkGWrv7GEa+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-vXm2Qzy_NPCQampVscaRcA-1; Fri, 02 Jul 2021 14:20:01 -0400
-X-MC-Unique: vXm2Qzy_NPCQampVscaRcA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FF17C7403;
-        Fri,  2 Jul 2021 18:19:56 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-115-5.ams2.redhat.com [10.36.115.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E6FD060853;
-        Fri,  2 Jul 2021 18:19:47 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-audit/audit-kernel 
-        <reply+ADSN7RXLQ62LNLD2MK5HFHF65GIU3EVBNHHDPMBXHU@reply.github.com>,
-        Xiongfeng Wang <wangxiongfeng2@huawei.com>,
-        bobo.shaobowang@huawei.com,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: Re: [linux-audit/audit-kernel] BUG: audit_classify_syscall() fails
- to properly handle 64-bit syscalls when executing as 32-bit application on
- ARM (#131)
-References: <linux-audit/audit-kernel/issues/131@github.com>
-        <linux-audit/audit-kernel/issues/131/872191450@github.com>
-        <YN9V/qM0mxIYXt3h@yury-ThinkPad>
-Date:   Fri, 02 Jul 2021 20:19:46 +0200
-In-Reply-To: <YN9V/qM0mxIYXt3h@yury-ThinkPad> (Yury Norov's message of "Fri, 2
-        Jul 2021 11:07:58 -0700")
-Message-ID: <87zgv4y3wd.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        id S231935AbhGBVDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jul 2021 17:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231702AbhGBVDx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jul 2021 17:03:53 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F00C061762
+        for <linux-doc@vger.kernel.org>; Fri,  2 Jul 2021 14:01:20 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id cs1-20020a17090af501b0290170856e1a8aso10017276pjb.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Jul 2021 14:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=YVc0vmr7jKGqyaQ1EO/OApXH28jA8mU20vTfFqqb1zQ=;
+        b=uzNDJ+tjiYjMk1yGd3UQYZx44l2gzJi8h0im5WQbvz5iT0PccOTx/u+tawU716yqHm
+         sCx6sDKcwX3hXNMgb5/NRBA0+vqj8vU15xrGUIR0diqY6Jb2JnMYzvncfxs92hqBNsuS
+         QVz3j7e5ADRTGe8ZSArdhm6RDi/LQAa50PoYYIDWZ90kPeQcdZ+eo+tOdkXBX0ZWm+S/
+         AXr3fCqGP82kSXPyNoJwVWeQDdIVI5UEMrcHqGjziDjVOhYhHxgJTm0u4Obzc07eFQr+
+         tC72mrWC3M80QcO4lMJ7mlLpDjj4JX6zNiuUSJimvOxr4A80JAwJgKU1Hu8qhZi7/00c
+         q5PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=YVc0vmr7jKGqyaQ1EO/OApXH28jA8mU20vTfFqqb1zQ=;
+        b=Bfx0wb9DBB+xNML/b8RNr5ahjFTkXJQB87gsGgWEq+2DuVGZiHucMtlU6qOF+a0+V5
+         F7xAlSgSH0AK6ETSN11brGw+7sn/HN7Oj5vr/1t4OQNsV9pQJOYbKE49y4k/g7e2Eh7a
+         VZnEKXUbBiWl1ODoR9s7vZCulaMhXRGjtgbVCbiFGHuDtp1RBw3PgmjVIkiAL8hiv9oY
+         zR7Mr1FIZXt/IY/Y4ZoUXHKhfNK2C9ldAksg5ONDRmZGz2l1tOhe0cNVjBPGPSJmOdSy
+         4CSpviHk1Aw8EUzIq84ACwzQ7spZbC38luPhE3zqAG3OZ6EEnWpWPNta5Kk5m9ylCJ4y
+         tTnw==
+X-Gm-Message-State: AOAM531mpn9zRJUiXonnHN7Azue02hpj64jd85wfLi7Xr4V16Fcg8pH2
+        HRq62J16JLUhEndLqYvdNG3SGQE+QdN6YnGTidhm+tQs88A=
+X-Google-Smtp-Source: ABdhPJyQrbYwCsBo7Ok+tejxo78wXYP7eF6nrsSZpsFXpwkSk/wnnOt1DOmeJ2QpntdQaEp3S1AC0FnHxn58Ug7YyJI=
+X-Received: by 2002:a17:902:bd82:b029:129:2e87:9946 with SMTP id
+ q2-20020a170902bd82b02901292e879946mr1351969pls.53.1625259679686; Fri, 02 Jul
+ 2021 14:01:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+From:   Shinwoo Lee <shinwoo.lee.us@gmail.com>
+Date:   Fri, 2 Jul 2021 14:01:08 -0700
+Message-ID: <CAJMZz3_M34cy4ZbKGLZniGeUPOoJ7DMXdDOQxy-T44_cQ1+Udw@mail.gmail.com>
+Subject: I would like to contribute to Kernel documents (Korean translation)
+To:     linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yury Norov:
+Hi,
+I would like to provide Korean translations to kernel documentations.
+Could you guide me how?
+Any type/segment would be good, though I prefer something related to
+802.11 drivers (which I develop at work)
 
-> At least Marvell, Samsung, Huawei, Cisco and Weiyuchen's employer
-> actively use and develop arm64/ilp32. I receive feedback / bugrepotrs
-> on ilp32 every 4-6 month. Is that enough for you to reconsider
-> including the project into the mainline?
+A little about me:
+- I develop 802.11ah (HaLow) embedded firmware and device drivers in
+extension to the Linux Kernel on Raspberry Pi
+- I moved from Korea to the US for work. Figured I could help many
+Korean developers who are extremely skilled but not so good at
+English. I can lower those barriers
+- I had run my own translation agency before, and am good at efficient
+yet smooth technical writing
 
-I believe that glibc has the infrastructure now to integrate an ILP32
-port fairly cleanly, although given that it would be first
-post-libpthread work, it would have to absorb some of the cleanup work
-for such a configuration.
+I believe it would be a mutual win for both of us. Will be looking
+forward to hearing from you.
 
-(I do not plan to work on this myself.)
 
-Thanks,
-Florian
 
+Regards,
+Shinwoo
