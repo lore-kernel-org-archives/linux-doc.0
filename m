@@ -2,224 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9A3C11F6C
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 23:56:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84902C11F67
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 02:42:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C648161429
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jul 2021 23:56:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5237E61407
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jul 2021 02:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234106AbhGAX6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jul 2021 19:58:35 -0400
-Received: from mail-0201.mail-europe.com ([51.77.79.158]:41754 "EHLO
-        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234063AbhGAX6f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jul 2021 19:58:35 -0400
-Date:   Thu, 01 Jul 2021 23:55:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
-        t=1625183728; bh=vHKTUFhjrBhE16qbi5KjG4YoGMyuu2TJDAhJMIvSDHc=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=ZWl1K/duuR6AkGbFqdy6cxxNtf7pKljObHGE4X/oR6EYdDyUwWCwF2Ff/bEdjc9nX
-         ef/FbVZ++YU88xuXpiILi13tx+OleonACFBno8YKNjjiKfNTD0zGi/qFQzQvSjRHyJ
-         4ZWqP8fqn77rZH37BgnXHbwSt20DAWMhVpdgLvjTOQhfS9WlQ6UZmhaeYxxxmLJZP9
-         rHo2jA5qUmZnHl6/dCDgriCLD8rKyIsu1vFt8y2qlUhsd/OgtjpZ2oaMhsJRzv1aO+
-         vzPRrkg/9OdFkwIV2Pk3+FSTQ1/RAtbrOfbUMHwDRlq54u89NrK8RoJsrvDeWwfvIO
-         ewHvePbW8p0tQ==
-To:     John Wood <john.wood@gmx.com>
-From:   Alexander Lobakin <alobakin@pm.me>
-Cc:     Alexander Lobakin <alobakin@pm.me>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Arnd Bergmann <arnd@arndb.de>, Andi Kleen <ak@linux.intel.com>,
-        valdis.kletnieks@vt.edu,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Reply-To: Alexander Lobakin <alobakin@pm.me>
-Subject: Re: [PATCH v8 3/8] security/brute: Detect a brute force attack
-Message-ID: <20210701234807.50453-1-alobakin@pm.me>
+        id S234672AbhGBCoc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jul 2021 22:44:32 -0400
+Received: from mail-mw2nam12on2079.outbound.protection.outlook.com ([40.107.244.79]:31492
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234627AbhGBCob (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Jul 2021 22:44:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i0TkbUYtx5WZhydjWYmKm2bCztCisV/pSaKYqd3Q9uLRVA7SpAfz5lNLJiv+kdw+EH2+JhthPu3M+uAR2dFgxcaPP09YslQAicw9hMwK5e8MYMnUw7zTR4hyUTosTT2p0UtdFvvAmCh/8It18Ul/rLgpWB2YNHFqWmme9+iiIwCzVzi9Ei2ZypLOeQLZwvFyVPmig+Kt9boFjXmJKxbRJXqSCxd0Qm/zZZOoyeEabnPGoARCLxll5tOlpEFQYsMvhleNAfkOSX+dMLN1N6ryuI4TCrgOSnPg1CKlvRu6EjkLIBOz1fvR1ususlzhKLsnhay8kjhQzN2OsxF3McTh6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmih0ZkrQRtOyKqpwRo6Syp55s5YzsKcF5xym9wFPUk=;
+ b=LtS/+pU5uDh2Zmv4N1t2IGKhbGr6StgQvWl+I0pqyrVLDT/bckWNFFe3fRa1rkM0rOBkdOOnyH0OgaLlbgyad9egX1IGDbnHUTIib/9Ze/9oGvILN/EXcaJVcpgNZhRjx0Hhkm4BUdlz1CQP7JFDXoQ8yIURYJLw/b5n0poXm7s7gJz3djYP2Mro3QVsJurCyUljBGmoNb+o76mWwQ73SItOLKSQseMHi5dmpZHaWcYbpDgmiTuCVHOKfDKcjLBiQeUFnHC0tWMUVBIlArfTqTf5AyEmp1abe+3B1+trO2RgbOOzdzWPwfPsqTMsLSLWmMUgM1mY0JReNKSu2ab8EQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmih0ZkrQRtOyKqpwRo6Syp55s5YzsKcF5xym9wFPUk=;
+ b=grIzOmYOY5sKTd4R0TfV7H8i9wBF0ru28JzziDn+QuhUGQ+SXW8a0J9oNcIo4gbFhwv7PyoypLZGZctbK2T0lL3FkaRJs0+Sph0vmc+/nDl3gcPog5Fk4mqwivySm1ud3WHLWaicePg84Z8+fB+9Vai2SF6gj46K4Ld0Va9WR5g=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5357.namprd12.prod.outlook.com (2603:10b6:5:39b::24)
+ by DM6PR12MB5518.namprd12.prod.outlook.com (2603:10b6:5:1b9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Fri, 2 Jul
+ 2021 02:41:53 +0000
+Received: from DM4PR12MB5357.namprd12.prod.outlook.com
+ ([fe80::9d97:11b:bb35:d2e6]) by DM4PR12MB5357.namprd12.prod.outlook.com
+ ([fe80::9d97:11b:bb35:d2e6%5]) with mapi id 15.20.4264.026; Fri, 2 Jul 2021
+ 02:41:53 +0000
+Date:   Fri, 2 Jul 2021 10:41:23 +0800
+From:   Wesley Sheng <wesley.sheng@amd.com>
+To:     linasvepstas@gmail.com, ruscur@russell.cc, oohall@gmail.com,
+        bhelgaas@google.com, corbet@lwn.net, linux-pci@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     wesleyshenggit@sina.com
+Subject: Re: [PATCH] Documentation: PCI: pci-error-recovery: rearrange the
+ general sequence
+Message-ID: <20210702024123.GA2714@buildhost>
+References: <20210618060446.7969-1-wesley.sheng@amd.com>
+ <20210701222231.GA102933@bjorn-Precision-5520>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210701222231.GA102933@bjorn-Precision-5520>
+X-Originating-IP: [165.204.134.244]
+X-ClientProxiedBy: HK2PR06CA0011.apcprd06.prod.outlook.com
+ (2603:1096:202:2e::23) To DM4PR12MB5357.namprd12.prod.outlook.com
+ (2603:10b6:5:39b::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from buildhost (165.204.134.244) by HK2PR06CA0011.apcprd06.prod.outlook.com (2603:1096:202:2e::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22 via Frontend Transport; Fri, 2 Jul 2021 02:41:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4beaef6f-8996-4cd9-f933-08d93d02f3c1
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5518:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB5518AF20E869BAF204A87CCC951F9@DM6PR12MB5518.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Yd8qLaRHn1Xr2m4pj8NkJbYRYSwiwm8eYoMCNdqOKZQ6hkr3wQb42Y+tjhdPrh5R94nQn91+K6gkHsBWD0oqGo8By3ECZBGO+lAlQcn+XgQqhryOdL+hJP+fnEoY5Z63SB8C1aFmYR7pCehV8IiFq6+ymGBpT1psirGSxWWKFDffsoAEDM9f0FWfSJmsyLAxSIGvi1p2KdpbUOcl5Q6oe765RwcC322LmOEj//MaCnhnwvHGXz6geUWPRufk+Ccf8x/o/vqN4AoaDB0HZnZMQch1O47w/099b0P9dXFNLIQc9vxvq/qH7pmXrhY5DgzvL4u2EFRaNoeCle4e4lc79309M3DXLIfEzNQmxT3eR+5kAbOIVvx2X1WmApULQa/iIVI6YWW/tS9xeE7/59K44ywMLyi93K9TLjmEde+mhpGnW6DKr2QEdA+/MTBiKG2IuW5zIayMZqFcoG27HcETr8udVsXkG/8hTQUmdIBZbjj5jDiRIO5/54i/ObeEZr0KecV+afu6T4HTMwVTtSf6V8PpIwDw/NnIq1llHN1DpBGOVdSTGA9HaYeso/HL03lRBkVBD9ewbfCXrF2/bJgW98mH+xNLWGzYDLSdpLqIvPm/L4uMjCE9pCtRvEEGsYoSUfqZimbzw+tg3+iC8YkjvY+3AycqI9WBi2vYd0Q7dcuQVGSN98YWtrVQ+T4JqAkHrcwDXBWBqtvUdJJ3IB+cQg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5357.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(366004)(396003)(478600001)(1076003)(316002)(33716001)(8676002)(44832011)(7416002)(2906002)(8936002)(4326008)(9576002)(956004)(83380400001)(33656002)(38350700002)(6496006)(52116002)(66556008)(66476007)(86362001)(55016002)(9686003)(5660300002)(66946007)(186003)(6666004)(38100700002)(16526019)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?82VUYWDuV7SC5Y+Df4xDvTlgEXYSy1+5RbPTrNT+cH0dv4mDjJAcLIbR3toD?=
+ =?us-ascii?Q?d3GuM8JFYLPI+TMU1iH1GsGPeZd1JvTAluiIICJE4g4NWY9uskindu/m9gwt?=
+ =?us-ascii?Q?LoIEY39JJAmALbz3p7Bv1EpyKP0qOFt+91TzNF5RGnRTNa0O6rAzcJsc94Rt?=
+ =?us-ascii?Q?KL3moY9D6i4pDf3M+dLzOC6b0Aj/+z1jRN4/Mzm+/iKRTqonCI4rMnkHrBpX?=
+ =?us-ascii?Q?DYBSIFEW2EBDDBVKQ/M7FJGg7ozQqyCK0x3UqKE4slM1UnMM8hXTlMGH5rEj?=
+ =?us-ascii?Q?oHAzGEoVmDB9MxdqUA/V+v77cHRGw2/mjXNwvXFMNlB8pKPkKLunx7/uWQAH?=
+ =?us-ascii?Q?LQciIOFYNj6weBd3kVKnt2shtgTFdXUmq4Z10k2acGzny6PxNJaWvtmSEg4A?=
+ =?us-ascii?Q?RwSqRFSRPlXsMrX6WfzqK4XeRI2W1bERwPQA1nX/dS0jOKMflrH67WVB02PG?=
+ =?us-ascii?Q?l7OITzWZrJfDCMtAhtcLRfXuYxcLtuFshyEvj5mboBSxZvJf4O4beaNW6vyI?=
+ =?us-ascii?Q?f2U4+OPgEyIus8bzjbuEVZLY8mzCn2Jw67CQCIZlb4jYFMkqkhcaONgIHplS?=
+ =?us-ascii?Q?71AUP7SNc76TJ/zvXczlxrXjzqO7HUCEKqZB/hLRMKLBTHhmYdOKJ/3Bl+z3?=
+ =?us-ascii?Q?lNiz6CfBX++QcIM6j3oalzyxlHtfvyZiTnqTG9izpQtBkhCVEs1fNeAN+wzE?=
+ =?us-ascii?Q?D+et/RASs6t889tDKFGWWAPUIgLsgj6bqM4bsNOaVcPj78kD0sOwaoBCBfGZ?=
+ =?us-ascii?Q?uBokNAQRUxDfrnLRmIsZA6BI1Y9Z0ly9LUPYWXy0X1GyCjK1Tp4XxpFntWZq?=
+ =?us-ascii?Q?+XI+2rb3A/Z5uZvPVhCS2GGa1asdB/MeUTsZl5By+kwB9yRopcU0O2uXXaKa?=
+ =?us-ascii?Q?xkMfR1Vbm1Vu4Kcnzvh87foA2zmfDSn262zneqUdX1CSaAUCKJOIGykjLst1?=
+ =?us-ascii?Q?JttvJIkNscW5GWp1CV+PqwrP4RuacDg0GSa8Pl13MRZw0lqg2ken8kxMQ+Nc?=
+ =?us-ascii?Q?s7iHr//402uYESpwQsfkFMHHocl/N4jHMVAxHwKuFBiAKoDb8/GxtPBTEhc0?=
+ =?us-ascii?Q?EFxqLCFe1xw9gw/1+Ac10Kqp9Pq4zJdvUpWwFS/0of+ke5xbJ6H5pUo5yRb6?=
+ =?us-ascii?Q?jPYsxAaGFX6Bah5ZlAzronE0RmjXzAmeJo+v+zj9/sAeEEPSZI//maFalJXJ?=
+ =?us-ascii?Q?4ILh+5OQdmWawRrAriWiTMfkH+RWkgz34R05cFZTVaMUGvXxAF+K2JxVC0wM?=
+ =?us-ascii?Q?zs0vziMsHz3e7C0UX73KLy7cDjGlEtwaZZscTheIrtL3tpADUGQcfJ5op+na?=
+ =?us-ascii?Q?D7lYqlIyuUHRXKqOq/wUxvam?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4beaef6f-8996-4cd9-f933-08d93d02f3c1
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5357.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2021 02:41:53.9167
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hJJ4OZO20CLgBJwfjN3Clo7kGfeiNHRM7LVk4Fpt4LILlmKOJaR32Ap2mXBUKSR3yfU/n8XaZAKNDCoFsV0Aow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5518
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Jul 01, 2021 at 05:22:31PM -0500, Bjorn Helgaas wrote:
+> Please make the subject a little more specific.  "rearrange the
+> general sequence" doesn't say anything about what was affected.
+> 
+> On Fri, Jun 18, 2021 at 02:04:46PM +0800, Wesley Sheng wrote:
+> > Reset_link() callback function was called before mmio_enabled() in
+> > pcie_do_recovery() function actually, so rearrange the general
+> > sequence betwen step 2 and step 3 accordingly.
+> 
+> s/betwen/between/
+> 
+> Not sure "general" adds anything in this sentence.  "Step 2 and step
+> 3" are not meaningful here in the commit log.  It needs to spell out
+> what those steps are so the log makes sense by itself.
+> 
+> "reset_link" does not appear in pcie_do_recovery().  I'm guessing
+> you're referring to the "reset_subordinates" function pointer?
+>
+Yes, you are right.
+pcieaer-howto.rst has a section named with "Provide callbacks",
+the callback supplied to pcie_do_recovery() was referred to 
+reset_link.
+ 
+> > Signed-off-by: Wesley Sheng <wesley.sheng@amd.com>
+> 
+> I didn't quite understand your response to Oliver, so I'll wait for
+> your corrections and his ack before proceeding.
+>
+OK.
+I thought step 2 MMIO Enabled and step 3 link reset should swap sequence.
 
-From: John Wood <john.wood@gmx.com>
-Date: Sat, 5 Jun 2021 17:04:00 +0200
-
-> For a correct management of a fork brute force attack it is necessary to
-> track all the information related to the application crashes. To do so,
-> use the extended attributes (xattr) of the executable files and define a
-> statistical data structure to hold all the necessary information shared
-> by all the fork hierarchy processes. This info is the number of crashes,
-> the last crash timestamp and the crash period's moving average.
->
-> The same can be achieved using a pointer to the fork hierarchy
-> statistical data held by the task_struct structure. But this has an
-> important drawback: a brute force attack that happens through the execve
-> system call losts the faults info since these statistics are freed when
-> the fork hierarchy disappears. Using this method makes not possible to
-> manage this attack type that can be successfully treated using extended
-> attributes.
->
-> Also, to avoid false positives during the attack detection it is
-> necessary to narrow the possible cases. So, only the following scenarios
-> are taken into account:
->
-> 1.- Launching (fork()/exec()) a setuid/setgid process repeatedly until a
->     desirable memory layout is got (e.g. Stack Clash).
-> 2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedly
->     until a desirable memory layout is got (e.g. what CTFs do for simple
->     network service).
-> 3.- Launching processes without exec() (e.g. Android Zygote) and
->     exposing state to attack a sibling.
-> 4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly
->     until the previously shared memory layout of all the other children
->     is exposed (e.g. kind of related to HeartBleed).
->
-> In each case, a privilege boundary has been crossed:
->
-> Case 1: setuid/setgid process
-> Case 2: network to local
-> Case 3: privilege changes
-> Case 4: network to local
->
-> To mark that a privilege boundary has been crossed it is only necessary
-> to create a new stats for the executable file via the extended attribute
-> and only if it has no previous statistical data. This is done using four
-> different LSM hooks, one per privilege boundary:
->
-> setuid/setgid process --> bprm_creds_from_file hook (based on secureexec
->                           flag).
-> network to local -------> socket_accept hook (taking into account only
->                           external connections).
-> privilege changes ------> task_fix_setuid and task_fix_setgid hooks.
->
-> To detect a brute force attack it is necessary that the executable file
-> statistics be updated in every fatal crash and the most important data
-> to update is the application crash period. To do so, use the new
-> "task_fatal_signal" LSM hook added in a previous step.
->
-> The application crash period must be a value that is not prone to change
-> due to spurious data and follows the real crash period. So, to compute
-> it, the exponential moving average (EMA) is used.
->
-> Based on the updated statistics two different attacks can be handled. A
-> slow brute force attack that is detected if the maximum number of faults
-> per fork hierarchy is reached and a fast brute force attack that is
-> detected if the application crash period falls below a certain
-> threshold.
->
-> Moreover, only the signals delivered by the kernel are taken into
-> account with the exception of the SIGABRT signal since the latter is
-> used by glibc for stack canary, malloc, etc failures, which may indicate
-> that a mitigation has been triggered.
->
-> Signed-off-by: John Wood <john.wood@gmx.com>
->
-> <snip>
->
-> +static int brute_get_xattr_stats(struct dentry *dentry, struct inode *in=
-ode,
-> +=09=09=09=09 struct brute_stats *stats)
-> +{
-> +=09int rc;
-> +=09struct brute_raw_stats raw_stats;
-> +
-> +=09rc =3D __vfs_getxattr(dentry, inode, XATTR_NAME_BRUTE, &raw_stats,
-> +=09=09=09    sizeof(raw_stats));
-> +=09if (rc < 0)
-> +=09=09return rc;
-> +
-> +=09stats->faults =3D le32_to_cpu(raw_stats.faults);
-> +=09stats->nsecs =3D le64_to_cpu(raw_stats.nsecs);
-> +=09stats->period =3D le64_to_cpu(raw_stats.period);
-> +=09stats->flags =3D raw_stats.flags;
-> +=09return 0;
-> +}
->
-> <snip>
->
-> +static int brute_task_execve(struct linux_binprm *bprm, struct file *fil=
-e)
-> +{
-> +=09struct dentry *dentry =3D file_dentry(bprm->file);
-> +=09struct inode *inode =3D file_inode(bprm->file);
-> +=09struct brute_stats stats;
-> +=09int rc;
-> +
-> +=09inode_lock(inode);
-> +=09rc =3D brute_get_xattr_stats(dentry, inode, &stats);
-> +=09if (WARN_ON_ONCE(rc && rc !=3D -ENODATA))
-> +=09=09goto unlock;
-
-I think I caught a problem here. Have you tested this with
-initramfs?
-
-According to init/do_mount.c's
-init_rootfs()/rootfs_init_fs_context(), when `root=3D` cmdline
-parameter is not empty, kernel creates rootfs of type ramfs
-(tmpfs otherwise).
-The thing about ramfs is that it doesn't support xattrs.
-
-I'm running this v8 on a regular PC with initramfs and having
-`root=3D` in cmdline, and Brute doesn't allow the kernel to run
-any init processes (/init, /sbin/init, ...) with err =3D=3D -95
-(-EOPNOTSUPP) -- I'm getting a
-
-WARNING: CPU: 0 PID: 173 at brute_task_execve+0x15d/0x200
-<snip>
-Failed to execute /init (error -95)
-
-and so on (and a panic at the end).
-
-If I omit `root=3D` from cmdline, then the kernel runs init process
-just fine -- I guess because initramfs is then placed inside tmpfs
-with xattr support.
-
-As for me, this ramfs/tmpfs selection based on `root=3D` presence
-is ridiculous and I don't see or know any reasons behind that.
-But that's another story, and ramfs might be not the only one
-system without xattr support.
-I think Brute should have a fallback here, e.g. it could simply
-ignore files from xattr-incapable filesystems instead of such
-WARNING splats and stuff.
-
-> +
-> +=09if (rc =3D=3D -ENODATA && bprm->secureexec) {
-> +=09=09brute_reset_stats(&stats);
-> +=09=09rc =3D brute_set_xattr_stats(dentry, inode, &stats);
-> +=09=09if (WARN_ON_ONCE(rc))
-> +=09=09=09goto unlock;
-> +=09}
-> +
-> +=09rc =3D 0;
-> +unlock:
-> +=09inode_unlock(inode);
-> +=09return rc;
-> +}
-> +
->
-> <snip>
-
-Thanks,
-Al
-
+> > ---
+> >  Documentation/PCI/pci-error-recovery.rst | 23 ++++++++++++-----------
+> >  1 file changed, 12 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+> > index 187f43a03200..ac6a8729ef28 100644
+> > --- a/Documentation/PCI/pci-error-recovery.rst
+> > +++ b/Documentation/PCI/pci-error-recovery.rst
+> > @@ -184,7 +184,14 @@ is STEP 6 (Permanent Failure).
+> >     and prints an error to syslog.  A reboot is then required to
+> >     get the device working again.
+> >  
+> > -STEP 2: MMIO Enabled
+> > +STEP 2: Link Reset
+> > +------------------
+> > +The platform resets the link.  This is a PCI-Express specific step
+> > +and is done whenever a fatal error has been detected that can be
+> > +"solved" by resetting the link.
+> > +
+> > +
+> > +STEP 3: MMIO Enabled
+> >  --------------------
+> >  The platform re-enables MMIO to the device (but typically not the
+> >  DMA), and then calls the mmio_enabled() callback on all affected
+> > @@ -197,8 +204,8 @@ information, if any, and eventually do things like trigger a device local
+> >  reset or some such, but not restart operations. This callback is made if
+> >  all drivers on a segment agree that they can try to recover and if no automatic
+> >  link reset was performed by the HW. If the platform can't just re-enable IOs
+> > -without a slot reset or a link reset, it will not call this callback, and
+> > -instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
+> > +without a slot reset, it will not call this callback, and
+> > +instead will have gone directly or STEP 4 (Slot Reset)
+> 
+> s/or/to/  ?
+> 
+> >  .. note::
+> >  
+> > @@ -210,7 +217,7 @@ instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
+> >     such an error might cause IOs to be re-blocked for the whole
+> >     segment, and thus invalidate the recovery that other devices
+> >     on the same segment might have done, forcing the whole segment
+> > -   into one of the next states, that is, link reset or slot reset.
+> > +   into next states, that is, slot reset.
+> 
+> s/into next states/into the next state/ ?
+> 
+> >  The driver should return one of the following result codes:
+> >    - PCI_ERS_RESULT_RECOVERED
+> > @@ -233,17 +240,11 @@ The driver should return one of the following result codes:
+> >  
+> >  The next step taken depends on the results returned by the drivers.
+> >  If all drivers returned PCI_ERS_RESULT_RECOVERED, then the platform
+> > -proceeds to either STEP3 (Link Reset) or to STEP 5 (Resume Operations).
+> > +proceeds to STEP 5 (Resume Operations).
+> >  
+> >  If any driver returned PCI_ERS_RESULT_NEED_RESET, then the platform
+> >  proceeds to STEP 4 (Slot Reset)
+> >  
+> > -STEP 3: Link Reset
+> > -------------------
+> > -The platform resets the link.  This is a PCI-Express specific step
+> > -and is done whenever a fatal error has been detected that can be
+> > -"solved" by resetting the link.
+> > -
+> >  STEP 4: Slot Reset
+> >  ------------------
+> >  
+> > -- 
+> > 2.25.1
+> > 
