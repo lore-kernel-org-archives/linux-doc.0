@@ -2,119 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E455CC07E97
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 10:22:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE20C07E97
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 11:01:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C000961483
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 10:22:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 090B26162A
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 11:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbhGCKZC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jul 2021 06:25:02 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:24768 "EHLO m43-7.mailgun.net"
+        id S230188AbhGCLDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jul 2021 07:03:42 -0400
+Received: from mout.gmx.net ([212.227.17.21]:53219 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229965AbhGCKZB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Jul 2021 06:25:01 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1625307748; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=UesrN2+v7aKqvcUg70DeSyfvBOp+xLNDroyqYVLCYC8=; b=p2TpSJgRRyMpgG8yWo9DuUxoRT+2TOYBdQwpMa2R+lzIxcR29OQJJ5GTCg0unGiAFyiHfHZw
- LCoioUh/PJ3ZU6M1WuAhI2vAX2K4KLLAEvjNbu4vICumpZVeT5wGqSvJGEChKKknGHsGage2
- DI/i6e3/9hHNd9DnxL5Z5X42kJs=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 60e03a5e5e3e57240b1f8695 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 03 Jul 2021 10:22:22
- GMT
-Sender: charante=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 0137AC4323A; Sat,  3 Jul 2021 10:22:21 +0000 (UTC)
-Received: from [192.168.29.110] (unknown [49.37.159.253])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A04B9C433D3;
-        Sat,  3 Jul 2021 10:22:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A04B9C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH V4,0/3] mm: compaction: proactive compaction trigger by
- user
-To:     akpm@linux-foundation.org, vbabka@suse.cz, corbet@lwn.net,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, rientjes@google.com, mchehab+huawei@kernel.org,
-        lokeshgidra@google.com, andrew.a.klychkov@gmail.com,
-        xi.fengfei@h3c.com, nigupta@nvidia.com,
-        dave.hansen@linux.intel.com, famzheng@amazon.com,
-        mateusznosek0@gmail.com, oleksandr@redhat.com, sh_def@163.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>
-References: <cover.1624028025.git.charante@codeaurora.org>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <c0150787-5f85-29ac-9666-05fabedabb1e@codeaurora.org>
-Date:   Sat, 3 Jul 2021 15:52:10 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230114AbhGCLDm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Jul 2021 07:03:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1625309984;
+        bh=x6a2MKj2i7ny1X6EqqStry+6FExFMd0ABQRz2nQeLYo=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=Wiw7YHneNAj0vRJgTC3prnFX86jII+xEDVN++I+m01JfvLFWKYMxNJThVpPmfNaMr
+         0l1XkxxecRdMGd/ExVwB/L5tXY2XP/EGhE0aQbXZspLThbZgfj0sACe7WncRlHxXDF
+         B6jPov8MEaN5iDIh2XMcRMHpdZpAmshp2gYuSPWM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MC34X-1luSIn2S7R-00CSAc; Sat, 03
+ Jul 2021 12:59:44 +0200
+Date:   Sat, 3 Jul 2021 12:59:28 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Alexander Lobakin <alobakin@pm.me>
+Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Arnd Bergmann <arnd@arndb.de>, Andi Kleen <ak@linux.intel.com>,
+        valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v8 3/8] security/brute: Detect a brute force attack
+Message-ID: <20210703105928.GA2830@ubuntu>
+References: <20210701234807.50453-1-alobakin@pm.me>
+ <20210702145954.GA4513@ubuntu>
+ <20210702170101.16116-1-alobakin@pm.me>
 MIME-Version: 1.0
-In-Reply-To: <cover.1624028025.git.charante@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210702170101.16116-1-alobakin@pm.me>
+X-Provags-ID: V03:K1:IYa/f7HkDU74IlmbpIDqxZ4UnHLocuh2xK/SRcmGwjgHVE0HPwO
+ uvk+ZKPo3XYM/EQ0BhfLQneFfb/z4C4sbQPYymJxVpCLHfTj4keZV746Dag/i+ohT+Tx1/V
+ AzMPePnTmSZE/IiVBtMBldhthrEDhpmLHPUvlxEw3x6L7ewUJ/S8yXJnOJgUuMKIApCRwsB
+ 4agKpfVPAEAY+DauJZ2HA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DDK8tn1k2vk=:EF86SSfY5Vi1KOs8AADY/a
+ 3Cq2nb4xqxxZWH6qOL0VjCqZO9d4DZ7Xx/yAQlHXGZaBU+BQ//fuZI6ljkHqeWhwUkyLivscc
+ qJgrFJ313EhAax10IlN6i1M2HXjw7HFxHekHYXtWwHUYHiWGVHeFwp3HWdCHEbX21FM/z6bXL
+ zbscFiWSbWbcUUPbI4VBKkn12UFjq4r/w+sJ3Wkjny6xTDMx8wbkpoSBxAt0PC2QPFtFZPuM2
+ sSm+saVCm0M1Eiqc9eizWMW64iyInEgBFtl/OJgcUzWq32x9bffwJ2rRgCSnXY24TrNgA0eo9
+ JuqFZjKk3zr/20QNa8alL/Szxz+uUm5vc26NKd1EUyj67cJ+MxBKjcZfRJ4UMeSWIz2rK2H/Y
+ uNP6v0PiZxFM2+MrI8UWw4WB74DT8jySibpghnRylZJs0Zpxj488MnwjJpEcugPNQyH6TkvoV
+ XyV+/H9qAca+7u803Q3j9Vd/CFiLjyg7/nNcVpWALQe2Yu6R/6OE8VjwSTFFj37xS7ZDhtQ29
+ xdJuoIZO7calbQyUhmUsCL2R38DX+T5ozjbZMc9nKiaTIWhqS70cw/HDnyAi+SYt+STd8Dc3h
+ xeIMzJmj5dh47yDhj3YDLxvhLR1toQzatbzLPCnFzt8FflC/wTt5aLeCUlhgUjQXmEqCPKtKb
+ 7klmaSE/q595gmB8f2vi9R2LVvqG1UnyniXMCPW8nK0M0fLu4A45lUI3YpltthQPiHyO6nFKq
+ Q/EeJiCLhjlyXwrEVTEE0KXA0n7zeYn6YN8h+xbC5dVYHOuiyi/eHBVur9KI9YV8lvxIYngGL
+ VhgBJG4qW9KikFkNqMW1vmycs/t4n3KK0LaIZ0mIWF9WbTi7L5Vmd5EddLHnus9fnZQ9uUMcJ
+ Knw313I1cIzVHCWrbb2vGYEOmMWa+3833cxeeRkazB2b9GD8HV4otN6tlw0/5zPjSVSoNlDhn
+ Vevn56H0Y2whovHFCeakw8UqVk0gBkGsJSAMKzdVigvQcZYJ1B2lvCBf4/KiJYCrBwLPc0M/t
+ CVgINq6H165/dOQ56gS1Fn1YxsFGT8XM0HMzCXZPplvjeA2uDcschlVNk3gPtiXpax5kZoD76
+ SG2hbzUGdtKbMfttCXBP3mz/FXlbgtHans7
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A gentle ping to have your valuable comments.
+Hi,
+
+On Fri, Jul 02, 2021 at 05:08:09PM +0000, Alexander Lobakin wrote:
+>
+> On the other hand, it leaves a potentional window for attackers to
+> perform brute force from xattr-incapable filesystems. So at the end
+> of the day I think that the current implementation (a strong
+> rejection of such filesystems) is way more secure than having
+> a fallback I proposed.
+
+I've been thinking more about this: that the Brute LSM depends on xattr
+support and I don't like this part. I want that brute force attacks can
+be detected and mitigated on every system (with minimal dependencies).
+So, now I am working in a solution without this drawback. I have some
+ideas but I need to work on it.
+
+> I'm planning to make a patch which will eliminate such weird rootfs
+> type selection and just always use more feature-rich tmpfs if it's
+> compiled in. So, as an alternative, you could add it to your series
+> as a preparatory change and just add a Kconfig dependency on
+> CONFIG_TMPFS && CONFIG_TMPFS_XATTR to CONFIG_SECURITY_FORK_BRUTE
+> without messing with any fallbacks at all.
+> What do you think?
+
+Great. But I hope this patch will not be necessary for Brute LSM :)
 
 Thanks,
-Charan
-
-On 6/18/2021 8:48 PM, Charan Teja Reddy wrote:
-> These patches support triggering of proactive compaction by user on write
-> to the /proc/sys/vm/compaction_proactiveness.
-> 
-> Changes in V4:
->   -- Changed the code as the 'proactive_defer' counter is removed.
->   -- No changes in the logic of triggering the proactive compaction.
->   -- Removed the 'proactive_defer' counter.
-> 
-> Changes in V3:
->   -- Fixed review comments from Vlastimil and others.
->   -- Fixed wake up logic when compaction_proactiveness is zero.
->   -- https://lore.kernel.org/patchwork/patch/1438211/
-> 
-> Changes in V2:
->   -- remove /proc/../proactive_compact_memory interface trigger for proactive compaction
->   -- Intention is same that add a way to trigger proactive compaction by user.
->   -- https://lore.kernel.org/patchwork/patch/1431283/
-> 
-> Changes in V1:
->   -- Created the new /proc/sys/vm/proactive_compact_memory in
->      interface to trigger proactive compaction from user 
->   -- https://lore.kernel.org/lkml/1619098678-8501-1-git-send-email-charante@codeaurora.org/
-> 
-> 
-> Charan Teja Reddy (3):
->   mm: compaction:  optimize proactive compaction deferrals
->   mm: compaction: support triggering of proactive compaction by user
->   mm: compaction: fix wakeup logic of proactive compaction
-> 
->  Documentation/admin-guide/sysctl/vm.rst |  3 +-
->  include/linux/compaction.h              |  2 ++
->  include/linux/mmzone.h                  |  1 +
->  kernel/sysctl.c                         |  2 +-
->  mm/compaction.c                         | 61 +++++++++++++++++++++++++++------
->  5 files changed, 56 insertions(+), 13 deletions(-)
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+John Wood
