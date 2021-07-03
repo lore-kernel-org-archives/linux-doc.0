@@ -2,388 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E740C07E97
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 14:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04879C07E99
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 14:37:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D18F26193A
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 14:31:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D809A6193B
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jul 2021 14:37:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbhGCOeT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jul 2021 10:34:19 -0400
-Received: from m32-153.88.com ([43.250.32.153]:40470 "EHLO email.cn"
+        id S229671AbhGCOjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jul 2021 10:39:42 -0400
+Received: from mail-bn8nam12on2122.outbound.protection.outlook.com ([40.107.237.122]:44512
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229741AbhGCOeR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Jul 2021 10:34:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=+BeNgP8EzhWzYHXB9iAv+1JoLdrS5XFdc3ZqH
-        4o5170=; b=f+1UmA1b9/3WqS+tcZ+pcyDEVdW4QPFDrM1L0FbQ/nCLA6vEjvqAn
-        lMZO0O8JnGiEosfj4azq02VBB8tlOvbeL7qMZJeaRTWxp481PxwcdM7H3FUZ6FBV
-        m9OmhHo03krJl/5QIOlwwWnoLEHVDD2c88RCzLIxm/1IxgB16Uc8dw=
-Received: from localhost.localdomain (unknown [113.251.11.229])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDHnv3CdOBgiXM8AA--.16451S5;
-        Sat, 03 Jul 2021 22:31:41 +0800 (CST)
-From:   Hu Haowen <src.res@email.cn>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] docs/zh_TW: add SPDX-License-Identifiers for translations in zh_TW/process
-Date:   Sat,  3 Jul 2021 22:31:30 +0800
-Message-Id: <20210703143130.18349-4-src.res@email.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210703143130.18349-1-src.res@email.cn>
-References: <20210703143130.18349-1-src.res@email.cn>
+        id S229562AbhGCOjm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Jul 2021 10:39:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DEYNGCaP8xBblXc5OtdUdiFfO7rcjbhb0fksYFR5/hBXCH0N+Cjyio/Tdaym4MBD6aIZTBUi291w5UYviR9SP1CUTP4UHqj6q5P8uRHr7+8mEt/DMMsADwVpx6Q2VjDR58V7FoTqZBukPWQChEyjnjM7jJekfKgIL+LOsv+T0k4LbTZ59hNAQCb6IdfMifmiv02MIAZlcQjqERWiFx6rqc5XnoUu/3YPnw6LQwOXgY5OH9zTdx4dgoUvBORUnZZE4SaVUlmhqx4RfKi0wdQmB2/hr5QZh8iytacaZ3KCD0mYHw5yt4UCgy5yaITOLeMIniikG4bZ+U+XAFeHjo/48Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=49JA+MgZlI0MZsG1B0iJGCiybQ3oUGl/HUzfFAEyKwU=;
+ b=FS13T06sNGQZ/0vu+1VeCmWCWxNmLLjGqgC2FVz97ncLVWdHgIUxwXJsr3qzs24NfSodUlEkd1Fqqr/FcjtfrxFMyGeM+zrlpfmh9SrWF7ntK5ZbXU8C1ESNf/GtsdYg5AFBX0eBXgzj1otEirKTfWVUx/Hd95jwJ5pY3vIyjA5jjg9CGglkhGOCj0XlTOxyOisWNRYRswicQO8816Nlf3Vr3Z/tUUbAX9F6B/APUjQEfITst0RAv1lVAxnJPMZcayBTuvGwwo21/+vqpvbtoOo0LIr1X6mdKqV5ffVbobeekFM3EKGGIOxu9PYBTzhkGfTqAwQ6k1u/g5go0jLvSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=49JA+MgZlI0MZsG1B0iJGCiybQ3oUGl/HUzfFAEyKwU=;
+ b=F6rZhTGGyHfTCwFkNoyrKBQpJ1outR/EJN7bGA/fv9G+mfqrguuJpMMZb/jQXRghQsCyp2NYx/1NghrjIoPYylSEVbSMVCo8LZ9MB9/5OlIiBFTtWCI6QLcxC7mNcV2TbmkT2i3nnh3M0j6QWKUdT4iW5Djy1IXBpkbJq/UrL9I=
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com (2603:10b6:301:7c::11)
+ by MW4PR21MB2043.namprd21.prod.outlook.com (2603:10b6:303:11e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.15; Sat, 3 Jul
+ 2021 14:37:06 +0000
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::880d:4f8:748:ff07]) by MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::880d:4f8:748:ff07%6]) with mapi id 15.20.4308.006; Sat, 3 Jul 2021
+ 14:37:06 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Long Li <longli@microsoft.com>,
+        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+Thread-Topic: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+Thread-Index: AQHXalTRwSwb8zgU/UyKv3LljLGzrasphsOQgAQvmICAAJcUUIACGm+AgAD0NsA=
+Date:   Sat, 3 Jul 2021 14:37:06 +0000
+Message-ID: <MWHPR21MB1593685E6FE65D641CE1B546D71E9@MWHPR21MB1593.namprd21.prod.outlook.com>
+References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
+ <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
+ <MWHPR21MB159375586D810EC5DCB66AF0D7039@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB1506ACF89447B492B0F7E066CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
+ <MWHPR21MB15939CFE85138C6B73E575F2D7009@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB1506C29FA7FB4588E3A2BB5ECE1F9@BY5PR21MB1506.namprd21.prod.outlook.com>
+In-Reply-To: <BY5PR21MB1506C29FA7FB4588E3A2BB5ECE1F9@BY5PR21MB1506.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=34b74f3b-f78a-4066-9c87-8e11622defa7;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-06-28T14:56:02Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 263ad2d2-5f22-41e1-92a8-08d93e300815
+x-ms-traffictypediagnostic: MW4PR21MB2043:
+x-ms-exchange-transport-forked: True
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <MW4PR21MB204398D1A4A28CB2D3100426D71E9@MW4PR21MB2043.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PdPQlKjzXXRJpCDQeWgKDf44FjmNACpqrO/epHJvJnkk9mlrHM5aUe1KzDE+A0/LtBYz3DNUEerkQlNJfX3kbRzVIqdvm/ecBb1aXSVIIszFHVuB+3kcrRJro5nY1ekHYwqQPQXl+dJYzn8hmeMZ7ZanzrS86HO562GaZPxaQip7Qh0qnJtE2qc1RMQUmkWt/HsGEy0nW7lI5EU4mMXMscQ1Xbk2L0caOBOmqDM9WUlZbztZQ4foRuRurIL0eVhiCIgxvGMk/I2BotQ64hXCYjEG45NWqBxgJI12fndqxN519JnWqNxGSyllPit1vUkKlwlnaT/zSCI4GvXno7lvFJnBoKQQfLE2AkgEmu8NLxiNRHFoWh+ootcmw3iJ3ONqwsxBx3qs+V00i3eOWjv3lZFztAYDAgJWL5ivYlP3f+VOgXlIG7bR/EkLKLWLwxw/Q77c2tsHtNlnrQjUqJn3gJw8VmQAnZe4VMvABjXFziVFc/WEpPKF0hCe/lIfgeykaPLzWEQrTbxDjH9bvACgyBB6Jiub4Epyfg7M9P+kLxIZiHFt/keQPHhxOywee4EHUj0mbNmKFYwwm1HYDXaf6F4O+0vNB41PAEjPrZPLNfUmsVYUJmg5rL5g0B8axrpmbb93g4KbEEuadyso9PTVCw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(10290500003)(8990500004)(4326008)(478600001)(2906002)(33656002)(122000001)(316002)(8936002)(71200400001)(83380400001)(8676002)(76116006)(38100700002)(86362001)(55016002)(6506007)(64756008)(9686003)(82960400001)(82950400001)(186003)(54906003)(5660300002)(110136005)(26005)(7696005)(66476007)(66556008)(7416002)(52536014)(66446008)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?maMQoVcume274B5PeRfvOWXtPkI6RB43PBHclXtmGs9Xt8RzTujC2dO57iZI?=
+ =?us-ascii?Q?v6pEV1FBwo58Nm1xZ+VDWhxfd/eVT3SJFR1+J/a1LmAM8KB1dtvCbMPkw7/x?=
+ =?us-ascii?Q?OPaqmf8D8OUOrD4dzxsgLMvUM1zuxXxlGDeMruHXpzI5AxyIdvT3jhfkwbxN?=
+ =?us-ascii?Q?XBDiYCisE5Ngc37Qp0dTzqZ5vIBzqQa+xaOEQA0Tuk5SDbS1NvR0LY9PtMUF?=
+ =?us-ascii?Q?ZqRcP1Oehm5zLCwvvffpL35h0sj0f5WpNEGDIT2EXRz2r0tehixHS4506lou?=
+ =?us-ascii?Q?TnQMwtZ/HhX1ifE/Udvi6+S1B3oWY95ZCqZd24eIBnQ1Hs2E4ZRHOX8q2Lqg?=
+ =?us-ascii?Q?unDAaSIKKYqnD0J4k63HAH8wKWy3PzHrauz/av9l3QZWW2xv/HfpWgZBqhUY?=
+ =?us-ascii?Q?rvdZAbO/5UnlC7rlcgEIXEa6NjlP3DLKqa9UMPBGaqbv6NA4KLGs3wwGkAWe?=
+ =?us-ascii?Q?aQ8XM9WF0oef/t9uCMIvOxQaFQHrN+yDvC5qpgh7DyOdQ+NBiUH1ycxd1P1X?=
+ =?us-ascii?Q?5riSuril6U0q2xYEZZLwTIqBlBMyLbODnIAfTxjpsvyNIWLIfbpM0HGz92/P?=
+ =?us-ascii?Q?1aFsRUIbPVxqdNxfYzcAD4OH/3qXCrvzNuwPvsPxszIUuU7AWcHC2SXGEe1K?=
+ =?us-ascii?Q?8AvZMgtZYw1b9YarjD6OvudyYZkacutLayIJy/wEQouO0DxiSeLoG36Wot4N?=
+ =?us-ascii?Q?8odXv9nBczuAlLH9HAJ3hnuKOcNgW4wjPJDKIRnm5y6YefDreQW1w2OnoXTs?=
+ =?us-ascii?Q?xpTSCOmSu9z1nq2feVm4gep/wf7Q/Lhub9IcFAFf7dsARCGfx5oxHEYssH75?=
+ =?us-ascii?Q?LvrcMJhjZGQ1gXCLNFuI6gpwxzI029l/n+D3A6DTktn+7uS67jPGODc00PFl?=
+ =?us-ascii?Q?cnMg2HV538Ghfsivk1I3AKppogv39NpVzM0h7mHLNY/OJBa8+kwGEIzW19zo?=
+ =?us-ascii?Q?HEVaq3C7MpVmz71dHEYuwHywlcUArHO9jWSRQb3WrW+X/oUu0YlErokXz0Ll?=
+ =?us-ascii?Q?uFPVeJNJ1Q0KB5MG9zOE1rThS2wBFstU8XkQLaPDovDjbSIzK/eweMhJbVt0?=
+ =?us-ascii?Q?8h3rQFo5z6eJW7SoIHzxoJbj3oCueRSAmVtqLwfHJPjhj56+ikrpwVbQPI16?=
+ =?us-ascii?Q?5J7+9KLXj4zE8ateqPp7EE+Wcn6trLcD1O/Pv+8mZ8mv4Hs6H2EIVwxUTQbu?=
+ =?us-ascii?Q?ORagzhYnTa35F/4lolzzPEz+JtSzwd2cMGT58m4Ufe/7zQ2idWpLt5F3YLEn?=
+ =?us-ascii?Q?AR5mKTA4kNsEu01AXxeAdwb2MfdLLXjHQO0PdnJecwLM+enPfUJCHQeyUGe7?=
+ =?us-ascii?Q?o4tVwngQMGtr0297S5NW/2qO?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GiKnCgDHnv3CdOBgiXM8AA--.16451S5
-X-Coremail-Antispam: 1UD129KBjvAXoW3KFW5GFyUGw4UKFWrXr4ktFb_yoW8ArWxXo
-        Wayw4UCr9rCr1DX3W5Cw4UCr45Gr13CFs3Ar42yw4q93sFg3W8Ca4Svw1YywsI9r1rWa93
-        J34xX3yrXFyUCasrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUU5-7k0a2IF6w4xM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-        IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
-        x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrw
-        CF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-        rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAw
-        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-        67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
-        0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUUOz
-        VUUUUUU==
-X-Originating-IP: [113.251.11.229]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 263ad2d2-5f22-41e1-92a8-08d93e300815
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2021 14:37:06.2910
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /l4lPGuFBh7Y6r2ELFndu6wW8q1DUWlsTJcIjOSeyuraMaGsfE6dkVJvjlu83QjAC4zmsr6X60UGU8ZobwVHxk3+O6eIj4whfbs4o1KNHeo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB2043
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add SPDX-License-Identifiers for several translations in order that the
-compiler won't output errors.
+From: Long Li <longli@microsoft.com> Sent: Friday, July 2, 2021 4:59 PM
+> >
+> > [snip]
+> >
+> > > > > +static void az_blob_remove_device(struct az_blob_device *dev) {
+> > > > > +	wait_event(dev->file_wait, list_empty(&dev->file_list));
+> > > > > +	misc_deregister(&az_blob_misc_device);
+> > > > > +#ifdef CONFIG_DEBUG_FS
+> > > > > +	debugfs_remove_recursive(az_blob_debugfs_root);
+> > > > > +#endif
+> > > > > +	/* At this point, we won't get any requests from user-mode */ }
+> > > > > +
+> > > > > +static int az_blob_create_device(struct az_blob_device *dev) {
+> > > > > +	int rc;
+> > > > > +	struct dentry *d;
+> > > > > +
+> > > > > +	rc =3D misc_register(&az_blob_misc_device);
+> > > > > +	if (rc) {
+> > > > > +		az_blob_err("misc_register failed rc %d\n", rc);
+> > > > > +		return rc;
+> > > > > +	}
+> > > > > +
+> > > > > +#ifdef CONFIG_DEBUG_FS
+> > > > > +	az_blob_debugfs_root =3D debugfs_create_dir("az_blob", NULL);
+> > > > > +	if (!IS_ERR_OR_NULL(az_blob_debugfs_root)) {
+> > > > > +		d =3D debugfs_create_file("pending_requests", 0400,
+> > > > > +			az_blob_debugfs_root, NULL,
+> > > > > +			&az_blob_debugfs_fops);
+> > > > > +		if (IS_ERR_OR_NULL(d)) {
+> > > > > +			az_blob_warn("failed to create debugfs file\n");
+> > > > > +			debugfs_remove_recursive(az_blob_debugfs_root);
+> > > > > +			az_blob_debugfs_root =3D NULL;
+> > > > > +		}
+> > > > > +	} else
+> > > > > +		az_blob_warn("failed to create debugfs root\n"); #endif
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static int az_blob_connect_to_vsp(struct hv_device *device, u32
+> > > > > +ring_size) {
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	spin_lock_init(&az_blob_dev.file_lock);
+> > > >
+> > > > I'd argue that the spin lock should not be re-initialized here.
+> > > > Here's the sequence where things go wrong:
+> > > >
+> > > > 1) The driver is unbound, so az_blob_remove() is called.
+> > > > 2) az_blob_remove() sets the "removing" flag to true, and calls
+> > > > az_blob_remove_device().
+> > > > 3) az_blob_remove_device() waits for the file_list to become empty.
+> > > > 4) After the file_list becomes empty, but before misc_deregister()
+> > > > is called, a separate thread opens the device again.
+> > > > 5) In the separate thread, az_blob_fop_open() obtains the file_lock=
+ spin
+> > lock.
+> > > > 6) Before az_blob_fop_open() releases the spin lock,
+> > > > az_blob_remove_device() completes, along with az_blob_remove().
+> > > > 7) Then the device gets rebound, and az_blob_connect_to_vsp() gets
+> > > > called, all while az_blob_fop_open() still holds the spin lock.  So
+> > > > the spin lock get re- initialized while it is held.
+> > > >
+> > > > This is admittedly a far-fetched scenario, but stranger things have
+> > > > happened. :-)  The issue is that you are counting on the az_blob_de=
+v
+> > > > structure to persist and have a valid file_lock, even while the
+> > > > device is unbound.  So any initialization should only happen in
+> > az_blob_drv_init().
+> > >
+> > > I'm not sure if az_blob_probe() and az_blob_remove() can be called at
+> > > the same time, as az_blob_remove_vmbus() is called the last in
+> > az_blob_remove().
+> > > Is it possible for vmbus asking the driver to probe a new channel
+> > > before the old channel is closed? I expect the vmbus provide guarante=
+e
+> > > that those calls are made in sequence.
+> >
+> > In my scenario above, az_blob_remove_vmbus() and az_blob_remove() run
+> > to completion in Step #6, all while some other thread is still in the m=
+iddle of
+> > an
+> > open() call and holding the file_lock spin lock.  Then in Step #7
+> > az_blob_probe() runs.  So az_blob_remove() and az_blob_probe() execute
+> > sequentially, not at the same time.
+> >
+> > Michael
+>=20
+> I think it's a valid scenario.  The return value of devtmpfs_delete_node(=
+) is
+> not checked in misc_deregister(). It decreases the refcount on inodes but=
+ it's
+> not guaranteed that someone else is still using it (in the middle of open=
+ing a file).
+>=20
+> However, this works fine for "rmmod" that causes device to be removed.
+> Before file is opened the refcount on the module is increased so it can't=
+ be
+> removed when file is being opened. The scenario you described can't happe=
+n.
+>=20
+> But during VMBUS rescind, it can happen. It's possible that the driver is=
+ using
+> the spinlock that has been re-initialized, when the next VMBUS offer on t=
+he
+>  same channel comes before all the attempting open file calls exit.
 
-Signed-off-by: Hu Haowen <src.res@email.cn>
----
- Documentation/translations/zh_TW/process/1.Intro.rst          | 2 ++
- Documentation/translations/zh_TW/process/2.Process.rst        | 2 ++
- Documentation/translations/zh_TW/process/3.Early-stage.rst    | 2 ++
- Documentation/translations/zh_TW/process/4.Coding.rst         | 2 ++
- Documentation/translations/zh_TW/process/5.Posting.rst        | 2 ++
- Documentation/translations/zh_TW/process/6.Followthrough.rst  | 2 ++
- Documentation/translations/zh_TW/process/7.AdvancedTopics.rst | 2 ++
- Documentation/translations/zh_TW/process/8.Conclusion.rst     | 2 ++
- .../zh_TW/process/code-of-conduct-interpretation.rst          | 2 ++
- Documentation/translations/zh_TW/process/code-of-conduct.rst  | 2 ++
- Documentation/translations/zh_TW/process/coding-style.rst     | 2 ++
- .../translations/zh_TW/process/development-process.rst        | 2 ++
- Documentation/translations/zh_TW/process/email-clients.rst    | 4 +++-
- .../translations/zh_TW/process/embargoed-hardware-issues.rst  | 2 ++
- Documentation/translations/zh_TW/process/howto.rst            | 4 +++-
- Documentation/translations/zh_TW/process/index.rst            | 2 ++
- .../translations/zh_TW/process/kernel-driver-statement.rst    | 2 ++
- .../zh_TW/process/kernel-enforcement-statement.rst            | 2 ++
- Documentation/translations/zh_TW/process/license-rules.rst    | 2 ++
- Documentation/translations/zh_TW/process/magic-number.rst     | 2 ++
- Documentation/translations/zh_TW/process/management-style.rst | 2 ++
- .../translations/zh_TW/process/programming-language.rst       | 2 ++
- .../translations/zh_TW/process/stable-api-nonsense.rst        | 2 ++
- .../translations/zh_TW/process/stable-kernel-rules.rst        | 2 ++
- Documentation/translations/zh_TW/process/submit-checklist.rst | 2 ++
- .../translations/zh_TW/process/submitting-drivers.rst         | 4 +++-
- .../translations/zh_TW/process/submitting-patches.rst         | 2 ++
- .../zh_TW/process/volatile-considered-harmful.rst             | 2 ++
- 28 files changed, 59 insertions(+), 3 deletions(-)
+In my scenario, Step #1 is an unbind operation, not a module removal.  But
+you make a valid point about VMbus rescind, which has the same effect as
+unbind.
 
-diff --git a/Documentation/translations/zh_TW/process/1.Intro.rst b/Documentation/translations/zh_TW/process/1.Intro.rst
-index a1207ef153d7..ca2b931be6c5 100644
---- a/Documentation/translations/zh_TW/process/1.Intro.rst
-+++ b/Documentation/translations/zh_TW/process/1.Intro.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/1.Intro.rst <development_process_intro>`
-diff --git a/Documentation/translations/zh_TW/process/2.Process.rst b/Documentation/translations/zh_TW/process/2.Process.rst
-index b71629cdc11a..b01cdd3a39ae 100644
---- a/Documentation/translations/zh_TW/process/2.Process.rst
-+++ b/Documentation/translations/zh_TW/process/2.Process.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/2.Process.rst <development_process>`
-diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-index ce85990fc98e..ab2a45fd65a4 100644
---- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
-+++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/3.Early-stage.rst <development_early_stage>`
-diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
-index 106b41c97223..ccc3946227a0 100644
---- a/Documentation/translations/zh_TW/process/4.Coding.rst
-+++ b/Documentation/translations/zh_TW/process/4.Coding.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/4.Coding.rst <development_coding>`
-diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
-index 3e09da2f3056..5578bca403e6 100644
---- a/Documentation/translations/zh_TW/process/5.Posting.rst
-+++ b/Documentation/translations/zh_TW/process/5.Posting.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/5.Posting.rst <development_posting>`
-diff --git a/Documentation/translations/zh_TW/process/6.Followthrough.rst b/Documentation/translations/zh_TW/process/6.Followthrough.rst
-index 233115bfff95..4af782742db3 100644
---- a/Documentation/translations/zh_TW/process/6.Followthrough.rst
-+++ b/Documentation/translations/zh_TW/process/6.Followthrough.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/6.Followthrough.rst <development_followthrough>`
-diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-index 8d121a8c6535..3de093d0f170 100644
---- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-+++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/7.AdvancedTopics.rst <development_advancedtopics>`
-diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-index e35074f31f35..7572b17667d9 100644
---- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
-diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
-index 457ae49ba4d4..949d831aaf6c 100644
---- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
-+++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
-diff --git a/Documentation/translations/zh_TW/process/code-of-conduct.rst b/Documentation/translations/zh_TW/process/code-of-conduct.rst
-index b44fea4e167a..716e5843b6e9 100644
---- a/Documentation/translations/zh_TW/process/code-of-conduct.rst
-+++ b/Documentation/translations/zh_TW/process/code-of-conduct.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index 21a9fe298c86..61e614aad6a7 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/coding-style.rst <codingstyle>`
-diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
-index cc25c554854e..45e6385647cd 100644
---- a/Documentation/translations/zh_TW/process/development-process.rst
-+++ b/Documentation/translations/zh_TW/process/development-process.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
-diff --git a/Documentation/translations/zh_TW/process/email-clients.rst b/Documentation/translations/zh_TW/process/email-clients.rst
-index 9b7c1acf0a87..4ba543d06f3b 100644
---- a/Documentation/translations/zh_TW/process/email-clients.rst
-+++ b/Documentation/translations/zh_TW/process/email-clients.rst
-@@ -1,4 +1,6 @@
--﻿.. _tw_email_clients:
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _tw_email_clients:
- 
- .. include:: ../disclaimer-zh_TW.rst
- 
-diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-index 2cd100412655..d676cef16646 100644
---- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-+++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/embargoed-hardware-issues.rst <embargoed_hardware_issues>`
-diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
-index d1e3df96450a..2043691b92e3 100644
---- a/Documentation/translations/zh_TW/process/howto.rst
-+++ b/Documentation/translations/zh_TW/process/howto.rst
-@@ -1,4 +1,6 @@
--﻿.. _tw_process_howto:
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _tw_process_howto:
- 
- .. include:: ../disclaimer-zh_TW.rst
- 
-diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index 2f6ecb6515f6..ec7ad14bfd13 100644
---- a/Documentation/translations/zh_TW/process/index.rst
-+++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. raw:: latex
- 
- 	\renewcommand\thesection*
-diff --git a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-index f833c1bf81d2..8f225379b12c 100644
---- a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-+++ b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _zh_process_statement_driver:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-index 5e792edcd868..99e21d22800d 100644
---- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-+++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ﻿.. _tw_process_statement_kernel:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
-index d48f2f605068..ad2b80f97123 100644
---- a/Documentation/translations/zh_TW/process/license-rules.rst
-+++ b/Documentation/translations/zh_TW/process/license-rules.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
-diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
-index 491459ea792f..ae321a9aaece 100644
---- a/Documentation/translations/zh_TW/process/magic-number.rst
-+++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _tw_magicnumbers:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/management-style.rst b/Documentation/translations/zh_TW/process/management-style.rst
-index 0fddb0115a4c..dce248470063 100644
---- a/Documentation/translations/zh_TW/process/management-style.rst
-+++ b/Documentation/translations/zh_TW/process/management-style.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/management-style.rst <managementstyle>`
-diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
-index 0e4081c58b98..54e3699eadf8 100644
---- a/Documentation/translations/zh_TW/process/programming-language.rst
-+++ b/Documentation/translations/zh_TW/process/programming-language.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
-diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-index 344f3d3dc793..22caa5b8d422 100644
---- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _tw_stable_api_nonsense:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
-index d66306fa6dc8..9bb0d9b4f3ac 100644
---- a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
-+++ b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _tw_stable_kernel_rules:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
-index 52d435814da1..ff2f89cba83f 100644
---- a/Documentation/translations/zh_TW/process/submit-checklist.rst
-+++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. include:: ../disclaimer-zh_TW.rst
- 
- :Original: :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
-diff --git a/Documentation/translations/zh_TW/process/submitting-drivers.rst b/Documentation/translations/zh_TW/process/submitting-drivers.rst
-index 9727d27c362b..2fdd742318ba 100644
---- a/Documentation/translations/zh_TW/process/submitting-drivers.rst
-+++ b/Documentation/translations/zh_TW/process/submitting-drivers.rst
-@@ -1,4 +1,6 @@
--﻿.. _tw_submittingdrivers:
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _tw_submittingdrivers:
- 
- .. include:: ../disclaimer-zh_TW.rst
- 
-diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
-index 3b7dd4c73e0b..cdf0b52e4a98 100644
---- a/Documentation/translations/zh_TW/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _tw_submittingpatches:
- 
- .. include:: ../disclaimer-zh_TW.rst
-diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-index 5bf923489d05..097fe80352cb 100644
---- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-+++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _tw_volatile_considered_harmful:
- 
- .. include:: ../disclaimer-zh_TW.rst
--- 
-2.25.1
+>=20
+> This is a very rare. I agree things happen that we should make sure the d=
+river
+> can handle this. I'll update the driver.
 
+Sounds good.
+
+Michael
