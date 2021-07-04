@@ -2,93 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2AF5C07E9B
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 22:42:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0312CC11F82
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 23:06:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C81AD613E9
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 22:42:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB794613F6
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 23:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbhGDWpR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jul 2021 18:45:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhGDWpR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jul 2021 18:45:17 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77389C061574;
-        Sun,  4 Jul 2021 15:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xtcuflbG6V/1JlvW4xdoIPk6pojTTMLLnJIHQJBxuHE=; b=HnU0Im7UY/ke3GadqxbisGQBDi
-        U+u4YSYiXdknjeVfND/u0mTNVX3iHt+We8TLUrsrtdkTFTS/wMBU1c2MedcwfHaKNrmdI2IUu/eMZ
-        1TzbprAYDesMnwMi94W1v17kRw8pvOL10M5boKLAqU3P3MqJxdw7OBnrhWXr1Ma/4pBSE2HZyaLQ1
-        AoJY4ovXZtHReBRX3e60YmV61SOZDeTdWJM3IQBd6MzGTgXT9fvug7g+DZoYd+o7k6+B6SiMwvk5Y
-        pXPf1wjkjxHD+B5XAHFj7xz/cCiVh9+e0JGoko535HXO0VxFR0QV7g8Vf/Gl0kcvA2C3qwWS3GJ74
-        7iuORfGg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m0AoO-009eDv-00; Sun, 04 Jul 2021 22:42:13 +0000
-Date:   Sun, 4 Jul 2021 23:42:03 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Gary Guo <gary@garyguo.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 01/17] kallsyms: support big kernel symbols (2-byte
- lengths)
-Message-ID: <YOI5O6/RpaN1P6mM@casper.infradead.org>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <20210704202756.29107-2-ojeda@kernel.org>
- <YOIicc94zvSjrKfe@casper.infradead.org>
- <CANiq72=eHs870jbmZz8CUEUuN2NOCaKS9-F6-jAb0QXje2x1Eg@mail.gmail.com>
- <YOIpM3iFT5roz69i@casper.infradead.org>
- <20210704232007.0000357e@garyguo.net>
+        id S231363AbhGDXIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jul 2021 19:08:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47420 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231246AbhGDXIW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:08:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F121861364;
+        Sun,  4 Jul 2021 23:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625439946;
+        bh=VuBZkuYORyCKJqQ3ug2x8UyRbKpNijoZunM6p8muHn4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=H4g7AlQByb8WaBj7T9mKTqshIt93Gd85peR7OocyKdc11Ln2fquKFVhaUhw7kKVYP
+         v0jEf+Wtva063Q2VbHRBIuCll8epEDw77z6CnI6h4lsTYXNHwycvJ+9fKlJvSuoTok
+         YPqhC/cRcjWRJ3WJU5fy8ZHUzbp3nDiJGwPMShMCd4CrS5Jw3zF2vE63j6kmXEIZbG
+         nDAIpWtfnfU6G7DCVaT31jWk2K2Z7TTM0WgioZD7NG6sQiaPfGAyp8yl6fp5HiBqZc
+         zXuyUWLfZELlgkof4EdZFN9CC/bqgRgtX68S8zBK2+avyFlrY1hTzW5LgZRoKD7bq2
+         Q72LWBwVQeSsQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>,
+        =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@ceesnet.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 63/85] hwmon: (max31790) Report correct current pwm duty cycles
+Date:   Sun,  4 Jul 2021 19:03:58 -0400
+Message-Id: <20210704230420.1488358-63-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
+References: <20210704230420.1488358-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210704232007.0000357e@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 04, 2021 at 11:20:07PM +0100, Gary Guo wrote:
-> This is big endian.
+From: Guenter Roeck <linux@roeck-us.net>
 
-Fundamentally, it doesn't matter whether it's encoded as top-7 +
-bottom-8 or bottom-7 + top-8.  It could just as well be:
+[ Upstream commit 897f6339893b741a5d68ae8e2475df65946041c2 ]
 
-        if (len >= 128) {
-                len -= 128;
-                len += *data * 256;
-                data++;
-        }
+The MAX31790 has two sets of registers for pwm duty cycles, one to request
+a duty cycle and one to read the actual current duty cycle. Both do not
+have to be the same.
 
-It doesn't matter whether it's compatible with some other encoding.
-This encoding has one producer and one consumer.  As long as they agree,
-it's fine.  If you want to make an argument about extensibiity, then
-I'm going to suggest that wanting a symbol name more than 32kB in size
-is a sign you've done something else very, very wrong.
+When reporting the pwm duty cycle to the user, the actual pwm duty cycle
+from pwm duty cycle registers needs to be reported. When setting it, the
+pwm target duty cycle needs to be written. Since we don't know the actual
+pwm duty cycle after a target pwm duty cycle has been written, set the
+valid flag to false to indicate that actual pwm duty cycle should be read
+from the chip instead of using cached values.
 
-At that point, you should probably switch to comparing hashes of the
-symbol instead of the symbol.  Indeed, I think we're already there at
-300 byte symbols; we should probably SipHash the full, unmangled symbol
-[1].  At 33k symbols in the current kernel, the risk of a collision of
-a 64-bit value is negligible, and almost every kernel symbol is longer
-than 7 bytes (thankfully).
+Cc: Jan Kundrát <jan.kundrat@cesnet.cz>
+Cc: Václav Kubernát <kubernat@cesnet.cz>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Václav Kubernát <kubernat@ceesnet.cz>
+Reviewed-by: Jan Kundrát <jan.kundrat@cesnet.cz>
+Link: https://lore.kernel.org/r/20210526154022.3223012-3-linux@roeck-us.net
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/hwmon/max31790.rst | 3 ++-
+ drivers/hwmon/max31790.c         | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-[1] ie SipHash("void unlock_page(struct page *)")
+diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+index f301385d8cef..54ff0f49e28f 100644
+--- a/Documentation/hwmon/max31790.rst
++++ b/Documentation/hwmon/max31790.rst
+@@ -39,5 +39,6 @@ fan[1-12]_input    RO  fan tachometer speed in RPM
+ fan[1-12]_fault    RO  fan experienced fault
+ fan[1-6]_target    RW  desired fan speed in RPM
+ pwm[1-6]_enable    RW  regulator mode, 0=disabled, 1=manual mode, 2=rpm mode
+-pwm[1-6]           RW  fan target duty cycle (0-255)
++pwm[1-6]           RW  read: current pwm duty cycle,
++                       write: target pwm duty cycle (0-255)
+ ================== === =======================================================
+diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+index 86e6c71db685..8ad7a45bfe68 100644
+--- a/drivers/hwmon/max31790.c
++++ b/drivers/hwmon/max31790.c
+@@ -104,7 +104,7 @@ static struct max31790_data *max31790_update_device(struct device *dev)
+ 				data->tach[NR_CHANNEL + i] = rv;
+ 			} else {
+ 				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_PWMOUT(i));
++						MAX31790_REG_PWM_DUTY_CYCLE(i));
+ 				if (rv < 0)
+ 					goto abort;
+ 				data->pwm[i] = rv;
+@@ -299,10 +299,10 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			err = -EINVAL;
+ 			break;
+ 		}
+-		data->pwm[channel] = val << 8;
++		data->valid = false;
+ 		err = i2c_smbus_write_word_swapped(client,
+ 						   MAX31790_REG_PWMOUT(channel),
+-						   data->pwm[channel]);
++						   val << 8);
+ 		break;
+ 	case hwmon_pwm_enable:
+ 		fan_config = data->fan_config[channel];
+-- 
+2.30.2
+
