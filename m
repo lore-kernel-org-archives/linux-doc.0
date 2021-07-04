@@ -2,106 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C9BC07E95
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 13:53:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56135C07E9A
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 14:02:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D064C613C2
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 13:53:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 389E4613F3
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 14:02:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbhGDNzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jul 2021 09:55:46 -0400
-Received: from mx.kolabnow.com ([95.128.36.40]:64198 "EHLO mx.kolabnow.com"
+        id S229543AbhGDOFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jul 2021 10:05:19 -0400
+Received: from mout.gmx.net ([212.227.17.22]:51737 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229502AbhGDNzp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Jul 2021 09:55:45 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id CCC5B403CB;
-        Sun,  4 Jul 2021 15:53:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1625406786; x=1627221187; bh=8uVUSMPNAeWl5eb58VReYcTTAmLLAbd7tmA
-        CfUIIQmo=; b=UOQWxpjrGTFlVsjja0+x3lb0nQnhgSZQbXR2ke9xvMdqO5H1VQY
-        qF6/uLh9On/d/Xa2JLLFRRSQ+WMXxkH7IFdoaM+ojuFwM7Yk8X2D61dBZVNyZQTm
-        fk00rIJqxBl7lSLo7S/2HO4UCKcKfc2OePUcQ+OAtjpA4TxUX8sAq/RvtZSzh/F+
-        ea3xAaonxRtD6Bt+dMylSbtY8GTtYFMNNlN8g2oB39mi3uOScjJ392iLcXtd8C9v
-        8QrvOsiipHmmtXraB5KB54aFjsbTe/zSEiSp9beBiYmcC1iSWRa2Ke4MIXFlU5Mi
-        3WBdNr/AdahqmOEnYBGhl7EMWbPxLYxIxyVZxPjm2je1oigPfVuXN40Nzfobt/eV
-        hS9iaEi+G+nw2BTR/EoDPiJX9G8BNnenKkmNhSJx72LoN4YDXIEFgg33jOnfkta5
-        XJ/4W/4aLqVZAiZEjZps4w0M1LymfgmTD8rPhaZIJceu4ZKDxYzsgEaserAtQx53
-        X6fgUjNSIo3O4d3XOY8Ap8+y98OMKK3O44Hn/KaaqOXnGFzGFoExufKOVa339Aa9
-        PNQTfc2F4Mk10BGwvpMYiap5oByYi0aTnRQALRPF8u+ozu6IOdZgOAXJgjgyTI7J
-        8h6bK3ikp5qvQKYjZq0Z3i50bTWwWs9Lq/JQrbo3SPaNNu5TRvmW3Huc=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id amjP_pqs2F4a; Sun,  4 Jul 2021 15:53:06 +0200 (CEST)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 040CD41869;
-        Sun,  4 Jul 2021 15:52:52 +0200 (CEST)
-Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 736454BEB;
-        Sun,  4 Jul 2021 15:52:43 +0200 (CEST)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Sun, 04 Jul 2021 15:52:41 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
-        Qais Yousef <qais.yousef@arm.com>,
+        id S229492AbhGDOFT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Jul 2021 10:05:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1625407285;
+        bh=qCFNx0oWRTXt6mjRNsgYCCM5WwpT+/4HKI7MSDuJJGE=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=GklD0Tma/lx/2AV87ghdg/Qze0ZAKuGkX3qFSJVk1o/IAwlMlnA3M/WPBzBILFQ60
+         C1yaHfqDLcvlOWqERXxDmrixxX7IdAyTEOuIMsHVKAIAkcHmuP2maVvWg7S2usjrCj
+         SBz7OW0ip3Ekvys5cp49IWRkdbd4IZp4BUgIUXPo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.228.41]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MOREc-1lqjIh1CsY-00Pvaw; Sun, 04
+ Jul 2021 16:01:25 +0200
+Date:   Sun, 4 Jul 2021 16:01:08 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Alexander Lobakin <alobakin@pm.me>
+Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Arnd Bergmann <arnd@arndb.de>, Andi Kleen <ak@linux.intel.com>,
+        valdis.kletnieks@vt.edu,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
- reference
-In-Reply-To: <20210603095632.35ab9fee@coco.lan>
-References: <cover.1622648507.git.mchehab+huawei@kernel.org>
- <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
- <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
- <20210602200121.64a828a1@coco.lan> <871r9k6rmy.fsf@meer.lwn.net>
- <20210602221940.7e0a6135@coco.lan> <20210603095632.35ab9fee@coco.lan>
-Message-ID: <2566fa8cfbfc89aed22d7a8d20e303a4@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v8 3/8] security/brute: Detect a brute force attack
+Message-ID: <20210704140108.GA2742@ubuntu>
+References: <20210701234807.50453-1-alobakin@pm.me>
+ <20210702145954.GA4513@ubuntu>
+ <20210702170101.16116-1-alobakin@pm.me>
+ <20210703105928.GA2830@ubuntu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210703105928.GA2830@ubuntu>
+X-Provags-ID: V03:K1:Zlv/I3jSwhQHOVW60yI8jrDAcYgbYRJ0DR/nPSVeP8thlzpNyfP
+ Iy4q/M6ejxhwDhZ87s3DfnCTgkAHBDLbzMX83gQOaCGeWDPFYHbSWc85q8H4B1p3bXLckjH
+ c0BJ7pVpncMao1CZjr+hoU910ZdvL1AqNB1/t+dmP8YygFdNwosY681NLG+78hFRzCXk+OU
+ edDRLEmHS5NdCtwr4DiGg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xu4NXV3hBGY=:9VsIzecylfJIkNr7kTE/xd
+ ffa1w/cSXPBVUdHerWPnISoMh/XoptArz8co14byqOziF831kzJj5nZ0fqnysCK1knBArVSy9
+ nJjYWf9H8MFohHQreGRWofJmr+quGvrdv4PspoXMpZ55zWoqDS1cx/hdkEPja9U1FGP0jTNbq
+ F1FB23qrEMmaZjzdp5hb47mkVcuD3c+XgJFre2T9ecG9VQ1BGQHLfj7RKDlc6kgG46ziYRVbj
+ +j2R5Rz9beIJowdvTFsCc7Gpxu6zHpcaQnbggqAVj8dVAGJAawmEsSEvnuEMgQVY3OlBRDbKQ
+ sahHpkKLopj+42BewBHYOQfAWC7jnHHkPVJX0ebUoePyw+X/TxJMpB5172IJMerGm6fFt2rKj
+ uV/q2xtXoQnWQCyLtiemxIi+r+8zVa5HKMJCjMq+HBgh2Gy1L5WXTSSg411UL+xcJMjiSP1vy
+ IwGaAB7CalqbdNFQA6x39qteGEZvMckOJK1LatX5Gr5nKsLVcH2TdpnFqVCe/kO1zMUPwBRQo
+ bMlYCnMorKCthiiRbEfJ/QV+GsbbmwXB54JiD+uDgrlRQvCIx7iB1hisDMktSPGaDxtXWHhgc
+ +E7Kj6yjWk6j6B/CVdBKcv8Se1229GE3CpMMSZZQoB93OuYdiRJMCd1CAN/WSe+6ap5lapb20
+ n/JshVmBqy3Kfli935tFYBShyVW1fi1gPOFtcYkmbU83m3D66n74PgduHWWG++ucFfchYF/OD
+ wxIdKMSOfy/cER6z5IbzstOTJTr19zJUJugflt4bVjC1XORzWH3ZUBN6rY744cJRk7yaAMB72
+ tXFj68NKVbRGN/qD15QyYGhZiCyLP9gsaEwibZxiP72wCYuPp/DSOZcSFSLgKbJKJbfQRXwrz
+ N8KRvHz3PlzzWepKE1jLm2wl6reYqaCCUgodX4rrm5qEhz7t2tMRoNBoSV7QhvClXN/p2enTv
+ a0UIHvFDqstk0cHFyNhqrj4SDal/dIwQccXgNVznb+TX3Oj7Uc64rawV1TqpZUEO4FlVuG2Ai
+ DT8WAFrJrQ/4XHfCqkM19Rc6Q7UFg0O77mph7SYJ+ixe7DcHrTQY/RjgcCx/e9gtIeZoU1pdM
+ PH5NRowdVQ6az2dzeSJ9Bc+HKoQBGly9Alu
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Sat, Jul 03, 2021 at 12:59:28PM +0200, John Wood wrote:
+> Hi,
+>
+> On Fri, Jul 02, 2021 at 05:08:09PM +0000, Alexander Lobakin wrote:
+> >
+> > On the other hand, it leaves a potentional window for attackers to
+> > perform brute force from xattr-incapable filesystems. So at the end
+> > of the day I think that the current implementation (a strong
+> > rejection of such filesystems) is way more secure than having
+> > a fallback I proposed.
+>
+> I've been thinking more about this: that the Brute LSM depends on xattr
+> support and I don't like this part. I want that brute force attacks can
+> be detected and mitigated on every system (with minimal dependencies).
+> So, now I am working in a solution without this drawback. I have some
+> ideas but I need to work on it.
 
-and sorry for the late reply
+I have been coding and testing a bit my ideas but:
 
-On 2021-06-03 09:56, Mauro Carvalho Chehab wrote:
-> Some manual work is needed, as a couple of replacements occurred inside
-> tables. I also need to check if automarkup.py got everything, including
-> the ones inside tables.
-> 
-> I'm in doubt with regards to translations. There, the tag is used
-> to point to the original translation, like on
-> Documentation/translations/it_IT/core-api/symbol-namespaces.rst:
-> 
-> 	:Original: :doc:`../../../core-api/symbol-namespaces`
-> 	:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
-> 
-> My personal preference would be to keep using it for translations.
+Trying to track the applications faults info using kernel memory ends up
+in an easy to abuse system (denied of service due to large amount of memor=
+y
+in use) :(
 
-Why is this your preference? I would prefer to have a consistent style 
-everywhere.
-If ":doc:" is now discouraged, then do not use it. What am I missing?
+So, I continue with the v8 idea: xattr to track application crashes info.
 
--- 
-Federico Vaga
+> > I'm planning to make a patch which will eliminate such weird rootfs
+> > type selection and just always use more feature-rich tmpfs if it's
+> > compiled in. So, as an alternative, you could add it to your series
+> > as a preparatory change and just add a Kconfig dependency on
+> > CONFIG_TMPFS && CONFIG_TMPFS_XATTR to CONFIG_SECURITY_FORK_BRUTE
+> > without messing with any fallbacks at all.
+> > What do you think?
+>
+> Great. But I hope this patch will not be necessary for Brute LSM :)
+
+My words are no longer valid ;)
+
+Thanks,
+John Wood
