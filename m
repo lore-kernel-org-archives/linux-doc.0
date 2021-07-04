@@ -2,116 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9B7C07E98
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 02:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C9BC07E95
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 13:53:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1869F613EC
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 02:54:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D064C613C2
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 13:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbhGDC5B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jul 2021 22:57:01 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:11779 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229529AbhGDC5B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Jul 2021 22:57:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=XSfasOGrPR+I0jNlTRv4lNuiHSKY6pf0joyDX
-        n4UDSk=; b=HcA39Ds4s6tuSs3aa5UmkeA16dGQ40gtFQmrgtsdbm+jBdN64MqlQ
-        13/RBJe32JYf9V7W53PGCl5UMbls8QQawsJHolpn98pZG1ZNsqxJyPLFwxe9Tx0G
-        SveEx7LWiVjlVrhweJkPHyPrz1DJjC3NKR6v3sQlUwyT0ZuS/V27C0=
-Received: from [0.0.0.0] (unknown [39.144.6.102])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBnAzfPIuFgRjw1AA--.9206S3;
-        Sun, 04 Jul 2021 10:54:11 +0800 (CST)
-Subject: Re: [PATCH] docs/zh_CN: Remove the Microsoft rhetoric
-To:     Hu Jialun <hujialun@comp.nus.edu.sg>,
-        =?UTF-8?B?5byg5LmQIFpoYW5nIExl?= <r0bertz@gentoo.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Wei Ming Chen <jj251510319013@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210703164834.460447-1-hujialun@comp.nus.edu.sg>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <1503da9f-23e2-d1c1-8b7b-f5cd4d273f1f@email.cn>
-Date:   Sun, 4 Jul 2021 10:54:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229530AbhGDNzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jul 2021 09:55:46 -0400
+Received: from mx.kolabnow.com ([95.128.36.40]:64198 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229502AbhGDNzp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Jul 2021 09:55:45 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id CCC5B403CB;
+        Sun,  4 Jul 2021 15:53:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1625406786; x=1627221187; bh=8uVUSMPNAeWl5eb58VReYcTTAmLLAbd7tmA
+        CfUIIQmo=; b=UOQWxpjrGTFlVsjja0+x3lb0nQnhgSZQbXR2ke9xvMdqO5H1VQY
+        qF6/uLh9On/d/Xa2JLLFRRSQ+WMXxkH7IFdoaM+ojuFwM7Yk8X2D61dBZVNyZQTm
+        fk00rIJqxBl7lSLo7S/2HO4UCKcKfc2OePUcQ+OAtjpA4TxUX8sAq/RvtZSzh/F+
+        ea3xAaonxRtD6Bt+dMylSbtY8GTtYFMNNlN8g2oB39mi3uOScjJ392iLcXtd8C9v
+        8QrvOsiipHmmtXraB5KB54aFjsbTe/zSEiSp9beBiYmcC1iSWRa2Ke4MIXFlU5Mi
+        3WBdNr/AdahqmOEnYBGhl7EMWbPxLYxIxyVZxPjm2je1oigPfVuXN40Nzfobt/eV
+        hS9iaEi+G+nw2BTR/EoDPiJX9G8BNnenKkmNhSJx72LoN4YDXIEFgg33jOnfkta5
+        XJ/4W/4aLqVZAiZEjZps4w0M1LymfgmTD8rPhaZIJceu4ZKDxYzsgEaserAtQx53
+        X6fgUjNSIo3O4d3XOY8Ap8+y98OMKK3O44Hn/KaaqOXnGFzGFoExufKOVa339Aa9
+        PNQTfc2F4Mk10BGwvpMYiap5oByYi0aTnRQALRPF8u+ozu6IOdZgOAXJgjgyTI7J
+        8h6bK3ikp5qvQKYjZq0Z3i50bTWwWs9Lq/JQrbo3SPaNNu5TRvmW3Huc=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id amjP_pqs2F4a; Sun,  4 Jul 2021 15:53:06 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 040CD41869;
+        Sun,  4 Jul 2021 15:52:52 +0200 (CEST)
+Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 736454BEB;
+        Sun,  4 Jul 2021 15:52:43 +0200 (CEST)
 MIME-Version: 1.0
-In-Reply-To: <20210703164834.460447-1-hujialun@comp.nus.edu.sg>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: LCKnCgBnAzfPIuFgRjw1AA--.9206S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr1fXr17Zr1kJry7JFW7XFb_yoW5Jry3pF
-        1DKr1xAa1xCwn5Cr4xuw48urZ5Wan7GFZxGF15G3yrWrnxAa1ktFWDKrs0va4fXry0vay5
-        ZF4jkr9ru3WavFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgmb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
-        1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkE
-        bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-        AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
-        42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
-        IF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2
-        KfnxnUUI43ZEXa7IUUOzVUUUUUU==
-X-Originating-IP: [39.144.6.102]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 04 Jul 2021 15:52:41 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lepton Wu <ytht.net@gmail.com>, Mel Gorman <mgorman@suse.de>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/12] docs: accounting: update delay-accounting.rst
+ reference
+In-Reply-To: <20210603095632.35ab9fee@coco.lan>
+References: <cover.1622648507.git.mchehab+huawei@kernel.org>
+ <629b0bd21d02c8faef9a6d17d9eee8ff612715e0.1622648507.git.mchehab+huawei@kernel.org>
+ <YLe0BQcrnfRgH1dV@hirez.programming.kicks-ass.net>
+ <20210602200121.64a828a1@coco.lan> <871r9k6rmy.fsf@meer.lwn.net>
+ <20210602221940.7e0a6135@coco.lan> <20210603095632.35ab9fee@coco.lan>
+Message-ID: <2566fa8cfbfc89aed22d7a8d20e303a4@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mauro,
 
-在 2021/7/4 上午12:48, Hu Jialun 写道:
-> Update Chinese translation on par with original English coding-style.rst
-> Related commit b7592e5b82db19b72a34b471f3296ad3f651c8b9
->
-> Signed-off-by: Hu Jialun <hujialun@comp.nus.edu.sg>
-> ---
-> This is more of a crude first attempt to begin getting accustomed to
-> mailing list conventions of open-source communities.
-> While efforts have been made to conform to the patch submission
-> conventions, there is still inevitably certain omissions.
-> Any corrections and suggestions would be greatly appreciated! :)
+and sorry for the late reply
 
+On 2021-06-03 09:56, Mauro Carvalho Chehab wrote:
+> Some manual work is needed, as a couple of replacements occurred inside
+> tables. I also need to check if automarkup.py got everything, including
+> the ones inside tables.
+> 
+> I'm in doubt with regards to translations. There, the tag is used
+> to point to the original translation, like on
+> Documentation/translations/it_IT/core-api/symbol-namespaces.rst:
+> 
+> 	:Original: :doc:`../../../core-api/symbol-namespaces`
+> 	:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
+> 
+> My personal preference would be to keep using it for translations.
 
-Dear Hu Jialun,
+Why is this your preference? I would prefer to have a consistent style 
+everywhere.
+If ":doc:" is now discouraged, then do not use it. What am I missing?
 
-Welcome to linux-doc mailing list. We are always welcoming new contributors
-who come up with corrections and suggestions to our documentation work.
-Looking forward to your future constructions to the Linux kernel community.
-
-By the way, congratulations for your first contribution to the Linux
-documentation. Your patch is pretty, so don't worry about any issues.
-All you're supposed to do is to wait for Corbet to have a check and apply
-it.
-
-Reviewed-by: Hu Haowen <src.res@email.cn>
-
-Thx,
-Hu Haowen
-
-
->  Documentation/translations/zh_CN/process/coding-style.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-> index b8c484a84d10..638d714bec83 100644
-> --- a/Documentation/translations/zh_CN/process/coding-style.rst
-> +++ b/Documentation/translations/zh_CN/process/coding-style.rst
-> @@ -268,8 +268,7 @@ C 程序员不使用类似 ThisVariableIsATemporaryCounter 这样华丽的名字
->  ``count_active_users()`` 或者类似的名字，你不应该叫它 ``cntuser()`` 。
->  
->  在函数名中包含函数类型 (所谓的匈牙利命名法) 是脑子出了问题——编译器知道那些类
-> -型而且能够检查那些类型，这样做只能把程序员弄糊涂了。难怪微软总是制造出有问题
-> -的程序。
-> +型而且能够检查那些类型，这样做只能把程序员弄糊涂了。
->  
->  本地变量名应该简短，而且能够表达相关的含义。如果你有一些随机的整数型的循环计
->  数器，它应该被称为 ``i`` 。叫它 ``loop_counter`` 并无益处，如果它没有被误解的
-
+-- 
+Federico Vaga
