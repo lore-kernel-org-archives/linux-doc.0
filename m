@@ -2,186 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77387C07E96
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 23:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CFEC07E96
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 00:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60FF461370
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jul 2021 23:17:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFF01613E9
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 00:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231197AbhGDXUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jul 2021 19:20:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48966 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232496AbhGDXNU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:13:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6693861971;
-        Sun,  4 Jul 2021 23:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440158;
-        bh=eTrAhuEnhf1jwS563QR50Re9w5Dovg9QzGL1lL+ozPY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a594L1MkaFh4g8w5f8pKFIhmHxYLEJjghZRo6ucJgM7Wba/UgfmdIaVCjZbEZ117b
-         Onn5hlJ1+whJc7U3q2OC8IEtFi5rK7pnF8ZrH+oW28UNCTrR5LC75Da/s1kNCf6lMq
-         5AziMuoXHXnXUzAEBEbUYxWwDXO3htYm6bEdoM+6UGZF5/PcsM0HiHuSR9O2HXgjDl
-         CS/unGcqRgs0OV9ay4MhiS75GgCaP/LDBQ6BKx+bw6VjQMM15Hxm+QXyNivcx3Tw59
-         SnkArMfneAscdMqGw8+6yCyebvfpXSZtFpllv1VhtYjjXTEH2OzZMzscs7zQHIb33f
-         Gzf7V5KG53now==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>,
-        =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 55/70] hwmon: (max31790) Fix pwmX_enable attributes
-Date:   Sun,  4 Jul 2021 19:07:48 -0400
-Message-Id: <20210704230804.1490078-55-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
-References: <20210704230804.1490078-1-sashal@kernel.org>
+        id S229728AbhGEAqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jul 2021 20:46:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229549AbhGEAql (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jul 2021 20:46:41 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449DAC061574;
+        Sun,  4 Jul 2021 17:44:05 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id ie21so8953027pjb.0;
+        Sun, 04 Jul 2021 17:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RoRwu7X2cHfz4D8K4O6Qb/qjVmxWtGhql31qve1wJtc=;
+        b=Mg4l4CqceddtxvDKqhh/j1/QTCzmCACoz3E8YktiPGHfMXGGj+yrXiF2qW40jFjIVe
+         0RRuJmvXrCUDSbP7Oh1zxy4wxITe8rofVwwedmY1rVZXukNyFSbLZAslTJajNKTIxKjL
+         ocnqGz33yeGmpbsBlMnQpsZwoxVywqyAUx0ppUqzXjrqfwLvyxxiU6OU7dJiRVD2kbgT
+         m0vpgCow4UV2ZI6rIcHRorNCuLajeN4pFOB2O9umlULwqs4SIoRZeR4EL57V+k2eGx07
+         VeYLlmntlB/2LPi4QEulCKms41vN3ni5+1UmXaM22OfyIegNtRkH7KY4gHSe0P7F6J/h
+         YClQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RoRwu7X2cHfz4D8K4O6Qb/qjVmxWtGhql31qve1wJtc=;
+        b=dQ/j9fO+sF3LsKB7++rXShXhM43BibHiAOF1xNtJePtRukwJzZntDDoeMiaJk3ozQc
+         zQ9GBlRBCT4Pv06F6MjyyDdAObelBUqdeho+Zk0E1Xp9Enr1cMtMwpLJOq7CTIz/PSeq
+         Xim6WquJsBkzZFfiVoyN2FgzZLg/Z3rRlhh0SptXQQsnTlMKGet1sHdHQFL5+k71+XXZ
+         wD3JdZqNiT7jY9h2itFzKW0vRGoFDsbtdWi7GzSDU0oLNX8Y/wji3vWdAKujQcTKs1zW
+         Cihtnt2JPcQQBNiCsYZIXeOL2Y95yglgnh42p52xjCKORcKIAZ8DhSPGe5cAPIVVINgo
+         5fGQ==
+X-Gm-Message-State: AOAM530TveVzQqf3L6i87rLSkA/6icPJPWNNpjF0ZLyRAruzNs8fnErH
+        I3O4/ibb2trKWzv2ELIL3g8Ab30bMrzf9IwGTy0=
+X-Google-Smtp-Source: ABdhPJxIiefTGClOgL6uKzDoW9dPMszv+sGDg2sP/uj3oquM0INw+a4VAWftKgyGxyrvyig7wGAOfg==
+X-Received: by 2002:a17:90a:4586:: with SMTP id v6mr12088253pjg.36.1625445844499;
+        Sun, 04 Jul 2021 17:44:04 -0700 (PDT)
+Received: from localhost.lan ([2400:4070:175b:7500::7a7])
+        by smtp.gmail.com with ESMTPSA id j2sm10848631pfb.53.2021.07.04.17.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Jul 2021 17:44:03 -0700 (PDT)
+Received: from x2.lan (localhost [127.0.0.1])
+        by localhost.lan (Postfix) with ESMTPSA id 8FC44900773;
+        Mon,  5 Jul 2021 00:44:01 +0000 (GMT)
+From:   Vincent Pelletier <plr.vincent@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: gpio: driver.rst: Remove gpiochip_irqchip_add mention
+Date:   Mon,  5 Jul 2021 00:43:59 +0000
+Message-Id: <5d1823c503629694de74ccd2d823188507c54706.1625445811.git.plr.vincent@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Guenter Roeck <linux@roeck-us.net>
+This function was removed in commit f1f37abbe6fc ("gpio: Retire the
+explicit gpio irqchip code") but this mention was left behind.
+Also, mention that .set_type() only has to set a line handler if the chip
+is cascaded, as opposed to hierarchical.
 
-[ Upstream commit 148c847c9e5a54b99850617bf9c143af9a344f92 ]
-
-pwmX_enable supports three possible values:
-
-0: Fan control disabled. Duty cycle is fixed to 0%
-1: Fan control enabled, pwm mode. Duty cycle is determined by
-   values written into Target Duty Cycle registers.
-2: Fan control enabled, rpm mode
-   Duty cycle is adjusted such that fan speed matches
-   the values in Target Count registers
-
-The current code does not do this; instead, it mixes pwm control
-configuration with fan speed monitoring configuration. Worse, it
-reports that pwm control would be disabled (pwmX_enable==0) when
-it is in fact enabled in pwm mode. Part of the problem may be that
-the chip sets the "TACH input enable" bit on its own whenever the
-mode bit is set to RPM mode, but that doesn't mean that "TACH input
-enable" accurately reflects the pwm mode.
-
-Fix it up and only handle pwm control with the pwmX_enable attributes.
-In the documentation, clarify that disabling pwm control (pwmX_enable=0)
-sets the pwm duty cycle to 0%. In the code, explain why TACH_INPUT_EN
-is set together with RPM_MODE.
-
-While at it, only update the configuration register if the configuration
-has changed, and only update the cached configuration if updating the
-chip configuration was successful.
-
-Cc: Jan Kundrát <jan.kundrat@cesnet.cz>
-Cc: Václav Kubernát <kubernat@cesnet.cz>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Václav Kubernát <kubernat@cesnet.cz>
-Reviewed-by: Jan Kundrát <jan.kundrat@cesnet.cz>
-Link: https://lore.kernel.org/r/20210526154022.3223012-4-linux@roeck-us.net
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
 ---
- Documentation/hwmon/max31790.rst |  2 +-
- drivers/hwmon/max31790.c         | 41 ++++++++++++++++++++------------
- 2 files changed, 27 insertions(+), 16 deletions(-)
+ Documentation/driver-api/gpio/driver.rst | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 54ff0f49e28f..7b097c3b9b90 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -38,7 +38,7 @@ Sysfs entries
- fan[1-12]_input    RO  fan tachometer speed in RPM
- fan[1-12]_fault    RO  fan experienced fault
- fan[1-6]_target    RW  desired fan speed in RPM
--pwm[1-6]_enable    RW  regulator mode, 0=disabled, 1=manual mode, 2=rpm mode
-+pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
- pwm[1-6]           RW  read: current pwm duty cycle,
-                        write: target pwm duty cycle (0-255)
- ================== === =======================================================
-diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 8ad7a45bfe68..76aa96f5b984 100644
---- a/drivers/hwmon/max31790.c
-+++ b/drivers/hwmon/max31790.c
-@@ -27,6 +27,7 @@
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index d6b0d779859b..bbc53920d4dd 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -547,13 +547,10 @@ To use the helpers please keep the following in mind:
+   the irqchip can initialize. E.g. .dev and .can_sleep shall be set up
+   properly.
  
- /* Fan Config register bits */
- #define MAX31790_FAN_CFG_RPM_MODE	0x80
-+#define MAX31790_FAN_CFG_CTRL_MON	0x10
- #define MAX31790_FAN_CFG_TACH_INPUT_EN	0x08
- #define MAX31790_FAN_CFG_TACH_INPUT	0x01
+-- Nominally set all handlers to handle_bad_irq() in the setup call and pass
+-  handle_bad_irq() as flow handler parameter in gpiochip_irqchip_add() if it is
+-  expected for GPIO driver that irqchip .set_type() callback will be called
+-  before using/enabling each GPIO IRQ. Then set the handler to
+-  handle_level_irq() and/or handle_edge_irq() in the irqchip .set_type()
+-  callback depending on what your controller supports and what is requested
+-  by the consumer.
++- Nominally set gpio_irq_chip.handler to handle_bad_irq. Then, if your irqchip
++  is cascaded, set the handler to handle_level_irq() and/or handle_edge_irq()
++  in the irqchip .set_type() callback depending on what your controller
++  supports and what is requested by the consumer.
  
-@@ -271,12 +272,12 @@ static int max31790_read_pwm(struct device *dev, u32 attr, int channel,
- 		*val = data->pwm[channel] >> 8;
- 		return 0;
- 	case hwmon_pwm_enable:
--		if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
-+		if (fan_config & MAX31790_FAN_CFG_CTRL_MON)
-+			*val = 0;
-+		else if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
- 			*val = 2;
--		else if (fan_config & MAX31790_FAN_CFG_TACH_INPUT_EN)
--			*val = 1;
- 		else
--			*val = 0;
-+			*val = 1;
- 		return 0;
- 	default:
- 		return -EOPNOTSUPP;
-@@ -307,23 +308,33 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
- 	case hwmon_pwm_enable:
- 		fan_config = data->fan_config[channel];
- 		if (val == 0) {
--			fan_config &= ~(MAX31790_FAN_CFG_TACH_INPUT_EN |
--					MAX31790_FAN_CFG_RPM_MODE);
-+			fan_config |= MAX31790_FAN_CFG_CTRL_MON;
-+			/*
-+			 * Disable RPM mode; otherwise disabling fan speed
-+			 * monitoring is not possible.
-+			 */
-+			fan_config &= ~MAX31790_FAN_CFG_RPM_MODE;
- 		} else if (val == 1) {
--			fan_config = (fan_config |
--				      MAX31790_FAN_CFG_TACH_INPUT_EN) &
--				     ~MAX31790_FAN_CFG_RPM_MODE;
-+			fan_config &= ~(MAX31790_FAN_CFG_CTRL_MON | MAX31790_FAN_CFG_RPM_MODE);
- 		} else if (val == 2) {
--			fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN |
--				      MAX31790_FAN_CFG_RPM_MODE;
-+			fan_config &= ~MAX31790_FAN_CFG_CTRL_MON;
-+			/*
-+			 * The chip sets MAX31790_FAN_CFG_TACH_INPUT_EN on its
-+			 * own if MAX31790_FAN_CFG_RPM_MODE is set.
-+			 * Do it here as well to reflect the actual register
-+			 * value in the cache.
-+			 */
-+			fan_config |= (MAX31790_FAN_CFG_RPM_MODE | MAX31790_FAN_CFG_TACH_INPUT_EN);
- 		} else {
- 			err = -EINVAL;
- 			break;
- 		}
--		data->fan_config[channel] = fan_config;
--		err = i2c_smbus_write_byte_data(client,
--					MAX31790_REG_FAN_CONFIG(channel),
--					fan_config);
-+		if (fan_config != data->fan_config[channel]) {
-+			err = i2c_smbus_write_byte_data(client, MAX31790_REG_FAN_CONFIG(channel),
-+							fan_config);
-+			if (!err)
-+				data->fan_config[channel] = fan_config;
-+		}
- 		break;
- 	default:
- 		err = -EOPNOTSUPP;
+ 
+ Locking IRQ usage
 -- 
-2.30.2
+2.32.0
 
