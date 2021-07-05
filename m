@@ -2,70 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A1FC07E9A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 05:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E57C07E9A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 07:30:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF48B613D1
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 05:05:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DD94613C2
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 07:30:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbhGEFIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jul 2021 01:08:11 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57247 "EHLO 1wt.eu"
+        id S230026AbhGEHdJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jul 2021 03:33:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60924 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229728AbhGEFIL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Jul 2021 01:08:11 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 16555IWO031007;
-        Mon, 5 Jul 2021 07:05:18 +0200
-Date:   Mon, 5 Jul 2021 07:05:18 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Subject: Re: [PATCH 15/17] scripts: add `generate_rust_analyzer.py`
-Message-ID: <20210705050518.GC30964@1wt.eu>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <20210704202756.29107-16-ojeda@kernel.org>
+        id S229975AbhGEHdI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Jul 2021 03:33:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BAC4F6135D;
+        Mon,  5 Jul 2021 07:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1625470232;
+        bh=NiW/HXfBqch2oY+lEOTlQYrXSsK64D3GwvR6BGZndyA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NY9EFz6AZqrFYFDfqnsVvqYabkcRKqofUQMVRgEUMX11+CK/ioJgr0Q316XZaOeXF
+         cyGQH9s4RQUTgLnAUUuKfXNUY1yPDkK5M41JGvqF2aRqIoYkmqQiVBm/nFu0TAa8IS
+         DQDSuP/3GsXF9VoPTthvFnvvIRyGWUcL55W3VJAM=
+Date:   Mon, 5 Jul 2021 09:30:30 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, warthog618@gmail.com,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org
+Subject: Re: [RFC 02/11] drivers: Add HTE subsystem
+Message-ID: <YOK1Fq45P/DeqxAA@kroah.com>
+References: <20210625235532.19575-1-dipenp@nvidia.com>
+ <20210625235532.19575-3-dipenp@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210704202756.29107-16-ojeda@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210625235532.19575-3-dipenp@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 04, 2021 at 10:27:54PM +0200, ojeda@kernel.org wrote:
-> From: Miguel Ojeda <ojeda@kernel.org>
-> 
-> The `generate_rust_analyzer.py` script generates the configuration
-> file (`rust-project.json`) for rust-analyzer.
-> 
-> rust-analyzer is a modular compiler frontend for the Rust language.
-> It provides an LSP server which can be used in editors such as
-> VS Code, Emacs or Vim.
+On Fri, Jun 25, 2021 at 04:55:23PM -0700, Dipen Patel wrote:
+> +static void hte_chip_dbgfs_init(struct hte_device *gdev)
+> +{
+> +	const struct hte_chip *chip = gdev->chip;
+> +	const char *name = chip->name ? chip->name : dev_name(chip->dev);
+> +
+> +	gdev->dbg_root = debugfs_create_dir(name, hte_root);
+> +	if (!gdev->dbg_root)
+> +		return;
 
-You should probably add some doc about this, as I have no idea how
-I'm supposed to use this from my editor.
+No need to check for this, if it fails, your other debugfs calls
+will handle it just fine.
 
-Willy
+
+> +
+> +	debugfs_create_atomic_t("ts_requested", 0444, gdev->dbg_root,
+> +				&gdev->ts_req);
+> +	debugfs_create_u32("total_ts", 0444, gdev->dbg_root,
+> +			   &gdev->nlines);
+> +}
+> +
+> +static void hte_ts_dbgfs_init(const char *name, struct hte_ts_info *ei)
+> +{
+> +	if (!ei->gdev->dbg_root || !name)
+> +		return;
+> +
+> +	ei->ts_dbg_root = debugfs_create_dir(name, ei->gdev->dbg_root);
+> +	if (!ei->ts_dbg_root)
+> +		return;
+
+Again, no need to check.
+
+> +
+> +	debugfs_create_size_t("ts_buffer_depth", 0444, ei->ts_dbg_root,
+> +			      &ei->buf->datum_len);
+> +	debugfs_create_size_t("ts_buffer_watermark", 0444, ei->ts_dbg_root,
+> +			      &ei->buf->watermark);
+> +	debugfs_create_atomic_t("dropped_timestamps", 0444, ei->ts_dbg_root,
+> +				&ei->dropped_ts);
+> +}
+> +
+> +static inline void hte_dbgfs_deinit(struct dentry *root)
+> +{
+> +	if (!root)
+> +		return;
+
+No need to check this.
+
+> +
+> +	debugfs_remove_recursive(root);
+
+Do not wrap a single call with another call :)
+
+
+thanks,
+
+greg k-h
