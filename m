@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC14FC07E9B
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 15:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1470C07E9B
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 15:33:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC456619A9
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 15:32:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9973461997
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 15:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232991AbhGEPfJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jul 2021 11:35:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58626 "EHLO mail.kernel.org"
+        id S233501AbhGEPgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jul 2021 11:36:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58642 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232965AbhGEPeF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Jul 2021 11:34:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CE497619B1;
-        Mon,  5 Jul 2021 15:31:02 +0000 (UTC)
+        id S233231AbhGEPfG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Jul 2021 11:35:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 24164619BF;
+        Mon,  5 Jul 2021 15:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625499063;
-        bh=W7cU9IwYb/cZvi7h0Huto8qbio0cm44ZoI3UtV6KjXQ=;
+        s=k20201202; t=1625499092;
+        bh=2iqXqC+P/zExH1QDjeOLqulIHSqEc5K0v4+hea4/rwU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k13gwS2je5HqlVZ4S9oCJs4eg1SrcqulI0fBwrQSKgeoX4rS/sz/IanLP5cSrR71f
-         9gOZEwv7PoGEH8d2tyz8qjNnOLwRAXAOI18c6MjhH/2bzh/fpR3XvAZhYP1BQCLnLX
-         A32JdWGLsikmyz48U+BtiHmpi8YoCtvgWMXhWa1Ij157iBpjoDQnmlBMo3QQlb/+xM
-         ZihpogHck5asfX/n1pwJ19X1C9oNzZgmth88tWGsZJsRoluWqp/y9YAi9hSVd1iGCN
-         ZDRRMF4leZrvgONKXpSmbOATI6OgYKdaAPk79r7FQfJBOOciWIS6EtNmSxAuVM02Dj
-         GJ4xcNhuJpmlw==
+        b=iMmaaa98cmZAzguibyACw2e0z7fAOxCsmuhkeu72R7jnq74H8+DGZgfgglBlD867m
+         apW+MjlI65grDMEhxyUgdlH/Qv0fmwFC6oZTyVnvGjp/0uaKNEtHvZWAIwB7hTAaju
+         e5Xrtw41QE/s4PwAGN1B0nSg782VDysXHXwWwzPtmT/UIELTtqee/ciiM8UgZ/eD5c
+         wPYHYCREYs+txJbQZPB1fguc+FwTkDEYeZPgmCcK5TlRvMnl8nqXKL3lDIjJdZW/l9
+         5oAHFTt+rwQmevpMIsILxpA6Cxas8U4ilXl5eqpAvooEWDhY62dzSq/9bajqF85X8N
+         4u+iozDjzz/pA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "Paul E. McKenney" <paulmck@kernel.org>, Chris Mason <clm@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Feng Tang <feng.tang@intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 19/26] clocksource: Retry clock read if long delays detected
-Date:   Mon,  5 Jul 2021 11:30:32 -0400
-Message-Id: <20210705153039.1521781-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 14/17] clocksource: Retry clock read if long delays detected
+Date:   Mon,  5 Jul 2021 11:31:10 -0400
+Message-Id: <20210705153114.1522046-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210705153039.1521781-1-sashal@kernel.org>
-References: <20210705153039.1521781-1-sashal@kernel.org>
+In-Reply-To: <20210705153114.1522046-1-sashal@kernel.org>
+References: <20210705153114.1522046-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 53 insertions(+), 6 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a19ae163c058..dbb68067ba4e 100644
+index 558332df02a8..6795e9d187d0 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -567,6 +567,12 @@
+@@ -558,6 +558,12 @@
  			loops can be debugged more effectively on production
  			systems.
  
@@ -106,10 +106,10 @@ index a19ae163c058..dbb68067ba4e 100644
  			Disable CPUID feature X for the kernel. See
  			arch/x86/include/asm/cpufeatures.h for the valid bit
 diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index 428beb69426a..6863a054c970 100644
+index f80bb104c41a..221f8e7464c5 100644
 --- a/kernel/time/clocksource.c
 +++ b/kernel/time/clocksource.c
-@@ -124,6 +124,13 @@ static void __clocksource_change_rating(struct clocksource *cs, int rating);
+@@ -142,6 +142,13 @@ static void __clocksource_change_rating(struct clocksource *cs, int rating);
  #define WATCHDOG_INTERVAL (HZ >> 1)
  #define WATCHDOG_THRESHOLD (NSEC_PER_SEC >> 4)
  
@@ -123,7 +123,7 @@ index 428beb69426a..6863a054c970 100644
  static void clocksource_watchdog_work(struct work_struct *work)
  {
  	/*
-@@ -184,12 +191,45 @@ void clocksource_mark_unstable(struct clocksource *cs)
+@@ -202,12 +209,45 @@ void clocksource_mark_unstable(struct clocksource *cs)
  	spin_unlock_irqrestore(&watchdog_lock, flags);
  }
  
@@ -171,7 +171,7 @@ index 428beb69426a..6863a054c970 100644
  
  	spin_lock(&watchdog_lock);
  	if (!watchdog_running)
-@@ -206,10 +246,11 @@ static void clocksource_watchdog(struct timer_list *unused)
+@@ -224,10 +264,11 @@ static void clocksource_watchdog(struct timer_list *unused)
  			continue;
  		}
  
