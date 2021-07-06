@@ -2,173 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 252A6C07E9B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D9EC07E9B
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:07:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AD00613C8
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:02:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D3B46115A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbhGFAFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jul 2021 20:05:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36916 "EHLO
+        id S229805AbhGFAJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jul 2021 20:09:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbhGFAFI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jul 2021 20:05:08 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE4ACC061760;
-        Mon,  5 Jul 2021 17:02:29 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id x3so2562130pll.5;
-        Mon, 05 Jul 2021 17:02:29 -0700 (PDT)
+        with ESMTP id S229743AbhGFAJl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jul 2021 20:09:41 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E505C061574;
+        Mon,  5 Jul 2021 17:07:04 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id l5so22715514iok.7;
+        Mon, 05 Jul 2021 17:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=rS9/KX2AUiC/aLX/vHmrh7KcSB+1jwtHLy+1OkCgEjM=;
-        b=rQvp5qxyAZ3QPeB4e7cu+TNGmYPoLee1BvGkC+yENUYhnhJWr5yUmzi5o0bKL65sXX
-         gmJpTfu6hYAv/iiAvpvjAOooMWGzvQUNlpOlTk4RNJgJgdVWBRIL2kHAJ+jYOoYYVJ2J
-         6FzQDwWX28/CpZAhVrjUvqXiTn5A1iXolZwq5bOQ44ljWJxPSyldrExgYyG2BBFxpWvr
-         bfWwQTRkuKIVACqa0dkk7VamkK3ARa4jMUQnll+RO0P4v3kZstVUaF+qS94YxfRmP0bP
-         u9YJkpRILSl3TMuqK5jc9lag4VG1ZNid2NdMJsdh5dvUZEFVX0qVWXk1NZMDRcDBIBuC
-         jG/g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HWIixnnyJo+DhFLgoAE7s9KutlRLM2MMSVTjE3yIFGE=;
+        b=h/T+vh+XlJJWZ6wFsveY2rN5V4HkdSrNHYHfQd1w8wmXFNtpSHXM27nXa7yqhwnygM
+         Vyn/aN4MQi4yxZQ+JbzfkJLCjUS9l4ovhYrponiy5zG+WeruKdo5xGNpzdm+W+30/Pxn
+         SCNqOdke+quMakmVzzqG+LHKF7WqlfXkh1b2zMIAslGnK3dJBaDjOgy61jDMzUYwqLuz
+         +mgx0q32H++67NI4wl66vYBU6DHAQVvaxjRO2unQmjw992fND+WjezDAfIC9ToFDu0/F
+         a6IFWW3rGtm/7b1Q9qns3kpCicWrGTrM34ESQ2ACyf4PTw3S16rEFcfc6sLnzefYW7sj
+         GDMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rS9/KX2AUiC/aLX/vHmrh7KcSB+1jwtHLy+1OkCgEjM=;
-        b=mTZZn3W62aAKSUmEELHpCo+8I7AupuAyYuz1vbe0eYT9EN4vDA77iGLWtjp8nz0S4w
-         lF1y65FHSm1i9fRrrNjPRVBXBHR4VhygWdxkhkis0+zi25aI9c8bROE7jBYX4vHg/tU2
-         xkPy5Q7UxpRypR8TECVE/ZtAT9sC0SxylGCgEYiWsOv+rwpmff/2LibAOobLZWsLRnv7
-         MnCSVk7fppwG1qGYQj39ReRkNoVM2HwNcnOVV1hw7Mfxnmjp0DINWXb1XwLxbyXaxkM/
-         RJgScpo+yBwedfX6AmxDAMsu9XIZBZzdNDenx5vVDFzLt2uNJE6NgSMaZNp90d8yu0k4
-         WboA==
-X-Gm-Message-State: AOAM530w1vRfnRny910FsL2R19o5AZWOLhN/3KBbhqeqUce/njrao5ue
-        /UsWBtTglezwjh/ovcooyhI=
-X-Google-Smtp-Source: ABdhPJzpyBkCyFekN13HD7vmVwlAsfbGBRHSTrvfPMCPElD6JtWqLmnhNTkVVRa1GdNjJjNgQvpnUA==
-X-Received: by 2002:a17:90a:ea88:: with SMTP id h8mr17694154pjz.147.1625529748969;
-        Mon, 05 Jul 2021 17:02:28 -0700 (PDT)
-Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
-        by smtp.gmail.com with ESMTPSA id u24sm14359456pfm.200.2021.07.05.17.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 17:02:28 -0700 (PDT)
-Received: from x2.lan (localhost [127.0.0.1])
-        by localhost.lan (Postfix) with ESMTPSA id 10968902A2B;
-        Tue,  6 Jul 2021 00:02:26 +0000 (GMT)
-From:   Vincent Pelletier <plr.vincent@gmail.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
-Subject: [PATCH 3/3] Documentation: hwmon: New information for DA9063
-Date:   Tue,  6 Jul 2021 00:01:57 +0000
-Message-Id: <aef8227a9ac7246791bf3f086008e2d381ddd463.1625529219.git.plr.vincent@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <1182ccb1b0bac9276967f4a11d971bd135c611f2.1625529219.git.plr.vincent@gmail.com>
-References: <1182ccb1b0bac9276967f4a11d971bd135c611f2.1625529219.git.plr.vincent@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HWIixnnyJo+DhFLgoAE7s9KutlRLM2MMSVTjE3yIFGE=;
+        b=fcjz65HZ2QGcLRgoY/TorQz3CvhL8caIk9TT55Qp99zJXaK4CjWTkGdBqh8eWOY7Th
+         Xbfyl2Ewsi9qUvfMX6PCz0AL78evI06jXS2pCNNzNUpUyocP3afKZKcR/D8zSiW8/gZf
+         FkbLiBrn5pedmEyGb4evMOIbaeHcap9Z9zFhG6dXgOuxDotbLTyI7NRciQd+B//u208K
+         CC9h12LsEEmfymQ0coKBVmFD2vmcA8wd0A806o0xiPosX/sh9BrR7gCJA+UotxJ+OM14
+         FY/SbORvJo6Hju815VFcDgyEDZ5Zu+LvsW3jvZCyF7veoTCOzD8EZOCAO9G/SHKh97Jp
+         nb9Q==
+X-Gm-Message-State: AOAM531GreD0JpYR7DyxQMgCAwPm0YLXxl6wVvm51mtWwnPF3u8iMXqf
+        LBWCBevh13Eyi+e6iWC2kjfLB0hPwrCMH+cEHmU=
+X-Google-Smtp-Source: ABdhPJzBWL15ESGqXCv8pNv+0U+/wqKBNs1LqLWgLVgncOWi6tUCc+7SJs2W7/G6qvZW6dQBrCUzFHzLpQzZq+2ulik=
+X-Received: by 2002:a05:6602:42:: with SMTP id z2mr13537324ioz.91.1625530023507;
+ Mon, 05 Jul 2021 17:07:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-14-ojeda@kernel.org>
+ <20210705050234.GB30964@1wt.eu>
+In-Reply-To: <20210705050234.GB30964@1wt.eu>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 6 Jul 2021 02:06:52 +0200
+Message-ID: <CANiq72kvv1rYa-TY3EvM5tBc4d0bhuNH8u56b8PM4PQd1ngmTQ@mail.gmail.com>
+Subject: Re: [PATCH 13/17] docs: add Rust documentation
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+On Mon, Jul 5, 2021 at 7:02 AM Willy Tarreau <w@1wt.eu> wrote:
+>
+> Miguel, the wording and style in this file is not much welcome, it looks
+> like a copy-paste of an e-mail in the doc. The exclamation above "this is
+> a very good news" doesn't really belong to a doc, and for readers who don't
+> understand why it appears as a good news to the writer, it probably is an
+> even less good news.
 
-Addition of HWMON documentation for the DA9063 driver.
+Yes, I can definitely be more formal here.
 
-Signed-off-by: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
+> In general you should avoid "we" and "you" when writing documentation.
+> Prefer passive forms instead, which do not place a barrier between those
+> who teach and those who learn. It's generally considered more inclusive
+> in that it makes the reader not feel outside of the team who wrote it.
 
-Updated temperature formula, as of datasheet rev 2.3.
+When I was writing this, I wondered the same thing, because in Spanish
+this does look quite bad (in the sense of being too informal), and we
+use the passive forms a lot more for things like this. So I am fine
+rewriting this. Also, mixing we/you is not ideal either.
 
-Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
----
-Originally submitted by Steve Twiss in 2014:
-  https://marc.info/?l=linux-kernel&m=139560868209856&w=2
+Having said that, I am not sure about English and whether people
+prefer to read text with the passive form or not. In `Documentation/`
+there seems to be a lot of "we"s and "you"s, but they could be wrong
+too, of course.
 
- Documentation/hwmon/da9063 | 67 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/hwmon/da9063
+> An additional note is that if the language imposes such unusual constraints
+> on the editor, you should probably point to various known settins for most
+> well-known editors.
 
-diff --git a/Documentation/hwmon/da9063 b/Documentation/hwmon/da9063
-new file mode 100644
-index 000000000000..879f1d0fb3e4
---- /dev/null
-+++ b/Documentation/hwmon/da9063
-@@ -0,0 +1,67 @@
-+
-+Kernel driver da9063-hwmon
-+==========================
-+
-+Supported chips:
-+ * Dialog Semiconductor DA9063 PMIC
-+    Prefix: 'da9063'
-+    Datasheet:
-+	http://www.dialog-semiconductor.com/products/power-management/DA9063
-+
-+Authors: S Twiss <stwiss.opensource@diasemi.com>
-+
-+Description
-+-----------
-+
-+The DA9063 PMIC provides a general purpose ADC with 10 bits of resolution.
-+It uses track and hold circuitry with an analogue input multiplexer which
-+allows the conversion of up to 9 different inputs.
-+
-+ Channel  0: VSYS_RES	measurement of the system VDD (2.5 - 5.5V)
-+ Channel  1: ADCIN1_RES	high impedance input (0 - 2.5V)
-+ Channel  2: ADCIN2_RES	high impedance input (0 - 2.5V)
-+ Channel  3: ADCIN3_RES	high impedance input (0 - 2.5V)
-+ Channel  4: Tjunc	measurement of internal temperature sensor
-+ Channel  5: VBBAT	measurement of the backup battery voltage (0 - 5.0V)
-+ Channel  6: N/A	Reserved
-+ Channel  7: N/A	Reserved
-+ Channel  8: MON1_RES	group 1 internal regulators voltage (0 - 5.0V)
-+ Channel  9: MON2_RES	group 2 internal regulators voltage (0 - 5.0V)
-+ Channel 10: MON3_RES	group 3 internal regulators voltage (0 - 5.0V)
-+
-+The MUX selects from and isolates the 9 inputs and presents the channel to
-+be measured to the ADC input. When selected, an input amplifier on the VSYS
-+channel subtracts the VDDCORE reference voltage and scales the signal to the
-+correct value for the ADC.
-+
-+The analog ADC includes current sources at ADC_IN1, ADC_IN2 and ADC_IN3 to
-+support resistive measurements.
-+
-+Channels 1, 2 and 3 current source capability can be set through the ADC
-+thresholds ADC_CFG register and values for ADCIN1_CUR, ADCIN2_CUR and
-+ADCIN3_CUR. Settings for ADCIN1_CUR and ADCIN2_CUR are 1.0, 2.0, 10 and
-+40 micro Amps. The setting for ADCIN3_CUR is 10 micro Amps.
-+
-+Voltage Monitoring
-+------------------
-+
-+The manual measurement allows monitoring of the system voltage VSYS, the
-+auxiliary channels ADCIN1, ADCIN2 and ADCIN3, and a VBBAT measurement of
-+the backup battery voltage (0 - 5.0V). The manual measurements store 10
-+bits of ADC resolution.
-+
-+The manual ADC measurements attributes described above are supported by
-+the driver.
-+
-+The automatic ADC measurement is not supported by the driver.
-+
-+Temperature Monitoring
-+----------------------
-+
-+Channel 4 (Tjunc) will be used to measure the output of the internal
-+temperature sensor. The ADC measurement result and the T_OFFSET value can
-+be used by the host to calculate the internal junction temperature
-+
-+	Tjunc = -0.398 * (ADC - T_OFFSET) + 330;
-+
-+The junction temperature attribute is supported by the driver.
--- 
-2.32.0
+Are you referring about style? If yes, it is possible to write the
+code with a text editor with no extra features and then format it, so
+that should not be a problem.
 
+> You should also clearly indicate how to recheck (or adjust) individual
+> files, not just say that the command supports it.
+
+Sounds good -- I will do that.
+
+Thanks a lot for reviewing the docs!
+
+Cheers,
+Miguel
