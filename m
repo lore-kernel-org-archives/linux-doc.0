@@ -2,275 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A05F7C07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C25D7C07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 17:28:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 855FA61C4B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:42:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1A7F61C59
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 17:28:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhGFQpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 12:45:31 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53549 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229770AbhGFQpb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 12:45:31 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id ED38358067B;
-        Tue,  6 Jul 2021 12:42:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 06 Jul 2021 12:42:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=W6MiHashvxzD/kAAuIZVKo84DZ9
-        qBLQd+rtHQpbZp+k=; b=WSiVy/c9f09jEvWIJfqbqBgsWevGwvK9n2/rTMHB+vE
-        JpHiqjtrBRvzPD1hT/djwShgO3S8n3ETfRxJMJnH4Ezn/vnuLLkZmixLZOiWOe50
-        UsZfDmbDnjOiWV/JGEDOpj1idsuG9rp7XyzyawWnZCmv1Fes1wjCutLqze5IABej
-        BGySBCMNVSFsEH2TzuhhHmUvk5abdWS7LjmWqdzAGkWPLuvTeI/Nams/ip9gGmQD
-        1uNh7A+xok91QJKn10j+vyb9UwgyNPyR/1hS3AOM0KBV15aKTYeWopFcQbzAczGw
-        MkDDSSKR4aOusL9d+yn4cb5qAfymx+ceaepIm5P8STg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=W6MiHa
-        shvxzD/kAAuIZVKo84DZ9qBLQd+rtHQpbZp+k=; b=g/Flbq0X6XVSy4U3baetcW
-        Az1gWDb13P3UX3yuHGec9m/IMVQTu041WErhz5XoApUwwvQPL3i1unCWoYQqgYKa
-        HOnsSZ7e35fTbeXyK8/rs+ZKShIe38EpzawhU7xE2MtYsBIv+Aprt5arcuW8qnpa
-        ++mEwRNM5fCuTWIWp6bNnR0MQ5objpoO7xOC+XRIWvaSALNYBPAkkPF1jXtgpoLL
-        gRrQeypbi0dkWxxsITPg+SURmzFC4ekq7sRw9ngK7JeI1IMz20cV0unmwV+UAzVI
-        esK8Qd+4ZVxJNR70OB0zfp4iJSHEcfD5IAAwnxUu/LUZu48y1vOLaI+3OAZ641Cg
-        ==
-X-ME-Sender: <xms:BYjkYF9C0T-kkJ55smEuYZ_DPYFcB7Ey6N6D-Vj77Os-tUY3B2IuUg>
-    <xme:BYjkYJu4RAcNYSmNHW1Fh8a7X09S7i1kQx6MwPybfx1WWkZbYTrAanXilw5rPeZMb
-    Idzs_6dPnuBk8HHguo>
-X-ME-Received: <xmr:BYjkYDA0YmYtJAYOjPLSSmaxEmEKfXQWgU1R8Z4Czcz0na-e-UWrMxdjgBPQM1t6KK_oFVekvhu3qQGef9CrixjTZDiOBbOeZmLh>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BYjkYJfE1tM3iIjrOtVS5ulonqYccyRikn2OLMadvMOmaBl78bbfjA>
-    <xmx:BYjkYKMiiZBvQptwCdQugJePmrPNv_CCGPPlzvNufGIbm4LCr-TdQg>
-    <xmx:BYjkYLnNrIhbXpItOoJrL-l7AMf9yI4mCY1qoTCXCoO3EYw_Bgfh1w>
-    <xmx:C4jkYHiemC-bj8ET9Yu7K5Qeza8pRcfANpAGmMoMGkZm0H1eMGSY6w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 12:42:44 -0400 (EDT)
-Date:   Tue, 6 Jul 2021 18:42:41 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210706164241.ghd56546murmwnit@gilmour>
-References: <20210616143842.632829-1-maxime@cerno.tech>
- <20210617112036.7373fdab@eldfell>
- <20210706085202.6o4fapfmq7osj5wf@gilmour>
- <20210706123723.6194abc5@eldfell>
+        id S230373AbhGFRbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 13:31:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229879AbhGFRbD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 13:31:03 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFAFC061574;
+        Tue,  6 Jul 2021 10:28:23 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id w74so78429oiw.8;
+        Tue, 06 Jul 2021 10:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pjXT6P96MgHuIttwz8cgGLmOjMu+HL6XnL6K6LaGWKc=;
+        b=R4SuCmWMSQmrVPUJPXC6txDxYVP/RsCcGjGgsd5nYPKiVQMOvFPmf8K6CiejnAbvQB
+         nGV4v6sovQyBo4huAfxfs5vpjou3Mnb9F5G4/Ss1Y5DKhrl6hghLgHPVZbYdbqdbl9ua
+         M5J9UgtgWBvV/bZ7VHWNTQJvX5TlQOyaiRSQBTxPs6t3POAc12x4ptUpOmw0x+rvwuAH
+         DGCksfOhsQOoEkQtS4qjej4iVA3Tyd9mh5ZKAgldsQ8bciqS9LqBvE/2f3y930Z9+Hzv
+         yVVhJgjteAqMGEgyC96eZBJe5Yxma8xGbXL+Rke+LmUzN7FKCKSpl8JtSZZ8G2UfVYTf
+         0VYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=pjXT6P96MgHuIttwz8cgGLmOjMu+HL6XnL6K6LaGWKc=;
+        b=FtmOb2qQhHVaM7yxBtBuDzOmrWTSq73zf4FDNRfX40LX+OIITbbJZWiTQ6sloWYeb1
+         55nlf3KZ77Zu4r6YVzdmnf4TlTfooqVtXj3cYo7CKgO/JEqT1UCMakGQPiCCJPKgXpw/
+         0w6K1qoe8PV3pli4EQA/Pu/qRAPTlTZDMUfz2fib9q1MMq2Jn5buKe892Dx8+lfCSipG
+         oM0Dqpb4NHV5RPyLHG4KxtLFP1RgNNhB8i/tvvDkf+DP7DuLw1DtlUp+MEULafY8E/Bd
+         p1j0AhxAoF8zC8tuWQOOqpYRSak1N9z2T+AJftSMSrYfu9eSfNVJ09j6kYJIRRk4DT8z
+         F3sQ==
+X-Gm-Message-State: AOAM530T3duRUgAzQMbKnMqPX9kF5EdmnqzDEkZR7PtEkoWF9qUWDgwM
+        /PJBXBwRtRlFeOnnYDtT2kk=
+X-Google-Smtp-Source: ABdhPJzuGUNHvhnU/A09hJaDWrEAuxtai92S+J6ZGJA9v+YioF5bpU7mPSVODZFOkre9q8HiQkRzkw==
+X-Received: by 2002:a54:488b:: with SMTP id r11mr12811645oic.116.1625592503305;
+        Tue, 06 Jul 2021 10:28:23 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x43sm1881830otr.38.2021.07.06.10.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 10:28:22 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 6 Jul 2021 10:28:21 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Vincent Pelletier <plr.vincent@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+Subject: Re: [PATCH 1/3] mfd: da9063: Add HWMON dependencies
+Message-ID: <20210706172821.GA943349@roeck-us.net>
+References: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6mnf4r7jxmdwlw7k"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210706123723.6194abc5@eldfell>
+In-Reply-To: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 06, 2021 at 02:34:47PM +0000, Vincent Pelletier wrote:
+> From: "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+> 
+> Dependencies required for DA9063 HWMON support.
+> 
+> Signed-off-by: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
+> 
+> Directly set da9063->t_offset.
+> Let MFD probe succeed even if DA9063_REG_T_OFFSET cannot be read.
+> 
+> Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
+> ---
+> Changes in v2:
+> - registers.h changes moved from patch 2
 
---6mnf4r7jxmdwlw7k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please version your patch series.
 
-On Tue, Jul 06, 2021 at 12:37:23PM +0300, Pekka Paalanen wrote:
-> > > > +- It must provide a generic helper in the core code to register th=
-at
-> > > > +  property on the object it attaches to.
-> > > > +
-> > > > +- Its content must be decoded by the core and provided in the obje=
-ct's
-> > > > +  associated state structure. That includes anything drivers might=
- want to
-> > > > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` =
-for planes.
-> > > > +
-> > > > +- An IGT test must be submitted where reasonable. =20
-> > >=20
-> > > Would it be too much to replace "where reasonable" with "if it is at
-> > > all possible to write a test."?
-> > >  =20
-> > > > + =20
-> > >=20
-> > > How about adding the following somewhere?
-> > >=20
-> > > - The initial state of the property (set during driver initialization)
-> > >   must match how the driver+hardware behaved before introducing this
-> > >   property. It may be some fixed value or it may be inherited from e.=
-g.
-> > >   the firmware that booted the system. How the initial state is
-> > >   determined must also be documented, that is, where does it come fro=
-m.
-> > >=20
-> > > The initial state must not be called "default", because I want to
-> > > reserve the term default for something else if possible: the phrase
-> > > "reset everything to defaults", which is a whole another discussion. =
-=20
-> >=20
-> > I've taken into account your previous comments, thanks
-> >=20
-> > > How about also saying that fbcon/fbdev must set this property when
-> > > taking over? That sounds to be like a common omission leading to funky
-> > > KMS state in fbcon. The value fbdev sets it to only needs to make
-> > > sense to fbdev, and it does not need to be ~~the initial value~~ nor =
-the
-> > > default value. Or are we hoping to kill fbcon in favor of a userspace
-> > > kmscon soon? ;-)
-> > >=20
-> > > Ooh, maybe the KMS property documentation should also say what value
-> > > fbdev will set the property to. That's kind of UABI, because userspace
-> > > probably implicitly relies on it in many cases. ...which means fbdev
-> > > should set the property to its initial value, otherwise userspace will
-> > > break. =20
-> >=20
-> > I'm not sure about this one: fbdev and fbcon are still optional features
-> > of the kernel and can be disabled at the user discretion. Having any
-> > part of the user-space rely on the fbdev behavior seems a bit broken,
-> > especially when we have a mechanism to retrieve the state when the
-> > application starts.
->=20
-> yes, exactly that is why fbdev/fbcon should reset the properties to
-> their initial values. You would not want userspace inheriting a
-> different KMS state with vs. without fbcon when it starts.
-
-I'm not sure I'm following you when fbdev/fbcon should reset these
-properties. When a master takes over?
-
-If we consider fbdev as any KMS client, isn't it a fundamental change
-with how it's currently done? I haven't seen anywhere that a compositor
-(or any client for that matter) should put the KMS device in the same
-state that it started it with. In case of a crash it would be fairly
-difficult to achieve.
-
-> Retrieving the current KMS state is useless if the current KMS state is
-> somehow wonky and the application does not understand that specific KMS
-> property that is wonky. It cannot set the property to any value other
-> than it already had without user intervention.
-
-Yeah, that's true. But the same could be said if you switch from one
-client to the other for example, at the moment there's no guarantee that
-the first one didn't change a property to a value you don't expect in
-the second. Unless we manage to tie that somehow to a first open of the
-device?
-
-> I'd say fbcon causing all KMS state to be reset is a quality of life
-> thing. It's possible to live without by rebooting, but it would
-> certainly make at least developers' and testers' life easier until we
-> get the real "reset KMS" knob (which fbcon could then use too).
->=20
-> Besides, even if it is broken for userspace to rely on the KMS state
-> set by fbcon/fbdev, userspace is already doing that and not on purpose
-> because new KMS properties get added in the kernel. I would bet that
-> there is not a single userspace program that would actually set all KMS
-> properties that drivers might expose. So they are depending on
-> inherited KMS state, which could be left by driver initialization, by
-> fbdev/fbcon, or by any other userspace.
->=20
-> But yeah, this idea is something new, so don't let this discussion
-> delay landing the docs.
-
-Ack, I've sent a new version
-
-Thanks!
-Maxime
-
---6mnf4r7jxmdwlw7k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOSIAQAKCRDj7w1vZxhR
-xeGIAQDQjE0uYmon9Dox/R5r6J52+sVxI4/gu/mKcrS9FvJK+AEA4LtY+76pkQ6H
-mgjpDIZUwacg76LQhv7Lzl+/nCA0/ww=
-=XDM3
------END PGP SIGNATURE-----
-
---6mnf4r7jxmdwlw7k--
+> 
+> Originally submitted by Steve Twiss in 2014:
+>   https://marc.info/?l=linux-kernel&m=139560864709852&w=2
+> 
+>  drivers/mfd/da9063-core.c            |  8 +++++++
+>  include/linux/mfd/da9063/core.h      |  3 +++
+>  include/linux/mfd/da9063/registers.h | 34 ++++++++++++++++++++++++++++
+>  3 files changed, 45 insertions(+)
+> 
+> diff --git a/drivers/mfd/da9063-core.c b/drivers/mfd/da9063-core.c
+> index df407c3afce3..14c2a8df9ae3 100644
+> --- a/drivers/mfd/da9063-core.c
+> +++ b/drivers/mfd/da9063-core.c
+> @@ -197,6 +197,14 @@ int da9063_device_init(struct da9063 *da9063, unsigned int irq)
+>  		}
+>  	}
+>  
+> +	ret = regmap_read(da9063->regmap, DA9063_REG_T_OFFSET, &da9063->t_offset);
+> +	if (ret < 0) {
+> +		da9063->t_offset = 0;
+> +		dev_warn(da9063->dev,
+> +			 "Temperature trimming value cannot be read (defaulting to 0)\n");
+> +		ret = 0;
+> +	}
+> +
+>  	return ret;
+>  }
+>  
+> diff --git a/include/linux/mfd/da9063/core.h b/include/linux/mfd/da9063/core.h
+> index fa7a43f02f27..c0c57c6f6230 100644
+> --- a/include/linux/mfd/da9063/core.h
+> +++ b/include/linux/mfd/da9063/core.h
+> @@ -85,6 +85,9 @@ struct da9063 {
+>  	int		chip_irq;
+>  	unsigned int	irq_base;
+>  	struct regmap_irq_chip_data *regmap_irq;
+> +
+> +	/* Trimming */
+> +	int		t_offset;
+>  };
+>  
+>  int da9063_device_init(struct da9063 *da9063, unsigned int irq);
+> diff --git a/include/linux/mfd/da9063/registers.h b/include/linux/mfd/da9063/registers.h
+> index 6e0f66a2e727..297631ddda39 100644
+> --- a/include/linux/mfd/da9063/registers.h
+> +++ b/include/linux/mfd/da9063/registers.h
+> @@ -512,6 +512,7 @@
+>  
+>  /* DA9063_REG_GPIO_0_1 (addr=0x15) */
+>  #define	DA9063_GPIO0_PIN_MASK			0x03
+> +#define	DA9063_GPIO0_PIN_MASK_SHIFT		0
+>  #define		DA9063_GPIO0_PIN_ADCIN1		0x00
+>  #define		DA9063_GPIO0_PIN_GPI		0x01
+>  #define		DA9063_GPIO0_PIN_GPO_OD		0x02
+> @@ -523,6 +524,7 @@
+>  #define		DA9063_GPIO0_TYPE_GPO_VDD_IO2	0x04
+>  #define	DA9063_GPIO0_NO_WAKEUP			0x08
+>  #define	DA9063_GPIO1_PIN_MASK			0x30
+> +#define	DA9063_GPIO1_PIN_MASK_SHIFT		4
+>  #define		DA9063_GPIO1_PIN_ADCIN2_COMP	0x00
+>  #define		DA9063_GPIO1_PIN_GPI		0x10
+>  #define		DA9063_GPIO1_PIN_GPO_OD		0x20
+> @@ -536,6 +538,7 @@
+>  
+>  /* DA9063_REG_GPIO_2_3 (addr=0x16) */
+>  #define	DA9063_GPIO2_PIN_MASK			0x03
+> +#define	DA9063_GPIO2_PIN_MASK_SHIFT		0
+>  #define		DA9063_GPIO2_PIN_ADCIN3		0x00
+>  #define		DA9063_GPIO2_PIN_GPI		0x01
+>  #define		DA9063_GPIO2_PIN_GPO_PSS	0x02
+> @@ -851,6 +854,7 @@
+>  #define	DA9063_VSYS_VAL_BASE			0x00
+>  
+>  /* DA9063_REG_ADC_RES_L (addr=0x37) */
+> +#define	DA9063_ADC_RES_L_SHIFT			6
+>  #define	DA9063_ADC_RES_L_BITS			2
+>  #define	DA9063_ADC_RES_L_MASK			0xC0
+>  
+> @@ -1014,6 +1018,36 @@
+>  #define DA9063_GPIO_DIM				0x80
+>  #define DA9063_GPIO_PWM_MASK			0x7F
+>  
+> +/* DA9063_REG_ADC_CFG (addr=0xC9) */
+> +#define DA9063_REG_ADCIN1_CUR_MASK		0x03
+> +#define DA9063_REG_ADCIN1_CUR_SHIFT		0
+> +#define		DA9063_ADCIN1_CUR_1UA		0x00
+> +#define		DA9063_ADCIN1_CUR_2UA		0x01
+> +#define		DA9063_ADCIN1_CUR_10UA		0x02
+> +#define		DA9063_ADCIN1_CUR_40UA		0x03
+> +#define DA9063_REG_ADCIN2_CUR_MASK		0x0C
+> +#define DA9063_REG_ADCIN2_CUR_SHIFT		2
+> +#define		DA9063_ADCIN2_CUR_1UA		0x00
+> +#define		DA9063_ADCIN2_CUR_2UA		0x01
+> +#define		DA9063_ADCIN2_CUR_10UA		0x02
+> +#define		DA9063_ADCIN2_CUR_40UA		0x03
+> +#define DA9063_REG_ADCIN3_CUR_MASK		0x10
+> +#define DA9063_REG_ADCIN3_CUR_SHIFT		4
+> +#define		DA9063_ADCIN3_CUR_10UA		0x00
+> +#define		DA9063_ADCIN3_CUR_40UA		0x01
+> +#define DA9063_REG_ADCIN1_DEB_MASK		0x20
+> +#define DA9063_REG_ADCIN1_DEB_SHIFT		5
+> +#define		DA9063_ADCIN1_DEB_OFF		0x00
+> +#define		DA9063_ADCIN1_DEB_ON		0x01
+> +#define DA9063_REG_ADCIN2_DEB_MASK		0x40
+> +#define DA9063_REG_ADCIN2_DEB_SHIFT		6
+> +#define		DA9063_ADCIN2_DEB_OFF		0x00
+> +#define		DA9063_ADCIN2_DEB_ON		0x01
+> +#define DA9063_REG_ADCIN3_DEB_MASK		0x80
+> +#define DA9063_REG_ADCIN3_DEB_SHIFT		7
+> +#define		DA9063_ADCIN3_DEB_OFF		0x00
+> +#define		DA9063_ADCIN3_DEB_ON		0x01
+> +
+>  /* DA9063_REG_CONFIG_H (addr=0x10D) */
+>  #define DA9063_PWM_CLK_MASK			0x01
+>  #define		DA9063_PWM_CLK_PWM2MHZ		0x00
+> -- 
+> 2.32.0
+> 
