@@ -2,461 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CAC6C07E9C
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 17:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4839EC11F66
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 20:16:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3475D61C24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 17:42:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2605061C30
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 20:16:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhGFRon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 13:44:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231128AbhGFRom (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 13:44:42 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CC8C061574;
-        Tue,  6 Jul 2021 10:42:04 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso22363735otu.10;
-        Tue, 06 Jul 2021 10:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xn7spTYjtRFLwbJPnPY660ZiXsNkdmZFFDGxKrlshso=;
-        b=IURc2kWispv4y0DFcdY6H6Zly0nNgO+rbHPquB7opSLpqWesryJfzl+8MVUHm50LSb
-         rZBEuviy7BI9h8p6i1MvoE/bvAjPfNONY7NfArYRho/9YFIQEafoKWWLUh03LlapJuSZ
-         lFmaAtiGU1hLa0fxqN6eTUpDfo9Hku/4ZbEdWDJ9meowyQFUsQ4cvbq1Tkix+5VDzP4q
-         ufs4OudtZ0fL+FchTkrGsWuKFWv728vI+o7NEU7jxtqqlb/a0KrXccUyarAeo4cVERdV
-         J3E+HfCv2PY7D3KW7pmgJLcCg8EBccFfX+ISfAeB9ojNwCw/JEg3G+apG1lciiW5wIZt
-         Pnog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=xn7spTYjtRFLwbJPnPY660ZiXsNkdmZFFDGxKrlshso=;
-        b=W4BQA4439HTna4KMNLCuBhqjoxrmr1GfThGIlCXtUdP2solle2wYb0UpoJlko7MxPY
-         nTQw/X7W818lQvC60NK+VSMdfP7YLiSjuJ/NT8Cgh0CzY+UZh0kp6Gxs4vJPuF1KSgkL
-         TsxRyz409PV7FWS+p8qQrfXHAaLo+Lv7mCDuINFJVBKrsvdwZICrhRQTW6sYDLD4suK/
-         ucK14DYeU70HmR0GxPFgNlV9IgRrGSW7J2ozJLrWTRkUVMiDWO1/YXV0EoSXpIezav6d
-         DE/kbyrD/iWu7GASmVZgMzwAKZxjfgU6Ra0srXUiNgJqQ5Q1nt7kGjDYwvY0euLv89gP
-         3RRA==
-X-Gm-Message-State: AOAM53031+WCkuBIpJiMrJHQA7fTMVRrR/wTF9KMstbuvzyMzcH4F8U4
-        uhoXCLDzUtG+3eihpPdz3ac=
-X-Google-Smtp-Source: ABdhPJwEzFWctfriZlOWnNXvVvQWggJ0YHvBztfQZ7olIWYmGb6XqCDp+TuOltJrc6VEpn/kdV26NQ==
-X-Received: by 2002:a9d:7f91:: with SMTP id t17mr15523437otp.22.1625593323450;
-        Tue, 06 Jul 2021 10:42:03 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i133sm3580303oia.2.2021.07.06.10.42.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jul 2021 10:42:02 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 6 Jul 2021 10:42:01 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Vincent Pelletier <plr.vincent@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
-Subject: Re: [PATCH 2/3] hwmon: da9063: HWMON driver
-Message-ID: <20210706174201.GC943349@roeck-us.net>
-References: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
- <dff04323fc1b0177c1c08d3670333a839af4c268.1625581991.git.plr.vincent@gmail.com>
+        id S230127AbhGFUTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 16:19:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47946 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229935AbhGFUTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 16:19:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1625602615;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=s/BBwhSLYUvHJfPP5fwqPO4ji4FbL7n2m98UsEdtyyY=;
+        b=Ys/HEhhWMnmj6LsCEvdEivMuIIp7c7uEt7umRLyYBpDIjy91AewHf7djCj6jbUNCasILCk
+        Xlm2kbV2WqWBq7vqdk1unc//qNrqajRCn72t4wcOBEpoO1aQXnZWeaUFhwLIxo8KlmBH9+
+        +lRcqCq6fxjbadCDTOXHuqM0lfrxgIM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-_2gfo29zNG6mV7a_nLVV7w-1; Tue, 06 Jul 2021 16:16:52 -0400
+X-MC-Unique: _2gfo29zNG6mV7a_nLVV7w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 605941023F48;
+        Tue,  6 Jul 2021 20:16:47 +0000 (UTC)
+Received: from localhost (ovpn-113-79.rdu2.redhat.com [10.10.113.79])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D1B9D17240;
+        Tue,  6 Jul 2021 20:16:46 +0000 (UTC)
+Date:   Tue, 6 Jul 2021 15:52:33 -0400
+From:   Eduardo Habkost <ehabkost@redhat.com>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kyung Min Park <kyung.min.park@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        Kan Liang <kan.liang@linux.intel.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Victor Ding <victording@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Anand K Mistry <amistry@google.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        kvm@vger.kernel.org
+Subject: Re: [PATCH 4/4] x86/tsx: Add cmdline tsx=fake to not clear CPUID
+ bits RTM and HLE
+Message-ID: <20210706195233.h6w4cm73oktfqpgz@habkost.net>
+References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+ <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <dff04323fc1b0177c1c08d3670333a839af4c268.1625581991.git.plr.vincent@gmail.com>
+In-Reply-To: <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 06, 2021 at 02:34:48PM +0000, Vincent Pelletier wrote:
-> From: "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+On Wed, Jun 09, 2021 at 02:14:39PM -0700, Pawan Gupta wrote:
+> On CPUs that deprecated TSX, clearing the enumeration bits CPUID.RTM and
+> CPUID.HLE may not be desirable in some corner cases. Like a saved guest
+> would refuse to resume if it was saved before the microcode update
+> that deprecated TSX.
+
+Why is a global option necessary to allow those guests to be
+resumed?  Why can't KVM_GET_SUPPORTED_CPUID always return the HLE
+and RTM bits as supported when the host CPU has them?
+
+
 > 
-> Add the HWMON driver for DA9063
+> Add a cmdline option "tsx=fake" to not clear CPUID bits even when the
+> hardware always aborts TSX transactions.
 > 
-> Signed-off-by: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
-> 
-> Simplify and modernise the code a bit.
-> Fix logic inversion in detecting conversion end.
-> Drop support for ADCIN: these are multi-purpose channels and must not
-> be reconfigured unless explicitly authorised by the board description.
-> 
-That is a bit too much information to be after the first Signed-off-by:
-tag, and the code changes are too substantial to warrant Steve's
-Signed-off-by: without his explicit permission. I'd suggest to drop
-the change log and change Steve's Signed-off-by: to something like
-Originally-from: or similar.
+> Suggested-by: Tony Luck <tony.luck@intel.com>
+> Suggested-by: Andi Kleen <ak@linux.intel.com>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> Reviewed-by: Andi Kleen <ak@linux.intel.com>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Tested-by: Neelima Krishnan <neelima.krishnan@intel.com>
+[...]
 
-> Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
-> ---
-> Changes in v2:
-> - drop of_match_table: this should be meaningless in such sub-function
->   driver (at least judging by other sub-function drivers for the da9063)
-> - sort includes
-> - switch to devm_hwmon_device_register_with_info
-> - registers.h changes moved to patch 1
-> - add SPDX header
-> 
-> This patch depends on patch 1/3.
+-- 
+Eduardo
 
-FWIW, that is implied by having a patch series.
-
-> Originally submitted by Steve Twiss in 2014:
->   https://marc.info/?l=linux-kernel&m=139560868309857&w=2
-> 
->  drivers/hwmon/Kconfig        |  10 ++
->  drivers/hwmon/Makefile       |   1 +
->  drivers/hwmon/da9063-hwmon.c | 275 +++++++++++++++++++++++++++++++++++
->  3 files changed, 286 insertions(+)
->  create mode 100644 drivers/hwmon/da9063-hwmon.c
-> 
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 87624902ea80..17244cfaa855 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -515,6 +515,16 @@ config SENSORS_DA9055
->  	  This driver can also be built as a module. If so, the module
->  	  will be called da9055-hwmon.
->  
-> +config SENSORS_DA9063
-> +	tristate "Dialog Semiconductor DA9063"
-> +	depends on MFD_DA9063
-> +	help
-> +	  If you say yes here you get support for the hardware
-> +	  monitoring features of the DA9063 Power Management IC.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called da9063-hwmon.
-> +
->  config SENSORS_I5K_AMB
->  	tristate "FB-DIMM AMB temperature sensor on Intel 5000 series chipsets"
->  	depends on PCI
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 59e78bc212cf..6855711ed9ec 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -60,6 +60,7 @@ obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
->  obj-$(CONFIG_SENSORS_CORSAIR_PSU) += corsair-psu.o
->  obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
->  obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
-> +obj-$(CONFIG_SENSORS_DA9063)	+= da9063-hwmon.o
->  obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
->  obj-$(CONFIG_SENSORS_DME1737)	+= dme1737.o
->  obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
-> diff --git a/drivers/hwmon/da9063-hwmon.c b/drivers/hwmon/da9063-hwmon.c
-> new file mode 100644
-> index 000000000000..f020be5d5d6b
-> --- /dev/null
-> +++ b/drivers/hwmon/da9063-hwmon.c
-> @@ -0,0 +1,275 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/* da9063-hwmon.c - Hardware monitor support for DA9063
-> + * Copyright (C) 2014 Dialog Semiconductor Ltd.
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Library General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Library General Public License for more details.
-
-Drop boilerplate; that is what SPDX is for.
-
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/da9063/core.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +
-> +#define DA9063_ADC_RES	(1 << (DA9063_ADC_RES_L_BITS + DA9063_ADC_RES_M_BITS))
-> +#define DA9063_ADC_MAX	(DA9063_ADC_RES - 1)
-> +#define DA9063_2V5	2500
-> +#define DA9063_5V0	5000
-> +#define DA9063_5V5	5500
-> +#define DA9063_TJUNC_M	-398
-> +#define DA9063_TJUNC_O	330000
-> +#define DA9063_VBBAT_M	2048
-> +
-> +enum da9063_adc {
-> +	DA9063_CHAN_VSYS = DA9063_ADC_MUX_VSYS,
-> +	DA9063_CHAN_ADCIN1 = DA9063_ADC_MUX_ADCIN1,
-> +	DA9063_CHAN_ADCIN2 = DA9063_ADC_MUX_ADCIN2,
-> +	DA9063_CHAN_ADCIN3 = DA9063_ADC_MUX_ADCIN3,
-> +	DA9063_CHAN_TJUNC = DA9063_ADC_MUX_T_SENSE,
-> +	DA9063_CHAN_VBBAT = DA9063_ADC_MUX_VBBAT,
-> +	DA9063_CHAN_LDO_G1 = DA9063_ADC_MUX_LDO_G1,
-> +	DA9063_CHAN_LDO_G2 = DA9063_ADC_MUX_LDO_G2,
-> +	DA9063_CHAN_LDO_G3 = DA9063_ADC_MUX_LDO_G3
-> +};
-> +
-> +struct da9063_hwmon {
-> +	struct da9063 *da9063;
-> +	struct mutex hwmon_mutex;
-> +	struct completion adc_ready;
-> +	signed char tjunc_offset;
-> +};
-> +
-> +static int da9063_adc_manual_read(struct da9063_hwmon *hwmon, int channel)
-> +{
-> +	int ret;
-> +	unsigned char val;
-> +	unsigned char data[2];
-> +	int adc_man;
-> +
-> +	mutex_lock(&hwmon->hwmon_mutex);
-> +
-> +	init_completion(&hwmon->adc_ready);
-> +
-> +	val = (channel & DA9063_ADC_MUX_MASK) | DA9063_ADC_MAN;
-> +	ret = regmap_update_bits(hwmon->da9063->regmap, DA9063_REG_ADC_MAN,
-> +				 DA9063_ADC_MUX_MASK | DA9063_ADC_MAN, val);
-> +	if (ret < 0)
-> +		goto err_mread;
-> +
-> +	ret = wait_for_completion_timeout(&hwmon->adc_ready,
-> +					  msecs_to_jiffies(1000));
-> +	if (ret == 0) {
-> +		ret = -ETIMEDOUT;
-> +		goto err_mread;
-> +	}
-> +
-> +	ret = regmap_read(hwmon->da9063->regmap, DA9063_REG_ADC_MAN, &adc_man);
-> +	if (ret < 0)
-> +		goto err_mread;
-> +
-> +	/* data value is not ready */
-> +	if (adc_man & DA9063_ADC_MAN) {
-> +		ret = -EINVAL;
-
--EINVAL seems wrong. Maybe -EIO or -ETIMEDOUT.
-
-> +		goto err_mread;
-> +	}
-> +
-> +	ret = regmap_bulk_read(hwmon->da9063->regmap,
-> +			       DA9063_REG_ADC_RES_L, data, 2);
-> +	if (ret < 0)
-> +		goto err_mread;
-> +
-> +	ret = (data[0] & DA9063_ADC_RES_L_MASK) >> DA9063_ADC_RES_L_SHIFT;
-> +	ret |= data[1] << DA9063_ADC_RES_L_BITS;
-> +err_mread:
-> +	mutex_unlock(&hwmon->hwmon_mutex);
-> +	return ret;
-> +}
-> +
-> +static irqreturn_t da9063_hwmon_irq_handler(int irq, void *irq_data)
-> +{
-> +	struct da9063_hwmon *hwmon = irq_data;
-> +
-> +	complete(&hwmon->adc_ready);
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static umode_t da9063_is_visible(const void *drvdata, enum
-> +				 hwmon_sensor_types type, u32 attr, int channel)
-> +{
-> +	return 0444;
-> +}
-> +
-> +static const enum da9063_adc da9063_in_index[] = {
-> +	DA9063_CHAN_VSYS, DA9063_CHAN_VBBAT
-> +};
-> +
-> +static const enum da9063_adc da9063_temp_index[] = {
-> +	DA9063_CHAN_TJUNC
-> +};
-> +
-> +static int da9063_read(struct device *dev, enum hwmon_sensor_types type,
-> +		       u32 attr, int channel, long *val)
-> +{
-> +	struct da9063_hwmon *hwmon = dev_get_drvdata(dev);
-> +	enum da9063_adc adc_channel;
-> +	int tmp;
-> +
-> +	switch (type) {
-> +	case hwmon_in:
-> +		if (attr != hwmon_in_input)
-> +			return -EOPNOTSUPP;
-> +		adc_channel = da9063_in_index[channel];
-> +		break;
-> +	case hwmon_temp:
-> +		if (attr != hwmon_temp_input)
-> +			return -EOPNOTSUPP;
-> +		adc_channel = da9063_temp_index[channel];
-
-There is only one channel for temperatures. I don't see value
-in reading that value from an array of size 1.
-
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	tmp = da9063_adc_manual_read(hwmon, adc_channel);
-> +	if (tmp < 0)
-> +		return tmp;
-> +
-> +	switch (adc_channel) {
-> +	case DA9063_CHAN_VSYS:
-> +		*val = ((DA9063_5V5 - DA9063_2V5) * tmp) / DA9063_ADC_MAX +
-> +			DA9063_2V5;
-> +		break;
-> +	case DA9063_CHAN_TJUNC:
-> +		tmp -= hwmon->tjunc_offset;
-> +		*val = DA9063_TJUNC_M * tmp + DA9063_TJUNC_O;
-> +		break;
-> +	case DA9063_CHAN_VBBAT:
-> +		*val = (DA9063_5V0 * tmp) / DA9063_ADC_MAX;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const char * const da9063_in_name[] = {
-> +	"VSYS", "VBBAT"
-> +};
-> +
-> +static const char * const da9063_temp_name[] = {
-> +	"TJUNC"
-> +};
-> +
-> +static int da9063_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel, const char **str)
-> +{
-> +	switch (type) {
-> +	case hwmon_in:
-> +		if (attr != hwmon_in_label)
-> +			return -EOPNOTSUPP;
-> +		*str = da9063_in_name[channel];
-> +		break;
-> +	case hwmon_temp:
-> +		if (attr != hwmon_temp_label)
-> +			return -EOPNOTSUPP;
-> +		*str = da9063_temp_name[channel];
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops da9063_ops = {
-> +	.is_visible = da9063_is_visible,
-> +	.read = da9063_read,
-> +	.read_string = da9063_read_string,
-> +};
-> +
-> +static const struct hwmon_channel_info *da9063_channel_info[] = {
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-> +	HWMON_CHANNEL_INFO(in,
-> +			   HWMON_I_INPUT | HWMON_I_LABEL,
-> +			   HWMON_I_INPUT | HWMON_I_LABEL),
-> +	HWMON_CHANNEL_INFO(temp,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_chip_info da9063_chip_info = {
-> +	.ops = &da9063_ops,
-> +	.info = da9063_channel_info,
-> +};
-> +
-> +static int da9063_hwmon_probe(struct platform_device *pdev)
-> +{
-> +	struct da9063 *da9063 = dev_get_drvdata(pdev->dev.parent);
-> +	struct da9063_hwmon *hwmon;
-> +	struct device *hwmon_dev;
-> +	int irq;
-> +	int ret;
-> +
-> +	hwmon = devm_kzalloc(&pdev->dev, sizeof(struct da9063_hwmon),
-> +			     GFP_KERNEL);
-> +	if (!hwmon)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&hwmon->hwmon_mutex);
-> +	init_completion(&hwmon->adc_ready);
-
-Does this have a useful purpose ? It is initialized again prior to actually
-waiting. Or is this to address the potential race with an interrupt firing
-prior to hwmon registration ?
-
-> +	hwmon->da9063 = da9063;
-> +
-> +	irq = platform_get_irq_byname(pdev, DA9063_DRVNAME_HWMON);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-> +					da9063_hwmon_irq_handler,
-> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-
-Is that correct ? The trigger condition is normally provided by
-devicetree.
-
-> +					"HWMON", hwmon);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to request IRQ.\n");
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, hwmon);
-
-Where is this used ?
-
-> +
-> +	/* set trim temperature offset to value read at startup */
-> +	hwmon->tjunc_offset = (signed char)hwmon->da9063->t_offset;
-
-Can you explain why this is read in and passed from the mfd driver
-and not here ?
-
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "da9063",
-> +							 hwmon,
-> +							 &da9063_chip_info,
-> +							 NULL);
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static struct platform_driver da9063_hwmon_driver = {
-> +	.probe = da9063_hwmon_probe,
-> +	.driver = {
-> +		.name = DA9063_DRVNAME_HWMON,
-> +	},
-> +};
-> +module_platform_driver(da9063_hwmon_driver);
-> +
-> +MODULE_DESCRIPTION("Hardware monitor support device driver for Dialog DA9063");
-> +MODULE_AUTHOR("S Twiss <stwiss.opensource@diasemi.com>");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:" DA9063_DRVNAME_HWMON);
-> -- 
-> 2.32.0
-> 
