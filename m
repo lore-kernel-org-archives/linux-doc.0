@@ -2,84 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854FCC07E9C
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:08:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4ACC07E9C
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:14:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EEB661CBE
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:08:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2B5C61CB4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:14:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbhGFWLP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 18:11:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229753AbhGFWLP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Jul 2021 18:11:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D321161C3B;
-        Tue,  6 Jul 2021 22:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625609316;
-        bh=2L3Ocp8KQ9SS2sryL+eJl3QieYb1cDeo5ApMXvhPHXk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Sz6M7IIYPsbwSuPTSIJLMXmvvzbOc9NS1uFdD8ngAKjtR9A/gzmEsQH8etjMCZudz
-         DzqMFZtKg0mnrg0Gz9XkFrS8ABQibuYXe/pRQSB4tO0NLRJXNUGzZMRl+puoZA+/qh
-         D7V/k4pQ4XhKL4TXBykHmpLvARYulEkG2IWvxTRR8WDbUAHd2UGzYeJK3tIuIFIvco
-         obMZq0betmBlWhkDZD5akVqC3ADile3LQqjHmYe4HiUMVMvB0nmjTwPuD1dhcVQubA
-         sT9En35yZp0w7bok/yzxN4O3MwvwVEwRTADKOPrOazlMpZx0SjHopJULnwf40AL0fc
-         1xcSYaDTj26PQ==
-Date:   Wed, 7 Jul 2021 01:08:33 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
-        linux-sgx@vger.kernel.org,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/4] x86/sgx: Add sgx_nr_all_pages to the debugfs
-Message-ID: <20210706220833.d2o7ncbxs3sztaws@kernel.org>
-References: <20210705143652.116125-1-jarkko@kernel.org>
- <20210705143652.116125-2-jarkko@kernel.org>
- <b8a31e6e-90e8-f93f-e6b2-e72801fb31e4@intel.com>
+        id S229891AbhGFWRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 18:17:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229753AbhGFWRG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 18:17:06 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0919CC061574;
+        Tue,  6 Jul 2021 15:14:26 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id h6so552939iok.6;
+        Tue, 06 Jul 2021 15:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zZMeMLgvnFQxAN+r/nqeEif6VMjZ3hc66qsD3h/Fku8=;
+        b=jzN2EbBCq0JE8rlKq9vRSKpiPtfTi4wMf5ip4XlDiS6quuADQsEqOqAG+nIafZ6ika
+         ewGp+f+w7EbdXZ/4lDpzf7vdxUq5LTPGXOekUS/BLEBscyBXxcxB4RDNfLbY7VhlU7Sn
+         6BuLD81sdTECS6vS3IzT22wMjaAAltHGKg+WMMTMaOjPKovZUTT+e7i4Ktl8kJwTwWR8
+         MIvCAqPOEQcpfEvPWYdLpd0hnH5GFg6ewcZ9QVsQ9vBWvdjtpOsSPCwgI4wFU+yCSclr
+         LSBxIPfc2vtwZ1xK1EOJnXQ21VCI0sqGPGi/7OrNcLuwHZ4leZSmP+E6pIzxiN8vsfvg
+         l7IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zZMeMLgvnFQxAN+r/nqeEif6VMjZ3hc66qsD3h/Fku8=;
+        b=rwbK4TzzfjpxmirDFihf43S5z6ldr5ShUFH28FWLdr5+sUCCO46yKmmeWHoV139+t9
+         u9Zr/q/eGHWXwcHhM6Lth53EDDIdEhny+PdoedZLjxjXuxy4pL8QbCNgZ9bwqWi8YGxM
+         UYal7nfG6oMnXEgVKRiGzs17AraMUpXcLumZZHgSQ4J49EV1O1lSKNv5K9fVd65CNtfU
+         iUswD+//GDeYnzFfzaQ7Z8n3rLFg3bNuJU6/uIKp86Rh/cPDndY1Jdp6Y/XmYlgQiMPF
+         wz7W3jMFa3q66/QksmaOdSUSCA+LEm4sOif0EahzYv3Ir/dhyz+JxfbBJtvTpE2Mj2SG
+         s89A==
+X-Gm-Message-State: AOAM531F5x49bMD6pru1QxiqYT9fha6q84ts5TToE0N6bpXbm/0A9Xnb
+        ukO/6PnQkG1pJnUXfv0bNNCT6diOseMk0+kEh5GCfovhegI=
+X-Google-Smtp-Source: ABdhPJyGODwa3HfoBD9iPuy6GWsnQTK3XwFeInq5yi393y5Nb26tFQ4WxUBe1pcxLgU6bRwPu9PrYoZc8V9QiKhmncg=
+X-Received: by 2002:a02:cc07:: with SMTP id n7mr2885107jap.41.1625609665356;
+ Tue, 06 Jul 2021 15:14:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8a31e6e-90e8-f93f-e6b2-e72801fb31e4@intel.com>
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-17-ojeda@kernel.org>
+ <CAKY_9u1WN1nK3fdS0WDVgc4umYrCMVxODn3wG0rtctJzgNE5Ag@mail.gmail.com>
+In-Reply-To: <CAKY_9u1WN1nK3fdS0WDVgc4umYrCMVxODn3wG0rtctJzgNE5Ag@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 7 Jul 2021 00:14:14 +0200
+Message-ID: <CANiq72k5+0RLJU6_agbFK6c61ogRt6ASGuXfRWAKYJPwqtB8BA@mail.gmail.com>
+Subject: Re: [PATCH 16/17] MAINTAINERS: Rust
+To:     Pedro Tammela <pctammela@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 06, 2021 at 07:56:40AM -0700, Dave Hansen wrote:
-> On 7/5/21 7:36 AM, Jarkko Sakkinen wrote:
-> > Create /sys/kernel/debug/x86/sgx_nr_all_pages, which reports total
-> > number of EPC pages available in the system.
-> Could we flesh this out a bit, please?
-> 
-> What's the value here when userspace could just re-enumerate the EPC
-> size from CPUID?
+On Tue, Jul 6, 2021 at 2:26 AM Pedro Tammela <pctammela@gmail.com> wrote:
+>
+> Does this mean that development will be done exclusively on GitHub?
+> If affirmative, is there a bot that will replicate the messages in the
+> mailing list?
 
-My thinking is that it is better to use "kernel synthesized" value for the
-EPC size, because kernel controls the EPC.
+Development has happened mainly in GitHub so far, but we have accepted
+patches from the ML and we can do their reviews there too.
 
-> I'd really appreciate if we could draw parallels between these additions
-> to the "SGX VM" and their analogs in the "core VM".  In this case, I
-> think the closest analog is probably "MemTotal" in /proc/meminfo.
+We do not have a bot to replicate reviews into the mailing list nor
+any fancy bidirectional sync, though.
 
-Would make sense.
+If this is deemed unacceptable by Linus et. al., we can do development
+in the ML as usual -- we do not really mind one way or the other (and,
+in fact, we discussed moving things to a git.kernel.org tree too).
 
-> Second, how is this going to be used?
+The main point of GitHub/GitLab/etc. for us so far is having an issue
+tracker and some kind of CI.
 
-SGX kselftest creates a heap, of which size is the same as the total size
-of the EPC reported by the kernel.
-
-> Third, is this going to be the ABI forever?
-
-AFAIK, debugfs is not part of the ABI.
-
-/Jarkko
+Cheers,
+Miguel
