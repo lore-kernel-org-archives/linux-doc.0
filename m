@@ -2,98 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D957DC07E99
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 23:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED824C07E99
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:02:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB0C66194B
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jul 2021 23:42:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D303D613C8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 00:02:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbhGEXoh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jul 2021 19:44:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60718 "EHLO
+        id S229757AbhGFAFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jul 2021 20:05:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbhGEXog (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jul 2021 19:44:36 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C76C061574;
-        Mon,  5 Jul 2021 16:41:59 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id q2so7503518iot.11;
-        Mon, 05 Jul 2021 16:41:59 -0700 (PDT)
+        with ESMTP id S229740AbhGFAFH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jul 2021 20:05:07 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D7DC061574;
+        Mon,  5 Jul 2021 17:02:29 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id w22so14287331pff.5;
+        Mon, 05 Jul 2021 17:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aCfTGlMojGH7q1QJXZeZs8QLZ5ZIdBw7e0CZiF3gsR8=;
-        b=JjR7sUvvS6kav5QF3hQkXuE/+JUWv711JB3bSDTJLFmmXRfe8IBINwG4J+7K/oC0UW
-         5SGp8XmW6FqI6C0v1XafKKDptZzdHb5XXHCc+YVxlYl3G7+LRs2L3qHYglIpWXf6+U3z
-         Mg73BE2DDh5AhQZZQJ2EmKmP0KvEPyiGmLU++YaWom97BaEeuTeGLaXhJP/Vw0V371xp
-         Hk/cUx8/9ueKxPwnS05kTay2OWmjl7NY9xDwPZcv2nmTY7SJKqwjlJ6VbVS5ixhg8X4H
-         4EJk6foOA1k0kLoxgmfiV8Lhar3bn2U6kvMEAFaYZqapEG/JvRDaUuLwnX6InCjza6sA
-         LBug==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=95PtUIXWzpZKDW8NIcz9RQDC3InVaREqk384N+eGCSg=;
+        b=CAKRy4pK/onTJRDkqpy70aIlAXg67EjOtE90zOsMudvEEtK32FlSFcniTgZX4LzxNs
+         COagw7O69V1c2GjRI9rB1e+qN6WNvCgQ3H6h+Sb004uWHdPaEBPcuYRa0zLjMDjc1j+z
+         J/rtv8lNmoCS9On85+iWWryxcPzLpOY+2vIK/UM+B3Cmf9L2uG6wGtDUzXDhGqo52q4N
+         4trg4pIwyEJlLmlyHtHuYmJBCH1LJ96LNU6f5THRnYSeQ748NjuaSrIMf6Msbmsoym/7
+         yfiWNrbhHhphUrz3vV2f6dppH1UJQUS4xCiTbeKHIYvFMiEmSgIVDft/9tbliUUrSBpq
+         vFCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aCfTGlMojGH7q1QJXZeZs8QLZ5ZIdBw7e0CZiF3gsR8=;
-        b=dfw1NDR+sHsrQTswHRZfWDDMA+zTG8uMPq5EuXzJeajVQ7ur6TGTnAYkzAIW3EfcMv
-         sXkLzkNjhFUBtvl4az6k4Wi/AyD1t84KLRzmKYyfxZbg6AE3iGOLKOW6eZAt0MFzuZks
-         x0QeViX3ssk9BhcLMEzWZxwgi5Y3uZV6TKINiDGpmW5rml0FsiP6RpaTYCjR2N3FBYYR
-         Jv+QgxaTT4mKSPWKRn/uyUsm4K1y8ZGqno/v9YCL43uz0GDJU93W1tV5ojalZD5Ea9K9
-         Tw0eyV+keM0Aoo9fgeqnnMVS0wN7Q3uuvRz9VT1RrdLiF7lzhKTENxnRk7HMzOwGoTHh
-         i7TA==
-X-Gm-Message-State: AOAM530uiu8FU6LnaDcUJXfi5rmm4/FV5A9o5wCBXedsM0xGvolXD05E
-        GMyiHqukCLEfZ2o3jiWQShAdNCzwWqInWkK1fL+9IV5E/RKXig==
-X-Google-Smtp-Source: ABdhPJynnrHlYbTRez7VPIlllJLW8es4fJMVagRPEOAQTtm4CF98jEkHhN86FvCfmqUJtwiQ5lR4OASElEYtMx+3JuI=
-X-Received: by 2002:a6b:185:: with SMTP id 127mr6447845iob.64.1625528518759;
- Mon, 05 Jul 2021 16:41:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=95PtUIXWzpZKDW8NIcz9RQDC3InVaREqk384N+eGCSg=;
+        b=hWcmdq0OYdN0aVYOYb7+f81s6Fk/STkbr0lXv6pAWMmmossjQPyciLgE54QMSZ4e3b
+         wSYT12Vw6JA5pH9HYLSJvOVThRMAsyPDwQtXgFJ1KhF/Ig182VX3zU/AHuPasNBLehfd
+         wiTc+HsV2GFqWg5upnXUUHsKrhBORWGdRTnajkSfsrZvOh//gSMx8bFa7y0bGfIkyVHF
+         qTh5hE+vf5h6sHILPHKV+drqS0fdVqxXJTb0pzZNyj/8k44cZf9aZADcibKo8gjjP2L2
+         h9pK/3nWxLeSFgFpUc/KwtEIzEGulWs2R26p1RQdXuNPgF+lh59tVyaeFnwv+xd9fn9v
+         msMw==
+X-Gm-Message-State: AOAM532FMDU1uOOy+m9rspb/pP6jAD+zDkAhw5nW4ZOiWamfZ2FXpTst
+        7VYsDltPnqZbbycjYxznCm0=
+X-Google-Smtp-Source: ABdhPJzP2I2P6bujLq9KL8pQ2NqJkviilk2O6Q110UXkmONegTAjnVy83CY/x8EmgDPuGymQJ2QFNw==
+X-Received: by 2002:a05:6a00:1a4b:b029:315:77ff:b5c3 with SMTP id h11-20020a056a001a4bb029031577ffb5c3mr17564978pfv.21.1625529748760;
+        Mon, 05 Jul 2021 17:02:28 -0700 (PDT)
+Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
+        by smtp.gmail.com with ESMTPSA id t5sm16704139pgb.58.2021.07.05.17.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jul 2021 17:02:28 -0700 (PDT)
+Received: from x2.lan (localhost [127.0.0.1])
+        by localhost.lan (Postfix) with ESMTPSA id E63AC900904;
+        Tue,  6 Jul 2021 00:02:25 +0000 (GMT)
+From:   Vincent Pelletier <plr.vincent@gmail.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+Subject: [PATCH 1/3] mfd: da9063: Add HWMON dependencies
+Date:   Tue,  6 Jul 2021 00:01:55 +0000
+Message-Id: <1182ccb1b0bac9276967f4a11d971bd135c611f2.1625529219.git.plr.vincent@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-16-ojeda@kernel.org>
- <20210705050518.GC30964@1wt.eu>
-In-Reply-To: <20210705050518.GC30964@1wt.eu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 6 Jul 2021 01:41:47 +0200
-Message-ID: <CANiq72n5uxaQ52ME_WNfDQA5fZ=bNEr04Av7vz0AwWB8cOmCYQ@mail.gmail.com>
-Subject: Re: [PATCH 15/17] scripts: add `generate_rust_analyzer.py`
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 5, 2021 at 7:05 AM Willy Tarreau <w@1wt.eu> wrote:
->
-> You should probably add some doc about this, as I have no idea how
-> I'm supposed to use this from my editor.
+From: "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
 
-Yeah, I can add a link to rust-analyzer's docs and/or the Language
-Server Protocol site, and perhaps a couple steps on how to set it up;
-but I would try to avoid repeating their documentation.
+Dependencies required for DA9063 HWMON support.
 
-Cheers,
-Miguel
+Signed-off-by: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
+
+Directly set da9063->t_offset.
+Let MFD probe succeed even if DA9063_REG_T_OFFSET cannot be read.
+
+Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
+---
+Originally submitted by Steve Twiss in 2014:
+  https://marc.info/?l=linux-kernel&m=139560864709852&w=2
+
+ drivers/mfd/da9063-core.c       | 8 ++++++++
+ include/linux/mfd/da9063/core.h | 3 +++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/drivers/mfd/da9063-core.c b/drivers/mfd/da9063-core.c
+index df407c3afce3..14c2a8df9ae3 100644
+--- a/drivers/mfd/da9063-core.c
++++ b/drivers/mfd/da9063-core.c
+@@ -197,6 +197,14 @@ int da9063_device_init(struct da9063 *da9063, unsigned int irq)
+ 		}
+ 	}
+ 
++	ret = regmap_read(da9063->regmap, DA9063_REG_T_OFFSET, &da9063->t_offset);
++	if (ret < 0) {
++		da9063->t_offset = 0;
++		dev_warn(da9063->dev,
++			 "Temperature trimming value cannot be read (defaulting to 0)\n");
++		ret = 0;
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/include/linux/mfd/da9063/core.h b/include/linux/mfd/da9063/core.h
+index fa7a43f02f27..c0c57c6f6230 100644
+--- a/include/linux/mfd/da9063/core.h
++++ b/include/linux/mfd/da9063/core.h
+@@ -85,6 +85,9 @@ struct da9063 {
+ 	int		chip_irq;
+ 	unsigned int	irq_base;
+ 	struct regmap_irq_chip_data *regmap_irq;
++
++	/* Trimming */
++	int		t_offset;
+ };
+ 
+ int da9063_device_init(struct da9063 *da9063, unsigned int irq);
+-- 
+2.32.0
+
