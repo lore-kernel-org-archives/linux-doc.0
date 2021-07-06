@@ -2,205 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DADC07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD0AC07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:46:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09ADA620E5
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C500B61949
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:46:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238359AbhGFMFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 08:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52396 "EHLO
+        id S240874AbhGFMsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 08:48:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242934AbhGFMDE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 08:03:04 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C112C073C0A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 04:39:26 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id t30so8687845ljo.5
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 04:39:26 -0700 (PDT)
+        with ESMTP id S240825AbhGFMsn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 08:48:43 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A349C0225B3
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 05:41:58 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id 59-20020a9d0ac10000b0290462f0ab0800so21369291otq.11
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 05:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6KHENRVTFcr1DeeaRLU/2vG0asdcInU8xhn1ZnIiQEc=;
-        b=IdGKMBytW7IOMBESz96dq6itTpIEDPBWGB5XRO+qSQ48yJT7yYAT9N8lqiHah9wnDY
-         3K6D67UfDsx2P/ABipjl30TBctWMN4qhsTRC4E4sc1XIGn/04HiicXlk8UmLQM6W2Kpr
-         7PNSQ5KyQpi5RAnSZMdMPgQeA0Twv6DZgMvu/nxu6Z15JYc+G6N/l9rt0dUMVRGcbsQG
-         jIxb3yy8OJnKogUutBA72zbdZTq1n+5HnQrIFBIFQZDQYf/yl9D5hlL0E2RnfqraqVuD
-         oc9p4c/bJt85uQ08MZVR9pynFPLB0W1DafWua6b73deN8YLYp9UoQQ19K9K219rSCjO/
-         tXOg==
+         :cc:content-transfer-encoding;
+        bh=mzfuJ3Ig2aIKSQr278n3RLX917ECXSEuq5MFQesNuH0=;
+        b=iLsWHSw94lLDpsJASjWsjHOw6+cYdxEn8xxpWdc2sQh5S5MiDlOqKrp7mFrS/j+SI8
+         rVXWGigKn4OKmRLqQ2Im6oHPFNwc/AXxomSfI4DwwWcnFjF8VmRHdO3y/Q/wxjPNNV5y
+         Ug54H66T8adatS9OLq2QSEI3EuFuMuP3NY+myRQRHn3IVH32ihgoFRQW/WoH/+KAFUfR
+         Rdys1vx9ufaIMjTJgwouH3BSepz+m2iIpOlANE2fX2BWmq4mp1d77FPippnVFi6OriaD
+         yjdfj+Kviu0s+YcZ7Zdcng7dWkzsZeJnw0Va+SpdbsKlt8Nm4oSyv3TvPMbDX1vP3tBy
+         FljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6KHENRVTFcr1DeeaRLU/2vG0asdcInU8xhn1ZnIiQEc=;
-        b=sgunMWY7MY74ZwYGV+7mM0U/6HYlfM720k5y+Qofe35JjRUQwAw0VMG19y4S8e6mCL
-         BjD0NMBWcMd/1koH3yh5MLqICQ3PdE+d0UMgKOfZPPHEpKkU8dRLzPcek8XxlSpijDYh
-         XNwUl8mDYaM9zAhLJ8frx4FZIuGrzgpncwC/QjJGbZ7U6SpiFWjeYbWl8XLfziwAYlR0
-         sdvXqqrFmpiJ9ONM2xFVUcQWk9EJmUfiUuyWNhps0MFyUIViWU4oJE4zTBq7y+hARBet
-         SZxm/Pmnc+4tz1MCC1lTL+zYVIMgiIzp70+a+LztzcmGqOIhJxOXIXd580YHHIfMZJdu
-         ELhg==
-X-Gm-Message-State: AOAM531Szxv2jrJbA5bcCoRXIxYrbdMqUIhMgI+qR623gsJ0Q1fNUfmu
-        rHqah6AM/N9d+bK/bXBqGTYp5YSYdGSlryUygvLIVA==
-X-Google-Smtp-Source: ABdhPJyelO119SdIxeoLnTAOiAmiMNIuQe3vuufuwv/8ig2netrG+imXeZJWy7PwGkasy+bYcpaaE4SV5ck1PxhSv58=
-X-Received: by 2002:a2e:bc13:: with SMTP id b19mr15061008ljf.480.1625571564690;
- Tue, 06 Jul 2021 04:39:24 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mzfuJ3Ig2aIKSQr278n3RLX917ECXSEuq5MFQesNuH0=;
+        b=J3ieezc/MwjRmN+EW8u6TpdcVKnKaJnTQGuTag/yO9p59eGaZTJBvNuy5pVi91lJen
+         TJeh2/KaviuxFbQJXjtvsPoydJrh08km3yZeYDwvZfaBFk4crdu/+no2tQPCnYn3+PJ3
+         TqS5wqHRLnKuWu0agXN7JAnv6agVGu7lCcnJrhj3BthBOtd4t6vXsrV3FA7r3jl6x02J
+         LaPTdhPqobpz4sSmtFrRgeLP7dBt+L0q5rY2ln1pr+YIEJbgmwvl3I58I5jXm/UJ+j2s
+         QgFlVfcmy6rKUBwUyT09u1ZB3fqs/MigyvqEaIHjlmg4jhvCRyzpsuSJt0qxtHt5CXX0
+         /HmQ==
+X-Gm-Message-State: AOAM533mOpsBy5heRnn0pR2+wNh6ONXMhtrEc9JH6dZWSypCIYOceDvl
+        CXcmhRJRQx6tXwtMl/9NxW4yTCJXuyHtNwbWjuY=
+X-Google-Smtp-Source: ABdhPJyavbcyAtdmN+hfULrroWP79qm50GC9rDjsJveVII9eh1gQZHpSCWCoNI0zFz+Nphrp6tBRItzjP7oTNkfBoac=
+X-Received: by 2002:a9d:634d:: with SMTP id y13mr14763657otk.302.1625575317242;
+ Tue, 06 Jul 2021 05:41:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
- <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
- <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
- <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com> <87czrv91b2.wl-maz@kernel.org>
-In-Reply-To: <87czrv91b2.wl-maz@kernel.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 6 Jul 2021 17:09:13 +0530
-Message-ID: <CAFA6WYPVA5yP3trumfz=_oXzxKtfobQXRzDwZ1og8UXwaA1rkQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Jens Wiklander <jens.wiklander@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>
+References: <cover.1625048200.git.siyanteng@loongson.cn> <568d3633b6752cb66c0aa8fd950b9219078013d3.1625048200.git.siyanteng@loongson.cn>
+ <9657b5ca-d133-617a-10c1-a2b6e1ef2204@gmail.com>
+In-Reply-To: <9657b5ca-d133-617a-10c1-a2b6e1ef2204@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 6 Jul 2021 20:41:48 +0800
+Message-ID: <CAEensMzvi++KZSGTNofAHqfijaXjqPdOJzDCqRceh_Lu-BVWuA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] docs/zh_CN: add core-api memory-allocation translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marc,
-
-On Tue, 6 Jul 2021 at 16:06, Marc Zyngier <maz@kernel.org> wrote:
->
-> On Tue, 06 Jul 2021 08:25:26 +0100,
-> Sumit Garg <sumit.garg@linaro.org> wrote:
-> >
-> > On Thu, 17 Jun 2021 at 11:40, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > >
-> > > Hi Sumit,
-> > >
-> > > On Thu, Jun 17, 2021 at 6:33 AM Sumit Garg <sumit.garg@linaro.org> wrote:
-> > > >
-> > > > Hi Jens,
-> > > >
-> > > > On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > > > >
-> > > > > Hi all,
-> > > > >
-> > > > > This adds support for asynchronous notifications from OP-TEE in secure
-> > > > > world to the OP-TEE driver. This allows a design with a top half and bottom
-> > > > > half type of driver where the top half runs in secure interrupt context and
-> > > > > a notifications tells normal world to schedule a yielding call to do the
-> > > > > bottom half processing.
-> > > > >
-> > > > > An interrupt is used to notify the driver that there are asynchronous
-> > > > > notifications pending.
-> > > > >
-> > > >
-> > > > It looks like a nice feature. I would like to get hands on with this.
-> > > > Can I test this feature on Qemu?
-> > >
-> > > Absolutely, you can get this into the normal OP-TEE development repo setup with:
-> > > repo init -u https://github.com/OP-TEE/manifest.git -m default.xml
-> > > repo sync
-> > > Update optee_os with
-> > > https://github.com/jenswi-linaro/optee_os/tree/async_notif_v2
-> > > Update linux with https://github.com/jenswi-linaro/linux-1/tree/async_notif_v2
-> > > cd build
-> > > make all -j...
-> > > make run-only
-> > >
-> > > If you type anything at the secure console you'll notice how it
-> > > changes behaviour once the Linux kernel has booted.
-> > >
-> >
-> > Thanks for sharing instructions as I now got some time to test and
-> > deep dive into this feature. It looks like a pretty useful feature to
-> > realize interrupt support in the secure world in its true sense. This
-> > feature works for me as per your instructions.
-> >
-> > I could recognise it's requirement from the time while I was playing
-> > with secure timer interrupt support for OP-TEE RNG driver on
-> > Developerbox. In that case I had to strip down the secure interrupt
-> > handler to a minimum that would just collect entropy and dump into the
-> > secure buffer. But with asynchronous notifications support, I could
-> > add more functionality like entropy health tests in the bottom half
-> > instead of doing those health tests while retrieving entropy from the
-> > secure world.
-> >
-> > Given that, have you explored the possibility to leverage SGI rather
-> > than a platform specific SPI for notifying the normal world? If it's
-> > possible to leverage Architecture specific SGI for this purpose then I
->
-> What does "Architecture specific SGI" mean?
->
-
-Here I meant that SGI is specific to Arm architecture and doesn't
-require to be specific to per platform like an SPI.
-
-> > think this feature will come automatically enabled for every platform
-> > without the need to reserve a platform specific SPI.
->
-> That old chestnut again...
-
-Okay, can you provide reference to earlier threads?
-
->
-> - How do you discover that the secure side has graced you with a
->   Group-1 SGI (no, you can't use one of the first 8)? for both DT and
->   ACPI?
-
-I think the secure world can be probed for that during the OP-TEE
-driver probe. And I agree with you that the first 7 SGIs are already
-pre-occupied and I guess you remember mine patch-set that tried to
-leverage 8th SGI as pseudo NMI for kernel debug purposes.
-
-So yes for this use-case, the secure world can reserve one of the
-latter 8 SGIs (8 to 15) for cross world notification and I guess your
-earlier work to make SGIs to be requested as normal IRQs should make
-it easier to implement this as well.
-
->
-> - How do you find which CPUs are targeted by this SGI? All? One? A
->   subset? What is the expected behaviour with CPU hotplug? How can the
->   NS side (Linux) can inform the secure side about the CPUs it wants
->   to use?
-
-For the current OP-TEE use-case, I think targeting all CPUs would be
-efficient. So wouldn't it be possible for the CPU which receives the
-secure interrupt to raise that SGI to self that would in turn notify
-the normal world (Linux) to create a thread for OP-TEE to do bottom
-half processing?
-
->
-> - Is there any case where you would instead need a level interrupt
->   (which a SGI cannot provide)?
-
-I think SGI should be sufficient to suffice OP-TEE notifications use-case.
-
->
-> In general, cross world SGIs are a really bad idea. Yes, some people
-> like them. I still think they are misguided, and I don't intend to
-> provide a generic request interface for this.
-
-Okay, as I mentioned above having it specific to OP-TEE driver
-requesting secure world donated SGI would work for you?
-
--Sumit
-
->
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0N+aciDXml6XlkajkuIAg5LiL
+5Y2IODo1NuWGmemBk++8mg0KPg0KPg0KPg0KPiBPbiA2LzMwLzIxIDY6MjMgUE0sIFlhbnRlbmcg
+U2kgd3JvdGU6DQo+ID4gVHJhbnNsYXRlIERvY3VtZW50YXRpb24vY29yZS1hcGkvbWVtb3J5LWFs
+bG9jYXRpb24ucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlhbnRl
+bmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0NCj4gPiAgLi4uL3RyYW5zbGF0
+aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRleC5yc3QgICAgIHwgICA2ICstDQo+ID4gIC4uLi96aF9D
+Ti9jb3JlLWFwaS9tZW1vcnktYWxsb2NhdGlvbi5yc3QgICAgICB8IDEzOCArKysrKysrKysrKysr
+KysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
+bigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
+emhfQ04vY29yZS1hcGkvbWVtb3J5LWFsbG9jYXRpb24ucnN0DQo+ID4NCj4gPiBkaWZmIC0tZ2l0
+IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4g
+aW5kZXggYjRiZGU5Mzk2MzM5Li45MzY3MTI4YzRjYjcgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4gKysrIGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0DQo+ID4g
+QEAgLTk2LDkgKzk2LDEzIEBAIFRvZG9saXN0Og0KPiA+ICDlpoLkvZXlnKjlhoXmoLjkuK3liIbp
+hY3lkozkvb/nlKjlhoXlrZjjgILor7fms6jmhI/vvIzlnKgNCj4gPiAgOmRvYzpgL3ZtL2luZGV4
+YCDkuK3mnInmm7TlpJrnmoTlhoXlrZjnrqHnkIbmlofmoaPjgIINCj4gPg0KPiA+IC1Ub2RvbGlz
+dDoNCj4gPiArLi4gdG9jdHJlZTo6DQo+ID4gKyAgIDptYXhkZXB0aDogMQ0KPiA+DQo+ID4gICAg
+IG1lbW9yeS1hbGxvY2F0aW9uDQo+ID4gKw0KPiA+ICtUb2RvbGlzdDoNCj4gPiArDQo+ID4gICAg
+IHVuYWxpZ25lZC1tZW1vcnktYWNjZXNzDQo+ID4gICAgIGRtYS1hcGkNCj4gPiAgICAgZG1hLWFw
+aS1ob3d0bw0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
+Ti9jb3JlLWFwaS9tZW1vcnktYWxsb2NhdGlvbi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi9jb3JlLWFwaS9tZW1vcnktYWxsb2NhdGlvbi5yc3QNCj4gPiBuZXcgZmlsZSBt
+b2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uN2QwNDU1NjY4MDA0DQo+ID4gLS0t
+IC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Nv
+cmUtYXBpL21lbW9yeS1hbGxvY2F0aW9uLnJzdA0KPiA+IEBAIC0wLDAgKzEsMTM4IEBADQo+ID4g
+Ky4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiA+ICsNCj4gPiArOk9yaWdp
+bmFsOiBEb2N1bWVudGF0aW9uL2NvcmUtYXBpL21lbW9yeS1hbGxvY2F0aW9uLnJzdA0KPiA+ICsN
+Cj4gPiArOue/u+ivkToNCj4gPiArDQo+ID4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50
+ZW5nQGxvb25nc29uLmNuPg0KPiA+ICsNCj4gPiArOuagoeivkToNCj4gPiArDQo+ID4gKw0KPiA+
+ICsNCj4gPiArLi4gX2NuX2NvcmUtYXBpX21lbW9yeS1hbGxvY2F0aW9uOg0KPiA+ICsNCj4gPiAr
+PT09PT09PT09PT09DQo+ID4gK+WGheWtmOWIhumFjeaMh+WNlw0KPiA+ICs9PT09PT09PT09PT0N
+Cj4gPiArDQo+ID4gK0xpbnV45Li65YaF5a2Y5YiG6YWN5o+Q5L6b5LqG5aSa56eNQVBJ44CC5L2g
+5Y+v5Lul5L2/55SoIGBrbWFsbG9jYCDmiJYgYGttZW1fY2FjaGVfYWxsb2NgDQo+ID4gK+ezu+WI
+l+WIhumFjeWwj+Wdl+WGheWtmO+8jOS9v+eUqCBgdm1hbGxvY2Ag5Y+K5YW25rS+55Sf5Lqn5ZOB
+5YiG6YWN5aSn55qE5Yeg5LmO6L+e57ut55qE5Yy65Z+f77yM5oiW6ICFDQo+ID4gK+S9oOWPr+S7
+peeUqCBhbGxvY19wYWdlcyDnm7TmjqXlkJHpobXpnaLliIbphY3lmajor7fmsYLpobXpnaLjgILk
+uZ/lj6/ku6Xkvb/nlKjmm7TkuJPkuJrnmoTliIbphY3lmajvvIwNCj4gPiAr5L6L5aaCIGBjbWFf
+YWxsb2NgIOaIliBgenNfbWFsbG9jYCDjgIINCj4gPiArDQo+ID4gK+Wkp+WkmuaVsOeahOWGheWt
+mOWIhumFjUFQSeS9v+eUqEdGUOagh+W/l+adpeihqOi+vuivpeWGheWtmOW6lOivpeWmguS9leWI
+humFjeOAgkdGUOeahOe8qeWGmeS7o+ihqA0KPiA+ICvigJwoZ2V0IGZyZWUgcGFnZXMp6I635Y+W
+56m66Zey6aG14oCd77yM5piv5bqV5bGC55qE5YaF5a2Y5YiG6YWN5Yqf6IO944CCDQo+ID4gKw0K
+PiA+ICvvvIjlhoXlrZjvvInliIbphY1BUEnnmoTlpJrmoLfmgKfkuI7kvJflpJrnmoRHRlDmoIfl
+v5fnm7jnu5PlkIjvvIzkvb/lvpfigJzmiJHlupTor6XlpoLkvZXliIbphY3lhoXlrZjvvJ/igJ3o
+v5nkuKrpl64NCj4gPiAr6aKY5LiN6YKj5LmI5a655piT5Zue562U77yM5bC9566h5b6I5Y+v6IO9
+5L2g5bqU6K+l5L2/55SoDQo+ID4gKw0KPiA+ICs6Og0KPiA+ICsNCj4gPiArICBremFsbG9jKDxz
+aXplPiwgR0ZQX0tFUk5FTCk7DQo+ID4gKw0KPiA+ICvlvZPnhLbvvIzmnInkupvmg4XlhrXkuIvl
+v4Xpobvkvb/nlKjlhbbku5bliIbphY1BUEnlkozkuI3lkIznmoRHRlDmoIflv5fjgIINCj4gPiAr
+DQo+ID4gK+iOt+WPluepuumXsumhteagh+W/lw0KPiA+ICs9PT09PT09PT09PT09PQ0KPiA+ICtH
+RlDmoIflv5fmjqfliLbliIbphY3lmajnmoTooYzkuLrjgILlroPku6zlkYror4nmiJHku6zlk6rk
+upvlhoXlrZjljLrln5/lj6/ku6Xooqvkvb/nlKjvvIzliIbphY3lmajlupTor6XlpJrliqrlipvl
+r7sNCj4gPiAr5om+56m66Zey55qE5YaF5a2Y77yM6L+Z5Lqb5YaF5a2Y5piv5ZCm5Y+v5Lul6KKr
+55So5oi356m66Ze06K6/6Zeu562J562J44CC5YaF5a2Y566h55CGQVBJ5Li6R0ZQ5qCH5b+X5ZKM
+5a6D5Lus55qEDQo+ID4gK+e7hOWQiOaPkOS+m+S6huWPguiAg+aWh+S7tu+8jOi/memHjOaIkeS7
+rOeugOimgeS7i+e7jeS4gOS4i+Wug+S7rOeahOaOqOiNkOeUqOazlToNCj4gPiArDQo+ID4gKyAg
+KiDlpKflpJrmlbDml7blgJnvvIwgYGBHRlBfS0VSTkVMYGAg5piv5L2g6ZyA6KaB55qE44CC5YaF
+5qC45pWw5o2u57uT5p6E55qE5YaF5a2Y77yMRE1BYWJsZeWGheWtmO+8jGlub2RlDQo+DQo+IERN
+QWFibGXlhoXlrZjvvIwgRE1B5Y+v55So5YaF5a2Y77yfDQpvayENCj4NCj4gPiArICAgIOe8k+Wt
+mO+8jOaJgOaciei/meS6m+WSjOWFtuS7luiuuOWkmuWIhumFjeexu+Wei+mDveWPr+S7peS9v+eU
+qCBgYEdGUF9LRVJORUxgYCDjgILms6jmhI/vvIzkvb/nlKggYGBHRlBfS0VSTkVMYGANCj4gPiAr
+ICAgIOaEj+WRs+edgCBgYEdGUF9SRUNMQUlNYGAg77yM6L+Z5oSP5ZGz552A5Zyo5pyJ5YaF5a2Y
+5Y6L5Yqb55qE5oOF5Ya15LiL5Y+v6IO95Lya6Kem5Y+R55u05o6l5Zue5pS277yb6LCD55So5LiK
+DQo+ID4gKyAgICDkuIvmloflv4XpobvlhYHorrjnnaHnnKDjgIINCj4gPiArDQo+ID4gKyAgKiDl
+poLmnpzliIbphY3mmK/ku47kuIDkuKrljp/lrZDkuIrkuIvmlofkuK3ov5vooYznmoTvvIzkvovl
+poLkuK3mlq3lpITnkIbnqIvluo/vvIzkvb/nlKggYGBHRlBfTk9XQUlUYGAg44CC6L+Z5LiqDQo+
+ID4gKyAgICDmoIflv5flj6/ku6XpmLLmraLnm7TmjqXlm57mlLblkoxJT+aIluaWh+S7tuezu+e7
+n+aTjeS9nOOAguWboOatpO+8jOWcqOWGheWtmOWOi+WKm+S4i++8jCBgYEdGUF9OT1dBSVRgYCDl
+iIbphY0NCj4gPiArICAgIOWPr+iDveS8muWksei0peOAguacieWQiOeQhumAgOi3r+eahOWIhumF
+jeW6lOivpeS9v+eUqCBgYEdGUF9OT1dBUk5gYCDjgIINCj4gPiArDQo+ID4gKyAgKiDlpoLmnpzk
+vaDorqTkuLrorr/pl67lhoXlrZjlgqjlpIfmmK/lkIjnkIbnmoTvvIzpmaTpnZ7liIbphY3miJDl
+ip/vvIzlkKbliJnlhoXmoLjkvJrmnInljovlipvvvIzkvaDlj6/ku6Xkvb/nlKggYGBHRlBfQVRP
+TUlDYGAg44CCDQo+DQo+IOWmguaenOS9oOiupOS4uuiuv+mXruS/neeVmeWGheWtmOWMuuaYr+WQ
+iOeQhueahO+8jOW5tuS4lOmZpOmdnuWIhumFjeaIkOWKn+OAguOAguOAgu+8nw0Kb2shDQo+DQo+
+ID4gKw0KPiA+ICsgICog5LuO55So5oi356m66Ze06Kem5Y+R55qE5LiN5Y+v5L+h5Lu755qE5YiG
+6YWN5bqU6K+l5piva21lbeaguOeul+eahOWvueixoe+8jOW/hemhu+iuvue9riBgYF9fR0ZQX0FD
+Q09VTlRgYCDkvY3jgIINCj4gPiArICAgIOacieS4gOS4quaWueS+v+eahOeUqOS6jiBgYEdGUF9L
+RVJORUxgYCDliIbphY3nmoQgYGBHRlBfS0VSTkVMX0FDQ09VTlRgYCDlv6vmjbfplK7vvIzlhbbl
+upTor6XooqvmoLgNCj4gPiArICAgIOeul+OAgg0KPiA+ICsNCj4gPiArICAqIOeUqOaIt+epuumX
+tOeahOWIhumFjeW6lOivpeS9v+eUqCBgYEdGUF9VU0VSYGAg44CBIGBgR0ZQX0hJR0hVU0VSYGAg
+5oiWIGBgR0ZQX0hJR0hVU0VSX01PVkFCTEVgYA0KPiA+ICsgICAg5Lit55qE5LiA5Liq5qCH5b+X
+44CC5qCH5b+X5ZCN56ew6LaK6ZW/77yM6ZmQ5Yi25oCn6LaK5bCP44CCDQo+ID4gKw0KPiA+ICsg
+ICAgYGBHRlBfSElHSFVTRVJfTU9WQUJMRWBgIOS4jeimgeaxguWIhumFjeeahOWGheWtmOWwhuii
+q+WGheaguOebtOaOpeiuv+mXru+8jOW5tuaEj+WRs+edgOaVsOaNruaYr+WPr+i/geenu+eahOOA
+gg0KPiA+ICsNCj4gPiArICAgIGBgR0ZQX0hJR0hVU0VSYGAg5oSP5ZGz552A5omA5YiG6YWN55qE
+5YaF5a2Y5piv5LiN5Y+v6L+B56e755qE77yM5L2G5Lmf5LiN6KaB5rGC5a6D6IO96KKr5YaF5qC4
+55u05o6l6K6/6Zeu44CC5Li+5LiqDQo+ID4gKyAgICDkvovlrZDlsLHmmK/kuIDkuKrnoazku7bl
+iIbphY3lhoXlrZjvvIzov5nkupvmlbDmja7nm7TmjqXmmKDlsITliLDnlKjmiLfnqbrpl7TvvIzk
+vYbmsqHmnInlr7vlnYDpmZDliLbjgIINCj4gPiArDQo+ID4gKyAgICBgYEdGUF9VU0VSYGAg5oSP
+5ZGz552A5YiG6YWN55qE5YaF5a2Y5piv5LiN5Y+v6L+B56e755qE77yM5a6D5b+F6aG76KKr5YaF
+5qC455u05o6l6K6/6Zeu44CCDQo+ID4gKw0KPiA+ICvkvaDlj6/og73kvJrms6jmhI/liLDvvIzl
+nKjnjrDmnInnmoTku6PnoIHkuK3vvIzmnInnm7jlvZPlpJrnmoTliIbphY3mjIflrprkuoYgYGBH
+RlBfTk9JT2BgIOaIliBgYEdGUF9OT0ZTYGAg44CCDQo+ID4gK+S7juWOhuWPsuS4iueci++8jOWu
+g+S7rOiiq+eUqOadpemYsuatoumAkuW9kuatu+mUge+8jOi/meenjeatu+mUgeaYr+eUseebtOaO
+peWGheWtmOWbnuaUtuiwg+eUqOWIsEZT5oiWSU/ot6/lvoTku6Xlj4rlr7nlt7INCj4gPiAr57uP
+5oyB5pyJ55qE6LWE5rqQ6L+b6KGM6Zi75aGe5byV6LW355qE44CC5LuONC4xMuW8gOWni++8jOin
+o+WGs+i/meS4qumXrumimOeahOmmlumAieaWueazleaYr+S9v+eUqOaWsOeahOiMg+WbtEFQSe+8
+jOWNsw0KPiA+ICs6cmVmOmBEb2N1bWVudGF0aW9uL2NvcmUtYXBpL2dmcF9tYXNrLWZyb20tZnMt
+aW8ucnN0IDxnZnBfbWFza19mcm9tX2ZzX2lvPmAuDQo+ID4gKw0KPiA+ICvlhbbku5bkvKDnu5/n
+moRHRlDmoIflv5fmmK8gYGBHRlBfRE1BYGAg5ZKMIGBgR0ZQX0RNQTMyYGAg44CC5a6D5Lus55So
+5LqO56Gu5L+d5YiG6YWN55qE5YaF5a2Y5Y+v5Lul6KKr5a+7DQo+ID4gK+WdgOiDveWKm+aciemZ
+kOeahOehrOS7tuiuv+mXruOAguWboOatpO+8jOmZpOmdnuS9oOato+WcqOS4uuS4gOS4quaciei/
+meenjemZkOWItueahOiuvuWkh+e8luWGmempseWKqOeoi+W6j++8jOWQpuWImeimgemBv+WFjQ0K
+PiA+ICvkvb/nlKjov5nkupvmoIflv5fjgILogIzkuJTvvIzljbPkvb/mmK/mnInpmZDliLbnmoTn
+oazku7bvvIzkuZ/mnIDlpb3kvb/nlKhkbWFfYWxsb2MqIEFQSXPjgIINCj4gPiArDQo+ID4gK0dG
+UOagh+W/l+WSjOWbnuaUtuihjOS4ug0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICvlhoXl
+rZjliIbphY3lj6/og73kvJrop6blj5Hnm7TmjqXmiJblkI7lj7Dlm57mlLbvvIzkuobop6PpobXp
+naLliIbphY3lmajlsIblpoLkvZXliqrlipvmu6HotrPor6Xor7fmsYLmiJblhbbku5bor7fmsYLm
+mK/pnZ7luLgNCj4gPiAr5pyJ55So55qE44CCDQo+ID4gKw0KPiA+ICsgICogYGBHRlBfS0VSTkVM
+ICYgfl9fR0ZQX1JFQ0xBSU1gYCAtIOS5kOinguWIhumFje+8jOWujOWFqOS4jeWwneivlemHiuaU
+vuWGheWtmOOAguacgOi9u+mHj+e6p+eahOaooQ0KPiA+ICsgICAg5byP77yM55Sa6Iez5LiN5ZCv
+5Yqo5ZCO5Y+w5Zue5pS244CC5bqU6K+l5bCP5b+D5L2/55So77yM5Zug5Li65a6D5Y+v6IO95Lya
+6ICX5bC95YaF5a2Y77yM6ICM5LiL5LiA5Liq55So5oi35Y+v6IO95Lya5ZCvDQo+ID4gKyAgICDl
+iqjmm7Tnp6/mnoHnmoTlm57mlLbjgIINCj4gPiArDQo+ID4gKyAgKiBgYEdGUF9LRVJORUwgJiB+
+X19HRlBfRElSRUNUX1JFQ0xBSU1gYCAob3IgYGBHRlBfTk9XQUlUYGAgKSAtIOS5kOinguWIhumF
+je+8jOS4jQ0KPiA+ICsgICAg6K+V5Zu+5LuO5b2T5YmN5LiK5LiL5paH5Lit6YeK5pS+5YaF5a2Y
+77yM5L2G5aaC5p6c6K+l5Yy65Z+f5L2O5LqO5L2O5rC05L2N77yM5Y+v5Lul5ZSk6YaSa3N3YXBk
+5p2l5Zue5pS25YaF5a2Y44CC5Y+vDQo+ID4gKyAgICDku6Xku47ljp/lrZDkuIrkuIvmlofkuK3k
+vb/nlKjvvIzmiJbogIXlvZPor7fmsYLmmK/kuIDkuKrmgKfog73kvJjljJbvvIzlubbkuJTmnInl
+j6bkuIDkuKrmhaLpgJ/ot6/lvoTnmoTlm57pgIDjgIINCj4gPiArDQo+ID4gKyAgKiBgYChHRlBf
+S0VSTkVMfF9fR0ZQX0hJR0gpICYgfl9fR0ZQX0RJUkVDVF9SRUNMQUlNYGAgKGFrYSBgYEdGUF9B
+VE9NSUNgYCApIC0g6Z2eDQo+ID4gKyAgICDnnaHnnKDliIbphY3vvIzmnInkuIDkuKrmmILotLXn
+moTlm57pgIDvvIzmiYDku6XlroPlj6/ku6Xorr/pl67mn5Dkupvpg6jliIbnmoTlhoXlrZjlgqjl
+pIfjgILpgJrluLjku47kuK3mlq0v5bqV5bGC5LiK5LiLDQo+ID4gKyAgICDmlofkuK3kvb/nlKjv
+vIzmnInkuIDkuKrmmILotLXnmoTmhaLpgJ/ot6/lvoTlm57pgIDjgIINCj4gPiArDQo+ID4gKyAg
+KiBgYEdGUF9LRVJORUxgYCAtIOWFgeiuuOWQjuWPsOWSjOebtOaOpeWbnuaUtu+8jOW5tuS9v+eU
+qOm7mOiupOeahOmhtemdouWIhumFjeWZqOihjOS4uuOAgui/meaEj+WRs+edgOS4jeaYgui0tQ0K
+Pg0KPiDkuI3mmILotLUgLT4g5L6/5a6c55qE77yfDQplbW1tbe+8jHVzZSDlu4nku7fnmoQNCj4g
+PiArICAgIOeahOWIhumFjeivt+axguWfuuacrOS4iuaYr+S4jeS8muWksei0peeahO+8jOS9huS4
+jeiDveS/neivgei/meenjeihjOS4uu+8jOaJgOS7peWksei0peW/hemhu+eUseiwg+eUqOiAhemA
+guW9k+ajgOafpe+8iOS+iw0KPiA+ICsgICAg5aaC77yM55uu5YmN5YWB6K64T09N5p2A5omL5aSx
+6LSl77yJ44CCDQo+ID4gKw0KPiA+ICsgICogYGBHRlBfS0VSTkVMIHwgX19HRlBfTk9SRVRSWWBg
+IC0g6KaG55uW6buY6K6k55qE5YiG6YWN5Zmo6KGM5Li677yM5omA5pyJ55qE5YiG6YWN6K+35rGC
+6YO95Lya5o+Q5YmNDQo+ID4gKyAgICDlpLHotKXvvIzogIzkuI3mmK/lr7zoh7TnoLTlnY/mgKfn
+moTlm57mlLbvvIjlnKjov5nkuKrlrp7njrDkuK3mmK/kuIDova7nmoTlm57mlLbvvInjgIJPT03m
+nYDmiYvkuI3ooqvosIPnlKjjgIINCj4gPiArDQo+ID4gKyAgKiBgYEdGUF9LRVJORUwgfCBfX0dG
+UF9SRVRSWV9NQVlGQUlMYGAgLSDopobnm5YgKirpu5jorqQqKiDnmoTliIbphY3lmajooYzkuLrv
+vIzmiYDmnInliIbphY3or7fmsYLpg73pnZ4NCj4gPiArICAgIOW4uOWKquWKm+OAguWmguaenOWb
+nuaUtuS4jeiDveWPluW+l+S7u+S9lei/m+Wxle+8jOivpeivt+axguWwhuWksei0peOAgk9PTead
+gOaJi+S4jeS8muiiq+inpuWPkeOAgg0KPiA+ICsNCj4gPiArICAqIGBgR0ZQX0tFUk5FTCB8IF9f
+R0ZQX05PRkFJTGBgIC0g6KaG55uW6buY6K6k55qE5YiG6YWN5Zmo6KGM5Li677yM5omA5pyJ5YiG
+6YWN6K+35rGC5bCG5peg5LyR5q2i5Zyw5b6qDQo+ID4gKyAgICDnjq/vvIznm7TliLDmiJDlip/j
+gILov5nlj6/og73nnJ/nmoTlvojljbHpmanvvIznibnliKvmmK/lr7nkuo7ovoPlpKfnmoTpnIDm
+sYLjgIINCj4gPiArDQo+ID4gK+mAieaLqeWGheWtmOWIhumFjeWZqA0KPiA+ICs9PT09PT09PT09
+PT09PQ0KPiA+ICsNCj4gPiAr5YiG6YWN5YaF5a2Y55qE5pyA55u05o6l55qE5pa55rOV5piv5L2/
+55Soa21hbGxvYygp57O75YiX55qE5Ye95pWw44CC6ICM5LiU77yM5Li65LqG5a6J5YWo6LW36KeB
+77yM5pyA5aW95L2/55So5bCG5YaF5a2YDQo+ID4gK+iuvue9ruS4uumbtueahOS+i+eoi++8jOWm
+gmt6YWxsb2MoKeOAguWmguaenOS9oOmcgOimgeS4uuS4gOS4quaVsOe7hOWIhumFjeWGheWtmO+8
+jOaciWttYWxsb2NfYXJyYXkoKeWSjGtjYWxsb2MoKQ0KPiA+ICvovoXliqnnqIvluo/jgILovoXl
+iqnnqIvluo9zdHJ1Y3Rfc2l6ZSgp44CBYXJyYXlfc2l6ZSgp5ZKMYXJyYXkzX3NpemUoKeWPr+S7
+peeUqOadpeWuieWFqOWcsOiuoeeul+WvuQ0KPiA+ICvosaHnmoTlpKflsI/ogIzkuI3kvJrmuqLl
+h7rjgIINCj4gPiArDQo+ID4gK+WPr+S7peeUqCBga21hbGxvY2Ag5YiG6YWN55qE5Z2X55qE5pyA
+5aSn5bC65a+45piv5pyJ6ZmQ55qE44CC5a6e6ZmF55qE6ZmQ5Yi25Y+W5Yaz5LqO56Gs5Lu25ZKM
+5YaF5qC46YWN572u77yM5L2G5piv5a+55LqODQo+ID4gK+Wwj+S6jumhtemdouWkp+Wwj+eahOWv
+ueixoe+8jOS9v+eUqCBga21hbGxvY2Ag5piv5LiA5Liq5aW955qE5YGa5rOV44CCDQo+ID4gKw0K
+PiA+ICvnlKggYGttYWxsb2NgIOWIhumFjeeahOWdl+eahOWcsOWdgOiHs+WwkeimgeWvuem9kOWI
+sEFSQ0hfS01BTExPQ19NSU5BTElHTuWtl+iKguOAguWvueS6juWkp+Wwj+S4ujLnmoTluYLvvIwN
+Cj4g5a+55LqO5aSn5bCP5Li6MueahOW5giwgc2luY2UgdGhlIHN1YmplY3QgaXMgdGhlICdzaXpl
+cycsIGNvdWxkIHdlIGNoYW5nZSB0aGUgdHJhbnNsYXRpb24NCj4gYXMg5a+55LqOMueahOW5guea
+hOWkp+Wwj++8nw0KeWVhaO+8gQ0KDQpUaGFua3MsDQoNCllhbnRlbmcNCj4NCj4gVGhhbmtzDQo+
+IEFsZXgNCj4NCj4gPiAr5a+56b2Q5pa55byP5Lmf6KKr5L+d6K+B5Li66Iez5bCR5piv5ZCE6Ieq
+55qE5aSn5bCP44CCDQo+ID4gKw0KPiA+ICvnlKhrbWFsbG9jKCnliIbphY3nmoTlnZflj6/ku6Xn
+lKhrcmVhbGxvYygp6LCD5pW05aSn5bCP44CC5LiOa21hbGxvY19hcnJheSgp57G75Ly877ya5Lul
+a3JlYWxsb2NfYXJyYXkoKQ0KPiA+ICvnmoTlvaLlvI/mj5DkvpvkuobkuIDkuKrnlKjkuo7osIPm
+lbTmlbDnu4TlpKflsI/nmoTovoXliqnlt6XlhbfjgIINCj4gPiArDQo+ID4gK+WvueS6juWkp+mH
+j+eahOWIhumFje+8jOS9oOWPr+S7peS9v+eUqHZtYWxsb2MoKeWSjHZ6YWxsb2MoKe+8jOaIluiA
+heebtOaOpeWQkemhtemdouWIhumFjeWZqOivt+axgumhtemdouOAgueUsXZtYWxsb2MNCj4gPiAr
+5ZKM55u45YWz5Ye95pWw5YiG6YWN55qE5YaF5a2Y5Zyo54mp55CG5LiK5piv5LiN6L+e57ut55qE
+44CCDQo+ID4gKw0KPiA+ICvlpoLmnpzkvaDkuI3noa7lrprliIbphY3nmoTlpKflsI/lr7kgYGtt
+YWxsb2NgIOadpeivtOaYr+WQpuWkquWkp++8jOWPr+S7peS9v+eUqGt2bWFsbG9jKCnlj4rlhbbm
+tL7nlJ/lh73mlbDjgILlroPlsIblsJ0NCj4gPiAr6K+V55Soa21hbGxvY+WIhumFjeWGheWtmO+8
+jOWmguaenOWIhumFjeWksei0pe+8jOWwhueUqCBgdm1hbGxvY2Ag6YeN5paw5bCd6K+V44CC5a+5
+5LqO5ZOq5LqbR0ZQ5qCH5b+X5Y+v5Lul5LiOIGBrdm1hbGxvY2ANCj4gPiAr5LiA6LW35L2/55So
+5piv5pyJ6ZmQ5Yi255qE77yb6K+355yLa3ZtYWxsb2Nfbm9kZSgp5Y+C6ICD5paH5qGj44CC5rOo
+5oSP77yMIGBrdm1hbGxvY2Ag5Y+v6IO95Lya6L+U5Zue54mp55CG5LiK5LiN6L+eDQo+ID4gK+e7
+reeahOWGheWtmOOAgg0KPiA+ICsNCj4gPiAr5aaC5p6c5L2g6ZyA6KaB5YiG6YWN6K645aSa55u4
+5ZCM55qE5a+56LGh77yM5L2g5Y+v5Lul5L2/55Soc2xhYue8k+WtmOWIhumFjeWZqOOAguWcqOS9
+v+eUqOe8k+WtmOS5i+WJje+8jOW6lOivpeeUqA0KPiA+ICtrbWVtX2NhY2hlX2NyZWF0ZSgp5oiW
+a21lbV9jYWNoZV9jcmVhdGVfdXNlcmNvcHkoKeadpeiuvue9rue8k+WtmOOAguWmguaenOe8k+Wt
+mOeahOS4gOmDqOWIhuWPr+iDveiiq+WkjQ0KPiA+ICvliLbliLDnlKjmiLfnqbrpl7TvvIzlupTo
+r6Xkvb/nlKjnrKzkuozkuKrlh73mlbDjgILlnKjnvJPlrZjooqvliJvlu7rlkI7vvIxrbWVtX2Nh
+Y2hlX2FsbG9jKCnlkozlroPnmoTlsIHoo4Xlj6/ku6Xku47or6XnvJMNCj4gPiAr5a2Y5Lit5YiG
+6YWN5YaF5a2Y44CCDQo+ID4gKw0KPiA+ICvlvZPliIbphY3nmoTlhoXlrZjkuI3lho3pnIDopoHm
+l7bvvIzlroPlv4Xpobvooqvph4rmlL7jgILkvaDlj6/ku6Xkvb/nlKhrdmZyZWUoKeadpeWkhOeQ
+hueUqCBga21hbGxvY2Ag44CBIGB2bWFsbG9jYA0KPiA+ICvlkowgYGt2bWFsbG9jYCDliIbphY3n
+moTlhoXlrZjjgIJzbGFi57yT5a2Y5bqU6K+l55Soa21lbV9jYWNoZV9mcmVlKCnmnaXph4rmlL7j
+gILkuI3opoHlv5jorrDnlKgNCj4gPiAra21lbV9jYWNoZV9kZXN0cm95KCnmnaXplIDmr4HnvJPl
+rZjjgIINCj4gPg0K
