@@ -3,183 +3,384 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E07AC07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 07:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CEF9C07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 08:52:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63D9C61993
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 07:25:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF5E761995
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 08:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbhGFH2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 03:28:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230218AbhGFH2R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 03:28:17 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CBDC06175F
-        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 00:25:39 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id t30so7831928ljo.5
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 00:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v5VNmThjm4DmH+LnsaR0B3iwZoVfeb1fZ3oywOwn7G8=;
-        b=cVGcrT9zB5JzTP0aE9nAkyAmZxivH9ZNxMEDzFbar62SLEYX7QeCRPEtCcuzB+zt76
-         2WvL2z/tIUIDzTaL1iUq/x48nsuhSoxZTg9vDc9ybquiT4NBmQbPJP5YpueXbFyHx03M
-         APlLoefqRDNQii2urEZRAy1AhwsxOdaFu2Tqbdx3EmGNnsKfseEzD+FnOQAXXKn0Ojif
-         yVwS3JDB4ZTTxJP8/Q+1yCXnMKeAfNZzmMdY9PkPtLGIIsgFUYnp1/15SoOirApg81SE
-         VD7qYJ1Nb9b6VuRlDJTCO1mmkv/ZEnUOnqH6Vkjppsk4Ub0yfTo0TzjUjbd1A6q+H+tw
-         J3YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v5VNmThjm4DmH+LnsaR0B3iwZoVfeb1fZ3oywOwn7G8=;
-        b=Xdyb7ylmqNK9Kc7aK42eg+AdF9sgegl6KYklvh9SuhOmJyLUfBbWIF7p8wHYmj7lzo
-         WFtUZQwVS0qkbc0jahe8eXw+RuRs4ffHiHG0aihSTBUJT60QUXM9ToyV/Q7bc01BM9RV
-         miu0TrsYnJb+WlK4QmmbEZjmKjVnO3wYb2y6USiG0IC7qaXlz34KW3IxWDmlZz+DYXBV
-         pLMkyq94WG86X5XMy/FAIuNUnLhuA8YnNKC0Fhory1QSGqUr2yMhkx2Orrtcuph+QyEn
-         rvA/uQO1hc8l8SaiTjhCJy+wPuymB9dxRTwUbfERKPo7Oh27DmoxmBB6qbMEgSmWjDvQ
-         +6OQ==
-X-Gm-Message-State: AOAM53000rW7GQBqiuIGkDlg2orka4ODPqYcrsyvgsQC6Kf1JMC9MsFe
-        lUgb+/MngsFip4WPCozA2mmQO2iJbQafjwz9d3wIfQ==
-X-Google-Smtp-Source: ABdhPJzBqENHysNuz9woqwFmjD9B+KAL6Oj7Tqd92ssm66C+8dzfCqg5FMbGILRpUR9/vpr05KVEHQ/454HYf1iVLo0=
-X-Received: by 2002:a2e:9059:: with SMTP id n25mr14700116ljg.314.1625556337523;
- Tue, 06 Jul 2021 00:25:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
- <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com> <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
-In-Reply-To: <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 6 Jul 2021 12:55:26 +0530
-Message-ID: <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S230343AbhGFIyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 04:54:51 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:50177 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230295AbhGFIyu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 04:54:50 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 19983580670;
+        Tue,  6 Jul 2021 04:52:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 06 Jul 2021 04:52:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=xb1ShrMpK8ostpGwMFZCsoZYETx
+        HiphoxAX6Pb3wC5k=; b=ZCV9iuaTvRyGFKWCMmtOelU+0kN6oMjQWnrxYPOn9i4
+        RnwWxv9mEXtN+0RJu18PNOBzJgVvzoBeWNwM9jMNRCjLRr8INbHTSt6opquohGIl
+        5oBW/Hn42adUViFWQij+8AIFNLcs7HTMJjjxlymaKh0Bsv9OCL0z6djxAte4inHe
+        +t99cn/L/XCmrl62a9umObf6+07FqOhaChCDgcBR9MNQGBwUo5DYMIOF8ogjlbyJ
+        8Wtyq2kEK5HcEw0u8/EFTrNeq2c1NPcrIxsR29QJU9h8wX0f1KXzX9x6CiSE2JNz
+        4h1G1VOFatfKkI5bc5WsxFflYQJUn7nOJf4uARLoxOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=xb1Shr
+        MpK8ostpGwMFZCsoZYETxHiphoxAX6Pb3wC5k=; b=gUTumXogpffvEC9hNM2J6U
+        BrjncaXbkURl4CGhFCpJpCodRU5Vd8hUraRWgIA/Uy3Y3VqsIL8swZjRHMFbHN+l
+        Jp2k0AyhghnEA7ipboW5OJ3I0Cuo6BkUZ+2pOe535Rii5MSA9ab8U4j3ptT2Oe+f
+        /TLgYXEiwbGGaPkRwboljNoaJXFBFNM9383aB/g9l+5QUsecwe87EHjGqo/WWPwS
+        PVRow+Y2N8HcKw7OqH4V356Uts9Ky6ueym8qyVz3daR/59mSRDN1msUC+C1M/MUw
+        nk3FUK/oMMRhRwlnd1EpuqOjtkNSAMoPOafrYbKe4cJoofrW00FPF1eUqCLC4Igg
+        ==
+X-ME-Sender: <xms:tBnkYBomkBuLOg4ypCiohcBXCiR_Y2SE4siRkZWvlyy3wyD-ZsIS_g>
+    <xme:tBnkYDqxiTL8b9cOOfv1vpERv8pBUmQyt3OveP7GS1zi7LKuKZ8P-67aloVqcH6Bm
+    AaR25CDLGIxz_T6c0g>
+X-ME-Received: <xmr:tBnkYOPpst5nNafKnVjCa8wp4kEf3E8nvHi1nHDs4mXU8uwELi2SEdDofDR515_Ly-SARQcMNXr2YRqYfiqgfhnlKHbL3bK9PZnD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejiedgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+    gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:tBnkYM7zdkz8uMexSI4n-jf-VxjW_meQHicZ3bfHVhuvsp9ESzO6YA>
+    <xmx:tBnkYA6n3A8UT5HPNAj8cAVDCtzmBQp37Qsp5Y01QYkroRWRhJbFLQ>
+    <xmx:tBnkYEhR2KRRptb8iUcYhR9pNndzh00gJcl5TuPDInjbphdCKXd9zQ>
+    <xmx:vBnkYLegO4CmrCiqvYRm4sMf3NJLo2OMhXiUso2RgyIS--Oc1a8Y4g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jul 2021 04:52:03 -0400 (EDT)
+Date:   Tue, 6 Jul 2021 10:52:02 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
+        Eric Anholt <eric@anholt.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steven Price <steven.price@arm.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210706085202.6o4fapfmq7osj5wf@gilmour>
+References: <20210616143842.632829-1-maxime@cerno.tech>
+ <20210617112036.7373fdab@eldfell>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rwvg6s6irn2y2r5k"
+Content-Disposition: inline
+In-Reply-To: <20210617112036.7373fdab@eldfell>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Jun 2021 at 11:40, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Hi Sumit,
->
-> On Thu, Jun 17, 2021 at 6:33 AM Sumit Garg <sumit.garg@linaro.org> wrote:
-> >
-> > Hi Jens,
-> >
-> > On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > >
-> > > Hi all,
-> > >
-> > > This adds support for asynchronous notifications from OP-TEE in secure
-> > > world to the OP-TEE driver. This allows a design with a top half and bottom
-> > > half type of driver where the top half runs in secure interrupt context and
-> > > a notifications tells normal world to schedule a yielding call to do the
-> > > bottom half processing.
-> > >
-> > > An interrupt is used to notify the driver that there are asynchronous
-> > > notifications pending.
-> > >
-> >
-> > It looks like a nice feature. I would like to get hands on with this.
-> > Can I test this feature on Qemu?
->
-> Absolutely, you can get this into the normal OP-TEE development repo setup with:
-> repo init -u https://github.com/OP-TEE/manifest.git -m default.xml
-> repo sync
-> Update optee_os with
-> https://github.com/jenswi-linaro/optee_os/tree/async_notif_v2
-> Update linux with https://github.com/jenswi-linaro/linux-1/tree/async_notif_v2
-> cd build
-> make all -j...
-> make run-only
->
-> If you type anything at the secure console you'll notice how it
-> changes behaviour once the Linux kernel has booted.
->
 
-Thanks for sharing instructions as I now got some time to test and
-deep dive into this feature. It looks like a pretty useful feature to
-realize interrupt support in the secure world in its true sense. This
-feature works for me as per your instructions.
+--rwvg6s6irn2y2r5k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I could recognise it's requirement from the time while I was playing
-with secure timer interrupt support for OP-TEE RNG driver on
-Developerbox. In that case I had to strip down the secure interrupt
-handler to a minimum that would just collect entropy and dump into the
-secure buffer. But with asynchronous notifications support, I could
-add more functionality like entropy health tests in the bottom half
-instead of doing those health tests while retrieving entropy from the
-secure world.
+Hi Pekka,
 
-Given that, have you explored the possibility to leverage SGI rather
-than a platform specific SPI for notifying the normal world? If it's
-possible to leverage Architecture specific SGI for this purpose then I
-think this feature will come automatically enabled for every platform
-without the need to reserve a platform specific SPI.
+On Thu, Jun 17, 2021 at 11:20:36AM +0300, Pekka Paalanen wrote:
+> On Wed, 16 Jun 2021 16:38:42 +0200
+> Maxime Ripard <maxime@cerno.tech> wrote:
+>=20
+> > New KMS properties come with a bunch of requirements to avoid each
+> > driver from running their own, inconsistent, set of properties,
+> > eventually leading to issues like property conflicts, inconsistencies
+> > between drivers and semantics, etc.
+> >=20
+> > Let's document what we expect.
+> >=20
+> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Alison Wang <alison.wang@nxp.com>
+> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Chen Feng <puck.chen@hisilicon.com>
+> > Cc: Chen-Yu Tsai <wens@csie.org>
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > Cc: Eric Anholt <eric@anholt.net>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> > Cc: Huang Rui <ray.huang@amd.com>
+> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > Cc: Inki Dae <inki.dae@samsung.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> > Cc: Kevin Hilman <khilman@baylibre.com>
+> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > Cc: Paul Cercueil <paul@crapouillou.net>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Qiang Yu <yuq825@gmail.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Roland Scheidegger <sroland@vmware.com>
+> > Cc: Russell King <linux@armlinux.org.uk>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Sandy Huang <hjc@rock-chips.com>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Stefan Agner <stefan@agner.ch>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Tian Tao <tiantao6@hisilicon.com>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Tomi Valkeinen <tomba@kernel.org>
+> > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> > Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> > Cc: Zack Rusin <zackr@vmware.com>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > ---
+> >=20
+> > Changes from v3:
+> >   - Roll back to the v2
+> >   - Add Simon and Pekka in Cc
+> >=20
+> > Changes from v2:
+> >   - Take into account the feedback from Laurent and Lidiu to no longer
+> >     force generic properties, but prefix vendor-specific properties with
+> >     the vendor name
+> >=20
+> > Changes from v1:
+> >   - Typos and wording reported by Daniel and Alex
+> > ---
+> >  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.=
+rst
+> > index 87e5023e3f55..c28b464dd397 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -463,6 +463,25 @@ KMS Properties
+> >  This section of the documentation is primarily aimed at user-space dev=
+elopers.
+> >  For the driver APIs, see the other sections.
+> > =20
+> > +Requirements
+> > +------------
+> > +
+> > +KMS drivers might need to add extra properties to support new features.
+> > +Each new property introduced in a driver need to meet a few
+> > +requirements, in addition to the one mentioned above.:
+> > +
+> > +- It must be standardized, with some documentation to describe how the
+> > +  property can be used.
+>=20
+> Hi,
+>=20
+> I might replace "some" with "full" documentation. Also not only how it
+> can be used but also what it does.
+>=20
+> FYI, some common things that tend to be forgotten IME:
+> - Spell out exactly the name string for the property in the
+>   documentation so that it is unambiguous what string userspace should
+>   look for.
+> - The same for string names of enum values.
+> - Explicitly document what each enum value means, do not trust that the
+>   value name describes it well enough.
+> - Explain how the property interacts with other, existing properties.
+>=20
+> Not sure if these should be written down here or anywhere though.
+> Interaction with other properties is kind of important.
+>=20
+> > +
+> > +- It must provide a generic helper in the core code to register that
+> > +  property on the object it attaches to.
+> > +
+> > +- Its content must be decoded by the core and provided in the object's
+> > +  associated state structure. That includes anything drivers might wan=
+t to
+> > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for =
+planes.
+> > +
+> > +- An IGT test must be submitted where reasonable.
+>=20
+> Would it be too much to replace "where reasonable" with "if it is at
+> all possible to write a test."?
+>=20
+> > +
+>=20
+> How about adding the following somewhere?
+>=20
+> - The initial state of the property (set during driver initialization)
+>   must match how the driver+hardware behaved before introducing this
+>   property. It may be some fixed value or it may be inherited from e.g.
+>   the firmware that booted the system. How the initial state is
+>   determined must also be documented, that is, where does it come from.
+>=20
+> The initial state must not be called "default", because I want to
+> reserve the term default for something else if possible: the phrase
+> "reset everything to defaults", which is a whole another discussion.
 
--Sumit
+I've taken into account your previous comments, thanks
 
-> Cheers,
-> Jens
->
-> >
-> > -Sumit
-> >
-> > > v2:
-> > > * Added documentation
-> > > * Converted optee bindings to json-schema and added interrupt property
-> > > * Configure notification interrupt from DT instead of getting it
-> > >   from secure world, suggested by Ard Biesheuvel <ardb@kernel.org>.
-> > >
-> > > Thanks,
-> > > Jens
-> > >
-> > > Jens Wiklander (7):
-> > >   docs: staging/tee.rst: add a section on OP-TEE notifications
-> > >   dt-bindings: arm: Convert optee binding to json-schema
-> > >   dt-bindings: arm: optee: add interrupt property
-> > >   tee: fix put order in teedev_close_context()
-> > >   tee: add tee_dev_open_helper() primitive
-> > >   optee: separate notification functions
-> > >   optee: add asynchronous notifications
-> > >
-> > >  .../bindings/arm/firmware/linaro,optee-tz.txt |  31 ---
-> > >  .../arm/firmware/linaro,optee-tz.yaml         |  57 +++++
-> > >  Documentation/staging/tee.rst                 |  27 +++
-> > >  drivers/tee/optee/Makefile                    |   1 +
-> > >  drivers/tee/optee/call.c                      |  27 +++
-> > >  drivers/tee/optee/core.c                      |  87 +++++--
-> > >  drivers/tee/optee/notif.c                     | 226 ++++++++++++++++++
-> > >  drivers/tee/optee/optee_msg.h                 |   9 +
-> > >  drivers/tee/optee/optee_private.h             |  23 +-
-> > >  drivers/tee/optee/optee_rpc_cmd.h             |  31 +--
-> > >  drivers/tee/optee/optee_smc.h                 |  75 +++++-
-> > >  drivers/tee/optee/rpc.c                       |  73 +-----
-> > >  drivers/tee/tee_core.c                        |  37 ++-
-> > >  include/linux/tee_drv.h                       |  27 +++
-> > >  14 files changed, 576 insertions(+), 155 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
-> > >  create mode 100644 drivers/tee/optee/notif.c
-> > >
-> > > --
-> > > 2.31.1
-> > >
+> How about also saying that fbcon/fbdev must set this property when
+> taking over? That sounds to be like a common omission leading to funky
+> KMS state in fbcon. The value fbdev sets it to only needs to make
+> sense to fbdev, and it does not need to be ~~the initial value~~ nor the
+> default value. Or are we hoping to kill fbcon in favor of a userspace
+> kmscon soon? ;-)
+>=20
+> Ooh, maybe the KMS property documentation should also say what value
+> fbdev will set the property to. That's kind of UABI, because userspace
+> probably implicitly relies on it in many cases. ...which means fbdev
+> should set the property to its initial value, otherwise userspace will
+> break.
+
+I'm not sure about this one: fbdev and fbcon are still optional features
+of the kernel and can be disabled at the user discretion. Having any
+part of the user-space rely on the fbdev behavior seems a bit broken,
+especially when we have a mechanism to retrieve the state when the
+application starts.
+
+Maxime
+
+--rwvg6s6irn2y2r5k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOQZsQAKCRDj7w1vZxhR
+xcAOAQDgiPmqHT2po3pKn0nOdvI8OHOSf965Rdk+pXb4g0/FYAD/QiqJF39WtEjQ
+HH/6r47VwthjKZxzENH4ZoYQwPDddQo=
+=GIQI
+-----END PGP SIGNATURE-----
+
+--rwvg6s6irn2y2r5k--
