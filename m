@@ -2,334 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B096C07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05F7C07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:42:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECB1561A11
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 855FA61C4B
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 16:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbhGFQPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 12:15:36 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:54217 "EHLO
+        id S229730AbhGFQpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 12:45:31 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53549 "EHLO
         new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229773AbhGFQPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 12:15:36 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 1823358050E;
-        Tue,  6 Jul 2021 12:12:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 06 Jul 2021 12:12:56 -0400
+        by vger.kernel.org with ESMTP id S229770AbhGFQpb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 12:45:31 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id ED38358067B;
+        Tue,  6 Jul 2021 12:42:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 06 Jul 2021 12:42:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:mime-version:content-type
-        :content-transfer-encoding; s=fm3; bh=qn7dpQZ55SUQEOBzkrP6w9EUZY
-        ix4DKNCT0/czlLkVI=; b=PRoKgkspfHqZl6441cnwEQgpo59mdQaPIfD6vmgf3o
-        f8jb6qaVVENX7jKk4CNSpjQHx99+7IBU30DtAsbKQ3eC/Eken+Yc+4w7JDfJucPC
-        pPgivWhTd+1jd1lbRmZeaB+rsMauRbn52PuT6L2UpBzI9+SQcBhhh/cgWYReF3Ku
-        VEXFgt6bDR2SpKUL/H0w+mEaJxixD5wDF/lWllJ6X3Yl8bDgLsHsZOoRL+OfRrBC
-        LxGLQnguCbFq2wRLd4C6qDBGjLbBzAu5BEyl67LmH9iBHsoZ+PHdkCmRgq+/HNBE
-        7iFXmG+utbhDcX7gb9zLfrgh70Vtm8iE+UVTgY/ipfBg==
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=W6MiHashvxzD/kAAuIZVKo84DZ9
+        qBLQd+rtHQpbZp+k=; b=WSiVy/c9f09jEvWIJfqbqBgsWevGwvK9n2/rTMHB+vE
+        JpHiqjtrBRvzPD1hT/djwShgO3S8n3ETfRxJMJnH4Ezn/vnuLLkZmixLZOiWOe50
+        UsZfDmbDnjOiWV/JGEDOpj1idsuG9rp7XyzyawWnZCmv1Fes1wjCutLqze5IABej
+        BGySBCMNVSFsEH2TzuhhHmUvk5abdWS7LjmWqdzAGkWPLuvTeI/Nams/ip9gGmQD
+        1uNh7A+xok91QJKn10j+vyb9UwgyNPyR/1hS3AOM0KBV15aKTYeWopFcQbzAczGw
+        MkDDSSKR4aOusL9d+yn4cb5qAfymx+ceaepIm5P8STg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:message-id:mime-version:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qn7dpQ
-        Z55SUQEOBzkrP6w9EUZYix4DKNCT0/czlLkVI=; b=ZmbPNn//B0h31Ia+Y9oL+C
-        ShuQOkiILu0sl8hMJJXYpxXK/RDhXLFPrmBHt9kHBamdg48DSEjo+5jGrMz++Umd
-        yvHuusSBLNuUt/8/cO/Ng3oiZI48TC9kwKtZNmzmufsCxveopPq7VXNUZbIFIqxd
-        yJw3hW1fUvdb1pbZDW1Q322Q5XrWrmRt6lhI+dLnRGXxvW6ZN87Wg7RUNIfLmnAS
-        X6sU0hewvMh4f4JoBPpa7f2hpzc5xZxc/6Ox2W+ZYpAH+tOixBEnZUYAsY3CZIPj
-        kiCSa3TVjEUN+N8ihy4s0HVhtxvkaAwJmkY4DtjfB+DW1KrRTYuL/gOG5IAq8TLg
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=W6MiHa
+        shvxzD/kAAuIZVKo84DZ9qBLQd+rtHQpbZp+k=; b=g/Flbq0X6XVSy4U3baetcW
+        Az1gWDb13P3UX3yuHGec9m/IMVQTu041WErhz5XoApUwwvQPL3i1unCWoYQqgYKa
+        HOnsSZ7e35fTbeXyK8/rs+ZKShIe38EpzawhU7xE2MtYsBIv+Aprt5arcuW8qnpa
+        ++mEwRNM5fCuTWIWp6bNnR0MQ5objpoO7xOC+XRIWvaSALNYBPAkkPF1jXtgpoLL
+        gRrQeypbi0dkWxxsITPg+SURmzFC4ekq7sRw9ngK7JeI1IMz20cV0unmwV+UAzVI
+        esK8Qd+4ZVxJNR70OB0zfp4iJSHEcfD5IAAwnxUu/LUZu48y1vOLaI+3OAZ641Cg
         ==
-X-ME-Sender: <xms:_4DkYBRhes6DK_BS_F7j3WY0SmZ6iwjm-NMqyMO-yGMWR0v0ETo2jg>
-    <xme:_4DkYKxpuftDWZFlAY_g-yOJFhOhYwkdxip1lD1K5WrnTCLxOx4SfaZd8CgKHAtbx
-    5z_T9ZNd1MIo5fP_8g>
-X-ME-Received: <xmr:_4DkYG3e0kwXlQG_O0INiefJxZMqGm-tvMGuqDef82viuDVcU_ilfoPZUhHAS4-xzRzQhIjLezX9qd_zwxaTNVdTtd50W7xoLTcB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdehiecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:BYjkYF9C0T-kkJ55smEuYZ_DPYFcB7Ey6N6D-Vj77Os-tUY3B2IuUg>
+    <xme:BYjkYJu4RAcNYSmNHW1Fh8a7X09S7i1kQx6MwPybfx1WWkZbYTrAanXilw5rPeZMb
+    Idzs_6dPnuBk8HHguo>
+X-ME-Received: <xmr:BYjkYDA0YmYtJAYOjPLSSmaxEmEKfXQWgU1R8Z4Czcz0na-e-UWrMxdjgBPQM1t6KK_oFVekvhu3qQGef9CrixjTZDiOBbOeZmLh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdeivdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhmvgcu
-    tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
-    hrnhephedvgfeujefgfefhleefjedtteduvdfftdetgffgfedtgfffkeelfeejvdegiefh
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
-    himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:_4DkYJAO_gD0IHTzazfAqfzCEOAfK-LOAvDk7n9K9ATEgw8L3gXFNw>
-    <xmx:_4DkYKhXRTY39h6pyTfWPNmyst7B3RxvIrmWqFxa0s27CBJVXdaYTg>
-    <xmx:_4DkYNreDWhVX68T1DhOHIJawGt3VGogjnAUO0LZM-Kmz8-w8nEz4Q>
-    <xmx:CIHkYHrH3q5syITgTENbSR7N3-heqyRgtBOucL37hMIKRjEOq9E0lQ>
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:BYjkYJfE1tM3iIjrOtVS5ulonqYccyRikn2OLMadvMOmaBl78bbfjA>
+    <xmx:BYjkYKMiiZBvQptwCdQugJePmrPNv_CCGPPlzvNufGIbm4LCr-TdQg>
+    <xmx:BYjkYLnNrIhbXpItOoJrL-l7AMf9yI4mCY1qoTCXCoO3EYw_Bgfh1w>
+    <xmx:C4jkYHiemC-bj8ET9Yu7K5Qeza8pRcfANpAGmMoMGkZm0H1eMGSY6w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 12:12:46 -0400 (EDT)
+ 6 Jul 2021 12:42:44 -0400 (EDT)
+Date:   Tue, 6 Jul 2021 18:42:41 +0200
 From:   Maxime Ripard <maxime@cerno.tech>
-To:     dri-devel@lists.freedesktop.org,
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
         Daniel Vetter <daniel.vetter@intel.com>,
         David Airlie <airlied@linux.ie>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <a.hajda@samsung.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
         Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-        Huang Rui <ray.huang@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
+        Jerome Brunet <jbrunet@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
         Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Marek Vasut <marex@denx.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sandy Huang <hjc@rock-chips.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
-        Sean Paul <sean@poorly.run>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
         Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Simon Ser <contact@emersion.fr>,
-        Stefan Agner <stefan@agner.ch>,
-        Steven Price <steven.price@arm.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
+        Eric Anholt <eric@anholt.net>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steven Price <steven.price@arm.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Tomeu Vizoso <tomeu.vizoso@collabora.com>,
         Tomi Valkeinen <tomba@kernel.org>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
         Yannick Fertre <yannick.fertre@foss.st.com>,
-        Zack Rusin <zackr@vmware.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v5] Documentation: gpu: Mention the requirements for new properties
-Date:   Tue,  6 Jul 2021 18:12:44 +0200
-Message-Id: <20210706161244.1038592-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210706164241.ghd56546murmwnit@gilmour>
+References: <20210616143842.632829-1-maxime@cerno.tech>
+ <20210617112036.7373fdab@eldfell>
+ <20210706085202.6o4fapfmq7osj5wf@gilmour>
+ <20210706123723.6194abc5@eldfell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6mnf4r7jxmdwlw7k"
+Content-Disposition: inline
+In-Reply-To: <20210706123723.6194abc5@eldfell>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-New KMS properties come with a bunch of requirements to avoid each
-driver from running their own, inconsistent, set of properties,
-eventually leading to issues like property conflicts, inconsistencies
-between drivers and semantics, etc.
 
-Let's document what we expect.
+--6mnf4r7jxmdwlw7k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Alison Wang <alison.wang@nxp.com>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: Brian Starkey <brian.starkey@arm.com>
-Cc: Chen Feng <puck.chen@hisilicon.com>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Edmund Dea <edmund.j.dea@intel.com>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: "Heiko Stübner" <heiko@sntech.de>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: "Noralf Trønnes" <noralf@tronnes.org>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Qiang Yu <yuq825@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sandy Huang <hjc@rock-chips.com>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Tian Tao <tiantao6@hisilicon.com>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc: Tomi Valkeinen <tomba@kernel.org>
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Tue, Jul 06, 2021 at 12:37:23PM +0300, Pekka Paalanen wrote:
+> > > > +- It must provide a generic helper in the core code to register th=
+at
+> > > > +  property on the object it attaches to.
+> > > > +
+> > > > +- Its content must be decoded by the core and provided in the obje=
+ct's
+> > > > +  associated state structure. That includes anything drivers might=
+ want to
+> > > > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` =
+for planes.
+> > > > +
+> > > > +- An IGT test must be submitted where reasonable. =20
+> > >=20
+> > > Would it be too much to replace "where reasonable" with "if it is at
+> > > all possible to write a test."?
+> > >  =20
+> > > > + =20
+> > >=20
+> > > How about adding the following somewhere?
+> > >=20
+> > > - The initial state of the property (set during driver initialization)
+> > >   must match how the driver+hardware behaved before introducing this
+> > >   property. It may be some fixed value or it may be inherited from e.=
+g.
+> > >   the firmware that booted the system. How the initial state is
+> > >   determined must also be documented, that is, where does it come fro=
+m.
+> > >=20
+> > > The initial state must not be called "default", because I want to
+> > > reserve the term default for something else if possible: the phrase
+> > > "reset everything to defaults", which is a whole another discussion. =
+=20
+> >=20
+> > I've taken into account your previous comments, thanks
+> >=20
+> > > How about also saying that fbcon/fbdev must set this property when
+> > > taking over? That sounds to be like a common omission leading to funky
+> > > KMS state in fbcon. The value fbdev sets it to only needs to make
+> > > sense to fbdev, and it does not need to be ~~the initial value~~ nor =
+the
+> > > default value. Or are we hoping to kill fbcon in favor of a userspace
+> > > kmscon soon? ;-)
+> > >=20
+> > > Ooh, maybe the KMS property documentation should also say what value
+> > > fbdev will set the property to. That's kind of UABI, because userspace
+> > > probably implicitly relies on it in many cases. ...which means fbdev
+> > > should set the property to its initial value, otherwise userspace will
+> > > break. =20
+> >=20
+> > I'm not sure about this one: fbdev and fbcon are still optional features
+> > of the kernel and can be disabled at the user discretion. Having any
+> > part of the user-space rely on the fbdev behavior seems a bit broken,
+> > especially when we have a mechanism to retrieve the state when the
+> > application starts.
+>=20
+> yes, exactly that is why fbdev/fbcon should reset the properties to
+> their initial values. You would not want userspace inheriting a
+> different KMS state with vs. without fbcon when it starts.
 
----
+I'm not sure I'm following you when fbdev/fbcon should reset these
+properties. When a master takes over?
 
-Changes from v4:
-  - Changes suggested by Pekka
+If we consider fbdev as any KMS client, isn't it a fundamental change
+with how it's currently done? I haven't seen anywhere that a compositor
+(or any client for that matter) should put the KMS device in the same
+state that it started it with. In case of a crash it would be fairly
+difficult to achieve.
 
-Changes from v3:
-  - Roll back to the v2
-  - Add Simon and Pekka in Cc
+> Retrieving the current KMS state is useless if the current KMS state is
+> somehow wonky and the application does not understand that specific KMS
+> property that is wonky. It cannot set the property to any value other
+> than it already had without user intervention.
 
-Changes from v2:
-  - Take into account the feedback from Laurent and Lidiu to no longer
-    force generic properties, but prefix vendor-specific properties with
-    the vendor name
+Yeah, that's true. But the same could be said if you switch from one
+client to the other for example, at the moment there's no guarantee that
+the first one didn't change a property to a value you don't expect in
+the second. Unless we manage to tie that somehow to a first open of the
+device?
 
-Changes from v1:
-  - Typos and wording reported by Daniel and Alex
----
- Documentation/gpu/drm-kms.rst | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+> I'd say fbcon causing all KMS state to be reset is a quality of life
+> thing. It's possible to live without by rebooting, but it would
+> certainly make at least developers' and testers' life easier until we
+> get the real "reset KMS" knob (which fbcon could then use too).
+>=20
+> Besides, even if it is broken for userspace to rely on the KMS state
+> set by fbcon/fbdev, userspace is already doing that and not on purpose
+> because new KMS properties get added in the kernel. I would bet that
+> there is not a single userspace program that would actually set all KMS
+> properties that drivers might expose. So they are depending on
+> inherited KMS state, which could be left by driver initialization, by
+> fbdev/fbcon, or by any other userspace.
+>=20
+> But yeah, this idea is something new, so don't let this discussion
+> delay landing the docs.
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 87e5023e3f55..47994890fd1e 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -463,6 +463,36 @@ KMS Properties
- This section of the documentation is primarily aimed at user-space developers.
- For the driver APIs, see the other sections.
- 
-+Requirements
-+------------
-+
-+KMS drivers might need to add extra properties to support new features.
-+Each new property introduced in a driver need to meet a few
-+requirements, in addition to the one mentioned above:
-+
-+* It must be standardized, documenting:
-+
-+  * The full, exact, name string;
-+  * If the property is an enum, all the valid variants name;
-+  * What values are accepted, and what these values mean;
-+  * What the property does and how it can be used;
-+  * How the property might interact with other, existing properties.
-+
-+* It must provide a generic helper in the core code to register that
-+  property on the object it attaches to.
-+
-+* Its content must be decoded by the core and provided in the object's
-+  associated state structure. That includes anything drivers might want
-+  to precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for
-+  planes.
-+
-+* Its initial state must match the behavior prior to the property
-+  introduction. This might be a fixed value matching what the hardware
-+  does, or it may be inherited from the state the firmware left the
-+  system in during boot.
-+
-+* An IGT test must be submitted where reasonable.
-+
- Property Types and Blob Property Support
- ----------------------------------------
- 
--- 
-2.31.1
+Ack, I've sent a new version
 
+Thanks!
+Maxime
+
+--6mnf4r7jxmdwlw7k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOSIAQAKCRDj7w1vZxhR
+xeGIAQDQjE0uYmon9Dox/R5r6J52+sVxI4/gu/mKcrS9FvJK+AEA4LtY+76pkQ6H
+mgjpDIZUwacg76LQhv7Lzl+/nCA0/ww=
+=XDM3
+-----END PGP SIGNATURE-----
+
+--6mnf4r7jxmdwlw7k--
