@@ -2,37 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8902EC07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 10:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DADC07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:03:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76D94619AC
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 10:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09ADA620E5
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 12:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbhGFKi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 06:38:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37228 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231400AbhGFKi6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Jul 2021 06:38:58 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 463E7619AA;
-        Tue,  6 Jul 2021 10:36:20 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1m0iR8-00BeiL-2H; Tue, 06 Jul 2021 11:36:18 +0100
-From:   Marc Zyngier <maz@kernel.org>
-Date:   Tue, 06 Jul 2021 11:36:17 +0100
-Message-ID: <87czrv91b2.wl-maz@kernel.org>
-rom:    Marc Zyngier <maz@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
+        id S238359AbhGFMFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 08:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242934AbhGFMDE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 08:03:04 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C112C073C0A
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 04:39:26 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id t30so8687845ljo.5
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 04:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6KHENRVTFcr1DeeaRLU/2vG0asdcInU8xhn1ZnIiQEc=;
+        b=IdGKMBytW7IOMBESz96dq6itTpIEDPBWGB5XRO+qSQ48yJT7yYAT9N8lqiHah9wnDY
+         3K6D67UfDsx2P/ABipjl30TBctWMN4qhsTRC4E4sc1XIGn/04HiicXlk8UmLQM6W2Kpr
+         7PNSQ5KyQpi5RAnSZMdMPgQeA0Twv6DZgMvu/nxu6Z15JYc+G6N/l9rt0dUMVRGcbsQG
+         jIxb3yy8OJnKogUutBA72zbdZTq1n+5HnQrIFBIFQZDQYf/yl9D5hlL0E2RnfqraqVuD
+         oc9p4c/bJt85uQ08MZVR9pynFPLB0W1DafWua6b73deN8YLYp9UoQQ19K9K219rSCjO/
+         tXOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6KHENRVTFcr1DeeaRLU/2vG0asdcInU8xhn1ZnIiQEc=;
+        b=sgunMWY7MY74ZwYGV+7mM0U/6HYlfM720k5y+Qofe35JjRUQwAw0VMG19y4S8e6mCL
+         BjD0NMBWcMd/1koH3yh5MLqICQ3PdE+d0UMgKOfZPPHEpKkU8dRLzPcek8XxlSpijDYh
+         XNwUl8mDYaM9zAhLJ8frx4FZIuGrzgpncwC/QjJGbZ7U6SpiFWjeYbWl8XLfziwAYlR0
+         sdvXqqrFmpiJ9ONM2xFVUcQWk9EJmUfiUuyWNhps0MFyUIViWU4oJE4zTBq7y+hARBet
+         SZxm/Pmnc+4tz1MCC1lTL+zYVIMgiIzp70+a+LztzcmGqOIhJxOXIXd580YHHIfMZJdu
+         ELhg==
+X-Gm-Message-State: AOAM531Szxv2jrJbA5bcCoRXIxYrbdMqUIhMgI+qR623gsJ0Q1fNUfmu
+        rHqah6AM/N9d+bK/bXBqGTYp5YSYdGSlryUygvLIVA==
+X-Google-Smtp-Source: ABdhPJyelO119SdIxeoLnTAOiAmiMNIuQe3vuufuwv/8ig2netrG+imXeZJWy7PwGkasy+bYcpaaE4SV5ck1PxhSv58=
+X-Received: by 2002:a2e:bc13:: with SMTP id b19mr15061008ljf.480.1625571564690;
+ Tue, 06 Jul 2021 04:39:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+ <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
+ <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
+ <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com> <87czrv91b2.wl-maz@kernel.org>
+In-Reply-To: <87czrv91b2.wl-maz@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Tue, 6 Jul 2021 17:09:13 +0530
+Message-ID: <CAFA6WYPVA5yP3trumfz=_oXzxKtfobQXRzDwZ1og8UXwaA1rkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+To:     Marc Zyngier <maz@kernel.org>
 Cc:     Jens Wiklander <jens.wiklander@linaro.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
@@ -45,109 +74,133 @@ Cc:     Jens Wiklander <jens.wiklander@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
-In-Reply-To: <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
-        <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
-        <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
-        <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: sumit.garg@linaro.org, jens.wiklander@linaro.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, jerome@forissier.org, etienne.carriere@linaro.org, vincent.guittot@linaro.org, robh+dt@kernel.org, corbet@lwn.net, ardb@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 06 Jul 2021 08:25:26 +0100,
-Sumit Garg <sumit.garg@linaro.org> wrote:
-> 
-> On Thu, 17 Jun 2021 at 11:40, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+Hi Marc,
+
+On Tue, 6 Jul 2021 at 16:06, Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Tue, 06 Jul 2021 08:25:26 +0100,
+> Sumit Garg <sumit.garg@linaro.org> wrote:
 > >
-> > Hi Sumit,
-> >
-> > On Thu, Jun 17, 2021 at 6:33 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+> > On Thu, 17 Jun 2021 at 11:40, Jens Wiklander <jens.wiklander@linaro.org> wrote:
 > > >
-> > > Hi Jens,
+> > > Hi Sumit,
 > > >
-> > > On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > > On Thu, Jun 17, 2021 at 6:33 AM Sumit Garg <sumit.garg@linaro.org> wrote:
 > > > >
-> > > > Hi all,
+> > > > Hi Jens,
 > > > >
-> > > > This adds support for asynchronous notifications from OP-TEE in secure
-> > > > world to the OP-TEE driver. This allows a design with a top half and bottom
-> > > > half type of driver where the top half runs in secure interrupt context and
-> > > > a notifications tells normal world to schedule a yielding call to do the
-> > > > bottom half processing.
+> > > > On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > > > >
+> > > > > Hi all,
+> > > > >
+> > > > > This adds support for asynchronous notifications from OP-TEE in secure
+> > > > > world to the OP-TEE driver. This allows a design with a top half and bottom
+> > > > > half type of driver where the top half runs in secure interrupt context and
+> > > > > a notifications tells normal world to schedule a yielding call to do the
+> > > > > bottom half processing.
+> > > > >
+> > > > > An interrupt is used to notify the driver that there are asynchronous
+> > > > > notifications pending.
+> > > > >
 > > > >
-> > > > An interrupt is used to notify the driver that there are asynchronous
-> > > > notifications pending.
-> > > >
+> > > > It looks like a nice feature. I would like to get hands on with this.
+> > > > Can I test this feature on Qemu?
 > > >
-> > > It looks like a nice feature. I would like to get hands on with this.
-> > > Can I test this feature on Qemu?
+> > > Absolutely, you can get this into the normal OP-TEE development repo setup with:
+> > > repo init -u https://github.com/OP-TEE/manifest.git -m default.xml
+> > > repo sync
+> > > Update optee_os with
+> > > https://github.com/jenswi-linaro/optee_os/tree/async_notif_v2
+> > > Update linux with https://github.com/jenswi-linaro/linux-1/tree/async_notif_v2
+> > > cd build
+> > > make all -j...
+> > > make run-only
+> > >
+> > > If you type anything at the secure console you'll notice how it
+> > > changes behaviour once the Linux kernel has booted.
+> > >
 > >
-> > Absolutely, you can get this into the normal OP-TEE development repo setup with:
-> > repo init -u https://github.com/OP-TEE/manifest.git -m default.xml
-> > repo sync
-> > Update optee_os with
-> > https://github.com/jenswi-linaro/optee_os/tree/async_notif_v2
-> > Update linux with https://github.com/jenswi-linaro/linux-1/tree/async_notif_v2
-> > cd build
-> > make all -j...
-> > make run-only
+> > Thanks for sharing instructions as I now got some time to test and
+> > deep dive into this feature. It looks like a pretty useful feature to
+> > realize interrupt support in the secure world in its true sense. This
+> > feature works for me as per your instructions.
 > >
-> > If you type anything at the secure console you'll notice how it
-> > changes behaviour once the Linux kernel has booted.
+> > I could recognise it's requirement from the time while I was playing
+> > with secure timer interrupt support for OP-TEE RNG driver on
+> > Developerbox. In that case I had to strip down the secure interrupt
+> > handler to a minimum that would just collect entropy and dump into the
+> > secure buffer. But with asynchronous notifications support, I could
+> > add more functionality like entropy health tests in the bottom half
+> > instead of doing those health tests while retrieving entropy from the
+> > secure world.
 > >
-> 
-> Thanks for sharing instructions as I now got some time to test and
-> deep dive into this feature. It looks like a pretty useful feature to
-> realize interrupt support in the secure world in its true sense. This
-> feature works for me as per your instructions.
-> 
-> I could recognise it's requirement from the time while I was playing
-> with secure timer interrupt support for OP-TEE RNG driver on
-> Developerbox. In that case I had to strip down the secure interrupt
-> handler to a minimum that would just collect entropy and dump into the
-> secure buffer. But with asynchronous notifications support, I could
-> add more functionality like entropy health tests in the bottom half
-> instead of doing those health tests while retrieving entropy from the
-> secure world.
-> 
-> Given that, have you explored the possibility to leverage SGI rather
-> than a platform specific SPI for notifying the normal world? If it's
-> possible to leverage Architecture specific SGI for this purpose then I
+> > Given that, have you explored the possibility to leverage SGI rather
+> > than a platform specific SPI for notifying the normal world? If it's
+> > possible to leverage Architecture specific SGI for this purpose then I
+>
+> What does "Architecture specific SGI" mean?
+>
 
-What does "Architecture specific SGI" mean?
+Here I meant that SGI is specific to Arm architecture and doesn't
+require to be specific to per platform like an SPI.
 
-> think this feature will come automatically enabled for every platform
-> without the need to reserve a platform specific SPI.
+> > think this feature will come automatically enabled for every platform
+> > without the need to reserve a platform specific SPI.
+>
+> That old chestnut again...
 
-That old chestnut again...
+Okay, can you provide reference to earlier threads?
 
-- How do you discover that the secure side has graced you with a
-  Group-1 SGI (no, you can't use one of the first 8)? for both DT and
-  ACPI?
+>
+> - How do you discover that the secure side has graced you with a
+>   Group-1 SGI (no, you can't use one of the first 8)? for both DT and
+>   ACPI?
 
-- How do you find which CPUs are targeted by this SGI? All? One? A
-  subset? What is the expected behaviour with CPU hotplug? How can the
-  NS side (Linux) can inform the secure side about the CPUs it wants
-  to use?
+I think the secure world can be probed for that during the OP-TEE
+driver probe. And I agree with you that the first 7 SGIs are already
+pre-occupied and I guess you remember mine patch-set that tried to
+leverage 8th SGI as pseudo NMI for kernel debug purposes.
 
-- Is there any case where you would instead need a level interrupt
-  (which a SGI cannot provide)?
+So yes for this use-case, the secure world can reserve one of the
+latter 8 SGIs (8 to 15) for cross world notification and I guess your
+earlier work to make SGIs to be requested as normal IRQs should make
+it easier to implement this as well.
 
-In general, cross world SGIs are a really bad idea. Yes, some people
-like them. I still think they are misguided, and I don't intend to
-provide a generic request interface for this.
+>
+> - How do you find which CPUs are targeted by this SGI? All? One? A
+>   subset? What is the expected behaviour with CPU hotplug? How can the
+>   NS side (Linux) can inform the secure side about the CPUs it wants
+>   to use?
 
-	M.
+For the current OP-TEE use-case, I think targeting all CPUs would be
+efficient. So wouldn't it be possible for the CPU which receives the
+secure interrupt to raise that SGI to self that would in turn notify
+the normal world (Linux) to create a thread for OP-TEE to do bottom
+half processing?
 
--- 
-Without deviation from the norm, progress is not possible.
+>
+> - Is there any case where you would instead need a level interrupt
+>   (which a SGI cannot provide)?
+
+I think SGI should be sufficient to suffice OP-TEE notifications use-case.
+
+>
+> In general, cross world SGIs are a really bad idea. Yes, some people
+> like them. I still think they are misguided, and I don't intend to
+> provide a generic request interface for this.
+
+Okay, as I mentioned above having it specific to OP-TEE driver
+requesting secure world donated SGI would work for you?
+
+-Sumit
+
+>
+>         M.
+>
+> --
+> Without deviation from the norm, progress is not possible.
