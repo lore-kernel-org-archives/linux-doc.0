@@ -2,385 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CEF9C07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 08:52:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48307C07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 09:32:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF5E761995
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 08:52:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29A0761998
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 09:32:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbhGFIyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 04:54:51 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:50177 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230295AbhGFIyu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 04:54:50 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 19983580670;
-        Tue,  6 Jul 2021 04:52:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 06 Jul 2021 04:52:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=xb1ShrMpK8ostpGwMFZCsoZYETx
-        HiphoxAX6Pb3wC5k=; b=ZCV9iuaTvRyGFKWCMmtOelU+0kN6oMjQWnrxYPOn9i4
-        RnwWxv9mEXtN+0RJu18PNOBzJgVvzoBeWNwM9jMNRCjLRr8INbHTSt6opquohGIl
-        5oBW/Hn42adUViFWQij+8AIFNLcs7HTMJjjxlymaKh0Bsv9OCL0z6djxAte4inHe
-        +t99cn/L/XCmrl62a9umObf6+07FqOhaChCDgcBR9MNQGBwUo5DYMIOF8ogjlbyJ
-        8Wtyq2kEK5HcEw0u8/EFTrNeq2c1NPcrIxsR29QJU9h8wX0f1KXzX9x6CiSE2JNz
-        4h1G1VOFatfKkI5bc5WsxFflYQJUn7nOJf4uARLoxOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=xb1Shr
-        MpK8ostpGwMFZCsoZYETxHiphoxAX6Pb3wC5k=; b=gUTumXogpffvEC9hNM2J6U
-        BrjncaXbkURl4CGhFCpJpCodRU5Vd8hUraRWgIA/Uy3Y3VqsIL8swZjRHMFbHN+l
-        Jp2k0AyhghnEA7ipboW5OJ3I0Cuo6BkUZ+2pOe535Rii5MSA9ab8U4j3ptT2Oe+f
-        /TLgYXEiwbGGaPkRwboljNoaJXFBFNM9383aB/g9l+5QUsecwe87EHjGqo/WWPwS
-        PVRow+Y2N8HcKw7OqH4V356Uts9Ky6ueym8qyVz3daR/59mSRDN1msUC+C1M/MUw
-        nk3FUK/oMMRhRwlnd1EpuqOjtkNSAMoPOafrYbKe4cJoofrW00FPF1eUqCLC4Igg
-        ==
-X-ME-Sender: <xms:tBnkYBomkBuLOg4ypCiohcBXCiR_Y2SE4siRkZWvlyy3wyD-ZsIS_g>
-    <xme:tBnkYDqxiTL8b9cOOfv1vpERv8pBUmQyt3OveP7GS1zi7LKuKZ8P-67aloVqcH6Bm
-    AaR25CDLGIxz_T6c0g>
-X-ME-Received: <xmr:tBnkYOPpst5nNafKnVjCa8wp4kEf3E8nvHi1nHDs4mXU8uwELi2SEdDofDR515_Ly-SARQcMNXr2YRqYfiqgfhnlKHbL3bK9PZnD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejiedgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
-    gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:tBnkYM7zdkz8uMexSI4n-jf-VxjW_meQHicZ3bfHVhuvsp9ESzO6YA>
-    <xmx:tBnkYA6n3A8UT5HPNAj8cAVDCtzmBQp37Qsp5Y01QYkroRWRhJbFLQ>
-    <xmx:tBnkYEhR2KRRptb8iUcYhR9pNndzh00gJcl5TuPDInjbphdCKXd9zQ>
-    <xmx:vBnkYLegO4CmrCiqvYRm4sMf3NJLo2OMhXiUso2RgyIS--Oc1a8Y4g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 04:52:03 -0400 (EDT)
-Date:   Tue, 6 Jul 2021 10:52:02 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
-        Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210706085202.6o4fapfmq7osj5wf@gilmour>
-References: <20210616143842.632829-1-maxime@cerno.tech>
- <20210617112036.7373fdab@eldfell>
+        id S231159AbhGFJfe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 05:35:34 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:48434 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230472AbhGFJfe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Jul 2021 05:35:34 -0400
+Received: by ajax-webmail-mail.loongson.cn (Coremail) ; Tue, 6 Jul 2021
+ 17:32:49 +0800 (GMT+08:00)
+X-Originating-IP: [112.20.109.145]
+Date:   Tue, 6 Jul 2021 17:32:49 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   =?UTF-8?B?6ZmI5Y2O5omN?= <chenhuacai@loongson.cn>
+To:     "Jonathan Corbet" <corbet@lwn.net>
+Cc:     "Alex Shi" <alexs@kernel.org>, "Alex Shi" <seakeel@gmail.com>,
+        linux-doc@vger.kernel.org, "Wu XiangCheng" <bobwxc@email.cn>,
+        "Xuefeng Li" <lixuefeng@loongson.cn>,
+        "Yanteng Si" <siyanteng@loongson.cn>,
+        "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+Subject: Re: Re: [PATCH 1/2] Documentation: LoongArch: Add basic
+ documentations
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10a build 20191018(4c4f6d15)
+ Copyright (c) 2002-2021 www.mailtech.cn .loongson.cn
+In-Reply-To: <87a6n0kdv5.fsf@meer.lwn.net>
+References: <20210705111607.1208270-1-chenhuacai@loongson.cn>
+ <87a6n0kdv5.fsf@meer.lwn.net>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rwvg6s6irn2y2r5k"
-Content-Disposition: inline
-In-Reply-To: <20210617112036.7373fdab@eldfell>
+Message-ID: <25a26520.94b3.17a7b29b8c6.Coremail.chenhuacai@loongson.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAf9AxmuBBI+RgBQAdAA--.10434W
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/1tbiAQAOBl3QvNoizQABsM
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---rwvg6s6irn2y2r5k
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Pekka,
-
-On Thu, Jun 17, 2021 at 11:20:36AM +0300, Pekka Paalanen wrote:
-> On Wed, 16 Jun 2021 16:38:42 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> > New KMS properties come with a bunch of requirements to avoid each
-> > driver from running their own, inconsistent, set of properties,
-> > eventually leading to issues like property conflicts, inconsistencies
-> > between drivers and semantics, etc.
-> >=20
-> > Let's document what we expect.
-> >=20
-> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Alison Wang <alison.wang@nxp.com>
-> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > Cc: Brian Starkey <brian.starkey@arm.com>
-> > Cc: Chen Feng <puck.chen@hisilicon.com>
-> > Cc: Chen-Yu Tsai <wens@csie.org>
-> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Cc: Edmund Dea <edmund.j.dea@intel.com>
-> > Cc: Eric Anholt <eric@anholt.net>
-> > Cc: Fabio Estevam <festevam@gmail.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: "Heiko St=FCbner" <heiko@sntech.de>
-> > Cc: Huang Rui <ray.huang@amd.com>
-> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> > Cc: Inki Dae <inki.dae@samsung.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > Cc: Joel Stanley <joel@jms.id.au>
-> > Cc: John Stultz <john.stultz@linaro.org>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> > Cc: Kevin Hilman <khilman@baylibre.com>
-> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > Cc: Marek Vasut <marex@denx.de>
-> > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > Cc: Paul Cercueil <paul@crapouillou.net>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Cc: Qiang Yu <yuq825@gmail.com>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Roland Scheidegger <sroland@vmware.com>
-> > Cc: Russell King <linux@armlinux.org.uk>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Sandy Huang <hjc@rock-chips.com>
-> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> > Cc: Shawn Guo <shawnguo@kernel.org>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: Stefan Agner <stefan@agner.ch>
-> > Cc: Steven Price <steven.price@arm.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Tian Tao <tiantao6@hisilicon.com>
-> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > Cc: Tomi Valkeinen <tomba@kernel.org>
-> > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> > Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> > Cc: Zack Rusin <zackr@vmware.com>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> >=20
-> > Changes from v3:
-> >   - Roll back to the v2
-> >   - Add Simon and Pekka in Cc
-> >=20
-> > Changes from v2:
-> >   - Take into account the feedback from Laurent and Lidiu to no longer
-> >     force generic properties, but prefix vendor-specific properties with
-> >     the vendor name
-> >=20
-> > Changes from v1:
-> >   - Typos and wording reported by Daniel and Alex
-> > ---
-> >  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >=20
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.=
-rst
-> > index 87e5023e3f55..c28b464dd397 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -463,6 +463,25 @@ KMS Properties
-> >  This section of the documentation is primarily aimed at user-space dev=
-elopers.
-> >  For the driver APIs, see the other sections.
-> > =20
-> > +Requirements
-> > +------------
-> > +
-> > +KMS drivers might need to add extra properties to support new features.
-> > +Each new property introduced in a driver need to meet a few
-> > +requirements, in addition to the one mentioned above.:
-> > +
-> > +- It must be standardized, with some documentation to describe how the
-> > +  property can be used.
->=20
-> Hi,
->=20
-> I might replace "some" with "full" documentation. Also not only how it
-> can be used but also what it does.
->=20
-> FYI, some common things that tend to be forgotten IME:
-> - Spell out exactly the name string for the property in the
->   documentation so that it is unambiguous what string userspace should
->   look for.
-> - The same for string names of enum values.
-> - Explicitly document what each enum value means, do not trust that the
->   value name describes it well enough.
-> - Explain how the property interacts with other, existing properties.
->=20
-> Not sure if these should be written down here or anywhere though.
-> Interaction with other properties is kind of important.
->=20
-> > +
-> > +- It must provide a generic helper in the core code to register that
-> > +  property on the object it attaches to.
-> > +
-> > +- Its content must be decoded by the core and provided in the object's
-> > +  associated state structure. That includes anything drivers might wan=
-t to
-> > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for =
-planes.
-> > +
-> > +- An IGT test must be submitted where reasonable.
->=20
-> Would it be too much to replace "where reasonable" with "if it is at
-> all possible to write a test."?
->=20
-> > +
->=20
-> How about adding the following somewhere?
->=20
-> - The initial state of the property (set during driver initialization)
->   must match how the driver+hardware behaved before introducing this
->   property. It may be some fixed value or it may be inherited from e.g.
->   the firmware that booted the system. How the initial state is
->   determined must also be documented, that is, where does it come from.
->=20
-> The initial state must not be called "default", because I want to
-> reserve the term default for something else if possible: the phrase
-> "reset everything to defaults", which is a whole another discussion.
-
-I've taken into account your previous comments, thanks
-
-> How about also saying that fbcon/fbdev must set this property when
-> taking over? That sounds to be like a common omission leading to funky
-> KMS state in fbcon. The value fbdev sets it to only needs to make
-> sense to fbdev, and it does not need to be ~~the initial value~~ nor the
-> default value. Or are we hoping to kill fbcon in favor of a userspace
-> kmscon soon? ;-)
->=20
-> Ooh, maybe the KMS property documentation should also say what value
-> fbdev will set the property to. That's kind of UABI, because userspace
-> probably implicitly relies on it in many cases. ...which means fbdev
-> should set the property to its initial value, otherwise userspace will
-> break.
-
-I'm not sure about this one: fbdev and fbcon are still optional features
-of the kernel and can be disabled at the user discretion. Having any
-part of the user-space rely on the fbdev behavior seems a bit broken,
-especially when we have a mechanism to retrieve the state when the
-application starts.
-
-Maxime
-
---rwvg6s6irn2y2r5k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOQZsQAKCRDj7w1vZxhR
-xcAOAQDgiPmqHT2po3pKn0nOdvI8OHOSf965Rdk+pXb4g0/FYAD/QiqJF39WtEjQ
-HH/6r47VwthjKZxzENH4ZoYQwPDddQo=
-=GIQI
------END PGP SIGNATURE-----
-
---rwvg6s6irn2y2r5k--
+SGksIEpvbmF0aGFuLAoKCiZndDsgLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQomZ3Q7IOWPkeS7tuS6
+ujogIkpvbmF0aGFuIENvcmJldCIgPGNvcmJldEBsd24ubmV0PgomZ3Q7IOWPkemAgeaXtumXtDog
+MjAyMS0wNy0wNSAyMjo1NzoxOCAo5pif5pyf5LiAKQomZ3Q7IOaUtuS7tuS6ujogIkh1YWNhaSBD
+aGVuIiA8Y2hlbmh1YWNhaUBsb29uZ3Nvbi5jbj4sICJBbGV4IFNoaSIgPGFsZXhzQGtlcm5lbC5v
+cmc+LCAiQWxleAomZ3Q7ICBTaGkiIDxzZWFrZWVsQGdtYWlsLmNvbT4KJmd0OyDmioTpgIE6IGxp
+bnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmcsICJXdSBYaWFuZ0NoZW5nIiA8Ym9id3hjQGVtYWlsLmNu
+PiwgIlh1ZWZlbmcgTGkiIDxsaXh1ZWZlbmdAbG9vbmdzb24uY24+LCAiWWFudGVuZyBTaSIgPHNp
+eWFudGVuZ0Bsb29uZ3Nvbi5jbj4sICJKaWF4dW4gWWFuZyIgPGppYXh1bi55YW5nQGZseWdvYXQu
+Y29tPiwgIkh1YWNhaSBDaGVuIiA8Y2hlbmh1YWNhaUBsb29uZ3Nvbi5jbj4KJmd0OyDkuLvpopg6
+IFJlOiBbUEFUQ0ggMS8yXSBEb2N1bWVudGF0aW9uOiBMb29uZ0FyY2g6IEFkZCBiYXNpYyBkb2N1
+bWVudGF0aW9ucwomZ3Q7IAomZ3Q7IEh1YWNhaSBDaGVuIDxjaGVuaHVhY2FpQGxvb25nc29uLmNu
+PiB3cml0ZXM6CiZndDsgCiZndDsgJmd0OyBBZGQgc29tZSBiYXNpYyBkb2N1bWVudGF0aW9ucyBm
+b3IgTG9vbmdBcmNoLiBMb29uZ0FyY2ggaXMgYSBuZXcgUklTQwomZ3Q7ICZndDsgSVNBLCB3aGlj
+aCBpcyBhIGJpdCBsaWtlIE1JUFMgb3IgUklTQy1WLiBMb29uZ0FyY2ggaW5jbHVkZXMgYSByZWR1
+Y2VkCiZndDsgJmd0OyAzMi1iaXQgdmVyc2lvbiAoTEEzMlIpLCBhIHN0YW5kYXJkIDMyLWJpdCB2
+ZXJzaW9uIChMQTMyUykgYW5kIGEgNjQtYml0CiZndDsgJmd0OyB2ZXJzaW9uIChMQTY0KS4KJmd0
+OyAmZ3Q7CiZndDsgJmd0OyBTaWduZWQtb2ZmLWJ5OiBIdWFjYWkgQ2hlbiA8Y2hlbmh1YWNhaUBs
+b29uZ3Nvbi5jbj4KJmd0OyAmZ3Q7IC0tLQomZ3Q7ICZndDsgIERvY3VtZW50YXRpb24vYXJjaC5y
+c3QgICAgICAgICAgICAgICAgICAgICB8ICAgMSArCiZndDsgJmd0OyAgRG9jdW1lbnRhdGlvbi9s
+b29uZ2FyY2gvZmVhdHVyZXMucnN0ICAgICAgIHwgICAzICsKJmd0OyAmZ3Q7ICBEb2N1bWVudGF0
+aW9uL2xvb25nYXJjaC9pbmRleC5yc3QgICAgICAgICAgfCAgMjEgKysKJmd0OyAmZ3Q7ICBEb2N1
+bWVudGF0aW9uL2xvb25nYXJjaC9pbnRyb2R1Y3Rpb24ucnN0ICAgfCAzNDIgKysrKysrKysrKysr
+KysrKysrKysrCiZndDsgJmd0OyAgRG9jdW1lbnRhdGlvbi9sb29uZ2FyY2gvaXJxLWNoaXAtbW9k
+ZWwucnN0IHwgMTU4ICsrKysrKysrKysKJmd0OyAmZ3Q7ICA1IGZpbGVzIGNoYW5nZWQsIDUyNSBp
+bnNlcnRpb25zKCspCiZndDsgJmd0OyAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24v
+bG9vbmdhcmNoL2ZlYXR1cmVzLnJzdAomZ3Q7ICZndDsgIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
+bWVudGF0aW9uL2xvb25nYXJjaC9pbmRleC5yc3QKJmd0OyAmZ3Q7ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgRG9jdW1lbnRhdGlvbi9sb29uZ2FyY2gvaW50cm9kdWN0aW9uLnJzdAomZ3Q7ICZndDsgIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2xvb25nYXJjaC9pcnEtY2hpcC1tb2RlbC5y
+c3QKJmd0OyAKJmd0OyBTbyBkb2N1bWVudGF0aW9uIGlzIGdvb2QsIGJ1dCBpdCBzdGlsbCBzZWVt
+cyBhIGJpdCBzdHJhbmdlIHRvIGFkZAomZ3Q7IGRvY3VtZW50YXRpb24gZm9yIGFuIGFyY2hpdGVj
+dHVyZSB0aGF0IExpbnV4IGRvZXNuJ3Qgc3VwcG9ydC4gIEkgYXNzdW1lCiZndDsgdGhhdCBwYXRj
+aGVzIGFkZGluZyB0aGF0IHN1cHBvcnQgZXhpc3QsIHJpZ2h0PyAgVGhlIGRvY3VtZW50YXRpb24K
+Jmd0OyBwYXRjaGVzIHNob3VsZCBwcm9iYWJseSBiZSBhIHBhcnQgb2YgdGhhdCBwYXRjaCBzZXQu
+Ck5vdyB0aGUgTG9vbmdBcmNoIHN1cHBvcnRpbmcgcGF0Y2hlcyBhcmUgc2VudCBpbiBmb3VyIHNl
+cmllczoKMSwgRG9jdW1lbnQgc2VyaWVzICh0aGlzIG9uZSkKMiwgQUNQSSBkZWZpbml0aW9uIHNl
+cmllczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtYWNwaS8yMDIxMDcwNTEyNDIwNi4x
+MjI4OTU4LTEtY2hlbmh1YWNhaUBsb29uZ3Nvbi5jbi9ULyN0CjMsIGlycWNoaXAgZHJpdmVyIHNl
+cmllczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8yMDIxMDcwNjAzMDkwNC4xNDExNzc1
+LTEtY2hlbmh1YWNhaUBsb29uZ3Nvbi5jbi9ULyN0CjQsIGNvcmUgYXJjaGl0ZWN1cmUgc2VyaWVz
+OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1hcmNoLzIwMjEwNzA2MDQxODIwLjE1MzY1
+MDItMS1jaGVuaHVhY2FpQGxvb25nc29uLmNuL1QvI3QKClRoaXMgaXMgYmVjYXVzZSB0aGV5IGFy
+ZSBzZW50IHRvIGRpZmZlcmVudCBtYWlsbGlzdCwgc28gSSB0aG91Z2h0IEkgc2hvdWxkIHNwbGl0
+IGl0LgoKSHVhY2FpCiZndDsgCiZndDsgVGhhbmtzLAomZ3Q7IAomZ3Q7IGpvbgo8L2NoZW5odWFj
+YWlAbG9vbmdzb24uY24+PC9jaGVuaHVhY2FpQGxvb25nc29uLmNuPjwvY2hlbmh1YWNhaUBsb29u
+Z3Nvbi5jbj48L2ppYXh1bi55YW5nQGZseWdvYXQuY29tPjwvc2l5YW50ZW5nQGxvb25nc29uLmNu
+PjwvbGl4dWVmZW5nQGxvb25nc29uLmNuPjwvYm9id3hjQGVtYWlsLmNuPjwvc2Vha2VlbEBnbWFp
+bC5jb20+PC9hbGV4c0BrZXJuZWwub3JnPjwvY2hlbmh1YWNhaUBsb29uZ3Nvbi5jbj48L2NvcmJl
+dEBsd24ubmV0Pg==
