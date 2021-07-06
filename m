@@ -2,110 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67297C07E9B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 02:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E07AC07E96
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 07:25:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 495666198A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 02:10:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63D9C61993
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 07:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbhGFCMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jul 2021 22:12:51 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57267 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229753AbhGFCMv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Jul 2021 22:12:51 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 16629og3032325;
-        Tue, 6 Jul 2021 04:09:50 +0200
-Date:   Tue, 6 Jul 2021 04:09:50 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Subject: Re: [PATCH 13/17] docs: add Rust documentation
-Message-ID: <20210706020950.GA32301@1wt.eu>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <20210704202756.29107-14-ojeda@kernel.org>
- <20210705050234.GB30964@1wt.eu>
- <CANiq72kvv1rYa-TY3EvM5tBc4d0bhuNH8u56b8PM4PQd1ngmTQ@mail.gmail.com>
+        id S230242AbhGFH2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 03:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230218AbhGFH2R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 03:28:17 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CBDC06175F
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 00:25:39 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id t30so7831928ljo.5
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 00:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v5VNmThjm4DmH+LnsaR0B3iwZoVfeb1fZ3oywOwn7G8=;
+        b=cVGcrT9zB5JzTP0aE9nAkyAmZxivH9ZNxMEDzFbar62SLEYX7QeCRPEtCcuzB+zt76
+         2WvL2z/tIUIDzTaL1iUq/x48nsuhSoxZTg9vDc9ybquiT4NBmQbPJP5YpueXbFyHx03M
+         APlLoefqRDNQii2urEZRAy1AhwsxOdaFu2Tqbdx3EmGNnsKfseEzD+FnOQAXXKn0Ojif
+         yVwS3JDB4ZTTxJP8/Q+1yCXnMKeAfNZzmMdY9PkPtLGIIsgFUYnp1/15SoOirApg81SE
+         VD7qYJ1Nb9b6VuRlDJTCO1mmkv/ZEnUOnqH6Vkjppsk4Ub0yfTo0TzjUjbd1A6q+H+tw
+         J3YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v5VNmThjm4DmH+LnsaR0B3iwZoVfeb1fZ3oywOwn7G8=;
+        b=Xdyb7ylmqNK9Kc7aK42eg+AdF9sgegl6KYklvh9SuhOmJyLUfBbWIF7p8wHYmj7lzo
+         WFtUZQwVS0qkbc0jahe8eXw+RuRs4ffHiHG0aihSTBUJT60QUXM9ToyV/Q7bc01BM9RV
+         miu0TrsYnJb+WlK4QmmbEZjmKjVnO3wYb2y6USiG0IC7qaXlz34KW3IxWDmlZz+DYXBV
+         pLMkyq94WG86X5XMy/FAIuNUnLhuA8YnNKC0Fhory1QSGqUr2yMhkx2Orrtcuph+QyEn
+         rvA/uQO1hc8l8SaiTjhCJy+wPuymB9dxRTwUbfERKPo7Oh27DmoxmBB6qbMEgSmWjDvQ
+         +6OQ==
+X-Gm-Message-State: AOAM53000rW7GQBqiuIGkDlg2orka4ODPqYcrsyvgsQC6Kf1JMC9MsFe
+        lUgb+/MngsFip4WPCozA2mmQO2iJbQafjwz9d3wIfQ==
+X-Google-Smtp-Source: ABdhPJzBqENHysNuz9woqwFmjD9B+KAL6Oj7Tqd92ssm66C+8dzfCqg5FMbGILRpUR9/vpr05KVEHQ/454HYf1iVLo0=
+X-Received: by 2002:a2e:9059:: with SMTP id n25mr14700116ljg.314.1625556337523;
+ Tue, 06 Jul 2021 00:25:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72kvv1rYa-TY3EvM5tBc4d0bhuNH8u56b8PM4PQd1ngmTQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+ <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com> <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
+In-Reply-To: <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Tue, 6 Jul 2021 12:55:26 +0530
+Message-ID: <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 06, 2021 at 02:06:52AM +0200, Miguel Ojeda wrote:
-> > In general you should avoid "we" and "you" when writing documentation.
-> > Prefer passive forms instead, which do not place a barrier between those
-> > who teach and those who learn. It's generally considered more inclusive
-> > in that it makes the reader not feel outside of the team who wrote it.
-> 
-> When I was writing this, I wondered the same thing, because in Spanish
-> this does look quite bad (in the sense of being too informal), and we
-> use the passive forms a lot more for things like this. So I am fine
-> rewriting this. Also, mixing we/you is not ideal either.
+On Thu, 17 Jun 2021 at 11:40, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Hi Sumit,
+>
+> On Thu, Jun 17, 2021 at 6:33 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+> >
+> > Hi Jens,
+> >
+> > On Wed, 16 Jun 2021 at 16:07, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > >
+> > > Hi all,
+> > >
+> > > This adds support for asynchronous notifications from OP-TEE in secure
+> > > world to the OP-TEE driver. This allows a design with a top half and bottom
+> > > half type of driver where the top half runs in secure interrupt context and
+> > > a notifications tells normal world to schedule a yielding call to do the
+> > > bottom half processing.
+> > >
+> > > An interrupt is used to notify the driver that there are asynchronous
+> > > notifications pending.
+> > >
+> >
+> > It looks like a nice feature. I would like to get hands on with this.
+> > Can I test this feature on Qemu?
+>
+> Absolutely, you can get this into the normal OP-TEE development repo setup with:
+> repo init -u https://github.com/OP-TEE/manifest.git -m default.xml
+> repo sync
+> Update optee_os with
+> https://github.com/jenswi-linaro/optee_os/tree/async_notif_v2
+> Update linux with https://github.com/jenswi-linaro/linux-1/tree/async_notif_v2
+> cd build
+> make all -j...
+> make run-only
+>
+> If you type anything at the secure console you'll notice how it
+> changes behaviour once the Linux kernel has booted.
+>
 
-Indeed, I can imagine how informal it could sound in Spanish.
+Thanks for sharing instructions as I now got some time to test and
+deep dive into this feature. It looks like a pretty useful feature to
+realize interrupt support in the secure world in its true sense. This
+feature works for me as per your instructions.
 
-> Having said that, I am not sure about English and whether people
-> prefer to read text with the passive form or not. In `Documentation/`
-> there seems to be a lot of "we"s and "you"s, but they could be wrong
-> too, of course.
+I could recognise it's requirement from the time while I was playing
+with secure timer interrupt support for OP-TEE RNG driver on
+Developerbox. In that case I had to strip down the secure interrupt
+handler to a minimum that would just collect entropy and dump into the
+secure buffer. But with asynchronous notifications support, I could
+add more functionality like entropy health tests in the bottom half
+instead of doing those health tests while retrieving entropy from the
+secure world.
 
-It's possible. While I've seen it used a lot in training or step-by-step
-instructions which aim to guide the reader through a procedure, it's not
-commonly found in documentation. One principle to keep in mind is to only
-focus on the subject. If your documentation describes a component or
-process and does not involve a human, there's no reason for introducing
-this human there. If it explicitly aims at the human (e.g. instructions),
-of course it makes sense. But anything that can end up in a script does
-not require a human and should avoid we/you.
+Given that, have you explored the possibility to leverage SGI rather
+than a platform specific SPI for notifying the normal world? If it's
+possible to leverage Architecture specific SGI for this purpose then I
+think this feature will come automatically enabled for every platform
+without the need to reserve a platform specific SPI.
 
-> > An additional note is that if the language imposes such unusual constraints
-> > on the editor, you should probably point to various known settins for most
-> > well-known editors.
-> 
-> Are you referring about style? If yes, it is possible to write the
-> code with a text editor with no extra features and then format it, so
-> that should not be a problem.
+-Sumit
 
-Yes that's my point, it will likely be the first experience for most
-casual visitors who have no idea how to reconfigure their editor or
-who don't want to risk to break their existing config.
-
-> > You should also clearly indicate how to recheck (or adjust) individual
-> > files, not just say that the command supports it.
-> 
-> Sounds good -- I will do that.
-> 
-> Thanks a lot for reviewing the docs!
-
-You're welcome.
-
-Willy
+> Cheers,
+> Jens
+>
+> >
+> > -Sumit
+> >
+> > > v2:
+> > > * Added documentation
+> > > * Converted optee bindings to json-schema and added interrupt property
+> > > * Configure notification interrupt from DT instead of getting it
+> > >   from secure world, suggested by Ard Biesheuvel <ardb@kernel.org>.
+> > >
+> > > Thanks,
+> > > Jens
+> > >
+> > > Jens Wiklander (7):
+> > >   docs: staging/tee.rst: add a section on OP-TEE notifications
+> > >   dt-bindings: arm: Convert optee binding to json-schema
+> > >   dt-bindings: arm: optee: add interrupt property
+> > >   tee: fix put order in teedev_close_context()
+> > >   tee: add tee_dev_open_helper() primitive
+> > >   optee: separate notification functions
+> > >   optee: add asynchronous notifications
+> > >
+> > >  .../bindings/arm/firmware/linaro,optee-tz.txt |  31 ---
+> > >  .../arm/firmware/linaro,optee-tz.yaml         |  57 +++++
+> > >  Documentation/staging/tee.rst                 |  27 +++
+> > >  drivers/tee/optee/Makefile                    |   1 +
+> > >  drivers/tee/optee/call.c                      |  27 +++
+> > >  drivers/tee/optee/core.c                      |  87 +++++--
+> > >  drivers/tee/optee/notif.c                     | 226 ++++++++++++++++++
+> > >  drivers/tee/optee/optee_msg.h                 |   9 +
+> > >  drivers/tee/optee/optee_private.h             |  23 +-
+> > >  drivers/tee/optee/optee_rpc_cmd.h             |  31 +--
+> > >  drivers/tee/optee/optee_smc.h                 |  75 +++++-
+> > >  drivers/tee/optee/rpc.c                       |  73 +-----
+> > >  drivers/tee/tee_core.c                        |  37 ++-
+> > >  include/linux/tee_drv.h                       |  27 +++
+> > >  14 files changed, 576 insertions(+), 155 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
+> > >  create mode 100644 drivers/tee/optee/notif.c
+> > >
+> > > --
+> > > 2.31.1
+> > >
