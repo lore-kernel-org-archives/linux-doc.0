@@ -6,56 +6,118 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CADC07E9B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 06:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3EC0C07E95
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 06:54:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 224C361CBA
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 06:44:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A476F61C77
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 06:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbhGGGqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 02:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48998 "EHLO
+        id S230314AbhGGG5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 02:57:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbhGGGqq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 02:46:46 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4155C061574;
-        Tue,  6 Jul 2021 23:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=eCjoCZTUUUrpQwlZ2gVEXtfu5F2b0mXoNtpwGUgEA2A=; b=c/AJ0FX41pROObhvxIuMFfx6ns
-        2+F7abXVsjQDnfx+7mYqJy3VgONfS9Z5b23jzxceElD5X8vkQRFdjGrsZa8K+8sJ5pbUD17vDF+fn
-        q809c64dhxNvT0qFJmR5o8IHibp/qDsYnqq2R4Wq7Hm6+t/oqgu28TaFuiGBpHnd7YecnJJQ9Ic7j
-        cfbZXuRcNhQ2zNZhQogKEgHeokOjxNZlRkJ4NUDaTx7s4xKIKh78aByYU1Hr2DHPH0dMRlYG7HvIn
-        gD96WMtYOWK3CFk6i4QeIY7QdKO14dOclaT51Q5MGDyuh6bGnECZHkERwD6t/fU56aO1LLZgBybLy
-        zsWvZkPA==;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m11Hi-00C8EL-N4; Wed, 07 Jul 2021 06:43:51 +0000
-Date:   Wed, 7 Jul 2021 07:43:50 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/17] Rust support
-Message-ID: <YOVNJuA0ojmeLvKa@infradead.org>
-References: <20210704202756.29107-1-ojeda@kernel.org>
+        with ESMTP id S230362AbhGGG5M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 02:57:12 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA0BFC061760
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jul 2021 23:54:31 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id o22so1105513wms.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jul 2021 23:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tUE8wev4VkWfjOiCPCyu/GqgRwGG7gs7uHBEzTIZe3c=;
+        b=HO5A4MDpkx13VC3Yw2cptgr73MkV2G5xH8GcIHQMD2ep1iOn3CS8VoF9o3sz43+71+
+         +R3aWRgRdYsGc6k3/64PPRrYJD21oDybN4rqEhpKo01JhMlzSsZO7a8AA9DtJ2BXuujx
+         c0clc8S636KiUYaSY0FYeM3+kPfaJyglcf4WULX91rK5G+Ro3gKLyhZetCrXWUeVW75Q
+         9BgGYbV10cmt9K9NMzE3gPVjlh5YklXD5+L+dtzEhOS+JPnIYcUslFn69z82ZRbmriW1
+         ljQbYX9t34JqSYy11CaSfLUYiyr0FBIn0f9gUvE74yfUhGspGvfKQP7V9EeJRc8IrIQb
+         0ZfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tUE8wev4VkWfjOiCPCyu/GqgRwGG7gs7uHBEzTIZe3c=;
+        b=OwpbKEarQpybnpuQBvSfSJdX58xD8r1JAjg6AwQ0CnmrveiFKMkF2lxGBiCKfG+stP
+         tqbmAJ+ts/ULAkHjIhHn4zoLej5upsSBeH0DgOXwc7hosdBIdbQ9lSPwnUyunLxfXATq
+         VJiAKgXGv0SY+uCVGYFFcqrNpgwGeQAZpFpIP0BYWww2lCqW/6nY2/issqIfB2745byc
+         +C3eSHe7S24MXSbp9WA6jkM1xNZ6B5on3aJrBMgzvLQfEh98iNIG5phSnqgI24TI1555
+         Z1zafKx1AOIoS1oanmgm+/COedEYFWqkCvseE+HGhVWS+d2TBFl9D9wYQJUBY+Uzs2S5
+         evBA==
+X-Gm-Message-State: AOAM532oLcL3ej7Os0Kr+29SdP7hA6BDUwet2tn1L9G5FcwOVeQT+nIu
+        pyDPjLoAguRbiku1K9YfPosrv1tNW4Uws2rPVGZM0g==
+X-Google-Smtp-Source: ABdhPJystGdZsA+nB5gQafyHzssXeyJUm/HUE9cWQIs/s/XU88ED35qV7XIB+cBbpx80emEOfYRUo2JXYOLR4W96FtE=
+X-Received: by 2002:a7b:ce82:: with SMTP id q2mr4888352wmj.60.1625640870431;
+ Tue, 06 Jul 2021 23:54:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+ <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
+ <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
+ <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
+ <87czrv91b2.wl-maz@kernel.org> <CAFA6WYPVA5yP3trumfz=_oXzxKtfobQXRzDwZ1og8UXwaA1rkQ@mail.gmail.com>
+ <87a6mz8vaj.wl-maz@kernel.org> <CAFA6WYMsjxYBw_0xzWMtHf=LtXzG+D113WSFuHCR7KhC1RuWYg@mail.gmail.com>
+In-Reply-To: <CAFA6WYMsjxYBw_0xzWMtHf=LtXzG+D113WSFuHCR7KhC1RuWYg@mail.gmail.com>
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+Date:   Wed, 7 Jul 2021 08:54:19 +0200
+Message-ID: <CAHUa44GEPDYj6A9jOB8sHbbs_mSk1oiREywP6Z8s0vOhbpajpw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Not sure if this is just a state of the union post or if you actually
-want to submit it.  If the later I strongly disagree with merging it,
-as you should refined it and prove it actually is useful first.  Where
-useful would be a real-life driver like say nvme or a usb host
-controller driver that actually works and shows benefits over the
-existing one.  Until it shows such usefulness it will just drag
-everyone else down.
+Hi,
+
+On Wed, Jul 7, 2021 at 7:52 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> On Tue, 6 Jul 2021 at 18:16, Marc Zyngier <maz@kernel.org> wrote:
+> >
+[snip]
+> > > > - Is there any case where you would instead need a level interrupt
+> > > >   (which a SGI cannot provide)?
+> > >
+> > > I think SGI should be sufficient to suffice OP-TEE notifications use-case.
+> >
+> > I don't care about OP-TEE. If you are proposing a contract between S
+> > and NS, it has to be TEE and OS independent. That's how the
+> > architecture works.
+> >
+>
+> Agree, here we are not proposing a common contract among the S and NS
+> world that every TEE (based on Arm TrustZone) will use to communicate
+> with REE (Linux in our case) but rather an OP-TEE specific
+> notifications feature that is built on top of OP-TEE specific ABIs.
+>
+> And I can see your arguments coming from an FFA perspective but there
+> are platforms like the ones based on Armv7 which don't support FFA
+> ABI. Maybe Jens can elaborate how this feature will fit in when FFA
+> comes into picture?
+
+OP-TEE has one official ABI at the moment, the SMC based one. It's
+about to get another one based on FF-A instead. The two ABIs will
+never be used at the same time. It's a build time option for the
+OP-TEE firmware to either use SMC or FF-A based communication.
+
+The patches I've posted here concern the SMC based ABI. Asynchronous
+notification in OP-TEE with a FF-A based ABI will use the notification
+framework provided by FF-A instead to implement that counterpart
+provided by these patches. So the OP-TEE driver here in the kernel
+will use the FF-A framework in the kernel instead of registering an
+interrupt handler directly.
+
+Cheers,
+Jens
