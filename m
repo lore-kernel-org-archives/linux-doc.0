@@ -2,117 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE48EC07E96
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67080C07E96
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 00:20:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A103261C60
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jul 2021 22:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43EC661CAC
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 00:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbhGFWxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jul 2021 18:53:42 -0400
-Received: from mga18.intel.com ([134.134.136.126]:31331 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229753AbhGFWxl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Jul 2021 18:53:41 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196488367"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; 
-   d="scan'208";a="196488367"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2021 15:50:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; 
-   d="scan'208";a="627825471"
-Received: from gupta-dev2.jf.intel.com (HELO gupta-dev2.localdomain) ([10.54.74.119])
-  by orsmga005.jf.intel.com with ESMTP; 06 Jul 2021 15:50:53 -0700
-Date:   Tue, 6 Jul 2021 15:51:27 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Eduardo Habkost <ehabkost@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH 4/4] x86/tsx: Add cmdline tsx=fake to not clear CPUID
- bits RTM and HLE
-Message-ID: <20210706225127.kyn7amrln6ydfcig@gupta-dev2.localdomain>
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <20210706195233.h6w4cm73oktfqpgz@habkost.net>
- <20210706211606.ezme3xvwztagbjqy@gupta-dev2.localdomain>
- <CAOpTY_pmNah_OCzk3XRyTsgkCPdJD1tp2RxKHMieFQM1s-tQNA@mail.gmail.com>
+        id S229876AbhGGAX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jul 2021 20:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229834AbhGGAX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jul 2021 20:23:29 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C10CC061574;
+        Tue,  6 Jul 2021 17:20:50 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id y17so433494pgf.12;
+        Tue, 06 Jul 2021 17:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fZN70fL0pQwXaj4RrpR87vleSRuBw7yD/HYXaGqinIg=;
+        b=ehXnstYyxnDRIYXvGMz//BmQ+uGIu41Ku+Ysc+8QxvwIEtp4AoVFYhBDJ2PvZdxwiw
+         3EoCgMt6T13tiJ1dzGQd4F1kQ+Bxvu8s5/PAqJkdv+FpBRwABVdmXGe1FuvWkQiwMz71
+         3nkwN+xja8X1OIt+rWxCMsA5pfXIhEjG1h5egx8idbCPgH3Rnb8RMSTaH77brNgi2BgB
+         H4R44a9Z9cRnMLC/68CsYkcfo0HoD9TzGVY/ef/C5HqALkf8R7UYf6fImshW9Na3mLUc
+         +E/NxvWKE56f5Gyyj5CgRcOFY9IGw+slIR5vIYtt7kPyDjIW/d8inbipprE0zXFapA6b
+         /mXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fZN70fL0pQwXaj4RrpR87vleSRuBw7yD/HYXaGqinIg=;
+        b=GsLdwZjYNvNv0jLl0I9p+YZrpXbXQG8tqmKVfI/1lOpPEymZ2xh8sLL82wTDFT0feY
+         Fk85RadDe5X59ZylCVQvbO9fBq4kQYGc+S7Ez12LLAg/mtChe6JYlytnsbGtBYjW7NJe
+         /kWMN4QctTwLhaSTeaje1hyL4abid1/aVc2E+cDBSycCpdRXnJsoUJFAMEpO6geYVBPD
+         lJ3B1MTCTOwz+QxUEAiIrAXX/dDRAv5jF0OLtnXj0yHh7eSXNSzVd/AuVcJ5FqXdSG3i
+         h5HnGlp3YRkGOQymsC+fER/degeSWdfLorqNGxhqhkaOGYxTHP/UU/gPDUb4skkGbjIq
+         iANQ==
+X-Gm-Message-State: AOAM5336wt9V2oW/ohU+6GE7IAgbN84iWCgFFljermhfRB8Jjy4TWAJj
+        5hre5wFeqH/PeUO8nHb9gHQ=
+X-Google-Smtp-Source: ABdhPJxC2liW9eMKer0esVHcTo05zB2Zwy67Z3H7o2SjWyGBgYyrBOBRmqIW+nkfxR8mLiqwfIjt9Q==
+X-Received: by 2002:a63:d0d:: with SMTP id c13mr23746299pgl.384.1625617249533;
+        Tue, 06 Jul 2021 17:20:49 -0700 (PDT)
+Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
+        by smtp.gmail.com with ESMTPSA id co12sm3987821pjb.33.2021.07.06.17.20.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 17:20:48 -0700 (PDT)
+Received: from localhost (localhost [IPv6:::1])
+        by localhost.lan (Postfix) with ESMTPSA id EF707900853;
+        Wed,  7 Jul 2021 00:20:45 +0000 (GMT)
+Date:   Wed, 7 Jul 2021 00:20:45 +0000
+From:   Vincent Pelletier <plr.vincent@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+Subject: Re: [PATCH 2/3] hwmon: da9063: HWMON driver
+Message-ID: <20210707002045.571694b2@gmail.com>
+In-Reply-To: <20210706174201.GC943349@roeck-us.net>
+References: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
+        <dff04323fc1b0177c1c08d3670333a839af4c268.1625581991.git.plr.vincent@gmail.com>
+        <20210706174201.GC943349@roeck-us.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAOpTY_pmNah_OCzk3XRyTsgkCPdJD1tp2RxKHMieFQM1s-tQNA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06.07.2021 17:19, Eduardo Habkost wrote:
->On Tue, Jul 6, 2021 at 5:15 PM Pawan Gupta
-><pawan.kumar.gupta@linux.intel.com> wrote:
->>
->> On 06.07.2021 15:52, Eduardo Habkost wrote:
->> >On Wed, Jun 09, 2021 at 02:14:39PM -0700, Pawan Gupta wrote:
->> >> On CPUs that deprecated TSX, clearing the enumeration bits CPUID.RTM and
->> >> CPUID.HLE may not be desirable in some corner cases. Like a saved guest
->> >> would refuse to resume if it was saved before the microcode update
->> >> that deprecated TSX.
->> >
->> >Why is a global option necessary to allow those guests to be
->> >resumed?  Why can't KVM_GET_SUPPORTED_CPUID always return the HLE
->> >and RTM bits as supported when the host CPU has them?
->>
->> Yes, the global option is unnecessary and this patch was dropped in v2.
->
->Was the behaviour this patch originally tried to fix changed in v2 as
->well? Is it going to be possible to resume a HLE=1,RTM=1 VM on a
->TSX_FORCE_ABORT=1 host with no extra kernel command line options
->needed?
+Hello,
 
-The problem it tried to solve is still present, but the global switch
-was thought to be unnecessary. I see that Paolo has some suggestions to
-fix this in the userspace.
+Thanks a lot for your reviews.
 
-Thanks,
-Pawan
+On Tue, 6 Jul 2021 10:42:01 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
+> -EINVAL seems wrong. Maybe -EIO or -ETIMEDOUT.
+
+On this topic, I've been hesitating to change this code to the
+following. Would it be acceptable ?
+
+  ret = wait_for_completion_timeout(...)
+  if (ret == 0)
+    warn[_once](...)
+  ...
+  if (adc_man & DA9063_ADC_MAN) {
+    ret = -ETIMEDOUT;
+    goto err_mread;
+  }
+
+The warn is to make it easier to debug in case of IRQ issue. The reason
+I'm caring is that I happen to have triggered such issue while testing
+this driver, as the GPIO and PLIC on the hifive-unmatched seem to
+disagree with each other. I debugged this and reported to linux-riscv,
+and I believe the issue is not in da9063-hwmon: it also affects
+da9063-onkey, and my GPIO-level workaround fixes both.
+
+On a tangential topic: this chip is supposed to complete an ADC cycle
+in 10ms, so 1s timeout seems a lot to me. On the one hand it made the
+IRQ issue obvious, but on the other hand a safety factor of 100 seems
+enormous to me. What would be a usual/reasonable safety factor ? 10 ?
+2 ?
+
+> > +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> > +					da9063_hwmon_irq_handler,
+> > +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,  
+> 
+> Is that correct ? The trigger condition is normally provided by
+> devicetree.
+
+At least it is consistent with the existing and related da9063-onkey:
+
+	irq = platform_get_irq_byname(pdev, "ONKEY");
+	if (irq < 0)
+		return irq;
+
+	error = devm_request_threaded_irq(&pdev->dev, irq,
+					  NULL, da9063_onkey_irq_handler,
+					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+					  "ONKEY", onkey);
+
+I am not familiar enough with IRQ handling to tell if IRQF_TRIGGER_LOW
+has an actual meaning here: in my understanding the regmap handler
+decides how to clear an interrupt based on regmap_irq_chip content, and
+this is coming from mfd/da9063-irq.c .
+
+Are both devm_request_threaded_irq() equally wrong ?
+
+> > +	/* set trim temperature offset to value read at startup */
+> > +	hwmon->tjunc_offset = (signed char)hwmon->da9063->t_offset;  
+> 
+> Can you explain why this is read in and passed from the mfd driver
+> and not here ?
+
+I cannot, at least not with something other than "this is how I found
+the code", which I realise is not satisfactory.
+I've been holding back on changes as I felt constrained by preserving
+the original author's name on the changes (both Author and
+Signed-off-by), but this split was indeed bothering me.
+
+Regards,
+-- 
+Vincent Pelletier
+GPG fingerprint 983A E8B7 3B91 1598 7A92 3845 CAC9 3691 4257 B0C1
