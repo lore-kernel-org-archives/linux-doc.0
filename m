@@ -2,150 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6DBC07E95
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF0AC07E9C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:34:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 528F761CD4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:23:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A8B161CCA
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbhGGWZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 18:25:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58492 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229956AbhGGWZv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Jul 2021 18:25:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4800961CD6;
-        Wed,  7 Jul 2021 22:23:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625696590;
-        bh=5/l44xHkURCHAD9g66CEvnyXk/coUzDcY6uOjA89jO8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QGWKs08J3iEPfq66a6ZcCWCfINJw0ZCVJ2hPMW9SolR4r7uP1dVDosWaVyhc4nsPb
-         UM+w/0nH5SnflXUqC1N0fX2O5jG0qhqKJgU7h4ZYttsHXNKXDJK1G7qNi9fbDlqd5t
-         uIO81CBJwWvqou80xYV3/+ZyGeybcco/muhuDSjp6wU9OAr4qreqiqGtotzcbulkcB
-         EGjQt91pwPReAaWKD+azxuXqI2MKd6hDlXbutbBfc4QcByuaPU66vnwxbEj0ulj4wC
-         7Azv/wSuXfhkCfrRzjGRAOBAGtWnX2mDSaHGQT2DE59ZFFiCtdneHM+ZX8BHkjxDav
-         r6brr6DHo1PrQ==
-Received: by mail-wm1-f45.google.com with SMTP id k16-20020a05600c1c90b02901f4ed0fcfe7so2661196wms.5;
-        Wed, 07 Jul 2021 15:23:10 -0700 (PDT)
-X-Gm-Message-State: AOAM530oeRqZ56/YceGzo/rNLxpAOB8AIIVee3q7xmyu+dVSNmxWlZUm
-        j1NaIDhimsjdeQharl/Kmyeg+cUk7bNF/QMjMwY=
-X-Google-Smtp-Source: ABdhPJxgRCyfXiQSAefT7VEEQVGFWK+Lz/trrhDpP0pUaDiALysArs7L/YPhbEfyOxyNvpo5bnIWhOVKA0lzjvKtmKg=
-X-Received: by 2002:a05:600c:4f53:: with SMTP id m19mr26994484wmq.176.1625696588806;
- Wed, 07 Jul 2021 15:23:08 -0700 (PDT)
+        id S230514AbhGGWgs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 18:36:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230264AbhGGWgr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 18:36:47 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013F2C061574;
+        Wed,  7 Jul 2021 15:34:07 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id g22so5736015iom.1;
+        Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
+        b=U3BBsS4M1AAJ5T1e+Ng9btoTdmckXSOUWW0WSSn5ILwQoBU3HiI9OBuH0aW28BChYE
+         TTdSZX3ukMJAHQx2ILnuB4Pz8XERrMUOCLhSih0efJ6wsnLQGrJUll3vqi8QnG6PJnjo
+         8YMr3jzaAoCodyAraIJ+unl1DpaaPSw3c2KdAfGdp6GG+eu2YYJqE7i4G4mpAdkeVie5
+         aohcWBJkA5JlkwBklpOo7HmmZQdTii2gDOmlIgG8U7RX9cW+ZCLzEmO/O5fvq4jLJKMq
+         0bAQIluIRirLU+3mp4HPKW5WmsweHbK+GDmvmhDM0qIWrtMkCkKhwmhrEHlSVkO0V/mJ
+         UvnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
+        b=Dt1Vjd5g045R97Urr786uV+3e2E2Is0606Do4MOenum5KeYx8HA6QrdKyZuNP987Kt
+         qbu1Xq8Vxdy8JlHJR/nStwkh5scU0bPGZQQp3/XUpY1thoCckLWKcONRDClXTQBJWY0K
+         9tZjediiqGAzElZiMHbByyK7fdMc8THPPF2HbOKxxmmjva3mn3RCDxfsi6Ylkhokm2wK
+         yIeaESBWi+Vk1gGwEaiKowRufYn3DFJEldhyuWFescZ4f5/1ip5+oIm6pHtJFjt1tRgn
+         3h+qMTX2CNJf/zZo4phmt3jhm1eOeuHRIsxek21yguN7DM/AjTaCVMSJgt5KBxFt8gFP
+         zKew==
+X-Gm-Message-State: AOAM531y/XofSKEwe87Kz+IHIPktWkj51Ag60YMBqYz5yYpK24vTyRGY
+        8rtJtSMlXXe7tVS1SZAr64BvJeuI5aHRs3ojMD8=
+X-Google-Smtp-Source: ABdhPJzAMcpVfmwUbQtBAKz2b/1EvEG3lNknXLAeGCG5/LOW2onoHQltm2OokBq1l0sVLbWJnKrPmXPjV1frxujIezc=
+X-Received: by 2002:a5e:d512:: with SMTP id e18mr21496064iom.149.1625697246499;
+ Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210707174022.517-1-royujjal@gmail.com>
-In-Reply-To: <20210707174022.517-1-royujjal@gmail.com>
-From:   Song Liu <song@kernel.org>
-Date:   Wed, 7 Jul 2021 15:22:57 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW78LzzFL_=9LmfXWxfh9=mG1CP33+w_cko1=W8BSag+RA@mail.gmail.com>
-Message-ID: <CAPhsuW78LzzFL_=9LmfXWxfh9=mG1CP33+w_cko1=W8BSag+RA@mail.gmail.com>
-Subject: Re: [PATCH] docs: bpf: Added more extension example
-To:     UjjaL Roy <royujjal@gmail.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-5-ojeda@kernel.org>
+ <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 8 Jul 2021 00:33:55 +0200
+Message-ID: <CANiq72kBO5LJ8_pHmy7p6UmVYPiY1=2HugpCTen2Q3GVb_xidA@mail.gmail.com>
+Subject: Re: [PATCH 04/17] vsprintf: add new `%pA` format specifier
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, clang-built-linux@googlegroups.com
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:50 AM UjjaL Roy <royujjal@gmail.com> wrote:
+On Wed, Jul 7, 2021 at 10:31 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> From: "Roy, UjjaL" <royujjal@gmail.com>
->
-> After reading this document observed that for new users it is
-> hard to find an example of "extension" easily.
->
-> So, added a new heading for extensions for better readability.
-> Now, the new readers can easily identify "extension" examples.
-> Also, added one more example of filtering interface index.
->
-> Signed-off-by: Roy, UjjaL <royujjal@gmail.com>
+> Which patch in the series adds the definition of rust_fmt_argument?
+> Sorry, I haven't looked through the entire series yet, but I don't
+> think it was an earlier patch in the series.  If it's later in the
+> series, you may want to rebase this to be after (or combine it with
+> the patch that provides the definition).  For instance, let's say the
+> first half of this series was accepted/merged, but not the latter
+> half. It would be weird to provide such definitions/calls to undefined
+> symbols.
 
-Please prefix the subject with the target tree. In this case, the subject should
-say [PATCH bpf-next] xxx. Also, please revise the commit log as suggested in
-Documentation/process/submitting-patches.rst:
+It is in https://lore.kernel.org/lkml/20210704202756.29107-11-ojeda@kernel.org/#Z30rust:kernel:print.rs
 
-Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-to do frotz", as if you are giving orders to the codebase to change
-its behaviour.
+Yeah, perhaps it would have been better to put it in the `kernel`
+crate commit alongside `include/linux/spinlock.h` and
+`kernel/printk/printk.c`.
 
-Otherwise, this change looks good to me. You can add my Acked-by
-tag in v2. (prefix v2 with [PATCH v2 bpf-next].
+On the other hand, having C changes on other commits may be easier to
+read and explain (note that compilation still works, given things are
+only enabled near the end in the Kbuild commit).
 
-Thanks,
-Song
-
-Acked-by: Song Liu <songliubraving@fb.com>
-
-> ---
->  Documentation/networking/filter.rst | 23 ++++++++++++++++-------
->  1 file changed, 16 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-> index 3e2221f4abe4..5f13905b12e0 100644
-> --- a/Documentation/networking/filter.rst
-> +++ b/Documentation/networking/filter.rst
-> @@ -320,13 +320,6 @@ Examples for low-level BPF:
->    ret #-1
->    drop: ret #0
->
-> -**(Accelerated) VLAN w/ id 10**::
-> -
-> -  ld vlan_tci
-> -  jneq #10, drop
-> -  ret #-1
-> -  drop: ret #0
-> -
->  **icmp random packet sampling, 1 in 4**::
->
->    ldh [12]
-> @@ -358,6 +351,22 @@ Examples for low-level BPF:
->    bad: ret #0             /* SECCOMP_RET_KILL_THREAD */
->    good: ret #0x7fff0000   /* SECCOMP_RET_ALLOW */
->
-> +Examples for low-level BPF extension:
-> +
-> +**Packet for interface index 13**::
-> +
-> +  ld ifidx
-> +  jneq #13, drop
-> +  ret #-1
-> +  drop: ret #0
-> +
-> +**(Accelerated) VLAN w/ id 10**::
-> +
-> +  ld vlan_tci
-> +  jneq #10, drop
-> +  ret #-1
-> +  drop: ret #0
-> +
->  The above example code can be placed into a file (here called "foo"), and
->  then be passed to the bpf_asm tool for generating opcodes, output that xt_bpf
->  and cls_bpf understands and can directly be loaded with. Example with above
-> --
-> 2.17.1
->
+Cheers,
+Miguel
