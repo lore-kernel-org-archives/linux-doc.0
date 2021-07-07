@@ -2,143 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D04C07E95
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37158C07E95
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:40:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A67261C93
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:18:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CB1361CC2
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhGGRUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 13:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
+        id S230280AbhGGRnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 13:43:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbhGGRUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 13:20:46 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD5BC061762
-        for <linux-doc@vger.kernel.org>; Wed,  7 Jul 2021 10:18:05 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id m3so4191963oig.10
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 10:18:05 -0700 (PDT)
+        with ESMTP id S230130AbhGGRnO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 13:43:14 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AA7C061574;
+        Wed,  7 Jul 2021 10:40:34 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id p4-20020a17090a9304b029016f3020d867so2119795pjo.3;
+        Wed, 07 Jul 2021 10:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2zlDFOGjXouTQIFi23PupdbcwNOzhZtlzVmn1XuDDG0=;
-        b=KFMEQm7oSGE9cUX1bSsKrSdUQjpO8T0fqel95+e8ch2aPHqeA2NDtztXqpJxWJHl7P
-         AipuvkgagJDT8Tvsb4DEi6oznXKwOIPyw5kq9Ds6oJde6rNnY4aFliHzbJQwpIAHjm4x
-         s5QdpalknK7w+dHh9eooWixJRjsfu52gcqn+JiwQV0gJ6cM8qyvCQBmUmXbZnhNjLvNe
-         i1hYnteonDAXK9gpW0JS+RrggleUMLieo1lHLRANKUd/FKZHcoOVpJFgQlduDJ6jmk2f
-         r9P0E7yKFQU5Mtp3zvsPJ0UAG5pkBHotRmhT5kqQbM9hVUsrnAB5dH61KJVjnIxMIrZ8
-         V2Gw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BgQbhoVbzjmNN3b9sj7N5Nl4gKvJ3MMVqvNXk5zHkNo=;
+        b=bR47LD94Ihmmn+syU7HUJyHuGzItCzlwySdmlkOYI/yLYpYVon7pXNMaOD9WbOvGHh
+         SqeGoAWtPadPUZwLG9LePULyOje+tqo/OgSzMDdJii1uZfPbqeFYEmEqpHBNywGAbqHy
+         2iQt545mtIRNxxSdHd+w2YoLimLHvy+w6F2IHU8lAiQmJenx3+5YoqnFpXT13tHetrgy
+         dlzio48/8UmsOvEgsEkA+FcqO5LKFg6wjaBPvsL9Tq+yM5THIWAKi3BkCdR5u6sX/GJd
+         fT44xrPMKQbzunyhJl/zp8JqGkmruuVmLoS7qEzyjp8Frx+5bbCDFVaAl7M64v6s00ZW
+         AvJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2zlDFOGjXouTQIFi23PupdbcwNOzhZtlzVmn1XuDDG0=;
-        b=TWv6iaQ2rBMmE2GPIb0DwUpWeeoCf+JA7euoVSHHdueMyKbAKQuqbFSg2uMSQ/xgE8
-         ZZpaGTwbFJfAUC1vp57jR08WbFO6autet29SJaYgqJfdQWdaPWaWK8YcYKxs9XRc0Q+I
-         y0iDpnHuWLtLvqLillvsKIdPmODmTkEgja+y13iw8hRzA+YnvahdzeMlnaM9LIpvM6wM
-         GsN+rHh/9NJJOpDsV9c5mbj5wxQFI4d3a3NnQgnrSCu5cNOWmgsiLzQa6sPuRAQIkHhG
-         Lje3B1ixGMuxhkUXHKFSDcwA/XWpNkdKf7HfK4xZtS95JsIve7qtbzE7YOr+MoX/mw6K
-         QMpw==
-X-Gm-Message-State: AOAM532rWp6Eh/dVJaroNid2OCrictnJXoFgg4IP0NceGBaYF1k50KlL
-        l8qWA9Rpi0l6pUOGegnl3iljVasN91ElA3XhqaUkXg==
-X-Google-Smtp-Source: ABdhPJzkwIV2dAw6OuD+6NjV5UuwBbAnbwKElq0XwqOdq7Eh1qd+Ppn7pXFjfDc4uEzf0QLJR61ZUBmRS9h5pnNULJc=
-X-Received: by 2002:aca:1e07:: with SMTP id m7mr18873358oic.28.1625678285069;
- Wed, 07 Jul 2021 10:18:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.2d906c322f72ec1420955136ebaa7a4c5073917c.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <de6b97a567e273adff1f5268998692bad548aa10.1623272033.git-series.pawan.kumar.gupta@linux.intel.com>
- <20210706195233.h6w4cm73oktfqpgz@habkost.net> <4cc2c5fe-2153-05c5-dedd-8cb650753740@redhat.com>
- <CAOpTY_qdbbnauTkbjkz+cZmo8=Hz6qqLNY6i6uamqhcty=Q1sw@mail.gmail.com>
- <671be35f-220a-f583-aa31-3a2da7dae93a@redhat.com> <CAOpTY_paTO=xqfGXPCC2Paty5ptJ6Dqpo4Tzb4C2hrO_t=vS8w@mail.gmail.com>
- <CALMp9eSJyvU1=FndZyR+hZMtKPWwgibKisBqp0Xcx4jxjrWn2w@mail.gmail.com> <CAOpTY_pefOmJ0zJjUzitgTGxqgX6XxwTP0fMKoiyuBCHrh+AWg@mail.gmail.com>
-In-Reply-To: <CAOpTY_pefOmJ0zJjUzitgTGxqgX6XxwTP0fMKoiyuBCHrh+AWg@mail.gmail.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Wed, 7 Jul 2021 10:15:09 -0700
-Message-ID: <CALMp9eSNS+yKsDgS3TXH6bSf4eUM2sJaRrLxZa+Y8e0FqVhRJA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] x86/tsx: Add cmdline tsx=fake to not clear CPUID bits
- RTM and HLE
-To:     Eduardo Habkost <ehabkost@redhat.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BgQbhoVbzjmNN3b9sj7N5Nl4gKvJ3MMVqvNXk5zHkNo=;
+        b=gCKAnK3WON5XurRZqYDx9wOnbeXoA/Ex/DUaMpDSSfwXsVBqePqxb+pB7hFXMYYgDF
+         ndhjKAmkFv/qeXDKFQkkgIm33wPilhvYoaP6/sC55SLd9i0RLdgwxiXPww0nrqSOhXf9
+         v4m5W1ztoZLI6AlJzloEIwfRl8HHMjuVkXvjbaLE/atuqpqZPb1NpYdG85TwYOmR6OZj
+         Dvj75rxC15efXLXpBTrSkAAZLJboVCH4JA9eiIjqg9Tzm8hftqKBIvCHFRh26xpaFmwx
+         x7NooOoGL/Y0ilZ+UhvlorigrfPNSAimfO135gXqIML45mJyO0HsDXwCL5+YzQdPYA0r
+         yJeA==
+X-Gm-Message-State: AOAM530cfpUmeVr6avTyOrfKpqVibjmGXxlRR2bmpzB2hMs1dfVebp5z
+        6029MfSQnYQ4G4StTtlgduE=
+X-Google-Smtp-Source: ABdhPJzCIAIXmtoc+TgNyipWd2WVTKXNqNE0xipLQsdFFIQOXHcVtnOxk+x8AeC7NNPt4aWeARXzww==
+X-Received: by 2002:a17:90a:948b:: with SMTP id s11mr28015165pjo.139.1625679633694;
+        Wed, 07 Jul 2021 10:40:33 -0700 (PDT)
+Received: from BALT-UROY.maxlinear.com ([202.8.116.91])
+        by smtp.gmail.com with ESMTPSA id r26sm15555376pfq.191.2021.07.07.10.40.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 10:40:33 -0700 (PDT)
+From:   UjjaL Roy <royujjal@gmail.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kyung Min Park <kyung.min.park@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        Kan Liang <kan.liang@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Victor Ding <victording@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Anand K Mistry <amistry@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        kvm@vger.kernel.org, Jiri Denemark <jdenemar@redhat.com>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        Michal Privoznik <mprivozn@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, clang-built-linux@googlegroups.com
+Subject: [PATCH] docs: bpf: Added more extension example
+Date:   Wed,  7 Jul 2021 23:10:22 +0530
+Message-Id: <20210707174022.517-1-royujjal@gmail.com>
+X-Mailer: git-send-email 2.31.1.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:08 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Wed, Jul 7, 2021 at 12:42 PM Jim Mattson <jmattson@google.com> wrote:
-> >
-> > On Wed, Jul 7, 2021 at 8:09 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > >
-> > > CCing libvir-list, Jiri Denemark, Michal Privoznik, so they are aware
-> > > that the definition of "supported CPU features" will probably become a
-> > > bit more complex in the future.
-> >
-> > Has there ever been a clear definition? Family, model, and stepping,
-> > for instance: are these the only values supported? That would make
-> > cross-platform migration impossible. What about the vendor string? Is
-> > that the only value supported? That would make cross-vendor migration
-> > impossible. For the maximum input value for basic CPUID information
-> > (CPUID.0H:EAX), is that the only value supported, or is it the maximum
-> > value supported? On the various individual feature bits, does a '1'
-> > imply that '0' is also supported, or is '1' the only value supported?
-> > What about the feature bits with reversed polarity (e.g.
-> > CPUID.(EAX=07H,ECX=0):EBX.FDP_EXCPTN_ONLY[bit 6])?
-> >
-> > This API has never made sense to me. I have no idea how to interpret
-> > what it is telling me.
->
-> Is this about GET_SUPPORTED_CPUID, QEMU's query-cpu-model-expansion &
-> related commands, or the libvirt CPU APIs?
+From: "Roy, UjjaL" <royujjal@gmail.com>
 
-This is my ongoing rant about KVM_GET_SUPPORTED_CPUID.
+After reading this document observed that for new users it is
+hard to find an example of "extension" easily.
+
+So, added a new heading for extensions for better readability.
+Now, the new readers can easily identify "extension" examples.
+Also, added one more example of filtering interface index.
+
+Signed-off-by: Roy, UjjaL <royujjal@gmail.com>
+---
+ Documentation/networking/filter.rst | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index 3e2221f4abe4..5f13905b12e0 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -320,13 +320,6 @@ Examples for low-level BPF:
+   ret #-1
+   drop: ret #0
+ 
+-**(Accelerated) VLAN w/ id 10**::
+-
+-  ld vlan_tci
+-  jneq #10, drop
+-  ret #-1
+-  drop: ret #0
+-
+ **icmp random packet sampling, 1 in 4**::
+ 
+   ldh [12]
+@@ -358,6 +351,22 @@ Examples for low-level BPF:
+   bad: ret #0             /* SECCOMP_RET_KILL_THREAD */
+   good: ret #0x7fff0000   /* SECCOMP_RET_ALLOW */
+ 
++Examples for low-level BPF extension:
++
++**Packet for interface index 13**::
++
++  ld ifidx
++  jneq #13, drop
++  ret #-1
++  drop: ret #0
++
++**(Accelerated) VLAN w/ id 10**::
++
++  ld vlan_tci
++  jneq #10, drop
++  ret #-1
++  drop: ret #0
++
+ The above example code can be placed into a file (here called "foo"), and
+ then be passed to the bpf_asm tool for generating opcodes, output that xt_bpf
+ and cls_bpf understands and can directly be loaded with. Example with above
+-- 
+2.17.1
+
