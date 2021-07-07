@@ -2,111 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF0AC07E9C
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB98C07E9C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 23:28:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A8B161CCA
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 22:34:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38A0A61CBD
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 23:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230514AbhGGWgs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 18:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        id S230233AbhGGXb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 19:31:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbhGGWgr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 18:36:47 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013F2C061574;
-        Wed,  7 Jul 2021 15:34:07 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id g22so5736015iom.1;
-        Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
+        with ESMTP id S230029AbhGGXb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 19:31:26 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41629C061574;
+        Wed,  7 Jul 2021 16:28:45 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id x16so1075427plg.3;
+        Wed, 07 Jul 2021 16:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
-        b=U3BBsS4M1AAJ5T1e+Ng9btoTdmckXSOUWW0WSSn5ILwQoBU3HiI9OBuH0aW28BChYE
-         TTdSZX3ukMJAHQx2ILnuB4Pz8XERrMUOCLhSih0efJ6wsnLQGrJUll3vqi8QnG6PJnjo
-         8YMr3jzaAoCodyAraIJ+unl1DpaaPSw3c2KdAfGdp6GG+eu2YYJqE7i4G4mpAdkeVie5
-         aohcWBJkA5JlkwBklpOo7HmmZQdTii2gDOmlIgG8U7RX9cW+ZCLzEmO/O5fvq4jLJKMq
-         0bAQIluIRirLU+3mp4HPKW5WmsweHbK+GDmvmhDM0qIWrtMkCkKhwmhrEHlSVkO0V/mJ
-         UvnQ==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jM5H6fyINSDFacMdYk8kIhTXfRZuAA/gZfzFCYQO+8Y=;
+        b=n2MHAFhscsuVT78FRjyvPt0jystbtkn9sJyDhsWuokZSPx5cQDHb+p9j4odzZ/9igM
+         KH+xZ3AaMa1Yu56K5YEnHUJ1OtFajyXXw7MIF582dkGbg9ibVsqLHINyVLe5FM8SnYRV
+         TpGED6KGEjtywqM6YJ98DrqSTotSGx2/H61oqFuAZVGpE058FQR0+5zmKt1FD7vi3SnU
+         4hPCtD2wc7WArzO1lTLR5HbRqn880C7vb2chCBWhRsg+uENu6Bn4Ktp+auMJFrDLuqfy
+         jw3ETfk1Hb7jNjuQ38AVVzvFSuIj2sHwpEX4VEuhaDM4kDswOkLO9VndT9bP8Pmk61gi
+         CORg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
-        b=Dt1Vjd5g045R97Urr786uV+3e2E2Is0606Do4MOenum5KeYx8HA6QrdKyZuNP987Kt
-         qbu1Xq8Vxdy8JlHJR/nStwkh5scU0bPGZQQp3/XUpY1thoCckLWKcONRDClXTQBJWY0K
-         9tZjediiqGAzElZiMHbByyK7fdMc8THPPF2HbOKxxmmjva3mn3RCDxfsi6Ylkhokm2wK
-         yIeaESBWi+Vk1gGwEaiKowRufYn3DFJEldhyuWFescZ4f5/1ip5+oIm6pHtJFjt1tRgn
-         3h+qMTX2CNJf/zZo4phmt3jhm1eOeuHRIsxek21yguN7DM/AjTaCVMSJgt5KBxFt8gFP
-         zKew==
-X-Gm-Message-State: AOAM531y/XofSKEwe87Kz+IHIPktWkj51Ag60YMBqYz5yYpK24vTyRGY
-        8rtJtSMlXXe7tVS1SZAr64BvJeuI5aHRs3ojMD8=
-X-Google-Smtp-Source: ABdhPJzAMcpVfmwUbQtBAKz2b/1EvEG3lNknXLAeGCG5/LOW2onoHQltm2OokBq1l0sVLbWJnKrPmXPjV1frxujIezc=
-X-Received: by 2002:a5e:d512:: with SMTP id e18mr21496064iom.149.1625697246499;
- Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jM5H6fyINSDFacMdYk8kIhTXfRZuAA/gZfzFCYQO+8Y=;
+        b=XmHGL0Xdcr/abu1QE06gfB18a6t9icPk58GxBv+5o6EXf2FzNP/E7qQbl0f2KYsi2t
+         07OBJpWbJBd9u3oY2vx+gTDZa5Pk2PmVpIgqLiZP8oftl4lpFKZWWZljiL+/Yv8yhyPu
+         ogccIbkRseTTUG8Kkdtj4tz4Fg89dQuiyEeWpCcMrCaPPs9xuXc4wg9jVp83VJ97c+U4
+         pAXgP4UquVW6vASPKTuKXfliIMEGdFAhl4DkRExzsg3GNWGCgklTq3z43pKMAcjioSZn
+         rl/3AVhNcrQ9cGCF+r4fL7EZkeBPF70XL2aQZtrfab8JFo+boyFcpl04OS7W83XbxclI
+         Fzdg==
+X-Gm-Message-State: AOAM531tTe7tycOKxWDwtUUQronvUQwvl9Eq6/ORCsOBJn69P+1XC0mz
+        qxV/JiBJm2lQvxUMIvsjsOo=
+X-Google-Smtp-Source: ABdhPJxohleEUoJwOits39wAFuZ5Dq3D2n3/z/fpcC1LdAonYJqMLG6QpyV9j4vLhVZxRHu0QtJzqQ==
+X-Received: by 2002:a17:902:768c:b029:128:b109:d0d8 with SMTP id m12-20020a170902768cb0290128b109d0d8mr23356204pll.19.1625700524677;
+        Wed, 07 Jul 2021 16:28:44 -0700 (PDT)
+Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
+        by smtp.gmail.com with ESMTPSA id j2sm285648pfj.168.2021.07.07.16.28.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 16:28:39 -0700 (PDT)
+Received: from localhost (localhost [IPv6:::1])
+        by localhost.lan (Postfix) with ESMTPSA id C5388900853;
+        Wed,  7 Jul 2021 23:28:37 +0000 (GMT)
+Date:   Wed, 7 Jul 2021 23:28:34 +0000
+From:   Vincent Pelletier <plr.vincent@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+Subject: Re: [PATCH 2/3] hwmon: da9063: HWMON driver
+Message-ID: <20210707232834.5c8f2ace@gmail.com>
+In-Reply-To: <20210707005800.GA2221519@roeck-us.net>
+References: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
+        <dff04323fc1b0177c1c08d3670333a839af4c268.1625581991.git.plr.vincent@gmail.com>
+        <20210706174201.GC943349@roeck-us.net>
+        <20210707002045.571694b2@gmail.com>
+        <20210707005800.GA2221519@roeck-us.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-5-ojeda@kernel.org>
- <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
-In-Reply-To: <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 8 Jul 2021 00:33:55 +0200
-Message-ID: <CANiq72kBO5LJ8_pHmy7p6UmVYPiY1=2HugpCTen2Q3GVb_xidA@mail.gmail.com>
-Subject: Re: [PATCH 04/17] vsprintf: add new `%pA` format specifier
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:31 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Which patch in the series adds the definition of rust_fmt_argument?
-> Sorry, I haven't looked through the entire series yet, but I don't
-> think it was an earlier patch in the series.  If it's later in the
-> series, you may want to rebase this to be after (or combine it with
-> the patch that provides the definition).  For instance, let's say the
-> first half of this series was accepted/merged, but not the latter
-> half. It would be weird to provide such definitions/calls to undefined
-> symbols.
+On Tue, 6 Jul 2021 17:58:00 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
+> On Wed, Jul 07, 2021 at 12:20:45AM +0000, Vincent Pelletier wrote:
+> > On Tue, 6 Jul 2021 10:42:01 -0700, Guenter Roeck <linux@roeck-us.net> wrote:  
+> > > > +	/* set trim temperature offset to value read at startup */
+> > > > +	hwmon->tjunc_offset = (signed char)hwmon->da9063->t_offset;    
+> > > 
+> > > Can you explain why this is read in and passed from the mfd driver
+> > > and not here ?  
+> > 
+> > I cannot, at least not with something other than "this is how I found
+> > the code", which I realise is not satisfactory.
+> > I've been holding back on changes as I felt constrained by preserving
+> > the original author's name on the changes (both Author and
+> > Signed-off-by), but this split was indeed bothering me.
+> >   
+> Sorry, that is not a good argument. On the contrary, if I have to assume
+> that the code has non-technical constraints, I am inclined to just reject
+> it for that very reason.
 
-It is in https://lore.kernel.org/lkml/20210704202756.29107-11-ojeda@kernel.org/#Z30rust:kernel:print.rs
+These constraints are self-imposed and authorship-motivated: I do not
+want to steal credit, and I do not know where the "why did you remove
+my name from this ?" threshold is.
 
-Yeah, perhaps it would have been better to put it in the `kernel`
-crate commit alongside `include/linux/spinlock.h` and
-`kernel/printk/printk.c`.
+So if I am unsure whether a slightly surprising (to my untrained eyes)
+but not broken piece of code is actually usual or should be changed, I
+erred on the status-quo side in order to make a good-faith effort at
+preserving the original author's name on the change.
 
-On the other hand, having C changes on other commits may be easier to
-read and explain (note that compilation still works, given things are
-only enabled near the end in the Kbuild commit).
+So in turn, your suggestion to change the Signed-off-by into an
+Originally-from removed these constraints.
 
-Cheers,
-Miguel
+Is this formulation clearer ?
+-- 
+Vincent Pelletier
+GPG fingerprint 983A E8B7 3B91 1598 7A92 3845 CAC9 3691 4257 B0C1
