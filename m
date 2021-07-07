@@ -2,144 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37158C07E95
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17129C07E9B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:52:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CB1361CC2
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:40:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF43861CCC
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 17:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbhGGRnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 13:43:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbhGGRnO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 13:43:14 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AA7C061574;
-        Wed,  7 Jul 2021 10:40:34 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id p4-20020a17090a9304b029016f3020d867so2119795pjo.3;
-        Wed, 07 Jul 2021 10:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BgQbhoVbzjmNN3b9sj7N5Nl4gKvJ3MMVqvNXk5zHkNo=;
-        b=bR47LD94Ihmmn+syU7HUJyHuGzItCzlwySdmlkOYI/yLYpYVon7pXNMaOD9WbOvGHh
-         SqeGoAWtPadPUZwLG9LePULyOje+tqo/OgSzMDdJii1uZfPbqeFYEmEqpHBNywGAbqHy
-         2iQt545mtIRNxxSdHd+w2YoLimLHvy+w6F2IHU8lAiQmJenx3+5YoqnFpXT13tHetrgy
-         dlzio48/8UmsOvEgsEkA+FcqO5LKFg6wjaBPvsL9Tq+yM5THIWAKi3BkCdR5u6sX/GJd
-         fT44xrPMKQbzunyhJl/zp8JqGkmruuVmLoS7qEzyjp8Frx+5bbCDFVaAl7M64v6s00ZW
-         AvJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BgQbhoVbzjmNN3b9sj7N5Nl4gKvJ3MMVqvNXk5zHkNo=;
-        b=gCKAnK3WON5XurRZqYDx9wOnbeXoA/Ex/DUaMpDSSfwXsVBqePqxb+pB7hFXMYYgDF
-         ndhjKAmkFv/qeXDKFQkkgIm33wPilhvYoaP6/sC55SLd9i0RLdgwxiXPww0nrqSOhXf9
-         v4m5W1ztoZLI6AlJzloEIwfRl8HHMjuVkXvjbaLE/atuqpqZPb1NpYdG85TwYOmR6OZj
-         Dvj75rxC15efXLXpBTrSkAAZLJboVCH4JA9eiIjqg9Tzm8hftqKBIvCHFRh26xpaFmwx
-         x7NooOoGL/Y0ilZ+UhvlorigrfPNSAimfO135gXqIML45mJyO0HsDXwCL5+YzQdPYA0r
-         yJeA==
-X-Gm-Message-State: AOAM530cfpUmeVr6avTyOrfKpqVibjmGXxlRR2bmpzB2hMs1dfVebp5z
-        6029MfSQnYQ4G4StTtlgduE=
-X-Google-Smtp-Source: ABdhPJzCIAIXmtoc+TgNyipWd2WVTKXNqNE0xipLQsdFFIQOXHcVtnOxk+x8AeC7NNPt4aWeARXzww==
-X-Received: by 2002:a17:90a:948b:: with SMTP id s11mr28015165pjo.139.1625679633694;
-        Wed, 07 Jul 2021 10:40:33 -0700 (PDT)
-Received: from BALT-UROY.maxlinear.com ([202.8.116.91])
-        by smtp.gmail.com with ESMTPSA id r26sm15555376pfq.191.2021.07.07.10.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 10:40:33 -0700 (PDT)
-From:   UjjaL Roy <royujjal@gmail.com>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S230032AbhGGRyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 13:54:53 -0400
+Received: from foss.arm.com ([217.140.110.172]:41936 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230000AbhGGRyx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Jul 2021 13:54:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA4571042;
+        Wed,  7 Jul 2021 10:52:11 -0700 (PDT)
+Received: from bogus (unknown [10.57.78.75])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6095D3F694;
+        Wed,  7 Jul 2021 10:52:08 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 18:51:23 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, clang-built-linux@googlegroups.com
-Subject: [PATCH] docs: bpf: Added more extension example
-Date:   Wed,  7 Jul 2021 23:10:22 +0530
-Message-Id: <20210707174022.517-1-royujjal@gmail.com>
-X-Mailer: git-send-email 2.31.1.windows.1
+        Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+Message-ID: <20210707175123.xdotr3lsy3e32plm@bogus>
+References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
+ <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
+ <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
+ <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
+ <87czrv91b2.wl-maz@kernel.org>
+ <CAFA6WYPVA5yP3trumfz=_oXzxKtfobQXRzDwZ1og8UXwaA1rkQ@mail.gmail.com>
+ <87a6mz8vaj.wl-maz@kernel.org>
+ <CAFA6WYMsjxYBw_0xzWMtHf=LtXzG+D113WSFuHCR7KhC1RuWYg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYMsjxYBw_0xzWMtHf=LtXzG+D113WSFuHCR7KhC1RuWYg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Roy, UjjaL" <royujjal@gmail.com>
+Hi Sumit,
 
-After reading this document observed that for new users it is
-hard to find an example of "extension" easily.
+I was holding off you reply as I didn't have all the background on this.
+Achin did mention that this is preparatory work for FFA notifications.
+I did mention to him that this is more than that, it is custom extension
+to address what FF-A notification is trying to in standard way.
 
-So, added a new heading for extensions for better readability.
-Now, the new readers can easily identify "extension" examples.
-Also, added one more example of filtering interface index.
+I share same opinion as Marc Z.
 
-Signed-off-by: Roy, UjjaL <royujjal@gmail.com>
----
- Documentation/networking/filter.rst | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+On Wed, Jul 07, 2021 at 11:22:23AM +0530, Sumit Garg wrote:
+> On Tue, 6 Jul 2021 at 18:16, Marc Zyngier <maz@kernel.org> wrote:
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 3e2221f4abe4..5f13905b12e0 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -320,13 +320,6 @@ Examples for low-level BPF:
-   ret #-1
-   drop: ret #0
- 
--**(Accelerated) VLAN w/ id 10**::
--
--  ld vlan_tci
--  jneq #10, drop
--  ret #-1
--  drop: ret #0
--
- **icmp random packet sampling, 1 in 4**::
- 
-   ldh [12]
-@@ -358,6 +351,22 @@ Examples for low-level BPF:
-   bad: ret #0             /* SECCOMP_RET_KILL_THREAD */
-   good: ret #0x7fff0000   /* SECCOMP_RET_ALLOW */
- 
-+Examples for low-level BPF extension:
-+
-+**Packet for interface index 13**::
-+
-+  ld ifidx
-+  jneq #13, drop
-+  ret #-1
-+  drop: ret #0
-+
-+**(Accelerated) VLAN w/ id 10**::
-+
-+  ld vlan_tci
-+  jneq #10, drop
-+  ret #-1
-+  drop: ret #0
-+
- The above example code can be placed into a file (here called "foo"), and
- then be passed to the bpf_asm tool for generating opcodes, output that xt_bpf
- and cls_bpf understands and can directly be loaded with. Example with above
+[...]
+
+> >
+> > I don't care about OP-TEE. If you are proposing a contract between S
+> > and NS, it has to be TEE and OS independent. That's how the
+> > architecture works.
+> >
+> 
+> Agree, here we are not proposing a common contract among the S and NS
+> world that every TEE (based on Arm TrustZone) will use to communicate
+> with REE (Linux in our case) but rather an OP-TEE specific
+> notifications feature that is built on top of OP-TEE specific ABIs.
+> 
+> And I can see your arguments coming from an FFA perspective but there
+> are platforms like the ones based on Armv7 which don't support FFA
+> ABI. Maybe Jens can elaborate how this feature will fit in when FFA
+> comes into picture?
+>
+
+I can understand that but won't those platforms add the support both in
+the kernel(current series) and secure world to address notifications.
+While you could argue that it is small extension to what is already present
+but I prefer they support FF-A is they need such a support instead of adding
+custom mechanisms. It is hard to maintain and each vendor will deviate
+from this custom mechanism and soon we will have bunch of them to handle.
+
+> > > >
+> > > > In general, cross world SGIs are a really bad idea. Yes, some people
+> > > > like them. I still think they are misguided, and I don't intend to
+> > > > provide a generic request interface for this.
+> > >
+> > > Okay, as I mentioned above having it specific to OP-TEE driver
+> > > requesting secure world donated SGI would work for you?
+> >
+> > No. I want a proper architecture between secure and non-secure that
+> > explain how messages are conveyed between the two world, how
+> > signalling is done, how CPU PM is handled, how targeting is
+> > negotiated. And at the end of the day, this is starting to look a lot
+> > like FFA.
+> 
+> AFAIK when FFA comes in picture than OP-TEE will use the standard
+> interface provided by FFA ABIs but if FFA isn't supported by a
+> particular platform (eg. based on Armv7) then we need to rely on TEE
+> specific ABI like what OP-TEE currently provides:
+>
+
+Who are asking for this ? Can we ask them to migrate to FF-A if this
+(new) notification support is needed on their platforms ? It is help to
+know the requesters so that they can be included in FF-A spec discussions.
+
+> > that. You'll even get to keep the pieces once it breaks. But if you
+> > are going to invent a new universal way of signalling things across
+> > world, you'd better start specifying things the right way, taking into
+> > considerations systems where the interrupt controller doesn't allow
+> > cross-world signalling.
+> 
+> As I mentioned above, this patch-set adds an OP-TEE specific
+> notifications feature. AFAIK, the interrupt controllers supported by
+> OP-TEE (GICv2, GICv3 etc.) don't restrict cross-world signaling.
+> 
+> So given the explanation above, if you still think requesting an SGI
+> as an IRQ by drivers isn't allowed then I am fine with the approach
+> that Jens has already implemented in this patch-set to use platform
+> specific SPI.
+>
+
+And I assume these platforms in question have SPI to spare and way to
+trigger it from secure world ?
+
 -- 
-2.17.1
-
+Regards,
+Sudeep
