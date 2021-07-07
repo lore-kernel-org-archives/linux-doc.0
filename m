@@ -2,998 +2,398 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05290C11F67
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 07:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C83E4C07E9B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 07:40:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E781C61CBD
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 07:32:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA0DF61CAA
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 07:40:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230460AbhGGHfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 03:35:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29305 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230437AbhGGHfI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 03:35:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625643147;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cVU9vViBtvJhYv1KRFf9lrOXSMIiIWkNd7Cu4OdiuhE=;
-        b=B1pu/Opcm1J13mNfAZalaUNaSPw64EemmDN7sDg4izB1CDIrMgMjuQOtyWsCgltK9Y5/Mr
-        lxQ2GS0d3WFobSvIW/SSjfQl4bd1Vcv5bp82I5L9xEkfncjNPWlnBntcUk8PX8IRhebh67
-        xvDDIAjhY3/cNPI7XMetULq+bOtAT08=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-RD8cukqaOJ6TyBNJgts6nQ-1; Wed, 07 Jul 2021 03:32:26 -0400
-X-MC-Unique: RD8cukqaOJ6TyBNJgts6nQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378D7800C78;
-        Wed,  7 Jul 2021 07:32:24 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-110.ams2.redhat.com [10.36.114.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4BE4060CC9;
-        Wed,  7 Jul 2021 07:32:20 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S230405AbhGGHnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 03:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230416AbhGGHnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 03:43:24 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379F3C061574
+        for <linux-doc@vger.kernel.org>; Wed,  7 Jul 2021 00:40:41 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id k8so1507880lja.4
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 00:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=2jS+Jr9b8OKBIyX32NdISqNkr3OWloJmB3rOqgoGhIw=;
+        b=CDmVfD4ybOot8KAlT7bGErknSWRx3PkY25UXmMAzCZ37aKEj0HXnFbWVJxo2y6OqhA
+         YJQvDuKiTDp1/gi3jDfdf94AGBe6YUM0b4WCDUiU4oSiJX3ZR9ASMYfagtuZK0DOWGKm
+         U2vKUMeXBhzhAWMQcjt4c4q8LOrYSnqOJCdEFJb+eGdKQVF94g6NhadIoCpvi/5Ym4ea
+         R7AYTiq4uLWqpgwXVFjpeUWfXnu38AWbDi/qtt9o4D595yaWGwJXsKVeg+xzdHptkVR9
+         dbXb/HVdJRIZybLT/k6m7IF/GKtEMVHRcajpSJkvNlq8wdecAFXvvo3F/zjzXvKZPQhA
+         Zlfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=2jS+Jr9b8OKBIyX32NdISqNkr3OWloJmB3rOqgoGhIw=;
+        b=e5TJr+yHu5ImYc2+cQGWsIx+Z1n/JbqeRGIUwOQZZbWCQp5ECP0NoVyKyw5H7WvkBm
+         igWs5nAO/Ohnk0eowpHQY6eyZl02Hba0H0G1qPjiYytfh9euTqkRVC9sO/RmX2iXcpfr
+         HLbl9zc7R4b5eLuQKckczPpP49ge5SZjkkcUj3ghyER3Dn7h8oNBBlDo2G3nuP0/jGaS
+         eE5HObmM8WVBOvTg0QdGEM3p/E8X5iEm/vtNiMpBIDzQ5V9fzJZx/Prsevt8RZuRER5s
+         COgrOo+MO2v8JgcbjQxHvyPx6D8gJcYETpCD1G3qGZIiQkmy5m8LRErQ9cy1YU0+cjBc
+         FxVw==
+X-Gm-Message-State: AOAM531fC8VHOGY/QZT6HRUAZ9Y89bAJ1yNRfNj4OaZID+dqqyHOpN1l
+        TS870ASkw2ZmBSquaZLQpQs=
+X-Google-Smtp-Source: ABdhPJyPQv/sda2SsBMMSrBXj/aWrkv8RYw05NFw5KE+8p19w2amKpvLujKnK/aOmlvUHYwNiMgHAA==
+X-Received: by 2002:a2e:990a:: with SMTP id v10mr14832846lji.337.1625643639438;
+        Wed, 07 Jul 2021 00:40:39 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id z11sm327649lfd.90.2021.07.07.00.40.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 00:40:38 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 10:40:27 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Roland Scheidegger <sroland@vmware.com>,
+        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
+        Eric Anholt <eric@anholt.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Steven Price <steven.price@arm.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH resend v3 2/2] memory-hotplug.rst: complete admin-guide overhaul
-Date:   Wed,  7 Jul 2021 09:32:05 +0200
-Message-Id: <20210707073205.3835-3-david@redhat.com>
-In-Reply-To: <20210707073205.3835-1-david@redhat.com>
-References: <20210707073205.3835-1-david@redhat.com>
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+        Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210707104027.00d71abe@eldfell>
+In-Reply-To: <20210706164241.ghd56546murmwnit@gilmour>
+References: <20210616143842.632829-1-maxime@cerno.tech>
+        <20210617112036.7373fdab@eldfell>
+        <20210706085202.6o4fapfmq7osj5wf@gilmour>
+        <20210706123723.6194abc5@eldfell>
+        <20210706164241.ghd56546murmwnit@gilmour>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: multipart/signed; boundary="Sig_/Q22lv/4vTAmYozlFte/Yu=C";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The memory hot(un)plug documentation is outdated and incomplete. Most of
-the content dates back to 2007, so it's time for a major overhaul.
+--Sig_/Q22lv/4vTAmYozlFte/Yu=C
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Let's rewrite, reorganize and update most parts of the documentation. In
-addition to memory hot(un)plug, also add some details regarding
-ZONE_MOVABLE, with memory hotunplug being one of its main consumers.
+On Tue, 6 Jul 2021 18:42:41 +0200
+Maxime Ripard <maxime@cerno.tech> wrote:
 
-Drop the file history, that information can more reliably be had from
-the git log.
+> On Tue, Jul 06, 2021 at 12:37:23PM +0300, Pekka Paalanen wrote:
+> > > > > +- It must provide a generic helper in the core code to register =
+that
+> > > > > +  property on the object it attaches to.
+> > > > > +
+> > > > > +- Its content must be decoded by the core and provided in the ob=
+ject's
+> > > > > +  associated state structure. That includes anything drivers mig=
+ht want to
+> > > > > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>=
+` for planes.
+> > > > > +
+> > > > > +- An IGT test must be submitted where reasonable.   =20
+> > > >=20
+> > > > Would it be too much to replace "where reasonable" with "if it is at
+> > > > all possible to write a test."?
+> > > >    =20
+> > > > > +   =20
+> > > >=20
+> > > > How about adding the following somewhere?
+> > > >=20
+> > > > - The initial state of the property (set during driver initializati=
+on)
+> > > >   must match how the driver+hardware behaved before introducing this
+> > > >   property. It may be some fixed value or it may be inherited from =
+e.g.
+> > > >   the firmware that booted the system. How the initial state is
+> > > >   determined must also be documented, that is, where does it come f=
+rom.
+> > > >=20
+> > > > The initial state must not be called "default", because I want to
+> > > > reserve the term default for something else if possible: the phrase
+> > > > "reset everything to defaults", which is a whole another discussion=
+.   =20
+> > >=20
+> > > I've taken into account your previous comments, thanks
+> > >  =20
+> > > > How about also saying that fbcon/fbdev must set this property when
+> > > > taking over? That sounds to be like a common omission leading to fu=
+nky
+> > > > KMS state in fbcon. The value fbdev sets it to only needs to make
+> > > > sense to fbdev, and it does not need to be ~~the initial value~~ no=
+r the
+> > > > default value. Or are we hoping to kill fbcon in favor of a userspa=
+ce
+> > > > kmscon soon? ;-)
+> > > >=20
+> > > > Ooh, maybe the KMS property documentation should also say what value
+> > > > fbdev will set the property to. That's kind of UABI, because usersp=
+ace
+> > > > probably implicitly relies on it in many cases. ...which means fbdev
+> > > > should set the property to its initial value, otherwise userspace w=
+ill
+> > > > break.   =20
+> > >=20
+> > > I'm not sure about this one: fbdev and fbcon are still optional featu=
+res
+> > > of the kernel and can be disabled at the user discretion. Having any
+> > > part of the user-space rely on the fbdev behavior seems a bit broken,
+> > > especially when we have a mechanism to retrieve the state when the
+> > > application starts. =20
+> >=20
+> > yes, exactly that is why fbdev/fbcon should reset the properties to
+> > their initial values. You would not want userspace inheriting a
+> > different KMS state with vs. without fbcon when it starts. =20
+>=20
+> I'm not sure I'm following you when fbdev/fbcon should reset these
+> properties. When a master takes over?
 
-The style of the document is also properly fixed that e.g., "restview"
-renders it cleanly now.
+Hi,
 
-In the future, we might add some more details about virt users like
-virtio-mem, the XEN balloon, the Hyper-V balloon and ppc64 dlpar.
+when fbcon/fbdev takes over. If it doesn't reset things like GAMMA
+LUT, it's possible it won't be readable even though nothing fails.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Muchun Song <songmuchun@bytedance.com>
-Cc: Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- .../admin-guide/mm/memory-hotplug.rst         | 761 +++++++++++-------
- 1 file changed, 455 insertions(+), 306 deletions(-)
+(Let's say you fumble with an xrandr incantation and manage to set a
+LUT that turns everything into a single shade of green or something.
+How do you recover?)
 
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index a783cf7c8e4c..03dfbc925252 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -1,427 +1,576 @@
- .. _admin_guide_memory_hotplug:
- 
--==============
--Memory Hotplug
--==============
-+==================
-+Memory Hot(Un)Plug
-+==================
- 
--:Created:							Jul 28 2007
--:Updated: Add some details about locking internals:		Aug 20 2018
--
--This document is about memory hotplug including how-to-use and current status.
--Because Memory Hotplug is still under development, contents of this text will
--be changed often.
-+This document describes generic Linux support for memory hot(un)plug with
-+a focus on System RAM, including ZONE_MOVABLE support.
- 
- .. contents:: :local:
- 
--.. note::
-+Introduction
-+============
- 
--    (1) x86_64's has special implementation for memory hotplug.
--        This text does not describe it.
--    (2) This text assumes that sysfs is mounted at ``/sys``.
-+Memory hot(un)plug allows for increasing and decreasing the size of physical
-+memory available to a machine at runtime. In the simplest case, it consists of
-+physically plugging or unplugging a DIMM at runtime, coordinated with the
-+operating system.
- 
-+Memory hot(un)plug is used for various purposes:
- 
--Introduction
--============
-+- The physical memory available to a machine can be adjusted at runtime, up- or
-+  downgrading the memory capacity. This dynamic memory resizing, sometimes
-+  referred to as "capacity on demand", is frequently used with virtual machines
-+  and logical partitions.
-+
-+- Replacing hardware, such as DIMMs or whole NUMA nodes, without downtime. One
-+  example is replacing failing memory modules.
- 
--Purpose of memory hotplug
---------------------------
-+- Reducing energy consumption either by physically unplugging memory modules or
-+  by logically unplugging (parts of) memory modules from Linux.
- 
--Memory Hotplug allows users to increase/decrease the amount of memory.
--Generally, there are two purposes.
-+Further, the basic memory hot(un)plug infrastructure in Linux is nowadays also
-+used to expose persistent memory, other performance-differentiated memory and
-+reserved memory regions as ordinary system RAM to Linux.
- 
--(A) For changing the amount of memory.
--    This is to allow a feature like capacity on demand.
--(B) For installing/removing DIMMs or NUMA-nodes physically.
--    This is to exchange DIMMs/NUMA-nodes, reduce power consumption, etc.
-+Linux only supports memory hot(un)plug on selected 64 bit architectures, such as
-+x86_64, arm64, ppc64, s390x and ia64.
- 
--(A) is required by highly virtualized environments and (B) is required by
--hardware which supports memory power management.
-+Memory Hot(Un)Plug Granularity
-+------------------------------
- 
--Linux memory hotplug is designed for both purpose.
-+Memory hot(un)plug in Linux uses the SPARSEMEM memory model, which divides the
-+physical memory address space into chunks of the same size: memory sections. The
-+size of a memory section is architecture dependent. For example, x86_64 uses
-+128 MiB and ppc64 uses 16 MiB.
- 
--Phases of memory hotplug
-+Memory sections are combined into chunks referred to as "memory blocks". The
-+size of a memory block is architecture dependent and corresponds to the smallest
-+granularity that can be hot(un)plugged. The default size of a memory block is
-+the same as memory section size, unless an architecture specifies otherwise.
-+
-+All memory blocks have the same size.
-+
-+Phases of Memory Hotplug
- ------------------------
- 
--There are 2 phases in Memory Hotplug:
-+Memory hotplug consists of two phases:
- 
--  1) Physical Memory Hotplug phase
--  2) Logical Memory Hotplug phase.
-+(1) Adding the memory to Linux
-+(2) Onlining memory blocks
- 
--The First phase is to communicate hardware/firmware and make/erase
--environment for hotplugged memory. Basically, this phase is necessary
--for the purpose (B), but this is good phase for communication between
--highly virtualized environments too.
-+In the first phase, metadata, such as the memory map ("memmap") and page tables
-+for the direct mapping, is allocated and initialized, and memory blocks are
-+created; the latter also creates sysfs files for managing newly created memory
-+blocks.
- 
--When memory is hotplugged, the kernel recognizes new memory, makes new memory
--management tables, and makes sysfs files for new memory's operation.
-+In the second phase, added memory is exposed to the page allocator. After this
-+phase, the memory is visible in memory statistics, such as free and total
-+memory, of the system.
- 
--If firmware supports notification of connection of new memory to OS,
--this phase is triggered automatically. ACPI can notify this event. If not,
--"probe" operation by system administration is used instead.
--(see :ref:`memory_hotplug_physical_mem`).
-+Phases of Memory Hotunplug
-+--------------------------
- 
--Logical Memory Hotplug phase is to change memory state into
--available/unavailable for users. Amount of memory from user's view is
--changed by this phase. The kernel makes all memory in it as free pages
--when a memory range is available.
-+Memory hotunplug consists of two phases:
- 
--In this document, this phase is described as online/offline.
-+(1) Offlining memory blocks
-+(2) Removing the memory from Linux
- 
--Logical Memory Hotplug phase is triggered by write of sysfs file by system
--administrator. For the hot-add case, it must be executed after Physical Hotplug
--phase by hand.
--(However, if you writes udev's hotplug scripts for memory hotplug, these
--phases can be execute in seamless way.)
-+In the fist phase, memory is "hidden" from the page allocator again, for
-+example, by migrating busy memory to other memory locations and removing all
-+relevant free pages from the page allocator After this phase, the memory is no
-+longer visible in memory statistics of the system.
- 
--Unit of Memory online/offline operation
-----------------------------------------
-+In the second phase, the memory blocks are removed and metadata is freed.
- 
--Memory hotplug uses SPARSEMEM memory model which allows memory to be divided
--into chunks of the same size. These chunks are called "sections". The size of
--a memory section is architecture dependent. For example, power uses 16MiB, ia64
--uses 1GiB.
-+Memory Hotplug Notifications
-+============================
- 
--Memory sections are combined into chunks referred to as "memory blocks". The
--size of a memory block is architecture dependent and represents the logical
--unit upon which memory online/offline operations are to be performed. The
--default size of a memory block is the same as memory section size unless an
--architecture specifies otherwise. (see :ref:`memory_hotplug_sysfs_files`.)
-+There are various ways how Linux is notified about memory hotplug events such
-+that it can start adding hotplugged memory. This description is limited to
-+systems that support ACPI; mechanisms specific to other firmware interfaces or
-+virtual machines are not described.
- 
--To determine the size (in bytes) of a memory block please read this file::
-+ACPI Notifications
-+------------------
- 
--  /sys/devices/system/memory/block_size_bytes
-+Platforms that support ACPI, such as x86_64, can support memory hotplug
-+notifications via ACPI.
- 
--Kernel Configuration
--====================
-+In general, a firmware supporting memory hotplug defines a memory class object
-+HID "PNP0C80". When notified about hotplug of a new memory device, the ACPI
-+driver will hotplug the memory to Linux.
- 
--To use memory hotplug feature, kernel must be compiled with following
--config options.
-+If the firmware supports hotplug of NUMA nodes, it defines an object _HID
-+"ACPI0004", "PNP0A05", or "PNP0A06". When notified about an hotplug event, all
-+assigned memory devices are added to Linux by the ACPI driver.
- 
--- For all memory hotplug:
--    - Memory model -> Sparse Memory  (``CONFIG_SPARSEMEM``)
--    - Allow for memory hot-add       (``CONFIG_MEMORY_HOTPLUG``)
-+Similarly, Linux can be notified about requests to hotunplug a memory device or
-+a NUMA node via ACPI. The ACPI driver will try offlining all relevant memory
-+blocks, and, if successful, hotunplug the memory from Linux.
- 
--- To enable memory removal, the following are also necessary:
--    - Allow for memory hot remove    (``CONFIG_MEMORY_HOTREMOVE``)
--    - Page Migration                 (``CONFIG_MIGRATION``)
-+Manual Probing
-+--------------
- 
--- For ACPI memory hotplug, the following are also necessary:
--    - Memory hotplug (under ACPI Support menu) (``CONFIG_ACPI_HOTPLUG_MEMORY``)
--    - This option can be kernel module.
-+On some architectures, the firmware may not be able to notify the operating
-+system about a memory hotplug event. Instead, the memory has to be manually
-+probed from user space.
- 
--- As a related configuration, if your box has a feature of NUMA-node hotplug
--  via ACPI, then this option is necessary too.
-+The probe interface is located at::
- 
--    - ACPI0004,PNP0A05 and PNP0A06 Container Driver (under ACPI Support menu)
--      (``CONFIG_ACPI_CONTAINER``).
-+	/sys/devices/system/memory/probe
- 
--     This option can be kernel module too.
-+Only complete memory blocks can be probed. Individual memory blocks are probed
-+by providing the physical start address of the memory block::
- 
-+	% echo addr > /sys/devices/system/memory/probe
- 
--.. _memory_hotplug_sysfs_files:
-+Which results in a memory block for the range [addr, addr + memory_block_size)
-+being created.
- 
--sysfs files for memory hotplug
--==============================
-+.. note::
- 
--All memory blocks have their device information in sysfs.  Each memory block
--is described under ``/sys/devices/system/memory`` as::
-+  Using the probe interface is discouraged as it is easy to crash the kernel,
-+  because Linux cannot validate user input; this interface might be removed in
-+  the future.
- 
--	/sys/devices/system/memory/memoryXXX
-+Onlining and Offlining Memory Blocks
-+====================================
- 
--where XXX is the memory block id.
-+After a memory block has been created, Linux has to be instructed to actually
-+make use of that memory: the memory block has to be "online".
- 
--For the memory block covered by the sysfs directory.  It is expected that all
--memory sections in this range are present and no memory holes exist in the
--range. Currently there is no way to determine if there is a memory hole, but
--the existence of one should not affect the hotplug capabilities of the memory
--block.
-+Before a memory block can be removed, Linux has to stop using any memory part of
-+the memory block: the memory block has to be "offlined".
- 
--For example, assume 1GiB memory block size. A device for a memory starting at
--0x100000000 is ``/sys/device/system/memory/memory4``::
-+The Linux kernel can be configured to automatically online added memory blocks
-+and drivers automatically trigger offlining of memory blocks when trying
-+hotunplug of memory. Memory blocks can only be removed once offlining succeeded
-+and drivers may trigger offlining of memory blocks when attempting hotunplug of
-+memory.
- 
--	(0x100000000 / 1Gib = 4)
-+Onlining Memory Blocks Manually
-+-------------------------------
- 
--This device covers address range [0x100000000 ... 0x140000000)
-+If auto-onlining of memory blocks isn't enabled, user-space has to manually
-+trigger onlining of memory blocks. Often, udev rules are used to automate this
-+task in user space.
- 
--Under each memory block, you can see 5 files:
-+Onlining of a memory block can be triggered via::
- 
--- ``/sys/devices/system/memory/memoryXXX/phys_index``
--- ``/sys/devices/system/memory/memoryXXX/phys_device``
--- ``/sys/devices/system/memory/memoryXXX/state``
--- ``/sys/devices/system/memory/memoryXXX/removable``
--- ``/sys/devices/system/memory/memoryXXX/valid_zones``
-+	% echo online > /sys/devices/system/memory/memoryXXX/state
- 
--=================== ============================================================
--``phys_index``      read-only and contains memory block id, same as XXX.
--``state``           read-write
-+Or alternatively::
- 
--                    - at read:  contains online/offline state of memory.
--                    - at write: user can specify "online_kernel",
-+	% echo 1 > /sys/devices/system/memory/memoryXXX/online
- 
--                    "online_movable", "online", "offline" command
--                    which will be performed on all sections in the block.
--``phys_device``	    read-only: legacy interface only ever used on s390x to
--		    expose the covered storage increment.
--``removable``	    read-only: legacy interface that indicated whether a memory
--		    block was likely to be offlineable or not.  Newer kernel
--		    versions return "1" if and only if the kernel supports
--		    memory offlining.
--``valid_zones``     read-only: designed to show by which zone memory provided by
--		    a memory block is managed, and to show by which zone memory
--		    provided by an offline memory block could be managed when
--		    onlining.
--
--		    The first column shows it`s default zone.
--
--		    "memory6/valid_zones: Normal Movable" shows this memoryblock
--		    can be onlined to ZONE_NORMAL by default and to ZONE_MOVABLE
--		    by online_movable.
--
--		    "memory7/valid_zones: Movable Normal" shows this memoryblock
--		    can be onlined to ZONE_MOVABLE by default and to ZONE_NORMAL
--		    by online_kernel.
--=================== ============================================================
-+The kernel will select the target zone automatically, usually defaulting to
-+``ZONE_NORMAL`` unless ``movablecore=1`` has been specified on the kernel
-+command line or if the memory block would intersect the ZONE_MOVABLE already.
- 
--.. note::
-+One can explicitly request to associate an offline memory block with
-+ZONE_MOVABLE by::
- 
--  These directories/files appear after physical memory hotplug phase.
-+	% echo online_movable > /sys/devices/system/memory/memoryXXX/state
- 
--If CONFIG_NUMA is enabled the memoryXXX/ directories can also be accessed
--via symbolic links located in the ``/sys/devices/system/node/node*`` directories.
-+Or one can explicitly request a kernel zone (usually ZONE_NORMAL) by::
- 
--For example::
-+	% echo online_kernel > /sys/devices/system/memory/memoryXXX/state
- 
--	/sys/devices/system/node/node0/memory9 -> ../../memory/memory9
-+In any case, if onlining succeeds, the state of the memory block is changed to
-+be "online". If it fails, the state of the memory block will remain unchanged
-+and the above commands will fail.
- 
--A backlink will also be created::
-+Onlining Memory Blocks Automatically
-+------------------------------------
- 
--	/sys/devices/system/memory/memory9/node0 -> ../../node/node0
-+The kernel can be configured to try auto-onlining of newly added memory blocks.
-+If this feature is disabled, the memory blocks will stay offline until
-+explicitly onlined from user space.
- 
--.. _memory_hotplug_physical_mem:
-+The configured auto-online behavior can be observed via::
- 
--Physical memory hot-add phase
--=============================
-+	% cat /sys/devices/system/memory/auto_online_blocks
- 
--Hardware(Firmware) Support
----------------------------
-+Auto-onlining can be enabled by writing ``online``, ``online_kernel`` or
-+``online_movable`` to that file, like::
- 
--On x86_64/ia64 platform, memory hotplug by ACPI is supported.
-+	% echo online > /sys/devices/system/memory/auto_online_blocks
- 
--In general, the firmware (ACPI) which supports memory hotplug defines
--memory class object of _HID "PNP0C80". When a notify is asserted to PNP0C80,
--Linux's ACPI handler does hot-add memory to the system and calls a hotplug udev
--script. This will be done automatically.
-+Modifying the auto-online behavior will only affect all subsequently added
-+memory blocks only.
- 
--But scripts for memory hotplug are not contained in generic udev package(now).
--You may have to write it by yourself or online/offline memory by hand.
--Please see :ref:`memory_hotplug_how_to_online_memory` and
--:ref:`memory_hotplug_how_to_offline_memory`.
-+.. note::
- 
--If firmware supports NUMA-node hotplug, and defines an object _HID "ACPI0004",
--"PNP0A05", or "PNP0A06", notification is asserted to it, and ACPI handler
--calls hotplug code for all of objects which are defined in it.
--If memory device is found, memory hotplug code will be called.
-+  In corner cases, auto-onlining can fail. The kernel won't retry. Note that
-+  auto-onlining is not expected to fail in default configurations.
- 
--Notify memory hot-add event by hand
-------------------------------------
-+.. note::
- 
--On some architectures, the firmware may not notify the kernel of a memory
--hotplug event.  Therefore, the memory "probe" interface is supported to
--explicitly notify the kernel.  This interface depends on
--CONFIG_ARCH_MEMORY_PROBE and can be configured on powerpc, sh, and x86
--if hotplug is supported, although for x86 this should be handled by ACPI
--notification.
-+  DLPAR on ppc64 ignores the ``offline`` setting and will still online added
-+  memory blocks; if onlining fails, memory blocks are removed again.
- 
--Probe interface is located at::
-+Offlining Memory Blocks
-+-----------------------
- 
--	/sys/devices/system/memory/probe
-+In the current implementation, Linux's memory offlining will try migrating all
-+movable pages off the affected memory block. As most kernel allocations, such as
-+page tables, are unmovable, page migration can fail and, therefore, inhibit
-+memory offlining from succeeding.
- 
--You can tell the physical address of new memory to the kernel by::
-+Having the memory provided by memory block managed by ZONE_MOVABLE significantly
-+increases memory offlining reliability; still, memory offlining can fail in
-+some corner cases.
- 
--	% echo start_address_of_new_memory > /sys/devices/system/memory/probe
-+Further, memory offlining might retry for a long time (or even forever), until
-+aborted by the user.
- 
--Then, [start_address_of_new_memory, start_address_of_new_memory +
--memory_block_size] memory range is hot-added. In this case, hotplug script is
--not called (in current implementation). You'll have to online memory by
--yourself.  Please see :ref:`memory_hotplug_how_to_online_memory`.
-+Offlining of a memory block can be triggered via::
- 
--Logical Memory hot-add phase
--============================
-+	% echo offline > /sys/devices/system/memory/memoryXXX/state
- 
--State of memory
-----------------
-+Or alternatively::
- 
--To see (online/offline) state of a memory block, read 'state' file::
-+	% echo 0 > /sys/devices/system/memory/memoryXXX/online
- 
--	% cat /sys/device/system/memory/memoryXXX/state
-+If offlining succeeds, the state of the memory block is changed to be "offline".
-+If it fails, the state of the memory block will remain unchanged and the above
-+commands will fail, for example, via::
- 
-+	bash: echo: write error: Device or resource busy
- 
--- If the memory block is online, you'll read "online".
--- If the memory block is offline, you'll read "offline".
-+or via::
- 
-+	bash: echo: write error: Invalid argument
- 
--.. _memory_hotplug_how_to_online_memory:
-+Observing the State of Memory Blocks
-+------------------------------------
- 
--How to online memory
----------------------
-+The state (online/offline/going-offline) of a memory block can be observed
-+either via::
- 
--When the memory is hot-added, the kernel decides whether or not to "online"
--it according to the policy which can be read from "auto_online_blocks" file::
-+	% cat /sys/device/system/memory/memoryXXX/state
- 
--	% cat /sys/devices/system/memory/auto_online_blocks
-+Or alternatively (1/0) via::
- 
--The default depends on the CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel config
--option. If it is disabled the default is "offline" which means the newly added
--memory is not in a ready-to-use state and you have to "online" the newly added
--memory blocks manually. Automatic onlining can be requested by writing "online"
--to "auto_online_blocks" file::
-+	% cat /sys/device/system/memory/memoryXXX/online
- 
--	% echo online > /sys/devices/system/memory/auto_online_blocks
-+For an online memory block, the managing zone can be observed via::
- 
--This sets a global policy and impacts all memory blocks that will subsequently
--be hotplugged. Currently offline blocks keep their state. It is possible, under
--certain circumstances, that some memory blocks will be added but will fail to
--online. User space tools can check their "state" files
--(``/sys/devices/system/memory/memoryXXX/state``) and try to online them manually.
-+	% cat /sys/device/system/memory/memoryXXX/valid_zones
- 
--If the automatic onlining wasn't requested, failed, or some memory block was
--offlined it is possible to change the individual block's state by writing to the
--"state" file::
-+Configuring Memory Hot(Un)Plug
-+==============================
- 
--	% echo online > /sys/devices/system/memory/memoryXXX/state
-+There are various ways how system administrators can configure memory
-+hot(un)plug and interact with memory blocks, especially, to online them.
- 
--This onlining will not change the ZONE type of the target memory block,
--If the memory block doesn't belong to any zone an appropriate kernel zone
--(usually ZONE_NORMAL) will be used unless movable_node kernel command line
--option is specified when ZONE_MOVABLE will be used.
-+Memory Hot(Un)Plug Configuration via Sysfs
-+------------------------------------------
- 
--You can explicitly request to associate it with ZONE_MOVABLE by::
-+Some memory hot(un)plug properties can be configured or inspected via sysfs in::
- 
--	% echo online_movable > /sys/devices/system/memory/memoryXXX/state
-+	/sys/devices/system/memory/
- 
--.. note:: current limit: this memory block must be adjacent to ZONE_MOVABLE
-+The following files are currently defined:
- 
--Or you can explicitly request a kernel zone (usually ZONE_NORMAL) by::
-+====================== =========================================================
-+``auto_online_blocks`` read-write: set or get the default state of new memory
-+		       blocks; configure auto-onlining.
- 
--	% echo online_kernel > /sys/devices/system/memory/memoryXXX/state
-+		       The default value depends on the
-+		       CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel configuration
-+		       option.
- 
--.. note:: current limit: this memory block must be adjacent to ZONE_NORMAL
-+		       See the ``state`` property of memory blocks for details.
-+``block_size_bytes``   read-only: the size in bytes of a memory block.
-+``probe``	       write-only: add (probe) selected memory blocks manually
-+		       from user space by supplying the physical start address.
- 
--An explicit zone onlining can fail (e.g. when the range is already within
--and existing and incompatible zone already).
-+		       Availability depends on the CONFIG_ARCH_MEMORY_PROBE
-+		       kernel configuration option.
-+``uevent``	       read-write: generic udev file for device subsystems.
-+====================== =========================================================
- 
--After this, memory block XXX's state will be 'online' and the amount of
--available memory will be increased.
-+.. note::
- 
--This may be changed in future.
-+  When the CONFIG_MEMORY_FAILURE kernel configuration option is enabled, two
-+  additional files ``hard_offline_page`` and ``soft_offline_page`` are available
-+  to trigger hwpoisoning of pages, for example, for testing purposes. Note that
-+  this functionality is not really related to memory hot(un)plug or actual
-+  offlining of memory blocks.
- 
--Logical memory remove
--=====================
-+Memory Block Configuration via Sysfs
-+------------------------------------
- 
--Memory offline and ZONE_MOVABLE
---------------------------------
-+Each memory block is represented as a memory block device that can be
-+onlined or offlined. All memory blocks have their device information located in
-+sysfs. Each present memory block is listed under
-+``/sys/devices/system/memory`` as::
- 
--Memory offlining is more complicated than memory online. Because memory offline
--has to make the whole memory block be unused, memory offline can fail if
--the memory block includes memory which cannot be freed.
-+	/sys/devices/system/memory/memoryXXX
- 
--In general, memory offline can use 2 techniques.
-+where XXX is the memory block id; the number of digits is variable.
- 
--(1) reclaim and free all memory in the memory block.
--(2) migrate all pages in the memory block.
-+A present memory block indicates that some memory in the range is present;
-+however, a memory block might span memory holes. A memory block spanning memory
-+holes cannot be offlined.
- 
--In the current implementation, Linux's memory offline uses method (2), freeing
--all  pages in the memory block by page migration. But not all pages are
--migratable. Under current Linux, migratable pages are anonymous pages and
--page caches. For offlining a memory block by migration, the kernel has to
--guarantee that the memory block contains only migratable pages.
-+For example, assume 1 GiB memory block size. A device for a memory starting at
-+0x100000000 is ``/sys/device/system/memory/memory4``::
- 
--Now, a boot option for making a memory block which consists of migratable pages
--is supported. By specifying "kernelcore=" or "movablecore=" boot option, you can
--create ZONE_MOVABLE...a zone which is just used for movable pages.
--(See also Documentation/admin-guide/kernel-parameters.rst)
-+	(0x100000000 / 1Gib = 4)
- 
--Assume the system has "TOTAL" amount of memory at boot time, this boot option
--creates ZONE_MOVABLE as following.
-+This device covers address range [0x100000000 ... 0x140000000)
- 
--1) When kernelcore=YYYY boot option is used,
--   Size of memory not for movable pages (not for offline) is YYYY.
--   Size of memory for movable pages (for offline) is TOTAL-YYYY.
-+The following files are currently defined:
- 
--2) When movablecore=ZZZZ boot option is used,
--   Size of memory not for movable pages (not for offline) is TOTAL - ZZZZ.
--   Size of memory for movable pages (for offline) is ZZZZ.
-+=================== ============================================================
-+``online``	    read-write: simplified interface to trigger onlining /
-+		    offlining and to observe the state of a memory block.
-+		    When onlining, the zone is selected automatically.
-+``phys_device``	    read-only: legacy interface only ever used on s390x to
-+		    expose the covered storage increment.
-+``phys_index``	    read-only: the memory block id (XXX).
-+``removable``	    read-only: legacy interface that indicated whether a memory
-+		    block was likely to be offlineable or not. Nowadays, the
-+		    kernel return ``1`` if and only if it supports memory
-+		    offlining.
-+``state``	    read-write: advanced interface to trigger onlining /
-+		    offlining and to observe the state of a memory block.
-+
-+		    When writing, ``online``, ``offline``, ``online_kernel`` and
-+		    ``online_movable`` are supported.
-+
-+		    ``online_movable`` specifies onlining to ZONE_MOVABLE.
-+		    ``online_kernel`` specifies onlining to the default kernel
-+		    zone for the memory block, such as ZONE_NORMAL.
-+                    ``online`` let's the kernel select the zone automatically.
-+
-+		    When reading, ``online``, ``offline`` and ``going-offline``
-+		    may be returned.
-+``uevent``	    read-write: generic uevent file for devices.
-+``valid_zones``     read-only: when a block is online, shows the zone it
-+		    belongs to; when a block is offline, shows what zone will
-+		    manage it when the block will be onlined.
-+
-+		    For online memory blocks, ``DMA``, ``DMA32``, ``Normal``,
-+		    ``Movable`` and ``none`` may be returned. ``none`` indicates
-+		    that memory provided by a memory block is managed by
-+		    multiple zones or spans multiple nodes; such memory blocks
-+		    cannot be offlined. ``Movable`` indicates ZONE_MOVABLE.
-+		    Other values indicate a kernel zone.
-+
-+		    For offline memory blocks, the first column shows the
-+		    zone the kernel would select when onlining the memory block
-+		    right now without further specifying a zone.
-+
-+		    Availability depends on the CONFIG_MEMORY_HOTREMOVE
-+		    kernel configuration option.
-+=================== ============================================================
- 
- .. note::
- 
--   Unfortunately, there is no information to show which memory block belongs
--   to ZONE_MOVABLE. This is TBD.
-+  If the CONFIG_NUMA kernel configuration option is enabled, the memoryXXX/
-+  directories can also be accessed via symbolic links located in the
-+  ``/sys/devices/system/node/node*`` directories.
-+
-+  For example::
-+
-+	/sys/devices/system/node/node0/memory9 -> ../../memory/memory9
-+
-+  A backlink will also be created::
-+
-+	/sys/devices/system/memory/memory9/node0 -> ../../node/node0
-+
-+Command Line Parameters
-+-----------------------
-+
-+Some command line parameters affect memory hot(un)plug handling. The following
-+command line parameters are relevant:
-+
-+======================== =======================================================
-+``memhp_default_state``	 configure auto-onlining by essentially setting
-+                         ``/sys/devices/system/memory/auto_online_blocks``.
-+``movablecore``		 configure automatic zone selection of the kernel. When
-+			 set, the kernel will default to ZONE_MOVABLE, unless
-+			 other zones can be kept contiguous.
-+======================== =======================================================
-+
-+Module Parameters
-+------------------
- 
--   Memory offlining can fail when dissolving a free huge page on ZONE_MOVABLE
--   and the feature of freeing unused vmemmap pages associated with each hugetlb
--   page is enabled.
-+Instead of additional command line parameters or sysfs files, the
-+``memory_hotplug`` subsystem now provides a dedicated namespace for module
-+parameters. Module parameters can be set via the command line by predicating
-+them with ``memory_hotplug.`` such as::
-+
-+	memory_hotplug.memmap_on_memory=1
-+
-+and they can be observed (and some even modified at runtime) via::
-+
-+	/sys/modules/memory_hotplug/parameters/
-+
-+The following module parameters are currently defined:
-+
-+======================== =======================================================
-+``memmap_on_memory``	 read-write: Allocate memory for the memmap from the
-+			 added memory block itself. Even if enabled, actual
-+			 support depends on various other system properties and
-+			 should only be regarded as a hint whether the behavior
-+			 would be desired.
-+
-+			 While allocating the memmap from the memory block
-+			 itself makes memory hotplug less likely to fail and
-+			 keeps the memmap on the same NUMA node in any case, it
-+			 can fragment physical memory in a way that huge pages
-+			 in bigger granularity cannot be formed on hotplugged
-+			 memory.
-+======================== =======================================================
-+
-+ZONE_MOVABLE
-+============
-+
-+ZONE_MOVABLE is an important mechanism for more reliable memory offlining.
-+Further, having system RAM managed by ZONE_MOVABLE instead of one of the
-+kernel zones can increase the number of possible transparent huge pages and
-+dynamically allocated huge pages.
-+
-+Most kernel allocations are unmovable. Important examples include the memory
-+map (usually 1/64ths of memory), page tables, and kmalloc(). Such allocations
-+can only be served from the kernel zones.
-+
-+Most user space pages, such as anonymous memory, and page cache pages are
-+movable. Such allocations can be served from ZONE_MOVABLE and the kernel zones.
-+
-+Only movable allocations are served from ZONE_MOVABLE, resulting in unmovable
-+allocations being limited to the kernel zones. Without ZONE_MOVABLE, there is
-+absolutely no guarantee whether a memory block can be offlined successfully.
-+
-+Zone Imbalances
-+---------------
- 
--   This can happen when we have plenty of ZONE_MOVABLE memory, but not enough
--   kernel memory to allocate vmemmmap pages.  We may even be able to migrate
--   huge page contents, but will not be able to dissolve the source huge page.
--   This will prevent an offline operation and is unfortunate as memory offlining
--   is expected to succeed on movable zones.  Users that depend on memory hotplug
--   to succeed for movable zones should carefully consider whether the memory
--   savings gained from this feature are worth the risk of possibly not being
--   able to offline memory in certain situations.
-+Having too much system RAM managed by ZONE_MOVABLE is called a zone imbalance,
-+which can harm the system or degrade performance. As one example, the kernel
-+might crash because it runs out of free memory for unmovable allocations,
-+although there is still plenty of free memory left in ZONE_MOVABLE.
-+
-+Usually, MOVABLE:KERNEL ratios of up to 3:1 or even 4:1 are fine. Ratios of 63:1
-+are definitely impossible due to the overhead for the memory map.
-+
-+Actual safe zone ratios depend on the workload. Extreme cases, like excessive
-+long-term pinning of pages, might not be able to deal with ZONE_MOVABLE at all.
- 
- .. note::
--   Techniques that rely on long-term pinnings of memory (especially, RDMA and
--   vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
--   hot remove. Pinned pages cannot reside on ZONE_MOVABLE, to guarantee that
--   memory can still get hot removed - be aware that pinning can fail even if
--   there is plenty of free memory in ZONE_MOVABLE. In addition, using
--   ZONE_MOVABLE might make page pinning more expensive, because pages have to be
--   migrated off that zone first.
- 
--.. _memory_hotplug_how_to_offline_memory:
-+  CMA memory part of a kernel zone essentially behaves like memory in
-+  ZONE_MOVABLE and similar considerations apply, especially when combining
-+  CMA with ZONE_MOVABLE.
- 
--How to offline memory
-----------------------
-+ZONE_MOVABLE Sizing Considerations
-+----------------------------------
- 
--You can offline a memory block by using the same sysfs interface that was used
--in memory onlining::
-+We usually expect that a large portion of available system RAM will actually
-+be consumed by user space, either directly or indirectly via the page cache. In
-+the normal case, ZONE_MOVABLE can be used when allocating such pages just fine.
- 
--	% echo offline > /sys/devices/system/memory/memoryXXX/state
-+With that in mind, it makes sense that we can have a big portion of system RAM
-+managed by ZONE_MOVABLE. However, there are some things to consider when using
-+ZONE_MOVABLE, especially when fine-tuning zone ratios:
-+
-+- Having a lot of offline memory blocks. Even offline memory blocks consume
-+  memory for metadata and page tables in the direct map; having a lot of offline
-+  memory blocks is not a typical case, though.
-+
-+- Memory ballooning without balloon compaction is incompatible with
-+  ZONE_MOVABLE. Only some implementations, such as virtio-balloon and
-+  pseries CMM, fully support balloon compaction.
-+
-+  Further, the CONFIG_BALLOON_COMPACTION kernel configuration option might be
-+  disabled. In that case, balloon inflation will only perform unmovable
-+  allocations and silently create a zone imbalance, usually triggered by
-+  inflation requests from the hypervisor.
-+
-+- Gigantic pages are unmovable, resulting in user space consuming a
-+  lot of unmovable memory.
-+
-+- Huge pages are unmovable when an architectures does not support huge
-+  page migration, resulting in a similar issue as with gigantic pages.
-+
-+- Page tables are unmovable. Excessive swapping, mapping extremely large
-+  files or ZONE_DEVICE memory can be problematic, although only really relevant
-+  in corner cases. When we manage a lot of user space memory that has been
-+  swapped out or is served from a file/persistent memory/... we still need a lot
-+  of page tables to manage that memory once user space accessed that memory.
-+
-+- In certain DAX configurations the memory map for the device memory will be
-+  allocated from the kernel zones.
-+
-+- KASAN can have a significant memory overhead, for example, consuming 1/8th of
-+  the total system memory size as (unmovable) tracking metadata.
-+
-+- Long-term pinning of pages. Techniques that rely on long-term pinnings
-+  (especially, RDMA and vfio/mdev) are fundamentally problematic with
-+  ZONE_MOVABLE, and therefore, memory offlining. Pinned pages cannot reside
-+  on ZONE_MOVABLE as that would turn these pages unmovable. Therefore, they
-+  have to be migrated off that zone while pinning. Pinning a page can fail
-+  even if there is plenty of free memory in ZONE_MOVABLE.
-+
-+  In addition, using ZONE_MOVABLE might make page pinning more expensive,
-+  because of the page migration overhead.
-+
-+By default, all the memory configured at boot time is managed by the kernel
-+zones and ZONE_MOVABLE is not used.
-+
-+To enable ZONE_MOVABLE to include the memory present at boot and to control the
-+ratio between movable and kernel zones there are two command line options:
-+``kernelcore=`` and ``movablecore=``. See
-+Documentation/admin-guide/kernel-parameters.rst for their description.
-+
-+Memory Offlining and ZONE_MOVABLE
-+---------------------------------
-+
-+Even with ZONE_MOVABLE, there are some corner cases where offlining a memory
-+block might fail:
-+
-+- Memory blocks with memory holes; this applies to memory blocks present during
-+  boot and can apply to memory blocks hotplugged via the XEN balloon and the
-+  Hyper-V balloon.
-+
-+- Mixed NUMA nodes and mixed zones within a single memory block prevent memory
-+  offlining; this applies to memory blocks present during boot only.
-+
-+- Special memory blocks prevented by the system from getting offlined. Examples
-+  include any memory available during boot on arm64 or memory blocks spanning
-+  the crashkernel area on s390x; this usually applies to memory blocks present
-+  during boot only.
-+
-+- Memory blocks overlapping with CMA areas cannot be offlined, this applies to
-+  memory blocks present during boot only.
-+
-+- Concurrent activity that operates on the same physical memory area, such as
-+  allocating gigantic pages, can result in temporary offlining failures.
-+
-+- Out of memory when dissolving huge pages, especially when freeing unused
-+  vmemmap pages associated with each hugetlb page is enabled.
-+
-+  Offlining code may be able to migrate huge page contents, but may not be able
-+  to dissolve the source huge page because it fails allocating (unmovable) pages
-+  for the vmemmap, because the system might not have free memory in the kernel
-+  zones left.
-+
-+  Users that depend on memory offlining to succeed for movable zones should
-+  carefully consider whether the memory savings gained from this feature are
-+  worth the risk of possibly not being able to offline memory in certain
-+  situations.
-+
-+Further, when running into out of memory situations while migrating pages, or
-+when still encountering permanently unmovable pages within ZONE_MOVABLE
-+(-> BUG), memory offlining will keep retrying until it eventually succeeds.
-+
-+When offlining is triggered from user space, the offlining context can be
-+terminated by sending a fatal signal. A timeout based offlining can easily be
-+implemented via::
- 
--If offline succeeds, the state of the memory block is changed to be "offline".
--If it fails, some error core (like -EBUSY) will be returned by the kernel.
--Even if a memory block does not belong to ZONE_MOVABLE, you can try to offline
--it.  If it doesn't contain 'unmovable' memory, you'll get success.
--
--A memory block under ZONE_MOVABLE is considered to be able to be offlined
--easily.  But under some busy state, it may return -EBUSY. Even if a memory
--block cannot be offlined due to -EBUSY, you can retry offlining it and may be
--able to offline it (or not). (For example, a page is referred to by some kernel
--internal call and released soon.)
--
--Consideration:
--  Memory hotplug's design direction is to make the possibility of memory
--  offlining higher and to guarantee unplugging memory under any situation. But
--  it needs more work. Returning -EBUSY under some situation may be good because
--  the user can decide to retry more or not by himself. Currently, memory
--  offlining code does some amount of retry with 120 seconds timeout.
--
--Physical memory remove
--======================
--
--Need more implementation yet....
-- - Notification completion of remove works by OS to firmware.
-- - Guard from remove if not yet.
--
--
--Future Work
--===========
--
--  - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like
--    sysctl or new control file.
--  - showing memory block and physical device relationship.
--  - test and make it better memory offlining.
--  - support HugeTLB page migration and offlining.
--  - memmap removing at memory offline.
--  - physical remove memory.
-+	% timeout $TIMEOUT offline_block | failure_handling
--- 
-2.31.1
+When a userspace KMS client hands off to another userspace KMS client,
+fbcon/fbdev should not do anything. If it did, that would cause extra
+flicker.
 
+I'm assuming fbcon/fbdev already implement all the necessary
+mechanisms, but they just don't poke at all the KMS properties
+necessary, as is evident from e.g. Michel D=C3=A4nzer's testing seeing wrong
+colors in fbcon after a userspace KMS client changed GAMMA or DEGAMMA
+once.
+
+Handling this properly would offer an escape hatch without reboot when
+something goes wrong in a display server. It's not a fix for userspace
+KMS client handing off to another userspace KMS client, for that we
+need something else.
+
+> If we consider fbdev as any KMS client, isn't it a fundamental change
+> with how it's currently done? I haven't seen anywhere that a compositor
+> (or any client for that matter) should put the KMS device in the same
+> state that it started it with. In case of a crash it would be fairly
+> difficult to achieve.
+
+It has long been agreed IMO but never implemented anywhere AFAIK that a
+userspace KMS client should fully reset the whole KMS state to the KMS
+state it started with when it *comes back* after being switched away. I
+have talked with Daniel Vetter about this several times over the years.
+The problem with resetting the full KMS state is what to do with those
+KMS properties the KMS client does not understand but are exposed by the
+driver.
+
+When a userspace KMS client switches out or quits, what is implemented
+and what should be implemented differs again. I believe that KMS
+clients of today do not change anything, so that the number of modesets
+is minimized. This is sufficient if the KMS client didn't use any less
+commonly used KMS properties. It's also consistent with crash behaviour.
+
+If the KMS client wants to support seamless hand-off to another KMS
+client, the practical approach is "reset everything to the sane KMS
+state except keep the video mode" so that if the next KMS client
+doesn't understand everything, it still works. I don't know if display
+servers care to implement this, or do they just assume switching to
+another instance of themselves in which case they know what the next
+KMS client does. Or maybe the don't even use KMS properties others
+don't use too.
+
+Btw. Xorg understands very few KMS properties by itself I think. It
+just exposes everything via RandR and assumes that whatever X11 clients
+are running, some of them will take care of the KMS properties. So one
+cannot look at Xorg as a single entity, one also needs to look at all
+the different desktop environments and whatever.
+
+Another idea that has come up is that userspace should invent a KMS
+hand-off protocol completely in userspace. I'm not aware of anyone
+working on that. It would allow better smooth KMS hand-off between KMS
+clients, as the current and the next KMS client could negotiate about
+which KMS properties they understand and which need to be reset
+abruptly.
+
+In any case, consensus seems to be that when a KMS client switches back
+in, there are no guarantees at all about the KMS state it inherits at
+that point. Therefore fbcon as a KMS client needs to reset everything.
+People just don't seem to care about fbcon working that much.
+
+There is also the assumption that when a KMS client starts, the KMS
+state it inherits is... "reasonable". This should be true if the KMS
+state is the initial state chosen by a driver, and also if the state
+has been touched by fbcon, because it's not uncommon for fbcon to
+be up before the first KMS userspace client starts. But after the first
+KMS userspace client has started, all bets are practically off for the
+next KMS client starting.
+
+> > Retrieving the current KMS state is useless if the current KMS state is
+> > somehow wonky and the application does not understand that specific KMS
+> > property that is wonky. It cannot set the property to any value other
+> > than it already had without user intervention. =20
+>=20
+> Yeah, that's true. But the same could be said if you switch from one
+> client to the other for example, at the moment there's no guarantee that
+> the first one didn't change a property to a value you don't expect in
+> the second. Unless we manage to tie that somehow to a first open of the
+> device?
+
+As I wrote above, yes, this is an open problem. Fbcon being just a KMS
+client needs a solution like all KMS clients. None of it is a
+regression per se, unless you see adding new KMS properties that
+provoke this problem more as a regression.
+
+The idea I've been pondering about is a flag in atomic commit: instead
+of basing the changes on the current KMS state, start with "the default
+KMS state".
+
+The definition of the default KMS state is tricky, because it should
+not depend on e.g. firmware. So it is not the same as the initial KMS
+state programmed in driver initialization. It needs to be defined
+separately and individually for each KMS property. In my opinion, the
+default KMS state should be defined as everything being off (planes,
+crtcs), disabled (dithering, HDR), pass-through/identity (GAMMA,
+DEGAMMA, CTM), "auto" where that applies and is the initial state, and
+so on. The goal is to make it as neutral and as "off" as possible while
+still giving good chances of letting the simpler KMS clients work
+correctly.
+
+If there was a mechanism for this "reset to default", fbdev could just
+hit it.
+
+There have been opinions that this problem does not need solving,
+because an average Linux user will never switch between arbitrary KMS
+clients. At most, they switch from bootsplash to a login manager, and
+then to a desktop compositor. Bootsplash won't change "advanced" KMS
+state, and the login manager's display server acts as the resetting
+entity as it is maintained to explicitly(?) support all the different
+desktops. If a desktop uses a new KMS property, the login manager is
+updated(?) to reset that property.
+
+Hence I didn't go all the way suggesting in the rules that the default
+state needs to be defined.
+
+And if fbcon is good to leave rotting, then no need to mention that
+either.
+
+> > I'd say fbcon causing all KMS state to be reset is a quality of life
+> > thing. It's possible to live without by rebooting, but it would
+> > certainly make at least developers' and testers' life easier until we
+> > get the real "reset KMS" knob (which fbcon could then use too).
+> >=20
+> > Besides, even if it is broken for userspace to rely on the KMS state
+> > set by fbcon/fbdev, userspace is already doing that and not on purpose
+> > because new KMS properties get added in the kernel. I would bet that
+> > there is not a single userspace program that would actually set all KMS
+> > properties that drivers might expose. So they are depending on
+> > inherited KMS state, which could be left by driver initialization, by
+> > fbdev/fbcon, or by any other userspace.
+> >=20
+> > But yeah, this idea is something new, so don't let this discussion
+> > delay landing the docs. =20
+>=20
+> Ack, I've sent a new version
+
+Thank you!
+pq
+
+--Sig_/Q22lv/4vTAmYozlFte/Yu=C
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDlWmsACgkQI1/ltBGq
+qqeGrQ//a3S09RIccuY+aDIXvjOgkW5V2S5KZyvw6YY1NWuPd4KgbPi4HlNCvQhG
+UkLhZBV0xZA3/4R3B6jSvYpD3dkIM1uW4AwlcD8QwOehcP0j/na32CIS6CZ7qBm4
+2nlhIsB81n8m+8JGMFoFkPsNmhaAEXnZLptcaM83lTsP8ePkxbghpqCbrliB1QdN
+/KNVjD4/hlKvrRQ9i4JlE7sDf89TpwlXBOQVnIz0dpeBGNEKS1rlVr1imLMXeY4x
+Fhbz9I/WkruR8ZYviQMgf63l+uoTmf1xgvE4/yye+B6oIExCJ0EdSyevyWtHkBYj
+Ubs6QezHzrgNZIzCBOU1AAjO7h+VuF6YRW2QNFweVYQZz228ujk6zTll/EIQIjmI
+vfAt2LucE5dXEnSFDwphJm87yk0h9DlPr6KfPrtKULsk7k6ge9tQyLnVbDtLBuMr
+gpTVYlhsXm/Lu57Z2NNepqzcuVksl5JYdyQnkwzSUAlwjIyrng2bcC4cu3Xn+cSD
+dhQ+oH4YqIZSi1905yRJUT6GWW50rvKed0euDx6P/pV6i66VhI+5Rw8UGLzxVVdS
+HGYcLRhlUAofAzMask+BkOm+v+0WP3c7w5IQhYUHC5mJAYsCRa6i9r8bx7lWu9jf
+1+DTFHWz2PRTYAtUj3rg5JiMRH+Y5Xu78SxPN0BlzhvlJHFJRuU=
+=w8KW
+-----END PGP SIGNATURE-----
+
+--Sig_/Q22lv/4vTAmYozlFte/Yu=C--
