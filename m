@@ -2,245 +2,312 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC70C07E95
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 20:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3997C07E9C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 20:09:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E25C61CC8
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 20:00:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA33F61CCD
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 20:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231272AbhGGUDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 16:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbhGGUDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 16:03:19 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 389B7C06175F
-        for <linux-doc@vger.kernel.org>; Wed,  7 Jul 2021 13:00:38 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 65so2850519oie.11
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 13:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=96jWry9WOsdwKu+G0dTVRx+JdimFiJ2QAYFEbiH3H34=;
-        b=RGANX0PGc0mFZu9cqrNOVbTfGn0v+kokDFQAPwfrxJwtPODfB/7BgVckPJVrWeW3aX
-         Zq/e9LoJ0785EJh+wDzA6h31JQ0sQKhf5OC8+6825AOXSTrCQRvNmjr00Qv4QYBChNR1
-         yEToxoe8pidstwnQJpDD7tRYOzkEa8SGd8UWQ=
+        id S233122AbhGGULx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 16:11:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46881 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233117AbhGGULx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 16:11:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1625688552;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=dlshEtXmc0jULoT3N3z0USnZgLOuwGT8Sv+EBVGoygU=;
+        b=AJG2gy1vkoS3umtam0n1LyX9R2skXspuf6lfglh+epckGgmYTyLHDahaLm6THmeyFq9+1D
+        ISMDuCM3CRMosB5lhUfR94C5K2L6hrXYJeMVYVHYnVipJkdhqj9KdsEs5B9sOmCzHeiR5e
+        rrfs+elc9TA5gukwS8Wqzmjl1R82Sv4=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-GWU38CUAN-aFRxp5XGc9xA-1; Wed, 07 Jul 2021 16:09:11 -0400
+X-MC-Unique: GWU38CUAN-aFRxp5XGc9xA-1
+Received: by mail-ot1-f69.google.com with SMTP id i20-20020a9d61140000b0290465533f61a5so2355474otj.12
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 13:09:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=96jWry9WOsdwKu+G0dTVRx+JdimFiJ2QAYFEbiH3H34=;
-        b=TmDCxQG4Pt3xdfkhh6FSgVZfPyx/GLTvd2DAgiql+empTJAvecu3EDU+Qz7C9o9Nl5
-         AcbKN3aEEdhVt0WDcK82v2dxqytpGFAVwi3pwLjvaBe7cbd2hxRXFIDaNDkP5dqlO6Of
-         6OEz5tkZGNPjjaeTNJqds17g+aTUTl8ZNSZnvur7lBXBwY+E+YuXcpM5IxaD0N1lpOuO
-         Jm/phIH1Tpq+q+P3feRLHAYnPQx9ra/06Nh818FKWefazWDn+7cezORJnc/iC/eYrX3H
-         Zu5mw3SnpFbwgloYTlUILUn4vG3VSuCIPefwWLNqQ+CUf/aPzdimOn2ZUtBVSXIhtR+L
-         NHhQ==
-X-Gm-Message-State: AOAM531npJYlT418nxsexTbeYYulQh2k9Su5Mli+E7ewOI2LYzE23988
-        D1cJAJCm4Oe21ohqby3xrGJTHWSWX1Djgw==
-X-Google-Smtp-Source: ABdhPJwl3+ZTy60SKpW9ME+4V3Bgaj2tuP7YwjB8nsklwZhgkl87nFBpC5jqG9XSC8dA/0rpJZ5M6Q==
-X-Received: by 2002:aca:1e07:: with SMTP id m7mr19425292oic.28.1625688037466;
-        Wed, 07 Jul 2021 13:00:37 -0700 (PDT)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com. [209.85.210.45])
-        by smtp.gmail.com with ESMTPSA id y20sm11111oie.40.2021.07.07.13.00.36
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jul 2021 13:00:37 -0700 (PDT)
-Received: by mail-ot1-f45.google.com with SMTP id z18-20020a9d7a520000b02904b28bda1885so1986270otm.7
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 13:00:36 -0700 (PDT)
-X-Received: by 2002:a25:d97:: with SMTP id 145mr35869561ybn.276.1625688024885;
- Wed, 07 Jul 2021 13:00:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dlshEtXmc0jULoT3N3z0USnZgLOuwGT8Sv+EBVGoygU=;
+        b=HTzf0f0PdL3MnPR/zYBZxVpv+DeyzjfGDxzhn6mNTNVkY9uWHubdxnOUABziWvzYQI
+         QN6RM+zeQm0drlFRfV6XTf9SprzvnP4HlSp0islWXr9qVDaE4vIrWSX4ZZvkaea970y2
+         VJ+XUlDmdJ+oBqRSMlbSOosAXRaBryH5kEqTIZ+xMSja/Tww1DaYL/TJ4FxFOrDRWG70
+         fy+h/QAXthNpfwKgkQZokmE4qMPW0aY9mNYEukSd+8+SVlE8dyQoGpMsaEArpiIXVWhA
+         9AikObqYumyw4NX89zPyeXC7AXh2WtrUJ01ZbczoznOYb3vOFtE9Ku+YNdZr8cXGkA+J
+         Cf1A==
+X-Gm-Message-State: AOAM531JWx8zUILRVOMexasS72hEhpTOeu8kHY2Lb7lQ5c8Z1R9uiEQZ
+        nadPXouE36rQWe8R3LjhYV2ipdYaSyOZLvffwLlKMfXiE7xDsOS6ykephJoZ9Ix4YD6veFgtLMb
+        CYpBSWx1BIEqf9lMFv+Lc
+X-Received: by 2002:a9d:7745:: with SMTP id t5mr15270474otl.238.1625688550331;
+        Wed, 07 Jul 2021 13:09:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7qwGWm/U4gW1eYCu8Dc6/bKY7zSqKx7DPkB/Yal/mVK9AoivmyxsN5blfdZNhtsck51EjYA==
+X-Received: by 2002:a9d:7745:: with SMTP id t5mr15270458otl.238.1625688550079;
+        Wed, 07 Jul 2021 13:09:10 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id b80sm28951oii.3.2021.07.07.13.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 13:09:09 -0700 (PDT)
+From:   trix@redhat.com
+To:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: [PATCH] fpga: fpga-mgr: move compat_id from fpga_mgr to dfl
+Date:   Wed,  7 Jul 2021 13:09:02 -0700
+Message-Id: <20210707200902.2014298-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210624171759.4125094-1-dianders@chromium.org>
- <YNXXwvuErVnlHt+s@8bytes.org> <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 7 Jul 2021 13:00:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
-Message-ID: <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
-To:     Joerg Roedel <joro@8bytes.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        John Garry <john.garry@huawei.com>,
-        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
-        Saravana Kannan <saravanak@google.com>,
-        Rajat Jain <rajatja@google.com>,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-pci@vger.kernel.org,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Sonny Rao <sonnyrao@chromium.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jordan Crouse <jordan@cosmicpenguin.net>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+From: Tom Rix <trix@redhat.com>
 
-On Fri, Jun 25, 2021 at 7:42 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Fri, Jun 25, 2021 at 6:19 AM Joerg Roedel <joro@8bytes.org> wrote:
-> >
-> > Hi Douglas,
-> >
-> > On Thu, Jun 24, 2021 at 10:17:56AM -0700, Douglas Anderson wrote:
-> > > The goal of this patch series is to get better SD/MMC performance on
-> > > Qualcomm eMMC controllers and in generally nudge us forward on the
-> > > path of allowing some devices to be in strict mode and others to be in
-> > > non-strict mode.
-> >
-> > So if I understand it right, this patch-set wants a per-device decision
-> > about setting dma-mode to strict vs. non-strict.
-> >
-> > I think we should get to the reason why strict mode is used by default
-> > first. Is the default on ARM platforms to use iommu-strict mode by
-> > default and if so, why?
-> >
-> > The x86 IOMMUs use non-strict mode by default (yes, it is a security
-> > trade-off).
->
-> It is certainly a good question. I will say that, as per usual, I'm
-> fumbling around trying to solve problems in subsystems I'm not an
-> expert at, so if something I'm saying sounds like nonsense it probably
-> is. Please correct me.
->
-> I guess I'd start out by thinking about what devices I think need to
-> be in "strict" mode. Most of my thoughts on this are in the 3rd patch
-> in the series. I think devices where it's important to be in strict
-> mode fall into "Case 1" from that patch description, copied here:
->
-> Case 1: IOMMUs prevent malicious code running on the peripheral (maybe
-> a malicious peripheral or maybe someone exploited a benign peripheral)
-> from turning into an exploit of the Linux kernel. This is particularly
-> important if the peripheral has loadable / updatable firmware or if
-> the peripheral has some type of general purpose processor and is
-> processing untrusted inputs. It's also important if the device is
-> something that can be easily plugged into the host and the device has
-> direct DMA access itself, like a PCIe device.
->
->
-> Using sc7180 as an example (searching for iommus in sc7180.dtsi), I'd
-> expect these peripherals to be in strict mode:
->
-> * WiFi / LTE - I'm almost certain we want this in "strict" mode. Both
-> have loadable / updatable firmware and both do complex processing on
-> untrusted inputs. Both have a history of being compromised over the
-> air just by being near an attacker. Note that on sc7180 these are
-> _not_ connected over PCI so we can't leverage any PCI mechanism for
-> deciding strict / non-strict.
->
-> * Video decode / encode - pretty sure we want this in strict. It's got
-> loadable / updatable firmware and processing complex / untrusted
-> inputs.
->
-> * LPASS (low power audio subsystem) - I don't know a ton and I think
-> we don't use this much on our designs, but I believe it meets the
-> definitions for needing "strict".
->
-> * The QUPs (handles UART, SPI, and i2c) - I'm not as sure here. These
-> are much "smarter" than you'd expect. They have loadable / updatable
-> firmware and certainly have a sort of general purpose processor in
-> them. They also might be processing untrusted inputs, but presumably
-> in a pretty simple way. At the moment we don't use a ton of DMA here
-> anyway and these are pretty low speed, so I would tend to leave them
-> as strict just to be on the safe side.
->
->
-> I'd expect these to be non-strict:
->
-> * SD/MMC - as described in this patch series.
->
-> * USB - As far as I know firmware isn't updatable and has no history
-> of being compromised.
->
->
-> Special:
->
-> * GPU - This already has a bunch of special cases, so we probably
-> don't need to discuss here.
->
->
-> As far as I can tell everything in sc7180.dtsi that has an "iommus"
-> property is classified above. So, unless I'm wrong and it's totally
-> fine to run LTE / WiFi / Video / LPASS in non-strict mode then:
->
-> * We still need some way to pick strict vs. non-strict.
->
-> * Since I've only identified two peripherals that I think should be
-> non-strict, having "strict" the default seems like fewer special
-> cases. It's also safer.
->
->
-> In terms of thinking about x86 / AMD where the default is non-strict,
-> I don't have any historical knowledge there. I guess the use of PCI
-> for connecting WiFi is more common (so you can use the PCI special
-> cases) and I'd sorta hope that WiFi is running in strict mode. For
-> video encode / decode, perhaps x86 / AMD are just accepting the risk
-> here because there was no kernel infrastructure for doing better? I'd
-> also expect that x86/AMD don't have something quite as crazy as the
-> QUPs for UART/I2C/SPI, but even if they do I wouldn't be terribly
-> upset if they were in non-strict mode.
->
-> ...so I guess maybe the super short answer to everything above is that
-> I believe that at least WiFi ought to be in "strict" mode and it's not
-> on PCI so we need to come up with some type of per-device solution.
+fpga_mgr's element compat_id is only used by dfl.
+Implementation specific data should not be stored
+in common structures.  So move it to dfl.
 
-I guess this thread has been silent for a bit of time now. Given that
-my previous version generated a whole bunch of traffic, I guess I'm
-assuming this:
+dfl_fme_mgr reads its compat_id register and makes a copy.
+dfl_fme_region reads dfl_fme_mgr's value and makes a copy,
+then region outputs the value to sysfs.  There is no other
+use.  Instead of making copies and passing them around, output
+the compat_id directly in dfl_fme_mgr.
 
-a) Nothing is inherently broken with my current approach.
+The sysfs change is from
+/sys/class/fpga_region/region0/compat_id
+to
+/sys/class/fpga_region/region0/dfl-fme.0/dfl-fme-mgr.0/compat_id
 
-b) My current approach doesn't make anybody terribly upset even if
-nobody is totally in love with it.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ .../ABI/testing/sysfs-class-fpga-region       |  9 -----
+ Documentation/fpga/dfl.rst                    |  2 +-
+ drivers/fpga/dfl-fme-mgr.c                    | 34 ++++++++++++-------
+ drivers/fpga/dfl-fme-region.c                 |  1 -
+ drivers/fpga/fpga-region.c                    | 22 ------------
+ include/linux/fpga/fpga-mgr.h                 | 13 -------
+ include/linux/fpga/fpga-region.h              |  2 --
+ 7 files changed, 22 insertions(+), 61 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-class-fpga-region
 
-c) Nobody has any other bright ideas for ways to solve this that would
-make my patch series obsolete.
+diff --git a/Documentation/ABI/testing/sysfs-class-fpga-region b/Documentation/ABI/testing/sysfs-class-fpga-region
+deleted file mode 100644
+index bc7ec644acc9..000000000000
+--- a/Documentation/ABI/testing/sysfs-class-fpga-region
++++ /dev/null
+@@ -1,9 +0,0 @@
+-What:		/sys/class/fpga_region/<region>/compat_id
+-Date:		June 2018
+-KernelVersion:	4.19
+-Contact:	Wu Hao <hao.wu@intel.com>
+-Description:	FPGA region id for compatibility check, e.g. compatibility
+-		of the FPGA reconfiguration hardware and image. This value
+-		is defined or calculated by the layer that is creating the
+-		FPGA region. This interface returns the compat_id value or
+-		just error code -ENOENT in case compat_id is not used.
+diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+index 75df90d1e54c..bca36060de29 100644
+--- a/Documentation/fpga/dfl.rst
++++ b/Documentation/fpga/dfl.rst
+@@ -246,7 +246,7 @@ generated for the exact static FPGA region and targeted reconfigurable region
+ (port) of the FPGA, otherwise, the reconfiguration operation will fail and
+ possibly cause system instability. This compatibility can be checked by
+ comparing the compatibility ID noted in the header of PR bitstream file against
+-the compat_id exposed by the target FPGA region. This check is usually done by
++the compat_id exposed by the target FME. This check is usually done by
+ userspace before calling the reconfiguration IOCTL.
+ 
+ 
+diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
+index d5861d13b306..62d558b44ae6 100644
+--- a/drivers/fpga/dfl-fme-mgr.c
++++ b/drivers/fpga/dfl-fme-mgr.c
+@@ -272,17 +272,31 @@ static const struct fpga_manager_ops fme_mgr_ops = {
+ 	.status = fme_mgr_status,
+ };
+ 
+-static void fme_mgr_get_compat_id(void __iomem *fme_pr,
+-				  struct fpga_compat_id *id)
++static ssize_t compat_id_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
+ {
+-	id->id_l = readq(fme_pr + FME_PR_INTFC_ID_L);
+-	id->id_h = readq(fme_pr + FME_PR_INTFC_ID_H);
++	struct dfl_fme_mgr_pdata *pdata = dev_get_platdata(dev);
++	u64 l, h;
++
++	l = readq(pdata->ioaddr + FME_PR_INTFC_ID_L);
++	h = readq(pdata->ioaddr + FME_PR_INTFC_ID_H);
++
++	return sysfs_emit(buf, "%016llx%016llx\n",
++			  (unsigned long long)h,
++			  (unsigned long long)l);
+ }
+ 
++static DEVICE_ATTR_RO(compat_id);
++
++static struct attribute *fme_mgr_attrs[] = {
++	&dev_attr_compat_id.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(fme_mgr);
++
+ static int fme_mgr_probe(struct platform_device *pdev)
+ {
+ 	struct dfl_fme_mgr_pdata *pdata = dev_get_platdata(&pdev->dev);
+-	struct fpga_compat_id *compat_id;
+ 	struct device *dev = &pdev->dev;
+ 	struct fme_mgr_priv *priv;
+ 	struct fpga_manager *mgr;
+@@ -300,27 +314,21 @@ static int fme_mgr_probe(struct platform_device *pdev)
+ 		priv->ioaddr = devm_ioremap_resource(dev, res);
+ 		if (IS_ERR(priv->ioaddr))
+ 			return PTR_ERR(priv->ioaddr);
++		pdata->ioaddr = priv->ioaddr;
+ 	}
+ 
+-	compat_id = devm_kzalloc(dev, sizeof(*compat_id), GFP_KERNEL);
+-	if (!compat_id)
+-		return -ENOMEM;
+-
+-	fme_mgr_get_compat_id(priv->ioaddr, compat_id);
+-
+ 	mgr = devm_fpga_mgr_create(dev, "DFL FME FPGA Manager",
+ 				   &fme_mgr_ops, priv);
+ 	if (!mgr)
+ 		return -ENOMEM;
+ 
+-	mgr->compat_id = compat_id;
+-
+ 	return devm_fpga_mgr_register(dev, mgr);
+ }
+ 
+ static struct platform_driver fme_mgr_driver = {
+ 	.driver	= {
+ 		.name    = DFL_FPGA_FME_MGR,
++		.dev_groups = fme_mgr_groups,
+ 	},
+ 	.probe   = fme_mgr_probe,
+ };
+diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
+index 1eeb42af1012..4825639a3845 100644
+--- a/drivers/fpga/dfl-fme-region.c
++++ b/drivers/fpga/dfl-fme-region.c
+@@ -46,7 +46,6 @@ static int fme_region_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	region->priv = pdata;
+-	region->compat_id = mgr->compat_id;
+ 	platform_set_drvdata(pdev, region);
+ 
+ 	ret = fpga_region_register(region);
+diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
+index a4838715221f..c971f76ca61a 100644
+--- a/drivers/fpga/fpga-region.c
++++ b/drivers/fpga/fpga-region.c
+@@ -158,27 +158,6 @@ int fpga_region_program_fpga(struct fpga_region *region)
+ }
+ EXPORT_SYMBOL_GPL(fpga_region_program_fpga);
+ 
+-static ssize_t compat_id_show(struct device *dev,
+-			      struct device_attribute *attr, char *buf)
+-{
+-	struct fpga_region *region = to_fpga_region(dev);
+-
+-	if (!region->compat_id)
+-		return -ENOENT;
+-
+-	return sprintf(buf, "%016llx%016llx\n",
+-		       (unsigned long long)region->compat_id->id_h,
+-		       (unsigned long long)region->compat_id->id_l);
+-}
+-
+-static DEVICE_ATTR_RO(compat_id);
+-
+-static struct attribute *fpga_region_attrs[] = {
+-	&dev_attr_compat_id.attr,
+-	NULL,
+-};
+-ATTRIBUTE_GROUPS(fpga_region);
+-
+ /**
+  * fpga_region_create - alloc and init a struct fpga_region
+  * @parent: device parent
+@@ -328,7 +307,6 @@ static int __init fpga_region_init(void)
+ 	if (IS_ERR(fpga_region_class))
+ 		return PTR_ERR(fpga_region_class);
+ 
+-	fpga_region_class->dev_groups = fpga_region_groups;
+ 	fpga_region_class->dev_release = fpga_region_dev_release;
+ 
+ 	return 0;
+diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+index ec2cd8bfceb0..ebdea215a864 100644
+--- a/include/linux/fpga/fpga-mgr.h
++++ b/include/linux/fpga/fpga-mgr.h
+@@ -143,24 +143,12 @@ struct fpga_manager_ops {
+ #define FPGA_MGR_STATUS_IP_PROTOCOL_ERR		BIT(3)
+ #define FPGA_MGR_STATUS_FIFO_OVERFLOW_ERR	BIT(4)
+ 
+-/**
+- * struct fpga_compat_id - id for compatibility check
+- *
+- * @id_h: high 64bit of the compat_id
+- * @id_l: low 64bit of the compat_id
+- */
+-struct fpga_compat_id {
+-	u64 id_h;
+-	u64 id_l;
+-};
+-
+ /**
+  * struct fpga_manager - fpga manager structure
+  * @name: name of low level fpga manager
+  * @dev: fpga manager device
+  * @ref_mutex: only allows one reference to fpga manager
+  * @state: state of fpga manager
+- * @compat_id: FPGA manager id for compatibility check.
+  * @mops: pointer to struct of fpga manager ops
+  * @priv: low level driver private date
+  */
+@@ -169,7 +157,6 @@ struct fpga_manager {
+ 	struct device dev;
+ 	struct mutex ref_mutex;
+ 	enum fpga_mgr_states state;
+-	struct fpga_compat_id *compat_id;
+ 	const struct fpga_manager_ops *mops;
+ 	void *priv;
+ };
+diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+index 27cb706275db..b008d5a300fd 100644
+--- a/include/linux/fpga/fpga-region.h
++++ b/include/linux/fpga/fpga-region.h
+@@ -14,7 +14,6 @@
+  * @bridge_list: list of FPGA bridges specified in region
+  * @mgr: FPGA manager
+  * @info: FPGA image info
+- * @compat_id: FPGA region id for compatibility check.
+  * @priv: private data
+  * @get_bridges: optional function to get bridges to a list
+  */
+@@ -24,7 +23,6 @@ struct fpga_region {
+ 	struct list_head bridge_list;
+ 	struct fpga_manager *mgr;
+ 	struct fpga_image_info *info;
+-	struct fpga_compat_id *compat_id;
+ 	void *priv;
+ 	int (*get_bridges)(struct fpga_region *region);
+ };
+-- 
+2.26.3
 
-I guess I'll take that as a good sign and hope that it means that this
-approach has a path forward. I suppose it could just be that everyone
-is busy and/or on vacation, but I've always been an optimist!
-
-My plan continues to be to send a v3 of my patch series atop Sai's
-patch [1] and John's series [2]. I'll plan to wait a bit longer before
-posting my v3 to allow for more feedback/thoughts and also to see if
-either Sai's patches or John's patches land and/or have newer versions
-posted. :-)
-
--Doug
-
-[1] https://lore.kernel.org/r/20210623134201.16140-1-saiprakash.ranjan@codeaurora.org
-[2] https://lore.kernel.org/linux-doc/1624016058-189713-1-git-send-email-john.garry@huawei.com
