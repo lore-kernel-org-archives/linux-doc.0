@@ -2,415 +2,368 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 861AFC07E9E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 13:29:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B41BBC07E9C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 13:30:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 605D461C81
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 13:29:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D3B261C99
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 13:30:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231718AbhGGNbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 09:31:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
+        id S231845AbhGGNdG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 09:33:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbhGGNbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 09:31:50 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62071C06175F;
-        Wed,  7 Jul 2021 06:29:09 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id i13so1051247plb.10;
-        Wed, 07 Jul 2021 06:29:09 -0700 (PDT)
+        with ESMTP id S231857AbhGGNdB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 09:33:01 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCB3AC0613DB
+        for <linux-doc@vger.kernel.org>; Wed,  7 Jul 2021 06:30:13 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id j34so1846689wms.5
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jul 2021 06:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=3tXFf65jE+peM5K4uuLXTZYS3D5Fe8qF8gNC6VOLOJw=;
-        b=oT81E56K1vyONefpVuCGGhQL+jV16a0aCVBZQmg+BKXTDmBe4elaSnYx3IV94WXh1L
-         uPpEVBHZTDUjG/gWaPuc/hYKu/iAF8TB10aajnXeJ1ey+KyC+gSRdrEpZ6/p+VuHEqmC
-         v36RrqTp67viTDa4WXxST736cfRzoLQWuqFPWcj++3Q7ON4tEW/1dq2F6CToFGeiL1Ew
-         zeTQ4MXIXQ4CGOTzu5OMqqq23XIM4Dr62TEcQ61TLp9fLLSB+p0bUQa4rUSmVNltQqdT
-         14EkAgggPhg9jd6r+veJohnXhWZwmuqyG0ixkX+sBDd+cypHdyeMY1y//qCFIkRE2Yqn
-         k5gA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=kWBYmHFzVaAtr0q3DL3loxqYVHyccUJehxRYe/jfvbg=;
+        b=oIKKDnZnGrqv1Dc39WaPWkR6MyNNgr0LXOkTQxzcdKCjmX4S1wR2FJl0GqAYVL5ll2
+         dR6abtyttOwoG+Qk5EOawGEhBuQvDBO8gVMZo9QPmjE/PKeGnZ4EX+vPRmkSIgiOHp+t
+         G9B9Qjwkn1VyL5JZH7c6hbW3AT3WdWdKip0GF/+Uy5NrH5mnVH/Uy0iqBEDAftGoxVIT
+         K5zPCzDVS0tcI79/AdCqcmPep1QmhYajzJ44GzMhXcRQ6N62UolWAgLDHnE8jirJn8jX
+         1ci7Lv7IHdyyaftXDV77ioZTyyvTo5aGmb1TRH3x2xXP+rQJOLFPKjQW9se9VUIdEVgG
+         DvOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3tXFf65jE+peM5K4uuLXTZYS3D5Fe8qF8gNC6VOLOJw=;
-        b=cx+58TDOM5MTL/hUGQDiZ/UCcgY8b+ypfd/Pio/+F5NOwm8seoXDT5ffcbvLtZWZCO
-         Qu8C66npQ0vWLyL3GUzeERNPPw/T0wUEdVFnKKzeKb4ktaJ+7zaJ0/z5ySS8fu2LCfSc
-         CUTR3DiVu3mIYPJeFhkcRgVDdmkcH3JB+FuhLpHHO72ob4xCsXUZRZVwBirSheycFFpv
-         yii0AMgXU36BSr5twL8/amZtT28HfbowTiVAwBxAmLASJkWsOF6YgyLAFPUluUNvNmL7
-         GZZXUW2lI02F6ajjG+BUBsT8ZWrmpN/euBrNOMnf77TcZ9iTpfamfEFUu3deTi0Wb28S
-         FMhw==
-X-Gm-Message-State: AOAM531n9amkrc+aQGoy4PXIwD2EJaHWXNiQnvYt7/tjZkZthRL91P9c
-        F0k2xF/3TdTkWCvxyeRgEGk=
-X-Google-Smtp-Source: ABdhPJxU6rO6rpBoxqUMzjm+1AIvTrm5klHOSH4fRVlWwR/UnkvvTvKrIeE2zLKK6U8aXTGV3i2XjA==
-X-Received: by 2002:a17:90a:f0d4:: with SMTP id fa20mr6231060pjb.22.1625664548922;
-        Wed, 07 Jul 2021 06:29:08 -0700 (PDT)
-Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
-        by smtp.gmail.com with ESMTPSA id v1sm18267745pjg.19.2021.07.07.06.29.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=kWBYmHFzVaAtr0q3DL3loxqYVHyccUJehxRYe/jfvbg=;
+        b=or+XaWKH/rDNqDtSrg4zSeZ1GsglbCXfn7JuRld1UZk4b5KcFvTHChrOB6UR2pGLZz
+         XcxIBV997eNtxPT2815QVpzrMujvzS0TfSEz94myq40JKJ7j8fFACZkNd6TtDRqQCPZQ
+         rZvVuAmeVLqXTekgbTwRbLVlfVqppAWrIWneO4ySCkxKUoA7VCbJkNV3aQSf48cZr5V/
+         qnXc+TKPctWCMfxcSnXR5GHgZLihKMCI7lx4bkwQzhn6LanNr+NodmvVmklwfzbdUby+
+         fuGXC3ElEWhnmtKjF7CQ5fbR21737dPQd8nGLRZTkWZDgWpYA5KOJXfy8eQ32TmMSIPb
+         jRaA==
+X-Gm-Message-State: AOAM531WEM4lH+wA7VwkuTmytd7ptxMruJkHAVq+hBspBVen3sty00tt
+        tfgI16XXYhEG2+3BdRVuq97lkA==
+X-Google-Smtp-Source: ABdhPJwl747RxWvPwgjGMCGBN7GkwTiv/Dbo6ozbGEnT7hT3LlAvHvBIk44ZdCxiuOrWwpDpnvjVxQ==
+X-Received: by 2002:a1c:9d16:: with SMTP id g22mr3181420wme.152.1625664611994;
+        Wed, 07 Jul 2021 06:30:11 -0700 (PDT)
+Received: from linaro.org ([2a00:23c5:6809:2201:546d:7d59:1703:bf96])
+        by smtp.gmail.com with ESMTPSA id l16sm6632403wmj.47.2021.07.07.06.30.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 06:29:07 -0700 (PDT)
-Received: from x2.lan (localhost [127.0.0.1])
-        by localhost.lan (Postfix) with ESMTPSA id 6627F9029DE;
-        Wed,  7 Jul 2021 13:29:05 +0000 (GMT)
-From:   Vincent Pelletier <plr.vincent@gmail.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
-Subject: [PATCH v3 2/3] hwmon: da9063: HWMON driver
-Date:   Wed,  7 Jul 2021 13:25:03 +0000
-Message-Id: <2c24ef5953401e80d92c907704bffeff1d024de0.1625662290.git.plr.vincent@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <c06db13bb5076a8ee48e38a74caf3b81e4a2d1f8.1625662290.git.plr.vincent@gmail.com>
-References: <c06db13bb5076a8ee48e38a74caf3b81e4a2d1f8.1625662290.git.plr.vincent@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 07 Jul 2021 06:30:11 -0700 (PDT)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, suzuki.poulose@arm.com
+Cc:     leo.yan@linaro.org, alexander.shishkin@linux.intel.com,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        Mike Leach <mike.leach@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v8 10/10] Documentation: coresight: Add documentation for CoreSight config
+Date:   Wed,  7 Jul 2021 14:30:03 +0100
+Message-Id: <20210707133003.5414-11-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210707133003.5414-1-mike.leach@linaro.org>
+References: <20210707133003.5414-1-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the HWMON driver for DA9063
+Adds documentation for the CoreSight System configuration manager.
 
-Originally-from: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
-Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
-Changes in v3:
-- changed original author's Signed-off-by into an Originally-from.
-- dropped license boilerplate
-- only return ETIMEOUT if ADC result is not ready by the time the IRQ
-  either triggered or timed out
-- removed unnecessary lists
-- changed a duplicate init_comptetion into a more useful reinit_completion
-- dropped unused platform_set_drvdata
-- moved temperature offset reading from mfd driver
+ .../trace/coresight/coresight-config.rst      | 244 ++++++++++++++++++
+ Documentation/trace/coresight/coresight.rst   |  16 ++
+ 2 files changed, 260 insertions(+)
+ create mode 100644 Documentation/trace/coresight/coresight-config.rst
 
-Changes in v2:
-- drop of_match_table: this should be meaningless in such sub-function
-  driver (at least judging by other sub-function drivers for the da9063)
-- sort includes
-- switch to devm_hwmon_device_register_with_info
-- registers.h changes moved to patch 1
-- add SPDX header
-
-This patch depends on patch 1/3.
-Originally submitted by Steve Twiss in 2014:
-  https://marc.info/?l=linux-kernel&m=139560868309857&w=2
-
- drivers/hwmon/Kconfig        |  10 ++
- drivers/hwmon/Makefile       |   1 +
- drivers/hwmon/da9063-hwmon.c | 260 +++++++++++++++++++++++++++++++++++
- 3 files changed, 271 insertions(+)
- create mode 100644 drivers/hwmon/da9063-hwmon.c
-
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 87624902ea80..17244cfaa855 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -515,6 +515,16 @@ config SENSORS_DA9055
- 	  This driver can also be built as a module. If so, the module
- 	  will be called da9055-hwmon.
- 
-+config SENSORS_DA9063
-+	tristate "Dialog Semiconductor DA9063"
-+	depends on MFD_DA9063
-+	help
-+	  If you say yes here you get support for the hardware
-+	  monitoring features of the DA9063 Power Management IC.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called da9063-hwmon.
-+
- config SENSORS_I5K_AMB
- 	tristate "FB-DIMM AMB temperature sensor on Intel 5000 series chipsets"
- 	depends on PCI
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 59e78bc212cf..6855711ed9ec 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -60,6 +60,7 @@ obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
- obj-$(CONFIG_SENSORS_CORSAIR_PSU) += corsair-psu.o
- obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
- obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
-+obj-$(CONFIG_SENSORS_DA9063)	+= da9063-hwmon.o
- obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
- obj-$(CONFIG_SENSORS_DME1737)	+= dme1737.o
- obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
-diff --git a/drivers/hwmon/da9063-hwmon.c b/drivers/hwmon/da9063-hwmon.c
+diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
 new file mode 100644
-index 000000000000..6367685536a1
+index 000000000000..a4e3ef295240
 --- /dev/null
-+++ b/drivers/hwmon/da9063-hwmon.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/* da9063-hwmon.c - Hardware monitor support for DA9063
-+ * Copyright (C) 2014 Dialog Semiconductor Ltd.
-+ * Copyright (C) 2021 Vincent Pelletier <plr.vincent@gmail.com>
-+ */
++++ b/Documentation/trace/coresight/coresight-config.rst
+@@ -0,0 +1,244 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/da9063/core.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
++======================================
++CoreSight System Configuration Manager
++======================================
 +
-+#define DA9063_ADC_RES	(1 << (DA9063_ADC_RES_L_BITS + DA9063_ADC_RES_M_BITS))
-+#define DA9063_ADC_MAX	(DA9063_ADC_RES - 1)
-+#define DA9063_2V5	2500
-+#define DA9063_5V0	5000
-+#define DA9063_5V5	5500
-+#define DA9063_TJUNC_M	-398
-+#define DA9063_TJUNC_O	330000
-+#define DA9063_VBBAT_M	2048
++    :Author:   Mike Leach <mike.leach@linaro.org>
++    :Date:     October 2020
 +
-+enum da9063_adc {
-+	DA9063_CHAN_VSYS = DA9063_ADC_MUX_VSYS,
-+	DA9063_CHAN_ADCIN1 = DA9063_ADC_MUX_ADCIN1,
-+	DA9063_CHAN_ADCIN2 = DA9063_ADC_MUX_ADCIN2,
-+	DA9063_CHAN_ADCIN3 = DA9063_ADC_MUX_ADCIN3,
-+	DA9063_CHAN_TJUNC = DA9063_ADC_MUX_T_SENSE,
-+	DA9063_CHAN_VBBAT = DA9063_ADC_MUX_VBBAT,
-+	DA9063_CHAN_LDO_G1 = DA9063_ADC_MUX_LDO_G1,
-+	DA9063_CHAN_LDO_G2 = DA9063_ADC_MUX_LDO_G2,
-+	DA9063_CHAN_LDO_G3 = DA9063_ADC_MUX_LDO_G3
-+};
++Introduction
++============
 +
-+struct da9063_hwmon {
-+	struct da9063 *da9063;
-+	struct mutex hwmon_mutex;
-+	struct completion adc_ready;
-+	signed char tjunc_offset;
-+};
++The CoreSight System Configuration manager is an API that allows the
++programming of the CoreSight system with pre-defined configurations that
++can then be easily enabled from sysfs or perf.
 +
-+static int da9063_adc_manual_read(struct da9063_hwmon *hwmon, int channel)
-+{
-+	int ret;
-+	unsigned char val;
-+	unsigned char data[2];
-+	int adc_man;
++Many CoreSight components can be programmed in complex ways - especially ETMs.
++In addition, components can interact across the CoreSight system, often via
++the cross trigger components such as CTI and CTM. These system settings can
++be defined and enabled as named configurations.
 +
-+	mutex_lock(&hwmon->hwmon_mutex);
 +
-+	val = (channel & DA9063_ADC_MUX_MASK) | DA9063_ADC_MAN;
-+	ret = regmap_update_bits(hwmon->da9063->regmap, DA9063_REG_ADC_MAN,
-+				 DA9063_ADC_MUX_MASK | DA9063_ADC_MAN, val);
-+	if (ret < 0)
-+		goto err_mread;
++Basic Concepts
++==============
 +
-+	ret = wait_for_completion_timeout(&hwmon->adc_ready,
-+					  msecs_to_jiffies(100));
-+	reinit_completion(&hwmon->adc_ready);
-+	if (ret == 0)
-+		dev_dbg(hwmon->da9063->dev,
-+			"Timeout while waiting for ADC completion IRQ\n");
++This section introduces the basic concepts of a CoreSight system configuration.
 +
-+	ret = regmap_read(hwmon->da9063->regmap, DA9063_REG_ADC_MAN, &adc_man);
-+	if (ret < 0)
-+		goto err_mread;
 +
-+	/* data value is not ready */
-+	if (adc_man & DA9063_ADC_MAN) {
-+		ret = -ETIMEDOUT;
-+		goto err_mread;
-+	}
++Features
++--------
 +
-+	ret = regmap_bulk_read(hwmon->da9063->regmap,
-+			       DA9063_REG_ADC_RES_L, data, 2);
-+	if (ret < 0)
-+		goto err_mread;
++A feature is a named set of programming for a CoreSight device. The programming
++is device dependent, and can be defined in terms of absolute register values,
++resource usage and parameter values.
 +
-+	ret = (data[0] & DA9063_ADC_RES_L_MASK) >> DA9063_ADC_RES_L_SHIFT;
-+	ret |= data[1] << DA9063_ADC_RES_L_BITS;
-+err_mread:
-+	mutex_unlock(&hwmon->hwmon_mutex);
-+	return ret;
-+}
++The feature is defined using a descriptor. This descriptor is used to load onto
++a matching device, either when the feature is loaded into the system, or when the
++CoreSight device is registered with the configuration manager.
 +
-+static irqreturn_t da9063_hwmon_irq_handler(int irq, void *irq_data)
-+{
-+	struct da9063_hwmon *hwmon = irq_data;
++The load process involves interpreting the descriptor into a set of register
++accesses in the driver - the resource usage and parameter descriptions
++translated into appropriate register accesses. This interpretation makes it easy
++and efficient for the feature to be programmed onto the device when required.
 +
-+	complete(&hwmon->adc_ready);
-+	return IRQ_HANDLED;
-+}
++The feature will not be active on the device until the feature is enabled, and
++the device itself is enabled. When the device is enabled then enabled features
++will be programmed into the device hardware.
 +
-+static umode_t da9063_is_visible(const void *drvdata, enum
-+				 hwmon_sensor_types type, u32 attr, int channel)
-+{
-+	return 0444;
-+}
++A feature is enabled as part of a configuration being enabled on the system.
 +
-+static const enum da9063_adc da9063_in_index[] = {
-+	DA9063_CHAN_VSYS, DA9063_CHAN_VBBAT
-+};
 +
-+static int da9063_read(struct device *dev, enum hwmon_sensor_types type,
-+		       u32 attr, int channel, long *val)
-+{
-+	struct da9063_hwmon *hwmon = dev_get_drvdata(dev);
-+	enum da9063_adc adc_channel;
-+	int tmp;
++Parameter Value
++~~~~~~~~~~~~~~~
 +
-+	switch (type) {
-+	case hwmon_in:
-+		if (attr != hwmon_in_input)
-+			return -EOPNOTSUPP;
-+		adc_channel = da9063_in_index[channel];
-+		break;
-+	case hwmon_temp:
-+		if (attr != hwmon_temp_input)
-+			return -EOPNOTSUPP;
-+		adc_channel = DA9063_CHAN_TJUNC;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
++A parameter value is a named value that may be set by the user prior to the
++feature being enabled that can adjust the behaviour of the operation programmed
++by the feature.
 +
-+	tmp = da9063_adc_manual_read(hwmon, adc_channel);
-+	if (tmp < 0)
-+		return tmp;
++For example, this could be a count value in a programmed operation that repeats
++at a given rate. When the feature is enabled then the current value of the
++parameter is used in programming the device.
 +
-+	switch (adc_channel) {
-+	case DA9063_CHAN_VSYS:
-+		*val = ((DA9063_5V5 - DA9063_2V5) * tmp) / DA9063_ADC_MAX +
-+			DA9063_2V5;
-+		break;
-+	case DA9063_CHAN_TJUNC:
-+		tmp -= hwmon->tjunc_offset;
-+		*val = DA9063_TJUNC_M * tmp + DA9063_TJUNC_O;
-+		break;
-+	case DA9063_CHAN_VBBAT:
-+		*val = (DA9063_5V0 * tmp) / DA9063_ADC_MAX;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
++The feature descriptor defines a default value for a parameter, which is used
++if the user does not supply a new value.
 +
-+	return 0;
-+}
++Users can update parameter values using the configfs API for the CoreSight
++system - which is described below.
 +
-+static const char * const da9063_in_name[] = {
-+	"VSYS", "VBBAT"
-+};
++The current value of the parameter is loaded into the device when the feature
++is enabled on that device.
 +
-+static int da9063_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			      u32 attr, int channel, const char **str)
-+{
-+	switch (type) {
-+	case hwmon_in:
-+		if (attr != hwmon_in_label)
-+			return -EOPNOTSUPP;
-+		*str = da9063_in_name[channel];
-+		break;
-+	case hwmon_temp:
-+		if (attr != hwmon_temp_label)
-+			return -EOPNOTSUPP;
-+		*str = "TJUNC";
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
 +
-+	return 0;
-+}
++Configurations
++--------------
 +
-+static const struct hwmon_ops da9063_ops = {
-+	.is_visible = da9063_is_visible,
-+	.read = da9063_read,
-+	.read_string = da9063_read_string,
-+};
++A configuration defines a set of features that are to be used in a trace
++session where the configuration is selected. For any trace session only one
++configuration may be selected.
 +
-+static const struct hwmon_channel_info *da9063_channel_info[] = {
-+	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL),
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
-+	NULL
-+};
++The features defined may be on any type of device that is registered
++to support system configuration. A configuration may select features to be
++enabled on a class of devices - i.e. any ETMv4, or specific devices, e.g. a
++specific CTI on the system.
 +
-+static const struct hwmon_chip_info da9063_chip_info = {
-+	.ops = &da9063_ops,
-+	.info = da9063_channel_info,
-+};
++As with the feature, a descriptor is used to define the configuration.
++This will define the features that must be enabled as part of the configuration
++as well as any preset values that can be used to override default parameter
++values.
 +
-+static int da9063_hwmon_probe(struct platform_device *pdev)
-+{
-+	struct da9063 *da9063 = dev_get_drvdata(pdev->dev.parent);
-+	struct da9063_hwmon *hwmon;
-+	struct device *hwmon_dev;
-+	unsigned int tmp;
-+	int irq;
-+	int ret;
 +
-+	hwmon = devm_kzalloc(&pdev->dev, sizeof(struct da9063_hwmon),
-+			     GFP_KERNEL);
-+	if (!hwmon)
-+		return -ENOMEM;
++Preset Values
++~~~~~~~~~~~~~
 +
-+	mutex_init(&hwmon->hwmon_mutex);
-+	init_completion(&hwmon->adc_ready);
-+	hwmon->da9063 = da9063;
++Preset values are easily selectable sets of parameter values for the features
++that the configuration uses. The number of values in a single preset set, equals
++the sum of parameter values in the features used by the configuration.
 +
-+	irq = platform_get_irq_byname(pdev, DA9063_DRVNAME_HWMON);
-+	if (irq < 0)
-+		return irq;
++e.g. a configuration consists of 3 features, one has 2 parameters, one has
++a single parameter, and another has no parameters. A single preset set will
++therefore have 3 values.
 +
-+	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
-+					da9063_hwmon_irq_handler,
-+					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-+					"HWMON", hwmon);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to request IRQ.\n");
-+		return ret;
-+	}
++Presets are optionally defined by the configuration, up to 15 can be defined.
++If no preset is selected, then the parameter values defined in the feature
++are used as normal.
 +
-+	ret = regmap_read(da9063->regmap, DA9063_REG_T_OFFSET, &tmp);
-+	if (ret < 0) {
-+		tmp = 0;
-+		dev_warn(&pdev->dev,
-+			 "Temperature trimming value cannot be read (defaulting to 0)\n");
-+	}
-+	hwmon->tjunc_offset = (signed char) tmp;
 +
-+	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "da9063",
-+							 hwmon,
-+							 &da9063_chip_info,
-+							 NULL);
++Operation
++~~~~~~~~~
 +
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
++The following steps take place in the operation of a configuration.
 +
-+static struct platform_driver da9063_hwmon_driver = {
-+	.probe = da9063_hwmon_probe,
-+	.driver = {
-+		.name = DA9063_DRVNAME_HWMON,
-+	},
-+};
-+module_platform_driver(da9063_hwmon_driver);
++1) In this example, the configuration is 'autofdo', which has an
++   associated feature 'strobing' that works on ETMv4 CoreSight Devices.
 +
-+MODULE_DESCRIPTION("Hardware monitor support device driver for Dialog DA9063");
-+MODULE_AUTHOR("Vincent Pelletier <plr.vincent@gmail.com>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:" DA9063_DRVNAME_HWMON);
++2) The configuration is enabled. For example 'perf' may select the
++   configuration as part of its command line::
++
++    perf record -e cs_etm/autofdo/ myapp
++
++   which will enable the 'autofdo' configuration.
++
++3) perf starts tracing on the system. As each ETMv4 that perf uses for
++   trace is enabled,  the configuration manager will check if the ETMv4
++   has a feature that relates to the currently active configuration.
++   In this case 'strobing' is enabled & programmed into the ETMv4.
++
++4) When the ETMv4 is disabled, any registers marked as needing to be
++   saved will be read back.
++
++5) At the end of the perf session, the configuration will be disabled.
++
++
++Viewing Configurations and Features
++===================================
++
++The set of configurations and features that are currently loaded into the
++system can be viewed using the configfs API.
++
++Mount configfs as normal and the 'cs-syscfg' subsystem will appear::
++
++    $ ls /config
++    cs-syscfg  stp-policy
++
++This has two sub-directories::
++
++    $ cd cs-syscfg/
++    $ ls
++    configurations  features
++
++The system has the configuration 'autofdo' built in. It may be examined as
++follows::
++
++    $ cd configurations/
++    $ ls
++    autofdo
++    $ cd autofdo/
++    $ ls
++    description   preset1  preset3  preset5  preset7  preset9
++    feature_refs  preset2  preset4  preset6  preset8
++    $ cat description
++    Setup ETMs with strobing for autofdo
++    $ cat feature_refs
++    strobing
++
++Each preset declared has a preset<n> subdirectory declared. The values for
++the preset can be examined::
++
++    $ cat preset1/values
++    strobing.window = 0x1388 strobing.period = 0x2
++    $ cat preset2/values
++    strobing.window = 0x1388 strobing.period = 0x4
++
++The features referenced by the configuration can be examined in the features
++directory::
++
++    $ cd ../../features/strobing/
++    $ ls
++    description  matches  nr_params  params
++    $ cat description
++    Generate periodic trace capture windows.
++    parameter 'window': a number of CPU cycles (W)
++    parameter 'period': trace enabled for W cycles every period x W cycles
++    $ cat matches
++    SRC_ETMV4
++    $ cat nr_params
++    2
++
++Move to the params directory to examine and adjust parameters::
++
++    cd params
++    $ ls
++    period  window
++    $ cd period
++    $ ls
++    value
++    $ cat value
++    0x2710
++    # echo 15000 > value
++    # cat value
++    0x3a98
++
++Parameters adjusted in this way are reflected in all device instances that have
++loaded the feature.
++
++
++Using Configurations in perf
++============================
++
++The configurations loaded into the CoreSight configuration management are
++also declared in the perf 'cs_etm' event infrastructure so that they can
++be selected when running trace under perf::
++
++    $ ls /sys/devices/cs_etm
++    configurations  format  perf_event_mux_interval_ms  sinks  type
++    events  nr_addr_filters  power
++
++Key directories here are 'configurations' - which lists the loaded
++configurations, and 'events' - a generic perf directory which allows
++selection on the perf command line.::
++
++    $ ls configurations/
++    autofdo
++    $ cat configurations/autofdo
++    0xa7c3dddd
++
++As with the sinks entries, this provides a hash of the configuration name.
++The entry in the 'events' directory uses perfs built in syntax generator
++to substitute the syntax for the name when evaluating the command::
++
++    $ ls events/
++    autofdo
++    $ cat events/autofdo
++    configid=0xa7c3dddd
++
++The 'autofdo' configuration may be selected on the perf command line::
++
++    $ perf record -e cs_etm/autofdo/u --per-thread <application>
++
++A preset to override the current parameter values can also be selected::
++
++    $ perf record -e cs_etm/autofdo,preset=1/u --per-thread <application>
++
++When configurations are selected in this way, then the trace sink used is
++automatically selected.
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 169749efd8d1..7ec656c9f0dc 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -619,6 +619,20 @@ A separate documentation file is provided to explain the use of these devices.
+ (:doc:`coresight-ect`) [#fourth]_.
+ 
+ 
++CoreSight System Configuration
++------------------------------
++
++CoreSight components can be complex devices with many programming options.
++Furthermore, components can be programmed to interact with each other across the
++complete system.
++
++A CoreSight System Configuration manager is provided to allow these complex programming
++configurations to be selected and used easily from perf and sysfs.
++
++See the separate document for further information.
++(:doc:`coresight-config`) [#fifth]_.
++
++
+ .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+ 
+ .. [#second] Documentation/trace/stm.rst
+@@ -626,3 +640,5 @@ A separate documentation file is provided to explain the use of these devices.
+ .. [#third] https://github.com/Linaro/perf-opencsd
+ 
+ .. [#fourth] Documentation/trace/coresight/coresight-ect.rst
++
++.. [#fifth] Documentation/trace/coresight/coresight-config.rst
 -- 
-2.32.0
+2.17.1
 
