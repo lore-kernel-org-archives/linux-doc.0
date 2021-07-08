@@ -2,73 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8172EC07E9C
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 00:59:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0501BC07E96
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 08:09:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6627461CC4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 00:59:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8EF061CC4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 08:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbhGHBCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 21:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230129AbhGHBCI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 21:02:08 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8B3C061574;
-        Wed,  7 Jul 2021 17:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=DQ/ZqedFwNuEbvbxnVdd4B/mfUuq92y0TGsMJ/w3Rb4=; b=jg8IqGl2h31ZNsVMimKoOBaTWJ
-        pZJWJyUMrT7KElP4BkLGh18OCcyt7p77lQyct5FNFLYlwDzIOV0i7bppOWOo0IXgIO7oSQQIJislh
-        bvleAfjaSE6juQimQJjXA5zU2USOfrJHt/BFkya7zRwfFGtcfxsZ0aTh9LaXXxew0IXJY6s72vtv0
-        z/suJRxIyxAKlUwEZA/YAbJKivGXjf1n5cC/ZupOIirSY2ilNI3GY6ntpqSPYa/KFiXVPTw1GilhO
-        yfBUWJsM9VJ5AmDiVJ3i0APuSx/EstDtr+nDLY5rwnQ0k8+llG3lCAms1+4+xyQHYJFzMHQdynj+m
-        cAtbdG4Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m1IN6-00Cxix-4L; Thu, 08 Jul 2021 00:58:34 +0000
-Date:   Thu, 8 Jul 2021 01:58:32 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Finn Behrens <finn@kloenk.dev>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S230507AbhGHILn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jul 2021 04:11:43 -0400
+Received: from 8bytes.org ([81.169.241.247]:33194 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231195AbhGHILm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Jul 2021 04:11:42 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id B94FA312; Thu,  8 Jul 2021 10:08:58 +0200 (CEST)
+Date:   Thu, 8 Jul 2021 10:08:56 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
+        Saravana Kannan <saravanak@google.com>,
+        Rajat Jain <rajatja@google.com>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-pci@vger.kernel.org,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Sonny Rao <sonnyrao@chromium.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/17] Rust support
-Message-ID: <YOZNuEtNbsLxRM0R@casper.infradead.org>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <YOVNJuA0ojmeLvKa@infradead.org>
- <CANiq72mKPFtB4CtHcc94a_y1V4bEOXXN2CwttQFvyzwXJv62kw@mail.gmail.com>
- <YOWjLmg/Z7kr2+tx@kroah.com>
- <YOW1Nj8+a2Yth2++@google.com>
- <YOXB7FRqldZik2Xn@kroah.com>
- <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+Message-ID: <YOaymBHc4g2cIfRn@8bytes.org>
+References: <20210624171759.4125094-1-dianders@chromium.org>
+ <YNXXwvuErVnlHt+s@8bytes.org>
+ <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
+ <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
+In-Reply-To: <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 07, 2021 at 10:56:57PM +0200, Finn Behrens wrote:
-> There is a more general use driver (network dummy) still in the making, It is fully operational, just the documentation of the rust bindings are not finished yet, so it is not merged into the rust tree yet, also I have to rebase it.
+On Wed, Jul 07, 2021 at 01:00:13PM -0700, Doug Anderson wrote:
+> a) Nothing is inherently broken with my current approach.
+> 
+> b) My current approach doesn't make anybody terribly upset even if
+> nobody is totally in love with it.
 
-Why are you so resistant to writing a real driver that deals with actual
-hardware?  A simple NVMe driver is less than a thousand lines of C.
-I know the one in the kernel now is ridiculously complicated and has
-been thoroughly messed up with abstractions to support NVMeoF instead
-of having a separate driver, but it's really a simple interface at heart.
+Well, no, sorry :)
+
+I don't think it is a good idea to allow drivers to opt-out of the
+strict-setting. This is a platform or user decision, and the driver
+should accept whatever it gets.
+
+So the real question is still why strict is the default setting and how
+to change that. Or document for the users that want performance how to
+change the setting, so that they can decide.
+
+Regards,
+
+	Joerg
 
