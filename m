@@ -2,118 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB98C07E9C
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 23:28:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8172EC07E9C
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 00:59:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38A0A61CBD
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jul 2021 23:28:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6627461CC4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 00:59:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbhGGXb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jul 2021 19:31:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48088 "EHLO
+        id S230166AbhGHBCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jul 2021 21:02:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbhGGXb0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 19:31:26 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41629C061574;
-        Wed,  7 Jul 2021 16:28:45 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id x16so1075427plg.3;
-        Wed, 07 Jul 2021 16:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jM5H6fyINSDFacMdYk8kIhTXfRZuAA/gZfzFCYQO+8Y=;
-        b=n2MHAFhscsuVT78FRjyvPt0jystbtkn9sJyDhsWuokZSPx5cQDHb+p9j4odzZ/9igM
-         KH+xZ3AaMa1Yu56K5YEnHUJ1OtFajyXXw7MIF582dkGbg9ibVsqLHINyVLe5FM8SnYRV
-         TpGED6KGEjtywqM6YJ98DrqSTotSGx2/H61oqFuAZVGpE058FQR0+5zmKt1FD7vi3SnU
-         4hPCtD2wc7WArzO1lTLR5HbRqn880C7vb2chCBWhRsg+uENu6Bn4Ktp+auMJFrDLuqfy
-         jw3ETfk1Hb7jNjuQ38AVVzvFSuIj2sHwpEX4VEuhaDM4kDswOkLO9VndT9bP8Pmk61gi
-         CORg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jM5H6fyINSDFacMdYk8kIhTXfRZuAA/gZfzFCYQO+8Y=;
-        b=XmHGL0Xdcr/abu1QE06gfB18a6t9icPk58GxBv+5o6EXf2FzNP/E7qQbl0f2KYsi2t
-         07OBJpWbJBd9u3oY2vx+gTDZa5Pk2PmVpIgqLiZP8oftl4lpFKZWWZljiL+/Yv8yhyPu
-         ogccIbkRseTTUG8Kkdtj4tz4Fg89dQuiyEeWpCcMrCaPPs9xuXc4wg9jVp83VJ97c+U4
-         pAXgP4UquVW6vASPKTuKXfliIMEGdFAhl4DkRExzsg3GNWGCgklTq3z43pKMAcjioSZn
-         rl/3AVhNcrQ9cGCF+r4fL7EZkeBPF70XL2aQZtrfab8JFo+boyFcpl04OS7W83XbxclI
-         Fzdg==
-X-Gm-Message-State: AOAM531tTe7tycOKxWDwtUUQronvUQwvl9Eq6/ORCsOBJn69P+1XC0mz
-        qxV/JiBJm2lQvxUMIvsjsOo=
-X-Google-Smtp-Source: ABdhPJxohleEUoJwOits39wAFuZ5Dq3D2n3/z/fpcC1LdAonYJqMLG6QpyV9j4vLhVZxRHu0QtJzqQ==
-X-Received: by 2002:a17:902:768c:b029:128:b109:d0d8 with SMTP id m12-20020a170902768cb0290128b109d0d8mr23356204pll.19.1625700524677;
-        Wed, 07 Jul 2021 16:28:44 -0700 (PDT)
-Received: from localhost.lan (p1284205-ipngn14601marunouchi.tokyo.ocn.ne.jp. [153.205.193.205])
-        by smtp.gmail.com with ESMTPSA id j2sm285648pfj.168.2021.07.07.16.28.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 16:28:39 -0700 (PDT)
-Received: from localhost (localhost [IPv6:::1])
-        by localhost.lan (Postfix) with ESMTPSA id C5388900853;
-        Wed,  7 Jul 2021 23:28:37 +0000 (GMT)
-Date:   Wed, 7 Jul 2021 23:28:34 +0000
-From:   Vincent Pelletier <plr.vincent@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
-Subject: Re: [PATCH 2/3] hwmon: da9063: HWMON driver
-Message-ID: <20210707232834.5c8f2ace@gmail.com>
-In-Reply-To: <20210707005800.GA2221519@roeck-us.net>
-References: <850a353432cd676f96889cede291232abf58918d.1625581991.git.plr.vincent@gmail.com>
-        <dff04323fc1b0177c1c08d3670333a839af4c268.1625581991.git.plr.vincent@gmail.com>
-        <20210706174201.GC943349@roeck-us.net>
-        <20210707002045.571694b2@gmail.com>
-        <20210707005800.GA2221519@roeck-us.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230129AbhGHBCI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jul 2021 21:02:08 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8B3C061574;
+        Wed,  7 Jul 2021 17:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DQ/ZqedFwNuEbvbxnVdd4B/mfUuq92y0TGsMJ/w3Rb4=; b=jg8IqGl2h31ZNsVMimKoOBaTWJ
+        pZJWJyUMrT7KElP4BkLGh18OCcyt7p77lQyct5FNFLYlwDzIOV0i7bppOWOo0IXgIO7oSQQIJislh
+        bvleAfjaSE6juQimQJjXA5zU2USOfrJHt/BFkya7zRwfFGtcfxsZ0aTh9LaXXxew0IXJY6s72vtv0
+        z/suJRxIyxAKlUwEZA/YAbJKivGXjf1n5cC/ZupOIirSY2ilNI3GY6ntpqSPYa/KFiXVPTw1GilhO
+        yfBUWJsM9VJ5AmDiVJ3i0APuSx/EstDtr+nDLY5rwnQ0k8+llG3lCAms1+4+xyQHYJFzMHQdynj+m
+        cAtbdG4Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m1IN6-00Cxix-4L; Thu, 08 Jul 2021 00:58:34 +0000
+Date:   Thu, 8 Jul 2021 01:58:32 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Finn Behrens <finn@kloenk.dev>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/17] Rust support
+Message-ID: <YOZNuEtNbsLxRM0R@casper.infradead.org>
+References: <20210704202756.29107-1-ojeda@kernel.org>
+ <YOVNJuA0ojmeLvKa@infradead.org>
+ <CANiq72mKPFtB4CtHcc94a_y1V4bEOXXN2CwttQFvyzwXJv62kw@mail.gmail.com>
+ <YOWjLmg/Z7kr2+tx@kroah.com>
+ <YOW1Nj8+a2Yth2++@google.com>
+ <YOXB7FRqldZik2Xn@kroah.com>
+ <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 6 Jul 2021 17:58:00 -0700, Guenter Roeck <linux@roeck-us.net> wrote:
-> On Wed, Jul 07, 2021 at 12:20:45AM +0000, Vincent Pelletier wrote:
-> > On Tue, 6 Jul 2021 10:42:01 -0700, Guenter Roeck <linux@roeck-us.net> wrote:  
-> > > > +	/* set trim temperature offset to value read at startup */
-> > > > +	hwmon->tjunc_offset = (signed char)hwmon->da9063->t_offset;    
-> > > 
-> > > Can you explain why this is read in and passed from the mfd driver
-> > > and not here ?  
-> > 
-> > I cannot, at least not with something other than "this is how I found
-> > the code", which I realise is not satisfactory.
-> > I've been holding back on changes as I felt constrained by preserving
-> > the original author's name on the changes (both Author and
-> > Signed-off-by), but this split was indeed bothering me.
-> >   
-> Sorry, that is not a good argument. On the contrary, if I have to assume
-> that the code has non-technical constraints, I am inclined to just reject
-> it for that very reason.
+On Wed, Jul 07, 2021 at 10:56:57PM +0200, Finn Behrens wrote:
+> There is a more general use driver (network dummy) still in the making, It is fully operational, just the documentation of the rust bindings are not finished yet, so it is not merged into the rust tree yet, also I have to rebase it.
 
-These constraints are self-imposed and authorship-motivated: I do not
-want to steal credit, and I do not know where the "why did you remove
-my name from this ?" threshold is.
+Why are you so resistant to writing a real driver that deals with actual
+hardware?  A simple NVMe driver is less than a thousand lines of C.
+I know the one in the kernel now is ridiculously complicated and has
+been thoroughly messed up with abstractions to support NVMeoF instead
+of having a separate driver, but it's really a simple interface at heart.
 
-So if I am unsure whether a slightly surprising (to my untrained eyes)
-but not broken piece of code is actually usual or should be changed, I
-erred on the status-quo side in order to make a good-faith effort at
-preserving the original author's name on the change.
-
-So in turn, your suggestion to change the Signed-off-by into an
-Originally-from removed these constraints.
-
-Is this formulation clearer ?
--- 
-Vincent Pelletier
-GPG fingerprint 983A E8B7 3B91 1598 7A92 3845 CAC9 3691 4257 B0C1
