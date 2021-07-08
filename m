@@ -2,199 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDBCC07E96
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 12:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6F7C07E9C
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 14:36:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C8A161585
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 12:56:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0F9C61467
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jul 2021 14:36:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbhGHM7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jul 2021 08:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
+        id S231917AbhGHOj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jul 2021 10:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231845AbhGHM7Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jul 2021 08:59:25 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47294C061574
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jul 2021 05:56:43 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id a18so15198408lfs.10
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jul 2021 05:56:43 -0700 (PDT)
+        with ESMTP id S231877AbhGHOj2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jul 2021 10:39:28 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C24C061574
+        for <linux-doc@vger.kernel.org>; Thu,  8 Jul 2021 07:36:45 -0700 (PDT)
+Received: by mail-oi1-x22e.google.com with SMTP id h9so8044706oih.4
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jul 2021 07:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hYm3a5mpN+BoPmshn8mkxlHRFzX2Yya2PMbcQCv1mHs=;
-        b=gD+ZhmQ9k9IhL01vh29PeeOyQHbwZAJ7CxUJIHaRkAMGpwX26vg4ShpVPaLuWJFeiS
-         sVdSVzf9ENoKqC004pRnWi56RKvv0l3vqLVVgJpVGKhJIQyir91SO+zDH/V7Y2Hqs02N
-         G4gmT93mYm0Ig0fLH8kIiqpsmKtvAA3EvdN80g9d2iJ0J+UbdwyhdfpvSJT//sEBTsfD
-         j4veMOZIB22f0EMrQsxl5EA9m1A5kZSDflMQ9RUejgtpq/l8fNvVM4w9knYWKJ0B+XO9
-         yc9oN/KXAvbmH8kTdcP8rIkPXhshoXcBrRAZzg/xCXOkw7esxRCnV9o/Qjhl1+jRJJEK
-         WXxw==
+        bh=72Nulo0ReEKh1o09njcEPjT3ZEsb/u/uPS+kUmVy8sU=;
+        b=FWRbODpJvUDW1Hvvw6jBbIxh3B4HQaPFbePSQUSLSnU3oLIOtqDyL5r0r30yICdLR5
+         yPDKdQ08N64edmb3D42lPuwAt1byFqGLzD6Q9oAWRnvo2NBTHJameLigCEbX0UTLUCUf
+         YeA2vARMIdIU5/CZ+Oz55gYoydq3XkuhCgH0U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hYm3a5mpN+BoPmshn8mkxlHRFzX2Yya2PMbcQCv1mHs=;
-        b=tv34gvi3wdZqkgNFeU8OiPzMc+D7crMw6UPsI1SCksDCoKtD4pmcZqYog4sa4jSMU+
-         ANnABgsoQMMCV2PrEuxhNbtkgnf3g5uNfLd5GLbKQl7NgXvn7o+1tneO0YbWfEC7KA1p
-         Leu7R0QO1R11lYN4U4vbX50Gap3VP4TbeoSceum93VTH1fGQ9ib7M/ypzVGZd9SfTb/r
-         fNMwLAtDBh5z4YsIi/2xxyZfCv+weyL9zhu5sg88VW37dKYcutKFSB1e+q0EfybWfD90
-         RAM2v4ZqBPmVl5GLJgv0OqkMKyUTijsfWiYhn19e4nM4bJKYqBRLQ7q8iEJW1sh30XcS
-         bVSw==
-X-Gm-Message-State: AOAM530EkrOKHyvWn8kT55vj+GInW6UxxrTIhBtOzpupTdgMvLdx8c5O
-        zr3MZzmPZ6X3RNRkulJSNdP6T+umRJeUHvaPQ3D2Sg==
-X-Google-Smtp-Source: ABdhPJw9DOy/URmj+h9svmUyUGN7AhupCJ+fGCqHmeddr2Wk0Q5fOwXmrqiOw7uJLlAJ++O21J2H2CglW/qjdLYv9Lc=
-X-Received: by 2002:a05:6512:511:: with SMTP id o17mr4407179lfb.396.1625749001582;
- Thu, 08 Jul 2021 05:56:41 -0700 (PDT)
+        bh=72Nulo0ReEKh1o09njcEPjT3ZEsb/u/uPS+kUmVy8sU=;
+        b=GClTUd5VTAcgPT4g6vDnJkPlgFNWyzNMd391hr6tGZbU2Xxfz2s7x23BVfcFFFuA3l
+         qv3034+uWvbeV2wt1YECq5E0O1dQvhGIQgO+WLwQb3Vt/Cf9LJ8W33ucR/GVNyFBtkUP
+         Exh0iQivup/8BXoLYUWCJ0hvWqZj5ubMl/ssZwrT3zJ0sey7L+PzuCSXOGFhhLXhYA/f
+         3OKlLP2K2mn89TBoDAr2QS+OKIxKz4cgjbAnEHsrm/VELpoxnqw9B47N7Y/phVJr8Ltx
+         SqmFSotBRQp7zKwm5E5pmBJBHZIXZJuNTNrESoWRNUJKLugizb9LCaduZcvaiqLn1vFp
+         ewAg==
+X-Gm-Message-State: AOAM530FAtCGdcusv7BFdMPuHjYh1bZcyBoWWbOmkMy/qKnHl7xs8cBQ
+        4Alxhb8dgFgvaAqxPGBu7kHNriqeH+MQSw==
+X-Google-Smtp-Source: ABdhPJw3q3F/dK70h6RqVK5i5b0ojcmUZ2um2WXGYSGvkfoWer6fj6uHI9I1NVh0f9+esnYeQgJLZA==
+X-Received: by 2002:aca:3e09:: with SMTP id l9mr3796606oia.169.1625755004555;
+        Thu, 08 Jul 2021 07:36:44 -0700 (PDT)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com. [209.85.210.46])
+        by smtp.gmail.com with ESMTPSA id p5sm555959oip.35.2021.07.08.07.36.44
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jul 2021 07:36:44 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id 75-20020a9d08510000b02904acfe6bcccaso6003961oty.12
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jul 2021 07:36:44 -0700 (PDT)
+X-Received: by 2002:a25:6088:: with SMTP id u130mr41384789ybb.257.1625754992872;
+ Thu, 08 Jul 2021 07:36:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210616103649.2662395-1-jens.wiklander@linaro.org>
- <CAFA6WYMrxNfR09doWQgYKCQSYKyUMVKqSTPuRYn=-nueY9pSvQ@mail.gmail.com>
- <CAHUa44EeAENHv+CxtXeLuqX_NGWW6w-6P8D-BLsb69+XmGaqEQ@mail.gmail.com>
- <CAFA6WYMSAM2MDOXnhjuZFov3BtF8-nihZRUpR8ciUWsL4_nCWA@mail.gmail.com>
- <87czrv91b2.wl-maz@kernel.org> <CAFA6WYPVA5yP3trumfz=_oXzxKtfobQXRzDwZ1og8UXwaA1rkQ@mail.gmail.com>
- <87a6mz8vaj.wl-maz@kernel.org> <CAFA6WYMsjxYBw_0xzWMtHf=LtXzG+D113WSFuHCR7KhC1RuWYg@mail.gmail.com>
- <20210707175123.xdotr3lsy3e32plm@bogus>
-In-Reply-To: <20210707175123.xdotr3lsy3e32plm@bogus>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Thu, 8 Jul 2021 18:26:30 +0530
-Message-ID: <CAFA6WYNF_GkRiqn+H5UO6O4ZEkZ16xO=JkV6LOvgvvaVqwFtxw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <20210624171759.4125094-1-dianders@chromium.org>
+ <YNXXwvuErVnlHt+s@8bytes.org> <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
+ <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com> <YOaymBHc4g2cIfRn@8bytes.org>
+In-Reply-To: <YOaymBHc4g2cIfRn@8bytes.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 8 Jul 2021 07:36:20 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
+Message-ID: <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
+        Saravana Kannan <saravanak@google.com>,
+        Rajat Jain <rajatja@google.com>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-pci@vger.kernel.org,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Sonny Rao <sonnyrao@chromium.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sudeep,
+Hi,
 
-On Wed, 7 Jul 2021 at 23:22, Sudeep Holla <sudeep.holla@arm.com> wrote:
+On Thu, Jul 8, 2021 at 1:09 AM Joerg Roedel <joro@8bytes.org> wrote:
 >
-> Hi Sumit,
->
-> I was holding off you reply as I didn't have all the background on this.
-> Achin did mention that this is preparatory work for FFA notifications.
-> I did mention to him that this is more than that, it is custom extension
-> to address what FF-A notification is trying to in standard way.
->
-> I share same opinion as Marc Z.
->
-> On Wed, Jul 07, 2021 at 11:22:23AM +0530, Sumit Garg wrote:
-> > On Tue, 6 Jul 2021 at 18:16, Marc Zyngier <maz@kernel.org> wrote:
->
-> [...]
->
-> > >
-> > > I don't care about OP-TEE. If you are proposing a contract between S
-> > > and NS, it has to be TEE and OS independent. That's how the
-> > > architecture works.
-> > >
+> On Wed, Jul 07, 2021 at 01:00:13PM -0700, Doug Anderson wrote:
+> > a) Nothing is inherently broken with my current approach.
 > >
-> > Agree, here we are not proposing a common contract among the S and NS
-> > world that every TEE (based on Arm TrustZone) will use to communicate
-> > with REE (Linux in our case) but rather an OP-TEE specific
-> > notifications feature that is built on top of OP-TEE specific ABIs.
-> >
-> > And I can see your arguments coming from an FFA perspective but there
-> > are platforms like the ones based on Armv7 which don't support FFA
-> > ABI. Maybe Jens can elaborate how this feature will fit in when FFA
-> > comes into picture?
-> >
+> > b) My current approach doesn't make anybody terribly upset even if
+> > nobody is totally in love with it.
 >
-> I can understand that but won't those platforms add the support both in
-> the kernel(current series) and secure world to address notifications.
-
-Agree.
-
-> While you could argue that it is small extension to what is already present
-> but I prefer they support FF-A is they need such a support instead of adding
-> custom mechanisms. It is hard to maintain and each vendor will deviate
-> from this custom mechanism and soon we will have bunch of them to handle.
+> Well, no, sorry :)
 >
+> I don't think it is a good idea to allow drivers to opt-out of the
+> strict-setting. This is a platform or user decision, and the driver
+> should accept whatever it gets.
 
-I haven't had a deep dive into FF-A spec, maybe you can clarify on the
-following queries regarding Armv7 compatibility:
-- As you may be aware, secure monitor implementation on Armv7 is
-tightly coupled to trusted OS (part of the same code base), so would
-you like each trusted OS vendor to implement a common FF-A interface?
-- IIRC, FF-A spec has the notion of multiple secure partitions, are
-those supported on Armv7? If yes then how?
+Sure, I agree with you there. The driver shouldn't ever be able to
+override and make things less strict than the user or platform wants.
+It feels like that can be accomplished. See below.
 
-> > > > >
-> > > > > In general, cross world SGIs are a really bad idea. Yes, some people
-> > > > > like them. I still think they are misguided, and I don't intend to
-> > > > > provide a generic request interface for this.
-> > > >
-> > > > Okay, as I mentioned above having it specific to OP-TEE driver
-> > > > requesting secure world donated SGI would work for you?
-> > >
-> > > No. I want a proper architecture between secure and non-secure that
-> > > explain how messages are conveyed between the two world, how
-> > > signalling is done, how CPU PM is handled, how targeting is
-> > > negotiated. And at the end of the day, this is starting to look a lot
-> > > like FFA.
-> >
-> > AFAIK when FFA comes in picture than OP-TEE will use the standard
-> > interface provided by FFA ABIs but if FFA isn't supported by a
-> > particular platform (eg. based on Armv7) then we need to rely on TEE
-> > specific ABI like what OP-TEE currently provides:
-> >
->
-> Who are asking for this ? Can we ask them to migrate to FF-A if this
-> (new) notification support is needed on their platforms ? It is help to
-> know the requesters so that they can be included in FF-A spec discussions.
->
 
-I would let Jens answer that.
+> So the real question is still why strict is the default setting and how
+> to change that.
 
-> > > that. You'll even get to keep the pieces once it breaks. But if you
-> > > are going to invent a new universal way of signalling things across
-> > > world, you'd better start specifying things the right way, taking into
-> > > considerations systems where the interrupt controller doesn't allow
-> > > cross-world signalling.
-> >
-> > As I mentioned above, this patch-set adds an OP-TEE specific
-> > notifications feature. AFAIK, the interrupt controllers supported by
-> > OP-TEE (GICv2, GICv3 etc.) don't restrict cross-world signaling.
-> >
-> > So given the explanation above, if you still think requesting an SGI
-> > as an IRQ by drivers isn't allowed then I am fine with the approach
-> > that Jens has already implemented in this patch-set to use platform
-> > specific SPI.
-> >
->
-> And I assume these platforms in question have SPI to spare and way to
-> trigger it from secure world ?
->
+I guess there are two strategies if we agree that there's a benefit to
+running some devices in strict and others in non-strict:
 
-Yeah, that is the requirement on the platform if we rely on SPI (Qemu
-test example [1]) which wouldn't be the case if we use secure world
-donated SGI.
+* opt-in to strict: default is non-strict and we have to explicitly
+list what we want to be strict.
 
-BTW, is this notification mechanism discussed in the case of FF-A? If
-yes, can you throw some light on that?
+* opt-out of strict: default is strict and we have to explicitly list
+what we want to be non-strict.
 
-[1] https://github.com/jenswi-linaro/optee_os/commit/9007f8184deb9b7995da8d590779cb3ba2783394
+I guess the question is: do we allow both strategies or only one of
+them? I think you are suggesting that the kernel should support
+"opt-in" to strict and that that matches the status quo with PCI on
+x86. I'm pushing for some type of "opt-out" of strict support. I have
+heard from security folks that they'd prefer "opt-out" of strict as
+well. If we're willing to accept more complex config options we could
+support both choosable by KConfig. How it'd all work in my mind:
 
--Sumit
+Command line:
 
-> --
-> Regards,
-> Sudeep
+* iommu.strict=0 - suggest non-strict by default
+* iommu.strict=1 - force strict for all drivers
+* iommu.strict not specified - no opinion
+
+Kconfig:
+
+* IOMMU_DEFAULT_LAZY - suggest non-strict by default; drivers can
+opt-in to strict
+* IOMMU_DEFAULT_STRICT - force strict for all drivers
+* IOMMU_DEFAULT_LOOSE_STRICT - allow explicit suggestions for laziness
+but default to strict if no votes.
+
+Drivers:
+* suggest lazy - suggest non-strict
+* force strict - force strict
+* no vote
+
+
+How the above work together:
+
+* if _any_ of the three things wants strict then it's strict.
+
+* if _all_ of the three things want lazy then it's lazy.
+
+* If the KConfig is "loose strict" and the command line is set to
+"lazy" then it's equivalent to the KConfig saying "lazy". In other
+words drivers could still "opt-in" to strict but otherwise we'd be
+lazy.
+
+* The only way for a driver's "suggest lazy" vote to have any effect
+at all is if "iommu.strict" wasn't specified on the command line _and_
+if the KConfig was "loose strict". This is effectively the "opt-out"
+of lazy.
+
+
+If you think the strategy I describe above is garbage then would you
+be OK if I re-worked my patchset to at least allow non-PCI drivers to
+"opt-in" to strict? Effectively I'd change patch #3 to list all of the
+peripherals on my SoC _except_ the USB and SD/MMC and request that
+they all be strict. If other people expressed their preference for the
+"opt-out" of strict strategy would that change your mind?
+
+
+> Or document for the users that want performance how to
+> change the setting, so that they can decide.
+
+Pushing this to the users can make sense for a Linux distribution but
+probably less sense for an embedded platform. So I'm happy to make
+some way for a user to override this (like via kernel command line),
+but I also strongly believe there should be a default that users don't
+have to futz with that we think is correct.
+
+-Doug
