@@ -2,215 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3535DC11F66
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0B5C07E9C
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:50:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AB0761374
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:43:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2D5B61376
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232065AbhGINpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jul 2021 09:45:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42505 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232046AbhGINpn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 09:45:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625838180;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KlPPUF0Gcbw6/yHTlRqjYQVdox+0fqPhBKj6QGPVVk8=;
-        b=OcSMGlgjUbPa4vWWHNuymXlVMi1LmD6xbrzlNI+0aa9mQE9Jl4fc2O4v/sc4YCjqPOdTzA
-        hYlpCjuuCiu4VPp8KRtvL17r8IMmiWb+0s8tHIWQf+zwXYZohxMnBI1CZmdNQbtOJwxTKf
-        9u7RFcSQ8hXI5rak3ZOMZfkwDpKY2FM=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-tK38H6NuNZCsONy2AhQoAg-1; Fri, 09 Jul 2021 09:42:58 -0400
-X-MC-Unique: tK38H6NuNZCsONy2AhQoAg-1
-Received: by mail-oo1-f72.google.com with SMTP id q3-20020a4a30030000b029025d878cfb52so128689oof.11
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jul 2021 06:42:58 -0700 (PDT)
+        id S231910AbhGINxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jul 2021 09:53:00 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:34636 "EHLO
+        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231454AbhGINxA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 09:53:00 -0400
+Received: by mail-wr1-f44.google.com with SMTP id p8so12288720wrr.1;
+        Fri, 09 Jul 2021 06:50:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KlPPUF0Gcbw6/yHTlRqjYQVdox+0fqPhBKj6QGPVVk8=;
-        b=Es1auP+SnYvHfrx2YplqfH+KNvnHqJ1TqMZGSIkUJdqrlN8P/t2dltMtov76hpqeeu
-         6H/0CARAom8im901tKruFLAUyTr/fkGja86gjlBaLjN1YP6D0yjW7mrZHq84kIPu49Me
-         5PueABMNHgggXpVZYXfaBYEhwVcbKoRHRn+WWKG4r1cU0ThpRWmUM9yb6D3t3WoMqbo/
-         fZXLUqYkIlXTlWzGh4Uba7bqDQwzaXIBXWff3BYtkF+xeniagjRx/ofQefBLtSAuU3C1
-         rYB9DPSZX4X2qq7CJL7c5BV87+VQDRAkfCB/Lh1Rw5huAPWjTwzasCMTMWgqIWxQWxHl
-         r7+g==
-X-Gm-Message-State: AOAM530RBihweE+tImR2wGdJhx0L889ytBLJJmCefKnh5G6hSA5LTvmG
-        2aL4gX+Sb/UoycvovgmdN12BQ4ahZvkDgwiDhpJ3OIgwcOBk0O3xrlUTwgp8xLiSHn8Qz/acJ3X
-        D/dv5i1eyJYeFgBwrtigl
-X-Received: by 2002:a05:6830:916:: with SMTP id v22mr25514348ott.201.1625838178195;
-        Fri, 09 Jul 2021 06:42:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZB10we+gSjX2AbpriYStSZIsyFAqiV/1xYA1P7bwk1YCEK7j4xSxMnm+CRKGwJ5ih2KGX9Q==
-X-Received: by 2002:a05:6830:916:: with SMTP id v22mr25514334ott.201.1625838178022;
-        Fri, 09 Jul 2021 06:42:58 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id j23sm1215948oie.9.2021.07.09.06.42.56
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GoDqQzDQbxqFmqbu69TknlhRgwp/b+vsLpDJzZkaLpI=;
+        b=A7u/m/LMbrIXNThlyol64Vsn/TgD/P73G3UBPGZ981KTBK+fNByDp/tre4HLU1cBla
+         T6zjLLyZLuB5OuFVcOxs/14QJF2ezPzoFI8t0r478NSkgsuaVuqZ9CT7lJmySowoxM9x
+         yyf7ur2tjxFQAaeeINmXfqJtL4x61i42rCQFFRW/ogy+jRXW2HGcj6gE0gA8Uc8c2rws
+         Dx03anX0kXN5E9E32Oo20AqM+eRm0L9r5uaN0ZRFrnJV0o5YAdifIF2snIokxM/2p76J
+         lKNHh5TCVso4XhyegPY/TxSv25r7Swmphd1M4bY/0eqi2K3m3e5dSX1flv/0L0E/Yq9c
+         tO6w==
+X-Gm-Message-State: AOAM532L45xRDRn1I4LAUIOJ7bCp825ayw43ZNFAQmJnS52RLAUi7VGe
+        x6A2hEHXjJSIdCGqr2ZEPbU=
+X-Google-Smtp-Source: ABdhPJzqIo3dbkRJ9yXT6zzK0Z3dgsbYWCZD7236whK5CFs6O9bGHzd+llyNLK5mKQUsA9bpaYQxYg==
+X-Received: by 2002:a5d:6652:: with SMTP id f18mr16659403wrw.235.1625838615682;
+        Fri, 09 Jul 2021 06:50:15 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id g3sm5416303wrv.64.2021.07.09.06.50.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 06:42:57 -0700 (PDT)
-From:   trix@redhat.com
-To:     mdf@kernel.org, corbet@lwn.net, hao.wu@intel.com
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
-Subject: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and fpga_region
-Date:   Fri,  9 Jul 2021 06:42:29 -0700
-Message-Id: <20210709134229.2510349-6-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210709134229.2510349-1-trix@redhat.com>
-References: <20210709134229.2510349-1-trix@redhat.com>
+        Fri, 09 Jul 2021 06:50:15 -0700 (PDT)
+Date:   Fri, 9 Jul 2021 13:50:13 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Wei Liu <wei.liu@kernel.org>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+        kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
+        Muminul Islam <muislam@microsoft.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 7/8] mshv: implement in-kernel device framework
+Message-ID: <20210709135013.t5axinjmufotpylf@liuwe-devbox-debian-v2>
+References: <20210709114339.3467637-1-wei.liu@kernel.org>
+ <20210709114339.3467637-8-wei.liu@kernel.org>
+ <YOhIzJVPN9SwoRK0@casper.infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YOhIzJVPN9SwoRK0@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+On Fri, Jul 09, 2021 at 02:02:04PM +0100, Matthew Wilcox wrote:
+> On Fri, Jul 09, 2021 at 11:43:38AM +0000, Wei Liu wrote:
+> > +static long
+> > +mshv_partition_ioctl_create_device(struct mshv_partition *partition,
+> > +	void __user *user_args)
+> > +{
+> [...]
+> > +	mshv_partition_get(partition);
+> > +	r = anon_inode_getfd(ops->name, &mshv_device_fops, dev, O_RDWR | O_CLOEXEC);
+> > +	if (r < 0) {
+> > +		mshv_partition_put_no_destroy(partition);
+> > +		list_del(&dev->partition_node);
+> > +		ops->destroy(dev);
+> > +		goto out;
+> > +	}
+> > +
+> > +	cd->fd = r;
+> > +	r = 0;
+> 
+> Why return the fd in memory instead of returning the fd as the return
+> value from the ioctl?
+> 
+> > +	if (copy_to_user(user_args, &tmp, sizeof(tmp))) {
+> > +		r = -EFAULT;
+> > +		goto out;
+> > +	}
+> 
+> ... this could then disappear.
 
-compat_id is implementation specific.  So the data should be
-stored at the implemeation layer, not the infrastructure layer.
-Remove the compat_id elements and supporting code.
+Thanks for your comment, Matthew.
 
-Printing out the compat_id is done with the fpga_region
-compat_id_show() op.
+This is intentionally because I didn't want to deviate from KVM's API.
+The fewer differences the better.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/fpga/dfl-fme-mgr.c       |  7 -------
- drivers/fpga/dfl-fme-region.c    |  1 -
- drivers/fpga/fpga-region.c       |  7 +------
- include/linux/fpga/fpga-mgr.h    | 13 -------------
- include/linux/fpga/fpga-region.h |  2 --
- 5 files changed, 1 insertion(+), 29 deletions(-)
+Wei.
 
-diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
-index cd0b9157ea6e5..8c5423eeffe75 100644
---- a/drivers/fpga/dfl-fme-mgr.c
-+++ b/drivers/fpga/dfl-fme-mgr.c
-@@ -292,7 +292,6 @@ EXPORT_SYMBOL_GPL(fme_mgr_get_compat_id);
- static int fme_mgr_probe(struct platform_device *pdev)
- {
- 	struct dfl_fme_mgr_pdata *pdata = dev_get_platdata(&pdev->dev);
--	struct fpga_compat_id *compat_id;
- 	struct device *dev = &pdev->dev;
- 	struct fme_mgr_priv *priv;
- 	struct fpga_manager *mgr;
-@@ -312,10 +311,6 @@ static int fme_mgr_probe(struct platform_device *pdev)
- 			return PTR_ERR(priv->ioaddr);
- 	}
- 
--	compat_id = devm_kzalloc(dev, sizeof(*compat_id), GFP_KERNEL);
--	if (!compat_id)
--		return -ENOMEM;
--
- 	_fme_mgr_get_compat_id(priv->ioaddr, &priv->compat_id);
- 
- 	mgr = devm_fpga_mgr_create(dev, "DFL FME FPGA Manager",
-@@ -323,8 +318,6 @@ static int fme_mgr_probe(struct platform_device *pdev)
- 	if (!mgr)
- 		return -ENOMEM;
- 
--	mgr->compat_id = compat_id;
--
- 	return devm_fpga_mgr_register(dev, mgr);
- }
- 
-diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
-index d21eacbf2469f..be1d57ee37666 100644
---- a/drivers/fpga/dfl-fme-region.c
-+++ b/drivers/fpga/dfl-fme-region.c
-@@ -64,7 +64,6 @@ static int fme_region_probe(struct platform_device *pdev)
- 	}
- 
- 	region->priv = pdata;
--	region->compat_id = mgr->compat_id;
- 	platform_set_drvdata(pdev, region);
- 
- 	ret = fpga_region_register(region);
-diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
-index 864dd4f290e3b..b08d3914716f0 100644
---- a/drivers/fpga/fpga-region.c
-+++ b/drivers/fpga/fpga-region.c
-@@ -172,12 +172,7 @@ static ssize_t compat_id_show(struct device *dev,
- 	if (region->rops && region->rops->compat_id_show)
- 		return region->rops->compat_id_show(region, buf);
- 
--	if (!region->compat_id)
--		return -ENOENT;
--
--	return sprintf(buf, "%016llx%016llx\n",
--		       (unsigned long long)region->compat_id->id_h,
--		       (unsigned long long)region->compat_id->id_l);
-+	return -ENOENT;
- }
- 
- static DEVICE_ATTR_RO(compat_id);
-diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
-index ec2cd8bfceb00..ebdea215a8643 100644
---- a/include/linux/fpga/fpga-mgr.h
-+++ b/include/linux/fpga/fpga-mgr.h
-@@ -143,24 +143,12 @@ struct fpga_manager_ops {
- #define FPGA_MGR_STATUS_IP_PROTOCOL_ERR		BIT(3)
- #define FPGA_MGR_STATUS_FIFO_OVERFLOW_ERR	BIT(4)
- 
--/**
-- * struct fpga_compat_id - id for compatibility check
-- *
-- * @id_h: high 64bit of the compat_id
-- * @id_l: low 64bit of the compat_id
-- */
--struct fpga_compat_id {
--	u64 id_h;
--	u64 id_l;
--};
--
- /**
-  * struct fpga_manager - fpga manager structure
-  * @name: name of low level fpga manager
-  * @dev: fpga manager device
-  * @ref_mutex: only allows one reference to fpga manager
-  * @state: state of fpga manager
-- * @compat_id: FPGA manager id for compatibility check.
-  * @mops: pointer to struct of fpga manager ops
-  * @priv: low level driver private date
-  */
-@@ -169,7 +157,6 @@ struct fpga_manager {
- 	struct device dev;
- 	struct mutex ref_mutex;
- 	enum fpga_mgr_states state;
--	struct fpga_compat_id *compat_id;
- 	const struct fpga_manager_ops *mops;
- 	void *priv;
- };
-diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
-index 236d3819f1c13..afc79784b2823 100644
---- a/include/linux/fpga/fpga-region.h
-+++ b/include/linux/fpga/fpga-region.h
-@@ -30,7 +30,6 @@ struct fpga_region_ops {
-  * @bridge_list: list of FPGA bridges specified in region
-  * @mgr: FPGA manager
-  * @info: FPGA image info
-- * @compat_id: FPGA region id for compatibility check.
-  * @priv: private data
-  * @rops: optional pointer to struct for fpga region ops
-  */
-@@ -40,7 +39,6 @@ struct fpga_region {
- 	struct list_head bridge_list;
- 	struct fpga_manager *mgr;
- 	struct fpga_image_info *info;
--	struct fpga_compat_id *compat_id;
- 	void *priv;
- 	const struct fpga_region_ops *rops;
- };
--- 
-2.26.3
 
+> 
