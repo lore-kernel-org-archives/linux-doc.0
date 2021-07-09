@@ -2,111 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0B5C07E9C
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A12AC07E9E
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:57:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2D5B61376
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:50:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15CE9613C1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 13:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbhGINxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jul 2021 09:53:00 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:34636 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbhGINxA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 09:53:00 -0400
-Received: by mail-wr1-f44.google.com with SMTP id p8so12288720wrr.1;
-        Fri, 09 Jul 2021 06:50:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GoDqQzDQbxqFmqbu69TknlhRgwp/b+vsLpDJzZkaLpI=;
-        b=A7u/m/LMbrIXNThlyol64Vsn/TgD/P73G3UBPGZ981KTBK+fNByDp/tre4HLU1cBla
-         T6zjLLyZLuB5OuFVcOxs/14QJF2ezPzoFI8t0r478NSkgsuaVuqZ9CT7lJmySowoxM9x
-         yyf7ur2tjxFQAaeeINmXfqJtL4x61i42rCQFFRW/ogy+jRXW2HGcj6gE0gA8Uc8c2rws
-         Dx03anX0kXN5E9E32Oo20AqM+eRm0L9r5uaN0ZRFrnJV0o5YAdifIF2snIokxM/2p76J
-         lKNHh5TCVso4XhyegPY/TxSv25r7Swmphd1M4bY/0eqi2K3m3e5dSX1flv/0L0E/Yq9c
-         tO6w==
-X-Gm-Message-State: AOAM532L45xRDRn1I4LAUIOJ7bCp825ayw43ZNFAQmJnS52RLAUi7VGe
-        x6A2hEHXjJSIdCGqr2ZEPbU=
-X-Google-Smtp-Source: ABdhPJzqIo3dbkRJ9yXT6zzK0Z3dgsbYWCZD7236whK5CFs6O9bGHzd+llyNLK5mKQUsA9bpaYQxYg==
-X-Received: by 2002:a5d:6652:: with SMTP id f18mr16659403wrw.235.1625838615682;
-        Fri, 09 Jul 2021 06:50:15 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id g3sm5416303wrv.64.2021.07.09.06.50.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 06:50:15 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 13:50:13 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Lillian Grassin-Drake <ligrassi@microsoft.com>,
-        Muminul Islam <muislam@microsoft.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [RFC v1 7/8] mshv: implement in-kernel device framework
-Message-ID: <20210709135013.t5axinjmufotpylf@liuwe-devbox-debian-v2>
-References: <20210709114339.3467637-1-wei.liu@kernel.org>
- <20210709114339.3467637-8-wei.liu@kernel.org>
- <YOhIzJVPN9SwoRK0@casper.infradead.org>
+        id S231908AbhGIN7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jul 2021 09:59:42 -0400
+Received: from foss.arm.com ([217.140.110.172]:53552 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231454AbhGIN7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Jul 2021 09:59:42 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BF5FED1;
+        Fri,  9 Jul 2021 06:56:58 -0700 (PDT)
+Received: from [10.57.35.192] (unknown [10.57.35.192])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 000A63F694;
+        Fri,  9 Jul 2021 06:56:52 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+To:     Joerg Roedel <joro@8bytes.org>,
+        Doug Anderson <dianders@chromium.org>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-pci@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Rajat Jain <rajatja@google.com>, Will Deacon <will@kernel.org>,
+        Rob Clark <robdclark@chromium.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, quic_c_gdjako@quicinc.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Sonny Rao <sonnyrao@chromium.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>
+References: <20210624171759.4125094-1-dianders@chromium.org>
+ <YNXXwvuErVnlHt+s@8bytes.org>
+ <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
+ <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
+ <YOaymBHc4g2cIfRn@8bytes.org>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <edd1de35-5b9e-b679-9428-23c6d5005740@arm.com>
+Date:   Fri, 9 Jul 2021 14:56:47 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YOhIzJVPN9SwoRK0@casper.infradead.org>
+In-Reply-To: <YOaymBHc4g2cIfRn@8bytes.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 09, 2021 at 02:02:04PM +0100, Matthew Wilcox wrote:
-> On Fri, Jul 09, 2021 at 11:43:38AM +0000, Wei Liu wrote:
-> > +static long
-> > +mshv_partition_ioctl_create_device(struct mshv_partition *partition,
-> > +	void __user *user_args)
-> > +{
-> [...]
-> > +	mshv_partition_get(partition);
-> > +	r = anon_inode_getfd(ops->name, &mshv_device_fops, dev, O_RDWR | O_CLOEXEC);
-> > +	if (r < 0) {
-> > +		mshv_partition_put_no_destroy(partition);
-> > +		list_del(&dev->partition_node);
-> > +		ops->destroy(dev);
-> > +		goto out;
-> > +	}
-> > +
-> > +	cd->fd = r;
-> > +	r = 0;
+On 2021-07-08 09:08, Joerg Roedel wrote:
+> On Wed, Jul 07, 2021 at 01:00:13PM -0700, Doug Anderson wrote:
+>> a) Nothing is inherently broken with my current approach.
+>>
+>> b) My current approach doesn't make anybody terribly upset even if
+>> nobody is totally in love with it.
 > 
-> Why return the fd in memory instead of returning the fd as the return
-> value from the ioctl?
+> Well, no, sorry :)
 > 
-> > +	if (copy_to_user(user_args, &tmp, sizeof(tmp))) {
-> > +		r = -EFAULT;
-> > +		goto out;
-> > +	}
+> I don't think it is a good idea to allow drivers to opt-out of the
+> strict-setting. This is a platform or user decision, and the driver
+> should accept whatever it gets.
 > 
-> ... this could then disappear.
+> So the real question is still why strict is the default setting and how
+> to change that. Or document for the users that want performance how to
+> change the setting, so that they can decide.
 
-Thanks for your comment, Matthew.
+As I mentioned before, conceptually I think this very much belongs in 
+sysfs as a user decision. We essentially have 4 levels of "strictness":
 
-This is intentionally because I didn't want to deviate from KVM's API.
-The fewer differences the better.
+1: DMA domain with bounce pages
+2: DMA domain
+3: DMA domain with flush queue
+4: Identity domain
 
-Wei.
+The "make this device go faster because I trust it" use-case is why we 
+have the sysfs interface to switch between 2 and 4, so it's entirely 
+logical to have the intermediate option as well for when 3 is "faster" 
+enough while still giving a bit more peace of mind than full-on bypass.
 
+Making it a platform-specific decision that's hidden in a driver - 
+arm-smmu-qcom can be considered a dumping ground of detailed platform 
+knowledge ;) - happens to work as a reasonable compromise for this 
+specific case, but I concur that it could be viewed as setting a 
+precedent for other cases which we definitely aren't as reasonable.
 
-> 
+I've been thinking about the sysfs thing some more, and since it's 
+Friday afternoon and I can't concentrate on what I'm supposed to be 
+doing anyway, let's see how far I can get by Monday...
+
+Robin.
