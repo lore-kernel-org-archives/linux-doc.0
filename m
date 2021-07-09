@@ -2,302 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36486C07E99
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 09:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87FC8C07E99
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 10:31:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 115AE613D9
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 09:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A71B613DC
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 10:31:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbhGIJLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jul 2021 05:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43334 "EHLO
+        id S232202AbhGIKeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jul 2021 06:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbhGIJLF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 05:11:05 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DC8C0613DD
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jul 2021 02:08:21 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id u18so12227273lfl.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jul 2021 02:08:21 -0700 (PDT)
+        with ESMTP id S232113AbhGIKeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 06:34:37 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518B7C0613E5
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jul 2021 03:31:54 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id w15-20020a056830144fb02904af2a0d96f3so8969271otp.6
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jul 2021 03:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=Ck6Fp21HaZ8Fw8Aq/aLZNLIJN6RtrQulV7xZ67HEXy4=;
-        b=OJ7TOZpELL+rZYvA6XHTcYqwN6Xhj/XULq/Ii0Xby+izM+toALMls2ehA4PoLIyUMT
-         CGY8aBRJhUWNJjZtuMIVDabRAyOPbfEFTnMS3ETcuveT2RFmz8ZtthwpyN4kHLiBDTW6
-         k352WxdE61FTDnu6qL2DViQdIaiPBd/W73yqBxQlJWG2HfyyaqflTNdJ2DxfiTHxeQcN
-         5ugN5mnZCc2F7ZnDoahY6lFJlNZdPPVL//7L5NSvCDKpj/XqxCcsMhWJbitgikcxScwj
-         Mh7LTf3DGQj2SgyymtO+Kv/Y4ezNz3f9cGt/sRo6SrX1QCvwUJZ7PJf3Q+pimTlHxtRP
-         jgVg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Ag9cLTRzEt3rLWB36U/GaTidnQngHz1mFDbPHdbYJM=;
+        b=sy+60CShYu2+iBbLulb6BXcdNl+YIgSb+jajYjDZa4zuiim9DZxtK88a9BSEKRhPbe
+         2149xKE135XoG+YMIvJKNw6ZCj+Hh+EyWUQfK08pHq86IYtTdGJTm+svEvs37g5Uc5aC
+         xngQeJK55dnd2ThJlBq5eYZYae9d0PV6/iYXED9E2qqxOYHyQkUpxQ8hj9KF/zDuFrT9
+         tgJPN39rPw0sSVwFi7t4ZBZBflf0sauWKsDv5fafUbt1gGs3lfO03jiHBYX5NnqsSVoi
+         /ujWD+DqEO4PATTm5/8r52LotGJ0RL6BBjZ8Ui/OZxRKJiFG0Xe11t+2cPco8FTtPijx
+         5Rtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=Ck6Fp21HaZ8Fw8Aq/aLZNLIJN6RtrQulV7xZ67HEXy4=;
-        b=LWKaFB2EfUxl/KpMhDCgI4WGe4oRAGEYblV6fngECwIq1f9c0ofH2R9D+gAYegFE3B
-         atScEZC8gXtOoGoty7mB5Ag5sOzjFxn18vJxrAj5zA2bS+YF3UZ7aPPod3l1CfeWzdK0
-         0/KfGWSecNC+KJfWcxfXjihWyooEMndjx69+Z9GxA/Os24C2maSAbM/CH81tL+ytGsG5
-         Q2p+2ScGNOzoLakIPyXtWHqzZmubdpzYJYB9fZ4G4Hgi8CYdOrVrsOxLVPMxuXAEjBUD
-         EB/VIAHkz9flJs/Tt0uy7+L14qa+3rhbiAEkbwnQ3ypEXmKVqiivebU/a/BpFSp+E6wb
-         EDPQ==
-X-Gm-Message-State: AOAM530b5zQ5jO3HqQ+7AOnky2n0+vewPlgjJwIEtl5JjGEWpDztzSQ4
-        GcjMUb3NW6jn9fbZoBamfXA=
-X-Google-Smtp-Source: ABdhPJzntzCC+/jClAg2JO0r0WzPoCDvDnWr6pcXTrMuEfl/T6M9wytrWxUlXMZrdrKdk/12Q6jd+g==
-X-Received: by 2002:a05:6512:3458:: with SMTP id j24mr28032218lfr.366.1625821699464;
-        Fri, 09 Jul 2021 02:08:19 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id j18sm493129lji.68.2021.07.09.02.08.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 02:08:18 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 12:08:14 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v5] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <20210709120814.48a90aa1@eldfell>
-In-Reply-To: <YOgClII3UwckkPkb@phenom.ffwll.local>
-References: <20210706161244.1038592-1-maxime@cerno.tech>
-        <20210709102444.7a72a029@eldfell>
-        <YOgClII3UwckkPkb@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Ag9cLTRzEt3rLWB36U/GaTidnQngHz1mFDbPHdbYJM=;
+        b=ndhvafA9HC+icqyyDzFGRFfs5PzaU0jdF1V1oWma0euB+spbFhcNY49T/Isvfsd20k
+         135ZS4sKzaVQ+IkGiKQzPY8Vdxgt9C0Ez0tdA/v6dh3oKqcbYD30/T2xfoLx/5XUmWJa
+         3TYXRsH3yu1TWSuFgfk4V+SL6i6xlGEG1+2OH6D1F/Ihi+J4uznB+pE7iIXJguvATpKO
+         6u5L9eRRnbwNYGhl9C+061O/bh5TR/8Er5R3qww9CyIbNdMkOq4f3ZYpyvnPWCdxrrgX
+         ZnpPYbUsOFLnnX8Ge0IQdKcoUbuhmgHokRf3xPCBQX4hCbvHb1Thnx4YTHQsNJUgzzDC
+         +hQQ==
+X-Gm-Message-State: AOAM531uLT/Vy8Fqq8JONx1ZnIk881wGi/0KY6bSNUfBRuNyJl9NeH7R
+        EBn7xQtNmKAJguHCEnuH6dceKkB+yZslCIK+jzPyk8ksEGizBw==
+X-Google-Smtp-Source: ABdhPJzZsHc3H6ZMG5NBT8zSvR+UmJMGAQPOW7Oty1uNxYZb5VbOU1cqW4degb+Ls5Psx+gb8Y7wOEkrsU6h6jHMP2U=
+X-Received: by 2002:a9d:d04:: with SMTP id 4mr29227829oti.251.1625826713387;
+ Fri, 09 Jul 2021 03:31:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/m7jNGNA+=hMPjR5L.MzAv2S";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-6-ojeda@kernel.org>
+ <YOV/oj0rjHhzluH2@elver.google.com>
+In-Reply-To: <YOV/oj0rjHhzluH2@elver.google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 9 Jul 2021 12:31:41 +0200
+Message-ID: <CANpmjNMOou5DccZvGAcy4U7iqoLk6NRuTFkd-6JzTmoSFR+YYg@mail.gmail.com>
+Subject: Re: [PATCH 05/17] rust: add C helpers
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Yuki Okushi <jtitor@2k36.org>,
+        clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/m7jNGNA+=hMPjR5L.MzAv2S
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, 7 Jul 2021 at 12:19, Marco Elver <elver@google.com> wrote:
+> On Sun, Jul 04, 2021 at 10:27PM +0200, ojeda@kernel.org wrote:
+> > From: Miguel Ojeda <ojeda@kernel.org>
+> >
+> > This source file contains forwarders to C macros and inlined
+> > functions.
+>
+> What is the story with Rust and LTO? Intuitively, I would expect Rust
+> code to only perform optimally if the kernel is built with LTO
+> (currently only supported via Clang).
 
-On Fri, 9 Jul 2021 10:02:28 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+I'll answer my own question: it looks like Linux Rust code currently
+does _not_ generate LLVM-LTO compatible object files, but only native
+object files (which still link fine if LTO is enabled, but doesn't
+permit the optimizations below we'd want).
 
-> On Fri, Jul 09, 2021 at 10:24:44AM +0300, Pekka Paalanen wrote:
-> > On Tue,  6 Jul 2021 18:12:44 +0200
-> > Maxime Ripard <maxime@cerno.tech> wrote:
-> >  =20
-> > > New KMS properties come with a bunch of requirements to avoid each
-> > > driver from running their own, inconsistent, set of properties,
-> > > eventually leading to issues like property conflicts, inconsistencies
-> > > between drivers and semantics, etc.
-> > >=20
-> > > Let's document what we expect. =20
-> >=20
-> > ...
-> >  =20
-> > > Changes from v4:
-> > >   - Changes suggested by Pekka
-> > >=20
-> > > Changes from v3:
-> > >   - Roll back to the v2
-> > >   - Add Simon and Pekka in Cc
-> > >=20
-> > > Changes from v2:
-> > >   - Take into account the feedback from Laurent and Lidiu to no longer
-> > >     force generic properties, but prefix vendor-specific properties w=
-ith
-> > >     the vendor name
-> > >=20
-> > > Changes from v1:
-> > >   - Typos and wording reported by Daniel and Alex
-> > > ---
-> > >  Documentation/gpu/drm-kms.rst | 30 ++++++++++++++++++++++++++++++
-> > >  1 file changed, 30 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-km=
-s.rst
-> > > index 87e5023e3f55..47994890fd1e 100644
-> > > --- a/Documentation/gpu/drm-kms.rst
-> > > +++ b/Documentation/gpu/drm-kms.rst
-> > > @@ -463,6 +463,36 @@ KMS Properties
-> > >  This section of the documentation is primarily aimed at user-space d=
-evelopers.
-> > >  For the driver APIs, see the other sections.
-> > > =20
-> > > +Requirements
-> > > +------------
-> > > +
-> > > +KMS drivers might need to add extra properties to support new featur=
-es.
-> > > +Each new property introduced in a driver need to meet a few
-> > > +requirements, in addition to the one mentioned above:
-> > > +
-> > > +* It must be standardized, documenting:
-> > > +
-> > > +  * The full, exact, name string;
-> > > +  * If the property is an enum, all the valid variants name; =20
-> >=20
-> > Hi,
-> >=20
-> > "variant" feels a little off to me, I would have used "value name
-> > strings".
-> >  =20
-> > > +  * What values are accepted, and what these values mean;
-> > > +  * What the property does and how it can be used;
-> > > +  * How the property might interact with other, existing properties.
-> > > +
-> > > +* It must provide a generic helper in the core code to register that
-> > > +  property on the object it attaches to.
-> > > +
-> > > +* Its content must be decoded by the core and provided in the object=
-'s
-> > > +  associated state structure. That includes anything drivers might w=
-ant
-> > > +  to precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>`=
- for
-> > > +  planes.
-> > > +
-> > > +* Its initial state must match the behavior prior to the property
-> > > +  introduction. This might be a fixed value matching what the hardwa=
-re
-> > > +  does, or it may be inherited from the state the firmware left the
-> > > +  system in during boot. =20
-> >=20
-> > I'd like to point out that this rule should apply also to
-> > properties that already exist in general, but are newly exposed in a
-> > driver for hardware that didn't expose the property before. =20
->=20
-> I think we should just make this a very strong recommendation, and in
-> general encourage people to use the tests against their driver?
->=20
-> Otherwise a small "I'll just enable this" thing can become a huge project.
-> And in general I think grandfathering existing things in is the pragmatic
-> choice.
->=20
-> But maybe that could be a follow-up patch?
+rustc already supports playing nicely with LLVM LTO via `-C
+linker-plugin-lto`:
+https://doc.rust-lang.org/rustc/linker-plugin-lto.html
 
-Sure, I don't mind. Just saying now that it came to mind. Drivers do
-not arbitrarily change behaviour without exposing more properties
-either, right?
+So, hopefully it should only require kernel work to make it play
+nicely with CONFIG_LTO_CLANG.
 
-
-Thanks,
-pq
-
-
-> -Daniel
->=20
-> >  =20
-> > > +
-> > > +* An IGT test must be submitted where reasonable.
-> > > +
-> > >  Property Types and Blob Property Support
-> > >  ----------------------------------------
-> > >   =20
-> >=20
-> > Regardless of my comments above:
-> >=20
-> > Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >=20
-> >=20
-> > Thanks,
-> > pq =20
->=20
->=20
->=20
-
-
---Sig_/m7jNGNA+=hMPjR5L.MzAv2S
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDoEf4ACgkQI1/ltBGq
-qqf1tQ/+OlmEQCBd2x61wdinsQBtNDzcCZe63mmxfySolGB8JZOJjPli0E6OSV2V
-l7vT2Bs7X9l9lTh4cfv1M0H6Ezg8vSV8pQfB0tJzIo7Nir6M10HRt+aYrGAmkFBJ
-d2zU2TeM5inDbSNczQIZwJgvHrezzMUO1nqQjX5d4ejg+2Ga5EgOZg15gg46n5hS
-Bg73JU/u8pOJTP4bhkLUMLX/02oBbTP/YMzdqmgRQUaVLa11skcv63vYC1gEcekA
-FWWVlJsnJKPVf+X+c+2vGIVnQiUyI+SKCOPD4XsFK4XQG5NweUOqgpn40CRFNdeH
-PR0Z8eh5fuFhz3iqy68PgOMB+QKHp3F7MiNZgoHr58yn2hUnwNLZqYXIReEbeaPx
-3eix5nUErEwHApXFbKq/ERqPq24DhKPeH7kBqEIcWduF3mZRkD8iHEZC8LCS80Eg
-vaVPtbxLNJ4h7aYYrr6p8/T8u4GdoiEeLlqoIj1Rj7WQ0sKMopbZPIiG+J2fbQLM
-rLoN2EdA+a20hFPQhl0k8FhlhDlANahAVAJ7Vkobqus5RnKW+QZL/syGRZzOiWj1
-MELDhbCzodSacx31dFWjaqQgJBmkSfhVUXwYpBrx1/5B8JS0EgzEkR4OfJJUT7bP
-nL+2xVkGp5Crso/gCQFS7rMM/bvzNgzq+xtACEcwh6yyw1CTDnM=
-=IUaf
------END PGP SIGNATURE-----
-
---Sig_/m7jNGNA+=hMPjR5L.MzAv2S--
+> Because if calls to every one of these helpers are real calls, I would
+> expect performance to be pretty poor. There's probably a reason these
+> are macros or inlinable functions.
+>
+> I would almost go so far and suggest that CONFIG_RUST be modified as
+> follows:
+>
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2028,6 +2028,7 @@ config RUST
+>         depends on HAS_RUST
+>         depends on !COMPILE_TEST
+>         depends on !MODVERSIONS
+> +       depends on LTO || EXPERT
+>         default n
+>         help
+>           Enables Rust support in the kernel.
+>
+> [ I'm sure there are configs that don't yet work with LTO, but could be
+>   useful to enable for debugging or testing purposes, and therefore would
+>   make it conditional on CONFIG_EXPERT as well. ]
+>
+> [...]
+> > +unsigned long rust_helper_copy_from_user(void *to, const void __user *from, unsigned long n)
+> > +{
+> > +     return copy_from_user(to, from, n);
+> > +}
+> > +
+> [...]
+>
+> From some local tests, it looks like simply attaching
+> __attribute__((always_inline)) will do what one would expect when
+> compiling with Clang LTO (I checked -flto=thin).
+>
+> If you confirm this also works across C and Rust TUs when enabling LTO,
+> I would then suggested adding __attribute__((always_inline)) to all
+> these helpers.
+>
+> Thanks,
+> -- Marco
