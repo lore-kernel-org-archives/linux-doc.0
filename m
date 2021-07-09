@@ -2,252 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26618C07E9B
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 08:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F37BC07E99
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 08:06:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CFDD613C3
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 08:02:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BA6F613C8
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jul 2021 08:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231477AbhGIIFR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jul 2021 04:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbhGIIFR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 04:05:17 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6455C0613DD
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jul 2021 01:02:33 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id k4so4634191wrc.8
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jul 2021 01:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BmTuoSrjVrvLnQBYawgcyJ5HdUbJDDYaqDoQW9Mc7SY=;
-        b=dR4HlZmdA8k5eONrJN/VaYgpUpSsX++4j7UioFUJCEayHxGuxa8z/QhPJO5IYdWxyH
-         zc7+WN2H5YJxt3ExBIjmC1mhMJjx71lJZfGIEiZLr1LPtFGh/iaBoy9uqGz/VNm32rpl
-         Ft1Q3tH36sMKvvmRSTHbGHD+hZy8xKNNKpDDI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BmTuoSrjVrvLnQBYawgcyJ5HdUbJDDYaqDoQW9Mc7SY=;
-        b=M7Qzf1kQQsq3VToauNMBLEPb4Qzs+wAmatnr2po/IxN26YpRgVsEyatWF3FtXxtGVq
-         XPE1iVIf6pg4jZap57nK0E5Y/uDvfSuDAQ//r60dm/VWDSS0dz/+k/3jmFHJ74zzZB8J
-         aNKv+f3N0dGob9IV7GchIhvUxZtHZ3utKKXsI6dbV1cizy4lr4887HoqIZDT43pCAYvw
-         ClWCcCQtiTtFosAIT8MSYeZ6oxDxEdnehWIMGqF1oS+e2kOEcjU7xV2XyJVnEk7hErQJ
-         xGHr/fH/XXF1hsXmcgF3GHrUt1tX3U0al/35G1JGOZwMBrBUZbULhjmJaK5L9PVUNSqc
-         WcGw==
-X-Gm-Message-State: AOAM532RPQ2Q3FBSQnf9HwrVUBPpS5hY6h+LDZIrl/I49Uf2sndLhpXz
-        3GIs/JNg71aBWTX3cS2HrLYZPg==
-X-Google-Smtp-Source: ABdhPJzIBkieQHc9PjOpsuJ6CI5QANcRmne2ZWNze4X1SeO0kkq8Z+AU42eLrjQVsNANiTFEkEMD4Q==
-X-Received: by 2002:a5d:6b8d:: with SMTP id n13mr9642717wrx.258.1625817752223;
-        Fri, 09 Jul 2021 01:02:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z13sm4701195wro.79.2021.07.09.01.02.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 01:02:31 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 10:02:28 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
+        id S231301AbhGIIJB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jul 2021 04:09:01 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:13708 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231286AbhGIIJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jul 2021 04:09:01 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1697xOI5007298;
+        Fri, 9 Jul 2021 10:05:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : subject :
+ date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=STMicroelectronics;
+ bh=86lJcBa/fdV6JLHVaQamNfgdV6di5KKXKmmM3s4H33Q=;
+ b=pQQ2TUAj0woDgFlbdshlpr94xxd1hIYrKSIS8dkSrXJmULbRB67ywtTFBYSWq+fS7GHM
+ 5nUuB14HXECMi80j+kX17UFe0Lr0taeOVk2juqZKpM48H/6T3FBGduzeEnHSEa1YYWaJ
+ KIRvrCLD7dPvYXKf9V6sbIWWVQjTgKqLduDg9ODunIhkfbDzg681eGGH/EQW2RiSNcrR
+ XAz3ShuLP5MPHEd8uqhx1L6i8WuRab0LTDK9osiZfGI5F4d0dQ+AI99JqLIzut1T+mry
+ 94UVNdNP+BfYdCfhkYO0T9EDY1KgV5btfW8LG0cGIYaU0xA6ztjsHowQV9t7hk6L946I yA== 
+Received: from eur04-vi1-obe.outbound.protection.outlook.com (mail-vi1eur04lp2054.outbound.protection.outlook.com [104.47.14.54])
+        by mx07-00178001.pphosted.com with ESMTP id 39ph72gmqn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 09 Jul 2021 10:05:59 +0200
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g8qAbh63AZ8u+bnkuXuqPlwc0sNwePinydhqEpTnTA+E0LyDhD96BmGPAp83JprquYr5/c4SPGfqo1X0aXQL1PFRQennVCQWSrnn1Qg/6r8wJULzLWtCnK9YpYmPBHXS8MOlr9XxviveaGMw7p6XZaOERokKsd32usmxzfnhYw9sxuYMSRFBMxFFzXG5qq17iswZTEIYUeGhL20H7dFLrAkttitwpYum6NxNtRDSxIb9pe1OvtxC9Fn3PIY1kUQ8Uq6ili+xt/XMy9sPJZo7hINGNGiOXLKfHEA3+RDSq9K05/B5meYBG72GvXEzxVSUsskOqQTedUIITOQKJR8ybQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=86lJcBa/fdV6JLHVaQamNfgdV6di5KKXKmmM3s4H33Q=;
+ b=ihOAK85PKuUMxo5/sIxYzsyOA3V3SH479Jfi4iBnt1tJUiLCUK1X+B/q4dC95Weje5FvejEmiiS+KwvPKhfabliI++My3y319djo1rNebp0g7CKY3O4qUv4CsFQTAFHE9qNZlSqYa0k5S6E4wPI4Xfb3WgU6AIMeOSaoxO0nfwP8LyOUC+RzzS+xh6o7NNWMd4d6ykYvaTOVzf32AIU1uzrZwBm3lxX88+OF25cnOUIaTP83oAjqX0fdNFFvVGkKsSl9FDvrDWp66De1nKzcSzNLW9Xp6NgpyoxBROHrCU8iYicK/idCscAHtvMgTd6YWRi2woBpPNHl62+d6DHoyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=st.com; dmarc=pass action=none header.from=st.com; dkim=pass
+ header.d=st.com; arc=none
+Received: from PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:157::13)
+ by PA4PR10MB4432.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:10a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Fri, 9 Jul
+ 2021 08:05:58 +0000
+Received: from PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4858:5053:1e4b:698f]) by PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4858:5053:1e4b:698f%8]) with mapi id 15.20.4308.023; Fri, 9 Jul 2021
+ 08:05:57 +0000
+From:   Etienne CARRIERE <etienne.carriere@st.com>
+To:     Sudeep Holla <sudeep.holla@arm.com>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v5] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YOgClII3UwckkPkb@phenom.ffwll.local>
-References: <20210706161244.1038592-1-maxime@cerno.tech>
- <20210709102444.7a72a029@eldfell>
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>
+Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
+Thread-Topic: [PATCH v2 0/7] Asynchronous notifications from secure world
+Thread-Index: AQHXdJS65UfruOlOmEi1Z/kon7B6Yw==
+Date:   Fri, 9 Jul 2021 08:05:57 +0000
+Message-ID: <PAXPR10MB4687E737261282B78600272DFD189@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Enabled=True;MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_SiteId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_SetDate=2021-07-09T08:05:57.619Z;MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Name=ST
+ Restricted;MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_ContentBits=0;MSIP_Label_23add6c0-cfdb-4bb9-b90f-bf23b83aa6c0_Method=Standard;
+authentication-results: arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=none action=none header.from=st.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2695f2b4-e429-4e46-3c49-08d942b06234
+x-ms-traffictypediagnostic: PA4PR10MB4432:
+x-microsoft-antispam-prvs: <PA4PR10MB443227DBCDC6D77451F7D3A7FD189@PA4PR10MB4432.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eJnXDJPMZ/7YXw/sHzG9QEyMVT7KlEIshJYs5vb1oPMyQr19rrLwTiCg1nEq2M9H75Gwjqe0e9B6JgJ6E9An9sMctPUsLjdbdmbjeOBtbuJ6rNmnm/5XTzS6FNPWFIqThs62CiG+udLukEhemYZ+eA32FJ17AoH8CczJIIhod6WQdOXMtBzZpzrMB7/dF/d2iYkg9zmj5Y0SzhD7OZOYLIrtXBu9eW0FS4jOSaaD+EPZu/hRNF9QJYoYjiKNbxmahX5NrNlQ3so3jMCI3PHhgeiQtOlWKNm7eH/uEv1WD+J2I7dSKtZWUG5vvuZjghISMxBw2DGWkLQEMG4YMgWcqyS4ba7+ThdDYzQSunw2/M9kjgc2Fm22TSfnilJgW5wjGDB+6/HE6iEh4RIvG0Cl5tvFECGPzOeryHWZ8KRiT5tLJcrimeIH0JgZ9zeYcJaXGlmca+ioGDZ+qVKiok5tUsjgIqb1XyZVAP+lW3CTQXv+csq4aN5Kt5dLXBjFlNalT4FCFD/5pIXkBVDNiLj0hMpVct3m8thkjoXuXAc89l6Mtabu90Hf8p1HnphdHXzHcBBxlqeII8NYKXJGIa8RD8BNTPBSWam7wpwjGFDFjfZA8oULTgrlTunM8fY2xUBRvyLejjkaVDLVRkzHTBeWxkM3ix+lhg6bE+UDJXogkSoityVYDoIRQLHE9bBBzSc8/tb6hh8mqUMsehhvivQGVg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(136003)(376002)(396003)(39860400002)(66946007)(66556008)(64756008)(66446008)(55016002)(9686003)(76116006)(2906002)(66476007)(86362001)(7696005)(122000001)(921005)(6506007)(33656002)(15650500001)(186003)(7416002)(38100700002)(83380400001)(52536014)(478600001)(110136005)(316002)(5660300002)(71200400001)(8936002)(8676002)(91956017);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?8qqHvlMw8/ycKU4hWtehmO2yb4ix0zZqOqAPyK9jXjy/E4+0+5IIzJvdqM?=
+ =?iso-8859-1?Q?SxALFmha8IqbG54LW6vCrY5//QLtgM1V1QF6MwQMXd4zu/7fT3G23945cM?=
+ =?iso-8859-1?Q?o0MF3+ypo7mGAL0Z8cq6bZiAIDuEGnlNtVxH1kFQfcgCmB2aN+Kx1i2C7j?=
+ =?iso-8859-1?Q?OAOzu9VuoxpymiGbSL8OpAUS6DMTzaOGJJwv/KgEth9wRZXnW0E9Qghebz?=
+ =?iso-8859-1?Q?+1dpw9qu8Eixs7iJThYZlbrjZXz3NtA3sBX3bOKsXsCaBIxLEbMZS84Niz?=
+ =?iso-8859-1?Q?BakP5o06ryULd05Ard5gSFCwLc7YlsFozPvYG9mkhHGWbr5wGUmjuyL0Of?=
+ =?iso-8859-1?Q?9zf9zdPrYWIawfeBE/VLpsJktrdkNUcLSsufO78nwdUYYYpHP6onCkGntJ?=
+ =?iso-8859-1?Q?r4TW/xNlbRvic3e8rrputQ85ANoA/8BUqSp/TxO9LVjW6ZmF0jrIV2ohLX?=
+ =?iso-8859-1?Q?1My9Y+7nrVbWO2hpwebJuOq1CurwPjxh2FofukOHwU6qeQBHik+o7DuxHL?=
+ =?iso-8859-1?Q?1fQIOdZpsfnAijw+B5bUMtui/yBu6HK17B4l8WJID3Hn1lgsBl150BB1nv?=
+ =?iso-8859-1?Q?5hvE1NQPm2ihwupmzW7B+wPK41WBPsawKeHQ5uN1OH1+njhS1cQNdmuita?=
+ =?iso-8859-1?Q?A9Xcj3rW+EmN1KhslMPVFVMeDVI73I17jZDU0MM2LoQbQLyVFdMsVWKS7/?=
+ =?iso-8859-1?Q?uIrO701TJNt7SmqG0Zi70EfvTev8juhcQgOu8TYd2zWF8Xqx/uiFxRxPbU?=
+ =?iso-8859-1?Q?BhESZMsOlecmybk9H49BWZbw/j2+zxjBfyOMr7s6KJ3P3CJKmZEIO9mZ6E?=
+ =?iso-8859-1?Q?v1phJnyuAdq4+Vf7QIckCFN8zLNJuOuUr/0JLOr3MtNP0XjOtGYAD1N9Sz?=
+ =?iso-8859-1?Q?MGctT0z1W1MIjwcSFb+zKaL8tTY4ZOcNM//HnlpYBmdoQE8ABjAywKnawc?=
+ =?iso-8859-1?Q?LcnJ88+d4NIZR9he17DZy3tnkmxlLvZFdxe8E4ADV+lG0nypCr/Xrm28Fh?=
+ =?iso-8859-1?Q?WrDVyNaqkNJzog2Utx983WRkPpqFfxv5OmYALWolObd7elMSy3QOy1YVLo?=
+ =?iso-8859-1?Q?Ci4ZJws/K+jN5Pspe4NUFjxZhDWiXK+hbXg8q+pHvY7trLDgd9cutw4a5+?=
+ =?iso-8859-1?Q?94larppPNBL/GOL2P0qCTLQRinWS4IuJ1NIFTEa8W1nF4QtGQfL+C4AqKD?=
+ =?iso-8859-1?Q?CqF3let5m3its+z9wTkEkb9lTGaESaJHAQKbCzX6UE/qEydoT1gbPKok9w?=
+ =?iso-8859-1?Q?iymeS+zvo3UUUzR3wlCEIHyG9hEnHFfcSoplGEsXIEXpQlsrGDoUBJFQy9?=
+ =?iso-8859-1?Q?NL8wkzPkykhJn/gKFurytVh5GN6QJ1CWsZVh4nXOZ58sDQU8ZasUkgKFpS?=
+ =?iso-8859-1?Q?T5pALj/dbTsDzTFHaKEemtHA4VH/S0LtyBRbBfz/kW7912iUWPKJ49sV7X?=
+ =?iso-8859-1?Q?+YPLbUhqu8+AJt3i?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210709102444.7a72a029@eldfell>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-OriginatorOrg: ST.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2695f2b4-e429-4e46-3c49-08d942b06234
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2021 08:05:57.8136
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AtBMpjd7OXkMJCUdwBQTrFl/GXaoy5pdeHWrNvmLwDDAFWc3DALxwZZeHyqIh6vhpddZXuutRC7IixlzHxnqiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB4432
+X-Proofpoint-ORIG-GUID: f0gF-y0XNNStRcuuwNtT7YJLwNikZY19
+X-Proofpoint-GUID: f0gF-y0XNNStRcuuwNtT7YJLwNikZY19
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-09_04:2021-07-09,2021-07-09 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 suspectscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 phishscore=0 spamscore=0
+ mlxlogscore=999 clxscore=1011 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107090040
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 09, 2021 at 10:24:44AM +0300, Pekka Paalanen wrote:
-> On Tue,  6 Jul 2021 18:12:44 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
-> 
-> > New KMS properties come with a bunch of requirements to avoid each
-> > driver from running their own, inconsistent, set of properties,
-> > eventually leading to issues like property conflicts, inconsistencies
-> > between drivers and semantics, etc.
-> > 
-> > Let's document what we expect.
-> 
-> ...
-> 
-> > Changes from v4:
-> >   - Changes suggested by Pekka
-> > 
-> > Changes from v3:
-> >   - Roll back to the v2
-> >   - Add Simon and Pekka in Cc
-> > 
-> > Changes from v2:
-> >   - Take into account the feedback from Laurent and Lidiu to no longer
-> >     force generic properties, but prefix vendor-specific properties with
-> >     the vendor name
-> > 
-> > Changes from v1:
-> >   - Typos and wording reported by Daniel and Alex
-> > ---
-> >  Documentation/gpu/drm-kms.rst | 30 ++++++++++++++++++++++++++++++
-> >  1 file changed, 30 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > index 87e5023e3f55..47994890fd1e 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -463,6 +463,36 @@ KMS Properties
-> >  This section of the documentation is primarily aimed at user-space developers.
-> >  For the driver APIs, see the other sections.
-> >  
-> > +Requirements
-> > +------------
-> > +
-> > +KMS drivers might need to add extra properties to support new features.
-> > +Each new property introduced in a driver need to meet a few
-> > +requirements, in addition to the one mentioned above:
-> > +
-> > +* It must be standardized, documenting:
-> > +
-> > +  * The full, exact, name string;
-> > +  * If the property is an enum, all the valid variants name;
-> 
-> Hi,
-> 
-> "variant" feels a little off to me, I would have used "value name
-> strings".
-> 
-> > +  * What values are accepted, and what these values mean;
-> > +  * What the property does and how it can be used;
-> > +  * How the property might interact with other, existing properties.
-> > +
-> > +* It must provide a generic helper in the core code to register that
-> > +  property on the object it attaches to.
-> > +
-> > +* Its content must be decoded by the core and provided in the object's
-> > +  associated state structure. That includes anything drivers might want
-> > +  to precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for
-> > +  planes.
-> > +
-> > +* Its initial state must match the behavior prior to the property
-> > +  introduction. This might be a fixed value matching what the hardware
-> > +  does, or it may be inherited from the state the firmware left the
-> > +  system in during boot.
-> 
-> I'd like to point out that this rule should apply also to
-> properties that already exist in general, but are newly exposed in a
-> driver for hardware that didn't expose the property before.
+Hello Sudeep and all,
 
-I think we should just make this a very strong recommendation, and in
-general encourage people to use the tests against their driver?
-
-Otherwise a small "I'll just enable this" thing can become a huge project.
-And in general I think grandfathering existing things in is the pragmatic
-choice.
-
-But maybe that could be a follow-up patch?
--Daniel
-
-> 
-> > +
-> > +* An IGT test must be submitted where reasonable.
-> > +
-> >  Property Types and Blob Property Support
-> >  ----------------------------------------
-> >  
-> 
-> Regardless of my comments above:
-> 
-> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> 
-> 
-> Thanks,
-> pq
+On Wed, 7 Jul 2021 at 19:52, Sudeep Holla <sudeep.holla@arm.com> wrote:
+>
+> Hi Sumit,
+>
+> I was holding off you reply as I didn't have all the background on this.
+> Achin did mention that this is preparatory work for FFA notifications.
+> I did mention to him that this is more than that, it is custom extension
+> to address what FF-A notification is trying to in standard way.
+>
+> I share same opinion as Marc Z.
+>
+> On Wed, Jul 07, 2021 at 11:22:23AM +0530, Sumit Garg wrote:
+> > On Tue, 6 Jul 2021 at 18:16, Marc Zyngier <maz@kernel.org> wrote:
+>
+> [...]
+>
+> > >
+> > > I don't care about OP-TEE. If you are proposing a contract between S
+> > > and NS, it has to be TEE and OS independent. That's how the
+> > > architecture works.
+> > >
+> >
+> > Agree, here we are not proposing a common contract among the S and NS
+> > world that every TEE (based on Arm TrustZone) will use to communicate
+> > with REE (Linux in our case) but rather an OP-TEE specific
+> > notifications feature that is built on top of OP-TEE specific ABIs.
+> >
+> > And I can see your arguments coming from an FFA perspective but there
+> > are platforms like the ones based on Armv7 which don't support FFA
+> > ABI. Maybe Jens can elaborate how this feature will fit in when FFA
+> > comes into picture?
+> >
+>
+> I can understand that but won't those platforms add the support both in
+> the kernel(current series) and secure world to address notifications.
+> While you could argue that it is small extension to what is already prese=
+nt
+> but I prefer they support FF-A is they need such a support instead of add=
+ing
+> custom mechanisms. It is hard to maintain and each vendor will deviate
+> from this custom mechanism and soon we will have bunch of them to handle.
 
 
+There exist armv7-a platforms that expect OP-TEE notification support and w=
+ill not move the FF-A, like the stm32mp15. This platform won't move to FF-A=
+ mainly due to the memory cost of the added SPM layer and the device physic=
+al constraints.
+We have a usecase for OP-TEE notification. We're working on the integration=
+ of an SCMI server in OP-TEE. SCMI notification is a feature needed is this=
+ scope and it requires OP-TEE async notification means as those proposed he=
+re.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+This OP-TEE async notif also brings a lot of value in OP-TEE as it allows a=
+ OP-TEE secure thread (i.e. executing a trusted application service) to gen=
+tly wait on a secure interrupt (as a slow bus transaction completion or man=
+y other usecase) with the CPU relaxed. This support is provided by the prop=
+osed series. I believe existing device should be able to leverage this OP-T=
+EE feature without needing their OP-TEE to move to the new FF-A interface.
+
+Regards,
+Etienne
+
+>
+> [...]
+
+ST Restricted
