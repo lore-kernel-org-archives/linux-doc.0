@@ -2,252 +2,455 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 163AAC07E9E
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jul 2021 11:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 568DCC07E95
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jul 2021 16:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF407613E4
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jul 2021 11:01:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38EB76124C
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jul 2021 16:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232571AbhGJLEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Jul 2021 07:04:06 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:33413 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232537AbhGJLEG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jul 2021 07:04:06 -0400
-Received: by mail-il1-f198.google.com with SMTP id b8-20020a92c8480000b0290208fe58bd16so165141ilq.0
-        for <linux-doc@vger.kernel.org>; Sat, 10 Jul 2021 04:01:21 -0700 (PDT)
+        id S231766AbhGJQLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Jul 2021 12:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230325AbhGJQLD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jul 2021 12:11:03 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 218D8C0613DD;
+        Sat, 10 Jul 2021 09:08:17 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id u11so16837406oiv.1;
+        Sat, 10 Jul 2021 09:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YjlRNd92mxhpngvVWVMHW8QmJ0rWWS9YUaSBsU5w9Po=;
+        b=NjZfB07vcn/rGSfeXiDtp25+JS8p+Npx3MTM4I1p0l1lNkBb7UzdAxRP+RGD+5dFCE
+         1N06OR1+be7CuuxhKi6n38COoEsg7WKxfaQaXZQDT2KX5ZCdelURWZhjcl/iVBsoRaJ8
+         2yHsbZFr4mzTiDI6vbFqyt2KE2G5D8vSfiMlNUnS3bgV7Ecnqm2Z+1w4fp3ZG5bZSOkX
+         6q1/LgG/JE92QbmS297TWFyDh4ZByy/8ZQJOhRslqe+699UGpN3cpcjD7sK0v6Kp5en3
+         q4y/Q3tRZ0whLhkqq85vEDumNS/KKTb/pX0KbmsiqSdnvpylnujU+ZFF8LJUofkCIhE8
+         KsPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=+FcDO2zOq13VzQYFsm3JgNyCt0LszFez/T4skcJUOkY=;
-        b=F3851kR+uMmh5eIYEWP3MwI2JSQg9vWBpmXGiZy7o2az8knBm/knlLsXzbk0iEi14v
-         kLBhkVYRL3FBB9l9FRFNgotigYc30c0B6m4rB8D+1uiDvX3FVXXiDH4+/k/5eqnGYbJe
-         7tXOfPZNBp8yZJpApL9MHg/PjDvOuykOgdEypzWI1bWr9vocrtKOGaiybsSo4x8gtAuM
-         muaUWVSjJJIT47ehfD7PFUpVRmKE9baUcv7xQQVaiJk+f6Qq7Ay1wYpKR3ElYbrYiIUx
-         4SEZbwPK6aFrmr9E7wfvG+65Od9z61DqvWMfxSxE1B+FhMcFiVh7IhyORQSZIKZYfkBW
-         hEyg==
-X-Gm-Message-State: AOAM532vMAZ4yg9fdA76n5Z0b8EjpiQBMJw4jqlAZMBE6xP25I80rU+U
-        0tLwhOO28dfv3XOf8RD0ZkpgFuNIKhfQMlodYGzgzbMsBzKx
-X-Google-Smtp-Source: ABdhPJxRdBUdD5MFGHv/t6NV7ztbcmaZ6T/HtQ72FN68KckmLwOvQxHT58AKrnV7YAIo2zBZlVWXcpaGATVAbB8f4CLvmV/ANErq
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=YjlRNd92mxhpngvVWVMHW8QmJ0rWWS9YUaSBsU5w9Po=;
+        b=YDvh7dNcXnjZQ0U6wLGONYVwQrLx7b5hEqCHjOoI3piSpPrZeITjJuNNY/81bk+E5P
+         97l/7kN64VNQIUm+aXufzHkjnlXkqlGAG2t75BhqD4+/4nkvrvlSLzLU9yPX9qysdbQt
+         CjHOboyJcfXuv1dkKnmbO9oRwM0+iLxjj7PiV8H2aiW9jmlvrU74qoAx1pMegCv4TaNP
+         s/H2I6i33Z64rE9hEMdZI34w6kUYdhlHL4nnxvctl3wAe+2gBbEkuLSgEv61pQk090YM
+         cE8BI4DAjDUJGpD9AmnNidXxYNVXu/g6INIrn25j9qEoDfEviJls+zNHaiLBCuev4IfR
+         /fKw==
+X-Gm-Message-State: AOAM53029J+hS5kFd3DVl0u6cOqrLiTSVUu50+vypCbg5GposcbPyYPF
+        y08OurbJ6TBVB2g1zd9o05U=
+X-Google-Smtp-Source: ABdhPJzMcU5u/6+ABcVKg0MJVanNk1zDS5BnovORf21ViaMcyMKuw8cO/BC7dg0D37TWLAZK6NO5sw==
+X-Received: by 2002:aca:4f53:: with SMTP id d80mr3858347oib.111.1625933296341;
+        Sat, 10 Jul 2021 09:08:16 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o26sm1876035otk.77.2021.07.10.09.08.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jul 2021 09:08:15 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 10 Jul 2021 09:08:13 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Vincent Pelletier <plr.vincent@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Opensource [Steve Twiss]" <stwiss.opensource@diasemi.com>
+Subject: Re: [PATCH v3 2/3] hwmon: da9063: HWMON driver
+Message-ID: <20210710160813.GA3560663@roeck-us.net>
+References: <c06db13bb5076a8ee48e38a74caf3b81e4a2d1f8.1625662290.git.plr.vincent@gmail.com>
+ <2c24ef5953401e80d92c907704bffeff1d024de0.1625662290.git.plr.vincent@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:a913:: with SMTP id n19mr6111996jam.7.1625914881080;
- Sat, 10 Jul 2021 04:01:21 -0700 (PDT)
-Date:   Sat, 10 Jul 2021 04:01:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ec01e405c6c2cee3@google.com>
-Subject: [syzbot] possible deadlock in loop_add
-From:   syzbot <syzbot+118992efda475c16dfb0@syzkaller.appspotmail.com>
-To:     axboe@kernel.dk, bp@alien8.de, christian.brauner@ubuntu.com,
-        corbet@lwn.net, hch@lst.de, hpa@zytor.com, jmattson@google.com,
-        johannes.thumshirn@wdc.com, joro@8bytes.org, josef@toxicpanda.com,
-        kvm@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mingo@redhat.com,
-        pbonzini@redhat.com, seanjc@google.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        viro@zeniv.linux.org.uk, vkuznets@redhat.com,
-        wanpengli@tencent.com, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c24ef5953401e80d92c907704bffeff1d024de0.1625662290.git.plr.vincent@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Wed, Jul 07, 2021 at 01:25:03PM +0000, Vincent Pelletier wrote:
+> Add the HWMON driver for DA9063
+> 
+> Originally-from: Opensource [Steve Twiss] <stwiss.opensource@diasemi.com>
+> Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
+> ---
+> Changes in v3:
+> - changed original author's Signed-off-by into an Originally-from.
+> - dropped license boilerplate
+> - only return ETIMEOUT if ADC result is not ready by the time the IRQ
+>   either triggered or timed out
+> - removed unnecessary lists
+> - changed a duplicate init_comptetion into a more useful reinit_completion
+> - dropped unused platform_set_drvdata
+> - moved temperature offset reading from mfd driver
+> 
+> Changes in v2:
+> - drop of_match_table: this should be meaningless in such sub-function
+>   driver (at least judging by other sub-function drivers for the da9063)
+> - sort includes
+> - switch to devm_hwmon_device_register_with_info
+> - registers.h changes moved to patch 1
+> - add SPDX header
+> 
+> This patch depends on patch 1/3.
+> Originally submitted by Steve Twiss in 2014:
+>   https://marc.info/?l=linux-kernel&m=139560868309857&w=2
+> 
+>  drivers/hwmon/Kconfig        |  10 ++
+>  drivers/hwmon/Makefile       |   1 +
+>  drivers/hwmon/da9063-hwmon.c | 260 +++++++++++++++++++++++++++++++++++
+>  3 files changed, 271 insertions(+)
+>  create mode 100644 drivers/hwmon/da9063-hwmon.c
+> 
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 87624902ea80..17244cfaa855 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -515,6 +515,16 @@ config SENSORS_DA9055
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called da9055-hwmon.
+>  
+> +config SENSORS_DA9063
+> +	tristate "Dialog Semiconductor DA9063"
+> +	depends on MFD_DA9063
+> +	help
+> +	  If you say yes here you get support for the hardware
+> +	  monitoring features of the DA9063 Power Management IC.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called da9063-hwmon.
+> +
+>  config SENSORS_I5K_AMB
+>  	tristate "FB-DIMM AMB temperature sensor on Intel 5000 series chipsets"
+>  	depends on PCI
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 59e78bc212cf..6855711ed9ec 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -60,6 +60,7 @@ obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
+>  obj-$(CONFIG_SENSORS_CORSAIR_PSU) += corsair-psu.o
+>  obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
+>  obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
+> +obj-$(CONFIG_SENSORS_DA9063)	+= da9063-hwmon.o
+>  obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
+>  obj-$(CONFIG_SENSORS_DME1737)	+= dme1737.o
+>  obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
+> diff --git a/drivers/hwmon/da9063-hwmon.c b/drivers/hwmon/da9063-hwmon.c
+> new file mode 100644
+> index 000000000000..6367685536a1
+> --- /dev/null
+> +++ b/drivers/hwmon/da9063-hwmon.c
+> @@ -0,0 +1,260 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* da9063-hwmon.c - Hardware monitor support for DA9063
+> + * Copyright (C) 2014 Dialog Semiconductor Ltd.
+> + * Copyright (C) 2021 Vincent Pelletier <plr.vincent@gmail.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
 
-syzbot found the following issue on:
+Unnecessary include.
 
-HEAD commit:    ee268dee Add linux-next specific files for 20210707
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=12c39ae2300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=59e1e3bbc3afca75
-dashboard link: https://syzkaller.appspot.com/bug?extid=118992efda475c16dfb0
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14698794300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e25ee4300000
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/da9063/core.h>
+> +#include <linux/mod_devicetable.h>
 
-The issue was bisected to:
+I don't immediately see where this include is needed. Is this a
+leftover ?
 
-commit 0f00b82e5413571ed225ddbccad6882d7ea60bc7
-Author: Christoph Hellwig <hch@lst.de>
-Date:   Mon Mar 8 07:45:50 2021 +0000
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
 
-    block: remove the revalidate_disk method
+Same here.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14bb406c300000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=16bb406c300000
-console output: https://syzkaller.appspot.com/x/log.txt?x=12bb406c300000
+> +
+> +#define DA9063_ADC_RES	(1 << (DA9063_ADC_RES_L_BITS + DA9063_ADC_RES_M_BITS))
+> +#define DA9063_ADC_MAX	(DA9063_ADC_RES - 1)
+> +#define DA9063_2V5	2500
+> +#define DA9063_5V0	5000
+> +#define DA9063_5V5	5500
+> +#define DA9063_TJUNC_M	-398
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+118992efda475c16dfb0@syzkaller.appspotmail.com
-Fixes: 0f00b82e5413 ("block: remove the revalidate_disk method")
+It doesn't matter here (I think), but it would be better to surround the
+above with () to ensure that the '-' is not interpreted as arithmetic
+operator.
 
-======================================================
-WARNING: possible circular locking dependency detected
-5.13.0-next-20210707-syzkaller #0 Not tainted
-------------------------------------------------------
-systemd-udevd/8674 is trying to acquire lock:
-ffffffff8c4875c8 (loop_ctl_mutex){+.+.}-{3:3}, at: loop_add+0x9c/0x8c0 drivers/block/loop.c:2250
+> +#define DA9063_TJUNC_O	330000
+> +#define DA9063_VBBAT_M	2048
+> +
+> +enum da9063_adc {
+> +	DA9063_CHAN_VSYS = DA9063_ADC_MUX_VSYS,
+> +	DA9063_CHAN_ADCIN1 = DA9063_ADC_MUX_ADCIN1,
+> +	DA9063_CHAN_ADCIN2 = DA9063_ADC_MUX_ADCIN2,
+> +	DA9063_CHAN_ADCIN3 = DA9063_ADC_MUX_ADCIN3,
+> +	DA9063_CHAN_TJUNC = DA9063_ADC_MUX_T_SENSE,
+> +	DA9063_CHAN_VBBAT = DA9063_ADC_MUX_VBBAT,
+> +	DA9063_CHAN_LDO_G1 = DA9063_ADC_MUX_LDO_G1,
+> +	DA9063_CHAN_LDO_G2 = DA9063_ADC_MUX_LDO_G2,
+> +	DA9063_CHAN_LDO_G3 = DA9063_ADC_MUX_LDO_G3
 
-but task is already holding lock:
-ffffffff8c1f3e08 (major_names_lock){+.+.}-{3:3}, at: blk_request_module+0x25/0x1d0 block/genhd.c:657
+Many of the above defines are not used. Do you plan a follow-up commit
+to use them ? Otherwise please drop unused defines.
 
-which lock already depends on the new lock.
+> +};
+> +
+> +struct da9063_hwmon {
+> +	struct da9063 *da9063;
+> +	struct mutex hwmon_mutex;
+> +	struct completion adc_ready;
+> +	signed char tjunc_offset;
 
+I am curious: 'char' implies 'signed'. Any reason for using 'signed' ?
 
-the existing dependency chain (in reverse order) is:
+Also, note that on most architectures the resulting code is more complex
+when using 'char' instead of 'int'. This is seen easily by compiling the
+driver for arm64: Replacing the above 'signed char' with 'int' reduces
+code size by 32 bytes.
 
--> #3 (major_names_lock){+.+.}-{3:3}:
-       __mutex_lock_common kernel/locking/mutex.c:959 [inline]
-       __mutex_lock+0x12a/0x10a0 kernel/locking/mutex.c:1104
-       __register_blkdev+0x2b/0x3e0 block/genhd.c:216
-       register_mtd_blktrans+0x85/0x3c0 drivers/mtd/mtd_blkdevs.c:531
-       do_one_initcall+0x103/0x650 init/main.c:1285
-       do_initcall_level init/main.c:1360 [inline]
-       do_initcalls init/main.c:1376 [inline]
-       do_basic_setup init/main.c:1396 [inline]
-       kernel_init_freeable+0x6b8/0x741 init/main.c:1598
-       kernel_init+0x1a/0x1d0 init/main.c:1490
-       ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+> +};
+> +
+> +static int da9063_adc_manual_read(struct da9063_hwmon *hwmon, int channel)
+> +{
+> +	int ret;
+> +	unsigned char val;
+> +	unsigned char data[2];
+> +	int adc_man;
 
--> #2 (mtd_table_mutex){+.+.}-{3:3}:
-       __mutex_lock_common kernel/locking/mutex.c:959 [inline]
-       __mutex_lock+0x12a/0x10a0 kernel/locking/mutex.c:1104
-       blktrans_open+0x69/0x600 drivers/mtd/mtd_blkdevs.c:210
-       blkdev_get_whole+0xa1/0x420 fs/block_dev.c:1251
-       blkdev_get_by_dev.part.0+0x30c/0xdd0 fs/block_dev.c:1415
-       blkdev_get_by_dev fs/block_dev.c:1504 [inline]
-       blkdev_open+0x295/0x300 fs/block_dev.c:1510
-       do_dentry_open+0x4c8/0x11d0 fs/open.c:826
-       do_open fs/namei.c:3374 [inline]
-       path_openat+0x1c23/0x27f0 fs/namei.c:3507
-       do_filp_open+0x1aa/0x400 fs/namei.c:3534
-       do_sys_openat2+0x16d/0x420 fs/open.c:1204
-       do_sys_open fs/open.c:1220 [inline]
-       __do_sys_open fs/open.c:1228 [inline]
-       __se_sys_open fs/open.c:1224 [inline]
-       __x64_sys_open+0x119/0x1c0 fs/open.c:1224
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
+Should this be unsigned int ?
 
--> #1 (&disk->open_mutex){+.+.}-{3:3}:
-       __mutex_lock_common kernel/locking/mutex.c:959 [inline]
-       __mutex_lock+0x12a/0x10a0 kernel/locking/mutex.c:1104
-       del_gendisk+0x8b/0x770 block/genhd.c:587
-       loop_remove drivers/block/loop.c:2347 [inline]
-       loop_control_remove drivers/block/loop.c:2396 [inline]
-       loop_control_ioctl+0x3b5/0x450 drivers/block/loop.c:2428
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:1069 [inline]
-       __se_sys_ioctl fs/ioctl.c:1055 [inline]
-       __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:1055
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
+> +
+> +	mutex_lock(&hwmon->hwmon_mutex);
+> +
+> +	val = (channel & DA9063_ADC_MUX_MASK) | DA9063_ADC_MAN;
+> +	ret = regmap_update_bits(hwmon->da9063->regmap, DA9063_REG_ADC_MAN,
+> +				 DA9063_ADC_MUX_MASK | DA9063_ADC_MAN, val);
+> +	if (ret < 0)
+> +		goto err_mread;
+> +
+> +	ret = wait_for_completion_timeout(&hwmon->adc_ready,
+> +					  msecs_to_jiffies(100));
+> +	reinit_completion(&hwmon->adc_ready);
 
--> #0 (loop_ctl_mutex){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3051 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3174 [inline]
-       validate_chain kernel/locking/lockdep.c:3789 [inline]
-       __lock_acquire+0x2a07/0x54a0 kernel/locking/lockdep.c:5015
-       lock_acquire kernel/locking/lockdep.c:5625 [inline]
-       lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5590
-       __mutex_lock_common kernel/locking/mutex.c:959 [inline]
-       __mutex_lock+0x12a/0x10a0 kernel/locking/mutex.c:1104
-       loop_add+0x9c/0x8c0 drivers/block/loop.c:2250
-       loop_probe+0x6a/0x80 drivers/block/loop.c:2360
-       blk_request_module+0x111/0x1d0 block/genhd.c:660
-       blkdev_get_no_open+0x1d5/0x250 fs/block_dev.c:1332
-       blkdev_get_by_dev.part.0+0x25/0xdd0 fs/block_dev.c:1395
-       blkdev_get_by_dev fs/block_dev.c:1504 [inline]
-       blkdev_open+0x295/0x300 fs/block_dev.c:1510
-       do_dentry_open+0x4c8/0x11d0 fs/open.c:826
-       do_open fs/namei.c:3374 [inline]
-       path_openat+0x1c23/0x27f0 fs/namei.c:3507
-       do_filp_open+0x1aa/0x400 fs/namei.c:3534
-       do_sys_openat2+0x16d/0x420 fs/open.c:1204
-       do_sys_open fs/open.c:1220 [inline]
-       __do_sys_open fs/open.c:1228 [inline]
-       __se_sys_open fs/open.c:1224 [inline]
-       __x64_sys_open+0x119/0x1c0 fs/open.c:1224
-       do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-       do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
+This is unusual. Normally I see init_completion() or reinit_completion()
+ahead of calls to wait functions.
 
-other info that might help us debug this:
+If a request timed out and an interrupt happened after the timeout,
+the next request would return immediately with the previous result,
+since complete() would be called on the re-initialized completion
+handler. That doesn't seem to be correct to me.
 
-Chain exists of:
-  loop_ctl_mutex --> mtd_table_mutex --> major_names_lock
+> +	if (ret == 0)
+> +		dev_dbg(hwmon->da9063->dev,
+> +			"Timeout while waiting for ADC completion IRQ\n");
+> +
+> +	ret = regmap_read(hwmon->da9063->regmap, DA9063_REG_ADC_MAN, &adc_man);
+> +	if (ret < 0)
+> +		goto err_mread;
+> +
+> +	/* data value is not ready */
+> +	if (adc_man & DA9063_ADC_MAN) {
+> +		ret = -ETIMEDOUT;
+> +		goto err_mread;
+> +	}
+> +
+> +	ret = regmap_bulk_read(hwmon->da9063->regmap,
+> +			       DA9063_REG_ADC_RES_L, data, 2);
+> +	if (ret < 0)
+> +		goto err_mread;
+> +
+> +	ret = (data[0] & DA9063_ADC_RES_L_MASK) >> DA9063_ADC_RES_L_SHIFT;
+> +	ret |= data[1] << DA9063_ADC_RES_L_BITS;
+> +err_mread:
+> +	mutex_unlock(&hwmon->hwmon_mutex);
+> +	return ret;
+> +}
+> +
+> +static irqreturn_t da9063_hwmon_irq_handler(int irq, void *irq_data)
+> +{
+> +	struct da9063_hwmon *hwmon = irq_data;
+> +
+> +	complete(&hwmon->adc_ready);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static umode_t da9063_is_visible(const void *drvdata, enum
+> +				 hwmon_sensor_types type, u32 attr, int channel)
+> +{
+> +	return 0444;
+> +}
+> +
+> +static const enum da9063_adc da9063_in_index[] = {
+> +	DA9063_CHAN_VSYS, DA9063_CHAN_VBBAT
+> +};
+> +
+> +static int da9063_read(struct device *dev, enum hwmon_sensor_types type,
+> +		       u32 attr, int channel, long *val)
+> +{
+> +	struct da9063_hwmon *hwmon = dev_get_drvdata(dev);
+> +	enum da9063_adc adc_channel;
+> +	int tmp;
+> +
+> +	switch (type) {
+> +	case hwmon_in:
+> +		if (attr != hwmon_in_input)
+> +			return -EOPNOTSUPP;
+> +		adc_channel = da9063_in_index[channel];
+> +		break;
+> +	case hwmon_temp:
+> +		if (attr != hwmon_temp_input)
+> +			return -EOPNOTSUPP;
+> +		adc_channel = DA9063_CHAN_TJUNC;
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	tmp = da9063_adc_manual_read(hwmon, adc_channel);
+> +	if (tmp < 0)
+> +		return tmp;
+> +
+> +	switch (adc_channel) {
+> +	case DA9063_CHAN_VSYS:
+> +		*val = ((DA9063_5V5 - DA9063_2V5) * tmp) / DA9063_ADC_MAX +
+> +			DA9063_2V5;
+> +		break;
+> +	case DA9063_CHAN_TJUNC:
+> +		tmp -= hwmon->tjunc_offset;
+> +		*val = DA9063_TJUNC_M * tmp + DA9063_TJUNC_O;
+> +		break;
+> +	case DA9063_CHAN_VBBAT:
+> +		*val = (DA9063_5V0 * tmp) / DA9063_ADC_MAX;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const char * const da9063_in_name[] = {
+> +	"VSYS", "VBBAT"
+> +};
+> +
+> +static int da9063_read_string(struct device *dev, enum hwmon_sensor_types type,
+> +			      u32 attr, int channel, const char **str)
+> +{
+> +	switch (type) {
+> +	case hwmon_in:
+> +		if (attr != hwmon_in_label)
+> +			return -EOPNOTSUPP;
+> +		*str = da9063_in_name[channel];
+> +		break;
+> +	case hwmon_temp:
+> +		if (attr != hwmon_temp_label)
+> +			return -EOPNOTSUPP;
+> +		*str = "TJUNC";
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops da9063_ops = {
+> +	.is_visible = da9063_is_visible,
+> +	.read = da9063_read,
+> +	.read_string = da9063_read_string,
+> +};
+> +
+> +static const struct hwmon_channel_info *da9063_channel_info[] = {
+> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+> +	HWMON_CHANNEL_INFO(in,
+> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+> +			   HWMON_I_INPUT | HWMON_I_LABEL),
+> +	HWMON_CHANNEL_INFO(temp,
+> +			   HWMON_T_INPUT | HWMON_T_LABEL),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info da9063_chip_info = {
+> +	.ops = &da9063_ops,
+> +	.info = da9063_channel_info,
+> +};
+> +
+> +static int da9063_hwmon_probe(struct platform_device *pdev)
+> +{
+> +	struct da9063 *da9063 = dev_get_drvdata(pdev->dev.parent);
+> +	struct da9063_hwmon *hwmon;
+> +	struct device *hwmon_dev;
+> +	unsigned int tmp;
+> +	int irq;
+> +	int ret;
+> +
+> +	hwmon = devm_kzalloc(&pdev->dev, sizeof(struct da9063_hwmon),
+> +			     GFP_KERNEL);
+> +	if (!hwmon)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&hwmon->hwmon_mutex);
+> +	init_completion(&hwmon->adc_ready);
+> +	hwmon->da9063 = da9063;
+> +
+> +	irq = platform_get_irq_byname(pdev, DA9063_DRVNAME_HWMON);
+> +	if (irq < 0)
+> +		return irq;
+> +
+> +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> +					da9063_hwmon_irq_handler,
+> +					IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+> +					"HWMON", hwmon);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to request IRQ.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = regmap_read(da9063->regmap, DA9063_REG_T_OFFSET, &tmp);
+> +	if (ret < 0) {
+> +		tmp = 0;
+> +		dev_warn(&pdev->dev,
+> +			 "Temperature trimming value cannot be read (defaulting to 0)\n");
+> +	}
+> +	hwmon->tjunc_offset = (signed char) tmp;
 
- Possible unsafe locking scenario:
+Nit: Unnecessary space after typecast (checkpatch --strict would tell you).
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(major_names_lock);
-                               lock(mtd_table_mutex);
-                               lock(major_names_lock);
-  lock(loop_ctl_mutex);
+Also, I am curious: The temperature offset is a standard hwmon attribute.
+Is it an oversight to not report it, or is it on purpose ?
 
- *** DEADLOCK ***
-
-1 lock held by systemd-udevd/8674:
- #0: ffffffff8c1f3e08 (major_names_lock){+.+.}-{3:3}, at: blk_request_module+0x25/0x1d0 block/genhd.c:657
-
-stack backtrace:
-CPU: 0 PID: 8674 Comm: systemd-udevd Not tainted 5.13.0-next-20210707-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:105
- check_noncircular+0x25f/0x2e0 kernel/locking/lockdep.c:2131
- check_prev_add kernel/locking/lockdep.c:3051 [inline]
- check_prevs_add kernel/locking/lockdep.c:3174 [inline]
- validate_chain kernel/locking/lockdep.c:3789 [inline]
- __lock_acquire+0x2a07/0x54a0 kernel/locking/lockdep.c:5015
- lock_acquire kernel/locking/lockdep.c:5625 [inline]
- lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5590
- __mutex_lock_common kernel/locking/mutex.c:959 [inline]
- __mutex_lock+0x12a/0x10a0 kernel/locking/mutex.c:1104
- loop_add+0x9c/0x8c0 drivers/block/loop.c:2250
- loop_probe+0x6a/0x80 drivers/block/loop.c:2360
- blk_request_module+0x111/0x1d0 block/genhd.c:660
- blkdev_get_no_open+0x1d5/0x250 fs/block_dev.c:1332
- blkdev_get_by_dev.part.0+0x25/0xdd0 fs/block_dev.c:1395
- blkdev_get_by_dev fs/block_dev.c:1504 [inline]
- blkdev_open+0x295/0x300 fs/block_dev.c:1510
- do_dentry_open+0x4c8/0x11d0 fs/open.c:826
- do_open fs/namei.c:3374 [inline]
- path_openat+0x1c23/0x27f0 fs/namei.c:3507
- do_filp_open+0x1aa/0x400 fs/namei.c:3534
- do_sys_openat2+0x16d/0x420 fs/open.c:1204
- do_sys_open fs/open.c:1220 [inline]
- __do_sys_open fs/open.c:1228 [inline]
- __se_sys_open fs/open.c:1224 [inline]
- __x64_sys_open+0x119/0x1c0 fs/open.c:1224
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7fb26e980840
-Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 83 3d 89 bb 20 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 1e f6 ff ff 48 89 04 24
-RSP: 002b:00007fff25793e98 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 0000563b22a5f910 RCX: 00007fb26e980840
-RDX: 0000563b21ce5fe3 RSI: 00000000000a0800 RDI: 0000563b22a5f850
-RBP: 00007fff25794010 R08: 0000563b21ce5670 R09: 0000000000000010
-R10: 0000563b21ce5d0c R11: 0000000000000246 R12: 00007fff25793f60
-R13: 0000563b22a61030 R14: 0000000000000003 R15: 000000000000000e
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "da9063",
+> +							 hwmon,
+> +							 &da9063_chip_info,
+> +							 NULL);
+> +
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static struct platform_driver da9063_hwmon_driver = {
+> +	.probe = da9063_hwmon_probe,
+> +	.driver = {
+> +		.name = DA9063_DRVNAME_HWMON,
+> +	},
+> +};
+> +module_platform_driver(da9063_hwmon_driver);
+> +
+> +MODULE_DESCRIPTION("Hardware monitor support device driver for Dialog DA9063");
+> +MODULE_AUTHOR("Vincent Pelletier <plr.vincent@gmail.com>");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:" DA9063_DRVNAME_HWMON);
