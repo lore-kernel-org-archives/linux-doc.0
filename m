@@ -2,313 +2,414 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A67EC07E9C
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 01:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206AAC07E9C
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 03:58:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC5B261057
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 01:40:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05E5060FF3
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 03:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbhGLBnH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Jul 2021 21:43:07 -0400
-Received: from mga07.intel.com ([134.134.136.100]:12188 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229818AbhGLBnH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 11 Jul 2021 21:43:07 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10042"; a="273744562"
-X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; 
-   d="scan'208";a="273744562"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2021 18:40:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; 
-   d="scan'208";a="486120297"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2021 18:40:19 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Sun, 11 Jul 2021 18:40:18 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Sun, 11 Jul 2021 18:40:18 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Sun, 11 Jul 2021 18:40:18 -0700
+        id S229660AbhGLEBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 00:01:32 -0400
+Received: from mail-bn8nam12on2090.outbound.protection.outlook.com ([40.107.237.90]:48096
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229464AbhGLEBb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Jul 2021 00:01:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C+NpA+D/B3M/jdA5AyUC7uJwjJoJs/dZOxhiNFtHevl61nfbRFbA9oKRKOAMM9vhIXU7p27iFPysSibQ2TJ334thL0NcLNjs5vF53pBBDP5JYV8McbzSGc3kNEm2PyYy1DeJ3ruKg5H5tE43/C0uxsUhOCiGdFW2y4r6VMdVTum4oATWXhddUW7kGMz3MQdJpdtewGxVRKuinYiwzRgG8tzM0JKlZbEyCTc8mMGm1+nYP1rjRP8KpK8sGksOcBpdWO7qlWvLCMBm2pjGrEJv4snWdXaSxNAWLbzrFXqfkB3dKGl982ksQNqOaD24iBCdtB6jWTMKR4JGi547Sfnf5g==
+ b=HvJcu+L/vYjslTSupQyF8Jx91d4s9UAz5zbghm6wkHgtmqDosYocqum+xSZSPcd4ZMOuQzucX20B3Qpfwlnn6l4AQqq/9bByyHaRIyiUaxwcNkESGBeT62sbhSAEOeAeuzEK7ItuACkNxH1FHtgUL5LamEHXjeLyqBcDvUvIVklxSVMEFuUKDYIH8Bdgb1cWSjuqXaT/bkTC/E0Kvgtj81KvSX33eXtB/TTOh3neKd7TtWPzfA1fn0T/qMZ1VbZeajdeblJhKlD2ef4HLV+c2XU+Z46b+OKBdGVoL8icaIv+K8OZD76mksrwJM7SVV9aa7HSNUHuYwVsCp3LyDuxuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EdEXtMmfQ4KfHJhW9m+LNapcwdHXuWX4Br2CgsVZZNs=;
- b=CgMxZS8h/osoEgEyE5WiRVB3xlJKS4qfITa3/gqOwBmxUF73RUoGXJMg4T1H9Di11GiTA/rRxVZnf9oXsHwbO9mgVljyho06SASuApUKJQbG0Gi/JWXm0GGlT2ECogiLdZL6A42/aFiR1LeRAgp+Ip1wd0QpY3mCyGnvGMdN1y0csQAjgu9V8HK4qbfc5Sq+bcBoPaoCNtHvZmf/EllilzRxz1eKniP3sUgfj6Vn4D1JS8BzSEnmsIyBzM1ziFuqSGmKrP63KAOTng3LCBOGC7poJEBeep1Ye423UtFSfxLetgzQC7dKUoluDi+3Iy58h0RN5apbKFa+4tQIgm1Hzg==
+ bh=tfrAiRVONum8i5O/yH/spBQm6Rhrrd/UaTHOXI5fYEM=;
+ b=djVoYBzcv2XdTEnaoNIsiTQPvCCbuUTm7lMfn2ynw4K7X46J3OeE+Nvsi2VFfbx2M5ppqWrHeI5bss5jIv12v6TkV314L0uM8Mn10HvSFjSsZDlCVMge8I1wVH8a5vR2XDqRUwcHZ0BRPrYAysd2KNwa+gDUWqGbtcVm7cBqhF0QcOc0f5+UPj/66eoykjtInqUbyzjgwTl5GVh88v78ohXBGVX0aj4S9HIOoS0jbuKpuaXlnuN1uyezd8GHwbQMajpHT2+NQTYKSw887DK1Hx0XdFDGYe2JM6vHh6sv7PfQfL+Jh87wTzWbLWkgbZDcPlz7UAV6rBUMaPEqViZeEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EdEXtMmfQ4KfHJhW9m+LNapcwdHXuWX4Br2CgsVZZNs=;
- b=u1bmh+eBmnRM0QaZYhrSxQU6Y7mCWZq0RXPl94Md9rf7ZllUXJzNjFSLRr2V47x1yGfmGU8Zd5eP5nxi4bi0qJz9fSlonpyzdEtYaVe4jQ2Ek2BKWAIEgr34DUh9XA9CRMmID9VGxDPpHS8twEs2Lb29e7FU5lEj3aTDgzGitAs=
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM6PR11MB2665.namprd11.prod.outlook.com (2603:10b6:5:c3::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.26; Mon, 12 Jul
- 2021 01:40:17 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::3dc3:868b:cec3:513b%6]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 01:40:17 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "trix@redhat.com" <trix@redhat.com>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-CC:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
- fpga_region
-Thread-Topic: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
- fpga_region
-Thread-Index: AQHXdMhnnZ/opknHKEOx9KM5yJtYvas+kL3Q
-Date:   Mon, 12 Jul 2021 01:40:17 +0000
-Message-ID: <DM6PR11MB3819098B673C54530B227D4385159@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20210709134229.2510349-1-trix@redhat.com>
- <20210709134229.2510349-6-trix@redhat.com>
-In-Reply-To: <20210709134229.2510349-6-trix@redhat.com>
+ bh=tfrAiRVONum8i5O/yH/spBQm6Rhrrd/UaTHOXI5fYEM=;
+ b=RezYALT1NOXHqzrhXtZehGaKc0zJdReZV8O/UeBqBAQT40VVy64o1Oe3zo0kdmONzi+N1RHZCp0PcOKvE4s9dXaDrk02X/a/tcfNZ5VGNzRL+QRVz9dEcqmeJj7W+ZnbTGW7WS8hyQA0Z83dgm8F64qbt+ykD48rLajzWQmfyd4=
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com (10.167.236.11) by
+ MW2PR2101MB1817.namprd21.prod.outlook.com (52.132.150.156) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.5; Mon, 12 Jul 2021 03:58:32 +0000
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::cdf4:efd:7237:3c19]) by MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::cdf4:efd:7237:3c19%7]) with mapi id 15.20.4331.009; Mon, 12 Jul 2021
+ 03:58:32 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Long Li <longli@microsoft.com>,
+        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+Thread-Topic: [Patch v2 2/3] Drivers: hv: add Azure Blob driver
+Thread-Index: AQHXalTRwSwb8zgU/UyKv3LljLGzrasphsOQgAQvmICAAJcUUIACGm+AgAmQCRCAASj/AIADrOtA
+Date:   Mon, 12 Jul 2021 03:58:32 +0000
+Message-ID: <MWHPR21MB159321330ED9242231D30F93D7159@MWHPR21MB1593.namprd21.prod.outlook.com>
+References: <1624689020-9589-1-git-send-email-longli@linuxonhyperv.com>
+ <1624689020-9589-3-git-send-email-longli@linuxonhyperv.com>
+ <MWHPR21MB159375586D810EC5DCB66AF0D7039@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB1506ACF89447B492B0F7E066CE009@BY5PR21MB1506.namprd21.prod.outlook.com>
+ <MWHPR21MB15939CFE85138C6B73E575F2D7009@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB1506C29FA7FB4588E3A2BB5ECE1F9@BY5PR21MB1506.namprd21.prod.outlook.com>
+ <MWHPR21MB1593F080DF28E10FF6E3A529D7189@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB15060921F762175FB4E85F26CE189@BY5PR21MB1506.namprd21.prod.outlook.com>
+In-Reply-To: <BY5PR21MB15060921F762175FB4E85F26CE189@BY5PR21MB1506.namprd21.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=34b74f3b-f78a-4066-9c87-8e11622defa7;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-06-28T14:56:02Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9342f36e-7ae6-47f4-c9bb-08d944d6008d
-x-ms-traffictypediagnostic: DM6PR11MB2665:
-x-microsoft-antispam-prvs: <DM6PR11MB2665EFC4AB42ED37C31938B085159@DM6PR11MB2665.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-office365-filtering-correlation-id: dcb42470-5f45-4790-0dde-08d944e95108
+x-ms-traffictypediagnostic: MW2PR2101MB1817:
+x-ms-exchange-transport-forked: True
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <MW2PR2101MB18173EC184B97F6D7CA08506D7159@MW2PR2101MB1817.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3J43on3mLLHbEl2aBYBn7sRm8XYOTfzhPnRLpGaKNV5bdlThIwyoCoyOFUTXT62Z3oeO+eZMghwcct0Auiapf9QW/ODMZ2VW0wBCDLahgZdlGhcAQhxyNE0+BPQiou8LLb1qvHCXPYPuxOe/Iv8Isq9kc9VsCVZWR6ErjMNOqJwRCSkoZq8v+jX+YusNk/YgBiWNmuQ9kjKPxVivJskbpmTFDoZbwHjzFzeUs6JhseHPoIOVXR1EuC8QUSDGgsdVG9AGkOj7TenhJIm8hI7HO7t3deNblpWgo8WAf9KdMLFaf0Kx/ZK8SRwckDIlFGMiE9qcUc+H7S4WJlxn4Wbq0J3N3oME5DnA0FRM4xe450jZWCU2VoZUx0Tw7yIBDHqD7Af5xri9kKvrYCtlrc16veTKKTNOHUiA4LBzaxio96u7MXDVLPBoDArDrSPEXNF10yUt8XF408Qa85UUBuM35phFlCyB52fWKBjnO0lcVBuguzsJrOinACVE6XHyRPE1VKv8ByCunOHdFezc/HOd5rsTlEGTvgDZ6U+sLnMtCVDjkfwrvMbRf5SjxLtm67rP1JEefPNwxa8ygD6MONGr9A64wpnOeKZv2WsHnleqE8aHWvCiFvnO9WFSUU+JDCL00Pzu8A7NkUAV73mNYJehzA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(316002)(5660300002)(2906002)(9686003)(26005)(86362001)(122000001)(8936002)(33656002)(4326008)(8676002)(478600001)(71200400001)(83380400001)(7696005)(66476007)(64756008)(110136005)(76116006)(66946007)(54906003)(55016002)(53546011)(52536014)(6506007)(38100700002)(186003)(66556008)(66446008);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: S1/lG3nEHvWd05oOGeZMVYoLYtkcL7ApSPtWeBN+LA3pDt93Tf5EY349JwavveZT0RKc2/2e6af8XtHE+Z9XMyCgXYB7Ki2mr257ptEULP2bfBQske8vIVUN0r4eA6PTFiyS+mR0JBuB1W35Cd5uZfCyiiw3aW8U7/Y1SKh9Ud1TRSO1P0L5vGzL80s2fHkLHZ4SeR3ynl8RoZJaJETNlzC0S7jKamgdK8FQE5U1ITTA5Y3orb8YWRPbGzzenb1U2t+eKAHc5Tx/PNLh9xu8dIVsjHoDDLWQeR/vhFclPjpL1pA21ZRYEzq5h/1RoW2f45PAOoo6MaH6jjf0O8m6GLFx08baf5LUM96NL9cy5VL2BhEIg6rQLdCMtNU8Y6FM9dqK8btY4o/EtuH3w9NzHQdTtA4L7BbQM7tkgjtwaMwYln3aly1fk68572wKDqbNRrDil3mCNklyEKTQMZBS7jVpj8uT9axKixEA1ab7RYLcMtNSDH0apgmADodC0Mu2AozMcCxs2VBO1JMIu3J47TYd5bvecNL/c96pG1AZ2Rhd2hR+Th7pbzq9wxHrFxTUoN8KPAsHQVNp6ddbmtjNbkkQsQYjuTOxBJiowR+WXLJvhLaC0wotpJBvY15a/Z851ZHfzwjB95YciOdyXLKedw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(76116006)(66476007)(66556008)(82950400001)(82960400001)(316002)(6506007)(66946007)(4326008)(110136005)(83380400001)(64756008)(66446008)(122000001)(8676002)(71200400001)(52536014)(33656002)(186003)(2906002)(9686003)(38100700002)(478600001)(8936002)(8990500004)(30864003)(86362001)(55016002)(54906003)(10290500003)(7416002)(7696005)(5660300002)(26005);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JAf+aTDld/KdoIFhx6fR6oourAn9HkdGD5sKD220czU+Tv+nC/2792hv3EGA?=
- =?us-ascii?Q?N7cYUhDf+p4WCxI5Q3aD71PZruPRAct/ClqF+y38iE970hNLLnH2h0ZjDj9U?=
- =?us-ascii?Q?THVdXm+MtIXy3gZU7MJP6UvXlotFOvIqQFwJucD3HkbAdQYnjH8PGCc2E9ZJ?=
- =?us-ascii?Q?cARNzbFUteFF8zmpRlx2V6773ctpK/EWQs6ZZ2m0Xyt3B1+mb4BV9cOs2gJA?=
- =?us-ascii?Q?EEDN44CPj+Mjz6YqvCoXXIFcEmaRUQVaOBrKroQukc+rB7PXtAXl1u5GVesb?=
- =?us-ascii?Q?ARd7FPEtjGOlnZizideAz6bHEXx0OTs4JK3wVJakjvpRo2e5KAcCa/kaIjEG?=
- =?us-ascii?Q?cvI+Hl0U1bTgqUKjUOWdI6OiU+uQclF2eQwmryHuZSg7mUl09lHw7zwe7x5G?=
- =?us-ascii?Q?I28b5ATu4QFSzqUwNEHVoewwsE7XSduAONpynXdqWh32YdjHQB5y1HuFEjXB?=
- =?us-ascii?Q?oXz07iQBGlafdl1BrlBB9+ijeX7AuXAMBhOEsa45EjQdvGk4IYEiDCsJwi6W?=
- =?us-ascii?Q?ddZk9JwNjPlxySBc5DObB2oiFpz+CWVJ8DNBzKksm1qRF8Kd0Gd0UF2nbU0D?=
- =?us-ascii?Q?m2Bmx+v6LAcKdgRUU88UkFbWvZK07ahXk46r5BSmtmRSr98q81aqY/bkY5DD?=
- =?us-ascii?Q?o1ShPjlioOrqGBeuK7g2K3PWNw4LP9Vd+Kksnos/IG/edreExeKEvQcXwSvl?=
- =?us-ascii?Q?CnOEdRFTZNT9SXDIRxCWxZc9K9RtYnuuWsd1O0sgJmHyAj/Qe/180FwGXGvP?=
- =?us-ascii?Q?jwp8LcdaDRUrA05Tz46i+qhOsoQitLMbgWLnj06utlFoNmsZeoQQ+o3U9bMK?=
- =?us-ascii?Q?H3yy6Um5QJ7fMqD6MflktiIRD7Jl2xsJh/lapKaDT/lIXa/uAVR1w1iwOOGS?=
- =?us-ascii?Q?iUdO4sItteOnBBqBIqMBX1Um1aOtVbX7wM6guFqNYSS6eTgNYHDbQbJRppxO?=
- =?us-ascii?Q?gMjpbu+PxGI0TWK74N4ht9QlLU6Q9RUX/8KwmHx0+Z4zUIL1WQkFJARkL3Ru?=
- =?us-ascii?Q?1fl8/xb8+h15Hy5HJCGqUbzuo4KM6L8oL/0BC5Rkps5FWT6DyHSkUN6XCgr1?=
- =?us-ascii?Q?i6aeeE+kErRavf64yG8Kq/v5HWFbPNLyN3dTsRGQgEZpNl0Eq+drQ9HjeyJm?=
- =?us-ascii?Q?oTanUdwlU6JCUCEnRcBltH19Pk6gfZVaKLQPGNM6puNpLPnMt64df+uMsHL8?=
- =?us-ascii?Q?gUCgWSm0W+eQtL1ey7l0JQpa58s0J8G+8UrWzf39pvfb0RsB5SB/WR5H0jgD?=
- =?us-ascii?Q?GjyVkAjM0Aesj5LyfssyfeMukWARf0g3Bsqc4CdE+/zbUqtH4KVMrjG1nI99?=
- =?us-ascii?Q?Vm9wLdn6R7H4t3l/Z3o5ORgb?=
-x-ms-exchange-transport-forked: True
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PObTp6EcbxIhKSG4CnqSq4ANcigQOumUbBA8iKCBcekyZbX48mL4ramGKsUy?=
+ =?us-ascii?Q?c39YonkjLDdtlPsCqBJyoMbQuyolW7kRTPKqLuk8tDrpd7XAX4drXWtJIfgF?=
+ =?us-ascii?Q?HypEDUr5GJph0Oj+4P9PPQOWYFP4hCkNF10IFFpVzBPYbdRxp/UDd+IGQ6xi?=
+ =?us-ascii?Q?g+Te71V+JwSpVOMb4B9acbf/X0R8q7uCSWcXcWBYUcrGWdDdyvwFWXbVvRJd?=
+ =?us-ascii?Q?by4U9tXyEfz5LhgdxmbFDoIpr4xI/5UaFT3Q4/kFiKzw74DSn5JztFPhj7yk?=
+ =?us-ascii?Q?6PuELDFIAwCOZO9Il3bWIgivnw+tUuu3RSoV0+Ok2uzWX4npL2CQHPRU1KYM?=
+ =?us-ascii?Q?XMROSZN0kfEiTMpe4KUAkhQFAkA+HJbSzYHNY+MhbNFRi9OUpY4fn5FVogNh?=
+ =?us-ascii?Q?z15+usas8Oqa2nyNd5fw9VqF2TaGC310iczOndLdyK9NRbWIJQBA+tnYG3SC?=
+ =?us-ascii?Q?Cwa7OgB5D6Ep/oFIw4sPOLa5G7aKKhkceWHgI2BKdmPE8tRTduxCpkfY4Ykx?=
+ =?us-ascii?Q?/Z6togUFpgWtzDdyHSb9FA2W/sKGaIw2J5C58TIHFZW6Gdn17VhdpjNk37yY?=
+ =?us-ascii?Q?ULfRg/p7Xjcg2SSj2HTg/f7fJd7sCkq5M1dYwVCCgrR4nLgdKRedGvyDilmn?=
+ =?us-ascii?Q?EE4ZOYHXSVXOkUt5jyWNwwWGYS4aQXX7wvTFzRvNkz1fJJ4Qr2e4XOT9v4UJ?=
+ =?us-ascii?Q?yEW8OLYxX5vqThRNBBNYIwNX+Ws3pb8PXxQAAEFntCmbExvtLVkZua5Dl/2+?=
+ =?us-ascii?Q?xe3IhMRwqgzj9ij3WgFJa8TmdYiyTIpE7Bm9QZqIDqWo5+FCn7eHY188gSOY?=
+ =?us-ascii?Q?mELTee6OfSACs+VM6hWw3qZhoANWzLZRCbn7LNZFdZblIV0rSBhNnysowzAt?=
+ =?us-ascii?Q?iKI4WuSjVhVTymRlx7ZQZlpGyuTiMEA6qyifGT3msvOMCdB7CIaoM1EJHdC3?=
+ =?us-ascii?Q?TeRXCUCc4JHBMsWjR8+VT3MQO79ZTPviW0LTCpBPt4vC1SdaFGHASOkV23Rr?=
+ =?us-ascii?Q?jOQaQZ5e6XgJm2qM4QUjmbzc7f8NF7txcBfK88oGwFXw0tXIZPFPq2Edp3pF?=
+ =?us-ascii?Q?pZatRjvytlnEGxJbIHzfyO6CE+qIONyaVTlUEbmxYqk29ej4ExANJItQABza?=
+ =?us-ascii?Q?SoCutUiWTeFL3ek/zid2f+pNeonzluU77dfaZpxse9jaBHCWDuWKDUAp9cS0?=
+ =?us-ascii?Q?s4jSsoPsJqY9hXiFw4c5JCBKeh0DvEhMFhI3aJCVKd9+tndw3jxMhXQIp/3V?=
+ =?us-ascii?Q?bDYQ863iQalz9XLizrMwRWVwOeAKMEKMVLCfW9OaNqbzafvlChhTZncaKMsR?=
+ =?us-ascii?Q?lr2uiC5d1FCm5Hkt4A3CdOMS?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9342f36e-7ae6-47f4-c9bb-08d944d6008d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2021 01:40:17.1568
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dcb42470-5f45-4790-0dde-08d944e95108
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2021 03:58:32.4238
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iB1NO9VwxXhBl6Cmlep8mgazqifdHsjF9GRZgDcl6paLgunE/W2xfHQE8O3aK4vd9N0O9O4ZWq1E2lhcA2FA4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2665
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: sqY7aC2wa4nS2GgpOnmxdNuu1wSQlvY5t5PJCzz80jdLYf27j/Bw0OQ+FKFoYxRjUP/EmMFsa/zjjlX7zAgSgEsOuaOxLVq/LYOvN3+8WGM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1817
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: trix@redhat.com <trix@redhat.com>
-> Sent: Friday, July 9, 2021 9:42 PM
-> To: mdf@kernel.org; corbet@lwn.net; Wu, Hao <hao.wu@intel.com>
-> Cc: linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Tom Rix <trix@redhat.com>
-> Subject: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
-> fpga_region
+From: Long Li <longli@microsoft.com> Sent: Friday, July 9, 2021 12:44 PM
+> >
+> > From: Long Li <longli@microsoft.com> Sent: Friday, July 2, 2021 4:59 PM
+> > > > PM
+> > > >
+> > > > [snip]
+> > > >
+> > > > > > > +static void az_blob_remove_device(struct az_blob_device *dev=
+) {
+> > > > > > > +	wait_event(dev->file_wait, list_empty(&dev->file_list));
+> > > > > > > +	misc_deregister(&az_blob_misc_device);
+> > > > > > > +#ifdef CONFIG_DEBUG_FS
+> > > > > > > +	debugfs_remove_recursive(az_blob_debugfs_root);
+> > > > > > > +#endif
+> > > > > > > +	/* At this point, we won't get any requests from user-mode
+> > > > > > > +*/ }
+> > > > > > > +
+> > > > > > > +static int az_blob_create_device(struct az_blob_device *dev)=
+ {
+> > > > > > > +	int rc;
+> > > > > > > +	struct dentry *d;
+> > > > > > > +
+> > > > > > > +	rc =3D misc_register(&az_blob_misc_device);
+> > > > > > > +	if (rc) {
+> > > > > > > +		az_blob_err("misc_register failed rc %d\n", rc);
+> > > > > > > +		return rc;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +#ifdef CONFIG_DEBUG_FS
+> > > > > > > +	az_blob_debugfs_root =3D debugfs_create_dir("az_blob",
+> > NULL);
+> > > > > > > +	if (!IS_ERR_OR_NULL(az_blob_debugfs_root)) {
+> > > > > > > +		d =3D debugfs_create_file("pending_requests", 0400,
+> > > > > > > +			az_blob_debugfs_root, NULL,
+> > > > > > > +			&az_blob_debugfs_fops);
+> > > > > > > +		if (IS_ERR_OR_NULL(d)) {
+> > > > > > > +			az_blob_warn("failed to create debugfs
+> > file\n");
+> > > > > > > +
+> > 	debugfs_remove_recursive(az_blob_debugfs_root);
+> > > > > > > +			az_blob_debugfs_root =3D NULL;
+> > > > > > > +		}
+> > > > > > > +	} else
+> > > > > > > +		az_blob_warn("failed to create debugfs root\n");
+> > #endif
+> > > > > > > +
+> > > > > > > +	return 0;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static int az_blob_connect_to_vsp(struct hv_device *device,
+> > > > > > > +u32
+> > > > > > > +ring_size) {
+> > > > > > > +	int ret;
+> > > > > > > +
+> > > > > > > +	spin_lock_init(&az_blob_dev.file_lock);
+> > > > > >
+> > > > > > I'd argue that the spin lock should not be re-initialized here.
+> > > > > > Here's the sequence where things go wrong:
+> > > > > >
+> > > > > > 1) The driver is unbound, so az_blob_remove() is called.
+> > > > > > 2) az_blob_remove() sets the "removing" flag to true, and calls
+> > > > > > az_blob_remove_device().
+> > > > > > 3) az_blob_remove_device() waits for the file_list to become em=
+pty.
+> > > > > > 4) After the file_list becomes empty, but before
+> > > > > > misc_deregister() is called, a separate thread opens the device=
+ again.
+> > > > > > 5) In the separate thread, az_blob_fop_open() obtains the
+> > > > > > file_lock spin
+> > > > lock.
+> > > > > > 6) Before az_blob_fop_open() releases the spin lock,
+> > > > > > az_blob_remove_device() completes, along with az_blob_remove().
+> > > > > > 7) Then the device gets rebound, and az_blob_connect_to_vsp()
+> > > > > > gets called, all while az_blob_fop_open() still holds the spin
+> > > > > > lock.  So the spin lock get re- initialized while it is held.
+> > > > > >
+> > > > > > This is admittedly a far-fetched scenario, but stranger things
+> > > > > > have happened. :-)  The issue is that you are counting on the
+> > > > > > az_blob_dev structure to persist and have a valid file_lock,
+> > > > > > even while the device is unbound.  So any initialization should
+> > > > > > only happen in
+> > > > az_blob_drv_init().
+> > > > >
+> > > > > I'm not sure if az_blob_probe() and az_blob_remove() can be calle=
+d
+> > > > > at the same time, as az_blob_remove_vmbus() is called the last in
+> > > > az_blob_remove().
+> > > > > Is it possible for vmbus asking the driver to probe a new channel
+> > > > > before the old channel is closed? I expect the vmbus provide
+> > > > > guarantee that those calls are made in sequence.
+> > > >
+> > > > In my scenario above, az_blob_remove_vmbus() and az_blob_remove()
+> > > > run to completion in Step #6, all while some other thread is still
+> > > > in the middle of an
+> > > > open() call and holding the file_lock spin lock.  Then in Step #7
+> > > > az_blob_probe() runs.  So az_blob_remove() and az_blob_probe()
+> > > > execute sequentially, not at the same time.
+> > > >
+> > > > Michael
+> > >
+> > > I think it's a valid scenario.  The return value of
+> > > devtmpfs_delete_node() is not checked in misc_deregister(). It decrea=
+ses
+> > the refcount on inodes but it's not guaranteed that someone else is sti=
+ll using
+> > it (in the middle of opening a file).
+> > >
+> > > However, this works fine for "rmmod" that causes device to be removed=
+.
+> > > Before file is opened the refcount on the module is increased so it c=
+an't be
+> > removed when file is being opened. The scenario you described can't
+> > happen.
+> > >
+> > > But during VMBUS rescind, it can happen. It's possible that the drive=
+r
+> > > is using the spinlock that has been re-initialized, when the next VMB=
+US
+> > offer on the same channel comes before all the attempting open file cal=
+ls
+> > exit.
+> >
+> > I was thinking about the rescind scenario.  vmbus_onoffer_rescind() wil=
+l run
+> > on the global workqueue.  If it eventually calls az_blob_remove() and t=
+hen
+> > az_blob_remove_device(), it will wait until the file_list is empty, whi=
+ch
+> > essentially means waiting until user space processes decide to close th=
+e
+> > instances they have open.  This seems like a problem that could block t=
+he
+> > global workqueue for a long time and
+> > thereby hang the kernel.   Is my reasoning valid?  If so, I haven't
+> > thought about what the solution might be.  It seems like we do need to =
+wait
+> > until any in-progress requests to Hyper-V are complete because Hyper-V =
+has
+> > references to guest physical memory.  But waiting for all open instance=
+s to
+> > be closed seems to be problematic.
 >=20
-> From: Tom Rix <trix@redhat.com>
+> My tests showed that misc_deregister() caused all opened files to be rele=
+ased if there are no pending I/O waiting in the
+> driver.
 >=20
-> compat_id is implementation specific.  So the data should be
-> stored at the implemeation layer, not the infrastructure layer.
-> Remove the compat_id elements and supporting code.
+> If there are pending I/O, we must wait as the VSP owns the memory of the =
+I/O. The correct VSP behavior is to return all the
+> pending I/O along with rescind. This is the same to what storvsc does for=
+ rescind.
 
-I think current compat_id format can meet the checking requirement.
-Actually I hope other hardware which needs compatible checking
-to expose the same format compat_id. Then we can have more=20
-unified/common code, e.g. userspace application/lib handling.
-
-Currently I didn't see any other usage or requirement on this part
-now, only DFL uses it.  So should we leave it here at this moment?
-I feel we don't have to change it for now to move it to a
-Per-fpga-mgr format. : )
-
-Thanks
-Hao
+Yes, we have to wait since the VSP owns the memory.  But you make
+a good point that the VSP behavior should be to return all the pending
+I/Os at roughly the same time as the rescind.
 
 >=20
-> Printing out the compat_id is done with the fpga_region
-> compat_id_show() op.
->=20
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/fpga/dfl-fme-mgr.c       |  7 -------
->  drivers/fpga/dfl-fme-region.c    |  1 -
->  drivers/fpga/fpga-region.c       |  7 +------
->  include/linux/fpga/fpga-mgr.h    | 13 -------------
->  include/linux/fpga/fpga-region.h |  2 --
->  5 files changed, 1 insertion(+), 29 deletions(-)
->=20
-> diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
-> index cd0b9157ea6e5..8c5423eeffe75 100644
-> --- a/drivers/fpga/dfl-fme-mgr.c
-> +++ b/drivers/fpga/dfl-fme-mgr.c
-> @@ -292,7 +292,6 @@ EXPORT_SYMBOL_GPL(fme_mgr_get_compat_id);
->  static int fme_mgr_probe(struct platform_device *pdev)
->  {
->  	struct dfl_fme_mgr_pdata *pdata =3D dev_get_platdata(&pdev->dev);
-> -	struct fpga_compat_id *compat_id;
->  	struct device *dev =3D &pdev->dev;
->  	struct fme_mgr_priv *priv;
->  	struct fpga_manager *mgr;
-> @@ -312,10 +311,6 @@ static int fme_mgr_probe(struct platform_device
-> *pdev)
->  			return PTR_ERR(priv->ioaddr);
->  	}
->=20
-> -	compat_id =3D devm_kzalloc(dev, sizeof(*compat_id), GFP_KERNEL);
-> -	if (!compat_id)
-> -		return -ENOMEM;
-> -
->  	_fme_mgr_get_compat_id(priv->ioaddr, &priv->compat_id);
->=20
->  	mgr =3D devm_fpga_mgr_create(dev, "DFL FME FPGA Manager",
-> @@ -323,8 +318,6 @@ static int fme_mgr_probe(struct platform_device *pdev=
-)
->  	if (!mgr)
->  		return -ENOMEM;
->=20
-> -	mgr->compat_id =3D compat_id;
-> -
->  	return devm_fpga_mgr_register(dev, mgr);
->  }
->=20
-> diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.=
-c
-> index d21eacbf2469f..be1d57ee37666 100644
-> --- a/drivers/fpga/dfl-fme-region.c
-> +++ b/drivers/fpga/dfl-fme-region.c
-> @@ -64,7 +64,6 @@ static int fme_region_probe(struct platform_device *pde=
-v)
->  	}
->=20
->  	region->priv =3D pdata;
-> -	region->compat_id =3D mgr->compat_id;
->  	platform_set_drvdata(pdev, region);
->=20
->  	ret =3D fpga_region_register(region);
-> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
-> index 864dd4f290e3b..b08d3914716f0 100644
-> --- a/drivers/fpga/fpga-region.c
-> +++ b/drivers/fpga/fpga-region.c
-> @@ -172,12 +172,7 @@ static ssize_t compat_id_show(struct device *dev,
->  	if (region->rops && region->rops->compat_id_show)
->  		return region->rops->compat_id_show(region, buf);
->=20
-> -	if (!region->compat_id)
-> -		return -ENOENT;
-> -
-> -	return sprintf(buf, "%016llx%016llx\n",
-> -		       (unsigned long long)region->compat_id->id_h,
-> -		       (unsigned long long)region->compat_id->id_l);
-> +	return -ENOENT;
->  }
->=20
->  static DEVICE_ATTR_RO(compat_id);
-> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.=
-h
-> index ec2cd8bfceb00..ebdea215a8643 100644
-> --- a/include/linux/fpga/fpga-mgr.h
-> +++ b/include/linux/fpga/fpga-mgr.h
-> @@ -143,24 +143,12 @@ struct fpga_manager_ops {
->  #define FPGA_MGR_STATUS_IP_PROTOCOL_ERR		BIT(3)
->  #define FPGA_MGR_STATUS_FIFO_OVERFLOW_ERR	BIT(4)
->=20
-> -/**
-> - * struct fpga_compat_id - id for compatibility check
-> - *
-> - * @id_h: high 64bit of the compat_id
-> - * @id_l: low 64bit of the compat_id
-> - */
-> -struct fpga_compat_id {
-> -	u64 id_h;
-> -	u64 id_l;
-> -};
-> -
->  /**
->   * struct fpga_manager - fpga manager structure
->   * @name: name of low level fpga manager
->   * @dev: fpga manager device
->   * @ref_mutex: only allows one reference to fpga manager
->   * @state: state of fpga manager
-> - * @compat_id: FPGA manager id for compatibility check.
->   * @mops: pointer to struct of fpga manager ops
->   * @priv: low level driver private date
->   */
-> @@ -169,7 +157,6 @@ struct fpga_manager {
->  	struct device dev;
->  	struct mutex ref_mutex;
->  	enum fpga_mgr_states state;
-> -	struct fpga_compat_id *compat_id;
->  	const struct fpga_manager_ops *mops;
->  	void *priv;
->  };
-> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-r=
-egion.h
-> index 236d3819f1c13..afc79784b2823 100644
-> --- a/include/linux/fpga/fpga-region.h
-> +++ b/include/linux/fpga/fpga-region.h
-> @@ -30,7 +30,6 @@ struct fpga_region_ops {
->   * @bridge_list: list of FPGA bridges specified in region
->   * @mgr: FPGA manager
->   * @info: FPGA image info
-> - * @compat_id: FPGA region id for compatibility check.
->   * @priv: private data
->   * @rops: optional pointer to struct for fpga region ops
->   */
-> @@ -40,7 +39,6 @@ struct fpga_region {
->  	struct list_head bridge_list;
->  	struct fpga_manager *mgr;
->  	struct fpga_image_info *info;
-> -	struct fpga_compat_id *compat_id;
->  	void *priv;
->  	const struct fpga_region_ops *rops;
->  };
-> --
-> 2.26.3
+> It looks to me waiting for opened files after the call to misc_deregister=
+(), but before removing the vmbus channel is a safe
+> approach.
 
+To me, this would be a great solution.  And it closes the original timing
+window I pointed out where some other thread could open the device
+after having waited for the file_list to be empty, but before
+misc_deregister() is called.  With the order swapped, once the file_list
+is empty, there's no way for the device to be opened again.  So it solves
+the problem with the spin_lock initialization.
+
+>=20
+> If the VSP is behaving correctly, the rescind process should not block fo=
+r too long. If we want to deal with a buggy VSP that
+> takes forever to release a resource, we want to create a work queue for r=
+escind handling.
+
+I don't think we need to deal with a buggy VSP holding memory for
+an excessively long time.
+
+Michael
+
+> > >
+> > > This is a very rare. I agree things happen that we should make sure t=
+he
+> > driver can handle this. I'll update the driver.
+> > >
+> > > Long
+> > >
+> > > >
+> > > > >
+> > > > > >
+> > > > > > > +	INIT_LIST_HEAD(&az_blob_dev.file_list);
+> > > > > > > +	init_waitqueue_head(&az_blob_dev.file_wait);
+> > > > > > > +
+> > > > > > > +	az_blob_dev.removing =3D false;
+> > > > > > > +
+> > > > > > > +	az_blob_dev.device =3D device;
+> > > > > > > +	device->channel->rqstor_size =3D device_queue_depth;
+> > > > > > > +
+> > > > > > > +	ret =3D vmbus_open(device->channel, ring_size, ring_size,
+> > NULL, 0,
+> > > > > > > +			az_blob_on_channel_callback, device-
+> > >channel);
+> > > > > > > +
+> > > > > > > +	if (ret) {
+> > > > > > > +		az_blob_err("failed to connect to VSP ret %d\n", ret);
+> > > > > > > +		return ret;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	hv_set_drvdata(device, &az_blob_dev);
+> > > > > > > +
+> > > > > > > +	return ret;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static void az_blob_remove_vmbus(struct hv_device *device) {
+> > > > > > > +	/* At this point, no VSC/VSP traffic is possible over vmbus=
+ */
+> > > > > > > +	hv_set_drvdata(device, NULL);
+> > > > > > > +	vmbus_close(device->channel); }
+> > > > > > > +
+> > > > > > > +static int az_blob_probe(struct hv_device *device,
+> > > > > > > +			const struct hv_vmbus_device_id *dev_id) {
+> > > > > > > +	int rc;
+> > > > > > > +
+> > > > > > > +	az_blob_dbg("probing device\n");
+> > > > > > > +
+> > > > > > > +	rc =3D az_blob_connect_to_vsp(device,
+> > az_blob_ringbuffer_size);
+> > > > > > > +	if (rc) {
+> > > > > > > +		az_blob_err("error connecting to VSP rc %d\n", rc);
+> > > > > > > +		return rc;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	// create user-mode client library facing device
+> > > > > > > +	rc =3D az_blob_create_device(&az_blob_dev);
+> > > > > > > +	if (rc) {
+> > > > > > > +		az_blob_remove_vmbus(device);
+> > > > > > > +		return rc;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	az_blob_dbg("successfully probed device\n");
+> > > > > > > +	return 0;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static int az_blob_remove(struct hv_device *dev) {
+> > > > > > > +	struct az_blob_device *device =3D hv_get_drvdata(dev);
+> > > > > > > +	unsigned long flags;
+> > > > > > > +
+> > > > > > > +	spin_lock_irqsave(&device->file_lock, flags);
+> > > > > > > +	device->removing =3D true;
+> > > > > > > +	spin_unlock_irqrestore(&device->file_lock, flags);
+> > > > > > > +
+> > > > > > > +	az_blob_remove_device(device);
+> > > > > > > +	az_blob_remove_vmbus(dev);
+> > > > > > > +	return 0;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static struct hv_driver az_blob_drv =3D {
+> > > > > > > +	.name =3D KBUILD_MODNAME,
+> > > > > > > +	.id_table =3D id_table,
+> > > > > > > +	.probe =3D az_blob_probe,
+> > > > > > > +	.remove =3D az_blob_remove,
+> > > > > > > +	.driver =3D {
+> > > > > > > +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
+> > > > > > > +	},
+> > > > > > > +};
+> > > > > > > +
+> > > > > > > +static int __init az_blob_drv_init(void) {
+> > > > > > > +	int ret;
+> > > > > > > +
+> > > > > > > +	ret =3D vmbus_driver_register(&az_blob_drv);
+> > > > > > > +	return ret;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static void __exit az_blob_drv_exit(void) {
+> > > > > > > +	vmbus_driver_unregister(&az_blob_drv);
+> > > > > > > +}
