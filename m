@@ -2,33 +2,34 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 797E9C07E9C
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E52C11F67
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62EA161003
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4E0461003
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234156AbhGLLVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 07:21:16 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3381 "EHLO
+        id S235570AbhGLLVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 07:21:19 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3383 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238043AbhGLLTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 07:19:42 -0400
-Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GNgt56Nh4z6GFcV;
-        Mon, 12 Jul 2021 19:05:49 +0800 (CST)
+        with ESMTP id S238302AbhGLLTr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 07:19:47 -0400
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GNgxG6bLHz6G8nm;
+        Mon, 12 Jul 2021 19:08:34 +0800 (CST)
 Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 12 Jul 2021 13:16:52 +0200
+ 15.1.2176.2; Mon, 12 Jul 2021 13:16:58 +0200
 Received: from localhost.localdomain (10.69.192.58) by
  lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 12 Jul 2021 12:16:48 +0100
+ 15.1.2176.2; Mon, 12 Jul 2021 12:16:54 +0100
 From:   John Garry <john.garry@huawei.com>
 To:     <joro@8bytes.org>, <will@kernel.org>, <dwmw2@infradead.org>,
         <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>,
@@ -37,10 +38,12 @@ CC:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
         <linuxarm@huawei.com>, <thunder.leizhen@huawei.com>,
         <chenxiang66@hisilicon.com>, <linux-doc@vger.kernel.org>,
         <dianders@chromium.org>, John Garry <john.garry@huawei.com>
-Subject: [PATCH v15 0/6] iommu: Enhance IOMMU default DMA mode build options
-Date:   Mon, 12 Jul 2021 19:12:14 +0800
-Message-ID: <1626088340-5838-1-git-send-email-john.garry@huawei.com>
+Subject: [PATCH v15 2/6] iommu: Print strict or lazy mode at init time
+Date:   Mon, 12 Jul 2021 19:12:16 +0800
+Message-ID: <1626088340-5838-3-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1626088340-5838-1-git-send-email-john.garry@huawei.com>
+References: <1626088340-5838-1-git-send-email-john.garry@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.69.192.58]
@@ -51,62 +54,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a reboot of Zhen Lei's series from a couple of years ago, which
-never made it across the line.
+As well as the default domain type, it's useful to know whether strict
+or lazy for DMA domains, so add this info in a separate print.
 
-I still think that it has some value, so taking up the mantle.
+The (stict/lazy) mode may be also set via iommu.strict earlyparm, but
+this will be processed prior to iommu_subsys_init(), so that print will be
+accurate for drivers which don't set the mode via custom means.
 
-Motivation:
-Allow lazy mode be default mode for DMA domains for all ARCHs, and not
-only those who hardcode it (to be lazy). For ARM64, currently we must use
-a kernel command line parameter to use lazy mode, which is less than
-ideal.
+For the drivers which set the mode via custom means - AMD and Intel drivers
+- they maintain prints to inform a change in policy or that custom cmdline
+methods to change policy are deprecated.
 
-I have now included the print for strict/lazy mode, which I originally
-sent in:
-https://lore.kernel.org/linux-iommu/72eb3de9-1d1c-ae46-c5a9-95f26525d435@huawei.com/
+Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/iommu/iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-There was some concern there about drivers and their custom prints
-conflicting with the print in that patch, but I think that it
-should be ok.
-
-Based on v5.14-rc1
-
-Differences to v14:
-- Add RB tags (Thanks!)
-- Rebase
-
-Differences to v13:
-- Improve strict mode deprecation messages and cut out some
-  kernel-parameters.txt legacy description
-- Add tag in 1/6
-- use pr_info_once() for vt-d message about VM and caching
-
-Differences to v12:
-- Add Robin's RB tags (thanks!)
-- Add a patch to mark x86 strict cmdline params as deprecated
-- Improve wording in Kconfig change and tweak iommu_dma_strict declaration
-
-John Garry (3):
-  iommu: Deprecate Intel and AMD cmdline methods to enable strict mode
-  iommu: Print strict or lazy mode at init time
-  iommu: Remove mode argument from iommu_set_dma_strict()
-
-Zhen Lei (3):
-  iommu: Enhance IOMMU default DMA mode build options
-  iommu/vt-d: Add support for IOMMU default DMA mode build options
-  iommu/amd: Add support for IOMMU default DMA mode build options
-
- .../admin-guide/kernel-parameters.txt         | 12 ++----
- drivers/iommu/Kconfig                         | 41 +++++++++++++++++++
- drivers/iommu/amd/amd_iommu_types.h           |  6 ---
- drivers/iommu/amd/init.c                      |  7 ++--
- drivers/iommu/amd/iommu.c                     |  6 ---
- drivers/iommu/intel/iommu.c                   | 16 ++++----
- drivers/iommu/iommu.c                         | 12 ++++--
- include/linux/iommu.h                         |  2 +-
- 8 files changed, 65 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 5419c4b9f27a..cf58949cc2f3 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -138,6 +138,11 @@ static int __init iommu_subsys_init(void)
+ 		(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API) ?
+ 			"(set via kernel command line)" : "");
+ 
++	pr_info("DMA domain TLB invalidation policy: %s mode %s\n",
++		iommu_dma_strict ? "strict" : "lazy",
++		(iommu_cmd_line & IOMMU_CMD_LINE_STRICT) ?
++			"(set via kernel command line)" : "");
++
+ 	return 0;
+ }
+ subsys_initcall(iommu_subsys_init);
 -- 
 2.26.2
 
