@@ -2,113 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF947C11F6B
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 07:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797E9C07E9C
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A70F06135A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 07:52:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62EA161003
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 11:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348367AbhGLHzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 03:55:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352109AbhGLHw3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 03:52:29 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9356C0613DD;
-        Mon, 12 Jul 2021 00:49:40 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id v6so4375487lfp.6;
-        Mon, 12 Jul 2021 00:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=25uRGjyIuT2+pU4ci3d+O1+NHkNqvq8TVllUcppTGhA=;
-        b=DXsSpZw/SVeET206aIqWEUuI5vrAknv9FNEY99wh8g9bv/2B8Zn4W1KE57CHRO+kff
-         S7bbpZeJhQPdxd584nvjZh80a/gOzogMrFz/hMwcbpO5SJBxrr+qE3pPW2LrHM8e0Hlg
-         5+ToQDrPoUsxWC0jHVOWLwN/FXMVUN2RsAsXoUn70fkQmum9gxL6JBnh/9p9/QQqhnCR
-         Cx0ycZaT6fcjnaioOmiLHBb9rqoiEHWpu5Ody+qV96hRO9I1/uymT4j99mgiz5pKALnX
-         u5opKVI87+2Ll7YF6NDUS91GfY9z13YAcVl6HcmrmLKNPo3+gMOsnHnnCqqp65w1fN2N
-         bPLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=25uRGjyIuT2+pU4ci3d+O1+NHkNqvq8TVllUcppTGhA=;
-        b=Y1yEXMGJk71aYiEOS+hKwMer+S4MCSsA/CB1JjbcLHfM/riyTMzH6W/BJJ7v4RvWq7
-         OX7NKfh4GsTV5ZD0imVDjvLIg9W00205sQ68b1FYUoiJrXiJ4VmooSNdD0a0PK6YgbJ6
-         jFYZiPWgdigFHwcb9m9GzFBS0KBuTPEGENV1VwSkVxFxgDLujnOVhDumNvLG25YLoY55
-         pJcBnCTVSM/dOSJc39/c7SG/V4goxHQ6Cz6qU4cSY9sIaL0KV8yvJrCxQRkcTzDyOX5Z
-         TFaqPIw4h1t+Rlwmv4APVVZm6/3lgZEJSzPvpEv5FFImxM9SfO0CXlqjbBvQh+MPAUOa
-         vq+Q==
-X-Gm-Message-State: AOAM530oaUYqEDm1rbJLMFLIau5oOka/limb8BrwJoWSiXT3bXKDSnFt
-        Zdg2+E7ZJoHzn7JsV1FcvGooxW+2J2hmIXGFnCE=
-X-Google-Smtp-Source: ABdhPJw26ORVIoyQPuX/1CUch9L7off2KGrMWpaVN/W8iilfojldbKr9j+qVGYlKQIp0iN9AhzMT+m17CTPdX8BYu5k=
-X-Received: by 2002:a05:6512:2295:: with SMTP id f21mr29827234lfu.520.1626076179101;
- Mon, 12 Jul 2021 00:49:39 -0700 (PDT)
+        id S234156AbhGLLVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 07:21:16 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3381 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238043AbhGLLTm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 07:19:42 -0400
+Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GNgt56Nh4z6GFcV;
+        Mon, 12 Jul 2021 19:05:49 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 13:16:52 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 12:16:48 +0100
+From:   John Garry <john.garry@huawei.com>
+To:     <joro@8bytes.org>, <will@kernel.org>, <dwmw2@infradead.org>,
+        <baolu.lu@linux.intel.com>, <robin.murphy@arm.com>,
+        <corbet@lwn.net>
+CC:     <linux-kernel@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linuxarm@huawei.com>, <thunder.leizhen@huawei.com>,
+        <chenxiang66@hisilicon.com>, <linux-doc@vger.kernel.org>,
+        <dianders@chromium.org>, John Garry <john.garry@huawei.com>
+Subject: [PATCH v15 0/6] iommu: Enhance IOMMU default DMA mode build options
+Date:   Mon, 12 Jul 2021 19:12:14 +0800
+Message-ID: <1626088340-5838-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-References: <20210711141430.896595-1-sxwjean@me.com> <20210711141430.896595-3-sxwjean@me.com>
- <93ccb871-7f57-9109-9072-8fc26f3b811c@redhat.com>
-In-Reply-To: <93ccb871-7f57-9109-9072-8fc26f3b811c@redhat.com>
-From:   Xiongwei Song <sxwjean@gmail.com>
-Date:   Mon, 12 Jul 2021 15:49:12 +0800
-Message-ID: <CAEVVKH-yQgFi2U4v2p4mN_aaUM7=A8UEpSK67wUpacpc-MtFAw@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] locking/lockdep,doc: Correct the max number of
- lock classes
-To:     Waiman Long <llong@redhat.com>
-Cc:     Xiongwei Song <sxwjean@me.com>, peterz@infradead.org,
-        mingo@redhat.com, will@kernel.org,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 11, 2021 at 11:22 PM Waiman Long <llong@redhat.com> wrote:
->
-> On 7/11/21 10:14 AM, Xiongwei Song wrote:
-> > From: Xiongwei Song <sxwjean@gmail.com>
-> >
-> > The max number of lock classes is 8192.
-> >
-> > Signed-off-by: Xiongwei Song <sxwjean@gmail.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> >   Documentation/locking/lockdep-design.rst | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
-> > index 82f36cab61bd..5c2dcec684ff 100644
-> > --- a/Documentation/locking/lockdep-design.rst
-> > +++ b/Documentation/locking/lockdep-design.rst
-> > @@ -341,7 +341,7 @@ Exceeding this number will trigger the following lockdep warning::
-> >
-> >       (DEBUG_LOCKS_WARN_ON(id >= MAX_LOCKDEP_KEYS))
-> >
-> > -By default, MAX_LOCKDEP_KEYS is currently set to 8191, and typical
-> > +By default, MAX_LOCKDEP_KEYS is currently set to 8192, and typical
-> >   desktop systems have less than 1,000 lock classes, so this warning
-> >   normally results from lock-class leakage or failure to properly
-> >   initialize locks.  These two problems are illustrated below:
-> > @@ -383,7 +383,7 @@ you the number of lock classes currently in use along with the maximum::
-> >
-> >   This command produces the following output on a modest system::
-> >
-> > -     lock-classes:                          748 [max: 8191]
-> > +     lock-classes:                          748 [max: 8192]
-> >
-> >   If the number allocated (748 above) increases continually over time,
-> >   then there is likely a leak.  The following command can be used to
->
-> Acked-by: Waiman Long <longman@redhat.com>
+This is a reboot of Zhen Lei's series from a couple of years ago, which
+never made it across the line.
 
-Thanks.
+I still think that it has some value, so taking up the mantle.
+
+Motivation:
+Allow lazy mode be default mode for DMA domains for all ARCHs, and not
+only those who hardcode it (to be lazy). For ARM64, currently we must use
+a kernel command line parameter to use lazy mode, which is less than
+ideal.
+
+I have now included the print for strict/lazy mode, which I originally
+sent in:
+https://lore.kernel.org/linux-iommu/72eb3de9-1d1c-ae46-c5a9-95f26525d435@huawei.com/
+
+There was some concern there about drivers and their custom prints
+conflicting with the print in that patch, but I think that it
+should be ok.
+
+Based on v5.14-rc1
+
+Differences to v14:
+- Add RB tags (Thanks!)
+- Rebase
+
+Differences to v13:
+- Improve strict mode deprecation messages and cut out some
+  kernel-parameters.txt legacy description
+- Add tag in 1/6
+- use pr_info_once() for vt-d message about VM and caching
+
+Differences to v12:
+- Add Robin's RB tags (thanks!)
+- Add a patch to mark x86 strict cmdline params as deprecated
+- Improve wording in Kconfig change and tweak iommu_dma_strict declaration
+
+John Garry (3):
+  iommu: Deprecate Intel and AMD cmdline methods to enable strict mode
+  iommu: Print strict or lazy mode at init time
+  iommu: Remove mode argument from iommu_set_dma_strict()
+
+Zhen Lei (3):
+  iommu: Enhance IOMMU default DMA mode build options
+  iommu/vt-d: Add support for IOMMU default DMA mode build options
+  iommu/amd: Add support for IOMMU default DMA mode build options
+
+ .../admin-guide/kernel-parameters.txt         | 12 ++----
+ drivers/iommu/Kconfig                         | 41 +++++++++++++++++++
+ drivers/iommu/amd/amd_iommu_types.h           |  6 ---
+ drivers/iommu/amd/init.c                      |  7 ++--
+ drivers/iommu/amd/iommu.c                     |  6 ---
+ drivers/iommu/intel/iommu.c                   | 16 ++++----
+ drivers/iommu/iommu.c                         | 12 ++++--
+ include/linux/iommu.h                         |  2 +-
+ 8 files changed, 65 insertions(+), 37 deletions(-)
+
+-- 
+2.26.2
+
