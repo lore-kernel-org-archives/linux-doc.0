@@ -2,107 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DDDC07E9C
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6B9C07E99
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:10:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 899D96044F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:04:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 980BF611CC
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234951AbhGLRHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 13:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36122 "EHLO
+        id S233545AbhGLRNk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 13:13:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235602AbhGLRHT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 13:07:19 -0400
+        with ESMTP id S233331AbhGLRNk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 13:13:40 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38609C0613DD;
-        Mon, 12 Jul 2021 10:04:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0FAC0613DD;
+        Mon, 12 Jul 2021 10:10:51 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E35772ED;
-        Mon, 12 Jul 2021 17:04:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E35772ED
+        by ms.lwn.net (Postfix) with ESMTPSA id 6AD8D2ED;
+        Mon, 12 Jul 2021 17:10:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6AD8D2ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1626109471; bh=rNbc78ySoW7E4zNHWiKuoKaf/P5JAEEohrvKvz8M1cg=;
+        t=1626109851; bh=FO/9eCNo9bewjjosT7RJ/KMCZhAMv6LghMJPAtQytAg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gEM/cQUTOgK+5w0wE4y/0uBAtHjN9kKQbjqDua+uedungtXokJNDzCi3keODXdPxp
-         EIGm0YDx0abvyHga1hV13In/eip5z24XaRBZojLBWkFMduvu1vgGuoVehnN64O3AZH
-         G2WTvs9OG/8Yqmdk5+JUKfs6pp+LnjCe2hUwfsv8PC6rQir08Wab/F0LzV5LFkxOFV
-         TplCiipQI6D2TrbJg3QRnWPS5JP2tEXEKy/c039Sx1DZ7vQ+//l2EL39sh4ta7hG6E
-         nZgx1h9OQoEI7qKBADQg0sThLw6zdge+4Tuwk7LzwqWfEnjsBYswKuiUgu9yJrMvpv
-         o2fw8CpvsVg0Q==
+        b=NKB1/uRbTuYBL3AvfPRwwQLQQdVo6ROQ5kO+IQi2b1eC1qZwhjxR4qf80LX8YwycR
+         AlRInA8Zut40kF7vXoR5CRZUEDZ3Fm5mhJ488uYqdJRlgVsxpbntEaERUBaLWemnwY
+         atBxaJApLNlqppOd3djUcrr7cG7wI2Jzm6i3XqoXgqvOYc1L6uIsl/8Cm8vOD4sn67
+         GnuE+wRHtZABqN3UVUos2D7Ln8KulY5W+e1ec4fI1TfA/WxvbcCeClR+fNwXP1WTai
+         Hit2c9ZyDMTiBJ6PK1S44v53+wI2sa/VDY1mTVustLzbgCCgIiZ386BCv5hYEmAuqG
+         0wn0O625G+xkA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Cengiz Can <cengiz@kernel.wtf>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Cengiz Can <cengiz@kernel.wtf>
-Subject: Re: [PATCH] Documentation: sysrq: convert to third person
-In-Reply-To: <20210629141508.52229-1-cengiz@kernel.wtf>
-References: <20210629141508.52229-1-cengiz@kernel.wtf>
-Date:   Mon, 12 Jul 2021 11:04:30 -0600
-Message-ID: <87v95fpiox.fsf@meer.lwn.net>
+To:     Hu Haowen <src.res@email.cn>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] docs/zh_TW: fix an issue while building
+In-Reply-To: <20210703143130.18349-3-src.res@email.cn>
+References: <20210703143130.18349-1-src.res@email.cn>
+ <20210703143130.18349-3-src.res@email.cn>
+Date:   Mon, 12 Jul 2021 11:10:50 -0600
+Message-ID: <87r1g3pied.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cengiz Can <cengiz@kernel.wtf> writes:
+Hu Haowen <src.res@email.cn> writes:
 
-> Two parts of the sysrq documentation have sentences written from a first
-> person's point of view.
+> When building the documentation, the following issue was reported:
 >
-> Documentation is generally written from a third person's view in a
-> formal way.
+>     /home/src-resources/Coding/Projects/Other-Projects/Linux/Documentatio=
+n/
+>     translations/zh_TW/admin-guide/reporting-issues.rst:712: WARNING:
+>     duplicate label translations/zh_tw/admin-guide/reporting-issues:
+>     =E6=AA=A2=E6=9F=A5=E3=80=8C=E6=B1=99=E6=9F=93=E3=80=8D=E6=A8=99=E8=AA=
+=8C, other instance in /home/src-resources/Coding/Projects/
+>     Other-Projects/Linux/Documentation/translations/zh_TW/admin-guide/
+>     reporting-issues.rst
 >
-> Convert those senteces to be less personal and generic.
-
-So this seems like a fine change, but I have one little gripe...
-
-> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
-> ---
->  Documentation/admin-guide/sysrq.rst | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+> Consequently, replace "=E6=AA=A2=E6=9F=A5=E3=80=8C=E6=B1=99=E6=9F=93=E3=
+=80=8D=E6=A8=99=E8=AA=8C" with "=E6=AA=A2=E6=B8=AC=E3=80=8C=E6=B1=99=E6=9F=
+=93=E3=80=8D=E6=A8=99=E8=AA=8C" to
+> solve it.
 >
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-> index 60ce5f5ebab6..0a178ef0111d 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -72,7 +72,7 @@ On PowerPC
->  
->  On other
->  	If you know of the key combos for other architectures, please
-> -        let me know so I can add them to this section.
-> +	submit a patch to be included in this section.
->  
->  On all
->  	Write a character to /proc/sysrq-trigger.  e.g.::
-> @@ -205,10 +205,12 @@ frozen (probably root) filesystem via the FIFREEZE ioctl.
->  Sometimes SysRq seems to get 'stuck' after using it, what can I do?
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> -That happens to me, also. I've found that tapping shift, alt, and control
-> -on both sides of the keyboard, and hitting an invalid sysrq sequence again
-> -will fix the problem. (i.e., something like :kbd:`alt-sysrq-z`). Switching to
-> -another virtual console (:kbd:`ALT+Fn`) and then back again should also help.
-> +When this happens, try tapping shift, alt and control on both sides of the
-> +keyboard, and hitting an invalid sysrq sequence again. (i.e., something like
-> +:kbd:`alt-sysrq-z`).
-> +
-> +Switching to another virtual console (:kbd:`ALT+Fn`) and then back again
-> +should also help.
+> Signed-off-by: Hu Haowen <src.res@email.cn>
 
-The :kbd: stuff is a pretty good example of the sort of extra markup we
-try to avoid when we can.  It adds little to the formatted docs and
-worsens the reading experience for plain-text.  It sure would be nice if
-we could make that kind of stuff go away when we're in the neighborhood.
+Please, just update the original patch to not introduce the error in the
+first place.  While you are at it, add the SPDX headers when you first
+add the files rather than fixing it up afterward.
 
-Anyway, I've applied the patch.
+This is a vast amount of material that I am absolutely incapable of
+making any sort of informed decision on.  Is there any chance that
+somebody can review this work?
 
 Thanks,
 
