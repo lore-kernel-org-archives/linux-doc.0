@@ -2,282 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5F7C07E9C
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 14:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C506C07E99
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 15:17:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D824B6108B
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 14:07:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CDB46120D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 15:17:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbhGLOKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 10:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51472 "EHLO
+        id S235366AbhGLPUH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 11:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbhGLOKC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 10:10:02 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137D4C0613DD
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 07:07:14 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso14543606wmh.4
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 07:07:14 -0700 (PDT)
+        with ESMTP id S235363AbhGLPUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 11:20:07 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532E2C0613E5
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 08:17:19 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id x5-20020a0569021025b029055b9b68cd3eso22783618ybt.8
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 08:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=p7O4W5ky1oF7WdmqJH+sNkwA4ZCHs3/ZBm2AUZnthH8=;
-        b=bKzUAQ6xjNseA7AUiDYdS+w5UuiI11E4CeNvb2HJ9Pc/hfPFm/JUB/FjdwhBc8nm4S
-         45OH9TOmRE8tI1R8nxEhMnt4mekfggAeX7EltWSurlpYmCl7Y46INFsx5E38MJVPpVWF
-         l2YfzMuoZrcwWEWijxDErR65YllGV0b+w14fY=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=F183fJF48DpZvlb4sVM7Y2bwjFLi2q0xYlbUr8FWRkE=;
+        b=f0JkJ7lvBJfJtIAjU6wL7qzRJ62AYz6RjtViMo2dXx101iMEkCske1jkFG6HF6TsJJ
+         8K7DhyLGDRhHyz5SJZb6FXFd08PB9Qef++AvYTElwJt5L5mwHycJXbLnn+iKr3XNvy6v
+         hfUvYpCUpo0DtDUw2UOYlfESWpKaa4Mv0PAmCxP3PXKY9DPTTDXA0rVkF4YhscI2Zc5H
+         cpgxyT+fasSHS24W0ngZG1RlXXXD7exhN6Fdiq4fBYpzeC3FsFLimnEd6P9o7d9/GAGy
+         HD3jN6QmDGDu3cInXg8Qa4WlqAU0sJCYkZ6HA1pzRzFohuss9UT1f0CUMlGrYz/MC0Lz
+         fSIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=p7O4W5ky1oF7WdmqJH+sNkwA4ZCHs3/ZBm2AUZnthH8=;
-        b=gwwIRZIVEfEpb7JVdTrp7eWlzOvqZOVKXmpQTsMFD5eaQo3REjzbqiQ++fzs5aryE2
-         GSpcOQyB4PVEmL7qEhlACl9B5JIWzfiVMOeJbGp4aPCY1kZPDydISb+1jVhffgSzo/Hr
-         efMCN8WAzxM9kgZqSi+PkPGzNpqTuCKF9CDb1yFzP8pqn9KbaaVJlFd33z1MQZoQ7yhp
-         n3aVIhfOeEvVzco/tCXGpCiWeLizIn861IgOeN2Hyw7WCUIspMtMYv5246DYxFcHFOZ5
-         C8WzQg7z4IRmlaM2hSzVEto7ON6nU+JTJ0t+2TIcrSMbn6buNXQtnCbZYF9wG4RglETX
-         B4Aw==
-X-Gm-Message-State: AOAM530DcSZPV2OjWSpPIqomZQ4yktXL2D/PxrqAau4BRuuABHPFBMUi
-        ZllLY297FUCDYKlLR9w8Xce6Cw==
-X-Google-Smtp-Source: ABdhPJxsIIrVDoTSmPw1PCAUwck5pZdw90XD3rtLgMAMsu1UL3vl+6tligSn0f4n3yfVZMnbpQldLg==
-X-Received: by 2002:a05:600c:cf:: with SMTP id u15mr14628294wmm.92.1626098832590;
-        Mon, 12 Jul 2021 07:07:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u2sm12288273wmc.42.2021.07.12.07.07.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 07:07:11 -0700 (PDT)
-Date:   Mon, 12 Jul 2021 16:07:07 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>,
-        dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Roland Scheidegger <sroland@vmware.com>,
-        Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, Edmund Dea <edmund.j.dea@intel.com>,
-        Eric Anholt <eric@anholt.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Steven Price <steven.price@arm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=F183fJF48DpZvlb4sVM7Y2bwjFLi2q0xYlbUr8FWRkE=;
+        b=VohA2Dvhc24TO0IIPqugU2GIrotgpfhdUkM+7J2+rGY1EZcu7V50jAsOikhalJ7txP
+         W6fkjKZ1Ifs7sqtzqMeWrqBwp83AyXSUJQJBhMCsiCF788a6pqB3n87ociWUwA0edS5l
+         3mOLgDWXS4/oRtt/cZhP7C9Bc753BPruX5TMdE/7iqp2ERiQdRv7AA1kYFwfyNThgMmx
+         8ZPgeD7VSERGdr+x2lZ9On5/LiacVZPk5LlkeQiJTBkVdBKXJieAasrtGiOa2ACI/XkP
+         z+Fm/rH1KUj5mlElAHEmqsrBYO4DZyheivwL0tIgmCeDKTyBv+w2oMXMStF8JIUV8k4H
+         w7gA==
+X-Gm-Message-State: AOAM531GNsHt0Jr7dcd2fX17K5jipsdvD8e8FteL3rK0J7b0pI8I9gbc
+        T2pTvGJpLhnLclFUkXaPpY+SXilhDH06xg==
+X-Google-Smtp-Source: ABdhPJxDkRH1i50vWXcU/dGZQhUI5goWEwRgfXl39ENxqBS+H3PWEjl5MQeb+f9trduPLydFdzfIn6+6Z79tgw==
+X-Received: from woodylin.ntc.corp.google.com ([2401:fa00:fc:202:8c53:eec1:7238:4b4e])
+ (user=woodylin job=sendgmr) by 2002:a25:6046:: with SMTP id
+ u67mr62050233ybb.6.1626103038450; Mon, 12 Jul 2021 08:17:18 -0700 (PDT)
+Date:   Mon, 12 Jul 2021 23:16:18 +0800
+Message-Id: <20210712151618.1549371-1-woodylin@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Subject: [PATCH] mm/kasan: move kasan.fault to mm/kasan/report.c
+From:   Woody Lin <woodylin@google.com>
+To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Qiang Yu <yuq825@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v5] Documentation: gpu: Mention the requirements for new
- properties
-Message-ID: <YOxMi+diPtgnj7E2@phenom.ffwll.local>
-References: <20210706161244.1038592-1-maxime@cerno.tech>
- <20210709102444.7a72a029@eldfell>
- <YOgClII3UwckkPkb@phenom.ffwll.local>
- <20210709120814.48a90aa1@eldfell>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210709120814.48a90aa1@eldfell>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+        Andrew Morton <akpm@linux-foundation.org>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Woody Lin <woodylin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 09, 2021 at 12:08:14PM +0300, Pekka Paalanen wrote:
-> On Fri, 9 Jul 2021 10:02:28 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Fri, Jul 09, 2021 at 10:24:44AM +0300, Pekka Paalanen wrote:
-> > > On Tue,  6 Jul 2021 18:12:44 +0200
-> > > Maxime Ripard <maxime@cerno.tech> wrote:
-> > >   
-> > > > New KMS properties come with a bunch of requirements to avoid each
-> > > > driver from running their own, inconsistent, set of properties,
-> > > > eventually leading to issues like property conflicts, inconsistencies
-> > > > between drivers and semantics, etc.
-> > > > 
-> > > > Let's document what we expect.  
-> > > 
-> > > ...
-> > >   
-> > > > Changes from v4:
-> > > >   - Changes suggested by Pekka
-> > > > 
-> > > > Changes from v3:
-> > > >   - Roll back to the v2
-> > > >   - Add Simon and Pekka in Cc
-> > > > 
-> > > > Changes from v2:
-> > > >   - Take into account the feedback from Laurent and Lidiu to no longer
-> > > >     force generic properties, but prefix vendor-specific properties with
-> > > >     the vendor name
-> > > > 
-> > > > Changes from v1:
-> > > >   - Typos and wording reported by Daniel and Alex
-> > > > ---
-> > > >  Documentation/gpu/drm-kms.rst | 30 ++++++++++++++++++++++++++++++
-> > > >  1 file changed, 30 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > > > index 87e5023e3f55..47994890fd1e 100644
-> > > > --- a/Documentation/gpu/drm-kms.rst
-> > > > +++ b/Documentation/gpu/drm-kms.rst
-> > > > @@ -463,6 +463,36 @@ KMS Properties
-> > > >  This section of the documentation is primarily aimed at user-space developers.
-> > > >  For the driver APIs, see the other sections.
-> > > >  
-> > > > +Requirements
-> > > > +------------
-> > > > +
-> > > > +KMS drivers might need to add extra properties to support new features.
-> > > > +Each new property introduced in a driver need to meet a few
-> > > > +requirements, in addition to the one mentioned above:
-> > > > +
-> > > > +* It must be standardized, documenting:
-> > > > +
-> > > > +  * The full, exact, name string;
-> > > > +  * If the property is an enum, all the valid variants name;  
-> > > 
-> > > Hi,
-> > > 
-> > > "variant" feels a little off to me, I would have used "value name
-> > > strings".
-> > >   
-> > > > +  * What values are accepted, and what these values mean;
-> > > > +  * What the property does and how it can be used;
-> > > > +  * How the property might interact with other, existing properties.
-> > > > +
-> > > > +* It must provide a generic helper in the core code to register that
-> > > > +  property on the object it attaches to.
-> > > > +
-> > > > +* Its content must be decoded by the core and provided in the object's
-> > > > +  associated state structure. That includes anything drivers might want
-> > > > +  to precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for
-> > > > +  planes.
-> > > > +
-> > > > +* Its initial state must match the behavior prior to the property
-> > > > +  introduction. This might be a fixed value matching what the hardware
-> > > > +  does, or it may be inherited from the state the firmware left the
-> > > > +  system in during boot.  
-> > > 
-> > > I'd like to point out that this rule should apply also to
-> > > properties that already exist in general, but are newly exposed in a
-> > > driver for hardware that didn't expose the property before.  
-> > 
-> > I think we should just make this a very strong recommendation, and in
-> > general encourage people to use the tests against their driver?
-> > 
-> > Otherwise a small "I'll just enable this" thing can become a huge project.
-> > And in general I think grandfathering existing things in is the pragmatic
-> > choice.
-> > 
-> > But maybe that could be a follow-up patch?
-> 
-> Sure, I don't mind. Just saying now that it came to mind. Drivers do
-> not arbitrarily change behaviour without exposing more properties
-> either, right?
+Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
+can support all KASAN modes - generic, and both tag-based.
 
-Yup. Both are covered under the "no regressions" rule, but better to make
-this explicit. Maybe we should replicate some of the key bits in the
-property docs for drivers?
+Signed-off-by: Woody Lin <woodylin@google.com>
+---
+ Documentation/dev-tools/kasan.rst |  2 ++
+ mm/kasan/hw_tags.c                | 43 -------------------------------
+ mm/kasan/report.c                 | 29 ++++++++++++++++++---
+ 3 files changed, 28 insertions(+), 46 deletions(-)
 
-Also anytime we spot an issue we need to improve the internal helpers to
-make sure things stay consistent.
--Daniel
-
-> 
-> 
-> Thanks,
-> pq
-> 
-> 
-> > -Daniel
-> > 
-> > >   
-> > > > +
-> > > > +* An IGT test must be submitted where reasonable.
-> > > > +
-> > > >  Property Types and Blob Property Support
-> > > >  ----------------------------------------
-> > > >    
-> > > 
-> > > Regardless of my comments above:
-> > > 
-> > > Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > 
-> > > 
-> > > Thanks,
-> > > pq  
-> > 
-> > 
-> > 
-> 
-
-
-
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 83ec4a556c19..ab8e27d45632 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -203,6 +203,8 @@ boot parameters that allow disabling KASAN or controlling its features.
+   report or also panic the kernel (default: ``report``). The panic happens even
+   if ``kasan_multi_shot`` is enabled.
+ 
++  Note: The boot parameter 'kasan.fault' is supported by all KASAN modes.
++
+ Implementation details
+ ----------------------
+ 
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index 4ea8c368b5b8..51903639e55f 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
+ 	KASAN_ARG_STACKTRACE_ON,
+ };
+ 
+-enum kasan_arg_fault {
+-	KASAN_ARG_FAULT_DEFAULT,
+-	KASAN_ARG_FAULT_REPORT,
+-	KASAN_ARG_FAULT_PANIC,
+-};
+-
+ static enum kasan_arg kasan_arg __ro_after_init;
+ static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+ static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
+-static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+ 
+ /* Whether KASAN is enabled at all. */
+ DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
+@@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
+ /* Whether to collect alloc/free stack traces. */
+ DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
+ 
+-/* Whether to panic or print a report and disable tag checking on fault. */
+-bool kasan_flag_panic __ro_after_init;
+-
+ /* kasan=off/on */
+ static int __init early_kasan_flag(char *arg)
+ {
+@@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
+ }
+ early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
+ 
+-/* kasan.fault=report/panic */
+-static int __init early_kasan_fault(char *arg)
+-{
+-	if (!arg)
+-		return -EINVAL;
+-
+-	if (!strcmp(arg, "report"))
+-		kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+-	else if (!strcmp(arg, "panic"))
+-		kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+-	else
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-early_param("kasan.fault", early_kasan_fault);
+-
+ /* kasan_init_hw_tags_cpu() is called for each CPU. */
+ void kasan_init_hw_tags_cpu(void)
+ {
+@@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
+ 		break;
+ 	}
+ 
+-	switch (kasan_arg_fault) {
+-	case KASAN_ARG_FAULT_DEFAULT:
+-		/*
+-		 * Default to no panic on report.
+-		 * Do nothing, kasan_flag_panic keeps its default value.
+-		 */
+-		break;
+-	case KASAN_ARG_FAULT_REPORT:
+-		/* Do nothing, kasan_flag_panic keeps its default value. */
+-		break;
+-	case KASAN_ARG_FAULT_PANIC:
+-		/* Enable panic on report. */
+-		kasan_flag_panic = true;
+-		break;
+-	}
+-
+ 	pr_info("KernelAddressSanitizer initialized\n");
+ }
+ 
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 8fff1825b22c..884a950c7026 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -39,6 +39,31 @@ static unsigned long kasan_flags;
+ #define KASAN_BIT_REPORTED	0
+ #define KASAN_BIT_MULTI_SHOT	1
+ 
++enum kasan_arg_fault {
++	KASAN_ARG_FAULT_DEFAULT,
++	KASAN_ARG_FAULT_REPORT,
++	KASAN_ARG_FAULT_PANIC,
++};
++
++static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
++
++/* kasan.fault=report/panic */
++static int __init early_kasan_fault(char *arg)
++{
++	if (!arg)
++		return -EINVAL;
++
++	if (!strcmp(arg, "report"))
++		kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
++	else if (!strcmp(arg, "panic"))
++		kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++early_param("kasan.fault", early_kasan_fault);
++
+ bool kasan_save_enable_multi_shot(void)
+ {
+ 	return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
+@@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
+ 		panic_on_warn = 0;
+ 		panic("panic_on_warn set ...\n");
+ 	}
+-#ifdef CONFIG_KASAN_HW_TAGS
+-	if (kasan_flag_panic)
++	if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
+ 		panic("kasan.fault=panic set ...\n");
+-#endif
+ 	kasan_enable_current();
+ }
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0.93.g670b81a890-goog
+
