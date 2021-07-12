@@ -2,144 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C20C07E99
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352A3C07E9C
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 19:24:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E682561206
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C76D6121E
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 19:24:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234994AbhGLRlD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 13:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43978 "EHLO
+        id S236348AbhGLT1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 15:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233870AbhGLRlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 13:41:03 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89B7C0613DD;
-        Mon, 12 Jul 2021 10:38:13 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id d12so18997726pgd.9;
-        Mon, 12 Jul 2021 10:38:13 -0700 (PDT)
+        with ESMTP id S236344AbhGLT13 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 15:27:29 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C530BC0613E5
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 12:24:40 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 141so9489047ljj.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 12:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZD1hOKzyikLBWTW4ZoPnyvY2gKEeXNcSLsw+d9zA4VQ=;
-        b=nKHhlhdRHNxftODTOCIkDlgaV6FA5fmf8BPcGt8VoG1sHRp41AUiaAqZrTKrN+wDc2
-         dFPejf1KWPe1YoKioeEl+c+1INkftKkWi2TlhUw79cATJS4+HP+ysPWQmEpGLCtpSVs3
-         bbfEzys5m6DB/I0V6hCsrNqcq0gDk3LkMDI68WrJEWKg6kTjDytOKdUh+syYbamI0JLE
-         6Q7Msh3m0WLkXVKJc5W3HVgPi0cHp4nZ7iTd24jbTEsR8dveHkCx7GgBkta51kUqYuOY
-         zdsi3yzFFNyIyOQ3CYmNIDAWygopvUPwHljJ5OT7D6617USMbYpY+iCHHDHvcZMIc7bm
-         1JQw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r3C0MNcdPuaQMoy2DZLesW5CVXpDYfQzTqrwGXdHaRg=;
+        b=MJrdQt/xj/X89L2akDuRIxLQO4djMTLLgU8eBvU6YVC8dUlC07Y6kHh4rBlkT1q7MV
+         Ea7nnfbhd2stzRZFtdTC0KqSjngvfVy93JncJKAiLwNmjmfcozdphfyI2xTiy3uOptFv
+         Vhn12vpbGZd8c3Bo7seoaaiJzsRoQUlb47+hA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZD1hOKzyikLBWTW4ZoPnyvY2gKEeXNcSLsw+d9zA4VQ=;
-        b=qKGciI9RC7gtFpTbtKLDf9P+eDP2WrmNwgMG29sYgbKPP770J3oamCPk1ztsKdnOVJ
-         v6AYsSccj6ZLbb3o+JVbbHVojtN/e+a/wQRjx9QzBX+8ZTSCjDjrRKidqFwtoj4o9q9Y
-         LIUgrZII9XODZWDHXiPzLgF4WgAJkxECnYlMfshUyqtpeNHQ59R8WOmlLFgkmG+0lgOj
-         yzys9kC1/ccZQWVBZRqA3jJ3AkWicDxBK0mh+jRRVOnIEGxZEP6boCvd1+pPwILEb6vQ
-         OjexRf5Qj53DNrp4WkTkMcwh1E27JYuv+2yjV247ePLikzQvQndNCHhfZavb2r+UIHYK
-         Ryyw==
-X-Gm-Message-State: AOAM5326cByj6SndWNDbD8uET/VQ74Jp0ODMqP8eB00u8bgAW6IVOcjZ
-        klfmCaB5lsi0xAWmPSooikI=
-X-Google-Smtp-Source: ABdhPJx00ULwX/fYl6jygcwepHAx93W0Ysg94pOdMnslRbsL1k1j52m8HHuZUZMkisXl8sJIgfaw4A==
-X-Received: by 2002:aa7:8707:0:b029:306:7e78:ee7a with SMTP id b7-20020aa787070000b02903067e78ee7amr169703pfo.29.1626111493506;
-        Mon, 12 Jul 2021 10:38:13 -0700 (PDT)
-Received: from BALT-UROY.maxlinear.com ([115.187.60.212])
-        by smtp.gmail.com with ESMTPSA id z26sm16851491pfr.31.2021.07.12.10.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 10:38:13 -0700 (PDT)
-From:   "Roy, UjjaL" <royujjal@gmail.com>
-To:     Song Liu <song@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Networking <netdev@vger.kernel.org>, BPF <bpf@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, clang-built-linux@googlegroups.com
-Subject: [PATCH v2 bpf-nxt] Documentation/bpf: Add heading and example for extensions in filter.rst
-Date:   Mon, 12 Jul 2021 23:07:23 +0530
-Message-Id: <20210712173723.1597-1-royujjal@gmail.com>
-X-Mailer: git-send-email 2.31.1.windows.1
-In-Reply-To: "Roy, UjjaL" <royujjal@gmail.com>
-References: "Roy, UjjaL" <royujjal@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r3C0MNcdPuaQMoy2DZLesW5CVXpDYfQzTqrwGXdHaRg=;
+        b=QA9aWj+ttaDXVtV4tvmAMG+f8LgtK4kcsb31PCc6gFMgoVod713jcnI2AD/epeKRyf
+         kXQQzbVGZoDosUt2li1u2dE8IpZmzDY1DUOcvjhiNvicSuJsqu6a4y1gniiiyJHEiELV
+         phA3Ixi2aouJzw7IKNRRdk6P0oKeUVsf8Lu+8t427c8av/HzLKhr0yaft6G7PZ5fkucw
+         Asuxqd/LuHOHndYN+ATT2uSxcrBR4owl94/B+UdM0SPQwonPSfV8QzHBL/YTRJm62b+y
+         efOHNUT5yWtT+/ribCAuLHFusmEpoyNEGXsQPEpDQ1yZgIeNhAA1uo+wlKBk7FHyQaCl
+         DRXw==
+X-Gm-Message-State: AOAM533Ck/IBc+q0ZEBQeEr+BzskWjXU82T8CuI015mvHnantHFgTwDu
+        HEApvlYYA+Lo99Af7oG/CD4p5ZtnF+V466lt8sk=
+X-Google-Smtp-Source: ABdhPJyS44Gange2q1Aw1qtR91+l7qrwMmsAtmdas1HkgxQRCM57KriDX8aKeV9i0oGNyYZn+5GS6Q==
+X-Received: by 2002:a05:651c:512:: with SMTP id o18mr624615ljp.484.1626117879065;
+        Mon, 12 Jul 2021 12:24:39 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id q15sm1775296ljg.126.2021.07.12.12.24.38
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jul 2021 12:24:38 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id x25so32681485lfu.13
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 12:24:38 -0700 (PDT)
+X-Received: by 2002:a2e:9241:: with SMTP id v1mr639513ljg.48.1626117867421;
+ Mon, 12 Jul 2021 12:24:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210712060928.4161649-1-hch@lst.de>
+In-Reply-To: <20210712060928.4161649-1-hch@lst.de>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 12 Jul 2021 12:24:11 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whd0GaAH7gHuEiuKjOeD6JGKY1q5ydG1TCKjVBFNBUEJA@mail.gmail.com>
+Message-ID: <CAHk-=whd0GaAH7gHuEiuKjOeD6JGKY1q5ydG1TCKjVBFNBUEJA@mail.gmail.com>
+Subject: Re: flush_kernel_dcache_page fixes and removal
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Guo Ren <guoren@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Geoff Levand <geoff@infradead.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alex Shi <alexs@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-csky@vger.kernel.org,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linux-parisc@vger.kernel.org,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-mmc@vger.kernel.org, linux-scsi <linux-scsi@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[1] https://www.kernel.org/doc/html/latest/bpf/
+On Sun, Jul 11, 2021 at 11:09 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> I think we should just remove it and eat the very minor overhead in
+> exec rather than confusing poor driver writers.
 
-Add new heading for extensions to make it more readable. Also, add one
-more example of filtering interface index for better understanding.
+Ack.
 
-Signed-off-by: Roy, UjjaL <royujjal@gmail.com>
-Acked-by: Song Liu <songliubraving@fb.com>
----
- Documentation/networking/filter.rst | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+I think architectures that have virtual caches might want to think
+about this patch a bit more, but on the whole I can't argue against
+the "it's badly documented and misused".
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 3e2221f4abe4..5f13905b12e0 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -320,13 +320,6 @@ Examples for low-level BPF:
-   ret #-1
-   drop: ret #0
- 
--**(Accelerated) VLAN w/ id 10**::
--
--  ld vlan_tci
--  jneq #10, drop
--  ret #-1
--  drop: ret #0
--
- **icmp random packet sampling, 1 in 4**::
- 
-   ldh [12]
-@@ -358,6 +351,22 @@ Examples for low-level BPF:
-   bad: ret #0             /* SECCOMP_RET_KILL_THREAD */
-   good: ret #0x7fff0000   /* SECCOMP_RET_ALLOW */
- 
-+Examples for low-level BPF extension:
-+
-+**Packet for interface index 13**::
-+
-+  ld ifidx
-+  jneq #13, drop
-+  ret #-1
-+  drop: ret #0
-+
-+**(Accelerated) VLAN w/ id 10**::
-+
-+  ld vlan_tci
-+  jneq #10, drop
-+  ret #-1
-+  drop: ret #0
-+
- The above example code can be placed into a file (here called "foo"), and
- then be passed to the bpf_asm tool for generating opcodes, output that xt_bpf
- and cls_bpf understands and can directly be loaded with. Example with above
--- 
-2.17.1
+No sane architecture will care, since dcache will be coherent (there
+are more issues on the I$ side, but that's a different issue)
 
+              Linus
