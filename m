@@ -2,278 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C390C07E99
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 15:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7D8C07E9C
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:04:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32EBF610C7
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 15:54:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADB6B611C1
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:04:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbhGLP4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 11:56:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33443 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229475AbhGLP4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 11:56:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626105238;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MiD9aPGHvtw35XjJa0uYpVwhy0XuXKLsygIcxjEGRTI=;
-        b=KADFgKBZMkBza4eb76n9at0bqYVcVoRw1wql8eUEvGH5YT4HDyV9tnvK455yq758KZTore
-        JW/XmgVzVG2LsIvMeahf7YEwD8AbMqoOFTHgOj+jyZbZIgBZf/tRYemLVsDvl/fcYS0dbr
-        JERXGBvY/Gc4KwINOiH8xpadeS2UlUM=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-ICs6pl12Prq8yfEFWpkBdA-1; Mon, 12 Jul 2021 11:53:57 -0400
-X-MC-Unique: ICs6pl12Prq8yfEFWpkBdA-1
-Received: by mail-oo1-f70.google.com with SMTP id z1-20020a4ab8810000b029024abe096a35so8182520ooo.12
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 08:53:57 -0700 (PDT)
+        id S230037AbhGLQHa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 12:07:30 -0400
+Received: from mail-io1-f51.google.com ([209.85.166.51]:33627 "EHLO
+        mail-io1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229525AbhGLQHa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 12:07:30 -0400
+Received: by mail-io1-f51.google.com with SMTP id z11so1582068iow.0;
+        Mon, 12 Jul 2021 09:04:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=MiD9aPGHvtw35XjJa0uYpVwhy0XuXKLsygIcxjEGRTI=;
-        b=A//FSfNm8tUzFvdT7BK++QF2T07JFNpK2gZVhVVuPDT0GGUU3Kmr9LBM+yygXfaI7U
-         Q62aq6xL7W74YQorG53LgHMo0tQ/Wk0Lqbe+2+EzsnUW1j4KnJgt/gtkzgBpwm3al5Fh
-         4g4B5e3NVadg2wHHfBciZANxRLrRo7OaIPNTgBq/y3lUH0UMVOvFCuksjIg7t+pwLLr5
-         YBOoOsDSwLr1HXITaD7oefnx7oicqE5bFFhoaqD5SzrsiNweE5EJOyC/M5c+BBg1f+T3
-         CN3EF4/f32Zh0UNBCNqMiBofLxHz5/1y5PiJnHzMuEAuIuOkGBklxLqRJ/bg+NjV26UF
-         /LUw==
-X-Gm-Message-State: AOAM530GuPyLPV156Eqq0/kZlr6l2ItumOZQfBd5r85cwO4hskHM3aiq
-        ks7XPML/4y/Gc7+LrkuUBzvdflXv3kesPq5OaBEzDLrwU77H9q2oVi/r6HclTvtMJW81MmlbICH
-        cgR+id4dQxTOw25Ju1wSr
-X-Received: by 2002:aca:6203:: with SMTP id w3mr32470366oib.64.1626105237046;
-        Mon, 12 Jul 2021 08:53:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBQk/PEnEo2fM/sVXfRIrtRHgEFsFKtQ4+UXomS6/twyr/Dp53uwDHYxQtwRhAssiUu2kK3g==
-X-Received: by 2002:aca:6203:: with SMTP id w3mr32470342oib.64.1626105236832;
-        Mon, 12 Jul 2021 08:53:56 -0700 (PDT)
-Received: from localhost.localdomain (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id m19sm920356otp.55.2021.07.12.08.53.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jul 2021 08:53:56 -0700 (PDT)
-Subject: Re: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
- fpga_region
-To:     "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Russ Weight <russell.h.weight@intel.com>
-Cc:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20210709134229.2510349-1-trix@redhat.com>
- <20210709134229.2510349-6-trix@redhat.com>
- <DM6PR11MB3819098B673C54530B227D4385159@DM6PR11MB3819.namprd11.prod.outlook.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <2a3b3131-96a3-9761-f2e7-63a32fd277f6@redhat.com>
-Date:   Mon, 12 Jul 2021 08:53:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=t7zLlkpjqidi7PE+jjVFSaEwNjSZq4b1sP5J9W4oGrw=;
+        b=kwGLpAkrzYN6kQjbIywssQ+V1kZQPdOgryo4G9b0PR5EP3TlKDBdcAhhp84LHaf+es
+         oh5LU0+mr7BFF4ahooU3uugab2PlpMFfd6H8zlwKaYnadyBKxz1Iqh2WZR1dNhoq14Ph
+         teLFLCrzzAEG6OczpBrnAD3lzp1nOFTvm2STgmhGYEqZOhesCFsHJFgtE5+4/NJixAoC
+         AyalG8Idj+3C0shTGRZOFTB+1awNJ73MV1amSCasPNn6fReV5SundnIwcEFAbtmwleoE
+         husT7fhccLpO/XQTR7Ieu5LsvSFHmrD/RN413nKlokPKFVcShmCzlxNeyvkynxJp5cIS
+         SVVA==
+X-Gm-Message-State: AOAM530z+5Jhq2L/9RLToxNbWvW6klBKdFm7TR8uqPmII41nQdeMJW0X
+        JyX2GkwEch7O5x0B2guZ3g==
+X-Google-Smtp-Source: ABdhPJzOLYeTmZxL5V7NzmoyZPyyvU5QgZDr4OPjKFj9sUcqyCj09ZQNxbo71clkNp7eJvo9fYYvmQ==
+X-Received: by 2002:a05:6638:3594:: with SMTP id v20mr44293107jal.25.1626105878851;
+        Mon, 12 Jul 2021 09:04:38 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id t15sm6942731iln.36.2021.07.12.09.04.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jul 2021 09:04:37 -0700 (PDT)
+Received: (nullmailer pid 2022797 invoked by uid 1000);
+        Mon, 12 Jul 2021 16:04:35 -0000
+Date:   Mon, 12 Jul 2021 10:04:35 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Pavo Banicevic <pavo.banicevic@sartura.hr>
+Cc:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, geert+renesas@glider.be,
+        Max.Merchel@tq-group.com, linux@rempel-privat.de, daniel@0x0f.com,
+        shawnguo@kernel.org, sam@ravnborg.org, arnd@arndb.de,
+        krzysztof.kozlowski@canonical.com, corbet@lwn.net,
+        lee.jones@linaro.org, pavel@ucw.cz, linux@roeck-us.net,
+        jdelvare@suse.com, goran.medic@sartura.hr, luka.perkov@sartura.hr,
+        luka.kovacic@sartura.hr, Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH v8 1/7] dt-bindings: Add IEI vendor prefix and IEI
+ WT61P803 PUZZLE driver bindings
+Message-ID: <20210712160435.GA1994579@robh.at.kernel.org>
+References: <20210705134939.28691-1-pavo.banicevic@sartura.hr>
+ <20210705134939.28691-2-pavo.banicevic@sartura.hr>
 MIME-Version: 1.0
-In-Reply-To: <DM6PR11MB3819098B673C54530B227D4385159@DM6PR11MB3819.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210705134939.28691-2-pavo.banicevic@sartura.hr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jul 05, 2021 at 03:49:33PM +0200, Pavo Banicevic wrote:
+> From: Luka Kovacic <luka.kovacic@sartura.hr>
+> 
+> Add the IEI WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
+> drivers. A new vendor prefix is also added accordingly for
+> IEI Integration Corp.
+> 
+> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
+> Signed-off-by: Pavo Banicevic <pavo.banicevic@sartura.hr>
+> Cc: Luka Perkov <luka.perkov@sartura.hr>
+> Cc: Robert Marko <robert.marko@sartura.hr>
+> ---
+>  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 53 ++++++++++++
+>  .../leds/iei,wt61p803-puzzle-leds.yaml        | 44 ++++++++++
+>  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 82 +++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>  4 files changed, 181 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+>  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+> new file mode 100644
+> index 000000000000..c24a24e90495
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/iei,wt61p803-puzzle-hwmon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IEI WT61P803 PUZZLE MCU HWMON module from IEI Integration Corp.
+> +
+> +maintainers:
+> +  - Luka Kovacic <luka.kovacic@sartura.hr>
+> +
+> +description: |
+> +  This module is a part of the IEI WT61P803 PUZZLE MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
+> +
+> +  The HWMON module is a sub-node of the MCU node in the Device Tree.
+> +
+> +properties:
+> +  compatible:
+> +    const: iei,wt61p803-puzzle-hwmon
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^fan-group@[0-1]$":
+> +    type: object
+> +    properties:
+> +      reg:
+> +        minimum: 0
+> +        maximum: 1
+> +        description:
+> +          Fan group ID
+> +
+> +      cooling-levels:
+> +        minItems: 1
+> +        maxItems: 255
+> +        description:
+> +          Cooling levels for the fans (PWM value mapping)
+> +    description: |
+> +      Properties for each fan group.
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+> new file mode 100644
+> index 000000000000..dc3e39aafd3e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/iei,wt61p803-puzzle-leds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IEI WT61P803 PUZZLE MCU LED module from IEI Integration Corp.
+> +
+> +maintainers:
+> +  - Luka Kovacic <luka.kovacic@sartura.hr>
+> +
+> +description: |
+> +  This module is a part of the IEI WT61P803 PUZZLE MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
+> +
+> +  The LED module is a sub-node of the MCU node in the Device Tree.
+> +
+> +properties:
+> +  compatible:
+> +    const: iei,wt61p803-puzzle-leds
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  "led@0":
 
-On 7/11/21 6:40 PM, Wu, Hao wrote:
->> -----Original Message-----
->> From: trix@redhat.com <trix@redhat.com>
->> Sent: Friday, July 9, 2021 9:42 PM
->> To: mdf@kernel.org; corbet@lwn.net; Wu, Hao <hao.wu@intel.com>
->> Cc: linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org; linux-
->> kernel@vger.kernel.org; Tom Rix <trix@redhat.com>
->> Subject: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
->> fpga_region
->>
->> From: Tom Rix <trix@redhat.com>
->>
->> compat_id is implementation specific.  So the data should be
->> stored at the implemeation layer, not the infrastructure layer.
->> Remove the compat_id elements and supporting code.
-> I think current compat_id format can meet the checking requirement.
-> Actually I hope other hardware which needs compatible checking
-> to expose the same format compat_id. Then we can have more
-> unified/common code, e.g. userspace application/lib handling.
+Don't need quotes.
 
-v2 does not change the current ABI. The dfl output is the same as 
-before, the other nonusers get -ENOENT.
+> +    type: object
+> +    $ref: common.yaml
+> +    description: |
+> +      Properties for a single LED.
+> +    properties:
+> +      reg:
+> +        description:
+> +          Index of the LED. Only one LED is supported at the moment.
+> +        const: 0
 
-For dfl compat_id is 2 64 bit registers.
+If there can only be 1 LED, just make an 'led' node and drop reg.
 
-For compat_id to be useful to the others, they need the flexibility to 
-print to the sysfs in the manner that aligns with whatever their user 
-library interface is, 2 64 values isn't going to work for everyone.  ex/ 
-xrt likely would be a uuid_t printed out a special way. someone else 
-maybe just string in the board fw, maybe some has a 8 or 256 bits of 
-compat_id  etc.
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+> new file mode 100644
+> index 000000000000..2452631505cc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/iei,wt61p803-puzzle.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IEI WT61P803 PUZZLE MCU from IEI Integration Corp.
+> +
+> +maintainers:
+> +  - Luka Kovacic <luka.kovacic@sartura.hr>
+> +
+> +description: |
+> +  IEI WT61P803 PUZZLE MCU is embedded in some IEI Puzzle series boards.
+> +  It's used for controlling system power states, fans, LEDs and temperature
+> +  sensors.
+> +
+> +  For Device Tree bindings of other sub-modules (HWMON, LEDs) refer to the
+> +  binding documents under the respective subsystem directories.
+> +
+> +properties:
+> +  compatible:
+> +    const: iei,wt61p803-puzzle
+> +
+> +  current-speed:
+> +    description:
+> +      Serial bus speed in bps
+> +    maxItems: 1
+> +
+> +  enable-beep: true
+> +
+> +  hwmon:
+> +    $ref: ../hwmon/iei,wt61p803-puzzle-hwmon.yaml
 
-as a driver region specific op, others are free to do whatever is required.
+/schemas/hwmon/...
 
-> Currently I didn't see any other usage or requirement on this part
-> now, only DFL uses it.  So should we leave it here at this moment?
-> I feel we don't have to change it for now to move it to a
-> Per-fpga-mgr format. : )
+> +
+> +  leds:
+> +    $ref: ../leds/iei,wt61p803-puzzle-leds.yaml
 
-The motivation for doing this now is the 'use standard class dev release 
-.. ' patchset
+/schemas/leds/...
 
-I really do not like 2 register functions.
-
-By moving compat_id, the 2 register functions reduces down to 1.
-
-I did a poc here
-
-https://lore.kernel.org/linux-fpga/20210709184511.2521508-1-trix@redhat.com/
-
-Tom
-
->
-> Thanks
-> Hao
->
->> Printing out the compat_id is done with the fpga_region
->> compat_id_show() op.
->>
->> Signed-off-by: Tom Rix <trix@redhat.com>
->> ---
->>   drivers/fpga/dfl-fme-mgr.c       |  7 -------
->>   drivers/fpga/dfl-fme-region.c    |  1 -
->>   drivers/fpga/fpga-region.c       |  7 +------
->>   include/linux/fpga/fpga-mgr.h    | 13 -------------
->>   include/linux/fpga/fpga-region.h |  2 --
->>   5 files changed, 1 insertion(+), 29 deletions(-)
->>
->> diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
->> index cd0b9157ea6e5..8c5423eeffe75 100644
->> --- a/drivers/fpga/dfl-fme-mgr.c
->> +++ b/drivers/fpga/dfl-fme-mgr.c
->> @@ -292,7 +292,6 @@ EXPORT_SYMBOL_GPL(fme_mgr_get_compat_id);
->>   static int fme_mgr_probe(struct platform_device *pdev)
->>   {
->>   	struct dfl_fme_mgr_pdata *pdata = dev_get_platdata(&pdev->dev);
->> -	struct fpga_compat_id *compat_id;
->>   	struct device *dev = &pdev->dev;
->>   	struct fme_mgr_priv *priv;
->>   	struct fpga_manager *mgr;
->> @@ -312,10 +311,6 @@ static int fme_mgr_probe(struct platform_device
->> *pdev)
->>   			return PTR_ERR(priv->ioaddr);
->>   	}
->>
->> -	compat_id = devm_kzalloc(dev, sizeof(*compat_id), GFP_KERNEL);
->> -	if (!compat_id)
->> -		return -ENOMEM;
->> -
->>   	_fme_mgr_get_compat_id(priv->ioaddr, &priv->compat_id);
->>
->>   	mgr = devm_fpga_mgr_create(dev, "DFL FME FPGA Manager",
->> @@ -323,8 +318,6 @@ static int fme_mgr_probe(struct platform_device *pdev)
->>   	if (!mgr)
->>   		return -ENOMEM;
->>
->> -	mgr->compat_id = compat_id;
->> -
->>   	return devm_fpga_mgr_register(dev, mgr);
->>   }
->>
->> diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
->> index d21eacbf2469f..be1d57ee37666 100644
->> --- a/drivers/fpga/dfl-fme-region.c
->> +++ b/drivers/fpga/dfl-fme-region.c
->> @@ -64,7 +64,6 @@ static int fme_region_probe(struct platform_device *pdev)
->>   	}
->>
->>   	region->priv = pdata;
->> -	region->compat_id = mgr->compat_id;
->>   	platform_set_drvdata(pdev, region);
->>
->>   	ret = fpga_region_register(region);
->> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
->> index 864dd4f290e3b..b08d3914716f0 100644
->> --- a/drivers/fpga/fpga-region.c
->> +++ b/drivers/fpga/fpga-region.c
->> @@ -172,12 +172,7 @@ static ssize_t compat_id_show(struct device *dev,
->>   	if (region->rops && region->rops->compat_id_show)
->>   		return region->rops->compat_id_show(region, buf);
->>
->> -	if (!region->compat_id)
->> -		return -ENOENT;
->> -
->> -	return sprintf(buf, "%016llx%016llx\n",
->> -		       (unsigned long long)region->compat_id->id_h,
->> -		       (unsigned long long)region->compat_id->id_l);
->> +	return -ENOENT;
->>   }
->>
->>   static DEVICE_ATTR_RO(compat_id);
->> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
->> index ec2cd8bfceb00..ebdea215a8643 100644
->> --- a/include/linux/fpga/fpga-mgr.h
->> +++ b/include/linux/fpga/fpga-mgr.h
->> @@ -143,24 +143,12 @@ struct fpga_manager_ops {
->>   #define FPGA_MGR_STATUS_IP_PROTOCOL_ERR		BIT(3)
->>   #define FPGA_MGR_STATUS_FIFO_OVERFLOW_ERR	BIT(4)
->>
->> -/**
->> - * struct fpga_compat_id - id for compatibility check
->> - *
->> - * @id_h: high 64bit of the compat_id
->> - * @id_l: low 64bit of the compat_id
->> - */
->> -struct fpga_compat_id {
->> -	u64 id_h;
->> -	u64 id_l;
->> -};
->> -
->>   /**
->>    * struct fpga_manager - fpga manager structure
->>    * @name: name of low level fpga manager
->>    * @dev: fpga manager device
->>    * @ref_mutex: only allows one reference to fpga manager
->>    * @state: state of fpga manager
->> - * @compat_id: FPGA manager id for compatibility check.
->>    * @mops: pointer to struct of fpga manager ops
->>    * @priv: low level driver private date
->>    */
->> @@ -169,7 +157,6 @@ struct fpga_manager {
->>   	struct device dev;
->>   	struct mutex ref_mutex;
->>   	enum fpga_mgr_states state;
->> -	struct fpga_compat_id *compat_id;
->>   	const struct fpga_manager_ops *mops;
->>   	void *priv;
->>   };
->> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
->> index 236d3819f1c13..afc79784b2823 100644
->> --- a/include/linux/fpga/fpga-region.h
->> +++ b/include/linux/fpga/fpga-region.h
->> @@ -30,7 +30,6 @@ struct fpga_region_ops {
->>    * @bridge_list: list of FPGA bridges specified in region
->>    * @mgr: FPGA manager
->>    * @info: FPGA image info
->> - * @compat_id: FPGA region id for compatibility check.
->>    * @priv: private data
->>    * @rops: optional pointer to struct for fpga region ops
->>    */
->> @@ -40,7 +39,6 @@ struct fpga_region {
->>   	struct list_head bridge_list;
->>   	struct fpga_manager *mgr;
->>   	struct fpga_image_info *info;
->> -	struct fpga_compat_id *compat_id;
->>   	void *priv;
->>   	const struct fpga_region_ops *rops;
->>   };
->> --
->> 2.26.3
-
+> +
+> +required:
+> +  - compatible
+> +  - current-speed
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    serial {
+> +        mcu {
+> +            compatible = "iei,wt61p803-puzzle";
+> +            current-speed = <115200>;
+> +            enable-beep;
+> +
+> +            leds {
+> +                compatible = "iei,wt61p803-puzzle-leds";
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                led@0 {
+> +                    reg = <0>;
+> +                    function = LED_FUNCTION_POWER;
+> +                    color = <LED_COLOR_ID_BLUE>;
+> +                };
+> +            };
+> +
+> +            hwmon {
+> +                compatible = "iei,wt61p803-puzzle-hwmon";
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                fan-group@0 {
+> +                    #cooling-cells = <2>;
+> +                    reg = <0x00>;
+> +                    cooling-levels = <64 102 170 230 250>;
+> +                };
+> +
+> +                fan-group@1 {
+> +                    #cooling-cells = <2>;
+> +                    reg = <0x01>;
+> +                    cooling-levels = <64 102 170 230 250>;
+> +                };
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index b868cefc7c55..e02b6d6eb568 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -509,6 +509,8 @@ patternProperties:
+>      description: IC Plus Corp.
+>    "^idt,.*":
+>      description: Integrated Device Technologies, Inc.
+> +  "^iei,.*":
+> +    description: IEI Integration Corp.
+>    "^ifi,.*":
+>      description: Ingenieurburo Fur Ic-Technologie (I/F/I)
+>    "^ilitek,.*":
+> -- 
+> 2.31.1
+> 
+> 
