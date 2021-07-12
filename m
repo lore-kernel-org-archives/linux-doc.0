@@ -4,61 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98489C07E9A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DDDC07E9C
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:04:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EF3560C3E
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:56:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 899D96044F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 17:04:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234650AbhGLQ7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 12:59:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42870 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234569AbhGLQ7A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Jul 2021 12:59:00 -0400
+        id S234951AbhGLRHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 13:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235602AbhGLRHT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 13:07:19 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38609C0613DD;
+        Mon, 12 Jul 2021 10:04:31 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E96836E;
-        Mon, 12 Jul 2021 16:56:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E96836E
+        by ms.lwn.net (Postfix) with ESMTPSA id E35772ED;
+        Mon, 12 Jul 2021 17:04:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E35772ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1626108971; bh=aNm9NX0hfUyaIkr9HuU7I5L73M9duZwZgsBGvD4Cdnk=;
+        t=1626109471; bh=rNbc78ySoW7E4zNHWiKuoKaf/P5JAEEohrvKvz8M1cg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=od8ajVH6X5NNGtPgI7wf8C4KUzTpnArTUGsiq/oj5RyJgUICtPk4IncJDYBKhU6cz
-         71T9ucCL4Wp5g2IGzKtUXqv/fv8Dzh23h1nx5tNtCcm4hymnLQEdEWLq+9Pb5/UJFE
-         YrByVr2jv/AhEU5vbnZjpwU4NV1n91pEB03rK5Iwo/p5/8O351IK2ncdeLcsHPmOKP
-         4TJ74vZV1inmZmEvii2cGlwowq4uMK0Co2ci1TKsWcEzwXtmInHyVhqUboFkDMC31y
-         0ToVjR0KLgXy69x4cGPSqcDaA/2IQicvD/xQ6MzUS3NWhjrCTRHQBSuA/v1fIByJBQ
-         iDxodHs9p20Mw==
+        b=gEM/cQUTOgK+5w0wE4y/0uBAtHjN9kKQbjqDua+uedungtXokJNDzCi3keODXdPxp
+         EIGm0YDx0abvyHga1hV13In/eip5z24XaRBZojLBWkFMduvu1vgGuoVehnN64O3AZH
+         G2WTvs9OG/8Yqmdk5+JUKfs6pp+LnjCe2hUwfsv8PC6rQir08Wab/F0LzV5LFkxOFV
+         TplCiipQI6D2TrbJg3QRnWPS5JP2tEXEKy/c039Sx1DZ7vQ+//l2EL39sh4ta7hG6E
+         nZgx1h9OQoEI7qKBADQg0sThLw6zdge+4Tuwk7LzwqWfEnjsBYswKuiUgu9yJrMvpv
+         o2fw8CpvsVg0Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add few missing models and
- documentation files
-In-Reply-To: <20210625215437.2156-1-pali@kernel.org>
-References: <20210625215437.2156-1-pali@kernel.org>
-Date:   Mon, 12 Jul 2021 10:56:11 -0600
-Message-ID: <87zgurpj2s.fsf@meer.lwn.net>
+To:     Cengiz Can <cengiz@kernel.wtf>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Cengiz Can <cengiz@kernel.wtf>
+Subject: Re: [PATCH] Documentation: sysrq: convert to third person
+In-Reply-To: <20210629141508.52229-1-cengiz@kernel.wtf>
+References: <20210629141508.52229-1-cengiz@kernel.wtf>
+Date:   Mon, 12 Jul 2021 11:04:30 -0600
+Message-ID: <87v95fpiox.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pali Roh=C3=A1r <pali@kernel.org> writes:
+Cengiz Can <cengiz@kernel.wtf> writes:
 
-> Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
+> Two parts of the sysrq documentation have sentences written from a first
+> person's point of view.
+>
+> Documentation is generally written from a third person's view in a
+> formal way.
+>
+> Convert those senteces to be less personal and generic.
+
+So this seems like a fine change, but I have one little gripe...
+
+> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
 > ---
->  Documentation/arm/marvell.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  Documentation/admin-guide/sysrq.rst | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+> index 60ce5f5ebab6..0a178ef0111d 100644
+> --- a/Documentation/admin-guide/sysrq.rst
+> +++ b/Documentation/admin-guide/sysrq.rst
+> @@ -72,7 +72,7 @@ On PowerPC
+>  
+>  On other
+>  	If you know of the key combos for other architectures, please
+> -        let me know so I can add them to this section.
+> +	submit a patch to be included in this section.
+>  
+>  On all
+>  	Write a character to /proc/sysrq-trigger.  e.g.::
+> @@ -205,10 +205,12 @@ frozen (probably root) filesystem via the FIFREEZE ioctl.
+>  Sometimes SysRq seems to get 'stuck' after using it, what can I do?
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> -That happens to me, also. I've found that tapping shift, alt, and control
+> -on both sides of the keyboard, and hitting an invalid sysrq sequence again
+> -will fix the problem. (i.e., something like :kbd:`alt-sysrq-z`). Switching to
+> -another virtual console (:kbd:`ALT+Fn`) and then back again should also help.
+> +When this happens, try tapping shift, alt and control on both sides of the
+> +keyboard, and hitting an invalid sysrq sequence again. (i.e., something like
+> +:kbd:`alt-sysrq-z`).
+> +
+> +Switching to another virtual console (:kbd:`ALT+Fn`) and then back again
+> +should also help.
 
-Applied, thanks.
+The :kbd: stuff is a pretty good example of the sort of extra markup we
+try to avoid when we can.  It adds little to the formatted docs and
+worsens the reading experience for plain-text.  It sure would be nice if
+we could make that kind of stuff go away when we're in the neighborhood.
+
+Anyway, I've applied the patch.
+
+Thanks,
 
 jon
