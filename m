@@ -7,80 +7,70 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9B3C07E99
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE10C07E99
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:23:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FAB06024A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:16:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4458D6120D
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 16:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbhGLQTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 12:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53040 "EHLO
+        id S232122AbhGLQ00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 12:26:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhGLQTW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 12:19:22 -0400
+        with ESMTP id S229848AbhGLQ00 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 12:26:26 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12097C0613E5
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 09:16:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3CCC0613DD;
+        Mon, 12 Jul 2021 09:23:38 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B3A292ED;
-        Mon, 12 Jul 2021 16:16:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B3A292ED
+        by ms.lwn.net (Postfix) with ESMTPSA id 017DD36E;
+        Mon, 12 Jul 2021 16:23:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 017DD36E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1626106593; bh=PY9buDRN8mKjHFSXEDhnPDkmkhJ3qzVEi3QnZjWwXdM=;
+        t=1626107018; bh=I5MmZkCWWrzX5ZoYDtzSKwxIieU8qmtuv+0xa/1bk8k=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=oSYNAqPfKgt8cW4U9K4twiXHfZgrCqUMlRXuKVQ08lF5yMEuH9DHa5hFlzihkPy3u
-         hRTvVvBlsr7CuYw+MgeIGs1MZieKERVnVKnrPCFcSGEjSX+XxUkjs9TYx3cwT+ss9y
-         xb7Jg1mEXa2LG8/9wcwo0vc9qFIkXbLwixH9YNJ0+FCHMHANdjuGdRFufYHZBp0Q9D
-         GDjirxPR2U2cEKyF6RiK4YLntCOyuIa90KW4OHtCFoPAljPukXzKlt/B/Rhl/B65Ao
-         rMM4hYul9kpFbgn71Qj4mgVgciMxlMqOdZtQwtYa8Zoiyb7NQSavLP1Fsf5Blt29PD
-         oLKVt9tcYbasQ==
+        b=HVnG1QGeuAIiLlQQZP+W9n39bNmJHrMFdakP8rYcTHc7omWa0J+S21rCkTDBRSGnw
+         t2jqtrzeNBuXW5t6WaGxBmsnttosGy0oJ09jK4CcDRmb1KFOR+txmtTQsfKufo5ygV
+         X33HN7YGP72kyQcyeprIHsrMoNUaLjwCqqDetxKgNgZRitIMDa0digRWZ4VqE348HQ
+         H7xWpaImKmKBlQKMdw8u/cs2SV/VmRidX4NgGfvoNuyDPa3ipybR26XKtS1IEYMCbl
+         U06mrJFx/N6F33l/2veiC6ESPZBLbZ+DudZCxSPqmzUpGiaSe2NLJ3OKOXynkkvFHb
+         rgdAdQy0f1Rdw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yang Xu <xuyang2018.jy@fujitsu.com>, akpm@linux-foundation.org
-Cc:     mchehab+samsung@kernel.org, bigeasy@linutronix.de,
-        linux-doc@vger.kernel.org, Yang Xu <xuyang2018.jy@fujitsu.com>
-Subject: Re: [RESEND] admin-guide/cputopology.rst: Remove non-existed
- cpu-hotplug.txt
-In-Reply-To: <1624412269-13155-1-git-send-email-xuyang2018.jy@fujitsu.com>
-References: <1624412269-13155-1-git-send-email-xuyang2018.jy@fujitsu.com>
-Date:   Mon, 12 Jul 2021 10:16:32 -0600
-Message-ID: <87h7gzqzhb.fsf@meer.lwn.net>
+To:     Hu Haowen <src.res@email.cn>, alexs@kernel.org
+Cc:     bobwxc@email.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_CN: add a missing space character
+In-Reply-To: <20210620010444.24813-1-src.res@email.cn>
+References: <20210620010444.24813-1-src.res@email.cn>
+Date:   Mon, 12 Jul 2021 10:23:37 -0600
+Message-ID: <87czrnqz5i.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yang Xu <xuyang2018.jy@fujitsu.com> writes:
-
-> Since kernel commit ff58fa7f556c ("Documentation: Update CPU hotplug and move it to core-api"),
-> cpu_hotplug.txt has been removed. We should update it in here.
->
-> Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
-> ---
->  Documentation/admin-guide/cputopology.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cputopology.rst b/Documentation/admin-guide/cputopology.rst
-> index b90dafcc8237..cc28b1a16371 100644
-> --- a/Documentation/admin-guide/cputopology.rst
-> +++ b/Documentation/admin-guide/cputopology.rst
-> @@ -135,9 +135,9 @@ source for the output is in brackets ("[]").
->  		[NR_CPUS-1]
->  
->      offline:	CPUs that are not online because they have been
-> -		HOTPLUGGED off (see cpu-hotplug.txt) or exceed the limit
-> -		of CPUs allowed by the kernel configuration (kernel_max
-> -		above). [~cpu_online_mask + cpus >= NR_CPUS]
-> +		HOTPLUGGED off or exceed the limit of CPUs allowed by the
-> +		kernel configuration (kernel_max above).
-> +		[~cpu_online_mask + cpus >= NR_CPUS]
-
-Is there a reason why you took out the reference to cpu-hotplug.txt
-entirely rather than switching it to the rst file?
-
-Thanks,
-
-jon
+SHUgSGFvd2VuIDxzcmMucmVzQGVtYWlsLmNuPiB3cml0ZXM6DQoNCj4gIkxpbnVzVG9ydmFsZHMi
+IGlzIG5vdCBwcmV0dHkuIFJlcGxhY2UgaXQgd2l0aCAiTGludXMgVG9ydmFsZHMiLg0KPg0KPiBT
+aWduZWQtb2ZmLWJ5OiBIdSBIYW93ZW4gPHNyYy5yZXNAZW1haWwuY24+DQo+IC0tLQ0KPiAgRG9j
+dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy8yLlByb2Nlc3MucnN0IHwgNCAr
+Ky0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0K
+Pg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
+cy8yLlByb2Nlc3MucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
+cy8yLlByb2Nlc3MucnN0DQo+IGluZGV4IDIyOTYyOWUzMDVjYS4uNGE2ZWQwMjE5NDk0IDEwMDY0
+NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wcm9jZXNzLzIuUHJv
+Y2Vzcy5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
+cy8yLlByb2Nlc3MucnN0DQo+IEBAIC00Nyw3ICs0Nyw3IEBADQo+ICDvvIjpobrkvr/or7TkuIDl
+j6XvvIzlgLzlvpfms6jmhI/nmoTmmK/vvIzlkIjlubbnqpflj6PmnJ/pl7Tpm4bmiJDnmoTmm7Tm
+lLnlubbkuI3mmK/lh63nqbrkuqfnlJ/nmoTvvJvlroPku6zmmK/nu48NCj4gIOaPkOWJjeaUtumb
+huOAgea1i+ivleWSjOWIhue6p+eahOOAgueojeWQjuWwhuivpue7huaPj+i/sOivpei/h+eoi+ea
+hOW3peS9nOaWueW8j+OAgu+8iQ0KPiAgDQo+IC3lkIjlubbnqpflj6PmjIHnu63lpKfnuqbkuKTl
+kajjgILlnKjov5nmrrXml7bpl7Tnu5PmnZ/ml7bvvIxMaW51c1RvcnZhbGRz5bCG5aOw5piO56qX
+5Y+j5bey5YWz6Zet77yM5bm2DQo+ICvlkIjlubbnqpflj6PmjIHnu63lpKfnuqbkuKTlkajjgILl
+nKjov5nmrrXml7bpl7Tnu5PmnZ/ml7bvvIxMaW51cyBUb3J2YWxkc+WwhuWjsOaYjueql+WPo+W3
+suWFs+mXre+8jOW5tg0KPiAg6YeK5pS+56ys5LiA5Liq4oCccmPigJ3lhoXmoLjjgILkvovlpoLv
+vIzlr7nkuo7nm67moIfkuLo1LjbnmoTlhoXmoLjvvIzlnKjlkIjlubbnqpflj6Pnu5PmnZ/ml7bl
+j5HnlJ/nmoTph4rmlL4NCg0KQXBwbGllZCwgdGhhbmtzLg0KDQpqb24NCg==
