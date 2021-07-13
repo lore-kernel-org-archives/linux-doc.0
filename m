@@ -2,104 +2,265 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA53C11F66
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 18:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B55BC07E96
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 18:41:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1EF5613AB
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 18:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E05F26127C
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 18:41:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233326AbhGMSKC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jul 2021 14:10:02 -0400
-Received: from foss.arm.com ([217.140.110.172]:48602 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229478AbhGMSKB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Jul 2021 14:10:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 243A61FB;
-        Tue, 13 Jul 2021 11:07:11 -0700 (PDT)
-Received: from [10.57.36.240] (unknown [10.57.36.240])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0FC43F7D8;
-        Tue, 13 Jul 2021 11:07:05 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
-To:     Doug Anderson <dianders@chromium.org>,
-        Joerg Roedel <joro@8bytes.org>
-Cc:     Will Deacon <will@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        John Garry <john.garry@huawei.com>,
-        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
-        Saravana Kannan <saravanak@google.com>,
-        Rajat Jain <rajatja@google.com>,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-pci@vger.kernel.org,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org,
-        Sonny Rao <sonnyrao@chromium.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jordan Crouse <jordan@cosmicpenguin.net>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20210624171759.4125094-1-dianders@chromium.org>
- <YNXXwvuErVnlHt+s@8bytes.org>
- <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
- <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
- <YOaymBHc4g2cIfRn@8bytes.org>
- <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e3555c49-2978-355f-93bb-dbfa7d09cab8@arm.com>
-Date:   Tue, 13 Jul 2021 19:07:00 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229697AbhGMSnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jul 2021 14:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229478AbhGMSnt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 14:43:49 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D833BC0613DD;
+        Tue, 13 Jul 2021 11:40:58 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id dt7so13481282ejc.12;
+        Tue, 13 Jul 2021 11:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QQpf5xOaOqo0s/plb1U3NgMNZX1Ph8Dt44evAisR+l0=;
+        b=gI7n/qI/DkL7SIT4shqKYtKHWdM176gJQ3/2RrZOVcCXPfG3EbUy0bDedEoBuILbpr
+         CORECQF9iy1EkOD3hP9IHmXZ44XRBdjIs8sBXI2ozzNvMcmlMTmrdANT4RNAU+w8xj8G
+         J7eUfJnhuD343zLi1dXayV9MAKCc3KSG1f9wePXJfVqfeVIb7OUS4KYYUZMd8EQxsX/H
+         wWUc0Qhpve1BBC1OconHChBafgEAEQ27DJIul2rLsMOyDgWl4upMFHXuURFasV4lT56Y
+         Z5LoII4Nkvv594aDEvDTbKWa51/5nk67U4dBgAYdty4lCqqvATA4epnFmJoN3qk7B6CQ
+         S5fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QQpf5xOaOqo0s/plb1U3NgMNZX1Ph8Dt44evAisR+l0=;
+        b=kITSwvR4n3NXAQQUzLXJeHXhGauWAvZy8CPcLzAIQ8g7eLdcNUO/HC0prtT1H+Zprp
+         4IdZ67oXcUWwQs3NKWw1E9DvzjLVOgI5IEA5gRNFcd4KL6JkFUrwmHRlAodV0LT9/aus
+         J+s5I6obDTzmtCjDqtrRu9XeiYG4fuBGEL3SrgQN+HreYv/5piK+7KibVXekJeseC3Ix
+         eVcDhQZnpXiGC0BuksI8NM9fgftH5LsTQgdRg3pihLGlvdkp0kTPnfiEIrYWcaV/quVY
+         vhdA6qxOXFr62/hpgDt26hm8g3rrxEkDENICZJ3RPYmd9SBELlMZBqjoc8D1dK8wEXs2
+         rnug==
+X-Gm-Message-State: AOAM5310ntfcFpaXhJXh7ACK+A7lMM75u3XfUsODs7K5UJnRv+7yL6gr
+        5Q3mCiRzQ1NnZFcKPdIvlJGd8Dy5xBWZGt14pWw=
+X-Google-Smtp-Source: ABdhPJxK71IKMduWW2mt+NCXshKS0E6oF7WxzwUQNmcLDT/A9YHEAOZfzeyoku38PmMUvK3HNH6Eh6lXLoPNYPUF9BA=
+X-Received: by 2002:a17:907:7d94:: with SMTP id oz20mr7376635ejc.333.1626201657390;
+ Tue, 13 Jul 2021 11:40:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210713010536.3161822-1-woodylin@google.com>
+In-Reply-To: <20210713010536.3161822-1-woodylin@google.com>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Tue, 13 Jul 2021 20:40:46 +0200
+Message-ID: <CA+fCnZdycHhs1fQyn1uZKhPv8T3EhE_ckQ7tVbELyMSEJGJE7Q@mail.gmail.com>
+Subject: Re: [PATCH v2] mm/kasan: move kasan.fault to mm/kasan/report.c
+To:     Woody Lin <woodylin@google.com>
+Cc:     Marco Elver <elver@google.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-07-08 15:36, Doug Anderson wrote:
-[...]
->> Or document for the users that want performance how to
->> change the setting, so that they can decide.
-> 
-> Pushing this to the users can make sense for a Linux distribution but
-> probably less sense for an embedded platform. So I'm happy to make
-> some way for a user to override this (like via kernel command line),
-> but I also strongly believe there should be a default that users don't
-> have to futz with that we think is correct.
+On Tue, Jul 13, 2021 at 3:07 AM Woody Lin <woodylin@google.com> wrote:
+>
+> Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
+> can support all KASAN modes - generic, and both tag-based.
+>
+> Signed-off-by: Woody Lin <woodylin@google.com>
+> ---
+>  Documentation/dev-tools/kasan.rst | 13 ++++++----
+>  mm/kasan/hw_tags.c                | 43 -------------------------------
+>  mm/kasan/kasan.h                  |  1 -
+>  mm/kasan/report.c                 | 29 ++++++++++++++++++---
+>  4 files changed, 34 insertions(+), 52 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index 83ec4a556c19..21dc03bc10a4 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -181,9 +181,16 @@ By default, KASAN prints a bug report only for the first invalid memory access.
+>  With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
+>  effectively disables ``panic_on_warn`` for KASAN reports.
+>
+> +Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
+> +parameter can be used to control panic and reporting behaviour:
+> +
+> +- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+> +  report or also panic the kernel (default: ``report``). The panic happens even
+> +  if ``kasan_multi_shot`` is enabled.
+> +
+>  Hardware tag-based KASAN mode (see the section about various modes below) is
+>  intended for use in production as a security mitigation. Therefore, it supports
+> -boot parameters that allow disabling KASAN or controlling its features.
+> +additional boot parameters that allow disabling KASAN or controlling features:
+>
+>  - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
+>
+> @@ -199,10 +206,6 @@ boot parameters that allow disabling KASAN or controlling its features.
+>  - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
+>    traces collection (default: ``on``).
+>
+> -- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+> -  report or also panic the kernel (default: ``report``). The panic happens even
+> -  if ``kasan_multi_shot`` is enabled.
+> -
+>  Implementation details
+>  ----------------------
+>
+> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+> index 4ea8c368b5b8..51903639e55f 100644
+> --- a/mm/kasan/hw_tags.c
+> +++ b/mm/kasan/hw_tags.c
+> @@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
+>         KASAN_ARG_STACKTRACE_ON,
+>  };
+>
+> -enum kasan_arg_fault {
+> -       KASAN_ARG_FAULT_DEFAULT,
+> -       KASAN_ARG_FAULT_REPORT,
+> -       KASAN_ARG_FAULT_PANIC,
+> -};
+> -
+>  static enum kasan_arg kasan_arg __ro_after_init;
+>  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+>  static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
+> -static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+>
+>  /* Whether KASAN is enabled at all. */
+>  DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
+> @@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
+>  /* Whether to collect alloc/free stack traces. */
+>  DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
+>
+> -/* Whether to panic or print a report and disable tag checking on fault. */
+> -bool kasan_flag_panic __ro_after_init;
+> -
+>  /* kasan=off/on */
+>  static int __init early_kasan_flag(char *arg)
+>  {
+> @@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
+>  }
+>  early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
+>
+> -/* kasan.fault=report/panic */
+> -static int __init early_kasan_fault(char *arg)
+> -{
+> -       if (!arg)
+> -               return -EINVAL;
+> -
+> -       if (!strcmp(arg, "report"))
+> -               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+> -       else if (!strcmp(arg, "panic"))
+> -               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+> -       else
+> -               return -EINVAL;
+> -
+> -       return 0;
+> -}
+> -early_param("kasan.fault", early_kasan_fault);
+> -
+>  /* kasan_init_hw_tags_cpu() is called for each CPU. */
+>  void kasan_init_hw_tags_cpu(void)
+>  {
+> @@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
+>                 break;
+>         }
+>
+> -       switch (kasan_arg_fault) {
+> -       case KASAN_ARG_FAULT_DEFAULT:
+> -               /*
+> -                * Default to no panic on report.
+> -                * Do nothing, kasan_flag_panic keeps its default value.
+> -                */
+> -               break;
+> -       case KASAN_ARG_FAULT_REPORT:
+> -               /* Do nothing, kasan_flag_panic keeps its default value. */
+> -               break;
+> -       case KASAN_ARG_FAULT_PANIC:
+> -               /* Enable panic on report. */
+> -               kasan_flag_panic = true;
+> -               break;
+> -       }
+> -
+>         pr_info("KernelAddressSanitizer initialized\n");
+>  }
+>
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 98e3059bfea4..9d57383ce1fa 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -36,7 +36,6 @@ static inline bool kasan_async_mode_enabled(void)
+>
+>  #endif
+>
+> -extern bool kasan_flag_panic __ro_after_init;
+>  extern bool kasan_flag_async __ro_after_init;
+>
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 8fff1825b22c..884a950c7026 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -39,6 +39,31 @@ static unsigned long kasan_flags;
+>  #define KASAN_BIT_REPORTED     0
+>  #define KASAN_BIT_MULTI_SHOT   1
+>
+> +enum kasan_arg_fault {
+> +       KASAN_ARG_FAULT_DEFAULT,
+> +       KASAN_ARG_FAULT_REPORT,
+> +       KASAN_ARG_FAULT_PANIC,
+> +};
+> +
+> +static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
+> +
+> +/* kasan.fault=report/panic */
+> +static int __init early_kasan_fault(char *arg)
+> +{
+> +       if (!arg)
+> +               return -EINVAL;
+> +
+> +       if (!strcmp(arg, "report"))
+> +               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+> +       else if (!strcmp(arg, "panic"))
+> +               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+> +       else
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +early_param("kasan.fault", early_kasan_fault);
+> +
+>  bool kasan_save_enable_multi_shot(void)
+>  {
+>         return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
+> @@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
+>                 panic_on_warn = 0;
+>                 panic("panic_on_warn set ...\n");
+>         }
+> -#ifdef CONFIG_KASAN_HW_TAGS
+> -       if (kasan_flag_panic)
+> +       if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
+>                 panic("kasan.fault=panic set ...\n");
+> -#endif
+>         kasan_enable_current();
+>  }
+>
+> --
+> 2.32.0.93.g670b81a890-goog
+>
 
-FYI I did make progress on the "punt it to userspace" approach. I'm not 
-posting it even as an RFC yet because I still need to set up a machine 
-to try actually testing any of it (it's almost certainly broken 
-somewhere), but in the end it comes out looking surprisingly not too bad 
-overall. If you're curious to take a look in the meantime I put it here:
-
-https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/fq
-
-Cheers,
-Robin.
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
