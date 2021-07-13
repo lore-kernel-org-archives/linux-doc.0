@@ -2,258 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D67C07E9A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 01:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F32EAC07E9A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 01:11:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47D05611F1
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 01:07:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3B6461209
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 01:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbhGMBK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 21:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60778 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbhGMBK1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 21:10:27 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36298C0613DD
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 18:07:38 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id a7-20020a5b00070000b02904ed415d9d84so24415281ybp.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jul 2021 18:07:38 -0700 (PDT)
+        id S232859AbhGMBO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 21:14:28 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:27892 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232718AbhGMBO1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 21:14:27 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16D1BJTO013881;
+        Tue, 13 Jul 2021 01:11:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=TRZrMH6MD6mVZ6bZzKNhdtYuEvuzDzlEjC70CM2KTg0=;
+ b=PcxHvxwWhxa7pgtbVxyLeOEkbdXx/DIzdbwbUtlLXYZ7ps3qHNTLpGOSgI+ARAcYXbKc
+ xAJYvr7ISAP6OaBM3iH0JEj6nE4lLTIwh9ojN+PwTJIJsR8QA32mWluZQsZX6I2EFIuW
+ xpTYaWiZjgOwFnB+qk+eeMeYT8xa+LWYKJhjMqoLhOOS0YrVVGZU2+4D0Lh9t8C2x8CO
+ 1AjT1yJN986hg5ITf6OyNRw6mWk0HRDkwrRstL2pvCeO8hsdTFWudJODf0Epog20JNj6
+ 8LgJPANlXsBhjlSbA60krW0gq1myA+/p9eOZ5MWfKMMDCCdmzFl2TF9qfmjkFj/IbsOX GA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 39rpxr98c8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jul 2021 01:11:18 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16D16SFs178694;
+        Tue, 13 Jul 2021 01:11:17 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+        by userp3030.oracle.com with ESMTP id 39q0p26yu9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jul 2021 01:11:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IA73xCI8bD1VI8XYwyG43KHpPrmU2ZNs6dCRrEOIppkz/m5jID34SSMq0FNxhTXJJtlXKxXBSJ/oN6EnzrLfr8/VYYZJkfSjIwQnacOFKjR5haniyRexugSt8kRY2f5XbqrJWwPwN/SKakaMD4OHY7mHsipg0A3ZxNAKpfLWJxtr6+OxQybVqpuCOe+VQNgXZoX46pqVxJSKJ2Rtd7lD9hfHuWEFGaXCFFmoa0MSdf/6YeI2QsgLupiXrqnZuPZINXggD08qI+sYzztI5FqeFN6SC4rgKluik/aa12Uje316f3xnhl2LtPpdRAJVR2nuXeiyLtgCqLMgQaBykJycig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TRZrMH6MD6mVZ6bZzKNhdtYuEvuzDzlEjC70CM2KTg0=;
+ b=npUnirRpaemDKwbKuREEcsBSkm5pTFWir7oRZV1sRvxXDyhVS4nITJ96D172qEVR5FIjfTY6wqo0aSJYC/opA6G6ZSOO2AUAeqgVG0UM5XLSfSJuadPHmv3Nc/+rvQ1L+iqT8zFDbeKDurECbGcamEYFhGjpVPZZapl4hvC2igprddmgbVcxGDiuiY1RLToCGN1g4PWtG9ZbpWwiU9VmqpXUVYyltGB+AyohYZqNWSRFut24GuxDjD3vI/62UE6Zw9l+Q3Nd/ITDgBMTvYlc+amsajM3xvk8oaasMg5OwfaX8vtPoYpu23KHC7d0mcKOUPEeZJCUiA1fxRb8ZrJ4fQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=7H0LpH2GONNn9NZv/9WQ2DtXytau5fXoMsvDyHJxp/k=;
-        b=dTAoo+q0qbQgCS41Gdj1LWtAie7mvnRvIbE6SOosY1cmw0UIQPBZPzSQ3OxVOodjIc
-         XNrqpXxoLbkVyDLOBT5N7DFyBDuRuo9Ut+9Ytrliq2+tLJR9d7dxannIfJaJMwp9TUCd
-         rcCk66OU5WvubvAv0CUp6kx8whXhaLAuXh75F/ubnHdtrxWDP/KjasZyLGs4EVmsWEol
-         VlCMwvZUtFBoa3tDU3Nnd/qG6YBuYxkC6F32CN8qw9BXxinhqayPoAgOhscO0IywLr8t
-         urbUi2VBSxIlQrSjPgfvLMCS/ptotR9UuS0eEcsjOH6x6D2KnUox86HEFgD7pP0VPlsJ
-         Sl4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=7H0LpH2GONNn9NZv/9WQ2DtXytau5fXoMsvDyHJxp/k=;
-        b=Bp/pvDMmOpmM2p6SpDiLunRfq5BaqXaY/qrlsq7TXd4E5vFmvFF6We+lb9uQsN8+t/
-         SR0uQMDf2qfMbzeEyOC4tuAcCYfEi5I2LzFzQ7iGm5/0b/RPOe/ps4nZSHLL/pguNimk
-         mc/WwDMFybn0V0xwNAkKrjXZup3xcDR1n5Ktr/KH/ewQa7FYBE2y6xv9aadxip7Jo0+8
-         x4j9agM4ktv+4aSlTb7Qvkg+MRMHgijdEIF3Y/aODpjJlE4jqhO4BOLxC4rJzdrQKX7W
-         e0o+m7MknasG70qnjDds71FhEbUjiNbibt+SRPKvGzQri00YMTggv78u2qzA2k+JCKtZ
-         y34A==
-X-Gm-Message-State: AOAM533fA2qEm9KKlNE6lbAfQ71Mod3qlLqPdvGI4voB6/jJrYOpFjWn
-        oj3wJ0CZvOMMw1FKiadMderdtjp7ZNk1+A==
-X-Google-Smtp-Source: ABdhPJzVEPryMD2mdP4K1xXXE739W7TL0c7V7rfydnJFmN5qonRJOWwtYyr1uQ+585D/H+aJMYCj2sfMgRSxQQ==
-X-Received: from woodylin.ntc.corp.google.com ([2401:fa00:fc:202:e7ee:3440:9a37:23d8])
- (user=woodylin job=sendgmr) by 2002:a5b:b01:: with SMTP id
- z1mr2302389ybp.341.1626138457207; Mon, 12 Jul 2021 18:07:37 -0700 (PDT)
-Date:   Tue, 13 Jul 2021 09:05:36 +0800
-Message-Id: <20210713010536.3161822-1-woodylin@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-Subject: [PATCH v2] mm/kasan: move kasan.fault to mm/kasan/report.c
-From:   Woody Lin <woodylin@google.com>
-To:     Marco Elver <elver@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TRZrMH6MD6mVZ6bZzKNhdtYuEvuzDzlEjC70CM2KTg0=;
+ b=G0pBx793t5dRhf4CzEokhb8JpiNlBd9VWoh1JbTp73Jh/i+D7NCtdcSiWpvnPh0eYfoZLhYLjVqI78CgJxjTnT7cGPTm8hFUIyvIIocn3C2Vycukj4x7VqSRXjPgTzzJkt+C/4MrpWG8g2YZInvyR+elzItECjZMLyUnWF/HY3w=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Tue, 13 Jul
+ 2021 01:11:14 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::5833:5ab2:944c:7360]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::5833:5ab2:944c:7360%9]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 01:11:14 +0000
+Subject: Re: [PATCH v2 02/14] mm/page_alloc: split prep_compound_page into
+ head and tail subparts
+To:     Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Woody Lin <woodylin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+References: <20210617184507.3662-1-joao.m.martins@oracle.com>
+ <20210617184507.3662-3-joao.m.martins@oracle.com>
+ <caa531ab-3a87-fdb2-6498-34349f66e475@oracle.com>
+From:   Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <eade29c5-14df-3afd-7dfe-fe17c512a6e3@oracle.com>
+Date:   Tue, 13 Jul 2021 02:11:08 +0100
+In-Reply-To: <caa531ab-3a87-fdb2-6498-34349f66e475@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO3P265CA0006.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:bb::11) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.67] (94.61.1.144) by LO3P265CA0006.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:bb::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19 via Frontend Transport; Tue, 13 Jul 2021 01:11:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ea22d2cc-4300-482e-da5e-08d9459b1bee
+X-MS-TrafficTypeDiagnostic: MN2PR10MB4013:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR10MB401322C9ED050C06E3C752DABB149@MN2PR10MB4013.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:506;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f6y72t3/aWIqglNaMZvp2W4rTOdzVTi566nSJdK2B9MDV9MqFHo157oixtK6UoN1l8U+p1wThY6onECt0nNnr1CAmlCYDL1KXcBcFpKUbyA8/RnvZITIyWVLK62k0lDwU60FXJbrwScX6O0hWH+bnxKfv1ryUDHhTqnxk4TBbCUlghYq+Ubd2u0QFYz/2CxxBr2k2A2GdUBqOYqtw2F7RQrWQsvNYASvutRqitA6xVvhAvdwtMO/yFjM1TYPnlpP2SZRaGUJiYBPqi5dicH1A83ys1aN8k+mTfHFA/8yXUFqfeQG54r6iXeqODbTX2v1OJiRUK56DDjdUxKwSfsYTUCud02G0jXbAl4inp5AVxMLqv8S6V2QlwH6grwgSZSMxGpFyMXNYy1YEnXXcFrcJWv4F0D6W0yT3D8IvqticxrKjxhk1Hp5vLXuFbqZpmACqJLPGrO3sIrVVjyzE+uonPDdmzxvwPY+s0yTelxpgmS5Qjur3gd4VnjE+SS2Qcz8/pebjZzMtlQU+3p7gGzJifhG4G0YfHK2UJF+zVg+etVNDWJMUJFRBsMDQAgQ/uX9EHZuBzuy/zpG9cj4Cg5z2+nSjvQZS9I4GlOjzFO8Kbtw05qVLuJ89UQKwpTY0olizrfLmIMAjqjY0/2vGIc7DJXRsJRL0UzoBkNAeNCRwZnG8JXb0r/TriFzC9ryjzhUAVUsl4lhBW03ZZpuF58b5w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(366004)(136003)(376002)(346002)(396003)(83380400001)(31686004)(8936002)(66476007)(66556008)(38100700002)(6486002)(2616005)(36756003)(66946007)(956004)(8676002)(4326008)(54906003)(478600001)(53546011)(26005)(186003)(16576012)(316002)(7416002)(31696002)(2906002)(6666004)(86362001)(5660300002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1N3NmFJMWdOWU5Bd3lDNWw2Q2FQZ3R4MDNDVzdxV3VPTjZMUm1BRFNkdWVV?=
+ =?utf-8?B?UzAvbmtSaXJ0TTVsWXVONDNBbkowNDd5S05RZEUwY3RvYzVKMkxKY1JrY1J0?=
+ =?utf-8?B?Q2hSU1h4MzJyMEg0L1M0KzcxbGxteE4zaDZRRUJ3dHU5bCs2ai9iRW9haDlr?=
+ =?utf-8?B?eUFlbGI1WUhTbDJ3SkZpcGJxK3gvWU1iSXVNWVoyelBQUlZPS2IvSThScEdB?=
+ =?utf-8?B?eHNXRVBzeTREL3VEVTZqZjBNM1hUZWxPU3hKNytkbWwvdjlYT2QrbGpNeWZP?=
+ =?utf-8?B?TE1JWloxMjgxSmxqUTB3R2VuMFZiYkMrSDdZTUEvTDhiVmJrbE9OQ0pkdUNh?=
+ =?utf-8?B?V1JhQ0g5clROMUpFNjJHMk5BekVrdHUwdHllN3VSMGZKMWh2RE1ONDNqZ1Jy?=
+ =?utf-8?B?WTBUSVA2TW1DMDJoRlRuaHU4T1J5SjZmUUJhYklTOFpQL0Y5ZEFaYld0N0d0?=
+ =?utf-8?B?K1UxS2tidGVWa0RNU3BJSXRya0IrMzVIOEdNL3lKalB0Y3FIMDMwZFo3bm02?=
+ =?utf-8?B?NlgzT0hBSTMzUy81c2p5RDRSZXExalBoQ1haTk8weHUrbGw4VzBwbmlQem8z?=
+ =?utf-8?B?VVdIeUVzOVNJZ2p4MHBHdDM0cCtSSDRPUTZjbXY5R0tucm1na3lDem9QRWhm?=
+ =?utf-8?B?UlhhWHB5SUpXZnllL3BKTWxqWEcvVnl3Y3R5dlBxV2U0ck9QLzhIbU43bWJY?=
+ =?utf-8?B?ZUhJZUNvNUZUelphaENGNFdXZU5EYWxYMnZZc3VwUmh5VU1GYTRvblk1Wlc0?=
+ =?utf-8?B?WGFXckZ6NUxCdE9jVTFtc3k4c1I0MEgvR09NOWl0d1lqOHhLTGN6ak1QRjNz?=
+ =?utf-8?B?blg4aTBDTXdGdlRRVk9qcVgvQUdXU0RnaUREdHVIVG9KS0tTUXlsQmxVZEZj?=
+ =?utf-8?B?VENEdWR3ZHJJc2FpUzJHTmRoMnhLc3BIM0JTc2Q5c05Kd2Z4ZlB3ZnNYWGhF?=
+ =?utf-8?B?QUZCZjNPeVI5OVVFQjVDRjVoZ0RqZ3c1MTRGUTVOOE9CS1lHUTBVTEowYmdq?=
+ =?utf-8?B?cE5jcmVxbWhvd3VIL1ZHcU9NNldNWTFTM2QvV29JNnppaHkybWFNZTN1NDFu?=
+ =?utf-8?B?dUZXT3NraFFnRS9YZW1qSEs2ZElGUkQ0cGw3QUIzY0xBQWJTdFlTL014dVdZ?=
+ =?utf-8?B?eUFnYkhSekV4QXBxUDJndVdsUE1vT0pQbitwTndYUmh4NmUxY3hKM1kxU2FZ?=
+ =?utf-8?B?T0NQMlhvNWFzVGpTcG5KZWt2K21WOW93YmlQaVlBcys0NW9TNkg5QVltaDFC?=
+ =?utf-8?B?VlpFMkErSDBGd0lnM0h4QmRiTEhuME16Nmd3YlRjUkYrZmJDRTdQVFQ1RXNR?=
+ =?utf-8?B?bjI0R0F5T3VrVXlzRWI4Um5rNmY5cTlqdTJTN1loSVlTQ2gyZlBldVZjeWZo?=
+ =?utf-8?B?b1FVVHd0NVM1Z09NUXgxTnI1VktQU2NXTnVyU0RnM2F5L2tzbjk5bXZXYWEw?=
+ =?utf-8?B?QXRwRnJMR3pMb3N1bXdGdjdnQ29LdG55SGRaeDU3dVlYck5GWVJhK1JwSkJS?=
+ =?utf-8?B?MU40aXREM2VmaUthb3J0bFVCNXIzOXF2YjJnNHlQbzVPMytNVFJWRHpJZmt2?=
+ =?utf-8?B?M0ZCaTVoR2hjKzFYTmNsb1BNZStSWGdjQmQrVVRWWGJUN0NNeVp0b3R4d3Uw?=
+ =?utf-8?B?bTRuZm82a2RHRkpJeFYyMFltRGw3NTNxcnpqTWo4QmZ3bllRWW1OZTU3dUVJ?=
+ =?utf-8?B?TkJMLzdhOWlEZEdna3BxaEI2QkFzMkRKMUlyb2Z0WFFydSsrSTZGalVrWitG?=
+ =?utf-8?Q?iTk9lmox1Sgjrshq+1XOj+40eQC8BJnxlUZZCkD?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea22d2cc-4300-482e-da5e-08d9459b1bee
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 01:11:14.1427
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y8S0YV5r/giRKfxCj3TX3OzCG4IiL9YpTEN90fFIFJUFpfZp/roAQdjYvPS5T/4oLfYEsLlMIk0h+wHEpipVOD8PtmPQppJehVYHE8rVI0Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4013
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107130005
+X-Proofpoint-GUID: dGeGPzW1AVua2OfXKlJBAm47CDZTlna-
+X-Proofpoint-ORIG-GUID: dGeGPzW1AVua2OfXKlJBAm47CDZTlna-
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
-can support all KASAN modes - generic, and both tag-based.
 
-Signed-off-by: Woody Lin <woodylin@google.com>
----
- Documentation/dev-tools/kasan.rst | 13 ++++++----
- mm/kasan/hw_tags.c                | 43 -------------------------------
- mm/kasan/kasan.h                  |  1 -
- mm/kasan/report.c                 | 29 ++++++++++++++++++---
- 4 files changed, 34 insertions(+), 52 deletions(-)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 83ec4a556c19..21dc03bc10a4 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -181,9 +181,16 @@ By default, KASAN prints a bug report only for the first invalid memory access.
- With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
- effectively disables ``panic_on_warn`` for KASAN reports.
- 
-+Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
-+parameter can be used to control panic and reporting behaviour:
-+
-+- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
-+  report or also panic the kernel (default: ``report``). The panic happens even
-+  if ``kasan_multi_shot`` is enabled.
-+
- Hardware tag-based KASAN mode (see the section about various modes below) is
- intended for use in production as a security mitigation. Therefore, it supports
--boot parameters that allow disabling KASAN or controlling its features.
-+additional boot parameters that allow disabling KASAN or controlling features:
- 
- - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
- 
-@@ -199,10 +206,6 @@ boot parameters that allow disabling KASAN or controlling its features.
- - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
-   traces collection (default: ``on``).
- 
--- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
--  report or also panic the kernel (default: ``report``). The panic happens even
--  if ``kasan_multi_shot`` is enabled.
--
- Implementation details
- ----------------------
- 
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index 4ea8c368b5b8..51903639e55f 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
- 	KASAN_ARG_STACKTRACE_ON,
- };
- 
--enum kasan_arg_fault {
--	KASAN_ARG_FAULT_DEFAULT,
--	KASAN_ARG_FAULT_REPORT,
--	KASAN_ARG_FAULT_PANIC,
--};
--
- static enum kasan_arg kasan_arg __ro_after_init;
- static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
- static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
--static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
- 
- /* Whether KASAN is enabled at all. */
- DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
-@@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
- /* Whether to collect alloc/free stack traces. */
- DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
- 
--/* Whether to panic or print a report and disable tag checking on fault. */
--bool kasan_flag_panic __ro_after_init;
--
- /* kasan=off/on */
- static int __init early_kasan_flag(char *arg)
- {
-@@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
- }
- early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
- 
--/* kasan.fault=report/panic */
--static int __init early_kasan_fault(char *arg)
--{
--	if (!arg)
--		return -EINVAL;
--
--	if (!strcmp(arg, "report"))
--		kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
--	else if (!strcmp(arg, "panic"))
--		kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
--	else
--		return -EINVAL;
--
--	return 0;
--}
--early_param("kasan.fault", early_kasan_fault);
--
- /* kasan_init_hw_tags_cpu() is called for each CPU. */
- void kasan_init_hw_tags_cpu(void)
- {
-@@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
- 		break;
- 	}
- 
--	switch (kasan_arg_fault) {
--	case KASAN_ARG_FAULT_DEFAULT:
--		/*
--		 * Default to no panic on report.
--		 * Do nothing, kasan_flag_panic keeps its default value.
--		 */
--		break;
--	case KASAN_ARG_FAULT_REPORT:
--		/* Do nothing, kasan_flag_panic keeps its default value. */
--		break;
--	case KASAN_ARG_FAULT_PANIC:
--		/* Enable panic on report. */
--		kasan_flag_panic = true;
--		break;
--	}
--
- 	pr_info("KernelAddressSanitizer initialized\n");
- }
- 
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 98e3059bfea4..9d57383ce1fa 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -36,7 +36,6 @@ static inline bool kasan_async_mode_enabled(void)
- 
- #endif
- 
--extern bool kasan_flag_panic __ro_after_init;
- extern bool kasan_flag_async __ro_after_init;
- 
- #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 8fff1825b22c..884a950c7026 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -39,6 +39,31 @@ static unsigned long kasan_flags;
- #define KASAN_BIT_REPORTED	0
- #define KASAN_BIT_MULTI_SHOT	1
- 
-+enum kasan_arg_fault {
-+	KASAN_ARG_FAULT_DEFAULT,
-+	KASAN_ARG_FAULT_REPORT,
-+	KASAN_ARG_FAULT_PANIC,
-+};
-+
-+static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
-+
-+/* kasan.fault=report/panic */
-+static int __init early_kasan_fault(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (!strcmp(arg, "report"))
-+		kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
-+	else if (!strcmp(arg, "panic"))
-+		kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("kasan.fault", early_kasan_fault);
-+
- bool kasan_save_enable_multi_shot(void)
- {
- 	return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
-@@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
- 		panic_on_warn = 0;
- 		panic("panic_on_warn set ...\n");
- 	}
--#ifdef CONFIG_KASAN_HW_TAGS
--	if (kasan_flag_panic)
-+	if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
- 		panic("kasan.fault=panic set ...\n");
--#endif
- 	kasan_enable_current();
- }
- 
--- 
-2.32.0.93.g670b81a890-goog
+On 7/13/21 1:02 AM, Mike Kravetz wrote:
+> On 6/17/21 11:44 AM, Joao Martins wrote:
+>> Split the utility function prep_compound_page() into head and tail
+>> counterparts, and use them accordingly.
+>>
+>> This is in preparation for sharing the storage for / deduplicating
+>> compound page metadata.
+>>
+>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+>> ---
+>>  mm/page_alloc.c | 32 +++++++++++++++++++++-----------
+>>  1 file changed, 21 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index 8836e54721ae..95967ce55829 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -741,24 +741,34 @@ void free_compound_page(struct page *page)
+>>  	free_the_page(page, compound_order(page));
+>>  }
+>>  
+>> +static void prep_compound_head(struct page *page, unsigned int order)
+>> +{
+>> +	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
+>> +	set_compound_order(page, order);
+>> +	atomic_set(compound_mapcount_ptr(page), -1);
+>> +	if (hpage_pincount_available(page))
+>> +		atomic_set(compound_pincount_ptr(page), 0);
+>> +}
+>> +
+>> +static void prep_compound_tail(struct page *head, int tail_idx)
+>> +{
+>> +	struct page *p = head + tail_idx;
+>> +
+>> +	set_page_count(p, 0);
+> 
+> When you rebase, you should notice this has been removed from
+> prep_compound_page as all tail pages should have zero ref count.
+> 
+/me nods
 
+>> +	p->mapping = TAIL_MAPPING;
+>> +	set_compound_head(p, head);
+>> +}
+>> +
+>>  void prep_compound_page(struct page *page, unsigned int order)
+>>  {
+>>  	int i;
+>>  	int nr_pages = 1 << order;
+>>  
+>>  	__SetPageHead(page);
+>> -	for (i = 1; i < nr_pages; i++) {
+>> -		struct page *p = page + i;
+>> -		set_page_count(p, 0);
+>> -		p->mapping = TAIL_MAPPING;
+>> -		set_compound_head(p, page);
+>> -	}
+>> +	for (i = 1; i < nr_pages; i++)
+>> +		prep_compound_tail(page, i);
+>>  
+>> -	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
+>> -	set_compound_order(page, order);
+>> -	atomic_set(compound_mapcount_ptr(page), -1);
+>> -	if (hpage_pincount_available(page))
+>> -		atomic_set(compound_pincount_ptr(page), 0);
+>> +	prep_compound_head(page, order);
+>>  }
+>>  
+>>  #ifdef CONFIG_DEBUG_PAGEALLOC
+>>
+> 
+> I'll need something like this for demote hugetlb page fuinctionality
+> when the pages being demoted have been optimized for minimal vmemmap
+> usage.
+> 
+> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+> 
+Thanks!
