@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 741B4C11F68
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 12:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43719C11F68
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 12:34:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E3496128B
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 12:34:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 283C96115A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 12:34:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236297AbhGMMhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jul 2021 08:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
+        id S236323AbhGMMhR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jul 2021 08:37:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236269AbhGMMhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 08:37:11 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC45C0613E9;
-        Tue, 13 Jul 2021 05:34:20 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id q190so21402136qkd.2;
-        Tue, 13 Jul 2021 05:34:20 -0700 (PDT)
+        with ESMTP id S236281AbhGMMhQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 08:37:16 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41E8C0613EE;
+        Tue, 13 Jul 2021 05:34:26 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id w2so7871581qvh.13;
+        Tue, 13 Jul 2021 05:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=pSeMtW8BpRbMXDYey50SBVUGrM7QO07Rk8/NIMU9w+U=;
-        b=Q2y4oNMv0GdANtpzQJVravalvuoUborhUBnnjxvHZ29i+WUxp95RRPe/p0/LkRkfMb
-         LlvmfuBDX2MhEUHHcszmwN9KIQIqEfu+db9CLzF1sF2opxKqGcUhgMBDWua2yIQIEXon
-         JQbcScNS6Xtc95vHFNoRXkcTxj9S/XNY5S4H//CUQAOCcAgaYBp2XBTVsHmVYAVVKGu4
-         ghf6IFlNbkfdgnls8Qgb74vWQp9Edlz8P4KTjLFmuzB/IbOzV2ZB9I34W00NcmJVdW7g
-         YYfPAAlQzbr2V1rJGkL3Z9WoLCCi/NUdjGJPY30IXt2KPJJYy1radO45fiaTKF9N5aau
-         x9Lw==
+        bh=29CzU2MfFBs4HO+dO2xwX2Fgs88EDaKTdZ9XTaknGkI=;
+        b=IeOWxRo4tqNrv4YId8Eu1dbiR6YhzdOXXZzZJs5iaGGoV7aTDKfkeTJmi+/OEwJggw
+         /k+N7bnzmP7CERbXzTbovF8OI80AZg0al219BF/iaB1LUyjEC7ZdLski3/pBW2/pKTyH
+         wE0UKqmJjW4Z4WJBCHb5bVWlPD3kHCwtzvGrPquuKUBF+ivYHXtj7ugTsJBPzOJfqUhf
+         1fmTPcBEWae8TY2uidOhBJ1kapFWJOn+iTWSIhB88z5JAJznTO+SSlTbymuY5v/J+EY+
+         9ijFsYGDn13TIvAoRu7pInjO3Lkiq8Lboy1bRajqAoEmwnngDdpON6pz5J49n7LN30hh
+         SLuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=pSeMtW8BpRbMXDYey50SBVUGrM7QO07Rk8/NIMU9w+U=;
-        b=JgwV0o40TOZfL1lkCMweKmMYdVynodsFHdkG4Kn/Oao95RFbhjW8yVdz1pEPJWIK0a
-         363/BD5OfBAJp9IqpoHi3Ev+nPleci5ehSV5Qs6b+mht2xgwwTecZkRU+43xJ3jwMiC/
-         AA6Virk8iULgx223B6pSnhUmj+1XaiWejtWGuX9F8tE99yXvGr37mEEGQ0krC4JNlauU
-         yRDa2c/5eXJdi5paX9OfFPuhI/XXHKSNEtYzurZ3jdox/fGkx21AzVyUaXH5AT/M9IPa
-         78Z+G2YHVKnPEbQ7o4NqZrdWvSPMiNFmhC/8V2eKtM9xR/xIl++KoM3qK6OiVcNuoJpp
-         OpFQ==
-X-Gm-Message-State: AOAM533Au0gADEVI1zc8/X+7ZlZLl3a6W1mjBbPKyFfs2ZEBesokzA7p
-        HimLw2gmsu0VSWQCy42CX5c=
-X-Google-Smtp-Source: ABdhPJwxI1D18TL3n2H+6he70xSJnt1u+DjgrNingA++jTEgaTvKGvaPp/uNKtPBfVSXIpEcFVkZfA==
-X-Received: by 2002:a37:b0a:: with SMTP id 10mr3969330qkl.291.1626179659816;
-        Tue, 13 Jul 2021 05:34:19 -0700 (PDT)
+        bh=29CzU2MfFBs4HO+dO2xwX2Fgs88EDaKTdZ9XTaknGkI=;
+        b=RJbSRvuyLGfWPFUMXfn/U55+pn1Zm4OWPELKJSFHk6TZY1Mt7SX73vHKpR6sW7s7gP
+         IdV06AeJol2BLqUXPdvjyC7zEdZ+esgZIczUpOw7UwtRSFxUMtCu/3Z1tPToUOf0zvzi
+         8E3embzAy6q+xbvyD3ZG6EH67xFIfw+l7EnqndKLUBnD9T1jgplIqIxuUZCzDiAcYVwB
+         pgaDEFGycLuvIRQfSJrzhruDczv4Vr5hXzPkF9Ynykb4BxV7T36ISCUYdpwymIzl2+uk
+         KKQTy0OVlzl2H6hTsO8UzIBVOqkueZiBOkhFAGAUGt1b6tpi1GP1FMD5wuAOahgD8Fci
+         c17g==
+X-Gm-Message-State: AOAM5316S92XaA5VG7rnNil0utXmHCp2XioZTqh/6eHv5Qx6VDmwAHSt
+        h0oEOXMEPfmd7yE6g+I95L0=
+X-Google-Smtp-Source: ABdhPJyqxX0dI0ttajKo6Fh4sb0degnyLatfj//Ins/NeU6wzqtnIVZnKYZAbOu9psWnURy/ew1UHw==
+X-Received: by 2002:a0c:9ac7:: with SMTP id k7mr4504097qvf.49.1626179665872;
+        Tue, 13 Jul 2021 05:34:25 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id k14sm6849327qtm.18.2021.07.13.05.34.18
+        by smtp.gmail.com with ESMTPSA id k14sm6849327qtm.18.2021.07.13.05.34.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 05:34:19 -0700 (PDT)
+        Tue, 13 Jul 2021 05:34:25 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -72,9 +72,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v33 04/13] mm/idle_page_tracking: Make PG_idle reusable
-Date:   Tue, 13 Jul 2021 12:33:47 +0000
-Message-Id: <20210713123356.6924-5-sj38.park@gmail.com>
+Subject: [PATCH v33 06/13] mm/damon: Add a tracepoint
+Date:   Tue, 13 Jul 2021 12:33:49 +0000
+Message-Id: <20210713123356.6924-7-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210713123356.6924-1-sj38.park@gmail.com>
 References: <20210713123356.6924-1-sj38.park@gmail.com>
@@ -84,188 +84,96 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
-Tracking and the reclaim logic concurrently work while not interfering
-with each other.  That is, when they need to clear the Accessed bit,
-they set PG_young to represent the previous state of the bit,
-respectively.  And when they need to read the bit, if the bit is
-cleared, they further read the PG_young to know whether the other has
-cleared the bit meanwhile or not.
-
-For yet another user of the PTE Accessed bit, we could add another page
-flag, or extend the mechanism to use the flags. For the DAMON usecase,
-however, we don't need to do that just yet.  IDLE_PAGE_TRACKING and
-DAMON are mutually exclusive, so there's only ever going to be one user
-of the current set of flags.
-
-In this commit, we split out the CONFIG options to allow for the use of
-PG_young and PG_idle outside of idle page tracking.
-
-In the next commit, DAMON's reference implementation of the virtual
-memory address space monitoring primitives will use it.
+This commit adds a tracepoint for DAMON.  It traces the monitoring
+results of each region for each aggregation interval.  Using this, DAMON
+can easily integrated with tracepoints supporting tools such as perf.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Shakeel Butt <shakeelb@google.com>
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 Reviewed-by: Fernand Sieber <sieberf@amazon.com>
+Acked-by: Shakeel Butt <shakeelb@google.com>
 ---
- include/linux/page-flags.h     |  4 ++--
- include/linux/page_ext.h       |  2 +-
- include/linux/page_idle.h      |  6 +++---
- include/trace/events/mmflags.h |  2 +-
- mm/Kconfig                     |  8 ++++++++
- mm/page_ext.c                  | 12 +++++++++++-
- mm/page_idle.c                 | 10 ----------
- 7 files changed, 26 insertions(+), 18 deletions(-)
+ include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
+ mm/damon/core.c              |  7 +++++-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/damon.h
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 5922031ffab6..5621d628914d 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -131,7 +131,7 @@ enum pageflags {
- #ifdef CONFIG_MEMORY_FAILURE
- 	PG_hwpoison,		/* hardware poisoned page. Don't touch */
- #endif
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- 	PG_young,
- 	PG_idle,
- #endif
-@@ -439,7 +439,7 @@ PAGEFLAG_FALSE(HWPoison)
- #define __PG_HWPOISON 0
- #endif
- 
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- TESTPAGEFLAG(Young, young, PF_ANY)
- SETPAGEFLAG(Young, young, PF_ANY)
- TESTCLEARFLAG(Young, young, PF_ANY)
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index aff81ba31bd8..fabb2e1e087f 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -19,7 +19,7 @@ struct page_ext_operations {
- enum page_ext_flags {
- 	PAGE_EXT_OWNER,
- 	PAGE_EXT_OWNER_ALLOCATED,
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	PAGE_EXT_YOUNG,
- 	PAGE_EXT_IDLE,
- #endif
-diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
-index 1e894d34bdce..d8a6aecf99cb 100644
---- a/include/linux/page_idle.h
-+++ b/include/linux/page_idle.h
-@@ -6,7 +6,7 @@
- #include <linux/page-flags.h>
- #include <linux/page_ext.h>
- 
--#ifdef CONFIG_IDLE_PAGE_TRACKING
-+#ifdef CONFIG_PAGE_IDLE_FLAG
- 
- #ifdef CONFIG_64BIT
- static inline bool page_is_young(struct page *page)
-@@ -106,7 +106,7 @@ static inline void clear_page_idle(struct page *page)
- }
- #endif /* CONFIG_64BIT */
- 
--#else /* !CONFIG_IDLE_PAGE_TRACKING */
-+#else /* !CONFIG_PAGE_IDLE_FLAG */
- 
- static inline bool page_is_young(struct page *page)
- {
-@@ -135,6 +135,6 @@ static inline void clear_page_idle(struct page *page)
- {
- }
- 
--#endif /* CONFIG_IDLE_PAGE_TRACKING */
-+#endif /* CONFIG_PAGE_IDLE_FLAG */
- 
- #endif /* _LINUX_MM_PAGE_IDLE_H */
-diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-index 390270e00a1d..d428f0137c49 100644
---- a/include/trace/events/mmflags.h
-+++ b/include/trace/events/mmflags.h
-@@ -73,7 +73,7 @@
- #define IF_HAVE_PG_HWPOISON(flag,string)
- #endif
- 
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- #define IF_HAVE_PG_IDLE(flag,string) ,{1UL << flag, string}
- #else
- #define IF_HAVE_PG_IDLE(flag,string)
-diff --git a/mm/Kconfig b/mm/Kconfig
-index f5f4fddc67b1..0ef9e53cb9bd 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -742,10 +742,18 @@ config DEFERRED_STRUCT_PAGE_INIT
- 	  lifetime of the system until these kthreads finish the
- 	  initialisation.
- 
-+config PAGE_IDLE_FLAG
-+	bool "Add PG_idle and PG_young flags"
-+	help
-+	  This feature adds PG_idle and PG_young flags in 'struct page'.  PTE
-+	  Accessed bit writers can set the state of the bit in the flags to let
-+	  other PTE Accessed bit readers don't disturbed.
+diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
+new file mode 100644
+index 000000000000..2f422f4f1fb9
+--- /dev/null
++++ b/include/trace/events/damon.h
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM damon
 +
- config IDLE_PAGE_TRACKING
- 	bool "Enable idle page tracking"
- 	depends on SYSFS && MMU
- 	select PAGE_EXTENSION if !64BIT
-+	select PAGE_IDLE_FLAG
- 	help
- 	  This feature allows to estimate the amount of user pages that have
- 	  not been touched during a given period of time. This information can
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 293b2685fc48..dfb91653d359 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -58,11 +58,21 @@
-  * can utilize this callback to initialize the state of it correctly.
-  */
- 
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
-+static bool need_page_idle(void)
-+{
-+	return true;
-+}
-+struct page_ext_operations page_idle_ops = {
-+	.need = need_page_idle,
-+};
-+#endif
++#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DAMON_H
 +
- static struct page_ext_operations *page_ext_ops[] = {
- #ifdef CONFIG_PAGE_OWNER
- 	&page_owner_ops,
- #endif
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	&page_idle_ops,
- #endif
- };
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 64e5344a992c..edead6a8a5f9 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -207,16 +207,6 @@ static const struct attribute_group page_idle_attr_group = {
- 	.name = "page_idle",
- };
++#include <linux/damon.h>
++#include <linux/types.h>
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(damon_aggregated,
++
++	TP_PROTO(struct damon_target *t, struct damon_region *r,
++		unsigned int nr_regions),
++
++	TP_ARGS(t, r, nr_regions),
++
++	TP_STRUCT__entry(
++		__field(unsigned long, target_id)
++		__field(unsigned int, nr_regions)
++		__field(unsigned long, start)
++		__field(unsigned long, end)
++		__field(unsigned int, nr_accesses)
++	),
++
++	TP_fast_assign(
++		__entry->target_id = t->id;
++		__entry->nr_regions = nr_regions;
++		__entry->start = r->ar.start;
++		__entry->end = r->ar.end;
++		__entry->nr_accesses = r->nr_accesses;
++	),
++
++	TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
++			__entry->target_id, __entry->nr_regions,
++			__entry->start, __entry->end, __entry->nr_accesses)
++);
++
++#endif /* _TRACE_DAMON_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 28a2c78914fa..ee24d64e8019 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -13,6 +13,9 @@
+ #include <linux/random.h>
+ #include <linux/slab.h>
  
--#ifndef CONFIG_64BIT
--static bool need_page_idle(void)
--{
--	return true;
--}
--struct page_ext_operations page_idle_ops = {
--	.need = need_page_idle,
--};
--#endif
--
- static int __init page_idle_init(void)
- {
- 	int err;
++#define CREATE_TRACE_POINTS
++#include <trace/events/damon.h>
++
+ /* Get a random number in [l, r) */
+ #define damon_rand(l, r) (l + prandom_u32_max(r - l))
+ 
+@@ -387,8 +390,10 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+ 	damon_for_each_target(t, c) {
+ 		struct damon_region *r;
+ 
+-		damon_for_each_region(r, t)
++		damon_for_each_region(r, t) {
++			trace_damon_aggregated(t, r, damon_nr_regions(t));
+ 			r->nr_accesses = 0;
++		}
+ 	}
+ }
+ 
 -- 
 2.17.1
 
