@@ -2,275 +2,264 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B85AC11F69
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 06:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E7BC07E95
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 07:19:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 470096128C
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 06:01:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B013161279
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 07:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233839AbhGMGEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jul 2021 02:04:05 -0400
-Received: from mail-dm6nam08on2131.outbound.protection.outlook.com ([40.107.102.131]:2912
-        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233887AbhGMGEE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Jul 2021 02:04:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hCOpk1rUqx4zeelDYOK0mlxfFQWv5pqnprKysrkpHtp48G49Khp4vp7vuLGlFMaXim71KpUOVO6cYWJ9mIfgkY8l+YVnEVFbkEht+57b+lm0LzYhJQG7eZTJdzYaQvDmAN/xtA7EQemUJw57kKmHUK2043hQkgj2ZVDmruASowcqegcf1VWIK3Aor50bjX2MOL+sgfkeJ/npRh/MMBmnDVV3Zvr9gEriz/dLhb0eFi/Uwwpr3d2YrOXzGlS5k2x5VeW2XBxoLYLna6eFlXYBf5qVTTZVXSFf32Go/QOuUq7y3NA0OJJlv1Id8my6A/im4McCbIycbzYGrykKvxq5TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lBQREZWovQNCc9Is2Jae8kyMwstggOes3QZqJ2XU5vw=;
- b=GQPhQN/V8Co/FjwekxEJne2gK+DAfp4UJZTsCi1J6TntANt/Ul93PWynwCAV57wOu78tYe14k0YDdybS6PU4gq52qUG8Jn09u7mwfiiD9l0smGO8T+yy6qFBk3boQ0Ta8C0xvCUxyWsex54njV873gC/e5EMim58tXa3/m2cwkrvWJplAlW4TyMOhjjTwZTk4n11MMp/Le2nrVkDmVU9mdlzP3RLZezKGnczVaUkKS1Dnsj+Taj5kYc7hgQzR7o3+flWoHkcnS8GjM+eP19Pc+58Jzipjslj0FKuExqKNseIXl13ESskwUDN/bL3cIgsKvokxH9FOY9toxwUDhy8OA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+        id S234142AbhGMHWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jul 2021 03:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233762AbhGMHWT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 03:22:19 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FD9C0613DD
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jul 2021 00:19:30 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id p12-20020a05683019ccb02904b7e9d93563so9493908otp.13
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jul 2021 00:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lBQREZWovQNCc9Is2Jae8kyMwstggOes3QZqJ2XU5vw=;
- b=rhCC5qPAdBCtewB7nPQokl+QPW32vqRBkiyFIbs7kFj1deDRxpeCF7x2LdXAdfD3HC63pAmpJBiGq8a+MaHoBu7pN0s7cfuxw/PoOAukZM7p8QgeBLTC7TqYVL5A4AH977NDkMSzpRvETjndiS4bDkIV3EMHslChI3h+PizT9Eo=
-Authentication-Results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MWHPR01MB2592.prod.exchangelabs.com (2603:10b6:300:3e::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.20; Tue, 13 Jul 2021 06:01:12 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e%5]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
- 06:01:12 +0000
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org
-Cc:     Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: [PATCH v5 4/4] docs: hwmon: (smpro-hwmon) Add documentation
-Date:   Tue, 13 Jul 2021 13:00:31 +0700
-Message-Id: <20210713060031.31568-5-quan@os.amperecomputing.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210713060031.31568-1-quan@os.amperecomputing.com>
-References: <20210713060031.31568-1-quan@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR03CA0052.apcprd03.prod.outlook.com
- (2603:1096:202:17::22) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c1rkHHVlFsycr+ncfeipxll+Ui5VSi+Znz668tHLipE=;
+        b=nMXBQToFFEFymsB5XNhqwtVkR257GQFVgSRjF4orL444VaxpPKWW8VI2v5/A0c426Y
+         U5vS6+pvFywOTkR514OT5tfyrQiJsHC9zm+VOevSyO3ZnVGgYRAv3wEopcOl4kMNB0JW
+         5ZQrjyF4+f3fkJ3wvyXqsYCxQB19cy5QkiJqYVoXF2bt4lCyYcIRuVF3HoxAAQiYO20w
+         QNirJCnwFVUed3PSOPIGVhmOL/Em96JzVxAsEN0AkbnxM7RajGjyuc/qZHXFGDS8X7ly
+         xo8gGvGRLLfT0mkC9eTVmv1/nM4fVVd1VA9iupJ5Wpwqxpkl/AdxwW7+vFL54/gXibva
+         Ik4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c1rkHHVlFsycr+ncfeipxll+Ui5VSi+Znz668tHLipE=;
+        b=rAIW/Mo4P2ZMwiBWf/Pd5TvSTNvJpnc/jLcvlMNoDVIx8LHQWptV+rzWtBnCALO2LU
+         BZEr44CVmXlbYNcoQSTwlguUGpK0qjM4CCsHPLm1fL1cXk89DcaUnD3gehECQ5CJOZ1j
+         8WTXmoply/CqgEwuhrQfc42c+otAomappxCs2OXRvFLYutEfnAYWj81lX0Zum7Jg6CVV
+         Etj5mxVZ5ymAld5iJVMeWGkJf1hVNHszlvPYWuirWVhLKYFCwpcRnEw+93fOUB4eHJAm
+         BBQTr1dy7or1dKYhUU0uXg16mv1xTp3ZIzI1mCEoh13hEm7GJDD2wrsYoPysyKGghRuT
+         4dzA==
+X-Gm-Message-State: AOAM533JB7OgcGYpI+TaJs2hwrMP6rndMB46UybArX0y2k8QOwWmULdt
+        3hiiThHVRS+rA6sx80ALXIjOO043KgSRTLUJwpjTpQ==
+X-Google-Smtp-Source: ABdhPJyPaQeMtZDXeQNmWo6uozqbiySG7yWTRvaWZhVVKK/yxp6zoLFEnvRLWkUIDi1po6YDhi4+c4P0+QWDGXTtqTU=
+X-Received: by 2002:a05:6830:905:: with SMTP id v5mr2485146ott.17.1626160769409;
+ Tue, 13 Jul 2021 00:19:29 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by HK2PR03CA0052.apcprd03.prod.outlook.com (2603:1096:202:17::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.10 via Frontend Transport; Tue, 13 Jul 2021 06:01:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 43451686-dcf4-454a-e413-08d945c39e06
-X-MS-TrafficTypeDiagnostic: MWHPR01MB2592:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR01MB25925A47CF176E7E3EAF89D6F2149@MWHPR01MB2592.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ngABFzCSVXpF1C48gkIo+YpMZw1nT9BIGjhe6C6gOaBzswQCKhc3p5k/UY029T5COU1z0w6wkOaJFNTrJT8F38VEq4Nu6ZufD9yOmEJK9GDhPGQqJ6VEEToAKiiUAaBQi8hI6TPwBhDrXngXANs/lKqE2pnSnsqPgIVWx068hAZBwSNhpFtzxyFxk5Mtry/4ktqxSN807UmFtZu0ICqWqPW4vaElglRQRAO9TfDE8ber0Gejm/m17aAMyk+KXbCICf7W+Ph3v7fBh6pXpz2F8bONJHsJtJseRk8K4GGj/O1ANQ8HwbyLZftyDwtQ00bgsGwMq87vFALozUWsa8pN3I7GlffNwBHGiYxNO8xWkxCR0xl1VRpDTtNQAp84z18dTv3tE1kY3CiWUed32tT9ENGEofSbUgqmpIUCtqYZ2TmjBR8LfcLkE6jHEyLkCWth4MfrzI5p265mcAQsXrQgyGQoyl0+RAiikCY/7fNA9NR/er78kwEoWfA0wMzrWo9JsbIIbYo71g/c3GX4pjnvfvYdiJjPnYmH/UpbScG4POxcthpr54QV8aULga4zZOjiSEeGEAQTOCG0nmpFIhR2aiddHWwiG/sbeJDb5PAmzfs047vu+UjyleYTeuB6kKK21sS5voLYCHiPi/NUXGx6QQGqKw5qyMxie5qOoxV3OV7sJve2DlM25NxeZNzt4q8rbFYKtfH3Z0boSa6P/BNpfZiUu5EAmU+L+7p1EfsDKJM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39850400004)(376002)(136003)(396003)(366004)(2616005)(86362001)(110136005)(956004)(316002)(5660300002)(107886003)(66946007)(54906003)(66556008)(66476007)(4326008)(478600001)(38100700002)(38350700002)(6666004)(921005)(6512007)(52116002)(6506007)(83380400001)(26005)(2906002)(8676002)(7416002)(8936002)(186003)(1076003)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5hpEjD6H4Lg6vH7khlo83nWCYadxF+9CLbC9GTWTQqqhaTvzc4Zd6h26qNQX?=
- =?us-ascii?Q?sAWbDrKZitwmovNYuC94zGQLQR/Ca//v8SM0iuw8nR+6zpheiB+Mc6xo1Xgk?=
- =?us-ascii?Q?fdBx9FJjrIKUSGQFcL3ppBli2hS0ebQHsf2rUFdYcsZ4RI4PUR7nljwaK5NK?=
- =?us-ascii?Q?aER6sJFnlfiNoRzWx+HgnB9iammq+4se2970+8LOnO+aCI7/pSrLgrOBQ6iG?=
- =?us-ascii?Q?nzL9ape4lfE2NrfelnuNXZeorz56XMYXtGNdeLoGzwcGaM1YrS+eh5TEQyqw?=
- =?us-ascii?Q?OzWDpzgnk2wvuvgYG7ew+7ikqGUkTxlq+X40oaXldRXcu5BmzPYDOIMJ2ouy?=
- =?us-ascii?Q?CnLwrUhiTUt4Rc1HtSrisBsk1gZD9hAZbXO6IDgiZrnua9Ru7sqEmGc8NjIU?=
- =?us-ascii?Q?YF+GymvffaPw+YxeT/85RANiZ/zdjiAROYp40Tl7PJVh7dRw0k1ARLWwrTiF?=
- =?us-ascii?Q?d+EfochLF2ayX11zRbehPGsjJ68dtgUukJ8ZmwCTWdD+47rDgnNN2yBlsWzS?=
- =?us-ascii?Q?IttGUjdVlhXNG+22P6HaRiTJgkQ0cdjcCvAmeD2XgFda5XHe6XhWLpA9Azg+?=
- =?us-ascii?Q?W+eS7eE4gWfSGMiHYXLr3kS5OQaWpEZ7jflfovmUMm4j9WznIJX7Wm8p8I3K?=
- =?us-ascii?Q?bnUJPS3mpGL+MEBjj7CHmBIgC2vRsfhHxSzgden7Ciupe3jZoZm3WChvG1YI?=
- =?us-ascii?Q?sVZEthpuLLI5X8XxGow8AjGHj6ql2/dDvpthGZnWnmmbBLC0ed3JwRa5jlVv?=
- =?us-ascii?Q?ZtdjRZGnj3Ndl9HOKvWO9yynXnxY/alw4jUVL0IQCGGWupmf6V0uslYOlSfj?=
- =?us-ascii?Q?2lsicBCkOZ0BLckyoMurO6yrU9doI3ckP4vGfTJIW1N5D3s4UGmxpx/kfjOA?=
- =?us-ascii?Q?zpS9NUIGimLrjFNYzqBnrayon3+vUhobw2UMCqKvNT66BM/McBty1zOWY2WW?=
- =?us-ascii?Q?+m3U8OW/EMQTow3FNZRrF3Y4VkoLv0x5wauygb6gqiW9oWMmHWJaVg110TbG?=
- =?us-ascii?Q?J6IfJ+W+0Xj8mCXAEv82Ndwf/cXoXS4jLR434MhrnHSYy5LsGdjA8xTpb+BN?=
- =?us-ascii?Q?gg0ClCcZMNNi+dXekUCHdNBPQE0rIFG7nlsmue162mEtRYMcTa/dwfTZPomU?=
- =?us-ascii?Q?yttapewBT0QpL5ioat4JI3roq766PTCdTUZ6ZbyyPgfAEHy3eCG+id1S0BVN?=
- =?us-ascii?Q?o9yGiNEwMoNUX9NukaO/ygpO5vUaZyeoz5oM5W6GbPwd3buUubiG1y5m20Ut?=
- =?us-ascii?Q?A58ZirKfWtG5GNyEZztlFr0Cjy9anfwXoYCUkl6TLF1KP4apA854BE03bb3H?=
- =?us-ascii?Q?PRr4fVIX+v4rSb1VEYvt7V9C?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43451686-dcf4-454a-e413-08d945c39e06
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 06:01:12.5324
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vZg56d0yq6LySWPCm0/58v+Bc20f6ZrxKactSTLZ3KtG9mBBFg8ztbDupGW5iGOj+rFhDeDYaG85KdJFir0V2wQeD7YfQA+r0CgTJt0BzVc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR01MB2592
+References: <20210713010536.3161822-1-woodylin@google.com>
+In-Reply-To: <20210713010536.3161822-1-woodylin@google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 13 Jul 2021 09:19:17 +0200
+Message-ID: <CANpmjNPH9TcZL9bNdNFqMGQpHMyAQAGWrWvAA6XzuYeO=VocEg@mail.gmail.com>
+Subject: Re: [PATCH v2] mm/kasan: move kasan.fault to mm/kasan/report.c
+To:     Woody Lin <woodylin@google.com>
+Cc:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the Ampere(R)'s Altra(R) SMpro hwmon driver.
+On Tue, 13 Jul 2021 at 03:07, Woody Lin <woodylin@google.com> wrote:
+> Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
+> can support all KASAN modes - generic, and both tag-based.
+>
+> Signed-off-by: Woody Lin <woodylin@google.com>
 
-Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
----
-Changes in v5:
-  + None
+Reviewed-by: Marco Elver <elver@google.com>
 
-Changes in v4:
-  + None
+Thank you.
 
-Changes in v3:
-  + None
-
-Changes in v2:
-  + Removed "virtual" sensors [Guenter]
-  + Fixed typo "mili" to "milli", "nanoWatt" to "microWatt" [Guenter]
-  + Reported SOC_TDP as "Socket TDP" using max attributes [Guenter]
-  + Clarified "highest" meaning in documentation [Guenter]
-  + Reported MEM HOT Threshold for all DIMMs as temp*_crit [Guenter]
-  + Removed Socket TDP sensor [Quan]
-  + Included sensor type and channel in labels [Quan]
-
- Documentation/hwmon/index.rst       |   1 +
- Documentation/hwmon/smpro-hwmon.rst | 101 ++++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
- create mode 100644 Documentation/hwmon/smpro-hwmon.rst
-
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index bc01601ea81a..b6579882f51b 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -172,6 +172,7 @@ Hardware Monitoring Kernel Drivers
-    sis5595
-    sl28cpld
-    smm665
-+   smpro-hwmon
-    smsc47b397
-    smsc47m192
-    smsc47m1
-diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpro-hwmon.rst
-new file mode 100644
-index 000000000000..f978b1370e16
---- /dev/null
-+++ b/Documentation/hwmon/smpro-hwmon.rst
-@@ -0,0 +1,101 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver Ampere(R)'s Altra(R) SMpro hwmon
-+==============================================
-+
-+Supported chips:
-+
-+  * Ampere(R) Altra(R)
-+
-+    Prefix: 'smpro'
-+
-+    Reference: Altra SoC BMC Interface Specification
-+
-+Author: Thu Nguyen <thu@os.amperecomputing.com>
-+
-+Description
-+-----------
-+This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
-+SMpro co-processor (SMpro).
-+The following sensor types are supported by the driver:
-+
-+  * temperature
-+  * voltage
-+  * current
-+  * power
-+
-+The SMpro interface provides the registers to query the various sensors and
-+their values which are then exported to userspace by this driver.
-+
-+Usage Notes
-+-----------
-+
-+SMpro hwmon driver creates at least two sysfs files for each sensor.
-+
-+* File ``<sensor_type><idx>_label`` reports the sensor label.
-+* File ``<sensor_type><idx>_input`` returns the sensor value.
-+
-+The sysfs files are allocated in the SMpro root fs folder.
-+There is one root folder for each SMpro instance.
-+
-+When the SoC is turned off, the driver will fail to read registers
-+and return -ENXIO.
-+
-+Sysfs entries
-+-------------
-+
-+The following sysfs files are supported:
-+
-+* Ampere(R) Altra(R):
-+
-+============    =============   ======  ===============================================
-+Name            Unit            Perm    Description
-+temp1_input     milli Celsius   RO      SoC temperature
-+temp2_input     milli Celsius   RO      Max temperature reported among SoC VRDs
-+temp2_crit      milli Celsius   RO      SoC VRD HOT Threshold temperature
-+temp3_input     milli Celsius   RO      Max temperature reported among DIMM VRDs
-+temp4_input     milli Celsius   RO      Max temperature reported among Core VRDs
-+temp5_input     milli Celsius   RO      Temperature of DIMM0 on CH0
-+temp5_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp6_input     milli Celsius   RO      Temperature of DIMM0 on CH1
-+temp6_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp7_input     milli Celsius   RO      Temperature of DIMM0 on CH2
-+temp7_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp8_input     milli Celsius   RO      Temperature of DIMM0 on CH3
-+temp8_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp9_input     milli Celsius   RO      Temperature of DIMM0 on CH4
-+temp9_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp10_input    milli Celsius   RO      Temperature of DIMM0 on CH5
-+temp10_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp11_input    milli Celsius   RO      Temperature of DIMM0 on CH6
-+temp11_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp12_input    milli Celsius   RO      Temperature of DIMM0 on CH7
-+temp12_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-+temp13_input    milli Celsius   RO      Max temperature reported among RCA VRDs
-+in0_input       milli Volts     RO      Core voltage
-+in1_input       milli Volts     RO      SoC voltage
-+in2_input       milli Volts     RO      DIMM VRD1 voltage
-+in3_input       milli Volts     RO      DIMM VRD2 voltage
-+in4_input       milli Volts     RO      RCA VRD voltage
-+cur1_input      milli Amperes   RO      Core VRD current
-+cur2_input      milli Amperes   RO      SoC VRD current
-+cur3_input      milli Amperes   RO      DIMM VRD1 current
-+cur4_input      milli Amperes   RO      DIMM VRD2 current
-+cur5_input      milli Amperes   RO      RCA VRD current
-+power1_input    micro Watts     RO      Core VRD power
-+power2_input    micro Watts     RO      SoC VRD power
-+power3_input    micro Watts     RO      DIMM VRD1 power
-+power4_input    micro Watts     RO      DIMM VRD2 power
-+power5_input    micro Watts     RO      RCA VRD power
-+============    =============   ======  ===============================================
-+
-+Example::
-+
-+    # cat in0_input
-+    830
-+    # cat temp1_input
-+    37000
-+    # cat curr1_input
-+    9000
-+    # cat power5_input
-+    19500000
--- 
-2.28.0
-
+> ---
+>  Documentation/dev-tools/kasan.rst | 13 ++++++----
+>  mm/kasan/hw_tags.c                | 43 -------------------------------
+>  mm/kasan/kasan.h                  |  1 -
+>  mm/kasan/report.c                 | 29 ++++++++++++++++++---
+>  4 files changed, 34 insertions(+), 52 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index 83ec4a556c19..21dc03bc10a4 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -181,9 +181,16 @@ By default, KASAN prints a bug report only for the first invalid memory access.
+>  With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
+>  effectively disables ``panic_on_warn`` for KASAN reports.
+>
+> +Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
+> +parameter can be used to control panic and reporting behaviour:
+> +
+> +- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+> +  report or also panic the kernel (default: ``report``). The panic happens even
+> +  if ``kasan_multi_shot`` is enabled.
+> +
+>  Hardware tag-based KASAN mode (see the section about various modes below) is
+>  intended for use in production as a security mitigation. Therefore, it supports
+> -boot parameters that allow disabling KASAN or controlling its features.
+> +additional boot parameters that allow disabling KASAN or controlling features:
+>
+>  - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
+>
+> @@ -199,10 +206,6 @@ boot parameters that allow disabling KASAN or controlling its features.
+>  - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
+>    traces collection (default: ``on``).
+>
+> -- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+> -  report or also panic the kernel (default: ``report``). The panic happens even
+> -  if ``kasan_multi_shot`` is enabled.
+> -
+>  Implementation details
+>  ----------------------
+>
+> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+> index 4ea8c368b5b8..51903639e55f 100644
+> --- a/mm/kasan/hw_tags.c
+> +++ b/mm/kasan/hw_tags.c
+> @@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
+>         KASAN_ARG_STACKTRACE_ON,
+>  };
+>
+> -enum kasan_arg_fault {
+> -       KASAN_ARG_FAULT_DEFAULT,
+> -       KASAN_ARG_FAULT_REPORT,
+> -       KASAN_ARG_FAULT_PANIC,
+> -};
+> -
+>  static enum kasan_arg kasan_arg __ro_after_init;
+>  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+>  static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
+> -static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
+>
+>  /* Whether KASAN is enabled at all. */
+>  DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
+> @@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
+>  /* Whether to collect alloc/free stack traces. */
+>  DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
+>
+> -/* Whether to panic or print a report and disable tag checking on fault. */
+> -bool kasan_flag_panic __ro_after_init;
+> -
+>  /* kasan=off/on */
+>  static int __init early_kasan_flag(char *arg)
+>  {
+> @@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
+>  }
+>  early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
+>
+> -/* kasan.fault=report/panic */
+> -static int __init early_kasan_fault(char *arg)
+> -{
+> -       if (!arg)
+> -               return -EINVAL;
+> -
+> -       if (!strcmp(arg, "report"))
+> -               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+> -       else if (!strcmp(arg, "panic"))
+> -               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+> -       else
+> -               return -EINVAL;
+> -
+> -       return 0;
+> -}
+> -early_param("kasan.fault", early_kasan_fault);
+> -
+>  /* kasan_init_hw_tags_cpu() is called for each CPU. */
+>  void kasan_init_hw_tags_cpu(void)
+>  {
+> @@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
+>                 break;
+>         }
+>
+> -       switch (kasan_arg_fault) {
+> -       case KASAN_ARG_FAULT_DEFAULT:
+> -               /*
+> -                * Default to no panic on report.
+> -                * Do nothing, kasan_flag_panic keeps its default value.
+> -                */
+> -               break;
+> -       case KASAN_ARG_FAULT_REPORT:
+> -               /* Do nothing, kasan_flag_panic keeps its default value. */
+> -               break;
+> -       case KASAN_ARG_FAULT_PANIC:
+> -               /* Enable panic on report. */
+> -               kasan_flag_panic = true;
+> -               break;
+> -       }
+> -
+>         pr_info("KernelAddressSanitizer initialized\n");
+>  }
+>
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 98e3059bfea4..9d57383ce1fa 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -36,7 +36,6 @@ static inline bool kasan_async_mode_enabled(void)
+>
+>  #endif
+>
+> -extern bool kasan_flag_panic __ro_after_init;
+>  extern bool kasan_flag_async __ro_after_init;
+>
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 8fff1825b22c..884a950c7026 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -39,6 +39,31 @@ static unsigned long kasan_flags;
+>  #define KASAN_BIT_REPORTED     0
+>  #define KASAN_BIT_MULTI_SHOT   1
+>
+> +enum kasan_arg_fault {
+> +       KASAN_ARG_FAULT_DEFAULT,
+> +       KASAN_ARG_FAULT_REPORT,
+> +       KASAN_ARG_FAULT_PANIC,
+> +};
+> +
+> +static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
+> +
+> +/* kasan.fault=report/panic */
+> +static int __init early_kasan_fault(char *arg)
+> +{
+> +       if (!arg)
+> +               return -EINVAL;
+> +
+> +       if (!strcmp(arg, "report"))
+> +               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
+> +       else if (!strcmp(arg, "panic"))
+> +               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
+> +       else
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +early_param("kasan.fault", early_kasan_fault);
+> +
+>  bool kasan_save_enable_multi_shot(void)
+>  {
+>         return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
+> @@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
+>                 panic_on_warn = 0;
+>                 panic("panic_on_warn set ...\n");
+>         }
+> -#ifdef CONFIG_KASAN_HW_TAGS
+> -       if (kasan_flag_panic)
+> +       if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
+>                 panic("kasan.fault=panic set ...\n");
+> -#endif
+>         kasan_enable_current();
+>  }
+>
+> --
+> 2.32.0.93.g670b81a890-goog
+>
