@@ -2,264 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E7BC07E95
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 07:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C6DC07E96
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 08:47:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B013161279
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 07:19:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52044613AE
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 08:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234142AbhGMHWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jul 2021 03:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58226 "EHLO
+        id S234663AbhGMIuH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jul 2021 04:50:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233762AbhGMHWT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 03:22:19 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FD9C0613DD
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jul 2021 00:19:30 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id p12-20020a05683019ccb02904b7e9d93563so9493908otp.13
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jul 2021 00:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c1rkHHVlFsycr+ncfeipxll+Ui5VSi+Znz668tHLipE=;
-        b=nMXBQToFFEFymsB5XNhqwtVkR257GQFVgSRjF4orL444VaxpPKWW8VI2v5/A0c426Y
-         U5vS6+pvFywOTkR514OT5tfyrQiJsHC9zm+VOevSyO3ZnVGgYRAv3wEopcOl4kMNB0JW
-         5ZQrjyF4+f3fkJ3wvyXqsYCxQB19cy5QkiJqYVoXF2bt4lCyYcIRuVF3HoxAAQiYO20w
-         QNirJCnwFVUed3PSOPIGVhmOL/Em96JzVxAsEN0AkbnxM7RajGjyuc/qZHXFGDS8X7ly
-         xo8gGvGRLLfT0mkC9eTVmv1/nM4fVVd1VA9iupJ5Wpwqxpkl/AdxwW7+vFL54/gXibva
-         Ik4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c1rkHHVlFsycr+ncfeipxll+Ui5VSi+Znz668tHLipE=;
-        b=rAIW/Mo4P2ZMwiBWf/Pd5TvSTNvJpnc/jLcvlMNoDVIx8LHQWptV+rzWtBnCALO2LU
-         BZEr44CVmXlbYNcoQSTwlguUGpK0qjM4CCsHPLm1fL1cXk89DcaUnD3gehECQ5CJOZ1j
-         8WTXmoply/CqgEwuhrQfc42c+otAomappxCs2OXRvFLYutEfnAYWj81lX0Zum7Jg6CVV
-         Etj5mxVZ5ymAld5iJVMeWGkJf1hVNHszlvPYWuirWVhLKYFCwpcRnEw+93fOUB4eHJAm
-         BBQTr1dy7or1dKYhUU0uXg16mv1xTp3ZIzI1mCEoh13hEm7GJDD2wrsYoPysyKGghRuT
-         4dzA==
-X-Gm-Message-State: AOAM533JB7OgcGYpI+TaJs2hwrMP6rndMB46UybArX0y2k8QOwWmULdt
-        3hiiThHVRS+rA6sx80ALXIjOO043KgSRTLUJwpjTpQ==
-X-Google-Smtp-Source: ABdhPJyPaQeMtZDXeQNmWo6uozqbiySG7yWTRvaWZhVVKK/yxp6zoLFEnvRLWkUIDi1po6YDhi4+c4P0+QWDGXTtqTU=
-X-Received: by 2002:a05:6830:905:: with SMTP id v5mr2485146ott.17.1626160769409;
- Tue, 13 Jul 2021 00:19:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210713010536.3161822-1-woodylin@google.com>
-In-Reply-To: <20210713010536.3161822-1-woodylin@google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 13 Jul 2021 09:19:17 +0200
-Message-ID: <CANpmjNPH9TcZL9bNdNFqMGQpHMyAQAGWrWvAA6XzuYeO=VocEg@mail.gmail.com>
-Subject: Re: [PATCH v2] mm/kasan: move kasan.fault to mm/kasan/report.c
-To:     Woody Lin <woodylin@google.com>
-Cc:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S234690AbhGMIuG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jul 2021 04:50:06 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66807C0613DD;
+        Tue, 13 Jul 2021 01:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=2Orx11XPMT4bJdCyRnGQJ/wU1Uuya12976tsLpHhTtE=; b=0sEdtMf40T872e6AkSLPFIQ7V
+        mlqyhFpqZRjNPWfcIooDXwck+InEsOvuFjhO1kaLor6KgqZhown+Om1MwulMziAEt/16nGntwf+H0
+        4CuMKXlAq8vlCASD+swbxFvg1Zq4dYFoWKPu4fe7jzvJ3ViT00Q5+9X32Cy1osPMEvOpT8XxdjxOz
+        yNzeWdKD8muvGBucOq0dDZ96Qx/nTUCzYDEvBVB7lk5+SneFbYK9gVjH0gKIqdydwdgMyajIbUXFQ
+        NVrwCfiaJ5XZ2L/uR2ucVQRp8mVnY68zo529L1wSCA+18x22l4L31ILc1FaCdyUQHFeVM59UrsLTz
+        Wr4N3URbw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:46042)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1m3E46-0005lO-4A; Tue, 13 Jul 2021 09:46:54 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1m3E40-00008w-Tx; Tue, 13 Jul 2021 09:46:48 +0100
+Date:   Tue, 13 Jul 2021 09:46:48 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Guo Ren <guoren@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Geoff Levand <geoff@infradead.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alex Shi <alexs@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
+Subject: Re: flush_kernel_dcache_page fixes and removal
+Message-ID: <20210713084648.GF22278@shell.armlinux.org.uk>
+References: <20210712060928.4161649-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210712060928.4161649-1-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 13 Jul 2021 at 03:07, Woody Lin <woodylin@google.com> wrote:
-> Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
-> can support all KASAN modes - generic, and both tag-based.
->
-> Signed-off-by: Woody Lin <woodylin@google.com>
+On Mon, Jul 12, 2021 at 08:09:22AM +0200, Christoph Hellwig wrote:
+> while looking to convert the block layer away from kmap_atomic towards
+> kmap_local_page and prefeably the helpers that abstract it away I noticed
+> that a few block drivers directly or implicitly call
+> flush_kernel_dcache_page before kunmapping a page that has been written
+> to.  flush_kernel_dcache_page is documented to to be used in such cases,
+> but flush_dcache_page is actually required when the page could be in
+> the page cache and mapped to userspace, which is pretty much always the
+> case when kmapping an arbitrary page.  Unfortunately the documentation
+> doesn't exactly make that clear, which lead to this misused.  And it turns
+> out that only the copy_strings / copy_string_kernel in the exec code
+> were actually correct users of flush_kernel_dcache_page, which is why
+> I think we should just remove it and eat the very minor overhead in
+> exec rather than confusing poor driver writers.
 
-Reviewed-by: Marco Elver <elver@google.com>
+I think you need to be careful - I seem to have a recollection that the
+reason we ended up with flush_kernel_dcache_page() was the need to avoid
+the taking of the mmap lock for 32-bit ARM VIVT based CPUs in
+flush_dcache_page(). 32-bit ARM flush_dcache_page() can block.
 
-Thank you.
+If you're sure that all these changes you're making do not end up
+calling flush_dcache_page() from a path where we are atomic, then fine.
 
-> ---
->  Documentation/dev-tools/kasan.rst | 13 ++++++----
->  mm/kasan/hw_tags.c                | 43 -------------------------------
->  mm/kasan/kasan.h                  |  1 -
->  mm/kasan/report.c                 | 29 ++++++++++++++++++---
->  4 files changed, 34 insertions(+), 52 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 83ec4a556c19..21dc03bc10a4 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -181,9 +181,16 @@ By default, KASAN prints a bug report only for the first invalid memory access.
->  With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
->  effectively disables ``panic_on_warn`` for KASAN reports.
->
-> +Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
-> +parameter can be used to control panic and reporting behaviour:
-> +
-> +- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
-> +  report or also panic the kernel (default: ``report``). The panic happens even
-> +  if ``kasan_multi_shot`` is enabled.
-> +
->  Hardware tag-based KASAN mode (see the section about various modes below) is
->  intended for use in production as a security mitigation. Therefore, it supports
-> -boot parameters that allow disabling KASAN or controlling its features.
-> +additional boot parameters that allow disabling KASAN or controlling features:
->
->  - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
->
-> @@ -199,10 +206,6 @@ boot parameters that allow disabling KASAN or controlling its features.
->  - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
->    traces collection (default: ``on``).
->
-> -- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
-> -  report or also panic the kernel (default: ``report``). The panic happens even
-> -  if ``kasan_multi_shot`` is enabled.
-> -
->  Implementation details
->  ----------------------
->
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 4ea8c368b5b8..51903639e55f 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
->         KASAN_ARG_STACKTRACE_ON,
->  };
->
-> -enum kasan_arg_fault {
-> -       KASAN_ARG_FAULT_DEFAULT,
-> -       KASAN_ARG_FAULT_REPORT,
-> -       KASAN_ARG_FAULT_PANIC,
-> -};
-> -
->  static enum kasan_arg kasan_arg __ro_after_init;
->  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
->  static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
-> -static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
->
->  /* Whether KASAN is enabled at all. */
->  DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
-> @@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
->  /* Whether to collect alloc/free stack traces. */
->  DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
->
-> -/* Whether to panic or print a report and disable tag checking on fault. */
-> -bool kasan_flag_panic __ro_after_init;
-> -
->  /* kasan=off/on */
->  static int __init early_kasan_flag(char *arg)
->  {
-> @@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
->  }
->  early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
->
-> -/* kasan.fault=report/panic */
-> -static int __init early_kasan_fault(char *arg)
-> -{
-> -       if (!arg)
-> -               return -EINVAL;
-> -
-> -       if (!strcmp(arg, "report"))
-> -               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
-> -       else if (!strcmp(arg, "panic"))
-> -               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
-> -       else
-> -               return -EINVAL;
-> -
-> -       return 0;
-> -}
-> -early_param("kasan.fault", early_kasan_fault);
-> -
->  /* kasan_init_hw_tags_cpu() is called for each CPU. */
->  void kasan_init_hw_tags_cpu(void)
->  {
-> @@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
->                 break;
->         }
->
-> -       switch (kasan_arg_fault) {
-> -       case KASAN_ARG_FAULT_DEFAULT:
-> -               /*
-> -                * Default to no panic on report.
-> -                * Do nothing, kasan_flag_panic keeps its default value.
-> -                */
-> -               break;
-> -       case KASAN_ARG_FAULT_REPORT:
-> -               /* Do nothing, kasan_flag_panic keeps its default value. */
-> -               break;
-> -       case KASAN_ARG_FAULT_PANIC:
-> -               /* Enable panic on report. */
-> -               kasan_flag_panic = true;
-> -               break;
-> -       }
-> -
->         pr_info("KernelAddressSanitizer initialized\n");
->  }
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 98e3059bfea4..9d57383ce1fa 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -36,7 +36,6 @@ static inline bool kasan_async_mode_enabled(void)
->
->  #endif
->
-> -extern bool kasan_flag_panic __ro_after_init;
->  extern bool kasan_flag_async __ro_after_init;
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 8fff1825b22c..884a950c7026 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -39,6 +39,31 @@ static unsigned long kasan_flags;
->  #define KASAN_BIT_REPORTED     0
->  #define KASAN_BIT_MULTI_SHOT   1
->
-> +enum kasan_arg_fault {
-> +       KASAN_ARG_FAULT_DEFAULT,
-> +       KASAN_ARG_FAULT_REPORT,
-> +       KASAN_ARG_FAULT_PANIC,
-> +};
-> +
-> +static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
-> +
-> +/* kasan.fault=report/panic */
-> +static int __init early_kasan_fault(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (!strcmp(arg, "report"))
-> +               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
-> +       else if (!strcmp(arg, "panic"))
-> +               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
-> +       else
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +early_param("kasan.fault", early_kasan_fault);
-> +
->  bool kasan_save_enable_multi_shot(void)
->  {
->         return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
-> @@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
->                 panic_on_warn = 0;
->                 panic("panic_on_warn set ...\n");
->         }
-> -#ifdef CONFIG_KASAN_HW_TAGS
-> -       if (kasan_flag_panic)
-> +       if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
->                 panic("kasan.fault=panic set ...\n");
-> -#endif
->         kasan_enable_current();
->  }
->
-> --
-> 2.32.0.93.g670b81a890-goog
->
+The second issue I have is that, when we are reading a page into a page
+cache page, how can that page be mapped to userspace? Isn't that a
+violation of semantics? If the page is mapped to userspace but does not
+contain data from the underlying storage device, then the page contains
+stale data (if it's a new page, lets hope that's zeroed and not some
+previous contents - which would be a massive security hole.) As I
+understand it, the flush_kernel_dcache_page() calls in the block layer
+are primarily there to cope with drivers that do PIO read to write to a
+page cache page to ensure that later userspace mappings can see the data
+in the page cache page - by ensuring that the page cache pages are in
+the same state as far as caches go as if they had been DMA'd to.
+
+We know that the current implementation works fine - you're now
+proposing to radically change it, asserting that it's buggy. I'm
+nervous about this change.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
