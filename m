@@ -2,573 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7151C11F69
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 23:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1963C07E9A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 00:02:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FE0961248
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jul 2021 23:56:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD50461166
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jul 2021 00:02:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233090AbhGLX7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jul 2021 19:59:07 -0400
-Received: from mga01.intel.com ([192.55.52.88]:3170 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232562AbhGLX7D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Jul 2021 19:59:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="231868182"
-X-IronPort-AV: E=Sophos;i="5.84,235,1620716400"; 
-   d="scan'208";a="231868182"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2021 16:56:12 -0700
-X-IronPort-AV: E=Sophos;i="5.84,235,1620716400"; 
-   d="scan'208";a="429846783"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2021 16:56:11 -0700
-Date:   Mon, 12 Jul 2021 16:56:11 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S233469AbhGMAFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jul 2021 20:05:30 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:27582 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230099AbhGMAF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jul 2021 20:05:29 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16CNl3hS008181;
+        Tue, 13 Jul 2021 00:02:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=oBHcBJEZh6IOIgG3A0xTMZSc4kNimTQ3pyq/jre8nwY=;
+ b=ovU7LNMhNjiV2XV3U6Br1Yx4Ic8CKdlnMH77iD98Y/IbcKa9xNE4Rcr5aVyGqn85e1GC
+ 7gZhPC7GNLdEQzXtVt0CW03YmOa4VKBKnHUt3qwIWRNFOlYaKhSTrRV8/28yj/jPzFbl
+ cbAvVsK3QUGZtjknyeP8aiig4io4rhZhmPNY1JDAqvyMFpnSZqcWRk+Iyy3u8gU4BkDQ
+ wI5+WdS4RQs9YM9Ibbm4d0XdDvsZqD713yxKF22JiV2lZnuQMwFDnVjAVpuKzaMrhg8t
+ C0D4U2SErZ9MBxqUdcjJqO0PAc3wKzY8U3RdWgG4jGDYNRwGT9u6KA7azDl5taXhoSsI 4A== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 39rqkb14c2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jul 2021 00:02:22 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CNoUNr099508;
+        Tue, 13 Jul 2021 00:02:21 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+        by userp3030.oracle.com with ESMTP id 39q0p22p99-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jul 2021 00:02:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WkpYbrxPqa8Zyb9E05zBLtXvAgWeV5CfKy7oNPZc0owfYQfpAdWPCXtIOVJTLMgOKpCkBBCBznavPgm6ir6ca2Bh4qSFwdfuuCg4PfI+ggodsyjz48iV2IxZEx+kixneD/+x2hXkbqt+TJwIRjqdmC59ZvHBH5XUbbhwQ0hU1890ZTYxA1voafHDogg/kZc1Wu5AcW0AF8muwhiDqS3TNSW2woXuwaouSteJLwdYVc65N61QPsntkKo5BF0O+HK21D4MzeZ7v+0u7azRKTYvYQN20+woQR4S+sPYQIgbBxZYoi6mO5uVU8YSg8IuSZOmSAuLUsfzAyjzLq+hFP1yow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBHcBJEZh6IOIgG3A0xTMZSc4kNimTQ3pyq/jre8nwY=;
+ b=Yf5DUR5ataDhE8C5KigWsyyupTAa6tsPguqky+YMecBpyeT2BGe52/CYhjy+XJNuiH/zruwMGALDsjrOrhehlRMumhowTEdoR95CXy8CpsIzf9tgbhsK5re5q988L0MbuDlrk6t0ljHotwR7kZtRG0LQRJifFdCQer/qTxOInxzvHOdSk1/J+vmNdQnO5PQK2Jim6/ns5HWtxrX1UZ/1FmUfOuEN3y8pOxTQad7lpf5I6hOzbHF5JCfEqRwrOESLWL47/UDFyqUD63qDzntBf7ip4kK2FrCGZw6FRfOxKKMGoVvH2gLi5Q86CNgLtgEj4rS0o+raC1UMu5bK38Hdqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBHcBJEZh6IOIgG3A0xTMZSc4kNimTQ3pyq/jre8nwY=;
+ b=jmnG1tzb4SZZtNS4QzmDY8fVxBM0tBxGmt8e0KMhjYxAQPVG0uibKDQz32qX5aFlgVBR3/k7a83CYEO7GN1mQpkIhzRCK45/psZNhU4y4MdWhwYDFeKy9CMyP/ouRGQI6efjvs0tsHSenVXGw73uJFWbfdD5HyzcCNS9DmqUAio=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by BYAPR10MB2696.namprd10.prod.outlook.com (2603:10b6:a02:af::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Tue, 13 Jul
+ 2021 00:02:15 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::8d2a:558d:ab4a:9c2a]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::8d2a:558d:ab4a:9c2a%5]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 00:02:15 +0000
+Subject: Re: [PATCH v2 02/14] mm/page_alloc: split prep_compound_page into
+ head and tail subparts
+To:     Joao Martins <joao.m.martins@oracle.com>, linux-mm@kvack.org
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Shi <alexs@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH 6/6] mm: remove flush_kernel_dcache_page
-Message-ID: <20210712235611.GC3169279@iweiny-DESK2.sc.intel.com>
-References: <20210712060928.4161649-1-hch@lst.de>
- <20210712060928.4161649-7-hch@lst.de>
-MIME-Version: 1.0
+References: <20210617184507.3662-1-joao.m.martins@oracle.com>
+ <20210617184507.3662-3-joao.m.martins@oracle.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <caa531ab-3a87-fdb2-6498-34349f66e475@oracle.com>
+Date:   Mon, 12 Jul 2021 17:02:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+In-Reply-To: <20210617184507.3662-3-joao.m.martins@oracle.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210712060928.4161649-7-hch@lst.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CO2PR04CA0180.namprd04.prod.outlook.com
+ (2603:10b6:104:4::34) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.112] (50.38.35.18) by CO2PR04CA0180.namprd04.prod.outlook.com (2603:10b6:104:4::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Tue, 13 Jul 2021 00:02:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f7ead2f4-3a5d-48da-45f8-08d9459178dc
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2696:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB26960564902A46869F7EB421E2149@BYAPR10MB2696.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:393;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lQCvlWidGJgj9k0LbYZxy8fGaTqh1KNHHd990YASEv4dLtQRWSiRqf7vYTn22kL2qgXNA19LPvhtl61bRvlu0v3gDVrx3jPP3N3xmRLmyroksLt3Ydsl155k0/UkwuZXpKR0HqleqkbirpSpiB/gXMrlV6jFaXGoWLzcBY9GZbzcUGqQu6Y8WDzWNWBA2tyKJ3lPUxHATENgkXIQJtUE3nU/OmykNOGIHPS1brfNqdyDrTDht7kgNcwIDf8wh/io5uYm4VRjWEglpcG92x5LuQQZZMPKXTvJCRfTKqQpKnYlRgpu+zGi8Afm0ZbYAgQZ8aj+LJ8inhb5TzBe2LuHo4Ew2WnJkborWkOKgPK85g9rkwJ7n5ilvFpqXbfwTA9/jJ9XQjkFflP3DaTn4AEYBEnni1rvr8z4+TpwOE2fPykB5E5BHM3cS0cE8nEmcysrWP1hrSfkA7XOq8ggKkdZwcTFSR2yoM0c3UxUV8DjBrQc1gd0QhdVHJaimtQQ9b3jEjHFR34gRUA0fbx6Hgb1icXlja8wzYGg9mf43FlOMQdGtAiQfqx0Pk2vXIfsSWIrzo0HhQ3JLsq9CjeJakxRA/RT5bzG3WkmQBqi3ocLXZ12rDebPKMkTTxuNzja/7glYi2NL34WWqm5TLiNyuhyMH0uAdXm7bW+zi7Dz9fa55md8qa/2mNbb6OIHK/009CPmR9701+XD6LeKKhHuD65ePa9yYkBGcMgGEsX1ERo12NAGkyvheDQ+nruBVzQfzgrQ8J81x6IOGGJDh++3Ok/Xw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39850400004)(346002)(136003)(366004)(376002)(478600001)(66946007)(8676002)(26005)(31696002)(956004)(2616005)(36756003)(16576012)(316002)(44832011)(38350700002)(186003)(31686004)(52116002)(8936002)(7416002)(83380400001)(5660300002)(2906002)(86362001)(38100700002)(6486002)(54906003)(66476007)(4326008)(66556008)(53546011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tkg5TjNDT3NSclBSb1dROWJNc0hKUUVBdkV5QmpiK0ROVVQ0ckJLVmZEeXZW?=
+ =?utf-8?B?cFVyQ21Gd056b21kYkRmN1NvcHFqT1d2MTBvOU03US9xb3NRdzdXNkF0SC9p?=
+ =?utf-8?B?Y3MzOUxQM1BKZ3BCdjIxNjgvV28rM1UvK254d05pK0gvUjVQWSttMjZUcUJv?=
+ =?utf-8?B?dVdWQnlZd1JwdVh6emNqOTNkWFBtb3AvUXdubHpFak9SRDhsRklUY3NTNCtW?=
+ =?utf-8?B?UkNiS0JZN0dSZnErdlZZRVJQTlpmcTVUaXhSbzJvUWQ1L1NOYUdESlZwVXNT?=
+ =?utf-8?B?L2x2Z0pxeWpQWUVhbzg3ZFdTUXFOT08vb2dQUlVjak05NGVGUmhobHc1QzMv?=
+ =?utf-8?B?N2JWZE5tYVdmUW95dlpwU3dnWHpsWXdzdjdpd0NreW5sbS9hK29tTTFkQUgy?=
+ =?utf-8?B?M2Y3UjROQlFRckRQbVZuWEV0VWpxck1hY0w1QXlIaTIvSzlLaGhpdlpLam5y?=
+ =?utf-8?B?TzNxOEhQcGNhb3JVU0IrU0dldXhWM3BkTi9TSmtMRHl1YVc0QllpVFdEdlVL?=
+ =?utf-8?B?R01FcHljenVlcThtbUZ4dUkvNGVDTEdONFM1dDRuY0M2K1RTVExPcDU2dlNE?=
+ =?utf-8?B?RnNjQktoTHVLUDliaGcxaFljZVN4ZC9CQnRSYjl6R25JTDZJQnJSUTRZbWFI?=
+ =?utf-8?B?Umh0ZGFMSDIzQnVBZjlrMnFVNGpDaHltV1lzQWhjOWxwY0VaRmtVL3Q4bzRq?=
+ =?utf-8?B?VkEyS1l0K3Z0Qy8rMGhpNThPRnZJbzVObCtEaGdhU1lIbys2QUIxbGZ0ZzRI?=
+ =?utf-8?B?UCsvT1NRaDhnQnMvUzBKVkFBYVVldnNtWE5jQ0Q0c1V2dmdVNFdSUnRPOVdD?=
+ =?utf-8?B?RDc0RDMvUXJrNzdCaGZEVWcxUTVNU1ZKUkwreTJZbURURXRJOEprZU41SVQ2?=
+ =?utf-8?B?MkphUEMxMXcvSThmbkk1eFVsZ1FhQzRCY09sMGlVUGRMK2hvbWJnUFZEdndu?=
+ =?utf-8?B?Y0g5bHdBcS9nbWhFaTkvUWh1eU1lMEMxTVJSZ3pUeVJkNEVlZklvUmQxVjFC?=
+ =?utf-8?B?N3lmQ3FPd1JocXlLUHRrUzByeFNPbHdIY0dDbTVtZDZCQUErQWhUbXVrNFhj?=
+ =?utf-8?B?TXFUNGxlbUlVUmh1K0FTU2NqMWRlUkUwZzl6cFlaa0hGTyt4MDU3QTNIQWhL?=
+ =?utf-8?B?ekdGaXlQV0l2SEp4c3ZJa0NTeEJYaktCN2RER3lnbTNva0s5Q2c0N1pCOWFz?=
+ =?utf-8?B?U2hDL3lvNkJKM1dmRFh6RHNkTXBaakR6REJGSEZIUGM1a0kyOXowV3FHSUpR?=
+ =?utf-8?B?cm5xTEltMVE5SHB1eExwa1JscWZtRC9IeWlRSkhnbGx6c2xvTmtIQnM4aEs3?=
+ =?utf-8?B?M3E1WnZUREd6VW1uamp1dVpwMG5yQ1RRcWwrKzRQb1RHMHdZMndMenhQcTFE?=
+ =?utf-8?B?ZWJmdFpSRkUvNUpoNE05czM4SWdVMlkvckNobzhKdndwKzRSVzIwemQrRGtF?=
+ =?utf-8?B?Nm13bTJzNXRidTNQdU0vNHpUTFhyQ2VnejJ3amllU2lERGFib2tPa3pvYWxE?=
+ =?utf-8?B?VjdISGFzaDNWMTd3SklkM285SVF6Yy9QVnA5WXJicm12dDlldUdxQ3FoYW04?=
+ =?utf-8?B?dWhzTzFzbTBBaWZ3T1RxR3dCZU9VNmZqSXlDWDdiVm95Nkc2R2hsU0FnMHk5?=
+ =?utf-8?B?ckh3aTV1SU5EMlJSM1ZJT2NWaDQzZDhTQkdrZ0N0YUEvcWpDMVBBWW5Fbm1Z?=
+ =?utf-8?B?enBaYnVYWVh2UHpzTXgxZ3dUelBEbE5tdk01VFFrVlE1SGh6blRjTUpnTE11?=
+ =?utf-8?Q?gFv5p3RQSpyNjRtF7ZNiw87C/PcuADhICofvao5?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7ead2f4-3a5d-48da-45f8-08d9459178dc
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 00:02:15.3944
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c2iGqdEa2vSL6ELrywuU7meIVVv1AgOrorD0F7idK/a/GDtt5OQYioTPq24U21QBSoH4qfOj3eNXfWlRBKk+ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2696
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107120162
+X-Proofpoint-ORIG-GUID: u9FSAlP4-KdlwQWNKBj7P14xwwmOj01G
+X-Proofpoint-GUID: u9FSAlP4-KdlwQWNKBj7P14xwwmOj01G
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 12, 2021 at 08:09:28AM +0200, Christoph Hellwig wrote:
-> flush_kernel_dcache_page is a rather confusing interface that implements
-> a subset of flush_dcache_page by not being able to properly handle page
-> cache mapped pages.
+On 6/17/21 11:44 AM, Joao Martins wrote:
+> Split the utility function prep_compound_page() into head and tail
+> counterparts, and use them accordingly.
 > 
-> The only callers left are in the exec code as all other previous callers
-> were incorrect as they could have dealt with page cache pages.  Replace
-> the calls to flush_kernel_dcache_page with calls to
-> flush_kernel_dcache_page, which for all architectures does either
-  ^^^^^^^^^^^^^^^^^^^^^^^^
-  flush_dcache_page
-
-
-Other than that, for the series:
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
-> exactly the same thing, can contains one or more of the following:
+> This is in preparation for sharing the storage for / deduplicating
+> compound page metadata.
 > 
->  1) an optimization to defer the cache flush for page cache pages not
->     mapped into userspace
->  2) additional flushing for mapped page cache pages if cache aliases
->     are possible
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 > ---
->  Documentation/core-api/cachetlb.rst           | 86 ++++++++-----------
->  .../translations/zh_CN/core-api/cachetlb.rst  |  9 --
->  arch/arm/include/asm/cacheflush.h             |  4 +-
->  arch/arm/mm/flush.c                           | 33 -------
->  arch/arm/mm/nommu.c                           |  6 --
->  arch/csky/abiv1/cacheflush.c                  | 11 ---
->  arch/csky/abiv1/inc/abi/cacheflush.h          |  4 +-
->  arch/mips/include/asm/cacheflush.h            |  8 +-
->  arch/nds32/include/asm/cacheflush.h           |  3 +-
->  arch/nds32/mm/cacheflush.c                    |  9 --
->  arch/parisc/include/asm/cacheflush.h          |  8 +-
->  arch/parisc/kernel/cache.c                    |  3 +-
->  arch/sh/include/asm/cacheflush.h              |  8 +-
->  block/blk-map.c                               |  2 +-
->  fs/exec.c                                     |  6 +-
->  include/linux/highmem.h                       |  5 +-
->  tools/testing/scatterlist/linux/mm.h          |  1 -
->  17 files changed, 51 insertions(+), 155 deletions(-)
+>  mm/page_alloc.c | 32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
 > 
-> diff --git a/Documentation/core-api/cachetlb.rst b/Documentation/core-api/cachetlb.rst
-> index fe4290e26729..8aed9103e48a 100644
-> --- a/Documentation/core-api/cachetlb.rst
-> +++ b/Documentation/core-api/cachetlb.rst
-> @@ -271,10 +271,15 @@ maps this page at its virtual address.
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 8836e54721ae..95967ce55829 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -741,24 +741,34 @@ void free_compound_page(struct page *page)
+>  	free_the_page(page, compound_order(page));
+>  }
 >  
->    ``void flush_dcache_page(struct page *page)``
->  
-> -	Any time the kernel writes to a page cache page, _OR_
-> -	the kernel is about to read from a page cache page and
-> -	user space shared/writable mappings of this page potentially
-> -	exist, this routine is called.
-> +        This routines must be called when:
+> +static void prep_compound_head(struct page *page, unsigned int order)
+> +{
+> +	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
+> +	set_compound_order(page, order);
+> +	atomic_set(compound_mapcount_ptr(page), -1);
+> +	if (hpage_pincount_available(page))
+> +		atomic_set(compound_pincount_ptr(page), 0);
+> +}
 > +
-> +	  a) the kernel did write to a page that is in the page cache page
-> +	     and / or in high memory
-> +	  b) the kernel is about to read from a page cache page and user space
-> +	     shared/writable mappings of this page potentially exist.  Note
-> +	     that {get,pin}_user_pages{_fast} already call flush_dcache_page
-> +	     on any page found in the user address space and thus driver
-> +	     code rarely needs to take this into account.
->  
->  	.. note::
->  
-> @@ -284,38 +289,34 @@ maps this page at its virtual address.
->  	      handling vfs symlinks in the page cache need not call
->  	      this interface at all.
->  
-> -	The phrase "kernel writes to a page cache page" means,
-> -	specifically, that the kernel executes store instructions
-> -	that dirty data in that page at the page->virtual mapping
-> -	of that page.  It is important to flush here to handle
-> -	D-cache aliasing, to make sure these kernel stores are
-> -	visible to user space mappings of that page.
-> -
-> -	The corollary case is just as important, if there are users
-> -	which have shared+writable mappings of this file, we must make
-> -	sure that kernel reads of these pages will see the most recent
-> -	stores done by the user.
-> -
-> -	If D-cache aliasing is not an issue, this routine may
-> -	simply be defined as a nop on that architecture.
-> -
-> -        There is a bit set aside in page->flags (PG_arch_1) as
-> -	"architecture private".  The kernel guarantees that,
-> -	for pagecache pages, it will clear this bit when such
-> -	a page first enters the pagecache.
-> -
-> -	This allows these interfaces to be implemented much more
-> -	efficiently.  It allows one to "defer" (perhaps indefinitely)
-> -	the actual flush if there are currently no user processes
-> -	mapping this page.  See sparc64's flush_dcache_page and
-> -	update_mmu_cache implementations for an example of how to go
-> -	about doing this.
-> -
-> -	The idea is, first at flush_dcache_page() time, if
-> -	page->mapping->i_mmap is an empty tree, just mark the architecture
-> -	private page flag bit.  Later, in update_mmu_cache(), a check is
-> -	made of this flag bit, and if set the flush is done and the flag
-> -	bit is cleared.
-> +	The phrase "kernel writes to a page cache page" means, specifically,
-> +	that the kernel executes store instructions that dirty data in that
-> +	page at the page->virtual mapping of that page.  It is important to
-> +	flush here to handle D-cache aliasing, to make sure these kernel stores
-> +	are visible to user space mappings of that page.
+> +static void prep_compound_tail(struct page *head, int tail_idx)
+> +{
+> +	struct page *p = head + tail_idx;
 > +
-> +	The corollary case is just as important, if there are users which have
-> +	shared+writable mappings of this file, we must make sure that kernel
-> +	reads of these pages will see the most recent stores done by the user.
+> +	set_page_count(p, 0);
+
+When you rebase, you should notice this has been removed from
+prep_compound_page as all tail pages should have zero ref count.
+
+> +	p->mapping = TAIL_MAPPING;
+> +	set_compound_head(p, head);
+> +}
 > +
-> +	If D-cache aliasing is not an issue, this routine may simply be defined
-> +	as a nop on that architecture.
-> +
-> +        There is a bit set aside in page->flags (PG_arch_1) as "architecture
-> +	private".  The kernel guarantees that, for pagecache pages, it will
-> +	clear this bit when such a page first enters the pagecache.
-> +
-> +	This allows these interfaces to be implemented much more efficiently.
-> +	It allows one to "defer" (perhaps indefinitely) the actual flush if
-> +	there are currently no user processes mapping this page.  See sparc64's
-> +	flush_dcache_page and update_mmu_cache implementations for an example
-> +	of how to go about doing this.
-> +
-> +	The idea is, first at flush_dcache_page() time, if page_file_mapping()
-> +	returns a mapping, and mapping_mapped on that mapping returns %false,
-> +	just mark the architecture private page flag bit.  Later, in
-> +	update_mmu_cache(), a check is made of this flag bit, and if set the
-> +	flush is done and the flag bit is cleared.
->  
->  	.. important::
->  
-> @@ -351,19 +352,6 @@ maps this page at its virtual address.
->  	architectures).  For incoherent architectures, it should flush
->  	the cache of the page at vmaddr.
->  
-> -  ``void flush_kernel_dcache_page(struct page *page)``
-> -
-> -	When the kernel needs to modify a user page is has obtained
-> -	with kmap, it calls this function after all modifications are
-> -	complete (but before kunmapping it) to bring the underlying
-> -	page up to date.  It is assumed here that the user has no
-> -	incoherent cached copies (i.e. the original page was obtained
-> -	from a mechanism like get_user_pages()).  The default
-> -	implementation is a nop and should remain so on all coherent
-> -	architectures.  On incoherent architectures, this should flush
-> -	the kernel cache for page (using page_address(page)).
-> -
-> -
->    ``void flush_icache_range(unsigned long start, unsigned long end)``
->  
->    	When the kernel stores into addresses that it will execute
-> diff --git a/Documentation/translations/zh_CN/core-api/cachetlb.rst b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-> index 8376485a534d..55827b8a7c53 100644
-> --- a/Documentation/translations/zh_CN/core-api/cachetlb.rst
-> +++ b/Documentation/translations/zh_CN/core-api/cachetlb.rst
-> @@ -298,15 +298,6 @@ HyperSparc cpu就是这样一个具有这种属性的cpu。
->  	用。默认的实现是nop（对于所有相干的架构应该保持这样）。对于不一致性
->  	的架构，它应该刷新vmaddr处的页面缓存。
->  
-> -  ``void flush_kernel_dcache_page(struct page *page)``
-> -
-> -	当内核需要修改一个用kmap获得的用户页时，它会在所有修改完成后（但在
-> -	kunmapping之前）调用这个函数，以使底层页面达到最新状态。这里假定用
-> -	户没有不一致性的缓存副本（即原始页面是从类似get_user_pages()的机制
-> -	中获得的）。默认的实现是一个nop，在所有相干的架构上都应该如此。在不
-> -	一致性的架构上，这应该刷新内核缓存中的页面（使用page_address(page)）。
-> -
-> -
->    ``void flush_icache_range(unsigned long start, unsigned long end)``
->  
->  	当内核存储到它将执行的地址中时（例如在加载模块时），这个函数被调用。
-> diff --git a/arch/arm/include/asm/cacheflush.h b/arch/arm/include/asm/cacheflush.h
-> index 2e24e765e6d3..5e56288e343b 100644
-> --- a/arch/arm/include/asm/cacheflush.h
-> +++ b/arch/arm/include/asm/cacheflush.h
-> @@ -291,6 +291,7 @@ extern void flush_cache_page(struct vm_area_struct *vma, unsigned long user_addr
->  #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
->  extern void flush_dcache_page(struct page *);
->  
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  static inline void flush_kernel_vmap_range(void *addr, int size)
+>  void prep_compound_page(struct page *page, unsigned int order)
 >  {
->  	if ((cache_is_vivt() || cache_is_vipt_aliasing()))
-> @@ -312,9 +313,6 @@ static inline void flush_anon_page(struct vm_area_struct *vma,
->  		__flush_anon_page(vma, page, vmaddr);
->  }
+>  	int i;
+>  	int nr_pages = 1 << order;
 >  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -extern void flush_kernel_dcache_page(struct page *);
-> -
->  #define flush_dcache_mmap_lock(mapping)		xa_lock_irq(&mapping->i_pages)
->  #define flush_dcache_mmap_unlock(mapping)	xa_unlock_irq(&mapping->i_pages)
->  
-> diff --git a/arch/arm/mm/flush.c b/arch/arm/mm/flush.c
-> index 6d89db7895d1..7ff9feea13a6 100644
-> --- a/arch/arm/mm/flush.c
-> +++ b/arch/arm/mm/flush.c
-> @@ -345,39 +345,6 @@ void flush_dcache_page(struct page *page)
->  }
->  EXPORT_SYMBOL(flush_dcache_page);
->  
-> -/*
-> - * Ensure cache coherency for the kernel mapping of this page. We can
-> - * assume that the page is pinned via kmap.
-> - *
-> - * If the page only exists in the page cache and there are no user
-> - * space mappings, this is a no-op since the page was already marked
-> - * dirty at creation.  Otherwise, we need to flush the dirty kernel
-> - * cache lines directly.
-> - */
-> -void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	if (cache_is_vivt() || cache_is_vipt_aliasing()) {
-> -		struct address_space *mapping;
-> -
-> -		mapping = page_mapping_file(page);
-> -
-> -		if (!mapping || mapping_mapped(mapping)) {
-> -			void *addr;
-> -
-> -			addr = page_address(page);
-> -			/*
-> -			 * kmap_atomic() doesn't set the page virtual
-> -			 * address for highmem pages, and
-> -			 * kunmap_atomic() takes care of cache
-> -			 * flushing already.
-> -			 */
-> -			if (!IS_ENABLED(CONFIG_HIGHMEM) || addr)
-> -				__cpuc_flush_dcache_area(addr, PAGE_SIZE);
-> -		}
+>  	__SetPageHead(page);
+> -	for (i = 1; i < nr_pages; i++) {
+> -		struct page *p = page + i;
+> -		set_page_count(p, 0);
+> -		p->mapping = TAIL_MAPPING;
+> -		set_compound_head(p, page);
 > -	}
-> -}
-> -EXPORT_SYMBOL(flush_kernel_dcache_page);
-> -
->  /*
->   * Flush an anonymous page so that users of get_user_pages()
->   * can safely access the data.  The expected sequence is:
-> diff --git a/arch/arm/mm/nommu.c b/arch/arm/mm/nommu.c
-> index 8b3d7191e2b8..2658f52903da 100644
-> --- a/arch/arm/mm/nommu.c
-> +++ b/arch/arm/mm/nommu.c
-> @@ -166,12 +166,6 @@ void flush_dcache_page(struct page *page)
->  }
->  EXPORT_SYMBOL(flush_dcache_page);
+> +	for (i = 1; i < nr_pages; i++)
+> +		prep_compound_tail(page, i);
 >  
-> -void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	__cpuc_flush_dcache_area(page_address(page), PAGE_SIZE);
-> -}
-> -EXPORT_SYMBOL(flush_kernel_dcache_page);
-> -
->  void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
->  		       unsigned long uaddr, void *dst, const void *src,
->  		       unsigned long len)
-> diff --git a/arch/csky/abiv1/cacheflush.c b/arch/csky/abiv1/cacheflush.c
-> index 07ff17ea33de..fb91b069dc69 100644
-> --- a/arch/csky/abiv1/cacheflush.c
-> +++ b/arch/csky/abiv1/cacheflush.c
-> @@ -56,17 +56,6 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long addr,
->  	}
+> -	set_compound_page_dtor(page, COMPOUND_PAGE_DTOR);
+> -	set_compound_order(page, order);
+> -	atomic_set(compound_mapcount_ptr(page), -1);
+> -	if (hpage_pincount_available(page))
+> -		atomic_set(compound_pincount_ptr(page), 0);
+> +	prep_compound_head(page, order);
 >  }
 >  
-> -void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	struct address_space *mapping;
-> -
-> -	mapping = page_mapping_file(page);
-> -
-> -	if (!mapping || mapping_mapped(mapping))
-> -		dcache_wbinv_all();
-> -}
-> -EXPORT_SYMBOL(flush_kernel_dcache_page);
-> -
->  void flush_cache_range(struct vm_area_struct *vma, unsigned long start,
->  	unsigned long end)
->  {
-> diff --git a/arch/csky/abiv1/inc/abi/cacheflush.h b/arch/csky/abiv1/inc/abi/cacheflush.h
-> index 6cab7afae962..ed62e2066ba7 100644
-> --- a/arch/csky/abiv1/inc/abi/cacheflush.h
-> +++ b/arch/csky/abiv1/inc/abi/cacheflush.h
-> @@ -14,12 +14,10 @@ extern void flush_dcache_page(struct page *);
->  #define flush_cache_page(vma, page, pfn)	cache_wbinv_all()
->  #define flush_cache_dup_mm(mm)			cache_wbinv_all()
->  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -extern void flush_kernel_dcache_page(struct page *);
-> -
->  #define flush_dcache_mmap_lock(mapping)		xa_lock_irq(&mapping->i_pages)
->  #define flush_dcache_mmap_unlock(mapping)	xa_unlock_irq(&mapping->i_pages)
->  
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  static inline void flush_kernel_vmap_range(void *addr, int size)
->  {
->  	dcache_wbinv_all();
-> diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
-> index d687b40b9fbb..b3dc9c589442 100644
-> --- a/arch/mips/include/asm/cacheflush.h
-> +++ b/arch/mips/include/asm/cacheflush.h
-> @@ -125,13 +125,7 @@ static inline void kunmap_noncoherent(void)
->  	kunmap_coherent();
->  }
->  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -static inline void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	BUG_ON(cpu_has_dc_aliases && PageHighMem(page));
-> -	flush_dcache_page(page);
-> -}
-> -
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  /*
->   * For now flush_kernel_vmap_range and invalidate_kernel_vmap_range both do a
->   * cache writeback and invalidate operation.
-> diff --git a/arch/nds32/include/asm/cacheflush.h b/arch/nds32/include/asm/cacheflush.h
-> index 7d6824f7c0e8..c2a222ebfa2a 100644
-> --- a/arch/nds32/include/asm/cacheflush.h
-> +++ b/arch/nds32/include/asm/cacheflush.h
-> @@ -36,8 +36,7 @@ void copy_from_user_page(struct vm_area_struct *vma, struct page *page,
->  void flush_anon_page(struct vm_area_struct *vma,
->  		     struct page *page, unsigned long vaddr);
->  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -void flush_kernel_dcache_page(struct page *page);
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  void flush_kernel_vmap_range(void *addr, int size);
->  void invalidate_kernel_vmap_range(void *addr, int size);
->  #define flush_dcache_mmap_lock(mapping)   xa_lock_irq(&(mapping)->i_pages)
-> diff --git a/arch/nds32/mm/cacheflush.c b/arch/nds32/mm/cacheflush.c
-> index ad5344ef5d33..07aac65d1cab 100644
-> --- a/arch/nds32/mm/cacheflush.c
-> +++ b/arch/nds32/mm/cacheflush.c
-> @@ -318,15 +318,6 @@ void flush_anon_page(struct vm_area_struct *vma,
->  	local_irq_restore(flags);
->  }
->  
-> -void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	unsigned long flags;
-> -	local_irq_save(flags);
-> -	cpu_dcache_wbinval_page((unsigned long)page_address(page));
-> -	local_irq_restore(flags);
-> -}
-> -EXPORT_SYMBOL(flush_kernel_dcache_page);
-> -
->  void flush_kernel_vmap_range(void *addr, int size)
->  {
->  	unsigned long flags;
-> diff --git a/arch/parisc/include/asm/cacheflush.h b/arch/parisc/include/asm/cacheflush.h
-> index 99663fc1f997..eef0096db5f8 100644
-> --- a/arch/parisc/include/asm/cacheflush.h
-> +++ b/arch/parisc/include/asm/cacheflush.h
-> @@ -36,16 +36,12 @@ void flush_cache_all_local(void);
->  void flush_cache_all(void);
->  void flush_cache_mm(struct mm_struct *mm);
->  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
->  void flush_kernel_dcache_page_addr(void *addr);
-> -static inline void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	flush_kernel_dcache_page_addr(page_address(page));
-> -}
->  
->  #define flush_kernel_dcache_range(start,size) \
->  	flush_kernel_dcache_range_asm((start), (start)+(size));
->  
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  void flush_kernel_vmap_range(void *vaddr, int size);
->  void invalidate_kernel_vmap_range(void *vaddr, int size);
->  
-> @@ -59,7 +55,7 @@ extern void flush_dcache_page(struct page *page);
->  #define flush_dcache_mmap_unlock(mapping)	xa_unlock_irq(&mapping->i_pages)
->  
->  #define flush_icache_page(vma,page)	do { 		\
-> -	flush_kernel_dcache_page(page);			\
-> +	flush_kernel_dcache_page_addr(page_address(page)); \
->  	flush_kernel_icache_page(page_address(page)); 	\
->  } while (0)
->  
-> diff --git a/arch/parisc/kernel/cache.c b/arch/parisc/kernel/cache.c
-> index 86a1a63563fd..39e02227e231 100644
-> --- a/arch/parisc/kernel/cache.c
-> +++ b/arch/parisc/kernel/cache.c
-> @@ -334,7 +334,7 @@ void flush_dcache_page(struct page *page)
->  		return;
->  	}
->  
-> -	flush_kernel_dcache_page(page);
-> +	flush_kernel_dcache_page_addr(page_address(page));
->  
->  	if (!mapping)
->  		return;
-> @@ -375,7 +375,6 @@ EXPORT_SYMBOL(flush_dcache_page);
->  
->  /* Defined in arch/parisc/kernel/pacache.S */
->  EXPORT_SYMBOL(flush_kernel_dcache_range_asm);
-> -EXPORT_SYMBOL(flush_kernel_dcache_page_asm);
->  EXPORT_SYMBOL(flush_data_cache_local);
->  EXPORT_SYMBOL(flush_kernel_icache_range_asm);
->  
-> diff --git a/arch/sh/include/asm/cacheflush.h b/arch/sh/include/asm/cacheflush.h
-> index 4486a865ff62..372afa82fee6 100644
-> --- a/arch/sh/include/asm/cacheflush.h
-> +++ b/arch/sh/include/asm/cacheflush.h
-> @@ -63,6 +63,8 @@ static inline void flush_anon_page(struct vm_area_struct *vma,
->  	if (boot_cpu_data.dcache.n_aliases && PageAnon(page))
->  		__flush_anon_page(page, vmaddr);
->  }
-> +
-> +#define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
->  static inline void flush_kernel_vmap_range(void *addr, int size)
->  {
->  	__flush_wback_region(addr, size);
-> @@ -72,12 +74,6 @@ static inline void invalidate_kernel_vmap_range(void *addr, int size)
->  	__flush_invalidate_region(addr, size);
->  }
->  
-> -#define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -static inline void flush_kernel_dcache_page(struct page *page)
-> -{
-> -	flush_dcache_page(page);
-> -}
-> -
->  extern void copy_to_user_page(struct vm_area_struct *vma,
->  	struct page *page, unsigned long vaddr, void *dst, const void *src,
->  	unsigned long len);
-> diff --git a/block/blk-map.c b/block/blk-map.c
-> index 3743158ddaeb..4639bc6b5c62 100644
-> --- a/block/blk-map.c
-> +++ b/block/blk-map.c
-> @@ -309,7 +309,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
->  
->  static void bio_invalidate_vmalloc_pages(struct bio *bio)
->  {
-> -#ifdef ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> +#ifdef ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE
->  	if (bio->bi_private && !op_is_write(bio_op(bio))) {
->  		unsigned long i, len = 0;
->  
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 38f63451b928..41a888d4edde 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -574,7 +574,7 @@ static int copy_strings(int argc, struct user_arg_ptr argv,
->  				}
->  
->  				if (kmapped_page) {
-> -					flush_kernel_dcache_page(kmapped_page);
-> +					flush_dcache_page(kmapped_page);
->  					kunmap(kmapped_page);
->  					put_arg_page(kmapped_page);
->  				}
-> @@ -592,7 +592,7 @@ static int copy_strings(int argc, struct user_arg_ptr argv,
->  	ret = 0;
->  out:
->  	if (kmapped_page) {
-> -		flush_kernel_dcache_page(kmapped_page);
-> +		flush_dcache_page(kmapped_page);
->  		kunmap(kmapped_page);
->  		put_arg_page(kmapped_page);
->  	}
-> @@ -634,7 +634,7 @@ int copy_string_kernel(const char *arg, struct linux_binprm *bprm)
->  		kaddr = kmap_atomic(page);
->  		flush_arg_page(bprm, pos & PAGE_MASK, page);
->  		memcpy(kaddr + offset_in_page(pos), arg, bytes_to_copy);
-> -		flush_kernel_dcache_page(page);
-> +		flush_dcache_page(page);
->  		kunmap_atomic(kaddr);
->  		put_arg_page(page);
->  	}
-> diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-> index 8c6e8e996c87..e95551bf99e9 100644
-> --- a/include/linux/highmem.h
-> +++ b/include/linux/highmem.h
-> @@ -130,10 +130,7 @@ static inline void flush_anon_page(struct vm_area_struct *vma, struct page *page
->  }
->  #endif
->  
-> -#ifndef ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
-> -static inline void flush_kernel_dcache_page(struct page *page)
-> -{
-> -}
-> +#ifndef ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE
->  static inline void flush_kernel_vmap_range(void *vaddr, int size)
->  {
->  }
-> diff --git a/tools/testing/scatterlist/linux/mm.h b/tools/testing/scatterlist/linux/mm.h
-> index f9a12005fcea..16ec895bbe5f 100644
-> --- a/tools/testing/scatterlist/linux/mm.h
-> +++ b/tools/testing/scatterlist/linux/mm.h
-> @@ -127,7 +127,6 @@ kmalloc_array(unsigned int n, unsigned int size, unsigned int flags)
->  #define kmemleak_free(a)
->  
->  #define PageSlab(p) (0)
-> -#define flush_kernel_dcache_page(p)
->  
->  #define MAX_ERRNO	4095
->  
-> -- 
-> 2.30.2
+>  #ifdef CONFIG_DEBUG_PAGEALLOC
 > 
-> 
+
+I'll need something like this for demote hugetlb page fuinctionality
+when the pages being demoted have been optimized for minimal vmemmap
+usage.
+
+Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+-- 
+Mike Kravetz
