@@ -2,120 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87810C07E9A
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 10:29:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D9D1C07E9C
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 10:39:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6902661374
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 10:29:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 285C061260
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 10:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237703AbhGNKcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 06:32:11 -0400
-Received: from foss.arm.com ([217.140.110.172]:33100 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237788AbhGNKcL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Jul 2021 06:32:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51AFAD6E;
-        Wed, 14 Jul 2021 03:29:19 -0700 (PDT)
-Received: from [10.57.36.240] (unknown [10.57.36.240])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4FA73F774;
-        Wed, 14 Jul 2021 03:29:14 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
-To:     Joerg Roedel <joro@8bytes.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
+        id S232169AbhGNKmi convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 06:42:38 -0400
+Received: from lithops.sigma-star.at ([195.201.40.130]:38512 "EHLO
+        lithops.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229518AbhGNKmi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 06:42:38 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 3D1A9606BA4F;
+        Wed, 14 Jul 2021 12:39:44 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id rV1lZ2SKB4Ku; Wed, 14 Jul 2021 12:39:43 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id A9DA86169BC8;
+        Wed, 14 Jul 2021 12:39:43 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id AP29PNq9W7qd; Wed, 14 Jul 2021 12:39:43 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 6D52F6169BC1;
+        Wed, 14 Jul 2021 12:39:43 +0200 (CEST)
+Date:   Wed, 14 Jul 2021 12:39:43 +0200 (CEST)
+From:   Richard Weinberger <richard@nod.at>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     "open list, ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        david <david@sigma-star.at>, David Howells <dhowells@redhat.com>,
+        davem <davem@davemloft.net>, festevam <festevam@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        James Bottomley <jejb@linux.ibm.com>,
+        James Morris <jmorris@namei.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-pci@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Rajat Jain <rajatja@google.com>, Will Deacon <will@kernel.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, quic_c_gdjako@quicinc.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Sonny Rao <sonnyrao@chromium.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>
-References: <20210624171759.4125094-1-dianders@chromium.org>
- <YNXXwvuErVnlHt+s@8bytes.org>
- <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
- <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
- <YOaymBHc4g2cIfRn@8bytes.org> <edd1de35-5b9e-b679-9428-23c6d5005740@arm.com>
- <YO65OOScL5vru1Kr@8bytes.org>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <255adda2-3b5f-b080-4da1-f3c5d5a4f7a6@arm.com>
-Date:   Wed, 14 Jul 2021 11:29:08 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        linux-imx <linux-imx@nxp.com>, kernel <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        shawnguo <shawnguo@kernel.org>
+Message-ID: <1409091619.25467.1626259183269.JavaMail.zimbra@nod.at>
+In-Reply-To: <76db3736-5a5f-bf7b-3b52-62d01a84ee2d@pengutronix.de>
+References: <20210614201620.30451-1-richard@nod.at> <20210614201620.30451-2-richard@nod.at> <76db3736-5a5f-bf7b-3b52-62d01a84ee2d@pengutronix.de>
+Subject: Re: [PATCH 1/3] crypto: mxs-dcp: Add support for hardware provided
+ keys
 MIME-Version: 1.0
-In-Reply-To: <YO65OOScL5vru1Kr@8bytes.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
+Thread-Topic: crypto: mxs-dcp: Add support for hardware provided keys
+Thread-Index: NDot3bI3Q+rKmPD/+NEwkrQ8VTnhRw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-07-14 11:15, Joerg Roedel wrote:
-> Hi Robin,
-> 
-> On Fri, Jul 09, 2021 at 02:56:47PM +0100, Robin Murphy wrote:
->> As I mentioned before, conceptually I think this very much belongs in sysfs
->> as a user decision. We essentially have 4 levels of "strictness":
->>
->> 1: DMA domain with bounce pages
->> 2: DMA domain
->> 3: DMA domain with flush queue
->> 4: Identity domain
-> 
-> Together with reasonable defaults (influenced by compile-time
-> options) it seems to be a good thing to configure at runtime via
-> sysfs.
-> 
-> We already have CONFIG_IOMMU_DEFAULT_PASSTHROUGH, which can probably be
-> extended to be an option list:
-> 
-> 	- CONFIG_IOMMU_DEFAULT_PASSTHROUGH: Trusted devices are identity
-> 					    mapped
-> 
-> 	- CONFIG_IOMMU_DEFAULT_DMA_STRICT: Trusted devices are DMA
-> 					   mapped with strict flush
-> 					   behavior on unmap
-> 
-> 	- CONFIG_IOMMU_DEFAULT_DMA_LAZY: Trusted devices are DMA mapped
-> 					 with flush queues for performance
+Ahmad,
 
-Indeed, I got focused on the sysfs angle, but rearranging the Kconfig 
-default that way to match makes a lot of sense, and is another thing 
-which should fall out really easily from my domain type rework, so I'll 
-add that to my branch now before I forget again.
+----- Ursprüngliche Mail -----
+> Von: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
+> Let's trade reviews to get the ball rolling?
 
-> Untrusted devices always get into the DMA domain with bounce pages by
-> default.
+Sounds like a fair deal. :-)
+
+[...]
+
+>> --- a/drivers/crypto/mxs-dcp.c
+>> +++ b/drivers/crypto/mxs-dcp.c
+>> @@ -15,6 +15,7 @@
+>>  #include <linux/platform_device.h>
+>>  #include <linux/stmp_device.h>
+>>  #include <linux/clk.h>
+>> +#include <linux/mxs-dcp.h>
 > 
-> The defaults can be changed at runtime via sysfs. We already have basic
-> support for runtime switching of the default domain, so that can be
-> re-used.
+> The CAAM specific headers are in <soc/fsl/*.h>.
+> Should this be done likewise here as well?
 
-As mentioned yesterday, already done! I'm hoping to be able to post the 
-patches next week after some testing :)
+I have no preferences. If soc/fsl/ is the way to go, fine by me.
 
-Cheers,
-Robin.
+[...]
+
+>> @@ -219,15 +224,18 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+>>  	struct dcp *sdcp = global_sdcp;
+>>  	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
+>>  	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
+>> +	dma_addr_t src_phys, dst_phys, key_phys = {0};
+> 
+> Why = {0}; ? dma_addr_t is a scalar type and the value is always
+> written here before access.
+
+Initializing a scalar with {} is allowed in C, the braces are optional.
+I like the braces because it works even when the underlaying type changes.
+But that's just a matter of taste.
+
+key_phys is initialized because it triggered a false positive gcc warning
+on one of my targets. Let me re-run again to be sure, the code saw a lot of
+refactoring since that.
+ 
+[...]
+  
+>> +static int mxs_dcp_aes_setrefkey(struct crypto_skcipher *tfm, const u8 *key,
+>> +				 unsigned int len)
+>> +{
+>> +	struct dcp_async_ctx *actx = crypto_skcipher_ctx(tfm);
+>> +	int ret = -EINVAL;
+>> +
+>> +	if (len != DCP_PAES_KEYSIZE)
+>> +		goto out;
+> 
+> Nitpick: there is no cleanup, so why not return -EINVAL here
+> and unconditionally return 0 below?
+
+What is the benefit?
+Usually I try to use goto to have a single exit point of a function
+but I don't have a strong preference...
+
+>> +
+>> +	actx->key_len = len;
+>> +	actx->refkey = true;
+>> +
+>> +	switch (key[0]) {
+>> +	case DCP_PAES_KEY_SLOT0:
+>> +	case DCP_PAES_KEY_SLOT1:
+>> +	case DCP_PAES_KEY_SLOT2:
+>> +	case DCP_PAES_KEY_SLOT3:
+>> +	case DCP_PAES_KEY_UNIQUE:
+>> +	case DCP_PAES_KEY_OTP:
+>> +		memcpy(actx->key, key, len);
+>> +		ret = 0;
+>> +	}
+> 
+> In the error case you return -EINVAL below, but you still write
+> into actx. Is that intentional?
+
+You mean acts->key_len and actk->refkey?
+Is this a problem?
+
+Thanks,
+//richard
