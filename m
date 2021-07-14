@@ -2,81 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D9CC07E9A
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:54:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 811B1C07E9A
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 18:14:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC6406115B
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:54:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47A0A613B6
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 18:14:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230312AbhGNR5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 13:57:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52402 "EHLO
+        id S239994AbhGNSRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 14:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbhGNR5s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 13:57:48 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C547C061760
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 10:54:56 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id o72-20020a9d224e0000b02904bb9756274cso3378698ota.6
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 10:54:56 -0700 (PDT)
+        with ESMTP id S239918AbhGNSRD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 14:17:03 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129F5C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 11:14:11 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id a12so5134531lfb.7
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 11:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jrD1pQ3OBKYY3c2yMtsYHqlgwFHdU07pE4enP3uNpXI=;
-        b=mXM94q6eWDzYOpyvImS9eQ8zAI6VTBDihi0v+PaVTA5xcwni6yfsr0CBel81joQIRn
-         Q3hUzE22kWqcLiDc4JlAEcGtcdb5S9kPy+j31Gp1WtEr0WAmWNx2HPDqIb2gSkqQHuK5
-         Der90yY3k7Zkx0r9eOiJHqODovoA9o0IazPSJDb8s8GWIovenhp/mW/sgXWbzTuULAgf
-         sCMU8qPGcJRE56C/FqFhbq75MZtp+k6tDxx3W/qsykU4t2PJxQ04XFnmb+Zt5QcJt6ZN
-         CfEAm8JTEF3euTOoMi7Ze9GgckUYgwNjdLDqCfNwYl3N2KXoiMIztLE2X9pYi3v0gTOX
-         Rjww==
+        bh=O8TPU0hqO2c6lrmOpVCEHEZ3QntgeMzfXOeutKZUuGQ=;
+        b=GP0Dd2HejNzwHWckSqUuuJQz3ybU1NQTkuAQYQ0Iix+Gqdo0eWbTBj7XnDaLG0wE8k
+         08OctU1iaTR+/lL1dLgTUKi8wCk+YBwdSpn0GKuvAGGCSDTXUJI/aMos9QYPB3SKgEc/
+         PAkGIeIRMCIYXU5yjKfC0MyZtFjcbDMD3hIxnGNz6Na67oIJlknmivj1spY/A/5qz5Ba
+         h1I8KLXm+/aU4Kp8zxzQyuqrf52MKJN5gD5k96UWqJwy4ZIdiLeX0P0di+mSs4zycdR4
+         JYf35fE902Tc/W595ve57Iqs1LGBtYOmeKqw8jUZyPZKYI//Pi0OzfT+ooT83u22YhH/
+         v85Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jrD1pQ3OBKYY3c2yMtsYHqlgwFHdU07pE4enP3uNpXI=;
-        b=YTPZh1FnLzvPBOL7HSVqSuWz3BUAGUqZ9GKiNDQMwiQjSVO+v5a90EHScEp5bVa0gC
-         hRPieXPVCiefbCJFRonxVA851iOKsOtc+AEgVQi+kP+YF3nnsg6oZC1aKKw30xZSfF43
-         Wn0MdBAveMYe6+VJRLTaDCzFRSmIzq5lp8+ul4LSk0gFybwyuN/e67RsdWKN1yqba2cx
-         aV/fyCiCOUV05rEWpF7Mf+u5goJSCQW6MFmHd+itVA0emq4urcKf+j5fOapgkNXEDe99
-         eqYO8m7Ltmkg9YsEniCUo1vOz1xNnOusqt+wVLxvOPJMLTJII0bO+eWg6nl2i1l93gKT
-         hICw==
-X-Gm-Message-State: AOAM531aNj3gpKgPQMNDWZFaSYVOCOHIKlaYncFuPDtLO1sJ7S4l1LHl
-        c8jvgH3p0pImbI8/SG0cMSw3FmGzbHPhO0GtAfdTqQ==
-X-Google-Smtp-Source: ABdhPJyNOpkHIq1v8InV3LUaESTWKz/ywm13RR9OPuJloAv8GjTzcdQMHnmKgIa8CcW2pyfhzJ6x9nq5gr20/dRpi/Q=
-X-Received: by 2002:a9d:650e:: with SMTP id i14mr9109289otl.233.1626285295243;
- Wed, 14 Jul 2021 10:54:55 -0700 (PDT)
+        bh=O8TPU0hqO2c6lrmOpVCEHEZ3QntgeMzfXOeutKZUuGQ=;
+        b=N2kjw4OnzyDhqf/usuHTIqp7pOJcmD9LPJ8fi0sbiP0jT8CEEJksp3oY1sH9BLIL6U
+         9llZBazq2tniTTZI88hvzw8DvXidDwbXzvCpdrEoe+873lLDrQ3xmVtAQN4KLHwKX+fi
+         OyJJRAXZAo1tnRiVTzRjGAojeZEjeml98uvj+6+qExKxgHG1CavTJxTm2lCaZUIYWn8p
+         ARmc2fIueY4dyootSb/I4LuEpbC07oKu4QidiObDukbdhhHDnXlaG/FgApeH5hp+8L+B
+         9tilA+3iNILL3mPC39ohJPRxW6T0yEMGEFzszuuxajAYycH0NbKCKs+ddkaHw+UiQzCf
+         IZyg==
+X-Gm-Message-State: AOAM530WJ0ZdpdlpiRz1hTPLGOzDsGckr5nwbTjvDT9FqQ8jIvZAdRgL
+        Vy5FlTKMRyEEVZ2U5PHM5TnhNHK45blK2RD0TGJhjg==
+X-Google-Smtp-Source: ABdhPJzGQBRL19G8n4JdfX5XiIs4hch17ulA/Fmu33Rkcgp58p/SczPkAD+RTaPFPpf30NDPB1c736FtkruzNIUr9lM=
+X-Received: by 2002:a05:6512:3e0c:: with SMTP id i12mr8768338lfv.122.1626286449128;
+ Wed, 14 Jul 2021 11:14:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714082145.2709233-1-elver@google.com> <20210714173755.1083-1-yzhong@purestorage.com>
-In-Reply-To: <20210714173755.1083-1-yzhong@purestorage.com>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 14 Jul 2021 19:54:34 +0200
-Message-ID: <CANpmjNNBjD3KnNCu+9nF8bKDyrjpkZMwkWiZOe83FgZomcb_3w@mail.gmail.com>
-Subject: Re: [PATCH mm v2] kfence: show cpu and timestamp in alloc/free info
-To:     Yuanyuan Zhong <yzhong@purestorage.com>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net, dvyukov@google.com,
-        glider@google.com, joern@purestorage.com,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-4-ojeda@kernel.org>
+In-Reply-To: <20210704202756.29107-4-ojeda@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 14 Jul 2021 11:13:57 -0700
+Message-ID: <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
+Subject: Re: [PATCH 03/17] Makefile: generate `CLANG_FLAGS` even in GCC builds
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 14 Jul 2021 at 19:38, 'Yuanyuan Zhong' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
-> > +     /* Timestamp matches printk timestamp format. */
-> > +     seq_con_printf(seq, "%s by task %d on cpu %d at %lu.%06lus:\n",
-> > +                    show_alloc ? "allocated" : "freed", meta->alloc_track.pid,
-> > +                    meta->alloc_track.cpu, (unsigned long)ts_sec, rem_nsec / 1000);
+On Sun, Jul 4, 2021 at 1:28 PM <ojeda@kernel.org> wrote:
 >
-> s/meta->alloc_track\./track->/
+> From: Miguel Ojeda <ojeda@kernel.org>
+>
+> To support Rust under GCC-built kernels, we need to save the flags that
+> would have been passed if the kernel was being compiled with Clang.
+>
+> The reason is that `bindgen` -- the tool we use to generate Rust
+> bindings to the C side of the kernel -- relies on `libclang` to
+> parse C. Ideally:
+>
+>   - `bindgen` would support a GCC backend (requested at [1]),
+>
+>   - or the Clang driver would be perfectly compatible with GCC,
+>     including plugins. Unlikely, of course, but perhaps a big
+>     subset of configs may be possible to guarantee to be kept
+>     compatible nevertheless.
+>
+> This is also the reason why GCC builds are very experimental and some
+> configurations may not work (e.g. `GCC_PLUGIN_RANDSTRUCT`). However,
+> we keep GCC builds working (for some example configs) in the CI
+> to avoid diverging/regressing further, so that we are better prepared
+> for the future when a solution might become available.
+>
+> [1] https://github.com/rust-lang/rust-bindgen/issues/1949
+>
+> Link: https://github.com/Rust-for-Linux/linux/issues/167
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Thanks for spotting this!
+Patch LGTM; please keep an eye on the series:
+https://lore.kernel.org/lkml/20210707224310.1403944-2-ndesaulniers@google.com/
 
-v3: https://lkml.kernel.org/r/20210714175312.2947941-1-elver@google.com
+If that lands in kbuild before this, this patch will need to be
+rebased to avoid a conflict in linux-next.
+
+So (tentatively :-P):
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+If the patch needs to be rebased on the series linked above, please
+drop my reviewed by tag and I will re-review. Perhaps putting me
+explicitly on Cc: in the commit message will help notify me if there
+are successive versions?
+
+> ---
+>  Makefile | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 0565caea036..6e823d8bd64 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -573,18 +573,23 @@ endif
+>  # and from include/config/auto.conf.cmd to detect the compiler upgrade.
+>  CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
+>
+> -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+> +TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
+> +
+>  ifneq ($(CROSS_COMPILE),)
+> -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +TENTATIVE_CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  endif
+>  ifeq ($(LLVM_IAS),1)
+> -CLANG_FLAGS    += -integrated-as
+> +TENTATIVE_CLANG_FLAGS  += -integrated-as
+>  else
+> -CLANG_FLAGS    += -no-integrated-as
+> +TENTATIVE_CLANG_FLAGS  += -no-integrated-as
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+> -CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> +TENTATIVE_CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+>  endif
+> -CLANG_FLAGS    += -Werror=unknown-warning-option
+> +
+> +export TENTATIVE_CLANG_FLAGS
+> +
+> +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+> +CLANG_FLAGS    += $(TENTATIVE_CLANG_FLAGS)
+>  KBUILD_CFLAGS  += $(CLANG_FLAGS)
+>  KBUILD_AFLAGS  += $(CLANG_FLAGS)
+>  export CLANG_FLAGS
+> --
+> 2.32.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
