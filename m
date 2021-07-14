@@ -2,130 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D82AC11F67
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 03:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A67A2C07E9A
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 03:57:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B01D613B6
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 03:13:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8485161370
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 03:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237536AbhGNDQP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jul 2021 23:16:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60238 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237368AbhGNDQO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Jul 2021 23:16:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 86777613B2;
-        Wed, 14 Jul 2021 03:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626232403;
-        bh=eHqXqU0BSC/4FXMxbMmPUP5y/NWhQgyVoBJ51q6I6VI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RneN6lR7Gk+SyuzkEGUgXr7XT7IriiK0Ld1//j6zYRb/qjM02yKdHFlCHwgq90qaq
-         OPjucaISjtpHs8RTbetzrdLw0tATbov36tOsLzqUKF7hgRqLXL5M0yHnn/NxKihWk6
-         XATsATEQtu6TsePkHQkvwWzzh8U31KxpN30+TtitWfM10iGQUE9q/fcjs7X+unaStk
-         ZHtv2y0Nl7o/khL5FkiHbf6WW2QL+zHAkOE6vysdoTfYAllTgQtdsaRVGM7lQfpLRT
-         dmpkufnoyEh3lCAwyau7PA+Fd+WvV0VZCuzN3IWCM8tiQ264dk4mqkI34mlyVof+4q
-         TRVyTjlfWJ2GQ==
-Received: by mail-lf1-f51.google.com with SMTP id f30so1030255lfj.1;
-        Tue, 13 Jul 2021 20:13:23 -0700 (PDT)
-X-Gm-Message-State: AOAM530pSEqh7KJjPhG2VJJFCX81jVTCkMwj+xPGFp/iTIsvS6iWV+XB
-        7P8QBLGWQxm+IlIYtxD0RijxGQ8AC2XoBmB5Wcg=
-X-Google-Smtp-Source: ABdhPJxjtzRmeK8gT6oxvZVQIbBescQdPKCDPRyAmUuPGRj8zSZMbMltcH961OP7xUnOjUvePsuZ4INz3sZLDriTjNw=
-X-Received: by 2002:ac2:42d6:: with SMTP id n22mr6034055lfl.41.1626232401837;
- Tue, 13 Jul 2021 20:13:21 -0700 (PDT)
+        id S229451AbhGNEAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 00:00:19 -0400
+Received: from m32-153.88.com ([43.250.32.153]:27472 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229457AbhGNEAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Jul 2021 00:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=rm2lLaB6O1Qj6SBTUbJAP6ni2BTzbos2FjjL9
+        R4HcFk=; b=cKEzJ/RnSxRUN5Alr7ntEX15NQ0pli36+R/y1fB4bR8UbQWZxSR2H
+        5cFGOjb72xH7MAgQMlXYm78BCJ7y5mDxouDG521sz01sdQ7t8LBnRCOLpCP+IVGH
+        J1L3wcpZjeHjYkKAWbXUc36VgLZwR5ycOTPBHGevti1JNLFnlssvPw=
+Received: from [0.0.0.0] (unknown [113.251.12.220])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDnvfyhYO5gSb1SAA--.11711S3;
+        Wed, 14 Jul 2021 11:57:22 +0800 (CST)
+Subject: Re: [PATCH v3 3/4] docs/zh_TW: fix an issue while building
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210703143130.18349-1-src.res@email.cn>
+ <20210703143130.18349-3-src.res@email.cn> <87r1g3pied.fsf@meer.lwn.net>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <889b9541-43cf-a92d-b9f2-a46acd528120@email.cn>
+Date:   Wed, 14 Jul 2021 11:57:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210712060928.4161649-1-hch@lst.de>
-In-Reply-To: <20210712060928.4161649-1-hch@lst.de>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Wed, 14 Jul 2021 11:13:10 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRaRp2nVKGp3+vVnQ3RCvaDxsgHh_vhPTuOxnT51XBXFg@mail.gmail.com>
-Message-ID: <CAJF2gTRaRp2nVKGp3+vVnQ3RCvaDxsgHh_vhPTuOxnT51XBXFg@mail.gmail.com>
-Subject: Re: flush_kernel_dcache_page fixes and removal
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Shi <alexs@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87r1g3pied.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: GiKnCgDnvfyhYO5gSb1SAA--.11711S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr45JFW7XFW3uF1fGFy7GFg_yoW8Gw1xpa
+        9rKFZ7tasrCFyUGFs7Gr12yw4FyrWI9a1rGF1Dt34kuwnxAFn3KFZIgr9I9FZ5urs5tFnY
+        qF4qqr95uw1UAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbI
+        xvr21lc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1U
+        Jr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+        14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jABM_UUUUU=
+X-Originating-IP: [113.251.12.220]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Acked-by for csky abiv1 part.=EF=BC=88No change to our execution path after
-the patch set.=EF=BC=89
 
-On Mon, Jul 12, 2021 at 2:10 PM Christoph Hellwig <hch@lst.de> wrote:
+在 2021/7/13 上午1:10, Jonathan Corbet 写道:
+> Hu Haowen <src.res@email.cn> writes:
 >
-> Hi all,
+>> When building the documentation, the following issue was reported:
+>>
+>>     /home/src-resources/Coding/Projects/Other-Projects/Linux/Documentation/
+>>     translations/zh_TW/admin-guide/reporting-issues.rst:712: WARNING:
+>>     duplicate label translations/zh_tw/admin-guide/reporting-issues:
+>>     檢查「汙染」標誌, other instance in /home/src-resources/Coding/Projects/
+>>     Other-Projects/Linux/Documentation/translations/zh_TW/admin-guide/
+>>     reporting-issues.rst
+>>
+>> Consequently, replace "檢查「汙染」標誌" with "檢測「汙染」標誌" to
+>> solve it.
+>>
+>> Signed-off-by: Hu Haowen <src.res@email.cn>
+> Please, just update the original patch to not introduce the error in the
+> first place.  While you are at it, add the SPDX headers when you first
+> add the files rather than fixing it up afterward.
+
+
+Thanks for your notification. I'll pay more attention next time.
+
+
+> This is a vast amount of material that I am absolutely incapable of
+> making any sort of informed decision on.  Is there any chance that
+> somebody can review this work?
+
+
+I've already checked the files line by line and everything goes well.
+Considering nobody who is accustomed to the language can be contacted
+at the moment, you're able to apply these changes.
+
+Thx,
+Hu Haowen
+
+
+> Thanks,
 >
-> while looking to convert the block layer away from kmap_atomic towards
-> kmap_local_page and prefeably the helpers that abstract it away I noticed
-> that a few block drivers directly or implicitly call
-> flush_kernel_dcache_page before kunmapping a page that has been written
-> to.  flush_kernel_dcache_page is documented to to be used in such cases,
-> but flush_dcache_page is actually required when the page could be in
-> the page cache and mapped to userspace, which is pretty much always the
-> case when kmapping an arbitrary page.  Unfortunately the documentation
-> doesn't exactly make that clear, which lead to this misused.  And it turn=
-s
-> out that only the copy_strings / copy_string_kernel in the exec code
-> were actually correct users of flush_kernel_dcache_page, which is why
-> I think we should just remove it and eat the very minor overhead in
-> exec rather than confusing poor driver writers.
->
-> Diffstat:
->  Documentation/core-api/cachetlb.rst                    |   86 +++++++---=
--------
->  Documentation/translations/zh_CN/core-api/cachetlb.rst |    9 -
->  arch/arm/include/asm/cacheflush.h                      |    4
->  arch/arm/mm/flush.c                                    |   33 ------
->  arch/arm/mm/nommu.c                                    |    6 -
->  arch/csky/abiv1/cacheflush.c                           |   11 --
->  arch/csky/abiv1/inc/abi/cacheflush.h                   |    4
->  arch/mips/include/asm/cacheflush.h                     |    8 -
->  arch/nds32/include/asm/cacheflush.h                    |    3
->  arch/nds32/mm/cacheflush.c                             |    9 -
->  arch/parisc/include/asm/cacheflush.h                   |    8 -
->  arch/parisc/kernel/cache.c                             |    3
->  arch/sh/include/asm/cacheflush.h                       |    8 -
->  block/blk-map.c                                        |    2
->  drivers/block/ps3disk.c                                |    2
->  drivers/mmc/host/jz4740_mmc.c                          |    4
->  drivers/mmc/host/mmc_spi.c                             |    2
->  drivers/scsi/aacraid/aachba.c                          |    1
->  fs/exec.c                                              |    6 -
->  include/linux/highmem.h                                |    5
->  lib/scatterlist.c                                      |    5
->  tools/testing/scatterlist/linux/mm.h                   |    1
->  22 files changed, 55 insertions(+), 165 deletions(-)
+> jon
 
-
-
---=20
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
