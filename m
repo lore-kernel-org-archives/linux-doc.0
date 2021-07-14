@@ -2,195 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C627C11F66
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 11:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE158C07E9A
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 11:15:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D818613A9
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 11:01:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7099613BE
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 11:15:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbhGNLEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 07:04:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232169AbhGNLET (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 07:04:19 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB41C061762
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 04:01:26 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <a.fatoum@pengutronix.de>)
-        id 1m3cdh-00038r-J8; Wed, 14 Jul 2021 13:01:17 +0200
-Subject: Re: [PATCH 1/3] crypto: mxs-dcp: Add support for hardware provided
- keys
-To:     Richard Weinberger <richard@nod.at>
-Cc:     "open list, ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        david <david@sigma-star.at>, David Howells <dhowells@redhat.com>,
-        davem <davem@davemloft.net>, festevam <festevam@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        James Bottomley <jejb@linux.ibm.com>,
-        James Morris <jmorris@namei.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        linux-imx <linux-imx@nxp.com>, kernel <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        shawnguo <shawnguo@kernel.org>
-References: <20210614201620.30451-1-richard@nod.at>
- <20210614201620.30451-2-richard@nod.at>
- <76db3736-5a5f-bf7b-3b52-62d01a84ee2d@pengutronix.de>
- <1409091619.25467.1626259183269.JavaMail.zimbra@nod.at>
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-Message-ID: <efa704fa-7817-7654-7664-447fa56e5ab2@pengutronix.de>
-Date:   Wed, 14 Jul 2021 13:01:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S239048AbhGNLSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 07:18:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59635 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239028AbhGNLSL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 07:18:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626261319;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z981OS1uXu1xWcE4bmmWH5UA+7i0ZIyGX9+WawOYgZo=;
+        b=fPAEgyLwXPgYpdJOc4jqXnQVSdHHi5Fd5FOzfKjbzyJtuHJ2i1VGJ/7TKaMBlTps9lfS6R
+        vS/oiySyQLkcf4e0l25rBoxVP+kZd9a54Dkt18zRYYT5YczAJc17bf1hc1+iFhwBpm1VxI
+        7zjQWhLKbCZYoT9l8fOKvril9RoVowI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-P-qPy7fhMkmgPuSScVD6Zw-1; Wed, 14 Jul 2021 07:15:18 -0400
+X-MC-Unique: P-qPy7fhMkmgPuSScVD6Zw-1
+Received: by mail-ed1-f72.google.com with SMTP id n6-20020aa7c4460000b02903a12bbba1ebso1072464edr.6
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 04:15:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=Z981OS1uXu1xWcE4bmmWH5UA+7i0ZIyGX9+WawOYgZo=;
+        b=iwEfcPPz2ztbxjCAjgtuxT3ENSTiLCD84hoMNPfq+1jC1TByPQp0lw8qfZzWVTJl/U
+         kx55Ev26yIIpYjC0OGUzSmebdUpg2tIAwvhe7M2MHsZmfWuwaP+1gv/XUmz5SMUhid8I
+         e/1KovjrCmyBJ+NdSjztgSFJjXXDjZkhQEEUKjInEScdDkJCHeqb95ZVwuRniBGVYbGd
+         LidmcgVQ/UdTkIwjap3OpKR1iyWApb1tIWQn0yHjKLbO4nqIBg1MvUdO1WDtxjPfMaZe
+         05N1lSkfzEGETE1QQLjt+btVoSj531t/toOBxAcvLJHstSy3F6a7CiyNn4IuK5mfhbCL
+         KbrA==
+X-Gm-Message-State: AOAM532mUCzcrEotn5c2SWKuzyUhzJkRoshhdfpwqCtZvjoEvrVAJjT8
+        9s8mOBZGZz1cbk044zclXiRecyk09I+ALDWub7nEetxEbDoGmNy1MHFoIQFCyg4ZTsxcs5Yhr4I
+        HrK0HHmGlplJwVaAlo+Sf
+X-Received: by 2002:a17:906:69b:: with SMTP id u27mr11926776ejb.338.1626261316850;
+        Wed, 14 Jul 2021 04:15:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5zumagCRkCslZ2/AUY9GUUlZ8EfDeo1zQ/HZbuzDOyv8xHdWXLhu2I/TDon6OVtivEdWwjg==
+X-Received: by 2002:a17:906:69b:: with SMTP id u27mr11926750ejb.338.1626261316611;
+        Wed, 14 Jul 2021 04:15:16 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id n11sm676315ejg.111.2021.07.14.04.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jul 2021 04:15:16 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 6/6] x86/kvm: add boot parameter for setting max number
+ of vcpus per guest
+In-Reply-To: <20210701154105.23215-7-jgross@suse.com>
+References: <20210701154105.23215-1-jgross@suse.com>
+ <20210701154105.23215-7-jgross@suse.com>
+Date:   Wed, 14 Jul 2021 13:15:14 +0200
+Message-ID: <87h7gx2lkt.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1409091619.25467.1626259183269.JavaMail.zimbra@nod.at>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Juergen Gross <jgross@suse.com> writes:
 
-On 14.07.21 12:39, Richard Weinberger wrote:
-> Ahmad,
-> 
-> ----- Ursprüngliche Mail -----
->> Von: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
->> Let's trade reviews to get the ball rolling?
-> 
-> Sounds like a fair deal. :-)
-
-:)
-
-> [...]
-> 
->>> --- a/drivers/crypto/mxs-dcp.c
->>> +++ b/drivers/crypto/mxs-dcp.c
->>> @@ -15,6 +15,7 @@
->>>  #include <linux/platform_device.h>
->>>  #include <linux/stmp_device.h>
->>>  #include <linux/clk.h>
->>> +#include <linux/mxs-dcp.h>
->>
->> The CAAM specific headers are in <soc/fsl/*.h>.
->> Should this be done likewise here as well?
-> 
-> I have no preferences. If soc/fsl/ is the way to go, fine by me.
-
-I think it's the more appropriate place, but if the maintainers
-are fine with <linux/mxs-dcp.h>, I don't mind.
-
-> 
-> [...]
-> 
->>> @@ -219,15 +224,18 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
->>>  	struct dcp *sdcp = global_sdcp;
->>>  	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
->>>  	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
->>> +	dma_addr_t src_phys, dst_phys, key_phys = {0};
->>
->> Why = {0}; ? dma_addr_t is a scalar type and the value is always
->> written here before access.
-> 
-> Initializing a scalar with {} is allowed in C, the braces are optional.
-> I like the braces because it works even when the underlaying type changes.
-> But that's just a matter of taste.
-> 
-> key_phys is initialized because it triggered a false positive gcc warning
-> on one of my targets. Let me re-run again to be sure, the code saw a lot of
-> refactoring since that.
+> Today the maximum number of vcpus of a kvm guest is set via a #define
+> in a header file.
+>
+> In order to support higher vcpu numbers for guests without generally
+> increasing the memory consumption of guests on the host especially on
+> very large systems add a boot parameter for specifying the number of
+> allowed vcpus for guests.
+>
+> The default will still be the current setting of 288. The value 0 has
+> the special meaning to limit the number of possible vcpus to the
+> number of possible cpus of the host.
+>
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
+>  arch/x86/include/asm/kvm_host.h                 |  5 ++++-
+>  arch/x86/kvm/x86.c                              |  7 +++++++
+>  3 files changed, 21 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 99bfa53a2bbd..8eb856396ffa 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2373,6 +2373,16 @@
+>  			guest can't have more vcpus than the set value + 1.
+>  			Default: 1023
 >  
-> [...]
->   
->>> +static int mxs_dcp_aes_setrefkey(struct crypto_skcipher *tfm, const u8 *key,
->>> +				 unsigned int len)
->>> +{
->>> +	struct dcp_async_ctx *actx = crypto_skcipher_ctx(tfm);
->>> +	int ret = -EINVAL;
->>> +
->>> +	if (len != DCP_PAES_KEYSIZE)
->>> +		goto out;
->>
->> Nitpick: there is no cleanup, so why not return -EINVAL here
->> and unconditionally return 0 below?
-> 
-> What is the benefit?
+> +	kvm.max_vcpus=	[KVM,X86] Set the maximum allowed numbers of vcpus per
+> +			guest. The special value 0 sets the limit to the number
+> +			of physical cpus possible on the host (including not
+> +			yet hotplugged cpus). Higher values will result in
+> +			slightly higher memory consumption per guest. Depending
+> +			on the value and the virtual topology the maximum
+> +			allowed vcpu-id might need to be raised, too (see
+> +			kvm.max_vcpu_id parameter).
 
-Similar to why you wouldn't write: 
+I'd suggest to at least add a sanity check: 'max_vcpu_id' should always
+be >= 'max_vcpus'. Alternatively, we can replace 'max_vcpu_id' with say
+'vcpu_id_to_vcpus_ratio' and set it to e.g. '4' by default.
 
-  if (len == DCP_PAES_KEYSIZE) { 
-  	/* longer code block */
-  }
+> +			Default: 288
+> +
+>  	l1tf=           [X86] Control mitigation of the L1TF vulnerability on
+>  			      affected CPUs
+>  
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 39cbc4b6bffb..65ae82a5d444 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -37,7 +37,8 @@
+>  
+>  #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
+>  
+> -#define KVM_MAX_VCPUS 288
+> +#define KVM_DEFAULT_MAX_VCPUS 288
+> +#define KVM_MAX_VCPUS max_vcpus
+>  #define KVM_SOFT_MAX_VCPUS 240
+>  #define KVM_DEFAULT_MAX_VCPU_ID 1023
+>  #define KVM_MAX_VCPU_ID max_vcpu_id
+> @@ -1509,6 +1510,8 @@ extern u64  kvm_max_tsc_scaling_ratio;
+>  extern u64  kvm_default_tsc_scaling_ratio;
+>  /* bus lock detection supported? */
+>  extern bool kvm_has_bus_lock_exit;
+> +/* maximum number of vcpus per guest */
+> +extern unsigned int max_vcpus;
+>  /* maximum vcpu-id */
+>  extern unsigned int max_vcpu_id;
+>  /* per cpu vcpu bitmasks (disable preemption during usage) */
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index a9b0bb2221ea..888c4507504d 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -177,6 +177,10 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
+>  int __read_mostly pi_inject_timer = -1;
+>  module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
+>  
+> +unsigned int __read_mostly max_vcpus = KVM_DEFAULT_MAX_VCPUS;
+> +module_param(max_vcpus, uint, S_IRUGO);
+> +EXPORT_SYMBOL_GPL(max_vcpus);
+> +
+>  unsigned int __read_mostly max_vcpu_id = KVM_DEFAULT_MAX_VCPU_ID;
+>  module_param(max_vcpu_id, uint, S_IRUGO);
+>  
+> @@ -10648,6 +10652,9 @@ int kvm_arch_hardware_setup(void *opaque)
+>  	if (boot_cpu_has(X86_FEATURE_XSAVES))
+>  		rdmsrl(MSR_IA32_XSS, host_xss);
+>  
+> +	if (max_vcpus == 0)
+> +		max_vcpus = num_possible_cpus();
 
-  return ret;
+Is this special case really needed? I mean 'max_vcpus' is not '0' by
+default so whoever sets it manually probably knows how big his guests
+are going to be anyway and it is not always obvious how many CPUs are
+reported by 'num_possible_cpus()' (ACPI tables can be weird for example).
 
-Code is easier to scan through with early-exits.
-
-> Usually I try to use goto to have a single exit point of a function
-> but I don't have a strong preference...
-
-It's just a nitpick. I am fine with it either way.
-
->>> +
->>> +	actx->key_len = len;
->>> +	actx->refkey = true;
->>> +
->>> +	switch (key[0]) {
->>> +	case DCP_PAES_KEY_SLOT0:
->>> +	case DCP_PAES_KEY_SLOT1:
->>> +	case DCP_PAES_KEY_SLOT2:
->>> +	case DCP_PAES_KEY_SLOT3:
->>> +	case DCP_PAES_KEY_UNIQUE:
->>> +	case DCP_PAES_KEY_OTP:
->>> +		memcpy(actx->key, key, len);
->>> +		ret = 0;
->>> +	}
->>
->> In the error case you return -EINVAL below, but you still write
->> into actx. Is that intentional?
-> 
-> You mean acts->key_len and actk->refkey?
-> Is this a problem?
-
-It's easier to reason about code when it doesn't leave objects
-it operates on in invalid states on failure. Changing key_len,
-but leaving actx->key uninitialized is surprising IMO.
-
-I can't judge whether this is a problem in practice, but less
-surprises are a worthwhile goal.
-
-Cheers,
-Ahmad
-
-> 
-> Thanks,
-> //richard
-> 
-
+> +
+>  	kvm_pcpu_vcpu_mask = __alloc_percpu(KVM_VCPU_MASK_SZ,
+>  					    sizeof(unsigned long));
+>  	kvm_hv_vp_bitmap = __alloc_percpu(KVM_HV_VPMAP_SZ, sizeof(u64));
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Vitaly
+
