@@ -2,77 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B99C07E9A
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:27:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D2FC07E9A
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:38:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED37D613C5
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:27:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4CEE613C5
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jul 2021 17:38:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbhGNRaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 13:30:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229600AbhGNRaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Jul 2021 13:30:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC161613BE;
-        Wed, 14 Jul 2021 17:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1626283641;
-        bh=RQHO6DIs5uGncRboQ2yR83gOYkw1pt+W3tetAN9kcsk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mptOodHIDmcFzM2ytGCPwTES7Zq4iBoAk+ky2t0TvVg0itYuM7sJ7hGhPIdrbcMb7
-         bpF+3/D1rlZ0wGj02/kVWVEjAJg9R6EnLbnbPm/2YhNjrnLoYMJBQ3iYq5cePlnaBG
-         eFNNMMt5WIXBiBg95eK0/d349cYOXl1RYXqOvRcY=
-Date:   Wed, 14 Jul 2021 19:27:18 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     longli@linuxonhyperv.com
-Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        Long Li <longli@microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
-Subject: Re: [Patch v3 2/3] Drivers: hv: add Azure Blob driver
-Message-ID: <YO8edjd9/2bDz3sO@kroah.com>
-References: <1626230722-1971-1-git-send-email-longli@linuxonhyperv.com>
- <1626230722-1971-3-git-send-email-longli@linuxonhyperv.com>
+        id S229631AbhGNRk5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 13:40:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbhGNRk5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 13:40:57 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA42C061760
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 10:38:04 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id p14-20020a17090ad30eb02901731c776526so4318247pju.4
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 10:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=AkN/g8848yQUrVMq0VBpWbOyu8YJObYWSKkoyUzYfiU=;
+        b=eMg6FmyNsO6+/sMtxzHj9WXua3i1vPIdUzNZ4lZdQJyej/FRHSIF1ML3Mc0G5cDLWx
+         tGwv3//qdXYSpJRjVqTg7jtj4aiFsmzWU90DtlM9Y5q+P+1yJ2rBkswf7mJD6Xo76FEk
+         rKQ27JxibdftdRE8B5pWmFRcMUOs3YMz2Cegk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=AkN/g8848yQUrVMq0VBpWbOyu8YJObYWSKkoyUzYfiU=;
+        b=QE0aEprOGEVJAhcTqqt05hmcEMnRECuZhyjwXsK3t2OC5yErO0ZDkQIqgjjVjV1Heq
+         9QsdKcE4IzrCJraGBtBcxoX6Nu9fgJH7/lz+Hw3RrBdqY9KlRRa8VM5vgAtiPP2W6tAl
+         hk8CCeP3NN3QslJDRzUvdlTHEeTwd5uEVi7JJta4qO+OYop2UjMkNrTAP1/NTbQa7Zd9
+         c5DERUd4loGxp4/CKHkBD+VE5XKYSx+fVEA35A2u9hUNPL6KWdOTRUtBSbNCjqP+5uN8
+         Kirij5sVyxW0clkSPVFtzrgk1L+bWDSrubrxSn7nVwEyEMvADaDcF5itxWSMtXefqf3O
+         7fxA==
+X-Gm-Message-State: AOAM533Mfhjkzjrv8p8LLYwPEXacyI1qukl14wba1uEwXDdxqMaS5psA
+        xdsvbPjwgOQoknbfgMHDAlCkmQ==
+X-Google-Smtp-Source: ABdhPJwEcCE08Sj3IeUY5ZlR8wzGioKVy8YsVZg+ovQUa2cTdgQKHOv/52is24ZM2pDu/8rkeVCVdQ==
+X-Received: by 2002:a17:90a:6a43:: with SMTP id d3mr4872708pjm.15.1626284283944;
+        Wed, 14 Jul 2021 10:38:03 -0700 (PDT)
+Received: from dev-yzhong.dev.purestorage.com ([192.30.188.252])
+        by smtp.googlemail.com with ESMTPSA id d8sm3855074pgu.49.2021.07.14.10.38.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jul 2021 10:38:03 -0700 (PDT)
+From:   Yuanyuan Zhong <yzhong@purestorage.com>
+To:     elver@google.com
+Cc:     akpm@linux-foundation.org, corbet@lwn.net, dvyukov@google.com,
+        glider@google.com, joern@purestorage.com,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH mm v2] kfence: show cpu and timestamp in alloc/free info
+Date:   Wed, 14 Jul 2021 11:37:55 -0600
+Message-Id: <20210714173755.1083-1-yzhong@purestorage.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210714082145.2709233-1-elver@google.com>
+References: <20210714082145.2709233-1-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1626230722-1971-3-git-send-email-longli@linuxonhyperv.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 13, 2021 at 07:45:21PM -0700, longli@linuxonhyperv.com wrote:
-> From: Long Li <longli@microsoft.com>
-> 
-> Azure Blob storage provides scalable and durable data storage for Azure.
-> (https://azure.microsoft.com/en-us/services/storage/blobs/)
-> 
-> This driver adds support for accelerated access to Azure Blob storage. As an
-> alternative to REST APIs, it provides a fast data path that uses host native
-> network stack and secure direct data link for storage server access.
+> +	/* Timestamp matches printk timestamp format. */
+> +	seq_con_printf(seq, "%s by task %d on cpu %d at %lu.%06lus:\n",
+> +		       show_alloc ? "allocated" : "freed", meta->alloc_track.pid,
+> +		       meta->alloc_track.cpu, (unsigned long)ts_sec, rem_nsec / 1000);
 
-Where is the userspace code that interacts with this driver through your
-custom ioctl interface?
-
-thanks,
-
-greg k-h
+s/meta->alloc_track\./track->/
