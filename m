@@ -7,58 +7,58 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A76C12002
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 872FCC12002
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:54:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7E6661358
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:52:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D39761377
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:54:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbhGOCzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 22:55:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
+        id S231682AbhGOC5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 22:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbhGOCzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 22:55:16 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDFD1C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:52:23 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id p22so3757481pfh.8
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:52:23 -0700 (PDT)
+        with ESMTP id S230494AbhGOC5G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 22:57:06 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F979C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:54:13 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id m83so3803779pfd.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dMC/7BJES1xsl6whxIikhxzC8Rq8hRd9OZiivLLNk5o=;
-        b=wVWv2guCZsRL63EFpcEV44cSTV9blEjTw/yo7hgyxR635O9UVREcpt+T3FzX4Lluqs
-         9G7kDyCSSVj6iBRtHARWGMcpRXOO67gArpetvAoVUDNAwCc0X7fXV/FYFNk4h2qV6m8h
-         Rl77vuZNfyFgqZ8+NucSgYQRhhsvVOOEHMixZRwsdM2gXDbNSHflX4NZ/evElDfxPTNw
-         fQ/F/dwxnC+KU78EI5foaEWwwjSVMVXQhY2wGXsHoRBXVzLDNF6D6ta0tA9L7rmp9Y7V
-         Mv2ayi8gIdpa3QNo3O+RZQMXpnyoYp5hXOYtXJ2V1VmTDMLNEl9V6AigG8qFVNbmsenW
-         WOlw==
+        bh=C90l7UH/YbMRyELxbBHByt2xcdW8Ch3InZoolsX6UZo=;
+        b=tZiKTFH0YsHg3h/aDt2SiBtLUkYsFlXO5g3gj2mAXaX2Je6Y0a7i805bqoPsZKZmVj
+         XjvsA5vskZULMgND6WSPz2I3ucfEr8Zh1G1lFSoPab6CJjv+0ZDrdSggEj0GD9qjfjT4
+         KZ97dHwETzNhEwbJZORnXbDgoEhQvi55go1o2ZGdkPy1peepsJY+4GBgaQK8bQ3cXwBv
+         anG224BiSL3DG7FYGz/s87MRHFBn80aMR+Mmft10qtFMxUNmX0Q4fT3nS619dhEWSu2b
+         n+y2wKRxMmIkmwrxuS4dxs/s4K3463XqnENG6TnxT1dKH0HuJUPUQLBjYOgO1ucBNLNo
+         MnpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dMC/7BJES1xsl6whxIikhxzC8Rq8hRd9OZiivLLNk5o=;
-        b=SSC60lJI6NsflMXh6dQrhwje4p8nSBYZfrMS47BtzbubXpTSKixoxhLMx7MoZLp022
-         77jZz1P2fNC6LZZ2lGuoyXoAOSS+PWC5mpomWGc+KoFTty/+gyobpkp1Tpi+o/p7VON0
-         l/v10uiwbTTn1CleI6kdsKgCAo6Sq+IDRbbyf1OR30wm6VAfi9cHxyn3nB6/hNFXoP/O
-         4pRhl8hgC4JFv0urgH9lfj5An52dZ7XEs46V8tk5bg7gpMiXfI/02SzTSicg3WK1CH6M
-         w7G/RxwQENiNkfhNhnT5B2bTRTWpcKwRAdOp7Zkpw7QGnBPF+NQ2NLwqasQMXAiMfKUi
-         /RvQ==
-X-Gm-Message-State: AOAM530ohKI2lZ2+JpV6KLwQh8S12McC2iSyGIFBxYQoeaXLYYvYuNqE
-        d+q51YCg3a2sBy5KPF6fcH/2d4bO85vMDvjQwkJODA==
-X-Google-Smtp-Source: ABdhPJyCEpo9gLI9Iqz6IRgl/n5sGdxftzB8/eWvGjFyB3LPYbqUeTR0VczLI0dVPoOPiyANWeNQTYTcnqJBBlaPbr4=
-X-Received: by 2002:a63:5963:: with SMTP id j35mr1588664pgm.341.1626317543330;
- Wed, 14 Jul 2021 19:52:23 -0700 (PDT)
+        bh=C90l7UH/YbMRyELxbBHByt2xcdW8Ch3InZoolsX6UZo=;
+        b=DGShiqT+EDXtK2gWtkoTAaEETvOgQ7CAcMyTp8zJJSRcjIgRIinC77sXBIa67Y3KFm
+         tn+9NJFh4hzNxYxzY7hwj5lPKTzqjz/NhN0y/wO3g6zt1/QzmrBrh7243bHsPfPBWaCC
+         iOLX4r4p3vWFyGaTq4e2sd3CDWQ81yZaIu8l2hTVVY5xhxN2UjScvFV/kAWTZqk5FRWW
+         u5llsHufKwDNY6IiUSlGzMfRXBHMEmjQZOErrS4RBBmkWkTdfHcaRPBgsvodgob9jbOW
+         4X/PKlizi9EeGO34JXsotB4jK9ouHo48XmawTjmxdJVpb+UitljicnRbp1QmSdb93Mnd
+         2kKA==
+X-Gm-Message-State: AOAM5301LE95uzBesAPREbDENF1dFTXDkU44Fu3cBnoxgDIiJ+oFuFu6
+        INKEzLg1Ham/FiLtF5iXln6D4qLJboDgdNKMiF0RJw==
+X-Google-Smtp-Source: ABdhPJxHxk0QDwb10wnGqRmVq/VMVZ/VNOfw+9uOUQ7cTgD7H6IqGRmEEH9vEbdDhUQj72sGNuYENyeprDsy/ULlcjc=
+X-Received: by 2002:a63:5963:: with SMTP id j35mr1598651pgm.341.1626317653069;
+ Wed, 14 Jul 2021 19:54:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714193542.21857-1-joao.m.martins@oracle.com> <20210714193542.21857-2-joao.m.martins@oracle.com>
-In-Reply-To: <20210714193542.21857-2-joao.m.martins@oracle.com>
+References: <20210714193542.21857-1-joao.m.martins@oracle.com> <20210714193542.21857-3-joao.m.martins@oracle.com>
+In-Reply-To: <20210714193542.21857-3-joao.m.martins@oracle.com>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 15 Jul 2021 10:51:47 +0800
-Message-ID: <CAMZfGtWhx71w0b4FM_t2LCK-q1+ePv6YQtQat+9FozLPnN4x3Q@mail.gmail.com>
-Subject: Re: [External] [PATCH v3 01/14] memory-failure: fetch compound_head
- after pgmap_pfn_valid()
+Date:   Thu, 15 Jul 2021 10:53:37 +0800
+Message-ID: <CAMZfGtVhMbQ=QH__SbM4zf1KYBPSVsOcA-Cho2k832Qqmz+uMQ@mail.gmail.com>
+Subject: Re: [External] [PATCH v3 02/14] mm/page_alloc: split
+ prep_compound_page into head and tail subparts
 To:     Joao Martins <joao.m.martins@oracle.com>
 Cc:     Linux Memory Management List <linux-mm@kvack.org>,
         Dan Williams <dan.j.williams@intel.com>,
@@ -80,15 +80,13 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jul 15, 2021 at 3:36 AM Joao Martins <joao.m.martins@oracle.com> wrote:
 >
-> memory_failure_dev_pagemap() at the moment assumes base pages (e.g.
-> dax_lock_page()).  For pagemap with compound pages fetch the
-> compound_head in case a tail page memory failure is being handled.
+> Split the utility function prep_compound_page() into head and tail
+> counterparts, and use them accordingly.
 >
-> Currently this is a nop, but in the advent of compound pages in
-> dev_pagemap it allows memory_failure_dev_pagemap() to keep working.
+> This is in preparation for sharing the storage for / deduplicating
+> compound page metadata.
 >
-> Reported-by: Jane Chu <jane.chu@oracle.com>
 > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Reviewed-by: Naoya Horiguchi <naoya.horiguchi@nec.com>
+> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
 
 Reviewed-by: Muchun Song <songmuchun@bytedance.com>
