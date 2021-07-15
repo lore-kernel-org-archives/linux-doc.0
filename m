@@ -2,332 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8FFC636C8
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 20:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54363C636C9
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 21:01:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12040613C0
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 20:02:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DC956120A
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 21:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240041AbhGOUFE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jul 2021 16:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346497AbhGOUEw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jul 2021 16:04:52 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5AEC0613DE
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jul 2021 12:48:12 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id 17so6505047pfz.4
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jul 2021 12:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ipm8QD7K3E5dbp5V+AEYlrbDnPV1RoLwZuoSKWf1+iU=;
-        b=V5Nhf2bBzxQ7dJXGqjDI4fyMwQHSwC36VuNizwrQG7HCCIbygTVsNkLV8RRysHPw+O
-         K2cs3w9+Aawe6aMNRlxh0bTtCxcQuaMKYYJPrbOaWDl2+Nx+2dh9J2a61abvmopeyezK
-         xT6XJE56y51pUxRPiDX17mU6QStyN1s14G/NaxmY5HyVhd2HC4HRVGenqLEaBxo0nnS0
-         MW4y9hk15/R6QoUNrPJ9wTdnwT4L0t49j/TslYACjFtcbboi4xhuBHT38d7ZQJW/+EY9
-         iwNP/FRspItJAvcnCg4+nLk/iNrqDl6gWGH51Lh9sybG/3tbn+3Ww16RI5aQFGdhFwEC
-         Ewcg==
+        id S231640AbhGOVDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jul 2021 17:03:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51363 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231287AbhGOVDx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jul 2021 17:03:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626382859;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=w6cMvV3xGXdKHq4WzPyleEVhevpPRqkhvlCWSt+Y12E=;
+        b=UlZ//gQ9Vq9zWrksL/UIApx4nA5S+VDj0vuN0tvDhwpVVekNoeqHLefIFyDzX8Ua1hAzfE
+        o/5g8GmTroPI1h0CiwuTxiZ2cLn3XVvuN9FzDidCwwoDysuu5prpyUgQQiOFa4t7KwX0bK
+        lJWlOOTuuoxfKut6P177d1pGtODlIUo=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-TbVoCAt1MmWqKzapccnhWQ-1; Thu, 15 Jul 2021 17:00:58 -0400
+X-MC-Unique: TbVoCAt1MmWqKzapccnhWQ-1
+Received: by mail-oo1-f69.google.com with SMTP id z186-20020a4a49c30000b02902621047077eso5335508ooa.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jul 2021 14:00:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ipm8QD7K3E5dbp5V+AEYlrbDnPV1RoLwZuoSKWf1+iU=;
-        b=hZ0wQkD5SMTObSKoaXZjwmmvxoRcEknZCZmtCCgRxYHqJst07xxTOjjiPOm1aeTG18
-         HqVOU9e+VTp/BG+MTy34vmQpfBcGQNHHC98mdeTcb9Eaet+a7Tqng1xb17lyMhNNWkoz
-         gWWmpgl7RnuvPZ1bQb2fou9Ok3Ond5/7op/vUhdJwoPC5eb9jC75bt5K136aDlwgPPQE
-         z4gzD4iAeEHWd7E2sYda4OIsJ84Py3hr1kXDsWCvO3kwnWflBKw/826j0qiVMBxkWCFl
-         UxoBNqt+C753HBL7zB1R4XMk57g+CGJY/oE8UipiatFTRqRsSkC07VqOjEktLqfuTKDK
-         PRZQ==
-X-Gm-Message-State: AOAM53170w7OqTxEvxUmx3cA5vo0zseU4geUhqqFZNIotmf2vkclKqMF
-        gEPWp2jgDICNKqTGEJZCiyaeaIdLfluPfh6ENv8fnA==
-X-Google-Smtp-Source: ABdhPJyBSmsoLLILXgdjI3Ptnk3RNrpSN7cdW3We0nxVBU5tpdX+mYriTC/pSfbEZ9FWhDgYAw1sIlmascojCZ8h2l4=
-X-Received: by 2002:aa7:92d2:0:b029:32d:e0aa:6570 with SMTP id
- k18-20020aa792d20000b029032de0aa6570mr6420477pfa.31.1626378491822; Thu, 15
- Jul 2021 12:48:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-5-joao.m.martins@oracle.com> <CAPcyv4jwd_dzTH1H+cbiKqfK5=Xaa9JY=EVKHhPbjicVZA-URQ@mail.gmail.com>
- <d73793a8-7540-c473-0e30-0880341c2baf@oracle.com>
-In-Reply-To: <d73793a8-7540-c473-0e30-0880341c2baf@oracle.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Thu, 15 Jul 2021 12:48:01 -0700
-Message-ID: <CAPcyv4igDypf04H2bK0G3cR=4ZrND2VL4UoSUN5zeLVa_vbfiA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/14] mm/memremap: add ZONE_DEVICE support for
- compound pages
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=w6cMvV3xGXdKHq4WzPyleEVhevpPRqkhvlCWSt+Y12E=;
+        b=hyHKrsuC1wyjLy8zQO2CMQ4jHG9B8DbKMlbDS8TGB4rkqkgNRZP/d0OEDlorU+qTwo
+         mSOKu4xC3WMDH9TtC1lPah2/Rmeu+6HPAr4wUXIDNAvbh8tKLcH02NLzcaMW6WmPDAoU
+         o6yMTUOIk3EEsoRWkFGDetKRi4gOdx6v5+TOGphdnxrnluGMWhpHPqldBU4cINJK9YwG
+         7iHZaxZX2AzFrHlks7Tx4nbNbd8Z9bFAbX0w2f0pCIUoBSHMNHUBKTkdVK1xTkI+c64Q
+         6d+bL1bh4Anmi1TL18dBj2suCTK6QRbam91u+d8iqEA5s7p82X8pPwYK0QHUbiq3i3l9
+         8kKQ==
+X-Gm-Message-State: AOAM532sNOj9LWLcSGm56lDt37zwXwHzNaf1elllGlqSqGkm/VfO0APA
+        JWWv8GbO8JfDuD3/PNzKFMNchjAwLmYxEaHkpwPINTKVjNCPU6geoMD6biKoq5nyOiKzCoBHAgR
+        g3iJCjsnVZCWw90ygBzWj
+X-Received: by 2002:aca:2112:: with SMTP id 18mr9993647oiz.48.1626382857939;
+        Thu, 15 Jul 2021 14:00:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhGopnxXSOUkiyj2IazWlzUmam8q3Wm1mG8M1diFnOhbK2stM6MvqH6+i/pmWQg4ZlT4QnEQ==
+X-Received: by 2002:aca:2112:: with SMTP id 18mr9993610oiz.48.1626382857721;
+        Thu, 15 Jul 2021 14:00:57 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id n9sm1367932otn.54.2021.07.15.14.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 14:00:57 -0700 (PDT)
+Date:   Thu, 15 Jul 2021 15:00:55 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH 09/13] vfio/pci: Reorganize VFIO_DEVICE_PCI_HOT_RESET to
+ use the device set
+Message-ID: <20210715150055.474f535f.alex.williamson@redhat.com>
+In-Reply-To: <9-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+References: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+        <9-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 15, 2021 at 5:52 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->
->
->
-> On 7/15/21 2:08 AM, Dan Williams wrote:
-> > On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>
-> >> Add a new align property for struct dev_pagemap which specifies that a
-> >
-> > s/align/@geometry/
-> >
-> Yeap, updated.
->
-> >> pagemap is composed of a set of compound pages of size @align,
-> >
-> > s/@align/@geometry/
-> >
-> Yeap, updated.
->
-> >> instead of
-> >> base pages. When a compound page geometry is requested, all but the first
-> >> page are initialised as tail pages instead of order-0 pages.
-> >>
-> >> For certain ZONE_DEVICE users like device-dax which have a fixed page size,
-> >> this creates an opportunity to optimize GUP and GUP-fast walkers, treating
-> >> it the same way as THP or hugetlb pages.
-> >>
-> >> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> >> ---
-> >>  include/linux/memremap.h | 17 +++++++++++++++++
-> >>  mm/memremap.c            |  8 ++++++--
-> >>  mm/page_alloc.c          | 34 +++++++++++++++++++++++++++++++++-
-> >>  3 files changed, 56 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> >> index 119f130ef8f1..e5ab6d4525c1 100644
-> >> --- a/include/linux/memremap.h
-> >> +++ b/include/linux/memremap.h
-> >> @@ -99,6 +99,10 @@ struct dev_pagemap_ops {
-> >>   * @done: completion for @internal_ref
-> >>   * @type: memory type: see MEMORY_* in memory_hotplug.h
-> >>   * @flags: PGMAP_* flags to specify defailed behavior
-> >> + * @geometry: structural definition of how the vmemmap metadata is populated.
-> >> + *     A zero or PAGE_SIZE defaults to using base pages as the memmap metadata
-> >> + *     representation. A bigger value but also multiple of PAGE_SIZE will set
-> >> + *     up compound struct pages representative of the requested geometry size.
-> >>   * @ops: method table
-> >>   * @owner: an opaque pointer identifying the entity that manages this
-> >>   *     instance.  Used by various helpers to make sure that no
-> >> @@ -114,6 +118,7 @@ struct dev_pagemap {
-> >>         struct completion done;
-> >>         enum memory_type type;
-> >>         unsigned int flags;
-> >> +       unsigned long geometry;
-> >>         const struct dev_pagemap_ops *ops;
-> >>         void *owner;
-> >>         int nr_range;
-> >> @@ -130,6 +135,18 @@ static inline struct vmem_altmap *pgmap_altmap(struct dev_pagemap *pgmap)
-> >>         return NULL;
-> >>  }
-> >>
-> >> +static inline unsigned long pgmap_geometry(struct dev_pagemap *pgmap)
-> >> +{
-> >> +       if (!pgmap || !pgmap->geometry)
-> >> +               return PAGE_SIZE;
-> >> +       return pgmap->geometry;
-> >> +}
-> >> +
-> >> +static inline unsigned long pgmap_pfn_geometry(struct dev_pagemap *pgmap)
-> >> +{
-> >> +       return PHYS_PFN(pgmap_geometry(pgmap));
-> >> +}
-> >
-> > Are both needed? Maybe just have ->geometry natively be in nr_pages
-> > units directly, because pgmap_pfn_geometry() makes it confusing
-> > whether it's a geometry of the pfn or the geometry of the pgmap.
-> >
-> I use pgmap_geometry() largelly when we manipulate memmap in sparse-vmemmap code, as we
-> deal with addresses/offsets/subsection-size. While using pgmap_pfn_geometry for code that
-> deals with PFN initialization. For this patch I could remove the confusion.
->
-> And actually maybe I can just store the pgmap_geometry() value in bytes locally in
-> vmemmap_populate_compound_pages() and we can remove this extra helper.
->
-> >> +
-> >>  #ifdef CONFIG_ZONE_DEVICE
-> >>  bool pfn_zone_device_reserved(unsigned long pfn);
-> >>  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> >> diff --git a/mm/memremap.c b/mm/memremap.c
-> >> index 805d761740c4..ffcb924eb6a5 100644
-> >> --- a/mm/memremap.c
-> >> +++ b/mm/memremap.c
-> >> @@ -318,8 +318,12 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
-> >>         memmap_init_zone_device(&NODE_DATA(nid)->node_zones[ZONE_DEVICE],
-> >>                                 PHYS_PFN(range->start),
-> >>                                 PHYS_PFN(range_len(range)), pgmap);
-> >> -       percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
-> >> -                       - pfn_first(pgmap, range_id));
-> >> +       if (pgmap_geometry(pgmap) > PAGE_SIZE)
-> >
-> > This would become
-> >
-> > if (pgmap_geometry(pgmap) > 1)
-> >
-> >> +               percpu_ref_get_many(pgmap->ref, (pfn_end(pgmap, range_id)
-> >> +                       - pfn_first(pgmap, range_id)) / pgmap_pfn_geometry(pgmap));
-> >
-> > ...and this would be pgmap_geometry()
-> >
-> >> +       else
-> >> +               percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
-> >> +                               - pfn_first(pgmap, range_id));
-> >>         return 0;
-> >>
-> Let me adjust accordingly.
->
-> >>  err_add_memory:
-> >> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> >> index 79f3b38afeca..188cb5f8c308 100644
-> >> --- a/mm/page_alloc.c
-> >> +++ b/mm/page_alloc.c
-> >> @@ -6597,6 +6597,31 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
-> >>         }
-> >>  }
-> >>
-> >> +static void __ref memmap_init_compound(struct page *page, unsigned long pfn,
-> >
-> > I'd feel better if @page was renamed @head... more below:
-> >
-> Oh yeah -- definitely more readable.
->
-> >> +                                       unsigned long zone_idx, int nid,
-> >> +                                       struct dev_pagemap *pgmap,
-> >> +                                       unsigned long nr_pages)
-> >> +{
-> >> +       unsigned int order_align = order_base_2(nr_pages);
-> >> +       unsigned long i;
-> >> +
-> >> +       __SetPageHead(page);
-> >> +
-> >> +       for (i = 1; i < nr_pages; i++) {
-> >
-> > The switch of loop styles is jarring. I.e. the switch from
-> > memmap_init_zone_device() that is using pfn, end_pfn, and a local
-> > 'struct page *' variable to this helper using pfn + i and a mix of
-> > helpers (__init_zone_device_page,  prep_compound_tail) that have
-> > different expectations of head page + tail_idx and current page.
-> >
-> > I.e. this reads more obviously correct to me, but maybe I'm just in
-> > the wrong headspace:
-> >
-> >         for (pfn = head_pfn + 1; pfn < end_pfn; pfn++) {
-> >                 struct page *page = pfn_to_page(pfn);
-> >
-> >                 __init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
-> >                 prep_compound_tail(head, pfn - head_pfn);
-> >
-> Personally -- and I am dubious given I have been staring at this code -- I find that what
-> I wrote a little better as it follows more what compound page initialization does. Like
-> it's easier for me to read that I am initializing a number of tail pages and a head page
-> (for a known geometry size).
->
-> Additionally, it's unnecessary (and a tiny ineficient?) to keep doing pfn_to_page(pfn)
-> provided ZONE_DEVICE requires SPARSEMEM_VMEMMAP and so your page pointers are all
-> contiguous and so for any given PFN we can avoid having deref vmemmap vaddrs back and
-> forth. Which is the second reason I pass a page, and iterate over its tails based on a
-> head page pointer. But I was at too minds when writing this, so if the there's no added
-> inefficiency I can rewrite like the above.
+On Wed, 14 Jul 2021 21:20:38 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+> +/*
+> + * We need to get memory_lock for each device, but devices can share mmap_lock,
+> + * therefore we need to zap and hold the vma_lock for each device, and only then
+> + * get each memory_lock.
+> + */
+> +static int vfio_hot_reset_device_set(struct vfio_pci_device *vdev,
+> +				     struct vfio_pci_group_info *groups)
+> +{
+> +	struct vfio_device_set *dev_set = vdev->vdev.dev_set;
+> +	struct vfio_pci_device *cur_mem =
+> +		list_first_entry(&dev_set->device_list, struct vfio_pci_device,
+> +				 vdev.dev_set_list);
 
-I mainly just don't want 2 different styles between
-memmap_init_zone_device() and this helper. So if the argument is that
-"it's inefficient to use pfn_to_page() here" then why does the caller
-use pfn_to_page()? I won't argue too much for one way or the other,
-I'm still biased towards my rewrite, but whatever you pick just make
-the style consistent.
+We shouldn't be looking at the list outside of the lock, if the first
+entry got removed we'd break our unwind code.
 
->
-> >> +               __init_zone_device_page(page + i, pfn + i, zone_idx,
-> >> +                                       nid, pgmap);
-> >> +               prep_compound_tail(page, i);
-> >> +
-> >> +               /*
-> >> +                * The first and second tail pages need to
-> >> +                * initialized first, hence the head page is
-> >> +                * prepared last.
-> >
-> > I'd change this comment to say why rather than restate what can be
-> > gleaned from the code. It's actually not clear to me why this order is
-> > necessary.
-> >
-> So the first tail page stores mapcount_ptr and compound order, and the
-> second tail page stores pincount_ptr. prep_compound_head() does this:
->
->         set_compound_order(page, order);
->         atomic_set(compound_mapcount_ptr(page), -1);
->         if (hpage_pincount_available(page))
->                 atomic_set(compound_pincount_ptr(page), 0);
->
-> So we need those tail pages initialized first prior to initializing the head.
->
-> I can expand the comment above to make it clear why we need first and second tail pages.
+> +	struct vfio_pci_device *cur_vma;
+> +	struct vfio_pci_device *cur;
+> +	bool is_mem = true;
+> +	int ret;
+>  
+> -	if (pci_dev_driver(pdev) != &vfio_pci_driver) {
+> -		vfio_device_put(device);
+> -		return -EBUSY;
+> +	mutex_lock(&dev_set->lock);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Thanks!
+> +
+> +	/* All devices in the group to be reset need VFIO devices */
+> +	if (vfio_pci_for_each_slot_or_bus(
+> +		    vdev->pdev, vfio_pci_check_all_devices_bound, dev_set,
+> +		    !pci_probe_reset_slot(vdev->pdev->slot))) {
+> +		ret = -EINVAL;
+> +		goto err_unlock;
+>  	}
+>  
+> -	vdev = container_of(device, struct vfio_pci_device, vdev);
+> +	list_for_each_entry(cur_vma, &dev_set->device_list, vdev.dev_set_list) {
+> +		/*
+> +		 * Test whether all the affected devices are contained by the
+> +		 * set of groups provided by the user.
+> +		 */
+> +		if (!vfio_dev_in_groups(cur_vma, groups)) {
+> +			ret = -EINVAL;
+> +			goto err_undo;
+> +		}
+>  
+> -	/*
+> -	 * Locking multiple devices is prone to deadlock, runaway and
+> -	 * unwind if we hit contention.
+> -	 */
+> -	if (!vfio_pci_zap_and_vma_lock(vdev, true)) {
+> -		vfio_device_put(device);
+> -		return -EBUSY;
+> +		/*
+> +		 * Locking multiple devices is prone to deadlock, runaway and
+> +		 * unwind if we hit contention.
+> +		 */
+> +		if (!vfio_pci_zap_and_vma_lock(cur_vma, true)) {
+> +			ret = -EBUSY;
+> +			goto err_undo;
+> +		}
+>  	}
+>  
+> -	devs->devices[devs->cur_index++] = vdev;
+> -	return 0;
+> +	list_for_each_entry(cur_mem, &dev_set->device_list, vdev.dev_set_list) {
+> +		if (!down_write_trylock(&cur_mem->memory_lock)) {
+> +			ret = -EBUSY;
+> +			goto err_undo;
+> +		}
+> +		mutex_unlock(&cur_mem->vma_lock);
+> +	}
+> +
+> +	ret = pci_reset_bus(vdev->pdev);
+> +
 
-> >> +                */
-> >> +               if (i == 2)
-> >> +                       prep_compound_head(page, order_align);
-> >> +       }
-> >> +}
-> >> +
-> >>  void __ref memmap_init_zone_device(struct zone *zone,
-> >>                                    unsigned long start_pfn,
-> >>                                    unsigned long nr_pages,
-> >> @@ -6605,6 +6630,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
-> >>         unsigned long pfn, end_pfn = start_pfn + nr_pages;
-> >>         struct pglist_data *pgdat = zone->zone_pgdat;
-> >>         struct vmem_altmap *altmap = pgmap_altmap(pgmap);
-> >> +       unsigned int pfns_per_compound = pgmap_pfn_geometry(pgmap);
-> >>         unsigned long zone_idx = zone_idx(zone);
-> >>         unsigned long start = jiffies;
-> >>         int nid = pgdat->node_id;
-> >> @@ -6622,10 +6648,16 @@ void __ref memmap_init_zone_device(struct zone *zone,
-> >>                 nr_pages = end_pfn - start_pfn;
-> >>         }
-> >>
-> >> -       for (pfn = start_pfn; pfn < end_pfn; pfn++) {
-> >> +       for (pfn = start_pfn; pfn < end_pfn; pfn += pfns_per_compound) {
-> >>                 struct page *page = pfn_to_page(pfn);
-> >>
-> >>                 __init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
-> >> +
-> >> +               if (pfns_per_compound == 1)
-> >> +                       continue;
-> >> +
-> >> +               memmap_init_compound(page, pfn, zone_idx, nid, pgmap,
-> >> +                                    pfns_per_compound);
-> >
-> > I otherwise don't see anything broken with this patch, so feel free to include:
-> >
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> >
-> > ...on the resend with the fixups.
-> >
-> Thanks.
->
-> I will wait whether you still want to retain the tag provided the implied changes
-> fixing the failure you reported.
 
-Yeah, tag is still valid.
+> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
+> +		up_write(&cur->memory_lock);
+> +	mutex_unlock(&dev_set->lock);
+> +
+> +	return ret;
+
+
+Isn't the above section actually redundant to below, ie. we could just
+fall through after the pci_reset_bus()?  Thanks,
+
+Alex
+
+> +
+> +err_undo:
+> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
+> +		if (cur == cur_mem)
+> +			is_mem = false;
+> +		if (cur == cur_vma)
+> +			break;
+> +		if (is_mem)
+> +			up_write(&cur->memory_lock);
+> +		else
+> +			mutex_unlock(&cur->vma_lock);
+> +	}
+> +err_unlock:
+> +	mutex_unlock(&dev_set->lock);
+> +	return ret;
+>  }
+>  
+>  /*
+
