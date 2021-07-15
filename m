@@ -2,185 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3255C1B08C
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 13:29:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA3CC47E48
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 14:55:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 793106120A
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 13:29:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4016A610A7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 14:55:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237544AbhGONb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jul 2021 09:31:56 -0400
-Received: from mail-dm6nam10on2072.outbound.protection.outlook.com ([40.107.93.72]:26810
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        id S237589AbhGOO6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jul 2021 10:58:46 -0400
+Received: from mail-bn7nam10on2080.outbound.protection.outlook.com ([40.107.92.80]:62689
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231713AbhGONbz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Jul 2021 09:31:55 -0400
+        id S231745AbhGOO6q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Jul 2021 10:58:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C1fM//49DoJiK6F8PZH6aVsAmJfIs+Krg49nH7HkYmFO8vr1oar1F86ECOQyMgqGrqP9KWVLe8NBBTPP4gIiX60Rspd5J1rV4wKbf5swZBR/0kW9+8Ms007GgpZB1qm5bF3bze9pI+206r4SYdW4gLW9BhMZ1Mn7XsgVnKSw3B2/pDUKfSvFehVwMn8NHQ2M3SL9vGBh1vKOJjQPmDowvx3pyNpqtGPSyktdXkIND1prdrqWJ8ByomBr1W4knJ2F4rWaEn/86BdAURRMF4OIDyxBG+gq+WqyQ+ACC8dA5uN05fWofHZulKYinwWV4CgX6iMHzf41niNe6KhdY1NWPA==
+ b=oLs0WNpAymiVptj1LPtku7XXqxvB1ZBKC22Xqd9DkfQQkHKUV3Rkh5S5nAbgA6BNTSTAONmxMDFq+1/nLwk3l4h8FPW+/ZBQ14kqAJRPGYdrwSxTlfkYc7iKtEYFsys3PPVCHdvRNWDL1DM1LltrXpXWqq3kSz6JxUotWcWjCHodYMeZdeu8NMAAAKLLsFBrFF25SPsoFYyRjRl+os0YVu9CJN+njDXhOHFI16nBqnMBlpW5gTC0rMxnUdfoee7svHydlx472mpmJ0MNOONTjQwhRSRr7XS//fBIVd0S0d1dYZIc5S3rM/fGr9Ral+a8phaiD3Y6cuh1djwpH86NXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mf0cYvUfkQHZe1ox9dAKWC9ViRnGRvsvRKpLWwVzJ98=;
- b=Vy2bHnjuob/Pv0T046lsbuzw/tjPTBASMImqTjhbd0uxzwgDkthfuHTvXeUvL/sh80k04Qf+lTA/HJMcOPNk0NP2pW47tApfLhpXNrbWRTA/958g23sHHvCkgRH+MjTR+n10WH9iXt41wG+e7vgPTu6XqfcAPwYzrG+YnaUkD1RYFRu9P34JNjcquif6OG0rymMtHaaN/7xRBqoKoDcTyR3dr45g/689egKkyWiOT0xziVVBipYTEKhUfZNXif1+Eb+gmUtXIMMs68c0zHiMH7S/EzATknk80kW/HjM0hJzBc4dSXVxmDgufGvUDmy4/m3dKEb9HEJiNUyiEq7YRTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
+ bh=guA2e0ovaaT8BnGSBE34Q9CJNmQ8V+ghtdZcvwWQSKE=;
+ b=k5gN3gXAnaGGXrZ8awgkuKKzCsYsfPv1oP7XC+np4p4fJQmn871HHFRV3Se8OmyJyAqAH+L56FCdxyC45a0e/NvaUB0+OPYUR/8DOWUbBnD2cmNv6gxdAUw9KzYif+GizLaOC/tq7YNba1hZLN08+lDnMRnhLN7RcIXZ3B+9YGiNiHe7eX8u+/F/LWQiZ8kUpusdJvDJpxdLiY//sXtY/h4oBkd3CBtWnDr6iQ7pLnYUTuQ3YJMvTNyAyhOaD1C1IXSoe6JJ3rt/pVEGnQe5B+SbHcngmDRwVqBQBvOTrDlyao3dqhCiIoFOHi0OyrCX6td+jOWreW1bLomrV8J3IA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mf0cYvUfkQHZe1ox9dAKWC9ViRnGRvsvRKpLWwVzJ98=;
- b=lyIXnDQuE9+gTqXb/KGbfaIiqjMpaLFpbl0CgmyholSKTxRBUzc63RGt2lSacSAYu+WyRHtjcHEXaxSTOKJ9i0+BDl8616H+3ycWpOJ5YDOjvmRzi7Ev1/7NIZ7QdKdFfw4qYS28YgiXHrCvfp9pZcXk7MDFy0VwgYMyy/M5wEOESgBZzat0suT1RjaQYhvsFrYdDyWExUg1yv4RVR2g2fP36dSlpniMRK/9pR1NNXerqFr19sgBlS0VrshGpzIM3YgTJC6WkfePaWmo2Stk8IMEHbampL9c5m7POAi4krU4HSGYNU4QxJdvJ9w22TF2N0EKNKLUhtc8I7lJhT5pXw==
-Received: from DM5PR18CA0087.namprd18.prod.outlook.com (2603:10b6:3:3::25) by
- BYAPR12MB2728.namprd12.prod.outlook.com (2603:10b6:a03:61::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.26; Thu, 15 Jul 2021 13:29:00 +0000
-Received: from DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:3:cafe::4e) by DM5PR18CA0087.outlook.office365.com
- (2603:10b6:3:3::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Thu, 15 Jul 2021 13:28:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux.ibm.com; dkim=none (message not signed)
- header.d=none;linux.ibm.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT011.mail.protection.outlook.com (10.13.172.108) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 13:28:59 +0000
-Received: from [10.40.102.146] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Jul
- 2021 13:28:35 +0000
-Subject: Re: [PATCH 00/13] Provide core infrastructure for managing
- open/release
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        "Tony Krowiak" <akrowiak@linux.ibm.com>,
+ bh=guA2e0ovaaT8BnGSBE34Q9CJNmQ8V+ghtdZcvwWQSKE=;
+ b=tDVqvhDKpCD/tTNQt52ua/3R9H+suP/L8PCeUl6MaRaqL47izTpRdovkmw5buAobA6tqzKb8F190QqSc11VnabRS2ODyG9b7EW2u5l/4stzHWZMNuSGoL/4l7Et356b5J89dDRcE8lvW8s4KqBjQ6i9cwsbA/cIa3RIjoNCEHBDKhPlD3zvBYbNH8N6usnQYVgGSHkkIC9B75np6R0mUEtCq4vo/Fwspg5sqSXJk0Kw4QARVnKPNcFZ7IovrqrJsuAXRRJLb5w8dbqfVDkawxJCTQhkM1ioS3AwLHCy+LedHGX2qUwRDnKPuite4RNvphuH4Tof6G5jnZZzBcFYdZQ==
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5061.namprd12.prod.outlook.com (2603:10b6:208:310::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22; Thu, 15 Jul
+ 2021 14:55:50 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%5]) with mapi id 15.20.4331.024; Thu, 15 Jul 2021
+ 14:55:50 +0000
+Date:   Thu, 15 Jul 2021 11:55:48 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Kirti Wankhede <kwankhede@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
         Alex Williamson <alex.williamson@redhat.com>,
         Christian Borntraeger <borntraeger@de.ibm.com>,
         Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Diana Craciun <diana.craciun@oss.nxp.com>,
-        <dri-devel@lists.freedesktop.org>,
+        dri-devel@lists.freedesktop.org,
         Eric Auger <eric.auger@redhat.com>,
-        "Eric Farman" <farman@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
         Harald Freudenberger <freude@linux.ibm.com>,
         Vasily Gorbik <gor@linux.ibm.com>,
         Heiko Carstens <hca@linux.ibm.com>,
-        <intel-gfx@lists.freedesktop.org>,
-        <intel-gvt-dev@lists.freedesktop.org>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Jason Herne <jjherne@linux.ibm.com>,
         Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-s390@vger.kernel.org,
         Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Peter Oberparleiter" <oberpar@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
         Halil Pasic <pasic@linux.ibm.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Vineeth Vijayan <vneethv@linux.ibm.com>,
         Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-CC:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        "Leon Romanovsky" <leonro@nvidia.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
-        "Yishai Hadas" <yishaih@nvidia.com>
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH 00/13] Provide core infrastructure for managing
+ open/release
+Message-ID: <20210715145548.GD543781@nvidia.com>
 References: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-X-Nvconfidentiality: public
-From:   Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <862e9ad9-e1f8-4179-4809-9b5b2743e640@nvidia.com>
-Date:   Thu, 15 Jul 2021 18:58:31 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <862e9ad9-e1f8-4179-4809-9b5b2743e640@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <862e9ad9-e1f8-4179-4809-9b5b2743e640@nvidia.com>
+X-ClientProxiedBy: CH2PR14CA0057.namprd14.prod.outlook.com
+ (2603:10b6:610:56::37) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-In-Reply-To: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by CH2PR14CA0057.namprd14.prod.outlook.com (2603:10b6:610:56::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 14:55:49 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1m42mC-002gn2-4p; Thu, 15 Jul 2021 11:55:48 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e4580cd-12bf-41ea-6436-08d94794812c
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2728:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB27287B674779581AFD834915DC129@BYAPR12MB2728.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 6d4b88ec-2636-4001-a9d2-08d947a0a246
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5061:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB50616A6C01DDF7C6F131AAC6C2129@BL1PR12MB5061.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 280SWfZXn+Bgu9Ux5mhCqtwQOxRZf6xUlvKL8y06d+EByphs6AuCF+ewQOceWFlSUso1/HSoelgSiJO7kkF7UfaHPCNgOTt5FzpuCGvtlghrBgXLqPFWD1wlGpWyYMdimCDvZz0arox3ygxf+CdPPv1GsmTdKmebfh2LApERHLK+A21fTDe0s/mU4iMi1L5VsapxFXtZEF+1qpLwmp1UlI4YfqZ5+DuaOOBuwrFra8ch+GV1qN9/NDhA2xr0PBL3oGgWonKxADVx38ECWfgcvB6vrgUHTFv9XnPoDOkMbNUARojWi7hYldT8tmRYicD+WNsagP5nAdbSW7peD2VULG57worjeaSaNyyQ2dxCUamUcgrtOOf5tHUsh+EM2buIoWvBVpLtXoRGRP3p7BLCCZvZiTeM/zVgeq2fibsqif2G9eKX7UQQzWKHbPIY001/+5BxCnmlgZKxZL2ArPutFm12z8DJ78lPLK+/awJKxAerXuoqri1nfdWaVk/vKC8EEwlNJhNyC5L2rgeTye0qJ1jdeKcpEzwkNQj48t/xc3r2Z3kkozIQKiXpeb2G5M7L2Q3970qiHGJ8I8GoKLda5xoIGAwbbBmWVMXLun8JzJS1A3Bo4PGu5bYa9zBLHWTmGAlfEYqlnu5BEsVeCNleetjdByS3CqnnrWKobDl0AUqfhaJZ4muy3u5Js/SjJsAlDW7TITPqFl27Oxf/XvDKRfhEDWE1ijVSVedT/H7zsPTvezatnLxOTvsYTvT4SdM1yN89vcEQv0jSBlDEIwwsAZuRfWBrhopdduYh/sR73zaxXF7dlEMQvnhkpS3bWoREcfTUdP+1e4ew7UbPb3BNZYUFJjTRNTv1+fdYD60cDLrH7kfsakAiM70XpRKCd5SRIy/Drxmvyg56MmQBvYveNUJLrImVWVaR0ElydhckwTE=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(7636003)(86362001)(26005)(53546011)(36756003)(356005)(186003)(478600001)(16526019)(5660300002)(31696002)(6666004)(36860700001)(966005)(4326008)(31686004)(107886003)(47076005)(7406005)(82310400003)(110136005)(921005)(2906002)(34020700004)(83380400001)(336012)(16576012)(8936002)(426003)(8676002)(7416002)(70206006)(70586007)(54906003)(36906005)(2616005)(316002)(43740500002)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: eo8LYRLGsdqOCItotTvWoarad4KYfMIxhR/hcIGnm8aTILLtEopc8kMPL/DR8QIPs/A230IADYFDEUR5jjsmOn1zexocS7u+BHO7+9532DxCfJpgGDFx4GJ6qwAb+e7I4EsqxilPPeknlXnXa91SKijMKeTMUXkjytdJd/6for3nJEeKGxBV0zJU1O2+JuLVQ7Cl5bWF+OMdUFzhX5SqF8whA0wC9Ziz3vnx3UsZ7LLISL0Xlm1OrxTLqZ/W44jbBvZzl6bBbcZF/82hbboajP+C+JnoJ2hp+Ym/3+3f0izxTDlNjaicf7R2ftmNbWM5K5wm3B/0/3G5BhXLy+Uw/LEl1B943IjMs8fmu6U2SEAR8ExhR1EokhnaBHPuQ/7I/3pyaj2Zq0TE7/ZDlUqRofnQPlwSca3/AQ7YFQ660DObZYWnTd7zhUtntLoNDWcv1b7fzgAfFyeuhK0aXrKfULfl4TBL06Gwmj6URNDCx/U9fqGOoyQy2bUV7jVlsXmcOsbBjD+ueKHNx8m28YqV5ari2E5KsRRdYoJoSpyFJGNGyZz7J+qveOEdMycmgzQ6IE5V1IWqmZhH5Y0jVj+wRzub7bPSU4esn9opihd/tSJwV4LWbUdtMdOX4nLYE5GvCDTVVS0ZJsK8bI9LkynRo5oiIhoTdL1by7U0ltiG9j9PEJrXjEhTL4FN9x9O9TwJwbfX6xJ5zrtfS7New3aOOg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(136003)(366004)(396003)(376002)(8676002)(4744005)(478600001)(5660300002)(54906003)(37006003)(186003)(1076003)(86362001)(2906002)(6636002)(316002)(36756003)(426003)(66476007)(66946007)(8936002)(33656002)(83380400001)(6862004)(66556008)(2616005)(38100700002)(107886003)(26005)(4326008)(9786002)(9746002)(7416002)(7406005)(27376004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FYVLkBk1VNHvjyxZw0ZNpplUByUzkXMSrTz4nrBMHqjqTt+v53EynhZy8XR1?=
+ =?us-ascii?Q?MBXvY/T1zNkBrr5pHQR3EqjRoDaPBQsWRztWtQNOrxTi5Nw3W9txNgz3+4UD?=
+ =?us-ascii?Q?mbKGs9/ukWf66uRScagCa1MYcU7cS0K7d7rW5bk0YB4JGhpJnRkmfuxQcasI?=
+ =?us-ascii?Q?6D2r7HkX0krO94h8yfveQUHttnydYq1bNawaT/571hfhLT3lFzjp5iLMigv2?=
+ =?us-ascii?Q?gQnahZvzCU6jL4XPiCFidM6KpI0Fq7TPuNLbc7kqy/pD4iTdK3X9KcbNi9ON?=
+ =?us-ascii?Q?4aYtJBsa8HgkARzeO86AnMt3yfd/U+X2xF29pRfKbVD8vdADBTVdWZEJW61n?=
+ =?us-ascii?Q?d8MrN5ErVmSCkbn24+H4i1d/3AubTkFABxxwoY7xTFnyzuHaewH1n0Cjpgwn?=
+ =?us-ascii?Q?jCBGmFvVG2+3ESQcbrFARfVo6+bP+tzUP0mBxVCKxu8W9Ufc14Atr0Q/Lh9b?=
+ =?us-ascii?Q?bjRQOocAMZ7ZrPrZkComqydvf35j/R+rct6vD+QHqxdamTdTf65ib2W3IzRB?=
+ =?us-ascii?Q?X5gSOhMZLZBYLDHe3D/jSE4aaRmq0JmBPMWekHYUeiIVtthggbuW0NE/vMyY?=
+ =?us-ascii?Q?UByGe/6IEsUXRAt7yD3ve0CjGbzfbbR55XZMXm4kLuSb3u/Efk0Zm8bWRN7E?=
+ =?us-ascii?Q?sMByz97cQPXO7CGLV9z9yrS1dUYjECdXbPnfx9dmQObZW2tv5GMJ9Kp2LRAs?=
+ =?us-ascii?Q?ba+uaC5nvwS0jXewyHDSYxco5quPxkNRrrrWzhoqnvogqi5Wv3lyE3ohkfzm?=
+ =?us-ascii?Q?AiD+0TfzLkAwhUhk0O4ShgG1EVRylY6UsNAA3+jAAW+dBHGO5JSHXhWd7NOE?=
+ =?us-ascii?Q?sC0yO4pzmf8xgYgtRqCoglM1KaJ3ivfRForMoWkhmTqqGGP0HSWj28DahxHP?=
+ =?us-ascii?Q?yv3d/H6niEfjmfVJhLAjlGDE4HrvRo2D763AiUoXzAA2B3G7aDKHSL4Ofb04?=
+ =?us-ascii?Q?EIq4p7p+vn4VFIX3vgqret4WGJT6rsGsWS6Agt2i8athw/u/Z1zzvbynLz3U?=
+ =?us-ascii?Q?s0E4uLbRz7z5PHyRD1y1lInVKNg+47rFoQEnhbY5I9Qy2fE8ce3vtySyVxQu?=
+ =?us-ascii?Q?BKEzUJc7kqN0Rbc4eSaOzpSPDw3rbL7s/GqFA06EUcQnXTdIe6m3aloHUNY0?=
+ =?us-ascii?Q?g3KJLGB6DUNLf5pAAdioIzRiIvQX0UpCkPJFQYTVCpPx5y2O+cG1PjuFiFIZ?=
+ =?us-ascii?Q?87B2x204X+BRMEfNuD+85aeHchmr/Vxz3DV275GN02h9iO9BV+dCJlG63Ga2?=
+ =?us-ascii?Q?cXEHkpap1ORfHetUe7X6sMlkvsRgSELrfR6P6AactV687hZdmwmj9IND1FYd?=
+ =?us-ascii?Q?3Ho4/WooVON8PgbN6MzueXRk?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 13:28:59.5988
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d4b88ec-2636-4001-a9d2-08d947a0a246
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 14:55:49.7612
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e4580cd-12bf-41ea-6436-08d94794812c
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2728
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7R3CRmrkFBvWf9epZ850JB0cjoUsrbVUULXGCCFvoDNKiayQ6RQskkFDH9j8e+UJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5061
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 15, 2021 at 06:58:31PM +0530, Kirti Wankhede wrote:
 
+> > Review of all the drivers show that they are either already open coding
+> > the first/last semantic or are buggy and missing it. All drivers are
+> > migrated/fixed to the new open/close_device ops and the unused per-FD
+> > open()/release() ops are deleted.
+> 
+> Why can't open()/release() ops be reused instead of adding
+> open_device()/close_device().
 
-On 7/15/2021 5:50 AM, Jason Gunthorpe wrote:
-> Prologue:
-> 
-> This is the first series of three to send the "mlx5_vfio_pci" driver that has
-> been discussed on the list for a while now.
->   - Reorganize reflck to support splitting vfio_pci
->   - Split vfio_pci into vfio_pci/vfio_pci_core and provide infrastructure
->     for non-generic VFIO PCI drivers
->   - The new driver mlx5_vfio_pci that is a full implementation of
->     suspend/resume functionality for mlx5 devices.
-> 
-> A preview of all the patches can be seen here:
-> 
-> https://github.com/jgunthorpe/linux/commits/mlx5_vfio_pci
-> 
-> ===============
-> 
-> This is in support of Max's series to split vfio-pci. For that to work the
-> reflck concept embedded in vfio-pci needs to be sharable across all of the
-> new VFIO PCI drivers which motivated re-examining how this is
-> implemented.
-> 
-> Another significant issue is how the VFIO PCI core includes code like:
-> 
->     if (pci_dev_driver(pdev) != &vfio_pci_driver)
-> 
-> Which is not scalable if there are going to be multiple different driver
-> types.
-> 
-> This series takes the approach of moving the "reflck" mechanism into the
-> core code as a "device set". Each vfio_device driver can specify how
-> vfio_devices are grouped into the set using a key and the set comes along
-> with a set-global mutex. The core code manages creating per-device set
-> memory and associating it with each vfio_device.
-> 
-> In turn this allows the core code to provide an open/close_device()
-> operation that is called only for the first/last FD, and is called under
-> the global device set lock.
-> 
-> Review of all the drivers show that they are either already open coding
-> the first/last semantic or are buggy and missing it. All drivers are
-> migrated/fixed to the new open/close_device ops and the unused per-FD
-> open()/release() ops are deleted.
-> 
+It could be done but it would ruin the structure of the patch series,
+obfuscate the naming of the ops, and complicate backporting as this is
+a significant semantic difference.
 
-Why can't open()/release() ops be reused instead of adding 
-open_device()/close_device().
+Overall when funtionality changes significantly it is better to change
+the name along with it
 
-Thanks,
-Kirti
+Jason
