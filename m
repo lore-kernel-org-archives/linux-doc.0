@@ -2,442 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 239E7C47E4E
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 00:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 976F9C12002
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 01:08:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04833613CB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 00:22:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E43761005
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 01:08:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235312AbhGOAYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 20:24:53 -0400
-Received: from mail-bn8nam11on2068.outbound.protection.outlook.com ([40.107.236.68]:25056
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238260AbhGOAXw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Jul 2021 20:23:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HHFJXDf4amty2+zOEmTeUqg0kawvWU/a/8bAuPzD4B1twqJrYYQbHsDkUfTiDp1RItSRTDFbxNnTjIUIEPi2QsOUTKVoCHWjuFBFQVN7ruBWyxrfbOXqRTPfsHTF3kbZQ5x/P5KAbSbUC/HSMDnCOcey2IYtm8ogkBA9a3J/f710mWDwovwz6m2RNtbkpoeqrJxf2TjunLHRrnCetXq9KuPxVMrq21AlqGZXqxaEZj+YFZQ3cphbiJFFiu4PrgfwFL2B7qjY0FVVyKufjyATWEpxWP4Pt8smpX5yCn4AHvMhRURfjr6OG+7moSk/f8JLnJpnlWsgofNLQbEetZcEJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+VGW7wr/BkFmokiMOi9zUR4JROkKeHfKGvBjk3PptLg=;
- b=X5xX80oduBQxb4s7Y5MbEdnwQk3dnYQPnpxMG52OAdBSYqhaZFgAqwdXQiZ3d8AERxlV3SMBjUu7YCo4N5kWXEAqVA3GsEBZOSnxaJTGgMLBsoAiKJQ1N9iXPLSQKqbppgenGGNbfnquWb3F8h5HZ8fnyE6O4HsH/1VNeUBq8w85DJZIONK4WpFwL1wVA0XtsaYnmRWreiWrZTJ0JQ60kW0fEu+58E+A5zyE8yIdJfB7kY9+qTJs4e/J9cNY+CYGtlay/CWMp2V/y44RTrgDueRqu3RzKTgXM7eT1tO+xm3+2nxS28kIX4uhAiRUfaXW+kwEa7+EY6d6Se+qL21J5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+VGW7wr/BkFmokiMOi9zUR4JROkKeHfKGvBjk3PptLg=;
- b=BsGB1r1xsQNMiGEmXm/PxNA9Ni6Eo3sSpY97/I1kKtkFWKqTzXdb+yWFIaq1w18NuGvKjGNflaLFSNE6l1H7i/yI4R5oepQh2+XrrTZXw7nn4X6da97M9GmyzXYuZREacsneJU8jwpAnDhSCdXc59DbMOi3O3soP/VgmR0D/YOUkXPW7URs2nB8LCd09kYi+UreSEsUJF7yAySvvYPXFxMoe6lkO1euozw7jc97KgxVlvE/g8gQZzV9SL1MoA85LlqgfETkoRKz2XxUu3ArqURd5qkOoJH5yMvrHHka5J5qng1E4/79lTvrDCG6+dIHD2qgRDPg5le9PpWv/UfWfRw==
-Authentication-Results: linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL0PR12MB5555.namprd12.prod.outlook.com (2603:10b6:208:1c2::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.26; Thu, 15 Jul
- 2021 00:20:51 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482%5]) with mapi id 15.20.4331.021; Thu, 15 Jul 2021
- 00:20:51 +0000
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH 09/13] vfio/pci: Reorganize VFIO_DEVICE_PCI_HOT_RESET to use the device set
-Date:   Wed, 14 Jul 2021 21:20:38 -0300
-Message-Id: <9-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-In-Reply-To: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH0PR03CA0011.namprd03.prod.outlook.com
- (2603:10b6:610:b0::16) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S230072AbhGOBLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 21:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229909AbhGOBLS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 21:11:18 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDAFC06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 18:08:25 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id b5-20020a17090a9905b029016fc06f6c5bso2913599pjp.5
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 18:08:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NN59F4vDIomsgEBtl8RXR+we5E2TKHGqeWPAOiMz83k=;
+        b=ebWDJrPYcGhCMLRRnJefgXT043Kg8pFLEAtlL3VyJQiDiZuQH3KQFfdprQeMEabNar
+         UjePn/JW7BVX+VHqq1f27aRC8x+jwZ4crlPjawlupdFEgvsQ/DHPfzbwBSF2aZ8JDbXL
+         2j80xem3naLZ6+voKnmlWBi6wyVAuHp5lXxgpQ/nquuUr6bU/oYokMNyPB6vD01ZDvjE
+         z4jtZbWC+NM0+HVC1eTdLJBu9CeRNHJZ8Tc7oTENW4cQYeO4G/+NrbUybGkxggjaEvU+
+         dksLg470Niwmd+16f1F6FSO6fV6xwPqzT2uSgVmtfF0T53LSybyC7vidRzKAFL6lyviW
+         0cIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NN59F4vDIomsgEBtl8RXR+we5E2TKHGqeWPAOiMz83k=;
+        b=d951dJfM/X5z6tykY19nppFLU9HqsidZ1jnyOdauNjcQ7a6AGNFlOlk+KeQvxqmYS7
+         SPCRkzvy/tWN8OjEOjGjKRaxACxRG8QYaUATr0uKHb2ssVGkoW5SOiQtqcKlAmcT1LYD
+         e0UsxjV+Gp/l2I7ZxEM2RYcJJOUrddFJIjU6fhi+1blPGUFrBcIGWBpvBmR6dDNQys5W
+         Bppbw8+opTT4r/f5hHZv/5z2uTPdbU4IvbrTyODYlphxNn9glbUmJ1rOmfkwrkJBzIWY
+         ETJh9VhiicbCqjrAbuT6JITRTuf+qldpIUK/Ygw6rIoZuVaa/Re2kiKZvfYcQ6/Nto0+
+         Y58Q==
+X-Gm-Message-State: AOAM532SO2/Vna47aDseOg21okWkxZMd2ntz/+GRlV4UPGZsXi0ZQoAE
+        H3QIVEaliShjtHekzUCYnWRgKjnRfdNDDCcH7kz/4Q==
+X-Google-Smtp-Source: ABdhPJwtcooUH/eYMB5vJXqE/PQhaN/7W0oePw41gDnxWZv+L/ZaInmAjJON0D+NGCN2uutz7j4LgWuQlh82L9fw7cA=
+X-Received: by 2002:a17:90a:8407:: with SMTP id j7mr6550677pjn.13.1626311305135;
+ Wed, 14 Jul 2021 18:08:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by CH0PR03CA0011.namprd03.prod.outlook.com (2603:10b6:610:b0::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 00:20:46 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1m3p7K-002Uxd-Q9; Wed, 14 Jul 2021 21:20:42 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 017de31f-b664-4048-6824-08d94726640d
-X-MS-TrafficTypeDiagnostic: BL0PR12MB5555:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB5555ED54D97F0B7A728953B3C2129@BL0PR12MB5555.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +RYE+64cSU46/9muguWmX7fNBoawaDOhh8YOmI3lets8U6X3d0Kcs0v3BZ0w/cwdufaiOVnK3ThxCsatGP71a4URImuCA7hwSeygJe6vWLZBB6mhvvbQAaTRaYe643jjQrfx/tMzdZ6ybZ6LTKV15BW38aEK9TmxEpwpJlvwjVyYJelUAjTHhgevUx1MEaackXhoDUccRAivN/GuZ3PT50EFXHTMiv9C/fKKcNr1RsNSeItM1qu9IcEyKbUzv5R1XoOP6O+4vhXPTCr0buBImjz44Uoj5E3cZzQbnXTe2nVb0keOs2lJIMAQg3hkBYrgittUt296V4qV/3ao+/eYYetFfnhP2polaO3BZesfBi18T/vb8Pjpj7cHvtQ8JdO1ijSOJQ/ipCOgpL8/9nfGxF/KN76F+X4g/9OfFO/qX3+iCBqvwp+kDTNU1p1Nw+5cButXhVAj7VLn4WWgre9kGWSvMGL5lPJGEZM3eH6P0m5nuwu0ZzU7Ml8/qVsm0/snvxOJ+uchscMh14jTG1sZOb5gZgbFGSrPKlMcOkaEQMdMQw6g1oYdhJrBl6BpQ1bxMV1VaAY6seip4Swf77HnnnFWSsl9qiBoiug1oBf96QuzQXAoXcTmK+tLa2faCagBBqNSic43vBIo9hJERoN6PrMuZAbfzy/iSOIoibGz2KPDamrc6GkZAWOKmt+sw6cHbGQWUHvKa0zhRi25DjwZsQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(346002)(376002)(396003)(366004)(83380400001)(2616005)(426003)(316002)(107886003)(2906002)(478600001)(4326008)(7416002)(7406005)(38100700002)(36756003)(5660300002)(66556008)(66476007)(66946007)(921005)(9746002)(26005)(8936002)(110136005)(54906003)(8676002)(9786002)(86362001)(6666004)(186003)(4216001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tdMlDvy83TROOkXgfgz1xV+tIK8S2qzW1PTvwBHydaBhyMVOeXxqLOkFPUT9?=
- =?us-ascii?Q?d+i3r5vVvRX0d8Sb4UOPt9lsq8Y4XV9/exSkvih9K7/c+W94H/xao1oqKXui?=
- =?us-ascii?Q?ed0Fxy17uowS9keWgwGgZLLW+Acpt+QqRjwWrQFgyJ+FUN9DjJATkkYtlncj?=
- =?us-ascii?Q?jlJHbg5Ccl7mc23hpzFQA+tvepI+0kvsvNRQMh5hap7SQphHrFOTFwP+uOHw?=
- =?us-ascii?Q?O8CRVOVnHd5b08rzhySB/3lTHT4uynlAiO5d3q1GNk0NDl3fOpcN6uz0iQhv?=
- =?us-ascii?Q?xlwwyVJDCNp2FB3aYEySseHD7hYtnX2htrp+A5YHmh19+fAB42UjTCTGc74c?=
- =?us-ascii?Q?gXF+61325wwyxOZiwq3Bhryjfpp6yGzagsVphVlYdkcXxe1A9ApFscFdchWA?=
- =?us-ascii?Q?CJFKwmF+7xtNSjuxpGzDbIHL9ClHJmgjpZwR9sQim7fg1l6JmLutnD6awkiU?=
- =?us-ascii?Q?MS3IWoEBvPHeqNgix8qEg52t2WzBctT3OdV3gLjCtz8Jv1roLWbnhS57s4+X?=
- =?us-ascii?Q?TWqIxHydExG0LciwELLG45lRhZgl4yOMA4jGCFlSQCoNuTl5rsUGg31OoCSC?=
- =?us-ascii?Q?CWiB06DcwFnDyHrrYKDL9yPrqDxImAs5KovWe+fHZm6Aprt/Rh34Y5zjd2DE?=
- =?us-ascii?Q?rclMHCNcx/1bOFAMFOXzY6MPcXpe14qGbEYXzoj5+sWPMLL3M0KM0vaia8s+?=
- =?us-ascii?Q?LK2k7ElvBnaPOjgD1klOs0QL9DaF2YlAAGGe5oTdEtK4cARif5oejopBLM8u?=
- =?us-ascii?Q?cVu3kgxr8Wvb0QxHlVw/6pLqxHZ5Pt+eqgwSxZhFIkhKwN10CHB3oy1MJwtL?=
- =?us-ascii?Q?9IUjYyn3rsPdouoGCcvo/lXK481Kh6tumhiKXSUIVFyhOJfVTkcLbVysrKK7?=
- =?us-ascii?Q?mhVVAv9bZPD25n32/jbMoAuMmjM0pC3u3HTdGwiOrEbH93q4/yI9DxKqQ1o/?=
- =?us-ascii?Q?ekccDHfVirGC67irUSL72PAIkv/BUqeYuSnKhkY7YmqGMOKVAI1ZRLh7/ZoH?=
- =?us-ascii?Q?X9cYOTpVjM/ARlP4ar/AIkx/xOCaUHfNKYnbAPg5Q61FOZVHivW4d0sBuZbN?=
- =?us-ascii?Q?ud94sDTBL37cC1ly5S/2WV5JMJZyAoh/L2SCTZ1L1Fe7YqJ9Xuu6ypVOAGdG?=
- =?us-ascii?Q?4dvBfSgJddfPlcvdtDw+VBaEPM7R3wh6Q/FsWWITljxVCQu8QVHto40ty5rO?=
- =?us-ascii?Q?MZ7N5YAobFhov1iCzRuzAWuO5VGuVZ4iZ+RioL+Gf8/rjMyGwEB2aJCvkWPO?=
- =?us-ascii?Q?vIe89QQly4GbqOOKbsWBouLSUm4MY+dlnhW4MYhE1VmKaZOJSCaJgUcvaZUu?=
- =?us-ascii?Q?SXuHvm9L8a+8+6WfSd3HYUKm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 017de31f-b664-4048-6824-08d94726640d
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 00:20:46.4228
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: crdvZ9E4+bPCAmUTeGR4gL2A9MHjuak1C4wJez41HjTTGZ97YfMb/cGX+efAel0X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5555
+References: <20210714193542.21857-1-joao.m.martins@oracle.com> <20210714193542.21857-5-joao.m.martins@oracle.com>
+In-Reply-To: <20210714193542.21857-5-joao.m.martins@oracle.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 14 Jul 2021 18:08:14 -0700
+Message-ID: <CAPcyv4jwd_dzTH1H+cbiKqfK5=Xaa9JY=EVKHhPbjicVZA-URQ@mail.gmail.com>
+Subject: Re: [PATCH v3 04/14] mm/memremap: add ZONE_DEVICE support for
+ compound pages
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Linux MM <linux-mm@kvack.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux NVDIMM <nvdimm@lists.linux.dev>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Like vfio_pci_try_bus_reset() this code wants to reset all of the devices
-in the "reset group" which is the same membership as the device set.
+On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
+>
+> Add a new align property for struct dev_pagemap which specifies that a
 
-Instead of trying to reconstruct the device set from the PCI list go
-directly from the device set's device list to execute the reset.
+s/align/@geometry/
 
-The same basic structure as vfio_pci_try_bus_reset() is used. The
-'vfio_devices' struct is replaced with the device set linked list and we
-simply sweep it multiple times under the lock.
+> pagemap is composed of a set of compound pages of size @align,
 
-This eliminates a memory allocation and get/put traffic and another
-improperly locked test of pci_dev_driver().
+s/@align/@geometry/
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/vfio/pci/vfio_pci.c | 205 ++++++++++++++++--------------------
- 1 file changed, 88 insertions(+), 117 deletions(-)
+> instead of
+> base pages. When a compound page geometry is requested, all but the first
+> page are initialised as tail pages instead of order-0 pages.
+>
+> For certain ZONE_DEVICE users like device-dax which have a fixed page size,
+> this creates an opportunity to optimize GUP and GUP-fast walkers, treating
+> it the same way as THP or hugetlb pages.
+>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  include/linux/memremap.h | 17 +++++++++++++++++
+>  mm/memremap.c            |  8 ++++++--
+>  mm/page_alloc.c          | 34 +++++++++++++++++++++++++++++++++-
+>  3 files changed, 56 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> index 119f130ef8f1..e5ab6d4525c1 100644
+> --- a/include/linux/memremap.h
+> +++ b/include/linux/memremap.h
+> @@ -99,6 +99,10 @@ struct dev_pagemap_ops {
+>   * @done: completion for @internal_ref
+>   * @type: memory type: see MEMORY_* in memory_hotplug.h
+>   * @flags: PGMAP_* flags to specify defailed behavior
+> + * @geometry: structural definition of how the vmemmap metadata is populated.
+> + *     A zero or PAGE_SIZE defaults to using base pages as the memmap metadata
+> + *     representation. A bigger value but also multiple of PAGE_SIZE will set
+> + *     up compound struct pages representative of the requested geometry size.
+>   * @ops: method table
+>   * @owner: an opaque pointer identifying the entity that manages this
+>   *     instance.  Used by various helpers to make sure that no
+> @@ -114,6 +118,7 @@ struct dev_pagemap {
+>         struct completion done;
+>         enum memory_type type;
+>         unsigned int flags;
+> +       unsigned long geometry;
+>         const struct dev_pagemap_ops *ops;
+>         void *owner;
+>         int nr_range;
+> @@ -130,6 +135,18 @@ static inline struct vmem_altmap *pgmap_altmap(struct dev_pagemap *pgmap)
+>         return NULL;
+>  }
+>
+> +static inline unsigned long pgmap_geometry(struct dev_pagemap *pgmap)
+> +{
+> +       if (!pgmap || !pgmap->geometry)
+> +               return PAGE_SIZE;
+> +       return pgmap->geometry;
+> +}
+> +
+> +static inline unsigned long pgmap_pfn_geometry(struct dev_pagemap *pgmap)
+> +{
+> +       return PHYS_PFN(pgmap_geometry(pgmap));
+> +}
 
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index fbc20f6d2dd412..ff23168b8dc551 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -223,9 +223,11 @@ static void vfio_pci_probe_mmaps(struct vfio_pci_device *vdev)
- 	}
- }
- 
-+struct vfio_pci_group_info;
- static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev);
- static void vfio_pci_disable(struct vfio_pci_device *vdev);
--static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data);
-+static int vfio_hot_reset_device_set(struct vfio_pci_device *vdev,
-+				     struct vfio_pci_group_info *groups);
- 
- /*
-  * INTx masking requires the ability to disable INTx signaling via PCI_COMMAND
-@@ -645,37 +647,11 @@ static int vfio_pci_fill_devs(struct pci_dev *pdev, void *data)
- 	return 0;
- }
- 
--struct vfio_pci_group_entry {
--	struct vfio_group *group;
--	int id;
--};
--
- struct vfio_pci_group_info {
- 	int count;
--	struct vfio_pci_group_entry *groups;
-+	struct vfio_group **groups;
- };
- 
--static int vfio_pci_validate_devs(struct pci_dev *pdev, void *data)
--{
--	struct vfio_pci_group_info *info = data;
--	struct iommu_group *group;
--	int id, i;
--
--	group = iommu_group_get(&pdev->dev);
--	if (!group)
--		return -EPERM;
--
--	id = iommu_group_id(group);
--
--	for (i = 0; i < info->count; i++)
--		if (info->groups[i].id == id)
--			break;
--
--	iommu_group_put(group);
--
--	return (i == info->count) ? -EINVAL : 0;
--}
--
- static bool vfio_pci_dev_below_slot(struct pci_dev *pdev, struct pci_slot *slot)
- {
- 	for (; pdev; pdev = pdev->bus->self)
-@@ -753,12 +729,6 @@ int vfio_pci_register_dev_region(struct vfio_pci_device *vdev,
- 	return 0;
- }
- 
--struct vfio_devices {
--	struct vfio_pci_device **devices;
--	int cur_index;
--	int max_index;
--};
--
- static long vfio_pci_ioctl(struct vfio_device *core_vdev,
- 			   unsigned int cmd, unsigned long arg)
- {
-@@ -1127,11 +1097,10 @@ static long vfio_pci_ioctl(struct vfio_device *core_vdev,
- 	} else if (cmd == VFIO_DEVICE_PCI_HOT_RESET) {
- 		struct vfio_pci_hot_reset hdr;
- 		int32_t *group_fds;
--		struct vfio_pci_group_entry *groups;
-+		struct vfio_group **groups;
- 		struct vfio_pci_group_info info;
--		struct vfio_devices devs = { .cur_index = 0 };
- 		bool slot = false;
--		int i, group_idx, mem_idx = 0, count = 0, ret = 0;
-+		int group_idx, count = 0, ret = 0;
- 
- 		minsz = offsetofend(struct vfio_pci_hot_reset, count);
- 
-@@ -1198,9 +1167,7 @@ static long vfio_pci_ioctl(struct vfio_device *core_vdev,
- 				break;
- 			}
- 
--			groups[group_idx].group = group;
--			groups[group_idx].id =
--					vfio_external_user_iommu_id(group);
-+			groups[group_idx] = group;
- 		}
- 
- 		kfree(group_fds);
-@@ -1212,64 +1179,11 @@ static long vfio_pci_ioctl(struct vfio_device *core_vdev,
- 		info.count = hdr.count;
- 		info.groups = groups;
- 
--		/*
--		 * Test whether all the affected devices are contained
--		 * by the set of groups provided by the user.
--		 */
--		ret = vfio_pci_for_each_slot_or_bus(vdev->pdev,
--						    vfio_pci_validate_devs,
--						    &info, slot);
--		if (ret)
--			goto hot_reset_release;
--
--		devs.max_index = count;
--		devs.devices = kcalloc(count, sizeof(struct vfio_device *),
--				       GFP_KERNEL);
--		if (!devs.devices) {
--			ret = -ENOMEM;
--			goto hot_reset_release;
--		}
--
--		/*
--		 * We need to get memory_lock for each device, but devices
--		 * can share mmap_lock, therefore we need to zap and hold
--		 * the vma_lock for each device, and only then get each
--		 * memory_lock.
--		 */
--		ret = vfio_pci_for_each_slot_or_bus(vdev->pdev,
--					    vfio_pci_try_zap_and_vma_lock_cb,
--					    &devs, slot);
--		if (ret)
--			goto hot_reset_release;
--
--		for (; mem_idx < devs.cur_index; mem_idx++) {
--			struct vfio_pci_device *tmp = devs.devices[mem_idx];
--
--			ret = down_write_trylock(&tmp->memory_lock);
--			if (!ret) {
--				ret = -EBUSY;
--				goto hot_reset_release;
--			}
--			mutex_unlock(&tmp->vma_lock);
--		}
--
--		/* User has access, do the reset */
--		ret = pci_reset_bus(vdev->pdev);
-+		ret = vfio_hot_reset_device_set(vdev, &info);
- 
- hot_reset_release:
--		for (i = 0; i < devs.cur_index; i++) {
--			struct vfio_pci_device *tmp = devs.devices[i];
--
--			if (i < mem_idx)
--				up_write(&tmp->memory_lock);
--			else
--				mutex_unlock(&tmp->vma_lock);
--			vfio_device_put(&tmp->vdev);
--		}
--		kfree(devs.devices);
--
- 		for (group_idx--; group_idx >= 0; group_idx--)
--			vfio_group_put_external_user(groups[group_idx].group);
-+			vfio_group_put_external_user(groups[group_idx]);
- 
- 		kfree(groups);
- 		return ret;
-@@ -2155,37 +2069,94 @@ static int vfio_pci_check_all_devices_bound(struct pci_dev *pdev, void *data)
- 	return -EBUSY;
- }
- 
--static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
-+static bool vfio_dev_in_groups(struct vfio_pci_device *vdev,
-+			       struct vfio_pci_group_info *groups)
- {
--	struct vfio_devices *devs = data;
--	struct vfio_device *device;
--	struct vfio_pci_device *vdev;
-+	unsigned int i;
- 
--	if (devs->cur_index == devs->max_index)
--		return -ENOSPC;
-+	for (i = 0; i < groups->count; i++)
-+		if (groups->groups[i] == vdev->vdev.group)
-+			return true;
-+	return false;
-+}
- 
--	device = vfio_device_get_from_dev(&pdev->dev);
--	if (!device)
--		return -EINVAL;
-+/*
-+ * We need to get memory_lock for each device, but devices can share mmap_lock,
-+ * therefore we need to zap and hold the vma_lock for each device, and only then
-+ * get each memory_lock.
-+ */
-+static int vfio_hot_reset_device_set(struct vfio_pci_device *vdev,
-+				     struct vfio_pci_group_info *groups)
-+{
-+	struct vfio_device_set *dev_set = vdev->vdev.dev_set;
-+	struct vfio_pci_device *cur_mem =
-+		list_first_entry(&dev_set->device_list, struct vfio_pci_device,
-+				 vdev.dev_set_list);
-+	struct vfio_pci_device *cur_vma;
-+	struct vfio_pci_device *cur;
-+	bool is_mem = true;
-+	int ret;
- 
--	if (pci_dev_driver(pdev) != &vfio_pci_driver) {
--		vfio_device_put(device);
--		return -EBUSY;
-+	mutex_lock(&dev_set->lock);
-+
-+	/* All devices in the group to be reset need VFIO devices */
-+	if (vfio_pci_for_each_slot_or_bus(
-+		    vdev->pdev, vfio_pci_check_all_devices_bound, dev_set,
-+		    !pci_probe_reset_slot(vdev->pdev->slot))) {
-+		ret = -EINVAL;
-+		goto err_unlock;
- 	}
- 
--	vdev = container_of(device, struct vfio_pci_device, vdev);
-+	list_for_each_entry(cur_vma, &dev_set->device_list, vdev.dev_set_list) {
-+		/*
-+		 * Test whether all the affected devices are contained by the
-+		 * set of groups provided by the user.
-+		 */
-+		if (!vfio_dev_in_groups(cur_vma, groups)) {
-+			ret = -EINVAL;
-+			goto err_undo;
-+		}
- 
--	/*
--	 * Locking multiple devices is prone to deadlock, runaway and
--	 * unwind if we hit contention.
--	 */
--	if (!vfio_pci_zap_and_vma_lock(vdev, true)) {
--		vfio_device_put(device);
--		return -EBUSY;
-+		/*
-+		 * Locking multiple devices is prone to deadlock, runaway and
-+		 * unwind if we hit contention.
-+		 */
-+		if (!vfio_pci_zap_and_vma_lock(cur_vma, true)) {
-+			ret = -EBUSY;
-+			goto err_undo;
-+		}
- 	}
- 
--	devs->devices[devs->cur_index++] = vdev;
--	return 0;
-+	list_for_each_entry(cur_mem, &dev_set->device_list, vdev.dev_set_list) {
-+		if (!down_write_trylock(&cur_mem->memory_lock)) {
-+			ret = -EBUSY;
-+			goto err_undo;
-+		}
-+		mutex_unlock(&cur_mem->vma_lock);
-+	}
-+
-+	ret = pci_reset_bus(vdev->pdev);
-+
-+	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
-+		up_write(&cur->memory_lock);
-+	mutex_unlock(&dev_set->lock);
-+
-+	return ret;
-+
-+err_undo:
-+	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-+		if (cur == cur_mem)
-+			is_mem = false;
-+		if (cur == cur_vma)
-+			break;
-+		if (is_mem)
-+			up_write(&cur->memory_lock);
-+		else
-+			mutex_unlock(&cur->vma_lock);
-+	}
-+err_unlock:
-+	mutex_unlock(&dev_set->lock);
-+	return ret;
- }
- 
- /*
--- 
-2.32.0
+Are both needed? Maybe just have ->geometry natively be in nr_pages
+units directly, because pgmap_pfn_geometry() makes it confusing
+whether it's a geometry of the pfn or the geometry of the pgmap.
 
+> +
+>  #ifdef CONFIG_ZONE_DEVICE
+>  bool pfn_zone_device_reserved(unsigned long pfn);
+>  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 805d761740c4..ffcb924eb6a5 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -318,8 +318,12 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
+>         memmap_init_zone_device(&NODE_DATA(nid)->node_zones[ZONE_DEVICE],
+>                                 PHYS_PFN(range->start),
+>                                 PHYS_PFN(range_len(range)), pgmap);
+> -       percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
+> -                       - pfn_first(pgmap, range_id));
+> +       if (pgmap_geometry(pgmap) > PAGE_SIZE)
+
+This would become
+
+if (pgmap_geometry(pgmap) > 1)
+
+> +               percpu_ref_get_many(pgmap->ref, (pfn_end(pgmap, range_id)
+> +                       - pfn_first(pgmap, range_id)) / pgmap_pfn_geometry(pgmap));
+
+...and this would be pgmap_geometry()
+
+> +       else
+> +               percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
+> +                               - pfn_first(pgmap, range_id));
+>         return 0;
+>
+>  err_add_memory:
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 79f3b38afeca..188cb5f8c308 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -6597,6 +6597,31 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
+>         }
+>  }
+>
+> +static void __ref memmap_init_compound(struct page *page, unsigned long pfn,
+
+I'd feel better if @page was renamed @head... more below:
+
+> +                                       unsigned long zone_idx, int nid,
+> +                                       struct dev_pagemap *pgmap,
+> +                                       unsigned long nr_pages)
+> +{
+> +       unsigned int order_align = order_base_2(nr_pages);
+> +       unsigned long i;
+> +
+> +       __SetPageHead(page);
+> +
+> +       for (i = 1; i < nr_pages; i++) {
+
+The switch of loop styles is jarring. I.e. the switch from
+memmap_init_zone_device() that is using pfn, end_pfn, and a local
+'struct page *' variable to this helper using pfn + i and a mix of
+helpers (__init_zone_device_page,  prep_compound_tail) that have
+different expectations of head page + tail_idx and current page.
+
+I.e. this reads more obviously correct to me, but maybe I'm just in
+the wrong headspace:
+
+        for (pfn = head_pfn + 1; pfn < end_pfn; pfn++) {
+                struct page *page = pfn_to_page(pfn);
+
+                __init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
+                prep_compound_tail(head, pfn - head_pfn);
+
+> +               __init_zone_device_page(page + i, pfn + i, zone_idx,
+> +                                       nid, pgmap);
+> +               prep_compound_tail(page, i);
+> +
+> +               /*
+> +                * The first and second tail pages need to
+> +                * initialized first, hence the head page is
+> +                * prepared last.
+
+I'd change this comment to say why rather than restate what can be
+gleaned from the code. It's actually not clear to me why this order is
+necessary.
+
+> +                */
+> +               if (i == 2)
+> +                       prep_compound_head(page, order_align);
+> +       }
+> +}
+> +
+>  void __ref memmap_init_zone_device(struct zone *zone,
+>                                    unsigned long start_pfn,
+>                                    unsigned long nr_pages,
+> @@ -6605,6 +6630,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
+>         unsigned long pfn, end_pfn = start_pfn + nr_pages;
+>         struct pglist_data *pgdat = zone->zone_pgdat;
+>         struct vmem_altmap *altmap = pgmap_altmap(pgmap);
+> +       unsigned int pfns_per_compound = pgmap_pfn_geometry(pgmap);
+>         unsigned long zone_idx = zone_idx(zone);
+>         unsigned long start = jiffies;
+>         int nid = pgdat->node_id;
+> @@ -6622,10 +6648,16 @@ void __ref memmap_init_zone_device(struct zone *zone,
+>                 nr_pages = end_pfn - start_pfn;
+>         }
+>
+> -       for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+> +       for (pfn = start_pfn; pfn < end_pfn; pfn += pfns_per_compound) {
+>                 struct page *page = pfn_to_page(pfn);
+>
+>                 __init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
+> +
+> +               if (pfns_per_compound == 1)
+> +                       continue;
+> +
+> +               memmap_init_compound(page, pfn, zone_idx, nid, pgmap,
+> +                                    pfns_per_compound);
+
+I otherwise don't see anything broken with this patch, so feel free to include:
+
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+
+...on the resend with the fixups.
