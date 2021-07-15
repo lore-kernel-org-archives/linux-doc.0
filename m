@@ -2,191 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B37C12002
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 01:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AB3C12002
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85C65613C3
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 01:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80CFE61377
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 02:48:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231165AbhGOBRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jul 2021 21:17:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:45156 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234288AbhGOBRk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Jul 2021 21:17:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52CDE1396;
-        Wed, 14 Jul 2021 18:14:48 -0700 (PDT)
-Received: from entos-ampere-02.shanghai.arm.com (entos-ampere-02.shanghai.arm.com [10.169.214.103])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 29DF73F7D8;
-        Wed, 14 Jul 2021 18:14:42 -0700 (PDT)
-From:   Jia He <justin.he@arm.com>
-To:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
+        id S231393AbhGOCu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jul 2021 22:50:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230507AbhGOCu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jul 2021 22:50:58 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F40AC06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:48:05 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id x21-20020a17090aa395b029016e25313bfcso3042307pjp.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 19:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wLYnBhNAj/XYO/bo2YBoHKajEtf9fKNsRXOzJF9AhAY=;
+        b=WacdKpDj/uTksZo6/l6FDHFWO104E7OO2DgdbtlDcJCotc2VpJn0V6oiyUYEPdPbsQ
+         ssVnr/8JKm8cIKZcniDPaxqhlFzeZFAf3DvwQGD/B1iPdcQ3V/Fpehd6v6v+SXAPJpyk
+         iOvMEkx3YaxCr63is2uK9eJ3CCOBEH2cqrC/O7iDRN9K9Sw6OuE6K6CPyzF3PM3V9fL0
+         llII3rzUe9qs8gH8c/cQYk4ZZuzDjm1rrXvWSdoIrJjhh+qSlajYgTI+u6zVDvRSRyzt
+         hn4jYPeAvnkM7uGQy537gNMVXl9EVQCk26OWvOPizkE9GVOx2c3GXOsZIBAaTKlx4XoX
+         EExQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wLYnBhNAj/XYO/bo2YBoHKajEtf9fKNsRXOzJF9AhAY=;
+        b=NOhXBHPFafLN6QodTeKbIarH6OmQeIMEFRSiZbtiG35XV0DH8PyP2VQEg7sOv1COu7
+         qEFows3+fYbcs9PmonlEnRsYw6zp+KvMFMm+IrWAlLTfjsii94q7CiqwUSLm7XAUxspF
+         gM20V/Kn7tjNxMt14Ss2HN35DdG167Tqq6agyFPJP1oZRpdCC0GKjkvP3lxnDdVB7AIg
+         BkOJ9BK8SE+RijM6pt+erSyIPBdpScVjierQrowOnU9GZGf2HKBZngnamj5v8bag0dHE
+         /dncWyV6/wZS8TuMiqNwg9w+oR4xoMmEV7tIXFBoyoSNDamcjpFEXgISComa5KpMQ5FZ
+         ziOA==
+X-Gm-Message-State: AOAM531VWItLwdeStC6Oz4ACsdSQ/4SKxeYriPqDJaiAqR/CljpRrAsv
+        VVYtaJlO/Ne2eg71yfkUMY88MjOpJvLJayLE4TofQw==
+X-Google-Smtp-Source: ABdhPJwnYKsB/f8VcSXozl4jCzBcmpmRoGBlFdzIHhfg7bLHH9uUQUn0ixm4YyAIqR4ymVuzLh5W7ViAwd54SDp7dgo=
+X-Received: by 2002:a17:90a:9b13:: with SMTP id f19mr1296324pjp.229.1626317284798;
+ Wed, 14 Jul 2021 19:48:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210714193542.21857-1-joao.m.martins@oracle.com> <20210714193542.21857-8-joao.m.martins@oracle.com>
+In-Reply-To: <20210714193542.21857-8-joao.m.martins@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 15 Jul 2021 10:47:28 +0800
+Message-ID: <CAMZfGtVrv=Eh3PGkgYm+mV_E-mO9_0rVW0LSJsZh0e9Kr9hBFg@mail.gmail.com>
+Subject: Re: [External] [PATCH v3 07/14] mm/hugetlb_vmemmap: move comment
+ block to Documentation/vm
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com,
-        Jia He <justin.he@arm.com>
-Subject: [PATCH v7 5/5] lib/test_printf.c: add test cases for '%pD'
-Date:   Thu, 15 Jul 2021 09:14:07 +0800
-Message-Id: <20210715011407.7449-6-justin.he@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210715011407.7449-1-justin.he@arm.com>
-References: <20210715011407.7449-1-justin.he@arm.com>
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After the behaviour of specifier '%pD' is changed to print the full path
-of struct file, the related test cases are also updated.
+On Thu, Jul 15, 2021 at 3:36 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+>
+> In preparation for device-dax for using hugetlbfs compound page tail
+> deduplication technique, move the comment block explanation into a
+> common place in Documentation/vm.
+>
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 
-Given the full path string of '%pD' is prepended from the end of the scratch
-buffer, the check of "wrote beyond the nul-terminator" should be skipped
-for '%pD'.
+LGTM.
 
-Parameterize the new using_scratch_space in __test(), do_test() and wrapper
-macros to skip the test case mentioned above,
-
-Signed-off-by: Jia He <justin.he@arm.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- lib/test_printf.c | 49 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 39 insertions(+), 10 deletions(-)
-
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index cabdf9f5fd15..381c9dcd3c2d 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -16,6 +16,7 @@
- 
- #include <linux/bitmap.h>
- #include <linux/dcache.h>
-+#include <linux/fs.h>
- #include <linux/socket.h>
- #include <linux/in.h>
- 
-@@ -37,8 +38,8 @@ static char *alloced_buffer __initdata;
- 
- extern bool no_hash_pointers;
- 
--static int __printf(4, 0) __init
--do_test(int bufsize, const char *expect, int elen,
-+static int __printf(5, 0) __init
-+do_test(int bufsize, const char *expect, int elen, bool using_scratch_space,
- 	const char *fmt, va_list ap)
- {
- 	va_list aq;
-@@ -78,7 +79,7 @@ do_test(int bufsize, const char *expect, int elen,
- 		return 1;
- 	}
- 
--	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
-+	if (!using_scratch_space && memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
- 		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator\n",
- 			bufsize, fmt);
- 		return 1;
-@@ -97,8 +98,9 @@ do_test(int bufsize, const char *expect, int elen,
- 	return 0;
- }
- 
--static void __printf(3, 4) __init
--__test(const char *expect, int elen, const char *fmt, ...)
-+static void __printf(4, 5) __init
-+__test(const char *expect, int elen, bool using_scratch_space,
-+	const char *fmt, ...)
- {
- 	va_list ap;
- 	int rand;
-@@ -119,11 +121,11 @@ __test(const char *expect, int elen, const char *fmt, ...)
- 	 * enough and 0), and then we also test that kvasprintf would
- 	 * be able to print it as expected.
- 	 */
--	failed_tests += do_test(BUF_SIZE, expect, elen, fmt, ap);
-+	failed_tests += do_test(BUF_SIZE, expect, elen, using_scratch_space, fmt, ap);
- 	rand = 1 + prandom_u32_max(elen+1);
- 	/* Since elen < BUF_SIZE, we have 1 <= rand <= BUF_SIZE. */
--	failed_tests += do_test(rand, expect, elen, fmt, ap);
--	failed_tests += do_test(0, expect, elen, fmt, ap);
-+	failed_tests += do_test(rand, expect, elen, using_scratch_space, fmt, ap);
-+	failed_tests += do_test(0, expect, elen, using_scratch_space, fmt, ap);
- 
- 	p = kvasprintf(GFP_KERNEL, fmt, ap);
- 	if (p) {
-@@ -138,8 +140,15 @@ __test(const char *expect, int elen, const char *fmt, ...)
- 	va_end(ap);
- }
- 
-+/*
-+ * More relaxed test for non-standard formats that are using the provided buffer
-+ * as a scratch space and write beyond the trailing '\0'.
-+ */
-+#define test_using_scratch_space(expect, fmt, ...)			\
-+	__test(expect, strlen(expect), true, fmt, ##__VA_ARGS__)
-+
- #define test(expect, fmt, ...)					\
--	__test(expect, strlen(expect), fmt, ##__VA_ARGS__)
-+	__test(expect, strlen(expect), false, fmt, ##__VA_ARGS__)
- 
- static void __init
- test_basic(void)
-@@ -150,7 +159,7 @@ test_basic(void)
- 	test("", &nul);
- 	test("100%", "100%%");
- 	test("xxx%yyy", "xxx%cyyy", '%');
--	__test("xxx\0yyy", 7, "xxx%cyyy", '\0');
-+	__test("xxx\0yyy", 7, false, "xxx%cyyy", '\0');
- }
- 
- static void __init
-@@ -501,6 +510,25 @@ dentry(void)
- 	test("  bravo/alfa|  bravo/alfa", "%12pd2|%*pd2", &test_dentry[2], 12, &test_dentry[2]);
- }
- 
-+static struct vfsmount test_vfsmnt __initdata = {};
-+
-+static struct file test_file __initdata = {
-+	.f_path = { .dentry = &test_dentry[2],
-+		    .mnt = &test_vfsmnt,
-+	},
-+};
-+
-+static void __init
-+f_d_path(void)
-+{
-+	test("(null)", "%pD", NULL);
-+	test("(efault)", "%pD", PTR_INVALID);
-+
-+	test_using_scratch_space("/bravo/alfa   |/bravo/alfa   ", "%-14pD|%*pD", &test_file, -14, &test_file);
-+	test_using_scratch_space("   /bravo/alfa|   /bravo/alfa", "%14pD|%*pD", &test_file, 14, &test_file);
-+	test_using_scratch_space("   /bravo/alfa|/bravo/alfa   ", "%14pD|%-14pD", &test_file, &test_file);
-+}
-+
- static void __init
- struct_va_format(void)
- {
-@@ -789,6 +817,7 @@ test_pointer(void)
- 	ip();
- 	uuid();
- 	dentry();
-+	f_d_path();
- 	struct_va_format();
- 	time_and_date();
- 	struct_clk();
--- 
-2.17.1
-
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
