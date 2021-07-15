@@ -2,92 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B97AAC07E96
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 06:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9371CC07E96
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 08:19:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9492061370
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 06:52:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 693D5611AC
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jul 2021 08:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbhGOGy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jul 2021 02:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbhGOGy7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jul 2021 02:54:59 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C55C06175F
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jul 2021 23:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RytKYXm4KX75fZPuEx0/hV8/+9xmwDuSUAB8ht171wA=; b=mltIaCBwgrX66P0slkl+2j+B2M
-        rQrOgnmLTMAs3lfTc48w2haDkZU6ODizMF0ERmJ3rMuFv0dicbWjMOJPX/JnCvz3KxRNLIeWd4lYJ
-        p2k/zVvo9eyxktFhj7M7A+IB3rD/y6eYaoUCVplS4x2lsGcYtleIjrvsbUqF19Fz1rhUZ3iIo898m
-        5pR0/tPZYKxv5WrYNtBOK0Y6HmGquYQ1rZo54fWqsFBUDvSURWyJSIyVljogEZAMWU3B7HrqWo/K0
-        3P8MEpaaYnzPWhWoYO30Y7EfyoH0uLrNLrkKkqDc4oN7qnSoCsLQEcvD8yh41zwsc53k67cIJXoRK
-        PEvqzC1A==;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m3vAy-0034Lh-O9; Thu, 15 Jul 2021 06:49:15 +0000
-Date:   Thu, 15 Jul 2021 07:48:52 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 04/14] mm/memremap: add ZONE_DEVICE support for
- compound pages
-Message-ID: <YO/aVLL2WlWkKXia@infradead.org>
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-5-joao.m.martins@oracle.com>
+        id S236125AbhGOIWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jul 2021 04:22:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232568AbhGOIWW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Jul 2021 04:22:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77D1561183;
+        Thu, 15 Jul 2021 08:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626337170;
+        bh=x0erQbbigJxy9Ld3NKrtzpD/jdcxjRhm1Tqxclbap+0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y+iQv3zsW/c+md095zgIbme+FPYBlWFYh1qTW+6+Llku7chqjHOhjZgs6JELrJfR1
+         r5GJgzXGSbkTbOwN51DL/sqOuM+FdLiqw0dKDVTYpEjpZx5dBqPiLWfDX0gfZs540l
+         VPKubJT+iTLhwBJ4JejDlrR/T7IYKAVh3UOCnIgE=
+Date:   Thu, 15 Jul 2021 10:19:26 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Long Li <longli@microsoft.com>
+Cc:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [Patch v3 2/3] Drivers: hv: add Azure Blob driver
+Message-ID: <YO/vjkTD2UA5qJqG@kroah.com>
+References: <1626230722-1971-1-git-send-email-longli@linuxonhyperv.com>
+ <1626230722-1971-3-git-send-email-longli@linuxonhyperv.com>
+ <YO8deHGP7GBYQp5x@kroah.com>
+ <BY5PR21MB1506BDE89848097EF2488FB9CE139@BY5PR21MB1506.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210714193542.21857-5-joao.m.martins@oracle.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <BY5PR21MB1506BDE89848097EF2488FB9CE139@BY5PR21MB1506.namprd21.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static inline unsigned long pgmap_geometry(struct dev_pagemap *pgmap)
-> +{
-> +	if (!pgmap || !pgmap->geometry)
-> +		return PAGE_SIZE;
-> +	return pgmap->geometry;
+On Wed, Jul 14, 2021 at 09:14:13PM +0000, Long Li wrote:
+> > Subject: Re: [Patch v3 2/3] Drivers: hv: add Azure Blob driver
+> > 
+> > On Tue, Jul 13, 2021 at 07:45:21PM -0700, longli@linuxonhyperv.com wrote:
+> > > From: Long Li <longli@microsoft.com>
+> > >
+> > > Azure Blob storage provides scalable and durable data storage for Azure.
+> > >
+> > (https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fazu
+> > > re.microsoft.com%2Fen-
+> > us%2Fservices%2Fstorage%2Fblobs%2F&amp;data=04%7
+> > >
+> > C01%7Clongli%40microsoft.com%7C950a81a410c54c2475a308d946ec0c09%7C
+> > 72f9
+> > >
+> > 88bf86f141af91ab2d7cd011db47%7C1%7C0%7C637618801920394272%7CUnk
+> > nown%7C
+> > >
+> > TWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL
+> > CJXVC
+> > >
+> > I6Mn0%3D%7C1000&amp;sdata=iLDP6EYsoCDlLvToJB31hIQxW3NdCnR0UH31
+> > FRDwvRI%
+> > > 3D&amp;reserved=0)
+> > >
+> > > This driver adds support for accelerated access to Azure Blob storage.
+> > > As an alternative to REST APIs, it provides a fast data path that uses
+> > > host native network stack and secure direct data link for storage server
+> > access.
+> > 
+> > So it goes around the block layer?  Why?
+> 
+> Azure Blob is object-oriented storage solution designed for cloud environments.
+> While it's entirely possible to go through block layer, it's not as efficient as using
+> its native APIs for data access. Some of the security features (authentication, 
+> tokens, lifecycle management) are not easily integrated into block layer. The
+> object model in Azure Blob is designed to be scalable and doesn't have many
+> limitations that block layer enforces (e.g. number of sectors).
 
-Nit, but avoiding all the negations would make this a little easier to
-read:
+What does the kernel's filesystem and block developers and maintainers
+think about this end-run around that subsystem?  Do they agree with this
+one-off-custom-ioctl api?  Who has reviewed this api to assure you that
+it is sane and actually works properly?
 
-	if (pgmap && pgmap->geometry)
-		return pgmap->geometry;
-	return PAGE_SIZE
+And are you sure that the block layer is not efficient?  You just lost
+all use of caching and io_uring and loads of other kernel infrastructure
+that has been developed and relied on for decades.  You also just
+abandoned the POSIX model and forced people to use a
+random-custom-library just to access their storage devices, breaking all
+existing programs in the world.
 
-> +	if (pgmap_geometry(pgmap) > PAGE_SIZE)
-> +		percpu_ref_get_many(pgmap->ref, (pfn_end(pgmap, range_id)
-> +			- pfn_first(pgmap, range_id)) / pgmap_pfn_geometry(pgmap));
-> +	else
-> +		percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
-> +				- pfn_first(pgmap, range_id));
+What programs today use this new api?  Where is the api published and
+what ensures that it will remain stable?  What happens when it changes
+over time, do we have to rebuild all userspace applications?  What
+happens to the kernel code over time, how do you handle changes to the
+api there?
 
-This is a horrible undreadable mess, which is trivially fixed by a
-strategically used local variable:
+You are going to need a lot of people to agree that this is ok to
+circumvent in order to allow this to be accepted, have you done that
+yet?
 
-	refs = pfn_end(pgmap, range_id) - pfn_first(pgmap, range_id);
-	if (pgmap_geometry(pgmap) > PAGE_SIZE)
-		refs /= pgmap_pfn_geometry(pgmap);
-	percpu_ref_get_many(pgmap->ref, refs);
+> Please refer to this link for different storage models in Azure:
+> https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction#core-storage-services
 
+Links are not good for changelogs as the kernel changelog is for
+forever, while random company urls we have no control over.
+
+thanks,
+
+greg k-h
