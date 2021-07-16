@@ -2,121 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB5B5C07E95
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 06:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28095C12002
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 07:12:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACE4A613EB
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 06:10:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FD2F611AE
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 07:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbhGPGM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 02:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234160AbhGPGM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 02:12:59 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF4BC06175F;
-        Thu, 15 Jul 2021 23:10:04 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id 77so7651055qkk.11;
-        Thu, 15 Jul 2021 23:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HkvTd5iaIk2sznDHmB0qT1piFPtlRiXutiCKn07Cliw=;
-        b=hGEWMRCoK0tYN0OHIdja7INAL5BRsZO1/CJW7miWVlFa8DghO7aXJcLZFFb9m+x9lr
-         FZ7Hnbi0FQPfKu2VdUTkhUwk21bVtCMLIhUKIJm1uCaqQmE/9CZYQ37T7eGuHZARGYZ/
-         ifIpl6i/LuZqrpl27GRqjm03R8h+DJu29PJtzGe/qLOrsZ/fDpuwLzSihZO4Rsbiau+B
-         PXrBLPi3t9zZIwOoAhKxkmlqkh3KbjJ5zCbSI2ttZi8pCqCYQGf+fdIER+HTrJ2ir8Ee
-         6aHY7havqp/y7+uiSmxH7UaOFLE5+FtyhJv37MdIvyyKMKOnGFCMSvbent0i/9yCKVLn
-         OISg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HkvTd5iaIk2sznDHmB0qT1piFPtlRiXutiCKn07Cliw=;
-        b=A/MAjk2XWVu/lnuyl33QLPNl7VJwxkkZiejp/gNB4hCH4yzcfleV+3+BVOFipqUpHv
-         ugYdBMbEuIBUZUygkU8JcbD80N31oQ7prQNgsDfvEqnzK6FwBCzqDkSNkJ4nWw5ITz/o
-         WSV8115e1XG4Dl7X98HQot1+ABS0XRZXjtUJz7TEjGjnfj0Gi/V76Hj530GhcC3epDgE
-         +ZkdmTY47coeuKdaxH9WtsDegHjepEsxMrNoc45mJD0Jpf5pOk9gOSdEJhPaWnX5tD6d
-         ytKR3Ch+AfSqvUGd1gtPDMExmP+xUHsU5B9jYITAzoV0hplYl6fYycwQ0iPVQT3G1WgV
-         01Bg==
-X-Gm-Message-State: AOAM531L6XKrKHicBHmTGfd/7QQus+KsVyWj0xBygEmwwxTnfzO776J6
-        0gSD+kZZggEkbKNbyeYtYA==
-X-Google-Smtp-Source: ABdhPJxWIyd0ZBU3ZsoFjHanCPdlt/csPNBfJqsVJGF3CzWaU47iVlkiLK4SgGW4GChUM3L37uY0cA==
-X-Received: by 2002:a37:45cf:: with SMTP id s198mr8045552qka.267.1626415803783;
-        Thu, 15 Jul 2021 23:10:03 -0700 (PDT)
-Received: from PWN (104-9-124-193.lightspeed.sntcca.sbcglobal.net. [104.9.124.193])
-        by smtp.gmail.com with ESMTPSA id f1sm3481330qkh.75.2021.07.15.23.10.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 23:10:03 -0700 (PDT)
-Date:   Fri, 16 Jul 2021 02:09:58 -0400
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <jroedel@suse.de>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Zefang Han <hanzefang@gmail.com>,
-        Wei Lin Chang <r09922117@csie.ntu.edu.tw>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: x86: Remove obsolete information about x86_64
- vmalloc() faulting
-Message-ID: <20210716060958.GA2197@PWN>
-References: <20210622031910.141262-1-yepeilin.cs@gmail.com>
+        id S235110AbhGPHP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 03:15:27 -0400
+Received: from mga11.intel.com ([192.55.52.93]:52773 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229930AbhGPHPZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Jul 2021 03:15:25 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="207663283"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="asc'?scan'208";a="207663283"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2021 00:12:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="asc'?scan'208";a="495951551"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2021 00:12:21 -0700
+Date:   Fri, 16 Jul 2021 14:50:57 +0800
+From:   Zhenyu Wang <zhenyuw@linux.intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH 12/13] vfio/gvt: Fix open/close when multiple device FDs
+ are open
+Message-ID: <20210716065057.GA13928@zhen-hp.sh.intel.com>
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+References: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+ <12-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
 Content-Disposition: inline
-In-Reply-To: <20210622031910.141262-1-yepeilin.cs@gmail.com>
+In-Reply-To: <12-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
 
-> diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
-> index ede1875719fb..9798676bb0bf 100644
-> --- a/Documentation/x86/x86_64/mm.rst
-> +++ b/Documentation/x86/x86_64/mm.rst
-> @@ -140,10 +140,6 @@ The direct mapping covers all memory in the system up to the highest
->  memory address (this means in some cases it can also include PCI memory
->  holes).
->  
-> -vmalloc space is lazily synchronized into the different PML4/PML5 pages of
-> -the processes using the page fault handler, with init_top_pgt as
-> -reference.
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This information is out-of-date, and it took me quite some time of
-ftrace'ing before I figured it out...  I think it would be beneficial to
-update, or at least remove it.
+On 2021.07.14 21:20:41 -0300, Jason Gunthorpe wrote:
+> The user can open multiple device FDs if it likes, however the open
+> function calls vfio_register_notifier() on device global state. Calling
+> vfio_register_notifier() twice will trigger a WARN_ON from
+> notifier_chain_register() and the first close will wrongly delete the
+> notifier and more.
+>=20
+> Since these really want the new open/close_device() semantics just change
+> the function over.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/=
+kvmgt.c
+> index 1ac98f8aba31e6..7efa386449d104 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -885,7 +885,7 @@ static int intel_vgpu_group_notifier(struct notifier_=
+block *nb,
+>  	return NOTIFY_OK;
+>  }
+> =20
+> -static int intel_vgpu_open(struct mdev_device *mdev)
+> +static int intel_vgpu_open_device(struct mdev_device *mdev)
+>  {
+>  	struct intel_vgpu *vgpu =3D mdev_get_drvdata(mdev);
+>  	struct kvmgt_vdev *vdev =3D kvmgt_vdev(vgpu);
+> @@ -1004,7 +1004,7 @@ static void __intel_vgpu_release(struct intel_vgpu =
+*vgpu)
+>  	vgpu->handle =3D 0;
+>  }
+> =20
+> -static void intel_vgpu_release(struct mdev_device *mdev)
+> +static void intel_vgpu_close_device(struct mdev_device *mdev)
+>  {
+>  	struct intel_vgpu *vgpu =3D mdev_get_drvdata(mdev);
+> =20
+> @@ -1753,8 +1753,8 @@ static struct mdev_parent_ops intel_vgpu_ops =3D {
+>  	.create			=3D intel_vgpu_create,
+>  	.remove			=3D intel_vgpu_remove,
+> =20
+> -	.open			=3D intel_vgpu_open,
+> -	.release		=3D intel_vgpu_release,
+> +	.open_device		=3D intel_vgpu_open_device,
+> +	.close_device		=3D intel_vgpu_close_device,
+> =20
+>  	.read			=3D intel_vgpu_read,
+>  	.write			=3D intel_vgpu_write,
 
-As a proof that I understand what I am talking about, on my x86_64 box:
+Looks ok to me. Thanks!
 
-  1. I allocated a vmalloc() area containing linear address `addr`;
-  2. I manually pagewalked `addr` in different page tables, including
-     `init_mm.pgd`;
-  3. The corresponding PGD entries for `addr` in different page tables,
-     they all immediately pointed at the same PUD table (my box uses
-     4-level paging), at the same physical address;
-  4. No "lazy synchronization" via page fault handling happened at all,
-     since it is the same PUD table pre-allocated by
-     preallocate_vmalloc_pages() during boot time.
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
 
-Commit 6eb82f994026 ("x86/mm: Pre-allocate P4D/PUD pages for vmalloc
-area") documented this clearly:
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-"""
-Doing this at boot makes sure no synchronization of that area is
-necessary at runtime.
-"""
+-----BEGIN PGP SIGNATURE-----
 
-Should we remove this sentence, or update it?  Any ideas?
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYPEsTAAKCRCxBBozTXgY
+Jx7CAJwL3rjxtO0hmyVLloknYXTNq4Pl4gCcC95wG37YNR4DYMf5Ns1jbuH5Nqk=
+=WTLJ
+-----END PGP SIGNATURE-----
 
-Sincerely,
-Peilin Ye
-
+--k+w/mQv8wyuph6w0--
