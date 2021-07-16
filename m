@@ -2,84 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABFDC12002
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37333C636CA
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:44:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BDC0613EE
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:33:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19D06613F9
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:44:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbhGPSgu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 14:36:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43372 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229462AbhGPSgu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Jul 2021 14:36:50 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AB8D14A2;
-        Fri, 16 Jul 2021 18:33:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB8D14A2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1626460434; bh=IOhvh6s7TBzb4YTWnj3YYWT8WSg5gjl2lvgZ2N5ehl4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=fUL2Yx/YDe/7uF32i1McO29I4co2rP06ugCGpzaXwHaoKbMbhDV/h1niL3iWwDiol
-         RtxhD1yU4IZr4xj0a1rt4b6QYOv9a05uq1zNLqi0twnKbvYaUTxUhFQJPzihtPA/63
-         1WWd9XdHZ+jDU5+e+IUjDom6zoCDF/E213i887f2mhzmxFpPv+8oWHSuKhZaFk1/3z
-         YA0JJ+qZF4ibhKBlhORq7DKKUTqkhQTNj3vMITIkSqsCoTGyKeUxL6xmqhEsBydHTv
-         OoC5mXM50IOmFwEyd0WuTIVsqcvyaklEXWBy4f+DkI4wA88KrjckMEo80bhRZUaLg6
-         xUUEmIQKxP3OQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linuxfoundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.14
-Date:   Fri, 16 Jul 2021 12:33:54 -0600
-Message-ID: <87fsweds6l.fsf@meer.lwn.net>
+        id S231989AbhGPSr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 14:47:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53463 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229534AbhGPSr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 14:47:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626461071;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7RoDupO6M1bVRrm6W8ZOvDrptNGSB7yFCE/hhZqmCP0=;
+        b=RwDNRDvOsdUGbZ6Zfo4pFN7JYKQ6czviRweCPE2uYNRxkfI5K6AqHm8W35+yFcfpsNviIt
+        7TQSeSDxHobZC3LFq63k9mx20gMpQo6Z0PhzPYC1bt0/cw4GvF/aJ4PbKCXx1727mOw77V
+        MkHYfjVInL2WGvZyhwzKVksD5pIZ2IU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-SeBAsewNOiyAf8Aa4Lzgdg-1; Fri, 16 Jul 2021 14:44:30 -0400
+X-MC-Unique: SeBAsewNOiyAf8Aa4Lzgdg-1
+Received: by mail-qv1-f71.google.com with SMTP id jo25-20020a0562145019b0290300a4fa83d8so2064432qvb.23
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 11:44:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=7RoDupO6M1bVRrm6W8ZOvDrptNGSB7yFCE/hhZqmCP0=;
+        b=gauMPaadlQGB/2x0MclKn2Hx6/i8aSVOOD2AHb5Xj9l7EfQ1Gi2b6tABkGnAsWAUB7
+         8maBWE9kqyO3G3yJVYpaduL2xCIc6ZUZQrwkPVj6rGHn8sOjMO/U1fGIEW/T7fHYh8hx
+         6+r5ThTPxD7MbURs7Zow0i61KgEId2gf06RdOH7VDQNxvYaGepA+lNFczD93HudADWZl
+         3NHd4gyUBizbY1nHejygdFua5Kvd5OV/eVrAKgiFkQujp8BCM0//KkKhb9NsFUy9OPQ6
+         2wFalQcTdWypEph4rJxuX8iZs0lVuaAk3SvEgDDIjfvHHhs8nLXD9rjrnd2p9XElXdmb
+         BR2Q==
+X-Gm-Message-State: AOAM531rM3X6sCVHsGzw2SSxMykpd4xpcrYpmqTIppqL+fTu90U6nYnw
+        w/xObK3W6HwEBnmuWVDE++yOvURH/oyd/6JAMetQTBrzpCkECPzDXHhfeAP1PGsS1qsv9Ia6R8i
+        WkfZwIowjsPA7D7Aoz6r1
+X-Received: by 2002:a05:622a:170d:: with SMTP id h13mr10563980qtk.264.1626461070119;
+        Fri, 16 Jul 2021 11:44:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydn1Bq/Od/FhPPzfBC0XbXQPdklkUWDSUSQGqXvXC0USgTcignUQvoPYX4S8z7m7xo5sIAMg==
+X-Received: by 2002:a05:622a:170d:: with SMTP id h13mr10563965qtk.264.1626461069928;
+        Fri, 16 Jul 2021 11:44:29 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id a16sm4177617qkn.107.2021.07.16.11.44.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jul 2021 11:44:29 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v2 2/6] cgroup/cpuset: Clarify the use of invalid
+ partition root
+To:     Tejun Heo <tj@kernel.org>, Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>
+References: <20210621184924.27493-1-longman@redhat.com>
+ <20210621184924.27493-3-longman@redhat.com>
+ <YNcHOe3o//pIiByh@mtj.duckdns.org>
+ <6ea1ac38-73e1-3f78-a5d2-a4c23bcd8dd1@redhat.com>
+ <YONGk3iw/zrNzwLK@mtj.duckdns.org>
+Message-ID: <c6ae2d9b-ad6e-9bbd-b25c-f52b0ff6fb9b@redhat.com>
+Date:   Fri, 16 Jul 2021 14:44:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <YONGk3iw/zrNzwLK@mtj.duckdns.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
+On 7/5/21 1:51 PM, Tejun Heo wrote:
+> Hello, Waiman.
+>
+> On Mon, Jun 28, 2021 at 09:06:50AM -0400, Waiman Long wrote:
+>> The main reason for doing this is because normal cpuset control file actions
+>> are under the direct control of the cpuset code. So it is up to us to decide
+>> whether to grant it or deny it. Hotplug, on the other hand, is not under the
+>> control of cpuset code. It can't deny a hotplug operation. This is the main
+>> reason why the partition root error state was added in the first place.
+> I have a difficult time convincing myself that this difference justifies the
+> behavior difference and it keeps bothering me that there is a state which
+> can be reached through one path but rejected by the other. I'll continue
+> below.
+>
+>> Normally, users can set cpuset.cpus to whatever value they want even though
+>> they are not actually granted. However, turning on partition root is under
+>> more strict control. You can't turn on partition root if the CPUs requested
+>> cannot actually be granted. The problem with setting the state to just
+>> partition error is that users may not be aware that the partition creation
+>> operation fails.  We can't assume all users will do the proper error
+>> checking. I would rather let them know the operation fails rather than
+>> relying on them doing the proper check afterward.
+>>
+>> Yes, I agree that it is a different philosophy than the original cpuset
+>> code, but I thought one reason of doing cgroup v2 is to simplify the
+>> interface and make it a bit more erorr-proof. Since partition root creation
+>> is a relatively rare operation, we can afford to make it more strict than
+>> the other operations.
+> So, IMO, one of the reasons why cgroup1 interface was such a mess was
+> because each piece of interaction was designed ad-hoc without regard to the
+> overall consistency. One person feels a particular way of interacting with
+> the interface is "correct" and does it that way and another person does
+> another part in a different way. In the end, we ended up with a messy
+> patchwork.
+>
+> One problematic aspect of cpuset in cgroup1 was the handling of failure
+> modes, which was caused by the same exact approach - we wanted the interface
+> to reject invalid configurations outright even though we didn't have the
+> ability to prevent those configurations from occurring through other paths,
+> which makes the failure mode more subtle by further obscuring them.
+>
+> I think a better approach would be having a clear signal and mechanism to
+> watch the state and explicitly requiring users to verify and monitor the
+> state transitions.
 
-  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
+Sorry for the late reply as I was busy with other works.
 
-are available in the Git repository at:
+I agree with you on principle. However, the reason why there are more 
+restrictions on enabling partition is because I want to avoid forcing 
+the users to always read back cpuset.partition.type to see if the 
+operation succeeds instead of just getting an error from the operation. 
+The former approach is more error prone. If you don't want changes in 
+existing behavior, I can relax the checking and allow them to become an 
+invalid partition if an illegal operation happens.
 
-  git://git.lwn.net/linux.git tags/docs-5.14-2
+Also there is now another cpuset patch to extend cpu isolation to cgroup 
+v1 [1]. I think it is better suit to the cgroup v2 partition scheme, but 
+cgroup v1 is still quite heavily out there.
 
-for you to fetch changes up to 530c4374e21ae750c5fa5aa67b36a97635ddb379:
+Please let me know what you want me to do and I will send out a v3 version.
 
-  docs/zh_CN: add a missing space character (2021-07-15 06:33:44 -0600)
+Thanks a lot!
+Longman
 
-----------------------------------------------------------------
-A handful of fixes in and around documentation.  Some funky quotes in
-LICENSES/dual/CC-BY-4.0 were giving spdxcheck.py grief; that has been
-fixed on both ends.  Also a couple of features updates and one docs
-build fix.
-
-----------------------------------------------------------------
-Hu Haowen (1):
-      docs/zh_CN: add a missing space character
-
-Ingo Molnar (2):
-      Documentation/features: Update the ARCH_HAS_TICK_BROADCAST entry
-      Documentation/features: Add THREAD_INFO_IN_TASK feature matrix
-
-Nishanth Menon (2):
-      scripts/spdxcheck.py: Strictly read license files in utf-8
-      LICENSES/dual/CC-BY-4.0: Git rid of "smart quotes"
-
- .../core/thread-info-in-task/arch-support.txt      | 32 ++++++++++++++++++++++
- .../time/arch-tick-broadcast/arch-support.txt      |  2 +-
- .../translations/zh_CN/process/2.Process.rst       |  4 +--
- LICENSES/dual/CC-BY-4.0                            |  2 +-
- scripts/spdxcheck.py                               |  2 +-
- 5 files changed, 37 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/features/core/thread-info-in-task/arch-support.txt
