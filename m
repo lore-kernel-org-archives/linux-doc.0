@@ -2,109 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E0EC636C8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 01:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F00BEC07E95
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 04:27:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F060613E7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 01:49:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA0D4613E8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 04:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbhGPBwF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jul 2021 21:52:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230297AbhGPBwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jul 2021 21:52:05 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3A9C06175F;
-        Thu, 15 Jul 2021 18:49:10 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id u14so11872812ljh.0;
-        Thu, 15 Jul 2021 18:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ooSnDnaRR1y2Zt84zTUnLEoZAoDuRHyWJmkvYjQARyY=;
-        b=IjXqonnTm4PDZn+/7269i0JJN00zVfCYtT+x/4bKk5lHWl6H5aMSAElprq580/8juE
-         1xAU6nQEqlEJ4zLpw30X+OIdNxFDMU/QssAqZS17eJVhNhUChK+M5eqjkFhiuEx56Qit
-         8WuWx6fCJkCEYULYt0U3ZeSvaIVn3r/6PBinfskma7puk1fJiUqoxDPsYk1PDNAXjqAy
-         OXSLWnRJ9+8fzTJ1f+bIlfG+rZuHpwAi46638Tq+lOTFjaAyu0e6cuS/A/BwFiUMFDT+
-         gfK81TdTELwrCZuNwvh6UruV2CK0dI0zkp2qQ1pm5ZAf9hTC8JAbj6sxLAMt4CLDAyKv
-         od9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ooSnDnaRR1y2Zt84zTUnLEoZAoDuRHyWJmkvYjQARyY=;
-        b=bjPR3oSMfVrRx4fNUYoYFvUOm7YSkCtZUfR0Fq/YYbbEnXXkj73MLK+lWPzDgaCXoF
-         8R5OmBYsPAtGWRqbN3/XXqWprlgdRfV11DUNpJTRBMr4VBkATtDUO/WiQuJUXQk7ZzB6
-         T9diuuBchlkd82Nk1fyoW/pRG5KMI+vUrBX+giEvYLUqNrh1RQxizqrYSH77ZyPM4J80
-         yXSzhZJMSlausR1BOnHPRaCbPih60aqGDUJqQ7icvlpYmn/qBpLAlCBE1yV3ezL0IM7U
-         WHX6pFbD79UBgQFtPWYRx5LZAgplmssVfQm/SqpedMuXyDME+wj0YiZzdt1S6u5uxLKD
-         Fmtw==
-X-Gm-Message-State: AOAM531B10goftB/KdZsiIYicQcKI1kZXBNXPr1daprCSP9QzTfEfLSG
-        5QSQE6aUMrNURrCalEZNe6837k9WYdkUooovSXc=
-X-Google-Smtp-Source: ABdhPJxi3dW8s9VnSn6wSkvqXocXr6SGUM/bv49mLVpSdhOBoP9wU1TO0PiTIvxstkaRLHqVWXlHEwgRD2k/i8mNXVw=
-X-Received: by 2002:a2e:a887:: with SMTP id m7mr2877598ljq.236.1626400148732;
- Thu, 15 Jul 2021 18:49:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <royujjal@gmail.com> <20210712173723.1597-1-royujjal@gmail.com> <60ee2dc76ac1c_196e22088d@john-XPS-13-9370.notmuch>
-In-Reply-To: <60ee2dc76ac1c_196e22088d@john-XPS-13-9370.notmuch>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Thu, 15 Jul 2021 18:48:57 -0700
-Message-ID: <CAADnVQJ=DoRDcVkaXmY3EmNdLoO7gq1mkJOn5G=00wKH8qUtZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-nxt] Documentation/bpf: Add heading and example for
- extensions in filter.rst
-To:     John Fastabend <john.fastabend@gmail.com>
-Cc:     "Roy, UjjaL" <royujjal@gmail.com>, Song Liu <song@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Networking <netdev@vger.kernel.org>, BPF <bpf@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S229692AbhGPEal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 00:30:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229678AbhGPEal (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Jul 2021 00:30:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E97C613E7;
+        Fri, 16 Jul 2021 04:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1626409665;
+        bh=tFDxqE59akvzwWpsNI0XGlepos706KgR+S84geBuR5Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BIsdIYZBf/GIZ/OG58cLxRbzeAIkH1UYvYJAk8ynX6PqF4mPL1JeHGw7BzUD/QUcY
+         IslPB0HK0ufUaCZSodRP4RN0CUaVQdYInv3kcB8PsCmSp3+lqd/tTAABNRJ4khiNzn
+         u4Oe7KrmMPL4pXX2jRDYepqW7kOsxuQp0H86hJmE=
+Date:   Thu, 15 Jul 2021 21:27:44 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Charan Teja Kalla <charante@codeaurora.org>
+Cc:     vbabka@suse.cz, corbet@lwn.net, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        rientjes@google.com, mchehab+huawei@kernel.org,
+        lokeshgidra@google.com, andrew.a.klychkov@gmail.com,
+        xi.fengfei@h3c.com, nigupta@nvidia.com,
+        dave.hansen@linux.intel.com, famzheng@amazon.com,
+        mateusznosek0@gmail.com, oleksandr@redhat.com, sh_def@163.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>
+Subject: Re: [PATCH V4,0/3] mm: compaction: proactive compaction trigger by
+ user
+Message-Id: <20210715212744.1a43012c21711bafd25e5b68@linux-foundation.org>
+In-Reply-To: <c0150787-5f85-29ac-9666-05fabedabb1e@codeaurora.org>
+References: <cover.1624028025.git.charante@codeaurora.org>
+        <c0150787-5f85-29ac-9666-05fabedabb1e@codeaurora.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 13, 2021 at 5:20 PM John Fastabend <john.fastabend@gmail.com> wrote:
->
-> Roy, UjjaL wrote:
-> > [1] https://www.kernel.org/doc/html/latest/bpf/
-> >
-> > Add new heading for extensions to make it more readable. Also, add one
-> > more example of filtering interface index for better understanding.
-> >
-> > Signed-off-by: Roy, UjjaL <royujjal@gmail.com>
-> > Acked-by: Song Liu <songliubraving@fb.com>
->
-> Looks OK to me. I thought the original was readable without the header, but
-> if it helps someone seems easy enough to do.
->
-> Acked-by: John Fastabend <john.fastabend@gmail.com>
+On Sat, 3 Jul 2021 15:52:10 +0530 Charan Teja Kalla <charante@codeaurora.org> wrote:
 
-I cannot figure out how to apply this patch, because I see:
-Applying: Documentation/bpf: Add heading and example for extensions in
-filter.rst
-fatal: empty ident name (for <>) not allowed
+> A gentle ping to have your valuable comments.
 
-Any idea?
+Can we please have a resend?
+
+The series has two fixes against the current code.  Please separate
+that work out from the new feature.  So a 2-patch series to fix the bugs
+followed by a single patch to add your new feature.
+
+
