@@ -2,67 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F00BEC07E95
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 04:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB5B5C07E95
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 06:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA0D4613E8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 04:27:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACE4A613EB
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 06:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbhGPEal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 00:30:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229678AbhGPEal (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Jul 2021 00:30:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E97C613E7;
-        Fri, 16 Jul 2021 04:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1626409665;
-        bh=tFDxqE59akvzwWpsNI0XGlepos706KgR+S84geBuR5Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BIsdIYZBf/GIZ/OG58cLxRbzeAIkH1UYvYJAk8ynX6PqF4mPL1JeHGw7BzUD/QUcY
-         IslPB0HK0ufUaCZSodRP4RN0CUaVQdYInv3kcB8PsCmSp3+lqd/tTAABNRJ4khiNzn
-         u4Oe7KrmMPL4pXX2jRDYepqW7kOsxuQp0H86hJmE=
-Date:   Thu, 15 Jul 2021 21:27:44 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Charan Teja Kalla <charante@codeaurora.org>
-Cc:     vbabka@suse.cz, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        rientjes@google.com, mchehab+huawei@kernel.org,
-        lokeshgidra@google.com, andrew.a.klychkov@gmail.com,
-        xi.fengfei@h3c.com, nigupta@nvidia.com,
-        dave.hansen@linux.intel.com, famzheng@amazon.com,
-        mateusznosek0@gmail.com, oleksandr@redhat.com, sh_def@163.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>
-Subject: Re: [PATCH V4,0/3] mm: compaction: proactive compaction trigger by
- user
-Message-Id: <20210715212744.1a43012c21711bafd25e5b68@linux-foundation.org>
-In-Reply-To: <c0150787-5f85-29ac-9666-05fabedabb1e@codeaurora.org>
-References: <cover.1624028025.git.charante@codeaurora.org>
-        <c0150787-5f85-29ac-9666-05fabedabb1e@codeaurora.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S230088AbhGPGM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 02:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234160AbhGPGM7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 02:12:59 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF4BC06175F;
+        Thu, 15 Jul 2021 23:10:04 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id 77so7651055qkk.11;
+        Thu, 15 Jul 2021 23:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HkvTd5iaIk2sznDHmB0qT1piFPtlRiXutiCKn07Cliw=;
+        b=hGEWMRCoK0tYN0OHIdja7INAL5BRsZO1/CJW7miWVlFa8DghO7aXJcLZFFb9m+x9lr
+         FZ7Hnbi0FQPfKu2VdUTkhUwk21bVtCMLIhUKIJm1uCaqQmE/9CZYQ37T7eGuHZARGYZ/
+         ifIpl6i/LuZqrpl27GRqjm03R8h+DJu29PJtzGe/qLOrsZ/fDpuwLzSihZO4Rsbiau+B
+         PXrBLPi3t9zZIwOoAhKxkmlqkh3KbjJ5zCbSI2ttZi8pCqCYQGf+fdIER+HTrJ2ir8Ee
+         6aHY7havqp/y7+uiSmxH7UaOFLE5+FtyhJv37MdIvyyKMKOnGFCMSvbent0i/9yCKVLn
+         OISg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HkvTd5iaIk2sznDHmB0qT1piFPtlRiXutiCKn07Cliw=;
+        b=A/MAjk2XWVu/lnuyl33QLPNl7VJwxkkZiejp/gNB4hCH4yzcfleV+3+BVOFipqUpHv
+         ugYdBMbEuIBUZUygkU8JcbD80N31oQ7prQNgsDfvEqnzK6FwBCzqDkSNkJ4nWw5ITz/o
+         WSV8115e1XG4Dl7X98HQot1+ABS0XRZXjtUJz7TEjGjnfj0Gi/V76Hj530GhcC3epDgE
+         +ZkdmTY47coeuKdaxH9WtsDegHjepEsxMrNoc45mJD0Jpf5pOk9gOSdEJhPaWnX5tD6d
+         ytKR3Ch+AfSqvUGd1gtPDMExmP+xUHsU5B9jYITAzoV0hplYl6fYycwQ0iPVQT3G1WgV
+         01Bg==
+X-Gm-Message-State: AOAM531L6XKrKHicBHmTGfd/7QQus+KsVyWj0xBygEmwwxTnfzO776J6
+        0gSD+kZZggEkbKNbyeYtYA==
+X-Google-Smtp-Source: ABdhPJxWIyd0ZBU3ZsoFjHanCPdlt/csPNBfJqsVJGF3CzWaU47iVlkiLK4SgGW4GChUM3L37uY0cA==
+X-Received: by 2002:a37:45cf:: with SMTP id s198mr8045552qka.267.1626415803783;
+        Thu, 15 Jul 2021 23:10:03 -0700 (PDT)
+Received: from PWN (104-9-124-193.lightspeed.sntcca.sbcglobal.net. [104.9.124.193])
+        by smtp.gmail.com with ESMTPSA id f1sm3481330qkh.75.2021.07.15.23.10.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 23:10:03 -0700 (PDT)
+Date:   Fri, 16 Jul 2021 02:09:58 -0400
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <jroedel@suse.de>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Zefang Han <hanzefang@gmail.com>,
+        Wei Lin Chang <r09922117@csie.ntu.edu.tw>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: x86: Remove obsolete information about x86_64
+ vmalloc() faulting
+Message-ID: <20210716060958.GA2197@PWN>
+References: <20210622031910.141262-1-yepeilin.cs@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622031910.141262-1-yepeilin.cs@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 3 Jul 2021 15:52:10 +0530 Charan Teja Kalla <charante@codeaurora.org> wrote:
+Hi all,
 
-> A gentle ping to have your valuable comments.
+> diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
+> index ede1875719fb..9798676bb0bf 100644
+> --- a/Documentation/x86/x86_64/mm.rst
+> +++ b/Documentation/x86/x86_64/mm.rst
+> @@ -140,10 +140,6 @@ The direct mapping covers all memory in the system up to the highest
+>  memory address (this means in some cases it can also include PCI memory
+>  holes).
+>  
+> -vmalloc space is lazily synchronized into the different PML4/PML5 pages of
+> -the processes using the page fault handler, with init_top_pgt as
+> -reference.
 
-Can we please have a resend?
+This information is out-of-date, and it took me quite some time of
+ftrace'ing before I figured it out...  I think it would be beneficial to
+update, or at least remove it.
 
-The series has two fixes against the current code.  Please separate
-that work out from the new feature.  So a 2-patch series to fix the bugs
-followed by a single patch to add your new feature.
+As a proof that I understand what I am talking about, on my x86_64 box:
 
+  1. I allocated a vmalloc() area containing linear address `addr`;
+  2. I manually pagewalked `addr` in different page tables, including
+     `init_mm.pgd`;
+  3. The corresponding PGD entries for `addr` in different page tables,
+     they all immediately pointed at the same PUD table (my box uses
+     4-level paging), at the same physical address;
+  4. No "lazy synchronization" via page fault handling happened at all,
+     since it is the same PUD table pre-allocated by
+     preallocate_vmalloc_pages() during boot time.
+
+Commit 6eb82f994026 ("x86/mm: Pre-allocate P4D/PUD pages for vmalloc
+area") documented this clearly:
+
+"""
+Doing this at boot makes sure no synchronization of that area is
+necessary at runtime.
+"""
+
+Should we remove this sentence, or update it?  Any ideas?
+
+Sincerely,
+Peilin Ye
 
