@@ -2,131 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE633C636CA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 17:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78607C636CA
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 17:34:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1226613FD
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 17:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 607D0613FB
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 17:34:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbhGPRbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 13:31:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58620 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229803AbhGPRbG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Jul 2021 13:31:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5618A613FD;
-        Fri, 16 Jul 2021 17:28:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1626456490;
-        bh=M2I/HaAF2t1p5V1162lM9GPJnRQ8sAYIEYzt6UQRuCk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YkTCoKJskYPAl/8zlMwaMwS6RNFF9yDvv+86+qGODMKWfo2za1Avl8EJgQKP/+Dlc
-         n8TYlFvLo8VUku33Vk82jfOel01Ba3d/l6sWEZZo6U/W6cQwykE3PG4iNT1P2QTcTK
-         1SqFivZHNhkKP2mrEXk8YJjT7FyfHsMhBbZEVqQE=
-Date:   Fri, 16 Jul 2021 19:28:06 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Michael Kelley <mikelley@microsoft.com>
-Cc:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Long Li <longli@microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [Patch v3 2/3] Drivers: hv: add Azure Blob driver
-Message-ID: <YPHBpo1n/COMegcE@kroah.com>
-References: <1626230722-1971-1-git-send-email-longli@linuxonhyperv.com>
- <1626230722-1971-3-git-send-email-longli@linuxonhyperv.com>
- <MWHPR21MB15937DF3FB30DDA65EF58EE1D7119@MWHPR21MB1593.namprd21.prod.outlook.com>
+        id S231503AbhGPRhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 13:37:45 -0400
+Received: from mail-il1-f176.google.com ([209.85.166.176]:45807 "EHLO
+        mail-il1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231485AbhGPRho (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 13:37:44 -0400
+Received: by mail-il1-f176.google.com with SMTP id b6so8966382iln.12;
+        Fri, 16 Jul 2021 10:34:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iPb7ckziK4kV9zNM6d9iK4b7roci6qqd+Gv92I6XJVU=;
+        b=tbgB/gC3RvWJ50XEdAA9hml3skG0957cBgZybHREB4YZJ2GKKGdna5KQdhvgb9jXi9
+         DzP37qkyWMIPvHTlatMcibFcg4Ky2FEm//RYsnLRaTMX5jhT/JKW0HiuzT/FsA+5lstq
+         s2lSqWmxBcfSvGvo6uXHhLVDCSfthy1akfNt96B/QVcoJvnMWt6VS+Z/gIDp1fIn2BQT
+         6eXWyK15KuDsr86/wApAXTIX+37gSk0lvCdIVb3YCPLEpRZ/62lt7YJw4arJGG85A7Ur
+         CIiji1FGN5M4UtPjDYPlEOmMagQzmMBvXTkfoAmGxzspMkRNzdULINEn4pwnJqHV5T3f
+         zbEA==
+X-Gm-Message-State: AOAM531C9xp3VmOso4yru1dhtIf4F/zi3HkxZkGtSJMLdJvL+t1EX/j7
+        GGpJm9NAHlF5ZbdTWrUay4LjWkqw0g==
+X-Google-Smtp-Source: ABdhPJyKVjf0100xt5UQ7F9dhFRP/lQhHl+nq9gAbSXPcH5nkSAeXz19sGCDD/0YQ2ZJLRqjQla1Qw==
+X-Received: by 2002:a92:c504:: with SMTP id r4mr7106583ilg.131.1626456888668;
+        Fri, 16 Jul 2021 10:34:48 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id a11sm5100043ilf.79.2021.07.16.10.34.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jul 2021 10:34:47 -0700 (PDT)
+Received: (nullmailer pid 3643640 invoked by uid 1000);
+        Fri, 16 Jul 2021 17:34:43 -0000
+Date:   Fri, 16 Jul 2021 11:34:43 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Joel Stanley <joel@jms.id.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Open Source Submission <patches@amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+        openbmc@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
+        Phong Vo <phong@os.amperecomputing.com>,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v5 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro MFD driver
+Message-ID: <20210716173443.GA3643583@robh.at.kernel.org>
+References: <20210713060031.31568-1-quan@os.amperecomputing.com>
+ <20210713060031.31568-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MWHPR21MB15937DF3FB30DDA65EF58EE1D7119@MWHPR21MB1593.namprd21.prod.outlook.com>
+In-Reply-To: <20210713060031.31568-2-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 16, 2021 at 03:56:14PM +0000, Michael Kelley wrote:
-> > +static int az_blob_remove(struct hv_device *dev)
-> > +{
-> > +	az_blob_dev.removing = true;
-> > +	/*
-> > +	 * RCU lock guarantees that any future calls to az_blob_fop_open()
-> > +	 * can not use device resources while the inode reference of
-> > +	 * /dev/azure_blob is being held for that open, and device file is
-> > +	 * being removed from /dev.
-> > +	 */
-> > +	synchronize_rcu();
+On Tue, 13 Jul 2021 13:00:28 +0700, Quan Nguyen wrote:
+> Adds device tree bindings for SMPro MFD driver found on the Mt.Jade
+> hardware reference platform with Ampere's Altra Processor family.
 > 
-> I don't think this works as you have described.  While it will ensure that
-> any in-progress RCU read-side critical sections have completed (i.e.,
-> in az_blob_fop_open() ), it does not prevent new read-side critical sections
-> from being started.  So as soon as synchronize_rcu() is finished, another
-> thread could find and open the device, and be executing in
-> az_blob_fop_open().
+> The SMpro co-processor on Ampere Altra processor family is to monitor
+> and report various data included hwmon-related info, RAS errors, and
+> other miscellaneous information.
 > 
-> But it's not clear to me that this (and the rcu_read_locks in az_blob_fop_open)
-> are really needed anyway.  If az_blob_remove_device() is called while one or more
-> threads have it open, I think that's OK.  Or is there a scenario that I'm missing?
-
-This should not be different from any other tiny character device, why
-the mess with RCU at all?
-
-> > +	az_blob_info("removing device\n");
-> > +	az_blob_remove_device();
-> > +
-> > +	/*
-> > +	 * At this point, it's not possible to open more files.
-> > +	 * Wait for all the opened files to be released.
-> > +	 */
-> > +	wait_event(az_blob_dev.file_wait, list_empty(&az_blob_dev.file_list));
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> ---
+> Changes in v5:
+>   + Dropped ../bindings/hwmon/ampere,ac01-hwmon.yaml file [Quan]
+>   + Removed patternProperties section and child DT nodes in example
+>   section [Quan]
+>   + Revised commit message [Quan]
 > 
-> As mentioned in my most recent comments on the previous version of the
-> code, I'm concerned about waiting for all open files to be released in the case
-> of a VMbus rescind.  We definitely have to wait for all VSP operations to
-> complete, but that's different from waiting for the files to be closed.  The former
-> depends on Hyper-V being well-behaved and will presumably happen quickly
-> in the case of a rescind.  But the latter depends entirely on user space code
-> that is out of the kernel's control.  The user space process could hang around
-> for hours or days with the file still open, which would block this function
-> from completing, and hence block the global work queue.
+> Changes in v4:
+>   + Revised the commit message to clarify how the specific info will
+>     be handled commented by Rob.
 > 
-> Thinking about this, the core issue may be that having a single static
-> instance of az_blob_device is problematic if we allow the device to be
-> removed (either explicitly with an unbind, or implicitly with a VMbus
-> rescind) and then re-added.  Perhaps what needs to happen is that
-> the removed device is allowed to continue to exist as long as user
-> space processes have an open file handle, but they can't perform
-> any operations because the "removing" flag is set (and stays set).
-> If the device is re-added, then a new instance of az_blob_device
-> should be created, and whether or not the old instance is still
-> hanging around is irrelevant.
+> Changes in v3:
+>   + Supported list of compatible string [Rob]
+>   + Introduced reg property in DT to specify reg offset [Rob]
+>   + Updated description and other minor changes in yaml file [Rob]
+> 
+> Changes in v2:
+>   + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
+> 
+>  .../devicetree/bindings/mfd/ampere,smpro.yaml | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+> 
 
-You should never have a single static copy of the device, that was going
-to be my first review comment once this all actually got to a place that
-made sense to review (which it is not even there yet.)  When you do
-that, then you have these crazy race issues you speak of.  Use the misc
-api correctly and you will not have any of these problems, why people
-try to make it harder is beyond me...
-
-thanks,
-
-greg k-h
+Reviewed-by: Rob Herring <robh@kernel.org>
