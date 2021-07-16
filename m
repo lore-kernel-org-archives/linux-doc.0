@@ -2,118 +2,452 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4287DC636CA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 21:29:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0524EC636CB
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 21:50:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2396B613E3
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 21:29:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE95D6109E
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 21:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235173AbhGPVb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 17:31:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42030 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234231AbhGPVb5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 17:31:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626470942;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YABHDSw9b5sWUS8tb4/mSbwzJgD3Ug0F6zV+ryBO8W8=;
-        b=aRZr4WzqthHBGhZOykWgSaKdGrcUXbkDtWJciTiH0bjIxrT/1mUazWs3C8FFf3KWfx0gNs
-        FXwXSusJqO9kvWpEdasZZFVdeBNhWxXbkvZzPla0P/FyL+JrNgfq2en3eokoTaKdf0LY4Y
-        Mv8LphHvvLbHs6bj76TFFBlCU4Je5qQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-aEgi81-TMQKEgph8Nislbw-1; Fri, 16 Jul 2021 17:29:00 -0400
-X-MC-Unique: aEgi81-TMQKEgph8Nislbw-1
-Received: by mail-qk1-f199.google.com with SMTP id h12-20020a05620a400cb02903b8e915ccceso3989773qko.18
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 14:29:00 -0700 (PDT)
+        id S236624AbhGPVxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 17:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236299AbhGPVxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 17:53:11 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316BCC061764
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 14:50:16 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id x13-20020a17090a46cdb0290175cf22899cso1636499pjg.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 14:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fEv3hI+/9t3Iu48+wRZkhhAmgW6X4vInKE/+TzpTiKA=;
+        b=rjvTTbUFIUPmYF9lS3+gNvTGqrQYF5ISdBgAucu2KvqxPVBybt+iUyJPzFe6ZZVUU2
+         ZwAjBiJRZlappq9TfxpBmokQSVl9wdi64FsDRNN0ARXNsIQJ7MuQnhcgQ69fplzs37V5
+         cq5qjFWaSnju8DvWJu12ji2YEEXtiSHc7KqOOGsW49qY5Jm6BSZLbSzTXCrWxVWOcIqb
+         8PJh3IWg+U4WlWbOweQ8kIpWWT0RmVS9hCK+zlAJeuPL8e7XczbcVfdqvRKEYP9ADUz7
+         hg64fjRw2E/wotS4I3ihc78PUDsvLBHNPoIXDP3fkvBiqiQZ7w0RkvBi49DMWVonuDRl
+         26fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=YABHDSw9b5sWUS8tb4/mSbwzJgD3Ug0F6zV+ryBO8W8=;
-        b=ObS6sxNsu18NkRIzi9yRccFMXZPUAZ1w8clWrtDlpGDvfKRh+4BsdPFWK7NS5IlJxS
-         3LEFgF6Da+IO6kyekq+7UT6phfOHGmueyuer9xfJM3KWSnj6cR1dNShQiKattYsvqpRu
-         ZYraHwXPygJVTwfSRrC9oPc8AacJQ8nqq9O3NmLdjjiEsDHPHu8yUCG3i37Ja3rwPM2m
-         mNMegm1QGy6yH81bp2+eGiqSagg/qTlKknumO1cfZaF9Q8o5tXa3/NKebFSOnCf3V9xy
-         4EifcgR9luGfcsLT0L1o0rRjduaLJag+rufOb0x+z4EER9dZDMp0VJ7+WhJdbgkbr3vt
-         SCIQ==
-X-Gm-Message-State: AOAM53317V9vIVtVNeI+zLRKfVeqE4UYGJ0e3QDYvIeDk0snLJ7DdlNQ
-        Gkux+4Xewzbyih0IEtngIZY+fUrC7tGVsQ+7wILnGlB7haumeC4UcF1tckh4pB71CKx3vBkBSlV
-        yJu0x2N/ziHAOiapq5RLs
-X-Received: by 2002:ac8:6ec1:: with SMTP id f1mr11059656qtv.294.1626470940409;
-        Fri, 16 Jul 2021 14:29:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/rGIlMZXPU7T3qfOnTizDJI9I0dX2kqwDbKljo69VftMGZBefLuWX+uvFXWRvzofzBsFBCg==
-X-Received: by 2002:ac8:6ec1:: with SMTP id f1mr11059637qtv.294.1626470940260;
-        Fri, 16 Jul 2021 14:29:00 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id p3sm3716072qti.31.2021.07.16.14.28.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jul 2021 14:28:59 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v2 2/6] cgroup/cpuset: Clarify the use of invalid
- partition root
-To:     Tejun Heo <tj@kernel.org>, Waiman Long <llong@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <20210621184924.27493-1-longman@redhat.com>
- <20210621184924.27493-3-longman@redhat.com>
- <YNcHOe3o//pIiByh@mtj.duckdns.org>
- <6ea1ac38-73e1-3f78-a5d2-a4c23bcd8dd1@redhat.com>
- <YONGk3iw/zrNzwLK@mtj.duckdns.org>
- <c6ae2d9b-ad6e-9bbd-b25c-f52b0ff6fb9b@redhat.com>
- <1bb119a1-d94a-6707-beac-e3ae5c03fae5@redhat.com>
- <8c44b659-3fe4-b14f-fac1-cbd5b23010c3@redhat.com>
- <YPHwG61qGDa3h6Wg@mtj.duckdns.org>
- <e8c538a8-bf5c-b04c-1b21-ac22cd158dd1@redhat.com>
- <YPH3sF56gK71CxXY@mtj.duckdns.org>
-Message-ID: <4a804edc-17ec-d8fa-d8c1-273252ba0ee4@redhat.com>
-Date:   Fri, 16 Jul 2021 17:28:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fEv3hI+/9t3Iu48+wRZkhhAmgW6X4vInKE/+TzpTiKA=;
+        b=uf3fSZtxYIfLE5ynXj06toD768AUVxH1hcr1sU0d06iG20hAaR9yQtx1nS4Vr9G3ra
+         Yw/qP1c1HKGuQuB8eKeSbwPsVEuZta/TyzgRFTY1HfJpDZq/P5wzUVX/0IedEveLIzTg
+         P/G22jyTQXuhC7as9iQc+dPi/t+hUBFOM0/OC3hlzZFJethgF/ltik5DIV3R6HisTHQ1
+         EdYvZ2j1V1lQ0kcFrR5nf7Ml5lr+en1q8eDSTLaMZeVtRfqOHjKG1NGJpn+Llxmnrzyl
+         mLNeJc1+2bhPTAPxdjiH7bsHj4/Y9v+vfuOVOyotbk46iW+sj0QFiIDwBFyJtsfAyNJb
+         hxjw==
+X-Gm-Message-State: AOAM5301xANEeGCO9QRJ6AKa3mgm7rw6Z5igB1srklEUBT/AkRh+V+Vb
+        fMH5XnGA1sslPu1aROr56UMXV4HfaGiXoVpISG8Big==
+X-Google-Smtp-Source: ABdhPJyYAgTAHUJQZ+sreSlEZSAylRyzd5Yf4OqddHEDqdSV/2H/u2FGYweecwb/VOEhUVEa47A7RJgYAqbLD9kzFak=
+X-Received: by 2002:a17:902:7d91:b029:12b:45b0:736b with SMTP id
+ a17-20020a1709027d91b029012b45b0736bmr9266329plm.79.1626472215520; Fri, 16
+ Jul 2021 14:50:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YPH3sF56gK71CxXY@mtj.duckdns.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-7-iwona.winiarska@intel.com> <59428599ef7efb2521bd62c49a3bc55c710f29de.camel@intel.com>
+ <6807a14deb52956ad2fe390b1811dd98901a642a.camel@intel.com>
+In-Reply-To: <6807a14deb52956ad2fe390b1811dd98901a642a.camel@intel.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Fri, 16 Jul 2021 14:50:04 -0700
+Message-ID: <CAPcyv4ifjCZSUuk5H5qw6sjt5vdAkTfNzd+4imu+9e_iOt74gQ@mail.gmail.com>
+Subject: Re: [PATCH 06/14] peci: Add core infrastructure
+To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jason.m.bills@linux.intel.com" <jason.m.bills@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/16/21 5:18 PM, Tejun Heo wrote:
-> Hello,
+On Fri, Jul 16, 2021 at 2:08 PM Winiarska, Iwona
+<iwona.winiarska@intel.com> wrote:
+[..]
+> > > diff --git a/drivers/peci/Kconfig b/drivers/peci/Kconfig
+> > > new file mode 100644
+> > > index 000000000000..601cc3c3c852
+> > > --- /dev/null
+> > > +++ b/drivers/peci/Kconfig
+> > > @@ -0,0 +1,14 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > +
+> > > +menuconfig PECI
+> > > +       tristate "PECI support"
+> > > +       help
+> > > +         The Platform Environment Control Interface (PECI) is an interface
+> > > +         that provides a communication channel to Intel processors and
+> > > +         chipset components from external monitoring or control devices.
+> > > +
+> > > +         If you want PECI support, you should say Y here and also to the
+> > > +         specific driver for your bus adapter(s) below.
+> >
+> > The user is reading this help text to decide if they want PECI
+> > support, so clarifying that if they want PECI support they should turn
+> > it on is not all that helpful. I would say "If you are building a
+> > kernel for a Board Management Controller (BMC) say Y. If unsure say
+> > N".
 >
-> On Fri, Jul 16, 2021 at 05:12:17PM -0400, Waiman Long wrote:
->> Are you suggesting that we add a cpuset.cpus.events file that allows
->> processes to be notified if an event (e.g. hotplug) that changes a partition
->> root to invalid partition happens or when explicit change to a partition
->> root fails? Will that be enough to satisfy your requirement?
-> Yeah, something like that or make the current state file generate events on
-> state transitions.
+> Since PECI is only available on Intel platforms, perhaps something
+> like:
+> "If you are building a Board Management Controller (BMC) kernel for
+> Intel platform say Y"?
+>
+
+Looks good.
+
+> >
+> > > +
+> > > +         This support is also available as a module. If so, the module
+> > > +         will be called peci.
+> > > diff --git a/drivers/peci/Makefile b/drivers/peci/Makefile
+> > > new file mode 100644
+> > > index 000000000000..2bb2f51bcda7
+> > > --- /dev/null
+> > > +++ b/drivers/peci/Makefile
+> > > @@ -0,0 +1,5 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > +
+> > > +# Core functionality
+> > > +peci-y := core.o sysfs.o
+> > > +obj-$(CONFIG_PECI) += peci.o
+> > > diff --git a/drivers/peci/core.c b/drivers/peci/core.c
+> > > new file mode 100644
+> > > index 000000000000..0ad00110459d
+> > > --- /dev/null
+> > > +++ b/drivers/peci/core.c
+> > > @@ -0,0 +1,166 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +// Copyright (c) 2018-2021 Intel Corporation
+> > > +
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > +
+> > > +#include <linux/bug.h>
+> > > +#include <linux/device.h>
+> > > +#include <linux/export.h>
+> > > +#include <linux/idr.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/peci.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/property.h>
+> > > +#include <linux/slab.h>
+> > > +
+> > > +#include "internal.h"
+> > > +
+> > > +static DEFINE_IDA(peci_controller_ida);
+> > > +
+> > > +static void peci_controller_dev_release(struct device *dev)
+> > > +{
+> > > +       struct peci_controller *controller = to_peci_controller(dev);
+> > > +
+> > > +       mutex_destroy(&controller->bus_lock);
+> > > +}
+> > > +
+> > > +struct device_type peci_controller_type = {
+> > > +       .release        = peci_controller_dev_release,
+> > > +};
+> >
+> > I have not read further than patch 6 in this set, so I'm hoping there
+> > is an explanation for this. As it stands it looks like a red flag that
+> > the release function is not actually releasing anything?
+> >
+>
+> Ok, that's related to other comments here and in patch 7. I'll try to
+> refactor this. I'm thinking about splitting the "controller_add" into
+> separate "alloc" and "add" (or init? register?). And perhaps integrate
+> that into devm, so that controller can be allocated using devres, tying
+> that into lifetime of underlying platform device.
+>
+
+The devres scheme cannot be used for allocating an object that
+contains a 'struct device'. The devres lifetime is until
+dev->driver.release(dev), 'struct device' lifetime is until last
+put_device() where your driver has no idea what other agent in the
+system might have taken a reference. That said, devres *can* be used
+for triggering automatic device_del() you can see devm_cxl_add_port()
+[1] as an example:
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/cxl/core.c#n333
+
+> > > +
+> > > +int peci_controller_scan_devices(struct peci_controller *controller)
+> > > +{
+> > > +       /* Just a stub, no support for actual devices yet */
+> > > +       return 0;
+> > > +}
+> >
+> > Move this to the patch where it is needed.
+>
+> It's used in this patch (in sysfs and controller add), but at this
+> point we haven't introduced devices yet.
+> I would have to move this to patch 8 - but I don't think it belongs
+> there.
+
+I would expect if patch8 fills this in then this and its caller belong
+there so the mechanism can be reviewed together.
+
+> Will it make more sense if I introduce sysfs documentation here?
+
+The sysfs documentation should be in the same patch that adds the attribute.
+
+> Or as a completely separate patch?
+
+A new / separate "implement rescan" would work too...
+
+> I wanted to avoid going too far with split granularity, and just go
+> with high-level concepts starting with the controller.
+
+Sure, I think this patchset has a reasonable split, but this rescan
+feature seems unique enough to get its own patch.
 
 
-Sure. I will change the patch to make cpuset.cpus.partition generates 
-event when its state change. Thanks for the suggestion. It definitely 
-makes it better.
+>
+> >
+> > > +
+> > > +/**
+> > > + * peci_controller_add() - Add PECI controller
+> > > + * @controller: the PECI controller to be added
+> > > + * @parent: device object to be registered as a parent
+> > > + *
+> > > + * In final stage of its probe(), peci_controller driver should include calling
+> >
+> > s/should include calling/calls/
+> >
+>
+> Ok.
+>
+> > > + * peci_controller_add() to register itself with the PECI bus.
+> > > + * The caller is responsible for allocating the struct
+> > > peci_controller and
+> > > + * managing its lifetime, calling peci_controller_remove() prior
+> > > to releasing
+> > > + * the allocation.
+> > > + *
+> > > + * It returns zero on success, else a negative error code
+> > > (dropping the
+> > > + * controller's refcount). After a successful return, the caller
+> > > is responsible
+> > > + * for calling peci_controller_remove().
+> > > + *
+> > > + * Return: 0 if succeeded, other values in case errors.
+> > > + */
+> > > +int peci_controller_add(struct peci_controller *controller, struct
+> > > device *parent)
+> > > +{
+> > > +       struct fwnode_handle *node =
+> > > fwnode_handle_get(dev_fwnode(parent));
+> > > +       int ret;
+> > > +
+> > > +       if (WARN_ON(!controller->xfer))
+> >
+> > Why WARN()? What is 'xfer', and what is likelihood the caller forgets
+> > to set it? For something critical like this the WARN is likely
+> > overkill.
+> >
+>
+> Very unlikely - 'xfer' provides "connection" with hardware so it's
+> rather mandatory.
+> It indicates programmer error, so WARN() with all its consequences
+> (taint and so on) seemed adequate.
+>
+> Do you suggest to downgrade it to pr_err()?
 
-Cheers,
-Longman
+I'd say no report at all. It's not relevant to the user, and at worst
+it's a liability for environments that want to audit and control all
+kernel warnings. The chances that a future developer makes the
+mistake, or does not figure out quickly that they forgot to set
+->xfer() is low.
 
+[..]
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +EXPORT_SYMBOL_NS_GPL(peci_controller_add, PECI);
+> >
+> > I think it's cleaner to declare symbol namespaces in the Makefile. In
+> > this case, add:
+> >
+> > cflags-y += -DDEFAULT_SYMBOL_NAMESPACE=PECI
+> >
+> > ...and just use EXPORT_SYMBOL_GPL as normal in the C file.
+> >
+>
+> I kind of prefer the more verbose EXPORT_SYMBOL_NS_GPL - it also
+> doesn't "hide" the fact that we're using namespaces (everything is in
+> the C file rather than mixed into Makefile), but it's not a strong
+> opinion, so sure - I can change this.
+>
+
+Perhaps as a tie breaker, the maintainer you are submitting this to,
+Greg, uses the -DDEFAULT_SYMBOL_NAMESPACE scheme in his subsystem,
+drivers/usb/.
+
+[..]
+> > > +static BUS_ATTR_WO(rescan);
+> >
+> > No Documentation/ABI entry for this attribute, which means I'm not
+> > sure if it's suitable because it's unreviewable what it actually does
+> > reviewing this patch as a standalone.
+> >
+>
+> We're expecting to use "rescan" in the similar way as it is used for
+> PCIe or USB.
+> BMC can boot up when the system is still in S5 (without any guarantee
+> that it will ever change this state - the user can never turn the
+> platform on :) ). If the controller is loaded and the platform allows
+> it to discover devices - great (the scan happens as last step of
+> controller_add), if not - userspace can use rescan.
+
+There's no interrupt or notification to the BMC that the power-on
+event happened? Seems fragile to leave this responsibility to
+userspace.
+
+I had assumed rescan for those other buses is an exceptional mechanism
+for platform debug, not a typical usage flow for userspace.
+
+>
+> I'll add documentation in v2.
+>
+> > > +
+> > > +static struct attribute *peci_bus_attrs[] = {
+> > > +       &bus_attr_rescan.attr,
+> > > +       NULL
+> > > +};
+> > > +
+> > > +static const struct attribute_group peci_bus_group = {
+> > > +       .attrs = peci_bus_attrs,
+> > > +};
+> > > +
+> > > +const struct attribute_group *peci_bus_groups[] = {
+> > > +       &peci_bus_group,
+> > > +       NULL
+> > > +};
+> > > diff --git a/include/linux/peci.h b/include/linux/peci.h
+> > > new file mode 100644
+> > > index 000000000000..cdf3008321fd
+> > > --- /dev/null
+> > > +++ b/include/linux/peci.h
+> > > @@ -0,0 +1,82 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +/* Copyright (c) 2018-2021 Intel Corporation */
+> > > +
+> > > +#ifndef __LINUX_PECI_H
+> > > +#define __LINUX_PECI_H
+> > > +
+> > > +#include <linux/device.h>
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/types.h>
+> > > +
+> > > +struct peci_request;
+> > > +
+> > > +/**
+> > > + * struct peci_controller - PECI controller
+> > > + * @dev: device object to register PECI controller to the device
+> > > model
+> > > + * @xfer: PECI transfer function
+> > > + * @bus_lock: lock used to protect multiple callers
+> > > + * @id: PECI controller ID
+> > > + *
+> > > + * PECI controllers usually connect to their drivers using non-
+> > > PECI bus,
+> > > + * such as the platform bus.
+> > > + * Each PECI controller can communicate with one or more PECI
+> > > devices.
+> > > + */
+> > > +struct peci_controller {
+> > > +       struct device dev;
+> > > +       int (*xfer)(struct peci_controller *controller, u8 addr,
+> > > struct peci_request *req);
+> >
+> > Each device will have a different way to do a PECI transfer?
+> >
+> > I thought PECI was a standard...
+> >
+>
+> The "standard" part only applies to the connection between the
+> controller and the devices - not the connection between controller and
+> the rest of the system on which the controller resides in.
+> xfer is vendor specific.
+
+...all PECI controllers implement different MMIO register layouts?
+
+>
+> > > +       struct mutex bus_lock; /* held for the duration of xfer */
+> >
+> > What is it actually locking? For example, there is a mantra that goes
+> > "lock data, not code", and this comment seems to imply that no
+> > specific
+> > data is being locked.
+> >
+>
+> PECI-wire interface requires that the response follows the request -
+> and that should hold for all devices behind a given controller.
+> In other words, assuming that we have two devices, d1 and d2, we need
+> to have: d1.req, d1.resp, d2.req, d2.resp. Single xfer takes care of
+> both request and response.
+>
+> I would like to eventually move that lock into individual controllers,
+> but before that happens - I'd like to have a reasoning behind it.
+> If we have interfaces that allow us to decouple requests from responses
+> or devices that can handle servicing more than one requests at a time,
+> the lock will go away from peci-core.
+
+Another way to handle a "single request/response at a time" protocol
+scheme is to use a single-threaded workqueue, then no lock is needed.
+Requests are posted to the queue, responses are handled in the same
+thread. This way callers have the option to either post work and
+asynchronously poll for completion, or synchronously wait. The SCSI
+libsas driver uses such a scheme.
+
+>
+> >
+> > > +       u8 id;
+> >
+> > No possible way to have more than 256 controllers per system?
+> >
+>
+> For real world scenarios - I expect single digit number of controllers
+> per system. The boards with HW compatible with "aspeed,ast2xxx-peci"
+> contain just one instance of this controller.
+> I expect more in the future (e.g. different "physical" transport), but
+> definitely not more than 256 per system.
+>
+
+Ok.
