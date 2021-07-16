@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37333C636CA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0C9C12002
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:59:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19D06613F9
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:44:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D059611F1
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jul 2021 18:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231989AbhGPSr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 14:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53463 "EHLO
+        id S232048AbhGPTCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 15:02:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27282 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229534AbhGPSr1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 14:47:27 -0400
+        by vger.kernel.org with ESMTP id S230211AbhGPTCn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 15:02:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626461071;
+        s=mimecast20190719; t=1626461988;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7RoDupO6M1bVRrm6W8ZOvDrptNGSB7yFCE/hhZqmCP0=;
-        b=RwDNRDvOsdUGbZ6Zfo4pFN7JYKQ6czviRweCPE2uYNRxkfI5K6AqHm8W35+yFcfpsNviIt
-        7TQSeSDxHobZC3LFq63k9mx20gMpQo6Z0PhzPYC1bt0/cw4GvF/aJ4PbKCXx1727mOw77V
-        MkHYfjVInL2WGvZyhwzKVksD5pIZ2IU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-SeBAsewNOiyAf8Aa4Lzgdg-1; Fri, 16 Jul 2021 14:44:30 -0400
-X-MC-Unique: SeBAsewNOiyAf8Aa4Lzgdg-1
-Received: by mail-qv1-f71.google.com with SMTP id jo25-20020a0562145019b0290300a4fa83d8so2064432qvb.23
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 11:44:30 -0700 (PDT)
+        bh=t3eOYXdWOcxLwyJeyCXZFcz5Qu68cSCzVAnpdB+6mag=;
+        b=f7dhxgU2+3RRUlmbcK8zgD4ZrOTrxj1+IZyHNsVO8I/wlH2LgvfRzc5ms8+V3CvCQSvU/7
+        Zy+2vpanOs6TMGXCsCWRn6CpkRPjBSJ1Ur/9YIYj57H2ayqUWJFrpg91XcKBMg0AgFMEQi
+        amPejuYRr15nm3kGl7fKyuojAGdAN94=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-6zhHdKUbMWS3isdjMr-uLA-1; Fri, 16 Jul 2021 14:59:46 -0400
+X-MC-Unique: 6zhHdKUbMWS3isdjMr-uLA-1
+Received: by mail-qt1-f198.google.com with SMTP id q1-20020a05622a0301b029025f76cabdfcso3853325qtw.15
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 11:59:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:subject:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=7RoDupO6M1bVRrm6W8ZOvDrptNGSB7yFCE/hhZqmCP0=;
-        b=gauMPaadlQGB/2x0MclKn2Hx6/i8aSVOOD2AHb5Xj9l7EfQ1Gi2b6tABkGnAsWAUB7
-         8maBWE9kqyO3G3yJVYpaduL2xCIc6ZUZQrwkPVj6rGHn8sOjMO/U1fGIEW/T7fHYh8hx
-         6+r5ThTPxD7MbURs7Zow0i61KgEId2gf06RdOH7VDQNxvYaGepA+lNFczD93HudADWZl
-         3NHd4gyUBizbY1nHejygdFua5Kvd5OV/eVrAKgiFkQujp8BCM0//KkKhb9NsFUy9OPQ6
-         2wFalQcTdWypEph4rJxuX8iZs0lVuaAk3SvEgDDIjfvHHhs8nLXD9rjrnd2p9XElXdmb
-         BR2Q==
-X-Gm-Message-State: AOAM531rM3X6sCVHsGzw2SSxMykpd4xpcrYpmqTIppqL+fTu90U6nYnw
-        w/xObK3W6HwEBnmuWVDE++yOvURH/oyd/6JAMetQTBrzpCkECPzDXHhfeAP1PGsS1qsv9Ia6R8i
-        WkfZwIowjsPA7D7Aoz6r1
-X-Received: by 2002:a05:622a:170d:: with SMTP id h13mr10563980qtk.264.1626461070119;
-        Fri, 16 Jul 2021 11:44:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydn1Bq/Od/FhPPzfBC0XbXQPdklkUWDSUSQGqXvXC0USgTcignUQvoPYX4S8z7m7xo5sIAMg==
-X-Received: by 2002:a05:622a:170d:: with SMTP id h13mr10563965qtk.264.1626461069928;
-        Fri, 16 Jul 2021 11:44:29 -0700 (PDT)
+        bh=t3eOYXdWOcxLwyJeyCXZFcz5Qu68cSCzVAnpdB+6mag=;
+        b=XT+NINWTGQ99pqILyDh1WL4J04jIxTHkEK3x3tJ93gVCJezRHN4+8uww0EhtfrE6IB
+         HMZBRst2u1YaBbsK6R7sNLsrg5umQ68dY5G+/uHK5KQJH2IElC27uD7/YMYNXMI+Pf7C
+         2z8AbPun+kmKnzPXto22mQ2UBtkpmxTDxOlIMS5wNt9Su80Q55WI8/nBCPlOqftoulMs
+         b5iAQI284CuXNKCp3D5uz3FJ3ZfyFoeVqhaq13X5+PXJVqxNYsR0pHuMuGoh0xswZcfv
+         3VcZITLwEW58QTaH8v13IUEuCd1/HRn4Xs38mLungi9KGWZveJJ7eFANt6NN2EM5xyAC
+         Mo2w==
+X-Gm-Message-State: AOAM531Cs+p2vw6AGnzMZ4blxPi7SywZoBwC6la6f56rNnWwPoG0fhOt
+        o1yTgY9vOGcAw+55m1rdBCd/FLk3BXg8nKKQCw77hXmnY88up0783JRJa64hoefWE7JwudXIKq+
+        DnFZgHN1Jvj351aDSwgyC
+X-Received: by 2002:ae9:f106:: with SMTP id k6mr11116137qkg.274.1626461986575;
+        Fri, 16 Jul 2021 11:59:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWrEaDUK2aTHtHoRv6qDWayp0aBiec8jDx0iHrZK+d3fUrWhn8/UAlWoUjPwPpD0PA7q7H3g==
+X-Received: by 2002:ae9:f106:: with SMTP id k6mr11116115qkg.274.1626461986393;
+        Fri, 16 Jul 2021 11:59:46 -0700 (PDT)
 Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id a16sm4177617qkn.107.2021.07.16.11.44.28
+        by smtp.gmail.com with ESMTPSA id j7sm4290785qkd.21.2021.07.16.11.59.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jul 2021 11:44:29 -0700 (PDT)
+        Fri, 16 Jul 2021 11:59:45 -0700 (PDT)
 From:   Waiman Long <llong@redhat.com>
 X-Google-Original-From: Waiman Long <longman@redhat.com>
 Subject: Re: [PATCH v2 2/6] cgroup/cpuset: Clarify the use of invalid
  partition root
-To:     Tejun Heo <tj@kernel.org>, Waiman Long <llong@redhat.com>
+To:     Waiman Long <llong@redhat.com>, Tejun Heo <tj@kernel.org>
 Cc:     Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -79,12 +79,13 @@ References: <20210621184924.27493-1-longman@redhat.com>
  <YNcHOe3o//pIiByh@mtj.duckdns.org>
  <6ea1ac38-73e1-3f78-a5d2-a4c23bcd8dd1@redhat.com>
  <YONGk3iw/zrNzwLK@mtj.duckdns.org>
-Message-ID: <c6ae2d9b-ad6e-9bbd-b25c-f52b0ff6fb9b@redhat.com>
-Date:   Fri, 16 Jul 2021 14:44:27 -0400
+ <c6ae2d9b-ad6e-9bbd-b25c-f52b0ff6fb9b@redhat.com>
+Message-ID: <1bb119a1-d94a-6707-beac-e3ae5c03fae5@redhat.com>
+Date:   Fri, 16 Jul 2021 14:59:44 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YONGk3iw/zrNzwLK@mtj.duckdns.org>
+In-Reply-To: <c6ae2d9b-ad6e-9bbd-b25c-f52b0ff6fb9b@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -92,67 +93,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/5/21 1:51 PM, Tejun Heo wrote:
-> Hello, Waiman.
->
-> On Mon, Jun 28, 2021 at 09:06:50AM -0400, Waiman Long wrote:
->> The main reason for doing this is because normal cpuset control file actions
->> are under the direct control of the cpuset code. So it is up to us to decide
->> whether to grant it or deny it. Hotplug, on the other hand, is not under the
->> control of cpuset code. It can't deny a hotplug operation. This is the main
->> reason why the partition root error state was added in the first place.
-> I have a difficult time convincing myself that this difference justifies the
-> behavior difference and it keeps bothering me that there is a state which
-> can be reached through one path but rejected by the other. I'll continue
-> below.
->
->> Normally, users can set cpuset.cpus to whatever value they want even though
->> they are not actually granted. However, turning on partition root is under
->> more strict control. You can't turn on partition root if the CPUs requested
->> cannot actually be granted. The problem with setting the state to just
->> partition error is that users may not be aware that the partition creation
->> operation fails.  We can't assume all users will do the proper error
->> checking. I would rather let them know the operation fails rather than
->> relying on them doing the proper check afterward.
+On 7/16/21 2:44 PM, Waiman Long wrote:
+> On 7/5/21 1:51 PM, Tejun Heo wrote:
+>> Hello, Waiman.
 >>
->> Yes, I agree that it is a different philosophy than the original cpuset
->> code, but I thought one reason of doing cgroup v2 is to simplify the
->> interface and make it a bit more erorr-proof. Since partition root creation
->> is a relatively rare operation, we can afford to make it more strict than
->> the other operations.
-> So, IMO, one of the reasons why cgroup1 interface was such a mess was
-> because each piece of interaction was designed ad-hoc without regard to the
-> overall consistency. One person feels a particular way of interacting with
-> the interface is "correct" and does it that way and another person does
-> another part in a different way. In the end, we ended up with a messy
-> patchwork.
+>> On Mon, Jun 28, 2021 at 09:06:50AM -0400, Waiman Long wrote:
+>>> The main reason for doing this is because normal cpuset control file 
+>>> actions
+>>> are under the direct control of the cpuset code. So it is up to us 
+>>> to decide
+>>> whether to grant it or deny it. Hotplug, on the other hand, is not 
+>>> under the
+>>> control of cpuset code. It can't deny a hotplug operation. This is 
+>>> the main
+>>> reason why the partition root error state was added in the first place.
+>> I have a difficult time convincing myself that this difference 
+>> justifies the
+>> behavior difference and it keeps bothering me that there is a state 
+>> which
+>> can be reached through one path but rejected by the other. I'll continue
+>> below.
+>>
+>>> Normally, users can set cpuset.cpus to whatever value they want even 
+>>> though
+>>> they are not actually granted. However, turning on partition root is 
+>>> under
+>>> more strict control. You can't turn on partition root if the CPUs 
+>>> requested
+>>> cannot actually be granted. The problem with setting the state to just
+>>> partition error is that users may not be aware that the partition 
+>>> creation
+>>> operation fails.  We can't assume all users will do the proper error
+>>> checking. I would rather let them know the operation fails rather than
+>>> relying on them doing the proper check afterward.
+>>>
+>>> Yes, I agree that it is a different philosophy than the original cpuset
+>>> code, but I thought one reason of doing cgroup v2 is to simplify the
+>>> interface and make it a bit more erorr-proof. Since partition root 
+>>> creation
+>>> is a relatively rare operation, we can afford to make it more strict 
+>>> than
+>>> the other operations.
+>> So, IMO, one of the reasons why cgroup1 interface was such a mess was
+>> because each piece of interaction was designed ad-hoc without regard 
+>> to the
+>> overall consistency. One person feels a particular way of interacting 
+>> with
+>> the interface is "correct" and does it that way and another person does
+>> another part in a different way. In the end, we ended up with a messy
+>> patchwork.
+>>
+>> One problematic aspect of cpuset in cgroup1 was the handling of failure
+>> modes, which was caused by the same exact approach - we wanted the 
+>> interface
+>> to reject invalid configurations outright even though we didn't have the
+>> ability to prevent those configurations from occurring through other 
+>> paths,
+>> which makes the failure mode more subtle by further obscuring them.
+>>
+>> I think a better approach would be having a clear signal and 
+>> mechanism to
+>> watch the state and explicitly requiring users to verify and monitor the
+>> state transitions.
 >
-> One problematic aspect of cpuset in cgroup1 was the handling of failure
-> modes, which was caused by the same exact approach - we wanted the interface
-> to reject invalid configurations outright even though we didn't have the
-> ability to prevent those configurations from occurring through other paths,
-> which makes the failure mode more subtle by further obscuring them.
+> Sorry for the late reply as I was busy with other works.
 >
-> I think a better approach would be having a clear signal and mechanism to
-> watch the state and explicitly requiring users to verify and monitor the
-> state transitions.
+> I agree with you on principle. However, the reason why there are more 
+> restrictions on enabling partition is because I want to avoid forcing 
+> the users to always read back cpuset.partition.type to see if the 
+> operation succeeds instead of just getting an error from the 
+> operation. The former approach is more error prone. If you don't want 
+> changes in existing behavior, I can relax the checking and allow them 
+> to become an invalid partition if an illegal operation happens.
+>
+> Also there is now another cpuset patch to extend cpu isolation to 
+> cgroup v1 [1]. I think it is better suit to the cgroup v2 partition 
+> scheme, but cgroup v1 is still quite heavily out there.
+>
+> Please let me know what you want me to do and I will send out a v3 
+> version. 
 
-Sorry for the late reply as I was busy with other works.
+Note that the current cpuset partition implementation have implemented 
+some restrictions on when a partition can be enabled. However, I missed 
+some corner cases in the original implementation that allow certain 
+cpuset operations to make a partition invalid. I tried to plug those 
+holes in this patchset. However, if maintaining backward compatibility 
+is more important, I can leave those holes and update the documentation 
+to make sure that people check cpuset.partition.type to confirm if their 
+operation succeeds.
 
-I agree with you on principle. However, the reason why there are more 
-restrictions on enabling partition is because I want to avoid forcing 
-the users to always read back cpuset.partition.type to see if the 
-operation succeeds instead of just getting an error from the operation. 
-The former approach is more error prone. If you don't want changes in 
-existing behavior, I can relax the checking and allow them to become an 
-invalid partition if an illegal operation happens.
-
-Also there is now another cpuset patch to extend cpu isolation to cgroup 
-v1 [1]. I think it is better suit to the cgroup v2 partition scheme, but 
-cgroup v1 is still quite heavily out there.
-
-Please let me know what you want me to do and I will send out a v3 version.
-
-Thanks a lot!
+Cheers,
 Longman
 
