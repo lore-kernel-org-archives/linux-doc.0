@@ -2,260 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9DBC636CD
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 03:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 194A7C636C9
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 06:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBBC461009
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 03:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0FB7613E3
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 06:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238342AbhGQDCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 23:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238173AbhGQDCz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 23:02:55 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2545C06175F
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:59:58 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id g3-20020a256b030000b0290551bbd99700so15350372ybc.6
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=OejThO9U7IkzrDDyCk4DT+oqrxwXtnahBtcnsZfFAwQ=;
-        b=CPgeoEnhtdRlN+LrymMN8D/U57gZ4d4VKDzl3BBFvJ/t4UkOCMOpMAPlIhGVYZkhwQ
-         adQHSP7U5ftflJkAQKk9UNQywQNxc3a2+awXCjnVGqdlOo6Q7rElF8Fdb5z8lO41tqKW
-         pMN+ssnpuQqNYsGOE+7tQBBBy4KLLJWQyxQMdWJQQ8naLJeffrXoPkpZvIHhxGP1qzNS
-         FwgGHPIDIVmOLRF7No+dWglwwbP/VJUrF1rwDKk85vmiMFK09rfSE2fdaVggWxbxCBJH
-         KNwXQ5o2/eJ5aeeHE5g/dwVnvLuBmwGIJLmoOE1CMJnbX/iPxjFvKytx7KWkIwBJ2y+O
-         nwkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=OejThO9U7IkzrDDyCk4DT+oqrxwXtnahBtcnsZfFAwQ=;
-        b=awlv+omAmk4jx0QYb+5zWS77BSIlLADFG/RtECDDpCGSATvI/OIBPXaKDfXtY9ijJa
-         wCijXlkLvRpwiuqeqgGwafBVSIW/wziYuec11mNxItS25r0Q0EmWJ+wtKXwICKUE9pcy
-         ClkWvSkoo+pHo9Xk7HnhfusPxJS6wSACHhaVrT974uEOuRew9o/5i8LJ5aU+GCEV5hPd
-         Ki78cYgajF1Y4XDvSJ+JEEHQnOhaKcY+c0vnqFKvmSKcEGCeTkYYcPPkTS15nhya0opB
-         DpLKN+PvbvWz4Fq4sBgfantyNk5+eF5tewXYoILpng1HuWm73rlRfhvk7pdGd8woZxvf
-         vsVw==
-X-Gm-Message-State: AOAM532YVFlVyLHx2K6pC7jC9hvDeQkK8XDLsz5nLNLdDNewUGa7zQtj
-        HCnqjOaXQ03W2hPmVu8s9X58UHI=
-X-Google-Smtp-Source: ABdhPJw0Hll9OtU9YXnGycNCR3KDGCfnmUJm0p/DDzcJNWNnHpIWwpU/tCIze7NanEGfSWjI3RO3VgY=
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:200:fc3c:d89a:88e2:5cfc])
- (user=pcc job=sendgmr) by 2002:a25:7316:: with SMTP id o22mr17005025ybc.349.1626490797837;
- Fri, 16 Jul 2021 19:59:57 -0700 (PDT)
-Date:   Fri, 16 Jul 2021 19:59:51 -0700
-Message-Id: <20210717025951.3946505-1-pcc@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
-Subject: [PATCH] refpage_create.2: Document refpage_create(2)
-From:   Peter Collingbourne <pcc@google.com>
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Peter Collingbourne <pcc@google.com>, Jann Horn <jannh@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S229778AbhGQGPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jul 2021 02:15:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229379AbhGQGPx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 17 Jul 2021 02:15:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B4C56101A;
+        Sat, 17 Jul 2021 06:12:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626502377;
+        bh=8cLLirT0hvzwP0lrOx0mYq7s2nFKexMw23WQLVT2LaA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hco7pen6gNCqtDfle51bfDisW7MKsJ7n/yhJi/ea0Luopx32VeCXVFVzqjXe1fHsv
+         im88Oz/kBkydDPFmD0wThbs3xhZ7b2i6UZFwJBk6c87sOh3hMd7ha2yC9lJ+sZiRyD
+         I44xXq/isGnKo9KsybOIgKXsc0N8UQhHswUeWkm4=
+Date:   Sat, 17 Jul 2021 08:12:52 +0200
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     "Winiarska, Iwona" <iwona.winiarska@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jason.m.bills@linux.intel.com" <jason.m.bills@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 06/14] peci: Add core infrastructure
+Message-ID: <YPJ05JUiOggKajIx@kroah.com>
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-7-iwona.winiarska@intel.com>
+ <59428599ef7efb2521bd62c49a3bc55c710f29de.camel@intel.com>
+ <6807a14deb52956ad2fe390b1811dd98901a642a.camel@intel.com>
+ <CAPcyv4ifjCZSUuk5H5qw6sjt5vdAkTfNzd+4imu+9e_iOt74gQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4ifjCZSUuk5H5qw6sjt5vdAkTfNzd+4imu+9e_iOt74gQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
----
-The syscall has not landed in the kernel yet.
-Therefore, as usual, the patch should not be taken yet
-and I've used 5.x as the introducing kernel version for now.
+On Fri, Jul 16, 2021 at 02:50:04PM -0700, Dan Williams wrote:
+> On Fri, Jul 16, 2021 at 2:08 PM Winiarska, Iwona
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(peci_controller_add, PECI);
+> > >
+> > > I think it's cleaner to declare symbol namespaces in the Makefile. In
+> > > this case, add:
+> > >
+> > > cflags-y += -DDEFAULT_SYMBOL_NAMESPACE=PECI
+> > >
+> > > ...and just use EXPORT_SYMBOL_GPL as normal in the C file.
+> > >
+> >
+> > I kind of prefer the more verbose EXPORT_SYMBOL_NS_GPL - it also
+> > doesn't "hide" the fact that we're using namespaces (everything is in
+> > the C file rather than mixed into Makefile), but it's not a strong
+> > opinion, so sure - I can change this.
+> >
+> 
+> Perhaps as a tie breaker, the maintainer you are submitting this to,
+> Greg, uses the -DDEFAULT_SYMBOL_NAMESPACE scheme in his subsystem,
+> drivers/usb/.
 
- man2/refpage_create.2 | 167 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 167 insertions(+)
- create mode 100644 man2/refpage_create.2
+We did that because namespaces were added _after_ the kernel code was
+already there.  For new code like this, the original use of
+EXPORT_SYMBOL_NS_GPL() is best as it is explicit and obvious.  No need
+to dig around in a Makefile to find out the namespace name.
 
-diff --git a/man2/refpage_create.2 b/man2/refpage_create.2
-new file mode 100644
-index 000000000..c0b928b92
---- /dev/null
-+++ b/man2/refpage_create.2
-@@ -0,0 +1,167 @@
-+.\" Copyright (C) 2021 Google LLC
-+.\" Author: Peter Collingbourne <pcc@google.com>
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH REFPAGE_CREATE 2 2021-07-16 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+refpage_create \- create a reference page file descriptor
-+.SH SYNOPSIS
-+.nf
-+.BR "#include <unistd.h>"
-+.PP
-+.BI "int syscall(SYS_refpage_create, void *" content ", unsigned int " size ,
-+.BI "            unsigned long " flags ");"
-+.fi
-+.PP
-+.IR Note :
-+glibc provides no wrapper for
-+.BR refpage_create (),
-+necessitating the use of
-+.BR syscall (2).
-+.SH DESCRIPTION
-+The
-+.BR refpage_create ()
-+system call is used to create a file descriptor
-+that conceptually refers to a read-only file
-+whose contents are an infinite repetition of
-+.I size
-+bytes of data read from the
-+.I content
-+argument to the system call,
-+and which may be mapped into memory with
-+.BR mmap (2).
-+The file descriptor is created as if by passing
-+.BR O_RDONLY | O_CLOEXEC
-+to
-+.BR open (2).
-+.PP
-+In reality, any read-only pages in the mapping are backed
-+by a so-called reference page,
-+whose contents are specified using the arguments to
-+.BR refpage_create ().
-+.PP
-+The reference page will consist of repetitions of
-+.I size
-+bytes read
-+from
-+.IR content ,
-+as many as are required to fill the page. The
-+.I size
-+argument must be a power of two less than or equal to the page size, and the
-+.I content
-+argument must have at least
-+.I size
-+alignment. The behavior is as if a copy of this data
-+is made while servicing the system call;
-+any updates to the data after the system call has returned
-+will not be reflected in the reference page.
-+.PP
-+If the architecture specifies that metadata may be associated
-+with memory addresses, that metadata if present is copied
-+into the reference page along with the data itself,
-+but only if the size argument is at least as large
-+as the granularity of the metadata.
-+For example, with the ARMv8.5 Memory Tagging Extension,
-+the memory tags are copied, but only if the size is greater than
-+or equal to the architecturally specified tag granule size of 16 bytes.
-+.PP
-+Writable private mappings trigger specific copy-on-write behavior
-+when a page in the mapping is written to.
-+The behavior is as if the reference page is copied,
-+but the kernel may use a more efficient technique such as
-+.BR memset (3)
-+to produce the copy if the
-+.I size
-+argument originally used to create the reference page file descriptor
-+is sufficiently small.
-+For this reason it is recommended to specify as small of a
-+.I size
-+argument as possible
-+in order to activate any such optimizations implemented in the kernel.
-+.PP
-+The advantage of using this system call
-+over creating normal anonymous mappings
-+and manually initializing the pages from userspace
-+is that it is more efficient.
-+If it is not known that all of the pages in the mapping
-+will be faulted (for example, if the system call is used
-+by a general purpose memory allocator
-+where the behavior of the client program is unknown),
-+letting the pages be prepared on fault only if needed
-+is more efficient from both a performance
-+and memory consumption perspective.
-+Even if all of the pages would end up being faulted,
-+it would still be more efficient
-+to have the kernel initialize the pages with the required contents once
-+than to have the kernel zero initialize them on fault
-+and then have userspace initialize them again with different contents.
-+.SH EXAMPLES
-+The following program creates a 128KB memory mapping
-+preinitialized with the pattern byte 0xAA
-+and verifies that the contents of the mapping are correct.
-+.PP
-+.EX
-+#include <linux/unistd.h>
-+#include <stdio.h>
-+#include <sys/mman.h>
-+#include <unistd.h>
-+
-+int main() {
-+    unsigned char pattern = 0xaa;
-+    unsigned long mmap_size = 131072;
-+
-+    int fd = syscall(SYS_refpage_create, &pattern, 1, 0);
-+    if (fd < 0) {
-+        perror("refpage_create");
-+        return 1;
-+    }
-+    unsigned char *p = mmap(0, mmap_size, PROT_READ | PROT_WRITE,
-+                            MAP_PRIVATE, fd, 0);
-+    if (p == MAP_FAILED) {
-+        perror("mmap");
-+        return 1;
-+    }
-+    for (unsigned i = 0; i != mmap_size; ++i) {
-+        if (p[i] != pattern) {
-+            fprintf(stderr, "refpage failed contents check @ %u: "
-+                    "0x%x != 0x%x\n",
-+                    i, p[i], pattern);
-+            return 1;
-+        }
-+    }
-+}
-+.EE
-+.SH NOTE
-+Reading from a reference page file descriptor, e.g. with
-+.BR read (2),
-+is not supported, nor would this be particularly useful.
-+.SH VERSIONS
-+This system call first appeared in Linux 5.x.
-+.SH CONFORMING TO
-+The
-+.BR refpage_create ()
-+system call is Linux-specific.
-+.SH SEE ALSO
-+.BR mmap (2),
-+.BR open (2).
--- 
-2.32.0.402.g57bb445576-goog
+thanks,
 
+greg k-h
