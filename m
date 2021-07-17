@@ -2,65 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B11C636CD
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 02:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB0CC636CB
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 02:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1949F61278
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 02:58:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2508C61278
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jul 2021 02:58:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232662AbhGQDBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jul 2021 23:01:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40754 "EHLO
+        id S230504AbhGQDBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jul 2021 23:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbhGQDBk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 23:01:40 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E8AC061760
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:58:43 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id d9so12899353ioo.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:58:43 -0700 (PDT)
+        with ESMTP id S232674AbhGQDBp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jul 2021 23:01:45 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE6C06175F
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:58:49 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id d9so12899508ioo.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jul 2021 19:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=brOM+DfdNwlc3UsxEzMLpJktJX1yD7cB7Dsb6KaxPcE=;
-        b=DIvva8ayH6+sZXZWK1X/BmgtFoZ6Skd6ek87kkcwfDefy1QK3YAg6R/XEsJzGF1hg8
-         jXbmzEQy/XMz8v9jAWv8HckIxjLHaEU6vWb5LwLOJQg0pG4a+8ltWUzbkzZrzngAWXEd
-         laCghktTbLxY47ow4V6TECMjveyTZNEwmaW0elp5YBqDZAf5TfFc275/YNWSJMKGs5pt
-         p0FN95JPHARsau4IiJECtubyQ1J/3MC3OlircFS4zisCQ4q+h96WZeJ+ZzwRbByMeDQ6
-         w8/m3uwqgsZAe9j6/+ekgeYqIaEoTR+WP6oQajcJTb2bs77Mn9EnW8JthQBKjv5be68h
-         zasQ==
+        bh=q+JKIv6hqPelr3xZyX4AN/xjnr9/KSPz21ndUrNdfWk=;
+        b=gZB3XFs4YctFWRQcr3AIXjtExL95BV7PdCJGicm2Gr6SgUuXoZQWDPEzcXJDzhcENt
+         BRFsO0Z9jJ7EOrIHBxA3wrRXn6ggBhqRvnQ0CVxDuWIGyGXzW534e581qFbDd2mo6kMM
+         PoZF73m02ZKgaYSYk71151mbUwxR1WPCjP0ZdcPmsbYa2dMwBOkKy7mybG3Zu6/lRktW
+         miAiWCRQyiAQQDhBvtGD1LWToxcC11v0WWvGN9fS7iS3mkJpXxpEC/wc7NouIJ4ZC/pz
+         o+gCE4YveOiuhTwWz3WLFJC8KMbZasTHafFrYjNKaXknstxN+axL4ofpbNY8p2dfvUP0
+         sVXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=brOM+DfdNwlc3UsxEzMLpJktJX1yD7cB7Dsb6KaxPcE=;
-        b=a2VXsp5ZK1M+KSDrJpm7UFEOhJLS9snD/hF/JPXPYTNJM4rxkPuKGRugiYAhoAPqEx
-         TTJcLi1s7yWQ4PQINStv514QK87MnlBN+lPfduW9YGKWXzSzXMptNuM1PNImcE7pSopH
-         llxm0GB6w755YWqcMlIvXDil6X7jJ9IXyhvJYgZXW6RolhviXIxqmnaT1Y4NHF36l6Ia
-         gaNxWW1YegeR2Yukbif84mxSFMPtb0gP/FQT44GK5VWQ+4U+vTNqaAytL2iVZ08nILUU
-         /JiqVI5EX5K48fCIGsqRR8k4LQf1aM1bVOOuKDYtgFLmxbnZrNsIqpkiUYe0HiL9UscN
-         w7oQ==
-X-Gm-Message-State: AOAM533XeDc95DadPGdqGKRibFuLVCQH6IdtQKe8D9uyg2CIBbPDP5+v
-        QuxkAfILLqadDpf5EdnWOHImJJHPiM6I2WiKC1eAwg==
-X-Google-Smtp-Source: ABdhPJw+FY1DaVW7I/zvmejB5/eZra1YdFnjbI32Ud4P/SrH4MECH1mx28jRyRryX2xisFNJx64ZGI85MZ7lGi1KfLk=
-X-Received: by 2002:a02:cab9:: with SMTP id e25mr3644621jap.25.1626490722855;
- Fri, 16 Jul 2021 19:58:42 -0700 (PDT)
+        bh=q+JKIv6hqPelr3xZyX4AN/xjnr9/KSPz21ndUrNdfWk=;
+        b=rbMzZZsRagvM8YuNs+0gaK1ZW0981vdOEBziQckyQGQaxPuqG5Uj1vfBRGgeb2+Ro3
+         LIEmgDhKXeCFd0dwB2ote1ei/GmjoBpa3pIt1kWqjGuaBzzN9tjcLB4AfjofVdhBwD/E
+         hdmevJ34OS0lIqLHvebYoKEsBY5rlb16HmmBA54m3sTrUyRKIm4BZBbCk79ZPbJ5nb5d
+         AIhVpWkVEhluJ65MdFNZ/45baCQviFBtBgkSTMq93zC7HM/u9jwheNpw1f4uxIYdSJ/G
+         H7FSiPX0rzYzjjoruwkrv526ttn8bvXDVFPmmopCUUQkQCBEfMpBi90gw/DNhHoh73li
+         cX9g==
+X-Gm-Message-State: AOAM531sCfGuFeC2mz63lMQm19xlDNJAm4fcC4+3UBo97FGc+dTpUmis
+        Ab0KbbKTEdK5kR9wIkGqLttjOJoWK/NQEF+N530f/w==
+X-Google-Smtp-Source: ABdhPJxDKnBkegYHanD7zJwcvdIx+ZQrUXzneHtsWj+SRasMpccY2hK3i9cO2t/21SQnvSisrpoUY8PjATBolBy1zmE=
+X-Received: by 2002:a5d:8888:: with SMTP id d8mr9778897ioo.170.1626490728818;
+ Fri, 16 Jul 2021 19:58:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210619092002.1791322-1-pcc@google.com> <20210628122455.sqo77q4jfxtiwt5b@box.shutemov.name>
-In-Reply-To: <20210628122455.sqo77q4jfxtiwt5b@box.shutemov.name>
+References: <20210619092002.1791322-1-pcc@google.com> <YNnKSkcAM05tmPta@casper.infradead.org>
+In-Reply-To: <YNnKSkcAM05tmPta@casper.infradead.org>
 From:   Peter Collingbourne <pcc@google.com>
-Date:   Fri, 16 Jul 2021 19:58:31 -0700
-Message-ID: <CAMn1gO4P_VcLsFi4kSNNeqgtcWANdhyMGDb2TOj6VjC0mSgV1g@mail.gmail.com>
+Date:   Fri, 16 Jul 2021 19:58:37 -0700
+Message-ID: <CAMn1gO5GiMwanh2pHk7-BNo0UoSbyxkjAjjdK6URMESR6MCY=Q@mail.gmail.com>
 Subject: Re: [PATCH v4] mm: introduce reference pages
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
         Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Evgenii Stepanov <eugenis@google.com>,
@@ -75,83 +75,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 28, 2021 at 5:24 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
+On Mon, Jun 28, 2021 at 6:11 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
 > On Sat, Jun 19, 2021 at 02:20:02AM -0700, Peter Collingbourne wrote:
-> >   #include <stdio.h>
-> >   #include <stdlib.h>
-> >   #include <string.h>
-> >   #include <sys/mman.h>
-> >   #include <unistd.h>
-> >
-> >   constexpr unsigned char pattern_byte = 0xaa;
-> >
-> >   #define PAGE_SIZE 4096
-> >
-> >   _Alignas(PAGE_SIZE) static unsigned char pattern[PAGE_SIZE];
-> >
-> >   int main(int argc, char **argv) {
-> >     if (argc < 3)
-> >       return 1;
-> >     bool use_refpage = argc > 3;
-> >     size_t mmap_size = atoi(argv[1]);
-> >     size_t touch_size = atoi(argv[2]);
-> >
-> >     int refpage_fd;
-> >     if (use_refpage) {
-> >       memset(pattern, pattern_byte, PAGE_SIZE);
-> >       refpage_fd = syscall(448, pattern, 0);
-> >     }
-> >     for (unsigned i = 0; i != 1000; ++i) {
-> >       char *p;
-> >       if (use_refpage) {
-> >         p = (char *)mmap(0, mmap_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
-> >                          refpage_fd, 0);
-> >       } else {
-> >         p = (char *)mmap(0, mmap_size, PROT_READ | PROT_WRITE,
-> >                          MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> >         memset(p, pattern_byte, mmap_size);
-> >       }
-> >       for (unsigned j = 0; j < touch_size; j += PAGE_SIZE)
-> >         p[j] = 0;
-> >       munmap(p, mmap_size);
-> >     }
-> >   }
+> > +++ b/include/linux/mm.h
+> > @@ -32,6 +32,7 @@
+> >  #include <linux/sched.h>
+> >  #include <linux/pgtable.h>
+> >  #include <linux/kasan.h>
+> > +#include <linux/fs.h>
 >
-> I don't like the inteface. It is tied to PAGE_SIZE and this doesn't seem
-> to be very future looking. How would it work with THPs?
+> No.
 
-The idea with this interface is that the FD would be passed to mmap,
-and anything that uses mmap already needs to be tied to the page size
-to some extent.
+This was because is_refpage_vma needed to access vm_file->f_op to
+check whether the mapping is a reference page. In v5 I've moved that
+part of the check into mm/refpage.c.
 
-For THPs I would expect that the kernel would duplicate the contents
-of the page as needed.
+> > +++ b/include/linux/mman.h
+> > @@ -2,6 +2,7 @@
+> >  #ifndef _LINUX_MMAN_H
+> >  #define _LINUX_MMAN_H
+> >
+> > +#include <linux/fs.h>
+>
+> No.
 
-Another reason that I thought to use a page size based interface was
-to allow future optimizations that may reuse the actual page passed to
-the syscall. So for example if libc.so contained a page filled with
-the required pattern and the allocator passed a pointer to that page
-then it could be shared between all of the processes on the system
-that link against that libc.
-
-But I suppose that such optimizations would not require passing in a
-whole page like that. For pattern based optimizations we could use a
-reference counted hash table or something, and for larger patterns we
-could activate the optimization only if the size argument were equal
-to the page size.
-
-> Maybe we should cosider passing down a filling pattern to kernel and let
-> kernel allocate appropriate page size on read page fault? The pattern has
-> to be power of 2 and limited in lenght.
-
-Okay, so this sounds like my idea for handling THPs except applied to
-any size. This seems reasonable enough to me, however in order to
-optimize use cases where the page is only ever read, let's have the
-kernel prepare the reference page instead of recreating it every time.
-In v5 I've adopted Matthew's proposed prototype:
-
-int refpage_create(const void *__user content, unsigned int size,
-                unsigned long pattern, unsigned long flags);
+Okay, this one was entirely unused; removed.
 
 Peter
