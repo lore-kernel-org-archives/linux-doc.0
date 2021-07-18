@@ -2,61 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF389C636CA
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jul 2021 09:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9103C636CA
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jul 2021 13:59:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A87D161179
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jul 2021 09:45:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 929CF61184
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jul 2021 13:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhGRJsu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jul 2021 05:48:50 -0400
-Received: from condef-08.nifty.com ([202.248.20.73]:41482 "EHLO
-        condef-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhGRJsu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jul 2021 05:48:50 -0400
-X-Greylist: delayed 333 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Jul 2021 05:48:50 EDT
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-08.nifty.com with ESMTP id 16I9bUXu021707
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jul 2021 18:37:30 +0900
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 16I9b8Dk028602;
-        Sun, 18 Jul 2021 18:37:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 16I9b8Dk028602
+        id S232973AbhGROCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Jul 2021 10:02:01 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:59795 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230307AbhGROCB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jul 2021 10:02:01 -0400
+X-Greylist: delayed 15694 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Jul 2021 10:02:01 EDT
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 16IDwl2W018702;
+        Sun, 18 Jul 2021 22:58:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 16IDwl2W018702
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626601029;
-        bh=VP/7yr/B+ENgaIKa1/s5XFIZJMjO0e3ONBbcEfdKM7k=;
+        s=dec2015msa; t=1626616728;
+        bh=tFk8Ig3q2oNJF/uk+ytx6lDN8oyMkUcP+7lIMpcBLL8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zahNNZymfnZQDkdfwP8P/RVPjyOM8uWfAvIrkj8/8C9pCCGbxOong1VlEQMnTgnd3
-         wEyqT0PwSFaMwMfd4ggtDdsPTdMrhlRMzthJtvLCiqV9m++ItLj9/iTllKzWERtrEw
-         ROJCY3f0vD5XAcp8v4d318sDAyKuGXUUQXy+Ap1tPUu5sHcFO7n66c4l3B72r48IXY
-         owcB1kS6dCzxpl3zF+khYpt9XI+pjVYmFgArY2P06NUolO3Qx+o6JZQLUcq4VYcpq1
-         PKC5LTkDcZJ9hkqNcyeerdCpRrnotdIjTXMZVVgnIrj2TtkmHlJdAbryG3zOCkl5Tb
-         hOWRL4tZLU/kw==
-X-Nifty-SrcIP: [209.85.215.169]
-Received: by mail-pg1-f169.google.com with SMTP id t9so15597148pgn.4;
-        Sun, 18 Jul 2021 02:37:09 -0700 (PDT)
-X-Gm-Message-State: AOAM531XKfwTQYX0hdPwa317rMj2gAqTrbcfJEEEeOBREfThzK0dv8t/
-        OnCJmH5nq9yipGKm9t0l2pGIR7WpGoLshh5a8fM=
-X-Google-Smtp-Source: ABdhPJyLY+vQ2PhiLGLAxJjHE06h78KKD3ksRb5lJ7vNzUhm5sbcTeEFqR4mzSDA7zPpuM3AIzjpEmxR/HAuHuNuvn4=
-X-Received: by 2002:a63:d80a:: with SMTP id b10mr19578322pgh.47.1626601028449;
- Sun, 18 Jul 2021 02:37:08 -0700 (PDT)
+        b=vxEqs/zLT/cZHUdHEvAJN3pPsbhfO6xxjTaa5NEQ+HZTqOgg8ovygZsFFsYWe7nI7
+         AG95bp95biXVghjpPXKA5uu4cPtZGxK0RW9aUqTJx37puo4IfHLBp67m6rwveqMn6A
+         b7TQ5z3FQ/unBUyDBsB5allPqP+zRj6oQgtp+F2uuh4sLZdyLJy42XUcZZxV8e2hzo
+         lsXHE+FbkVRFPCqu0/GL86ZK230Stzmmnm+CH+s+FON6w2vfgeS6GO12Zy0Mm3vctq
+         PCcN4gjKCDRFJT4WDZCoEIgGIt9AWfRDoexL7cBFaCbyRWgNp8JI40TAXUxr05P87N
+         DamuCVu5i1K2Q==
+X-Nifty-SrcIP: [209.85.210.182]
+Received: by mail-pf1-f182.google.com with SMTP id o201so13771440pfd.1;
+        Sun, 18 Jul 2021 06:58:47 -0700 (PDT)
+X-Gm-Message-State: AOAM5301Dd2U5kGrniwk4JgmHmc4X+iG1zUKW+pOJ1rRkIgPrLcghPmT
+        1S/NFcfEh4/fMzwlJUZMFDxreAw2KfOy8AjZSgU=
+X-Google-Smtp-Source: ABdhPJwiwHhDDous4ehqf4AQKQ3JHjjc87AyIMp+whc3LeTPoGqbKThNSWrayq9dfd0JUpQ6z+ppbryea42JNP8u1Xw=
+X-Received: by 2002:aa7:8593:0:b029:32b:c173:cd96 with SMTP id
+ w19-20020aa785930000b029032bc173cd96mr20987095pfn.63.1626616726882; Sun, 18
+ Jul 2021 06:58:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <ad9c50c54887bde41ae5de782248231c06a527c0.1626262835.git.rrichter@amd.com>
- <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
-In-Reply-To: <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
+ <d935cf2c8d73ac2ad6a9390f563d561bfa65bcdf.1626262835.git.rrichter@amd.com>
+In-Reply-To: <d935cf2c8d73ac2ad6a9390f563d561bfa65bcdf.1626262835.git.rrichter@amd.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 18 Jul 2021 18:36:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
-Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/kbuild: Document the kconfig choice default value
+Date:   Sun, 18 Jul 2021 22:58:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATs8O1O3iRpw7U2_zc3EOJ_O8t8bzcfA+ps2M01GsoVAQ@mail.gmail.com>
+Message-ID: <CAK7LNATs8O1O3iRpw7U2_zc3EOJ_O8t8bzcfA+ps2M01GsoVAQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: Fix intiramfs script name
 To:     Robert Richter <rrichter@amd.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -66,59 +63,66 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jul 15, 2021 at 6:26 PM Robert Richter <rrichter@amd.com> wrote:
 >
-> Document how choice defaults are determined:
+> Documentation was not changed when renaming the script in commit
+> 80e715a06c2d ("initramfs: rename gen_initramfs_list.sh to
+> gen_initramfs.sh"). Fixing this.
 >
-> Default of a choice is its first visible choice element [1]. Choice
-> elements do not support default attributes. [2]
+> Basically does:
 >
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/symbol.c?h=v5.14-rc1#n245
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/menu.c?h=v5.14-rc1#n494
+>  $ sed -i -e s/gen_initramfs_list.sh/gen_initramfs.sh/g $(git grep -l gen_initramfs_list.sh)
 >
+> Fixes: 80e715a06c2d ("initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh")
 > Signed-off-by: Robert Richter <rrichter@amd.com>
+
+Applied to linux-kbuild.
+
+
+
+
 > ---
->  Documentation/kbuild/kconfig-language.rst | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../early-userspace/early_userspace_support.rst           | 8 ++++----
+>  Documentation/filesystems/ramfs-rootfs-initramfs.rst      | 2 +-
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 98c24183d8c3..e4d3463594e1 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -417,6 +417,9 @@ definitions of that choice. If a [symbol] is associated to the choice,
->  then you may define the same choice (i.e. with the same entries) in another
->  place.
+> diff --git a/Documentation/driver-api/early-userspace/early_userspace_support.rst b/Documentation/driver-api/early-userspace/early_userspace_support.rst
+> index 8a58c61932ff..61bdeac1bae5 100644
+> --- a/Documentation/driver-api/early-userspace/early_userspace_support.rst
+> +++ b/Documentation/driver-api/early-userspace/early_userspace_support.rst
+> @@ -69,17 +69,17 @@ early userspace image can be built by an unprivileged user.
 >
-> +The default value of a choice is set to the first visible choice element.
-
-
-The default value of a choice is set to the first visible choice element
-unless it is explicitly set by the 'default' property.
-
-... is more precise.
-
-
-
-
-> +Choice elements do not support the default attribute like menu entries do.
-
-I doubt this info is useful.
-Rather, is it even confusing?
-
-
-choices support 'default' but
-choice elements (i.e. choice values) do not.
-
-
-
-
-
-
-
-
-
-> +
->  comment::
+>  As a technical note, when directories and files are specified, the
+>  entire CONFIG_INITRAMFS_SOURCE is passed to
+> -usr/gen_initramfs_list.sh.  This means that CONFIG_INITRAMFS_SOURCE
+> +usr/gen_initramfs.sh.  This means that CONFIG_INITRAMFS_SOURCE
+>  can really be interpreted as any legal argument to
+> -gen_initramfs_list.sh.  If a directory is specified as an argument then
+> +gen_initramfs.sh.  If a directory is specified as an argument then
+>  the contents are scanned, uid/gid translation is performed, and
+>  usr/gen_init_cpio file directives are output.  If a directory is
+> -specified as an argument to usr/gen_initramfs_list.sh then the
+> +specified as an argument to usr/gen_initramfs.sh then the
+>  contents of the file are simply copied to the output.  All of the output
+>  directives from directory scanning and file contents copying are
+>  processed by usr/gen_init_cpio.
 >
->         "comment" <prompt>
+> -See also 'usr/gen_initramfs_list.sh -h'.
+> +See also 'usr/gen_initramfs.sh -h'.
+>
+>  Where's this all leading?
+>  =========================
+> diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.rst b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+> index 4598b0d90b60..164960631925 100644
+> --- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+> +++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+> @@ -170,7 +170,7 @@ Documentation/driver-api/early-userspace/early_userspace_support.rst for more de
+>  The kernel does not depend on external cpio tools.  If you specify a
+>  directory instead of a configuration file, the kernel's build infrastructure
+>  creates a configuration file from that directory (usr/Makefile calls
+> -usr/gen_initramfs_list.sh), and proceeds to package up that directory
+> +usr/gen_initramfs.sh), and proceeds to package up that directory
+>  using the config file (by feeding it to usr/gen_init_cpio, which is created
+>  from usr/gen_init_cpio.c).  The kernel's build-time cpio creation code is
+>  entirely self-contained, and the kernel's boot-time extractor is also
 > --
 > 2.29.2
 >
