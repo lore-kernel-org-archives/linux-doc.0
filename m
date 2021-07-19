@@ -2,177 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8B6C07E9B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25491C07E9B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:28:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E685B610C7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:18:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BD98610D0
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236385AbhGSKhx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 06:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236364AbhGSKhw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:37:52 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FBBC061574;
-        Mon, 19 Jul 2021 03:29:00 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id my10so11179909pjb.1;
-        Mon, 19 Jul 2021 04:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jtGN9wE5doYwbAS2i6O5Ca83ymWdWG1+gIX4VaX3+84=;
-        b=O++o3n+t6UWk/1SXOY2/V03gj/0SqS/0GJ2FMoz8JFlv1FAWPaZdwQWdI5srcXmfHl
-         byg8lpjs1OFvMRHNCDDbfCk4Pk5IBolrPoCUIc0DU+pxMPpoEqXdySWkMG8k/r1QBssC
-         Y7n8IwysNQS6EqFmOLP4/OYSY6JY+GkDdiEAfkbz2G7QtAgxAYlEufGu6sK71yNi01qm
-         cHMu0LuVch21ABT5Qz+AZaFF7LQKG1V8NiYLdZG//x61ba+gdaTRzyZmKTOfjxfR5BgM
-         6L/jIPzL5FAyTReq2GrbfHs38WF8awj2HtyMzKHTR7n3G/SEJVfmvKwZiqEQWjjbqzOz
-         5C/A==
+        id S236479AbhGSKsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 06:48:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35993 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236332AbhGSKsF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:48:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626694122;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zdWfaYFJgwjqEmB5BWPh9A+L9EizM7zeJPklZSFE/NY=;
+        b=ILVlE82RQEUzqwUcZSwZHDW/8FzpEcRqTlP22WGRT7ohdCR4hA2MrDGoDKMBqnEQiwH5C4
+        bQa8Lr5eyUTR2jlwUgopw5VzvXekwTBY/HSpmp4IxowOYovFHT6/9E5Albe7JlO1RCpmCO
+        KS1/QGLla179a7av355GIOpWdr4qKzo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-_yK6nojqMCO_E5cmPLsnqw-1; Mon, 19 Jul 2021 07:28:41 -0400
+X-MC-Unique: _yK6nojqMCO_E5cmPLsnqw-1
+Received: by mail-wr1-f72.google.com with SMTP id d8-20020adf9c880000b0290141a87409b5so7838783wre.16
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 04:28:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jtGN9wE5doYwbAS2i6O5Ca83ymWdWG1+gIX4VaX3+84=;
-        b=GnuDWDn01GZdPN7bfdkqihpH55nhgbSHcFxntN0ofpS/mUdvkxeeWMm107QlAw/7xD
-         gWlBhrc1H7kD6T0/tSGj/hZDaaDf14aehsK6gMKywLTPj2GaCAl4GqERJpi1zwEnngJ0
-         0FgqnwyebJxGD9gldUISMdTBv6Y8bhmlYKXHJzZJS9+OqyHuR1kgIUdtPC8PzgOs6j8W
-         vdXlNpjIcbmGlS+aprw+jZ5Ihl9O2SHVavImq378mcxqVNHkKbqch14zGPn5USAvmjRe
-         6NaRr9NudhYkTI/X9nVCRwRj42ovoI1Ux/8PC8WCz9qHw2gePwxCDwyuQF8Es/G1Z9n0
-         UPBg==
-X-Gm-Message-State: AOAM532ngOUDIzvq+YNw3YirGh60xn+wNWea7IGLpCz1JROKeoLGL4Vv
-        /RX5QodwcLuvr2oEz+7ri90=
-X-Google-Smtp-Source: ABdhPJzwCrIsgiHHT9QnO/6iY7EcjRnm6UVntloSqD0V+S18rTqZMBdtkzOV0afirvJCeuFjTTc1Og==
-X-Received: by 2002:a17:902:7246:b029:129:dcf5:b583 with SMTP id c6-20020a1709027246b0290129dcf5b583mr18804974pll.73.1626693511519;
-        Mon, 19 Jul 2021 04:18:31 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id i8sm21192758pfk.18.2021.07.19.04.18.29
+        h=x-gm-message-state:from:to:cc:references:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=zdWfaYFJgwjqEmB5BWPh9A+L9EizM7zeJPklZSFE/NY=;
+        b=ZFoTucLT/wNere8DraVI/1+ogkfcub6yO0TZGEXDldVVzREZepRp03MLfrNHfCgNOz
+         uYo/9dl4NWWtuyYJaIsqti74pJJpLwOsDCyd8FOh3QxMRym9QTJ+lok1KSqNfrItQ3Eg
+         5tyHlbI5AevB9djrgXk1g9JTIxClTASsu8E/kFh77CYWBQ1hpJq8NBB/Iaje/A8c8B0m
+         C5dVnIL6G2+2QuQraJsSw4M/SUMNiv6V6LAV7tYjlMupYd/lJqkbd0kh0qvCqJLGRFKo
+         xJ8tqss0g/ArVYHywn3vfc7t/hVqKgCOesa4eN7tMA60Sz6R59frLAA9dppBzhR1QsdX
+         L44w==
+X-Gm-Message-State: AOAM531gOyk4ZCb2r6TW+oaqOnUKJjaaXK8T1182j0uUTuTxZJnMP5Lu
+        EVznZetu+2JW+jU1dtYM0LEEBjaHcy4Anh14qztW61J0QezN/fh2rmejr28CZa/ZGt0N0il2xxQ
+        JnrN8FYxpsoTD8gTAHZLo
+X-Received: by 2002:adf:f949:: with SMTP id q9mr28148623wrr.178.1626694120215;
+        Mon, 19 Jul 2021 04:28:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5eBko6UcDEM3HnRNlAFqNKgG1GX1Bx9LCzhwSh8WXYNCaTJRXTb3x82dnFDJMhHa/+16TYA==
+X-Received: by 2002:adf:f949:: with SMTP id q9mr28148607wrr.178.1626694120033;
+        Mon, 19 Jul 2021 04:28:40 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f? (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de. [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+        by smtp.gmail.com with ESMTPSA id b16sm20296101wrw.46.2021.07.19.04.28.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 04:18:31 -0700 (PDT)
-Subject: [RFC PATCH v2 7/7] docs/ko_KR: Use white spaces behind CJK characters
- in ascii-art
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>
-Cc:     Hu Haowen <src.res@email.cn>,
-        Shinwoo Lee <shinwoo.lee.us@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2babf4ef-d3f3-5591-667e-f87b6ea509ab@gmail.com>
-Date:   Mon, 19 Jul 2021 20:18:28 +0900
+        Mon, 19 Jul 2021 04:28:39 -0700 (PDT)
+From:   David Hildenbrand <david@redhat.com>
+To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210718043034.76431-1-zhengqi.arch@bytedance.com>
+ <5ce5fb25-df1d-b807-8807-595b8a7bfc63@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 0/7] Free user PTE page table pages
+Message-ID: <089e710c-fb06-e731-6d50-7858d6b9ecdf@redhat.com>
+Date:   Mon, 19 Jul 2021 13:28:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <5ce5fb25-df1d-b807-8807-595b8a7bfc63@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In literal ascii-art of Korean translation of memory-barriers.txt,
-Sphinx is confused by tabs behind CJK chars and mis-caluculates number
-of necessary white spaces in LaTeX code.
+On 19.07.21 09:34, David Hildenbrand wrote:
+> On 18.07.21 06:30, Qi Zheng wrote:
+>> Hi,
+>>
+>> This patch series aims to free user PTE page table pages when all PTE entries
+>> are empty.
+>>
+>> The beginning of this story is that some malloc libraries(e.g. jemalloc or
+>> tcmalloc) usually allocate the amount of VAs by mmap() and do not unmap those VAs.
+>> They will use madvise(MADV_DONTNEED) to free physical memory if they want.
+>> But the page tables do not be freed by madvise(), so it can produce many
+>> page tables when the process touches an enormous virtual address space.
+> 
+> ... did you see that I am actually looking into this?
+> 
+> https://lkml.kernel.org/r/bae8b967-c206-819d-774c-f57b94c4b362@redhat.com
+> 
+> and have already spent a significant time on it as part of my research,
+> which is *really* unfortunate and makes me quite frustrated at the
+> beginning of the week alreadty ...
+> 
+> Ripping out page tables is quite difficult, as we have to stop all page
+> table walkers from touching it, including the fast_gup, rmap and page
+> faults. This usually involves taking the mmap lock in write. My approach
+> does page table reclaim asynchronously from another thread and do not
+> rely on reference counts.
 
-As a workaround, use white spaces in such cases.
+FWIW, I had a quick peek and I like the simplistic approach using 
+reference counting, although it seems to come with a price. By hooking 
+using pte_alloc_get_map_lock() instead of pte_alloc_map_lock, we can 
+handle quite some cases easily.
 
-"html" output is also slightly improved by this change, but still need
-some proper font choice, which is out of the scope of this change.
+There are cases where we might immediately see a reuse after discarding 
+memory (especially, with virtio-balloon free page reporting), in which 
+case it's suboptimal to immediately discard instead of waiting a bit if 
+there is a reuse. However, the performance impact seems to be 
+comparatively small.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- .../translations/ko_KR/memory-barriers.txt         | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+I do wonder if the 1% overhead you're seeing is actually because of 
+allcoating/freeing or because of the reference count handling on some 
+hot paths.
 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Docum=
-entation/translations/ko_KR/memory-barriers.txt
-index 64d932f5dc77..ff36b857ef72 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -1364,7 +1364,7 @@ Multicopy =EC=9B=90=EC=9E=90=EC=84=B1=EC=9D=80 =EC=8B=
-=A4=EC=A0=9C=EC=9D=98 =EC=BB=B4=ED=93=A8=ED=84=B0 =EC=8B=9C=EC=8A=A4=ED=85=
-=9C=EC=97=90=EC=84=9C =ED=95=AD=EC=83=81 =EC=A0=9C=EA=B3=B5=EB=90=98=EC=A7=
-=80
- 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- 		{ X =3D 0, Y =3D 0 }
- 	STORE X=3D1		r1=3DLOAD X (reads 1)	LOAD Y (reads 1)
--				<=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>		<=EC=9D=BD=EA=B8=B0=
- =EB=B0=B0=EB=A6=AC=EC=96=B4>
-+				<=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>           <=EC=9D=BD=
-=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
- 				STORE Y=3Dr1		LOAD X
-=20
- CPU 2 =EC=9D=98 Y =EB=A1=9C=EC=9D=98 =EC=8A=A4=ED=86=A0=EC=96=B4=EC=97=90=
- =EC=82=AC=EC=9A=A9=EB=90=98=EB=8A=94 X =EB=A1=9C=EB=93=9C=EC=9D=98 =EA=B2=
-=B0=EA=B3=BC=EA=B0=80 1 =EC=9D=B4=EC=97=88=EA=B3=A0 CPU 3 =EC=9D=98 Y =EB=
-=A1=9C=EB=93=9C=EA=B0=80
-@@ -1394,7 +1394,7 @@ CPU 3 =EC=9D=98 X =EB=A1=9C=EB=93=9C=EA=B0=80 CPU 2=
- =EC=9D=98 =EB=A1=9C=EB=93=9C=EB=B3=B4=EB=8B=A4 =EB=92=A4=EC=97=90 =EC=9D=
-=B4=EB=A3=A8=EC=96=B4=EC=A1=8C=EC=9C=BC=EB=AF=80=EB=A1=9C, CPU 3
- 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- 		{ X =3D 0, Y =3D 0 }
- 	STORE X=3D1		r1=3DLOAD X (reads 1)	LOAD Y (reads 1)
--				<=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1>		<=EC=9D=BD=
-=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
-+				<=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1>         <=EC=
-=9D=BD=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
- 				STORE Y=3Dr1		LOAD X (reads 0)
-=20
- =EC=9D=B4 =EB=B3=80=ED=99=94=EB=8A=94 non-multicopy =EC=9B=90=EC=9E=90=EC=
-=84=B1=EC=9D=B4 =EB=A7=8C=EC=97=B0=ED=95=98=EA=B2=8C =ED=95=A9=EB=8B=88=EB=
-=8B=A4: =EC=9D=B4 =EC=98=88=EC=97=90=EC=84=9C, CPU 2 =EC=9D=98 X
-@@ -1789,10 +1789,10 @@ CPU =EB=A9=94=EB=AA=A8=EB=A6=AC =EB=B0=B0=EB=A6=AC=
-=EC=96=B4
-=20
- 	TYPE		MANDATORY		SMP CONDITIONAL
- 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--	=EB=B2=94=EC=9A=A9		mb()			smp_mb()
--	=EC=93=B0=EA=B8=B0		wmb()			smp_wmb()
--	=EC=9D=BD=EA=B8=B0		rmb()			smp_rmb()
--	=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1				READ_ONCE()
-+	=EB=B2=94=EC=9A=A9            mb()                    smp_mb()
-+	=EC=93=B0=EA=B8=B0            wmb()                   smp_wmb()
-+	=EC=9D=BD=EA=B8=B0            rmb()                   smp_rmb()
-+	=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1                =
-           READ_ONCE()
-=20
-=20
- =EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1 =EB=B0=B0=EB=A6=AC=
-=EC=96=B4=EB=A5=BC =EC=A0=9C=EC=99=B8=ED=95=9C =EB=AA=A8=EB=93=A0 =EB=A9=94=
-=EB=AA=A8=EB=A6=AC =EB=B0=B0=EB=A6=AC=EC=96=B4=EB=8A=94 =EC=BB=B4=ED=8C=8C=
-=EC=9D=BC=EB=9F=AC =EB=B0=B0=EB=A6=AC=EC=96=B4=EB=A5=BC
-@@ -2151,7 +2151,7 @@ wake_up() =EC=9D=B4 =EB=AC=B4=EC=96=B8=EA=B0=80=EB=A5=
-=BC =EA=B9=A8=EC=9A=B0=EA=B2=8C =EB=90=98=EB=A9=B4, =EC=9D=B4 =ED=95=A8=EC=
-=88=98=EB=8A=94 =EB=B2=94=EC=9A=A9 =EB=A9=94=EB=AA=A8=EB=A6=AC =EB=B0=B0
- 	set_current_state();		STORE event_indicated
- 	  smp_store_mb();		wake_up();
- 	    STORE current->state	  ...
--	    <=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>		  <=EB=B2=94=EC=9A=
-=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>
-+	    <=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>                 <=EB=
-=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>
- 	LOAD event_indicated		  if ((LOAD task->state) & TASK_NORMAL)
- 					    STORE task->state
-=20
---=20
-2.17.1
+I'm primarily looking into asynchronous reclaim, because it somewhat 
+makes sense to only reclaim (+ pay a cost) when there is really need to 
+reclaim memory -- similar to our shrinker infrastructure.
 
+-- 
+Thanks,
 
+David / dhildenb
 
