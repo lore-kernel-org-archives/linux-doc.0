@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3994CC12002
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCB3C12002
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23DE761166
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20E3F61165
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235297AbhGSJBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 05:01:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39374 "EHLO loongson.cn"
+        id S235032AbhGSJBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 05:01:54 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39404 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235691AbhGSJBu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Jul 2021 05:01:50 -0400
+        id S235530AbhGSJBy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Jul 2021 05:01:54 -0400
 Received: from localhost.localdomain (unknown [112.20.113.90])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0LvSPVghpEhAA--.19840S4;
-        Mon, 19 Jul 2021 17:42:24 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0LvSPVghpEhAA--.19840S5;
+        Mon, 19 Jul 2021 17:42:27 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -29,21 +29,21 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH 2/8] docs/zh_CN: add virt paravirt_ops translation
-Date:   Mon, 19 Jul 2021 17:42:49 +0800
-Message-Id: <442c95117f33f48ac6f11bc984bdcca3a3772912.1626687013.git.siyanteng@loongson.cn>
+Subject: [PATCH 3/8] docs/zh_CN: add virt guest-halt-polling translation
+Date:   Mon, 19 Jul 2021 17:42:50 +0800
+Message-Id: <5fc0463fdee1a2efdf3085d27f39e338593cca89.1626687013.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1626687013.git.siyanteng@loongson.cn>
 References: <cover.1626687013.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0LvSPVghpEhAA--.19840S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw45GFyxtr1kKF4DuFWruFg_yoW5Aw4kpr
-        yDKryfW3W8Aa4UZF4fKay3Wr1xCas7GFn8GayxZwnavF1DJ3yayr4UtFWayF93Wry8ZFW0
-        gF4qkFZ8Ca4jv3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxz0LvSPVghpEhAA--.19840S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxCryfCFy7GF4Dur45CFWrAFb_yoWrAr4DpF
+        98KryxKr9Fyry5AFyxGFyDWr17G34kG347Gw4xJwnFgF4Uta1jyF4UKrWF9FZ7urW8ZFy8
+        JF4jkFyqkry2ka7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUPG14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
         x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
         Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
         A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
@@ -53,51 +53,32 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxZw45GFyxtr1kKF4DuFWruFg_yoW5Aw4kpr
         xKxwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
         x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
         v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
-        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUCVW8JwCI42IY6I8E87
+        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
         Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
-        yTuYvjfUexhlDUUUU
+        yTuYvjfUekucDUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/paravirt_ops.rst into Chinese.
+Translate Documentation/virt/guest-halt-polling.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/virt/index.rst         |  3 +-
- .../translations/zh_CN/virt/paravirt_ops.rst  | 40 +++++++++++++++++++
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/virt/paravirt_ops.rst
+ .../zh_CN/virt/guest-halt-polling.rst         | 87 +++++++++++++++++++
+ .../translations/zh_CN/virt/index.rst         |  2 +-
+ 2 files changed, 88 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/virt/guest-halt-polling.rst
 
-diff --git a/Documentation/translations/zh_CN/virt/index.rst b/Documentation/translations/zh_CN/virt/index.rst
-index f5c922bbd8a8..6adda3fba6e0 100644
---- a/Documentation/translations/zh_CN/virt/index.rst
-+++ b/Documentation/translations/zh_CN/virt/index.rst
-@@ -20,11 +20,12 @@ Linux虚拟化支持
- .. toctree::
-    :maxdepth: 2
- 
-+   paravirt_ops
-+
- TODOLIST:
- 
-    kvm/index
-    uml/user_mode_linux_howto_v2
--   paravirt_ops
-    guest-halt-polling
-    ne_overview
-    acrn/index
-diff --git a/Documentation/translations/zh_CN/virt/paravirt_ops.rst b/Documentation/translations/zh_CN/virt/paravirt_ops.rst
+diff --git a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
 new file mode 100644
-index 000000000000..73f49c338c3b
+index 000000000000..6d35aeb88ffc
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/virt/paravirt_ops.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+@@ -0,0 +1,87 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/virt/paravirt_ops.rst
++:Original: Documentation/virt/guest-halt-polling.rst
 +
 +:翻译:
 +
@@ -107,33 +88,99 @@ index 000000000000..73f49c338c3b
 +
 +
 +
-+.. _cn_virt_paravirt_ops:
++.. _cn_virt_guest-halt-polling:
 +
-+============
-+Paravirt_ops
-+============
++========================================
++客户机停止轮询机制（Guest halt polling）
++========================================
 +
-+Linux提供了对不同管理程序虚拟化技术的支持。历史上，为了支持不同的虚拟机管理平台
-+（hypervisor，下文简称管理平台），需要不同的二进制内核，这个限制已经被pv_ops移
-+除了。Linux pv_ops是一个虚拟化API，它能够支持不同的管理程序。它允许每个管理程序
-+优先于关键操作，并允许单一的内核二进制文件在所有支持的执行环境中运行，包括本机——没
-+有任何管理程序。
++cpuidle_haltpoll驱动，与haltpoll管理器一起，允许客户机vcpus在停止前轮询
++一定的时间。
 +
-+pv_ops提供了一组函数指针，代表了与低级关键指令和各领域高级功能相对应的操作。
-+pv-ops允许在运行时进行优化，在启动时对低级关键操作进行二进制修补。
++这为物理机侧的轮询提供了以下好处:
 +
-+pv_ops操作被分为三类:
++	1) 在执行轮询时，POLL标志被设置，这允许远程vCPU在执行唤醒时避免发送
++	   IPI（以及处理IPI的相关成本）。
 +
-+- 简单的间接调用
-+   这些操作对应于高水平的函数，众所周知，间接调用的开销并不十分重要。
++	2) 可以避免虚拟机退出的成本。
 +
-+- 间接调用，允许用二进制补丁进行优化
-+   通常情况下，这些操作对应于低级别的关键指令。它们被频繁地调用，并且是性能关
-+   键。开销是非常重要的。
++客户机侧轮询的缺点是，即使在物理机中的其他可运行任务中也会进行轮询。
 +
-+- 一套用于手写汇编代码的宏程序
-+   手写的汇编代码（.S文件）也需要准虚拟化，因为它们包括敏感指令或其中的一些代
-+   码路径对性能非常关键。
++其基本逻辑如下。一个全局值，即guest_halt_poll_ns，是由用户配置的，表示允
++许轮询的最大时间量。这个值是固定的。
++
++每个vcpu都有一个可调整的guest_halt_poll_ns（"per-cpu guest_halt_poll_ns"），
++它由算法响应事件进行调整（解释如下）。
++
++模块参数
++========
++
++haltpoll管理器有5个可调整的模块参数:
++
++1) guest_halt_poll_ns:
++
++轮询停止前执行的最大时间，以纳秒为单位。
++
++默认值: 200000
++
++2) guest_halt_poll_shrink:
++
++当唤醒事件发生在全局的guest_halt_poll_ns之后，用于缩减每个CPU的guest_halt_poll_ns
++的划分系数。
++
++默认值: 2
++
++3) guest_halt_poll_grow:
++
++当事件发生在per-cpu guest_halt_poll_ns之后但在global guest_halt_poll_ns之前，
++用于增长per-cpu guest_halt_poll_ns的乘法系数。
++
++默认值: 2
++
++4) guest_halt_poll_grow_start:
++
++在系统空闲的情况下，每个cpu guest_halt_poll_ns最终达到零。这个值设置了增长时的
++初始每cpu guest_halt_poll_ns。这个值可以从10000开始增加，以避免在最初的增长阶
++段出现失误。:
++
++10k, 20k, 40k, ... (例如，假设guest_halt_poll_grow=2).
++
++默认值: 50000
++
++5) guest_halt_poll_allow_shrink:
++
++允许缩减的Bool参数。设置为N以避免它（一旦达到全局的guest_halt_poll_ns值，每CPU的
++guest_halt_poll_ns将保持高位）。
++
++默认值: Y
++
++模块参数可以从Debugfs文件中设置，在::
++
++	/sys/module/haltpoll/parameters/
++
++进一步说明
++==========
++
++- 在设置guest_halt_poll_ns参数时应该小心，因为一个大的值有可能使机器上的cpu使用率
++  达到100%，否则几乎是完全空闲的。
+diff --git a/Documentation/translations/zh_CN/virt/index.rst b/Documentation/translations/zh_CN/virt/index.rst
+index 6adda3fba6e0..1c602b8638f5 100644
+--- a/Documentation/translations/zh_CN/virt/index.rst
++++ b/Documentation/translations/zh_CN/virt/index.rst
+@@ -21,12 +21,12 @@ Linux虚拟化支持
+    :maxdepth: 2
+ 
+    paravirt_ops
++   guest-halt-polling
+ 
+ TODOLIST:
+ 
+    kvm/index
+    uml/user_mode_linux_howto_v2
+-   guest-halt-polling
+    ne_overview
+    acrn/index
+ 
 -- 
 2.27.0
 
