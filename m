@@ -2,152 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A376C12002
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 13:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA9FDC07E9B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 13:55:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C33A60D07
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 13:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5A6B610D0
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 13:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238413AbhGSMvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 08:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
+        id S240413AbhGSNOc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 09:14:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238402AbhGSMvM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 08:51:12 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A69C061766
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 05:53:27 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id i16so1440153pgi.9
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 06:31:52 -0700 (PDT)
+        with ESMTP id S239491AbhGSNOc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 09:14:32 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBC4C061762
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 06:18:43 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id p9so11494188pjl.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 06:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5yZp7VZOqzRJ1FjiCJg4LSQFQRx2br2QAn//QhHRktM=;
-        b=QO+khtR5mz8ki+MH8XFCQ5Bd9jS6cfXxx2oyG/XH78anP6Bc+tyWkR34msU4pnfrMO
-         1BlSve+AaXuFLHeI1hzxEm5QLrbEtxdQc2We9tIgRKci8w+F21zza1C+bwT19F5LbZ2F
-         iVg7NrYSm0EzFztAjlmemILd46y8vKGRBULU1AYWlgj0bZbG3YSsmaSGddh54vozH3ou
-         zQ64snFRvZIMuMT38NCrIMHMecSots7seaAQAhhMYdyh7cyz1ce9F6Uy13l/ZnZQLZcr
-         cO4PI8ycAhPP39G+G3EZ07q2/VF5hSx7RKSd5ernEiDjvRIkCWaHqQfFuNbqavasp8Y5
-         ZOAg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=lm5IvueyUucmK9+B2ni/XxO2ccY0iQ71cX0W8b88G5Q=;
+        b=sz8XlcoTWg7QOOThmUdhRqfOEh4bAF0RlzrOKRYgVCfmfoVxnb8ki1w6R53afZMNIX
+         bdT96FHA+buGLamd0coIbTgd1GQ3t1yjKojeNpnVbMJvzSf2gR0qrBByfAbk+THN1JZd
+         X2mw0ixNrQROBuEP5APK+cpPDxTIO/WKx3lP7kEsnFd6y5pEtP5lfPIxDhzWJBdwtcx5
+         GjY4Zme5iIpEf8bkZtTghuxAvMYfZ0/K9zz5+1j/9HqrkIGESdvj0nneVVNfNPJwcAPE
+         cKoV/FkhkpHt6nJVzZO6xK6C8xqF/TVafiNXd27Ob3GJSP2/QsRMzgIzVOWVqFkPY/AP
+         SJsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5yZp7VZOqzRJ1FjiCJg4LSQFQRx2br2QAn//QhHRktM=;
-        b=uWGujrQsoK4J4EQrTQ7kJzFBg1R0bhWfeu5hx/6UnZ9vAR/tqYyGmcHXqYB07LqHAC
-         HtSBDyqbjOOdUx4Z3SyzMzkVvBDB/sEAr6TN1ntZbGCaf7G6yMmx4EqQVmGTbjTkiAKx
-         OYqEKIAYnl2FZ39kTmaoJdGQ1yAbTniANRCwhCtoci4y8XqBxdAnOCOXxkg94ku6Uhvq
-         pmAIHHtOmMayBfc+/SQYF6hQ4w6QtBDtmaHNzEiOHDVSa1EE7dYKn9lI8uUgnxDFPNAC
-         qXwRTt/CBnWgzgAe2Z2y6hpSoDStqtuma+OWc8czjtfSzCXdWK0iXb/SCDHtEDqCRvkE
-         MSUw==
-X-Gm-Message-State: AOAM530kEfg/tsUdOzYrRsjzkKx53ZE64ua+3jO0klVVjKEGXbcQglv9
-        cB/Dq/VvNLKA6SzBl2i2uyRMnMiLEId4TvI0LErhrw==
-X-Google-Smtp-Source: ABdhPJxiTW2bFUTE4xsT0zE+moeFlOhucFmKqk25I2Tp7KdXyO4CLoSMFJdS9BFEvKONqZwnyaFeMA5aQB+EzuiOfFY=
-X-Received: by 2002:a63:4607:: with SMTP id t7mr25333633pga.31.1626701511860;
- Mon, 19 Jul 2021 06:31:51 -0700 (PDT)
-MIME-Version: 1.0
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=lm5IvueyUucmK9+B2ni/XxO2ccY0iQ71cX0W8b88G5Q=;
+        b=Hq1HZpa7KJjQV3xuoxDNBBDd7vtiYOYk8/tZ6WSyXjb6HsxfyTzDzKpeusA5hpRZKV
+         ro6EHCk+wCw/poQhPkzTzTya0RKZpv9RgEe9BOQiUpquBUsrtLdRz5qCN8ygqlq3ducU
+         t9W5zbO3VSFKibyNzZx7kEI7o8EzAukNiueNFYerJM104WLMseyT56tYRiVDZrVola6l
+         7Tyg4hVyiRlf7qiYdkq+Blk+MNQMQxGbiyUdMyB6yyXaqzucIFfMgm4ZmvVzHmjS2dpR
+         5UNSln8MHr40PBWU5UMXZC7uFSCiKBvpnWKdVa24qzDWZ5VLJa0ldFFEoHpuNEx0LpFi
+         QngA==
+X-Gm-Message-State: AOAM530hatTtyxSphcw1jwRhaV/NzVBdkGdkcSUDkUe/m+KdT80wfbmH
+        DMXMQSPOKI+o6v+VLnbE6QOmiw==
+X-Google-Smtp-Source: ABdhPJwS87p0XskdKotYAQaKNw4ZH1KiJK6VQskISM1Uku2ELfoNfsYxzKc/JhHKwxYL7E/GWjYh8g==
+X-Received: by 2002:a17:902:bb83:b029:120:512b:86c0 with SMTP id m3-20020a170902bb83b0290120512b86c0mr19562256pls.32.1626702911622;
+        Mon, 19 Jul 2021 06:55:11 -0700 (PDT)
+Received: from [10.200.196.235] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id v69sm20867208pfc.118.2021.07.19.06.55.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jul 2021 06:55:11 -0700 (PDT)
+Subject: Re: [PATCH 5/7] mm: free user PTE page table pages
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
 References: <20210718043034.76431-1-zhengqi.arch@bytedance.com>
- <5ce5fb25-df1d-b807-8807-595b8a7bfc63@redhat.com> <089e710c-fb06-e731-6d50-7858d6b9ecdf@redhat.com>
- <CAMZfGtVsHkBkYBFf-WCvnjyAqtmmNM8KE5sdehdE4zQcdYYdDQ@mail.gmail.com>
-In-Reply-To: <CAMZfGtVsHkBkYBFf-WCvnjyAqtmmNM8KE5sdehdE4zQcdYYdDQ@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 19 Jul 2021 21:30:59 +0800
-Message-ID: <CAMZfGtUXS+BfYaDn12cv-dSOqV_hDtE0k1Ofu-kqHcdGAis4aQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Free user PTE page table pages
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Qi Zheng <zhengqi.arch@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+ <20210718043034.76431-6-zhengqi.arch@bytedance.com>
+ <20210718220110.nqcd73luncf3v7mk@box.shutemov.name>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+Message-ID: <fa819293-7b0b-0b80-699a-63c1ad0469c2@bytedance.com>
+Date:   Mon, 19 Jul 2021 21:55:05 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <20210718220110.nqcd73luncf3v7mk@box.shutemov.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 8:42 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> On Mon, Jul 19, 2021 at 7:28 PM David Hildenbrand <david@redhat.com> wrote:
-> >
-> > On 19.07.21 09:34, David Hildenbrand wrote:
-> > > On 18.07.21 06:30, Qi Zheng wrote:
-> > >> Hi,
-> > >>
-> > >> This patch series aims to free user PTE page table pages when all PTE entries
-> > >> are empty.
-> > >>
-> > >> The beginning of this story is that some malloc libraries(e.g. jemalloc or
-> > >> tcmalloc) usually allocate the amount of VAs by mmap() and do not unmap those VAs.
-> > >> They will use madvise(MADV_DONTNEED) to free physical memory if they want.
-> > >> But the page tables do not be freed by madvise(), so it can produce many
-> > >> page tables when the process touches an enormous virtual address space.
-> > >
-> > > ... did you see that I am actually looking into this?
-> > >
-> > > https://lkml.kernel.org/r/bae8b967-c206-819d-774c-f57b94c4b362@redhat.com
-> > >
-> > > and have already spent a significant time on it as part of my research,
-> > > which is *really* unfortunate and makes me quite frustrated at the
-> > > beginning of the week alreadty ...
-> > >
-> > > Ripping out page tables is quite difficult, as we have to stop all page
-> > > table walkers from touching it, including the fast_gup, rmap and page
-> > > faults. This usually involves taking the mmap lock in write. My approach
-> > > does page table reclaim asynchronously from another thread and do not
-> > > rely on reference counts.
-> >
->
-> Hi David,
->
-> > FWIW, I had a quick peek and I like the simplistic approach using
-> > reference counting, although it seems to come with a price. By hooking
-> > using pte_alloc_get_map_lock() instead of pte_alloc_map_lock, we can
-> > handle quite some cases easily.
->
-> Totally agree.
->
-> >
-> > There are cases where we might immediately see a reuse after discarding
-> > memory (especially, with virtio-balloon free page reporting), in which
-> > case it's suboptimal to immediately discard instead of waiting a bit if
-> > there is a reuse. However, the performance impact seems to be
-> > comparatively small.
-> >
-> > I do wonder if the 1% overhead you're seeing is actually because of
-> > allcoating/freeing or because of the reference count handling on some
-> > hot paths.
->
-> Qi Zheng has compared the results collected by using the "perf top"
-> command. The LRU lock is more contended with this patchset applied.
-> I think the reason is that this patchset will free more pages (including
-> PTE page table pages). We don't see the overhead caused by reference
-> count handling.
+On 7/19/21 6:01 AM, Kirill A. Shutemov wrote:
+> On Sun, Jul 18, 2021 at 12:30:31PM +0800, Qi Zheng wrote:
+>> Some malloc libraries(e.g. jemalloc or tcmalloc) usually
+>> allocate the amount of VAs by mmap() and do not unmap
+>> those VAs. They will use madvise(MADV_DONTNEED) to free
+>> physical memory if they want. But the page tables do not
+>> be freed by madvise(), so it can produce many page tables
+>> when the process touches an enormous virtual address space.
+>>
+>> The following figures are a memory usage snapshot of one
+>> process which actually happened on our server:
+>>
+>>          VIRT:  55t
+>>          RES:   590g
+>>          VmPTE: 110g
+>>
+>> As we can see, the PTE page tables size is 110g, while the
+>> RES is 590g. In theory, the process only need 1.2g PTE page
+>> tables to map those physical memory. The reason why PTE page
+>> tables occupy a lot of memory is that madvise(MADV_DONTNEED)
+>> only empty the PTE and free physical memory but doesn't free
+>> the PTE page table pages. So we can free those empty PTE page
+>> tables to save memory. In the above cases, we can save memory
+>> about 108g(best case). And the larger the difference between
+>> the size of VIRT and RES, the more memory we save.
+>>
+>> In this patch series, we add a pte_refcount field to the
+>> struct page of page table to track how many users of PTE page
+>> table. Similar to the mechanism of page refcount, the user of
+>> PTE page table should hold a refcount to it before accessing.
+>> The PTE page table page will be freed when the last refcount
+>> is dropped.
+> 
+> The patch is very hard to review.
+> 
+> Could you split up introduction of the new API in the separate patch? With
+> a proper documentation of the API.
 
-Sorry for the confusion. I am wrong. The PTE page table page does
-not add to LRU list, so it should not be the LRU lock. We actually see
-that _raw_spin_unlock_irqrestore is hotter than before. I guess it is
-zone lock.
+Good idea, i will do it.
 
->
-> Thanks,
->
-> Muchun
->
-> >
-> > I'm primarily looking into asynchronous reclaim, because it somewhat
-> > makes sense to only reclaim (+ pay a cost) when there is really need to
-> > reclaim memory -- similar to our shrinker infrastructure.
-> >
-> > --
-> > Thanks,
-> >
-> > David / dhildenb
-> >
+> 
+> Why pte_refcount is atomic? Looks like you do everything under pmd_lock().
+> Do I miss something?
+
+When we do pte_get_unless_zero(), we hold pmd_lock to protect against
+free_pte_table(). But we don't need to hold the pmd lock when we do
+pte_get()/pte_put() in mapping/unmapping routine.
+
+> 
+> And performance numbers should be included. I don't expect pmd_lock() in
+> all hotpaths to scale well.
+> 
+
+Yeah, so we use rcu lock to replace the pmd lock in some routines in the
+subsequent patch (mm: defer freeing PTE page table for a grace period).
+
+Thanks,
+
+Qi
