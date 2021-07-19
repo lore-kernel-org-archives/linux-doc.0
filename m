@@ -2,59 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF6BC07E9B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E823C636CE
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:10:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C081C6112D
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:08:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28A69610F7
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236376AbhGSK11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 06:27:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
+        id S236302AbhGSK30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 06:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235440AbhGSK10 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:27:26 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 255D9C061574;
-        Mon, 19 Jul 2021 03:17:43 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id p4-20020a17090a9304b029016f3020d867so12159741pjo.3;
-        Mon, 19 Jul 2021 04:08:06 -0700 (PDT)
+        with ESMTP id S235905AbhGSK3Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:29:25 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6256FC061574;
+        Mon, 19 Jul 2021 03:19:50 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id y4so18580271pgl.10;
+        Mon, 19 Jul 2021 04:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=1oaFsfB75KGXZ2Jfm6WhblXtwA8C/MYDZ5+7R5cBPf0=;
-        b=A9wlRwjI0b8eN2FOcPpMBL/fD/cMWlyUiYCdwaN42z1rr6gqYRrE/0usqGgvGJkQoK
-         yEN8aeaUdE0ZUpeFwJ9jfvlj241thx5AapHzbul34XoetkLzcQqWZBi1vBhJ5NtI7jNP
-         zLqc0z1xYNWZdyeYpUyPgixLLIay0e/h3mQMl7w42Z30aIxxYTYaUWvTdILERvlnDwbC
-         M2+N0gRJTnqzO89+5RrkR26lbUBnsEF5TeD89hbx6DXm/FlCq7oa9bRyeuTsC0VGEl9G
-         PK1BAaWfTd7Ua7MwgSuzCc0uecIZRNs0HS85FiEUxUKcqJ600f8GU1JptRcWjsQDyvIA
-         G7hw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EtS9KZrtxy9xubLLJzujdJdVgsBmAdfNXTJNwmkcji8=;
+        b=RsH+YOe1qFM2h5KIJY2I6ZTWLdjO8AZSVfKYwWv4IYm7iD5bQOcC4zl1KDZXrL0KoN
+         Fo30saFMP4DKOfG2duPrktNoaShxc9DsiJsYz3TXtme8ZxQ/3ADy1ua4pqDuItAcMH0J
+         Rh5cKS7A6LfKzxRuemDE/Ui2a0lirC1/2Qx/tSJZT1uy781SYIkrKu1b3GMEMpJsPfZE
+         zNHpCf2Gyt2X6ebKyPYxGPszQvQE5uwhzILbpicKN4cmvPLx8sCb8z9gq65UQr6mkXZM
+         wG689N0ruhvBSXw2HzbEPZX1X5lfc0bUCXIAkTim55b6tpryKu/xcDIMFfIC6QCScHwP
+         vo0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=1oaFsfB75KGXZ2Jfm6WhblXtwA8C/MYDZ5+7R5cBPf0=;
-        b=r+RQfKuBrNNiY4O7mXfVFsw9FHq7mYfh8WQMQH5dJxe17jHYtkVcm3EHanDiljwd72
-         GO1ptlx4XXvNvo02kENRiiAHljSNoAWj+KIY9aVBZKv3Yv2N/o3Y4qL3jdKJnOifcEm3
-         KjG/yUEnnl6dpQEnRRQMy5Z+jRXpV3weGnMl0asvzceYEoc5OuVRTBzZaZ1XkqFpMOJF
-         CMERuYi/gWbaAcQP2MK1Ea76j8Fas5jtBrCSQg01RFArZUa0iVU0PTajkhUMYvKk6VAq
-         k3FvcAY7lFWoA3Pi8zrr8nobzBbkNNaxLAuMa8c2PrgXJuX/eu5R3zO+7LHpHLdLvif6
-         ltXg==
-X-Gm-Message-State: AOAM533ybnP8XygYUn3edXQs2T3BEJSdbqSMVWw1FZV82AaX26Q1gHO+
-        6QK8LX/3QICCuFOdQTJK1Yc=
-X-Google-Smtp-Source: ABdhPJyKlze6Rj7YCnjhyaZ2tfFiUDKmdyn+Rec3ECNOfKahs6GoqIL24PZJD+J0SGykQP0+eWCMlQ==
-X-Received: by 2002:a17:90a:9205:: with SMTP id m5mr30120442pjo.172.1626692886349;
-        Mon, 19 Jul 2021 04:08:06 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EtS9KZrtxy9xubLLJzujdJdVgsBmAdfNXTJNwmkcji8=;
+        b=IHHUWvPrKPqdKqHgtnb17Bg22ZMc7zVCmXAlHia+2carcKdBwDWALamaqkLlN8o6Ej
+         XQ+GSUyxHUHiiRJfAbznVXmj9YzZLAPuh0co0ug+knvYG7O33Vm8NVVwyZXnA0jlFggR
+         Lzb9kRU+mNIPCeV+DF0g2U0bvm5LrdcKFtkx/RgZuTP7aqXMAF2N10UhSicnPriXEVKr
+         PPGHyZEV3UebYRjhjBC52AATwzKIM0M80VrricKYVHHs63u/iaVFhvc7PFyWS9jWo1uB
+         EcxvMr6Bk0gQFZp0Lf8FV7FAopw4v7m1QnWSsTwsvQKiiqLbOL4le/CxjGY2urZw2Rcc
+         f/rA==
+X-Gm-Message-State: AOAM531O6DwPhBJXUXwS9fbD3Kho4Tj+j1EZdkXFZs9jI6Q2J2BTS1Rt
+        yBjCdWitBgJ8N8vflq+JzcA=
+X-Google-Smtp-Source: ABdhPJyK9EXDUG77WfRmR3tVNgQJk335m5RTBGLiu27ngFPS3jS/RPqITlUeM+hIpNIr48BtT8ZNpA==
+X-Received: by 2002:aa7:804f:0:b029:334:4951:da88 with SMTP id y15-20020aa7804f0000b02903344951da88mr19219440pfm.29.1626693003944;
+        Mon, 19 Jul 2021 04:10:03 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x23sm21168646pgk.90.2021.07.19.04.08.03
+        by smtp.gmail.com with ESMTPSA id l6sm21727265pgh.34.2021.07.19.04.10.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 04:08:05 -0700 (PDT)
+        Mon, 19 Jul 2021 04:10:03 -0700 (PDT)
+Subject: [RFC PATCH v2 1/7] docs: pdfdocs: Refactor config for CJK document
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>
@@ -62,14 +65,14 @@ Cc:     Hu Haowen <src.res@email.cn>,
         Shinwoo Lee <shinwoo.lee.us@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Akira Yokosawa <akiyks@gmail.com>
+References: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [RFC PATCH v2 0/7] docs: pdfdocs: Improve font choice in CJK
- translations
-Message-ID: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
-Date:   Mon, 19 Jul 2021 20:08:02 +0900
+Message-ID: <ea17ce02-07f3-a34c-ced2-c585caa50607@gmail.com>
+Date:   Mon, 19 Jul 2021 20:10:00 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,140 +80,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+To make generated LaTeX code portable across systems with different sets
+of available fonts, convert font-availability check in python code to
+LaTeX code by using a conditional command provided by the "fontspec"
+package.
 
-I'm calling this patch set "RFC PATCH v2", but the approach has changed
-a lot since "RFC PATCH 0/3 docs: pdfdocs: Improve alignment of CJK
-ascii-art" [1], hence the different title.
+This will help those who run Sphinx on one machine/container and run
+latexmk on other machines/containers.
 
-I added Hu Haowen, who is working on zh_TW translations, and Shinwoo Lee,
-who has recently shown interest in enhancing ko_KR translations [2] but
-has got no public response yet, in the CC list in the faint hope of their
-interest in CJK typesetting by Sphinx + XeLaTeX.  If either (or both) of
-you has no interest, please let me know.  I won't bother you in this area.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/conf.py | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-I thought it was impossible to switch CJK font choices in the middle
-of a document, but it turns out it is actually possible.
-
-Patch 1/7 is mostly the same as the original "RFC PATCH 1/3".
-
-Patch 2/7 is the most important change in this patch set.
-It introduces a pair of LaTeX macros for each CJK language:
-    zh_CN:  \kerneldocBeginSC, \kerneldocEndSC
-    ko_KR:  \kerneldocBeginKR, \kerneldocEndKR
-    ja_JP:  \kerneldocBeginJP, \kerneldocEndJP
-
-, which perform magical font settings for the languages.
-
-Each pair of macros are added in translations' respective index.rst.
-
-As for Hangul inter-phrase spaces, xeCJK provides a knob to preserve
-them.  \kerneldocBeginKR has the knob enabled.
-
-Also note that CJKmainfont is changed from "Noto Sans CJK" to "Noto
-Serif CJK", as the latter looks more consistent with the roman (serif)
-family of Latin text.
-
-The font choice of latin monospace letters is overridden (for
-ascii-art alignmet) only when the document is built by
-"make SPHINXDIRS=translations pdfdocs".
-
-As for the to-be-merged zh_TW translations, the same approach should
-work by choosing "Noto xxxx CJK TC" fonts.
-
-There remain a couple of glitches remaining as of Patch 2/7.
-Following patches address them one by one.
-
-Patch 3/7 increases line spacing of CJK contents.
-In general, CJK characters in single spacing looks too busy.
-One-half spacing generates a reasonable result (to my eyes).
-
-Patch 4/7 is a workaround of "Noto CJK" fonts' lack of italic shapes.
-
-Patch 5/7 fixes excessive kerning by xeCJK around quotation marks
-in Korean and Japanese translations. Quotation marks in "Noto Serif
-CJK KR" and "Not Serif CJK JP" fonts are half-width rather than
-full-width in "Noto Serif CJK SC".
-
-Patches 6/7 and 7/7 corresponds to 2/3 and 3/3 in the original RFC.
-They attempt to align ascii-art figures found in the Korean translation
-of memory-barriers.txt.
-
-Now, candidates of *true* monospace font for Hangul are:
-
-    D2Coding, Sarasa Mono K, and (ugly looking) Unifont.
-
-I said earlier in response to Mauro's concerns with regard to
-"Sarasa Mono" font and sphinx-pre-install [3]:
-
-Akira>>> Existence of "Sarasa Mono SC" can be checked by the command:
-     >>>
-     >>>     fc-list | grep "Sarasa Mono SC," | grep "style=Regular" | wc -l
-     >>>
-     >>> If the result is *not* "0", you have the font somewhere in your
-     >>> fontconfig path.
-     >>>
-     >>> I think this is portable across distros.
-     >>> Wouldn't this suffice for sphinx-pre-install?
-Mauro>> 
-     >> No. The sphinx-pre-install tool generate a list of commands
-     >> needed to install the pre-reqs on a given distro.
-     >> ...
-     >> The same command, when executed on a different distro will
-     >> print a different set of packages and commands.
-Akira>
-     > I see...
-     >
-     > So let's forget Unifont and "Sarasa Mono" for the time being.
-     >
-     > By adding some custom configuration of fontconfig, "Noto Sans Mono
-     > CJK SC" can be made an alias of "Sarasa Mono", "Unifont", or whatever
-     > alternative font one wants to try.
-
-This was my misunderstanding.  Yes, alias is possible by fontconfig,
-but fontconfig's alias names are not recognized by fontspec/xeCJK + XeLaTeX.
-So we need to embed the actual names of candidate fonts in the preamble.
-
-Mauro, isn't the header comment in conf.py added in Patch 6/7 good enough?
-I don't think those nice-to-have fonts are pre-reqs that should be
-taken care of by the sphinx-pre-install script.
-
-On the other hand, as having heard of nothing from SeongJae, who is
-the maintainer of Korean memory-barrier.txt, there might be nobody
-who cares the Korean chapter in translations.pdf.
-Patches 6/7 and 7/7 need explicit Acks of someone who reads it, I guess.
-
-This series is tested against Sphinx 2.4.4 and brand-new 4.1.1.
-
-Again, any feedback is appreciated!
-
-	Thanks, Akira
-
-[1]: https://lore.kernel.org/lkml/386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com/
-[2]: https://lore.kernel.org/linux-doc/CAJMZz3_M34cy4ZbKGLZniGeUPOoJ7DMXdDOQxy-T44_cQ1+Udw@mail.gmail.com/
-[3]: https://lore.kernel.org/lkml/0cfd8dfb-b304-4073-973c-930a93d19a17@gmail.com/
-
---
-Akira Yokosawa (7):
-  docs: pdfdocs: Refactor config for CJK document
-  docs: pdfdocs: Add CJK-language-specific font settings
-  docs: pdfdocs: Use one-half spacing in CJK translations
-  docs: pdfdocs: Permit AutoFakeSlant for CJK fonts
-  docs: pdfdocs: Teach xeCJK the width of quotation marks
-  docs: pdfdocs: Add optional choices for Korean monospace font
-  docs/ko_KR: Use white spaces behind CJK characters in ascii-art
-
- Documentation/conf.py                         | 77 +++++++++++++++----
- Documentation/translations/conf.py            | 44 +++++++++++
- Documentation/translations/ja_JP/howto.rst    |  8 ++
- Documentation/translations/ja_JP/index.rst    |  5 ++
- Documentation/translations/ko_KR/howto.rst    |  8 ++
- Documentation/translations/ko_KR/index.rst    |  2 +
- .../translations/ko_KR/memory-barriers.txt    | 14 ++--
- Documentation/translations/zh_CN/index.rst    |  5 ++
- 8 files changed, 140 insertions(+), 23 deletions(-)
- create mode 100644 Documentation/translations/conf.py
-
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 7d92ec3e5b6e..b440cb606d22 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -16,8 +16,6 @@ import sys
+ import os
+ import sphinx
+ 
+-from subprocess import check_output
+-
+ # Get Sphinx version
+ major, minor, patch = sphinx.version_info[:3]
+ 
+@@ -355,15 +353,14 @@ latex_elements = {
+      ''',
+ }
+ 
+-# At least one book (translations) may have Asian characters
+-# with are only displayed if xeCJK is used
++# Translations have Asian (CJK) characters which are only displayed if
++# xeCJK is used
+ 
+-cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
+-if cjk_cmd.find("Noto Sans CJK SC") >= 0:
+-    latex_elements['preamble']  += '''
++latex_elements['preamble']  += '''
++    \\IfFontExistsTF{Noto Sans CJK SC}{
+ 	% This is needed for translations
+-        \\usepackage{xeCJK}
+-        \\setCJKmainfont{Noto Sans CJK SC}
++	\\usepackage{xeCJK}
++	\\setCJKmainfont{Noto Sans CJK SC}
+ 	% Define custom macros to on/off CJK
+ 	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
+ 	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
+@@ -371,13 +368,12 @@ if cjk_cmd.find("Noto Sans CJK SC") >= 0:
+ 	\\usepackage{etoolbox}
+ 	% Inactivate CJK after tableofcontents
+ 	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
+-     '''
+-else:
+-    latex_elements['preamble']  += '''
++    }{ % No CJK font found
+ 	% Custom macros to on/off CJK (Dummy)
+ 	\\newcommand{\\kerneldocCJKon}{}
+ 	\\newcommand{\\kerneldocCJKoff}{}
+-     '''
++    }
++'''
+ 
+ # Fix reference escape troubles with Sphinx 1.4.x
+ if major == 1:
 -- 
 2.17.1
 
