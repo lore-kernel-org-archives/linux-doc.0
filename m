@@ -2,164 +2,646 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32EA8C07E9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14148C12002
 	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 23:28:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FE0E611CE
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 23:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F02436113A
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 23:28:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347299AbhGSWrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 18:47:08 -0400
-Received: from mail-co1nam11on2075.outbound.protection.outlook.com ([40.107.220.75]:17377
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1352155AbhGSTtk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Jul 2021 15:49:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XZZ95be/GwpBGTPmHuXJTbtUAWk44VqBnT0s0VLY721jnwLfda22E84cA4D/yIFqpZMxUycbP5JtoeygsFUMUDIL9uMTyLv0yR4iUYZQp3MUhmOVBhX1rnWBlfbexIhcle24A6OvAkEB/K44aJ43PziH4dJYlAcebULJBsRfiFs/xQ3kZQUFQHHmLU540psMWxcf3gdLpVvsWLkhVmlpdcpwg9JMtHQguVwrUSD3ebjDBeEnDNwb8k4+EAq8ePLeigqieuQzYVYp8J3r4aOLkqZWxoapWaPqsi5w0hbTWmjuo4+hFehz7vWxaQpifAAcv/QaC16cpfh9uwPfo7c3tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQdVEjSjFIOiTOQcjk3YGb2GzcHS5NwipC2SUNx3INg=;
- b=dCPdHhP1xVqj69e55SJ4gMX0qklgQ+F9uLrC3y35avig/JdbeDGcIkMe7ivTJp9Y+Iwkr1VFBEfis9n3k+mLhkMtiJ+2kDTQgeix/FPBgXjMp56XXOFnKDswhCccXKMDRHKMtfzuk4JXypaVPDNa3FOFbc3t1QAU/ymsmUaWO24Ybq9Ra8hDpqK2qYlcedt+Ye741/eyBej/RcM0lY/N/sBBwR+MRIZA2XcDA1P30wBu/UkhjanDebmC6AXe/HcYSNo9OpAG4PYo7tdPH2Us4PBSCbV2r6qtGd6/sJWvOu1kElQGI0XDDyTSgT9TGY9qgfb80tR99/d4LhCCFs8GYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQdVEjSjFIOiTOQcjk3YGb2GzcHS5NwipC2SUNx3INg=;
- b=wjAS2b4/JkpSIzyHK4Lyt1YfdEhfulDn4jJZeu+FWrKG+WMqcA+1VrWBB9olBfCn7FHdLoq3rH1SDSM9WKsDtzeV+iCscs92HolxNa/PN9Z0ozdHu0x4x8y71ndWz0nFkqwVe4zJK8mY9hOUjXfWeCLaBk+/Q6imkXWkUa2DnKQ=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3657.namprd12.prod.outlook.com (2603:10b6:5:149::18)
- by DM6PR12MB4986.namprd12.prod.outlook.com (2603:10b6:5:16f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.25; Mon, 19 Jul
- 2021 20:29:55 +0000
-Received: from DM6PR12MB3657.namprd12.prod.outlook.com
- ([fe80::9178:207b:3b1b:fdf9]) by DM6PR12MB3657.namprd12.prod.outlook.com
- ([fe80::9178:207b:3b1b:fdf9%6]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
- 20:29:55 +0000
-From:   Robert Richter <rrichter@amd.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Robert Richter <rrichter@amd.com>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Documentation/kbuild: Document the kconfig choice default value
-Date:   Mon, 19 Jul 2021 22:28:44 +0200
-Message-Id: <20210719202844.18281-1-rrichter@amd.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <YPXeqUV+22sxXS9y@rric.localdomain>
-References: <YPXeqUV+22sxXS9y@rric.localdomain>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS8PR04CA0055.eurprd04.prod.outlook.com
- (2603:10a6:20b:312::30) To DM6PR12MB3657.namprd12.prod.outlook.com
- (2603:10b6:5:149::18)
+        id S1344006AbhGSWrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 18:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1387179AbhGSTz6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 15:55:58 -0400
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E11C0613DD;
+        Mon, 19 Jul 2021 13:31:59 -0700 (PDT)
+Received: by mail-oo1-xc2f.google.com with SMTP id o2-20020a0568200402b0290258a7ff4058so2670724oou.10;
+        Mon, 19 Jul 2021 13:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CnGPA9k5jAnGBAAGW5ixT1QhP02OGDK8n1UCPbob07o=;
+        b=Pm8yu2gf+hlzn+55X/bDKWMa8As3RwFoGStNgel0D8Uyvvd6jzhTIZYZw3geqPdIMW
+         ZGlCrHwftraox+L/LeqzJvUMCpNHt+6NdgbMimP7fHKtZmEPFZxNaQTJe2TJGLgtfuTt
+         sU/kZaer8jaN1pvWRGZOp+Fq2Ao5s/uYzPIDq+B+z7G8AZ3PF+ZRcLD1ZpxqHh8pB+sr
+         GS5ln6fsrSftTJgfVgGsDJ9lzNwNWOf6MCxDdZND26fB/bUWgxmNeRrsBFX3/YEvXZaX
+         ZqWaEyAPqhsKiW4zMEpVrS24BS8QJQ3gyYVBSom/VGzLmg0eNYO3c3kKyb2UmOhSU8DD
+         cEPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=CnGPA9k5jAnGBAAGW5ixT1QhP02OGDK8n1UCPbob07o=;
+        b=H0NSJbEEs47emqu4b5rgVxg/8fj23CRCTG/jEgXPI2fn7WjphANGQBSUl5L/WC/75a
+         Gwlg8YwRlfzQlu0b/HPb0IyGaqcN73Qh0ODzgCpWYmlzGdvTZ9jpbMHPtx8WZG9q0yR7
+         qnJznPfK85zMO6kzpmwtlJ8nLwkQp6ivJVcS77ecbhKxKk9P74zAPTnSZ457V2RxdQbg
+         vmlmSJbTTq6sfuR7YxO9cgtOzWY9Rnj0wcuSOLOq9V9fiBMyk+O+pT+Y3XAvjxVHLIDP
+         HVgM1C5KxAGd2TMMrd39NeqzPamLTQTH8thVMLT8aOFlQPQc+fGKiLrde1JrdoFeSUAz
+         IZmQ==
+X-Gm-Message-State: AOAM531y5z8+p2p3sGcy+E09K91A+/6NUd5PYwLUBAwPNNGYrlIC4YRy
+        pmpIaDiFfIN9VK9tE7E2iUw=
+X-Google-Smtp-Source: ABdhPJwC+ITNhkPvbxptB2sPYgUDu+tCWQlgRApn/ULuEKeLsTUiChZ4F19JQXpgRQm3lOpfzE1hRQ==
+X-Received: by 2002:a4a:5dc6:: with SMTP id w189mr18755739ooa.1.1626726906873;
+        Mon, 19 Jul 2021 13:35:06 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j10sm3084117oog.47.2021.07.19.13.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jul 2021 13:35:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 19 Jul 2021 13:35:04 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 11/14] hwmon: peci: Add cputemp driver
+Message-ID: <20210719203504.GA2277987@roeck-us.net>
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-12-iwona.winiarska@intel.com>
+ <20210715174527.GA3012477@roeck-us.net>
+ <66b4a0285ffada1855eb099011bed27b2750b3cc.camel@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from rric.localdomain (89.12.10.153) by AS8PR04CA0055.eurprd04.prod.outlook.com (2603:10a6:20b:312::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 20:29:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c931c151-5254-4215-7d52-08d94af3f874
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4986:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB49864C4F9208853D162DFEB09CE19@DM6PR12MB4986.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CeL8Lo1+OTwaZ6z9NL/QV+vUBjoawTU68eBz+fJHwnnLaVNmSeq8sUdIc7VS0Q5C7wPH0t3itjvVfFEMwQVXPoLbf1bZKGvZMt0ZjL/mmes+k/r+gThMI0FzrCZcgIz/qUuvYtGgloOkpytXbJf+rCAwMRePSGnE2ur17S4BkvXjb9bK7y2VgwVth1hLsVbGa6yCp5eikDEqhCGMMybwynl1S4NhY8anBdgraMHwYCcbF3dXqCfrn5rNlcqj5QF92POpTDS0m9AuyJWEe8hR1nO39eqh2Mq3jKdweRetXAyS+lS+Ay27PCn6UQ1vEqhK259u46cftb1N0QkAM+VmvGULCTzjk5pC0cCglptuUozUnA7esH1MpYj+tCYMn5x4Z/uVlKXZQJ2Fya630BS6Xv3yLyvCjGxohSo+iCncdjWa1w/d2PY5wwSA6+GoFFJcM+gj0XGYP3n0rNWDkatvJqaxN1i8FZt4ToaRk7YAwKYAwxtxM1qEvrimj6u0W/jW57swsLMe78BxjFmoV7f6x/XDKoMbiiTGXjLnvRO1rLaGYgfavLukJkYvV0yb+ia3cSUUyw6dqihN7fLiBRTtWE/Dvxx129+me+NKYR8bWCi8oeTiE7+B/k7Z216gqCyQlnxjYFOxWP1G6U4BYY8iLYW9la8fVNPZj/06BGDeSJ5I9QZKh6W2Okg9AmowCK9K4460kBlbJH05gn7BVRplEmzSYJ2DhF49rSONu19x8TGTJODk03dpZQxR8iX5+mTCbIY01j9rrOXzlFHk1vftZ+iOST63nSSnQhIW7xDJS4CCIE0awlw3+w0q44u45vbpNDGQMTQ7/9yqgJ0adMLd9Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(136003)(366004)(39860400002)(376002)(26005)(316002)(1076003)(478600001)(110136005)(6512007)(6666004)(8936002)(186003)(38100700002)(38350700002)(956004)(5660300002)(52116002)(4326008)(66946007)(8676002)(966005)(36756003)(2906002)(2616005)(6486002)(66556008)(66476007)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YyNMR8dPt6f+fcxijG5sDfyKAuvWWCdfzOAHIwMU7DbJRzQF/LDIguB1f5ab?=
- =?us-ascii?Q?hyXEILz4wkgoLu/dXF3CVl8obZzjEYNH3WPAGKCN3VfHmiNHAcSiTAttvST0?=
- =?us-ascii?Q?IZUufqQ9jUV3Yngxx4vEjepvEgaEPSKQ4mVl0LSeeEwbS6gMlKTXIFFd9O79?=
- =?us-ascii?Q?78bo1LXhKrtnf2h/YI6+kvHz40A582uRtE22MZfzecPRu+CgAYEBl/ZZunS7?=
- =?us-ascii?Q?RwpRhUB528U45aNXzzFueTXXUiGldmHs3MLaJSSRIh6EGOH9l6lpRppPq9Tu?=
- =?us-ascii?Q?nnJqBLghdlwm/Lq0lZLrfN+zvxEsCC6fFdkndwl5pAsAGAT/xP0vVygNRXjf?=
- =?us-ascii?Q?SHxhsBmqnVg5Q5FkXFEgQyiNl7yvLmXEHV0lDgKkxcFIEvL69dzwBaQmlGUk?=
- =?us-ascii?Q?NMyQcr69Mu3PUq6a1HbQnbwLpK7vU/Fq2vzzYAqyCatp7vL/8439AAyKScND?=
- =?us-ascii?Q?9f6k2PpZfI7cC2u263kLbL9h9niDNjEpwPBXwiKIF6RHLCtmYxp2PgO0C4Ki?=
- =?us-ascii?Q?tW74nCfg3qgpzDXM7wIwoSwdn+rneWVdg3YaM/OgsRJNgXUph6pVgDYKvEdB?=
- =?us-ascii?Q?gSEM2meHWwY44sVHFjYMhY+HYOJbTqHWyB55GhOwuNgLVOwP5T2cX96gv95T?=
- =?us-ascii?Q?VrLNmo3PiR40bfJy72UmqmQVsxsgJQvxZb96TyrX4FB0HYskbWfUQAZqK9Rr?=
- =?us-ascii?Q?eEsnzQ+AZygzkpLI393v7g1nOc5ScjgOpZOdHNGAmFs4P71TBPR9ZzDEsO94?=
- =?us-ascii?Q?yqFs/DbAkmksFtAhzD8acBLpcID82Ro0psiOavnRjOcL4HaZlO6JZcnRQo3g?=
- =?us-ascii?Q?e5DLjnJyvuPFt2dnNkPcWCPlMI5kX1PHc+OZjaOnqOPIiNwAliMM6dBO3ZdU?=
- =?us-ascii?Q?0Cgbv37Xy6JmDhy8cofhsBFMMasONxX81Pne5rIM9zJVT5/mRgt0sloU2J4y?=
- =?us-ascii?Q?MmH4A7r1tRqduAv8qXiOj7ZTpPPCgGDxkWyV7UkAgGFVhqmF2QM7ipFpLGot?=
- =?us-ascii?Q?dJvTxQcVQOSD/qkkTUlTV77z+ZBvPg0O6gmJOFFN8FCcvNjvhfColRji+gJY?=
- =?us-ascii?Q?RmQTbZ38J1irfIp7dp7oao976QyreKKR9pCthfJH2ltEThb8daXasTWz86Zo?=
- =?us-ascii?Q?LVYyvfsVDSbuVSs1nYsD6KID863z1pbCRzkhHScC5QAWu2u+zV1Un8ZvaHKn?=
- =?us-ascii?Q?kPaw9Awep64WLt2bOO3GUMYZOou0vbsR/FXhnA65fP+5sW3gpzqPAPwQ8tb8?=
- =?us-ascii?Q?ZQ8AmC3ABwIo3kBgnX+ZHWHpAAfZBm1AbTiZeDKaaGtO8dA94pK2beHqHpqz?=
- =?us-ascii?Q?XKvrcVTu/ohbl2XAr7QkPPzq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c931c151-5254-4215-7d52-08d94af3f874
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3657.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:29:55.7097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DPL7duXbB0phi8cv0hXc0onN2y17KJVsELKI3L6f5626jTkdRlWsCLdyLV2ATld4PHDM/EIbHtTak9QA562J2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4986
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <66b4a0285ffada1855eb099011bed27b2750b3cc.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document how choice defaults are determined:
+On Mon, Jul 19, 2021 at 08:12:54PM +0000, Winiarska, Iwona wrote:
 
-Default of a choice is its first visible choice element unless it is
-explicitly set by the 'default' property [1]. Choice elements do not
-support default attributes. [2]
+> > > +static const char *cputemp_label[DEFAULT_CHANNEL_NUMS] = {
+> > > +       "Die",
+> > > +       "DTS",
+> > > +       "Tcontrol",
+> > > +       "Tthrottle",
+> > > +       "Tjmax",
+> > > +};
+> > > +
+> > > +static int get_temp_targets(struct peci_cputemp *priv)
+> > > +{
+> > > +       s32 tthrottle_offset, tcontrol_margin;
+> > > +       u32 pcs;
+> > > +       int ret;
+> > > +
+> > > +       /*
+> > > +        * Just use only the tcontrol marker to determine if target values
+> > > need
+> > > +        * update.
+> > > +        */
+> > > +       if (!peci_sensor_need_update(&priv->temp.tcontrol))
+> > > +               return 0;
+> > > +
+> > True for the entire code: Please explain how this avoids race conditions
+> > without locking between the condition check here and the call to
+> > peci_sensor_mark_updated() below. The explanation needs to be added
+> > as comment into the code for later reference.
+> > 
+> 
+> You're right, there is a race here that may cause PECI command to be triggered
+> more than once. It doesn't have any impact on correctness though.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/symbol.c?h=v5.14-rc1#n245
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/menu.c?h=v5.14-rc1#n494
+That is only correct if multiple read operations of PECI_PCS_TEMP_TARGET
+always return the same value. If so, reading those values multiple times
+would not make sense. Instead, the values could be read once and cached.
+If PECI_PCS_TEMP_TARGET can return different values each time it is called,
+the lack of mutex protection could result in inconsistent values for
+priv->temp.tjmax.value, priv->temp.tcontrol.value, and
+priv->temp.tthrottle.value.
 
-Signed-off-by: Robert Richter <rrichter@amd.com>
----
-v3: Fix base of v2 (rebased onto v5.14-rc2)
-v2: clarification on 'default' attribute of a choice
-    added example
----
- Documentation/kbuild/kconfig-language.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+So either this needs a mutex, or the code should be changed to read the
+static values only once.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 98c24183d8c3..d919dde0bcbf 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -417,6 +417,21 @@ definitions of that choice. If a [symbol] is associated to the choice,
- then you may define the same choice (i.e. with the same entries) in another
- place.
- 
-+The default value of a choice is set to the first visible choice
-+element unless it is explicitly set by the 'default' property.
-+
-+Note:
-+	Choice options do not support the 'default' attribute.
-+
-+E.g.::
-+
-+  choice
-+	default C1
-+  config C0
-+  config C1
-+	# no default attribute here
-+  endchoice
-+
- comment::
- 
- 	"comment" <prompt>
--- 
-2.29.2
+You could instead add a comment stating that multiple unprotected reads
+are redundant because the returned data is static, that parallel reads
+are thus not racy, and that a mutex is therefore not needed, but I won't
+accept such code.
 
+> I could add a comment explaining that, but I guess just adding a mutex to avoid
+> the race makes more sense. 
+> 
+> > > +       ret = peci_pcs_read(priv->peci_dev, PECI_PCS_TEMP_TARGET, 0, &pcs);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       priv->temp.tjmax.value = FIELD_GET(TEMP_TARGET_REF_TEMP_MASK, pcs) *
+> > > MILLIDEGREE_PER_DEGREE;
+> > > +
+> > > +       tcontrol_margin = FIELD_GET(TEMP_TARGET_FAN_TEMP_MASK, pcs);
+> > > +       tcontrol_margin = sign_extend32(tcontrol_margin, 7) *
+> > > MILLIDEGREE_PER_DEGREE;
+> > > +       priv->temp.tcontrol.value = priv->temp.tjmax.value - tcontrol_margin;
+> > > +
+> > > +       tthrottle_offset = FIELD_GET(TEMP_TARGET_TJ_OFFSET_MASK, pcs) *
+> > > MILLIDEGREE_PER_DEGREE;
+> > > +       priv->temp.tthrottle.value = priv->temp.tjmax.value -
+> > > tthrottle_offset;
+> > > +
+> > > +       peci_sensor_mark_updated(&priv->temp.tcontrol);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +/*
+> > > + * Processors return a value of DTS reading in S10.6 fixed point format
+> > > + * (sign, 10 bits signed integer value, 6 bits fractional).
+> > > + * Error codes:
+> > > + *   0x8000: General sensor error
+> > > + *   0x8001: Reserved
+> > > + *   0x8002: Underflow on reading value
+> > > + *   0x8003-0x81ff: Reserved
+> > > + */
+> > > +static bool dts_valid(s32 val)
+> > > +{
+> > > +       return val < 0x8000 || val > 0x81ff;
+> > > +}
+> > > +
+> > > +static s32 dts_to_millidegree(s32 val)
+> > > +{
+> > > +       return sign_extend32(val, 15) * MILLIDEGREE_PER_DEGREE /
+> > > DTS_FIXED_POINT_FRACTION;
+> > > +}
+> > > +
+> > > +static int get_die_temp(struct peci_cputemp *priv)
+> > > +{
+> > > +       s16 temp;
+> > > +       int ret;
+> > > +
+> > > +       if (!peci_sensor_need_update(&priv->temp.die))
+> > > +               return 0;
+> > > +
+> > > +       ret = peci_temp_read(priv->peci_dev, &temp);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       if (!dts_valid(temp))
+> > > +               return -EIO;
+> > > +
+> > > +       /* Note that the tjmax should be available before calling it */
+> > > +       priv->temp.die.value = priv->temp.tjmax.value +
+> > > dts_to_millidegree(temp);
+> > > +
+> > > +       peci_sensor_mark_updated(&priv->temp.die);
+
+The same is true here: Either the value returned from peci_temp_read()
+is static (which seems unlikely), or there is a race between reading
+the temperature, storing it in priv->temp.die.value, and setting the
+update flag. With the current code, there is no guarantee that the
+stored value is the value that was read by the thread that sets the
+updated flag. One could argue that it doesn't really matter because it
+is irrelevant which thread stores the temperature and which thread sets
+the updated flag, but that is really bad coding style, and I won't
+accept it.
+
+This is true for all code which reads a value from the chip, stores
+it locally, and then sets the updated flag.
+
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int get_dts(struct peci_cputemp *priv)
+> > > +{
+> > > +       s32 dts_margin;
+> > > +       u32 pcs;
+> > > +       int ret;
+> > > +
+> > > +       if (!peci_sensor_need_update(&priv->temp.dts))
+> > > +               return 0;
+> > > +
+> > > +       ret = peci_pcs_read(priv->peci_dev, PECI_PCS_THERMAL_MARGIN, 0, &pcs);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       dts_margin = FIELD_GET(DTS_MARGIN_MASK, pcs);
+> > > +       if (!dts_valid(dts_margin))
+> > > +               return -EIO;
+> > > +
+> > > +       /* Note that the tcontrol should be available before calling it */
+> > > +       priv->temp.dts.value = priv->temp.tcontrol.value -
+> > > dts_to_millidegree(dts_margin);
+> > > +
+> > > +       peci_sensor_mark_updated(&priv->temp.dts);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int get_core_temp(struct peci_cputemp *priv, int core_index)
+> > > +{
+> > > +       s32 core_dts_margin;
+> > > +       u32 pcs;
+> > > +       int ret;
+> > > +
+> > > +       if (!peci_sensor_need_update(&priv->temp.core[core_index]))
+> > > +               return 0;
+> > > +
+> > > +       ret = peci_pcs_read(priv->peci_dev, PECI_PCS_MODULE_TEMP, core_index,
+> > > &pcs);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       core_dts_margin = FIELD_GET(PCS_MODULE_TEMP_MASK, pcs);
+> > > +       if (!dts_valid(core_dts_margin))
+> > > +               return -EIO;
+> > > +
+> > > +       /* Note that the tjmax should be available before calling it */
+> > > +       priv->temp.core[core_index].value =
+> > > +               priv->temp.tjmax.value + dts_to_millidegree(core_dts_margin);
+> > > +
+> > > +       peci_sensor_mark_updated(&priv->temp.core[core_index]);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int cputemp_read_string(struct device *dev, enum hwmon_sensor_types
+> > > type,
+> > > +                              u32 attr, int channel, const char **str)
+> > > +{
+> > > +       struct peci_cputemp *priv = dev_get_drvdata(dev);
+> > > +
+> > > +       if (attr != hwmon_temp_label)
+> > > +               return -EOPNOTSUPP;
+> > > +
+> > > +       *str = channel < channel_core ?
+> > > +               cputemp_label[channel] : priv->coretemp_label[channel -
+> > > channel_core];
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int cputemp_read(struct device *dev, enum hwmon_sensor_types type,
+> > > +                       u32 attr, int channel, long *val)
+> > > +{
+> > > +       struct peci_cputemp *priv = dev_get_drvdata(dev);
+> > > +       int ret, core_index;
+> > > +
+> > > +       ret = get_temp_targets(priv);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       switch (attr) {
+> > > +       case hwmon_temp_input:
+> > > +               switch (channel) {
+> > > +               case channel_die:
+> > > +                       ret = get_die_temp(priv);
+> > > +                       if (ret)
+> > > +                               return ret;
+> > > +
+> > > +                       *val = priv->temp.die.value;
+> > > +                       break;
+> > > +               case channel_dts:
+> > > +                       ret = get_dts(priv);
+> > > +                       if (ret)
+> > > +                               return ret;
+> > > +
+> > > +                       *val = priv->temp.dts.value;
+> > > +                       break;
+> > > +               case channel_tcontrol:
+> > > +                       *val = priv->temp.tcontrol.value;
+> > > +                       break;
+> > > +               case channel_tthrottle:
+> > > +                       *val = priv->temp.tthrottle.value;
+> > > +                       break;
+> > > +               case channel_tjmax:
+> > > +                       *val = priv->temp.tjmax.value;
+> > > +                       break;
+> > > +               default:
+> > > +                       core_index = channel - channel_core;
+> > > +                       ret = get_core_temp(priv, core_index);
+> > > +                       if (ret)
+> > > +                               return ret;
+> > > +
+> > > +                       *val = priv->temp.core[core_index].value;
+> > > +                       break;
+> > > +               }
+> > > +               break;
+> > > +       case hwmon_temp_max:
+> > > +               *val = priv->temp.tcontrol.value;
+> > > +               break;
+> > > +       case hwmon_temp_crit:
+> > > +               *val = priv->temp.tjmax.value;
+> > > +               break;
+> > > +       case hwmon_temp_crit_hyst:
+> > > +               *val = priv->temp.tjmax.value - priv->temp.tcontrol.value;
+> > > +               break;
+> > > +       default:
+> > > +               return -EOPNOTSUPP;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static umode_t cputemp_is_visible(const void *data, enum hwmon_sensor_types
+> > > type,
+> > > +                                 u32 attr, int channel)
+> > > +{
+> > > +       const struct peci_cputemp *priv = data;
+> > > +
+> > > +       if (channel > CPUTEMP_CHANNEL_NUMS)
+> > > +               return 0;
+> > > +
+> > > +       if (channel < channel_core)
+> > > +               return 0444;
+> > > +
+> > > +       if (test_bit(channel - channel_core, priv->core_mask))
+> > > +               return 0444;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int init_core_mask(struct peci_cputemp *priv)
+> > > +{
+> > > +       struct peci_device *peci_dev = priv->peci_dev;
+> > > +       struct resolved_cores_reg *reg = priv->gen_info->reg;
+> > > +       u64 core_mask;
+> > > +       u32 data;
+> > > +       int ret;
+> > > +
+> > > +       /* Get the RESOLVED_CORES register value */
+> > > +       switch (peci_dev->info.model) {
+> > > +       case INTEL_FAM6_ICELAKE_X:
+> > > +       case INTEL_FAM6_ICELAKE_D:
+> > > +               ret = peci_ep_pci_local_read(peci_dev, 0, reg->bus, reg->dev,
+> > > +                                            reg->func, reg->offset + 4,
+> > > &data);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +
+> > > +               core_mask = (u64)data << 32;
+> > > +
+> > > +               ret = peci_ep_pci_local_read(peci_dev, 0, reg->bus, reg->dev,
+> > > +                                            reg->func, reg->offset, &data);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +
+> > > +               core_mask |= data;
+> > > +
+> > > +               break;
+> > > +       default:
+> > > +               ret = peci_pci_local_read(peci_dev, reg->bus, reg->dev,
+> > > +                                         reg->func, reg->offset, &data);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +
+> > > +               core_mask = data;
+> > > +
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       if (!core_mask)
+> > > +               return -EIO;
+> > > +
+> > > +       bitmap_from_u64(priv->core_mask, core_mask);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int create_temp_label(struct peci_cputemp *priv)
+> > > +{
+> > > +       unsigned long core_max = find_last_bit(priv->core_mask,
+> > > CORE_NUMS_MAX);
+> > > +       int i;
+> > > +
+> > > +       priv->coretemp_label = devm_kzalloc(priv->dev, core_max * sizeof(char
+> > > *), GFP_KERNEL);
+> > > +       if (!priv->coretemp_label)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       for_each_set_bit(i, priv->core_mask, CORE_NUMS_MAX) {
+> > > +               priv->coretemp_label[i] = devm_kasprintf(priv->dev,
+> > > GFP_KERNEL, "Core %d", i);
+> > > +               if (!priv->coretemp_label[i])
+> > > +                       return -ENOMEM;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static void check_resolved_cores(struct peci_cputemp *priv)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       ret = init_core_mask(priv);
+> > > +       if (ret)
+> > > +               return;
+> > > +
+> > > +       ret = create_temp_label(priv);
+> > > +       if (ret)
+> > > +               bitmap_zero(priv->core_mask, CORE_NUMS_MAX);
+> > 
+> > This needs a comment explaining why it is ok to ignore the above errors.
+> > 
+> > I understand it is because the non-core data will still be available.
+> > Yet, it still needs to be explained so others don't need to examine
+> > the code to figure out the reason.
+> > 
+> 
+> Right - I'll add a:
+> /*
+>  * Failure to resolve cores is non-critical, we're still able to
+>  * provide other sensor data.
+>  */
+> 
+> > > +}
+> > > +
+> > > +static const struct hwmon_ops peci_cputemp_ops = {
+> > > +       .is_visible = cputemp_is_visible,
+> > > +       .read_string = cputemp_read_string,
+> > > +       .read = cputemp_read,
+> > > +};
+> > > +
+> > > +static const u32 peci_cputemp_temp_channel_config[] = {
+> > > +       /* Die temperature */
+> > > +       HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> > > HWMON_T_CRIT_HYST,
+> > > +       /* DTS margin */
+> > > +       HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> > > HWMON_T_CRIT_HYST,
+> > > +       /* Tcontrol temperature */
+> > > +       HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_CRIT,
+> > > +       /* Tthrottle temperature */
+> > > +       HWMON_T_LABEL | HWMON_T_INPUT,
+> > > +       /* Tjmax temperature */
+> > > +       HWMON_T_LABEL | HWMON_T_INPUT,
+> > > +       /* Core temperature - for all core channels */
+> > > +       [channel_core ... CPUTEMP_CHANNEL_NUMS - 1] = HWMON_T_LABEL |
+> > > HWMON_T_INPUT,
+> > > +       0
+> > > +};
+> > > +
+> > > +static const struct hwmon_channel_info peci_cputemp_temp_channel = {
+> > > +       .type = hwmon_temp,
+> > > +       .config = peci_cputemp_temp_channel_config,
+> > > +};
+> > > +
+> > > +static const struct hwmon_channel_info *peci_cputemp_info[] = {
+> > > +       &peci_cputemp_temp_channel,
+> > > +       NULL
+> > > +};
+> > > +
+> > > +static const struct hwmon_chip_info peci_cputemp_chip_info = {
+> > > +       .ops = &peci_cputemp_ops,
+> > > +       .info = peci_cputemp_info,
+> > > +};
+> > > +
+> > > +static int peci_cputemp_probe(struct auxiliary_device *adev,
+> > > +                             const struct auxiliary_device_id *id)
+> > > +{
+> > > +       struct device *dev = &adev->dev;
+> > > +       struct peci_device *peci_dev = to_peci_device(dev->parent);
+> > > +       struct peci_cputemp *priv;
+> > > +       struct device *hwmon_dev;
+> > > +
+> > > +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > +       if (!priv)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       priv->name = devm_kasprintf(dev, GFP_KERNEL, "peci_cputemp.cpu%d",
+> > > +                                   peci_dev->info.socket_id);
+> > > +       if (!priv->name)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       dev_set_drvdata(dev, priv);
+> > 
+> > What is this used for ?
+> 
+> Our sensors are per-device. We need this to access the corresponding priv in
+> cputemp_read_string() and cputemp_read().
+> 
+
+The parameter to both cputemp_read_string() and cputemp_read() is the
+pointer to the hwmon device, not the pointer to the auxiliary device.
+It has its driver data set to 'priv' from the parameter passed to
+devm_hwmon_device_register_with_info().
+
+> > 
+> > > +       priv->dev = dev;
+> > > +       priv->peci_dev = peci_dev;
+> > > +       priv->gen_info = (const struct cpu_info *)id->driver_data;
+> > > +
+> > > +       check_resolved_cores(priv);
+> > > +
+> > > +       hwmon_dev = devm_hwmon_device_register_with_info(priv->dev, priv-
+> > > >name,
+> > > +                                                        priv,
+> > > &peci_cputemp_chip_info, NULL);
+> > > +
+> > > +       return PTR_ERR_OR_ZERO(hwmon_dev);
+> > > +}
+> > > +
+> > > +static struct resolved_cores_reg resolved_cores_reg_hsx = {
+> > > +       .bus = 1,
+> > > +       .dev = 30,
+> > > +       .func = 3,
+> > > +       .offset = 0xb4,
+> > > +};
+> > > +
+> > > +static struct resolved_cores_reg resolved_cores_reg_icx = {
+> > > +       .bus = 14,
+> > > +       .dev = 30,
+> > > +       .func = 3,
+> > > +       .offset = 0xd0,
+> > > +};
+> > 
+> > Please explain those magic numbers.
+> > 
+> 
+> Those magic numbers refer to BDF (bus, device, function) and offset of the PCI
+> config register (RESOLVED_CORES_CFG) that can be accessed via PECI to read
+> resolved cores configuration.
+> Unfortunately, the values are just platform-specific magic numbers.
+> Do you think this should be explained with an additional comment?
+> 
+
+Yes, please.
+
+Guenter
+
+> Thank you
+> -Iwona
+> 
+> > > +
+> > > +static const struct cpu_info cpu_hsx = {
+> > > +       .reg            = &resolved_cores_reg_hsx,
+> > > +       .min_peci_revision = 0x30,
+> > > +};
+> > > +
+> > > +static const struct cpu_info cpu_icx = {
+> > > +       .reg            = &resolved_cores_reg_icx,
+> > > +       .min_peci_revision = 0x40,
+> > > +};
+> > > +
+> > > +static const struct auxiliary_device_id peci_cputemp_ids[] = {
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.hsx",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_hsx,
+> > > +       },
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.bdx",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_hsx,
+> > > +       },
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.bdxd",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_hsx,
+> > > +       },
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.skx",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_hsx,
+> > > +       },
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.icx",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_icx,
+> > > +       },
+> > > +       {
+> > > +               .name = "peci_cpu.cputemp.icxd",
+> > > +               .driver_data = (kernel_ulong_t)&cpu_icx,
+> > > +       },
+> > > +       { }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(auxiliary, peci_cputemp_ids);
+> > > +
+> > > +static struct auxiliary_driver peci_cputemp_driver = {
+> > > +       .probe          = peci_cputemp_probe,
+> > > +       .id_table       = peci_cputemp_ids,
+> > > +};
+> > > +
+> > > +module_auxiliary_driver(peci_cputemp_driver);
+> > > +
+> > > +MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
+> > > +MODULE_AUTHOR("Iwona Winiarska <iwona.winiarska@intel.com>");
+> > > +MODULE_DESCRIPTION("PECI cputemp driver");
+> > > +MODULE_LICENSE("GPL");
+> > > +MODULE_IMPORT_NS(PECI_CPU);
+> 
