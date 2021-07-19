@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36760C07E9B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8B6C07E9B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:18:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A526610D2
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:17:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E685B610C7
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236218AbhGSKgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 06:36:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33536 "EHLO
+        id S236385AbhGSKhx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 06:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235999AbhGSKgb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:36:31 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3183C061574;
-        Mon, 19 Jul 2021 03:27:31 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id a6so11326932pgw.3;
-        Mon, 19 Jul 2021 04:17:10 -0700 (PDT)
+        with ESMTP id S236364AbhGSKhw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:37:52 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FBBC061574;
+        Mon, 19 Jul 2021 03:29:00 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id my10so11179909pjb.1;
+        Mon, 19 Jul 2021 04:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RbZ1fp7+3stRY8Uk9v8nVPrVKsRUvay5H0101Cor1uw=;
-        b=s4ToIQa77FMsUGF4lYXMm5uZ08NBZ4YXQmu156fcz17EtNkGjmgn1I8PurEN31ZUQT
-         3NeMOE9wW9Q0rqxLn5lktzPmUa7nSYQRmOfDWeV8KAhwaDj1NTtyJcA9oKiGG/U164LO
-         /c/eFte6RQNv0O9c5/Ovt4D9P5IKKB2KKngxRqbYjXrVcHyUsUAHofzvzTjeK/IryZFd
-         GmFYF/5kXjFMSUdLNgUspF6cPE/XmDdOoW4klrFwhonQHyq2SesrfB0UKfCV/u8U0ieL
-         gMhJuWguZw9ivuQtOizZWsnI1sUDeXxaDKwCEqvYxNFxsJaBtugQF7MtbF2eZqGwm6Dc
-         xedg==
+        bh=jtGN9wE5doYwbAS2i6O5Ca83ymWdWG1+gIX4VaX3+84=;
+        b=O++o3n+t6UWk/1SXOY2/V03gj/0SqS/0GJ2FMoz8JFlv1FAWPaZdwQWdI5srcXmfHl
+         byg8lpjs1OFvMRHNCDDbfCk4Pk5IBolrPoCUIc0DU+pxMPpoEqXdySWkMG8k/r1QBssC
+         Y7n8IwysNQS6EqFmOLP4/OYSY6JY+GkDdiEAfkbz2G7QtAgxAYlEufGu6sK71yNi01qm
+         cHMu0LuVch21ABT5Qz+AZaFF7LQKG1V8NiYLdZG//x61ba+gdaTRzyZmKTOfjxfR5BgM
+         6L/jIPzL5FAyTReq2GrbfHs38WF8awj2HtyMzKHTR7n3G/SEJVfmvKwZiqEQWjjbqzOz
+         5C/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=RbZ1fp7+3stRY8Uk9v8nVPrVKsRUvay5H0101Cor1uw=;
-        b=CZcAlzDNfQuZNn/PxqsvKBzT+SHe3OjtS1zyC3Nk/PfK2yGr6/G8YMrSsK6ZG7CcT2
-         PhLL+hqKI4O1r5wGz0O6JLX5dU32OsgrZtb+9rxLLg3THWHYlhboRdyqH3aS16Z3472b
-         iWta/YcvM6LbbYXBL3ARjWdupYwmIul8idO2Mhy1ccrLWz4jzUMolnZJs7j8TDEl65hz
-         z9nid1tc0+CITti+mbDkA1adsnyxJmgIOowm5nBTKuK8iGYWgM8TCUZeWhMaFvJ5A2nS
-         grzNnOiJy5uXQseL2raHNmBdqHf89LJx3JhC5ytFB0ffQTfL7UrTz0a5mty2CyzAswX3
-         lgxg==
-X-Gm-Message-State: AOAM533fBq+/zIrfHnEC0XUaWtVecuFKaF1gBehqPgNiTKzH4qRLAtk/
-        znMlFlTY19cln5Gpk52H3Ura2RZVUMI=
-X-Google-Smtp-Source: ABdhPJwdVAkySFY+2g4nXuawJrNPFGgW37tww6RvB2wF38sjh6CFN7ZMf90MX8FDpyMtS+hsCEeYnw==
-X-Received: by 2002:a62:e90b:0:b029:30e:4530:8dca with SMTP id j11-20020a62e90b0000b029030e45308dcamr25514964pfh.17.1626693430050;
-        Mon, 19 Jul 2021 04:17:10 -0700 (PDT)
+        bh=jtGN9wE5doYwbAS2i6O5Ca83ymWdWG1+gIX4VaX3+84=;
+        b=GnuDWDn01GZdPN7bfdkqihpH55nhgbSHcFxntN0ofpS/mUdvkxeeWMm107QlAw/7xD
+         gWlBhrc1H7kD6T0/tSGj/hZDaaDf14aehsK6gMKywLTPj2GaCAl4GqERJpi1zwEnngJ0
+         0FgqnwyebJxGD9gldUISMdTBv6Y8bhmlYKXHJzZJS9+OqyHuR1kgIUdtPC8PzgOs6j8W
+         vdXlNpjIcbmGlS+aprw+jZ5Ihl9O2SHVavImq378mcxqVNHkKbqch14zGPn5USAvmjRe
+         6NaRr9NudhYkTI/X9nVCRwRj42ovoI1Ux/8PC8WCz9qHw2gePwxCDwyuQF8Es/G1Z9n0
+         UPBg==
+X-Gm-Message-State: AOAM532ngOUDIzvq+YNw3YirGh60xn+wNWea7IGLpCz1JROKeoLGL4Vv
+        /RX5QodwcLuvr2oEz+7ri90=
+X-Google-Smtp-Source: ABdhPJzwCrIsgiHHT9QnO/6iY7EcjRnm6UVntloSqD0V+S18rTqZMBdtkzOV0afirvJCeuFjTTc1Og==
+X-Received: by 2002:a17:902:7246:b029:129:dcf5:b583 with SMTP id c6-20020a1709027246b0290129dcf5b583mr18804974pll.73.1626693511519;
+        Mon, 19 Jul 2021 04:18:31 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id p25sm19633277pff.120.2021.07.19.04.17.07
+        by smtp.gmail.com with ESMTPSA id i8sm21192758pfk.18.2021.07.19.04.18.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 04:17:09 -0700 (PDT)
-Subject: [RFC PATCH v2 6/7] docs: pdfdocs: Add optional choices for Korean
- monospace font
+        Mon, 19 Jul 2021 04:18:31 -0700 (PDT)
+Subject: [RFC PATCH v2 7/7] docs/ko_KR: Use white spaces behind CJK characters
+ in ascii-art
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>
@@ -68,8 +68,8 @@ Cc:     Hu Haowen <src.res@email.cn>,
         Akira Yokosawa <akiyks@gmail.com>
 References: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <c5eccdd8-8172-6dc0-c412-4d7655bd26cc@gmail.com>
-Date:   Mon, 19 Jul 2021 20:17:06 +0900
+Message-ID: <2babf4ef-d3f3-5591-667e-f87b6ea509ab@gmail.com>
+Date:   Mon, 19 Jul 2021 20:18:28 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
@@ -81,104 +81,96 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Candidates of alternative choices of a *true* monospace font would
-be "D2Coding", "Sarasa Mono K", or "Unifont" font.
+In literal ascii-art of Korean translation of memory-barriers.txt,
+Sphinx is confused by tabs behind CJK chars and mis-caluculates number
+of necessary white spaces in LaTeX code.
 
-The alignment of Korean ascii-art figures matters when the optional
-conf.py under Dodumentation/translations/ is effective.
-So, add conditional settings in the local config so that when one of
-the candidate fonts is found, it is used instead of "Noto Sans Mono
-CJK KR".
+As a workaround, use white spaces in such cases.
 
-As xeCJK does not provide a macro to redefine an existing CJK font
-family, define a wrapper macro "\setKRmono" and use it in the
-"\kerneldocBeginKR" macro.
-
-Also mention the nice-to-have monospace Hangul fonts in the header
-comment in conf.py.
+"html" output is also slightly improved by this change, but still need
+some proper font choice, which is out of the scope of this change.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Documentation/conf.py              |  4 +++-
- Documentation/translations/conf.py | 34 +++++++++++++++++++++++++++++-
- 2 files changed, 36 insertions(+), 2 deletions(-)
+ .../translations/ko_KR/memory-barriers.txt         | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 8a715765dada..1368c64e3993 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -382,6 +382,8 @@ latex_elements['preamble']  +=3D '''
- 	    \\scserif%
- 	    }
- 	\\newcommand{\\kerneldocEndSC}{\\endgroup}
-+	\\newcommand{\\setKRmono}{% For alternative Hangul monospace font
-+	    \\renewcommand{\\CJKttdefault}{KRmono}}
- 	\\newcommand{\\kerneldocBeginKR}{%
- 	    \\begingroup%
- 	    \\xeCJKDeclareCharClass{HalfLeft}{`=E2=80=9C,`=E2=80=98}%
-@@ -389,7 +391,7 @@ latex_elements['preamble']  +=3D '''
- 	    \\krserif%
- 	    \\renewcommand{\\CJKrmdefault}{KRserif}%
- 	    \\renewcommand{\\CJKsfdefault}{KRsans}%
--	    \\renewcommand{\\CJKttdefault}{KRmono}%
-+	    \\setKRmono%
- 	    \\xeCJKsetup{CJKspace =3D true} % For inter-phrase space
- 	    }
- 	\\newcommand{\\kerneldocEndKR}{\\endgroup}
-diff --git a/Documentation/translations/conf.py b/Documentation/translati=
-ons/conf.py
-index 92cdbba74229..0e171eed1862 100644
---- a/Documentation/translations/conf.py
-+++ b/Documentation/translations/conf.py
-@@ -3,10 +3,42 @@
+diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Docum=
+entation/translations/ko_KR/memory-barriers.txt
+index 64d932f5dc77..ff36b857ef72 100644
+--- a/Documentation/translations/ko_KR/memory-barriers.txt
++++ b/Documentation/translations/ko_KR/memory-barriers.txt
+@@ -1364,7 +1364,7 @@ Multicopy =EC=9B=90=EC=9E=90=EC=84=B1=EC=9D=80 =EC=8B=
+=A4=EC=A0=9C=EC=9D=98 =EC=BB=B4=ED=93=A8=ED=84=B0 =EC=8B=9C=EC=8A=A4=ED=85=
+=9C=EC=97=90=EC=84=9C =ED=95=AD=EC=83=81 =EC=A0=9C=EA=B3=B5=EB=90=98=EC=A7=
+=80
+ 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 		{ X =3D 0, Y =3D 0 }
+ 	STORE X=3D1		r1=3DLOAD X (reads 1)	LOAD Y (reads 1)
+-				<=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>		<=EC=9D=BD=EA=B8=B0=
+ =EB=B0=B0=EB=A6=AC=EC=96=B4>
++				<=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>           <=EC=9D=BD=
+=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
+ 				STORE Y=3Dr1		LOAD X
 =20
- # -- Additinal options for LaTeX output --------------------------------=
---
- # font config for ascii-art alignment
--
-+#
-+# Note: Ascii-art figures involving Hangul characters need optional
-+#       monospace font. (Hangul in "Noto Sans Mono CJK" is slightly narr=
-ow.)
-+#       If you'd like to see properly aligned ascii-art figures in Korea=
-n
-+#       translations, you need to install a *true* monospace Hangul font=
-=2E
-+#
-+#       Candidates of such a monospace font which covers Hangul:
-+#   1)  D2Coding: Availabe at
-+#	    https://github.com/naver/d2codingfont/releases/latest
-+#   2)  Sarasa Mono K: Available at
-+#	    https://github.com/be5invis/Sarasa-Gothic/releases/latest
-+#   3)  Unifont: (easy to install but poor quality)
-+#	    Available as distro packages, e.g.:
-+#		Ubuntu/Debian: ttf-unifont
-+#		Fedora: unifont-fonts
-+#
- latex_elements['preamble']  +=3D '''
-     \\IfFontExistsTF{Noto Sans CJK SC}{
- 	% For CJK ascii-art alignment
- 	\\setmonofont{Noto Sans Mono CJK SC}[AutoFakeSlant]
-+	\\IfFontExistsTF{D2Coding}{
-+	  \\newCJKfontfamily[KRtruemono]\\krtruemono{D2Coding}[AutoFakeSlant]
-+	  \\renewcommand{\\setKRmono}{%
-+	    \\renewcommand{\\CJKttdefault}{KRtruemono}}
-+	}{
-+	  \\IfFontExistsTF{Sarasa Mono K}{
-+	    \\newCJKfontfamily[KRtruemono]\\krtruemono{Sarasa Mono K}
-+	    \\renewcommand{\\setKRmono}{%
-+	      \\renewcommand{\\CJKttdefault}{KRtruemono}}
-+	  }{
-+	    \\IfFontExistsTF{Unifont}{
-+	      \\newCJKfontfamily[KRtruemono]\\krtruemono{Unifont}[AutoFakeSlant=
-,AutoFakeBold]
-+	      \\renewcommand{\\setKRmono}{%
-+		\\renewcommand{\\CJKttdefault}{KRtruemono}}
-+	    }{}
-+	  }
-+	}
-     }{}
- '''
+ CPU 2 =EC=9D=98 Y =EB=A1=9C=EC=9D=98 =EC=8A=A4=ED=86=A0=EC=96=B4=EC=97=90=
+ =EC=82=AC=EC=9A=A9=EB=90=98=EB=8A=94 X =EB=A1=9C=EB=93=9C=EC=9D=98 =EA=B2=
+=B0=EA=B3=BC=EA=B0=80 1 =EC=9D=B4=EC=97=88=EA=B3=A0 CPU 3 =EC=9D=98 Y =EB=
+=A1=9C=EB=93=9C=EA=B0=80
+@@ -1394,7 +1394,7 @@ CPU 3 =EC=9D=98 X =EB=A1=9C=EB=93=9C=EA=B0=80 CPU 2=
+ =EC=9D=98 =EB=A1=9C=EB=93=9C=EB=B3=B4=EB=8B=A4 =EB=92=A4=EC=97=90 =EC=9D=
+=B4=EB=A3=A8=EC=96=B4=EC=A1=8C=EC=9C=BC=EB=AF=80=EB=A1=9C, CPU 3
+ 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 		{ X =3D 0, Y =3D 0 }
+ 	STORE X=3D1		r1=3DLOAD X (reads 1)	LOAD Y (reads 1)
+-				<=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1>		<=EC=9D=BD=
+=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
++				<=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1>         <=EC=
+=9D=BD=EA=B8=B0 =EB=B0=B0=EB=A6=AC=EC=96=B4>
+ 				STORE Y=3Dr1		LOAD X (reads 0)
+=20
+ =EC=9D=B4 =EB=B3=80=ED=99=94=EB=8A=94 non-multicopy =EC=9B=90=EC=9E=90=EC=
+=84=B1=EC=9D=B4 =EB=A7=8C=EC=97=B0=ED=95=98=EA=B2=8C =ED=95=A9=EB=8B=88=EB=
+=8B=A4: =EC=9D=B4 =EC=98=88=EC=97=90=EC=84=9C, CPU 2 =EC=9D=98 X
+@@ -1789,10 +1789,10 @@ CPU =EB=A9=94=EB=AA=A8=EB=A6=AC =EB=B0=B0=EB=A6=AC=
+=EC=96=B4
+=20
+ 	TYPE		MANDATORY		SMP CONDITIONAL
+ 	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-	=EB=B2=94=EC=9A=A9		mb()			smp_mb()
+-	=EC=93=B0=EA=B8=B0		wmb()			smp_wmb()
+-	=EC=9D=BD=EA=B8=B0		rmb()			smp_rmb()
+-	=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1				READ_ONCE()
++	=EB=B2=94=EC=9A=A9            mb()                    smp_mb()
++	=EC=93=B0=EA=B8=B0            wmb()                   smp_wmb()
++	=EC=9D=BD=EA=B8=B0            rmb()                   smp_rmb()
++	=EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1                =
+           READ_ONCE()
+=20
+=20
+ =EB=8D=B0=EC=9D=B4=ED=84=B0 =EC=9D=98=EC=A1=B4=EC=84=B1 =EB=B0=B0=EB=A6=AC=
+=EC=96=B4=EB=A5=BC =EC=A0=9C=EC=99=B8=ED=95=9C =EB=AA=A8=EB=93=A0 =EB=A9=94=
+=EB=AA=A8=EB=A6=AC =EB=B0=B0=EB=A6=AC=EC=96=B4=EB=8A=94 =EC=BB=B4=ED=8C=8C=
+=EC=9D=BC=EB=9F=AC =EB=B0=B0=EB=A6=AC=EC=96=B4=EB=A5=BC
+@@ -2151,7 +2151,7 @@ wake_up() =EC=9D=B4 =EB=AC=B4=EC=96=B8=EA=B0=80=EB=A5=
+=BC =EA=B9=A8=EC=9A=B0=EA=B2=8C =EB=90=98=EB=A9=B4, =EC=9D=B4 =ED=95=A8=EC=
+=88=98=EB=8A=94 =EB=B2=94=EC=9A=A9 =EB=A9=94=EB=AA=A8=EB=A6=AC =EB=B0=B0
+ 	set_current_state();		STORE event_indicated
+ 	  smp_store_mb();		wake_up();
+ 	    STORE current->state	  ...
+-	    <=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>		  <=EB=B2=94=EC=9A=
+=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>
++	    <=EB=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>                 <=EB=
+=B2=94=EC=9A=A9 =EB=B0=B0=EB=A6=AC=EC=96=B4>
+ 	LOAD event_indicated		  if ((LOAD task->state) & TASK_NORMAL)
+ 					    STORE task->state
+=20
 --=20
 2.17.1
 
