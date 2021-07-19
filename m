@@ -8,57 +8,57 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9C5C07E9B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F86EC07E9B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:13:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAB3D6108B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33B67610F7
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:13:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236339AbhGSKcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 06:32:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60642 "EHLO
+        id S236330AbhGSKdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 06:33:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236330AbhGSKcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:32:00 -0400
+        with ESMTP id S236317AbhGSKdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:33:05 -0400
 Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A621C061574;
-        Mon, 19 Jul 2021 03:22:39 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id j4so1942906pgk.5;
-        Mon, 19 Jul 2021 04:12:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914FFC061574;
+        Mon, 19 Jul 2021 03:23:48 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id u14so18596346pga.11;
+        Mon, 19 Jul 2021 04:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fYTMnDkP9q2SzYe/Y2tqKXWv0310Kicj8uhBUBFBLuc=;
-        b=iRPCqkO4vhkioJ/Iby726pf4Wm9p1CJ5DUupzq/2xSfMHGTBQIQSa5Hl66etVSDRWK
-         yI+j3/TTJfp80VqzgpAKwG1E26pZmfHx6yIzZkglmXb0hQGIwnFshBGJZBT09uwczVfT
-         dSMGEpINkd8MSooTBfONL9FpX6ttNnaCeCUQE0WMRSuehp5S+Z7hg5F3kbW/Xo0JYAHf
-         EfGj5tvfZeKQbDgueLhmwrMP5lW3flwKgHx5azAMSsED6bx6zl5wOAEXuFMVupknzj9h
-         yHR5346eyZicoJaX+XOrd32i7GiBoc28lixWAzB9cvZtoFS3DuSN5L9Jzu0QvHZT9Yrw
-         C9zw==
+        bh=oH104RqPQFTQ1G6K4VMCFEyDvv4XbBXop+ivW0W8MLA=;
+        b=CBP/jhcFqx1x1tucvIyE7TF4o3g6la2+OV184MmbtvS9Es3KFoR7ca6Uedzv6nVFb9
+         1rJNgfBGKbnBvvmmleaIOc8jhaZpJx5/QpvFMICuIQxvsom4RoFTdIGhYbz2EtUKtf3y
+         /cIr/v3TB20Vs/QP/iDxO4A4TNSgTDHPgoOERv0FcHqF6ZEa5xzCDR2oqtkXq9O+wWYj
+         AtZ0oe9p7f1gkmECGvYGzBk38n77JiDkH/HJjoXyu5OxnbYLta6sqpLSYiF75BXZiKoG
+         2POkvw/AOFjPX05PIO/WAKpxoNdNxJWG5brh72ZXAdU4hb5NSQlyMzUoWQraPZG/biQO
+         O8jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fYTMnDkP9q2SzYe/Y2tqKXWv0310Kicj8uhBUBFBLuc=;
-        b=Em6Xb3FnKjetfsQ+AtiIaA4sM4A2QULHbH4ZWHD6atMm6o2cJu9bPSsypbVH5JraxC
-         MhVic+EOHED5PfaR87+Avj95Y+fu98HTAgkr0oZWv8otzFpfwWk95m95qF/pYP1ql+eJ
-         /Dh1Z5r/uC9bN+CftI+DucA6CrcxSY4gtNK6XbwXi5C9/oTT4hz1NaLKGh9HAIGaIc2F
-         hkVV1CrRACNhDCJogMkdM549H8zREWSTOewjCYsE0zspliTyVH9sFt6jrZvZ4qCAwbB7
-         xvSpg25kQ6i0J/tLAj5Aeqd9PJ99sfelMb6behX+FdjwtQh9Szd7jLyJh4jQK+4/o1/P
-         GGRw==
-X-Gm-Message-State: AOAM533hWBfQctR4j7cb9OklIBRqWKA75w/qf5k+/ig5rXcQUv6fFLHw
-        KVT8Z1p4NVhNZoKPTgeHNug=
-X-Google-Smtp-Source: ABdhPJzncBr9Kg9GbTG77435cIJ+idpoUziSymlTqLLmWKuctiv+gEa6WLL6z6tEmA6HPNZUb47WHg==
-X-Received: by 2002:a63:fa11:: with SMTP id y17mr25179999pgh.128.1626693160122;
-        Mon, 19 Jul 2021 04:12:40 -0700 (PDT)
+        bh=oH104RqPQFTQ1G6K4VMCFEyDvv4XbBXop+ivW0W8MLA=;
+        b=epX09XRv4PJNNKDCjYFms9I42w18FsIUkNMLhbDAVQb5FRV0pY2Ln9SVI1FQlHk6u9
+         xWfbwxi7O+TmTCCf4gErF+FJlssYrKExmmvyHreByWIJywHMVi3olA1mAvt5kcL4PQIM
+         kW9OrqkJWyA10GTiWT9O2sfdZQB3xwrmoODxkesUNXE0H7DnijtrZl2qc6hlAdTcfIhn
+         yJSM0lerFhSLIkwtE5FdlUzRq61XC1EI/xvsa7bJgeEob+m1CJWGmK6rCxXfMKnFV99Q
+         Y49JPctQZ8+lkSmmTtOS5bKpwQwpBa0u7ctBZqzzyK+kND51cQLXARHDrGxjTh7U0Ur0
+         Y4lA==
+X-Gm-Message-State: AOAM532y1j06jiRAlaluFOHVqQUKfRyPzXYcQdVoDKn+Xu5m4gb6HMFk
+        q+wO12LJmKfv916hS2X6gKSOkM1w3Fs=
+X-Google-Smtp-Source: ABdhPJyHvx4Wtbf8/ljugDkmmgH/4bYnMqJugWw442a4qDY3v3mrGcf+X18IGi5xHN1RfImGjSoflQ==
+X-Received: by 2002:aa7:8154:0:b029:310:70d:a516 with SMTP id d20-20020aa781540000b0290310070da516mr26026255pfn.63.1626693223881;
+        Mon, 19 Jul 2021 04:13:43 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id m21sm16194429pjz.36.2021.07.19.04.12.37
+        by smtp.gmail.com with ESMTPSA id u15sm21441898pgf.77.2021.07.19.04.13.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 04:12:39 -0700 (PDT)
-Subject: [RFC PATCH v2 2/7] docs: pdfdocs: Add CJK-language-specific font
- settings
+        Mon, 19 Jul 2021 04:13:43 -0700 (PDT)
+Subject: [RFC PATCH v2 3/7] docs: pdfdocs: Use one-half spacing in CJK
+ translations
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>
@@ -68,8 +68,8 @@ Cc:     Hu Haowen <src.res@email.cn>,
         Akira Yokosawa <akiyks@gmail.com>
 References: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <9305a392-8b90-ce3e-693a-96f82f52cdae@gmail.com>
-Date:   Mon, 19 Jul 2021 20:12:36 +0900
+Message-ID: <17e357ad-61a9-7701-bc19-3e5375f10e75@gmail.com>
+Date:   Mon, 19 Jul 2021 20:13:40 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
@@ -81,205 +81,97 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ko_KR and ja_JP translations have their preferred glyph sets
-different from that of zh_CN.
+CJK documents are much easier to read with a wider baseline stretch.
+Applying onehalfspacing option of the "setspace" package gives a
+reasonable result.
 
-To switch CJK font in the middle of the translations, introduce custom
-LaTeX macros listed below:
-
-    \kerneldocBeginSC
-    \kerneldocEndSC
-    \kerneldocBeginKR
-    \kerneldocEndKR
-    \kerneldocBeginJP
-    \kerneldocEndJP
-
-Note that CJKmainfont is changed to "Noto Serif CJK SC" as it suits well
-with the roman font of Latin letters.
-
-As for Korean translations, inter-phrase spaces in Hangul text can be
-preserved by the \xeCJKsetup{CJKspace=3Dtrue} option.
-
-As for monospace font, employing "Noto Sans Mono CJK SC" globally
-will result in sub-optimal look of literal blocks in Latin documents
-due to its rather tight width.
-So, localize the font choice by adding conf.py under
-Documentation/translations/.
-The additional conf.py is enabled when the command:
-
-    make SPHINXDIRS=3Dtranslations pdfdocs
-
-is used to build the PDF.
-Resulting translations.pdf (under Documentation/output/translations/pdf)
-will have properly aligned ascii-art figures except for those in Korean
-translations.
-
-NOTE 1: Korean ascii-art figures' mis-alignment is due to the fact that
-Hangul characters in "Noto Sans Mono CJK KR" are slightly narrower than
-Hanja characters.
-
-NOTE 2: Custom macros added here do not imply \kerneldocCJK{on|off}.
-This is intentional.  For example, \kerneldocCJKoff needs to be
-at the top of Italian translations' index.rst for the footer of
-final zh_CN page to be properly typeset.
-
-NOTE 3: Actual implementation of added macros has rooms to improve.
+The wider baseline is effective between \kerneldocCJKon and
+\kerneldocCJKoff.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Documentation/conf.py                      | 44 +++++++++++++++++++++-
- Documentation/translations/conf.py         | 12 ++++++
- Documentation/translations/ja_JP/index.rst |  5 +++
- Documentation/translations/ko_KR/index.rst |  2 +
- Documentation/translations/zh_CN/index.rst |  5 +++
- 5 files changed, 66 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/conf.py
+ Documentation/conf.py                      | 7 +++++--
+ Documentation/translations/ja_JP/howto.rst | 8 ++++++++
+ Documentation/translations/ko_KR/howto.rst | 8 ++++++++
+ 3 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/conf.py b/Documentation/conf.py
-index b440cb606d22..a61628339d55 100644
+index a61628339d55..23d647881f6e 100644
 --- a/Documentation/conf.py
 +++ b/Documentation/conf.py
-@@ -360,11 +360,45 @@ latex_elements['preamble']  +=3D '''
-     \\IfFontExistsTF{Noto Sans CJK SC}{
- 	% This is needed for translations
- 	\\usepackage{xeCJK}
--	\\setCJKmainfont{Noto Sans CJK SC}
-+	\\setCJKmainfont{Noto Serif CJK SC}
-+	\\setCJKsansfont{Noto Sans CJK SC}
-+	\\setCJKmonofont{Noto Sans Mono CJK SC}
-+	% CJK Language-specific font choices
-+	\\newCJKfontfamily[SCserif]\\scserif{Noto Serif CJK SC}
-+	\\newCJKfontfamily[SCsans]\\scsans{Noto Sans CJK SC}
-+	\\newCJKfontfamily[SCmono]\\scmono{Noto Sans Mono CJK SC}
-+	\\newCJKfontfamily[KRserif]\\krserif{Noto Serif CJK KR}
-+	\\newCJKfontfamily[KRsans]\\krsans{Noto Sans CJK KR}
-+	\\newCJKfontfamily[KRmono]\\krmono{Noto Sans Mono CJK KR}
-+	\\newCJKfontfamily[JPserif]\\jpserif{Noto Serif CJK JP}
-+	\\newCJKfontfamily[JPsans]\\jpsans{Noto Sans CJK JP}
-+	\\newCJKfontfamily[JPmono]\\jpmono{Noto Sans Mono CJK JP}
+@@ -374,8 +374,9 @@ latex_elements['preamble']  +=3D '''
+ 	\\newCJKfontfamily[JPsans]\\jpsans{Noto Sans CJK JP}
+ 	\\newCJKfontfamily[JPmono]\\jpmono{Noto Sans Mono CJK JP}
  	% Define custom macros to on/off CJK
- 	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
- 	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
--	% To customize \sphinxtableofcontents
-+	\\newcommand{\\kerneldocBeginSC}{%
-+	    \\begingroup%
-+	    \\scserif%
-+	    }
-+	\\newcommand{\\kerneldocEndSC}{\\endgroup}
-+	\\newcommand{\\kerneldocBeginKR}{%
-+	    \\begingroup%
-+	    \\krserif%
-+	    \\renewcommand{\\CJKrmdefault}{KRserif}%
-+	    \\renewcommand{\\CJKsfdefault}{KRsans}%
-+	    \\renewcommand{\\CJKttdefault}{KRmono}%
-+	    \\xeCJKsetup{CJKspace =3D true} % For inter-phrase space
-+	    }
-+	\\newcommand{\\kerneldocEndKR}{\\endgroup}
-+	\\newcommand{\\kerneldocBeginJP}{%
-+	    \\begingroup%
-+	    \\jpserif%
-+	    \\renewcommand{\\CJKrmdefault}{JPserif}%
-+	    \\renewcommand{\\CJKsfdefault}{JPsans}%
-+	    \\renewcommand{\\CJKttdefault}{JPmono}%
-+	    }
-+	\\newcommand{\\kerneldocEndJP}{\\endgroup}
-+	% To customize \\sphinxtableofcontents
+-	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
+-	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
++	\\usepackage{setspace}
++	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive\\onehalfspacing}
++	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive\\singlespacing}
+ 	\\newcommand{\\kerneldocBeginSC}{%
+ 	    \\begingroup%
+ 	    \\scserif%
+@@ -398,6 +399,8 @@ latex_elements['preamble']  +=3D '''
+ 	    \\renewcommand{\\CJKttdefault}{JPmono}%
+ 	    }
+ 	\\newcommand{\\kerneldocEndJP}{\\endgroup}
++	% Single spacing in literal blocks
++	\\fvset{baselinestretch=3D1}
+ 	% To customize \\sphinxtableofcontents
  	\\usepackage{etoolbox}
  	% Inactivate CJK after tableofcontents
- 	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
-@@ -372,6 +406,12 @@ latex_elements['preamble']  +=3D '''
- 	% Custom macros to on/off CJK (Dummy)
- 	\\newcommand{\\kerneldocCJKon}{}
- 	\\newcommand{\\kerneldocCJKoff}{}
-+	\\newcommand{\\kerneldocBeginSC}{}
-+	\\newcommand{\\kerneldocEndSC}{}
-+	\\newcommand{\\kerneldocBeginKR}{}
-+	\\newcommand{\\kerneldocEndKR}{}
-+	\\newcommand{\\kerneldocBeginJP}{}
-+	\\newcommand{\\kerneldocEndJP}{}
-     }
- '''
-=20
-diff --git a/Documentation/translations/conf.py b/Documentation/translati=
-ons/conf.py
-new file mode 100644
-index 000000000000..e859c2e19e8b
---- /dev/null
-+++ b/Documentation/translations/conf.py
-@@ -0,0 +1,12 @@
-+# -*- coding: utf-8 -*-
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# -- Additinal options for LaTeX output --------------------------------=
---
-+# font config for ascii-art alignment
-+
-+latex_elements['preamble']  +=3D '''
-+    \\IfFontExistsTF{Noto Sans CJK SC}{
-+	% For CJK ascii-art alignment
-+	\\setmonofont{Noto Sans Mono CJK SC}
-+    }{}
-+'''
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
-ranslations/ja_JP/index.rst
-index f94ba62d41c3..88d4d98eed15 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -3,6 +3,7 @@
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
- 	\kerneldocCJKon
-+	\kerneldocBeginJP
-=20
- Japanese translations
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -11,3 +12,7 @@ Japanese translations
-    :maxdepth: 1
-=20
-    howto
-+
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/t=
+ranslations/ja_JP/howto.rst
+index 73ebdab4ced7..d667f9d8a02a 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -1,3 +1,7 @@
 +.. raw:: latex
 +
-+	\kerneldocEndJP
-diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/t=
-ranslations/ko_KR/index.rst
-index 6ae258118bdf..f636b482fb4c 100644
---- a/Documentation/translations/ko_KR/index.rst
-+++ b/Documentation/translations/ko_KR/index.rst
-@@ -3,6 +3,7 @@
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
- 	\kerneldocCJKon
-+	\kerneldocBeginKR
-=20
- =ED=95=9C=EA=B5=AD=EC=96=B4 =EB=B2=88=EC=97=AD
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -26,3 +27,4 @@
- .. raw:: latex
-=20
-     \normalsize
-+    \kerneldocEndKR
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-index 1f953d3439a5..23c1e595ed78 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -5,6 +5,7 @@
- 	\renewcommand\thesection*
- 	\renewcommand\thesubsection*
- 	\kerneldocCJKon
-+	\kerneldocBeginSC
-=20
- .. _linux_doc_zh:
-=20
-@@ -184,3 +185,7 @@ TODOList:
- ----------
-=20
- * :ref:`genindex`
++	\kerneldocCJKoff
 +
+ NOTE:
+ This is a version of Documentation/process/howto.rst translated into Jap=
+anese.
+ This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com=
+>
+@@ -11,6 +15,10 @@ try to update the original English file first.
+=20
+ ----------------------------------
+=20
 +.. raw:: latex
 +
-+	\kerneldocEndSC
++	\kerneldocCJKon
++
+ =E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E3=80=81
+ Documentation/process/howto.rst
+ =E3=81=AE=E5=92=8C=E8=A8=B3=E3=81=A7=E3=81=99=E3=80=82
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/t=
+ranslations/ko_KR/howto.rst
+index a2bdd564c907..e3cdf0c84892 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -1,3 +1,7 @@
++.. raw:: latex
++
++	\kerneldocCJKoff
++
+ NOTE:
+ This is a version of Documentation/process/howto.rst translated into kor=
+ean
+ This document is maintained by Minchan Kim <minchan@kernel.org>
+@@ -11,6 +15,10 @@ try to update the original English file first.
+=20
+ ----------------------------------
+=20
++.. raw:: latex
++
++	\kerneldocCJKon
++
+ =EC=9D=B4 =EB=AC=B8=EC=84=9C=EB=8A=94
+ Documentation/process/howto.rst
+ =EC=9D=98 =ED=95=9C=EA=B8=80 =EB=B2=88=EC=97=AD=EC=9E=85=EB=8B=88=EB=8B=A4=
+=2E
 --=20
 2.17.1
 
