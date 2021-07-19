@@ -2,150 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59005C636C9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B354C12002
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:53:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F90061166
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:42:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 113E161186
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 09:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235748AbhGSJCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 05:02:16 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39564 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234913AbhGSJCP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Jul 2021 05:02:15 -0400
-Received: from localhost.localdomain (unknown [112.20.113.90])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0LvSPVghpEhAA--.19840S10;
-        Mon, 19 Jul 2021 17:42:50 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
-        chris.chenfeiyang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH 8/8] docs/zh_CN: add virt acrn cpuid translation
-Date:   Mon, 19 Jul 2021 17:42:55 +0800
-Message-Id: <be2c50c88941c3cbbc1ec7bee2b30d6c5eedcac4.1626687013.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1626687013.git.siyanteng@loongson.cn>
-References: <cover.1626687013.git.siyanteng@loongson.cn>
+        id S235215AbhGSJMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 05:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235179AbhGSJMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 05:12:38 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86526C061762
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 01:56:40 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id o3-20020a17090a6783b0290173ce472b8aso13817788pjj.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 02:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=E2tZE1Ed0aZpkrCfB99XZNU8SFfnSKYacY6RqWfb6v0=;
+        b=WH2Ykao0CL8ffEEwvky53xOjUsbsh37gLm2+9Pd7OtE5goUtTklLM51bZXpzgkuglw
+         hPZjP70D8RR/PKC9cvktg8Aoyvs0VvKOO/Wz8hIbtTzILSHgKhGZ22LPzl7IxkoJMqQd
+         jsQk6Fs84EJs369DPBiQy/dFMNwZdSwaCsLdsc0kKaQ34Yufukf4SxiqJFUxFH4JivZQ
+         +u99HXf8QYRYF/8ddNtDTSVEhWr3/X0+sLLIRWOfLAqInXwODZOfFGX7d9/RzxBU2qrI
+         CeUPJWM3uDmbEegsZhDGe0rpDr3KRnC0LHNnVd7P4H6rvOM1wr7yWyLZwcqxkGq5n4s8
+         ITZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=E2tZE1Ed0aZpkrCfB99XZNU8SFfnSKYacY6RqWfb6v0=;
+        b=tcrrKjjquDimjiP4S7+lXe2Bfa033N2zY4e8gklkn99eaVhH88Norap3g7T1opAMLJ
+         UbE3TcsM7kGpnhatA11k+0bj8D8cfuUZiKC23jVRuTmsPrd2UQhG8sxmOdhczBuMstRH
+         d6ssmM5qNhF9l1kANtHHeXp3LNro9+72+NPo97Pvk56T3RDsKbUuhN5M7pYtFXmSUrFO
+         na7BH7ik/wBjRM/NL5UgK5tXWVpwnmWcerR2u+T5MmO1n4ZOPSmzX4sJVKL4cQpj4I25
+         R4QOQ0KXnysaehC4DLeWQfgEZ8PUvcoNGLvxQVVDEAw78JaHK2fKyVf2R7IS819/sRjj
+         o33A==
+X-Gm-Message-State: AOAM531t2kQYtsNb5u6FPkkusSKhckk7s/rwDKcyDviMuIrLschHNwwT
+        WHg35ARbwGZIFpkOMPynlpDj3w==
+X-Google-Smtp-Source: ABdhPJzE4kEpR1F76PMihUwTBGQTjf87c9UpFZlcNlaP9p/GUb1Ez01h+tYgDZRGl7H1xCbSbOJBiQ==
+X-Received: by 2002:a17:902:e14c:b029:129:d117:fa3d with SMTP id d12-20020a170902e14cb0290129d117fa3dmr19054634pla.53.1626688397949;
+        Mon, 19 Jul 2021 02:53:17 -0700 (PDT)
+Received: from [10.200.196.235] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id c14sm21099059pgv.86.2021.07.19.02.53.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jul 2021 02:53:17 -0700 (PDT)
+Subject: Re: [PATCH 1/7] mm: fix the deadlock in finish_fault()
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210718043034.76431-1-zhengqi.arch@bytedance.com>
+ <20210718043034.76431-2-zhengqi.arch@bytedance.com>
+ <20210718212814.suvziikndiyezi6m@box.shutemov.name>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+Message-ID: <9e97cedc-9fd7-4290-9f44-04b96acea15d@bytedance.com>
+Date:   Mon, 19 Jul 2021 17:53:12 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0LvSPVghpEhAA--.19840S10
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw18Ar18Wry7Cr1rZw1UJrb_yoW5Jw4Dpr
-        1DKryfG3W7A34UC34xGr1UWF15AF1xGF1UJr1xXw1rJF1DJr15tr4UtFy7KF97GFyxAFy8
-        XF48JF4UKr1j9w7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-        3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-        kIc2xKxwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-        vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIev
-        Ja73UjIFyTuYvjfUeo7KDUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+In-Reply-To: <20210718212814.suvziikndiyezi6m@box.shutemov.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/virt/acrn/cpuid.rst into Chinese.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/virt/acrn/cpuid.rst    | 56 +++++++++++++++++++
- .../translations/zh_CN/virt/acrn/index.rst    |  5 --
- 2 files changed, 56 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/virt/acrn/cpuid.rst
 
-diff --git a/Documentation/translations/zh_CN/virt/acrn/cpuid.rst b/Documentation/translations/zh_CN/virt/acrn/cpuid.rst
-new file mode 100644
-index 000000000000..88a214cd5954
---- /dev/null
-+++ b/Documentation/translations/zh_CN/virt/acrn/cpuid.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/virt/acrn/cpuid.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+
-+.. _cn_virt_acrn_cpuid:
-+
-+==============
-+ACRN CPUID位域
-+==============
-+
-+在ACRN管理平台上运行的客户虚拟机可以使用CPUID检查其一些功能。
-+
-+ACRN的cpuid函数是:
-+
-+函数: 0x40000000
-+
-+返回::
-+
-+   eax = 0x40000010
-+   ebx = 0x4e524341
-+   ecx = 0x4e524341
-+   edx = 0x4e524341
-+
-+注意，ebx，ecx和edx中的这个值对应于字符串“ACRNACRNACRN”。eax中的值对应于这个叶子
-+中存在的最大cpuid函数，如果将来有更多的函数加入，将被更新。
-+
-+函数: define ACRN_CPUID_FEATURES (0x40000001)
-+
-+返回::
-+
-+          ebx, ecx, edx
-+          eax = an OR'ed group of (1 << flag)
-+
-+其中 ``flag`` 的定义如下:
-+
-+================================= =========== ================================
-+标志                              值          描述
-+================================= =========== ================================
-+ACRN_FEATURE_PRIVILEGED_VM        0           客户虚拟机是一个有特权的虚拟机
-+================================= =========== ================================
-+
-+函数: 0x40000010
-+
-+返回::
-+
-+          ebx, ecx, edx
-+          eax = (Virtual) TSC frequency in kHz.
-diff --git a/Documentation/translations/zh_CN/virt/acrn/index.rst b/Documentation/translations/zh_CN/virt/acrn/index.rst
-index 9c8bf5a9417c..45292a2aa7e4 100644
---- a/Documentation/translations/zh_CN/virt/acrn/index.rst
-+++ b/Documentation/translations/zh_CN/virt/acrn/index.rst
-@@ -22,9 +22,4 @@ ACRN管理平台
- 
-    introduction
-    io-request
--
--TODOLIST:
--
--
--
-    cpuid
--- 
-2.27.0
+On 7/19/21 5:28 AM, Kirill A. Shutemov wrote:
+> On Sun, Jul 18, 2021 at 12:30:27PM +0800, Qi Zheng wrote:
+>> The commit 63f3655f9501(mm, memcg: fix reclaim deadlock with writeback)
+>> fix a deadlock bug by pre-allocating the pte page table outside of the
+>> page lock, the commit f9ce0be71d1f(mm: Cleanup faultaround and
+>> finish_fault() codepaths) rework the relevant code but ignore this race,
+>> fix it.
+>>
+>> Fixes: f9ce0be71d1f(mm: Cleanup faultaround and finish_fault() codepaths)
+>> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> 
+> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> 
+> and add stable@, please.
+> 
 
+OK, I will add these in the patch v2, thanks.
