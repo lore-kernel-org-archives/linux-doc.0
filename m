@@ -2,127 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED220C07E9B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF6BC07E9B
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:08:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB143610C7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:04:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C081C6112D
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 11:08:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236697AbhGSKYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 06:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
+        id S236376AbhGSK11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 06:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236384AbhGSKYM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:24:12 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156C8C061574
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 03:14:10 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id o8so9373379plg.11
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 04:04:50 -0700 (PDT)
+        with ESMTP id S235440AbhGSK10 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 06:27:26 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 255D9C061574;
+        Mon, 19 Jul 2021 03:17:43 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id p4-20020a17090a9304b029016f3020d867so12159741pjo.3;
+        Mon, 19 Jul 2021 04:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=AIa5FAi7aqh8Dw/3QDeNz0PrF1OSx/0kOtXDntcScrY=;
-        b=Ur5D0kNh8zkU5t21wfF0io0pNYiXBYkOL42ZIpUshUiN0OzjEhU64N2/fxAzaFFvUR
-         gnqj3l+Q7EwwH5VfTgXjvQaKqzJLg6mysNSsVovbg9PzlQi6lpdQpCVomCEfA/r7tEe7
-         gkbW9cplk+pdgw6RAxwuKbEIsMHC88lG1735r9HpSkHnTV3a9P6P9s6oikhjAZiuHqKc
-         t1ScHL6d0nVM82F6wBpHKUafzZ3bxDIv00daifUFRqCU7fqlil3Wn1cQpo3A6uTwNvUE
-         WyLIsN4kf4m81WNNsopW1jq0yGZxaIdEbBBVo5A7vsTgA5Izy2jdZYt9Xe097a+t+IA5
-         Dbpw==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=1oaFsfB75KGXZ2Jfm6WhblXtwA8C/MYDZ5+7R5cBPf0=;
+        b=A9wlRwjI0b8eN2FOcPpMBL/fD/cMWlyUiYCdwaN42z1rr6gqYRrE/0usqGgvGJkQoK
+         yEN8aeaUdE0ZUpeFwJ9jfvlj241thx5AapHzbul34XoetkLzcQqWZBi1vBhJ5NtI7jNP
+         zLqc0z1xYNWZdyeYpUyPgixLLIay0e/h3mQMl7w42Z30aIxxYTYaUWvTdILERvlnDwbC
+         M2+N0gRJTnqzO89+5RrkR26lbUBnsEF5TeD89hbx6DXm/FlCq7oa9bRyeuTsC0VGEl9G
+         PK1BAaWfTd7Ua7MwgSuzCc0uecIZRNs0HS85FiEUxUKcqJ600f8GU1JptRcWjsQDyvIA
+         G7hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AIa5FAi7aqh8Dw/3QDeNz0PrF1OSx/0kOtXDntcScrY=;
-        b=hwn9v7Uz8uB+9muxXmqR4k1bqqOEp9YGM69FEwd+4J4R1oOGfi0PYiwFvAKNnkgF8a
-         v86py/7lHP6m7IrQwSjfLXdTyWw7KX6n/MgVrDQdZ8C6mADmhfb8BVPD5KvqwUk/24ip
-         MvlNg7HDu3YginWEA8m24HjlkA4XX2+tCKUNk+5T0GpMTn2Qvn2Wk9zxLZnaGN4wWYum
-         K5220HL9SnijgJjooKDHcDdDi/wW3ejONTXobpPHnO7pvJLHrnV6RUR0ounmceYr+qwF
-         CuFPdtCTi9BdS1pGuulhC2t7IfaI247kDS2IOgf39n/EePDDWKLIpQyu5bGeIrCREnFC
-         mQeA==
-X-Gm-Message-State: AOAM533+scdY0TEQ/4+3tKLbqJUvlvoiH87JKQgfKbtfR6x16xgUNTd4
-        npByrrEffXKY3ErsrzmLLS+/doVOa4R2u+cozD8=
-X-Google-Smtp-Source: ABdhPJxyis0+bSCG4hBMzbtyw6sjkabr9xT5RrN5Od3VRDGbNLtMlYdwM9NWcuYLcDi7qXt/xJFIItk4gDzkEoCSJWk=
-X-Received: by 2002:a17:90a:c7d7:: with SMTP id gf23mr163831pjb.38.1626692689858;
- Mon, 19 Jul 2021 04:04:49 -0700 (PDT)
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=1oaFsfB75KGXZ2Jfm6WhblXtwA8C/MYDZ5+7R5cBPf0=;
+        b=r+RQfKuBrNNiY4O7mXfVFsw9FHq7mYfh8WQMQH5dJxe17jHYtkVcm3EHanDiljwd72
+         GO1ptlx4XXvNvo02kENRiiAHljSNoAWj+KIY9aVBZKv3Yv2N/o3Y4qL3jdKJnOifcEm3
+         KjG/yUEnnl6dpQEnRRQMy5Z+jRXpV3weGnMl0asvzceYEoc5OuVRTBzZaZ1XkqFpMOJF
+         CMERuYi/gWbaAcQP2MK1Ea76j8Fas5jtBrCSQg01RFArZUa0iVU0PTajkhUMYvKk6VAq
+         k3FvcAY7lFWoA3Pi8zrr8nobzBbkNNaxLAuMa8c2PrgXJuX/eu5R3zO+7LHpHLdLvif6
+         ltXg==
+X-Gm-Message-State: AOAM533ybnP8XygYUn3edXQs2T3BEJSdbqSMVWw1FZV82AaX26Q1gHO+
+        6QK8LX/3QICCuFOdQTJK1Yc=
+X-Google-Smtp-Source: ABdhPJyKlze6Rj7YCnjhyaZ2tfFiUDKmdyn+Rec3ECNOfKahs6GoqIL24PZJD+J0SGykQP0+eWCMlQ==
+X-Received: by 2002:a17:90a:9205:: with SMTP id m5mr30120442pjo.172.1626692886349;
+        Mon, 19 Jul 2021 04:08:06 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id x23sm21168646pgk.90.2021.07.19.04.08.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jul 2021 04:08:05 -0700 (PDT)
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>
+Cc:     Hu Haowen <src.res@email.cn>,
+        Shinwoo Lee <shinwoo.lee.us@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC PATCH v2 0/7] docs: pdfdocs: Improve font choice in CJK
+ translations
+Message-ID: <20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com>
+Date:   Mon, 19 Jul 2021 20:08:02 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1626687013.git.siyanteng@loongson.cn> <442c95117f33f48ac6f11bc984bdcca3a3772912.1626687013.git.siyanteng@loongson.cn>
-In-Reply-To: <442c95117f33f48ac6f11bc984bdcca3a3772912.1626687013.git.siyanteng@loongson.cn>
-From:   =?UTF-8?B?6ZmI6aOe5oms?= <chris.chenfeiyang@gmail.com>
-Date:   Mon, 19 Jul 2021 19:04:39 +0800
-Message-ID: <CACWXhKkL20ddUJiL1ViLYzBe_aCdtJf9HFFfP3R7hePaxifuDg@mail.gmail.com>
-Subject: Re: [PATCH 2/8] docs/zh_CN: add virt paravirt_ops translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        chenfeiyang@loongson.cn, siyanteng01@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGksIFlhbnRlbmcsDQoNCk9uIE1vbiwgMTkgSnVsIDIwMjEgYXQgMTc6NDIsIFlhbnRlbmcgU2kg
-PHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4gd3JvdGU6DQo+DQo+IFRyYW5zbGF0ZSBEb2N1bWVudGF0
-aW9uL2NvcmUtYXBpL3BhcmF2aXJ0X29wcy5yc3QgaW50byBDaGluZXNlLg0KDQpEbyB5b3UgbWVh
-biBEb2N1bWVudGF0aW9uL3ZpcnQvcGFyYXZpcnRfb3BzLnJzdD8NCg0KPg0KPiBTaWduZWQtb2Zm
-LWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+IC0tLQ0KPiAgLi4uL3Ry
-YW5zbGF0aW9ucy96aF9DTi92aXJ0L2luZGV4LnJzdCAgICAgICAgIHwgIDMgKy0NCj4gIC4uLi90
-cmFuc2xhdGlvbnMvemhfQ04vdmlydC9wYXJhdmlydF9vcHMucnN0ICB8IDQwICsrKysrKysrKysr
-KysrKysrKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL3ZpcnQvcGFyYXZpcnRfb3BzLnJzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi90cmFuc2xhdGlvbnMvemhfQ04vdmlydC9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi92aXJ0L2luZGV4LnJzdA0KPiBpbmRleCBmNWM5MjJiYmQ4YTguLjZhZGRh
-M2ZiYTZlMCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-dmlydC9pbmRleC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-dmlydC9pbmRleC5yc3QNCj4gQEAgLTIwLDExICsyMCwxMiBAQCBMaW51eOiZmuaLn+WMluaUr+aM
-gQ0KPiAgLi4gdG9jdHJlZTo6DQo+ICAgICA6bWF4ZGVwdGg6IDINCj4NCj4gKyAgIHBhcmF2aXJ0
-X29wcw0KPiArDQo+ICBUT0RPTElTVDoNCj4NCj4gICAgIGt2bS9pbmRleA0KPiAgICAgdW1sL3Vz
-ZXJfbW9kZV9saW51eF9ob3d0b192Mg0KPiAtICAgcGFyYXZpcnRfb3BzDQo+ICAgICBndWVzdC1o
-YWx0LXBvbGxpbmcNCj4gICAgIG5lX292ZXJ2aWV3DQo+ICAgICBhY3JuL2luZGV4DQo+IGRpZmYg
-LS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92aXJ0L3BhcmF2aXJ0X29w
-cy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92aXJ0L3BhcmF2aXJ0X29w
-cy5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi43M2Y0
-OWMzMzhjM2INCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi92aXJ0L3BhcmF2aXJ0X29wcy5yc3QNCj4gQEAgLTAsMCArMSw0MCBAQA0KPiAr
-Li4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gKy4uIGluY2x1ZGU6OiAuLi9k
-aXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vdmly
-dC9wYXJhdmlydF9vcHMucnN0DQo+ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDlj7jlu7bohb4g
-WWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiArDQo+ICs65qCh6K+ROg0KPiAr
-DQo+ICsNCj4gKw0KPiArLi4gX2NuX3ZpcnRfcGFyYXZpcnRfb3BzOg0KPiArDQo+ICs9PT09PT09
-PT09PT0NCj4gK1BhcmF2aXJ0X29wcw0KPiArPT09PT09PT09PT09DQo+ICsNCj4gK0xpbnV45o+Q
-5L6b5LqG5a+55LiN5ZCM566h55CG56iL5bqP6Jma5ouf5YyW5oqA5pyv55qE5pSv5oyB44CC5Y6G
-5Y+y5LiK77yM5Li65LqG5pSv5oyB5LiN5ZCM55qE6Jma5ouf5py6566h55CG5bmz5Y+wDQo+ICvv
-vIhoeXBlcnZpc29y77yM5LiL5paH566A56ew566h55CG5bmz5Y+w77yJ77yM6ZyA6KaB5LiN5ZCM
-55qE5LqM6L+b5Yi25YaF5qC477yM6L+Z5Liq6ZmQ5Yi25bey57uP6KKrcHZfb3Bz56e7DQo+ICvp
-maTkuobjgIJMaW51eCBwdl9vcHPmmK/kuIDkuKromZrmi5/ljJZBUEnvvIzlroPog73lpJ/mlK/m
-jIHkuI3lkIznmoTnrqHnkIbnqIvluo/jgILlroPlhYHorrjmr4/kuKrnrqHnkIbnqIvluo8NCj4g
-K+S8mOWFiOS6juWFs+mUruaTjeS9nO+8jOW5tuWFgeiuuOWNleS4gOeahOWGheaguOS6jOi/m+WI
-tuaWh+S7tuWcqOaJgOacieaUr+aMgeeahOaJp+ihjOeOr+Wig+S4rei/kOihjO+8jOWMheaLrOac
-rOacuuKAlOKAlOayoQ0KPiAr5pyJ5Lu75L2V566h55CG56iL5bqP44CCDQo+ICsNCj4gK3B2X29w
-c+aPkOS+m+S6huS4gOe7hOWHveaVsOaMh+mSiO+8jOS7o+ihqOS6huS4juS9jue6p+WFs+mUruaM
-h+S7pOWSjOWQhOmihuWfn+mrmOe6p+WKn+iDveebuOWvueW6lOeahOaTjeS9nOOAgg0KPiArcHYt
-b3Bz5YWB6K645Zyo6L+Q6KGM5pe26L+b6KGM5LyY5YyW77yM5Zyo5ZCv5Yqo5pe25a+55L2O57qn
-5YWz6ZSu5pON5L2c6L+b6KGM5LqM6L+b5Yi25L+u6KGl44CCDQo+ICsNCj4gK3B2X29wc+aTjeS9
-nOiiq+WIhuS4uuS4ieexuzoNCj4gKw0KPiArLSDnroDljZXnmoTpl7TmjqXosIPnlKgNCj4gKyAg
-IOi/meS6m+aTjeS9nOWvueW6lOS6jumrmOawtOW5s+eahOWHveaVsO+8jOS8l+aJgOWRqOefpe+8
-jOmXtOaOpeiwg+eUqOeahOW8gOmUgOW5tuS4jeWNgeWIhumHjeimgeOAgg0KPiArDQo+ICstIOmX
-tOaOpeiwg+eUqO+8jOWFgeiuuOeUqOS6jOi/m+WItuihpeS4gei/m+ihjOS8mOWMlg0KPiArICAg
-6YCa5bi45oOF5Ya15LiL77yM6L+Z5Lqb5pON5L2c5a+55bqU5LqO5L2O57qn5Yir55qE5YWz6ZSu
-5oyH5Luk44CC5a6D5Lus6KKr6aKR57mB5Zyw6LCD55So77yM5bm25LiU5piv5oCn6IO95YWzDQo+
-ICsgICDplK7jgILlvIDplIDmmK/pnZ7luLjph43opoHnmoTjgIINCg0KSSB0aGluayBpdCB3b3Vs
-ZCBiZSBiZXR0ZXIgdG8gc2F5ICLlr7nmgKfog73lhbPplK4iLg0KDQo+ICsNCj4gKy0g5LiA5aWX
-55So5LqO5omL5YaZ5rGH57yW5Luj56CB55qE5a6P56iL5bqPDQo+ICsgICDmiYvlhpnnmoTmsYfn
-vJbku6PnoIHvvIguU+aWh+S7tu+8ieS5n+mcgOimgeWHhuiZmuaLn+WMlu+8jOWboOS4uuWug+S7
-rOWMheaLrOaVj+aEn+aMh+S7pOaIluWFtuS4reeahOS4gOS6m+S7ow0KPiArICAg56CB6Lev5b6E
-5a+55oCn6IO96Z2e5bi45YWz6ZSu44CCDQo+IC0tDQo+IDIuMjcuMA0KPg0KDQpUaGFua3MsDQpG
-ZWl5YW5nDQo=
+Hi all,
+
+I'm calling this patch set "RFC PATCH v2", but the approach has changed
+a lot since "RFC PATCH 0/3 docs: pdfdocs: Improve alignment of CJK
+ascii-art" [1], hence the different title.
+
+I added Hu Haowen, who is working on zh_TW translations, and Shinwoo Lee,
+who has recently shown interest in enhancing ko_KR translations [2] but
+has got no public response yet, in the CC list in the faint hope of their
+interest in CJK typesetting by Sphinx + XeLaTeX.  If either (or both) of
+you has no interest, please let me know.  I won't bother you in this area.
+
+I thought it was impossible to switch CJK font choices in the middle
+of a document, but it turns out it is actually possible.
+
+Patch 1/7 is mostly the same as the original "RFC PATCH 1/3".
+
+Patch 2/7 is the most important change in this patch set.
+It introduces a pair of LaTeX macros for each CJK language:
+    zh_CN:  \kerneldocBeginSC, \kerneldocEndSC
+    ko_KR:  \kerneldocBeginKR, \kerneldocEndKR
+    ja_JP:  \kerneldocBeginJP, \kerneldocEndJP
+
+, which perform magical font settings for the languages.
+
+Each pair of macros are added in translations' respective index.rst.
+
+As for Hangul inter-phrase spaces, xeCJK provides a knob to preserve
+them.  \kerneldocBeginKR has the knob enabled.
+
+Also note that CJKmainfont is changed from "Noto Sans CJK" to "Noto
+Serif CJK", as the latter looks more consistent with the roman (serif)
+family of Latin text.
+
+The font choice of latin monospace letters is overridden (for
+ascii-art alignmet) only when the document is built by
+"make SPHINXDIRS=translations pdfdocs".
+
+As for the to-be-merged zh_TW translations, the same approach should
+work by choosing "Noto xxxx CJK TC" fonts.
+
+There remain a couple of glitches remaining as of Patch 2/7.
+Following patches address them one by one.
+
+Patch 3/7 increases line spacing of CJK contents.
+In general, CJK characters in single spacing looks too busy.
+One-half spacing generates a reasonable result (to my eyes).
+
+Patch 4/7 is a workaround of "Noto CJK" fonts' lack of italic shapes.
+
+Patch 5/7 fixes excessive kerning by xeCJK around quotation marks
+in Korean and Japanese translations. Quotation marks in "Noto Serif
+CJK KR" and "Not Serif CJK JP" fonts are half-width rather than
+full-width in "Noto Serif CJK SC".
+
+Patches 6/7 and 7/7 corresponds to 2/3 and 3/3 in the original RFC.
+They attempt to align ascii-art figures found in the Korean translation
+of memory-barriers.txt.
+
+Now, candidates of *true* monospace font for Hangul are:
+
+    D2Coding, Sarasa Mono K, and (ugly looking) Unifont.
+
+I said earlier in response to Mauro's concerns with regard to
+"Sarasa Mono" font and sphinx-pre-install [3]:
+
+Akira>>> Existence of "Sarasa Mono SC" can be checked by the command:
+     >>>
+     >>>     fc-list | grep "Sarasa Mono SC," | grep "style=Regular" | wc -l
+     >>>
+     >>> If the result is *not* "0", you have the font somewhere in your
+     >>> fontconfig path.
+     >>>
+     >>> I think this is portable across distros.
+     >>> Wouldn't this suffice for sphinx-pre-install?
+Mauro>> 
+     >> No. The sphinx-pre-install tool generate a list of commands
+     >> needed to install the pre-reqs on a given distro.
+     >> ...
+     >> The same command, when executed on a different distro will
+     >> print a different set of packages and commands.
+Akira>
+     > I see...
+     >
+     > So let's forget Unifont and "Sarasa Mono" for the time being.
+     >
+     > By adding some custom configuration of fontconfig, "Noto Sans Mono
+     > CJK SC" can be made an alias of "Sarasa Mono", "Unifont", or whatever
+     > alternative font one wants to try.
+
+This was my misunderstanding.  Yes, alias is possible by fontconfig,
+but fontconfig's alias names are not recognized by fontspec/xeCJK + XeLaTeX.
+So we need to embed the actual names of candidate fonts in the preamble.
+
+Mauro, isn't the header comment in conf.py added in Patch 6/7 good enough?
+I don't think those nice-to-have fonts are pre-reqs that should be
+taken care of by the sphinx-pre-install script.
+
+On the other hand, as having heard of nothing from SeongJae, who is
+the maintainer of Korean memory-barrier.txt, there might be nobody
+who cares the Korean chapter in translations.pdf.
+Patches 6/7 and 7/7 need explicit Acks of someone who reads it, I guess.
+
+This series is tested against Sphinx 2.4.4 and brand-new 4.1.1.
+
+Again, any feedback is appreciated!
+
+	Thanks, Akira
+
+[1]: https://lore.kernel.org/lkml/386938dc-6290-239c-4b4f-c6153f3d98c5@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/CAJMZz3_M34cy4ZbKGLZniGeUPOoJ7DMXdDOQxy-T44_cQ1+Udw@mail.gmail.com/
+[3]: https://lore.kernel.org/lkml/0cfd8dfb-b304-4073-973c-930a93d19a17@gmail.com/
+
+--
+Akira Yokosawa (7):
+  docs: pdfdocs: Refactor config for CJK document
+  docs: pdfdocs: Add CJK-language-specific font settings
+  docs: pdfdocs: Use one-half spacing in CJK translations
+  docs: pdfdocs: Permit AutoFakeSlant for CJK fonts
+  docs: pdfdocs: Teach xeCJK the width of quotation marks
+  docs: pdfdocs: Add optional choices for Korean monospace font
+  docs/ko_KR: Use white spaces behind CJK characters in ascii-art
+
+ Documentation/conf.py                         | 77 +++++++++++++++----
+ Documentation/translations/conf.py            | 44 +++++++++++
+ Documentation/translations/ja_JP/howto.rst    |  8 ++
+ Documentation/translations/ja_JP/index.rst    |  5 ++
+ Documentation/translations/ko_KR/howto.rst    |  8 ++
+ Documentation/translations/ko_KR/index.rst    |  2 +
+ .../translations/ko_KR/memory-barriers.txt    | 14 ++--
+ Documentation/translations/zh_CN/index.rst    |  5 ++
+ 8 files changed, 140 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/translations/conf.py
+
+-- 
+2.17.1
+
+
