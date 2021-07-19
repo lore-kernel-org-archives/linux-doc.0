@@ -2,63 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B721C07E95
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 14:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C76C07E95
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 14:17:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31A27610D2
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 14:12:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB590610FB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jul 2021 14:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240932AbhGSNbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 09:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240846AbhGSNba (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 09:31:30 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17AF9C061574
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 06:37:07 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id h6-20020a17090a6486b029017613554465so59215pjj.4
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 07:12:10 -0700 (PDT)
+        id S239352AbhGSNhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 09:37:10 -0400
+Received: from mail-eopbgr150049.outbound.protection.outlook.com ([40.107.15.49]:60910
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239393AbhGSNhJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Jul 2021 09:37:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LV2cimKDPtght81ZfZ7AVqv1AFeTRz9s3eS/+IIxbvmNgX8Hb2tYmI5f5HXNgTqn1PkD9/G1cr8nDIbMc6cUgqK0XJTaU1PEvZLvgEN1hJUsoWispAwIsqq4nrnGYvaFM/Y8omrlT1RxtIzrUw+94efXNy+9IQ+BbbHD7isUyaPbUNET9HMnd1UA1kr1W5Fxaf9V9x1AK0SlSSUsUHMhvK4+jlbN5FXETjJzfuCDcO8DMjZXTqh/yHZF7pv0gsthQpNPZhJzisg+79Pw2sh/+jmfngSgiFVtIf6CZ0jIa1VFfQxNaa/E2YKDhwf6tzrzBX0oyNRe1TmHg03YpVedVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfwvvMYYul9LFhJI+gus8JU9PBpp82382KRfz0izzwo=;
+ b=HxkqEh5fpDv5FQTJrRvkSbhGYfas4H+Qdd/Vc9I4RvVUlcaZQxRVD3YAkzaR9grn8ZjTn04/jk0JssX/RT4mnjy+8Kpo9Fs72W7dxNZK95adc5tUuCLTyvEGSaVmtNJDkW4+Nww1UBfsj4/0R66pssevMdXCUog12khxTG2jcl1HuXkmqZb+uIy1KSQ55Zk+6I6j03EN0XTrV6BC6PhcLWScW0oygvxBFbJgPCuqrkOkEL01FicJiOqBAmKev51w2Ov7oca/pGsv6hb293siNZ1tlXaMXDrykNBYLfm3dalLGSmrwyPb9Pxuf31qHnz7DwSdpatz+AxY8RwnKaD2kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nextfour.com; dmarc=pass action=none header.from=nextfour.com;
+ dkim=pass header.d=nextfour.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=zPPoyHSUpxCfW2xlkYhOq6mDYE3xjGota4xo6DJybww=;
-        b=JTmcB5jXc/DDz7eOwJwJsql6oWlrfqV/PwmKWqHuwK0L0Z52XnaFyrK2X2kflNTvkU
-         mPTh1Mvg0GB9aYkz2DRk/VB3HQCSmXx8CiKVjsAEc57BZSztBDlgapjgkXDKvVGnWkzi
-         gf047ZBIDMZI7R129nmnqLLRRebhAT4TLWMLxqm8xDsGwP1R0u36si3oK2qqQ7mkYG6j
-         1qSAaysEQO+damp6WtgBZMQe8Qw1KIdyoB3V9iUKpaMb2ph5aZEJYk4w+FEdigQUta22
-         BrlrRvz+DHJjehUFDrYwumr69VVhfasH/+9UZtjr/PMsqyCRkioVe31xvjtlD4MDTlgK
-         RMow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=zPPoyHSUpxCfW2xlkYhOq6mDYE3xjGota4xo6DJybww=;
-        b=QwJU1dXdWIVsysMxXHAcAMtSM3eNzkgrJuTorlvTvNkHJuet8zUHHpDcj/DBHiPSC1
-         vAzNpNp0RBIXux9X8tCpRmrYet5M/50wfIjdqrSIyrzapQ9ZkMmdKdCO3YjlyfCUAI3X
-         Huf52VvX48X3ql0YOy7KRZUt36w67nr2tuJeZC5G1axuQTcaSvKbxQtpSFfYiPmxZ2pN
-         vmMdFkt2iyDoy+ZRpT4YLgZJGRzxJHTHx0G2LZ4Ffs96OTw1X8K/NnpOup4h7ctStJQr
-         5ebmcoyIi/RMoBn4YtOFDvjY0UpJR3W5oqKtA5MuM0SKoalw1yOsGpyy3ZJ7oMUTzzYC
-         tJ3w==
-X-Gm-Message-State: AOAM532wfTO2drr0DCsaJQe9LTEM5SzSzk2F0r/7/OF/OTlDi+CdjYoj
-        gvmWWR7EYqBGcUi2/ufbYlvcVg==
-X-Google-Smtp-Source: ABdhPJzZNum/3ukd8jgO5Wv4AAt34cxFPOoKLNKvMdahVU8I0uGolb9wiu4+jV6H39fl7bWfqs0eeQ==
-X-Received: by 2002:a17:902:c40a:b029:12b:45c1:21b5 with SMTP id k10-20020a170902c40ab029012b45c121b5mr19464022plk.17.1626703930130;
-        Mon, 19 Jul 2021 07:12:10 -0700 (PDT)
-Received: from [10.200.196.235] ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id u24sm20804070pfm.200.2021.07.19.07.12.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jul 2021 07:12:09 -0700 (PDT)
+ d=NextfourGroupOy.onmicrosoft.com;
+ s=selector2-NextfourGroupOy-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfwvvMYYul9LFhJI+gus8JU9PBpp82382KRfz0izzwo=;
+ b=dKc9M9rp3MwgyGkKSiV1IOYJYHXHXAU5QwY+5cxnuUdWIHZZAhTFro6CBCxXzPADB4/42tbkCCRjt8U/hUmmI217edllpTlENFJaxZiHSbRFjJBMi4sHmFcbdUp5Cepw5GQVdBDkKkla+OAxp56Lk4z5EO2Kn29KKoYsbNuu95g=
+Authentication-Results: bytedance.com; dkim=none (message not signed)
+ header.d=none;bytedance.com; dmarc=none action=none header.from=nextfour.com;
+Received: from DBAPR03MB6630.eurprd03.prod.outlook.com (2603:10a6:10:194::6)
+ by DB9PR03MB7194.eurprd03.prod.outlook.com (2603:10a6:10:22c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
+ 2021 14:17:47 +0000
+Received: from DBAPR03MB6630.eurprd03.prod.outlook.com
+ ([fe80::254c:af9d:3060:2201]) by DBAPR03MB6630.eurprd03.prod.outlook.com
+ ([fe80::254c:af9d:3060:2201%8]) with mapi id 15.20.4242.023; Mon, 19 Jul 2021
+ 14:17:47 +0000
 Subject: Re: [PATCH 5/7] mm: free user PTE page table pages
-To:     =?UTF-8?Q?Mika_Penttil=c3=a4?= <mika.penttila@nextfour.com>,
-        akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
-        mhocko@kernel.org, vdavydov.dev@gmail.com
+To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com
 References: <20210718043034.76431-1-zhengqi.arch@bytedance.com>
@@ -66,88 +58,161 @@ References: <20210718043034.76431-1-zhengqi.arch@bytedance.com>
  <9c3c87d5-e64e-f13f-ef36-b438e4de1e66@nextfour.com>
  <80b7d7fc-9d6d-0d1b-a333-b0ccd856e7c1@bytedance.com>
  <7fe2dd75-9b48-9685-8986-27a4cecc840f@nextfour.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-Message-ID: <5ffff30c-59d7-fbb0-e3c2-fe9e47fc4658@bytedance.com>
-Date:   Mon, 19 Jul 2021 22:12:04 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <7fe2dd75-9b48-9685-8986-27a4cecc840f@nextfour.com>
+ <5ffff30c-59d7-fbb0-e3c2-fe9e47fc4658@bytedance.com>
+From:   =?UTF-8?Q?Mika_Penttil=c3=a4?= <mika.penttila@nextfour.com>
+Message-ID: <ad00037e-cddb-1de5-bd77-1ade053952ed@nextfour.com>
+Date:   Mon, 19 Jul 2021 17:17:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <5ffff30c-59d7-fbb0-e3c2-fe9e47fc4658@bytedance.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: HE1PR05CA0368.eurprd05.prod.outlook.com
+ (2603:10a6:7:94::27) To DBAPR03MB6630.eurprd03.prod.outlook.com
+ (2603:10a6:10:194::6)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.121] (91.145.109.188) by HE1PR05CA0368.eurprd05.prod.outlook.com (2603:10a6:7:94::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend Transport; Mon, 19 Jul 2021 14:17:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1004a77c-0049-4925-41a7-08d94abffbcd
+X-MS-TrafficTypeDiagnostic: DB9PR03MB7194:
+X-Microsoft-Antispam-PRVS: <DB9PR03MB71948D7ECF48F7DF367ABF6483E19@DB9PR03MB7194.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YeJ/R3qj/7x6P418sG2gd2h0PjofVCajMq9dv85/SWOfxbXfTe4X9tDuHhagZ0m/up6HC9o+C6hm0JQK/spPsbY1AkyHRjGoA0sgCjv0OjePajt4zLO6RY3PWxYV509sWjZvbBv8Cx6xCQznYoVvkKh2i12DXyww339ssM1atZfO1/0xzGfbrrBNln/iKJXddG6ZXti1EAfsSiFjb1FIoNBvxwXh1ZtOFx8DMNX4eUQfnBJLJ4P8rFi/WICgvJIbZgiO8QFvSVnxeg+L1Px4yk/57d9e1DMjA2BpS5VCYfvpBwGvcAqBBRbqx9I9BEUPJt9j1Pt+lB/68w8dYdkKgRf2L4XdS24dCZ6J42h3VC8fYKXHARO2n4Hm3AoNTYkFbsVZ/jcmwMEHsnU97fwA+Dyn4bOvFdHujo5R80rpYBeWw+9Bx14+7lq9H2Dusi+K0i8yFKE+os4ZdrgnNcyelamuMfayn6jtoDOetw5axKK8ucIskHgSZ9YjoyYE0NdI3yYEC07MN6qUDpOxkJSj3LcXhW+NDFv9ldWm2THWqMVrOlixw7wbmSAtTdzOEqOmVZNq5mZvcd1hKGdf4LhcBVlYAQNqrLJYcZ7EGE/aHLcRJZZlGUNqfs4seV5GfT/lvDHksV+XzUhy1yul8u5Bh7B0sxiHqAzGo3R3O9byPJu6E1P2VBiZ04nAit+Sok4nv6Dx071o2eCHVHYRcLDKEvKlv918WFqmcEsE2ed8eNmrn8+1yoZZcNmjXei3T1V+Y5y/SuMriGWryH3PDxQH4A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBAPR03MB6630.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39830400003)(346002)(136003)(376002)(366004)(8936002)(956004)(2616005)(8676002)(4326008)(6486002)(316002)(83380400001)(16576012)(5660300002)(7416002)(186003)(31696002)(38100700002)(66556008)(31686004)(36756003)(86362001)(478600001)(66946007)(66476007)(38350700002)(2906002)(26005)(53546011)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzkxZXRxYWljcGR3bUtvOG5wbXpTc0UrRWhEbXIyQWUvWi8xdWlkdFFyWWdL?=
+ =?utf-8?B?L1ZoSDZVQVFHeHRNelpoV1pGeXNWT0c1Rk44K3RlR2xWcVllcjBqUWdGYytx?=
+ =?utf-8?B?MElzb1JHcm1ObEdGMTdPaDZpeHREaTBDV2tZVEtPc2t1SmxZbjA0SEtYeUlY?=
+ =?utf-8?B?SHdEZ0VuSE00QnpOaWZEcU4rZ0x1Q0gvSFYzbnhxdkFnc21vUHJYZGlIMld1?=
+ =?utf-8?B?MlZxY21lT3YrUEpBRUdNZnZhMUhJOWxQSjBPaWIrZzZXMmxMdjdEOFlQNjR2?=
+ =?utf-8?B?WERjRElpMHZBSjZUdTdYdDNma0UvWUR1dEhhUFhFb3o4OWNxekVRMEpacVdV?=
+ =?utf-8?B?c0dMeU1DUVNFSG40YjRhb2IweER3dmZraGk3U0dhUlZWZHVZZjBCZXBsVnBq?=
+ =?utf-8?B?c2EyM1VTWGovWmZ2Zlk4a3ptTVZTa0xJTG1uMWVLUnlBUnJSRTZuOXZaSjlY?=
+ =?utf-8?B?TTVYY0d5eUxtSlQzSnp4UTZjMzJJN3VUWHh5anFJcXZxbXAySi9FaEY0Wkkx?=
+ =?utf-8?B?Umc0dnpUSFhsUkQwUTNKOTVqY3h6b3A5c2NWRTFXck9YLzc3OTFaY2pMSU8r?=
+ =?utf-8?B?QnJLQ2FCOFB4OHpvWGFPS0xQSSsrWTJsc2o0LzZhS0dYM2x5b2RMcjNlMDJL?=
+ =?utf-8?B?emQvNzhoY2VzRzgyeTJGRFYxZksrTzJuOXhmd1gyWk9nbWV3UDI5blpuUkhU?=
+ =?utf-8?B?MGlSaVdMS1FXOUJsVlFtWm5ZelBYWFByaXJaOVNwV2RVUWRrdEhqVDRiQ3ND?=
+ =?utf-8?B?S2F1aGdSM2NRZGE4VWdBekptbTBrM0hlVU54OHBXNUppOWVuc2cvVXF1emRE?=
+ =?utf-8?B?czhqM3hiRVhHSk5nNFVLamlkazRtYXI1TDNmaXBVN2FsYmVIWEFvS3RNR1h5?=
+ =?utf-8?B?ckdXU1JuL2kvM25iZE1rRmEycG41TTdmeXpSdzE2blhuMDdJRloreldxT3Bn?=
+ =?utf-8?B?NXJpUzZvaUdNdm5SYUgrZk1QK3JsWWJicjlrc2lFa04wV0FRcGdRc3ZSSGx4?=
+ =?utf-8?B?Ky9teS81VHpHc2RYSHQyRUpOWHlJTUJvZyt2RFIwUWFNR21DRVBCWGxJNENK?=
+ =?utf-8?B?dm4zSlB2Qmx2dWxDUWR4SEtCQVlDRWN4TEVnaEZGR1B5UmRnUWxVaGRUNFhi?=
+ =?utf-8?B?NGdRSFFhcElhdG9lSVNqdVRmRzBrOFFGTk0yZUJDUDkwSzBZOUZrbVBGVEdC?=
+ =?utf-8?B?amNxUExaOHU4Z0JWT2JidFVJbG1VWk4yaU0va01EU0ZWYjdKYjFRUmhmaUlO?=
+ =?utf-8?B?WUZBWWU2NUhneVNsU2RmbFNsQlNSV0h6UmtEWm1BdDBWNCtkMEZlSzMrRW9q?=
+ =?utf-8?B?bjZnZmJjWU1DV3NEVlJsbkVCUnczLzlnbkhKY0xpcmxCd1NxcGVZV3V6M1M4?=
+ =?utf-8?B?b1gzTW5lank5SjZweW9HMjlaRysxRDRlZkpaRzE5ckhGcGpDbkNYUTZjQnFR?=
+ =?utf-8?B?WmNSNnVTOFd3OXdZdzRVY1R2TCsyUVRDQkhjSDAxVTRISDE1ZHR3TDVKTENv?=
+ =?utf-8?B?QTBNMU5zeTVzcU4vcmwxUFo3UGZTekVZT1RvZW1hd3ZBblh2d0ZYTUk5ajRs?=
+ =?utf-8?B?aEJMVmFGTS9RMEljTXl0aWRBenNtS25Yc1JubjBjbUN4eWNsM3dyQmZyQkV4?=
+ =?utf-8?B?QlYwYnpwanVTbXlERTQ3MEdMUVNSVFpHeFNxZm0yT2dvaEJkd3JFVzREZ1E0?=
+ =?utf-8?B?NkdlK3c3V1F2TTk3TkZmdEpXblNrRHdzRU8wbE53dDdqYXBmZ3VrbncxYUE5?=
+ =?utf-8?Q?b7xFkViCl5en3stidz3u1hp9apwOH4MCQnBh97p?=
+X-OriginatorOrg: nextfour.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1004a77c-0049-4925-41a7-08d94abffbcd
+X-MS-Exchange-CrossTenant-AuthSource: DBAPR03MB6630.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 14:17:47.4164
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 972e95c2-9290-4a02-8705-4014700ea294
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: db9Oiy0TCqW2tHdfJ3OWv4V5ENvAoHTEoSRxtwhLJXVLMlH5idEHBY/fggBYvo+IfhpubQBqD6S3vL9TKQU53DZcR/hBeolMvKuvgrmChfg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB7194
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/19/21 9:55 PM, Mika Penttilä wrote:
-> 
-> 
-> On 19.7.2021 15.56, Qi Zheng wrote:
->> On 7/18/21 2:19 PM, Mika Penttilä wrote:
+
+
+On 19.7.2021 17.12, Qi Zheng wrote:
+> On 7/19/21 9:55 PM, Mika Penttilä wrote:
 >>
->>>> +
->>>> +/*
->>>> + * returns true if the pmd has been populated with PTE page table,
->>>> + * or false for all other cases.
->>>> + */
->>>> +bool pte_install_try_get(struct mm_struct *mm, pmd_t *pmd, 
->>>> pgtable_t *pte)
->>>> +{
->>>> +    spinlock_t *ptl;
->>>> +    bool retval = true;
->>>> +
->>>> +retry:
->>>> +    ptl = pmd_lock(mm, pmd);
->>>> +    if (likely(pmd_none(*pmd))) {
->>>> +        __pte_install(mm, pmd, pte);
->>>> +    } else if (pmd_leaf(*pmd) || !pmd_present(*pmd)) {
->>>> +        retval = false;
->>>> +    } else if (!pte_get_unless_zero(pmd)) {
->>>> +        spin_unlock(ptl);
->>>> +        goto retry;
->>>> +    }
->>>> +    spin_unlock(ptl);
->>>> +    return retval;
->>>> +}
->>>> +
+>>
+>> On 19.7.2021 15.56, Qi Zheng wrote:
+>>> On 7/18/21 2:19 PM, Mika Penttilä wrote:
 >>>
->>> Can pte_get_unless_zero() return true above? Can the pmd have been by 
->>> populated by others? In that case the ref count is wrongly incremented.
+>>>>> +
+>>>>> +/*
+>>>>> + * returns true if the pmd has been populated with PTE page table,
+>>>>> + * or false for all other cases.
+>>>>> + */
+>>>>> +bool pte_install_try_get(struct mm_struct *mm, pmd_t *pmd, 
+>>>>> pgtable_t *pte)
+>>>>> +{
+>>>>> +    spinlock_t *ptl;
+>>>>> +    bool retval = true;
+>>>>> +
+>>>>> +retry:
+>>>>> +    ptl = pmd_lock(mm, pmd);
+>>>>> +    if (likely(pmd_none(*pmd))) {
+>>>>> +        __pte_install(mm, pmd, pte);
+>>>>> +    } else if (pmd_leaf(*pmd) || !pmd_present(*pmd)) {
+>>>>> +        retval = false;
+>>>>> +    } else if (!pte_get_unless_zero(pmd)) {
+>>>>> +        spin_unlock(ptl);
+>>>>> +        goto retry;
+>>>>> +    }
+>>>>> +    spin_unlock(ptl);
+>>>>> +    return retval;
+>>>>> +}
+>>>>> +
+>>>>
+>>>> Can pte_get_unless_zero() return true above? Can the pmd have been 
+>>>> by populated by others? In that case the ref count is wrongly 
+>>>> incremented.
+>>>>
+>>>
+>>> Here we only have mmap_read_lock(mm), so the pmd can be populated with
+>>> other PTE page table page after a page fault in a different thread B 
+>>> of this mm. In this case, thread B already hold a pte_refcount of 
+>>> the PTE page table page populated in the pmd, so 
+>>> pte_get_unless_zero() can
+>>> return true above.
 >>>
 >>
->> Here we only have mmap_read_lock(mm), so the pmd can be populated with
->> other PTE page table page after a page fault in a different thread B 
->> of this mm. In this case, thread B already hold a pte_refcount of the 
->> PTE page table page populated in the pmd, so pte_get_unless_zero() can
->> return true above.
->>
-> 
-> Yes but if thread B populates the page table page and pte, then we also 
-> increase the refcount with pte_get_unless_zero() , but dont decrease it 
-> when notice !pte_none().
-> And in the pte_none() case, the refcount is increased again, so double 
-> accounting. see finish_fault().
+>> Yes but if thread B populates the page table page and pte, then we 
+>> also increase the refcount with pte_get_unless_zero() , but dont 
+>> decrease it when notice !pte_none().
+>> And in the pte_none() case, the refcount is increased again, so 
+>> double accounting. see finish_fault().
+>
+> The semantics of this function is to hold the pte_refcount count when it
+> returns 1, and its caller is responsible for decrease the pte_refcount
+> by calling pte_put(), like the following pattern:
+>
+>     do_anonymous_page()
+>
+>     --> pte_alloc_try_get()
+>
+>         do something about pte
+>
+>         pte_put()
+>
+> Similarly in finish_fault().
+>
+> Thanks,
+>
+> Qi
 
-The semantics of this function is to hold the pte_refcount count when it
-returns 1, and its caller is responsible for decrease the pte_refcount
-by calling pte_put(), like the following pattern:
-
-	do_anonymous_page()
-
-	--> pte_alloc_try_get()
-
-	    do something about pte
-
-	    pte_put()
-
-Similarly in finish_fault().
+Ok I didn't notice the added pte_put()'s at the end of these funcs.
 
 Thanks,
+Mika
 
-Qi
 
-> 
->> Similarly, if THP is enabled, the pmd also can be populated with a THP 
->> page, we can see more detail in comment in handle_pte_fault(). The
->> pmd_leaf() above is to detect this situation.
-> 
+
+>
+>>
+>>> Similarly, if THP is enabled, the pmd also can be populated with a 
+>>> THP page, we can see more detail in comment in handle_pte_fault(). The
+>>> pmd_leaf() above is to detect this situation.
+>>
+
