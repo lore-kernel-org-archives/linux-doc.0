@@ -2,247 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25637C07E95
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 10:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB02C07E9B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 11:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B22361175
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 10:01:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8705061164
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 11:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236098AbhGTJUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 05:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235546AbhGTJT2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 05:19:28 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F2DC061767
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 02:59:41 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id g8-20020a1c9d080000b02901f13dd1672aso1279567wme.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 02:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YXVuAIME2a7+9upLSStSN6fGNw+xObIkQ3Z3xEKDwWs=;
-        b=OXI/uEma1BlI+GEaO7O+4mnoCHfSkdA6mM2jaPFwDuBy3A3WOq5uvpiFc4hKrDa9CV
-         bELh7UWFUXjTWoyN5ZXSnEkowhyOpw1N2KFQeQlHCWpXNCMxEiakmeK5q4JmBfU0Hs6q
-         ksNyFFF1FTWie0akU3udTGNuWO8xwcJ8FLSeYq+kEOENpEjF0iK4B9dSURF5lg+lprq0
-         69Hi5sayvqTvcT86lwfbb0uN387t6g2PQQ6BNyqyYvNdlUul5kZTBCX6ZtoYlQ8Y4TG7
-         Q304Jp6I8LMjB7Hkc1ntrgVlIrs07IJHbz00bjJ91JpHcyQl6/BB2dFib+ULdj6HBKA2
-         yj3Q==
+        id S237612AbhGTKaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 06:30:07 -0400
+Received: from mail-ej1-f44.google.com ([209.85.218.44]:36749 "EHLO
+        mail-ej1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237340AbhGTK3a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 06:29:30 -0400
+Received: by mail-ej1-f44.google.com with SMTP id nd37so33746438ejc.3;
+        Tue, 20 Jul 2021 04:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YXVuAIME2a7+9upLSStSN6fGNw+xObIkQ3Z3xEKDwWs=;
-        b=oY1EtRv8nURdm8S3q0I55cslDZy+D0RkJVT+CDNvLY+zUWcpeLhl0rI/H0oLEzmcAW
-         ogEVsO4xqKv2B8H7QNRy49d68YMTA474zypyz0QWUUl2HHenGBpBcKEUepJfIWvPAONY
-         Lhhy2aRCubpKeorUPKIShcS2WhhuZzWZDM+OgOrNlv/I/e44slRvksQVkbWgZPCJJaYc
-         d4AvDvCgb3Vzi4UA8aSdfYs8e4iAi1CZllz8B097v9181cpD8d/8hcR1jaPqEq7gn5Cn
-         yKUymVPq90QVTG1Y/BlzNRlQ3vp3YTQhj9jcdhcpm1dUrg12kUkNiE6C+5SLYG7BjE5e
-         voOg==
-X-Gm-Message-State: AOAM532axh+0w3djA0IXHk/QST1+IzYQKeNkREW/AvYtLigiCcEsa9lG
-        TlLb4WvlLxHkuFGbF/B12a6+eu0W1mI0+5RWEABpWw==
-X-Google-Smtp-Source: ABdhPJx0H7W6ZF+pASijQVVwvIr/D+m+engDcfXwGgHQAF6Bqd//oHHo5ZgZB5j2uTm/Zk6LEZz1gOB7HaT8NrPLIbs=
-X-Received: by 2002:a7b:ce82:: with SMTP id q2mr36008319wmj.60.1626775179975;
- Tue, 20 Jul 2021 02:59:39 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OHZdckbNZ18VQSZzXQt5sEXQRuXvblwckqVY5aEQJWo=;
+        b=p3X3kWJFLRpFwit+vPYjYrEZG/SAvIPOpVPICShtXOxMWKAsGbB3Z873cZou8UUohc
+         qcKpsAxHmt+Y5+kNPvENE42/5OoyKEWCn1XIs/X4/+qmAz8uFg6l6do7+sI5W1KUfUkn
+         UoqPrjHnngBsyf/tV3EHVbjtaiEVA7KnYVxHqKVuISxYeeiOWInWgX1kZyJppQh6oXy9
+         VGkGQwoDMyEP+eie4vTtETEsXeOxZevx15AekugkSmXWpUjMuG0zmU9c+cCK1C8RaUVa
+         qMWa3zhS3C+EVw58LUvFa0Om+l9WEMMakw6ObxOIw1oYb51ABeNAPxTnhsrSA7zyVZ9B
+         3vdA==
+X-Gm-Message-State: AOAM531VA1JapqLMJaFSnItSHHXM5FJ7oHKhepQ7aT1EHubL7zLoGDwo
+        cvq6b5rwyctX0z4b2yCeIWXR8sHn9EXN5eSD
+X-Google-Smtp-Source: ABdhPJx/6R3BpTygKz5Na6aXvE85FbPPIeQekl7WrNh04jNUe66RpMaHk26/Qm3CWZXW6/lJHTCZSQ==
+X-Received: by 2002:a17:906:dc0f:: with SMTP id yy15mr31349098ejb.255.1626779406409;
+        Tue, 20 Jul 2021 04:10:06 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id u5sm9156243edv.64.2021.07.20.04.10.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jul 2021 04:10:05 -0700 (PDT)
+Subject: Re: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
+To:     longli@linuxonhyperv.com, linux-fs@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org
+Cc:     Long Li <longli@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
+References: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
+ <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <90ed52d3-5095-9789-53f0-477ba70edc3b@kernel.org>
+Date:   Tue, 20 Jul 2021 13:10:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <PAXPR10MB4687E737261282B78600272DFD189@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
- <20210713111143.g6ztdakegs6ck25s@bogus> <CAHUa44G2xLn9td88H-n9E3yJ6JUnyGL4vZNj0rwisu2ArngYAw@mail.gmail.com>
- <20210720075036.z2a5lcguu3xp3wqi@bogus>
-In-Reply-To: <20210720075036.z2a5lcguu3xp3wqi@bogus>
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-Date:   Tue, 20 Jul 2021 11:59:29 +0200
-Message-ID: <CAHUa44Fvk4_cayiV62b7yaYm2am3eG+goMFpmkLLx0de1_e20w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Asynchronous notifications from secure world
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Etienne CARRIERE <etienne.carriere@st.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 9:51 AM Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> On Tue, Jul 20, 2021 at 08:45:59AM +0200, Jens Wiklander wrote:
-> > On Tue, Jul 13, 2021 at 1:12 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > >
-> > > On Fri, Jul 09, 2021 at 08:05:57AM +0000, Etienne CARRIERE wrote:
-> > > > Hello Sudeep and all,
-> > > >
-> > > > On Wed, 7 Jul 2021 at 19:52, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> > > > >
-> > > > > Hi Sumit,
-> > > > >
-> > > > > I was holding off you reply as I didn't have all the background on this.
-> > > > > Achin did mention that this is preparatory work for FFA notifications.
-> > > > > I did mention to him that this is more than that, it is custom extension
-> > > > > to address what FF-A notification is trying to in standard way.
-> >
-> > Are you suggesting that we should use a hybrid implementation with
-> > FF-A for notifications and keep the rest as is for armv7-a?
-> >
->
-> No I was just mentioning that this patch series addresses notifications from
-> secure world(optee in this case) which is very similar to what FF-A is trying
-> to address too.
+On 20. 07. 21, 5:31, longli@linuxonhyperv.com wrote:
+> --- /dev/null
+> +++ b/include/uapi/misc/hv_azure_blob.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/* Copyright (c) 2021 Microsoft Corporation. */
+> +
+> +#ifndef _AZ_BLOB_H
+> +#define _AZ_BLOB_H
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/uuid.h>
 
-I was hoping that it would be easy to integrate with FF-A in the
-OP-TEE driver if it was done in this way.
+Quoting from 
+https://lore.kernel.org/linux-doc/MWHPR21MB159375586D810EC5DCB66AF0D7039@MWHPR21MB1593.namprd21.prod.outlook.com/:
+=====
+Seems like a #include of asm/ioctl.h (or something similar)
+is needed so that _IOWR is defined.  Also, a #include
+is needed for __u32, __aligned_u64, guid_t, etc.
+=====
 
->
-> Anyways, you brought up interesting idea of hybrid model, it would be good if
-> that is possible and the specification allows for that. I don't think it does
-> in the current form, may need some amendments to allow that I think.
+Why was no include added?
 
-Agree, the scheduling part will need something too.
+> +
+> +/* user-mode sync request sent through ioctl */
+> +struct az_blob_request_sync_response {
+> +	__u32 status;
+> +	__u32 response_len;
+> +};
+> +
+> +struct az_blob_request_sync {
+> +	guid_t guid;
+> +	__u32 timeout;
+> +	__u32 request_len;
+> +	__u32 response_len;
+> +	__u32 data_len;
+> +	__u32 data_valid;
+> +	__aligned_u64 request_buffer;
+> +	__aligned_u64 response_buffer;
+> +	__aligned_u64 data_buffer;
+> +	struct az_blob_request_sync_response response;
+> +};
+> +
+> +#define AZ_BLOB_MAGIC_NUMBER	'R'
+> +#define IOCTL_AZ_BLOB_DRIVER_USER_REQUEST \
+> +		_IOWR(AZ_BLOB_MAGIC_NUMBER, 0xf0, \
+> +			struct az_blob_request_sync)
+> +
+> +#endif /* define _AZ_BLOB_H */
+> 
 
->
-> > > > >
-> > > > > I share same opinion as Marc Z.
-> >
-> > From what I've read in this thread this has mainly been about using
-> > SGI notification and not whether asynchronous notification from OP-TEE
-> > on non-FF-A systems is good or bad. I assume Sumit was asking about
-> > SGI to find out why that wasn't used. This patch set uses SPI.
-> >
->
-> I understand. I was trying(ineffectively) to tell why it is not so trivial
-> to use SGI and how FF-A is enabling that.
-
-OK, thanks for clarifying.
-
->
-> On SPI, so it is expected that platform has SPI available for this ?
-
-Yes, either that or some other source usable with platform_get_irq().
-
->
-> > > > >
-> > > > > On Wed, Jul 07, 2021 at 11:22:23AM +0530, Sumit Garg wrote:
-> > > > > > On Tue, 6 Jul 2021 at 18:16, Marc Zyngier <maz@kernel.org> wrote:
-> > > > >
-> > > > > [...]
-> > > > >
-> > > > > > >
-> > > > > > > I don't care about OP-TEE. If you are proposing a contract between S
-> > > > > > > and NS, it has to be TEE and OS independent. That's how the
-> > > > > > > architecture works.
-> > > > > > >
-> > > > > >
-> > > > > > Agree, here we are not proposing a common contract among the S and NS
-> > > > > > world that every TEE (based on Arm TrustZone) will use to communicate
-> > > > > > with REE (Linux in our case) but rather an OP-TEE specific
-> > > > > > notifications feature that is built on top of OP-TEE specific ABIs.
-> > > > > >
-> > > > > > And I can see your arguments coming from an FFA perspective but there
-> > > > > > are platforms like the ones based on Armv7 which don't support FFA
-> > > > > > ABI. Maybe Jens can elaborate how this feature will fit in when FFA
-> > > > > > comes into picture?
-> > > > > >
-> > > > >
-> > > > > I can understand that but won't those platforms add the support both in
-> > > > > the kernel(current series) and secure world to address notifications.
-> > > > > While you could argue that it is small extension to what is already present
-> > > > > but I prefer they support FF-A is they need such a support instead of adding
-> > > > > custom mechanisms. It is hard to maintain and each vendor will deviate
-> > > > > from this custom mechanism and soon we will have bunch of them to handle.
-> >
-> > Regarding deviation, are we still talking about the OP-TEE driver? So
-> > far I haven't seen any vendor extensions at all in that driver.
-> >
->
-> Yes, I was referring to addition of notification support in both worlds.
-> I was trying to emphasize that both OPTEE and FF-A needs changes in the
-> secure world. OPTEE changes could be small compared to starting with FF-A
-> but it may result in deviation in notification hadling(in both worlds).
-
-Yes they will be different, but they will also be either or. In a FF-A
-system it wouldn't make sense to use these OP-TEE notifications. In
-fact it wouldn't be possible since it can only be enabled if probed
-via the raw SMCs based interface.
-
->
-> > > >
-> > > > There exist armv7-a platforms that expect OP-TEE notification support and
-> > > > will not move the FF-A, like the stm32mp15. This platform won't move to FF-A
-> > > > mainly due to the memory cost of the added SPM layer and the device physical
-> > > > constraints.
-> > >
-> > > Fair enough on the use-case and the analysis for not being able to use FF-A.
-> > > As you may already know it doesn't simply this problem. This has been
-> > > discussed for years and FF-A was assumed to be the solution when FF-A
-> > > spec work started.
-> > >
-> > > > We have a usecase for OP-TEE notification. We're working on the integration
-> > > > of an SCMI server in OP-TEE. SCMI notification is a feature needed is this
-> > > > scope and it requires OP-TEE async notification means as those proposed
-> > > > here.
-> > > >
-> > >
-> > > I am aware of this use-case, I understand. But I can only share rants
-> > > which I know doesn't help much.
-> > >
-> > > > This OP-TEE async notif also brings a lot of value in OP-TEE as it allows a
-> > > > OP-TEE secure thread (i.e. executing a trusted application service) to
-> > > > gently wait on a secure interrupt (as a slow bus transaction completion or
-> > > > many other usecase) with the CPU relaxed. This support is provided by the
-> > > > proposed series. I believe existing device should be able to leverage this
-> > > > OP-TEE feature without needing their OP-TEE to move to the new FF-A
-> > > > interface.
-> > > >
-> > >
-> > > While I agree these are nice to have in OPTEE, the timing is just odd.
-> > >
-> > > We are trying hard to push FF-A as standard solution to address all such
-> > > issues that couldn't be solved with OPTEE + DT, now we are back to address
-> > > the same in parallel to FF-A.
-> >
-> > It's not exactly the same since the primary target here is armv7-a
-> > where introducing FF-A isn't an obvious choice in all cases. For
-> > OP-TEE armv7-a is special in the way that all secure world processing
-> > is handled by OP-TEE. The internal secure monitor already takes care
-> > of what's implemented in TF-A at EL3 for armv8-a.
-> >
->
-> Fair enough.
->
-> > This isn't meant to compete with FF-A, it's to make sure that the
-> > OP-TEE armv7-a user base isn't left behind. This doesn't rule out FF-A
-> > support for armv7-a for those prepared to take that step.
-> >
->
-> Sure, as long as that is conveyed to the adopters of this, it should be
-> fine. Do you have plans to disable this feature for armv8-a ? I see that
-> as safe approach to avoid any kind of conflicts.
-
-I'm not so keen on artificial limitations that encourage strange
-workarounds. I'm not sure what would be the best way of disabling this
-for armv8-a, it would for instance still make sense for armv8-a
-aarch32.
-
->
-> I just don't want similar arguments used as excuse on armv8-a.
-
-As long as there are no technical arguments it shouldn't happen.
-
-Cheers,
-Jens
+thanks,
+-- 
+js
+suse labs
