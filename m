@@ -2,133 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44782C07E95
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2243C07E95
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2287A6113C
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:23:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F6766121F
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237468AbhGTLms (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 07:42:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235455AbhGTLmS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 07:42:18 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95B3C061574
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:22:31 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id c15so2191359wrs.5
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ksJ7uSYre48A5Z7zQktjRchxiOL4w4I/1HgeIzUItlA=;
-        b=ndCld4jhIDxVjs7HgMEcmj8aOHrSU7apEUj9+c/96MWypPqQ4DLLaudBAdx8qDhjRU
-         EnRWhNj1hjJNySeadR7468x5WNDTfkLGjY9fyOxDAwabhSDmI7GZT8RKj4HAqxOVy5eb
-         V7JXw3ikiwb85gB7i2wWWB3wOVNTE/B7cWPDU=
+        id S237780AbhGTLrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 07:47:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32245 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236193AbhGTLrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 07:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626784057;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zCBYtfj3pc7JRRIL/IaPTOryD+0TCF0beNILXobu+EQ=;
+        b=TaASCC0KxZhuLZa80lLvoSYv2f4EVduSMDFU/xrcdDDlnbAL4LcBsw6zQ38TO/wN9fWXY0
+        r6iP/ToOYFIrsCp6m1zmO+0KiUQSZR5LudPEIlpM1rDP9gIzt5wWm0GtyCqv0nVes3xDJz
+        Hvi+h1FyT1dpP3XTYbXN/b7DJXrb9qY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-0Tjva_wTN6qGf-JcoOZpxg-1; Tue, 20 Jul 2021 08:27:36 -0400
+X-MC-Unique: 0Tjva_wTN6qGf-JcoOZpxg-1
+Received: by mail-wr1-f69.google.com with SMTP id h11-20020adffa8b0000b029013a357d7bdcso10256452wrr.18
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:27:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ksJ7uSYre48A5Z7zQktjRchxiOL4w4I/1HgeIzUItlA=;
-        b=WOGnaYPuCgbJ8GOovfCDNhGUDThmlOgVjGl4UDNKi8lcJEPpKItyZHixa7EmyUbXUd
-         yMK/5zdrTgVpmSZUsXJRtYM/grNmOkqD2I/2VjKJveZgRcctpf7jIvv686WmGbI0X8cx
-         ka+lkQV0rNIdsnlI8dm5ry33OfYre/UuplPHDOSjXsnyjD6unVfnuo44jtPpp2S7HS0L
-         YFU1+cx+UOmAbD3Eb1xfo2JZDZiSCTXYw5YXjED8CUMoVyZNJsTSIZYrbn9msfWkJghQ
-         j+CiazLFcbxlJIvOLRh47angR0EoeLr/W+cdpCYZy8HpXUyWORH4xpafV9nBbCPM1ytc
-         uSaQ==
-X-Gm-Message-State: AOAM530ajwQ7tX+6OJmjWVacv3trfIBFx8NY0fAdcQT3IxCJavKvS3YP
-        aYlQvtBrdg2B+ehyGEmac6JldQ==
-X-Google-Smtp-Source: ABdhPJw2SeFJ5qG/3zEIy1OkLFkh1ex3OXzZCiHOaa9CuK4hdVjKWkggxbglKSNW/nta4pdn7+Cu0A==
-X-Received: by 2002:a5d:504d:: with SMTP id h13mr35468419wrt.46.1626783750329;
-        Tue, 20 Jul 2021 05:22:30 -0700 (PDT)
-Received: from localhost ([2620:10d:c093:400::5:d571])
-        by smtp.gmail.com with ESMTPSA id b6sm2296488wmj.34.2021.07.20.05.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 05:22:29 -0700 (PDT)
-Date:   Tue, 20 Jul 2021 13:22:28 +0100
-From:   Chris Down <chris@chrisdown.name>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Petr Mladek <pmladek@suse.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warning after merge of the printk tree
-Message-ID: <YPbABBSTkN+xNY0w@chrisdown.name>
-References: <20210720162423.75f61ce0@canb.auug.org.au>
- <YPa/D8tSyk7dw1/l@chrisdown.name>
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=zCBYtfj3pc7JRRIL/IaPTOryD+0TCF0beNILXobu+EQ=;
+        b=sPN/U8jBkAsp8TgrwPQfjpQyJLazojpNHk2/lmLgcvqyQgniONQ28LG1jL9e2UZyJr
+         E5asM6R78dDZxXCINcfVjw4SdgakYJO7XsLYd5Li/beGFYGo7nmAJqB2k7frCTf+cbiL
+         59/Z17jWswKIUjMs2qB8PARx9oigGe2NeEuAfyVj7GjU6j910bPIG9SiUz1vInRImV0q
+         686wOWG2yuDo9/oEztjOO9lMoaqnYpJ+2AGYaHw/FsgZJJlFEZn2RsTUjXSnCxUCcKfY
+         rMLEW4yCsb1t1M8TwuJoRQ0mN0Wk1C3hoKGD0LtC/CFGz0In0mxwsLDh1i9Qqb+/SYCQ
+         WHPQ==
+X-Gm-Message-State: AOAM533S6aAKRurCS3jXAHhpRfOBFnMJjb+aPka7Z1BSV8dXrWRzefHb
+        QP6sdixlGSukEcaPNyczxVwZ9SxiXSeosQ+gE1erraDJnH8MO6Sq2KVnVEQD36Et3gjzhgs4iLY
+        DyIjHy3Jm62S8yKC7rwwOW3KuVeC+smVmn532UnwEt6vz0pq5dsBotn08hgSbWgBwtItW
+X-Received: by 2002:a1c:a58b:: with SMTP id o133mr31337051wme.160.1626784055368;
+        Tue, 20 Jul 2021 05:27:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoPErq8AXD17LnoOsMyHSaZoJQm3mECPqj4xPN3ZZWvqxj4dMX0J82Hf5UO8v+9IfOkYrapg==
+X-Received: by 2002:a1c:a58b:: with SMTP id o133mr31337020wme.160.1626784055158;
+        Tue, 20 Jul 2021 05:27:35 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f? (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de. [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+        by smtp.gmail.com with ESMTPSA id z13sm24131277wro.79.2021.07.20.05.27.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jul 2021 05:27:34 -0700 (PDT)
+To:     Peter Collingbourne <pcc@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>
+Cc:     Jann Horn <jannh@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20210717025757.3945742-1-pcc@google.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v5] mm: introduce reference pages
+Message-ID: <5487f28a-0a12-0789-4014-749de7fb9259@redhat.com>
+Date:   Tue, 20 Jul 2021 14:27:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6qWCzA76C1K43s0/"
-Content-Disposition: inline
-In-Reply-To: <YPa/D8tSyk7dw1/l@chrisdown.name>
-User-Agent: Mutt/2.1 (4b100969) (2021-06-12)
+In-Reply-To: <20210717025757.3945742-1-pcc@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 17.07.21 04:57, Peter Collingbourne wrote:
+> Introduce a new syscall, refpage_create, which returns a file
+> descriptor which may be mapped using mmap. Such a mapping is similar
+> to an anonymous mapping, but instead of clean pages being backed by the
+> zero page, they are instead backed by a so-called reference page, whose
+> contents are specified using an argument to refpage_create. Loads from
+> the mapping will load directly from the reference page, and initial
+> stores to the mapping will copy-on-write from the reference page.
 
---6qWCzA76C1K43s0/
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm wondering, does the target use case really require the COW 
+optimization like we have for the shared zeropage?
 
-Chris Down writes:
->+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+If we'd avoid having a reference page at all and only store the pattern, 
+we could significantly reduce the memory consumption when using a lot of 
+reference pages, especially per process multiple ones. I'm asking 
+because ...
 
-Well, let's actually Cc them this time...
+> 
+> Reference pages are useful in circumstances where anonymous mappings
+> combined with manual stores to memory would impose undesirable costs,
+> either in terms of performance or RSS. Use cases are focused on heap
+> allocators and include:
+> 
+> - Pattern initialization for the heap. This is where malloc(3) gives
+>    you memory whose contents are filled with a non-zero pattern
+>    byte, in order to help detect and mitigate bugs involving use
+>    of uninitialized memory. Typically this is implemented by having
+>    the allocator memset the allocation with the pattern byte before
+>    returning it to the user, but for large allocations this can result
+>    in a significant increase in RSS, especially for allocations that
+>    are used sparsely. Even for dense allocations there is a needless
+>    impact to startup performance when it may be better to amortize it
+>    throughout the program. By creating allocations using a reference
+>    page filled with the pattern byte, we can avoid these costs.
 
->Stephen Rothwell writes:
->>After merging the printk tree, today's linux-next build (htmldocs)
->>produced this warning:
->>
->>kernel/printk/printk.c:1: warning: 'printk' not found
->>
->>Introduced by commit
->>
->> 337015573718 ("printk: Userspace format indexing support")
->>
->>I presume that "printk" is referred to elsewhere in the documentation
->>as being in this file.
->
->Hmm, this is an interesting one, because I think we still generally=20
->just want to refer to the API as being `printk()`. Changing it all=20
->over the place seems wrong. As you'd imagine, there are quite a few=20
->references to this name, so it requires a lot of noise all over the=20
->docs and inline comments.
->
->Jonathan and other docs folks, how can one tell Sphinx that when it=20
->sees printk() it's referring to a function-like macro, or otherwise=20
->squelch this reasonably? :-)
+... I assume the first *sane* access to such a page is a write, and not 
+a read.
+
+> 
+> - Pre-tagged heap memory. Memory tagging [1] is an upcoming ARMv8.5
+>    feature which allows for memory to be tagged in order to detect
+>    certain kinds of memory errors with low overhead. In order to set
+>    up an allocation to allow memory errors to be detected, the entire
+>    allocation needs to have the same tag. The issue here is similar to
+>    pattern initialization in the sense that large tagged allocations
+>    will be expensive if the tagging is done up front. The idea is that
+>    the allocator would create reference pages with each of the possible
+>    memory tags, and use those reference pages for the large allocations.
+
+... and here as well.
+
+Having a first access being a read sound more like an actual BUG (e.g., 
+detect and mitigate bugs), which doesn't scream for needing a 
+performance improvement or sacrificing a whole (unmovable/unswappable) 
+reference page.
+
+So, what would you lose when not populating a real reference pages at 
+all and instead only populating the pattern when populating a fresh 
+page? (and populating a fresh page even on read faults)
 
 
+-- 
+Thanks,
 
---6qWCzA76C1K43s0/
-Content-Type: application/pgp-signature; name="signature.asc"
+David / dhildenb
 
------BEGIN PGP SIGNATURE-----
-
-iQKTBAEBCgB9FiEECEkprPvCOwsaJqhB340hthYRgHAFAmD2wARfFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDA4
-NDkyOUFDRkJDMjNCMEIxQTI2QTg0MURGOEQyMUI2MTYxMTgwNzAACgkQ340hthYR
-gHBJPg/9FofzESIRIFMJw31dlL3MkNdldr6Q3dhJOOcB5y9OazjDUv8wZjVaoyor
-feQz6IsjdtcWLYRzzq+42CsQEyLfRChPOBUKWJw9aQrlDlLv9bZfLGYaYlNNc77H
-naEq+gX4pNWepLcg5rFE8gVh9cQzlCYJHLIqHl/EJhN2Ql3yu34JowtTeOfbEBV8
-s4LX55PvjHbjpODD40WtENJB9t9PsT038QkoJNtRSn5TIwtoh+pyYT+jhVDBX7OV
-lhQPz8g7XUB44JdVinjX1KTfzQ1hxhycXjnh8JDqkdeeQEA7yJeGfC4rUZJVqQBe
-CcQg7Z+NJZhvySqDULxk9nvaep3r6wT1EabO6DcXmOLUfVW2MNfwLuyvnBq6cUxL
-YOE2/Annbr+YudIamxW6xoz2SndnP5RpwAOy1odqpaVDEtWi0UuWY1RD8Jo+NRUn
-sieFrKlssa6khSnGhsTok8bUqut249XKYOmVxA/wAfY6pgrXqVwoEEygombE+GLQ
-6xSn5otVN4u7KX266joNvuglAlrRBvnNiSA3u1JvlTBRkQBtSAvjfKwkEfcqGcTJ
-bpWJP3/1cx0qoXo75ldhAM1A+ItI8iQ6ndcWLwXFXqw1xCzm2rtCO1o3ovbAuFBz
-eqVd8AxOw12bSeEpZLjmtlIGNmW9G9hzq8xpsii4URyjMAu/k2Q=
-=52+O
------END PGP SIGNATURE-----
-
---6qWCzA76C1K43s0/--
