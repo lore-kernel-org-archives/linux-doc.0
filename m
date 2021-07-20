@@ -2,128 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846DCC07E95
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 04:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E3EC636C8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 05:27:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 560B36113C
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 04:50:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6B6B610F7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 05:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbhGTEJd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 00:09:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230252AbhGTEJ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 00:09:27 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFA5C061574;
-        Mon, 19 Jul 2021 21:50:05 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id m13so6302765qvh.8;
-        Mon, 19 Jul 2021 21:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0KCwtqt8RPVa9Eso0xhcH4+MB0ahASHIwEqiB7n7a5w=;
-        b=ExI7ENB8ukgzr77elToDWB2SrFD+/7IpNkujhpKZ/NwPI8Cj/HIfW3NlevvRab/BoT
-         w1fXFkSe2SfyzTTPSXu+ZQpdENhH6mRNVmg7VgyQI3v9kL0ei/WdXVIArAeTVhI6XIV8
-         L3ykF77PVYLT1sbvYUUkyyLO4urakqbXLQ4sL5kL94Vpu0hMLqG1v136oP8R/HfGBB9j
-         TB+jm4PbHkxwxmkUjQvUHDzMp7fhXYre81tkRGiepga+k1DUhPOomBNm+TzSzhWErtFG
-         Awhvix0xUFYKmBdp+MTlvHtv+mwFCZ4XNITdjy6+XJ72hwlvoXxxFhCZUiX6qFagV6ho
-         nCMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0KCwtqt8RPVa9Eso0xhcH4+MB0ahASHIwEqiB7n7a5w=;
-        b=R5e3BU+0MpNFOHDtOuryN/2lvES5Y2GegKmrgnqWA/8bNV64jhToEppsdZu/0lweLb
-         HHfO96lQahT7zGtwPH1NvtglHOjDr8UNAoj9n80X07d30/4Z9v+mYmpX3OgjXEuUyV6s
-         JXQr0PXIG4wknV9jam+/Dp8amjo3kei31MBwCtKCoD7r3tfabTxXFxcKkFv7TcI1FfZz
-         SHtaILZZkEFOcpbOUsB+i8NWQgShEBPFHgFiItu5YjBwAWCw6kaGJk5OHuyOtHpWe8CM
-         MWMG6yo7/y8zkwQvBg0ggLsJNYOCcLzN3kiCVbLWd5SHg9gfKyV5kyi8xSsHA43DX5y5
-         rwbw==
-X-Gm-Message-State: AOAM532ZeQBkx1GTBcRAUCkcFZu46bNKl5OiXaw5m1VSR5l6/oM5WyOt
-        OPzxvwf2OP5i32NYkAItxg==
-X-Google-Smtp-Source: ABdhPJzJ/HSVQtDEoPufiQVTlUd2sIL/teMWpjnl+pDgn+wffBEi8kgB5TVz4FpJRbcttbM1qHq6ew==
-X-Received: by 2002:a0c:db8a:: with SMTP id m10mr28459995qvk.29.1626756604256;
-        Mon, 19 Jul 2021 21:50:04 -0700 (PDT)
-Received: from PWN (104-9-124-193.lightspeed.sntcca.sbcglobal.net. [104.9.124.193])
-        by smtp.gmail.com with ESMTPSA id h66sm2791863qkc.47.2021.07.19.21.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 21:50:03 -0700 (PDT)
-Date:   Tue, 20 Jul 2021 00:50:00 -0400
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Joerg Roedel <jroedel@suse.de>
-Cc:     x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        id S235158AbhGTEqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 00:46:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60446 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237572AbhGTEqO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Jul 2021 00:46:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7213461004;
+        Tue, 20 Jul 2021 05:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626758810;
+        bh=wG76adtpPyP0DbYkuWx0H/oBkyeSrBGgr6j8z/70ftI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Dq0Q/Why6jwvkBtkoVsH6BX7F0I9T7TiNP53EtPYD+cDQcVPXQ8RDjjH71L5BfybA
+         E6DAbq20OTayodUXK2DrTPZV3+XMmt8bZEwJX0cfLlHurNeWN1dLiBCrXxNLL8HjUP
+         6p4Re23bWwiAG0kLYfbK1XEF2f9hlpV2gJ7lePJk=
+Date:   Tue, 20 Jul 2021 07:26:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     longli@linuxonhyperv.com
+Cc:     linux-fs@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        Long Li <longli@microsoft.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Zefang Han <hanzefang@gmail.com>,
-        Wei Lin Chang <r09922117@csie.ntu.edu.tw>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: x86: Remove obsolete information about x86_64
- vmalloc() faulting
-Message-ID: <20210720045000.GA2211@PWN>
-References: <20210622031910.141262-1-yepeilin.cs@gmail.com>
- <20210716060958.GA2197@PWN>
- <YPVxV/KdDBqgTaqE@suse.de>
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
+Subject: Re: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
+Message-ID: <YPZemNCOa6oGUa25@kroah.com>
+References: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
+ <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YPVxV/KdDBqgTaqE@suse.de>
+In-Reply-To: <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joerg,
-
-On Mon, Jul 19, 2021 at 02:34:31PM +0200, Joerg Roedel wrote:
-> On Fri, Jul 16, 2021 at 02:09:58AM -0400, Peilin Ye wrote:
-> > This information is out-of-date, and it took me quite some time of
-> > ftrace'ing before I figured it out...  I think it would be beneficial to
-> > update, or at least remove it.
-> > 
-> > As a proof that I understand what I am talking about, on my x86_64 box:
-> > 
-> >   1. I allocated a vmalloc() area containing linear address `addr`;
-> >   2. I manually pagewalked `addr` in different page tables, including
-> >      `init_mm.pgd`;
-> >   3. The corresponding PGD entries for `addr` in different page tables,
-> >      they all immediately pointed at the same PUD table (my box uses
-> >      4-level paging), at the same physical address;
-> >   4. No "lazy synchronization" via page fault handling happened at all,
-> >      since it is the same PUD table pre-allocated by
-> >      preallocate_vmalloc_pages() during boot time.
+On Mon, Jul 19, 2021 at 08:31:05PM -0700, longli@linuxonhyperv.com wrote:
+> From: Long Li <longli@microsoft.com>
 > 
-> Yes, this is the story for x86-64, because all PUD/P4D pages for the vmalloc
-> area are pre-allocated at boot. So no faulting or synchronization needs
-> to happen.
+> Azure Blob provides scalable, secure and shared storage services for Azure.
 > 
-> On x86-32 this is a bit different. Pre-allocation of PMD/PTE pages is
-> not an option there (even less when 4MB large-pages with 2-level paging
-> come into the picture).
-> 
-> So what happens there is that vmalloc related changes to the init_mm.pgd
-> are synchronized to all page-tables in the system. But this
-> synchronization is subject to race conditions in a way that another CPU
-> might vmalloc an area below a PMD which is not fully synchronized yet.
-> 
-> When this happens there is a fault, which is handled as a vmalloc()
-> fault on x86-32 just as before. So vmalloc faults still exist on 32-bit,
-> they are just less likely as they used to be.
+> This driver adds support for accelerated access to Azure Blob storage. As an
+> alternative to REST APIs, it provides a fast data path that uses host native
+> network stack and direct data link for storage server access.
 
-Thanks a lot for the information!  I will improve my commit message and
-send a v2 soon.
+Thank you for fixing up the license info, but you did not include any
+information here about how to use this, where the userspace tools are,
+nor why you are going around the existing kernel block layer and proof
+that going around the block layer is a good idea.
 
-I think for this patch, removing that out-of-date statement is
-sufficient, since mm.rst is x86-64-specific, but maybe we should
-document this behavior for x86-32 somewhere as well...
+thanks,
 
-Thank you,
-Peilin Ye
-
+greg k-h
