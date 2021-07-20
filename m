@@ -2,155 +2,278 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2243C07E95
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEF0C07E95
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:30:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F6766121F
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:28:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6B1160E0C
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237780AbhGTLrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 07:47:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32245 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236193AbhGTLrV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 07:47:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626784057;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zCBYtfj3pc7JRRIL/IaPTOryD+0TCF0beNILXobu+EQ=;
-        b=TaASCC0KxZhuLZa80lLvoSYv2f4EVduSMDFU/xrcdDDlnbAL4LcBsw6zQ38TO/wN9fWXY0
-        r6iP/ToOYFIrsCp6m1zmO+0KiUQSZR5LudPEIlpM1rDP9gIzt5wWm0GtyCqv0nVes3xDJz
-        Hvi+h1FyT1dpP3XTYbXN/b7DJXrb9qY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-0Tjva_wTN6qGf-JcoOZpxg-1; Tue, 20 Jul 2021 08:27:36 -0400
-X-MC-Unique: 0Tjva_wTN6qGf-JcoOZpxg-1
-Received: by mail-wr1-f69.google.com with SMTP id h11-20020adffa8b0000b029013a357d7bdcso10256452wrr.18
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:27:36 -0700 (PDT)
+        id S237560AbhGTLtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 07:49:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237937AbhGTLrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 07:47:53 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F93C061767;
+        Tue, 20 Jul 2021 05:28:23 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id k20so22331877pgg.7;
+        Tue, 20 Jul 2021 05:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=stcoBHILJB0+tyTprcUcPASa4vLtmUVSD29PTRic4bc=;
+        b=BcR3YMxQ8pP1Cqpjwxj/TQVCQw5t/ug/nZDIvwX9TG9ozRgYLrdU74Kxtl/D3QZxKw
+         o5ye6TC4TYx/O1JaODlQ/7SaVyfI93rCr4QU80ZgKiyy9BUCX6VF4qWFwlKCWEksTwRc
+         w3DUJ/mHwWwHy3qbinVf/ixn3Gq1I48CvS2DMVAmrkqnzZ+lvXF3vpoTm1705t0ZsqcI
+         4OkmAFsNO/DOHa+V0NxYa+QDjqaCk1WJbQCnPPVS4O+JPrkGGWeEnzv+ks8L3UD+Goqs
+         OJPbGNhfreuChew4mNyC1WzyLIsW8XHSVH2Kw8WMvegwsT1VP0MM8sXca711Ngh/tpBI
+         GqBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=zCBYtfj3pc7JRRIL/IaPTOryD+0TCF0beNILXobu+EQ=;
-        b=sPN/U8jBkAsp8TgrwPQfjpQyJLazojpNHk2/lmLgcvqyQgniONQ28LG1jL9e2UZyJr
-         E5asM6R78dDZxXCINcfVjw4SdgakYJO7XsLYd5Li/beGFYGo7nmAJqB2k7frCTf+cbiL
-         59/Z17jWswKIUjMs2qB8PARx9oigGe2NeEuAfyVj7GjU6j910bPIG9SiUz1vInRImV0q
-         686wOWG2yuDo9/oEztjOO9lMoaqnYpJ+2AGYaHw/FsgZJJlFEZn2RsTUjXSnCxUCcKfY
-         rMLEW4yCsb1t1M8TwuJoRQ0mN0Wk1C3hoKGD0LtC/CFGz0In0mxwsLDh1i9Qqb+/SYCQ
-         WHPQ==
-X-Gm-Message-State: AOAM533S6aAKRurCS3jXAHhpRfOBFnMJjb+aPka7Z1BSV8dXrWRzefHb
-        QP6sdixlGSukEcaPNyczxVwZ9SxiXSeosQ+gE1erraDJnH8MO6Sq2KVnVEQD36Et3gjzhgs4iLY
-        DyIjHy3Jm62S8yKC7rwwOW3KuVeC+smVmn532UnwEt6vz0pq5dsBotn08hgSbWgBwtItW
-X-Received: by 2002:a1c:a58b:: with SMTP id o133mr31337051wme.160.1626784055368;
-        Tue, 20 Jul 2021 05:27:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwoPErq8AXD17LnoOsMyHSaZoJQm3mECPqj4xPN3ZZWvqxj4dMX0J82Hf5UO8v+9IfOkYrapg==
-X-Received: by 2002:a1c:a58b:: with SMTP id o133mr31337020wme.160.1626784055158;
-        Tue, 20 Jul 2021 05:27:35 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f? (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de. [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
-        by smtp.gmail.com with ESMTPSA id z13sm24131277wro.79.2021.07.20.05.27.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jul 2021 05:27:34 -0700 (PDT)
-To:     Peter Collingbourne <pcc@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20210717025757.3945742-1-pcc@google.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v5] mm: introduce reference pages
-Message-ID: <5487f28a-0a12-0789-4014-749de7fb9259@redhat.com>
-Date:   Tue, 20 Jul 2021 14:27:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=stcoBHILJB0+tyTprcUcPASa4vLtmUVSD29PTRic4bc=;
+        b=S8QVZ5h2scRQ52BnAi9ZLh+Y/e7zJf1jqVXGWF8/EKqBp5RfQw+MAsVistFOLlSzq6
+         Z0q/MQoRj6xEkG5vNie9qTWOo5ZpRrsOqBeeBThrQ0mzRFUc1t0xFVSm0tIq64rpBrJz
+         xRu2G/LdgyziChcr62p98EJk5KRnaywvL8G0mIVQYV+N70c3YPSlohBo42C4gY0uF2bW
+         gDUV39RPfXgurCGfGb5bPU8yQQHx4vsMN4AckGO6/j+90ppTisYcAmCgX4vYm3lQLlcD
+         ZM7YYflSV9MfDuA15JwBgdr5So8z2nAOnYiHn0nPMKMbiraGjNukuh+BVP+Bdl9c8/sk
+         OyZg==
+X-Gm-Message-State: AOAM532LhU5J2BYRhG1bMFsV+sh9QLmFz6aMqCjaeeFu3Ht3WMkUyZ7X
+        iIS70PBBk8LUdzj5j6Hjl3Q=
+X-Google-Smtp-Source: ABdhPJyl57LLzXfefuj4/P8HCTybN3CAOFtJQo9DsSZpPzqMV37raWowdHnAZc3MoRDguHU4iLpHHw==
+X-Received: by 2002:a63:552:: with SMTP id 79mr865308pgf.239.1626784102330;
+        Tue, 20 Jul 2021 05:28:22 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id u6sm23674775pfn.31.2021.07.20.05.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 05:28:21 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     alexs@kernel.org
+Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add zh_CN/accounting/psi.rst
+Date:   Tue, 20 Jul 2021 05:28:00 -0700
+Message-Id: <20210720122800.384607-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210717025757.3945742-1-pcc@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17.07.21 04:57, Peter Collingbourne wrote:
-> Introduce a new syscall, refpage_create, which returns a file
-> descriptor which may be mapped using mmap. Such a mapping is similar
-> to an anonymous mapping, but instead of clean pages being backed by the
-> zero page, they are instead backed by a so-called reference page, whose
-> contents are specified using an argument to refpage_create. Loads from
-> the mapping will load directly from the reference page, and initial
-> stores to the mapping will copy-on-write from the reference page.
+From: Yang Yang <yang.yang29@zte.com.cn>
 
-I'm wondering, does the target use case really require the COW 
-optimization like we have for the shared zeropage?
+Add translation zh_CN/accounting/psi.rst and zh_CN/accounting/index.rst.
 
-If we'd avoid having a reference page at all and only store the pattern, 
-we could significantly reduce the memory consumption when using a lot of 
-reference pages, especially per process multiple ones. I'm asking 
-because ...
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+ .../translations/zh_CN/accounting/index.rst   |  21 +++
+ .../translations/zh_CN/accounting/psi.rst     | 157 ++++++++++++++++++
+ 2 files changed, 178 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/accounting/index.rst
+ create mode 100644 Documentation/translations/zh_CN/accounting/psi.rst
 
-> 
-> Reference pages are useful in circumstances where anonymous mappings
-> combined with manual stores to memory would impose undesirable costs,
-> either in terms of performance or RSS. Use cases are focused on heap
-> allocators and include:
-> 
-> - Pattern initialization for the heap. This is where malloc(3) gives
->    you memory whose contents are filled with a non-zero pattern
->    byte, in order to help detect and mitigate bugs involving use
->    of uninitialized memory. Typically this is implemented by having
->    the allocator memset the allocation with the pattern byte before
->    returning it to the user, but for large allocations this can result
->    in a significant increase in RSS, especially for allocations that
->    are used sparsely. Even for dense allocations there is a needless
->    impact to startup performance when it may be better to amortize it
->    throughout the program. By creating allocations using a reference
->    page filled with the pattern byte, we can avoid these costs.
-
-... I assume the first *sane* access to such a page is a write, and not 
-a read.
-
-> 
-> - Pre-tagged heap memory. Memory tagging [1] is an upcoming ARMv8.5
->    feature which allows for memory to be tagged in order to detect
->    certain kinds of memory errors with low overhead. In order to set
->    up an allocation to allow memory errors to be detected, the entire
->    allocation needs to have the same tag. The issue here is similar to
->    pattern initialization in the sense that large tagged allocations
->    will be expensive if the tagging is done up front. The idea is that
->    the allocator would create reference pages with each of the possible
->    memory tags, and use those reference pages for the large allocations.
-
-... and here as well.
-
-Having a first access being a read sound more like an actual BUG (e.g., 
-detect and mitigate bugs), which doesn't scream for needing a 
-performance improvement or sacrificing a whole (unmovable/unswappable) 
-reference page.
-
-So, what would you lose when not populating a real reference pages at 
-all and instead only populating the pattern when populating a fresh 
-page? (and populating a fresh page even on read faults)
-
-
+diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
+new file mode 100644
+index 000000000000..6a63714bf3fb
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/index.rst
+@@ -0,0 +1,21 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/accounting/index.rst
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
++
++.. _cn_accounting_index:
++
++==========
++计数
++==========
++
++.. toctree::
++   :maxdepth: 1
++
++   cgroupstats
++   delay-accounting
++   psi
++   taskstats
++   taskstats-struct
+diff --git a/Documentation/translations/zh_CN/accounting/psi.rst b/Documentation/translations/zh_CN/accounting/psi.rst
+new file mode 100644
+index 000000000000..836e4c6c5759
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/psi.rst
+@@ -0,0 +1,157 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/accounting/psi.rst
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
++
++.. _cn_psi:
++
++================================
++PSI——压力阻塞信息
++================================
++
++:Date: April, 2018
++:Author: Johannes Weiner <hannes@cmpxchg.org>
++
++当CPU、memory或IO设备处于竞争状态，业务负载会遭受时延毛刺、吞吐量降低，
++及面临OOM的风险。
++
++如果没有一种准确的方法度量系统竞争程度，则有两种后果：一种是用户过于克制，
++未充分利用系统资源；另一种是过度使用，经常性面临业务中断的风险。
++
++psi特性能够识别和量化资源竞争导致的业务中断，及其对复杂负载乃至整个系统在
++时间上的影响。
++
++准确度量因资源不足造成的生产力损失，有助于用户基于硬件调整业务负载发，或基
++于业务负载配置硬件。
++
++psi能够实时的提供相关信息，因此系统可基于psi实现动态的负载管理。如实施
++卸载、迁移、策略性的停止或杀死低优先级或可重启的批处理任务。
++
++psi帮助用户实现硬件资源利用率的最大化。同时无需牺牲业务负载健康度，也无需
++面临OOM等造成业务中断的风险。
++
++压力接口
++==================
++
++压力信息可通过/proc/pressure/ --cpu、memory、io文件分别获取。
++
++CPU相关信息格式如下：
++
++        some avg10=0.00 avg60=0.00 avg300=0.00 total=0
++
++内存和IO相关信息如下：
++
++        some avg10=0.00 avg60=0.00 avg300=0.00 total=0
++        full avg10=0.00 avg60=0.00 avg300=0.00 total=0
++
++some行代表至少有一个任务阻塞于特定资源的时间占比。
++
++full行代表所有非idle任务同时阻塞于特定资源的时间占比。在这种状态下CPU资源
++完全被浪费，相对于正常运行，业务负载由于耗费更多时间等待而受到严重影响。
++
++此情况严重影响系统性能，清楚的识别本情况并与some行所代表的情况区分开，将
++有助于分析及提升系统性能。这就是full独立于some行的原因。
++
++avg代表阻塞时间占比（百分比），为最近10秒、60秒、300秒内的均值。这样我们
++既可观察到短期事件的影响，也可看到中等及长时间内的趋势。total代表总阻塞
++时间（单位微秒），可用于观察时延毛刺，这种毛刺可能在均值中无法体现。
++
++监控压力门限
++==================================
++
++用户可注册触发器，通过poll()监控资源压力是否超过门限。
++
++触发器定义：指定时间窗口期内累积阻塞时间的最大值。比如可定义500ms内积累
++100ms阻塞，即触发一次唤醒事件。
++
++触发器注册方法：用户打开代表特定资源的psi接口文件，写入门限、时间窗口的值。
++所打开的文件描述符用于等待事件，可使用select()、poll()、epoll()。
++写入信息的格式如下：
++
++        <some|full> <stall amount in us> <time window in us>
++
++示例：向/proc/pressure/memory写入"some 150000 1000000"将新增触发器，将在
++1秒内至少一个任务阻塞于内存的总时间超过150ms时触发。向/proc/pressure/io写入
++"full 50000 1000000"将新增触发器，将在1秒内所有任务都阻塞于io的总时间超过50ms时触发。
++
++触发器可针对多个psi度量值设置，同一个psi度量值可设置多个触发器。每个触发器需要
++单独的文件描述符用于轮询，以区分于其他触发器。所以即使对于同一个psi接口文件，
++每个触发器也需要单独的调用open()。
++
++监控器在被监控资源进入阻塞状态时启动，在系统退出阻塞状态后停用。系统进入阻塞
++状态后，监控psi增长的频率为每监控窗口刷新10次。
++
++内核接受的窗口为500ms~10s，所以监控间隔为50ms~1s。设置窗口下限目的是为了
++防止过于频繁的轮询。设置窗口上限的目的是因为窗口过长则无意义，此时查看
++psi接口提供的均值即可。
++
++监控器在激活后，至少在跟踪窗口期间将保持活动状态。以避免随着系统进入和退出
++阻塞状态，监控器过于频繁的进入和退出活动状态。
++
++用户态通知在监控窗口内会受到速率限制。当对应的文件描述符关闭，触发器会自动注销。
++
++用户态监控器使用示例
++===============================
++
++::
++
++  #include <errno.h>
++  #include <fcntl.h>
++  #include <stdio.h>
++  #include <poll.h>
++  #include <string.h>
++  #include <unistd.h>
++
++  /*
++   * Monitor memory partial stall with 1s tracking window size
++   * and 150ms threshold.
++   */
++  int main() {
++        const char trig[] = "some 150000 1000000";
++        struct pollfd fds;
++        int n;
++
++        fds.fd = open("/proc/pressure/memory", O_RDWR | O_NONBLOCK);
++        if (fds.fd < 0) {
++                printf("/proc/pressure/memory open error: %s\n",
++                        strerror(errno));
++                return 1;
++        }
++        fds.events = POLLPRI;
++
++        if (write(fds.fd, trig, strlen(trig) + 1) < 0) {
++                printf("/proc/pressure/memory write error: %s\n",
++                        strerror(errno));
++                return 1;
++        }
++
++        printf("waiting for events...\n");
++        while (1) {
++                n = poll(&fds, 1, -1);
++                if (n < 0) {
++                        printf("poll error: %s\n", strerror(errno));
++                        return 1;
++                }
++                if (fds.revents & POLLERR) {
++                        printf("got POLLERR, event source is gone\n");
++                        return 0;
++                }
++                if (fds.revents & POLLPRI) {
++                        printf("event triggered!\n");
++                } else {
++                        printf("unknown event received: 0x%x\n", fds.revents);
++                        return 1;
++                }
++        }
++
++        return 0;
++  }
++
++Cgroup2接口
++=================
++
++对于CONFIG_CGROUP=y及挂载了cgroup2文件系统的系统，能够获取cgroups内任务的psi。
++此场景下cgroupfs挂载点的子目录包含cpu.pressure、memory.pressure、io.pressure文件，
++内容格式与/proc/pressure/下的文件相同。
++
++可设置基于cgroup的psi监控器，方法与系统级psi监控器相同。
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
