@@ -2,160 +2,865 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25619C07E9B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 03:03:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70000C07E9B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 03:33:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CF1A6108B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 03:03:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 546C16113C
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 03:33:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344143AbhGTCWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 22:22:24 -0400
-Received: from mail-dm6nam12on2068.outbound.protection.outlook.com ([40.107.243.68]:11712
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243997AbhGSVuz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Jul 2021 17:50:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZnIGC4jb8rpFsVEQJETK5GlWErzgAVDTSWlkV7p7/2SIU6mVS9nbfxCZ3BtICfNfI+YTOHkxIo216/1imU8IjemxP3+RrEaolWOTTZhfX+aatR1kMYSRnUmpMtL/UCpr2tJE6QPBFLOmhArBCZGergs9G8MGBpMjlXB0G1lZkPkx+7QbBub7ZnlJ1CbzAabotp6oQM/gmQ8ihHYIe0wMrpWTS3vTP8+jaaBxprhUry+aVb7QRe9iwtdhakqrpuYb7xMmSe4P/ophRhczR4I7ZdhFgNDY5PJ7JzoOFA2W4VMvpudYtQestCkVpExt4INx+g+M5fKs/Uhc7ZmVIMGqzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EK3lkH3Styyzi74ukxtOsX/Eq7LWwvEwClUNqqEeIiE=;
- b=F+fO1uyTgffmV0WlrZ7br6Ly/Ch08zLnqb+WHXPifghq61ydAyWT9jy6JMCb9xlrrrH1FxIseBrRBA1V3qBUTCNbDbOwsXglrxV6pec5JR9TZW02+J8OJ+P03ny21y7obqv12+OYsJ+auwz7/m6Xp8kp7V7z0bf9nVBCk0Ybpw2pd/LlVTPv4L0IJy6X+6GZhAjo2bPW/poNbhWle6iIXXYreMEHPi8nfz2DKd77z6mHooQ/w1lMD4ag714X+Y2TBpcSiHVpKcBjpJD5O14JaljSeTyM+UIeMPY0tkMiV1ttp5APWMg0cJKg2NNFN1T99vjx8aPGn2hj3ggNmTPkNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux-foundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=none pct=100)
- action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EK3lkH3Styyzi74ukxtOsX/Eq7LWwvEwClUNqqEeIiE=;
- b=rXEZto9PGxLEq+br/xOATT+oj0uaeTAgMKgK4IH9dbMBipf3+MIbd7DK+yrg9xx9Rvaqemq5uvOjo5N/71u/kCNyE7ZUDLovaK4xqLEOGmh8iMFP1LsBRbEK2LnYMIqMl/DnWhr5NPaFGnbWhpGzn4LhEivgJIX5jZirCdRFDI5g4ALuFSQ89ocSBc46i6gGGd9qZtlasH7lYPyUxzVuA3YGXcsTtgdFHCIrl+HCeQfCWs0Mvjr0WU/bngog4Y88t3IpCjzGuSDrEflGSVYn1yQDukg7BudYPlSzrecO59I/n4I8HOu95zsLfc+SHYgnHrdktpXyoFISHmOX6n6TIA==
-Received: from MW4PR04CA0234.namprd04.prod.outlook.com (2603:10b6:303:87::29)
- by BY5PR12MB5509.namprd12.prod.outlook.com (2603:10b6:a03:1d7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
- 2021 22:31:33 +0000
-Received: from CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::fc) by MW4PR04CA0234.outlook.office365.com
- (2603:10b6:303:87::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Mon, 19 Jul 2021 22:31:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux-foundation.org; dkim=none (message not
- signed) header.d=none;linux-foundation.org; dmarc=pass action=none
- header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT048.mail.protection.outlook.com (10.13.175.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 22:31:33 +0000
-Received: from [10.2.84.248] (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 19 Jul
- 2021 22:30:47 +0000
-Subject: Re: [PATCH v4] mm: introduce reference pages
-To:     Peter Collingbourne <pcc@google.com>,
-        David Hildenbrand <david@redhat.com>
-CC:     Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Michal Hocko <mhocko@kernel.org>, Jann Horn <jannh@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20210619092002.1791322-1-pcc@google.com>
- <30e92457-d540-159c-4c4e-0b8f0d2a1838@redhat.com>
- <CAMn1gO529Ua1LJBM=vdwT8Cz+CXSvJcuGhuqotSuiUyjTBDfAQ@mail.gmail.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <5359583b-6acf-4db4-b036-ff1a538dced5@nvidia.com>
-Date:   Mon, 19 Jul 2021 15:30:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAMn1gO529Ua1LJBM=vdwT8Cz+CXSvJcuGhuqotSuiUyjTBDfAQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a988364f-a59c-4a05-bffa-08d94b04f647
-X-MS-TrafficTypeDiagnostic: BY5PR12MB5509:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB55098A1E6F337DAEA41BFFF1A8E19@BY5PR12MB5509.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nSb5FCGZhkV0bxxEOqV9sQTZp3d0eh8mrJaijNuO7QgvCNlOdXI1JwDRDFw+i1gaf0eGb1N8ie/tGCiA1z8uErwn6QmiEZadonILPHQdmUl350df7cipF9kF9yH2kWWGl2J2nJJFilF7FtpL8J9ezgNFORB+ZaIf3Bi5gW+abJhpXCm5X/4UkwBTxnLFUymxezjeeHvf16xW5siqjOflK6BLdOa987QvAR1cmcwFxRXed7vpljBNfOFh9u2mei0J3RlH16lZQR+Zsc5CHQEWNhCI5256QrS6a/BictESsFPucFe+xY1GTPmPAZUPxM7wybfBesuc3K4wP0UxngMfhUQZVXCngqrehPWGbPgLOYqspXqPWo0sT9JqvVDOv3K0nxXeieUB0pfsRvfMmnrwWJigS5PJjENuoJaQyoFQBIn5AT3fv877h9nLRaMu2uab8jxkGFqUPfo8bivqG8UFvBc8j3sssYvL05BDN2UIgmyHK9rYoCmEmOE5Anc+KJWL9jHFuFGBKJdw2RlZc1mAuV6hHuR8WR5woOrsZZfbGb9NLgbDRwNz2ZqwZYhOKpMASpDQfndEcMPYhSyFxqR0FawZm+c8Ok+OKOwJHGd58dszXTDTWjaDMRMHH9Iorn5zktktOk6ROGMM8WjBhYhy/vzVReSI16MovBYQVjnhu2W12lYS+OsMJGtXHa2tm0w1iGZzubWxhPnthJQ2rR6hP+NaFc+RUHB8OPfjs9PrX/A=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(46966006)(36840700001)(186003)(478600001)(16526019)(53546011)(2906002)(8676002)(26005)(86362001)(336012)(31696002)(426003)(4326008)(5660300002)(2616005)(8936002)(7416002)(7636003)(31686004)(110136005)(70206006)(70586007)(54906003)(36756003)(82310400003)(16576012)(36906005)(316002)(82740400003)(47076005)(356005)(36860700001)(83380400001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 22:31:33.1686
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a988364f-a59c-4a05-bffa-08d94b04f647
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB5509
+        id S233549AbhGTCxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 22:53:00 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:40666 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344805AbhGTCvD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 22:51:03 -0400
+Received: by linux.microsoft.com (Postfix, from userid 1004)
+        id 5AFA820B6C50; Mon, 19 Jul 2021 20:31:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5AFA820B6C50
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
+        s=default; t=1626751902;
+        bh=xKpUq+4MWjjLXaR5yNmZ36ioRzUBXaj2O4klpaj34qc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S0YyddiCjKZwQxGrBVsv5a7OSKosKO20EiZP4uKdGXx7ebbODEPfA3Qy1AFgrYWKU
+         BHh07FbocHvW1tUUN7pQv26nmJ2bqawU78vfSGMT144OGiWd7QwkJ4YUQG++OZtqn3
+         L1qNKYi0D6M66Qzjtt2+lln0UDOh4Ae04wBygf3M=
+From:   longli@linuxonhyperv.com
+To:     linux-fs@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     Long Li <longli@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
+Subject: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
+Date:   Mon, 19 Jul 2021 20:31:05 -0700
+Message-Id: <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
+References: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/19/21 3:26 PM, Peter Collingbourne wrote:
-...
->>> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
->>> index 55b2ec1f965a..ae3c763eb9e9 100644
->>> --- a/include/linux/gfp.h
->>> +++ b/include/linux/gfp.h
->>> @@ -55,8 +55,9 @@ struct vm_area_struct;
->>>    #define ___GFP_ACCOUNT              0x400000u
->>>    #define ___GFP_ZEROTAGS             0x800000u
->>>    #define ___GFP_SKIP_KASAN_POISON    0x1000000u
->>> +#define ___GFP_NOZERO                0x2000000u
->>
->> Oh god, please no. We've discussed this a couple of times already:
->> whatever leaves the page allcoator shall be zeroed. No exceptions, not
->> even for other allocators (like hugetlb).
->>
->> Introducing something like that to the whole system, including random
->> drivers, destroys the whole purpose of the security feature. Please
->> don't burry something so controversial in your patch.
-> 
-> Got it -- I was unaware that this was controversial.
-> 
-> Avoiding the double initialization does help a bit in benchmarks, at
-> least for the fully faulted case. The alternative approach that I was
-> thinking of was to somehow plumb the required pattern into the page
-> allocator (which would maintain the invariant that the pages are
-> initialized, but not necessarily with zeroes), but this would require
-> touching several layers of the allocator.  I suppose that this doesn't
+From: Long Li <longli@microsoft.com>
 
-That sounds right.
+Azure Blob provides scalable, secure and shared storage services for Azure.
 
-> need to be done immediately though -- we can deal with the double
-> initialization for now and avoid it somehow in a followup.
-> 
+This driver adds support for accelerated access to Azure Blob storage. As an
+alternative to REST APIs, it provides a fast data path that uses host native
+network stack and direct data link for storage server access.
 
-Actually, I'd encourage going straight to the final result, in this
-case. It's good to see what we are going to end up with, and figure
-out if it's worth the trade-offs.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Ben Widawsky <ben.widawsky@intel.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: Andra Paraschiv <andraprs@amazon.com>
+Cc: Siddharth Gupta <sidgup@codeaurora.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Long Li <longli@microsoft.com>
+---
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ drivers/hv/Kconfig                            |  11 +
+ drivers/hv/Makefile                           |   1 +
+ drivers/hv/channel_mgmt.c                     |   7 +
+ drivers/hv/hv_azure_blob.c                    | 628 ++++++++++++++++++
+ include/linux/hyperv.h                        |   9 +
+ include/uapi/misc/hv_azure_blob.h             |  34 +
+ 7 files changed, 692 insertions(+)
+ create mode 100644 drivers/hv/hv_azure_blob.c
+ create mode 100644 include/uapi/misc/hv_azure_blob.h
 
-
-thanks,
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 9bfc2b510c64..1ee8c0c7bd2e 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -180,6 +180,8 @@ Code  Seq#    Include File                                           Comments
+ 'R'   01     linux/rfkill.h                                          conflict!
+ 'R'   C0-DF  net/bluetooth/rfcomm.h
+ 'R'   E0     uapi/linux/fsl_mc.h
++'R'   F0-FF  uapi/misc/hv_azure_blob.h                               Microsoft Azure Blob driver
++                                                                     <mailto:longli@microsoft.com>
+ 'S'   all    linux/cdrom.h                                           conflict!
+ 'S'   80-81  scsi/scsi_ioctl.h                                       conflict!
+ 'S'   82-FF  scsi/scsi.h                                             conflict!
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 66c794d92391..53bebd0ad812 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -27,4 +27,15 @@ config HYPERV_BALLOON
+ 	help
+ 	  Select this option to enable Hyper-V Balloon driver.
+ 
++config HYPERV_AZURE_BLOB
++	tristate "Microsoft Azure Blob driver"
++	depends on HYPERV && X86_64
++	help
++	  Select this option to enable Microsoft Azure Blob driver.
++
++	  This driver implements a fast datapath over Hyper-V to support
++	  accelerated access to Microsoft Azure Blob services.
++	  To compile this driver as a module, choose M here. The module will be
++	  called azure_blob.
++
+ endmenu
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 94daf8240c95..272644532245 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
+ obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
+ obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
++obj-$(CONFIG_HYPERV_AZURE_BLOB)	+= hv_azure_blob.o
+ 
+ CFLAGS_hv_trace.o = -I$(src)
+ CFLAGS_hv_balloon.o = -I$(src)
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 705e95d7a040..3095611045b5 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -154,6 +154,13 @@ const struct vmbus_device vmbus_devs[] = {
+ 	  .allowed_in_isolated = false,
+ 	},
+ 
++	/* Azure Blob */
++	{ .dev_type = HV_AZURE_BLOB,
++	  HV_AZURE_BLOB_GUID,
++	  .perf_device = false,
++	  .allowed_in_isolated = false,
++	},
++
+ 	/* Unknown GUID */
+ 	{ .dev_type = HV_UNKNOWN,
+ 	  .perf_device = false,
+diff --git a/drivers/hv/hv_azure_blob.c b/drivers/hv/hv_azure_blob.c
+new file mode 100644
+index 000000000000..04bec92aa058
+--- /dev/null
++++ b/drivers/hv/hv_azure_blob.c
+@@ -0,0 +1,628 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2021 Microsoft Corporation. */
++
++#include <uapi/misc/hv_azure_blob.h>
++#include <linux/module.h>
++#include <linux/device.h>
++#include <linux/slab.h>
++#include <linux/cred.h>
++#include <linux/debugfs.h>
++#include <linux/pagemap.h>
++#include <linux/hyperv.h>
++#include <linux/miscdevice.h>
++#include <linux/uio.h>
++
++struct az_blob_device {
++	struct hv_device *device;
++
++	/* Opened files maintained by this device */
++	struct list_head file_list;
++	/* Lock for protecting file_list */
++	spinlock_t file_lock;
++
++	/* The refcount for this device */
++	refcount_t count;
++
++	/* Pending requests to VSP */
++	atomic_t pending;
++	wait_queue_head_t waiting_to_drain;
++
++	bool removing;
++};
++
++/* VSP messages */
++enum az_blob_vsp_request_type {
++	AZ_BLOB_DRIVER_REQUEST_FIRST     = 0x100,
++	AZ_BLOB_DRIVER_USER_REQUEST      = 0x100,
++	AZ_BLOB_DRIVER_REGISTER_BUFFER   = 0x101,
++	AZ_BLOB_DRIVER_DEREGISTER_BUFFER = 0x102,
++};
++
++/* VSC->VSP request */
++struct az_blob_vsp_request {
++	u32 version;
++	u32 timeout_ms;
++	u32 data_buffer_offset;
++	u32 data_buffer_length;
++	u32 data_buffer_valid;
++	u32 operation_type;
++	u32 request_buffer_offset;
++	u32 request_buffer_length;
++	u32 response_buffer_offset;
++	u32 response_buffer_length;
++	guid_t transaction_id;
++} __packed;
++
++/* VSP->VSC response */
++struct az_blob_vsp_response {
++	u32 length;
++	u32 error;
++	u32 response_len;
++} __packed;
++
++struct az_blob_vsp_request_ctx {
++	struct list_head list;
++	struct completion wait_vsp;
++	struct az_blob_request_sync *request;
++};
++
++struct az_blob_file_ctx {
++	struct list_head list;
++
++	/* List of pending requests to VSP */
++	struct list_head vsp_pending_requests;
++	/* Lock for protecting vsp_pending_requests */
++	spinlock_t vsp_pending_lock;
++	wait_queue_head_t wait_vsp_pending;
++
++	pid_t pid;
++
++	struct az_blob_device *dev;
++};
++
++/* The maximum number of pages we can pass to VSP in a single packet */
++#define AZ_BLOB_MAX_PAGES 8192
++
++static struct az_blob_device *az_blob_dev;
++#define AZ_DEV (&az_blob_dev->device->device)
++
++/* Ring buffer size in bytes */
++#define AZ_BLOB_RING_SIZE (128 * 1024)
++
++/* System wide device queue depth */
++#define AZ_BLOB_QUEUE_DEPTH 1024
++
++/* The VSP protocol version this driver understands */
++#define VSP_PROTOCOL_VERSION_V1 0
++
++static const struct hv_vmbus_device_id id_table[] = {
++	{ HV_AZURE_BLOB_GUID,
++	  .driver_data = 0
++	},
++	{ },
++};
++
++static void az_blob_on_channel_callback(void *context)
++{
++	struct vmbus_channel *channel = (struct vmbus_channel *)context;
++	const struct vmpacket_descriptor *desc;
++
++	foreach_vmbus_pkt(desc, channel) {
++		struct az_blob_vsp_request_ctx *request_ctx;
++		struct az_blob_vsp_response *response;
++		u64 cmd_rqst = vmbus_request_addr(&channel->requestor,
++						  desc->trans_id);
++		if (cmd_rqst == VMBUS_RQST_ERROR) {
++			dev_err(AZ_DEV, "incorrect transaction id %llu\n",
++				desc->trans_id);
++			continue;
++		}
++		request_ctx = (struct az_blob_vsp_request_ctx *)cmd_rqst;
++		response = hv_pkt_data(desc);
++
++		dev_dbg(AZ_DEV, "got response for request %pUb status %u "
++			    "response_len %u\n",
++			    &request_ctx->request->guid, response->error,
++			    response->response_len);
++		request_ctx->request->response.status = response->error;
++		request_ctx->request->response.response_len =
++			response->response_len;
++		complete(&request_ctx->wait_vsp);
++	}
++}
++
++static int az_blob_fop_open(struct inode *inode, struct file *file)
++{
++	struct az_blob_device *dev = az_blob_dev;
++	struct az_blob_file_ctx *file_ctx;
++	unsigned long flags;
++
++	file_ctx = kzalloc(sizeof(*file_ctx), GFP_KERNEL);
++	if (!file_ctx)
++		return -ENOMEM;
++
++	file_ctx->pid = task_tgid_vnr(current);
++	INIT_LIST_HEAD(&file_ctx->vsp_pending_requests);
++	init_waitqueue_head(&file_ctx->wait_vsp_pending);
++	spin_lock_init(&file_ctx->vsp_pending_lock);
++	file_ctx->dev = dev;
++	refcount_inc(&dev->count);
++
++	spin_lock_irqsave(&dev->file_lock, flags);
++	list_add_tail(&file_ctx->list, &dev->file_list);
++	spin_unlock_irqrestore(&dev->file_lock, flags);
++
++	file->private_data = file_ctx;
++	return 0;
++}
++
++static int az_blob_fop_release(struct inode *inode, struct file *file)
++{
++	struct az_blob_file_ctx *file_ctx = file->private_data;
++	struct az_blob_device *dev = file_ctx->dev;
++	unsigned long flags;
++
++	wait_event(file_ctx->wait_vsp_pending,
++		   list_empty(&file_ctx->vsp_pending_requests));
++
++	spin_lock_irqsave(&dev->file_lock, flags);
++	list_del(&file_ctx->list);
++	spin_unlock_irqrestore(&dev->file_lock, flags);
++
++	kfree(file_ctx);
++	if (refcount_dec_and_test(&dev->count))
++		kfree(dev);
++
++	return 0;
++}
++
++static inline bool az_blob_safe_file_access(struct file *file)
++{
++	return file->f_cred == current_cred() && !uaccess_kernel();
++}
++
++/* Pin the user buffer pages into memory for passing to VSP */
++static int get_buffer_pages(int rw, void __user *buffer, u32 buffer_len,
++			    struct page ***ppages, size_t *start,
++			    size_t *num_pages)
++{
++	struct iovec iov;
++	struct iov_iter iter;
++	int ret;
++	ssize_t result;
++	struct page **pages;
++
++	ret = import_single_range(rw, buffer, buffer_len, &iov, &iter);
++	if (ret) {
++		dev_dbg(AZ_DEV, "request buffer access error %d\n", ret);
++		return ret;
++	}
++
++	result = iov_iter_get_pages_alloc(&iter, &pages, buffer_len, start);
++	if (result < 0) {
++		dev_dbg(AZ_DEV, "failed to pin user pages result=%ld\n", result);
++		return result;
++	}
++
++	*num_pages = (result + *start + PAGE_SIZE - 1) / PAGE_SIZE;
++	if (result != buffer_len) {
++		dev_dbg(AZ_DEV, "can't pin user pages requested %d got %ld\n",
++			buffer_len, result);
++		for (i = 0; i < *num_pages; i++)
++			put_page(pages[i]);
++		kvfree(pages);
++		return -EFAULT;
++	}
++
++	*ppages = pages;
++	return 0;
++}
++
++static void fill_in_page_buffer(u64 *pfn_array, int *index,
++				struct page **pages, unsigned long num_pages)
++{
++	int i, page_idx = *index;
++
++	for (i = 0; i < num_pages; i++)
++		pfn_array[page_idx++] = page_to_pfn(pages[i]);
++	*index = page_idx;
++}
++
++static void free_buffer_pages(size_t num_pages, struct page **pages)
++{
++	unsigned long i;
++
++	for (i = 0; i < num_pages; i++)
++		if (pages && pages[i])
++			put_page(pages[i]);
++	kvfree(pages);
++}
++
++static long az_blob_ioctl_user_request(struct file *filp, unsigned long arg)
++{
++	struct az_blob_file_ctx *file_ctx = filp->private_data;
++	struct az_blob_device *dev = file_ctx->dev;
++	struct az_blob_request_sync __user *request_user =
++		(struct az_blob_request_sync __user *)arg;
++	struct az_blob_request_sync request;
++	struct az_blob_vsp_request_ctx request_ctx;
++	unsigned long flags;
++	int ret;
++	size_t request_start, request_num_pages = 0;
++	size_t response_start, response_num_pages = 0;
++	size_t data_start, data_num_pages = 0, total_num_pages;
++	struct page **request_pages = NULL, **response_pages = NULL;
++	struct page **data_pages = NULL;
++	struct vmbus_packet_mpb_array *desc;
++	u64 *pfn_array;
++	int desc_size;
++	int page_idx;
++	struct az_blob_vsp_request *vsp_request;
++
++	/* Fast fail if device is being removed */
++	if (dev->removing)
++		return -ENODEV;
++
++	if (!az_blob_safe_file_access(filp)) {
++		dev_dbg(AZ_DEV, "process %d(%s) changed security contexts after"
++			    " opening file descriptor\n",
++			    task_tgid_vnr(current), current->comm);
++		return -EACCES;
++	}
++
++	if (copy_from_user(&request, request_user, sizeof(request))) {
++		dev_dbg(AZ_DEV, "don't have permission to user provided buffer\n");
++		return -EFAULT;
++	}
++
++	dev_dbg(AZ_DEV, "az_blob ioctl request guid %pUb timeout %u request_len %u"
++		    " response_len %u data_len %u request_buffer %llx "
++		    "response_buffer %llx data_buffer %llx\n",
++		    &request.guid, request.timeout, request.request_len,
++		    request.response_len, request.data_len, request.request_buffer,
++		    request.response_buffer, request.data_buffer);
++
++	if (!request.request_len || !request.response_len)
++		return -EINVAL;
++
++	if (request.data_len && request.data_len < request.data_valid)
++		return -EINVAL;
++
++	if (request.data_len > PAGE_SIZE * AZ_BLOB_MAX_PAGES ||
++	    request.request_len > PAGE_SIZE * AZ_BLOB_MAX_PAGES ||
++	    request.response_len > PAGE_SIZE * AZ_BLOB_MAX_PAGES)
++		return -EINVAL;
++
++	init_completion(&request_ctx.wait_vsp);
++	request_ctx.request = &request;
++
++	ret = get_buffer_pages(READ, (void __user *)request.request_buffer,
++			       request.request_len, &request_pages,
++			       &request_start, &request_num_pages);
++	if (ret)
++		goto get_user_page_failed;
++
++	ret = get_buffer_pages(READ | WRITE,
++			       (void __user *)request.response_buffer,
++			       request.response_len, &response_pages,
++			       &response_start, &response_num_pages);
++	if (ret)
++		goto get_user_page_failed;
++
++	if (request.data_len) {
++		ret = get_buffer_pages(READ | WRITE,
++				       (void __user *)request.data_buffer,
++				       request.data_len, &data_pages,
++				       &data_start, &data_num_pages);
++		if (ret)
++			goto get_user_page_failed;
++	}
++
++	total_num_pages = request_num_pages + response_num_pages +
++				data_num_pages;
++	if (total_num_pages > AZ_BLOB_MAX_PAGES) {
++		dev_dbg(AZ_DEV, "number of DMA pages %lu buffer exceeding %u\n",
++			total_num_pages, AZ_BLOB_MAX_PAGES);
++		ret = -EINVAL;
++		goto get_user_page_failed;
++	}
++
++	/* Construct a VMBUS packet and send it over to VSP */
++	desc_size = struct_size(desc, range.pfn_array, total_num_pages);
++	desc = kzalloc(desc_size, GFP_KERNEL);
++	vsp_request = kzalloc(sizeof(*vsp_request), GFP_KERNEL);
++	if (!desc || !vsp_request) {
++		kfree(desc);
++		kfree(vsp_request);
++		ret = -ENOMEM;
++		goto get_user_page_failed;
++	}
++
++	desc->range.offset = 0;
++	desc->range.len = total_num_pages * PAGE_SIZE;
++	pfn_array = desc->range.pfn_array;
++	page_idx = 0;
++
++	if (request.data_len) {
++		fill_in_page_buffer(pfn_array, &page_idx, data_pages,
++				    data_num_pages);
++		vsp_request->data_buffer_offset = data_start;
++		vsp_request->data_buffer_length = request.data_len;
++		vsp_request->data_buffer_valid = request.data_valid;
++	}
++
++	fill_in_page_buffer(pfn_array, &page_idx, request_pages,
++			    request_num_pages);
++	vsp_request->request_buffer_offset = request_start +
++						data_num_pages * PAGE_SIZE;
++	vsp_request->request_buffer_length = request.request_len;
++
++	fill_in_page_buffer(pfn_array, &page_idx, response_pages,
++			    response_num_pages);
++	vsp_request->response_buffer_offset = response_start +
++		(data_num_pages + request_num_pages) * PAGE_SIZE;
++	vsp_request->response_buffer_length = request.response_len;
++
++	vsp_request->version = VSP_PROTOCOL_VERSION_V1;
++	vsp_request->timeout_ms = request.timeout;
++	vsp_request->operation_type = AZ_BLOB_DRIVER_USER_REQUEST;
++	guid_copy(&vsp_request->transaction_id, &request.guid);
++
++	spin_lock_irqsave(&file_ctx->vsp_pending_lock, flags);
++	list_add_tail(&request_ctx.list, &file_ctx->vsp_pending_requests);
++	spin_unlock_irqrestore(&file_ctx->vsp_pending_lock, flags);
++
++	atomic_inc(&dev->pending);
++
++	/* Check if device is being removed */
++	if (dev->removing) {
++		ret = -ENODEV;
++		goto vmbus_send_failed;
++	}
++
++	ret = vmbus_sendpacket_mpb_desc(dev->device->channel, desc, desc_size,
++					vsp_request, sizeof(*vsp_request),
++					(u64)&request_ctx);
++
++	kfree(desc);
++	kfree(vsp_request);
++	if (ret)
++		goto vmbus_send_failed;
++
++	wait_for_completion(&request_ctx.wait_vsp);
++
++	/*
++	 * At this point, the response is already written to request
++	 * by VMBUS completion handler, copy them to user-mode buffers
++	 * and return to user-mode
++	 */
++	if (copy_to_user(&request_user->response, &request.response,
++			 sizeof(request.response)))
++		ret = -EFAULT;
++
++vmbus_send_failed:
++	if (atomic_dec_and_test(&dev->pending) && dev->removing)
++		wake_up(&dev->waiting_to_drain);
++
++	spin_lock_irqsave(&file_ctx->vsp_pending_lock, flags);
++	list_del(&request_ctx.list);
++	if (list_empty(&file_ctx->vsp_pending_requests))
++		wake_up(&file_ctx->wait_vsp_pending);
++	spin_unlock_irqrestore(&file_ctx->vsp_pending_lock, flags);
++
++get_user_page_failed:
++	free_buffer_pages(request_num_pages, request_pages);
++	free_buffer_pages(response_num_pages, response_pages);
++	free_buffer_pages(data_num_pages, data_pages);
++
++	return ret;
++}
++
++static long az_blob_fop_ioctl(struct file *filp, unsigned int cmd,
++			      unsigned long arg)
++{
++	switch (cmd) {
++	case IOCTL_AZ_BLOB_DRIVER_USER_REQUEST:
++		return az_blob_ioctl_user_request(filp, arg);
++
++	default:
++		dev_dbg(AZ_DEV, "unrecognized IOCTL code %u\n", cmd);
++	}
++
++	return -EINVAL;
++}
++
++static const struct file_operations az_blob_client_fops = {
++	.owner		= THIS_MODULE,
++	.open		= az_blob_fop_open,
++	.unlocked_ioctl = az_blob_fop_ioctl,
++	.release	= az_blob_fop_release,
++};
++
++static struct miscdevice az_blob_misc_device = {
++	.minor	= MISC_DYNAMIC_MINOR,
++	.name	= "azure_blob",
++	.fops	= &az_blob_client_fops,
++};
++
++static int az_blob_show_pending_requests(struct seq_file *m, void *v)
++{
++	unsigned long flags, flags2;
++	struct az_blob_vsp_request_ctx *request_ctx;
++	struct az_blob_file_ctx *file_ctx;
++	struct az_blob_device *dev = az_blob_dev;
++
++	seq_puts(m, "List of pending requests\n");
++	seq_puts(m, "UUID request_len response_len data_len "
++		"request_buffer response_buffer data_buffer\n");
++	spin_lock_irqsave(&dev->file_lock, flags);
++	list_for_each_entry(file_ctx, &dev->file_list, list) {
++		spin_lock_irqsave(&file_ctx->vsp_pending_lock, flags2);
++		seq_printf(m, "file context for pid %u\n", file_ctx->pid);
++		list_for_each_entry(request_ctx,
++				    &file_ctx->vsp_pending_requests, list) {
++			seq_printf(m, "%pUb ", &request_ctx->request->guid);
++			seq_printf(m, "%u ", request_ctx->request->request_len);
++			seq_printf(m, "%u ",
++				   request_ctx->request->response_len);
++			seq_printf(m, "%u ", request_ctx->request->data_len);
++			seq_printf(m, "%llx ",
++				   request_ctx->request->request_buffer);
++			seq_printf(m, "%llx ",
++				   request_ctx->request->response_buffer);
++			seq_printf(m, "%llx\n",
++				   request_ctx->request->data_buffer);
++		}
++		spin_unlock_irqrestore(&file_ctx->vsp_pending_lock, flags2);
++	}
++	spin_unlock_irqrestore(&dev->file_lock, flags);
++
++	return 0;
++}
++
++static int az_blob_debugfs_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, az_blob_show_pending_requests, NULL);
++}
++
++static const struct file_operations az_blob_debugfs_fops = {
++	.open		= az_blob_debugfs_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= seq_release
++};
++
++static void az_blob_remove_device(void)
++{
++	struct dentry *debugfs_root = debugfs_lookup("az_blob", NULL);
++
++	debugfs_remove_recursive(debugfs_root);
++	misc_deregister(&az_blob_misc_device);
++}
++
++static int az_blob_create_device(struct az_blob_device *dev)
++{
++	int ret;
++	struct dentry *debugfs_root;
++
++	ret = misc_register(&az_blob_misc_device);
++	if (ret)
++		return ret;
++
++	debugfs_root = debugfs_create_dir("az_blob", NULL);
++	debugfs_create_file("pending_requests", 0400, debugfs_root, NULL,
++			    &az_blob_debugfs_fops);
++
++	return 0;
++}
++
++static int az_blob_connect_to_vsp(struct hv_device *device,
++				  struct az_blob_device *dev, u32 ring_size)
++{
++	int ret;
++
++	dev->device = device;
++	device->channel->rqstor_size = AZ_BLOB_QUEUE_DEPTH;
++
++	ret = vmbus_open(device->channel, ring_size, ring_size, NULL, 0,
++			 az_blob_on_channel_callback, device->channel);
++
++	if (ret)
++		return ret;
++
++	hv_set_drvdata(device, dev);
++
++	return ret;
++}
++
++static void az_blob_remove_vmbus(struct hv_device *device)
++{
++	hv_set_drvdata(device, NULL);
++	vmbus_close(device->channel);
++}
++
++static int az_blob_probe(struct hv_device *device,
++			 const struct hv_vmbus_device_id *dev_id)
++{
++	int ret;
++	struct az_blob_device *dev;
++
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
++	if (!dev)
++		return -ENOMEM;
++
++	spin_lock_init(&dev->file_lock);
++	INIT_LIST_HEAD(&dev->file_list);
++	atomic_set(&dev->pending, 0);
++	init_waitqueue_head(&dev->waiting_to_drain);
++
++	ret = az_blob_connect_to_vsp(device, dev, AZ_BLOB_RING_SIZE);
++	if (ret)
++		goto fail;
++
++	refcount_set(&dev->count, 1);
++	az_blob_dev = dev;
++
++	// create user-mode client library facing device
++	ret = az_blob_create_device(dev);
++	if (ret) {
++		dev_err(AZ_DEV, "failed to create device ret=%d\n", ret);
++		az_blob_remove_vmbus(device);
++		goto fail;
++	}
++
++	dev_info(AZ_DEV, "successfully probed device\n");
++	return 0;
++
++fail:
++	kfree(dev);
++	return ret;
++}
++
++static int az_blob_remove(struct hv_device *device)
++{
++	struct az_blob_device *dev = hv_get_drvdata(device);
++
++	dev->removing = true;
++	az_blob_remove_device();
++
++	/*
++	 * We won't get any new requests from user-mode. There may be
++	 * pending requests already sent over VMBUS and we may get more
++	 * responses from VSP. Wait until no VSC/VSP traffic is possible.
++	 */
++	wait_event(dev->waiting_to_drain,
++		   atomic_read(&dev->pending) == 0);
++
++	az_blob_remove_vmbus(device);
++
++	if (refcount_dec_and_test(&dev->count))
++		kfree(dev);
++
++	return 0;
++}
++
++static struct hv_driver az_blob_drv = {
++	.name		= KBUILD_MODNAME,
++	.id_table	= id_table,
++	.probe		= az_blob_probe,
++	.remove		= az_blob_remove,
++	.driver		= {
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
++	},
++};
++
++static int __init az_blob_drv_init(void)
++{
++	return vmbus_driver_register(&az_blob_drv);
++}
++
++static void __exit az_blob_drv_exit(void)
++{
++	vmbus_driver_unregister(&az_blob_drv);
++}
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Microsoft Azure Blob driver");
++module_init(az_blob_drv_init);
++module_exit(az_blob_drv_exit);
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index d1e59dbef1dd..ac3136284ace 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -772,6 +772,7 @@ enum vmbus_device_type {
+ 	HV_FCOPY,
+ 	HV_BACKUP,
+ 	HV_DM,
++	HV_AZURE_BLOB,
+ 	HV_UNKNOWN,
+ };
+ 
+@@ -1349,6 +1350,14 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
+ 	.guid = GUID_INIT(0xba6163d9, 0x04a1, 0x4d29, 0xb6, 0x05, \
+ 			  0x72, 0xe2, 0xff, 0xb1, 0xdc, 0x7f)
+ 
++/*
++ * Azure Blob GUID
++ * {0590b792-db64-45cc-81db-b8d70c577c9e}
++ */
++#define HV_AZURE_BLOB_GUID \
++	.guid = GUID_INIT(0x0590b792, 0xdb64, 0x45cc, 0x81, 0xdb, \
++			  0xb8, 0xd7, 0x0c, 0x57, 0x7c, 0x9e)
++
+ /*
+  * Shutdown GUID
+  * {0e0b6031-5213-4934-818b-38d90ced39db}
+diff --git a/include/uapi/misc/hv_azure_blob.h b/include/uapi/misc/hv_azure_blob.h
+new file mode 100644
+index 000000000000..ebb141b2762a
+--- /dev/null
++++ b/include/uapi/misc/hv_azure_blob.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++/* Copyright (c) 2021 Microsoft Corporation. */
++
++#ifndef _AZ_BLOB_H
++#define _AZ_BLOB_H
++
++#include <linux/kernel.h>
++#include <linux/uuid.h>
++
++/* user-mode sync request sent through ioctl */
++struct az_blob_request_sync_response {
++	__u32 status;
++	__u32 response_len;
++};
++
++struct az_blob_request_sync {
++	guid_t guid;
++	__u32 timeout;
++	__u32 request_len;
++	__u32 response_len;
++	__u32 data_len;
++	__u32 data_valid;
++	__aligned_u64 request_buffer;
++	__aligned_u64 response_buffer;
++	__aligned_u64 data_buffer;
++	struct az_blob_request_sync_response response;
++};
++
++#define AZ_BLOB_MAGIC_NUMBER	'R'
++#define IOCTL_AZ_BLOB_DRIVER_USER_REQUEST \
++		_IOWR(AZ_BLOB_MAGIC_NUMBER, 0xf0, \
++			struct az_blob_request_sync)
++
++#endif /* define _AZ_BLOB_H */
 -- 
-John Hubbard
-NVIDIA
+2.25.1
+
