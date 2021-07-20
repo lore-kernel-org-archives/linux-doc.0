@@ -2,82 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7EEC07E9D
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 02:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C50C07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 02:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D3E661107
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 02:05:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 940ED61181
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 02:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbhGTBYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jul 2021 21:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353432AbhGTAEb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 20:04:31 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4060CC0613DE
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jul 2021 17:45:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=6BHoWhMhBT+v636WJiHHf5j9frWKyJ5kGcIaNwO4veE=; b=Za30svkjl+1dICLyPVyigmTKE6
-        YNAyoyxuJvWgxdy/GUIt9A5ZwBv19r47OAydmljpw1tpMu5iLvF9DB/ipQmfCVxAUgiTGfWHSrFd3
-        P/GLhnkNhpKVFeI84X7IcDvzDpeR2MCEkloDlFPvm3Fpl7aEkaxBgWGxq75OuuKBD5hx69Ey7mPd+
-        s34WEmcgoQVl9sFXctGUEtOGUpcCpdWyMfIUjf+i3a23go8TABCujkvBUpSKCEHU/qIdr3HJQXosY
-        BFj0DjDpLrXbgnXIE0voC0834xQQkRNK5zYAoNW39/F0IvljwPbKBDpTST77+8j8ga4U61cOCMN8h
-        J/oruW5Q==;
-Received: from [2601:1c0:6280:3f0::aefb]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m5dsi-00BYpF-Hv
-        for linux-doc@vger.kernel.org; Tue, 20 Jul 2021 00:45:08 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: having trouble generating some Doc. warnings
-Message-ID: <c31ca05a-9800-0808-29c7-580c7da145da@infradead.org>
-Date:   Mon, 19 Jul 2021 17:45:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235503AbhGTBZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jul 2021 21:25:03 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:7393 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239983AbhGTBYV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jul 2021 21:24:21 -0400
+Received: from dggeme751-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GTMQ46xMvz7wQd;
+        Tue, 20 Jul 2021 10:01:16 +0800 (CST)
+Received: from huawei.com (10.67.174.96) by dggeme751-chm.china.huawei.com
+ (10.3.19.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 20
+ Jul 2021 10:04:54 +0800
+From:   Zhang Jianhua <chris.zjh@huawei.com>
+To:     <corbet@lwn.net>, <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <aou@eecs.berkeley.edu>, <chris.zjh@huawei.com>,
+        <rostedt@goodmis.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+Subject: [PATCH -next] trace doc: Fix the wrong example of tracepoint
+Date:   Tue, 20 Jul 2021 10:06:07 +0800
+Message-ID: <20210720020607.4128715-1-chris.zjh@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.174.96]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggeme751-chm.china.huawei.com (10.3.19.97)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The example in tracepoints.rst is out of date, the build error below
+will occur if coding according to example in the document.
 
-kernel test robot reports kernel-doc problems like:
+drivers/irqchip/irq-riscv-intc.c:24:24:
+error: macro "DEFINE_TRACE" requires 3 arguments, but only 1 given
+   24 | DEFINE_TRACE(test_event);
+      |                        ^
+In file included from include/trace/events/test.h:8,
+from drivers/irqchip/irq-riscv-intc.c:22:
+include/linux/tracepoint.h:368:
+note: macro "DEFINE_TRACE" defined here
+  368 | #define DEFINE_TRACE(name, proto, args)
+      |
+drivers/irqchip/irq-riscv-intc.c:24:1:
+warning: data definition has no type or storage class
+   24 | DEFINE_TRACE(test_event);
+      | ^~~~~~~~~~~~
+drivers/irqchip/irq-riscv-intc.c:24:1:
+error: type defaults to ‘int’ in declaration of ‘DEFINE_TRACE’
+[-Werror=implicit-int]
 
->> drivers/pinctrl/aspeed/pinmux-aspeed.c:61: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Query the enabled or disabled state for a mux function's signal on a pin
+There are two reasons for this error. On the one hand, the macro DEFINE_TRACE
+has been refactored in commit d25e37d89dd2 ("tracepoint: Optimize using
+static_call()") from DEFINE_TRACE(name) to DEFINE_TRACE(name, proto, args),
+and the doc is not updated in time. On the other hand, the tracepoint has been
+defined in header file, and it does not need to define repeatedly in C file.
 
-where the source code is:
+--------
 
-/**
- * Query the enabled or disabled state for a mux function's signal on a pin
- *
- * @ctx: The driver context for the pinctrl IP
- * @expr: An expression controlling the signal for a mux function on a pin
- * @enabled: True to query the enabled state, false to query disabled state
+Signed-off-by: Zhang Jianhua <chris.zjh@huawei.com>
+---
+ Documentation/trace/tracepoints.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
-
-However, I cannot get kernel-doc to report such warnings even though I use
-$ make W=1 htmldocs
-
-What else do I need to do? What am I doing wrong?
-
-
-Update: I can get this warning if I check only one file.
-How can I do this for the entire kernel source tree?
-
-
-thanks.
+diff --git a/Documentation/trace/tracepoints.rst b/Documentation/trace/tracepoints.rst
+index 0cb8d9ca3d60..fbb2cb4abd3d 100644
+--- a/Documentation/trace/tracepoints.rst
++++ b/Documentation/trace/tracepoints.rst
+@@ -66,7 +66,6 @@ In subsys/file.c (where the tracing statement must be added)::
+ 	#include <trace/events/subsys.h>
+ 
+ 	#define CREATE_TRACE_POINTS
+-	DEFINE_TRACE(subsys_eventname);
+ 
+ 	void somefct(void)
+ 	{
 -- 
-~Randy
+2.31.0
 
