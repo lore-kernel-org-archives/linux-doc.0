@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 712CCC07E9B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E38C636C8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 534796108B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7373361165
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238693AbhGTMfU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 08:35:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53716 "EHLO
+        id S238615AbhGTMfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 08:35:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238557AbhGTMdf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 08:33:35 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F068CC0613DB;
-        Tue, 20 Jul 2021 06:14:12 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id z25so15256168qto.12;
-        Tue, 20 Jul 2021 06:14:12 -0700 (PDT)
+        with ESMTP id S238530AbhGTMd1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 08:33:27 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CCEC0613E1;
+        Tue, 20 Jul 2021 06:14:01 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id q15so10332893qtp.0;
+        Tue, 20 Jul 2021 06:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IGNtAVR3k8XF7vgLV1Ypck6ucmf98cXrZIWCxjZwhEs=;
-        b=GAvfz/BMO3wrFZlsSYPAxDLPt9E1IVrmnf78IudxRM3j8OdhKm/+plUr4YXsQBCWGp
-         yUD6hbEqONcdSu+5I/Bdzbc65Xaojyv5E4RAF8ydd9jxhD1/5sgP/Jq8li09Sas/S5ZN
-         LsknWXI6t/85mjINrn2UAE6TAZNnFq9AyxGBKIA9d+YR4PGNpNImmgDJPLy/j0o3cOlU
-         V9bueOkTJWmFO76vT9zJk6pC+AzDO06zY1CiEwsRrdgDOMN+e9v/PDYF6ZW1XxJBTdRD
-         rXYKVt31gh7ghliXZF0HlG5JgAnvQ0p7XG6uMeCMTVEaIEsaA3NpAxwChB8lXz0BgOGA
-         JQDQ==
+        bh=d+FN8BCXq1Njo+3jWyl699IvNI4knnaapCBiI4jANDs=;
+        b=sKV3Sub0ZWw3J1A9H/aM4MCg5TP6Cvdgb2f7j3O/vH1twUs7qUxGwfjlPc0VoLhBhf
+         2S3YMwYU+fYaMmkQNYqu6QhhxGxlprKZxcsoJ22fQ11snxI27MW2ZXHJJ3neqsKVeuIH
+         zvkcT5OIscQO/gbb9s48YC+nIUdo8hh7dEqm9htIbKh1bW/jTrqZr726zllpFT9yRspS
+         2IFTgDPtJt2075MHXgPyv5K1a2C6NuShpJ5v72Cpmp838BXVuFtabI3s8TQjHghL6K78
+         ukovvHU4whQsk5WpK0lihTKtn4eKBwysGwHFlEI8DHeVsSR3ryLtVE2YaWMRq8gt/bOD
+         mIrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=IGNtAVR3k8XF7vgLV1Ypck6ucmf98cXrZIWCxjZwhEs=;
-        b=USlM20/YI3MRIj2MXh2OHN60JXPNoiDNTsCwMhcd/sVQ/A5piXTI9UnEATPlmoLPIK
-         zZegIkTPohzJ+JwD9XKYo2VyFOLZA9VYhFOSxOMpyOEA/oJAdg4mDgrXqf3qaLEy6jYe
-         EvT/oQy+OKd4lGoMtY7hro5CF6jakpQk/fKGcW96H3vke6D04xqkX/ZyESxWwmcFOtpI
-         1lWprd/XtPMW0H/DrHMLqVSF8C9uXGv8WwtiKfqMeoT59bEeANfMPYJD2pY6gX0ZBbRE
-         mFWAp+uXsgreO7Y6u7K3r75HHCAmXtRmRZcpRon1sUoQOgQeCdJMEqXN+OggmUoaQnSP
-         /2OA==
-X-Gm-Message-State: AOAM532GNbxPpak2GGfGsK/Rl50GixDQnWgPbOC8e7T+2XDJtK53mITV
-        s76MLEDWI0eMr0CLozNlPA0=
-X-Google-Smtp-Source: ABdhPJxvig77cKBciRJ2ldiG0pfJ9Ic/jAu3PCw2ZeX8znA6+2zHm5JQDCb9lPnGPoXl7zwhNPDLWg==
-X-Received: by 2002:ac8:47c5:: with SMTP id d5mr26165672qtr.231.1626786852145;
-        Tue, 20 Jul 2021 06:14:12 -0700 (PDT)
+        bh=d+FN8BCXq1Njo+3jWyl699IvNI4knnaapCBiI4jANDs=;
+        b=SEOflCUIfvN351FF9g376dyGots2Uds1djylUBXTyahqR6ZkwabHX2pTOPAVTlkQHP
+         6fkfrDejOYz0AvoQahVaW5zM8Es240f4VYNd0KFKJv6y0+oqGplBsK26l+yunFWyFPBp
+         SkIL9ibDswrBodb5pye6aDy1Ly/b7PhYqrs+uMBXgkauZPKDfNqPQSZKzS4ZH5/mIRG/
+         Kyhai86J6fV9drLB9RoZs/FNox+AXRkJ24xTV/ppkvV4sXAMru+PsYbkE6t/giH1fetv
+         XIF4h8LfFBSvMWdIBrQtkejnuIRLPpa3EWMH7/Y8vt6EZGbCyFXIJZoMCkNSQLTULi5+
+         nRmA==
+X-Gm-Message-State: AOAM530/7uV0egHY1EB3AR0DJ/MyQwSYgcEjFMFr+CA4DJVhx4GhKOqi
+        a4BHGy0lxX9YksJNmIE8Yxo=
+X-Google-Smtp-Source: ABdhPJya1WocZ2Abu2uH1JFsFZnGgG+TUYEiCkCCCkaOrXAB7pUilYbjSriLMVokCmVpZDpmD3CNpw==
+X-Received: by 2002:a05:622a:207:: with SMTP id b7mr19490392qtx.377.1626786840957;
+        Tue, 20 Jul 2021 06:14:00 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id g17sm9701225qkm.34.2021.07.20.06.14.11
+        by smtp.gmail.com with ESMTPSA id g17sm9701225qkm.34.2021.07.20.06.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 06:14:11 -0700 (PDT)
+        Tue, 20 Jul 2021 06:14:00 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -72,9 +72,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v3 05/15] mm/damon/dbgfs: Support schemes' time/IO quotas
-Date:   Tue, 20 Jul 2021 13:12:59 +0000
-Message-Id: <20210720131309.22073-6-sj38.park@gmail.com>
+Subject: [RFC v3 03/15] damon/core/schemes: Skip already charged targets and regions
+Date:   Tue, 20 Jul 2021 13:12:57 +0000
+Message-Id: <20210720131309.22073-4-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210720131309.22073-1-sj38.park@gmail.com>
 References: <20210720131309.22073-1-sj38.park@gmail.com>
@@ -84,87 +84,107 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit makes the debugfs interface of DAMON to support the schemes'
-time/IO quotas by chaning the format of the input for the schemes file.
+If DAMOS stopped applying action to memory regions due to the speed
+limit, it does nothing until next charge window starts.  Then, it starts
+the work from the beginning of the address space.  If there is a huge
+memory region at the beginning of the address space and it fulfills the
+scheme target data access pattern, the action will applied to only the
+region.
+
+This commit mitigates the case by skipping memory regions that charged
+in previous charge window at the beginning of current charge window.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/dbgfs.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+ include/linux/damon.h |  5 +++++
+ mm/damon/core.c       | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index ac0de2de1987..3cd253a07116 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -227,11 +227,14 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 9c996adb02b8..7b1fa506e7a6 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -107,6 +107,8 @@ struct damos_quota {
+ /* private: For charging the quota */
+ 	unsigned long charged_sz;
+ 	unsigned long charged_from;
++	struct damon_target *charge_target_from;
++	unsigned long charge_addr_from;
+ };
  
- 	damon_for_each_scheme(s, c) {
- 		rc = scnprintf(&buf[written], len - written,
--				"%lu %lu %u %u %u %u %d %lu %lu\n",
-+				"%lu %lu %u %u %u %u %d %lu %lu %lu %lu %lu\n",
- 				s->min_sz_region, s->max_sz_region,
- 				s->min_nr_accesses, s->max_nr_accesses,
- 				s->min_age_region, s->max_age_region,
--				s->action, s->stat_count, s->stat_sz);
-+				s->action,
-+				s->quota.ms, s->quota.sz,
-+				s->quota.reset_interval,
-+				s->stat_count, s->stat_sz);
- 		if (!rc)
- 			return -ENOMEM;
+ /**
+@@ -335,6 +337,9 @@ struct damon_ctx {
+ #define damon_prev_region(r) \
+ 	(container_of(r->list.prev, struct damon_region, list))
  
-@@ -312,10 +315,11 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
- 	while (pos < len && *nr_schemes < max_nr_schemes) {
- 		struct damos_quota quota = {};
++#define damon_last_region(t) \
++	(list_last_entry(&t->regions_list, struct damon_region, list))
++
+ #define damon_for_each_region(r, t) \
+ 	list_for_each_entry(r, &t->regions_list, list)
  
--		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u%n",
-+		ret = sscanf(&str[pos], "%lu %lu %u %u %u %u %u %lu %lu %lu%n",
- 				&min_sz, &max_sz, &min_nr_a, &max_nr_a,
--				&min_age, &max_age, &action, &parsed);
--		if (ret != 7)
-+				&min_age, &max_age, &action, &quota.ms,
-+				&quota.sz, &quota.reset_interval, &parsed);
-+		if (ret != 10)
- 			break;
- 		if (!damos_action_valid(action)) {
- 			pr_err("wrong action %d\n", action);
-@@ -1137,6 +1141,15 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
- 	return ret;
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 00804a1e5e2a..a41eb9d885bb 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -111,6 +111,8 @@ struct damos *damon_new_scheme(
+ 	scheme->quota.reset_interval = quota->reset_interval;
+ 	scheme->quota.charged_sz = 0;
+ 	scheme->quota.charged_from = 0;
++	scheme->quota.charge_target_from = NULL;
++	scheme->quota.charge_addr_from = 0;
+ 
+ 	return scheme;
  }
+@@ -558,6 +560,37 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 		if (quota->sz && quota->charged_sz >= quota->sz)
+ 			continue;
  
-+/*
-+ * v1: Add the scheme speed limit
-+ */
-+static ssize_t dbgfs_version_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
-+{
-+	return simple_read_from_buffer(buf, count, ppos, "1\n", 2);
-+}
++		/* Skip previously charged regions */
++		if (quota->charge_target_from) {
++			if (t != quota->charge_target_from)
++				continue;
++			if (r == damon_last_region(t)) {
++				quota->charge_target_from = NULL;
++				quota->charge_addr_from = 0;
++				continue;
++			}
++			if (quota->charge_addr_from &&
++					r->ar.end <= quota->charge_addr_from)
++				continue;
 +
- static const struct file_operations mk_contexts_fops = {
- 	.write = dbgfs_mk_context_write,
- };
-@@ -1150,13 +1163,18 @@ static const struct file_operations monitor_on_fops = {
- 	.write = dbgfs_monitor_on_write,
- };
- 
-+static const struct file_operations version_fops = {
-+	.owner = THIS_MODULE,
-+	.read = dbgfs_version_read,
-+};
++			if (quota->charge_addr_from && r->ar.start <
++					quota->charge_addr_from) {
++				sz = ALIGN_DOWN(quota->charge_addr_from -
++						r->ar.start, DAMON_MIN_REGION);
++				if (!sz) {
++					if (r->ar.end - r->ar.start <=
++							DAMON_MIN_REGION)
++						continue;
++					sz = DAMON_MIN_REGION;
++				}
++				damon_split_region_at(c, t, r, sz);
++				r = damon_next_region(r);
++				sz = r->ar.end - r->ar.start;
++			}
++			quota->charge_target_from = NULL;
++			quota->charge_addr_from = 0;
++		}
 +
- static int __init __damon_dbgfs_init(void)
- {
- 	struct dentry *dbgfs_root;
- 	const char * const file_names[] = {"mk_contexts", "rm_contexts",
--		"monitor_on"};
-+		"monitor_on", "version"};
- 	const struct file_operations *fops[] = {&mk_contexts_fops,
--		&rm_contexts_fops, &monitor_on_fops};
-+		&rm_contexts_fops, &monitor_on_fops, &version_fops};
- 	int i;
- 
- 	dbgfs_root = debugfs_create_dir("damon", NULL);
+ 		/* Check the target regions condition */
+ 		if (sz < s->min_sz_region || s->max_sz_region < sz)
+ 			continue;
+@@ -578,6 +611,10 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
+ 			}
+ 			c->primitive.apply_scheme(c, t, r, s);
+ 			quota->charged_sz += sz;
++			if (quota->sz && quota->charged_sz >= quota->sz) {
++				quota->charge_target_from = t;
++				quota->charge_addr_from = r->ar.end + 1;
++			}
+ 		}
+ 		if (s->action != DAMOS_STAT)
+ 			r->age = 0;
 -- 
 2.17.1
 
