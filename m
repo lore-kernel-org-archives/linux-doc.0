@@ -2,143 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA0AC636CE
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 20:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFB5C07E95
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 22:02:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0B4A6113B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 20:51:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 746C96113B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 22:02:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234991AbhGTUJR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 16:09:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55974 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236896AbhGTTpQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 15:45:16 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16KK4bK2023434;
-        Tue, 20 Jul 2021 16:24:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=6d0AvtuBA/mdM+Xm+jajpNkrlEgOYj7D9PlUbi2xZB4=;
- b=V4zOHp+W0kVwdjd25UFD8InNd5+irwbyCnzI9y3RmjFPUQ12T41Kpwozn5isTwnh7pQq
- +ra/ibOqCusdT8/wYLkkUMjdk1cAOuBfLcuD6F+q7iS/Mwpr9alu4WiMU7QmFVH5Cjpx
- V8Vc9lCAQ/gkzrB3regmEONyJjMZVbeAMpyAK7jBq1hCbWWEpdjesgO9C2KqZRHx2uik
- oacNlYSIedCv5ldJqIqOIE3C72zhbuCy/hfm4/Zn0nEowT+iKHg6d4XPWcW/duPwUQcz
- 3Bbt1pHc/Cvo4bJIBsnxHu0udqNeYNW/tdB3o3X7JvAD2JjrquSAoKWJ3Yc6994l+mRT 0Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 39wy71wjmh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Jul 2021 16:24:59 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16KK6Adj032512;
-        Tue, 20 Jul 2021 16:24:58 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 39wy71wjkw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Jul 2021 16:24:58 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16KKCqSp012806;
-        Tue, 20 Jul 2021 20:24:56 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma06ams.nl.ibm.com with ESMTP id 39vng714qm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Jul 2021 20:24:55 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16KKOrF527066780
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Jul 2021 20:24:53 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F24BA42047;
-        Tue, 20 Jul 2021 20:24:52 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A1E5D42042;
-        Tue, 20 Jul 2021 20:24:47 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.68.252])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 20 Jul 2021 20:24:47 +0000 (GMT)
-Message-ID: <40e167cca7b59fc4e11f45ba807486e11eade419.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 6/6] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Richard Weinberger <richard.weinberger@gmail.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     Richard Weinberger <richard@nod.at>,
+        id S231153AbhGTVVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 17:21:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23345 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231416AbhGTVVP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 17:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626818493;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DGxLxC73Q30FLZh4kHloeV2LTAZ2CJRDqzZBDuBEMfM=;
+        b=Ty6BN3NVh1tbncLXYO5K+ZGbp3ho5S8x+Hry/Nlf+J2EDkFSAFfLt4jbi3QTpiBM9zALCR
+        owCtdHz5w6tODcx7oUteVm1faC9NtzB0HQyDwr4LgKQCDL2gBPIeVy6gY+06lqzLZx3HB3
+        r3azSQQqPJPHLyYTHwl31Vj7CZvtG9E=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-z3mqFM19OnuTWRrr2y6zew-1; Tue, 20 Jul 2021 18:01:32 -0400
+X-MC-Unique: z3mqFM19OnuTWRrr2y6zew-1
+Received: by mail-oi1-f199.google.com with SMTP id t11-20020a0568080b2bb029025af6d05d99so430800oij.10
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 15:01:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DGxLxC73Q30FLZh4kHloeV2LTAZ2CJRDqzZBDuBEMfM=;
+        b=eBIKy7BViglR1FwtY8UIRsCjJsb9LIkmdDnqdW98qPFBV0KYCvJzol17A58rJlHQSq
+         XuhPc4LnNhHX3ojLfCJFGupPreH3waKkzQhNzl9gnKbPfG2C0cK51brRqbXJXM/zulGb
+         XNSnF3tQyXZOW+XafwNM0z1nrZ+fIrqOPlzeC350JptkkPENBR6/PESfRYbn4oYYFjA0
+         Nl8quKMPe3DF2Tv6ZXZzZWcuJchsHtLxgqkYPZVq1ypG7O65pFQzkQhYCe2a6OEnTssY
+         bi4OLBIuM3pasgxR8KTFQXhWyk/Jp8PXndT6ziF/u/9MMMmpHwnNVW4NEl4FZUPtSP0C
+         7M8Q==
+X-Gm-Message-State: AOAM531/KipJtJ+k1N5x3D7UM0qllx9EszTLXDt9Kx/DkHJeSmqGaMWt
+        694p+VFol+As5NSc9Jsq2sh1L2t93iPVdRMJHSKlolLTNnw4c50AANnZc9Sq+Ihe2kQFlHaXGGP
+        7EEbN9xvJXMGOXUbgJVI3
+X-Received: by 2002:a05:6808:aa3:: with SMTP id r3mr18166272oij.133.1626818491781;
+        Tue, 20 Jul 2021 15:01:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuyDIfTXjm5YKo9TBgR+HrFk2cZEkVnlsdeNA/JOY8RcUjz3Wmb8/jGMHDDitpmXWLkurNEg==
+X-Received: by 2002:a05:6808:aa3:: with SMTP id r3mr18166225oij.133.1626818491525;
+        Tue, 20 Jul 2021 15:01:31 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id q187sm259680oif.2.2021.07.20.15.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 15:01:30 -0700 (PDT)
+Date:   Tue, 20 Jul 2021 16:01:27 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        kernel <kernel@pengutronix.de>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        horia geanta <horia.geanta@nxp.com>,
-        aymen sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        davem <davem@davemloft.net>, Udit Agarwal <udit.agarwal@nxp.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        david <david@sigma-star.at>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        "open list, ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>
-Date:   Tue, 20 Jul 2021 16:24:46 -0400
-In-Reply-To: <CAFLxGvxr94apP2jaT0tB6JRDtv_ivrguXK2Ykd3zer_4xtJ+2w@mail.gmail.com>
-References: <cover.1dfbb73645d917b3c76d01290804a3410bd9932e.1624364386.git-series.a.fatoum@pengutronix.de>
-         <39e6d65ca5d2a0a35fb71d6c1f85add8ee489a19.1624364386.git-series.a.fatoum@pengutronix.de>
-         <1850833581.13438.1625172175436.JavaMail.zimbra@nod.at>
-         <2f608e5a-5a12-6db1-b9bd-a2cd9e3e3671@pengutronix.de>
-         <783613027.15909.1625223222889.JavaMail.zimbra@nod.at>
-         <ac8ef66f-4d57-ead0-d1b3-e97220463241@pengutronix.de>
-         <CAFLxGvxr94apP2jaT0tB6JRDtv_ivrguXK2Ykd3zer_4xtJ+2w@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
+ mbochs_probe()
+Message-ID: <20210720160127.17bf3c19.alex.williamson@redhat.com>
+In-Reply-To: <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+        <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IEFJRJOHfvwOngpKt1XIsPonFtReajLI
-X-Proofpoint-ORIG-GUID: wkYED_fW-_xDkCD6flgnu-e43ZxxTkI5
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-20_13:2021-07-19,2021-07-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1011 suspectscore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 malwarescore=0 adultscore=0 phishscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2107200128
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HI -
+On Tue, 20 Jul 2021 14:42:48 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On Tue, 2021-07-20 at 21:19 +0200, Richard Weinberger wrote:
-> On Fri, Jul 2, 2021 at 2:37 PM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
-> > > Both is possible. If the string starts with "0x" it needs to be decoded to a
-> > > 128 bit key. Otherwise it has to be a up to 16 byte string.
-> >
-> > Fine by me. Looking forward to your patches. :-)
+> Compared to mbochs_remove() two cases are missing from the
+> vfio_register_group_dev() unwind. Add them in.
 > 
-> I'm not sure how to proceed.  Should I base my changes on this series
-> or do you plan to send an updated
-> version soon?
-> Maybe it makes also sense to base my DCP patch set on yours.
+> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+> Reported-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  samples/vfio-mdev/mbochs.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> Trusted Keys maintainers, what do you prefer?
+> diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+> index e81b875b4d87b4..501845b08c0974 100644
+> --- a/samples/vfio-mdev/mbochs.c
+> +++ b/samples/vfio-mdev/mbochs.c
+> @@ -553,11 +553,14 @@ static int mbochs_probe(struct mdev_device *mdev)
+>  
+>  	ret = vfio_register_group_dev(&mdev_state->vdev);
+>  	if (ret)
+> -		goto err_mem;
+> +		goto err_bytes;
+>  	dev_set_drvdata(&mdev->dev, mdev_state);
+>  	return 0;
+>  
+> +err_bytes:
+> +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  err_mem:
+> +	kfree(mdev_state->pages);
+>  	kfree(mdev_state->vconfig);
+>  	kfree(mdev_state);
+>  	return ret;
+> @@ -567,8 +570,8 @@ static void mbochs_remove(struct mdev_device *mdev)
+>  {
+>  	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+>  
+> -	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  	vfio_unregister_group_dev(&mdev_state->vdev);
+> +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  	kfree(mdev_state->pages);
+>  	kfree(mdev_state->vconfig);
+>  	kfree(mdev_state);
 
-Jarkko sent an email saying he is on vacation for 2 weeks.   James was
-on vacation as well.   If there is something that needs immediate
-attention, please let me know.
+Hmm, doesn't this suggest we need another atomic conversion?  (untested)
 
-thanks,
-
-Mimi
+diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+index e81b875b4d87..842819e29c6b 100644
+--- a/samples/vfio-mdev/mbochs.c
++++ b/samples/vfio-mdev/mbochs.c
+@@ -129,7 +129,7 @@ static dev_t		mbochs_devt;
+ static struct class	*mbochs_class;
+ static struct cdev	mbochs_cdev;
+ static struct device	mbochs_dev;
+-static int		mbochs_used_mbytes;
++static atomic_t		mbochs_avail_mbytes;
+ static const struct vfio_device_ops mbochs_dev_ops;
+ 
+ struct vfio_region_info_ext {
+@@ -511,14 +511,19 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 		&mbochs_types[mdev_get_type_group_id(mdev)];
+ 	struct device *dev = mdev_dev(mdev);
+ 	struct mdev_state *mdev_state;
++	int avail_mbytes = atomic_read(&mbochs_avail_mbytes);
+ 	int ret = -ENOMEM;
+ 
+-	if (type->mbytes + mbochs_used_mbytes > max_mbytes)
+-		return -ENOMEM;
++	do {
++		if (avail_mbytes < type->mbytes)
++			return ret;
++	} while (!atomic_try_cmpxchg(&mbochs_avail_mbytes, &avail_mbytes,
++				     avail_mbytes - type->mbytes));
+ 
+ 	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
+ 	if (mdev_state == NULL)
+-		return -ENOMEM;
++		goto err_resv;
++
+ 	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mbochs_dev_ops);
+ 
+ 	mdev_state->vconfig = kzalloc(MBOCHS_CONFIG_SPACE_SIZE, GFP_KERNEL);
+@@ -549,8 +554,6 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 	mbochs_create_config_space(mdev_state);
+ 	mbochs_reset(mdev_state);
+ 
+-	mbochs_used_mbytes += type->mbytes;
+-
+ 	ret = vfio_register_group_dev(&mdev_state->vdev);
+ 	if (ret)
+ 		goto err_mem;
+@@ -558,8 +561,11 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 	return 0;
+ 
+ err_mem:
++	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
++err_resv:
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ 	return ret;
+ }
+ 
+@@ -567,11 +573,11 @@ static void mbochs_remove(struct mdev_device *mdev)
+ {
+ 	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+ 
+-	mbochs_used_mbytes -= mdev_state->type->mbytes;
+ 	vfio_unregister_group_dev(&mdev_state->vdev);
+ 	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ }
+ 
+ static ssize_t mbochs_read(struct vfio_device *vdev, char __user *buf,
+@@ -1351,7 +1357,7 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
+ {
+ 	const struct mbochs_type *type =
+ 		&mbochs_types[mtype_get_type_group_id(mtype)];
+-	int count = (max_mbytes - mbochs_used_mbytes) / type->mbytes;
++	int count = atomic_read(&mbochs_avail_mbytes) / type->mbytes;
+ 
+ 	return sprintf(buf, "%d\n", count);
+ }
+@@ -1460,6 +1466,8 @@ static int __init mbochs_dev_init(void)
+ 	if (ret)
+ 		goto err_class;
+ 
++	atomic_set(&mbochs_avail_mbytes, max_mbytes);
++
+ 	ret = mdev_register_device(&mbochs_dev, &mdev_fops);
+ 	if (ret)
+ 		goto err_device;
 
