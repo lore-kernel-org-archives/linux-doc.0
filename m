@@ -2,246 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1D4C07E9B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5EBC07E9B
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 14:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 298EF61165
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:16:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8306611F2
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 14:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238470AbhGTMfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 08:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238426AbhGTMd2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 08:33:28 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772EBC061574;
-        Tue, 20 Jul 2021 06:14:06 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id k4so8985039qkj.13;
-        Tue, 20 Jul 2021 06:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=YceUl9gK1f+DUw5lLJnUOuiqygVMuUWiniuXFoUnVS4=;
-        b=Ieb+Cvc3zbFZSyAoPxvbLvuq08w5aQSh69ss+eMxt4RYknpj0ExKOY/oKTfWFturrB
-         E43GJ5eaTG976f21rtJ2nnBi/lEBxkiGThyU+u5BRB2pt7lbhLThFDtmOfkK68KXQqZG
-         59Lr+XBFW7kK5PtlDmyapxVAAzXxTyH4Do5B6vxse4+xuC0N3XzrxvXZafCr8CTJiTPb
-         i1rh9+JKUi10lC7hDFaX9Weh/nO48gwFA0LEAwbt1aSOClkYCVQFQFWTjGBJy3EkuOIz
-         ISttkTcsq1km+U9TyI8B447iB6Qpwy1KRklTgzmdyNNnj8WjdAkhmTzO1Jjv/kxxvD3W
-         tAJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=YceUl9gK1f+DUw5lLJnUOuiqygVMuUWiniuXFoUnVS4=;
-        b=r4mDmHkKRwcWsd/I8qEzQ53dFUq7/60yYVJpY9cKEg2nA/orHBKYgYOYtqKiGJJlox
-         9vCbtfSQlpw0dPmi7FVO7bMPiH8yehQBIjU+yd2sWzjj3wUdpsrPuOcsBLFav+MP9g/a
-         GnxMSj6Qbvi+/rPWGhXFIbjnvh0MLMMZV012CP8PKafwzA8QGuCvfgxUiieRtZLndDFb
-         707vnHUQnxpNVa/Dqp0joXzcyfR0EZoRK0tIdCgoqBJizkJOkEqDkaYR9Pg881t7ViCr
-         sBoQHbI2ce8bfaWmPSCo/iX63uBIgXgN+3s60G1+LE8jtoyLDSHg9KGRNOPGBsaFOUZl
-         HhoA==
-X-Gm-Message-State: AOAM533EtsXIQhHqhulGG7uAO2320vqLCfKBE3W9bMp86HMnZEFW53Na
-        Qym5zmdPmMfznDQbfhbbzhU=
-X-Google-Smtp-Source: ABdhPJzdTEEl3SbX2pZcS9sDsNYjQP7I8ks/LX6G+x/G+B90qTjGmlMr22grI2h627KFW3x/REOsyQ==
-X-Received: by 2002:a05:620a:629:: with SMTP id 9mr15185106qkv.501.1626786845624;
-        Tue, 20 Jul 2021 06:14:05 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id g17sm9701225qkm.34.2021.07.20.06.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 06:14:05 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, jgowans@amazon.com, joe@perches.com,
-        mgorman@suse.de, mheyne@amazon.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sieberf@amazon.com, sj38.park@gmail.com, snu@zelle79.org,
-        vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v3 04/15] mm/damon/schemes: Implement time quota
-Date:   Tue, 20 Jul 2021 13:12:58 +0000
-Message-Id: <20210720131309.22073-5-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210720131309.22073-1-sj38.park@gmail.com>
-References: <20210720131309.22073-1-sj38.park@gmail.com>
+        id S237564AbhGTNpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 09:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22234 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239749AbhGTNjC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 09:39:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626790780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=bljuvnurXztETt+O1yuNkEF3cA/LhS/2OLhF0eMXd1M=;
+        b=bJyrMn0yLFJsEKBEJ/hW1x5uwzju2vRpqzMm3PnWZz2M5KslZdjEqwjt8FeDmxZ4DTfcOa
+        Ed5mKGba70Q1GXOk2N8QeAbzm/Oxv4M6rWR5J+UGkM4shOF7tBxkCqXebr7kN0gBtTrKve
+        klKrbs/yw3TmYOTt9XI5VVahRq91YpI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-vaRRnvl6P5iNE4ZjGlVuAw-1; Tue, 20 Jul 2021 10:19:39 -0400
+X-MC-Unique: vaRRnvl6P5iNE4ZjGlVuAw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36B710C1ADC;
+        Tue, 20 Jul 2021 14:19:36 +0000 (UTC)
+Received: from llong.com (ovpn-116-153.rdu2.redhat.com [10.10.116.153])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A161260583;
+        Tue, 20 Jul 2021 14:19:23 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v3 0/9] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
+Date:   Tue, 20 Jul 2021 10:18:25 -0400
+Message-Id: <20210720141834.10624-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+v3:
+ - Add two new patches (patches 2 & 3) to fix bugs found during the
+   testing process.
+ - Add a new patch to enable inotify event notification when partition
+   become invalid.
+ - Add a test to test event notification when partition become invalid.
 
-This commit implements time-based quota for DAMON-based Operation
-Schemes.  If the quota is set, DAMOS tries to use only up to the
-user-defined quota within the 'reset_interval' milliseconds.
+v2:
+ - Drop v1 patch 1.
+ - Break out some cosmetic changes into a separate patch (patch #1).
+ - Add a new patch to clarify the transition to invalid partition root
+   is mainly caused by hotplug events.
+ - Enhance the partition root state test including CPU online/offline
+   behavior and fix issues found by the test.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- include/linux/damon.h | 25 +++++++++++++++++++-----
- mm/damon/core.c       | 45 ++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 60 insertions(+), 10 deletions(-)
+This patchset fixes two bugs and makes four enhancements to the cpuset
+v2 code.
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 7b1fa506e7a6..d2dd36b9dd6c 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -91,20 +91,35 @@ enum damos_action {
- 
- /**
-  * struct damos_quota - Controls the aggressiveness of the given scheme.
-+ * @ms:			Maximum milliseconds that the scheme can use.
-  * @sz:			Maximum bytes of memory that the action can be applied.
-  * @reset_interval:	Charge reset interval in milliseconds.
-  *
-  * To avoid consuming too much CPU time or IO resources for applying the
-- * &struct damos->action to large memory, DAMON allows users to set a size
-- * quota.  The quota can be set by writing non-zero values to &sz.  If the size
-- * quota is set, DAMON tries to apply the action only up to &sz bytes within
-- * &reset_interval.
-+ * &struct damos->action to large memory, DAMON allows users to set time and/or
-+ * size quotas.  The quotas can be set by writing non-zero values to &ms and
-+ * &sz, respectively.  If the time quota is set, DAMON tries to use only up to
-+ * &ms milliseconds within &reset_interval for applying the action.  If the
-+ * size quota is set, DAMON tries to apply the action only up to &sz bytes
-+ * within &reset_interval.
-+ *
-+ * Internally, the time quota is transformed to a size quota using estimated
-+ * throughput of the scheme's action.  DAMON then compares it against &sz and
-+ * uses smaller one as the effective quota.
-  */
- struct damos_quota {
-+	unsigned long ms;
- 	unsigned long sz;
- 	unsigned long reset_interval;
- 
--/* private: For charging the quota */
-+/* private: */
-+	/* For throughput estimation */
-+	unsigned long total_charged_sz;
-+	unsigned long total_charged_ns;
-+
-+	unsigned long esz;	/* Effective size quota in bytes */
-+
-+	/* For charging the quota */
- 	unsigned long charged_sz;
- 	unsigned long charged_from;
- 	struct damon_target *charge_target_from;
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index a41eb9d885bb..321523604ef6 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -107,8 +107,12 @@ struct damos *damon_new_scheme(
- 	scheme->stat_sz = 0;
- 	INIT_LIST_HEAD(&scheme->list);
- 
-+	scheme->quota.ms = quota->ms;
- 	scheme->quota.sz = quota->sz;
- 	scheme->quota.reset_interval = quota->reset_interval;
-+	scheme->quota.total_charged_sz = 0;
-+	scheme->quota.total_charged_ns = 0;
-+	scheme->quota.esz = 0;
- 	scheme->quota.charged_sz = 0;
- 	scheme->quota.charged_from = 0;
- 	scheme->quota.charge_target_from = NULL;
-@@ -555,9 +559,10 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
- 	damon_for_each_scheme(s, c) {
- 		struct damos_quota *quota = &s->quota;
- 		unsigned long sz = r->ar.end - r->ar.start;
-+		struct timespec64 begin, end;
- 
- 		/* Check the quota */
--		if (quota->sz && quota->charged_sz >= quota->sz)
-+		if (quota->esz && quota->charged_sz >= quota->esz)
- 			continue;
- 
- 		/* Skip previously charged regions */
-@@ -602,16 +607,21 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
- 
- 		/* Apply the scheme */
- 		if (c->primitive.apply_scheme) {
--			if (quota->sz && quota->charged_sz + sz > quota->sz) {
--				sz = ALIGN_DOWN(quota->sz - quota->charged_sz,
-+			if (quota->esz &&
-+					quota->charged_sz + sz > quota->esz) {
-+				sz = ALIGN_DOWN(quota->esz - quota->charged_sz,
- 						DAMON_MIN_REGION);
- 				if (!sz)
- 					goto update_stat;
- 				damon_split_region_at(c, t, r, sz);
- 			}
-+			ktime_get_coarse_ts64(&begin);
- 			c->primitive.apply_scheme(c, t, r, s);
-+			ktime_get_coarse_ts64(&end);
-+			quota->total_charged_ns += timespec64_to_ns(&end) -
-+				timespec64_to_ns(&begin);
- 			quota->charged_sz += sz;
--			if (quota->sz && quota->charged_sz >= quota->sz) {
-+			if (quota->esz && quota->charged_sz >= quota->esz) {
- 				quota->charge_target_from = t;
- 				quota->charge_addr_from = r->ar.end + 1;
- 			}
-@@ -625,6 +635,29 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
- 	}
- }
- 
-+/* Shouldn't be called if quota->ms and quota->sz are zero */
-+static void damos_set_effective_quota(struct damos_quota *quota)
-+{
-+	unsigned long throughput;
-+	unsigned long esz;
-+
-+	if (!quota->ms) {
-+		quota->esz = quota->sz;
-+		return;
-+	}
-+
-+	if (quota->total_charged_ns)
-+		throughput = quota->total_charged_sz * 1000000 /
-+			quota->total_charged_ns;
-+	else
-+		throughput = PAGE_SIZE * 1024;
-+	esz = throughput * quota->ms;
-+
-+	if (quota->sz && quota->sz < esz)
-+		esz = quota->sz;
-+	quota->esz = esz;
-+}
-+
- static void kdamond_apply_schemes(struct damon_ctx *c)
- {
- 	struct damon_target *t;
-@@ -634,15 +667,17 @@ static void kdamond_apply_schemes(struct damon_ctx *c)
- 	damon_for_each_scheme(s, c) {
- 		struct damos_quota *quota = &s->quota;
- 
--		if (!quota->sz)
-+		if (!quota->ms && !quota->sz)
- 			continue;
- 
- 		/* New charge window starts */
- 		if (time_after_eq(jiffies, quota->charged_from +
- 					msecs_to_jiffies(
- 						quota->reset_interval))) {
-+			quota->total_charged_sz += quota->charged_sz;
- 			quota->charged_from = jiffies;
- 			quota->charged_sz = 0;
-+			damos_set_effective_quota(quota);
- 		}
- 	}
- 
+Bug fixes:
+
+ Patch 2: Fix a hotplug handling bug when just all cpus in subparts_cpus
+ are offlined.
+
+ Patch 3: Fix violation of cpuset locking rule.
+
+Enhancements: 
+
+ Patch 4: Enable event notification on "cpuset.cpus.partition" when
+ a partition become invalid.
+
+ Patch 5: Clarify the use of invalid partition root and add new checks
+ to make sure that normal cpuset control file operations will not be
+ allowed to create invalid partition root. It also fixes some of the
+ issues in existing code.
+
+ Patch 6: Add a new partition state "isolated" to create a partition
+ root without load balancing. This is for handling intermitten workloads
+ that have a strict low latency requirement.
+
+ Patch 7: Allow partition roots that are not the top cpuset to distribute
+ all its cpus to child partitions as long as there is no task associated
+ with that partition root. This allows more flexibility for middleware
+ to manage multiple partitions.
+
+Patch 8 updates the cgroup-v2.rst file accordingly. Patch 9 adds a new
+cpuset test to test the new cpuset partition code.
+
+Waiman Long (9):
+  cgroup/cpuset: Miscellaneous code cleanup
+  cgroup/cpuset: Fix a partition bug with hotplug
+  cgroup/cpuset: Fix violation of cpuset locking rule
+  cgroup/cpuset: Enable event notification when partition become invalid
+  cgroup/cpuset: Clarify the use of invalid partition root
+  cgroup/cpuset: Add a new isolated cpus.partition type
+  cgroup/cpuset: Allow non-top parent partition root to distribute out
+    all CPUs
+  cgroup/cpuset: Update description of cpuset.cpus.partition in
+    cgroup-v2.rst
+  kselftest/cgroup: Add cpuset v2 partition root state test
+
+ Documentation/admin-guide/cgroup-v2.rst       |  94 ++-
+ kernel/cgroup/cpuset.c                        | 360 +++++++---
+ tools/testing/selftests/cgroup/Makefile       |   5 +-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 626 ++++++++++++++++++
+ tools/testing/selftests/cgroup/wait_inotify.c |  67 ++
+ 5 files changed, 1007 insertions(+), 145 deletions(-)
+ create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+ create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
+
 -- 
-2.17.1
+2.18.1
 
