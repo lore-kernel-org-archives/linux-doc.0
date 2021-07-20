@@ -2,132 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB02C07E9B
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 11:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44782C07E95
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8705061164
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 11:10:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2287A6113C
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 12:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237612AbhGTKaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 06:30:07 -0400
-Received: from mail-ej1-f44.google.com ([209.85.218.44]:36749 "EHLO
-        mail-ej1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237340AbhGTK3a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 06:29:30 -0400
-Received: by mail-ej1-f44.google.com with SMTP id nd37so33746438ejc.3;
-        Tue, 20 Jul 2021 04:10:07 -0700 (PDT)
+        id S237468AbhGTLms (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 07:42:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235455AbhGTLmS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 07:42:18 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95B3C061574
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:22:31 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id c15so2191359wrs.5
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jul 2021 05:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ksJ7uSYre48A5Z7zQktjRchxiOL4w4I/1HgeIzUItlA=;
+        b=ndCld4jhIDxVjs7HgMEcmj8aOHrSU7apEUj9+c/96MWypPqQ4DLLaudBAdx8qDhjRU
+         EnRWhNj1hjJNySeadR7468x5WNDTfkLGjY9fyOxDAwabhSDmI7GZT8RKj4HAqxOVy5eb
+         V7JXw3ikiwb85gB7i2wWWB3wOVNTE/B7cWPDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OHZdckbNZ18VQSZzXQt5sEXQRuXvblwckqVY5aEQJWo=;
-        b=p3X3kWJFLRpFwit+vPYjYrEZG/SAvIPOpVPICShtXOxMWKAsGbB3Z873cZou8UUohc
-         qcKpsAxHmt+Y5+kNPvENE42/5OoyKEWCn1XIs/X4/+qmAz8uFg6l6do7+sI5W1KUfUkn
-         UoqPrjHnngBsyf/tV3EHVbjtaiEVA7KnYVxHqKVuISxYeeiOWInWgX1kZyJppQh6oXy9
-         VGkGQwoDMyEP+eie4vTtETEsXeOxZevx15AekugkSmXWpUjMuG0zmU9c+cCK1C8RaUVa
-         qMWa3zhS3C+EVw58LUvFa0Om+l9WEMMakw6ObxOIw1oYb51ABeNAPxTnhsrSA7zyVZ9B
-         3vdA==
-X-Gm-Message-State: AOAM531VA1JapqLMJaFSnItSHHXM5FJ7oHKhepQ7aT1EHubL7zLoGDwo
-        cvq6b5rwyctX0z4b2yCeIWXR8sHn9EXN5eSD
-X-Google-Smtp-Source: ABdhPJx/6R3BpTygKz5Na6aXvE85FbPPIeQekl7WrNh04jNUe66RpMaHk26/Qm3CWZXW6/lJHTCZSQ==
-X-Received: by 2002:a17:906:dc0f:: with SMTP id yy15mr31349098ejb.255.1626779406409;
-        Tue, 20 Jul 2021 04:10:06 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id u5sm9156243edv.64.2021.07.20.04.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jul 2021 04:10:05 -0700 (PDT)
-Subject: Re: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
-To:     longli@linuxonhyperv.com, linux-fs@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Cc:     Long Li <longli@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
-References: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
- <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <90ed52d3-5095-9789-53f0-477ba70edc3b@kernel.org>
-Date:   Tue, 20 Jul 2021 13:10:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ksJ7uSYre48A5Z7zQktjRchxiOL4w4I/1HgeIzUItlA=;
+        b=WOGnaYPuCgbJ8GOovfCDNhGUDThmlOgVjGl4UDNKi8lcJEPpKItyZHixa7EmyUbXUd
+         yMK/5zdrTgVpmSZUsXJRtYM/grNmOkqD2I/2VjKJveZgRcctpf7jIvv686WmGbI0X8cx
+         ka+lkQV0rNIdsnlI8dm5ry33OfYre/UuplPHDOSjXsnyjD6unVfnuo44jtPpp2S7HS0L
+         YFU1+cx+UOmAbD3Eb1xfo2JZDZiSCTXYw5YXjED8CUMoVyZNJsTSIZYrbn9msfWkJghQ
+         j+CiazLFcbxlJIvOLRh47angR0EoeLr/W+cdpCYZy8HpXUyWORH4xpafV9nBbCPM1ytc
+         uSaQ==
+X-Gm-Message-State: AOAM530ajwQ7tX+6OJmjWVacv3trfIBFx8NY0fAdcQT3IxCJavKvS3YP
+        aYlQvtBrdg2B+ehyGEmac6JldQ==
+X-Google-Smtp-Source: ABdhPJw2SeFJ5qG/3zEIy1OkLFkh1ex3OXzZCiHOaa9CuK4hdVjKWkggxbglKSNW/nta4pdn7+Cu0A==
+X-Received: by 2002:a5d:504d:: with SMTP id h13mr35468419wrt.46.1626783750329;
+        Tue, 20 Jul 2021 05:22:30 -0700 (PDT)
+Received: from localhost ([2620:10d:c093:400::5:d571])
+        by smtp.gmail.com with ESMTPSA id b6sm2296488wmj.34.2021.07.20.05.22.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 05:22:29 -0700 (PDT)
+Date:   Tue, 20 Jul 2021 13:22:28 +0100
+From:   Chris Down <chris@chrisdown.name>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Petr Mladek <pmladek@suse.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the printk tree
+Message-ID: <YPbABBSTkN+xNY0w@chrisdown.name>
+References: <20210720162423.75f61ce0@canb.auug.org.au>
+ <YPa/D8tSyk7dw1/l@chrisdown.name>
 MIME-Version: 1.0
-In-Reply-To: <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6qWCzA76C1K43s0/"
+Content-Disposition: inline
+In-Reply-To: <YPa/D8tSyk7dw1/l@chrisdown.name>
+User-Agent: Mutt/2.1 (4b100969) (2021-06-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20. 07. 21, 5:31, longli@linuxonhyperv.com wrote:
-> --- /dev/null
-> +++ b/include/uapi/misc/hv_azure_blob.h
-> @@ -0,0 +1,34 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> +/* Copyright (c) 2021 Microsoft Corporation. */
-> +
-> +#ifndef _AZ_BLOB_H
-> +#define _AZ_BLOB_H
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/uuid.h>
 
-Quoting from 
-https://lore.kernel.org/linux-doc/MWHPR21MB159375586D810EC5DCB66AF0D7039@MWHPR21MB1593.namprd21.prod.outlook.com/:
-=====
-Seems like a #include of asm/ioctl.h (or something similar)
-is needed so that _IOWR is defined.  Also, a #include
-is needed for __u32, __aligned_u64, guid_t, etc.
-=====
+--6qWCzA76C1K43s0/
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Why was no include added?
+Chris Down writes:
+>+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 
-> +
-> +/* user-mode sync request sent through ioctl */
-> +struct az_blob_request_sync_response {
-> +	__u32 status;
-> +	__u32 response_len;
-> +};
-> +
-> +struct az_blob_request_sync {
-> +	guid_t guid;
-> +	__u32 timeout;
-> +	__u32 request_len;
-> +	__u32 response_len;
-> +	__u32 data_len;
-> +	__u32 data_valid;
-> +	__aligned_u64 request_buffer;
-> +	__aligned_u64 response_buffer;
-> +	__aligned_u64 data_buffer;
-> +	struct az_blob_request_sync_response response;
-> +};
-> +
-> +#define AZ_BLOB_MAGIC_NUMBER	'R'
-> +#define IOCTL_AZ_BLOB_DRIVER_USER_REQUEST \
-> +		_IOWR(AZ_BLOB_MAGIC_NUMBER, 0xf0, \
-> +			struct az_blob_request_sync)
-> +
-> +#endif /* define _AZ_BLOB_H */
-> 
+Well, let's actually Cc them this time...
 
-thanks,
--- 
-js
-suse labs
+>Stephen Rothwell writes:
+>>After merging the printk tree, today's linux-next build (htmldocs)
+>>produced this warning:
+>>
+>>kernel/printk/printk.c:1: warning: 'printk' not found
+>>
+>>Introduced by commit
+>>
+>> 337015573718 ("printk: Userspace format indexing support")
+>>
+>>I presume that "printk" is referred to elsewhere in the documentation
+>>as being in this file.
+>
+>Hmm, this is an interesting one, because I think we still generally=20
+>just want to refer to the API as being `printk()`. Changing it all=20
+>over the place seems wrong. As you'd imagine, there are quite a few=20
+>references to this name, so it requires a lot of noise all over the=20
+>docs and inline comments.
+>
+>Jonathan and other docs folks, how can one tell Sphinx that when it=20
+>sees printk() it's referring to a function-like macro, or otherwise=20
+>squelch this reasonably? :-)
+
+
+
+--6qWCzA76C1K43s0/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQKTBAEBCgB9FiEECEkprPvCOwsaJqhB340hthYRgHAFAmD2wARfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDA4
+NDkyOUFDRkJDMjNCMEIxQTI2QTg0MURGOEQyMUI2MTYxMTgwNzAACgkQ340hthYR
+gHBJPg/9FofzESIRIFMJw31dlL3MkNdldr6Q3dhJOOcB5y9OazjDUv8wZjVaoyor
+feQz6IsjdtcWLYRzzq+42CsQEyLfRChPOBUKWJw9aQrlDlLv9bZfLGYaYlNNc77H
+naEq+gX4pNWepLcg5rFE8gVh9cQzlCYJHLIqHl/EJhN2Ql3yu34JowtTeOfbEBV8
+s4LX55PvjHbjpODD40WtENJB9t9PsT038QkoJNtRSn5TIwtoh+pyYT+jhVDBX7OV
+lhQPz8g7XUB44JdVinjX1KTfzQ1hxhycXjnh8JDqkdeeQEA7yJeGfC4rUZJVqQBe
+CcQg7Z+NJZhvySqDULxk9nvaep3r6wT1EabO6DcXmOLUfVW2MNfwLuyvnBq6cUxL
+YOE2/Annbr+YudIamxW6xoz2SndnP5RpwAOy1odqpaVDEtWi0UuWY1RD8Jo+NRUn
+sieFrKlssa6khSnGhsTok8bUqut249XKYOmVxA/wAfY6pgrXqVwoEEygombE+GLQ
+6xSn5otVN4u7KX266joNvuglAlrRBvnNiSA3u1JvlTBRkQBtSAvjfKwkEfcqGcTJ
+bpWJP3/1cx0qoXo75ldhAM1A+ItI8iQ6ndcWLwXFXqw1xCzm2rtCO1o3ovbAuFBz
+eqVd8AxOw12bSeEpZLjmtlIGNmW9G9hzq8xpsii4URyjMAu/k2Q=
+=52+O
+-----END PGP SIGNATURE-----
+
+--6qWCzA76C1K43s0/--
