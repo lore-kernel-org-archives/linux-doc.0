@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4950DC636C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48EE0C07E9B
 	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:15:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2993D6108B
+	by mail.kernel.org (Postfix) with ESMTP id 3656561165
 	for <linux-doc@archiver.kernel.org>; Tue, 20 Jul 2021 13:15:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236898AbhGTMe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jul 2021 08:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53876 "EHLO
+        id S238553AbhGTMfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jul 2021 08:35:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238491AbhGTMeK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 08:34:10 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81721C061574;
-        Tue, 20 Jul 2021 06:14:48 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id w26so15272158qto.9;
-        Tue, 20 Jul 2021 06:14:48 -0700 (PDT)
+        with ESMTP id S238476AbhGTMeA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jul 2021 08:34:00 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84690C061768;
+        Tue, 20 Jul 2021 06:14:38 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id k3so15288926qtq.7;
+        Tue, 20 Jul 2021 06:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=2KUp38YsvXkumqr3XMuR3ixgpLpciARDVQEewv37dA8=;
-        b=aVQsoNLLEUlYbW+7TK5d9IdEAm0+426B5ooqKpDUWLQ2TcGYH7ou17/g1YRTRu/aka
-         YTJWjWj6qDwXdawDVTviUeJQu52HZWmqH0NOk44qkCsRqAFSJsS2MYYsVggAhO2t9Bli
-         kzYNZh1IluvcnsyTK4G4fYElr3eaOtKlzHdZ0EgM4WpzolPUZc+pSuAFmHP6XrWrANzd
-         6EXpFYhVy40duZvLFmFqyeY2YKEoKWZ6aGU+1N6PzQ95pH9XKZvBRABfa0iA74cCeu07
-         cqHnhigqXEPCpeRR2Qtcy+hhGTPKCMs2iMYZICwXFtDntdmqn+8VI9GrBeqP96mlVWYN
-         +nQQ==
+        bh=VVbmUrxw+u6qngGhg59S6mmfEHwMiesMjAfWbg/XAgs=;
+        b=cExFOH1nBjn1ObWW/rCGWAbZARXNv9jlHIeIlBAjTD98oLaE8iOzHo+Om4oafQnCH6
+         rT5fK4H8sQu2prO4+fznCC0hl/5IXpsu0Oh73i7ozhaqPd1ZLg+FdhebR4ID7L2uCu6W
+         93JtUEN4gtapZD2xRRPotQfbcNzxiGHHYqPuIKHPlYgEWQF1rYO0mFRi/iYsG2kZkaGK
+         TEw37uLftGQ2NWaeBwehJGA4Q3AVCQw1jxUJmc7aGBSCUd6AWYx+1NcvkQvRsbV8wDzI
+         Fz+WTVjMNY+7yLv7WXovmVWideZgLxiRDnK3bj9ZqzRUsm21PHz6mSLgjyb5ZusjuAmB
+         wJYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=2KUp38YsvXkumqr3XMuR3ixgpLpciARDVQEewv37dA8=;
-        b=HlBX+F612GrirxaAT3Kqd/xcwKH7N+reKhvG4L76WoX2Xohyt6nT+UBH3ZI0SHlwmi
-         GnoXbdqtz6YZxJT0JyauZdSQgOj/hPVWiCL3DYvDqym8FVo3/I3/+dMqOeYxsD6YfhUO
-         c8ZwzZFhX5wmW1Dh/53KhnR3Wouk87zvK4t2gVzVsiKWQ79r6AvESghQmX3CR7fIJJqw
-         uw+BH4n+seRWlAEL8lLz6Ptmw4PGWpT/btaGcRjQeeJdB8orvfnuUwZT2IFqJAfJfcTn
-         ruihiKx2Ej4RXd7vBlU5AgUh9Ih705/gr9kf4uuyHF4DWlNH5eOjBD6H0a+sS1r6QN/w
-         RNHQ==
-X-Gm-Message-State: AOAM532DJjiYYlZxqH7fwur9CCosR5tpGofx23cvu4ZOF1rFTCyewB7/
-        Z7XYc07lFCUnQta3Icwvivg=
-X-Google-Smtp-Source: ABdhPJzOM11CvnWbx/+kPZxTtC4it9bcXXkHiOXCvsRsm1pi23w+6aTKOCIzymxrnG2/6q33limkdw==
-X-Received: by 2002:ac8:7f07:: with SMTP id f7mr25963209qtk.120.1626786887598;
-        Tue, 20 Jul 2021 06:14:47 -0700 (PDT)
+        bh=VVbmUrxw+u6qngGhg59S6mmfEHwMiesMjAfWbg/XAgs=;
+        b=muy+lgx8vSfzXZlezB5fObCYfGDjJlTTWlJ9nMA+SWpHdT//Zq0rXRloO9LknwV5fP
+         EeW4I5TqzC2IgN5DPtzkmn1CfS14gD+k8kQTElUy8G3oyd0K98zvtfROAhpyylr/kWJ+
+         lIDhn7H459WvwcY4GiMC19z3m9+bsgd0/nbpZp54BnWUUB3AtRSbwNNjOn4MD+tZ5CSd
+         U7zEM2HLbxAlxU9e0g/++8BNmlhh/T2TFWVjHww1eXC0qZtGwOHqOg3EPhwOrfGEyetS
+         us2Q8HdDT0tFTlTP6cI7kuHJjNCaIBGAP6X9+AgdRHnrdbtkmdyzx5zZwn3KnZGUcMfp
+         pCVQ==
+X-Gm-Message-State: AOAM533uCdsqClzpmylNuGPeiA61G6ofPB3F0pX6AoCbUY2wMMFMVftC
+        T0pmV60cXGlI8u6uioEHBwc=
+X-Google-Smtp-Source: ABdhPJwaqkELLyml0pvKZt5ZF5XE8mHpJ4f+Mn/CnQd/+B+Z8jr+2HjvimhLkAR2vf0YZd63SwaH4w==
+X-Received: by 2002:ac8:47c5:: with SMTP id d5mr26167300qtr.231.1626786877747;
+        Tue, 20 Jul 2021 06:14:37 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id g17sm9701225qkm.34.2021.07.20.06.14.46
+        by smtp.gmail.com with ESMTPSA id g17sm9701225qkm.34.2021.07.20.06.14.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 06:14:47 -0700 (PDT)
+        Tue, 20 Jul 2021 06:14:37 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -72,9 +72,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC v3 15/15] Documentation/admin-guide/mm/damon: Add a document for DAMON_RECLAIM
-Date:   Tue, 20 Jul 2021 13:13:09 +0000
-Message-Id: <20210720131309.22073-16-sj38.park@gmail.com>
+Subject: [RFC v3 12/15] mm/damon/dbgfs: Support watermarks
+Date:   Tue, 20 Jul 2021 13:13:06 +0000
+Message-Id: <20210720131309.22073-13-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210720131309.22073-1-sj38.park@gmail.com>
 References: <20210720131309.22073-1-sj38.park@gmail.com>
@@ -84,263 +84,62 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit adds an admin-guide document for DAMON-based Reclamation.
+This commit updates DAMON debugfs interface to support the watermarks
+based schemes activation.  For this, now 'schemes' file receives five
+more values.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- Documentation/admin-guide/mm/damon/index.rst  |   1 +
- .../admin-guide/mm/damon/reclaim.rst          | 233 ++++++++++++++++++
- 2 files changed, 234 insertions(+)
- create mode 100644 Documentation/admin-guide/mm/damon/reclaim.rst
+ mm/damon/dbgfs.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/index.rst b/Documentation/admin-guide/mm/damon/index.rst
-index 8c5dde3a5754..61aff88347f3 100644
---- a/Documentation/admin-guide/mm/damon/index.rst
-+++ b/Documentation/admin-guide/mm/damon/index.rst
-@@ -13,3 +13,4 @@ optimize those.
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index 2509c0b634b4..168bd6406a3f 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -227,7 +227,7 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
  
-    start
-    usage
-+   reclaim
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-new file mode 100644
-index 000000000000..1f4ad79919ca
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -0,0 +1,233 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================
-+DAMON-based Reclamation
-+=======================
-+
-+DAMON-based Reclamation (DAMON_RECLAIM) is a static kernel module that aimed to
-+be used for proactive and lightweight reclamation under light memory pressure.
-+It doesn't aim to replace the LRU-list based page_granularity reclamation, but
-+to be selectively used for different level of memory pressure and requirements.
-+
-+Where Proactive Reclamation is Required?
-+========================================
-+
-+On general memory over-committed systems, proactively reclaiming cold pages
-+helps saving memory and reducing latency spikes that incurred by the direct
-+reclaim of the process or CPU consumption of kswapd, while incurring only
-+minimal performance degradation [1]_ [2]_ .
-+
-+Free Pages Reporting [3]_ based memory over-commit virtualization systems are
-+good example of the cases.  In such systems, the guest VMs reports their free
-+memory to host, and the host reallocates the reported memory to other guests.
-+As a result, the memory of the systems are fully utilized.  However, the
-+guests could be not so memory-frugal, mainly because some kernel subsystems and
-+user-space applications are designed to use as much memory as available.  Then,
-+guests could report only small amount of memory as free to host, results in
-+memory utilization drop of the systems.  Running the proactive reclamation in
-+guests could mitigate this problem.
-+
-+How It Works?
-+=============
-+
-+DAMON_RECLAIM finds memory regions that didn't accessed for specific time
-+duration and page out.  To avoid it consuming too much CPU for the paging out
-+operation, a speed limit can be configured.  Under the speed limit, it pages
-+out memory regions that didn't accessed longer time first.  System
-+administrators can also configure under what situation this scheme should
-+automatically activated and deactivated with three memory pressure watermarks.
-+
-+Interface: Module Parameters
-+============================
-+
-+To use this feature, you should first ensure your system is running on a kernel
-+that is built with ``CONFIG_DAMON_RECLAIM=y``.
-+
-+To let sysadmins enable or disable it and tune for the given system,
-+DAMON_RECLAIM utilizes module parameters.  That is, you can put
-+``damon_reclaim.<parameter>=<value>`` on the kernel boot command line or write
-+proper values to ``/sys/modules/damon_reclaim/parameters/<parameter>`` files.
-+
-+Note that the parameter values except ``enabled`` are applied only when
-+DAMON_RECLAIM starts.  Therefore, if you want to apply new parameter values in
-+runtime and DAMON_RECLAIM is already enabled, you should disable and re-enable
-+it via ``enabled`` parameter file.  Writing of the new values to proper
-+parameter values should be done before the re-enablement.
-+
-+Below are the description of each parameter.
-+
-+enabled
-+-------
-+
-+Enable or disable DAMON_RECLAIM.
-+
-+You can enable DAMON_RCLAIM by setting the value of this parameter as ``Y``.
-+Setting it as ``N`` disables DAMON_RECLAIM.  Note that DAMON_RECLAIM could do
-+no real monitoring and reclamation due to the watermarks-based activation
-+condition.  Refer to below descriptions for the watermarks parameter for this.
-+
-+min_age
-+-------
-+
-+Time threshold for cold memory regions identification in microseconds.
-+
-+If a memory region is not accessed for this or longer time, DAMON_RECLAIM
-+identifies the region as cold, and reclaims it.
-+
-+quota_ms
-+--------
-+
-+Limit of time for the reclamation in milliseconds.
-+
-+DAMON_RECLAIM tries to use only up to this time within a time window
-+(quota_reset_interval_ms) for trying reclamation of cold pages.  This can be
-+used for limiting CPU consumption of DAMON_RECLAIM.  If the value is zero, the
-+limit is disabled.
-+
-+100 ms by default.
-+
-+quota_sz
-+--------
-+
-+Limit of size of memory for the reclamation in bytes.
-+
-+DAMON_RECLAIM charges amount of memory which it tried to reclaim within a time
-+window (quota_reset_interval_ms) and makes no more than this limit is tried.
-+This can be used for limiting consumption of CPU and IO.  If this value is
-+zero, the limit is disabled.
-+
-+1 GiB by default.
-+
-+quota_reset_interval_ms
-+-----------------------
-+
-+The time/size quota charge reset interval in milliseconds.
-+
-+The charget reset interval for the quota of time (quota_ms) and size
-+(quota_sz).  That is, DAMON_RECLAIM does not try reclamation for more than
-+quota_ms milliseconds or quota_sz bytes within quota_reset_interval_ms
-+milliseconds.
-+
-+1 second by default.
-+
-+wmarks_interval
-+---------------
-+
-+Minimal time to wait before checking the watermarks, when DAMON_RECLAIM is
-+enabled but inactive due to its watermarks rule.
-+
-+wmarks_high
-+-----------
-+
-+Free memory rate (per thousand) for the high watermark.
-+
-+If free memory of the system in bytes per thousand bytes is higher than this,
-+DAMON_RECLAIM becomes inactive, so it does nothing but only periodically checks
-+the watermarks.
-+
-+wmarks_mid
-+----------
-+
-+Free memory rate (per thousand) for the middle watermark.
-+
-+If free memory of the system in bytes per thousand bytes is between this and
-+the low watermark, DAMON_RECLAIM becomes active, so starts the monitoring and
-+the reclaiming.
-+
-+wmarks_low
-+----------
-+
-+Free memory rate (per thousand) for the low watermark.
-+
-+If free memory of the system in bytes per thousand bytes is lower than this,
-+DAMON_RECLAIM becomes inactive, so it does nothing but periodically checks the
-+watermarks.  In the case, the system falls back to the LRU-list based page
-+granularity reclamation logic.
-+
-+sample_interval
-+---------------
-+
-+Sampling interval for the monitoring in microseconds.
-+
-+The sampling interval of DAMON for the cold memory monitoring.  Please refer to
-+the DAMON documentation (:doc:`usage`) for more detail.
-+
-+aggr_interval
-+-------------
-+
-+Aggregation interval for the monitoring in microseconds.
-+
-+The aggregation interval of DAMON for the cold memory monitoring.  Please
-+refer to the DAMON documentation (:doc:`usage`) for more detail.
-+
-+min_nr_regions
-+--------------
-+
-+Minimum number of monitoring regions.
-+
-+The minimal number of monitoring regions of DAMON for the cold memory
-+monitoring.  This can be used to set lower-bound of the monitoring quality.
-+But, setting this too high could result in increased monitoring overhead.
-+Please refer to the DAMON documentation (:doc:`usage`) for more detail.
-+
-+max_nr_regions
-+--------------
-+
-+Maximum number of monitoring regions.
-+
-+The maximum number of monitoring regions of DAMON for the cold memory
-+monitoring.  This can be used to set upper-bound of the monitoring overhead.
-+However, setting this too low could result in bad monitoring quality.  Please
-+refer to the DAMON documentation (:doc:`usage`) for more detail.
-+
-+monitor_region_start
-+--------------------
-+
-+Start of target memory region in physical address.
-+
-+The start physical address of memory region that DAMON_RECLAIM will do work
-+against.  That is, DAMON_RECLAIM will find cold memory regions in this region
-+and reclaims.  By default, biggest System RAM is used as the region.
-+
-+monitor_region_end
-+------------------
-+
-+End of target memory region in physical address.
-+
-+The end physical address of memory region that DAMON_RECLAIM will do work
-+against.  That is, DAMON_RECLAIM will find cold memory regions in this region
-+and reclaims.  By default, biggest System RAM is used as the region.
-+
-+kdamond_pid
-+-----------
-+
-+PID of the DAMON thread.
-+
-+If DAMON_RECLAIM is enabled, this becomes the PID of the worker thread.  Else,
-+-1.
-+
-+Example
-+=======
-+
-+Below runtime example commands make DAMON_RECLAIM to find memory regions that
-+not accessed for 30 seconds or more and pages out.  The reclamation is limited
-+to be done only up to 1 GiB per second to avoid DAMON_RECLAIM consuming too
-+much CPU time for the paging out operation.  It also asks DAMON_RECLAIM to do
-+nothing if the system's free memory rate is more than 50%, but start the real
-+works if it becomes lower than 40%.  If DAMON_RECLAIM doesn't make progress and
-+therefore the free memory rate becomes lower than 20%, it asks DAMON_RECLAIM to
-+do nothing again, so that we can fall back to the LRU-list based page
-+granularity reclamation. ::
-+
-+    # cd /sys/modules/damon_reclaim/parameters
-+    # echo 30000000 > min_age
-+    # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
-+    # echo 1000 > quota_reset_interval_ms
-+    # echo 500 > wmarks_high
-+    # echo 400 > wmarks_mid
-+    # echo 200 > wmarks_low
-+    # echo Y > enabled
-+
-+.. [1] https://research.google/pubs/pub48551/
-+.. [2] https://lwn.net/Articles/787611/
-+.. [3] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
+ 	damon_for_each_scheme(s, c) {
+ 		rc = scnprintf(&buf[written], len - written,
+-				"%lu %lu %u %u %u %u %d %lu %lu %lu %u %u %u %lu %lu\n",
++				"%lu %lu %u %u %u %u %d %lu %lu %lu %u %u %u %d %lu %lu %lu %lu %lu %lu\n",
+ 				s->min_sz_region, s->max_sz_region,
+ 				s->min_nr_accesses, s->max_nr_accesses,
+ 				s->min_age_region, s->max_age_region,
+@@ -237,6 +237,8 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
+ 				s->quota.weight_sz,
+ 				s->quota.weight_nr_accesses,
+ 				s->quota.weight_age,
++				s->wmarks.metric, s->wmarks.interval,
++				s->wmarks.high, s->wmarks.mid, s->wmarks.low,
+ 				s->stat_count, s->stat_sz);
+ 		if (!rc)
+ 			return -ENOMEM;
+@@ -317,18 +319,18 @@ static struct damos **str_to_schemes(const char *str, ssize_t len,
+ 	*nr_schemes = 0;
+ 	while (pos < len && *nr_schemes < max_nr_schemes) {
+ 		struct damos_quota quota = {};
+-		struct damos_watermarks wmarks = {
+-			.metric = DAMOS_WMARK_NONE,
+-		};
++		struct damos_watermarks wmarks;
+ 
+ 		ret = sscanf(&str[pos],
+-				"%lu %lu %u %u %u %u %u %lu %lu %lu %u %u %u%n",
++				"%lu %lu %u %u %u %u %u %lu %lu %lu %u %u %u %u %lu %lu %lu %lu%n",
+ 				&min_sz, &max_sz, &min_nr_a, &max_nr_a,
+ 				&min_age, &max_age, &action, &quota.ms,
+ 				&quota.sz, &quota.reset_interval,
+ 				&quota.weight_sz, &quota.weight_nr_accesses,
+-				&quota.weight_age, &parsed);
+-		if (ret != 13)
++				&quota.weight_age, &wmarks.metric,
++				&wmarks.interval, &wmarks.high, &wmarks.mid,
++				&wmarks.low, &parsed);
++		if (ret != 18)
+ 			break;
+ 		if (!damos_action_valid(action)) {
+ 			pr_err("wrong action %d\n", action);
 -- 
 2.17.1
 
