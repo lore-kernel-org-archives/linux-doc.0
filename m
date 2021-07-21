@@ -2,101 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E966EC636C9
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 09:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F1ADC636CA
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 10:37:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF07F6120A
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 09:31:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BA0561009
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 10:37:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232239AbhGUIrE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 04:47:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27916 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237557AbhGUIic (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 04:38:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626859148;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=G4uKQ+XyDIPq8miRvKW7FnGQDeOllxOEPIevz0G83IY=;
-        b=jC9c1zHsYgOHyuVlA7h2Bcv1IHhMCe73yJcEmmruM+CTIJcKtKAQ5rbUGWXfYdoRfYblXv
-        rEj/m4bXzFyQulYk43d1QNH0Uz10F3Rhm3CvoSV8ZewlruQ0t+2c9hkxVBTY4OAV9A6fPP
-        WiImWZLr18iXlpDZOywmP59s21oOans=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-xTK1UUNpPL-Yt-rmTuormw-1; Wed, 21 Jul 2021 05:19:07 -0400
-X-MC-Unique: xTK1UUNpPL-Yt-rmTuormw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S237773AbhGUJze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 05:55:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43468 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238344AbhGUJND (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Jul 2021 05:13:03 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED63760C8;
-        Wed, 21 Jul 2021 09:19:03 +0000 (UTC)
-Received: from localhost (ovpn-112-135.ams2.redhat.com [10.36.112.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F1360C59;
-        Wed, 21 Jul 2021 09:18:55 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
- mbochs_probe()
-In-Reply-To: <20210720224955.GD1117491@nvidia.com>
-Organization: Red Hat GmbH
-References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
- <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
- <20210720160127.17bf3c19.alex.williamson@redhat.com>
- <20210720224955.GD1117491@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Wed, 21 Jul 2021 11:18:54 +0200
-Message-ID: <87a6mg81oh.fsf@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+        by mail.kernel.org (Postfix) with ESMTPSA id 03EEC60FDA;
+        Wed, 21 Jul 2021 09:53:40 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1m68v3-00Efzw-VK; Wed, 21 Jul 2021 10:53:38 +0100
+Date:   Wed, 21 Jul 2021 10:53:37 +0100
+Message-ID: <87czrc2dsu.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jianyong Wu <jianyong.wu@arm.com>
+Cc:     james.morse@arm.com, andre.przywara@arm.com, lushenming@huawei.com,
+        kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        justin.he@arm.com
+Subject: Re: [PATCH] doc/arm: take care restore order of GICR_* in ITS restore
+In-Reply-To: <20210721092019.144088-1-jianyong.wu@arm.com>
+References: <20210721092019.144088-1-jianyong.wu@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: jianyong.wu@arm.com, james.morse@arm.com, andre.przywara@arm.com, lushenming@huawei.com, kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, justin.he@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Wed, 21 Jul 2021 10:20:19 +0100,
+Jianyong Wu <jianyong.wu@arm.com> wrote:
+> 
+> When restore GIC/ITS, GICR_CTLR must be restored after GICR_PROPBASER
+> and GICR_PENDBASER. That is important, as both of GICR_PROPBASER and
+> GICR_PENDBASER will fail to be loaded when lpi has enabled yet in
+> GICR_CTLR. Keep the restore order above will avoid that issue.
+> Shout it out at the doc is very helpful that may avoid lots of debug work.
 
-> On Tue, Jul 20, 2021 at 04:01:27PM -0600, Alex Williamson wrote:
->> Hmm, doesn't this suggest we need another atomic conversion?  (untested)
->
-> Sure why not, I can add this as another patch
+But that's something that is already mandated by the architecture,
+isn't it? See "5.1 LPIs" in the architecture spec:
 
-Yes, I think that should be another patch.
+<quote>
 
+If GICR_PROPBASER is updated when GICR_CTLR.EnableLPIs == 1, the
+effects are UNPREDICTABLE.
+
+[...]
+
+If GICR_PENDBASER is updated when GICR_CTLR.EnableLPIs == 1, the
+effects are UNPREDICTABLE.
+
+</quote>
+
+The point of this documentation is to make it explicit what is *not*
+covered by the architecture. Anything that is in the architecture
+still applies, and shouldn't be overlooked.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
