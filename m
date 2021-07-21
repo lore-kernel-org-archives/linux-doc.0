@@ -2,107 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F07CC12002
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 19:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D631EC6377C
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 20:15:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B76661244
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 19:02:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0CF16124B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 20:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238154AbhGUSWV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 14:22:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34824 "EHLO
+        id S229679AbhGUTek (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 15:34:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231740AbhGUSWU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 14:22:20 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07581C061575;
-        Wed, 21 Jul 2021 12:02:56 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id qa36so4747238ejc.10;
-        Wed, 21 Jul 2021 12:02:55 -0700 (PDT)
+        with ESMTP id S229591AbhGUTej (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 15:34:39 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF68C061575;
+        Wed, 21 Jul 2021 13:15:14 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id k4-20020a17090a5144b02901731c776526so579977pjm.4;
+        Wed, 21 Jul 2021 13:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bz+gGGTDR08X+AO/SbVQCNhU2kG51Ah3ryQBTD5eMuQ=;
-        b=kXdFVki2Ry0Qh5deswzLJ0S8JSGB7N79Iy5ClQbvjmPZUJ0pDYTYM6eat85V8zdO//
-         aeLllkfCgdoe76xPh2iolTABrqdqH3DwbVoeuq2z6Inwq3zwPB6pQN4OcG7OTcTea03i
-         4VjCgQLHmtKvWYydflL1lWSyPEWDMJOeUEHEeJTQGFzqHosjVu/ztZF3WykSE0txnFuV
-         yugJsktvXpU0P7nmitRTxtgegWIHoNsPWih6Hh88W2fILhGUgR6FeC1mhQ92n9mKN6Mc
-         qjqnmnpzNW5n9BaLnos0bOft7NR784TuS2O8XdJAdBzV/tJIZ5+sW2A3M+bI1uHJs9KY
-         f5Uw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SOGnEDYj6+aPEFG0m6p/HdJZ6lLy+2oB11LH/GMIPe8=;
+        b=DQfgQO3uCJmeqfPd4GrrnMGsak6ZUiMipZ5qwGZtq+Y4GnbN+3ZveORbh7uh+P7+E5
+         Ku/Q0UMDjt7U15df32VENimOMh3ZwtrJcN0sYnZvDr+UbOp39zxNBXTzGgEeIORNtAXY
+         1Ye1OkKig6CHdJD/D5zeG4cOXQodWG4c90noX+n+xKnNY3so0BtSPU6o8pWYlVHiN3B3
+         ENX5NV2ASXhgf6aPSywQx8ik2OzP6OW+ni11VnAaLtdMavEltJs0/pz1h1E2SViLf8SV
+         uxLJfKNjZM7W0PMTRmpnPtaH3PSFofI4UyzIRQwKlnFTHOvaN/+kU7pndu/ledNmiCC3
+         GZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bz+gGGTDR08X+AO/SbVQCNhU2kG51Ah3ryQBTD5eMuQ=;
-        b=pi9o8BEMWuOj6f8qE/fPNkkmLZgp/QpuMX1N87FkSqnM6UrDW3MJ4rmY5feSc1mMvf
-         Ub7GLF/a/b6kfsGd2Fla81hfaKZSp6L9R/hJyBpGSBaCaBhwPkKTkVi2c0ySS91116xR
-         F1P8XfB1H4I+o2HC1gCTxa236Uel5DbPid+GnXoWBPt1WM+eWQzPV6zD4xi7aTj1cvWu
-         DtTVxO1mvjGHi0rrQThOy1NlfH3N6Njtml5r/uJEjAgNjLhYog1x95bbaBWGNju+2CDG
-         Dz5YHQu07VORGJt2I98TzVOoiy4Cn9I47cJvuye1bb9SZAIWlcyVOjnaSqAPY930DBGP
-         tPWQ==
-X-Gm-Message-State: AOAM530oSHTMwyAooTD9IQGb49JgmRCKH9yydpECDO2qWSbYUAKR0KhF
-        eR7NIK/rsQ4edTkYFfKk3pQ=
-X-Google-Smtp-Source: ABdhPJywpZBOxUrcAA2ibda5nc6sB+szMz9PR3oDWSgdBzdM4+N7PEtUr/LYJyqBrD34NKnA4HfnRQ==
-X-Received: by 2002:a17:906:c302:: with SMTP id s2mr39661610ejz.151.1626894174613;
-        Wed, 21 Jul 2021 12:02:54 -0700 (PDT)
-Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
-        by smtp.gmail.com with ESMTPSA id a25sm11130868edr.21.2021.07.21.12.02.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 12:02:54 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Vineeth Pillai <Vineeth.Pillai@microsoft.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] admin-guide/hw-vuln: Rephrase a section of core-scheduling.rst
-Date:   Wed, 21 Jul 2021 21:02:50 +0200
-Message-Id: <20210721190250.26095-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SOGnEDYj6+aPEFG0m6p/HdJZ6lLy+2oB11LH/GMIPe8=;
+        b=U7MyZGcKOsr/FTrVDzvkIku2RCnfehlz9zRML6VGeJPc0mNolX+dpJCwLtkuEGZRXv
+         4FwdjuwVfcVALIgJe+cgDN9l6BtSpx+jk2+E2ma0D6Qq81XqQRemluoK8hSXgdExYc0I
+         GUzx63VjeH4wFhg/o7HW79OBV765KLyLKQfKnV540iZoo95loijPP972OYLp1mHdoUGA
+         MxT0/Mlhgab/z5xMMpuVPJTwKJjpJVLAbI+gF4x7PyLNej2hJwc2kAmO5Hwxh8Ai4QYy
+         pSVl7oMterHS0S59l0AUSvSoSPfBNf1VJ7jwH44MOveA9HsCFBt0MyQhCffQdBPRvxYn
+         zJZA==
+X-Gm-Message-State: AOAM530gK3pgkSnG9aEu+9JEImScTh1akb8YThC68WoC7+cIJVz/x/Ub
+        JsxhnwdCr1Im7r3s5q4tUpywNgQKa8Btu8h29dQ=
+X-Google-Smtp-Source: ABdhPJx640ylm2KAYp8SewF8Z1tD2mQcn3QMu2iUcvhaFtOAx0ZMixA4m1wVyyq0Dg6aSdjc6BVMPAJP4hkVR2M1HcU=
+X-Received: by 2002:a63:58e:: with SMTP id 136mr6723399pgf.37.1626898513639;
+ Wed, 21 Jul 2021 13:15:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210521221211.29077-1-yu-cheng.yu@intel.com> <20210521221211.29077-25-yu-cheng.yu@intel.com>
+ <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
+In-Reply-To: <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Wed, 21 Jul 2021 13:14:37 -0700
+Message-ID: <CAMe9rOqwe8Mr2pkf0yopWj_F7yZLj9_nmz97+AmFkkmd2U=-fg@mail.gmail.com>
+Subject: Re: [PATCH v27 24/31] x86/cet/shstk: Handle thread shadow stack
+To:     John Allen <john.allen@amd.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rephrase the "For MDS" section in core-scheduling.rst for the purpose of
-making it clearer what is meant by "kernel memory is still considered
-untrusted".
+On Wed, Jul 21, 2021 at 11:15 AM John Allen <john.allen@amd.com> wrote:
+>
+> On Fri, May 21, 2021 at 03:12:04PM -0700, Yu-cheng Yu wrote:
+> > diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> > index 5ea2b494e9f9..8e5f772181b9 100644
+> > --- a/arch/x86/kernel/shstk.c
+> > +++ b/arch/x86/kernel/shstk.c
+> > @@ -71,6 +71,53 @@ int shstk_setup(void)
+> >       return 0;
+> >  }
+> >
+> > +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+> > +                          unsigned long stack_size)
+> > +{
+> > +     struct thread_shstk *shstk = &tsk->thread.shstk;
+> > +     struct cet_user_state *state;
+> > +     unsigned long addr;
+> > +
+> > +     if (!stack_size)
+> > +             return -EINVAL;
+>
+> I've been doing some light testing on AMD hardware and I've found that
+> this version of the patchset doesn't boot for me. It appears that when
+> systemd processes start spawning, they hit the above case, return
+> -EINVAL, and the fork fails. In these cases, copy_thread has been passed
+> 0 for both sp and stack_size.
+>
+> For previous versions of the patchset, I can still boot. When the
+> stack_size check was last, the function would always return before
+> completing the check, hitting one of the two cases below.
+>
+> At the very least, it would seem that on some systems, it isn't valid to
+> rely on the stack_size passed from clone3, though I'm unsure what the
+> correct behavior should be here. If the passed stack_size == 0 and sp ==
+> 0, is this a case where we want to alloc a shadow stack for this thread
+> with some capped size? Alternatively, is this a case that isn't valid to
+> alloc a shadow stack and we should simply return 0 instead of -EINVAL?
+>
+> I'm running Fedora 34 which satisfies the required versions of gcc,
+> binutils, and glibc.
+>
+> Please let me know if there is any additional information I can provide.
 
-Suggested-by: Vineeth Pillai <Vineeth.Pillai@microsoft.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- Documentation/admin-guide/hw-vuln/core-scheduling.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+FWIW, I have been maintaining stable CET kernels at:
 
-diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-index 7b410aef9c5c..e6b5ceb219ec 100644
---- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-+++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-@@ -181,10 +181,11 @@ Open cross-HT issues that core scheduling does not solve
- --------------------------------------------------------
- 1. For MDS
- ~~~~~~~~~~
--Core scheduling cannot protect against MDS attacks between an HT running in
--user mode and another running in kernel mode. Even though both HTs run tasks
--which trust each other, kernel memory is still considered untrusted. Such
--attacks are possible for any combination of sibling CPU modes (host or guest mode).
-+Core scheduling cannot protect against MDS attacks between the siblings running in
-+user mode and the others running in kernel mode. Even though all siblings run tasks
-+which trust each other, when the kernel is executing code on behalf of a task, it
-+cannot trust the code running in the sibling. Such attacks are possible for any
-+combination of sibling CPU modes (host or guest mode).
- 
- 2. For L1TF
- ~~~~~~~~~~~
+https://github.com/hjl-tools/linux/
+
+The current CET kernel is on hjl/cet/linux-5.13.y branch.
+
+> Thanks,
+> John
+>
+> > +
+> > +     if (!shstk->size)
+> > +             return 0;
+> > +
+> > +     /*
+> > +      * For CLONE_VM, except vfork, the child needs a separate shadow
+> > +      * stack.
+> > +      */
+> > +     if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
+> > +             return 0;
+> > +
+> > +     state = get_xsave_addr(&tsk->thread.fpu.state.xsave, XFEATURE_CET_USER);
+> > +     if (!state)
+> > +             return -EINVAL;
+> > +
+> > +     /*
+> > +      * Compat-mode pthreads share a limited address space.
+> > +      * If each function call takes an average of four slots
+> > +      * stack space, allocate 1/4 of stack size for shadow stack.
+> > +      */
+> > +     if (in_compat_syscall())
+> > +             stack_size /= 4;
+> > +
+> > +     stack_size = round_up(stack_size, PAGE_SIZE);
+> > +     addr = alloc_shstk(stack_size);
+> > +     if (IS_ERR_VALUE(addr)) {
+> > +             shstk->base = 0;
+> > +             shstk->size = 0;
+> > +             return PTR_ERR((void *)addr);
+> > +     }
+> > +
+> > +     fpu__prepare_write(&tsk->thread.fpu);
+> > +     state->user_ssp = (u64)(addr + stack_size);
+> > +     shstk->base = addr;
+> > +     shstk->size = stack_size;
+> > +     return 0;
+> > +}
+> > +
+> >  void shstk_free(struct task_struct *tsk)
+> >  {
+> >       struct thread_shstk *shstk = &tsk->thread.shstk;
+> > @@ -80,7 +127,13 @@ void shstk_free(struct task_struct *tsk)
+> >           !shstk->base)
+> >               return;
+> >
+> > -     if (!tsk->mm)
+> > +     /*
+> > +      * When fork() with CLONE_VM fails, the child (tsk) already has a
+> > +      * shadow stack allocated, and exit_thread() calls this function to
+> > +      * free it.  In this case the parent (current) and the child share
+> > +      * the same mm struct.
+> > +      */
+> > +     if (!tsk->mm || tsk->mm != current->mm)
+> >               return;
+> >
+> >       while (1) {
+
+
+
 -- 
-2.32.0
-
+H.J.
