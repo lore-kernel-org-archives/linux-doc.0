@@ -2,131 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF00C12002
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 07:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8D1C636CA
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 09:28:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F9416120A
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 07:50:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A346B6120E
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 09:28:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235576AbhGUHKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235954AbhGUHJf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 03:09:35 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D77C0613DF
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 00:49:34 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id g22-20020a17090a5796b02901763aca3df6so531599pji.5
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 00:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5SiPzH0oQvD2cNeDSmkgLcQ+i377uBDVUSzyiSv2rLY=;
-        b=qfZqotzquTXe7VSUITa6ZJmoYJKz5MciCfcteq60Ba+A+X0MqWUyOHtIOfjBfam0B6
-         3QWsfNofdh4IjaJNL5SUblYuQuGncudv8j1MvMsL1DabZlxjw78MeM/XxOqaGz/H1Fft
-         n3JllH2c3ZnZI3L2e+b4ypu9jIdBhHitxhF/mxsjQVnxiUNAYqxx3/1dXk8uMh0yP8wy
-         rLKkG8C6vxdmUZWCB8XUPI0so0ra6APk1hFy1X8dKU5Nyh4K1xrbNqSoraDVN+Dlm67m
-         ZxhvR8YA0eXOZLEtH/iUGwcRtvupZCTc+4rlp94jQbhXdkmob9kOStBHvvAdJoJPA30B
-         vVlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5SiPzH0oQvD2cNeDSmkgLcQ+i377uBDVUSzyiSv2rLY=;
-        b=qbfIfu9bZcb8PlIx8p8sVAA2AbHRSe1W+E/tvrB5XpyEnSmdpVsIz8lr7ApvvWs9jq
-         bAGvvP4hjErwA//BXHRpmtSoLhGlbP+2IlKOrt6k91a22rP84IGJV/gnwqfqAWDflW5q
-         MIvpZol3lGbOQbexxubjPFwBYy04RbbRGYV5bHYv4ucxR9HSpfVxu+0IhEkhHNPsqaL6
-         cFB1diPcSvKy6MJTFHxCh0p9anLnLUK6iq7H8ktpa1B4xOIdN/pftP7KokyFbiTlSWV9
-         CbpBtN86P6Z4WSEiPG38oojwokExTh0SVcGB3VI5d1roGMu7/La9Qpw+zC0NbKkoK4Ox
-         8xfg==
-X-Gm-Message-State: AOAM532DXoN7bNn+H7YADHeeQMfhJtZoDAUsL/dxcyDy9LfHfJYYr0TP
-        X4mhS9GlLqOd60Nm9WjAgHPiyg==
-X-Google-Smtp-Source: ABdhPJwVcTa6ayV2xNFTtcBA4UI1/B6NB25ALk4yhn4ZuTduJWQZ0/ET+0UopsBFy2MS3zrj2pWlvA==
-X-Received: by 2002:a17:90a:fa88:: with SMTP id cu8mr34258238pjb.198.1626853773904;
-        Wed, 21 Jul 2021 00:49:33 -0700 (PDT)
-Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.250])
-        by smtp.gmail.com with ESMTPSA id c83sm791163pfb.164.2021.07.21.00.49.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Jul 2021 00:49:33 -0700 (PDT)
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
-        mhocko@kernel.org, vdavydov.dev@gmail.com,
-        kirill.shutemov@linux.intel.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        Qi Zheng <zhengqi.arch@bytedance.com>, stable@vger.kernel.org
-Subject: [PATCH v2] mm: fix the deadlock in finish_fault()
-Date:   Wed, 21 Jul 2021 15:48:49 +0800
-Message-Id: <20210721074849.57004-1-zhengqi.arch@bytedance.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        id S236361AbhGUIqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 04:46:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42512 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235784AbhGUIgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 04:36:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626859016;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MJtKyFTywIFWH7233aawpmyXc1XqpQHAbqfePIQjf/o=;
+        b=KuNTiWpDbzPc7V4y+CJM5ZNTyoqGyhbbCtPAFKFkDkuVSjtzYlKgPtOdb06KOTBWxl/uPc
+        Slbb4EGm3QSdpiKThBbKf+G4U5s/rFlCuHIKI3878xUjoQgqYm+yveOmCeSWDQ/e95IP7g
+        2AYd199Ltz2R+B65G0IMZsPX72400hg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517--XzGeVWxNbiTFPXxKtPpHA-1; Wed, 21 Jul 2021 05:16:52 -0400
+X-MC-Unique: -XzGeVWxNbiTFPXxKtPpHA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39961804141;
+        Wed, 21 Jul 2021 09:16:48 +0000 (UTC)
+Received: from localhost (ovpn-112-135.ams2.redhat.com [10.36.112.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 796352C016;
+        Wed, 21 Jul 2021 09:16:40 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
+ mbochs_probe()
+In-Reply-To: <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date:   Wed, 21 Jul 2021 11:16:38 +0200
+Message-ID: <87czrc81s9.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The commit 63f3655f9501 ("mm, memcg: fix reclaim deadlock with
-writeback") fix the following ABBA deadlock by pre-allocating
-the pte page table without holding the page lock.
+On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-	                                lock_page(A)
-                                        SetPageWriteback(A)
-                                        unlock_page(A)
-  lock_page(B)
-                                        lock_page(B)
-  pte_alloc_one
-    shrink_page_list
-      wait_on_page_writeback(A)
-                                        SetPageWriteback(B)
-                                        unlock_page(B)
+> Compared to mbochs_remove() two cases are missing from the
+> vfio_register_group_dev() unwind. Add them in.
+>
+> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+> Reported-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  samples/vfio-mdev/mbochs.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-                                        # flush A, B to clear the writeback
-
-The commit f9ce0be71d1f ("mm: Cleanup faultaround and finish_fault()
-codepaths") rework the relevant code but ignore this race. This will
-cause the deadlock above to appear again, so fix it.
-
-Fixes: f9ce0be71d1f ("mm: Cleanup faultaround and finish_fault() codepaths")
-Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-CC: <stable@vger.kernel.org>
----
- Changelog in v1 -> v2:
-  - Update commit log
-
- mm/memory.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/mm/memory.c b/mm/memory.c
-index db86558791f1..94a17a9a48ab 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4026,8 +4026,17 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
- 				return ret;
- 		}
-
--		if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
-+		if (vmf->prealloc_pte) {
-+			vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
-+			if (likely(pmd_none(*vmf->pmd))) {
-+				mm_inc_nr_ptes(vma->vm_mm);
-+				pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
-+				vmf->prealloc_pte = NULL;
-+			}
-+			spin_unlock(vmf->ptl);
-+		} else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
- 			return VM_FAULT_OOM;
-+		}
- 	}
-
- 	/* See comment in handle_pte_fault() */
---
-2.11.0
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
