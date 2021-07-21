@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC104C636C9
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:55:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C67C636C9
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 14:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFB116121E
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:55:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B96B6124C
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 14:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235426AbhGUNPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 09:15:09 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:50426 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232706AbhGUNPJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 09:15:09 -0400
+        id S238534AbhGUN0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 09:26:18 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:50654 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239166AbhGUN0R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 09:26:17 -0400
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id A4A9620341;
-        Wed, 21 Jul 2021 13:55:44 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id 56BD722542;
+        Wed, 21 Jul 2021 14:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1626875744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1626876413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=d2zL4DSMxxgusCwerQYFit51RZdm7XIpv5GcoSHdjTc=;
-        b=k41ZNBw3GYqRYI9O1VKZjSxUOz2zBx+Bp+E+Nz9zW7n8bXxAVTwiYAaGH73jrLMynem9Ji
-        nNQvCmYsb7AdauDaq7kR9oSaQ4aVPKIgUynRW1ea8F7jdq7NzNBYwUVyF2pECfarNjpDhj
-        tZeaGuigE2yUMqO09pxLu/N6JsmB0yo=
+        bh=XsBzF8jN6NkkFCtTA12oeFWwTLn6/eVWsX76X7VzP+U=;
+        b=rkv4HriYmi/G6EV+FgmomCR0saofJFi/1sJHoVk2OVGerczwdVgjPMq4FJ5CUOtJOTfVHC
+        0m5U8ulPfqOHo6inPq6PxKAjmnC+fte+d1vkOf+7MBHeSRQ1fnWylHzCIyeWjFgtefP5HU
+        Ri7WRjG6BZUSlMV6N08TgCP/+w7rId4=
 Received: from suse.cz (pathway.suse.cz [10.100.12.24])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 47F1EA3B83;
-        Wed, 21 Jul 2021 13:55:44 +0000 (UTC)
-Date:   Wed, 21 Jul 2021 15:55:44 +0200
+        by relay2.suse.de (Postfix) with ESMTPS id 45390A3B8B;
+        Wed, 21 Jul 2021 14:06:52 +0000 (UTC)
+Date:   Wed, 21 Jul 2021 16:06:49 +0200
 From:   Petr Mladek <pmladek@suse.com>
 To:     Jia He <justin.he@arm.com>
 Cc:     Steven Rostedt <rostedt@goodmis.org>,
@@ -52,43 +52,32 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         Christoph Hellwig <hch@infradead.org>, nd@arm.com
-Subject: Re: [PATCH v7 3/5] lib/vsprintf.c: make '%pD' print the full path of
- file
-Message-ID: <20210721135544.w4blqsvcyr42sxcb@pathway.suse.cz>
+Subject: Re: [PATCH v7 5/5] lib/test_printf.c: add test cases for '%pD'
+Message-ID: <20210721140649.6luuiujudf7snoi6@pathway.suse.cz>
 References: <20210715011407.7449-1-justin.he@arm.com>
- <20210715011407.7449-4-justin.he@arm.com>
+ <20210715011407.7449-6-justin.he@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210715011407.7449-4-justin.he@arm.com>
+In-Reply-To: <20210715011407.7449-6-justin.he@arm.com>
 User-Agent: NeoMutt/20170912 (1.9.0)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-07-15 09:14:05, Jia He wrote:
-> Previously, the specifier '%pD' was for printing dentry name of struct
-> file. It may not be perfect since by default it only prints one component.
+On Thu 2021-07-15 09:14:07, Jia He wrote:
+> After the behaviour of specifier '%pD' is changed to print the full path
+> of struct file, the related test cases are also updated.
 > 
-> As suggested by Linus [1]:
->   A dentry has a parent, but at the same time, a dentry really does
->   inherently have "one name" (and given just the dentry pointers, you
->   can't show mount-related parenthood, so in many ways the "show just
->   one name" makes sense for "%pd" in ways it doesn't necessarily for
->   "%pD"). But while a dentry arguably has that "one primary component",
->   a _file_ is certainly not exclusively about that last component.
+> Given the full path string of '%pD' is prepended from the end of the scratch
+> buffer, the check of "wrote beyond the nul-terminator" should be skipped
+> for '%pD'.
 > 
-> Hence change the behavior of '%pD' to print the full path of that file.
-> It is worthy of noting that %pD uses the entire given buffer as a scratch
-> space. It might write something behind the trailing '\0' but never write
-> beyond the scratch space.
+> Parameterize the new using_scratch_space in __test(), do_test() and wrapper
+> macros to skip the test case mentioned above,
 > 
-> Precision specifier is never going to be used with %p (or any of its
-> kernel extensions) if -Wformat is turned on.
-> 
-> Link: https://lore.kernel.org/lkml/CAHk-=wimsMqGdzik187YWLb-ru+iktb4MYbMQG1rnZ81dXYFVg@mail.gmail.com/ [1]
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 > Signed-off-by: Jia He <justin.he@arm.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 Reviewed-by: Petr Mladek <pmladek@suse.com>
 
