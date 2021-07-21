@@ -2,256 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395F0C636C9
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 05:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF00C12002
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 07:50:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C2E760FED
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 05:09:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F9416120A
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 07:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232397AbhGUE2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 00:28:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45718 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231706AbhGUE2S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Jul 2021 00:28:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BC94F60FED;
-        Wed, 21 Jul 2021 05:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1626844134;
-        bh=8xr7SyJ/SR+q3zattaqRhO8P9X6cQlSVhvKXj24mG14=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=glJ5go50QoloMAjuogRswx0DYYhRGv87+a6Spv0UB5uTfI2h/tHCRC4ufEPmotwkF
-         htVW/51PPjwaj3G4bOeMIrCxdQpXl0Xi9KJ2NxNV54M5WQHNiuoeqVCXeNsBMKMv6I
-         5/NeHcjzJlZqglMsYQ3sJgh7q6Tz4Q/UR7rwbD7Y=
-Date:   Wed, 21 Jul 2021 07:08:51 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Long Li <longli@microsoft.com>
-Cc:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
-        "linux-fs@vger.kernel.org" <linux-fs@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
-Message-ID: <YPer41ckT5njYW4G@kroah.com>
-References: <1626751866-15765-1-git-send-email-longli@linuxonhyperv.com>
- <1626751866-15765-3-git-send-email-longli@linuxonhyperv.com>
- <YPZ8hX7sx1RFL0c5@kroah.com>
- <BY5PR21MB1506A52AD22240E22A0D6DE5CEE29@BY5PR21MB1506.namprd21.prod.outlook.com>
+        id S235576AbhGUHKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235954AbhGUHJf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 03:09:35 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D77C0613DF
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 00:49:34 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id g22-20020a17090a5796b02901763aca3df6so531599pji.5
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 00:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5SiPzH0oQvD2cNeDSmkgLcQ+i377uBDVUSzyiSv2rLY=;
+        b=qfZqotzquTXe7VSUITa6ZJmoYJKz5MciCfcteq60Ba+A+X0MqWUyOHtIOfjBfam0B6
+         3QWsfNofdh4IjaJNL5SUblYuQuGncudv8j1MvMsL1DabZlxjw78MeM/XxOqaGz/H1Fft
+         n3JllH2c3ZnZI3L2e+b4ypu9jIdBhHitxhF/mxsjQVnxiUNAYqxx3/1dXk8uMh0yP8wy
+         rLKkG8C6vxdmUZWCB8XUPI0so0ra6APk1hFy1X8dKU5Nyh4K1xrbNqSoraDVN+Dlm67m
+         ZxhvR8YA0eXOZLEtH/iUGwcRtvupZCTc+4rlp94jQbhXdkmob9kOStBHvvAdJoJPA30B
+         vVlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5SiPzH0oQvD2cNeDSmkgLcQ+i377uBDVUSzyiSv2rLY=;
+        b=qbfIfu9bZcb8PlIx8p8sVAA2AbHRSe1W+E/tvrB5XpyEnSmdpVsIz8lr7ApvvWs9jq
+         bAGvvP4hjErwA//BXHRpmtSoLhGlbP+2IlKOrt6k91a22rP84IGJV/gnwqfqAWDflW5q
+         MIvpZol3lGbOQbexxubjPFwBYy04RbbRGYV5bHYv4ucxR9HSpfVxu+0IhEkhHNPsqaL6
+         cFB1diPcSvKy6MJTFHxCh0p9anLnLUK6iq7H8ktpa1B4xOIdN/pftP7KokyFbiTlSWV9
+         CbpBtN86P6Z4WSEiPG38oojwokExTh0SVcGB3VI5d1roGMu7/La9Qpw+zC0NbKkoK4Ox
+         8xfg==
+X-Gm-Message-State: AOAM532DXoN7bNn+H7YADHeeQMfhJtZoDAUsL/dxcyDy9LfHfJYYr0TP
+        X4mhS9GlLqOd60Nm9WjAgHPiyg==
+X-Google-Smtp-Source: ABdhPJwVcTa6ayV2xNFTtcBA4UI1/B6NB25ALk4yhn4ZuTduJWQZ0/ET+0UopsBFy2MS3zrj2pWlvA==
+X-Received: by 2002:a17:90a:fa88:: with SMTP id cu8mr34258238pjb.198.1626853773904;
+        Wed, 21 Jul 2021 00:49:33 -0700 (PDT)
+Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.250])
+        by smtp.gmail.com with ESMTPSA id c83sm791163pfb.164.2021.07.21.00.49.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Jul 2021 00:49:33 -0700 (PDT)
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        kirill.shutemov@linux.intel.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com,
+        Qi Zheng <zhengqi.arch@bytedance.com>, stable@vger.kernel.org
+Subject: [PATCH v2] mm: fix the deadlock in finish_fault()
+Date:   Wed, 21 Jul 2021 15:48:49 +0800
+Message-Id: <20210721074849.57004-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BY5PR21MB1506A52AD22240E22A0D6DE5CEE29@BY5PR21MB1506.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 07:57:56PM +0000, Long Li wrote:
-> > Subject: Re: [Patch v4 2/3] Drivers: hv: add Azure Blob driver
-> > 
-> > On Mon, Jul 19, 2021 at 08:31:05PM -0700, longli@linuxonhyperv.com wrote:
-> > > +struct az_blob_device {
-> > > +	struct hv_device *device;
-> > > +
-> > > +	/* Opened files maintained by this device */
-> > > +	struct list_head file_list;
-> > > +	/* Lock for protecting file_list */
-> > > +	spinlock_t file_lock;
-> > > +
-> > > +	/* The refcount for this device */
-> > > +	refcount_t count;
-> > 
-> > Just use a kref please if you really need this.  Are you sure you do?
-> > You already have 2 other reference counted objects being used here, why make
-> > it 3?
-> 
-> The "count" is to keep track how many user-mode instances and vmbus instance
-> are opened on this device.
+The commit 63f3655f9501 ("mm, memcg: fix reclaim deadlock with
+writeback") fix the following ABBA deadlock by pre-allocating
+the pte page table without holding the page lock.
 
-That will not work at all, sorry.  Please NEVER try to count "open"
-calls to a driver, as the driver will never be told how many userspace
-programs are accessing it at any time, nor should it even ever care.
+	                                lock_page(A)
+                                        SetPageWriteback(A)
+                                        unlock_page(A)
+  lock_page(B)
+                                        lock_page(B)
+  pte_alloc_one
+    shrink_page_list
+      wait_on_page_writeback(A)
+                                        SetPageWriteback(B)
+                                        unlock_page(B)
 
-Use the existing apis, there is no need to attempt to count this as you
-will always get it wrong (hint, what happens when processes share file
-descriptors...)
+                                        # flush A, B to clear the writeback
 
-> Being a VMBUS device, this device can be removed 
-> at any time (host servicing etc). We must remove the device when this happens
-> even if the device is still opened by some user-mode program. The "count" will
-> guarantee the lifecycle of the device object after all user-mode has released the device.
+The commit f9ce0be71d1f ("mm: Cleanup faultaround and finish_fault()
+codepaths") rework the relevant code but ignore this race. This will
+cause the deadlock above to appear again, so fix it.
 
-No it will not, just use the existing apis and all will be fine.
+Fixes: f9ce0be71d1f ("mm: Cleanup faultaround and finish_fault() codepaths")
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+CC: <stable@vger.kernel.org>
+---
+ Changelog in v1 -> v2:
+  - Update commit log
 
-> I looked at using "file_list" (it's used for tracking opened files by user-mode) for this purpose, 
-> but I found out I still need to manage the device count at the vmbus side. 
+ mm/memory.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Again, you should not need this.  As proof, no other driver needs
-this...
+diff --git a/mm/memory.c b/mm/memory.c
+index db86558791f1..94a17a9a48ab 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4026,8 +4026,17 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
+ 				return ret;
+ 		}
 
-> > > +	/* Pending requests to VSP */
-> > > +	atomic_t pending;
-> > 
-> > Why does this need to be atomic?
-> 
-> "pending' is per-device maintained that could change when multiple-user access
-> the device at the same time.
+-		if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
++		if (vmf->prealloc_pte) {
++			vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
++			if (likely(pmd_none(*vmf->pmd))) {
++				mm_inc_nr_ptes(vma->vm_mm);
++				pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
++				vmf->prealloc_pte = NULL;
++			}
++			spin_unlock(vmf->ptl);
++		} else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
+ 			return VM_FAULT_OOM;
++		}
+ 	}
 
-How do you know this, and why does it matter?
+ 	/* See comment in handle_pte_fault() */
+--
+2.11.0
 
-> > > +	wait_queue_head_t waiting_to_drain;
-> > > +
-> > > +	bool removing;
-> > 
-> > Are you sure this actually works properly?  Why is it needed vs. any other misc
-> > device?
-> 
-> When removing this device from vmbus, we need to guarantee there is no possible packets to
-> vmbus.
-
-Why?  Shouldn't the vmbus api handle this for you automatically?  Why is
-this driver unique here?
-
-> This is a requirement before calling vmbus_close(). Other drivers of vmbus follows
-> the same procedure.
-
-Ah.  Why not fix this in the vmbus core?  That sounds like extra logic
-that everyone would have to duplicate for no good reason.
-
-> The reason why this driver needs this is that the device removal can happen in the middle of
-> az_blob_ioctl_user_request(), which can send packet over vmbus.
-
-Sure, but the bus should handle that for you.
-
-> > > +/* VSC->VSP request */
-> > > +struct az_blob_vsp_request {
-> > > +	u32 version;
-> > > +	u32 timeout_ms;
-> > > +	u32 data_buffer_offset;
-> > > +	u32 data_buffer_length;
-> > > +	u32 data_buffer_valid;
-> > > +	u32 operation_type;
-> > > +	u32 request_buffer_offset;
-> > > +	u32 request_buffer_length;
-> > > +	u32 response_buffer_offset;
-> > > +	u32 response_buffer_length;
-> > > +	guid_t transaction_id;
-> > > +} __packed;
-> > 
-> > Why packed?  If this is going across the wire somewhere, you need to specify
-> > the endian-ness of these values, right?  If this is not going across the wire, no
-> > need for it to be packed.
-> 
-> Those data go through the wire.
-> 
-> All data structures specified in the Hyper-V and guest VM use Little Endian byte
-> ordering.  All HV core drivers have a dependence on X86, that guarantees this
-> ordering.
-
-Then specify little endian please.
-
-> > > +	struct completion wait_vsp;
-> > > +	struct az_blob_request_sync *request; };
-> > > +
-> > > +struct az_blob_file_ctx {
-> > > +	struct list_head list;
-> > > +
-> > > +	/* List of pending requests to VSP */
-> > > +	struct list_head vsp_pending_requests;
-> > > +	/* Lock for protecting vsp_pending_requests */
-> > > +	spinlock_t vsp_pending_lock;
-> > > +	wait_queue_head_t wait_vsp_pending;
-> > > +
-> > > +	pid_t pid;
-> > 
-> > Why do you need a pid?  What namespace is this pid in?
-> 
-> It's a request from user library team for production troubleshooting
-> purposes. It's exposed as informal in debugfs.
-
-Then it will be wrong.  Put all of your "debugging" stuff into one place
-so it is obvious what it is for, and so that people can ignore it.
-
-> > > +static int az_blob_probe(struct hv_device *device,
-> > > +			 const struct hv_vmbus_device_id *dev_id) {
-> > > +	int ret;
-> > > +	struct az_blob_device *dev;
-> > > +
-> > > +	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> > > +	if (!dev)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	spin_lock_init(&dev->file_lock);
-> > > +	INIT_LIST_HEAD(&dev->file_list);
-> > > +	atomic_set(&dev->pending, 0);
-> > > +	init_waitqueue_head(&dev->waiting_to_drain);
-> > > +
-> > > +	ret = az_blob_connect_to_vsp(device, dev, AZ_BLOB_RING_SIZE);
-> > > +	if (ret)
-> > > +		goto fail;
-> > > +
-> > > +	refcount_set(&dev->count, 1);
-> > > +	az_blob_dev = dev;
-> > > +
-> > > +	// create user-mode client library facing device
-> > > +	ret = az_blob_create_device(dev);
-> > > +	if (ret) {
-> > > +		dev_err(AZ_DEV, "failed to create device ret=%d\n", ret);
-> > > +		az_blob_remove_vmbus(device);
-> > > +		goto fail;
-> > > +	}
-> > > +
-> > > +	dev_info(AZ_DEV, "successfully probed device\n");
-> > 
-> > When drivers are working properly, they should be quiet.
-> 
-> The reason is that in production environment when dealing with custom support
-> cases, there is no good way to check if the channel is opened on the device. Having
-> this message will greatly clear confusions on possible mis-configurations.
-
-Again, no, the driver should be quiet.  If you REALLY need this type of
-thing, the bus should be the one doing that type of notification for all
-devices on the bus.  Do not make this a per-driver choice.
-
-> > And what is with the AZ_DEV macro mess?
-> 
-> It's not required, it's just for saving code length. I can put "&az_blob_dev->device->device"
-> in every dev_err(), but it makes the code look a lot longer.
-
-Then perhaps your structures are not correct?  Please spell it out so
-that we can see that your implementation needs fixing.
-
-> > And can you handle more than one device in the system at one time?  I think
-> > your debugfs logic will get really confused.
-> 
-> There can be one device object active in the system at any given time. The debugfs grabs
-> the current active device object. If the device is being removed, removed or added, 
-> the current active device object is updated accordingly.
-
-If I remember, your debugfs initialization seems to not use the device
-name, but rather a "driver" name, which implies that this is not going
-to work well with multiple devices.  But I could be wrong.
-
-thanks,
-
-greg k-h
