@@ -2,116 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF914C12002
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 11:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F4DC6377B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 11:40:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA7476109F
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 11:40:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B31C16109F
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 11:40:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233244AbhGULAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 07:00:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43705 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233136AbhGUKxM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 06:53:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626867226;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=00OcMiF0F2gS1ZNqukAXzYGpVfpA2IKDuUHwrSni+LI=;
-        b=LuYbVsr18XYq3zhJ5T/KZqynq3SZNMdiD3UVSd6Thpbfpn86a5CZaIxWiusYcQEx+rTV49
-        9/ba2LnRTUCvHAd8nXVzocH6WMFNLl4Xiej0tr7N2a1OcOT2QFAmOM8lDoU0zIk+T8PNLD
-        KUkUokz9sg6w16k1XIPU5SdKYjiYF00=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-zkp5VfsMM6-lurNQyTFRCA-1; Wed, 21 Jul 2021 07:33:43 -0400
-X-MC-Unique: zkp5VfsMM6-lurNQyTFRCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D34510086C4;
-        Wed, 21 Jul 2021 11:33:39 +0000 (UTC)
-Received: from localhost (ovpn-112-135.ams2.redhat.com [10.36.112.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E28BB60854;
-        Wed, 21 Jul 2021 11:33:30 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v2 03/14] vfio: Introduce a vfio_uninit_group_dev() API
- call
-In-Reply-To: <3-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <3-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Wed, 21 Jul 2021 13:33:29 +0200
-Message-ID: <877dhj9a0m.fsf@redhat.com>
+        id S235869AbhGULAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 07:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238015AbhGUKmn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 06:42:43 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A898DC061574;
+        Wed, 21 Jul 2021 04:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tjKLXf0Ng52UH5nHxMTM/eP+9xIaqoGvYekhvlgulkU=; b=ml92iat7e/0Z0zUSXyBKWCFT/T
+        +LyfOBlYqxlteYRIYhfLZunuiaY0K4ewec4QNxKTsAhIvGnLKyEVhhQanm/af+BF2OtFcRhk4GElJ
+        5a3qkimaAA9z/UuwPVhjWwfSHWIRErSBHjJL2JkvMkmBc4Ceclrfn77wnaYSomg+bKyW7LR23ZWw5
+        SfrPRbkNbOVXp2zoGMtiZYFHSqjVuP96NiR3So0JPPEWP/nd/By1Hku3hx2ymY4pO1kMLzEYCbI9Q
+        LI5fLcJlj77T+vGjXJtV8j+oeZfRQ1PDsGlSIZCUVZStjZsZeWA0daIESAeCtuBMJlF/PReDVvnGc
+        fQJ7Kptw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m6AJh-0097oC-3n; Wed, 21 Jul 2021 11:23:10 +0000
+Date:   Wed, 21 Jul 2021 12:23:09 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v14 011/138] mm/lru: Add folio LRU functions
+Message-ID: <YPgDne2ORs+tJsk2@casper.infradead.org>
+References: <20210715033704.692967-1-willy@infradead.org>
+ <20210715033704.692967-12-willy@infradead.org>
+ <YPao+syEWXGhDxay@kernel.org>
+ <YPedzMQi+h/q0sRU@casper.infradead.org>
+ <YPfdM9dLEsFXZJgf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YPfdM9dLEsFXZJgf@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Wed, Jul 21, 2021 at 11:39:15AM +0300, Mike Rapoport wrote:
+> On Wed, Jul 21, 2021 at 05:08:44AM +0100, Matthew Wilcox wrote:
+> > I wanted to turn those last two sentences into a list, but my
+> > kernel-doc-fu abandoned me.  Feel free to submit a follow-on patch to
+> > fix that ;-)
+> 
+> Here it is ;-)
 
-> From: Max Gurtovoy <mgurtovoy@nvidia.com>
->
-> This pairs with vfio_init_group_dev() and allows undoing any state that is
-> stored in the vfio_device unrelated to registration. Add appropriately
-> placed calls to all the drivers.
->
-> The following patch will use this to add pre-registration state for the
-> device set.
->
-> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/vfio.rst            |  4 ++-
->  drivers/vfio/fsl-mc/vfio_fsl_mc.c            |  7 ++---
->  drivers/vfio/mdev/vfio_mdev.c                | 13 +++++++---
->  drivers/vfio/pci/vfio_pci.c                  |  6 +++--
->  drivers/vfio/platform/vfio_platform_common.c |  7 +++--
->  drivers/vfio/vfio.c                          |  5 ++++
->  include/linux/vfio.h                         |  1 +
->  samples/vfio-mdev/mbochs.c                   |  2 ++
->  samples/vfio-mdev/mdpy.c                     | 25 ++++++++++--------
->  samples/vfio-mdev/mtty.c                     | 27 ++++++++++++--------
->  10 files changed, 64 insertions(+), 33 deletions(-)
+Did you try it?  Here's what that turns into with htmldoc:
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Description
+
+We would like to get this info without a page flag, but the state needs
+to survive until the folio is last deleted from the LRU, which could be
+as far down as __page_cache_release.
+
+ * 1 if folio is a regular filesystem backed page cache folio or a
+   lazily freed anonymous folio (e.g. via MADV_FREE).
+ * 0 if folio is a normal anonymous folio, a tmpfs folio or otherwise
+   ram or swap backed folio.
+
+Return
+
+An integer (not a boolean!) used to sort a folio onto the right LRU list
+and to account folios correctly.
+
+Yes, we get a bulleted list, but it's placed in the wrong section!
+
+Adding linux-doc for additional insight into this problem.
+For their reference, here's the input:
+
+/**
+ * folio_is_file_lru - Should the folio be on a file LRU or anon LRU?
+ * @folio: The folio to test.
+ *
+ * We would like to get this info without a page flag, but the state
+ * needs to survive until the folio is last deleted from the LRU, which
+ * could be as far down as __page_cache_release.
+ *
+ * Return: An integer (not a boolean!) used to sort a folio onto the
+ * right LRU list and to account folios correctly.
+ *
+ * - 1 if @folio is a regular filesystem backed page cache folio
+ *   or a lazily freed anonymous folio (e.g. via MADV_FREE).
+ * - 0 if @folio is a normal anonymous folio, a tmpfs folio or otherwise
+ *   ram or swap backed folio.
+ */
+static inline int folio_is_file_lru(struct folio *folio)
 
