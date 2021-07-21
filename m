@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EA1C12002
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:18:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4932AC636CA
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:22:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 365276120A
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:18:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E8F161245
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:22:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237398AbhGUMhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 08:37:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
+        id S237551AbhGUMlc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 08:41:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231680AbhGUMht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 08:37:49 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CDD1C061574
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:18:25 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id r132so3239928yba.5
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:18:25 -0700 (PDT)
+        with ESMTP id S237531AbhGUMlb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 08:41:31 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EFFC061766
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:22:08 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id a16so3229208ybt.8
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c1rRa3phHTJWmbuCa9Ba7yDi4LWrl8+YODk9pdiOglY=;
-        b=Gyv0aaXDH/IFhULwdSv6HQFnFAX7svUaaxi00pmF2amALPQgQwO9WU013kLXFcuo2I
-         5aTlq9gfRsCp6WVrjQ4GA63N1E++ar7bG6zH0tLeVS2ke2DDJrMLzXMnGmKrzyjnK9kt
-         /cwTndRguTHL3dwJGuFJhPi4yFmxhH3Tp2N8IRx8TUtOsaMtdztuejeNL0ZtCarhsfyG
-         HEKzGM4CXveSYgwwmV9NB6qXYqHJuOm49bhR9Yuhpewkc0C/ibBpoRsH4baSssyPWByr
-         kqkj5DCLmTZyMCiblmCi9JSbvjt56yBgQF8FDQNSMagccXnjj67E6uOb6xrpiwHJ9URU
-         iE1g==
+        bh=hZwJIZ2K8rI+pgGDI4cRSYEmo/51p2RfSvQRRFc/6G4=;
+        b=0gXQ/a23lNAjY5FnFoHI7VxYXSSMWX/t4jL07nsAlNKb6JVO23YYoQw8SWcOtoIaAr
+         hN2QjeLOUHkU+hwXt7lLocn7hvj1h20uruk98GGvQzUQaaAw70vph/s3/2yjP4XrmZ81
+         qbrkWDqyHMgPlanL4TC2pDIqUjLLYokXvUjlCvfumMke4TBaCVNcHtcom90ZoD77AWw5
+         5BpwcsHBx1lRY1BbXn+raMT1dRXenqN6U7SWu1TXDKJSJYVcqLmxrDf4qbwD/jOZHRlS
+         MgI0JTrw/d85WSOCt+OVCxkd/9Q9TuzsQIzJVqzoRGEYG+H0AU/CNtxCGu76CoV6tLgU
+         TnKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c1rRa3phHTJWmbuCa9Ba7yDi4LWrl8+YODk9pdiOglY=;
-        b=WtY8vjMxKlSZ7fD77D8UcWG8tS4XE0AxBkylFPUPAhv3r3G8/QFojaF381fgO477R7
-         H3rUArbN95lULmZnepvaT2+dfXRgdvJQaZybMddSBYXfdeomVmqEQ3GeBtJ3d/TQrDlF
-         PD46mlKTUgKp+O4xzF+dR0F+5g8NhLxQyv8DrvM+BKOyiyj0SnSAFL/D8sXcX9uG44Ca
-         gz/9k7jsBwCeGEQVM6poLHrQL5+Km4ZzL6eYQGxg+LIf9qoPKoZBqJ5JAzQ6oqPJuZ+x
-         7n30gXmmfpIBvkpUSX65s6dqkMLcn87mHeTkj9plPI5AO/YlV8N+UG/mRKdKz+vmHyIJ
-         iVdw==
-X-Gm-Message-State: AOAM533sUEzPMu4+ihHkpD2azPdvLc0flh2V5zSjvB+dGZnds4HyByRk
-        vcha5tV24zZYvTVu80F7TTUTXeGg3TMJ8PcW/np0hA==
-X-Google-Smtp-Source: ABdhPJy1PounyikHq+KqbdeJm1FzIvQPgLEgmuaTn6HxAFMpGA8GZziNxOCNjkSgQAKm72hRdIAmqPpEZ7k606KEI6I=
-X-Received: by 2002:a25:ca54:: with SMTP id a81mr26076620ybg.157.1626873504672;
- Wed, 21 Jul 2021 06:18:24 -0700 (PDT)
+        bh=hZwJIZ2K8rI+pgGDI4cRSYEmo/51p2RfSvQRRFc/6G4=;
+        b=bI+++9GJZx2SPcgUw6UUtcuFtqkDHYaDZx6W4Uzk77WAqDT/nBoqNM/j8Jmi+CPR5Z
+         wpaTsc5gSqSBFmXzojPCoSAjkCpX4gzICp28uH+DjrLPNDcD7AJICBM0qh2qjAmfRONf
+         nqLdfzuQ9EjnoaEh53UxfytpMPp+XFIXdoKvYH8tKtpARLTPNjLoNOpzDGNjr6J11oMe
+         XWadssaquArQLB4bf5UYmGrVez5KWQWzziNvbpQ+BMSfX5csi5yNy325OdXrfBAQ6lJ5
+         aYwr0ucGCx1P+4axGjibWrCPog4A2R30uny2c5oeCq7LsEKUTqmIaQ5geMKbmKlNbDLw
+         Ifag==
+X-Gm-Message-State: AOAM532YV9CVwb5MvNo/X6UO0ZvQaV7OxTV8DDUR3dYgF0UX0OVqbVL5
+        B3RHYR+v0jmMoiqIYbAUXGSxwiUbD2oWkvpT2ATnxw==
+X-Google-Smtp-Source: ABdhPJw8tfeSdvqXHu/1qe0V/wMQMlfodPC+f/Nl6xWtn/+jWFe1PPf/A/jN0HUkWv08N5OaobskQXxJjgLKnY4J2rc=
+X-Received: by 2002:a25:ca54:: with SMTP id a81mr26099538ybg.157.1626873727771;
+ Wed, 21 Jul 2021 06:22:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <5d1823c503629694de74ccd2d823188507c54706.1625445811.git.plr.vincent@gmail.com>
-In-Reply-To: <5d1823c503629694de74ccd2d823188507c54706.1625445811.git.plr.vincent@gmail.com>
+References: <20210708152054.361704-1-hannu@hrtk.in>
+In-Reply-To: <20210708152054.361704-1-hannu@hrtk.in>
 From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 21 Jul 2021 15:18:14 +0200
-Message-ID: <CAMpxmJVSSsRM1W957E-urQqbY1PB+wQ6sRCRnCaHVKg6ge13ZA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: driver.rst: Remove
- gpiochip_irqchip_add mention
-To:     Vincent Pelletier <plr.vincent@gmail.com>
+Date:   Wed, 21 Jul 2021 15:21:57 +0200
+Message-ID: <CAMpxmJWT-aG_KL66-0vDc7KAV_yGU7gWFrhk5BNenPix8v+RsA@mail.gmail.com>
+Subject: Re: [PATCH] docs: gpio: explain GPIOD_OUT_* values and toggling
+ active low
+To:     Hannu Hartikainen <hannu@hrtk.in>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         linux-gpio <linux-gpio@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         linux-doc <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,44 +70,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 5, 2021 at 2:44 AM Vincent Pelletier <plr.vincent@gmail.com> wrote:
+On Thu, Jul 8, 2021 at 5:21 PM Hannu Hartikainen <hannu@hrtk.in> wrote:
 >
-> This function was removed in commit f1f37abbe6fc ("gpio: Retire the
-> explicit gpio irqchip code") but this mention was left behind.
-> Also, mention that .set_type() only has to set a line handler if the chip
-> is cascaded, as opposed to hierarchical.
+> I was confused about the gpiod_flags values and thought that
+> GPIOD_OUT_LOW and GPIOD_OUT_HIGH set the line to be active low / active
+> high. This is not true, but I got the misconception because the flags
+> GPIOD_OUT_*_OPEN_DRAIN do change line configuration and there's a
+> subchapter about *active low* and *open drain* semantics.
 >
-> Signed-off-by: Vincent Pelletier <plr.vincent@gmail.com>
+> Add an explicit mention that the initial value is a logical value (and
+> not the line configuration or physical line level). Also add a mention
+> of the function gpiod_toggle_active_low which was previously missing
+> from this document.
+>
+> Signed-off-by: Hannu Hartikainen <hannu@hrtk.in>
 > ---
->  Documentation/driver-api/gpio/driver.rst | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+>  Documentation/driver-api/gpio/consumer.rst | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-> index d6b0d779859b..bbc53920d4dd 100644
-> --- a/Documentation/driver-api/gpio/driver.rst
-> +++ b/Documentation/driver-api/gpio/driver.rst
-> @@ -547,13 +547,10 @@ To use the helpers please keep the following in mind:
->    the irqchip can initialize. E.g. .dev and .can_sleep shall be set up
->    properly.
+> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+> index 3366a991b4aa..47869ca8ccf0 100644
+> --- a/Documentation/driver-api/gpio/consumer.rst
+> +++ b/Documentation/driver-api/gpio/consumer.rst
+> @@ -72,6 +72,10 @@ for the GPIO. Values can be:
+>  * GPIOD_OUT_HIGH_OPEN_DRAIN same as GPIOD_OUT_HIGH but also enforce the line
+>    to be electrically used with open drain.
 >
-> -- Nominally set all handlers to handle_bad_irq() in the setup call and pass
-> -  handle_bad_irq() as flow handler parameter in gpiochip_irqchip_add() if it is
-> -  expected for GPIO driver that irqchip .set_type() callback will be called
-> -  before using/enabling each GPIO IRQ. Then set the handler to
-> -  handle_level_irq() and/or handle_edge_irq() in the irqchip .set_type()
-> -  callback depending on what your controller supports and what is requested
-> -  by the consumer.
-> +- Nominally set gpio_irq_chip.handler to handle_bad_irq. Then, if your irqchip
-> +  is cascaded, set the handler to handle_level_irq() and/or handle_edge_irq()
-> +  in the irqchip .set_type() callback depending on what your controller
-> +  supports and what is requested by the consumer.
+> +Note that the initial value is *logical* and the physical line level depends on
+> +whether the line is configured active high or active low (see
+> +:ref:`active_low_semantics`).
+> +
+>  The two last flags are used for use cases where open drain is mandatory, such
+>  as I2C: if the line is not already configured as open drain in the mappings
+>  (see board.txt), then open drain will be enforced anyway and a warning will be
+> @@ -252,6 +256,8 @@ that can't be accessed from hardIRQ handlers, these calls act the same as the
+>  spinlock-safe calls.
 >
 >
->  Locking IRQ usage
+> +.. _active_low_semantics:
+> +
+>  The active low and open drain semantics
+>  ---------------------------------------
+>  As a consumer should not have to care about the physical line level, all of the
+> @@ -309,9 +315,11 @@ work on the raw line value::
+>         void gpiod_set_raw_value_cansleep(struct gpio_desc *desc, int value)
+>         int gpiod_direction_output_raw(struct gpio_desc *desc, int value)
+>
+> -The active low state of a GPIO can also be queried using the following call::
+> +The active low state of a GPIO can also be queried and toggled using the
+> +following calls::
+>
+>         int gpiod_is_active_low(const struct gpio_desc *desc)
+> +       void gpiod_toggle_active_low(struct gpio_desc *desc)
+>
+>  Note that these functions should only be used with great moderation; a driver
+>  should not have to care about the physical line level or open drain semantics.
 > --
 > 2.32.0
 >
 
-Patch applied, thanks!
+Makes sense, applied!
 
 Bartosz
