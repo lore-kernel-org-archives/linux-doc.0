@@ -2,101 +2,612 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E32C636CA
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:39:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B96E6C12002
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:56:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C9F961249
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:39:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3A9D61029
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:56:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbhGUQ7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 12:59:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52332 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229597AbhGUQ7W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Jul 2021 12:59:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CCB960BD3;
-        Wed, 21 Jul 2021 17:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626889198;
-        bh=vxkURe61iwE39hj0EF+5bZCTtjoEwnhfxCFjfgtQ36o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RdtxAIqyvftI0HvvwlX5/SxdplcftLcb7cHzSZzSBeVa053tupBtoEUKK+jimZAgJ
-         tkbIIqTOuadoy+qdAfeIwXRtAxi/Kj5wQCCqhizUXhqKy2B82y+oLePK4giBu6pt6R
-         T0KR7cKCQR7Nx7Pkp10A6FaE9CpMSnwN1fCoT0xROCJANG6NU+Yks+lR9+4zDGz9Ho
-         I9SrNfzJZbdDUxQYd1jQXzdOHKC1/tvvCPf8Ahi7a6lhaFHer4LpllGZif9PS8einL
-         3MruM1W5dRoxn6n0H6TMJSVkAdtto1AscM8fUMR60Z/NVHZqCzbZVYB/YJupz86Ask
-         /e+RQ5VmxKTTQ==
-Date:   Wed, 21 Jul 2021 20:39:54 +0300
-From:   Leon Romanovsky <leonro@kernel.org>
-To:     Yishai Hadas <yishaih@nvidia.com>
-Cc:     bhelgaas@google.com, corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        mgurtovoy@nvidia.com, jgg@nvidia.com, maorg@nvidia.com
-Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
-Message-ID: <YPhb6o06fX+/FiTY@unreal>
-References: <20210721161609.68223-1-yishaih@nvidia.com>
- <20210721161609.68223-13-yishaih@nvidia.com>
+        id S229861AbhGURP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 13:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229948AbhGURP5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 13:15:57 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980E2C061575
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 10:56:32 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id q15so2507263qtp.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 10:56:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=poorly.run; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CH2kPjmK/HYIHIFGLb86BP+Lyj1IMPrr9Abe3xfbcVc=;
+        b=PfAhfxAWbhF3Qih/yiBiz6VRFB6roXU1H42ZWE0sXg4SlsWfzH42y99iqM6Z1FKY3E
+         n89th2CTipVKay6r5KCOF/42VaaHu3vZlLae201JvvntSC1E7ZfoyujRLaLSl7vsn5iF
+         PI+uKkdNmmAHkrRl23rmypZvaU2SgJItwQHqTVeDE83k4/1wAwlOijRMfM69ahUOc9ql
+         SVjtKLcslSagtxg2xsPoSn6F2+uRp0zaCWSoEjUV+xR7DxZgGqoSSYuXPk3PmjWO7scZ
+         kTIrryu0vJIvZeqx5PR0absr5coUStWI9W2xpKbHR0mRDD4EMT17St9IjcFs7jrnFGUy
+         l/aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CH2kPjmK/HYIHIFGLb86BP+Lyj1IMPrr9Abe3xfbcVc=;
+        b=cemU7H712LrdvLxcaTc21nDXWkbxXyLqhW6isMX53cDOeUVzvNYr8gVw4byeBStcLp
+         zULB0OydRkP6byhcQhpz2KYMWCDf84p2IUsgqZ1NfieO7EbYL6Q/6/5Xc5wo4Uv7bU8c
+         SeoqZ+Yf0/oJbdbMY4G1Wi+qIZsMnNmgIHcu6VkaR/Ua7X4LV7SgzjNlYaZQ1wqCTqPI
+         nVdEXbvWHSntnLBu87MRIsRdhvF2FrOFrZxCRM1q+SobFJzd1wZykvJ+XZRXRyL4lt6d
+         x8s+w2AGQv54hLuiOwJQaZTcmElLHACt0eIg3gffnSj2GrRSMW5Y1JHPNdPGSeY6pS7k
+         i7vA==
+X-Gm-Message-State: AOAM533ZbxyvijAEGo2uvCntfi80RJ62NtNmHS6mZyLlT0qHbn4OmMMo
+        FPs9UD+LmVllwKJqghP+F1SJVw==
+X-Google-Smtp-Source: ABdhPJzBZMRT3l18XCw+swJ/gW66HlI1EvzoBwcldy09Gfe1JQ+5e1RwMD4Iz0EEsF6Wc6Z43YLeSA==
+X-Received: by 2002:a05:622a:50:: with SMTP id y16mr12210546qtw.322.1626890191672;
+        Wed, 21 Jul 2021 10:56:31 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+        by smtp.gmail.com with ESMTPSA id r4sm9583651qtc.66.2021.07.21.10.56.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 21 Jul 2021 10:56:31 -0700 (PDT)
+From:   Sean Paul <sean@poorly.run>
+To:     dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
+        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+        airlied@linux.ie, daniel.vetter@ffwll.ch
+Cc:     Sean Paul <seanpaul@chromium.org>,
+        David Airlie <airlied@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        kernel test robot <lkp@intel.com>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [RESEND PATCH v6 14/14] drm/print: Add tracefs support to the drm logging helpers
+Date:   Wed, 21 Jul 2021 13:55:21 -0400
+Message-Id: <20210721175526.22020-15-sean@poorly.run>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210721175526.22020-1-sean@poorly.run>
+References: <20210721175526.22020-1-sean@poorly.run>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210721161609.68223-13-yishaih@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 07:16:09PM +0300, Yishai Hadas wrote:
-> From: Max Gurtovoy <mgurtovoy@nvidia.com>
-> 
-> Now that vfio_pci has been split into two source modules, one focusing
-> on the "struct pci_driver" (vfio_pci.c) and a toolbox library of code
-> (vfio_pci_core.c), complete the split and move them into two different
-> kernel modules.
-> 
-> As before vfio_pci.ko continues to present the same interface under
-> sysfs and this change will have no functional impact.
-> 
-> Splitting into another module and adding exports allows creating new HW
-> specific VFIO PCI drivers that can implement device specific
-> functionality, such as VFIO migration interfaces or specialized device
-> requirements.
-> 
-> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> ---
->  drivers/vfio/pci/Kconfig                      | 30 ++++++++------
->  drivers/vfio/pci/Makefile                     |  8 ++--
->  drivers/vfio/pci/vfio_pci.c                   | 14 ++-----
->  drivers/vfio/pci/vfio_pci_config.c            |  2 +-
->  drivers/vfio/pci/vfio_pci_core.c              | 41 ++++++++++++++++---
->  drivers/vfio/pci/vfio_pci_igd.c               |  2 +-
->  drivers/vfio/pci/vfio_pci_intrs.c             |  2 +-
->  drivers/vfio/pci/vfio_pci_rdwr.c              |  2 +-
->  drivers/vfio/pci/vfio_pci_zdev.c              |  2 +-
->  .../pci => include/linux}/vfio_pci_core.h     |  2 -
->  10 files changed, 66 insertions(+), 39 deletions(-)
->  rename {drivers/vfio/pci => include/linux}/vfio_pci_core.h (99%)
+From: Sean Paul <seanpaul@chromium.org>
 
-<...>
+This patch adds a new module parameter called drm.trace which accepts
+the same mask as drm.debug. When a debug category is enabled, log
+messages will be put in a new tracefs instance called drm for
+consumption.
 
-> -#include "vfio_pci_core.h"
-> +#include <linux/vfio_pci_core.h>
-> +
-> +#define DRIVER_VERSION  "0.2"
+Using the new tracefs instance will allow distros to enable drm logging
+in production without impacting performance or spamming the system
+logs.
 
-<...>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Reported-by: kernel test robot <lkp@intel.com> # warning reported in v6
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.195540-1-sean@poorly.run #v1
+Link: https://lists.freedesktop.org/archives/dri-devel/2019-November/243230.html #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20191212203301.142437-1-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20200114172155.215463-1-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-14-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200818210510.49730-15-sean@poorly.run #v6
 
-> +MODULE_VERSION(DRIVER_VERSION);
+Changes in v5:
+-Re-write to use trace_array and the tracefs instance support
+Changes in v6:
+-Use the new trace_array_init_printk() to initialize global trace
+ buffers
+Changes in v6.5:
+-Fix kernel test robot warning
+-Add a trace printf in __drm_err
+---
+ Documentation/gpu/drm-uapi.rst |   6 +
+ drivers/gpu/drm/drm_drv.c      |   3 +
+ drivers/gpu/drm/drm_print.c    | 223 ++++++++++++++++++++++++++++-----
+ include/drm/drm_print.h        |  63 ++++++++--
+ 4 files changed, 255 insertions(+), 40 deletions(-)
 
-Please don't add driver versions to the upstream kernel, they useless.
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 7e51dd40bf6e..ce1ea39fb4b9 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -424,6 +424,12 @@ Debugfs Support
+ .. kernel-doc:: drivers/gpu/drm/drm_debugfs.c
+    :export:
+ 
++DRM Tracing
++---------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_print.c
++   :doc: DRM Tracing
++
+ Sysfs Support
+ =============
+ 
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 8804ec7d3215..71dc0b161b51 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -1034,12 +1034,15 @@ static void drm_core_exit(void)
+ 	drm_sysfs_destroy();
+ 	idr_destroy(&drm_minors_idr);
+ 	drm_connector_ida_destroy();
++	drm_trace_cleanup();
+ }
+ 
+ static int __init drm_core_init(void)
+ {
+ 	int ret;
+ 
++	drm_trace_init();
++
+ 	drm_connector_ida_init();
+ 	idr_init(&drm_minors_idr);
+ 	drm_memcpy_init_early();
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 4d984a01b3a3..64d9a724c2df 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -31,6 +31,7 @@
+ #include <linux/moduleparam.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/trace.h>
+ 
+ #include <drm/drm.h>
+ #include <drm/drm_drv.h>
+@@ -43,17 +44,34 @@
+ unsigned int __drm_debug_syslog;
+ EXPORT_SYMBOL(__drm_debug_syslog);
+ 
+-MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+-"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+-"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
+-"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
+-"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
+-"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
+-"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+-"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+-"\t\tBit 8 (0x100) will enable DP messages (displayport code)");
++/*
++ * __drm_debug_trace: Enable debug output in drm tracing instance.
++ * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
++ */
++unsigned int __drm_debug_trace;
++EXPORT_SYMBOL(__drm_debug_trace);
++
++#define DEBUG_PARM_DESC(dst) \
++"Enable debug output to " dst ", where each bit enables a debug category.\n" \
++"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n" \
++"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n" \
++"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n" \
++"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n" \
++"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n" \
++"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n" \
++"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n" \
++"\t\tBit 8 (0x100) will enable DP messages (displayport code)"
++
++MODULE_PARM_DESC(debug, DEBUG_PARM_DESC("syslog"));
+ module_param_named(debug, __drm_debug_syslog, int, 0600);
+ 
++MODULE_PARM_DESC(trace, DEBUG_PARM_DESC("tracefs"));
++module_param_named(trace, __drm_debug_trace, int, 0600);
++
++#ifdef CONFIG_TRACING
++struct trace_array *trace_arr;
++#endif
++
+ void __drm_puts_coredump(struct drm_printer *p, const char *str)
+ {
+ 	struct drm_print_iterator *iterator = p->arg;
+@@ -166,6 +184,20 @@ void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf)
+ }
+ EXPORT_SYMBOL(__drm_printfn_debug_syslog);
+ 
++void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf)
++{
++	drm_trace_printf("%s %pV", p->prefix, vaf);
++}
++EXPORT_SYMBOL(__drm_printfn_trace);
++
++void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
++					   struct va_format *vaf)
++{
++	pr_debug("%s %pV", p->prefix, vaf);
++	drm_trace_printf("%s %pV", p->prefix, vaf);
++}
++EXPORT_SYMBOL(__drm_printfn_debug_syslog_and_trace);
++
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+ {
+ 	pr_err("*ERROR* %s %pV", p->prefix, vaf);
+@@ -246,6 +278,14 @@ void drm_dev_printk(const struct device *dev, const char *level,
+ 	struct va_format vaf;
+ 	va_list args;
+ 
++	va_start(args, format);
++	vaf.fmt = format;
++	vaf.va = &args;
++	drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
++			 dev ? dev_name(dev) : "",dev ? " " : "",
++			 __builtin_return_address(0), &vaf);
++	va_end(args);
++
+ 	va_start(args, format);
+ 	vaf.fmt = format;
+ 	vaf.va = &args;
+@@ -267,21 +307,30 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	struct va_format vaf;
+ 	va_list args;
+ 
+-	if (!drm_debug_enabled(category))
+-		return;
++	if (drm_debug_syslog_enabled(category)) {
++		va_start(args, format);
++		vaf.fmt = format;
++		vaf.va = &args;
+ 
+-	va_start(args, format);
+-	vaf.fmt = format;
+-	vaf.va = &args;
++		if (dev)
++			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
++				__builtin_return_address(0), &vaf);
++		else
++			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
++			__builtin_return_address(0), &vaf);
+ 
+-	if (dev)
+-		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+-			   __builtin_return_address(0), &vaf);
+-	else
+-		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+-		       __builtin_return_address(0), &vaf);
++		va_end(args);
++	}
+ 
+-	va_end(args);
++	if (drm_debug_trace_enabled(category)) {
++		va_start(args, format);
++		vaf.fmt = format;
++		vaf.va = &args;
++		drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
++				 dev ? dev_name(dev) : "", dev ? " " : "",
++				 __builtin_return_address(0), &vaf);
++		va_end(args);
++	}
+ }
+ EXPORT_SYMBOL(drm_dev_dbg);
+ 
+@@ -290,17 +339,25 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+ 	struct va_format vaf;
+ 	va_list args;
+ 
+-	if (!drm_debug_enabled(category))
+-		return;
++	if (drm_debug_syslog_enabled(category)) {
++		va_start(args, format);
++		vaf.fmt = format;
++		vaf.va = &args;
+ 
+-	va_start(args, format);
+-	vaf.fmt = format;
+-	vaf.va = &args;
++		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
++		__builtin_return_address(0), &vaf);
+ 
+-	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+-	       __builtin_return_address(0), &vaf);
++		va_end(args);
++	}
+ 
+-	va_end(args);
++	if (drm_debug_trace_enabled(category)) {
++		va_start(args, format);
++		vaf.fmt = format;
++		vaf.va = &args;
++		drm_trace_printf("[" DRM_NAME ":%ps] %pV",
++				 __builtin_return_address(0), &vaf);
++		va_end(args);
++	}
+ }
+ EXPORT_SYMBOL(__drm_dbg);
+ 
+@@ -317,6 +374,13 @@ void __drm_err(const char *format, ...)
+ 	       __builtin_return_address(0), &vaf);
+ 
+ 	va_end(args);
++
++	va_start(args, format);
++	vaf.fmt = format;
++	vaf.va = &args;
++	drm_trace_printf("[" DRM_NAME ":%ps] *ERROR* %pV",
++				__builtin_return_address(0), &vaf);
++	va_end(args);
+ }
+ EXPORT_SYMBOL(__drm_err);
+ 
+@@ -347,3 +411,104 @@ void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32 *regset)
+ 	}
+ }
+ EXPORT_SYMBOL(drm_print_regset32);
++
++
++/**
++ * DOC: DRM Tracing
++ *
++ * *tl;dr* DRM tracing is a lightweight alternative to traditional DRM debug
++ * logging.
++ *
++ * While DRM logging is quite convenient when reproducing a specific issue, it
++ * doesn't help when something goes wrong unexpectedly. There are a couple
++ * reasons why one does not want to enable DRM logging at all times:
++ *
++ * 1. We don't want to overwhelm syslog with drm spam, others have to use it too
++ * 2. Console logging is slow
++ *
++ * DRM tracing aims to solve both these problems.
++ *
++ * To use DRM tracing, set the drm.trace module parameter (via cmdline or sysfs)
++ * to a DRM debug category mask (this is a bitmask of &drm_debug_category
++ * values):
++ * ::
++ *
++ *    eg: echo 0x106 > /sys/module/drm/parameters/trace
++ *
++ * Once active, all log messages in the specified categories will be written to
++ * the DRM trace. Once at capacity, the trace will overwrite old messages with
++ * new ones. At any point, one can read the trace file to extract the previous N
++ * DRM messages:
++ * ::
++ *
++ *    eg: cat /sys/kernel/tracing/instances/drm/trace
++ *
++ * Considerations
++ * **************
++ * The trace is subsystem wide, so if you have multiple devices active, they
++ * will be adding logs to the same trace.
++ *
++ * The contents of the DRM Trace are **not** considered UABI. **DO NOT depend on
++ * the values of these traces in your userspace.** These traces are intended for
++ * entertainment purposes only. The contents of these logs carry no warranty,
++ * expressed or implied.
++ */
++
++
++#ifdef CONFIG_TRACING
++
++/**
++ * drm_trace_init - initializes the drm trace array
++ *
++ * This function fetches (or creates) the drm trace array. This should be called
++ * once on drm subsystem creation and matched with drm_trace_cleanup().
++ */
++void drm_trace_init(void)
++{
++	int ret;
++
++	trace_arr = trace_array_get_by_name("drm");
++	if (!trace_arr)
++		return;
++
++	ret = trace_array_init_printk(trace_arr);
++	if (ret)
++		drm_trace_cleanup();
++}
++EXPORT_SYMBOL(drm_trace_init);
++
++/**
++ * drm_trace_printf - adds an entry to the drm tracefs instance
++ * @format: printf format of the message to add to the trace
++ *
++ * This function adds a new entry in the drm tracefs instance
++ */
++void drm_trace_printf(const char *format, ...)
++{
++	struct va_format vaf;
++	va_list args;
++
++	va_start(args, format);
++	vaf.fmt = format;
++	vaf.va = &args;
++	trace_array_printk(trace_arr, _THIS_IP_, "%pV", &vaf);
++	va_end(args);
++}
++
++/**
++ * drm_trace_cleanup - destroys the drm trace array
++ *
++ * This function destroys the drm trace array created with drm_trace_init. This
++ * should be called once on drm subsystem close and matched with
++ * drm_trace_init().
++ */
++void drm_trace_cleanup(void)
++{
++	if (trace_arr) {
++		trace_array_put(trace_arr);
++		trace_array_destroy(trace_arr);
++		trace_arr = NULL;
++	}
++}
++EXPORT_SYMBOL(drm_trace_cleanup);
++#endif
+\ No newline at end of file
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index af31beeb82a1..4609a2f4a425 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -36,12 +36,13 @@
+ 
+ /* Do *not* use outside of drm_print.[ch]! */
+ extern unsigned int __drm_debug_syslog;
++extern unsigned int __drm_debug_trace;
+ 
+ /**
+  * DOC: print
+  *
+  * A simple wrapper for dev_printk(), seq_printf(), etc.  Allows same
+- * debug code to be used for both debugfs and printk logging.
++ * debug code to be used for debugfs, printk and tracefs logging.
+  *
+  * For example::
+  *
+@@ -86,6 +87,9 @@ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
+ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf);
++void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf);
++void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
++					   struct va_format *vaf);
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_noop(struct drm_printer *p, struct va_format *vaf);
+ 
+@@ -219,7 +223,8 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+ }
+ 
+ /**
+- * drm_debug_printer - construct a &drm_printer that outputs to pr_debug()
++ * drm_debug_printer - construct a &drm_printer that outputs to pr_debug() and
++ * drm tracefs
+  * @prefix: debug output prefix
+  *
+  * RETURNS:
+@@ -228,7 +233,7 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+ static inline struct drm_printer drm_debug_printer(const char *prefix)
+ {
+ 	struct drm_printer p = {
+-		.printfn = __drm_printfn_debug_syslog,
++		.printfn = __drm_printfn_debug_syslog_and_trace,
+ 		.prefix = prefix
+ 	};
+ 	return p;
+@@ -254,14 +259,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+  * enum drm_debug_category - The DRM debug categories
+  *
+  * Each of the DRM debug logging macros use a specific category, and the logging
+- * is filtered by the drm.debug module parameter. This enum specifies the values
+- * for the interface.
++ * is filtered by the drm.debug and drm.trace module parameters. This enum
++ * specifies the values for the interface.
+  *
+  * Each DRM_DEBUG_<CATEGORY> macro logs to DRM_UT_<CATEGORY> category, except
+  * DRM_DEBUG() logs to DRM_UT_CORE.
+  *
+- * Enabling verbose debug messages is done through the drm.debug parameter, each
+- * category being enabled by a bit:
++ * Enabling verbose debug messages is done through the drm.debug and drm.trace
++ * parameters, each category being enabled by a bit:
+  *
+  *  - drm.debug=0x1 will enable CORE messages
+  *  - drm.debug=0x2 will enable DRIVER messages
+@@ -270,10 +275,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+  *  - drm.debug=0x1ff will enable all messages
+  *
+  * An interesting feature is that it's possible to enable verbose logging at
+- * run-time by echoing the debug value in its sysfs node::
++ * run-time by echoing the debug category value in its sysfs node::
+  *
++ *   # For syslog logging:
+  *   # echo 0xf > /sys/module/drm/parameters/debug
+  *
++ *   # For tracefs logging:
++ *   # echo 0xf > /sys/module/drm/parameters/trace
++ *
+  */
+ enum drm_debug_category {
+ 	/**
+@@ -325,14 +334,20 @@ static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
+ 	return unlikely(__drm_debug_syslog & category);
+ }
+ 
++static inline bool drm_debug_trace_enabled(enum drm_debug_category category)
++{
++	return unlikely(__drm_debug_trace & category);
++}
++
+ static inline bool drm_debug_enabled(enum drm_debug_category category)
+ {
+-	return drm_debug_syslog_enabled(category);
++	return drm_debug_syslog_enabled(category) ||
++	       drm_debug_trace_enabled(category);
+ }
+ 
+ /**
+  * drm_debug_category_printer - construct a &drm_printer that outputs to
+- * pr_debug() if enabled for the given category.
++ * pr_debug() and/or the drm tracefs instance if enabled for the given category.
+  * @category: the DRM_UT_* message category this message belongs to
+  * @prefix: trace output prefix
+  *
+@@ -347,8 +362,13 @@ drm_debug_category_printer(enum drm_debug_category category,
+ 		.prefix = prefix
+ 	};
+ 
+-	if (drm_debug_syslog_enabled(category)) {
++	if (drm_debug_syslog_enabled(category) &&
++	    drm_debug_trace_enabled(category)) {
++		p.printfn = __drm_printfn_debug_syslog_and_trace;
++	} else if (drm_debug_syslog_enabled(category)) {
+ 		p.printfn = __drm_printfn_debug_syslog;
++	} else if (drm_debug_trace_enabled(category)) {
++		p.printfn = __drm_printfn_trace;
+ 	} else {
+ 		WARN(1, "Debug category %d is inactive.", category);
+ 		p.printfn = __drm_printfn_noop;
+@@ -357,6 +377,27 @@ drm_debug_category_printer(enum drm_debug_category category,
+ 	return p;
+ }
+ 
++
++#ifdef CONFIG_TRACING
++void drm_trace_init(void);
++__printf(1, 2)
++void drm_trace_printf(const char *format, ...);
++void drm_trace_cleanup(void);
++#else
++static inline void drm_trace_init(void)
++{
++}
++
++__printf(1, 2)
++static inline void drm_trace_printf(const char *format, ...)
++{
++}
++
++static inline void drm_trace_cleanup(void)
++{
++}
++#endif
++
+ /*
+  * struct device based logging
+  *
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
 
-Thanks
