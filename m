@@ -2,612 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B96E6C12002
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:56:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC2CC12002
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 18:15:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3A9D61029
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 17:56:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B979611C1
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 18:15:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbhGURP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 13:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbhGURP5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 13:15:57 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980E2C061575
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 10:56:32 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id q15so2507263qtp.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 10:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CH2kPjmK/HYIHIFGLb86BP+Lyj1IMPrr9Abe3xfbcVc=;
-        b=PfAhfxAWbhF3Qih/yiBiz6VRFB6roXU1H42ZWE0sXg4SlsWfzH42y99iqM6Z1FKY3E
-         n89th2CTipVKay6r5KCOF/42VaaHu3vZlLae201JvvntSC1E7ZfoyujRLaLSl7vsn5iF
-         PI+uKkdNmmAHkrRl23rmypZvaU2SgJItwQHqTVeDE83k4/1wAwlOijRMfM69ahUOc9ql
-         SVjtKLcslSagtxg2xsPoSn6F2+uRp0zaCWSoEjUV+xR7DxZgGqoSSYuXPk3PmjWO7scZ
-         kTIrryu0vJIvZeqx5PR0absr5coUStWI9W2xpKbHR0mRDD4EMT17St9IjcFs7jrnFGUy
-         l/aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CH2kPjmK/HYIHIFGLb86BP+Lyj1IMPrr9Abe3xfbcVc=;
-        b=cemU7H712LrdvLxcaTc21nDXWkbxXyLqhW6isMX53cDOeUVzvNYr8gVw4byeBStcLp
-         zULB0OydRkP6byhcQhpz2KYMWCDf84p2IUsgqZ1NfieO7EbYL6Q/6/5Xc5wo4Uv7bU8c
-         SeoqZ+Yf0/oJbdbMY4G1Wi+qIZsMnNmgIHcu6VkaR/Ua7X4LV7SgzjNlYaZQ1wqCTqPI
-         nVdEXbvWHSntnLBu87MRIsRdhvF2FrOFrZxCRM1q+SobFJzd1wZykvJ+XZRXRyL4lt6d
-         x8s+w2AGQv54hLuiOwJQaZTcmElLHACt0eIg3gffnSj2GrRSMW5Y1JHPNdPGSeY6pS7k
-         i7vA==
-X-Gm-Message-State: AOAM533ZbxyvijAEGo2uvCntfi80RJ62NtNmHS6mZyLlT0qHbn4OmMMo
-        FPs9UD+LmVllwKJqghP+F1SJVw==
-X-Google-Smtp-Source: ABdhPJzBZMRT3l18XCw+swJ/gW66HlI1EvzoBwcldy09Gfe1JQ+5e1RwMD4Iz0EEsF6Wc6Z43YLeSA==
-X-Received: by 2002:a05:622a:50:: with SMTP id y16mr12210546qtw.322.1626890191672;
-        Wed, 21 Jul 2021 10:56:31 -0700 (PDT)
-Received: from localhost ([167.100.64.199])
-        by smtp.gmail.com with ESMTPSA id r4sm9583651qtc.66.2021.07.21.10.56.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Jul 2021 10:56:31 -0700 (PDT)
-From:   Sean Paul <sean@poorly.run>
-To:     dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
-        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
-        airlied@linux.ie, daniel.vetter@ffwll.ch
-Cc:     Sean Paul <seanpaul@chromium.org>,
-        David Airlie <airlied@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        kernel test robot <lkp@intel.com>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [RESEND PATCH v6 14/14] drm/print: Add tracefs support to the drm logging helpers
-Date:   Wed, 21 Jul 2021 13:55:21 -0400
-Message-Id: <20210721175526.22020-15-sean@poorly.run>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210721175526.22020-1-sean@poorly.run>
-References: <20210721175526.22020-1-sean@poorly.run>
+        id S237525AbhGURem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 13:34:42 -0400
+Received: from mail-co1nam11on2055.outbound.protection.outlook.com ([40.107.220.55]:32737
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237490AbhGURem (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Jul 2021 13:34:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FBO1WzwjsLqcb9gEm4QKdQv6YBus625hs78bSgUzrbNCskBIN7nw9PHjKdQVo7Jzfo9E/Ae3YtOzCPYGbc8Veb3xlz48GVLWdKL6s4dpCy7uBtjxhl6LIARe0D6/sQqJQscJmBfzrDmHkwi1ocmfLdg37U/rJcECP4GiDpmfDWZRKV3KsUDfczRBIk0fqwkMibrHwOYJh8sURcBd9QFyUJPLB6sol5K/DcfgQrBcKnyrE99h8xmQX1qep3KE4pM1F4uodLGpln0CnzTF1GFqILDdYbFeS+ZNeeOPy/9L54Ce8W1ebUXOUBuJwRQ0QM0h8XnHkcXQJwvCBwBUM7OvOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PovaNtHSa13eGA9HrdcIzgueia2KrIzdhR75Lh7mOxc=;
+ b=PXZyQzGbRUo0ULwigRohy2hZzkUzPXH0Glgz2Uww5s/MC3HsBOOPlfNptRCnCQiCW5n1lNVj3DuK9b/H+4OtxzlqYgUwYWsPXXERMjcPsn9qGNPSGaiYkx/rTfNUkUqHYFxe/ze2IkzenfyTPt2iA4yXbAU5QN1quv+0wdraAUa/btfVswpnMWEq4SNxOxmFwT4HgOC1T9AFZ6kdgR9JhIRFhLoe24CvQOn7H89VVnaLreORgbe2C/f0U7MVe3IeiH6xJ+pQornbTSlCMEoj2z2uSU4F9zaPt84EJiqE0mQtdNztnwCcrED68X95Dqr8eyViRPfpzYqm9PleItjuGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PovaNtHSa13eGA9HrdcIzgueia2KrIzdhR75Lh7mOxc=;
+ b=GRP2+nOPQlkPp6z7OtHA/Da63duRyN7+CewYc5qRHSrjXCDbTtarHNcsXhOT5jfhb3yeSCeXX3BsQEq1+L5XMnI2rshCelIj7JEHeFBjndqL/3l5ge6YbkvOr8W3JVuOk+eq/+LUk4ib6yg106+6wRUlw89lHRYFwR8pAms9YXM=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by DM4PR12MB5183.namprd12.prod.outlook.com (2603:10b6:5:396::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.24; Wed, 21 Jul
+ 2021 18:15:16 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::4092:5d49:d028:e0df]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::4092:5d49:d028:e0df%6]) with mapi id 15.20.4352.025; Wed, 21 Jul 2021
+ 18:15:15 +0000
+Date:   Wed, 21 Jul 2021 13:14:56 -0500
+From:   John Allen <john.allen@amd.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v27 24/31] x86/cet/shstk: Handle thread shadow stack
+Message-ID: <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
+References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
+ <20210521221211.29077-25-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210521221211.29077-25-yu-cheng.yu@intel.com>
+X-ClientProxiedBy: BLAP220CA0004.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:32c::9) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from AUS-LX-JohALLEN.amd.com (165.204.53.104) by BLAP220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:32c::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend Transport; Wed, 21 Jul 2021 18:15:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4c52edff-828c-4829-86a5-08d94c737d0e
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5183:
+X-Microsoft-Antispam-PRVS: <DM4PR12MB51839F4109C3F92D9D61DCAA9AE39@DM4PR12MB5183.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vuruA/xtH10UAh8l91YbGwW2nuXhINpjv3sFtHEY3fvkvCH5Vy/2R/o9FTyo0IKfOFXQSqHC+3Y2jRCZXHopquCY2DW0vI7+G+jgsvjQ2EuGjnoATlohb+Q/gKu+j/HXOznDQe5D8H8vLsIH5CkeFA+GAe/skU2rWUxOT8/jSMARldzAQCkIyejXPqouHh6hyMthmaTTeQQZ6QG8uFuit31Tyo4QfD343HUtH2k+0Uf2SNDxyM/sNMIt5vKawBQ1zUNNG05P5lw5x+Z89o39GC4bbAoy85+tUFfuL2Nw6h+KCsgGbbRUiyO5PWKkOhfBBY34INahBgdhhrL5YLzCa4U5sMjmrSJzcYslnsu8vqczGGydNW3YF/TCyAF2fLNpga40Te+m7BE95FYD7brMU4Ma8ECnqg2qn+ZKBx9+yxJha9hUtZOaJ76AkZ0Xe3FgmVMcfL0+csQnDzVG2TLPQ+vJrWXRSWGtXHEA/pExEL2PZkpG4ZA+/OqNPlWx5ZhyZHZ/senc4P5J5F4dPLYZBnmqt8rDTMF09Jh/+gl+JHN+I/aacOOwbTLSMw0xZXXO9r/RGkAPjk8RLqrF0456E5LLZLyS6mqNHwBnGiCQlIkkpcTGrljqTKar4uCtnzK+VoG8P4zyS2/2+00xyeow3nm7zZrPCTp+1fQdNI4xFEA5rBdfXQGWJSmAlwZuDBtPME9K8HkJ0n2+6cYW+RgDKA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB5549.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(346002)(376002)(39860400002)(366004)(6916009)(66946007)(38100700002)(5660300002)(8936002)(86362001)(7416002)(4326008)(26005)(478600001)(2906002)(66556008)(38350700002)(6666004)(66476007)(7696005)(44832011)(55016002)(52116002)(7406005)(83380400001)(8676002)(316002)(54906003)(956004)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4n5JkzNkpLXIUnzjWvIbrheoH7VikL3vyiPkZ2fpbaCcRN+H0LqYb/dNDquW?=
+ =?us-ascii?Q?hlvenpPR/DZ0GcPGSkhoRPWO3KAEG+EmLAJ6DTGdyPVmOZox/xLf5g2co/td?=
+ =?us-ascii?Q?iiMJ5yvXklquAFUydJsEpmqDsGGYBYrDhBkeSnLgyCdLB7UTsiR9t+z/hZbM?=
+ =?us-ascii?Q?G+YjLY7a1N2AWDyXPsAu+wAplEF9ZvJkAfKk7WLDVNFQf6ZVCJLrDuCjLOTd?=
+ =?us-ascii?Q?5kezGXdCb6coCTskAWjtsQJFXIjVAhnieYbvyyBRi3RtxDWvvctJi8Wn/UEG?=
+ =?us-ascii?Q?jzskZnYDGQe8IsccqFSqiRaWqLDzZbskdTW1FNOkeF0TkThWk7kUrvKOT6kD?=
+ =?us-ascii?Q?W4NAz5dIkBeY1s5H0sU/tYflle9QzdCtve6yoPk9th69KI9IYXCFfyK8RNPm?=
+ =?us-ascii?Q?oLo94+VgxDCXyn0mJ/6VETKicD3T2ODRY7cD8T4uE1kcCAp3CeYKZN0Ljvz2?=
+ =?us-ascii?Q?vu0q2j8pGV5Ao3XvOlbk1/kSXW9cxw25q6KpzRtAYCUKbC3TJW9Xwz9Rtqq1?=
+ =?us-ascii?Q?MzJ+Jw2nfDV0YweIKi11OU/xnEM/2kMx+BpBZ2/RaWpfnteqW5xOTFYn2N2d?=
+ =?us-ascii?Q?YR+ErS8K82iyNDa0fDHJiNi/BjUf7ChskZSIlFB9V9uzXinMQMNStaRENy92?=
+ =?us-ascii?Q?GOqDPBZ8lFy8rBT58Wgj7hyL0t9ZcwmgbVo+qT02TYR2oR1V/kGWUFHhQmL5?=
+ =?us-ascii?Q?LOO6tINeSwEirjXkauqx97JJFmNVmohwH0/jaiAd9TsImmi3Po4GyW3ALcJY?=
+ =?us-ascii?Q?ZcyabK3CcK/S6mHRbC3oku8Iz6iUIbjl+3lCJHQtJrOuMlc4ST1QqD4jL6Fi?=
+ =?us-ascii?Q?/pHrusnxIupGX14anUWGgR+UkKl0nY6/L4b6PtO6DDo8OKCSJvBBfIHdGFbv?=
+ =?us-ascii?Q?+DYUk/fPjzwodk3tzt+XFIzLogZAYTunoT/0x3nreGQq92TnQFiTZTY2ifvg?=
+ =?us-ascii?Q?Q/C7KRpQnApk17mTRyuEjjwoeyoMJTY55WXOi1TkZE3K4dDuLwnJzG2TLtrF?=
+ =?us-ascii?Q?WJwu2ZWgTi9TAJYA0iR6Fwi8iSySIhUszG6SKmLgBEXal3jX2m9vHkFqzhlY?=
+ =?us-ascii?Q?4uKxOGlf63xK/UEDCVChl3EMkVgscCkXl8VnKhIapUYYOH34ORb0Ui6yDoXD?=
+ =?us-ascii?Q?k+NFPe+h/ygSK6DdbJXhWX4J2u8tWxL3arE8buPcMhiog3kPpb/IQM9nFdqI?=
+ =?us-ascii?Q?9zcxbMo+JVxURaRsdYn0adNWFtDlQ4xeayqHRhDwwkq4D9kwZMEMWYnLYZOj?=
+ =?us-ascii?Q?jv0ZlQuo9UUKHL1+02dkGcGy6Y3DK/KhkN6rXj+000byrJkUnVD9dWcUxKcW?=
+ =?us-ascii?Q?FEs629lWDwgvaTEUZmNMBg4j?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c52edff-828c-4829-86a5-08d94c737d0e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2021 18:15:15.6921
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zpIW4vidlDW4AmAAHzgLvstQirSSgvmo8Os6HyNQ9arCobenPPnscFOkHU5VQ9igPPzFhSG7AsWm+BpNmZhv0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5183
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sean Paul <seanpaul@chromium.org>
+On Fri, May 21, 2021 at 03:12:04PM -0700, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> index 5ea2b494e9f9..8e5f772181b9 100644
+> --- a/arch/x86/kernel/shstk.c
+> +++ b/arch/x86/kernel/shstk.c
+> @@ -71,6 +71,53 @@ int shstk_setup(void)
+>  	return 0;
+>  }
+>  
+> +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+> +			     unsigned long stack_size)
+> +{
+> +	struct thread_shstk *shstk = &tsk->thread.shstk;
+> +	struct cet_user_state *state;
+> +	unsigned long addr;
+> +
+> +	if (!stack_size)
+> +		return -EINVAL;
 
-This patch adds a new module parameter called drm.trace which accepts
-the same mask as drm.debug. When a debug category is enabled, log
-messages will be put in a new tracefs instance called drm for
-consumption.
+I've been doing some light testing on AMD hardware and I've found that
+this version of the patchset doesn't boot for me. It appears that when
+systemd processes start spawning, they hit the above case, return
+-EINVAL, and the fork fails. In these cases, copy_thread has been passed
+0 for both sp and stack_size.
 
-Using the new tracefs instance will allow distros to enable drm logging
-in production without impacting performance or spamming the system
-logs.
+For previous versions of the patchset, I can still boot. When the
+stack_size check was last, the function would always return before
+completing the check, hitting one of the two cases below.
 
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Reported-by: kernel test robot <lkp@intel.com> # warning reported in v6
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.195540-1-sean@poorly.run #v1
-Link: https://lists.freedesktop.org/archives/dri-devel/2019-November/243230.html #v2
-Link: https://patchwork.freedesktop.org/patch/msgid/20191212203301.142437-1-sean@poorly.run #v3
-Link: https://patchwork.freedesktop.org/patch/msgid/20200114172155.215463-1-sean@poorly.run #v4
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-14-sean@poorly.run #v5
-Link: https://patchwork.freedesktop.org/patch/msgid/20200818210510.49730-15-sean@poorly.run #v6
+At the very least, it would seem that on some systems, it isn't valid to
+rely on the stack_size passed from clone3, though I'm unsure what the
+correct behavior should be here. If the passed stack_size == 0 and sp ==
+0, is this a case where we want to alloc a shadow stack for this thread
+with some capped size? Alternatively, is this a case that isn't valid to
+alloc a shadow stack and we should simply return 0 instead of -EINVAL?
 
-Changes in v5:
--Re-write to use trace_array and the tracefs instance support
-Changes in v6:
--Use the new trace_array_init_printk() to initialize global trace
- buffers
-Changes in v6.5:
--Fix kernel test robot warning
--Add a trace printf in __drm_err
----
- Documentation/gpu/drm-uapi.rst |   6 +
- drivers/gpu/drm/drm_drv.c      |   3 +
- drivers/gpu/drm/drm_print.c    | 223 ++++++++++++++++++++++++++++-----
- include/drm/drm_print.h        |  63 ++++++++--
- 4 files changed, 255 insertions(+), 40 deletions(-)
+I'm running Fedora 34 which satisfies the required versions of gcc,
+binutils, and glibc.
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 7e51dd40bf6e..ce1ea39fb4b9 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -424,6 +424,12 @@ Debugfs Support
- .. kernel-doc:: drivers/gpu/drm/drm_debugfs.c
-    :export:
- 
-+DRM Tracing
-+---------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_print.c
-+   :doc: DRM Tracing
-+
- Sysfs Support
- =============
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8804ec7d3215..71dc0b161b51 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -1034,12 +1034,15 @@ static void drm_core_exit(void)
- 	drm_sysfs_destroy();
- 	idr_destroy(&drm_minors_idr);
- 	drm_connector_ida_destroy();
-+	drm_trace_cleanup();
- }
- 
- static int __init drm_core_init(void)
- {
- 	int ret;
- 
-+	drm_trace_init();
-+
- 	drm_connector_ida_init();
- 	idr_init(&drm_minors_idr);
- 	drm_memcpy_init_early();
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 4d984a01b3a3..64d9a724c2df 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -31,6 +31,7 @@
- #include <linux/moduleparam.h>
- #include <linux/seq_file.h>
- #include <linux/slab.h>
-+#include <linux/trace.h>
- 
- #include <drm/drm.h>
- #include <drm/drm_drv.h>
-@@ -43,17 +44,34 @@
- unsigned int __drm_debug_syslog;
- EXPORT_SYMBOL(__drm_debug_syslog);
- 
--MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
--"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
--"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
--"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
--"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
--"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
--"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
--"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
--"\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-+/*
-+ * __drm_debug_trace: Enable debug output in drm tracing instance.
-+ * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
-+ */
-+unsigned int __drm_debug_trace;
-+EXPORT_SYMBOL(__drm_debug_trace);
-+
-+#define DEBUG_PARM_DESC(dst) \
-+"Enable debug output to " dst ", where each bit enables a debug category.\n" \
-+"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n" \
-+"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n" \
-+"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n" \
-+"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n" \
-+"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n" \
-+"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n" \
-+"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n" \
-+"\t\tBit 8 (0x100) will enable DP messages (displayport code)"
-+
-+MODULE_PARM_DESC(debug, DEBUG_PARM_DESC("syslog"));
- module_param_named(debug, __drm_debug_syslog, int, 0600);
- 
-+MODULE_PARM_DESC(trace, DEBUG_PARM_DESC("tracefs"));
-+module_param_named(trace, __drm_debug_trace, int, 0600);
-+
-+#ifdef CONFIG_TRACING
-+struct trace_array *trace_arr;
-+#endif
-+
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
- {
- 	struct drm_print_iterator *iterator = p->arg;
-@@ -166,6 +184,20 @@ void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf)
- }
- EXPORT_SYMBOL(__drm_printfn_debug_syslog);
- 
-+void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf)
-+{
-+	drm_trace_printf("%s %pV", p->prefix, vaf);
-+}
-+EXPORT_SYMBOL(__drm_printfn_trace);
-+
-+void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
-+					   struct va_format *vaf)
-+{
-+	pr_debug("%s %pV", p->prefix, vaf);
-+	drm_trace_printf("%s %pV", p->prefix, vaf);
-+}
-+EXPORT_SYMBOL(__drm_printfn_debug_syslog_and_trace);
-+
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
- {
- 	pr_err("*ERROR* %s %pV", p->prefix, vaf);
-@@ -246,6 +278,14 @@ void drm_dev_printk(const struct device *dev, const char *level,
- 	struct va_format vaf;
- 	va_list args;
- 
-+	va_start(args, format);
-+	vaf.fmt = format;
-+	vaf.va = &args;
-+	drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
-+			 dev ? dev_name(dev) : "",dev ? " " : "",
-+			 __builtin_return_address(0), &vaf);
-+	va_end(args);
-+
- 	va_start(args, format);
- 	vaf.fmt = format;
- 	vaf.va = &args;
-@@ -267,21 +307,30 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	struct va_format vaf;
- 	va_list args;
- 
--	if (!drm_debug_enabled(category))
--		return;
-+	if (drm_debug_syslog_enabled(category)) {
-+		va_start(args, format);
-+		vaf.fmt = format;
-+		vaf.va = &args;
- 
--	va_start(args, format);
--	vaf.fmt = format;
--	vaf.va = &args;
-+		if (dev)
-+			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
-+				__builtin_return_address(0), &vaf);
-+		else
-+			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-+			__builtin_return_address(0), &vaf);
- 
--	if (dev)
--		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
--			   __builtin_return_address(0), &vaf);
--	else
--		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
--		       __builtin_return_address(0), &vaf);
-+		va_end(args);
-+	}
- 
--	va_end(args);
-+	if (drm_debug_trace_enabled(category)) {
-+		va_start(args, format);
-+		vaf.fmt = format;
-+		vaf.va = &args;
-+		drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
-+				 dev ? dev_name(dev) : "", dev ? " " : "",
-+				 __builtin_return_address(0), &vaf);
-+		va_end(args);
-+	}
- }
- EXPORT_SYMBOL(drm_dev_dbg);
- 
-@@ -290,17 +339,25 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
- 	struct va_format vaf;
- 	va_list args;
- 
--	if (!drm_debug_enabled(category))
--		return;
-+	if (drm_debug_syslog_enabled(category)) {
-+		va_start(args, format);
-+		vaf.fmt = format;
-+		vaf.va = &args;
- 
--	va_start(args, format);
--	vaf.fmt = format;
--	vaf.va = &args;
-+		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-+		__builtin_return_address(0), &vaf);
- 
--	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
--	       __builtin_return_address(0), &vaf);
-+		va_end(args);
-+	}
- 
--	va_end(args);
-+	if (drm_debug_trace_enabled(category)) {
-+		va_start(args, format);
-+		vaf.fmt = format;
-+		vaf.va = &args;
-+		drm_trace_printf("[" DRM_NAME ":%ps] %pV",
-+				 __builtin_return_address(0), &vaf);
-+		va_end(args);
-+	}
- }
- EXPORT_SYMBOL(__drm_dbg);
- 
-@@ -317,6 +374,13 @@ void __drm_err(const char *format, ...)
- 	       __builtin_return_address(0), &vaf);
- 
- 	va_end(args);
-+
-+	va_start(args, format);
-+	vaf.fmt = format;
-+	vaf.va = &args;
-+	drm_trace_printf("[" DRM_NAME ":%ps] *ERROR* %pV",
-+				__builtin_return_address(0), &vaf);
-+	va_end(args);
- }
- EXPORT_SYMBOL(__drm_err);
- 
-@@ -347,3 +411,104 @@ void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32 *regset)
- 	}
- }
- EXPORT_SYMBOL(drm_print_regset32);
-+
-+
-+/**
-+ * DOC: DRM Tracing
-+ *
-+ * *tl;dr* DRM tracing is a lightweight alternative to traditional DRM debug
-+ * logging.
-+ *
-+ * While DRM logging is quite convenient when reproducing a specific issue, it
-+ * doesn't help when something goes wrong unexpectedly. There are a couple
-+ * reasons why one does not want to enable DRM logging at all times:
-+ *
-+ * 1. We don't want to overwhelm syslog with drm spam, others have to use it too
-+ * 2. Console logging is slow
-+ *
-+ * DRM tracing aims to solve both these problems.
-+ *
-+ * To use DRM tracing, set the drm.trace module parameter (via cmdline or sysfs)
-+ * to a DRM debug category mask (this is a bitmask of &drm_debug_category
-+ * values):
-+ * ::
-+ *
-+ *    eg: echo 0x106 > /sys/module/drm/parameters/trace
-+ *
-+ * Once active, all log messages in the specified categories will be written to
-+ * the DRM trace. Once at capacity, the trace will overwrite old messages with
-+ * new ones. At any point, one can read the trace file to extract the previous N
-+ * DRM messages:
-+ * ::
-+ *
-+ *    eg: cat /sys/kernel/tracing/instances/drm/trace
-+ *
-+ * Considerations
-+ * **************
-+ * The trace is subsystem wide, so if you have multiple devices active, they
-+ * will be adding logs to the same trace.
-+ *
-+ * The contents of the DRM Trace are **not** considered UABI. **DO NOT depend on
-+ * the values of these traces in your userspace.** These traces are intended for
-+ * entertainment purposes only. The contents of these logs carry no warranty,
-+ * expressed or implied.
-+ */
-+
-+
-+#ifdef CONFIG_TRACING
-+
-+/**
-+ * drm_trace_init - initializes the drm trace array
-+ *
-+ * This function fetches (or creates) the drm trace array. This should be called
-+ * once on drm subsystem creation and matched with drm_trace_cleanup().
-+ */
-+void drm_trace_init(void)
-+{
-+	int ret;
-+
-+	trace_arr = trace_array_get_by_name("drm");
-+	if (!trace_arr)
-+		return;
-+
-+	ret = trace_array_init_printk(trace_arr);
-+	if (ret)
-+		drm_trace_cleanup();
-+}
-+EXPORT_SYMBOL(drm_trace_init);
-+
-+/**
-+ * drm_trace_printf - adds an entry to the drm tracefs instance
-+ * @format: printf format of the message to add to the trace
-+ *
-+ * This function adds a new entry in the drm tracefs instance
-+ */
-+void drm_trace_printf(const char *format, ...)
-+{
-+	struct va_format vaf;
-+	va_list args;
-+
-+	va_start(args, format);
-+	vaf.fmt = format;
-+	vaf.va = &args;
-+	trace_array_printk(trace_arr, _THIS_IP_, "%pV", &vaf);
-+	va_end(args);
-+}
-+
-+/**
-+ * drm_trace_cleanup - destroys the drm trace array
-+ *
-+ * This function destroys the drm trace array created with drm_trace_init. This
-+ * should be called once on drm subsystem close and matched with
-+ * drm_trace_init().
-+ */
-+void drm_trace_cleanup(void)
-+{
-+	if (trace_arr) {
-+		trace_array_put(trace_arr);
-+		trace_array_destroy(trace_arr);
-+		trace_arr = NULL;
-+	}
-+}
-+EXPORT_SYMBOL(drm_trace_cleanup);
-+#endif
-\ No newline at end of file
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index af31beeb82a1..4609a2f4a425 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -36,12 +36,13 @@
- 
- /* Do *not* use outside of drm_print.[ch]! */
- extern unsigned int __drm_debug_syslog;
-+extern unsigned int __drm_debug_trace;
- 
- /**
-  * DOC: print
-  *
-  * A simple wrapper for dev_printk(), seq_printf(), etc.  Allows same
-- * debug code to be used for both debugfs and printk logging.
-+ * debug code to be used for debugfs, printk and tracefs logging.
-  *
-  * For example::
-  *
-@@ -86,6 +87,9 @@ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
- void __drm_puts_seq_file(struct drm_printer *p, const char *str);
- void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
-+					   struct va_format *vaf);
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_noop(struct drm_printer *p, struct va_format *vaf);
- 
-@@ -219,7 +223,8 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
- }
- 
- /**
-- * drm_debug_printer - construct a &drm_printer that outputs to pr_debug()
-+ * drm_debug_printer - construct a &drm_printer that outputs to pr_debug() and
-+ * drm tracefs
-  * @prefix: debug output prefix
-  *
-  * RETURNS:
-@@ -228,7 +233,7 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
- static inline struct drm_printer drm_debug_printer(const char *prefix)
- {
- 	struct drm_printer p = {
--		.printfn = __drm_printfn_debug_syslog,
-+		.printfn = __drm_printfn_debug_syslog_and_trace,
- 		.prefix = prefix
- 	};
- 	return p;
-@@ -254,14 +259,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
-  * enum drm_debug_category - The DRM debug categories
-  *
-  * Each of the DRM debug logging macros use a specific category, and the logging
-- * is filtered by the drm.debug module parameter. This enum specifies the values
-- * for the interface.
-+ * is filtered by the drm.debug and drm.trace module parameters. This enum
-+ * specifies the values for the interface.
-  *
-  * Each DRM_DEBUG_<CATEGORY> macro logs to DRM_UT_<CATEGORY> category, except
-  * DRM_DEBUG() logs to DRM_UT_CORE.
-  *
-- * Enabling verbose debug messages is done through the drm.debug parameter, each
-- * category being enabled by a bit:
-+ * Enabling verbose debug messages is done through the drm.debug and drm.trace
-+ * parameters, each category being enabled by a bit:
-  *
-  *  - drm.debug=0x1 will enable CORE messages
-  *  - drm.debug=0x2 will enable DRIVER messages
-@@ -270,10 +275,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
-  *  - drm.debug=0x1ff will enable all messages
-  *
-  * An interesting feature is that it's possible to enable verbose logging at
-- * run-time by echoing the debug value in its sysfs node::
-+ * run-time by echoing the debug category value in its sysfs node::
-  *
-+ *   # For syslog logging:
-  *   # echo 0xf > /sys/module/drm/parameters/debug
-  *
-+ *   # For tracefs logging:
-+ *   # echo 0xf > /sys/module/drm/parameters/trace
-+ *
-  */
- enum drm_debug_category {
- 	/**
-@@ -325,14 +334,20 @@ static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
- 	return unlikely(__drm_debug_syslog & category);
- }
- 
-+static inline bool drm_debug_trace_enabled(enum drm_debug_category category)
-+{
-+	return unlikely(__drm_debug_trace & category);
-+}
-+
- static inline bool drm_debug_enabled(enum drm_debug_category category)
- {
--	return drm_debug_syslog_enabled(category);
-+	return drm_debug_syslog_enabled(category) ||
-+	       drm_debug_trace_enabled(category);
- }
- 
- /**
-  * drm_debug_category_printer - construct a &drm_printer that outputs to
-- * pr_debug() if enabled for the given category.
-+ * pr_debug() and/or the drm tracefs instance if enabled for the given category.
-  * @category: the DRM_UT_* message category this message belongs to
-  * @prefix: trace output prefix
-  *
-@@ -347,8 +362,13 @@ drm_debug_category_printer(enum drm_debug_category category,
- 		.prefix = prefix
- 	};
- 
--	if (drm_debug_syslog_enabled(category)) {
-+	if (drm_debug_syslog_enabled(category) &&
-+	    drm_debug_trace_enabled(category)) {
-+		p.printfn = __drm_printfn_debug_syslog_and_trace;
-+	} else if (drm_debug_syslog_enabled(category)) {
- 		p.printfn = __drm_printfn_debug_syslog;
-+	} else if (drm_debug_trace_enabled(category)) {
-+		p.printfn = __drm_printfn_trace;
- 	} else {
- 		WARN(1, "Debug category %d is inactive.", category);
- 		p.printfn = __drm_printfn_noop;
-@@ -357,6 +377,27 @@ drm_debug_category_printer(enum drm_debug_category category,
- 	return p;
- }
- 
-+
-+#ifdef CONFIG_TRACING
-+void drm_trace_init(void);
-+__printf(1, 2)
-+void drm_trace_printf(const char *format, ...);
-+void drm_trace_cleanup(void);
-+#else
-+static inline void drm_trace_init(void)
-+{
-+}
-+
-+__printf(1, 2)
-+static inline void drm_trace_printf(const char *format, ...)
-+{
-+}
-+
-+static inline void drm_trace_cleanup(void)
-+{
-+}
-+#endif
-+
- /*
-  * struct device based logging
-  *
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+Please let me know if there is any additional information I can provide.
 
+Thanks,
+John
+
+> +
+> +	if (!shstk->size)
+> +		return 0;
+> +
+> +	/*
+> +	 * For CLONE_VM, except vfork, the child needs a separate shadow
+> +	 * stack.
+> +	 */
+> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
+> +		return 0;
+> +
+> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave, XFEATURE_CET_USER);
+> +	if (!state)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Compat-mode pthreads share a limited address space.
+> +	 * If each function call takes an average of four slots
+> +	 * stack space, allocate 1/4 of stack size for shadow stack.
+> +	 */
+> +	if (in_compat_syscall())
+> +		stack_size /= 4;
+> +
+> +	stack_size = round_up(stack_size, PAGE_SIZE);
+> +	addr = alloc_shstk(stack_size);
+> +	if (IS_ERR_VALUE(addr)) {
+> +		shstk->base = 0;
+> +		shstk->size = 0;
+> +		return PTR_ERR((void *)addr);
+> +	}
+> +
+> +	fpu__prepare_write(&tsk->thread.fpu);
+> +	state->user_ssp = (u64)(addr + stack_size);
+> +	shstk->base = addr;
+> +	shstk->size = stack_size;
+> +	return 0;
+> +}
+> +
+>  void shstk_free(struct task_struct *tsk)
+>  {
+>  	struct thread_shstk *shstk = &tsk->thread.shstk;
+> @@ -80,7 +127,13 @@ void shstk_free(struct task_struct *tsk)
+>  	    !shstk->base)
+>  		return;
+>  
+> -	if (!tsk->mm)
+> +	/*
+> +	 * When fork() with CLONE_VM fails, the child (tsk) already has a
+> +	 * shadow stack allocated, and exit_thread() calls this function to
+> +	 * free it.  In this case the parent (current) and the child share
+> +	 * the same mm struct.
+> +	 */
+> +	if (!tsk->mm || tsk->mm != current->mm)
+>  		return;
+>  
+>  	while (1) {
