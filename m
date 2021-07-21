@@ -2,133 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4932AC636CA
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC104C636C9
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:55:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E8F161245
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFB116121E
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 13:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237551AbhGUMlc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 08:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237531AbhGUMlb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 08:41:31 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EFFC061766
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:22:08 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id a16so3229208ybt.8
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jul 2021 06:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hZwJIZ2K8rI+pgGDI4cRSYEmo/51p2RfSvQRRFc/6G4=;
-        b=0gXQ/a23lNAjY5FnFoHI7VxYXSSMWX/t4jL07nsAlNKb6JVO23YYoQw8SWcOtoIaAr
-         hN2QjeLOUHkU+hwXt7lLocn7hvj1h20uruk98GGvQzUQaaAw70vph/s3/2yjP4XrmZ81
-         qbrkWDqyHMgPlanL4TC2pDIqUjLLYokXvUjlCvfumMke4TBaCVNcHtcom90ZoD77AWw5
-         5BpwcsHBx1lRY1BbXn+raMT1dRXenqN6U7SWu1TXDKJSJYVcqLmxrDf4qbwD/jOZHRlS
-         MgI0JTrw/d85WSOCt+OVCxkd/9Q9TuzsQIzJVqzoRGEYG+H0AU/CNtxCGu76CoV6tLgU
-         TnKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hZwJIZ2K8rI+pgGDI4cRSYEmo/51p2RfSvQRRFc/6G4=;
-        b=bI+++9GJZx2SPcgUw6UUtcuFtqkDHYaDZx6W4Uzk77WAqDT/nBoqNM/j8Jmi+CPR5Z
-         wpaTsc5gSqSBFmXzojPCoSAjkCpX4gzICp28uH+DjrLPNDcD7AJICBM0qh2qjAmfRONf
-         nqLdfzuQ9EjnoaEh53UxfytpMPp+XFIXdoKvYH8tKtpARLTPNjLoNOpzDGNjr6J11oMe
-         XWadssaquArQLB4bf5UYmGrVez5KWQWzziNvbpQ+BMSfX5csi5yNy325OdXrfBAQ6lJ5
-         aYwr0ucGCx1P+4axGjibWrCPog4A2R30uny2c5oeCq7LsEKUTqmIaQ5geMKbmKlNbDLw
-         Ifag==
-X-Gm-Message-State: AOAM532YV9CVwb5MvNo/X6UO0ZvQaV7OxTV8DDUR3dYgF0UX0OVqbVL5
-        B3RHYR+v0jmMoiqIYbAUXGSxwiUbD2oWkvpT2ATnxw==
-X-Google-Smtp-Source: ABdhPJw8tfeSdvqXHu/1qe0V/wMQMlfodPC+f/Nl6xWtn/+jWFe1PPf/A/jN0HUkWv08N5OaobskQXxJjgLKnY4J2rc=
-X-Received: by 2002:a25:ca54:: with SMTP id a81mr26099538ybg.157.1626873727771;
- Wed, 21 Jul 2021 06:22:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210708152054.361704-1-hannu@hrtk.in>
-In-Reply-To: <20210708152054.361704-1-hannu@hrtk.in>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 21 Jul 2021 15:21:57 +0200
-Message-ID: <CAMpxmJWT-aG_KL66-0vDc7KAV_yGU7gWFrhk5BNenPix8v+RsA@mail.gmail.com>
-Subject: Re: [PATCH] docs: gpio: explain GPIOD_OUT_* values and toggling
- active low
-To:     Hannu Hartikainen <hannu@hrtk.in>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
+        id S235426AbhGUNPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 09:15:09 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:50426 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232706AbhGUNPJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 09:15:09 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id A4A9620341;
+        Wed, 21 Jul 2021 13:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1626875744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=d2zL4DSMxxgusCwerQYFit51RZdm7XIpv5GcoSHdjTc=;
+        b=k41ZNBw3GYqRYI9O1VKZjSxUOz2zBx+Bp+E+Nz9zW7n8bXxAVTwiYAaGH73jrLMynem9Ji
+        nNQvCmYsb7AdauDaq7kR9oSaQ4aVPKIgUynRW1ea8F7jdq7NzNBYwUVyF2pECfarNjpDhj
+        tZeaGuigE2yUMqO09pxLu/N6JsmB0yo=
+Received: from suse.cz (pathway.suse.cz [10.100.12.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 47F1EA3B83;
+        Wed, 21 Jul 2021 13:55:44 +0000 (UTC)
+Date:   Wed, 21 Jul 2021 15:55:44 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jia He <justin.he@arm.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>, nd@arm.com
+Subject: Re: [PATCH v7 3/5] lib/vsprintf.c: make '%pD' print the full path of
+ file
+Message-ID: <20210721135544.w4blqsvcyr42sxcb@pathway.suse.cz>
+References: <20210715011407.7449-1-justin.he@arm.com>
+ <20210715011407.7449-4-justin.he@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210715011407.7449-4-justin.he@arm.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 8, 2021 at 5:21 PM Hannu Hartikainen <hannu@hrtk.in> wrote:
->
-> I was confused about the gpiod_flags values and thought that
-> GPIOD_OUT_LOW and GPIOD_OUT_HIGH set the line to be active low / active
-> high. This is not true, but I got the misconception because the flags
-> GPIOD_OUT_*_OPEN_DRAIN do change line configuration and there's a
-> subchapter about *active low* and *open drain* semantics.
->
-> Add an explicit mention that the initial value is a logical value (and
-> not the line configuration or physical line level). Also add a mention
-> of the function gpiod_toggle_active_low which was previously missing
-> from this document.
->
-> Signed-off-by: Hannu Hartikainen <hannu@hrtk.in>
-> ---
->  Documentation/driver-api/gpio/consumer.rst | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-> index 3366a991b4aa..47869ca8ccf0 100644
-> --- a/Documentation/driver-api/gpio/consumer.rst
-> +++ b/Documentation/driver-api/gpio/consumer.rst
-> @@ -72,6 +72,10 @@ for the GPIO. Values can be:
->  * GPIOD_OUT_HIGH_OPEN_DRAIN same as GPIOD_OUT_HIGH but also enforce the line
->    to be electrically used with open drain.
->
-> +Note that the initial value is *logical* and the physical line level depends on
-> +whether the line is configured active high or active low (see
-> +:ref:`active_low_semantics`).
-> +
->  The two last flags are used for use cases where open drain is mandatory, such
->  as I2C: if the line is not already configured as open drain in the mappings
->  (see board.txt), then open drain will be enforced anyway and a warning will be
-> @@ -252,6 +256,8 @@ that can't be accessed from hardIRQ handlers, these calls act the same as the
->  spinlock-safe calls.
->
->
-> +.. _active_low_semantics:
-> +
->  The active low and open drain semantics
->  ---------------------------------------
->  As a consumer should not have to care about the physical line level, all of the
-> @@ -309,9 +315,11 @@ work on the raw line value::
->         void gpiod_set_raw_value_cansleep(struct gpio_desc *desc, int value)
->         int gpiod_direction_output_raw(struct gpio_desc *desc, int value)
->
-> -The active low state of a GPIO can also be queried using the following call::
-> +The active low state of a GPIO can also be queried and toggled using the
-> +following calls::
->
->         int gpiod_is_active_low(const struct gpio_desc *desc)
-> +       void gpiod_toggle_active_low(struct gpio_desc *desc)
->
->  Note that these functions should only be used with great moderation; a driver
->  should not have to care about the physical line level or open drain semantics.
-> --
-> 2.32.0
->
+On Thu 2021-07-15 09:14:05, Jia He wrote:
+> Previously, the specifier '%pD' was for printing dentry name of struct
+> file. It may not be perfect since by default it only prints one component.
+> 
+> As suggested by Linus [1]:
+>   A dentry has a parent, but at the same time, a dentry really does
+>   inherently have "one name" (and given just the dentry pointers, you
+>   can't show mount-related parenthood, so in many ways the "show just
+>   one name" makes sense for "%pd" in ways it doesn't necessarily for
+>   "%pD"). But while a dentry arguably has that "one primary component",
+>   a _file_ is certainly not exclusively about that last component.
+> 
+> Hence change the behavior of '%pD' to print the full path of that file.
+> It is worthy of noting that %pD uses the entire given buffer as a scratch
+> space. It might write something behind the trailing '\0' but never write
+> beyond the scratch space.
+> 
+> Precision specifier is never going to be used with %p (or any of its
+> kernel extensions) if -Wformat is turned on.
+> 
+> Link: https://lore.kernel.org/lkml/CAHk-=wimsMqGdzik187YWLb-ru+iktb4MYbMQG1rnZ81dXYFVg@mail.gmail.com/ [1]
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Jia He <justin.he@arm.com>
 
-Makes sense, applied!
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-Bartosz
+Best Regards,
+Petr
