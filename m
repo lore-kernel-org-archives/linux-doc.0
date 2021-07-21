@@ -2,154 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63EF0C636CA
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 18:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F07CC12002
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 19:02:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 480BA61261
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 18:38:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B76661244
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jul 2021 19:02:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbhGUR52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jul 2021 13:57:28 -0400
-Received: from mga05.intel.com ([192.55.52.43]:28452 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230269AbhGUR52 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Jul 2021 13:57:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297055867"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; 
-   d="scan'208";a="297055867"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2021 11:38:04 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; 
-   d="scan'208";a="576781537"
-Received: from aannamal-mobl.amr.corp.intel.com (HELO [10.212.140.253]) ([10.212.140.253])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2021 11:38:02 -0700
-Subject: Re: [PATCH v27 24/31] x86/cet/shstk: Handle thread shadow stack
-To:     John Allen <john.allen@amd.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
- <20210521221211.29077-25-yu-cheng.yu@intel.com>
- <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
- 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
- K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
- VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
- e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
- ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
- kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
- rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
- f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
- mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
- UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
- sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
- 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
- cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
- UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
- db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
- lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
- kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
- gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
- AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
- XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
- e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
- pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
- YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
- lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
- M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
- 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
- 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
- OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
- ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
- z5cecg==
-Message-ID: <cd064202-2c5f-b1d5-2970-9bff0a762a95@intel.com>
-Date:   Wed, 21 Jul 2021 11:37:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S238154AbhGUSWV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jul 2021 14:22:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231740AbhGUSWU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jul 2021 14:22:20 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07581C061575;
+        Wed, 21 Jul 2021 12:02:56 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id qa36so4747238ejc.10;
+        Wed, 21 Jul 2021 12:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Bz+gGGTDR08X+AO/SbVQCNhU2kG51Ah3ryQBTD5eMuQ=;
+        b=kXdFVki2Ry0Qh5deswzLJ0S8JSGB7N79Iy5ClQbvjmPZUJ0pDYTYM6eat85V8zdO//
+         aeLllkfCgdoe76xPh2iolTABrqdqH3DwbVoeuq2z6Inwq3zwPB6pQN4OcG7OTcTea03i
+         4VjCgQLHmtKvWYydflL1lWSyPEWDMJOeUEHEeJTQGFzqHosjVu/ztZF3WykSE0txnFuV
+         yugJsktvXpU0P7nmitRTxtgegWIHoNsPWih6Hh88W2fILhGUgR6FeC1mhQ92n9mKN6Mc
+         qjqnmnpzNW5n9BaLnos0bOft7NR784TuS2O8XdJAdBzV/tJIZ5+sW2A3M+bI1uHJs9KY
+         f5Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Bz+gGGTDR08X+AO/SbVQCNhU2kG51Ah3ryQBTD5eMuQ=;
+        b=pi9o8BEMWuOj6f8qE/fPNkkmLZgp/QpuMX1N87FkSqnM6UrDW3MJ4rmY5feSc1mMvf
+         Ub7GLF/a/b6kfsGd2Fla81hfaKZSp6L9R/hJyBpGSBaCaBhwPkKTkVi2c0ySS91116xR
+         F1P8XfB1H4I+o2HC1gCTxa236Uel5DbPid+GnXoWBPt1WM+eWQzPV6zD4xi7aTj1cvWu
+         DtTVxO1mvjGHi0rrQThOy1NlfH3N6Njtml5r/uJEjAgNjLhYog1x95bbaBWGNju+2CDG
+         Dz5YHQu07VORGJt2I98TzVOoiy4Cn9I47cJvuye1bb9SZAIWlcyVOjnaSqAPY930DBGP
+         tPWQ==
+X-Gm-Message-State: AOAM530oSHTMwyAooTD9IQGb49JgmRCKH9yydpECDO2qWSbYUAKR0KhF
+        eR7NIK/rsQ4edTkYFfKk3pQ=
+X-Google-Smtp-Source: ABdhPJywpZBOxUrcAA2ibda5nc6sB+szMz9PR3oDWSgdBzdM4+N7PEtUr/LYJyqBrD34NKnA4HfnRQ==
+X-Received: by 2002:a17:906:c302:: with SMTP id s2mr39661610ejz.151.1626894174613;
+        Wed, 21 Jul 2021 12:02:54 -0700 (PDT)
+Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
+        by smtp.gmail.com with ESMTPSA id a25sm11130868edr.21.2021.07.21.12.02.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 12:02:54 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Vineeth Pillai <Vineeth.Pillai@microsoft.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] admin-guide/hw-vuln: Rephrase a section of core-scheduling.rst
+Date:   Wed, 21 Jul 2021 21:02:50 +0200
+Message-Id: <20210721190250.26095-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/21/21 11:14 AM, John Allen wrote:
->> +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
->> +			     unsigned long stack_size)
->> +{
->> +	struct thread_shstk *shstk = &tsk->thread.shstk;
->> +	struct cet_user_state *state;
->> +	unsigned long addr;
->> +
->> +	if (!stack_size)
->> +		return -EINVAL;
-> I've been doing some light testing on AMD hardware and I've found that
-> this version of the patchset doesn't boot for me. It appears that when
-> systemd processes start spawning, they hit the above case, return
-> -EINVAL, and the fork fails. In these cases, copy_thread has been passed
-> 0 for both sp and stack_size.
+Rephrase the "For MDS" section in core-scheduling.rst for the purpose of
+making it clearer what is meant by "kernel memory is still considered
+untrusted".
 
-A few tangential things I noticed:
+Suggested-by: Vineeth Pillai <Vineeth.Pillai@microsoft.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ Documentation/admin-guide/hw-vuln/core-scheduling.rst | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-This hunk is not mentioned in the version changelog at all.  I also
-don't see any feedback that might have prompted it.  This is one reason
-per-patch changelogs are preferred.
+diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+index 7b410aef9c5c..e6b5ceb219ec 100644
+--- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
++++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+@@ -181,10 +181,11 @@ Open cross-HT issues that core scheduling does not solve
+ --------------------------------------------------------
+ 1. For MDS
+ ~~~~~~~~~~
+-Core scheduling cannot protect against MDS attacks between an HT running in
+-user mode and another running in kernel mode. Even though both HTs run tasks
+-which trust each other, kernel memory is still considered untrusted. Such
+-attacks are possible for any combination of sibling CPU modes (host or guest mode).
++Core scheduling cannot protect against MDS attacks between the siblings running in
++user mode and the others running in kernel mode. Even though all siblings run tasks
++which trust each other, when the kernel is executing code on behalf of a task, it
++cannot trust the code running in the sibling. Such attacks are possible for any
++combination of sibling CPU modes (host or guest mode).
+ 
+ 2. For L1TF
+ ~~~~~~~~~~~
+-- 
+2.32.0
 
-As a general rule, new features should strive to be implemented in a way
-that it's *obvious* that they won't break old code.
-shstk_alloc_thread_stack() fails that test for me.  If it had:
-
-	if (!cpu_feature_enabled(X86_FEATURE_SHSTK)) // or whatever
-		return 0;
-
-in the function, it would be obviously harmless.  Better yet would be
-doing the feature check at the shstk_alloc_thread_stack() call site,
-that way even the function call can be optimized out.
-
-Further, this confused me because the changelog didn't even mention the
-arg -> stack_size rename.  That would have been nice for another patch,
-or an extra sentence in the changelog.
