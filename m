@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8958BC63797
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FACC63793
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:48:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AC186100C
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:42:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C9D161287
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:48:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbhGVOB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 10:01:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30295 "EHLO
+        id S232511AbhGVOIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 10:08:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29065 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230343AbhGVOB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 10:01:56 -0400
+        by vger.kernel.org with ESMTP id S232328AbhGVOIQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 10:08:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626964950;
+        s=mimecast20190719; t=1626965331;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Kw6CRwUqzdaXdrl+GoUqts83hcJHaySlHaJXBWUbRA8=;
-        b=ggHsOqYmK6EZn8ITs7DU1KO0Qvyyb1xW5CkcCcu10xsjAYb52QFOhWvK1HFXa54DfEuzk/
-        JPCJN6AjayrWckhCLefMluwuZG1ZdkO2H8/AVIwzLDoISLai1wVzUOBCre0Uvf1dVapI+0
-        xCjbxEPBbpDRoyZhzJGxRvzSnSk5HSU=
+        bh=zcazrHRmrdUI7TLRVzAfUPzPLR8CDoZHugRg17DaTr8=;
+        b=FHplm8BA+GoMgF0fNg3q13BfydYn5oXhlo3UUuIs9CNhLNZSuODd7aPZWAjJN6iYA65y02
+        IAItGxWcHluj7gpvph9LSrGJpZ+piny0kjTV6xEminqQnYFV7qrtFzmdLTTGYzqULI+F1Y
+        81opondWs7zO3qqtgPRLASJh5kB9qVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-h11GFaXVNSK1F2Q3vQ8VlA-1; Thu, 22 Jul 2021 10:42:26 -0400
-X-MC-Unique: h11GFaXVNSK1F2Q3vQ8VlA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-415-RATX3Rf1PGqQpwFT7SpNWQ-1; Thu, 22 Jul 2021 10:48:47 -0400
+X-MC-Unique: RATX3Rf1PGqQpwFT7SpNWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C201107ACF5;
-        Thu, 22 Jul 2021 14:42:22 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB31804141;
+        Thu, 22 Jul 2021 14:48:43 +0000 (UTC)
 Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E891210016DB;
-        Thu, 22 Jul 2021 14:42:11 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648A5DA2D;
+        Thu, 22 Jul 2021 14:48:33 +0000 (UTC)
 From:   Cornelia Huck <cohuck@redhat.com>
 To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
         Tony Krowiak <akrowiak@linux.ibm.com>,
@@ -72,65 +72,34 @@ Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
         Yishai Hadas <yishaih@nvidia.com>,
         Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v2 04/14] vfio: Provide better generic support for
- open/release vfio_device_ops
-In-Reply-To: <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+Subject: Re: [PATCH v2 07/14] vfio/platform: Use open_device() instead of
+ open coding a refcnt scheme
+In-Reply-To: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
 Organization: Red Hat GmbH
-References: <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+References: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
 User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Thu, 22 Jul 2021 16:42:10 +0200
-Message-ID: <87bl6u76m5.fsf@redhat.com>
+Date:   Thu, 22 Jul 2021 16:48:31 +0200
+Message-ID: <878s1y76bk.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> Currently the driver ops have an open/release pair that is called once
-> each time a device FD is opened or closed. Add an additional set of
-> open/close_device() ops which are called when the device FD is opened for
-> the first time and closed for the last time.
->
-> An analysis shows that all of the drivers require this semantic. Some are
-> open coding it as part of their reflck implementation, and some are just
-> buggy and miss it completely.
->
-> To retain the current semantics PCI and FSL depend on, introduce the idea
-> of a "device set" which is a grouping of vfio_device's that share the same
-> lock around opening.
->
-> The device set is established by providing a 'set_id' pointer. All
-> vfio_device's that provide the same pointer will be joined to the same
-> singleton memory and lock across the whole set. This effectively replaces
-> the oddly named reflck.
->
-> After conversion the set_id will be sourced from:
->  - A struct device from a fsl_mc_device (fsl)
->  - A struct pci_slot (pci)
->  - A struct pci_bus (pci)
->  - The struct vfio_device (everything)
->
-> The design ensures that the above pointers are live as long as the
-> vfio_device is registered, so they form reliable unique keys to group
-> vfio_devices into sets.
->
-> This implementation uses xarray instead of searching through the driver
-> core structures, which simplifies the somewhat tricky locking in this
-> area.
->
-> Following patches convert all the drivers.
+> Platform simply wants to run some code when the device is first
+> opened/last closed. Use the core framework and locking for this.  Aside
+> from removing a bit of code this narrows the locking scope from a global
+> lock.
 >
 > Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/vfio/mdev/vfio_mdev.c |  22 +++++
->  drivers/vfio/vfio.c           | 146 +++++++++++++++++++++++++++++-----
->  include/linux/mdev.h          |   2 +
->  include/linux/vfio.h          |  19 +++++
->  4 files changed, 167 insertions(+), 22 deletions(-)
+>  drivers/vfio/platform/vfio_platform_common.c  | 79 ++++++++-----------
+>  drivers/vfio/platform/vfio_platform_private.h |  1 -
+>  2 files changed, 32 insertions(+), 48 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
