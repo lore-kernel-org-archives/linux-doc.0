@@ -5,29 +5,29 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE49CC19F3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1B8C19F39
 	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 20:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D54D160EFF
+	by mail.kernel.org (Postfix) with ESMTP id B2A0B60F21
 	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 20:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231815AbhGVURh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 16:17:37 -0400
-Received: from mga07.intel.com ([134.134.136.100]:54788 "EHLO mga07.intel.com"
+        id S231336AbhGVURb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 16:17:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:11982 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231400AbhGVURc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Jul 2021 16:17:32 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="275561726"
+        id S231163AbhGVURa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Jul 2021 16:17:30 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="192012890"
 X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="275561726"
+   d="scan'208";a="192012890"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:58:06 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:58:04 -0700
 X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="433273386"
+   d="scan'208";a="433273370"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:58:05 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:58:04 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -57,9 +57,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Haitao Huang <haitao.huang@intel.com>,
         Rick P Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v28 09/10] x86/vdso/32: Add ENDBR to __kernel_vsyscall entry point
-Date:   Thu, 22 Jul 2021 13:57:22 -0700
-Message-Id: <20210722205723.9476-10-yu-cheng.yu@intel.com>
+Subject: [PATCH v28 05/10] x86/cet/ibt: Update ELF header parsing for Indirect Branch Tracking
+Date:   Thu, 22 Jul 2021 13:57:18 -0700
+Message-Id: <20210722205723.9476-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210722205723.9476-1-yu-cheng.yu@intel.com>
 References: <20210722205723.9476-1-yu-cheng.yu@intel.com>
@@ -69,47 +69,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+An ELF file's .note.gnu.property indicates features the file supports.
+The property is parsed at loading time and passed to arch_setup_elf_
+property().  Update it for Indirect Branch Tracking.
 
-ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
-component of CET.  IBT prevents attacks by ensuring that (most) indirect
-branches and function calls may only land at ENDBR instructions.  Branches
-that don't follow the rules will result in control flow (#CF) exceptions.
-
-ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-instructions are inserted automatically by the compiler, but branch
-targets written in assembly must have ENDBR added manually.
-
-Add that to __kernel_vsyscall entry point.
-
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/entry/vdso/vdso32/system_call.S | 2 ++
- 1 file changed, 2 insertions(+)
+v27:
+- Remove selecting of ARCH_USE_GNU_PROPERTY and ARCH_BINFMT_ELF_STATE,
+  since they are already selected by X86_64.
 
-diff --git a/arch/x86/entry/vdso/vdso32/system_call.S b/arch/x86/entry/vdso/vdso32/system_call.S
-index 6ddd7a937b3e..d321c2ded33a 100644
---- a/arch/x86/entry/vdso/vdso32/system_call.S
-+++ b/arch/x86/entry/vdso/vdso32/system_call.S
-@@ -7,6 +7,7 @@
- #include <asm/dwarf2.h>
- #include <asm/cpufeatures.h>
- #include <asm/alternative.h>
-+#include <asm/vdso.h>
+ arch/x86/kernel/process_64.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
+index 4271963fdd8c..4ab751a5146e 100644
+--- a/arch/x86/kernel/process_64.c
++++ b/arch/x86/kernel/process_64.c
+@@ -884,6 +884,12 @@ int arch_setup_elf_property(struct arch_elf_state *state)
  
- 	.text
- 	.globl __kernel_vsyscall
-@@ -14,6 +15,7 @@
- 	ALIGN
- __kernel_vsyscall:
- 	CFI_STARTPROC
-+	ENDBR32
- 	/*
- 	 * Reshuffle regs so that all of any of the entry instructions
- 	 * will preserve enough state.
+ 	if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+ 		r = shstk_setup();
++
++	if (r < 0)
++		return r;
++
++	if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_IBT)
++		r = ibt_setup();
+ #endif
+ 
+ 	return r;
 -- 
 2.21.0
 
