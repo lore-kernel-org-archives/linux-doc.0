@@ -2,219 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D605C63793
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22DD7C63797
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 11:12:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 164F66120C
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:57:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4AF061244
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 11:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhGVKQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 06:16:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:50924 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231453AbhGVKQp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 06:16:45 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16MAv1KU010133;
-        Thu, 22 Jul 2021 10:57:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=C2w4kp+rG9HlL3EklJQq+JF3wxj6RcQbCXzVN9BNisI=;
- b=eWYOTcULDN1HptMxSKICDKrzjLQuqluXGC/AKbH/Ql9lpeCk4XKE/neJeNtcczKSA074
- HtPA5/LSYOZx2NXIR/kljfyNoiSISxuD29q27qTPsMekmuOI+0U+Axa+Ag52YBRYKkrd
- ooez3Frj4R2ZXoQJq6JhdT0hD02eAdvkMQ/3HKhDTCCMQUduQA8h2kb2e+8UcSuOFWuo
- tZ4f1QA8c1AyTLRUlOHeOAdrYfyonq4bAf3NF6bMWy/MZiD05jJN3xhzgBB+02+Yc29o
- j/PNhJc6EqAQ9S7A1VR1FocPAHgoUN4IuolmCoqZELXZ9bcfgLMMxheyYpN1lK72bbyP Fg== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=C2w4kp+rG9HlL3EklJQq+JF3wxj6RcQbCXzVN9BNisI=;
- b=U3t4AG7zgZD9TbV4DCLkpEZJUfvyxfxex9sZD2Y+4zf0RRxBlvAum72Z064M/Lrgtbpf
- 1GYCyifs6x2Czvfg9f3X6sU2YR2wrwCVSa5XCHGFPBQP9+LOrjlTn/0dZqmNz4KbhKvp
- 2vJmWlSJTk4NwjdDdie+p+U3Vj/44Va+D9S4hEQDCjViEfwhlW6ZxkNBn7PxCSM/Ybgo
- JBN048fYrrd1zHTlevGYsF5K6CsZmNkHkHZviPAy0zub3f4jcwWKgwTaQr/OOQfRZxHs
- 6fbBC0se1pIBtfs4Aho70WZ1y5ZyJAlDjb+TxQwMdCjqmjS/mRFTlUTLbQ2smBmzBoGx Lw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 39y37t8hmn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 22 Jul 2021 10:57:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16MAuYYF087216;
-        Thu, 22 Jul 2021 10:57:01 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-        by userp3030.oracle.com with ESMTP id 39umb4nx6a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 22 Jul 2021 10:57:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PHEOyYWpcr3rs5L3p+yp/GRhbKhthApQKUokxiEl0Fz6NYS1IfK8RLg7TLr+ad89K+ZyUvDUPQZ8EjGwQIAQ63QlY4eCwyPNRY5o0wanT/OfPVKvxdQj5tXcsF+6MS3EV9NkZpJ5WmlCvr5uDi8UliKIuw3kIOU3gzIj5ZYLksRGYGo9rexq9di3Kj2p61zxl6RNFVFdJOhwB/CtFmdilLqA1RaAP2Jek2vQ5G/r1OhW6VvT7i5HASVxlnFAV7BDvv76MPk9LV/nyijWosLWgL4ymy6KB3b161VJesEP7IMPDkWr0wTPCfA2xfA8IGxMc4p5mbRbSYJweVHG2z3cew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C2w4kp+rG9HlL3EklJQq+JF3wxj6RcQbCXzVN9BNisI=;
- b=AdMhjPuvpUFJTPBx0e5rt9UQaJZtfm1glFps4Su9alTK7bgwyG4vouqOqgTgPStEUgcAMrD3esdgoGcxnQDcklcCIbqgGg63KcdV++Awl/hE2JEU2foaBC6YBfoCgzClLD/GTyB8Dp7QlAD0czrz2RcX7ippqsl9rM8ykluXefsV5vOLs6tvP02by/tafpmEb/Am19x1mz8LpjzRtXdtLeCNsmQlCoTcQQK6HEgXP8KCmxzfwBS9IWSxVGdExLm9QRs6HPCeNP1A/nU6kMT4/f1PLPr1M200sgb2iujkY0Yq+HvRqfhoQuNQro4U3tgv+nyvKbCXq3Rp6F+Slcic7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S231708AbhGVKb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 06:31:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231453AbhGVKb1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 06:31:27 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF33C061757;
+        Thu, 22 Jul 2021 04:12:01 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id ee25so6287746edb.5;
+        Thu, 22 Jul 2021 04:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C2w4kp+rG9HlL3EklJQq+JF3wxj6RcQbCXzVN9BNisI=;
- b=utb4sx/8kwXVMqNmhgtXlAJE1QodIE7qk8MYStiapydGOoBFwoRrvwD5VWt6jDEVh/xpqa/cHTJ26b3C/YYF9g+Qy5p5yNO9HzR8V8M/md/O96Xdfl92mGT8jynGvpCC9zzTyAS8p/lzEGPxwlNH5fpuNkXpTHAm9uBgyoW5P7Q=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by MN2PR10MB3984.namprd10.prod.outlook.com (2603:10b6:208:1bf::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Thu, 22 Jul
- 2021 10:56:58 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::5833:5ab2:944c:7360]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::5833:5ab2:944c:7360%9]) with mapi id 15.20.4352.026; Thu, 22 Jul 2021
- 10:56:58 +0000
-Subject: Re: [PATCH v3 04/14] mm/memremap: add ZONE_DEVICE support for
- compound pages
-To:     Jane Chu <jane.chu@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=h5UFFN7AGeQIGOAb/RWQkv7C5lUMZ+0NOb3u66P0znA=;
+        b=Mzq18VK8+pYPI/nW5DZLi+cwN4d1s1bvaVlifFT7TF1uuB4cpZdKsz9NCvZF7FaTQz
+         NABwCvsmDaITomdz0I7MsLkxvbpG+f42GM0+RU18Xo0L5HTTEtkrr86Ult5k914yLQEz
+         3WuQTd2OMbVHTpfxZxOvMNWcFxGqpc9inEJjVFFohE62Teb0zyMYErkOUiQtpcmhsB61
+         ereDeKvWf71dmvPOaPSS583dz9Ck/zpYMgiTJEWIvB7l8kJaUHkQ5Pr44b4gaNNDjNbv
+         +rLMZmEwH8aa5lqcQ+J1NCSA+b83by6kQ/+QsTAAvL32aTwQUlw+12MGGHjJmTnH1RYO
+         S/Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=h5UFFN7AGeQIGOAb/RWQkv7C5lUMZ+0NOb3u66P0znA=;
+        b=FdtV/01he5lZRyu2X1oJwgxzMpLjEViAdesD3QtzmuIdJveU4QTZ3YqAQ6GqyfbbiR
+         wx+tD7zUyYtZODnImTttzFdNO5Ytfj/eLPGfgMEvC3gUrGZ5/xdIogPj2QWhLFm6y3jf
+         iAQbMNh2y1byalkAC2TJjawVLvK9NFa87r5/anRE3zt409HapAz6JfA2EZyNcQDAK2Nf
+         irg01a+D6Cu9juAa9ediigirFbzQpMmglMjJG/KXa/FyR4WWWihJ9l7vP3sNGe40x5hG
+         rMuDfd9Z9DC5cV1TTOWaiBN3qvHN2sYpDr2GjUpgzVRFzrYAASHd27DZhUgLMz9vivmI
+         9O/g==
+X-Gm-Message-State: AOAM531lakmh9I4bddkJ+TSklF5wzan2lAQONZHRI/p0uHsvgmhsjcD5
+        q4otXCwFH0LwbeZ/e8A+asE=
+X-Google-Smtp-Source: ABdhPJyHvPMnINyRjwAFAKb7jfk/nKGIqml/CZcTf4hAsf4X1rbAjI9rz6CDDtDQ/dpAHvP4Fyh/IA==
+X-Received: by 2002:a05:6402:111a:: with SMTP id u26mr52806709edv.260.1626952319776;
+        Thu, 22 Jul 2021 04:11:59 -0700 (PDT)
+Received: from skbuf ([82.76.66.29])
+        by smtp.gmail.com with ESMTPSA id d13sm12227380edt.31.2021.07.22.04.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jul 2021 04:11:59 -0700 (PDT)
+Date:   Thu, 22 Jul 2021 14:11:57 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-5-joao.m.martins@oracle.com>
- <CAPcyv4jwd_dzTH1H+cbiKqfK5=Xaa9JY=EVKHhPbjicVZA-URQ@mail.gmail.com>
- <d73793a8-7540-c473-0e30-0880341c2baf@oracle.com>
- <edf0358d-7ef6-d18e-a45d-f36449b116f5@oracle.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-Message-ID: <27e9fbcd-1309-999e-bc23-147f847ab193@oracle.com>
-Date:   Thu, 22 Jul 2021 11:56:51 +0100
-In-Reply-To: <edf0358d-7ef6-d18e-a45d-f36449b116f5@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0169.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a::13) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        Jakub Kicinski <kuba@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 03/15] dt-bindings: net: dsa: sja1105: update
+ nxp,sja1105.yaml reference
+Message-ID: <20210722111157.rtuc46bld2pfh7gk@skbuf>
+References: <cover.1626947923.git.mchehab+huawei@kernel.org>
+ <3e5fc7ad4f47887666868d6727f88f58613ea508.1626947923.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.85] (94.63.165.137) by LO2P265CA0169.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26 via Frontend Transport; Thu, 22 Jul 2021 10:56:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2029eeb8-938a-4fcd-022a-08d94cff6d70
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3984:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB39849DC84BED85121FB81B09BBE49@MN2PR10MB3984.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UBxNZMRRD3d39m2CebU9gB/bfKokPIc4kYIvXwnMZw3qb5KqbnB7xtJDPKT7D2IFFOh3Y4FjdruI5NE1X5XwAHXwd9FV592TVEoQSC2AoXT3JRen2LwY97qnG2IWRcVu/tEqbpIJt6yJPUD/fHqZFZi0cwdaGLdQkcA3RtRBkjEOIhePETw2HSAZh5ESPkzPVW8MvZz+mW2e+o+ohZl9BhkK+hbKy9O/PKAYjDPJmPHOKJXUG/VdPtFR22ujd+AiC/p3nP1Ln+mst/pfVpT6Osfhy8qNxvhna3hMn09gM8vBe/q3egaAH+iaBFTIgn8Lee0mz8hJMwVIcfAUVarnyDPYVWp945gVzSelhOsgKS31PZQBJpTcAki85kh2q8u/s9ES9SApA8cCBaPNJXl/D1Wv6dbAdT4VipY9T7xOmxT+EA1cMLnJBGgYnEGSsx1T8DOdPz1hOny84kYN5sCJueoENqoMXXqJNmWQt+CQOWWQ6vbQMxpqZr7AvcWSuMdqCYuVoRGTLuQsdDaQpjJam3lCCRvmusBpCOrr90I6cC6wuyszD4JZxRU2zLV5n1eJwOY3B6zDERHtdmcqA8j4KB7mhbC3J6rd1SbzA/yvO864Uc4SwOl47Tsk3S2oE0cFND+pzQjavX+hh93WixEuQtWWlWoJ43FMtOP5CENyUbqQ038Q181d/DryL8NkGlkv2SCsJDnVpzn+SQHmd3Z0MQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39850400004)(376002)(346002)(396003)(136003)(366004)(6486002)(4326008)(478600001)(31696002)(2616005)(53546011)(86362001)(66556008)(110136005)(8936002)(66946007)(2906002)(186003)(5660300002)(26005)(956004)(6666004)(54906003)(66476007)(316002)(38100700002)(7416002)(83380400001)(31686004)(36756003)(16576012)(8676002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c0hQZ1BQOUVtK3pseFYvR2EzUXFWZ3M3TXNZWm1FSUJxWmhkdHd6bktSYmFE?=
- =?utf-8?B?SkE1WW9TVnNrbHU0WHV4WXQ5d0VFbk9ZSmxNQm1SVnFqWE1FeWtrLzBvODYz?=
- =?utf-8?B?Nk9jSXhQWUIxUEFveEVVV3ZMRWRpd1krQWlQMENGTzh5VkZwMnBZclRPKzJN?=
- =?utf-8?B?WEV2SnFrcUEzSVJGN05aS212dSt0T3JDbFZnYXZvaU15c3IxRmUzQWNkODYr?=
- =?utf-8?B?UlhXdi84MStiOGVZV0YvRlVTdml6UHhDT3BITXViT1VGZmNhSzVUNzlzWGw2?=
- =?utf-8?B?VXd6VUczSUtabU9lVGJ3R1ZjQ1c5d0x5L0Y0MlpzaFBCZHdPTWlEdnEzb3Zk?=
- =?utf-8?B?a1NHQUJMOGJ0ZzQ5ajVYbldCNjY1TWZ5TlQrbzVIREtJcytxQWhKWFpxTUF0?=
- =?utf-8?B?Ni9zQWpJbFFDd2R0dUxlR2xrdGtjQmJDY1Nnd0pRY0VMTFp5YnFjd0V3VWdJ?=
- =?utf-8?B?cmhjOUVTNmYrRmJjNStURmlWS1pRQ3JzZnFYc0xNTEg3aEJ4YWM1eDVSRFE4?=
- =?utf-8?B?YTZBc2RJakdZcW9CdTJyaUF6SE1wRkpLL0srOWhYUjNwM1dmNDBNNjFOSVlr?=
- =?utf-8?B?N01lOXQrMEdGeHExNHZKTjErT0RYY3ZNeDZneXRyUHNrcTFRV3Q0Tmo1bWxx?=
- =?utf-8?B?ck9LSTMrbHVabEFYTDdmK1ZBVTg4U2l4L2I0MDlxNlRGWEhWamZtU2xjaExG?=
- =?utf-8?B?MXMyS2hKMHZwN2E0QnQxVmFabGpMRnVhdTlrRktKaGMreEFXT2c3bTc1bGdx?=
- =?utf-8?B?WHVHcG1uSmRQU2IxSzk0ZUZBY0Nldm9jRTdFQlJyUTRoMENITEhnMCs3ZXN0?=
- =?utf-8?B?Lyt4OFl1T0ZOT2N1STdRTGdJcklpTWk5K0lvcURaM1l3eXRkdXV0OGY5VW5M?=
- =?utf-8?B?TXg1VFhiSUVYbzR6WG9FRUVydlpOZTdpR1EzWTBjTGc3cGFuUm80T1lVTFRq?=
- =?utf-8?B?TFZhTEhSTEFERjdlTG9yK2pFY1NXbC8rdm5oMlVzUDlNSGZXKzdBMDUwLzNC?=
- =?utf-8?B?a2NhMFh4YTB5emRSaENHb0VjTXRGWUdnLzI3TFpDV1JhYXhkbGUvelNvVlh0?=
- =?utf-8?B?NzRQakRtQTU3RDYzMmtuMmRrWENDSTA3Q01hdGhaTGxQaFpxUkJ3UkdSazRM?=
- =?utf-8?B?OWdlZkVkdFVvK0cyZXQ2ekR5Uk04WUovV3hUK1ZLUnFzZ0pDbG5CZzZvRnJ2?=
- =?utf-8?B?VjdES0pvbmhxdHJPNHZYeDBCbDlVN25KNkFlYWRJOHJpUFpyZGxHVXFocU9v?=
- =?utf-8?B?SytvdTE4N0NHN1VWeVdmb0RGU1NycTVCOGxRbWF5d0hVQlIyMFFhdGJwYy9G?=
- =?utf-8?B?VjlHUEJXK2N3L3kwa1hORy90VnVQN3VQMVQyNzZBbHF1NUl5R0JkaHBCNmY0?=
- =?utf-8?B?ZXdsTE91S1k5dnEzbkQ4YXAxbUpGdmVnNGJsc0NtTkxCMDc3emIvaDh1T1RY?=
- =?utf-8?B?ZEVreGxvdmh2Uk92K0VNNW13RzhnOWN0VWlSb00yRFloTHo2YVk0cWNRL2VW?=
- =?utf-8?B?SHFSV05yRHV6UDJQT0QwNU1oSk1QZHoxMUw3b0tjMXVFQ1NCeXMzeGtkUGp0?=
- =?utf-8?B?dTJwQUw4ZmczcFBpVXpsMEpkYUhQcFZ3dDlGRHR6QVN4WHAxRGdRc3lPRDlj?=
- =?utf-8?B?bGs2T1hGWHJ4eXd4bTVZblJNWmtneDIyVldkSXh0OW1MeER1R3ZqWnVrdWs5?=
- =?utf-8?B?L1gxaVBpTG1IZVZ0b2hhejVaVHc3RW5aOU9WdGMwNktzNXVjYTlRNmxSeHNM?=
- =?utf-8?Q?HgN79cQL+Aukc3GwG3/LVSVYTc4G9KKF4WcaFyu?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2029eeb8-938a-4fcd-022a-08d94cff6d70
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2021 10:56:58.7438
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zPcWhXXpTvLMzMw4jk92kEgQMmi7ojClQMybgBa5dcmj04p/gzPQkeIE2c8IIApW4dlXRaDkWB1YHF4n3XlMiSNA3Lk1f37P3TDhhY5EUWg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3984
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10052 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
- mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107220072
-X-Proofpoint-ORIG-GUID: DzTuyOBJ7jsqIrrSKm-u5UWvMLJnViGI
-X-Proofpoint-GUID: DzTuyOBJ7jsqIrrSKm-u5UWvMLJnViGI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e5fc7ad4f47887666868d6727f88f58613ea508.1626947923.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 7/22/21 1:38 AM, Jane Chu wrote:
+On Thu, Jul 22, 2021 at 12:00:00PM +0200, Mauro Carvalho Chehab wrote:
+> Changeset 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+> renamed: Documentation/devicetree/bindings/net/dsa/sja1105.txt
+> to: Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml.
 > 
-> On 7/15/2021 5:52 AM, Joao Martins wrote:
->>>> +               __init_zone_device_page(page + i, pfn + i, zone_idx,
->>>> +                                       nid, pgmap);
->>>> +               prep_compound_tail(page, i);
->>>> +
->>>> +               /*
->>>> +                * The first and second tail pages need to
->>>> +                * initialized first, hence the head page is
->>>> +                * prepared last.
->>> I'd change this comment to say why rather than restate what can be
->>> gleaned from the code. It's actually not clear to me why this order is
->>> necessary.
->>>
->> So the first tail page stores mapcount_ptr and compound order, and the
->> second tail page stores pincount_ptr. prep_compound_head() does this:
->>
->> 	set_compound_order(page, order);
->> 	atomic_set(compound_mapcount_ptr(page), -1);
->> 	if (hpage_pincount_available(page))
->> 		atomic_set(compound_pincount_ptr(page), 0);
->>
->> So we need those tail pages initialized first prior to initializing the head.
->>
->> I can expand the comment above to make it clear why we need first and second tail pages.
->>
+> Update its cross-reference accordingly.
 > 
-> Perhaps just say
->    The reason prep_compound_head() is called after the 1st and 2nd tail
->    pages have been initialized is: so it overwrites some of the tail page
->    fields setup by __init_zone_device_page(), rather than the other way 
-> around.
-> ?
+> Fixes: 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-Yeap, something along those lines is what I was thinking. Perhaps explicitly mentioning
-the struct page fields that 1st and 2nd tail pages store to avoid the reader thinking it's
-arbitrarily picked.
-
-	Joao
+Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
