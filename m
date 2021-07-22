@@ -2,390 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78933C6377D
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 13:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8958BC63797
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:42:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B6816128A
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 13:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AC186100C
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbhGVNRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 09:17:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40558 "EHLO
+        id S232427AbhGVOB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 10:01:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30295 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232118AbhGVNRs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 09:17:48 -0400
+        by vger.kernel.org with ESMTP id S230343AbhGVOB4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 10:01:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626962303;
+        s=mimecast20190719; t=1626964950;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=B+ZEIrxXdHN+KKS25Y08dQGB9Q6yHwa17s57v5VuMUA=;
-        b=RwyScTfHRbwxbR4ajKc3y7t7HlouuK3+AXsjoX+0H0tLPNl22ootOKEndW4XN8ZE1uGeib
-        cmQegvQvoqSZbM3IM1TK9VYZ0kPMuwwXw0Yttm3No0SiMt+slpJxidRzLpA66DO4l9bb65
-        vL03Y8qqRNh0l6LXvpOYR443yfo5IE0=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-N72oWlE3PvaAbNpUBe-qJw-1; Thu, 22 Jul 2021 09:58:22 -0400
-X-MC-Unique: N72oWlE3PvaAbNpUBe-qJw-1
-Received: by mail-ot1-f70.google.com with SMTP id 59-20020a9d0dc10000b02902a57e382ca1so3736104ots.7
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jul 2021 06:58:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=B+ZEIrxXdHN+KKS25Y08dQGB9Q6yHwa17s57v5VuMUA=;
-        b=NuLmgTXyyx5PgdIsuaQzIlPLHWW1Orh+v6FhdvMNoTAuT4798zaTx/xvqEOfi5qKgV
-         NMNk7aSnjsQ6jJgB1YBn775IFUW0Rd9CNkXYRUoT93Ud/7n1bHjojV8UN2HtzKNxHiLk
-         1kTfguTArM7tFDw+DRljhVskL1ARtukyxFAXDzZzlabuAlpBF38s/jYbP9wcPcf8lDDp
-         F1v6ndu6HXm9QJ3N+xtq4J0A7hj1FmKY8Wr4LSF4gnEACDtyIm46RdGKYSos7ByPh5WK
-         RiHOOGY5AtXwQsKBaBXm7Ph0kHqJ5etwHm0zDfMKRtwD616sDc6pgj4fb8QIl6zUWByM
-         qvpg==
-X-Gm-Message-State: AOAM532vxHR50fZ2qT1HEJbaq5Fgqn1BlM7PGe5m8hpY+xkSP4Dkj5pO
-        jQ5FRPgXxgHbRQC3xhyoZi8e8FUAr+iagKnjWFgXta9CJta6S8AMtlMEUTfRHz791blNfUyQjOt
-        LQfURBjf8lH0K347PlGp4
-X-Received: by 2002:a05:6830:10c5:: with SMTP id z5mr29756750oto.154.1626962301596;
-        Thu, 22 Jul 2021 06:58:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwB0KEESlrLVySjLINZ6QqelXe7Baf1YjJgPPuMDBDHrm8FX4xuz9eBuAl+zLS9peLF37SqNQ==
-X-Received: by 2002:a05:6830:10c5:: with SMTP id z5mr29756743oto.154.1626962301387;
-        Thu, 22 Jul 2021 06:58:21 -0700 (PDT)
-Received: from localhost.localdomain (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id u7sm804602oop.11.2021.07.22.06.58.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jul 2021 06:58:21 -0700 (PDT)
-Subject: Re: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
- fpga_region
-To:     "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Weight, Russell H" <russell.h.weight@intel.com>
-Cc:     "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20210709134229.2510349-1-trix@redhat.com>
- <20210709134229.2510349-6-trix@redhat.com>
- <DM6PR11MB3819098B673C54530B227D4385159@DM6PR11MB3819.namprd11.prod.outlook.com>
- <2a3b3131-96a3-9761-f2e7-63a32fd277f6@redhat.com>
- <DM6PR11MB38193C3FE87830E9627E112C85E39@DM6PR11MB3819.namprd11.prod.outlook.com>
- <2056f88d-7215-8f6a-d3c3-2692741c2c2d@redhat.com>
- <DM6PR11MB38194D113950FA4B75C7F2C485E49@DM6PR11MB3819.namprd11.prod.outlook.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <4ab7dd2d-c215-6333-6860-6f7d0ac64c3d@redhat.com>
-Date:   Thu, 22 Jul 2021 06:58:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        bh=Kw6CRwUqzdaXdrl+GoUqts83hcJHaySlHaJXBWUbRA8=;
+        b=ggHsOqYmK6EZn8ITs7DU1KO0Qvyyb1xW5CkcCcu10xsjAYb52QFOhWvK1HFXa54DfEuzk/
+        JPCJN6AjayrWckhCLefMluwuZG1ZdkO2H8/AVIwzLDoISLai1wVzUOBCre0Uvf1dVapI+0
+        xCjbxEPBbpDRoyZhzJGxRvzSnSk5HSU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-h11GFaXVNSK1F2Q3vQ8VlA-1; Thu, 22 Jul 2021 10:42:26 -0400
+X-MC-Unique: h11GFaXVNSK1F2Q3vQ8VlA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C201107ACF5;
+        Thu, 22 Jul 2021 14:42:22 +0000 (UTC)
+Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E891210016DB;
+        Thu, 22 Jul 2021 14:42:11 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 04/14] vfio: Provide better generic support for
+ open/release vfio_device_ops
+In-Reply-To: <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date:   Thu, 22 Jul 2021 16:42:10 +0200
+Message-ID: <87bl6u76m5.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <DM6PR11MB38194D113950FA4B75C7F2C485E49@DM6PR11MB3819.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On 7/21/21 5:18 PM, Wu, Hao wrote:
->   
->> On 7/20/21 9:48 PM, Wu, Hao wrote:
->>>> On 7/11/21 6:40 PM, Wu, Hao wrote:
->>>>>> -----Original Message-----
->>>>>> From: trix@redhat.com <trix@redhat.com>
->>>>>> Sent: Friday, July 9, 2021 9:42 PM
->>>>>> To: mdf@kernel.org; corbet@lwn.net; Wu, Hao <hao.wu@intel.com>
->>>>>> Cc: linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org; linux-
->>>>>> kernel@vger.kernel.org; Tom Rix <trix@redhat.com>
->>>>>> Subject: [PATCH v2 4/4] fpga: remove compat_id from fpga_manager and
->>>>>> fpga_region
->>>>>>
->>>>>> From: Tom Rix <trix@redhat.com>
->>>>>>
->>>>>> compat_id is implementation specific.  So the data should be
->>>>>> stored at the implemeation layer, not the infrastructure layer.
->>>>>> Remove the compat_id elements and supporting code.
->>>>> I think current compat_id format can meet the checking requirement.
->>>>> Actually I hope other hardware which needs compatible checking
->>>>> to expose the same format compat_id. Then we can have more
->>>>> unified/common code, e.g. userspace application/lib handling.
->>>> v2 does not change the current ABI. The dfl output is the same as
->>>> before, the other nonusers get -ENOENT.
->>> I think the common ABI is changed somehow, as output format can
->>> be anything with your change, this confuses userspace too.
->> Only dfl uses this interface, any dfl userspace like opae reading the
->> sysfs compat_id would remain unchanged.
->>
->> Others will continue to receive the -ENOENT.
->>
->> If the others wanted to use this entry in the future, the
->>
->> existing ABI documentation is consistent with with allowing them to
->>
->> define it as they wish.  The format of the output is not specified
->>
->> only the error condition. with language the leaves it up to the region
->>
->> creator to define.
->>
->> from sysfs-class-fpga-region
->>
->> "FPGA region id for compatibility check, e.g. compatibility
->>    of the FPGA reconfiguration hardware and image. This value
->>    is defined or calculated by the layer that is creating the
->>    FPGA region. This interface returns the compat_id value or
->>    just error code -ENOENT in case compat_id is not used."
->>
-> As we have fixed compat_id format, so the output format is fixed.
-> If output format is not fixed then we will never have reusable code based
-> on this common ABI on fpga region, only vendor specific code can.
-
-Looking for a compromise that leaves the data in fpga_manager,
-
-The data type of currently is vendor specific, 2 64 bit values.
-
-can we change that to a neutral type like uuid_t ?
-
-It is treated as a uuid_t in opae, with.
-
-being read byte string with this logic
-
-     for (i = 0; i < 32; i += 2) {
-         tmp = buf[i + 2];
-         buf[i + 2] = 0;
-
-         octet = 0;
-         sscanf(&buf[i], "%x", &octet);
-         guid[i / 2] = (uint8_t)octet;
-
-         buf[i + 2] = tmp;
-     }
-
-Into this final type
-
-/**
-  * Globally unique identifier (GUID)
-  *
-  * GUIDs are used widely within OPAE for helping identify FPGA 
-resources. For
-  * example, every FPGA resource has a `guid` property, which can be 
-(and in the
-  * case of FPGA_ACCELERATOR resource primarily is) used for enumerating 
-a resource of a
-  * specific type.
-   *
-  * `fpga_guid` is compatible with libuuid's uuid_t, so users can use 
-libuuid
-  * functions like uuid_parse() to create and work with GUIDs.
-  */
-typedef uint8_t fpga_guid[16];
-
-Tom
-
-
+> Currently the driver ops have an open/release pair that is called once
+> each time a device FD is opened or closed. Add an additional set of
+> open/close_device() ops which are called when the device FD is opened for
+> the first time and closed for the last time.
 >
->>>> For dfl compat_id is 2 64 bit registers.
->>>>
->>>> For compat_id to be useful to the others, they need the flexibility to
->>>> print to the sysfs in the manner that aligns with whatever their user
->>>> library interface is, 2 64 values isn't going to work for everyone.  ex/
->>>> xrt likely would be a uuid_t printed out a special way. someone else
->>>> maybe just string in the board fw, maybe some has a 8 or 256 bits of
->>>> compat_id  etc.
->>>>
->>>> as a driver region specific op, others are free to do whatever is required.
->>>>
->>>>> Currently I didn't see any other usage or requirement on this part
->>>>> now, only DFL uses it.  So should we leave it here at this moment?
->>>>> I feel we don't have to change it for now to move it to a
->>>>> Per-fpga-mgr format. : )
->>>> The motivation for doing this now is the 'use standard class dev release
->>>> .. ' patchset
->>>>
->>>> I really do not like 2 register functions.
->>>>
->>>> By moving compat_id, the 2 register functions reduces down to 1.
->>>>
->>> You don't have to moving compact_id, you can have 1 parameter
->>> with a data structure including everything.
->> I like the fpga_mgr_register( ... , const struct fpga_magager_info
->> *info) better as well because it will stabilize the public api.
->>
->> Since we agree on that, do you agree Russ's patch can be resolved by
->>
->> from include/linux/fpga-mgr.h
->>
->> keep
->>
->> struct fpga_manager *
->> fpga_mgr_register(struct device *parent, const struct fpga_manager_info
->> *info);
->>
->> remove *simple() from the public api, move it to driver/fpga/
-> Yes, that sounds good to me.
+> An analysis shows that all of the drivers require this semantic. Some are
+> open coding it as part of their reflck implementation, and some are just
+> buggy and miss it completely.
 >
->> and something similar for fpga-region.h ?
->>
->> However the compat_id refactor goes, having just *register(... *info) is
->> fine and could be done first.
-> Yes. Adding or removing thing later won't impact this register interface.
+> To retain the current semantics PCI and FSL depend on, introduce the idea
+> of a "device set" which is a grouping of vfio_device's that share the same
+> lock around opening.
 >
-> Hao
+> The device set is established by providing a 'set_id' pointer. All
+> vfio_device's that provide the same pointer will be joined to the same
+> singleton memory and lock across the whole set. This effectively replaces
+> the oddly named reflck.
 >
->> Tom
->>
->>
->>> Thanks
->>> Hao
->>>
->>>> I did a poc here
->>>>
->>>> https://lore.kernel.org/linux-fpga/20210709184511.2521508-1-
->>>> trix@redhat.com/
->>>>
->>>> Tom
->>>>
->>>>> Thanks
->>>>> Hao
->>>>>
->>>>>> Printing out the compat_id is done with the fpga_region
->>>>>> compat_id_show() op.
->>>>>>
->>>>>> Signed-off-by: Tom Rix <trix@redhat.com>
->>>>>> ---
->>>>>>     drivers/fpga/dfl-fme-mgr.c       |  7 -------
->>>>>>     drivers/fpga/dfl-fme-region.c    |  1 -
->>>>>>     drivers/fpga/fpga-region.c       |  7 +------
->>>>>>     include/linux/fpga/fpga-mgr.h    | 13 -------------
->>>>>>     include/linux/fpga/fpga-region.h |  2 --
->>>>>>     5 files changed, 1 insertion(+), 29 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/fpga/dfl-fme-mgr.c b/drivers/fpga/dfl-fme-mgr.c
->>>>>> index cd0b9157ea6e5..8c5423eeffe75 100644
->>>>>> --- a/drivers/fpga/dfl-fme-mgr.c
->>>>>> +++ b/drivers/fpga/dfl-fme-mgr.c
->>>>>> @@ -292,7 +292,6 @@ EXPORT_SYMBOL_GPL(fme_mgr_get_compat_id);
->>>>>>     static int fme_mgr_probe(struct platform_device *pdev)
->>>>>>     {
->>>>>>     	struct dfl_fme_mgr_pdata *pdata = dev_get_platdata(&pdev->dev);
->>>>>> -	struct fpga_compat_id *compat_id;
->>>>>>     	struct device *dev = &pdev->dev;
->>>>>>     	struct fme_mgr_priv *priv;
->>>>>>     	struct fpga_manager *mgr;
->>>>>> @@ -312,10 +311,6 @@ static int fme_mgr_probe(struct platform_device
->>>>>> *pdev)
->>>>>>     			return PTR_ERR(priv->ioaddr);
->>>>>>     	}
->>>>>>
->>>>>> -	compat_id = devm_kzalloc(dev, sizeof(*compat_id), GFP_KERNEL);
->>>>>> -	if (!compat_id)
->>>>>> -		return -ENOMEM;
->>>>>> -
->>>>>>     	_fme_mgr_get_compat_id(priv->ioaddr, &priv->compat_id);
->>>>>>
->>>>>>     	mgr = devm_fpga_mgr_create(dev, "DFL FME FPGA Manager",
->>>>>> @@ -323,8 +318,6 @@ static int fme_mgr_probe(struct platform_device
->>>> *pdev)
->>>>>>     	if (!mgr)
->>>>>>     		return -ENOMEM;
->>>>>>
->>>>>> -	mgr->compat_id = compat_id;
->>>>>> -
->>>>>>     	return devm_fpga_mgr_register(dev, mgr);
->>>>>>     }
->>>>>>
->>>>>> diff --git a/drivers/fpga/dfl-fme-region.c b/drivers/fpga/dfl-fme-region.c
->>>>>> index d21eacbf2469f..be1d57ee37666 100644
->>>>>> --- a/drivers/fpga/dfl-fme-region.c
->>>>>> +++ b/drivers/fpga/dfl-fme-region.c
->>>>>> @@ -64,7 +64,6 @@ static int fme_region_probe(struct platform_device
->>>> *pdev)
->>>>>>     	}
->>>>>>
->>>>>>     	region->priv = pdata;
->>>>>> -	region->compat_id = mgr->compat_id;
->>>>>>     	platform_set_drvdata(pdev, region);
->>>>>>
->>>>>>     	ret = fpga_region_register(region);
->>>>>> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
->>>>>> index 864dd4f290e3b..b08d3914716f0 100644
->>>>>> --- a/drivers/fpga/fpga-region.c
->>>>>> +++ b/drivers/fpga/fpga-region.c
->>>>>> @@ -172,12 +172,7 @@ static ssize_t compat_id_show(struct device *dev,
->>>>>>     	if (region->rops && region->rops->compat_id_show)
->>>>>>     		return region->rops->compat_id_show(region, buf);
->>>>>>
->>>>>> -	if (!region->compat_id)
->>>>>> -		return -ENOENT;
->>>>>> -
->>>>>> -	return sprintf(buf, "%016llx%016llx\n",
->>>>>> -		       (unsigned long long)region->compat_id->id_h,
->>>>>> -		       (unsigned long long)region->compat_id->id_l);
->>>>>> +	return -ENOENT;
->>>>>>     }
->>>>>>
->>>>>>     static DEVICE_ATTR_RO(compat_id);
->>>>>> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
->>>>>> index ec2cd8bfceb00..ebdea215a8643 100644
->>>>>> --- a/include/linux/fpga/fpga-mgr.h
->>>>>> +++ b/include/linux/fpga/fpga-mgr.h
->>>>>> @@ -143,24 +143,12 @@ struct fpga_manager_ops {
->>>>>>     #define FPGA_MGR_STATUS_IP_PROTOCOL_ERR		BIT(3)
->>>>>>     #define FPGA_MGR_STATUS_FIFO_OVERFLOW_ERR	BIT(4)
->>>>>>
->>>>>> -/**
->>>>>> - * struct fpga_compat_id - id for compatibility check
->>>>>> - *
->>>>>> - * @id_h: high 64bit of the compat_id
->>>>>> - * @id_l: low 64bit of the compat_id
->>>>>> - */
->>>>>> -struct fpga_compat_id {
->>>>>> -	u64 id_h;
->>>>>> -	u64 id_l;
->>>>>> -};
->>>>>> -
->>>>>>     /**
->>>>>>      * struct fpga_manager - fpga manager structure
->>>>>>      * @name: name of low level fpga manager
->>>>>>      * @dev: fpga manager device
->>>>>>      * @ref_mutex: only allows one reference to fpga manager
->>>>>>      * @state: state of fpga manager
->>>>>> - * @compat_id: FPGA manager id for compatibility check.
->>>>>>      * @mops: pointer to struct of fpga manager ops
->>>>>>      * @priv: low level driver private date
->>>>>>      */
->>>>>> @@ -169,7 +157,6 @@ struct fpga_manager {
->>>>>>     	struct device dev;
->>>>>>     	struct mutex ref_mutex;
->>>>>>     	enum fpga_mgr_states state;
->>>>>> -	struct fpga_compat_id *compat_id;
->>>>>>     	const struct fpga_manager_ops *mops;
->>>>>>     	void *priv;
->>>>>>     };
->>>>>> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-
->>>> region.h
->>>>>> index 236d3819f1c13..afc79784b2823 100644
->>>>>> --- a/include/linux/fpga/fpga-region.h
->>>>>> +++ b/include/linux/fpga/fpga-region.h
->>>>>> @@ -30,7 +30,6 @@ struct fpga_region_ops {
->>>>>>      * @bridge_list: list of FPGA bridges specified in region
->>>>>>      * @mgr: FPGA manager
->>>>>>      * @info: FPGA image info
->>>>>> - * @compat_id: FPGA region id for compatibility check.
->>>>>>      * @priv: private data
->>>>>>      * @rops: optional pointer to struct for fpga region ops
->>>>>>      */
->>>>>> @@ -40,7 +39,6 @@ struct fpga_region {
->>>>>>     	struct list_head bridge_list;
->>>>>>     	struct fpga_manager *mgr;
->>>>>>     	struct fpga_image_info *info;
->>>>>> -	struct fpga_compat_id *compat_id;
->>>>>>     	void *priv;
->>>>>>     	const struct fpga_region_ops *rops;
->>>>>>     };
->>>>>> --
->>>>>> 2.26.3
+> After conversion the set_id will be sourced from:
+>  - A struct device from a fsl_mc_device (fsl)
+>  - A struct pci_slot (pci)
+>  - A struct pci_bus (pci)
+>  - The struct vfio_device (everything)
+>
+> The design ensures that the above pointers are live as long as the
+> vfio_device is registered, so they form reliable unique keys to group
+> vfio_devices into sets.
+>
+> This implementation uses xarray instead of searching through the driver
+> core structures, which simplifies the somewhat tricky locking in this
+> area.
+>
+> Following patches convert all the drivers.
+>
+> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/vfio/mdev/vfio_mdev.c |  22 +++++
+>  drivers/vfio/vfio.c           | 146 +++++++++++++++++++++++++++++-----
+>  include/linux/mdev.h          |   2 +
+>  include/linux/vfio.h          |  19 +++++
+>  4 files changed, 167 insertions(+), 22 deletions(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
