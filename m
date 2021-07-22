@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-25.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC92C6379A
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639C4C6377D
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 462C56127C
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4727E61283
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231600AbhGVJTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49382 "EHLO mail.kernel.org"
+        id S231608AbhGVJTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49358 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231508AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Jul 2021 05:19:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ABECF61353;
-        Thu, 22 Jul 2021 10:00:20 +0000 (UTC)
+        id S231569AbhGVJTq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Jul 2021 05:19:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D80376127C;
+        Thu, 22 Jul 2021 10:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626948020;
-        bh=JElE2Z5tQcxTgD4aLoG2OsWdGAwXlidtjaHeeFzBRvQ=;
+        s=k20201202; t=1626948021;
+        bh=u0WPNC8wo05c/mR6al+UtB2v1oU8vNnHVxOUiCzMQTs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ddImT33rEgPbY4yymsYelgClWwKdXjrPvdv4RQq5P4C872V7G0zrXhHWoTWdgGO9o
-         ILPI1ZQWY7TrgvESDnTWRoF85uaFYqnIrXIHlLQ+Hx9Bvl6qqhOK/v2RZ4kzekUDCn
-         rnmvP8vV0uSPGyJHc/MXYKI7aYZwjIeBYxrwjQL67hJ3ga2PhdKwTKcFe2HfNCo6C8
-         nUyjlDSpcq3PpywcArDVGsOa15vGvjCeP6XZESH7+WANpgnUUwmuP7KKRcWA0wkTIS
-         a20b1A13NqcKLVy6M/X1PsCiSrlC/TwckYUlsxLIj9QHx72HUilcBrsiOC2wgXWp58
-         IijkO7UO+EadQ==
+        b=ehl+WoGvWhtdC1VmESqxGw5eQ2xdD+PS0j0QuCK8gSF4NtQwZJCu8CxwQKSMNqAP7
+         o+zwO6pb0WBtzgL2OTccXKkX7+TcQUONGiZ7AkgPhwGuCc9WDjnUZYlS+5+VLaX3m4
+         BbvP1msM4P2EGmQHgPlXu4Tuy8KjbJZmyhsUFzT8gTkKT2084R3ybjRHjVKtBW/km5
+         HGgSk3jiX56bdXidLVj7YZ/jUcAvnoRe3oADRc9PHDQrZAfdnJ9LuN0CMhg6NlcBvl
+         kLYgdF4KkPxt9G6Y29rzT84vT7xpet6ZjiaDKHuz2IhMb1ZDdChgWprdM9HN/lPpjt
+         BwkkscYSUqiEQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VUz-008mHr-W0; Thu, 22 Jul 2021 12:00:14 +0200
+        id 1m6VUz-008mHa-LM; Thu, 22 Jul 2021 12:00:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -41,9 +41,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/15] MAINTAINERS: update mtd-physmap.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:06 +0200
-Message-Id: <fa6e84084c3517bf9118f6b8ed1e440429f31636.1626947923.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/15] MAINTAINERS: update mtd-physmap.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:01 +0200
+Message-Id: <24957d89f650521bfe27c64722110d6fb0d26921.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -55,7 +55,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Changeset 63f8e9e0ac65 ("dt-bindings: mtd: Convert mtd-physmap to DT schema")
-renamed: Documentation/devicetree/bindings/mtd/cypress,hyperflash.txt
+renamed: Documentation/devicetree/bindings/mtd/arm-versatile.txt
 to: Documentation/devicetree/bindings/mtd/mtd-physmap.yaml.
 
 Update its cross-reference accordingly.
@@ -67,18 +67,18 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 92be68e3efb5..bf8843b778a2 100644
+index d69b2d4646be..76acb9fe0622 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8633,7 +8633,7 @@ S:	Supported
- Q:	http://patchwork.ozlabs.org/project/linux-mtd/list/
- C:	irc://irc.oftc.net/mtd
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git cfi/next
--F:	Documentation/devicetree/bindings/mtd/cypress,hyperflash.txt
+@@ -1386,7 +1386,7 @@ F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
+ F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
+ F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
+ F:	Documentation/devicetree/bindings/interrupt-controller/arm,versatile-fpga-irq.txt
+-F:	Documentation/devicetree/bindings/mtd/arm-versatile.txt
 +F:	Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
- F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
- F:	drivers/mtd/hyperbus/
- F:	include/linux/mtd/hyperbus.h
+ F:	arch/arm/boot/dts/arm-realview-*
+ F:	arch/arm/boot/dts/integrator*
+ F:	arch/arm/boot/dts/versatile*
 -- 
 2.31.1
 
