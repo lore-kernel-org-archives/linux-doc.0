@@ -2,85 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A413DC6377D
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 06:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B23FC6377D
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 08:11:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AA8261289
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 06:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F33A461289
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 08:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230091AbhGVGEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 02:04:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42900 "EHLO mail.kernel.org"
+        id S230437AbhGVHa3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 03:30:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37850 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229573AbhGVGEh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Jul 2021 02:04:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4342861279;
-        Thu, 22 Jul 2021 06:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626936312;
-        bh=QZPSIRT4SwJ3SMiLa3Kb8FHpGIV3OH9hIS3qt2cTOhY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Msn8bbeE5oHcK8ySpA4CLcQfMrHtBhNOjmSEeBMHgcHn6gAkxCBi191+UHx6HlZKc
-         uD00W/waW5FldMJdOwIFZhItGoNcABNg0sijLV7HQpYntzYqYBYb5ED1V7OT2xpNAT
-         RlcyV0bTIHm48EbE7O1bzfVwzZsoI6vms2/84/0ENjeLY+/36dCGmJkgWoEREertQY
-         M/MJwYYPLI3AQb9O6qMxpiKje82hOjHVz3q8/NOuuzJ761Cq868aq27tyoYynue8W2
-         Mjj69ScRrDn7xN4u/hNmY5el2HjhuvJB4AW1q4aUKMCz068ZAz11RDJOMi4mnzciXd
-         8Yvl28bi6D95g==
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Leon Romanovsky <leonro@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH rdma-next] docs: Fix infiniband uverbs minor number
-Date:   Thu, 22 Jul 2021 09:45:07 +0300
-Message-Id: <a1213ef6064911aa3499322691bc465482818a3a.1626936170.git.leonro@nvidia.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S230048AbhGVHa3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Jul 2021 03:30:29 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C61F4610CC;
+        Thu, 22 Jul 2021 08:11:04 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1m6TnK-000DuT-J5; Thu, 22 Jul 2021 09:11:02 +0100
+Date:   Thu, 22 Jul 2021 09:11:02 +0100
+Message-ID: <875yx23h0p.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jianyong Wu <Jianyong.Wu@arm.com>
+Cc:     James Morse <James.Morse@arm.com>,
+        Andre Przywara <Andre.Przywara@arm.com>,
+        "lushenming@huawei.com" <lushenming@huawei.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Justin He <Justin.He@arm.com>
+Subject: Re: [PATCH] doc/arm: take care restore order of GICR_* in ITS restore
+In-Reply-To: <AM9PR08MB727690189F03ED71450B8EB3F4E49@AM9PR08MB7276.eurprd08.prod.outlook.com>
+References: <20210721092019.144088-1-jianyong.wu@arm.com>
+        <87czrc2dsu.wl-maz@kernel.org>
+        <AM9PR08MB727690189F03ED71450B8EB3F4E49@AM9PR08MB7276.eurprd08.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: Jianyong.Wu@arm.com, James.Morse@arm.com, Andre.Przywara@arm.com, lushenming@huawei.com, kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Justin.He@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Thu, 22 Jul 2021 03:49:52 +0100,
+Jianyong Wu <Jianyong.Wu@arm.com> wrote:
+> 
+> Hello Marc,
+> 
+> > -----Original Message-----
+> > From: Marc Zyngier <maz@kernel.org>
+> > Sent: Wednesday, July 21, 2021 5:54 PM
+> > To: Jianyong Wu <Jianyong.Wu@arm.com>
+> > Cc: James Morse <James.Morse@arm.com>; Andre Przywara
+> > <Andre.Przywara@arm.com>; lushenming@huawei.com;
+> > kvm@vger.kernel.org; kvmarm@lists.cs.columbia.edu; linux-
+> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Justin He
+> > <Justin.He@arm.com>
+> > Subject: Re: [PATCH] doc/arm: take care restore order of GICR_* in ITS
+> > restore
+> >
+> > On Wed, 21 Jul 2021 10:20:19 +0100,
+> > Jianyong Wu <jianyong.wu@arm.com> wrote:
+> > >
+> > > When restore GIC/ITS, GICR_CTLR must be restored after GICR_PROPBASER
+> > > and GICR_PENDBASER. That is important, as both of GICR_PROPBASER and
+> > > GICR_PENDBASER will fail to be loaded when lpi has enabled yet in
+> > > GICR_CTLR. Keep the restore order above will avoid that issue.
+> > > Shout it out at the doc is very helpful that may avoid lots of debug work.
+> >
+> > But that's something that is already mandated by the architecture, isn't it?
+> > See "5.1 LPIs" in the architecture spec:
+> >
+> > <quote>
+> >
+> > If GICR_PROPBASER is updated when GICR_CTLR.EnableLPIs == 1, the effects
+> > are UNPREDICTABLE.
+> >
+> > [...]
+> >
+> > If GICR_PENDBASER is updated when GICR_CTLR.EnableLPIs == 1, the effects
+> > are UNPREDICTABLE.
+> >
+> 
+> I think this "UNPREDICTABLE" related with the "physical machine". Am
+> I right?
 
-Starting from the introduction of infiniband subsystem, the uverbs
-char devices started from 192 as a minor number, see 
-commit bc38a6abdd5a ("[PATCH] IB uverbs: core implementation"), but
-the documentation was slightly different.
+No, you are unfortunately wrong. The architecture applies to *any*
+implementation, and makes no distinction between a HW implementation
+of a SW version. This is why we call it an architecture, and not an
+implementation.
 
-This patch updates the admin guide documentation to reflect it.
+> In virtualization environment, kernel gives the definite answer that
+> we should not enable GICR_CTLR.EnableLPIs before restoring
+> GICR_PROPBASER(GICR_PENDBASER either) when restore GIC ITS in VMM,
+> see [1]. Thus, should we consider the virtualization environment as
+> a special case?
 
-Fixes: 9d85025b0418 ("docs-rst: create an user's manual book")
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- Documentation/admin-guide/devices.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Absolutely not.  If you start special casing things, then we end-up
+having stupidly designed SW that tries to do stupid things based on
+the supposed properties of an implementation.
 
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 9c2be821c225..922c23bb4372 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -2993,10 +2993,10 @@
- 		65 = /dev/infiniband/issm1     Second InfiniBand IsSM device
- 		  ...
- 		127 = /dev/infiniband/issm63    63rd InfiniBand IsSM device
--		128 = /dev/infiniband/uverbs0   First InfiniBand verbs device
--		129 = /dev/infiniband/uverbs1   Second InfiniBand verbs device
-+		192 = /dev/infiniband/uverbs0   First InfiniBand verbs device
-+		193 = /dev/infiniband/uverbs1   Second InfiniBand verbs device
- 		  ...
--		159 = /dev/infiniband/uverbs31  31st InfiniBand verbs device
-+		223 = /dev/infiniband/uverbs31  31st InfiniBand verbs device
- 
-  232 char	Biometric Devices
- 		0 = /dev/biometric/sensor0/fingerprint	first fingerprint sensor on first device
+We follow the architecture, all the architecture, nothing but the
+architecture. The architecture is the only barrier between insanity
+and pure madness! ;-)
+
+>
+> [1] linux/arch/arm64/kvm/vgic/vgic-mmio-v3.c
+> static void vgic_mmio_write_propbase(struct kvm_vcpu *vcpu,
+>                                      gpa_t addr, unsigned int len,
+>                                      unsigned long val)
+> {
+>         struct vgic_dist *dist = &vcpu->kvm->arch.vgic;
+>         struct vgic_cpu *vgic_cpu = &vcpu->arch.vgic_cpu;
+>         u64 old_propbaser, propbaser;
+> 
+>         /* Storing a value with LPIs already enabled is undefined */
+>         if (vgic_cpu->lpis_enabled)
+>            return;
+> ...
+> }
+
+Do you see how the kernel does exactly what the architecture says we
+can do? Ignoring the write is a perfectly valid implementation of
+UNPREDICTABLE.
+
+So what we do is completely in line with the architecture. As such, no
+need to document it any further, everything is already where it should
+be. If someone tries to write code dealing with the GIC without
+understanding the architecture, no amount of additional documentation
+will help.
+
+Thanks,
+
+	M.
+
 -- 
-2.31.1
-
+Without deviation from the norm, progress is not possible.
