@@ -2,216 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F190EC4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 19:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC92C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 20:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9C5060EB6
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 19:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29D3560EBA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 20:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbhGVSfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 14:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbhGVSfa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 14:35:30 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA67BC061575
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jul 2021 12:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=uI6CLVr+rGAN4qZK+TFeWG6gGVcc+c7MaWS/IakAx8Y=; b=kKELtAaPnq3/P505Rci4K3VFyq
-        PHKIASQvZnGUaqWlZ4Miq/RkNEVlVAP1MiZpFA7EAnMmfBOxpCmL27deYvU56jarz2vHxuUBohqcB
-        UiSQj5OEu96F+PE6PfksXorLTrIKlNWDCBJgispvqz8jF0fWfxFraAtiDR7cOijx2PWlHRWBbu935
-        7x9SEmUUWdD+1m3CaaWCExU/Qn9Bvj8yVPOc0MNiS8fCFG0dOemlLHFX3BClZGYhXUnRBGSNUYbvO
-        L88RDBUGvitPZuTTTqu11aEdaArAa6csPbpkXc7V2qyYwgJG6YrzhwsJZpw11CaiecjU5OV1n0+ko
-        HOAyDdXg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m6eAQ-00Abg8-EQ; Thu, 22 Jul 2021 19:15:37 +0000
-Date:   Thu, 22 Jul 2021 20:15:34 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Hawkmoth & kernel-doc
-Message-ID: <YPnD1vkOTDhktnei@casper.infradead.org>
+        id S231128AbhGVUMX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 16:12:23 -0400
+Received: from mga06.intel.com ([134.134.136.31]:22178 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230506AbhGVUMX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Jul 2021 16:12:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="272854668"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
+   d="scan'208";a="272854668"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:52:57 -0700
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
+   d="scan'208";a="502035406"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 13:52:56 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v28 00/32] Control-flow Enforcement: Shadow Stack
+Date:   Thu, 22 Jul 2021 13:51:47 -0700
+Message-Id: <20210722205219.7934-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I really dislike the javadoc style, so at Jani's urging I gave Hawkmoth
-a try.  It's a little fiddly and a little buggy, but I think it
-encourages better-written documentation.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-I chose mm_inline.h as my victim.  It isn't currently included in the
-documentation, and it only has three kernel-doc comments in it to
-convert.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
-I'm approximating what firefox displays here ...
+  - Shadow stack [2],
+  - Indirect branch tracking, and
+  - Selftests [3].
 
-int page_is_file_lru(struct page *page)
+Linux distributions with CET are available now, and Intel processors with CET
+are already on the market.  It would be nice if CET support can be accepted
+into the kernel.
 
-  Should the page be on a file LRU or anon LRU?
+Changes in v28:
+- Rebase to Linus tree v5.14-rc2.
+- Patch #1: Update Document to indicate no-user-shstk also disables IBT.
+- Patch #23: Update shstk_setup() with wrmsrl_safe().  Update return value.
+- Patch #25: Split out copy_thread() changes.  Add support for old clone().
+  Add comments.
+- Add comments for get_xsave_addr() (Patch #25, #26).
 
-    Parameters:  * page – The page to test.
+Changes in v27:
+- Eliminate signal context extension structure.  Simplify signal handling.
+- Add a new patch to move VM_UFFD_MINOR_BIT to 38.
+- Smaller changes are in each patch's log.
+- Rebase to Linus tree v5.13-rc2.
 
-    We would like to get this info without a page flag, but the state
-    needs to survive until the page is last deleted from the LRU, which
-    could be as far down as __page_cache_release.
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
 
-    Returns:
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
 
-             An integer (not a boolean!) used to sort a page onto the right
-             LRU list and to account folios correctly.
+[2] Shadow Stack patches v27:
 
-             * 1 if @page is a regular filesystem backed page cache page or a lazily freed anonymous page (e.g. via MADV_FREE).
-             * 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or swap backed page.
+    https://lore.kernel.org/r/20210521221211.29077-1-yu-cheng.yu@intel.com/
 
-That's not _bad_.
+[3] I am holding off the selftests changes and working to get Reviewed-by's.
+    The earlier version of the selftests patches:
 
-1. 'Parameters' is indented further than kernel-doc does (2 levels of
-   indent, rather than 0)
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
 
-2. Output:
-<dd><p>Should the page be on a file LRU or anon LRU?</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>page</strong> – The page to test.</p></li>
-</ul>
-</dd>
-</dl>
-having gone to the trouble of using a <dl>, I feel that each parameter
-should be a <dt> and its definition a <dd>.  That seems to be what
-kernel-doc is doing.
+[4] The kernel ptrace patch is tested with an Intel-internal updated GDB.
+    I am holding off the kernel ptrace patch to re-test it with my earlier
+    patch for fixing regset holes.
 
-3. kernel-doc includes the type of the parameter in the definition,
-   while hawkmoth drops it.  I'm ambivalent about which is better.
+Yu-cheng Yu (32):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/process: Change copy_thread() argument 'arg' to 'stack_size'
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to test vma anonymous
+  mm: Introduce PROT_SHADOW_STACK for shadow stack
 
-4. It seems that the indentation of the 'Returns:' paragraph is a bit
-   too deep, but it did get the list correct.
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 139 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  25 +-
+ arch/x86/include/asm/cet.h                    |  53 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  11 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  88 ++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  19 +
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 300 ++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  30 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 +++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/xstate.c                  |  11 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  27 ++
+ arch/x86/kernel/shstk.c                       | 375 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |  13 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  63 +++
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |  48 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  20 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   7 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 64 files changed, 1581 insertions(+), 115 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
 
-5. The second and third functions documented by hawkmoth lose their
-   parameter in the initial heading:
-
-
-int __clear_page_lru_flags()
-
-    Clear page lru flags before releasing a page.
-
-    Parameters  * page – The page that was on lru and now has a zero reference
-
-That first line really should have a 'struct page *page' in it.
-
-6. There's also a warning from the build:
-
-/home/willy/kernel/linux/Documentation/core-api/mm-api.rst:101: WARNING: /home/willy/kernel/linux/include/linux/mm_inline.h:5: 'linux/huge_mm.h' file not found
-
-Looks like I can probably pass arbitrary flags to clang to get it to
-find that file, but I'm not sure whether I should.
-
-Here's the diff against current Linus tree that I'm working with:
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 7d92ec3e5b6e..13fcce3ec18d 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -39,7 +39,7 @@ needs_sphinx = '1.7'
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-               'maintainers_include', 'sphinx.ext.autosectionlabel',
--              'kernel_abi', 'kernel_feat']
-+              'kernel_abi', 'kernel_feat', 'hawkmoth']
- 
- if major >= 3:
-     if (major > 3) or (minor > 0 or patch >= 2):
-@@ -104,6 +104,7 @@ if major >= 3:
- else:
-     extensions.append('cdomain')
- 
-+cautodoc_root = os.path.abspath('..')
- # Ensure that autosectionlabel will produce unique names
- autosectionlabel_prefix_document = True
- autosectionlabel_maxdepth = 2
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index adabb5c5798a..b724e29772b0 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -98,4 +98,5 @@ More Memory Management Functions
-    :internal:
- .. kernel-doc:: include/linux/mm.h
-    :internal:
-+.. c:autodoc:: include/linux/mm_inline.h
- .. kernel-doc:: include/linux/mmzone.h
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index 355ea1ee32bd..7db1193a0d94 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -6,18 +6,21 @@
- #include <linux/swap.h>
- 
- /**
-- * page_is_file_lru - should the page be on a file LRU or anon LRU?
-- * @page: the page to test
-+ * Should the page be on a file LRU or anon LRU?
-  *
-- * Returns 1 if @page is a regular filesystem backed page cache page or a lazily
-- * freed anonymous page (e.g. via MADV_FREE).  Returns 0 if @page is a normal
-- * anonymous page, a tmpfs page or otherwise ram or swap backed page.  Used by
-- * functions that manipulate the LRU lists, to sort a page onto the right LRU
-- * list.
-+ * :param page: The page to test.
-  *
-  * We would like to get this info without a page flag, but the state
-  * needs to survive until the page is last deleted from the LRU, which
-  * could be as far down as __page_cache_release.
-+ *
-+ * :return: An integer (not a boolean!) used to sort a page onto the right
-+ *   LRU list and to account folios correctly.
-+ *
-+ *   - 1 if @page is a regular filesystem backed page cache page or a lazily
-+ *     freed anonymous page (e.g. via MADV_FREE).
-+ *   - 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or
-+ *     swap backed page.
-  */
- static inline int page_is_file_lru(struct page *page)
- {
-@@ -39,8 +42,9 @@ static __always_inline void update_lru_size(struct lruvec *lruvec,
- }
- 
- /**
-- * __clear_page_lru_flags - clear page lru flags before releasing a page
-- * @page: the page that was on lru and now has a zero reference
-+ * Clear page lru flags before releasing a page.
-+ *
-+ * :param page: The page that was on lru and now has a zero reference
-  */
- static __always_inline void __clear_page_lru_flags(struct page *page)
- {
-@@ -57,11 +61,12 @@ static __always_inline void __clear_page_lru_flags(struct page *page)
- }
- 
- /**
-- * page_lru - which LRU list should a page be on?
-- * @page: the page to test
-+ * Which LRU list should a page be on?
-+ *
-+ * :param page: The page to test
-  *
-- * Returns the LRU list a page should be on, as an index
-- * into the array of LRU lists.
-+ * :return: The LRU list a page should be on, as an index into the array
-+ *          of LRU lists.
-  */
- static __always_inline enum lru_list page_lru(struct page *page)
- {
+-- 
+2.21.0
 
