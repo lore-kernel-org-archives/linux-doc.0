@@ -7,42 +7,44 @@ X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E334DC63797
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD62C63798
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE22161249
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 155616124B
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231620AbhGVJTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49358 "EHLO mail.kernel.org"
+        id S231282AbhGVJTu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49362 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231486AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231490AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 22 Jul 2021 05:19:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C9F96127C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A24F661285;
         Thu, 22 Jul 2021 10:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1626948020;
-        bh=4bDA0DxHuVQv8b0x7pfxVtVsMTX7rXTC5TkpMPrd7lQ=;
+        bh=IJuf24QWVfrptH2CqeiwtQNcE6tFFQxKGEiBSAq1ncs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fMnU1xVVaehpcCT1sRqhSgmlfyo2id6XbfclKiSH95ao5okMEwZhTf5epXmT6me9y
-         CZyEjx0jAk9kvCN+rSpdyzg2Lk95d2kx5iFgyorTe8YpwdfGUdU2mLBXNmpQj1xfx5
-         gxmO24WcTYc2fJQ6g9rAx9uJtFmYeyhxD4zNaJvOHVvAoiIKXw0AnMzHXsX2azZ5RS
-         ktKvR1XrlFN9oSIlu2BGKXHADp45aKaMruKSohBID1Td2iFbX5LQUGNbg63A4SjcUg
-         OjbkO3p/NopYfdvDO9p0KAetcRrkCjQG46nRp0NBOvK0ndo6zon37r02xK1Bn04VwF
-         eED6+o5BtlQ/Q==
+        b=MaE/fJZBHiSPe+iU6BpAqhhiNY0hi4NWc2VJBNneeCpi0UN9jrMEQaJPudbJEHPR7
+         pXko3yCM2Jgj0ulQeJx50aAD/96XyifxI88Tw/hDZwnDBhUW5rxmpxXliG0S69LsLT
+         MqNM3ECeDpXOafoXBAPg9VBgqAShB/e04K0AVRTCp0fvy781B8DrCoCTFlnpHj8jYI
+         a8MayOAo4VS+6FFhfrjrwjWvJYJna76r+f4FJPdr1vMCnXc7cDHijF82Mf1zC+Lpwr
+         +2FGOXS0XePWxaN5WMBDx1h5KSqGMzwMXyRwuo0JbNxIsYHMldxYGi+21r0GyAifnR
+         CyOyEKedt0brw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VV0-008mI6-AX; Thu, 22 Jul 2021 12:00:14 +0200
+        id 1m6VV0-008mI0-6O; Thu, 22 Jul 2021 12:00:14 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Linus Walleij <linus.walleij@linaro.org>,
+        Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 14/15] MAINTAINERS: update intel,ixp46x-rng.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:11 +0200
-Message-Id: <95289c73673861f462954ae8383eb88804ae7a0c.1626947923.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/15] MAINTAINERS: update gpio-zynq.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:09 +0200
+Message-Id: <e6f6fa5cebf94753ad8c4b30103459a8eea4bce0.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -53,30 +55,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
-should be, instead: Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml.
+Changeset 45ca16072b70 ("dt-bindings: gpio: zynq: convert bindings to YAML")
+renamed: Documentation/devicetree/bindings/gpio/gpio-zynq.txt
+to: Documentation/devicetree/bindings/gpio/gpio-zynq.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: cca061b04c0d ("hw_random: ixp4xx: Add DT bindings")
+Fixes: 45ca16072b70 ("dt-bindings: gpio: zynq: convert bindings to YAML")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0a571273f308..efcd2d461fc0 100644
+index 76236b2c1d7a..7e1e5385d971 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -9411,7 +9411,7 @@ F:	include/linux/soc/ixp4xx/qmgr.h
- INTEL IXP4XX RANDOM NUMBER GENERATOR SUPPORT
- M:	Deepak Saxena <dsaxena@plexity.net>
+@@ -20382,7 +20382,7 @@ R:	Srinivas Neeli <srinivas.neeli@xilinx.com>
+ R:	Michal Simek <michal.simek@xilinx.com>
  S:	Maintained
--F:	Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
-+F:	Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml
- F:	drivers/char/hw_random/ixp4xx-rng.c
+ F:	Documentation/devicetree/bindings/gpio/gpio-xilinx.txt
+-F:	Documentation/devicetree/bindings/gpio/gpio-zynq.txt
++F:	Documentation/devicetree/bindings/gpio/gpio-zynq.yaml
+ F:	drivers/gpio/gpio-xilinx.c
+ F:	drivers/gpio/gpio-zynq.c
  
- INTEL KEEM BAY DRM DRIVER
 -- 
 2.31.1
 
