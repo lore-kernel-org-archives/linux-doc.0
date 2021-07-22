@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-25.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B6CC63793
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2095C63799
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43CBD61249
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D72BA61264
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbhGVJTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49360 "EHLO mail.kernel.org"
+        id S231623AbhGVJTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231495AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231496AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 22 Jul 2021 05:19:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A24361283;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A827F6128D;
         Thu, 22 Jul 2021 10:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1626948020;
-        bh=pVBkAW3UaW40R77GioNci6Ib4btLYmcuRV9OgHl2IdE=;
+        bh=cX73aMRi815qONIgavFLz1MNrSenb17gGoBg0lJnVgY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GxaIv8NB2z50e2VaijTmY1WHrN16GSSdNH6+xPQJwnZyH9cB3l2zri45Nten+SHUS
-         1siegNac4XaIVvW23DWoPpQgFUni9/kdS1s3V/lFPoo4+QQyfs4puN0V3OLrJPGDgX
-         VYifCZ0XHQqd6NfIvdyCF9+iCPah1tctyhJfz13f/oMgdR6ni8xOylxFT518j48CV+
-         O9A9ymePqyrxTqEg/zQliazKjH93pz8P+T9E12gbkz5NTnSlGaBWXqabYD1xH+90ov
-         ev/piMI+pwqOgeyvpxOaSXK98E8+jan/+5TS4GkieT6TWP0Ji89k6wwyP63O+aWpUF
-         oan7T+quH4UCQ==
+        b=VD9rI5uej6wGcysvaTxDT4CGTPPyM/GW/+DxyCHzqzKgrmVnz+MgoFr1F1tBKMIjU
+         umgMpHnAfG2dKFgkLjCJ80j09EkUJQb7E55TA+m+gtBGA4/ZOu9CbzSxtugHkGUbZq
+         umVeARKZj82VxbiWKHSAIccOtUbt5ZHAz66N4iqZDd6pNhELMZBjIwn4akIIW+rBRO
+         Tgo4PyMGOTHgRMBrdGjQQ465p9FfoeKHUKZU2ojnGPBpWsW1aUcW3re4tQPsIgeAZw
+         RpOHjs9d3TrQJ8mmIVqNmB8Smw1+l4EDf0Pbb16y05br+U5azIMIsIz5v9+xmeXo0q
+         9fgi67OULsuWw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VUz-008mHl-Rk; Thu, 22 Jul 2021 12:00:13 +0200
+        id 1m6VV0-008mHu-24; Thu, 22 Jul 2021 12:00:14 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/15] MAINTAINERS: update faraday,ftrtc010.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:04 +0200
-Message-Id: <a8e0e3227480fa8a5a045ec1ee06a08183a0a8b6.1626947923.git.mchehab+huawei@kernel.org>
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 10/15] MAINTAINERS: update ti,am654-hbmc.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:07 +0200
+Message-Id: <9636f47edefb0ab7aa062f83d951867c58a440fb.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -55,31 +55,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
-renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
+Changeset 6947ad674944 ("dt-bindings: mtd: Convert ti, am654-hbmc.txt to YAML schema")
+renamed: Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
+to: Documentation/devicetree/bindings/mtd/ti,am654-hbmc.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+Fixes: 6947ad674944 ("dt-bindings: mtd: Convert ti, am654-hbmc.txt to YAML schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b1cab4f01f8..b9339d4c8a17 100644
+index bf8843b778a2..9853e5154bd9 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1850,7 +1850,7 @@ T:	git git://github.com/ulli-kroll/linux.git
- F:	Documentation/devicetree/bindings/arm/gemini.txt
- F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
- F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
--F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-+F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
- F:	arch/arm/boot/dts/gemini*
- F:	arch/arm/mach-gemini/
- F:	drivers/crypto/gemini/
+@@ -8634,7 +8634,7 @@ Q:	http://patchwork.ozlabs.org/project/linux-mtd/list/
+ C:	irc://irc.oftc.net/mtd
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git cfi/next
+ F:	Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
+-F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
++F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.yaml
+ F:	drivers/mtd/hyperbus/
+ F:	include/linux/mtd/hyperbus.h
+ 
 -- 
 2.31.1
 
