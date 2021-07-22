@@ -2,104 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FACC63793
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:48:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8AEC6377D
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 15:02:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C9D161287
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 14:48:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D04B761358
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 15:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232511AbhGVOIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 10:08:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29065 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232328AbhGVOIQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jul 2021 10:08:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626965331;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zcazrHRmrdUI7TLRVzAfUPzPLR8CDoZHugRg17DaTr8=;
-        b=FHplm8BA+GoMgF0fNg3q13BfydYn5oXhlo3UUuIs9CNhLNZSuODd7aPZWAjJN6iYA65y02
-        IAItGxWcHluj7gpvph9LSrGJpZ+piny0kjTV6xEminqQnYFV7qrtFzmdLTTGYzqULI+F1Y
-        81opondWs7zO3qqtgPRLASJh5kB9qVU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-RATX3Rf1PGqQpwFT7SpNWQ-1; Thu, 22 Jul 2021 10:48:47 -0400
-X-MC-Unique: RATX3Rf1PGqQpwFT7SpNWQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S232431AbhGVOVp convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 10:21:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53578 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232517AbhGVOVp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Jul 2021 10:21:45 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB31804141;
-        Thu, 22 Jul 2021 14:48:43 +0000 (UTC)
-Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648A5DA2D;
-        Thu, 22 Jul 2021 14:48:33 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v2 07/14] vfio/platform: Use open_device() instead of
- open coding a refcnt scheme
-In-Reply-To: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date:   Thu, 22 Jul 2021 16:48:31 +0200
-Message-ID: <878s1y76bk.fsf@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 7DA5A6128C;
+        Thu, 22 Jul 2021 15:02:19 +0000 (UTC)
+Date:   Thu, 22 Jul 2021 11:02:12 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Zhang Jianhua <chris.zjh@huawei.com>
+Cc:     <corbet@lwn.net>, <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <aou@eecs.berkeley.edu>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH -next] trace doc: Fix the wrong example of tracepoint
+Message-ID: <20210722110212.05ec6ee3@oasis.local.home>
+In-Reply-To: <20210720020607.4128715-1-chris.zjh@huawei.com>
+References: <20210720020607.4128715-1-chris.zjh@huawei.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Tue, 20 Jul 2021 10:06:07 +0800
+Zhang Jianhua <chris.zjh@huawei.com> wrote:
 
-> Platform simply wants to run some code when the device is first
-> opened/last closed. Use the core framework and locking for this.  Aside
-> from removing a bit of code this narrows the locking scope from a global
-> lock.
->
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> The example in tracepoints.rst is out of date, the build error below
+> will occur if coding according to example in the document.
+> 
+> drivers/irqchip/irq-riscv-intc.c:24:24:
+> error: macro "DEFINE_TRACE" requires 3 arguments, but only 1 given
+>    24 | DEFINE_TRACE(test_event);
+>       |                        ^
+> In file included from include/trace/events/test.h:8,
+> from drivers/irqchip/irq-riscv-intc.c:22:
+> include/linux/tracepoint.h:368:
+> note: macro "DEFINE_TRACE" defined here
+>   368 | #define DEFINE_TRACE(name, proto, args)
+>       |
+> drivers/irqchip/irq-riscv-intc.c:24:1:
+> warning: data definition has no type or storage class
+>    24 | DEFINE_TRACE(test_event);
+>       | ^~~~~~~~~~~~
+> drivers/irqchip/irq-riscv-intc.c:24:1:
+> error: type defaults to ‘int’ in declaration of ‘DEFINE_TRACE’
+> [-Werror=implicit-int]
+> 
+> There are two reasons for this error. On the one hand, the macro DEFINE_TRACE
+> has been refactored in commit d25e37d89dd2 ("tracepoint: Optimize using
+> static_call()") from DEFINE_TRACE(name) to DEFINE_TRACE(name, proto, args),
+> and the doc is not updated in time. On the other hand, the tracepoint has been
+> defined in header file, and it does not need to define repeatedly in C file.
+
+Actually, the above is not quite correct.
+
+By removing DEFINE_TRACE() you just removed the tracepoint entirely,
+making it non-existent. This is a very old document and probably has a
+lot more wrong with it than just this.
+
+But for this case, you probably want it to read:
+
+        #define CREATE_TRACE_POINTS
+
+        #include <trace/events/subsys.h>
+
+Otherwise the tracepoint is never created.
+
+-- Steve
+
+
+> 
+> --------
+> 
+> Signed-off-by: Zhang Jianhua <chris.zjh@huawei.com>
 > ---
->  drivers/vfio/platform/vfio_platform_common.c  | 79 ++++++++-----------
->  drivers/vfio/platform/vfio_platform_private.h |  1 -
->  2 files changed, 32 insertions(+), 48 deletions(-)
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>  Documentation/trace/tracepoints.rst | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/Documentation/trace/tracepoints.rst b/Documentation/trace/tracepoints.rst
+> index 0cb8d9ca3d60..fbb2cb4abd3d 100644
+> --- a/Documentation/trace/tracepoints.rst
+> +++ b/Documentation/trace/tracepoints.rst
+> @@ -66,7 +66,6 @@ In subsys/file.c (where the tracing statement must be added)::
+>  	#include <trace/events/subsys.h>
+>  
+>  	#define CREATE_TRACE_POINTS
+> -	DEFINE_TRACE(subsys_eventname);
+>  
+>  	void somefct(void)
+>  	{
 
