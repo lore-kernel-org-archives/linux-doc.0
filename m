@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-25.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C6DC6379B
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B6CC63793
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1629A61353
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43CBD61249
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbhGVJTq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49276 "EHLO mail.kernel.org"
+        id S231602AbhGVJTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49360 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231418AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231495AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 22 Jul 2021 05:19:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BE3761249;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A24361283;
         Thu, 22 Jul 2021 10:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1626948020;
-        bh=ySHyngj8BQfRImnbhVXrrY08BaHnVT+eBhyA2ssUUZI=;
+        bh=pVBkAW3UaW40R77GioNci6Ib4btLYmcuRV9OgHl2IdE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YdJHxWE86ahQ6kk2xqMgB/xREFnlXex2SVJAUrMS+Mb/uwn9YITN2dallK03mOI8w
-         ltEl5FKCsFSDRUfV5lzpFO6XE9ZL5l2HiDkGfZ169PLPKFr1CRWkT1Hvt8AsnCg/L+
-         0w9OeBQCu/UKueQZVbjfQd0VJaGAlLyk8b5PdmMCdFnXwHy5t1VBwYPoQHNXhF/D1v
-         Oo/paBEmyhVF46lT4FGAhBnAEZ9FXo8UGT6iXTeUEuKIz9AVvsJI/ANFzYkcACRhUt
-         XM3/t3FGWyE/0sBbzEZc9I7YbS4eirIlYKcPgU9bXieG1ghgS/ceq+T+jQePEzBt28
-         g2kBZmsQE4oWw==
+        b=GxaIv8NB2z50e2VaijTmY1WHrN16GSSdNH6+xPQJwnZyH9cB3l2zri45Nten+SHUS
+         1siegNac4XaIVvW23DWoPpQgFUni9/kdS1s3V/lFPoo4+QQyfs4puN0V3OLrJPGDgX
+         VYifCZ0XHQqd6NfIvdyCF9+iCPah1tctyhJfz13f/oMgdR6ni8xOylxFT518j48CV+
+         O9A9ymePqyrxTqEg/zQliazKjH93pz8P+T9E12gbkz5NTnSlGaBWXqabYD1xH+90ov
+         ev/piMI+pwqOgeyvpxOaSXK98E8+jan/+5TS4GkieT6TWP0Ji89k6wwyP63O+aWpUF
+         oan7T+quH4UCQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VV0-008mI3-8W; Thu, 22 Jul 2021 12:00:14 +0200
+        id 1m6VUz-008mHl-Rk; Thu, 22 Jul 2021 12:00:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 13/15] MAINTAINERS: update arm,pl353-smc.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:10 +0200
-Message-Id: <1a9b26e4f9f7a01bcd676d7e7a3a929085fc2adb.1626947923.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 07/15] MAINTAINERS: update faraday,ftrtc010.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:04 +0200
+Message-Id: <a8e0e3227480fa8a5a045ec1ee06a08183a0a8b6.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -55,31 +55,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/devicetree/bindings/mtd/arm,pl353-smc.yaml
-should be, instead: Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml.
+Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
+to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 813d52799ad2 ("MAINTAINERS: Add PL353 SMC entry")
-Fixes: d3d0e1e85711 ("dt-binding: memory: pl353-smc: Convert to yaml")
+Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7e1e5385d971..0a571273f308 100644
+index 6b1cab4f01f8..b9339d4c8a17 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1488,7 +1488,7 @@ M:	Miquel Raynal <miquel.raynal@bootlin.com@bootlin.com>
- M:	Naga Sureshkumar Relli <nagasure@xilinx.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/mtd/arm,pl353-smc.yaml
-+F:	Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml
- F:	drivers/memory/pl353-smc.c
- 
- ARM PRIMECELL CLCD PL110 DRIVER
+@@ -1850,7 +1850,7 @@ T:	git git://github.com/ulli-kroll/linux.git
+ F:	Documentation/devicetree/bindings/arm/gemini.txt
+ F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
+ F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
+-F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
++F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+ F:	arch/arm/boot/dts/gemini*
+ F:	arch/arm/mach-gemini/
+ F:	drivers/crypto/gemini/
 -- 
 2.31.1
 
