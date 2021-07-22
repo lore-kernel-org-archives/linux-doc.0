@@ -4,46 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639C4C6377D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 961FEC63793
 	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4727E61283
+	by mail.kernel.org (Postfix) with ESMTP id 7E0C161260
 	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231608AbhGVJTw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49358 "EHLO mail.kernel.org"
+        id S231636AbhGVJTx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49470 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231569AbhGVJTq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231534AbhGVJTq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 22 Jul 2021 05:19:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D80376127C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89B9C61355;
         Thu, 22 Jul 2021 10:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1626948021;
-        bh=u0WPNC8wo05c/mR6al+UtB2v1oU8vNnHVxOUiCzMQTs=;
+        bh=R1KJ8qW4vHKhZHhaTSE7lbeQx1ryVxlFuUpdT5Gf3jI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ehl+WoGvWhtdC1VmESqxGw5eQ2xdD+PS0j0QuCK8gSF4NtQwZJCu8CxwQKSMNqAP7
-         o+zwO6pb0WBtzgL2OTccXKkX7+TcQUONGiZ7AkgPhwGuCc9WDjnUZYlS+5+VLaX3m4
-         BbvP1msM4P2EGmQHgPlXu4Tuy8KjbJZmyhsUFzT8gTkKT2084R3ybjRHjVKtBW/km5
-         HGgSk3jiX56bdXidLVj7YZ/jUcAvnoRe3oADRc9PHDQrZAfdnJ9LuN0CMhg6NlcBvl
-         kLYgdF4KkPxt9G6Y29rzT84vT7xpet6ZjiaDKHuz2IhMb1ZDdChgWprdM9HN/lPpjt
-         BwkkscYSUqiEQ==
+        b=F8bXm+PXO9s65o6vrLTxPlAgAPZeP8KL8C03G3uX3sWMnogpKJ+NG0tZYQC6/X3BC
+         sL1DKPccyDy3U8RK+6Vg3PPgI+UR77IdHfIZAZ64np+yaaR41IwnqXXUqRXLHXVfNO
+         DTdc8bc4vMWn/O6afPJkoIKpmx7RkjRRNPRizAHlHxT840p6B0ztmM5iTXpH6GKbLf
+         91zLvHtocmNKxlKvx3MMDezlW1bdgs0d0iaM9VIYrqRN+lH7DsulHNAGxRF9T87iQl
+         VnbJNM+N5FUMkZVVP/Iwye/nKWFYO+a7Lq/hsyVNVZPq8vBY0Ndgjj7g878sLum3U8
+         GL4pDXNgRrBNg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VUz-008mHa-LM; Thu, 22 Jul 2021 12:00:13 +0200
+        id 1m6VUz-008mHh-Pc; Thu, 22 Jul 2021 12:00:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Jamin Lin <jamin_lin@aspeedtech.com>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/15] MAINTAINERS: update mtd-physmap.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:01 +0200
-Message-Id: <24957d89f650521bfe27c64722110d6fb0d26921.1626947923.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 06/15] MAINTAINERS: update aspeed,i2c.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:03 +0200
+Message-Id: <4641b7cf54d76ce8948d801cfd87d456f50947d8.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -54,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 63f8e9e0ac65 ("dt-bindings: mtd: Convert mtd-physmap to DT schema")
-renamed: Documentation/devicetree/bindings/mtd/arm-versatile.txt
-to: Documentation/devicetree/bindings/mtd/mtd-physmap.yaml.
+Changeset 810e4441946c ("dt-bindings: aspeed-i2c: Convert txt to yaml format")
+renamed: Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+to: Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 63f8e9e0ac65 ("dt-bindings: mtd: Convert mtd-physmap to DT schema")
+Fixes: 810e4441946c ("dt-bindings: aspeed-i2c: Convert txt to yaml format")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d69b2d4646be..76acb9fe0622 100644
+index 91b4da27226f..6b1cab4f01f8 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1386,7 +1386,7 @@ F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
- F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
- F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
- F:	Documentation/devicetree/bindings/interrupt-controller/arm,versatile-fpga-irq.txt
--F:	Documentation/devicetree/bindings/mtd/arm-versatile.txt
-+F:	Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
- F:	arch/arm/boot/dts/arm-realview-*
- F:	arch/arm/boot/dts/integrator*
- F:	arch/arm/boot/dts/versatile*
+@@ -1720,7 +1720,7 @@ R:	Joel Stanley <joel@jms.id.au>
+ L:	linux-i2c@vger.kernel.org
+ L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
++F:	Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+ F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-i2c-ic.txt
+ F:	drivers/i2c/busses/i2c-aspeed.c
+ F:	drivers/irqchip/irq-aspeed-i2c-ic.c
 -- 
 2.31.1
 
