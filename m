@@ -7,42 +7,43 @@ X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9747FC63798
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE15C6379A
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 866AB61396
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C4DF61241
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jul 2021 10:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231571AbhGVJTq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jul 2021 05:19:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49280 "EHLO mail.kernel.org"
+        id S231448AbhGVJTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jul 2021 05:19:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231282AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231477AbhGVJTp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 22 Jul 2021 05:19:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E22B6124B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 97AA061264;
         Thu, 22 Jul 2021 10:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1626948020;
-        bh=kWygC16sLbe02fKl6pMFM67STwqkZ83b7YaJBxq4kqw=;
+        bh=yFXn16NkBzlsfO+DUe4+E5BqYVGA9Si4dzWZdnC0EvU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PDq2gCZ1VG0MRH+O6XXysqWPn0vmAzfQfLyop9zWSwgQTCDGmTHoz2098vEezphLe
-         0J8cjVOjly5CsgULlF/9yyIkyacRzIzqXGWplef2BK4FfezR9bysvK9dwPstcVVDP/
-         Vh7IoJmwv7eRC285o78hz7nuwWqJQLaV8dO16eqE7PgVCPhNpHncyi+zoJL6a/hk/d
-         XQAvk/OYCXhrCSCohaFzZGFt2y5pYn2e+WMP5q2eTa3g9m9LHQRtxpde2jJqMWfRRb
-         PRwEiIInhzqjch0x+nDcVkFp6tbsljbaqiWoTaKnApJq5OxQrFf4dCkGGrPqQ+2eZW
-         wVt9NGDu+47TA==
+        b=Fy2ygCq57s9l5A7zqtT6lDZeXHRTr9B0puG425TmVKIVQUbq8gxUkzQYIWb6L229o
+         yDecQq6o3VD1wHEh8L7Xvl6CnekSrHpo1NFHpcOhHEDjx8mF1/VuR7jkiLDlxTJhwb
+         tgzRqIvMtvqPY0N+u2Kb0XlMCBkJjSTLsu6ZFy5si/6/HISiISyp05YsprodSQIUp1
+         6Cbwb21QZdzOZ7WbLGMpugiigQooVHetdkzZUYcm0euGUWTM9te0d05W1qfDWaDj2z
+         Qv9oBvh1ZJ43xmpzFrC7e60pOaSoyzJlaqtpbKdN4G/8Y8jzDba5L3FSXwUejjTctw
+         9wsXUv7eqt83g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1m6VV0-008mHx-4H; Thu, 22 Jul 2021 12:00:14 +0200
+        id 1m6VUz-008mHo-Tr; Thu, 22 Jul 2021 12:00:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/15] MAINTAINERS: update ti,sci.yaml reference
-Date:   Thu, 22 Jul 2021 12:00:08 +0200
-Message-Id: <c285b1d5308c13d3c888b4b97f713c5e6811c09a.1626947923.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 08/15] MAINTAINERS: update fsl,fec.yaml reference
+Date:   Thu, 22 Jul 2021 12:00:05 +0200
+Message-Id: <3df6b6353f49dfe6fe76a0d62b504ce4744e80f0.1626947923.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
 References: <cover.1626947923.git.mchehab+huawei@kernel.org>
@@ -53,31 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
-renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
+Changeset 96e4781b3d93 ("dt-bindings: net: fec: convert fsl,*fec bindings to yaml")
+renamed: Documentation/devicetree/bindings/net/fsl-fec.txt
+to: Documentation/devicetree/bindings/net/fsl,fec.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
+Fixes: 96e4781b3d93 ("dt-bindings: net: fec: convert fsl,*fec bindings to yaml")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9853e5154bd9..76236b2c1d7a 100644
+index b9339d4c8a17..92be68e3efb5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -18355,7 +18355,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org
+@@ -7365,7 +7365,7 @@ FREESCALE IMX / MXC FEC DRIVER
+ M:	Joakim Zhang <qiangqing.zhang@nxp.com>
+ L:	netdev@vger.kernel.org
  S:	Maintained
- F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
--F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-+F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
- F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
+-F:	Documentation/devicetree/bindings/net/fsl-fec.txt
++F:	Documentation/devicetree/bindings/net/fsl,fec.yaml
+ F:	drivers/net/ethernet/freescale/fec.h
+ F:	drivers/net/ethernet/freescale/fec_main.c
+ F:	drivers/net/ethernet/freescale/fec_ptp.c
 -- 
 2.31.1
 
