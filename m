@@ -2,1795 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E964C43214
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED66C4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:30:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCDD860EE2
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:28:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF59E60EB4
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:30:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235215AbhGWMsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 08:48:08 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:49184 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S235251AbhGWMsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 08:48:07 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16NDDaXM020609;
-        Fri, 23 Jul 2021 15:28:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=selector1;
- bh=jueeRmapSicuNxmmghsLxsQbaZhLG51eTaoo7SBrtYs=;
- b=FJQPFKi8yABkueO/ILNbQhasqNPKyiQuD4YB9S6RSDeFVWoSd1bBleN6vY8ziyASbu64
- o8b2VjG5ueCScXzORftiUE7e+B7ooD+6DmfC0DRgb95pqVkuIfE8UST24ImgH+CeD/Hv
- KAae8vgWMG59tdia9zVUf7AIqhzjfBcFW2kWv/W7T8IMs/+rlmdyPQy1SjSnVWoNmEq6
- f34ZQ7hShwxOj0cF/uoPFDEfDDUJxcqePGmUZZ9DhYPQLPmsRVSm8164EMuywHBhXg5i
- vVHgV2MbkhiPEl3pUI5Rx9WQRui8vDfapPDQIhh5cKFloMt5pMHNadnstuF9/YjGjnPl sA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 39yt689gnu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 23 Jul 2021 15:28:15 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 78B7A100038;
-        Fri, 23 Jul 2021 15:28:14 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5C2DD221785;
-        Fri, 23 Jul 2021 15:28:14 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 23 Jul 2021 15:28:13
- +0200
-From:   Alexandre Torgue <alexandre.torgue@foss.st.com>
-To:     Linus Walleij <linus.walleij@linaro.org>, <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-gpio@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: [PATCH 2/7] pinctrl: stm32: Add STM32MP135 SoC support
-Date:   Fri, 23 Jul 2021 15:28:05 +0200
-Message-ID: <20210723132810.25728-3-alexandre.torgue@foss.st.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
-References: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
+        id S235072AbhGWMtj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 08:49:39 -0400
+Received: from mail-dm6nam12on2050.outbound.protection.outlook.com ([40.107.243.50]:50528
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233037AbhGWMtj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Jul 2021 08:49:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JwqPC/lih+N90JdThmnlvhEKrJTHqTpVgzdw3HyU8CIkDC7ND+dwa2bgPxYvSJTqB8OMe8rPUWN2pEPdiTKHnwMFIpDHB9/YlVre83o3ZxVXLb84E8k2GFHJwUwgm82NFWTBaT+LoX8qU3o/b7qIBeraRErkc3ImhAp7Yh7IvxuaRnfO9S4wYLRdEZXU3qaiqUi/6kJkXe8dzL7fiae0wblNzT/iMjZ1es97SaUY5IzuryR06n8gF+PHW4WhlIsJbYmVmj0b/f4rNVCfUFrj62Rkgr5YAhI/YR91CII3qfCZq2T1GUjxCQIhTF0XLBm+dWm+gXYeTnBfMKPxtBAMTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ixm/3PGHpM+2T8JfnMsnOGYOFBJxJnwguIemqmMbpxI=;
+ b=Q4n7ADc4A92pyX9HnX+c2QALFQ93NXmA3TJs/5EkBcD0PvqEhOfRLrG8rm38RpmvxR+dF35QZiJ8ef5eNRmSIP50UrOdhNyGvVIwoRF8XaokQNrjXZv1bzmds8v9wid4mOVKYztN9UBEr4l8xZ971hylk3I0oOKrZoDRBhbNzXpVy/BbxoldpK6sz5Y6OoEk0cMioY4ibTdHNkFKFL1JRB219zzTtbKopwZ9xMpr1DvcBBNH1EjkpmBX/CsNoHZEPtJEot3GNwfderXI+Fpv5SJjFmXPuVwQ9pmLQ67AFYSImj/aRVrK17T3XLhqgZTXRkPJTitM2F33tn4pqdkBPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ixm/3PGHpM+2T8JfnMsnOGYOFBJxJnwguIemqmMbpxI=;
+ b=Fy7lKh/2dkRvlnXRLZvIikry5NzMnbK4zFqJwZ1YAVXXWzcUNlihtOyOoBG5nSf1cigNT/qU14389geoUecZ1v3A1VFt+LiEdCEveJuVSx08ObI7x4QBB3rT8WXy8EahgHHHqHcb7ZD2PUU41cAMy/psF/9jh7nXIkEPar3jra3vdDOysHid7Lzzavi3X5gN17pAEXJ7CE1qjPKK+wbiJkeCqs+SW8KSWpkprEw1Bnamv8/DZm/Zp58/Ep74qa7HcYhGGu0ra0jF7Yo86/UaT1yYrKs3QJkoglfNE/XPmqta34w/clTA1ChuZxefZ+zkmNvM/wbT6Wk9DpEoZ1LXHA==
+Authentication-Results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL0PR12MB5523.namprd12.prod.outlook.com (2603:10b6:208:1ce::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Fri, 23 Jul
+ 2021 13:30:10 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%4]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
+ 13:30:10 +0000
+Date:   Fri, 23 Jul 2021 10:30:08 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
+ use the dev_set
+Message-ID: <20210723133008.GV1117491@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <9-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <20210723080543.GD2795@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723080543.GD2795@lst.de>
+X-ClientProxiedBy: BL1PR13CA0329.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::34) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-23_05:2021-07-23,2021-07-23 signatures=0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.113.129) by BL1PR13CA0329.namprd13.prod.outlook.com (2603:10b6:208:2c1::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.7 via Frontend Transport; Fri, 23 Jul 2021 13:30:09 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1m6vFg-0070KD-3p; Fri, 23 Jul 2021 10:30:08 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96f76225-97b5-4fc8-db5d-08d94dddfe19
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5523:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB5523380775658FF19292E301C2E59@BL0PR12MB5523.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sWvfK6eSD52ZtfoNNj2xCCq9lHrINi3vxEX19fgJvV59e+lU1bOe7GFwrkw5mdYaTx5HGP14yAL0DIFXcI4g8EIl5NSjpCj2dNrUPfH4QXr5zht4cd/8LbVPnoI/P3uQK1oF5p6jiqAyEtImL+ai/KjW8oVIl5uTIn7IvaPeypu4fOJgFtJ13Hj2jSiNTxB56DIB/BZEHhbxYbjqRhyk95dIV1lHOG0MhbKEPAcxCSFZCsW8wEo/GDJgq5TZQy8s8xISVZ62k0F5wN1u8EtMs04aG/PGofaBmvoDQF2nKbhOPkYG5cyf53Y1o9uBn4kxrm+FAE6oFLpWDWVuhYNBwUVoyHHChpvJ/3v8N6dQAJ4qljTSvwidrKpfGyzMuG+jadiXm9hCGRLQVFQiF7V1nhj/+c6XMAeCAJKlrsSeg9D2pQL3ScQkv9Q3cGN0q/rC3fVWRwjp6jz0OyeEDnMjuQT1p4qbShIE3e3CpBI5ciS9kJQVgjOZop0wih1DobLapDVbhzToPMyIiUBnXUw7Bicpvb1LO+s6Bh47yCzgq+SC/IO+oaHPOvc4jxgAf2Npe5JcCSA7kqSOBwIzVpN5GYYOPB1LrAXuFix+Q6oD2UEPABjNq6L/cPj2oAMTMetfYHqV08ge81vXOekL/uICeg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(366004)(136003)(396003)(8936002)(6916009)(9786002)(9746002)(4326008)(426003)(2616005)(316002)(54906003)(5660300002)(186003)(33656002)(7406005)(1076003)(7416002)(66556008)(66476007)(66946007)(26005)(8676002)(478600001)(83380400001)(36756003)(86362001)(38100700002)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OBtWxs68TVjjMrt+DBsPyFtqSuBO1yvIaAG5HZ8VWLD98I7LEzWvZRqVcPT7?=
+ =?us-ascii?Q?Mo7s8py67aMY6qVW9gpu7PERhEtbUdFB7yV/hpkFcN8lRZ3lHfgRLJb0h7Wq?=
+ =?us-ascii?Q?6onhiC++6pj59alLyCpMk/zVrMT/xZYj/rn8F8CjSBvuTkc7rgqqfGZoViRF?=
+ =?us-ascii?Q?g8+xsKHBPsPPJqeEYuH/r9yaoN7WKHCr5i8K+UqCW1+Quruvt49vThpkNm0t?=
+ =?us-ascii?Q?iaPtu3Yo4YAhlSTTsGXrQ12rEyoRXE7thNSRm9uBKOMPG9wE/NU0zASm0KP0?=
+ =?us-ascii?Q?1lshSZibhkXtRFPspvs9I8m/z+pNPSVx4YtlSO/cY515kzjsdT3aMBqWq6nM?=
+ =?us-ascii?Q?ZVHhnOt4NzNj3cULpifjvYKD361yLXvOeKuq2I8SKIzrUXR+iNmhIUij9Tji?=
+ =?us-ascii?Q?TwHhMWIiI6AvH6XqdLCcKezAgqIZinJsJ461n36ZWdEywmn/sSy/KMHvpa7+?=
+ =?us-ascii?Q?kUJNJehkCZ/xPgtXg5Pyafc4ADDtSDfOI6ws9K9gx4MJ15lRQX0YaQlgIjrU?=
+ =?us-ascii?Q?SsS8tuc5Yr0Et6JFsiAT+YAe5kQ9VSl9fGQ1JcPosXuzZz5VYvH46nlO41Gy?=
+ =?us-ascii?Q?FLwYqB1AgdoOe5jwmeYkril9C45wYXuoMMVmX4eHvWbhQYFUwZHShg7yBua3?=
+ =?us-ascii?Q?Et8zQSzviHDRGvwhu6upvS+02uZF2or1+/JUMMb6WoZhEcEe2EmDton2PyrQ?=
+ =?us-ascii?Q?EepUwP7U2mn76imD3Ry0eZflR97JTyHsb2q/jSG+cx9aOaSI7hqrBVmPC2jx?=
+ =?us-ascii?Q?kmkZlwWl+L8FcnzEWLuh5Qt6gy4SkgcQhf1dqVyCPljKlXa0ELOczCoM+hz5?=
+ =?us-ascii?Q?GHUaDp2/tXgybYDuYx6tfykAxkEICHTwUSNJZGTsmsd/q4J1lFGJ5qBtAmet?=
+ =?us-ascii?Q?rUtlDpc8zX7nzmdtxSE8L/wS2Z8QeDxnW4FGZUJzxb393dRe+D8qNsRZTatK?=
+ =?us-ascii?Q?N3WISlIFJSn/8ptutGdHLv10yTn18EoMiSc8mO4N46rpYcL+qJUbVaLBHINp?=
+ =?us-ascii?Q?805weWuw7AUsx/8benfxcbFFaLbkE7x7ryWA4kTK1EL3oJ0uiNhcGGrBbi0i?=
+ =?us-ascii?Q?1uiBG1hLfmcHll+NiQa64utU9xEkUlHm/EB2mJHummTZGPiJAH1lFoqQILxB?=
+ =?us-ascii?Q?cnmyM4558omUlTfOsWhG7TbNIaT2IBUi1BoA6ZPo7Sj2pPTGSVsR3zLu6A9A?=
+ =?us-ascii?Q?WicNOJ1uT4+671xx2Qc75nQBYtMePiL8Pkq26jdtrWCRv1Si6PbnNUD3u8tj?=
+ =?us-ascii?Q?fvFKgMPz3tFiBrdZiDi5dQCnXZKEdK7tOXLHk9UYCLDgzR++Vok3vdl5OIeN?=
+ =?us-ascii?Q?MMghmC73B7zx6YoewZulo8oQ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96f76225-97b5-4fc8-db5d-08d94dddfe19
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 13:30:09.9856
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BAAEpD5AQ4dAqSjzcRtExVDfk0gnQNhM4E0WO6U276kvv5AaoK+o9Cdpcw5CGAaH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5523
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-STM32MP135 SoC embeds 9 GPIO banks of 16 gpios each. Those GPIO
-banks contain same features as STM32MP157 GPIO banks except that
-each GPIO line of the STM32MP135 can be secured.
+On Fri, Jul 23, 2021 at 10:05:43AM +0200, Christoph Hellwig wrote:
+> On Tue, Jul 20, 2021 at 02:42:55PM -0300, Jason Gunthorpe wrote:
+> > Keep track of all the vfio_devices that have been added to the device set
+> > and use this list in vfio_pci_try_bus_reset() instead of trying to work
+> > backwards from the pci_device.
+> > 
+> > The dev_set->lock directly prevents devices from joining/leaving the set,
+> > which further implies the pci_device cannot change drivers or that the
+> > vfio_device be freed, eliminating the need for get/put's.
+> > 
+> > Completeness of the device set can be directly measured by checking if
+> > every PCI device in the reset group is also in the device set - which
+> > proves that VFIO drivers are attached to everything.
+> > 
+> > This restructuring corrects a call to pci_dev_driver() without holding the
+> > device_lock() and removes a hard wiring to &vfio_pci_driver.
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> 
+> I think the addition of the list to the dev_set should be a different
+> patch.  Or maybe even go into the one adding the dev_set concept.
 
-Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
+OK
 
-diff --git a/drivers/pinctrl/stm32/Kconfig b/drivers/pinctrl/stm32/Kconfig
-index f36f29113370..d532f3c6f670 100644
---- a/drivers/pinctrl/stm32/Kconfig
-+++ b/drivers/pinctrl/stm32/Kconfig
-@@ -40,6 +40,12 @@ config PINCTRL_STM32H743
- 	default MACH_STM32H743
- 	select PINCTRL_STM32
- 
-+config PINCTRL_STM32MP135
-+	bool "STMicroelectronics STM32MP135 pin control" if COMPILE_TEST && !MACH_STM32MP13
-+	depends on OF && HAS_IOMEM
-+	default MACH_STM32MP13
-+	select PINCTRL_STM32
-+
- config PINCTRL_STM32MP157
- 	bool "STMicroelectronics STM32MP157 pin control" if COMPILE_TEST && !MACH_STM32MP157
- 	depends on OF && HAS_IOMEM
-diff --git a/drivers/pinctrl/stm32/Makefile b/drivers/pinctrl/stm32/Makefile
-index f7c56d4b941c..619629ee9944 100644
---- a/drivers/pinctrl/stm32/Makefile
-+++ b/drivers/pinctrl/stm32/Makefile
-@@ -8,4 +8,5 @@ obj-$(CONFIG_PINCTRL_STM32F469)	+= pinctrl-stm32f469.o
- obj-$(CONFIG_PINCTRL_STM32F746)	+= pinctrl-stm32f746.o
- obj-$(CONFIG_PINCTRL_STM32F769)	+= pinctrl-stm32f769.o
- obj-$(CONFIG_PINCTRL_STM32H743)	+= pinctrl-stm32h743.o
-+obj-$(CONFIG_PINCTRL_STM32MP135) += pinctrl-stm32mp135.o
- obj-$(CONFIG_PINCTRL_STM32MP157) += pinctrl-stm32mp157.o
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32mp135.c b/drivers/pinctrl/stm32/pinctrl-stm32mp135.c
-new file mode 100644
-index 000000000000..4ab03520c407
---- /dev/null
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32mp135.c
-@@ -0,0 +1,1679 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) STMicroelectronics 2021 - All Rights Reserved
-+ * Author: Alexandre Torgue <alexandre.torgue@foss.st.com> for STMicroelectronics.
-+ */
-+#include <linux/init.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+#include "pinctrl-stm32.h"
-+
-+static const struct stm32_desc_pin stm32mp135_pins[] = {
-+	STM32_PIN(
-+		PINCTRL_PIN(0, "PA0"),
-+		STM32_FUNCTION(0, "GPIOA0"),
-+		STM32_FUNCTION(2, "TIM2_CH1"),
-+		STM32_FUNCTION(3, "TIM5_CH1"),
-+		STM32_FUNCTION(4, "TIM8_ETR"),
-+		STM32_FUNCTION(5, "TIM15_BKIN"),
-+		STM32_FUNCTION(7, "SAI1_SD_B"),
-+		STM32_FUNCTION(9, "UART5_TX"),
-+		STM32_FUNCTION(12, "ETH1_MII_CRS"),
-+		STM32_FUNCTION(13, "ETH2_MII_CRS"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(1, "PA1"),
-+		STM32_FUNCTION(0, "GPIOA1"),
-+		STM32_FUNCTION(2, "TIM2_CH2"),
-+		STM32_FUNCTION(3, "TIM5_CH2"),
-+		STM32_FUNCTION(4, "LPTIM3_OUT"),
-+		STM32_FUNCTION(5, "TIM15_CH1N"),
-+		STM32_FUNCTION(7, "DFSDM1_CKIN0"),
-+		STM32_FUNCTION(8, "USART2_RTS USART2_DE"),
-+		STM32_FUNCTION(12, "ETH1_MII_RX_CLK ETH1_RGMII_RX_CLK ETH1_RMII_REF_CLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(2, "PA2"),
-+		STM32_FUNCTION(0, "GPIOA2"),
-+		STM32_FUNCTION(2, "TIM2_CH3"),
-+		STM32_FUNCTION(3, "TIM5_CH3"),
-+		STM32_FUNCTION(4, "LPTIM4_OUT"),
-+		STM32_FUNCTION(5, "TIM15_CH1"),
-+		STM32_FUNCTION(8, "USART2_TX"),
-+		STM32_FUNCTION(12, "ETH1_MDIO"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(3, "PA3"),
-+		STM32_FUNCTION(0, "GPIOA3"),
-+		STM32_FUNCTION(2, "TIM2_CH4"),
-+		STM32_FUNCTION(3, "TIM5_CH4"),
-+		STM32_FUNCTION(4, "LPTIM5_OUT"),
-+		STM32_FUNCTION(5, "TIM15_CH2"),
-+		STM32_FUNCTION(6, "SPI1_MOSI I2S1_SDO"),
-+		STM32_FUNCTION(7, "SAI1_FS_B"),
-+		STM32_FUNCTION(8, "USART2_RX"),
-+		STM32_FUNCTION(12, "ETH1_MII_COL"),
-+		STM32_FUNCTION(13, "ETH2_MII_COL"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(4, "PA4"),
-+		STM32_FUNCTION(0, "GPIOA4"),
-+		STM32_FUNCTION(3, "TIM5_ETR"),
-+		STM32_FUNCTION(4, "USART2_CK"),
-+		STM32_FUNCTION(5, "SAI1_SCK_B"),
-+		STM32_FUNCTION(6, "SPI1_NSS I2S1_WS"),
-+		STM32_FUNCTION(7, "DFSDM1_CKIN1"),
-+		STM32_FUNCTION(11, "ETH1_PPS_OUT"),
-+		STM32_FUNCTION(12, "ETH2_PPS_OUT"),
-+		STM32_FUNCTION(13, "SAI1_SCK_A"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(5, "PA5"),
-+		STM32_FUNCTION(0, "GPIOA5"),
-+		STM32_FUNCTION(2, "TIM2_CH1 TIM2_ETR"),
-+		STM32_FUNCTION(3, "USART2_CK"),
-+		STM32_FUNCTION(4, "TIM8_CH1N"),
-+		STM32_FUNCTION(5, "SAI1_D1"),
-+		STM32_FUNCTION(6, "SPI1_NSS I2S1_WS"),
-+		STM32_FUNCTION(7, "SAI1_SD_A"),
-+		STM32_FUNCTION(11, "ETH1_PPS_OUT"),
-+		STM32_FUNCTION(12, "ETH2_PPS_OUT"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(6, "PA6"),
-+		STM32_FUNCTION(0, "GPIOA6"),
-+		STM32_FUNCTION(2, "TIM1_BKIN"),
-+		STM32_FUNCTION(3, "TIM3_CH1"),
-+		STM32_FUNCTION(4, "TIM8_BKIN"),
-+		STM32_FUNCTION(5, "SAI2_CK2"),
-+		STM32_FUNCTION(6, "SPI1_MISO I2S1_SDI"),
-+		STM32_FUNCTION(8, "USART1_CK"),
-+		STM32_FUNCTION(9, "UART4_RTS UART4_DE"),
-+		STM32_FUNCTION(10, "TIM13_CH1"),
-+		STM32_FUNCTION(13, "SAI2_SCK_A"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(7, "PA7"),
-+		STM32_FUNCTION(0, "GPIOA7"),
-+		STM32_FUNCTION(2, "TIM1_CH1N"),
-+		STM32_FUNCTION(3, "TIM3_CH2"),
-+		STM32_FUNCTION(4, "TIM8_CH1N"),
-+		STM32_FUNCTION(5, "SAI2_D1"),
-+		STM32_FUNCTION(6, "SPI1_SCK I2S1_CK"),
-+		STM32_FUNCTION(8, "USART1_CTS USART1_NSS"),
-+		STM32_FUNCTION(10, "TIM14_CH1"),
-+		STM32_FUNCTION(12, "ETH1_MII_RX_DV ETH1_RGMII_RX_CTL ETH1_RMII_CRS_DV"),
-+		STM32_FUNCTION(13, "SAI2_SD_A"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(8, "PA8"),
-+		STM32_FUNCTION(0, "GPIOA8"),
-+		STM32_FUNCTION(1, "MCO1"),
-+		STM32_FUNCTION(3, "SAI2_MCLK_A"),
-+		STM32_FUNCTION(4, "TIM8_BKIN2"),
-+		STM32_FUNCTION(5, "I2C4_SDA"),
-+		STM32_FUNCTION(6, "SPI5_MISO"),
-+		STM32_FUNCTION(7, "SAI2_CK1"),
-+		STM32_FUNCTION(8, "USART1_CK"),
-+		STM32_FUNCTION(9, "SPI2_MOSI I2S2_SDO"),
-+		STM32_FUNCTION(11, "OTG_HS_SOF"),
-+		STM32_FUNCTION(12, "ETH2_MII_RXD3 ETH2_RGMII_RXD3"),
-+		STM32_FUNCTION(13, "FMC_A21"),
-+		STM32_FUNCTION(15, "LCD_B7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(9, "PA9"),
-+		STM32_FUNCTION(0, "GPIOA9"),
-+		STM32_FUNCTION(2, "TIM1_CH2"),
-+		STM32_FUNCTION(5, "I2C3_SMBA"),
-+		STM32_FUNCTION(7, "DFSDM1_DATIN0"),
-+		STM32_FUNCTION(8, "USART1_TX"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(11, "FMC_NWAIT"),
-+		STM32_FUNCTION(14, "DCMIPP_D0"),
-+		STM32_FUNCTION(15, "LCD_R6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(10, "PA10"),
-+		STM32_FUNCTION(0, "GPIOA10"),
-+		STM32_FUNCTION(2, "TIM1_CH3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(11, "PA11"),
-+		STM32_FUNCTION(0, "GPIOA11"),
-+		STM32_FUNCTION(2, "TIM1_CH4"),
-+		STM32_FUNCTION(5, "I2C5_SCL"),
-+		STM32_FUNCTION(6, "SPI2_NSS I2S2_WS"),
-+		STM32_FUNCTION(8, "USART1_CTS USART1_NSS"),
-+		STM32_FUNCTION(11, "ETH2_MII_RXD1 ETH2_RGMII_RXD1 ETH2_RMII_RXD1"),
-+		STM32_FUNCTION(12, "ETH1_CLK"),
-+		STM32_FUNCTION(14, "ETH2_CLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(12, "PA12"),
-+		STM32_FUNCTION(0, "GPIOA12"),
-+		STM32_FUNCTION(2, "TIM1_ETR"),
-+		STM32_FUNCTION(3, "SAI2_MCLK_A"),
-+		STM32_FUNCTION(8, "USART1_RTS USART1_DE"),
-+		STM32_FUNCTION(11, "TSC_G1_IO2"),
-+		STM32_FUNCTION(12, "ETH2_MII_RX_DV ETH2_RGMII_RX_CTL ETH2_RMII_CRS_DV"),
-+		STM32_FUNCTION(13, "FMC_A7"),
-+		STM32_FUNCTION(14, "DCMIPP_D1"),
-+		STM32_FUNCTION(15, "LCD_G6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(13, "PA13"),
-+		STM32_FUNCTION(0, "GPIOA13"),
-+		STM32_FUNCTION(1, "DBTRGO"),
-+		STM32_FUNCTION(2, "DBTRGI"),
-+		STM32_FUNCTION(3, "MCO1"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(14, "PA14"),
-+		STM32_FUNCTION(0, "GPIOA14"),
-+		STM32_FUNCTION(1, "DBTRGO"),
-+		STM32_FUNCTION(2, "DBTRGI"),
-+		STM32_FUNCTION(3, "MCO2"),
-+		STM32_FUNCTION(11, "OTG_HS_SOF"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(15, "PA15"),
-+		STM32_FUNCTION(0, "GPIOA15"),
-+		STM32_FUNCTION(1, "TRACED5"),
-+		STM32_FUNCTION(2, "TIM2_CH1"),
-+		STM32_FUNCTION(6, "I2S4_MCK"),
-+		STM32_FUNCTION(8, "UART4_RTS UART4_DE"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(10, "LCD_R0"),
-+		STM32_FUNCTION(11, "TSC_G3_IO1"),
-+		STM32_FUNCTION(12, "LCD_G7"),
-+		STM32_FUNCTION(13, "FMC_A9"),
-+		STM32_FUNCTION(14, "DCMIPP_D14"),
-+		STM32_FUNCTION(15, "DCMIPP_D5"),
-+		STM32_FUNCTION(16, "HDP5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(16, "PB0"),
-+		STM32_FUNCTION(0, "GPIOB0"),
-+		STM32_FUNCTION(1, "DBTRGI"),
-+		STM32_FUNCTION(2, "TIM1_CH2N"),
-+		STM32_FUNCTION(3, "TIM3_CH3"),
-+		STM32_FUNCTION(4, "TIM8_CH2N"),
-+		STM32_FUNCTION(5, "USART1_RX"),
-+		STM32_FUNCTION(6, "I2S1_MCK"),
-+		STM32_FUNCTION(7, "SAI2_FS_A"),
-+		STM32_FUNCTION(8, "USART1_CK"),
-+		STM32_FUNCTION(9, "UART4_CTS"),
-+		STM32_FUNCTION(11, "SAI2_D2"),
-+		STM32_FUNCTION(12, "ETH1_MII_RXD2 ETH1_RGMII_RXD2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(17, "PB1"),
-+		STM32_FUNCTION(0, "GPIOB1"),
-+		STM32_FUNCTION(2, "TIM1_CH3N"),
-+		STM32_FUNCTION(3, "TIM3_CH4"),
-+		STM32_FUNCTION(4, "TIM8_CH3N"),
-+		STM32_FUNCTION(6, "SPI1_SCK I2S1_CK"),
-+		STM32_FUNCTION(7, "DFSDM1_DATIN1"),
-+		STM32_FUNCTION(8, "UART4_RX"),
-+		STM32_FUNCTION(12, "ETH1_MII_RXD3 ETH1_RGMII_RXD3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(18, "PB2"),
-+		STM32_FUNCTION(0, "GPIOB2"),
-+		STM32_FUNCTION(2, "RTC_OUT2"),
-+		STM32_FUNCTION(3, "SAI1_D1"),
-+		STM32_FUNCTION(6, "I2S_CKIN"),
-+		STM32_FUNCTION(7, "SAI1_SD_A"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_NCS"),
-+		STM32_FUNCTION(12, "ETH2_MDIO"),
-+		STM32_FUNCTION(13, "FMC_A6"),
-+		STM32_FUNCTION(15, "LCD_B4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(19, "PB3"),
-+		STM32_FUNCTION(0, "GPIOB3"),
-+		STM32_FUNCTION(1, "TRACED2"),
-+		STM32_FUNCTION(2, "TIM2_CH2"),
-+		STM32_FUNCTION(5, "SAI2_CK1"),
-+		STM32_FUNCTION(6, "SPI4_NSS I2S4_WS"),
-+		STM32_FUNCTION(9, "SDMMC1_D123DIR"),
-+		STM32_FUNCTION(11, "SDMMC2_D2"),
-+		STM32_FUNCTION(12, "LCD_R6"),
-+		STM32_FUNCTION(13, "SAI2_MCLK_A"),
-+		STM32_FUNCTION(14, "UART7_RX"),
-+		STM32_FUNCTION(15, "LCD_B2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(20, "PB4"),
-+		STM32_FUNCTION(0, "GPIOB4"),
-+		STM32_FUNCTION(1, "TRACED14"),
-+		STM32_FUNCTION(2, "TIM16_BKIN"),
-+		STM32_FUNCTION(3, "TIM3_CH1"),
-+		STM32_FUNCTION(5, "SAI2_CK2"),
-+		STM32_FUNCTION(6, "SPI4_SCK I2S4_CK"),
-+		STM32_FUNCTION(8, "USART3_CK"),
-+		STM32_FUNCTION(11, "SDMMC2_D3"),
-+		STM32_FUNCTION(12, "LCD_G1"),
-+		STM32_FUNCTION(13, "SAI2_SCK_A"),
-+		STM32_FUNCTION(14, "LCD_B6"),
-+		STM32_FUNCTION(15, "LCD_R0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(21, "PB5"),
-+		STM32_FUNCTION(0, "GPIOB5"),
-+		STM32_FUNCTION(1, "TRACED4"),
-+		STM32_FUNCTION(2, "TIM17_BKIN"),
-+		STM32_FUNCTION(3, "TIM3_CH2"),
-+		STM32_FUNCTION(6, "SPI2_MISO I2S2_SDI"),
-+		STM32_FUNCTION(7, "I2C4_SMBA"),
-+		STM32_FUNCTION(9, "SDMMC1_CKIN"),
-+		STM32_FUNCTION(10, "FDCAN2_RX"),
-+		STM32_FUNCTION(12, "UART5_RX"),
-+		STM32_FUNCTION(14, "LCD_B6"),
-+		STM32_FUNCTION(15, "LCD_DE"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(22, "PB6"),
-+		STM32_FUNCTION(0, "GPIOB6"),
-+		STM32_FUNCTION(1, "TRACED6"),
-+		STM32_FUNCTION(2, "TIM16_CH1N"),
-+		STM32_FUNCTION(3, "TIM4_CH1"),
-+		STM32_FUNCTION(4, "TIM8_CH1"),
-+		STM32_FUNCTION(5, "USART1_TX"),
-+		STM32_FUNCTION(7, "SAI1_CK2"),
-+		STM32_FUNCTION(8, "LCD_B6"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_NCS"),
-+		STM32_FUNCTION(11, "TSC_G1_IO4"),
-+		STM32_FUNCTION(12, "ETH2_MDIO"),
-+		STM32_FUNCTION(13, "FMC_NE3"),
-+		STM32_FUNCTION(14, "DCMIPP_D5"),
-+		STM32_FUNCTION(15, "LCD_B7"),
-+		STM32_FUNCTION(16, "HDP6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(23, "PB7"),
-+		STM32_FUNCTION(0, "GPIOB7"),
-+		STM32_FUNCTION(2, "TIM17_CH1N"),
-+		STM32_FUNCTION(3, "TIM4_CH2"),
-+		STM32_FUNCTION(4, "TSC_SYNC"),
-+		STM32_FUNCTION(6, "I2S4_CK"),
-+		STM32_FUNCTION(7, "I2C4_SDA"),
-+		STM32_FUNCTION(11, "FMC_NCE2"),
-+		STM32_FUNCTION(13, "FMC_NL"),
-+		STM32_FUNCTION(14, "DCMIPP_D13"),
-+		STM32_FUNCTION(15, "DCMIPP_PIXCLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(24, "PB8"),
-+		STM32_FUNCTION(0, "GPIOB8"),
-+		STM32_FUNCTION(2, "TIM16_CH1"),
-+		STM32_FUNCTION(3, "TIM4_CH3"),
-+		STM32_FUNCTION(5, "I2C1_SCL"),
-+		STM32_FUNCTION(6, "I2C3_SCL"),
-+		STM32_FUNCTION(7, "DFSDM1_DATIN1"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(11, "SAI1_D1"),
-+		STM32_FUNCTION(13, "FMC_D13 FMC_AD13"),
-+		STM32_FUNCTION(14, "DCMIPP_D6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(25, "PB9"),
-+		STM32_FUNCTION(0, "GPIOB9"),
-+		STM32_FUNCTION(1, "TRACED3"),
-+		STM32_FUNCTION(3, "TIM4_CH4"),
-+		STM32_FUNCTION(7, "I2C4_SDA"),
-+		STM32_FUNCTION(10, "FDCAN1_TX"),
-+		STM32_FUNCTION(11, "SDMMC2_D5"),
-+		STM32_FUNCTION(12, "UART5_TX"),
-+		STM32_FUNCTION(13, "SDMMC1_CDIR"),
-+		STM32_FUNCTION(14, "LCD_DE"),
-+		STM32_FUNCTION(15, "LCD_B1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(26, "PB10"),
-+		STM32_FUNCTION(0, "GPIOB10"),
-+		STM32_FUNCTION(2, "TIM2_CH3"),
-+		STM32_FUNCTION(4, "LPTIM2_IN1"),
-+		STM32_FUNCTION(5, "I2C5_SMBA"),
-+		STM32_FUNCTION(6, "SPI4_NSS I2S4_WS"),
-+		STM32_FUNCTION(7, "SPI2_SCK I2S2_CK"),
-+		STM32_FUNCTION(8, "USART3_TX"),
-+		STM32_FUNCTION(15, "LCD_R3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(27, "PB11"),
-+		STM32_FUNCTION(0, "GPIOB11"),
-+		STM32_FUNCTION(2, "TIM2_CH4"),
-+		STM32_FUNCTION(4, "LPTIM1_OUT"),
-+		STM32_FUNCTION(5, "I2C5_SMBA"),
-+		STM32_FUNCTION(8, "USART3_RX"),
-+		STM32_FUNCTION(12, "ETH1_MII_TX_EN ETH1_RGMII_TX_CTL ETH1_RMII_TX_EN"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(28, "PB12"),
-+		STM32_FUNCTION(0, "GPIOB12"),
-+		STM32_FUNCTION(1, "TRACED10"),
-+		STM32_FUNCTION(5, "I2C2_SMBA"),
-+		STM32_FUNCTION(7, "DFSDM1_DATIN1"),
-+		STM32_FUNCTION(8, "UART7_RTS UART7_DE"),
-+		STM32_FUNCTION(9, "USART3_RX"),
-+		STM32_FUNCTION(12, "UART5_RX"),
-+		STM32_FUNCTION(13, "SDMMC1_D5"),
-+		STM32_FUNCTION(14, "LCD_R3"),
-+		STM32_FUNCTION(15, "LCD_VSYNC"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(29, "PB13"),
-+		STM32_FUNCTION(0, "GPIOB13"),
-+		STM32_FUNCTION(1, "TRACECLK"),
-+		STM32_FUNCTION(2, "TIM1_CH1N"),
-+		STM32_FUNCTION(5, "LPTIM2_OUT"),
-+		STM32_FUNCTION(6, "SPI2_NSS I2S2_WS"),
-+		STM32_FUNCTION(7, "I2C4_SCL"),
-+		STM32_FUNCTION(9, "SDMMC1_D123DIR"),
-+		STM32_FUNCTION(10, "FDCAN2_TX"),
-+		STM32_FUNCTION(12, "UART5_TX"),
-+		STM32_FUNCTION(14, "LCD_CLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(30, "PB14"),
-+		STM32_FUNCTION(0, "GPIOB14"),
-+		STM32_FUNCTION(1, "TRACED0"),
-+		STM32_FUNCTION(2, "TIM1_CH2N"),
-+		STM32_FUNCTION(3, "TIM12_CH1"),
-+		STM32_FUNCTION(4, "TIM8_CH2N"),
-+		STM32_FUNCTION(5, "USART1_TX"),
-+		STM32_FUNCTION(11, "SDMMC2_D0"),
-+		STM32_FUNCTION(12, "SDMMC1_D4"),
-+		STM32_FUNCTION(14, "LCD_R0"),
-+		STM32_FUNCTION(15, "LCD_G5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(31, "PB15"),
-+		STM32_FUNCTION(0, "GPIOB15"),
-+		STM32_FUNCTION(1, "RTC_REFIN"),
-+		STM32_FUNCTION(2, "TIM1_CH3N"),
-+		STM32_FUNCTION(3, "TIM12_CH2"),
-+		STM32_FUNCTION(4, "TIM8_CH3N"),
-+		STM32_FUNCTION(5, "SAI2_D2"),
-+		STM32_FUNCTION(6, "SPI4_MOSI I2S4_SDO"),
-+		STM32_FUNCTION(7, "DFSDM1_CKIN2"),
-+		STM32_FUNCTION(8, "UART7_CTS"),
-+		STM32_FUNCTION(9, "SDMMC1_CKIN"),
-+		STM32_FUNCTION(11, "SDMMC2_D1"),
-+		STM32_FUNCTION(13, "SAI2_FS_A"),
-+		STM32_FUNCTION(14, "LCD_CLK"),
-+		STM32_FUNCTION(15, "LCD_B0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(32, "PC0"),
-+		STM32_FUNCTION(0, "GPIOC0"),
-+		STM32_FUNCTION(3, "SAI1_SCK_A"),
-+		STM32_FUNCTION(5, "SAI1_CK2"),
-+		STM32_FUNCTION(6, "I2S1_MCK"),
-+		STM32_FUNCTION(7, "SPI1_MOSI I2S1_SDO"),
-+		STM32_FUNCTION(8, "USART1_TX"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(33, "PC1"),
-+		STM32_FUNCTION(0, "GPIOC1"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN0"),
-+		STM32_FUNCTION(7, "SAI1_D3"),
-+		STM32_FUNCTION(11, "ETH1_MII_RX_DV ETH1_RMII_CRS_DV"),
-+		STM32_FUNCTION(12, "ETH1_RGMII_GTX_CLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(34, "PC2"),
-+		STM32_FUNCTION(0, "GPIOC2"),
-+		STM32_FUNCTION(2, "SPI5_NSS"),
-+		STM32_FUNCTION(6, "SPI1_NSS I2S1_WS"),
-+		STM32_FUNCTION(7, "SAI2_MCLK_A"),
-+		STM32_FUNCTION(8, "USART1_RTS USART1_DE"),
-+		STM32_FUNCTION(11, "SAI2_CK1"),
-+		STM32_FUNCTION(12, "ETH1_MII_TXD2 ETH1_RGMII_TXD2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(35, "PC3"),
-+		STM32_FUNCTION(0, "GPIOC3"),
-+		STM32_FUNCTION(3, "SAI1_CK1"),
-+		STM32_FUNCTION(4, "DFSDM1_CKOUT"),
-+		STM32_FUNCTION(6, "SPI1_MISO I2S1_SDI"),
-+		STM32_FUNCTION(7, "SPI1_SCK I2S1_CK"),
-+		STM32_FUNCTION(9, "UART5_CTS"),
-+		STM32_FUNCTION(11, "SAI1_MCLK_A"),
-+		STM32_FUNCTION(12, "ETH1_MII_TX_CLK"),
-+		STM32_FUNCTION(13, "ETH2_MII_TX_CLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(36, "PC4"),
-+		STM32_FUNCTION(0, "GPIOC4"),
-+		STM32_FUNCTION(3, "TIM3_ETR"),
-+		STM32_FUNCTION(4, "DFSDM1_CKIN2"),
-+		STM32_FUNCTION(5, "SAI1_D3"),
-+		STM32_FUNCTION(6, "I2S1_MCK"),
-+		STM32_FUNCTION(9, "UART5_RTS UART5_DE"),
-+		STM32_FUNCTION(10, "SPDIFRX_IN2"),
-+		STM32_FUNCTION(12, "ETH1_MII_RXD0 ETH1_RGMII_RXD0 ETH1_RMII_RXD0"),
-+		STM32_FUNCTION(13, "SAI2_D3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(37, "PC5"),
-+		STM32_FUNCTION(0, "GPIOC5"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN2"),
-+		STM32_FUNCTION(5, "SAI2_D4"),
-+		STM32_FUNCTION(6, "I2S_CKIN"),
-+		STM32_FUNCTION(7, "SAI1_D4"),
-+		STM32_FUNCTION(8, "USART2_CTS USART2_NSS"),
-+		STM32_FUNCTION(10, "SPDIFRX_IN3"),
-+		STM32_FUNCTION(12, "ETH1_MII_RXD1 ETH1_RGMII_RXD1 ETH1_RMII_RXD1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(38, "PC6"),
-+		STM32_FUNCTION(0, "GPIOC6"),
-+		STM32_FUNCTION(1, "TRACED2"),
-+		STM32_FUNCTION(3, "TIM3_CH1"),
-+		STM32_FUNCTION(4, "TIM8_CH1"),
-+		STM32_FUNCTION(5, "DFSDM1_DATIN0"),
-+		STM32_FUNCTION(6, "I2S3_MCK"),
-+		STM32_FUNCTION(8, "USART6_TX"),
-+		STM32_FUNCTION(9, "SDMMC1_D6"),
-+		STM32_FUNCTION(10, "SDMMC2_D0DIR"),
-+		STM32_FUNCTION(11, "SDMMC2_D6"),
-+		STM32_FUNCTION(12, "LCD_B1"),
-+		STM32_FUNCTION(13, "FMC_A19"),
-+		STM32_FUNCTION(14, "LCD_R6"),
-+		STM32_FUNCTION(15, "LCD_HSYNC"),
-+		STM32_FUNCTION(16, "HDP2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(39, "PC7"),
-+		STM32_FUNCTION(0, "GPIOC7"),
-+		STM32_FUNCTION(1, "TRACED4"),
-+		STM32_FUNCTION(3, "TIM3_CH2"),
-+		STM32_FUNCTION(4, "TIM8_CH2"),
-+		STM32_FUNCTION(7, "I2S2_MCK"),
-+		STM32_FUNCTION(8, "USART6_RX"),
-+		STM32_FUNCTION(9, "USART3_CTS"),
-+		STM32_FUNCTION(10, "SDMMC2_CDIR"),
-+		STM32_FUNCTION(11, "SDMMC2_D7"),
-+		STM32_FUNCTION(12, "LCD_R1"),
-+		STM32_FUNCTION(13, "SDMMC1_D7"),
-+		STM32_FUNCTION(15, "LCD_G6"),
-+		STM32_FUNCTION(16, "HDP4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(40, "PC8"),
-+		STM32_FUNCTION(0, "GPIOC8"),
-+		STM32_FUNCTION(1, "TRACED0"),
-+		STM32_FUNCTION(3, "TIM3_CH3"),
-+		STM32_FUNCTION(4, "TIM8_CH3"),
-+		STM32_FUNCTION(6, "SPI3_MISO I2S3_SDI"),
-+		STM32_FUNCTION(8, "USART6_CK"),
-+		STM32_FUNCTION(9, "USART3_CTS"),
-+		STM32_FUNCTION(11, "SAI2_FS_B"),
-+		STM32_FUNCTION(12, "UART5_RTS UART5_DE"),
-+		STM32_FUNCTION(13, "SDMMC1_D0"),
-+		STM32_FUNCTION(15, "LCD_G7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(41, "PC9"),
-+		STM32_FUNCTION(0, "GPIOC9"),
-+		STM32_FUNCTION(1, "TRACED1"),
-+		STM32_FUNCTION(3, "TIM3_CH4"),
-+		STM32_FUNCTION(4, "TIM8_CH4"),
-+		STM32_FUNCTION(8, "USART3_RTS"),
-+		STM32_FUNCTION(9, "UART5_CTS"),
-+		STM32_FUNCTION(10, "FDCAN1_TX"),
-+		STM32_FUNCTION(13, "SDMMC1_D1"),
-+		STM32_FUNCTION(15, "LCD_B4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(42, "PC10"),
-+		STM32_FUNCTION(0, "GPIOC10"),
-+		STM32_FUNCTION(1, "TRACED2"),
-+		STM32_FUNCTION(6, "I2C1_SCL"),
-+		STM32_FUNCTION(7, "SPI3_SCK I2S3_CK"),
-+		STM32_FUNCTION(8, "USART3_TX"),
-+		STM32_FUNCTION(11, "SAI2_MCLK_B"),
-+		STM32_FUNCTION(13, "SDMMC1_D2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(43, "PC11"),
-+		STM32_FUNCTION(0, "GPIOC11"),
-+		STM32_FUNCTION(1, "TRACED3"),
-+		STM32_FUNCTION(5, "I2C1_SDA"),
-+		STM32_FUNCTION(7, "SPI3_MOSI I2S3_SDO"),
-+		STM32_FUNCTION(8, "USART3_CK"),
-+		STM32_FUNCTION(9, "UART5_RX"),
-+		STM32_FUNCTION(11, "SAI2_SCK_B"),
-+		STM32_FUNCTION(13, "SDMMC1_D3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(44, "PC12"),
-+		STM32_FUNCTION(0, "GPIOC12"),
-+		STM32_FUNCTION(1, "TRACECLK"),
-+		STM32_FUNCTION(9, "UART7_TX"),
-+		STM32_FUNCTION(11, "SAI2_SD_B"),
-+		STM32_FUNCTION(13, "SDMMC1_CK"),
-+		STM32_FUNCTION(15, "LCD_DE"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(45, "PC13"),
-+		STM32_FUNCTION(0, "GPIOC13"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(46, "PC14"),
-+		STM32_FUNCTION(0, "GPIOC14"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(47, "PC15"),
-+		STM32_FUNCTION(0, "GPIOC15"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(48, "PD0"),
-+		STM32_FUNCTION(0, "GPIOD0"),
-+		STM32_FUNCTION(3, "SAI1_MCLK_A"),
-+		STM32_FUNCTION(7, "SAI1_CK1"),
-+		STM32_FUNCTION(10, "FDCAN1_RX"),
-+		STM32_FUNCTION(13, "FMC_D2 FMC_AD2"),
-+		STM32_FUNCTION(14, "DCMIPP_D1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(49, "PD1"),
-+		STM32_FUNCTION(0, "GPIOD1"),
-+		STM32_FUNCTION(5, "I2C5_SCL"),
-+		STM32_FUNCTION(6, "SPI4_MOSI I2S4_SDO"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_NCS"),
-+		STM32_FUNCTION(12, "LCD_B6"),
-+		STM32_FUNCTION(13, "FMC_D3 FMC_AD3"),
-+		STM32_FUNCTION(14, "DCMIPP_D13"),
-+		STM32_FUNCTION(15, "LCD_G2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(50, "PD2"),
-+		STM32_FUNCTION(0, "GPIOD2"),
-+		STM32_FUNCTION(1, "TRACED4"),
-+		STM32_FUNCTION(3, "TIM3_ETR"),
-+		STM32_FUNCTION(5, "I2C1_SMBA"),
-+		STM32_FUNCTION(6, "SPI3_NSS I2S3_WS"),
-+		STM32_FUNCTION(7, "SAI2_D1"),
-+		STM32_FUNCTION(8, "USART3_RX"),
-+		STM32_FUNCTION(13, "SDMMC1_CMD"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(51, "PD3"),
-+		STM32_FUNCTION(0, "GPIOD3"),
-+		STM32_FUNCTION(3, "TIM2_CH1"),
-+		STM32_FUNCTION(4, "USART2_CTS USART2_NSS"),
-+		STM32_FUNCTION(5, "DFSDM1_CKOUT"),
-+		STM32_FUNCTION(6, "I2C1_SDA"),
-+		STM32_FUNCTION(7, "SAI1_D3"),
-+		STM32_FUNCTION(13, "FMC_CLK"),
-+		STM32_FUNCTION(14, "DCMIPP_D5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(52, "PD4"),
-+		STM32_FUNCTION(0, "GPIOD4"),
-+		STM32_FUNCTION(4, "USART2_RTS USART2_DE"),
-+		STM32_FUNCTION(6, "SPI3_MISO I2S3_SDI"),
-+		STM32_FUNCTION(7, "DFSDM1_CKIN0"),
-+		STM32_FUNCTION(10, "QUADSPI_CLK"),
-+		STM32_FUNCTION(12, "LCD_R1"),
-+		STM32_FUNCTION(13, "FMC_NOE"),
-+		STM32_FUNCTION(14, "LCD_R4"),
-+		STM32_FUNCTION(15, "LCD_R6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(53, "PD5"),
-+		STM32_FUNCTION(0, "GPIOD5"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO0"),
-+		STM32_FUNCTION(13, "FMC_NWE"),
-+		STM32_FUNCTION(14, "LCD_B0"),
-+		STM32_FUNCTION(15, "LCD_G4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(54, "PD6"),
-+		STM32_FUNCTION(0, "GPIOD6"),
-+		STM32_FUNCTION(2, "TIM16_CH1N"),
-+		STM32_FUNCTION(3, "SAI1_D1"),
-+		STM32_FUNCTION(7, "SAI1_SD_A"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(12, "TSC_G2_IO1"),
-+		STM32_FUNCTION(14, "DCMIPP_D4"),
-+		STM32_FUNCTION(15, "DCMIPP_D0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(55, "PD7"),
-+		STM32_FUNCTION(0, "GPIOD7"),
-+		STM32_FUNCTION(1, "MCO1"),
-+		STM32_FUNCTION(4, "USART2_CK"),
-+		STM32_FUNCTION(5, "I2C2_SCL"),
-+		STM32_FUNCTION(6, "I2C3_SDA"),
-+		STM32_FUNCTION(10, "SPDIFRX_IN0"),
-+		STM32_FUNCTION(11, "ETH1_MII_RX_CLK ETH1_RGMII_RX_CLK ETH1_RMII_REF_CLK"),
-+		STM32_FUNCTION(12, "QUADSPI_BK1_IO2"),
-+		STM32_FUNCTION(13, "FMC_NE1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(56, "PD8"),
-+		STM32_FUNCTION(0, "GPIOD8"),
-+		STM32_FUNCTION(4, "USART2_TX"),
-+		STM32_FUNCTION(6, "I2S4_WS"),
-+		STM32_FUNCTION(8, "USART3_TX"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(11, "TSC_G1_IO3"),
-+		STM32_FUNCTION(14, "DCMIPP_D9"),
-+		STM32_FUNCTION(15, "DCMIPP_D3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(57, "PD9"),
-+		STM32_FUNCTION(0, "GPIOD9"),
-+		STM32_FUNCTION(1, "TRACECLK"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN3"),
-+		STM32_FUNCTION(11, "SDMMC2_CDIR"),
-+		STM32_FUNCTION(12, "LCD_B5"),
-+		STM32_FUNCTION(13, "FMC_D14 FMC_AD14"),
-+		STM32_FUNCTION(14, "LCD_CLK"),
-+		STM32_FUNCTION(15, "LCD_B0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(58, "PD10"),
-+		STM32_FUNCTION(0, "GPIOD10"),
-+		STM32_FUNCTION(1, "RTC_REFIN"),
-+		STM32_FUNCTION(5, "I2C5_SMBA"),
-+		STM32_FUNCTION(6, "SPI4_NSS I2S4_WS"),
-+		STM32_FUNCTION(8, "USART3_CK"),
-+		STM32_FUNCTION(10, "LCD_G5"),
-+		STM32_FUNCTION(11, "TSC_G2_IO2"),
-+		STM32_FUNCTION(12, "LCD_B7"),
-+		STM32_FUNCTION(13, "FMC_D15 FMC_AD15"),
-+		STM32_FUNCTION(14, "DCMIPP_VSYNC"),
-+		STM32_FUNCTION(15, "LCD_B2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(59, "PD11"),
-+		STM32_FUNCTION(0, "GPIOD11"),
-+		STM32_FUNCTION(4, "LPTIM2_IN2"),
-+		STM32_FUNCTION(5, "I2C4_SMBA"),
-+		STM32_FUNCTION(8, "USART3_CTS USART3_NSS"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN0"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO2"),
-+		STM32_FUNCTION(11, "ETH2_RGMII_CLK125"),
-+		STM32_FUNCTION(12, "LCD_R7"),
-+		STM32_FUNCTION(13, "FMC_CLE FMC_A16"),
-+		STM32_FUNCTION(14, "UART7_RX"),
-+		STM32_FUNCTION(15, "DCMIPP_D4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(60, "PD12"),
-+		STM32_FUNCTION(0, "GPIOD12"),
-+		STM32_FUNCTION(2, "LPTIM1_IN1"),
-+		STM32_FUNCTION(3, "TIM4_CH1"),
-+		STM32_FUNCTION(6, "I2C1_SCL"),
-+		STM32_FUNCTION(8, "USART3_RTS USART3_DE"),
-+		STM32_FUNCTION(13, "FMC_ALE FMC_A17"),
-+		STM32_FUNCTION(14, "DCMIPP_D6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(61, "PD13"),
-+		STM32_FUNCTION(0, "GPIOD13"),
-+		STM32_FUNCTION(2, "LPTIM2_ETR"),
-+		STM32_FUNCTION(3, "TIM4_CH2"),
-+		STM32_FUNCTION(4, "TIM8_CH2"),
-+		STM32_FUNCTION(5, "SAI1_CK1"),
-+		STM32_FUNCTION(7, "SAI1_MCLK_A"),
-+		STM32_FUNCTION(8, "USART1_RX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO3"),
-+		STM32_FUNCTION(11, "TSC_G2_IO4"),
-+		STM32_FUNCTION(12, "QUADSPI_BK2_IO2"),
-+		STM32_FUNCTION(13, "FMC_A18"),
-+		STM32_FUNCTION(15, "LCD_G4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(62, "PD14"),
-+		STM32_FUNCTION(0, "GPIOD14"),
-+		STM32_FUNCTION(3, "TIM4_CH3"),
-+		STM32_FUNCTION(5, "I2C3_SDA"),
-+		STM32_FUNCTION(8, "USART1_RX"),
-+		STM32_FUNCTION(9, "UART8_CTS"),
-+		STM32_FUNCTION(13, "FMC_D0 FMC_AD0"),
-+		STM32_FUNCTION(14, "DCMIPP_D8"),
-+		STM32_FUNCTION(15, "LCD_R4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(63, "PD15"),
-+		STM32_FUNCTION(0, "GPIOD15"),
-+		STM32_FUNCTION(2, "USART2_RX"),
-+		STM32_FUNCTION(3, "TIM4_CH4"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN2"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO3"),
-+		STM32_FUNCTION(13, "FMC_D1 FMC_AD1"),
-+		STM32_FUNCTION(15, "LCD_B5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(64, "PE0"),
-+		STM32_FUNCTION(0, "GPIOE0"),
-+		STM32_FUNCTION(7, "DCMIPP_D12"),
-+		STM32_FUNCTION(9, "UART8_RX"),
-+		STM32_FUNCTION(10, "FDCAN2_RX"),
-+		STM32_FUNCTION(11, "TSC_G4_IO1"),
-+		STM32_FUNCTION(12, "LCD_B1"),
-+		STM32_FUNCTION(13, "FMC_A11"),
-+		STM32_FUNCTION(14, "DCMIPP_D1"),
-+		STM32_FUNCTION(15, "LCD_B5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(65, "PE1"),
-+		STM32_FUNCTION(0, "GPIOE1"),
-+		STM32_FUNCTION(2, "LPTIM1_IN2"),
-+		STM32_FUNCTION(4, "TSC_G2_IO3"),
-+		STM32_FUNCTION(9, "UART8_TX"),
-+		STM32_FUNCTION(10, "LCD_HSYNC"),
-+		STM32_FUNCTION(12, "LCD_R4"),
-+		STM32_FUNCTION(13, "FMC_NBL1"),
-+		STM32_FUNCTION(14, "DCMIPP_D3"),
-+		STM32_FUNCTION(15, "DCMIPP_D12"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(66, "PE2"),
-+		STM32_FUNCTION(0, "GPIOE2"),
-+		STM32_FUNCTION(1, "TRACECLK"),
-+		STM32_FUNCTION(2, "TIM2_ETR"),
-+		STM32_FUNCTION(4, "TSC_G5_IO1"),
-+		STM32_FUNCTION(5, "I2C4_SCL"),
-+		STM32_FUNCTION(6, "SPI5_MOSI"),
-+		STM32_FUNCTION(7, "SAI1_FS_B"),
-+		STM32_FUNCTION(8, "USART6_RTS USART6_DE"),
-+		STM32_FUNCTION(10, "SPDIFRX_IN1"),
-+		STM32_FUNCTION(11, "ETH2_MII_RXD1 ETH2_RGMII_RXD1 ETH2_RMII_RXD1"),
-+		STM32_FUNCTION(13, "FMC_A23"),
-+		STM32_FUNCTION(15, "LCD_R1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(67, "PE3"),
-+		STM32_FUNCTION(0, "GPIOE3"),
-+		STM32_FUNCTION(1, "TRACED11"),
-+		STM32_FUNCTION(3, "SAI2_D4"),
-+		STM32_FUNCTION(5, "TIM15_BKIN"),
-+		STM32_FUNCTION(6, "SPI4_MISO I2S4_SDI"),
-+		STM32_FUNCTION(9, "USART3_RTS USART3_DE"),
-+		STM32_FUNCTION(10, "FDCAN1_RX"),
-+		STM32_FUNCTION(11, "SDMMC2_CK"),
-+		STM32_FUNCTION(14, "LCD_R4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(68, "PE4"),
-+		STM32_FUNCTION(0, "GPIOE4"),
-+		STM32_FUNCTION(2, "SPI5_MISO"),
-+		STM32_FUNCTION(3, "SAI1_D2"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN3"),
-+		STM32_FUNCTION(5, "TIM15_CH1N"),
-+		STM32_FUNCTION(6, "I2S_CKIN"),
-+		STM32_FUNCTION(7, "SAI1_FS_A"),
-+		STM32_FUNCTION(8, "UART7_RTS UART7_DE"),
-+		STM32_FUNCTION(9, "UART8_TX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_NCS"),
-+		STM32_FUNCTION(11, "FMC_NCE2"),
-+		STM32_FUNCTION(12, "TSC_G1_IO1"),
-+		STM32_FUNCTION(13, "FMC_A25"),
-+		STM32_FUNCTION(14, "DCMIPP_D3"),
-+		STM32_FUNCTION(15, "LCD_G7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(69, "PE5"),
-+		STM32_FUNCTION(0, "GPIOE5"),
-+		STM32_FUNCTION(3, "SAI2_SCK_B"),
-+		STM32_FUNCTION(4, "TIM8_CH3"),
-+		STM32_FUNCTION(5, "TIM15_CH1"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(11, "ETH1_MII_TXD3 ETH1_RGMII_TXD3"),
-+		STM32_FUNCTION(13, "FMC_NE1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(70, "PE6"),
-+		STM32_FUNCTION(0, "GPIOE6"),
-+		STM32_FUNCTION(1, "MCO2"),
-+		STM32_FUNCTION(2, "TIM1_BKIN2"),
-+		STM32_FUNCTION(3, "SAI2_SCK_B"),
-+		STM32_FUNCTION(5, "TIM15_CH2"),
-+		STM32_FUNCTION(6, "I2C3_SMBA"),
-+		STM32_FUNCTION(7, "SAI1_SCK_B"),
-+		STM32_FUNCTION(9, "UART4_RTS UART4_DE"),
-+		STM32_FUNCTION(12, "ETH2_MII_TXD3 ETH2_RGMII_TXD3"),
-+		STM32_FUNCTION(13, "FMC_A22"),
-+		STM32_FUNCTION(14, "DCMIPP_D7"),
-+		STM32_FUNCTION(15, "LCD_G3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(71, "PE7"),
-+		STM32_FUNCTION(0, "GPIOE7"),
-+		STM32_FUNCTION(2, "TIM1_ETR"),
-+		STM32_FUNCTION(5, "LPTIM2_IN1"),
-+		STM32_FUNCTION(9, "UART5_TX"),
-+		STM32_FUNCTION(13, "FMC_D4 FMC_AD4"),
-+		STM32_FUNCTION(14, "LCD_B3"),
-+		STM32_FUNCTION(15, "LCD_R5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(72, "PE8"),
-+		STM32_FUNCTION(0, "GPIOE8"),
-+		STM32_FUNCTION(2, "TIM1_CH1N"),
-+		STM32_FUNCTION(4, "DFSDM1_CKIN2"),
-+		STM32_FUNCTION(6, "I2C1_SDA"),
-+		STM32_FUNCTION(8, "UART7_TX"),
-+		STM32_FUNCTION(13, "FMC_D5 FMC_AD5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(73, "PE9"),
-+		STM32_FUNCTION(0, "GPIOE9"),
-+		STM32_FUNCTION(2, "TIM1_CH1"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO1"),
-+		STM32_FUNCTION(12, "LCD_HSYNC"),
-+		STM32_FUNCTION(13, "FMC_D6 FMC_AD6"),
-+		STM32_FUNCTION(14, "DCMIPP_D7"),
-+		STM32_FUNCTION(15, "LCD_R7"),
-+		STM32_FUNCTION(16, "HDP3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(74, "PE10"),
-+		STM32_FUNCTION(0, "GPIOE10"),
-+		STM32_FUNCTION(2, "TIM1_CH2N"),
-+		STM32_FUNCTION(8, "UART7_RX"),
-+		STM32_FUNCTION(10, "FDCAN1_TX"),
-+		STM32_FUNCTION(13, "FMC_D7 FMC_AD7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(75, "PE11"),
-+		STM32_FUNCTION(0, "GPIOE11"),
-+		STM32_FUNCTION(2, "TIM1_CH2"),
-+		STM32_FUNCTION(3, "USART2_CTS USART2_NSS"),
-+		STM32_FUNCTION(5, "SAI1_D2"),
-+		STM32_FUNCTION(6, "SPI4_MOSI I2S4_SDO"),
-+		STM32_FUNCTION(7, "SAI1_FS_A"),
-+		STM32_FUNCTION(8, "USART6_CK"),
-+		STM32_FUNCTION(10, "LCD_R0"),
-+		STM32_FUNCTION(11, "ETH2_MII_TX_ER"),
-+		STM32_FUNCTION(12, "ETH1_MII_TX_ER"),
-+		STM32_FUNCTION(13, "FMC_D8 FMC_AD8"),
-+		STM32_FUNCTION(14, "DCMIPP_D10"),
-+		STM32_FUNCTION(15, "LCD_R5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(76, "PE12"),
-+		STM32_FUNCTION(0, "GPIOE12"),
-+		STM32_FUNCTION(2, "TIM1_CH3N"),
-+		STM32_FUNCTION(6, "SPI4_SCK I2S4_CK"),
-+		STM32_FUNCTION(9, "UART8_RTS UART8_DE"),
-+		STM32_FUNCTION(10, "LCD_VSYNC"),
-+		STM32_FUNCTION(11, "TSC_G3_IO2"),
-+		STM32_FUNCTION(12, "LCD_G4"),
-+		STM32_FUNCTION(13, "FMC_D9 FMC_AD9"),
-+		STM32_FUNCTION(14, "DCMIPP_D11"),
-+		STM32_FUNCTION(15, "LCD_G6"),
-+		STM32_FUNCTION(16, "HDP4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(77, "PE13"),
-+		STM32_FUNCTION(0, "GPIOE13"),
-+		STM32_FUNCTION(2, "TIM1_CH3"),
-+		STM32_FUNCTION(5, "I2C5_SDA"),
-+		STM32_FUNCTION(6, "SPI4_MISO I2S4_SDI"),
-+		STM32_FUNCTION(12, "LCD_B1"),
-+		STM32_FUNCTION(13, "FMC_D10 FMC_AD10"),
-+		STM32_FUNCTION(14, "DCMIPP_D4"),
-+		STM32_FUNCTION(15, "LCD_R6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(78, "PE14"),
-+		STM32_FUNCTION(0, "GPIOE14"),
-+		STM32_FUNCTION(2, "TIM1_BKIN"),
-+		STM32_FUNCTION(5, "SAI1_D4"),
-+		STM32_FUNCTION(9, "UART8_RTS UART8_DE"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_NCS"),
-+		STM32_FUNCTION(11, "QUADSPI_BK2_IO2"),
-+		STM32_FUNCTION(13, "FMC_D11 FMC_AD11"),
-+		STM32_FUNCTION(14, "DCMIPP_D7"),
-+		STM32_FUNCTION(15, "LCD_G0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(79, "PE15"),
-+		STM32_FUNCTION(0, "GPIOE15"),
-+		STM32_FUNCTION(2, "TIM2_ETR"),
-+		STM32_FUNCTION(3, "TIM1_BKIN"),
-+		STM32_FUNCTION(4, "USART2_CTS USART2_NSS"),
-+		STM32_FUNCTION(7, "I2C4_SCL"),
-+		STM32_FUNCTION(13, "FMC_D12 FMC_AD12"),
-+		STM32_FUNCTION(14, "DCMIPP_D10"),
-+		STM32_FUNCTION(15, "LCD_B7"),
-+		STM32_FUNCTION(16, "HDP7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(80, "PF0"),
-+		STM32_FUNCTION(0, "GPIOF0"),
-+		STM32_FUNCTION(1, "TRACED13"),
-+		STM32_FUNCTION(4, "DFSDM1_CKOUT"),
-+		STM32_FUNCTION(8, "USART3_CK"),
-+		STM32_FUNCTION(11, "SDMMC2_D4"),
-+		STM32_FUNCTION(13, "FMC_A0"),
-+		STM32_FUNCTION(14, "LCD_R6"),
-+		STM32_FUNCTION(15, "LCD_G0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(81, "PF1"),
-+		STM32_FUNCTION(0, "GPIOF1"),
-+		STM32_FUNCTION(1, "TRACED7"),
-+		STM32_FUNCTION(5, "I2C2_SDA"),
-+		STM32_FUNCTION(6, "SPI3_MOSI I2S3_SDO"),
-+		STM32_FUNCTION(13, "FMC_A1"),
-+		STM32_FUNCTION(14, "LCD_B7"),
-+		STM32_FUNCTION(15, "LCD_G1"),
-+		STM32_FUNCTION(16, "HDP7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(82, "PF2"),
-+		STM32_FUNCTION(0, "GPIOF2"),
-+		STM32_FUNCTION(1, "TRACED1"),
-+		STM32_FUNCTION(5, "I2C2_SCL"),
-+		STM32_FUNCTION(7, "DFSDM1_CKIN1"),
-+		STM32_FUNCTION(8, "USART6_CK"),
-+		STM32_FUNCTION(10, "SDMMC2_D0DIR"),
-+		STM32_FUNCTION(12, "SDMMC1_D0DIR"),
-+		STM32_FUNCTION(13, "FMC_A2"),
-+		STM32_FUNCTION(14, "LCD_G4"),
-+		STM32_FUNCTION(15, "LCD_B3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(83, "PF3"),
-+		STM32_FUNCTION(0, "GPIOF3"),
-+		STM32_FUNCTION(4, "LPTIM2_IN2"),
-+		STM32_FUNCTION(5, "I2C5_SDA"),
-+		STM32_FUNCTION(6, "SPI4_MISO I2S4_SDI"),
-+		STM32_FUNCTION(7, "SPI3_NSS I2S3_WS"),
-+		STM32_FUNCTION(13, "FMC_A3"),
-+		STM32_FUNCTION(15, "LCD_G3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(84, "PF4"),
-+		STM32_FUNCTION(0, "GPIOF4"),
-+		STM32_FUNCTION(4, "USART2_RX"),
-+		STM32_FUNCTION(11, "TSC_G3_IO3"),
-+		STM32_FUNCTION(12, "ETH2_MII_RXD0 ETH2_RGMII_RXD0 ETH2_RMII_RXD0"),
-+		STM32_FUNCTION(13, "FMC_A4"),
-+		STM32_FUNCTION(14, "DCMIPP_D4"),
-+		STM32_FUNCTION(15, "LCD_B6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(85, "PF5"),
-+		STM32_FUNCTION(0, "GPIOF5"),
-+		STM32_FUNCTION(1, "TRACED12"),
-+		STM32_FUNCTION(5, "DFSDM1_CKIN0"),
-+		STM32_FUNCTION(6, "I2C1_SMBA"),
-+		STM32_FUNCTION(10, "LCD_G0"),
-+		STM32_FUNCTION(13, "FMC_A5"),
-+		STM32_FUNCTION(14, "DCMIPP_D11"),
-+		STM32_FUNCTION(15, "LCD_R5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(86, "PF6"),
-+		STM32_FUNCTION(0, "GPIOF6"),
-+		STM32_FUNCTION(2, "TIM16_CH1"),
-+		STM32_FUNCTION(6, "SPI5_NSS"),
-+		STM32_FUNCTION(8, "UART7_RX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO2"),
-+		STM32_FUNCTION(12, "ETH2_MII_TX_EN ETH2_RGMII_TX_CTL ETH2_RMII_TX_EN"),
-+		STM32_FUNCTION(14, "LCD_R7"),
-+		STM32_FUNCTION(15, "LCD_G4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(87, "PF7"),
-+		STM32_FUNCTION(0, "GPIOF7"),
-+		STM32_FUNCTION(2, "TIM17_CH1"),
-+		STM32_FUNCTION(8, "UART7_TX"),
-+		STM32_FUNCTION(9, "UART4_CTS"),
-+		STM32_FUNCTION(11, "ETH1_RGMII_CLK125"),
-+		STM32_FUNCTION(12, "ETH2_MII_TXD0 ETH2_RGMII_TXD0 ETH2_RMII_TXD0"),
-+		STM32_FUNCTION(13, "FMC_A18"),
-+		STM32_FUNCTION(15, "LCD_G2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(88, "PF8"),
-+		STM32_FUNCTION(0, "GPIOF8"),
-+		STM32_FUNCTION(2, "TIM16_CH1N"),
-+		STM32_FUNCTION(3, "TIM4_CH3"),
-+		STM32_FUNCTION(4, "TIM8_CH3"),
-+		STM32_FUNCTION(7, "SAI1_SCK_B"),
-+		STM32_FUNCTION(8, "USART6_TX"),
-+		STM32_FUNCTION(10, "TIM13_CH1"),
-+		STM32_FUNCTION(11, "QUADSPI_BK1_IO0"),
-+		STM32_FUNCTION(14, "DCMIPP_D15"),
-+		STM32_FUNCTION(15, "LCD_B3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(89, "PF9"),
-+		STM32_FUNCTION(0, "GPIOF9"),
-+		STM32_FUNCTION(2, "TIM17_CH1N"),
-+		STM32_FUNCTION(3, "TIM1_CH1"),
-+		STM32_FUNCTION(4, "DFSDM1_CKIN3"),
-+		STM32_FUNCTION(7, "SAI1_D4"),
-+		STM32_FUNCTION(8, "UART7_CTS"),
-+		STM32_FUNCTION(9, "UART8_RX"),
-+		STM32_FUNCTION(10, "TIM14_CH1"),
-+		STM32_FUNCTION(11, "QUADSPI_BK1_IO1"),
-+		STM32_FUNCTION(12, "QUADSPI_BK2_IO3"),
-+		STM32_FUNCTION(13, "FMC_A9"),
-+		STM32_FUNCTION(15, "LCD_B6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(90, "PF10"),
-+		STM32_FUNCTION(0, "GPIOF10"),
-+		STM32_FUNCTION(2, "TIM16_BKIN"),
-+		STM32_FUNCTION(3, "SAI1_D3"),
-+		STM32_FUNCTION(4, "TIM8_BKIN"),
-+		STM32_FUNCTION(6, "SPI5_NSS"),
-+		STM32_FUNCTION(8, "USART6_RTS USART6_DE"),
-+		STM32_FUNCTION(9, "UART7_RTS UART7_DE"),
-+		STM32_FUNCTION(10, "QUADSPI_CLK"),
-+		STM32_FUNCTION(14, "DCMIPP_HSYNC"),
-+		STM32_FUNCTION(15, "LCD_B5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(91, "PF11"),
-+		STM32_FUNCTION(0, "GPIOF11"),
-+		STM32_FUNCTION(2, "USART2_TX"),
-+		STM32_FUNCTION(3, "SAI1_D2"),
-+		STM32_FUNCTION(4, "DFSDM1_CKIN3"),
-+		STM32_FUNCTION(7, "SAI1_FS_A"),
-+		STM32_FUNCTION(13, "ETH2_MII_RX_ER"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(92, "PF12"),
-+		STM32_FUNCTION(0, "GPIOF12"),
-+		STM32_FUNCTION(6, "SPI1_NSS I2S1_WS"),
-+		STM32_FUNCTION(7, "SAI1_SD_A"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(11, "ETH1_MII_TX_ER"),
-+		STM32_FUNCTION(12, "ETH1_RGMII_CLK125"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(93, "PF13"),
-+		STM32_FUNCTION(0, "GPIOF13"),
-+		STM32_FUNCTION(2, "TIM2_ETR"),
-+		STM32_FUNCTION(3, "SAI1_MCLK_B"),
-+		STM32_FUNCTION(7, "DFSDM1_DATIN3"),
-+		STM32_FUNCTION(8, "USART2_TX"),
-+		STM32_FUNCTION(9, "UART5_RX"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(94, "PF14"),
-+		STM32_FUNCTION(0, "GPIOF14"),
-+		STM32_FUNCTION(1, "JTCK SWCLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(95, "PF15"),
-+		STM32_FUNCTION(0, "GPIOF15"),
-+		STM32_FUNCTION(1, "JTMS SWDIO"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(96, "PG0"),
-+		STM32_FUNCTION(0, "GPIOG0"),
-+		STM32_FUNCTION(10, "FDCAN2_TX"),
-+		STM32_FUNCTION(11, "TSC_G4_IO2"),
-+		STM32_FUNCTION(13, "FMC_A10"),
-+		STM32_FUNCTION(14, "DCMIPP_PIXCLK"),
-+		STM32_FUNCTION(15, "LCD_G5"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(97, "PG1"),
-+		STM32_FUNCTION(0, "GPIOG1"),
-+		STM32_FUNCTION(2, "LPTIM1_ETR"),
-+		STM32_FUNCTION(3, "TIM4_ETR"),
-+		STM32_FUNCTION(4, "SAI2_FS_A"),
-+		STM32_FUNCTION(5, "I2C2_SMBA"),
-+		STM32_FUNCTION(6, "SPI2_MISO I2S2_SDI"),
-+		STM32_FUNCTION(7, "SAI2_D2"),
-+		STM32_FUNCTION(10, "FDCAN2_TX"),
-+		STM32_FUNCTION(11, "ETH2_MII_TXD2 ETH2_RGMII_TXD2"),
-+		STM32_FUNCTION(13, "FMC_NBL0"),
-+		STM32_FUNCTION(15, "LCD_G7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(98, "PG2"),
-+		STM32_FUNCTION(0, "GPIOG2"),
-+		STM32_FUNCTION(2, "MCO2"),
-+		STM32_FUNCTION(4, "TIM8_BKIN"),
-+		STM32_FUNCTION(11, "SAI2_MCLK_B"),
-+		STM32_FUNCTION(12, "ETH1_MDC"),
-+		STM32_FUNCTION(14, "DCMIPP_D1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(99, "PG3"),
-+		STM32_FUNCTION(0, "GPIOG3"),
-+		STM32_FUNCTION(4, "TIM8_BKIN2"),
-+		STM32_FUNCTION(5, "I2C2_SDA"),
-+		STM32_FUNCTION(7, "SAI2_SD_B"),
-+		STM32_FUNCTION(10, "FDCAN2_RX"),
-+		STM32_FUNCTION(11, "ETH2_RGMII_GTX_CLK"),
-+		STM32_FUNCTION(12, "ETH1_MDIO"),
-+		STM32_FUNCTION(13, "FMC_A13"),
-+		STM32_FUNCTION(14, "DCMIPP_D15"),
-+		STM32_FUNCTION(15, "DCMIPP_D12"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(100, "PG4"),
-+		STM32_FUNCTION(0, "GPIOG4"),
-+		STM32_FUNCTION(1, "TRACED1"),
-+		STM32_FUNCTION(2, "TIM1_BKIN2"),
-+		STM32_FUNCTION(5, "DFSDM1_CKIN3"),
-+		STM32_FUNCTION(9, "USART3_RX"),
-+		STM32_FUNCTION(11, "SDMMC2_D123DIR"),
-+		STM32_FUNCTION(12, "LCD_VSYNC"),
-+		STM32_FUNCTION(13, "FMC_A14"),
-+		STM32_FUNCTION(14, "DCMIPP_D8"),
-+		STM32_FUNCTION(15, "DCMIPP_D13"),
-+		STM32_FUNCTION(16, "HDP1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(101, "PG5"),
-+		STM32_FUNCTION(0, "GPIOG5"),
-+		STM32_FUNCTION(2, "TIM17_CH1"),
-+		STM32_FUNCTION(11, "ETH2_MDC"),
-+		STM32_FUNCTION(12, "LCD_G4"),
-+		STM32_FUNCTION(13, "FMC_A15"),
-+		STM32_FUNCTION(14, "DCMIPP_VSYNC"),
-+		STM32_FUNCTION(15, "DCMIPP_D3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(102, "PG6"),
-+		STM32_FUNCTION(0, "GPIOG6"),
-+		STM32_FUNCTION(1, "TRACED3"),
-+		STM32_FUNCTION(2, "TIM17_BKIN"),
-+		STM32_FUNCTION(3, "TIM5_CH4"),
-+		STM32_FUNCTION(4, "SAI2_D1"),
-+		STM32_FUNCTION(5, "USART1_RX"),
-+		STM32_FUNCTION(7, "SAI2_SD_A"),
-+		STM32_FUNCTION(11, "SDMMC2_CMD"),
-+		STM32_FUNCTION(12, "LCD_G0"),
-+		STM32_FUNCTION(14, "LCD_DE"),
-+		STM32_FUNCTION(15, "LCD_R7"),
-+		STM32_FUNCTION(16, "HDP3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(103, "PG7"),
-+		STM32_FUNCTION(0, "GPIOG7"),
-+		STM32_FUNCTION(1, "TRACED8"),
-+		STM32_FUNCTION(2, "TIM1_ETR"),
-+		STM32_FUNCTION(6, "SPI3_MISO I2S3_SDI"),
-+		STM32_FUNCTION(9, "UART7_CTS"),
-+		STM32_FUNCTION(11, "SDMMC2_CKIN"),
-+		STM32_FUNCTION(12, "LCD_R1"),
-+		STM32_FUNCTION(14, "LCD_R5"),
-+		STM32_FUNCTION(15, "LCD_R2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(104, "PG8"),
-+		STM32_FUNCTION(0, "GPIOG8"),
-+		STM32_FUNCTION(2, "TIM2_CH1"),
-+		STM32_FUNCTION(4, "TIM8_ETR"),
-+		STM32_FUNCTION(6, "SPI5_MISO"),
-+		STM32_FUNCTION(7, "SAI1_MCLK_B"),
-+		STM32_FUNCTION(8, "LCD_B1"),
-+		STM32_FUNCTION(9, "USART3_RTS USART3_DE"),
-+		STM32_FUNCTION(10, "SPDIFRX_IN2"),
-+		STM32_FUNCTION(11, "QUADSPI_BK2_IO2"),
-+		STM32_FUNCTION(12, "QUADSPI_BK1_IO3"),
-+		STM32_FUNCTION(13, "FMC_NE2"),
-+		STM32_FUNCTION(14, "ETH2_CLK"),
-+		STM32_FUNCTION(15, "DCMIPP_D6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(105, "PG9"),
-+		STM32_FUNCTION(0, "GPIOG9"),
-+		STM32_FUNCTION(1, "DBTRGO"),
-+		STM32_FUNCTION(5, "I2C2_SDA"),
-+		STM32_FUNCTION(8, "USART6_RX"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN3"),
-+		STM32_FUNCTION(10, "FDCAN1_RX"),
-+		STM32_FUNCTION(11, "FMC_NE2"),
-+		STM32_FUNCTION(13, "FMC_NCE"),
-+		STM32_FUNCTION(14, "DCMIPP_VSYNC"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(106, "PG10"),
-+		STM32_FUNCTION(0, "GPIOG10"),
-+		STM32_FUNCTION(6, "SPI5_SCK"),
-+		STM32_FUNCTION(7, "SAI1_SD_B"),
-+		STM32_FUNCTION(9, "UART8_CTS"),
-+		STM32_FUNCTION(10, "FDCAN1_TX"),
-+		STM32_FUNCTION(11, "QUADSPI_BK2_IO1"),
-+		STM32_FUNCTION(13, "FMC_NE3"),
-+		STM32_FUNCTION(14, "DCMIPP_D2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(107, "PG11"),
-+		STM32_FUNCTION(0, "GPIOG11"),
-+		STM32_FUNCTION(5, "SAI2_D3"),
-+		STM32_FUNCTION(6, "I2S2_MCK"),
-+		STM32_FUNCTION(8, "USART3_TX"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(11, "ETH2_MII_TXD1 ETH2_RGMII_TXD1 ETH2_RMII_TXD1"),
-+		STM32_FUNCTION(13, "FMC_A24"),
-+		STM32_FUNCTION(14, "DCMIPP_D14"),
-+		STM32_FUNCTION(15, "LCD_B2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(108, "PG12"),
-+		STM32_FUNCTION(0, "GPIOG12"),
-+		STM32_FUNCTION(2, "LPTIM1_IN1"),
-+		STM32_FUNCTION(4, "TSC_G5_IO2"),
-+		STM32_FUNCTION(5, "SAI2_SCK_A"),
-+		STM32_FUNCTION(7, "SAI2_CK2"),
-+		STM32_FUNCTION(8, "USART6_RTS USART6_DE"),
-+		STM32_FUNCTION(9, "USART3_CTS"),
-+		STM32_FUNCTION(11, "ETH2_PHY_INTN"),
-+		STM32_FUNCTION(12, "ETH1_PHY_INTN"),
-+		STM32_FUNCTION(13, "ETH2_MII_RX_DV ETH2_RGMII_RX_CTL ETH2_RMII_CRS_DV"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(109, "PG13"),
-+		STM32_FUNCTION(0, "GPIOG13"),
-+		STM32_FUNCTION(2, "LPTIM1_OUT"),
-+		STM32_FUNCTION(8, "USART6_CTS USART6_NSS"),
-+		STM32_FUNCTION(12, "ETH1_MII_TXD0 ETH1_RGMII_TXD0 ETH1_RMII_TXD0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(110, "PG14"),
-+		STM32_FUNCTION(0, "GPIOG14"),
-+		STM32_FUNCTION(2, "LPTIM1_ETR"),
-+		STM32_FUNCTION(7, "SAI2_D1"),
-+		STM32_FUNCTION(8, "USART6_TX"),
-+		STM32_FUNCTION(11, "SAI2_SD_A"),
-+		STM32_FUNCTION(12, "ETH1_MII_TXD1 ETH1_RGMII_TXD1 ETH1_RMII_TXD1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(111, "PG15"),
-+		STM32_FUNCTION(0, "GPIOG15"),
-+		STM32_FUNCTION(8, "USART6_CTS USART6_NSS"),
-+		STM32_FUNCTION(9, "UART7_CTS"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO1"),
-+		STM32_FUNCTION(11, "ETH2_PHY_INTN"),
-+		STM32_FUNCTION(12, "LCD_B4"),
-+		STM32_FUNCTION(14, "DCMIPP_D10"),
-+		STM32_FUNCTION(15, "LCD_B3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(112, "PH0"),
-+		STM32_FUNCTION(0, "GPIOH0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(113, "PH1"),
-+		STM32_FUNCTION(0, "GPIOH1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(114, "PH2"),
-+		STM32_FUNCTION(0, "GPIOH2"),
-+		STM32_FUNCTION(2, "LPTIM1_IN2"),
-+		STM32_FUNCTION(4, "TSC_G4_IO3"),
-+		STM32_FUNCTION(7, "DCMIPP_D9"),
-+		STM32_FUNCTION(8, "LCD_G1"),
-+		STM32_FUNCTION(9, "UART7_TX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_IO0"),
-+		STM32_FUNCTION(11, "ETH2_MII_CRS"),
-+		STM32_FUNCTION(12, "ETH1_MII_CRS"),
-+		STM32_FUNCTION(13, "FMC_NE4"),
-+		STM32_FUNCTION(14, "ETH2_RGMII_CLK125"),
-+		STM32_FUNCTION(15, "LCD_B0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(115, "PH3"),
-+		STM32_FUNCTION(0, "GPIOH3"),
-+		STM32_FUNCTION(5, "I2C3_SCL"),
-+		STM32_FUNCTION(6, "SPI5_MOSI"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_IO1"),
-+		STM32_FUNCTION(11, "ETH1_MII_COL"),
-+		STM32_FUNCTION(12, "LCD_R5"),
-+		STM32_FUNCTION(13, "ETH2_MII_COL"),
-+		STM32_FUNCTION(14, "QUADSPI_BK1_IO0"),
-+		STM32_FUNCTION(15, "LCD_B4"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(116, "PH4"),
-+		STM32_FUNCTION(0, "GPIOH4"),
-+		STM32_FUNCTION(1, "JTDI"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(117, "PH5"),
-+		STM32_FUNCTION(0, "GPIOH5"),
-+		STM32_FUNCTION(1, "JTDO"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(118, "PH6"),
-+		STM32_FUNCTION(0, "GPIOH6"),
-+		STM32_FUNCTION(3, "TIM12_CH1"),
-+		STM32_FUNCTION(4, "USART2_CK"),
-+		STM32_FUNCTION(5, "I2C5_SDA"),
-+		STM32_FUNCTION(6, "SPI2_SCK I2S2_CK"),
-+		STM32_FUNCTION(10, "QUADSPI_BK1_IO2"),
-+		STM32_FUNCTION(11, "ETH1_PHY_INTN"),
-+		STM32_FUNCTION(12, "ETH1_MII_RX_ER"),
-+		STM32_FUNCTION(13, "ETH2_MII_RXD2 ETH2_RGMII_RXD2"),
-+		STM32_FUNCTION(14, "QUADSPI_BK1_NCS"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(119, "PH7"),
-+		STM32_FUNCTION(0, "GPIOH7"),
-+		STM32_FUNCTION(3, "SAI2_FS_B"),
-+		STM32_FUNCTION(6, "I2C3_SDA"),
-+		STM32_FUNCTION(7, "SPI5_SCK"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_IO3"),
-+		STM32_FUNCTION(11, "ETH2_MII_TX_CLK"),
-+		STM32_FUNCTION(12, "ETH1_MII_TX_CLK"),
-+		STM32_FUNCTION(14, "QUADSPI_BK1_IO3"),
-+		STM32_FUNCTION(15, "LCD_B2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(120, "PH8"),
-+		STM32_FUNCTION(0, "GPIOH8"),
-+		STM32_FUNCTION(1, "TRACED9"),
-+		STM32_FUNCTION(3, "TIM5_ETR"),
-+		STM32_FUNCTION(4, "USART2_RX"),
-+		STM32_FUNCTION(5, "I2C3_SDA"),
-+		STM32_FUNCTION(12, "LCD_R6"),
-+		STM32_FUNCTION(13, "FMC_A8"),
-+		STM32_FUNCTION(14, "DCMIPP_HSYNC"),
-+		STM32_FUNCTION(15, "LCD_R2"),
-+		STM32_FUNCTION(16, "HDP2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(121, "PH9"),
-+		STM32_FUNCTION(0, "GPIOH9"),
-+		STM32_FUNCTION(2, "TIM1_CH4"),
-+		STM32_FUNCTION(3, "TIM12_CH2"),
-+		STM32_FUNCTION(4, "TSC_SYNC"),
-+		STM32_FUNCTION(6, "SPI4_SCK I2S4_CK"),
-+		STM32_FUNCTION(7, "DCMIPP_D13"),
-+		STM32_FUNCTION(10, "LCD_B5"),
-+		STM32_FUNCTION(12, "LCD_DE"),
-+		STM32_FUNCTION(13, "FMC_A20"),
-+		STM32_FUNCTION(14, "DCMIPP_D9"),
-+		STM32_FUNCTION(15, "DCMIPP_D8"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(122, "PH10"),
-+		STM32_FUNCTION(0, "GPIOH10"),
-+		STM32_FUNCTION(1, "TRACED0"),
-+		STM32_FUNCTION(3, "TIM5_CH1"),
-+		STM32_FUNCTION(4, "SAI2_D3"),
-+		STM32_FUNCTION(5, "DFSDM1_DATIN2"),
-+		STM32_FUNCTION(6, "I2S3_MCK"),
-+		STM32_FUNCTION(7, "SPI2_MOSI I2S2_SDO"),
-+		STM32_FUNCTION(8, "USART3_CTS USART3_NSS"),
-+		STM32_FUNCTION(9, "SDMMC1_D4"),
-+		STM32_FUNCTION(14, "LCD_HSYNC"),
-+		STM32_FUNCTION(15, "LCD_R2"),
-+		STM32_FUNCTION(16, "HDP0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(123, "PH11"),
-+		STM32_FUNCTION(0, "GPIOH11"),
-+		STM32_FUNCTION(2, "SPI5_NSS"),
-+		STM32_FUNCTION(3, "TIM5_CH2"),
-+		STM32_FUNCTION(4, "SAI2_SD_A"),
-+		STM32_FUNCTION(6, "SPI2_NSS I2S2_WS"),
-+		STM32_FUNCTION(7, "I2C4_SCL"),
-+		STM32_FUNCTION(8, "USART6_RX"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_IO0"),
-+		STM32_FUNCTION(12, "ETH2_MII_RX_CLK ETH2_RGMII_RX_CLK ETH2_RMII_REF_CLK"),
-+		STM32_FUNCTION(13, "FMC_A12"),
-+		STM32_FUNCTION(15, "LCD_G6"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(124, "PH12"),
-+		STM32_FUNCTION(0, "GPIOH12"),
-+		STM32_FUNCTION(2, "USART2_TX"),
-+		STM32_FUNCTION(3, "TIM5_CH3"),
-+		STM32_FUNCTION(4, "DFSDM1_CKIN1"),
-+		STM32_FUNCTION(5, "I2C3_SCL"),
-+		STM32_FUNCTION(6, "SPI5_MOSI"),
-+		STM32_FUNCTION(7, "SAI1_SCK_A"),
-+		STM32_FUNCTION(10, "QUADSPI_BK2_IO2"),
-+		STM32_FUNCTION(11, "SAI1_CK2"),
-+		STM32_FUNCTION(12, "ETH1_MII_CRS"),
-+		STM32_FUNCTION(13, "FMC_A6"),
-+		STM32_FUNCTION(14, "DCMIPP_D3"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(125, "PH13"),
-+		STM32_FUNCTION(0, "GPIOH13"),
-+		STM32_FUNCTION(1, "TRACED15"),
-+		STM32_FUNCTION(3, "USART2_CK"),
-+		STM32_FUNCTION(4, "TIM8_CH1N"),
-+		STM32_FUNCTION(5, "I2C5_SCL"),
-+		STM32_FUNCTION(7, "SPI3_SCK I2S3_CK"),
-+		STM32_FUNCTION(9, "UART4_TX"),
-+		STM32_FUNCTION(14, "LCD_G3"),
-+		STM32_FUNCTION(15, "LCD_G2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(126, "PH14"),
-+		STM32_FUNCTION(0, "GPIOH14"),
-+		STM32_FUNCTION(4, "DFSDM1_DATIN2"),
-+		STM32_FUNCTION(5, "I2C3_SDA"),
-+		STM32_FUNCTION(7, "DCMIPP_D8"),
-+		STM32_FUNCTION(9, "UART4_RX"),
-+		STM32_FUNCTION(12, "LCD_B4"),
-+		STM32_FUNCTION(14, "DCMIPP_D2"),
-+		STM32_FUNCTION(15, "DCMIPP_PIXCLK"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(128, "PI0"),
-+		STM32_FUNCTION(0, "GPIOI0"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(129, "PI1"),
-+		STM32_FUNCTION(0, "GPIOI1"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(130, "PI2"),
-+		STM32_FUNCTION(0, "GPIOI2"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(131, "PI3"),
-+		STM32_FUNCTION(0, "GPIOI3"),
-+		STM32_FUNCTION(9, "SPDIFRX_IN3"),
-+		STM32_FUNCTION(12, "ETH1_MII_RX_ER"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(132, "PI4"),
-+		STM32_FUNCTION(0, "GPIOI4"),
-+		STM32_FUNCTION(1, "BOOT0"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(133, "PI5"),
-+		STM32_FUNCTION(0, "GPIOI5"),
-+		STM32_FUNCTION(1, "BOOT1"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(134, "PI6"),
-+		STM32_FUNCTION(0, "GPIOI6"),
-+		STM32_FUNCTION(1, "BOOT2"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+	STM32_PIN(
-+		PINCTRL_PIN(135, "PI7"),
-+		STM32_FUNCTION(0, "GPIOI7"),
-+		STM32_FUNCTION(17, "ANALOG")
-+	),
-+};
-+
-+static struct stm32_pinctrl_match_data stm32mp135_match_data = {
-+	.pins = stm32mp135_pins,
-+	.npins = ARRAY_SIZE(stm32mp135_pins),
-+};
-+
-+static const struct of_device_id stm32mp135_pctrl_match[] = {
-+	{
-+		.compatible = "st,stm32mp135-pinctrl",
-+		.data = &stm32mp135_match_data,
-+	},
-+	{ }
-+};
-+
-+static const struct dev_pm_ops stm32_pinctrl_dev_pm_ops = {
-+	 SET_LATE_SYSTEM_SLEEP_PM_OPS(NULL, stm32_pinctrl_resume)
-+};
-+
-+static struct platform_driver stm32mp135_pinctrl_driver = {
-+	.probe = stm32_pctl_probe,
-+	.driver = {
-+		.name = "stm32mp135-pinctrl",
-+		.of_match_table = stm32mp135_pctrl_match,
-+		.pm = &stm32_pinctrl_dev_pm_ops,
-+	},
-+};
-+
-+static int __init stm32mp135_pinctrl_init(void)
-+{
-+	return platform_driver_register(&stm32mp135_pinctrl_driver);
-+}
-+arch_initcall(stm32mp135_pinctrl_init);
--- 
-2.17.1
+> > +static int vfio_pci_check_all_devices_bound(struct pci_dev *pdev, void *data)
+> >  {
+> > +	struct vfio_device_set *dev_set = data;
+> > +	struct vfio_device *cur;
+> >  
+> > +	lockdep_assert_held(&dev_set->lock);
+> >  
+> > +	list_for_each_entry(cur, &dev_set->device_list, dev_set_list)
+> > +		if (cur->dev == &pdev->dev)
+> > +			return 0;
+> > +	return -EBUSY;
+> 
+> I don't understand this logic.  If there is any device in the set that
+> does now have the same struct device we're in trouble?  Please clearly
+> document what this is trying to do.  If the bound in the name makes sense
+> you probably want to check the driver instead.
 
+The PCI reset this code is tring to do effects a set of PCI devices,
+due to how the HW works.
+
+Along with the vfio_pci_for_each_slot_or_bus() this is computing a set
+wise 'is superset' between the list of pci_dev's the reset will affect
+(the reset group) and the list of vfio_devices that we have locking
+control over to sequence the reset (the dev_set).
+
+If every PCI device we will reset is under the dev_set then we
+directly know it is safe to trigger the reset. If any PCI device is
+not in this dev_set then we cannot use the reset as we can't know what
+will happen to the device that we don't control.
+
+Let's use a different word than bound? vfio_pci_check_device_in_set()?
+
+> >  static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev)
+> >  {
+> > +	/* All VFIO devices have a closed FD */
+> > +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
+> > +		if (cur->vdev.open_count)
+> > +			return;
+> > +
+> > +	/* All devices in the group to be reset need VFIO devices */
+> > +	if (vfio_pci_for_each_slot_or_bus(
+> > +		    vdev->pdev, vfio_pci_check_all_devices_bound, dev_set,
+> > +		    !pci_probe_reset_slot(vdev->pdev->slot)))
+> > +		return;
+> >  
+> >  	/* Does at least one need a reset? */
+> 
+> These checks look a little strange, and the comments don't make much
+> sense.  What about an incremental patch like this?
+
+Sure, it can go in a function
+
+> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> index fbc20f6d2dd412..d8375a5e77e07c 100644
+> +++ b/drivers/vfio/pci/vfio_pci.c
+> @@ -2188,10 +2188,34 @@ static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
+>  	return 0;
+>  }
+>  
+> +static struct pci_dev *vfio_pci_reset_target(struct vfio_pci_device *vdev)
+> +{
+> +	struct vfio_device_set *dev_set = vdev->vdev.dev_set;
+> +	struct vfio_pci_device *cur;
+> +
+> +	/* none of the device is allowed to be currently open: */
+> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
+> +		if (cur->vdev.open_count)
+> +			return NULL;
+> +
+> +	/* all devices in the group to be reset need to be VFIO devices: */
+
+It is not "need to be VFIO devices" it is "need to be in our
+dev_set". Have the PCI dev bound to, say, a mdev VFIO device isn't
+good enough.
+
+Thanks,
+Jason
