@@ -2,164 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 028FBC4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 12:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC4CC432BE
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 12:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDD0860E53
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 12:49:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE8FA60E95
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 12:59:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbhGWMIZ convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 08:08:25 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:4024 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234853AbhGWMIY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 08:08:24 -0400
-Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.58])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4GWTZV3wcBzmjPd;
-        Fri, 23 Jul 2021 20:45:54 +0800 (CST)
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 20:48:55 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2176.012;
- Fri, 23 Jul 2021 20:48:55 +0800
-From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC:     Dave Hansen <dave.hansen@intel.com>,
-        "tiantao (H)" <tiantao6@hisilicon.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Valentin Schneider" <valentin.schneider@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Linuxarm <linuxarm@huawei.com>
-Subject: RE: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
- of sysfs pagebuf
-Thread-Topic: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
- of sysfs pagebuf
-Thread-Index: AQHXPMXH0SQBD1qG+ECo3ZrOidSRtqrLBimAgADzHOD//4cYAIAAjhuw//+CrICAhVoEQP//gPKAABN7liA=
-Date:   Fri, 23 Jul 2021 12:48:55 +0000
-Message-ID: <552730f6c9d046e4bc313abce5714c59@hisilicon.com>
-References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
- <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
- <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
- <602918a1e2214ea7bd0890a751975566@hisilicon.com>
- <7c663f7e-07e0-6d95-3012-6e31a1b78f7e@intel.com>
- <4bf6870f7f3942398e4d1fdaa42184c7@hisilicon.com>
- <fd78ac30-dd3b-a7d7-eae8-193b09a7d49a@intel.com>
- <e9610060a8d046e783ab9a229f35410c@hisilicon.com> <YPqn5SDi6bzLHsOY@kroah.com>
-In-Reply-To: <YPqn5SDi6bzLHsOY@kroah.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.200.74]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S235208AbhGWMSr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 08:18:47 -0400
+Received: from mail-bn8nam11on2084.outbound.protection.outlook.com ([40.107.236.84]:37600
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234894AbhGWMSq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Jul 2021 08:18:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HE58zL0l4kqZ2zIu3Bf0nB52CjPPBaTP0nAXQQ7TSOR7R52yDl/6E705pCEJurdKX/ZsSBAPQW7c8vrDayikHR2gBuFmgRorfVTte+e2g8yWnMrq327XPJitAQgIhj+VzhPqXbDGrrnQ06WxAxqwWaK/4a1s4KiPIkAkSSbSSEufMGpxhN5tJO/9m8JGPyeLK/cyeK57PwFT7Fo+9rwhPZ2h9WYxNDT32TUTu5AdkVjc6wExj/kCAfp+qbc2z7CI0xqkIHDu7nbHoMxX0IGnmuTiTHMu0RL1GIGsdHAtMOr6jIOPRuE88F1tBWYjdEDJyC/ATKl09Fq236dZ9AFEZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IE5sKyInBapmjBCbFdUSxCfyMVKnif7XvEUvp4KSTsk=;
+ b=nS/Qhvb9gr1dfBr1esdxunJ4Ng13dYmOFTjp+pRLMqB+Cl12xcoHo72U7b3lvRXqvzBOyEPKrX4ezGxE/G3Xo6PFf54W8K5Z32gTxM20qGEY1j18Hbqlw5g00N4A2puKryVPnVwzn8XeY47ZE002HfF70IBb/ZlNGdPUZ8nDQWGaz11imYexIudqSPgX3jps/a2zmqKlpxy9FXpMx9kW42FGr+xB4qmScCbhEcATfp/LtWoT0fMgQXvk9hHpUTv7oVZMQHqvjblHTDmFrBr9BOwPz2qWiyPYejSo6GFdoJ2Fw78+dASQBECVVS9twhbWwEzG56fhWpAg/ER8fbk5Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IE5sKyInBapmjBCbFdUSxCfyMVKnif7XvEUvp4KSTsk=;
+ b=tOzNjFeLGRh/dC6tACZco7ucz1CnoC8eLclO2YwRMnr+flf7YbPoWu1zs4kgIP4z6PRycxpbCCxXJ5l3zoR8OPaXm4Ad9lCFxIMg8+UQG8txm5vrPmRFEe1gSoCX1CJORZVikxdMWEE68qdnzQbANnvDRSPAeNiUEx7FKFegAZbzlRVikP2F8N7NUB7nQMyvuDQtbC3/SF92mTCuG5SWDrh7m/9wnnLkD/d3EzvhUgvNRniOl7oz1CVDG2q1EWNI+3+mVLBIiN4cTs6wV4CtCzazm2HSEkgk8Nn3FBHZ31AkAqs7kwTCgucbUoyT+6WFAedztdNjkKNwPazMNr/4ng==
+Authentication-Results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5271.namprd12.prod.outlook.com (2603:10b6:208:315::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Fri, 23 Jul
+ 2021 12:59:19 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%4]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
+ 12:59:18 +0000
+Date:   Fri, 23 Jul 2021 09:59:16 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 08/14] vfio/pci: Move to the device set infrastructure
+Message-ID: <20210723125916.GT1117491@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <8-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <20210723074749.GC2795@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723074749.GC2795@lst.de>
+X-ClientProxiedBy: MN2PR15CA0049.namprd15.prod.outlook.com
+ (2603:10b6:208:237::18) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR15CA0049.namprd15.prod.outlook.com (2603:10b6:208:237::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25 via Frontend Transport; Fri, 23 Jul 2021 12:59:18 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1m6ulo-006zuH-V2; Fri, 23 Jul 2021 09:59:16 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fcdc494c-9f1f-4e7a-8b73-08d94dd9ae82
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5271:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB527176CAF2885637B6AF81AFC2E59@BL1PR12MB5271.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DPUDY/5vQ69JtFZoagZDMwDcrpj8bX6gpT6AvsjYrHMw8wXa/4WiAZW6ZQjsjLCS8L7d8Hl9dZQkKXpGe+Jh/KMuQ1KIplTQKdYzWQhkAwUcFfAE0+Mn4n+o4j0bkUQ++Z8MdeT96Y0F4nkHPXzhs0zLt05aeGSI9TAQG6/gizVca+P7cKB5/3pcNz91oqX7gaJ0P5UGr/UlT38OzosF4mdoqmXrC5dsrjXSRgylt1qTyDWApKTT9wNbsRtBKUpS/yz1RiaglCyry5pNhF5+m2dNdaylBfCggs9C0Y62x20BuCHHl3N0ZSc3yrHIA3ThjNwOt8yF0P4FEIlSyxD6KUs4CfAemeu9YZES+VAPo/cH200i8vvBZvwatcSB8dp8sQL42uCCVKO+ec+faZchORqCoKQSAJgEyUlXGCGYESfN0gxLBSB3TH8i7taHVBtWF+qMta+4wx4soKAqnFRwr4cyAaYAvvd0oX+FH3jZGNpyrO9XCQ+eNDXe1JIjbNeJbUFe/ZcHgBcWQDAxl68wAtCJRu1SHFVcygvJTXrDBv6aAdqges2cKlyrbRTheGO9+LFbxhJlLthSFpWcnAQ8Mx7UggX7BllE6ojm6+AdVtx2ID6RwshR6fP4AEu0F29QJhrhT5I9RvCM+2fzXp2O+w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(508600001)(7406005)(7416002)(1076003)(2906002)(8936002)(33656002)(186003)(86362001)(8676002)(54906003)(9786002)(9746002)(26005)(426003)(36756003)(66946007)(6916009)(5660300002)(4326008)(66556008)(66476007)(2616005)(316002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6cjci35iO3W9fH0vOsTgZbunGL9X6iaJ1vOcUN2tM5F5uKzIKzAgrtjLfeIE?=
+ =?us-ascii?Q?IQIdOI/KFx6FjoSJTHBsy6fGK7q4AiL8SnhGyC25cTJjAqAdzr64BschvG1m?=
+ =?us-ascii?Q?rnNuUlJlo0Kt3Mz37AittTF+IeEPOGQ/ttTY7knuDxCHeg6Na7svEv6ykiNI?=
+ =?us-ascii?Q?q9Nq7xNLb9oFEFYMJtSFyzC3R5hIl3s2IjCi66vaL/8TnDBbrO/1gnMKswsm?=
+ =?us-ascii?Q?JJf5WoC1qeDNP3+CmHIDu2AYqQ/3UmVYMmfz9GSmen78X96l4WXYc1A+lxEN?=
+ =?us-ascii?Q?OtQFOGGx9F77BMjENAjCGoVxNr1K5PgTtTv9H2ZCn1KNq2o/3FGU+TcZWJLX?=
+ =?us-ascii?Q?mPQL2dsARZrxfGXAvM8PlFCab3VuMz+sGuYNmOtPPySFPHx9DUOTB2vXy+Fs?=
+ =?us-ascii?Q?QVVwIcWLcKE5xYbUN6Vmd31cJJqSDCvSX/UJl3M+WfyyGvFaaPkCjd3MNuXW?=
+ =?us-ascii?Q?bCEXLJb93lXVPOtvXNa+S3KJH/kk5HxqwFtJaGKktgsLMhYEIO43KS+wxY5i?=
+ =?us-ascii?Q?naj4ZIbAVo6cF+YWzcfF9I77o1mHFSPOz7+Ei+3QgFLAtMTNrtrr+DxC1ni9?=
+ =?us-ascii?Q?1uWj46qZ4zZPgqoNi5MLc16IZ8dtW+Z06KazBjm9hFDBQbhxMUheGe3XB9hi?=
+ =?us-ascii?Q?UbH4psmR+igYOXYjMfmzURWsWts/dr6vCKlF9NbnJAU3TRfF8uG1wsBkAPSi?=
+ =?us-ascii?Q?8IIgL+D20PUtLLt5Hf58R7EhgdOChv3w/F5wP2LeG9YKeolocA5ufMBpwNf+?=
+ =?us-ascii?Q?wzoZxEBE3T1rc1ew/4AMruMhmyR0zh9LQVd5xp/yKLsS7GOnnQY2ZUHOwtFe?=
+ =?us-ascii?Q?yPpDfEXyucy+kzFM36sVqGiNbidAiVvrqswNxRXaY/YUGgtej/P1sbytsXi0?=
+ =?us-ascii?Q?YpbomQczJB2JfT5sfFok1evSa5N5QHrujg7BeXSZKa+MnJbepXLDCqtNKfAp?=
+ =?us-ascii?Q?P76uzXeJiN3Oa27XR9ONIGjiyWkj28EhXOosjfF8fNh3kBPsr+lSI0N9B2WY?=
+ =?us-ascii?Q?vEvGeuu2BBMwvGnnpiAOURM540vuXI1qZwF/3wNKKyqUt0kzNQBQri/rw1y9?=
+ =?us-ascii?Q?1+sluWbeoLM10fVIkCBoENORkiXPw03AoLSKn/1pUYEwoNegbSfniIm7MF72?=
+ =?us-ascii?Q?BwZv1UpdiCWE7EMkLebWAG1cnOz3ct/Sm5ZLetHmN++5ydEyL9ZIynSxYQ1+?=
+ =?us-ascii?Q?BBqCebXEkqAnqP49X9YWWh89bGEm+ZEb5Kjxi5s7273UjkdQFjpHft/BT774?=
+ =?us-ascii?Q?mhLmSCM+rm3N573qF5v+6a3O32rOZIEXLg+I8k2tr+Wek3gYPU0+HLmSFaE+?=
+ =?us-ascii?Q?TuHsefeDhdBunPRzWAx81Bq4?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcdc494c-9f1f-4e7a-8b73-08d94dd9ae82
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 12:59:18.3745
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: msEhKJM73HCSlLeEilj7qcQxjSqUbUpzVQCOZvODZ6qSty/G7+3mistklrsMkOcN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5271
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: gregkh@linuxfoundation.org [mailto:gregkh@linuxfoundation.org]
-> Sent: Friday, July 23, 2021 11:29 PM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> Cc: Dave Hansen <dave.hansen@intel.com>; tiantao (H) <tiantao6@hisilicon.com>;
-> corbet@lwn.net; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> Rafael J. Wysocki <rafael@kernel.org>; Peter Zijlstra <peterz@infradead.org>;
-> Valentin Schneider <valentin.schneider@arm.com>; Dave Hansen
-> <dave.hansen@linux.intel.com>; Daniel Bristot de Oliveira
-> <bristot@redhat.com>; Linuxarm <linuxarm@huawei.com>
-> Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
-> of sysfs pagebuf
+On Fri, Jul 23, 2021 at 09:47:49AM +0200, Christoph Hellwig wrote:
+> > @@ -2020,12 +2004,17 @@ static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >  	INIT_LIST_HEAD(&vdev->vma_list);
+> >  	init_rwsem(&vdev->memory_lock);
+> >  
+> > -	ret = vfio_pci_reflck_attach(vdev);
+> > +	if (pci_is_root_bus(pdev->bus))
+> > +		ret = vfio_assign_device_set(&vdev->vdev, vdev);
+> > +	else if (!pci_probe_reset_slot(pdev->slot))
+> > +		ret = vfio_assign_device_set(&vdev->vdev, pdev->slot);
+> > +	else
+> > +		ret = vfio_assign_device_set(&vdev->vdev, pdev->bus);
 > 
-> On Fri, Jul 23, 2021 at 11:20:19AM +0000, Song Bao Hua (Barry Song) wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Dave Hansen [mailto:dave.hansen@intel.com]
-> > > Sent: Friday, April 30, 2021 10:39 AM
-> > > To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; tiantao (H)
-> > > <tiantao6@hisilicon.com>; corbet@lwn.net; gregkh@linuxfoundation.org
-> > > Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; Rafael J.
-> > > Wysocki <rafael@kernel.org>; Peter Zijlstra <peterz@infradead.org>;
-> Valentin
-> > > Schneider <valentin.schneider@arm.com>; Dave Hansen
-> > > <dave.hansen@linux.intel.com>; Daniel Bristot de Oliveira
-> <bristot@redhat.com>
-> > > Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
-> > > of sysfs pagebuf
-> > >
-> > > On 4/29/21 3:32 PM, Song Bao Hua (Barry Song) wrote:
-> > > > $ strace numactl --hardware  2>&1 | grep cpu
-> > > > openat(AT_FDCWD, "/sys/devices/system/cpu",
-> > > > O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3
-> > > > openat(AT_FDCWD, "/sys/devices/system/node/node0/cpumap", O_RDONLY) =
-> 3
-> > > > openat(AT_FDCWD, "/sys/devices/system/node/node1/cpumap", O_RDONLY) =
-> 3
-> > > > openat(AT_FDCWD, "/sys/devices/system/node/node2/cpumap", O_RDONLY) =
-> 3
-> > > > openat(AT_FDCWD, "/sys/devices/system/node/node3/cpumap", O_RDONLY) =
-> 3
-> > > >
-> > > > If we move to binary, it means we have to change those applications.
-> > >
-> > > I thought Greg was saying to using a sysfs binary attribute using
-> > > something like like sysfs_create_bin_file().  Those don't have the
-> > > PAGE_SIZE limitation.  But, there's also nothing to keep us from spewing
-> > > nice human-readable text via the "binary" file.
-> > >
-> > > We don't need to change the file format, just the internal kernel API
-> > > that we produce the files with.
-> >
-> > Sorry for waking-up the old thread.
-> >
-> > I am not sure how common a regular device_attribute will be larger than
-> > 4KB and have to work around by bin_attribute. But I wrote a prototype
-> > which can initially support large regular sysfs entry and be able to
-> > fill the entire buffer by only one show() entry. The other words to say,
-> > we don't need to call read() of bin_attribute multiple times for a large
-> > regular file. Right now, only read-only attribute is supported.
-> >
-> > Subject: [RFC PATCH] sysfs: support regular device attr which can be larger
-> than
-> >  PAGE_SIZE
-> >
-> > A regular sysfs ABI could be more than 4KB, right now, we are using
-> > bin_attribute to workaround and break this limit. A better solution
-> > would be supporting long device attribute. In this case, we will
-> > still be able to enjoy the advantages of buffering and seeking of
-> > seq file and only need to fill the entire buffer of sysfs entry
-> > once.
+> Maybe invert this and add a comment:
 > 
-> No, please no.  I WANT people to run into this problem and realize that
-> it went totally wrong because they should not be having more than one
-> "value" in a sysfs file like this.
-> 
-> Let's not make it easy on people please, moving to a bin attribute is a
-> big deal, let's keep it that way.
+> 	if (pci_is_root_bus(pdev->bus))
+> 		ret = vfio_assign_device_set(&vdev->vdev, vdev);
+> 	/*
+> 	 * If there is no slot reset support for this device, the whole
+> 	 * bus needs to be grouped together to support bus-wide resets.
+> 	 */
 
-Ok. Got it. Thanks for clarification. That was the experiment I made
-recently when I almost got totally stuck.
+I like the comment
 
-> 
-> thanks,
-> 
-> greg k-h
+> 	else if (pci_probe_reset_slot(pdev->slot) < 0)
+> 		ret = vfio_assign_device_set(&vdev->vdev, pdev->bus);
+> 	else
+> 		ret = vfio_assign_device_set(&vdev->vdev, pdev->slot);
 
-Thanks
-Barry
+The consensus idiom here is the !:
+
+drivers/pci/pci.c:      return (!pci_probe_reset_slot(pdev->slot)) ?
+drivers/vfio/pci/vfio_pci.c:            if (!pci_probe_reset_slot(vdev->pdev->slot))
+drivers/vfio/pci/vfio_pci.c:            if (!pci_probe_reset_slot(vdev->pdev->slot))
+drivers/vfio/pci/vfio_pci.c:    bool slot = !pci_probe_reset_slot(vdev->pdev->slot);
+drivers/vfio/pci/vfio_pci.c:    if (!pci_probe_reset_slot(vdev->pdev->slot))
+
+It reads quite poorly either way, IMHO, I'd rather switch it to a
+readable bool, but not for this series
+
+Thanks,
+Jason
