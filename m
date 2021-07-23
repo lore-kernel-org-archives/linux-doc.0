@@ -2,93 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8F5C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:46:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA24BC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 09:44:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2519160E0C
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:46:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3B3960E8E
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 09:44:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbhGWIFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 04:05:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
+        id S231503AbhGWJEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 05:04:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234311AbhGWIFx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 04:05:53 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2B1C061575;
-        Fri, 23 Jul 2021 01:46:26 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id b128so338430wmb.4;
-        Fri, 23 Jul 2021 01:46:26 -0700 (PDT)
+        with ESMTP id S231482AbhGWJED (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 05:04:03 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835D7C061575
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 02:44:36 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id a7so942029ljq.11
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 02:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wP58BWHJk0d3nGHHsfR2vMWROBgy2cE47/0AZMdiKNY=;
-        b=j9E8c4ZxbPa6p4eyuVWDhqLVgm3wo8FZ3+pGJfW0AIpMmPG/fJUAdX1URuKCMY7XF2
-         UcRtcXHGIQQz5OclO41kVBiNVPbTfGqB3pm2sSqJeLVEQcnpANDKuWsvnrAxAiFCAw6N
-         lruMUSsiVjox4yvH40vnBaixvHPKRg1osnBLQ9iieO97mm9fUffe/7/N+eoJttomSAkl
-         0KQNT8xOEiTprjaUOhhXO2GaD325Jl6uQicgnBI6EB63LCrjHwv4UwUUJw2P3z0U0E8N
-         rA4sGBBSjtKhl+HBg7FTqxS5f5MsOtHsyIgD0idmtw6HNjStvfTG4NPRUxumgikYeMyN
-         XMjQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WPLYx23a2mlUDNIPIrmDSM+cSt8akT06mvONQVQY3/s=;
+        b=rCZNiQTtlGlnelUgxTWe4qNxD7ZBVpZgUQsXhcEhdRoKuCGWpPiAOXtoTVWlWQpoLC
+         LJRQccJsNRTOJJF2w8+52TBOW9t4f9iXcQL42XbxhkQZNoCXRkgE/5dsDdA+QXtW5QRx
+         o0ZuMJyvGQ7HKHgGUGQRka8rstx+KtyPrioXNrkHPzL0L+lCxstbYcyKBooqzbXKLRll
+         sRi4Kz3HFkHMMt1TqCMacoALTx7DZX4qemcG91xk1Bg4wNOijr2QCs54EFqwuiKDnQma
+         O8ZxOQOh5POr/YMLAsJu5yydL/xt3plOha5Nr1HVox1GWERCHcaxVKE5tEc4W5EY5j2s
+         /jrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wP58BWHJk0d3nGHHsfR2vMWROBgy2cE47/0AZMdiKNY=;
-        b=nwEIe3K5k48VdE9i4aRXBcCITvEX7JrEfVp80RjCPjrCNfWYrRYifFDY9gYZPkP+aR
-         D+4RSzGicHLS/AMIhPY40GUL4laSQ7RR6Yh1OFjaI4M7WTHjGWO8WIxfBTmpkqkWu+Vj
-         NKgD94j4FZvmb7yp8oBjv4tLViltsWhVFJXtB0NNVyrI6gyHKUErG+IHmc9xsOr1a44D
-         saX03kY0iZx76CWKgj0cZehJ98/EkduSHLHNlhivgKEM+rMS+LB37H2FQ6xqjTl77F+U
-         Hv3K3ahuDx8DwGxLIxiVOccbBmsao+R4BbPW349cYKFLaeHTNrYr+IkMakssITgiZbWH
-         qSyw==
-X-Gm-Message-State: AOAM531cTJVcd34e258aS3OPfOFxCN/EdPSKIq5eTvA6GdVe5MwP5RnV
-        rvbet8ODARjvcQiGExncuno=
-X-Google-Smtp-Source: ABdhPJx3UO82ie5uoGB0Og4LKefXGXB0MCFpgWtgw1Gwo2zcikynw6LvEKoW8T/LygMjHstyNwkKJA==
-X-Received: by 2002:a1c:e90d:: with SMTP id q13mr3362585wmc.163.1627029984837;
-        Fri, 23 Jul 2021 01:46:24 -0700 (PDT)
-Received: from skbuf ([82.76.66.29])
-        by smtp.gmail.com with ESMTPSA id o18sm32229095wrx.21.2021.07.23.01.46.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WPLYx23a2mlUDNIPIrmDSM+cSt8akT06mvONQVQY3/s=;
+        b=RSr2E2VhfgsLhWRVKT31ra4mlRpTIWKymaTVyReDr2W6SSR4YLi/0sTi5pyfiyHRwY
+         S11BoBtQ2MmE8aeItZ84UgPsbEe9DJhLY6NsHDAHQ+C8DskJdY+Jr3hnpA6B71xGHf/d
+         TsTn+b5oGq4CoK2ioOoEMYBUG0T7Y1wAb7JOxD/brx8HBTDVeTrrZpB7tFTl5W/TqL2c
+         cMSBfra0zSNB4dokk2wCX7H34gFyrxAE3VzpNx2t3CegvoVi1s2y0h0Y1/cfggY1vj8i
+         8S4liSm8EhAdvsy5tETGNNOQ/zy/ahw0a16xyQ3Kslpkpt4zetRaJD/HkvUvMlZBLHjr
+         t4Tw==
+X-Gm-Message-State: AOAM533SGKZLFXJVohG9cSmf6mCDEca66QMsLD6jF2dyJToZDXFfUvSH
+        6dR17VkJqWbn2q4B9aQQRZ3rGA==
+X-Google-Smtp-Source: ABdhPJwryV2kGUFQOzaeEnVmeuptMeG5ynwTmIpI2zfA8ANVJqV3rrWwmLtiVSvvMHmHB3bPpncBcQ==
+X-Received: by 2002:a2e:b4a8:: with SMTP id q8mr2724250ljm.263.1627033474846;
+        Fri, 23 Jul 2021 02:44:34 -0700 (PDT)
+Received: from jade.urgonet (h-94-254-48-165.A175.priv.bahnhof.se. [94.254.48.165])
+        by smtp.gmail.com with ESMTPSA id f2sm403808ljq.131.2021.07.23.02.44.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 01:46:24 -0700 (PDT)
-From:   Ioana Ciornei <ciorneiioana@gmail.com>
-X-Google-Original-From: Ioana Ciornei <ciornei.ioana@gmail.com>
-Date:   Fri, 23 Jul 2021 11:46:23 +0300
-To:     Ioana Ciornei <ciorneiioana@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>
-Subject: Re: [PATCH net-next v2] docs: networking: dpaa2: add documentation
- for the switch driver
-Message-ID: <20210723084623.jgc2rkdivzklsakr@skbuf>
-References: <20210723084244.950197-1-ciorneiioana@gmail.com>
+        Fri, 23 Jul 2021 02:44:34 -0700 (PDT)
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>
+Subject: [PATCH v3 4/6] tee: add tee_dev_open_helper() primitive
+Date:   Fri, 23 Jul 2021 11:44:20 +0200
+Message-Id: <20210723094422.2150313-5-jens.wiklander@linaro.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210723094422.2150313-1-jens.wiklander@linaro.org>
+References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210723084244.950197-1-ciorneiioana@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 11:42:44AM +0300, Ioana Ciornei wrote:
-> From: Ioana Ciornei <ioana.ciornei@nxp.com>
-> 
-> Add a documentation entry for the DPAA2 switch listing its
-> requirements, features and some examples to go along them.
-> 
-> Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
-> ---
+Adds tee_dev_open_helper() and tee_dev_ctx_put() to make it easier to
+create a driver internal struct tee_context without the usual
+tee_device_get() on the struct tee_device as that adds a circular
+reference counter dependency and would prevent the struct tee_device
+from ever being released again.
 
-Sorry, forgot to list the changes made in v2.
+Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+---
+ drivers/tee/tee_core.c  | 33 ++++++++++++++++++++++++---------
+ include/linux/tee_drv.h | 27 +++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 9 deletions(-)
 
-Changes in v2:
- - listed the error messages given by the driver when requirements are
-   not met
- - removed implementation details
- - expanded the tc filter block example with multiple rules
+diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+index 85102d12d716..3beb682684a8 100644
+--- a/drivers/tee/tee_core.c
++++ b/drivers/tee/tee_core.c
+@@ -43,14 +43,11 @@ static DEFINE_SPINLOCK(driver_lock);
+ static struct class *tee_class;
+ static dev_t tee_devt;
+ 
+-static struct tee_context *teedev_open(struct tee_device *teedev)
++struct tee_context *tee_dev_open_helper(struct tee_device *teedev)
+ {
+ 	int rc;
+ 	struct tee_context *ctx;
+ 
+-	if (!tee_device_get(teedev))
+-		return ERR_PTR(-EINVAL);
+-
+ 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx) {
+ 		rc = -ENOMEM;
+@@ -66,10 +63,30 @@ static struct tee_context *teedev_open(struct tee_device *teedev)
+ 	return ctx;
+ err:
+ 	kfree(ctx);
+-	tee_device_put(teedev);
+ 	return ERR_PTR(rc);
+ 
+ }
++EXPORT_SYMBOL_GPL(tee_dev_open_helper);
++
++void tee_dev_ctx_put(struct tee_context *ctx)
++{
++	teedev_ctx_put(ctx);
++}
++EXPORT_SYMBOL_GPL(tee_dev_ctx_put);
++
++static struct tee_context *teedev_open(struct tee_device *teedev)
++{
++	struct tee_context *ctx;
++
++	if (!tee_device_get(teedev))
++		return ERR_PTR(-EINVAL);
++
++	ctx = tee_dev_open_helper(teedev);
++	if (IS_ERR(ctx))
++		tee_device_put(teedev);
++
++	return ctx;
++}
+ 
+ void teedev_ctx_get(struct tee_context *ctx)
+ {
+@@ -90,10 +107,8 @@ static void teedev_ctx_release(struct kref *ref)
+ 
+ void teedev_ctx_put(struct tee_context *ctx)
+ {
+-	if (ctx->releasing)
+-		return;
+-
+-	kref_put(&ctx->refcount, teedev_ctx_release);
++	if (ctx && !ctx->releasing)
++		kref_put(&ctx->refcount, teedev_ctx_release);
+ }
+ 
+ static void teedev_close_context(struct tee_context *ctx)
+diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+index 54269e47ac9a..f592ba4e9561 100644
+--- a/include/linux/tee_drv.h
++++ b/include/linux/tee_drv.h
+@@ -456,6 +456,33 @@ static inline int tee_shm_get_id(struct tee_shm *shm)
+  */
+ struct tee_shm *tee_shm_get_from_id(struct tee_context *ctx, int id);
+ 
++/**
++ * tee_dev_open_helper() - helper function to make a struct tee_context
++ * @teedev:	Device to open
++ *
++ * Creates the struct tee_context without increasing the reference counter
++ * on @teedev. This is needed for instance when a driver need an internal
++ * struct tee_context to operate on. By skipping the reference counter
++ * the circular dependency is broken.
++ *
++ * Note that this struct tee_context need special care when freeing in
++ * order to avoid the normal put on the struct tee_device.
++ * tee_dev_ctx_put() is the best choice for this.
++ *
++ * @returns a pointer 'struct tee_context' on success or an ERR_PTR on failure
++ */
++struct tee_context *tee_dev_open_helper(struct tee_device *teedev);
++
++/**
++ * tee_dev_ctx_put() - helper function to release a struct tee_context
++ * @ctx:	The struct tee_context to release
++ *
++ * Note that this function doesn't do a tee_device_put() on the internal
++ * struct tee_device so this function should normal only be used when
++ * releasing a struct tee_context obtained with tee_dev_open_helper().
++ */
++void tee_dev_ctx_put(struct tee_context *ctx);
++
+ /**
+  * tee_client_open_context() - Open a TEE context
+  * @start:	if not NULL, continue search after this context
+-- 
+2.31.1
 
