@@ -2,119 +2,288 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE674C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C30C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:42:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9906860E77
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:40:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7440760EC0
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 08:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234480AbhGWIAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 04:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39566 "EHLO
+        id S234253AbhGWIBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 04:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234253AbhGWIAH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 04:00:07 -0400
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAB6C061575;
-        Fri, 23 Jul 2021 01:40:40 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id o13so673228qkk.9;
-        Fri, 23 Jul 2021 01:40:40 -0700 (PDT)
+        with ESMTP id S229907AbhGWIBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 04:01:51 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86C7C061575;
+        Fri, 23 Jul 2021 01:42:23 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id hs23so2392338ejc.13;
+        Fri, 23 Jul 2021 01:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=5fHOWqJ8qh0WwR9vw60QMKf5JORbjfW0NMV+4iT7I6w=;
-        b=tTj5kE3E1A4aR+RRnZGKWdDEH8JLh4yP9kt680dTW6xjBwBfV942ghN1IRoaIsihID
-         Fq3ntV/U9GGC5L2GxV/cnFRA17KepG50tEV1gYy0GB7m5NHn4woQ9pTuTYFf02lrjGOQ
-         AqsnGyyGHJYIEm93hWMt4huH4/bC0Ic4MbfiblMpMJQPaqv5JP2w3qPk6TadjZyM8MuB
-         mBWlNzUXHkQE1OYxhpgiKmTwzd6CDt094wddLKcZvG5H4pGTabceNPjJHJnL8c0E/4Xj
-         2yBGWabfH2iQfBNtzi1MyOltVKPtd0mvBZAg4NypM9y7GcgF1YQ3ZFhu17defB60pbAH
-         rmkw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3M9JuvVp63fPiQaYbgdh4tvLmQS/3eXNn4ByqxrfU4I=;
+        b=EmFUMnWimzTyvDGk4jNyLpn5X0UXFXZe7EDTwcCa4nKiQ89dacTdS/j+4SUICRV8cu
+         bMVy7j4BqT+L5uqouHzMonYR+qwSBlsN/Twz5pczYdl58tb1lBzzO5EGWyHpHZbiNyqa
+         0UVvIzphsxLVmtIh3LaMBHA0G7idenIvhjTPxv6js0q1Y0jAaErj/AOoB0kDMvIzLSJ1
+         7zIEg85Oqm2h7d58df33Vbbn2CBgkHkCDk6oHrxWVH3cDBZgqva8OzuqkWwfhBQdC6qE
+         UvJgqW06OKr4CDPQuljEOoPHvEjkYJP20jU0/miDKtS+mENXOmrfAsxi9FZTWC/fdHYQ
+         fyKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=5fHOWqJ8qh0WwR9vw60QMKf5JORbjfW0NMV+4iT7I6w=;
-        b=i92g81igNm1nU0v4hQclZ0b0Dln+5faix3/KFR78K2G4+eW/8D7u8aU0orp16qhRHn
-         rzSadgr5VjbdWEjVDey8bjYZtuCpb8MLmbi4pfDzRAQYj2v1HiadZCNdUlugzFAAkCS2
-         Ya+nARSx3ZAq2k0TQy6teQz1oox+xS9jQLyMnlu20fzaqmHoe4EcvNmXbX9T5RlUfpsx
-         4bky4plNDfs3iTEaqPh07XCiPgjbRq4Y1xtyEHcPl4bF69eKWzmjYKF07MdqsJA/tb9o
-         nuXVB1wL1KS0gyGcE48oWKSpbI3E5j2l56RiHi8hTuPVqOtCm8Yyzm7kNyenanPj7/RF
-         jcnQ==
-X-Gm-Message-State: AOAM530mhXs8TT75JE5roeV8NIRh8M3ZKHAPtMBkKJ15Gw9TXojgCFNG
-        C0wXQ2oaXq5Fim7a2yM0hSk=
-X-Google-Smtp-Source: ABdhPJzOHyPxVKfFwgTUboDXq2NPyhFtWQ1kiQEeENNEWaCTpqjquv6jAZ18ejSXY418BqdpbT2Zwg==
-X-Received: by 2002:ae9:ed05:: with SMTP id c5mr3466245qkg.24.1627029639612;
-        Fri, 23 Jul 2021 01:40:39 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id z12sm11105576qtw.90.2021.07.23.01.40.38
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3M9JuvVp63fPiQaYbgdh4tvLmQS/3eXNn4ByqxrfU4I=;
+        b=Dq3zdu4GMEWAJpkq7jOcWT5xWjWGamZD7odIiX2Yh86PySzIRFI8MEDhL/Q2l2vnjX
+         b14xfI84/JDcOkx/14d/QqqFDlYH7Tut0HpP+K3k5737khwBNLvWkjVpee1heAVV4JVr
+         dqSIdQkPKUAZscbcTpypF5wFJ2tkj6fJwS+3qKgQxk1DKKr6WJrTo/V3E6InlYribvvm
+         LeReGGvfsnMmpPXZJooiKD5lZW935V+qGsWaM7UCC0G2sXKv+R6peC3kBs43bcxIap1k
+         2JhEe6SrQWfUg0eIN1ueQl7HqeEKFd5IPhWrPFaaALfvFucjMktSqSCcXbYKPpneQ42t
+         GEUw==
+X-Gm-Message-State: AOAM5322EQGlAypkxKo+cp1vpjK5Vb/Dg3Pqk0kSb1OU575njc6TYsho
+        wRG4dZNUZ5PpmUwfqCit74vadK7KDL/H/A==
+X-Google-Smtp-Source: ABdhPJzW5CGOPSlSxwq71OLX0j0H0B3FBUVveqD2lsyZ9GyY5Cg9m1MSl+0e/qfrvNHMWzD1ecUhPw==
+X-Received: by 2002:a17:907:24d1:: with SMTP id e17mr3545660ejn.427.1627029742196;
+        Fri, 23 Jul 2021 01:42:22 -0700 (PDT)
+Received: from yoga-910.localhost ([82.76.66.29])
+        by smtp.gmail.com with ESMTPSA id ja13sm10298477ejc.82.2021.07.23.01.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 01:40:39 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Dongjoo Seo <dseo3@uci.edu>,
-        "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@Huawei.com>,
-        acme@kernel.org, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendanhiggins@google.com,
-        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
-        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
-        greg@kroah.com, gthelen@google.com, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, joe@perches.com, linux-damon@amazon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, mgorman@suse.de, mheyne@amazon.de,
-        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
-        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
-        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
-        shuah@kernel.org, sieberf@amazon.com, sjpark@amazon.de,
-        snu@zelle79.org, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        zgf574564920@gmail.com
-Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
-Date:   Fri, 23 Jul 2021 08:40:32 +0000
-Message-Id: <20210723084032.2935-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210723083042.2720-1-sjpark@amazon.de>
+        Fri, 23 Jul 2021 01:42:21 -0700 (PDT)
+From:   Ioana Ciornei <ciorneiioana@gmail.com>
+To:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        Ioana Ciornei <ioana.ciornei@nxp.com>
+Subject: [PATCH net-next v2] docs: networking: dpaa2: add documentation for the switch driver
+Date:   Fri, 23 Jul 2021 11:42:44 +0300
+Message-Id: <20210723084244.950197-1-ciorneiioana@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+From: Ioana Ciornei <ioana.ciornei@nxp.com>
 
-On Fri, 23 Jul 2021 08:30:41 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+Add a documentation entry for the DPAA2 switch listing its
+requirements, features and some examples to go along them.
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> Hello Dongjoo,
-> 
-> 
-> On Fri, 23 Jul 2021 16:02:44 +0900 Dongjoo Seo <dseo3@uci.edu> wrote:
-> 
-> > Hello, I am new user of this amazing tool.
-> 
-> Thank you!  It's always great to meet a new user!
-> 
-> > I want to use this tool for Nvidia tx2 board with kernel version 4.9.140.
-> > 
-> > Do you guys have any timeline or update schedule for different kernel version compatibility?
-> 
-> I didn't have such a plan until now,
+Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+---
+ .../ethernet/freescale/dpaa2/index.rst        |   1 +
+ .../freescale/dpaa2/switch-driver.rst         | 174 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 3 files changed, 176 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
 
-BTW, note that we are supporting latest two LTS kernels:
-
-    For people who want to test DAMON but using LTS kernels, there are another
-    couple of trees based on two latest LTS kernels respectively and containing the
-    'damon/master' backports.
+diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/index.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/index.rst
+index ee40fcc5ddff..62f4a4aff6ec 100644
+--- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/index.rst
++++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/index.rst
+@@ -9,3 +9,4 @@ DPAA2 Documentation
+    dpio-driver
+    ethernet-driver
+    mac-phy-support
++   switch-driver
+diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
+new file mode 100644
+index 000000000000..863ca6bd8318
+--- /dev/null
++++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
+@@ -0,0 +1,174 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++===================
++DPAA2 Switch driver
++===================
++
++:Copyright: |copy| 2021 NXP
++
++The DPAA2 Switch driver probes on the Datapath Switch (DPSW) object which can
++be instantiated on the following DPAA2 SoCs and their variants: LS2088A and
++LX2160A.
++
++The driver uses the switch device driver model and exposes each switch port as
++a network interface, which can be included in a bridge or used as a standalone
++interface. Traffic switched between ports is offloaded into the hardware.
++
++The DPSW can have ports connected to DPNIs or to DPMACs for external access.
++::
++
++         [ethA]     [ethB]      [ethC]     [ethD]     [ethE]     [ethF]
++            :          :          :          :          :          :
++            :          :          :          :          :          :
++       [dpaa2-eth]  [dpaa2-eth]  [              dpaa2-switch              ]
++            :          :          :          :          :          :        kernel
++       =============================================================================
++            :          :          :          :          :          :        hardware
++         [DPNI]      [DPNI]     [============= DPSW =================]
++            |          |          |          |          |          |
++            |           ----------           |       [DPMAC]    [DPMAC]
++             -------------------------------            |          |
++                                                        |          |
++                                                      [PHY]      [PHY]
++
++Creating an Ethernet Switch
++===========================
++
++The dpaa2-switch driver probes on DPSW devices found on the fsl-mc bus. These
++devices can be either created statically through the boot time configuration
++file - DataPath Layout (DPL) - or at runtime using the DPAA2 object APIs
++(incorporated already into the restool userspace tool).
++
++At the moment, the dpaa2-switch driver imposes the following restrictions on
++the DPSW object that it will probe:
++
++ * The minimum number of FDBs should be at least equal to the number of switch
++   interfaces. This is necessary so that separation of switch ports can be
++   done, ie when not under a bridge, each switch port will have its own FDB.
++   ::
++
++        fsl_dpaa2_switch dpsw.0: The number of FDBs is lower than the number of ports, cannot probe
++
++ * Both the broadcast and flooding configuration should be per FDB. This
++   enables the driver to restrict the broadcast and flooding domains of each
++   FDB depending on the switch ports that are sharing it (aka are under the
++   same bridge).
++   ::
++
++        fsl_dpaa2_switch dpsw.0: Flooding domain is not per FDB, cannot probe
++        fsl_dpaa2_switch dpsw.0: Broadcast domain is not per FDB, cannot probe
++
++ * The control interface of the switch should not be disabled
++   (DPSW_OPT_CTRL_IF_DIS not passed as a create time option). Without the
++   control interface, the driver is not capable to provide proper Rx/Tx traffic
++   support on the switch port netdevices.
++   ::
++
++        fsl_dpaa2_switch dpsw.0: Control Interface is disabled, cannot probe
++
++Besides the configuration of the actual DPSW object, the dpaa2-switch driver
++will need the following DPAA2 objects:
++
++ * 1 DPMCP - A Management Command Portal object is needed for any interraction
++   with the MC firmware.
++
++ * 1 DPBP - A Buffer Pool is used for seeding buffers intended for the Rx path
++   on the control interface.
++
++ * Access to at least one DPIO object (Software Portal) is needed for any
++   enqueue/dequeue operation to be performed on the control interface queues.
++   The DPIO object will be shared, no need for a private one.
++
++Switching features
++==================
++
++The driver supports the configuration of L2 forwarding rules in hardware for
++port bridging as well as standalone usage of the independent switch interfaces.
++
++The hardware is not configurable with respect to VLAN awareness, thus any DPAA2
++switch port should be used only in usecases with a VLAN aware bridge::
++
++        $ ip link add dev br0 type bridge vlan_filtering 1
++
++        $ ip link add dev br1 type bridge
++        $ ip link set dev ethX master br1
++        Error: fsl_dpaa2_switch: Cannot join a VLAN-unaware bridge
++
++Topology and loop detection through STP is supported when ``stp_state 1`` is
++used at bridge create ::
++
++        $ ip link add dev br0 type bridge vlan_filtering 1 stp_state 1
++
++L2 FDB manipulation (add/delete/dump) is supported.
++
++HW FDB learning can be configured on each switch port independently through
++bridge commands. When the HW learning is disabled, a fast age procedure will be
++run and any previously learnt addresses will be removed.
++::
++
++        $ bridge link set dev ethX learning off
++        $ bridge link set dev ethX learning on
++
++Restricting the unknown unicast and multicast flooding domain is supported, but
++not independently of each other::
++
++        $ ip link set dev ethX type bridge_slave flood off mcast_flood off
++        $ ip link set dev ethX type bridge_slave flood off mcast_flood on
++        Error: fsl_dpaa2_switch: Cannot configure multicast flooding independently of unicast.
++
++Broadcast flooding on a switch port can be disabled/enabled through the brport sysfs::
++
++        $ echo 0 > /sys/bus/fsl-mc/devices/dpsw.Y/net/ethX/brport/broadcast_flood
++
++Offloads
++========
++
++Routing actions (redirect, trap, drop)
++--------------------------------------
++
++The DPAA2 switch is able to offload flow-based redirection of packets making
++use of ACL tables. Shared filter blocks are supported by sharing a single ACL
++table between multiple ports.
++
++The following flow keys are supported:
++
++ * Ethernet: dst_mac/src_mac
++ * IPv4: dst_ip/src_ip/ip_proto/tos
++ * VLAN: vlan_id/vlan_prio/vlan_tpid/vlan_dei
++ * L4: dst_port/src_port
++
++Also, the matchall filter can be used to redirect the entire traffic received
++on a port.
++
++As per flow actions, the following are supported:
++
++ * drop
++ * mirred egress redirect
++ * trap
++
++Each ACL entry (filter) can be setup with only one of the listed
++actions.
++
++Example 1: send frames received on eth4 with a SA of 00:01:02:03:04:05 to the
++CPU::
++
++        $ tc qdisc add dev eth4 clsact
++        $ tc filter add dev eth4 ingress flower src_mac 00:01:02:03:04:05 skip_sw action trap
++
++Example 2: drop frames received on eth4 with VID 100 and PCP of 3::
++
++        $ tc filter add dev eth4 ingress protocol 802.1q flower skip_sw vlan_id 100 vlan_prio 3 action drop
++
++Example 3: redirect all frames received on eth4 to eth1::
++
++        $ tc filter add dev eth4 ingress matchall action mirred egress redirect dev eth1
++
++Example 4: Use a single shared filter block on both eth5 and eth6::
++
++        $ tc qdisc add dev eth5 ingress_block 1 clsact
++        $ tc qdisc add dev eth6 ingress_block 1 clsact
++        $ tc filter add block 1 ingress flower dst_mac 00:01:02:03:04:04 skip_sw \
++                action trap
++        $ tc filter add block 1 ingress protocol ipv4 flower src_ip 192.168.1.1 skip_sw \
++                action mirred egress redirect dev eth3
+diff --git a/MAINTAINERS b/MAINTAINERS
+index da478d5c8b0c..a483934ac8f0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5683,6 +5683,7 @@ DPAA2 ETHERNET SWITCH DRIVER
+ M:	Ioana Ciornei <ioana.ciornei@nxp.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
++F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-driver.rst
+ F:	drivers/net/ethernet/freescale/dpaa2/dpaa2-switch*
+ F:	drivers/net/ethernet/freescale/dpaa2/dpsw*
  
-    - For v5.4.y: https://github.com/sjp38/linux/tree/damon/for-v5.4.y
-    - For v5.10.y: https://github.com/sjp38/linux/tree/damon/for-v5.10.y
+-- 
+2.31.1
 
-
-Thanks,
-SeongJae Park
-
-[...]
