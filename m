@@ -2,84 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C3FC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AB2C4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE38960EFD
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:30:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6664860EE6
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:39:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbhGWGtt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 02:49:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35840 "EHLO mail.kernel.org"
+        id S233205AbhGWG6o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 02:58:44 -0400
+Received: from verein.lst.de ([213.95.11.211]:37361 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229774AbhGWGtt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Jul 2021 02:49:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F11CD60E90;
-        Fri, 23 Jul 2021 07:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1627025421;
-        bh=UnS96zYM0c8w/kcN1k1/95kES/5k9EDsz9trSoOA8Co=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NMSjuOUCyj+acp7j0je4E+one/7OqGHT88K2d5Msm2HpUgzZX2ZnWpJH9DGw8sUTX
-         103XhrCNGWn/LvuKN3n30ScUxCJVPr3Atbc8CLiwWV9e9fWsCIb8ZyxFB11IpJMhd2
-         hFEljvbcqB/9aOEVlCA9Gmxnhn62O/DVN1ldemSs=
-Date:   Fri, 23 Jul 2021 09:30:17 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dongjoo Seo <dseo3@uci.edu>
-Cc:     SeongJae Park <sj38.park@gmail.com>,
-        "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-        acme@kernel.org, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendanhiggins@google.com,
-        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
-        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
-        gthelen@google.com, guoju.fgj@alibaba-inc.com, jgowans@amazon.com,
-        joe@perches.com, linux-damon@amazon.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de,
-        mheyne@amazon.de, minchan@kernel.org, mingo@redhat.com,
-        namhyung@kernel.org, peterz@infradead.org, riel@surriel.com,
-        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
-        shakeelb@google.com, shuah@kernel.org, sieberf@amazon.com,
-        sjpark@amazon.de, snu@zelle79.org, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com
-Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
-Message-ID: <YPpwCS4CpGtJTy9t@kroah.com>
-References: <2E16FC36-18B4-4F92-86AE-51249CCDB1A4@uci.edu>
- <YPpq4u+b/UzAE/3u@kroah.com>
- <23F9BFF6-51B0-4EF7-AF2F-278F89D310C3@uci.edu>
+        id S229799AbhGWG6o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Jul 2021 02:58:44 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id BF95067373; Fri, 23 Jul 2021 09:39:14 +0200 (CEST)
+Date:   Fri, 23 Jul 2021 09:39:14 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v2 04/14] vfio: Provide better generic support for
+ open/release vfio_device_ops
+Message-ID: <20210723073914.GC864@lst.de>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com> <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23F9BFF6-51B0-4EF7-AF2F-278F89D310C3@uci.edu>
+In-Reply-To: <4-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
+> +int vfio_assign_device_set(struct vfio_device *device, void *set_id)
+> +{
+> +	struct vfio_device_set *alloc_dev_set = NULL;
+> +	struct vfio_device_set *dev_set;
+> +
+> +	if (WARN_ON(!set_id))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Atomically acquire a singleton object in the xarray for this set_id
+> +	 */
+> +again:
+> +	xa_lock(&vfio_device_set_xa);
+> +	if (alloc_dev_set) {
+> +		dev_set = __xa_cmpxchg(&vfio_device_set_xa,
+> +				       (unsigned long)set_id, NULL,
+> +				       alloc_dev_set, GFP_KERNEL);
+> +		if (xa_is_err(dev_set)) {
+> +			xa_unlock(&vfio_device_set_xa);
+> +			kfree(alloc_dev_set);
+> +			return xa_err(dev_set);
+> +		}
+> +		if (!dev_set)
+> +			dev_set = alloc_dev_set;
+> +	} else {
+> +		dev_set = xa_load(&vfio_device_set_xa, (unsigned long)set_id);
+> +	}
+> +
+> +	if (dev_set) {
+> +		dev_set->device_count++;
+> +		xa_unlock(&vfio_device_set_xa);
+> +		device->dev_set = dev_set;
+> +		if (dev_set != alloc_dev_set)
+> +			kfree(alloc_dev_set);
+> +		return 0;
+> +	}
+> +	xa_unlock(&vfio_device_set_xa);
+> +
+> +	if (WARN_ON(alloc_dev_set))
+> +		return -EINVAL;
+> +
+> +	alloc_dev_set = kzalloc(sizeof(*alloc_dev_set), GFP_KERNEL);
+> +	if (!alloc_dev_set)
+> +		return -ENOMEM;
+> +	mutex_init(&alloc_dev_set->lock);
+> +	alloc_dev_set->set_id = set_id;
+> +	goto again;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_assign_device_set);
 
-A: No.
-Q: Should I include quotations after my reply?
+This looks unessecarily complicated.  We can just try to load first
+and then store it under the same lock, e.g.:
 
-http://daringfireball.net/2007/07/on_top
+int vfio_assign_device_set(struct vfio_device *device, void *set_id)
+{
+	unsigned long idx = (unsigned long)set_id;
+	struct vfio_device_set *set, *new;
+	int err;
 
-On Fri, Jul 23, 2021 at 04:16:27PM +0900, Dongjoo Seo wrote:
-> Thank you for your comment!.
-> 
-> It has been a long time since Nvidia ended supporting the new kernel
-> version on tx2 boards, but for researchers, this set of boards (tx2,
-> px2, agx) is a very attractive candidate to use.
+	if (WARN_ON(!set_id))
+		return -EINVAL;
 
-But why are you stuck at a known-buggy and insecure kernel version?  I
-would work on fixing that first, before worrying about new features.
+	xa_lock(&vfio_device_set_xa);
+	set = xa_load(&vfio_device_set_xa, idx);
+	if (set)
+		goto found;
+	xa_unlock(&vfio_device_set_xa);
 
-good luck!
+	new = kzalloc(sizeof(*new), GFP_KERNEL);
+	if (!new)
+		return -ENOMEM;
+	mutex_init(&new->lock);
+	alloc_dev_set->set_id = set_id;
 
-greg k-h
+	xa_lock(&vfio_device_set_xa);
+	set = xa_load(&vfio_device_set_xa, idx);
+	if (set) {
+		kfree(new);
+		goto found;
+	}
+	err = xa_err(__xa_store(&vfio_device_set_xa, idx, new, GFP_KERNEL));
+	xa_unlock(&vfio_device_set_xa);
+	if (err)
+		kfree(new);
+	return err;
+
+found:
+	set->device_count++;
+	xa_unlock(&vfio_device_set_xa);
+
+	device->dev_set = set;
+	return 0;
+}
+
+> +static void vfio_release_device_set(struct vfio_device *device)
+> +{
+> +	struct vfio_device_set *dev_set = device->dev_set;
+> +
+> +	if (!dev_set)
+> +		return;
+> +
+> +	xa_lock(&vfio_device_set_xa);
+> +	dev_set->device_count--;
+> +	if (!dev_set->device_count) {
+
+Nit, by I'd find
+
+	if (!--dev_set->device_count) {
+
+easier to follow as it clearly documents the dec_and_test pattern.
