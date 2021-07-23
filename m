@@ -2,80 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47E4C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 11:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF78EC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 11:28:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E81160E8E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 11:24:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE0EB60E75
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 11:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234306AbhGWKne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 06:43:34 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39268 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231703AbhGWKnd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 06:43:33 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 253511FF90;
-        Fri, 23 Jul 2021 11:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1627039446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xS9EeQJKE82xivD+FsqdFH335Ef7VYaz/D3ftn0ztEo=;
-        b=GUe/2Tbat5Gk+Kk4RclhlqdBkHE3JnOyO6dBrJ4So73MITNLYqc/Xym0Y0Ik932zftkb8V
-        9rojo/bCx7ME2G6JGqhCmBB2akdpCfFje+i9R+GCUyIVOXIcwfVDmnQ4ZNSBQ/6flpuq6Z
-        BPJBgmDjHgf76HXJEfpUJQfq/q1p7tE=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id EEA67A3B8F;
-        Fri, 23 Jul 2021 11:24:05 +0000 (UTC)
-Date:   Fri, 23 Jul 2021 13:24:05 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Chris Down <chris@chrisdown.name>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCH] printk/documentation: Update printk()/_printk()
- documentation
-Message-ID: <YPqm1XpFIcOjBQsl@alley>
-References: <20210720162423.75f61ce0@canb.auug.org.au>
- <YPa/D8tSyk7dw1/l@chrisdown.name>
- <YPbABBSTkN+xNY0w@chrisdown.name>
- <YPqjdqSH5j69FnHV@alley>
+        id S232681AbhGWKsG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 06:48:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35594 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231703AbhGWKsF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Jul 2021 06:48:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 10F93608FE;
+        Fri, 23 Jul 2021 11:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1627039719;
+        bh=o+tyEe6E2yY0cCqULkCIT3sxBdyYAIFVQGoL8ZDwEM4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=yJCxL3/FRkZsMKSMEwAU73noA9LdiUKH0tz1gENQJwM6z2Yhk5T4uprW5uify8Xcc
+         LbdJkU7lw8sEomDOmSjq8yjt4fUbeT4ATnrflWDyGJlgzj3gfyrBbBvQBb0kzdnBRZ
+         VcEwU3bEctWN6pD51vtPv6fIMFlNnusM0qJTucmI=
+Date:   Fri, 23 Jul 2021 13:28:37 +0200
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        "tiantao (H)" <tiantao6@hisilicon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Linuxarm <linuxarm@huawei.com>
+Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+ of sysfs pagebuf
+Message-ID: <YPqn5SDi6bzLHsOY@kroah.com>
+References: <1619679819-45256-1-git-send-email-tiantao6@hisilicon.com>
+ <1619679819-45256-2-git-send-email-tiantao6@hisilicon.com>
+ <146e051b-603c-a6d3-43d8-d083cf2c8119@intel.com>
+ <602918a1e2214ea7bd0890a751975566@hisilicon.com>
+ <7c663f7e-07e0-6d95-3012-6e31a1b78f7e@intel.com>
+ <4bf6870f7f3942398e4d1fdaa42184c7@hisilicon.com>
+ <fd78ac30-dd3b-a7d7-eae8-193b09a7d49a@intel.com>
+ <e9610060a8d046e783ab9a229f35410c@hisilicon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YPqjdqSH5j69FnHV@alley>
+In-Reply-To: <e9610060a8d046e783ab9a229f35410c@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2021-07-23 13:09:43, Petr Mladek wrote:
-> The commit 337015573718b161 ("printk: Userspace format indexing support")
-> caused the following warning when building htmldocs:
+On Fri, Jul 23, 2021 at 11:20:19AM +0000, Song Bao Hua (Barry Song) wrote:
 > 
-> kernel/printk/printk.c:1: warning: 'printk' not found
 > 
-> The problem is that printk() became a macro that is defined
-> in include/linux/printk.h instead of kernel/printk.c. The original
-> function was renamed to _printk().
+> > -----Original Message-----
+> > From: Dave Hansen [mailto:dave.hansen@intel.com]
+> > Sent: Friday, April 30, 2021 10:39 AM
+> > To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; tiantao (H)
+> > <tiantao6@hisilicon.com>; corbet@lwn.net; gregkh@linuxfoundation.org
+> > Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; Rafael J.
+> > Wysocki <rafael@kernel.org>; Peter Zijlstra <peterz@infradead.org>; Valentin
+> > Schneider <valentin.schneider@arm.com>; Dave Hansen
+> > <dave.hansen@linux.intel.com>; Daniel Bristot de Oliveira <bristot@redhat.com>
+> > Subject: Re: [PATCH 1/2] CPU, NUMA topology ABIs: clarify the overflow issue
+> > of sysfs pagebuf
+> > 
+> > On 4/29/21 3:32 PM, Song Bao Hua (Barry Song) wrote:
+> > > $ strace numactl --hardware  2>&1 | grep cpu
+> > > openat(AT_FDCWD, "/sys/devices/system/cpu",
+> > > O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3
+> > > openat(AT_FDCWD, "/sys/devices/system/node/node0/cpumap", O_RDONLY) = 3
+> > > openat(AT_FDCWD, "/sys/devices/system/node/node1/cpumap", O_RDONLY) = 3
+> > > openat(AT_FDCWD, "/sys/devices/system/node/node2/cpumap", O_RDONLY) = 3
+> > > openat(AT_FDCWD, "/sys/devices/system/node/node3/cpumap", O_RDONLY) = 3
+> > >
+> > > If we move to binary, it means we have to change those applications.
+> > 
+> > I thought Greg was saying to using a sysfs binary attribute using
+> > something like like sysfs_create_bin_file().  Those don't have the
+> > PAGE_SIZE limitation.  But, there's also nothing to keep us from spewing
+> > nice human-readable text via the "binary" file.
+> > 
+> > We don't need to change the file format, just the internal kernel API
+> > that we produce the files with.
 > 
-> Fixes: 337015573718b161 ("printk: Userspace format indexing support")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
-> Link: https://lore.kernel.org/r/YPbBfdz9srIpI+bb@chrisdown.name
-> ---
-> This should do the trick. I do not longer see the warning.
+> Sorry for waking-up the old thread.
+> 
+> I am not sure how common a regular device_attribute will be larger than
+> 4KB and have to work around by bin_attribute. But I wrote a prototype
+> which can initially support large regular sysfs entry and be able to
+> fill the entire buffer by only one show() entry. The other words to say,
+> we don't need to call read() of bin_attribute multiple times for a large
+> regular file. Right now, only read-only attribute is supported.
+> 
+> Subject: [RFC PATCH] sysfs: support regular device attr which can be larger than
+>  PAGE_SIZE
+> 
+> A regular sysfs ABI could be more than 4KB, right now, we are using
+> bin_attribute to workaround and break this limit. A better solution
+> would be supporting long device attribute. In this case, we will
+> still be able to enjoy the advantages of buffering and seeking of
+> seq file and only need to fill the entire buffer of sysfs entry
+> once.
 
-And I have just pushed it together with the other fixes into
-printk/linux.git, branch for-5.15-printk-index.
+No, please no.  I WANT people to run into this problem and realize that
+it went totally wrong because they should not be having more than one
+"value" in a sysfs file like this.
 
-Best Regards,
-Petr
+Let's not make it easy on people please, moving to a bin attribute is a
+big deal, let's keep it that way.
+
+thanks,
+
+greg k-h
