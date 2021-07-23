@@ -2,98 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D58AC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D6DC4320E
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:27:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3E6F60E8B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:03:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FECF60E0C
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233835AbhGWFXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 01:23:23 -0400
-Received: from m32-153.88.com ([43.250.32.153]:32951 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233845AbhGWFXO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Jul 2021 01:23:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=5lPj+a2pbsHvRn+Mac/RbixboMLKIuDU1ETpc
-        1PjGe4=; b=kpFzOJnKpmlicHEKHz7S+zk5O6LDUUXa6uND38EYTE4pPavPguZIx
-        hxtOTJIPC9xzhmQ4ObU+btKOLqcsfllQ7T4ouNNxwlOr2FzsRYZpY71GriO4+CmX
-        7PW8YPIepUlHebDf4oXyyNlLM7b2Fi1wLhsEEpd/PFRrdRh0my8i50=
-Received: from localhost.localdomain (unknown [119.103.21.236])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgA3t6fAW_pgBXQCAA--.9292S2;
-        Fri, 23 Jul 2021 14:03:45 +0800 (CST)
-From:   Hu Haowen <src.res@email.cn>
-To:     alexs@kernel.org, corbet@lwn.net
-Cc:     bobwxc@email.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: reformat zh_CN/dev-tools/testing-overview
-Date:   Fri, 23 Jul 2021 14:03:28 +0800
-Message-Id: <20210723060328.16581-1-src.res@email.cn>
-X-Mailer: git-send-email 2.25.1
+        id S234056AbhGWFrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 01:47:12 -0400
+Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:52444
+        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233993AbhGWFrK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 01:47:10 -0400
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPS id 5C98B3F34D
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 06:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1627021663;
+        bh=ScM5eUXjBnVPe8LbBTYSW47mZlMEZMzsEaWNVZaNkWQ=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=jtwpKgCHgeeIwVDNX0/2tHKzGo3qN1ydck+/aEU3kBG7b4d1W9/f2NpamD2MeLH2f
+         HOdZq8uvkaI29zJ8IvlmGblL4sZ0CTmrKnjcwbk6oKp4u61oqxWdB4idDx/3NTSqCy
+         kFh31fua1tb64882x5MfyjA5ewOzUM6E0YUPLhCDWFzRBqyvHSzJsFkq9tei7ZP3hV
+         M7X+CPm86aoiOHR3PyZnqpWwJnzQTuoYa2hTqQyZk/cSTxwl94G4QGhOXvTZM4kRmW
+         jqGsnS/nhasHPRVvL2QUYOvsuRKIWfVCJYlPKgpM1PrcBmxGlYrZZgsvR6UEQF2TQ5
+         AjqcsAa1K7QIA==
+Received: by mail-ed1-f71.google.com with SMTP id c20-20020a0564021014b029039994f9cab9so164189edu.22
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jul 2021 23:27:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ScM5eUXjBnVPe8LbBTYSW47mZlMEZMzsEaWNVZaNkWQ=;
+        b=qRDeSc7mxRbGhyLUe9/qCmy3JaB1PVv7tlSxECzuK5zgblmbOVNL2kUpJsrUu0DXZI
+         /E8BmdLgSlppEX8ULNW65v4ZOPefYNQ/gh07QWTFEqdLVCg0NyLEuFxZKqbpGP5Y4UCb
+         g/RNefsilEpBjbhDhJC4sbJlnAjD2nURxpZogXE1YzFiKdgNt0XyspQpbBGtUJbo6EVq
+         yz5gBeGFfuuFUbIMmVfExXX6mR9hnNSU0eexZMiGGwbxjKYGv/GFkQwspAxPEjSvG4Ws
+         V+xZOCv9zewHOuo/1ijhPiKUdvE+lGB8csP4Nfa/SmYcCZIgG5y8NVIeCRgwO7e3kgxf
+         E0Kg==
+X-Gm-Message-State: AOAM531j9a1ejWLqZccIKUAmy5bRG9CU0ujb9EuwY3eS6urrNvHOqW/V
+        ggOAVosyTsD7/387avd/GUnVzoSv0OjyqORWXiWEVNkDRYxjcHm/kdPX2BNBs2EppmKQ4JoowxB
+        NnQlb3tHjLjSWc8qbcOA6TaN98J7wzOBpiheT8A==
+X-Received: by 2002:a17:906:e0e:: with SMTP id l14mr3313197eji.501.1627021662758;
+        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZ+nyDEENcrVRLwr6YxB1sHYJA1zCxcGsDlpGPB37Ly4NJOfWs4Dn45abWgrRNkKKGjwgnGw==
+X-Received: by 2002:a17:906:e0e:: with SMTP id l14mr3313181eji.501.1627021662625;
+        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
+Received: from localhost.localdomain ([86.32.47.9])
+        by smtp.gmail.com with ESMTPSA id u5sm13449844edv.64.2021.07.22.23.27.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: (subset) [PATCH 00/15] Fix some DT binding references at next-20210722
+Date:   Fri, 23 Jul 2021 08:27:18 +0200
+Message-Id: <162702163038.6229.12663832282139727924.b4-ty@canonical.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
+References: <cover.1626947923.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GiKnCgA3t6fAW_pgBXQCAA--.9292S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF4DurWfXw4kJw4xWF1fXrb_yoW8KFy7pr
-        4vkr92q3W8C345A3yI9FyUtF4jkr97Gw4UKa1xt347AryqkrsYkrZrtF90qFW3CryIvF98
-        ZF4rGFWq9340y3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgj1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK
-        0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4
-        x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2
-        z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc
-        02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY
-        6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x
-        0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
-        3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
-        WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
-        cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-        AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuY
-        vjfUsvtCUUUUU
-X-Originating-IP: [119.103.21.236]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reorganise several long lines in order to satisfy the kernel coding
-style.
+On Thu, 22 Jul 2021 11:59:57 +0200, Mauro Carvalho Chehab wrote:
+> Due to DT schema conversion to yaml, several references to dt-bindings got
+> broken.
+> 
+> Update them.
+> 
+> Mauro Carvalho Chehab (15):
+>   dt-bindings: mtd: update mtd-physmap.yaml reference
+>   dt-bindings: firmware: update arm,scpi.yaml reference
+>   dt-bindings: net: dsa: sja1105: update nxp,sja1105.yaml reference
+>   MAINTAINERS: update mtd-physmap.yaml reference
+>   MAINTAINERS: update arm,vic.yaml reference
+>   MAINTAINERS: update aspeed,i2c.yaml reference
+>   MAINTAINERS: update faraday,ftrtc010.yaml reference
+>   MAINTAINERS: update fsl,fec.yaml reference
+>   MAINTAINERS: update mtd-physmap.yaml reference
+>   MAINTAINERS: update ti,am654-hbmc.yaml reference
+>   MAINTAINERS: update ti,sci.yaml reference
+>   MAINTAINERS: update gpio-zynq.yaml reference
+>   MAINTAINERS: update arm,pl353-smc.yaml reference
+>   MAINTAINERS: update intel,ixp46x-rng.yaml reference
+>   MAINTAINERS: update nxp,imx8-jpeg.yaml reference
+> 
+> [...]
 
-Signed-off-by: Hu Haowen <src.res@email.cn>
----
- .../zh_CN/dev-tools/testing-overview.rst          | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+Applied, thanks!
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-index 8206d5b477e2..b7a1d13da6c6 100644
---- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-@@ -70,13 +70,14 @@ kselftest也因此非常适合于全部功能的测试，因为这些功能会
- 确切函数或代码行。这有助于决定内核被测试了多少，或用来查找合适的测试
- 中没有覆盖到的极端情况。
- 
--Documentation/translations/zh_CN/dev-tools/gcov.rst 是GCC的覆盖率测试工具，能用于获取内核的全局或每个模块的
--覆盖率。与KCOV不同的是，这个工具不记录每个任务的覆盖率。覆盖率数据可
--以通过debugfs读取，并通过常规的gcov工具进行解释。
--
--Documentation/dev-tools/kcov.rst 是能够构建在内核之中，用于在每个任务的层面捕捉覆盖率的一
--个功能。因此，它对于模糊测试和关于代码执行期间信息的其它情况非常有用，
--比如在一个单一系统调用里使用它就很有用。
-+Documentation/translations/zh_CN/dev-tools/gcov.rst 是GCC的覆盖率测试
-+工具，能用于获取内核的全局或每个模块的覆盖率。与KCOV不同的是，这个工具
-+不记录每个任务的覆盖率。覆盖率数据可以通过debugfs读取，并通过常规的
-+gcov工具进行解释。
-+
-+Documentation/dev-tools/kcov.rst 是能够构建在内核之中，用于在每个任务
-+的层面捕捉覆盖率的一个功能。因此，它对于模糊测试和关于代码执行期间信
-+息的其它情况非常有用，比如在一个单一系统调用里使用它就很有用。
- 
- 动态分析工具
- ============
+[13/15] MAINTAINERS: update arm,pl353-smc.yaml reference
+        commit: e460a86aab669e00c5952a7643665f3096fbfe27
+
+Best regards,
 -- 
-2.25.1
-
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
