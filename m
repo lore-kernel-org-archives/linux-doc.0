@@ -2,122 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FAKE_REPLY_B,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D6DC4320E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5599C4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:02:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FECF60E0C
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 06:27:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD87860EAF
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 07:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234056AbhGWFrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 01:47:12 -0400
-Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:52444
-        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233993AbhGWFrK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 01:47:10 -0400
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPS id 5C98B3F34D
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 06:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1627021663;
-        bh=ScM5eUXjBnVPe8LbBTYSW47mZlMEZMzsEaWNVZaNkWQ=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=jtwpKgCHgeeIwVDNX0/2tHKzGo3qN1ydck+/aEU3kBG7b4d1W9/f2NpamD2MeLH2f
-         HOdZq8uvkaI29zJ8IvlmGblL4sZ0CTmrKnjcwbk6oKp4u61oqxWdB4idDx/3NTSqCy
-         kFh31fua1tb64882x5MfyjA5ewOzUM6E0YUPLhCDWFzRBqyvHSzJsFkq9tei7ZP3hV
-         M7X+CPm86aoiOHR3PyZnqpWwJnzQTuoYa2hTqQyZk/cSTxwl94G4QGhOXvTZM4kRmW
-         jqGsnS/nhasHPRVvL2QUYOvsuRKIWfVCJYlPKgpM1PrcBmxGlYrZZgsvR6UEQF2TQ5
-         AjqcsAa1K7QIA==
-Received: by mail-ed1-f71.google.com with SMTP id c20-20020a0564021014b029039994f9cab9so164189edu.22
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jul 2021 23:27:43 -0700 (PDT)
+        id S234214AbhGWGWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 02:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234200AbhGWGWV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 02:22:21 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384BDC061757
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 00:02:55 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id a9so883695pjw.5
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 00:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=uci-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:content-transfer-encoding:mime-version:subject:message-id:date
+         :cc:to;
+        bh=AdH+rx5+VPP3VWefoL3mhQLnCJH3lO4p1OcT4UPuSHw=;
+        b=hqJ2SYmIYX6GXRc9Jx1OUkc2/AX3IBRoSxOuaHp8m2rF4Ftr/LF8tw/YiHrCU3osXl
+         Q5hTdI+eG8cFd6SChXxLzNRFbLHVWHk9d8xlQoGSIc3dxENq9wjFjvzBlqu5kYgdp5EJ
+         VSp89rgdFqcBanykXujfxHXCc89vXcoCB2lq/Xe+B+V+Y16oGgyMnBMN2FiYBgIQC6uc
+         EtfJd2MrygQ3aV7e1ClCzh+Gtcjt9xPY0xEtQYd+bi3ZtvBhR7aEKPnG1AfuaUHjE4Z6
+         R175syYwMni1ay3fsxtD6+2flE2/eBYlhSo0+IkC/7UTbKRkSIPhNTqztUBbqYNGRxj4
+         kjXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ScM5eUXjBnVPe8LbBTYSW47mZlMEZMzsEaWNVZaNkWQ=;
-        b=qRDeSc7mxRbGhyLUe9/qCmy3JaB1PVv7tlSxECzuK5zgblmbOVNL2kUpJsrUu0DXZI
-         /E8BmdLgSlppEX8ULNW65v4ZOPefYNQ/gh07QWTFEqdLVCg0NyLEuFxZKqbpGP5Y4UCb
-         g/RNefsilEpBjbhDhJC4sbJlnAjD2nURxpZogXE1YzFiKdgNt0XyspQpbBGtUJbo6EVq
-         yz5gBeGFfuuFUbIMmVfExXX6mR9hnNSU0eexZMiGGwbxjKYGv/GFkQwspAxPEjSvG4Ws
-         V+xZOCv9zewHOuo/1ijhPiKUdvE+lGB8csP4Nfa/SmYcCZIgG5y8NVIeCRgwO7e3kgxf
-         E0Kg==
-X-Gm-Message-State: AOAM531j9a1ejWLqZccIKUAmy5bRG9CU0ujb9EuwY3eS6urrNvHOqW/V
-        ggOAVosyTsD7/387avd/GUnVzoSv0OjyqORWXiWEVNkDRYxjcHm/kdPX2BNBs2EppmKQ4JoowxB
-        NnQlb3tHjLjSWc8qbcOA6TaN98J7wzOBpiheT8A==
-X-Received: by 2002:a17:906:e0e:: with SMTP id l14mr3313197eji.501.1627021662758;
-        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZ+nyDEENcrVRLwr6YxB1sHYJA1zCxcGsDlpGPB37Ly4NJOfWs4Dn45abWgrRNkKKGjwgnGw==
-X-Received: by 2002:a17:906:e0e:: with SMTP id l14mr3313181eji.501.1627021662625;
-        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
-Received: from localhost.localdomain ([86.32.47.9])
-        by smtp.gmail.com with ESMTPSA id u5sm13449844edv.64.2021.07.22.23.27.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 23:27:42 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: (subset) [PATCH 00/15] Fix some DT binding references at next-20210722
-Date:   Fri, 23 Jul 2021 08:27:18 +0200
-Message-Id: <162702163038.6229.12663832282139727924.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1626947923.git.mchehab+huawei@kernel.org>
-References: <cover.1626947923.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:content-transfer-encoding:mime-version
+         :subject:message-id:date:cc:to;
+        bh=AdH+rx5+VPP3VWefoL3mhQLnCJH3lO4p1OcT4UPuSHw=;
+        b=QPWuwuuud8EmyINS64NnpKpphP4DBs/g4ToJ6BqONbmFpLz3/+nfKCutd+cKVXVx69
+         llTj0TLQUre+xH3iKrNjkgHI77wO7RX/BYYJm7S7eVwiQe9Vp0UovFp3RoZuYvtVKE75
+         n/BmkmTD0a4NohctuIuWzGUlEbegAm5Oi6MzoTcvw2GCArKiZy7ZBGuRsG8wSePORubu
+         /S4PeSj/1OpmZtFAgGu4SNHetKZuXQaVPAIpA2teYmlYof4wgdQdTRNxfeRLatJqbjjI
+         vxI8sxbOlcvIWJbsSiqsFuGAG53sM1fUDG8nbOzp9yk6v2+N8PpUzCyCPprw1dx09UiL
+         KoPg==
+X-Gm-Message-State: AOAM532nHpIhmxCAj5/IecFjmXZgW+yea33cMpP0gHwxDvV55sVJ6rOL
+        iGTWXN7JqxVtUo3Rtv3Jg14lgA==
+X-Google-Smtp-Source: ABdhPJw/fiEjM+NRZGB2+dG+Gyp/HN41VOVwQ79CbKl4rXQOQ76By2KyfQWR/6Rrc+nCRqwJhafIpA==
+X-Received: by 2002:a17:903:244f:b029:12a:f0f9:19a3 with SMTP id l15-20020a170903244fb029012af0f919a3mr3129556pls.42.1627023774767;
+        Fri, 23 Jul 2021 00:02:54 -0700 (PDT)
+Received: from [192.168.1.3] ([183.98.43.105])
+        by smtp.gmail.com with ESMTPSA id s5sm3501225pfk.114.2021.07.23.00.02.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 23 Jul 2021 00:02:54 -0700 (PDT)
+From:   Dongjoo Seo <dseo3@uci.edu>
+Content-Type: text/plain;
+        charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
+Message-Id: <2E16FC36-18B4-4F92-86AE-51249CCDB1A4@uci.edu>
+Date:   Fri, 23 Jul 2021 16:02:44 +0900
+Cc:     "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@Huawei.com>,
+        acme@kernel.org, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendanhiggins@google.com,
+        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
+        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
+        greg@kroah.com, gthelen@google.com, guoju.fgj@alibaba-inc.com,
+        jgowans@amazon.com, joe@perches.com, linux-damon@amazon.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, mgorman@suse.de, mheyne@amazon.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
+        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
+        shuah@kernel.org, sieberf@amazon.com, sjpark@amazon.de,
+        snu@zelle79.org, vbabka@suse.cz, vdavydov.dev@gmail.com,
+        zgf574564920@gmail.com
+To:     SeongJae Park <sj38.park@gmail.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Jul 2021 11:59:57 +0200, Mauro Carvalho Chehab wrote:
-> Due to DT schema conversion to yaml, several references to dt-bindings got
-> broken.
-> 
-> Update them.
-> 
-> Mauro Carvalho Chehab (15):
->   dt-bindings: mtd: update mtd-physmap.yaml reference
->   dt-bindings: firmware: update arm,scpi.yaml reference
->   dt-bindings: net: dsa: sja1105: update nxp,sja1105.yaml reference
->   MAINTAINERS: update mtd-physmap.yaml reference
->   MAINTAINERS: update arm,vic.yaml reference
->   MAINTAINERS: update aspeed,i2c.yaml reference
->   MAINTAINERS: update faraday,ftrtc010.yaml reference
->   MAINTAINERS: update fsl,fec.yaml reference
->   MAINTAINERS: update mtd-physmap.yaml reference
->   MAINTAINERS: update ti,am654-hbmc.yaml reference
->   MAINTAINERS: update ti,sci.yaml reference
->   MAINTAINERS: update gpio-zynq.yaml reference
->   MAINTAINERS: update arm,pl353-smc.yaml reference
->   MAINTAINERS: update intel,ixp46x-rng.yaml reference
->   MAINTAINERS: update nxp,imx8-jpeg.yaml reference
-> 
-> [...]
+Hello, I am new user of this amazing tool.
+I want to use this tool for Nvidia tx2 board with kernel version =
+4.9.140.
 
-Applied, thanks!
+Do you guys have any timeline or update schedule for different kernel =
+version compatibility?
 
-[13/15] MAINTAINERS: update arm,pl353-smc.yaml reference
-        commit: e460a86aab669e00c5952a7643665f3096fbfe27
-
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Best
+Dongjoo Seo=
