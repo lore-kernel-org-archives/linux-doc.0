@@ -2,60 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0EBC4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:46:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10EDFC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:46:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80B0860EFD
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:46:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEF3660F02
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 13:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235282AbhGWNFx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 09:05:53 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:42400 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235280AbhGWNFw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Jul 2021 09:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=CmXWj2ABPqg7RX0vUEbBpvnD+N3bC87TMH6iFSWsAyw=; b=Ouz+oerYnlrUb2wjHcQBvfVjwO
-        HSulFfWZ4IskJWLSbgD/9Yn4y5trGx8NEW7eKwL+Wt6Xb/+7KeRWl32yVE9921/R3guLcmMhZKsqk
-        k2F2WECEB9vg1m7MbDCB4Q2uJKru0vZTAgEt75Jrj95saRlQkSavrzeHKzWidxN0tPZk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1m6vVM-00EV2u-Nt; Fri, 23 Jul 2021 15:46:20 +0200
-Date:   Fri, 23 Jul 2021 15:46:20 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Ioana Ciornei <ciorneiioana@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>
-Subject: Re: [PATCH net-next v2] docs: networking: dpaa2: add documentation
- for the switch driver
-Message-ID: <YPrILGYhg/8vwEyH@lunn.ch>
-References: <20210723084244.950197-1-ciorneiioana@gmail.com>
+        id S235317AbhGWNF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 09:05:59 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:34077 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235243AbhGWNF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 09:05:58 -0400
+Received: from mail-wm1-f53.google.com ([209.85.128.53]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N7AEs-1l1fkw2VZM-017TAH; Fri, 23 Jul 2021 15:46:30 +0200
+Received: by mail-wm1-f53.google.com with SMTP id j6-20020a05600c1906b029023e8d74d693so1649695wmq.3;
+        Fri, 23 Jul 2021 06:46:30 -0700 (PDT)
+X-Gm-Message-State: AOAM53176BGyy0OWAenUdEDF0gmmvu1UqqAzbEw5Aatu0UjeTJQloMJc
+        Lg/kGKqd5ih3pTt5gBol3Ac57E9lyA+KmogbeBM=
+X-Google-Smtp-Source: ABdhPJyfbJ/TTAuOw7j89Wul0Xg+2CYe0Hm+3Y35Empz4DlbpbFzr1NRRDGERsVfUMwmu0uZ4yYDMTYgM127TEzwEVk=
+X-Received: by 2002:a7b:c2fa:: with SMTP id e26mr14345036wmk.84.1627047990248;
+ Fri, 23 Jul 2021 06:46:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210723084244.950197-1-ciorneiioana@gmail.com>
+References: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
+In-Reply-To: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 23 Jul 2021 15:46:14 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1ax29ThCG867phtx1Xb12GgiJFcLDd8H9VLbsJQ1uoAw@mail.gmail.com>
+Message-ID: <CAK8P3a1ax29ThCG867phtx1Xb12GgiJFcLDd8H9VLbsJQ1uoAw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Add STM32MP13 SoCs and discovery board support
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:/IYV4zP0nWsjHpTv3UBJIm4gesWafe7QOTye4w1rD945/TXM8/g
+ 8Q+SRjbfkrVbSKvikHvoqtehTd84cQx5IwqW9KEM/wGSSbkWyVEYXbhKzWfcyrJaO+OKs1x
+ pNQ/uw17qpS7x4gqJqL8b2v+dIXAfvMoSratPfwFw+GRHuVqRS9gWynsv5IX7W3eg4uzFiu
+ LpKW1hGCA85ESL3uvhI2A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EfR3PoU4teQ=:m2wGIB5uFzC3E6SakfCPm6
+ zvQwbWy3jU2Z1QKngVoi7clKwI51Wo7vlnRc5juVQ2rdpBeTNbXU4/q0hQzq6jA2KH/KZm2rV
+ 3bqRdhCHGGKOITjGKw1ZAFH/ueOPd/m7L0gdK+nLgVPKGTf9kdmEBSWE4hYjn4hexCDRq2MME
+ 1BP+fl3qXnk2D52YPVbkh2ZyLpUa5RmoanQdXPhBhWfomVExkJEBtTvKM5F42UZmBsyvQJiwT
+ cW6OkGsu9pIp9MOrfg3Ln7HZnOYVxKiKNvc+rJdFcP8RND8t5T4qKnUexG/9l0n2eMJII9uZ/
+ AcFh/bt9Hsl88qLG9e3N9eCyN4qdVehWvQW9i4ALzbgR0/tmuWsURuyj08ahV4C0gmzU8Ey8x
+ NVnRydpFQjZ+chBu4kzFNVK5ogbMG7eFcdJSt+Mh4vJujntHlGeiIZvkU0Ib2b3dVsrx2TGDd
+ b7vxjs+akXT5kfOTvCmcJOVKA4NnLkw9/JFdo7AGFlQtEQNbuYtwvHMbMTT53N7F7vHZKlyW3
+ deRg8r24IQrpR2hDp92F76zrWtLRCz8vteWKhIKjr1I2jOt4YJtMugk2CIERh95gYG+ibscqe
+ wBJxK3/pd/KOJ6LV1I9ebWMy8IWTJiNDxv5sgYKimPhQvX/Y05UypKhxGINq/ueNS6JGjBaKr
+ LQlr/66o7aWb0/TzgiXoc3GJLVcMbJulYUSr7ibUwxAvPQRhGBiAgtNkR2lsu4prNB4+xJhcd
+ 9ySk/TsPhh9umIFpQl2wEUnOvh6sl7YQrF3qIuNpeToHFgM03uilJYp3l+1tBu+J7SMORhKHw
+ S3zrLS7/VKXMh2IqokDc428Y6w0XwfjdFv2hK0ZZtD89rd7+FvcB0ko60FHsdr5VcXkg234
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 11:42:44AM +0300, Ioana Ciornei wrote:
-> From: Ioana Ciornei <ioana.ciornei@nxp.com>
-> 
-> Add a documentation entry for the DPAA2 switch listing its
-> requirements, features and some examples to go along them.
-> 
-> Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+On Fri, Jul 23, 2021 at 3:28 PM Alexandre Torgue
+<alexandre.torgue@foss.st.com> wrote:
+>
+> This series enhance the STM32 MPU family by adding STM32MP13 SoCs support.
+> It adds machine support and device tree diversity to support the whole
+> stm32mp13 family (STM32MP131/STM32MP133/STM32MP135, plus security feature
+> diversity).
+>
+> Basically STM32MP13 SoCs embeds one Cortex A7, storage (SD/MMC/SDIO, QSPI FMC),
+> network (ETH, CAN), display (DCMIPP, LTDC, ...), audio(SAI, DFSDM, SPDIFRX),
+> com (USB EHCI/OHCI, USB OTG, I2C, SPI/I2S, U(S)ART).
+>
+> This series also adds STM32MP135F Discovery board support (stm32mp135f-dk). It
+> embeds a STM32MP135f SOC with 512 MB of DDR3. Several connections are available
+> on this board:
+>  - 4*USB2.0, 1*USB2.0 typeC DRD, SDcard, 2*RJ45, HDMI, Combo Wifi/BT, ...
+>
+> Only SD card, uart4 (console) and watchdog IPs are enabled in this commit.
+>
+> Note that file stm32mp135.dtsi doesn't define nodes but I add it now to ease adding
+> of new nodes in a (close) future.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+I had a brief look and it seems all fine to me, nice work!
 
-    Andrew
+The only (very minor) thing I noticed is that the crypto engine device node
+has an unusual name 'cryp@' instead of the usual 'crypto@', but this is already
+the case on stm32mp157.
+
+With this changed,
+
+Acked-by: Arnd Bergmann <arnd@arndb.de
