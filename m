@@ -2,96 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-25.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 243ECC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 20:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22380C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Jul 2021 03:47:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06B9660F41
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jul 2021 20:05:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 095AA60EB4
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Jul 2021 03:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbhGWTZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jul 2021 15:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
+        id S233875AbhGXDG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jul 2021 23:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbhGWTZO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 15:25:14 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92FFC061575
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 13:05:46 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id m2-20020a17090a71c2b0290175cf22899cso5268034pjs.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jul 2021 13:05:46 -0700 (PDT)
+        with ESMTP id S233774AbhGXDG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jul 2021 23:06:29 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B0CC061575;
+        Fri, 23 Jul 2021 20:47:00 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so6440225pjd.0;
+        Fri, 23 Jul 2021 20:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MokFZ3XwIYDGK3TvGYmwLd67Cho0JHFpBfKcy8kgS/E=;
-        b=TALKbKTXJQE0MAbYnhH22NMWCcV22z/A4T6qDbn8kltVxqXbitgJo0VvXyQYc/16Uk
-         WK0V/XKMQO9SUALpbkX3SKDGMCLkOMH5ZpWSoTTkNz2bcDSWueM1DL+R6D4MvyITIPzU
-         tPzecDlxqdLqRTR4XtKWrdUZZOeWEIkZJYhww=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bK4wXWV2w6jl9gOjwEaUE/3gjceKzZWBlAbYkJoZ0dc=;
+        b=i0B4FodZBwFxzUJJoBvd69lApHhWjTVltIQElPfXSDEr6XRvTDQVLSX/4aRjHjv4wS
+         tID9dv+f1ln9sUMjXR5RgRR69O0xT/ToWnKaX9DhLL2bczdFM87oFIdb6kLwFR6rwB/y
+         O9Z0E+h7BpMMEjen231ysCaWiUqOXyY8LTG0pXOH0tHdZZMY52TfqB3PlzrVBCxqw9fK
+         zgATthlgoqLy8a+Lvebz/HtIkgLymUlfDNI9OsLzJEk+arD7dcULkOcgJfpCMTYt+gib
+         Vgp6sH2ro/Pm822LJlO/RTLWJqej8umrFjSzeXVp1XvkcQWXjkN941l2M83y/uAaLFHP
+         mYFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MokFZ3XwIYDGK3TvGYmwLd67Cho0JHFpBfKcy8kgS/E=;
-        b=sQumNMbCQpoB1tebK4UTb8Tb4CJd5WrEtMopefbTzEXr2mEyAVgjJEYVU4rq1oEwVV
-         IWFF3ThJhGOVYlWyjvtwB2cr4BoMRJMl0ZjPkjEtB1Yg7su7L+2kVEeEw5uxCPWJGAht
-         B3qjiRJOUhCfU/am8HEeRYm5TgdTMgDiT8romBI9Bveg1Y9g64PnroJ6/8gX8CsGDvmC
-         toEjAXuvpwfcelRSNMAh9qCHnJM5okEXI6jipsW/jcXsnY3UP1jyck70h1m8wXoTSMFP
-         kjNiMBYWnh1NwtmM/8Jhdg5WGDqJnLWZmBMVe6pYIT+WD7JSwgOb4Vk7vX3BNp1ohLpo
-         gNnQ==
-X-Gm-Message-State: AOAM5316Eou0mKAZMw4BuQk/eQ61fS13HR0IKTcZGF7ZihILpS+F/Dgp
-        Aea9LWD2Bx5BX9XNtHfi3zMpWA==
-X-Google-Smtp-Source: ABdhPJwBPM5Ao2tmULZCEuJI7hT8hHtxHKagOdVZef1ACH97RkCuCRyo3h+6iAoMjEdIrpQWjRmgRQ==
-X-Received: by 2002:a17:90b:d8f:: with SMTP id bg15mr14882797pjb.152.1627070746241;
-        Fri, 23 Jul 2021 13:05:46 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ft7sm6905670pjb.32.2021.07.23.13.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 13:05:45 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH] deprecated.rst: Include details on "no_hash_pointers"
-Date:   Fri, 23 Jul 2021 13:05:26 -0700
-Message-Id: <20210723200526.3424128-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bK4wXWV2w6jl9gOjwEaUE/3gjceKzZWBlAbYkJoZ0dc=;
+        b=cG7wYMB952N+GIqU0+UMj/EEL6FumzSXMBxN/diM+QoPuxTsh25IoIYy3X5rVnXS+m
+         h6rFf28wGYPdzjTDqQlKNPNne0qfgXG50/10d7JKlOYDuMD8IkCx339YQ6tMKX2JKa/0
+         +uVKP8SmBErHYqQAvl2IpFpG1yeIqWNoFOwTLHnaFlLG/BQVkdcZi/CdacB3T1rGfBpo
+         BEMEge8pouKKce7KRIa+xQ406FJw/a+op+F5BFSBsGBBu6eUtZn8SyCSv0v95icjbIVo
+         Ccu1ldcJRgPEFH+ys1w3qlQKwSIi1ooo+4fgIwh28keVxKWO1GA9Sf3XibY6ISpNssc0
+         fjAw==
+X-Gm-Message-State: AOAM533VfnCeYvUggs5nLZQCqsUAVw4fBBg+3t7+pnxuCV8LXnYfpPAc
+        zVPwazq0tgNvtmgC8KM7GJXrttqtXykXAkiVHe0=
+X-Google-Smtp-Source: ABdhPJwjeDocAzcQqLtC0l94cdkAreCmg5PMVO5RVpV3aRpx6xPMXTAxIq8Ho7pJa9tRXBP5xvgVunhM51G/ojx99fY=
+X-Received: by 2002:a17:90a:8b86:: with SMTP id z6mr4852886pjn.179.1627098420403;
+ Fri, 23 Jul 2021 20:47:00 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; h=from:subject; bh=XsksPCw1yA95O9ZzuyNBJnhijqK4KBD6Xvu0NRJs8Rk=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBg+yEF8aLpeO+OrMt/e+urZLaswp4MJP/oyEPMNu6H KBseMGmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYPshBQAKCRCJcvTf3G3AJv3yD/ 0W0YGQwo/0I524Hb+oMrryi0N03lRdhbtLVmcxBCkLUobk/GcXkaoZTStFnvDt/dv4DGd802jWe7s6 yOMiLkJq9wBXgS9FctDKOfHq3oEjxAvkLYeHzWGf2gLOxwWwCat4kskiUIL9+yzk+vBu5Axk/WgunA p5hbyuY8CJ5EuJttn+LfoTBGCIOamoWVu3d3lDvjIcvnOh6WUCLkfgVMpPs/OmvYc11+G12hRgNpyR Mv3Ee149yZhz7T2fN5Ta0GMpaRcP2VnKioOkW4Mgzfz9ANZUM5vwVuqcPqXkUrrJGDIIN5kkDcoHn9 sceZ3tPlXgrNv1cHoXIgg1Y1UVQBV0HFAJI/Rc++e9NsOi3oGbbElUQssLWdK4Z3yWTV1pqW+v4j0Y c6hqqPGvjD7tqFdm4Vm5ECyWJyWRqHUUydIpAZmQGoQP6JGs2qdvWRZdLQfryAsRQuj5yYSTEhCNtt evlRjzb3o+9QVbJMhMHUbX839OYJRcxpcioDcgc3oFYCcXJKW240X1cB+DhAkZ9TrgC6WgtgWs8ZuP zyAMb7qCCWQgNkqrbdQlg3aYRXb9KvOZwvn7v7VHmD0XAKyEdFvLacSk+5Mp0Jt+pGboXx3JcthrIo Fa3k9jfQse8gXI0XcFHao61ukDD/ZsblgfaBbsKqw6gte2qmeWe1DxJVsdbw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20210723011430.404813-1-yang.yang29@zte.com.cn>
+In-Reply-To: <20210723011430.404813-1-yang.yang29@zte.com.cn>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Sat, 24 Jul 2021 11:46:50 +0800
+Message-ID: <CAMU9jJrQjFdWJQJYL3E5GBCqpNfrbOLsCY=W7O6V-TnO=bMDpw@mail.gmail.com>
+Subject: Re: [PATCHv2] docs/zh_CN: Add zh_CN/accounting/psi.rst
+To:     cgel.zte@gmail.com
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linus decided a debug toggle for %p was tolerable, so update the
-%p deprecation documentation.
+<cgel.zte@gmail.com> =E4=BA=8E2021=E5=B9=B47=E6=9C=8823=E6=97=A5=E5=91=A8=
+=E4=BA=94 =E4=B8=8A=E5=8D=889:13=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: Yang Yang <yang.yang29@zte.com.cn>
+>
+> Add translation zh_CN/accounting/psi.rst and zh_CN/accounting/index.rst.
+>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+> ---
+>  .../translations/zh_CN/accounting/index.rst   |  23 +++
+>  .../translations/zh_CN/accounting/psi.rst     | 154 ++++++++++++++++++
+>  2 files changed, 177 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/accounting/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/accounting/psi.rst
+>
+> diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Docu=
+mentation/translations/zh_CN/accounting/index.rst
+> new file mode 100644
+> index 000000000000..f50e81bc5e61
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/accounting/index.rst
+> @@ -0,0 +1,23 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../accounting/index`
+Now, we use the new format:
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/process/deprecated.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+:Original: Documentation/accounting/index.rst
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 9d83b8db8874..8ced754a5a0f 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -164,7 +164,9 @@ Paraphrasing Linus's current `guidance <https://lore.kernel.org/lkml/CA+55aFwQEd
-   up to Linus's scrutiny, maybe you can use "%px", along with making sure
-   you have sensible permissions.
- 
--And finally, know that a toggle for "%p" hashing will `not be accepted <https://lore.kernel.org/lkml/CA+55aFwieC1-nAs+NFq9RTwaR8ef9hWa4MjNBWL41F-8wM49eA@mail.gmail.com/>`_.
-+If you are debugging something where "%p" hashing is causing problems,
-+you can temporarily boot with the debug flag "`no_hash_pointers
-+<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_".
- 
- Variable Length Arrays (VLAs)
- -----------------------------
--- 
-2.30.2
+with this,
 
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+
+Thanks,
+
+Yanteng
