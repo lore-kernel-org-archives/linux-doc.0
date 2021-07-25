@@ -2,104 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE41CC4338F
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jul 2021 14:30:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D673C4338F
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jul 2021 20:11:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A028360D07
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jul 2021 14:30:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA459603E7
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jul 2021 20:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbhGYNuH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jul 2021 09:50:07 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:52984 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231128AbhGYNuG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 25 Jul 2021 09:50:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=iCtZ6/DP/wOdXDUqSLO6T1YWhOlDxOcRzS1zd
-        PtML7M=; b=hRoBnXp4XtgR8ygzlHXDoqz7EBAiUcRmcRqv60/DWX/lLtXK7JqPL
-        NZneq8rSScY8EyutZipTvJ9ofODEK6u7cfN/Q644j3ofufj/Wjm7pBMOzn9k+OPy
-        NGPtVLcndA579eHYoCo4IJaYNbV5Ftn51R90StEi1hoGwNWbYcp8cA=
-Received: from [0.0.0.0] (unknown [113.251.13.19])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDX5QSIdf1gMEEGAA--.18133S3;
-        Sun, 25 Jul 2021 22:30:34 +0800 (CST)
-Subject: Re: [PATCH v5 1/2] docs: add traditional Chinese translation for
- kernel Documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     panyunwang849@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210721142537.29409-1-src.res@email.cn>
- <20210725141435.112074-1-src.res@email.cn> <87eebmwk9n.fsf@meer.lwn.net>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <b46316da-9c91-4407-649f-c3304e73696f@email.cn>
-Date:   Sun, 25 Jul 2021 22:30:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229831AbhGYTbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jul 2021 15:31:20 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41742 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229709AbhGYTbU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 25 Jul 2021 15:31:20 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D43C52E5;
+        Sun, 25 Jul 2021 20:11:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D43C52E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1627243910; bh=RHiih0sbDS0ddNNrbXNoza75JT3+DbSceexQxA/SrV0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=IgxOxr7MYziszpjx9NCi0IWE4wzvo3lrbMz9oPCUCcPfwydVpDN2lT1zK44pGYpYE
+         q8NBl5KpKY9kLY1/j7yajIqlXlBAoryt4iBh3q2qnf/uFCN2facNag88ULfsNA9g76
+         4eImI3apRUnkCM2goL6ApReCxqQBr3ajgIkwyGVcmzZaJRSz9K1XDUMonTnhVbExiL
+         3yjg0hnbpoPPpz+kQ4JNjqnBsPmqcu2mYClRFPPYE0B6Bpcmf1R2QP8g7sGBhCvEUw
+         lBQNnQxHMJ0hlX6PlfYnQ29QfbIFWII8bZu/rQiedpBcKX8rXR1MBBZ/XowwsZwgD4
+         n7M5bwtq1u7QQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     pioneer695 <pioneer695@protonmail.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: make cleandocs issue: rm -rf /output when obj not defined
+In-Reply-To: <hMV_L3bAsgmBToxsfiYBJDxTBoLHll-1BOk7FvqialjmZFNDp14Bq69ddTVagVH49yViCM43-yFpZ39Kfr6geVK7ota0QhCDA4MaC_5vILY=@protonmail.com>
+References: <hMV_L3bAsgmBToxsfiYBJDxTBoLHll-1BOk7FvqialjmZFNDp14Bq69ddTVagVH49yViCM43-yFpZ39Kfr6geVK7ota0QhCDA4MaC_5vILY=@protonmail.com>
+Date:   Sun, 25 Jul 2021 14:11:49 -0600
+Message-ID: <875ywyw3ui.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <87eebmwk9n.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: LCKnCgDX5QSIdf1gMEEGAA--.18133S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF4fAr1kGw1DCr15JF47Arb_yoW3ZrXEkF
-        y8twn5Cw17AF18tF4ftFsrCw1Iqa10g3WYk3y0q3yrJ3yqg3ykZrs7Xwnav39YyF48CasI
-        kF1kZrW5ZrnrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbwxYjsxI4VWDJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
-        1lc2xSY4AK67AK6ry5MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l
-        4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-        AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-        cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
-        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-        6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUjwIDDUUUU
-X-Originating-IP: [113.251.13.19]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+pioneer695 <pioneer695@protonmail.com> writes:
 
-ÔÚ 2021/7/25 ÏÂÎç10:17, Jonathan Corbet Ð´µÀ:
-> Hu Haowen <src.res@email.cn> writes:
+> In an attempt to get some readable documentation I cloned the git repository
+> to check how the PDF format is.
 >
->> Add traditional Chinese translation (zh_TW) for the Linux Kernel
->> documentation with a series of translated files.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
->> Reviewed-by: Pan Yunwang <panyunwang849@gmail.com>
-> When you send a new version of a patch set, please include (after the
-> "---" line) what changed.  Otherwise maintainers have no idea why you
-> keep sending the patch out or whether it seems to be stabilizing.
-
-
-Sorry, forgot to append them.
-
-v2:
-* Added more translations for zh_TW.
-
-v3:
-* Fixed building errors.
-* Added SPDX identifiers for each file.
-
-v4:
-* Reorganised patch format and compressed patch content.
-
-v5:
-* Added Reviewed-by tag.
-
-Thx,
-Hu Haowen
-
-
-> Thanks,
+> Entered Documentation and proceeded with:
 >
-> jon
+> 	make pdfdocs
+>
+> which failed, so to start fresh, my thought was that:
+>
+> 	make cleandocs
+>
+> would be the next step before anything else. But, this resulted in:
+>
+> 	rm -rf /output
 
+That's not good...
+
+> as $(obj) for some reason was empty.
+
+*This* would appear to be the real problem.  If you could do some
+digging to figure out why that happened, I suspect that would be
+useful. 
+
+> Makefile for Documentation has:
+>
+> 	BUILDDIR      = $(obj)/output
+>
+> 	cleandocs:
+> 		$(Q)rm -rf $(BUILDDIR)
+>
+>
+> This should (at least?!) be:
+>
+> 	BUILDDIR      = ./$(obj)/output
+> or:
+> 	$(Q)rm -rf ./$(BUILDDIR)
+
+These would break builds for a lot of people and are not the right
+solution.
+
+Thanks for the report,
+
+jon
