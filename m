@@ -2,183 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE2BC4338F
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 12:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2635C4338F
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 12:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 900A860F44
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 12:26:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9463260241
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 12:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233968AbhGZLpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jul 2021 07:45:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45557 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233859AbhGZLpy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 07:45:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1627302383;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        id S233713AbhGZLrm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jul 2021 07:47:42 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55796 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233959AbhGZLrm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 07:47:42 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 4991F21F83;
+        Mon, 26 Jul 2021 12:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1627302490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=yAG0xqQccUP+f+kw+pTAihdi2ZzJSxeVDJcF4UMu+5c=;
-        b=PMK/07gOm+XTU6g7ldzBrbrnvRpFnNhSn0OWBT263FaqOqfO6S7qpOS0KSo8FMLnk5599x
-        fFpzTcM/kaNmgyW81douPvG4P2vv8p57SgIfB31VJ6n2pq+oOHIR4JRaGEm4SE/Nc7VZu/
-        lLBtW7NhmINwu8YhmZwU28s/n528a2c=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-h45bTW2-NAWi6ob81VOhew-1; Mon, 26 Jul 2021 08:26:21 -0400
-X-MC-Unique: h45bTW2-NAWi6ob81VOhew-1
-Received: by mail-ed1-f70.google.com with SMTP id s8-20020a0564020148b02903948b71f25cso4650031edu.4
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jul 2021 05:26:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yAG0xqQccUP+f+kw+pTAihdi2ZzJSxeVDJcF4UMu+5c=;
-        b=sGLSMbfUvPuzNS8nhkGx3EwtJe9j/1inon4aeZdf9ZeuR9Bkxl32Tv0wV52xl/vWXv
-         ITg9pmYKkhGLkcV4c/rH7C/6BLazAWDaD+hH/0AkKi1NtTukij3tLCtVc5jhoLb3HO8M
-         md0Dp2DdP0oBMatDWBvfdAZQZ7to4OxtB4Rm95fo1eWzT7xjEbzxaRuUPUpCjMWqs5ZI
-         NDz42DST5NgQmAmKCz0ng/MdA9RS5r1Zn4CGRE/tY+J754my4dKSKKcwm/R/PGCIU7Ao
-         ZNahJQhbr8iWE+PhY9k/77WzUvAOYKh/T9yijKF6TdsRMTyWOhfXxrCa1mX/ZE0WGEfn
-         l9qw==
-X-Gm-Message-State: AOAM5338zAOOzN/StjiNmbpVhrNlMI12s8hV5TzCBhcOfZ2G7+FOZ2X1
-        pG5fLbKtY4YXNp0raCXOC4fLT0mRYqI2PEP3ddujIOriNaZQaldgXC4KjNmbBOnj5dPsw019HXY
-        8/r0NX/FKSl0rc+to805u
-X-Received: by 2002:a05:6402:424e:: with SMTP id g14mr21291849edb.364.1627302380128;
-        Mon, 26 Jul 2021 05:26:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqkwdPnaViy67oIjfnoktBLJlDQUHjdW1FLT6+T736sxyjwJBwk4dpFQzX7c9cnngwMutAlQ==
-X-Received: by 2002:a05:6402:424e:: with SMTP id g14mr21291836edb.364.1627302379979;
-        Mon, 26 Jul 2021 05:26:19 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id g23sm18681156edp.90.2021.07.26.05.26.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jul 2021 05:26:19 -0700 (PDT)
-Subject: Re: [PATCH 3/3] docs: virt: kvm: api.rst: replace some characters
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1626947264.git.mchehab+huawei@kernel.org>
- <ff70cb42d63f3a1da66af1b21b8d038418ed5189.1626947264.git.mchehab+huawei@kernel.org>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <33d0dd04-15ba-9d32-c73f-9d086cd3e458@redhat.com>
-Date:   Mon, 26 Jul 2021 14:26:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=QU8cYwdmsrvtBphYVUXeLz/ruYBbJBccan55c4kG70c=;
+        b=Sc0PLAp+3Sctjax5ynY7A1H0jpBc86Kpsj08x6eojdXFJfYun/HMGGaj4tZ0+3ilvs3Wrw
+        9bRwT3c8yQePfD4PwylTdxLgyFr7VkOnIo/dhcaS9i/i0K0PTd8hfUgl7rGn5j2xGi3oKp
+        oxlY0QKRsZklkfymDOPH+HndZrKo0as=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id D6FAEA3B8E;
+        Mon, 26 Jul 2021 12:28:09 +0000 (UTC)
+Date:   Mon, 26 Jul 2021 14:28:09 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Chris Down <chris@chrisdown.name>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warning after merge of the printk tree
+Message-ID: <YP6qWSAy3HN0DwYt@alley>
+References: <20210720162423.75f61ce0@canb.auug.org.au>
+ <YPa/D8tSyk7dw1/l@chrisdown.name>
+ <YPbABBSTkN+xNY0w@chrisdown.name>
+ <87o8aqt7qn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <ff70cb42d63f3a1da66af1b21b8d038418ed5189.1626947264.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o8aqt7qn.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/07/21 11:50, Mauro Carvalho Chehab wrote:
-> The conversion tools used during DocBook/LaTeX/html/Markdown->ReST
-> conversion and some cut-and-pasted text contain some characters that
-> aren't easily reachable on standard keyboards and/or could cause
-> troubles when parsed by the documentation build system.
+On Sun 2021-07-25 15:16:00, Jonathan Corbet wrote:
+> Chris Down <chris@chrisdown.name> writes:
 > 
-> Replace the occurences of the following characters:
+> > Chris Down writes:
+> >>+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+> >
+> > Well, let's actually Cc them this time...
+> >
+> >>Stephen Rothwell writes:
+> >>>After merging the printk tree, today's linux-next build (htmldocs)
+> >>>produced this warning:
+> >>>
+> >>>kernel/printk/printk.c:1: warning: 'printk' not found
+> >>>
+> >>>Introduced by commit
+> >>>
+> >>> 337015573718 ("printk: Userspace format indexing support")
+> >>>
+> >>>I presume that "printk" is referred to elsewhere in the documentation
+> >>>as being in this file.
+> >>
+> >>Hmm, this is an interesting one, because I think we still generally 
+> >>just want to refer to the API as being `printk()`. Changing it all 
+> >>over the place seems wrong. As you'd imagine, there are quite a few 
+> >>references to this name, so it requires a lot of noise all over the 
+> >>docs and inline comments.
+> >>
+> >>Jonathan and other docs folks, how can one tell Sphinx that when it 
+> >>sees printk() it's referring to a function-like macro, or otherwise 
+> >>squelch this reasonably? :-)
 > 
-> 	- U+00a0 (' '): NO-BREAK SPACE
-> 	  as it can cause lines being truncated on PDF output
+> The problem is that you moved printk(), but left the associated
+> kerneldoc comment tied to _printk(), which isn't what you really want to
+> document.  The fix should look something like the attached.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   Documentation/virt/kvm/api.rst | 28 ++++++++++++++--------------
->   1 file changed, 14 insertions(+), 14 deletions(-)
-
-Queued, thanks.
-
-Paolo
-
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index c7b165ca70b6..3a6118540747 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -855,7 +855,7 @@ in-kernel irqchip (GIC), and for in-kernel irqchip can tell the GIC to
->   use PPIs designated for specific cpus.  The irq field is interpreted
->   like this::
->   
-> -  bits:  |  31 ... 28  | 27 ... 24 | 23  ... 16 | 15 ... 0 |
-> +  bits:  |  31 ... 28  | 27 ... 24 | 23  ... 16 | 15 ... 0 |
->     field: | vcpu2_index | irq_type  | vcpu_index |  irq_id  |
->   
->   The irq_type field has the following values:
-> @@ -2149,10 +2149,10 @@ prior to calling the KVM_RUN ioctl.
->   Errors:
->   
->     ======   ============================================================
-> -  ENOENT   no such register
-> -  EINVAL   invalid register ID, or no such register or used with VMs in
-> +  ENOENT   no such register
-> +  EINVAL   invalid register ID, or no such register or used with VMs in
->              protected virtualization mode on s390
-> -  EPERM    (arm64) register access not allowed before vcpu finalization
-> +  EPERM    (arm64) register access not allowed before vcpu finalization
->     ======   ============================================================
->   
->   (These error codes are indicative only: do not rely on a specific error
-> @@ -2590,10 +2590,10 @@ following id bit patterns::
->   Errors include:
->   
->     ======== ============================================================
-> -  ENOENT   no such register
-> -  EINVAL   invalid register ID, or no such register or used with VMs in
-> +  ENOENT   no such register
-> +  EINVAL   invalid register ID, or no such register or used with VMs in
->              protected virtualization mode on s390
-> -  EPERM    (arm64) register access not allowed before vcpu finalization
-> +  EPERM    (arm64) register access not allowed before vcpu finalization
->     ======== ============================================================
->   
->   (These error codes are indicative only: do not rely on a specific error
-> @@ -3112,13 +3112,13 @@ current state.  "addr" is ignored.
->   Errors:
->   
->     ======     =================================================================
-> -  EINVAL     the target is unknown, or the combination of features is invalid.
-> -  ENOENT     a features bit specified is unknown.
-> +  EINVAL     the target is unknown, or the combination of features is invalid.
-> +  ENOENT     a features bit specified is unknown.
->     ======     =================================================================
->   
->   This tells KVM what type of CPU to present to the guest, and what
-> -optional features it should have.  This will cause a reset of the cpu
-> -registers to their initial values.  If this is not called, KVM_RUN will
-> +optional features it should have.  This will cause a reset of the cpu
-> +registers to their initial values.  If this is not called, KVM_RUN will
->   return ENOEXEC for that vcpu.
->   
->   The initial values are defined as:
-> @@ -3239,8 +3239,8 @@ VCPU matching underlying host.
->   Errors:
->   
->     =====      ==============================================================
-> -  E2BIG      the reg index list is too big to fit in the array specified by
-> -             the user (the number required will be written into n).
-> +  E2BIG      the reg index list is too big to fit in the array specified by
-> +             the user (the number required will be written into n).
->     =====      ==============================================================
->   
->   ::
-> @@ -3288,7 +3288,7 @@ specific device.
->   ARM/arm64 divides the id field into two parts, a device id and an
->   address type id specific to the individual device::
->   
-> -  bits:  | 63        ...       32 | 31    ...    16 | 15    ...    0 |
-> +  bits:  | 63        ...       32 | 31    ...    16 | 15    ...    0 |
->     field: |        0x00000000      |     device id   |  addr type id  |
->   
->   ARM/arm64 currently only require this when using the in-kernel GIC
+> Thanks,
 > 
+> jon
+> 
+> --------snip here----------------------
+> printk: Move the printk() kerneldoc comment to its new home
+> 
+> Commit 337015573718 ("printk: Userspace format indexing support") turned
+> printk() into a macro, but left the kerneldoc comment for it with the (now)
+> _printk() function, resulting in this docs-build warning:
+> 
+>   kernel/printk/printk.c:1: warning: 'printk' not found
+> 
+> Move the kerneldoc comment back next to the (now) macro it's meant to
+> describe and have the docs build find it there.
+> 
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
+This looks better than my variant. I have pushed it into
+printk/linux.git, branch for-5.15-printk-index.
+
+Best Regards,
+Petr
