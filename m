@@ -2,406 +2,291 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F6FC4320A
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 16:41:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0796BC4338F
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 16:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 126ED60F5E
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 16:41:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFF1360F57
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 16:57:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbhGZQBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jul 2021 12:01:00 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3490 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239967AbhGZP7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 11:59:05 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GYQQ80yMKz6G9Ny;
-        Tue, 27 Jul 2021 00:30:24 +0800 (CST)
-Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 26 Jul 2021 18:39:31 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     <zohar@linux.ibm.com>, <gregkh@linuxfoundation.org>,
-        <mchehab+huawei@kernel.org>
-CC:     <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add, digest_list_del
-Date:   Mon, 26 Jul 2021 18:36:54 +0200
-Message-ID: <20210726163700.2092768-7-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210726163700.2092768-1-roberto.sassu@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+        id S235174AbhGZQRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jul 2021 12:17:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49386 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235387AbhGZQNw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Jul 2021 12:13:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5061D6056B;
+        Mon, 26 Jul 2021 16:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627318461;
+        bh=c/T13wFxt1PizOYI84tKGiFkCFercMC2EuWefcnCHj0=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ZzGrSP5l95kC8kxJfpB+jT4pRJB0opluEi6N3FPnKMDQpBbvUgdlQAcxklRRZEZ24
+         7z1VqNJwz4pkVSh4FY3NFY6f5jAmr2sjYryYXMSl3cTLIT8qWorqdURFU3UjNNiTW5
+         Y+RN6dZx+I4pyVJqvP6/YuEKRc0LUc9J4aoZ9GGOkxxzbBYeaxaC6nIjgdlhQeQ4U5
+         57IlVmbBP2V5xc26+h6nPvxGqR5idQBX9MC+EGjybfgwZs9Zko29TheYzFKOiGRjsz
+         ADfkft+t6nROIBlRI6o8v+VjrOoknsLX/FzYsiN5KYTqMfqN4qR7NGYBAEAGDZJMDk
+         xe2zbXE41Hx5g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 1375C5C06D2; Mon, 26 Jul 2021 09:54:21 -0700 (PDT)
+Date:   Mon, 26 Jul 2021 09:54:21 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Zhouyi Zhou <zhouzhouyi@gmail.com>
+Cc:     josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, ysato@users.sourceforge.jp,
+        dalias@libc.org, chris@zankel.net, jcmvbkbc@gmail.com,
+        dave@stgolabs.net, tiwai@suse.de, frederic@kernel.org,
+        mchehab+huawei@kernel.org, nfraprado@protonmail.com,
+        wcohen@redhat.com, tglx@linutronix.de, viro@zeniv.linux.org.uk,
+        rric@kernel.org, viresh.kumar@linaro.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH] RCU: Fix undefined Kconfig macros
+Message-ID: <20210726165421.GS4397@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210725214333.10623-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.204.63.22]
-X-ClientProxiedBy: lhreml754-chm.china.huawei.com (10.201.108.204) To
- fraeml714-chm.china.huawei.com (10.206.15.33)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210725214333.10623-1-zhouzhouyi@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce <securityfs>/integrity/diglim/digest_list_add, which can be used
-to upload a digest list and add the digests to the hash table; passed data
-are interpreted as file path if the first byte is / or as the digest list
-itself otherwise. ima_measure_critical_data() is called to calculate the
-digest of the digest list and eventually, if an appropriate rule is set in
-the IMA policy, to measure it.
+On Mon, Jul 26, 2021 at 05:43:33AM +0800, Zhouyi Zhou wrote:
+> Hi Paul,
+> 
+> After I invoking scripts/checkkconfigsymbols.py in linux kernel source
+> tree, I find 4 undefined Kconfig macros. I examine them one by one, and
+> fix them following your advice.
+> 
+> 1. TREE_PREEMPT_RCU
+> Referencing files: arch/sh/configs/sdk7786_defconfig
+> 
+> It should now be CONFIG_PREEMPT_RCU. Except that the CONFIG_PREEMPT=y in
+> that same file implies CONFIG_PREEMPT_RCU=y, so I delete the
+> CONFIG_TREE_PREEMPT_RCU=y line.
+> 
+> The reason is as follows.
+> In kernel/rcu/Kconfig, we have
+> config PREEMPT_RCU
+>         bool
+>         default y if PREEMPTION
+> https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt says,
+> "The default value is only assigned to the config symbol if no other value
+>  was set by the user (via the input prompt above)."
+> there is no prompt in config PREEMPT_RCU entry, so we are guaranteed to
+> get CONFIG_PREEMPT_RCU=y when CONFIG_PREEMPT is present.
+> 
+> 2. RCU_CPU_STALL_INFO
+> Referencing files: arch/xtensa/configs/nommu_kc705_defconfig
+> 
+> We now get RCU_CPU_STALL_INFO whether we want it or not, so this
+> line should be deleted.
+> (RCU_CPU_STALL_INFO is removed in 75c27f119b6475d95374bdad872c6938b5c26196)
+> 
+> 3. RCU_NOCB_CPU_ALL
+> Referencing files:
+> Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+> 
+> This is an old snapshot of the code. I update this from the real
+> rcu_prepare_for_idle() function in kernel/rcu/tree_plugin.h.
+> I have invoked "make htmldocs" to ensure the result of above updating.
+> 
+> 4. RCU_TORTURE_TESTS
+> Referencing files: kernel/rcu/rcutorture.c
+> 
+> forward-progress checking conflicts with CPU-stall testing, so we should
+> complain when modprobe the rcutorture.ko if that happens.
+> 
+> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
 
-Also introduce <securityfs>/integrity/diglim/digest_list_del, which can be
-used to upload a digest list and delete the digests from the hash table;
-data are interpreted in the same way as described for digest_list_add.
+Very good, thank you!  I wordsmithed as following and applied for
+the v5.16 merge window.
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- .../security/diglim/implementation.rst        |   9 +
- MAINTAINERS                                   |   1 +
- include/linux/kernel_read_file.h              |   1 +
- security/integrity/diglim/Makefile            |   2 +-
- security/integrity/diglim/diglim.h            |   2 +
- security/integrity/diglim/fs.c                | 239 ++++++++++++++++++
- security/integrity/integrity.h                |   4 +
- 7 files changed, 257 insertions(+), 1 deletion(-)
- create mode 100644 security/integrity/diglim/fs.c
+							Thanx, Paul
 
-diff --git a/Documentation/security/diglim/implementation.rst b/Documentation/security/diglim/implementation.rst
-index 9d679567a037..fc0cd8810a80 100644
---- a/Documentation/security/diglim/implementation.rst
-+++ b/Documentation/security/diglim/implementation.rst
-@@ -244,3 +244,12 @@ back when one of the steps fails.
- 
- #. digest_list_parse() deletes the struct digest_list_item on unsuccessful
-    add or successful delete.
-+
-+
-+Interfaces
-+----------
-+
-+This section introduces the interfaces in
-+``<securityfs>/integrity/diglim`` necessary to interact with DIGLIM.
-+
-+.. kernel-doc:: security/integrity/diglim/fs.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 77c3613c600a..0672128fae7f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5464,6 +5464,7 @@ F:	Documentation/security/diglim/introduction.rst
- F:	include/linux/diglim.h
- F:	include/uapi/linux/diglim.h
- F:	security/integrity/diglim/diglim.h
-+F:	security/integrity/diglim/fs.c
- F:	security/integrity/diglim/methods.c
- F:	security/integrity/diglim/parser.c
- 
-diff --git a/include/linux/kernel_read_file.h b/include/linux/kernel_read_file.h
-index 575ffa1031d3..636ecdfdc616 100644
---- a/include/linux/kernel_read_file.h
-+++ b/include/linux/kernel_read_file.h
-@@ -14,6 +14,7 @@
- 	id(KEXEC_INITRAMFS, kexec-initramfs)	\
- 	id(POLICY, security-policy)		\
- 	id(X509_CERTIFICATE, x509-certificate)	\
-+	id(DIGEST_LIST, digest-list)	\
- 	id(MAX_ID, )
- 
- #define __fid_enumify(ENUM, dummy) READING_ ## ENUM,
-diff --git a/security/integrity/diglim/Makefile b/security/integrity/diglim/Makefile
-index 34e4e154fff3..ac345afdf5dd 100644
---- a/security/integrity/diglim/Makefile
-+++ b/security/integrity/diglim/Makefile
-@@ -5,4 +5,4 @@
- 
- obj-$(CONFIG_DIGLIM) += diglim.o
- 
--diglim-y := methods.o parser.o
-+diglim-y := methods.o parser.o fs.o
-diff --git a/security/integrity/diglim/diglim.h b/security/integrity/diglim/diglim.h
-index 3adc218a0325..819703175eda 100644
---- a/security/integrity/diglim/diglim.h
-+++ b/security/integrity/diglim/diglim.h
-@@ -22,6 +22,8 @@
- #include <linux/hash_info.h>
- #include <linux/diglim.h>
- 
-+#include "../integrity.h"
-+
- #define MAX_DIGEST_SIZE 64
- #define HASH_BITS 10
- #define DIGLIM_HTABLE_SIZE (1 << HASH_BITS)
-diff --git a/security/integrity/diglim/fs.c b/security/integrity/diglim/fs.c
-new file mode 100644
-index 000000000000..07a0d75a0e33
---- /dev/null
-+++ b/security/integrity/diglim/fs.c
-@@ -0,0 +1,239 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2005,2006,2007,2008 IBM Corporation
-+ * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
-+ *
-+ * Author: Roberto Sassu <roberto.sassu@huawei.com>
-+ *
-+ * Functions for the interfaces exposed in securityfs.
-+ */
-+
-+#include <linux/fcntl.h>
-+#include <linux/kernel_read_file.h>
-+#include <linux/slab.h>
-+#include <linux/init.h>
-+#include <linux/seq_file.h>
-+#include <linux/rculist.h>
-+#include <linux/rcupdate.h>
-+#include <linux/parser.h>
-+#include <linux/vmalloc.h>
-+#include <linux/namei.h>
-+#include <linux/ima.h>
-+
-+#include "diglim.h"
-+
-+#define MAX_DIGEST_LIST_SIZE (64 * 1024 * 1024 - 1)
-+
-+static struct dentry *diglim_dir;
-+/**
-+ * DOC: digest_list_add
-+ *
-+ * digest_list_add can be used to upload a digest list and add the digests
-+ * to the hash table; passed data are interpreted as file path if the first
-+ * byte is ``/`` or as the digest list itself otherwise.
-+ *
-+ * ima_measure_critical_data() is called to calculate the digest of the
-+ * digest list and eventually, if an appropriate rule is set in the IMA
-+ * policy, to measure it.
-+ */
-+static struct dentry *digest_list_add_dentry;
-+/**
-+ * DOC: digest_list_del
-+ *
-+ * digest_list_del can be used to upload a digest list and delete the
-+ * digests from the hash table; data are interpreted in the same way as
-+ * described for digest_list_add.
-+ */
-+static struct dentry *digest_list_del_dentry;
-+char digest_label[NAME_MAX + 1];
-+
-+/*
-+ * digest_list_read: read and parse the digest list from the path
-+ */
-+static ssize_t digest_list_read(char *path, enum ops op)
-+{
-+	void *data = NULL;
-+	char *datap;
-+	size_t size;
-+	u8 actions = 0;
-+	struct file *file;
-+	char event_name[NAME_MAX + 9 + 1];
-+	u8 digest[IMA_MAX_DIGEST_SIZE] = { 0 };
-+	enum hash_algo algo;
-+	int rc, pathlen = strlen(path);
-+
-+	/* Remove \n. */
-+	datap = path;
-+	strsep(&datap, "\n");
-+
-+	file = filp_open(path, O_RDONLY, 0);
-+	if (IS_ERR(file)) {
-+		pr_err("unable to open file: %s (%ld)", path, PTR_ERR(file));
-+		return PTR_ERR(file);
-+	}
-+
-+	rc = kernel_read_file(file, 0, &data, INT_MAX, NULL,
-+			      READING_DIGEST_LIST);
-+	if (rc < 0) {
-+		pr_err("unable to read file: %s (%d)", path, rc);
-+		goto out;
-+	}
-+
-+	size = rc;
-+
-+	snprintf(event_name, sizeof(event_name), "%s_file_%s",
-+		 op == DIGEST_LIST_ADD ? "add" : "del",
-+		 file_dentry(file)->d_name.name);
-+
-+	rc = ima_measure_critical_data("diglim", event_name, data, size, false,
-+				       digest, sizeof(digest));
-+	if (rc < 0 && rc != -EEXIST)
-+		goto out_vfree;
-+
-+	algo = ima_get_current_hash_algo();
-+
-+	if (!rc || rc == -EEXIST)
-+		actions |= (1 << COMPACT_ACTION_IMA_MEASURED);
-+
-+	rc = digest_list_parse(size, data, op, actions, digest, algo, "");
-+	if (rc < 0)
-+		pr_err("unable to upload digest list %s (%d)\n", path, rc);
-+out_vfree:
-+	vfree(data);
-+out:
-+	fput(file);
-+
-+	if (rc < 0)
-+		return rc;
-+
-+	return pathlen;
-+}
-+
-+/*
-+ * digest_list_write: write the digest list path or the digest list itself
-+ */
-+static ssize_t digest_list_write(struct file *file, const char __user *buf,
-+				 size_t datalen, loff_t *ppos)
-+{
-+	char *data;
-+	ssize_t result;
-+	enum ops op = DIGEST_LIST_ADD;
-+	struct dentry *dentry = file_dentry(file);
-+	u8 digest[IMA_MAX_DIGEST_SIZE];
-+	char event_name[NAME_MAX + 11 + 1];
-+	enum hash_algo algo;
-+	u8 actions = 0;
-+
-+	/* No partial writes. */
-+	result = -EINVAL;
-+	if (*ppos != 0)
-+		goto out;
-+
-+	result = -EFBIG;
-+	if (datalen > MAX_DIGEST_LIST_SIZE)
-+		goto out;
-+
-+	data = memdup_user_nul(buf, datalen);
-+	if (IS_ERR(data)) {
-+		result = PTR_ERR(data);
-+		goto out;
-+	}
-+
-+	if (dentry == digest_list_del_dentry)
-+		op = DIGEST_LIST_DEL;
-+
-+	result = -EPERM;
-+
-+	if (data[0] == '/') {
-+		result = digest_list_read(data, op);
-+	} else {
-+		snprintf(event_name, sizeof(event_name), "%s_buffer_%s",
-+			 op == DIGEST_LIST_ADD ? "add" : "del", digest_label);
-+
-+		result = ima_measure_critical_data("diglim", event_name, data,
-+						   datalen, false, digest,
-+						   sizeof(digest));
-+		if (result < 0 && result != -EEXIST) {
-+			pr_err("failed to measure buffer digest (%ld)\n",
-+			       result);
-+			goto out_kfree;
-+		}
-+
-+		algo = ima_get_current_hash_algo();
-+
-+		if (!result || result == -EEXIST)
-+			actions |= (1 << COMPACT_ACTION_IMA_MEASURED);
-+
-+		result = digest_list_parse(datalen, data, op, actions, digest,
-+					   algo, "");
-+		if (result != datalen) {
-+			pr_err("unable to upload generated digest list\n");
-+			result = -EINVAL;
-+		}
-+	}
-+out_kfree:
-+	kfree(data);
-+out:
-+	return result;
-+}
-+
-+static unsigned long flags;
-+
-+/*
-+ * digest_list_open: sequentialize access to the add/del files
-+ */
-+static int digest_list_open(struct inode *inode, struct file *filp)
-+{
-+	if ((filp->f_flags & O_ACCMODE) != O_WRONLY)
-+		return -EACCES;
-+
-+	if (test_and_set_bit(0, &flags))
-+		return -EBUSY;
-+
-+	return 0;
-+}
-+
-+/*
-+ * digest_list_release - release the add/del files
-+ */
-+static int digest_list_release(struct inode *inode, struct file *file)
-+{
-+	clear_bit(0, &flags);
-+	return 0;
-+}
-+
-+static const struct file_operations digest_list_upload_ops = {
-+	.open = digest_list_open,
-+	.write = digest_list_write,
-+	.read = seq_read,
-+	.release = digest_list_release,
-+	.llseek = generic_file_llseek,
-+};
-+
-+static int __init diglim_fs_init(void)
-+{
-+	diglim_dir = securityfs_create_dir("diglim", integrity_dir);
-+	if (IS_ERR(diglim_dir))
-+		return -1;
-+
-+	digest_list_add_dentry = securityfs_create_file("digest_list_add", 0200,
-+						diglim_dir, NULL,
-+						&digest_list_upload_ops);
-+	if (IS_ERR(digest_list_add_dentry))
-+		goto out;
-+
-+	digest_list_del_dentry = securityfs_create_file("digest_list_del", 0200,
-+						diglim_dir, NULL,
-+						&digest_list_upload_ops);
-+	if (IS_ERR(digest_list_del_dentry))
-+		goto out;
-+
-+	return 0;
-+out:
-+	securityfs_remove(digest_list_del_dentry);
-+	securityfs_remove(digest_list_add_dentry);
-+	securityfs_remove(diglim_dir);
-+	return -1;
-+}
-+
-+late_initcall(diglim_fs_init);
-diff --git a/security/integrity/integrity.h b/security/integrity/integrity.h
-index 547425c20e11..ac45e1599c2d 100644
---- a/security/integrity/integrity.h
-+++ b/security/integrity/integrity.h
-@@ -6,6 +6,9 @@
-  * Mimi Zohar <zohar@us.ibm.com>
-  */
- 
-+#ifndef __INTEGRITY_H
-+#define __INTEGRITY_H
-+
- #ifdef pr_fmt
- #undef pr_fmt
- #endif
-@@ -283,3 +286,4 @@ static inline void __init add_to_platform_keyring(const char *source,
- {
- }
- #endif
-+#endif /*__INTEGRITY_H*/
--- 
-2.25.1
+------------------------------------------------------------------------
 
+commit 32a4be124ed0fe24509544ba165265f33420ee4a
+Author: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Date:   Mon Jul 26 05:43:33 2021 +0800
+
+    rcu: Fix undefined Kconfig macros
+    
+    Invoking scripts/checkkconfigsymbols.py in the Linux-kernel source tree
+    located the following issues:
+    
+    1. TREE_PREEMPT_RCU
+    Referencing files: arch/sh/configs/sdk7786_defconfig
+    
+    It should now be CONFIG_PREEMPT_RCU. Except that the CONFIG_PREEMPT=y in
+    that same file implies CONFIG_PREEMPT_RCU=y.  Therefore, delete the
+    CONFIG_TREE_PREEMPT_RCU=y line.
+    
+    The reason is as follows:
+    
+    In kernel/rcu/Kconfig, we have
+    config PREEMPT_RCU
+            bool
+            default y if PREEMPTION
+    
+    https://www.kernel.org/doc/Documentation/kbuild/kconfig-language.txt says,
+    "The default value is only assigned to the config symbol if no other value
+     was set by the user (via the input prompt above)."
+    there is no prompt in config PREEMPT_RCU entry, so we are guaranteed to
+    get CONFIG_PREEMPT_RCU=y when CONFIG_PREEMPT is present.
+    
+    2. RCU_CPU_STALL_INFO
+    Referencing files: arch/xtensa/configs/nommu_kc705_defconfig
+    
+    The old Kconfig option RCU_CPU_STALL_INFO was removed by commit
+    75c27f119b64 ("rcu: Remove CONFIG_RCU_CPU_STALL_INFO"), and the kernel
+    now acts as if this Kconfig option was unconditionally enabled.
+    
+    3. RCU_NOCB_CPU_ALL
+    Referencing files:
+    Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+    
+    This is an old snapshot of the code. I update this from the real
+    rcu_prepare_for_idle() function in kernel/rcu/tree_plugin.h.
+    This change was tested by invoking "make htmldocs".
+    
+    4. RCU_TORTURE_TESTS
+    Referencing files: kernel/rcu/rcutorture.c
+    
+    Forward-progress checking conflicts with CPU-stall testing, so we should
+    complain at "modprobe rcutorture" when both are enabled.
+    
+    Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+index eeb351296df11..7fdf151a8680a 100644
+--- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
++++ b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+@@ -202,49 +202,44 @@ newly arrived RCU callbacks against future grace periods:
+     1 static void rcu_prepare_for_idle(void)
+     2 {
+     3   bool needwake;
+-    4   struct rcu_data *rdp;
+-    5   struct rcu_dynticks *rdtp = this_cpu_ptr(&rcu_dynticks);
+-    6   struct rcu_node *rnp;
+-    7   struct rcu_state *rsp;
+-    8   int tne;
+-    9
+-   10   if (IS_ENABLED(CONFIG_RCU_NOCB_CPU_ALL) ||
+-   11       rcu_is_nocb_cpu(smp_processor_id()))
+-   12     return;
++    4   struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
++    5   struct rcu_node *rnp;
++    6   int tne;
++    7
++    8   lockdep_assert_irqs_disabled();
++    9   if (rcu_rdp_is_offloaded(rdp))
++   10     return;
++   11
++   12   /* Handle nohz enablement switches conservatively. */
+    13   tne = READ_ONCE(tick_nohz_active);
+-   14   if (tne != rdtp->tick_nohz_enabled_snap) {
+-   15     if (rcu_cpu_has_callbacks(NULL))
+-   16       invoke_rcu_core();
+-   17     rdtp->tick_nohz_enabled_snap = tne;
++   14   if (tne != rdp->tick_nohz_enabled_snap) {
++   15     if (!rcu_segcblist_empty(&rdp->cblist))
++   16       invoke_rcu_core(); /* force nohz to see update. */
++   17     rdp->tick_nohz_enabled_snap = tne;
+    18     return;
+-   19   }
++   19	}
+    20   if (!tne)
+    21     return;
+-   22   if (rdtp->all_lazy &&
+-   23       rdtp->nonlazy_posted != rdtp->nonlazy_posted_snap) {
+-   24     rdtp->all_lazy = false;
+-   25     rdtp->nonlazy_posted_snap = rdtp->nonlazy_posted;
+-   26     invoke_rcu_core();
+-   27     return;
+-   28   }
+-   29   if (rdtp->last_accelerate == jiffies)
+-   30     return;
+-   31   rdtp->last_accelerate = jiffies;
+-   32   for_each_rcu_flavor(rsp) {
+-   33     rdp = this_cpu_ptr(rsp->rda);
+-   34     if (rcu_segcblist_pend_cbs(&rdp->cblist))
+-   35       continue;
+-   36     rnp = rdp->mynode;
+-   37     raw_spin_lock_rcu_node(rnp);
+-   38     needwake = rcu_accelerate_cbs(rsp, rnp, rdp);
+-   39     raw_spin_unlock_rcu_node(rnp);
+-   40     if (needwake)
+-   41       rcu_gp_kthread_wake(rsp);
+-   42   }
+-   43 }
++   22
++   23   /*
++   24    * If we have not yet accelerated this jiffy, accelerate all
++   25    * callbacks on this CPU.
++   26   */
++   27   if (rdp->last_accelerate == jiffies)
++   28     return;
++   29   rdp->last_accelerate = jiffies;
++   30   if (rcu_segcblist_pend_cbs(&rdp->cblist)) {
++   31     rnp = rdp->mynode;
++   32     raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
++   33     needwake = rcu_accelerate_cbs(rnp, rdp);
++   34     raw_spin_unlock_rcu_node(rnp); /* irqs remain disabled. */
++   35     if (needwake)
++   36       rcu_gp_kthread_wake();
++   37   }
++   38 }
+ 
+ But the only part of ``rcu_prepare_for_idle()`` that really matters for
+-this discussion are lines 37–39. We will therefore abbreviate this
++this discussion are lines 32–34. We will therefore abbreviate this
+ function as follows:
+ 
+ .. kernel-figure:: rcu_node-lock.svg
+diff --git a/arch/sh/configs/sdk7786_defconfig b/arch/sh/configs/sdk7786_defconfig
+index f776a1d0d2776..a8662b6927ec7 100644
+--- a/arch/sh/configs/sdk7786_defconfig
++++ b/arch/sh/configs/sdk7786_defconfig
+@@ -5,7 +5,6 @@ CONFIG_BSD_PROCESS_ACCT=y
+ CONFIG_BSD_PROCESS_ACCT_V3=y
+ CONFIG_AUDIT=y
+ CONFIG_AUDITSYSCALL=y
+-CONFIG_TREE_PREEMPT_RCU=y
+ CONFIG_RCU_TRACE=y
+ CONFIG_IKCONFIG=y
+ CONFIG_IKCONFIG_PROC=y
+diff --git a/arch/xtensa/configs/nommu_kc705_defconfig b/arch/xtensa/configs/nommu_kc705_defconfig
+index 88b2e222d4bff..fcb620ef37997 100644
+--- a/arch/xtensa/configs/nommu_kc705_defconfig
++++ b/arch/xtensa/configs/nommu_kc705_defconfig
+@@ -119,7 +119,6 @@ CONFIG_DEBUG_SPINLOCK=y
+ CONFIG_DEBUG_MUTEXES=y
+ CONFIG_DEBUG_ATOMIC_SLEEP=y
+ CONFIG_STACKTRACE=y
+-# CONFIG_RCU_CPU_STALL_INFO is not set
+ CONFIG_RCU_TRACE=y
+ # CONFIG_FTRACE is not set
+ # CONFIG_LD_NO_RELAX is not set
+diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
+index ab4215266ebee..f640cbd9262c0 100644
+--- a/kernel/rcu/rcutorture.c
++++ b/kernel/rcu/rcutorture.c
+@@ -2449,7 +2449,7 @@ static int __init rcu_torture_fwd_prog_init(void)
+ 	}
+ 	if (stall_cpu > 0) {
+ 		VERBOSE_TOROUT_STRING("rcu_torture_fwd_prog_init: Disabled, conflicts with CPU-stall testing");
+-		if (IS_MODULE(CONFIG_RCU_TORTURE_TESTS))
++		if (IS_MODULE(CONFIG_RCU_TORTURE_TEST))
+ 			return -EINVAL; /* In module, can fail back to user. */
+ 		WARN_ON(1); /* Make sure rcutorture notices conflict. */
+ 		return 0;
