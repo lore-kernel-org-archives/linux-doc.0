@@ -2,496 +2,660 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6565CC41537
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 17:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B35DC4338F
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 20:50:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C93460FBF
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 17:28:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B54660F57
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 20:50:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238480AbhGZQrf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jul 2021 12:47:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240568AbhGZQra (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 12:47:30 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B1CC0AF6F2;
-        Mon, 26 Jul 2021 10:18:24 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id r16so11554702edt.7;
-        Mon, 26 Jul 2021 10:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=btFaY9MotnIA+O1Fe3R11iJ9ko4NRNdjdsQntfTuxTw=;
-        b=fGGnz1epje5El+6C0HSQZ1kQ01p6TbQLKpXnw2mKM/cAra1gigmcRK7CryNFOeyBbP
-         QOGbzjzyRddxPNydU1E1qOmHgvDpHpIioD2GV9c+Ichm2nktD2ql5IuVFtbKWWlrC9JL
-         v+HUFzA2NiIsVapcSJmozibHJD23b9iZciOFS9CR4ojj2cc4os81qP1tBD3fdxx33Rsx
-         dG4R2K6+HTJuc68QeJzFpeyHN+qT3xAbUqK3OV0z43N6HkKc0ewN2phwgmzJXW4plB6V
-         4/QOshPM6QSD+o3MrELTUdQrb6ZAevPYLhXjpFmlGLRUd9kVAYeNfUu1u9Lt+98SKaPa
-         jlKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=btFaY9MotnIA+O1Fe3R11iJ9ko4NRNdjdsQntfTuxTw=;
-        b=HzNBKE9eN9h8rOplZFEs5N++KmMPVc7ZZJfbzI/2pw6a4ftyzRMy3aMrax0pIulFRI
-         4Lw6ENVnZ58c3ZG6EGc5lEpIRvQA1HDnaMWZWv7nt/jGh+gXGKh4JVS87AGLqYZ7S2dr
-         7L7CqoCp5G3E7fZmdik3eKSDIW0QVBZR4Ap94sjEKdZQis7PLPh44XDlk7qlQGm3Sbnm
-         qNHDH8UnKUgwwe1LVTxhO1X9LyWLdXOUjR0QTI3Xbi9T7tlcw2cuvBq+BVCESCyD4yAg
-         8ovYtNsbdGJikLN6VbN0Q1hJruVrPG1qnadWBhy8LNiWcYfxwFLG3opxzJvOumQIJGb/
-         X70Q==
-X-Gm-Message-State: AOAM533WF1brFYAPRAshY/BlOoKhmB0tpkwfcnH+mJ5VAEi3xU0w13GF
-        zcx2/o0Q8UpP3PGGQC6oHEYlViiJbIMWcduN
-X-Google-Smtp-Source: ABdhPJwXFVM68N7iLdJn8RzD53rX8MQ8ZyhTXr7nxmjKIrIPmlNGFl4Eok9CXckxD0PaI0jzF6Bp5A==
-X-Received: by 2002:a05:6402:160c:: with SMTP id f12mr2512316edv.122.1627319902719;
-        Mon, 26 Jul 2021 10:18:22 -0700 (PDT)
-Received: from stitch.. ([2a01:4262:1ab:c:132c:4c2b:f8ab:5392])
-        by smtp.gmail.com with ESMTPSA id e7sm195932edk.3.2021.07.26.10.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 10:18:22 -0700 (PDT)
-Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
-From:   Emil Renner Berthing <kernel@esmil.dk>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Samin Guo <samin.guo@starfivetech.com>
-Cc:     Emil Renner Berthing <kernel@esmil.dk>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] hwmon: (sfctemp) Add StarFive JH7100 temperature sensor
-Date:   Mon, 26 Jul 2021 19:18:02 +0200
-Message-Id: <20210726171802.1052716-3-kernel@esmil.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210726171802.1052716-1-kernel@esmil.dk>
-References: <20210726171802.1052716-1-kernel@esmil.dk>
-MIME-Version: 1.0
+        id S232849AbhGZUKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jul 2021 16:10:15 -0400
+Received: from mail-sn1anam02on2077.outbound.protection.outlook.com ([40.107.96.77]:25472
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232087AbhGZUKO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Jul 2021 16:10:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lHW9VCnJUtzJtEsC3NvJ44XKx0ZcXZOHm4vyMJlI2BR5RPx1jfYpW/C7eQ6phywLjHnKkVw3djgxnj+aZZfaIi196cprNycD7MRx6KL8yC3ceQCHxglnYKTyQm8bc8MlGfCc8SZLfiQw1aHw9TxB03jHSxC3rNg3JVJIGRtLjrMvlwC93yVC70s7goAfqAXqYqJ0yBx3FdR0sD1uC7qP3gdKC9co1+C8UMWFMTGXwz1LRgMMPFQxy9EGQdX8OTeZq80y+tTSFRM8DcRTh0GcrA75SA6oGOoL/xDKzVXDDqOqLTopYwHSDlYchpfbVL1U5rrzbDO7twU2KYMimISYYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O4jxekmigvRqzap89p8Fhl2gLBFoip0BcKU25tm3xGg=;
+ b=MNEyZ+T/EDAZyUZu/Xo94MYnqK1P2xiARs+XlX16JAa81QAx3oO4UPwUKsy/Us+yz9WoG0L71uElEZb0Rc3JPPRaBrGE7aSA01PjBhmANwetJUXG/uz+W8E4AkNb9af5e7J4SbOo1Du2aHphnSDQySYePrsjlsse2V1/Jbx+WljXpuS7ovRd/wZbdSSO4xwYpLrMXdydQGxJiNKwxk+AMjVOnxoiLEVQsp9uJQdBfrMmmTzseaNmd1evnE1ahWD1uzPK0UB6OobwoMTr+wDRKJzhpx8mxV89L33bz6NBhXVi1ANQXOFaPYexgxYh0/ljYi4AHILbVGBLVeN1WSRBjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O4jxekmigvRqzap89p8Fhl2gLBFoip0BcKU25tm3xGg=;
+ b=Gv3b4QJP9UC24cTmDPHCBLJQDFqXesn5Gg2cdgJZMeI4Pcm/ElKLgP+aPlkT+a6isIbQ1tjBeeo0koX5I+VodOvsmpZnVNWY+CKsGi8meMi7gkPKU2r4RwoRSURSVtOzLHUPJJjZlUTR06/OGceF55dT213a1WZXjZl1fy2tyOU=
+Authentication-Results: poorly.run; dkim=none (message not signed)
+ header.d=none;poorly.run; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB5564.namprd12.prod.outlook.com (2603:10b6:610:65::24)
+ by CH0PR12MB5265.namprd12.prod.outlook.com (2603:10b6:610:d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Mon, 26 Jul
+ 2021 20:50:39 +0000
+Received: from CH2PR12MB5564.namprd12.prod.outlook.com
+ ([fe80::a1f2:ad80:7e9f:db24]) by CH2PR12MB5564.namprd12.prod.outlook.com
+ ([fe80::a1f2:ad80:7e9f:db24%5]) with mapi id 15.20.4352.031; Mon, 26 Jul 2021
+ 20:50:39 +0000
+Date:   Mon, 26 Jul 2021 16:50:35 -0400
+From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
+        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+        airlied@linux.ie, daniel.vetter@ffwll.ch,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        kernel test robot <lkp@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Sean Paul <seanpaul@chromium.org>
+Subject: Re: [RESEND PATCH v6 14/14] drm/print: Add tracefs support to the
+ drm logging helpers
+Message-ID: <20210726205035.tegmcrr7tfayxlms@outlook.office365.com>
+References: <20210721175526.22020-1-sean@poorly.run>
+ <20210721175526.22020-15-sean@poorly.run>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210721175526.22020-15-sean@poorly.run>
+X-ClientProxiedBy: BN6PR22CA0058.namprd22.prod.outlook.com
+ (2603:10b6:404:ca::20) To CH2PR12MB5564.namprd12.prod.outlook.com
+ (2603:10b6:610:65::24)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from outlook.office365.com (2607:fea8:56e0:6d60:991b:8d60:a76e:ef75) by BN6PR22CA0058.namprd22.prod.outlook.com (2603:10b6:404:ca::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.24 via Frontend Transport; Mon, 26 Jul 2021 20:50:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0ecbd256-71ae-4f31-e3e7-08d95077066a
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5265:
+X-Microsoft-Antispam-PRVS: <CH0PR12MB52653B2E3A35575C0577E78D98E89@CH0PR12MB5265.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:989;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jNRrQEv0cemGMDr4z/LmPnrT+K38w3i1wEcEoczU5OziHjK7GNDqmwTUn9CTpGlvdwrKPSKcxctQF9iEiYMjlo1+7pDYgVgnVf0m+F/NYs7LKmrimva5fneL3g8f+Ubjno3obx6DqMzvNdzJais1lMW/LcOwU0dWHeDiAC/i1YLpYVO03jNcQZGDjOVJ19OFAkiIPgXHgNoD3mb1Hxrneetf8mHT55QbiuPxLZ00Zr83V4OtV+TXjqoxoizpPAWlWVFErRjC4iQZf4/mMdvdzbUxcnYANx68xDHkg9ubCtLiH+IjYt0WEHTH6flraMlXN28UWMxrDMfaqKmRhUM5pweVQ7aTNoEP6NtJkt2Vq4Bx+m035rla3UIF1GrsqtAN5Z1aQx3NDOJ2Cunyfnsxj+FLt28+9PoCM4zwrz/60xObxcIJSJUpQ8lbIQVyFQBgYHCYIkxFjpScNK0TH/kFjD+Mi5b+VM9FgNd2R6GMM0O1eSHwwrKGzayoYQ9aMKgQvjWbZfdU6l+44QlEKu+wdLmjZBAZ0dsjoDHgtTvT0G2VoW8Ce7mzjl9wBkA5x16ss3A1dV+kbRlktdRwJficXs5chG7ceNp3ddSMVZ5lRsIQxpxZUVHGBGqgkH3rkTkaKDuUTGznm6ATTIs9TeHcjvaPhZgHuYyLPQ1/HXwz3dkT9yFBRFJT31inZC8JOkMl+zLn09DijXWSsji7RJ37JLQ+WupSj0cc4G4JCV2/zvA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB5564.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(66476007)(186003)(5660300002)(316002)(38100700002)(6506007)(8936002)(7696005)(8676002)(30864003)(2906002)(7416002)(6916009)(4326008)(1076003)(86362001)(52116002)(66946007)(9686003)(54906003)(508600001)(55016002)(966005)(66574015)(83380400001)(45080400002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?9JgUMFlMPNGEoRCND2aqBfsFF0nGm7HsTPuBzZPIQqwtF0TgNZXzJ6yaXh?=
+ =?iso-8859-1?Q?dYq51qh1gmESt7+xCTdQHvb2GXafvPEnk/L7c6uHzugpvyFFGqO28LsqCX?=
+ =?iso-8859-1?Q?1t0b8uEoynEU8JoW0JqI03kusRHWUK2d4eDaZk4dJmmg6ahnkly45lDBw4?=
+ =?iso-8859-1?Q?0luSnJINZLGYuZcDzEaJ71kstONhVHbw4wZGArhLJYoZ5e8Mg1ZkZhMubg?=
+ =?iso-8859-1?Q?FUmDOa48ZHe56Tx1TR7vaCCKHSPy7UvfPs1wuPgT+d1bCBralr+sGAVOAN?=
+ =?iso-8859-1?Q?B8sGYLXSblm71FD440KbTneIvCcqFPWsEqlv9zye9HZBgrVzGXEHi6Lx6c?=
+ =?iso-8859-1?Q?hv1vmm3x0NyG+TZwk55uQvCz5Q+xbvFi9iIQaSmP/CjXdKCtUcua+w0pQQ?=
+ =?iso-8859-1?Q?qQFAZXkA+LgIVFvpTjMDs4Xb24csGMD5yNAgLnE8AyiOEImd+Ong7qpqwa?=
+ =?iso-8859-1?Q?7ZBCrG4uNVkWExdyu3Wz9X66g92UMVncoHzO4fxW7BwSuwTGO5uO7GNDlQ?=
+ =?iso-8859-1?Q?nuaCpzAKaU9SIxoQqzh6uqiJym5JKekElh78n4EpPti87lS0VC0Dh5qAmW?=
+ =?iso-8859-1?Q?MsynOFO89UBkk7Cfk1OhR/SzWiJtF+A9/ijx3X2Ub4MxYjYH1Tr1jfVRMm?=
+ =?iso-8859-1?Q?0E/6bUuzstZ7r1GB7vKGwUzdQ1eL1IA6jWTa9lJtv2xT5xmRQi6fP3bMuI?=
+ =?iso-8859-1?Q?hAHdcR0yqZbUIFLIpZJ8RRj5foWPdhBU//bz0KMG1PGIAOzGqef+7vQMON?=
+ =?iso-8859-1?Q?wMSaIW1FkKzpFvwlNjLrWyYRagwzMn39nqnA8RGzXDUtOseGpwd6Fula+P?=
+ =?iso-8859-1?Q?pNQ0rZaZVhLK/+ScPLK3N4qUFNLG9I/8/sQLi4u8AdyI/zqvxHiSNzlUTi?=
+ =?iso-8859-1?Q?huFdAqUNnRYHABWk3OKaXA73sCqBvGvQn73kKLFHJ6/AcS4IJYWJIfyvTs?=
+ =?iso-8859-1?Q?jK6TWTS+3UB5ebBr6Vefuh5ZEpKe//pnO8W4BmXfGJ4pLRP0h554dwAGVx?=
+ =?iso-8859-1?Q?pqsu/BNTLUTcwh/F4W0I/Yme4mpH4yDHdwZwdzmn6ZJXjMsqPABhic9iFk?=
+ =?iso-8859-1?Q?5mKBpZMlxxPsjrmsjl82W849Lod0sP7P5/6visVuDlpww1PwGwF8OcGMAz?=
+ =?iso-8859-1?Q?V5sOJC8VjhYVMHEOsV3EdSH5qqSoCeAEctGNqc00P/TOlh77WBfrEtFsVh?=
+ =?iso-8859-1?Q?VKG1Ve5OZYND9m0azYvrTBUtZinbuKYUtzM3r7qk2cuJ8blbOxKgZYZDdg?=
+ =?iso-8859-1?Q?DsDOGHTrJ5aptkl8vgXV3Ts9hSwKz9/e59LGqid16Db1hCmU9eeT8qp2Ai?=
+ =?iso-8859-1?Q?uf4PfHoVUJTUVfI8Z3s40UEdQeDRthPbybEaYe6pJr6C6rLfoc3sq/7z0s?=
+ =?iso-8859-1?Q?i+60CPinmAQMkFXs2lEP76+OGuQG/Zf4nePKSLT8qejgLZuyb7xHYdyzSM?=
+ =?iso-8859-1?Q?H3JyjG/WH4x8GQY4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ecbd256-71ae-4f31-e3e7-08d95077066a
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB5564.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2021 20:50:39.0874
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R78SE9tHMM0Fvg+10VlAksHoGncAZhWYf6a5eeWjr2isQYZ9xzhnPtGs3Zt1r8VqQEAnoMekYia6RFaPFhmytg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5265
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Register definitions and conversion constants based on sfctemp driver by
-Samin in the StarFive 5.10 kernel.
+On 07/21, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> This patch adds a new module parameter called drm.trace which accepts
+> the same mask as drm.debug. When a debug category is enabled, log
+> messages will be put in a new tracefs instance called drm for
+> consumption.
+> 
+> Using the new tracefs instance will allow distros to enable drm logging
+> in production without impacting performance or spamming the system
+> logs.
+> 
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Reported-by: kernel test robot <lkp@intel.com> # warning reported in v6
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2Fmsgid%2F20191010204823.195540-1-sean%40poorly.run&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=NEMZqbDJcEq%2B5Ext3F3%2BLkLNe7JHFa7HNWozh5boJ9M%3D&amp;reserved=0 #v1
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2019-November%2F243230.html&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=nA9bS%2BIsuMxcqdTzf9aClkl3ovccPVnInyFyBpDT8Do%3D&amp;reserved=0 #v2
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2Fmsgid%2F20191212203301.142437-1-sean%40poorly.run&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Vz6I8SF%2BjoajAR48%2BzJmx6llQAHtww9VROLT4krkZK4%3D&amp;reserved=0 #v3
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2Fmsgid%2F20200114172155.215463-1-sean%40poorly.run&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Vcjao5eEZEE6o1Q%2B8CyIalz0UTAiqydOxR8qISbh61I%3D&amp;reserved=0 #v4
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2Fmsgid%2F20200608210505.48519-14-sean%40poorly.run&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=rc1O7r2SQqR3I3Rn0bSRbS9mZBBH%2Fg7%2BEmGcLexheO0%3D&amp;reserved=0 #v5
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2Fmsgid%2F20200818210510.49730-15-sean%40poorly.run&amp;data=04%7C01%7CRodrigo.Siqueira%40amd.com%7Cbb3d63341a974f70c29208d94c70e119%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637624869979178761%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PblinqQ5Y8NgHJKGZ%2BwUU7hIlZHwiy0SOsXhB7NPegw%3D&amp;reserved=0 #v6
+> 
+> Changes in v5:
+> -Re-write to use trace_array and the tracefs instance support
+> Changes in v6:
+> -Use the new trace_array_init_printk() to initialize global trace
+>  buffers
+> Changes in v6.5:
+> -Fix kernel test robot warning
+> -Add a trace printf in __drm_err
+> ---
+>  Documentation/gpu/drm-uapi.rst |   6 +
+>  drivers/gpu/drm/drm_drv.c      |   3 +
+>  drivers/gpu/drm/drm_print.c    | 223 ++++++++++++++++++++++++++++-----
+>  include/drm/drm_print.h        |  63 ++++++++--
+>  4 files changed, 255 insertions(+), 40 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 7e51dd40bf6e..ce1ea39fb4b9 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -424,6 +424,12 @@ Debugfs Support
+>  .. kernel-doc:: drivers/gpu/drm/drm_debugfs.c
+>     :export:
+>  
+> +DRM Tracing
+> +---------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_print.c
+> +   :doc: DRM Tracing
+> +
+>  Sysfs Support
+>  =============
+>  
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 8804ec7d3215..71dc0b161b51 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -1034,12 +1034,15 @@ static void drm_core_exit(void)
+>  	drm_sysfs_destroy();
+>  	idr_destroy(&drm_minors_idr);
+>  	drm_connector_ida_destroy();
+> +	drm_trace_cleanup();
+>  }
+>  
+>  static int __init drm_core_init(void)
+>  {
+>  	int ret;
+>  
+> +	drm_trace_init();
+> +
+>  	drm_connector_ida_init();
+>  	idr_init(&drm_minors_idr);
+>  	drm_memcpy_init_early();
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 4d984a01b3a3..64d9a724c2df 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/moduleparam.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+> +#include <linux/trace.h>
+>  
+>  #include <drm/drm.h>
+>  #include <drm/drm_drv.h>
+> @@ -43,17 +44,34 @@
+>  unsigned int __drm_debug_syslog;
+>  EXPORT_SYMBOL(__drm_debug_syslog);
+>  
+> -MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+> -"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+> -"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
+> -"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
+> -"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
+> -"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
+> -"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+> -"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+> -"\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> +/*
+> + * __drm_debug_trace: Enable debug output in drm tracing instance.
+> + * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
+> + */
+> +unsigned int __drm_debug_trace;
+> +EXPORT_SYMBOL(__drm_debug_trace);
+> +
+> +#define DEBUG_PARM_DESC(dst) \
+> +"Enable debug output to " dst ", where each bit enables a debug category.\n" \
+> +"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n" \
+> +"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n" \
+> +"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n" \
+> +"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n" \
+> +"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n" \
+> +"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n" \
+> +"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n" \
+> +"\t\tBit 8 (0x100) will enable DP messages (displayport code)"
+> +
+> +MODULE_PARM_DESC(debug, DEBUG_PARM_DESC("syslog"));
+>  module_param_named(debug, __drm_debug_syslog, int, 0600);
+>  
+> +MODULE_PARM_DESC(trace, DEBUG_PARM_DESC("tracefs"));
+> +module_param_named(trace, __drm_debug_trace, int, 0600);
+> +
+> +#ifdef CONFIG_TRACING
+> +struct trace_array *trace_arr;
+> +#endif
+> +
+>  void __drm_puts_coredump(struct drm_printer *p, const char *str)
+>  {
+>  	struct drm_print_iterator *iterator = p->arg;
+> @@ -166,6 +184,20 @@ void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf)
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_debug_syslog);
+>  
+> +void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf)
+> +{
+> +	drm_trace_printf("%s %pV", p->prefix, vaf);
+> +}
+> +EXPORT_SYMBOL(__drm_printfn_trace);
+> +
+> +void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
+> +					   struct va_format *vaf)
+> +{
+> +	pr_debug("%s %pV", p->prefix, vaf);
+> +	drm_trace_printf("%s %pV", p->prefix, vaf);
+> +}
+> +EXPORT_SYMBOL(__drm_printfn_debug_syslog_and_trace);
+> +
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>  {
+>  	pr_err("*ERROR* %s %pV", p->prefix, vaf);
+> @@ -246,6 +278,14 @@ void drm_dev_printk(const struct device *dev, const char *level,
+>  	struct va_format vaf;
+>  	va_list args;
+>  
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +	drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
+> +			 dev ? dev_name(dev) : "",dev ? " " : "",
+> +			 __builtin_return_address(0), &vaf);
+> +	va_end(args);
+> +
+>  	va_start(args, format);
+>  	vaf.fmt = format;
+>  	vaf.va = &args;
+> @@ -267,21 +307,30 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  	struct va_format vaf;
+>  	va_list args;
+>  
+> -	if (!drm_debug_enabled(category))
+> -		return;
+> +	if (drm_debug_syslog_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+>  
+> -	va_start(args, format);
+> -	vaf.fmt = format;
+> -	vaf.va = &args;
+> +		if (dev)
+> +			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+> +				__builtin_return_address(0), &vaf);
+> +		else
+> +			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> +			__builtin_return_address(0), &vaf);
+>  
+> -	if (dev)
+> -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+> -			   __builtin_return_address(0), &vaf);
+> -	else
+> -		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -		       __builtin_return_address(0), &vaf);
+> +		va_end(args);
+> +	}
+>  
+> -	va_end(args);
+> +	if (drm_debug_trace_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+> +		drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
+> +				 dev ? dev_name(dev) : "", dev ? " " : "",
+> +				 __builtin_return_address(0), &vaf);
+> +		va_end(args);
+> +	}
+>  }
+>  EXPORT_SYMBOL(drm_dev_dbg);
+>  
+> @@ -290,17 +339,25 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+>  	struct va_format vaf;
+>  	va_list args;
+>  
+> -	if (!drm_debug_enabled(category))
+> -		return;
+> +	if (drm_debug_syslog_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+>  
+> -	va_start(args, format);
+> -	vaf.fmt = format;
+> -	vaf.va = &args;
+> +		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> +		__builtin_return_address(0), &vaf);
+>  
+> -	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -	       __builtin_return_address(0), &vaf);
+> +		va_end(args);
+> +	}
+>  
+> -	va_end(args);
+> +	if (drm_debug_trace_enabled(category)) {
+> +		va_start(args, format);
+> +		vaf.fmt = format;
+> +		vaf.va = &args;
+> +		drm_trace_printf("[" DRM_NAME ":%ps] %pV",
+> +				 __builtin_return_address(0), &vaf);
+> +		va_end(args);
+> +	}
+>  }
+>  EXPORT_SYMBOL(__drm_dbg);
+>  
+> @@ -317,6 +374,13 @@ void __drm_err(const char *format, ...)
+>  	       __builtin_return_address(0), &vaf);
+>  
+>  	va_end(args);
+> +
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +	drm_trace_printf("[" DRM_NAME ":%ps] *ERROR* %pV",
+> +				__builtin_return_address(0), &vaf);
+> +	va_end(args);
+>  }
+>  EXPORT_SYMBOL(__drm_err);
+>  
+> @@ -347,3 +411,104 @@ void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32 *regset)
+>  	}
+>  }
+>  EXPORT_SYMBOL(drm_print_regset32);
+> +
+> +
+> +/**
+> + * DOC: DRM Tracing
+> + *
+> + * *tl;dr* DRM tracing is a lightweight alternative to traditional DRM debug
+> + * logging.
+> + *
+> + * While DRM logging is quite convenient when reproducing a specific issue, it
+> + * doesn't help when something goes wrong unexpectedly. There are a couple
+> + * reasons why one does not want to enable DRM logging at all times:
+> + *
+> + * 1. We don't want to overwhelm syslog with drm spam, others have to use it too
+> + * 2. Console logging is slow
+> + *
+> + * DRM tracing aims to solve both these problems.
+> + *
+> + * To use DRM tracing, set the drm.trace module parameter (via cmdline or sysfs)
+> + * to a DRM debug category mask (this is a bitmask of &drm_debug_category
+> + * values):
+> + * ::
+> + *
+> + *    eg: echo 0x106 > /sys/module/drm/parameters/trace
+> + *
+> + * Once active, all log messages in the specified categories will be written to
+> + * the DRM trace. Once at capacity, the trace will overwrite old messages with
+> + * new ones. At any point, one can read the trace file to extract the previous N
+> + * DRM messages:
+> + * ::
+> + *
+> + *    eg: cat /sys/kernel/tracing/instances/drm/trace
+> + *
+> + * Considerations
+> + * **************
+> + * The trace is subsystem wide, so if you have multiple devices active, they
+> + * will be adding logs to the same trace.
+> + *
+> + * The contents of the DRM Trace are **not** considered UABI. **DO NOT depend on
+> + * the values of these traces in your userspace.** These traces are intended for
+> + * entertainment purposes only. The contents of these logs carry no warranty,
+> + * expressed or implied.
+> + */
+> +
+> +
+> +#ifdef CONFIG_TRACING
+> +
+> +/**
+> + * drm_trace_init - initializes the drm trace array
+> + *
+> + * This function fetches (or creates) the drm trace array. This should be called
+> + * once on drm subsystem creation and matched with drm_trace_cleanup().
+> + */
+> +void drm_trace_init(void)
+> +{
+> +	int ret;
+> +
+> +	trace_arr = trace_array_get_by_name("drm");
+> +	if (!trace_arr)
+> +		return;
+> +
+> +	ret = trace_array_init_printk(trace_arr);
+> +	if (ret)
+> +		drm_trace_cleanup();
+> +}
+> +EXPORT_SYMBOL(drm_trace_init);
+> +
+> +/**
+> + * drm_trace_printf - adds an entry to the drm tracefs instance
+> + * @format: printf format of the message to add to the trace
+> + *
+> + * This function adds a new entry in the drm tracefs instance
+> + */
+> +void drm_trace_printf(const char *format, ...)
+> +{
+> +	struct va_format vaf;
+> +	va_list args;
+> +
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +	trace_array_printk(trace_arr, _THIS_IP_, "%pV", &vaf);
+> +	va_end(args);
+> +}
+> +
+> +/**
+> + * drm_trace_cleanup - destroys the drm trace array
+> + *
+> + * This function destroys the drm trace array created with drm_trace_init. This
+> + * should be called once on drm subsystem close and matched with
+> + * drm_trace_init().
+> + */
+> +void drm_trace_cleanup(void)
+> +{
+> +	if (trace_arr) {
+> +		trace_array_put(trace_arr);
+> +		trace_array_destroy(trace_arr);
+> +		trace_arr = NULL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_trace_cleanup);
+> +#endif
+> \ No newline at end of file
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index af31beeb82a1..4609a2f4a425 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -36,12 +36,13 @@
+>  
+>  /* Do *not* use outside of drm_print.[ch]! */
+>  extern unsigned int __drm_debug_syslog;
+> +extern unsigned int __drm_debug_trace;
+>  
+>  /**
+>   * DOC: print
+>   *
+>   * A simple wrapper for dev_printk(), seq_printf(), etc.  Allows same
+> - * debug code to be used for both debugfs and printk logging.
+> + * debug code to be used for debugfs, printk and tracefs logging.
+>   *
+>   * For example::
+>   *
+> @@ -86,6 +87,9 @@ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
+>  void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+>  void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+>  void __drm_printfn_debug_syslog(struct drm_printer *p, struct va_format *vaf);
+> +void __drm_printfn_trace(struct drm_printer *p, struct va_format *vaf);
+> +void __drm_printfn_debug_syslog_and_trace(struct drm_printer *p,
+> +					   struct va_format *vaf);
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+>  void __drm_printfn_noop(struct drm_printer *p, struct va_format *vaf);
+>  
+> @@ -219,7 +223,8 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+>  }
+>  
+>  /**
+> - * drm_debug_printer - construct a &drm_printer that outputs to pr_debug()
+> + * drm_debug_printer - construct a &drm_printer that outputs to pr_debug() and
+> + * drm tracefs
+>   * @prefix: debug output prefix
+>   *
+>   * RETURNS:
+> @@ -228,7 +233,7 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+>  static inline struct drm_printer drm_debug_printer(const char *prefix)
+>  {
+>  	struct drm_printer p = {
+> -		.printfn = __drm_printfn_debug_syslog,
+> +		.printfn = __drm_printfn_debug_syslog_and_trace,
+>  		.prefix = prefix
+>  	};
+>  	return p;
+> @@ -254,14 +259,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+>   * enum drm_debug_category - The DRM debug categories
+>   *
+>   * Each of the DRM debug logging macros use a specific category, and the logging
+> - * is filtered by the drm.debug module parameter. This enum specifies the values
+> - * for the interface.
+> + * is filtered by the drm.debug and drm.trace module parameters. This enum
+> + * specifies the values for the interface.
+>   *
+>   * Each DRM_DEBUG_<CATEGORY> macro logs to DRM_UT_<CATEGORY> category, except
+>   * DRM_DEBUG() logs to DRM_UT_CORE.
+>   *
+> - * Enabling verbose debug messages is done through the drm.debug parameter, each
+> - * category being enabled by a bit:
+> + * Enabling verbose debug messages is done through the drm.debug and drm.trace
+> + * parameters, each category being enabled by a bit:
+>   *
+>   *  - drm.debug=0x1 will enable CORE messages
+>   *  - drm.debug=0x2 will enable DRIVER messages
+> @@ -270,10 +275,14 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+>   *  - drm.debug=0x1ff will enable all messages
+>   *
+>   * An interesting feature is that it's possible to enable verbose logging at
+> - * run-time by echoing the debug value in its sysfs node::
+> + * run-time by echoing the debug category value in its sysfs node::
+>   *
+> + *   # For syslog logging:
+>   *   # echo 0xf > /sys/module/drm/parameters/debug
+>   *
+> + *   # For tracefs logging:
+> + *   # echo 0xf > /sys/module/drm/parameters/trace
+> + *
+>   */
+>  enum drm_debug_category {
+>  	/**
+> @@ -325,14 +334,20 @@ static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
+>  	return unlikely(__drm_debug_syslog & category);
+>  }
+>  
+> +static inline bool drm_debug_trace_enabled(enum drm_debug_category category)
+> +{
+> +	return unlikely(__drm_debug_trace & category);
+> +}
+> +
+>  static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  {
+> -	return drm_debug_syslog_enabled(category);
+> +	return drm_debug_syslog_enabled(category) ||
+> +	       drm_debug_trace_enabled(category);
+>  }
+>  
+>  /**
+>   * drm_debug_category_printer - construct a &drm_printer that outputs to
+> - * pr_debug() if enabled for the given category.
+> + * pr_debug() and/or the drm tracefs instance if enabled for the given category.
+>   * @category: the DRM_UT_* message category this message belongs to
+>   * @prefix: trace output prefix
+>   *
+> @@ -347,8 +362,13 @@ drm_debug_category_printer(enum drm_debug_category category,
+>  		.prefix = prefix
+>  	};
+>  
+> -	if (drm_debug_syslog_enabled(category)) {
+> +	if (drm_debug_syslog_enabled(category) &&
+> +	    drm_debug_trace_enabled(category)) {
+> +		p.printfn = __drm_printfn_debug_syslog_and_trace;
+> +	} else if (drm_debug_syslog_enabled(category)) {
+>  		p.printfn = __drm_printfn_debug_syslog;
+> +	} else if (drm_debug_trace_enabled(category)) {
+> +		p.printfn = __drm_printfn_trace;
+>  	} else {
+>  		WARN(1, "Debug category %d is inactive.", category);
+>  		p.printfn = __drm_printfn_noop;
+> @@ -357,6 +377,27 @@ drm_debug_category_printer(enum drm_debug_category category,
+>  	return p;
+>  }
+>  
+> +
+> +#ifdef CONFIG_TRACING
+> +void drm_trace_init(void);
+> +__printf(1, 2)
+> +void drm_trace_printf(const char *format, ...);
+> +void drm_trace_cleanup(void);
+> +#else
+> +static inline void drm_trace_init(void)
+> +{
+> +}
+> +
+> +__printf(1, 2)
+> +static inline void drm_trace_printf(const char *format, ...)
+> +{
+> +}
+> +
+> +static inline void drm_trace_cleanup(void)
+> +{
+> +}
+> +#endif
+> +
+>  /*
+>   * struct device based logging
+>   *
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+>
 
-Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
-Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/sfctemp.rst |  32 ++++
- MAINTAINERS                     |   8 +
- drivers/hwmon/Kconfig           |  10 ++
- drivers/hwmon/Makefile          |   1 +
- drivers/hwmon/sfctemp.c         | 291 ++++++++++++++++++++++++++++++++
- 6 files changed, 343 insertions(+)
- create mode 100644 Documentation/hwmon/sfctemp.rst
- create mode 100644 drivers/hwmon/sfctemp.c
+Hi Sean,
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index bc01601ea81a..961b6d93bead 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -164,6 +164,7 @@ Hardware Monitoring Kernel Drivers
-    sch5627
-    sch5636
-    scpi-hwmon
-+   sfctemp
-    sht15
-    sht21
-    sht3x
-diff --git a/Documentation/hwmon/sfctemp.rst b/Documentation/hwmon/sfctemp.rst
-new file mode 100644
-index 000000000000..465edce2fea5
---- /dev/null
-+++ b/Documentation/hwmon/sfctemp.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver sfctemp
-+=====================
-+
-+Supported chips:
-+ - StarFive JH7100
-+
-+Authors:
-+ - Emil Renner Berthing <kernel@esmil.dk>
-+
-+Description
-+-----------
-+
-+This driver adds support for reading the built-in temperature sensor on the
-+JH7100 RISC-V SoC by StarFive Technology Co. Ltd.
-+
-+``sysfs`` interface
-+-------------------
-+
-+The temperature sensor can be enabled, disabled and queried via the standard
-+hwmon interface in sysfs under ``/sys/class/hwmon/hwmonX`` for some value of
-+``X``:
-+
-+================ ==== =============================================
-+Name             Perm Description
-+================ ==== =============================================
-+temp1_enable     RW   Enable or disable temperature sensor.
-+                      Automatically enabled by the driver,
-+                      but may be disabled to save power.
-+temp1_input      RO   Temperature reading in milli-degrees Celsius.
-+================ ==== =============================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 19135a9d778e..6fb1fd015c19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16751,6 +16751,14 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/ethernet/sfc/
- 
-+SFCTEMP HWMON DRIVER
-+M:	Emil Renner Berthing <kernel@esmil.dk>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/starfive,jh7100-temp.yaml
-+F:	Documentation/hwmon/sfctemp.rst
-+F:	drivers/hwmon/sfctemp.c
-+
- SFF/SFP/SFP+ MODULE SUPPORT
- M:	Russell King <linux@armlinux.org.uk>
- L:	netdev@vger.kernel.org
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index e3675377bc5d..ef3e345d6ce3 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1762,6 +1762,16 @@ config SENSORS_STTS751
- 	  This driver can also be built as a module. If so, the module
- 	  will be called stts751.
- 
-+config SENSORS_SFCTEMP
-+	tristate "Starfive JH7100 temperature sensor"
-+	depends on OF && (RISCV || COMPILE_TEST)
-+	help
-+	  If you say yes here you get support for temperature sensor
-+	  on the Starfive JH7100 SoC.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called sfctemp.
-+
- config SENSORS_SMM665
- 	tristate "Summit Microelectronics SMM665"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index d712c61c1f5e..869f8806561e 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -167,6 +167,7 @@ obj-$(CONFIG_SENSORS_SBTSI)	+= sbtsi_temp.o
- obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
- obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
- obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
-+obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
- obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
- obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
- obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
-diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
-new file mode 100644
-index 000000000000..35d3ca682e50
---- /dev/null
-+++ b/drivers/hwmon/sfctemp.c
-@@ -0,0 +1,291 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
-+ * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
-+ */
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/hwmon.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+/*
-+ * TempSensor reset. The RSTN can be de-asserted once the analog core has
-+ * powered up. Trst(min 100ns)
-+ * 0:reset  1:de-assert
-+ */
-+#define SFCTEMP_RSTN	BIT(0)
-+
-+/*
-+ * TempSensor analog core power down. The analog core will be powered up
-+ * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
-+ * analog core is powered up.
-+ * 0:power up  1:power down
-+ */
-+#define SFCTEMP_PD	BIT(1)
-+
-+/*
-+ * TempSensor start conversion enable.
-+ * 0:disable  1:enable
-+ */
-+#define SFCTEMP_RUN	BIT(2)
-+
-+/*
-+ * TempSensor conversion value output.
-+ * Temp(C)=DOUT*Y/4094 - K
-+ */
-+#define SFCTEMP_DOUT_POS	16
-+#define SFCTEMP_DOUT_MSK	GENMASK(27, 16)
-+
-+/* DOUT to Celcius conversion constants */
-+#define SFCTEMP_Y1000	237500L
-+#define SFCTEMP_Z	4094L
-+#define SFCTEMP_K1000	81100L
-+
-+struct sfctemp {
-+	/* serialize access to hardware register and enabled below */
-+	struct mutex lock;
-+	struct completion conversion_done;
-+	void __iomem *regs;
-+	bool enabled;
-+};
-+
-+static irqreturn_t sfctemp_isr(int irq, void *data)
-+{
-+	struct sfctemp *sfctemp = data;
-+
-+	complete(&sfctemp->conversion_done);
-+	return IRQ_HANDLED;
-+}
-+
-+static void sfctemp_power_up(struct sfctemp *sfctemp)
-+{
-+	/* make sure we're powered down first */
-+	writel(SFCTEMP_PD, sfctemp->regs);
-+	udelay(1);
-+
-+	writel(0, sfctemp->regs);
-+	/* wait t_pu(50us) + t_rst(100ns) */
-+	usleep_range(60, 200);
-+
-+	/* de-assert reset */
-+	writel(SFCTEMP_RSTN, sfctemp->regs);
-+	udelay(1); /* wait t_su(500ps) */
-+}
-+
-+static void sfctemp_power_down(struct sfctemp *sfctemp)
-+{
-+	writel(SFCTEMP_PD, sfctemp->regs);
-+}
-+
-+static void sfctemp_run_single(struct sfctemp *sfctemp)
-+{
-+	writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
-+	udelay(1);
-+	writel(SFCTEMP_RSTN, sfctemp->regs);
-+}
-+
-+static int sfctemp_enable(struct sfctemp *sfctemp)
-+{
-+	mutex_lock(&sfctemp->lock);
-+	if (sfctemp->enabled)
-+		goto done;
-+
-+	sfctemp_power_up(sfctemp);
-+	sfctemp->enabled = true;
-+done:
-+	mutex_unlock(&sfctemp->lock);
-+	return 0;
-+}
-+
-+static int sfctemp_disable(struct sfctemp *sfctemp)
-+{
-+	mutex_lock(&sfctemp->lock);
-+	if (!sfctemp->enabled)
-+		goto done;
-+
-+	sfctemp_power_down(sfctemp);
-+	sfctemp->enabled = false;
-+done:
-+	mutex_unlock(&sfctemp->lock);
-+	return 0;
-+}
-+
-+static void sfctemp_disable_action(void *data)
-+{
-+	sfctemp_disable(data);
-+}
-+
-+static int sfctemp_convert(struct sfctemp *sfctemp, long *val)
-+{
-+	int ret;
-+
-+	mutex_lock(&sfctemp->lock);
-+	if (!sfctemp->enabled) {
-+		ret = -ENODATA;
-+		goto out;
-+	}
-+
-+	sfctemp_run_single(sfctemp);
-+
-+	ret = wait_for_completion_interruptible_timeout(&sfctemp->conversion_done,
-+							msecs_to_jiffies(10));
-+	if (ret <= 0) {
-+		if (ret == 0)
-+			ret = -ETIMEDOUT;
-+		goto out;
-+	}
-+
-+	/* calculate temperature in milli Celcius */
-+	*val = (long)((readl(sfctemp->regs) & SFCTEMP_DOUT_MSK) >> SFCTEMP_DOUT_POS)
-+		* SFCTEMP_Y1000 / SFCTEMP_Z - SFCTEMP_K1000;
-+
-+	ret = 0;
-+out:
-+	mutex_unlock(&sfctemp->lock);
-+	return ret;
-+}
-+
-+static umode_t sfctemp_is_visible(const void *data, enum hwmon_sensor_types type,
-+				  u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_enable:
-+			return 0644;
-+		case hwmon_temp_input:
-+			return 0444;
-+		}
-+		return 0;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static int sfctemp_read(struct device *dev, enum hwmon_sensor_types type,
-+			u32 attr, int channel, long *val)
-+{
-+	struct sfctemp *sfctemp = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_enable:
-+			*val = sfctemp->enabled;
-+			return 0;
-+		case hwmon_temp_input:
-+			return sfctemp_convert(sfctemp, val);
-+		}
-+		return -EINVAL;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int sfctemp_write(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long val)
-+{
-+	struct sfctemp *sfctemp = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_enable:
-+			if (val == 0)
-+				return sfctemp_disable(sfctemp);
-+			if (val == 1)
-+				return sfctemp_enable(sfctemp);
-+			break;
-+		}
-+		return -EINVAL;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct hwmon_channel_info *sfctemp_info[] = {
-+	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_ENABLE | HWMON_T_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops sfctemp_hwmon_ops = {
-+	.is_visible = sfctemp_is_visible,
-+	.read = sfctemp_read,
-+	.write = sfctemp_write,
-+};
-+
-+static const struct hwmon_chip_info sfctemp_chip_info = {
-+	.ops = &sfctemp_hwmon_ops,
-+	.info = sfctemp_info,
-+};
-+
-+static int sfctemp_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device *hwmon_dev;
-+	struct resource *mem;
-+	struct sfctemp *sfctemp;
-+	int ret;
-+
-+	sfctemp = devm_kzalloc(dev, sizeof(*sfctemp), GFP_KERNEL);
-+	if (!sfctemp)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, sfctemp);
-+	mutex_init(&sfctemp->lock);
-+	init_completion(&sfctemp->conversion_done);
-+
-+	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	sfctemp->regs = devm_ioremap_resource(dev, mem);
-+	if (IS_ERR(sfctemp->regs))
-+		return PTR_ERR(sfctemp->regs);
-+
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = devm_request_irq(dev, ret, sfctemp_isr,
-+			       IRQF_SHARED, pdev->name, sfctemp);
-+	if (ret) {
-+		dev_err(dev, "request irq failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = devm_add_action(dev, sfctemp_disable_action, sfctemp);
-+	if (ret)
-+		return ret;
-+
-+	ret = sfctemp_enable(sfctemp);
-+	if (ret)
-+		return ret;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(dev, pdev->name, sfctemp,
-+							 &sfctemp_chip_info, NULL);
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static const struct of_device_id sfctemp_of_match[] = {
-+	{ .compatible = "starfive,jh7100-temp" },
-+	{ /* sentinel */ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, sfctemp_of_match);
-+
-+static struct platform_driver sfctemp_driver = {
-+	.driver = {
-+		.name = "sfctemp",
-+		.of_match_table = of_match_ptr(sfctemp_of_match),
-+	},
-+	.probe  = sfctemp_probe,
-+};
-+module_platform_driver(sfctemp_driver);
-+
-+MODULE_AUTHOR("Emil Renner Berthing");
-+MODULE_DESCRIPTION("StarFive JH7100 temperature sensor driver");
-+MODULE_LICENSE("GPL");
+Nice patch! I tested and reviewed it and everthing lgtm.
+
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+
 -- 
-2.32.0
-
+Rodrigo Siqueira
+https://siqueira.tech
