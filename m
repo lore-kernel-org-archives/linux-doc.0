@@ -2,170 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E30DC432BE
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 13:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3B6C432BE
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 13:41:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AF1660F38
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 13:32:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3952760241
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jul 2021 13:41:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231546AbhGZMwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jul 2021 08:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbhGZMwM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 08:52:12 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 602D1C061757;
-        Mon, 26 Jul 2021 06:32:40 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id p38so5029998qvp.11;
-        Mon, 26 Jul 2021 06:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=zYuYTt9xi4PG3HSjDy3tIW6YhfgCZqmwzaknGvEr+NQ=;
-        b=btB/C7CBPguwy7JGY8a1IH+pkPX1SpkRjWY0OvT6PcHOsAE74F1bDp/xwpw/8eoRi/
-         VQEyE6dHNGw95HcmdiIlEx3sikCFLAjX/EpWL3wcUiG2lT8UzNO4Lf3IgB34vLfM2b6p
-         yyGyBEXxwIFco64iVeTTL0dfrhZ8M7l19tGpQ3yn9U5ko3hxPSVzXv5asAr9TYS2hZry
-         8YxzP0dhBoZRhxLFIi2rA9kaeJI8WqdOP0/aPUZImOemhdqnHG248wcxm/Mg+EXbItkR
-         A51WmdZ79Nn03k1MEUllwtKuoi347Vk2eHkU3gw2HpVJf69sVz9ol9r0tQs/2hazELUi
-         kNtg==
+        id S234183AbhGZNAx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jul 2021 09:00:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58364 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234174AbhGZNAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jul 2021 09:00:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1627306874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iwb+gJ5kZupdhuNB/HcDQBwyIfUYDI68vwzalsg6VHw=;
+        b=T18ngr8fHoziCAFQDIAeYL5yMkV/U99a+7MhOPf/owltWLt0uWnHZje4dwFEN2kFJFS3OK
+        CEvZTeRlxa3G8++nJRAVShaYc2KgfU/hfb5O3fviHU7EKYjQl337CRkXMBTVPAn/yfeq72
+        WVb45UTsaJ80+s4mccr0l3WjgYUFOKM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-mP9IlMp-M3KY34si1YtwIg-1; Mon, 26 Jul 2021 09:41:12 -0400
+X-MC-Unique: mP9IlMp-M3KY34si1YtwIg-1
+Received: by mail-ej1-f71.google.com with SMTP id dn1-20020a17090794c1b0290501cd965554so2113858ejc.8
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jul 2021 06:41:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=zYuYTt9xi4PG3HSjDy3tIW6YhfgCZqmwzaknGvEr+NQ=;
-        b=OGAEVIy3w0BbN7dTEL62LKyJwg2qcMZ+KdVebIetEI8fBlcrloV2+JtReebTpQN2rH
-         +i/NzufQdbCZBTDgjiope2QJx456KgEsjcGuUJgxpSEP1B8wBRLqjOa4Z9P7O9jsgzId
-         uuSbMgcUcKkipEog6NmaIUEvbP7f4hYmgeVJ4CXL86dViGGNsXKzeGw/pHC6fGn5x093
-         +wMcgQBDxJylh7ifJEm31JWJZM2aoYnhBmYTbKfNOEVg4mJgZPkFaPcAHGBRX0rRseqz
-         pwKol8/pzW6Skd2OM446J3dhVsn1U4ASrmY5VOuGqKic+rzrAPI8y6NjZsOu8AGG78ra
-         qd2A==
-X-Gm-Message-State: AOAM530Q76GMpBWMVKo2WH66LmgHgcfU1tEjxyNUWZBi1j4f0UggTzhF
-        pFBbVcU5XFpIyOW47qkm31M=
-X-Google-Smtp-Source: ABdhPJxttjlXi0zlRh5X8OxWCjGb65aNuf1X/Ahl0WlinQ5Ewy6Ze3OqTZKp85DyjhMxsiPr7ERQZQ==
-X-Received: by 2002:a0c:9ac7:: with SMTP id k7mr17930271qvf.49.1627306359555;
-        Mon, 26 Jul 2021 06:32:39 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id d129sm18934460qkf.136.2021.07.26.06.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 06:32:38 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Dongjoo Seo <dseo3@uci.edu>,
-        "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@Huawei.com>,
-        acme@kernel.org, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendanhiggins@google.com,
-        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
-        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
-        greg@kroah.com, gthelen@google.com, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, joe@perches.com, linux-damon@amazon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, mgorman@suse.de, mheyne@amazon.de,
-        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
-        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
-        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
-        shuah@kernel.org, sieberf@amazon.com, sjpark@amazon.de,
-        snu@zelle79.org, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        zgf574564920@gmail.com
-Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
-Date:   Mon, 26 Jul 2021 13:32:30 +0000
-Message-Id: <20210726133230.1959-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210723083042.2720-1-sjpark@amazon.de>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iwb+gJ5kZupdhuNB/HcDQBwyIfUYDI68vwzalsg6VHw=;
+        b=e7k+Q3FDbGWbNoNf8hILid+hvJBMh7oyLs6hcpzLK52kBoEEX0JxM/gkg9JI5ZvjSr
+         Sk1mzN7RtBNfElUw+2JNDMLvjR7LmNboYCdDXSH50vhVLRqY6VKl8PO8FwGinVsXVP3K
+         EugaQLsIzvZ8RrFPNXdVbGdpanffO5SFaR+eN1cMFsYc6F6jL/1Ox1ikJMosgpjhJX/Q
+         x9HRr6SBlvuAwFpjAg6nzAXoRPbeYBJO0/jVG2b77Y3gvPsB3uR5fRAovCUnqwrQ9mgb
+         q8gx6cbQVF3cmWeovKLNEiA+yhFKwDHoXqS07ZZ19ClnCXeXdrVBEDJoSWwP2/2Zd5DJ
+         OnFA==
+X-Gm-Message-State: AOAM531g2u1jkK9Ex4XCKZIdzXpzAlyzQ4BNr8YVFTAKUQ2CT+9GU4Id
+        GL6GIYoqfskIBYG3FS1xxKDH+SqaKu0lVD3c7hjOOQ0RY59DnG9GXczkOGRBJ3oKaJYqVKFeBu+
+        sDSLh4chp2suhCo3BUYiZ
+X-Received: by 2002:a17:907:62a7:: with SMTP id nd39mr17088022ejc.502.1627306871202;
+        Mon, 26 Jul 2021 06:41:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzT0bYvy/TK8+n6Y6c+hBewPc87dvCIB4DeEysL1icefAhm31DZ7CDgxzd8DglLWWJepno96g==
+X-Received: by 2002:a17:907:62a7:: with SMTP id nd39mr17088011ejc.502.1627306871006;
+        Mon, 26 Jul 2021 06:41:11 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id c15sm12639677edu.78.2021.07.26.06.41.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jul 2021 06:41:10 -0700 (PDT)
+Subject: Re: [PATCH 0/6] x86/kvm: add boot parameters for max vcpu configs
+To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu
+References: <20210701154105.23215-1-jgross@suse.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b05371ad-05e3-9d99-702e-d8296be492f0@redhat.com>
+Date:   Mon, 26 Jul 2021 15:41:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210701154105.23215-1-jgross@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
-
-On Fri, 23 Jul 2021 08:30:41 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
+On 01/07/21 17:40, Juergen Gross wrote:
+> In order to be able to have a single kernel for supporting even huge
+> numbers of vcpus per guest some arrays should be sized dynamically.
 > 
-> Hello Dongjoo,
+> The easiest way to do that is to add boot parameters for the maximum
+> number of vcpus and the highest supported vcpu-id overwriting the
+> normal default.
 > 
+> This patch series is doing that for x86. The same scheme can be easily
+> adapted to other architectures, but I don't want to do that in the
+> first iteration.
 > 
-> On Fri, 23 Jul 2021 16:02:44 +0900 Dongjoo Seo <dseo3@uci.edu> wrote:
+> In the long term I'd suggest to have a per-guest setting of the two
+> parameters allowing to spare some memory for smaller guests. OTOH this
+> would require new ioctl()s and respective qemu modifications, so I let
+> those away for now.
 > 
-> > Hello, I am new user of this amazing tool.
+> I've tested the series not to break normal guest operation and the new
+> parameters to be effective on x86. For Arm64 I did a compile test only.
 > 
-> Thank you!  It's always great to meet a new user!
+> Juergen Gross (6):
+>    x86/kvm: fix vcpu-id indexed array sizes
+>    x86/kvm: remove non-x86 stuff from arch/x86/kvm/ioapic.h
+>    x86/kvm: add boot parameter for maximum vcpu-id
+>    x86/kvm: introduce per cpu vcpu masks
+>    kvm: allocate vcpu pointer array separately
+>    x86/kvm: add boot parameter for setting max number of vcpus per guest
 > 
-> > I want to use this tool for Nvidia tx2 board with kernel version 4.9.140.
-> > 
-> > Do you guys have any timeline or update schedule for different kernel version compatibility?
+>   .../admin-guide/kernel-parameters.txt         | 18 +++++++
+>   arch/arm64/kvm/arm.c                          | 28 +++++++++--
+>   arch/x86/include/asm/kvm_host.h               | 22 ++++++---
+>   arch/x86/kvm/hyperv.c                         | 25 +++++++---
+>   arch/x86/kvm/ioapic.c                         | 14 +++++-
+>   arch/x86/kvm/ioapic.h                         |  8 +--
+>   arch/x86/kvm/irq_comm.c                       |  9 +++-
+>   arch/x86/kvm/x86.c                            | 49 ++++++++++++++++++-
+>   include/linux/kvm_host.h                      | 17 ++++++-
+>   9 files changed, 160 insertions(+), 30 deletions(-)
 > 
-> I didn't have such a plan until now, but I think I can find a time slot to do
-> one-time back porting of current DAMON on 4.9.140.  I think continuous support
-> would be not so easy, though.  Nevertheless, if you need that, please feel free
-> to let me know.  Once it's done, I will notify you.
 
-Thank you for waiting.  I back-ported this patchset and another one for the
-physical address space monitoring[1] on v4.9.140.  The source code is available
-at DAMON development tree[2].
+Queued patches 1-2, thanks (1 for stable too).
 
-BTW, I can also agree to Greg's opinion.  For the reason, I also back-ported
-the patches on latest v4.9.y[3].  I'd like to suggest you to try that first if
-possible.  I also hope this patchset to be merged in mainline in near future,
-so that NVIDIA be attracted by DAMON and thus forward-port their drivers on the
-latest mainline version.
+Paolo
 
-Nevertheless, DAMOS[4] and DAMON_RECLAIM[5] patchsets are not back-ported
-because those need more works, and you are apparently interested in only the
-monitoring part.
-
-Please note that this backport is for only one-time.  In other words, I will
-not backport the patches for every future 4.9.y release.  Nevertheless, if you
-need another backport, please remember I'm here for you.
-
-Finally, a disclaimer.  I did only minimal test for this, as below:
-
-    $ git clone https://github.com/sjp38/masim; make -C masim/
-    $ git clone https://github.com/awslabs/damo
-    $ # monitor a virtual address space of a process
-    $ sudo ./damo/damo record "./masim/masim ./masim/configs/zigzag.cfg"
-    $ ./damo/damo report heats --heatmap stdout
-    [...]
-    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-    44444444444444444444444444444444444444444444444444444444444444444444444444444200
-    00000000000000000000000000000000000000288888888888888888888888888888888888888400
-    00000000000000000000000000000000000000288888888888888888888888888888888888888400
-    55555555555555555555555555555555555555422222222222222222222222222222222222222100
-    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-    [...]
-    # x-axis: space (140021718388736-140021924798416: 196.848 MiB)
-    # y-axis: time (247055083700-317341924740: 1 m 10.287 s)
-    # resolution: 80x40 (2.461 MiB and 1.757 s for each character)
-    $ # monitor the physcial address space of the system
-    $ ./masim/masim ./masim/configs/zigzag.cfg &
-    $ sudo ./damo/damo record paddr
-    00000000000000000000000000000000000000000000000000000000000000000000000000000000
-    00000000000000000000000000000000000000000000000000000000000000000000000000000020
-    00000000000000000000000000000000000000000000000000000000000000000000000000000040
-    [...]
-    # x-axis: space (4294967296-136303345616: 122.942 GiB)
-    # y-axis: time (356358198969-430518964169: 1 m 14.161 s)
-    # resolution: 80x40 (1.537 GiB and 1.854 s for each character)
-
-Hope you get some fun with these backports.
-
-[1] https://lore.kernel.org/linux-mm/20201216094221.11898-1-sjpark@amazon.com/
-[2] https://github.com/sjp38/linux/tree/damon/for-v4.9.140
-[3] https://github.com/sjp38/linux/tree/damon/for-v4.9.276
-[4] https://lore.kernel.org/linux-mm/20201216084404.23183-1-sjpark@amazon.com/
-[5] https://lore.kernel.org/linux-mm/20210720131309.22073-1-sj38.park@gmail.com/
-
-
-Thanks,
-SeongJae Park
-
-[...]
