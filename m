@@ -2,65 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10468C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87293C4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:16:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECF9E61165
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:07:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64BC161078
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:16:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235829AbhG0HHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 03:07:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59890 "EHLO
+        id S235841AbhG0HQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 03:16:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235230AbhG0HHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 03:07:04 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC08C061760
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:07:05 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id a20so14952771plm.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:07:05 -0700 (PDT)
+        with ESMTP id S235558AbhG0HQ3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 03:16:29 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4155CC061757
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:16:30 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so3606151pji.5
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gRjmuFZcr1eSBhne8H1SLkdS9f3pbpxDfvMvPpPvFP0=;
-        b=QVKjfGbnR32GQUbYrb6/qb02GRpzHi9VNov+FPkEVRqZbbTln2gnlOjt/KDtwrgpmY
-         gIidgwAaLE031GY6D8OFlM0j6U2Tf2sgXS0Piy4FXlomGU9Ya80l1TYPpDFrPtXkTI/W
-         85YIrUuynRlJLHxRXZBjbUjpN46eZ5i4rWaZYCn9C7SzdAYsHC5MAvE6rkmwODO4dFzZ
-         ue5LVdvewkWM4k/MoHyDebVQYTAhgS/raO1/5MgHNVMJQiniyIhGaHqmUPkwFtA6hY5F
-         gHxeVmKuafAmtwW7BcV0yJgnMD+49AeuMOmI0tJ9Iud9pkJXF5OP368UOMpW8N8eD3KZ
-         2wrA==
+        bh=bKC84XaSphQuDQX3Q4os9LEp/o8VsHBxPfbvxrdpw8g=;
+        b=OwiBlgeDOlRH50jaV5RCT+PgIPPbRpsmxhBpmRsIM9fDqNi/4zgFbY9dopH8RFi0yU
+         yuKdMK7KXeNB7+NGVx7NuE5X++fVjy3g5lG4gk+TUs0TOtvPhX+KhcDDlASt7yTD0BHI
+         WdxyPbXPJxGuk32uxWIartQfpEtI4PQ/mgf87IgXM/mpEyZwxroIzWYBrz4RB2r9uh1y
+         bfs+xBeA6rE5Jcm2+vVYDRkwN4vqNt7lbzJVWIB3CLxmh9YXhV28YakiBJKThwV2AuT9
+         dERLtEs+forZ6Eo1llKBcPVc4yzXmqw6ZcofvQ+edDd6Xkud5B4xrXki85fTzKMa3KBA
+         /nBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gRjmuFZcr1eSBhne8H1SLkdS9f3pbpxDfvMvPpPvFP0=;
-        b=PGWf29eWyqWhcZ4TCC5W1DfvG9zG3qadyQJgEWi7EK/cyc/u4SVnDgZIj72UGNeclc
-         i84pIE+PMI/1+W3jNBLRf9dujJE9+vlCd/75Crex6iGUOWS/tU6EAks+MyFw4xpe571k
-         xv9tJmA+qb2flFoFTxKEKxuD6paaY3tuoM0CCvpI0nO+RxyEREg6z1A0yM10/CLg4CDy
-         HZTPLX8DAlJ4Nm5hujs05ZJt/4IBdCL80skTFBK3DUZOgV4ayxTXF5Tn4v8EIjF+tQ+v
-         HMXv74NC0nwSqz9km2Vl9texWZCFPbh4oQH76fEc+1qn712OpzrC5oHqPQFpkjU54evz
-         TrQQ==
-X-Gm-Message-State: AOAM533I/IZtQOegU2fhx9O11v9UH8P4ksjkPWYs9rrNU3+KWx6McXeT
-        +yJxnD6CLaELBAj3ncMEsB9g1yjW/B8aiAI4rRKQ4Q==
-X-Google-Smtp-Source: ABdhPJy8do4w5yZuxEKWkVW2eIwgAICsoVJlX2vijoDLzxx/qmuCAGdDgTq3YZ45HD/oPkf72lUMiVSB1BGuPgiLwdw=
-X-Received: by 2002:a17:90a:4894:: with SMTP id b20mr1818416pjh.13.1627369624969;
- Tue, 27 Jul 2021 00:07:04 -0700 (PDT)
+        bh=bKC84XaSphQuDQX3Q4os9LEp/o8VsHBxPfbvxrdpw8g=;
+        b=N8XAg4xkl2mSyaqWXBAax1bzXdtLNeVniWNj3k/zxl0unXeHaWpOnSvbtg4bm6cmE7
+         jYTD1BSvMRYSfcGSlmr5bmtodLQ7mC8p6Z4TRF+USnucn0erRZt2QWf6WpdLVJUm+/UR
+         LO5GQ86KIeGRhOIjIPteuyYPg6+/6PT9Dyl633/8rWTWvRKXS0UwB8boPRYKvE5Uhg0s
+         g+kif2Cu7AL0FGgFu0B2yI5Q/P932liDHMav3rfbr8gujsKUzh7AvK+2GlaA2zLXkt4L
+         OxyGzsjbftFstK34Th8BJf2D/uZNJ6DE3QR9Dq0qGz53Ef9eQTRts6AKro6fOi1aWBvv
+         PERQ==
+X-Gm-Message-State: AOAM530wnGNcQRMFcCDkkzSJ5ziq9B9QDTH6awclsOCP9y0je0KtJP7L
+        ZVyJ6oTr7Mfh5ze/QHg+CoG40sM/P9OdDjIqhCYzmA==
+X-Google-Smtp-Source: ABdhPJxF9oRwI8Oz5wbwdM8pBPWdXdq4eg1Pbto1lovz7LB3/FTv8mQ5dlcrT+l5xb7DKqmFQLNS0DDnBQUH7iy3M0Y=
+X-Received: by 2002:a63:cd4b:: with SMTP id a11mr22181343pgj.273.1627370189757;
+ Tue, 27 Jul 2021 00:16:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210714091800.42645-1-songmuchun@bytedance.com>
- <20210714091800.42645-3-songmuchun@bytedance.com> <fea1d845-209a-e2d5-6fcc-dbf17c949861@oracle.com>
-In-Reply-To: <fea1d845-209a-e2d5-6fcc-dbf17c949861@oracle.com>
+ <20210714091800.42645-4-songmuchun@bytedance.com> <YP8mKV4wTp5sPIZg@casper.infradead.org>
+In-Reply-To: <YP8mKV4wTp5sPIZg@casper.infradead.org>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 27 Jul 2021 15:06:28 +0800
-Message-ID: <CAMZfGtUaSsfjf4HSCsHMHFNxVaGrTXjVqE5iExM8JkMJPx169g@mail.gmail.com>
-Subject: Re: [PATCH 2/5] mm: introduce save_page_flags to cooperate with show_page_flags
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+Date:   Tue, 27 Jul 2021 15:15:52 +0800
+Message-ID: <CAMZfGtUKKcduZb5w7NED53Ke8UwNtiNZRp8ttbUb=TH-K1zgPA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] mm: hugetlb: free the 2nd vmemmap page associated
+ with each HugeTLB page
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Oscar Salvador <osalvador@suse.de>,
         Michal Hocko <mhocko@suse.com>,
         "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
@@ -78,47 +79,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 7:18 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+On Tue, Jul 27, 2021 at 5:17 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> On 7/14/21 2:17 AM, Muchun Song wrote:
-> > Introduce save_page_flags to return the page flags which can cooperate
-> > with show_page_flags. If we want to hihe some page flags from users, it
-> > will be useful to alter save_page_flags directly. This is a preparation
-> > for the next patch to hide some page flags from users.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/trace/events/mmflags.h  | 3 +++
-> >  include/trace/events/page_ref.h | 8 ++++----
-> >  2 files changed, 7 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-> > index 390270e00a1d..69cb84b1257e 100644
-> > --- a/include/trace/events/mmflags.h
-> > +++ b/include/trace/events/mmflags.h
-> > @@ -121,6 +121,9 @@ IF_HAVE_PG_IDLE(PG_idle,          "idle"          )               \
-> >  IF_HAVE_PG_ARCH_2(PG_arch_2,         "arch_2"        )               \
-> >  IF_HAVE_PG_SKIP_KASAN_POISON(PG_skip_kasan_poison, "skip_kasan_poison")
-> >
-> > +#define save_page_flags(page)                                                \
-> > +     (((page)->flags & ~PAGEFLAGS_MASK))
+> On Wed, Jul 14, 2021 at 05:17:58PM +0800, Muchun Song wrote:
+> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > +extern bool hugetlb_free_vmemmap_enabled;
 > > +
+> > +/*
+> > + * If the feature of freeing some vmemmap pages associated with each HugeTLB
+> > + * page is enabled, the head vmemmap page frame is reused and all of the tail
+> > + * vmemmap addresses map to the head vmemmap page frame (furture details can
+> > + * refer to the figure at the head of the mm/hugetlb_vmemmap.c).  In other
+> > + * word, there are more than one page struct with PG_head associated with each
+> > + * HugeTLB page.  We __know__ that there is only one head page struct, the tail
+> > + * page structs with PG_head are fake head page structs.  We need an approach
+> > + * to distinguish between those two different types of page structs so that
+> > + * compound_head() can return the real head page struct when the parameter is
+> > + * the tail page struct but with PG_head. This is what page_head_if_fake()
+> > + * does.
+> > + *
+> > + * The page_head_if_fake() returns the real head page struct iff the @page may
+> > + * be fake, otherwise, returns NULL if the @page cannot be a fake page struct.
+> > + * The following figure describes how to distinguish between real and fake head
+> > + * page struct.
+> > + *
+> > + *   if (test_bit(PG_head, &page->flags)) {
+> > + *           unsigned long head = READ_ONCE(page[1].compound_head);
+> > + *
+> > + *           if (head & 1) {
+> > + *                   if (head == (unsigned long)page + 1)
+> > + *                           ==> head page struct
+> > + *                   else
+> > + *                           ==> tail page struct
+> > + *           } else
+> > + *                   ==> head page struct
+> > + *   } else
+> > + *           ==> cannot be fake head page struct
 >
-> Looking ahead to the next patch, this is changed to hide the PG_head
-> flag for 'fake' head pages.
->
-> IIRC, all vmemmap pages except the first will be mapped read only.  So,
-> all vmemmap pages with 'fake' head pages will be read only.
->
-> It seems that all the modified trace events below are associated with
-> updates to page structs.  Therefore, it seems these events will never
-> experience a 'fake' head page.  Am I missing something?
+> I'm not sure we need the pseudocode when the code is right there ...
 
-Totally right. I didn't realize this point before. We cannot see a fake page
-struct in page refcount tracing. So this patch is definitely pointless. I'll
-drop it in the next version. Thanks Mike.
-
+Maybe it is redundant. I'll remove this in the next version.
 
 >
-> --
-> Mike Kravetz
+> > + * We can safely access the field of the @page[1] with PG_head because it means
+> > + * that the @page is a compound page composed with at least two contiguous
+> > + * pages.
+> > + */
+> > +static __always_inline struct page *page_head_if_fake(const struct page *page)
+> > +{
+> > +     if (!hugetlb_free_vmemmap_enabled)
+> > +             return NULL;
+> > +
+> > +     /*
+> > +      * Only addresses aligned with PAGE_SIZE of struct page may be fake head
+> > +      * struct page. The alignment check aims to avoid access the fields (
+> > +      * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
+> > +      * cold cacheline in some cases.
+> > +      */
+> > +     if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
+> > +         test_bit(PG_head, &page->flags)) {
+> > +             unsigned long head = READ_ONCE(page[1].compound_head);
+> > +
+> > +             if (likely(head & 1))
+> > +                     return (struct page *)(head - 1);
+> > +     }
+> > +
+> > +     return NULL;
+> > +}
+>
+> Why return 'NULL' instead of 'page'?
+
+Returning @page is also fine. Will do in the next version.
+
+>
+> This is going to significantly increase the cost of calling
+> compound_page() (by whichever spelling it has).  That will make
+> the folio patchset more compelling ;-)
+
+As Mike mentationed, do you have any recommended
+benchmark (suspect you have a lot of experience on
+this)?
+
+Thanks.
