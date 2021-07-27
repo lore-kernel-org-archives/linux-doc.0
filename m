@@ -2,84 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C60C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 11:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 934B9C432BE
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 11:42:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6578D619F8
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 11:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76A1C61A35
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 11:42:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236414AbhG0L2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 07:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231781AbhG0L2H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 07:28:07 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22E36C061757
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 04:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9uNazdZqTnM5ne/FDKvszK/fLUy1t89Mlgubekvh4To=; b=ofpt9APqwqG5l5EKo2hxumBIQ7
-        sSVvdYlhdvJPYKDX0KInGIwHjysf3tCsh4hsHd0RdJ1UzCoSX6IKjGjIW1lvluv98sVWN5N9ufI+C
-        2rqTnNye64I1k+vnrhJk7Go29f8gWYrFS+SMcPR+QKIj3+oc6txr9v2IKC9jRpE7a5zN5tJRYNwef
-        qsbA/NPEAXsDtI60VXNRTfMSMOyBIRlDfWdDMDOO5AGpTVkCU/pPHblWQjjhnkweRwmaDtwCMqTV7
-        hszzRKlCUXeuiusIvCgzv2dAAKODAhWjtxL5uJyxQVg3ifhbmQBAhHcej9ZfBRG++YOMDyhkJsVVK
-        Fztt4s9Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m8LDL-00ExQf-0q; Tue, 27 Jul 2021 11:26:01 +0000
-Date:   Tue, 27 Jul 2021 12:25:34 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        pioneer695 <pioneer695@protonmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: make cleandocs issue: rm -rf /output when obj not defined
-Message-ID: <YP/tLnwb86RTTiRf@casper.infradead.org>
-References: <hMV_L3bAsgmBToxsfiYBJDxTBoLHll-1BOk7FvqialjmZFNDp14Bq69ddTVagVH49yViCM43-yFpZ39Kfr6geVK7ota0QhCDA4MaC_5vILY=@protonmail.com>
- <875ywyw3ui.fsf@meer.lwn.net>
- <5e93f77f-79a5-7dc9-287e-a48865afd133@infradead.org>
+        id S236425AbhG0Lmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 07:42:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48246 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236087AbhG0Lmn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Jul 2021 07:42:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FF6A61A0C;
+        Tue, 27 Jul 2021 11:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627386164;
+        bh=kScULZZCypjcOHNbhOUj9pQys0yWEAROn9wACbjozIw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m8JyQpsRV2qnrTyHfpCN4LeYJtuQKD2lVoLcORs/LIL6Zlfk+9kyrUWwpYLWVH0zC
+         da4SkWCfx1FBjXO9GP9sD5YcX7dwO7+aUAGptdmkKD+iau4FPQXrDqvZf/7/iOvINL
+         hPupBomYDitrlzXqSt4tgqqnLYI2Tt1erZZv5dqLFsX+/sdb2DjELZQk74bMom9TdJ
+         KcCDDCgKTvR9Q4BGNqRgLcv7FjGJG7qUC0JwTdOpDa+T3RxkWbzRnt7Z2YLV8sSelE
+         imLHD8oRPKROL+Ha8NMd192W7plhwgLNv5bQ8qDVMtz8sREeVIktU/vSiCj03Wb9u+
+         uv+1mXNkUEojg==
+Date:   Tue, 27 Jul 2021 13:42:41 +0200
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v3 6/9] cgroup/cpuset: Add a new isolated cpus.partition
+ type
+Message-ID: <20210727114241.GA283787@lothringen>
+References: <20210720141834.10624-1-longman@redhat.com>
+ <20210720141834.10624-7-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5e93f77f-79a5-7dc9-287e-a48865afd133@infradead.org>
+In-Reply-To: <20210720141834.10624-7-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 25, 2021 at 01:53:30PM -0700, Randy Dunlap wrote:
-> On 7/25/21 1:11 PM, Jonathan Corbet wrote:
-> > pioneer695 <pioneer695@protonmail.com> writes:
-> > 
-> >> In an attempt to get some readable documentation I cloned the git repository
-> >> to check how the PDF format is.
-> >>
-> >> Entered Documentation and proceeded with:
-> >>
-> >> 	make pdfdocs
+On Tue, Jul 20, 2021 at 10:18:31AM -0400, Waiman Long wrote:
+> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=TBD
 > 
-> Hi,
-> I'm curious about this part above. Are you saying that you did:
+> commit 994fb794cb252edd124a46ca0994e37a4726a100
+> Author: Waiman Long <longman@redhat.com>
+> Date:   Sat, 19 Jun 2021 13:28:19 -0400
 > 
-> cd Documentation
-> make pdfdocs
+>     cgroup/cpuset: Add a new isolated cpus.partition type
 > 
-> I've never tried that and don't expect it to be done that way.
+>     Cpuset v1 uses the sched_load_balance control file to determine if load
+>     balancing should be enabled.  Cpuset v2 gets rid of sched_load_balance
+>     as its use may require disabling load balancing at cgroup root.
 > 
-> I do (from the top of the kernel source tree):
+>     For workloads that require very low latency like DPDK, the latency
+>     jitters caused by periodic load balancing may exceed the desired
+>     latency limit.
 > 
-> make pdfdocs
-> or
-> make htmldocs
+>     When cpuset v2 is in use, the only way to avoid this latency cost is to
+>     use the "isolcpus=" kernel boot option to isolate a set of CPUs. After
+>     the kernel boot, however, there is no way to add or remove CPUs from
+>     this isolated set. For workloads that are more dynamic in nature, that
+>     means users have to provision enough CPUs for the worst case situation
+>     resulting in excess idle CPUs.
 > 
-> with no problems, other than I may not have all of the latex
-> tools installed.
+>     To address this issue for cpuset v2, a new cpuset.cpus.partition type
+>     "isolated" is added which allows the creation of a cpuset partition
+>     without load balancing. This will allow system administrators to
+>     dynamically adjust the size of isolated partition to the current need
+>     of the workload without rebooting the system.
+> 
+>     Signed-off-by: Waiman Long <longman@redhat.com>
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Perhaps we should rename Documentation/Makefile to Documentation/Kbuild
-to prevent this confusion?
+Nice! And while we are adding a new ABI, can we take advantage of that and
+add a specific semantic that if a new isolated partition matches a subset of
+"isolcpus=", it automatically maps to it. This means that any further
+modification to that isolated partition will also modify the associated
+isolcpus= subset.
+
+Or to summarize, when we create a new isolated partition, remove the associated
+CPUs from isolcpus= ?
+
+Thanks.
