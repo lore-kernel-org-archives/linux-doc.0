@@ -2,162 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87293C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:16:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF92FC4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:46:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64BC161078
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:16:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 941A661205
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:46:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235841AbhG0HQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 03:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
+        id S235859AbhG0Hqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 03:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235558AbhG0HQ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 03:16:29 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4155CC061757
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:16:30 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so3606151pji.5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:16:30 -0700 (PDT)
+        with ESMTP id S235819AbhG0Hqw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 03:46:52 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB714C061764
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:46:51 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id n12so10460324wrr.2
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bKC84XaSphQuDQX3Q4os9LEp/o8VsHBxPfbvxrdpw8g=;
-        b=OwiBlgeDOlRH50jaV5RCT+PgIPPbRpsmxhBpmRsIM9fDqNi/4zgFbY9dopH8RFi0yU
-         yuKdMK7KXeNB7+NGVx7NuE5X++fVjy3g5lG4gk+TUs0TOtvPhX+KhcDDlASt7yTD0BHI
-         WdxyPbXPJxGuk32uxWIartQfpEtI4PQ/mgf87IgXM/mpEyZwxroIzWYBrz4RB2r9uh1y
-         bfs+xBeA6rE5Jcm2+vVYDRkwN4vqNt7lbzJVWIB3CLxmh9YXhV28YakiBJKThwV2AuT9
-         dERLtEs+forZ6Eo1llKBcPVc4yzXmqw6ZcofvQ+edDd6Xkud5B4xrXki85fTzKMa3KBA
-         /nBQ==
+        bh=5Tj5EO2Uw4drdfwULeG32UobpBcCgtAwxyIhcAogS7Y=;
+        b=dKtGiz6+y1uaAObIVBdw27gbnD01fqnHeO+vrDtF8Ngf4Aw7GTonH/D4V52DPjfRq6
+         yUpvOl/juZhlUiZimzO+5qAlow/z8751ty9Vw+n9ryNB9FSMZuGJxZnEaOn3z+fs9CQx
+         g6zEEHM1VidMR1tOrMPJU6vuu+KAan57jDQksRDVb5fOYHr429mS8MO5h0Uv1KgmLCOp
+         ioKcoARUzj5+EzrfylKgsJigJIMnEFDJO5VPc9JsWL9Sdjw3UJNUSvg+zbNBIR3iTyzv
+         ixIYR8g/DLQScjPgED1hrWwmYO9GCXVDPDckQGZyRhrXrTtofNwlX0hdpjOYKeURLKvA
+         DsPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bKC84XaSphQuDQX3Q4os9LEp/o8VsHBxPfbvxrdpw8g=;
-        b=N8XAg4xkl2mSyaqWXBAax1bzXdtLNeVniWNj3k/zxl0unXeHaWpOnSvbtg4bm6cmE7
-         jYTD1BSvMRYSfcGSlmr5bmtodLQ7mC8p6Z4TRF+USnucn0erRZt2QWf6WpdLVJUm+/UR
-         LO5GQ86KIeGRhOIjIPteuyYPg6+/6PT9Dyl633/8rWTWvRKXS0UwB8boPRYKvE5Uhg0s
-         g+kif2Cu7AL0FGgFu0B2yI5Q/P932liDHMav3rfbr8gujsKUzh7AvK+2GlaA2zLXkt4L
-         OxyGzsjbftFstK34Th8BJf2D/uZNJ6DE3QR9Dq0qGz53Ef9eQTRts6AKro6fOi1aWBvv
-         PERQ==
-X-Gm-Message-State: AOAM530wnGNcQRMFcCDkkzSJ5ziq9B9QDTH6awclsOCP9y0je0KtJP7L
-        ZVyJ6oTr7Mfh5ze/QHg+CoG40sM/P9OdDjIqhCYzmA==
-X-Google-Smtp-Source: ABdhPJxF9oRwI8Oz5wbwdM8pBPWdXdq4eg1Pbto1lovz7LB3/FTv8mQ5dlcrT+l5xb7DKqmFQLNS0DDnBQUH7iy3M0Y=
-X-Received: by 2002:a63:cd4b:: with SMTP id a11mr22181343pgj.273.1627370189757;
- Tue, 27 Jul 2021 00:16:29 -0700 (PDT)
+        bh=5Tj5EO2Uw4drdfwULeG32UobpBcCgtAwxyIhcAogS7Y=;
+        b=Iubr9jGFINU14EYzg7/zuwHeW7PK5IgaDD24QA7dxSajlxWcGGTgwIc2KC48Q+ofYk
+         yCpvejt439qWXKBYF/kZHclJPSdv7hQUCS1cvZmN9Fz1N5P/mxT1BPfxtInmg7WladUj
+         O1pF+3Hosxq4EkRhrfV6AYH7LbTLyjFcHXj/pbai70PnLrHkdM1hMJpADeTw65/LDMHJ
+         0vOEztwyI7+6UI71vZOOJOresWbilD4RAMr24figmJHtyInCLPuZYEqlCj56XjEM2szf
+         Ux2RVVXXWG2oKw90UZDpgAPRSqni0qi1qjDYncof82KMHuTV8wZYlzsP7R4o2LB3A4/S
+         Y3AA==
+X-Gm-Message-State: AOAM5335AGgbd4KCNWXYv/pRY8DKiOH8OP5p1MqaJx4bbNf3eNTf2EWt
+        3Jcj8EPdb5Oh45kbkW5kLxv0u8ZEhK7tQLn6Uy78Xg==
+X-Google-Smtp-Source: ABdhPJzR7dAUKysXNeo6YdC8BFA8JDb8P26N5c43+WSIM2Pm+5ds99zvIdZRuJeJ2IToDJ1Jhba+9yHjvwEsH0eUiHc=
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr22941000wrs.7.1627372010283;
+ Tue, 27 Jul 2021 00:46:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714091800.42645-1-songmuchun@bytedance.com>
- <20210714091800.42645-4-songmuchun@bytedance.com> <YP8mKV4wTp5sPIZg@casper.infradead.org>
-In-Reply-To: <YP8mKV4wTp5sPIZg@casper.infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 27 Jul 2021 15:15:52 +0800
-Message-ID: <CAMZfGtUKKcduZb5w7NED53Ke8UwNtiNZRp8ttbUb=TH-K1zgPA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] mm: hugetlb: free the 2nd vmemmap page associated
- with each HugeTLB page
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
+ <20210723094422.2150313-2-jens.wiklander@linaro.org> <87zgud1giz.wl-maz@kernel.org>
+In-Reply-To: <87zgud1giz.wl-maz@kernel.org>
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+Date:   Tue, 27 Jul 2021 09:46:39 +0200
+Message-ID: <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Qi Zheng <zhengqi.arch@bytedance.com>
+        Ard Biesheuvel <ardb@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 5:17 AM Matthew Wilcox <willy@infradead.org> wrote:
+On Fri, Jul 23, 2021 at 12:16 PM Marc Zyngier <maz@kernel.org> wrote:
 >
-> On Wed, Jul 14, 2021 at 05:17:58PM +0800, Muchun Song wrote:
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +extern bool hugetlb_free_vmemmap_enabled;
+> On Fri, 23 Jul 2021 10:44:17 +0100,
+> Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> >
+> > Adds a section on notifications used by OP-TEE, synchronous and
+> > asynchronous.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  Documentation/staging/tee.rst | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >
+> > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> > index 4d4b5f889603..37bdd097336f 100644
+> > --- a/Documentation/staging/tee.rst
+> > +++ b/Documentation/staging/tee.rst
+> > @@ -184,6 +184,33 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
+> >  application to retrieve a list of Trusted Applications which can be registered
+> >  as devices on the TEE bus.
+> >
+> > +OP-TEE notifications
+> > +--------------------
 > > +
-> > +/*
-> > + * If the feature of freeing some vmemmap pages associated with each HugeTLB
-> > + * page is enabled, the head vmemmap page frame is reused and all of the tail
-> > + * vmemmap addresses map to the head vmemmap page frame (furture details can
-> > + * refer to the figure at the head of the mm/hugetlb_vmemmap.c).  In other
-> > + * word, there are more than one page struct with PG_head associated with each
-> > + * HugeTLB page.  We __know__ that there is only one head page struct, the tail
-> > + * page structs with PG_head are fake head page structs.  We need an approach
-> > + * to distinguish between those two different types of page structs so that
-> > + * compound_head() can return the real head page struct when the parameter is
-> > + * the tail page struct but with PG_head. This is what page_head_if_fake()
-> > + * does.
-> > + *
-> > + * The page_head_if_fake() returns the real head page struct iff the @page may
-> > + * be fake, otherwise, returns NULL if the @page cannot be a fake page struct.
-> > + * The following figure describes how to distinguish between real and fake head
-> > + * page struct.
-> > + *
-> > + *   if (test_bit(PG_head, &page->flags)) {
-> > + *           unsigned long head = READ_ONCE(page[1].compound_head);
-> > + *
-> > + *           if (head & 1) {
-> > + *                   if (head == (unsigned long)page + 1)
-> > + *                           ==> head page struct
-> > + *                   else
-> > + *                           ==> tail page struct
-> > + *           } else
-> > + *                   ==> head page struct
-> > + *   } else
-> > + *           ==> cannot be fake head page struct
->
-> I'm not sure we need the pseudocode when the code is right there ...
-
-Maybe it is redundant. I'll remove this in the next version.
-
->
-> > + * We can safely access the field of the @page[1] with PG_head because it means
-> > + * that the @page is a compound page composed with at least two contiguous
-> > + * pages.
-> > + */
-> > +static __always_inline struct page *page_head_if_fake(const struct page *page)
-> > +{
-> > +     if (!hugetlb_free_vmemmap_enabled)
-> > +             return NULL;
+> > +There are two kinds of notifications that secure world can use to make
+> > +normal world aware of some event.
 > > +
-> > +     /*
-> > +      * Only addresses aligned with PAGE_SIZE of struct page may be fake head
-> > +      * struct page. The alignment check aims to avoid access the fields (
-> > +      * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
-> > +      * cold cacheline in some cases.
-> > +      */
-> > +     if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
-> > +         test_bit(PG_head, &page->flags)) {
-> > +             unsigned long head = READ_ONCE(page[1].compound_head);
+> > +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
+> > +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
+> > +2. Asynchronous notifications delivered with a combination of a non-secure
+> > +   interrupt and a fast call from the non-secure interrupt handler.
 > > +
-> > +             if (likely(head & 1))
-> > +                     return (struct page *)(head - 1);
-> > +     }
+> > +Synchronous notifications are limited by depending on RPC for delivery,
+> > +this is only usable when secure world is entered with a yielding call via
+> > +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
+> > +world interrupt handlers.
 > > +
-> > +     return NULL;
-> > +}
+> > +An asynchronous notification is delivered via a non-secure interrupt to an
+> > +interrupt handler registered in the OP-TEE driver. The actual notification
+> > +value are retrieved with the fast call ``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
+> > +
+> > +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
+> > +special meaning. When this value is received it means that normal world is
+> > +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
+> > +call is done from the thread assisting the interrupt handler. This is a
+> > +building block for OP-TEE OS in secure world to implement the top half and
+> > +bottom half style of device drivers.
+> > +
 >
-> Why return 'NULL' instead of 'page'?
-
-Returning @page is also fine. Will do in the next version.
-
+> What I find missing here is a description of the trigger for this
+> interrupt, and how it influences the way the kernel drivers interacts
+> with the secure side:
 >
-> This is going to significantly increase the cost of calling
-> compound_page() (by whichever spelling it has).  That will make
-> the folio patchset more compelling ;-)
+> - if it is edge triggered, this is 'fire and forget'. The interrupt
+>   will be consumed by the kernel handler, and whether it eventually
+>   calls into the secure side has no impact on the interrupt flow.
+>
+> - if it is level triggered, then the interrupt may be asserted until
+>   the kernel calls into the secure side, which may then drop the line
+>   level if no other requests are pending.
+>
+> These are evidently two very different flows, and you need to pick a
+> side. Note that not all interrupt controllers support both signalling
+> modes, so you are likely to leave something behind. Or you can try and
+> support both flows, but that may make the driver slightly more
+> complex.
+>
+> Either way, this needs specifying, here and in the DT binding.
 
-As Mike mentationed, do you have any recommended
-benchmark (suspect you have a lot of experience on
-this)?
+In the example I'm using a level triggered interrupt which is
+triggered by writing to GICD_ISPENDR by secure world. Reading of
+GICC_IAR should clear the interrupt, the GICv2 reference manual is
+quite clear on that. So, if I understand it correctly, it will for
+this purpose work in the same way as an edge triggered interrupt. If
+this wouldn't be the case in some configuration and the interrupt must
+be cleared by some other action that would be a job for the receiver
+of OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, that is, a secure world problem.
+The normal world flow should be the same.
 
-Thanks.
+Now that we describe the interrupt configuration in device tree it
+must use something that mirrors the secure world expectations. I don't
+see a point in restricting what's allowed as long it doesn't need code
+changes in the kernel too. Does this make any sense?
+
+If I just expand a bit above explaining that the interrupt handler
+must call OPTEE_SMC_GET_ASYNC_NOTIF_VALUE as part of clearing the
+interrupt even if it might be cleared anyway in some configurations.
+Would that make it more clear, good enough even :-) ?
+
+Thanks,
+Jens
