@@ -2,64 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF92FC4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C1FC4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 08:32:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 941A661205
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 07:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5086F60FEE
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 08:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235859AbhG0Hqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 03:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235819AbhG0Hqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 03:46:52 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB714C061764
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:46:51 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id n12so10460324wrr.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 00:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5Tj5EO2Uw4drdfwULeG32UobpBcCgtAwxyIhcAogS7Y=;
-        b=dKtGiz6+y1uaAObIVBdw27gbnD01fqnHeO+vrDtF8Ngf4Aw7GTonH/D4V52DPjfRq6
-         yUpvOl/juZhlUiZimzO+5qAlow/z8751ty9Vw+n9ryNB9FSMZuGJxZnEaOn3z+fs9CQx
-         g6zEEHM1VidMR1tOrMPJU6vuu+KAan57jDQksRDVb5fOYHr429mS8MO5h0Uv1KgmLCOp
-         ioKcoARUzj5+EzrfylKgsJigJIMnEFDJO5VPc9JsWL9Sdjw3UJNUSvg+zbNBIR3iTyzv
-         ixIYR8g/DLQScjPgED1hrWwmYO9GCXVDPDckQGZyRhrXrTtofNwlX0hdpjOYKeURLKvA
-         DsPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5Tj5EO2Uw4drdfwULeG32UobpBcCgtAwxyIhcAogS7Y=;
-        b=Iubr9jGFINU14EYzg7/zuwHeW7PK5IgaDD24QA7dxSajlxWcGGTgwIc2KC48Q+ofYk
-         yCpvejt439qWXKBYF/kZHclJPSdv7hQUCS1cvZmN9Fz1N5P/mxT1BPfxtInmg7WladUj
-         O1pF+3Hosxq4EkRhrfV6AYH7LbTLyjFcHXj/pbai70PnLrHkdM1hMJpADeTw65/LDMHJ
-         0vOEztwyI7+6UI71vZOOJOresWbilD4RAMr24figmJHtyInCLPuZYEqlCj56XjEM2szf
-         Ux2RVVXXWG2oKw90UZDpgAPRSqni0qi1qjDYncof82KMHuTV8wZYlzsP7R4o2LB3A4/S
-         Y3AA==
-X-Gm-Message-State: AOAM5335AGgbd4KCNWXYv/pRY8DKiOH8OP5p1MqaJx4bbNf3eNTf2EWt
-        3Jcj8EPdb5Oh45kbkW5kLxv0u8ZEhK7tQLn6Uy78Xg==
-X-Google-Smtp-Source: ABdhPJzR7dAUKysXNeo6YdC8BFA8JDb8P26N5c43+WSIM2Pm+5ds99zvIdZRuJeJ2IToDJ1Jhba+9yHjvwEsH0eUiHc=
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr22941000wrs.7.1627372010283;
- Tue, 27 Jul 2021 00:46:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
- <20210723094422.2150313-2-jens.wiklander@linaro.org> <87zgud1giz.wl-maz@kernel.org>
-In-Reply-To: <87zgud1giz.wl-maz@kernel.org>
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-Date:   Tue, 27 Jul 2021 09:46:39 +0200
-Message-ID: <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
-To:     Marc Zyngier <maz@kernel.org>
+        id S235920AbhG0Icr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 04:32:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235912AbhG0Icr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Jul 2021 04:32:47 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9147660F94;
+        Tue, 27 Jul 2021 08:32:47 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1m8IW5-001GBV-EM; Tue, 27 Jul 2021 09:32:45 +0100
+Date:   Tue, 27 Jul 2021 09:32:44 +0100
+Message-ID: <87eebkdumr.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jens Wiklander <jens.wiklander@linaro.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
@@ -72,99 +44,159 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
+In-Reply-To: <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
+References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
+        <20210723094422.2150313-2-jens.wiklander@linaro.org>
+        <87zgud1giz.wl-maz@kernel.org>
+        <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: jens.wiklander@linaro.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, jerome@forissier.org, etienne.carriere@linaro.org, sumit.garg@linaro.org, vincent.guittot@linaro.org, robh+dt@kernel.org, corbet@lwn.net, ardb@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 12:16 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Fri, 23 Jul 2021 10:44:17 +0100,
-> Jens Wiklander <jens.wiklander@linaro.org> wrote:
+On Tue, 27 Jul 2021 08:46:39 +0100,
+Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> 
+> On Fri, Jul 23, 2021 at 12:16 PM Marc Zyngier <maz@kernel.org> wrote:
 > >
-> > Adds a section on notifications used by OP-TEE, synchronous and
-> > asynchronous.
+> > On Fri, 23 Jul 2021 10:44:17 +0100,
+> > Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > >
+> > > Adds a section on notifications used by OP-TEE, synchronous and
+> > > asynchronous.
+> > >
+> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > ---
+> > >  Documentation/staging/tee.rst | 27 +++++++++++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> > >
+> > > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> > > index 4d4b5f889603..37bdd097336f 100644
+> > > --- a/Documentation/staging/tee.rst
+> > > +++ b/Documentation/staging/tee.rst
+> > > @@ -184,6 +184,33 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
+> > >  application to retrieve a list of Trusted Applications which can be registered
+> > >  as devices on the TEE bus.
+> > >
+> > > +OP-TEE notifications
+> > > +--------------------
+> > > +
+> > > +There are two kinds of notifications that secure world can use to make
+> > > +normal world aware of some event.
+> > > +
+> > > +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
+> > > +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
+> > > +2. Asynchronous notifications delivered with a combination of a non-secure
+> > > +   interrupt and a fast call from the non-secure interrupt handler.
+> > > +
+> > > +Synchronous notifications are limited by depending on RPC for delivery,
+> > > +this is only usable when secure world is entered with a yielding call via
+> > > +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
+> > > +world interrupt handlers.
+> > > +
+> > > +An asynchronous notification is delivered via a non-secure interrupt to an
+> > > +interrupt handler registered in the OP-TEE driver. The actual notification
+> > > +value are retrieved with the fast call ``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
+> > > +
+> > > +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
+> > > +special meaning. When this value is received it means that normal world is
+> > > +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
+> > > +call is done from the thread assisting the interrupt handler. This is a
+> > > +building block for OP-TEE OS in secure world to implement the top half and
+> > > +bottom half style of device drivers.
+> > > +
 > >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  Documentation/staging/tee.rst | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
+> > What I find missing here is a description of the trigger for this
+> > interrupt, and how it influences the way the kernel drivers interacts
+> > with the secure side:
 > >
-> > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-> > index 4d4b5f889603..37bdd097336f 100644
-> > --- a/Documentation/staging/tee.rst
-> > +++ b/Documentation/staging/tee.rst
-> > @@ -184,6 +184,33 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
-> >  application to retrieve a list of Trusted Applications which can be registered
-> >  as devices on the TEE bus.
+> > - if it is edge triggered, this is 'fire and forget'. The interrupt
+> >   will be consumed by the kernel handler, and whether it eventually
+> >   calls into the secure side has no impact on the interrupt flow.
 > >
-> > +OP-TEE notifications
-> > +--------------------
-> > +
-> > +There are two kinds of notifications that secure world can use to make
-> > +normal world aware of some event.
-> > +
-> > +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-> > +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-> > +2. Asynchronous notifications delivered with a combination of a non-secure
-> > +   interrupt and a fast call from the non-secure interrupt handler.
-> > +
-> > +Synchronous notifications are limited by depending on RPC for delivery,
-> > +this is only usable when secure world is entered with a yielding call via
-> > +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-> > +world interrupt handlers.
-> > +
-> > +An asynchronous notification is delivered via a non-secure interrupt to an
-> > +interrupt handler registered in the OP-TEE driver. The actual notification
-> > +value are retrieved with the fast call ``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
-> > +
-> > +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
-> > +special meaning. When this value is received it means that normal world is
-> > +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
-> > +call is done from the thread assisting the interrupt handler. This is a
-> > +building block for OP-TEE OS in secure world to implement the top half and
-> > +bottom half style of device drivers.
-> > +
->
-> What I find missing here is a description of the trigger for this
-> interrupt, and how it influences the way the kernel drivers interacts
-> with the secure side:
->
-> - if it is edge triggered, this is 'fire and forget'. The interrupt
->   will be consumed by the kernel handler, and whether it eventually
->   calls into the secure side has no impact on the interrupt flow.
->
-> - if it is level triggered, then the interrupt may be asserted until
->   the kernel calls into the secure side, which may then drop the line
->   level if no other requests are pending.
->
-> These are evidently two very different flows, and you need to pick a
-> side. Note that not all interrupt controllers support both signalling
-> modes, so you are likely to leave something behind. Or you can try and
-> support both flows, but that may make the driver slightly more
-> complex.
->
-> Either way, this needs specifying, here and in the DT binding.
+> > - if it is level triggered, then the interrupt may be asserted until
+> >   the kernel calls into the secure side, which may then drop the line
+> >   level if no other requests are pending.
+> >
+> > These are evidently two very different flows, and you need to pick a
+> > side. Note that not all interrupt controllers support both signalling
+> > modes, so you are likely to leave something behind. Or you can try and
+> > support both flows, but that may make the driver slightly more
+> > complex.
+> >
+> > Either way, this needs specifying, here and in the DT binding.
+> 
+> In the example I'm using a level triggered interrupt which is
+> triggered by writing to GICD_ISPENDR by secure world. Reading of
+> GICC_IAR should clear the interrupt,the GICv2 reference manual is
+> quite clear on that.
 
-In the example I'm using a level triggered interrupt which is
-triggered by writing to GICD_ISPENDR by secure world. Reading of
-GICC_IAR should clear the interrupt, the GICv2 reference manual is
-quite clear on that. So, if I understand it correctly, it will for
-this purpose work in the same way as an edge triggered interrupt. If
-this wouldn't be the case in some configuration and the interrupt must
-be cleared by some other action that would be a job for the receiver
-of OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, that is, a secure world problem.
-The normal world flow should be the same.
+No, it merely activates it. You can't transition an interrupt from
+pending to inactive (unless you clear it using GICD_ICPENDR). If you
+have spotted something else in the GICv2 architecture manual, please
+say so and I'll get it fixed 15 years after the facts. The fact that
+GICC_IAR consumes a pending bit introduced by a write to ISPENDR is an
+implementation detail, see below.
 
-Now that we describe the interrupt configuration in device tree it
-must use something that mirrors the secure world expectations. I don't
-see a point in restricting what's allowed as long it doesn't need code
-changes in the kernel too. Does this make any sense?
+It is also a flawed approach, as this behaviour is IMPDEF on GICv3
+(see 4.5 "Shared Peripheral Interrupts" in the GICv3 arch spec). Given
+that GICv2 is pretty much a dead horse (TFFT!), I can't see this approach
+being successful in the long run.
 
-If I just expand a bit above explaining that the interrupt handler
-must call OPTEE_SMC_GET_ASYNC_NOTIF_VALUE as part of clearing the
-interrupt even if it might be cleared anyway in some configurations.
-Would that make it more clear, good enough even :-) ?
+> So, if I understand it correctly, it will for
+> this purpose work in the same way as an edge triggered interrupt. If
+> this wouldn't be the case in some configuration and the interrupt must
+> be cleared by some other action that would be a job for the receiver
+> of OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, that is, a secure world problem.
+> The normal world flow should be the same.
+
+You are assuming that the secure side will use GICD_ISPENDR, and
+that's a leap of faith. An implementation should use, say, a GPIO to
+drive the interrupt line and give it proper level semantics.
+
+> Now that we describe the interrupt configuration in device tree it
+> must use something that mirrors the secure world expectations. I don't
+> see a point in restricting what's allowed as long it doesn't need code
+> changes in the kernel too. Does this make any sense?
+
+And that's the crucial point: what *are* the expectations of the
+secure side? You seem to assume edge semantics, but that's unclear at
+best.
+
+> If I just expand a bit above explaining that the interrupt handler
+> must call OPTEE_SMC_GET_ASYNC_NOTIF_VALUE as part of clearing the
+> interrupt even if it might be cleared anyway in some configurations.
+> Would that make it more clear, good enough even :-) ?
+
+This is an interrupt, please document it in terms of interrupt
+signalling.
+
+- If it is level, the handler has to call into secure to observe the
+  level dropping. If the driver can observe the level being low before
+  calling into secure, it is perfectly allowed to consider the
+  interrupt being spurious and not perform the call. If you don't have
+  a device actively driving the line, this doesn't work.
+
+- It is edge, the handler can do anything it likes, including ignoring
+  the request after consuming the interrupt, or call into secure from
+  a kernel thread with interrupts enabled.
+
+At the end of the day, only you can decide which of these two flows
+are appropriate. If you don't want to mandate actual HW driving the
+line, edge triggered is your only option.
 
 Thanks,
-Jens
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
