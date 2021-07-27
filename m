@@ -2,99 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A691C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 13:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB07BC4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 14:43:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EA3C61A7F
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 13:39:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93EA161AF0
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 14:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232443AbhG0Nj5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 09:39:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232123AbhG0Nj4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 09:39:56 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DC9C061760
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 06:39:56 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id a20so16031440plm.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 06:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0EuAdJ2j3Xy0wD/MXKwZ/PwZTNMmcTB1bfhzXbegpT8=;
-        b=OeyAi2UTKTWbVp/qMcrINmfyO/LiUfMC5mKML0fs/Se/Osx2AXIKqsFoml0FtAfvZU
-         wXu2X/iGWw/iqftzqKLG9r5kHy4YXAJZEwh2FIJw1FPF20pxUpihuExFJS3XkxJKEJg5
-         cIPdejsvCQ1OI1oR0AAcM8cXthGlaeC+ZHA60kPxdItf4zktXNVg8FwQHl9d45gqr6RW
-         Trva3LvqGr4yfXLnZy+LhWKmQ6OR/Oykg1QMcJk9Ncwy0kc4XZu0BnpUmRnDjaX4m9Gx
-         ONNtIo8lA8GfBiJgpRjloIHldM1SN7Q2JdkUz54XQFS/NT924wl+TzlSOPU4zLtVj6mh
-         Ej2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0EuAdJ2j3Xy0wD/MXKwZ/PwZTNMmcTB1bfhzXbegpT8=;
-        b=nIBXFCFFuES9PXH+leW29sYiy4PV6e2kK9nUtdnnycC/rbVc1NDFFymZDhNJVobDSB
-         0no7LdfVFB9qq5KuuwaPON0ohRav/xo1KFQ2BtZAHOCd0zS2nD+8s9YUvATZIwGrw1Hh
-         k/yL31XfRzBd9HIEH6ZE7Uafg1nHfxO6uNSZeyvAInfTXtvl2qqwGkoWMQRxPnvpcTWW
-         /4NBjBHb97hyT2BssFA/JLzYGMtby6ioKqrZ93nCSJDXcY9EIg7Sla6ww6Dtf8dn2TD7
-         yMig+VobmSFqZERSjA17IV/OnAhDdeCTl3vb4Iqns02v18GdrQRc5+lg891o3Sa9/Zhn
-         uihw==
-X-Gm-Message-State: AOAM531CUuJ059MzV7/hgT+uuMjjCOWh1l9feRo6tAUemXO5h1oy6Y+V
-        hEA7QE24drT+bKZRfskOGCZ+lb4sGY5E0taZbQ2sKA==
-X-Google-Smtp-Source: ABdhPJzBfHNbdE8QZCQo1KfFkwCTH8KqVgtlNH0zqRZJ1iKnUGTO5j5NK3RgzPw2/D0tchJpoenEbqHB1cxeOgLzLhQ=
-X-Received: by 2002:a17:902:6ac9:b029:12c:3bac:8d78 with SMTP id
- i9-20020a1709026ac9b029012c3bac8d78mr5117123plt.34.1627393195692; Tue, 27 Jul
- 2021 06:39:55 -0700 (PDT)
+        id S236916AbhG0Onh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 10:43:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34546 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236901AbhG0Ong (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Jul 2021 10:43:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB7AF61AFA;
+        Tue, 27 Jul 2021 14:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1627397015;
+        bh=qFd46qxbPifoDl2lqdkdIoc082Sb+xM4m6IGi89yhls=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TrvS+IYAOcf97227HS/Q9Iyyf5tkB/2yfsFhEMFuAHFI+ixOqywfPd1Vtsw7VHIlz
+         Py9PO/aNn53s3JvmhPUP/2gg1AZnjSk9FtIyjPIofOOeG8VjoUKk5dhJJN3poBzHaD
+         QolSTbbnuqdSmXgCoQGWapojJbW6nNLPzsbhfdfo=
+Date:   Tue, 27 Jul 2021 16:43:33 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     zohar@linux.ibm.com, mchehab+huawei@kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH v2 02/12] diglim: Basic definitions
+Message-ID: <YQAblc+UuMq68jxu@kroah.com>
+References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+ <20210726163700.2092768-3-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-References: <20210718043034.76431-1-zhengqi.arch@bytedance.com> <20210718043034.76431-4-zhengqi.arch@bytedance.com>
-In-Reply-To: <20210718043034.76431-4-zhengqi.arch@bytedance.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 27 Jul 2021 21:39:17 +0800
-Message-ID: <CAMZfGtWjunhRYQNW4u4Rea8N+csKPvzUmKfgUBnWBdJdagjs-g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] mm: remove redundant smp_wmb()
-To:     Qi Zheng <zhengqi.arch@bytedance.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726163700.2092768-3-roberto.sassu@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 18, 2021 at 12:31 PM Qi Zheng <zhengqi.arch@bytedance.com> wrote:
->
-> The smp_wmb() which is in the __pte_alloc() is used to
-> ensure all ptes setup is visible before the pte is made
-> visible to other CPUs by being put into page tables. We
-> only need this when the pte is actually populated, so
-> move it to pte_install(). __pte_alloc_kernel(),
-> __p4d_alloc(), __pud_alloc() and __pmd_alloc() are similar
-> to this case.
->
-> We can also defer smp_wmb() to the place where the pmd entry
-> is really populated by preallocated pte. There are two kinds
-> of user of preallocated pte, one is filemap & finish_fault(),
-> another is THP. The former does not need another smp_wmb()
-> because the smp_wmb() has been done by pte_install().
-> Fortunately, the latter also does not need another smp_wmb()
-> because there is already a smp_wmb() before populating the
-> new pte when the THP use preallocated pte to split huge pmd.
+On Mon, Jul 26, 2021 at 06:36:50PM +0200, Roberto Sassu wrote:
+> --- /dev/null
+> +++ b/include/uapi/linux/diglim.h
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
+> + *
+> + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> + *
+> + * DIGLIM definitions exported to user space, useful for generating digest
+> + * lists.
+> + */
+> +
+> +#ifndef _UAPI__LINUX_DIGLIM_H
+> +#define _UAPI__LINUX_DIGLIM_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/hash_info.h>
+> +
+> +enum compact_types { COMPACT_KEY, COMPACT_PARSER, COMPACT_FILE,
+> +		     COMPACT_METADATA, COMPACT_DIGEST_LIST, COMPACT__LAST };
+> +
+> +enum compact_modifiers { COMPACT_MOD_IMMUTABLE, COMPACT_MOD__LAST };
+> +
+> +enum compact_actions { COMPACT_ACTION_IMA_MEASURED,
+> +		       COMPACT_ACTION_IMA_APPRAISED,
+> +		       COMPACT_ACTION_IMA_APPRAISED_DIGSIG,
+> +		       COMPACT_ACTION__LAST };
+> +
+> +enum ops { DIGEST_LIST_ADD, DIGEST_LIST_DEL, DIGEST_LIST_OP__LAST };
+> +
+> +/**
+> + * struct compact_list_hdr - header of the following concatenated digests
+> + * @version: version of the digest list
+> + * @_reserved: field reserved for future use
+> + * @type: type of digest list among enum compact_types
+> + * @modifiers: additional attributes among (1 << enum compact_modifiers)
 
-s/use/uses a/g
-s/split huge/split a huge/g
+I do not understand this description, what does it mean?
 
->
-> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> + * @algo: digest algorithm
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+Is this also a #define or an enum?  Where is the list of them?
+
+> + * @count: number of digests
+> + * @datalen: length of concatenated digests
+
+Where does this count and length come into play as nothing else is in
+this structure?
+
+> + *
+> + * A digest list is a set of blocks composed by struct compact_list_hdr and
+> + * the following concatenated digests.
+> + */
+> +struct compact_list_hdr {
+> +	__u8 version;
+> +	__u8 _reserved;
+
+You MUST check this for 0 today, and document it above.  If not, you can
+never use it in the future.
+
+> +	__le16 type;
+> +	__le16 modifiers;
+> +	__le16 algo;
+> +	__le32 count;
+> +	__le32 datalen;
+> +} __packed;
+> +#endif /*_UAPI__LINUX_DIGLIM_H*/
+> -- 
+> 2.25.1
+> 
