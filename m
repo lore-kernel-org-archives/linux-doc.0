@@ -2,182 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39671C432BE
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 23:51:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7459FC4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:25:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2231B60F6C
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jul 2021 23:51:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4518F60F9D
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233693AbhG0Xvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 19:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233553AbhG0Xvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 19:51:55 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6035C061757
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 16:51:54 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id i1so452427plr.9
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 16:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MWdRDaBfoW5PPzzR7Hq7j4SJL6MRL4DymqLhS8uwcpU=;
-        b=uu+mARo/11EfZ3JgX9cseNPjnRu/OEw1UbYrBE+Pe///dniIaeVlWuUP8bC98QGNnk
-         zsiIUgi4DOenKBbUoznrHWM1+E9rJ1KFvDcBoEertOz+G0oR7ZBajO2WQDxNc22KHBOM
-         hKaIGiBfQxcXhplZULU3i+4U1Dt0IBSTP8RKw2DOGh1IMmoPyMJLDNI+KcLaTNsXmeuq
-         Qi4YirUR1wh5crzK59kqnYkdMdlPXa97aq5os5vBUQeMTNNEFXapI5hUF83HQt7+g+Vw
-         Pw28mqqfK0euq7E1FrLIZSJLLINgjlDR5oD94hc6/3T8/qR2GPePGqlzV2SkORmKdf/4
-         Z4VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MWdRDaBfoW5PPzzR7Hq7j4SJL6MRL4DymqLhS8uwcpU=;
-        b=JQwVYc8Q9Y98fZ3gq6N9ORss0icrJGoB408PwGBD0DaXfcgS/Tt8VraXd6HTWOKGSN
-         2MhfXhKAwH/O21FxLVs7Yf1IkNZe0ojK5NpIUNgUxbJ0mjtt0sN7q7ahzcY58tE6BKTn
-         xiSrcYg14roo8pAmJkWkKbd/9OCy2IiVGquD70mNdljmS9+umWv7/CX4Uyzd91BUH6Au
-         ZRqDKRQ01CqhjfcnIAfhhqyZssywK2GnnY9e/9/mdFdsUa6uwcwPmSWDTjFD002WLfHi
-         bsqqxh49q8XF/JifBneWyx0v7Ed7+UlDznak8nTuEA5b7jqhjZ9YgbZftmzVpfXG+/98
-         MGFg==
-X-Gm-Message-State: AOAM533R3SUKYWKxFvZ3dv41+F7euqtetSwTGzlIMkmlCSBXjRkExJpy
-        /cQpE3BG6Xtp6NV0WX+gU9leEorUhey0hDjJ0rClew==
-X-Google-Smtp-Source: ABdhPJx7m66XqlSlNSIxMIRPDrdT8mKgrEeYJQaSly6V49raVmDKExqC5qQXY0gqPfJK+81APv/4wb6J6saf9VnmR+8=
-X-Received: by 2002:a05:6a00:d53:b029:32a:2db6:1be3 with SMTP id
- n19-20020a056a000d53b029032a2db61be3mr25016662pfv.71.1627429914201; Tue, 27
- Jul 2021 16:51:54 -0700 (PDT)
+        id S232883AbhG1AZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 20:25:26 -0400
+Received: from mail-dm6nam10on2071.outbound.protection.outlook.com ([40.107.93.71]:23212
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232778AbhG1AZZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Jul 2021 20:25:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mqXSeoALO4ceagFEbQ7PdDuXNrX5Po7M3bB6j0J0HFoteSrPDf+VZIqVZ2vvfyduBF8kng2wuIU9MOBEmgmLO9Q8H6/oGfnAb/Jq/a5woyIa71qGP0JDoRVI1eLYIPzl5g8AKdka9MnREugwo2JfuP4cFYSLqHnj6uMJPxsj1LHA3zUI3zdPBKi9m72yqmakbKq4y+qvzgc4tOxcoKDUYEMsHHArbYLTjctgjKv5IhCrehfKiAZuIX6WfsDowDrE/bZ8kK/cXiaw0AxP9ko3SR7BfW8BnD6fuGRTmTtaekSFHzSkF7+XzwqylwTxfajsmhe0VZejgVHxGRBGiKvvnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZM4bA0aJHOjHkpfMl2GzHejORM4gQj5erY2EsU2HIU0=;
+ b=jCDY/WvX0vP1mvHJxGwJ2uInb669ZKhcVMP7gYeVnEJxMUvK9VOqCYgMlhRtKFWuVhu8sYrDRQk0it6xjWeFhZoqZqM6Xn79w2Si2iit4mSugizxzkacWPygp55HvvtUVA6wh15Uze7RmSsYIfYf6efgefi2+FA3Un4bj2paB9OdNbIU2GnWSQ2kAjelA7F44iXZXWgCsWiGjCrNyF9Ig3xb/IkuqYLhFgVjZ78pDzhN19iOvX0+mN28KPk6Iz6RmijsM6TvOdfnyLVXBKlaPQz9AimDrAlh4RmNiEVc0Q/UCp6pIelV/CLfrP2Tued9ksHVyKrzgWerD7fByjxOyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZM4bA0aJHOjHkpfMl2GzHejORM4gQj5erY2EsU2HIU0=;
+ b=XaaSgMqg81dF1rnJ0n5D54Q3FtT5kQ9l9sU5hKucO7YQZ3ELAEnm1vtsuqj0oMeRr/b1kHduO0dvc8KGSObt1L39TkZjI2E9lNkSUB1Vpv/ujYQrulzvx7GFu5l3SzE7m/jAybeD5S8TdO+OGOR1sS96wutrMYAeZeolQZfvSv5jJR38/jhK6K/r9bb5CWlYuStlTR4hPIBOUnQZeuoTC/AipAoErCFX3eEKHg9jtsekQ4u3Noee0XhULMj4Gh6fkU2/6DfRsno86HOYT33FPIzftLW6XWDRAYeq/Q9qT7b/CYerDqauBbvTyFGjZ0M+YdDYIPFqXEJpcdor60QGHg==
+Received: from MW2PR16CA0032.namprd16.prod.outlook.com (2603:10b6:907::45) by
+ DM6PR12MB3547.namprd12.prod.outlook.com (2603:10b6:5:18a::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.28; Wed, 28 Jul 2021 00:25:23 +0000
+Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:907:0:cafe::48) by MW2PR16CA0032.outlook.office365.com
+ (2603:10b6:907::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17 via Frontend
+ Transport; Wed, 28 Jul 2021 00:25:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 00:25:23 +0000
+Received: from [172.17.173.69] (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 28 Jul
+ 2021 00:25:21 +0000
+Subject: Re: [RFC 02/11] drivers: Add HTE subsystem
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <bgolaszewski@baylibre.com>, <warthog618@gmail.com>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh+dt@kernel.org>
+References: <20210625235532.19575-1-dipenp@nvidia.com>
+ <20210625235532.19575-3-dipenp@nvidia.com> <YOK1Fq45P/DeqxAA@kroah.com>
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+Message-ID: <60f42b1b-309a-52b2-3090-722a3b7360ac@nvidia.com>
+Date:   Tue, 27 Jul 2021 17:34:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-13-joao.m.martins@oracle.com> <CAPcyv4h5c9afuxXy=UhrRr_tTwHB62RODyCKWNFU5TumXHc76A@mail.gmail.com>
- <f7217b61-c845-eaed-501e-c9e7067a6b87@oracle.com>
-In-Reply-To: <f7217b61-c845-eaed-501e-c9e7067a6b87@oracle.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Tue, 27 Jul 2021 16:51:43 -0700
-Message-ID: <CAPcyv4hRQhG+0ika-wbxSFYrpmMJHxxX456qE64PMxDoxS+Fwg@mail.gmail.com>
-Subject: Re: [PATCH v3 12/14] device-dax: compound pagemap support
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YOK1Fq45P/DeqxAA@kroah.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e40ddf2f-c89e-4c25-6afa-08d9515e30a6
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3547:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB354796749412CCFD0D9A97EFAEEA9@DM6PR12MB3547.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LRLcm5tu1lr+XtzvsOibKyPJOHRkAK+g9fJFzYeCFLVL0LFEr+d1POOEUTYPaOXdBKY4+Lwm4AJElxX+xLW1Aqc85AbIeliJX4FAdnsU/FuYA0QAnb4Avk7qCDf3ODz7czPjODBQm7EdrfHHQEDNnml+tP59DaJONesldi94f7jTDle5TJUEi5c+rsERs2ZIRvWAyeVzUq6LXGlPNA1SpS0ASHEJh8vlIfWzgZLxbYj94SJ9JVjQxOSsRiMY6YQKvXNtSHI7exNjUI8IXLug1GOYDaG6QXHL1rqu7/cLJOUdsr6OGjf39dGqL0VYR1wCJhDE6MhpKePYtUV8jvm7PNVxaT8ZBVkEZqC8vgEjMSvXVz/GRibmh3SPs7AvC/jsGth8P9PDD3Yw7Nos4JdXqx9JNdDYNvQoVB2Dcs+4QesGjwvQPIqc9UdJv193TZA31qt4XRUkuom+4xUVKMgb/eUwxussEPTTR7fV6UoKjfLCQhrRq98HMiIN8HPxD6nj/vG1o3jUeNyoSQqs63UHAazte2/7X0j9832DFC6qvsIBgLfRG/iAQYab8xcCgcy0BPiNisKwzbbWnsysSCxErCC723YmMDqAIcWEBSR0ItXFeFYrgFpmaXDYwBMfv1y8X3zTUYTWKj6rdWX44164THzQNuZRVSWa/x2xeP/UWMxqm25EHKWRzXVYnjoZjQmgjzRvbQwNoCa+tFbkI0HiPrfkkrkPvHWNWACzb2sUc28=
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(46966006)(36840700001)(70586007)(6666004)(478600001)(5660300002)(336012)(70206006)(186003)(82740400003)(8676002)(36756003)(36860700001)(16576012)(31686004)(8936002)(36906005)(54906003)(2616005)(316002)(426003)(86362001)(4326008)(7636003)(82310400003)(53546011)(26005)(31696002)(16526019)(6916009)(2906002)(7416002)(47076005)(356005)(83380400001)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 00:25:23.3484
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e40ddf2f-c89e-4c25-6afa-08d9515e30a6
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3547
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 15, 2021 at 5:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->
-> On 7/15/21 12:36 AM, Dan Williams wrote:
-> > On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>
-> >> Use the newly added compound pagemap facility which maps the assigned dax
-> >> ranges as compound pages at a page size of @align. Currently, this means,
-> >> that region/namespace bootstrap would take considerably less, given that
-> >> you would initialize considerably less pages.
-> >>
-> >> On setups with 128G NVDIMMs the initialization with DRAM stored struct
-> >> pages improves from ~268-358 ms to ~78-100 ms with 2M pages, and to less
-> >> than a 1msec with 1G pages.
-> >>
-> >> dax devices are created with a fixed @align (huge page size) which is
-> >> enforced through as well at mmap() of the device. Faults, consequently
-> >> happen too at the specified @align specified at the creation, and those
-> >> don't change through out dax device lifetime. MCEs poisons a whole dax
-> >> huge page, as well as splits occurring at the configured page size.
-> >>
-> >
-> > Hi Joao,
-> >
-> > With this patch I'm hitting the following with the 'device-dax' test [1].
-> >
-> Ugh, I can reproduce it too -- apologies for the oversight.
+Thanks Greg for the review comments. I will address all in next RFC version2.
 
-No worries.
+Best Regards,
 
->
-> This patch is not the culprit, the flaw is early in the series, specifically the fourth patch.
->
-> It needs this chunk below change on the fourth patch due to the existing elevated page ref
-> count at zone device memmap init. put_page() called here in memunmap_pages():
->
-> for (i = 0; i < pgmap->nr_ranges; i++)
->         for_each_device_pfn(pfn, pgmap, i)
->                 put_page(pfn_to_page(pfn));
->
-> ... on a zone_device compound memmap would otherwise always decrease head page refcount by
-> @geometry pfn amount (leading to the aforementioned splat you reported).
->
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index b0e7b8cf3047..79a883af788e 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -102,15 +102,15 @@ static unsigned long pfn_end(struct dev_pagemap *pgmap, int range_id)
->         return (range->start + range_len(range)) >> PAGE_SHIFT;
->  }
->
-> -static unsigned long pfn_next(unsigned long pfn)
-> +static unsigned long pfn_next(struct dev_pagemap *pgmap, unsigned long pfn)
->  {
->         if (pfn % 1024 == 0)
->                 cond_resched();
-> -       return pfn + 1;
-> +       return pfn + pgmap_pfn_geometry(pgmap);
+Dipen Patel
 
-The cond_resched() would need to be fixed up too to something like:
-
-if (pfn % (1024 << pgmap_geometry_order(pgmap)))
-    cond_resched();
-
-...because the goal is to take a break every 1024 iterations, not
-every 1024 pfns.
-
->  }
+On 7/5/21 12:30 AM, Greg KH wrote:
+> On Fri, Jun 25, 2021 at 04:55:23PM -0700, Dipen Patel wrote:
+>> +static void hte_chip_dbgfs_init(struct hte_device *gdev)
+>> +{
+>> +	const struct hte_chip *chip = gdev->chip;
+>> +	const char *name = chip->name ? chip->name : dev_name(chip->dev);
+>> +
+>> +	gdev->dbg_root = debugfs_create_dir(name, hte_root);
+>> +	if (!gdev->dbg_root)
+>> +		return;
+> No need to check for this, if it fails, your other debugfs calls
+> will handle it just fine.
 >
->  #define for_each_device_pfn(pfn, map, i) \
-> -       for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(pfn))
-> +       for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(map, pfn))
 >
->  static void dev_pagemap_kill(struct dev_pagemap *pgmap)
->  {
+>> +
+>> +	debugfs_create_atomic_t("ts_requested", 0444, gdev->dbg_root,
+>> +				&gdev->ts_req);
+>> +	debugfs_create_u32("total_ts", 0444, gdev->dbg_root,
+>> +			   &gdev->nlines);
+>> +}
+>> +
+>> +static void hte_ts_dbgfs_init(const char *name, struct hte_ts_info *ei)
+>> +{
+>> +	if (!ei->gdev->dbg_root || !name)
+>> +		return;
+>> +
+>> +	ei->ts_dbg_root = debugfs_create_dir(name, ei->gdev->dbg_root);
+>> +	if (!ei->ts_dbg_root)
+>> +		return;
+> Again, no need to check.
 >
-> It could also get this hunk below, but it is sort of redundant provided we won't touch
-> tail page refcount through out the devmap pages lifetime. This setting of tail pages
-> refcount to zero was in pre-v5.14 series, but it got removed under the assumption it comes
-> from the page allocator (where tail pages are already zeroed in refcount).
-
-Wait, devmap pages never see the page allocator?
-
+>> +
+>> +	debugfs_create_size_t("ts_buffer_depth", 0444, ei->ts_dbg_root,
+>> +			      &ei->buf->datum_len);
+>> +	debugfs_create_size_t("ts_buffer_watermark", 0444, ei->ts_dbg_root,
+>> +			      &ei->buf->watermark);
+>> +	debugfs_create_atomic_t("dropped_timestamps", 0444, ei->ts_dbg_root,
+>> +				&ei->dropped_ts);
+>> +}
+>> +
+>> +static inline void hte_dbgfs_deinit(struct dentry *root)
+>> +{
+>> +	if (!root)
+>> +		return;
+> No need to check this.
 >
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 96975edac0a8..469a7aa5cf38 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -6623,6 +6623,7 @@ static void __ref memmap_init_compound(struct page *page, unsigned
-> long pfn,
->                 __init_zone_device_page(page + i, pfn + i, zone_idx,
->                                         nid, pgmap);
->                 prep_compound_tail(page, i);
-> +               set_page_count(page + i, 0);
-
-Looks good to me and perhaps a for elevated tail page refcount at
-teardown as a sanity check that the tail pages was never pinned
-directly?
-
+>> +
+>> +	debugfs_remove_recursive(root);
+> Do not wrap a single call with another call :)
 >
->                 /*
->                  * The first and second tail pages need to
+>
+> thanks,
+>
+> greg k-h
