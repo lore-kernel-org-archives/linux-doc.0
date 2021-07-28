@@ -2,92 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C1BBC4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDABC4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:04:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F323B60E09
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:59:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B51760F9E
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:04:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235204AbhG1M7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 08:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233315AbhG1M7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 08:59:47 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B962DC061757;
-        Wed, 28 Jul 2021 05:59:44 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id j2so3031784edp.11;
-        Wed, 28 Jul 2021 05:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=K6cjzR42EklyjKqvSNPb70Hz5hfQ/Z6w+MNfhc7EMP4=;
-        b=ulgixdj8GlcUTL8H1JRD8zj+H0Hh0tmTh2YBKaEeZoKLOGCudEurhjvIS+SKaW/h+M
-         LjxE3AKeUaHGUW4Q713Cz95rjkqAU8uZejW0CEooSXpF9m0sL0fSuvqXOdTyHW3SiGVB
-         zjUl/lIfrXnl9vbR065R9n51e6i0a/eOXxa6TkvmZM3sqRZ51pCzcyyAKFJI0PwFuBx3
-         4BN9zHPmmGkXuT8EaUa/ptS7dK3K14YmvL1xdg/vBmHKLXf2wVWJEKBMuc9o0akbb+Ev
-         OQc8bi9HdZMKaLGsvBm0VR+LXl8hc5jBgN6IEuI+oKydCk0NxeBhjRJzt8Vg/CJIVjab
-         20PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=K6cjzR42EklyjKqvSNPb70Hz5hfQ/Z6w+MNfhc7EMP4=;
-        b=JmI9D252l/5ugzHwUDFBpPjdbzxNsR7/KfX5vo+V2wNvJcyCKG8c5sb9pcKcGT36nj
-         V46v3JmG/gCTYM5u9xEFn4KJ7vMZgDiVkzgMrefJxexrpkycmroXC2Zg00t+yBGhKQ/v
-         CdZ2hip8DFouM1t5L7iHHgjUPL0bbWx4gEoVK2Ayr8nHhq+rZJbqwWNBQg2GdCHripL6
-         SE/TtKqukNp3fmzvJ0ZjxAUNtdkIdHGFIH6+Nq8t+QM9Vq6r6pMhz3WrLyNAnpvggr11
-         5iyd4WOxYjvgvGp1TLAnYddiU6CNi/0p6isz4kpj5hV2cYP4+bZ6rpJ9NQkzchRiNQYE
-         U4pg==
-X-Gm-Message-State: AOAM530LSNEOlkjzVKAhse/JDlepcqcYFZ/PobbSVbsR0UW1nBRdNkXl
-        4yYmTC5WrIrx+Hx/voYXlcZYaZ34dIbfvrK1nTek1NDRwW4H4g==
-X-Google-Smtp-Source: ABdhPJxGJjfZXiOhXdSsFC+vjplEzv25XW8meo0c7FxobyNFOfAFFs3lPVC1CXnfTPe5qFl0Awhq9dTkvWGQlQpGMiQ=
-X-Received: by 2002:a05:6402:221c:: with SMTP id cq28mr34078272edb.115.1627477183148;
- Wed, 28 Jul 2021 05:59:43 -0700 (PDT)
+        id S235208AbhG1NEb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 09:04:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55660 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233315AbhG1NEa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Jul 2021 09:04:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CED5C60E09;
+        Wed, 28 Jul 2021 13:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627477468;
+        bh=zKOZTbUMp5AJtaPv27GbCPX8qdvMV2ASVi06hUCJP+8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tZruiOoTZmHXzwfF0tB3I4HNztJBnhsBBCOsiYb7lOeeFZRW5h5wg1caGMHV6wSHs
+         YztWu8l/5D18CSSbBwwgNiF43EQbyKcNq1RuCW11yv4lVFFsjHIzkFV2AZMhXhpx3q
+         cQ0tWsgNUWeSGNMU21nvpB0Q+KBCkbyW9mAm6XvaH+PThBFCwW/77nMQ3ulxSalWgC
+         fANuZyYlXOVGoU6I7eXtzjRzti+ZyNWAHmFur4iCuRrCt0S3gNsfq82ufIiEHlQFfV
+         ojHlLBRpsBtnaGCRgwEaBRRtuHzA6Dymj/DJGDv+I0GzW9z47JchAQMBQD5imtNtrp
+         L087WKnxNNQVQ==
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Leon Romanovsky <leonro@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        RDMA mailing list <linux-rdma@vger.kernel.org>
+Subject: [PATCH rdma-next RESEND] docs: Fix infiniband uverbs minor number
+Date:   Wed, 28 Jul 2021 16:04:12 +0300
+Message-Id: <bad03e6bcde45550c01e12908a6fe7dfa4770703.1627477347.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAOVCmzEJqg6=FW3Vu1MScyj8GS-KXb2s_ztxBxwDmcbN5sbQuA@mail.gmail.com>
-In-Reply-To: <CAOVCmzEJqg6=FW3Vu1MScyj8GS-KXb2s_ztxBxwDmcbN5sbQuA@mail.gmail.com>
-From:   Shivank Garg <shivankgarg98@gmail.com>
-Date:   Wed, 28 Jul 2021 18:29:27 +0530
-Message-ID: <CAOVCmzEzwFkiDz_Tf0LFQQZYKYdbACjyjdLOpawh0BB9JpDg1Q@mail.gmail.com>
-Subject: Fwd: /proc/pid/sched units
-To:     linux-doc@vger.kernel.org, linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
----------- Forwarded message ---------
-From: Shivank Garg <shivankgarg98@gmail.com>
-Date: Wed, Jul 28, 2021 at 6:26 PM
-Subject: /proc/pid/sched units
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux MM
-<linux-mm@kvack.org>, <util-linux@vger.kernel.org>
+From: Leon Romanovsky <leonro@nvidia.com>
 
+Starting from the beginning of infiniband subsystem, the uverbs
+char devices start from 192 as a minor number, see commit
+ bc38a6abdd5a ("[PATCH] IB uverbs: core implementation").
 
-Hi Everyone,
+This patch updates the admin guide documentation to reflect it.
 
-I'm analyzing the cpu time taken ("se.sum_exec_runtime" in
-/proc/$pid/sched) by process in different configurations for my
-project work. But I was not able to get the time units for the values
-displayed in the file. I tried searching it in source code -
-kernel/sched/cputime.c,include/linux/sched.h etc. but it left me more
-confused.
+Fixes: 9d85025b0418 ("docs-rst: create an user's manual book")
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+RESEND: https://lore.kernel.org/lkml/YPrJorr7r9Kd2IzA@unreal
+---
+ Documentation/admin-guide/devices.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Can you please answer me about the measurement units (is it
-microseconds, nanoseconds, jiffles ...) ?
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index 9c2be821c225..922c23bb4372 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -2993,10 +2993,10 @@
+ 		65 = /dev/infiniband/issm1     Second InfiniBand IsSM device
+ 		  ...
+ 		127 = /dev/infiniband/issm63    63rd InfiniBand IsSM device
+-		128 = /dev/infiniband/uverbs0   First InfiniBand verbs device
+-		129 = /dev/infiniband/uverbs1   Second InfiniBand verbs device
++		192 = /dev/infiniband/uverbs0   First InfiniBand verbs device
++		193 = /dev/infiniband/uverbs1   Second InfiniBand verbs device
+ 		  ...
+-		159 = /dev/infiniband/uverbs31  31st InfiniBand verbs device
++		223 = /dev/infiniband/uverbs31  31st InfiniBand verbs device
+ 
+  232 char	Biometric Devices
+ 		0 = /dev/biometric/sensor0/fingerprint	first fingerprint sensor on first device
+-- 
+2.31.1
 
-Also, I was not able to find proper documentation for /proc/pid/sched.
-Please point to me if it's already there. If not, I would love to
-contribute toward documenting these variables. It would be very
-helpful for newbies (like me) in future.
-
-Thanks,
-Best Regards,
-Shivank Garg
