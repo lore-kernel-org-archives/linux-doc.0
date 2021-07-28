@@ -2,178 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CCDC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8056CC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 07:04:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12C4D600EF
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:59:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62F1960F9C
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 07:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234961AbhG1G7N convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 02:59:13 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3508 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbhG1G7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 02:59:09 -0400
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GZPRP379rz6J6fY;
-        Wed, 28 Jul 2021 14:49:53 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 28 Jul 2021 08:59:06 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
- Wed, 28 Jul 2021 08:59:06 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC][PATCH v2 02/12] diglim: Basic definitions
-Thread-Topic: [RFC][PATCH v2 02/12] diglim: Basic definitions
-Thread-Index: AQHXgjyicwJtnSjv/UmZEg8zsJLYTqtWxYuAgAAn86D//+j9AIAAI3yw///kswCAARiZMA==
-Date:   Wed, 28 Jul 2021 06:59:06 +0000
-Message-ID: <41b1a66980a04b638bad8ae333e6415a@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
- <20210726163700.2092768-3-roberto.sassu@huawei.com>
- <YQAblc+UuMq68jxu@kroah.com> <e87ba6f452254067a5eb6d58937d65d1@huawei.com>
- <YQApyqP7J/8GpItS@kroah.com> <4746947088404edaa31594fb095a6e46@huawei.com>
- <YQAwqGOEkmDzZ9MJ@kroah.com>
-In-Reply-To: <YQAwqGOEkmDzZ9MJ@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.98.153]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S233343AbhG1HEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 03:04:54 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:57487 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229939AbhG1HEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 03:04:54 -0400
+Received: from mail-wm1-f45.google.com ([209.85.128.45]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N5FQJ-1n9Ipi13Bt-0117pO; Wed, 28 Jul 2021 09:04:51 +0200
+Received: by mail-wm1-f45.google.com with SMTP id n28-20020a05600c3b9cb02902552e60df56so922907wms.0;
+        Wed, 28 Jul 2021 00:04:51 -0700 (PDT)
+X-Gm-Message-State: AOAM5313lpJUfcDv78Dh6GGcjF/dUcJA84kHhrvqm6hxFWXBR6L9/9hM
+        vfekag4LmZwhS5UReejIy6UqimkJtFu+6mF3Fu4=
+X-Google-Smtp-Source: ABdhPJynD/9Il+Kw/wzVv2FoAI9EzaLkE/ynrgFuvxOuhTIZl8g9i0YgqUQZRMdYvUppf3KbqSXlK642XfMKR85CXEE=
+X-Received: by 2002:a1c:c90f:: with SMTP id f15mr7815803wmb.142.1627455890836;
+ Wed, 28 Jul 2021 00:04:50 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+References: <20210721161609.68223-1-yishaih@nvidia.com> <20210721161609.68223-13-yishaih@nvidia.com>
+ <20210727155440.680ee22e.alex.williamson@redhat.com> <20210727230941.GL1721383@nvidia.com>
+ <20210728054306.GA3421@lst.de>
+In-Reply-To: <20210728054306.GA3421@lst.de>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 28 Jul 2021 09:04:34 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3eSVoCYToP=7cNv97DO-fjV1G6a=-OnrNhXhsbBVU7Qg@mail.gmail.com>
+Message-ID: <CAK8P3a3eSVoCYToP=7cNv97DO-fjV1G6a=-OnrNhXhsbBVU7Qg@mail.gmail.com>
+Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jason Gunthorpe <jgg@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, diana.craciun@oss.nxp.com,
+        kwankhede@nvidia.com, Eric Auger <eric.auger@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:+f2qo4ua7/cksPQTjl1NeHfnGfT7wAnsfKlTOy/V9f/cIKCDU4Q
+ 2VTOnRHjOy+tvKnk1lEYzXGzMRqet4fiN7t1/mxOV2TDeDa0xGWLTPimgsCXdaKpX2zCv7R
+ n1WvBx4Fu4KHWc0uahadfNxt8V43q/H2FWirIDCprGgYrpWEy0dSRSSmShW2B6EZO86qkrB
+ hKYG7CQr0tzNmM1ipIWQw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wm1Mt9kc0/k=:QUXNKlQGOBuDsiUq7keSe8
+ W0k4cMAQct3MqJNU0wxAL4V3brl58luotfZ5+yfJioS3VaIuJLhFLSw7Gu0MIzh28ClyxUCcf
+ HQoXWmK5DrP0KpPpnhTpTak5JLL+OU7yepJY8uI4I3SEtMa+AM8ujELMN4KgPU7HQuhNr8bNm
+ K4JADdEj181L/8r8/1xara1aShvnM/wIskSKvg0aY4JOSaYOEHmQALbHWxd65Q8ShbkCztSv9
+ Qeq7NyoSV00UB9V6LpYZmv2n1Nm5HrDLM2DvMyvXdNQs383OmONzrnHEuBQc97xDHfhskmDbw
+ nQgCNzXu0d5s4rE/nNUCaAPWenC9Ru58n45GzmpKuAKfQtxTB+yMDZhqR/ABGfMFCeoC27m37
+ RmJ+gFMgBimjmGraLc8d307bKXvTyta5UiLbnlnLxdaea2AztaEW9neAXpZLpX+XjT1zXPZeV
+ gXniN9bgh/6FI7ffcLWzKdtxgnr/epbx+yjqxeNPFE7fWG9FFHrbK+/2/tM7lr+Gk770c3MMZ
+ Tf698OLnPpLC0qtMNFz982BgryuR9qu0SSTII17xd/y+T860acPI8nAtpMSIVauRUK4IqS+Hn
+ k/toid48qel0gu5IhWqbXA3rkE0NU4qNxrHYkNaiakE7ycYRW0H+STXLqNFzgxZaLHa8BEIpb
+ JAGgW0FgSXXi7z94cvvwS2NWPW+FxOHY8AdRECyWYc/m50ro7wno++1tBH51xILlc/11niCx4
+ Rb43vSKQgYaIPYpG8x3ma1Ik9hPfxpjE5PV3y1Wc2U/ZEsfiyk/OvZd35MGMMqmxcR0Bjm+8V
+ u32m2E+iBBTed84zKqHVjYh7erU93iAPM7LWCllfs5Z94mYYaH/7W+6B+eFb7a547+GEScA
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Greg KH [mailto:gregkh@linuxfoundation.org]
-> Sent: Tuesday, July 27, 2021 6:13 PM
-> On Tue, Jul 27, 2021 at 04:09:37PM +0000, Roberto Sassu wrote:
-> > > From: Greg KH [mailto:gregkh@linuxfoundation.org]
-> > > Sent: Tuesday, July 27, 2021 5:44 PM
-> > > On Tue, Jul 27, 2021 at 03:35:16PM +0000, Roberto Sassu wrote:
-> > > > > From: Greg KH [mailto:gregkh@linuxfoundation.org]
-> > > > > Sent: Tuesday, July 27, 2021 4:44 PM
-> > > > > On Mon, Jul 26, 2021 at 06:36:50PM +0200, Roberto Sassu wrote:
-> > > > > > --- /dev/null
-> > > > > > +++ b/include/uapi/linux/diglim.h
-> > > > > > @@ -0,0 +1,51 @@
-> > > > > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > > > > +/*
-> > > > > > + * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
-> > > > > > + *
-> > > > > > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
-> > > > > > + *
-> > > > > > + * DIGLIM definitions exported to user space, useful for generating
-> > > digest
-> > > > > > + * lists.
-> > > > > > + */
-> > > > > > +
-> > > > > > +#ifndef _UAPI__LINUX_DIGLIM_H
-> > > > > > +#define _UAPI__LINUX_DIGLIM_H
-> > > > > > +
-> > > > > > +#include <linux/types.h>
-> > > > > > +#include <linux/hash_info.h>
-> > > > > > +
-> > > > > > +enum compact_types { COMPACT_KEY, COMPACT_PARSER,
-> > > > > COMPACT_FILE,
-> > > > > > +		     COMPACT_METADATA, COMPACT_DIGEST_LIST,
-> > > > > COMPACT__LAST };
-> > > > > > +
-> > > > > > +enum compact_modifiers { COMPACT_MOD_IMMUTABLE,
-> > > > > COMPACT_MOD__LAST };
-> > > > > > +
-> > > > > > +enum compact_actions { COMPACT_ACTION_IMA_MEASURED,
-> > > > > > +		       COMPACT_ACTION_IMA_APPRAISED,
-> > > > > > +		       COMPACT_ACTION_IMA_APPRAISED_DIGSIG,
-> > > > > > +		       COMPACT_ACTION__LAST };
-> > > > > > +
-> > > > > > +enum ops { DIGEST_LIST_ADD, DIGEST_LIST_DEL,
-> > > DIGEST_LIST_OP__LAST };
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * struct compact_list_hdr - header of the following concatenated
-> > > digests
-> > > > > > + * @version: version of the digest list
-> > > > > > + * @_reserved: field reserved for future use
-> > > > > > + * @type: type of digest list among enum compact_types
-> > > > > > + * @modifiers: additional attributes among (1 << enum
-> > > compact_modifiers)
-> > > > >
-> > > > > I do not understand this description, what does it mean?
-> > > >
-> > > > Hi Greg
-> > > >
-> > > > yes, it is not very clear.
-> > > >
-> > > > @modifiers is a bitmask where each bit corresponds to a different
-> > > > attribute. enum compact_modifiers defines which bit position is
-> > > > assigned to each attribute.
-> > >
-> > > Watch out with endian issues and bitmasks...  Anyway, please document
-> > > this.
-> > >
-> > > >
-> > > > > > + * @algo: digest algorithm
-> > > > >
-> > > > > Is this also a #define or an enum?  Where is the list of them?
-> > > >
-> > > > @algo is an enum defined in include/uapi/linux/hash_info.h.
-> > >
-> > > Please say that.
-> > >
-> > > > > > + * @count: number of digests
-> > > > > > + * @datalen: length of concatenated digests
-> > > > >
-> > > > > Where does this count and length come into play as nothing else is in
-> > > > > this structure?
-> > > >
-> > > > Each digest list must begin with this structure. From it, the parser knows
-> > > > how much data it should expect afterwards. After the data, there could
-> be
-> > > > another or more blocks of this structure and following data.
-> > >
-> > > Ah, that was not obvious at all :)
-> > >
-> > > Why do you not have a __u8 data[]; type field as the last one here for
-> > > that memory so you can access it easier?
+On Wed, Jul 28, 2021 at 7:43 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Jul 27, 2021 at 08:09:41PM -0300, Jason Gunthorpe wrote:
+> > On Tue, Jul 27, 2021 at 03:54:40PM -0600, Alex Williamson wrote:
 > >
-> > After the digest list is parsed, I'm accessing the digest with the offset from
-> > the beginning of the digest list. If the offset was relative to the header, it
-> could
-> > have been useful. I could add the new field, but I'm afraid of the
-> incompatibility
-> > with existing tools that we have.
-> 
-> What tools?  This isn't a feature in the kernel yet, so we have no
-> legacy to support, right?
+> > > I'm still not happy with how this is likely to break users and even
+> > > downstreams when upgrading to a Kconfig with this change.
+> >
+> > I've never heard of Kconfig as stable ABI. Christoph/Arnd, have you
+> > heard of any cases where we want to keep it stable?
+>
+> It isn't an ABI, but we really do try to avoid breaking if we can and
+> I rember Linus shouting at people if they did that for common options.
 
-Yes, right. We shouldn't be limited by previously written code.
+This is handled in very different ways depending on the maintainers,
+some people go to great lengths to avoid breaking 'make oldconfig'
+or 'make defconfig', others don't seem to mind at all.
 
-Thanks
+CONFIG_USB_EHCI_TEGRA is an example of an option that was
+left in place to help users of old config files, another one is
+CONFIG_EXT3_FS. In both cases the idea is that the original
+code was changed, but the old option left in place to point to
+the replacement.
 
-Roberto
+I think doing this is generally a good idea, but I would not consider
+this a stable ABI in the sense that we can never break it. Most users
+should have migrated to the new option after a few kernel releases,
+and then I would remove the old one.
 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Li Jian, Shi Yanli
+If a user upgrades across multiple kernel releases at once, usually
+all hope of reusing an old .config is lost anyway.
 
-> thanks,
-> 
-> greg k-h
+> However lately for example the completely silly s/THUNDERBOLT/USB4/
+> change did slip through and did break my test setup with a vfio passed
+> through external nvme drive :(
+
+Another recent example is CONFIG_FB no longer being selected by
+the DRM subsystem, which broke a lot of defconfigs.
+
+        Arnd
