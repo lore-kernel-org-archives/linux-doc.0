@@ -2,427 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C3DC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CCDC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:59:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F6D260F6D
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:55:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12C4D600EF
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 06:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232540AbhG1GzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 02:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbhG1GzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 02:55:24 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899C2C061757
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 23:55:23 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id e21so1529943pla.5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jul 2021 23:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P+wqmwDEEv8ieGGKNUi4neXu2kGNBU0p2AXoItaCV8Y=;
-        b=TXWROAi9SFMZm0h2WYBVaBQhEp7I7JDgeTYfZ9KqQMNoxyR7MleEYdlgVqHKKrqrDO
-         pBpRAI7FO7gtCV+1j5NENvsmVnCzmQ+B+WhkGV0081Jcd/sJsYWSFR3bLMGuXcwRZgOD
-         LJ7BK3Jf+T3c16vPR4a2wyHRot5osayb/baEQ2gFljvVImfQwngXGCR/Rq3Wu2cag73k
-         xeO3z4NqOdSPdHUMoKD/ibZh0djEvqEVp2xpowcGH853iBREyO6HZ4d6wDKoBHpvRKzF
-         982noBC2nAGdIl6AesxEuNMMgUy46JnMeZ6CYBTFvcZM+VRjlEwpGirLbdkRJM/IDlxi
-         pamw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P+wqmwDEEv8ieGGKNUi4neXu2kGNBU0p2AXoItaCV8Y=;
-        b=RWUfaE+7Odebktn2gdGRQX8xiQs8XLRH7w8uOJtIrC8lee7L06RkPuKvgFyl4Aw7qa
-         agbuPPBISumZBwWLLcH0L6f9YrW1sWKI7IPafN4Eo29b3Y532iZBUMPzFuhMrDK12qCk
-         z2xuJuZj8WL5TP1ZmojH3CimoMHflgmvOg0/lA62kfXDA90XNUMSwUXPRHzWWDIfAHqA
-         7GCYBVUhZrZ0GVaRTNH9uiB3undDnV6Gq8oC2/HJgzG2JMA5zGXIdLYcOHAyV+jZp1U8
-         ljrwkIq3/oePEyqOCKuEWGqwDTaeBt2JQHXOjQlBhbiEHTvh+eeT8HTeq94rFv8q8YlU
-         f3LA==
-X-Gm-Message-State: AOAM531OEbC3KOw8A1EcYUu4+fxHAyj6xNA66CcG0GNbJ0b5bvFalifi
-        Q59ncfea+cU3ngEXZ/HUjoyRCSR37Ww7NKr6gMvedw==
-X-Google-Smtp-Source: ABdhPJxcqtKUnZE7Sq/P6tCv7lFZwPW/N1pHan+qEq8/4UUbUgToWOVonAnNXpK4eDYgfM73UNhe7Ffos/5hq06k7+c=
-X-Received: by 2002:a05:6a00:d53:b029:32a:2db6:1be3 with SMTP id
- n19-20020a056a000d53b029032a2db61be3mr26406300pfv.71.1627455323032; Tue, 27
- Jul 2021 23:55:23 -0700 (PDT)
+        id S234961AbhG1G7N convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 02:59:13 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3508 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229939AbhG1G7J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 02:59:09 -0400
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GZPRP379rz6J6fY;
+        Wed, 28 Jul 2021 14:49:53 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 28 Jul 2021 08:59:06 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
+ Wed, 28 Jul 2021 08:59:06 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC][PATCH v2 02/12] diglim: Basic definitions
+Thread-Topic: [RFC][PATCH v2 02/12] diglim: Basic definitions
+Thread-Index: AQHXgjyicwJtnSjv/UmZEg8zsJLYTqtWxYuAgAAn86D//+j9AIAAI3yw///kswCAARiZMA==
+Date:   Wed, 28 Jul 2021 06:59:06 +0000
+Message-ID: <41b1a66980a04b638bad8ae333e6415a@huawei.com>
+References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+ <20210726163700.2092768-3-roberto.sassu@huawei.com>
+ <YQAblc+UuMq68jxu@kroah.com> <e87ba6f452254067a5eb6d58937d65d1@huawei.com>
+ <YQApyqP7J/8GpItS@kroah.com> <4746947088404edaa31594fb095a6e46@huawei.com>
+ <YQAwqGOEkmDzZ9MJ@kroah.com>
+In-Reply-To: <YQAwqGOEkmDzZ9MJ@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-References: <20210714193542.21857-1-joao.m.martins@oracle.com> <20210714193542.21857-9-joao.m.martins@oracle.com>
-In-Reply-To: <20210714193542.21857-9-joao.m.martins@oracle.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Tue, 27 Jul 2021 23:55:12 -0700
-Message-ID: <CAPcyv4jPWSeP3jOKiEy0ko4Yy5SgAFmuD64ABgv=cRxHaQM7ew@mail.gmail.com>
-Subject: Re: [PATCH v3 08/14] mm/sparse-vmemmap: populate compound pagemaps
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
->
-> A compound pagemap is a dev_pagemap with @align > PAGE_SIZE and it
+> From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> Sent: Tuesday, July 27, 2021 6:13 PM
+> On Tue, Jul 27, 2021 at 04:09:37PM +0000, Roberto Sassu wrote:
+> > > From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> > > Sent: Tuesday, July 27, 2021 5:44 PM
+> > > On Tue, Jul 27, 2021 at 03:35:16PM +0000, Roberto Sassu wrote:
+> > > > > From: Greg KH [mailto:gregkh@linuxfoundation.org]
+> > > > > Sent: Tuesday, July 27, 2021 4:44 PM
+> > > > > On Mon, Jul 26, 2021 at 06:36:50PM +0200, Roberto Sassu wrote:
+> > > > > > --- /dev/null
+> > > > > > +++ b/include/uapi/linux/diglim.h
+> > > > > > @@ -0,0 +1,51 @@
+> > > > > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > > > > +/*
+> > > > > > + * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
+> > > > > > + *
+> > > > > > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > > > + *
+> > > > > > + * DIGLIM definitions exported to user space, useful for generating
+> > > digest
+> > > > > > + * lists.
+> > > > > > + */
+> > > > > > +
+> > > > > > +#ifndef _UAPI__LINUX_DIGLIM_H
+> > > > > > +#define _UAPI__LINUX_DIGLIM_H
+> > > > > > +
+> > > > > > +#include <linux/types.h>
+> > > > > > +#include <linux/hash_info.h>
+> > > > > > +
+> > > > > > +enum compact_types { COMPACT_KEY, COMPACT_PARSER,
+> > > > > COMPACT_FILE,
+> > > > > > +		     COMPACT_METADATA, COMPACT_DIGEST_LIST,
+> > > > > COMPACT__LAST };
+> > > > > > +
+> > > > > > +enum compact_modifiers { COMPACT_MOD_IMMUTABLE,
+> > > > > COMPACT_MOD__LAST };
+> > > > > > +
+> > > > > > +enum compact_actions { COMPACT_ACTION_IMA_MEASURED,
+> > > > > > +		       COMPACT_ACTION_IMA_APPRAISED,
+> > > > > > +		       COMPACT_ACTION_IMA_APPRAISED_DIGSIG,
+> > > > > > +		       COMPACT_ACTION__LAST };
+> > > > > > +
+> > > > > > +enum ops { DIGEST_LIST_ADD, DIGEST_LIST_DEL,
+> > > DIGEST_LIST_OP__LAST };
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct compact_list_hdr - header of the following concatenated
+> > > digests
+> > > > > > + * @version: version of the digest list
+> > > > > > + * @_reserved: field reserved for future use
+> > > > > > + * @type: type of digest list among enum compact_types
+> > > > > > + * @modifiers: additional attributes among (1 << enum
+> > > compact_modifiers)
+> > > > >
+> > > > > I do not understand this description, what does it mean?
+> > > >
+> > > > Hi Greg
+> > > >
+> > > > yes, it is not very clear.
+> > > >
+> > > > @modifiers is a bitmask where each bit corresponds to a different
+> > > > attribute. enum compact_modifiers defines which bit position is
+> > > > assigned to each attribute.
+> > >
+> > > Watch out with endian issues and bitmasks...  Anyway, please document
+> > > this.
+> > >
+> > > >
+> > > > > > + * @algo: digest algorithm
+> > > > >
+> > > > > Is this also a #define or an enum?  Where is the list of them?
+> > > >
+> > > > @algo is an enum defined in include/uapi/linux/hash_info.h.
+> > >
+> > > Please say that.
+> > >
+> > > > > > + * @count: number of digests
+> > > > > > + * @datalen: length of concatenated digests
+> > > > >
+> > > > > Where does this count and length come into play as nothing else is in
+> > > > > this structure?
+> > > >
+> > > > Each digest list must begin with this structure. From it, the parser knows
+> > > > how much data it should expect afterwards. After the data, there could
+> be
+> > > > another or more blocks of this structure and following data.
+> > >
+> > > Ah, that was not obvious at all :)
+> > >
+> > > Why do you not have a __u8 data[]; type field as the last one here for
+> > > that memory so you can access it easier?
+> >
+> > After the digest list is parsed, I'm accessing the digest with the offset from
+> > the beginning of the digest list. If the offset was relative to the header, it
+> could
+> > have been useful. I could add the new field, but I'm afraid of the
+> incompatibility
+> > with existing tools that we have.
+> 
+> What tools?  This isn't a feature in the kernel yet, so we have no
+> legacy to support, right?
 
-Maybe s/compound devmap/compound devmap/ per the other planned usage
-of "devmap" in the implementation?
+Yes, right. We shouldn't be limited by previously written code.
 
-> means that pages are mapped at a given huge page alignment and utilize
-> uses compound pages as opposed to order-0 pages.
->
-> Take advantage of the fact that most tail pages look the same (except
-> the first two) to minimize struct page overhead. Allocate a separate
-> page for the vmemmap area which contains the head page and separate for
-> the next 64 pages. The rest of the subsections then reuse this tail
-> vmemmap page to initialize the rest of the tail pages.
->
-> Sections are arch-dependent (e.g. on x86 it's 64M, 128M or 512M) and
-> when initializing compound pagemap with big enough @align (e.g. 1G
+Thanks
 
-s/@align/@geometry/?
+Roberto
 
-> PUD) it will cross various sections.
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Li Peng, Li Jian, Shi Yanli
 
-s/will cross various/may cross multiple/
-
-> To be able to reuse tail pages
-> across sections belonging to the same gigantic page, fetch the
-> @range being mapped (nr_ranges + 1).  If the section being mapped is
-> not offset 0 of the @align, then lookup the PFN of the struct page
-> address that precedes it and use that to populate the entire
-> section.
-
-This sounds like code being read aloud. I would just say something like:
-
-"The vmemmap code needs to consult @pgmap so that multiple sections
-that all map the same tail data can refer back to the first copy of
-that data for a given gigantic page."
-
->
-> On compound pagemaps with 2M align, this mechanism lets 6 pages be
-> saved out of the 8 necessary PFNs necessary to set the subsection's
-> 512 struct pages being mapped. On a 1G compound pagemap it saves
-> 4094 pages.
->
-> Altmap isn't supported yet, given various restrictions in altmap pfn
-> allocator, thus fallback to the already in use vmemmap_populate().  It
-> is worth noting that altmap for devmap mappings was there to relieve the
-> pressure of inordinate amounts of memmap space to map terabytes of pmem.
-> With compound pages the motivation for altmaps for pmem gets reduced.
-
-Looks good just some minor comments / typo fixes, and some requests
-for a few more helper functions.
-
->
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  Documentation/vm/vmemmap_dedup.rst |  27 +++++-
->  include/linux/mm.h                 |   2 +-
->  mm/memremap.c                      |   1 +
->  mm/sparse-vmemmap.c                | 133 +++++++++++++++++++++++++++--
->  4 files changed, 151 insertions(+), 12 deletions(-)
->
-> diff --git a/Documentation/vm/vmemmap_dedup.rst b/Documentation/vm/vmemmap_dedup.rst
-> index 215ae2ef3bce..42830a667c2a 100644
-> --- a/Documentation/vm/vmemmap_dedup.rst
-> +++ b/Documentation/vm/vmemmap_dedup.rst
-> @@ -2,9 +2,12 @@
->
->  .. _vmemmap_dedup:
->
-> -==================================
-> -Free some vmemmap pages of HugeTLB
-> -==================================
-> +=================================================
-> +Free some vmemmap pages of HugeTLB and Device DAX
-
-How about "A vmemmap diet for HugeTLB and Device DAX"
-
-...because in the HugeTLB case it is dynamically remapping and freeing
-the pages after the fact, while Device-DAX is avoiding the allocation
-in the first instance.
-
-> +=================================================
-> +
-> +HugeTLB
-> +=======
->
->  The struct page structures (page structs) are used to describe a physical
->  page frame. By default, there is a one-to-one mapping from a page frame to
-> @@ -168,3 +171,21 @@ The contiguous bit is used to increase the mapping size at the pmd and pte
->  (last) level. So this type of HugeTLB page can be optimized only when its
->  size of the struct page structs is greater than 2 pages.
->
-> +Device DAX
-> +==========
-> +
-> +The device-dax interface uses the same tail deduplication technique explained
-> +in the previous chapter, except when used with the vmemmap in the device (altmap).
-> +
-> +The differences with HugeTLB are relatively minor.
-> +
-> +The following page sizes are supported in DAX: PAGE_SIZE (4K on x86_64),
-> +PMD_SIZE (2M on x86_64) and PUD_SIZE (1G on x86_64).
-> +
-> +There's no remapping of vmemmap given that device-dax memory is not part of
-> +System RAM ranges initialized at boot, hence the tail deduplication happens
-> +at a later stage when we populate the sections.
-> +
-> +It only use 3 page structs for storing all information as opposed
-> +to 4 on HugeTLB pages. This does not affect memory savings between both.
-> +
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index f244a9219ce4..5e3e153ddd3d 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3090,7 +3090,7 @@ p4d_t *vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, int node);
->  pud_t *vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int node);
->  pmd_t *vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node);
->  pte_t *vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, int node,
-> -                           struct vmem_altmap *altmap);
-> +                           struct vmem_altmap *altmap, struct page *block);
->  void *vmemmap_alloc_block(unsigned long size, int node);
->  struct vmem_altmap;
->  void *vmemmap_alloc_block_buf(unsigned long size, int node,
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index ffcb924eb6a5..9198fdace903 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -345,6 +345,7 @@ void *memremap_pages(struct dev_pagemap *pgmap, int nid)
->  {
->         struct mhp_params params = {
->                 .altmap = pgmap_altmap(pgmap),
-> +               .pgmap = pgmap,
->                 .pgprot = PAGE_KERNEL,
->         };
->         const int nr_range = pgmap->nr_range;
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index 76f4158f6301..a8de6c472999 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -495,16 +495,31 @@ void __meminit vmemmap_verify(pte_t *pte, int node,
->  }
->
->  pte_t * __meminit vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, int node,
-> -                                      struct vmem_altmap *altmap)
-> +                                      struct vmem_altmap *altmap,
-> +                                      struct page *block)
->  {
->         pte_t *pte = pte_offset_kernel(pmd, addr);
->         if (pte_none(*pte)) {
->                 pte_t entry;
->                 void *p;
->
-> -               p = vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
-> -               if (!p)
-> -                       return NULL;
-> +               if (!block) {
-> +                       p = vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
-> +                       if (!p)
-> +                               return NULL;
-> +               } else {
-> +                       /*
-> +                        * When a PTE/PMD entry is freed from the init_mm
-> +                        * there's a a free_pages() call to this page allocated
-> +                        * above. Thus this get_page() is paired with the
-> +                        * put_page_testzero() on the freeing path.
-> +                        * This can only called by certain ZONE_DEVICE path,
-> +                        * and through vmemmap_populate_compound_pages() when
-> +                        * slab is available.
-> +                        */
-> +                       get_page(block);
-> +                       p = page_to_virt(block);
-> +               }
->                 entry = pfn_pte(__pa(p) >> PAGE_SHIFT, PAGE_KERNEL);
->                 set_pte_at(&init_mm, addr, pte, entry);
->         }
-> @@ -571,7 +586,8 @@ pgd_t * __meminit vmemmap_pgd_populate(unsigned long addr, int node)
->  }
->
->  static int __meminit vmemmap_populate_address(unsigned long addr, int node,
-> -                                             struct vmem_altmap *altmap)
-> +                                             struct vmem_altmap *altmap,
-> +                                             struct page *reuse, struct page **page)
->  {
->         pgd_t *pgd;
->         p4d_t *p4d;
-> @@ -591,10 +607,14 @@ static int __meminit vmemmap_populate_address(unsigned long addr, int node,
->         pmd = vmemmap_pmd_populate(pud, addr, node);
->         if (!pmd)
->                 return -ENOMEM;
-> -       pte = vmemmap_pte_populate(pmd, addr, node, altmap);
-> +       pte = vmemmap_pte_populate(pmd, addr, node, altmap, reuse);
->         if (!pte)
->                 return -ENOMEM;
->         vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
-> +
-> +       if (page)
-> +               *page = pte_page(*pte);
-> +       return 0;
->  }
->
->  int __meminit vmemmap_populate_basepages(unsigned long start, unsigned long end,
-> @@ -603,7 +623,97 @@ int __meminit vmemmap_populate_basepages(unsigned long start, unsigned long end,
->         unsigned long addr = start;
->
->         for (; addr < end; addr += PAGE_SIZE) {
-> -               if (vmemmap_populate_address(addr, node, altmap))
-> +               if (vmemmap_populate_address(addr, node, altmap, NULL, NULL))
-> +                       return -ENOMEM;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int __meminit vmemmap_populate_range(unsigned long start,
-> +                                           unsigned long end,
-> +                                           int node, struct page *page)
-> +{
-> +       unsigned long addr = start;
-> +
-> +       for (; addr < end; addr += PAGE_SIZE) {
-> +               if (vmemmap_populate_address(addr, node, NULL, page, NULL))
-> +                       return -ENOMEM;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static inline int __meminit vmemmap_populate_page(unsigned long addr, int node,
-> +                                                 struct page **page)
-> +{
-> +       return vmemmap_populate_address(addr, node, NULL, NULL, page);
-> +}
-> +
-> +static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
-> +                                                    unsigned long start,
-> +                                                    unsigned long end, int node,
-> +                                                    struct dev_pagemap *pgmap)
-> +{
-> +       unsigned long offset, size, addr;
-> +
-> +       /*
-> +        * For compound pages bigger than section size (e.g. x86 1G compound
-> +        * pages with 2M subsection size) fill the rest of sections as tail
-> +        * pages.
-> +        *
-> +        * Note that memremap_pages() resets @nr_range value and will increment
-> +        * it after each range successful onlining. Thus the value or @nr_range
-> +        * at section memmap populate corresponds to the in-progress range
-> +        * being onlined here.
-> +        */
-> +       offset = PFN_PHYS(start_pfn) - pgmap->ranges[pgmap->nr_range].start;
-> +       if (!IS_ALIGNED(offset, pgmap_geometry(pgmap)) &&
-> +           pgmap_geometry(pgmap) > SUBSECTION_SIZE) {
-
-How about moving the last 3 lines plus the comment to a helper so this
-becomes something like:
-
-if (compound_section_index(start_pfn, pgmap))
-
-...where it is clear that for the Nth section in a compound page where
-N is > 0, it can lookup the page data to reuse.
-
-
-> +               pte_t *ptep;
-> +
-> +               addr = start - PAGE_SIZE;
-> +
-> +               /*
-> +                * Sections are populated sequently and in sucession meaning
-> +                * this section being populated wouldn't start if the
-> +                * preceding one wasn't successful. So there is a guarantee that
-> +                * the previous struct pages are mapped when trying to lookup
-> +                * the last tail page.
-
-I think you can cut this down to:
-
-"Assuming sections are populated sequentially, the previous section's
-page data can be reused."
-
-...and maybe this can be a helper like:
-
-compound_section_tail_page()?
-
-
-> +                * the last tail page.
-
-> +               ptep = pte_offset_kernel(pmd_off_k(addr), addr);
-> +               if (!ptep)
-> +                       return -ENOMEM;
-> +
-> +               /*
-> +                * Reuse the page that was populated in the prior iteration
-> +                * with just tail struct pages.
-> +                */
-> +               return vmemmap_populate_range(start, end, node,
-> +                                             pte_page(*ptep));
-> +       }
-> +
-> +       size = min(end - start, pgmap_pfn_geometry(pgmap) * sizeof(struct page));
-> +       for (addr = start; addr < end; addr += size) {
-> +               unsigned long next = addr, last = addr + size;
-> +               struct page *block;
-> +
-> +               /* Populate the head page vmemmap page */
-> +               if (vmemmap_populate_page(addr, node, NULL))
-> +                       return -ENOMEM;
-> +
-> +               /* Populate the tail pages vmemmap page */
-> +               block = NULL;
-> +               next = addr + PAGE_SIZE;
-> +               if (vmemmap_populate_page(next, node, &block))
-> +                       return -ENOMEM;
-> +
-> +               /*
-> +                * Reuse the previous page for the rest of tail pages
-> +                * See layout diagram in Documentation/vm/vmemmap_dedup.rst
-> +                */
-> +               next += PAGE_SIZE;
-> +               if (vmemmap_populate_range(next, last, node, block))
->                         return -ENOMEM;
->         }
->
-> @@ -616,12 +726,19 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
->  {
->         unsigned long start = (unsigned long) pfn_to_page(pfn);
->         unsigned long end = start + nr_pages * sizeof(struct page);
-> +       unsigned int geometry = pgmap_geometry(pgmap);
-> +       int r;
->
->         if (WARN_ON_ONCE(!IS_ALIGNED(pfn, PAGES_PER_SUBSECTION) ||
->                 !IS_ALIGNED(nr_pages, PAGES_PER_SUBSECTION)))
->                 return NULL;
->
-> -       if (vmemmap_populate(start, end, nid, altmap))
-> +       if (geometry > PAGE_SIZE && !altmap)
-> +               r = vmemmap_populate_compound_pages(pfn, start, end, nid, pgmap);
-> +       else
-> +               r = vmemmap_populate(start, end, nid, altmap);
-> +
-> +       if (r < 0)
->                 return NULL;
->
->         return pfn_to_page(pfn);
-> --
-> 2.17.1
->
+> thanks,
+> 
+> greg k-h
