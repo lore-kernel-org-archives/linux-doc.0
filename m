@@ -2,125 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D60EFC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 17:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60980C4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 17:25:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE9B560524
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 17:06:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47E106103B
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 17:25:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbhG1RGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 13:06:04 -0400
-Received: from mail-yb1-f175.google.com ([209.85.219.175]:34389 "EHLO
-        mail-yb1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230493AbhG1RGA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 13:06:00 -0400
-Received: by mail-yb1-f175.google.com with SMTP id a93so5154311ybi.1;
-        Wed, 28 Jul 2021 10:05:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qa1TBZYoLh+YW4PL+E3qWZTqGnp9tadNlp+6JNZ01k8=;
-        b=Jy4xHBJ9PFo19VYDdXr9BvTMVMM6CFfvG1/Y3JYGZKK8/4J2eCkAPXh0VqskJEmAn9
-         A2QFGvRXHLa3BPXPN0OHTkCbTFE/XGnv+f44Sm+J1Jawz8rYdjNKhQK+43if5QOwjKlp
-         UMxEbV+lfMR7CXIT5O7awZOIT0bo2Dcfu4YboHSoHgEOHlbshyl2m3Jonh8chaoY8Ozc
-         ZJWS7kI3qyWSV93tfb7jFgBMK9RpkRpaBeMt1mM30YvXJOhrZrXDAMjJM7BBSb3awSKS
-         EuW2blx5cYEwn0KJuTZ+0fqlu+FDufQM6qLAhEjYe3NIQlhCXFQ+yd72eWWSb30absz1
-         Gtag==
-X-Gm-Message-State: AOAM531niC+Dmygu1T9/bKf7My4p2Fp9gCTuBFVKH3K3q1Ocr1WnPAmN
-        8g/dkOH56yJYNc0S0pdIaEoHvu2zlbQMVmxwzy8=
-X-Google-Smtp-Source: ABdhPJxAcps2oVxkB58J6mo4MBlUBaaOa0QLieInecYjzoFhd3BRYME5jWkJspYp6fLqXsEuVOFrUpsE+D1Sw7atR20=
-X-Received: by 2002:a25:8093:: with SMTP id n19mr945626ybk.414.1627491958119;
- Wed, 28 Jul 2021 10:05:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210726171802.1052716-1-kernel@esmil.dk> <bcc9de67-f006-0a81-8c3f-2ae5188dca48@roeck-us.net>
-In-Reply-To: <bcc9de67-f006-0a81-8c3f-2ae5188dca48@roeck-us.net>
-From:   Emil Renner Berthing <kernel@esmil.dk>
-Date:   Wed, 28 Jul 2021 19:05:47 +0200
-Message-ID: <CANBLGcxpaFt-bokq8=Tie-bJnWk5AqLyr-1Ns-+Xtobxs5bYQQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] hwmon: Add StarFive JH7100 temperature sensor
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Drew Fustini <drew@beagleboard.org>
-Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        id S230201AbhG1RZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 13:25:26 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:52168 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229537AbhG1RZZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 13:25:25 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id AE0541FD69;
+        Wed, 28 Jul 2021 17:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1627493122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4z+d2ZwNRoqxW73+AMa5bSmFlzTgfCxptCbaDT+hb/U=;
+        b=W2eTPAugUxJczVRyP2sMAeHaks8tARW0o11sV3lPJ0De6/bEmVKvCzl4+lxdv61v3KWrj5
+        qmfjL6DjgtwwBYcvLbmzBaJ16HGAXTAH21b7yrUV2xli1avXSggtcKoSyfogCik+fm8eMY
+        qyYSjIVo+fZcp95VHyImHRtliCGiGuM=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 783ED13318;
+        Wed, 28 Jul 2021 17:25:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id 2vE2HAKTAWEALwAAGKfGzw
+        (envelope-from <mkoutny@suse.com>); Wed, 28 Jul 2021 17:25:22 +0000
+Date:   Wed, 28 Jul 2021 19:25:21 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Waiman Long <llong@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Samin Guo <samin.guo@starfivetech.com>,
-        linux-hwmon@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v3 6/9] cgroup/cpuset: Add a new isolated cpus.partition
+ type
+Message-ID: <20210728172521.GE7584@blackbody.suse.cz>
+References: <20210720141834.10624-1-longman@redhat.com>
+ <20210720141834.10624-7-longman@redhat.com>
+ <20210728160900.GA8905@blackbody.suse.cz>
+ <f1afbd9e-d16b-c972-c3c0-022a05cec2a6@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="k4f25fnPtRuIRUb3"
+Content-Disposition: inline
+In-Reply-To: <f1afbd9e-d16b-c972-c3c0-022a05cec2a6@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 28 Jul 2021 at 18:54, Guenter Roeck <linux@roeck-us.net> wrote:
-> On 7/26/21 10:18 AM, Emil Renner Berthing wrote:
-> > This adds a driver for the temperature sensor on the JH7100, a RISC-V
-> > SoC by StarFive Technology Co. Ltd., and most likely also the upcoming
-> > JH7110 version.
-> >
-> > The SoC is used on the BeagleV Starlight board:
-> > https://github.com/beagleboard/beaglev-starlight
-> >
-> > Support for this SoC is not yet upstreamed, but is actively worked on,
-> > so it should only be a matter of time before that happens.
-> >
->
-> Hmm, makes me wonder if I should apply the series now or later,
-> when the chip is actually supported by the kernel. Comments/thoughts ?
->
-> Guenter
 
-I'd of course love if it was applied now. That would at least mean
-fewer patches to rebase when keeping the beaglev patches [1] up to
-date, and I'd be very surprised if SoC support doesn't make it
-upstream eventually. But I'd also fully understand the position that
-this only makes sense to add when support for the SoC is upstream too.
-I'm adding Drew, as he might have something to say about this.
+--k4f25fnPtRuIRUb3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1]: https://github.com/starfive-tech/linux/tree/beaglev
+On Wed, Jul 28, 2021 at 12:27:58PM -0400, Waiman Long <llong@redhat.com> wr=
+ote:
+> PRS_ERROR cannot be passed to update_prstate(). For this patchset, PRS_ER=
+ROR
+> can only be set by changes in hotplug. The current design will maintain t=
+he
+> set flag (CS_SCHED_LOAD_BALANCE) and use it to decide to switch back to
+> PRS_ENABLED or PRS_ISOLATED when the cpus are available again.
 
-/Emil
+I see it now, thanks. (I still find a bit weird that the "isolated"
+partition will be shown as "root invalid" when it's lacking cpus
+(instead of "isolated invalid" and returning to "isolated") but I can
+understand the approach of having just one "root invalid" for all.)
 
-> > v3:
-> > * Handle timeouts from wait_for_completion_interruptible_timeout
-> >    properly.
-> >
-> > v2:
-> > * Fix checkpatch.pl --strict warnings
-> >    - Add myself to MAINTAINERS
-> >    - Fix multiline comments
-> >    - Use proper case and whitespace for #defines
-> >    - Add comment to sfctemp::lock mutex.
-> > * Remaining comments by Guenter Roeck
-> >    - Add Documentation/hwmon/sfctemp.rst
-> >    - Use devm_add_action() and devm_hwmon_device_register_with_info()
-> >      instead of a driver .remove function.
-> >    - Don't do test conversion at probe time.
-> >    - #include <linux/io.h>
-> >    - Remove unused #defines
-> >    - Use int return variable in sfctemp_convert().
-> > * Add Samin's Signed-off-by to patch 2/2
-> >
-> > Emil Renner Berthing (2):
-> >    dt-bindings: hwmon: add starfive,jh7100-temp bindings
-> >    hwmon: (sfctemp) Add StarFive JH7100 temperature sensor
-> >
-> >   .../bindings/hwmon/starfive,jh7100-temp.yaml  |  43 +++
-> >   Documentation/hwmon/index.rst                 |   1 +
-> >   Documentation/hwmon/sfctemp.rst               |  32 ++
-> >   MAINTAINERS                                   |   8 +
-> >   drivers/hwmon/Kconfig                         |  10 +
-> >   drivers/hwmon/Makefile                        |   1 +
-> >   drivers/hwmon/sfctemp.c                       | 291 ++++++++++++++++++
-> >   7 files changed, 386 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh7100-temp.yaml
-> >   create mode 100644 Documentation/hwmon/sfctemp.rst
-> >   create mode 100644 drivers/hwmon/sfctemp.c
-> >
->
+This patch can have
+Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
+
+
+--k4f25fnPtRuIRUb3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmEBkvoACgkQia1+riC5
+qSjxqg/8DOuQ6BV0vUCrSyyP0k+Wyx7QwrY7UHosDiAVrUYlzfd0NEhckQf7fDr4
+faf5/E/Y0t99oRaBYnPqtaqUjtiUUB4e7L/uTxrfGaeOT2SyAHjq5QHtFcdSOHgz
+OfinfqEGFuMQLo2vbWtuKaPs6avaPT6443FT/WpG29FHkB7wRPuBAS0f3USLQ/F4
+/GqawCdjKCZ4pP59LQpb5jSELNtQKaxe6MpZJ0tcj9JpFgnR6XZcwmxe0FP2hHtY
+JzcnXUfMW3CU4yynukd5rEwrCiVS1T5w9XLh0d/MrvbamMEfwBMY8hoVH3md32X4
+oTVdlW1IrKkm+VXoW/71WTzKTlkXof/MxMe52QigiOj25g+W/R2CTAoaCKVY5Ou3
+RgQNljmvKmN7kh14Zc469PLC8R8t+FYVdMM4xmK+HjbFOBAaymWx6eUHejfQNba0
+sgulNpYQjzeR+OBqqt7NI+KLu9s1yag6ZY+N2bUtOWxsdMjuU4vY0yWuHw+SnrTF
+itkJg/NIkUmFccnq1ToOAxHyC5vA6ux8rUDBPnJduXr1czXZKi8zoy31h4uq6CAF
+iWqDZdmi9dOB9A3rbjOm8BP0vHrs7s3tSLc0c4tu6VncM0mosp6dDGC8RCam3YCG
+mnFetTKvSLbNBN/6k3f6nKLX6AGzNHs45EiSi7ut17NMVk5/5EU=
+=i07x
+-----END PGP SIGNATURE-----
+
+--k4f25fnPtRuIRUb3--
