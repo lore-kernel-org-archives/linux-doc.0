@@ -2,113 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3932AC4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E602C43216
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:09:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26F8D60FC2
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:08:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84F3260FE3
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 13:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236414AbhG1NIy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 09:08:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:59181 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236409AbhG1NIa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 09:08:30 -0400
-Received: from mail-wr1-f49.google.com ([209.85.221.49]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N1xZX-1nAMXg0eU5-012GVn; Wed, 28 Jul 2021 15:08:25 +0200
-Received: by mail-wr1-f49.google.com with SMTP id r2so2494812wrl.1;
-        Wed, 28 Jul 2021 06:08:24 -0700 (PDT)
-X-Gm-Message-State: AOAM530LP6x5d7utXqUEbeeqt/XXl8lsKRXLE4rbHhR0V70QVPVUOnrU
-        IjrbdySFFgl9x1oZv/q4PIuea6rYr5kd+1eFohQ=
-X-Google-Smtp-Source: ABdhPJxxfv5Wc+SHhdsDE/NGqS8JZjtCDRKxpejCmw8fSUu1pUblkMW8vqXlfFC6WPm8N6ImE4zLbL7TYQIjJuw7+SI=
-X-Received: by 2002:a5d:44c7:: with SMTP id z7mr21469709wrr.286.1627477704695;
- Wed, 28 Jul 2021 06:08:24 -0700 (PDT)
+        id S236548AbhG1NI7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 09:08:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236430AbhG1NIc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Jul 2021 09:08:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B45160F02;
+        Wed, 28 Jul 2021 13:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627477710;
+        bh=H1S7AlV0COt/bxaXeyQx1d8vL8M0dbUMU7ZJt6NPQao=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=lhF2L+uVa1UwdQ7Cqk0pnrjHOQNx7pTKWuDDejBNYjN7A4it/H9lYpeC/cKU1T5bw
+         hQM3Na89GeH11aOtWH5LwuNLnQAzrNKm1hNd9combq4MNd6d5kj5hDdM43SvCKXuKm
+         mQOhkROUEBDNzZVgDZy+12+010DsTRsyj4B8C+cW8N8WMZzTKfcnsxLC5IeSxnLEkM
+         Usd1c13/hPiRiWHeJ/26+IQEYEfcTRZhtc2H+p0eWQJKqapIBSJDHdGLSMPqq0dXGK
+         f+ajcoWDqnl3jOR5pdzhqf7hM7P7LLGGQbhY4LgJjY4meNxxAHNKQB500JiB5bLB/j
+         ByRRqXtjzReFA==
+Date:   Wed, 28 Jul 2021 15:08:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC][PATCH v2 02/12] diglim: Basic definitions
+Message-ID: <20210728150823.705623ad@sal.lan>
+In-Reply-To: <eb3b025820574f0d901a38a4ad088018@huawei.com>
+References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+        <20210726163700.2092768-3-roberto.sassu@huawei.com>
+        <20210728133102.339c7b8e@coco.lan>
+        <eb3b025820574f0d901a38a4ad088018@huawei.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210721161609.68223-1-yishaih@nvidia.com> <20210721161609.68223-13-yishaih@nvidia.com>
- <20210727155440.680ee22e.alex.williamson@redhat.com> <20210727230941.GL1721383@nvidia.com>
- <20210728054306.GA3421@lst.de> <20210728120326.GQ1721383@nvidia.com>
- <20210728122956.GA27111@lst.de> <20210728124755.GR1721383@nvidia.com>
-In-Reply-To: <20210728124755.GR1721383@nvidia.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 28 Jul 2021 15:08:08 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a21ah=+x29jycWZBoTGA1RzfYz4qar9usvCa_hU85k=7g@mail.gmail.com>
-Message-ID: <CAK8P3a21ah=+x29jycWZBoTGA1RzfYz4qar9usvCa_hU85k=7g@mail.gmail.com>
-Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, diana.craciun@oss.nxp.com,
-        kwankhede@nvidia.com, Eric Auger <eric.auger@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:VfrdqH+8hRfWWBCUeeCLzTKee5aiFfVqonRsF0cPxyHpJ27hjjW
- napliTyiM232iU/b2h7piQKIzmMmiu7xfzuBeJZZmgCIv2l0dQdGsOGfnIQAKUWxDOfk6vG
- fQRBZ/tLptHxvILO0wzGVrQ9kHzLmnxLZXR7+mMM3anAyTNikyoKsAmPBKcXeGjwZbRfSsG
- f4G7ykKBzoesUsQVIeJ6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eWfNL6UrdeU=:ampkA+bFoDa2sBzpiNamAZ
- zoWNZc90Y/wXqG+ZIuxUIDsFuNUlXxTk40/6eLdYbQ8W5xKOiWLFWtsfzXj0FvDgwhTCxEhVV
- Qf6ozj4bizaXHvOese38gPx6lwZO2aU5zr+OGUZWJL6sSTPVoSpDX2SK4qeFYkHY+VXL4Mcdj
- MUZaRhC32cvyr4/KdLgoILrgdZMgip4hcvO6y0k2ZqhptmfB7ZH3woAIG9zWg98piJHpcD+hA
- cIGqG2SA/4XpReAEg1fyG+9rTFlPfepHd7eVJXLCuhIC/Cfyj6pw+ez1QyvCbBIgofOpuLndp
- fZ49fGUeApxixHsC1i/gtt5FWxQJtIepsoyYDzsxGPJZJxgRWI4rhJbysCzMn1yU+65rx9k+p
- m9f908CAg/7jRGFDrBeid01FC4PKWtjI5vxuNRKv8l/Ylc4lCc2sZLXFLpwoDcjDEMXL4eQ0r
- K6nsL1iXJSCnb2ECESD8kHPZPtAowh55pUp7Qu7O4qLTiu74LXXZT8AyIfNbdcvd6PSLfPAwk
- jMQoJdJ6O72eQAsRuJ+Wr6hmh81DXi/bsUdHvuTplgmOwN0Jb1CAXGXiiOKJ1/N1QhOVIXV5u
- w8H9byVP/hvEbsGN0B+d3jp3p5Y+BmhMXIPukbnO/W3vqXr3iBz6YxNO2LvJ4fVh4Pqls1UJH
- Qkj+1B3BtCZbGaChjPGEdjI0wz8PtSFJSJkpU8O9fz/HSnpDNI8xDGcyZt3ABzeCRUvzIxFZf
- f3oUVXzgydQzG67vHycIWIBcM90VHvR5G2Pn4Z50u0/G3HNBCeu7OF4epJhF7+fniM6L277Wa
- rxgXCXWE5BrrzS9wE0Zn6Om4YhOoV6pfRBfOLBWA03xwDqh2s4oBmz4cC+ujWRAVKWyLr5U4x
- k7KRksKC7h03RoKVTW8pC6yeVJJbHGTrEA1bf0jccH+6oX6m6xMKo04lnodUcoe9L6srv6Xjy
- S/uFWCmR8XK4IOBPeSYprX+lgh+TSRfBv5QBeSi7eUAxav5rwg7eo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 2:47 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
->
-> On Wed, Jul 28, 2021 at 02:29:56PM +0200, Christoph Hellwig wrote:
->
-> > So not really an issue here.  VFIO_PCI_CORE really is underlying
-> > infrastructure a user should not care about.
->
-> So then we can write it like below? Unfortunately it deletes the nice
-> menu structure that groups all the PCI drivers together like platform
-> (and mdev in future). Not sure this loss is worth the backwards compat
+Em Wed, 28 Jul 2021 11:45:02 +0000
+Roberto Sassu <roberto.sassu@huawei.com> escreveu:
 
-I think you can get back some structure by adding a 'menu "VFIO PCI drivers"'
-and 'endmenu' around it.
+> > From: Mauro Carvalho Chehab [mailto:mchehab+huawei@kernel.org]
+> > Sent: Wednesday, July 28, 2021 1:31 PM
+> > Em Mon, 26 Jul 2021 18:36:50 +0200
+> > Roberto Sassu <roberto.sassu@huawei.com> escreveu:
+> >   
 
-> @@ -17,6 +15,7 @@ config VFIO_PCI_INTX
->
->  config VFIO_PCI
->         tristate "Generic VFIO support for any PCI device"
-> +       select VFIO_PCI_CORE
->         help
->           Support for the generic PCI VFIO bus driver which can connect any
->           PCI device to the VFIO framework.
-> @@ -50,6 +49,7 @@ endif
->  config MLX5_VFIO_PCI
->         tristate "VFIO support for MLX5 PCI devices"
->         depends on MLX5_CORE
-> +       select VFIO_PCI_CORE
->         help
+> > > +struct compact_list_hdr {
+> > > +	__u8 version;
+> > > +	__u8 _reserved;
+> > > +	__le16 type;
+> > > +	__le16 modifiers;
+> > > +	__le16 algo;
+> > > +	__le32 count;
+> > > +	__le32 datalen;
+> > > +} __packed;
+> > > +#endif /*_UAPI__LINUX_DIGLIM_H*/  
+> > 
+> > Besides Greg's notes, I'm wondering why to enforce a particular
+> > endness here. I mean, this is uAPI. I would expect it to use the
+> > CPU endianness instead, in order to avoid uneeded conversions.  
+> 
+> Also Greg had the same concern. I hoped the Lifecycle section clarified
+> the fact that digest lists are generated by software vendors not the
+> local system. Should I add something more in the documentation?
 
-These two now have to get a 'depends on MMU' if they don't already inherit
-that from elsewhere.
+It shouldn't matter what kind of endness software vendors use on
+userspace (either CPU or a fixed endiannes - either LE or BE).
 
-       Arnd
+I mean, I won't doubt that some package tools use LE while others
+would use BE. At some point, this needs to be converted to 
+CPU endiannes.
+
+IMO, the best would be to isolate whatever RPM/DEB/... endianness 
+is used on userspace from what the Kernel will use internally.
+
+Just my 2 cents.
+
+Regards,
+Mauro
