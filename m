@@ -2,124 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C0DC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E47C4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:54:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 615C76101B
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 236D46101B
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:54:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbhG1Q2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 12:28:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27937 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229797AbhG1Q2D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 12:28:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1627489681;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oVx/5yrmyZbbRVeN3LD+d66Q2FozCvKMMwaCU5JpwKA=;
-        b=C8TkkbLtJNQFJzm7vuOth01N1hoMg0o0Hs8+2dm7BpdaI8dOJqXNDhrEA3SBMadh7Jwh/W
-        lPwIwRsPDZSA32snFj1Bcb9EEFYnZKf0h78flfT2UnWWzerOSoKlOUmmgKM5TXw/JDZkc8
-        RwAXJ7aDIw2Oj6fYt/TdD2tgTxNPJqE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-Qjr6vh4WMi-2RnJoceuHUw-1; Wed, 28 Jul 2021 12:28:00 -0400
-X-MC-Unique: Qjr6vh4WMi-2RnJoceuHUw-1
-Received: by mail-qt1-f199.google.com with SMTP id l24-20020ac872580000b029024e988e8277so1284387qtp.23
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jul 2021 09:28:00 -0700 (PDT)
+        id S229793AbhG1QyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 12:54:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229515AbhG1QyV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 12:54:21 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBC0C061757;
+        Wed, 28 Jul 2021 09:54:19 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d2so1826783qto.6;
+        Wed, 28 Jul 2021 09:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5WRc7NZsG224KMOLzT6MF0xtQDYlQYQ+sE4yZrsGKwI=;
+        b=pBbZcC8qkw1M+SzXsZgZ5rDmHtG5kHyuGt7FeWdqYfewy8ozYb23OuFRnZl27Ig3Gq
+         8nJRAv0WeA7zY3g96vIf1jKVCOaGmPnwL4AEMbZ3WEWzUXO0v8m7zmMijhJReAkJgK+w
+         zIAf0ffeQOEHQDLHuRBs8C0C9Ya1+Y1oPhQqjhYsPGioMYhpwItCppl8GgSVdk/XOH60
+         C4teyvrMbxJBXCut4FzlKDhHJT4b+hpnZRxKEd1pUdr3gUTBdpfbQXx8a5Db9wwermez
+         FQsIfy7NSl6FJJX0KAXmcKsiqoDjlVAbiT4r9M2yYTp5pZbPzzxTp/iSBy35T3fyCTUX
+         sjdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=oVx/5yrmyZbbRVeN3LD+d66Q2FozCvKMMwaCU5JpwKA=;
-        b=um6UOvwIOwfG2aQXka9kE+an+/0MvGWYbKR3TLW1JDWD47SKuDJtMA/PxiAgW+U1PJ
-         BhBMBSgRrfw9R66Eaa9QnIxtE7tqWmoTeGPBY/baXMwgpqYWWzF2KV7FeccmqxdVIUw7
-         iC3Fbcie5G+rIn+IygN1QHCOyv10RwV1cTABCGSuBBJvq6QAh9DF7sKOlISboVhISxG2
-         WZ00m/85tnmf4MHYZGVTkZCeug1jS2M16CcGg4wtVGsVlk683mlvJVLWSaznP3IeJYTd
-         de6qFXisbk7IRbPyVsFO/PydJNRyAKlAEcu03Ism3opjktuADpOEiHhY4hoTARRktuRK
-         Nk3g==
-X-Gm-Message-State: AOAM531+qsQ1piBXqk91piTJCviFrc5ZqVpvmrzrUFV2/dfPjSzGwRfI
-        R7R/UD7+ldB66YXJVnTchKynRu7fyx7Fp5v51HV+qnTHTT4T26rWwcKTG7/TVBT2qL/GrWZ6HBH
-        uBRDP6gqHVAhfn+xprXam
-X-Received: by 2002:a37:9244:: with SMTP id u65mr520011qkd.46.1627489680044;
-        Wed, 28 Jul 2021 09:28:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZRqP37sqJcrPzK/iLTHBFFo1TykeaKOBzeN4NCV6nY6od2hic7g0uzGrV0SdRcBpcBj9h2w==
-X-Received: by 2002:a37:9244:: with SMTP id u65mr519993qkd.46.1627489679827;
-        Wed, 28 Jul 2021 09:27:59 -0700 (PDT)
-Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
-        by smtp.gmail.com with ESMTPSA id p13sm236018qkk.87.2021.07.28.09.27.58
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5WRc7NZsG224KMOLzT6MF0xtQDYlQYQ+sE4yZrsGKwI=;
+        b=B40N3FTHGresIcadDsizX8sY++iqSI0h4XgKKjZkyNpUHljdFrK8ofxjDd1ElB+C5w
+         MMnhQSbnmxcBYTxpg/sHp6iSpcTSbJiNbpi3fMGXSz3YlqIAVUd9g1ohotGxr7p8O/Xv
+         3Q0YwCaSf+w4p2LgxJWDw2TQhY7DGXPKOU6Hv0WFtq1SJ7n3jCDr1pKS3umWzCRJ3c0N
+         Di6z06HSXR+12M/NNRcnE2eGsRNVghM75nBqYgQzq0Dp0mpm1cDyYuTpUwp9Hrjo85Zw
+         2RgtemnVVf/Eo7jKAMdIa8dVWgdoH8SnnLIzNJVfo2x9H8wC49oCQMd/fDY9gkMrvMvI
+         Vh9w==
+X-Gm-Message-State: AOAM532zBGIXda1/1sjECdHeTK11A0yAq/zowEXKRbWF6/ytGIsEePRk
+        7qoRHX3S+mmH3FtL+PZhPE4p5jNmw6Y=
+X-Google-Smtp-Source: ABdhPJwVA0b4E2zT2rdSCKwbX9fTqBQ5wfZz9pIwBnO5KXoem83v2RNfPRnRMaXGRn7rUPQceKS1Zw==
+X-Received: by 2002:a05:622a:283:: with SMTP id z3mr459040qtw.312.1627491258155;
+        Wed, 28 Jul 2021 09:54:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m17sm169167qtu.34.2021.07.28.09.54.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 09:27:59 -0700 (PDT)
-From:   Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3 6/9] cgroup/cpuset: Add a new isolated cpus.partition
- type
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        Wed, 28 Jul 2021 09:54:17 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v3 0/2] hwmon: Add StarFive JH7100 temperature sensor
+To:     Emil Renner Berthing <kernel@esmil.dk>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-References: <20210720141834.10624-1-longman@redhat.com>
- <20210720141834.10624-7-longman@redhat.com>
- <20210728160900.GA8905@blackbody.suse.cz>
-Message-ID: <f1afbd9e-d16b-c972-c3c0-022a05cec2a6@redhat.com>
-Date:   Wed, 28 Jul 2021 12:27:58 -0400
+        Samin Guo <samin.guo@starfivetech.com>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210726171802.1052716-1-kernel@esmil.dk>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <bcc9de67-f006-0a81-8c3f-2ae5188dca48@roeck-us.net>
+Date:   Wed, 28 Jul 2021 09:54:15 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210728160900.GA8905@blackbody.suse.cz>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210726171802.1052716-1-kernel@esmil.dk>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/28/21 12:09 PM, Michal Koutný wrote:
-> Hello Waiman.
->
-> On Tue, Jul 20, 2021 at 10:18:31AM -0400, Waiman Long <longman@redhat.com> wrote:
->> @@ -2026,6 +2036,22 @@ static int update_prstate(struct cpuset *cs, int new_prs)
->> [...]
->> +	} else if (old_prs && new_prs) {
-> If an isolated root partition becomes invalid (new_prs == PRS_ERROR)...
->
->> +		/*
->> +		 * A change in load balance state only, no change in cpumasks.
->> +		 */
->> +		update_flag(CS_SCHED_LOAD_BALANCE, cs, (new_prs != PRS_ISOLATED));
-> ...this seems to erase information about CS_SCHED_LOAD_BALANCE zeroness.
->
-> IOW, if there's an isolated partition that becomes invalid and later
-> valid again (a cpu is (re)added), it will be a normal root partition
-> without the requested isolation, which is IMO undesired.
->
-> I may have overlooked something in broader context but it seems to me
-> the invalidity should be saved independently of the root/isolated type.
+On 7/26/21 10:18 AM, Emil Renner Berthing wrote:
+> This adds a driver for the temperature sensor on the JH7100, a RISC-V
+> SoC by StarFive Technology Co. Ltd., and most likely also the upcoming
+> JH7110 version.
+> 
+> The SoC is used on the BeagleV Starlight board:
+> https://github.com/beagleboard/beaglev-starlight
+> 
+> Support for this SoC is not yet upstreamed, but is actively worked on,
+> so it should only be a matter of time before that happens.
+> 
 
-PRS_ERROR cannot be passed to update_prstate(). For this patchset, 
-PRS_ERROR can only be set by changes in hotplug. The current design will 
-maintain the set flag (CS_SCHED_LOAD_BALANCE) and use it to decide to 
-switch back to PRS_ENABLED or PRS_ISOLATED when the cpus are available 
-again.
+Hmm, makes me wonder if I should apply the series now or later,
+when the chip is actually supported by the kernel. Comments/thoughts ?
 
-Cheers,
-Longman
+Guenter
+
+> v3:
+> * Handle timeouts from wait_for_completion_interruptible_timeout
+>    properly.
+> 
+> v2:
+> * Fix checkpatch.pl --strict warnings
+>    - Add myself to MAINTAINERS
+>    - Fix multiline comments
+>    - Use proper case and whitespace for #defines
+>    - Add comment to sfctemp::lock mutex.
+> * Remaining comments by Guenter Roeck
+>    - Add Documentation/hwmon/sfctemp.rst
+>    - Use devm_add_action() and devm_hwmon_device_register_with_info()
+>      instead of a driver .remove function.
+>    - Don't do test conversion at probe time.
+>    - #include <linux/io.h>
+>    - Remove unused #defines
+>    - Use int return variable in sfctemp_convert().
+> * Add Samin's Signed-off-by to patch 2/2
+> 
+> Emil Renner Berthing (2):
+>    dt-bindings: hwmon: add starfive,jh7100-temp bindings
+>    hwmon: (sfctemp) Add StarFive JH7100 temperature sensor
+> 
+>   .../bindings/hwmon/starfive,jh7100-temp.yaml  |  43 +++
+>   Documentation/hwmon/index.rst                 |   1 +
+>   Documentation/hwmon/sfctemp.rst               |  32 ++
+>   MAINTAINERS                                   |   8 +
+>   drivers/hwmon/Kconfig                         |  10 +
+>   drivers/hwmon/Makefile                        |   1 +
+>   drivers/hwmon/sfctemp.c                       | 291 ++++++++++++++++++
+>   7 files changed, 386 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/starfive,jh7100-temp.yaml
+>   create mode 100644 Documentation/hwmon/sfctemp.rst
+>   create mode 100644 drivers/hwmon/sfctemp.c
+> 
 
