@@ -2,80 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E068C4320E
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 15:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28EA5C432BE
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:09:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B59960F93
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 15:59:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11C35600D1
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 16:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237391AbhG1P71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 11:59:27 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:10547 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237358AbhG1P7Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Jul 2021 11:59:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=From:To:Date; bh=+0wI7mv8XUU8mTLbxor4A/f7cmasr0sNeQo/+
-        h10VfE=; b=Lzl9S29cJ09P3Nnj9lH4xUNIMgRrLqjq79yqXJQcdL+ahOnSRRf21
-        ca1Gpju7Ix7thIicLtYFZLFqbTytF2wJMK8Jlzqy/uT325oOk2rbXnARMyMcQMFw
-        RYFC7RxBYIa70mmAtkCZJOhVm5eYV5nDUg8Or3fFOyxaBa4xFMeh2g=
-Received: from localhost.localdomain (unknown [113.251.14.68])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDn9QTQfgFhsjoLAA--.39671S2;
-        Wed, 28 Jul 2021 23:59:13 +0800 (CST)
-From:   Hu Haowen <src.res@email.cn>
-To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: networking: add ioam6-sysctl into index
-Date:   Wed, 28 Jul 2021 23:59:12 +0800
-Message-Id: <20210728155912.9293-1-src.res@email.cn>
-X-Mailer: git-send-email 2.25.1
+        id S230190AbhG1QJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 12:09:06 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:42516 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229843AbhG1QJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 12:09:05 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 63D321FFF2;
+        Wed, 28 Jul 2021 16:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1627488542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=V8WnBgopJa2lvYyrEcrAnfZx6ZFCWG157aEnC0Y6NwA=;
+        b=XGstFWI8zd51oMVV0Rhav655K/8yZmB7A4B4T+F5pJlClVmdjDnW5BP0Fqrw/uWBQbPqO8
+        CSumfaEsmAzaM0iivIaFbkPbHEBF9CTHxwORQ4FXKdf3yDtydPCCFBJgGx26BuLMPczxQu
+        /zhArJcocOT3a64BzFiasgfYE/BEtsA=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 3113B13AAE;
+        Wed, 28 Jul 2021 16:09:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id MJ1fCx6BAWE0GwAAGKfGzw
+        (envelope-from <mkoutny@suse.com>); Wed, 28 Jul 2021 16:09:02 +0000
+Date:   Wed, 28 Jul 2021 18:09:00 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v3 6/9] cgroup/cpuset: Add a new isolated cpus.partition
+ type
+Message-ID: <20210728160900.GA8905@blackbody.suse.cz>
+References: <20210720141834.10624-1-longman@redhat.com>
+ <20210720141834.10624-7-longman@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LCKnCgDn9QTQfgFhsjoLAA--.39671S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5-7k0a2IF6w4kM7kC6x804xWl1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-        x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWU
-        JVW8JwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04
-        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
-        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-        nUUI43ZEXa7IUnLSdPUUUUU==
-X-Originating-IP: [113.251.14.68]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
+Content-Disposition: inline
+In-Reply-To: <20210720141834.10624-7-longman@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Append ioam6-sysctl to toctree in order to get rid of building warnings.
 
-Signed-off-by: Hu Haowen <src.res@email.cn>
----
- Documentation/networking/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index e9ce55992aa9..a91a2739f8ed 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -57,6 +57,7 @@ Contents:
-    gen_stats
-    gtp
-    ila
-+   ioam6-sysctl
-    ipddp
-    ip_dynaddr
-    ipsec
--- 
-2.25.1
+Hello Waiman.
 
+On Tue, Jul 20, 2021 at 10:18:31AM -0400, Waiman Long <longman@redhat.com> wrote:
+> @@ -2026,6 +2036,22 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+> [...]
+> +	} else if (old_prs && new_prs) {
+
+If an isolated root partition becomes invalid (new_prs == PRS_ERROR)...
+
+> +		/*
+> +		 * A change in load balance state only, no change in cpumasks.
+> +		 */
+> +		update_flag(CS_SCHED_LOAD_BALANCE, cs, (new_prs != PRS_ISOLATED));
+
+...this seems to erase information about CS_SCHED_LOAD_BALANCE zeroness.
+
+IOW, if there's an isolated partition that becomes invalid and later
+valid again (a cpu is (re)added), it will be a normal root partition
+without the requested isolation, which is IMO undesired.
+
+I may have overlooked something in broader context but it seems to me
+the invalidity should be saved independently of the root/isolated type.
+
+Regards,
+Michal
+
+
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmEBgRgACgkQia1+riC5
+qSgO0Q//QBaFMt0GNk3zGOjGT2DTaib+z3zKvfq4mFSgCEx1VORHT4EnrEH7NOES
+zoqFY30U5Cgi/9JO655nCgAJKeG/hwdxvbOcztKOAkzQFi3ts0KxGRQufwf+ajkt
+n0Xi5Eb8XOzHA+q2QQFiTttopulxIVe2qt6FXtVsl2MVr3W0rZq5mJ0BQbTdfN8r
+I3QPoCIpgy1+4JLgBIWr4nFAn16TpfxBFzAkTpidXLarNhp7vzbqUuEsuBXIhJ2w
+dQtFunPBdOsdAVMC4WnCwxDt2XFiRpteY8j0ZOK6R1eGEdMbNagqTwN+ShlWYsT4
+ymBZLfS1z3B9wXIJvzVFwimjMIQI6z7JrDfCnm6qGdCkxnLq6RSqpmqobF+liQU0
+44HaXSoEM+rNI+Ss9tbF9URJEKDKwACtGozM257YAB4Vo/zteIKRVsL8WBWfRuB9
+qELxjaR3uAGQ4i3UgpXxxph98pNBxxOM39iEU+3L6e0d/VO+/Yt0cnscLPJwIxbt
+JybmN1c9a7bn3asILIX2hAxPcn3csQV3enWsVx8ARZcV3kMne7eRGTTQshZ1W56o
+XektiwwjgzDtwQdO5Fv7wQGp352ikUorXU35JP+f8gqb8f4HPtgIf2AUBxisT/oa
+zqBTCXZGwBWOSDleRR4/UvafoT4HVD8DaDw740LYDpdffOT3HyI=
+=ZMPH
+-----END PGP SIGNATURE-----
+
+--Dxnq1zWXvFF0Q93v--
