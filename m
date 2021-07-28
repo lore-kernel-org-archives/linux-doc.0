@@ -2,60 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FD3C4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C1BBC4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:59:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 777DC60FEB
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:55:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F323B60E09
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 12:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235204AbhG1MzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 08:55:15 -0400
-Received: from verein.lst.de ([213.95.11.211]:53593 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235098AbhG1MzP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Jul 2021 08:55:15 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 2C6AD68AFE; Wed, 28 Jul 2021 14:55:07 +0200 (CEST)
-Date:   Wed, 28 Jul 2021 14:55:05 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
-        corbet@lwn.net, diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
-Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
-Message-ID: <20210728125505.GA29082@lst.de>
-References: <20210721161609.68223-1-yishaih@nvidia.com> <20210721161609.68223-13-yishaih@nvidia.com> <20210727155440.680ee22e.alex.williamson@redhat.com> <20210727230941.GL1721383@nvidia.com> <20210728054306.GA3421@lst.de> <20210728120326.GQ1721383@nvidia.com> <20210728122956.GA27111@lst.de> <20210728124755.GR1721383@nvidia.com>
+        id S235204AbhG1M7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 08:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233315AbhG1M7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 08:59:47 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B962DC061757;
+        Wed, 28 Jul 2021 05:59:44 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id j2so3031784edp.11;
+        Wed, 28 Jul 2021 05:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=K6cjzR42EklyjKqvSNPb70Hz5hfQ/Z6w+MNfhc7EMP4=;
+        b=ulgixdj8GlcUTL8H1JRD8zj+H0Hh0tmTh2YBKaEeZoKLOGCudEurhjvIS+SKaW/h+M
+         LjxE3AKeUaHGUW4Q713Cz95rjkqAU8uZejW0CEooSXpF9m0sL0fSuvqXOdTyHW3SiGVB
+         zjUl/lIfrXnl9vbR065R9n51e6i0a/eOXxa6TkvmZM3sqRZ51pCzcyyAKFJI0PwFuBx3
+         4BN9zHPmmGkXuT8EaUa/ptS7dK3K14YmvL1xdg/vBmHKLXf2wVWJEKBMuc9o0akbb+Ev
+         OQc8bi9HdZMKaLGsvBm0VR+LXl8hc5jBgN6IEuI+oKydCk0NxeBhjRJzt8Vg/CJIVjab
+         20PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=K6cjzR42EklyjKqvSNPb70Hz5hfQ/Z6w+MNfhc7EMP4=;
+        b=JmI9D252l/5ugzHwUDFBpPjdbzxNsR7/KfX5vo+V2wNvJcyCKG8c5sb9pcKcGT36nj
+         V46v3JmG/gCTYM5u9xEFn4KJ7vMZgDiVkzgMrefJxexrpkycmroXC2Zg00t+yBGhKQ/v
+         CdZ2hip8DFouM1t5L7iHHgjUPL0bbWx4gEoVK2Ayr8nHhq+rZJbqwWNBQg2GdCHripL6
+         SE/TtKqukNp3fmzvJ0ZjxAUNtdkIdHGFIH6+Nq8t+QM9Vq6r6pMhz3WrLyNAnpvggr11
+         5iyd4WOxYjvgvGp1TLAnYddiU6CNi/0p6isz4kpj5hV2cYP4+bZ6rpJ9NQkzchRiNQYE
+         U4pg==
+X-Gm-Message-State: AOAM530LSNEOlkjzVKAhse/JDlepcqcYFZ/PobbSVbsR0UW1nBRdNkXl
+        4yYmTC5WrIrx+Hx/voYXlcZYaZ34dIbfvrK1nTek1NDRwW4H4g==
+X-Google-Smtp-Source: ABdhPJxGJjfZXiOhXdSsFC+vjplEzv25XW8meo0c7FxobyNFOfAFFs3lPVC1CXnfTPe5qFl0Awhq9dTkvWGQlQpGMiQ=
+X-Received: by 2002:a05:6402:221c:: with SMTP id cq28mr34078272edb.115.1627477183148;
+ Wed, 28 Jul 2021 05:59:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210728124755.GR1721383@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <CAOVCmzEJqg6=FW3Vu1MScyj8GS-KXb2s_ztxBxwDmcbN5sbQuA@mail.gmail.com>
+In-Reply-To: <CAOVCmzEJqg6=FW3Vu1MScyj8GS-KXb2s_ztxBxwDmcbN5sbQuA@mail.gmail.com>
+From:   Shivank Garg <shivankgarg98@gmail.com>
+Date:   Wed, 28 Jul 2021 18:29:27 +0530
+Message-ID: <CAOVCmzEzwFkiDz_Tf0LFQQZYKYdbACjyjdLOpawh0BB9JpDg1Q@mail.gmail.com>
+Subject: Fwd: /proc/pid/sched units
+To:     linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 09:47:55AM -0300, Jason Gunthorpe wrote:
-> So then we can write it like below?
+---------- Forwarded message ---------
+From: Shivank Garg <shivankgarg98@gmail.com>
+Date: Wed, Jul 28, 2021 at 6:26 PM
+Subject: /proc/pid/sched units
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux MM
+<linux-mm@kvack.org>, <util-linux@vger.kernel.org>
 
-> +if PCI || MMU
 
-The || here should be &&.  But otherwise, yes.
+Hi Everyone,
 
-> Unfortunately it deletes the nice
-> menu structure that groups all the PCI drivers together like platform
-> (and mdev in future). Not sure this loss is worth the backwards compat
+I'm analyzing the cpu time taken ("se.sum_exec_runtime" in
+/proc/$pid/sched) by process in different configurations for my
+project work. But I was not able to get the time units for the values
+displayed in the file. I tried searching it in source code -
+kernel/sched/cputime.c,include/linux/sched.h etc. but it left me more
+confused.
 
-All the ther visible options should depend on VFIO_PCI not VFIO_PCI_CORE.
-So we can still keep the same menu struture.
+Can you please answer me about the measurement units (is it
+microseconds, nanoseconds, jiffles ...) ?
 
+Also, I was not able to find proper documentation for /proc/pid/sched.
+Please point to me if it's already there. If not, I would love to
+contribute toward documenting these variables. It would be very
+helpful for newbies (like me) in future.
+
+Thanks,
+Best Regards,
+Shivank Garg
