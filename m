@@ -2,168 +2,341 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7459FC4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:25:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09EFC432BE
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:49:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4518F60F9D
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:25:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A984A60F58
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 00:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbhG1AZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jul 2021 20:25:26 -0400
-Received: from mail-dm6nam10on2071.outbound.protection.outlook.com ([40.107.93.71]:23212
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232778AbhG1AZZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Jul 2021 20:25:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mqXSeoALO4ceagFEbQ7PdDuXNrX5Po7M3bB6j0J0HFoteSrPDf+VZIqVZ2vvfyduBF8kng2wuIU9MOBEmgmLO9Q8H6/oGfnAb/Jq/a5woyIa71qGP0JDoRVI1eLYIPzl5g8AKdka9MnREugwo2JfuP4cFYSLqHnj6uMJPxsj1LHA3zUI3zdPBKi9m72yqmakbKq4y+qvzgc4tOxcoKDUYEMsHHArbYLTjctgjKv5IhCrehfKiAZuIX6WfsDowDrE/bZ8kK/cXiaw0AxP9ko3SR7BfW8BnD6fuGRTmTtaekSFHzSkF7+XzwqylwTxfajsmhe0VZejgVHxGRBGiKvvnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZM4bA0aJHOjHkpfMl2GzHejORM4gQj5erY2EsU2HIU0=;
- b=jCDY/WvX0vP1mvHJxGwJ2uInb669ZKhcVMP7gYeVnEJxMUvK9VOqCYgMlhRtKFWuVhu8sYrDRQk0it6xjWeFhZoqZqM6Xn79w2Si2iit4mSugizxzkacWPygp55HvvtUVA6wh15Uze7RmSsYIfYf6efgefi2+FA3Un4bj2paB9OdNbIU2GnWSQ2kAjelA7F44iXZXWgCsWiGjCrNyF9Ig3xb/IkuqYLhFgVjZ78pDzhN19iOvX0+mN28KPk6Iz6RmijsM6TvOdfnyLVXBKlaPQz9AimDrAlh4RmNiEVc0Q/UCp6pIelV/CLfrP2Tued9ksHVyKrzgWerD7fByjxOyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZM4bA0aJHOjHkpfMl2GzHejORM4gQj5erY2EsU2HIU0=;
- b=XaaSgMqg81dF1rnJ0n5D54Q3FtT5kQ9l9sU5hKucO7YQZ3ELAEnm1vtsuqj0oMeRr/b1kHduO0dvc8KGSObt1L39TkZjI2E9lNkSUB1Vpv/ujYQrulzvx7GFu5l3SzE7m/jAybeD5S8TdO+OGOR1sS96wutrMYAeZeolQZfvSv5jJR38/jhK6K/r9bb5CWlYuStlTR4hPIBOUnQZeuoTC/AipAoErCFX3eEKHg9jtsekQ4u3Noee0XhULMj4Gh6fkU2/6DfRsno86HOYT33FPIzftLW6XWDRAYeq/Q9qT7b/CYerDqauBbvTyFGjZ0M+YdDYIPFqXEJpcdor60QGHg==
-Received: from MW2PR16CA0032.namprd16.prod.outlook.com (2603:10b6:907::45) by
- DM6PR12MB3547.namprd12.prod.outlook.com (2603:10b6:5:18a::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.28; Wed, 28 Jul 2021 00:25:23 +0000
-Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:907:0:cafe::48) by MW2PR16CA0032.outlook.office365.com
- (2603:10b6:907::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17 via Frontend
- Transport; Wed, 28 Jul 2021 00:25:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 00:25:23 +0000
-Received: from [172.17.173.69] (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 28 Jul
- 2021 00:25:21 +0000
-Subject: Re: [RFC 02/11] drivers: Add HTE subsystem
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
-        <bgolaszewski@baylibre.com>, <warthog618@gmail.com>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <robh+dt@kernel.org>
-References: <20210625235532.19575-1-dipenp@nvidia.com>
- <20210625235532.19575-3-dipenp@nvidia.com> <YOK1Fq45P/DeqxAA@kroah.com>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-Message-ID: <60f42b1b-309a-52b2-3090-722a3b7360ac@nvidia.com>
-Date:   Tue, 27 Jul 2021 17:34:17 -0700
+        id S232934AbhG1AtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jul 2021 20:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232883AbhG1AtI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jul 2021 20:49:08 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE4DC061757;
+        Tue, 27 Jul 2021 17:49:06 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 3so718140qvd.2;
+        Tue, 27 Jul 2021 17:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZYSkWz7X4lVExOiPJYIDBIKS/NtBt7O7x8a39WZcw3A=;
+        b=XxXcSAvHMJhwvcJMawngDxrodFcL2rVGZxd02Jy4gc0VItkwXCY/5wc4zKof87q1rI
+         gC6R9QO9JRWd148OyM03HUlx2p3Arz6gF4XjTLOV9Co3CGT7YwRJ4S0sybasvynrgGMk
+         a2UujeghF0Y4ziZ6k1DGo/AM8u5215eD0xqdm5zpEq94N0uZiymbgBWhxxM7CLwnUdWp
+         N/EfXnHNN87tcsaJ0T/wyc8cAtalWSB/du8b1rjoiQbvQU4ff2kZRRYWQ0S7ChP6AkmM
+         RgkvMwreh14PxMO23goH1W/q+DjP0Ot4yRjO6CuVKDe5YojCjSC0XbAjOYgoERHmbbln
+         zsCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZYSkWz7X4lVExOiPJYIDBIKS/NtBt7O7x8a39WZcw3A=;
+        b=SW/+/muBHEFSViIpL87+syfKR4s6aMo5/Y9lVyvRgo/M3mJjBUIDte4znVHdZqidp7
+         7txQmBebx8436xw1DMnZjzs2YLvbm8GE+fXBAn8K5hLTgXf/XZLpgiw6BWY4Kye2gjfB
+         dgFISPtcVDcDIYMSL5n5B0TM2uzg0oeyrg1kiFv1sZo3+ucxEyoHeOHknY1mZ9knYS1x
+         mVEJHFI7vqtrX5v8F6fi54g/F93BCe1BY/ewM9adobRTb1rq4QZZfvJBREVOpSWQ945o
+         lslM7y9arWaReKS04ofnk2u9WZKCW/4Z8HAYjST0pOq+sIU3/vc1KmkXCypWOBHgf+3B
+         7i3w==
+X-Gm-Message-State: AOAM532VAYRwYycWpni4Yb9LDeOp2rHJlKeZZ3UfSCqPXGi0XrGpY3XC
+        AnXG3FykpInb3YqWHHvhWw0=
+X-Google-Smtp-Source: ABdhPJxdzeFGwi00dHcakpdAEHj91b5POB/NtMklO+oyPvYZZZaVzb+xSa7UDkJ1O5U7s1PTVATRaQ==
+X-Received: by 2002:ad4:58cb:: with SMTP id dh11mr8742794qvb.29.1627433345679;
+        Tue, 27 Jul 2021 17:49:05 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f11sm2191098qtp.85.2021.07.27.17.49.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jul 2021 17:49:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH 13/14] docs: hwmon: Document PECI drivers
+To:     Zev Weiss <zweiss@equinix.com>,
+        Iwona Winiarska <iwona.winiarska@intel.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yazen Ghannam <yazen.ghannam@amd.com>
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-14-iwona.winiarska@intel.com>
+ <20210727225808.GU8018@packtop>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <0521a076-9772-532f-2eab-8870464ca211@roeck-us.net>
+Date:   Tue, 27 Jul 2021 17:49:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YOK1Fq45P/DeqxAA@kroah.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210727225808.GU8018@packtop>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e40ddf2f-c89e-4c25-6afa-08d9515e30a6
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3547:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB354796749412CCFD0D9A97EFAEEA9@DM6PR12MB3547.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LRLcm5tu1lr+XtzvsOibKyPJOHRkAK+g9fJFzYeCFLVL0LFEr+d1POOEUTYPaOXdBKY4+Lwm4AJElxX+xLW1Aqc85AbIeliJX4FAdnsU/FuYA0QAnb4Avk7qCDf3ODz7czPjODBQm7EdrfHHQEDNnml+tP59DaJONesldi94f7jTDle5TJUEi5c+rsERs2ZIRvWAyeVzUq6LXGlPNA1SpS0ASHEJh8vlIfWzgZLxbYj94SJ9JVjQxOSsRiMY6YQKvXNtSHI7exNjUI8IXLug1GOYDaG6QXHL1rqu7/cLJOUdsr6OGjf39dGqL0VYR1wCJhDE6MhpKePYtUV8jvm7PNVxaT8ZBVkEZqC8vgEjMSvXVz/GRibmh3SPs7AvC/jsGth8P9PDD3Yw7Nos4JdXqx9JNdDYNvQoVB2Dcs+4QesGjwvQPIqc9UdJv193TZA31qt4XRUkuom+4xUVKMgb/eUwxussEPTTR7fV6UoKjfLCQhrRq98HMiIN8HPxD6nj/vG1o3jUeNyoSQqs63UHAazte2/7X0j9832DFC6qvsIBgLfRG/iAQYab8xcCgcy0BPiNisKwzbbWnsysSCxErCC723YmMDqAIcWEBSR0ItXFeFYrgFpmaXDYwBMfv1y8X3zTUYTWKj6rdWX44164THzQNuZRVSWa/x2xeP/UWMxqm25EHKWRzXVYnjoZjQmgjzRvbQwNoCa+tFbkI0HiPrfkkrkPvHWNWACzb2sUc28=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(46966006)(36840700001)(70586007)(6666004)(478600001)(5660300002)(336012)(70206006)(186003)(82740400003)(8676002)(36756003)(36860700001)(16576012)(31686004)(8936002)(36906005)(54906003)(2616005)(316002)(426003)(86362001)(4326008)(7636003)(82310400003)(53546011)(26005)(31696002)(16526019)(6916009)(2906002)(7416002)(47076005)(356005)(83380400001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 00:25:23.3484
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e40ddf2f-c89e-4c25-6afa-08d9515e30a6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3547
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Greg for the review comments. I will address all in next RFC version2.
+On 7/27/21 3:58 PM, Zev Weiss wrote:
+> On Mon, Jul 12, 2021 at 05:04:46PM CDT, Iwona Winiarska wrote:
+>> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>>
+>> Add documentation for peci-cputemp driver that provides DTS thermal
+>> readings for CPU packages and CPU cores and peci-dimmtemp driver that
+>> provides DTS thermal readings for DIMMs.
+>>
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>> ---
+>> Documentation/hwmon/index.rst         |  2 +
+>> Documentation/hwmon/peci-cputemp.rst  | 93 +++++++++++++++++++++++++++
+>> Documentation/hwmon/peci-dimmtemp.rst | 58 +++++++++++++++++
+>> MAINTAINERS                           |  2 +
+>> 4 files changed, 155 insertions(+)
+>> create mode 100644 Documentation/hwmon/peci-cputemp.rst
+>> create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
+>>
+>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+>> index bc01601ea81a..cc76b5b3f791 100644
+>> --- a/Documentation/hwmon/index.rst
+>> +++ b/Documentation/hwmon/index.rst
+>> @@ -154,6 +154,8 @@ Hardware Monitoring Kernel Drivers
+>>     pcf8591
+>>     pim4328
+>>     pm6764tr
+>> +   peci-cputemp
+>> +   peci-dimmtemp
+>>     pmbus
+>>     powr1220
+>>     pxe1610
+>> diff --git a/Documentation/hwmon/peci-cputemp.rst b/Documentation/hwmon/peci-cputemp.rst
+>> new file mode 100644
+>> index 000000000000..d3a218ba810a
+>> --- /dev/null
+>> +++ b/Documentation/hwmon/peci-cputemp.rst
+>> @@ -0,0 +1,93 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +Kernel driver peci-cputemp
+>> +==========================
+>> +
+>> +Supported chips:
+>> +	One of Intel server CPUs listed below which is connected to a PECI bus.
+>> +		* Intel Xeon E5/E7 v3 server processors
+>> +			Intel Xeon E5-14xx v3 family
+>> +			Intel Xeon E5-24xx v3 family
+>> +			Intel Xeon E5-16xx v3 family
+>> +			Intel Xeon E5-26xx v3 family
+>> +			Intel Xeon E5-46xx v3 family
+>> +			Intel Xeon E7-48xx v3 family
+>> +			Intel Xeon E7-88xx v3 family
+>> +		* Intel Xeon E5/E7 v4 server processors
+>> +			Intel Xeon E5-16xx v4 family
+>> +			Intel Xeon E5-26xx v4 family
+>> +			Intel Xeon E5-46xx v4 family
+>> +			Intel Xeon E7-48xx v4 family
+>> +			Intel Xeon E7-88xx v4 family
+>> +		* Intel Xeon Scalable server processors
+>> +			Intel Xeon D family
+>> +			Intel Xeon Bronze family
+>> +			Intel Xeon Silver family
+>> +			Intel Xeon Gold family
+>> +			Intel Xeon Platinum family
+>> +
+>> +	Datasheet: Available from http://www.intel.com/design/literature.htm
+>> +
+>> +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> +
+>> +Description
+>> +-----------
+>> +
+>> +This driver implements a generic PECI hwmon feature which provides Digital
+>> +Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that are
+>> +accessible via the processor PECI interface.
+>> +
+>> +All temperature values are given in millidegree Celsius and will be measurable
+>> +only when the target CPU is powered on.
+>> +
+>> +Sysfs interface
+>> +-------------------
+>> +
+>> +======================= =======================================================
+>> +temp1_label		"Die"
+>> +temp1_input		Provides current die temperature of the CPU package.
+>> +temp1_max		Provides thermal control temperature of the CPU package
+>> +			which is also known as Tcontrol.
+>> +temp1_crit		Provides shutdown temperature of the CPU package which
+>> +			is also known as the maximum processor junction
+>> +			temperature, Tjmax or Tprochot.
+>> +temp1_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
+>> +			the CPU package.
+>> +
+>> +temp2_label		"DTS"
+>> +temp2_input		Provides current DTS temperature of the CPU package.
+> 
+> Would this be a good place to note the slightly counter-intuitive nature
+> of DTS readings?  i.e. add something along the lines of "The DTS sensor
+> produces a delta relative to Tjmax, so negative values are normal and
+> values approaching zero are hot."  (In my experience people who aren't
+> already familiar with it tend to think something's wrong when a CPU
+> temperature reading shows -50C.)
+> 
 
-Best Regards,
+All attributes shall follow the ABI, and the driver must translate reported
+values to degrees C. If those sensors do not follow the ABI and report something
+else, I won't accept the driver.
 
-Dipen Patel
+Guenter
 
-On 7/5/21 12:30 AM, Greg KH wrote:
-> On Fri, Jun 25, 2021 at 04:55:23PM -0700, Dipen Patel wrote:
->> +static void hte_chip_dbgfs_init(struct hte_device *gdev)
->> +{
->> +	const struct hte_chip *chip = gdev->chip;
->> +	const char *name = chip->name ? chip->name : dev_name(chip->dev);
+>> +temp2_max		Provides thermal control temperature of the CPU package
+>> +			which is also known as Tcontrol.
+>> +temp2_crit		Provides shutdown temperature of the CPU package which
+>> +			is also known as the maximum processor junction
+>> +			temperature, Tjmax or Tprochot.
+>> +temp2_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
+>> +			the CPU package.
 >> +
->> +	gdev->dbg_root = debugfs_create_dir(name, hte_root);
->> +	if (!gdev->dbg_root)
->> +		return;
-> No need to check for this, if it fails, your other debugfs calls
-> will handle it just fine.
->
->
+>> +temp3_label		"Tcontrol"
+>> +temp3_input		Provides current Tcontrol temperature of the CPU
+>> +			package which is also known as Fan Temperature target.
+>> +			Indicates the relative value from thermal monitor trip
+>> +			temperature at which fans should be engaged.
+>> +temp3_crit		Provides Tcontrol critical value of the CPU package
+>> +			which is same to Tjmax.
 >> +
->> +	debugfs_create_atomic_t("ts_requested", 0444, gdev->dbg_root,
->> +				&gdev->ts_req);
->> +	debugfs_create_u32("total_ts", 0444, gdev->dbg_root,
->> +			   &gdev->nlines);
->> +}
+>> +temp4_label		"Tthrottle"
+>> +temp4_input		Provides current Tthrottle temperature of the CPU
+>> +			package. Used for throttling temperature. If this value
+>> +			is allowed and lower than Tjmax - the throttle will
+>> +			occur and reported at lower than Tjmax.
 >> +
->> +static void hte_ts_dbgfs_init(const char *name, struct hte_ts_info *ei)
->> +{
->> +	if (!ei->gdev->dbg_root || !name)
->> +		return;
+>> +temp5_label		"Tjmax"
+>> +temp5_input		Provides the maximum junction temperature, Tjmax of the
+>> +			CPU package.
 >> +
->> +	ei->ts_dbg_root = debugfs_create_dir(name, ei->gdev->dbg_root);
->> +	if (!ei->ts_dbg_root)
->> +		return;
-> Again, no need to check.
->
+>> +temp[6-N]_label		Provides string "Core X", where X is resolved core
+>> +			number.
+>> +temp[6-N]_input		Provides current temperature of each core.
+>> +temp[6-N]_max		Provides thermal control temperature of the core.
+>> +temp[6-N]_crit		Provides shutdown temperature of the core.
+>> +temp[6-N]_crit_hyst	Provides the hysteresis value from Tcontrol to Tjmax of
+>> +			the core.
+> 
+> I only see *_label and *_input for the per-core temperature sensors, no
+> *_max, *_crit, or *_crit_hyst.
+> 
 >> +
->> +	debugfs_create_size_t("ts_buffer_depth", 0444, ei->ts_dbg_root,
->> +			      &ei->buf->datum_len);
->> +	debugfs_create_size_t("ts_buffer_watermark", 0444, ei->ts_dbg_root,
->> +			      &ei->buf->watermark);
->> +	debugfs_create_atomic_t("dropped_timestamps", 0444, ei->ts_dbg_root,
->> +				&ei->dropped_ts);
->> +}
+>> +======================= =======================================================
+>> diff --git a/Documentation/hwmon/peci-dimmtemp.rst b/Documentation/hwmon/peci-dimmtemp.rst
+>> new file mode 100644
+>> index 000000000000..1778d9317e43
+>> --- /dev/null
+>> +++ b/Documentation/hwmon/peci-dimmtemp.rst
+>> @@ -0,0 +1,58 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
 >> +
->> +static inline void hte_dbgfs_deinit(struct dentry *root)
->> +{
->> +	if (!root)
->> +		return;
-> No need to check this.
->
+>> +Kernel driver peci-dimmtemp
+>> +===========================
 >> +
->> +	debugfs_remove_recursive(root);
-> Do not wrap a single call with another call :)
->
->
-> thanks,
->
-> greg k-h
+>> +Supported chips:
+>> +	One of Intel server CPUs listed below which is connected to a PECI bus.
+>> +		* Intel Xeon E5/E7 v3 server processors
+>> +			Intel Xeon E5-14xx v3 family
+>> +			Intel Xeon E5-24xx v3 family
+>> +			Intel Xeon E5-16xx v3 family
+>> +			Intel Xeon E5-26xx v3 family
+>> +			Intel Xeon E5-46xx v3 family
+>> +			Intel Xeon E7-48xx v3 family
+>> +			Intel Xeon E7-88xx v3 family
+>> +		* Intel Xeon E5/E7 v4 server processors
+>> +			Intel Xeon E5-16xx v4 family
+>> +			Intel Xeon E5-26xx v4 family
+>> +			Intel Xeon E5-46xx v4 family
+>> +			Intel Xeon E7-48xx v4 family
+>> +			Intel Xeon E7-88xx v4 family
+>> +		* Intel Xeon Scalable server processors
+>> +			Intel Xeon D family
+>> +			Intel Xeon Bronze family
+>> +			Intel Xeon Silver family
+>> +			Intel Xeon Gold family
+>> +			Intel Xeon Platinum family
+>> +
+>> +	Datasheet: Available from http://www.intel.com/design/literature.htm
+>> +
+>> +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> +
+>> +Description
+>> +-----------
+>> +
+>> +This driver implements a generic PECI hwmon feature which provides Digital
+>> +Thermal Sensor (DTS) thermal readings of DIMM components that are accessible
+>> +via the processor PECI interface.
+> 
+> I had thought "DTS" referred to a fairly specific sensor in the CPU; is
+> the same term also used for DIMM temp sensors or is the mention of it
+> here a copy/paste error?
+> 
+>> +
+>> +All temperature values are given in millidegree Celsius and will be measurable
+>> +only when the target CPU is powered on.
+>> +
+>> +Sysfs interface
+>> +-------------------
+>> +
+>> +======================= =======================================================
+>> +
+>> +temp[N]_label		Provides string "DIMM CI", where C is DIMM channel and
+>> +			I is DIMM index of the populated DIMM.
+>> +temp[N]_input		Provides current temperature of the populated DIMM.
+>> +temp[N]_max		Provides thermal control temperature of the DIMM.
+>> +temp[N]_crit		Provides shutdown temperature of the DIMM.
+>> +
+>> +======================= =======================================================
+>> +
+>> +Note:
+>> +	DIMM temperature attributes will appear when the client CPU's BIOS
+>> +	completes memory training and testing.
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 35ba9e3646bd..d16da127bbdc 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14509,6 +14509,8 @@ M:	Iwona Winiarska <iwona.winiarska@intel.com>
+>> R:	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> L:	linux-hwmon@vger.kernel.org
+>> S:	Supported
+>> +F:	Documentation/hwmon/peci-cputemp.rst
+>> +F:	Documentation/hwmon/peci-dimmtemp.rst
+>> F:	drivers/hwmon/peci/
+>>
+>> PECI SUBSYSTEM
+>> -- 
+>> 2.31.1
+>>
+> 
+
