@@ -4,53 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A766C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 21:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D48FC4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 23:22:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27E1E60F00
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 21:30:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FA8E60EE6
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 23:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbhG2VaV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jul 2021 17:30:21 -0400
-Received: from mx0b-00268f01.pphosted.com ([148.163.159.192]:63656 "EHLO
-        mx0b-00268f01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229510AbhG2VaU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 17:30:20 -0400
-X-Greylist: delayed 2347 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Jul 2021 17:30:19 EDT
-Received: from pps.filterd (m0165120.ppops.net [127.0.0.1])
-        by mx0b-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16TKgob6019324;
-        Thu, 29 Jul 2021 20:50:15 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2045.outbound.protection.outlook.com [104.47.51.45])
-        by mx0b-00268f01.pphosted.com with ESMTP id 3a3tk0a98x-1
+        id S234379AbhG2XXA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jul 2021 19:23:00 -0400
+Received: from mx0a-00268f01.pphosted.com ([148.163.148.236]:44252 "EHLO
+        mx0a-00268f01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229975AbhG2XW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 19:22:59 -0400
+Received: from pps.filterd (m0165118.ppops.net [127.0.0.1])
+        by mx0a-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16TNIvNP017080;
+        Thu, 29 Jul 2021 23:22:10 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+        by mx0a-00268f01.pphosted.com with ESMTP id 3a3tahar06-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Jul 2021 20:50:15 +0000
+        Thu, 29 Jul 2021 23:22:09 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NES7Kp/9D03MXYQd6tzB5T5nvqZZHZczX1ZxpS0H6erzQVRYkx/HHOTZk+XSypX5pPJjbT3xGSDvCiZZiDxqPcgUcfPlIlSGvbjXwvdeme2IFchz2R4I3+gsqjmUCMD7npOR6k1IIhFXvRYzwflBaO+IzaQDwKIGilVf7CWNL0PJR4ZjhRguACXD092WA2zVD+DBpk56gpFo8ZmVYOWXWi1DkmxSWmrKpT/kIs0DvUB3p95IsvXaIc5KX8ouLf/IelWtQJcFgX1shJCSd7s1cVzTZAwI/BJdfFC8fvC3blVVFeVBo8Lvv/CpSeHgs2L4NwItJx3VQapiAO1KaqC+GA==
+ b=iQ/WTtrGKv17L9/7ymtvTvs3fMx3yvZp6kOWmEYSMpMWJgQjuESYngAvExObz2enU4b4DNPUv7KZoH0vBlo1xw8y8wFfiliNo32tgpiujzBdXbuZr6RzWP+5Q5IGdF0Pdym/TGjhNE4cg6XokAyP8zLkCfdyOVLKyV4rFgTgXqJWV2x1xUogae88+5oOhHYS855I111/q1Hs27GnoeImNG1HwAfHBV9a/QGmoGu5fxp8Rl+t7Eh7gTtw5e+aSOzbHJIHxFHJIyhuXQRO/sm++m59p/YSUvQ3SaY7fch//1MghbOhQ+k9uVgTrM7ocOI4N86/X6d5P4uEn19mgnnU0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eNeL72L8iCd+/leG/gVC7SkZWEm8NHKFBt9sz4oGYnY=;
- b=TlR7JLjkf82vUolqaSNvpkqh/v2hbUdRkTYuKvS4ymdsju/UwQ2RkmmM9pNpNiOPPwHAB/dAI7VLeg7wlnF4MxMRi+jxCNAbx+oFGTiZDf8yK569B0Ce7VEufYz/afTG/vO9VUKKot4JiaQTxKiLgFQKNkq6CFie2IGRO/myiu0Oh9cJmbG3wngOemyYd3dNWTYWMj6TMI4D5L/bpYk/kp/g5Jq7VcSRlOlUc1xl4vbjJgLSE0HOyi50dpdxTtOe6p5ENcxl6T+pzeiVoNIUz/lFSx+IfgS4PbT1nowKukFzsxsk4X9T6awEqAbfr7XUJxbnXbOV97g2KKQ2ZXO+Jg==
+ bh=YHRFV2Xc+3TF3j0b2+QRHRqrReuwcQDuUEPR4rxnZDg=;
+ b=eOsxreHA52ASNedXKC3axt7l3VS5g0ZQV6V+eCOrYg7oGNmleIwk8OjcUEVELrN6d9PMgLfX9oFaYQW2GYf5jKZtxIW47n0z5eFRHsdalROkx/d1jjOInIL1/eLNWCyCftPJp1hgWscTF3QVEO6hPcH/Rz48Le/Nr7OZyDiuNxbewzkS4C+fylRwJ7D0MX/ZQjJMrZFK18MGaDdkU8M0qK+UZSJU/03sRuLV4+rzLOCG0dCWqTpvrcMFeHQ7cIJdvRQCK1PbZfWkIcUsVERWi22+Wr1I2otN2sEpnnvgIcK/gtWm5+57BBfhWJ72Ee1vpYXK8OUz0/fDEPfPYIToWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
  dkim=pass header.d=equinix.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=equinixinc.onmicrosoft.com; s=selector2-equinixinc-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eNeL72L8iCd+/leG/gVC7SkZWEm8NHKFBt9sz4oGYnY=;
- b=EwKYSfswYfurKxypF6bvxBAhZ0h2hlDicHLF1n7YMUpv5CCLa1bjYwrhxy0snacm40+fgCy9m/trlQLXxCY5klRp+J0INXBjaDnWztWvwTaZf08yGFKLSC0a/3MDtvUUP595jtMAiGBOVMcFHRdekchYVFnkyIleZR6U69t7PXQ=
+ bh=YHRFV2Xc+3TF3j0b2+QRHRqrReuwcQDuUEPR4rxnZDg=;
+ b=LtKXcA/DLuJDvUOqoxKl6fdo3+p/0TwzUpdxzxjnbxPsIQ/aKQfvOBfZXMUJHTsQw6+9j8rzV7i9M+RCZaXN++HpC6l/4bJk9OOPH8hyG1OERtbWVcVbFJd7B4zIC9cyPyt7epJoxb3HbP9QIPlNMvgJG4ZOMVFf+jFfuIkU/iQ=
 Received: from DM8PR04MB8007.namprd04.prod.outlook.com (2603:10b6:5:314::20)
- by DM8PR04MB7829.namprd04.prod.outlook.com (2603:10b6:8:3b::23) with
+ by DM8PR04MB7895.namprd04.prod.outlook.com (2603:10b6:8:39::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Thu, 29 Jul
- 2021 20:50:13 +0000
+ 2021 23:22:06 +0000
 Received: from DM8PR04MB8007.namprd04.prod.outlook.com
  ([fe80::953d:f9ec:b2cc:ca2b]) by DM8PR04MB8007.namprd04.prod.outlook.com
  ([fe80::953d:f9ec:b2cc:ca2b%5]) with mapi id 15.20.4373.021; Thu, 29 Jul 2021
- 20:50:13 +0000
+ 23:22:06 +0000
 From:   Zev Weiss <zweiss@equinix.com>
 To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
 CC:     "corbet@lwn.net" <corbet@lwn.net>,
@@ -80,16 +79,16 @@ CC:     "corbet@lwn.net" <corbet@lwn.net>,
         <andriy.shevchenko@linux.intel.com>,
         "x86@kernel.org" <x86@kernel.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 08/14] peci: Add device detection
-Thread-Topic: [PATCH 08/14] peci: Add device detection
-Thread-Index: AQHXgw+vLl0u04R8dUC2G5CmB0KiZataUG2AgAAgG4A=
-Date:   Thu, 29 Jul 2021 20:50:13 +0000
-Message-ID: <20210729205013.GW8018@packtop>
+Subject: Re: [PATCH 09/14] peci: Add support for PECI device drivers
+Thread-Topic: [PATCH 09/14] peci: Add support for PECI device drivers
+Thread-Index: AQHXgyNyOfnUTEQoM0K8bE1+mPB05atad+MAgAAi7IA=
+Date:   Thu, 29 Jul 2021 23:22:06 +0000
+Message-ID: <20210729232205.GX8018@packtop>
 References: <20210712220447.957418-1-iwona.winiarska@intel.com>
- <20210712220447.957418-9-iwona.winiarska@intel.com>
- <20210727174900.GR8018@packtop>
- <47440a8329ce06c41ca9746db42cb1d66154ea46.camel@intel.com>
-In-Reply-To: <47440a8329ce06c41ca9746db42cb1d66154ea46.camel@intel.com>
+ <20210712220447.957418-10-iwona.winiarska@intel.com>
+ <20210727201028.GS8018@packtop>
+ <79f5b6ed4942ddeb66beea03907a58495376ccef.camel@intel.com>
+In-Reply-To: <79f5b6ed4942ddeb66beea03907a58495376ccef.camel@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -97,555 +96,917 @@ X-MS-TNEF-Correlator:
 authentication-results: intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=none action=none header.from=equinix.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 461ce947-86fb-40de-c456-08d952d276bf
-x-ms-traffictypediagnostic: DM8PR04MB7829:
-x-microsoft-antispam-prvs: <DM8PR04MB782987A0EA48D17B10CCFE7DC3EB9@DM8PR04MB7829.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 497ae37b-902a-439c-775a-08d952e7ae51
+x-ms-traffictypediagnostic: DM8PR04MB7895:
+x-microsoft-antispam-prvs: <DM8PR04MB7895A7CDFC1A9EFC4D2CE147C3EB9@DM8PR04MB7895.namprd04.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jbb/50gBwchHZUlFwGD036I2QLR6mcz5c5BbgNTpzE7r4K8CoXDlYkOomTvVG40HWlXa4lFj9RdY37AbDx2C+N51mWx2I350zlNvuJk4Uxp2A4qXhFtgsrvSuKjhEQg1l58W2WJMEhMm3RiCkCHsYGezm099ZuhLfXy4Y2AZ0LimPiQm570qqQZDGlnNcRmwxjsxyXe8jKZHEV0+lZPrg1ry/ugUbvVK3BjXTNna60FDwtMlV0MSipfMhd5fNIxEFsLfjL4KrW8ttppSI2E4GkUd4WXWMIHoiXFH3HbP6PdrQ061lUWnBZl+fGvWmWgjZy0Bj8bSbhGyKLnPTLHntvHKusvyx5h9n03gVU3ufVZTcqa4ugfjVat92hdMd5/yGwpnalNlfv6PcZj4pzh7fI1wpVc3cSTStQ45Fr1dyfplxfw8ACJwq+jetmpvJM3DnhPaqXFM8mPezthlOz1UAM5jc3w70QLK7E57NwGAnpjtmJEpYMlD2y/EwsVK4TnHEpBbHCjWRzlzjM7SPGcrCZxW6hKURL25Ph1ygkSc/pCl8WD2asdAc79Re6bRCIrsH9O2BAclrKMlM0R13lV0rwoFmVIwMwZiWwbRsvsDpiOhZAbamz92DaSW+pMtORmIzfAm10I8aXCyIwkzIVn2Ht1yBuaTw10jNPLDIog6PQJvsAGLBcnMtIiPWcheSPdxfXC8mbI/CJ4y75AfBRHYzQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8007.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(7916004)(366004)(7416002)(66556008)(86362001)(316002)(5660300002)(66476007)(66446008)(71200400001)(64756008)(8676002)(83380400001)(6916009)(30864003)(38100700002)(2906002)(26005)(38070700005)(66946007)(1076003)(76116006)(508600001)(186003)(8936002)(33716001)(33656002)(6486002)(4326008)(6512007)(9686003)(6506007)(122000001)(54906003);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 8UhPevwxQbaREsJGAzVrVpIjPfavfc8wkLRmMRWzaFI3yZbf3yvA9T7xJ27sd0EhRP0uzofj4oastFIbpBI9GK+VPJiZ9Jr9b98DO/8QKUn/X1lG1hxnEqylhFySBzSsC5pfeDzOIyZ4hiGWmIAJjAWwbQAdmK+0B+OlTl2tJ42qF69ymcyuwC+tEXeKwXT9CtHLKx+EiAgAfJzZQCesawPkh46MYBgev5jXspkeeV8fTOGfKXqEEAdymOUuNKUVahF+n1L1rAILw72OLAfG4GqQybT/2/UtIhSPVqallJk0fJ6zHkYeu2RAzyqCVRiK8FN/eY0btQCFGRnXtMVRsZFz+ajyn6JsOVC/RrRx4btpj7SEBwJhZGhc4pfEO714JepJXcXFkQT6IfxOUoF5N0i1YtQkHi5nnILhaZQzB/6IUhWqV/jjeihNWztR+IC33skTqqOlt+6SvP4MCpuY/h19Zn5FLhOFVKQ/f9bqXGP4CCDRGcC+aNaxzCy3fRX0IGJwA6PaX9ULypa139CmNwijKEsqLxpciG/aT9kAMYDUsW9ScDdtLSQ0c4b70GvgNsI6m8oVK7uyWZvyu2TrmzkdQcZ5Lwkklif19rOBASvPTTf26J8GtkSw1GN0V6GFN01ANEUj5/H/h0ZPhc2q/KrqGiEdaAspSCeyTyGjxopfizT34ymHQ5ZD63MPBjiHz8+R0QmL6bqcSgNVqIqcIg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8007.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(7916004)(136003)(346002)(396003)(366004)(376002)(39860400002)(7416002)(6506007)(6486002)(8676002)(4326008)(71200400001)(30864003)(26005)(9686003)(83380400001)(38070700005)(122000001)(6512007)(1076003)(38100700002)(64756008)(6916009)(76116006)(66476007)(54906003)(66556008)(33716001)(66946007)(66446008)(91956017)(2906002)(86362001)(478600001)(316002)(8936002)(186003)(33656002)(5660300002)(559001)(579004);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?+heh0h9g70kcjkEQS2t64qP+zwHZoQXYHlABlDjcJ892OE7UXk25y7ONRq?=
- =?iso-8859-1?Q?e9sg+uCZxr5g8ZTX/+7SetaM2yl51UI31rFs4nuzYLNySWwsOC2aGBbKmg?=
- =?iso-8859-1?Q?oYGXHvOWwWrQaakdq2GFesDpfpPvv769GAKyGP3/l/brnXBTmtxdfJebnc?=
- =?iso-8859-1?Q?JNmSsWUt9rr3M1MVphBH/xVaZveEwRN8ZHTrYjzx4ax/BBzE38xQ/SQIYe?=
- =?iso-8859-1?Q?vK9tgMeoWphXWL96NQQdf7zdGs+z3izXOEA909CF7cUjyNJeiKizEaS2RV?=
- =?iso-8859-1?Q?F1+yM+NZJgjnPPTcf93wRsxxwdPA5kRtJu9sczOnTgIZzvGpSrFRE9nHHI?=
- =?iso-8859-1?Q?+m0HI3JzCLn9PCwCavUfw7VJg3b+pb9ilHdVsarBeQzD6muZ0Wm60bu/Sf?=
- =?iso-8859-1?Q?ABXLpoadpqaiazGz+MAR0nH7a99Kr+EpzMYje/I3zu+Ov8hM8ax+/KAwDk?=
- =?iso-8859-1?Q?Yvv1o36D0gzjP21HlxNyXJrpco+S61HFJ8MjarG60uTqdTcRSd59uWgubi?=
- =?iso-8859-1?Q?jkkFzIk8Q1Q+gZ5DZW4fJhpqjD1py1A/y1Kbbx8b3T07Qo0gKFCdgXKA9r?=
- =?iso-8859-1?Q?t73w2iw3eDv4tG/vnYxOSsJAUH/bYhb4LDR2xefn49m2RHJMymk5V0e3wm?=
- =?iso-8859-1?Q?x0hq55XtRFiFg5FHTihztDpB5g8BVbaGBQJ/ef+yiVnIipyA3N9BdlWQDF?=
- =?iso-8859-1?Q?fKNoY9N8x6ndJJ4/kciYvYjzkHJjOcTmpWrwrxB8x7XV8jrzowazWn7Utb?=
- =?iso-8859-1?Q?Cv3S6tUSnQf0qsOfXgq+G6lsbx+xJK1nvzjf6TDA1R6uuG7ueUypjhLxVQ?=
- =?iso-8859-1?Q?0czL/2kOfqhVHuNcFi/ATEKfikTpYsPATsIkkauiqBaJGpZf2MffQgFP+v?=
- =?iso-8859-1?Q?7JIETf2Jmf8dQSZYhaJ9TIIOZJPWOBU/mYCKjPnhbov9/B1zlaoTbKO36X?=
- =?iso-8859-1?Q?HaiUBt02EZVF8zVbuqO112SU5WTCuzJc8v17g9+8BurKeCdyB40KS9Re0Z?=
- =?iso-8859-1?Q?ii2Yv8BRMBZOLwuz+YHaWi/NmjvuKwlbsQj9CrhiWjbM/xJNa9B1JNwyCo?=
- =?iso-8859-1?Q?vmULZjVJl3wXQxjD+eJlHzXq/MacTCsUnEL14lTrSA1hXAt+WxS2Qu3A2X?=
- =?iso-8859-1?Q?/qe+IhLUBYInYJ1BeiDNSBCUVQvm0KrI6SvtX9pMH7fqJAOg8sxxVqzLak?=
- =?iso-8859-1?Q?Q5NjiVnOGvtkcsfdBp/ax55XIqgmn/mnm6g2a1ZTnwjxfp3MKOwSMqRCyI?=
- =?iso-8859-1?Q?KLnJhusHdKu6uXoGdAx9WUAExESYhNheC/4uDJf6Fslezo3jrrxZIcBlvm?=
- =?iso-8859-1?Q?J8J8K0IuBlbjX/JlUC24wAUctT5Q4lBgKLLxJ4DwR9kbMvVbCCieAguMWg?=
- =?iso-8859-1?Q?qFamOGW6m4?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?v6BKSIh0G8iZTzZzmmL2kcD4ei+alT0xdajD3/HPLeFJvaFTIA8B6Z6Bz0?=
+ =?iso-8859-1?Q?eWYgAGH1nUg/PwUlrWJH68MFB6hEMp7+xOWfxCmZOo4GfyY0XE04QrB+yy?=
+ =?iso-8859-1?Q?eKmXuYt3yigVvC9nB+O05UY3MSz5+xsTPKaw4oVA4r4pDrlP6rqb4SVzTH?=
+ =?iso-8859-1?Q?PhkOjbE04ZoLXOQIAjqlOb65NKJGVoO/qGcj91NbqEoSEg9nqmMKz0SfB5?=
+ =?iso-8859-1?Q?T4oYTHFdg9xj2h19jzLkoetmJDQrfmK4xzojYitS0qDLUeAYMIJt+y/DtT?=
+ =?iso-8859-1?Q?g9ocvOCZGaLC00X9xNP1Qr+wHhRxdwF1GtAOhecMq9O+nKOhtJn+BjlNSt?=
+ =?iso-8859-1?Q?qMigumYfwPOjvy2VC1Aerj+wJcuV+DIu/lsfuBlZ9EqP+1ryom0kft6Y9E?=
+ =?iso-8859-1?Q?BHwZv3vKGwncJl42yWdyVbUopPZk53eHsBrv2oOP/v9PxxfD9l2mQ8UCbf?=
+ =?iso-8859-1?Q?g0ubVDhpfprYAT5ZXwc4Coholk5BXB/GDU3oU21Lgab86wZk0Gi1I69SmJ?=
+ =?iso-8859-1?Q?zS1w87QgEJIGuWW6bTWtdsFSu7vv61tP5xBcnoz3LyGxlozl2Y87F82yiJ?=
+ =?iso-8859-1?Q?MshFWx3X8lop9MdDrSKHKxtVWi/+S+GsVzYViGTe96cSpRS3eB+G8VGfPx?=
+ =?iso-8859-1?Q?XLSUU6py+FsMWklLN7OimScp7l/iCX+ePX/F85RllPHI9sck7XWTfiG+wh?=
+ =?iso-8859-1?Q?2envhAmPEnXiA/T8/fQWbPKlcFHG4uzZAGfg1hpU02Kuo1Hux5YaEE5DMg?=
+ =?iso-8859-1?Q?fDamjQkwki6NgtSDtGN2AOrSoSO87ClmebyRKC7p4TPpRKLcYM2rF0VWhA?=
+ =?iso-8859-1?Q?a3Q95uPY6kbgUL0u9R66Fr3Cov0Milw+EbLcUAGo8/rnftnYxMLbuhbSrx?=
+ =?iso-8859-1?Q?NAROvVfpc8xQ9eerJbfG3zTlBkQI4D+vP6s0AHveZlZxaNBlW9CGweUyOa?=
+ =?iso-8859-1?Q?qvzY6Rpg6JUE/B/Amq9EajRPWaELPlGoTTmQy//is2w8XLuGN/mqARtpxS?=
+ =?iso-8859-1?Q?BKH7GbsB4VYJ6FBnLhqD+bTenFWDcYcfPbkTuGrJN8LgrlO/KyBX73I+bp?=
+ =?iso-8859-1?Q?KV/dQM51QVHiqpXGUoxB9CLMbB5Fwz23yYbRY7SwRof0xcTZg1NMuQRpwc?=
+ =?iso-8859-1?Q?J3W3NBfa4ht/NBwnH5wmF54IVd4d48meR1ogdI3BSqtHjBCIQKfcBZQCfg?=
+ =?iso-8859-1?Q?7dqJJJddOIRD9dsDmoMqLhux7CNbHgl+RJYlkYOtmeznyDognFEMuyJ/XE?=
+ =?iso-8859-1?Q?i7UAb0aqVT2bz6+ZuLjXRxlHl/PWyMIIcB33EFafvrxSCgLqMzOE8cndhP?=
+ =?iso-8859-1?Q?EFmNARgudvzL4Tv0JBu36ca1rMiBWtXZxV5lQf3muUmSPDVM0ys77EJBYH?=
+ =?iso-8859-1?Q?GcJwF7qA0X?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <E7B6096901FFC3409BE0D3E56B4E6917@namprd04.prod.outlook.com>
+Content-ID: <02591BECE4481A40BC28A8AB54D82AF0@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: equinix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8007.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 461ce947-86fb-40de-c456-08d952d276bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2021 20:50:13.8066
+X-MS-Exchange-CrossTenant-Network-Message-Id: 497ae37b-902a-439c-775a-08d952e7ae51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2021 23:22:06.4426
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N4Xtgf/rmInB+tjITGs9zJMgz4Syz8YXlfcNkbw/xBvpe0QIrcOZgN9nGxgXD0G6n0cGZ9WKqrKpkcrHnuoo4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB7829
-X-Proofpoint-GUID: vrDJsQS320atuzjWTJ1ktMo0a3DRXo9N
-X-Proofpoint-ORIG-GUID: vrDJsQS320atuzjWTJ1ktMo0a3DRXo9N
+X-MS-Exchange-CrossTenant-userprincipalname: uNUQBOSbwbmmUDr0weWBqkm6iiOltnhrNmO41dOH/R+EFC/KC5c4qZ1Hals3LTzXoJOlBXXm9J6hoNDE6C45Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB7895
+X-Proofpoint-GUID: mArqezjknYM9iaazq-GpM9_9U9gjCA53
+X-Proofpoint-ORIG-GUID: mArqezjknYM9iaazq-GpM9_9U9gjCA53
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-29_16:2021-07-29,2021-07-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2107290127
+ definitions=2021-07-29_17:2021-07-29,2021-07-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107290141
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 01:55:19PM CDT, Winiarska, Iwona wrote:
->On Tue, 2021-07-27 at 17:49 +0000, Zev Weiss wrote:
->> On Mon, Jul 12, 2021 at 05:04:41PM CDT, Iwona Winiarska wrote:
->> > Since PECI devices are discoverable, we can dynamically detect devices
->> > that are actually available in the system.
+On Thu, Jul 29, 2021 at 04:17:06PM CDT, Winiarska, Iwona wrote:
+>On Tue, 2021-07-27 at 20:10 +0000, Zev Weiss wrote:
+>> On Mon, Jul 12, 2021 at 05:04:42PM CDT, Iwona Winiarska wrote:
+>> > Here we're adding support for PECI device drivers, which unlike PECI
+>> > controller drivers are actually able to provide functionalities to
+>> > userspace.
 >> >
->> > This change complements the earlier implementation by rescanning PECI
->> > bus to detect available devices. For this purpose, it also introduces =
-the
->> > minimal API for PECI requests.
+>> > We're also extending peci_request API to allow querying more details
+>> > about PECI device (e.g. model/family), that's going to be used to find
+>> > a compatible peci_driver.
 >> >
 >> > Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
 >> > Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.co=
 m>
 >> > ---
->> > drivers/peci/Makefile=A0=A0 |=A0=A0 2 +-
->> > drivers/peci/core.c=A0=A0=A0=A0 |=A0 13 ++++-
->> > drivers/peci/device.c=A0=A0 | 111 ++++++++++++++++++++++++++++++++++++=
-++++
->> > drivers/peci/internal.h |=A0 15 ++++++
->> > drivers/peci/request.c=A0 |=A0 74 +++++++++++++++++++++++++++
->> > drivers/peci/sysfs.c=A0=A0=A0 |=A0 34 ++++++++++++
->> > 6 files changed, 246 insertions(+), 3 deletions(-)
->> > create mode 100644 drivers/peci/device.c
->> > create mode 100644 drivers/peci/request.c
+>> > drivers/peci/Kconfig=A0=A0=A0 |=A0=A0 1 +
+>> > drivers/peci/core.c=A0=A0=A0=A0 |=A0 49 +++++++++
+>> > drivers/peci/device.c=A0=A0 |=A0 99 ++++++++++++++++++
+>> > drivers/peci/internal.h |=A0 75 ++++++++++++++
+>> > drivers/peci/request.c=A0 | 217 ++++++++++++++++++++++++++++++++++++++=
+++
+>> > include/linux/peci.h=A0=A0=A0 |=A0 19 ++++
+>> > lib/Kconfig=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 2 +-
+>> > 7 files changed, 461 insertions(+), 1 deletion(-)
 >> >
->> > diff --git a/drivers/peci/Makefile b/drivers/peci/Makefile
->> > index 621a993e306a..917f689e147a 100644
->> > --- a/drivers/peci/Makefile
->> > +++ b/drivers/peci/Makefile
->> > @@ -1,7 +1,7 @@
->> > # SPDX-License-Identifier: GPL-2.0-only
+>> > diff --git a/drivers/peci/Kconfig b/drivers/peci/Kconfig
+>> > index 0d0ee8009713..27c31535843c 100644
+>> > --- a/drivers/peci/Kconfig
+>> > +++ b/drivers/peci/Kconfig
+>> > @@ -2,6 +2,7 @@
 >> >
->> > # Core functionality
->> > -peci-y :=3D core.o sysfs.o
->> > +peci-y :=3D core.o request.o device.o sysfs.o
->> > obj-$(CONFIG_PECI) +=3D peci.o
->> >
->> > # Hardware specific bus drivers
+>> > menuconfig PECI
+>> > =A0=A0=A0=A0=A0=A0=A0=A0tristate "PECI support"
+>> > +=A0=A0=A0=A0=A0=A0=A0select GENERIC_LIB_X86
+>> > =A0=A0=A0=A0=A0=A0=A0=A0help
+>> > =A0=A0=A0=A0=A0=A0=A0=A0=A0 The Platform Environment Control Interface=
+ (PECI) is an interface
+>> > =A0=A0=A0=A0=A0=A0=A0=A0=A0 that provides a communication channel to I=
+ntel processors and
 >> > diff --git a/drivers/peci/core.c b/drivers/peci/core.c
->> > index 0ad00110459d..ae7a9572cdf3 100644
+>> > index ae7a9572cdf3..94426b7f2618 100644
 >> > --- a/drivers/peci/core.c
 >> > +++ b/drivers/peci/core.c
->> > @@ -31,7 +31,15 @@ struct device_type peci_controller_type =3D {
+>> > @@ -143,8 +143,57 @@ void peci_controller_remove(struct peci_controlle=
+r
+>> > *controller)
+>> > }
+>> > EXPORT_SYMBOL_NS_GPL(peci_controller_remove, PECI);
 >> >
->> > int peci_controller_scan_devices(struct peci_controller *controller)
->> > {
->> > -=A0=A0=A0=A0=A0=A0=A0/* Just a stub, no support for actual devices ye=
-t */
->> > +=A0=A0=A0=A0=A0=A0=A0int ret;
->> > +=A0=A0=A0=A0=A0=A0=A0u8 addr;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0for (addr =3D PECI_BASE_ADDR; addr < PECI_BASE_A=
-DDR +
->> > PECI_DEVICE_NUM_MAX; addr++) {
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0ret =3D peci_device_crea=
-te(controller, addr);
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (ret)
+>> > +static const struct peci_device_id *
+>> > +peci_bus_match_device_id(const struct peci_device_id *id, struct
+>> > peci_device *device)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0while (id->family !=3D 0) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (id->family =3D=3D de=
+vice->info.family &&
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 id->model =3D=
+=3D device->info.model)
 >> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-return ret;
+return id;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0id++;
 >> > +=A0=A0=A0=A0=A0=A0=A0}
 >> > +
->> > =A0=A0=A0=A0=A0=A0=A0=A0return 0;
->> > }
->> >
->> > @@ -106,7 +114,8 @@ EXPORT_SYMBOL_NS_GPL(peci_controller_add, PECI);
->> >
->> > static int _unregister(struct device *dev, void *dummy)
->> > {
->> > -=A0=A0=A0=A0=A0=A0=A0/* Just a stub, no support for actual devices ye=
-t */
->> > +=A0=A0=A0=A0=A0=A0=A0peci_device_destroy(to_peci_device(dev));
+>> > +=A0=A0=A0=A0=A0=A0=A0return NULL;
+>> > +}
 >> > +
->> > =A0=A0=A0=A0=A0=A0=A0=A0return 0;
->> > }
+>> > +static int peci_bus_device_match(struct device *dev, struct device_dr=
+iver
+>> > *drv)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
+v);
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_driver *peci_drv =3D to_peci_driver(=
+drv);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0if (dev->type !=3D &peci_device_type)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0if (peci_bus_match_device_id(peci_drv->id_table,=
+ device))
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return 1;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +}
+>> > +
+>> > +static int peci_bus_device_probe(struct device *dev)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
+v);
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_driver *driver =3D to_peci_driver(de=
+v->driver);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return driver->probe(device, peci_bus_match_devi=
+ce_id(driver-
+>> > >id_table, device));
+>> > +}
+>> > +
+>> > +static int peci_bus_device_remove(struct device *dev)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
+v);
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_driver *driver =3D to_peci_driver(de=
+v->driver);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0if (driver->remove)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0driver->remove(device);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +}
+>> > +
+>> > struct bus_type peci_bus_type =3D {
+>> > =A0=A0=A0=A0=A0=A0=A0=A0.name=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=3D "pec=
+i",
+>> > +=A0=A0=A0=A0=A0=A0=A0.match=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=3D peci_bus=
+_device_match,
+>> > +=A0=A0=A0=A0=A0=A0=A0.probe=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=3D peci_bus=
+_device_probe,
+>> > +=A0=A0=A0=A0=A0=A0=A0.remove=A0=A0=A0=A0=A0=A0=A0=A0=A0=3D peci_bus_d=
+evice_remove,
+>> > =A0=A0=A0=A0=A0=A0=A0=A0.bus_groups=A0=A0=A0=A0=A0=3D peci_bus_groups,
+>> > };
 >> >
 >> > diff --git a/drivers/peci/device.c b/drivers/peci/device.c
->> > new file mode 100644
->> > index 000000000000..1124862211e2
->> > --- /dev/null
+>> > index 1124862211e2..8c4bd1ebbc29 100644
+>> > --- a/drivers/peci/device.c
 >> > +++ b/drivers/peci/device.c
->> > @@ -0,0 +1,111 @@
->> > +// SPDX-License-Identifier: GPL-2.0-only
->> > +// Copyright (c) 2018-2021 Intel Corporation
+>> > @@ -1,11 +1,79 @@
+>> > // SPDX-License-Identifier: GPL-2.0-only
+>> > // Copyright (c) 2018-2021 Intel Corporation
+>> >
+>> > +#include <linux/bitfield.h>
+>> > #include <linux/peci.h>
+>> > #include <linux/slab.h>
+>> > +#include <linux/x86/cpu.h>
+>> >
+>> > #include "internal.h"
+>> >
+>> > +#define REVISION_NUM_MASK GENMASK(15, 8)
+>> > +static int peci_get_revision(struct peci_device *device, u8 *revision=
+)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_request *req;
+>> > +=A0=A0=A0=A0=A0=A0=A0u64 dib;
 >> > +
->> > +#include <linux/peci.h>
->> > +#include <linux/slab.h>
+>> > +=A0=A0=A0=A0=A0=A0=A0req =3D peci_get_dib(device);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (IS_ERR(req))
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return PTR_ERR(req);
 >> > +
->> > +#include "internal.h"
+>> > +=A0=A0=A0=A0=A0=A0=A0dib =3D peci_request_data_dib(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (dib =3D=3D 0) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0peci_request_free(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EIO;
+>>
+>> Any particular reason to check for zero specifically here?=A0 It looks
+>> like that would be a case where the host CPU responds and everything's
+>> otherwise fine, but the host just happened to send back a bunch of zeros
+>> for whatever reason -- which may not be a valid PECI revision number,
+>> but if it sent back a bunch of 0xff bytes instead wouldn't that be
+>> equally invalid?
+>
+>The response with all 0's is possible (and defined) in certain device stat=
+es. If
+>that happens - we don't want to continue adding the device (with "invalid"
+>revision 0), we just want to return error.
+>
+
+Okay, that's reasonable -- maybe worth a brief comment though.
+
+>>
+>> Also, given that the docs (the ones I have, at least) describe the DIB
+>> as a collection of individual bytes, dealing with it as a combined u64
+>> seems a bit confusing to me -- could we just return req->rx.buf[1]
+>> instead?
+>
+>GetDIB returns 8-byte response, which is why we're treating it in this way
+>(similar to other commands). We're pulling out the whole response and use
+>FIELD_GET to obtain the data we need.
+>
+
+Sure -- but since the 8 bytes that GetDIB retrieves are a device info
+byte, a revision number byte, and six reserved bytes (at least as of the
+documentation I have access to), I'm not sure why we want to pack that
+all up into a u64 only to unpack a single byte from it a moment later
+with FIELD_GET(), when we've already got it in a convenient
+array-of-bytes form (req->rx.buf).  I could understand wanting a u64 if
+the 8 bytes were all a single value, or if it had sub-fields that
+spanned byte boundaries in awkward ways or something, but given the
+format of the response data a byte array seems like the most natural way
+of dealing with it.
+
+I suppose it facilitates an easy zero check, but that could also be
+written as !memchr_inv(req->rx.buf, 0, 8) in the non-u64 case.
+
+>>
+>> > +=A0=A0=A0=A0=A0=A0=A0}
 >> > +
->> > +static int peci_detect(struct peci_controller *controller, u8 addr)
+>> > +=A0=A0=A0=A0=A0=A0=A0*revision =3D FIELD_GET(REVISION_NUM_MASK, dib);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0peci_request_free(req);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +}
+>> > +
+>> > +static int peci_get_cpu_id(struct peci_device *device, u32 *cpu_id)
 >> > +{
 >> > +=A0=A0=A0=A0=A0=A0=A0struct peci_request *req;
 >> > +=A0=A0=A0=A0=A0=A0=A0int ret;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0req =3D peci_request_alloc(NULL, 0, 0);
->> > +=A0=A0=A0=A0=A0=A0=A0if (!req)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -ENOMEM;
+>> > +=A0=A0=A0=A0=A0=A0=A0req =3D peci_pkg_cfg_readl(device, PECI_PCS_PKG_=
+ID,
+>> > PECI_PKG_ID_CPU_ID);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (IS_ERR(req))
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return PTR_ERR(req);
 >> > +
->>
->> Might be worth a brief comment here noting that an empty request happens
->> to be the format of a PECI ping command (and/or change the name of the
->> function to peci_ping()).
->
->I'll add a comment:
->"We are using PECI Ping command to detect presence of PECI devices."
->
-
-Well, what I was more aiming to get at was that to someone not
-intimately familiar with the PECI protocol it's not immediately obvious
-from the code that it in fact implements a ping (there's no 'msg->cmd =3D
-PECI_CMD_PING' or anything), so I was hoping for something that would
-just make that slightly more explicit.
-
->>
->> > +=A0=A0=A0=A0=A0=A0=A0mutex_lock(&controller->bus_lock);
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D controller->xfer(controller, addr, req);
->> > +=A0=A0=A0=A0=A0=A0=A0mutex_unlock(&controller->bus_lock);
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_request_status(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0goto out_req_free;
 >> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0*cpu_id =3D peci_request_data_readl(req);
+>> > +out_req_free:
+>>
+>> As suggested on patch #8, I think it might be cleaner to stack-allocate
+>> struct peci_request, which would obviate the need for explicit free
+>> calls in functions like this and hence might simplify it away entirely,
+>> but if this does remain like this we could just do
+>>
+>> =A0=A0=A0=A0=A0=A0=A0=A0if (!ret)
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0*cpu_id =3D peci_request=
+_data_readl(req);
+>>
+>> instead of using a goto to skip a single line.
+>
+>Please, see my response on patch 8.
+>
+>I would prefer to operate on allocated objects rather than on local variab=
+les in
+>case of peci requests.
+>
+>>
 >> > +=A0=A0=A0=A0=A0=A0=A0peci_request_free(req);
 >> > +
 >> > +=A0=A0=A0=A0=A0=A0=A0return ret;
 >> > +}
 >> > +
->> > +static bool peci_addr_valid(u8 addr)
+>> > +static int peci_device_info_init(struct peci_device *device)
 >> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0return addr >=3D PECI_BASE_ADDR && addr < PECI_B=
-ASE_ADDR +
->> > PECI_DEVICE_NUM_MAX;
->> > +}
+>> > +=A0=A0=A0=A0=A0=A0=A0u8 revision;
+>> > +=A0=A0=A0=A0=A0=A0=A0u32 cpu_id;
+>> > +=A0=A0=A0=A0=A0=A0=A0int ret;
 >> > +
->> > +static int peci_dev_exists(struct device *dev, void *data)
->> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
-v);
->> > +=A0=A0=A0=A0=A0=A0=A0u8 *addr =3D data;
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_get_cpu_id(device, &cpu_id);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ret;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0if (device->addr =3D=3D *addr)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EBUSY;
+>> > +=A0=A0=A0=A0=A0=A0=A0device->info.family =3D x86_family(cpu_id);
+>> > +=A0=A0=A0=A0=A0=A0=A0device->info.model =3D x86_model(cpu_id);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_get_revision(device, &revision);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ret;
+>> > +=A0=A0=A0=A0=A0=A0=A0device->info.peci_revision =3D revision;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0device->info.socket_id =3D device->addr - PECI_B=
+ASE_ADDR;
 >> > +
 >> > +=A0=A0=A0=A0=A0=A0=A0return 0;
 >> > +}
 >> > +
->> > +int peci_device_create(struct peci_controller *controller, u8 addr)
->> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device;
->> > +=A0=A0=A0=A0=A0=A0=A0int ret;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0if (WARN_ON(!peci_addr_valid(addr)))
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EINVAL;
->>
->> Wondering about the necessity of this check (and the peci_addr_valid()
->> function) -- as of the end of this patch series, there's only one caller
->> of peci_device_create(), and it's peci_controller_scan_devices() looping
->> from PECI_BASE_ADDR to PECI_BASE_ADDR + PECI_DEVICE_NUM_MAX, so
->> checking that the address is in that range seems a bit redundant.=A0 Do =
-we
->> anticipate that we might gain additional callers in the future that
->> could run a non-zero risk of passing a bad address?
->
->It's just a sanity check to avoid any surprises if the code changes in the
->future.
->
->>
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0/* Check if we have already detected this device=
- before. */
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D device_for_each_child(&controller->dev, =
-&addr,
->> > peci_dev_exists);
->> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return 0;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_detect(controller, addr);
->> > +=A0=A0=A0=A0=A0=A0=A0if (ret) {
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/*
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * Device not present or=
- host state doesn't allow successful
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * detection at this tim=
-e.
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (ret =3D=3D -EIO || r=
-et =3D=3D -ETIMEDOUT)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-return 0;
->>
->> Do we really want to be ignoring EIO here?=A0 From a look at
->> aspeed_peci_xfer(), it looks like the only path that would produce that
->> is the non-timeout, non-CMD_DONE case, which I guess happens on
->> contention or FCS errors and such.=A0 Should we maybe have some automati=
-c
->> (limited) retry loop for cases like those?
->
->Yes, we want to ignore EIO here.
->It may be returned when we get "Bad Write FCS", after we try to ping non-
->existing PECI device.
->
->>
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ret;
->> > +=A0=A0=A0=A0=A0=A0=A0}
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0device =3D kzalloc(sizeof(*device), GFP_KERNEL);
->> > +=A0=A0=A0=A0=A0=A0=A0if (!device)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -ENOMEM;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0device->controller =3D controller;
->> > +=A0=A0=A0=A0=A0=A0=A0device->addr =3D addr;
->> > +=A0=A0=A0=A0=A0=A0=A0device->dev.parent =3D &device->controller->dev;
->> > +=A0=A0=A0=A0=A0=A0=A0device->dev.bus =3D &peci_bus_type;
->> > +=A0=A0=A0=A0=A0=A0=A0device->dev.type =3D &peci_device_type;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D dev_set_name(&device->dev, "%d-%02x", co=
-ntroller->id, device-
->> > >addr);
+>> > static int peci_detect(struct peci_controller *controller, u8 addr)
+>> > {
+>> > =A0=A0=A0=A0=A0=A0=A0=A0struct peci_request *req;
+>> > @@ -75,6 +143,10 @@ int peci_device_create(struct peci_controller
+>> > *controller, u8 addr)
+>> > =A0=A0=A0=A0=A0=A0=A0=A0device->dev.bus =3D &peci_bus_type;
+>> > =A0=A0=A0=A0=A0=A0=A0=A0device->dev.type =3D &peci_device_type;
+>> >
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_device_info_init(device);
 >> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
 >> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0goto err_free;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D device_register(&device->dev);
->> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0goto err_put;
+>> > =A0=A0=A0=A0=A0=A0=A0=A0ret =3D dev_set_name(&device->dev, "%d-%02x", =
+controller->id, device-
+>> > >addr);
+>> > =A0=A0=A0=A0=A0=A0=A0=A0if (ret)
+>> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0goto err_free;
+>> > @@ -98,6 +170,33 @@ void peci_device_destroy(struct peci_device *devic=
+e)
+>> > =A0=A0=A0=A0=A0=A0=A0=A0device_unregister(&device->dev);
+>> > }
+>> >
+>> > +int __peci_driver_register(struct peci_driver *driver, struct module
+>> > *owner,
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 const char *mod_name)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0driver->driver.bus =3D &peci_bus_type;
+>> > +=A0=A0=A0=A0=A0=A0=A0driver->driver.owner =3D owner;
+>> > +=A0=A0=A0=A0=A0=A0=A0driver->driver.mod_name =3D mod_name;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +=A0=A0=A0=A0=A0=A0=A0if (!driver->probe) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0pr_err("peci: trying to =
+register driver without probe
+>> > callback\n");
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EINVAL;
+>> > +=A0=A0=A0=A0=A0=A0=A0}
 >> > +
->> > +err_put:
->> > +=A0=A0=A0=A0=A0=A0=A0put_device(&device->dev);
->> > +err_free:
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(device);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (!driver->id_table) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0pr_err("peci: trying to =
+register driver without device id
+>> > table\n");
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EINVAL;
+>> > +=A0=A0=A0=A0=A0=A0=A0}
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return driver_register(&driver->driver);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(__peci_driver_register, PECI);
+>> > +
+>> > +void peci_driver_unregister(struct peci_driver *driver)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0driver_unregister(&driver->driver);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_driver_unregister, PECI);
+>> > +
+>> > static void peci_device_release(struct device *dev)
+>> > {
+>> > =A0=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(=
+dev);
+>> > diff --git a/drivers/peci/internal.h b/drivers/peci/internal.h
+>> > index 6b139adaf6b8..c891c93e077a 100644
+>> > --- a/drivers/peci/internal.h
+>> > +++ b/drivers/peci/internal.h
+>> > @@ -19,6 +19,34 @@ struct peci_request;
+>> > struct peci_request *peci_request_alloc(struct peci_device *device, u8
+>> > tx_len, u8 rx_len);
+>> > void peci_request_free(struct peci_request *req);
+>> >
+>> > +int peci_request_status(struct peci_request *req);
+>> > +u64 peci_request_data_dib(struct peci_request *req);
+>> > +
+>> > +u8 peci_request_data_readb(struct peci_request *req);
+>> > +u16 peci_request_data_readw(struct peci_request *req);
+>> > +u32 peci_request_data_readl(struct peci_request *req);
+>> > +u64 peci_request_data_readq(struct peci_request *req);
+>> > +
+>> > +struct peci_request *peci_get_dib(struct peci_device *device);
+>> > +struct peci_request *peci_get_temp(struct peci_device *device);
+>> > +
+>> > +struct peci_request *peci_pkg_cfg_readb(struct peci_device *device, u=
+8
+>> > index, u16 param);
+>> > +struct peci_request *peci_pkg_cfg_readw(struct peci_device *device, u=
+8
+>> > index, u16 param);
+>> > +struct peci_request *peci_pkg_cfg_readl(struct peci_device *device, u=
+8
+>> > index, u16 param);
+>> > +struct peci_request *peci_pkg_cfg_readq(struct peci_device *device, u=
+8
+>> > index, u16 param);
+>> > +
+>> > +/**
+>> > + * struct peci_device_id - PECI device data to match
+>> > + * @data: pointer to driver private data specific to device
+>> > + * @family: device family
+>> > + * @model: device model
+>> > + */
+>> > +struct peci_device_id {
+>> > +=A0=A0=A0=A0=A0=A0=A0const void *data;
+>> > +=A0=A0=A0=A0=A0=A0=A0u16 family;
+>> > +=A0=A0=A0=A0=A0=A0=A0u8 model;
+>> > +};
+>> > +
+>> > extern struct device_type peci_device_type;
+>> > extern const struct attribute_group *peci_device_groups[];
+>> >
+>> > @@ -28,6 +56,53 @@ void peci_device_destroy(struct peci_device *device=
+);
+>> > extern struct bus_type peci_bus_type;
+>> > extern const struct attribute_group *peci_bus_groups[];
+>> >
+>> > +/**
+>> > + * struct peci_driver - PECI driver
+>> > + * @driver: inherit device driver
+>> > + * @probe: probe callback
+>> > + * @remove: remove callback
+>> > + * @id_table: PECI device match table to decide which device to bind
+>> > + */
+>> > +struct peci_driver {
+>> > +=A0=A0=A0=A0=A0=A0=A0struct device_driver driver;
+>> > +=A0=A0=A0=A0=A0=A0=A0int (*probe)(struct peci_device *device, const s=
+truct peci_device_id
+>> > *id);
+>> > +=A0=A0=A0=A0=A0=A0=A0void (*remove)(struct peci_device *device);
+>> > +=A0=A0=A0=A0=A0=A0=A0const struct peci_device_id *id_table;
+>> > +};
+>> > +
+>> > +static inline struct peci_driver *to_peci_driver(struct device_driver=
+ *d)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return container_of(d, struct peci_driver, drive=
+r);
+>> > +}
+>> > +
+>> > +int __peci_driver_register(struct peci_driver *driver, struct module
+>> > *owner,
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 const char *mod_name);
+>> > +/**
+>> > + * peci_driver_register() - register PECI driver
+>> > + * @driver: the driver to be registered
+>> > + * @owner: owner module of the driver being registered
+>> > + * @mod_name: module name string
+>> > + *
+>> > + * PECI drivers that don't need to do anything special in module init
+>> > should
+>> > + * use the convenience "module_peci_driver" macro instead
+>> > + *
+>> > + * Return: zero on success, else a negative error code.
+>> > + */
+>> > +#define peci_driver_register(driver) \
+>> > +=A0=A0=A0=A0=A0=A0=A0__peci_driver_register(driver, THIS_MODULE, KBUI=
+LD_MODNAME)
+>> > +void peci_driver_unregister(struct peci_driver *driver);
+>> > +
+>> > +/**
+>> > + * module_peci_driver() - Helper macro for registering a modular PECI
+>> > driver
+>> > + * @__peci_driver: peci_driver struct
+>> > + *
+>> > + * Helper macro for PECI drivers which do not do anything special in =
+module
+>> > + * init/exit. This eliminates a lot of boilerplate. Each module may o=
+nly
+>> > + * use this macro once, and calling it replaces module_init() and
+>> > module_exit()
+>> > + */
+>> > +#define module_peci_driver(__peci_driver) \
+>> > +=A0=A0=A0=A0=A0=A0=A0module_driver(__peci_driver, peci_driver_registe=
+r,
+>> > peci_driver_unregister)
+>> > +
+>> > extern struct device_type peci_controller_type;
+>> >
+>> > int peci_controller_scan_devices(struct peci_controller *controller);
+>> > diff --git a/drivers/peci/request.c b/drivers/peci/request.c
+>> > index 78cee51dfae1..48354455b554 100644
+>> > --- a/drivers/peci/request.c
+>> > +++ b/drivers/peci/request.c
+>> > @@ -1,13 +1,142 @@
+>> > // SPDX-License-Identifier: GPL-2.0-only
+>> > // Copyright (c) 2021 Intel Corporation
+>> >
+>> > +#include <linux/bug.h>
+>> > #include <linux/export.h>
+>> > #include <linux/peci.h>
+>> > #include <linux/slab.h>
+>> > #include <linux/types.h>
+>> >
+>> > +#include <asm/unaligned.h>
+>> > +
+>> > #include "internal.h"
+>> >
+>> > +#define PECI_GET_DIB_CMD=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+0xf7
+>> > +#define=A0 PECI_GET_DIB_WR_LEN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A01
+>> > +#define=A0 PECI_GET_DIB_RD_LEN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A08
+>> > +
+>> > +#define PECI_RDPKGCFG_CMD=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x=
+a1
+>> > +#define=A0 PECI_RDPKGCFG_WRITE_LEN=A0=A0=A0=A0=A0=A0=A05
+>> > +#define=A0 PECI_RDPKGCFG_READ_LEN_BASE=A0=A0=A01
+>> > +#define PECI_WRPKGCFG_CMD=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x=
+a5
+>> > +#define=A0 PECI_WRPKGCFG_WRITE_LEN_BASE=A0=A06
+>> > +#define=A0 PECI_WRPKGCFG_READ_LEN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A01
+>> > +
+>> > +/* Device Specific Completion Code (CC) Definition */
+>> > +#define PECI_CC_SUCCESS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x40
+>> > +#define PECI_CC_NEED_RETRY=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A00x80
+>> > +#define PECI_CC_OUT_OF_RESOURCE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x81
+>> > +#define PECI_CC_UNAVAIL_RESOURCE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A00x82
+>> > +#define PECI_CC_INVALID_REQ=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A00x90
+>> > +#define PECI_CC_MCA_ERROR=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A00x91
+>> > +#define PECI_CC_CATASTROPHIC_MCA_ERROR=A0=A0=A0=A0=A0=A0=A0=A0=A00x93
+>> > +#define PECI_CC_FATAL_MCA_ERROR=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x94
+>> > +#define PECI_CC_PARITY_ERR_GPSB_OR_PMSB=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A00x98
+>> > +#define PECI_CC_PARITY_ERR_GPSB_OR_PMSB_IERR=A0=A0=A00x9B
+>> > +#define PECI_CC_PARITY_ERR_GPSB_OR_PMSB_MCA=A0=A0=A0=A00x9C
+>> > +
+>> > +#define PECI_RETRY_BIT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0BIT(0)
+>> > +
+>> > +#define PECI_RETRY_TIMEOUT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0msec=
+s_to_jiffies(700)
+>> > +#define PECI_RETRY_INTERVAL_MIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0msecs_to_jiffies(1)
+>> > +#define PECI_RETRY_INTERVAL_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0msecs_to_jiffies(128)
+>> > +
+>> > +static u8 peci_request_data_cc(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return req->rx.buf[0];
+>> > +}
+>> > +
+>> > +/**
+>> > + * peci_request_status() - return -errno based on PECI completion cod=
+e
+>> > + * @req: the PECI request that contains response data with completion=
+ code
+>> > + *
+>> > + * It can't be used for Ping(), GetDIB() and GetTemp() - for those co=
+mmands
+>> > we
+>> > + * don't expect completion code in the response.
+>> > + *
+>> > + * Return: -errno
+>> > + */
+>> > +int peci_request_status(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0u8 cc =3D peci_request_data_cc(req);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0if (cc !=3D PECI_CC_SUCCESS)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0dev_dbg(&req->device->de=
+v, "ret: %#02x\n", cc);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0switch (cc) {
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_SUCCESS:
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_NEED_RETRY:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_OUT_OF_RESOURCE:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_UNAVAIL_RESOURCE:
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EAGAIN;
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_INVALID_REQ:
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EINVAL;
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_MCA_ERROR:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_CATASTROPHIC_MCA_ERROR:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_FATAL_MCA_ERROR:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_PARITY_ERR_GPSB_OR_PMSB:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_PARITY_ERR_GPSB_OR_PMSB_IERR:
+>> > +=A0=A0=A0=A0=A0=A0=A0case PECI_CC_PARITY_ERR_GPSB_OR_PMSB_MCA:
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return -EIO;
+>> > +=A0=A0=A0=A0=A0=A0=A0}
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0WARN_ONCE(1, "Unknown PECI completion code: %#02=
+x\n", cc);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return -EIO;
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_status, PECI);
+>> > +
+>> > +static int peci_request_xfer(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D req->device;
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_controller *controller =3D device->c=
+ontroller;
+>> > +=A0=A0=A0=A0=A0=A0=A0int ret;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0mutex_lock(&controller->bus_lock);
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D controller->xfer(controller, device->add=
+r, req);
+>> > +=A0=A0=A0=A0=A0=A0=A0mutex_unlock(&controller->bus_lock);
 >> > +
 >> > +=A0=A0=A0=A0=A0=A0=A0return ret;
 >> > +}
 >> > +
->> > +void peci_device_destroy(struct peci_device *device)
+>> > +static int peci_request_xfer_retry(struct peci_request *req)
 >> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0device_unregister(&device->dev);
+>> > +=A0=A0=A0=A0=A0=A0=A0long wait_interval =3D PECI_RETRY_INTERVAL_MIN;
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D req->device;
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_controller *controller =3D device->c=
+ontroller;
+>> > +=A0=A0=A0=A0=A0=A0=A0unsigned long start =3D jiffies;
+>> > +=A0=A0=A0=A0=A0=A0=A0int ret;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0/* Don't try to use it for ping */
+>> > +=A0=A0=A0=A0=A0=A0=A0if (WARN_ON(!req->rx.buf))
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return 0;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0do {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0ret =3D peci_request_xfe=
+r(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (ret) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+dev_dbg(&controller->dev, "xfer error: %d\n", ret);
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+return ret;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0}
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (peci_request_status(=
+req) !=3D -EAGAIN)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+return 0;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0/* Set the retry bit to =
+indicate a retry attempt */
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0req->tx.buf[1] |=3D PECI=
+_RETRY_BIT;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (schedule_timeout_int=
+erruptible(wait_interval))
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+return -ERESTARTSYS;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0wait_interval *=3D 2;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (wait_interval > PECI=
+_RETRY_INTERVAL_MAX)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+wait_interval =3D PECI_RETRY_INTERVAL_MAX;
+>>
+>> wait_interval =3D min(wait_interval * 2, PECI_RETRY_INTERVAL_MAX) ?
+>
+>Ack.
+>
+>>
+>> > +=A0=A0=A0=A0=A0=A0=A0} while (time_before(jiffies, start + PECI_RETRY=
+_TIMEOUT));
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0dev_dbg(&controller->dev, "request timed out\n")=
+;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return -ETIMEDOUT;
 >> > +}
 >> > +
->> > +static void peci_device_release(struct device *dev)
->> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
-v);
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(device);
->> > +}
->> > +
->> > +struct device_type peci_device_type =3D {
->> > +=A0=A0=A0=A0=A0=A0=A0.groups=A0=A0=A0=A0=A0=A0=A0=A0=A0=3D peci_devic=
-e_groups,
->> > +=A0=A0=A0=A0=A0=A0=A0.release=A0=A0=A0=A0=A0=A0=A0=A0=3D peci_device_=
-release,
->> > +};
->> > diff --git a/drivers/peci/internal.h b/drivers/peci/internal.h
->> > index 80c61bcdfc6b..6b139adaf6b8 100644
->> > --- a/drivers/peci/internal.h
->> > +++ b/drivers/peci/internal.h
->> > @@ -9,6 +9,21 @@
->> >
->> > struct peci_controller;
->> > struct attribute_group;
->> > +struct peci_device;
->> > +struct peci_request;
->> > +
->> > +/* PECI CPU address range 0x30-0x37 */
->> > +#define PECI_BASE_ADDR=A0=A0=A0=A0=A0=A0=A0=A0=A00x30
->> > +#define PECI_DEVICE_NUM_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A08
->> > +
->> > +struct peci_request *peci_request_alloc(struct peci_device *device, u=
-8
->> > tx_len, u8 rx_len);
->> > +void peci_request_free(struct peci_request *req);
->> > +
->> > +extern struct device_type peci_device_type;
->> > +extern const struct attribute_group *peci_device_groups[];
->> > +
->> > +int peci_device_create(struct peci_controller *controller, u8 addr);
->> > +void peci_device_destroy(struct peci_device *device);
->> >
->> > extern struct bus_type peci_bus_type;
->> > extern const struct attribute_group *peci_bus_groups[];
->> > diff --git a/drivers/peci/request.c b/drivers/peci/request.c
->> > new file mode 100644
->> > index 000000000000..78cee51dfae1
->> > --- /dev/null
->> > +++ b/drivers/peci/request.c
->> > @@ -0,0 +1,74 @@
->> > +// SPDX-License-Identifier: GPL-2.0-only
->> > +// Copyright (c) 2021 Intel Corporation
->> > +
->> > +#include <linux/export.h>
->> > +#include <linux/peci.h>
->> > +#include <linux/slab.h>
->> > +#include <linux/types.h>
->> > +
->> > +#include "internal.h"
->> > +
->> > +/**
->> > + * peci_request_alloc() - allocate &struct peci_request with buffers =
-with
+>> > /**
+>> > =A0* peci_request_alloc() - allocate &struct peci_request with buffers=
+ with
 >> > given lengths
->> > + * @device: PECI device to which request is going to be sent
->> > + * @tx_len: requested TX buffer length
->> > + * @rx_len: requested RX buffer length
->> > + *
->> > + * Return: A pointer to a newly allocated &struct peci_request on suc=
-cess
->> > or NULL otherwise.
->> > + */
->> > +struct peci_request *peci_request_alloc(struct peci_device *device, u=
-8
->> > tx_len, u8 rx_len)
+>> > =A0* @device: PECI device to which request is going to be sent
+>> > @@ -72,3 +201,91 @@ void peci_request_free(struct peci_request *req)
+>> > =A0=A0=A0=A0=A0=A0=A0=A0kfree(req);
+>> > }
+>> > EXPORT_SYMBOL_NS_GPL(peci_request_free, PECI);
+>> > +
+>> > +struct peci_request *peci_get_dib(struct peci_device *device)
 >> > +{
 >> > +=A0=A0=A0=A0=A0=A0=A0struct peci_request *req;
->> > +=A0=A0=A0=A0=A0=A0=A0u8 *tx_buf, *rx_buf;
+>> > +=A0=A0=A0=A0=A0=A0=A0int ret;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0req =3D kzalloc(sizeof(*req), GFP_KERNEL);
+>> > +=A0=A0=A0=A0=A0=A0=A0req =3D peci_request_alloc(device, PECI_GET_DIB_=
+WR_LEN,
+>> > PECI_GET_DIB_RD_LEN);
 >> > +=A0=A0=A0=A0=A0=A0=A0if (!req)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return NULL;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ERR_PTR(-ENOMEM);
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0req->device =3D device;
+>> > +=A0=A0=A0=A0=A0=A0=A0req->tx.buf[0] =3D PECI_GET_DIB_CMD;
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0/*
->> > +=A0=A0=A0=A0=A0=A0=A0 * PECI controllers that we are using now don't =
-support DMA, this
->> > +=A0=A0=A0=A0=A0=A0=A0 * should be converted to DMA API once support f=
-or controllers that
->> > do
->> > +=A0=A0=A0=A0=A0=A0=A0 * allow it is added to avoid an extra copy.
->> > +=A0=A0=A0=A0=A0=A0=A0 */
->> > +=A0=A0=A0=A0=A0=A0=A0if (tx_len) {
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0tx_buf =3D kzalloc(tx_le=
-n, GFP_KERNEL);
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!tx_buf)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-goto err_free_req;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0req->tx.buf =3D tx_buf;
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0req->tx.len =3D tx_len;
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_request_xfer(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (ret) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0peci_request_free(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ERR_PTR(ret);
 >> > +=A0=A0=A0=A0=A0=A0=A0}
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0if (rx_len) {
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0rx_buf =3D kzalloc(rx_le=
-n, GFP_KERNEL);
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0if (!rx_buf)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-goto err_free_tx;
+>> > +=A0=A0=A0=A0=A0=A0=A0return req;
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_get_dib, PECI);
 >> > +
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0req->rx.buf =3D rx_buf;
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0req->rx.len =3D rx_len;
+>> > +static struct peci_request *
+>> > +__pkg_cfg_read(struct peci_device *device, u8 index, u16 param, u8 le=
+n)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0struct peci_request *req;
+>> > +=A0=A0=A0=A0=A0=A0=A0int ret;
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0req =3D peci_request_alloc(device, PECI_RDPKGCFG=
+_WRITE_LEN,
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 PECI_RDPKGCFG_READ_LEN_BASE + len);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (!req)
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ERR_PTR(-ENOMEM);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0req->tx.buf[0] =3D PECI_RDPKGCFG_CMD;
+>> > +=A0=A0=A0=A0=A0=A0=A0req->tx.buf[1] =3D 0;
+>> > +=A0=A0=A0=A0=A0=A0=A0req->tx.buf[2] =3D index;
+>> > +=A0=A0=A0=A0=A0=A0=A0put_unaligned_le16(param, &req->tx.buf[3]);
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0ret =3D peci_request_xfer_retry(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0if (ret) {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0peci_request_free(req);
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ERR_PTR(ret);
 >> > +=A0=A0=A0=A0=A0=A0=A0}
 >> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0return req;
+>> > +}
+>> > +
+>> > +u8 peci_request_data_readb(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return req->rx.buf[1];
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_data_readb, PECI);
+>> > +
+>> > +u16 peci_request_data_readw(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return get_unaligned_le16(&req->rx.buf[1]);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_data_readw, PECI);
+>> > +
+>> > +u32 peci_request_data_readl(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return get_unaligned_le32(&req->rx.buf[1]);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_data_readl, PECI);
+>> > +
+>> > +u64 peci_request_data_readq(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return get_unaligned_le64(&req->rx.buf[1]);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_data_readq, PECI);
+>> > +
+>> > +u64 peci_request_data_dib(struct peci_request *req)
+>> > +{
+>> > +=A0=A0=A0=A0=A0=A0=A0return get_unaligned_le64(&req->rx.buf[0]);
+>> > +}
+>> > +EXPORT_SYMBOL_NS_GPL(peci_request_data_dib, PECI);
+>> > +
+>> > +#define __read_pkg_config(x, type) \
+>> > +struct peci_request *peci_pkg_cfg_##x(struct peci_device *device, u8 =
+index,
+>> > u16 param) \
+>> > +{ \
+>> > +=A0=A0=A0=A0=A0=A0=A0return __pkg_cfg_read(device, index, param, size=
+of(type)); \
+>> > +} \
 >>
->> As long as we're punting on DMA support, could we do the whole thing in
->> a single allocation instead of three?=A0 It'd add some pointer arithmeti=
-c,
->> but would also simplify the error-handling/deallocation paths a bit.
+>> Is there a reason for this particular API?=A0 I'd think a more natural o=
+ne
+>> that would offload a bit of boilerplate from callers would look more lik=
+e
 >>
->> Or, given that the one controller we're currently supporting has a
->> hardware limit of 32 bytes per transfer anyway, maybe just inline
->> fixed-size rx/tx buffers into struct peci_request and have callers keep
->> them on the stack instead of kmalloc()-ing them?
+>> int peci_pkg_cfg_##x(struct peci_device *device, u8 index, u16 param, ty=
+pe
+>> *outp),
+>>
+>> returning peci_request_status() and writing the requested data to *outp
+>> if that status is zero.
 >
->I disagree on error handling (it's not complicated) - however, one argumen=
-t for
->doing a single alloc (or moving the buffers as fixed-size arrays inside st=
-ruct
->peci_request) is that single kzalloc is going to be faster than 3. But I d=
-on't
->expect it to show up on any perf profiles for now (since peci-wire interfa=
-ce is
->not a speed demon).
+>We provide a consistent lower-level API for "internal" usage (for code in
+>drivers/peci), operating on requests and allowing access to full request,
+>including completion code, etc.
+>Then - we wrap that with "external" API (e.g. include/linux/peci-cpu.h) wh=
+ich is
+>the "more natural" one - it pulls out the necessary data from requests, de=
+als
+>with error handling in an appropriate way converting completion codes to e=
+rrno
+>values (abstracting away the PECI-specific details).
 >
->I wanted to avoid defining max size for TX and RX in peci-core.
->Do you have a strong opinion against multiple alloc? If yes, I can go with
->fixed-size arrays inside struct peci_request.
+>>
+>> > +EXPORT_SYMBOL_NS_GPL(peci_pkg_cfg_##x, PECI)
+>> > +
+>> > +__read_pkg_config(readb, u8);
+>> > +__read_pkg_config(readw, u16);
+>> > +__read_pkg_config(readl, u32);
+>> > +__read_pkg_config(readq, u64);
+>> > diff --git a/include/linux/peci.h b/include/linux/peci.h
+>> > index cdf3008321fd..f9f37b874011 100644
+>> > --- a/include/linux/peci.h
+>> > +++ b/include/linux/peci.h
+>> > @@ -9,6 +9,14 @@
+>> > #include <linux/mutex.h>
+>> > #include <linux/types.h>
+>> >
+>> > +#define PECI_PCS_PKG_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A00=A0 /* Package Identifier
+>> > Read */
+>> > +#define=A0 PECI_PKG_ID_CPU_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00x00=
+00=A0 /* CPUID Info */
+>> > +#define=A0 PECI_PKG_ID_PLATFORM_ID=A0=A0=A0=A0=A0=A0=A00x0001=A0 /* P=
+latform ID */
+>> > +#define=A0 PECI_PKG_ID_DEVICE_ID=A0=A0=A0=A0=A0=A0=A0=A0=A00x0002=A0 =
+/* Uncore Device ID */
+>> > +#define=A0 PECI_PKG_ID_MAX_THREAD_ID=A0=A0=A0=A0=A00x0003=A0 /* Max T=
+hread ID */
+>> > +#define=A0 PECI_PKG_ID_MICROCODE_REV=A0=A0=A0=A0=A00x0004=A0 /* CPU M=
+icrocode Update
+>> > Revision */
+>> > +#define=A0 PECI_PKG_ID_MCA_ERROR_LOG=A0=A0=A0=A0=A00x0005=A0 /* Machi=
+ne Check Status */
+>> > +
+>> > struct peci_request;
+>> >
+>> > /**
+>> > @@ -41,6 +49,11 @@ static inline struct peci_controller
+>> > *to_peci_controller(void *d)
+>> > =A0* struct peci_device - PECI device
+>> > =A0* @dev: device object to register PECI device to the device model
+>> > =A0* @controller: manages the bus segment hosting this PECI device
+>> > + * @info: PECI device characteristics
+>> > + * @info.family: device family
+>> > + * @info.model: device model
+>> > + * @info.peci_revision: PECI revision supported by the PECI device
+>> > + * @info.socket_id: the socket ID represented by the PECI device
+>> > =A0* @addr: address used on the PECI bus connected to the parent contr=
+oller
+>> > =A0*
+>> > =A0* A peci_device identifies a single device (i.e. CPU) connected to =
+a PECI
+>> > bus.
+>> > @@ -50,6 +63,12 @@ static inline struct peci_controller
+>> > *to_peci_controller(void *d)
+>> > struct peci_device {
+>> > =A0=A0=A0=A0=A0=A0=A0=A0struct device dev;
+>> > =A0=A0=A0=A0=A0=A0=A0=A0struct peci_controller *controller;
+>> > +=A0=A0=A0=A0=A0=A0=A0struct {
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0u16 family;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0u8 model;
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0u8 peci_revision;
+>>
+>> This field gets set but doesn't seem to end up used anywhere; is it
+>> useful?
 >
-
-As is it's certainly not terribly complicated in an absolute sense, but
-comparatively speaking the cleanup path for a single allocation is still
-simpler, no?
-
-Making it more efficient would definitely be a nice benefit too (perhaps
-a more significant one) -- in a typical deployment I'd guess this code
-path will see roughly socket_count + total_core_count executions per
-second?  On a big multi-socket system that could end up being a
-reasonably large number (>100), so while it may not end up as a major
-hot spot in a system-wide profile, it seems like it might be worth
-having it do 1/3 as many allocations if it's reasonably easy to do.
-(And while I don't think the kernel is generally at fault for this, from
-what I've seen of OpenBMC as a whole I think it might benefit from a bit
-more overall frugality with CPU cycles.)
-
-As for a fixed max request size and inlined buffers, I definitely
-understand not wanting to put a cap on that in the generic PECI core --
-and actually, looking at the peci-npcm code from previous iterations of
-the PECI patchset, it looks like the Nuvoton hardware has significantly
-larger size limits (127 bytes if I'm reading things right) that might be
-a bit bulky for on-stack allocation.  So while that's appealing
-efficiency-wise and (IMO) aesthetically, perhaps it's not ultimately
-real viable.
-
-Hmm, though (thinking out loud) I suppose we could also get down to a
-zero-allocation common case by having the driver hold on to a request
-struct and reuse it across transfers, given that they're all serialized
-by a mutex anyway?
-
+>The idea was to have mechanism to validate the revision number retrieved v=
+ia
+>GetDIB with revision expected by the driver (since it uses commands that a=
+re
+>PECI revision dependent), and warn if there's a mismatch.
+>It seems I dropped the "validate and warn" part when doing the split on th=
+e
+>series. Good catch - I'll fix this in v2.
+>
 >Thanks
 >-Iwona
 >
 >>
->> > +=A0=A0=A0=A0=A0=A0=A0return req;
->> > +
->> > +err_free_tx:
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(req->tx.buf);
->> > +err_free_req:
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(req);
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0return NULL;
->> > +}
->> > +EXPORT_SYMBOL_NS_GPL(peci_request_alloc, PECI);
->> > +
->> > +/**
->> > + * peci_request_free() - free peci_request
->> > + * @req: the PECI request to be freed
->> > + */
->> > +void peci_request_free(struct peci_request *req)
->> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(req->rx.buf);
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(req->tx.buf);
->> > +=A0=A0=A0=A0=A0=A0=A0kfree(req);
->> > +}
->> > +EXPORT_SYMBOL_NS_GPL(peci_request_free, PECI);
->> > diff --git a/drivers/peci/sysfs.c b/drivers/peci/sysfs.c
->> > index 36c5e2a18a92..db9ef05776e3 100644
->> > --- a/drivers/peci/sysfs.c
->> > +++ b/drivers/peci/sysfs.c
->> > @@ -1,6 +1,8 @@
->> > // SPDX-License-Identifier: GPL-2.0-only
->> > // Copyright (c) 2021 Intel Corporation
->> >
->> > +#include <linux/device.h>
->> > +#include <linux/kernel.h>
->> > #include <linux/peci.h>
->> >
->> > #include "internal.h"
->> > @@ -46,3 +48,35 @@ const struct attribute_group *peci_bus_groups[] =3D=
- {
->> > =A0=A0=A0=A0=A0=A0=A0=A0&peci_bus_group,
->> > =A0=A0=A0=A0=A0=A0=A0=A0NULL
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0u8 socket_id;
+>> > +=A0=A0=A0=A0=A0=A0=A0} info;
+>> > =A0=A0=A0=A0=A0=A0=A0=A0u8 addr;
 >> > };
->> > +
->> > +static ssize_t remove_store(struct device *dev, struct device_attribu=
-te
->> > *attr,
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0 const char *buf, size_t count)
->> > +{
->> > +=A0=A0=A0=A0=A0=A0=A0struct peci_device *device =3D to_peci_device(de=
-v);
->> > +=A0=A0=A0=A0=A0=A0=A0bool res;
->> > +=A0=A0=A0=A0=A0=A0=A0int ret;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0ret =3D kstrtobool(buf, &res);
->> > +=A0=A0=A0=A0=A0=A0=A0if (ret)
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return ret;
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0if (res && device_remove_file_self(dev, attr))
->> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0peci_device_destroy(devi=
-ce);
->> > +
->> > +=A0=A0=A0=A0=A0=A0=A0return count;
->> > +}
->> > +static DEVICE_ATTR_IGNORE_LOCKDEP(remove, 0200, NULL, remove_store);
->> > +
->> > +static struct attribute *peci_device_attrs[] =3D {
->> > +=A0=A0=A0=A0=A0=A0=A0&dev_attr_remove.attr,
->> > +=A0=A0=A0=A0=A0=A0=A0NULL
->> > +};
->> > +
->> > +static const struct attribute_group peci_device_group =3D {
->> > +=A0=A0=A0=A0=A0=A0=A0.attrs =3D peci_device_attrs,
->> > +};
->> > +
->> > +const struct attribute_group *peci_device_groups[] =3D {
->> > +=A0=A0=A0=A0=A0=A0=A0&peci_device_group,
->> > +=A0=A0=A0=A0=A0=A0=A0NULL
->> > +};
+>> >
+>> > diff --git a/lib/Kconfig b/lib/Kconfig
+>> > index cc28bc1f2d84..a74e6c0fa75c 100644
+>> > --- a/lib/Kconfig
+>> > +++ b/lib/Kconfig
+>> > @@ -721,5 +721,5 @@ config ASN1_ENCODER
+>> >
+>> > config GENERIC_LIB_X86
+>> > =A0=A0=A0=A0=A0=A0=A0=A0bool
+>> > -=A0=A0=A0=A0=A0=A0=A0depends on X86
+>> > +=A0=A0=A0=A0=A0=A0=A0depends on X86 || PECI
+>> > =A0=A0=A0=A0=A0=A0=A0=A0default n
 >> > --
 >> > 2.31.1
 >=
