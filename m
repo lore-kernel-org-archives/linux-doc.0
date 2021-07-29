@@ -2,73 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DA1C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 20:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF4BC4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 20:40:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4FF360F46
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 20:34:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7E5460F46
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 20:40:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbhG2UfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jul 2021 16:35:00 -0400
-Received: from mail-io1-f46.google.com ([209.85.166.46]:39593 "EHLO
-        mail-io1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbhG2UfA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 16:35:00 -0400
-Received: by mail-io1-f46.google.com with SMTP id f6so2930853ioc.6;
-        Thu, 29 Jul 2021 13:34:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CqALBB8XhPNYm5eLzHeFRxLWidIlyWJVj8jddlP39GU=;
-        b=Z1Qrz8Katmze6MWkKWtAIpgU6qNpnttx1t4b8zA9qObBWebuPLbLq+KHhK7cMxXzoQ
-         xZ92G1WeNuwZuJVYYXfw5kLXdtErYYokI+5ZuFLQEFSxvaaikTuJMGnR75+8VGghOCV2
-         MNZfGnzFqjiY3Idzm67tdAH5mXHLZO7MG8y9b3vPqRVBVm9BtHKyGWE1YSm98vJMmrbX
-         UD49DLEcSz+xKdF1Zuh0U5+NMq3X3YVlTVF6MR4pZ8t0DhEmWdwHcIJM4/u9cixtY3mS
-         yXWW1nxPvfd9Na7Wb3ivj/UoZwq+N8u7EI1M0dWWWWCIzmltvJGDmVZO7/oQaV7VNvcL
-         Iz7Q==
-X-Gm-Message-State: AOAM531/jEDn2HZ6AFnkDTGttZXJSMaqq8WQqelS773IctEM7V586tZN
-        l3kBSbkTE+fThQwZto+tyg==
-X-Google-Smtp-Source: ABdhPJxdly129GaGJvxacE8bh5T0mHrK/8Bw2MEIumv9TdtuedugLkq1vJTHXmibL/FhkpLtlTkrew==
-X-Received: by 2002:a5d:8b03:: with SMTP id k3mr5389228ion.203.1627590895542;
-        Thu, 29 Jul 2021 13:34:55 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id j2sm2552163ilr.80.2021.07.29.13.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 13:34:53 -0700 (PDT)
-Received: (nullmailer pid 840743 invoked by uid 1000);
-        Thu, 29 Jul 2021 20:34:52 -0000
-Date:   Thu, 29 Jul 2021 14:34:52 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc:     robh+dt@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-gpio@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-doc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Olof Johansson <olof@lixom.net>, arnd@arndb.de
-Subject: Re: [PATCH 6/7] dt-bindings: stm32: document stm32mp135f-dk board
-Message-ID: <YQMQ7CWKB2vK7GwZ@robh.at.kernel.org>
-References: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
- <20210723132810.25728-7-alexandre.torgue@foss.st.com>
+        id S233216AbhG2UkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jul 2021 16:40:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33656 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233151AbhG2UkK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Jul 2021 16:40:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4443660F4A;
+        Thu, 29 Jul 2021 20:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627591207;
+        bh=cPzNG+IhLAlTcUtbka4Lexeb6ZgrCfZYzznuCEuCmS4=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=EyZpsX28ooAGtXtWfjFYlHwhdeVDzMceE4JpNao+3kBhL7L/AFnSB7a47YKuYZXmF
+         r390ZMJ4Ohw7ndMWlaI/cJT7rmojFosWjCYuuoWzYswoedVraeJ05XNBPgk+uYTzlS
+         lLINHdxsuhCKDbEP3bLqfIobLn/fQAu2c1DEY7CilXu9JH5k8eQupsO8oUucFgsZUS
+         7NxjVXyIJzgfTgx36RH/pPTdRau3KsBbYJOeOGtQqhWQuVOaYr6KqiKPtOAAryR/5w
+         FFZvIYCS0cP6EuI8SfCrZbNZrskJXBMA/IiZqMYFHDutrGmRdc6JjITOFJq87BVfTF
+         7vdwSpc3V7AUQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210723132810.25728-7-alexandre.torgue@foss.st.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/9] dpaa2-switch: add mirroring support
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162759120721.28029.1939266274175120987.git-patchwork-notify@kernel.org>
+Date:   Thu, 29 Jul 2021 20:40:07 +0000
+References: <20210729171901.3211729-1-ciorneiioana@gmail.com>
+In-Reply-To: <20210729171901.3211729-1-ciorneiioana@gmail.com>
+To:     Ioana Ciornei <ciorneiioana@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        ioana.ciornei@nxp.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Jul 2021 15:28:09 +0200, Alexandre Torgue wrote:
-> Add new entry for stm32mp135f-dk board.
-> 
-> Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> 
+Hello:
 
-Acked-by: Rob Herring <robh@kernel.org>
+This series was applied to netdev/net-next.git (refs/heads/master):
+
+On Thu, 29 Jul 2021 20:18:52 +0300 you wrote:
+> From: Ioana Ciornei <ioana.ciornei@nxp.com>
+> 
+> This patch set adds per port and per VLAN mirroring in dpaa2-switch.
+> 
+> The first 4 patches are just cosmetic changes. We renamed the
+> dpaa2_switch_acl_tbl structure into dpaa2_switch_filter_block so that we
+> can reuse it for filters that do not use the ACL table and reorganized
+> the addition of trap, redirect and drop filters into a separate
+> function. All this just to make for a more streamlined addition of the
+> support for mirroring.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,1/9] dpaa2-switch: rename dpaa2_switch_tc_parse_action to specify the ACL
+    https://git.kernel.org/netdev/net-next/c/3b5d8b448602
+  - [net-next,2/9] dpaa2-switch: rename dpaa2_switch_acl_tbl into filter_block
+    https://git.kernel.org/netdev/net-next/c/adcb7aa335af
+  - [net-next,3/9] dpaa2-switch: reorganize dpaa2_switch_cls_flower_replace
+    https://git.kernel.org/netdev/net-next/c/c5f6d490c578
+  - [net-next,4/9] dpaa2-switch: reorganize dpaa2_switch_cls_matchall_replace
+    https://git.kernel.org/netdev/net-next/c/3fa5514a2966
+  - [net-next,5/9] dpaa2-switch: add API for setting up mirroring
+    https://git.kernel.org/netdev/net-next/c/cbc2a8893b59
+  - [net-next,6/9] dpaa2-switch: add support for port mirroring
+    https://git.kernel.org/netdev/net-next/c/e0ead825a1f1
+  - [net-next,7/9] dpaa2-switch: add VLAN based mirroring
+    https://git.kernel.org/netdev/net-next/c/0f3faece5808
+  - [net-next,8/9] dpaa2-switch: offload shared block mirror filters when binding to a port
+    https://git.kernel.org/netdev/net-next/c/7a91f9078d4f
+  - [net-next,9/9] docs: networking: dpaa2: document mirroring support on the switch
+    https://git.kernel.org/netdev/net-next/c/d1626a1c273d
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
