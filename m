@@ -2,116 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EEBC4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DB6C4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:56:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ACDC60720
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:01:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 404B460F46
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:56:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236993AbhG2PBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jul 2021 11:01:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229934AbhG2PBX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 11:01:23 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A1FC061765;
-        Thu, 29 Jul 2021 08:01:19 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id u20so8007059ljo.0;
-        Thu, 29 Jul 2021 08:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=R0UHRNrLka+a+buvqDDT6IGZvdUfKhb8O6hi8kQSoj0=;
-        b=fLIfNtTcLN8ef/3QB/2FwUDhhAgRPsCyMVxc0JMjQX7cUVpDiThDkEOEo8EwPgpTz4
-         cGXvef04xg6q11NV7TlgcaHMyNRI+fDWRi4jUPeUZEcJxQIqQaAVZJS73WqztczwQikV
-         lN6wDYdYJ1CjcnB251VDwJQJrCVDWnv3Eq0dhHDREXvLiTgBmzTXps+300lul0tDAa4r
-         ESazEIIq/tIm8DQuP+4ZAWOZAANDnAIAz6NWJmRHVQyv50bDS9wVvV0panqNclP1refJ
-         l7XhnDjWNZ1ocX1xTfwzycfteqdVw6+XTsM+o1ogAwCNzvfZs21DXnUytQGkoO+w3Ccj
-         ApKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=R0UHRNrLka+a+buvqDDT6IGZvdUfKhb8O6hi8kQSoj0=;
-        b=OVU4vS9aicI6s9zBdYzqeqJ+0ePQd2vWpkjzn/rPcLH6cYVCzEEOVxhbp4SF7IAf5M
-         Jn4hIH5W5xj0opYliy6NSQa3Tb48PzPpDYQz50p5rZUFSgNERnrVMrRXKrGxYwkMNdwI
-         MRAeZiDVyGLZbHXdpOq6dDsCmmBBjiCuLEQ4zQHedCdL51RytjiG8wP0SPN4rhqogUHI
-         qNT7N75VDtd5Mv7bVJmWrJnybpJdRk0g1bQ6gkR11MMxKvTI2ovSO8/sq77BS0p0v7Np
-         rvKPyfCPGQI8Lu5DqN3Hw/gkUg1u+0XVqZVDgpfgY0OEfkh0OCHd+c78FG4oURxrzQSa
-         dOsA==
-X-Gm-Message-State: AOAM531X0tS7uT9Z267NvBhJBObc2e1qmwwhKElQHN/8ikDioAoa5IaU
-        VLW4fFBImYAn+ew8xZsRCfQ4giiboXQIOOqa
-X-Google-Smtp-Source: ABdhPJxjd7o0KVNL7mI4Bv07lQfIFDQfbDUZuJmHE5UpJWofTNabI8PAT90pO3/iaWOCWbU0rMwLwA==
-X-Received: by 2002:a2e:b0d9:: with SMTP id g25mr3206610ljl.454.1627570877722;
-        Thu, 29 Jul 2021 08:01:17 -0700 (PDT)
-Received: from [0.0.0.0] ([2a00:b700:2::4:1d2])
-        by smtp.gmail.com with ESMTPSA id h10sm327913lfp.151.2021.07.29.08.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 08:01:17 -0700 (PDT)
-Subject: Re: [PATCH v6 3/3] MAINTAINERS: add entry for traditional Chinese
- documentation
-To:     Hu Haowen <src.res@email.cn>, corbet@lwn.net
-Cc:     linux-doc-tw@groups.io, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210727161501.13030-1-src.res@email.cn>
- <20210727161501.13030-3-src.res@email.cn>
-From:   Pan Yunwang <panyunwang849@gmail.com>
-Message-ID: <d5633d12-bd1f-c45f-2b98-d5953d074793@gmail.com>
-Date:   Thu, 29 Jul 2021 23:01:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S238220AbhG2P5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jul 2021 11:57:00 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:15113 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238224AbhG2P4z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Jul 2021 11:56:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=From:To:Date; bh=ptREmgSy9AQZ1hFdza5yGK+0EixV+4y6ei5ru
+        CicvSA=; b=kYELn9hq4nRUqvc6vOWImsjNPNvACZ74MKrLAwnHqLt5l8Qf1OVQi
+        3Q/M7hvdB0C447rbq8e3QchlUOkPq3bpS760ndrYtCfb6kyYqJkuUtUWWeUsVkD7
+        /qs1u4vBg6VDgwrrD37iT9d/J/s5dsdtCH2tETVEtlZLjmyuBxXuns=
+Received: from localhost.localdomain (unknown [113.251.12.143])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgA3RAOszwJhHf4MAA--.40231S4;
+        Thu, 29 Jul 2021 23:56:49 +0800 (CST)
+From:   Hu Haowen <src.res@email.cn>
+To:     corbet@lwn.net
+Cc:     panyunwang849@gmail.com,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 3/3] MAINTAINERS: add entry for traditional Chinese documentation
+Date:   Thu, 29 Jul 2021 23:56:27 +0800
+Message-Id: <20210729155627.41744-3-src.res@email.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210729155627.41744-1-src.res@email.cn>
+References: <20210729155627.41744-1-src.res@email.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210727161501.13030-3-src.res@email.cn>
-Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-CM-TRANSID: LCKnCgA3RAOszwJhHf4MAA--.40231S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF15Jw4fXw4DWFy5XF1UJrb_yoWfXwb_Jw
+        4UJayxXr43GFn7K395ZFZ2kryava93Jr18u3Z5t3s8Xa4DJrZ0yFn2ywn3u3s8uFsruryD
+        AF9xJr4FqrnxujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbYAYjsxI4VW3JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWxJr1U
+        JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6ryrMxAIw2
+        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+        CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+        I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
+        UjIFyTuYvjxUnfHUUUUUU
+X-Originating-IP: [113.251.12.143]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add maintainer information for traditional Chinese documentation.
 
-ÔÚ 2021/7/28 ÉÏÎç12:15, Hu Haowen Ð´µÀ:
-> Add maintainer information for traditional Chinese documentation.
->
-> Signed-off-by: Hu Haowen <src.res@email.cn>
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 66d047dc6880..de9370bcb226 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18829,6 +18829,14 @@ F:	arch/x86/mm/testmmiotrace.c
->  F:	include/linux/mmiotrace.h
->  F:	kernel/trace/trace_mmiotrace.c
->  
-> +TRADITIONAL CHINESE DOCUMENTATION
-> +M:	Hu Haowen <src.res@email.cn>
-> +L:	linux-doc-tw@groups.io
+Signed-off-by: Hu Haowen <src.res@email.cn>
+Reviewed-by: Pan Yunwang <panyunwang849@gmail.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 66d047dc6880..22d8ca2d5616 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18829,6 +18829,14 @@ F:	arch/x86/mm/testmmiotrace.c
+ F:	include/linux/mmiotrace.h
+ F:	kernel/trace/trace_mmiotrace.c
+ 
++TRADITIONAL CHINESE DOCUMENTATION
++M:	Hu Haowen <src.res@email.cn>
++L:	linux-doc-tw-discuss@lists.sourceforge.net
++S:	Maintained
++W:	https://github.com/srcres258/linux-doc
++T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
++F:	Documentation/translations/zh_TW/
++
+ TRIVIAL PATCHES
+ M:	Jiri Kosina <trivial@kernel.org>
+ S:	Maintained
+-- 
+2.25.1
 
-The mailing list isn't working at the moment. Please replace it with
-linux-doc-tw-discuss@lists.sourceforge.net.
-
-Thanks,
-Pan Yunwang
-
-
-> +S:	Maintained
-> +W:	https://github.com/srcres258/linux-doc
-> +T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
-> +F:	Documentation/translations/zh_TW/
-> +
->  TRIVIAL PATCHES
->  M:	Jiri Kosina <trivial@kernel.org>
->  S:	Maintained
