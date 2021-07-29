@@ -2,307 +2,309 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DE0C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 02:26:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24258C432BE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 02:26:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F84E61040
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 02:26:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E1B461040
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 02:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233372AbhG2C0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233256AbhG2C0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 28 Jul 2021 22:26:46 -0400
-Received: from pi.codeconstruct.com.au ([203.29.241.158]:36008 "EHLO
+Received: from pi.codeconstruct.com.au ([203.29.241.158]:36012 "EHLO
         codeconstruct.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233256AbhG2C0p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 22:26:45 -0400
-X-Greylist: delayed 336 seconds by postgrey-1.27 at vger.kernel.org; Wed, 28 Jul 2021 22:26:45 EDT
+        with ESMTP id S233310AbhG2C0q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jul 2021 22:26:46 -0400
 Received: by codeconstruct.com.au (Postfix, from userid 10000)
-        id 7F6FD2149A; Thu, 29 Jul 2021 10:21:10 +0800 (AWST)
+        id CC4D120226; Thu, 29 Jul 2021 10:21:03 +0800 (AWST)
 From:   Jeremy Kerr <jk@codeconstruct.com.au>
 To:     netdev@vger.kernel.org
 Cc:     Matt Johnston <matt@codeconstruct.com.au>,
         Andrew Jeffery <andrew@aj.id.au>,
         Jakub Kicinski <kuba@kernel.org>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH net-next v4 15/15] mctp: Add MCTP overview document
-Date:   Thu, 29 Jul 2021 10:20:53 +0800
-Message-Id: <20210729022053.134453-16-jk@codeconstruct.com.au>
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, selinux@vger.kernel.org
+Subject: [PATCH net-next v4 00/15] Add Management Component Transport Protocol support
+Date:   Thu, 29 Jul 2021 10:20:38 +0800
+Message-Id: <20210729022053.134453-1-jk@codeconstruct.com.au>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210729022053.134453-1-jk@codeconstruct.com.au>
-References: <20210729022053.134453-1-jk@codeconstruct.com.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This change adds a brief document about the sockets API provided for
-sending and receiving MCTP messages from userspace.
+This series adds core MCTP support to the kernel. From the Kconfig
+description:
 
-This is roughly based on the OpenBMC design document, at:
+  Management Component Transport Protocol (MCTP) is an in-system
+  protocol for communicating between management controllers and
+  their managed devices (peripherals, host processors, etc.). The
+  protocol is defined by DMTF specification DSP0236.
 
-  https://github.com/openbmc/docs/blob/master/designs/mctp/mctp-kernel.md
+  This option enables core MCTP support. For communicating with other
+  devices, you'll want to enable a driver for a specific hardware
+  channel.
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+This implementation allows a sockets-based API for sending and receiving
+MCTP messages via sendmsg/recvmsg on SOCK_DGRAM sockets. Kernel stack
+control is all via netlink, using existing RTM_* messages. The userspace
+ABI change is fairly small; just the necessary AF_/ETH_P_/ARPHDR_
+constants, a new sockaddr, and a new netlink attribute.
 
----
+For MAINTAINERS, I've just included netdev@ as the list entry. I'm happy
+to alter this based on preferences here - an alternative would be the
+OpenBMC list (the main user of the MCTP interface), or we can create a
+new list entirely.
+
+We have a couple of interface drivers almost ready to go at the moment,
+but those can wait until the core code has some review.
+
+This is v4 of the series; v1 and v2 were both RFC.
+
+selinux folks: CCing 01/15 due to the new PF_MCTP protocol family.
+
+linux-doc folks: CCing 15/15 for the new MCTP overview document.
+
+Review, comments, questions etc. are most welcome.
+
+Cheers,
+
+
+Jeremy
+
 v2:
- - Controller -> component
----
- Documentation/networking/index.rst |   1 +
- Documentation/networking/mctp.rst  | 213 +++++++++++++++++++++++++++++
- MAINTAINERS                        |   1 +
- 3 files changed, 215 insertions(+)
- create mode 100644 Documentation/networking/mctp.rst
+ - change to match spec terminology: controller -> component
+ - require specific capabilities for bind() & sendmsg()
+ - add address and tag defintions to uapi
+ - add selinux AF_MCTP table definitions
+ - remove strict cflags; warnings are present in common headers
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index a91a2739f8ed..58bc8cd367c6 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -69,6 +69,7 @@ Contents:
-    l2tp
-    lapb-module
-    mac80211-injection
-+   mctp
-    mpls-sysctl
-    mptcp-sysctl
-    multiqueue
-diff --git a/Documentation/networking/mctp.rst b/Documentation/networking/mctp.rst
-new file mode 100644
-index 000000000000..6100cdc220f6
---- /dev/null
-+++ b/Documentation/networking/mctp.rst
-@@ -0,0 +1,213 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================================
-+Management Component Transport Protocol (MCTP)
-+==============================================
-+
-+net/mctp/ contains protocol support for MCTP, as defined by DMTF standard
-+DSP0236. Physical interface drivers ("bindings" in the specification) are
-+provided in drivers/net/mctp/.
-+
-+The core code provides a socket-based interface to send and receive MCTP
-+messages, through an AF_MCTP, SOCK_DGRAM socket.
-+
-+Structure: interfaces & networks
-+================================
-+
-+The kernel models the local MCTP topology through two items: interfaces and
-+networks.
-+
-+An interface (or "link") is an instance of an MCTP physical transport binding
-+(as defined by DSP0236, section 3.2.47), likely connected to a specific hardware
-+device. This is represented as a ``struct netdevice``.
-+
-+A network defines a unique address space for MCTP endpoints by endpoint-ID
-+(described by DSP0236, section 3.2.31). A network has a user-visible identifier
-+to allow references from userspace. Route definitions are specific to one
-+network.
-+
-+Interfaces are associated with one network. A network may be associated with one
-+or more interfaces.
-+
-+If multiple networks are present, each may contain endpoint IDs (EIDs) that are
-+also present on other networks.
-+
-+Sockets API
-+===========
-+
-+Protocol definitions
-+--------------------
-+
-+MCTP uses ``AF_MCTP`` / ``PF_MCTP`` for the address- and protocol- families.
-+Since MCTP is message-based, only ``SOCK_DGRAM`` sockets are supported.
-+
-+.. code-block:: C
-+
-+    int sd = socket(AF_MCTP, SOCK_DGRAM, 0);
-+
-+The only (current) value for the ``protocol`` argument is 0.
-+
-+As with all socket address families, source and destination addresses are
-+specified with a ``sockaddr`` type, with a single-byte endpoint address:
-+
-+.. code-block:: C
-+
-+    typedef __u8		mctp_eid_t;
-+
-+    struct mctp_addr {
-+            mctp_eid_t		s_addr;
-+    };
-+
-+    struct sockaddr_mctp {
-+            unsigned short int	smctp_family;
-+            int			smctp_network;
-+            struct mctp_addr	smctp_addr;
-+            __u8		smctp_type;
-+            __u8		smctp_tag;
-+    };
-+
-+    #define MCTP_NET_ANY	0x0
-+    #define MCTP_ADDR_ANY	0xff
-+
-+
-+Syscall behaviour
-+-----------------
-+
-+The following sections describe the MCTP-specific behaviours of the standard
-+socket system calls. These behaviours have been chosen to map closely to the
-+existing sockets APIs.
-+
-+``bind()`` : set local socket address
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Sockets that receive incoming request packets will bind to a local address,
-+using the ``bind()`` syscall.
-+
-+.. code-block:: C
-+
-+    struct sockaddr_mctp addr;
-+
-+    addr.smctp_family = AF_MCTP;
-+    addr.smctp_network = MCTP_NET_ANY;
-+    addr.smctp_addr.s_addr = MCTP_ADDR_ANY;
-+    addr.smctp_type = MCTP_TYPE_PLDM;
-+    addr.smctp_tag = MCTP_TAG_OWNER;
-+
-+    int rc = bind(sd, (struct sockaddr *)&addr, sizeof(addr));
-+
-+This establishes the local address of the socket. Incoming MCTP messages that
-+match the network, address, and message type will be received by this socket.
-+The reference to 'incoming' is important here; a bound socket will only receive
-+messages with the TO bit set, to indicate an incoming request message, rather
-+than a response.
-+
-+The ``smctp_tag`` value will configure the tags accepted from the remote side of
-+this socket. Given the above, the only valid value is ``MCTP_TAG_OWNER``, which
-+will result in remotely "owned" tags being routed to this socket. Since
-+``MCTP_TAG_OWNER`` is set, the 3 least-significant bits of ``smctp_tag`` are not
-+used; callers must set them to zero.
-+
-+A ``smctp_network`` value of ``MCTP_NET_ANY`` will configure the socket to
-+receive incoming packets from any locally-connected network. A specific network
-+value will cause the socket to only receive incoming messages from that network.
-+
-+The ``smctp_addr`` field specifies a local address to bind to. A value of
-+``MCTP_ADDR_ANY`` configures the socket to receive messages addressed to any
-+local destination EID.
-+
-+The ``smctp_type`` field specifies which message types to receive. Only the
-+lower 7 bits of the type is matched on incoming messages (ie., the
-+most-significant IC bit is not part of the match). This results in the socket
-+receiving packets with and without a message integrity check footer.
-+
-+``sendto()``, ``sendmsg()``, ``send()`` : transmit an MCTP message
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+An MCTP message is transmitted using one of the ``sendto()``, ``sendmsg()`` or
-+``send()`` syscalls. Using ``sendto()`` as the primary example:
-+
-+.. code-block:: C
-+
-+    struct sockaddr_mctp addr;
-+    char buf[14];
-+    ssize_t len;
-+
-+    /* set message destination */
-+    addr.smctp_family = AF_MCTP;
-+    addr.smctp_network = 0;
-+    addr.smctp_addr.s_addr = 8;
-+    addr.smctp_tag = MCTP_TAG_OWNER;
-+    addr.smctp_type = MCTP_TYPE_ECHO;
-+
-+    /* arbitrary message to send, with message-type header */
-+    buf[0] = MCTP_TYPE_ECHO;
-+    memcpy(buf + 1, "hello, world!", sizeof(buf) - 1);
-+
-+    len = sendto(sd, buf, sizeof(buf), 0,
-+                    (struct sockaddr_mctp *)&addr, sizeof(addr));
-+
-+The network and address fields of ``addr`` define the remote address to send to.
-+If ``smctp_tag`` has the ``MCTP_TAG_OWNER``, the kernel will ignore any bits set
-+in ``MCTP_TAG_VALUE``, and generate a tag value suitable for the destination
-+EID. If ``MCTP_TAG_OWNER`` is not set, the message will be sent with the tag
-+value as specified. If a tag value cannot be allocated, the system call will
-+report an errno of ``EAGAIN``.
-+
-+The application must provide the message type byte as the first byte of the
-+message buffer passed to ``sendto()``. If a message integrity check is to be
-+included in the transmitted message, it must also be provided in the message
-+buffer, and the most-significant bit of the message type byte must be 1.
-+
-+The ``sendmsg()`` system call allows a more compact argument interface, and the
-+message buffer to be specified as a scatter-gather list. At present no ancillary
-+message types (used for the ``msg_control`` data passed to ``sendmsg()``) are
-+defined.
-+
-+Transmitting a message on an unconnected socket with ``MCTP_TAG_OWNER``
-+specified will cause an allocation of a tag, if no valid tag is already
-+allocated for that destination. The (destination-eid,tag) tuple acts as an
-+implicit local socket address, to allow the socket to receive responses to this
-+outgoing message. If any previous allocation has been performed (to for a
-+different remote EID), that allocation is lost.
-+
-+Sockets will only receive responses to requests they have sent (with TO=1) and
-+may only respond (with TO=0) to requests they have received.
-+
-+``recvfrom()``, ``recvmsg()``, ``recv()`` : receive an MCTP message
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+An MCTP message can be received by an application using one of the
-+``recvfrom()``, ``recvmsg()``, or ``recv()`` system calls. Using ``recvfrom()``
-+as the primary example:
-+
-+.. code-block:: C
-+
-+    struct sockaddr_mctp addr;
-+    socklen_t addrlen;
-+    char buf[14];
-+    ssize_t len;
-+
-+    addrlen = sizeof(addr);
-+
-+    len = recvfrom(sd, buf, sizeof(buf), 0,
-+                    (struct sockaddr_mctp *)&addr, &addrlen);
-+
-+    /* We can expect addr to describe an MCTP address */
-+    assert(addrlen >= sizeof(buf));
-+    assert(addr.smctp_family == AF_MCTP);
-+
-+    printf("received %zd bytes from remote EID %d\n", rc, addr.smctp_addr);
-+
-+The address argument to ``recvfrom`` and ``recvmsg`` is populated with the
-+remote address of the incoming message, including tag value (this will be needed
-+in order to reply to the message).
-+
-+The first byte of the message buffer will contain the message type byte. If an
-+integrity check follows the message, it will be included in the received buffer.
-+
-+The ``recv()`` system call behaves in a similar way, but does not provide a
-+remote address to the application. Therefore, these are only useful if the
-+remote address is already known, or the message does not require a reply.
-+
-+Like the send calls, sockets will only receive responses to requests they have
-+sent (TO=1) and may only respond (TO=0) to requests they have received.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4ca73465e690..73beb91891ee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11037,6 +11037,7 @@ M:	Jeremy Kerr <jk@codeconstruct.com.au>
- M:	Matt Johnston <matt@codeconstruct.com.au>
- L:	netdev@vger.kernel.org
- S:	Maintained
-+F:	Documentation/networking/mctp.rst
- F:	drivers/net/mctp/
- F:	include/net/mctp.h
- F:	include/net/mctpdevice.h
+v3:
+ - require caps for MCTP bind() & send()
+ - comment typo fixes
+ - switch to an array for local EIDs
+ - fix addrinfo dump iteration & error path
+ - add RTM_DELADDR
+ - remove GENMASK() and BIT() from uapi
+
+v4:
+ - drop tun patch; that can be submitted separately
+ - keep nipa happy: add maintainer CCs, including doc and selinux
+ - net-next rebase
+ - Include AF_MCTP in af_family_slock_keys and pf_family_names
+ - Introduce MODULE_ definitions earlier
+ - upstream change: set_link_af no longer called with RTNL held
+ - add kdoc for net_device.mctp_ptr
+ - don't inline mctp_rt_match_eid
+ - require rtm_type == RTN_UNICAST in route management handlers
+ - remove unused RTAX policy table
+ - fix mctp_sock->keys rcu annotations
+ - fix spurious rcu_read_unlock in route input
+
+Jeremy Kerr (10):
+  mctp: Add MCTP base
+  mctp: Add base socket/protocol definitions
+  mctp: Add base packet definitions
+  mctp: Add sockaddr_mctp to uapi
+  mctp: Add initial driver infrastructure
+  mctp: Add device handling and netlink interface
+  mctp: Add initial routing framework
+  mctp: Populate socket implementation
+  mctp: Implement message fragmentation & reassembly
+  mctp: Add MCTP overview document
+
+Matt Johnston (6):
+  mctp: Add netlink route management
+  mctp: Add neighbour implementation
+  mctp: Add neighbour netlink interface
+  mctp: Add dest neighbour lladdr to route output
+  mctp: Allow per-netns default networks
+  mctp: Allow MCTP on tun devices
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/mctp.rst   |  213 ++++++
+ MAINTAINERS                         |   12 +
+ drivers/net/Kconfig                 |    2 +
+ drivers/net/Makefile                |    1 +
+ drivers/net/mctp/Kconfig            |    8 +
+ drivers/net/mctp/Makefile           |    0
+ include/linux/netdevice.h           |    3 +
+ include/linux/socket.h              |    6 +-
+ include/net/mctp.h                  |  235 ++++++
+ include/net/mctpdevice.h            |   36 +
+ include/net/net_namespace.h         |    4 +
+ include/net/netns/mctp.h            |   36 +
+ include/uapi/linux/if_arp.h         |    1 +
+ include/uapi/linux/if_ether.h       |    3 +
+ include/uapi/linux/if_link.h        |   10 +
+ include/uapi/linux/mctp.h           |   36 +
+ net/Kconfig                         |    1 +
+ net/Makefile                        |    1 +
+ net/mctp/Kconfig                    |   13 +
+ net/mctp/Makefile                   |    3 +
+ net/mctp/af_mctp.c                  |  396 ++++++++++
+ net/mctp/device.c                   |  427 +++++++++++
+ net/mctp/neigh.c                    |  342 +++++++++
+ net/mctp/route.c                    | 1095 +++++++++++++++++++++++++++
+ security/selinux/hooks.c            |    4 +-
+ security/selinux/include/classmap.h |    4 +-
+ 27 files changed, 2890 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/networking/mctp.rst
+ create mode 100644 drivers/net/mctp/Kconfig
+ create mode 100644 drivers/net/mctp/Makefile
+ create mode 100644 include/net/mctp.h
+ create mode 100644 include/net/mctpdevice.h
+ create mode 100644 include/net/netns/mctp.h
+ create mode 100644 include/uapi/linux/mctp.h
+ create mode 100644 net/mctp/Kconfig
+ create mode 100644 net/mctp/Makefile
+ create mode 100644 net/mctp/af_mctp.c
+ create mode 100644 net/mctp/device.c
+ create mode 100644 net/mctp/neigh.c
+ create mode 100644 net/mctp/route.c
+
+-- 
+2.30.2
+
+
+
+Jeremy Kerr (10):
+  mctp: Add MCTP base
+  mctp: Add base socket/protocol definitions
+  mctp: Add base packet definitions
+  mctp: Add sockaddr_mctp to uapi
+  mctp: Add initial driver infrastructure
+  mctp: Add device handling and netlink interface
+  mctp: Add initial routing framework
+  mctp: Populate socket implementation
+  mctp: Implement message fragmentation & reassembly
+  mctp: Add MCTP overview document
+
+Matt Johnston (5):
+  mctp: Add netlink route management
+  mctp: Add neighbour implementation
+  mctp: Add neighbour netlink interface
+  mctp: Add dest neighbour lladdr to route output
+  mctp: Allow per-netns default networks
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/mctp.rst   |  213 ++++++
+ MAINTAINERS                         |   12 +
+ drivers/net/Kconfig                 |    2 +
+ drivers/net/Makefile                |    1 +
+ drivers/net/mctp/Kconfig            |    8 +
+ drivers/net/mctp/Makefile           |    0
+ include/linux/netdevice.h           |    4 +
+ include/linux/socket.h              |    6 +-
+ include/net/mctp.h                  |  231 ++++++
+ include/net/mctpdevice.h            |   36 +
+ include/net/net_namespace.h         |    4 +
+ include/net/netns/mctp.h            |   36 +
+ include/uapi/linux/if_arp.h         |    1 +
+ include/uapi/linux/if_ether.h       |    3 +
+ include/uapi/linux/if_link.h        |   10 +
+ include/uapi/linux/mctp.h           |   36 +
+ net/Kconfig                         |    1 +
+ net/Makefile                        |    1 +
+ net/core/sock.c                     |    1 +
+ net/mctp/Kconfig                    |   13 +
+ net/mctp/Makefile                   |    3 +
+ net/mctp/af_mctp.c                  |  396 ++++++++++
+ net/mctp/device.c                   |  423 +++++++++++
+ net/mctp/neigh.c                    |  342 +++++++++
+ net/mctp/route.c                    | 1099 +++++++++++++++++++++++++++
+ net/socket.c                        |    1 +
+ security/selinux/hooks.c            |    4 +-
+ security/selinux/include/classmap.h |    4 +-
+ 29 files changed, 2889 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/networking/mctp.rst
+ create mode 100644 drivers/net/mctp/Kconfig
+ create mode 100644 drivers/net/mctp/Makefile
+ create mode 100644 include/net/mctp.h
+ create mode 100644 include/net/mctpdevice.h
+ create mode 100644 include/net/netns/mctp.h
+ create mode 100644 include/uapi/linux/mctp.h
+ create mode 100644 net/mctp/Kconfig
+ create mode 100644 net/mctp/Makefile
+ create mode 100644 net/mctp/af_mctp.c
+ create mode 100644 net/mctp/device.c
+ create mode 100644 net/mctp/neigh.c
+ create mode 100644 net/mctp/route.c
+
+-- 
+2.30.2
+
+
+Jeremy Kerr (10):
+  mctp: Add MCTP base
+  mctp: Add base socket/protocol definitions
+  mctp: Add base packet definitions
+  mctp: Add sockaddr_mctp to uapi
+  mctp: Add initial driver infrastructure
+  mctp: Add device handling and netlink interface
+  mctp: Add initial routing framework
+  mctp: Populate socket implementation
+  mctp: Implement message fragmentation & reassembly
+  mctp: Add MCTP overview document
+
+Matt Johnston (5):
+  mctp: Add netlink route management
+  mctp: Add neighbour implementation
+  mctp: Add neighbour netlink interface
+  mctp: Add dest neighbour lladdr to route output
+  mctp: Allow per-netns default networks
+
+ Documentation/networking/index.rst  |    1 +
+ Documentation/networking/mctp.rst   |  213 ++++++
+ MAINTAINERS                         |   12 +
+ drivers/net/Kconfig                 |    2 +
+ drivers/net/Makefile                |    1 +
+ drivers/net/mctp/Kconfig            |    8 +
+ drivers/net/mctp/Makefile           |    0
+ include/linux/netdevice.h           |    4 +
+ include/linux/socket.h              |    6 +-
+ include/net/mctp.h                  |  231 ++++++
+ include/net/mctpdevice.h            |   36 +
+ include/net/net_namespace.h         |    4 +
+ include/net/netns/mctp.h            |   36 +
+ include/uapi/linux/if_arp.h         |    1 +
+ include/uapi/linux/if_ether.h       |    3 +
+ include/uapi/linux/if_link.h        |   10 +
+ include/uapi/linux/mctp.h           |   36 +
+ net/Kconfig                         |    1 +
+ net/Makefile                        |    1 +
+ net/core/sock.c                     |    1 +
+ net/mctp/Kconfig                    |   13 +
+ net/mctp/Makefile                   |    3 +
+ net/mctp/af_mctp.c                  |  396 ++++++++++
+ net/mctp/device.c                   |  423 +++++++++++
+ net/mctp/neigh.c                    |  342 +++++++++
+ net/mctp/route.c                    | 1099 +++++++++++++++++++++++++++
+ net/socket.c                        |    1 +
+ security/selinux/hooks.c            |    4 +-
+ security/selinux/include/classmap.h |    4 +-
+ 29 files changed, 2889 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/networking/mctp.rst
+ create mode 100644 drivers/net/mctp/Kconfig
+ create mode 100644 drivers/net/mctp/Makefile
+ create mode 100644 include/net/mctp.h
+ create mode 100644 include/net/mctpdevice.h
+ create mode 100644 include/net/netns/mctp.h
+ create mode 100644 include/uapi/linux/mctp.h
+ create mode 100644 net/mctp/Kconfig
+ create mode 100644 net/mctp/Makefile
+ create mode 100644 net/mctp/af_mctp.c
+ create mode 100644 net/mctp/device.c
+ create mode 100644 net/mctp/neigh.c
+ create mode 100644 net/mctp/route.c
+
 -- 
 2.30.2
 
