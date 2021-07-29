@@ -2,345 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC151C4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 23:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 783FCC432BE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 00:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C191604DB
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jul 2021 23:50:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E30A6101C
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 00:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232743AbhG1XuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jul 2021 19:50:20 -0400
-Received: from mail-mw2nam12on2040.outbound.protection.outlook.com ([40.107.244.40]:18538
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S232963AbhG2Ate (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jul 2021 20:49:34 -0400
+Received: from mail-bn8nam12on2079.outbound.protection.outlook.com ([40.107.237.79]:35584
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232609AbhG1XuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Jul 2021 19:50:19 -0400
+        id S232837AbhG2Atd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Jul 2021 20:49:33 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jxH5tB5YJe4yZUWQe9Kxqs9p0RNbTAwHzIzDuXe3+mf7yHqjq09eUq89yMw9U8QpEM5tUnEaDVPdN/tH5sQc/OeNDDpkCEuWUOJ81vij0EJltGqKoPfHPED1G8Erxamtm/ai9e+Suwy9y1kTH7DO2wHNRFoDC3yOLDeus9x3pdeUNjdchwRykWxF4uWFF1GoaFh/sL6HOLT9k+RjDtL3iTDdKi3yVRg2GY74oqQ3VXSwtpY+IaLjPx6qjv5aXIBpsgEYth2evG1slb1SFZPrHfoFVGBFJW8LnAibotlpcYVA+q6ez3TS2/L1HUiLp69jI32Ai7hJj+YYynE2bMrR/g==
+ b=NfSjX/KI7dAa2J/UMJXIGB/3HNnhPXImMbUGhkX6NkDyfcTcyr67YzWcNXXCqOQnjvDeud07HQtbZsBCxVgP5ucGzog66v0jx+Y2bxy+SRyTMLdJHJrAHG23NOU8cByrlSSYaGChQ5Kipf91p6YRKzMM7L44qohisXWe4d3oBL9gOkTdIVU6Z7n82AAyFj5yRqZSDAzTN5kuFFVjhEPrFr20FtGDy3Ez11Ej8Sb6fkAkvyGItTCwc13MvYLDkvAjRugVH4tmhhap2QuQapiXtxpPeJO8pKTzOrB3qZmK4Swft7S8g0daFLhPXXkSVmGFcvDK2i6Qp69thOJIBcP8Ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+yy2w4ujsT7d+nJjbn4vLmkqFX4O3yaDDM7eWnCG/GM=;
- b=BTpE2aUFY7hkBGSOgT84EOQ4B+7BXNMp0CmVzYFmMpc+oodqzcZ2eneU5JVoeMtNVVzHKb/Y549ZbNMZOqvKhk3+SzFYliFH3OELOMP01yl7gcLEoQyimbGix92C4TXsUJibhSv31OnHZoLHL0GbpNKK7F7qUlsrwlR2JcuatSIPwa6yVoJYCrxJE5BOuvw997x8iXldNsH60/xpeaydmYgASAbuvP/Z5RmzTW/o2hGN/xh80T/kiTM5HIMrtvAlSy90hWACNYAd+IMNaG8u8FEaaDGBNKoqrgj8fNE0/Rb1z/t+0tjAzHVZrjKEY+QKcC+0E6V/OuTaWOqKPX7M6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
+ bh=aU3f9OuiUdmchkw+GXAfx5H8S4/WIy0aiIG/duzDst8=;
+ b=kb0iOsuJfZksmx81YlMLrUrMgVdUV/JTSSPu/aRSoLxBFVA0mqJLvqj0fjzh3NmsccEie8jdSv9yB2gRBGrOb0+EC+jrJnwzKLZ6ltjF+n0PvLONt6iRAtaqLdBCM5E8kjPLL1Qt73nlBl9nydU15nyl+/7XJvQws6CXjT1m36ujEy2Q4J18IAxoQH2InbyY9+MgQU3zymj9pD73WSOCFj/lvbRoD3XGtMByenfvTSeZ5h1GHBB197ZGff4M3ktMHtAHiu/yvDTpiwgUv6pd1nLtGMou1BSrELGCjsgMsxUPlDeiw4VFvNASzCKCbLM1W9WX9ERAIbtOpj30QirxOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+yy2w4ujsT7d+nJjbn4vLmkqFX4O3yaDDM7eWnCG/GM=;
- b=VQSinunWEn8VT+2y0nefjeEhvGgWyFT7M+qo/+XoAkMNhr9VwIksDjWnp8P0Q8rG4Eg0NwQHxqYf5UcnUZse6uBmPIocVqXHPcr8inJ5OsdRyMGeUW7qeJ4EGxqIOcdC2q/sYb8iZb332epu8KSjUw/WJ7ByEiv2z6OAYI1nasG59acJhmyK4LWe8f5l68ahoqT1L+Y8sU4gWDcWn8qb6cZqlu4zIobsn0eJ/cOprQ3bkPiiK9m1cz+U67dnUre8Bbv6hSAwdS+eBqOmDzzn1yMQ1dQipBs0jKKgXG/yz6ypSMlwhesOLj//BsLNipcObDkTuox8wN5eB67X2fvPMg==
-Received: from DM6PR11CA0010.namprd11.prod.outlook.com (2603:10b6:5:190::23)
- by DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) with
+ bh=aU3f9OuiUdmchkw+GXAfx5H8S4/WIy0aiIG/duzDst8=;
+ b=W4QqdZicHJqfPJKiIYgq9d7QGVonp4FSPlcPvJDzQbib7d18Wbfl8m2+0dR54bXyMp8GaY1GwkiJ0Nm9+yYJirapx+Br+Y4lm+xc3WKvadh0NiLay5liD+7ynTjf7TETasQzfMlAtfpCYptIpnH/vsFDng3evsr8V1i5QG8uQsvhsadyM4+gp5+M5YjcvYb3PJe+rC5oyD7//ftyCa2LwXhlS/XsAZq/OFxdL0xydVXi+9o0S/6R86b9+3qPi+dMq91U6+kdoR5Dudd6f4NSHfX5ABu2Kq2/3mMqx4YmaXA7NGWLqZjWcpwF9iv5fpkzWR8fL5GXZyVJwXHnY50eyw==
+Authentication-Results: linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5160.namprd12.prod.outlook.com (2603:10b6:208:311::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Wed, 28 Jul
- 2021 23:50:14 +0000
-Received: from DM6NAM11FT049.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:190:cafe::1a) by DM6PR11CA0010.outlook.office365.com
- (2603:10b6:5:190::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
- Transport; Wed, 28 Jul 2021 23:50:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT049.mail.protection.outlook.com (10.13.172.188) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 23:50:13 +0000
-Received: from [172.17.173.69] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 28 Jul
- 2021 23:50:10 +0000
-Subject: Re: [RFC 03/11] hte: Add tegra194 HTE kernel provider
-To:     Kent Gibson <warthog618@gmail.com>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
-        <bgolaszewski@baylibre.com>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>
-References: <20210625235532.19575-1-dipenp@nvidia.com>
- <20210625235532.19575-4-dipenp@nvidia.com> <20210701142156.GA34285@sol>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-Message-ID: <52768891-6c01-7588-e557-5c9eae5375b6@nvidia.com>
-Date:   Wed, 28 Jul 2021 16:59:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.20; Thu, 29 Jul
+ 2021 00:49:26 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%5]) with mapi id 15.20.4373.019; Thu, 29 Jul 2021
+ 00:49:26 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: [PATCH v3 02/14] vfio/mbochs: Fix missing error unwind of mbochs_used_mbytes
+Date:   Wed, 28 Jul 2021 21:49:11 -0300
+Message-Id: <2-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
+In-Reply-To: <0-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
+References: 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: YT1PR01CA0042.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::11) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-In-Reply-To: <20210701142156.GA34285@sol>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by YT1PR01CA0042.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend Transport; Thu, 29 Jul 2021 00:49:25 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1m8uEl-009pmj-PB; Wed, 28 Jul 2021 21:49:23 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b4e188f1-66bb-4144-09ac-08d9522271b2
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4340:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB43400766D0AEA9C5013BE94BAEEA9@DM6PR12MB4340.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 6daf7576-f776-4ea4-3842-08d9522ab66f
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5160:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5160FDB4A2A073F45FC7FCC4C2EB9@BL1PR12MB5160.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0hSkaVSOtqLo9BQ6J46GolkgM8AoUYo+5/GoCTmOT4S6ZIx/MxP2fRglTr2QfYCn+Z4UFmb/X6UcM1xD0N4ye2hLA/r8wOEbrrTU4IlEz56VvGz/a55iOsk8a561zRQ5WY441u3aFfz9Hzlnr/FjqbIMCLPpNCmplwirndMptm4gXE6MKm4mHWFhm7d//xMG4ZjRnehheC93ZgxbcH/VH8EuAuVYHlvrBpzv6xpta11iunghw1Q4RUyRH2LzIIskoz8qkocHRGux4Z2B4hYkmN2Bysk2/6FB18HuQ7dmDBHJ/U8V3sbGSp4OcgXhsZmQa+VOxXcbazC48AH+rO1uZDLJPV0eAMvDWXX/RyAcsIc1aGDMrnS2EC1HHXMlaqdkLDg18n3qnuxOqEDgP3+2Xct5/38X0gLZRiWdNpFBJZ2Sc64wqLg4UtbJ84P0z5Z/yjr0DkF9WhyEFYi574/tuLeRKtl4WSluhhOT1GpQB43fLHswTTbastGvKbln+iyWzjTUsj4P7b0FUK8kaj5pDYgUO1R8pYqyS/k3zD2pZJJrP7FtwYSGoria4yQOucb8/wprdTxg7FC+lZgZkp3UPJ+uISozYuYHX6O3jYC3v9+6sSWVk7wwS2acRea2HxLKkIkNRTTNA8vYDB75ZaIFonKM/F60ODj6282f9tgdglDEmwXKhohwcQe3UnE8+oM7s7ItLJcPXcStM/r65Pmq+LGtmFIepsajL9Ne0JVL6JA=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(396003)(376002)(136003)(36840700001)(46966006)(356005)(31686004)(53546011)(82310400003)(83380400001)(26005)(186003)(54906003)(6916009)(16576012)(36906005)(336012)(86362001)(316002)(36756003)(16526019)(31696002)(8676002)(478600001)(70206006)(70586007)(36860700001)(2906002)(4326008)(7636003)(47076005)(5660300002)(82740400003)(2616005)(426003)(7416002)(8936002)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: YrqAnGt9HLPaQbUgU6RaZinRdr9SYUGnQeEYv1k+KyXb0z4L+Ov1qZVLMZ48+7/kgmNghGfbzz/joKA/xvUQrpYFev2LN0UxP7PF55WUvlMNVHc3E9b8+Xm7a9YDZRRJvgrov4j+hXyUQsmFVxvTPxKsdd3+2XWxBEItnjThPL6GdGdjEoogpfwWs5f4evfl3ZZnPnUHQJDFVB8gZf32G3CFCkCaEDK9VG89zVflmolZsKkwOMrFhByq70gszqut2dgKRw+UBz0/0zV7T1doweEsyRuSi8KatlBEf4+voTQre4RE/7rNb7mmi6oQE30OoJaT76OCJzfjT54va/iULxgPEjf5QAodtuRKsmiIEkjtYMDPtGRZ/iLGxK6sn/WtRowIqxmdmxPpF2Y7L3STQSsy0lfTI+EWTJEvaYO9QVS1LEjEvUM2LPnqi1FXuZq7GiSXj64zKpvEJ/1LKMTwEhX2FvseXvORUAIxHbZ6zQQhyCWxYTy3syRUuvbtv7ecPDQ38OrfjSD3FuThWDI95yyMIU5nBB+nOTfsrVn1XBpklcxAdKaGF/DZnqjt3JFuzIfSkk1CnQ436zk+QVDEAY3apICA/m/k3iUDVFVM54ZlGrXihHhNR4C7V6RUaKsYPbaD1cxadPKIAWfoU5xPT7Pwh9K4v0U1OZ80ljEdg+RxB0BalSW/rJwy9zncn29UCnNK/Ec7TulFcQQaVcKS5Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(8936002)(86362001)(2906002)(6666004)(426003)(921005)(8676002)(2616005)(5660300002)(316002)(186003)(7406005)(7416002)(54906003)(110136005)(26005)(66946007)(66556008)(66476007)(36756003)(9786002)(9746002)(4326008)(83380400001)(478600001)(38100700002)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v6xLb1zWkrZZahMpFF+b5tdxUmMXBcrr9LJcP2iltY4O6/3FS3MFAr8CNJXN?=
+ =?us-ascii?Q?0s2s8G6K8oU/t8CaBdpbQGs5PiFVI8+K0JfCY5Wo5Ea20m2/LjYgrjseDAQ1?=
+ =?us-ascii?Q?qVoyKcUnTMHeioQE545XsY5rglUXPPTY3OShp1ihJqiJcTELaHQ0RRG/7CUv?=
+ =?us-ascii?Q?2tTCAVy6Kw+dFdW7hwDuo1x6xmJLyiIZfnQZzoEn4fosEO3VPyqvdqqnzD8a?=
+ =?us-ascii?Q?nsRtZMF2glEwd/biHJA6dyCLJlTfyBfnHbhE7ZSuq4HPmtlCUhwbPCBrchSn?=
+ =?us-ascii?Q?pK2dJQ42jRK11h+jsSohDPgYJaDO/z/4ZaF9tXdRVF9gOlrTfPKRLEhmireA?=
+ =?us-ascii?Q?cIuJtvcRsIThIIF08GX9kldwuc0lF6jw9w55Ypkdm0KCIemjqdCZhGdAlvfK?=
+ =?us-ascii?Q?iKLBaOAg1vqIBG5Eg18iALXsRuS2qBq2Z5V/fGGrmfS6y4DeRtHCjJQQWNzL?=
+ =?us-ascii?Q?3FGr8OGZPXtxY7Fguo1RS18bF7RxRgmYVSUQpxVhAsEppdQ9Dl20WY0Yln9H?=
+ =?us-ascii?Q?NddACwYw5bfyNp1IRiyDcjjcLgC02km0DiOUjzf+8XwLDdgNHtwxHNMPSfnA?=
+ =?us-ascii?Q?LTHs/gImZR8XDvdhDef7rff0UwLwsAoYBwvHN6SpmBv4UIhrJm6X+63sToSf?=
+ =?us-ascii?Q?29BKvcDUJiypYka/50NuSl0kmqLVO9RUBNP6l+YetpPn6MqpJlceVsOWgBpJ?=
+ =?us-ascii?Q?SwH9B6Fw4B/KuwS4t+lKy3OocN+1EhUMbB1trknMhyD2Sio2W78NGkl9OmDu?=
+ =?us-ascii?Q?Yb2vcmrcSm+OBd6amN2ewArQqDaann+vjse5MnYI2QmZoYmkvWdVVMFFSTV0?=
+ =?us-ascii?Q?BuqbGGpJZrJ5BahxbFZg6zuEhtq0pnry4HaKKNwxqa9dmDGWz5SXKjUXnTjw?=
+ =?us-ascii?Q?/m5Np4EqKZGGjw7l0lQjLcVgIStyuvvkHi5cfFMnCxOBRyRINLOe4vpktPUA?=
+ =?us-ascii?Q?uUCp2VvuJ+lq/bg1u+9nE7IZgNvR6+0p5Q8x+LjObhJXqGpnIOugDMaZFU8m?=
+ =?us-ascii?Q?vbbpXY5bPqquKkgirnKl3fKbhhCByC6QNaePJQa39eBzWRxC9TEjCl4YNKWE?=
+ =?us-ascii?Q?To9T7AfxfBKWfkNXvFGishqGyqcyv032G7Md20GeEJDBhRNAqvQltKQMLcUX?=
+ =?us-ascii?Q?cPHaX9DOgxLdueJ5XqzcfwjG4z2x1dF83nF7m6khG3D/DudFjPkOYkjNiRhx?=
+ =?us-ascii?Q?B80u2R8cwra20uVQwPkdm+sOvC8I0JSsUiI3ZOlRBdScEXPDomCYx/JXjXdY?=
+ =?us-ascii?Q?/i2XGEgoXmOo/Xdx6LcavXtECHEZH5lfjuaF9AtL38rBuLZ1MN3X9YYmZnuU?=
+ =?us-ascii?Q?vKU566utlhdaZORwB2bmWMOd?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 23:50:13.8245
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6daf7576-f776-4ea4-3842-08d9522ab66f
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2021 00:49:25.7659
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4e188f1-66bb-4144-09ac-08d9522271b2
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT049.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4340
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z/NvBt8GiacMZ+bXmcFSetcC7VmO4wOH73xFJTBgNeMV5IhNNQtLfomTamQoI5/k
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5160
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Kent for the review comment. My responses inline.
+Convert mbochs to use an atomic scheme for this like mtty was changed
+into. The atomic fixes various race conditions with probing. Add the
+missing error unwind. Also add the missing kfree of mdev_state->pages.
 
-On 7/1/21 7:21 AM, Kent Gibson wrote:
-> On Fri, Jun 25, 2021 at 04:55:24PM -0700, Dipen Patel wrote:
->> Tegra194 device has multiple HTE instances also known as GTE
->> (Generic hardware Timestamping Engine) which can timestamp subset of
->> SoC lines/signals. This provider driver focuses on IRQ and GPIO lines
->> and exposes timestamping ability on those lines to the consumers
->> through HTE subsystem.
->>
->> Also, with this patch, added:
->> - documentation about this provider and its capabilities at
->> Documentation/hte.
->> - Compilation support in Makefile and Kconfig
->>
->> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
->> ---
->>  Documentation/hte/index.rst        |  21 ++
->>  Documentation/hte/tegra194-hte.rst |  65 ++++
->>  Documentation/index.rst            |   1 +
->>  drivers/hte/Kconfig                |  12 +
->>  drivers/hte/Makefile               |   1 +
->>  drivers/hte/hte-tegra194.c         | 554 +++++++++++++++++++++++++++++
->>  6 files changed, 654 insertions(+)
->>  create mode 100644 Documentation/hte/index.rst
->>  create mode 100644 Documentation/hte/tegra194-hte.rst
->>  create mode 100644 drivers/hte/hte-tegra194.c
->>
->> diff --git a/Documentation/hte/index.rst b/Documentation/hte/index.rst
->> new file mode 100644
->> index 000000000000..f311ebec6b47
->> --- /dev/null
->> +++ b/Documentation/hte/index.rst
->> @@ -0,0 +1,21 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +============================================
->> +The Linux Hardware Timestamping Engine (HTE)
->> +============================================
->> +
->> +The HTE Subsystem
->> +=================
->> +
->> +.. toctree::
->> +   :maxdepth: 1
->> +
->> +   hte
->> +
->> +HTE Tegra Provider
->> +==================
->> +
->> +.. toctree::
->> +   :maxdepth: 1
->> +
->> +   tegra194-hte
->> \ No newline at end of file
->> diff --git a/Documentation/hte/tegra194-hte.rst b/Documentation/hte/tegra194-hte.rst
->> new file mode 100644
->> index 000000000000..c23eaafcf080
->> --- /dev/null
->> +++ b/Documentation/hte/tegra194-hte.rst
->> @@ -0,0 +1,65 @@
->> +HTE Kernel provider driver
->> +==========================
->> +
->> +Description
->> +-----------
->> +The Nvidia tegra194 chip has many hardware timestamping engine (HTE) instances
->> +known as generic timestamping engine (GTE). This provider driver implements
->> +two GTE instances 1) GPIO GTE and 2) IRQ GTE. The both GTEs instances get the
->> +timestamp from the system counter TSC which has 31.25MHz clock rate, and the
->> +driver converts clock tick rate to nano seconds before storing it as timestamp
->> +value.
->> +
->> +GPIO GTE
->> +--------
->> +
->> +This GTE instance help timestamps GPIO in real time, for that to happen GPIO
->> +needs to be configured as input and IRQ needs to ba enabled as well. The only
->> +always on (AON) gpio controller instance supports timestamping GPIOs in
->> +realtime and it has 39 GPIO lines. There is also a dependency on AON GPIO
->> +controller as it requires very specific bits to be set in GPIO config register.
->> +It in a way creates cyclic dependency between GTE and GPIO controller. The GTE
->> +GPIO functionality is accessed from the GPIOLIB. It can support both the in
->> +kernel and userspace consumers. In the later case, requests go through GPIOLIB
->> +CDEV framework. The below APIs are added in GPIOLIB framework to access HTE
->> +subsystem and GPIO GTE for in kernel consumers.
->> +
->> +.. c:function:: int gpiod_hw_timestamp_control( struct gpio_desc *desc, bool enable )
->> +
->> +	To enable HTE on given GPIO line.
->> +
->> +.. c:function:: u64 gpiod_get_hw_timestamp( struct gpio_desc *desc, bool block )
->> +
->> +	To retrieve hardwre timestamp in nano seconds.
->> +
->> +.. c:function:: bool gpiod_is_hw_timestamp_enabled( const struct gpio_desc *desc )
->> +
->> +	To query if HTE is enabled on the given GPIO.
->> +
->> +There is hte-tegra194-gpio-test.c, located in ``drivers/hte/`` directory, test
->> +driver which demonstrates above APIs for the Jetson AGX platform. For userspace
->> +consumers, GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE flag must be specifed during
->> +IOCTL calls, refer ``tools/gpio/gpio-event-mon.c``, which returns the timestamp
->> +in nano second.
->> +
-> <snip>
->
->> +
->> +static void tegra_hte_read_fifo(struct tegra_hte_soc *gs)
->> +{
->> +	u32 tsh, tsl, src, pv, cv, acv, slice, bit_index, line_id;
->> +	u64 tsc;
->> +	int dir;
->> +	struct hte_ts_data el;
->> +
->> +	while ((tegra_hte_readl(gs, HTE_TESTATUS) >>
->> +		HTE_TESTATUS_OCCUPANCY_SHIFT) &
->> +		HTE_TESTATUS_OCCUPANCY_MASK) {
->> +		tsh = tegra_hte_readl(gs, HTE_TETSCH);
->> +		tsl = tegra_hte_readl(gs, HTE_TETSCL);
->> +		tsc = (((u64)tsh << 32) | tsl);
->> +
->> +		src = tegra_hte_readl(gs, HTE_TESRC);
->> +		slice = (src >> HTE_TESRC_SLICE_SHIFT) &
->> +			    HTE_TESRC_SLICE_DEFAULT_MASK;
->> +
->> +		pv = tegra_hte_readl(gs, HTE_TEPCV);
->> +		cv = tegra_hte_readl(gs, HTE_TECCV);
->> +		acv = pv ^ cv;
->> +		while (acv) {
->> +			bit_index = __builtin_ctz(acv);
->> +			if ((pv >> bit_index) & BIT(0))
->> +				dir = HTE_EVENT_RISING_EDGE;
->> +			else
->> +				dir = HTE_EVENT_FALLING_EDGE;
->> +
->> +			line_id = bit_index + (slice << 5);
->> +			el.dir = dir;
->> +			el.tsc = tsc << HTE_TS_NS_SHIFT;
->> +			hte_push_ts_ns_atomic(gs->chip, line_id, &el,
->> +					      sizeof(el));
->> +			acv &= ~BIT(bit_index);
->> +		}
->> +		tegra_hte_writel(gs, HTE_TECMD, HTE_TECMD_CMD_POP);
->> +	}
->> +}
-> What happens when the hte_push_ts_ns_atomic() fails?
-> The timestamp will be quietly dropped?
-> What happens when the interrupt corresponding to that dropped timestamp
-> asks for it?  The irq handler thread will block until it can get a
-> timestamp from the subsequent interrupt?
+Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+Reported-by: Cornelia Huck <cohuck@redhat.com>
+Co-developed-by: Alex Williamson <alex.williamson@redhat.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ samples/vfio-mdev/mbochs.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-Two things happen, 1) at the push, HTE core increments seq counter
+diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+index e81b875b4d87b4..a12b1fc94ed402 100644
+--- a/samples/vfio-mdev/mbochs.c
++++ b/samples/vfio-mdev/mbochs.c
+@@ -129,7 +129,7 @@ static dev_t		mbochs_devt;
+ static struct class	*mbochs_class;
+ static struct cdev	mbochs_cdev;
+ static struct device	mbochs_dev;
+-static int		mbochs_used_mbytes;
++static atomic_t mbochs_avail_mbytes;
+ static const struct vfio_device_ops mbochs_dev_ops;
+ 
+ struct vfio_region_info_ext {
+@@ -507,18 +507,22 @@ static int mbochs_reset(struct mdev_state *mdev_state)
+ 
+ static int mbochs_probe(struct mdev_device *mdev)
+ {
++	int avail_mbytes = atomic_read(&mbochs_avail_mbytes);
+ 	const struct mbochs_type *type =
+ 		&mbochs_types[mdev_get_type_group_id(mdev)];
+ 	struct device *dev = mdev_dev(mdev);
+ 	struct mdev_state *mdev_state;
+ 	int ret = -ENOMEM;
+ 
+-	if (type->mbytes + mbochs_used_mbytes > max_mbytes)
+-		return -ENOMEM;
++	do {
++		if (avail_mbytes < type->mbytes)
++			return -ENOSPC;
++	} while (!atomic_try_cmpxchg(&mbochs_avail_mbytes, &avail_mbytes,
++				     avail_mbytes - type->mbytes));
+ 
+ 	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
+ 	if (mdev_state == NULL)
+-		return -ENOMEM;
++		goto err_avail;
+ 	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mbochs_dev_ops);
+ 
+ 	mdev_state->vconfig = kzalloc(MBOCHS_CONFIG_SPACE_SIZE, GFP_KERNEL);
+@@ -549,17 +553,17 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 	mbochs_create_config_space(mdev_state);
+ 	mbochs_reset(mdev_state);
+ 
+-	mbochs_used_mbytes += type->mbytes;
+-
+ 	ret = vfio_register_group_dev(&mdev_state->vdev);
+ 	if (ret)
+ 		goto err_mem;
+ 	dev_set_drvdata(&mdev->dev, mdev_state);
+ 	return 0;
+-
+ err_mem:
++	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
++err_avail:
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ 	return ret;
+ }
+ 
+@@ -567,8 +571,8 @@ static void mbochs_remove(struct mdev_device *mdev)
+ {
+ 	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+ 
+-	mbochs_used_mbytes -= mdev_state->type->mbytes;
+ 	vfio_unregister_group_dev(&mdev_state->vdev);
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ 	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
+@@ -1351,7 +1355,7 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
+ {
+ 	const struct mbochs_type *type =
+ 		&mbochs_types[mtype_get_type_group_id(mtype)];
+-	int count = (max_mbytes - mbochs_used_mbytes) / type->mbytes;
++	int count = atomic_read(&mbochs_avail_mbytes) / type->mbytes;
+ 
+ 	return sprintf(buf, "%d\n", count);
+ }
+@@ -1433,6 +1437,8 @@ static int __init mbochs_dev_init(void)
+ {
+ 	int ret = 0;
+ 
++	atomic_set(&mbochs_avail_mbytes, max_mbytes);
++
+ 	ret = alloc_chrdev_region(&mbochs_devt, 0, MINORMASK + 1, MBOCHS_NAME);
+ 	if (ret < 0) {
+ 		pr_err("Error: failed to register mbochs_dev, err: %d\n", ret);
+-- 
+2.32.0
 
-2) If the consumer has provided callback, it will either call that callback
-
-with HTE_TS_DROPPED or HTE_TS_AVAIL. The seq counter gives indirect
-
-view of dropped ts. However, I see the problem with the consumers not
-
-providing callback, in that case, push_ts* API just wakes up process without
-
-indicating why (assuming notify variable is true or else there is a chance for
-
-the thread to block forever). One easy approach I can think of for now is to
-
-make callback mandatory (which is optional right now), I will have to rethink
-
-that scenario and will push corrected version next RFC version.
-
-Thanks for pointing out.
-
->
-> Which brings me back to the concern I have with the approach used in
-> the hte/gpiolib integration - how do you guarantee that the timestamp
-> returned by gpiod_get_hw_timestamp() corresponds to the irq interrupt
-> being handled, particularly in the face of errors such as:
->  - overflows of the timestamp FIFO in the chip
-
-I currently do not have any indication mechanism as the providers
-
-I am dealing with right now does not have overflow hardware detection
-
-support. If the chip supports, it should be easy to integrate that feature.
-
-I will provide some hook function or change in push_* API to accommodate
-
-this in next version of RFC.
-
->  - overflows of software FIFOs as here
-
-HTE core records sequence counter as well it callsback the consumer with
-
-HTE_TS_DROPPED.
-
->  - lost interupts (if the hw generates interrupts faster than the CPU
->    can service them)
-
-For this, I have no idea unless hardware supports some sort of mechanism
-
-to catch that. For the current providers, as soon as it detects changes on lines
-
-it captures TS in its hw fifo. Its interrupt gets generated based on threshold
-
-set in that hw fifo. This interrupt is different than the lines of actual device
-
-that is why I said I have no idea how we can tackle that. Let me know if there
-
-is any idea or reference of the codes which does tackle this.
-
-
-Regarding HTE/GPIOLIB integration comment:
-
-You are right, currently, I have only tsc field returned from struct hte_ts_data
-
-to gpiolib. If I can extend that to return hte_ts_data structure which has seq
-
-counter, which I believe can be used to track the overflow situation. The
-
-dropped scenario can be easily tracked if gpiolib can be notified with above
-
-mentioned DROP event through callback. If that is the case, is it ok to have
-
-some sort of callback per gpio in gpiolib?
-
-
-Any idea how I can integrate callback notification with gpiolib if you do not agree on
-
-above callback suggestion?
-
-> ?
->
-> Cheers,
-> Kent.
->
