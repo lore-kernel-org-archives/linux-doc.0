@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2D6C43214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0CDC4320E
 	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 17:18:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C703660F22
+	by mail.kernel.org (Postfix) with ESMTP id 4F52660F21
 	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 17:18:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232054AbhG2RSE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jul 2021 13:18:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        id S232171AbhG2RSD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jul 2021 13:18:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231878AbhG2RSB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 13:18:01 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5EB5C061796;
-        Thu, 29 Jul 2021 10:17:56 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id x14so9163814edr.12;
-        Thu, 29 Jul 2021 10:17:56 -0700 (PDT)
+        with ESMTP id S229739AbhG2RR7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 13:17:59 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4AB6C0613D5;
+        Thu, 29 Jul 2021 10:17:54 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id f13so9144830edq.13;
+        Thu, 29 Jul 2021 10:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5LzLTds65teZUEbmIei4xV2GMvPjinpMxIUAiqV/JN0=;
-        b=MC0GgheTQnid7x9Sq6s8WQJraSt8u9zEUA2m1Iien4P2+nD/ul6xBqvMAOLVvRogIE
-         QnPe1lvVSzT6PYw4N1Nts2tfxh4lAAKOjgWsANwi5Ua9qlWPJc+L0oUjHcZT+OFFP32j
-         B/Ms0WDoEwEgM4E1yrabmPrQ/QTPogXfoFspYmACFaF17hfT2qahsqRqmWE88yVZH0/F
-         L1PAunqYdTBx2AA3cmOfCPJAZncYbCdTd+FAnxcoZhj3yXeMEhceq1FEh/okig1qNUh8
-         4MCcDVAN1/Zk5TdequR71nRPDGTOJXofRcqUT1aBj3U1VQ2JYXDl98u+qRyGcwrIko4p
-         5IjA==
+        bh=83JzS4OeHeIiTINWZZZwZVAkdXfE28yihp7c6aPxoE8=;
+        b=tfZ/H+TQuAgGwi4wE11UtgmCXAxZnlYN0QaeWWxTzG4BHAJjak26tz8xRV7kgytvdW
+         jaWT41vjHWu+xNeFlnA+KfxoUgyCMmIbT1VQqr9C2HnEAE2Ag/tAAIhq/IdEE/J8G9KI
+         sOAiXJSAh/EbrToSCUSib5tWJBAmiudNpA3YGsaC/LMrc32iqOc4j3a1vGY+LmxJy/ye
+         JBmStBanXpepSDNxHIO5bAlyaIOBWy4quLs2b0hTcMYC/WP4iwtm0ZOV8iwuLZiEBi15
+         5z2+QQENlZueb89+QuJTHpyZ3n1lvYUyUCd48hSEgg7x7Tpu28uBRPocL8fe7TVx6awQ
+         zZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5LzLTds65teZUEbmIei4xV2GMvPjinpMxIUAiqV/JN0=;
-        b=CH5vZpW0KvkCSvNxwNfR+/La58IToKgc/8tkc11knz//vc6lBJBNExEexwYaMK80/3
-         Re401ViE9iiVgFpXvSmGrmczywR2TrIHjGuj4VKl/AAoLgiaSAUBvOSim/4P84xReXzB
-         9VKmkm1Kq+VlyuN8J2z6iS3RPOFaMSRaKn3mC8HghVnDufzrGXsHwoZI9oMQPQy9jrMC
-         T0HvEU8vFVS/MFry/nrbck0wUcxCuxNd2kR0NMhd/gUVQRwB5AVBEhJLr1X/jg/ayBNO
-         UWwnupnTN2NQb7s1eH/5GhPP4NB/1SnjO6biCGJehmIYW7LYbtbP1aEctoVFW/nHWlMG
-         ZcWA==
-X-Gm-Message-State: AOAM530Bicw68xuST4RTx5LpwzmzN70ZHXLjPo16GMeN9V3EXBUVqnYL
-        sGtjZ4u+kqRISYr/PF7b5lQ=
-X-Google-Smtp-Source: ABdhPJww0J8xxDK6vo3k0epli+cH6XTiiTMeeZx46T17/gGx0xg0cnT5sSEitHjDVq82l9dxwKKiAA==
-X-Received: by 2002:a05:6402:510:: with SMTP id m16mr5836918edv.280.1627579075347;
-        Thu, 29 Jul 2021 10:17:55 -0700 (PDT)
+        bh=83JzS4OeHeIiTINWZZZwZVAkdXfE28yihp7c6aPxoE8=;
+        b=AEIuJgVOwd4PrTjLXahkwMXHOXoAxb4TAKJKHfk2zU0zmirJIlts1GfbYP9CMK7h7C
+         498ks4sb3yt7DxYqutmkTlFsgRdNVPW7zkxgsrs6+t+o4vLGPSNAZF78IVM84E5DeuYW
+         24L7L6MU9kR36NqBhst2CseGI2LCEZHkM/Ab345e9LQflKKibEC2psTr6cTLtUIR2Mci
+         tjyQKmTV4ccZkOil6AyS+GKgmjTWP3piSINPCmABXmNet7OhST8WT1mQdhKLgrPfUq94
+         8DWno3H8yDG/c8gApeqil6kdvM4MfO7ibDQgGgxOrrQgKr0aIICQbuupMpK/GetQulDj
+         R3hA==
+X-Gm-Message-State: AOAM530ZhFqaTgypQUj4EwkftJzNrDe+XWkITdtFTDrQuDt4IgDPQ70x
+        jlnBrGQJNMnDPtqEG+zzehc=
+X-Google-Smtp-Source: ABdhPJxmrvq/lYjReWP3A/lB+VzkWdQ+FoSXftjbX87F4tF02R0UCqXmF2cy1fP5U4l7wm04zOYhJg==
+X-Received: by 2002:a05:6402:2283:: with SMTP id cw3mr7334881edb.87.1627579073131;
+        Thu, 29 Jul 2021 10:17:53 -0700 (PDT)
 Received: from yoga-910.localhost ([82.76.66.29])
-        by smtp.gmail.com with ESMTPSA id df14sm1451612edb.90.2021.07.29.10.17.54
+        by smtp.gmail.com with ESMTPSA id df14sm1451612edb.90.2021.07.29.10.17.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 10:17:55 -0700 (PDT)
+        Thu, 29 Jul 2021 10:17:52 -0700 (PDT)
 From:   Ioana Ciornei <ciorneiioana@gmail.com>
 To:     davem@davemloft.net, kuba@kernel.org
 Cc:     corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
         Ioana Ciornei <ioana.ciornei@nxp.com>
-Subject: [PATCH net-next 7/9] dpaa2-switch: add VLAN based mirroring
-Date:   Thu, 29 Jul 2021 20:18:59 +0300
-Message-Id: <20210729171901.3211729-8-ciorneiioana@gmail.com>
+Subject: [PATCH net-next 5/9] dpaa2-switch: add API for setting up mirroring
+Date:   Thu, 29 Jul 2021 20:18:57 +0300
+Message-Id: <20210729171901.3211729-6-ciorneiioana@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210729171901.3211729-1-ciorneiioana@gmail.com>
 References: <20210729171901.3211729-1-ciorneiioana@gmail.com>
@@ -74,206 +74,185 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ioana Ciornei <ioana.ciornei@nxp.com>
 
-Using the infrastructure added in the previous patch, extend tc-flower
-support with FLOW_ACTION_MIRRED based on VLAN.
-
-Tested with:
-
-tc qdisc add dev eth8 ingress_block 1 clsact
-tc filter add block 1 ingress protocol 802.1q flower skip_sw \
-	vlan_id 100 action mirred egress mirror dev eth6
-tc filter del block 1 ingress pref 49152
+Add the necessary MC API for setting up and configuring the mirroring
+feature on the DPSW DPAA2 object.
 
 Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
 ---
- .../freescale/dpaa2/dpaa2-switch-flower.c     | 143 +++++++++++++++++-
- 1 file changed, 138 insertions(+), 5 deletions(-)
+ .../net/ethernet/freescale/dpaa2/dpsw-cmd.h   | 19 +++++
+ drivers/net/ethernet/freescale/dpaa2/dpsw.c   | 80 +++++++++++++++++++
+ drivers/net/ethernet/freescale/dpaa2/dpsw.h   | 31 +++++++
+ 3 files changed, 130 insertions(+)
 
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch-flower.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch-flower.c
-index efd6d58ca191..3c4f5ada12fd 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch-flower.c
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-switch-flower.c
-@@ -396,7 +396,9 @@ dpaa2_switch_block_add_mirror(struct dpaa2_switch_filter_block *block,
- {
- 	unsigned long block_ports = block->ports;
- 	struct ethsw_core *ethsw = block->ethsw;
-+	struct ethsw_port_priv *port_priv;
- 	unsigned long ports_added = 0;
-+	u16 vlan = entry->cfg.vlan_id;
- 	bool mirror_port_enabled;
- 	int err, port;
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpsw-cmd.h b/drivers/net/ethernet/freescale/dpaa2/dpsw-cmd.h
+index cb13e740f72b..397d55f2bd99 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpsw-cmd.h
++++ b/drivers/net/ethernet/freescale/dpaa2/dpsw-cmd.h
+@@ -39,11 +39,16 @@
+ #define DPSW_CMDID_GET_IRQ_STATUS           DPSW_CMD_ID(0x016)
+ #define DPSW_CMDID_CLEAR_IRQ_STATUS         DPSW_CMD_ID(0x017)
  
-@@ -414,6 +416,19 @@ dpaa2_switch_block_add_mirror(struct dpaa2_switch_filter_block *block,
- 	 * ports that share the same filter block.
- 	 */
- 	for_each_set_bit(port, &block_ports, ethsw->sw_attr.num_ifs) {
-+		port_priv = ethsw->ports[port];
++#define DPSW_CMDID_SET_REFLECTION_IF        DPSW_CMD_ID(0x022)
 +
-+		/* We cannot add a per VLAN mirroring rule if the VLAN in
-+		 * question is not installed on the switch port.
-+		 */
-+		if (entry->cfg.filter == DPSW_REFLECTION_FILTER_INGRESS_VLAN &&
-+		    !(port_priv->vlans[vlan] & ETHSW_VLAN_MEMBER)) {
-+			NL_SET_ERR_MSG(extack,
-+				       "VLAN must be installed on the switch port");
-+			err = -EINVAL;
-+			goto err_remove_filters;
-+		}
+ #define DPSW_CMDID_IF_SET_TCI               DPSW_CMD_ID(0x030)
+ #define DPSW_CMDID_IF_SET_STP               DPSW_CMD_ID(0x031)
+ 
+ #define DPSW_CMDID_IF_GET_COUNTER           DPSW_CMD_V2(0x034)
+ 
++#define DPSW_CMDID_IF_ADD_REFLECTION        DPSW_CMD_ID(0x037)
++#define DPSW_CMDID_IF_REMOVE_REFLECTION     DPSW_CMD_ID(0x038)
 +
- 		err = dpsw_if_add_reflection(ethsw->mc_io, 0,
- 					     ethsw->dpsw_handle,
- 					     port, &entry->cfg);
-@@ -511,6 +526,112 @@ dpaa2_switch_cls_flower_replace_acl(struct dpaa2_switch_filter_block *block,
- 	return err;
+ #define DPSW_CMDID_IF_ENABLE                DPSW_CMD_ID(0x03D)
+ #define DPSW_CMDID_IF_DISABLE               DPSW_CMD_ID(0x03E)
+ 
+@@ -533,5 +538,19 @@ struct dpsw_cmd_acl_entry {
+ 	__le64 pad2[4];
+ 	__le64 key_iova;
+ };
++
++struct dpsw_cmd_set_reflection_if {
++	__le16 if_id;
++};
++
++#define DPSW_FILTER_SHIFT	0
++#define DPSW_FILTER_SIZE	2
++
++struct dpsw_cmd_if_reflection {
++	__le16 if_id;
++	__le16 vlan_id;
++	/* only 2 bits from the LSB */
++	u8 filter;
++};
+ #pragma pack(pop)
+ #endif /* __FSL_DPSW_CMD_H */
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpsw.c b/drivers/net/ethernet/freescale/dpaa2/dpsw.c
+index 6352d6d1ecba..ab921d75deb2 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpsw.c
++++ b/drivers/net/ethernet/freescale/dpaa2/dpsw.c
+@@ -1579,3 +1579,83 @@ int dpsw_acl_remove_entry(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
+ 	/* send command to mc*/
+ 	return mc_send_command(mc_io, &cmd);
  }
- 
-+static int dpaa2_switch_flower_parse_mirror_key(struct flow_cls_offload *cls,
-+						u16 *vlan)
++
++/**
++ * dpsw_set_reflection_if() - Set target interface for traffic mirrored
++ * @mc_io:	Pointer to MC portal's I/O object
++ * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
++ * @token:	Token of DPSW object
++ * @if_id:	Interface Id
++ *
++ * Only one mirroring destination is allowed per switch
++ *
++ * Return:	Completion status. '0' on Success; Error code otherwise.
++ */
++int dpsw_set_reflection_if(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			   u16 if_id)
 +{
-+	struct flow_rule *rule = flow_cls_offload_flow_rule(cls);
-+	struct flow_dissector *dissector = rule->match.dissector;
-+	struct netlink_ext_ack *extack = cls->common.extack;
++	struct dpsw_cmd_set_reflection_if *cmd_params;
++	struct fsl_mc_command cmd = { 0 };
 +
-+	if (dissector->used_keys &
-+	    ~(BIT(FLOW_DISSECTOR_KEY_BASIC) |
-+	      BIT(FLOW_DISSECTOR_KEY_CONTROL) |
-+	      BIT(FLOW_DISSECTOR_KEY_VLAN))) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Mirroring is supported only per VLAN");
-+		return -EOPNOTSUPP;
-+	}
++	cmd.header = mc_encode_cmd_header(DPSW_CMDID_SET_REFLECTION_IF,
++					  cmd_flags,
++					  token);
++	cmd_params = (struct dpsw_cmd_set_reflection_if *)cmd.params;
++	cmd_params->if_id = cpu_to_le16(if_id);
 +
-+	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_VLAN)) {
-+		struct flow_match_vlan match;
-+
-+		flow_rule_match_vlan(rule, &match);
-+
-+		if (match.mask->vlan_priority != 0 ||
-+		    match.mask->vlan_dei != 0) {
-+			NL_SET_ERR_MSG_MOD(extack,
-+					   "Only matching on VLAN ID supported");
-+			return -EOPNOTSUPP;
-+		}
-+
-+		if (match.mask->vlan_id != 0xFFF) {
-+			NL_SET_ERR_MSG_MOD(extack,
-+					   "Masked matching not supported");
-+			return -EOPNOTSUPP;
-+		}
-+
-+		*vlan = (u16)match.key->vlan_id;
-+	}
-+
-+	return 0;
++	return mc_send_command(mc_io, &cmd);
 +}
 +
-+static int
-+dpaa2_switch_cls_flower_replace_mirror(struct dpaa2_switch_filter_block *block,
-+				       struct flow_cls_offload *cls)
++/**
++ * dpsw_if_add_reflection() - Setup mirroring rule
++ * @mc_io:	Pointer to MC portal's I/O object
++ * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
++ * @token:	Token of DPSW object
++ * @if_id:	Interface Identifier
++ * @cfg:	Reflection configuration
++ *
++ * Return:	Completion status. '0' on Success; Error code otherwise.
++ */
++int dpsw_if_add_reflection(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			   u16 if_id, const struct dpsw_reflection_cfg *cfg)
 +{
-+	struct netlink_ext_ack *extack = cls->common.extack;
-+	struct dpaa2_switch_mirror_entry *mirror_entry;
-+	struct ethsw_core *ethsw = block->ethsw;
-+	struct dpaa2_switch_mirror_entry *tmp;
-+	struct flow_action_entry *cls_act;
-+	struct list_head *pos, *n;
-+	bool mirror_port_enabled;
-+	u16 if_id, vlan;
-+	int err;
++	struct dpsw_cmd_if_reflection *cmd_params;
++	struct fsl_mc_command cmd = { 0 };
 +
-+	mirror_port_enabled = (ethsw->mirror_port != ethsw->sw_attr.num_ifs);
-+	cls_act = &cls->rule->action.entries[0];
++	cmd.header = mc_encode_cmd_header(DPSW_CMDID_IF_ADD_REFLECTION,
++					  cmd_flags,
++					  token);
++	cmd_params = (struct dpsw_cmd_if_reflection *)cmd.params;
++	cmd_params->if_id = cpu_to_le16(if_id);
++	cmd_params->vlan_id = cpu_to_le16(cfg->vlan_id);
++	dpsw_set_field(cmd_params->filter, FILTER, cfg->filter);
 +
-+	/* Offload rules only when the destination is a DPAA2 switch port */
-+	if (!dpaa2_switch_port_dev_check(cls_act->dev)) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Destination not a DPAA2 switch port");
-+		return -EOPNOTSUPP;
-+	}
-+	if_id = dpaa2_switch_get_index(ethsw, cls_act->dev);
-+
-+	/* We have a single mirror port but can configure egress mirroring on
-+	 * all the other switch ports. We need to allow mirroring rules only
-+	 * when the destination port is the same.
-+	 */
-+	if (mirror_port_enabled && ethsw->mirror_port != if_id) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Multiple mirror ports not supported");
-+		return -EBUSY;
-+	}
-+
-+	/* Parse the key */
-+	err = dpaa2_switch_flower_parse_mirror_key(cls, &vlan);
-+	if (err)
-+		return err;
-+
-+	/* Make sure that we don't already have a mirror rule with the same
-+	 * configuration.
-+	 */
-+	list_for_each_safe(pos, n, &block->mirror_entries) {
-+		tmp = list_entry(pos, struct dpaa2_switch_mirror_entry, list);
-+
-+		if (tmp->cfg.filter == DPSW_REFLECTION_FILTER_INGRESS_VLAN &&
-+		    tmp->cfg.vlan_id == vlan) {
-+			NL_SET_ERR_MSG_MOD(extack,
-+					   "VLAN mirror filter already installed");
-+			return -EBUSY;
-+		}
-+	}
-+
-+	mirror_entry = kzalloc(sizeof(*mirror_entry), GFP_KERNEL);
-+	if (!mirror_entry)
-+		return -ENOMEM;
-+
-+	mirror_entry->cfg.filter = DPSW_REFLECTION_FILTER_INGRESS_VLAN;
-+	mirror_entry->cfg.vlan_id = vlan;
-+	mirror_entry->cookie = cls->cookie;
-+
-+	return dpaa2_switch_block_add_mirror(block, mirror_entry, if_id,
-+					     extack);
++	return mc_send_command(mc_io, &cmd);
 +}
 +
- int dpaa2_switch_cls_flower_replace(struct dpaa2_switch_filter_block *block,
- 				    struct flow_cls_offload *cls)
- {
-@@ -529,6 +650,8 @@ int dpaa2_switch_cls_flower_replace(struct dpaa2_switch_filter_block *block,
- 	case FLOW_ACTION_TRAP:
- 	case FLOW_ACTION_DROP:
- 		return dpaa2_switch_cls_flower_replace_acl(block, cls);
-+	case FLOW_ACTION_MIRRED:
-+		return dpaa2_switch_cls_flower_replace_mirror(block, cls);
- 	default:
- 		NL_SET_ERR_MSG_MOD(extack, "Action not supported");
- 		return -EOPNOTSUPP;
-@@ -538,13 +661,23 @@ int dpaa2_switch_cls_flower_replace(struct dpaa2_switch_filter_block *block,
- int dpaa2_switch_cls_flower_destroy(struct dpaa2_switch_filter_block *block,
- 				    struct flow_cls_offload *cls)
- {
--	struct dpaa2_switch_acl_entry *entry;
-+	struct dpaa2_switch_mirror_entry *mirror_entry;
-+	struct dpaa2_switch_acl_entry *acl_entry;
- 
--	entry = dpaa2_switch_acl_tbl_find_entry_by_cookie(block, cls->cookie);
--	if (!entry)
--		return 0;
-+	/* If this filter is a an ACL one, remove it */
-+	acl_entry = dpaa2_switch_acl_tbl_find_entry_by_cookie(block,
-+							      cls->cookie);
-+	if (acl_entry)
-+		return dpaa2_switch_acl_tbl_remove_entry(block, acl_entry);
++/**
++ * dpsw_if_remove_reflection() - Remove mirroring rule
++ * @mc_io:	Pointer to MC portal's I/O object
++ * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
++ * @token:	Token of DPSW object
++ * @if_id:	Interface Identifier
++ * @cfg:	Reflection configuration
++ *
++ * Return:	Completion status. '0' on Success; Error code otherwise.
++ */
++int dpsw_if_remove_reflection(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			      u16 if_id, const struct dpsw_reflection_cfg *cfg)
++{
++	struct dpsw_cmd_if_reflection *cmd_params;
++	struct fsl_mc_command cmd = { 0 };
 +
-+	/* If not, then it has to be a mirror */
-+	mirror_entry = dpaa2_switch_mirror_find_entry_by_cookie(block,
-+								cls->cookie);
-+	if (mirror_entry)
-+		return dpaa2_switch_block_remove_mirror(block,
-+							mirror_entry);
++	cmd.header = mc_encode_cmd_header(DPSW_CMDID_IF_REMOVE_REFLECTION,
++					  cmd_flags,
++					  token);
++	cmd_params = (struct dpsw_cmd_if_reflection *)cmd.params;
++	cmd_params->if_id = cpu_to_le16(if_id);
++	cmd_params->vlan_id = cpu_to_le16(cfg->vlan_id);
++	dpsw_set_field(cmd_params->filter, FILTER, cfg->filter);
++
++	return mc_send_command(mc_io, &cmd);
++}
+diff --git a/drivers/net/ethernet/freescale/dpaa2/dpsw.h b/drivers/net/ethernet/freescale/dpaa2/dpsw.h
+index 5ef221a25b02..892df905b876 100644
+--- a/drivers/net/ethernet/freescale/dpaa2/dpsw.h
++++ b/drivers/net/ethernet/freescale/dpaa2/dpsw.h
+@@ -752,4 +752,35 @@ int dpsw_acl_add_entry(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
  
--	return dpaa2_switch_acl_tbl_remove_entry(block, entry);
-+	return 0;
- }
- 
- static int
+ int dpsw_acl_remove_entry(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
+ 			  u16 acl_id, const struct dpsw_acl_entry_cfg *cfg);
++
++/**
++ * enum dpsw_reflection_filter - Filter type for frames to be reflected
++ * @DPSW_REFLECTION_FILTER_INGRESS_ALL: Reflect all frames
++ * @DPSW_REFLECTION_FILTER_INGRESS_VLAN: Reflect only frames that belong to
++ *	the particular VLAN defined by vid parameter
++ *
++ */
++enum dpsw_reflection_filter {
++	DPSW_REFLECTION_FILTER_INGRESS_ALL = 0,
++	DPSW_REFLECTION_FILTER_INGRESS_VLAN = 1
++};
++
++/**
++ * struct dpsw_reflection_cfg - Structure representing the mirroring config
++ * @filter: Filter type for frames to be mirrored
++ * @vlan_id: VLAN ID to mirror; valid only when the type is DPSW_INGRESS_VLAN
++ */
++struct dpsw_reflection_cfg {
++	enum dpsw_reflection_filter filter;
++	u16 vlan_id;
++};
++
++int dpsw_set_reflection_if(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			   u16 if_id);
++
++int dpsw_if_add_reflection(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			   u16 if_id, const struct dpsw_reflection_cfg *cfg);
++
++int dpsw_if_remove_reflection(struct fsl_mc_io *mc_io, u32 cmd_flags, u16 token,
++			      u16 if_id, const struct dpsw_reflection_cfg *cfg);
+ #endif /* __FSL_DPSW_H */
 -- 
 2.31.1
 
