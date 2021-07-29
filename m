@@ -2,104 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E49C4320A
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 14:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EEBC4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:01:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0FAA61019
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 14:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4ACDC60720
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jul 2021 15:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236878AbhG2OaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jul 2021 10:30:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236733AbhG2OaL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Jul 2021 10:30:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0777E60F4A;
-        Thu, 29 Jul 2021 14:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627569008;
-        bh=g3jcX1B51LCjdrBhcu4qBOxJsWI3TBVovbVBa4YeD58=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=qbincgHspzZAvQ0xQ+1dg+5noov6d/YXIWYI29MFL4SNUProtUnRLld8oSybTS7SF
-         DB66mJN+xXmKo19sCydVS/HvlDlmSicLMqmECIqmvHs5ejgk8W+0YZ/oRcrQjUeuCB
-         AznOYp3MYnxjpT/bDuD/pzvma8apN9J5PFeb4L3uH2Y3L904OU8CL4FTZFH93hhbzy
-         LEpnclICwpqkQxb3/g3OA7D7TkBThuVFhPsu6g4pgffYxeddSIpeSNS+py9sE7uCyx
-         wSa6rptIHLcmGl1ne4Ul0v0EL385nJP1qTnlpxfp71Nioabe7cH+mH8Nv0e7hdGxQC
-         tu80IOpzRTQmg==
-Content-Type: text/plain; charset="utf-8"
+        id S236993AbhG2PBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jul 2021 11:01:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229934AbhG2PBX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jul 2021 11:01:23 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A1FC061765;
+        Thu, 29 Jul 2021 08:01:19 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id u20so8007059ljo.0;
+        Thu, 29 Jul 2021 08:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=R0UHRNrLka+a+buvqDDT6IGZvdUfKhb8O6hi8kQSoj0=;
+        b=fLIfNtTcLN8ef/3QB/2FwUDhhAgRPsCyMVxc0JMjQX7cUVpDiThDkEOEo8EwPgpTz4
+         cGXvef04xg6q11NV7TlgcaHMyNRI+fDWRi4jUPeUZEcJxQIqQaAVZJS73WqztczwQikV
+         lN6wDYdYJ1CjcnB251VDwJQJrCVDWnv3Eq0dhHDREXvLiTgBmzTXps+300lul0tDAa4r
+         ESazEIIq/tIm8DQuP+4ZAWOZAANDnAIAz6NWJmRHVQyv50bDS9wVvV0panqNclP1refJ
+         l7XhnDjWNZ1ocX1xTfwzycfteqdVw6+XTsM+o1ogAwCNzvfZs21DXnUytQGkoO+w3Ccj
+         ApKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=R0UHRNrLka+a+buvqDDT6IGZvdUfKhb8O6hi8kQSoj0=;
+        b=OVU4vS9aicI6s9zBdYzqeqJ+0ePQd2vWpkjzn/rPcLH6cYVCzEEOVxhbp4SF7IAf5M
+         Jn4hIH5W5xj0opYliy6NSQa3Tb48PzPpDYQz50p5rZUFSgNERnrVMrRXKrGxYwkMNdwI
+         MRAeZiDVyGLZbHXdpOq6dDsCmmBBjiCuLEQ4zQHedCdL51RytjiG8wP0SPN4rhqogUHI
+         qNT7N75VDtd5Mv7bVJmWrJnybpJdRk0g1bQ6gkR11MMxKvTI2ovSO8/sq77BS0p0v7Np
+         rvKPyfCPGQI8Lu5DqN3Hw/gkUg1u+0XVqZVDgpfgY0OEfkh0OCHd+c78FG4oURxrzQSa
+         dOsA==
+X-Gm-Message-State: AOAM531X0tS7uT9Z267NvBhJBObc2e1qmwwhKElQHN/8ikDioAoa5IaU
+        VLW4fFBImYAn+ew8xZsRCfQ4giiboXQIOOqa
+X-Google-Smtp-Source: ABdhPJxjd7o0KVNL7mI4Bv07lQfIFDQfbDUZuJmHE5UpJWofTNabI8PAT90pO3/iaWOCWbU0rMwLwA==
+X-Received: by 2002:a2e:b0d9:: with SMTP id g25mr3206610ljl.454.1627570877722;
+        Thu, 29 Jul 2021 08:01:17 -0700 (PDT)
+Received: from [0.0.0.0] ([2a00:b700:2::4:1d2])
+        by smtp.gmail.com with ESMTPSA id h10sm327913lfp.151.2021.07.29.08.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jul 2021 08:01:17 -0700 (PDT)
+Subject: Re: [PATCH v6 3/3] MAINTAINERS: add entry for traditional Chinese
+ documentation
+To:     Hu Haowen <src.res@email.cn>, corbet@lwn.net
+Cc:     linux-doc-tw@groups.io, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210727161501.13030-1-src.res@email.cn>
+ <20210727161501.13030-3-src.res@email.cn>
+From:   Pan Yunwang <panyunwang849@gmail.com>
+Message-ID: <d5633d12-bd1f-c45f-2b98-d5953d074793@gmail.com>
+Date:   Thu, 29 Jul 2021 23:01:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210727161501.13030-3-src.res@email.cn>
+Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 00/15] Add Management Component Transport Protocol
- support
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162756900796.16408.17168794493714239163.git-patchwork-notify@kernel.org>
-Date:   Thu, 29 Jul 2021 14:30:07 +0000
-References: <20210729022053.134453-1-jk@codeconstruct.com.au>
-In-Reply-To: <20210729022053.134453-1-jk@codeconstruct.com.au>
-To:     Jeremy Kerr <jk@codeconstruct.com.au>
-Cc:     netdev@vger.kernel.org, matt@codeconstruct.com.au, andrew@aj.id.au,
-        kuba@kernel.org, davem@davemloft.net, linux-doc@vger.kernel.org,
-        corbet@lwn.net, paul@paul-moore.com,
-        stephen.smalley.work@gmail.com, eparis@parisplace.org,
-        selinux@vger.kernel.org
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This series was applied to netdev/net-next.git (refs/heads/master):
-
-On Thu, 29 Jul 2021 10:20:38 +0800 you wrote:
-> This series adds core MCTP support to the kernel. From the Kconfig
-> description:
-> 
->   Management Component Transport Protocol (MCTP) is an in-system
->   protocol for communicating between management controllers and
->   their managed devices (peripherals, host processors, etc.). The
->   protocol is defined by DMTF specification DSP0236.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v4,01/15] mctp: Add MCTP base
-    https://git.kernel.org/netdev/net-next/c/bc49d8169aa7
-  - [net-next,v4,02/15] mctp: Add base socket/protocol definitions
-    https://git.kernel.org/netdev/net-next/c/8f601a1e4f8c
-  - [net-next,v4,03/15] mctp: Add base packet definitions
-    https://git.kernel.org/netdev/net-next/c/2c8e2e9aec79
-  - [net-next,v4,04/15] mctp: Add sockaddr_mctp to uapi
-    https://git.kernel.org/netdev/net-next/c/60fc63981693
-  - [net-next,v4,05/15] mctp: Add initial driver infrastructure
-    https://git.kernel.org/netdev/net-next/c/4b2e69305cbb
-  - [net-next,v4,06/15] mctp: Add device handling and netlink interface
-    https://git.kernel.org/netdev/net-next/c/583be982d934
-  - [net-next,v4,07/15] mctp: Add initial routing framework
-    https://git.kernel.org/netdev/net-next/c/889b7da23abf
-  - [net-next,v4,08/15] mctp: Add netlink route management
-    https://git.kernel.org/netdev/net-next/c/06d2f4c583a7
-  - [net-next,v4,09/15] mctp: Add neighbour implementation
-    https://git.kernel.org/netdev/net-next/c/4d8b9319282a
-  - [net-next,v4,10/15] mctp: Add neighbour netlink interface
-    https://git.kernel.org/netdev/net-next/c/831119f88781
-  - [net-next,v4,11/15] mctp: Populate socket implementation
-    https://git.kernel.org/netdev/net-next/c/833ef3b91de6
-  - [net-next,v4,12/15] mctp: Implement message fragmentation & reassembly
-    https://git.kernel.org/netdev/net-next/c/4a992bbd3650
-  - [net-next,v4,13/15] mctp: Add dest neighbour lladdr to route output
-    https://git.kernel.org/netdev/net-next/c/26ab3fcaf235
-  - [net-next,v4,14/15] mctp: Allow per-netns default networks
-    https://git.kernel.org/netdev/net-next/c/03f2bbc4ee57
-  - [net-next,v4,15/15] mctp: Add MCTP overview document
-    https://git.kernel.org/netdev/net-next/c/6a2d98b18900
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+ÔÚ 2021/7/28 ÉÏÎç12:15, Hu Haowen Ð´µÀ:
+> Add maintainer information for traditional Chinese documentation.
+>
+> Signed-off-by: Hu Haowen <src.res@email.cn>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 66d047dc6880..de9370bcb226 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18829,6 +18829,14 @@ F:	arch/x86/mm/testmmiotrace.c
+>  F:	include/linux/mmiotrace.h
+>  F:	kernel/trace/trace_mmiotrace.c
+>  
+> +TRADITIONAL CHINESE DOCUMENTATION
+> +M:	Hu Haowen <src.res@email.cn>
+> +L:	linux-doc-tw@groups.io
 
 
+The mailing list isn't working at the moment. Please replace it with
+linux-doc-tw-discuss@lists.sourceforge.net.
+
+Thanks,
+Pan Yunwang
+
+
+> +S:	Maintained
+> +W:	https://github.com/srcres258/linux-doc
+> +T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+> +F:	Documentation/translations/zh_TW/
+> +
+>  TRIVIAL PATCHES
+>  M:	Jiri Kosina <trivial@kernel.org>
+>  S:	Maintained
