@@ -2,231 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4022C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8A1C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:43:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 886D261052
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:16:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0D2760230
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238809AbhG3NQu convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 09:16:50 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3540 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbhG3NQt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 09:16:49 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Gbng004Snz6L9ZH;
-        Fri, 30 Jul 2021 21:04:44 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Jul 2021 15:16:42 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
- Fri, 30 Jul 2021 15:16:42 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
-CC:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-Thread-Topic: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-Thread-Index: AQHXgjzPxJ6WuoGgH0KyG3D/y7w0xqtaWSsAgADBDpCAAD+ygIAAIhjQ
-Date:   Fri, 30 Jul 2021 13:16:42 +0000
-Message-ID: <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
-         <20210726163700.2092768-7-roberto.sassu@huawei.com>
-         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
-         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
- <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
-In-Reply-To: <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.98.153]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S231137AbhG3NoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 09:44:02 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:9931 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231185AbhG3NoC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Jul 2021 09:44:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=U6j4xCRQTNphDoWVkEQmuY0zFpuU+auTGrnhA
+        Ph8wKQ=; b=mgeRrYjSL4QxpqYe+xgUThO/P2GIlC7Axzqi5zbif3I6MN/A4yIKS
+        SSM557/l7kM+6ttYO2U+wbXogaLZ/ALmnR0RCu7QwhZz6fi2PtQPbBeRXu7i/PbX
+        x4LnrlybMIN+0+8qVHXfOqgyodOl9TYgwqPsGN3Sxf7dx4Kgkao2Os=
+Received: from [0.0.0.0] (unknown [113.251.12.143])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCHlQQLAgRhIdMOAA--.39914S3;
+        Fri, 30 Jul 2021 21:43:40 +0800 (CST)
+Subject: Re: [PATCH] cgroup: Fix typo in comments and documents
+To:     Cai Huoqing <caihuoqing@baidu.com>, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20210730051605.2626-1-caihuoqing@baidu.com>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <6de09d3e-6e54-60b9-fa23-9ff0e1f68a28@email.cn>
+Date:   Fri, 30 Jul 2021 21:43:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210730051605.2626-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset=gbk
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: LCKnCgCHlQQLAgRhIdMOAA--.39914S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF43uF45Aw1UAr48ZF4DXFb_yoW7KFyUpa
+        yDCa4IkwsxKF1UKF1Ut3s2gr1Sgw4kW3y3KFykAr1rAFsxJ3WqvFnFv3W5tF1rZFyfCa4U
+        Zrs0vFy09w4qyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
+        1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l
+        4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+        AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+        cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+        6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jAhLnUUUUU=
+X-Originating-IP: [113.251.12.143]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> Sent: Friday, July 30, 2021 2:40 PM
-> Hi Roberto,
-> 
-> On Fri, 2021-07-30 at 07:16 +0000, Roberto Sassu wrote:
-> > > From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> > > Sent: Thursday, July 29, 2021 11:21 PM
-> > >
-> > > On Mon, 2021-07-26 at 18:36 +0200, Roberto Sassu wrote:
-> > > > /*
-> > > > + * digest_list_read: read and parse the digest list from the path
-> > > > + */
-> > > > +static ssize_t digest_list_read(char *path, enum ops op)
-> > > > +{
-> > > > +       void *data = NULL;
-> > > > +       char *datap;
-> > > > +       size_t size;
-> > > > +       u8 actions = 0;
-> > > > +       struct file *file;
-> > > > +       char event_name[NAME_MAX + 9 + 1];
-> > > > +       u8 digest[IMA_MAX_DIGEST_SIZE] = { 0 };
-> > > > +       enum hash_algo algo;
-> > > > +       int rc, pathlen = strlen(path);
-> > > > +
-> > > > +       /* Remove \n. */
-> > > > +       datap = path;
-> > > > +       strsep(&datap, "\n");
-> > > > +
-> > > > +       file = filp_open(path, O_RDONLY, 0);
-> > > > +       if (IS_ERR(file)) {
-> > > > +               pr_err("unable to open file: %s (%ld)", path, PTR_ERR(file));
-> > > > +               return PTR_ERR(file);
-> > > > +       }
-> > > > +
-> > > > +       rc = kernel_read_file(file, 0, &data, INT_MAX, NULL,
-> > > > +                             READING_DIGEST_LIST);
-> > > > +       if (rc < 0) {
-> > > > +               pr_err("unable to read file: %s (%d)", path, rc);
-> > > > +               goto out;
-> > > > +       }
-> > > > +
-> > > > +       size = rc;
-> > > > +
-> > > > +       snprintf(event_name, sizeof(event_name), "%s_file_%s",
-> > > > +                op == DIGEST_LIST_ADD ? "add" : "del",
-> > > > +                file_dentry(file)->d_name.name);
-> > > > +
-> > > > +       rc = ima_measure_critical_data("diglim", event_name, data, size,
-> false,
-> > > > +                                      digest, sizeof(digest));
-> > > > +       if (rc < 0 && rc != -EEXIST)
-> > > > +               goto out_vfree;
-> > >
-> > > The digest lists could easily be measured while reading the digest list
-> > > file above in kernel_read_file().  What makes it "critical-data"?  In
-> > > the SELinux case, the in memory SELinux policy is being measured and
-> > > re-measured to make sure it hasn't been modified.  Is the digest list
-> > > file data being measured more than once?
-> >
-> > Hi Mimi
-> >
-> > yes, the digest lists can be measured with kernel_read_file().
-> > I didn't send the change yet, but I added a DIGEST_LIST_CHECK
-> > hook mapped to READING_DIGEST_LIST, so that digest lists
-> > can be easily measured or appraised.
-> >
-> > The point was that the digest of the digest list must be always
-> > calculated, as it is added to the hash table. Instead of duplicating
-> > the code, I preferred to use ima_measure_critical_data().
-> >
-> > The advantage is also that, if the use case is to just measure
-> > digest lists, ima_measure_critical_data() could do both at the
-> > same time.
-> >
-> > Digest lists can be seen as "critical data" in the sense that
-> > they can affect the security decision on whether to grant
-> > access to a file or not, assuming that an appropriate rule is
-> > added in the IMA policy.
-> 
-> Of course the integrity of files containing the digest lists is
-> important, but that doesn't make them "critical data".  If the
-> integrity of these files is important, then the digest lists not only
-> need to be measured, but they need to be signed and the resulting
-> signature verified.  Without signature verification, there is no basis
-> on which to trust the digest lists data.
 
-The reason of storing the actions performed by IMA on the
-digest lists helps to determine for which purpose they can be
-used. If digest lists are used only for measurement purpose,
-it should be sufficient that digest lists are measured. The
-same applies for appraisal.
+ÔÚ 2021/7/30 ÏÂÎç1:16, Cai Huoqing Ð´µÀ:
+> Fix typo: iff  ==> if
+>
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-> Adding the kernel_read_file() "READING_DIGEST_LIST" support in IMA does
-> not seem to be optional.  IMA would then be calculating the digest list
-> file hash twice, once in kernel_read_file() and then, again, in
-> ima_measure_critical_data().
 
-I didn't include also this part: I retrieve the integrity_iint_cache for
-the opened file descriptor and I get the flags from there. If the
-IMA_MEASURED flag is set, it is not necessary to call also
-ima_measure_critical_data().
+Reviewed-by: Hu Haowen <src.res@email.cn>
 
-> > > I understand that with your changes to ima_measure_critical_data(),
-> > > which are now in next-integrity-testing branch, allow IMA to calculate
-> > > the file data hash.
-> >
-> > Yes, correct. But actually there is another useful use case.
-> > If digest lists are not in the format supported by the kernel,
-> > the user space parser has to convert them before uploading
-> > them to the kernel.
-> >
-> > ima_measure_critical_data() would in this case measure
-> > the converted digest list (it is written directly, without
-> > sending the file path). It is easier to attest the result,
-> > instead of determining whether the user space parser
-> > produced the expected result (by checking the files it
-> > read).
-> 
-> The application to properly convert the digest list file data into the
-> appropriate format would need to be trusted.  I'm concerned that not
-> requiring the converted data to be signed and the signature verified is
-> introducing a new integrity gap.  Perhaps between an LSM policy,
-> limiting which files may be read by the application, and an IMA policy,
-> requiring all files read by this application to be measured and the
-> signature verified, this integrity gap could be averted.
 
-It is the weakest point in the chain, yes. Relying on existing LSMs
-didn't seem to me a good idea, as:
-- a new policy must be installed
-- we must be sure that the policy is really enforced
-- we need to support different LSMs (SELinux for Fedora,
-  Apparmor for SUSE)
-- there might be no LSM we can rely on
-
-For these reasons, I developed a new LSM. Its purpose is to
-identify the user space parser and for each file it opens, ensure
-that the file has been measured or appraised by IMA. If one of
-these actions are missing, it will not be set in the digest list the
-user space parser uploads to the kernel (which means that IMA
-will ignore the digest list for that specific action).
-
-> "critical data", in this context, should probably be used for verifying
-> the in memory file digests and other state information haven't been
-> compromised.
-
-Actually, this is what we are doing currently. To keep the
-implementation simple, once the file or the buffer are uploaded
-to the kernel, they will not be modified, just accessed through
-the indexes.
-
-I could send the second part of the patch set, so that it becomes
-more clear how digest lists are used by IMA and how the
-integrity gap is filled.
-
-Thanks
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Li Jian, Shi Yanli
-
-> thanks,
-> 
-> Mimi
+> ---
+>  Documentation/admin-guide/cgroup-v1/cgroups.rst           | 2 +-
+>  Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst | 4 ++--
+>  kernel/cgroup/cgroup-v1.c                                 | 4 ++--
+>  kernel/cgroup/cgroup.c                                    | 6 +++---
+>  kernel/cgroup/cpuset.c                                    | 4 ++--
+>  5 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> index b0688011ed06..fa747466e304 100644
+> --- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
+> @@ -573,7 +573,7 @@ cgroup_for_each_descendant_pre() for details.
+>  ``void css_offline(struct cgroup *cgrp);``
+>  (cgroup_mutex held by caller)
+>  
+> -This is the counterpart of css_online() and called iff css_online()
+> +This is the counterpart of css_online() and called if css_online()
+>  has succeeded on @cgrp. This signifies the beginning of the end of
+>  @cgrp. @cgrp is being removed and the subsystem should start dropping
+>  all references it's holding on @cgrp. When all references are dropped,
+> diff --git a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
+> index 582d3427de3f..a908c5226bde 100644
+> --- a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
+> @@ -56,7 +56,7 @@ expected.
+>  The cgroup freezer is hierarchical. Freezing a cgroup freezes all
+>  tasks belonging to the cgroup and all its descendant cgroups. Each
+>  cgroup has its own state (self-state) and the state inherited from the
+> -parent (parent-state). Iff both states are THAWED, the cgroup is
+> +parent (parent-state). If both states are THAWED, the cgroup is
+>  THAWED.
+>  
+>  The following cgroupfs files are created by cgroup freezer.
+> @@ -87,7 +87,7 @@ The following cgroupfs files are created by cgroup freezer.
+>  * freezer.self_freezing: Read only.
+>  
+>    Shows the self-state. 0 if the self-state is THAWED; otherwise, 1.
+> -  This value is 1 iff the last write to freezer.state was "FROZEN".
+> +  This value is 1 if the last write to freezer.state was "FROZEN".
+>  
+>  * freezer.parent_freezing: Read only.
+>  
+> diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
+> index de2c432dee20..71d2b46d1968 100644
+> --- a/kernel/cgroup/cgroup-v1.c
+> +++ b/kernel/cgroup/cgroup-v1.c
+> @@ -120,7 +120,7 @@ int cgroup_transfer_tasks(struct cgroup *to, struct cgroup *from)
+>  		goto out_err;
+>  
+>  	/*
+> -	 * Migrate tasks one-by-one until @from is empty.  This fails iff
+> +	 * Migrate tasks one-by-one until @from is empty.  This fails if
+>  	 * ->can_attach() fails.
+>  	 */
+>  	do {
+> @@ -215,7 +215,7 @@ static void cgroup_pidlist_destroy_work_fn(struct work_struct *work)
+>  	mutex_lock(&l->owner->pidlist_mutex);
+>  
+>  	/*
+> -	 * Destroy iff we didn't get queued again.  The state won't change
+> +	 * Destroy if we didn't get queued again.  The state won't change
+>  	 * as destroy_dwork can only be queued while locked.
+>  	 */
+>  	if (!delayed_work_pending(dwork)) {
+> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> index 3a0161c21b6b..b831554372a2 100644
+> --- a/kernel/cgroup/cgroup.c
+> +++ b/kernel/cgroup/cgroup.c
+> @@ -793,7 +793,7 @@ static bool css_set_populated(struct css_set *cset)
+>   * One of the css_sets associated with @cgrp is either getting its first
+>   * task or losing the last.  Update @cgrp->nr_populated_* accordingly.  The
+>   * count is propagated towards root so that a given cgroup's
+> - * nr_populated_children is zero iff none of its descendants contain any
+> + * nr_populated_children is zero if none of its descendants contain any
+>   * tasks.
+>   *
+>   * @cgrp's interface file "cgroup.populated" is zero if both
+> @@ -2410,7 +2410,7 @@ struct task_struct *cgroup_taskset_next(struct cgroup_taskset *tset,
+>   * @mgctx: migration context
+>   *
+>   * Migrate tasks in @mgctx as setup by migration preparation functions.
+> - * This function fails iff one of the ->can_attach callbacks fails and
+> + * This function fails if one of the ->can_attach callbacks fails and
+>   * guarantees that either all or none of the tasks in @mgctx are migrated.
+>   * @mgctx is consumed regardless of success.
+>   */
+> @@ -4264,7 +4264,7 @@ struct cgroup_subsys_state *css_next_child(struct cgroup_subsys_state *pos,
+>  	 * increasing unique serial number and always appended to the
+>  	 * sibling list, the next one can be found by walking the parent's
+>  	 * children until the first css with higher serial number than
+> -	 * @pos's.  While this path can be slower, it happens iff iteration
+> +	 * @pos's.  While this path can be slower, it happens if iteration
+>  	 * races against release and the race window is very small.
+>  	 */
+>  	if (!pos) {
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index adb5190c4429..f09fc0347550 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -782,7 +782,7 @@ static int generate_sched_domains(cpumask_var_t **domains,
+>  		if (cp == &top_cpuset)
+>  			continue;
+>  		/*
+> -		 * Continue traversing beyond @cp iff @cp has some CPUs and
+> +		 * Continue traversing beyond @cp if @cp has some CPUs and
+>  		 * isn't load balancing.  The former is obvious.  The
+>  		 * latter: All child cpusets contain a subset of the
+>  		 * parent's cpus, so just skip them, and then we call
+> @@ -1801,7 +1801,7 @@ static int update_nodemask(struct cpuset *cs, struct cpuset *trialcs,
+>  	}
+>  
+>  	/*
+> -	 * An empty mems_allowed is ok iff there are no tasks in the cpuset.
+> +	 * An empty mems_allowed is ok if there are no tasks in the cpuset.
+>  	 * Since nodelist_parse() fails on an empty mask, we special case
+>  	 * that parsing.  The validate_change() call ensures that cpusets
+>  	 * with tasks have memory.
 
