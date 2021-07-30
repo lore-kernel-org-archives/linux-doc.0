@@ -2,120 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0417EC43214
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39313C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:06:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEC9660F94
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:03:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FBCF60F5E
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239097AbhG3ODa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 10:03:30 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62022 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239044AbhG3ODa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 10:03:30 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16UDlDuT007928;
-        Fri, 30 Jul 2021 10:03:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Vp0U8yxVJgFQ41zGrYD8eUzgmT5mkO9NlAdJeTljdrw=;
- b=QegEPTH0bAHHFrBL85fsAkXTEAWqnkVLqaIyVsC80+ZcAZy1ernC7owkLvSl+FKe0Bo+
- pTkVfxHaWkOBVzLCAulfYfCRIcVvR0iMeOyvfvO+L3NdlISQQZj5URyBH6n4n6nmH42J
- ZZUhScWGTzcXMPKD7A4xmYGMmfyn0eVjrmwrxbjMtDLK3ghfg8A1tb+nhHhyP7DAI23G
- P704v2geHUSNHWrk/Js6XaH7e5somWXbT2DwWYo6sZNxpuYpkfd1yEMjefn+HfItGRMw
- TpRSBfxmGfWc7V8SMQwFuEsA0+KgGJ+ERYySTgYXuIIvh2pJEarVzKBDeVRIn4hQ+1e0 QA== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3a4jm7gf2f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jul 2021 10:03:21 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16UE3BOs017783;
-        Fri, 30 Jul 2021 14:03:18 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 3a235m4346-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jul 2021 14:03:18 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16UE3GP430933376
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Jul 2021 14:03:16 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 28CA4A4069;
-        Fri, 30 Jul 2021 14:03:16 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 207FCA4059;
-        Fri, 30 Jul 2021 14:03:14 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.54.226])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 30 Jul 2021 14:03:13 +0000 (GMT)
-Message-ID: <2c731f07bd08f01f2a3e032814bc65ae9a8494ad.camel@linux.ibm.com>
-Subject: Re: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
-Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Fri, 30 Jul 2021 10:03:13 -0400
-In-Reply-To: <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
-         <20210726163700.2092768-7-roberto.sassu@huawei.com>
-         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
-         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
-         <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
-         <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wNsyaJ4RvqTcomgd160mG9KIFib2kW1P
-X-Proofpoint-ORIG-GUID: wNsyaJ4RvqTcomgd160mG9KIFib2kW1P
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S239065AbhG3OGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 10:06:11 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44634 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239013AbhG3OGK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 10:06:10 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id E50312243D;
+        Fri, 30 Jul 2021 14:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1627653962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k7WY6osdL3kzI8WtGYidMekSaPQZMy3NpPkiI7bG8dY=;
+        b=DvPL+4qdhYPN3m8/xO29owC86+WH1MZxRIdjXnDau8Tx+VsKzchVkk0XFggymADiyXn9Vj
+        IbD970moLckZVqjMloQoWC2IT0N3kuJ5Z/nYu75gAEt7Bstu0ABkRCzGiLRxVX37OU/5Ro
+        /bH7SECXmn3TXdStTj6KWOomhCfLDkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1627653962;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k7WY6osdL3kzI8WtGYidMekSaPQZMy3NpPkiI7bG8dY=;
+        b=8dUpkk4qTOr4/g8jHJS9wDAN9YuEpx+IOce2e55yDsmmcYZDEpJcSIpBxzDR52dpLqrGcV
+        W25TcRYwCgCL+PDA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A8F2F13806;
+        Fri, 30 Jul 2021 14:06:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id 3smNKEoHBGEocgAAGKfGzw
+        (envelope-from <vbabka@suse.cz>); Fri, 30 Jul 2021 14:06:02 +0000
+Subject: Re: [PATCH V5] mm: compaction: support triggering of proactive
+ compaction by user
+To:     Charan Teja Reddy <charante@codeaurora.org>,
+        akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        dave.hansen@linux.intel.com, mgorman@techsingularity.net,
+        nigupta@nvidia.com, corbet@lwn.net, rppt@kernel.org,
+        khalid.aziz@oracle.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        vinmenon@codeaurora.org
+References: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <8fe4ba65-28e1-02d8-cf4d-74aaa76fe9df@suse.cz>
+Date:   Fri, 30 Jul 2021 16:06:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-30_05:2021-07-30,2021-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
- bulkscore=0 lowpriorityscore=0 mlxscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2107300087
+In-Reply-To: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Roberto,
-
-On Fri, 2021-07-30 at 13:16 +0000, Roberto Sassu wrote:
-> > From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> > Sent: Friday, July 30, 2021 2:40 PM
-
-> > "critical data", in this context, should probably be used for verifying
-> > the in memory file digests and other state information haven't been
-> > compromised.
+On 7/30/21 3:53 PM, Charan Teja Reddy wrote:
+> The proactive compaction[1] gets triggered for every 500msec and run
+> compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
+> pages based on the value set to sysctl.compaction_proactiveness.
+> Triggering the compaction for every 500msec in search of
+> COMPACTION_HPAGE_ORDER pages is not needed for all applications,
+> especially on the embedded system usecases which may have few MB's of
+> RAM. Enabling the proactive compaction in its state will endup in
+> running almost always on such systems.
 > 
-> Actually, this is what we are doing currently. To keep the
-> implementation simple, once the file or the buffer are uploaded
-> to the kernel, they will not be modified, just accessed through
-> the indexes.
+> Other side, proactive compaction can still be very much useful for
+> getting a set of higher order pages in some controllable
+> manner(controlled by using the sysctl.compaction_proactiveness). So, on
+> systems where enabling the proactive compaction always may proove not
+> required, can trigger the same from user space on write to its sysctl
+> interface. As an example, say app launcher decide to launch the memory
+> heavy application which can be launched fast if it gets more higher
+> order pages thus launcher can prepare the system in advance by
+> triggering the proactive compaction from userspace.
+> 
+> This triggering of proactive compaction is done on a write to
+> sysctl.compaction_proactiveness by user.
+> 
+> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
+> 
+> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
 
-My main concern about digest lists is their integrity, from loading the
-digest lists to their being stored in memory.  A while back, there was
-some work on defining a write once memory allocator.  I don't recall
-whatever happened to it.  This would be a perfect usecase for that
-memory allocator.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-thanks,
+> @@ -2895,9 +2920,16 @@ static int kcompactd(void *p)
+>  	while (!kthread_should_stop()) {
+>  		unsigned long pflags;
+>  
+> +		/*
+> +		 * Avoid the unnecessary wakeup for proactive compaction
+> +		 * when it is disabled.
+> +		 */
+> +		if (!sysctl_compaction_proactiveness)
+> +			timeout = MAX_SCHEDULE_TIMEOUT;
 
-Mimi
+Does this part actually logically belong more to your previous patch that
+optimized the deferred timeouts?
+
+>  		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
+>  		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
+> -			kcompactd_work_requested(pgdat), timeout)) {
+> +			kcompactd_work_requested(pgdat), timeout) &&
+> +			!pgdat->proactive_compact_trigger) {
+>  
+>  			psi_memstall_enter(&pflags);
+>  			kcompactd_do_work(pgdat);
+> @@ -2932,6 +2964,8 @@ static int kcompactd(void *p)
+>  				timeout =
+>  				   default_timeout << COMPACT_MAX_DEFER_SHIFT;
+>  		}
+> +		if (unlikely(pgdat->proactive_compact_trigger))
+> +			pgdat->proactive_compact_trigger = false;
+>  	}
+>  
+>  	return 0;
+> 
 
