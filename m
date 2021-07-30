@@ -2,230 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDE2C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 16:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC8AC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 17:58:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C54F60E76
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 16:13:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0506960F94
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 17:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbhG3QN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 12:13:58 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:12982 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229479AbhG3QN5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 12:13:57 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16UG8NV1012054;
-        Fri, 30 Jul 2021 16:13:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=bb7Z7YcRtrO/KJm7L96CyLbxNQmzlBPd0r/lzpI5Ws0=;
- b=eN4iIAO2Wj6WUr9/7tkZspA0ZBUhPosN5VRjA8FlbthNvC1AJggzvWhPs2KredCHSnwN
- cpbxqgO1dnWheguPlUkjm7JdQxIF6rmLihykT8qoFjzu95xI205WnrDOpBE1xq7nvv7K
- u5hhMfD9grxSGtj1Fs+NZPyNskYdcLmdkfEYTRZok8u6KipUemJRBWJy11oYLTh2HdGc
- Sjezz9RfhLHQz7bF1tH5Z/kNjkHL+FYpF5QqkzEajP3wtO4Lkq5ArWhl6hTyOWydw2DK
- utWRFyMt27IGcOPns4YpvxJrLlxT4awF+9Ifirm6v3/ur2ypkvluzg3geTwGxodnkTtC cg== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=bb7Z7YcRtrO/KJm7L96CyLbxNQmzlBPd0r/lzpI5Ws0=;
- b=Y7Kb/WV/XJHgXx178VAzbyEssSaTbCsO3+Dm2phlHGXlK7hH/JJXHbT82wSFoGu2HjJ0
- Zyk4UykdVfIpNIiellaBLVEQiquQbEw/nCpOoyGGY3kFvhARznsBzURgj4f9Th1aD2ck
- t03m3WBDKMknGBn0ZU5lAZ3+bPXKLMcwNd4QqYw2RhQ6DgtZRQXpVmJyZcgxy7tjHqhy
- ZGzbV8w0DDUkRvDNik1Ml9Hocrz6a/nZPHPLp8QyIxCKXkQRQxAuvaRlM1cFTIOsNxHs
- h0Jp67ZgyBTNsvGC8CoTUmrFZZ4zt6lD4M2A7zzBa96Trd7HkvMe8FTfHIvHKb+hbcHW hA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3a3jpd42cr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Jul 2021 16:13:22 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16UG78wG194938;
-        Fri, 30 Jul 2021 16:13:20 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-        by userp3030.oracle.com with ESMTP id 3a2359t77a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Jul 2021 16:13:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JzFKXRoSKizu/TvPkxHfMawD+DrFI5Xv3DxbXO/4bppbcyymA2Mp5Bld87YeLIGhO4Ze8SYUcAFJmaCIM0GgZOvULF9rNW7CLeGeug366/n7gGcP7z+JAeZoujlQMxDyZRU1RnrWSPL1YA+phI6f2aVNW+H8cCBJ7FT3FRCjW9MuidkS/PORnGt2v8JyiqVxhJKhArN74jfuEy+i3beshfi+FWP4kWu5S2xclNXvWs4hhJorJ/llWA+0yQe99wEFiZnS/8SggEvdq2mANNLCHhTNyZDp6/hRKEEseUG1DT9TmJuJjGGDlSBPrJtngRJbFFzM3IZgeIjob6MwfZGkcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bb7Z7YcRtrO/KJm7L96CyLbxNQmzlBPd0r/lzpI5Ws0=;
- b=l6Q4EZOBsF86Tp/OtXDqkJkW+k8u5OlPblWbVybbVDRIibHehm6ZXbQHfdG9AMQcedDLd9nFoqnleX1XMnasS4amdZTlws45d0IXfK/k8GHSIPBZR048h15xDT72OZwdFvVQ+zupr8jNtIIVmnkixUCPaLgWgFNvnJRjXUNAwEaHtqOBk2UqmOvuPyDIU3bp6RQnEp3sdMJ9uTuzBZtjDN0Bo4jPTaV5Frpy3dg9HMhZXuDHht2UoZK6UbAvmOGLpzR5ymD0fLr/3zPHY9LYPxF3nlMb7C0bx/IWuZGB07C6p5wJpbfR8/XjQYYV70KDZtI/J4yqk9P67vtaMmzPmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bb7Z7YcRtrO/KJm7L96CyLbxNQmzlBPd0r/lzpI5Ws0=;
- b=pFbl+uk0IaHS92xtXwNhY3aCKs8/ZUgKQVw0z7tGldxcQEGl0UQZC0Bj0S+c7gYNYDAf9ZJin71AnEYrA1ESM0+wybMipA3k0qU1wdsys8LIEYk/eAz7ulIzMH6vg2Ko97KruaivSTzG6eo+BWX/x+Q4xWKrTt+NhkmqNQkZ1ww=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by MN2PR10MB4365.namprd10.prod.outlook.com (2603:10b6:208:199::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.20; Fri, 30 Jul
- 2021 16:13:15 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::5833:5ab2:944c:7360]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::5833:5ab2:944c:7360%9]) with mapi id 15.20.4373.025; Fri, 30 Jul 2021
- 16:13:15 +0000
-Subject: Re: [PATCH v3 04/14] mm/memremap: add ZONE_DEVICE support for
- compound pages
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        id S230093AbhG3R6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 13:58:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35076 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229773AbhG3R6x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Jul 2021 13:58:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1254E60F4B;
+        Fri, 30 Jul 2021 17:58:46 +0000 (UTC)
+Date:   Fri, 30 Jul 2021 18:58:44 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-5-joao.m.martins@oracle.com>
- <CAPcyv4jwd_dzTH1H+cbiKqfK5=Xaa9JY=EVKHhPbjicVZA-URQ@mail.gmail.com>
- <d73793a8-7540-c473-0e30-0880341c2baf@oracle.com>
- <CAPcyv4igDypf04H2bK0G3cR=4ZrND2VL4UoSUN5zeLVa_vbfiA@mail.gmail.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-Message-ID: <0746bc85-b4e9-0cc1-1dcb-2a3333df6f0d@oracle.com>
-Date:   Fri, 30 Jul 2021 17:13:08 +0100
-In-Reply-To: <CAPcyv4igDypf04H2bK0G3cR=4ZrND2VL4UoSUN5zeLVa_vbfiA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0044.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:61::32) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        Evgenii Stepanov <eugenis@google.com>,
+        Jann Horn <jannh@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5] mm: introduce reference pages
+Message-ID: <20210730175843.GB2690@arm.com>
+References: <20210717025757.3945742-1-pcc@google.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.67] (94.61.1.144) by LO2P265CA0044.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:61::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17 via Frontend Transport; Fri, 30 Jul 2021 16:13:12 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 33dc6de1-1f36-4e56-00a6-08d95374efa6
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4365:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4365271E777BD817BCECFEB2BBEC9@MN2PR10MB4365.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sIUd0q92ulsdwpCjYWXeHYO3bNH7XlL29A/6UXJmpthecWqdjgjVbSVfIn6DhsiyeObSQSx/ij6+3wvYhLHdRizUf415mMR/KRCxKZ/mE7WsEYemieV71QhUBV5EK9UQauJM2QlIrwa5HRCz5Fy4QGS/38YoXWwvyk7Pw2tV71VdRsusGIZ7RtwxKYYvx8lZWKgcPNjjgDxB+d5FPQ1oqc1t1gvQ+ew8sFxUcAxscW9kOrWhRASZhkb4RJ3j8DuWw53lIYYdJe43AEaA+u1AAh6hwtKWoS2vdcAeRZBmSxXjSF1u7M5N8NSRo0FOQy4F+Sfy//u7sjyX2yKCsDVWwxUQwOxQ6Zjx+Ydrcr+YlsWDxpWLDWxka7Uo68bfEEis1xeXhqBlwwjbDZzeJqiOqVANeK8ZzD5U3NHeK/r0rsV9eikC3o2nqP3JHaLTW8iD8FI6EHfPDSoCgvj5hh2+PpnePWT4bVXthhSAM8koP8jGKV+XySm20e1ySGhHnOo57IhygYqc2QgrLJiMhWwFd+MhXIUEcxttC6YswY/BiWqeUw+uZ0TLlVB6oKPa7vqcStxB8SrL5d65szdHmqcfV8UwBmj4S2i2eCdZGSaFYrPxfpk5ND4wiSA81DALytRXa92YFq5vCm3R7HokbzCO8xH9Uhe5kYil6U/FRr90felccf5TbOBpNsCmyGQHJTiTQzM+/HTKD5daFMJ6XNERLQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(39860400002)(396003)(366004)(136003)(376002)(4326008)(83380400001)(2616005)(5660300002)(7416002)(38100700002)(8936002)(2906002)(956004)(66556008)(316002)(66476007)(6666004)(16576012)(31686004)(54906003)(6486002)(53546011)(478600001)(26005)(186003)(6916009)(8676002)(31696002)(36756003)(66946007)(86362001)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzZjaUttb2NoVzJxZHVudVFDRnJZSTJsa0xybnFnWXUwcUo3bE1HY2ExWFpH?=
- =?utf-8?B?Y3c0MmNJb2x4VDV1WWJzVFpLc3ZBZ284dHp6Y001NWUwL3NPeXMwR2d0czQ0?=
- =?utf-8?B?MUV2Y2h3K2t6WjVQaTFrOFFmWVZZUVBsQVdDelRUME1JNkhRMHVORkRPcUE5?=
- =?utf-8?B?YU9pSDRhbVRUVldzSmpscFpack51L1ZkZm82YjgwQTZLZzFyOTc5K25zZjRQ?=
- =?utf-8?B?aEdHSXhwZjg0bUh6L3FmbEIvVUpwSDRuRWNjM05iVnpoS3FnS2RGUERPUHZG?=
- =?utf-8?B?a1IwRVNTZWEwN0l0NlBxSnhjejN4RkRlY2NTT3dYZU8vbXVGQjlRejJJRlM2?=
- =?utf-8?B?c0lUMmVHb2c5OHBzM1NHNEs3RnlySERMSDJVc3NEdU5ZaDdwVkpnNjY1NlZI?=
- =?utf-8?B?SFNmQ3VPRVduMjkxMVpVTG9ubnBpcFZiUzdZRnRqaWlPOXZUYTA0YjZUMzJt?=
- =?utf-8?B?MFBmQWNXc2o3NGxKeUNoSDFONjRVRG9BV1h0L2UvTTNhanZSeGFBZDhDMXVr?=
- =?utf-8?B?NW8zTFMxRkRaclhmQWYwMjEzeHB5ZktpekdIUHFKSFFtSC9Ga3FOL1Y3UW01?=
- =?utf-8?B?eDZKdW0vNE5uaFI4MCtpQXc5VFNhU0pxUzdlb2kzNFZYTnpvTjB1NWNMOXNQ?=
- =?utf-8?B?a2Irbmd3YmtCN2xLb051RWlaUTJiOUdkR2lCVy9PM0FVUHlLaGovc2JlaGpJ?=
- =?utf-8?B?MGF1aCtmeGw5b3htbnZmMyt4NUtJbXhabW9CU3lLSVEvYmF1N1R1eVE4K2pv?=
- =?utf-8?B?dVVwZk84ZG15aEpZN2dHUVg4NitKV1JURWNBY0poU0g4M1hsdmJsVmZsZEhM?=
- =?utf-8?B?OVJiTnB5R016V3ZiWExyZHZvNzRueUVjT0dFR0sxRGhDUGJHVzUwblRZZkVI?=
- =?utf-8?B?bDNpcTdZY2xsV1MwVVJ4WUtmbi8wTWl5VkZxd1k4aDZLU01Nb1ErZlBaajBW?=
- =?utf-8?B?a1JPaVcyR2EzdVVaZHRObWVDR1dlN1JDNVlSNFdoRFdJTDhER2dYVkc1dUt4?=
- =?utf-8?B?ZnkyeTgrTmMrVmJlNis2WFgyc3UvL2hZUityd1hGdno1eU95Q3ZqUmd1UGZB?=
- =?utf-8?B?N0gwR1laMDN5VVZ0cDhKU1hPZzFKdWxyWVdUWlFGRWxJcDFqd3EyOTFjdndh?=
- =?utf-8?B?WHBiUldSTFdYQ2lMS2JUcHI1WjRSRGhWVEtwS01XSTJHT0t4Wjh1TGlmWVZr?=
- =?utf-8?B?Ris0c0RzT2F3MDR1L0ovOEdhc1ZxWGZyWm9RNkJCVHNLODI1RDdDU29NMDI1?=
- =?utf-8?B?c3NDbE1yTG1UbHhuL2IyM012ZzVkUXpmWFUwcEY1dDhoQWtXZHYwMW84Uysw?=
- =?utf-8?B?NXNvUHN0QUtvakU2YVVFeWRkeTRvWUIwYUhjRTZ0THlVS1FFZ1U1NkxkeXBs?=
- =?utf-8?B?aGRhTURWZmM4Y1NtdTYxRnpGWTFGcHU5RGlqUFVMNW5MckUyRFk3ZC9ub2Fu?=
- =?utf-8?B?ZE0rYnJHOWs3WU1zZmRud0ZoWTRueTd4SnJaZ2lhNFBKQ0JvRzlENmhRalZ6?=
- =?utf-8?B?UDZ2ZTUyN1pFeTVPS1dvTjJjT1ZqWjJvUTJCZ0lCS3ZxRUhqdDlKbU9FbXNQ?=
- =?utf-8?B?OG1DbGh0c000WnI1eDdndWZya2ZwMXdVL1RycnovcG4xbTZTZUc3clc2ZWhJ?=
- =?utf-8?B?bVQ2QTYxK1U5VzlMNDljZlAyQ2ZHYWlUR3M2NkRKR1p3Z3B5RktlQXZNZzg4?=
- =?utf-8?B?UzN6R0NxMEM0ckJxUDYvandwYkxyT3VSYXFpTDBqSEVKNzFWTWtHZjM5Skhs?=
- =?utf-8?Q?0gxdJi2ZW/J8YNfbwcvgkjl0LDlwe6CKN4E4Tq1?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33dc6de1-1f36-4e56-00a6-08d95374efa6
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2021 16:13:15.4189
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xf1F98CsVJABBJkgtaav3uPg0lbWCbwlcNe2Wxgzaa2ulclM7Zvl26CHfO3TEKAVw9xnuk9Dzp337rsutBlwHNcCbAkRQ3QdGanQj1e0/Ms=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4365
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10061 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
- suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2107300108
-X-Proofpoint-ORIG-GUID: erLT-852GOPNAjhr-gpssDPueesof1c2
-X-Proofpoint-GUID: erLT-852GOPNAjhr-gpssDPueesof1c2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210717025757.3945742-1-pcc@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/15/21 8:48 PM, Dan Williams wrote:
-> On Thu, Jul 15, 2021 at 5:52 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->> On 7/15/21 2:08 AM, Dan Williams wrote:
->>> On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
->>>> +                                       unsigned long zone_idx, int nid,
->>>> +                                       struct dev_pagemap *pgmap,
->>>> +                                       unsigned long nr_pages)
->>>> +{
->>>> +       unsigned int order_align = order_base_2(nr_pages);
->>>> +       unsigned long i;
->>>> +
->>>> +       __SetPageHead(page);
->>>> +
->>>> +       for (i = 1; i < nr_pages; i++) {
->>>
->>> The switch of loop styles is jarring. I.e. the switch from
->>> memmap_init_zone_device() that is using pfn, end_pfn, and a local
->>> 'struct page *' variable to this helper using pfn + i and a mix of
->>> helpers (__init_zone_device_page,  prep_compound_tail) that have
->>> different expectations of head page + tail_idx and current page.
->>>
->>> I.e. this reads more obviously correct to me, but maybe I'm just in
->>> the wrong headspace:
->>>
->>>         for (pfn = head_pfn + 1; pfn < end_pfn; pfn++) {
->>>                 struct page *page = pfn_to_page(pfn);
->>>
->>>                 __init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
->>>                 prep_compound_tail(head, pfn - head_pfn);
->>>
->> Personally -- and I am dubious given I have been staring at this code -- I find that what
->> I wrote a little better as it follows more what compound page initialization does. Like
->> it's easier for me to read that I am initializing a number of tail pages and a head page
->> (for a known geometry size).
->>
->> Additionally, it's unnecessary (and a tiny ineficient?) to keep doing pfn_to_page(pfn)
->> provided ZONE_DEVICE requires SPARSEMEM_VMEMMAP and so your page pointers are all
->> contiguous and so for any given PFN we can avoid having deref vmemmap vaddrs back and
->> forth. Which is the second reason I pass a page, and iterate over its tails based on a
->> head page pointer. But I was at too minds when writing this, so if the there's no added
->> inefficiency I can rewrite like the above.
-> 
-> I mainly just don't want 2 different styles between
-> memmap_init_zone_device() and this helper. So if the argument is that
-> "it's inefficient to use pfn_to_page() here" then why does the caller
-> use pfn_to_page()? I won't argue too much for one way or the other,
-> I'm still biased towards my rewrite, but whatever you pick just make
-> the style consistent.
-> 
+On Fri, Jul 16, 2021 at 07:57:57PM -0700, Peter Collingbourne wrote:
+> Introduce a new syscall, refpage_create, which returns a file
+> descriptor which may be mapped using mmap. Such a mapping is similar
+> to an anonymous mapping, but instead of clean pages being backed by the
+> zero page, they are instead backed by a so-called reference page, whose
+> contents are specified using an argument to refpage_create. Loads from
+> the mapping will load directly from the reference page, and initial
+> stores to the mapping will copy-on-write from the reference page.
 
-Meanwhile, turns out my concerns didn't materialize. I am not seeing a
-visible difference compared to old numbers. So I switched to the style
-you suggested above.
+I think you mentioned in an earlier version, we can't use memfd_create()
+as we want a single reference page to back arbitrarily sized mmap()
+regions. Random API thought: could we instead add an MFD_MMAP_WRAP flag
+or something to memfd_create() which pretends on mmap(MAP_PRIVATE) that
+it's an infinite file and just replicates the data it already has in
+that fd on read? On write, it would do a CoW.
+
+Not sure it's any better than your proposal, just wondering whether we
+can contain it to shmem_fault() mostly and maybe a new
+shmem_map_pages(). Anyway, more API design comments below.
+
+> Reference pages are useful in circumstances where anonymous mappings
+> combined with manual stores to memory would impose undesirable costs,
+> either in terms of performance or RSS. Use cases are focused on heap
+> allocators and include:
+> 
+> - Pattern initialization for the heap. This is where malloc(3) gives
+>   you memory whose contents are filled with a non-zero pattern
+>   byte, in order to help detect and mitigate bugs involving use
+>   of uninitialized memory. Typically this is implemented by having
+>   the allocator memset the allocation with the pattern byte before
+>   returning it to the user, but for large allocations this can result
+>   in a significant increase in RSS, especially for allocations that
+>   are used sparsely. Even for dense allocations there is a needless
+>   impact to startup performance when it may be better to amortize it
+>   throughout the program. By creating allocations using a reference
+>   page filled with the pattern byte, we can avoid these costs.
+> 
+> - Pre-tagged heap memory. Memory tagging [1] is an upcoming ARMv8.5
+>   feature which allows for memory to be tagged in order to detect
+>   certain kinds of memory errors with low overhead. In order to set
+>   up an allocation to allow memory errors to be detected, the entire
+>   allocation needs to have the same tag. The issue here is similar to
+>   pattern initialization in the sense that large tagged allocations
+>   will be expensive if the tagging is done up front. The idea is that
+>   the allocator would create reference pages with each of the possible
+>   memory tags, and use those reference pages for the large allocations.
+
+So for MTE you'd need the same tag other than tag 0 (which is what
+mmap() gives you). An alternative here is to allow passing a tag hint to
+mmap() with the kernel allocating and maintaining a reference page (we
+had some non-optimal internal attempts at this). But if the first case
+(data pattern initialisation) is equally important, a reference pattern
+may be a better option.
+
+> This patch includes specific optimizations for these use cases in
+> order to reduce memory traffic. If the reference page consists of a
+> single repeating byte, the page is initialized using memset, and on
+> arm64 if the reference page consists of a uniformly tagged zero page,
+> the DC GZVA instruction is used to initialize the page.
+
+I don't particularly like such heuristics. If the memset/single-tag is
+your main use-case, just bake it into the API from the start. As David
+said, how important is the read prior to a write of such page? I suspect
+it's not relevant at all, so we could have the page allocated and
+populated on fault (even a read fault). The pattern and its size could
+be stored in the kernel as I suspect even if you need something other
+than a single byte, it would still be a repetitive pattern.
+
+Also please split this into multiple patches as it's hard to follow.
+Something like (1) refpage_create, (2) basic arm64 tagging support, (3)
+optimisation for specific cases etc.
+
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index 36f51b0e438a..876997703d7b 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -450,3 +450,27 @@ int mte_ptrace_copy_tags(struct task_struct *child, long request,
+>  
+>  	return ret;
+>  }
+> +
+> +u8 mte_check_tag_zero_page(struct page *userpage)
+> +{
+> +	char *userpage_addr = page_address(userpage);
+> +	u8 tag;
+> +	int i;
+> +
+> +	if (!test_bit(PG_mte_tagged, &userpage->flags))
+> +		return 0;
+> +
+> +	tag = mte_get_mem_tag(userpage_addr) & 0xF;
+> +	if (tag == 0)
+> +		return 0;
+> +
+> +	for (i = 0; i != PAGE_SIZE; ++i)
+> +		if (userpage_addr[i] != 0)
+> +			return 0;
+> +
+> +	for (i = MTE_GRANULE_SIZE; i != PAGE_SIZE; i += MTE_GRANULE_SIZE)
+> +		if ((mte_get_mem_tag(userpage_addr + i) & 0xF) != tag)
+> +			return 0;
+> +
+> +	return tag;
+> +}
+
+What's this function for? I couldn't see a user in this patch (maybe I
+didn't look harder).
+
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 349c488765ca..73fe728787f0 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/perf_event.h>
+>  #include <linux/preempt.h>
+>  #include <linux/hugetlb.h>
+> +#include <linux/mman.h>
+>  
+>  #include <asm/acpi.h>
+>  #include <asm/bug.h>
+> @@ -939,9 +940,52 @@ struct page *alloc_zeroed_user_highpage_movable(struct vm_area_struct *vma,
+>  	return alloc_page_vma(flags, vma, vaddr);
+>  }
+>  
+> -void tag_clear_highpage(struct page *page)
+> +void tag_set_highpage(struct page *page, unsigned long tag)
+>  {
+> -	mte_zero_clear_page_tags(page_address(page));
+> +	unsigned long addr = (unsigned long)page_address(page);
+> +
+> +	addr &= ~MTE_TAG_MASK;
+> +	addr |= tag << MTE_TAG_SHIFT;
+> +	mte_zero_set_page_tags((void *)addr);
+>  	page_kasan_tag_reset(page);
+>  	set_bit(PG_mte_tagged, &page->flags);
+>  }
+> +
+> +void arch_prep_refpage_private_data(struct refpage_private_data *priv,
+> +				    char *content_kaddr, unsigned long size)
+> +{
+> +	if (system_supports_mte()) {
+> +		u64 *content_kaddr_u64 = (u64 *)content_kaddr;
+> +
+> +		if (size == MTE_GRANULE_SIZE && content_kaddr_u64[0] == 0 &&
+> +		    content_kaddr_u64[1] == 0) {
+> +			priv->content_type = REFPAGE_CONTENT_TYPE_MTE_TAGGED;
+> +			priv->content_info = mte_get_mem_tag(content_kaddr);
+> +		}
+> +
+> +		set_bit(PG_mte_tagged, &priv->refpage->flags);
+
+As per your example, the reference page may be in the data section. We
+explicitly avoid tagged pages in there (could be a file mmap, not
+necessarily bss) but you just force it here. I'd rather skip the tagging
+altogether if the page was not mapped with PROT_MTE.
+
+> +		if (size >= MTE_GRANULE_SIZE) {
+> +			char *refpage_kaddr = page_address(priv->refpage);
+> +			unsigned long i;
+> +
+> +			for (i = 0; i != PAGE_SIZE; i += size)
+> +				mte_memcpy(refpage_kaddr + i, content_kaddr,
+> +					   size);
+> +			return;
+> +		}
+> +		mte_clear_page_tags(page_address(priv->refpage));
+> +	}
+> +
+> +	prep_refpage_private_data(priv, content_kaddr, size);
+> +}
+
+IIUC this function writes to the reference page provided by the user but
+get_user_pages() did not use a FOLL_WRITE. Even worse, the
+refpage_create() syscall does not seem to reject size != PAGE_SIZE
+values, so the user may think it's fine to have a shorter buffer with
+the kernel overriding whatever is around it. If the API states that the
+buffer must be PAGE_SIZE, why not get the user to populate it and avoid
+this arch_prep_refpage_private_data() altogether. I think it
+overcomplicates the kernel for something the user could do.
+
+> +
+> +void arch_copy_refpage(struct page *page, unsigned long addr,
+> +		       struct vm_area_struct *vma)
+> +{
+> +	struct refpage_private_data *priv = vma->vm_private_data;
+> +
+> +	if (priv->content_type == REFPAGE_CONTENT_TYPE_MTE_TAGGED)
+> +		tag_set_highpage(page, priv->content_info);
+> +	else
+> +		copy_refpage(page, addr, vma);
+> +}
+
+Another heuristics targeted at your specific allocator. Just leave it as
+a later optimisation or at least a separate patch.
+
+> diff --git a/mm/refpage.c b/mm/refpage.c
+> new file mode 100644
+> index 000000000000..13c0930dc926
+> --- /dev/null
+> +++ b/mm/refpage.c
+> @@ -0,0 +1,151 @@
+[...]
+> +SYSCALL_DEFINE3(refpage_create, const void *__user, content, unsigned int,
+> +		size, unsigned long, flags)
+> +{
+> +	unsigned long content_addr = (unsigned long)content;
+> +	char *content_kaddr;
+> +	struct page *userpage;
+> +	struct refpage_private_data *private_data;
+> +	long retval;
+> +
+> +	if (flags != 0)
+> +		return -EINVAL;
+> +
+> +	if (!is_power_of_2(size) || size > PAGE_SIZE ||
+> +	    (content_addr & (size - 1)) != 0)
+> +		return -EINVAL;
+
+Alternative: copy the pattern from the user content to a kernel buffer
+and in the file ops .mmap, instead of vma_set_anonymous(), just
+implement your own vma ops with a .fault callback that takes care of
+copying the pattern to a newly allocated page on any fault.
+
+> +
+> +	if (get_user_pages(content_addr & ~(PAGE_SIZE - 1), 1, 0, &userpage,
+> +			   0) != 1)
+> +		return -EFAULT;
+
+FOLL_WRITE to the gup flags?
+
+-- 
+Catalin
