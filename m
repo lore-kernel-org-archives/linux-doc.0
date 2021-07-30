@@ -2,125 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A29C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42448C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:51:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B1F460C40
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:50:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FE8360F5C
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:51:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239200AbhG3Ouj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 10:50:39 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:33608 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S239325AbhG3OuT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 10:50:19 -0400
-X-UUID: e15cf568580b4d4ab5b02adcc5708293-20210730
-X-UUID: e15cf568580b4d4ab5b02adcc5708293-20210730
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <yee.lee@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1688251014; Fri, 30 Jul 2021 22:50:12 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 22:50:10 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 22:50:10 +0800
-From:   <yee.lee@mediatek.com>
-To:     <linux-kernel@vger.kernel.org>
-CC:     <nicholas.Tang@mediatek.com>, <Kuan-Ying.lee@mediatek.com>,
-        <chinwen.chang@mediatek.com>, Yee Lee <yee.lee@mediatek.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Marc Zyngier <maz@kernel.org>,
-        David Brazdil <dbrazdil@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Fuad Tabba <tabba@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via command-line
-Date:   Fri, 30 Jul 2021 22:49:53 +0800
-Message-ID: <20210730144957.30938-2-yee.lee@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210730144957.30938-1-yee.lee@mediatek.com>
-References: <20210730144957.30938-1-yee.lee@mediatek.com>
+        id S239326AbhG3Ovg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 10:51:36 -0400
+Received: from ms.lwn.net ([45.79.88.28]:39128 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239262AbhG3Ove (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Jul 2021 10:51:34 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B5CB62A0;
+        Fri, 30 Jul 2021 14:51:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5CB62A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1627656689; bh=11tsRvWqxa857A4Loa4QydFr4xgnp3s3Ast3UUgdn+0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=VN8pSMY/6VyMSZP1meyUIrBqFBjrUbbgFVmCyesRBGTMpmETD1yXzrEc52grBRSo2
+         U8COBlGrfOWLxmyOrz6F5tLHVEpUttpiv0BxARkODmWFSv9i01tPrWBlfH+8Q2O4TG
+         IfkUiD6JU5YPYz+arEeDZ9Ue+qpM1PgHkW4r8Ak0TcfuKodWmXo7ZWVLUCDDLOWNO0
+         jn5SRoj3sNcrSIgksC8ujEslevYMqBCvZuWGrokVAT3SC04SBxVh5SCBx7cvaAB4Ti
+         B7S3mKpTvxemKZTAWusUBz4mLFzsvcncVyyw0+beAzNhvgD6syn1Qmu1q2qRR4HmJz
+         4STtbzjHAmJhg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Cai Huoqing <caihuoqing@baidu.com>, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Cai Huoqing <caihuoqing@baidu.com>
+Subject: Re: [PATCH] cgroup: Fix typo in comments and documents
+In-Reply-To: <20210730051605.2626-1-caihuoqing@baidu.com>
+References: <20210730051605.2626-1-caihuoqing@baidu.com>
+Date:   Fri, 30 Jul 2021 08:51:29 -0600
+Message-ID: <87lf5nc0su.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yee Lee <yee.lee@mediatek.com>
+Cai Huoqing <caihuoqing@baidu.com> writes:
 
-For some low-end devices with limited resources,
-MTE needs to be optionally disabled to save system
-costs such as tag memory and firmware controls.
+> Fix typo: iff  ==> if
+>
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-This allows ID_AA64PFR1_EL1.MTE to be overridden on 
-its shadow value by giving "arm64.nomte" on cmdline,
-and to suppress MTE feature.
+This is becoming an FAQ ...  "iff" in mathematical English means "if and
+only if"; its usage in these documents is correct.
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Signed-off-by: Yee Lee <yee.lee@mediatek.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/arm64/kernel/idreg-override.c              | 2 ++
- 2 files changed, 5 insertions(+)
+Thanks,
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdb22006f713..6f257e39d89e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -380,6 +380,9 @@
- 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
- 			support
- 
-+	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
-+			support
-+
- 	ataflop=	[HW,M68k]
- 
- 	atarimouse=	[HW,MOUSE] Atari Mouse
-diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
-index 53a381a7f65d..d8e606fe3c21 100644
---- a/arch/arm64/kernel/idreg-override.c
-+++ b/arch/arm64/kernel/idreg-override.c
-@@ -54,6 +54,7 @@ static const struct ftr_set_desc pfr1 __initconst = {
- 	.override	= &id_aa64pfr1_override,
- 	.fields		= {
- 	        { "bt", ID_AA64PFR1_BT_SHIFT },
-+		{ "mte", ID_AA64PFR1_MTE_SHIFT},
- 		{}
- 	},
- };
-@@ -100,6 +101,7 @@ static const struct {
- 	{ "arm64.nopauth",
- 	  "id_aa64isar1.gpi=0 id_aa64isar1.gpa=0 "
- 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0"	   },
-+	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
- 	{ "nokaslr",			"kaslr.disabled=1" },
- };
- 
--- 
-2.18.0
-
+jon
