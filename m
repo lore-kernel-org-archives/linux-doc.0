@@ -2,150 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFA3C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A29C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:50:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74F6D60C40
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:47:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B1F460C40
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 14:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239209AbhG3Orv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 10:47:51 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:60936 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbhG3Orv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 10:47:51 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 09B3C20258;
-        Fri, 30 Jul 2021 14:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1627656465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VPU4h+79VaObBuUI134rKDUJewEmHD+xcV1/Q7N1298=;
-        b=Q1MstY447zOi0/z9z+Th3HozqFSuMRQmVtmRRWMekXlJqZmKudlGMsuxWb2FhD4/Sv2PCO
-        pWV2ATU4bt3GVVQkPIQsRgKKjeKrPGXi4MB/SWXUr4aGwYcP4GWO6BjCU948BNtiyXK/19
-        ndWoxBMH6yF46fOe/Z6fV21MiWPrhBI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1627656465;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VPU4h+79VaObBuUI134rKDUJewEmHD+xcV1/Q7N1298=;
-        b=cal+IcpvWskOYgsqK/sgaP6mNgzpiWcJNKLrCicz286AJjuT4FAseeM1Y7PNGDtT1h8IRT
-        TnbJrIw7P4H22BAw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id B73CC13806;
-        Fri, 30 Jul 2021 14:47:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id PhcQLBARBGGpfQAAGKfGzw
-        (envelope-from <vbabka@suse.cz>); Fri, 30 Jul 2021 14:47:44 +0000
-Subject: Re: [PATCH V5] mm: compaction: support triggering of proactive
- compaction by user
-To:     Charan Teja Kalla <charante@codeaurora.org>,
-        akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        dave.hansen@linux.intel.com, mgorman@techsingularity.net,
-        nigupta@nvidia.com, corbet@lwn.net, rppt@kernel.org,
-        khalid.aziz@oracle.com, rientjes@google.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        vinmenon@codeaurora.org
-References: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
- <8fe4ba65-28e1-02d8-cf4d-74aaa76fe9df@suse.cz>
- <690ffed8-9c2a-1a9e-e592-a103b09e05a7@codeaurora.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <fd2ff7c8-b023-f0e7-06b9-7386fce11c4c@suse.cz>
-Date:   Fri, 30 Jul 2021 16:47:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S239200AbhG3Ouj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 10:50:39 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:33608 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239325AbhG3OuT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 10:50:19 -0400
+X-UUID: e15cf568580b4d4ab5b02adcc5708293-20210730
+X-UUID: e15cf568580b4d4ab5b02adcc5708293-20210730
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        (envelope-from <yee.lee@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1688251014; Fri, 30 Jul 2021 22:50:12 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 22:50:10 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 30 Jul 2021 22:50:10 +0800
+From:   <yee.lee@mediatek.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     <nicholas.Tang@mediatek.com>, <Kuan-Ying.lee@mediatek.com>,
+        <chinwen.chang@mediatek.com>, Yee Lee <yee.lee@mediatek.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Marc Zyngier <maz@kernel.org>,
+        David Brazdil <dbrazdil@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Fuad Tabba <tabba@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via command-line
+Date:   Fri, 30 Jul 2021 22:49:53 +0800
+Message-ID: <20210730144957.30938-2-yee.lee@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210730144957.30938-1-yee.lee@mediatek.com>
+References: <20210730144957.30938-1-yee.lee@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <690ffed8-9c2a-1a9e-e592-a103b09e05a7@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/30/21 4:46 PM, Charan Teja Kalla wrote:
-> Thanks Vlastimil!!
-> 
-> On 7/30/2021 7:36 PM, Vlastimil Babka wrote:
->>> The proactive compaction[1] gets triggered for every 500msec and run
->>> compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
->>> pages based on the value set to sysctl.compaction_proactiveness.
->>> Triggering the compaction for every 500msec in search of
->>> COMPACTION_HPAGE_ORDER pages is not needed for all applications,
->>> especially on the embedded system usecases which may have few MB's of
->>> RAM. Enabling the proactive compaction in its state will endup in
->>> running almost always on such systems.
->>>
->>> Other side, proactive compaction can still be very much useful for
->>> getting a set of higher order pages in some controllable
->>> manner(controlled by using the sysctl.compaction_proactiveness). So, on
->>> systems where enabling the proactive compaction always may proove not
->>> required, can trigger the same from user space on write to its sysctl
->>> interface. As an example, say app launcher decide to launch the memory
->>> heavy application which can be launched fast if it gets more higher
->>> order pages thus launcher can prepare the system in advance by
->>> triggering the proactive compaction from userspace.
->>>
->>> This triggering of proactive compaction is done on a write to
->>> sysctl.compaction_proactiveness by user.
->>>
->>> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
->>>
->>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->> Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> 
-> Thanks for the tag here.
+From: Yee Lee <yee.lee@mediatek.com>
 
-Np.
+For some low-end devices with limited resources,
+MTE needs to be optionally disabled to save system
+costs such as tag memory and firmware controls.
 
->> 
->>> @@ -2895,9 +2920,16 @@ static int kcompactd(void *p)
->>>  	while (!kthread_should_stop()) {
->>>  		unsigned long pflags;
->>>  
->>> +		/*
->>> +		 * Avoid the unnecessary wakeup for proactive compaction
->>> +		 * when it is disabled.
->>> +		 */
->>> +		if (!sysctl_compaction_proactiveness)
->>> +			timeout = MAX_SCHEDULE_TIMEOUT;
->> Does this part actually logically belong more to your previous patch that
->> optimized the deferred timeouts?
-> 
-> IMO, it won't fit there. Reason is that when user writes
-> sysctl_compaction_proactiveness = 0, it will goes to sleep with
-> MAX_SCHEDULE_TIMEOUT. Say now user writes non-zero value to
-> sysctl_compaction_proactiveness then no condition is there to wake it up
-> for proactive compaction, means, it will still be in sleep with
-> MAX_SCHEDULE_TIMEOUT.
+This allows ID_AA64PFR1_EL1.MTE to be overridden on 
+its shadow value by giving "arm64.nomte" on cmdline,
+and to suppress MTE feature.
 
-Good point!
+Suggested-by: Marc Zyngier <maz@kernel.org>
+Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Signed-off-by: Yee Lee <yee.lee@mediatek.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ arch/arm64/kernel/idreg-override.c              | 2 ++
+ 2 files changed, 5 insertions(+)
 
-> Thus this logic is put in this patch, where, proactive compaction work
-> will be scheduled immediately on switch of proactiveness value from zero
-> to a non-zero.
-
-Agreed. Thanks!
-
->> 
-> 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdb22006f713..6f257e39d89e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -380,6 +380,9 @@
+ 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
+ 			support
+ 
++	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
++			support
++
+ 	ataflop=	[HW,M68k]
+ 
+ 	atarimouse=	[HW,MOUSE] Atari Mouse
+diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+index 53a381a7f65d..d8e606fe3c21 100644
+--- a/arch/arm64/kernel/idreg-override.c
++++ b/arch/arm64/kernel/idreg-override.c
+@@ -54,6 +54,7 @@ static const struct ftr_set_desc pfr1 __initconst = {
+ 	.override	= &id_aa64pfr1_override,
+ 	.fields		= {
+ 	        { "bt", ID_AA64PFR1_BT_SHIFT },
++		{ "mte", ID_AA64PFR1_MTE_SHIFT},
+ 		{}
+ 	},
+ };
+@@ -100,6 +101,7 @@ static const struct {
+ 	{ "arm64.nopauth",
+ 	  "id_aa64isar1.gpi=0 id_aa64isar1.gpa=0 "
+ 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0"	   },
++	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+ 	{ "nokaslr",			"kaslr.disabled=1" },
+ };
+ 
+-- 
+2.18.0
 
