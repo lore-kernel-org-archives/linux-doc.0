@@ -2,104 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1EA4C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 22:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68106C4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 23:29:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE34060F3A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 22:54:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C91B60EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 23:29:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233574AbhG3WyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 18:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233540AbhG3WyU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 18:54:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E31C06175F;
-        Fri, 30 Jul 2021 15:54:15 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E87E2A3;
-        Sat, 31 Jul 2021 00:54:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1627685653;
-        bh=oV7XLKF3R2uq+EwOeQ5Rkz+JnewE7G1kQOsSxISQsXk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=E2CZROdlqShM/tdMvGznoUfFkBrS9+xaCGpCpYwLvD/0bSxQlkfEyH6iv+XxxAhho
-         nCmVHFreXNcGoGLk7Ubn+OSBquJrqomp8GmUIKyWkX9IN6TduqRwoPZuupbyBUrj+2
-         sdEy5JO+g+xpCwoQ7yH7LkcepW3+26LIQZcr2+2Q=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] scripts/kernel-doc: Override -Werror from KCFLAGS with KDOC_WERROR
-Date:   Sat, 31 Jul 2021 01:54:01 +0300
-Message-Id: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S233750AbhG3X3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 19:29:34 -0400
+Received: from pv50p00im-zteg10011501.me.com ([17.58.6.42]:59807 "EHLO
+        pv50p00im-zteg10011501.me.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233584AbhG3X3d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 19:29:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+        s=1a1hai; t=1627687396;
+        bh=4/aQNK88t2BegMqzsfndPfebMdjLWEajP+tB9Yr6Z2g=;
+        h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
+        b=XyR8IvcWh2Yfli0tViLdMK1yH+61H/FNyC8h5qwo1FXK6ogVFPIPZCHAKQKGFFddq
+         lYQhtIUey/B0nG1sdLePg1Licp9DcDhCuw1k6ZBoDOWWnpGD0zWwX6xuGZ90tSbUjg
+         NQ8nnP3PrLb5udE57J/qnf2wbzNKgOunCFXBDZ49DsS22VHagwJSLdvE/bC9WQ8eU6
+         V8lxpXaFxv4qqVO/L9HP2gdNZoyLsJWWSyeBlcZdoXw+EDD8lwcfanHqSeRbzMxOU+
+         io4QzuldoswUF8SYbn/tQZqeAGMviU1TtDJ5vfPo79n+TOuzzztKfqXgmgaGinJTCT
+         hn/3dDdbtvz2A==
+Received: from smtpclient.apple (075-142-087-102.res.spectrum.com [75.142.87.102])
+        by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id E24B1B003A7;
+        Fri, 30 Jul 2021 23:23:15 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+From:   Dillan Jackson <a1.jackson@icloud.com>
+Mime-Version: 1.0 (1.0)
+Date:   Fri, 30 Jul 2021 16:22:55 -0700
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-Id: <3B1B0473-00F1-46A4-9C5A-06EAF7FA8340@icloud.com>
+Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ojeda@kernel.org, peterz@infradead.org,
+        rust-for-linux@vger.kernel.org, torvalds@linux-foundation.org,
+        wedsonaf@google.com
+To:     linus.walleij@linaro.org
+X-Mailer: iPhone Mail (18G82)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-30_11:2021-07-30,2021-07-30 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=530 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2009150000 definitions=main-2107300157
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 2c12c8103d8f ("scripts/kernel-doc: optionally treat
-warnings as errors"), the kernel-doc script will treat warnings as
-errors when one of the following conditions is true:
-
-- The KDOC_WERROR environment variable is non-zero
-- The KCFLAGS environment variable contains -Werror
-- The -Werror parameter is passed to kernel-doc
-
-Checking KCFLAGS for -Werror allows piggy-backing on the C compiler
-error handling. However, unlike the C compiler, kernel-doc has no
-provision for -Wno-error. This makes compiling the kernel with -Werror
-(to catch regressions) and W=1 (to enable more checks) always fail,
-without the same possibility as offered by the C compiler to treating
-some selected warnings as warnings despite the global -Werror setting.
-
-To fix this, evaluate KDOC_WERROR after KCFLAGS, which allows disabling
-the warnings-as-errors behaviour of kernel-doc selectively by setting
-KDOC_WERROR=0.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- scripts/kernel-doc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 7c4a6a507ac4..cfcb60737957 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -329,10 +329,6 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
- 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
- }
- 
--if (defined($ENV{'KDOC_WERROR'})) {
--	$Werror = "$ENV{'KDOC_WERROR'}";
--}
--
- if (defined($ENV{'KCFLAGS'})) {
- 	my $kcflags = "$ENV{'KCFLAGS'}";
- 
-@@ -341,6 +337,10 @@ if (defined($ENV{'KCFLAGS'})) {
- 	}
- }
- 
-+if (defined($ENV{'KDOC_WERROR'})) {
-+	$Werror = "$ENV{'KDOC_WERROR'}";
-+}
-+
- # Generated docbook code is inserted in a template at a point where
- # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
- # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
--- 
-Regards,
-
-Laurent Pinchart
-
+Monies?
