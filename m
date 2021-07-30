@@ -5,36 +5,38 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8A1C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB96DC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:44:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0D2760230
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:43:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9500C60F5E
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:44:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbhG3NoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 09:44:02 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:9931 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231185AbhG3NoC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Jul 2021 09:44:02 -0400
+        id S231185AbhG3Nof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 09:44:35 -0400
+Received: from m32-153.88.com ([43.250.32.153]:56126 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231139AbhG3Nof (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Jul 2021 09:44:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
         s=dkim; h=To:From:Date; bh=U6j4xCRQTNphDoWVkEQmuY0zFpuU+auTGrnhA
-        Ph8wKQ=; b=mgeRrYjSL4QxpqYe+xgUThO/P2GIlC7Axzqi5zbif3I6MN/A4yIKS
-        SSM557/l7kM+6ttYO2U+wbXogaLZ/ALmnR0RCu7QwhZz6fi2PtQPbBeRXu7i/PbX
-        x4LnrlybMIN+0+8qVHXfOqgyodOl9TYgwqPsGN3Sxf7dx4Kgkao2Os=
+        Ph8wKQ=; b=dtZT1Gmy+Ib7qRWeBixQDKdLla0H32l6JEY0+iqJQEHptPw360i+f
+        /dXr5YX1sKbqCWRMS80fTOOnZJY7kjuOLoffNhV6YthSfvQblA5a4ZLJbE7MlerN
+        dgIx3DskzpZ2jk2R8wKomy/iaSf4qmxBczkekdYSagdVNotY2vrYw8=
 Received: from [0.0.0.0] (unknown [113.251.12.143])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgCHlQQLAgRhIdMOAA--.39914S3;
-        Fri, 30 Jul 2021 21:43:40 +0800 (CST)
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHBqcxAgRh1yQRAA--.51894S3;
+        Fri, 30 Jul 2021 21:44:18 +0800 (CST)
 Subject: Re: [PATCH] cgroup: Fix typo in comments and documents
 To:     Cai Huoqing <caihuoqing@baidu.com>, tj@kernel.org,
         lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20210730051605.2626-1-caihuoqing@baidu.com>
 From:   Hu Haowen <src.res@email.cn>
-Message-ID: <6de09d3e-6e54-60b9-fa23-9ff0e1f68a28@email.cn>
-Date:   Fri, 30 Jul 2021 21:43:39 +0800
+Message-ID: <0516372e-0120-ff52-bf9a-cf1cda9a633f@email.cn>
+Date:   Fri, 30 Jul 2021 21:44:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
@@ -42,22 +44,22 @@ In-Reply-To: <20210730051605.2626-1-caihuoqing@baidu.com>
 Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: LCKnCgCHlQQLAgRhIdMOAA--.39914S3
+X-CM-TRANSID: GiKnCgCHBqcxAgRh1yQRAA--.51894S3
 X-Coremail-Antispam: 1UD129KBjvJXoW3GF43uF45Aw1UAr48ZF4DXFb_yoW7KFyUpa
         yDCa4IkwsxKF1UKF1Ut3s2gr1Sgw4kW3y3KFykAr1rAFsxJ3WqvFnFv3W5tF1rZFyfCa4U
-        Zrs0vFy09w4qyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        Zrs0vFy09w4qyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkmb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
         z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
         vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
         Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
-        1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l
-        4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-        AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-        cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
-        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-        6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jAhLnUUUUU=
+        1lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxAIw28I
+        cVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+        WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+        7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+        4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+        42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUSXo2UUUUU
 X-Originating-IP: [113.251.12.143]
 X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
