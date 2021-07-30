@@ -2,80 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EA9C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 19:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 435A9C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 19:19:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15B2B60EE6
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 19:16:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B2BE60F36
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 19:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbhG3TQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 15:16:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbhG3TQw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 15:16:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA27C06175F;
-        Fri, 30 Jul 2021 12:16:47 -0700 (PDT)
+        id S230429AbhG3TT5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 15:19:57 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45864 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230335AbhG3TT5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Jul 2021 15:19:57 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 00A512A0;
-        Fri, 30 Jul 2021 19:16:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00A512A0
+        by ms.lwn.net (Postfix) with ESMTPSA id 027DE2A0;
+        Fri, 30 Jul 2021 19:19:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 027DE2A0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1627672607; bh=YZc6mmNZCtOeBrjLGQq95v8TtG0AvIQbj6k4rdcz9zg=;
+        t=1627672792; bh=SIBMUHCxoW2C/GfFGZFJPxhooLbjlyV/6G6GA4QHLOA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qmn7LCq42csnsffDQi5ZEs3vj9qdZow+WW/D2/zM9ft36MrKc+uu3WSDWCOp1pk65
-         uTR+PpaYMkp76pYJrDsBkBRRfnalc6hLzagHP4EByWUqIEGarFVmx0i8me+2+g9pBj
-         VI9eEAVIL6q5f69dVukJDgUA8ccztyhjzI6xVrvYy8yGThpgnV0KyKSYIaNEtFGUSv
-         R9csgOPitVaOAKMOhEkxUsDI3bq/ZaFinWeegdVjPf77MmmSX/q1MM+VT1DYnZyyQH
-         9HGZm/yJsx7WP5dG3dJCYpNIT2AjoRCdLeEiKPFiIA6ILZWYByVUBaH5iObjbdmsha
-         hdwc5xwHL1pgA==
+        b=dRSZlYUgPsG/a9AE7hhU8czElAKUyPb9FZsOxP6jRXG1VpJxXsL72reKT97gF1FOa
+         bzz2LHS3Gpcpyd88wutU0qOZ7MFujZ9ArEQDtfjixEfTVnZw75Ycr92uBZ4kJguoQC
+         RGppPjK5vfU46xRpV8Lj+fSyBadqwe7Pn7V/gHLLkkV9+Ci5OzwUJyJRlFhEbYtfVz
+         R6xN+a93g/NFWhyMMjoFMUyNX/X7hEs8iDGrtWOoJ85OLzzu4mAoPDHa02hykcZkp1
+         VckXtHye1PkX6y8S9cmrUbFetutWUoifuKkhj264rxOoL1X6EuvAZ3FaedFCQXaGBw
+         ZrFPK3LNIBEfg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Cai Huoqing <caihuoqing@baidu.com>, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] cgroup: Fix typo in comments and documents
-In-Reply-To: <YQQUwX+/1N9utKEN@casper.infradead.org>
-References: <20210730051605.2626-1-caihuoqing@baidu.com>
- <87lf5nc0su.fsf@meer.lwn.net> <YQQUwX+/1N9utKEN@casper.infradead.org>
-Date:   Fri, 30 Jul 2021 13:16:46 -0600
-Message-ID: <87im0ra9y9.fsf@meer.lwn.net>
+To:     cgel.zte@gmail.com, siyanteng@loongson.cn, sterlingteng@gmail.com
+Cc:     alexs@kernel.org, yang.yang29@zte.com.cn,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4] docs/zh_CN: Add zh_CN/accounting/psi.rst
+In-Reply-To: <20210726135832.513115-1-yang.yang29@zte.com.cn>
+References: <20210726135832.513115-1-yang.yang29@zte.com.cn>
+Date:   Fri, 30 Jul 2021 13:19:51 -0600
+Message-ID: <87eebfa9t4.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> writes:
+cgel.zte@gmail.com writes:
 
-> On Fri, Jul 30, 2021 at 08:51:29AM -0600, Jonathan Corbet wrote:
->> Cai Huoqing <caihuoqing@baidu.com> writes:
->> 
->> > Fix typo: iff  ==> if
->> >
->> > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
->> 
->> This is becoming an FAQ ...  "iff" in mathematical English means "if and
->> only if"; its usage in these documents is correct.
+> From: Yang Yang <yang.yang29@zte.com.cn>
 >
-> ... and yet it's clearly not understood.  Similarly to the [start..end)
-> convention (also the [start..end[ convention).  Should we deprecate
-> use of it in kernel documentation, and if so, what should we replace it
-> with?
+> Add translation zh_CN/accounting/psi.rst and zh_CN/accounting/index.rst.
+>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+> v4: delete wrong Reviewed-by
+> v3: add reviewers
+> v2: correct wrong format and add translations for code annotations
+> ---
+>  .../translations/zh_CN/accounting/index.rst   |  25 +++
+>  .../translations/zh_CN/accounting/psi.rst     | 155 ++++++++++++++++++
+>  2 files changed, 180 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/accounting/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/accounting/psi.rst
 
-I'm never quite sure what to do with these things...we want to be
-inclusive, but we don't want to hobble the language we use beyond a
-certain point.  We could ask people to spell out "if and only if", I
-suppose, but that sounds like the kind of thing that leads to unpleasant
-messages in my inbox.
+Almost there ... but you need to link .../accounting/index.rst into the
+top-level Chinese index.rst for these new files to be part of the docs
+build.  Please be sure you can actually build the docs and view the
+result.
 
 Thanks,
 
