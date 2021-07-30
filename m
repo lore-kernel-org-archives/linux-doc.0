@@ -2,196 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB96DC4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D795C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:53:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9500C60F5E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FDEC60EFF
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 13:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231185AbhG3Nof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 09:44:35 -0400
-Received: from m32-153.88.com ([43.250.32.153]:56126 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231139AbhG3Nof (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Jul 2021 09:44:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=U6j4xCRQTNphDoWVkEQmuY0zFpuU+auTGrnhA
-        Ph8wKQ=; b=dtZT1Gmy+Ib7qRWeBixQDKdLla0H32l6JEY0+iqJQEHptPw360i+f
-        /dXr5YX1sKbqCWRMS80fTOOnZJY7kjuOLoffNhV6YthSfvQblA5a4ZLJbE7MlerN
-        dgIx3DskzpZ2jk2R8wKomy/iaSf4qmxBczkekdYSagdVNotY2vrYw8=
-Received: from [0.0.0.0] (unknown [113.251.12.143])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHBqcxAgRh1yQRAA--.51894S3;
-        Fri, 30 Jul 2021 21:44:18 +0800 (CST)
-Subject: Re: [PATCH] cgroup: Fix typo in comments and documents
-To:     Cai Huoqing <caihuoqing@baidu.com>, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210730051605.2626-1-caihuoqing@baidu.com>
-From:   Hu Haowen <src.res@email.cn>
-Message-ID: <0516372e-0120-ff52-bf9a-cf1cda9a633f@email.cn>
-Date:   Fri, 30 Jul 2021 21:44:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210730051605.2626-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: GiKnCgCHBqcxAgRh1yQRAA--.51894S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3GF43uF45Aw1UAr48ZF4DXFb_yoW7KFyUpa
-        yDCa4IkwsxKF1UKF1Ut3s2gr1Sgw4kW3y3KFykAr1rAFsxJ3WqvFnFv3W5tF1rZFyfCa4U
-        Zrs0vFy09w4qyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkmb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr2
-        1lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxAIw28I
-        cVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-        WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
-        7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-        4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-        42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUSXo2UUUUU
-X-Originating-IP: [113.251.12.143]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+        id S239082AbhG3Nxy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 09:53:54 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:24312 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239079AbhG3Nxx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 09:53:53 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1627653229; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=wmpbdKATG8kg+bXPd14dXXlCiC9n7700UrJNofyUcEA=; b=o6s59xiINiJ5HXEDzY37aiG9EPjOWf8Bkg1RpTL7x07YbWs0vKrXMEKQsU1TFcoOSR39+6xg
+ eF1fGg8Hc3SEwUC29qJwIwJD7l56B2jsmupKlIJft2JHabaXp42CrBPHR+zFa0iJuk9Q92ru
+ IvzYDREhMwkyqKTm5FLBrBB8c+A=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 6104046738fa9bfe9c5e9935 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Jul 2021 13:53:43
+ GMT
+Sender: charante=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3C477C43460; Fri, 30 Jul 2021 13:53:42 +0000 (UTC)
+Received: from hu-charante-hyd.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3A24BC433D3;
+        Fri, 30 Jul 2021 13:53:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3A24BC433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
+From:   Charan Teja Reddy <charante@codeaurora.org>
+To:     akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        dave.hansen@linux.intel.com, vbabka@suse.cz,
+        mgorman@techsingularity.net, nigupta@nvidia.com, corbet@lwn.net,
+        rppt@kernel.org, khalid.aziz@oracle.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        vinmenon@codeaurora.org,
+        Charan Teja Reddy <charante@codeaurora.org>
+Subject: [PATCH V5] mm: compaction: support triggering of proactive compaction by user
+Date:   Fri, 30 Jul 2021 19:23:27 +0530
+Message-Id: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The proactive compaction[1] gets triggered for every 500msec and run
+compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
+pages based on the value set to sysctl.compaction_proactiveness.
+Triggering the compaction for every 500msec in search of
+COMPACTION_HPAGE_ORDER pages is not needed for all applications,
+especially on the embedded system usecases which may have few MB's of
+RAM. Enabling the proactive compaction in its state will endup in
+running almost always on such systems.
 
-ÔÚ 2021/7/30 ÏÂÎç1:16, Cai Huoqing Ð´µÀ:
-> Fix typo: iff  ==> if
->
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Other side, proactive compaction can still be very much useful for
+getting a set of higher order pages in some controllable
+manner(controlled by using the sysctl.compaction_proactiveness). So, on
+systems where enabling the proactive compaction always may proove not
+required, can trigger the same from user space on write to its sysctl
+interface. As an example, say app launcher decide to launch the memory
+heavy application which can be launched fast if it gets more higher
+order pages thus launcher can prepare the system in advance by
+triggering the proactive compaction from userspace.
 
+This triggering of proactive compaction is done on a write to
+sysctl.compaction_proactiveness by user.
 
-Reviewed-by: Hu Haowen <src.res@email.cn>
+[1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
 
+Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+---
+ Changes in V5:
+ 	-- Avoid unnecessary wakeup of proactive compaction when it is disabled.
+	-- No changes in the logic of triggering the proactive compaction.
 
-> ---
->  Documentation/admin-guide/cgroup-v1/cgroups.rst           | 2 +-
->  Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst | 4 ++--
->  kernel/cgroup/cgroup-v1.c                                 | 4 ++--
->  kernel/cgroup/cgroup.c                                    | 6 +++---
->  kernel/cgroup/cpuset.c                                    | 4 ++--
->  5 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-> index b0688011ed06..fa747466e304 100644
-> --- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-> @@ -573,7 +573,7 @@ cgroup_for_each_descendant_pre() for details.
->  ``void css_offline(struct cgroup *cgrp);``
->  (cgroup_mutex held by caller)
->  
-> -This is the counterpart of css_online() and called iff css_online()
-> +This is the counterpart of css_online() and called if css_online()
->  has succeeded on @cgrp. This signifies the beginning of the end of
->  @cgrp. @cgrp is being removed and the subsystem should start dropping
->  all references it's holding on @cgrp. When all references are dropped,
-> diff --git a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-> index 582d3427de3f..a908c5226bde 100644
-> --- a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-> @@ -56,7 +56,7 @@ expected.
->  The cgroup freezer is hierarchical. Freezing a cgroup freezes all
->  tasks belonging to the cgroup and all its descendant cgroups. Each
->  cgroup has its own state (self-state) and the state inherited from the
-> -parent (parent-state). Iff both states are THAWED, the cgroup is
-> +parent (parent-state). If both states are THAWED, the cgroup is
->  THAWED.
->  
->  The following cgroupfs files are created by cgroup freezer.
-> @@ -87,7 +87,7 @@ The following cgroupfs files are created by cgroup freezer.
->  * freezer.self_freezing: Read only.
->  
->    Shows the self-state. 0 if the self-state is THAWED; otherwise, 1.
-> -  This value is 1 iff the last write to freezer.state was "FROZEN".
-> +  This value is 1 if the last write to freezer.state was "FROZEN".
->  
->  * freezer.parent_freezing: Read only.
->  
-> diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
-> index de2c432dee20..71d2b46d1968 100644
-> --- a/kernel/cgroup/cgroup-v1.c
-> +++ b/kernel/cgroup/cgroup-v1.c
-> @@ -120,7 +120,7 @@ int cgroup_transfer_tasks(struct cgroup *to, struct cgroup *from)
->  		goto out_err;
->  
->  	/*
-> -	 * Migrate tasks one-by-one until @from is empty.  This fails iff
-> +	 * Migrate tasks one-by-one until @from is empty.  This fails if
->  	 * ->can_attach() fails.
->  	 */
->  	do {
-> @@ -215,7 +215,7 @@ static void cgroup_pidlist_destroy_work_fn(struct work_struct *work)
->  	mutex_lock(&l->owner->pidlist_mutex);
->  
->  	/*
-> -	 * Destroy iff we didn't get queued again.  The state won't change
-> +	 * Destroy if we didn't get queued again.  The state won't change
->  	 * as destroy_dwork can only be queued while locked.
->  	 */
->  	if (!delayed_work_pending(dwork)) {
-> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> index 3a0161c21b6b..b831554372a2 100644
-> --- a/kernel/cgroup/cgroup.c
-> +++ b/kernel/cgroup/cgroup.c
-> @@ -793,7 +793,7 @@ static bool css_set_populated(struct css_set *cset)
->   * One of the css_sets associated with @cgrp is either getting its first
->   * task or losing the last.  Update @cgrp->nr_populated_* accordingly.  The
->   * count is propagated towards root so that a given cgroup's
-> - * nr_populated_children is zero iff none of its descendants contain any
-> + * nr_populated_children is zero if none of its descendants contain any
->   * tasks.
->   *
->   * @cgrp's interface file "cgroup.populated" is zero if both
-> @@ -2410,7 +2410,7 @@ struct task_struct *cgroup_taskset_next(struct cgroup_taskset *tset,
->   * @mgctx: migration context
->   *
->   * Migrate tasks in @mgctx as setup by migration preparation functions.
-> - * This function fails iff one of the ->can_attach callbacks fails and
-> + * This function fails if one of the ->can_attach callbacks fails and
->   * guarantees that either all or none of the tasks in @mgctx are migrated.
->   * @mgctx is consumed regardless of success.
->   */
-> @@ -4264,7 +4264,7 @@ struct cgroup_subsys_state *css_next_child(struct cgroup_subsys_state *pos,
->  	 * increasing unique serial number and always appended to the
->  	 * sibling list, the next one can be found by walking the parent's
->  	 * children until the first css with higher serial number than
-> -	 * @pos's.  While this path can be slower, it happens iff iteration
-> +	 * @pos's.  While this path can be slower, it happens if iteration
->  	 * races against release and the race window is very small.
->  	 */
->  	if (!pos) {
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index adb5190c4429..f09fc0347550 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -782,7 +782,7 @@ static int generate_sched_domains(cpumask_var_t **domains,
->  		if (cp == &top_cpuset)
->  			continue;
->  		/*
-> -		 * Continue traversing beyond @cp iff @cp has some CPUs and
-> +		 * Continue traversing beyond @cp if @cp has some CPUs and
->  		 * isn't load balancing.  The former is obvious.  The
->  		 * latter: All child cpusets contain a subset of the
->  		 * parent's cpus, so just skip them, and then we call
-> @@ -1801,7 +1801,7 @@ static int update_nodemask(struct cpuset *cs, struct cpuset *trialcs,
->  	}
->  
->  	/*
-> -	 * An empty mems_allowed is ok iff there are no tasks in the cpuset.
-> +	 * An empty mems_allowed is ok if there are no tasks in the cpuset.
->  	 * Since nodelist_parse() fails on an empty mask, we special case
->  	 * that parsing.  The validate_change() call ensures that cpusets
->  	 * with tasks have memory.
+ Changes in V4:
+	-- Changed the code as the 'proactive_defer' counter is removed.
+	-- No changes in the logic of triggering the proactive compaction.
+	-- https://lore.kernel.org/patchwork/patch/1448777/
+
+ Changes in V3:
+        -- Fixed review comments from Valstimil and others.
+        -- https://lore.kernel.org/patchwork/patch/1438211/
+
+ Changes in V2:
+	-- remove /proc/../proactive_compact_memory interface trigger for proactive compaction
+        -- Intention is same that add a way to trigger proactive compaction by user.
+        -- https://lore.kernel.org/patchwork/patch/1431283/
+
+ changes in V1:
+	-- Created the new /proc/sys/vm/proactive_compact_memory in
+	   interface to trigger proactive compaction from user 
+        -- https://lore.kernel.org/lkml/1619098678-8501-1-git-send-email-charante@codeaurora.org/
+
+ Documentation/admin-guide/sysctl/vm.rst |  3 ++-
+ include/linux/compaction.h              |  2 ++
+ include/linux/mmzone.h                  |  1 +
+ kernel/sysctl.c                         |  2 +-
+ mm/compaction.c                         | 38 +++++++++++++++++++++++++++++++--
+ 5 files changed, 42 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 003d5cc..b526cf6 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -118,7 +118,8 @@ compaction_proactiveness
+ 
+ This tunable takes a value in the range [0, 100] with a default value of
+ 20. This tunable determines how aggressively compaction is done in the
+-background. Setting it to 0 disables proactive compaction.
++background. On write of non zero value to this tunable will immediately
++trigger the proactive compaction. Setting it to 0 disables proactive compaction.
+ 
+ Note that compaction has a non-trivial system-wide impact as pages
+ belonging to different processes are moved around, which could also lead
+diff --git a/include/linux/compaction.h b/include/linux/compaction.h
+index c24098c..34bce35 100644
+--- a/include/linux/compaction.h
++++ b/include/linux/compaction.h
+@@ -84,6 +84,8 @@ static inline unsigned long compact_gap(unsigned int order)
+ extern unsigned int sysctl_compaction_proactiveness;
+ extern int sysctl_compaction_handler(struct ctl_table *table, int write,
+ 			void *buffer, size_t *length, loff_t *ppos);
++extern int compaction_proactiveness_sysctl_handler(struct ctl_table *table,
++		int write, void *buffer, size_t *length, loff_t *ppos);
+ extern int sysctl_extfrag_threshold;
+ extern int sysctl_compact_unevictable_allowed;
+ 
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 4610750..6a1d79d 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -853,6 +853,7 @@ typedef struct pglist_data {
+ 	enum zone_type kcompactd_highest_zoneidx;
+ 	wait_queue_head_t kcompactd_wait;
+ 	struct task_struct *kcompactd;
++	bool proactive_compact_trigger;
+ #endif
+ 	/*
+ 	 * This is a per-node reserve of pages that are not available
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 82d6ff6..65bc6f7 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2871,7 +2871,7 @@ static struct ctl_table vm_table[] = {
+ 		.data		= &sysctl_compaction_proactiveness,
+ 		.maxlen		= sizeof(sysctl_compaction_proactiveness),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_dointvec_minmax,
++		.proc_handler	= compaction_proactiveness_sysctl_handler,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= &one_hundred,
+ 	},
+diff --git a/mm/compaction.c b/mm/compaction.c
+index f984ad0..fbc60f9 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -2700,6 +2700,30 @@ static void compact_nodes(void)
+  */
+ unsigned int __read_mostly sysctl_compaction_proactiveness = 20;
+ 
++int compaction_proactiveness_sysctl_handler(struct ctl_table *table, int write,
++		void *buffer, size_t *length, loff_t *ppos)
++{
++	int rc, nid;
++
++	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
++	if (rc)
++		return rc;
++
++	if (write && sysctl_compaction_proactiveness) {
++		for_each_online_node(nid) {
++			pg_data_t *pgdat = NODE_DATA(nid);
++
++			if (pgdat->proactive_compact_trigger)
++				continue;
++
++			pgdat->proactive_compact_trigger = true;
++			wake_up_interruptible(&pgdat->kcompactd_wait);
++		}
++	}
++
++	return 0;
++}
++
+ /*
+  * This is the entry point for compacting all nodes via
+  * /proc/sys/vm/compact_memory
+@@ -2744,7 +2768,8 @@ void compaction_unregister_node(struct node *node)
+ 
+ static inline bool kcompactd_work_requested(pg_data_t *pgdat)
+ {
+-	return pgdat->kcompactd_max_order > 0 || kthread_should_stop();
++	return pgdat->kcompactd_max_order > 0 || kthread_should_stop() ||
++		pgdat->proactive_compact_trigger;
+ }
+ 
+ static bool kcompactd_node_suitable(pg_data_t *pgdat)
+@@ -2895,9 +2920,16 @@ static int kcompactd(void *p)
+ 	while (!kthread_should_stop()) {
+ 		unsigned long pflags;
+ 
++		/*
++		 * Avoid the unnecessary wakeup for proactive compaction
++		 * when it is disabled.
++		 */
++		if (!sysctl_compaction_proactiveness)
++			timeout = MAX_SCHEDULE_TIMEOUT;
+ 		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
+ 		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
+-			kcompactd_work_requested(pgdat), timeout)) {
++			kcompactd_work_requested(pgdat), timeout) &&
++			!pgdat->proactive_compact_trigger) {
+ 
+ 			psi_memstall_enter(&pflags);
+ 			kcompactd_do_work(pgdat);
+@@ -2932,6 +2964,8 @@ static int kcompactd(void *p)
+ 				timeout =
+ 				   default_timeout << COMPACT_MAX_DEFER_SHIFT;
+ 		}
++		if (unlikely(pgdat->proactive_compact_trigger))
++			pgdat->proactive_compact_trigger = false;
+ 	}
+ 
+ 	return 0;
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of the Code Aurora Forum, hosted by The Linux Foundation
 
