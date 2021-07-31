@@ -2,70 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0301C4338F
-	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 08:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F00C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 08:55:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA50E6101C
-	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 08:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DEFD6101C
+	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 08:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbhGaIpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 31 Jul 2021 04:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbhGaIpN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 31 Jul 2021 04:45:13 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D13C06175F;
-        Sat, 31 Jul 2021 01:45:06 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so17960723pjd.0;
-        Sat, 31 Jul 2021 01:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jOAh+hW3y5tSxUzEM0nOgVk/mKg5x/lva8vKj+XQ/fk=;
-        b=gSav8WTUpX6EX7UgcMRqBBGSfs2Q61gj/4fpGmrdRyZxVFHPQ81XPtU8e3oy2DLQRh
-         IuC4s9wcPk4yFn0coVYjSKr0VFZgF2FfNkTAVbKrpzYt1y5uDdRGhDnLjJkT2G0bOnlm
-         LDhAzJ1FRCz26pH3g4hL9tfataozyFDGbfS7r32e1qF5/TRVWSuJrLkQ5Sz5iwbwl2K1
-         WPGXQ1mPp50EtFNh8stmnUReZhk9//7JZGdLQfb4DAOr9K5IexvEPTuN2+Zf6xVzAo1Z
-         cJtQdW5LoyauhAISHnTFtJklFBkGzJaoN9mZf1hqW0bEI8AsQLnyI/rEVRp72quI0tC0
-         Sf8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jOAh+hW3y5tSxUzEM0nOgVk/mKg5x/lva8vKj+XQ/fk=;
-        b=n3QfrLCVzXY45y8RTnyIEj6lLSkX64f1UqShQN+XqZ2fVugKmnybYDrMUUB/0zkn7q
-         +IGsAEPFM0g6PwjOu2VMhWBP3wSluG026yHcn4FkKsGMMatr6XxOvCdLEJ2b9prlyvkV
-         w8Bzq0oDzYCwTjqcPVkoooNXHhMafhedLgHmNat+0LXVjdqIWGhcieWO5IiHRvOiH3hd
-         0On+LtINWwtn+MKASxJPHhB6UYiioHz3/8WfBCb5W8G6MNeEU8NydpMiUNPQ1CQio4ud
-         mQS/Wo8f28qw+sa7pTXngkXZN7zIn9uVXSgmQt2niicJjt+AAfG35B+OQ07EziYpakxP
-         8ZbA==
-X-Gm-Message-State: AOAM530Kj4C6Ebovuucxkx9qhiPqij+ILtH5adBojmJoABleChNhyLji
-        hhwHU2rayCtLUopejCtEmEg=
-X-Google-Smtp-Source: ABdhPJwDeuAqvgrHCSP8VChIkxpcZfkOt+JOKVbXolIrEQs3jxGzN6NnaT6W+UdjUH3Fp/3iLf50Tw==
-X-Received: by 2002:a62:b615:0:b029:34a:3920:a7ea with SMTP id j21-20020a62b6150000b029034a3920a7eamr6995753pff.21.1627721106325;
-        Sat, 31 Jul 2021 01:45:06 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id y9sm5526510pgr.10.2021.07.31.01.45.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 01:45:05 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn,
-        sterlingteng@gmail.com
-Cc:     yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5] docs/zh_CN: Add zh_CN/accounting/psi.rst
-Date:   Sat, 31 Jul 2021 01:45:03 -0700
-Message-Id: <20210731084502.571451-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        id S232716AbhGaIzv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 31 Jul 2021 04:55:51 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:63904 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232299AbhGaIzu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 31 Jul 2021 04:55:50 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 88998891;
+        Sat, 31 Jul 2021 10:55:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1627721740; x=1629536141;
+         bh=P0ConBhjniYirdILUZkSkCHAyHgU/sE04t2oW/ndIko=; b=gI4tRaXmThuV
+        1j+d7JoT3m/OOC5Fe+Uu4UA0rRAXe1vIzWfjeqmbucw6aKLfxJ9nNc1iWTwFBVqn
+        Y4SzsLgpRDAtgT0FzC8JmKwict/Hd2dmaM8CgAoCIJmY9X9f6/mmWBZX9lKs1/Ue
+        3FU2GaLjdFWnzCfzt8bbBrD3LvM+4TnYgEeYCj0ENI+t/JZ/KL3vxg6jy/pUs9Su
+        0m/Ctnq4a+hnnxTkAwWOkynGPXD9CesuGRT0eTNrJXrkeSpGnHk9g6e+8vj2vX66
+        nko2tnMIqxddZCnXqHml9EbEbqteTATjTUaBGc0KOl2iw4ZqxxcGZxN5NcaO91ZF
+        Z/BZlT7u6P7VDDUhexCmkzJBM4q8Y/8/QkqRwMkLTIVgJitG+NSsI1gy0xzEqCm+
+        kC9WpXL/94dWh3KXqp5Q8Dum5FjbXutlS0+cq0of16HkAUmXg0CNGua2KaAZpiGv
+        2j+dUK/WJGzvg8FnCbm02VyQnhbbK7uYGkb3xTZdHzfm8N3XQEnRc/12YUz1pnFn
+        shFutxJwvIX8S6flgNsXZghmpwFWUMN1+YVJ8tDyTGbj2ommjzYoq7Bw9yyhr/xb
+        Aicaxj6i7rgCzM+7CuvwwbpGo24SY42EePdVDiipvqpZGPPASNc8XOgODRRP58x1
+        t7SsgCdESWKNOmYK0tn4u87KQetJGjw=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 7wI1WrLhXk_l; Sat, 31 Jul 2021 10:55:40 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 0BDDA614;
+        Sat, 31 Jul 2021 10:55:39 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id EE46144A4;
+        Sat, 31 Jul 2021 10:55:37 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH 1/2] doc: align Italian translation
+Date:   Sat, 31 Jul 2021 10:55:13 +0200
+Message-Id: <20210731085513.11820-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,235 +62,288 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+Translation for the following patches
 
-Add translation zh_CN/accounting/psi.rst and zh_CN/accounting/index.rst.
+commit 0ca0d55526d3 ("docs/core-api: Consistent code style")
+commit 9912d0bb9dee ("docs: process: submitting-patches.rst: avoid using ReST :doc:`foo` markup")
+commit 6349469a4f3c ("Documentation/submitting-patches: Document RESEND tag on patches")
+commit dbbe7c962c3a ("docs: networking: drop special stable handling")
+commit 7f3f7bfbbe02 ("docs: kernel-hacking: hacking.rst: avoid using ReST :doc:`foo` markup")
+commit 6ab0493dfc62 ("deprecated.rst: Include details on "no_hash_pointers" ")
+commit 77167b966b7e ("docs: submitting-patches: clarify the role of LKML ")
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
-v5: link accounting/index to top-level Chinese index.rst
-v4: delete wrong Reviewed-by
-v3: add reviewers
-v2: correct wrong format and add translations for code annotations
----
- .../translations/zh_CN/accounting/index.rst   |  25 +++
- .../translations/zh_CN/accounting/psi.rst     | 155 ++++++++++++++++++
- Documentation/translations/zh_CN/index.rst    |   2 +-
- 3 files changed, 181 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/accounting/index.rst
- create mode 100644 Documentation/translations/zh_CN/accounting/psi.rst
+ .../it_IT/core-api/symbol-namespaces.rst      | 26 ++++-----
+ .../it_IT/kernel-hacking/hacking.rst          |  4 +-
+ .../translations/it_IT/process/deprecated.rst |  8 ++-
+ .../it_IT/process/stable-kernel-rules.rst     |  6 --
+ .../it_IT/process/submitting-patches.rst      | 57 ++++++++++---------
+ 5 files changed, 51 insertions(+), 50 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
-new file mode 100644
-index 000000000000..362e907b41f9
---- /dev/null
-+++ b/Documentation/translations/zh_CN/accounting/index.rst
-@@ -0,0 +1,25 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/accounting/index.rst
-+:Translator: Yang Yang <yang.yang29@zte.com.cn>
-+
-+.. _cn_accounting_index.rst:
-+
-+
-+====
-+计数
-+====
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   psi
-+
-+Todolist:
-+
-+   cgroupstats
-+   delay-accounting
-+   taskstats
-+   taskstats-struct
-diff --git a/Documentation/translations/zh_CN/accounting/psi.rst b/Documentation/translations/zh_CN/accounting/psi.rst
-new file mode 100644
-index 000000000000..a0ddb7bd257c
---- /dev/null
-+++ b/Documentation/translations/zh_CN/accounting/psi.rst
-@@ -0,0 +1,155 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/accounting/psi.rst
-+:Translator: Yang Yang <yang.yang29@zte.com.cn>
-+
-+.. _cn_psi.rst:
-+
-+
-+=================
-+PSI——压力阻塞信息
-+=================
-+
-+:日期: April, 2018
-+:作者: Johannes Weiner <hannes@cmpxchg.org>
-+
-+当CPU、memory或IO设备处于竞争状态，业务负载会遭受时延毛刺、吞吐量降低，
-+及面临OOM的风险。
-+
-+如果没有一种准确的方法度量系统竞争程度，则有两种后果：一种是用户过于节制，
-+未充分利用系统资源；另一种是过度使用，经常性面临业务中断的风险。
-+
-+psi特性能够识别和量化资源竞争导致的业务中断，及其对复杂负载乃至整个系统在
-+时间上的影响。
-+
-+准确度量因资源不足造成的生产力损失，有助于用户基于硬件调整业务负载，或基
-+于业务负载配置硬件。
-+
-+psi能够实时的提供相关信息，因此系统可基于psi实现动态的负载管理。如实施
-+卸载、迁移、策略性的停止或杀死低优先级或可重启的批处理任务。
-+
-+psi帮助用户实现硬件资源利用率的最大化。同时无需牺牲业务负载健康度，也无需
-+面临OOM等造成业务中断的风险。
-+
-+压力接口
-+========
-+
-+压力信息可通过/proc/pressure/ --cpu、memory、io文件分别获取。
-+
-+CPU相关信息格式如下：
-+
-+        some avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+
-+内存和IO相关信息如下：
-+
-+        some avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+        full avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+
-+some行代表至少有一个任务阻塞于特定资源的时间占比。
-+
-+full行代表所有非idle任务同时阻塞于特定资源的时间占比。在这种状态下CPU资源
-+完全被浪费，相对于正常运行，业务负载由于耗费更多时间等待而受到严重影响。
-+
-+由于此情况严重影响系统性能，因此清楚的识别本情况并与some行所代表的情况区分开，
-+将有助于分析及提升系统性能。这就是full独立于some行的原因。
-+
-+avg代表阻塞时间占比（百分比），为最近10秒、60秒、300秒内的均值。这样我们
-+既可观察到短期事件的影响，也可看到中等及长时间内的趋势。total代表总阻塞
-+时间（单位微秒），可用于观察时延毛刺，这种毛刺可能在均值中无法体现。
-+
-+监控压力门限
-+============
-+
-+用户可注册触发器，通过poll()监控资源压力是否超过门限。
-+
-+触发器定义：指定时间窗口期内累积阻塞时间的最大值。比如可定义500ms内积累
-+100ms阻塞，即触发一次唤醒事件。
-+
-+触发器注册方法：用户打开代表特定资源的psi接口文件，写入门限、时间窗口的值。
-+所打开的文件描述符用于等待事件，可使用select()、poll()、epoll()。
-+写入信息的格式如下：
-+
-+        <some|full> <stall amount in us> <time window in us>
-+
-+示例：向/proc/pressure/memory写入"some 150000 1000000"将新增触发器，将在
-+1秒内至少一个任务阻塞于内存的总时间超过150ms时触发。向/proc/pressure/io写入
-+"full 50000 1000000"将新增触发器，将在1秒内所有任务都阻塞于io的总时间超过50ms时触发。
-+
-+触发器可针对多个psi度量值设置，同一个psi度量值可设置多个触发器。每个触发器需要
-+单独的文件描述符用于轮询，以区分于其他触发器。所以即使对于同一个psi接口文件，
-+每个触发器也需要单独的调用open()。
-+
-+监控器在被监控资源进入阻塞状态时启动，在系统退出阻塞状态后停用。系统进入阻塞
-+状态后，监控psi增长的频率为每监控窗口刷新10次。
-+
-+内核接受的窗口为500ms~10s，所以监控间隔为50ms~1s。设置窗口下限目的是为了
-+防止过于频繁的轮询。设置窗口上限的目的是因为窗口过长则无意义，此时查看
-+psi接口提供的均值即可。
-+
-+监控器在激活后，至少在跟踪窗口期间将保持活动状态。以避免随着系统进入和退出
-+阻塞状态，监控器过于频繁的进入和退出活动状态。
-+
-+用户态通知在监控窗口内会受到速率限制。当对应的文件描述符关闭，触发器会自动注销。
-+
-+用户态监控器使用示例
-+====================
-+
-+::
-+
-+  #include <errno.h>
-+  #include <fcntl.h>
-+  #include <stdio.h>
-+  #include <poll.h>
-+  #include <string.h>
-+  #include <unistd.h>
-+
-+  /* 监控内存部分阻塞，监控时间窗口为1秒、阻塞门限为150毫秒。*/
-+  int main() {
-+        const char trig[] = "some 150000 1000000";
-+        struct pollfd fds;
-+        int n;
-+
-+        fds.fd = open("/proc/pressure/memory", O_RDWR | O_NONBLOCK);
-+        if (fds.fd < 0) {
-+                printf("/proc/pressure/memory open error: %s\n",
-+                        strerror(errno));
-+                return 1;
-+        }
-+        fds.events = POLLPRI;
-+
-+        if (write(fds.fd, trig, strlen(trig) + 1) < 0) {
-+                printf("/proc/pressure/memory write error: %s\n",
-+                        strerror(errno));
-+                return 1;
-+        }
-+
-+        printf("waiting for events...\n");
-+        while (1) {
-+                n = poll(&fds, 1, -1);
-+                if (n < 0) {
-+                        printf("poll error: %s\n", strerror(errno));
-+                        return 1;
-+                }
-+                if (fds.revents & POLLERR) {
-+                        printf("got POLLERR, event source is gone\n");
-+                        return 0;
-+                }
-+                if (fds.revents & POLLPRI) {
-+                        printf("event triggered!\n");
-+                } else {
-+                        printf("unknown event received: 0x%x\n", fds.revents);
-+                        return 1;
-+                }
-+        }
-+
-+        return 0;
-+  }
-+
-+Cgroup2接口
-+===========
-+
-+对于CONFIG_CGROUP=y及挂载了cgroup2文件系统的系统，能够获取cgroups内任务的psi。
-+此场景下cgroupfs挂载点的子目录包含cpu.pressure、memory.pressure、io.pressure文件，
-+内容格式与/proc/pressure/下的文件相同。
-+
-+可设置基于cgroup的psi监控器，方法与系统级psi监控器相同。
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 1f953d3439a5..bab671ea2e63 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -97,12 +97,12 @@ TODOList:
-    iio/index
-    sound/index
-    filesystems/index
-+   accounting/index
+diff --git a/Documentation/translations/it_IT/core-api/symbol-namespaces.rst b/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
+index aa851a57a4b0..42f5d04e38ec 100644
+--- a/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
++++ b/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
+@@ -42,15 +42,15 @@ nomi: EXPORT_SYMBOL_NS() ed EXPORT_SYMBOL_NS_GPL(). Queste macro richiedono un
+ argomento aggiuntivo: lo spazio dei nomi.
+ Tenete presente che per via dell'espansione delle macro questo argomento deve
+ essere un simbolo di preprocessore. Per esempio per esportare il
+-simbolo `usb_stor_suspend` nello spazio dei nomi `USB_STORAGE` usate::
++simbolo ``usb_stor_suspend`` nello spazio dei nomi ``USB_STORAGE`` usate::
  
- TODOList:
+ 	EXPORT_SYMBOL_NS(usb_stor_suspend, USB_STORAGE);
  
- * driver-api/index
- * locking/index
--* accounting/index
- * block/index
- * cdrom/index
- * ide/index
+ Di conseguenza, nella tabella dei simboli del kernel ci sarà una voce
+-rappresentata dalla struttura `kernel_symbol` che avrà il campo
+-`namespace` (spazio dei nomi) impostato. Un simbolo esportato senza uno spazio
+-dei nomi avrà questo campo impostato a `NULL`. Non esiste uno spazio dei nomi
+-di base. Il programma `modpost` e il codice in kernel/module.c usano lo spazio
++rappresentata dalla struttura ``kernel_symbol`` che avrà il campo
++``namespace`` (spazio dei nomi) impostato. Un simbolo esportato senza uno spazio
++dei nomi avrà questo campo impostato a ``NULL``. Non esiste uno spazio dei nomi
++di base. Il programma ``modpost`` e il codice in kernel/module.c usano lo spazio
+ dei nomi, rispettivamente, durante la compilazione e durante il caricamento
+ di un modulo.
+ 
+@@ -65,7 +65,7 @@ ed EXPORT_SYMBOL_GPL() che non specificano esplicitamente uno spazio dei nomi.
+ 
+ Ci sono molti modi per specificare questo simbolo di preprocessore e il loro
+ uso dipende dalle preferenze del manutentore di un sottosistema. La prima
+-possibilità è quella di definire il simbolo nel `Makefile` del sottosistema.
++possibilità è quella di definire il simbolo nel ``Makefile`` del sottosistema.
+ Per esempio per esportare tutti i simboli definiti in usb-common nello spazio
+ dei nomi USB_COMMON, si può aggiungere la seguente linea in
+ drivers/usb/common/Makefile::
+@@ -97,7 +97,7 @@ USB_STORAGE usando la seguente dichiarazione::
+ 
+ 	MODULE_IMPORT_NS(USB_STORAGE);
+ 
+-Questo creerà un'etichetta `modinfo` per ogni spazio dei nomi
++Questo creerà un'etichetta ``modinfo`` per ogni spazio dei nomi
+ importato. Un risvolto di questo fatto è che gli spazi dei
+ nomi importati da un modulo possono essere ispezionati tramite
+ modinfo::
+@@ -116,7 +116,7 @@ mancanti.
+ 4. Caricare moduli che usano simboli provenienti da spazi dei nomi
+ ==================================================================
+ 
+-Quando un modulo viene caricato (per esempio usando `insmod`), il kernel
++Quando un modulo viene caricato (per esempio usando ``insmod``), il kernel
+ verificherà la disponibilità di ogni simbolo usato e se lo spazio dei nomi
+ che potrebbe contenerli è stato importato. Il comportamento di base del kernel
+ è di rifiutarsi di caricare quei moduli che non importano tutti gli spazi dei
+@@ -144,22 +144,22 @@ Lo scenario tipico di chi scrive un modulo potrebbe essere::
+ 
+ 	- scrivere codice che dipende da un simbolo appartenente ad uno spazio
+ 	  dei nomi non importato
+-	- eseguire `make`
++	- eseguire ``make``
+ 	- aver notato un avviso da modpost che parla di un'importazione
+ 	  mancante
+-	- eseguire `make nsdeps` per aggiungere import nel posto giusto
++	- eseguire ``make nsdeps`` per aggiungere import nel posto giusto
+ 
+ Per i manutentori di sottosistemi che vogliono aggiungere uno spazio dei nomi,
+-l'approccio è simile. Di nuovo, eseguendo `make nsdeps` aggiungerà le
++l'approccio è simile. Di nuovo, eseguendo ``make nsdeps`` aggiungerà le
+ importazioni mancanti nei moduli inclusi nel kernel::
+ 
+ 	- spostare o aggiungere simboli ad uno spazio dei nomi (per esempio
+ 	  usando EXPORT_SYMBOL_NS())
+-	- eseguire `make` (preferibilmente con allmodconfig per coprire tutti
++	- eseguire ``make`` (preferibilmente con allmodconfig per coprire tutti
+ 	  i moduli del kernel)
+ 	- aver notato un avviso da modpost che parla di un'importazione
+ 	  mancante
+-	- eseguire `make nsdeps` per aggiungere import nel posto giusto
++	- eseguire ``make nsdeps`` per aggiungere import nel posto giusto
+ 
+ Potete anche eseguire nsdeps per moduli esterni. Solitamente si usa così::
+ 
+diff --git a/Documentation/translations/it_IT/kernel-hacking/hacking.rst b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
+index f6beb385b4ac..b4ea00f1b583 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
+@@ -634,7 +634,7 @@ Definita in ``include/linux/export.h``
+ 
+ Questa è una variate di `EXPORT_SYMBOL()` che permette di specificare uno
+ spazio dei nomi. Lo spazio dei nomi è documentato in
+-:doc:`../core-api/symbol-namespaces`
++Documentation/translations/it_IT/core-api/symbol-namespaces.rst.
+ 
+ :c:func:`EXPORT_SYMBOL_NS_GPL()`
+ --------------------------------
+@@ -643,7 +643,7 @@ Definita in ``include/linux/export.h``
+ 
+ Questa è una variate di `EXPORT_SYMBOL_GPL()` che permette di specificare uno
+ spazio dei nomi. Lo spazio dei nomi è documentato in
+-:doc:`../core-api/symbol-namespaces`
++Documentation/translations/it_IT/core-api/symbol-namespaces.rst.
+ 
+ Procedure e convenzioni
+ =======================
+diff --git a/Documentation/translations/it_IT/process/deprecated.rst b/Documentation/translations/it_IT/process/deprecated.rst
+index 07c79d4bafca..987f45ee1804 100644
+--- a/Documentation/translations/it_IT/process/deprecated.rst
++++ b/Documentation/translations/it_IT/process/deprecated.rst
+@@ -183,9 +183,11 @@ di Linus:
+   affrontare il giudizio di Linus, allora forse potrai usare "%px",
+   assicurandosi anche di averne il permesso.
+ 
+-Infine, sappi che un cambio in favore di "%p" con hash `non verrà
+-accettato
+-<https://lore.kernel.org/lkml/CA+55aFwieC1-nAs+NFq9RTwaR8ef9hWa4MjNBWL41F-8wM49eA@mail.gmail.com/>`_.
++Potete disabilitare temporaneamente l'hashing di "%p" nel caso in cui questa
++funzionalità vi sia d'ostacolo durante una sessione di debug. Per farlo
++aggiungete l'opzione di debug "`no_hash_pointers
++<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_" alla
++riga di comando del kernel.
+ 
+ Vettori a dimensione variabile (VLA)
+ ------------------------------------
+diff --git a/Documentation/translations/it_IT/process/stable-kernel-rules.rst b/Documentation/translations/it_IT/process/stable-kernel-rules.rst
+index 283d62541c4f..83f48afe48b9 100644
+--- a/Documentation/translations/it_IT/process/stable-kernel-rules.rst
++++ b/Documentation/translations/it_IT/process/stable-kernel-rules.rst
+@@ -41,12 +41,6 @@ Regole sul tipo di patch che vengono o non vengono accettate nei sorgenti
+ Procedura per sottomettere patch per i sorgenti -stable
+ -------------------------------------------------------
+ 
+- - Se la patch contiene modifiche a dei file nelle cartelle net/ o drivers/net,
+-   allora seguite le linee guida descritte in
+-   :ref:`Documentation/translations/it_IT/networking/netdev-FAQ.rst <it_netdev-FAQ>`;
+-   ma solo dopo aver verificato al seguente indirizzo che la patch non sia
+-   già in coda:
+-   https://patchwork.kernel.org/bundle/netdev/stable/?state=*
+  - Una patch di sicurezza non dovrebbero essere gestite (solamente) dal processo
+    di revisione -stable, ma dovrebbe seguire le procedure descritte in
+    :ref:`Documentation/translations/it_IT/admin-guide/security-bugs.rst <it_securitybugs>`.
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index ded95048b9a8..458d9d24b9c0 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -14,14 +14,15 @@ una certa familiarità col "sistema".  Questo testo è una raccolta di
+ suggerimenti che aumenteranno significativamente le probabilità di vedere le
+ vostre patch accettate.
+ 
+-Questo documento contiene un vasto numero di suggerimenti concisi.  Per
+-maggiori dettagli su come funziona il processo di sviluppo del kernel leggete
+-:doc:`development-process`.
+-Leggete anche :doc:`submit-checklist` per una lista di punti da
+-verificare prima di inviare del codice.  Se state inviando un driver,
+-allora leggete anche :doc:`submitting-drivers`; per delle patch
++Questo documento contiene un vasto numero di suggerimenti concisi. Per maggiori
++dettagli su come funziona il processo di sviluppo del kernel leggete
++Documentation/translations/it_IT/process/development-process.rst. Leggete anche
++Documentation/translations/it_IT/process/submit-checklist.rst per una lista di
++punti da verificare prima di inviare del codice. Se state inviando un driver,
++allora leggete anche
++Documentation/translations/it_IT/process/submitting-drivers.rst; per delle patch
+ relative alle associazioni per Device Tree leggete
+-:doc:`submitting-patches`.
++Documentation/translations/it_IT/process/submitting-patches.rst.
+ 
+ Questa documentazione assume che sappiate usare ``git`` per preparare le patch.
+ Se non siete pratici di ``git``, allora è bene che lo impariate;
+@@ -193,7 +194,7 @@ ed integrate.
+ ---------------------------------------------
+ 
+ Controllate che la vostra patch non violi lo stile del codice, maggiori
+-dettagli sono disponibili in :ref:`Documentation/translations/it_IT/process/coding-style.rst <it_codingstyle>`.
++dettagli sono disponibili in Documentation/translations/it_IT/process/coding-style.rst.
+ Non farlo porta semplicemente a una perdita di tempo da parte dei revisori e
+ voi vedrete la vostra patch rifiutata, probabilmente senza nemmeno essere stata
+ letta.
+@@ -230,13 +231,13 @@ scripts/get_maintainer.pl può esservi d'aiuto.  Se non riuscite a trovare un
+ manutentore per il sottosistema su cui state lavorando, allora Andrew Morton
+ (akpm@linux-foundation.org) sarà la vostra ultima possibilità.
+ 
+-Normalmente, dovreste anche scegliere una lista di discussione a cui inviare
+-la vostra serie di patch.  La lista di discussione linux-kernel@vger.kernel.org
+-è proprio l'ultima spiaggia, il volume di email su questa lista fa si che
+-diversi sviluppatori non la seguano.  Guardate nel file MAINTAINERS per trovare
+-la lista di discussione dedicata ad un sottosistema; probabilmente lì la vostra
+-patch riceverà molta più attenzione.  Tuttavia, per favore, non spammate le
+-liste di discussione che non sono interessate al vostro lavoro.
++Normalmente, dovreste anche scegliere una lista di discussione a cui inviare la
++vostra serie di patch. La lista di discussione linux-kernel@vger.kernel.org
++dovrebbe essere usata per inviare tutte le patch, ma il traffico è tale per cui
++diversi sviluppatori la trascurano. Guardate nel file MAINTAINERS per trovare la
++lista di discussione dedicata ad un sottosistema; probabilmente lì la vostra
++patch riceverà molta più attenzione. Tuttavia, per favore, non spammate le liste
++di discussione che non sono interessate al vostro lavoro.
+ 
+ Molte delle liste di discussione relative al kernel vengono ospitate su
+ vger.kernel.org; potete trovare un loro elenco alla pagina
+@@ -257,7 +258,7 @@ embargo potrebbe essere preso in considerazione per dare il tempo alle
+ distribuzioni di prendere la patch e renderla disponibile ai loro utenti;
+ in questo caso, ovviamente, la patch non dovrebbe essere inviata su alcuna
+ lista di discussione pubblica. Leggete anche
+-:doc:`/admin-guide/security-bugs`.
++Documentation/admin-guide/security-bugs.rst.
+ 
+ Patch che correggono bachi importanti su un kernel già rilasciato, dovrebbero
+ essere inviate ai manutentori dei kernel stabili aggiungendo la seguente riga::
+@@ -266,12 +267,7 @@ essere inviate ai manutentori dei kernel stabili aggiungendo la seguente riga::
+ 
+ nella vostra patch, nell'area dedicata alle firme (notate, NON come destinatario
+ delle e-mail).  In aggiunta a questo file, dovreste leggere anche
+-:ref:`Documentation/translations/it_IT/process/stable-kernel-rules.rst <it_stable_kernel_rules>`
+-
+-Tuttavia, notate, che alcuni manutentori di sottosistema preferiscono avere
+-l'ultima parola su quali patch dovrebbero essere aggiunte ai kernel stabili.
+-La rete di manutentori, in particolare, non vorrebbe vedere i singoli
+-sviluppatori aggiungere alle loro patch delle righe come quella sopracitata.
++Documentation/translations/it_IT/process/stable-kernel-rules.rst.
+ 
+ Se le modifiche hanno effetti sull'interfaccia con lo spazio utente, per favore
+ inviate una patch per le pagine man ai manutentori di suddette pagine (elencati
+@@ -330,7 +326,7 @@ così la possibilità che il vostro allegato-MIME venga accettato.
+ Eccezione: se il vostro servizio di posta storpia le patch, allora qualcuno
+ potrebbe chiedervi di rinviarle come allegato MIME.
+ 
+-Leggete :doc:`/translations/it_IT/process/email-clients`
++Leggete Documentation/translations/it_IT/process/email-clients.rst
+ per dei suggerimenti sulla configurazione del programmi di posta elettronica
+ per l'invio di patch intatte.
+ 
+@@ -351,7 +347,7 @@ richiede molto tempo, e a volte i revisori diventano burberi.  Tuttavia, anche
+ in questo caso, rispondete con educazione e concentratevi sul problema che
+ hanno evidenziato.
+ 
+-Leggete :doc:`/translations/it_IT/process/email-clients` per
++Leggete Documentation/translations/it_IT/process/email-clients.rst per
+ le raccomandazioni sui programmi di posta elettronica e l'etichetta da usare
+ sulle liste di discussione.
+ 
+@@ -369,6 +365,16 @@ aver inviato le patch correttamente.  Aspettate almeno una settimana prima di
+ rinviare le modifiche o sollecitare i revisori - probabilmente anche di più
+ durante la finestra d'integrazione.
+ 
++Potete anche rinviare la patch, o la serie di patch, dopo un paio di settimane
++aggiungendo la parola "RESEND" nel titolo::
++
++    [PATCH Vx RESEND] sub/sys: Condensed patch summary
++
++Ma non aggiungete "RESEND" quando state sottomettendo una versione modificata
++della vostra patch, o serie di patch - "RESEND" si applica solo alla
++sottomissione di patch, o serie di patch, che non hanno subito modifiche
++dall'ultima volta che sono state inviate.
++
+ Aggiungete PATCH nell'oggetto
+ -----------------------------
+ 
+@@ -795,8 +801,7 @@ Greg Kroah-Hartman, "Come scocciare un manutentore di un sottosistema"
+ No!!!! Basta gigantesche bombe patch alle persone sulla lista linux-kernel@vger.kernel.org!
+   <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+ 
+-Kernel Documentation/translations/it_IT/process/coding-style.rst:
+-  :ref:`Documentation/translations/it_IT/process/coding-style.rst <it_codingstyle>`
++Kernel Documentation/translations/it_IT/process/coding-style.rst.
+ 
+ E-mail di Linus Torvalds sul formato canonico di una patch:
+   <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
 -- 
-2.25.1
+2.32.0.93.g670b81a890
 
