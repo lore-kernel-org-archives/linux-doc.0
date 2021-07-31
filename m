@@ -4,56 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68106C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 23:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEADC4320A
+	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 03:36:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C91B60EBD
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jul 2021 23:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B6C960FE7
+	for <linux-doc@archiver.kernel.org>; Sat, 31 Jul 2021 03:36:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233750AbhG3X3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jul 2021 19:29:34 -0400
-Received: from pv50p00im-zteg10011501.me.com ([17.58.6.42]:59807 "EHLO
-        pv50p00im-zteg10011501.me.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233584AbhG3X3d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 19:29:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-        s=1a1hai; t=1627687396;
-        bh=4/aQNK88t2BegMqzsfndPfebMdjLWEajP+tB9Yr6Z2g=;
-        h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
-        b=XyR8IvcWh2Yfli0tViLdMK1yH+61H/FNyC8h5qwo1FXK6ogVFPIPZCHAKQKGFFddq
-         lYQhtIUey/B0nG1sdLePg1Licp9DcDhCuw1k6ZBoDOWWnpGD0zWwX6xuGZ90tSbUjg
-         NQ8nnP3PrLb5udE57J/qnf2wbzNKgOunCFXBDZ49DsS22VHagwJSLdvE/bC9WQ8eU6
-         V8lxpXaFxv4qqVO/L9HP2gdNZoyLsJWWSyeBlcZdoXw+EDD8lwcfanHqSeRbzMxOU+
-         io4QzuldoswUF8SYbn/tQZqeAGMviU1TtDJ5vfPo79n+TOuzzztKfqXgmgaGinJTCT
-         hn/3dDdbtvz2A==
-Received: from smtpclient.apple (075-142-087-102.res.spectrum.com [75.142.87.102])
-        by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id E24B1B003A7;
-        Fri, 30 Jul 2021 23:23:15 +0000 (UTC)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-From:   Dillan Jackson <a1.jackson@icloud.com>
-Mime-Version: 1.0 (1.0)
-Date:   Fri, 30 Jul 2021 16:22:55 -0700
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-Id: <3B1B0473-00F1-46A4-9C5A-06EAF7FA8340@icloud.com>
-Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ojeda@kernel.org, peterz@infradead.org,
-        rust-for-linux@vger.kernel.org, torvalds@linux-foundation.org,
-        wedsonaf@google.com
-To:     linus.walleij@linaro.org
-X-Mailer: iPhone Mail (18G82)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-30_11:2021-07-30,2021-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
- mlxlogscore=530 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2009150000 definitions=main-2107300157
+        id S231487AbhGaDgs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jul 2021 23:36:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231371AbhGaDgr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jul 2021 23:36:47 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF20CC06175F;
+        Fri, 30 Jul 2021 20:36:41 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id oz16so20301449ejc.7;
+        Fri, 30 Jul 2021 20:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UqPpoVrV5Zv8tJECfFd0jqzbPpbyi52sVgr9Ggd0sXM=;
+        b=UrQI4ja2/tWhdxsjUHg48NBCoEFaPyX2E/49L/OSQnPl9bo1saaxEIfYEIB2HW26Kt
+         5CsN7ujx/ppQVUwM5SOassSHJ4xeKfMPmMfcXDnx2zga6zSDyqTXTAxk4uKmj9W+njJi
+         4Tfu4qQMxt3geZV4vl2E/u39/bkomT4Q6fofo9RSsu+n1x75IFvP+0F9+Q9lGmZg/t90
+         OhnM04R2s0eaqyhZlCyZKWPxwinMMEG4j7X1Pk23cELDe5M8htqGfUHzbbKz50svqhEK
+         zLemCmcvRR04+F9E4taIbk3h/ZXhiANSKWJ49p7wi3KkOsgITf0IaYIc6p53xketqQJM
+         kYAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UqPpoVrV5Zv8tJECfFd0jqzbPpbyi52sVgr9Ggd0sXM=;
+        b=ResdmGtEIYZKtZ6QZrjVl3sYaarkdo1qbnt52Z82Pf0zm/B2PgaFBiwN+UV/sMXzQY
+         lKcFZrghU9XLm88z4YOwEbY26Gm1yoE2NV6A6gngDVr83IvkTTeoW+0BGg2x+yYWzNss
+         UVJJSWzJkGOmS0WYhe+AZv5QQHZisFWR5LiQc8qGgqoR6jcGL3wx67D35lE07OzBaE1B
+         ToCjYkB6dH6BJbUHeCAEGR4IQ6bSgA2bn6qxuT5hVfH5j1HOW4fwhgOUMazdiTZKjfjC
+         LoMShrQOOaTOYg5Kni2LSb4zBMWyrzMlniLvzs1ffUEY+eEnzfnXNluMCPIcJY8vC468
+         Hkpg==
+X-Gm-Message-State: AOAM530QR2utLOJBilYnVFCinPgDR3a+ex70Sq2vKUxEEeS7CKFRDVxJ
+        bNSTQ+xh48KLBBLzUzn1MihZ7gKHpGa9Lsl0RZk=
+X-Google-Smtp-Source: ABdhPJyFvI7FmGemcBkicNzrSaM5dfs57prOAzoB7xgZQjgQlq6l6kYHMr3y8Zq7WyZQs+DdNk+IuLgSCTCj3rjq1Lk=
+X-Received: by 2002:a17:906:4ad9:: with SMTP id u25mr5812143ejt.106.1627702600406;
+ Fri, 30 Jul 2021 20:36:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOVCmzEJqg6=FW3Vu1MScyj8GS-KXb2s_ztxBxwDmcbN5sbQuA@mail.gmail.com>
+ <CAOVCmzEzwFkiDz_Tf0LFQQZYKYdbACjyjdLOpawh0BB9JpDg1Q@mail.gmail.com> <CAKgNAkioMyEYk2AfjC-bHtD4ZxM=brm9CMWF-WXNfqYNvyyQKQ@mail.gmail.com>
+In-Reply-To: <CAKgNAkioMyEYk2AfjC-bHtD4ZxM=brm9CMWF-WXNfqYNvyyQKQ@mail.gmail.com>
+From:   Shivank Garg <shivankgarg98@gmail.com>
+Date:   Sat, 31 Jul 2021 09:06:24 +0530
+Message-ID: <CAOVCmzFU-Z-q-zxbBR=1FgR+2VbxAxNbUuwtcDWVZnO6pDf+ag@mail.gmail.com>
+Subject: Re: /proc/pid/sched units
+To:     mtk.manpages@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-man <linux-man@vger.kernel.org>,
+        willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Monies?
+Hi,
+
+Thanks for the help. My confusion is clear now.
+
+On Sat, Jul 31, 2021 at 3:11 AM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>
+> Hello Shivank,
+>
+> On Wed, 28 Jul 2021 at 14:59, Shivank Garg <shivankgarg98@gmail.com> wrote:
+> >
+> > ---------- Forwarded message ---------
+> > From: Shivank Garg <shivankgarg98@gmail.com>
+> > Date: Wed, Jul 28, 2021 at 6:26 PM
+> > Subject: /proc/pid/sched units
+> > To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux MM
+> > <linux-mm@kvack.org>, <util-linux@vger.kernel.org>
+> >
+> >
+> > Hi Everyone,
+> >
+> > I'm analyzing the cpu time taken ("se.sum_exec_runtime" in
+> > /proc/$pid/sched) by process in different configurations for my
+> > project work. But I was not able to get the time units for the values
+> > displayed in the file. I tried searching it in source code -
+> > kernel/sched/cputime.c,include/linux/sched.h etc. but it left me more
+> > confused.
+> >
+> > Can you please answer me about the measurement units (is it
+> > microseconds, nanoseconds, jiffles ...) ?
+> >
+> > Also, I was not able to find proper documentation for /proc/pid/sched.
+> > Please point to me if it's already there. If not, I would love to
+> > contribute toward documenting these variables. It would be very
+> > helpful for newbies (like me) in future.
+>
+> It looks like se.sum_exec_runtime is milliseconds. In
+> kernel/sched/debug.c, see proc_sched_show_task(), the definition of
+> the PN() PNS(), and SPLIT_NS() macros, and the nsec_high(x) and
+> nsec_low(x) functions.
+>
+> Thanks,
+>
+> Michael
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
