@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C08B1C4338F
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB82C4338F
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:49:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9945761050
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:47:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6238A61057
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbhHBJrR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 05:47:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
+        id S231669AbhHBJtQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Aug 2021 05:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232699AbhHBJrR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 05:47:17 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6259BC06175F;
-        Mon,  2 Aug 2021 02:47:08 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id l19so24515620pjz.0;
-        Mon, 02 Aug 2021 02:47:08 -0700 (PDT)
+        with ESMTP id S233043AbhHBJtQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 05:49:16 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647EDC06175F;
+        Mon,  2 Aug 2021 02:49:06 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id i10so19049398pla.3;
+        Mon, 02 Aug 2021 02:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=d42hFxmAR+de/Ma3nHp16RLBWTaxq6GVIwZuqgtugdw=;
-        b=lrkCtg3EBxhYAaaO7jYTzvYd4CZ73i6NY40N6MgMS0cbkI8w5AoDuwBtl0QbdpOT5r
-         NgfLqzFYPlgANOIY5vYqcn9PjA12zqfVjsYo3wx1m/k082UBsEmruM3nzBcVmXs66zLR
-         BehZ16j73Ddr8xuT1wYNqhcfypaHL4RLu5IN+BkuSqbT0RFx02e7ohy85pfvZyS5T1sf
-         OYy7dvfqw4tUgksAwRKRK7RAWF/1dCNnHUdRbP9+eYDemqVEG+mkHSAdptSfJDgtc3Vh
-         vYyIjsNSagGFeVYvpbo+uTfiLKAYk3JQh+7NqpY+SFbgQtTpuE6gjmWgKPY91uv7GMq1
-         VXlA==
+        bh=zt2CmxMPCinxqJp6yrtjTUclK9S1FTTtiWMYSxiy/GI=;
+        b=ZrocBAx33mCo7FD0Delz4HXI9qBUKxXw3R6XrqNsnm1cjek5jerHGGILR/QxwsPaTb
+         +SucJ/QlyrKzqbbC3eDkdTLdmFeTYLKuaVnMwgCzD34K+4/ynQs1PfSvRTY+CGvTbe0o
+         vkpnyrh8PLnAbr7UbG5kS5i8ESgk0OZDU1iQSk7EK9p4IHuPpp1L9KNs9XWfH9wvujNS
+         yoBHU7smrAkC5zutX6a/VNa3FyB9nH78WxSvVVFO2gms7ZS63verdOCCWu+QtAIFoOLx
+         93fXWFP5Qd/hPnODOgcms23zaiEmWRNqymRtCZO7uKn0Dm38HInqxjbQEmf3hfcfrPWC
+         X0yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=d42hFxmAR+de/Ma3nHp16RLBWTaxq6GVIwZuqgtugdw=;
-        b=AjJ7hsOaBEK2+knncNmM87k/2Rl06Li8Cy5ChoN91+6ByRU8PaIlxMbHZJmrBMWM+J
-         M2yUvaLW4QSkIq4jNHfH+obOLgteW9mKaIaSnLw5/oJ2BriaGnjrawaLurVry4tpKCvI
-         4cWnnMm5bt3+EZaC6gwcjVvkFF9jXwUKqhXhBKwmHWmcy/WutGBUD3Z03ou8AvU4pANk
-         auntvzC5fjXOVaDcaCmmUakVIwO2HUMd/d/fSb+mWMJoMotLZL5ZtSv8H5pdVGtMKZI3
-         5TmMykyB94mqAoxGoJ09lXnAQF2WnZ80P1CUJxwvgKFfIVcbMLm4RWofV18nIJBq8ebd
-         DVlQ==
-X-Gm-Message-State: AOAM532k6j56cJRrgBHFbJOzXaCbpUu1dW+KbRpBFd6jNT4vN8NHZWWl
-        g3H6cBxvGxaCsZo/9AQG3jM=
-X-Google-Smtp-Source: ABdhPJz62g2FBiKz4QoKeNEWc6h1WMOsR3oM++En4qr5VT0CVVonFcZ5PumpzqIAKZAihO3XDuMF4A==
-X-Received: by 2002:a63:d244:: with SMTP id t4mr2251165pgi.367.1627897627925;
-        Mon, 02 Aug 2021 02:47:07 -0700 (PDT)
+        bh=zt2CmxMPCinxqJp6yrtjTUclK9S1FTTtiWMYSxiy/GI=;
+        b=NOv5VnnbtJkB3ZAS3S/aCTSt1/lwbzpWfKXJtD46SIkTYMfDMxIxBRV+R+Dv8O/t+c
+         EVcGCwEtd8HJ81rnDyRkzNTBn9BNqpr6K5NjwQ8ndBVaOEJOTvPnv7wP7gueH1BQ/smP
+         dwlbB92BFc6oTA0bO9xq3yJrOw9n/6hwGTbQoIa2mJubZ5SZESUa63S/WSY4pLfZoxY2
+         sit9te8C4Z0O+Fs379GTBJ8vsMjbve+Rr3QOiuoU1s196bibdD+44zHwoAariqZWCFXL
+         Po8fJAoBw/Hr0iuVgZd6FtGyxU+FPo2dsPoa8f7g/ys01I615NslsfbRKwHVGPKg2VkA
+         XvBQ==
+X-Gm-Message-State: AOAM530HOWFEjNKEIQ4dYE9L46oqfGrhbmKqwAwYhIRebimmyiGVJyr1
+        D7vWxZ2m5rKsxV/pnGx4eIU=
+X-Google-Smtp-Source: ABdhPJxu7E8SWxoEGPkiAxp0/lyGkYbFVKh2OwF7riPn3GIbiAssizhr0GNrRvHcbzO8oG5Uw4gvPg==
+X-Received: by 2002:a17:90a:d190:: with SMTP id fu16mr16842017pjb.157.1627897746016;
+        Mon, 02 Aug 2021 02:49:06 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id r18sm13290019pgk.54.2021.08.02.02.47.05
+        by smtp.gmail.com with ESMTPSA id k25sm10880127pfa.213.2021.08.02.02.49.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Aug 2021 02:47:07 -0700 (PDT)
-Subject: [PATCH v3 1/9] docs: pdfdocs: Refactor config for CJK document
+        Mon, 02 Aug 2021 02:49:05 -0700 (PDT)
+Subject: [PATCH v3 2/9] docs: pdfdocs: Add CJK-language-specific font settings
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
@@ -65,87 +65,185 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1a13dea8-8f73-2773-a077-233b8e5480a6@gmail.com>
-Date:   Mon, 2 Aug 2021 18:47:04 +0900
+Message-ID: <a7f14d16-46c6-4476-35cf-90afc2395a44@gmail.com>
+Date:   Mon, 2 Aug 2021 18:49:02 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To make generated LaTeX code portable across systems with different sets
-of available fonts, convert font-availability check in python code to
-LaTeX code by using a conditional command provided by the "fontspec"
-package.
+zh_TW, ko_KR, and ja_JP translations have their preferred glyph sets
+different from that of zh_CN.
 
-This will help those who run Sphinx on one machine/container and run
-latexmk on other machines/containers.
+To switch CJK font in the middle of the translations, introduce custom
+LaTeX macros listed below:
 
-Remove import of check_output as it is unused any more.
+    \kerneldocBeginSC
+    \kerneldocEndSC
+    \kerneldocBeginTC
+    \kerneldocEndTC
+    \kerneldocBeginKR
+    \kerneldocEndKR
+    \kerneldocBeginJP
+    \kerneldocEndJP
+
+, and embed a pair of macros in each language's index.rst.
+
+NOTE 1: Update of zh_TW/index.rst is deferred to a follow-up change.
+
+NOTE 2: Custom macros added here do not imply \kerneldocCJK(on|off).
+This is intentional.  For example, \kerneldocCJKoff needs to be
+at the top of Italian translations' index.rst for the footer of
+final zh_TW page to be properly typeset.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Documentation/conf.py | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ Documentation/conf.py                      | 51 +++++++++++++++++++++-
+ Documentation/translations/ja_JP/index.rst |  5 +++
+ Documentation/translations/ko_KR/index.rst |  2 +
+ Documentation/translations/zh_CN/index.rst |  5 +++
+ 4 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 7d92ec3e5b6e..b440cb606d22 100644
+index b440cb606d22..24e5427588e7 100644
 --- a/Documentation/conf.py
 +++ b/Documentation/conf.py
-@@ -16,8 +16,6 @@ import sys
- import os
- import sphinx
- 
--from subprocess import check_output
--
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
- 
-@@ -355,15 +353,14 @@ latex_elements = {
-      ''',
- }
- 
--# At least one book (translations) may have Asian characters
--# with are only displayed if xeCJK is used
-+# Translations have Asian (CJK) characters which are only displayed if
-+# xeCJK is used
- 
--cjk_cmd = check_output(['fc-list', '--format="%{family[0]}\n"']).decode('utf-8', 'ignore')
--if cjk_cmd.find("Noto Sans CJK SC") >= 0:
--    latex_elements['preamble']  += '''
-+latex_elements['preamble']  += '''
-+    \\IfFontExistsTF{Noto Sans CJK SC}{
+@@ -361,10 +361,51 @@ latex_elements['preamble']  +=3D '''
  	% This is needed for translations
--        \\usepackage{xeCJK}
--        \\setCJKmainfont{Noto Sans CJK SC}
-+	\\usepackage{xeCJK}
-+	\\setCJKmainfont{Noto Sans CJK SC}
+ 	\\usepackage{xeCJK}
+ 	\\setCJKmainfont{Noto Sans CJK SC}
++	\\setCJKsansfont{Noto Sans CJK SC}
++	\\setCJKmonofont{Noto Sans Mono CJK SC}
++	% CJK Language-specific font choices
++	\\newCJKfontfamily[SCmain]\\scmain{Noto Sans CJK SC}
++	\\newCJKfontfamily[SCsans]\\scsans{Noto Sans CJK SC}
++	\\newCJKfontfamily[SCmono]\\scmono{Noto Sans Mono CJK SC}
++	\\newCJKfontfamily[TCmain]\\tcmain{Noto Sans CJK TC}
++	\\newCJKfontfamily[TCsans]\\tcsans{Noto Sans CJK TC}
++	\\newCJKfontfamily[TCmono]\\tcmono{Noto Sans Mono CJK TC}
++	\\newCJKfontfamily[KRmain]\\krmain{Noto Sans CJK KR}
++	\\newCJKfontfamily[KRsans]\\krsans{Noto Sans CJK KR}
++	\\newCJKfontfamily[KRmono]\\krmono{Noto Sans Mono CJK KR}
++	\\newCJKfontfamily[JPmain]\\jpmain{Noto Sans CJK JP}
++	\\newCJKfontfamily[JPsans]\\jpsans{Noto Sans CJK JP}
++	\\newCJKfontfamily[JPmono]\\jpmono{Noto Sans Mono CJK JP}
  	% Define custom macros to on/off CJK
  	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
  	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
-@@ -371,13 +368,12 @@ if cjk_cmd.find("Noto Sans CJK SC") >= 0:
+-	% To customize \sphinxtableofcontents
++	\\newcommand{\\kerneldocBeginSC}{%
++	    \\begingroup%
++	    \\scmain%
++	}
++	\\newcommand{\\kerneldocEndSC}{\\endgroup}
++	\\newcommand{\\kerneldocBeginTC}{%
++	    \\begingroup%
++	    \\tcmain%
++	    \\renewcommand{\\CJKsfdefault}{TCsans}%
++	    \\renewcommand{\\CJKttdefault}{TCmono}%
++	}
++	\\newcommand{\\kerneldocEndTC}{\\endgroup}
++	\\newcommand{\\kerneldocBeginKR}{%
++	    \\begingroup%
++	    \\krmain%
++	    \\renewcommand{\\CJKsfdefault}{KRsans}%
++	    \\renewcommand{\\CJKttdefault}{KRmono}%
++	}
++	\\newcommand{\\kerneldocEndKR}{\\endgroup}
++	\\newcommand{\\kerneldocBeginJP}{%
++	    \\begingroup%
++	    \\jpmain%
++	    \\renewcommand{\\CJKsfdefault}{JPsans}%
++	    \\renewcommand{\\CJKttdefault}{JPmono}%
++	}
++	\\newcommand{\\kerneldocEndJP}{\\endgroup}
++	% To customize \\sphinxtableofcontents
  	\\usepackage{etoolbox}
  	% Inactivate CJK after tableofcontents
  	\\apptocmd{\\sphinxtableofcontents}{\\kerneldocCJKoff}{}{}
--     '''
--else:
--    latex_elements['preamble']  += '''
-+    }{ % No CJK font found
+@@ -372,6 +413,14 @@ latex_elements['preamble']  +=3D '''
  	% Custom macros to on/off CJK (Dummy)
  	\\newcommand{\\kerneldocCJKon}{}
  	\\newcommand{\\kerneldocCJKoff}{}
--     '''
-+    }
-+'''
- 
- # Fix reference escape troubles with Sphinx 1.4.x
- if major == 1:
--- 
++	\\newcommand{\\kerneldocBeginSC}{}
++	\\newcommand{\\kerneldocEndSC}{}
++	\\newcommand{\\kerneldocBeginTC}{}
++	\\newcommand{\\kerneldocEndTC}{}
++	\\newcommand{\\kerneldocBeginKR}{}
++	\\newcommand{\\kerneldocEndKR}{}
++	\\newcommand{\\kerneldocBeginSC}{}
++	\\newcommand{\\kerneldocEndKR}{}
+     }
+ '''
+=20
+diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
+ranslations/ja_JP/index.rst
+index f94ba62d41c3..88d4d98eed15 100644
+--- a/Documentation/translations/ja_JP/index.rst
++++ b/Documentation/translations/ja_JP/index.rst
+@@ -3,6 +3,7 @@
+ 	\renewcommand\thesection*
+ 	\renewcommand\thesubsection*
+ 	\kerneldocCJKon
++	\kerneldocBeginJP
+=20
+ Japanese translations
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+@@ -11,3 +12,7 @@ Japanese translations
+    :maxdepth: 1
+=20
+    howto
++
++.. raw:: latex
++
++	\kerneldocEndJP
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/t=
+ranslations/ko_KR/index.rst
+index 6ae258118bdf..f636b482fb4c 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -3,6 +3,7 @@
+ 	\renewcommand\thesection*
+ 	\renewcommand\thesubsection*
+ 	\kerneldocCJKon
++	\kerneldocBeginKR
+=20
+ =ED=95=9C=EA=B5=AD=EC=96=B4 =EB=B2=88=EC=97=AD
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+@@ -26,3 +27,4 @@
+ .. raw:: latex
+=20
+     \normalsize
++    \kerneldocEndKR
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
+ranslations/zh_CN/index.rst
+index e0d51a167032..510ec10959fa 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -5,6 +5,7 @@
+ 	\renewcommand\thesection*
+ 	\renewcommand\thesubsection*
+ 	\kerneldocCJKon
++	\kerneldocBeginSC
+=20
+ .. _linux_doc_zh:
+=20
+@@ -189,3 +190,7 @@ TODOList:
+ ----------
+=20
+ * :ref:`genindex`
++
++.. raw:: latex
++
++	\kerneldocEndSC
+--=20
 2.17.1
+
 
 
