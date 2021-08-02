@@ -2,125 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2595EC4338F
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB87C4320A
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:42:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 072ED60F36
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:22:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8331160FC1
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:42:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234455AbhHBOWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 10:22:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234284AbhHBOWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 10:22:16 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF17C06AB59
-        for <linux-doc@vger.kernel.org>; Mon,  2 Aug 2021 07:06:32 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id z3so18409688plg.8
-        for <linux-doc@vger.kernel.org>; Mon, 02 Aug 2021 07:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S30D7JnOgPGqBVRgaO8L0r6DfESVg4Q0tFc852vuoQg=;
-        b=o7zchrRzGSGJvS1YaJA1zPgb9ncAEmQmS7wdtDRLvzTCTV0KV5fs6bh0F0NjLGNQdA
-         hAsch3Th8KrrnTB3oABOyV9xGiM0mqxvjwcQkfhvu6p+CzBkBfEJS62qGuplsCP//3yg
-         Y/7Pd6ryCB0f1VkCo8aXIsC1y4zhgDxhhN+SRDfojcY9OlwszZt73S0OMdSAGrrt/lEF
-         DAL3uoym+fNdBMYLmsgLkKHhyp31BFULI/YtTh4pTa9xWKYuYTipXMvvP+ON9z6AxU2Y
-         Ley1Tyza1FWHdyq3dJxbBTwJofGKtCqvbKWZgl3yHMFRcxOB/Pt8dJtPdR+vN52DMLVv
-         44lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S30D7JnOgPGqBVRgaO8L0r6DfESVg4Q0tFc852vuoQg=;
-        b=Ljl5U9cm0VVf/iRQu3yfk30poKMJH6fLFC7A+voRQZPT6kWN1EDwXRgDuhN84rzyiw
-         WaH/stro3ll2wBP8GaXgpp2W3fXn7xT2sY17jZfgsrMFYcKHSnLmrh1HwJDKHTbqnqKc
-         FRSoxTUyJ+pnkrM/++bR/ONTX0hqW6iifOvmHZg3V6GU/NyzkQKR6YXHPU4cjBhr7YbP
-         9AIa7+gx3qhf6EGBH1wCkO29zhw9mnhKJHHNQKhSrpCH6QnjnZyqqQxFZyddWXp1L14m
-         W4C8PagI9TMEPvJTtMAdP00NiZHHTRaC/+irQIbFZeb5Q9X264WYChdigF/wMNo6jz54
-         ig1A==
-X-Gm-Message-State: AOAM533yvOA7rPyZEFGrp/xpoKvpcjCttMSgkmbmciCq7G/BQaBOtkpw
-        iGl9v9Olfs0R2xFHrtU3ohteZNLPNhGniFVxRYqnmw==
-X-Google-Smtp-Source: ABdhPJyVKOnhVt0Wdh9gR5klKUeMY8LJl9xOy+rXAR1aL3gh/RyX3d+gIGycEUJ0HTA94nfjLHThyGCadYvcoTFdMUM=
-X-Received: by 2002:a65:6248:: with SMTP id q8mr1176705pgv.279.1627913192152;
- Mon, 02 Aug 2021 07:06:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714144830.29f9584878b04903079ef7eb@linux-foundation.org>
- <YPjW7tu1NU0iRaH9@casper.infradead.org> <5642c8c3-cf13-33dc-c617-9d1becfba1b1@oracle.com>
- <CAPcyv4ho7idBPU8F4qE8XWhRttkdfzQRATaTAw2C3AfY+Z2BdQ@mail.gmail.com> <fbb77d0f-f1e9-3ef9-fd12-b412b845b7fc@oracle.com>
-In-Reply-To: <fbb77d0f-f1e9-3ef9-fd12-b412b845b7fc@oracle.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Mon, 2 Aug 2021 07:06:21 -0700
-Message-ID: <CAPcyv4gXrNnTQfHXGy-psWRq59UdrfqJ_1xDvxb2Db_rQGGxug@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] mm, sparse-vmemmap: Introduce compound pagemaps
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S234182AbhHBOmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Aug 2021 10:42:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47612 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233925AbhHBOmq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 10:42:46 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 172EY0ek175070;
+        Mon, 2 Aug 2021 10:42:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=zGdVNd5qiQPcDVl6mMtFFxl5zES7mJ2fWwcpoYDbjYI=;
+ b=Xmgi6/5nP2wKA75iFEg5HepcKfmEaXnHuXYSX/6O/kMoQM6iSd0eBGvxjNrnpdY5GiaI
+ ShoEbWrNKRjDB/IBtrBroctogujun0iUGuYiVSPdix/Ethd+17dUDQOpvCV34HS5+23w
+ TO9h/d3htxCJ60TiZenh56O84L8xV1td++C+FarQwM2Wz+YLUOfI5J39CHSIPtfLcywc
+ UwImDknN0nlUhtYQoJlbnQ5WUlo5k8ljxphaQk9kAWACF0D8Dy40/9yk12PdIXE0Xl+A
+ LOBTY6+msJZJaDG1CQKt25lbd1kAxQTNJYe0+UkuY2GchpzG2/JniB0S+R4FYYUNFtCa 8Q== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3a5u8bpr7j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Aug 2021 10:42:31 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 172EItAq007062;
+        Mon, 2 Aug 2021 14:42:29 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma01fra.de.ibm.com with ESMTP id 3a4x58mf0k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Aug 2021 14:42:29 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 172EgRoK27066814
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 2 Aug 2021 14:42:27 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0F18CA4060;
+        Mon,  2 Aug 2021 14:42:27 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1ED9CA405B;
+        Mon,  2 Aug 2021 14:42:25 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.118.203])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  2 Aug 2021 14:42:24 +0000 (GMT)
+Message-ID: <3e6a54d4be87a3eafc45c85d013250d17aa0835e.camel@linux.ibm.com>
+Subject: Re: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
+ digest_list_del
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
+Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Mon, 02 Aug 2021 10:42:24 -0400
+In-Reply-To: <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
+References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+         <20210726163700.2092768-7-roberto.sassu@huawei.com>
+         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
+         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
+         <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
+         <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -2W2DK9FB2gKjhGHJSLsQWGmbfpdoMVt
+X-Proofpoint-GUID: -2W2DK9FB2gKjhGHJSLsQWGmbfpdoMVt
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-08-02_05:2021-08-02,2021-08-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 spamscore=0 mlxscore=0 phishscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108020094
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 3:41 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->
->
->
-> On 7/28/21 12:23 AM, Dan Williams wrote:
-> > On Thu, Jul 22, 2021 at 3:54 AM Joao Martins <joao.m.martins@oracle.com> wrote:
-> > [..]
-> >>> The folio work really touches the page
-> >>> cache for now, and this seems mostly to touch the devmap paths.
-> >>>
-> >> /me nods -- it really is about devmap infra for usage in device-dax for persistent memory.
-> >>
-> >> Perhaps I should do s/pagemaps/devmap/ throughout the series to avoid confusion.
-> >
-> > I also like "devmap" as a more accurate name. It matches the PFN_DEV
-> > and PFN_MAP flags that decorate DAX capable pfn_t instances. It also
-> > happens to match a recommendation I gave to Ira for his support for
-> > supervisor protection keys with devmap pfns.
-> >
-> /me nods
->
-> Additionally, I think I'll be reordering the patches for more clear/easier
-> bisection i.e. first introducing compound pages for devmap, fixing associated
-> issues wrt to the slow pinning and then introduce vmemmap deduplication for
-> devmap.
->
-> It should look like below after the reordering from first patch to last.
-> Let me know if you disagree.
->
-> memory-failure: fetch compound_head after pgmap_pfn_valid()
-> mm/page_alloc: split prep_compound_page into head and tail subparts
-> mm/page_alloc: refactor memmap_init_zone_device() page init
-> mm/memremap: add ZONE_DEVICE support for compound pages
-> device-dax: use ALIGN() for determining pgoff
-> device-dax: compound devmap support
-> mm/gup: grab head page refcount once for group of subpages
-> mm/sparse-vmemmap: add a pgmap argument to section activation
-> mm/sparse-vmemmap: refactor core of vmemmap_populate_basepages() to helper
-> mm/hugetlb_vmemmap: move comment block to Documentation/vm
-> mm/sparse-vmemmap: populate compound devmaps
-> mm/page_alloc: reuse tail struct pages for compound devmaps
-> mm/sparse-vmemmap: improve memory savings for compound pud geometry
+Hi Roberto,
 
-LGTM.
+On Fri, 2021-07-30 at 13:16 +0000, Roberto Sassu wrote:
+
+> The reason of storing the actions performed by IMA on the
+> digest lists helps to determine for which purpose they can be
+> used. If digest lists are used only for measurement purpose,
+> it should be sufficient that digest lists are measured. The
+> same applies for appraisal.
+
+Is that assumption correct?   How would you know if the digests lists
+are only being used one way and not the other.  For example, assuming
+that the digest lists are stored on protected media, the digest lists
+could be measured, but would not necessarily be appraised.
+
+> > Adding the kernel_read_file() "READING_DIGEST_LIST" support in IMA does
+> > not seem to be optional.  IMA would then be calculating the digest list
+> > file hash twice, once in kernel_read_file() and then, again, in
+> > ima_measure_critical_data().
+> 
+> I didn't include also this part: I retrieve the integrity_iint_cache for
+> the opened file descriptor and I get the flags from there. If the
+> IMA_MEASURED flag is set, it is not necessary to call also
+> ima_measure_critical_data().
+
+Right, assuming the file is in policy, the digest would already be
+stored in the iint cache.
+
+> > > > I understand that with your changes to ima_measure_critical_data(),
+> > > > which are now in next-integrity-testing branch, allow IMA to calculate
+> > > > the file data hash.
+> > >
+> > > Yes, correct. But actually there is another useful use case.
+> > > If digest lists are not in the format supported by the kernel,
+> > > the user space parser has to convert them before uploading
+> > > them to the kernel.
+> > >
+> > > ima_measure_critical_data() would in this case measure
+> > > the converted digest list (it is written directly, without
+> > > sending the file path). It is easier to attest the result,
+> > > instead of determining whether the user space parser
+> > > produced the expected result (by checking the files it
+> > > read).
+> > 
+> > The application to properly convert the digest list file data into the
+> > appropriate format would need to be trusted.  I'm concerned that not
+> > requiring the converted data to be signed and the signature verified is
+> > introducing a new integrity gap.  Perhaps between an LSM policy,
+> > limiting which files may be read by the application, and an IMA policy,
+> > requiring all files read by this application to be measured and the
+> > signature verified, this integrity gap could be averted.
+> 
+> It is the weakest point in the chain, yes. Relying on existing LSMs
+> didn't seem to me a good idea, as:
+> - a new policy must be installed
+> - we must be sure that the policy is really enforced
+> - we need to support different LSMs (SELinux for Fedora,
+>   Apparmor for SUSE)
+> - there might be no LSM we can rely on
+> 
+> For these reasons, I developed a new LSM. Its purpose is to
+> identify the user space parser and for each file it opens, ensure
+> that the file has been measured or appraised by IMA. If one of
+> these actions are missing, it will not be set in the digest list the
+> user space parser uploads to the kernel (which means that IMA
+> will ignore the digest list for that specific action).
+
+Properly identifying (all) user space parser(s) would be critical.  It
+would be simpler and  safer to require the converted data be signed.
+
+thanks,
+
+Mimi
+
