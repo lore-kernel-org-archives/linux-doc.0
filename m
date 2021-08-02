@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67615C432BE
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86419C432BE
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:20:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C0C060F41
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CDA760F36
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:20:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236963AbhHBOUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S237110AbhHBOUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 2 Aug 2021 10:20:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36658 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:36668 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236635AbhHBOUP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Aug 2021 10:20:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 71A3260F4B;
+        id S236681AbhHBOUQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Aug 2021 10:20:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 86B8060F41;
         Mon,  2 Aug 2021 14:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1627914006;
-        bh=nJdjfr/gQuxAg8xmqNfgSwU5ufzC7xrwZa6z+aTtzIQ=;
+        bh=AZq2nWNyN2SgYaPwuPQ0AulvEJ/pAMNAicFNHmIkHzk=;
         h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=J5JL5vDIIODwsJrmV6k3/b4GTxebRzoneUTxBVNVcDcMiAmJWkDBe1PzYYsSgbKtW
-         zGzh+TEfSh7AyDm11KKJ4IecEoXMPCZaazTaaHY79uUVTJ1d22wF5UwdhXFsmDSYlc
-         qJ+TfnC4q2G0JKCgcVSW1kn76Y+p5MYGHJhwUrgoouCYWZQnrppk4slMW5bU0GoSNv
-         /6GLcbUR5/Ssls2oivPBSB5419ha2Aj1l/IeheC3MNyyMaVFxlv+BwU4pJFEVrO/9f
-         0fkA1XTwZFEdwks5vQ4n6JUa5IJ0TouCokoP8b/QYfm/wMKMLac4/8uXDaUNq2D7II
-         37DH1J1VZGZsg==
+        b=KCsCQYigXZtOE60J6ATFD/9pXW47lmk/Xl4tw9CK8cB1K31quDtb7JlCAfN/0G7kC
+         nm4tp3h7dZeixJY5L7Tb8cuosNdQ/j9w9XQD6juvYB6I5CBbZR0pgxev/7Ajb3R0z2
+         wBIvgMAFbl55kEpnP9K3NPeX9Cdsd8em6siR5lhBHxu7q1qrO4LsHj95+fWEiHRUBh
+         iKZzgYD6+hkfSgN5ObZgwgZ84eiEusN3431FZlJvAvCM0lriiwgSMa/8wzOy0Dpddv
+         J+qZ954i4x8UNoLoRrEgDa+T0nvC53USRP/RKbXFjiMEQz3nHahf8SHu47L+kmFN5c
+         6ZcN19akXhPcQ==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: operstates: document IF_OPER_TESTING
+Subject: Re: [PATCH net] docs: operstates: fix typo
 From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162791400642.18419.16804426516481917225.git-patchwork-notify@kernel.org>
+Message-Id: <162791400651.18419.13501802474684889553.git-patchwork-notify@kernel.org>
 Date:   Mon, 02 Aug 2021 14:20:06 +0000
-References: <20210731144052.1000147-1-kuba@kernel.org>
-In-Reply-To: <20210731144052.1000147-1-kuba@kernel.org>
+References: <20210731144007.994515-1-kuba@kernel.org>
+In-Reply-To: <20210731144007.994515-1-kuba@kernel.org>
 To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     davem@davemloft.net, netdev@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, andrew@lunn.ch
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -51,17 +51,17 @@ Hello:
 
 This patch was applied to netdev/net.git (refs/heads/master):
 
-On Sat, 31 Jul 2021 07:40:52 -0700 you wrote:
-> IF_OPER_TESTING is in fact used today.
+On Sat, 31 Jul 2021 07:40:07 -0700 you wrote:
+> TVL -> TLV
 > 
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
->  Documentation/networking/operstates.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/networking/operstates.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Here is the summary with links:
-  - [net] docs: operstates: document IF_OPER_TESTING
-    https://git.kernel.org/netdev/net/c/7a7b8635b622
+  - [net] docs: operstates: fix typo
+    https://git.kernel.org/netdev/net/c/66e0da217283
 
 You are awesome, thank you!
 --
