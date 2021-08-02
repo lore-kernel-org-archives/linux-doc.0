@@ -2,102 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E32C4320A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 08:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B213C4338F
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:43:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C9FF610A2
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 08:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 706BF610CC
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 09:43:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbhHBIYr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 04:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43652 "EHLO
+        id S233108AbhHBJnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Aug 2021 05:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232562AbhHBIYr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 04:24:47 -0400
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA9FC06175F;
-        Mon,  2 Aug 2021 01:24:37 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id t68so15864245qkf.8;
-        Mon, 02 Aug 2021 01:24:37 -0700 (PDT)
+        with ESMTP id S233018AbhHBJnP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 05:43:15 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4A8CC06175F;
+        Mon,  2 Aug 2021 02:43:05 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id a8so1399866pjk.4;
+        Mon, 02 Aug 2021 02:43:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=ftTeMsaFnDexLSsj0nGTDXOHs2swkIukHz+IHoPpb08=;
-        b=C6cZSCXNc/U/zMxeSznrfNGCQDPT9YaWeg7N83KUpHQbZ9lqWaKc4y1rutI0uqYtox
-         VPwgdxAESB1yAOtySnvc2+qFvTpoTPZsNBU4NiuoYgKF+NeHXQitootbEoJm/Ghhx9gn
-         UVo2GjCg8sWEumHX/8vWA6lck+OGXkEQcl+/jAzHPxYzVu/cm441rheh7jYW8Rfw3fN2
-         LTHPiRjaoBq5JgB8atin5L2zRw/4KvRoa17Vexso+TXxUeX4OHEVIhDsinNmYQctd7Y8
-         XsHu5juyI1gWKMKJiiboxPVgZ1PEW8qI2PzifuMLr8j7TDFITmFUzt6b7vxhUm1wyvVx
-         eGYw==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=YbdIMARtJxRkTOslQQ5ri4FD8C2FyQyUZnDqe4IDOx4=;
+        b=XSJW2hSgRRVRJthHCXUup5AIdm/UiOPnTJvDUQi4BR1RpbVp+UkO8NOHtlmCqQNu9k
+         kk11Tf6DlhBo4O01V8FagyynCoicghyzFqPEeGs4LOg6zrdt82WUvWXcUVRN0IXtin4Q
+         x4JzFPEZnobK+3Cxz1SxqrzUypNtYLCuSUaaaiUQq3G4F0zHGGqnTporMGhzMyFHJ/ZP
+         VhEKN5cvLjUMEog8hJA546+E0z1VINyL6m8j2LSy5YUJluNAm/0pRH0ohaSjm7toXJPa
+         RLBqw556qW7ONq1c2EUQr+QP1R1yOmMFvZUdzvQQRaIUaYTHCqfH9Z/18kAjf+SJoSg7
+         yrAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=ftTeMsaFnDexLSsj0nGTDXOHs2swkIukHz+IHoPpb08=;
-        b=bHz3cj0O8qDpSonrCExUbOVVXh2LG0TAZdkz0iIrQZItrOPCCvXwTcWYvqzxWi1e3V
-         2d320Spg8sd1RPI0z/GwPfItihahebUmEQi4etVbk48/JczR6IcYipGNScBW2hiwWDLt
-         apWAazl7v2cXYpW4bWM3YuoKsBh728Oq/4mtqDynScOGh5SXtpG4WI5bgt1eCXa0gPdE
-         1FRnl4RcPvCHZeMOY1cXVdrWiGJH9YSnYFwKBoaogxOAjMwi+MPDgef9ttyGUpmS1Kk7
-         IqYDNvNPR8fsYfUGVAnCE56PVLUIhMmEr+F84WQEZ74OZcDGGjfj2XDrREpat7YHA/Wm
-         EHFQ==
-X-Gm-Message-State: AOAM533tX5hubH/e1LXszqwIXNnFOHWKaoS9q7LKQ3dMA4qVpMADSO/o
-        8/ObuiMO30d9xAbblaIBegQ=
-X-Google-Smtp-Source: ABdhPJzuef6atXq/Y4rgBbRia4RuROrkMmcvKkZwi4YHK3ZuGrSmQ27cOTbRwdc1AP9x9tWnCDXxXg==
-X-Received: by 2002:a05:620a:903:: with SMTP id v3mr14231864qkv.235.1627892676371;
-        Mon, 02 Aug 2021 01:24:36 -0700 (PDT)
-Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id l12sm4427681qtx.45.2021.08.02.01.24.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 01:24:35 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        amit@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
-        jgowans@amazon.com, mheyne@amazon.de,
-        David Rientjes <rientjes@google.com>, sieberf@amazon.com,
-        Vlastimil Babka <vbabka@suse.cz>, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, Wei Xu <weixugc@google.com>,
-        Paul Turner <pjt@google.com>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
-Date:   Mon,  2 Aug 2021 08:24:24 +0000
-Message-Id: <20210802082424.19584-1-sjpark@amazon.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210728083643.5873-1-sjpark@amazon.de>
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=YbdIMARtJxRkTOslQQ5ri4FD8C2FyQyUZnDqe4IDOx4=;
+        b=Sj6oujwde/q8Rk10CXNwnRWbubouJEI6uJzlvUmGp/CAp+qg+1vqaKtEGE0EIPEIRZ
+         N0BNpqCY1wgb5zkxVd8BWnAncv+wVTd1oP9ZGwyJny57ijVbs1z14Ux2nVW1dNMQuklX
+         bVZIL7V2n9r4LypaxE1o6KV/tCYgPvES5p4mDvbjolojb3aJoYDbquzCoVi6UKQ1dfcW
+         Op092z2zbAcjIcUzFNrtfabaTH2+h+kVweut4vfBykA7W8BaxzZSzLXYEfyB4aSG0jTM
+         zD9EpYdPxIUTydV60gpmsMmqZ/rFYW4fua3OxUibeeaqDzfIOD2+gch8C1czB3Qzhht7
+         z5lg==
+X-Gm-Message-State: AOAM532G3ZJPwY/mnQthpVgFXPRYPh8Ija5f+NIACihdmtZpehBgKPbh
+        C29B6CcesGIo5BcvvC5DgCNYlUMOl6c=
+X-Google-Smtp-Source: ABdhPJzGghxvBvbMNagZAXUxQ21GnkNv/Oz2UvCPbKSuClFMrlRX+7QTNAsFjCmHWpFy41Bl5R6OhA==
+X-Received: by 2002:a17:902:7c01:b029:12c:25f:be9e with SMTP id x1-20020a1709027c01b029012c025fbe9emr13723450pll.75.1627897385406;
+        Mon, 02 Aug 2021 02:43:05 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id nm19sm10137954pjb.27.2021.08.02.02.43.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Aug 2021 02:43:04 -0700 (PDT)
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v3 0/9] docs: pdfdocs: Improve font choice in CJK translations
+Message-ID: <eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com>
+Date:   Mon, 2 Aug 2021 18:43:01 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Hi all,
 
-Hello Andrew,
+Now that the traditional Chinese translations by Hu Haowen has been
+merged into docs-next, this v3 patch set covers them.
 
-On Wed, 28 Jul 2021 08:36:43 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+Changes since RFC v2 [1]:
 
-[...]
-> Now all the patches have at least one 'Reviewed-by:' or 'Acked-by:' tags.  We
-> didn't find serious problems since v26[5], which was posted about four months
-> ago. so I'm thinking this patchset has passed the minimum qualification.  If
-> you think there are more things to be done before this patchset is merged in
-> the -mm tree or mainline, please let me know.  If not, Andrew, I'd like you to
-> consider merging this patchset into '-mm' tree.
+    o Regression fixes:
+      - CJK Serif font is chosen only when it is available (3/9).
+        Now systems with only "Noto Sans CJK" fonts are good enough
+        for building pdfdocs.
+      - \usepackage{setspace} is moved before that of hyperref for
+        compatibility (6/9).
+    o Split RFC v2's 2/7 into 4 smaller chunks (2/9 -- 5/9).
+    o Cover zh_TW translations (2/9, 9/9).
+    o Use \scmain, \tcmain, \krmain, and \jpmain instead of
+      \scserif, \tcserif, \krserif, and \jpserif in the definition
+      of \kerneldocBegin(SC|TC|KR|JP) (2/9).
+    o Having heard nothing from Mauro and SeongJae, dropped RFC v2's
+      6/7 and 7/7.
+      (I'll post them later as a separate RFC patch set.)
+    o Wordsmith change logs.
 
-I'm wondering if you had a chance to consider that.  If you had the chance but
-this patchset didn't convince you, could you please let me know your concerns
-so that I can make some progress?
+[1]: https://lore.kernel.org/linux-doc/20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com/#t
 
+For those wondering how the difference of SC and TC font variants would
+look, here are links to screenshots from the traditional Chinese chapter.
 
-Thanks,
-SeongJae Park
+    "Noto Serif CJK SC": https://fars.ee/oOAS.png
+    "Noto Serif CJK TC": https://fars.ee/11Li.png
 
-[...]
+The difference might be hard to spot for non-CJK readers. ;-)
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (9):
+  docs: pdfdocs: Refactor config for CJK document
+  docs: pdfdocs: Add CJK-language-specific font settings
+  docs: pdfdocs: Choose Serif font as CJK mainfont if possible
+  docs: pdfdocs: Preserve inter-phrase space in Korean translations
+  docs: pdfdocs: Add conf.py local to translations for ascii-art
+    alignment
+  docs: pdfdocs: One-half spacing for CJK translations
+  docs: pdfdocs: Permit AutoFakeSlant for CJK fonts
+  docs: pdfdocs: Teach xeCJK about character classes of quotation marks
+  docs: pdfdocs: Enable language-specific font choice of zh_TW
+    translations
+
+ Documentation/conf.py                      | 118 ++++++++++++++++++---
+ Documentation/translations/conf.py         |  12 +++
+ Documentation/translations/ja_JP/howto.rst |   8 ++
+ Documentation/translations/ja_JP/index.rst |   5 +
+ Documentation/translations/ko_KR/howto.rst |   8 ++
+ Documentation/translations/ko_KR/index.rst |   2 +
+ Documentation/translations/zh_CN/index.rst |   5 +
+ Documentation/translations/zh_TW/index.rst |   4 +
+ 8 files changed, 146 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/translations/conf.py
+
+-- 
+2.17.1
+
