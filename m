@@ -2,95 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E902FC4338F
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 12:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52923C432BE
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:13:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4A1960EFD
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 12:01:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D10760555
+	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 14:13:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233538AbhHBMB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 08:01:26 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:44374 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230503AbhHBMBZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 08:01:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1627905676; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=2TAtXvlUUR0mBh67yB7f449WY+htKivr3VQmX7vMj9Y=; b=H2mYdUe1tiMq/VQ+cbKA9dG+zQ6Jdv4JLz33ekpnQXDXFT55AzYaa/aJ/EmGCoRXc5q2lRxk
- Z60lLiLSAVhDwe/TucCDYEodAT+YcjEwFhFg6WNFEYG87iWKIOTmRJAOwzOxe3pDk8OQW7rD
- 42YmvXKg4zahZsd+uXKB3pXADGU=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 6107de5a17c2b4047d859d6b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Aug 2021 12:00:26
- GMT
-Sender: charante=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C44C7C43460; Mon,  2 Aug 2021 12:00:25 +0000 (UTC)
-Received: from [192.168.29.110] (unknown [49.37.157.146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E568FC43460;
-        Mon,  2 Aug 2021 12:00:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E568FC43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH V5] mm: compaction: support triggering of proactive
- compaction by user
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        dave.hansen@linux.intel.com, vbabka@suse.cz,
-        mgorman@techsingularity.net, nigupta@nvidia.com, corbet@lwn.net,
-        khalid.aziz@oracle.com, rientjes@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        vinmenon@codeaurora.org
-References: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
- <YQRTqNF3xn+tB+qN@kernel.org>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <1089d373-221e-7094-b778-ac260ca139a5@codeaurora.org>
-Date:   Mon, 2 Aug 2021 17:30:16 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+        id S234340AbhHBONh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Aug 2021 10:13:37 -0400
+Received: from m32-153.88.com ([43.250.32.153]:15169 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238227AbhHBOLJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Aug 2021 10:11:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=zQWRDMlxuYvEy8QnJiiJAjAsoNI8QnuO+SUDC
+        +yR8Ps=; b=GtE0fjNKzS3uUlP2Jee8Wv2tbMe6vfyWehh/ALOw7jEVtqjDH5dzC
+        I0BXm7MfadlYHo0GhPviYRaKzBEFGBsUse7ZFHgLpl74tVv9EPXJyaDTzBMmDszh
+        vmNDwOEwf9T9KZRdYAa1BCOp+wYOFaVCCH0G8pSpk7bpiqX0YUhlq0=
+Received: from [0.0.0.0] (unknown [113.251.11.248])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCXFqft_AdhsMYXAA--.3575S3;
+        Mon, 02 Aug 2021 22:10:53 +0800 (CST)
+Subject: Re: [PATCH v3 9/9] docs: pdfdocs: Enable language-specific font
+ choice of zh_TW translations
+To:     Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com>
+ <48810e08-595f-fb87-603f-fa642823b84c@gmail.com>
+From:   Hu Haowen <src.res@email.cn>
+Message-ID: <e9130727-ad59-f147-f41a-9b3acc96d47e@email.cn>
+Date:   Mon, 2 Aug 2021 22:10:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YQRTqNF3xn+tB+qN@kernel.org>
+In-Reply-To: <48810e08-595f-fb87-603f-fa642823b84c@gmail.com>
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: GiKnCgCXFqft_AdhsMYXAA--.3575S3
+X-Coremail-Antispam: 1UD129KBjvdXoWruw4kJr4Uury5tFW7WF15Arb_yoWDJFbEya
+        1kXF4vv3W7Ar1IgFWrJr1kXF1FvF4rGr10yr15trZ5Za13Aws7Ar1DW3s5Za45WFsrurs8
+        C3Z5Xw18ZrnxXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUboAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kI
+        II0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7
+        xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84AC
+        jcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F4
+        0EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j
+        6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67
+        vIY487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC
+        6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+        C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+        JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+        WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBI
+        daVFxhVjvjDU0xZFpf9x0Jj-VyxUUUUU=
+X-Originating-IP: [113.251.11.248]
+X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Mike for the review!!
 
-On 7/31/2021 1:01 AM, Mike Rapoport wrote:
->> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
->> index 003d5cc..b526cf6 100644
->> --- a/Documentation/admin-guide/sysctl/vm.rst
->> +++ b/Documentation/admin-guide/sysctl/vm.rst
->> @@ -118,7 +118,8 @@ compaction_proactiveness
->>  
->>  This tunable takes a value in the range [0, 100] with a default value of
->>  20. This tunable determines how aggressively compaction is done in the
->> -background. Setting it to 0 disables proactive compaction.
->> +background. On write of non zero value to this tunable will immediately
-> Nit: I think "Write of non zero ..."
+在 2021/8/2 下午6:00, Akira Yokosawa 写道:
+> The "TC" variant is supposed to be the choice for traditional
+> Chinese documents.
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Hu Haowen <src.res@email.cn>
 
-Can Andrew change it while applying the patch ?
 
-> 
+Well done!
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+Reviewed-by: Hu Haowen <src.res@email.cn>
+Tested-by: Hu Haowen <src.res@email.cn>
+
+Cheers,
+Hu Haowen
+
+
+> ---
+>  Documentation/translations/zh_TW/index.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+> index 76981b2111f6..c02c4b5281e6 100644
+> --- a/Documentation/translations/zh_TW/index.rst
+> +++ b/Documentation/translations/zh_TW/index.rst
+> @@ -5,6 +5,7 @@
+>  	\renewcommand\thesection*
+>  	\renewcommand\thesubsection*
+>  	\kerneldocCJKon
+> +	\kerneldocBeginTC
+>  
+>  .. _linux_doc_zh_tw:
+>  
+> @@ -162,3 +163,6 @@ TODOList:
+>  
+>  * :ref:`genindex`
+>  
+> +.. raw:: latex
+> +
+> +	\kerneldocEndTC
+
