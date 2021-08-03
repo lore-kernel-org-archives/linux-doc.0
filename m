@@ -2,112 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACF4C4338F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 14:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD66C432BE
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 14:57:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DB186054F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 14:17:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF8CF61037
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 14:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236457AbhHCORR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 10:17:17 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:56838 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236451AbhHCORR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 10:17:17 -0400
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1628000225;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sm/mbbSEULPCMgAW2owXXRPFYMbLoPd9z3ObO+na4Bc=;
-        b=WLFcDdUBRry0Kl0oTRwemr+vQgzdfmVCevWPzRa9VV/uysZEU0FsxfqooOtTA9Fae2w44V
-        YfrywOLT4NJTKGFJZ+WY+xKRX/BdlEVFyVw37DENRB/ew5xXD/RXwqtSt79e0KqwCfyST8
-        7FchLj+9FMCL7k08kkcZDjXSGCNBUECe/hxRC37LH/bx8qoNTYuP8tK5uobWqyVq8R9mWt
-        jcQE6zFTRZkpB+xwE4YfkIyEEnMs8W/WcsxqYhVmvKLQYGn2GEwQNe0mPyMippJJ5ujVQt
-        PR4gpdfUt54AQcQ8cqRjY0jNVrgInluQVUKrgU871rM1R52ECtAAT/NRLV9Oyw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1628000225;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sm/mbbSEULPCMgAW2owXXRPFYMbLoPd9z3ObO+na4Bc=;
-        b=2QBFhOXmEGXvtEsKlKb2jIqGDA/Wpn+GLCwAnnyrVRFbu9drTk47NxdKhl0zzNRujDC3Fn
-        aJF/ckL1Uem0GdDA==
-To:     linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, Peter Zijlstra <peterz@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        id S236380AbhHCO5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 10:57:33 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:46450 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236022AbhHCO5c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 10:57:32 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 173Euqjp051587;
+        Tue, 3 Aug 2021 09:56:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1628002612;
+        bh=+Xji1zKIuLogX0B+kK6j4X2dEkjBXwuwPZRCCqTYn94=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=hfy2ciXNXPYLOeWd5Rgr0vwK6t5j4Ywtiq8rv5tnPhp/Hi33vvUtdM5b5EKe6Ybb2
+         x/+A1Almuf8Co17KmPyhthoPXcM7ZZh0PFl4pFDHM4yQJnaoLuPMKi1vAtrdJdeb0k
+         w/iELA9P0/DoMh1ej4YYg3XR1zOSqBnlcHwvyE0g=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 173EuqjM065661
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Aug 2021 09:56:52 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 3 Aug
+ 2021 09:56:52 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 3 Aug 2021 09:56:52 -0500
+Received: from [10.250.232.234] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 173Euia3020120;
+        Tue, 3 Aug 2021 09:56:45 -0500
+Subject: Re: [PATCH v7 5/7] PCI: cadence: Add support to configure virtual
+ functions
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org
-Subject: [PATCH 01/38] Documentation: Replace deprecated CPU-hotplug functions.
-Date:   Tue,  3 Aug 2021 16:15:44 +0200
-Message-Id: <20210803141621.780504-2-bigeasy@linutronix.de>
-In-Reply-To: <20210803141621.780504-1-bigeasy@linutronix.de>
-References: <20210803141621.780504-1-bigeasy@linutronix.de>
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210803050310.27122-1-kishon@ti.com>
+ <20210803050310.27122-6-kishon@ti.com> <20210803114530.GE11252@lpieralisi>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <be907fe7-4095-e28b-5575-76629edc30f0@ti.com>
+Date:   Tue, 3 Aug 2021 20:26:42 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210803114530.GE11252@lpieralisi>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The functions get_online_cpus() and put_online_cpus() have been
-deprecated during the CPU hotplug rework. They map directly to
-cpus_read_lock() and cpus_read_unlock().
+Hi Lorenzo,
 
-Update the documentation accordingly.
+On 03/08/21 5:15 pm, Lorenzo Pieralisi wrote:
+> On Tue, Aug 03, 2021 at 10:33:08AM +0530, Kishon Vijay Abraham I wrote:
+>> Now that support for SR-IOV is added in PCIe endpoint core, add support
+>> to configure virtual functions in the Cadence PCIe EP driver.
+>>
+>> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+>> Acked-by: Tom Joseph <tjoseph@cadence.com>
+>> ---
+>>  .../pci/controller/cadence/pcie-cadence-ep.c  | 241 +++++++++++++++---
+>>  drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+>>  2 files changed, 217 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/cadence/pcie-cadence-ep.c b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+>> index 912a15be8bfd..791915054ff4 100644
+>> --- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
+>> +++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
+>> @@ -20,7 +20,18 @@ static int cdns_pcie_ep_write_header(struct pci_epc *epc, u8 fn, u8 vfn,
+>>  				     struct pci_epf_header *hdr)
+>>  {
+>>  	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
+>> +	u32 cap = CDNS_PCIE_EP_FUNC_SRIOV_CAP_OFFSET;
+>>  	struct cdns_pcie *pcie = &ep->pcie;
+>> +	u32 reg;
+>> +
+>> +	if (vfn > 1) {
+>> +		dev_dbg(&epc->dev, "Only Virtual Function #1 has deviceID\n");
+>> +		return 0;
+> 
+> Shouldn't this return an error ?
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- Documentation/core-api/cpu_hotplug.rst | 2 +-
- Documentation/trace/ftrace.rst         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Since the same function driver could be used for physical function and
+virtual function, I tried to avoid adding any additional case specific
+for virtual function in the function driver.
 
-diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-ap=
-i/cpu_hotplug.rst
-index a2c96bec5ee8d..1122cd3044c0e 100644
---- a/Documentation/core-api/cpu_hotplug.rst
-+++ b/Documentation/core-api/cpu_hotplug.rst
-@@ -220,7 +220,7 @@ goes online (offline) and during initial setup (shutdow=
-n) of the driver. However
- each registration and removal function is also available with a ``_nocalls=
-``
- suffix which does not invoke the provided callbacks if the invocation of t=
-he
- callbacks is not desired. During the manual setup (or teardown) the functi=
-ons
--``get_online_cpus()`` and ``put_online_cpus()`` should be used to inhibit =
-CPU
-+``cpus_read_lock()`` and ``cpus_read_unlock()`` should be used to inhibit =
-CPU
- hotplug operations.
-=20
-=20
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index cfc81e98e0b8a..4e5b26f03d5b1 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -2762,7 +2762,7 @@ A list of available functions that you can add to the=
-se files is
-   put_prev_task_idle
-   kmem_cache_create
-   pick_next_task_rt
--  get_online_cpus
-+  cpus_read_lock
-   pick_next_task_fair
-   mutex_lock
-   [...]
---=20
-2.32.0
+If we want to return an error here, then the function driver should be
+modified to not invoke writeheader for vfn > 1.
+> 
+>> +	} else if (vfn == 1) {
+>> +		reg = cap + PCI_SRIOV_VF_DID;
+>> +		cdns_pcie_ep_fn_writew(pcie, fn, reg, hdr->deviceid);
+>> +		return 0;
+>> +	}
+>>  
+>>  	cdns_pcie_ep_fn_writew(pcie, fn, PCI_DEVICE_ID, hdr->deviceid);
+>>  	cdns_pcie_ep_fn_writeb(pcie, fn, PCI_REVISION_ID, hdr->revid);
+>> @@ -51,12 +62,14 @@ static int cdns_pcie_ep_set_bar(struct pci_epc *epc, u8 fn, u8 vfn,
+>>  				struct pci_epf_bar *epf_bar)
+>>  {
+>>  	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
+>> +	u32 cap = CDNS_PCIE_EP_FUNC_SRIOV_CAP_OFFSET;
+>>  	struct cdns_pcie_epf *epf = &ep->epf[fn];
+>>  	struct cdns_pcie *pcie = &ep->pcie;
+>>  	dma_addr_t bar_phys = epf_bar->phys_addr;
+>>  	enum pci_barno bar = epf_bar->barno;
+>>  	int flags = epf_bar->flags;
+>>  	u32 addr0, addr1, reg, cfg, b, aperture, ctrl;
+>> +	u32 first_vf_offset, stride;
+>>  	u64 sz;
+>>  
+>>  	/* BAR size is 2^(aperture + 7) */
+>> @@ -92,26 +105,50 @@ static int cdns_pcie_ep_set_bar(struct pci_epc *epc, u8 fn, u8 vfn,
+>>  
+>>  	addr0 = lower_32_bits(bar_phys);
+>>  	addr1 = upper_32_bits(bar_phys);
+>> +
+>> +	if (vfn == 1) {
+>> +		/* All virtual functions use the same BAR config */
+>> +		if (bar < BAR_4) {
+>> +			reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG0(fn);
+>> +			b = bar;
+>> +		} else {
+>> +			reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG1(fn);
+>> +			b = bar - BAR_4;
+>> +		}
+>> +	} else if (vfn == 0) {
+>> +		/* BAR configuration for physical function */
+>> +		if (bar < BAR_4) {
+>> +			reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG0(fn);
+>> +			b = bar;
+>> +		} else {
+>> +			reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG1(fn);
+>> +			b = bar - BAR_4;
+>> +		}
+>> +	}
+> 
+> Code in both branches is almost identical except for what is
+> assigned to reg, it is not fundamental but maybe it can be rewritten
+> more concisely.
 
+okay.. let me think.
+
+Thanks
+Kishon
