@@ -2,196 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-31.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 681A9C4320A
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 23:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DF5BC4338F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 00:09:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 451C060EE6
-	for <linux-doc@archiver.kernel.org>; Mon,  2 Aug 2021 23:43:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15CA360EFD
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 00:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbhHBXnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 19:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44872 "EHLO
+        id S232829AbhHCAJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 2 Aug 2021 20:09:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232311AbhHBXnY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 19:43:24 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B1EC061764
-        for <linux-doc@vger.kernel.org>; Mon,  2 Aug 2021 16:43:13 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id z25-20020a0ca9590000b029033ba243ffa1so9147692qva.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Aug 2021 16:43:13 -0700 (PDT)
+        with ESMTP id S232784AbhHCAJz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 20:09:55 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC676C0613D5
+        for <linux-doc@vger.kernel.org>; Mon,  2 Aug 2021 17:09:45 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id k2so4060774plk.13
+        for <linux-doc@vger.kernel.org>; Mon, 02 Aug 2021 17:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=yy9pyQojvK7Hdmo6VGo2Lui7HtlFWMn7Zh2eGYLAN30=;
-        b=UH3CUy9t8ryrDG4F3pv3TetQOMIQtKV6Y2LYsFhy+ponF7FuzwIOeDtuKfPCeNRPz7
-         qHv8bicgNi2Ms3bIMqrwpY0Md+goVKT37gdnPhhc2+yX4vG/W+X5cyUIn/dkmk2cLyF0
-         MRdcgQAGixOudrNX42SWMNzXoN/NtEIZjLBCDQl4+oKI8Pl+WlHKMJloWVrWpXB5Vm7P
-         Ssr1i3ElcLtqhCrLJGNmyjpeEgyd+YFIKF+sgrp6IBqZg7VKnHjNmygADAV0uwUssdse
-         Gi6DioUPgJIJ+D58vtaUZ8bRm/0K+LhPuz3XJtLMDhzu/CXC+QDLi2/WPpwFQ0LZjaMX
-         rd9w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+j4BJpyfr/0bKpgqLUIWH//i3b70ShWiDMnlMOcrZc4=;
+        b=eEcbDKMNyZMv+PMgaHxZKMzSnpGt/8lW8qX0LM8mMc1QuP2Uem3YTKkMxkzZhEpFSy
+         ViAVjzj6ya5et0R6/1h6DHh6BqGEHxuEpXjs8SyGANf18SiilZkzQ7Ne2uFbgPOuWiqd
+         kMZ2hNrdwjrUgJC6mrCRv6ZMCNHRkfRiTAhsTVlcWxX6RIY4FL8K6DJcJt2jUcJh0XZJ
+         XimfGezD2Bo8/eWKrrfVTkz1RZ423OrsSRKzH9bCJOVLSQCRknWaPW//mRMiJMBJy6FB
+         eT0yhYXtzbmVnMjkwBRujoC7WUH28TflA+iWjDphpVqDhoylN3G7VoFyA9Lfe/VP7u6Q
+         P8ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=yy9pyQojvK7Hdmo6VGo2Lui7HtlFWMn7Zh2eGYLAN30=;
-        b=nxm5AOavEQWZ/M3HzlApZwmpiQIpERZHbnsnxlFZfenKkCngURoB4fXHtGCpfd0aiE
-         ZXCsXsKJkZmPF8hB/6AVniCGvwSQNVDmvAoOu7tCCEqhxvrv2IgFq9F3QR8FWCT4/W9U
-         qO31ejKcDp0sqZUxSVIV8hRLQjDJfhioUvKm/BvBn7F46d2SY58TCHQ2iwk9IpgpadZ2
-         BEP7KkfXP5OaEsK8mm9tUnURq9rNWB3+WNukh28ttNkFStCilWfBa6onImZCtUqs+sTv
-         oFvkkgrPi1WGWeANDp/Kaj1PmEY+q1XpPh4G2kCJfTisVnmEF5l3m+5ExASoOaWrX5HH
-         168A==
-X-Gm-Message-State: AOAM532ulYBZkmVTJd38JNV2+wSMJKh5Ukh9Za8ikRNzkItuLpjxr54d
-        F+jWMmpz24+i3Jz8Sp6ads6kGWfZ/5Z/j05SfL8=
-X-Google-Smtp-Source: ABdhPJxv56UYXw0HdwPKZZQFp3/zRO8zP8qIjavfTRIKYqCH5596UCuGHqajKqMv8WCVM5UAz4HoFd32fzVH1fyJqgg=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:3db0:42c:8665:a4ae])
- (user=ndesaulniers job=sendgmr) by 2002:a0c:b44b:: with SMTP id
- e11mr18946709qvf.38.1627947792748; Mon, 02 Aug 2021 16:43:12 -0700 (PDT)
-Date:   Mon,  2 Aug 2021 16:43:03 -0700
-Message-Id: <20210802234304.3519577-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
-Subject: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>
-Cc:     Khem Raj <raj.khem@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+j4BJpyfr/0bKpgqLUIWH//i3b70ShWiDMnlMOcrZc4=;
+        b=iLlipQ+apayPUzPwtniWVJ/aYMd+wB5xNDczS7OT4Qdjix854RW+n2m4IfM5LDCbQQ
+         3RcK3k3lnrqcJfgjwGTmrcd0hxfhAOZ06BxVRskXby7l04d/jb8PbDkiKAQv34mF1OQO
+         mAL4yDcss4yW+r6FGhtzn5LilwW2wgmS9f5N645HyK7xUvkKtIm6MbAJaLId6yGDhsHX
+         jtfY0VfEvye1KNaYmDLrXguL0wlEGyNhtjd+Ui1yZdelyWldB0DWa6AvMQH9BLNo7wSa
+         Lo2gGe3WxEZ5xdIWYa6KMpUTIgqhZeZX7dqR7ZoSFKb4UQwQfoc9wX0rTKTiBpnqIaOa
+         v7+w==
+X-Gm-Message-State: AOAM532ejgBH+klqGa/lwMHCzmWhM4jsuUG2f1x/BElVoUXM/gjIQFoP
+        tWpVn3vwjT8MTOnIm6rI2l57MboA0EvwaW2WbEUf8A==
+X-Google-Smtp-Source: ABdhPJyXrIFW+sRaGg7Z4Xh/FAU4fOb9eNxkUqQavFW+qYQNyTNyh/csjGlerOoJZ9Ud8jPayJ7E2swcUPU2nfINbbY=
+X-Received: by 2002:a63:1857:: with SMTP id 23mr673574pgy.403.1627949384952;
+ Mon, 02 Aug 2021 17:09:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210624171759.4125094-1-dianders@chromium.org>
+ <YNXXwvuErVnlHt+s@8bytes.org> <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
+ <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
+ <YOaymBHc4g2cIfRn@8bytes.org> <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
+ <e3555c49-2978-355f-93bb-dbfa7d09cab8@arm.com> <CAD=FV=XaTqNDn=vLEXfJ2dV+EH2UoxPfzWeiS+_sZ9hrQ274bw@mail.gmail.com>
+In-Reply-To: <CAD=FV=XaTqNDn=vLEXfJ2dV+EH2UoxPfzWeiS+_sZ9hrQ274bw@mail.gmail.com>
+From:   Rajat Jain <rajatja@google.com>
+Date:   Mon, 2 Aug 2021 17:09:08 -0700
+Message-ID: <CACK8Z6FV+QYR01=aP4AT8rNUQMkX-WwesHzf5XY8465KuUZ=_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
+        Saravana Kannan <saravanak@google.com>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-pci@vger.kernel.org,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Sonny Rao <sonnyrao@chromium.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-LLVM_IAS=1 controls enabling clang's integrated assembler via
--integrated-as. This was an explicit opt in until we could enable
-assembler support in Clang for more architecures. Now we have support
-and CI coverage of LLVM_IAS=1 for all architecures except a few more
-bugs affecting s390 and powerpc.
+Hi Robin, Doug,
 
-This commit flips the default from opt in via LLVM_IAS=1 to opt out via
-LLVM_IAS=0.  CI systems or developers that were previously doing builds
-with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
-explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
-opted-in.
+On Wed, Jul 14, 2021 at 8:14 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Tue, Jul 13, 2021 at 11:07 AM Robin Murphy <robin.murphy@arm.com> wrote:
+> >
+> > On 2021-07-08 15:36, Doug Anderson wrote:
+> > [...]
+> > >> Or document for the users that want performance how to
+> > >> change the setting, so that they can decide.
+> > >
+> > > Pushing this to the users can make sense for a Linux distribution but
+> > > probably less sense for an embedded platform. So I'm happy to make
+> > > some way for a user to override this (like via kernel command line),
+> > > but I also strongly believe there should be a default that users don't
+> > > have to futz with that we think is correct.
+> >
+> > FYI I did make progress on the "punt it to userspace" approach. I'm not
+> > posting it even as an RFC yet because I still need to set up a machine
+> > to try actually testing any of it (it's almost certainly broken
+> > somewhere), but in the end it comes out looking surprisingly not too bad
+> > overall. If you're curious to take a look in the meantime I put it here:
+> >
+> > https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/fq
 
-This finally shortens the command line invocation when cross compiling
-with LLVM to simply:
+I was wondering if you got any closer to testing / sending it out? I
+looked at the patches and am trying to understand, would they also
+make it possible to convert at runtime, an existing "non-strict"
+domain (for a particular device) into a "strict" domain leaving the
+other devices/domains as-is? Please let me know when you think your
+patches are good to be tested, and I'd also be interested in trying
+them out.
 
-$ make ARCH=arm64 LLVM=1
+>
+> Being able to change this at runtime through sysfs sounds great and it
+> fills all the needs I'm aware of, thanks! In Chrome OS we can just use
+> this with some udev rules and get everything we need.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1434
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Note: base is:
-https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
+I still have another (inverse) use case where this does not work:
+We have an Intel chromebook with the default domain type being
+non-strict. There is an LTE modem (an internal PCI device which cannot
+be marked external), which we'd like to be treated as a "Strict" DMA
+domain.
 
- Documentation/kbuild/llvm.rst | 14 ++++++++------
- Makefile                      |  2 +-
- arch/riscv/Makefile           |  2 +-
- scripts/Makefile.clang        |  6 +++---
- 4 files changed, 13 insertions(+), 11 deletions(-)
+Do I understand it right that using Rob's patches, I could potentially
+switch the domain to "strict" *after* booting (since we don't use
+initramfs), but by that time, the driver might have already attached
+to the modem device (using "non-strict" domain), and thus the damage
+may have already been done? So perhaps we still need a device property
+that the firmware could use to indicate "strictness" for certain
+devices at boot?
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index f8a360958f4c..16712fab4d3a 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
- 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
- 
--Currently, the integrated assembler is disabled by default. You can pass
--``LLVM_IAS=1`` to enable it.
-+Currently, the integrated assembler is enabled by default. You can pass
-+``LLVM_IAS=0`` to disable it.
- 
- Omitting CROSS_COMPILE
- ----------------------
- 
- As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
- 
--Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
--``--prefix=<path>`` to search for the GNU assembler and linker.
--
- If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
- from ``ARCH``.
- 
-@@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
- 
- For example, to cross-compile the arm64 kernel::
- 
--	make ARCH=arm64 LLVM=1 LLVM_IAS=1
-+	make ARCH=arm64 LLVM=1
-+
-+If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
-+``--prefix=<path>`` to search for the GNU assembler and linker. ::
-+
-+	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
- 
- Supported Architectures
- -----------------------
-diff --git a/Makefile b/Makefile
-index 444558e62cbc..b24b48c9ebb7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -845,7 +845,7 @@ else
- DEBUG_CFLAGS	+= -g
- endif
- 
--ifneq ($(LLVM_IAS),1)
-+ifeq ($(LLVM_IAS),0)
- KBUILD_AFLAGS	+= -Wa,-gdwarf-2
- endif
- 
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index bc74afdbf31e..807f7c94bc6f 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -41,7 +41,7 @@ endif
- ifeq ($(CONFIG_LD_IS_LLD),y)
- 	KBUILD_CFLAGS += -mno-relax
- 	KBUILD_AFLAGS += -mno-relax
--ifneq ($(LLVM_IAS),1)
-+ifeq ($(LLVM_IAS),0)
- 	KBUILD_CFLAGS += -Wa,-mno-relax
- 	KBUILD_AFLAGS += -Wa,-mno-relax
- endif
-diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-index 1f4e3eb70f88..3ae63bd35582 100644
---- a/scripts/Makefile.clang
-+++ b/scripts/Makefile.clang
-@@ -22,12 +22,12 @@ else
- CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
- endif # CROSS_COMPILE
- 
--ifeq ($(LLVM_IAS),1)
--CLANG_FLAGS	+= -integrated-as
--else
-+ifeq ($(LLVM_IAS),0)
- CLANG_FLAGS	+= -no-integrated-as
- GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
- CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-+else
-+CLANG_FLAGS	+= -integrated-as
- endif
- CLANG_FLAGS	+= -Werror=unknown-warning-option
- KBUILD_CFLAGS	+= $(CLANG_FLAGS)
-
-base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
-prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
-prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
-prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
--- 
-2.32.0.554.ge1b32706d8-goog
-
+Thanks,
+Rajat
