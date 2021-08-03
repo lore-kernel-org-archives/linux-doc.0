@@ -2,202 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF84BC4320A
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 01:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACDA3C4320E
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 05:03:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB1F761019
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 01:42:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8553760D07
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 05:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233344AbhHCBnD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 Aug 2021 21:43:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44084 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232904AbhHCBnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Aug 2021 21:43:02 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F14EC06175F;
-        Mon,  2 Aug 2021 18:42:51 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id e14so1009625qkg.3;
-        Mon, 02 Aug 2021 18:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LhJekVuEhxikT2dkgVUERpPtmPxTduNhkA9B/Qb17as=;
-        b=kIwwj3o6wwPZAELE5SOdYKdHZcr3NRAwGCFmSnpNErgJ+e2yLyONsr4BLnqSNYYKuk
-         V4dMPHCh11tp3NMkXn+fvrVhOK49hCLHBqpKp7MnnGb+cRnwASYIVWXi4+qlctt69x8C
-         6BBLBzLeP8b0vpRIvn7ozXGJ0RDUwbJDuC/NQe3TOJ7Vcip3M5Z5pI8i6OuuivSKd5q5
-         dTAFZIEq0hVIpVSR9a8ij7yAMERWrtBDsA4p0xfH405SrwC9JzSbFox0qtCoxzpAqFT6
-         /EEZ3vhWhJa68JLUWfn0P75ac0CpTf4UZwrLGWmAfJcoTg+pF9ZR4W0W/wb1/7dvpxdN
-         dlxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LhJekVuEhxikT2dkgVUERpPtmPxTduNhkA9B/Qb17as=;
-        b=Csx/TGMOhv/ZFuFXbU3MaXeO0TX5JLMfIJTO1TxumhRpZraat8NBaUzTp0AXa6h+w1
-         3wt5MJ1Q24v5PXkljTw3xEcagRW2uUOX2hfj+4lWykZnj9d0G7BqOVSJmrtwW88G+n36
-         9+lca99Cxn/pcGEaykqQy+ce37Ax+mIeDJW1eZ5LHJXy5GUm7QFq+0K+JXyOicZPsjGV
-         4Ta1Cpmkggl1IEPQ1720WKJnB3FInamxcMhVzkhKEhqgAsxbgt/4tWH/ZnTZjMMNC3yo
-         O8dfh3lwvJLEgBdpZljN1GgiIrjODYsGIpxpUzb9WlRDRXB3npO5yxzNXJIpXwZT2dze
-         B7ww==
-X-Gm-Message-State: AOAM530gOC6rtEoo577d9IJAYAzq6U6cRJuUwbIt1uBQJXNEB5a77/37
-        oM6ygDLIHMrEW/U+xrPPPJ0ssKAZCS7gHdqg1zM=
-X-Google-Smtp-Source: ABdhPJxGgMMVUlxSb45H8MeLcXhKO1hJwRdVOC68mZ/ef+XBALkIgBhOsLqjsugaVpWqCEmhq0uFwEDfQgOASkhy9Js=
-X-Received: by 2002:a05:620a:109a:: with SMTP id g26mr19016731qkk.25.1627954970697;
- Mon, 02 Aug 2021 18:42:50 -0700 (PDT)
+        id S233763AbhHCFD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 01:03:59 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:51332 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233758AbhHCFD6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 01:03:58 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17353JLr093182;
+        Tue, 3 Aug 2021 00:03:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1627966999;
+        bh=xPLECnhwE7VAbRQb07SbvYiefpvIipORqzNtsCbzOA4=;
+        h=From:To:CC:Subject:Date;
+        b=m+GzT8Y+oZox0RdDDVu+ZHPGV1TaQBrfwIIJ0vwLRoDpu+H8ESbz0u1bB9pCPjTmL
+         DiTNmKYXD/KErd5DjZnyGCDxJDf8bZfl+5g5JwvyeycolFmikuDyZQCzkALDrGhYk+
+         WSlFSyuktjJtK/BJw77NwbjxwvJ8oNMBmLhKaZYg=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17353I6I065316
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Aug 2021 00:03:18 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 3 Aug
+ 2021 00:03:18 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 3 Aug 2021 00:03:18 -0500
+Received: from a0393678-ssd.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17353BeQ090231;
+        Tue, 3 Aug 2021 00:03:11 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kishon@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: [PATCH v7 0/7] Add SR-IOV support in PCIe Endpoint Core
+Date:   Tue, 3 Aug 2021 10:33:03 +0530
+Message-ID: <20210803050310.27122-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210802234304.3519577-1-ndesaulniers@google.com>
-In-Reply-To: <20210802234304.3519577-1-ndesaulniers@google.com>
-From:   Khem Raj <raj.khem@gmail.com>
-Date:   Mon, 2 Aug 2021 18:42:24 -0700
-Message-ID: <CAMKF1spr_i+GugX5Mtw8bKVAHRE=GaFK6ANF3=Ya1HQSSotRTQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 4:43 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> LLVM_IAS=1 controls enabling clang's integrated assembler via
-> -integrated-as. This was an explicit opt in until we could enable
-> assembler support in Clang for more architecures. Now we have support
-> and CI coverage of LLVM_IAS=1 for all architecures except a few more
-> bugs affecting s390 and powerpc.
->
-> This commit flips the default from opt in via LLVM_IAS=1 to opt out via
-> LLVM_IAS=0.  CI systems or developers that were previously doing builds
-> with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
-> explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
-> opted-in.
->
-> This finally shortens the command line invocation when cross compiling
-> with LLVM to simply:
->
-> $ make ARCH=arm64 LLVM=1
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1434
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Note: base is:
-> https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
->
->  Documentation/kbuild/llvm.rst | 14 ++++++++------
->  Makefile                      |  2 +-
->  arch/riscv/Makefile           |  2 +-
->  scripts/Makefile.clang        |  6 +++---
->  4 files changed, 13 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index f8a360958f4c..16712fab4d3a 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
->           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
->           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
->
-> -Currently, the integrated assembler is disabled by default. You can pass
-> -``LLVM_IAS=1`` to enable it.
-> +Currently, the integrated assembler is enabled by default. You can pass
-> +``LLVM_IAS=0`` to disable it.
->
->  Omitting CROSS_COMPILE
->  ----------------------
->
->  As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
->
-> -Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
-> -``--prefix=<path>`` to search for the GNU assembler and linker.
-> -
->  If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
->  from ``ARCH``.
->
-> @@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
->
->  For example, to cross-compile the arm64 kernel::
->
-> -       make ARCH=arm64 LLVM=1 LLVM_IAS=1
-> +       make ARCH=arm64 LLVM=1
-> +
-> +If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
-> +``--prefix=<path>`` to search for the GNU assembler and linker. ::
-> +
+Patch series
+*) Adds support to add virtual functions to enable endpoint controller
+   which supports SR-IOV capability
+*) Add support in Cadence endpoint driver to configure virtual functions
+*) Enable pci_endpoint_test driver to create pci_device for virtual
+   functions
 
-I am not sure if LLVM_IAS should also impacts linker selection
+v1 of the patch series can be found at [1]
+v2 of the patch series can be found at [2]
+v3 of the patch series can be found at [3]
+v4 of the patch series can be found at [4]
+v5 of the patch series can be found at [5]
+v6 of the patch series can be found at [6]
 
-> +       make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
->
->  Supported Architectures
->  -----------------------
-> diff --git a/Makefile b/Makefile
-> index 444558e62cbc..b24b48c9ebb7 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -845,7 +845,7 @@ else
->  DEBUG_CFLAGS   += -g
->  endif
->
-> -ifneq ($(LLVM_IAS),1)
-> +ifeq ($(LLVM_IAS),0)
->  KBUILD_AFLAGS  += -Wa,-gdwarf-2
->  endif
->
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index bc74afdbf31e..807f7c94bc6f 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -41,7 +41,7 @@ endif
->  ifeq ($(CONFIG_LD_IS_LLD),y)
->         KBUILD_CFLAGS += -mno-relax
->         KBUILD_AFLAGS += -mno-relax
-> -ifneq ($(LLVM_IAS),1)
-> +ifeq ($(LLVM_IAS),0)
->         KBUILD_CFLAGS += -Wa,-mno-relax
->         KBUILD_AFLAGS += -Wa,-mno-relax
->  endif
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 1f4e3eb70f88..3ae63bd35582 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -22,12 +22,12 @@ else
->  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
->  endif # CROSS_COMPILE
->
-> -ifeq ($(LLVM_IAS),1)
-> -CLANG_FLAGS    += -integrated-as
-> -else
-> +ifeq ($(LLVM_IAS),0)
->  CLANG_FLAGS    += -no-integrated-as
->  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
->  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> +else
-> +CLANG_FLAGS    += -integrated-as
->  endif
->  CLANG_FLAGS    += -Werror=unknown-warning-option
->  KBUILD_CFLAGS  += $(CLANG_FLAGS)
->
-> base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
-> prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
-> prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
-> prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
-> --
-> 2.32.0.554.ge1b32706d8-goog
->
+Here both physical functions and virtual functions use the same
+pci_endpoint_test driver and existing pcitest utility can be used
+to test virtual functions as well.
+
+Changes from v6:
+*) Rebased to 5.13-rc4
+
+Changes from v5:
+*) Rebased to 5.13-rc1
+
+Changes from v4:
+*) Added a fix in Cadence driver which was overwriting BAR configuration
+   of physical function.
+*) Didn't include Tom's Acked-by since Cadence driver is modified in
+   this revision.
+
+Changes from v3:
+*) Fixed Rob's comment and added his Reviewed-by as suggested by him.
+
+Changes from v2:
+*) Fixed DT binding documentation comment by Rob
+*) Fixed the error check in pci-epc-core.c
+
+Changes from v1:
+*) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+   binding for EP)
+
+[1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+[2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+[3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+[5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+[6] -> http://lore.kernel.org/r/20210517074723.10212-1-kishon@ti.com
+
+Kishon Vijay Abraham I (7):
+  dt-bindings: PCI: pci-ep: Add binding to specify virtual function
+  PCI: endpoint: Add support to add virtual function in endpoint core
+  PCI: endpoint: Add support to link a physical function to a virtual
+    function
+  PCI: endpoint: Add virtual function number in pci_epc ops
+  PCI: cadence: Add support to configure virtual functions
+  misc: pci_endpoint_test: Populate sriov_configure ops to configure
+    SR-IOV device
+  Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+ .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
+ drivers/misc/pci_endpoint_test.c              |   1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 285 ++++++++++++++----
+ drivers/pci/controller/cadence/pcie-cadence.h |   7 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  36 +--
+ drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  79 +++--
+ drivers/pci/endpoint/functions/pci-epf-test.c |  66 ++--
+ drivers/pci/endpoint/pci-ep-cfs.c             |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c           | 130 +++++---
+ drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++-
+ include/linux/pci-epc.h                       |  57 ++--
+ include/linux/pci-epf.h                       |  16 +-
+ 15 files changed, 684 insertions(+), 217 deletions(-)
+
+-- 
+2.17.1
+
