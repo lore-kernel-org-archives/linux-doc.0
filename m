@@ -2,82 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6896AC4338F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 15:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BDEC432BE
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:10:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4426760F94
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 15:48:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3CA361103
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:10:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237007AbhHCPst (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 11:48:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237000AbhHCPst (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Aug 2021 11:48:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E72BE60EFD;
-        Tue,  3 Aug 2021 15:48:33 +0000 (UTC)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     linux-kernel@vger.kernel.org, yee.lee@mediatek.com
-Cc:     Will Deacon <will@kernel.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
+        id S231944AbhHCQKv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 12:10:51 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58112 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231688AbhHCQKv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 12:10:51 -0400
+Date:   Tue, 3 Aug 2021 18:10:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1628007036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZhCR89X1oG7iNKpxBHqwK160maOrSQVKgeomxdN0wRc=;
+        b=LwdXqV6TEL+jelWYIVu/L1AwkukJUhfDeR6fxf6HaCffMyf5pGalG64DdzD6SrFbnK74/x
+        PVNjb7a8JiALCQD3CJBVmxfKVnGPRCXtU70BUFy11admR5LtOLT9dQeI/ENtXdJ/CkhTdc
+        pZNvsYTpT+QPzjRhgzvNT0CjgoFJhxwmycapteSubpDkPSBjZ+FP8bxnvUSWW30Gz0Y7dW
+        1ffy1Rr5tDaLDwQ1cWTtCeME4yw92tE3YUaDago5Lw9pEtw1H1L8au8do+a32W2/sN3gs0
+        btcFKclunpFVufnMA6+fMpSDPoeRfMtyi+RFwzALyjj/jtaWzgKiRMXG8gO4tg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1628007036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZhCR89X1oG7iNKpxBHqwK160maOrSQVKgeomxdN0wRc=;
+        b=CjGblo5JavDHAEsakSWenCqJ60bnDYFeC+TGn7n/YdarB5rRq+iJbcWjrVSzA5F0n0kDM4
+        Vc1wmHGVCRR8DGCA==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de,
         Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kuan-Ying.lee@mediatek.com, James Morse <james.morse@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        chinwen.chang@mediatek.com, Vlastimil Babka <vbabka@suse.cz>,
-        Amit Daniel Kachhap <amit.kachhap@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        David Brazdil <dbrazdil@google.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Fuad Tabba <tabba@google.com>, Marc Zyngier <maz@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        nicholas.Tang@mediatek.com
-Subject: Re: [PATCH v4 1/1] arm64/cpufeature: Optionally disable MTE via command-line
-Date:   Tue,  3 Aug 2021 16:48:27 +0100
-Message-Id: <162800569298.22283.5858826672578810642.b4-ty@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210803070824.7586-2-yee.lee@mediatek.com>
-References: <20210803070824.7586-1-yee.lee@mediatek.com> <20210803070824.7586-2-yee.lee@mediatek.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Ben Segall <bsegall@google.com>,
+        Borislav Petkov <bp@alien8.de>, cgroups@vger.kernel.org,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        coresight@lists.linaro.org,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Gonglei <arei.gonglei@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Kosina <jikos@kernel.org>, Jiri Olsa <jolsa@redhat.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Julian Wiedmann <jwi@linux.ibm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Karol Herbst <karolherbst@gmail.com>,
+        Karsten Graul <kgraul@linux.ibm.com>, kvm-ppc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Len Brown <lenb@kernel.org>, Len Brown <len.brown@intel.com>,
+        Leo Yan <leo.yan@linaro.org>, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-raid@vger.kernel.org,
+        linux-s390@vger.kernel.org, live-patching@vger.kernel.org,
+        Mark Gross <mgross@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Mike Travis <mike.travis@hpe.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Namhyung Kim <namhyung@kernel.org>, netdev@vger.kernel.org,
+        nouveau@lists.freedesktop.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Petr Mladek <pmladek@suse.com>,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, rcu@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, x86@kernel.org
+Subject: Re: [PATCH 00/38] Replace deprecated CPU-hotplug
+Message-ID: <20210803161033.vp3o34meyw3ek43z@linutronix.de>
+References: <20210803141621.780504-1-bigeasy@linutronix.de>
+ <83dc5dfd-1ed0-f428-826f-fb819911fc89@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <83dc5dfd-1ed0-f428-826f-fb819911fc89@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 3 Aug 2021 15:08:22 +0800, yee.lee@mediatek.com wrote:
-> MTE support needs to be optionally disabled in runtime
-> for HW issue workaround, FW development and some
-> evaluation works on system resource and performance.
+On 2021-08-03 17:30:40 [+0200], Hans de Goede wrote:
+> Hi Sebastien,
+Hi Hans,
+
+> On 8/3/21 4:15 PM, Sebastian Andrzej Siewior wrote:
+> > This is a tree wide replacement of the deprecated CPU hotplug functions
+> > which are only wrappers around the actual functions.
+> > 
+> > Each patch is independent and can be picked up by the relevant maintainer.
 > 
-> This patch makes two changes:
-> (1) moves init of tag-allocation bits(ATA/ATA0) to
-> cpu_enable_mte() as not cached in TLB.
+> Ok; and I take it that then also is the plan for merging these ?
 > 
-> [...]
+> FWIW I'm fine with the drivers/platform/x86 patch going upstream
+> through some other tree if its easier to keep the set together ...
 
-Applied to arm64 (for-next/mte), thanks!
+There is no need to keep that set together since each patch is
+independent. Please merge it through your tree.
 
-[1/1] arm64/cpufeature: Optionally disable MTE via command-line
-      https://git.kernel.org/arm64/c/7a062ce31807
+> Regards,
+> 
+> Hans
 
--- 
-Catalin
-
+Sebastian
