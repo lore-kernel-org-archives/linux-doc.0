@@ -2,372 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B2AC43214
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 903D6C4338F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB6EC60230
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 782C760230
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237436AbhHCQw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 12:52:27 -0400
-Received: from mga01.intel.com ([192.55.52.88]:29091 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237415AbhHCQwZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Aug 2021 12:52:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="235676235"
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="235676235"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2021 09:52:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="511398979"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2021 09:51:51 -0700
-Received: from alobakin-mobl.ger.corp.intel.com (mszymcza-mobl.ger.corp.intel.com [10.213.25.231])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 173Gpg77004325;
-        Tue, 3 Aug 2021 17:51:46 +0100
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Michal Kubecek <mkubecek@suse.cz>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
+        id S237487AbhHCQwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 12:52:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29372 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237476AbhHCQwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 12:52:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628009550;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sKtEVRvHNGT42iZNHToUtsFsYwSj6OAOl6LkhSWUXzQ=;
+        b=HLV1Uxh/gQiv/X+OpQ5B69XeaYIxGDambTtmAWr5ZJH2dj7N4Z4L/z7Yj1gnzZXn3i9R2B
+        lG9R4VggXRkMLPa9N8Q+o0v1TrFDrBkrrRBzYDyC9aUjDb8L1xpFEdVO8QbrLGotDuWGEm
+        O4cGC8S+awZQszOe82cNu04N+KI6Jbw=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-x-nef_2dP4SFiFmxDdBOiQ-1; Tue, 03 Aug 2021 12:52:28 -0400
+X-MC-Unique: x-nef_2dP4SFiFmxDdBOiQ-1
+Received: by mail-ot1-f70.google.com with SMTP id h38-20020a9d14290000b02904ceed859e6eso10033698oth.21
+        for <linux-doc@vger.kernel.org>; Tue, 03 Aug 2021 09:52:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=sKtEVRvHNGT42iZNHToUtsFsYwSj6OAOl6LkhSWUXzQ=;
+        b=i3DYcVejFd0i7M4xFyljxd5wnYxHLVjRrwM9AUkDKtx8pz2HsU59W23DgI4NwGT3yi
+         QPVk2Xh+IuWOkXFEYaUoOTFWVflkef133x7aEXPcy/XFvj5jsE/Kton5hcp7lkPZbjas
+         HUd8mkc+IyAqOcbrPV33BHGMtEWqbKBHOMwwC6UhwW1Gtq/WC1tn0rMVl7193DXWBH6b
+         dabZJdyAjrO4PZjUu2Wgm3PWP17Ug9NVR7xlUCgNsUYd7hcZGGnVig8KnJ6fzHdLuGvB
+         Rjz57VfyEI9z4yblrWk02BhOq32dZcn0jrP1mZ/Hc6hQU0xT3pVyUmTqTMVnBqjh3qfZ
+         BPIw==
+X-Gm-Message-State: AOAM5329dpD1oB1N+5Kxccpp5/89akDkUhYBZ0RJEgUTYQ/B1q6apQhs
+        7m+mkkIE4VzX5jtydiiySAZvobUDOnoVXDteciav4InpN60XO7WDDyBFU6Zf8q/TXqbx1SdJoM/
+        ucbkMrNW0eXJQxvA7ilYe
+X-Received: by 2002:a9d:62d4:: with SMTP id z20mr16205607otk.305.1628009548259;
+        Tue, 03 Aug 2021 09:52:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvKOEKD8L0w37wO357XcF+/U3bT3CXb+wzZAe9sXlApc1eVkv2cU2JtkoR7Kvj984JI4QXhg==
+X-Received: by 2002:a9d:62d4:: with SMTP id z20mr16205581otk.305.1628009548040;
+        Tue, 03 Aug 2021 09:52:28 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id bd20sm2365330oib.1.2021.08.03.09.52.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 09:52:27 -0700 (PDT)
+Date:   Tue, 3 Aug 2021 10:52:25 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Guy Tzalik <gtzalik@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Sameeh Jubran <sameehj@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: [PATCH ethtool-next 1/5] sync UAPI header copies
-Date:   Tue,  3 Aug 2021 18:51:36 +0200
-Message-Id: <20210803165140.172-2-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210803165140.172-1-alexandr.lobakin@intel.com>
-References: <20210803165140.172-1-alexandr.lobakin@intel.com>
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v3 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
+ use the dev_set
+Message-ID: <20210803105225.2ee7dac2.alex.williamson@redhat.com>
+In-Reply-To: <20210803164152.GC1721383@nvidia.com>
+References: <0-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
+        <9-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
+        <20210803103406.5e1be269.alex.williamson@redhat.com>
+        <20210803164152.GC1721383@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+ commit e1d9a90a9bfd ("net: ethernet: rmnet: Support for ingress MAPv5 checksum offload")
-+ commit b6e5d27e32ef ("net: ethernet: rmnet: Add support for MAPv5 egress packets")
-+ commit d409989b59ad ("netlink: simplify NLMSG_DATA with NLMSG_HDRLEN")
-+ commit 00e77ed8e64d ("rtnetlink: add IFLA_PARENT_[DEV|DEV_BUS]_NAME")
-+ commit 2d8ea148e553 ("net: fix mistake path for netdev_features_strings")
-+ commit 913d026fbfaf ("ethtool: Document correct attribute type")
-+ commit d463126e23f1 ("net: sock: extend SO_TIMESTAMPING for PHC binding")
-+ commit c156174a6707 ("ethtool: add a new command for getting PHC virtual clocks")
-+ commit 583be982d934 ("mctp: Add device handling and netlink interface")
-+ commit 3a755cd8b7c6 ("bonding: add new option lacp_active")
-+ commit 44eee6116fda ("ethtool, stats: introduce standard XDP statistics")
+On Tue, 3 Aug 2021 13:41:52 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Tue, Aug 03, 2021 at 10:34:06AM -0600, Alex Williamson wrote:
+> > I think the vfio_pci_find_reset_target() function needs to be re-worked
+> > to just tell us true/false that it's ok to reset the provided device,
+> > not to anoint an arbitrary target device.  Thanks,  
+> 
+> Yes, though this logic is confusing, why do we need to check if any
+> device needs a reset at this point? If we are being asked to reset
+> vdev shouldn't vdev needs_reset?
+> 
+> Or is the function more of a 'synchronize pending reset' kind of
+> thing?
 
-Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
----
- uapi/linux/ethtool.h         |  6 +++--
- uapi/linux/ethtool_netlink.h | 51 +++++++++++++++++++++++++++++++++++-
- uapi/linux/if_link.h         | 20 ++++++++++++++
- uapi/linux/net_tstamp.h      | 17 ++++++++++--
- uapi/linux/netlink.h         |  5 ++--
- 5 files changed, 92 insertions(+), 7 deletions(-)
+Yes, the latter.  For instance think about a multi-function PCI device
+such as a GPU.  The functions have dramatically different capabilities,
+some might have function level reset abilities and others not.  We want
+to be able to trigger a bus reset as the last device of the set is
+released, no matter the order they're released and no matter the
+capabilities of the device we're currently processing.  Thanks,
 
-diff --git a/uapi/linux/ethtool.h b/uapi/linux/ethtool.h
-index c6ec1111ffa3..898bce1b08b0 100644
---- a/uapi/linux/ethtool.h
-+++ b/uapi/linux/ethtool.h
-@@ -231,7 +231,7 @@ enum tunable_id {
- 	ETHTOOL_PFC_PREVENTION_TOUT, /* timeout in msecs */
- 	/*
- 	 * Add your fresh new tunable attribute above and remember to update
--	 * tunable_strings[] in net/core/ethtool.c
-+	 * tunable_strings[] in net/ethtool/common.c
- 	 */
- 	__ETHTOOL_TUNABLE_COUNT,
- };
-@@ -295,7 +295,7 @@ enum phy_tunable_id {
- 	ETHTOOL_PHY_EDPD,
- 	/*
- 	 * Add your fresh new phy tunable attribute above and remember to update
--	 * phy_tunable_strings[] in net/core/ethtool.c
-+	 * phy_tunable_strings[] in net/ethtool/common.c
- 	 */
- 	__ETHTOOL_PHY_TUNABLE_COUNT,
- };
-@@ -672,6 +672,7 @@ enum ethtool_link_ext_substate_cable_issue {
-  * @ETH_SS_STATS_ETH_MAC: names of IEEE 802.3 MAC statistics
-  * @ETH_SS_STATS_ETH_CTRL: names of IEEE 802.3 MAC Control statistics
-  * @ETH_SS_STATS_RMON: names of RMON statistics
-+ * @ETH_SS_STATS_XDP: names of XDP statistics
-  *
-  * @ETH_SS_COUNT: number of defined string sets
-  */
-@@ -697,6 +698,7 @@ enum ethtool_stringset {
- 	ETH_SS_STATS_ETH_MAC,
- 	ETH_SS_STATS_ETH_CTRL,
- 	ETH_SS_STATS_RMON,
-+	ETH_SS_STATS_XDP,
- 
- 	/* add new constants above here */
- 	ETH_SS_COUNT
-diff --git a/uapi/linux/ethtool_netlink.h b/uapi/linux/ethtool_netlink.h
-index 4653c4c79972..acb1e93084ac 100644
---- a/uapi/linux/ethtool_netlink.h
-+++ b/uapi/linux/ethtool_netlink.h
-@@ -46,6 +46,7 @@ enum {
- 	ETHTOOL_MSG_FEC_SET,
- 	ETHTOOL_MSG_MODULE_EEPROM_GET,
- 	ETHTOOL_MSG_STATS_GET,
-+	ETHTOOL_MSG_PHC_VCLOCKS_GET,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_USER_CNT,
-@@ -88,6 +89,7 @@ enum {
- 	ETHTOOL_MSG_FEC_NTF,
- 	ETHTOOL_MSG_MODULE_EEPROM_GET_REPLY,
- 	ETHTOOL_MSG_STATS_GET_REPLY,
-+	ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_KERNEL_CNT,
-@@ -440,6 +442,19 @@ enum {
- 	ETHTOOL_A_TSINFO_MAX = (__ETHTOOL_A_TSINFO_CNT - 1)
- };
- 
-+/* PHC VCLOCKS */
-+
-+enum {
-+	ETHTOOL_A_PHC_VCLOCKS_UNSPEC,
-+	ETHTOOL_A_PHC_VCLOCKS_HEADER,			/* nest - _A_HEADER_* */
-+	ETHTOOL_A_PHC_VCLOCKS_NUM,			/* u32 */
-+	ETHTOOL_A_PHC_VCLOCKS_INDEX,			/* array, s32 */
-+
-+	/* add new constants above here */
-+	__ETHTOOL_A_PHC_VCLOCKS_CNT,
-+	ETHTOOL_A_PHC_VCLOCKS_MAX = (__ETHTOOL_A_PHC_VCLOCKS_CNT - 1)
-+};
-+
- /* CABLE TEST */
- 
- enum {
-@@ -675,7 +690,7 @@ enum {
- 	ETHTOOL_A_MODULE_EEPROM_PAGE,			/* u8 */
- 	ETHTOOL_A_MODULE_EEPROM_BANK,			/* u8 */
- 	ETHTOOL_A_MODULE_EEPROM_I2C_ADDRESS,		/* u8 */
--	ETHTOOL_A_MODULE_EEPROM_DATA,			/* nested */
-+	ETHTOOL_A_MODULE_EEPROM_DATA,			/* binary */
- 
- 	__ETHTOOL_A_MODULE_EEPROM_CNT,
- 	ETHTOOL_A_MODULE_EEPROM_MAX = (__ETHTOOL_A_MODULE_EEPROM_CNT - 1)
-@@ -701,6 +716,7 @@ enum {
- 	ETHTOOL_STATS_ETH_MAC,
- 	ETHTOOL_STATS_ETH_CTRL,
- 	ETHTOOL_STATS_RMON,
-+	ETHTOOL_STATS_XDP,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_STATS_CNT
-@@ -722,6 +738,8 @@ enum {
- 	ETHTOOL_A_STATS_GRP_HIST_BKT_HI,	/* u32 */
- 	ETHTOOL_A_STATS_GRP_HIST_VAL,		/* u64 */
- 
-+	ETHTOOL_A_STATS_GRP_STAT_BLOCK,		/* nest */
-+
- 	/* add new constants above here */
- 	__ETHTOOL_A_STATS_GRP_CNT,
- 	ETHTOOL_A_STATS_GRP_MAX = (__ETHTOOL_A_STATS_CNT - 1)
-@@ -816,6 +834,37 @@ enum {
- 	ETHTOOL_A_STATS_RMON_MAX = (__ETHTOOL_A_STATS_RMON_CNT - 1)
- };
- 
-+enum {
-+	/* Number of frames passed to bpf_prog_run_xdp() */
-+	ETHTOOL_A_STATS_XDP_PACKETS,
-+	/* Number o general XDP errors if driver counts them together */
-+	ETHTOOL_A_STATS_XDP_ERRORS,
-+	/* Number of %XDP_ABORTED returns */
-+	ETHTOOL_A_STATS_XDP_ABORTED,
-+	/* Number of %XDP_DROP returns */
-+	ETHTOOL_A_STATS_XDP_DROP,
-+	/* Number of returns of unallowed values (i.e. not XDP_*) */
-+	ETHTOOL_A_STATS_XDP_INVALID,
-+	/* Number of %XDP_PASS returns */
-+	ETHTOOL_A_STATS_XDP_PASS,
-+	/* Number of successfully performed %XDP_REDIRECT requests */
-+	ETHTOOL_A_STATS_XDP_REDIRECT,
-+	/* Number of failed %XDP_REDIRECT requests */
-+	ETHTOOL_A_STATS_XDP_REDIRECT_ERRORS,
-+	/* Number of successfully performed %XDP_TX requests */
-+	ETHTOOL_A_STATS_XDP_TX,
-+	/* Number of failed %XDP_TX requests */
-+	ETHTOOL_A_STATS_XDP_TX_ERRORS,
-+	/* Number of xdp_frames successfully transmitted via .ndo_xdp_xmit() */
-+	ETHTOOL_A_STATS_XDP_XMIT,
-+	/* Number of frames dropped from .ndo_xdp_xmit() */
-+	ETHTOOL_A_STATS_XDP_XMIT_DROPS,
-+
-+	/* Add new constants above here */
-+	__ETHTOOL_A_STATS_XDP_CNT,
-+	ETHTOOL_A_STATS_XDP_MAX = (__ETHTOOL_A_STATS_XDP_CNT - 1)
-+};
-+
- /* generic netlink info */
- #define ETHTOOL_GENL_NAME "ethtool"
- #define ETHTOOL_GENL_VERSION 1
-diff --git a/uapi/linux/if_link.h b/uapi/linux/if_link.h
-index 0e81707a9637..fb2ecf403a16 100644
---- a/uapi/linux/if_link.h
-+++ b/uapi/linux/if_link.h
-@@ -341,6 +341,13 @@ enum {
- 	IFLA_ALT_IFNAME, /* Alternative ifname */
- 	IFLA_PERM_ADDRESS,
- 	IFLA_PROTO_DOWN_REASON,
-+
-+	/* device (sysfs) name as parent, used instead
-+	 * of IFLA_LINK where there's no parent netdev
-+	 */
-+	IFLA_PARENT_DEV_NAME,
-+	IFLA_PARENT_DEV_BUS_NAME,
-+
- 	__IFLA_MAX
- };
- 
-@@ -846,6 +853,7 @@ enum {
- 	IFLA_BOND_AD_ACTOR_SYSTEM,
- 	IFLA_BOND_TLB_DYNAMIC_LB,
- 	IFLA_BOND_PEER_NOTIF_DELAY,
-+	IFLA_BOND_AD_LACP_ACTIVE,
- 	__IFLA_BOND_MAX,
- };
- 
-@@ -1234,6 +1242,8 @@ enum {
- #define RMNET_FLAGS_INGRESS_MAP_COMMANDS          (1U << 1)
- #define RMNET_FLAGS_INGRESS_MAP_CKSUMV4           (1U << 2)
- #define RMNET_FLAGS_EGRESS_MAP_CKSUMV4            (1U << 3)
-+#define RMNET_FLAGS_INGRESS_MAP_CKSUMV5           (1U << 4)
-+#define RMNET_FLAGS_EGRESS_MAP_CKSUMV5            (1U << 5)
- 
- enum {
- 	IFLA_RMNET_UNSPEC,
-@@ -1249,4 +1259,14 @@ struct ifla_rmnet_flags {
- 	__u32	mask;
- };
- 
-+/* MCTP section */
-+
-+enum {
-+	IFLA_MCTP_UNSPEC,
-+	IFLA_MCTP_NET,
-+	__IFLA_MCTP_MAX,
-+};
-+
-+#define IFLA_MCTP_MAX (__IFLA_MCTP_MAX - 1)
-+
- #endif /* _LINUX_IF_LINK_H */
-diff --git a/uapi/linux/net_tstamp.h b/uapi/linux/net_tstamp.h
-index 7ed0b3d1c00a..fcc61c73a666 100644
---- a/uapi/linux/net_tstamp.h
-+++ b/uapi/linux/net_tstamp.h
-@@ -13,7 +13,7 @@
- #include <linux/types.h>
- #include <linux/socket.h>   /* for SO_TIMESTAMPING */
- 
--/* SO_TIMESTAMPING gets an integer bit field comprised of these values */
-+/* SO_TIMESTAMPING flags */
- enum {
- 	SOF_TIMESTAMPING_TX_HARDWARE = (1<<0),
- 	SOF_TIMESTAMPING_TX_SOFTWARE = (1<<1),
-@@ -30,8 +30,9 @@ enum {
- 	SOF_TIMESTAMPING_OPT_STATS = (1<<12),
- 	SOF_TIMESTAMPING_OPT_PKTINFO = (1<<13),
- 	SOF_TIMESTAMPING_OPT_TX_SWHW = (1<<14),
-+	SOF_TIMESTAMPING_BIND_PHC = (1 << 15),
- 
--	SOF_TIMESTAMPING_LAST = SOF_TIMESTAMPING_OPT_TX_SWHW,
-+	SOF_TIMESTAMPING_LAST = SOF_TIMESTAMPING_BIND_PHC,
- 	SOF_TIMESTAMPING_MASK = (SOF_TIMESTAMPING_LAST - 1) |
- 				 SOF_TIMESTAMPING_LAST
- };
-@@ -46,6 +47,18 @@ enum {
- 					 SOF_TIMESTAMPING_TX_SCHED | \
- 					 SOF_TIMESTAMPING_TX_ACK)
- 
-+/**
-+ * struct so_timestamping - SO_TIMESTAMPING parameter
-+ *
-+ * @flags:	SO_TIMESTAMPING flags
-+ * @bind_phc:	Index of PTP virtual clock bound to sock. This is available
-+ *		if flag SOF_TIMESTAMPING_BIND_PHC is set.
-+ */
-+struct so_timestamping {
-+	int flags;
-+	int bind_phc;
-+};
-+
- /**
-  * struct hwtstamp_config - %SIOCGHWTSTAMP and %SIOCSHWTSTAMP parameter
-  *
-diff --git a/uapi/linux/netlink.h b/uapi/linux/netlink.h
-index 5024c5435749..e83e2e300130 100644
---- a/uapi/linux/netlink.h
-+++ b/uapi/linux/netlink.h
-@@ -91,9 +91,10 @@ struct nlmsghdr {
- #define NLMSG_HDRLEN	 ((int) NLMSG_ALIGN(sizeof(struct nlmsghdr)))
- #define NLMSG_LENGTH(len) ((len) + NLMSG_HDRLEN)
- #define NLMSG_SPACE(len) NLMSG_ALIGN(NLMSG_LENGTH(len))
--#define NLMSG_DATA(nlh)  ((void*)(((char*)nlh) + NLMSG_LENGTH(0)))
-+#define NLMSG_DATA(nlh)  ((void *)(((char *)nlh) + NLMSG_HDRLEN))
- #define NLMSG_NEXT(nlh,len)	 ((len) -= NLMSG_ALIGN((nlh)->nlmsg_len), \
--				  (struct nlmsghdr*)(((char*)(nlh)) + NLMSG_ALIGN((nlh)->nlmsg_len)))
-+				  (struct nlmsghdr *)(((char *)(nlh)) + \
-+				  NLMSG_ALIGN((nlh)->nlmsg_len)))
- #define NLMSG_OK(nlh,len) ((len) >= (int)sizeof(struct nlmsghdr) && \
- 			   (nlh)->nlmsg_len >= sizeof(struct nlmsghdr) && \
- 			   (nlh)->nlmsg_len <= (len))
--- 
-2.31.1
+Alex
 
