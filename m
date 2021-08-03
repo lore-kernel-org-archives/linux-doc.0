@@ -2,143 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E72FAC4338F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 05:55:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C9CC4338F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 07:09:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF35660EFF
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 05:55:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E043A60F56
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 07:09:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233693AbhHCF4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 01:56:02 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:58556 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230096AbhHCF4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 01:56:02 -0400
-X-UUID: bbba513bc73b4d04b62552d945b14081-20210803
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=nnUKDbyFZW3JVZ0V6b9Q1wtkI9K03QZZSPTEVvJYTFo=;
-        b=QFaoDQ1BiEh/SEPueX3+f9tyxPEJ3eds/jJ/UwJzqn/DBfXWFm9LGPvgj8107VBLSs+hjYAZp3qIeC4yx73yHZf6cyT1v9KsfB0sndOi/f7/3MaLA57XxTtzfqwILz87mGL0NqY/04jDDCVraPN1sbOQEOmLxGHJD2gjSFRnCLI=;
-X-UUID: bbba513bc73b4d04b62552d945b14081-20210803
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        id S234189AbhHCHJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 03:09:20 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:58486 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234055AbhHCHJR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 03:09:17 -0400
+X-UUID: 3a3ce6a915224716884bae033d7ccddf-20210803
+X-UUID: 3a3ce6a915224716884bae033d7ccddf-20210803
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
         (envelope-from <yee.lee@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 593171222; Tue, 03 Aug 2021 13:55:48 +0800
+        with ESMTP id 57983639; Tue, 03 Aug 2021 15:09:03 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 3 Aug 2021 13:55:47 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 3 Aug 2021 15:08:42 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 3 Aug 2021 13:55:47 +0800
-Message-ID: <a200fcaf086b590d5c675eea8e0546fa9db9849e.camel@mediatek.com>
-Subject: Re: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via
- command-line
-From:   Yee Lee <yee.lee@mediatek.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <nicholas.Tang@mediatek.com>,
-        <Kuan-Ying.lee@mediatek.com>, <chinwen.chang@mediatek.com>,
+ Transport; Tue, 3 Aug 2021 15:08:42 +0800
+From:   <yee.lee@mediatek.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     <nicholas.Tang@mediatek.com>, <Kuan-Ying.lee@mediatek.com>,
+        <chinwen.chang@mediatek.com>, Yee Lee <yee.lee@mediatek.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         "Paul E. McKenney" <paulmck@kernel.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "Maciej W. Rozycki" <macro@orcam.me.uk>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Marc Zyngier <maz@kernel.org>,
-        David Brazdil <dbrazdil@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
+        "Vlastimil Babka" <vbabka@suse.cz>, Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        "Hector Martin" <marcan@marcan.st>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Amit Daniel Kachhap <amit.kachhap@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        "David Brazdil" <dbrazdil@google.com>,
         Fuad Tabba <tabba@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
         <linux-arm-kernel@lists.infradead.org>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>
-Date:   Tue, 3 Aug 2021 13:55:47 +0800
-In-Reply-To: <20210802153036.GH18685@arm.com>
-References: <20210730144957.30938-1-yee.lee@mediatek.com>
-         <20210730144957.30938-2-yee.lee@mediatek.com>
-         <20210802153036.GH18685@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Subject: [PATCH v4 1/1] arm64/cpufeature: Optionally disable MTE via command-line
+Date:   Tue, 3 Aug 2021 15:08:22 +0800
+Message-ID: <20210803070824.7586-2-yee.lee@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210803070824.7586-1-yee.lee@mediatek.com>
+References: <20210803070824.7586-1-yee.lee@mediatek.com>
 MIME-Version: 1.0
+Content-Type: text/plain
 X-MTK:  N
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCAyMDIxLTA4LTAyIGF0IDE2OjMwICswMTAwLCBDYXRhbGluIE1hcmluYXMgd3JvdGU6
-DQo+IE9uIEZyaSwgSnVsIDMwLCAyMDIxIGF0IDEwOjQ5OjUzUE0gKzA4MDAsIHllZS5sZWVAbWVk
-aWF0ZWsuY29tIHdyb3RlOg0KPiA+IEZyb206IFllZSBMZWUgPHllZS5sZWVAbWVkaWF0ZWsuY29t
-Pg0KPiA+IA0KPiA+IEZvciBzb21lIGxvdy1lbmQgZGV2aWNlcyB3aXRoIGxpbWl0ZWQgcmVzb3Vy
-Y2VzLA0KPiA+IE1URSBuZWVkcyB0byBiZSBvcHRpb25hbGx5IGRpc2FibGVkIHRvIHNhdmUgc3lz
-dGVtDQo+ID4gY29zdHMgc3VjaCBhcyB0YWcgbWVtb3J5IGFuZCBmaXJtd2FyZSBjb250cm9scy4N
-Cj4gDQo+IEkgdW5kZXJzdGFuZCB0aGUgY29zdCBvZiB1c2luZyBNVEUgYnV0IEkgZG9uJ3QgZnVs
-bHkgZ2V0IHdoYXQgeW91DQo+IG1lYW4NCj4gYnkgZmlybXdhcmUgY29udHJvbHMuIElmIHRoZSBJ
-RF9BQTY0UEZSMV9FTDEuTVRFIHJlcG9ydHMgdGhhdCBNVEUgaXMNCj4gcHJlc2VudCwgdGhlIGZp
-cm13YXJlIHNob3VsZCBoYXZlIGluaXRpYWxpc2VkIE1URSBjb3JyZWN0bHkgKGUuZy4gdGFnDQo+
-IGFsbG9jYXRpb24gc3RvcmFnZSwgU0NSX0VMMy5BVEEpIGFuZCBub3QgcmVseSBvbiBhIGtlcm5l
-bCBjb21tYW5kDQo+IGxpbmUNCj4gYXJndW1lbnQgdGhhdCBtYXkgb3IgbWF5IG5vdCBiZSBwcmVz
-ZW50Lg0KDQpUaGFua3MgZm9yIHRoZSByZW1pbmRpbmcuIA0KWWVzLCBpdCBzZWVtcyBub3QgYWJs
-ZSB0byBmdWxseSBkaXNhYmxlIE1URS4NClRoaXMgc3RpbGwgcHJvdmlkZXMgYW4gb3B0aW9uIGlu
-IHJ1bnRpbWUgZm9yIGV2YWx1YXRpb24gYW5kIHRlc3QuDQpBbmQgaXQgaXMgYWxzbyB1c2VmdWwg
-Zm9yIGZpcm13YXJlIGRldmVsb3BtZW50IGFuZCBodyBpc3N1ZSB3b3JrYXJvdW5kLg0KPiANCj4g
-PiBUaGlzIGFsbG93cyBJRF9BQTY0UEZSMV9FTDEuTVRFIHRvIGJlIG92ZXJyaWRkZW4gb24gDQo+
-ID4gaXRzIHNoYWRvdyB2YWx1ZSBieSBnaXZpbmcgImFybTY0Lm5vbXRlIiBvbiBjbWRsaW5lLA0K
-PiA+IGFuZCB0byBzdXBwcmVzcyBNVEUgZmVhdHVyZS4NCj4gPiANCj4gPiBTdWdnZXN0ZWQtYnk6
-IE1hcmMgWnluZ2llciA8bWF6QGtlcm5lbC5vcmc+DQo+ID4gU3VnZ2VzdGVkLWJ5OiBTdXp1a2kg
-SyBQb3Vsb3NlIDxzdXp1a2kucG91bG9zZUBhcm0uY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFll
-ZSBMZWUgPHllZS5sZWVAbWVkaWF0ZWsuY29tPg0KPiANCj4gV2hpbGUgdGhpcyBwYXRjaCBhcHBl
-YXJzIHRvIGRpc2FibGUgTVRFLCBJIGRvbid0IHRoaW5rIGl0IGNhbiBmdWxseQ0KPiBwcmV2ZW50
-IHRoZSBhY2Nlc3MgdG8gdGhlIGFsbG9jYXRpb24gdGFnIHN0b3JhZ2UsIHNvIHRoZSBmaXJtd2Fy
-ZQ0KPiBtdXN0DQo+IHN0aWxsIGluaXRpYWxpc2UgaXQgY29ycmVjdGx5Lg0KPiANCj4gVGhlIGlz
-c3VlIGlzIHRoYXQgX19jcHVfc2V0dXAgYWxyZWFkeSBjb25maWd1cmVzIHRoZSBNQUlSX0VMMQ0K
-PiByZWdpc3Rlcg0KPiB0byB1c2UgTm9ybWFsIFRhZ2dlZCBtZW1vcnkgZm9yIHRoZSBrZXJuZWwg
-bWFwcGluZyBhbmQgU0NUTFJfRUwxLkFUQQ0KPiBpcw0KPiBzZXQuIFRoZSBUQ0YgZmllbGQgaXMg
-emVybywgc28gbm8gdGFnIGNoZWNraW5nLCBidXQgSSBjb3VsZG4ndCBmaWd1cmUNCj4gb3V0IGZy
-b20gdGhlIEFSTSBBUk0gd2hldGhlciB0aGlzIGFsc28gcHJldmVudHMgTERSL1NUUiBmcm9tDQo+
-IGF0dGVtcHRpbmcNCj4gdG8gZmV0Y2ggdGhlIGFsbG9jYXRpb24gdGFncy4gSSB0aGluayBpdCdz
-IG9ubHkgdGhlIEFUQSBiaXQgYW5kIHRoZQ0KPiBNQUlSDQo+IGNvbmZpZ3VyYXRpb24uDQo+IA0K
-PiBXaXRoIHRoaXMgcGF0Y2gsIEtBU0FOX0hXX1RBR1MgKGlmIGNvbmZpZ3VyZWQpIHdvbid0IGJl
-IHVzZWQgYW5kIE1URQ0KPiB3aWxsIG5vdCBiZSBwcmVzZW50ZWQgdG8gdXNlciBhcHBsaWNhdGlv
-bnMsIGlmIHRoYXQncyB3aGF0IHlvdSB3YW50LA0KPiBidXQNCj4gZG9lcyBub3QgZnVsbHkgZGlz
-YWJsZSBNVEUuDQo+IA0KPiBTaW5jZSBNYXkgdGhpcyB5ZWFyLCB0aGUgQVJNIEFSTSB3YXMgdXBk
-YXRlZCBzbyB0aGF0DQo+IFNDVExSX0VMMS5BVEEvQVRBMA0KPiBhcmUgbm90IHBlcm1pdHRlZCB0
-byBiZSBjYWNoZWQgaW4gdGhlIFRMQi4gV2UgY291bGQgdGhlcmVmb3JlIG1vdmUNCj4gdGhlDQo+
-IHNldHRpbmcgdG8gY3B1X2VuYWJsZV9tdGUoKS4gU29tZXRoaW5nIGxpa2UgYmVsb3csIHVudGVz
-dGVkICh0byBiZQ0KPiBmb2xkZWQgaW50byB5b3VyIHBhdGNoKToNCj4gDQpvay4gd2lsbCBiZSBp
-bnRlZ3JhdGVkIGluIHY0IGFuZCB0ZXN0ZWQuDQoNCkJSLA0KWWVlDQoNCj4gZGlmZiAtLWdpdCBh
-L2FyY2gvYXJtNjQvaW5jbHVkZS9hc20vc3lzcmVnLmgNCj4gYi9hcmNoL2FybTY0L2luY2x1ZGUv
-YXNtL3N5c3JlZy5oDQo+IGluZGV4IGFhNTM5NTRjMmY2Yi4uY2FjMjM0NTVhMmI1IDEwMDY0NA0K
-PiAtLS0gYS9hcmNoL2FybTY0L2luY2x1ZGUvYXNtL3N5c3JlZy5oDQo+ICsrKyBiL2FyY2gvYXJt
-NjQvaW5jbHVkZS9hc20vc3lzcmVnLmgNCj4gQEAgLTY5OCw4ICs2OTgsNyBAQA0KPiAgCShTQ1RM
-Ul9FTHhfTSAgICB8IFNDVExSX0VMeF9DICAgIHwgU0NUTFJfRUx4X1NBICAgfA0KPiBTQ1RMUl9F
-TDFfU0EwICAgfCBcDQo+ICAJIFNDVExSX0VMMV9TRUQgIHwgU0NUTFJfRUx4X0kgICAgfCBTQ1RM
-Ul9FTDFfRFpFICB8DQo+IFNDVExSX0VMMV9VQ1QgICB8IFwNCj4gIAkgU0NUTFJfRUwxX05UV0Ug
-fCBTQ1RMUl9FTHhfSUVTQiB8IFNDVExSX0VMMV9TUEFOIHwNCj4gU0NUTFJfRUx4X0lURlNCIHwg
-XA0KPiAtCSBTQ1RMUl9FTHhfQVRBICB8IFNDVExSX0VMMV9BVEEwIHwgRU5ESUFOX1NFVF9FTDEg
-fA0KPiBTQ1RMUl9FTDFfVUNJICAgfCBcDQo+IC0JIFNDVExSX0VMMV9FUEFOIHwgU0NUTFJfRUwx
-X1JFUzEpDQo+ICsJIEVORElBTl9TRVRfRUwxIHwgU0NUTFJfRUwxX1VDSSAgfCBTQ1RMUl9FTDFf
-RVBBTiB8DQo+IFNDVExSX0VMMV9SRVMxKQ0KPiANCj4gIC8qIE1BSVJfRUx4IG1lbW9yeSBhdHRy
-aWJ1dGVzICh1c2VkIGJ5IExpbnV4KSAqLw0KPiAgI2RlZmluZSBNQUlSX0FUVFJfREVWSUNFX25H
-blJuRQkJVUwoMHgwMCkNCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQva2VybmVsL2NwdWZlYXR1
-cmUuYw0KPiBiL2FyY2gvYXJtNjQva2VybmVsL2NwdWZlYXR1cmUuYw0KPiBpbmRleCA5MDM1YzM2
-N2QwOGIuLjIzYjFlM2Q4MzYwMyAxMDA2NDQNCj4gLS0tIGEvYXJjaC9hcm02NC9rZXJuZWwvY3B1
-ZmVhdHVyZS5jDQo+ICsrKyBiL2FyY2gvYXJtNjQva2VybmVsL2NwdWZlYXR1cmUuYw0KPiBAQCAt
-MTg0MSw2ICsxODQxLDkgQEAgc3RhdGljIHZvaWQgYnRpX2VuYWJsZShjb25zdCBzdHJ1Y3QNCj4g
-YXJtNjRfY3B1X2NhcGFiaWxpdGllcyAqX191bnVzZWQpDQo+ICAjaWZkZWYgQ09ORklHX0FSTTY0
-X01URQ0KPiAgc3RhdGljIHZvaWQgY3B1X2VuYWJsZV9tdGUoc3RydWN0IGFybTY0X2NwdV9jYXBh
-YmlsaXRpZXMgY29uc3QgKmNhcCkNCj4gIHsNCj4gKwlzeXNyZWdfY2xlYXJfc2V0KHNjdGxyX2Vs
-MSwgMCwgU0NUTFJfRUx4X0FUQSB8IFNDVExSX0VMMV9BVEEwKTsNCj4gKwlpc2IoKTsNCj4gKw0K
-PiAgCS8qDQo+ICAJICogQ2xlYXIgdGhlIHRhZ3MgaW4gdGhlIHplcm8gcGFnZS4gVGhpcyBuZWVk
-cyB0byBiZSBkb25lIHZpYQ0KPiB0aGUNCj4gIAkgKiBsaW5lYXIgbWFwIHdoaWNoIGhhcyB0aGUg
-VGFnZ2VkIGF0dHJpYnV0ZS4NCj4gDQo=
+From: Yee Lee <yee.lee@mediatek.com>
+
+MTE support needs to be optionally disabled in runtime 
+for HW issue workaround, FW development and some 
+evaluation works on system resource and performance.
+
+This patch makes two changes:
+(1) moves init of tag-allocation bits(ATA/ATA0) to
+cpu_enable_mte() as not cached in TLB.
+
+(2) allows ID_AA64PFR1_EL1.MTE to be overridden on
+its shadow value by giving "arm64.nomte" on cmdline.
+
+When the feature value is off, ATA and TCF will not set 
+and the related functionalities are accordingly suppressed.
+
+Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+Suggested-by: Marc Zyngier <maz@kernel.org>
+Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Signed-off-by: Yee Lee <yee.lee@mediatek.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ arch/arm64/include/asm/sysreg.h                 | 3 +--
+ arch/arm64/kernel/cpufeature.c                  | 3 +++
+ arch/arm64/kernel/idreg-override.c              | 2 ++
+ 4 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdb22006f713..6f257e39d89e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -380,6 +380,9 @@
+ 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
+ 			support
+ 
++	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
++			support
++
+ 	ataflop=	[HW,M68k]
+ 
+ 	atarimouse=	[HW,MOUSE] Atari Mouse
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index 7b9c3acba684..e3e2c93b35f4 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -698,8 +698,7 @@
+ 	(SCTLR_ELx_M    | SCTLR_ELx_C    | SCTLR_ELx_SA   | SCTLR_EL1_SA0   | \
+ 	 SCTLR_EL1_SED  | SCTLR_ELx_I    | SCTLR_EL1_DZE  | SCTLR_EL1_UCT   | \
+ 	 SCTLR_EL1_NTWE | SCTLR_ELx_IESB | SCTLR_EL1_SPAN | SCTLR_ELx_ITFSB | \
+-	 SCTLR_ELx_ATA  | SCTLR_EL1_ATA0 | ENDIAN_SET_EL1 | SCTLR_EL1_UCI   | \
+-	 SCTLR_EL1_EPAN | SCTLR_EL1_RES1)
++	 ENDIAN_SET_EL1 | SCTLR_EL1_UCI  | SCTLR_EL1_EPAN | SCTLR_EL1_RES1)
+ 
+ /* MAIR_ELx memory attributes (used by Linux) */
+ #define MAIR_ATTR_DEVICE_nGnRnE		UL(0x00)
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 0ead8bfedf20..51e6bf4bb7b5 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1843,6 +1843,9 @@ static void bti_enable(const struct arm64_cpu_capabilities *__unused)
+ #ifdef CONFIG_ARM64_MTE
+ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
+ {
++	sysreg_clear_set(sctlr_el1, 0, SCTLR_ELx_ATA | SCTLR_EL1_ATA0);
++	isb();
++
+ 	/*
+ 	 * Clear the tags in the zero page. This needs to be done via the
+ 	 * linear map which has the Tagged attribute.
+diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+index 53a381a7f65d..d8e606fe3c21 100644
+--- a/arch/arm64/kernel/idreg-override.c
++++ b/arch/arm64/kernel/idreg-override.c
+@@ -54,6 +54,7 @@ static const struct ftr_set_desc pfr1 __initconst = {
+ 	.override	= &id_aa64pfr1_override,
+ 	.fields		= {
+ 	        { "bt", ID_AA64PFR1_BT_SHIFT },
++		{ "mte", ID_AA64PFR1_MTE_SHIFT},
+ 		{}
+ 	},
+ };
+@@ -100,6 +101,7 @@ static const struct {
+ 	{ "arm64.nopauth",
+ 	  "id_aa64isar1.gpi=0 id_aa64isar1.gpa=0 "
+ 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0"	   },
++	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+ 	{ "nokaslr",			"kaslr.disabled=1" },
+ };
+ 
+-- 
+2.18.0
 
