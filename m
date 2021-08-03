@@ -2,35 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 513AEC4338F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C451EC432BE
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33C6D60F94
+	by mail.kernel.org (Postfix) with ESMTP id AFC0F60230
 	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:52:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237263AbhHCQwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S237426AbhHCQwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 3 Aug 2021 12:52:25 -0400
-Received: from mga18.intel.com ([134.134.136.126]:30450 "EHLO mga18.intel.com"
+Received: from mga18.intel.com ([134.134.136.126]:30464 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237436AbhHCQwN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Aug 2021 12:52:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="200924730"
+        id S237443AbhHCQwR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Aug 2021 12:52:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="200924744"
 X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="200924730"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2021 09:51:59 -0700
+   d="scan'208";a="200924744"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2021 09:52:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
-   d="scan'208";a="521321090"
+   d="scan'208";a="500887399"
 Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2021 09:51:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 03 Aug 2021 09:51:55 -0700
 Received: from alobakin-mobl.ger.corp.intel.com (mszymcza-mobl.ger.corp.intel.com [10.213.25.231])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 173Gpg76004325;
-        Tue, 3 Aug 2021 17:51:42 +0100
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 173Gpg78004325;
+        Tue, 3 Aug 2021 17:51:50 +0100
 From:   Alexander Lobakin <alexandr.lobakin@intel.com>
 To:     Michal Kubecek <mkubecek@suse.cz>
 Cc:     "David S. Miller" <davem@davemloft.net>,
@@ -81,42 +82,107 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         netdev@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: [PATCH ethtool-next 0/5] stats: add support for per-channel and XDP standard stats
-Date:   Tue,  3 Aug 2021 18:51:35 +0200
-Message-Id: <20210803165140.172-1-alexandr.lobakin@intel.com>
+Subject: [PATCH ethtool-next 2/5] stats: factor out one stat field printing
+Date:   Tue,  3 Aug 2021 18:51:37 +0200
+Message-Id: <20210803165140.172-3-alexandr.lobakin@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210803165140.172-1-alexandr.lobakin@intel.com>
+References: <20210803165140.172-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds bits to support per-channel standard statistics,
-mentions the new "xdp" group of standard stats landed in Linux with
-commit 44eee6116fda ("ethtool, stats: introduce standard XDP statistics")
-and fixes one typo in the man page while at it.
+Move the code that takes one stat field nlattr, validates and prints
+it in either stdout or JSON, into a separate function.
+It will later be reused by per-channel statistics printing.
 
-The original series for the kernel part is here: [0]
+Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+---
+ netlink/stats.c | 53 +++++++++++++++++++++++++++++++------------------
+ 1 file changed, 34 insertions(+), 19 deletions(-)
 
-[0] https://lore.kernel.org/netdev/20210803163641.3743-1-alexandr.lobakin@intel.com
-
-Alexander Lobakin (5):
-  sync UAPI header copies
-  stats: factor out one stat field printing
-  stats: add support for per-channel statistics [blocks]
-  man: fix typo for "rmon" standard stat type
-  man: mention XDP standard statistics in help and man page
-
- ethtool.8.in                 |   5 +-
- ethtool.c                    |   2 +-
- netlink/stats.c              | 114 +++++++++++++++++++++++++++++------
- uapi/linux/ethtool.h         |   6 +-
- uapi/linux/ethtool_netlink.h |  51 +++++++++++++++-
- uapi/linux/if_link.h         |  20 ++++++
- uapi/linux/net_tstamp.h      |  17 +++++-
- uapi/linux/netlink.h         |   5 +-
- 8 files changed, 190 insertions(+), 30 deletions(-)
-
+diff --git a/netlink/stats.c b/netlink/stats.c
+index 9f609a4ec550..9d950b77d656 100644
+--- a/netlink/stats.c
++++ b/netlink/stats.c
+@@ -87,6 +87,36 @@ err_close_rmon:
+ 	return 1;
+ }
+ 
++static int parse_stat(const struct nlattr *attr, const char *grp_name,
++		      const struct stringset *stat_str)
++{
++	const struct nlattr *stat;
++	unsigned long long val;
++	const char *name;
++	unsigned int s;
++	int ret;
++
++	stat = mnl_attr_get_payload(attr);
++	ret = mnl_attr_validate(stat, MNL_TYPE_U64);
++	if (ret) {
++		fprintf(stderr, "invalid kernel response - bad statistic entry\n");
++		return 1;
++	}
++
++	s = mnl_attr_get_type(stat);
++	name = get_string(stat_str, s);
++	if (!name || !name[0])
++		return 0;
++
++	if (!is_json_context())
++		fprintf(stdout, "%s-%s: ", grp_name, name);
++
++	val = mnl_attr_get_u64(stat);
++	print_u64(PRINT_ANY, name, "%llu\n", val);
++
++	return 0;
++}
++
+ static int parse_grp(struct nl_context *nlctx, const struct nlattr *grp,
+ 		     const struct stringset *std_str)
+ {
+@@ -94,10 +124,9 @@ static int parse_grp(struct nl_context *nlctx, const struct nlattr *grp,
+ 	DECLARE_ATTR_TB_INFO(tb);
+ 	bool hist_rx = false, hist_tx = false;
+ 	const struct stringset *stat_str;
+-	const struct nlattr *attr, *stat;
+-	const char *std_name, *name;
+-	unsigned int ss_id, id, s;
+-	unsigned long long val;
++	const struct nlattr *attr;
++	unsigned int ss_id, id;
++	const char *std_name;
+ 	int ret;
+ 
+ 	ret = mnl_attr_parse_nested(grp, attr_cb, &tb_info);
+@@ -131,22 +160,8 @@ static int parse_grp(struct nl_context *nlctx, const struct nlattr *grp,
+ 			continue;
+ 		}
+ 
+-		stat = mnl_attr_get_payload(attr);
+-		ret = mnl_attr_validate(stat, MNL_TYPE_U64);
+-		if (ret) {
+-			fprintf(stderr, "invalid kernel response - bad statistic entry\n");
++		if (parse_stat(attr, NULL, std_name, stat_str))
+ 			goto err_close_grp;
+-		}
+-		s = mnl_attr_get_type(stat);
+-		name = get_string(stat_str, s);
+-		if (!name || !name[0])
+-			continue;
+-
+-		if (!is_json_context())
+-			fprintf(stdout, "%s-%s: ", std_name, name);
+-
+-		val = mnl_attr_get_u64(stat);
+-		print_u64(PRINT_ANY, name, "%llu\n", val);
+ 	}
+ 
+ 	if (hist_rx)
 -- 
 2.31.1
 
