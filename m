@@ -2,167 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C9CC4338F
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 07:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3364C432BE
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 08:19:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E043A60F56
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 07:09:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B458B60F48
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 08:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234189AbhHCHJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 03:09:20 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:58486 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234055AbhHCHJR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 03:09:17 -0400
-X-UUID: 3a3ce6a915224716884bae033d7ccddf-20210803
-X-UUID: 3a3ce6a915224716884bae033d7ccddf-20210803
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <yee.lee@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 57983639; Tue, 03 Aug 2021 15:09:03 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 3 Aug 2021 15:08:42 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 3 Aug 2021 15:08:42 +0800
-From:   <yee.lee@mediatek.com>
-To:     <linux-kernel@vger.kernel.org>
-CC:     <nicholas.Tang@mediatek.com>, <Kuan-Ying.lee@mediatek.com>,
-        <chinwen.chang@mediatek.com>, Yee Lee <yee.lee@mediatek.com>,
+        id S234463AbhHCITd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 04:19:33 -0400
+Received: from foss.arm.com ([217.140.110.172]:44550 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234311AbhHCITd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Aug 2021 04:19:33 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C85A9D6E;
+        Tue,  3 Aug 2021 01:19:21 -0700 (PDT)
+Received: from [10.57.36.146] (unknown [10.57.36.146])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 22C3F3F70D;
+        Tue,  3 Aug 2021 01:19:14 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] iommu: Enable non-strict DMA on QCom SD/MMC
+To:     Rajat Jain <rajatja@google.com>,
+        Doug Anderson <dianders@chromium.org>
+Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Rob Clark <robdclark@chromium.org>, quic_c_gdjako@quicinc.com,
+        Saravana Kannan <saravanak@google.com>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Veerabhadrarao Badiganti <vbadigan@codeaurora.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-pci@vger.kernel.org,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Sonny Rao <sonnyrao@chromium.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Jordan Crouse <jordan@cosmicpenguin.net>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Krishna Reddy <vdumpa@nvidia.com>,
         "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Vlastimil Babka" <vbabka@suse.cz>, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        "Hector Martin" <marcan@marcan.st>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Amit Daniel Kachhap <amit.kachhap@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        "David Brazdil" <dbrazdil@google.com>,
-        Fuad Tabba <tabba@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v4 1/1] arm64/cpufeature: Optionally disable MTE via command-line
-Date:   Tue, 3 Aug 2021 15:08:22 +0800
-Message-ID: <20210803070824.7586-2-yee.lee@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210803070824.7586-1-yee.lee@mediatek.com>
-References: <20210803070824.7586-1-yee.lee@mediatek.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20210624171759.4125094-1-dianders@chromium.org>
+ <YNXXwvuErVnlHt+s@8bytes.org>
+ <CAD=FV=UFxZH7g8gH5+M=Fv4Y-e1bsLkNkPGJhNwhvVychcGQcQ@mail.gmail.com>
+ <CAD=FV=W=HmgH3O3z+nThWL6U+X4Oh37COe-uTzVB9SanP2n86w@mail.gmail.com>
+ <YOaymBHc4g2cIfRn@8bytes.org>
+ <CAD=FV=U_mKPaGfWyN1SVi9S2hPBpG=rE_p89+Jvjr95d0TvgsA@mail.gmail.com>
+ <e3555c49-2978-355f-93bb-dbfa7d09cab8@arm.com>
+ <CAD=FV=XaTqNDn=vLEXfJ2dV+EH2UoxPfzWeiS+_sZ9hrQ274bw@mail.gmail.com>
+ <CACK8Z6FV+QYR01=aP4AT8rNUQMkX-WwesHzf5XY8465KuUZ=_Q@mail.gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <9a1bc174-3230-912c-09ae-25d9f021e8fc@arm.com>
+Date:   Tue, 3 Aug 2021 09:19:08 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <CACK8Z6FV+QYR01=aP4AT8rNUQMkX-WwesHzf5XY8465KuUZ=_Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yee Lee <yee.lee@mediatek.com>
+On 2021-08-03 01:09, Rajat Jain wrote:
+> Hi Robin, Doug,
+> 
+> On Wed, Jul 14, 2021 at 8:14 AM Doug Anderson <dianders@chromium.org> wrote:
+>>
+>> Hi,
+>>
+>> On Tue, Jul 13, 2021 at 11:07 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>>>
+>>> On 2021-07-08 15:36, Doug Anderson wrote:
+>>> [...]
+>>>>> Or document for the users that want performance how to
+>>>>> change the setting, so that they can decide.
+>>>>
+>>>> Pushing this to the users can make sense for a Linux distribution but
+>>>> probably less sense for an embedded platform. So I'm happy to make
+>>>> some way for a user to override this (like via kernel command line),
+>>>> but I also strongly believe there should be a default that users don't
+>>>> have to futz with that we think is correct.
+>>>
+>>> FYI I did make progress on the "punt it to userspace" approach. I'm not
+>>> posting it even as an RFC yet because I still need to set up a machine
+>>> to try actually testing any of it (it's almost certainly broken
+>>> somewhere), but in the end it comes out looking surprisingly not too bad
+>>> overall. If you're curious to take a look in the meantime I put it here:
+>>>
+>>> https://gitlab.arm.com/linux-arm/linux-rm/-/commits/iommu/fq
+> 
+> I was wondering if you got any closer to testing / sending it out? I
+> looked at the patches and am trying to understand, would they also
+> make it possible to convert at runtime, an existing "non-strict"
+> domain (for a particular device) into a "strict" domain leaving the
+> other devices/domains as-is? Please let me know when you think your
+> patches are good to be tested, and I'd also be interested in trying
+> them out.
 
-MTE support needs to be optionally disabled in runtime 
-for HW issue workaround, FW development and some 
-evaluation works on system resource and performance.
+Yup, most recently here:
 
-This patch makes two changes:
-(1) moves init of tag-allocation bits(ATA/ATA0) to
-cpu_enable_mte() as not cached in TLB.
+https://lore.kernel.org/linux-iommu/cover.1627468308.git.robin.murphy@arm.com/
 
-(2) allows ID_AA64PFR1_EL1.MTE to be overridden on
-its shadow value by giving "arm64.nomte" on cmdline.
+I'm currently getting v3 ready, so I'll try to remember to add you to 
+the CC list.
 
-When the feature value is off, ATA and TCF will not set 
-and the related functionalities are accordingly suppressed.
+>> Being able to change this at runtime through sysfs sounds great and it
+>> fills all the needs I'm aware of, thanks! In Chrome OS we can just use
+>> this with some udev rules and get everything we need.
+> 
+> I still have another (inverse) use case where this does not work:
+> We have an Intel chromebook with the default domain type being
+> non-strict. There is an LTE modem (an internal PCI device which cannot
+> be marked external), which we'd like to be treated as a "Strict" DMA
+> domain.
+> 
+> Do I understand it right that using Rob's patches, I could potentially
+> switch the domain to "strict" *after* booting (since we don't use
+> initramfs), but by that time, the driver might have already attached
+> to the modem device (using "non-strict" domain), and thus the damage
+> may have already been done? So perhaps we still need a device property
+> that the firmware could use to indicate "strictness" for certain
+> devices at boot?
 
-Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Signed-off-by: Yee Lee <yee.lee@mediatek.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/arm64/include/asm/sysreg.h                 | 3 +--
- arch/arm64/kernel/cpufeature.c                  | 3 +++
- arch/arm64/kernel/idreg-override.c              | 2 ++
- 4 files changed, 9 insertions(+), 2 deletions(-)
+Well, in my view the "external facing" firmware property *should* 
+effectively be the "I don't trust this device not to misbehave" 
+property, but I guess it's a bit too conflated with other aspects of 
+Thunderbolt root ports (at least in the ACPI definition) to abuse in 
+that manner.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdb22006f713..6f257e39d89e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -380,6 +380,9 @@
- 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
- 			support
- 
-+	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
-+			support
-+
- 	ataflop=	[HW,M68k]
- 
- 	atarimouse=	[HW,MOUSE] Atari Mouse
-diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-index 7b9c3acba684..e3e2c93b35f4 100644
---- a/arch/arm64/include/asm/sysreg.h
-+++ b/arch/arm64/include/asm/sysreg.h
-@@ -698,8 +698,7 @@
- 	(SCTLR_ELx_M    | SCTLR_ELx_C    | SCTLR_ELx_SA   | SCTLR_EL1_SA0   | \
- 	 SCTLR_EL1_SED  | SCTLR_ELx_I    | SCTLR_EL1_DZE  | SCTLR_EL1_UCT   | \
- 	 SCTLR_EL1_NTWE | SCTLR_ELx_IESB | SCTLR_EL1_SPAN | SCTLR_ELx_ITFSB | \
--	 SCTLR_ELx_ATA  | SCTLR_EL1_ATA0 | ENDIAN_SET_EL1 | SCTLR_EL1_UCI   | \
--	 SCTLR_EL1_EPAN | SCTLR_EL1_RES1)
-+	 ENDIAN_SET_EL1 | SCTLR_EL1_UCI  | SCTLR_EL1_EPAN | SCTLR_EL1_RES1)
- 
- /* MAIR_ELx memory attributes (used by Linux) */
- #define MAIR_ATTR_DEVICE_nGnRnE		UL(0x00)
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 0ead8bfedf20..51e6bf4bb7b5 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -1843,6 +1843,9 @@ static void bti_enable(const struct arm64_cpu_capabilities *__unused)
- #ifdef CONFIG_ARM64_MTE
- static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
- {
-+	sysreg_clear_set(sctlr_el1, 0, SCTLR_ELx_ATA | SCTLR_EL1_ATA0);
-+	isb();
-+
- 	/*
- 	 * Clear the tags in the zero page. This needs to be done via the
- 	 * linear map which has the Tagged attribute.
-diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
-index 53a381a7f65d..d8e606fe3c21 100644
---- a/arch/arm64/kernel/idreg-override.c
-+++ b/arch/arm64/kernel/idreg-override.c
-@@ -54,6 +54,7 @@ static const struct ftr_set_desc pfr1 __initconst = {
- 	.override	= &id_aa64pfr1_override,
- 	.fields		= {
- 	        { "bt", ID_AA64PFR1_BT_SHIFT },
-+		{ "mte", ID_AA64PFR1_MTE_SHIFT},
- 		{}
- 	},
- };
-@@ -100,6 +101,7 @@ static const struct {
- 	{ "arm64.nopauth",
- 	  "id_aa64isar1.gpi=0 id_aa64isar1.gpa=0 "
- 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0"	   },
-+	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
- 	{ "nokaslr",			"kaslr.disabled=1" },
- };
- 
--- 
-2.18.0
+Ideas off the top of my head would be to flip the default domain type 
+and manually relax all the other performance-sensitive devices instead, 
+or module_blacklist the modem driver to load manually later after 
+tweaking its group. However, if you think it's a sufficiently general 
+concern, maybe a quirk to set pci_dev->untrusted might be worth 
+exploring? It may make sense to drive such a thing from a command-line 
+option rather than a hard-coded list, though, since trust is really down 
+to the individual use-case.
 
+[ re gitlab.arm.com, I understand it tends not to like large transfers - 
+some colleagues have reported similar issues pushing large repos as 
+well. I'd suggest cloning the base mainline repo from kernel.org or 
+another reliable source, then fetching my branch into that. I've just 
+tried that on a different machine (outside the work network) and it 
+worked fine) ]
+
+Thanks,
+Robin.
