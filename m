@@ -2,352 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 829BBC4320A
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:34:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB953C4338F
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:37:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68B3161029
-	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:34:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6B5061029
+	for <linux-doc@archiver.kernel.org>; Tue,  3 Aug 2021 16:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234087AbhHCQeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 Aug 2021 12:34:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55999 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234062AbhHCQeX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Aug 2021 12:34:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628008451;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZC6fz0wH6LOZCoKtHBlL+gFtJ2XidB4lNAk1d1Zfen0=;
-        b=a9ZYgOtjKrdFbjzBEbY7/aTlsTofEj3MnIYL1+KlUM36VqIMYZy5jQcaJsU5Uo3QbuRZH5
-        FdU/4vq72qaDwQlcp61VqsELO08bPrkJAKTNxM7y3qgJ3Pup55ILqwSqc8EWDM92S+NFaP
-        L4RJ0QnY8H6aXS0RcnH+y//3/r2MIh8=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-wznqfQ-0MBmkphltijRLrA-1; Tue, 03 Aug 2021 12:34:10 -0400
-X-MC-Unique: wznqfQ-0MBmkphltijRLrA-1
-Received: by mail-oi1-f199.google.com with SMTP id i16-20020a0568080310b029025cd3c0e2bdso8899900oie.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Aug 2021 09:34:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZC6fz0wH6LOZCoKtHBlL+gFtJ2XidB4lNAk1d1Zfen0=;
-        b=fpSiQhSjfD7kUBGw5P3RC9LWx4ExeObcWZszrvSfFJJEuiN4seijrMgQcE5yE8z6pJ
-         Wn9P5kIzsYOtQMuJBaNyDmqzIE7HUi4lXQtJro5l+9CHgHBEHA5BnvKEGMz3CMZk53qY
-         /jfr+Tc+DgCB4jholMK6FltxR9piCr5bnUrQANQeBej/Nd7oTJCuxN4J1zxegtVIYX/1
-         KaJStQGgf0yCCwA5wQjIDkiEu0urcGvtFFC/zPO2lpzPEaC61vr+vcSm2QlPW8X6PgLp
-         dS1WW0M71VnxyJRbOCKkzWYkZXpIcL8D8GvCwCc4M0mQ99wMgHjEcZUQS/REnas1DCaj
-         tgvw==
-X-Gm-Message-State: AOAM530fQ5QTR9EbZBkFx3pn1frnJ19i5NjLnRcU2pFgPiANGfTZYAK1
-        4SQZ4yMq4XWYIBRK6tT8NIZvgzJBiui0k6vWS+VswAzOpK49jROm2zkJbKdcSQOThjYXtudaTXU
-        /vHkii/mnfYSTSP/xUU/L
-X-Received: by 2002:a54:478e:: with SMTP id o14mr3753018oic.173.1628008449607;
-        Tue, 03 Aug 2021 09:34:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFwuESI0HnE76c1/AUZG8mHAVE7uoxUNQvCdQAFpY43ILy5oWRZNuayH573kYg7XpB5z/ECQ==
-X-Received: by 2002:a54:478e:: with SMTP id o14mr3752987oic.173.1628008449364;
-        Tue, 03 Aug 2021 09:34:09 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id h1sm2607585otj.48.2021.08.03.09.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Aug 2021 09:34:09 -0700 (PDT)
-Date:   Tue, 3 Aug 2021 10:34:06 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S233471AbhHCQhN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 Aug 2021 12:37:13 -0400
+Received: from mga02.intel.com ([134.134.136.20]:56666 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233449AbhHCQhM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Aug 2021 12:37:12 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="200900149"
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
+   d="scan'208";a="200900149"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2021 09:36:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; 
+   d="scan'208";a="636665141"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga005.jf.intel.com with ESMTP; 03 Aug 2021 09:36:48 -0700
+Received: from alobakin-mobl.ger.corp.intel.com (eflejszm-mobl2.ger.corp.intel.com [10.213.26.164])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 173GahEo029968;
+        Tue, 3 Aug 2021 17:36:44 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marcin Kubiak <marcin.kubiak@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v3 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
- use the dev_set
-Message-ID: <20210803103406.5e1be269.alex.williamson@redhat.com>
-In-Reply-To: <9-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
-References: <0-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
-        <9-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        Netanel Belgazal <netanel@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        Guy Tzalik <gtzalik@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Sameeh Jubran <sameehj@amazon.com>,
+        Alexander Duyck <alexanderduyck@fb.com>,
+        Danielle Ratson <danieller@nvidia.com>,
+        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jian Shen <shenjian15@huawei.com>,
+        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
+        Yangbo Lu <yangbo.lu@nxp.com>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
+Subject: [PATCH net-next 00/21] ethtool, stats: introduce and use standard XDP stats
+Date:   Tue,  3 Aug 2021 18:36:20 +0200
+Message-Id: <20210803163641.3743-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 28 Jul 2021 21:49:18 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+This series follows the Jakub's work on standard statistics and
+unifies XDP statistics across [most of] the drivers.
+The only driver left unconverted is mlx5 -- it has rather complex
+statistics, so I believe it would be better to leave this up to
+its developers.
 
-> Keep track of all the vfio_devices that have been added to the device set
-> and use this list in vfio_pci_try_bus_reset() instead of trying to work
-> backwards from the pci_device.
-> 
-> The dev_set->lock directly prevents devices from joining/leaving the set,
-> which further implies the pci_device cannot change drivers or that the
-> vfio_device be freed, eliminating the need for get/put's.
-> 
-> Completeness of the device set can be directly measured by checking if
-> every PCI device in the reset group is also in the device set - which
-> proves that VFIO drivers are attached to everything.
-> 
-> This restructuring corrects a call to pci_dev_driver() without holding the
-> device_lock() and removes a hard wiring to &vfio_pci_driver.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci.c | 148 +++++++++++++++---------------------
->  1 file changed, 62 insertions(+), 86 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> index 5d6db93d6c680f..a1ae9a83a38621 100644
-> --- a/drivers/vfio/pci/vfio_pci.c
-> +++ b/drivers/vfio/pci/vfio_pci.c
-> @@ -404,6 +404,9 @@ static void vfio_pci_disable(struct vfio_pci_device *vdev)
->  	struct vfio_pci_ioeventfd *ioeventfd, *ioeventfd_tmp;
->  	int i, bar;
->  
-> +	/* For needs_reset */
-> +	lockdep_assert_held(&vdev->vdev.dev_set->lock);
-> +
->  	/* Stop the device from further DMA */
->  	pci_clear_master(pdev);
->  
-> @@ -2145,7 +2148,7 @@ static struct pci_driver vfio_pci_driver = {
->  	.err_handler		= &vfio_err_handlers,
->  };
->  
-> -static int vfio_pci_get_unused_devs(struct pci_dev *pdev, void *data)
-> +static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
->  {
->  	struct vfio_devices *devs = data;
->  	struct vfio_device *device;
-> @@ -2165,8 +2168,11 @@ static int vfio_pci_get_unused_devs(struct pci_dev *pdev, void *data)
->  
->  	vdev = container_of(device, struct vfio_pci_device, vdev);
->  
-> -	/* Fault if the device is not unused */
-> -	if (device->open_count) {
-> +	/*
-> +	 * Locking multiple devices is prone to deadlock, runaway and
-> +	 * unwind if we hit contention.
-> +	 */
-> +	if (!vfio_pci_zap_and_vma_lock(vdev, true)) {
->  		vfio_device_put(device);
->  		return -EBUSY;
->  	}
-> @@ -2175,112 +2181,82 @@ static int vfio_pci_get_unused_devs(struct pci_dev *pdev, void *data)
->  	return 0;
->  }
->  
-> -static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
-> +static int vfio_pci_is_device_in_set(struct pci_dev *pdev, void *data)
->  {
-> -	struct vfio_devices *devs = data;
-> -	struct vfio_device *device;
-> -	struct vfio_pci_device *vdev;
-> +	struct vfio_device_set *dev_set = data;
-> +	struct vfio_device *cur;
->  
-> -	if (devs->cur_index == devs->max_index)
-> -		return -ENOSPC;
-> +	lockdep_assert_held(&dev_set->lock);
->  
-> -	device = vfio_device_get_from_dev(&pdev->dev);
-> -	if (!device)
-> -		return -EINVAL;
-> -
-> -	if (pci_dev_driver(pdev) != &vfio_pci_driver) {
-> -		vfio_device_put(device);
-> -		return -EBUSY;
-> -	}
-> -
-> -	vdev = container_of(device, struct vfio_pci_device, vdev);
-> +	list_for_each_entry(cur, &dev_set->device_list, dev_set_list)
-> +		if (cur->dev == &pdev->dev)
-> +			return 0;
-> +	return -EBUSY;
-> +}
->  
-> -	/*
-> -	 * Locking multiple devices is prone to deadlock, runaway and
-> -	 * unwind if we hit contention.
-> -	 */
-> -	if (!vfio_pci_zap_and_vma_lock(vdev, true)) {
-> -		vfio_device_put(device);
-> -		return -EBUSY;
-> +/*
-> + * vfio-core considers a group to be viable and will create a vfio_device even
-> + * if some devices are bound to drivers like pci-stub or pcieport.  Here we
-> + * require all PCI devices to be inside our dev_set since that ensures they stay
-> + * put and that every driver controlling the device can co-ordinate with the
-> + * device reset.
-> + */
-> +static struct pci_dev *vfio_pci_find_reset_target(struct vfio_pci_device *vdev)
-> +{
-> +	struct vfio_device_set *dev_set = vdev->vdev.dev_set;
-> +	struct vfio_pci_device *cur;
-> +	bool needs_reset = false;
-> +
-> +	/* No VFIO device has an open device FD */
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-> +		if (cur->vdev.open_count)
-> +			return NULL;
-> +		needs_reset |= cur->needs_reset;
->  	}
-> +	if (!needs_reset)
-> +		return NULL;
->  
-> -	devs->devices[devs->cur_index++] = vdev;
-> -	return 0;
-> +	/* All PCI devices in the group to be reset need to be in our dev_set */
-> +	if (vfio_pci_for_each_slot_or_bus(
-> +		    vdev->pdev, vfio_pci_is_device_in_set, dev_set,
-> +		    !pci_probe_reset_slot(vdev->pdev->slot)))
-> +		return NULL;
-> +	return cur->pdev;
+The stats itself consists of 12 counters:
+ - packets: number of frames passed to bpf_prog_run_xdp();
+ - errors: number of general XDP errors, if driver has one unified counter;
+ - aborted: number of XDP_ABORTED returns;
+ - drop: number of XDP_DROP returns;
+ - invalid: number of returns of unallowed values (i.e. not XDP_*);
+ - pass: number of XDP_PASS returns;
+ - redirect: number of successfully performed XDP_REDIRECT requests;
+ - redirect_errors: number of failed XDP_REDIRECT requests;
+ - tx: number of successfully performed XDP_TX requests;
+ - tx_errors: number of failed XDP_TX requests;
+ - xmit: number of xdp_frames successfully transmitted via .ndo_xdp_xmit();
+ - xmit_drops: number of frames dropped from .ndo_xdp_xmit().
 
+As most drivers stores them on a per-channel basis, Ethtool standard
+stats infra has been expanded to support this. A new nested
+attribute has been added which indicated that the fields enclosed
+in this block are related to one particular channel. If Ethtool
+utility is older than the kernel, those blocks will just be skipped
+with no errors.
+When the stats are not per-channel, Ethtool core treats them as
+regular and so does Ethtool utility display them. Otherwise,
+the example output looks like:
 
-I don't understand the "reset target" aspect of this, cur->pdev is
-simply the last entry in the dev_set->devices_list...
+$ ./ethtool -S enp175s0f0 --all-groups
+Standard stats for enp175s0f0:
+[ snip ]
+channel0-xdp-aborted: 1
+channel0-xdp-drop: 2
+channel0-xdp-illegal: 3
+channel0-xdp-pass: 4
+channel0-xdp-redirect: 5
+[ snip ]
 
->  }
->  
->  /*
->   * If a bus or slot reset is available for the provided device and:
->   *  - All of the devices affected by that bus or slot reset are unused
-> - *    (!refcnt)
->   *  - At least one of the affected devices is marked dirty via
->   *    needs_reset (such as by lack of FLR support)
-> - * Then attempt to perform that bus or slot reset.  Callers are required
-> - * to hold vdev->dev_set->lock, protecting the bus/slot reset group from
-> - * concurrent opens.  A vfio_device reference is acquired for each device
-> - * to prevent unbinds during the reset operation.
-> - *
-> - * NB: vfio-core considers a group to be viable even if some devices are
-> - * bound to drivers like pci-stub or pcieport.  Here we require all devices
-> - * to be bound to vfio_pci since that's the only way we can be sure they
-> - * stay put.
-> + * Then attempt to perform that bus or slot reset.
->   */
->  static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev)
->  {
-> -	struct vfio_devices devs = { .cur_index = 0 };
-> -	int i = 0, ret = -EINVAL;
-> -	bool slot = false;
-> -	struct vfio_pci_device *tmp;
-> -
-> -	if (!pci_probe_reset_slot(vdev->pdev->slot))
-> -		slot = true;
-> -	else if (pci_probe_reset_bus(vdev->pdev->bus))
-> -		return;
-> +	struct vfio_device_set *dev_set = vdev->vdev.dev_set;
-> +	struct pci_dev *to_reset;
-> +	struct vfio_pci_device *cur;
-> +	int ret;
->  
-> -	if (vfio_pci_for_each_slot_or_bus(vdev->pdev, vfio_pci_count_devs,
-> -					  &i, slot) || !i)
-> -		return;
-> +	lockdep_assert_held(&vdev->vdev.dev_set->lock);
->  
-> -	devs.max_index = i;
-> -	devs.devices = kcalloc(i, sizeof(struct vfio_device *), GFP_KERNEL);
-> -	if (!devs.devices)
-> +	if (pci_probe_reset_slot(vdev->pdev->slot) &&
-> +	    pci_probe_reset_bus(vdev->pdev->bus))
->  		return;
->  
-> -	if (vfio_pci_for_each_slot_or_bus(vdev->pdev,
-> -					  vfio_pci_get_unused_devs,
-> -					  &devs, slot))
-> -		goto put_devs;
-> -
-> -	/* Does at least one need a reset? */
-> -	for (i = 0; i < devs.cur_index; i++) {
-> -		tmp = devs.devices[i];
-> -		if (tmp->needs_reset) {
-> -			ret = pci_reset_bus(vdev->pdev);
-> -			break;
-> -		}
-> -	}
-> -
-> -put_devs:
-> -	for (i = 0; i < devs.cur_index; i++) {
-> -		tmp = devs.devices[i];
-> -
-> -		/*
-> -		 * If reset was successful, affected devices no longer need
-> -		 * a reset and we should return all the collateral devices
-> -		 * to low power.  If not successful, we either didn't reset
-> -		 * the bus or timed out waiting for it, so let's not touch
-> -		 * the power state.
-> -		 */
-> -		if (!ret) {
-> -			tmp->needs_reset = false;
-> +	to_reset = vfio_pci_find_reset_target(vdev);
-> +	if (!to_reset)
-> +		return;
->  
-> -			if (tmp != vdev && !disable_idle_d3)
-> -				vfio_pci_set_power_state(tmp, PCI_D3hot);
-> -		}
-> +	ret = pci_reset_bus(to_reset);
-> +	if (ret)
-> +		return;
->  
-> -		vfio_device_put(&tmp->vdev);
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-> +		cur->needs_reset = false;
-> +		if (cur->pdev != to_reset && !disable_idle_d3)
-> +			vfio_pci_set_power_state(cur, PCI_D3hot);
->  	}
+...and the JSON output looks like:
 
-...which means that here, I think we're putting all but whichever
-random device was last in the list into D3.  The intention was that all
-the devices except for the one we're operating on should already be in
-D3, the bus reset will put them back in D0, so we want to force them
-back to D3.
+[ snip ]
+        "xdp": {
+            "per-channel": [
+                "channel0": {
+                    "aborted": 1,
+                    "drop": 2,
+                    "illegal": 3,
+                    "pass": 4,
+                    "redirect": 5,
+[ snip ]
+                } ]
+        }
+[ snip ]
 
-I think the vfio_pci_find_reset_target() function needs to be re-worked
-to just tell us true/false that it's ok to reset the provided device,
-not to anoint an arbitrary target device.  Thanks,
+Rouhly half of the commits are present to unify XDP stats logics
+across the drivers, and the first two are preparatory/housekeeping.
 
-Alex
+This set is also available here: [0]
 
-> -
-> -	kfree(devs.devices);
->  }
->  
->  static void __exit vfio_pci_cleanup(void)
+[0] https://github.com/alobakin/linux/tree/xdp_stats
+
+Alexander Lobakin (21):
+  ethtool, stats: use a shorthand pointer in stats_prepare_data()
+  ethtool, stats: add compile-time checks for standard stats
+  ethtool, stats: introduce standard XDP statistics
+  ethernet, dpaa2: simplify per-channel Ethtool stats counting
+  ethernet, dpaa2: convert to standard XDP stats
+  ethernet, ena: constify src and syncp args of ena_safe_update_stat()
+  ethernet, ena: convert to standard XDP stats
+  ethernet, enetc: convert to standard XDP stats
+  ethernet, mvneta: rename xdp_xmit_err to xdp_xmit_drops
+  ethernet, mvneta: convert to standard XDP stats
+  ethernet, mvpp2: rename xdp_xmit_err to xdp_xmit_drops
+  ethernet, mvpp2: convert to standard XDP stats
+  ethernet, sfc: convert to standard XDP stats
+  veth: rename rx_drops to xdp_errors
+  veth: rename xdp_xmit_errors to xdp_xmit_drops
+  veth: rename drop xdp_ suffix from packets and bytes stats
+  veth: convert to standard XDP stats
+  virtio-net: rename xdp_tx{,__drops} SQ stats to xdp_xmit{,__drops}
+  virtio-net: don't mix error-caused drops with XDP_DROP cases
+  virtio-net: convert to standard XDP stats
+  Documentation, ethtool-netlink: update standard statistics
+    documentation
+
+ Documentation/networking/ethtool-netlink.rst  |  45 +++--
+ drivers/net/ethernet/amazon/ena/ena_ethtool.c |  50 +++++-
+ .../net/ethernet/freescale/dpaa2/dpaa2-eth.h  |   7 +-
+ .../ethernet/freescale/dpaa2/dpaa2-ethtool.c  |  38 +++-
+ .../ethernet/freescale/enetc/enetc_ethtool.c  |  58 ++++--
+ drivers/net/ethernet/marvell/mvneta.c         | 112 ++++++------
+ drivers/net/ethernet/marvell/mvpp2/mvpp2.h    |   2 +-
+ .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |  96 +++-------
+ drivers/net/ethernet/sfc/ef100_ethtool.c      |   2 +
+ drivers/net/ethernet/sfc/ethtool.c            |   2 +
+ drivers/net/ethernet/sfc/ethtool_common.c     |  35 +++-
+ drivers/net/ethernet/sfc/ethtool_common.h     |   3 +
+ drivers/net/veth.c                            | 167 ++++++++++--------
+ drivers/net/virtio_net.c                      |  76 ++++++--
+ include/linux/ethtool.h                       |  36 ++++
+ include/uapi/linux/ethtool.h                  |   2 +
+ include/uapi/linux/ethtool_netlink.h          |  34 ++++
+ net/ethtool/netlink.h                         |   1 +
+ net/ethtool/stats.c                           | 163 +++++++++++++++--
+ net/ethtool/strset.c                          |   5 +
+ 20 files changed, 659 insertions(+), 275 deletions(-)
+
+-- 
+2.31.1
 
