@@ -2,155 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB6CC4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 20:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D968CC4338F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 20:29:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D57261002
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 20:11:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA79960F10
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 20:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239750AbhHDULw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 16:11:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239671AbhHDULw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 16:11:52 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDEFC0613D5
-        for <linux-doc@vger.kernel.org>; Wed,  4 Aug 2021 13:11:39 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id u21-20020a17090a8915b02901782c36f543so1564272pjn.4
-        for <linux-doc@vger.kernel.org>; Wed, 04 Aug 2021 13:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lSoF03p8b1Z5Nc1r1ep6zuU1PTL9sbSjD74lutL89qs=;
-        b=J6Xqf9I5DMW6LfgXHQ0h0/o4nRNKQXqTQ+AXgg/V2QHDZrxY0A0srNX1LgS74xffi/
-         HJTPPJ4zPPOxMsByUO/xsb8VuRrTksZS5adff7Re9g/c7oBOEPB1XmJ57T7Ulk6+Bdhz
-         iI2QSHQtxnj/QEKt75qXdzCxsRTJtI27FiiYilL8OXu7Xd2PDg4vdrD+QgeZRH06OscO
-         DKDAURRWnihF/NrNLRsuRyFztW5NmD3xVqSJTRMPlomyQngs7ZrfDL0TeRT/5fcN1Pjs
-         NrYCAkUdX21jy6KKRx8vaVWYidBrKUwou34cqeWYAnDQBOBejphg3bpY7KBX5WAL9Awl
-         PSwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lSoF03p8b1Z5Nc1r1ep6zuU1PTL9sbSjD74lutL89qs=;
-        b=Pm64yELSHRtuy5nrZ7DUoNcGMwxPXfRyI0rf68HKMjoVuz6SJSqR1RIT6twOhM7yDx
-         915yqu3NpDCnny5hiqBUevHis0GW9Ptenaba+xh2mLgBkN8ZmIYCkN4Lg7q55+o1KB3I
-         /Ntm/VggkRMoK1HVWfX7XTtJLINhvuge/GAulq9kqHyUuSFQDTb+x3R9untswd0XMoae
-         A2BVU5/CNvnenl08t200at98aXjOAkfIDGrF2ZSmcK/ldiWIRTEbB2i24L8w5OtBr5M5
-         LN062sDSsuwjXo4JB+ci55G8RrbomTV+yWtBFJtMnHCqKnontg3UbvtDmCO5eFTIzgwH
-         pdrA==
-X-Gm-Message-State: AOAM531jNhbIqYwC8j/o+dj1YZU4MseNOeg6mR1LBW5qUnLRcCv002QC
-        yZA25n5jAr6oG8AAwVYYHfTmxvP9z8WVEktBb0TglA==
-X-Google-Smtp-Source: ABdhPJzNziVYtIOkoXBhMQp/azxjP/x76GkpwQ7esjl+gsDLwrDrFVtktUl8in51X3uFR/ndmk+nF9IS06RItVZQs1A=
-X-Received: by 2002:a63:d54b:: with SMTP id v11mr116312pgi.450.1628107898803;
- Wed, 04 Aug 2021 13:11:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YQrqhYEL64CSLRTy@kroah.com>
-In-Reply-To: <YQrqhYEL64CSLRTy@kroah.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 4 Aug 2021 13:11:27 -0700
-Message-ID: <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
+        id S239774AbhHDUaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 16:30:05 -0400
+Received: from mga04.intel.com ([192.55.52.120]:25594 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239715AbhHDUaE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 16:30:04 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="212145738"
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="212145738"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 13:29:51 -0700
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="512220913"
+Received: from bguvendi-mobl.amr.corp.intel.com (HELO skuppusw-mobl5.amr.corp.intel.com) ([10.212.99.93])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 13:29:50 -0700
 Subject: Re: [PATCH v1] driver: base: Add driver filter support
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+To:     Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Andi Kleen <ak@linux.intel.com>,
         Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YQrqhYEL64CSLRTy@kroah.com>
+ <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
+From:   "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Message-ID: <0601aa0f-25a9-217c-efa3-8925fa1923cf@linux.intel.com>
+Date:   Wed, 4 Aug 2021 13:29:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 4, 2021 at 12:29 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Aug 04, 2021 at 10:43:22AM -0700, Kuppuswamy Sathyanarayanan wrote:
-> > Intel's Trust Domain Extensions (TDX) is a new Intel technology that
-> > adds support for VMs to maintain confidentiality and integrity in the
-> > presence of an untrusted VMM.
-> >
-> > Given the VMM is an untrusted entity and the VMM presents emulated
-> > hardware to the guest, a threat vector similar to Thunderclap [1] is
-> > present. Also, for ease of deployment, it is useful to be able to use
-> > the same kernel binary on host and guest, but that presents a wide
-> > attack surface given the range of hardware supported in typical
-> > builds. However, TDX guests only require a small number of drivers, a
-> > number small enough to audit for Thunderclap style attacks, and the
-> > rest can be disabled via policy. Add a mechanism to filter drivers
-> > based on a "protected-guest trusted" indication.
->
-> So you are trying to work around the "problem" that distro kernels
-> provides drivers for everything by adding additional kernel complexity?
->
-> What prevents you from using a sane, stripped down, kernel image for
-> these vms which would keep things sane and simpler and easier to audit
-> and most importantly, prove, that the image is not doing something you
-> don't expect it to do?
->
-> Why not just make distros that want to support this type of platform,
-> also provide these tiny kernel images?  Why are you pushing this work on
-> the kernel community instead?
 
-In fact, these questions are where I started when first encountering
-this proposal. Andi has addressed the single kernel image constraint,
-but I want to pick up on this "pushing work to the kernel community"
-contention. The small list of vetted drivers that a TDX guest needs
-will be built-in and maintained in the kernel by the protected guest
-developer community, so no "pushing work" there. However, given that
-any driver disable mechanism needs to touch the driver core I
-advocated to go ahead and make this a general purpose capability to
-pick up where this [1] conversation left off. I.e. a general facility
-for the corner cases that modprobe and kernel config policy can not
-reach. Corner cases like VMM attacking the VM, or broken hardware with
-a built-in driver that can't be unbound after the fact.
 
-[1]: https://lore.kernel.org/lkml/20170928090901.GC12599@kroah.com/
+On 8/4/21 1:11 PM, Dan Williams wrote:
+>> You added a sysfs file without Documentation/ABI/ update as well?
+>>
+>> {sigh}
+> Argh, my fault, that one slipped through in the internal review.
 
->
-> > An alternative solution is to disable untrusted drivers using a custom
-> > kernel config for TDX, but such solution will break our goal of using
-> > same kernel binary in guest/host or in standard OS distributions. So
-> > it is not considered.
->
-> Why is that a goal that you _have_ to have?  Who is making that
-> requirement?
->
-> > Driver filter framework adds support to filter drivers at boot
-> > time by using platform specific allow list. This is a generic
-> > solution that can be reused by TDX. Driver filter framework adds a
-> > new hook (driver_allowed()) in driver_register() interface which
-> > will update the "allowed" status of the driver based on platform
-> > specific driver allow list or deny list. During driver bind process,
-> > trusted status is used to determine whether to continue or deny the
-> > bind process. If platform does not register any allow or deny list,
-> > all devices will be allowed. Platforms can use wildcard like "ALL:ALL"
-> > in bus_name and driver_name of filter node to allow or deny all
-> > bus and drivers.
-> >
-> > Per driver opt-in model is also considered as an alternative design
-> > choice, but central allow or deny list is chosen because it is
-> > easier to maintain and audit. Also, "driver self serve" might be
-> > abused by mistake by driver authors cutting and pasting the code.
-> >
-> > Also add an option in kernel command line and sysfs to update the
-> > allowed or denied drivers list. Driver filter allowed status
-> > can be read using following command.
-> >
-> > cat /sys/bus/$bus/drivers/$driver/allowed
->
-> You added a sysfs file without Documentation/ABI/ update as well?
->
-> {sigh}
+Sorry, I will add this in next version.
 
-Argh, my fault, that one slipped through in the internal review.
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
