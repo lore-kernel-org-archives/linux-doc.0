@@ -2,124 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56987C432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3F4C4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:50:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D1B660E97
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DD1E61008
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:50:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236907AbhHDLNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 07:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38164 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236894AbhHDLNa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 07:13:30 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE4AC0613D5
-        for <linux-doc@vger.kernel.org>; Wed,  4 Aug 2021 04:13:17 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id j10so783269vsl.10
-        for <linux-doc@vger.kernel.org>; Wed, 04 Aug 2021 04:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E1t0SNn5x7f6Dj4MvLfPbAe/nFhEaNG0D5+fMN+d0a4=;
-        b=Nf2KyfVLFfCtc3VuPIByG76ejagI+MoZoGEbfaqyQkA4Edo4g7jlqu/TWtLlZBzI2Z
-         s/nx4C8zYdl+AXVtju2jqdk0NwvbRNpbMn7sJOtpBwATeiCEHms9sG0ky0iednIbrJje
-         8ErulyiXYP6SX4XSHeQER6RRMpM4uVyDS3WvWceptahkfNpmAaeCos8+6XMsuDosj3Yd
-         au34bdb0Q+VMDOHYvMgodwhSP5NRwqRF5rIdxF/LQH5Mqif1pck1+6eRAWRmnVj+viJe
-         OZWCpHHFesk0dsxMLa6m7NXG+cBA/KMcQaOeYi4wnGW8EyM+xI2+ucKP1wcogYE6UXEz
-         wnyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E1t0SNn5x7f6Dj4MvLfPbAe/nFhEaNG0D5+fMN+d0a4=;
-        b=QKhAON6s3DcGyUL1ufKjyPj7QtxjDO+epSN3VcpOAAGWXPGZYCl37PDbKHI1UMTCWh
-         GV7l19rdgp8XZ7NLZe5XwMztIRZJ+/k/KRq/era2svRV7svZlDmGfh7vQqMXpdp5jqqy
-         Ykz0Z35Z2aXwfd5uPUibTGpJ9ns4TU05cn6ldtjh/0ATa5uVDBdRF1ALbqIWkLQJmBko
-         uih9/lAWCI7bqxPzAdvyPAnSr5Zd2BDzGw+GDQPjabq5byhCEJs+WC6XvdVUKtKsNLs4
-         YeI7QyC0jybDqOy6EcfQLFYNABxOGIpikrivRJgYFPTKjLu62gZlBPJ2vqbXTup+/1dj
-         ynsw==
-X-Gm-Message-State: AOAM532jr80CslE8kt7WVQAxHwa2wRUfFUwPzvxJ/H3AOC4PeeT4KAPb
-        cpCJUEV0W4bdPFdX4kRZZszyQEUMk/rocQSxvl+XaA==
-X-Google-Smtp-Source: ABdhPJyvlEJk0kPUpk5hZjg1GBcfvcfyWBefSBKSC5X0FVKU1TS5OavoWFYJ7J3TB54jujHaG0St1s/ayVgY/H/S0V0=
-X-Received: by 2002:a67:7c14:: with SMTP id x20mr9690293vsc.42.1628075596862;
- Wed, 04 Aug 2021 04:13:16 -0700 (PDT)
+        id S237888AbhHDLuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 07:50:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50680 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237816AbhHDLuS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 07:50:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id C5E6760F6F;
+        Wed,  4 Aug 2021 11:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628077805;
+        bh=c5vcBbLoBY0IYaLVW0ew0lzBwPYLhU69YvcxFfsB4Vc=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=eaqyexShsI+Nfp0R5ctZSYMJzzDdYimWvQsXUSIGPFGfkG2EZO4Z0Xkx/zK71GBb9
+         ULsF0G1NkYdkD6iDM7YX3RlmEyrDagdptzQG1oaFdyvh6uVaABWn/f+jin0WVFZpwW
+         8yfwCaY0JqnXFbeINnt53ajGRc1BA6yQCKEQHpQXtuxoUnS4bKDparRCT+yr3MU8hB
+         MIKg8I2ypNKWrW9BEzOAY/epN9/8/TY28x3eYnc/HF9UmeMK/XX2Z50icuLxXy+Qak
+         vhm1lET2EUzu/8ootUfGYYde16pgqixGLPUR58vGwYXd3L53qZmr8w98zUPxyG6iKI
+         r4GwLZAOhzNYg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210712060928.4161649-1-hch@lst.de> <20210712060928.4161649-3-hch@lst.de>
-In-Reply-To: <20210712060928.4161649-3-hch@lst.de>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 4 Aug 2021 13:12:40 +0200
-Message-ID: <CAPDyKFpo2kjAH6tRDdo_B3JnKGvuR_+3A9Fe6bCtuP12Lfqd2w@mail.gmail.com>
-Subject: Re: [PATCH 2/6] mmc: mmc_spi: replace flush_kernel_dcache_page with flush_dcache_page
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Alex Shi <alexs@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org,
-        linux-mips <linux-mips@vger.kernel.org>,
-        linux-parisc@vger.kernel.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>, linux-mm@kvack.org,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] docs: networking: netdevsim rules
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162807780575.28477.13089376303981403810.git-patchwork-notify@kernel.org>
+Date:   Wed, 04 Aug 2021 11:50:05 +0000
+References: <20210803231415.3067296-1-kuba@kernel.org>
+In-Reply-To: <20210803231415.3067296-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, corbet@lwn.net, linux-doc@vger.kernel.org,
+        xiyou.wangcong@gmail.com, netdev@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Jul 2021 at 08:11, Christoph Hellwig <hch@lst.de> wrote:
->
-> Pages passed to block drivers can be mapped page cache pages, so we
-> must use flush_dcache_page here instead of the more limited
-> flush_kernel_dcache_page that is intended for highmem pages only.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hello:
 
-Apologies for the delay!
+This patch was applied to netdev/net.git (refs/heads/master):
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+On Tue,  3 Aug 2021 16:14:15 -0700 you wrote:
+> There are aspects of netdevsim which are commonly
+> misunderstood and pointed out in review. Cong
+> suggest we document them.
+> 
+> Suggested-by: Cong Wang <xiyou.wangcong@gmail.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> 
+> [...]
 
-Kind regards
-Uffe
+Here is the summary with links:
+  - [net] docs: networking: netdevsim rules
+    https://git.kernel.org/netdev/net/c/396492b4c5f2
 
-> ---
->  drivers/mmc/host/mmc_spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/mmc_spi.c b/drivers/mmc/host/mmc_spi.c
-> index 65c65bb5737f..3d28a3d3001b 100644
-> --- a/drivers/mmc/host/mmc_spi.c
-> +++ b/drivers/mmc/host/mmc_spi.c
-> @@ -948,7 +948,7 @@ mmc_spi_data_do(struct mmc_spi_host *host, struct mmc_command *cmd,
->
->                 /* discard mappings */
->                 if (direction == DMA_FROM_DEVICE)
-> -                       flush_kernel_dcache_page(sg_page(sg));
-> +                       flush_dcache_page(sg_page(sg));
->                 kunmap(sg_page(sg));
->                 if (dma_dev)
->                         dma_unmap_page(dma_dev, dma_addr, PAGE_SIZE, dir);
-> --
-> 2.30.2
->
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
