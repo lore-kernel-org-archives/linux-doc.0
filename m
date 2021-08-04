@@ -7,58 +7,57 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B55C4320E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56987C432BE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD38360FC4
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D1B660E97
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 11:13:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236769AbhHDLN3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 07:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38128 "EHLO
+        id S236907AbhHDLNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 07:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236584AbhHDLNZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 07:13:25 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5495EC06179B
-        for <linux-doc@vger.kernel.org>; Wed,  4 Aug 2021 04:13:09 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id b138so800312vsd.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Aug 2021 04:13:09 -0700 (PDT)
+        with ESMTP id S236894AbhHDLNa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 07:13:30 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE4AC0613D5
+        for <linux-doc@vger.kernel.org>; Wed,  4 Aug 2021 04:13:17 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id j10so783269vsl.10
+        for <linux-doc@vger.kernel.org>; Wed, 04 Aug 2021 04:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/dX/3b6FaOpNMT7IFaiEI2CzG67GUq50nJlfaoXU0vc=;
-        b=p3UYl4lwRYQ8i6YCOMkHtc48l6wq9BUGMWtu2TO7tzj1xahiMx00Oos7dic6R6BbO+
-         4cel/SAZhBaKH+iX3y23G1VudRcqzh7HoW4YrzHmF9QJMC84fC3xrrulPDTSlTD7UJy2
-         FYoQf9R/6NS7CatGztyAxD612su759huCsMDs739/b+IJ5I3dW8a2Bvat8+WUXlKf1a9
-         vQi8/OePC1Vl+Y9tKEGshTh1lBbL2UpR9yCIJIW3jBQS7GaE5Wlw5oUlXF7DafPq1RGY
-         OkG2pKiuExUU2ELE9P/7zjN/yPHJliZ4CtZ8AXP7GuTO43GZUZY2bTr33Cq3u4eOuFvn
-         7QWQ==
+        bh=E1t0SNn5x7f6Dj4MvLfPbAe/nFhEaNG0D5+fMN+d0a4=;
+        b=Nf2KyfVLFfCtc3VuPIByG76ejagI+MoZoGEbfaqyQkA4Edo4g7jlqu/TWtLlZBzI2Z
+         s/nx4C8zYdl+AXVtju2jqdk0NwvbRNpbMn7sJOtpBwATeiCEHms9sG0ky0iednIbrJje
+         8ErulyiXYP6SX4XSHeQER6RRMpM4uVyDS3WvWceptahkfNpmAaeCos8+6XMsuDosj3Yd
+         au34bdb0Q+VMDOHYvMgodwhSP5NRwqRF5rIdxF/LQH5Mqif1pck1+6eRAWRmnVj+viJe
+         OZWCpHHFesk0dsxMLa6m7NXG+cBA/KMcQaOeYi4wnGW8EyM+xI2+ucKP1wcogYE6UXEz
+         wnyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/dX/3b6FaOpNMT7IFaiEI2CzG67GUq50nJlfaoXU0vc=;
-        b=LvbNQYhYpmNa+6pzAMRMDWD6cms1p7Vn2jdOHxnCQJW9kYOv9vSG4HRYVypLnEC9Mi
-         0Tpntx/jxNSef4RVl6ZXnNgCshNluafcK+iqIA/xEBP78Bhg93r59ClUNPYrW/+UYRuh
-         /etPftO/EhbR6wDoYaXAO5sPGlq0T1a+BlGcG/6hvEm1VNql4om4uwuggM8vu+JbhzXD
-         6/cXnFW3WgKZAhwovlUC0TSaX9S94eI45Wn1vF41Xv0f1FE/j/nR2W+M5ymQCB6kVzB0
-         P2n4vtvq3hpm2LZNKRJs8N08DFWbp+LKPnC7H1UmhTpQkQLYvjTfOUnMoC2RwyrQsZ0H
-         hT9g==
-X-Gm-Message-State: AOAM531G3mDd+YYtEPY22vPSmRHb26HKrSnk/ll3xNWvYxcOoDaZZ5dl
-        nbLT5tBa4eXncNGPsfwkXtj3nkG3Hrc30RZ0qPgmBg==
-X-Google-Smtp-Source: ABdhPJwrTsv+EJti/ieeyYQU1ct+fkSyCA7cqQ3UPyE7N/qRbEbq7Ua3AgaG4AZzN10UYbosHfeOoqJNO5hws8N0JeY=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr18598001vso.48.1628075588257;
- Wed, 04 Aug 2021 04:13:08 -0700 (PDT)
+        bh=E1t0SNn5x7f6Dj4MvLfPbAe/nFhEaNG0D5+fMN+d0a4=;
+        b=QKhAON6s3DcGyUL1ufKjyPj7QtxjDO+epSN3VcpOAAGWXPGZYCl37PDbKHI1UMTCWh
+         GV7l19rdgp8XZ7NLZe5XwMztIRZJ+/k/KRq/era2svRV7svZlDmGfh7vQqMXpdp5jqqy
+         Ykz0Z35Z2aXwfd5uPUibTGpJ9ns4TU05cn6ldtjh/0ATa5uVDBdRF1ALbqIWkLQJmBko
+         uih9/lAWCI7bqxPzAdvyPAnSr5Zd2BDzGw+GDQPjabq5byhCEJs+WC6XvdVUKtKsNLs4
+         YeI7QyC0jybDqOy6EcfQLFYNABxOGIpikrivRJgYFPTKjLu62gZlBPJ2vqbXTup+/1dj
+         ynsw==
+X-Gm-Message-State: AOAM532jr80CslE8kt7WVQAxHwa2wRUfFUwPzvxJ/H3AOC4PeeT4KAPb
+        cpCJUEV0W4bdPFdX4kRZZszyQEUMk/rocQSxvl+XaA==
+X-Google-Smtp-Source: ABdhPJyvlEJk0kPUpk5hZjg1GBcfvcfyWBefSBKSC5X0FVKU1TS5OavoWFYJ7J3TB54jujHaG0St1s/ayVgY/H/S0V0=
+X-Received: by 2002:a67:7c14:: with SMTP id x20mr9690293vsc.42.1628075596862;
+ Wed, 04 Aug 2021 04:13:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210712060928.4161649-1-hch@lst.de> <20210712060928.4161649-2-hch@lst.de>
-In-Reply-To: <20210712060928.4161649-2-hch@lst.de>
+References: <20210712060928.4161649-1-hch@lst.de> <20210712060928.4161649-3-hch@lst.de>
+In-Reply-To: <20210712060928.4161649-3-hch@lst.de>
 From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 4 Aug 2021 13:12:31 +0200
-Message-ID: <CAPDyKFq2hqPYR-m3+mo7Gwu1421f_faE0jRpK4nJ8CDe=jHsjw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] mmc: JZ4740: remove the flush_kernel_dcache_page call
- in jz4740_mmc_read_data
+Date:   Wed, 4 Aug 2021 13:12:40 +0200
+Message-ID: <CAPDyKFpo2kjAH6tRDdo_B3JnKGvuR_+3A9Fe6bCtuP12Lfqd2w@mail.gmail.com>
+Subject: Re: [PATCH 2/6] mmc: mmc_spi: replace flush_kernel_dcache_page with flush_dcache_page
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -89,10 +88,11 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Jul 2021 at 08:10, Christoph Hellwig <hch@lst.de> wrote:
+On Mon, 12 Jul 2021 at 08:11, Christoph Hellwig <hch@lst.de> wrote:
 >
-> MIPS now implements flush_kernel_dcache_page (as an alias to
-> flush_dcache_page).
+> Pages passed to block drivers can be mapped page cache pages, so we
+> must use flush_dcache_page here instead of the more limited
+> flush_kernel_dcache_page that is intended for highmem pages only.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
@@ -103,26 +103,23 @@ Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 Kind regards
 Uffe
 
-
 > ---
->  drivers/mmc/host/jz4740_mmc.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/mmc/host/mmc_spi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/mmc/host/jz4740_mmc.c b/drivers/mmc/host/jz4740_mmc.c
-> index 0db17bcc9c16..aa2240c83510 100644
-> --- a/drivers/mmc/host/jz4740_mmc.c
-> +++ b/drivers/mmc/host/jz4740_mmc.c
-> @@ -578,10 +578,6 @@ static bool jz4740_mmc_read_data(struct jz4740_mmc_host *host,
->                         }
->                 }
->                 data->bytes_xfered += miter->length;
-> -
-> -               /* This can go away once MIPS implements
-> -                * flush_kernel_dcache_page */
-> -               flush_dcache_page(miter->page);
->         }
->         sg_miter_stop(miter);
+> diff --git a/drivers/mmc/host/mmc_spi.c b/drivers/mmc/host/mmc_spi.c
+> index 65c65bb5737f..3d28a3d3001b 100644
+> --- a/drivers/mmc/host/mmc_spi.c
+> +++ b/drivers/mmc/host/mmc_spi.c
+> @@ -948,7 +948,7 @@ mmc_spi_data_do(struct mmc_spi_host *host, struct mmc_command *cmd,
 >
+>                 /* discard mappings */
+>                 if (direction == DMA_FROM_DEVICE)
+> -                       flush_kernel_dcache_page(sg_page(sg));
+> +                       flush_dcache_page(sg_page(sg));
+>                 kunmap(sg_page(sg));
+>                 if (dma_dev)
+>                         dma_unmap_page(dma_dev, dma_addr, PAGE_SIZE, dir);
 > --
 > 2.30.2
 >
