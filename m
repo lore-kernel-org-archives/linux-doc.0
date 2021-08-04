@@ -2,512 +2,343 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAD2C4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:44:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10AB4C4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:03:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AF0060187
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:44:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED5AF60C41
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:03:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237454AbhHDRoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 13:44:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:16631 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237345AbhHDRoR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Aug 2021 13:44:17 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="193568042"
-X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
-   d="scan'208";a="193568042"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 10:44:00 -0700
-X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
-   d="scan'208";a="501307483"
-Received: from mjkendri-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.254.17.117])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 10:43:52 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v1] driver: base: Add driver filter support
-Date:   Wed,  4 Aug 2021 10:43:22 -0700
-Message-Id: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S240001AbhHDSDX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 14:03:23 -0400
+Received: from mx0a-00268f01.pphosted.com ([148.163.148.236]:4632 "EHLO
+        mx0a-00268f01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240000AbhHDSDW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 14:03:22 -0400
+X-Greylist: delayed 597 seconds by postgrey-1.27 at vger.kernel.org; Wed, 04 Aug 2021 14:03:21 EDT
+Received: from pps.filterd (m0165118.ppops.net [127.0.0.1])
+        by mx0a-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 174HhfRj002759;
+        Wed, 4 Aug 2021 17:52:07 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
+        by mx0a-00268f01.pphosted.com with ESMTP id 3a7udk9454-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 04 Aug 2021 17:52:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hKZMvRk/S96gv5bnAtxx0MXpQHcHeanxDzuWkebzLCOlrlxLR74/g3zpsnkrOcua7G3IJe1brM+zxTsP3t5jJyJ/dzYh12P0CcGZjm3Tl44/q+hndXsLdDyyyJwFx8a0mlNnDM0ED9i9gD9xUwdhAhmdn3w0GJKbTStcFsfxwOt6v2Tzgpsga+bgGvF/CnsxSd1sVVkfK7WPxlsGpvgUnsMcvOzs5qaWpzdk/WSv0Rbmwv02ecnzvPkMbMib5zUZqJbQ8C/1OGJkgreb5/lc7up1os/qIqJPrf1GVaecRUTyxVy6hgorvhzr3/Uoys6nuYYT2OO+yrSh8cwZLBQS5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ws0T8edmFGEpvJbTFRLM3IuSe+htfm3KZxzvmMyRa4A=;
+ b=c5Jbr6COpvDkLpyB2K6X9P7TfMvLGp6IEI7r6R+nXyrk7wO3xcJPEJrY2hsb0Uxw0kp4oTb6p0+BThY8Yk3a/7kiudRuA22tGCRGAZTor+nqqxao92sragjSmwqSmmtLyDlQmlTiA7pNio11AoMBQUno1PVbo8xPEAJYrq4L6PVi2Ucd/+NKJTwEwBlrC7Sif6tYLoyT+9G7rqkIhnD9NZEmfqdWOnQYwHDajkTVPX34w9a+4Tws+s8xyPzqRXaKC0z8ieEqVaieHNfRCdv6hPNfEOe1yXC/Bl8GkoNdaIJOUwx/+ftikimOMvxeMHGCd+pGpxktX69oXO4J/bq0ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
+ dkim=pass header.d=equinix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=equinixinc.onmicrosoft.com; s=selector2-equinixinc-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ws0T8edmFGEpvJbTFRLM3IuSe+htfm3KZxzvmMyRa4A=;
+ b=kynWtDcZaHbvZIRGwnZwnz4Hv+NfyO162H6gjk9jA7b/5YkhnecwQXSUUc7mpXSbvcYM82ABb40NNEPktRIHqfgdzHJ02GBkMH5NP2dEWb9m47toCaef1fkWw5kqTAAdk7KHZNvszLw7dUyzkdl1tYhnBkT7DyCkec0kmNwm4A0=
+Received: from DM8PR04MB8007.namprd04.prod.outlook.com (2603:10b6:5:314::20)
+ by DM8PR04MB7861.namprd04.prod.outlook.com (2603:10b6:8:24::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Wed, 4 Aug
+ 2021 17:52:04 +0000
+Received: from DM8PR04MB8007.namprd04.prod.outlook.com
+ ([fe80::953d:f9ec:b2cc:ca2b]) by DM8PR04MB8007.namprd04.prod.outlook.com
+ ([fe80::953d:f9ec:b2cc:ca2b%5]) with mapi id 15.20.4373.026; Wed, 4 Aug 2021
+ 17:52:04 +0000
+From:   Zev Weiss <zweiss@equinix.com>
+To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 13/14] docs: hwmon: Document PECI drivers
+Thread-Topic: [PATCH 13/14] docs: hwmon: Document PECI drivers
+Thread-Index: AQHXgzrekgBvAebmGEm7GzBex72boatgHxcAgAONUIA=
+Date:   Wed, 4 Aug 2021 17:52:04 +0000
+Message-ID: <20210804175203.GY8018@packtop>
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-14-iwona.winiarska@intel.com>
+ <20210727225808.GU8018@packtop>
+ <ea5621698508a800cea59b5533f8845b9f0befc6.camel@intel.com>
+In-Reply-To: <ea5621698508a800cea59b5533f8845b9f0befc6.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=equinix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 32988136-f44c-4741-f0c2-08d9577091f9
+x-ms-traffictypediagnostic: DM8PR04MB7861:
+x-microsoft-antispam-prvs: <DM8PR04MB78615EF9FA4953BDF5E703C2C3F19@DM8PR04MB7861.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sPJ3r3i0D2yimqvA+xPs+umPt5ieR6qIhB7EIcjbphFCPgbpuu5TfsetSHjUy8H7NiuiCZ2p2AYNdT+rDDrADodfhZj3/PX3ktE5iZxRQjwifCIaT+8ucW+y7Amj/9Neo1E+DVJUPDMOAW3fvmzoXJ0MSdgRZbmp23Z/nvQnMqsHzBgfrLllFqqDLhc6Kx9lkmgBTZhBkJZXJNnkCcuOtNbDhZ6k4H1oVhoBhVwac4a8GRHthAh4/fruLJf4DnIUPBbgponl6GfKrzR5R4Aukt1FSjx/f30XJe9hJfJ3rnRQ5tx0IcU+Ic8UKvP9/Hky/TEFiWOkPHCRGVrF8EvmfHF/IWNzatFsFJvXnXJ2OsXocrN9QTA9TRrt136AYJOUpe5BPnWi/Td0uK70TPRMmOnvtU105mXeAtomR+CNSnjSdUOAG82KH/nVDHXHDbA2mhSXr3Fm6xoZ7/1Zi2SIe/MCmbrOdVNzf+YBu859/0K299PAN1rUYhAC7ALS5dSQ+5iWylCDnHBGyF0ao8999ctzkLLmBFDKMQZVeJ1zOTpH+uSSN5ByUHdYDToVNorOaPxsRkuRB6r6TD611y5Kw8vedafxDKM5RC8cQdrEeVKejgDvB0yCwedBNYK3RRQGedKR393TPLCWphrjxrDUa4j964DwPNrDdvy8VMc9rKRETRbvkfOJbHuM5qAe4FF3a9fJfqHx67bNjrkHbevQosC7t88Na/8b/N/JCmrIHqVrREVPMsu03LVk4ZFAQYEuuiCoqY2chjb2hq6fexeqPW1XwOy6PmVkF+NXIuHwopjLBN6q4dsrMCBeGoJWhOa6UB8IWFF9FT3dwXRYtp4cPg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8007.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(2906002)(86362001)(186003)(6916009)(83380400001)(54906003)(66446008)(19273905006)(38070700005)(33716001)(6512007)(122000001)(8676002)(478600001)(71200400001)(66946007)(9686003)(1076003)(8936002)(26005)(33656002)(6506007)(76116006)(316002)(966005)(6486002)(38100700002)(66556008)(5660300002)(4326008)(64756008)(7416002)(66476007)(562404015)(563064011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?H+l03xqj2XBsD2ZBpGvYnmCK/9vjwZ6LWX3TqK7g1YkpTqgZyklRQdj4Rs?=
+ =?iso-8859-1?Q?4Owx8z7d41cEV0ZgYizNbpJpyllqwhG0PzF8en91cknrbdcMFS4xIg5XT7?=
+ =?iso-8859-1?Q?gu9W1Co/uAV/vtwSKi6H/vIc2Khc9kPAZwJnFOWeLLJ85Y8kMVJQ3pj0Zg?=
+ =?iso-8859-1?Q?5iz41Rw1/RRhrcACMRo+Ywng5VvICrQEux/Uh0HEybWxvRBn8Rcwxe6xv2?=
+ =?iso-8859-1?Q?I2bNiyD/+e2sPRHI+BUYSYPmrSy/PbgPxiixl7dcXiWXrVkwh9C0fV8v58?=
+ =?iso-8859-1?Q?DQ1sxzR9Rx9fYp7rzlWeIJEM7x+tcpAPBTfCF/jgbZF5v5GlOrzJ8hSr0c?=
+ =?iso-8859-1?Q?1rNv4OGOSW/VJchirsP0ztCaQ81D4204H7vg8jD0i6cqZvhnjbZDFV9g12?=
+ =?iso-8859-1?Q?hptjOo/FTNN5TPLnLOGC7tIuDsmilp0PbNab2mmziJfITmrgf1Tumeeq9c?=
+ =?iso-8859-1?Q?bSX/6TUyaCeiQ5irMDSd6r9yeiHLnV0CJtkj3d9G8IUOYiDFGhun1ALFrX?=
+ =?iso-8859-1?Q?wCZJ0uoi1DLifHEtMV9S7eFhvxFWII8AodmLkGCt3nijLaMrxt+jUFLV9D?=
+ =?iso-8859-1?Q?e4N1el+YR3cVMEKYenIVMWSNa9/7HrNGiCxyVOxZddHSMwV0Wf/dMEeEUe?=
+ =?iso-8859-1?Q?BUvSKa5pKscRBFYgBshYwEKBq6SWazC+/Zf1gau1uELtDSbcfiV/frB8s2?=
+ =?iso-8859-1?Q?/T38dG0ooQa+GwbGiAkchZDhP1RoVHHY/5+/ih4LeeH7RF8Er7zVpncU3x?=
+ =?iso-8859-1?Q?e9Ohd9xybhqBlL3sXyVgziVbePqJh7UNL6/FScrUjdxXsftILJMTaflTkb?=
+ =?iso-8859-1?Q?1DNWAh3TUqTGGtZ1AlbH+AjgqcVX6ZcAqSDGoPfWFsLsA3aimfOLmrAxls?=
+ =?iso-8859-1?Q?n8pWFm9/qttyN/g38h3yUPzAsH6SpNd3wGiqSCpEBlf0dccO/NomFTrUKd?=
+ =?iso-8859-1?Q?nZY4o2f8As0yzv6jE1Goje+fCGk6vdNK40UZBzoQKgl1iIRCjj8rL7OsPE?=
+ =?iso-8859-1?Q?ZRcTXEYsTwezgU2ojFzBWjBy+u6FtS+bqpfkkXoTOUH81V2+wWK7LYQFJP?=
+ =?iso-8859-1?Q?MgzzTYdAwUDhd6f2lW8w5QgaiEZOz6nFHGeXCVFy5UQTDEAN4jqlCyAs8P?=
+ =?iso-8859-1?Q?The20AusjzfP/wY6fjTY74/U7caPYUwIEIQRdxay3itDYDKj130p3yLDMv?=
+ =?iso-8859-1?Q?w8iNbQLbIwUAfCK3QuKtvpjyk6mh2SxrdgFn8tons9ZGMB5iUDE8U+0z46?=
+ =?iso-8859-1?Q?hL1I4Xw529bs/TBOAxaZ+2EgdnF2ya9us3DiOf5Fg7yd8BUtyyvg01Ww/y?=
+ =?iso-8859-1?Q?6eXRcfH6xi5GaLurUDg8Uw2BFkS3T1EN7c4voPjKY7sbBkfUq4RhK4mTHk?=
+ =?iso-8859-1?Q?vKpM1JlGPU?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9167364B135B50499B7439DCD8A4F974@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: equinix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8007.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32988136-f44c-4741-f0c2-08d9577091f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2021 17:52:04.5381
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: F7h22H3T7VbbSThpLYtXRj6dEuVS2J2r7Jw0s0A5tlkdEI5TnojMObBLgxsDGv/FrzWxiSeEJcKExfEgDmJ22g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB7861
+X-Proofpoint-ORIG-GUID: -X-8wQYwAVmFKde3JMJQRmkmrGP5rzKa
+X-Proofpoint-GUID: -X-8wQYwAVmFKde3JMJQRmkmrGP5rzKa
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-08-04_05:2021-08-04,2021-08-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ adultscore=0 bulkscore=0 mlxscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108040103
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intel's Trust Domain Extensions (TDX) is a new Intel technology that
-adds support for VMs to maintain confidentiality and integrity in the
-presence of an untrusted VMM.
+On Mon, Aug 02, 2021 at 06:37:30AM CDT, Winiarska, Iwona wrote:
+>On Tue, 2021-07-27 at 22:58 +0000, Zev Weiss wrote:
+>> On Mon, Jul 12, 2021 at 05:04:46PM CDT, Iwona Winiarska wrote:
+>> > From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> >
+>> > Add documentation for peci-cputemp driver that provides DTS thermal
+>> > readings for CPU packages and CPU cores and peci-dimmtemp driver that
+>> > provides DTS thermal readings for DIMMs.
+>> >
+>> > Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> > Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>> > Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>> > Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.co=
+m>
+>> > ---
+>> > Documentation/hwmon/index.rst=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 2 +
+>> > Documentation/hwmon/peci-cputemp.rst=A0 | 93 +++++++++++++++++++++++++=
+++
+>> > Documentation/hwmon/peci-dimmtemp.rst | 58 +++++++++++++++++
+>> > MAINTAINERS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 |=A0 2 +
+>> > 4 files changed, 155 insertions(+)
+>> > create mode 100644 Documentation/hwmon/peci-cputemp.rst
+>> > create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
+>> >
+>> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index=
+.rst
+>> > index bc01601ea81a..cc76b5b3f791 100644
+>> > --- a/Documentation/hwmon/index.rst
+>> > +++ b/Documentation/hwmon/index.rst
+>> > @@ -154,6 +154,8 @@ Hardware Monitoring Kernel Drivers
+>> > =A0=A0 pcf8591
+>> > =A0=A0 pim4328
+>> > =A0=A0 pm6764tr
+>> > +=A0=A0 peci-cputemp
+>> > +=A0=A0 peci-dimmtemp
+>> > =A0=A0 pmbus
+>> > =A0=A0 powr1220
+>> > =A0=A0 pxe1610
+>> > diff --git a/Documentation/hwmon/peci-cputemp.rst
+>> > b/Documentation/hwmon/peci-cputemp.rst
+>> > new file mode 100644
+>> > index 000000000000..d3a218ba810a
+>> > --- /dev/null
+>> > +++ b/Documentation/hwmon/peci-cputemp.rst
+>> > @@ -0,0 +1,93 @@
+>> > +.. SPDX-License-Identifier: GPL-2.0-only
+>> > +
+>> > +Kernel driver peci-cputemp
+>> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>> > +
+>> > +Supported chips:
+>> > +=A0=A0=A0=A0=A0=A0=A0One of Intel server CPUs listed below which is c=
+onnected to a PECI
+>> > bus.
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0* Intel Xeon E5/E7 v3 se=
+rver processors
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-14xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-24xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-16xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-26xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-46xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E7-48xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E7-88xx v3 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0* Intel Xeon E5/E7 v4 se=
+rver processors
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-16xx v4 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-26xx v4 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E5-46xx v4 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E7-48xx v4 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon E7-88xx v4 family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0* Intel Xeon Scalable se=
+rver processors
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon D family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon Bronze family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon Silver family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon Gold family
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+Intel Xeon Platinum family
+>> > +
+>> > +=A0=A0=A0=A0=A0=A0=A0Datasheet: Available from http://www.intel.com/d=
+esign/literature.htm
+>> > +
+>> > +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> > +
+>> > +Description
+>> > +-----------
+>> > +
+>> > +This driver implements a generic PECI hwmon feature which provides Di=
+gital
+>> > +Thermal Sensor (DTS) thermal readings of the CPU package and CPU core=
+s that
+>> > are
+>> > +accessible via the processor PECI interface.
+>> > +
+>> > +All temperature values are given in millidegree Celsius and will be
+>> > measurable
+>> > +only when the target CPU is powered on.
+>> > +
+>> > +Sysfs interface
+>> > +-------------------
+>> > +
+>> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+>> > +temp1_label=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0"Die"
+>> > +temp1_input=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0Provides current die t=
+emperature of the CPU package.
+>> > +temp1_max=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0Provides thermal c=
+ontrol temperature of the CPU
+>> > package
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+which is also known as Tcontrol.
+>> > +temp1_crit=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0Provides shutdown te=
+mperature of the CPU package
+>> > which
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+is also known as the maximum processor junction
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+temperature, Tjmax or Tprochot.
+>> > +temp1_crit_hyst=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0Provid=
+es the hysteresis value from Tcontrol
+>> > to Tjmax of
+>> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+the CPU package.
+>> > +
+>> > +temp2_label=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0"DTS"
+>> > +temp2_input=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0Provides current DTS t=
+emperature of the CPU package.
+>>
+>> Would this be a good place to note the slightly counter-intuitive nature
+>> of DTS readings?=A0 i.e. add something along the lines of "The DTS senso=
+r
+>> produces a delta relative to Tjmax, so negative values are normal and
+>> values approaching zero are hot."=A0 (In my experience people who aren't
+>> already familiar with it tend to think something's wrong when a CPU
+>> temperature reading shows -50C.)
+>
+>I believe that what you're referring to is a result of "GetTemp", and we'r=
+e
+>using it to calculate "Die" sensor values (temp1).
+>The sensor value is absolute - we don't expose "raw" thermal sensor value
+>(delta) anywhere.
+>
+>DTS sensor is exposing temperature value scaled to fit DTS 2.0 thermal pro=
+file:
+>https://www.intel.com/content/www/us/en/processors/xeon/scalable/xeon-scal=
+able-thermal-guide.html
+>(section 5.2.3.2)
+>
+>Similar to "Die" sensor - it's also exposed in absolute form.
+>
+>I'll try to change description to avoid confusion.
+>
 
-Given the VMM is an untrusted entity and the VMM presents emulated
-hardware to the guest, a threat vector similar to Thunderclap [1] is
-present. Also, for ease of deployment, it is useful to be able to use
-the same kernel binary on host and guest, but that presents a wide
-attack surface given the range of hardware supported in typical
-builds. However, TDX guests only require a small number of drivers, a
-number small enough to audit for Thunderclap style attacks, and the
-rest can be disabled via policy. Add a mechanism to filter drivers
-based on a "protected-guest trusted" indication.
+When I tested the patch series by applying it to my OpenBMC kernel, the
+temp2_input sysfs file produced negative numbers (as has been the case
+with previous iterations of the PECI patchset).  Is that expected?  From
+what Guenter has said it sounds like that's going to need to change so
+that the temperature readings are all in "normal" millidegrees C
+(that is, relative to the freezing point of water).
 
-An alternative solution is to disable untrusted drivers using a custom
-kernel config for TDX, but such solution will break our goal of using
-same kernel binary in guest/host or in standard OS distributions. So
-it is not considered.
 
-Driver filter framework adds support to filter drivers at boot
-time by using platform specific allow list. This is a generic
-solution that can be reused by TDX. Driver filter framework adds a
-new hook (driver_allowed()) in driver_register() interface which
-will update the "allowed" status of the driver based on platform
-specific driver allow list or deny list. During driver bind process,
-trusted status is used to determine whether to continue or deny the
-bind process. If platform does not register any allow or deny list,
-all devices will be allowed. Platforms can use wildcard like "ALL:ALL"
-in bus_name and driver_name of filter node to allow or deny all
-bus and drivers.
-
-Per driver opt-in model is also considered as an alternative design
-choice, but central allow or deny list is chosen because it is
-easier to maintain and audit. Also, "driver self serve" might be
-abused by mistake by driver authors cutting and pasting the code.
-
-Also add an option in kernel command line and sysfs to update the
-allowed or denied drivers list. Driver filter allowed status
-can be read using following command.
-
-cat /sys/bus/$bus/drivers/$driver/allowed
-
-Details about TDX technology can be found in following link:
-
-https://software.intel.com/content/www/br/pt/develop/articles/intel-trust-domain-extensions.html
-
-[1]: http://thunderclap.io/
-
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- .../admin-guide/kernel-parameters.txt         |  15 ++
- drivers/base/Makefile                         |   2 +-
- drivers/base/base.h                           |   8 +
- drivers/base/bus.c                            |  34 +++
- drivers/base/filter.c                         | 217 ++++++++++++++++++
- include/linux/device/filter.h                 |  35 +++
- 6 files changed, 310 insertions(+), 1 deletion(-)
- create mode 100644 drivers/base/filter.c
- create mode 100644 include/linux/device/filter.h
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 10776a743e74..2af8b60b227b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1399,6 +1399,21 @@
- 			See Documentation/admin-guide/sysctl/net.rst for
- 			fb_tunnels_only_for_init_ns
- 
-+	filter_deny_drivers=
-+	filter_allow_drivers=[KNL]
-+			Format: bus:driver
-+			Override the default driver filter allowed or blocked
-+			list. Multiple drivers can be specified, separated by
-+			comma. Multiple bus/driver combinations can be
-+			specified separated by semicolon. For example to allow
-+			the e1000 driver use filter_allow_drivers=pci:e1000. To
-+			allow all drivers in pci use
-+			filter_allow_drivers=pci:ALL. Similarly to deny e1000
-+			driver, use filter_deny_drivers=pci:e1000.
-+			Also note that, driver allow list is searched first. If
-+			an entry exist in allow list, deny list will not be
-+			searched.
-+
- 	floppy=		[HW]
- 			See Documentation/admin-guide/blockdev/floppy.rst.
- 
-diff --git a/drivers/base/Makefile b/drivers/base/Makefile
-index ef8e44a7d288..d06b698e2796 100644
---- a/drivers/base/Makefile
-+++ b/drivers/base/Makefile
-@@ -6,7 +6,7 @@ obj-y			:= component.o core.o bus.o dd.o syscore.o \
- 			   cpu.o firmware.o init.o map.o devres.o \
- 			   attribute_container.o transport_class.o \
- 			   topology.o container.o property.o cacheinfo.o \
--			   swnode.o
-+			   swnode.o filter.o
- obj-$(CONFIG_AUXILIARY_BUS) += auxiliary.o
- obj-$(CONFIG_DEVTMPFS)	+= devtmpfs.o
- obj-y			+= power/
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 404db83ee5ec..1c4c19cab670 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -61,6 +61,8 @@ struct driver_private {
- 	struct klist_node knode_bus;
- 	struct module_kobject *mkobj;
- 	struct device_driver *driver;
-+	/* Used by driver filter framework to cache allowed status */
-+	bool allowed;
- };
- #define to_driver(obj) container_of(obj, struct driver_private, kobj)
- 
-@@ -144,6 +146,9 @@ extern void device_set_deferred_probe_reason(const struct device *dev,
- static inline int driver_match_device(struct device_driver *drv,
- 				      struct device *dev)
- {
-+	if (!drv->p->allowed)
-+		return 0;
-+
- 	return drv->bus->match ? drv->bus->match(dev, drv) : 1;
- }
- extern bool driver_allows_async_probing(struct device_driver *drv);
-@@ -202,3 +207,6 @@ int devtmpfs_delete_node(struct device *dev);
- static inline int devtmpfs_create_node(struct device *dev) { return 0; }
- static inline int devtmpfs_delete_node(struct device *dev) { return 0; }
- #endif
-+
-+bool driver_allowed(struct device_driver *drv);
-+bool driver_filter_enabled(void);
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 1f6b4bd61056..85fb4063459f 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -583,6 +583,28 @@ static ssize_t uevent_store(struct device_driver *drv, const char *buf,
- }
- static DRIVER_ATTR_WO(uevent);
- 
-+static ssize_t allowed_store(struct device_driver *drv, const char *buf,
-+			     size_t count)
-+{
-+	int ret;
-+	bool status;
-+
-+	ret = kstrtobool(buf, &status);
-+	if (ret)
-+		return ret;
-+
-+	drv->p->allowed = status;
-+
-+	return count;
-+}
-+
-+static ssize_t allowed_show(struct device_driver *drv, char *buf)
-+{
-+	return sysfs_emit(buf, "%s:%s %d\n", drv->bus ? drv->bus->name : "NULL",
-+			  drv->name, drv->p->allowed);
-+}
-+static DRIVER_ATTR_RW(allowed);
-+
- /**
-  * bus_add_driver - Add a driver to the bus.
-  * @drv: driver.
-@@ -607,6 +629,7 @@ int bus_add_driver(struct device_driver *drv)
- 	klist_init(&priv->klist_devices, NULL, NULL);
- 	priv->driver = drv;
- 	drv->p = priv;
-+	drv->p->allowed = driver_allowed(drv);
- 	priv->kobj.kset = bus->p->drivers_kset;
- 	error = kobject_init_and_add(&priv->kobj, &driver_ktype, NULL,
- 				     "%s", drv->name);
-@@ -626,6 +649,15 @@ int bus_add_driver(struct device_driver *drv)
- 		printk(KERN_ERR "%s: uevent attr (%s) failed\n",
- 			__func__, drv->name);
- 	}
-+
-+	if (driver_filter_enabled()) {
-+		error = driver_create_file(drv, &driver_attr_allowed);
-+		if (error) {
-+			printk(KERN_ERR "%s: allowed attr (%s) failed\n",
-+			       __func__, drv->name);
-+		}
-+	}
-+
- 	error = driver_add_groups(drv, bus->drv_groups);
- 	if (error) {
- 		/* How the hell do we get out of this pickle? Give up */
-@@ -670,6 +702,8 @@ void bus_remove_driver(struct device_driver *drv)
- 		remove_bind_files(drv);
- 	driver_remove_groups(drv, drv->bus->drv_groups);
- 	driver_remove_file(drv, &driver_attr_uevent);
-+	if (driver_filter_enabled())
-+		driver_remove_file(drv, &driver_attr_allowed);
- 	klist_remove(&drv->p->knode_bus);
- 	pr_debug("bus: '%s': remove driver %s\n", drv->bus->name, drv->name);
- 	driver_detach(drv);
-diff --git a/drivers/base/filter.c b/drivers/base/filter.c
-new file mode 100644
-index 000000000000..772e947ba933
---- /dev/null
-+++ b/drivers/base/filter.c
-@@ -0,0 +1,217 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * filter.c - Add driver filter framework.
-+ *
-+ * Implements APIs required for registering platform specific
-+ * driver filter.
-+ *
-+ * Copyright (c) 2021 Intel Corporation
-+ */
-+
-+#define pr_fmt(fmt) "filter: " fmt
-+
-+#include <linux/init.h>
-+#include <linux/device/filter.h>
-+#include <linux/acpi.h>
-+#include <linux/protected_guest.h>
-+
-+#include "base.h"
-+
-+#define MAX_FILTER_NODES 10
-+#define MAX_CMDLINE_LEN  500
-+
-+/* Buffer used by command line parser */
-+static char allowed_drivers[MAX_CMDLINE_LEN];
-+static char denied_drivers[MAX_CMDLINE_LEN];
-+
-+/* List of filter nodes for command line parser */
-+static struct drv_filter_node allowed_nodes[MAX_FILTER_NODES];
-+static struct drv_filter_node denied_nodes[MAX_FILTER_NODES];
-+
-+/* Driver allow list */
-+static LIST_HEAD(driver_allow_list);
-+/* Driver deny list */
-+static LIST_HEAD(driver_deny_list);
-+
-+/* Protects driver_filter_list add/read operations*/
-+static DEFINE_SPINLOCK(driver_filter_lock);
-+
-+/*
-+ * Compares the driver name with given filter node.
-+ *
-+ * Return true if driver name matches with filter node.
-+ */
-+static bool match_driver(struct device_driver *drv,
-+			 struct drv_filter_node *node)
-+{
-+	const char *n;
-+	int len;
-+
-+	/* Make sure input entries are valid */
-+	if (!drv || !node || !drv->bus)
-+		return false;
-+
-+	/* If bus_name and drv_list matches "ALL", return true */
-+	if (!strcmp(node->bus_name, "ALL") && !strcmp(node->drv_list, "ALL"))
-+		return true;
-+
-+	/*
-+	 * Since next step involves bus specific comparison, make
-+	 * sure the bus name matches with filter node. If not
-+	 * return false.
-+	 */
-+	if (strcmp(node->bus_name, drv->bus->name))
-+		return false;
-+
-+	/* If allow list is "ALL", allow all */
-+	if (!strcmp(node->drv_list, "ALL"))
-+		return true;
-+
-+	for (n = node->drv_list; *n; n += len) {
-+		if (*n == ',')
-+			n++;
-+		len = strcspn(n, ",");
-+		if (!strncmp(drv->name, n, len) && drv->name[len] == 0)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * driver_allowed() - Check whether given driver is allowed or not
-+ *		      based on platform specific driver filter list.
-+ */
-+bool driver_allowed(struct device_driver *drv)
-+{
-+	bool status = true;
-+	struct drv_filter_node *node;
-+
-+	spin_lock(&driver_filter_lock);
-+
-+	/*
-+	 * Check whether the driver is allowed using platform
-+	 * registered allow list.
-+	 */
-+	list_for_each_entry(node, &driver_allow_list, list) {
-+		if (match_driver(drv, node)) {
-+			status = true;
-+			goto done;
-+		}
-+	}
-+
-+	/*
-+	 * Check whether the driver is denied using platform
-+	 * registered deny list.
-+	 */
-+	list_for_each_entry(node, &driver_deny_list, list) {
-+		if (match_driver(drv, node)) {
-+			status = false;
-+			break;
-+		}
-+	}
-+
-+done:
-+	pr_debug("bus:%s driver:%s %s\n", drv->bus ? drv->bus->name : "null",
-+		 drv->name, status ? "allowed" : "denied");
-+
-+	spin_unlock(&driver_filter_lock);
-+
-+	return status;
-+}
-+
-+bool driver_filter_enabled(void)
-+{
-+	return !list_empty(&driver_allow_list) ||
-+		!list_empty(&driver_deny_list);
-+}
-+
-+/*
-+ * Helper function for filter node validity checks and
-+ * adding filter node to allow or deny list.
-+ */
-+static int add_node_to_list(struct drv_filter_node *node,
-+			    struct list_head *flist)
-+{
-+	/* If filter node is NULL, return error */
-+	if (!node)
-+		return -EINVAL;
-+
-+	/* Make sure node input is valid */
-+	if (!node->bus_name || !node->drv_list)
-+		return -EINVAL;
-+
-+	spin_lock(&driver_filter_lock);
-+
-+	list_add_tail(&node->list, flist);
-+
-+	spin_unlock(&driver_filter_lock);
-+
-+	return 0;
-+}
-+
-+int register_filter_allow_node(struct drv_filter_node *node)
-+{
-+	return add_node_to_list(node, &driver_allow_list);
-+}
-+
-+int register_filter_deny_node(struct drv_filter_node *node)
-+{
-+	return add_node_to_list(node, &driver_deny_list);
-+}
-+
-+static __init void add_custom_driver_filter(char *p, bool allow)
-+{
-+	struct drv_filter_node *n;
-+	int j = 0;
-+	char *k;
-+
-+	while ((k = strsep(&p, ";")) != NULL) {
-+		if (j >= MAX_FILTER_NODES) {
-+			pr_err("Driver filter nodes exceed MAX_FILTER_NODES\n");
-+			break;
-+		}
-+
-+		if (allow)
-+			n = &allowed_nodes[j++];
-+		else
-+			n = &denied_nodes[j++];
-+
-+		n->bus_name = strsep(&k, ":");
-+
-+		n->drv_list = p;
-+
-+		if (allow)
-+			register_filter_allow_node(n);
-+		else
-+			register_filter_deny_node(n);
-+	}
-+}
-+
-+/* Command line option to update driver allow list */
-+static int __init setup_allowed_drivers(char *buf)
-+{
-+	if (strlen(buf) >= MAX_CMDLINE_LEN)
-+		pr_warn("Allowed list exceeds %d chars\n", MAX_CMDLINE_LEN);
-+
-+	strscpy(allowed_drivers, buf, MAX_CMDLINE_LEN);
-+
-+	add_custom_driver_filter(allowed_drivers, 1);
-+
-+	return 0;
-+}
-+__setup("filter_allow_drivers=", setup_allowed_drivers);
-+
-+/* Command line option to update driver deny list */
-+static int __init setup_denied_drivers(char *buf)
-+{
-+	if (strlen(buf) >= MAX_CMDLINE_LEN)
-+		pr_warn("Allowed list exceeds %d chars\n", MAX_CMDLINE_LEN);
-+
-+	strscpy(denied_drivers, buf, MAX_CMDLINE_LEN);
-+
-+	add_custom_driver_filter(denied_drivers, 0);
-+
-+	return 0;
-+}
-+__setup("filter_deny_drivers=", setup_denied_drivers);
-diff --git a/include/linux/device/filter.h b/include/linux/device/filter.h
-new file mode 100644
-index 000000000000..a7510aa4642f
---- /dev/null
-+++ b/include/linux/device/filter.h
-@@ -0,0 +1,35 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * filter.h - Driver filter specific header
-+ *
-+ * Copyright (c) 2021 Intel Corporation
-+ *
-+ */
-+
-+#ifndef _DEVICE_FILTER_H_
-+#define _DEVICE_FILTER_H_
-+
-+#include <linux/device/bus.h>
-+#include <linux/device/driver.h>
-+#include <linux/device.h>
-+
-+/**
-+ * struct drv_filter_node - driver filter node
-+ *
-+ * @bus_name		: Name of the bus.
-+ * @drv_list		: Driver names for allow or deny list.
-+ *
-+ * Passing ALL in bus_name and drv_list will allow or
-+ * deny all drivers.
-+ */
-+struct drv_filter_node {
-+	const char *bus_name;
-+	const char *drv_list;
-+	struct list_head list;
-+};
-+
-+/* Register platform specific allow list */
-+int register_filter_allow_node(struct drv_filter_node *node);
-+/* Register platform specific deny list */
-+int register_filter_deny_node(struct drv_filter_node *node);
-+#endif
--- 
-2.25.1
-
+Zev
