@@ -2,121 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63119C4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 19:29:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0894C4338F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 19:50:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4800D60BD3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 19:29:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7691661037
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 19:50:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbhHDT30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 15:29:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39014 "EHLO mail.kernel.org"
+        id S236975AbhHDTul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 15:50:41 -0400
+Received: from mga04.intel.com ([192.55.52.120]:22487 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234676AbhHDT30 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Aug 2021 15:29:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A75960BD3;
-        Wed,  4 Aug 2021 19:29:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628105352;
-        bh=r3ZDW4vFNK88sVmyyRefvriLQS5e7IyWkdL6AfYxEIw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z21sMJTd5YlE9ofg6H+0H8NRadBa5YBgBe6b8AscrZWvf9GCGC3DdMWTItYmEyyx+
-         Y9LNkAfMOFGuYar6K05r26QEB5vb5rAUDYQd7wjU7Cva5r63T5LE3Kf2BI4Rlz5wMV
-         8GgFgTSDLJWeeRRjamT4bIXUi3j1gYKXQAdKrC9E=
-Date:   Wed, 4 Aug 2021 21:29:09 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
+        id S236893AbhHDTul (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 15:50:41 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="212137695"
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="212137695"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 12:50:27 -0700
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="522099861"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.209.32.138]) ([10.209.32.138])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 12:50:26 -0700
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>
 Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
         Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQrqhYEL64CSLRTy@kroah.com>
 References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YQrqhYEL64CSLRTy@kroah.com>
+From:   Andi Kleen <ak@linux.intel.com>
+Message-ID: <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
+Date:   Wed, 4 Aug 2021 12:50:24 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <YQrqhYEL64CSLRTy@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 10:43:22AM -0700, Kuppuswamy Sathyanarayanan wrote:
-> Intel's Trust Domain Extensions (TDX) is a new Intel technology that
-> adds support for VMs to maintain confidentiality and integrity in the
-> presence of an untrusted VMM.
-> 
-> Given the VMM is an untrusted entity and the VMM presents emulated
-> hardware to the guest, a threat vector similar to Thunderclap [1] is
-> present. Also, for ease of deployment, it is useful to be able to use
-> the same kernel binary on host and guest, but that presents a wide
-> attack surface given the range of hardware supported in typical
-> builds. However, TDX guests only require a small number of drivers, a
-> number small enough to audit for Thunderclap style attacks, and the
-> rest can be disabled via policy. Add a mechanism to filter drivers
-> based on a "protected-guest trusted" indication.
 
-So you are trying to work around the "problem" that distro kernels
-provides drivers for everything by adding additional kernel complexity?
+> So you are trying to work around the "problem" that distro kernels
+> provides drivers for everything by adding additional kernel complexity?
+>
+> What prevents you from using a sane, stripped down, kernel image for
+> these vms which would keep things sane and simpler and easier to audit
+> and most importantly, prove, that the image is not doing something you
+> don't expect it to do?
+>
+> Why not just make distros that want to support this type of platform,
+> also provide these tiny kernel images?  Why are you pushing this work on
+> the kernel community instead?
 
-What prevents you from using a sane, stripped down, kernel image for
-these vms which would keep things sane and simpler and easier to audit
-and most importantly, prove, that the image is not doing something you
-don't expect it to do?
 
-Why not just make distros that want to support this type of platform,
-also provide these tiny kernel images?  Why are you pushing this work on
-the kernel community instead?
+Greg, I'm surprised by your comment. Traditionally we've been tried to 
+support all platforms in unified binary kernels and gone to considerable 
+complications to do so. That has been standard Linux practice for at 
+least the 90ies. In some cases we went to considerable pain to support 
+that, for example for the 5 level page tables or for paravirt ops.
 
-> An alternative solution is to disable untrusted drivers using a custom
-> kernel config for TDX, but such solution will break our goal of using
-> same kernel binary in guest/host or in standard OS distributions. So
-> it is not considered.
+Imagine there were 10 new features or platforms and they would all ask 
+distributions to produce custom kernels for them, they would need to 
+maintain 10 different kernel packages forever for all these different 
+cases. It's totally reasonable that they don't want to do that.
 
-Why is that a goal that you _have_ to have?  Who is making that
-requirement?
+Also even if they were willing to do custom configs it's not clear how 
+this could be maintained and distributed. We would either have a 
+standard TDX config and get everyone to agree on it (very difficult). Or 
+some enforcement mechanism at the Kconfig level that forces most drivers 
+to be disabled when TDX is on, which would be also a considerable new 
+mechanism and complication. In addition there are drivers which are not 
+covered by Kconfig today (like quite a few of the basic platform 
+drivers), but which we still want to filter. So to implement a full 
+build time mechanism would likely need more changes than this relatively 
+straight forward run time mechanism based on the driver model.
 
-> Driver filter framework adds support to filter drivers at boot
-> time by using platform specific allow list. This is a generic
-> solution that can be reused by TDX. Driver filter framework adds a
-> new hook (driver_allowed()) in driver_register() interface which
-> will update the "allowed" status of the driver based on platform
-> specific driver allow list or deny list. During driver bind process,
-> trusted status is used to determine whether to continue or deny the
-> bind process. If platform does not register any allow or deny list,
-> all devices will be allowed. Platforms can use wildcard like "ALL:ALL"
-> in bus_name and driver_name of filter node to allow or deny all
-> bus and drivers.
-> 
-> Per driver opt-in model is also considered as an alternative design
-> choice, but central allow or deny list is chosen because it is
-> easier to maintain and audit. Also, "driver self serve" might be
-> abused by mistake by driver authors cutting and pasting the code.
-> 
-> Also add an option in kernel command line and sysfs to update the
-> allowed or denied drivers list. Driver filter allowed status
-> can be read using following command.
-> 
-> cat /sys/bus/$bus/drivers/$driver/allowed
+And of course there other use cases for a run time filter mechanism. For 
+example let's say you want filtering for Thunderbolt security. In this 
+case it has to be done at runtime because it's not practical to have a 
+kernel that is only built for Thunderbolt drivers, but doesn't support 
+anything else that is on the SOC. The only sane way to handle such a 
+case is to make a runtime distinction.
 
-You added a sysfs file without Documentation/ABI/ update as well?
+> And what's wrong with the current method of removing drivers from
+> devices that you do not want them to be bound to?  We offer that support
+> for all busses now that want to do it, what driver types are you needing
+> to "control" here that does not take advantage of the existing
+> infrastructure that we currently have for this type of thing?
 
-{sigh}
+I'm not sure what mechanism you're referring to here, but in general 
+don't want the drivers to initialize at all because they might get 
+exploited in any code that they execute.The intention is to disable all 
+drivers except for a small allow list, because it's not practical to 
+harden all 25M lines of Linux code.
 
-And what's wrong with the current method of removing drivers from
-devices that you do not want them to be bound to?  We offer that support
-for all busses now that want to do it, what driver types are you needing
-to "control" here that does not take advantage of the existing
-infrastructure that we currently have for this type of thing?
+-Andi
 
-thanks,
-
-greg k-h
