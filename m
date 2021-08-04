@@ -2,236 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEDEC4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 14:39:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A58E7C4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 15:25:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84D8160F94
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 14:39:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8790A60EEA
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 15:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237275AbhHDOjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 10:39:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45748 "EHLO mail.kernel.org"
+        id S239009AbhHDPZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 11:25:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:52776 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235304AbhHDOjd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Aug 2021 10:39:33 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75DE360F01;
-        Wed,  4 Aug 2021 14:39:20 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1mBI3C-002wKH-E9; Wed, 04 Aug 2021 15:39:18 +0100
-Date:   Wed, 04 Aug 2021 15:39:17 +0100
-Message-ID: <87lf5hw9yi.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S238994AbhHDPZ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 11:25:28 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="299531340"
+X-IronPort-AV: E=Sophos;i="5.84,294,1620716400"; 
+   d="scan'208";a="299531340"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 08:25:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,294,1620716400"; 
+   d="scan'208";a="585490624"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2021 08:25:02 -0700
+Received: from alobakin-mobl.ger.corp.intel.com (kswiecic-MOBL.ger.corp.intel.com [10.213.28.10])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 174FOvOo013258;
+        Wed, 4 Aug 2021 16:24:57 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Shay Agroskin <shayagr@amazon.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marcin Kubiak <marcin.kubiak@intel.com>,
+        "Michal Kubiak" <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v3 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
-In-Reply-To: <CAHUa44HCEr_HKU0Fz10HPZYMowXVkx5JtnXMVTXd29wAv-dTCg@mail.gmail.com>
-References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
-        <20210723094422.2150313-2-jens.wiklander@linaro.org>
-        <87zgud1giz.wl-maz@kernel.org>
-        <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
-        <87eebkdumr.wl-maz@kernel.org>
-        <CAHUa44HCEr_HKU0Fz10HPZYMowXVkx5JtnXMVTXd29wAv-dTCg@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: jens.wiklander@linaro.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, jerome@forissier.org, etienne.carriere@linaro.org, sumit.garg@linaro.org, vincent.guittot@linaro.org, robh+dt@kernel.org, corbet@lwn.net, ardb@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        "Netanel Belgazal" <netanel@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "Jesper Dangaard Brouer" <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        "Andrii Nakryiko" <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Alexander Duyck <alexanderduyck@fb.com>,
+        Danielle Ratson <danieller@nvidia.com>,
+        "Ido Schimmel" <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Jian Shen <shenjian15@huawei.com>,
+        "Petr Vorel" <petr.vorel@gmail.com>, Yangbo Lu <yangbo.lu@nxp.com>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
+Subject: Re: [PATCH net-next 07/21] ethernet, ena: convert to standard XDP stats
+Date:   Wed,  4 Aug 2021 17:24:55 +0200
+Message-Id: <20210804152455.173-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <pj41zllf5hmkck.fsf@u570694869fb251.ant.amazon.com>
+References: <20210803163641.3743-1-alexandr.lobakin@intel.com> <20210803163641.3743-8-alexandr.lobakin@intel.com> <pj41zllf5hmkck.fsf@u570694869fb251.ant.amazon.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Jul 2021 15:57:07 +0100,
-Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> 
-> On Tue, Jul 27, 2021 at 10:32 AM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > On Tue, 27 Jul 2021 08:46:39 +0100,
-> > Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > >
-> > > On Fri, Jul 23, 2021 at 12:16 PM Marc Zyngier <maz@kernel.org> wrote:
-> > > >
-> > > > On Fri, 23 Jul 2021 10:44:17 +0100,
-> > > > Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> > > > >
-> > > > > Adds a section on notifications used by OP-TEE, synchronous and
-> > > > > asynchronous.
-> > > > >
-> > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > > ---
-> > > > >  Documentation/staging/tee.rst | 27 +++++++++++++++++++++++++++
-> > > > >  1 file changed, 27 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-> > > > > index 4d4b5f889603..37bdd097336f 100644
-> > > > > --- a/Documentation/staging/tee.rst
-> > > > > +++ b/Documentation/staging/tee.rst
-> > > > > @@ -184,6 +184,33 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
-> > > > >  application to retrieve a list of Trusted Applications which can be registered
-> > > > >  as devices on the TEE bus.
-> > > > >
-> > > > > +OP-TEE notifications
-> > > > > +--------------------
-> > > > > +
-> > > > > +There are two kinds of notifications that secure world can use to make
-> > > > > +normal world aware of some event.
-> > > > > +
-> > > > > +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-> > > > > +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-> > > > > +2. Asynchronous notifications delivered with a combination of a non-secure
-> > > > > +   interrupt and a fast call from the non-secure interrupt handler.
-> > > > > +
-> > > > > +Synchronous notifications are limited by depending on RPC for delivery,
-> > > > > +this is only usable when secure world is entered with a yielding call via
-> > > > > +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-> > > > > +world interrupt handlers.
-> > > > > +
-> > > > > +An asynchronous notification is delivered via a non-secure interrupt to an
-> > > > > +interrupt handler registered in the OP-TEE driver. The actual notification
-> > > > > +value are retrieved with the fast call ``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
-> > > > > +
-> > > > > +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
-> > > > > +special meaning. When this value is received it means that normal world is
-> > > > > +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
-> > > > > +call is done from the thread assisting the interrupt handler. This is a
-> > > > > +building block for OP-TEE OS in secure world to implement the top half and
-> > > > > +bottom half style of device drivers.
-> > > > > +
-> > > >
-> > > > What I find missing here is a description of the trigger for this
-> > > > interrupt, and how it influences the way the kernel drivers interacts
-> > > > with the secure side:
-> > > >
-> > > > - if it is edge triggered, this is 'fire and forget'. The interrupt
-> > > >   will be consumed by the kernel handler, and whether it eventually
-> > > >   calls into the secure side has no impact on the interrupt flow.
-> > > >
-> > > > - if it is level triggered, then the interrupt may be asserted until
-> > > >   the kernel calls into the secure side, which may then drop the line
-> > > >   level if no other requests are pending.
-> > > >
-> > > > These are evidently two very different flows, and you need to pick a
-> > > > side. Note that not all interrupt controllers support both signalling
-> > > > modes, so you are likely to leave something behind. Or you can try and
-> > > > support both flows, but that may make the driver slightly more
-> > > > complex.
-> > > >
-> > > > Either way, this needs specifying, here and in the DT binding.
-> > >
-> > > In the example I'm using a level triggered interrupt which is
-> > > triggered by writing to GICD_ISPENDR by secure world. Reading of
-> > > GICC_IAR should clear the interrupt,the GICv2 reference manual is
-> > > quite clear on that.
-> >
-> > No, it merely activates it. You can't transition an interrupt from
-> > pending to inactive (unless you clear it using GICD_ICPENDR). If you
-> > have spotted something else in the GICv2 architecture manual, please
-> > say so and I'll get it fixed 15 years after the facts. The fact that
-> > GICC_IAR consumes a pending bit introduced by a write to ISPENDR is an
-> > implementation detail, see below.
-> 
-> I was looking at figure 4-10 "Logic of the pending status of a
-> level-sensitive interrupt".
-> 
-> >
-> > It is also a flawed approach, as this behaviour is IMPDEF on GICv3
-> > (see 4.5 "Shared Peripheral Interrupts" in the GICv3 arch spec). Given
-> > that GICv2 is pretty much a dead horse (TFFT!), I can't see this approach
-> > being successful in the long run.
-> 
-> OK, thanks.
-> 
-> >
-> > > So, if I understand it correctly, it will for
-> > > this purpose work in the same way as an edge triggered interrupt. If
-> > > this wouldn't be the case in some configuration and the interrupt must
-> > > be cleared by some other action that would be a job for the receiver
-> > > of OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, that is, a secure world problem.
-> > > The normal world flow should be the same.
-> >
-> > You are assuming that the secure side will use GICD_ISPENDR, and
-> > that's a leap of faith.
-> 
-> Not in this case with upstream OP-TEE. If we need to signal in a
-> different way we can do that instead.
-> What happens downstream we have no control over, but that's perhaps
-> not so different from the kernel.
-> 
-> > An implementation should use, say, a GPIO to
-> > drive the interrupt line and give it proper level semantics.
-> 
-> I'm not so keen on that since we often don't touch GPIO at all in
-> OP-TEE and this would then mean more platform specific code. We may
-> even need to synchronize some hardware access with the normal world
-> and then we'd be back at square one again.
+From: Shay Agroskin <shayagr@amazon.com>
+Date: Wed, 4 Aug 2021 16:04:59 +0300
 
-I'm trying to make a general statement here. OP-TEE may not do any of
-this. Yet. Other TEE implementations may do it because there is no
-free SPI in the system, for example. The problem is that interrupt
-signalling is a *device* thing, even if the device is actually some SW
-running on the secure side, and I would like the TEE to behave as
-such.
+> Alexander Lobakin <alexandr.lobakin@intel.com> writes:
+> 
+> >
+> >
+> >
+> > Its 6 XDP per-channel counters align just fine with the standard
+> > stats.
+> > Drop them from the custom Ethtool statistics and expose to the
+> > standard stats infra instead.
+> >
+> > Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> > Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+> > ---
+> >  drivers/net/ethernet/amazon/ena/ena_ethtool.c | 46 
+> >  ++++++++++++++++---
+> >  1 file changed, 40 insertions(+), 6 deletions(-)
+> 
+> Hi,
+> thanks for making this patch. I like the idea of splitting stats 
+> into a per-queue basis
+> 
+> >
+> > diff --git a/drivers/net/ethernet/amazon/ena/ena_ethtool.c 
+> > b/drivers/net/ethernet/amazon/ena/ena_ethtool.c
+> > index 851a198cec82..1b6563641575 100644
+> > --- a/drivers/net/ethernet/amazon/ena/ena_ethtool.c
+> > +++ b/drivers/net/ethernet/amazon/ena/ena_ethtool.c
+> > @@ -90,12 +90,6 @@ static const struct ena_stats 
+> > ena_stats_rx_strings[] = {
+> >         ENA_STAT_RX_ENTRY(bad_req_id),
+> >         ENA_STAT_RX_ENTRY(empty_rx_ring),
+> >         ENA_STAT_RX_ENTRY(csum_unchecked),
+> > -       ENA_STAT_RX_ENTRY(xdp_aborted),
+> > -       ENA_STAT_RX_ENTRY(xdp_drop),
+> > -       ENA_STAT_RX_ENTRY(xdp_pass),
+> > -       ENA_STAT_RX_ENTRY(xdp_tx),
+> > -       ENA_STAT_RX_ENTRY(xdp_invalid),
+> > -       ENA_STAT_RX_ENTRY(xdp_redirect),
+> >
+> 
+> The ena_stats_rx_strings array is (indirectly) accessed through 
+> ena_get_stats() function which is used for both fetching ethtool 
+> stats and
+> for sharing the stats with the device in case of an error (through 
+> ena_dump_stats_ex() function).
+> 
+> The latter use is broken by removing the XDP specific stats from 
+> ena_stats_rx_strings array.
+> 
+> I can submit an adaptation for the new system later (similar to 
+> mlx5) if you prefer
 
-> > > Now that we describe the interrupt configuration in device tree it
-> > > must use something that mirrors the secure world expectations. I don't
-> > > see a point in restricting what's allowed as long it doesn't need code
-> > > changes in the kernel too. Does this make any sense?
-> >
-> > And that's the crucial point: what *are* the expectations of the
-> > secure side?
-> 
-> That should be up to the OP-TEE port of that particular platform to
-> decide and advise which device tree configuration to use.
-> 
-> > You seem to assume edge semantics, but that's unclear at
-> > best.
-> 
-> Fair enough, edge semantics solves the problem here.
-> 
-> >
-> > > If I just expand a bit above explaining that the interrupt handler
-> > > must call OPTEE_SMC_GET_ASYNC_NOTIF_VALUE as part of clearing the
-> > > interrupt even if it might be cleared anyway in some configurations.
-> > > Would that make it more clear, good enough even :-) ?
-> >
-> > This is an interrupt, please document it in terms of interrupt
-> > signalling.
-> 
-> In this file, Documentation/staging/tee.rst ? A pointer to a good
-> example of what you're expecting would be much appreciated.
-> There's also the file drivers/tee/optee/optee_smc.h, this is where the
-> ABI to OP-TEE is defined.
+Feel free to either do that (I'll exclude this patch from that
+series then) or you can give me some little tips or examples or
+anything on how to improve this one, so ena would stay converted.
+Both ways are fine for me.
 
-This file is fine, but repeating in the DT binding that edge
-signalling is what is expected would be good.
+> thanks,
+> Shay
 
 Thanks,
+Al
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+> >  };
+> >
+> >  static const struct ena_stats ena_stats_ena_com_strings[] = {
+> > @@ -324,6 +318,44 @@ static void ena_get_ethtool_strings(struct 
+> > net_device *netdev,
+> >         }
+> >  }
+> >
+> > +static int ena_get_std_stats_channels(struct net_device 
+> > *netdev, u32 sset)
+> > +{
+> > +       const struct ena_adapter *adapter = netdev_priv(netdev);
+> > +
+> > +       switch (sset) {
+> > +       case ETH_SS_STATS_XDP:
+> > +               return adapter->num_io_queues;
+> > +       default:
+> > +               return -EOPNOTSUPP;
+> > +       }
+> > +}
+> > +
+> > +static void ena_get_xdp_stats(struct net_device *netdev,
+> > +                             struct ethtool_xdp_stats 
+> > *xdp_stats)
+> > +{
+> > +       const struct ena_adapter *adapter = netdev_priv(netdev);
+> > +       const struct u64_stats_sync *syncp;
+> > +       const struct ena_stats_rx *stats;
+> > +       struct ethtool_xdp_stats *iter;
+> > +       u32 i;
+> > +
+> ...
+> >  {
+> > @@ -916,6 +948,8 @@ static const struct ethtool_ops 
+> > ena_ethtool_ops = {
+> >         .get_tunable            = ena_get_tunable,
+> >         .set_tunable            = ena_set_tunable,
+> >         .get_ts_info            = ethtool_op_get_ts_info,
+> > +       .get_std_stats_channels = ena_get_std_stats_channels,
+> > +       .get_xdp_stats          = ena_get_xdp_stats,
+> >  };
+> >
+> >  void ena_set_ethtool_ops(struct net_device *netdev)
+> 
+> 
