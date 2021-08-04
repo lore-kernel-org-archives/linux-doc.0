@@ -2,245 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A818EC432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 13:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEDEC4338F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 14:39:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8392C60FC3
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 13:41:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84D8160F94
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 14:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238372AbhHDNl7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 09:41:59 -0400
-Received: from mail-mw2nam10on2075.outbound.protection.outlook.com ([40.107.94.75]:1443
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238320AbhHDNl6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Aug 2021 09:41:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jmbuIlJGGeH7kNLwxADoeZA8yEAS2nECZGwf6xuEUniMnxwbKhKJ248NR5k5LACMs4hlZjHFrUis4l3+RmjBWmZjGjp3T6Q9Q1FPCuADutviy/WmFrJgdOhj2vJIBt5d+BIlsMrwBaGfYOJdTcA1c+pAMdoygN3iLHJh6ekt4o2XIoD+vBuR1Ie/6yQhO25OUn8DoeLWGCSBnd5KG11LfXnIjQel/ZD7OeZbhflhpTcWk4zNbV1I938StP2RQr4520APp1AnokSR/cLf+FER/pSIlooPZC1FvTcIVzse8oJ4rEMlTkz2qPIEmZg3jpRk4l+sLN/L1ubLKjrM/PSrcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=02aHGe/Hoba+YKLFvbKD/Rfi1XlJTqEwvoVu9INZAnk=;
- b=FDohVX/Ry+8V7wK+ceTFoNFt+j4rubl2BcnyK9zdfNvssgVTGouZbpfnR+hLW413yVJ6kHKMDpy6DLhJOk2SunAoc5JcTHhLWb9hNhTlZb+qLAHg64afZ2VT9ygVrst+6EiB7tqRxsntZg+faj3Pu9pU1PR2xok6zU4zrpK4SC83IGiv2Ed+PCeN/3qDcQAhLF2UhThFHk9BAPDOSPDmFoPuz8u9YzCy0ewjHW6Iv2Ywp/VO9nTiJre1KBUeRJddMVSXNycMjkrQfEeNUEl2oJc4wOQ0ZzoWn1PfUe1HVtPNm9MKJ7a2059+2juqNAY3kNutRt9vWgIxICqmKRQ7bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.32) smtp.rcpttodomain=markovi.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=02aHGe/Hoba+YKLFvbKD/Rfi1XlJTqEwvoVu9INZAnk=;
- b=g6OT0hqJdU3pGT7qhzvg6C/f4d6vKzDUPfG0e2luReDU1RNU5aOZ6nxuiHrzuEY/Mp/MwsVZiy0Tb612aZ2j1xckK0O5I36AcXYMjmi8Iwj84k7T4CT27vOIfxSehS1VxXP3eg3gsydH0s1HWOQo+rRzo2hyBIYJLiwsGdHBJMBJ60NJdHzr8thiCnt62lnmQnLBqdZ1tfbiyOHNXJwGrjQ2OXlQL97S5Xy/q2yruPuGaqdULWr8n4kOQ6Mwr5sDUcHVMwEdAAkJLCi/tjAKq3SSiKtJHsRfEhcIdypA5f5wOATFBXAoEPfM2EXSGMfeUhnugyUw/f/aF64x7vXZKg==
-Received: from BN1PR14CA0026.namprd14.prod.outlook.com (2603:10b6:408:e3::31)
- by CH2PR12MB4875.namprd12.prod.outlook.com (2603:10b6:610:35::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Wed, 4 Aug
- 2021 13:41:44 +0000
-Received: from BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e3:cafe::46) by BN1PR14CA0026.outlook.office365.com
- (2603:10b6:408:e3::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend
- Transport; Wed, 4 Aug 2021 13:41:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
- smtp.mailfrom=nvidia.com; markovi.net; dkim=none (message not signed)
- header.d=none;markovi.net; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.32; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.32) by
- BN8NAM11FT026.mail.protection.outlook.com (10.13.177.51) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4394.16 via Frontend Transport; Wed, 4 Aug 2021 13:41:43 +0000
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 4 Aug
- 2021 06:41:42 -0700
-Received: from [172.27.14.8] (172.20.187.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 4 Aug 2021
- 13:41:37 +0000
-Subject: Re: [PATCH 00/12] Introduce vfio_pci_core subsystem
-To:     <alex.williamson@redhat.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-        <linux-kbuild@vger.kernel.org>, <mgurtovoy@nvidia.com>,
-        <jgg@nvidia.com>, <maorg@nvidia.com>, <corbet@lwn.net>,
-        <michal.lkml@markovi.net>, <bhelgaas@google.com>,
-        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
-        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
-        Leon Romanovsky <leon@kernel.org>
-References: <20210721161609.68223-1-yishaih@nvidia.com>
-From:   Yishai Hadas <yishaih@nvidia.com>
-Message-ID: <4580c83e-f3b1-0f93-d3ea-dc9cbdf6178d@nvidia.com>
-Date:   Wed, 4 Aug 2021 16:41:34 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210721161609.68223-1-yishaih@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9a40c87a-f29a-44c2-23d5-08d9574d98c7
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4875:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4875A2FDE883DB0419B50ECBC3F19@CH2PR12MB4875.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9hlswK8OcZzZM/QLl8GcZP/1X8f76LQqa6A988WrQI6Fcro2yid/r+K35ID6doFpu3wJU2cEMqTw0aDFOgFzxW4fKV7KU1mlsg7kPaMntKMlcTKztmXrOXZK58cJmVQ9hs4GkVhc+pbP+v03YdxYT/fnK+i2AQBRLgrMivNaflBn00Pt/AP3Mfk2W4anpsxH5BAqdOLWiaoUx4JT93Fwsu5JeNSi1KlkWGb2uicsGL7scKabY4NB3kumNZYcGvco42LGouFt3aBgvhIP1wKgRwNv6za1KGtq40rZ4iohXcRi1imH6PbOZXnN4icZS9cdU0Td6QZP3XYg75jaArj4Ir5YR+K7qckgt8ONbk6uRvnaX/wpHTbabRcZAm9Ufgvw+Yrq+BuQD7Uit4gMiAvfQAjxo5jD2ZyrK7HbGmeDOj5f9gn8qQcwE+pouuhP+Gj5fi89g37zS32/bHnC6bU3wGxAF/19iW1z/QAXfHvLu+tR6fz9BjEo/hSIc8Syv+mceUqUqcjud/Dx1iF/O1ZHX9/lfvCaxQG8BxgBst4aeLyUjJORG6SIfuEujCSSkbsGfGaiUdu1a34xk91z1Loi66A2oe2NCPzmP+wzh9zSK64r9IATwjt9XGsVnpTUDu/sOgRrVfmhDaL8RT2HWJlZIjPolr7Olr09dPMUrujCEhzSOsAID9yQqTKis607aHjw0cNWsNpPKnhBkOZ0Q4YHI++gNGlDykz0zjYsdXm+iZK9ZrVrwqCwurS+XsQ6R3UhM9prwVVXeNhpt8K5pG98HAv7Jxpj0zOSaWaPrEEm9eYK8GnaFGlZAOJEo+nvCFW6PEMM3v7Wqx8SD8uk55ito9UvfSX+8mMHFmJgm3ufD/A=
-X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(396003)(136003)(46966006)(36840700001)(82740400003)(86362001)(54906003)(356005)(31686004)(336012)(83380400001)(2616005)(7636003)(36860700001)(16576012)(4326008)(2906002)(966005)(70206006)(478600001)(70586007)(36756003)(6666004)(5660300002)(316002)(31696002)(426003)(53546011)(8936002)(186003)(8676002)(6916009)(47076005)(26005)(7416002)(16526019)(82310400003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 13:41:43.5252
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a40c87a-f29a-44c2-23d5-08d9574d98c7
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4875
+        id S237275AbhHDOjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 10:39:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45748 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235304AbhHDOjd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 10:39:33 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 75DE360F01;
+        Wed,  4 Aug 2021 14:39:20 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mBI3C-002wKH-E9; Wed, 04 Aug 2021 15:39:18 +0100
+Date:   Wed, 04 Aug 2021 15:39:17 +0100
+Message-ID: <87lf5hw9yi.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v3 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
+In-Reply-To: <CAHUa44HCEr_HKU0Fz10HPZYMowXVkx5JtnXMVTXd29wAv-dTCg@mail.gmail.com>
+References: <20210723094422.2150313-1-jens.wiklander@linaro.org>
+        <20210723094422.2150313-2-jens.wiklander@linaro.org>
+        <87zgud1giz.wl-maz@kernel.org>
+        <CAHUa44EhP5NCH6S27+Af8ePxAup9nJnrwGr_nMRUFumXOTh7uQ@mail.gmail.com>
+        <87eebkdumr.wl-maz@kernel.org>
+        <CAHUa44HCEr_HKU0Fz10HPZYMowXVkx5JtnXMVTXd29wAv-dTCg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: jens.wiklander@linaro.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, jerome@forissier.org, etienne.carriere@linaro.org, sumit.garg@linaro.org, vincent.guittot@linaro.org, robh+dt@kernel.org, corbet@lwn.net, ardb@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/21/2021 7:15 PM, Yishai Hadas wrote:
-> Prologue:
->
-> This is the second series of three to send the "mlx5_vfio_pci" driver
-> that has been discussed on the list for a while now. It comes on top of
-> the first series (i.e. Reorganize reflck to support splitting vfio_pci)
-> that was sent already and pending merge [1].
->
->   - Split vfio_pci into vfio_pci/vfio_pci_core and provide infrastructure
->     for non-generic VFIO PCI drivers.
->   - The new driver mlx5_vfio_pci that is a full implementation of
->     suspend/resume functionality for mlx5 devices.
->
-> A preview of all the patches can be seen here:
-> https://github.com/jgunthorpe/linux/commits/mlx5_vfio_pci
->
-> [1] https://lore.kernel.org/dri-devel/0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com/T/#t
-> =====================
->
->  From Max Gurtovoy:
-> ====================
-> This series splits the vfio_pci driver into two parts, a PCI driver and
-> a subsystem driver that will also be library of code. The main PCI
-> driver, vfio_pci.ko, will remain as before and it will use the library
-> module vfio_pci_core.ko to help create the vfio_device.
->
-> This series is intended to solve the issues that were raised in the
-> previous attempts for extending vfio-pci for device specific
-> functionality:
->
-> 1. https://lore.kernel.org/kvm/20200518024202.13996-1-yan.y.zhao@intel.com
->     by Yan Zhao
-> 2. https://lore.kernel.org/kvm/20210702095849.1610-1-shameerali.kolothum.thodi@huawei.com
->     by Longfang Liu
->
-> Also to support proposed future changes to virtio and other common
-> protocols to support migration:
->
-> https://lists.oasis-open.org/archives/virtio-comment/202106/msg00044.html
->
-> This subsystem framework will also ease adding new device specific
-> functionality to VFIO devices in the future by allowing another module
-> to provide the pci_driver that can setup a number of details before
-> registering to the VFIO subsystem, such as injecting its own operations.
->
-> This series also extends the "driver_override" mechanism. A flag is
-> added for PCI drivers that will declare themselves as "driver_override"
-> capable which sends their match table to the modules.alias file but
-> otherwise leaves them outside of the normal driver core auto-binding
-> world, like vfio_pci.
->
-> In order to get the best match for "driver_override" drivers, one can
-> create a userspace program to inspect the modules.alias, an example can
-> be found at:
->
-> https://github.com/maxgurtovoy/linux_tools/blob/main/vfio/bind_vfio_pci_driver.py
->
-> Which finds the 'best match' according to a simple algorithm: "the
-> driver with the fewest '*' matches wins."
->
-> For example, the vfio-pci driver will match to any pci device. So it
-> will have the maximal '*' matches.
->
-> In case we are looking for a match to a mlx5 based device, we'll have a
-> match to vfio-pci.ko and mlx5-vfio-pci.ko. We'll prefer mlx5-vfio-pci.ko
-> since it will have less '*' matches (probably vendor and device IDs will
-> match). This will work in the future for NVMe/Virtio devices that can
-> match according to a class code or other criteria.
->
-> Yishai
->
->
-> Jason Gunthorpe (2):
->    vfio: Use select for eventfd
->    vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
->
-> Max Gurtovoy (9):
->    vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
->    vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
->    vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
->    vfio/pci: Rename ops functions to fit core namings
->    vfio/pci: Include vfio header in vfio_pci_core.h
->    vfio/pci: Split the pci_driver code out of vfio_pci_core.c
->    vfio/pci: Move igd initialization to vfio_pci.c
->    PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to struct pci_device_id
->    vfio/pci: Introduce vfio_pci_core.ko
->
-> Yishai Hadas (1):
->    vfio/pci: Move module parameters to vfio_pci.c
->
->   Documentation/PCI/pci.rst                     |    1 +
->   drivers/pci/pci-driver.c                      |   25 +-
->   drivers/vfio/Kconfig                          |   29 +-
->   drivers/vfio/fsl-mc/Kconfig                   |    3 +-
->   drivers/vfio/mdev/Kconfig                     |    1 -
->   drivers/vfio/pci/Kconfig                      |   39 +-
->   drivers/vfio/pci/Makefile                     |    8 +-
->   drivers/vfio/pci/vfio_pci.c                   | 2238 +----------------
->   drivers/vfio/pci/vfio_pci_config.c            |   70 +-
->   drivers/vfio/pci/vfio_pci_core.c              | 2138 ++++++++++++++++
->   drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
->   drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
->   drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
->   drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
->   drivers/vfio/platform/Kconfig                 |    6 +-
->   drivers/vfio/platform/reset/Kconfig           |    4 +-
->   include/linux/mod_devicetable.h               |    7 +
->   include/linux/pci.h                           |   27 +
->   .../linux/vfio_pci_core.h                     |   89 +-
->   scripts/mod/devicetable-offsets.c             |    1 +
->   scripts/mod/file2alias.c                      |    8 +-
->   21 files changed, 2496 insertions(+), 2281 deletions(-)
->   create mode 100644 drivers/vfio/pci/vfio_pci_core.c
->   rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
->
-Hi Alex,
+On Tue, 27 Jul 2021 15:57:07 +0100,
+Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> 
+> On Tue, Jul 27, 2021 at 10:32 AM Marc Zyngier <maz@kernel.org> wrote:
+> >
+> > On Tue, 27 Jul 2021 08:46:39 +0100,
+> > Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > >
+> > > On Fri, Jul 23, 2021 at 12:16 PM Marc Zyngier <maz@kernel.org> wrote:
+> > > >
+> > > > On Fri, 23 Jul 2021 10:44:17 +0100,
+> > > > Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> > > > >
+> > > > > Adds a section on notifications used by OP-TEE, synchronous and
+> > > > > asynchronous.
+> > > > >
+> > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > > ---
+> > > > >  Documentation/staging/tee.rst | 27 +++++++++++++++++++++++++++
+> > > > >  1 file changed, 27 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> > > > > index 4d4b5f889603..37bdd097336f 100644
+> > > > > --- a/Documentation/staging/tee.rst
+> > > > > +++ b/Documentation/staging/tee.rst
+> > > > > @@ -184,6 +184,33 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
+> > > > >  application to retrieve a list of Trusted Applications which can be registered
+> > > > >  as devices on the TEE bus.
+> > > > >
+> > > > > +OP-TEE notifications
+> > > > > +--------------------
+> > > > > +
+> > > > > +There are two kinds of notifications that secure world can use to make
+> > > > > +normal world aware of some event.
+> > > > > +
+> > > > > +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
+> > > > > +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
+> > > > > +2. Asynchronous notifications delivered with a combination of a non-secure
+> > > > > +   interrupt and a fast call from the non-secure interrupt handler.
+> > > > > +
+> > > > > +Synchronous notifications are limited by depending on RPC for delivery,
+> > > > > +this is only usable when secure world is entered with a yielding call via
+> > > > > +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
+> > > > > +world interrupt handlers.
+> > > > > +
+> > > > > +An asynchronous notification is delivered via a non-secure interrupt to an
+> > > > > +interrupt handler registered in the OP-TEE driver. The actual notification
+> > > > > +value are retrieved with the fast call ``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
+> > > > > +
+> > > > > +One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
+> > > > > +special meaning. When this value is received it means that normal world is
+> > > > > +supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
+> > > > > +call is done from the thread assisting the interrupt handler. This is a
+> > > > > +building block for OP-TEE OS in secure world to implement the top half and
+> > > > > +bottom half style of device drivers.
+> > > > > +
+> > > >
+> > > > What I find missing here is a description of the trigger for this
+> > > > interrupt, and how it influences the way the kernel drivers interacts
+> > > > with the secure side:
+> > > >
+> > > > - if it is edge triggered, this is 'fire and forget'. The interrupt
+> > > >   will be consumed by the kernel handler, and whether it eventually
+> > > >   calls into the secure side has no impact on the interrupt flow.
+> > > >
+> > > > - if it is level triggered, then the interrupt may be asserted until
+> > > >   the kernel calls into the secure side, which may then drop the line
+> > > >   level if no other requests are pending.
+> > > >
+> > > > These are evidently two very different flows, and you need to pick a
+> > > > side. Note that not all interrupt controllers support both signalling
+> > > > modes, so you are likely to leave something behind. Or you can try and
+> > > > support both flows, but that may make the driver slightly more
+> > > > complex.
+> > > >
+> > > > Either way, this needs specifying, here and in the DT binding.
+> > >
+> > > In the example I'm using a level triggered interrupt which is
+> > > triggered by writing to GICD_ISPENDR by secure world. Reading of
+> > > GICC_IAR should clear the interrupt,the GICv2 reference manual is
+> > > quite clear on that.
+> >
+> > No, it merely activates it. You can't transition an interrupt from
+> > pending to inactive (unless you clear it using GICD_ICPENDR). If you
+> > have spotted something else in the GICv2 architecture manual, please
+> > say so and I'll get it fixed 15 years after the facts. The fact that
+> > GICC_IAR consumes a pending bit introduced by a write to ISPENDR is an
+> > implementation detail, see below.
+> 
+> I was looking at figure 4-10 "Logic of the pending status of a
+> level-sensitive interrupt".
+> 
+> >
+> > It is also a flawed approach, as this behaviour is IMPDEF on GICv3
+> > (see 4.5 "Shared Peripheral Interrupts" in the GICv3 arch spec). Given
+> > that GICv2 is pretty much a dead horse (TFFT!), I can't see this approach
+> > being successful in the long run.
+> 
+> OK, thanks.
+> 
+> >
+> > > So, if I understand it correctly, it will for
+> > > this purpose work in the same way as an edge triggered interrupt. If
+> > > this wouldn't be the case in some configuration and the interrupt must
+> > > be cleared by some other action that would be a job for the receiver
+> > > of OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, that is, a secure world problem.
+> > > The normal world flow should be the same.
+> >
+> > You are assuming that the secure side will use GICD_ISPENDR, and
+> > that's a leap of faith.
+> 
+> Not in this case with upstream OP-TEE. If we need to signal in a
+> different way we can do that instead.
+> What happens downstream we have no control over, but that's perhaps
+> not so different from the kernel.
+> 
+> > An implementation should use, say, a GPIO to
+> > drive the interrupt line and give it proper level semantics.
+> 
+> I'm not so keen on that since we often don't touch GPIO at all in
+> OP-TEE and this would then mean more platform specific code. We may
+> even need to synchronize some hardware access with the normal world
+> and then we'd be back at square one again.
 
-Based on the feedback that we got so far on this series, no functional 
-changes are expected in V2.
+I'm trying to make a general statement here. OP-TEE may not do any of
+this. Yet. Other TEE implementations may do it because there is no
+free SPI in the system, for example. The problem is that interrupt
+signalling is a *device* thing, even if the device is actually some SW
+running on the secure side, and I would like the TEE to behave as
+such.
 
-It may include the below minor changes:
+> > > Now that we describe the interrupt configuration in device tree it
+> > > must use something that mirrors the secure world expectations. I don't
+> > > see a point in restricting what's allowed as long it doesn't need code
+> > > changes in the kernel too. Does this make any sense?
+> >
+> > And that's the crucial point: what *are* the expectations of the
+> > secure side?
+> 
+> That should be up to the OP-TEE port of that particular platform to
+> decide and advise which device tree configuration to use.
+> 
+> > You seem to assume edge semantics, but that's unclear at
+> > best.
+> 
+> Fair enough, edge semantics solves the problem here.
+> 
+> >
+> > > If I just expand a bit above explaining that the interrupt handler
+> > > must call OPTEE_SMC_GET_ASYNC_NOTIF_VALUE as part of clearing the
+> > > interrupt even if it might be cleared anyway in some configurations.
+> > > Would that make it more clear, good enough even :-) ?
+> >
+> > This is an interrupt, please document it in terms of interrupt
+> > signalling.
+> 
+> In this file, Documentation/staging/tee.rst ? A pointer to a good
+> example of what you're expecting would be much appreciated.
+> There's also the file drivers/tee/optee/optee_smc.h, this is where the
+> ABI to OP-TEE is defined.
 
-- Drop DRIVER_VERSION as it's useless and not required any more. 
-(Patches #6, #12).
+This file is fine, but repeating in the DT binding that edge
+signalling is what is expected would be good.
 
-- Add the sequence of commands/algorithm that is required by userspace 
-to discover the matching driver to the commit message of patch #9.
+Thanks,
 
-Do we need to wait for more feedback or that we are fine to send V2 ?
+	M.
 
-Yishai
-
+-- 
+Without deviation from the norm, progress is not possible.
