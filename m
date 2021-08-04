@@ -2,213 +2,444 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1DEC432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:28:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A481C4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:33:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9061860E53
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:28:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CF1760EE9
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239918AbhHDR2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 13:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40202 "EHLO
+        id S237773AbhHDRdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 13:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239975AbhHDR2s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 13:28:48 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFE5C06179A;
-        Wed,  4 Aug 2021 10:28:33 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id a5-20020a05683012c5b029036edcf8f9a6so2337772otq.3;
-        Wed, 04 Aug 2021 10:28:33 -0700 (PDT)
+        with ESMTP id S230231AbhHDRdx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 13:33:53 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FCAC0613D5;
+        Wed,  4 Aug 2021 10:33:40 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id 21so3707277oin.8;
+        Wed, 04 Aug 2021 10:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=sender:to:cc:references:from:subject:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1gu89wY9LreYODHlzcyea31Rq8lJ9lifCsibkahK734=;
-        b=twallvAmbFxBl9Z6qyLi8tqJmCVWfRSu/r/bTsFejuxvtLNsGrdH36quktEn8bDI+f
-         gDUiowVe2a0q9gRWDDvzbWNLcm0YPIHYtEcKjx3LWpHkjO1VMuXLmq1JGO8Wbh08dPuU
-         WijtEETtWIn8YQmPUOaTBpfBLNnFlD0us43hrTvzZe12eO8kkPqBTfFEMkP9SoZksxfw
-         mFpegkN7IiZ2ZzbSWutYBzy9TESGxJC5cr0ITIkkuyY+WPUbdtDzUlLPmjPuVt8jbTuc
-         TTlAd7VxK0h+dgZHGDQt/wHli10k0oluN271z2YqbNgFZ56E+kmYRNNR6KOq/mgAMO8A
-         NOyA==
+        bh=boQtfMOkZY9hdjBQivOx+8/FvLGtf9v8PYVfUON6vUQ=;
+        b=GvZ1SBNr2DcgJSQTR+uzl4H3+WJD0SNH7HsHspqb1BuouaZcwWSbrOHZ+5+HQweU3Q
+         SMGyUIijwEnz1zocHU2f3X51iEnbnHYb6QNZS6+L/bmhDL0udvq2jZEDzJH7QCPZfg6i
+         TSj6sC7jX/J/xEmLLGkIcmArcjjT5iYMeGXdZ/mc0ExqIXdG//pYUjIRR4bvfgwI0qHT
+         T/d6z23Qsjstwvy5CdR74maXQ0BkfvtzjvpFPE2vVilXNhN3ERNBCO9oxlBk/9Cx8lR8
+         ilnua+8hAP85QWI+qlaF3Mk4b7tWWscPH5SgzvMC6B8M/2AuGqyrdFUJrgrxe+Nzu0WV
+         G/vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1gu89wY9LreYODHlzcyea31Rq8lJ9lifCsibkahK734=;
-        b=lFsm9OMPE2+KSGlQo5AGyDn+YvA+bC5TZqpbtHkrTvJOIrOoGhvNaPMSvCxPqMvFZt
-         M2b/pvyykxt+ITQbX+n2nqDCx3xNJPqNs64ZedD0OHiaOIah2qOK9sdO0n3k8Rk6BVcz
-         AkQckkoT4pf3lOqVCJZ1f6qR4Tcctlt/mJ0f5WoH6KhDD11hcr99XEYrBPtx77/w4YgA
-         2zEjtiyrR1VrYY52Uk2jAuTnjDUnFagacT+bsQfp5lA1U5nMhLU2+xFgd1wE21OnvF0s
-         83MF7+TFAo/UZDgrJSGWl16tfKdh1wsyQMdcq6S01b+Ai7N53blrUAHI3qPTzcKgZdXr
-         8y9g==
-X-Gm-Message-State: AOAM532cAm5HA4xAEnECrz0SQHscoAR5FHa1ZWQwyc+EoWLsKg1T8DWd
-        UL3xgAgLKZxtGCdLg1LaFKzy3IjdMxR2Og==
-X-Google-Smtp-Source: ABdhPJxfTJB+1amIiaMzKYuEzbZBRIy7VzQ7/+ItNJE/ANxFmOKfDrAXgp4L0cILRQmu/1zpKeW+wA==
-X-Received: by 2002:a9d:7550:: with SMTP id b16mr623424otl.309.1628098112834;
-        Wed, 04 Aug 2021 10:28:32 -0700 (PDT)
-Received: from Davids-MacBook-Pro.local ([8.48.134.45])
-        by smtp.googlemail.com with ESMTPSA id r25sm418421oos.24.2021.08.04.10.28.29
+        bh=boQtfMOkZY9hdjBQivOx+8/FvLGtf9v8PYVfUON6vUQ=;
+        b=uUwhrf86WznfE6V/d0WgXiaZJY89boIkbKjMXgre9Z69gZ/5RtRj4uqiFCtm45XKaz
+         ZO7rRsEDhUWng/QXB9WtRX3glmrTW6F4zVyiC+G2aZTeKXz4+RQVpIq00k8+mg0U75gj
+         EVxhOAIp7oQeRLbNP049MKZ9ytov5wZYMj5GA/Sh9Q4a5pd2lNObTjRolsjb20gWzgY7
+         +6uS7khRxAL/8b5kIMiVy4AnfS08NCo2+75TNT+eu3PPeSCPqD5b1zlKR7ojZYY8om7I
+         ISwcuPtDypMs7d5FDvjgDD1/q5xkIJjq0kuqHdh+sFKJI3DO9KVYSbOfP4id/97AAYGH
+         RaXw==
+X-Gm-Message-State: AOAM533ahJ8AeZRKijwFMUTW7tllvlQzBkgFKkf4i5SSgtwdiRxa/pGi
+        eclW42LgfGhucQR5hl4FIGI=
+X-Google-Smtp-Source: ABdhPJzPmtomHiFQRHu0Frnwj19U5U9ieIGCtt/9GmfJnQQrdsF77jcXTd2yPxviTb/mGRTxwKZmwA==
+X-Received: by 2002:aca:39c6:: with SMTP id g189mr2259435oia.47.1628098419381;
+        Wed, 04 Aug 2021 10:33:39 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id c21sm560538oiw.16.2021.08.04.10.33.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 10:28:32 -0700 (PDT)
-Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP
- statistics
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Saeed Mahameed <saeed@kernel.org>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Guy Tzalik <gtzalik@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Sameeh Jubran <sameehj@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-References: <20210803163641.3743-1-alexandr.lobakin@intel.com>
- <20210803163641.3743-4-alexandr.lobakin@intel.com>
- <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
- <20210804053650.22aa8a5b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <43e91ce1-0f82-5820-7cac-b42461a0311a@gmail.com>
- <20210804094432.08d0fa86@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <d21933cb-9d24-9bdd-cf18-e5077796ddf7@gmail.com>
-Date:   Wed, 4 Aug 2021 11:28:28 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+        Wed, 04 Aug 2021 10:33:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "zweiss@equinix.com" <zweiss@equinix.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-14-iwona.winiarska@intel.com>
+ <20210803153937.GA337938@roeck-us.net>
+ <a576f7075625a476c613b5feb2c4c7033d6c0375.camel@intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 13/15] hwmon: peci: Add dimmtemp driver
+Message-ID: <ff8f8b20-33af-08a0-6036-03429bf69730@roeck-us.net>
+Date:   Wed, 4 Aug 2021 10:33:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210804094432.08d0fa86@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <a576f7075625a476c613b5feb2c4c7033d6c0375.camel@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/4/21 10:44 AM, Jakub Kicinski wrote:
-> On Wed, 4 Aug 2021 10:17:56 -0600 David Ahern wrote:
->> On 8/4/21 6:36 AM, Jakub Kicinski wrote:
->>>> XDP is going to always be eBPF based ! why not just report such stats
->>>> to a special BPF_MAP ? BPF stack can collect the stats from the driver
->>>> and report them to this special MAP upon user request.  
->>> Do you mean replacing the ethtool-netlink / rtnetlink etc. with
->>> a new BPF_MAP? I don't think adding another category of uAPI thru 
->>> which netdevice stats are exposed would do much good :( Plus it 
->>> doesn't address the "yet another cacheline" concern.
+On 8/4/21 3:46 AM, Winiarska, Iwona wrote:
+> On Tue, 2021-08-03 at 08:39 -0700, Guenter Roeck wrote:
+>> On Tue, Aug 03, 2021 at 01:31:32PM +0200, Iwona Winiarska wrote:
+>>> Add peci-dimmtemp driver for Temperature Sensor on DIMM readings that
+>>> are accessible via the processor PECI interface.
 >>>
->>> To my understanding the need for stats recognizes the fact that (in
->>> large organizations) fleet monitoring is done by different teams than
->>> XDP development. So XDP team may have all the stats they need, but the
->>> team doing fleet monitoring has no idea how to get to them.
+>>> The main use case for the driver (and PECI interface) is out-of-band
+>>> management, where we're able to obtain thermal readings from an external
+>>> entity connected with PECI, e.g. BMC on server platforms.
 >>>
->>> To bridge the two worlds we need a way for the infra team to ask the
->>> XDP for well-defined stats. Maybe we should take a page from the BPF
->>> iterators book and create a program type for bridging the two worlds?
->>> Called by networking core when duping stats to extract from the
->>> existing BPF maps all the relevant stats and render them into a well
->>> known struct? Users' XDP design can still use a single per-cpu map with
->>> all the stats if they so choose, but there's a way to implement more
->>> optimal designs and still expose well-defined stats.
+>>> Co-developed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>>> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>>> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>>> ---
+>>> Note that the timeout was completely removed - we're going to probe
+>>> for detected DIMMs every 5 seconds until we reach "stable" state of
+>>> either getting correct DIMM data or getting all -EINVAL (which
+>>> suggest that the CPU doesn't have any DIMMs).
 >>>
->>> Maybe that's too complex, IDK.  
+>>>   drivers/hwmon/peci/Kconfig    |  13 +
+>>>   drivers/hwmon/peci/Makefile   |   2 +
+>>>   drivers/hwmon/peci/dimmtemp.c | 614 ++++++++++++++++++++++++++++++++++
+>>>   3 files changed, 629 insertions(+)
+>>>   create mode 100644 drivers/hwmon/peci/dimmtemp.c
+>>>
+>>> diff --git a/drivers/hwmon/peci/Kconfig b/drivers/hwmon/peci/Kconfig
+>>> index e10eed68d70a..9d32a57badfe 100644
+>>> --- a/drivers/hwmon/peci/Kconfig
+>>> +++ b/drivers/hwmon/peci/Kconfig
+>>> @@ -14,5 +14,18 @@ config SENSORS_PECI_CPUTEMP
+>>>            This driver can also be built as a module. If so, the module
+>>>            will be called peci-cputemp.
+>>>   
+>>> +config SENSORS_PECI_DIMMTEMP
+>>> +       tristate "PECI DIMM temperature monitoring client"
+>>> +       depends on PECI
+>>> +       select SENSORS_PECI
+>>> +       select PECI_CPU
+>>> +       help
+>>> +         If you say yes here you get support for the generic Intel PECI
+>>> hwmon
+>>> +         driver which provides Temperature Sensor on DIMM readings that are
+>>> +         accessible via the processor PECI interface.
+>>> +
+>>> +         This driver can also be built as a module. If so, the module
+>>> +         will be called peci-dimmtemp.
+>>> +
+>>>   config SENSORS_PECI
+>>>          tristate
+>>> diff --git a/drivers/hwmon/peci/Makefile b/drivers/hwmon/peci/Makefile
+>>> index e8a0ada5ab1f..191cfa0227f3 100644
+>>> --- a/drivers/hwmon/peci/Makefile
+>>> +++ b/drivers/hwmon/peci/Makefile
+>>> @@ -1,5 +1,7 @@
+>>>   # SPDX-License-Identifier: GPL-2.0-only
+>>>   
+>>>   peci-cputemp-y := cputemp.o
+>>> +peci-dimmtemp-y := dimmtemp.o
+>>>   
+>>>   obj-$(CONFIG_SENSORS_PECI_CPUTEMP)     += peci-cputemp.o
+>>> +obj-$(CONFIG_SENSORS_PECI_DIMMTEMP)    += peci-dimmtemp.o
+>>> diff --git a/drivers/hwmon/peci/dimmtemp.c b/drivers/hwmon/peci/dimmtemp.c
+>>> new file mode 100644
+>>> index 000000000000..6264c29bb6c0
+>>> --- /dev/null
+>>> +++ b/drivers/hwmon/peci/dimmtemp.c
+>>> @@ -0,0 +1,614 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +// Copyright (c) 2018-2021 Intel Corporation
+>>> +
+>>> +#include <linux/auxiliary_bus.h>
+>>> +#include <linux/bitfield.h>
+>>> +#include <linux/bitops.h>
+>>> +#include <linux/hwmon.h>
+>>> +#include <linux/jiffies.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/peci.h>
+>>> +#include <linux/peci-cpu.h>
+>>> +#include <linux/units.h>
+>>> +#include <linux/workqueue.h>
+>>> +#include <linux/x86/intel-family.h>
+>>> +
+>>> +#include "common.h"
+>>> +
+>>> +#define DIMM_MASK_CHECK_DELAY_JIFFIES  msecs_to_jiffies(5000)
+>>> +
+>>> +/* Max number of channel ranks and DIMM index per channel */
+>>> +#define CHAN_RANK_MAX_ON_HSX   8
+>>> +#define DIMM_IDX_MAX_ON_HSX    3
+>>> +#define CHAN_RANK_MAX_ON_BDX   4
+>>> +#define DIMM_IDX_MAX_ON_BDX    3
+>>> +#define CHAN_RANK_MAX_ON_BDXD  2
+>>> +#define DIMM_IDX_MAX_ON_BDXD   2
+>>> +#define CHAN_RANK_MAX_ON_SKX   6
+>>> +#define DIMM_IDX_MAX_ON_SKX    2
+>>> +#define CHAN_RANK_MAX_ON_ICX   8
+>>> +#define DIMM_IDX_MAX_ON_ICX    2
+>>> +#define CHAN_RANK_MAX_ON_ICXD  4
+>>> +#define DIMM_IDX_MAX_ON_ICXD   2
+>>> +
+>>> +#define CHAN_RANK_MAX          CHAN_RANK_MAX_ON_HSX
+>>> +#define DIMM_IDX_MAX           DIMM_IDX_MAX_ON_HSX
+>>> +#define DIMM_NUMS_MAX          (CHAN_RANK_MAX * DIMM_IDX_MAX)
+>>> +
+>>> +#define CPU_SEG_MASK           GENMASK(23, 16)
+>>> +#define GET_CPU_SEG(x)         (((x) & CPU_SEG_MASK) >> 16)
+>>> +#define CPU_BUS_MASK           GENMASK(7, 0)
+>>> +#define GET_CPU_BUS(x)         ((x) & CPU_BUS_MASK)
+>>> +
+>>> +#define DIMM_TEMP_MAX          GENMASK(15, 8)
+>>> +#define DIMM_TEMP_CRIT         GENMASK(23, 16)
+>>> +#define GET_TEMP_MAX(x)                (((x) & DIMM_TEMP_MAX) >> 8)
+>>> +#define GET_TEMP_CRIT(x)       (((x) & DIMM_TEMP_CRIT) >> 16)
+>>> +
+>>> +struct peci_dimmtemp;
+>>> +
+>>> +struct dimm_info {
+>>> +       int chan_rank_max;
+>>> +       int dimm_idx_max;
+>>> +       u8 min_peci_revision;
+>>> +       int (*read_thresholds)(struct peci_dimmtemp *priv, int dimm_order,
+>>> +                              int chan_rank, u32 *data);
+>>> +};
+>>> +
+>>> +struct peci_dimm_thresholds {
+>>> +       long temp_max;
+>>> +       long temp_crit;
+>>> +       struct peci_sensor_state state;
+>>> +};
+>>> +
+>>> +enum peci_dimm_threshold_type {
+>>> +       temp_max_type,
+>>> +       temp_crit_type,
+>>> +};
+>>> +
+>>> +struct peci_dimmtemp {
+>>> +       struct peci_device *peci_dev;
+>>> +       struct device *dev;
+>>> +       const char *name;
+>>> +       const struct dimm_info *gen_info;
+>>> +       struct delayed_work detect_work;
+>>> +       struct {
+>>> +               struct peci_sensor_data temp;
+>>> +               struct peci_dimm_thresholds thresholds;
+>>> +       } dimm[DIMM_NUMS_MAX];
+>>> +       char **dimmtemp_label;
+>>> +       DECLARE_BITMAP(dimm_mask, DIMM_NUMS_MAX);
+>>> +};
+>>> +
+>>> +static u8 __dimm_temp(u32 reg, int dimm_order)
+>>> +{
+>>> +       return (reg >> (dimm_order * 8)) & 0xff;
+>>> +}
+>>> +
+>>> +static int get_dimm_temp(struct peci_dimmtemp *priv, int dimm_no, long
+>>> *val)
+>>> +{
+>>> +       int dimm_order = dimm_no % priv->gen_info->dimm_idx_max;
+>>> +       int chan_rank = dimm_no / priv->gen_info->dimm_idx_max;
+>>> +       u32 data;
+>>> +       int ret;
 >>
->> I was just explaining to someone internally how to get stats at all of
->> the different points in the stack to track down reasons for dropped packets:
+>>          int ret = 0;
 >>
->> ethtool -S for h/w and driver
->> tc -s for drops by the qdisc
->> /proc/net/softnet_stat for drops at the backlog layer
->> netstat -s for network and transport layer
+>>> +
+>>> +       mutex_lock(&priv->dimm[dimm_no].temp.state.lock);
+>>> +       if (!peci_sensor_need_update(&priv->dimm[dimm_no].temp.state))
+>>> +               goto skip_update;
+>>> +
+>>> +       ret = peci_pcs_read(priv->peci_dev, PECI_PCS_DDR_DIMM_TEMP,
+>>> chan_rank, &data);
+>>> +       if (ret) {
+>>> +               mutex_unlock(&priv->dimm[dimm_no].temp.state.lock);
+>>> +               return ret;
+>>> +       }
 >>
->> yet another command and API just adds to the nightmare of explaining and
->> understanding these stats.
+>>          if (ret)
+>>                  goto unlock;
+>>
+>>> +
+>>> +       priv->dimm[dimm_no].temp.value = __dimm_temp(data, dimm_order) *
+>>> MILLIDEGREE_PER_DEGREE;
+>>> +
+>>> +       peci_sensor_mark_updated(&priv->dimm[dimm_no].temp.state);
+>>> +
+>>> +skip_update:
+>>> +       *val = priv->dimm[dimm_no].temp.value;
+>>
+>> unlock:
+>>> +       mutex_unlock(&priv->dimm[dimm_no].temp.state.lock);
+>>> +       return 0;
+>>
+>>          return ret;
 > 
-> Are you referring to RTM_GETSTATS when you say "yet another command"?
-> RTM_GETSTATS exists and is used by offloads today.
+> Ack.
 > 
-> I'd expect ip -s (-s) to be extended to run GETSTATS and display the xdp
-> stats. (Not sure why ip -s was left out of your list :))
+>>
+>>> +}
+>>> +
+>>> +static int update_thresholds(struct peci_dimmtemp *priv, int dimm_no)
+>>> +{
+>>> +       int dimm_order = dimm_no % priv->gen_info->dimm_idx_max;
+>>> +       int chan_rank = dimm_no / priv->gen_info->dimm_idx_max;
+>>> +       u32 data;
+>>> +       int ret;
+>>> +
+>>> +       if (!peci_sensor_need_update(&priv->dimm[dimm_no].thresholds.state))
+>>> +               return 0;
+>>> +
+>>> +       ret = priv->gen_info->read_thresholds(priv, dimm_order, chan_rank,
+>>> &data);
+>>> +       if (ret == -ENODATA) /* Use default or previous value */
+>>> +               return 0;
+>>> +       if (ret)
+>>> +               return ret;
+>>> +
+>>> +       priv->dimm[dimm_no].thresholds.temp_max = GET_TEMP_MAX(data) *
+>>> MILLIDEGREE_PER_DEGREE;
+>>> +       priv->dimm[dimm_no].thresholds.temp_crit = GET_TEMP_CRIT(data) *
+>>> MILLIDEGREE_PER_DEGREE;
+>>> +
+>>> +       peci_sensor_mark_updated(&priv->dimm[dimm_no].thresholds.state);
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +static int get_dimm_thresholds(struct peci_dimmtemp *priv, enum
+>>> peci_dimm_threshold_type type,
+>>> +                              int dimm_no, long *val)
+>>> +{
+>>> +       int ret;
+>>> +
+>>> +       mutex_lock(&priv->dimm[dimm_no].thresholds.state.lock);
+>>> +       ret = update_thresholds(priv, dimm_no);
+>>> +       if (ret)
+>>> +               goto unlock;
+>>> +
+>>> +       switch (type) {
+>>> +       case temp_max_type:
+>>> +               *val = priv->dimm[dimm_no].thresholds.temp_max;
+>>> +               break;
+>>> +       case temp_crit_type:
+>>> +               *val = priv->dimm[dimm_no].thresholds.temp_crit;
+>>> +               break;
+>>> +       default:
+>>> +               ret = -EOPNOTSUPP;
+>>> +               break;
+>>> +       }
+>>> +unlock:
+>>> +       mutex_unlock(&priv->dimm[dimm_no].thresholds.state.lock);
+>>> +
+>>> +       return ret;
+>>> +}
+>>> +
+>>> +static int dimmtemp_read_string(struct device *dev,
+>>> +                               enum hwmon_sensor_types type,
+>>> +                               u32 attr, int channel, const char **str)
+>>> +{
+>>> +       struct peci_dimmtemp *priv = dev_get_drvdata(dev);
+>>> +
+>>> +       if (attr != hwmon_temp_label)
+>>> +               return -EOPNOTSUPP;
+>>> +
+>>> +       *str = (const char *)priv->dimmtemp_label[channel];
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +static int dimmtemp_read(struct device *dev, enum hwmon_sensor_types type,
+>>> +                        u32 attr, int channel, long *val)
+>>> +{
+>>> +       struct peci_dimmtemp *priv = dev_get_drvdata(dev);
+>>> +
+>>> +       switch (attr) {
+>>> +       case hwmon_temp_input:
+>>> +               return get_dimm_temp(priv, channel, val);
+>>> +       case hwmon_temp_max:
+>>> +               return get_dimm_thresholds(priv, temp_max_type, channel,
+>>> val);
+>>> +       case hwmon_temp_crit:
+>>> +               return get_dimm_thresholds(priv, temp_crit_type, channel,
+>>> val);
+>>> +       default:
+>>> +               break;
+>>> +       }
+>>> +
+>>> +       return -EOPNOTSUPP;
+>>> +}
+>>> +
+>>> +static umode_t dimmtemp_is_visible(const void *data, enum
+>>> hwmon_sensor_types type,
+>>> +                                  u32 attr, int channel)
+>>> +{
+>>> +       const struct peci_dimmtemp *priv = data;
+>>> +
+>>> +       if (test_bit(channel, priv->dimm_mask))
+>>> +               return 0444;
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +static const struct hwmon_ops peci_dimmtemp_ops = {
+>>> +       .is_visible = dimmtemp_is_visible,
+>>> +       .read_string = dimmtemp_read_string,
+>>> +       .read = dimmtemp_read,
+>>> +};
+>>> +
+>>> +static int check_populated_dimms(struct peci_dimmtemp *priv)
+>>> +{
+>>> +       int chan_rank_max = priv->gen_info->chan_rank_max;
+>>> +       int dimm_idx_max = priv->gen_info->dimm_idx_max;
+>>> +       u32 chan_rank_empty = 0;
+>>> +       u64 dimm_mask = 0;
+>>> +       int chan_rank, dimm_idx, ret;
+>>> +       u32 pcs;
+>>> +
+>>> +       BUILD_BUG_ON(CHAN_RANK_MAX > 32);
+>>> +       BUILD_BUG_ON(DIMM_NUMS_MAX > 64);
+>>
+>> I don't immediately see the value of those build bugs. What happens if
+>> CHAN_RANK_MAX > 32 or DIMM_NUMS_MAX > 64 ? Where do those limits come
+>> from ?
+> 
+> Supported HW doesn't come near the limit for now - it's just an "artificial"
+> limit imposed by variables we're using (u64 for dimm_mask and u32 for
+> chan_rank_empty).
+> 
 
-It's on my diagram, and yes, forgot to add it here.
+Please use a value derived from the size of those variables for the check
+to clarify and explain the constraints.
 
-> 
->> There is real value in continuing to use ethtool API for XDP stats. Not
->> saying this reorg of the XDP stats is the right thing to do, only that
->> the existing API has real user benefits.
-> 
-> RTM_GETSTATS is an existing API. New ethtool stats are intended to be HW
-> stats. I don't want to go back to ethtool being a dumping ground for all
-> stats because that's what the old interface encouraged.
-
-driver stats are important too. e.g., mlx5's cache stats and per-queue
-stats.
-
-> 
->> Does anyone have data that shows bumping a properly implemented counter
->> causes a noticeable performance degradation and if so by how much? You
->> mention 'yet another cacheline' but collecting stats on stack and
->> incrementing the driver structs at the end of the napi loop should not
->> have a huge impact versus the value the stats provide.
-> 
-> Not sure, maybe Jesper has some numbers. Maybe Intel folks do?
-
-I just ran some quick tests with my setup and measured about 1.2% worst
-case. Certainly not exhaustive. Perhaps Intel or Mellanox can provide
-numbers for their high speed nics - e.g. ConnectX-6 and a saturated host.
-
-> 
-> I'm just allergic to situations when there is a decision made and 
-> then months later patches are posted disregarding the decision, 
-> without analysis on why that decision was wrong. And while the
-> maintainer who made the decision is on vacation.
-> 
-
-stats is one of the many sensitive topics. I have been consistent in
-defending the need to use existing APIs and tooling and not relying on
-XDP program writers to add the relevant stats and then provide whatever
-tool is needed to extract and print them. Standardization for
-fundamental analysis tools.
+Thanks,
+Guenter
