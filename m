@@ -2,444 +2,512 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A481C4320A
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAD2C4338F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:44:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CF1760EE9
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:33:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AF0060187
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 17:44:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237773AbhHDRdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 13:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230231AbhHDRdx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 13:33:53 -0400
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FCAC0613D5;
-        Wed,  4 Aug 2021 10:33:40 -0700 (PDT)
-Received: by mail-oi1-x236.google.com with SMTP id 21so3707277oin.8;
-        Wed, 04 Aug 2021 10:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=boQtfMOkZY9hdjBQivOx+8/FvLGtf9v8PYVfUON6vUQ=;
-        b=GvZ1SBNr2DcgJSQTR+uzl4H3+WJD0SNH7HsHspqb1BuouaZcwWSbrOHZ+5+HQweU3Q
-         SMGyUIijwEnz1zocHU2f3X51iEnbnHYb6QNZS6+L/bmhDL0udvq2jZEDzJH7QCPZfg6i
-         TSj6sC7jX/J/xEmLLGkIcmArcjjT5iYMeGXdZ/mc0ExqIXdG//pYUjIRR4bvfgwI0qHT
-         T/d6z23Qsjstwvy5CdR74maXQ0BkfvtzjvpFPE2vVilXNhN3ERNBCO9oxlBk/9Cx8lR8
-         ilnua+8hAP85QWI+qlaF3Mk4b7tWWscPH5SgzvMC6B8M/2AuGqyrdFUJrgrxe+Nzu0WV
-         G/vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=boQtfMOkZY9hdjBQivOx+8/FvLGtf9v8PYVfUON6vUQ=;
-        b=uUwhrf86WznfE6V/d0WgXiaZJY89boIkbKjMXgre9Z69gZ/5RtRj4uqiFCtm45XKaz
-         ZO7rRsEDhUWng/QXB9WtRX3glmrTW6F4zVyiC+G2aZTeKXz4+RQVpIq00k8+mg0U75gj
-         EVxhOAIp7oQeRLbNP049MKZ9ytov5wZYMj5GA/Sh9Q4a5pd2lNObTjRolsjb20gWzgY7
-         +6uS7khRxAL/8b5kIMiVy4AnfS08NCo2+75TNT+eu3PPeSCPqD5b1zlKR7ojZYY8om7I
-         ISwcuPtDypMs7d5FDvjgDD1/q5xkIJjq0kuqHdh+sFKJI3DO9KVYSbOfP4id/97AAYGH
-         RaXw==
-X-Gm-Message-State: AOAM533ahJ8AeZRKijwFMUTW7tllvlQzBkgFKkf4i5SSgtwdiRxa/pGi
-        eclW42LgfGhucQR5hl4FIGI=
-X-Google-Smtp-Source: ABdhPJzPmtomHiFQRHu0Frnwj19U5U9ieIGCtt/9GmfJnQQrdsF77jcXTd2yPxviTb/mGRTxwKZmwA==
-X-Received: by 2002:aca:39c6:: with SMTP id g189mr2259435oia.47.1628098419381;
-        Wed, 04 Aug 2021 10:33:39 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c21sm560538oiw.16.2021.08.04.10.33.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 10:33:38 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "olof@lixom.net" <olof@lixom.net>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
-        "zweiss@equinix.com" <zweiss@equinix.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
- <20210803113134.2262882-14-iwona.winiarska@intel.com>
- <20210803153937.GA337938@roeck-us.net>
- <a576f7075625a476c613b5feb2c4c7033d6c0375.camel@intel.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 13/15] hwmon: peci: Add dimmtemp driver
-Message-ID: <ff8f8b20-33af-08a0-6036-03429bf69730@roeck-us.net>
-Date:   Wed, 4 Aug 2021 10:33:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S237454AbhHDRoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 13:44:17 -0400
+Received: from mga12.intel.com ([192.55.52.136]:16631 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237345AbhHDRoR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 13:44:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="193568042"
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="193568042"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 10:44:00 -0700
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; 
+   d="scan'208";a="501307483"
+Received: from mjkendri-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.254.17.117])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 10:43:52 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v1] driver: base: Add driver filter support
+Date:   Wed,  4 Aug 2021 10:43:22 -0700
+Message-Id: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <a576f7075625a476c613b5feb2c4c7033d6c0375.camel@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/4/21 3:46 AM, Winiarska, Iwona wrote:
-> On Tue, 2021-08-03 at 08:39 -0700, Guenter Roeck wrote:
->> On Tue, Aug 03, 2021 at 01:31:32PM +0200, Iwona Winiarska wrote:
->>> Add peci-dimmtemp driver for Temperature Sensor on DIMM readings that
->>> are accessible via the processor PECI interface.
->>>
->>> The main use case for the driver (and PECI interface) is out-of-band
->>> management, where we're able to obtain thermal readings from an external
->>> entity connected with PECI, e.g. BMC on server platforms.
->>>
->>> Co-developed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
->>> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->>> ---
->>> Note that the timeout was completely removed - we're going to probe
->>> for detected DIMMs every 5 seconds until we reach "stable" state of
->>> either getting correct DIMM data or getting all -EINVAL (which
->>> suggest that the CPU doesn't have any DIMMs).
->>>
->>>   drivers/hwmon/peci/Kconfig    |  13 +
->>>   drivers/hwmon/peci/Makefile   |   2 +
->>>   drivers/hwmon/peci/dimmtemp.c | 614 ++++++++++++++++++++++++++++++++++
->>>   3 files changed, 629 insertions(+)
->>>   create mode 100644 drivers/hwmon/peci/dimmtemp.c
->>>
->>> diff --git a/drivers/hwmon/peci/Kconfig b/drivers/hwmon/peci/Kconfig
->>> index e10eed68d70a..9d32a57badfe 100644
->>> --- a/drivers/hwmon/peci/Kconfig
->>> +++ b/drivers/hwmon/peci/Kconfig
->>> @@ -14,5 +14,18 @@ config SENSORS_PECI_CPUTEMP
->>>            This driver can also be built as a module. If so, the module
->>>            will be called peci-cputemp.
->>>   
->>> +config SENSORS_PECI_DIMMTEMP
->>> +       tristate "PECI DIMM temperature monitoring client"
->>> +       depends on PECI
->>> +       select SENSORS_PECI
->>> +       select PECI_CPU
->>> +       help
->>> +         If you say yes here you get support for the generic Intel PECI
->>> hwmon
->>> +         driver which provides Temperature Sensor on DIMM readings that are
->>> +         accessible via the processor PECI interface.
->>> +
->>> +         This driver can also be built as a module. If so, the module
->>> +         will be called peci-dimmtemp.
->>> +
->>>   config SENSORS_PECI
->>>          tristate
->>> diff --git a/drivers/hwmon/peci/Makefile b/drivers/hwmon/peci/Makefile
->>> index e8a0ada5ab1f..191cfa0227f3 100644
->>> --- a/drivers/hwmon/peci/Makefile
->>> +++ b/drivers/hwmon/peci/Makefile
->>> @@ -1,5 +1,7 @@
->>>   # SPDX-License-Identifier: GPL-2.0-only
->>>   
->>>   peci-cputemp-y := cputemp.o
->>> +peci-dimmtemp-y := dimmtemp.o
->>>   
->>>   obj-$(CONFIG_SENSORS_PECI_CPUTEMP)     += peci-cputemp.o
->>> +obj-$(CONFIG_SENSORS_PECI_DIMMTEMP)    += peci-dimmtemp.o
->>> diff --git a/drivers/hwmon/peci/dimmtemp.c b/drivers/hwmon/peci/dimmtemp.c
->>> new file mode 100644
->>> index 000000000000..6264c29bb6c0
->>> --- /dev/null
->>> +++ b/drivers/hwmon/peci/dimmtemp.c
->>> @@ -0,0 +1,614 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +// Copyright (c) 2018-2021 Intel Corporation
->>> +
->>> +#include <linux/auxiliary_bus.h>
->>> +#include <linux/bitfield.h>
->>> +#include <linux/bitops.h>
->>> +#include <linux/hwmon.h>
->>> +#include <linux/jiffies.h>
->>> +#include <linux/module.h>
->>> +#include <linux/peci.h>
->>> +#include <linux/peci-cpu.h>
->>> +#include <linux/units.h>
->>> +#include <linux/workqueue.h>
->>> +#include <linux/x86/intel-family.h>
->>> +
->>> +#include "common.h"
->>> +
->>> +#define DIMM_MASK_CHECK_DELAY_JIFFIES  msecs_to_jiffies(5000)
->>> +
->>> +/* Max number of channel ranks and DIMM index per channel */
->>> +#define CHAN_RANK_MAX_ON_HSX   8
->>> +#define DIMM_IDX_MAX_ON_HSX    3
->>> +#define CHAN_RANK_MAX_ON_BDX   4
->>> +#define DIMM_IDX_MAX_ON_BDX    3
->>> +#define CHAN_RANK_MAX_ON_BDXD  2
->>> +#define DIMM_IDX_MAX_ON_BDXD   2
->>> +#define CHAN_RANK_MAX_ON_SKX   6
->>> +#define DIMM_IDX_MAX_ON_SKX    2
->>> +#define CHAN_RANK_MAX_ON_ICX   8
->>> +#define DIMM_IDX_MAX_ON_ICX    2
->>> +#define CHAN_RANK_MAX_ON_ICXD  4
->>> +#define DIMM_IDX_MAX_ON_ICXD   2
->>> +
->>> +#define CHAN_RANK_MAX          CHAN_RANK_MAX_ON_HSX
->>> +#define DIMM_IDX_MAX           DIMM_IDX_MAX_ON_HSX
->>> +#define DIMM_NUMS_MAX          (CHAN_RANK_MAX * DIMM_IDX_MAX)
->>> +
->>> +#define CPU_SEG_MASK           GENMASK(23, 16)
->>> +#define GET_CPU_SEG(x)         (((x) & CPU_SEG_MASK) >> 16)
->>> +#define CPU_BUS_MASK           GENMASK(7, 0)
->>> +#define GET_CPU_BUS(x)         ((x) & CPU_BUS_MASK)
->>> +
->>> +#define DIMM_TEMP_MAX          GENMASK(15, 8)
->>> +#define DIMM_TEMP_CRIT         GENMASK(23, 16)
->>> +#define GET_TEMP_MAX(x)                (((x) & DIMM_TEMP_MAX) >> 8)
->>> +#define GET_TEMP_CRIT(x)       (((x) & DIMM_TEMP_CRIT) >> 16)
->>> +
->>> +struct peci_dimmtemp;
->>> +
->>> +struct dimm_info {
->>> +       int chan_rank_max;
->>> +       int dimm_idx_max;
->>> +       u8 min_peci_revision;
->>> +       int (*read_thresholds)(struct peci_dimmtemp *priv, int dimm_order,
->>> +                              int chan_rank, u32 *data);
->>> +};
->>> +
->>> +struct peci_dimm_thresholds {
->>> +       long temp_max;
->>> +       long temp_crit;
->>> +       struct peci_sensor_state state;
->>> +};
->>> +
->>> +enum peci_dimm_threshold_type {
->>> +       temp_max_type,
->>> +       temp_crit_type,
->>> +};
->>> +
->>> +struct peci_dimmtemp {
->>> +       struct peci_device *peci_dev;
->>> +       struct device *dev;
->>> +       const char *name;
->>> +       const struct dimm_info *gen_info;
->>> +       struct delayed_work detect_work;
->>> +       struct {
->>> +               struct peci_sensor_data temp;
->>> +               struct peci_dimm_thresholds thresholds;
->>> +       } dimm[DIMM_NUMS_MAX];
->>> +       char **dimmtemp_label;
->>> +       DECLARE_BITMAP(dimm_mask, DIMM_NUMS_MAX);
->>> +};
->>> +
->>> +static u8 __dimm_temp(u32 reg, int dimm_order)
->>> +{
->>> +       return (reg >> (dimm_order * 8)) & 0xff;
->>> +}
->>> +
->>> +static int get_dimm_temp(struct peci_dimmtemp *priv, int dimm_no, long
->>> *val)
->>> +{
->>> +       int dimm_order = dimm_no % priv->gen_info->dimm_idx_max;
->>> +       int chan_rank = dimm_no / priv->gen_info->dimm_idx_max;
->>> +       u32 data;
->>> +       int ret;
->>
->>          int ret = 0;
->>
->>> +
->>> +       mutex_lock(&priv->dimm[dimm_no].temp.state.lock);
->>> +       if (!peci_sensor_need_update(&priv->dimm[dimm_no].temp.state))
->>> +               goto skip_update;
->>> +
->>> +       ret = peci_pcs_read(priv->peci_dev, PECI_PCS_DDR_DIMM_TEMP,
->>> chan_rank, &data);
->>> +       if (ret) {
->>> +               mutex_unlock(&priv->dimm[dimm_no].temp.state.lock);
->>> +               return ret;
->>> +       }
->>
->>          if (ret)
->>                  goto unlock;
->>
->>> +
->>> +       priv->dimm[dimm_no].temp.value = __dimm_temp(data, dimm_order) *
->>> MILLIDEGREE_PER_DEGREE;
->>> +
->>> +       peci_sensor_mark_updated(&priv->dimm[dimm_no].temp.state);
->>> +
->>> +skip_update:
->>> +       *val = priv->dimm[dimm_no].temp.value;
->>
->> unlock:
->>> +       mutex_unlock(&priv->dimm[dimm_no].temp.state.lock);
->>> +       return 0;
->>
->>          return ret;
-> 
-> Ack.
-> 
->>
->>> +}
->>> +
->>> +static int update_thresholds(struct peci_dimmtemp *priv, int dimm_no)
->>> +{
->>> +       int dimm_order = dimm_no % priv->gen_info->dimm_idx_max;
->>> +       int chan_rank = dimm_no / priv->gen_info->dimm_idx_max;
->>> +       u32 data;
->>> +       int ret;
->>> +
->>> +       if (!peci_sensor_need_update(&priv->dimm[dimm_no].thresholds.state))
->>> +               return 0;
->>> +
->>> +       ret = priv->gen_info->read_thresholds(priv, dimm_order, chan_rank,
->>> &data);
->>> +       if (ret == -ENODATA) /* Use default or previous value */
->>> +               return 0;
->>> +       if (ret)
->>> +               return ret;
->>> +
->>> +       priv->dimm[dimm_no].thresholds.temp_max = GET_TEMP_MAX(data) *
->>> MILLIDEGREE_PER_DEGREE;
->>> +       priv->dimm[dimm_no].thresholds.temp_crit = GET_TEMP_CRIT(data) *
->>> MILLIDEGREE_PER_DEGREE;
->>> +
->>> +       peci_sensor_mark_updated(&priv->dimm[dimm_no].thresholds.state);
->>> +
->>> +       return 0;
->>> +}
->>> +
->>> +static int get_dimm_thresholds(struct peci_dimmtemp *priv, enum
->>> peci_dimm_threshold_type type,
->>> +                              int dimm_no, long *val)
->>> +{
->>> +       int ret;
->>> +
->>> +       mutex_lock(&priv->dimm[dimm_no].thresholds.state.lock);
->>> +       ret = update_thresholds(priv, dimm_no);
->>> +       if (ret)
->>> +               goto unlock;
->>> +
->>> +       switch (type) {
->>> +       case temp_max_type:
->>> +               *val = priv->dimm[dimm_no].thresholds.temp_max;
->>> +               break;
->>> +       case temp_crit_type:
->>> +               *val = priv->dimm[dimm_no].thresholds.temp_crit;
->>> +               break;
->>> +       default:
->>> +               ret = -EOPNOTSUPP;
->>> +               break;
->>> +       }
->>> +unlock:
->>> +       mutex_unlock(&priv->dimm[dimm_no].thresholds.state.lock);
->>> +
->>> +       return ret;
->>> +}
->>> +
->>> +static int dimmtemp_read_string(struct device *dev,
->>> +                               enum hwmon_sensor_types type,
->>> +                               u32 attr, int channel, const char **str)
->>> +{
->>> +       struct peci_dimmtemp *priv = dev_get_drvdata(dev);
->>> +
->>> +       if (attr != hwmon_temp_label)
->>> +               return -EOPNOTSUPP;
->>> +
->>> +       *str = (const char *)priv->dimmtemp_label[channel];
->>> +
->>> +       return 0;
->>> +}
->>> +
->>> +static int dimmtemp_read(struct device *dev, enum hwmon_sensor_types type,
->>> +                        u32 attr, int channel, long *val)
->>> +{
->>> +       struct peci_dimmtemp *priv = dev_get_drvdata(dev);
->>> +
->>> +       switch (attr) {
->>> +       case hwmon_temp_input:
->>> +               return get_dimm_temp(priv, channel, val);
->>> +       case hwmon_temp_max:
->>> +               return get_dimm_thresholds(priv, temp_max_type, channel,
->>> val);
->>> +       case hwmon_temp_crit:
->>> +               return get_dimm_thresholds(priv, temp_crit_type, channel,
->>> val);
->>> +       default:
->>> +               break;
->>> +       }
->>> +
->>> +       return -EOPNOTSUPP;
->>> +}
->>> +
->>> +static umode_t dimmtemp_is_visible(const void *data, enum
->>> hwmon_sensor_types type,
->>> +                                  u32 attr, int channel)
->>> +{
->>> +       const struct peci_dimmtemp *priv = data;
->>> +
->>> +       if (test_bit(channel, priv->dimm_mask))
->>> +               return 0444;
->>> +
->>> +       return 0;
->>> +}
->>> +
->>> +static const struct hwmon_ops peci_dimmtemp_ops = {
->>> +       .is_visible = dimmtemp_is_visible,
->>> +       .read_string = dimmtemp_read_string,
->>> +       .read = dimmtemp_read,
->>> +};
->>> +
->>> +static int check_populated_dimms(struct peci_dimmtemp *priv)
->>> +{
->>> +       int chan_rank_max = priv->gen_info->chan_rank_max;
->>> +       int dimm_idx_max = priv->gen_info->dimm_idx_max;
->>> +       u32 chan_rank_empty = 0;
->>> +       u64 dimm_mask = 0;
->>> +       int chan_rank, dimm_idx, ret;
->>> +       u32 pcs;
->>> +
->>> +       BUILD_BUG_ON(CHAN_RANK_MAX > 32);
->>> +       BUILD_BUG_ON(DIMM_NUMS_MAX > 64);
->>
->> I don't immediately see the value of those build bugs. What happens if
->> CHAN_RANK_MAX > 32 or DIMM_NUMS_MAX > 64 ? Where do those limits come
->> from ?
-> 
-> Supported HW doesn't come near the limit for now - it's just an "artificial"
-> limit imposed by variables we're using (u64 for dimm_mask and u32 for
-> chan_rank_empty).
-> 
+Intel's Trust Domain Extensions (TDX) is a new Intel technology that
+adds support for VMs to maintain confidentiality and integrity in the
+presence of an untrusted VMM.
 
-Please use a value derived from the size of those variables for the check
-to clarify and explain the constraints.
+Given the VMM is an untrusted entity and the VMM presents emulated
+hardware to the guest, a threat vector similar to Thunderclap [1] is
+present. Also, for ease of deployment, it is useful to be able to use
+the same kernel binary on host and guest, but that presents a wide
+attack surface given the range of hardware supported in typical
+builds. However, TDX guests only require a small number of drivers, a
+number small enough to audit for Thunderclap style attacks, and the
+rest can be disabled via policy. Add a mechanism to filter drivers
+based on a "protected-guest trusted" indication.
 
-Thanks,
-Guenter
+An alternative solution is to disable untrusted drivers using a custom
+kernel config for TDX, but such solution will break our goal of using
+same kernel binary in guest/host or in standard OS distributions. So
+it is not considered.
+
+Driver filter framework adds support to filter drivers at boot
+time by using platform specific allow list. This is a generic
+solution that can be reused by TDX. Driver filter framework adds a
+new hook (driver_allowed()) in driver_register() interface which
+will update the "allowed" status of the driver based on platform
+specific driver allow list or deny list. During driver bind process,
+trusted status is used to determine whether to continue or deny the
+bind process. If platform does not register any allow or deny list,
+all devices will be allowed. Platforms can use wildcard like "ALL:ALL"
+in bus_name and driver_name of filter node to allow or deny all
+bus and drivers.
+
+Per driver opt-in model is also considered as an alternative design
+choice, but central allow or deny list is chosen because it is
+easier to maintain and audit. Also, "driver self serve" might be
+abused by mistake by driver authors cutting and pasting the code.
+
+Also add an option in kernel command line and sysfs to update the
+allowed or denied drivers list. Driver filter allowed status
+can be read using following command.
+
+cat /sys/bus/$bus/drivers/$driver/allowed
+
+Details about TDX technology can be found in following link:
+
+https://software.intel.com/content/www/br/pt/develop/articles/intel-trust-domain-extensions.html
+
+[1]: http://thunderclap.io/
+
+Reviewed-by: Andi Kleen <ak@linux.intel.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  15 ++
+ drivers/base/Makefile                         |   2 +-
+ drivers/base/base.h                           |   8 +
+ drivers/base/bus.c                            |  34 +++
+ drivers/base/filter.c                         | 217 ++++++++++++++++++
+ include/linux/device/filter.h                 |  35 +++
+ 6 files changed, 310 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/base/filter.c
+ create mode 100644 include/linux/device/filter.h
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 10776a743e74..2af8b60b227b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1399,6 +1399,21 @@
+ 			See Documentation/admin-guide/sysctl/net.rst for
+ 			fb_tunnels_only_for_init_ns
+ 
++	filter_deny_drivers=
++	filter_allow_drivers=[KNL]
++			Format: bus:driver
++			Override the default driver filter allowed or blocked
++			list. Multiple drivers can be specified, separated by
++			comma. Multiple bus/driver combinations can be
++			specified separated by semicolon. For example to allow
++			the e1000 driver use filter_allow_drivers=pci:e1000. To
++			allow all drivers in pci use
++			filter_allow_drivers=pci:ALL. Similarly to deny e1000
++			driver, use filter_deny_drivers=pci:e1000.
++			Also note that, driver allow list is searched first. If
++			an entry exist in allow list, deny list will not be
++			searched.
++
+ 	floppy=		[HW]
+ 			See Documentation/admin-guide/blockdev/floppy.rst.
+ 
+diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+index ef8e44a7d288..d06b698e2796 100644
+--- a/drivers/base/Makefile
++++ b/drivers/base/Makefile
+@@ -6,7 +6,7 @@ obj-y			:= component.o core.o bus.o dd.o syscore.o \
+ 			   cpu.o firmware.o init.o map.o devres.o \
+ 			   attribute_container.o transport_class.o \
+ 			   topology.o container.o property.o cacheinfo.o \
+-			   swnode.o
++			   swnode.o filter.o
+ obj-$(CONFIG_AUXILIARY_BUS) += auxiliary.o
+ obj-$(CONFIG_DEVTMPFS)	+= devtmpfs.o
+ obj-y			+= power/
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 404db83ee5ec..1c4c19cab670 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -61,6 +61,8 @@ struct driver_private {
+ 	struct klist_node knode_bus;
+ 	struct module_kobject *mkobj;
+ 	struct device_driver *driver;
++	/* Used by driver filter framework to cache allowed status */
++	bool allowed;
+ };
+ #define to_driver(obj) container_of(obj, struct driver_private, kobj)
+ 
+@@ -144,6 +146,9 @@ extern void device_set_deferred_probe_reason(const struct device *dev,
+ static inline int driver_match_device(struct device_driver *drv,
+ 				      struct device *dev)
+ {
++	if (!drv->p->allowed)
++		return 0;
++
+ 	return drv->bus->match ? drv->bus->match(dev, drv) : 1;
+ }
+ extern bool driver_allows_async_probing(struct device_driver *drv);
+@@ -202,3 +207,6 @@ int devtmpfs_delete_node(struct device *dev);
+ static inline int devtmpfs_create_node(struct device *dev) { return 0; }
+ static inline int devtmpfs_delete_node(struct device *dev) { return 0; }
+ #endif
++
++bool driver_allowed(struct device_driver *drv);
++bool driver_filter_enabled(void);
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 1f6b4bd61056..85fb4063459f 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -583,6 +583,28 @@ static ssize_t uevent_store(struct device_driver *drv, const char *buf,
+ }
+ static DRIVER_ATTR_WO(uevent);
+ 
++static ssize_t allowed_store(struct device_driver *drv, const char *buf,
++			     size_t count)
++{
++	int ret;
++	bool status;
++
++	ret = kstrtobool(buf, &status);
++	if (ret)
++		return ret;
++
++	drv->p->allowed = status;
++
++	return count;
++}
++
++static ssize_t allowed_show(struct device_driver *drv, char *buf)
++{
++	return sysfs_emit(buf, "%s:%s %d\n", drv->bus ? drv->bus->name : "NULL",
++			  drv->name, drv->p->allowed);
++}
++static DRIVER_ATTR_RW(allowed);
++
+ /**
+  * bus_add_driver - Add a driver to the bus.
+  * @drv: driver.
+@@ -607,6 +629,7 @@ int bus_add_driver(struct device_driver *drv)
+ 	klist_init(&priv->klist_devices, NULL, NULL);
+ 	priv->driver = drv;
+ 	drv->p = priv;
++	drv->p->allowed = driver_allowed(drv);
+ 	priv->kobj.kset = bus->p->drivers_kset;
+ 	error = kobject_init_and_add(&priv->kobj, &driver_ktype, NULL,
+ 				     "%s", drv->name);
+@@ -626,6 +649,15 @@ int bus_add_driver(struct device_driver *drv)
+ 		printk(KERN_ERR "%s: uevent attr (%s) failed\n",
+ 			__func__, drv->name);
+ 	}
++
++	if (driver_filter_enabled()) {
++		error = driver_create_file(drv, &driver_attr_allowed);
++		if (error) {
++			printk(KERN_ERR "%s: allowed attr (%s) failed\n",
++			       __func__, drv->name);
++		}
++	}
++
+ 	error = driver_add_groups(drv, bus->drv_groups);
+ 	if (error) {
+ 		/* How the hell do we get out of this pickle? Give up */
+@@ -670,6 +702,8 @@ void bus_remove_driver(struct device_driver *drv)
+ 		remove_bind_files(drv);
+ 	driver_remove_groups(drv, drv->bus->drv_groups);
+ 	driver_remove_file(drv, &driver_attr_uevent);
++	if (driver_filter_enabled())
++		driver_remove_file(drv, &driver_attr_allowed);
+ 	klist_remove(&drv->p->knode_bus);
+ 	pr_debug("bus: '%s': remove driver %s\n", drv->bus->name, drv->name);
+ 	driver_detach(drv);
+diff --git a/drivers/base/filter.c b/drivers/base/filter.c
+new file mode 100644
+index 000000000000..772e947ba933
+--- /dev/null
++++ b/drivers/base/filter.c
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * filter.c - Add driver filter framework.
++ *
++ * Implements APIs required for registering platform specific
++ * driver filter.
++ *
++ * Copyright (c) 2021 Intel Corporation
++ */
++
++#define pr_fmt(fmt) "filter: " fmt
++
++#include <linux/init.h>
++#include <linux/device/filter.h>
++#include <linux/acpi.h>
++#include <linux/protected_guest.h>
++
++#include "base.h"
++
++#define MAX_FILTER_NODES 10
++#define MAX_CMDLINE_LEN  500
++
++/* Buffer used by command line parser */
++static char allowed_drivers[MAX_CMDLINE_LEN];
++static char denied_drivers[MAX_CMDLINE_LEN];
++
++/* List of filter nodes for command line parser */
++static struct drv_filter_node allowed_nodes[MAX_FILTER_NODES];
++static struct drv_filter_node denied_nodes[MAX_FILTER_NODES];
++
++/* Driver allow list */
++static LIST_HEAD(driver_allow_list);
++/* Driver deny list */
++static LIST_HEAD(driver_deny_list);
++
++/* Protects driver_filter_list add/read operations*/
++static DEFINE_SPINLOCK(driver_filter_lock);
++
++/*
++ * Compares the driver name with given filter node.
++ *
++ * Return true if driver name matches with filter node.
++ */
++static bool match_driver(struct device_driver *drv,
++			 struct drv_filter_node *node)
++{
++	const char *n;
++	int len;
++
++	/* Make sure input entries are valid */
++	if (!drv || !node || !drv->bus)
++		return false;
++
++	/* If bus_name and drv_list matches "ALL", return true */
++	if (!strcmp(node->bus_name, "ALL") && !strcmp(node->drv_list, "ALL"))
++		return true;
++
++	/*
++	 * Since next step involves bus specific comparison, make
++	 * sure the bus name matches with filter node. If not
++	 * return false.
++	 */
++	if (strcmp(node->bus_name, drv->bus->name))
++		return false;
++
++	/* If allow list is "ALL", allow all */
++	if (!strcmp(node->drv_list, "ALL"))
++		return true;
++
++	for (n = node->drv_list; *n; n += len) {
++		if (*n == ',')
++			n++;
++		len = strcspn(n, ",");
++		if (!strncmp(drv->name, n, len) && drv->name[len] == 0)
++			return true;
++	}
++
++	return false;
++}
++
++/*
++ * driver_allowed() - Check whether given driver is allowed or not
++ *		      based on platform specific driver filter list.
++ */
++bool driver_allowed(struct device_driver *drv)
++{
++	bool status = true;
++	struct drv_filter_node *node;
++
++	spin_lock(&driver_filter_lock);
++
++	/*
++	 * Check whether the driver is allowed using platform
++	 * registered allow list.
++	 */
++	list_for_each_entry(node, &driver_allow_list, list) {
++		if (match_driver(drv, node)) {
++			status = true;
++			goto done;
++		}
++	}
++
++	/*
++	 * Check whether the driver is denied using platform
++	 * registered deny list.
++	 */
++	list_for_each_entry(node, &driver_deny_list, list) {
++		if (match_driver(drv, node)) {
++			status = false;
++			break;
++		}
++	}
++
++done:
++	pr_debug("bus:%s driver:%s %s\n", drv->bus ? drv->bus->name : "null",
++		 drv->name, status ? "allowed" : "denied");
++
++	spin_unlock(&driver_filter_lock);
++
++	return status;
++}
++
++bool driver_filter_enabled(void)
++{
++	return !list_empty(&driver_allow_list) ||
++		!list_empty(&driver_deny_list);
++}
++
++/*
++ * Helper function for filter node validity checks and
++ * adding filter node to allow or deny list.
++ */
++static int add_node_to_list(struct drv_filter_node *node,
++			    struct list_head *flist)
++{
++	/* If filter node is NULL, return error */
++	if (!node)
++		return -EINVAL;
++
++	/* Make sure node input is valid */
++	if (!node->bus_name || !node->drv_list)
++		return -EINVAL;
++
++	spin_lock(&driver_filter_lock);
++
++	list_add_tail(&node->list, flist);
++
++	spin_unlock(&driver_filter_lock);
++
++	return 0;
++}
++
++int register_filter_allow_node(struct drv_filter_node *node)
++{
++	return add_node_to_list(node, &driver_allow_list);
++}
++
++int register_filter_deny_node(struct drv_filter_node *node)
++{
++	return add_node_to_list(node, &driver_deny_list);
++}
++
++static __init void add_custom_driver_filter(char *p, bool allow)
++{
++	struct drv_filter_node *n;
++	int j = 0;
++	char *k;
++
++	while ((k = strsep(&p, ";")) != NULL) {
++		if (j >= MAX_FILTER_NODES) {
++			pr_err("Driver filter nodes exceed MAX_FILTER_NODES\n");
++			break;
++		}
++
++		if (allow)
++			n = &allowed_nodes[j++];
++		else
++			n = &denied_nodes[j++];
++
++		n->bus_name = strsep(&k, ":");
++
++		n->drv_list = p;
++
++		if (allow)
++			register_filter_allow_node(n);
++		else
++			register_filter_deny_node(n);
++	}
++}
++
++/* Command line option to update driver allow list */
++static int __init setup_allowed_drivers(char *buf)
++{
++	if (strlen(buf) >= MAX_CMDLINE_LEN)
++		pr_warn("Allowed list exceeds %d chars\n", MAX_CMDLINE_LEN);
++
++	strscpy(allowed_drivers, buf, MAX_CMDLINE_LEN);
++
++	add_custom_driver_filter(allowed_drivers, 1);
++
++	return 0;
++}
++__setup("filter_allow_drivers=", setup_allowed_drivers);
++
++/* Command line option to update driver deny list */
++static int __init setup_denied_drivers(char *buf)
++{
++	if (strlen(buf) >= MAX_CMDLINE_LEN)
++		pr_warn("Allowed list exceeds %d chars\n", MAX_CMDLINE_LEN);
++
++	strscpy(denied_drivers, buf, MAX_CMDLINE_LEN);
++
++	add_custom_driver_filter(denied_drivers, 0);
++
++	return 0;
++}
++__setup("filter_deny_drivers=", setup_denied_drivers);
+diff --git a/include/linux/device/filter.h b/include/linux/device/filter.h
+new file mode 100644
+index 000000000000..a7510aa4642f
+--- /dev/null
++++ b/include/linux/device/filter.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * filter.h - Driver filter specific header
++ *
++ * Copyright (c) 2021 Intel Corporation
++ *
++ */
++
++#ifndef _DEVICE_FILTER_H_
++#define _DEVICE_FILTER_H_
++
++#include <linux/device/bus.h>
++#include <linux/device/driver.h>
++#include <linux/device.h>
++
++/**
++ * struct drv_filter_node - driver filter node
++ *
++ * @bus_name		: Name of the bus.
++ * @drv_list		: Driver names for allow or deny list.
++ *
++ * Passing ALL in bus_name and drv_list will allow or
++ * deny all drivers.
++ */
++struct drv_filter_node {
++	const char *bus_name;
++	const char *drv_list;
++	struct list_head list;
++};
++
++/* Register platform specific allow list */
++int register_filter_allow_node(struct drv_filter_node *node);
++/* Register platform specific deny list */
++int register_filter_deny_node(struct drv_filter_node *node);
++#endif
+-- 
+2.25.1
+
