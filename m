@@ -2,148 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EFBC4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 06:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3379AC4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 07:41:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 428C4608FC
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 06:44:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 085B660FC3
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 07:41:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235070AbhHDGpK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 02:45:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33146 "EHLO
+        id S235794AbhHDHl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 03:41:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235030AbhHDGpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 02:45:10 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD40C0613D5
-        for <linux-doc@vger.kernel.org>; Tue,  3 Aug 2021 23:44:58 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id u10so1783216oiw.4
-        for <linux-doc@vger.kernel.org>; Tue, 03 Aug 2021 23:44:58 -0700 (PDT)
+        with ESMTP id S235619AbhHDHl2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 03:41:28 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160B0C0613D5;
+        Wed,  4 Aug 2021 00:41:15 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id f12so770849qkh.10;
+        Wed, 04 Aug 2021 00:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cpCintpTuaVWdTzRL812yokzlSzJYG768q7+LGmDNXE=;
-        b=LwiwSVCnSgZONOBetESacS2XTA6TG4jnv37eCpogpT984K3oLA3BGdRI0YpVb+3lT2
-         QkO06EPYOMYm98Gbh5M/4q/lAEhiAchhejiC2JVafz6Qu0jGlkiQAEhnc7Jv7On75huY
-         c9uJiL2UL/sN0YQFZJ5QGfVdxYuZ2Gd2Lgk/YujHDllkohBwZGFbiXpZJPHIRiU7wbqB
-         RGB20d3TYeeK10tL43wyQ4aFmkcsrGwrYLQ6UCaKynpTubuUzqrYPdlTudXPZRyAk2/+
-         ZG+y+3cjB7aebdLVkxCQSmn8OZpFs9t/EY3ql65aW0ZFc4hVMHIjnNS6kTUcc4RGeAmQ
-         qtow==
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=+YKN8zFIulxmNIlW3F0W91JQ1d2GvyA2/2s6T5fcLjA=;
+        b=h+X3Tahl8foSVSHxt2y7HIFQH0IexcgUU3OGrFSOU1IilFE+BsDs4VTPwaNgbpKY5J
+         dkIsSYDqDPp1pFXAr73L22WMYXdPCsPW4WLlK2iqAuphF6yLKem2lcOQEqXyhUA8oek9
+         xSQ7y8RgNiCiRgGT2JtByjR/BxMg78Y5btA0HDx7tqO8Xl9JWBDo5Y2y1VmVq4h1QuU5
+         RJTCkxAC9KJ6RHOwIO/V8Mmdc6N5mQPRPukjKuD3hAimpnqORR6zTGrmRYNlbQBI/3xf
+         Fx/Blv67OzXMHDRLS6f556aV8UbnQRpqrQ1QLwIAs5O5eRk9teDmhHlixmU6CaTbJpQX
+         Lrtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cpCintpTuaVWdTzRL812yokzlSzJYG768q7+LGmDNXE=;
-        b=eVoUIU/uCAvrmSqNwRLMoDZ4tQ9tzH/4oGF+uZHGibeugciIpjWI3kKXyVDg+GUBAA
-         sk8lxZ0DwJpP8daHTy62oBhppobOLWZRGGBMRxxPXw1X1ks7jhkjNjsDkPD0AbJOGYuI
-         u1iIYdztSsZ8C2LEB5xmJVqfSPdGcjBl+K2MQ9Di0PXTj7zhh2kD1arRW2ZR7Aq3DI80
-         /+pwR/Cvv08ksr4u/aol91rggGFH5CKAqiWd2n6o8QxbDLLf/5pKbUm53s8oTxMQv/MI
-         xCU3SFKKCDiXp/RHUfPvXR8U3vSzinlQIRYqvdSXh0MLXjhWS1uRb4bWjKOn8v038tp6
-         Y44Q==
-X-Gm-Message-State: AOAM531alJH+SB543Pio2O2a4C6OYfqsH82WDMhGPwW9vFNZv4YRF8sF
-        qKd8OAAUNn4uG4Cg7JmBq26lllH663Z0wlq5jCQ=
-X-Google-Smtp-Source: ABdhPJwgu6ywyaIJHntayHuYF+0qUKtsxrAMxKCgpkkDIQl3sTIW9KTpxIbBYTyxYA08/AeAJszTl9/XXkpzthAeSFI=
-X-Received: by 2002:a05:6808:209d:: with SMTP id s29mr17009912oiw.103.1628059497681;
- Tue, 03 Aug 2021 23:44:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1627823347.git.siyanteng@loongson.cn> <32f06dd4d9fdd412d48d4fe0b09c6ea9da75380e.1627823347.git.siyanteng@loongson.cn>
- <CAJy-Am=h5TcH9kJgsChheRruwCBoeKi6dnPFNsHM4+hYUpmbjg@mail.gmail.com>
-In-Reply-To: <CAJy-Am=h5TcH9kJgsChheRruwCBoeKi6dnPFNsHM4+hYUpmbjg@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 4 Aug 2021 14:44:48 +0800
-Message-ID: <CAEensMxnOzwiyx+odwsrSr=5=ohyUzniJCT=RHd915uRSfWF_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] docs/zh_CN: add virt acrn introduction translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        chenfeiyang@loongson.cn,
-        =?UTF-8?B?6ZmI6aOe5oms?= <chris.chenfeiyang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=+YKN8zFIulxmNIlW3F0W91JQ1d2GvyA2/2s6T5fcLjA=;
+        b=hET3csGQ3mKj5iuoTqY5KWT3PaAyDz2rw9siwplXZccefX0usLdlv8EzhP+XEnH1yC
+         op439gSYNuwjwsEW880jRmJdvgRHZWzZHSZQ6vFbcHyBahg0BCHysuCFmSXtamJNL5dH
+         cuWV9u7h5Z2tNcFK8tN1dVej/9TMv8JYdF6YM3TnbeYhOu8wd5ugolytyw5hw7SI/2vM
+         mU0zFnsF6Sd9ODC1I0+mcluAbZ+KGYaz8hE095e1/xDqaM4oIeevPAidECfLb6XKBpKI
+         H3uDNjz4FzeKjw2QKqUHUiWP6H5QCdQfVuELIie7dKfHz3G3t0b1oZ9ZevWZLJQV7EIh
+         tmiw==
+X-Gm-Message-State: AOAM5328IpY/hqdSID6Qh8xuI8ehuWl3Jzwm7Tp5Hu/DqxZ1NscC/sUc
+        nEwJedQCsijwT8tbcO+adbY=
+X-Google-Smtp-Source: ABdhPJwLdZO1sAy3jiAaknQrXnaR0L2WJdQu0ZfiPIgYHgAkdE1YZuIY/FL9pb4yUW2nrclDkLHkqg==
+X-Received: by 2002:a05:620a:a8f:: with SMTP id v15mr24407916qkg.257.1628062874185;
+        Wed, 04 Aug 2021 00:41:14 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id v11sm602529qtc.0.2021.08.04.00.41.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Aug 2021 00:41:13 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj38.park@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+        amit@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
+        jgowans@amazon.com, mheyne@amazon.de,
+        David Rientjes <rientjes@google.com>, sieberf@amazon.com,
+        Vlastimil Babka <vbabka@suse.cz>, linux-damon@amazon.com,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, Wei Xu <weixugc@google.com>,
+        Paul Turner <pjt@google.com>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
+Date:   Wed,  4 Aug 2021 07:41:07 +0000
+Message-Id: <20210804074107.3021-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210802082424.19584-1-sjpark@amazon.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0OOaciDTml6XlkajkuIkg5LiK
-5Y2IMTE6MDLlhpnpgZPvvJoNCj4NCj4gT24gU3VuLCBBdWcgMSwgMjAyMSBhdCA5OjMyIFBNIFlh
-bnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4gd3JvdGU6DQo+ID4NCj4gPiBUcmFuc2xh
-dGUgRG9jdW1lbnRhdGlvbi92aXJ0L2Fjcm4vaW50cm9kdWN0aW9uLnJzdCBpbnRvIENoaW5lc2Uu
-DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24u
-Y24+DQo+ID4gLS0tDQo+ID4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vdmlydC9hY3JuL2luZGV4
-LnJzdCAgICB8ICA0ICstDQo+ID4gIC4uLi96aF9DTi92aXJ0L2Fjcm4vaW50cm9kdWN0aW9uLnJz
-dCAgICAgICAgICB8IDUyICsrKysrKysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2Vk
-LCA1NSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92aXJ0L2Fjcm4vaW50cm9kdWN0aW9u
-LnJzdA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL3ZpcnQvYWNybi9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti92aXJ0L2Fjcm4vaW5kZXgucnN0DQo+ID4gaW5kZXggNjA2MWU3OTBlZTgzLi5iOGY1MDIwMzM0
-NTUgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdmly
-dC9hY3JuL2luZGV4LnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL3ZpcnQvYWNybi9pbmRleC5yc3QNCj4gPiBAQCAtMjAsOCArMjAsMTAgQEAgQUNSTui2hee6
-p+euoeeQhuWZqA0KPiA+ICAuLiB0b2N0cmVlOjoNCj4gPiAgICAgOm1heGRlcHRoOiAxDQo+ID4N
-Cj4gPiArICAgaW50cm9kdWN0aW9uDQo+ID4gKw0KPiA+ICBUT0RPTElTVDoNCj4gPg0KPiA+IC0g
-ICBpbnRyb2R1Y3Rpb24NCj4gPiArDQo+ID4gICAgIGlvLXJlcXVlc3QNCj4gPiAgICAgY3B1aWQN
-Cj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdmlydC9h
-Y3JuL2ludHJvZHVjdGlvbi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92
-aXJ0L2Fjcm4vaW50cm9kdWN0aW9uLnJzdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4g
-aW5kZXggMDAwMDAwMDAwMDAwLi5iMzEwMzRiY2ZhNGUNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4g
-KysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdmlydC9hY3JuL2ludHJvZHVj
-dGlvbi5yc3QNCj4gPiBAQCAtMCwwICsxLDUyIEBADQo+ID4gKy4uIFNQRFgtTGljZW5zZS1JZGVu
-dGlmaWVyOiBHUEwtMi4wDQo+ID4gKy4uIGluY2x1ZGU6OiAuLi8uLi9kaXNjbGFpbWVyLXpoX0NO
-LnJzdA0KPiA+ICsNCj4gPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL3ZpcnQvYWNybi9pbnRy
-b2R1Y3Rpb24ucnN0DQo+ID4gKw0KPiA+ICs657+76K+ROg0KPiA+ICsNCj4gPiArIOWPuOW7tuiF
-viBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICs65qCh6K+R
-Og0KPiA+ICsNCj4gPiArIOaXtuWljuS6riBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4g
-PiArDQo+ID4gKy4uIF9jbl92aXJ0X2Fjcm5faW50cm9kdWN0aW9uOg0KPiA+ICsNCj4gPiArQUNS
-Tui2hee6p+euoeeQhuWZqOS7i+e7jQ0KPiA+ICs9PT09PT09PT09PT09PT09PT0NCj4gPiArDQo+
-ID4gK0FDUk7otoXnuqfnrqHnkIblmajmmK/kuIDkuKrnrKzkuIDnsbvotoXnuqfnrqHnkIblmajv
-vIznm7TmjqXlnKjoo7jmnLrnoazku7bkuIrov5DooYzjgILlroPmnInkuIDkuKrnibnmnYPnrqHn
-kIbomZrmi5/mnLrvvIznp7DkuLrmnI0NCj4gPiAr5Yqh6Jma5ouf5py677yM55So5LqO566h55CG
-55So5oi36Jma5ouf5py65ZKM6L+b6KGMSS9P5Lu/55yf44CCDQo+ID4gKw0KPiA+ICtBQ1JO55So
-5oi356m66Ze05piv5LiA5Liq6L+Q6KGM5Zyo5pyN5Yqh6Jma5ouf5py65Lit55qE5bqU55So56iL
-5bqP77yM5a6D5qC55o2u5ZG95Luk6KGM6YWN572u5Li655So5oi36Jma5ouf5py65Lu/55yf6K6+
-5aSH44CCDQo+ID4gK0FDUk7nrqHnkIbnqIvluo/mnI3liqHmqKHlnZfvvIhIU03vvInmmK/mnI3l
-iqHomZrmi5/mnLrkuK3nmoTkuIDkuKrlhoXmoLjmqKHlnZfvvIzkuLpBQ1JO55So5oi356m66Ze0
-5o+Q5L6b566h55CG56iL5bqP5pyNDQo+ID4gK+WKoeOAgg0KPiA+ICsNCj4gPiAr5LiL5Zu+5bGV
-56S65LqG6K+l5p625p6E44CCDQo+ID4gKw0KPiA+ICs6Og0KPiA+ICsNCj4gPiArICAgICAgICAg
-ICAgICAgIOacjeWKoeerr1ZNICAgICAgICAgICAgICAgICAgICAgIOeUqOaIt+err1ZNDQo+ID4g
-KyAgICAgICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKyAgfCAgKy0tLS0tLS0tLS0tLS0t
-LS0tLSsNCj4gPiArICAgICAgfCAgICAgICAgKy0tLS0tLS0tLS0tLS0tKyAgICB8ICB8ICB8ICAg
-ICAgICAgICAgICAgICAgfA0KPiA+ICsgICAgICB8ICAgICAgICB8QUNSTueUqOaIt+epuumXtCAg
-fCAgICB8ICB8ICB8ICAgICAgICAgICAgICAgICAgfA0KPiA+ICsgICAgICB8ICAgICAgICArLS0t
-LS0tLS0tLS0tLS0rICAgIHwgIHwgIHwgICAgICAgICAgICAgICAgICB8DQo+ID4gKyAgICAgIHwt
-LS0tLS0tLS0tLS0tLS0tLWlvY3RsLS0tLS0tfCAgfCAgfCAgICAgICAgICAgICAgICAgIHwgICAu
-Li4NCj4gPiArICAgICAgfOWGheaguOepuumXtCAgICAgICArLS0tLS0tLS0tLSsgfCAgfCAgfCAg
-ICAgICAgICAgICAgICAgIHwNCj4gPiArICAgICAgfCAgICAgICAgICAgICAgIHwgICBIU00gICAg
-fCB8ICB8ICB8IOmpseWKqCAgICAgICAgICAgICB8DQo+ID4gKyAgICAgIHwgICAgICAgICAgICAg
-ICArLS0tLS0tLS0tLSsgfCAgfCAgfCAgICAgICAgICAgICAgICAgIHwNCj4gPiArICAgICAgKy0t
-LS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0rICB8ICArLS0tLS0tLS0tLS0tLS0tLS0tKw0KPiA+
-ICsgICstLS0tLS0tLS0tLS0tLS0tLS0tLS1oeXBlcmNhbGwtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tKw0KPiA+ICsgIHwgICAgICAgICAgICAgICAgICAgICAgICAgQUNS
-Tui2hee6p+euoeeQhuWZqCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gKyAg
-Ky0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0rDQo+ID4gKyAgfCAgICAgICAgICAgICAgICAgICAgICAgICAg56Gs5Lu2
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiArICArLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLSsNCj4gPiArDQo+ID4gK0FDUk7nlKjmiLfnqbrpl7TkuLrnlKjmiLfomZrmi5/mnLrl
-iIbphY3lhoXlrZjvvIzphY3nva7lkozliJ3lp4vljJbnlKjmiLfomZrmi5/mnLrkvb/nlKjnmoTo
-rr7lpIfvvIzliqDovb3omZrmi5/lvJXlr7znqIvluo/vvIwNCj4gPiAr5Yid5aeL5YyW6Jma5ouf
-Q1BV54q25oCB77yM5aSE55CG5p2l6Ieq55So5oi36Jma5ouf5py655qESS9P6K+35rGC6K6/6Zeu
-44CC5a6D5L2/55SoaW9jdGxz5p2l5LiOSFNN6YCa5L+h44CCSFNN6YCa6L+HDQo+ID4gK+S4jkFD
-Uk7otoXnuqfnrqHnkIblmajnmoRoeXBlcmNhbGxz6L+b6KGM5Lqk5LqS5p2l5a6e546w566h55CG
-5pyN5Yqh44CCSFNN5ZCR55So5oi356m66Ze06L6T5Ye65LiA5LiqY2hhcuiuvuWkh+aOpeWPow0K
-PiA+ICvvvIgvZGV2L2Fjcm5faHNt77yJ44CCDQo+ID4gKw0KPiA+ICtBQ1JO6LaF57qn566h55CG
-5Zmo5piv5byA5rqQ55qE77yM5Lu75L2V5Lq66YO95Y+v5Lul6LSh54yu44CC5rqQ56CB5bqT5Y+v
-5ZyoDQo+DQo+IHJlbW92ZSAn5Y+v4oCYID8gd2l0aCB0aGlzDQo+DQo+IFJldmlld2VkLWJ5OiBB
-bGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4NCk9LIQ0KDQpUaGFua3MsDQoNCllhbnRlbmcN
-Cg==
+From: SeongJae Park <sjpark@amazon.de>
+
+Hello Andrew,
+
+On Mon,  2 Aug 2021 08:24:24 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> Hello Andrew,
+> 
+> On Wed, 28 Jul 2021 08:36:43 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+> 
+> [...]
+> > Now all the patches have at least one 'Reviewed-by:' or 'Acked-by:' tags.  We
+> > didn't find serious problems since v26[5], which was posted about four months
+> > ago. so I'm thinking this patchset has passed the minimum qualification.  If
+> > you think there are more things to be done before this patchset is merged in
+> > the -mm tree or mainline, please let me know.  If not, Andrew, I'd like you to
+> > consider merging this patchset into '-mm' tree.
+> 
+> I'm wondering if you had a chance to consider that.  If you had the chance but
+> this patchset didn't convince you, could you please let me know your concerns
+> so that I can make some progress?
+
+Because nearly three weeks passed since this patchset is posted, I considered
+rebasing it on the latest -mm tree and posting it as v35.  But, apparently it
+makes no much sense because we found nothing to fix or improve.  And, this
+version can still cleanly be applied on top of the latest -mm tree.  So,
+instead of merely increasing the version number, I'd like to describe why I
+believe this need to be merged into the -mm tree and eventually the mainline.
+
+1. Merging this patchset will not bother other developers
+
+Most changes in this patchset are for DAMON-dedicated new source files.  There
+is a change[1] for existing files, which makes PG_Idle independent of Idle Page
+Tracking, but it is only small.  Therefore, merging this patchset will not
+increase the complexity of the other parts or introduce a regression.
+
+2. Merging this patchset will not bother other users
+
+DAMON utilizes a mechanism that designed to minimize and limit the monitoring
+overhead.  That said, DAMON can be opt out in the compile time for users who
+don't want it.  Even though it is compiled, it does nothing at all unless a
+user explicitly asks it to do some works.  Therefore, merging this patchset
+will not silently introduce any additional overhead to users.
+
+3. This patchset is deployed to real users
+
+We are currently using DAMON patchset for profiling production workloads, as
+described in 'Real-world User Story' section of the cover letter.  It is also
+deployed to real users other than us via Amazon Linux[2,3].  A few companies
+and several researchers outside Amazon have publicly and/or privately shown
+their interests in DAMON.
+
+4. The downstream-only maintenance overhead is significant
+
+Following development works based on DAMON[4,5,6] are also ongoing.  Because
+all the works are currently in downstream only, the maintenance overhead is not
+small for us.  Once DAMON is upstreamed, the overhead will significantly be
+reduced.
+
+5. This patchset is reviewed and apparently is stabilized
+
+Since the first version of DAMON patchset is posted (2020-01-20), it has
+evolved a lot.  All patches of this patchset got at least one 'Reviewed-by:' or
+'Acked-by:' tag by v31[7], which have posted about seven weeks ago
+(2021-06-21).  After that, we found and fixed only minor issues.  We also got a
+few more 'Acked-by:' tags.  Since v34, which has posted about three weeks ago,
+we found no more issues.  We are also continuously running extensive
+DAMON-dedicated tests.  The tests include unit tests, self tests, functional
+tests, performance tests, and static code analysis.  Some of those are also
+publicly available[8].
+
+[1] https://lore.kernel.org/linux-mm/20210716081449.22187-5-sj38.park@gmail.com/
+[2] https://github.com/amazonlinux/linux/tree/amazon-5.4.y/master/mm/damon
+[3] https://github.com/amazonlinux/linux/tree/amazon-5.10.y/master/mm/damon
+[4] https://lore.kernel.org/linux-mm/20201216084404.23183-1-sjpark@amazon.com/
+[5] https://lore.kernel.org/linux-mm/20201216094221.11898-1-sjpark@amazon.com/
+[6] https://lore.kernel.org/linux-mm/20210720131309.22073-1-sj38.park@gmail.com/
+[7] https://lore.kernel.org/linux-mm/20210621083108.17589-1-sj38.park@gmail.com/
+[8] https://github.com/awslabs/damon-tests
+
+
+If you think above explanation makes sense, please consider merging this into
+the -mm tree.  Else, if this doesn't convince you, please let me know your
+concerns or what I'm missing, so that I can make some progress.
+
+
+Thanks,
+SeongJae Park
+
+[...]
