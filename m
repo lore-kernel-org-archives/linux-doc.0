@@ -2,250 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A45FC432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9047CC4338F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:08:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2CE260C3E
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:05:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A57360C3E
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 18:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230422AbhHDSGH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 14:06:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
+        id S240017AbhHDSJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 14:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230226AbhHDSGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 14:06:06 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB26C0613D5;
-        Wed,  4 Aug 2021 11:05:53 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id r16-20020a0568304190b02904f26cead745so2054389otu.10;
-        Wed, 04 Aug 2021 11:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=662mfXKtv4dSIf5beuNHT3DDXWaZbtj0U5V1Quf/Cqo=;
-        b=TsQLFAb5BCoWxD1Y2wgcJGTIN7EP2e93teQo9ELdOtG3JOvr/Y3zRBwD0WFB1kOzRY
-         jOkeOW8BcYKRFJgvnnOT0sz6cGil12qyuXKAv09qUokQmiCWj20asPOQ1PI1BqvFjgez
-         cPVIIhd6/M6ponIGM58P+5KnevAUetIqSk9KhNYPEAfUVHB0ko0IryjGbVwxF3IK5fTm
-         OqlhFPyeVh914SibViA+dpwsaGUGsBgltFpn25sQn+9+YIfdDl+w/Ke+9yaFpFJC0os+
-         Y05RD6wUnzCa6cf270QE6ZFez0Lr6v0E9pJqBZ2QmsoMR6uSGOS32+spj9sHUXExEk9h
-         pPPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=662mfXKtv4dSIf5beuNHT3DDXWaZbtj0U5V1Quf/Cqo=;
-        b=lwv+gtr4hJw7vulf4SPzVo7+j6ev8MPmX0pWhI7yFMDB5hD64zluEnnxvQc+dKv6zL
-         003GQf6f9UL4iOmfgR1VVwbt1aBu06DfGNAybmnM+48AsUY3xFcRDn0IxVqgJChNFZlB
-         9cGA1j6X9ic/aqlCaDI7p4gOKfptPszBluUAF6OZuHzveKB2E9ensRZUch9twoDoW55/
-         FYe32wansu1J1YKyGnPIREkINBcNjNzLqbn1fjO+4UbO4Zvoxj5adwH9aTlLn2p78TP8
-         sCHuIjofmliZ3006O7l+tUtYD6qShJKVQSwJqPhNjBegPdO21dACjbCfcRBqQkyBOhJI
-         8JNw==
-X-Gm-Message-State: AOAM531jkoJzY94ExmMDQcxJ4aQ/XiQ2zE7ZMVjU1Ow6LxAbayq3BFKG
-        zIHtliNVFfTh5cjAoExL7Xg=
-X-Google-Smtp-Source: ABdhPJwV2GGK2AFelwSidL571RaM1UkeRO7cCy4fNQ3gajiTq4DQjj4ju9lo9QV4O7WpRUROwB5WyA==
-X-Received: by 2002:a05:6830:25ce:: with SMTP id d14mr715144otu.87.1628100352271;
-        Wed, 04 Aug 2021 11:05:52 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id f14sm516494ote.64.2021.08.04.11.05.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 11:05:51 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 13/14] docs: hwmon: Document PECI drivers
-To:     Zev Weiss <zweiss@equinix.com>,
-        "Winiarska, Iwona" <iwona.winiarska@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-References: <20210712220447.957418-1-iwona.winiarska@intel.com>
- <20210712220447.957418-14-iwona.winiarska@intel.com>
- <20210727225808.GU8018@packtop>
- <ea5621698508a800cea59b5533f8845b9f0befc6.camel@intel.com>
- <20210804175203.GY8018@packtop>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <4e840768-0315-6241-e988-9a3165a31a86@roeck-us.net>
-Date:   Wed, 4 Aug 2021 11:05:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        with ESMTP id S240015AbhHDSJK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 14:09:10 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AE5C0613D5;
+        Wed,  4 Aug 2021 11:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=HpBw3SJs+17F/1MWyg77w4ci6hzkc6ALjrYnSEiZYhE=; b=G/k6vjPcW/kzCpzvsN+sYmzFSv
+        CdcEZ/91s4KWsHu/Dvn8P1s/6KeMdlTu43jvU0OuYhldWPXIDlVEXXHf9isG+KQU6HscnaFCMGezT
+        9gIRhmuGjCfHo7MSWi/woP4LCM6zTJr8AW3/hGysYZyRRvJT2GCiGWgou1VLOKUr5SyCG0JfpsWDT
+        GNHv3IeZBAEJ3yUGwBHxC5rou7wM3RE0w8C5yEDYXCCU3UxXFPaecn3DWWVUn/cj+g6hbaMhGiYV9
+        iYK/wiKpaUOsewEQkGL2EB6WpPw9yUv51rxF2PMy1lvV/zY5eQkUHx7U20AhlZamiAP4AFMkxZOAu
+        3Dxf2Qbw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mBLJG-0069Rj-ET; Wed, 04 Aug 2021 18:08:14 +0000
+Date:   Wed, 4 Aug 2021 19:08:06 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+Message-ID: <YQrXhnHJCsTxiRcP@casper.infradead.org>
+References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210804175203.GY8018@packtop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/4/21 10:52 AM, Zev Weiss wrote:
-> On Mon, Aug 02, 2021 at 06:37:30AM CDT, Winiarska, Iwona wrote:
->> On Tue, 2021-07-27 at 22:58 +0000, Zev Weiss wrote:
->>> On Mon, Jul 12, 2021 at 05:04:46PM CDT, Iwona Winiarska wrote:
->>>> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>>>
->>>> Add documentation for peci-cputemp driver that provides DTS thermal
->>>> readings for CPU packages and CPU cores and peci-dimmtemp driver that
->>>> provides DTS thermal readings for DIMMs.
->>>>
->>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>>> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
->>>> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
->>>> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->>>> ---
->>>> Documentation/hwmon/index.rst         |  2 +
->>>> Documentation/hwmon/peci-cputemp.rst  | 93 +++++++++++++++++++++++++++
->>>> Documentation/hwmon/peci-dimmtemp.rst | 58 +++++++++++++++++
->>>> MAINTAINERS                           |  2 +
->>>> 4 files changed, 155 insertions(+)
->>>> create mode 100644 Documentation/hwmon/peci-cputemp.rst
->>>> create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
->>>>
->>>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->>>> index bc01601ea81a..cc76b5b3f791 100644
->>>> --- a/Documentation/hwmon/index.rst
->>>> +++ b/Documentation/hwmon/index.rst
->>>> @@ -154,6 +154,8 @@ Hardware Monitoring Kernel Drivers
->>>>     pcf8591
->>>>     pim4328
->>>>     pm6764tr
->>>> +   peci-cputemp
->>>> +   peci-dimmtemp
->>>>     pmbus
->>>>     powr1220
->>>>     pxe1610
->>>> diff --git a/Documentation/hwmon/peci-cputemp.rst
->>>> b/Documentation/hwmon/peci-cputemp.rst
->>>> new file mode 100644
->>>> index 000000000000..d3a218ba810a
->>>> --- /dev/null
->>>> +++ b/Documentation/hwmon/peci-cputemp.rst
->>>> @@ -0,0 +1,93 @@
->>>> +.. SPDX-License-Identifier: GPL-2.0-only
->>>> +
->>>> +Kernel driver peci-cputemp
->>>> +==========================
->>>> +
->>>> +Supported chips:
->>>> +       One of Intel server CPUs listed below which is connected to a PECI
->>>> bus.
->>>> +               * Intel Xeon E5/E7 v3 server processors
->>>> +                       Intel Xeon E5-14xx v3 family
->>>> +                       Intel Xeon E5-24xx v3 family
->>>> +                       Intel Xeon E5-16xx v3 family
->>>> +                       Intel Xeon E5-26xx v3 family
->>>> +                       Intel Xeon E5-46xx v3 family
->>>> +                       Intel Xeon E7-48xx v3 family
->>>> +                       Intel Xeon E7-88xx v3 family
->>>> +               * Intel Xeon E5/E7 v4 server processors
->>>> +                       Intel Xeon E5-16xx v4 family
->>>> +                       Intel Xeon E5-26xx v4 family
->>>> +                       Intel Xeon E5-46xx v4 family
->>>> +                       Intel Xeon E7-48xx v4 family
->>>> +                       Intel Xeon E7-88xx v4 family
->>>> +               * Intel Xeon Scalable server processors
->>>> +                       Intel Xeon D family
->>>> +                       Intel Xeon Bronze family
->>>> +                       Intel Xeon Silver family
->>>> +                       Intel Xeon Gold family
->>>> +                       Intel Xeon Platinum family
->>>> +
->>>> +       Datasheet: Available from http://www.intel.com/design/literature.htm
->>>> +
->>>> +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>>> +
->>>> +Description
->>>> +-----------
->>>> +
->>>> +This driver implements a generic PECI hwmon feature which provides Digital
->>>> +Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that
->>>> are
->>>> +accessible via the processor PECI interface.
->>>> +
->>>> +All temperature values are given in millidegree Celsius and will be
->>>> measurable
->>>> +only when the target CPU is powered on.
->>>> +
->>>> +Sysfs interface
->>>> +-------------------
->>>> +
->>>> +=======================
->>>> =======================================================
->>>> +temp1_label            "Die"
->>>> +temp1_input            Provides current die temperature of the CPU package.
->>>> +temp1_max              Provides thermal control temperature of the CPU
->>>> package
->>>> +                       which is also known as Tcontrol.
->>>> +temp1_crit             Provides shutdown temperature of the CPU package
->>>> which
->>>> +                       is also known as the maximum processor junction
->>>> +                       temperature, Tjmax or Tprochot.
->>>> +temp1_crit_hyst                Provides the hysteresis value from Tcontrol
->>>> to Tjmax of
->>>> +                       the CPU package.
->>>> +
->>>> +temp2_label            "DTS"
->>>> +temp2_input            Provides current DTS temperature of the CPU package.
->>>
->>> Would this be a good place to note the slightly counter-intuitive nature
->>> of DTS readings?  i.e. add something along the lines of "The DTS sensor
->>> produces a delta relative to Tjmax, so negative values are normal and
->>> values approaching zero are hot."  (In my experience people who aren't
->>> already familiar with it tend to think something's wrong when a CPU
->>> temperature reading shows -50C.)
->>
->> I believe that what you're referring to is a result of "GetTemp", and we're
->> using it to calculate "Die" sensor values (temp1).
->> The sensor value is absolute - we don't expose "raw" thermal sensor value
->> (delta) anywhere.
->>
->> DTS sensor is exposing temperature value scaled to fit DTS 2.0 thermal profile:
->> https://www.intel.com/content/www/us/en/processors/xeon/scalable/xeon-scalable-thermal-guide.html
->> (section 5.2.3.2)
->>
->> Similar to "Die" sensor - it's also exposed in absolute form.
->>
->> I'll try to change description to avoid confusion.
->>
-> 
-> When I tested the patch series by applying it to my OpenBMC kernel, the
-> temp2_input sysfs file produced negative numbers (as has been the case
-> with previous iterations of the PECI patchset).  Is that expected?  From
-> what Guenter has said it sounds like that's going to need to change so
-> that the temperature readings are all in "normal" millidegrees C
-> (that is, relative to the freezing point of water).
-> 
+On Wed, Aug 04, 2021 at 10:43:22AM -0700, Kuppuswamy Sathyanarayanan wrote:
+> +/* Driver allow list */
+> +static LIST_HEAD(driver_allow_list);
+> +/* Driver deny list */
+> +static LIST_HEAD(driver_deny_list);
 
-Correct, the temperature is expected to be reported in millidegrees C
-per hwmon ABI. Everything else is unacceptable. That makes me wonder what
-"raw" and "absolute" means. Negative numbers suggest that, whatever is
-reported today, it is not millidegrees C.
-
-Guenter
+Why use a doubly-linked-list here?  An allocating xarray should perform
+much better and use less memory.
