@@ -2,83 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F32AC4338F
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 21:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE6EC4320A
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 21:11:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC06D60F43
-	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 21:07:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C4E360E74
+	for <linux-doc@archiver.kernel.org>; Wed,  4 Aug 2021 21:11:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237361AbhHDVIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 17:08:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbhHDVIH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 17:08:07 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A18C0613D5;
-        Wed,  4 Aug 2021 14:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bpxyDpnvly9eIlMQTFPJ1aBcN9lOvzkoVYTJFUDJnqo=; b=iLoMBWKjIEusVQoTWW/PDbf4E6
-        UpBvg0/6a7I3wA1o0hOk+3nIixZMjbuU7AvdPcOKwOHcxBJJxKPbw+sVrBvYmdHKAJC1+7ivKtRCW
-        kw51BIbzdxEgabH2EqeEkojnf/p8N6qRwm3jfLoqiPMn8bw2ImSKR1bKk7RxwBR0/1nD2ktoveeXy
-        uw3t0cctv1UXtLL2gLzkOW3aGA4l1asOPtBeBC/leUQBRFaTPM5o48yWRjN2ja0OMNj7WPlSdJNQM
-        QChffB6AwMrUaPh+iaThHIffvV/O4P3Wk29gLPuGRqg/qsmyay8NgDlcmM5YfEFD+KLW87Vjcrsla
-        9NH6/B2g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mBO6W-006IQp-Ga; Wed, 04 Aug 2021 21:07:16 +0000
-Date:   Wed, 4 Aug 2021 22:07:08 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQsBfAVPomaC97Rm@casper.infradead.org>
-References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YQrqhYEL64CSLRTy@kroah.com>
- <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
+        id S229611AbhHDVLe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 17:11:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60903 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229577AbhHDVLd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 17:11:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628111480;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0aCM0sS1/kssfJvUB4gZNdTsc20oPF9++cTUI8zhW60=;
+        b=CA4y1J6ULaHDSiJZppYNtte5dMEyCAWIH/8zvcc1t+BOInlXd5oqvn7wPmMzlNqNZ9p08Y
+        QPe/GkiL4/Mv3cr+U9NQk84um5CaaKRjiO7x5o5LOT2HVwnYiEr6oFgo3enn89oVF+Nn8X
+        JDT2tm1QwsUBNsx+8/WgJOKzY2eVwJU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-AA_yMFDwMs2mLG58g3F5tw-1; Wed, 04 Aug 2021 17:11:16 -0400
+X-MC-Unique: AA_yMFDwMs2mLG58g3F5tw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDC398799FF;
+        Wed,  4 Aug 2021 21:11:13 +0000 (UTC)
+Received: from optiplex-fbsd (unknown [10.3.128.25])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5279960BF4;
+        Wed,  4 Aug 2021 21:11:09 +0000 (UTC)
+Date:   Wed, 4 Aug 2021 17:11:06 -0400
+From:   Rafael Aquini <aquini@redhat.com>
+To:     Charan Teja Reddy <charante@codeaurora.org>
+Cc:     akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        dave.hansen@linux.intel.com, vbabka@suse.cz,
+        mgorman@techsingularity.net, nigupta@nvidia.com, corbet@lwn.net,
+        rppt@kernel.org, khalid.aziz@oracle.com, rientjes@google.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        vinmenon@codeaurora.org
+Subject: Re: [PATCH V5] mm: compaction: support triggering of proactive
+ compaction by user
+Message-ID: <YQsCasRVGoVhIvyR@optiplex-fbsd>
+References: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
+In-Reply-To: <1627653207-12317-1-git-send-email-charante@codeaurora.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 01:11:27PM -0700, Dan Williams wrote:
-> On Wed, Aug 4, 2021 at 12:29 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > Why not just make distros that want to support this type of platform,
-> > also provide these tiny kernel images?  Why are you pushing this work on
-> > the kernel community instead?
+On Fri, Jul 30, 2021 at 07:23:27PM +0530, Charan Teja Reddy wrote:
+> The proactive compaction[1] gets triggered for every 500msec and run
+> compaction on the node for COMPACTION_HPAGE_ORDER (usually order-9)
+> pages based on the value set to sysctl.compaction_proactiveness.
+> Triggering the compaction for every 500msec in search of
+> COMPACTION_HPAGE_ORDER pages is not needed for all applications,
+> especially on the embedded system usecases which may have few MB's of
+> RAM. Enabling the proactive compaction in its state will endup in
+> running almost always on such systems.
 > 
-> In fact, these questions are where I started when first encountering
-> this proposal. Andi has addressed the single kernel image constraint,
-> but I want to pick up on this "pushing work to the kernel community"
-> contention. The small list of vetted drivers that a TDX guest needs
-> will be built-in and maintained in the kernel by the protected guest
-> developer community, so no "pushing work" there. However, given that
-> any driver disable mechanism needs to touch the driver core I
-> advocated to go ahead and make this a general purpose capability to
-> pick up where this [1] conversation left off. I.e. a general facility
-> for the corner cases that modprobe and kernel config policy can not
-> reach. Corner cases like VMM attacking the VM, or broken hardware with
-> a built-in driver that can't be unbound after the fact.
+> Other side, proactive compaction can still be very much useful for
+> getting a set of higher order pages in some controllable
+> manner(controlled by using the sysctl.compaction_proactiveness). So, on
+> systems where enabling the proactive compaction always may proove not
+> required, can trigger the same from user space on write to its sysctl
+> interface. As an example, say app launcher decide to launch the memory
+> heavy application which can be launched fast if it gets more higher
+> order pages thus launcher can prepare the system in advance by
+> triggering the proactive compaction from userspace.
+> 
+> This triggering of proactive compaction is done on a write to
+> sysctl.compaction_proactiveness by user.
+> 
+> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=facdaa917c4d5a376d09d25865f5a863f906234a
+> 
+> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
 
-I don't understand how this defends against a hypervisor attacking a
-guest.  If the hardware exists, the hypervisor can access it, regardless
-of whether the driver is default-disabled by configuration.
+Acked-by: Rafael Aquini <aquini@redhat.com>
+
+> ---
+>  Changes in V5:
+>  	-- Avoid unnecessary wakeup of proactive compaction when it is disabled.
+> 	-- No changes in the logic of triggering the proactive compaction.
+> 
+>  Changes in V4:
+> 	-- Changed the code as the 'proactive_defer' counter is removed.
+> 	-- No changes in the logic of triggering the proactive compaction.
+> 	-- https://lore.kernel.org/patchwork/patch/1448777/
+> 
+>  Changes in V3:
+>         -- Fixed review comments from Valstimil and others.
+>         -- https://lore.kernel.org/patchwork/patch/1438211/
+> 
+>  Changes in V2:
+> 	-- remove /proc/../proactive_compact_memory interface trigger for proactive compaction
+>         -- Intention is same that add a way to trigger proactive compaction by user.
+>         -- https://lore.kernel.org/patchwork/patch/1431283/
+> 
+>  changes in V1:
+> 	-- Created the new /proc/sys/vm/proactive_compact_memory in
+> 	   interface to trigger proactive compaction from user 
+>         -- https://lore.kernel.org/lkml/1619098678-8501-1-git-send-email-charante@codeaurora.org/
+> 
+>  Documentation/admin-guide/sysctl/vm.rst |  3 ++-
+>  include/linux/compaction.h              |  2 ++
+>  include/linux/mmzone.h                  |  1 +
+>  kernel/sysctl.c                         |  2 +-
+>  mm/compaction.c                         | 38 +++++++++++++++++++++++++++++++--
+>  5 files changed, 42 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index 003d5cc..b526cf6 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -118,7 +118,8 @@ compaction_proactiveness
+>  
+>  This tunable takes a value in the range [0, 100] with a default value of
+>  20. This tunable determines how aggressively compaction is done in the
+> -background. Setting it to 0 disables proactive compaction.
+> +background. On write of non zero value to this tunable will immediately
+> +trigger the proactive compaction. Setting it to 0 disables proactive compaction.
+>  
+>  Note that compaction has a non-trivial system-wide impact as pages
+>  belonging to different processes are moved around, which could also lead
+> diff --git a/include/linux/compaction.h b/include/linux/compaction.h
+> index c24098c..34bce35 100644
+> --- a/include/linux/compaction.h
+> +++ b/include/linux/compaction.h
+> @@ -84,6 +84,8 @@ static inline unsigned long compact_gap(unsigned int order)
+>  extern unsigned int sysctl_compaction_proactiveness;
+>  extern int sysctl_compaction_handler(struct ctl_table *table, int write,
+>  			void *buffer, size_t *length, loff_t *ppos);
+> +extern int compaction_proactiveness_sysctl_handler(struct ctl_table *table,
+> +		int write, void *buffer, size_t *length, loff_t *ppos);
+>  extern int sysctl_extfrag_threshold;
+>  extern int sysctl_compact_unevictable_allowed;
+>  
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 4610750..6a1d79d 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -853,6 +853,7 @@ typedef struct pglist_data {
+>  	enum zone_type kcompactd_highest_zoneidx;
+>  	wait_queue_head_t kcompactd_wait;
+>  	struct task_struct *kcompactd;
+> +	bool proactive_compact_trigger;
+>  #endif
+>  	/*
+>  	 * This is a per-node reserve of pages that are not available
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 82d6ff6..65bc6f7 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -2871,7 +2871,7 @@ static struct ctl_table vm_table[] = {
+>  		.data		= &sysctl_compaction_proactiveness,
+>  		.maxlen		= sizeof(sysctl_compaction_proactiveness),
+>  		.mode		= 0644,
+> -		.proc_handler	= proc_dointvec_minmax,
+> +		.proc_handler	= compaction_proactiveness_sysctl_handler,
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= &one_hundred,
+>  	},
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index f984ad0..fbc60f9 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -2700,6 +2700,30 @@ static void compact_nodes(void)
+>   */
+>  unsigned int __read_mostly sysctl_compaction_proactiveness = 20;
+>  
+> +int compaction_proactiveness_sysctl_handler(struct ctl_table *table, int write,
+> +		void *buffer, size_t *length, loff_t *ppos)
+> +{
+> +	int rc, nid;
+> +
+> +	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
+> +	if (rc)
+> +		return rc;
+> +
+> +	if (write && sysctl_compaction_proactiveness) {
+> +		for_each_online_node(nid) {
+> +			pg_data_t *pgdat = NODE_DATA(nid);
+> +
+> +			if (pgdat->proactive_compact_trigger)
+> +				continue;
+> +
+> +			pgdat->proactive_compact_trigger = true;
+> +			wake_up_interruptible(&pgdat->kcompactd_wait);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * This is the entry point for compacting all nodes via
+>   * /proc/sys/vm/compact_memory
+> @@ -2744,7 +2768,8 @@ void compaction_unregister_node(struct node *node)
+>  
+>  static inline bool kcompactd_work_requested(pg_data_t *pgdat)
+>  {
+> -	return pgdat->kcompactd_max_order > 0 || kthread_should_stop();
+> +	return pgdat->kcompactd_max_order > 0 || kthread_should_stop() ||
+> +		pgdat->proactive_compact_trigger;
+>  }
+>  
+>  static bool kcompactd_node_suitable(pg_data_t *pgdat)
+> @@ -2895,9 +2920,16 @@ static int kcompactd(void *p)
+>  	while (!kthread_should_stop()) {
+>  		unsigned long pflags;
+>  
+> +		/*
+> +		 * Avoid the unnecessary wakeup for proactive compaction
+> +		 * when it is disabled.
+> +		 */
+> +		if (!sysctl_compaction_proactiveness)
+> +			timeout = MAX_SCHEDULE_TIMEOUT;
+>  		trace_mm_compaction_kcompactd_sleep(pgdat->node_id);
+>  		if (wait_event_freezable_timeout(pgdat->kcompactd_wait,
+> -			kcompactd_work_requested(pgdat), timeout)) {
+> +			kcompactd_work_requested(pgdat), timeout) &&
+> +			!pgdat->proactive_compact_trigger) {
+>  
+>  			psi_memstall_enter(&pflags);
+>  			kcompactd_do_work(pgdat);
+> @@ -2932,6 +2964,8 @@ static int kcompactd(void *p)
+>  				timeout =
+>  				   default_timeout << COMPACT_MAX_DEFER_SHIFT;
+>  		}
+> +		if (unlikely(pgdat->proactive_compact_trigger))
+> +			pgdat->proactive_compact_trigger = false;
+>  	}
+>  
+>  	return 0;
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+> member of the Code Aurora Forum, hosted by The Linux Foundation
+> 
+> 
+
