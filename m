@@ -2,88 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59533C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDDBC4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:01:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F75761158
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E90C61154
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239749AbhHENwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 09:52:41 -0400
-Received: from mga03.intel.com ([134.134.136.65]:53451 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233033AbhHENwl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 09:52:41 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="214183645"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="214183645"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 06:52:26 -0700
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="437798795"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.183.241]) ([10.212.183.241])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 06:52:25 -0700
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YQrqhYEL64CSLRTy@kroah.com>
- <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
- <YQuYCePPZEmVbkfc@kroah.com> <YQuZdVuaGG/Cr62y@kroah.com>
- <YQuaJ78y8j1UmBoz@kroah.com>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
-Date:   Thu, 5 Aug 2021 06:52:25 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S241830AbhHEOBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 10:01:22 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:65075 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238069AbhHEOBV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 10:01:21 -0400
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 175E0P3H016450;
+        Thu, 5 Aug 2021 23:00:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 175E0P3H016450
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1628172026;
+        bh=lffbE45BRrgQKayNYnYaGttwzdEDcoutwDeVAJukOHE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RTYjuW+6Yj1y9WzrY5XZjN8EW2tKGg1fUci/yOtrtiq7uReI24qIrR14DKLufRhPV
+         icB+n15fCVkVIpp8Aid1bJfQX0yGRzdpKXF0TApwcvXJaf+kGLaWGaxzD+luQkMhjz
+         Z380y4zm7YDD4UUKZDrYrHX36Qps58U8YRZWRDApaoVJa5WBwZP+bVha33ijwydDZV
+         Wng+ATPLPChlhTmfYd2+trS64OZZsKBVLaBWfYERIP2BegQa7V8qkVPGJ2fslkroAh
+         QaPOcwfq/NTJjC8aWQ665qMgcAJatI7rMcVDh3vsViswk9uiYETv0d/wbnzoUjybFf
+         VYpGqORKJsPyA==
+X-Nifty-SrcIP: [209.85.216.54]
+Received: by mail-pj1-f54.google.com with SMTP id s22-20020a17090a1c16b0290177caeba067so15057356pjs.0;
+        Thu, 05 Aug 2021 07:00:25 -0700 (PDT)
+X-Gm-Message-State: AOAM530BGiaMWx0fMfIFM3a+i0LRAt13w+a9vCqdrT5sJQZ71E52siua
+        J4PV+5M5v26ramAS2ZUw6+YjtfKMJ2l5xWf4Sr8=
+X-Google-Smtp-Source: ABdhPJxZa5hhUZfNZ1UgobCzy0zyXlvxx8sD248nZ0a4FXFWiLIEtivCGL+LfW0JxWplPlExOQFTlkwqFc3NHJ3/r2Y=
+X-Received: by 2002:a05:6a00:d71:b029:3c7:6648:69c6 with SMTP id
+ n49-20020a056a000d71b02903c7664869c6mr2014065pfv.63.1628172025021; Thu, 05
+ Aug 2021 07:00:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YQuaJ78y8j1UmBoz@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210802234304.3519577-1-ndesaulniers@google.com> <YQicuh/Qtj0AfxdK@casper.infradead.org>
+In-Reply-To: <YQicuh/Qtj0AfxdK@casper.infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 5 Aug 2021 22:59:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASq2CdhbybOrdcxBDA7BmF1jfBK6mX2z75MR7DLN3GMwQ@mail.gmail.com>
+Message-ID: <CAK7LNASq2CdhbybOrdcxBDA7BmF1jfBK6mX2z75MR7DLN3GMwQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Khem Raj <raj.khem@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-> Both thunderbolt and USB have the idea of "authorized" devices, that is
-> the logic that should be made generic and available for all busses to
-> use, by moving it to the driver core, just like the "removable" logic
-> got moved to the driver core recently (see 70f400d4d957 ("driver core:
-> Move the "removable" attribute from USB to core")
-
-This looks like it's controlled by udev?  Have a default per bus, and 
-let user space override it before setting up the device.
-
-This doesn't help us handle builtin drivers that initialize before user 
-space is up.
-
-We need something that works for all drivers. Also cannot just use a 
-default at bootup because some drivers (like virtio or rtc) need to be 
-initialized in early boot to make the system functional at all. So you 
-need a way to distinguish these two cases in the pre user space boot.
-
-That's basically what this patch implements the infrastructure for.
-
+On Tue, Aug 3, 2021 at 10:33 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> Please use that type of interface, as we already have userspace tools
-> using it, and expand it for all busses in the system to use if they
-> want.  Otherwise with this proposal you will end up with multiple ways
-> to control the same bus type with different types of "filtering",
-> ensuring a mess.
+> On Mon, Aug 02, 2021 at 04:43:03PM -0700, Nick Desaulniers wrote:
+> > +++ b/Documentation/kbuild/llvm.rst
+> > @@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
+> >         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> >         HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> >
+> > -Currently, the integrated assembler is disabled by default. You can pass
+> > -``LLVM_IAS=1`` to enable it.
+> > +Currently, the integrated assembler is enabled by default. You can pass
+> > +``LLVM_IAS=0`` to disable it.
+>
+> I'd drop the "Currently,".  This is presumably going to be the default
+> going forward unless there's some horrible unforeseen problem.  The
+> "Currently," implies that we're planning on changing it.
 
-How would such a proposal work for a platform driver that doesn't have a 
-bus?
+I agree.
 
--Andi
 
+
+-- 
+Best Regards
+Masahiro Yamada
