@@ -2,170 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD69AC4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:38:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7E9C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 16:37:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97A1360E8D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:38:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6FD361050
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 16:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242163AbhHEPit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 11:38:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3572 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242193AbhHEPij (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 11:38:39 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 175FYZX8157844;
-        Thu, 5 Aug 2021 11:38:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=gbPRBdQ5D/dvU7ZGp0Sjf2GZZjty5tvCwrApzPJwGgU=;
- b=r9RYjSvOQ1O/zFmGNzcEqdL1G9KSO/UcvTg43leoThVevYwohtcc8A5RgR65cqFNJqjE
- Ol/UuGMQsnngf96EMQSSkPbqYrne8kXrc7DfEUVJr23/xGNlTnca3aCZkTf1uFch7qJ/
- OyiO00ql6h34p0sUxyLftMCGgVYFsoQsK6Aa6PPgjt3dUF/C2MBlCV7APzxBd+QgR6R5
- GEMs8kxR0Nmg5oH/CV0FoKNrw3gbl7QsQck+CcE+CC70Bhu50JpiMbwDdWxR4txW2TVl
- CPm7PoRjXlV+5UJzkYrMbNC5taSa4BmtslXNMTc8KbdE+tjr6Ibewnqm2Q5yUA46sTnZ 6A== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3a89fmrpmv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Aug 2021 11:38:16 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 175FVgHi005638;
-        Thu, 5 Aug 2021 15:38:14 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma05fra.de.ibm.com with ESMTP id 3a4x58j994-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Aug 2021 15:38:13 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 175FcBQV56951276
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 5 Aug 2021 15:38:11 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3B003AE04D;
-        Thu,  5 Aug 2021 15:38:11 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6CE86AE056;
-        Thu,  5 Aug 2021 15:38:09 +0000 (GMT)
-Received: from sig-9-65-205-127.ibm.com (unknown [9.65.205.127])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu,  5 Aug 2021 15:38:09 +0000 (GMT)
-Message-ID: <e886224b50195a2c1324c91b39514395e9780b06.camel@linux.ibm.com>
-Subject: Re: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
-Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Eric Snowberg <eric.snowberg@oracle.com>
-Date:   Thu, 05 Aug 2021 11:38:08 -0400
-In-Reply-To: <f7adeb81bab24b689c3e1aa61d83c6f5@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
-         <20210726163700.2092768-7-roberto.sassu@huawei.com>
-         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
-         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
-         <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
-         <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
-         <3e6a54d4be87a3eafc45c85d013250d17aa0835e.camel@linux.ibm.com>
-          <f7adeb81bab24b689c3e1aa61d83c6f5@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: V-f5mjXJ8d7cNiHxSBkH_kofO_HzxkAX
-X-Proofpoint-GUID: V-f5mjXJ8d7cNiHxSBkH_kofO_HzxkAX
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-08-05_05:2021-08-05,2021-08-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 malwarescore=0
- impostorscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108050094
+        id S231224AbhHEQhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 12:37:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230099AbhHEQhy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 12:37:54 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB1D2C061765
+        for <linux-doc@vger.kernel.org>; Thu,  5 Aug 2021 09:37:39 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso10839001pjf.4
+        for <linux-doc@vger.kernel.org>; Thu, 05 Aug 2021 09:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=++KaK3sXKFcfH87I/TzZgK45NFVsqzYW8QlI/XBfyMY=;
+        b=zBPK9WHgCgGdHHQE1HOeQnwkErOz91g2zGgnQO1E2JHkb5vIy9L12GCtg1yfW04Vb2
+         +WwaUt8WVw6BuR4Pd5e+f6i2Ysxxcr23qoszN9Axjy4n7nNGW4UJdZh3FoOgw4WXgUs1
+         kIXA547mO0y/lqz6Fb3IGe8J+k9Zx+0UT7QyzwuCC9dlwLsCAHhVCf5xrjWeZlKnnA+M
+         ZRKCL1hP//Lle2YMFoNszMMeABeRaDvf8XbwM284nEZYYETN86rRgUAaP/9uUfoL5wwK
+         w6G2uFBOsiZ188UqEvdUzHaWxfnZovDSiznRyOFXRlR+TRqOwLpxdiZ4sEV6AUhyN1tz
+         UUYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=++KaK3sXKFcfH87I/TzZgK45NFVsqzYW8QlI/XBfyMY=;
+        b=PUMHyfthy542Ib4umIr5eFfgavNejteoPvR3rAfYrcRr7J739fjMl61qtKJ/grxJm8
+         2V2LNBdYqZAzP2y0/11hNf1AJZFivYjSK7FQHkB4MQC1IG98m6v+GvvjT9MWYt0xOm87
+         2LCo8nEQFcreTqsi5bylvUB5/Meu/weiMF5zL/oX3hWwJYO0GIGpF6mMQRVFFNuUWkhz
+         /CjPSUzTZ6mHdBZUjfLLl1HsK8H4VTVSkjfhJc8aM4ZFQuLi8WedegS47VgCYIPrErUR
+         iGuDgj5v6ImeP3aqlDcAtU5gLlosjjL8AHt0iULjPXFUntlDov3U2igZLWHPWhZbDwBl
+         ju2w==
+X-Gm-Message-State: AOAM532jbKbdgt2heClm6RZWfWfDW8IAbtTSRKUbCo9v+60bcLIF/B3x
+        kpnVO2WUlzP3VMsapr4wNpyRyZSJX3I5N7gG9c2dzA==
+X-Google-Smtp-Source: ABdhPJyGMFMklte0QuM1qBMWyYlPDXrDxIqPpWPOizk9DcQ2N/pZ9heKgCOitQFFDH4V0H/PHS09ZhJZxHldOHEUz2I=
+X-Received: by 2002:a63:3c7:: with SMTP id 190mr783412pgd.240.1628181459424;
+ Thu, 05 Aug 2021 09:37:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YQrqhYEL64CSLRTy@kroah.com> <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
+ <YQuYCePPZEmVbkfc@kroah.com> <YQuZdVuaGG/Cr62y@kroah.com> <YQuaJ78y8j1UmBoz@kroah.com>
+In-Reply-To: <YQuaJ78y8j1UmBoz@kroah.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Thu, 5 Aug 2021 09:37:28 -0700
+Message-ID: <CAPcyv4iCBknhGyw-YjO7_Tua9Vkw_UCSHVj3prL3mVfz4nj-_g@mail.gmail.com>
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Cc'ing Eric Snowberg]
+On Thu, Aug 5, 2021 at 12:58 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Aug 05, 2021 at 09:55:33AM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Aug 05, 2021 at 09:49:29AM +0200, Greg Kroah-Hartman wrote:
+> > > On Wed, Aug 04, 2021 at 12:50:24PM -0700, Andi Kleen wrote:
+> > > > > And what's wrong with the current method of removing drivers from
+> > > > > devices that you do not want them to be bound to?  We offer that support
+> > > > > for all busses now that want to do it, what driver types are you needing
+> > > > > to "control" here that does not take advantage of the existing
+> > > > > infrastructure that we currently have for this type of thing?
+> > > >
+> > > > I'm not sure what mechanism you're referring to here, but in general don't
+> > > > want the drivers to initialize at all because they might get exploited in
+> > > > any code that they execute.
+> > >
+> > > That is exactly the mechanism we have today in the kernel for all busses
+> > > if they wish to take advantage of it.  We have had this for all USB
+> > > drivers for well over a decade now, this is not a new feature.  Please
+> > > use that instead.
+> >
+> > Hm, wait, maybe that didn't get merged yet, let me dig...
+> >
+>
+> Ok, my fault, I was thinking of the generic "removable" support that
+> recently got added.
+>
+> Both thunderbolt and USB have the idea of "authorized" devices, that is
+> the logic that should be made generic and available for all busses to
+> use, by moving it to the driver core, just like the "removable" logic
+> got moved to the driver core recently (see 70f400d4d957 ("driver core:
+> Move the "removable" attribute from USB to core")
+>
+> Please use that type of interface, as we already have userspace tools
+> using it, and expand it for all busses in the system to use if they
+> want.  Otherwise with this proposal you will end up with multiple ways
+> to control the same bus type with different types of "filtering",
+> ensuring a mess.
 
-Hi Roberto,
+I overlooked the "authorized" attribute in usb and thunderbolt. The
+collision problem makes sense. Are you open to a core "authorized"
+attribute that buses like usb and thunderbolt would override in favor
+of their local implementation? I.e. similar to suppress_bind_attrs:
 
-On Mon, 2021-08-02 at 16:54 +0000, Roberto Sassu wrote:
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index daeb9b5763ae..d1780f026d1a 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -511,6 +511,10 @@ static int call_driver_probe(struct device *dev,
+struct device_driver *drv)
+ {
+        int ret = 0;
 
-> > > Properly identifying (all) user space parser(s) would be critical.  It
-> > > would be simpler and  safer to require the converted data be signed.
-> 
-> When a process directly uploads a buffer to the kernel, the actions are
-> added to a digest list depending on the result of ima_measure_critical_data()
-> and from the actions attached to the process credentials and set by the
-> new LSM.
-> 
-> If a process fails the identification, the actions in the process credentials
-> remain zero and the digest lists the process uploads will be ignored by IMA.
-> 
-> The actions in the process credentials are set with the actions performed
-> on the executable by IMA, only if the digest of the executable is found in
-> a digest list and the digest list type is COMPACT_PARSER. The parser is
-> statically linked.
-> 
-> The digest list for the parser can be generated at the end of the
-> building process and signed similarly to kernel modules (for SUSE,
-> with pesign-obs-integration). This is the only exception to handle,
-> other packages are not affected.
++       if (driver_core_auth_enabled && !dev->bus->suppress_authorized_attrs &&
++           !driver_core_authorized(dev))
++               return -ENODEV;
++
+        if (dev->bus->probe)
+                ret = dev->bus->probe(dev);
+        else if (drv->probe)
+diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+index a062befcb3b2..e835be9bee4f 100644
+--- a/drivers/thunderbolt/domain.c
++++ b/drivers/thunderbolt/domain.c
+@@ -323,6 +323,7 @@ struct bus_type tb_bus_type = {
+        .probe = tb_service_probe,
+        .remove = tb_service_remove,
+        .shutdown = tb_service_shutdown,
++       .suppress_authorized_attrs = true,
+ };
 
-Ok, so to boot strap the set of permitted digest list parsers, the
-digest list signature is an appended signature, generated by the build
-process.  The key needed for verifying the signature would already be
-loaded on the builtin keyring.
-
-> 
-> After the parser has been identified, each file operation is monitored.
-
-Does the new LSM need to monitor all file opens?
-
-> The LSM has to explicitly perform a second open to ensure that
-> the file is measured/appraised before the integrity_iint_cache structure
-> is retrieved (because IMA is called after all LSMs).
-> 
-> If an action is missing from the integrity_iint_cache structure, it
-> will be cleared by the LSM in the actions attached to the process
-> credentials, and will not be added to the digest list being uploaded.
-> 
-> > I agree, it would be much easier. However, it would require changes
-> > to the building infrastructure of Linux distribution vendors, which
-> > might limit the applicability of DIGLIM.
-> > 
-
-I understand, but instead of the distros signing the compact digest
-lists, with Eric's  "Enroll kernel keys thru MOK" patch set, the
-customer/end user could have more control over which file digests are
-permitted on a per system basis.
-
-> > With the user space parser taking care of the conversion, distributions
-> > can do appraisal of executables and shared libraries with an update of:
-> > - the kernel: to add DIGLIM
-> > - dracut: to add required digest lists in the initial ram disk
-> > - rpm (plugin): to extract the RPM header and its signature and write
-> >   them to a file that is uploaded to the kernel by the user space parser
-> > 
-> > I'm planning to append the signature at the end of the RPM header
-> > (and use appraise_type=modsig) to avoid the dependency on the
-> > 'initramfs: add support for xattrs in the initial ram disk' patch set
-> > (which I might try to resume in the future).
-
-Based on your explanation above, I surmised as much.
-
-thanks,
-
-Mimi
-
+ static void tb_domain_release(struct device *dev)
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 072968c40ade..2cf9c3cc12b4 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -2028,4 +2028,5 @@ struct bus_type usb_bus_type = {
+        .match =        usb_device_match,
+        .uevent =       usb_uevent,
+        .need_parent_lock =     true,
++       .suppress_authorized_attrs = true,
+ };
