@@ -2,149 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A23C6C4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:43:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC305C4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:53:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 805166105A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:43:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2C1C61037
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:53:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236242AbhHEAnl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 20:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbhHEAnk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Aug 2021 20:43:40 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49FF6C061765;
-        Wed,  4 Aug 2021 17:43:26 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id f20-20020a9d6c140000b02904bb9756274cso3448979otq.6;
-        Wed, 04 Aug 2021 17:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vGJp7Qm+vWDqCZWodUNjzWvMf7Y6QRcUPiH81G9CbDc=;
-        b=sQkknu+u8jaaB0OcDj6EoRyQO9F7NA9Ud0m6EJ+C2C0ePjqe9hNCnkVkIhC0pjyIZP
-         W97xALtifJROfE1qpdGxVX7t01xf3OUl9KJgqZPDl5v3D6FxuuVF0VVTvppzKi5XXtsE
-         4ed0zRbT1+oeflIJYRddJz7nhap0Itb932QISt28jF0AZkADODWGr6pauN4688v0ms2M
-         NL3LcQi8aY7fs3XjiOEGT3q7TyCWHHsWz+H/9xBY3cUpaylthKBA06O7oI6ZQSb+zUI6
-         Oxd5Gj32aEAFvzY1Eyn/QvPv46r/JIqp3cYCy2IUn4Zc1ZseVwoPv3/E1/xwjWiG8rg8
-         wnYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vGJp7Qm+vWDqCZWodUNjzWvMf7Y6QRcUPiH81G9CbDc=;
-        b=FQrKE+YzCbPSjcvmbnT5R4B3W06ne9HeJ411vB7puHt/g9TDpTGT9yGy28Qbiu759q
-         DjT360hUrVXMqHAkIr7w2fLx6ooXfuM9xW3YaTm2oE9xs/PjfhaVOUQ8aET8/QitDBwB
-         b9Rnle31I+EVeqA93eyRNYcCjv0d9DthNbHkT+UoIgo7eu8QLZzZ7wFmBR+qrbNGIRN7
-         4vLllgemqCp/UG0FQno1Xh55syZE1NzVJbQoFSihrsG6SWVdKs2I85xBi+JNZfDOL19z
-         vLV8Pd57VrZpPnbcKzu95+Z00bCinIt7m9M62g9R/XKwzAvwkKXlkHJc4hLnUNicoLAT
-         EyLQ==
-X-Gm-Message-State: AOAM532rvqI9OOCdW32t/99cFUmr4sR2x4kklFoC6H9ycFv4FJ/RBeXM
-        /iuo/f0q9CI9vYKgX68VbZxIBs2vwviBqw==
-X-Google-Smtp-Source: ABdhPJz7SOE1TlkK7NDXzrAWjDSQbCEogTY9jw9xb8Kf3WqLv/BBMLwqDVgoBq0L3LxOht5ewMZflQ==
-X-Received: by 2002:a9d:63d3:: with SMTP id e19mr1640471otl.147.1628124205501;
-        Wed, 04 Aug 2021 17:43:25 -0700 (PDT)
-Received: from Davids-MacBook-Pro.local ([8.48.134.45])
-        by smtp.googlemail.com with ESMTPSA id v13sm563634ook.40.2021.08.04.17.43.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 17:43:24 -0700 (PDT)
-Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP
- statistics
-To:     Saeed Mahameed <saeed@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Tariq Toukan <ttoukan.linux@gmail.com>,
-        Tariq Toukan <tariqt@nvidia.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Guy Tzalik <gtzalik@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Sameeh Jubran <sameehj@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
+        id S234448AbhHEAxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 20:53:35 -0400
+Received: from mga02.intel.com ([134.134.136.20]:12119 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231355AbhHEAxf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 20:53:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="201215413"
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="201215413"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:20 -0700
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="437617163"
+Received: from mjkendri-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.254.17.117])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:17 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-References: <20210803163641.3743-1-alexandr.lobakin@intel.com>
- <20210803163641.3743-4-alexandr.lobakin@intel.com>
- <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
- <20210804053650.22aa8a5b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <43e91ce1-0f82-5820-7cac-b42461a0311a@gmail.com>
- <20210804094432.08d0fa86@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <d21933cb-9d24-9bdd-cf18-e5077796ddf7@gmail.com>
- <11091d33ff7803257e38ee921e4ba9597acfccfc.camel@kernel.org>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <4b2358e1-a802-b0ab-129d-1432f49c46ec@gmail.com>
-Date:   Wed, 4 Aug 2021 18:43:19 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S . Tsirkin" <mst@redhat.com>
+Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v4 00/15] Add TDX Guest Support (shared-mm support)
+Date:   Wed,  4 Aug 2021 17:52:03 -0700
+Message-Id: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <11091d33ff7803257e38ee921e4ba9597acfccfc.camel@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/4/21 12:27 PM, Saeed Mahameed wrote:
-> 
->> I just ran some quick tests with my setup and measured about 1.2%
->> worst
-> 
-> 1.2% is a lot ! what was the test ? what is the change ?
+Hi All,
 
-I did say "quick test ... not exhaustive" and it was definitely
-eyeballing a pps change over a small time window.
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. Since VMM is untrusted entity, it does
+not allow VMM to access guest private memory. Any memory that is required
+for communication with VMM must be shared explicitly. This series adds
+support to securely share guest memory with VMM when it is required by
+guest.
 
-If multiple counters are bumped 20-25 million times a second (e.g. XDP
-drop case), how measurable is it? I was just trying to ballpark the
-overhead - 1%, 5%, more? If it is <~ 1% then there is no performance
-argument in which case let's do the right thing for users - export via
-existing APIs.
+Originally TDX did automatic sharing of every ioremap. But it was found that
+this ends up with a lot of memory shared that is supposed to be private, for
+example ACPI tables. Also in general since only a few drivers are expected
+to be used it's safer to mark them explicitly (for virtio it actually only
+needs two places). This gives the advantage of automatically preventing
+other drivers from doing MMIO, which can happen in some cases even with
+the device filter. There is still a command line option to override this option,
+which allows to use all drivers.
+
+This series is the continuation of the patch series titled "Add TDX Guest
+Support (Initial support)", "Add TDX Guest Support (#VE handler support)"
+and "Add TDX Guest Support (boot fixes)" which added initial support,
+ #VE handler support and boot fixes for TDX guests. You  can find the
+related patchsets in the following links.
+
+[set 1, v5] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510805
+[set 2, v4] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510814
+[set 3, v4] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510816
+
+Also please note that this series alone is not necessarily fully
+functional. You need to apply all the above 3 patch series to get
+a fully functional TDX guest.
+
+You can find TDX related documents in the following link.
+
+https://software.intel.com/content/www/br/pt/develop/articles/intel-trust-domain-extensions.html
+
+Also, ioremap related changes in mips, parisc, alpha, sparch archs' are
+only compile tested, and hence need help from the community users of these
+archs' to make sure that it does not break any functionality.
+
+In this patch series, following patches are in PCI domain and are
+meant for the PCI domain reviewers.
+
+  pci: Consolidate pci_iomap* and pci_iomap*wc
+  pci: Add pci_iomap_shared{,_range}
+  pci: Mark MSI data shared
+
+Patch titled "asm/io.h: Add ioremap_shared fallback" adds generic
+and arch specific ioremap_shared headers and are meant to be reviewed
+by linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
+linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+sparclinux@vger.kernel.org.
+
+Similarly patch titled "virtio: Use shared mappings for virtio
+PCI devices" adds ioremap_shared() support for virtio drivers
+and are meant to be reviewed by virtio driver maintainers.
+
+I have CCed this patch series to all the related domain maintainers
+and open lists. If you prefer to get only patches specific to your
+domain, please let me know. I will fix this in next submission.
+
+Changes since v3:
+ * Rebased on top of Tom Lendacky's protected guest
+   changes (https://lore.kernel.org/patchwork/cover/1468760/)
+ * Added new API to share io-reamapped memory selectively
+   (using ioremap_shared())
+ * Added new wrapper (pci_iomap_shared_range()) for PCI IO
+   remap shared mappings use case.
+
+Changes since v2:
+ * Rebased on top of v5.14-rc1.
+ * No functional changes.
+
+Andi Kleen (6):
+  pci: Consolidate pci_iomap* and pci_iomap*wc
+  asm/io.h: Add ioremap_shared fallback
+  pci: Add pci_iomap_shared{,_range}
+  pci: Mark MSI data shared
+  virtio: Use shared mappings for virtio PCI devices
+  x86/tdx: Implement ioremap_shared for x86
+
+Isaku Yamahata (1):
+  x86/tdx: ioapic: Add shared bit for IOAPIC base address
+
+Kirill A. Shutemov (6):
+  x86/mm: Move force_dma_unencrypted() to common code
+  x86/tdx: Exclude Shared bit from physical_mask
+  x86/tdx: Make pages shared in ioremap()
+  x86/tdx: Add helper to do MapGPA hypercall
+  x86/tdx: Make DMA pages shared
+  x86/kvm: Use bounce buffers for TD guest
+
+Kuppuswamy Sathyanarayanan (2):
+  x86/tdx: Enable shared memory protected guest flags for TDX guest
+  x86/tdx: Add cmdline option to force use of ioremap_shared
+
+ .../admin-guide/kernel-parameters.rst         |   1 +
+ .../admin-guide/kernel-parameters.txt         |  12 ++
+ arch/alpha/include/asm/io.h                   |   1 +
+ arch/mips/include/asm/io.h                    |   1 +
+ arch/parisc/include/asm/io.h                  |   1 +
+ arch/sparc/include/asm/io_64.h                |   1 +
+ arch/x86/Kconfig                              |   9 +-
+ arch/x86/include/asm/io.h                     |   5 +
+ arch/x86/include/asm/mem_encrypt_common.h     |  20 +++
+ arch/x86/include/asm/pgtable.h                |   5 +
+ arch/x86/include/asm/tdx.h                    |  22 +++
+ arch/x86/kernel/apic/io_apic.c                |  18 ++-
+ arch/x86/kernel/tdx.c                         |  64 +++++++++
+ arch/x86/mm/Makefile                          |   2 +
+ arch/x86/mm/ioremap.c                         |  64 +++++++--
+ arch/x86/mm/mem_encrypt.c                     |   8 +-
+ arch/x86/mm/mem_encrypt_common.c              |  38 ++++++
+ arch/x86/mm/pat/set_memory.c                  |  45 ++++++-
+ drivers/pci/msi.c                             |   2 +-
+ drivers/virtio/virtio_pci_modern_dev.c        |   2 +-
+ include/asm-generic/io.h                      |   4 +
+ include/asm-generic/pci_iomap.h               |   6 +
+ include/linux/protected_guest.h               |   1 +
+ lib/pci_iomap.c                               | 125 +++++++++++++-----
+ 24 files changed, 393 insertions(+), 64 deletions(-)
+ create mode 100644 arch/x86/include/asm/mem_encrypt_common.h
+ create mode 100644 arch/x86/mm/mem_encrypt_common.c
+
+-- 
+2.25.1
+
