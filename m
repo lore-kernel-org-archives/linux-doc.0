@@ -2,136 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E35B5C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F7F5C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:58:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2ECF603E7
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:52:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01F6361151
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239579AbhHETw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 15:52:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231387AbhHETw4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 15:52:56 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B13EDC061765
-        for <linux-doc@vger.kernel.org>; Thu,  5 Aug 2021 12:52:41 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id nh14so11538764pjb.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Aug 2021 12:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QJmOpEwE9lxeEjSBDZIktawPgAevjn7yO4pdJHSJHNE=;
-        b=vuEGFs4GQM/KoJIky8OccECbir3mh2bt8xA1UttsQZWB4BqQBfCwN5YuTUpxOwLHtL
-         QShYEYe7XF1f/j0NqYJb7Fuf09UurlM48C1WpCOEJlmwzrxhV00xwg5GVoGyHbzujXXh
-         PGQba1GDGo0oQTkQqgp/9nUPoCsS4bdKF7x8WjYlr+1X4E5xzYid025cEwPun9Rz1VGi
-         iRTftullhxPJWVvVqlE9irP9OnjGOoL7Zuy3tlpAirmZoYlTVjQ7akyxXLqP8HJiEgAc
-         RP2i5BVKDnZYs1pVSABgyF2rsRC8bzRZl0xURqaRj6q7oVfOlCOcTx6zDjM4MRKUXF0f
-         Pxtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QJmOpEwE9lxeEjSBDZIktawPgAevjn7yO4pdJHSJHNE=;
-        b=nG2pip9QZztEc999qMmyw4W9Cj7uTlXZAef8QJNhc4o1jg4YPWJuKVNifYqdyP47f6
-         tbZx4XvrKoed2IAc6hOlYv9/YYQ2YlWx0AApyyMunVVRIxVsvxsF58dY60wTv08qPdla
-         kAKjx4htRN9bYsSQGnSQbRUUctiE+5exe5VyZkL2LdovfHGKPpxwCQkkAB+kOyLf8oxl
-         HIVD9q5p2Nay3J94Yd+F5cFDU/zJegGsPoLoiGg57ayNSPPXguYVxslHQ5y5KIVZ68SQ
-         yDOCuXgNfq6AQ226pwMxNTeKdPrGiUHb9hwoHx1sqjC3TmHk26tA1ZX5D+RSUZyEQV6M
-         KMSQ==
-X-Gm-Message-State: AOAM530NghRVgnEyNrV/UNg1hEMUUlYmHGIYthBxjgynXKiwbOXOv1bB
-        czv9T4+/91mbTc1zZ1BeP8rlnzODT95SJ8AQCweXaQ==
-X-Google-Smtp-Source: ABdhPJykpLaKn49AsycfvP9cpaaDTsNQ2/hCbG6nsZZi8ZnboN5frJKZHGCWPDWRhIKqvttVczmTrVNWGKGeYJ+C2+Q=
-X-Received: by 2002:a17:902:ab91:b029:12b:8dae:b1ff with SMTP id
- f17-20020a170902ab91b029012b8daeb1ffmr5316523plr.52.1628193161219; Thu, 05
- Aug 2021 12:52:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <YQuYCePPZEmVbkfc@kroah.com> <YQuZdVuaGG/Cr62y@kroah.com>
- <YQuaJ78y8j1UmBoz@kroah.com> <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
- <YQwlHrJBw79xhTSI@kroah.com> <21db8884-5aa1-3971-79ef-f173a0a95bef@linux.intel.com>
- <YQwpa+LAYt7YZ5dh@kroah.com> <7d6751b1-c476-51d3-25c6-b65c0e93d23b@linux.intel.com>
- <YQw4AEwIUGe3RpCx@kroah.com> <CAPcyv4gV9GK93rgtoHxhshzDGk0ueJn0d9LXYitJ8=wJWzmWHg@mail.gmail.com>
- <YQw71hBx4/w14Fir@kroah.com>
-In-Reply-To: <YQw71hBx4/w14Fir@kroah.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Thu, 5 Aug 2021 12:52:30 -0700
-Message-ID: <CAPcyv4g1oBU3J3qpd+hDy9cKMYqn0FAsAO4BxxfrNCnpaxzO9g@mail.gmail.com>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+        id S240125AbhHET6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 15:58:55 -0400
+Received: from mail-mw2nam10on2067.outbound.protection.outlook.com ([40.107.94.67]:6113
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229970AbhHET6z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 15:58:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kIUck4CgW8xO8ugjoFMzAuOjKgx4h87VLnOQkW/wyC3G6wPZduwnsjZFfGh2QY9hAe93rVEtg+0+OIIKvwyJXHVt9g8CHwuc02N9MG/jmO+YdwCo7UEoCQZNdjcxPstyZe41whodFUvgJP7fYt+fGRNsCRR7zbJDMjfWVzdOVqio83pRxlU6aoHRimwy6+6QpxxZv4iv0S2iBkbyK+qh+QCsMxiDMeZqTRg0NO8Zq9Hkmm7EODtkEZ0eeOffo8l9aaMcSM9qrYL61QNdXU84jrwJyrqeykr6j9TZxb+KHPTF0hS9g+Cgc7pW/hBWFS1mTARTlEsOVLvsohYy/VmQ5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G9wzdtRGbArFjXRAemPA+pknQ5qaD4XSWpYbq314Z7Y=;
+ b=nH2O7Ur1wJ8sOMApczdOca/3kjkPC5Ys23ZGeMkRsMGpVToeEdY6ePCyfea/RagtvlAWKIaq14cNq43UBfkTbEtQgAo/bfpxkOrPK5sFs2uZU1DZiyZ7ouWsZaJ6bhmdnta4yZUIWlc5Ea/OpOntI2ZFVbFySdbMmdIRJbllO2M6B44DjOIoiIWrKgGUduvwmCOHVn2NDJwwVFUkvcSamqhuhJjTwf850BAVR1Ag7W6kM38zSsLFj1yChNXE7dYuiLaqIO5PAv/G0zffUORyatyoA3emjLpPCB4ZwzaMdcxRCIe+XPeU8ZHVcH4SK4eeqcGO2q3AZFk4irRQ978Zzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G9wzdtRGbArFjXRAemPA+pknQ5qaD4XSWpYbq314Z7Y=;
+ b=Wnp2LHYKI9DWzmJZi1LcKkB7DrvOVIGUilwZcJvF+4BfcETcSZpZsoA5MjZLaPHkRQcEjpBxP3klm0iwwdX8fRZ8ZJd2ExIY7G27gmeI25YpIjJPrIu/CKufo+ZTXTJMpAQftdVagC+sgzJ+xd5VbH+4UepuKmbjKzY3FpdEjNKTxRJfWhouVMfeni2315YXOQukhFPEdUrHyG6469W7wLfRafGOeWu8wgE2BTqlfV//EpckBnFBzH7/yxFLJw/rt9NuiJkXYcKnuNUl6JgLkyZgLS2IF3WYy51C4QI1SKXxxX0L0+N1HCfE7+bfE9eXR8OM7jJaBBOGPEJq2tHwMw==
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3823.namprd12.prod.outlook.com (2603:10b6:208:168::26)
+ by MN2PR12MB4472.namprd12.prod.outlook.com (2603:10b6:208:267::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.20; Thu, 5 Aug
+ 2021 19:58:38 +0000
+Received: from MN2PR12MB3823.namprd12.prod.outlook.com
+ ([fe80::dcee:535c:30e:95f4]) by MN2PR12MB3823.namprd12.prod.outlook.com
+ ([fe80::dcee:535c:30e:95f4%6]) with mapi id 15.20.4394.017; Thu, 5 Aug 2021
+ 19:58:38 +0000
+From:   Zi Yan <ziy@nvidia.com>
+To:     Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+        David Airlie <airlied@linux.ie>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 13/15] mm: convert MAX_ORDER sized static arrays to dynamic ones.
+Date:   Thu, 05 Aug 2021 15:58:32 -0400
+X-Mailer: MailMate (1.14r5812)
+Message-ID: <0D3441BA-2A11-4BCA-BFD5-CAB8EB915B8F@nvidia.com>
+In-Reply-To: <586dda97-dc64-ade2-6736-a531e225acbc@amd.com>
+References: <20210805190253.2795604-1-zi.yan@sent.com>
+ <20210805190253.2795604-14-zi.yan@sent.com>
+ <586dda97-dc64-ade2-6736-a531e225acbc@amd.com>
+Content-Type: multipart/signed;
+ boundary="=_MailMate_4B2EA1D0-8700-4B85-88FC-290FD6C94B08_=";
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+X-ClientProxiedBy: MN2PR11CA0014.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::19) To MN2PR12MB3823.namprd12.prod.outlook.com
+ (2603:10b6:208:168::26)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.2.50.235] (216.228.112.22) by MN2PR11CA0014.namprd11.prod.outlook.com (2603:10b6:208:23b::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend Transport; Thu, 5 Aug 2021 19:58:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9c573dbf-dbeb-4aa5-b45b-08d9584b6ab6
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4472:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB447226D15FF1AF80746762EBC2F29@MN2PR12MB4472.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nhEtB1Pd/haTrVCalgs2kG77Y2fBwfhWJpek3opMFPNAdr4yZGjz2BS7Sp+Z5HriTMatgKmDDI9i0dZL8/PWaLEaylw1DcVlkghGkW9rhpucPX/SS6jKJZAvihnImZbFeMCt/S3qnpZH+ClTFjDOrX5navgpieI56xc0rBRxo8rVSTIZTMmHwbNs0aHHjQUeJP2LwzQ7HKVG825AgWsJQGlmb/re3QFOmtBNYH1KBzmkzbm0j+im9iwhQZsRi6sTAgccb539rjxnExY3vh7L+TL/RLB/Ir8WmAEJDWq++B3yY/sZkpBsYN6P0jJPVuxOrU4f3os0JDL2Onrzf7q2Mv1aJv/GS7DLM88VzWS4mYnaTcAawZQFVV6vgTsb7if4wGRjmmsI32z4KdZxyqHgNrpwRzOK//yplUBPVwo7op7LbLwTVvV+gARcF+Hmp72bL0bEeKgk6Bec+m3TkyFe6Ge5XJKCniqkDnvhgnX6KQP8r8d/l0e3b8Fryw+MglqWYWfNeDalGGuQyaLeLkP1Wb1eWI1veanGrFnn8PXGAdSwqO7TTax6XLKhL2iqpxHU0M/ESnUFwtww0yqfOS9hv/UcsZ2W7QafuTUU06yVqD96bOg1fKX1zNtgjZJgIkAUSgmxWV68RgwMusz438i7t284tulSMZig85GXcmfAtMiXK1D1S9P2dPgoOePW5q2UXyPZzmWKhr/p4x+dv50cJ7GVfLFQsuUepRhSnnldEqU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3823.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(53546011)(54906003)(36756003)(6486002)(26005)(2906002)(6916009)(6666004)(33964004)(86362001)(2616005)(956004)(7416002)(21480400003)(33656002)(83380400001)(316002)(186003)(8676002)(66946007)(66574015)(478600001)(66476007)(66556008)(16576012)(4326008)(5660300002)(8936002)(38100700002)(235185007)(45980500001)(72826004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWt2b1E5TTNWTzgrNGJQUHVhMXc4bFhWbEREZWF0UTlpYnRxMkdicUEwZ1NO?=
+ =?utf-8?B?RDFXQ0szUUtFT2lGS2U3Qms1aFVMNEZGazB3WnJRRU0yR1ZMMWVJb0h6MU9K?=
+ =?utf-8?B?cDZkT2lqMXd4Sm1jYkduOFhVQ0pObnZHSkxzSURhS3FpaGEzUk1GWW1yZ3po?=
+ =?utf-8?B?K21pbDVhOGphU0p5WXN0SmNmcWlzOEhCSmVBY1hPNzJ2am5ZUFlWMGlIVG84?=
+ =?utf-8?B?Mnd5QTlNd0FCM212ZXV0SUlHMkhueWh6a3lFMUZKeW1ZSk4yTmpMQndYYTI0?=
+ =?utf-8?B?OEg4akkvcmVYR3MzcDZhU21BZUdsSTdJRGZRY0VJb292a0xKQ3ZDWnRDalQ0?=
+ =?utf-8?B?Q01iWTVWcTA3SDNZVmpHNUJVc2ptSFJLb0pVMmQyTVU5OTBKUTJYY2tOTE1D?=
+ =?utf-8?B?dXhlbUhwM3NuOTJZZzFPdmhFMUVSK0lmMUR1QmlLbVAvL2dldytIY3VqOWhW?=
+ =?utf-8?B?Z1g2czFTQXlqRUt0VjB3dmtSdGErRFhDTEpsSVArd0tjVkJLQVRpb01hZHg3?=
+ =?utf-8?B?YUk4cjNCdkdibFc2ZXJ5L0VjRGRUQWlMeUZJbmNZbFVUTlc1VU1kMWR2Uzlq?=
+ =?utf-8?B?anJta0VIa2dqZGw4MEY5QjlEZEJ0ckxjaERydmdsYUtBcFRDN3hOUWl1SmEw?=
+ =?utf-8?B?eDFmdlZmZ2FRcENXU3lpVys0UFdSQmZ6QWNQdjJWRFJMYmdUOXNwZXF2cnhs?=
+ =?utf-8?B?bnFnTnVSUXU1QklvMzFPWWJLek5DeWZwZHY0bU1sdWFxaXZ5Ukl2WDZYT0U1?=
+ =?utf-8?B?b3U2NDZDQzZDVFphdkYzYVBkOGpnMGR0NkJRRUlPWEJucy9CNTZiUmQvVTd3?=
+ =?utf-8?B?aUZybmtXckM2MXgzMndDRUlwSmNNZ2c1UnVGdUNJcEFHRXE1bkNPdEZQajZQ?=
+ =?utf-8?B?Y3AvYzdqUmNvZHNMcHBoeTNneEFBRFhpbTVZNGN6dXRmVDIzaTdXSFNiMmpq?=
+ =?utf-8?B?aU14OGVuQjNUT3oySDFkUURRY0NINGxxa2V4anZBeG5vRDNreEx1L21lVGlq?=
+ =?utf-8?B?eDVHbllGaEFWTEl6MlRvVVRBMUtzMVZzRFFrY1dZV1ZDcE9EZDhITHlrMnJ6?=
+ =?utf-8?B?ZUJBQ0t6dGlwU2JDNGtLOG4zWDkxbnFzOEVDRVo2d2RZL0hEVXdGS2xKZnRB?=
+ =?utf-8?B?TTU1WCtNbXFrODlYeW5JNWFmVm5FWTM5VEJzY25zMlpWZ3FLR2d5TWhUUHVx?=
+ =?utf-8?B?TkJ4a0RGQUF6ekVuYTVsQXBHOURYallqOENBRTVDLzZHVk15OWt1RUVMVFRP?=
+ =?utf-8?B?ak1sbGthNzlsL3J3MzM5NWlrcVUxUDl4T2hxRk5icmd6K0QvUDVpek9RKzBn?=
+ =?utf-8?B?NWpKaWNlalJ3WkVmYzFHMlFsQmtHMU45MWlQNFl1K2ZPL1hWSm9QdzJLcWV5?=
+ =?utf-8?B?bU9WcU5aYzhrTWNySmp4cS9lc28xRndOSER0WkZVMTc4VWVsQ0N0c2ZaSXAr?=
+ =?utf-8?B?MzNxc041c3NtRzBxRXRtK0dKV2JIZjN2V2o3YlNYdWREV0s5VlhRbVhFMmJI?=
+ =?utf-8?B?NDdhTS83aU1GcU9yMkdSR2s0dmdUY1dyem9za3g5UFpZQ29IcmtFa0ZGVm1u?=
+ =?utf-8?B?bE45bTl3L0FRQzFxVG56anVGUWdadmRqRHNOdnA5QStrY2hkSUhjU1k3MkVn?=
+ =?utf-8?B?NHY3S1Z2Y2h0OUFsbTJRblBhV2UxanFXb1k2a3g0RGNTM1R5SHpxOEFUMXBO?=
+ =?utf-8?B?Y3Z2M2cvS05RdVdnajRxamJrSXRuQkxzZmM1ZDZtMnBpR25zekRJcnFxWEhz?=
+ =?utf-8?Q?MQOzEPGKmKVGwZDip8nSlLfknIPqL4Azr1ECC9z?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c573dbf-dbeb-4aa5-b45b-08d9584b6ab6
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3823.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 19:58:38.7804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ah5mMsCdOryIVnCLVv5w6kpQWcIrKHXrLhgzTuHvlXppQLCA9ArudkfDurDpKZkb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4472
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ add Jonathan ]
+--=_MailMate_4B2EA1D0-8700-4B85-88FC-290FD6C94B08_=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 5, 2021 at 12:28 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On 5 Aug 2021, at 15:16, Christian K=C3=B6nig wrote:
+
+> Am 05.08.21 um 21:02 schrieb Zi Yan:
+>> From: Zi Yan <ziy@nvidia.com>
+>>
+>> This prepares for the upcoming changes to make MAX_ORDER a boot time
+>> parameter instead of compilation time constant. All static arrays with=
+
+>> MAX_ORDER size are converted to pointers and their memory is allocated=
+
+>> at runtime.
 >
-> On Thu, Aug 05, 2021 at 12:18:12PM -0700, Dan Williams wrote:
-> > On Thu, Aug 5, 2021 at 12:12 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Thu, Aug 05, 2021 at 11:53:52AM -0700, Kuppuswamy, Sathyanarayanan wrote:
-> > > > I am not sure how USB and Thunderbolt "authorzied" model works. But I
-> > > > don't think it prevents built-in driver probes during kernel boot right?
-> > >
-> > > Yes it does.
-> > >
-> > > Again Intel created this framework well over a decade ago for busses
-> > > that it deemed that it did not want to "trust" to instantly probe
-> > > drivers for and made it part of the Wireless USB specification.
-> > >
-> > > Then Intel went and added the same framework to Thunderbolt for the same
-> > > reason.
-> > >
-> > > To ignore this work is quite odd, you might want to talk to your
-> > > coworkers...
-> >
-> > Sometimes we need upstream to connect us wayward drones back into the
-> > hive mind. Forgive me for not immediately recognizing that the
-> > existing 'authorized' mechanisms might be repurposed for this use
-> > case.
+> Well in general I strongly suggest to not use the patter kmalloc(sizeof=
+(some struct) * MAX_ORDER,...) instead use kmalloc_array, kcalloc etc..
 >
-> Not your fault, I'm more amazed that Andi doesn't remember this, he's
-> been around longer :)
+> Then when a array is embedded at the end of a structure you can use a t=
+railing array and the struct_size() macro to determine the allocation siz=
+e.
+
+Sure. Will fix it.
+
 >
+> Additional to that separating the patch into changes for TTM to make th=
+e maximum allocation order independent from MAX_ORDER would be rather goo=
+d to have I think.
 
-In the driver core? No, not so much, and I do remember it flying by,
-just did not connect the dots. In fact, it had just gone upstream when
-you and I had that thread about blocking PCI drivers [1], September
-2017 vs June 2017 when the Thunderbolt connection manager was merged.
-There was no internal review process back then so I failed to
-internalize its implications for this TDX filter. You had taken the
-time to review it in a way that I had not.
+Can you elaborate a little bit more on =E2=80=9Cmake the maximum allocati=
+on order independent from MAX_ORDER=E2=80=9D? From what I understand of t=
+tm_pool_alloc(), it tries to get num_pages pages by allocating as large p=
+ages as possible, starting from MAX_ORDER. What is the rationale behind t=
+his algorithm? Why not just call alloc_page(order=3D0) num_pages times? I=
+s it mean to reduce the number of calls to alloc_page? The allocated page=
+s do not need to get as high as MAX_ORDER, is that the case? If yes, I pr=
+obably can keep ttm pool as static arrays with length of MIN_MAX_ORDER, w=
+hich I introduce in Patch 14 as the lower bound of boot time parameter MA=
+X_ORDER. Let me know your thoughts.
 
-> But the first instinct should not be "let's go add a new feature", but
-> rather, "how has this problem been solved by others first" because,
-> really, this is not a new issue at all.  You should not rely on just me
-> to point out existing kernel features, we do have documentation you
-> know...
+Thanks.
 
-I have added, "review driver core attribute proposal for duplication
-of bus-local capabilities" to my review checklist.
+=E2=80=94
+Best Regards,
+Yan, Zi
 
-The good news is I think this generic authorization support in the
-core may answer one of Jonathan's questions about how to integrate PCI
-SPDM/CMA support [2].
+--=_MailMate_4B2EA1D0-8700-4B85-88FC-290FD6C94B08_=
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1]: https://lore.kernel.org/lkml/20170928090901.GC12599@kroah.com/
-[2]: https://lore.kernel.org/r/20210804161839.3492053-1-Jonathan.Cameron@huawei.com
+-----BEGIN PGP SIGNATURE-----
+
+iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAmEMQugPHHppeUBudmlk
+aWEuY29tAAoJEJ2yUfNrYfqK9IAP/1sWI6g4F8/TjyPqAnf9fJ900swOrmgQEmZg
+z5Gy4K0ZkagwjucAwQq+dAw/Ebii5ZtQx2mqjx5aSyfp+I1ErcNJ0qNqKTWTjcQD
+g/3hssNG6gmrf6mMstWHtediyWMkhH4WMCixpHocBZwE+3/zyyMtGHyOkLuAd5Ul
+1nKtZc7CjgFM3FN3UeyV24HqLodhNIDYcQ5RHcHH+rNGBtoyScuZysYHFXBgNpkL
+84S2xolvUObyDIHaVPPOhMI+zLZEJ8q3hOp+2ARqDS/2PsA9jtU+ICJjV4sslwnu
+chz1J49n36SwEf+Kq5Cgm5iTrOnp7ziBthQgxDk99qRNoV/pgI4Wb7AEI6EeYiDp
+6ImZD3ZzhQ7dXGGpaRCYBmYDQGSN+UAUZJlccq5QYhtSWwjAgfkAtBkD7tE9FZgc
+AGXJS5XZDvRDD145vPvwWSYbMslQsWvTUiX37JubqF6rtplLfNy9P/REPaq2bkJX
+TCqBYWfrprvo6wfdvjmdFbBGV+K/VWMXlri8U3Uf7QTNrAccY/oXODCF1m/kn0w8
+4aUFr8I1I5SI+HgLRz12CHxzn151Py2aubN2DtIFN/+lpKUyOd3eSAPoA+O1W0rY
+yEHamf+O9gZ00Kw9cqf25zxpGuGsBDKGOpecmD+yI5lb0B05+zHpsnM9PeCWO3Vq
+FaQ3HpsL
+=DyTs
+-----END PGP SIGNATURE-----
+
+--=_MailMate_4B2EA1D0-8700-4B85-88FC-290FD6C94B08_=--
