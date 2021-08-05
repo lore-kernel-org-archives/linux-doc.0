@@ -2,106 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9985C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59533C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A75D660F43
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:31:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F75761158
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236977AbhHENbR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 09:31:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57910 "EHLO mail.kernel.org"
+        id S239749AbhHENwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 09:52:41 -0400
+Received: from mga03.intel.com ([134.134.136.65]:53451 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231162AbhHENbR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 09:31:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B55F60D07;
-        Thu,  5 Aug 2021 13:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628170263;
-        bh=JgZfnGslfqp/znxG0wr4ON7p64h3QH4jX6hdzhwkSy8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e2j4Jzm/+ngWy+h13j3kNnu5YPHrXRAClhE0rE7QeGSs8XQIDzV0ZhdsZNwuo9n0I
-         c114gVNx3acfTmS1+KlxdxAsYs3810FBDa8+5cKE2PWjifIn2rNbzFzGE7OXLqWuUU
-         as/a6FRc/f3oApFBn4wf/x10U+h91YSvFSD8pNSuMpw5Y6HkDCP+jvHbRJzEXtfpyK
-         RxI33YR3HHOcLw7SLjhwKse7XmJ73ZULsylMm1DM0MROWTicZhgsRk26NdI4T4XCf5
-         j98kMTzIohJViS0Nge2YeI+7zpK30VAjZajBrIYRmPvOYdP8GECU+FJAZ8Hr15TQC0
-         Q7U4td/WzHHbg==
-Date:   Thu, 5 Aug 2021 06:31:00 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
+        id S233033AbhHENwl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 09:52:41 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="214183645"
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="214183645"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 06:52:26 -0700
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="437798795"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.183.241]) ([10.212.183.241])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 06:52:25 -0700
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP
- statistics
-Message-ID: <20210805063100.0c376dda@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210805111826.252-1-alexandr.lobakin@intel.com>
-References: <20210803163641.3743-1-alexandr.lobakin@intel.com>
-        <20210803163641.3743-4-alexandr.lobakin@intel.com>
-        <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
-        <20210804053650.22aa8a5b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20210804155327.337-1-alexandr.lobakin@intel.com>
-        <20210804095716.35387fcd@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20210805111826.252-1-alexandr.lobakin@intel.com>
+        Dan Williams <dan.j.williams@intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YQrqhYEL64CSLRTy@kroah.com>
+ <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
+ <YQuYCePPZEmVbkfc@kroah.com> <YQuZdVuaGG/Cr62y@kroah.com>
+ <YQuaJ78y8j1UmBoz@kroah.com>
+From:   Andi Kleen <ak@linux.intel.com>
+Message-ID: <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
+Date:   Thu, 5 Aug 2021 06:52:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <YQuaJ78y8j1UmBoz@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  5 Aug 2021 13:18:26 +0200 Alexander Lobakin wrote:
->  - encourage driver developers to use this new API when they want to
->    provide any XDP stats, not the Ethtool stats which are already
->    overburdened and mix HW, SW and whatnot in most of the complex
->    drivers.
 
-On the question of adding the stats in general I'd still ask for 
-(a) performance analysis or (b) to start with just the exception 
-stats which I'd think should be uncontroversial.
+> Both thunderbolt and USB have the idea of "authorized" devices, that is
+> the logic that should be made generic and available for all busses to
+> use, by moving it to the driver core, just like the "removable" logic
+> got moved to the driver core recently (see 70f400d4d957 ("driver core:
+> Move the "removable" attribute from USB to core")
+
+This looks like it's controlled by udev?  Have a default per bus, and 
+let user space override it before setting up the device.
+
+This doesn't help us handle builtin drivers that initialize before user 
+space is up.
+
+We need something that works for all drivers. Also cannot just use a 
+default at bootup because some drivers (like virtio or rtc) need to be 
+initialized in early boot to make the system functional at all. So you 
+need a way to distinguish these two cases in the pre user space boot.
+
+That's basically what this patch implements the infrastructure for.
+
+>
+> Please use that type of interface, as we already have userspace tools
+> using it, and expand it for all busses in the system to use if they
+> want.  Otherwise with this proposal you will end up with multiple ways
+> to control the same bus type with different types of "filtering",
+> ensuring a mess.
+
+How would such a proposal work for a platform driver that doesn't have a 
+bus?
+
+-Andi
+
