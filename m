@@ -2,183 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F040EC4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 23:05:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0692FC4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 23:31:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D18FB610FC
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 23:05:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB5CB61104
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 23:31:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbhHEXFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 19:05:38 -0400
-Received: from mail-dm6nam11on2055.outbound.protection.outlook.com ([40.107.223.55]:50113
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231757AbhHEXFi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 19:05:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NeYMii/gH4402lhacoExGY9GMpwUalR5/6hTJzapx6NYW5TReSQq0sDVZ2JyHQyDl2X18bUbQgt1JqKtTTIwrwifwlNXadMLMYj+OrQV76ldMoXAKgegvt+qPrYp3hyyYm/2BqWt04y+W1WaXOPidhbJ+YoIEE83nMKwnHtC5I2lO4mHariRudXqFBR8gskaqEATpW3AoOcAOYl3zs9K+v1K60KTz00JpK0j31qqb/8Qyvy1pIMcrSGP0G1T5Zc88hhglYPuzF4YfsKuToLqkspOBpcXl1wkDuH+o8NT47T7+WTfQgG5cRL26AQG/67O3Oca4uiZTVNN474ZFC507Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n1OmkNhs/ImC/8miMp7DzXmn9tn6S3OBgY+WZDgUgko=;
- b=mNUDtWYtR9igoz/w0F2tcgbXFIXK8MI2kkviVqBN9vDN7e0TnUjaROG/4ol1G43ZXrDJv9siAAgBLmDPuSFdw6sA5sv1f1QWJAC4rzddqLsgdMDNk/OX1P4hZp6THks8ieMyuZ9vpoHpLb1+jVO+skVjLl9zU8Ff91XWLdOCd+PMKg6U04pUUViM5mj9ZPXWjAjMpom/0SqPvSROBLiu4b7z/Lh/2YJU2E9D6wfqVm0Qrhd4+ygnRn3tvpnNZGcegLfZk/NGmrszI+msLKoh62B2sIOD7+fGg2CG0DxlcMa1gbO3swu1Li0fUXDL8YmWFPAkefv3HYwYzSc1TUkRJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n1OmkNhs/ImC/8miMp7DzXmn9tn6S3OBgY+WZDgUgko=;
- b=IhUC5eSz3m2uo2s84t38vMyIsBa3pxS1KKQtZBwamMf5gUDv8gkKniNNc/r7CVFXjdiMvmX5Pm7v3xzNvoDMgJg0j0Z7EjkICccKpg6W6vb6uUc6taBnJqRWpQb21eoZconyMpc8RCpdbYHegquKmmBSIvv2/4DzJMdYGNSzBND31QMpnzkN/fUdZHaGEHtVwI0bKp5gvDJjPNaBqVbD1XscROjU547D6odh/zTy/o6djAdgD2/+h4ibec/2iDjK2XvmExPeg6O/JeirAUMYG2jE539iDNJTEastzUk8x4phM2RBxbPNPmYoNcKufrYEef5NlhGQ85VtuSAGjrU2Iw==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5112.namprd12.prod.outlook.com (2603:10b6:208:316::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Thu, 5 Aug
- 2021 23:05:22 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::1de1:52a9:cf66:f336]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::1de1:52a9:cf66:f336%7]) with mapi id 15.20.4394.018; Thu, 5 Aug 2021
- 23:05:22 +0000
-Date:   Thu, 5 Aug 2021 20:05:20 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        dri-devel@lists.freedesktop.org,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v3 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
- use the dev_set
-Message-ID: <20210805230520.GO1721383@nvidia.com>
-References: <0-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
- <9-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
- <20210803103406.5e1be269.alex.williamson@redhat.com>
- <20210803164152.GC1721383@nvidia.com>
- <20210803105225.2ee7dac2.alex.williamson@redhat.com>
- <20210805114701.GC1672295@nvidia.com>
- <20210805113311.65a16bba.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210805113311.65a16bba.alex.williamson@redhat.com>
-X-ClientProxiedBy: CH2PR16CA0021.namprd16.prod.outlook.com
- (2603:10b6:610:50::31) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S237674AbhHEXbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 19:31:22 -0400
+Received: from mga02.intel.com ([134.134.136.20]:6542 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236808AbhHEXbW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 19:31:22 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="201448365"
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="201448365"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 16:31:07 -0700
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
+   d="scan'208";a="481043884"
+Received: from rmgular-mobl2.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.251.138.25])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 16:31:06 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>
+Subject: [PATCH v3 0/5] Add TDX Guest Support (Debug support)
+Date:   Thu,  5 Aug 2021 16:30:31 -0700
+Message-Id: <20210805233036.2949674-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by CH2PR16CA0021.namprd16.prod.outlook.com (2603:10b6:610:50::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Thu, 5 Aug 2021 23:05:21 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mBmQS-00Dg9p-7a; Thu, 05 Aug 2021 20:05:20 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 621a8ed3-15f0-4953-aa8d-08d958658018
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5112:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5112C1B83152428538762C78C2F29@BL1PR12MB5112.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4oovYC4zbwRXsfCN8lh+OxVsvMm++lP/o2waFWf4ojo6tcFgdO5Q7AtXwClLdz14BS5x/v8CS3s2eDhnpu8B6sgCWADRdtvi3EKsACO3sgK3Ar3w6pva8cE0VPYRDJIgEnhdm+AXPZ6PMYiz6M+R41ZfuuHESFZwqcNkmxVc8xRlRc2LwxFusr2NkITYKUAZYpSU9zKe/yC8CQG8dWak1JpfY5ZcdTBBOKVZAoZk3DRDYMHLTvxK/cEc0UUw/45ndCXgfAwSceEYOOxLzHwrsor7Fs9lvtfCXbPb4Cl2EJWLm3PAVH+xGIdeJ9SYpKHkMR7/www8P5Lp/wvwimfpgeeNWfcEb8np4MFKsbDLjUBCaDBAauJCBPaGz3kci/3n+QHvbMG619Aj8x8VxyDT91We38wML56s01jfRRsDJaHSFQWdap+U2sD2hBr3ZVxW1jdD6V+10nXGAXYainR9rdS8PINecym9Vtw/8mMRGUivLsfD+AG1ctPmHZoad0hXzJ8jfU7uWi6+/pcPOcHjvtP8YFWN+vtgcrMoEIW2LRo4uh0TULXvuQtgB7Foa54CxsokRViQZjgH+k4YkFKEC6ALX1DZXGTqTQnu9EDlzhenJ+FLw8siI8+v+3DvZC5ilbOJc2EU8pgKREvcNLXA9A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38100700002)(316002)(6916009)(426003)(66476007)(66556008)(186003)(2616005)(8676002)(9746002)(86362001)(8936002)(26005)(9786002)(66946007)(36756003)(83380400001)(1076003)(5660300002)(33656002)(7406005)(54906003)(7416002)(4326008)(2906002)(508600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KsKh/sxcQiGYjJ26QPMhU7nR7SsWYDyXI9oL59/Y80mV21+VaLQPB1r27yPb?=
- =?us-ascii?Q?4GpRhnW8P/qkyP8+liQarLVvE8VUIaQFj+WHXEJ1JTFtc2s1zVelevAhZmKk?=
- =?us-ascii?Q?o+xezKg6xmr9yXP02WrEdqLPYoYF9joBdn0SPAnWRcSMJM/hYGokIjQD0PB9?=
- =?us-ascii?Q?+uuGPavfJW7BewyBS0sEOjgFnFErk/MfWitxcVzxi8nKw5Dn1lxo7Ep5/ggJ?=
- =?us-ascii?Q?hAx2Fxxp7cEXSFK+1bM3vSQz2cggYL7F17gsD6+qhxGB/YCNHSAGEib88Og/?=
- =?us-ascii?Q?C73WVcEeuesLes0XcpjhIjO64Npp/PDO0UVgQlqQ8MSfdh1BTjyWB4xnuplV?=
- =?us-ascii?Q?ekq7ey6c0H54cvt7/jkrn8/sXGV3lofvlRzvaoxYI0Ib3nVJnByv2y6HNq3g?=
- =?us-ascii?Q?VqIiMXizzDdfvFa5FkYrjLijNsldaAF+bO7PY75uOkZh21NopxDJTE4goLq5?=
- =?us-ascii?Q?Gv54hOroI4B53PRRKLnNnTlQ3hGNRfXb+VK/aMVfiEiymQGkm9je04gliYGZ?=
- =?us-ascii?Q?rlZWWFgcZi24BPPaEejPYKyuhDLxQO5+DDTDXI0Bx7/eLV9SC0mWLj/OKURF?=
- =?us-ascii?Q?yIXEI6xy8NvMFeCcCbEufnGdLXZeOkZ/oMk0aegNo38/dJQsPJEQBFVWPSb6?=
- =?us-ascii?Q?rN3ESdNkb/7d0zW7w7PXRvTtD8zEVETa6qbJzkRqf2JMjvG6A314JftZNA/1?=
- =?us-ascii?Q?h30XZcyawwX9IB9yjiKgP/vC6eNuqqxTzSFjO0iuqVdUWIdVTT80CVp2RzVo?=
- =?us-ascii?Q?saRuBbk7W7YuWnYkrDiXLWtQNBzP3bKeL9yIN90JTMwN4nzkTaIjhYUXj/j5?=
- =?us-ascii?Q?ellSzFlOoMWBy8NSm/QflAb5MeX5G/8e4uVU2MfFw8sWmul7VMp3zd2LmdZU?=
- =?us-ascii?Q?ssonZftoVdbWC+UPZ9zs8X8T0jKXyw+RKXfXrb44Op68hrVSQLQNNYBPdwPX?=
- =?us-ascii?Q?5xNKVTIoGvc8mhQFjrcrBFI1AejX2hxo9Yj04iEMbvx2kLzexBR+6l+gsjcX?=
- =?us-ascii?Q?5F7pjjw1945OPE/yh4x64qgVULIFQkM/Xiz3ptJj+gGSuVBZF6ofviLLXH+4?=
- =?us-ascii?Q?YWp2lnDLGZORuF7NAnbrBGndOlKGOGgOGR/zAOcR+IfbHwZbfKtllfqfIiB5?=
- =?us-ascii?Q?sZwaDlURzLPhmgxLctAUzKbtR72lVIe04VmRVFwmLvkzbjsm3RZzC9aTpbvl?=
- =?us-ascii?Q?k0NZ3SYtKNPe5ZR4Eo/JcRrpld2PlDA1V70FkMVF7pwhihsmNRUn6To4/vPD?=
- =?us-ascii?Q?B51kcfBTXMKPAsROdBFW2RWSk+zWp2xzgqqygFPIxvd/mY9B+67bOQQOZDEN?=
- =?us-ascii?Q?rNdNRxqc39ycg/8lNByZndJ4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 621a8ed3-15f0-4953-aa8d-08d958658018
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 23:05:21.9202
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dngc9M2/G5chTb3TaA8DxGlbJoRB8y7qXcE+pxhtaJiBkUjXZ9WuUhgM1RwacfDe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5112
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 11:33:11AM -0600, Alex Williamson wrote:
-> > +static int vfio_pci_is_device_in_set(struct pci_dev *pdev, void *data)
-> > +{
-> > +	struct vfio_device_set *dev_set = data;
-> > +	struct vfio_device *cur;
-> > +
-> > +	lockdep_assert_held(&dev_set->lock);
-> > +
-> > +	list_for_each_entry(cur, &dev_set->device_list, dev_set_list)
-> > +		if (cur->dev == &pdev->dev)
-> > +			return 0;
-> > +	return -EBUSY;
-> > +}
-> > +
-> > +static bool vfio_pci_dev_set_needs_reset(struct vfio_device_set *dev_set)
-> 
-> Slight nit on the name here since we're essentially combining
-> needs_reset along with the notion of the device being unused.  I'm not
-> sure, maybe "should_reset"?  Otherwise it looks ok.  Thanks,
+Hi All,
 
-What I did is add a new function vfio_pci_dev_set_resettable() which
-pulls in three parts of logic that can be be shared with the
-VFIO_DEVICE_PCI_HOT_RESET change in the next patch. That leaves this
-function as purely needs_reset.
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks.
 
-In turn the VFIO_DEVICE_PCI_HOT_RESET patch gets the same treatment
-where it becomes a dev_set centric API just like this.
+Following patches adds tracepoint support for TDX Guest TDCALL requests
+and #VE exceptions. It also includes helper function to detect TD-DEBUG
+mode which will be used by patches in other TDX series to add TD-DEBUG
+mode specific features support.
 
-I'll send it as a v4.
+This series is the continuation of the following TDX guest related patches.
 
-Thanks,
-Jason
+[set 1, v5] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510805
+[set 2, v4] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510814
+[set 3, v4] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510816
+[set 4, v4] - https://lore.kernel.org/patchwork/project/lkml/list/?series=510836
+
+Also please note that this series alone is not necessarily fully
+functional. You need to apply all the above 4 patch series to get 
+a fully functional TDX guest.
+
+Changes since v2:
+ * Added taint flag support for TDX overrides.
+ * Moved patch titled "x86/tdx: Add tdg_debug_enabled() interface" to
+   the patch series which actually uses it.
+ * Added support to override protected guest flags.
+
+Changes since v1:
+ * Rebased on top of v5.14-rc1.
+
+Andi Kleen (2):
+  Add taint flag for TDX overrides
+  x86/tdx: Add option to override prot values
+
+Kuppuswamy Sathyanarayanan (2):
+  x86/tdx: Add TDCALL tracepoint
+  x86/tdx: Expose TDX Guest #VE count in /proc/interrupts
+
+Sean Christopherson (1):
+  x86/tdx: Add #VE tracepoint
+
+ .../admin-guide/kernel-parameters.txt         |   8 +
+ Documentation/admin-guide/tainted-kernels.rst |   7 +-
+ arch/x86/include/asm/hardirq.h                |   3 +
+ arch/x86/include/asm/tdx.h                    |   2 +
+ arch/x86/include/asm/trace/tdx.h              | 158 ++++++++++++++++++
+ arch/x86/kernel/irq.c                         |   6 +
+ arch/x86/kernel/tdx.c                         |  88 ++++++++--
+ arch/x86/kernel/traps.c                       |   2 +
+ include/linux/panic.h                         |   3 +-
+ kernel/panic.c                                |   1 +
+ 10 files changed, 263 insertions(+), 15 deletions(-)
+ create mode 100644 arch/x86/include/asm/trace/tdx.h
+
+-- 
+2.25.1
+
