@@ -2,187 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC17C4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1FBC4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 02:14:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0130660EBB
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 00:55:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 947DB610FB
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 02:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232362AbhHEA4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 Aug 2021 20:56:05 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27469 "EHLO mga09.intel.com"
+        id S237948AbhHECO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 Aug 2021 22:14:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37654 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237465AbhHEAy6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 4 Aug 2021 20:54:58 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="214027500"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="214027500"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:53 -0700
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; 
-   d="scan'208";a="437617307"
-Received: from mjkendri-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.254.17.117])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2021 17:53:51 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S232116AbhHECO1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Aug 2021 22:14:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6F0D3610A2;
+        Thu,  5 Aug 2021 02:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628129653;
+        bh=ruO3OGybwjUYEOC1l6aUYucPLG2j5dr64XYovWP1ozQ=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=eoPBa1AOAkiXYM7PuuIeO9K68FSjkbdj7lSxIJXWjWz8OfGV3OmshO4MvwK5es7VC
+         d1fWBqnjglC32oq8epjv3ay61rujlm6WXKBTz6WfwonUCkln+FVfdEw1yDopkn7Q8u
+         drVxNWY2UO6jjQYVzkOd3wfl1CTqM9RnugC4T0ILZiGDLgDUXrISgYqJoB4C+jQKV8
+         vfXS3mQZGEImZ+nr/eH7s6Vz5LIiiz5eyoHWimOxJ8nRzkb2HKRFqzd2XIX7sWdQZA
+         5pigBX0fNcXphutXg3yjMgZsVmwe+Y8mwgUYpDZp63pw3FG3e4biuUwvL8ozI/E0aE
+         AgzIDC8Lgn/3A==
+Message-ID: <fd2121df712574a240cd56060a138a5686e81b94.camel@kernel.org>
+Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP
+ statistics
+From:   Saeed Mahameed <saeed@kernel.org>
+To:     David Ahern <dsahern@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+        Tariq Toukan <ttoukan.linux@gmail.com>,
+        Tariq Toukan <tariqt@nvidia.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marcin Kubiak <marcin.kubiak@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>
-Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v4 15/15] x86/tdx: Add cmdline option to force use of ioremap_shared
-Date:   Wed,  4 Aug 2021 17:52:18 -0700
-Message-Id: <20210805005218.2912076-16-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+        Netanel Belgazal <netanel@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        Guy Tzalik <gtzalik@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Sameeh Jubran <sameehj@amazon.com>,
+        Alexander Duyck <alexanderduyck@fb.com>,
+        Danielle Ratson <danieller@nvidia.com>,
+        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jian Shen <shenjian15@huawei.com>,
+        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
+        Yangbo Lu <yangbo.lu@nxp.com>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
+Date:   Wed, 04 Aug 2021 19:14:09 -0700
+In-Reply-To: <4b2358e1-a802-b0ab-129d-1432f49c46ec@gmail.com>
+References: <20210803163641.3743-1-alexandr.lobakin@intel.com>
+         <20210803163641.3743-4-alexandr.lobakin@intel.com>
+         <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+         <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
+         <20210804053650.22aa8a5b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+         <43e91ce1-0f82-5820-7cac-b42461a0311a@gmail.com>
+         <20210804094432.08d0fa86@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+         <d21933cb-9d24-9bdd-cf18-e5077796ddf7@gmail.com>
+         <11091d33ff7803257e38ee921e4ba9597acfccfc.camel@kernel.org>
+         <4b2358e1-a802-b0ab-129d-1432f49c46ec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a command line option to force all the enabled drivers to use
-shared memory mappings. This will be useful when enabling new drivers
-in the protected guest without making all the required changes to use
-shared mappings in it.
+On Wed, 2021-08-04 at 18:43 -0600, David Ahern wrote:
+> On 8/4/21 12:27 PM, Saeed Mahameed wrote:
+> > 
+> > > I just ran some quick tests with my setup and measured about 1.2%
+> > > worst
+> > 
+> > 1.2% is a lot ! what was the test ? what is the change ?
+> 
+> I did say "quick test ... not exhaustive" and it was definitely
+> eyeballing a pps change over a small time window.
+> 
+> If multiple counters are bumped 20-25 million times a second (e.g.
+> XDP
+> drop case), how measurable is it? I was just trying to ballpark the
+> overhead - 1%, 5%, more? If it is <~ 1% then there is no performance
+> argument in which case let's do the right thing for users - export
+> via
+> existing APIs.
 
-Note that this might also allow other non explicitly enabled drivers
-to interact with the host, which could cause other security risks.
-
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- .../admin-guide/kernel-parameters.rst         |  1 +
- .../admin-guide/kernel-parameters.txt         | 12 ++++++++++++
- arch/x86/include/asm/io.h                     |  2 ++
- arch/x86/mm/ioremap.c                         | 19 ++++++++++++++++++-
- 4 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 01ba293a2d70..bdf3896a100c 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -147,6 +147,7 @@ parameter is applicable::
- 	PCI	PCI bus support is enabled.
- 	PCIE	PCI Express support is enabled.
- 	PCMCIA	The PCMCIA subsystem is enabled.
-+	PG	Protected guest is enabled.
- 	PNP	Plug & Play support is enabled.
- 	PPC	PowerPC architecture is enabled.
- 	PPT	Parallel port support is enabled.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdb22006f713..ba390be62f89 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2062,6 +2062,18 @@
- 			1 - Bypass the IOMMU for DMA.
- 			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
- 
-+	ioremap_force_shared= [X86_64, PG]
-+			Force the kernel to use shared memory mappings which do
-+			not use ioremap_shared/pcimap_shared to opt-in to shared
-+			mappings with the host. This feature is mainly used by
-+			a protected guest when enabling new drivers without
-+			proper shared memory related changes. Please note that
-+			this option might also allow other non explicitly enabled
-+			drivers to interact with the host in protected guest,
-+			which could cause other security risks. This option will
-+			also cause BIOS data structures to be shared with the host,
-+			which might open security holes.
-+
- 	io7=		[HW] IO7 for Marvel-based Alpha systems
- 			See comment before marvel_specify_io7 in
- 			arch/alpha/kernel/core_marvel.c.
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index 51c2c45456bf..744f72835a30 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -413,6 +413,8 @@ extern bool arch_memremap_can_ram_remap(resource_size_t offset,
- extern bool phys_mem_access_encrypted(unsigned long phys_addr,
- 				      unsigned long size);
- 
-+extern bool ioremap_force_shared;
-+
- /**
-  * iosubmit_cmds512 - copy data to single MMIO location, in 512-bit units
-  * @dst: destination, in MMIO space (must be 512-bit aligned)
-diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
-index 74260aaa494b..7576e886fad8 100644
---- a/arch/x86/mm/ioremap.c
-+++ b/arch/x86/mm/ioremap.c
-@@ -28,6 +28,7 @@
- #include <asm/memtype.h>
- #include <asm/setup.h>
- #include <asm/tdx.h>
-+#include <asm/cmdline.h>
- 
- #include "physaddr.h"
- 
-@@ -162,6 +163,17 @@ static void __ioremap_check_mem(resource_size_t addr, unsigned long size,
- 	__ioremap_check_other(addr, desc);
- }
- 
-+/*
-+ * Normally only drivers that are hardened for use in confidential guests
-+ * force shared mappings. But if device filtering is disabled other
-+ * devices can be loaded, and these need shared mappings too. This
-+ * variable is set to true if these filters are disabled.
-+ *
-+ * Note this has some side effects, e.g. various BIOS tables
-+ * get shared too which is risky.
-+ */
-+bool ioremap_force_shared;
-+
- /*
-  * Remap an arbitrary physical address space into the kernel virtual
-  * address space. It transparently creates kernel huge I/O mapping when
-@@ -249,7 +261,7 @@ __ioremap_caller(resource_size_t phys_addr, unsigned long size,
- 	prot = PAGE_KERNEL_IO;
- 	if ((io_desc.flags & IORES_MAP_ENCRYPTED) || encrypted)
- 		prot = pgprot_encrypted(prot);
--	else if (shared)
-+	else if (shared || ioremap_force_shared)
- 		prot = pgprot_protected_guest(prot);
- 
- 	switch (pcm) {
-@@ -847,6 +859,11 @@ void __init early_ioremap_init(void)
- 	WARN_ON((fix_to_virt(0) + PAGE_SIZE) & ((1 << PMD_SHIFT) - 1));
- #endif
- 
-+	/* Parse cmdline params for ioremap_force_shared */
-+	if (cmdline_find_option_bool(boot_command_line,
-+				     "ioremap_force_shared"))
-+		ioremap_force_shared = 1;
-+
- 	early_ioremap_setup();
- 
- 	pmd = early_ioremap_pmd(fix_to_virt(FIX_BTMAP_BEGIN));
--- 
-2.25.1
+from experience I don't believe it can be more than 1% and yes on
+existing APIs !
 
