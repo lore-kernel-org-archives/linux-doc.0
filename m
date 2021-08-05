@@ -2,148 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A85E9C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9985C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:31:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A09860EE7
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:06:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A75D660F43
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 13:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240121AbhHENGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 09:06:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51868 "EHLO mail.kernel.org"
+        id S236977AbhHENbR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 09:31:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232931AbhHENGc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 09:06:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BD3760525;
-        Thu,  5 Aug 2021 13:06:18 +0000 (UTC)
+        id S231162AbhHENbR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 09:31:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B55F60D07;
+        Thu,  5 Aug 2021 13:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628168778;
-        bh=6Rf3pGNX0K1ifjeDPZib5H95Dk4SVWI3B0FwMUydquc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=CuEKpi9/mHcX2GeCjbcV7Uz61aekfFQlg/sLgt1eTzUaxa+rQeO/YSTKSsmteCJ2o
-         WsgPQjwByE7/+2rQfBO2FnnvmhJMstMOolwz1rgYHbhCZTspUwUgCV/vbzisESxFrb
-         rWS/VjbJMa+HMEpj2MhlYQ9gVHB/YiJoEWElBZ8rp182aUZ4QbpswXvAy2AwI+Rjb7
-         TTDft/k0uqH/mAEiot1DpEW8VxNMCIpPv+TAkv4vfh6zWRPIKxXAbOzwUTjQ7+IuTS
-         6FUWgx8Xq6UrRLn6+6xvvPxM6GAodDWHHTXCtSECpx5ST6cqSBFLR9S9j86BAMcrNo
-         Vk8Cz8PpvPWvA==
-Date:   Thu, 5 Aug 2021 08:06:16 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        s=k20201202; t=1628170263;
+        bh=JgZfnGslfqp/znxG0wr4ON7p64h3QH4jX6hdzhwkSy8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=e2j4Jzm/+ngWy+h13j3kNnu5YPHrXRAClhE0rE7QeGSs8XQIDzV0ZhdsZNwuo9n0I
+         c114gVNx3acfTmS1+KlxdxAsYs3810FBDa8+5cKE2PWjifIn2rNbzFzGE7OXLqWuUU
+         as/a6FRc/f3oApFBn4wf/x10U+h91YSvFSD8pNSuMpw5Y6HkDCP+jvHbRJzEXtfpyK
+         RxI33YR3HHOcLw7SLjhwKse7XmJ73ZULsylMm1DM0MROWTicZhgsRk26NdI4T4XCf5
+         j98kMTzIohJViS0Nge2YeI+7zpK30VAjZajBrIYRmPvOYdP8GECU+FJAZ8Hr15TQC0
+         Q7U4td/WzHHbg==
+Date:   Thu, 5 Aug 2021 06:31:00 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marcin Kubiak <marcin.kubiak@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
+        Netanel Belgazal <netanel@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Alexander Duyck <alexanderduyck@fb.com>,
+        Danielle Ratson <danieller@nvidia.com>,
+        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+        Arnd Bergmann <arnd@arndb.de>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Sajid Dalvi <sdalvi@google.com>
-Subject: Re: [PATCH net-next 1/2] timer: add fsleep for flexible sleeping
-Message-ID: <20210805130616.GA1684372@bjorn-Precision-5520>
+        Jian Shen <shenjian15@huawei.com>,
+        Petr Vorel <petr.vorel@gmail.com>,
+        Yangbo Lu <yangbo.lu@nxp.com>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
+Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP
+ statistics
+Message-ID: <20210805063100.0c376dda@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210805111826.252-1-alexandr.lobakin@intel.com>
+References: <20210803163641.3743-1-alexandr.lobakin@intel.com>
+        <20210803163641.3743-4-alexandr.lobakin@intel.com>
+        <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
+        <20210804053650.22aa8a5b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20210804155327.337-1-alexandr.lobakin@intel.com>
+        <20210804095716.35387fcd@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20210805111826.252-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e3c3f78-344c-ae03-b6ae-ea55e402c1e7@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Andrew, Sajid, -cc Realtek NIC, David, netdev]
+On Thu,  5 Aug 2021 13:18:26 +0200 Alexander Lobakin wrote:
+>  - encourage driver developers to use this new API when they want to
+>    provide any XDP stats, not the Ethtool stats which are already
+>    overburdened and mix HW, SW and whatnot in most of the complex
+>    drivers.
 
-On Fri, May 01, 2020 at 11:27:21PM +0200, Heiner Kallweit wrote:
-> Sleeping for a certain amount of time requires use of different
-> functions, depending on the time period.
-> Documentation/timers/timers-howto.rst explains when to use which
-> function, and also checkpatch checks for some potentially
-> problematic cases.
-> 
-> So let's create a helper that automatically chooses the appropriate
-> sleep function -> fsleep(), for flexible sleeping
-> 
-> If the delay is a constant, then the compiler should be able to ensure
-> that the new helper doesn't create overhead. If the delay is not
-> constant, then the new helper can save some code.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> ---
->  Documentation/timers/timers-howto.rst |  3 +++
->  include/linux/delay.h                 | 11 +++++++++++
->  2 files changed, 14 insertions(+)
-> 
-> diff --git a/Documentation/timers/timers-howto.rst b/Documentation/timers/timers-howto.rst
-> index 7e3167bec..afb0a43b8 100644
-> --- a/Documentation/timers/timers-howto.rst
-> +++ b/Documentation/timers/timers-howto.rst
-> @@ -110,3 +110,6 @@ NON-ATOMIC CONTEXT:
->  			short, the difference is whether the sleep can be ended
->  			early by a signal. In general, just use msleep unless
->  			you know you have a need for the interruptible variant.
-> +
-> +	FLEXIBLE SLEEPING (any delay, uninterruptible)
-> +		* Use fsleep
-> diff --git a/include/linux/delay.h b/include/linux/delay.h
-> index 8e6828094..cb1d508ca 100644
-> --- a/include/linux/delay.h
-> +++ b/include/linux/delay.h
-> @@ -65,4 +65,15 @@ static inline void ssleep(unsigned int seconds)
->  	msleep(seconds * 1000);
->  }
->  
-> +/* see Documentation/timers/timers-howto.rst for the thresholds */
-> +static inline void fsleep(unsigned long usecs)
-> +{
-> +	if (usecs <= 10)
-> +		udelay(usecs);
-> +	else if (usecs <= 20000)
-> +		usleep_range(usecs, 2 * usecs);
-> +	else
-> +		msleep(DIV_ROUND_UP(usecs, 1000));
-> +}
-
-This is nice; I really like it because it's simpler for callers to
-use.
-
-timers-howto.rst and checkpatch advise to "use usleep_range() for the
-1-20ms range" [1].  That's a very common sleep range, and making it a
-special case makes things harder than they should be.  Supposedly this
-is explained by the thread at [2], but I'm not really buying it.  That
-thread was mostly about what the function name should be and whether
-it should be implemented with timers.
-
-AFAICT the only real argument there against making msleep() behave as
-advertised for <20ms durations was that buggy drivers might depend on
-msleep(1) really sleeping for ~20ms.  That's a real concern to be
-sure, and Andrew apparently tripped over it [3].
-
-But it's also a bug if msleep(1) *always* sleeps for 10-20ms, or if
-the actual sleep changes drastically based on the arch or HZ.
-
-There's a large class of 1-20ms sleeps that do things like this:
-
-  usleep_range(1000, 2000);
-  msleep(1);
-  msleep(5);
-
-that are either accurate but clumsy or inaccurate and unnecessarily
-slow.  We could use fsleep() for them, but it's a little clumsy to
-write "fsleep(5 * 1000)" all the time.
-
-If we had something like this:
-
-  static inline void fmsleep(unsigned int msecs)
-  {
-    fsleep(msecs * 1000);
-  }
-
-it seems like the advice could be simpler:
-
-  - Use fsleep() for usec-range sleeps.
-  - Use fmsleep() for msec-range sleeps.
-  - Use usleep_range() for special cases.
-
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/timers/timers-howto.rst?id=v5.13#n76
-[2] https://lore.kernel.org/r/15327.1186166232@lwn.net
-[3] https://lore.kernel.org/r/20070809001640.ec2f3bfb.akpm@linux-foundation.org/
+On the question of adding the stats in general I'd still ask for 
+(a) performance analysis or (b) to start with just the exception 
+stats which I'd think should be uncontroversial.
