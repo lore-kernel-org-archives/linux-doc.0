@@ -2,96 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB50C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 07:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2815C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 11:08:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 083B66105A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 07:59:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA12061004
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 11:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233428AbhHEIAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 04:00:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34266 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231377AbhHEIAC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 04:00:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CDD76044F;
-        Thu,  5 Aug 2021 07:59:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628150389;
-        bh=VQPRznZKq+7/Y3xFggDbn6ktS/w4o5Cb+eH7BbGxrd8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O9H/9+JgombTsydBEcmzdDXyDw/rn6nu5MBVtZ/uJNpBT/JYFnBisZoTHptUkOgFh
-         zMcyxW6TGCf4JIXbpooxPBou4SQ6MN+o+1pjvwyrBJbtxy7584rJv+wxGfs+j621JR
-         Rt6QUUtudd0bFHig25Rt+x2T925xgAvx6rZAtwJA=
-Date:   Thu, 5 Aug 2021 09:59:45 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQuaceNDNdBqidyQ@kroah.com>
-References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YQrqhYEL64CSLRTy@kroah.com>
- <CAPcyv4iEEDCz5719d0vNi=zi=6oN5vctcVfY5P=WQ9j_Zpz6eA@mail.gmail.com>
- <YQsBfAVPomaC97Rm@casper.infradead.org>
- <CAPcyv4gSsL5hk=CSk=9duqCN3VDS_T2LaYRL+_zK9VOkO8NB+A@mail.gmail.com>
+        id S240738AbhHELIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 07:08:45 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:13237 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240746AbhHELIo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 07:08:44 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GgQnx5cF7z1CSh5;
+        Thu,  5 Aug 2021 19:08:21 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 5 Aug 2021 19:08:28 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
+ (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 5 Aug 2021
+ 19:08:28 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] riscv: Enable HAVE_ARCH_HUGE_VMAP for 64BIT
+Date:   Thu, 5 Aug 2021 19:38:37 +0800
+Message-ID: <20210805113837.805805-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4gSsL5hk=CSk=9duqCN3VDS_T2LaYRL+_zK9VOkO8NB+A@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 02:28:32PM -0700, Dan Williams wrote:
-> On Wed, Aug 4, 2021 at 2:07 PM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Wed, Aug 04, 2021 at 01:11:27PM -0700, Dan Williams wrote:
-> > > On Wed, Aug 4, 2021 at 12:29 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > > Why not just make distros that want to support this type of platform,
-> > > > also provide these tiny kernel images?  Why are you pushing this work on
-> > > > the kernel community instead?
-> > >
-> > > In fact, these questions are where I started when first encountering
-> > > this proposal. Andi has addressed the single kernel image constraint,
-> > > but I want to pick up on this "pushing work to the kernel community"
-> > > contention. The small list of vetted drivers that a TDX guest needs
-> > > will be built-in and maintained in the kernel by the protected guest
-> > > developer community, so no "pushing work" there. However, given that
-> > > any driver disable mechanism needs to touch the driver core I
-> > > advocated to go ahead and make this a general purpose capability to
-> > > pick up where this [1] conversation left off. I.e. a general facility
-> > > for the corner cases that modprobe and kernel config policy can not
-> > > reach. Corner cases like VMM attacking the VM, or broken hardware with
-> > > a built-in driver that can't be unbound after the fact.
-> >
-> > I don't understand how this defends against a hypervisor attacking a
-> > guest.  If the hardware exists, the hypervisor can access it, regardless
-> > of whether the driver is default-disabled by configuration.
-> 
-> The "hardware" in this case is virtual devices presented by the VMM to
-> the VM. So if a driver misbehaves in a useful way for an attacker to
-> exploit, they can stimulate that behavior with a custom crafted
-> virtual device, and that driver will autoload unaware of the threat
-> without this filter for vetted drivers.
+This sets the HAVE_ARCH_HUGE_VMAP option. Enable pmd vmap support and
+define the required page table functions(Currently, riscv has only
+three-level page tables support for 64BIT).
 
-As I just said elsewhere in this thread, we have support for this today
-for thunderbolt and USB, please just expand that to all bus types and
-that should be fine.
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ .../features/vm/huge-vmap/arch-support.txt    |  2 +-
+ arch/riscv/Kconfig                            |  1 +
+ arch/riscv/include/asm/vmalloc.h              | 12 +++++
+ arch/riscv/mm/Makefile                        |  1 +
+ arch/riscv/mm/pgtable.c                       | 53 +++++++++++++++++++
+ 5 files changed, 68 insertions(+), 1 deletion(-)
+ create mode 100644 arch/riscv/mm/pgtable.c
 
-thanks,
+diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
+index 439fd9069b8b..0ff394acc9cf 100644
+--- a/Documentation/features/vm/huge-vmap/arch-support.txt
++++ b/Documentation/features/vm/huge-vmap/arch-support.txt
+@@ -22,7 +22,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 8fcceb8eda07..94cc2a254773 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -61,6 +61,7 @@ config RISCV
+ 	select GENERIC_TIME_VSYSCALL if MMU && 64BIT
+ 	select HANDLE_DOMAIN_IRQ
+ 	select HAVE_ARCH_AUDITSYSCALL
++	select HAVE_ARCH_HUGE_VMAP if MMU && 64BIT
+ 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL
+ 	select HAVE_ARCH_JUMP_LABEL_RELATIVE if !XIP_KERNEL
+ 	select HAVE_ARCH_KASAN if MMU && 64BIT
+diff --git a/arch/riscv/include/asm/vmalloc.h b/arch/riscv/include/asm/vmalloc.h
+index ff9abc00d139..8f17f421f80c 100644
+--- a/arch/riscv/include/asm/vmalloc.h
++++ b/arch/riscv/include/asm/vmalloc.h
+@@ -1,4 +1,16 @@
+ #ifndef _ASM_RISCV_VMALLOC_H
+ #define _ASM_RISCV_VMALLOC_H
+ 
++#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
++
++#define IOREMAP_MAX_ORDER (PMD_SHIFT)
++
++#define arch_vmap_pmd_supported	arch_vmap_pmd_supported
++static inline bool __init arch_vmap_pmd_supported(pgprot_t prot)
++{
++	return true;
++}
++
++#endif
++
+ #endif /* _ASM_RISCV_VMALLOC_H */
+diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+index 7ebaef10ea1b..f932b4d69946 100644
+--- a/arch/riscv/mm/Makefile
++++ b/arch/riscv/mm/Makefile
+@@ -13,6 +13,7 @@ obj-y += extable.o
+ obj-$(CONFIG_MMU) += fault.o pageattr.o
+ obj-y += cacheflush.o
+ obj-y += context.o
++obj-y += pgtable.o
+ 
+ ifeq ($(CONFIG_MMU),y)
+ obj-$(CONFIG_SMP) += tlbflush.o
+diff --git a/arch/riscv/mm/pgtable.c b/arch/riscv/mm/pgtable.c
+new file mode 100644
+index 000000000000..f68dd2b71dce
+--- /dev/null
++++ b/arch/riscv/mm/pgtable.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <asm/pgalloc.h>
++#include <linux/gfp.h>
++#include <linux/kernel.h>
++#include <linux/pgtable.h>
++
++#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
++
++int pud_set_huge(pud_t *pud, phys_addr_t phys, pgprot_t prot)
++{
++	return 0;
++}
++
++int pud_clear_huge(pud_t *pud)
++{
++	return 0;
++}
++
++int pud_free_pmd_page(pud_t *pud, unsigned long addr)
++{
++	return 0;
++}
++
++int pmd_set_huge(pmd_t *pmd, phys_addr_t phys, pgprot_t prot)
++{
++	pmd_t new_pmd = pfn_pmd(__phys_to_pfn(phys), prot);
++
++	set_pmd(pmd, new_pmd);
++	return 1;
++}
++
++int pmd_clear_huge(pmd_t *pmd)
++{
++	if (!pmd_leaf(READ_ONCE(*pmd)))
++		return 0;
++	pmd_clear(pmd);
++	return 1;
++}
++
++int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
++{
++	pte_t *pte;
++
++	pte = (pte_t *)pmd_page_vaddr(*pmd);
++	pmd_clear(pmd);
++
++	flush_tlb_kernel_range(addr, addr + PMD_SIZE);
++	pte_free_kernel(NULL, pte);
++	return 1;
++}
++
++#endif /* CONFIG_HAVE_ARCH_HUGE_VMAP */
+-- 
+2.18.0.huawei.25
 
-greg k-h
