@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECCCC4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96247C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6545760EEA
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:48:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70C54610A2
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239651AbhHERsh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 13:48:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36060 "EHLO mail.kernel.org"
+        id S237817AbhHERtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 13:49:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37084 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236276AbhHERsg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 13:48:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D1F9E610A2;
-        Thu,  5 Aug 2021 17:48:21 +0000 (UTC)
+        id S236276AbhHERtq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 13:49:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B17B4610A2;
+        Thu,  5 Aug 2021 17:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628185702;
-        bh=yZOHom4qqFMbgz1bHakl8OM4IIcGcy0PtjbuHhRIXPE=;
+        s=korg; t=1628185772;
+        bh=B6IL9Cpv/JUtI1XkONksmlrwilPPgHrXazVlYgLgEhY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oef1xggieo9aPY3hzR/8vPm6bWLHnadq2Lo30KgnPFxmxVuJNA+J3Oeaw4i8/74lV
-         z8bdOYmXCxhM7VsKrandNewcr/85eLCDlWn5VudAYgesv0CIq4YXeJi+GqYieGtRHs
-         U/dm5YUwNh9EJHk89Q/woxl7M9/OYYrB8bnpQK4M=
-Date:   Thu, 5 Aug 2021 19:48:19 +0200
+        b=LSfSwq7M7P7fkLYbRF2/4z3uyTAgo6LxrlojcSuwN1yV3P1ib9D/HWt97m7r+tSn0
+         p9WuCndm9MKuMXgtUzaJc25kiWO/b52uRNOa8QQaAvXWW9oGXDKCUoitxNhPQeJLZv
+         +wIVf+DpV8FqZHLbMSf48iRGi7/DqYHa858ybh1Q=
+Date:   Thu, 5 Aug 2021 19:49:30 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQwkY7fmEs+3qIEA@kroah.com>
+Message-ID: <YQwkqg2/7888ic+O@kroah.com>
 References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
  <YQrqhYEL64CSLRTy@kroah.com>
  <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
@@ -48,26 +48,66 @@ References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com
  <YQuZdVuaGG/Cr62y@kroah.com>
  <YQuaJ78y8j1UmBoz@kroah.com>
  <CAPcyv4iCBknhGyw-YjO7_Tua9Vkw_UCSHVj3prL3mVfz4nj-_g@mail.gmail.com>
- <1e9efeb3-4aef-68e2-6af3-cf6bb5decb38@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1e9efeb3-4aef-68e2-6af3-cf6bb5decb38@linux.intel.com>
+In-Reply-To: <CAPcyv4iCBknhGyw-YjO7_Tua9Vkw_UCSHVj3prL3mVfz4nj-_g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 10:25:32AM -0700, Kuppuswamy, Sathyanarayanan wrote:
+On Thu, Aug 05, 2021 at 09:37:28AM -0700, Dan Williams wrote:
+> On Thu, Aug 5, 2021 at 12:58 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Aug 05, 2021 at 09:55:33AM +0200, Greg Kroah-Hartman wrote:
+> > > On Thu, Aug 05, 2021 at 09:49:29AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Aug 04, 2021 at 12:50:24PM -0700, Andi Kleen wrote:
+> > > > > > And what's wrong with the current method of removing drivers from
+> > > > > > devices that you do not want them to be bound to?  We offer that support
+> > > > > > for all busses now that want to do it, what driver types are you needing
+> > > > > > to "control" here that does not take advantage of the existing
+> > > > > > infrastructure that we currently have for this type of thing?
+> > > > >
+> > > > > I'm not sure what mechanism you're referring to here, but in general don't
+> > > > > want the drivers to initialize at all because they might get exploited in
+> > > > > any code that they execute.
+> > > >
+> > > > That is exactly the mechanism we have today in the kernel for all busses
+> > > > if they wish to take advantage of it.  We have had this for all USB
+> > > > drivers for well over a decade now, this is not a new feature.  Please
+> > > > use that instead.
+> > >
+> > > Hm, wait, maybe that didn't get merged yet, let me dig...
+> > >
+> >
+> > Ok, my fault, I was thinking of the generic "removable" support that
+> > recently got added.
+> >
+> > Both thunderbolt and USB have the idea of "authorized" devices, that is
+> > the logic that should be made generic and available for all busses to
+> > use, by moving it to the driver core, just like the "removable" logic
+> > got moved to the driver core recently (see 70f400d4d957 ("driver core:
+> > Move the "removable" attribute from USB to core")
+> >
+> > Please use that type of interface, as we already have userspace tools
+> > using it, and expand it for all busses in the system to use if they
+> > want.  Otherwise with this proposal you will end up with multiple ways
+> > to control the same bus type with different types of "filtering",
+> > ensuring a mess.
 > 
-> 
-> On 8/5/21 9:37 AM, Dan Williams wrote:
-> > I overlooked the "authorized" attribute in usb and thunderbolt. The
-> > collision problem makes sense. Are you open to a core "authorized"
-> > attribute that buses like usb and thunderbolt would override in favor
-> > of their local implementation? I.e. similar to suppress_bind_attrs:
-> 
-> Even if such overriding is allowed in default boot, it should not be
-> allowed in protected guest + driver_filter model.
+> I overlooked the "authorized" attribute in usb and thunderbolt. The
+> collision problem makes sense. Are you open to a core "authorized"
+> attribute that buses like usb and thunderbolt would override in favor
+> of their local implementation? I.e. similar to suppress_bind_attrs:
 
-The kernel has no idea of "protected guest" at the moment so I do not
-know what you mean here...
+What about doing it the other way around and making it generic like was
+done for the "removable" attribute?  That way the logic from both
+thunderbolt and USB moves into the driver core as they really should be
+shared.
+
+See the above git commit as an example of what I mean.
+
+thanks,
+
+greg k-h
