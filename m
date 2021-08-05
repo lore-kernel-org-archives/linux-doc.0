@@ -2,186 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E33C4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BC2C4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:06:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 981B961151
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:04:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFEE961004
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 17:06:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235991AbhHERFE convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 13:05:04 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3599 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235555AbhHERFD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 13:05:03 -0400
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GgZhv0sXbz6F83j;
-        Fri,  6 Aug 2021 01:04:31 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 5 Aug 2021 19:04:46 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
- Thu, 5 Aug 2021 19:04:46 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
-CC:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Eric Snowberg <eric.snowberg@oracle.com>
-Subject: RE: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-Thread-Topic: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
- digest_list_del
-Thread-Index: AQHXgjzPxJ6WuoGgH0KyG3D/y7w0xqtaWSsAgADBDpCAAD+ygIAAIhjQgAS3MgCAACHtEIAAD/DggASUtACAACrdwA==
-Date:   Thu, 5 Aug 2021 17:04:46 +0000
-Message-ID: <d6590f96cfbd4411a0ae6e8589216fe1@huawei.com>
-References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
-         <20210726163700.2092768-7-roberto.sassu@huawei.com>
-         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
-         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
-         <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
-         <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
-         <3e6a54d4be87a3eafc45c85d013250d17aa0835e.camel@linux.ibm.com>
-          <f7adeb81bab24b689c3e1aa61d83c6f5@huawei.com>
- <e886224b50195a2c1324c91b39514395e9780b06.camel@linux.ibm.com>
-In-Reply-To: <e886224b50195a2c1324c91b39514395e9780b06.camel@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.87.18]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S236259AbhHERGW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 13:06:22 -0400
+Received: from mail-pj1-f49.google.com ([209.85.216.49]:50938 "EHLO
+        mail-pj1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236191AbhHERGW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 13:06:22 -0400
+Received: by mail-pj1-f49.google.com with SMTP id l19so10478472pjz.0;
+        Thu, 05 Aug 2021 10:06:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vR7UP1Yc/IFDSxfAzsx4Zk+6U+CY6rmoy5VDoc5dXUI=;
+        b=EeTZV/AJXbhv5bTuBUc7AREMT8lnpeHHYLBOlJ0n0lvsuyrgy6hRzGPg1DFL9O/g1d
+         uVuKQleJEGGT5nSBc0CMLSITBL/BA/39+0Bhkalfsf2cjJuRNHcmId3FmKO0ve2v45+U
+         2YS1YqecKo1yn6KFvjuCiyjRdb4FLjhsU5NwRUlxIVa3E8nPDS9a2Z8FMNPAwI+Dg6Ep
+         t/GUwYctSwhrwM0BpOE+SRpg6bYRVeF+sr0QZWSf+/YqGmhGxE+kP/PE6DcxqWkV5RVJ
+         Zglthq77p8og+c8GZlU5LLJn3p/O/FeepJyMdhMpyug8We0zWqEGtwT1FMSktV9bizHY
+         d4LA==
+X-Gm-Message-State: AOAM5304W73m5TmqRBrkAQ+YEb63hxW+Nw7CR95/8wNUyZ3hdHKts5z1
+        181O3tTc7rpfonHfr0ZlRWyZsIQ9Xxt5YM2K
+X-Google-Smtp-Source: ABdhPJym7UTEsOoyahFuIvhnLSuQUQJ0vzzMIuCrvUcLZnEY24LVBLesRBXSynOcj3l47W9aJXJVyw==
+X-Received: by 2002:a05:6a00:10cb:b029:3c6:8cc9:5098 with SMTP id d11-20020a056a0010cbb02903c68cc95098mr6013208pfu.41.1628183165889;
+        Thu, 05 Aug 2021 10:06:05 -0700 (PDT)
+Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:1:93c2:eaf5:530d:627d])
+        by smtp.gmail.com with ESMTPSA id c9sm3292599pgq.58.2021.08.05.10.06.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Aug 2021 10:06:05 -0700 (PDT)
+Subject: Re: [Patch v5 2/3] Drivers: hv: add Azure Blob driver
+To:     longli@linuxonhyperv.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     Long Li <longli@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
+References: <1628146812-29798-1-git-send-email-longli@linuxonhyperv.com>
+ <1628146812-29798-3-git-send-email-longli@linuxonhyperv.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <b6404b38-9ea2-b438-dc1b-1196f8e4a158@acm.org>
+Date:   Thu, 5 Aug 2021 10:06:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <1628146812-29798-3-git-send-email-longli@linuxonhyperv.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> Sent: Thursday, August 5, 2021 5:38 PM
-> [Cc'ing Eric Snowberg]
-> 
-> Hi Roberto,
-> 
-> On Mon, 2021-08-02 at 16:54 +0000, Roberto Sassu wrote:
-> 
-> > > > Properly identifying (all) user space parser(s) would be critical.  It
-> > > > would be simpler and  safer to require the converted data be signed.
-> >
-> > When a process directly uploads a buffer to the kernel, the actions are
-> > added to a digest list depending on the result of ima_measure_critical_data()
-> > and from the actions attached to the process credentials and set by the
-> > new LSM.
-> >
-> > If a process fails the identification, the actions in the process credentials
-> > remain zero and the digest lists the process uploads will be ignored by IMA.
-> >
-> > The actions in the process credentials are set with the actions performed
-> > on the executable by IMA, only if the digest of the executable is found in
-> > a digest list and the digest list type is COMPACT_PARSER. The parser is
-> > statically linked.
-> >
-> > The digest list for the parser can be generated at the end of the
-> > building process and signed similarly to kernel modules (for SUSE,
-> > with pesign-obs-integration). This is the only exception to handle,
-> > other packages are not affected.
-> 
-> Ok, so to boot strap the set of permitted digest list parsers, the
-> digest list signature is an appended signature, generated by the build
-> process.  The key needed for verifying the signature would already be
-> loaded on the builtin keyring.
+On 8/5/21 12:00 AM, longli@linuxonhyperv.com wrote:
+> diff --git a/include/uapi/misc/hv_azure_blob.h b/include/uapi/misc/hv_azure_blob.h
+> new file mode 100644
+> index 0000000..87a3f77
+> --- /dev/null
+> +++ b/include/uapi/misc/hv_azure_blob.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/* Copyright (c) 2021 Microsoft Corporation. */
+> +
+> +#ifndef _AZ_BLOB_H
+> +#define _AZ_BLOB_H
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/uuid.h>
+> +#include <linux/types.h>
+> +
+> +/* user-mode sync request sent through ioctl */
+> +struct az_blob_request_sync_response {
+> +	__u32 status;
+> +	__u32 response_len;
+> +};
+> +
+> +struct az_blob_request_sync {
+> +	guid_t guid;
+> +	__u32 timeout;
+> +	__u32 request_len;
+> +	__u32 response_len;
+> +	__u32 data_len;
+> +	__u32 data_valid;
+> +	__aligned_u64 request_buffer;
+> +	__aligned_u64 response_buffer;
+> +	__aligned_u64 data_buffer;
+> +	struct az_blob_request_sync_response response;
+> +};
+> +
+> +#define AZ_BLOB_MAGIC_NUMBER	'R'
+> +#define IOCTL_AZ_BLOB_DRIVER_USER_REQUEST \
+> +		_IOWR(AZ_BLOB_MAGIC_NUMBER, 0xf0, \
+> +			struct az_blob_request_sync)
+> +
+> +#endif /* define _AZ_BLOB_H */
 
-Hi Mimi
+So this driver only supports synchronous requests? Is it likely that 
+users will ask for support of an API that supports having multiple 
+requests outstanding at the same time without having to create multiple 
+user space threads?
 
-yes. RPM headers will have an appended signature too, so that
-appraisal will work.
+Thanks,
 
-> > After the parser has been identified, each file operation is monitored.
-> 
-> Does the new LSM need to monitor all file opens?
+Bart.
 
-I would say yes. In the threat model, root is untrusted and
-can potentially interfere with the conversion of the original
-digest lists. Other than monitoring file operations, I'm also
-denying ptraces on the parser. Hopefully this would be
-sufficient, but any suggestion is more than welcome.
-
-The good thing is that the policy of the new LSM is applied
-to the processes that are successfully identified as parser.
-Other processes are mostly unaffected.
-
-The only limitation the new LSM would introduce is that
-the files being used by the parser are write-locked until
-the parser releases them (if files are already opened for
-writing by other processes, the LSM would mark the parser
-as untrusted and will not apply any IMA actions to the digest
-lists the parser uploads).
-
-It is probably a good idea to send the patch, after I finish
-testing it. I will send also another patch for loading digest
-lists during kernel initialization (with the two new patches
-the non-IMA part would be complete).
-
-> > The LSM has to explicitly perform a second open to ensure that
-> > the file is measured/appraised before the integrity_iint_cache structure
-> > is retrieved (because IMA is called after all LSMs).
-> >
-> > If an action is missing from the integrity_iint_cache structure, it
-> > will be cleared by the LSM in the actions attached to the process
-> > credentials, and will not be added to the digest list being uploaded.
-> >
-> > > I agree, it would be much easier. However, it would require changes
-> > > to the building infrastructure of Linux distribution vendors, which
-> > > might limit the applicability of DIGLIM.
-> > >
-> 
-> I understand, but instead of the distros signing the compact digest
-> lists, with Eric's  "Enroll kernel keys thru MOK" patch set, the
-> customer/end user could have more control over which file digests are
-> permitted on a per system basis.
-
-Yes, generating custom digest lists is supported and needed if
-users want to run their own applications, when appraisal is
-enforced. But I like the idea that, if users simply want to just run
-anything the distribution provides, they have everything they
-need. Theoretically, users will be able to run appraisal in enforcing
-mode at the first boot after installation.
-
-Thanks
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Li Jian, Shi Yanli
-
-> > > With the user space parser taking care of the conversion, distributions
-> > > can do appraisal of executables and shared libraries with an update of:
-> > > - the kernel: to add DIGLIM
-> > > - dracut: to add required digest lists in the initial ram disk
-> > > - rpm (plugin): to extract the RPM header and its signature and write
-> > >   them to a file that is uploaded to the kernel by the user space parser
-> > >
-> > > I'm planning to append the signature at the end of the RPM header
-> > > (and use appraise_type=modsig) to avoid the dependency on the
-> > > 'initramfs: add support for xattrs in the initial ram disk' patch set
-> > > (which I might try to resume in the future).
-> 
-> Based on your explanation above, I surmised as much.
-> 
-> thanks,
-> 
-> Mimi
 
