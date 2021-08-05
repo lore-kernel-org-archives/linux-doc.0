@@ -2,236 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7FCC432BE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD69AC4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:38:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 254AE61154
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:19:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97A1360E8D
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:38:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241472AbhHEPT0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 11:19:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236413AbhHEPTY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 11:19:24 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DEF2C061765;
-        Thu,  5 Aug 2021 08:18:56 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id w197so5286168qkb.1;
-        Thu, 05 Aug 2021 08:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yDxgi4QuDiLFwBjP43H0Okt4+DMON7aEHD6wSYhjwNE=;
-        b=Xduq6v10TZWlZnR8DNL7gSIN7evZHrm8YOqzcBT+ypQvSa6T4lGMk0xX1xDkDPDobT
-         q96qIfSdd2eA/C0BRG0ghA5rQNW8S86ZBXpfWxHx+Fr6rq3IAsZjK/aopxU6gZkD9S4L
-         dzQRGSJP1EktNKnO5Y7f1GpaWgDbxfXC+C2yAZH7VDz40jNtJS9ZoHcdAN5WWpvL9+sn
-         a3im5uNFMjEXG7R909CG62KD4ruCsziZkYBXT0V6XJH8cSVvsdrzqr5tjfsm9GKH271U
-         PwgKZ5SRLz2CZRm1MDBGC2/hL1VQK0fl3ni026MoyiV2ZO6ZTBCSvKKlztIktMyzl6qb
-         UgcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yDxgi4QuDiLFwBjP43H0Okt4+DMON7aEHD6wSYhjwNE=;
-        b=DuHMTzGK/J5ImM8k9uYE8FiVzRzCclPPyA+n3crtd+2xIh42PX3AE6j0+99eEWfsyO
-         xcIfyVYe7hRAxUhtb74RS9HbSO9ETPHUfyM1RTc1F9ggweZLZtef7/2w0poOfmFScIm4
-         V6cqp3Vmo0eX3cXpKgNXyHEKSUIlyZoo7SiZvUWhWaUCTsogcFo5q0PEfHri+xW1Gdyv
-         kfLGOQQ8nxuEiXTAYsHs2ENuqSizZAGOYYM7PIl0qLUsfmcPViof4VFRWFltihdtf4CV
-         sjihXi4JYjN52u0Db8O1dxfz46ezCNjUXT80WwL8QBUy3/zLI1zHW/uvOYAP2ipVoS6y
-         Ue0g==
-X-Gm-Message-State: AOAM533YLYDcBKwjmse0b6RylYwJ+gDt4JyHjmvu3nzh7WMMvz4TPXH0
-        rd00Gjqj17MO1Xjzob6N04kaIoURwpsoK97Dnwk=
-X-Google-Smtp-Source: ABdhPJxLXtamZNxmKFRp6STk4zGKOeD01CDQfPTvkf0ZQe65Uqg7pknPxHmpV4sRvDPv9RJyGLTEDydUMgNP6e1+aig=
-X-Received: by 2002:ae9:f201:: with SMTP id m1mr5279060qkg.381.1628176735385;
- Thu, 05 Aug 2021 08:18:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210802234304.3519577-1-ndesaulniers@google.com> <CAK7LNATWm94K=UcSNn88PyPST38rfe_31vLLpDf=ERPnKnBvVA@mail.gmail.com>
-In-Reply-To: <CAK7LNATWm94K=UcSNn88PyPST38rfe_31vLLpDf=ERPnKnBvVA@mail.gmail.com>
-From:   Khem Raj <raj.khem@gmail.com>
-Date:   Thu, 5 Aug 2021 08:18:28 -0700
-Message-ID: <CAMKF1squPYXQ1DV_oiWP1DYpnBuy87Rkp3WFq4CZkCgFzM5PJw@mail.gmail.com>
-Subject: Re: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S242163AbhHEPit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 11:38:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3572 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242193AbhHEPij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 11:38:39 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 175FYZX8157844;
+        Thu, 5 Aug 2021 11:38:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=gbPRBdQ5D/dvU7ZGp0Sjf2GZZjty5tvCwrApzPJwGgU=;
+ b=r9RYjSvOQ1O/zFmGNzcEqdL1G9KSO/UcvTg43leoThVevYwohtcc8A5RgR65cqFNJqjE
+ Ol/UuGMQsnngf96EMQSSkPbqYrne8kXrc7DfEUVJr23/xGNlTnca3aCZkTf1uFch7qJ/
+ OyiO00ql6h34p0sUxyLftMCGgVYFsoQsK6Aa6PPgjt3dUF/C2MBlCV7APzxBd+QgR6R5
+ GEMs8kxR0Nmg5oH/CV0FoKNrw3gbl7QsQck+CcE+CC70Bhu50JpiMbwDdWxR4txW2TVl
+ CPm7PoRjXlV+5UJzkYrMbNC5taSa4BmtslXNMTc8KbdE+tjr6Ibewnqm2Q5yUA46sTnZ 6A== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3a89fmrpmv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Aug 2021 11:38:16 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 175FVgHi005638;
+        Thu, 5 Aug 2021 15:38:14 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma05fra.de.ibm.com with ESMTP id 3a4x58j994-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Aug 2021 15:38:13 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 175FcBQV56951276
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 5 Aug 2021 15:38:11 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3B003AE04D;
+        Thu,  5 Aug 2021 15:38:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6CE86AE056;
+        Thu,  5 Aug 2021 15:38:09 +0000 (GMT)
+Received: from sig-9-65-205-127.ibm.com (unknown [9.65.205.127])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  5 Aug 2021 15:38:09 +0000 (GMT)
+Message-ID: <e886224b50195a2c1324c91b39514395e9780b06.camel@linux.ibm.com>
+Subject: Re: [RFC][PATCH v2 06/12] diglim: Interfaces - digest_list_add,
+ digest_list_del
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
+Cc:     "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Eric Snowberg <eric.snowberg@oracle.com>
+Date:   Thu, 05 Aug 2021 11:38:08 -0400
+In-Reply-To: <f7adeb81bab24b689c3e1aa61d83c6f5@huawei.com>
+References: <20210726163700.2092768-1-roberto.sassu@huawei.com>
+         <20210726163700.2092768-7-roberto.sassu@huawei.com>
+         <c9dffd9d29df095660beaa631ff252c4b33629a0.camel@linux.ibm.com>
+         <ef7c85dcb096479e95c8c60ccda4d700@huawei.com>
+         <1ef95096bee13578b3f906dd9f708c6af9d6ff18.camel@linux.ibm.com>
+         <555bf01bee4b4ea7a9bee658366d535a@huawei.com>
+         <3e6a54d4be87a3eafc45c85d013250d17aa0835e.camel@linux.ibm.com>
+          <f7adeb81bab24b689c3e1aa61d83c6f5@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: V-f5mjXJ8d7cNiHxSBkH_kofO_HzxkAX
+X-Proofpoint-GUID: V-f5mjXJ8d7cNiHxSBkH_kofO_HzxkAX
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-08-05_05:2021-08-05,2021-08-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108050094
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 5, 2021 at 8:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Aug 3, 2021 at 8:43 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> >
-> > LLVM_IAS=1 controls enabling clang's integrated assembler via
-> > -integrated-as. This was an explicit opt in until we could enable
-> > assembler support in Clang for more architecures. Now we have support
-> > and CI coverage of LLVM_IAS=1 for all architecures except a few more
-> > bugs affecting s390 and powerpc.
-> >
-> > This commit flips the default from opt in via LLVM_IAS=1 to opt out via
-> > LLVM_IAS=0.  CI systems or developers that were previously doing builds
-> > with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
-> > explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
-> > opted-in.
-> >
-> > This finally shortens the command line invocation when cross compiling
-> > with LLVM to simply:
-> >
-> > $ make ARCH=arm64 LLVM=1
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1434
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> > Note: base is:
-> > https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
-> >
-> >  Documentation/kbuild/llvm.rst | 14 ++++++++------
-> >  Makefile                      |  2 +-
-> >  arch/riscv/Makefile           |  2 +-
-> >  scripts/Makefile.clang        |  6 +++---
-> >  4 files changed, 13 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index f8a360958f4c..16712fab4d3a 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
-> >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> >
-> > -Currently, the integrated assembler is disabled by default. You can pass
-> > -``LLVM_IAS=1`` to enable it.
-> > +Currently, the integrated assembler is enabled by default. You can pass
-> > +``LLVM_IAS=0`` to disable it.
-> >
-> >  Omitting CROSS_COMPILE
-> >  ----------------------
-> >
-> >  As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-> >
-> > -Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
-> > -``--prefix=<path>`` to search for the GNU assembler and linker.
-> > -
-> >  If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
-> >  from ``ARCH``.
-> >
-> > @@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
-> >
-> >  For example, to cross-compile the arm64 kernel::
-> >
-> > -       make ARCH=arm64 LLVM=1 LLVM_IAS=1
-> > +       make ARCH=arm64 LLVM=1
-> > +
-> > +If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
-> > +``--prefix=<path>`` to search for the GNU assembler and linker. ::
-> > +
-> > +       make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
-> >
-> >  Supported Architectures
-> >  -----------------------
-> > diff --git a/Makefile b/Makefile
-> > index 444558e62cbc..b24b48c9ebb7 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -845,7 +845,7 @@ else
-> >  DEBUG_CFLAGS   += -g
-> >  endif
-> >
-> > -ifneq ($(LLVM_IAS),1)
-> > +ifeq ($(LLVM_IAS),0)
-> >  KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> >  endif
-> >
-> > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> > index bc74afdbf31e..807f7c94bc6f 100644
-> > --- a/arch/riscv/Makefile
-> > +++ b/arch/riscv/Makefile
-> > @@ -41,7 +41,7 @@ endif
-> >  ifeq ($(CONFIG_LD_IS_LLD),y)
-> >         KBUILD_CFLAGS += -mno-relax
-> >         KBUILD_AFLAGS += -mno-relax
-> > -ifneq ($(LLVM_IAS),1)
-> > +ifeq ($(LLVM_IAS),0)
-> >         KBUILD_CFLAGS += -Wa,-mno-relax
-> >         KBUILD_AFLAGS += -Wa,-mno-relax
-> >  endif
->
->
->
-> Please drop these two hunks.
->
-> I will apply my patch instead.
-> https://lore.kernel.org/patchwork/patch/1472580/
->
->
->
->
->
->
-> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > index 1f4e3eb70f88..3ae63bd35582 100644
-> > --- a/scripts/Makefile.clang
-> > +++ b/scripts/Makefile.clang
-> > @@ -22,12 +22,12 @@ else
-> >  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> >  endif # CROSS_COMPILE
-> >
-> > -ifeq ($(LLVM_IAS),1)
-> > -CLANG_FLAGS    += -integrated-as
-> > -else
-> > +ifeq ($(LLVM_IAS),0)
-> >  CLANG_FLAGS    += -no-integrated-as
-> >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> >  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> > +else
-> > +CLANG_FLAGS    += -integrated-as
-> >  endif
-> >  CLANG_FLAGS    += -Werror=unknown-warning-option
-> >  KBUILD_CFLAGS  += $(CLANG_FLAGS)
-> >
-> > base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
-> > prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
-> > prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
-> > prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
-> > --
-> > 2.32.0.554.ge1b32706d8-goog
-> >
->
->
-> When we negate a flag that is enabled by default,
-> which is a common way?
->  - set it to '0'
->  - set is to empty
->
->
-> So, I was wondering if we should support
-> not only LLVM_IAS=0 but also LLVM_IAS=.
->
-> What do you think?
+[Cc'ing Eric Snowberg]
 
-always asking for 0 or 1 is perhaps better.
+Hi Roberto,
 
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+On Mon, 2021-08-02 at 16:54 +0000, Roberto Sassu wrote:
+
+> > > Properly identifying (all) user space parser(s) would be critical.  It
+> > > would be simpler and  safer to require the converted data be signed.
+> 
+> When a process directly uploads a buffer to the kernel, the actions are
+> added to a digest list depending on the result of ima_measure_critical_data()
+> and from the actions attached to the process credentials and set by the
+> new LSM.
+> 
+> If a process fails the identification, the actions in the process credentials
+> remain zero and the digest lists the process uploads will be ignored by IMA.
+> 
+> The actions in the process credentials are set with the actions performed
+> on the executable by IMA, only if the digest of the executable is found in
+> a digest list and the digest list type is COMPACT_PARSER. The parser is
+> statically linked.
+> 
+> The digest list for the parser can be generated at the end of the
+> building process and signed similarly to kernel modules (for SUSE,
+> with pesign-obs-integration). This is the only exception to handle,
+> other packages are not affected.
+
+Ok, so to boot strap the set of permitted digest list parsers, the
+digest list signature is an appended signature, generated by the build
+process.  The key needed for verifying the signature would already be
+loaded on the builtin keyring.
+
+> 
+> After the parser has been identified, each file operation is monitored.
+
+Does the new LSM need to monitor all file opens?
+
+> The LSM has to explicitly perform a second open to ensure that
+> the file is measured/appraised before the integrity_iint_cache structure
+> is retrieved (because IMA is called after all LSMs).
+> 
+> If an action is missing from the integrity_iint_cache structure, it
+> will be cleared by the LSM in the actions attached to the process
+> credentials, and will not be added to the digest list being uploaded.
+> 
+> > I agree, it would be much easier. However, it would require changes
+> > to the building infrastructure of Linux distribution vendors, which
+> > might limit the applicability of DIGLIM.
+> > 
+
+I understand, but instead of the distros signing the compact digest
+lists, with Eric's  "Enroll kernel keys thru MOK" patch set, the
+customer/end user could have more control over which file digests are
+permitted on a per system basis.
+
+> > With the user space parser taking care of the conversion, distributions
+> > can do appraisal of executables and shared libraries with an update of:
+> > - the kernel: to add DIGLIM
+> > - dracut: to add required digest lists in the initial ram disk
+> > - rpm (plugin): to extract the RPM header and its signature and write
+> >   them to a file that is uploaded to the kernel by the user space parser
+> > 
+> > I'm planning to append the signature at the end of the RPM header
+> > (and use appraise_type=modsig) to avoid the dependency on the
+> > 'initramfs: add support for xattrs in the initial ram disk' patch set
+> > (which I might try to resume in the future).
+
+Based on your explanation above, I surmised as much.
+
+thanks,
+
+Mimi
+
