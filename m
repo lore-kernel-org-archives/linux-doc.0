@@ -7,92 +7,104 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82160C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 18:11:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E0EC4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 18:16:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AD6761104
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 18:11:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22A7C60E8D
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 18:16:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240701AbhHESMA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 14:12:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44734 "EHLO mail.kernel.org"
+        id S233384AbhHESQf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 14:16:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239986AbhHESMA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 14:12:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AF09A60F25;
-        Thu,  5 Aug 2021 18:11:45 +0000 (UTC)
+        id S233076AbhHESQf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 14:16:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 430E460E8D;
+        Thu,  5 Aug 2021 18:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628187106;
-        bh=bCqDkZoewa4Itcg2pGQD3OuK7e6G6yDkQbh7McanSR0=;
+        s=korg; t=1628187380;
+        bh=fRMwCzEryajqu2xcp0mEV1Y2KxW3CpaQzsE/wiiybfE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OGwO6SNGjiVK5Uq/XID5d1YgoYhkFNieVoUh+bHUsdRjlPZMThcU0IIO53CnhjE69
-         bA59vHAXgdHt/JtWtHKZ1lSjIvTHaIN0A6g2hF8F0TCAPShBpr1EgCfed+MCjzrTkt
-         Xnw+/NMmG+g89eMEKeObNB3r3zhIWqSfVz54z4Io=
-Date:   Thu, 5 Aug 2021 20:11:43 +0200
+        b=1z8mJt/GTpAKS88ThuPPyGJyJBQupScZMqntaDa9Igf0v2pzgnXML0W6mYw4oyqtX
+         jlx1lVmUjC4FWjO9yUdDy2ND6Hbl88qvFmLaPEkTFcxlYQHG9WI6PHvpTPqyerqXpT
+         28wdqke0BajafjDpnLSssqqbelxZS0QiD7YVN6C8=
+Date:   Thu, 5 Aug 2021 20:16:18 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+To:     Long Li <longli@microsoft.com>
+Cc:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQwp33gKxab6RB/e@kroah.com>
-References: <20210804174322.2898409-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YQrqhYEL64CSLRTy@kroah.com>
- <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
- <YQuYCePPZEmVbkfc@kroah.com>
- <YQuZdVuaGG/Cr62y@kroah.com>
- <YQuaJ78y8j1UmBoz@kroah.com>
- <CAPcyv4iCBknhGyw-YjO7_Tua9Vkw_UCSHVj3prL3mVfz4nj-_g@mail.gmail.com>
- <1e9efeb3-4aef-68e2-6af3-cf6bb5decb38@linux.intel.com>
- <f4dedead-5b6c-2712-deca-0d59d314016b@linux.intel.com>
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Siddharth Gupta <sidgup@codeaurora.org>,
+        Hannes Reinecke <hare@suse.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [Patch v5 2/3] Drivers: hv: add Azure Blob driver
+Message-ID: <YQwq8tDGx/Zes/sU@kroah.com>
+References: <1628146812-29798-1-git-send-email-longli@linuxonhyperv.com>
+ <1628146812-29798-3-git-send-email-longli@linuxonhyperv.com>
+ <YQuPJUX4+HZ3FeKC@kroah.com>
+ <BY5PR21MB15061507ED1B0CE1CDC7EE3ECEF29@BY5PR21MB1506.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f4dedead-5b6c-2712-deca-0d59d314016b@linux.intel.com>
+In-Reply-To: <BY5PR21MB15061507ED1B0CE1CDC7EE3ECEF29@BY5PR21MB1506.namprd21.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 10:52:10AM -0700, Andi Kleen wrote:
-> 
-> On 8/5/2021 10:25 AM, Kuppuswamy, Sathyanarayanan wrote:
+On Thu, Aug 05, 2021 at 06:07:31PM +0000, Long Li wrote:
+> > Subject: Re: [Patch v5 2/3] Drivers: hv: add Azure Blob driver
 > > 
+> > On Thu, Aug 05, 2021 at 12:00:11AM -0700, longli@linuxonhyperv.com wrote:
+> > > +static int az_blob_create_device(struct az_blob_device *dev) {
+> > > +	int ret;
+> > > +	struct dentry *debugfs_root;
+> > > +
+> > > +	dev->misc.minor	= MISC_DYNAMIC_MINOR,
+> > > +	dev->misc.name	= "azure_blob",
+> > > +	dev->misc.fops	= &az_blob_client_fops,
+> > > +
+> > > +	ret = misc_register(&dev->misc);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	debugfs_root = debugfs_create_dir("az_blob", NULL);
 > > 
-> > On 8/5/21 9:37 AM, Dan Williams wrote:
-> > > I overlooked the "authorized" attribute in usb and thunderbolt. The
-> > > collision problem makes sense. Are you open to a core "authorized"
-> > > attribute that buses like usb and thunderbolt would override in favor
-> > > of their local implementation? I.e. similar to suppress_bind_attrs:
+> > So you try to create a directory in the root of debugfs called "az_blob"
+> > for every device in the system of this one type?
 > > 
-> > Even if such overriding is allowed in default boot, it should not be
-> > allowed in protected guest + driver_filter model.
+> > That will blow up when you have multiple devices of the same type, please
+> > fix.
 > 
-> 
-> Allowing overriding would be acceptable, as long as nobody does it by
-> default. In theory a (root) user program can already do other things that
-> make the guest insecure.
-> 
-> Still it's not clear to me how this proposal solves the builtin and platform
-> drivers problem. AFAIK that needs a builtin allowlist in any case. And once
-> we have that likely we don't need anything else for current TDX at least,
-> because the allowlist is so small and there is no concept of hotplug or
-> similar.
+> The Hyper-V presents one such device for the whole VM.
 
-What specific platform drivers do you need on these systems that you
-would ever want to exclude some and not just allow them all?
+Today, maybe, tomorrow, who knows.  Do not write code that we know will
+be wrong if you have multiple devices in the system of the same type.
+It takes almost no effort to get this correct.
 
-> Also another consideration is that we were trying to avoid relying too much
-> on user space for this. One of the goals was to move an existing guest image
-> to a confidential guest with only minor changes (new kernel / enable
-> attestation). Complex changes for securing it would make that much harder.
+> I'm sorry I may have misunderstood. Are you suggesting I should create
+> a directory "hyperv" in the root of debugfs and put all the Hyper-V
+> driver debug information there?
 
-Just deny all and only allow the ones you "trust".  That is a
-well-defined policy that (/me checks notes) Intel created for USB a very
-long time ago.
+Ideally, yes, if the hyperv subsystem uses debugfs, it should make a
+subdir and you should use that.  If not, then do whatever you want, but
+do not do something that you know will be broken if you have multiple
+devices of the same type in the system, like the current code is
+showing.
+
+thanks,
 
 greg k-h
