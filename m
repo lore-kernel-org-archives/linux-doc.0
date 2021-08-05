@@ -2,105 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DFDC432BE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83641C4320A
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:16:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FA0161155
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:29:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B26A6104F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 15:16:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241959AbhHEO35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 10:29:57 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:40964 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240801AbhHEO35 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 10:29:57 -0400
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 175EBmGX031318;
-        Thu, 5 Aug 2021 16:29:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=64HVz0Gg+wUo7z89cmaaEfQ54A59MSPLHnaUZCxYN+8=;
- b=4L4CeUNf2sOsb8dX3pB3ooJ6Sbv97tbMXVQiszaUfnQ1dr/ytgBL5M5jfcezU+g66R45
- tvaUPcthHSfmduxSGx7CsZMlX99N4BDWHGISL5LdG6pcgAb5wuiFBNZuJ6H6bmSq4M2k
- WBh0uxqTxp54H/erqxdmyKxrlmR7MmORGbYYyZW5sBL+HbmwHpLx0HA3XxJLBqaiO1lG
- UmwkhNgF57MZQcIEDX1N7rGWSQPxHoQPmdrl2vg4SwdkwfashSazYfhOd7i8SjA0u4W3
- R9hdzF3LlxDCsDd4LNtjDLigyz47TTcxl7Pi0cSkef0OOmudIEu0BqaVgoccTi4UkWeg yQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3a854tkmf9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Aug 2021 16:29:23 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1C97410002A;
-        Thu,  5 Aug 2021 16:29:22 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 008BD22FA5A;
-        Thu,  5 Aug 2021 16:29:21 +0200 (CEST)
-Received: from lmecxl0912.lme.st.com (10.75.127.45) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 5 Aug
- 2021 16:29:21 +0200
-Subject: Re: [PATCH 1/7] dt-bindings: pinctrl: stm32: add new compatible for
- STM32MP135 SoC
-To:     Linus Walleij <linus.walleij@linaro.org>, <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-gpio@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>
-References: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
- <20210723132810.25728-2-alexandre.torgue@foss.st.com>
-From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
-Message-ID: <1d7fe9a6-bf37-e8ca-1bc3-fda536a10359@foss.st.com>
-Date:   Thu, 5 Aug 2021 16:29:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S241278AbhHEPQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 11:16:39 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:37685 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241095AbhHEPQj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 11:16:39 -0400
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 175FG7g9008798;
+        Fri, 6 Aug 2021 00:16:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 175FG7g9008798
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1628176567;
+        bh=7JKVqdhk3wDgxUpgLrRBBJjC3akBTBo6VvDVu+02hPk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=NbSRuTWtsSoUCcitllxBuHGpjcs6wQH82TDnRhc4ee4feibkzphqAG4g+oz9wjs19
+         yXGbH+/lxlX7LcVj5qD7PWjOPp8SPSS6atZ8zwE12jPRB6cm4JDSFjJ+bnJf7n8NJL
+         CfPdjzGZYmpx0Hh3Q7/oNswTtpy4pl0PsqJLrg09ug/7l02k8nv8Mf3Zrg7DQPPc8Y
+         n3/y1P0QDDGu8KvDSgZ1jbXm9MHjLntCJ17k3YvjJhglCGn/5Fa4dqTKNxgacm5M+Q
+         7BIN9NiNf9xU5fzZfK1SHHDiegYxKoWYCJDhvFzOuN0m/gltYCaCZv07fitMGNw9m7
+         mcZqmH64jgqnA==
+X-Nifty-SrcIP: [209.85.216.42]
+Received: by mail-pj1-f42.google.com with SMTP id j1so9599388pjv.3;
+        Thu, 05 Aug 2021 08:16:07 -0700 (PDT)
+X-Gm-Message-State: AOAM531dgxOuAZtb8QEiiCio9XNOyzfdAUe+/GLXFAjwJT8KW5MGt/8g
+        3/Gdc+YGPoHxPxlU+qHumVLPVtXhuhTs+L7Kw7k=
+X-Google-Smtp-Source: ABdhPJwrhP5GxxiXyQoPTJ4HbkL2DpweB++rWVgwsahs6nVzqpqSNzY6uS/hh/EvSpVap/wB8NFnoDkci8pzupkBsb8=
+X-Received: by 2002:a63:1b5c:: with SMTP id b28mr203382pgm.175.1628176566664;
+ Thu, 05 Aug 2021 08:16:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210723132810.25728-2-alexandre.torgue@foss.st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-08-05_05:2021-08-05,2021-08-05 signatures=0
+References: <20210802234304.3519577-1-ndesaulniers@google.com>
+In-Reply-To: <20210802234304.3519577-1-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 6 Aug 2021 00:15:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWm94K=UcSNn88PyPST38rfe_31vLLpDf=ERPnKnBvVA@mail.gmail.com>
+Message-ID: <CAK7LNATWm94K=UcSNn88PyPST38rfe_31vLLpDf=ERPnKnBvVA@mail.gmail.com>
+Subject: Re: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Khem Raj <raj.khem@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus
+On Tue, Aug 3, 2021 at 8:43 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> LLVM_IAS=1 controls enabling clang's integrated assembler via
+> -integrated-as. This was an explicit opt in until we could enable
+> assembler support in Clang for more architecures. Now we have support
+> and CI coverage of LLVM_IAS=1 for all architecures except a few more
+> bugs affecting s390 and powerpc.
+>
+> This commit flips the default from opt in via LLVM_IAS=1 to opt out via
+> LLVM_IAS=0.  CI systems or developers that were previously doing builds
+> with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
+> explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
+> opted-in.
+>
+> This finally shortens the command line invocation when cross compiling
+> with LLVM to simply:
+>
+> $ make ARCH=arm64 LLVM=1
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1434
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Note: base is:
+> https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
+>
+>  Documentation/kbuild/llvm.rst | 14 ++++++++------
+>  Makefile                      |  2 +-
+>  arch/riscv/Makefile           |  2 +-
+>  scripts/Makefile.clang        |  6 +++---
+>  4 files changed, 13 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index f8a360958f4c..16712fab4d3a 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
+>           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+>           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+>
+> -Currently, the integrated assembler is disabled by default. You can pass
+> -``LLVM_IAS=1`` to enable it.
+> +Currently, the integrated assembler is enabled by default. You can pass
+> +``LLVM_IAS=0`` to disable it.
+>
+>  Omitting CROSS_COMPILE
+>  ----------------------
+>
+>  As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
+>
+> -Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
+> -``--prefix=<path>`` to search for the GNU assembler and linker.
+> -
+>  If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
+>  from ``ARCH``.
+>
+> @@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
+>
+>  For example, to cross-compile the arm64 kernel::
+>
+> -       make ARCH=arm64 LLVM=1 LLVM_IAS=1
+> +       make ARCH=arm64 LLVM=1
+> +
+> +If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
+> +``--prefix=<path>`` to search for the GNU assembler and linker. ::
+> +
+> +       make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
+>
+>  Supported Architectures
+>  -----------------------
+> diff --git a/Makefile b/Makefile
+> index 444558e62cbc..b24b48c9ebb7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -845,7 +845,7 @@ else
+>  DEBUG_CFLAGS   += -g
+>  endif
+>
+> -ifneq ($(LLVM_IAS),1)
+> +ifeq ($(LLVM_IAS),0)
+>  KBUILD_AFLAGS  += -Wa,-gdwarf-2
+>  endif
+>
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index bc74afdbf31e..807f7c94bc6f 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -41,7 +41,7 @@ endif
+>  ifeq ($(CONFIG_LD_IS_LLD),y)
+>         KBUILD_CFLAGS += -mno-relax
+>         KBUILD_AFLAGS += -mno-relax
+> -ifneq ($(LLVM_IAS),1)
+> +ifeq ($(LLVM_IAS),0)
+>         KBUILD_CFLAGS += -Wa,-mno-relax
+>         KBUILD_AFLAGS += -Wa,-mno-relax
+>  endif
 
-On 7/23/21 3:28 PM, Alexandre Torgue wrote:
-> New compatible to manage ball out and pin muxing of STM32MP135 SoC.
-> 
-> Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
-> index 72877544ca78..dfee6d38a701 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
-> @@ -24,6 +24,7 @@ properties:
->         - st,stm32f746-pinctrl
->         - st,stm32f769-pinctrl
->         - st,stm32h743-pinctrl
-> +      - st,stm32mp135-pinctrl
->         - st,stm32mp157-pinctrl
->         - st,stm32mp157-z-pinctrl
->   
-> 
 
-If you are ok with this patch, can I take it in my tree to avoid yaml 
-validation issue ? If you disagree I'll wait the next cycle to take DT 
-patches.
 
-cheers
-alex
+Please drop these two hunks.
+
+I will apply my patch instead.
+https://lore.kernel.org/patchwork/patch/1472580/
+
+
+
+
+
+
+> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> index 1f4e3eb70f88..3ae63bd35582 100644
+> --- a/scripts/Makefile.clang
+> +++ b/scripts/Makefile.clang
+> @@ -22,12 +22,12 @@ else
+>  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  endif # CROSS_COMPILE
+>
+> -ifeq ($(LLVM_IAS),1)
+> -CLANG_FLAGS    += -integrated-as
+> -else
+> +ifeq ($(LLVM_IAS),0)
+>  CLANG_FLAGS    += -no-integrated-as
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+>  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> +else
+> +CLANG_FLAGS    += -integrated-as
+>  endif
+>  CLANG_FLAGS    += -Werror=unknown-warning-option
+>  KBUILD_CFLAGS  += $(CLANG_FLAGS)
+>
+> base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
+> prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
+> prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
+> prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
+> --
+> 2.32.0.554.ge1b32706d8-goog
+>
+
+
+When we negate a flag that is enabled by default,
+which is a common way?
+ - set it to '0'
+ - set is to empty
+
+
+So, I was wondering if we should support
+not only LLVM_IAS=0 but also LLVM_IAS=.
+
+What do you think?
+
+
+-- 
+Best Regards
+Masahiro Yamada
