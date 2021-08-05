@@ -2,78 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 662D8C4338F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:28:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38663C4338F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:34:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 489036101C
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:28:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DEC16044F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 19:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242954AbhHET3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 15:29:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47726 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235961AbhHET27 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 15:28:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 482AF60F35;
-        Thu,  5 Aug 2021 19:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628191724;
-        bh=c0Vs2HNByH4Fwmy8Vxl8UQ27uBsApQZgZhBBXqQepZ8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qXJLPYpu3rpE8NBbGezgtyv/6usNCSrqixGehji/uZOhWmKxo55UXnWggZPCAjlG0
-         iBE+anl1msqQhP9pnh22ackMBtwgSvcrNUTqwMMNzLxrChbkS1UV7/Gal9p7L/veib
-         kVE07QIORwUa4vHhS18vPCjEJoMokdx/NEoevmaE=
-Date:   Thu, 5 Aug 2021 21:28:42 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-Message-ID: <YQw76oNrFQvyW0ua@kroah.com>
-References: <YQuYCePPZEmVbkfc@kroah.com>
- <YQuZdVuaGG/Cr62y@kroah.com>
- <YQuaJ78y8j1UmBoz@kroah.com>
- <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
- <YQwlHrJBw79xhTSI@kroah.com>
- <21db8884-5aa1-3971-79ef-f173a0a95bef@linux.intel.com>
- <YQwpa+LAYt7YZ5dh@kroah.com>
- <1e0967ee-c41e-fd5d-f553-e4d7ab88838c@linux.intel.com>
- <CAPcyv4h26QmPhJKjtUB-VPc4TP95rBAer78OzkgXncg77tFWVw@mail.gmail.com>
- <179a8351-5541-a4f0-bbb2-5d4f398e2476@linux.intel.com>
+        id S231178AbhHETei (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 15:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229503AbhHETei (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 15:34:38 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E922C061765
+        for <linux-doc@vger.kernel.org>; Thu,  5 Aug 2021 12:34:23 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id z128so10854547ybc.10
+        for <linux-doc@vger.kernel.org>; Thu, 05 Aug 2021 12:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OjzSuQ/ih9YihuSqr0yJlft2iccfIfOLf5UR1oHtBfw=;
+        b=t5jTHcshMRomx+U+mjOZL7JRahGyPOV1eVRgzK93HUhnC6bq1q+yENtT4en1ICJX6K
+         Sx6fSQIoFxDXj/HsPMpubiGtMpmdjJIzWryGHXEzu0WBVsIuupkY9XB4UWzUczmbJjn3
+         fcDokwwTaMcYiehLr2UczkhHkg6B0+al1ZUKGmg+XPeJiDHOJNmMwWOpPgEVVdsVWyyF
+         AuxDAASWOpm3qkW6MkSheo+uPZBnzKhEg1Ug44RNotZwsIi0NUUbS5UKr0/jsYA44ybO
+         0P0NmO+kPUHF9Qvcau5eTDS71/X5e/pE71m3KqwcjJmuSvRw1xyng53awCL4tTYiOtb3
+         3Cqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OjzSuQ/ih9YihuSqr0yJlft2iccfIfOLf5UR1oHtBfw=;
+        b=lWMvNZNB2CsGy++R1edQd6E3LSWOgmXchqikQeQfdLQKgjHgjvbUILuehAS2AUduOK
+         RBdNDdtZPJMJ4CW0/5iEKudXeVfc5Ap7R1gIPkCI0q2Jy2yuBOUSypgYs4tHVClY9ow7
+         ih6RsvzdPNbLZsB9RyiwZIcu6X0a1w4pJLxA7/022skYVKY/W69CiDBtsxophkt20AWx
+         vbqjBwUHv9XSxn20XzKriQcryMk1/QrMUVwKts/+8lYiWnihL6OBB8QUyR17jTw0heXQ
+         AmX28hXRWMhj9IHyGTDeJ1rUM2IAm3M+fjOXS7qOFqvQze7NERirMxBwusctriqZvnsS
+         bhdA==
+X-Gm-Message-State: AOAM5328gwMB1JA1rN+ib+5QrgMwxM5zeuYDUyTiVFjR0f+L0Jdz2k28
+        HGp56KGimsFmdCzyQ6NB3wTr578CxeB90lJuG2SN5Q==
+X-Google-Smtp-Source: ABdhPJzhy9EpxjDKV6CQnSv5zHP0x83zyvNrVobJHJ/xfKzeDYtHGJ/1+KtGYq5yledRXzszY2nUVt3MkIvCAtzNBbQ=
+X-Received: by 2002:a25:505:: with SMTP id 5mr8137807ybf.157.1628192062775;
+ Thu, 05 Aug 2021 12:34:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179a8351-5541-a4f0-bbb2-5d4f398e2476@linux.intel.com>
+References: <cover.1626947923.git.mchehab+huawei@kernel.org> <e6f6fa5cebf94753ad8c4b30103459a8eea4bce0.1626947923.git.mchehab+huawei@kernel.org>
+In-Reply-To: <e6f6fa5cebf94753ad8c4b30103459a8eea4bce0.1626947923.git.mchehab+huawei@kernel.org>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 5 Aug 2021 21:34:12 +0200
+Message-ID: <CAMpxmJVe40C=69RJ4oKqQXogHBmgjcoRk+ExP1nGsO19WaikwA@mail.gmail.com>
+Subject: Re: [PATCH 12/15] MAINTAINERS: update gpio-zynq.yaml reference
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
+        Rob Herring <robh@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 12:08:52PM -0700, Kuppuswamy, Sathyanarayanan wrote:
-> 
-> 
-> On 8/5/21 12:01 PM, Dan Williams wrote:
-> > What's wrong with the generic authorized proposal? The core can
-> > default to deauthorizing devices on the platform bus, or any bus,
-> > unless on an allow list. It's a bit more work to uplevel the local
-> > "authorized" implementations from USB and Thunderbolt to the core, but
-> > it's functionally identical to the "filter" approach in terms of
-> > protection, i.e. avoiding probe of unnecessary unvetted drivers.
-> 
-> I have not yet read about the "authorized" model in USB and Thunderbolt.
-> So bear with me if my question is basic or obvious. In the case USB
-> authorized model, who maintains the allow list? kernel or userspace?
+On Thu, Jul 22, 2021 at 12:00 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Changeset 45ca16072b70 ("dt-bindings: gpio: zynq: convert bindings to YAML")
+> renamed: Documentation/devicetree/bindings/gpio/gpio-zynq.txt
+> to: Documentation/devicetree/bindings/gpio/gpio-zynq.yaml.
+>
+> Update its cross-reference accordingly.
+>
+> Fixes: 45ca16072b70 ("dt-bindings: gpio: zynq: convert bindings to YAML")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 76236b2c1d7a..7e1e5385d971 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20382,7 +20382,7 @@ R:      Srinivas Neeli <srinivas.neeli@xilinx.com>
+>  R:     Michal Simek <michal.simek@xilinx.com>
+>  S:     Maintained
+>  F:     Documentation/devicetree/bindings/gpio/gpio-xilinx.txt
+> -F:     Documentation/devicetree/bindings/gpio/gpio-zynq.txt
+> +F:     Documentation/devicetree/bindings/gpio/gpio-zynq.yaml
+>  F:     drivers/gpio/gpio-xilinx.c
+>  F:     drivers/gpio/gpio-zynq.c
+>
+> --
+> 2.31.1
+>
 
-Please go read the documentation and don't ask others to do your work
-for you...
+Applied, thanks!
 
+Bart
