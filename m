@@ -2,93 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDDBC4320A
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DFDC432BE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:29:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E90C61154
-	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:01:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FA0161155
+	for <linux-doc@archiver.kernel.org>; Thu,  5 Aug 2021 14:29:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241830AbhHEOBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 10:01:22 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:65075 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238069AbhHEOBV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 10:01:21 -0400
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 175E0P3H016450;
-        Thu, 5 Aug 2021 23:00:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 175E0P3H016450
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628172026;
-        bh=lffbE45BRrgQKayNYnYaGttwzdEDcoutwDeVAJukOHE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RTYjuW+6Yj1y9WzrY5XZjN8EW2tKGg1fUci/yOtrtiq7uReI24qIrR14DKLufRhPV
-         icB+n15fCVkVIpp8Aid1bJfQX0yGRzdpKXF0TApwcvXJaf+kGLaWGaxzD+luQkMhjz
-         Z380y4zm7YDD4UUKZDrYrHX36Qps58U8YRZWRDApaoVJa5WBwZP+bVha33ijwydDZV
-         Wng+ATPLPChlhTmfYd2+trS64OZZsKBVLaBWfYERIP2BegQa7V8qkVPGJ2fslkroAh
-         QaPOcwfq/NTJjC8aWQ665qMgcAJatI7rMcVDh3vsViswk9uiYETv0d/wbnzoUjybFf
-         VYpGqORKJsPyA==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id s22-20020a17090a1c16b0290177caeba067so15057356pjs.0;
-        Thu, 05 Aug 2021 07:00:25 -0700 (PDT)
-X-Gm-Message-State: AOAM530BGiaMWx0fMfIFM3a+i0LRAt13w+a9vCqdrT5sJQZ71E52siua
-        J4PV+5M5v26ramAS2ZUw6+YjtfKMJ2l5xWf4Sr8=
-X-Google-Smtp-Source: ABdhPJxZa5hhUZfNZ1UgobCzy0zyXlvxx8sD248nZ0a4FXFWiLIEtivCGL+LfW0JxWplPlExOQFTlkwqFc3NHJ3/r2Y=
-X-Received: by 2002:a05:6a00:d71:b029:3c7:6648:69c6 with SMTP id
- n49-20020a056a000d71b02903c7664869c6mr2014065pfv.63.1628172025021; Thu, 05
- Aug 2021 07:00:25 -0700 (PDT)
+        id S241959AbhHEO35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 10:29:57 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:40964 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240801AbhHEO35 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 10:29:57 -0400
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 175EBmGX031318;
+        Thu, 5 Aug 2021 16:29:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=64HVz0Gg+wUo7z89cmaaEfQ54A59MSPLHnaUZCxYN+8=;
+ b=4L4CeUNf2sOsb8dX3pB3ooJ6Sbv97tbMXVQiszaUfnQ1dr/ytgBL5M5jfcezU+g66R45
+ tvaUPcthHSfmduxSGx7CsZMlX99N4BDWHGISL5LdG6pcgAb5wuiFBNZuJ6H6bmSq4M2k
+ WBh0uxqTxp54H/erqxdmyKxrlmR7MmORGbYYyZW5sBL+HbmwHpLx0HA3XxJLBqaiO1lG
+ UmwkhNgF57MZQcIEDX1N7rGWSQPxHoQPmdrl2vg4SwdkwfashSazYfhOd7i8SjA0u4W3
+ R9hdzF3LlxDCsDd4LNtjDLigyz47TTcxl7Pi0cSkef0OOmudIEu0BqaVgoccTi4UkWeg yQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3a854tkmf9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Aug 2021 16:29:23 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1C97410002A;
+        Thu,  5 Aug 2021 16:29:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 008BD22FA5A;
+        Thu,  5 Aug 2021 16:29:21 +0200 (CEST)
+Received: from lmecxl0912.lme.st.com (10.75.127.45) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 5 Aug
+ 2021 16:29:21 +0200
+Subject: Re: [PATCH 1/7] dt-bindings: pinctrl: stm32: add new compatible for
+ STM32MP135 SoC
+To:     Linus Walleij <linus.walleij@linaro.org>, <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>, <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     <linux-gpio@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>
+References: <20210723132810.25728-1-alexandre.torgue@foss.st.com>
+ <20210723132810.25728-2-alexandre.torgue@foss.st.com>
+From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
+Message-ID: <1d7fe9a6-bf37-e8ca-1bc3-fda536a10359@foss.st.com>
+Date:   Thu, 5 Aug 2021 16:29:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210802234304.3519577-1-ndesaulniers@google.com> <YQicuh/Qtj0AfxdK@casper.infradead.org>
-In-Reply-To: <YQicuh/Qtj0AfxdK@casper.infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 5 Aug 2021 22:59:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASq2CdhbybOrdcxBDA7BmF1jfBK6mX2z75MR7DLN3GMwQ@mail.gmail.com>
-Message-ID: <CAK7LNASq2CdhbybOrdcxBDA7BmF1jfBK6mX2z75MR7DLN3GMwQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Khem Raj <raj.khem@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210723132810.25728-2-alexandre.torgue@foss.st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-08-05_05:2021-08-05,2021-08-05 signatures=0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 3, 2021 at 10:33 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Mon, Aug 02, 2021 at 04:43:03PM -0700, Nick Desaulniers wrote:
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
-> >         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> >         HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> >
-> > -Currently, the integrated assembler is disabled by default. You can pass
-> > -``LLVM_IAS=1`` to enable it.
-> > +Currently, the integrated assembler is enabled by default. You can pass
-> > +``LLVM_IAS=0`` to disable it.
->
-> I'd drop the "Currently,".  This is presumably going to be the default
-> going forward unless there's some horrible unforeseen problem.  The
-> "Currently," implies that we're planning on changing it.
+Hi Linus
 
-I agree.
+On 7/23/21 3:28 PM, Alexandre Torgue wrote:
+> New compatible to manage ball out and pin muxing of STM32MP135 SoC.
+> 
+> Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
+> index 72877544ca78..dfee6d38a701 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
+> @@ -24,6 +24,7 @@ properties:
+>         - st,stm32f746-pinctrl
+>         - st,stm32f769-pinctrl
+>         - st,stm32h743-pinctrl
+> +      - st,stm32mp135-pinctrl
+>         - st,stm32mp157-pinctrl
+>         - st,stm32mp157-z-pinctrl
+>   
+> 
 
+If you are ok with this patch, can I take it in my tree to avoid yaml 
+validation issue ? If you disagree I'll wait the next cycle to take DT 
+patches.
 
-
--- 
-Best Regards
-Masahiro Yamada
+cheers
+alex
