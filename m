@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC08C4320A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9220C4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6717611C3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8EC860E97
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234559AbhHFC7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:59:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44424 "EHLO loongson.cn"
+        id S235885AbhHFC7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:59:18 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44448 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235748AbhHFC7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:59:14 -0400
+        id S230385AbhHFC7R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 22:59:17 -0400
 Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOJfpQxh198rAA--.1497S8;
-        Fri, 06 Aug 2021 10:58:52 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOJfpQxh198rAA--.1497S10;
+        Fri, 06 Aug 2021 10:58:55 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -30,20 +30,20 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
         chenweiguang82@126.com
-Subject: [PATCH v4 6/8] docs/zh_CN: add infiniband tag_matching translation
-Date:   Fri,  6 Aug 2021 10:58:53 +0800
-Message-Id: <eaed122a0e5d0e3312cf5a495022a9d0be42a831.1628218477.git.siyanteng@loongson.cn>
+Subject: [PATCH v4 8/8] docs/zh_CN: add infiniband user_verbs translation
+Date:   Fri,  6 Aug 2021 10:58:55 +0800
+Message-Id: <b7c1577cf9758943bff933c46200c7dff1e1c6e0.1628218477.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1628218477.git.siyanteng@loongson.cn>
 References: <cover.1628218477.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxwOJfpQxh198rAA--.1497S8
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1rXr4xWr18WF1DuFy8Zrb_yoW7ArWDpF
-        9rWa4fKw1UAasFk3ya9342qF17Gr1xJF17Ga4vg34rJF95twsF9FsFy347WF1fWrW8CFyj
-        qrsYyF9Y9ryj9rDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9BxwOJfpQxh198rAA--.1497S10
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrW8Gw1xCr4xJF4kuw18Grg_yoWrKF43pr
+        yDC34xK3WUAa42y3yxGFy7Aa18Ga4xCFW5Jas7twnIqFn8J3yfArnIy34j9FZ3KrW8AFZ0
+        qr4YgFyv9rWSyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
         kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
         z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
@@ -51,53 +51,53 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1rXr4xWr18WF1DuFy8Zrb_yoW7ArWDpF
         3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
         x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
         JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
-        ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
-        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
-        IxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-        4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-        daVFxhVjvjDU0xZFpf9x0JUQFxUUUUUU=
+        ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
+        14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+        4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU
+        OBTYUUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/tag_matching.rst into Chinese.
+Translate Documentation/infiniband/user_verbs.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
 ---
- .../translations/zh_CN/infiniband/index.rst   |  2 +-
- .../zh_CN/infiniband/tag_matching.rst         | 63 +++++++++++++++++++
- 2 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/tag_matching.rst
+ .../translations/zh_CN/infiniband/index.rst   |  3 +-
+ .../zh_CN/infiniband/user_verbs.rst           | 72 +++++++++++++++++++
+ 2 files changed, 73 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/user_verbs.rst
 
 diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index 1d208d50b0c2..c273088b8686 100644
+index 55645171a675..5634cc48379f 100644
 --- a/Documentation/translations/zh_CN/infiniband/index.rst
 +++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -26,10 +26,10 @@ infiniband
-    ipoib
-    opa_vnic
+@@ -28,10 +28,9 @@ infiniband
     sysfs
-+   tag_matching
- 
- TODOLIST:
- 
--   tag_matching
+    tag_matching
     user_mad
-    user_verbs
++   user_verbs
  
-diff --git a/Documentation/translations/zh_CN/infiniband/tag_matching.rst b/Documentation/translations/zh_CN/infiniband/tag_matching.rst
+-TODOLIST:
+ 
+-   user_verbs
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/translations/zh_CN/infiniband/user_verbs.rst b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
 new file mode 100644
-index 000000000000..19b99587b862
+index 000000000000..970bc1a4e396
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/tag_matching.rst
-@@ -0,0 +1,63 @@
++++ b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+@@ -0,0 +1,72 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/infiniband/tag_matching.rst
++:Original: Documentation/infiniband/user_verbs.rst
 +
 +:翻译:
 +
@@ -108,56 +108,65 @@ index 000000000000..19b99587b862
 + 王普宇 Puyu Wang <realpuyuwang@gmail.com>
 + 时奎亮 Alex Shi <alexs@kernel.org>
 +
-+.. _cn_infiniband_tag_matching:
++.. _cn_infiniband_user_verbs:
 +
-+============
-+标签匹配逻辑
-+============
++=================
++用户空间verbs访问
++=================
 +
-+MPI标准定义了一套规则，称为标签匹配，用于将源发送操作与目的接收匹配。以下参数必
-+须与以下源和目的参数相匹配:
++  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_VERBS构建，使用户空间
++  通过“verbs”直接访问IB硬件，如InfiniBand架构规范第11章所述。
 +
-+*	沟通者
-+*	用户标签--通配符(wild card)可由接收方指定
-+*	来源等级--通配符可由接收方指定
-+*	目的地等级 – wild
++  要使用verbs，需要libibverbs库，可从https://github.com/linux-rdma/rdma-core。
++  libibverbs包含一个独立于设备的API，用于使用ib_uverbs接口。libibverbs
++  还需要为你的InfiniBand硬件提供适当的独立于设备的内核和用户空间驱动。例如，
++  要使用Mellanox HCA，你需要安装ib_mthca内核模块和libmthca用户空间驱动。
 +
-+排序规则要求，当一对以上的发送和接收消息信封可能匹配时，包括最早发布-发送和最早
-+发布-接收的一对是必须用来满足匹配操作的一对。然而，这并不意味着标签是按照它们被
-+创建的顺序消耗的，例如，如果早期的标签不能用来满足匹配规则，那么后来生成的标签
-+可能被消耗。
++用户-内核通信
++=============
 +
-+当消息从发送方发送到接收方时，通信库可能试图在相应的匹配接收被发布之后或之前处
-+理该操作。如果匹配的接收被发布，这就是一个预期的消息，否则就被称为一个意外的消
-+息。实现时经常为这两种不同的匹配实例使用不同的匹配方案。
++  用户空间通过/dev/infiniband/uverbsN字符设备与内核进行慢速路径、资源管理
++  操作的通信。快速路径操作通常是通过直接写入硬件寄存器mmap()到用户空间来完成
++  的，没有系统调用或上下文切换到内核。
 +
-+为了减少MPI库的内存占用，MPI实现通常使用两种不同的协议来实现这一目的:
++  命令是通过在这些设备文件上的write()s发送给内核的。ABI在
++  drivers/infiniband/include/ib_user_verbs.h中定义。需要内核响应的命令的结
++  构包含一个64位字段，用来传递一个指向输出缓冲区的指针。状态作为write()系统调
++  用的返回值被返回到用户空间。
 +
-+1.	Eager协议--当发送方处理完发送时，完整的信息就会被发送。在send_cq中会收到
-+一个完成发送的通知，通知缓冲区可以被重新使用。
++资源管理
++========
 +
-+2.	Rendezvous协议--发送方在第一次通知接收方时发送标签匹配头，也许还有一部分
-+数据。当相应的缓冲区被发布时，响应者将使用头中的信息，直接向匹配的缓冲区发起
-+RDMA读取操作。为了使缓冲区得到重用，需要收到一个fin消息。
++  由于所有IB资源的创建和销毁都是通过文件描述符传递的命令完成的，所以内核可以跟
++  踪那些被附加到给定用户空间上下文的资源。ib_uverbs模块维护着idr表，用来在
++  内核指针和不透明的用户空间句柄之间进行转换，这样内核指针就不会暴露给用户空间，
++  而用户空间也无法欺骗内核去跟踪一个假的指针。
 +
-+标签匹配的实现
-+==============
++  这也允许内核在一个进程退出时进行清理，并防止一个进程触及另一个进程的资源。
 +
-+使用的匹配对象有两种类型，即发布的接收列表和意外消息列表。应用程序通过调用发布
-+的接收列表中的MPI接收例程发布接收缓冲区，并使用MPI发送例程发布发送消息。发布的
-+接收列表的头部可以由硬件来维护，而软件则要对这个列表进行跟踪。
++内存固定
++========
 +
-+当发送开始并到达接收端时，如果没有为这个到达的消息预先发布接收，它将被传递给软
-+件并被放在意外（unexpect）消息列表中。否则，将对该匹配进行处理，包括交会处理，
-+如果合适的话，将数据传送到指定的接收缓冲区。这允许接收方MPI标签匹配与计算重叠。
++  直接的用户空间I/O要求与作为潜在I/O目标的内存区域保持在同一物理地址上。ib_uverbs
++  模块通过get_user_pages()和put_page()调用来管理内存区域的固定和解除固定。它还核
++  算进程的pinned_vm中被固定的内存量，并检查非特权进程是否超过其RLIMIT_MEMLOCK限制。
 +
-+当一个接收信息被发布时，通信库将首先检查软件的意外信息列表，以寻找一个匹配的接
-+收信息。如果找到一个匹配的，数据就会被送到用户缓冲区，使用一个软件控制的协议。
-+UCX的实现根据数据大小，使用急切或交会协议。如果没有找到匹配，整个预置的接收列
-+表由硬件维护，并且有空间在这个列表中增加一个预置的接收，这个接收被传递给硬件。
-+软件要对这个列表进行跟踪，以帮助处理MPI取消操作。此外，由于硬件和软件在标签匹
-+配操作方面预计不会紧密同步，这个影子列表被用来检测预先发布的接收被传递到硬件的
-+情况，因为匹配的意外消息正在从硬件传递到软件。
++  被多次固定的页面在每次被固定时都会被计数，所以pinned_vm的值可能会高估一个进程所
++  固定的页面数量。
++
++/dev文件
++========
++
++  要想用udev自动创建适当的字符设备文件，可以采用如下规则::
++
++    KERNEL=="uverbs*", NAME="infiniband/%k"
++
++  可以使用。 这将创建设备节点，名为::
++
++    /dev/infiniband/uverbs0
++
++  等等。由于InfiniBand的用户空间verbs对于非特权进程来说应该是安全的，因此在udev规
++  则中加入适当的MODE或GROUP可能是有用的。
 -- 
 2.27.0
 
