@@ -2,263 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8627C4320A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F96C4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 05:08:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C873A610FD
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:59:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DDC9611BF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 05:08:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbhHFC7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:59:19 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44450 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235748AbhHFC7S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:59:18 -0400
-Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOJfpQxh198rAA--.1497S9;
-        Fri, 06 Aug 2021 10:58:53 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
-        chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
-        chenweiguang82@126.com
-Subject: [PATCH v4 7/8] docs/zh_CN: add infiniband user_mad translation
-Date:   Fri,  6 Aug 2021 10:58:54 +0800
-Message-Id: <8859ef2b40b380d7db7548f2e6a2d6fd5397062d.1628218477.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1628218477.git.siyanteng@loongson.cn>
-References: <cover.1628218477.git.siyanteng@loongson.cn>
+        id S231694AbhHFFIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 01:08:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229576AbhHFFIQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Aug 2021 01:08:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C816F60249;
+        Fri,  6 Aug 2021 05:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1628226477;
+        bh=+KwAA8WRcGQb5hPZBRI66maPX62SaoRv3MQjPWzRMVc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pNG8f3QGBkU1vjg2AjVVj63VqWnglmER/mnhUtQAZ8Iqqq6aZ+mux3K2+bQXi6XER
+         oUMmicZPGD7FnCrTuo4OjYcfhEIetHHjFMJfvDjgUqOjN2tujjlUsFO2sm+aRf+qvP
+         +TrHWTqeVk9Eg46o8kj/nsXCJjjgOgmwq+rxcjN4=
+Date:   Fri, 6 Aug 2021 07:07:54 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+Message-ID: <YQzDqm6FOezM6Rnu@kroah.com>
+References: <YQrqhYEL64CSLRTy@kroah.com>
+ <f2b1d564-8174-f8e9-9fee-12e938c6d846@linux.intel.com>
+ <YQuYCePPZEmVbkfc@kroah.com>
+ <YQuZdVuaGG/Cr62y@kroah.com>
+ <YQuaJ78y8j1UmBoz@kroah.com>
+ <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
+ <YQwlHrJBw79xhTSI@kroah.com>
+ <21db8884-5aa1-3971-79ef-f173a0a95bef@linux.intel.com>
+ <YQwpa+LAYt7YZ5dh@kroah.com>
+ <1e0967ee-c41e-fd5d-f553-e4d7ab88838c@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxwOJfpQxh198rAA--.1497S9
-X-Coremail-Antispam: 1UD129KBjvJXoW3XrWUXw45tw1xKFW7Ar1fZwb_yoW3Jw1xpr
-        9rW34xKw43JF90va1xK3y7ZF18Gas7CwsrGF1kK345JF18trsYyF4qka47uFy3WFyxAFy7
-        Zr409FWjk397C3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
-        3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
-        x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
-        JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
-        ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
-        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
-        IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
-        1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
-        CTnIWIevJa73UjIFyTuYvjfUOyIUUUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e0967ee-c41e-fd5d-f553-e4d7ab88838c@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/user_mad.rst into Chinese.
+On Thu, Aug 05, 2021 at 11:44:47AM -0700, Andi Kleen wrote:
+> 
+> On 8/5/2021 11:09 AM, Greg Kroah-Hartman wrote:
+> > On Thu, Aug 05, 2021 at 10:58:46AM -0700, Andi Kleen wrote:
+> > > On 8/5/2021 10:51 AM, Greg Kroah-Hartman wrote:
+> > > > It's controlled by whatever you want to use in userspace.  usbguard has
+> > > > been handling this logic in userspace for over a decade now just fine.
+> > > 
+> > > So how does that work with builtin USB drivers? Do you delay the USB binding
+> > > until usbguard starts up?
+> > Yes.
+> 
+> That won't work for confidential guests, e.g. we need a virtio driver for
+> the console and some other things.
+> 
+> 
+> > 
+> > > > > This doesn't help us handle builtin drivers that initialize before user
+> > > > > space is up.
+> > > > Then have the default setting for your bus be "unauthorized" like we
+> > > > allow for some busses today.
+> > > We need some early boot drivers, just not all of them. For example in your
+> > > scheme we would need to reject all early platform drivers, which would break
+> > > booting. Or allow all early platform drivers, but then we exactly get into
+> > > the problem that there are far too many of them to properly harden.
+> > Define "harden" please.  Why not just allow all platform drivers, they
+> > should all be trusted.  If not, well, you have bigger problems...
+> 
+> Trusted here means someone audited them and also fuzzed them. That's all a
+> lot of work and also needs to be maintained forever so we're trying to do
+> only a minimum set. There are actually quite a few platform drivers, it's
+> difficult to audit them all.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
----
- .../translations/zh_CN/infiniband/index.rst   |   2 +-
- .../zh_CN/infiniband/user_mad.rst             | 164 ++++++++++++++++++
- 2 files changed, 165 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/user_mad.rst
+Note, this model is wrong and backwards and will not work out at all in
+the end.
 
-diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index c273088b8686..55645171a675 100644
---- a/Documentation/translations/zh_CN/infiniband/index.rst
-+++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -27,10 +27,10 @@ infiniband
-    opa_vnic
-    sysfs
-    tag_matching
-+   user_mad
- 
- TODOLIST:
- 
--   user_mad
-    user_verbs
- 
- .. only::  subproject and html
-diff --git a/Documentation/translations/zh_CN/infiniband/user_mad.rst b/Documentation/translations/zh_CN/infiniband/user_mad.rst
-new file mode 100644
-index 000000000000..d9ab2edfb559
---- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/user_mad.rst
-@@ -0,0 +1,164 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/infiniband/user_mad.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+ 王普宇 Puyu Wang <realpuyuwang@gmail.com>
-+ 时奎亮 Alex Shi <alexs@kernel.org>
-+
-+.. _cn_infiniband_user_mad:
-+
-+===============
-+用户空间MAD访问
-+===============
-+
-+设备文件
-+========
-+
-+  每个InfiniBand设备的每个端口都有一个“umad”设备和一个“issm”设备连接。
-+  例如，一个双端口的HCA将有两个umad设备和两个issm设备，而一个交换机将
-+  有每个类型的一个设备（对于交换机端口0）。
-+
-+创建MAD代理
-+===========
-+
-+  一个MAD代理可以通过填写一个结构体ib_user_mad_reg_req来创建，然后在
-+  适当的设备文件的文件描述符上调用IB_USER_MAD_REGISTER_AGENT ioctl。
-+  如果注册请求成功，结构体中会返回一个32位的ID。比如说::
-+
-+	struct ib_user_mad_reg_req req = { /* ... */ };
-+	ret = ioctl(fd, IB_USER_MAD_REGISTER_AGENT, (char *) &req);
-+        if (!ret)
-+		my_agent = req.id;
-+	else
-+		perror("agent register");
-+
-+  代理可以通过IB_USER_MAD_UNREGISTER_AGENT ioctl取消注册。另外，所有
-+  通过文件描述符注册的代理在描述符关闭时将被取消注册。
-+
-+  2014
-+       现在提供了一个新的注册IOctl，允许在注册时提供额外的字段。这个注册
-+       调用的用户隐含了对pkey_index的使用（见下文）。现在提供了一个新的
-+       注册IOctl，允许在注册时提供额外的字段。这个注册调用的用户隐含了对
-+       pkey_index的使用（见下文）。
-+
-+接收MADs
-+========
-+
-+  使用read()接收MAD。现在接收端支持RMPP。传给read()的缓冲区必须至少是
-+  一个struct ib_user_mad + 256字节。比如说:
-+
-+  如果传递的缓冲区不足以容纳收到的MAD（RMPP），errno被设置为ENOSPC，需
-+  要的缓冲区长度被设置在mad.length中。
-+
-+  正常MAD(非RMPP)的读取示例::
-+
-+	struct ib_user_mad *mad;
-+	mad = malloc(sizeof *mad + 256);
-+	ret = read(fd, mad, sizeof *mad + 256);
-+	if (ret != sizeof mad + 256) {
-+		perror("read");
-+		free(mad);
-+	}
-+
-+  RMPP读取示例::
-+
-+	struct ib_user_mad *mad;
-+	mad = malloc(sizeof *mad + 256);
-+	ret = read(fd, mad, sizeof *mad + 256);
-+	if (ret == -ENOSPC)) {
-+		length = mad.length;
-+		free(mad);
-+		mad = malloc(sizeof *mad + length);
-+		ret = read(fd, mad, sizeof *mad + length);
-+	}
-+	if (ret < 0) {
-+		perror("read");
-+		free(mad);
-+	}
-+
-+  除了实际的MAD内容外，其他结构体ib_user_mad字段将被填入收到的MAD的信
-+  息。例如，远程LID将在mad.lid中。
-+
-+  如果发送超时，将产生一个接收，mad.status设置为ETIMEDOUT。否则，当一个
-+  MAD被成功接收后，mad.status将是0。
-+
-+  poll()/select()可以用来等待一个MAD可以被读取。
-+
-+  poll()/select()可以用来等待，直到可以读取一个MAD。
-+
-+发送MADs
-+========
-+
-+  MADs是用write()发送的。发送的代理ID应该填入MAD的id字段，目的地LID应该
-+  填入lid字段，以此类推。发送端确实支持RMPP，所以可以发送任意长度的MAD。
-+  比如说::
-+
-+	struct ib_user_mad *mad;
-+
-+	mad = malloc(sizeof *mad + mad_length);
-+
-+	/* fill in mad->data */
-+
-+	mad->hdr.id  = my_agent;	/* req.id from agent registration */
-+	mad->hdr.lid = my_dest;		/* in network byte order... */
-+	/* etc. */
-+
-+	ret = write(fd, &mad, sizeof *mad + mad_length);
-+	if (ret != sizeof *mad + mad_length)
-+		perror("write");
-+
-+交换IDs
-+=======
-+
-+  umad设备的用户可以在发送的MAD中使用交换ID字段的低32位（也就是网络字节顺序中
-+  最小有效的一半字段）来匹配请求/响应对。上面的32位是保留给内核使用的，在发送
-+  MAD之前会被改写。
-+
-+P_Key索引处理
-+=============
-+
-+  旧的ib_umad接口不允许为发送的MAD设置P_Key索引，也没有提供获取接收的MAD的
-+  P_Key索引的方法。一个带有pkey_index成员的struct ib_user_mad_hdr的新布局已
-+  经被定义；然而，为了保持与旧的应用程序的二进制兼容性，除非在文件描述符被用于
-+  其他用途之前调用IB_USER_MAD_ENABLE_PKEY或IB_USER_MAD_REGISTER_AGENT2 ioctl
-+  之一，否则不会使用这种新布局。
-+
-+  在2008年9月，IB_USER_MAD_ABI_VERSION将被增加到6，默认使用新的ib_user_mad_hdr
-+  结构布局，并且IB_USER_MAD_ENABLE_PKEY ioctl将被删除。
-+
-+设置IsSM功能位
-+==============
-+
-+  要为一个端口设置IsSM功能位，只需打开相应的issm设备文件。如果IsSM位已经被设置，那
-+  么打开调用将阻塞，直到该位被清除（或者如果O_NONBLOCK标志被传递给open()，则立即返
-+  回，errno设置为EAGAIN）。当issm文件被关闭时，IsSM位将被清除。在issm文件上不能进
-+  行任何读、写或其他操作。
-+
-+/dev文件
-+========
-+
-+为了用 udev自动创建相应的字符设备文件，一个类似::
-+
-+    KERNEL=="umad*", NAME="infiniband/%k"
-+    KERNEL=="issm*", NAME="infiniband/%k"
-+
-+  的规则可以被使用。它将创建节点的名字::
-+
-+    /dev/infiniband/umad0
-+    /dev/infiniband/issm0
-+
-+  为第一个端口，以此类推。与这些设备相关的infiniband设备和端口可以从以下文件中确定::
-+
-+    /sys/class/infiniband_mad/umad0/ibdev
-+    /sys/class/infiniband_mad/umad0/port
-+
-+  和::
-+
-+    /sys/class/infiniband_mad/issm0/ibdev
-+    /sys/class/infiniband_mad/issm0/port
--- 
-2.27.0
+But given that this is coming from a hardware company, it makes sense.
+You are coming from the model of "the hardware is trusted, but the code
+is untrusted".  That is the exact opposite of what we have been working
+with for the past 5+ years now.
 
+Look at all of the work that has happened in just USB drivers over the
+recent years thanks to fuzzing efforts.  None of this was done because
+we did not trust the kernel code, it was because we had to now not trust
+the hardware to actually do the right thing.  So we have had to "harden"
+the kernel side to deal with untrusted hardware.
+
+People are now looking at doing the same for PCI devices, but that's a
+huge effort that no one has started to take seriously.
+
+Same thing for any other hardware "bug", that is software having to fix
+hardware errors as it is the thing that is incorrect, not the software.
+Spectre/meltdown is a huge example of that, but there are many more.
+
+The model the kernel has right now for "authorized" devices is that it
+is up to some entity to determine if the _device_ is trusted, not if the
+_driver_ is trusted.
+
+By virtue of you all saying that you want to use a generic kernel image
+from a vendor, you are implying that you have to trust that software as
+you have no control over that kernel image.  What you need to validate
+is "can I trust this device to be controlled by the kernel".
+
+So work on providing "trusted" hardware/device signals to the kernel
+please.  That is the only way this is going to work.
+
+And yes, auditing drivers is wonderful and grand please do that and set
+up automated testing for it along with good static analysis and all of
+that.  But that is NOT going to provide you with what you want here, as
+the most "perfictly audited" body of code will fall apart when
+confronted with "hardware" that does not work as documented/planned.
+
+That's the fatal flaw in the formal methods camp, they have to trust the
+model of the running system in order to be able to then validate the
+software.  But when the model turns out to be wrong (again, spectre is
+an example of this), it turns out that the software ends up not working
+"correctly".
+
+So go work on providing some sort of authentication of hardware to
+attest that it really is what it says it is, in order to allow a kernel
+to be able to determine if it should start talking to it or not.
+
+good luck!
+
+greg k-h
