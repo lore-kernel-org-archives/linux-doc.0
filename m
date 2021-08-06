@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E12C432BE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DECC4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DB3961185
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E026C61185
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238277AbhHFCXk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:23:40 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34490 "EHLO loongson.cn"
+        id S238061AbhHFCXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:23:41 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:34536 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237181AbhHFCXj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:23:39 -0400
+        id S237996AbhHFCXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 22:23:41 -0400
 Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S6;
-        Fri, 06 Aug 2021 10:23:16 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S9;
+        Fri, 06 Aug 2021 10:23:19 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -30,20 +30,20 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
         chenweiguang82@126.com
-Subject: [PATCH v3 4/8] docs/zh_CN: add infiniband opa_vnic translation
-Date:   Fri,  6 Aug 2021 10:23:23 +0800
-Message-Id: <36107782906482726cfa36ad498d22392a3cd986.1628213809.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 7/8] docs/zh_CN: add infiniband user_mad translation
+Date:   Fri,  6 Aug 2021 10:23:26 +0800
+Message-Id: <059d6c5adf68995c9e2c8a6fc765a61c78289b15.1628213809.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1628213809.git.siyanteng@loongson.cn>
 References: <cover.1628213809.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S6
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jr1ftF1UCryrAFW8tFWkZwb_yoW3Xr1rpr
-        n3JryxW3WUJFy3ur18Wr4UJr1UJwn7Cw1UKFyktry8Xr1UAr1UJr1kGry8Ary7Gry8AryU
-        JFy0yryDCr12gr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S9
+X-Coremail-Antispam: 1UD129KBjvJXoW3XrWUXw45tw1xKFW7Ar1fZwb_yoW3Jw1xpr
+        9rW34xKw43JF90va1xK3y7ZF18Gas7CwsrGF1kK345JF18trsYyF4qka47uFy3WFyxAFy7
+        Zr409FWjk397C3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
         kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
         z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
@@ -53,51 +53,51 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3Jr1ftF1UCryrAFW8tFWkZwb_yoW3Xr1rpr
         Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
         xan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
         rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
-        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-        67AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-        4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU
-        OBTYUUUUU
+        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
+        67AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+        W8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7V
+        UbmZX7UUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/opa_vnic.rst into Chinese.
+Translate Documentation/infiniband/user_mad.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
 ---
  .../translations/zh_CN/infiniband/index.rst   |   2 +-
- .../zh_CN/infiniband/opa_vnic.rst             | 156 ++++++++++++++++++
- 2 files changed, 157 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/opa_vnic.rst
+ .../zh_CN/infiniband/user_mad.rst             | 164 ++++++++++++++++++
+ 2 files changed, 165 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/user_mad.rst
 
 diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index da5e2821f767..a933e3c6981d 100644
+index c273088b8686..55645171a675 100644
 --- a/Documentation/translations/zh_CN/infiniband/index.rst
 +++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -24,10 +24,10 @@ infiniband
- 
-    core_locking
-    ipoib
-+   opa_vnic
+@@ -27,10 +27,10 @@ infiniband
+    opa_vnic
+    sysfs
+    tag_matching
++   user_mad
  
  TODOLIST:
  
--   opa_vnic
-    sysfs
-    tag_matching
-    user_mad
-diff --git a/Documentation/translations/zh_CN/infiniband/opa_vnic.rst b/Documentation/translations/zh_CN/infiniband/opa_vnic.rst
+-   user_mad
+    user_verbs
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/translations/zh_CN/infiniband/user_mad.rst b/Documentation/translations/zh_CN/infiniband/user_mad.rst
 new file mode 100644
-index 000000000000..12b147fbf792
+index 000000000000..d9ab2edfb559
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/opa_vnic.rst
-@@ -0,0 +1,156 @@
++++ b/Documentation/translations/zh_CN/infiniband/user_mad.rst
+@@ -0,0 +1,164 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/infiniband/opa_vnic.rst
++:Original: Documentation/infiniband/user_mad.rst
 +
 +:翻译:
 +
@@ -108,149 +108,157 @@ index 000000000000..12b147fbf792
 + 王普宇 Puyu Wang <realpuyuwang@gmail.com>
 + 时奎亮 Alex Shi <alexs@kernel.org>
 +
-+.. _cn_infiniband_opa_vnic:
++.. _cn_infiniband_user_mad:
 +
-+=============================================
-+英特尔全路径（OPA）虚拟网络接口控制器（VNIC）
-+=============================================
++===============
++用户空间MAD访问
++===============
 +
-+英特尔全路径（OPA）虚拟网络接口控制器（VNIC）功能通过封装HFI节点之间的以
-+太网数据包，支持Omni-Path结构上的以太网功能。
-+
-+体系结构
++设备文件
 +========
 +
-+Omni-Path封装的以太网数据包的交换模式涉及Omni-Path结构拓扑上覆盖的一个或
-+多个虚拟以太网交换机。Omni-Path结构上的HFI节点的一个子集被允许在特定的虚
-+拟以太网交换机上交换封装的以太网数据包。虚拟以太网交换机是通过配置结构上的
-+HFI节点实现的逻辑抽象，用于生成和处理报头。在最简单的配置中，整个结构的所有
-+HFI节点通过一个虚拟以太网交换机交换封装的以太网数据包。一个虚拟以太网交换机，
-+实际上是一个独立的以太网网络。该配置由以太网管理器（EM）执行，它是可信的结
-+构管理器（FM）应用程序的一部分。HFI节点可以有多个VNIC，每个连接到不同的虚
-+拟以太网交换机。下图介绍了两个虚拟以太网交换机与两个HFI节点的情况::
++  每个InfiniBand设备的每个端口都有一个“umad”设备和一个“issm”设备连接。
++  例如，一个双端口的HCA将有两个umad设备和两个issm设备，而一个交换机将
++  有每个类型的一个设备（对于交换机端口0）。
 +
-+                               +-------------------+
-+                               |      子网/        |
-+                               |     以太网        |
-+                               |      管理         |
-+                               +-------------------+
-+                                  /          /
-+                                /           /
-+                              /            /
-+                            /             /
-+  +-----------------------------+  +------------------------------+
-+  |     虚拟以太网切换          |  |      虚拟以太网切换          |
-+  |  +---------+    +---------+ |  | +---------+    +---------+   |
-+  |  | VPORT   |    |  VPORT  | |  | |  VPORT  |    |  VPORT  |   |
-+  +--+---------+----+---------+-+  +-+---------+----+---------+---+
-+           |                 \        /                 |
-+           |                   \    /                   |
-+           |                     \/                     |
-+           |                    /  \                    |
-+           |                  /      \                  |
-+       +-----------+------------+  +-----------+------------+
-+       |   VNIC    |    VNIC    |  |    VNIC   |    VNIC    |
-+       +-----------+------------+  +-----------+------------+
-+       |          HFI           |  |          HFI           |
-+       +------------------------+  +------------------------+
++创建MAD代理
++===========
 +
++  一个MAD代理可以通过填写一个结构体ib_user_mad_reg_req来创建，然后在
++  适当的设备文件的文件描述符上调用IB_USER_MAD_REGISTER_AGENT ioctl。
++  如果注册请求成功，结构体中会返回一个32位的ID。比如说::
 +
-+Omni-Path封装的以太网数据包格式如下所述。
++	struct ib_user_mad_reg_req req = { /* ... */ };
++	ret = ioctl(fd, IB_USER_MAD_REGISTER_AGENT, (char *) &req);
++        if (!ret)
++		my_agent = req.id;
++	else
++		perror("agent register");
 +
-+==================== ================================
-+位                   域
-+==================== ================================
-+Quad Word 0:
-+0-19                 SLID (低20位)
-+20-30                长度 (以四字为单位)
-+31                   BECN 位
-+32-51                DLID (低20位)
-+52-56                SC (服务级别)
-+57-59                RC (路由控制)
-+60                   FECN 位
-+61-62                L2 (=10, 16B 格式)
-+63                   LT (=1, 链路传输头 Flit)
++  代理可以通过IB_USER_MAD_UNREGISTER_AGENT ioctl取消注册。另外，所有
++  通过文件描述符注册的代理在描述符关闭时将被取消注册。
 +
-+Quad Word 1:
-+0-7                  L4 type (=0x78 ETHERNET)
-+8-11                 SLID[23:20]
-+12-15                DLID[23:20]
-+16-31                PKEY
-+32-47                熵
-+48-63                保留
++  2014
++       现在提供了一个新的注册IOctl，允许在注册时提供额外的字段。这个注册
++       调用的用户隐含了对pkey_index的使用（见下文）。现在提供了一个新的
++       注册IOctl，允许在注册时提供额外的字段。这个注册调用的用户隐含了对
++       pkey_index的使用（见下文）。
 +
-+Quad Word 2:
-+0-15                 保留
-+16-31                L4 头
-+32-63                以太网数据包
-+
-+Quad Words 3 to N-1:
-+0-63                 以太网数据包 (pad拓展)
-+
-+Quad Word N (last):
-+0-23                 以太网数据包 (pad拓展)
-+24-55                ICRC
-+56-61                尾
-+62-63                LT (=01, 链路传输尾 Flit)
-+==================== ================================
-+
-+以太网数据包在传输端被填充，以确保VNIC OPA数据包是四字对齐的。“尾”字段
-+包含填充的字节数。在接收端，“尾”字段被读取，在将数据包向上传递到网络堆
-+栈之前，填充物被移除（与ICRC、尾和OPA头一起）。
-+
-+L4头字段包含VNIC端口所属的虚拟以太网交换机ID。在接收端，该字段用于将收
-+到的VNIC数据包去多路复用到不同的VNIC端口。
-+
-+驱动设计
++接收MADs
 +========
 +
-+英特尔OPA VNIC的软件设计如下图所示。OPA VNIC功能有一个依赖于硬件的部分
-+和一个独立于硬件的部分。
++  使用read()接收MAD。现在接收端支持RMPP。传给read()的缓冲区必须至少是
++  一个struct ib_user_mad + 256字节。比如说:
 +
-+对IB设备分配和释放RDMA netdev设备的支持已经被加入。RDMA netdev支持与
-+网络堆栈的对接，从而创建标准的网络接口。OPA_VNIC是一个RDMA netdev设备
-+类型。
++  如果传递的缓冲区不足以容纳收到的MAD（RMPP），errno被设置为ENOSPC，需
++  要的缓冲区长度被设置在mad.length中。
 +
-+依赖于HW的VNIC功能是HFI1驱动的一部分。它实现了分配和释放OPA_VNIC RDMA
-+netdev的动作。它涉及VNIC功能的HW资源分配/管理。它与网络堆栈接口并实现所
-+需的net_device_ops功能。它在传输路径中期待Omni-Path封装的以太网数据包，
-+并提供对它们的HW访问。在将数据包向上传递到网络堆栈之前，它把Omni-Path头
-+从接收的数据包中剥离。它还实现了RDMA netdev控制操作。
++  正常MAD(非RMPP)的读取示例::
 +
-+OPA VNIC模块实现了独立于硬件的VNIC功能。它由两部分组成。VNIC以太网管理
-+代理（VEMA）作为一个IB客户端向IB核心注册，并与IB MAD栈接口。它与以太网
-+管理器（EM）和VNIC netdev交换管理信息。VNIC netdev部分分配和释放OPA_VNIC
-+RDMA netdev设备。它在需要时覆盖由依赖HW的VNIC驱动设置的net_device_ops函数，
-+以适应任何控制操作。它还处理以太网数据包的封装，在传输路径中使用Omni-Path头。
-+对于每个VNIC接口，封装所需的信息是由EM通过VEMA MAD接口配置的。它还通过调用
-+RDMA netdev控制操作将任何控制信息传递给依赖于HW的驱动程序::
++	struct ib_user_mad *mad;
++	mad = malloc(sizeof *mad + 256);
++	ret = read(fd, mad, sizeof *mad + 256);
++	if (ret != sizeof mad + 256) {
++		perror("read");
++		free(mad);
++	}
 +
-+        +-------------------+ +----------------------+
-+        |                   | |       Linux          |
-+        |     IB MAD        | |       网络           |
-+        |                   | |       栈             |
-+        +-------------------+ +----------------------+
-+                 |               |          |
-+                 |               |          |
-+        +----------------------------+      |
-+        |                            |      |
-+        |      OPA VNIC 模块         |      |
-+        |  (OPA VNIC RDMA Netdev     |      |
-+        |     & EMA 函数)            |      |
-+        |                            |      |
-+        +----------------------------+      |
-+                    |                       |
-+                    |                       |
-+           +------------------+             |
-+           |     IB 核心      |             |
-+           +------------------+             |
-+                    |                       |
-+                    |                       |
-+        +--------------------------------------------+
-+        |                                            |
-+        |      HFI1 驱动和 VNIC 支持                 |
-+        |                                            |
-+        +--------------------------------------------+
++  RMPP读取示例::
++
++	struct ib_user_mad *mad;
++	mad = malloc(sizeof *mad + 256);
++	ret = read(fd, mad, sizeof *mad + 256);
++	if (ret == -ENOSPC)) {
++		length = mad.length;
++		free(mad);
++		mad = malloc(sizeof *mad + length);
++		ret = read(fd, mad, sizeof *mad + length);
++	}
++	if (ret < 0) {
++		perror("read");
++		free(mad);
++	}
++
++  除了实际的MAD内容外，其他结构体ib_user_mad字段将被填入收到的MAD的信
++  息。例如，远程LID将在mad.lid中。
++
++  如果发送超时，将产生一个接收，mad.status设置为ETIMEDOUT。否则，当一个
++  MAD被成功接收后，mad.status将是0。
++
++  poll()/select()可以用来等待一个MAD可以被读取。
++
++  poll()/select()可以用来等待，直到可以读取一个MAD。
++
++发送MADs
++========
++
++  MADs是用write()发送的。发送的代理ID应该填入MAD的id字段，目的地LID应该
++  填入lid字段，以此类推。发送端确实支持RMPP，所以可以发送任意长度的MAD。
++  比如说::
++
++	struct ib_user_mad *mad;
++
++	mad = malloc(sizeof *mad + mad_length);
++
++	/* fill in mad->data */
++
++	mad->hdr.id  = my_agent;	/* req.id from agent registration */
++	mad->hdr.lid = my_dest;		/* in network byte order... */
++	/* etc. */
++
++	ret = write(fd, &mad, sizeof *mad + mad_length);
++	if (ret != sizeof *mad + mad_length)
++		perror("write");
++
++交换IDs
++=======
++
++  umad设备的用户可以在发送的MAD中使用交换ID字段的低32位（也就是网络字节顺序中
++  最小有效的一半字段）来匹配请求/响应对。上面的32位是保留给内核使用的，在发送
++  MAD之前会被改写。
++
++P_Key索引处理
++=============
++
++  旧的ib_umad接口不允许为发送的MAD设置P_Key索引，也没有提供获取接收的MAD的
++  P_Key索引的方法。一个带有pkey_index成员的struct ib_user_mad_hdr的新布局已
++  经被定义；然而，为了保持与旧的应用程序的二进制兼容性，除非在文件描述符被用于
++  其他用途之前调用IB_USER_MAD_ENABLE_PKEY或IB_USER_MAD_REGISTER_AGENT2 ioctl
++  之一，否则不会使用这种新布局。
++
++  在2008年9月，IB_USER_MAD_ABI_VERSION将被增加到6，默认使用新的ib_user_mad_hdr
++  结构布局，并且IB_USER_MAD_ENABLE_PKEY ioctl将被删除。
++
++设置IsSM功能位
++==============
++
++  要为一个端口设置IsSM功能位，只需打开相应的issm设备文件。如果IsSM位已经被设置，那
++  么打开调用将阻塞，直到该位被清除（或者如果O_NONBLOCK标志被传递给open()，则立即返
++  回，errno设置为EAGAIN）。当issm文件被关闭时，IsSM位将被清除。在issm文件上不能进
++  行任何读、写或其他操作。
++
++/dev文件
++========
++
++为了用 udev自动创建相应的字符设备文件，一个类似::
++
++    KERNEL=="umad*", NAME="infiniband/%k"
++    KERNEL=="issm*", NAME="infiniband/%k"
++
++  的规则可以被使用。它将创建节点的名字::
++
++    /dev/infiniband/umad0
++    /dev/infiniband/issm0
++
++  为第一个端口，以此类推。与这些设备相关的infiniband设备和端口可以从以下文件中确定::
++
++    /sys/class/infiniband_mad/umad0/ibdev
++    /sys/class/infiniband_mad/umad0/port
++
++  和::
++
++    /sys/class/infiniband_mad/issm0/ibdev
++    /sys/class/infiniband_mad/issm0/port
 -- 
 2.27.0
 
