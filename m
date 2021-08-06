@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EDEC4320E
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47DCAC4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:58:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67FC4611C3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:58:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 181BB611C5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:58:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233366AbhHFC7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:59:11 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44364 "EHLO loongson.cn"
+        id S234746AbhHFC7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:59:13 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44398 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230385AbhHFC7L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:59:11 -0400
+        id S230385AbhHFC7M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 22:59:12 -0400
 Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOJfpQxh198rAA--.1497S5;
-        Fri, 06 Aug 2021 10:58:46 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxwOJfpQxh198rAA--.1497S6;
+        Fri, 06 Aug 2021 10:58:49 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -30,74 +30,74 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
         chenweiguang82@126.com
-Subject: [PATCH v4 3/8] docs/zh_CN: add infiniband ipoib translation
-Date:   Fri,  6 Aug 2021 10:58:50 +0800
-Message-Id: <2d71cfe6b11568d9d9c665e829eaf680c249c94a.1628218477.git.siyanteng@loongson.cn>
+Subject: [PATCH v4 4/8] docs/zh_CN: add infiniband opa_vnic translation
+Date:   Fri,  6 Aug 2021 10:58:51 +0800
+Message-Id: <828550a6fb7fded8172c123c37d4c643d2593e53.1628218477.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1628218477.git.siyanteng@loongson.cn>
 References: <cover.1628218477.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxwOJfpQxh198rAA--.1497S5
-X-Coremail-Antispam: 1UD129KBjvJXoW3WFyUurWUtw4UJF4xKw1kuFg_yoWxJF48pr
-        n7uF97Kw17GFyay397Cr4UXa47Jas7Cw15CFyvg3s8XFn5JayfJrn0k345CFs2gFy8urW5
-        XF4fuF17CayFkwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUm214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
-        Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-        AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
-        cVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-        AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVF
-        xhVjvjDU0xZFpf9x0JUHWlkUUUUU=
+X-CM-TRANSID: AQAAf9BxwOJfpQxh198rAA--.1497S6
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jr1ftF1UCryrAFW8tFWkZwb_yoW3Xr1rpr
+        n3JryxW3WUJFy3ur18Wr4UJr1UJwn7Cw1UKFyktry8Xr1UAr1UJr1kGry8Ary7Gry8AryU
+        JFy0yryDCr12gr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+        z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+        4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
+        3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+        x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+        JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
+        ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+        4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
+        daVFxhVjvjDU0xZFpf9x0JUQFxUUUUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/ipoib.rst into Chinese.
+Translate Documentation/infiniband/opa_vnic.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
 ---
  .../translations/zh_CN/infiniband/index.rst   |   2 +-
- .../translations/zh_CN/infiniband/ipoib.rst   | 111 ++++++++++++++++++
- 2 files changed, 112 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/ipoib.rst
+ .../zh_CN/infiniband/opa_vnic.rst             | 156 ++++++++++++++++++
+ 2 files changed, 157 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/opa_vnic.rst
 
 diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index cc00f31c77d0..da5e2821f767 100644
+index da5e2821f767..a933e3c6981d 100644
 --- a/Documentation/translations/zh_CN/infiniband/index.rst
 +++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -23,10 +23,10 @@ infiniband
-    :maxdepth: 1
+@@ -24,10 +24,10 @@ infiniband
  
     core_locking
-+   ipoib
+    ipoib
++   opa_vnic
  
  TODOLIST:
  
--   ipoib
-    opa_vnic
+-   opa_vnic
     sysfs
     tag_matching
-diff --git a/Documentation/translations/zh_CN/infiniband/ipoib.rst b/Documentation/translations/zh_CN/infiniband/ipoib.rst
+    user_mad
+diff --git a/Documentation/translations/zh_CN/infiniband/opa_vnic.rst b/Documentation/translations/zh_CN/infiniband/opa_vnic.rst
 new file mode 100644
-index 000000000000..56517ea5fe9d
+index 000000000000..12b147fbf792
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/ipoib.rst
-@@ -0,0 +1,111 @@
++++ b/Documentation/translations/zh_CN/infiniband/opa_vnic.rst
+@@ -0,0 +1,156 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/infiniband/ipoib.rst
++:Original: Documentation/infiniband/opa_vnic.rst
 +
 +:翻译:
 +
@@ -108,104 +108,149 @@ index 000000000000..56517ea5fe9d
 + 王普宇 Puyu Wang <realpuyuwang@gmail.com>
 + 时奎亮 Alex Shi <alexs@kernel.org>
 +
-+.. _cn_infiniband_ipoib:
++.. _cn_infiniband_opa_vnic:
 +
-+=========================
-+infiniband上的IP（IPoIB）
-+=========================
++=============================================
++英特尔全路径（OPA）虚拟网络接口控制器（VNIC）
++=============================================
 +
-+  ib_ipoib驱动是IETF ipoib工作组发布的RFC 4391和4392所规定的
-+  infiniband上IP协议的一个实现。它是一个“本地”实现，即把接口类型设置为
-+  ARPHRD_INFINIBAND，硬件地址长度为20（早期的专有实现向内核伪装为以太网
-+  接口）。
++英特尔全路径（OPA）虚拟网络接口控制器（VNIC）功能通过封装HFI节点之间的以
++太网数据包，支持Omni-Path结构上的以太网功能。
 +
-+分区和P_Keys
-+============
-+
-+  当IPoIB驱动被加载时，它会使用索引为0的P_Key给每个端口创建一个接口。要用
-+  不同的P_Key创建一个接口，将所需的P_Key写入主接口的
-+  /sys/class/net/<intf name>/create_child文件里面。比如说::
-+
-+    echo 0x8001 > /sys/class/net/ib0/create_child
-+
-+  这将用P_Key 0x8001创建一个名为ib0.8001的接口。要删除一个子接口，使用
-+  ``delete_child`` 文件::
-+
-+    echo 0x8001 > /sys/class/net/ib0/delete_child
-+
-+  任何接口的P_Key都由“pkey”文件给出，而子接口的主接口在“parent”中。
-+
-+  子接口的创建/删除也可以使用IPoIB的rtnl_link_ops来完成，使用两种
-+  方式创建的子接口的行为是一样的。
-+
-+数据报与连接模式
-+================
-+
-+  IPoIB驱动支持两种操作模式：数据报和连接。模式是通过接口的
-+  /sys/class/net/<intf name>/mode文件设置和读取的。
-+
-+  在数据报模式下，使用IB UD（不可靠数据报）传输，因此接口MTU等于IB L2 MTU
-+  减去IPoIB封装头（4字节）。例如，在一个典型的具有2K MTU的IB结构中，IPoIB
-+  MTU将是2048 - 4 = 2044字节。
-+
-+  在连接模式下，使用IB RC（可靠的连接）传输。连接模式利用IB传输的连接特性，
-+  允许MTU达到最大的IP包大小64K，这减少了处理大型UDP数据包、TCP段等所需的
-+  IP包数量，提高了大型信息的性能。
-+
-+  在连接模式下，接口的UD QP仍被用于组播和与不支持连接模式的对等体的通信。
-+  在这种情况下，ICMP PMTU数据包的RX仿真被用来使网络堆栈对这些邻居使用较
-+  小的UD MTU。
-+
-+无状态卸载
-+==========
-+
-+  如果IB HW支持IPoIB无状态卸载，IPoIB会向网络堆栈广播TCP/IP校验和/或大量
-+  传送（LSO）负载转移能力。
-+
-+  大量传送（LSO）负载转移也已实现，可以使用ethtool调用打开/关闭。目前，LRO
-+  只支持具有校验和卸载能力的设备。
-+
-+  无状态卸载只在数据报模式下支持。
-+
-+中断管理
++体系结构
 +========
 +
-+  如果底层IB设备支持CQ事件管理，可以使用ethtool来设置中断缓解参数，从而减少
-+  处理中断产生的开销。IPoIB的主要代码路径不使用TX完成信号的事件，所以只支持
-+  RX管理。
++Omni-Path封装的以太网数据包的交换模式涉及Omni-Path结构拓扑上覆盖的一个或
++多个虚拟以太网交换机。Omni-Path结构上的HFI节点的一个子集被允许在特定的虚
++拟以太网交换机上交换封装的以太网数据包。虚拟以太网交换机是通过配置结构上的
++HFI节点实现的逻辑抽象，用于生成和处理报头。在最简单的配置中，整个结构的所有
++HFI节点通过一个虚拟以太网交换机交换封装的以太网数据包。一个虚拟以太网交换机，
++实际上是一个独立的以太网网络。该配置由以太网管理器（EM）执行，它是可信的结
++构管理器（FM）应用程序的一部分。HFI节点可以有多个VNIC，每个连接到不同的虚
++拟以太网交换机。下图介绍了两个虚拟以太网交换机与两个HFI节点的情况::
 +
-+调试信息
++                               +-------------------+
++                               |      子网/        |
++                               |     以太网        |
++                               |      管理         |
++                               +-------------------+
++                                  /          /
++                                /           /
++                              /            /
++                            /             /
++  +-----------------------------+  +------------------------------+
++  |     虚拟以太网切换          |  |      虚拟以太网切换          |
++  |  +---------+    +---------+ |  | +---------+    +---------+   |
++  |  | VPORT   |    |  VPORT  | |  | |  VPORT  |    |  VPORT  |   |
++  +--+---------+----+---------+-+  +-+---------+----+---------+---+
++           |                 \        /                 |
++           |                   \    /                   |
++           |                     \/                     |
++           |                    /  \                    |
++           |                  /      \                  |
++       +-----------+------------+  +-----------+------------+
++       |   VNIC    |    VNIC    |  |    VNIC   |    VNIC    |
++       +-----------+------------+  +-----------+------------+
++       |          HFI           |  |          HFI           |
++       +------------------------+  +------------------------+
++
++
++Omni-Path封装的以太网数据包格式如下所述。
++
++==================== ================================
++位                   域
++==================== ================================
++Quad Word 0:
++0-19                 SLID (低20位)
++20-30                长度 (以四字为单位)
++31                   BECN 位
++32-51                DLID (低20位)
++52-56                SC (服务级别)
++57-59                RC (路由控制)
++60                   FECN 位
++61-62                L2 (=10, 16B 格式)
++63                   LT (=1, 链路传输头 Flit)
++
++Quad Word 1:
++0-7                  L4 type (=0x78 ETHERNET)
++8-11                 SLID[23:20]
++12-15                DLID[23:20]
++16-31                PKEY
++32-47                熵
++48-63                保留
++
++Quad Word 2:
++0-15                 保留
++16-31                L4 头
++32-63                以太网数据包
++
++Quad Words 3 to N-1:
++0-63                 以太网数据包 (pad拓展)
++
++Quad Word N (last):
++0-23                 以太网数据包 (pad拓展)
++24-55                ICRC
++56-61                尾
++62-63                LT (=01, 链路传输尾 Flit)
++==================== ================================
++
++以太网数据包在传输端被填充，以确保VNIC OPA数据包是四字对齐的。“尾”字段
++包含填充的字节数。在接收端，“尾”字段被读取，在将数据包向上传递到网络堆
++栈之前，填充物被移除（与ICRC、尾和OPA头一起）。
++
++L4头字段包含VNIC端口所属的虚拟以太网交换机ID。在接收端，该字段用于将收
++到的VNIC数据包去多路复用到不同的VNIC端口。
++
++驱动设计
 +========
 +
-+  通过将CONFIG_INFINIBAND_IPOIB_DEBUG设置为“y”来编译IPoIB驱动，跟踪信
-+  息被编译到驱动中。通过将模块参数debug_level和mcast_debug_level设置为1来
-+  打开它们。这些参数可以在运行时通过/sys/module/ib_ipoib/的文件来控制。
++英特尔OPA VNIC的软件设计如下图所示。OPA VNIC功能有一个依赖于硬件的部分
++和一个独立于硬件的部分。
 +
-+  CONFIG_INFINIBAND_IPOIB_DEBUG也启用debugfs虚拟文件系统中的文件。通过挂
-+  载这个文件系统，例如用::
++对IB设备分配和释放RDMA netdev设备的支持已经被加入。RDMA netdev支持与
++网络堆栈的对接，从而创建标准的网络接口。OPA_VNIC是一个RDMA netdev设备
++类型。
 +
-+    mount -t debugfs none /sys/kernel/debug
++依赖于HW的VNIC功能是HFI1驱动的一部分。它实现了分配和释放OPA_VNIC RDMA
++netdev的动作。它涉及VNIC功能的HW资源分配/管理。它与网络堆栈接口并实现所
++需的net_device_ops功能。它在传输路径中期待Omni-Path封装的以太网数据包，
++并提供对它们的HW访问。在将数据包向上传递到网络堆栈之前，它把Omni-Path头
++从接收的数据包中剥离。它还实现了RDMA netdev控制操作。
 +
-+  可以从/sys/kernel/debug/ipoib/ib0_mcg等文件中获得关于多播组的统计数据。
++OPA VNIC模块实现了独立于硬件的VNIC功能。它由两部分组成。VNIC以太网管理
++代理（VEMA）作为一个IB客户端向IB核心注册，并与IB MAD栈接口。它与以太网
++管理器（EM）和VNIC netdev交换管理信息。VNIC netdev部分分配和释放OPA_VNIC
++RDMA netdev设备。它在需要时覆盖由依赖HW的VNIC驱动设置的net_device_ops函数，
++以适应任何控制操作。它还处理以太网数据包的封装，在传输路径中使用Omni-Path头。
++对于每个VNIC接口，封装所需的信息是由EM通过VEMA MAD接口配置的。它还通过调用
++RDMA netdev控制操作将任何控制信息传递给依赖于HW的驱动程序::
 +
-+  这个选项对性能的影响可以忽略不计，所以在正常运行时，在debug_level设置为
-+  0的情况下启用这个选项是安全的。
-+
-+  CONFIG_INFINIBAND_IPOIB_DEBUG_DATA当data_debug_level设置为1时，可以
-+  在数据路径中启用更多的调试输出。 然而，即使禁用输出，启用这个配置选项也
-+  会影响性能，因为它在快速路径中增加了测试。
-+
-+引用
-+====
-+
-+  在InfiniBand上传输IP（IPoIB）（RFC 4391）。
-+    http://ietf.org/rfc/rfc4391.txt
-+
-+  infiniband上的IP:上的IP架构（RFC 4392）。
-+    http://ietf.org/rfc/rfc4392.txt
-+
-+  infiniband上的IP: 连接模式 (RFC 4755)
-+    http://ietf.org/rfc/rfc4755.txt
++        +-------------------+ +----------------------+
++        |                   | |       Linux          |
++        |     IB MAD        | |       网络           |
++        |                   | |       栈             |
++        +-------------------+ +----------------------+
++                 |               |          |
++                 |               |          |
++        +----------------------------+      |
++        |                            |      |
++        |      OPA VNIC 模块         |      |
++        |  (OPA VNIC RDMA Netdev     |      |
++        |     & EMA 函数)            |      |
++        |                            |      |
++        +----------------------------+      |
++                    |                       |
++                    |                       |
++           +------------------+             |
++           |     IB 核心      |             |
++           +------------------+             |
++                    |                       |
++                    |                       |
++        +--------------------------------------------+
++        |                                            |
++        |      HFI1 驱动和 VNIC 支持                 |
++        |                                            |
++        +--------------------------------------------+
 -- 
 2.27.0
 
