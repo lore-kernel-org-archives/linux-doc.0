@@ -2,326 +2,255 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AFA8C4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 12:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D74CC4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 14:00:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F73061158
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 12:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC87C61165
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 14:00:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343657AbhHFM3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 08:29:44 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:52584 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343677AbhHFM3l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 08:29:41 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 176CGQXe014707;
-        Fri, 6 Aug 2021 12:29:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
- cc : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=JT402tGplsVte7Kz3nXZyQVGygzvV/KOKVvHb85330U=;
- b=pFXTNAU5gKYLdqNYEC8e4NfE9MmyNxeHfs6Vf1alFNHeUGphi1hQmXFHT/jG7SVZUe9c
- Dj0Sj7tMTCtFlkQAJWURJZZjSQSJoJAS75ziD749ZVL8d4SBKNJCq0+2tun3lpoj5CUp
- 974mMM9HDMhAVxi4aN+tcSxDtq+cQ8K6mbzBc4wSax+kCyTDaG31fU+JPALzAyZHrPfy
- q7e6xX0qNbTc05vOpmjTyHf8ENtboS0D/5k+XhPbJjOsQsAjrhKtlwY/2B3VF3eqFWFZ
- o4l82X/tgoAqyTwY5xYQwULoOZ+Jk4G6mcpJILJPAPmg9U25kiY+OM5fWuaq+nJEtIpg tw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
- cc : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=JT402tGplsVte7Kz3nXZyQVGygzvV/KOKVvHb85330U=;
- b=F++w5RaCSWEnAHZX8sjsYE2JoeQsKNEX5SIOoCJMmCg44qHQGYepU7kVgL0iI26VzF4j
- oynfrU3T+rxHwbDxvapAyW/CY+K3netHrtDtIPTWasT6mpAr5rbdx2V7ggyvKDBNnvP1
- GDJ/+8eEM2NeJ6pDiv19DisVJcNiqx6Voy559jnCnWUxdznpAtRvDARumLV1KeLTvERD
- Z3NlU/6zdMLSd2tCrpGq6F4GAznQboTpqQSYuhy2ANZ3UILVa4r7pmL++70ZWtZw4mPq
- zTh9v4g2yy2EbqQle3ZQkP/EdM6NzLLge03aM2U2nboF3fRQUvMywAo2Cz62nwBCrMB+ Fg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3a843pbwc3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 06 Aug 2021 12:29:02 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 176CFas4143294;
-        Fri, 6 Aug 2021 12:29:01 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-        by userp3020.oracle.com with ESMTP id 3a5ga263ua-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 06 Aug 2021 12:29:01 +0000
+        id S231572AbhHFOA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 10:00:56 -0400
+Received: from mail-dm6nam08on2085.outbound.protection.outlook.com ([40.107.102.85]:45153
+        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231172AbhHFOAz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Aug 2021 10:00:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k6JADyD7p2gR9qi1PI9SMNkRpn77h5mN0u5jCM7Gdxae62zQSNw0rHTDCpTXOBJL9eg7fpSFJw3YF7hsOedv4V+Izcdtx1BIpwwVvNSI0iZ26gW/64ymKN/l1rmaA44GV24CbtFi/INY3g4957F0Pvuyz2sjWjCvyUbgNohuDumUor8i79E4b7D1HVzGf/VEJEUskdpjUuUzKWB2xRWQZ7yPjFg9aA5N4hAY6YHR3ulUFMJI3qvusaohgkrWTjfHY5JVPEGkF0KCTMEtQcqTVgVOkxjjkdAqRGiElSYuMKY7tlN3/+7my6HUMaBN5lAS+w4oG0SrisC3sArPiFLjFA==
+ b=Bwt+X5gOz1NIKb/F/7l/GW14/31ErlZSyQ9XsvP8MN0g7XrXrZTXdTuEl07FsfdCbwQG3D2szGHMFmY43w25gxsZToI1r+uW1LxYCidFS9nedL+GTZqWofKUBhSYV96riSl1pWDoaks38Sd+AHrEZnoZNkTKk7hwTY+CcRKQ81YIp34NJnwR1VnZqii9zPY0AxUQrbERr7eD6pqwga1eYFC4ExOGcjUGjAz//RQjx9BroNqIfIQm3RSuYolWZg8+PTyH6z04QpAi8GqWWM74lb2hvuLA/4EZDgg9sFa28rfDPjTjAcUnMhT0+cV77COmxfjH8gtbukP6DE0g2BwGLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JT402tGplsVte7Kz3nXZyQVGygzvV/KOKVvHb85330U=;
- b=UOlXGi3qVEl+hOVIF56rW9VDKqcNujZ0y0n0tZkQ/HHGjUJvct2lcHoGcZTr1hENxjafwaGnS0yCF7gTRk1mRyHIWwx4AK9DW5riRm49AfbjJxB7hXO6PhniQn6duWrpTjCyW9c4gtJbpiaRiBQr9QT3gmarlgDyjN+RBEg/t6bfl6BA8twGeNKlmrf1ggEzrNMiIp/lZCKoPk6Oo75njvftPEKB0WXlBTnHT0bFaVrbjfZO6JFQSmUi1hk7+6KCf2JXvDxQ5bD3wWniB78GVAkK8cwgDuzbel/DeGt3hGv/JGngt+tPzu2QeDixmNmzbRpvIQUV57yjGNJUUyWIQQ==
+ bh=u6hEdKYR902HW3qwZzYZA000Z25QpCZzYBMnbV/1/Jc=;
+ b=GZI5vUlfMZ0SXFwiwsMUQgZOv0CfeFeMHIEZ4PzRu7P1nNVPus0CPuiVe9OgpOrWeHY6atM2JfCdpWpJyw/lU5TqH8mXMjVeOg0N79y3Df6HlkmhbVb/emBoIgGeM7eLpSVbFqcQEEO4M3R6WBW6UL1IYWbv1GlEAjNnWM8dpSFteuaEoSzVt93lmVu0knPO42usMn4evVrayZ/fbt2Phb7wcMnz88WGqX1Gd660eC4ipxTrQHFwcOG0IIutWLrvoOUxVUKEhBeKv7D7gdCMrRnUfBz4xRV4i5bT9QrC9ol0J+IKkYHxgcgACTykvkugywsYPWEenw72VYAST9gJkQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JT402tGplsVte7Kz3nXZyQVGygzvV/KOKVvHb85330U=;
- b=miivkpqKIlks+fG/3zCKYQmA0wWylrnbjtyiARYLPR5/Lc0XQDYYBCqN8T+A17NDBk5ZbUvhjiTlIf+SfF7F+6/v3AaHvjogiHHxvls8nEBFmoLZikBx7zPg+CRnvWpAjbjF7wHEmbePSUQSgUZXhQTvWrUdyOV6WX3G5GWEUjg=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by MN2PR10MB4238.namprd10.prod.outlook.com (2603:10b6:208:1d3::12) with
+ bh=u6hEdKYR902HW3qwZzYZA000Z25QpCZzYBMnbV/1/Jc=;
+ b=Zv3b6rzJ5peSUhsrFC6N2AQdW8jzQ885ehTeHUw0wcGPqD946itLcz89PD1+fURf7GVF8biY9lxX28OSQ97xJ0cBz43a8HoqF7HiTGQVkia8trUG3EZkRFkIkBvbGpnXXBgTr7PbU9ecl98yKhb4/Jdwx/54eWRpPl//cdkF1cG6asF3Tgv2PFyPrSHdR/2GtB8FSHpUyQxJrUntTypDaPAM75VnFGLQM/ad/9Au20uJ8QjjiPu4pomXm7SStBEB1w3gOoGb5a8xKqRqx4hbh4fLD+EkZtmClNinb3dlrz8rgTtYCkIQBV2hyaqL6jxATKkdrEQ0hmuX4yd28hZOJw==
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3823.namprd12.prod.outlook.com (2603:10b6:208:168::26)
+ by MN2PR12MB3742.namprd12.prod.outlook.com (2603:10b6:208:16a::28) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.18; Fri, 6 Aug
- 2021 12:28:59 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::31f7:93c3:6886:1981]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::31f7:93c3:6886:1981%4]) with mapi id 15.20.4394.018; Fri, 6 Aug 2021
- 12:28:59 +0000
-Subject: Re: [PATCH v3 11/14] device-dax: ensure dev_dax->pgmap is valid for
- dynamic devices
-From:   Joao Martins <joao.m.martins@oracle.com>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Fri, 6 Aug
+ 2021 14:00:36 +0000
+Received: from MN2PR12MB3823.namprd12.prod.outlook.com
+ ([fe80::dcee:535c:30e:95f4]) by MN2PR12MB3823.namprd12.prod.outlook.com
+ ([fe80::dcee:535c:30e:95f4%6]) with mapi id 15.20.4394.017; Fri, 6 Aug 2021
+ 14:00:35 +0000
+From:   Zi Yan <ziy@nvidia.com>
+To:     Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
         Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20210714193542.21857-1-joao.m.martins@oracle.com>
- <20210714193542.21857-12-joao.m.martins@oracle.com>
- <CAPcyv4hv+LXmAs-BMATuyoPLRAF_-+d5Yap450sbCDFTcvGO4w@mail.gmail.com>
- <9e361442-f8e9-cdac-ce7d-94c0bcc6cb0a@oracle.com>
-Message-ID: <21b65b9d-fa76-727d-6db5-02b0c19f2124@oracle.com>
-Date:   Fri, 6 Aug 2021 13:28:51 +0100
-In-Reply-To: <9e361442-f8e9-cdac-ce7d-94c0bcc6cb0a@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0172.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18a::15) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        David Airlie <airlied@linux.ie>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 13/15] mm: convert MAX_ORDER sized static arrays to dynamic ones.
+Date:   Fri, 06 Aug 2021 10:00:29 -0400
+X-Mailer: MailMate (1.14r5812)
+Message-ID: <81C3245C-6A47-4C1B-B392-CC08FBF15712@nvidia.com>
+In-Reply-To: <bdec12bd-9188-9f3e-c442-aa33e25303a6@amd.com>
+References: <20210805190253.2795604-1-zi.yan@sent.com>
+ <20210805190253.2795604-14-zi.yan@sent.com>
+ <586dda97-dc64-ade2-6736-a531e225acbc@amd.com>
+ <0D3441BA-2A11-4BCA-BFD5-CAB8EB915B8F@nvidia.com>
+ <bdec12bd-9188-9f3e-c442-aa33e25303a6@amd.com>
+Content-Type: multipart/signed;
+ boundary="=_MailMate_2E952574-2F4B-48D5-8D2F-9B32358DA400_=";
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+X-ClientProxiedBy: BL0PR0102CA0046.prod.exchangelabs.com
+ (2603:10b6:208:25::23) To MN2PR12MB3823.namprd12.prod.outlook.com
+ (2603:10b6:208:168::26)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.67] (94.61.1.144) by LO4P123CA0172.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:18a::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Fri, 6 Aug 2021 12:28:56 +0000
+Received: from [10.2.50.235] (216.228.112.22) by BL0PR0102CA0046.prod.exchangelabs.com (2603:10b6:208:25::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Fri, 6 Aug 2021 14:00:32 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b401ae4d-b057-4d4f-125a-08d958d5c3d6
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4238:
+X-MS-Office365-Filtering-Correlation-Id: 72216c0d-52ce-484e-cf28-08d958e29023
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3742:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4238E0FFDA621C22B6A0B374BBF39@MN2PR10MB4238.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3742D2CD45E42AB15A6FFC19C2F39@MN2PR12MB3742.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xt8F7j4Aimoc25Dq4cvGzE2aUXoiBF32ZGcJcQz9apVD505mTsbUG+5JpttC+gdbkxgacWdeUg1crhyvHbH288kiOCXyYrANp1K85lWwelqa2c9C/A37+WmLbdQ2xwLQwdGLRWWaLCDqwreHOfm1WT+TXDzWPjcPR1WsicyXGQKKH4VAErCwQQhaeB9XhQCiFEvZlfZsJPramyYBvD+ugTzUfEzmoXdW2SmiP3/235JDxKMxw68vmeLvxn5CtbRfAKF26dl8baNWQwgEcnICWkn7PzH9SLHIx7wrXy/tji6lVkxjJA9uirs8nuew57Yi/vBku6dldbZgUz+QO+ZNSYpJyKtS8qaCumDJ7Hg324IsMwrzemBfKtYjMAJtGVjlcNVw1Ymz1vAxlN1rx5v60zzikFI4DhXmiKaY6QgeJKWP9iGNNbSRP3LuvqzzLqHffv5n7YcRWyXFrxRyGmSEARujrC3lTs2jekp5hFWXU0j+OltpGfN2/aa1NAwAV0QGwUsw4x4DCBoBHodpmyCElv2llEzSXUcZd+7vsRwk7Y9X8RmdO5xrpaNrMHo/XwmM4uvtI7JWJlhGLOpRt65lM7OUQp0vu/6WDNCBrHdC5keo8gUy2nbLvbyxBFJNudU0LqFtz3owVUveEBnNnw6daeYR9W9MMEVjVC8GpV6RxOd7S7FDYLXQH4COrJaiOcAOR7396QQ8qlFLD2Ik5+mzNA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39860400002)(136003)(346002)(366004)(376002)(31696002)(6666004)(4326008)(2906002)(53546011)(6486002)(26005)(86362001)(83380400001)(31686004)(316002)(8936002)(54906003)(36756003)(7416002)(186003)(38100700002)(6916009)(16576012)(8676002)(2616005)(956004)(478600001)(5660300002)(66556008)(66476007)(45080400002)(66946007)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: uCWmBl48gZ6sqZVS4Wy5GKcCXLVTFPskcmgxB1g4doEu5WwwJXl9iJdCYa73gD0YbHdvadCqTMnyu3GHAiMhQbjR8g/dOSnV1UVAgW7w8U6kZsrqJXRMHAkN2ZHnWEAP490aHLwWdB9bR/WrXw6g6tydYqvIpfp9BDUxfWGUZzjKBvt9vxkFGAEN9X1zV+hsa/Rfwh6CKqVgJxnpo6gTpMqUgWJDFlGg3/eWWSBTBNZsQduh7hPQEVQFjMCYgWjFC3zffJgRhRx870d98cKC/ArX3VoiFWsGjD73gux69ldIfMYTwpr1ihyRcqfJSlV8gmfo1T/Du1aAJtI1UUqDCjdYtUemuuvoIEY64q8tVzhZqLA+iNQWnwV5crauD/GCdlldf+ciIwDwoI8wKO+4YYSGan/6iwRW8mCChv8j90IyAcMd4ifbPP87F8Ktd0VTJtULqMuDIMggtKiFZOf3Oe6LDBRydpg+4R4i+5Tkb0I76pmdLzywTCe5wIFHsHhZn17QzoAHGtU/0bQh/uYV3VhF/0kzZJiaauw4OQ6/Y2TLEYt6QDasSnYvG4oCwfwTqcZaeVonFdTFa+UeAFCxWSGVF0PBSuBqaZX0GOC8fLnzTzNoORAeN37erIQAeFNUd+sH6jwcdT0xSKMn1v+MbocZTNjFDBejDQM2EUaCZvIV1Q7vr4qNOilz8BFxjfuJVroSm5YdFIT2iCx1NWAj56yisZSMhP73Fb5T7cguioZ0W+DCTWDMXKcKBeyzoqd1JJ5SqHAcYSbPwVyfs5I9Rg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3823.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(66946007)(2616005)(956004)(66476007)(66556008)(83380400001)(8676002)(8936002)(54906003)(33656002)(16576012)(316002)(2906002)(21480400003)(6666004)(966005)(86362001)(6486002)(186003)(66574015)(5660300002)(235185007)(38100700002)(6916009)(53546011)(26005)(36756003)(7416002)(33964004)(4326008)(478600001)(72826004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L05EYkNjRktKajJxeXRKUlF4VHdwWTQrTzhnQ2doMHFJdGxtQU9iRjVZTGto?=
- =?utf-8?B?WitsaXVreXM0K3NsdTVEVnVtL3Q3WWhxR2ViS0I0OFpFQ1JnT1pSblluLzRi?=
- =?utf-8?B?WkJhczFNTDk2VWN3WEUvZEN0bERNWGZ4dC9iaUFnVnk2RzM5RDJqWEpKRVZK?=
- =?utf-8?B?dkpQdFNSeHNPVU1EQkRhUGNhUnVKTFloWXpzYnd3R0xKUnh5K3ZMRVY2RU54?=
- =?utf-8?B?Q2VWQk5OR1NEWlVEVHZvc0RYcytOUnIxdDZzVVhBdXhOdHk4eFNqeWFlYkJu?=
- =?utf-8?B?WWdiRWRWK1VUM2JhOG0xRGlXb3pXWVVlSVNaTW43QlFFSk4xOEM3Y1doRDh6?=
- =?utf-8?B?ckJzS3ZBQlVrNTI2NStsVG9teW5SY1MrK2ltTWJDWkJDcExMQ00xSDdtZGFF?=
- =?utf-8?B?NWlWLzBsSmlJcVU0ZWJJczU4NnMwak9yS3BVSnVRamwxM2llVzFRUER4OTJC?=
- =?utf-8?B?QmR4OU9FbHNNM3VpMWR3TUZRN2w5dC9JMnByNDVxbnNlbEZSTXZpQ3VUTW4w?=
- =?utf-8?B?RjM4bEhaczY4dFQxS3dPdDRWaEtmM3pxSDEyd1h4eVNBYnloWWNCM2JySWxl?=
- =?utf-8?B?QWxibU5wMk5zTHR6dXhxdCtmcTE1VVFjV3hjME9mOENuVk1ocGhyVDNucHFL?=
- =?utf-8?B?Mll3Zmh3V0NhdXUxTU5WRHBaUVpPN0lROFZaMXUxZk0zZ21ydzFmNkZmcEFx?=
- =?utf-8?B?T0ZDSVZ6Z1ZndVhjdnBUYXhFL2dtaWJEWGw3ZC8rNVRadXM1ZmpWYTNTK2x6?=
- =?utf-8?B?Zk9lT2xoNk9tOTE4ZjBNd21sR3drY0NLNklwK29HSFIvdGhibDNQVURBcEFn?=
- =?utf-8?B?c3FFZTAvelZUakIyUzRqY0ZLNHpyTjhnVjdoSWlpNEd4eFFpcmZDODZvV2Nt?=
- =?utf-8?B?OE9yV1NjUlpGYmxFeFVqRzcvZGFCWGMyR3FnY1kyYW84OFh3aWIzeWtHSTVO?=
- =?utf-8?B?Q0FsMDk4Y3BET3JLNGMrTndyeGZoWmNwa2V3WnVlNUNuWWhtbXpseDN6YjZu?=
- =?utf-8?B?cHdGdEtWQjBHTitoNDFtMStjK2NjL2grRjRxRXFEeXBjazZoVk9TQTBoT2sv?=
- =?utf-8?B?TExwSUQ4VHMwRXNEOGZpNGR4TXcxaGR5RUx0bk5YTXh2azh4SEtCNW9FTWMv?=
- =?utf-8?B?K1hyZFhybkhBU2pLTTVpenR0c004OW80L29nblhhQUM5RVFrNm5uMlBhZmtH?=
- =?utf-8?B?eElBN0RBSFFoMXJ4bjdEN0Zndk9qM3dTaW10WWJwY2sxeW9lTC9DWks4UWtx?=
- =?utf-8?B?ZWM4L3RnUDFWMVdKUkw2N1libHUwVzQ2cGVOYWVINmlPYmFWY0RnN0pubDFl?=
- =?utf-8?B?eTBpRXRlR0ExWmE1ZUxZWnprM21kQTRMQ2xRVWlRZllaekpZOFYxTDFTWmZI?=
- =?utf-8?B?MWYzS0EvbW96TTdhRStySmgxakVTVUFYZWhhL1MvUzZ4UzMvekdXMFFkUk1y?=
- =?utf-8?B?M3Vtd2dtVlRGbUNzUWljUVc0NG84VGx3R2tsMVRzUWpMRWdJUDRPMjN4V2pK?=
- =?utf-8?B?S3poYXRLWCtZR1RjOXlEMCt1Z0JrMjF3WjMwcXcrZVhrdXhtWVBmYXF4Vm5W?=
- =?utf-8?B?RW1iQmlQSXlRTWpBb3RvRm1qd1pPTkdYd2JOMzZrQ2MzVFBIWjhmT1pjMHZU?=
- =?utf-8?B?NkdDYWZNUlpLTmVHcFV2M3RNTVU4ckQ0ZnpCSmhXT2Q0VVl6WkJlNmhFSUxK?=
- =?utf-8?B?VXhRUTV1NWJjeWN2bmdkeXhoZzJNUllWOHp3UnIydmtsUFM5OHF4TjVEdXJH?=
- =?utf-8?Q?DJ029/bcG6J7uoa3mZf4PjwQYohDVGM1H0bwKvx?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b401ae4d-b057-4d4f-125a-08d958d5c3d6
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0xvaFJTMmxORU9SSHhlNi9adXJKT2xUcHFTT05nRzJkVkRyZ3gzbUJiNDMy?=
+ =?utf-8?B?NGZGL3JvNm5SeE5ZbGx6QitlUHdXb2kxSjNNYXdQZ1h1cVpRVDNORFk0eExX?=
+ =?utf-8?B?VDJCNjdESXdUblNtWUZRcTBFaktSY3hrRVk0OEc3Ni95ejZHcUUxZjJacXNS?=
+ =?utf-8?B?NkRubG5rcHJmdHJxTmJRV3RuZEp2VjhDemtKa1poWndqYk1vZzB3anFhYTZU?=
+ =?utf-8?B?K1J3NE0zSXJCUDI2MFRXMnQyT2hzOS9TSU5XNGdTWkthVTJwUU5QZDNZVFc0?=
+ =?utf-8?B?ak5zbmRNa0MxaEFGakZ0eElMb1dpWnFZNzc3NGx4SEJYQjQ5aERUdWkzaXRp?=
+ =?utf-8?B?d3VOaWg0Ump2NSs4YmIxeGhKdXk2SDA2V3dWQ1FkdE5VNzByQVUzb0RyUmZ0?=
+ =?utf-8?B?VFVJZDFIRVVyWXV4L2dQL0NidGJJQWVzcGNZTG9BMUVucmVROTBRVFVzODJZ?=
+ =?utf-8?B?amt0YVFDOUNZb1p3Q01NY0p0MHppbHNSWHRPbnZsZFNjRU1yQzRHUmxIU3hD?=
+ =?utf-8?B?dDNJTGhOQUpTL0pPaWNobXZYNUNsU0tKVlRFVlpORU1CdUwxYmQ3d2k5MUJy?=
+ =?utf-8?B?U29ON1Y3MFZqQkhqdHRIL2dTM0E2MnZIOWlyUjFRbmMrUG1SWDhHNGgwc05H?=
+ =?utf-8?B?OUdDa0VPZzZYMmNVSjJ2MDhKcUhOVG1jZUh2bzFtWElZeUlYRDA2Y3J2UEwz?=
+ =?utf-8?B?QmlHK0ZzcDhMU3UxZnUwaDAySXZheWFPT3dNZ0NqM2hSbUN1RUZuMFA2NDg0?=
+ =?utf-8?B?UmV5VXBUN2Q0eVdmUVhiQktXeGh2NkkrRW5KYitNTzd4SWpDa25KeUYwbkJ3?=
+ =?utf-8?B?SklWR1BkRlVCTnNOVFE0U3FWWkFuVlBsU253WDZ4NFNnc2daZUtmQXQxZ1g2?=
+ =?utf-8?B?UGJGQ2tpOXU0NkprRVZFSGJmelhNdllkQ2ZpTU1hSkpMcGo2RkV3SzZ4WjF0?=
+ =?utf-8?B?Qllhc0FiYXQwZTUzWVBoTHp5Vy9XYlhzYldzeWRNb2lpNFpxTFlsRUxtOFM4?=
+ =?utf-8?B?cFhwQWs3cmVpMTlkNVhuemxDV3hpVFZXOTlnSHc5V09VY0RlejlJWUVOa3ZE?=
+ =?utf-8?B?TC8zeDFPRzdWeExrMWNDK2FkYmVER1lrQzdDU0FYWU1JbzZjTkp4SnlpZlhy?=
+ =?utf-8?B?Y1FhZ1lKOGc2di8yTndCaVhRZHRiR3NQcUZBMCtzMmROOWpOWGVtOEhFVEFl?=
+ =?utf-8?B?Y2EyWk9UdnFBRDhsbEpOdk5GUXdzWEhmclAyb1l1dHNBU3B1YlpZclZ5TGZU?=
+ =?utf-8?B?MjhFMUV0SVZHdC9mbmJibVVPYnBvaCtCN0ZGZFZlZHZvRUxuMDRha01HMzFl?=
+ =?utf-8?B?YlR0Yi9Ubitwb2dVMUdUbnlXeGRMRXFHdnF2RVU2QnBLamdrN1VUdTYwczhW?=
+ =?utf-8?B?TXk5T1FrUXN3d1laM3pob1ByZ3VReXc4RlR4dXpiRE1sOVY0UzhYYlJnMmtj?=
+ =?utf-8?B?Z3VtY2hldWdjenRqcnd6RFo4U25GRllYZkpNWFBVVTAwR0pZUE1Sd2ZEVUNL?=
+ =?utf-8?B?QkpNZ0tPZTVZQWJqYnN3QXl6L1RNRFcvMTdKQUFtVXppWFlYYUMzVTVlT2li?=
+ =?utf-8?B?c0ZuWDQzYlBWeU0zTXYzeUNJY3YyWmw0eDlzOGxFdDhLM2FBNlZ1UG44ZE9q?=
+ =?utf-8?B?K0VEVXdIS3Rtb3k1ZUNxNUtFQ1RxT0NDU3FDUDJ0aUJmQmF1aUp4TXVWaG1D?=
+ =?utf-8?B?VjhJT3FZcG4wdXRQend6c1JLOHo3K0ZheDFINWV1SW8zZm51cnA2MGVLcFE4?=
+ =?utf-8?Q?EqKA8MjDF7TEfAWtcVJF5RY38ZdufkKrbChgK3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72216c0d-52ce-484e-cf28-08d958e29023
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3823.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 12:28:59.4396
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 14:00:35.6543
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WhPqAppOaQGDO0mASqFkE14zORD2XDYz/XCcxpEoNx8WFdgQENPR+oeAKNGJbtudLQOXnst8qYpGaQRpQuetMkld5T3qi5HnDqdGEbEn0QY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4238
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10067 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108060087
-X-Proofpoint-ORIG-GUID: 2wHpSo2lPUeQnxslO6RrQ7rZsJIyIPwP
-X-Proofpoint-GUID: 2wHpSo2lPUeQnxslO6RrQ7rZsJIyIPwP
+X-MS-Exchange-CrossTenant-UserPrincipalName: bjZ73TH0xIRbPSitOCNjOOFN1FwRvyQP90rNpLvSMmB9i7Oa5Deo3ALfVqZYA4gB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3742
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/28/21 4:56 PM, Joao Martins wrote:
-> On 7/28/21 8:30 AM, Dan Williams wrote:
->> On Wed, Jul 14, 2021 at 12:36 PM Joao Martins <joao.m.martins@oracle.com> wrote:
->>>
->>> Right now, only static dax regions have a valid @pgmap pointer in its
->>> struct dev_dax. Dynamic dax case however, do not.
->>>
->>> In preparation for device-dax compound pagemap support, make sure that
->>> dev_dax pgmap field is set after it has been allocated and initialized.
+--=_MailMate_2E952574-2F4B-48D5-8D2F-9B32358DA400_=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On 6 Aug 2021, at 5:37, Christian K=C3=B6nig wrote:
+
+> Am 05.08.21 um 21:58 schrieb Zi Yan:
+>> On 5 Aug 2021, at 15:16, Christian K=C3=B6nig wrote:
 >>
->> I think this is ok to fold into the patch that needs it.
-> 
-> OK, I've squashed that in.
-> 
-I am wondering now whether I should un-squash this into a separate patch.
+>>> Am 05.08.21 um 21:02 schrieb Zi Yan:
+>>>> From: Zi Yan <ziy@nvidia.com>
+>>>>
+>>>> This prepares for the upcoming changes to make MAX_ORDER a boot time=
 
-It regresses one of the test suites from ndctl for dynamic dax regions. memremap_pages()
-calls (from a dynamic region) starts hitting rather random splats (below) on the 'root'
-device (not the dax device children aiui). This fixes it but I am yet 100% if should be
-this way:
+>>>> parameter instead of compilation time constant. All static arrays wi=
+th
+>>>> MAX_ORDER size are converted to pointers and their memory is allocat=
+ed
+>>>> at runtime.
+>>> Well in general I strongly suggest to not use the patter kmalloc(size=
+of(some struct) * MAX_ORDER,...) instead use kmalloc_array, kcalloc etc..=
 
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 6cc4da4c713d..2a3a70e62d89 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -363,6 +363,9 @@ void kill_dev_dax(struct dev_dax *dev_dax)
+>>>
+>>> Then when a array is embedded at the end of a structure you can use a=
+ trailing array and the struct_size() macro to determine the allocation s=
+ize.
+>> Sure. Will fix it.
+>>
+>>> Additional to that separating the patch into changes for TTM to make =
+the maximum allocation order independent from MAX_ORDER would be rather g=
+ood to have I think.
+>> Can you elaborate a little bit more on =E2=80=9Cmake the maximum alloc=
+ation order independent from MAX_ORDER=E2=80=9D?
+>
+> My idea was that you have a single patch to give the maximum order as p=
+arameter to the TTM pool.
 
-        kill_dax(dax_dev);
-        unmap_mapping_range(inode->i_mapping, 0, 0, 1);
-+
-+       if (!is_static(dev_dax->region))
-+               dev_dax->pgmap = NULL;
- }
- EXPORT_SYMBOL_GPL(kill_dev_dax);
+Got it. No problem.
+>
+>>  From what I understand of ttm_pool_alloc(), it tries to get num_pages=
+ pages by allocating as large pages as possible, starting from MAX_ORDER.=
+ What is the rationale behind this algorithm? Why not just call alloc_pag=
+e(order=3D0) num_pages times?
+>
+> What we do here is essentially transparent huge pages for GPUs.
+>
+> In opposite to CPU which can usually only use fixed sizes like 4KiB, 2M=
+iB, 1GiB at least AMD GPUs can use any power of two.
 
-stacktraces:
+FYI, Matthew Wilcox=E2=80=99s memory folio patchset adds support for arbi=
+trary THP sizes[1]. You might want to check it out. :)
 
-[  834.884765] ------------[ cut here ]------------
-[  834.885887] nr_range must be specified
-[  834.886461] WARNING: CPU: 3 PID: 3148 at mm/memremap.c:347 memremap_pages+0x54f/0x610
-[  834.887578] Modules linked in:
-[  834.887993] CPU: 3 PID: 3148 Comm: lt-daxctl Not tainted 5.14.0-rc3-next-20210729+ #201
-[  834.889131] RIP: 0010:memremap_pages+0x54f/0x610
-[  834.889886] Code: e1 97 00 0f 0b e9 14 fc ff ff 80 3d 11 99 79 01 00 0f 85 3e fc ff ff
-48 c7 c7 e8 78 5e 82 c6 05 fd 98 79 01 01 e8 f8 e0 97 00 <0f> 0b 48 c7 c0 ea ff ff ff e9
-2f fb ff ff 48 c7 c7 b0 a7 d1 82 e8
-[  834.892491] RSP: 0018:ffffc90008fb3b40 EFLAGS: 00010286
-[  834.893249] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000027
-[  834.894250] RDX: 0000000000000000 RSI: ffff88900fcd7610 RDI: ffff88900fcd7618
-[  834.895283] RBP: ffffc90008fb3b98 R08: 0000000000000000 R09: c0000000ffffefff
-[  834.896286] R10: ffffc90008fb3930 R11: ffffc90008fb3928 R12: 8000000000000063
-[  834.897279] R13: ffff889042856430 R14: 0000000000000001 R15: ffff889042856400
-[  834.898279] FS:  00007f83ddfd8780(0000) GS:ffff88900fcc0000(0000) knlGS:0000000000000000
-[  834.899423] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  834.900194] CR2: 00007ffdb895c148 CR3: 0000000106bfc006 CR4: 0000000000170ee0
-[  834.901195] Call Trace:
-[  834.901651]  devm_memremap_pages+0x22/0x70
-[  834.902244]  dev_dax_probe+0x175/0x2b0
-[  834.902797]  dax_bus_probe+0x73/0xa0
-[  834.903285]  really_probe+0xcf/0x3a0
-[  834.903801]  __driver_probe_device+0xb3/0x130
-[  834.904363]  driver_probe_device+0x24/0x90
-[  834.904967]  __driver_attach+0xa1/0x170
-[  834.905525]  ? __device_attach_driver+0xe0/0xe0
-[  834.906164]  ? __device_attach_driver+0xe0/0xe0
-[  834.906818]  bus_for_each_dev+0x74/0xb0
-[  834.907321]  driver_attach+0x1e/0x20
-[  834.907875]  do_id_store+0x1db/0x210
-[  834.908352]  new_id_store+0x13/0x20
-[  834.908865]  drv_attr_store+0x27/0x40
-[  834.909398]  sysfs_kf_write+0x3b/0x50
-[  834.909968]  kernfs_fop_write_iter+0x128/0x1b0
-[  834.910635]  new_sync_write+0x117/0x1b0
-[  834.911139]  vfs_write+0x181/0x250
-[  834.911644]  ? do_sys_openat2+0x1d7/0x300
-[  834.912216]  ksys_write+0x61/0xe0
-[  834.912698]  __x64_sys_write+0x1a/0x20
-[  834.913242]  do_syscall_64+0x3a/0x80
-[  834.913772]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  834.914491] RIP: 0033:0x7f83dd4cda00
-[  834.915010] Code: 73 01 c3 48 8b 0d 70 74 2d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f
-44 00 00 83 3d bd d5 2d 00 00 75 10 b8 01 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48
-83 ec 08 e8 7e cc 01 00 48 89 04 24
-[  834.917543] RSP: 002b:00007ffdb895f308 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[  834.918627] RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f83dd4cda00
-[  834.919650] RDX: 0000000000000007 RSI: 00000000020c639d RDI: 0000000000000004
-[  834.920658] RBP: 00000000020c639d R08: 0000000000000000 R09: 00000000020c45c0
-[  834.921649] R10: 2f7861645f656369 R11: 0000000000000246 R12: 0000000000000007
-[  834.922670] R13: 0000000000000001 R14: 00000000020c71b0 R15: 00000000020cc2e0
-[  834.923650] ---[ end trace 61ea8560dbeb3a89 ]---
+>
+> So it makes sense to allocate big pages as much as possible and only fa=
+llback to 4KiB pages when necessary.
+>
+> Down side is that we potentially exhaust larger orders for other use ca=
+ses.
+>
+>> Is it mean to reduce the number of calls to alloc_page?
+>
+> That is a nice to have side effect, but the performance improvement for=
+ the TLB is the main reason here.
+>
+>> The allocated pages do not need to get as high as MAX_ORDER, is that t=
+he case?
+>
+> Actually we would really like to have pages as large as 1GiB for best T=
+LB utilization :)
+>
+>> If yes, I probably can keep ttm pool as static arrays with length of M=
+IN_MAX_ORDER, which I introduce in Patch 14 as the lower bound of boot ti=
+me parameter MAX_ORDER. Let me know your thoughts.
+>
+> Well you could do something like MAX_MAX_ORDER with a value of at least=
+ 19 (1GiB with 4KiB pages IIRC). And then limit to the real available max=
+_order when you make that a run time option.
+>
+> Since the array elements consists only of a linked list and a few extra=
+ parameters / pointers we probably won't need more than a page or two for=
+ those.
 
-[  835.941573] Hotplug memory [0x0-0x0] exceeds maximum addressable range [0x0-0x3fffffffffff]
-[  835.944269] ------------[ cut here ]------------
-[  835.945412] kernel BUG at mm/memory_hotplug.c:316!
-[  835.946574] invalid opcode: 0000 [#1] SMP PTI
-[  835.947622] CPU: 6 PID: 3593 Comm: lt-daxctl Tainted: G        W
-5.14.0-rc3-next-20210729+ #201
-[  835.949845] RIP: 0010:__add_pages+0x100/0x150
-[  835.950899] Code: ba 89 55 d4 e8 4d 32 00 00 8b 55 d4 48 83 c4 08 89 d0 5b 41 5c 41 5d
-41 5e 41 5f 5d c3 31 d2 eb e0 0f 0b ba ea ff ff ff eb e2 <0f> 0b 80 3d e6 43 dc 00 00 ba
-ea ff ff ff 75 d2 48 c7 c7 b8 35 5e
-[  835.953662] RSP: 0018:ffffc900094bbab0 EFLAGS: 00010246
-[  835.954336] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-[  835.955276] RDX: 0000000000000000 RSI: ffff88900fd97610 RDI: ffff88900fd97610
-[  835.956251] RBP: ffffc900094bbae0 R08: 0000000000000000 R09: c0000000ffffefff
-[  835.957214] R10: ffffc900094bb888 R11: ffffc900094bb880 R12: 0000000000000000
-[  835.958154] R13: 0000000000000000 R14: ffffc900094bbb50 R15: 0000000000000000
-[  835.959097] FS:  00007fd63c55e780(0000) GS:ffff88900fd80000(0000) knlGS:0000000000000000
-[  835.960163] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  835.960960] CR2: 00007fffc4d7abd8 CR3: 00000001126f2001 CR4: 0000000000170ee0
-[  835.961903] Call Trace:
-[  835.962220]  add_pages+0x17/0x70
-[  835.962696]  arch_add_memory+0x45/0x50
-[  835.963175]  memremap_pages+0x2a8/0x610
-[  835.963726]  devm_memremap_pages+0x22/0x70
-[  835.964223]  dev_dax_probe+0x175/0x2b0
-[  835.964778]  dax_bus_probe+0x73/0xa0
-[  835.965215]  really_probe+0xcf/0x3a0
-[  835.965717]  __driver_probe_device+0xb3/0x130
-[  835.966248]  driver_probe_device+0x24/0x90
-[  835.966835]  __driver_attach+0xa1/0x170
-[  835.967340]  ? __device_attach_driver+0xe0/0xe0
-[  835.967956]  ? __device_attach_driver+0xe0/0xe0
-[  835.968589]  bus_for_each_dev+0x74/0xb0
-[  835.969090]  driver_attach+0x1e/0x20
-[  835.969605]  do_id_store+0x1db/0x210
-[  835.970057]  new_id_store+0x13/0x20
-[  835.970536]  drv_attr_store+0x27/0x40
-[  835.971023]  sysfs_kf_write+0x3b/0x50
-[  835.971529]  kernfs_fop_write_iter+0x128/0x1b0
-[  835.972141]  new_sync_write+0x117/0x1b0
-[  835.972697]  vfs_write+0x181/0x250
-[  835.973130]  ? do_sys_openat2+0x1d7/0x300
-[  835.973698]  ksys_write+0x61/0xe0
-[  835.974117]  __x64_sys_write+0x1a/0x20
-[  835.974654]  do_syscall_64+0x3a/0x80
-[  835.975105]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  835.975802] RIP: 0033:0x7fd63ba53a00
-[  835.976257] Code: 73 01 c3 48 8b 0d 70 74 2d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f
-44 00 00 83 3d bd d5 2d 00 00 75 10 b8 01 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48
-83 ec 08 e8 7e cc 01 00 48 89 04 24
-[  835.978754] RSP: 002b:00007fffc4d7dd98 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[  835.979765] RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007fd63ba53a00
-[  835.980761] RDX: 0000000000000007 RSI: 000000000081939d RDI: 0000000000000004
-[  835.981714] RBP: 000000000081939d R08: 0000000000000000 R09: 00000000008175c0
-[  835.982671] R10: 2f7861645f656369 R11: 0000000000000246 R12: 0000000000000007
-[  835.983647] R13: 0000000000000001 R14: 000000000081a1b0 R15: 000000000081f2e0
-[  835.984593] Modules linked in:
-[  835.985041] ---[ end trace 61ea8560dbeb3a8a ]---
-[  835.985789] RIP: 0010:__add_pages+0x100/0x150
+Thanks for you explanation. Now I understand that ttm_pool does want page=
+s as large as possible for performance reasons. I will keep the existing =
+code, so that ttm_pool can get the largest pages from buddy allocator. I =
+will separate the changes to TTM to a single patch like you suggested.
+
+
+[1] https://lore.kernel.org/linux-mm/20210715033704.692967-1-willy@infrad=
+ead.org
+
+=E2=80=94
+Best Regards,
+Yan, Zi
+
+--=_MailMate_2E952574-2F4B-48D5-8D2F-9B32358DA400_=
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAmENQH0PHHppeUBudmlk
+aWEuY29tAAoJEJ2yUfNrYfqKllQQAK5Nu3fHcUsKBNa9pN7Da8p7vJYw/Dx6wKn4
+ZA15nANRcXpPUfNnT/8EweDsgKv/PCTRpJcmqvbOjV9NjusmgB4un3KA0jqVnP7E
+5YVHfa2b+WgIThYOrsD/hkspLqxjPIqfwcYAtPNNplOtjfvneQcbKaTM4YhhrIVI
+dH+KyXeGt3HqGUk8Xv/Rhr2p3bOkJSpXF7c3k3clohjgTAAT3pXyDC4rcCMBUwvn
+D06JKXaabr8yRk4nIAQtYyUVAVS2b6nts3NdSUlC+Rr6+HyHJB9NpX2OgTq8AKRg
+8I8LFAbwUjVW1rr1GD5dPvghmeZgqziknh/W9PKbcC7ydA11ofqwib6vy9WlQr5r
+qvN/zWjWyTRzI9+owG+sa0iXr5ji2CqNpUTm3glqLyDmJW7orlyUjjVlHdLKqDBL
+PhK8IMjnpcjlFjyv5dKE5GgMe3kffJG1IJgCtCse58IJTKF5vK3liqq0HK8UIHD3
+UnGKTL45O7rCuLP7CEFmzS6EL9vtTdEq3n6/sllLZGIQQ3rRwiwkjKXykLL7f831
+8Ptm9q/Jzy0zn1rdYeMppoO9cBJq5QTpNlu+pasXwHJhVqGBRY3jk7x7q3p/XQrB
+aLcGMG0QaN90F/UA2yl/0dHRmCoV3eaSNrXz82xjDw+vEPQ4BEQXh4GREEUcP+Zx
+rZTvuv95
+=R4Zs
+-----END PGP SIGNATURE-----
+
+--=_MailMate_2E952574-2F4B-48D5-8D2F-9B32358DA400_=--
