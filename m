@@ -2,95 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B388C4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 14:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4028AC4320A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 17:27:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23623611C9
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 14:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A66961102
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 17:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240697AbhHFOgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 10:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60860 "EHLO
+        id S241165AbhHFR1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 13:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240667AbhHFOgw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 10:36:52 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5B86C061798
-        for <linux-doc@vger.kernel.org>; Fri,  6 Aug 2021 07:36:36 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id c16so7333156plh.7
-        for <linux-doc@vger.kernel.org>; Fri, 06 Aug 2021 07:36:36 -0700 (PDT)
+        with ESMTP id S241150AbhHFR1X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 13:27:23 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE43C0613CF
+        for <linux-doc@vger.kernel.org>; Fri,  6 Aug 2021 10:27:07 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id e11-20020a05620a208bb02903b854c43335so6640009qka.21
+        for <linux-doc@vger.kernel.org>; Fri, 06 Aug 2021 10:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZqXrxedYpNPa+pS9MJbTiWVLg/Z/EX+UpGC/w4iURC0=;
-        b=ELeGMIX6y7VBCdKUScbWJkc4XgbYUEmqZR3z+eK89xK6emOE2IW9Z2zF/rPuOCthKO
-         4foOBKtCvz1m0L998tQJzo3qLyiArIiaz951+dJ9JiDzQK68G25+hURtA0vAP1bp7ITw
-         qORY1ROxfocMro77lZiqa9doTclZwa4Fwxi8TK1KpCq5j5Z9Hl5WjBR79ju2OJDXwyqG
-         4N4L8e64/8y3X6gEsu9qEboMmRqrAjsgO8j0eXftLBEp6RfiLx84Q+3NlwJ30H2cf2iM
-         xOOw75VFMbH1or4qDNQ4PQbAAcd5BjIfmiqdyrwiUAkFpJzbIo/U//NHgys4aICVHUrl
-         Qgvg==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=DsQFy/CzTnQXNoNOJwZLuGXsmdWykdOYnmIA1IAJYnI=;
+        b=SLKP8QT3UTFB+yk0MpS4S2ZYQEJh0gnI+gyTWPJzp356nk7gk9IXC4JqccWo2rsf3/
+         mxbffoWg83nR9QH0xUW3c93TAvFZeiOCwFnyBppdGNWSrkzG4zWhh3dKLn5YLuKXJbd9
+         Kxr9PqtKr7EAId4nMlv5kRVsG6V7G9nSeERVDXcCQeZGUpph8uOjFZYcZeihdrdHZ7sG
+         Wijn7xnJJl2Uy1HwettgBfYqHN77gB3BnC3iKU7w8yZgCR0AKo4d/SJOJ/1AHNxoUB8h
+         aEdlTKnQOo9Lyw3ZOZN+g7g29CTXQ76o0jFNXoZOkn8apGIHsDOeY6g/YqPyc8JegjGB
+         qyfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZqXrxedYpNPa+pS9MJbTiWVLg/Z/EX+UpGC/w4iURC0=;
-        b=eciV7ggNDzEW+b76ahqGan5qTkNFpjEbz3a0GAeoeKExMVAflkRP2MPymCY7OoN7ob
-         4Z/bAjBtvOvzgA6EwM5PQPAXpQCclMKlfTp7sYnEAJm+H/3YHjkNIz/pG36DolxihDnJ
-         +n2A94HvIg8w9/OggJGSfkaxAjK3QIuDCxIRlIxHmHqJcahyBtDMOHjAdiveuyVHshU3
-         aRVfxoIO4TEji61MMONomIVxBUS6t0ZYz7ygUzBAg2NBjYox83T4LuxyqoNPWrsb2VT9
-         pWfrHijJwECCBz+N+rs2dAFFh/DJKrrgvpmclFSdE06qVKzY8GLZ9qqKsLJZs7QUp29X
-         KMrg==
-X-Gm-Message-State: AOAM530+QRbaAE5K8Jxj6xePa0xFQ6y5bpEekwEbTgLevpWXNHczeFD+
-        mgvUALuzrfRMO7vtovyp6vUwp4p43kQzWrqPBp+o1Q==
-X-Google-Smtp-Source: ABdhPJy+Q3BkJCryeJW9Z8KmQ8OJ6tx0sIStvtty3SBCJ+QKcdhXr8FQCmcHQKcHnPkMCpw81fjMpcibTxx3h4dqnEs=
-X-Received: by 2002:a05:6a00:16c6:b029:32d:e190:9dd0 with SMTP id
- l6-20020a056a0016c6b029032de1909dd0mr10799551pfc.70.1628260596449; Fri, 06
- Aug 2021 07:36:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <YQuZdVuaGG/Cr62y@kroah.com> <YQuaJ78y8j1UmBoz@kroah.com>
- <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com> <YQwlHrJBw79xhTSI@kroah.com>
- <21db8884-5aa1-3971-79ef-f173a0a95bef@linux.intel.com> <YQwpa+LAYt7YZ5dh@kroah.com>
- <1e0967ee-c41e-fd5d-f553-e4d7ab88838c@linux.intel.com> <CAPcyv4h26QmPhJKjtUB-VPc4TP95rBAer78OzkgXncg77tFWVw@mail.gmail.com>
- <9b2956f5-3acf-e798-ff0f-002d2d5254db@linux.intel.com> <CAPcyv4ju0kzUuamiuE=xC_DoEArk1KxD+n+-TUw0LLTWoSj2VA@mail.gmail.com>
- <YQzF/utgrJfbZuHh@kroah.com>
-In-Reply-To: <YQzF/utgrJfbZuHh@kroah.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Fri, 6 Aug 2021 07:36:25 -0700
-Message-ID: <CAPcyv4jXoj9_xJ9p3rfoHgZc6xsjnvbeqHwxw8Y2h+kx4-qs+Q@mail.gmail.com>
-Subject: Re: [PATCH v1] driver: base: Add driver filter support
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=DsQFy/CzTnQXNoNOJwZLuGXsmdWykdOYnmIA1IAJYnI=;
+        b=hRXN8tNIZUnp5B885FbOSB6u+ZhwrvdlHKHLsQ4MA0n01bnPP6H73mgdAQnjZ9adDu
+         HFYl09ulMvtPN2YVuWK5o4Le8TgZhsv+5bV0xXJaHWRwIxSfb5laGwUNGA2LLX+eN/VE
+         cwWRKxRsjPtq1D9PJdEI1cwuuQswElVSrsi/Nnhafiuiyv/0zKJ4ohANRbvGyj6GkSXY
+         GgH1EmDBRtLSMN0PP3X3XwMESEahT6F4wpC4gupUjKRTEUtOyj9WBrUR/VpFMI1q7LrK
+         UWk84Cqlx/Yp1rGImZD0DH3HryIpbmXM+8aRFtcmTUCPNYJW9EPU008Lhcq1mkkO7giz
+         zz4Q==
+X-Gm-Message-State: AOAM531iTf3UhNvTuij2LWmPbSMUJJryQtWmMbg5QYbWaBOymsuI7c2i
+        3gwVCLpaNW4yjC0XrMPui6n8OXfUZ95HFqPzSmU=
+X-Google-Smtp-Source: ABdhPJxlVebXFVl1DX68O2az9jnUDVOkZsun/wYx/gJq/Ne5YY7RqIBz45lXfXNMiZy//yphthHXxKGwM9UXhBISE9s=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:d20b:bb87:51cd:edc3])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:27e4:: with SMTP id
+ jt4mr1006501qvb.45.1628270826503; Fri, 06 Aug 2021 10:27:06 -0700 (PDT)
+Date:   Fri,  6 Aug 2021 10:27:01 -0700
+Message-Id: <20210806172701.3993843-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
+Subject: [PATCH v2] scripts/Makefile.clang: default to LLVM_IAS=1
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     Khem Raj <raj.khem@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 5, 2021 at 10:17 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Aug 05, 2021 at 06:00:25PM -0700, Dan Williams wrote:
-> > That said, per-device authorization is a little bit different than
-> > per-driver trust. Driver trust is easy to reason about for a built-in
-> > policy, while per-device authorization is easy for userspace to reason
-> > about for "why is this device not talking to its driver?".
->
-> See my other email about how the "per driver" trust is the wrong model,
-> you need to stick to "per device" trust.  Especially given that you are
-> giving control of your kernel drivers over to third parties, you already
-> trust them to do the right thing.
+LLVM_IAS=1 controls enabling clang's integrated assembler via
+-integrated-as. This was an explicit opt in until we could enable
+assembler support in Clang for more architecures. Now we have support
+and CI coverage of LLVM_IAS=1 for all architecures except a few more
+bugs affecting s390 and powerpc.
 
-Andi, if the number of TDX devices is small could they grow an SPDM
-over virtio channel? Then you can measure trust from the VM to the VMM
-to the attestation server.
+This commit flips the default from opt in via LLVM_IAS=1 to opt out via
+LLVM_IAS=0.  CI systems or developers that were previously doing builds
+with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
+explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
+opted-in.
+
+This finally shortens the command line invocation when cross compiling
+with LLVM to simply:
+
+$ make ARCH=arm64 LLVM=1
+
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Changes v1 -> v2:
+* Drop "Currently" from Documentation/, as per Matthew.
+* Drop Makefile and riscv Makefile, rebase on
+  https://lore.kernel.org/lkml/20210805150102.131008-1-masahiroy@kernel.org/
+  as per Masahiro.
+* Base is kbuild/for-next, plus
+  https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
+  https://lore.kernel.org/lkml/20210805150102.131008-1-masahiroy@kernel.org/.
+
+ Documentation/kbuild/llvm.rst | 14 ++++++++------
+ scripts/Makefile.clang        |  6 +++---
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index f8a360958f4c..e87ed5479963 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
+ 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+ 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+ 
+-Currently, the integrated assembler is disabled by default. You can pass
+-``LLVM_IAS=1`` to enable it.
++The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
++disable it.
+ 
+ Omitting CROSS_COMPILE
+ ----------------------
+ 
+ As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
+ 
+-Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
+-``--prefix=<path>`` to search for the GNU assembler and linker.
+-
+ If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
+ from ``ARCH``.
+ 
+@@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
+ 
+ For example, to cross-compile the arm64 kernel::
+ 
+-	make ARCH=arm64 LLVM=1 LLVM_IAS=1
++	make ARCH=arm64 LLVM=1
++
++If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
++``--prefix=<path>`` to search for the GNU assembler and linker. ::
++
++	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
+ 
+ Supported Architectures
+ -----------------------
+diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+index 1f4e3eb70f88..3ae63bd35582 100644
+--- a/scripts/Makefile.clang
++++ b/scripts/Makefile.clang
+@@ -22,12 +22,12 @@ else
+ CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+ endif # CROSS_COMPILE
+ 
+-ifeq ($(LLVM_IAS),1)
+-CLANG_FLAGS	+= -integrated-as
+-else
++ifeq ($(LLVM_IAS),0)
+ CLANG_FLAGS	+= -no-integrated-as
+ GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+ CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
++else
++CLANG_FLAGS	+= -integrated-as
+ endif
+ CLANG_FLAGS	+= -Werror=unknown-warning-option
+ KBUILD_CFLAGS	+= $(CLANG_FLAGS)
+
+base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
+prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
+prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
+prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
+prerequisite-patch-id: 6a0342755115ec459610657edac1075f069faa3d
+-- 
+2.32.0.605.g8dce9f2422-goog
+
