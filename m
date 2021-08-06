@@ -2,121 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820D4C4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:47:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B345C4320A
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:48:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AA3F60F22
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:47:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72E5260EBC
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243020AbhHFLrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 07:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49666 "EHLO
+        id S229819AbhHFLs0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 07:48:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbhHFLri (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 07:47:38 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B53C061798;
-        Fri,  6 Aug 2021 04:47:21 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id f12so8370429qkh.10;
-        Fri, 06 Aug 2021 04:47:21 -0700 (PDT)
+        with ESMTP id S245616AbhHFLsZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 07:48:25 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D133C061798;
+        Fri,  6 Aug 2021 04:48:08 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id k13so6211024qth.10;
+        Fri, 06 Aug 2021 04:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to;
-        bh=BBUaoNE0IbHV53qO+WAxQddu4xQPBbh8BMh0jZwcruA=;
-        b=UGYO8XflIKFBzKPQvL5rqM7+axUVT0po1AxTt2C4qGE+KPSHPthDNX6hu8Ywj2b1Fc
-         2mTnzrrTVl3qTIWjHz1ICttPxpVRWwuizsKCcH7qmjZokEjezNVgRh7m1SAx2ojSSHDY
-         bUNyBMNKY01vnHeWM4jooGkcngDeZMfNRaXYfYgXH08b3NQsSCsguvGuq/vGccKK48z6
-         31QO3ZtnS7Jpk8p+xvg6xLbPH1eaHYno2RL5iJPKNZ2RhWsJpPyJIcoH3uzLor6i0C5C
-         Riq40Oljh1sn81k4efcTLcXasGU0BAKyADiEq65HiA7oKJVb9ByKDZZIP8eYx0j24Apg
-         /iFw==
+        bh=eGSjSqZSYbLxuQd8oI0XJgV6zBB7+cKt8LohYyTcZZs=;
+        b=BezIgjl+gGQUTu7iVDcfOPvYqkFN+zCpKnY1WYtZ2qYRtRrSSFvtopgNpJSq6VvpjU
+         DYXi60g8760AYS+P0KA+f0BEYyGvmEAiXmtncJQ7MNGiXxbif1z3dbvs6hgXGKmzvfjm
+         AjB9TlgbN8/YUQ8pXsLB2lRPIgUG1RXA8iuMGRw2cmNOuFVqQ00A79tnU485W/C/JyuR
+         2PQ2EYaAXzLNenIlToEISr+UYqfg2qUghKOHn6iCbU78+95HCRvWGf6KG+mluF+N1bDc
+         yuu7o7/9N1a5s5UXswE3FNOtyzppvVPGIDlQWUYfoBmSK3x/bGI1OaqV+vZxxUNT2P7S
+         sXcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
-        bh=BBUaoNE0IbHV53qO+WAxQddu4xQPBbh8BMh0jZwcruA=;
-        b=oHEidDrIslUkefgAsuyqLR//rgnBxYkB19zGTgL/0AZmyreM8x0R73r7FcnZ0jC6ar
-         uDNaLuc2d4toYntyZNRieh5rFX7LOj+y+ESKBAGfE5bVYxfcSaaheaAy7FOYnuXujozR
-         pOBvkqoP8J533Mv+/Oq2KyBmsR0reeZ6Ulu49eQPje42a9Hyku/PFKbso680dLRgNDgP
-         O/hsxxgxrd5w+a9qdixGRgXCGWb8Fg3mfmyVk2jtwoh2OOgpICsScX+SIvZ42l3Xd8Ws
-         5su/vdf6TvWbQ4/6IXXo2Oa7bg0k6WlXTA3ObV+49xZ7iR3YEj0i/e9ROGtB/US25x74
-         jMqw==
-X-Gm-Message-State: AOAM531eqU8lNOYpYR9qvc4Pdo0TFFa+Sn3/T6RCPjGWEJ1gw4ckAQ2c
-        nG5fbF6vhHPyGZlRVITz6mQ=
-X-Google-Smtp-Source: ABdhPJyhv24ae9e6dk5V3IsNxW8zC0bYA3lE8SkGc9QVE5QigRf7J/3V1pQknD4O+oPZgN+H/KUJIw==
-X-Received: by 2002:a05:620a:1022:: with SMTP id a2mr9988723qkk.136.1628250440395;
-        Fri, 06 Aug 2021 04:47:20 -0700 (PDT)
+        bh=eGSjSqZSYbLxuQd8oI0XJgV6zBB7+cKt8LohYyTcZZs=;
+        b=h+Y7m+F65mx2Y+bj8VjOQC/uP/zKEU3WePQ/jBKHCUdc7gy2+bNEoNA6ilBtFYX/8P
+         R2QWA95T8OwdVcYxwkmAaQ94nA15SFxxtrU6GVe79gj1O2MunIkIdEbRmrUhyCsYCTCC
+         6NZCF3k4Vx2NgbJtnCgfbtIlocnPpALbuTPwiW3kR5GsNWslc9mcUnA5YYNvNPqkNwq9
+         TX6HdRVDC7cFXlk0OgMvG5cTEsgzPAbZQiI8EisX3I7/f2VM2xmTlPtTsOMRVLEtyJQJ
+         DBkzV7Z2nzO+HErCIcPW8YMwQ6eF6yCVseU8cpJvM6rllcB0EyudpqIW2vaHMZqp/Li0
+         4Cdg==
+X-Gm-Message-State: AOAM533ejJlq8j1yCsOkFl3+70KNzs+DeHNp3Fk3QkvP3veeKU+mOghL
+        zDl+JFwV4poIf/iy6wsQOv8=
+X-Google-Smtp-Source: ABdhPJzEJRoYEkGBXrvd5E849+FERj7uQF2zN7qzcOZdLpibeL+Tn2GWh/7otgjmTmgVEyjRBpWRPA==
+X-Received: by 2002:ac8:6886:: with SMTP id m6mr8681334qtq.255.1628250487810;
+        Fri, 06 Aug 2021 04:48:07 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id n190sm2340521qke.134.2021.08.06.04.47.19
+        by smtp.gmail.com with ESMTPSA id t64sm4470921qkd.71.2021.08.06.04.48.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 04:47:20 -0700 (PDT)
+        Fri, 06 Aug 2021 04:48:07 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj38.park@gmail.com>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, jgowans@amazon.com, joe@perches.com,
-        mgorman@suse.de, mheyne@amazon.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sieberf@amazon.com, snu@zelle79.org, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v34 07/13] mm/damon: Implement a debugfs-based user space interface
-Date:   Fri,  6 Aug 2021 11:47:11 +0000
-Message-Id: <20210806114711.6900-1-sjpark@amazon.de>
+        Shakeel Butt <shakeelb@google.com>,
+        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+        amit@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
+        jgowans@amazon.com, mheyne@amazon.de,
+        David Rientjes <rientjes@google.com>, sieberf@amazon.com,
+        Vlastimil Babka <vbabka@suse.cz>, linux-damon@amazon.com,
+        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, Wei Xu <weixugc@google.com>,
+        Paul Turner <pjt@google.com>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
+Date:   Fri,  6 Aug 2021 11:48:01 +0000
+Message-Id: <20210806114801.6958-1-sjpark@amazon.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210805174316.ff4b6eee629f9f05259058d9@linux-foundation.org>
+In-Reply-To: <20210805170344.afbf5f1ceb00eb212082ca7b@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-On Thu, 5 Aug 2021 17:43:16 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+On Thu, 5 Aug 2021 17:03:44 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
 
-> On Fri, 16 Jul 2021 08:14:43 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+> On Wed, 28 Jul 2021 08:36:43 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
 > 
-> > +#define targetid_is_pid(ctx)	\
-> > +	(ctx->primitive.target_valid == damon_va_target_valid)
-> > +
+> > > DAMON does not expose stable APIs at the moment, so these can
+> > > be changed later if needed. I think it is ok to merge DAMON for some
+> > > exposure. However I do want to make this clear that the solution space
+> > > is not complete. The solution of system level monitoring is still
+> > > needed which can be a future extension to DAMON or more generalized
+> > > Multigen LRU.
+> > 
+> > Agreed.  We have lots more works to do.  Some of those are already posted as
+> > RFC patchsets[1,2,3,4].  I promise I will happily do the works.  But, how dare
+> > could only I get all the fun?  I'd like to do that together with others in this
+> > great community.  One major purpose of this patchset is thus providing a
+> > flexible framework for such collaboration.  The virtual address space
+> > monitoring, which this patchset provides in addition to the framework, is also
+> > for real-world usages, though.
+> > 
+> > Now all the patches have at least one 'Reviewed-by:' or 'Acked-by:' tags.  We
+> > didn't find serious problems since v26[5], which was posted about four months
+> > ago. so I'm thinking this patchset has passed the minimum qualification.  If
+> > you think there are more things to be done before this patchset is merged in
+> > the -mm tree or mainline, please let me know.  If not, Andrew, I'd like you to
+> > consider merging this patchset into '-mm' tree.
 > 
-> I think this can be implemented as a static inline C function?
+> Shall take a look.  With some trepidation.
 > 
-> --- a/mm/damon/dbgfs.c~mm-damon-implement-a-debugfs-based-user-space-interface-fix-fix
-> +++ a/mm/damon/dbgfs.c
-> @@ -97,8 +97,10 @@ out:
->  	return ret;
->  }
->  
-> -#define targetid_is_pid(ctx)	\
-> -	(ctx->primitive.target_valid == damon_va_target_valid)
-> +static inline bool targetid_is_pid(const struct damon_ctx *ctx)
-> +{
-> +	return ctx->primitive.target_valid == damon_va_target_valid;
-> +}
->  
->  static ssize_t sprint_target_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
->  {
-> 
-> We prefer this because it looks better, provides typechecking and can
-> in some situations suppress unused variable warnings.
+> 1-2 years from now someone will pop up with a massive patchset
+> implementing some monitoring scheme and we'll say "why didn't you use
+> DAMON" and they'll say "it's unsuitable for <reasons>".
 
-Agreed, I will keep that preference in my mind.  I also found that you already
-nicely made the change in the the -mm tree[1], appreciate!
+Agreed.  And I personally believe merging this in will help avoiding such
+situation, because the someone will be able to easily find the developer who is
+responsible to convince the person.  I will happily and definitely do my best
+for that.
 
-[1] https://www.ozlabs.org/~akpm/mmotm/broken-out/mm-damon-implement-a-debugfs-based-user-space-interface-fix-fix.patch
+> 
+> I would like to see more thought/design go into how DAMON could be
+> modified to address Shakeel's other three requirements.  At least to
+> the point where we can confidently say "yes, we will be able to do
+> this".  Are you able to drive this discussion along please?
+
+Sure.  I will describe my plan for convincing Shakeel's usages in detail as a
+reply to this mail.
 
 
 Thanks,
