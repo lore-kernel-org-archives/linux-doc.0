@@ -2,175 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4028AC4320A
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 17:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64822C4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 19:51:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A66961102
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 17:27:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48FEB606A5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 19:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241165AbhHFR1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 13:27:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241150AbhHFR1X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 13:27:23 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE43C0613CF
-        for <linux-doc@vger.kernel.org>; Fri,  6 Aug 2021 10:27:07 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id e11-20020a05620a208bb02903b854c43335so6640009qka.21
-        for <linux-doc@vger.kernel.org>; Fri, 06 Aug 2021 10:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=DsQFy/CzTnQXNoNOJwZLuGXsmdWykdOYnmIA1IAJYnI=;
-        b=SLKP8QT3UTFB+yk0MpS4S2ZYQEJh0gnI+gyTWPJzp356nk7gk9IXC4JqccWo2rsf3/
-         mxbffoWg83nR9QH0xUW3c93TAvFZeiOCwFnyBppdGNWSrkzG4zWhh3dKLn5YLuKXJbd9
-         Kxr9PqtKr7EAId4nMlv5kRVsG6V7G9nSeERVDXcCQeZGUpph8uOjFZYcZeihdrdHZ7sG
-         Wijn7xnJJl2Uy1HwettgBfYqHN77gB3BnC3iKU7w8yZgCR0AKo4d/SJOJ/1AHNxoUB8h
-         aEdlTKnQOo9Lyw3ZOZN+g7g29CTXQ76o0jFNXoZOkn8apGIHsDOeY6g/YqPyc8JegjGB
-         qyfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=DsQFy/CzTnQXNoNOJwZLuGXsmdWykdOYnmIA1IAJYnI=;
-        b=hRXN8tNIZUnp5B885FbOSB6u+ZhwrvdlHKHLsQ4MA0n01bnPP6H73mgdAQnjZ9adDu
-         HFYl09ulMvtPN2YVuWK5o4Le8TgZhsv+5bV0xXJaHWRwIxSfb5laGwUNGA2LLX+eN/VE
-         cwWRKxRsjPtq1D9PJdEI1cwuuQswElVSrsi/Nnhafiuiyv/0zKJ4ohANRbvGyj6GkSXY
-         GgH1EmDBRtLSMN0PP3X3XwMESEahT6F4wpC4gupUjKRTEUtOyj9WBrUR/VpFMI1q7LrK
-         UWk84Cqlx/Yp1rGImZD0DH3HryIpbmXM+8aRFtcmTUCPNYJW9EPU008Lhcq1mkkO7giz
-         zz4Q==
-X-Gm-Message-State: AOAM531iTf3UhNvTuij2LWmPbSMUJJryQtWmMbg5QYbWaBOymsuI7c2i
-        3gwVCLpaNW4yjC0XrMPui6n8OXfUZ95HFqPzSmU=
-X-Google-Smtp-Source: ABdhPJxlVebXFVl1DX68O2az9jnUDVOkZsun/wYx/gJq/Ne5YY7RqIBz45lXfXNMiZy//yphthHXxKGwM9UXhBISE9s=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:d20b:bb87:51cd:edc3])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6214:27e4:: with SMTP id
- jt4mr1006501qvb.45.1628270826503; Fri, 06 Aug 2021 10:27:06 -0700 (PDT)
-Date:   Fri,  6 Aug 2021 10:27:01 -0700
-Message-Id: <20210806172701.3993843-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
-Subject: [PATCH v2] scripts/Makefile.clang: default to LLVM_IAS=1
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>
-Cc:     Khem Raj <raj.khem@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+        id S232119AbhHFTvY convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 15:51:24 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:52811 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232086AbhHFTvX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 15:51:23 -0400
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E505D100003;
+        Fri,  6 Aug 2021 19:51:05 +0000 (UTC)
+Date:   Fri, 6 Aug 2021 21:50:52 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/15] MAINTAINERS: update mtd-physmap.yaml reference
+Message-ID: <20210806215052.6d8f70af@xps13>
+In-Reply-To: <24957d89f650521bfe27c64722110d6fb0d26921.1626947923.git.mchehab+huawei@kernel.org>
+References: <cover.1626947923.git.mchehab+huawei@kernel.org>
+        <24957d89f650521bfe27c64722110d6fb0d26921.1626947923.git.mchehab+huawei@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-LLVM_IAS=1 controls enabling clang's integrated assembler via
--integrated-as. This was an explicit opt in until we could enable
-assembler support in Clang for more architecures. Now we have support
-and CI coverage of LLVM_IAS=1 for all architecures except a few more
-bugs affecting s390 and powerpc.
+Hi Mauro,
 
-This commit flips the default from opt in via LLVM_IAS=1 to opt out via
-LLVM_IAS=0.  CI systems or developers that were previously doing builds
-with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
-explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
-opted-in.
+I was about to apply the 4 MTD patches but unfortunately they don't
+appear in patchwork as the linux-mtd mailing list was only CCed in the
+cover letter. Here is my Acked-by for all of them, if you prefer me to
+take them anyway please just resent these patches to me + the ML.
 
-This finally shortens the command line invocation when cross compiling
-with LLVM to simply:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote on
+Thu, 22 Jul 2021 12:00:01 +0200:
 
-$ make ARCH=arm64 LLVM=1
+> Changeset 63f8e9e0ac65 ("dt-bindings: mtd: Convert mtd-physmap to DT schema")
+> renamed: Documentation/devicetree/bindings/mtd/arm-versatile.txt
+> to: Documentation/devicetree/bindings/mtd/mtd-physmap.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: 63f8e9e0ac65 ("dt-bindings: mtd: Convert mtd-physmap to DT schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v1 -> v2:
-* Drop "Currently" from Documentation/, as per Matthew.
-* Drop Makefile and riscv Makefile, rebase on
-  https://lore.kernel.org/lkml/20210805150102.131008-1-masahiroy@kernel.org/
-  as per Masahiro.
-* Base is kbuild/for-next, plus
-  https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
-  https://lore.kernel.org/lkml/20210805150102.131008-1-masahiroy@kernel.org/.
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
- Documentation/kbuild/llvm.rst | 14 ++++++++------
- scripts/Makefile.clang        |  6 +++---
- 2 files changed, 11 insertions(+), 9 deletions(-)
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d69b2d4646be..76acb9fe0622 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1386,7 +1386,7 @@ F:	Documentation/devicetree/bindings/auxdisplay/arm-charlcd.txt
+>  F:	Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
+>  F:	Documentation/devicetree/bindings/i2c/i2c-versatile.txt
+>  F:	Documentation/devicetree/bindings/interrupt-controller/arm,versatile-fpga-irq.txt
+> -F:	Documentation/devicetree/bindings/mtd/arm-versatile.txt
+> +F:	Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
+>  F:	arch/arm/boot/dts/arm-realview-*
+>  F:	arch/arm/boot/dts/integrator*
+>  F:	arch/arm/boot/dts/versatile*
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index f8a360958f4c..e87ed5479963 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
- 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
- 
--Currently, the integrated assembler is disabled by default. You can pass
--``LLVM_IAS=1`` to enable it.
-+The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
-+disable it.
- 
- Omitting CROSS_COMPILE
- ----------------------
- 
- As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
- 
--Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
--``--prefix=<path>`` to search for the GNU assembler and linker.
--
- If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
- from ``ARCH``.
- 
-@@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
- 
- For example, to cross-compile the arm64 kernel::
- 
--	make ARCH=arm64 LLVM=1 LLVM_IAS=1
-+	make ARCH=arm64 LLVM=1
-+
-+If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
-+``--prefix=<path>`` to search for the GNU assembler and linker. ::
-+
-+	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
- 
- Supported Architectures
- -----------------------
-diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-index 1f4e3eb70f88..3ae63bd35582 100644
---- a/scripts/Makefile.clang
-+++ b/scripts/Makefile.clang
-@@ -22,12 +22,12 @@ else
- CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
- endif # CROSS_COMPILE
- 
--ifeq ($(LLVM_IAS),1)
--CLANG_FLAGS	+= -integrated-as
--else
-+ifeq ($(LLVM_IAS),0)
- CLANG_FLAGS	+= -no-integrated-as
- GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
- CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-+else
-+CLANG_FLAGS	+= -integrated-as
- endif
- CLANG_FLAGS	+= -Werror=unknown-warning-option
- KBUILD_CFLAGS	+= $(CLANG_FLAGS)
-
-base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
-prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
-prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
-prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
-prerequisite-patch-id: 6a0342755115ec459610657edac1075f069faa3d
--- 
-2.32.0.605.g8dce9f2422-goog
-
+Thanks,
+Miquèl
