@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DECC4338F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AE2C43214
 	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E026C61185
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5812961185
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238061AbhHFCXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:23:41 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34536 "EHLO loongson.cn"
+        id S237396AbhHFCXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:23:42 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:34538 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237996AbhHFCXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238074AbhHFCXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 5 Aug 2021 22:23:41 -0400
 Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S9;
-        Fri, 06 Aug 2021 10:23:19 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S10;
+        Fri, 06 Aug 2021 10:23:21 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -30,19 +30,19 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
         chenweiguang82@126.com
-Subject: [PATCH v3 7/8] docs/zh_CN: add infiniband user_mad translation
-Date:   Fri,  6 Aug 2021 10:23:26 +0800
-Message-Id: <059d6c5adf68995c9e2c8a6fc765a61c78289b15.1628213809.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 8/8] docs/zh_CN: add infiniband user_verbs translation
+Date:   Fri,  6 Aug 2021 10:23:27 +0800
+Message-Id: <406b836936a5c31a373c78bc4f533d0d3fe9856c.1628213809.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1628213809.git.siyanteng@loongson.cn>
 References: <cover.1628213809.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S9
-X-Coremail-Antispam: 1UD129KBjvJXoW3XrWUXw45tw1xKFW7Ar1fZwb_yoW3Jw1xpr
-        9rW34xKw43JF90va1xK3y7ZF18Gas7CwsrGF1kK345JF18trsYyF4qka47uFy3WFyxAFy7
-        Zr409FWjk397C3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S10
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrW8Gw1UJF4xGrWDZr43Wrg_yoWrKFy5pr
+        yDC34xK3WUAa42yayxGFy7Aa18Ga4xCFW5Jas7twnIqFn8J3yfArnIy34j9FZxKrW8AFZ0
+        qr4YgFyv9rWSyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUPS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
         kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -62,42 +62,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/user_mad.rst into Chinese.
+Translate Documentation/infiniband/user_verbs.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
 ---
- .../translations/zh_CN/infiniband/index.rst   |   2 +-
- .../zh_CN/infiniband/user_mad.rst             | 164 ++++++++++++++++++
- 2 files changed, 165 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/user_mad.rst
+ .../translations/zh_CN/infiniband/index.rst   |  3 +-
+ .../zh_CN/infiniband/user_verbs.rst           | 72 +++++++++++++++++++
+ 2 files changed, 73 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/user_verbs.rst
 
 diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index c273088b8686..55645171a675 100644
+index 55645171a675..5634cc48379f 100644
 --- a/Documentation/translations/zh_CN/infiniband/index.rst
 +++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -27,10 +27,10 @@ infiniband
-    opa_vnic
+@@ -28,10 +28,9 @@ infiniband
     sysfs
     tag_matching
-+   user_mad
+    user_mad
++   user_verbs
  
- TODOLIST:
+-TODOLIST:
  
--   user_mad
-    user_verbs
+-   user_verbs
  
  .. only::  subproject and html
-diff --git a/Documentation/translations/zh_CN/infiniband/user_mad.rst b/Documentation/translations/zh_CN/infiniband/user_mad.rst
+ 
+diff --git a/Documentation/translations/zh_CN/infiniband/user_verbs.rst b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
 new file mode 100644
-index 000000000000..d9ab2edfb559
+index 000000000000..cb98cf3628c2
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/user_mad.rst
-@@ -0,0 +1,164 @@
++++ b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+@@ -0,0 +1,72 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/infiniband/user_mad.rst
++:Original: Documentation/infiniband/user_verbs.rst
 +
 +:翻译:
 +
@@ -108,157 +108,65 @@ index 000000000000..d9ab2edfb559
 + 王普宇 Puyu Wang <realpuyuwang@gmail.com>
 + 时奎亮 Alex Shi <alexs@kernel.org>
 +
-+.. _cn_infiniband_user_mad:
++.. _cn_infiniband_user_verbs:
 +
-+===============
-+用户空间MAD访问
-+===============
++=================
++用户空间verbs访问
++=================
 +
-+设备文件
-+========
++  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_VERBS构建，使用户空间
++  通过“verbs”直接访问IB硬件，如InfiniBand架构规范第11章所述。
 +
-+  每个InfiniBand设备的每个端口都有一个“umad”设备和一个“issm”设备连接。
-+  例如，一个双端口的HCA将有两个umad设备和两个issm设备，而一个交换机将
-+  有每个类型的一个设备（对于交换机端口0）。
++  要使用verbs，需要libibverbs库，可从https://github.com/linux-rdma/rdma-core。
++  libibverbs包含一个独立于设备的API，用于使用ib_uverbs接口。libibverbs
++  还需要为你的InfiniBand硬件提供适当的独立于设备的内核和用户空间驱动。例如，
++  要使用Mellanox HCA，你需要安装ib_mthca内核模块和libmthca用户空间驱动。
 +
-+创建MAD代理
-+===========
-+
-+  一个MAD代理可以通过填写一个结构体ib_user_mad_reg_req来创建，然后在
-+  适当的设备文件的文件描述符上调用IB_USER_MAD_REGISTER_AGENT ioctl。
-+  如果注册请求成功，结构体中会返回一个32位的ID。比如说::
-+
-+	struct ib_user_mad_reg_req req = { /* ... */ };
-+	ret = ioctl(fd, IB_USER_MAD_REGISTER_AGENT, (char *) &req);
-+        if (!ret)
-+		my_agent = req.id;
-+	else
-+		perror("agent register");
-+
-+  代理可以通过IB_USER_MAD_UNREGISTER_AGENT ioctl取消注册。另外，所有
-+  通过文件描述符注册的代理在描述符关闭时将被取消注册。
-+
-+  2014
-+       现在提供了一个新的注册IOctl，允许在注册时提供额外的字段。这个注册
-+       调用的用户隐含了对pkey_index的使用（见下文）。现在提供了一个新的
-+       注册IOctl，允许在注册时提供额外的字段。这个注册调用的用户隐含了对
-+       pkey_index的使用（见下文）。
-+
-+接收MADs
-+========
-+
-+  使用read()接收MAD。现在接收端支持RMPP。传给read()的缓冲区必须至少是
-+  一个struct ib_user_mad + 256字节。比如说:
-+
-+  如果传递的缓冲区不足以容纳收到的MAD（RMPP），errno被设置为ENOSPC，需
-+  要的缓冲区长度被设置在mad.length中。
-+
-+  正常MAD(非RMPP)的读取示例::
-+
-+	struct ib_user_mad *mad;
-+	mad = malloc(sizeof *mad + 256);
-+	ret = read(fd, mad, sizeof *mad + 256);
-+	if (ret != sizeof mad + 256) {
-+		perror("read");
-+		free(mad);
-+	}
-+
-+  RMPP读取示例::
-+
-+	struct ib_user_mad *mad;
-+	mad = malloc(sizeof *mad + 256);
-+	ret = read(fd, mad, sizeof *mad + 256);
-+	if (ret == -ENOSPC)) {
-+		length = mad.length;
-+		free(mad);
-+		mad = malloc(sizeof *mad + length);
-+		ret = read(fd, mad, sizeof *mad + length);
-+	}
-+	if (ret < 0) {
-+		perror("read");
-+		free(mad);
-+	}
-+
-+  除了实际的MAD内容外，其他结构体ib_user_mad字段将被填入收到的MAD的信
-+  息。例如，远程LID将在mad.lid中。
-+
-+  如果发送超时，将产生一个接收，mad.status设置为ETIMEDOUT。否则，当一个
-+  MAD被成功接收后，mad.status将是0。
-+
-+  poll()/select()可以用来等待一个MAD可以被读取。
-+
-+  poll()/select()可以用来等待，直到可以读取一个MAD。
-+
-+发送MADs
-+========
-+
-+  MADs是用write()发送的。发送的代理ID应该填入MAD的id字段，目的地LID应该
-+  填入lid字段，以此类推。发送端确实支持RMPP，所以可以发送任意长度的MAD。
-+  比如说::
-+
-+	struct ib_user_mad *mad;
-+
-+	mad = malloc(sizeof *mad + mad_length);
-+
-+	/* fill in mad->data */
-+
-+	mad->hdr.id  = my_agent;	/* req.id from agent registration */
-+	mad->hdr.lid = my_dest;		/* in network byte order... */
-+	/* etc. */
-+
-+	ret = write(fd, &mad, sizeof *mad + mad_length);
-+	if (ret != sizeof *mad + mad_length)
-+		perror("write");
-+
-+交换IDs
-+=======
-+
-+  umad设备的用户可以在发送的MAD中使用交换ID字段的低32位（也就是网络字节顺序中
-+  最小有效的一半字段）来匹配请求/响应对。上面的32位是保留给内核使用的，在发送
-+  MAD之前会被改写。
-+
-+P_Key索引处理
++用户-内核通信
 +=============
 +
-+  旧的ib_umad接口不允许为发送的MAD设置P_Key索引，也没有提供获取接收的MAD的
-+  P_Key索引的方法。一个带有pkey_index成员的struct ib_user_mad_hdr的新布局已
-+  经被定义；然而，为了保持与旧的应用程序的二进制兼容性，除非在文件描述符被用于
-+  其他用途之前调用IB_USER_MAD_ENABLE_PKEY或IB_USER_MAD_REGISTER_AGENT2 ioctl
-+  之一，否则不会使用这种新布局。
++  用户空间通过/dev/infiniband/uverbsN字符设备与内核进行慢速路径、资源管理
++  操作的通信。快速路径操作通常是通过直接写入硬件寄存器mmap()到用户空间来完成
++  的，没有系统调用或上下文切换到内核。
 +
-+  在2008年9月，IB_USER_MAD_ABI_VERSION将被增加到6，默认使用新的ib_user_mad_hdr
-+  结构布局，并且IB_USER_MAD_ENABLE_PKEY ioctl将被删除。
++  命令是通过在这些设备文件上的write()s发送给内核的。ABI在
++  drivers/infiniband/include/ib_user_verbs.h中定义。需要内核响应的命令的结
++  构包含一个64位字段，用来传递一个指向输出缓冲区的指针。状态作为write()系统调
++  用的返回值被返回到用户空间。
 +
-+设置IsSM功能位
-+==============
++资源管理
++========
 +
-+  要为一个端口设置IsSM功能位，只需打开相应的issm设备文件。如果IsSM位已经被设置，那
-+  么打开调用将阻塞，直到该位被清除（或者如果O_NONBLOCK标志被传递给open()，则立即返
-+  回，errno设置为EAGAIN）。当issm文件被关闭时，IsSM位将被清除。在issm文件上不能进
-+  行任何读、写或其他操作。
++  由于所有IB资源的创建和销毁都是通过文件描述符传递的命令完成的，所以内核可以跟
++  踪哪些资源被附加到一个给定的用户空间上下文。ib_uverbs模块维护着idr表，用来在
++  内核指针和不透明的用户空间句柄之间进行转换，这样内核指针就不会暴露给用户空间，
++  而用户空间也无法欺骗内核去跟踪一个假的指针。
++
++  这也允许内核在一个进程退出时进行清理，并防止一个进程触及另一个进程的资源。
++
++内存固定
++========
++
++  直接的用户空间I/O要求与作为潜在I/O目标的内存区域保持在同一物理地址上。ib_uverbs
++  模块通过get_user_pages()和put_page()调用来管理内存区域的固定和解除固定。它还核
++  算进程的pinned_vm中被固定的内存量，并检查非特权进程是否超过其RLIMIT_MEMLOCK限制。
++
++  被多次固定的页面在每次被固定时都会被计数，所以pinned_vm的值可能会高估一个进程所
++  固定的页面数量。
 +
 +/dev文件
 +========
 +
-+为了用 udev自动创建相应的字符设备文件，一个类似::
++  要想用udev自动创建适当的字符设备文件，可以采用如下规则::
 +
-+    KERNEL=="umad*", NAME="infiniband/%k"
-+    KERNEL=="issm*", NAME="infiniband/%k"
++    KERNEL=="uverbs*", NAME="infiniband/%k"
 +
-+  的规则可以被使用。它将创建节点的名字::
++  可以使用。 这将创建设备节点，名为::
 +
-+    /dev/infiniband/umad0
-+    /dev/infiniband/issm0
++    /dev/infiniband/uverbs0
 +
-+  为第一个端口，以此类推。与这些设备相关的infiniband设备和端口可以从以下文件中确定::
-+
-+    /sys/class/infiniband_mad/umad0/ibdev
-+    /sys/class/infiniband_mad/umad0/port
-+
-+  和::
-+
-+    /sys/class/infiniband_mad/issm0/ibdev
-+    /sys/class/infiniband_mad/issm0/port
++  等等。由于InfiniBand的用户空间verbs对于非特权进程来说应该是安全的，因此在udev规
++  则中加入适当的MODE或GROUP可能是有用的。
 -- 
 2.27.0
 
