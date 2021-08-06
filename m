@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAFB5C4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B47AC4320E
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A179D611C3
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 335F861185
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236981AbhHFCXg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:23:36 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34432 "EHLO loongson.cn"
+        id S236593AbhHFCXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:23:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:34440 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236411AbhHFCXg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:23:36 -0400
+        id S229604AbhHFCXh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Aug 2021 22:23:37 -0400
 Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S3;
-        Fri, 06 Aug 2021 10:23:13 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S5;
+        Fri, 06 Aug 2021 10:23:15 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -30,22 +30,22 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
         chenweiguang82@126.com
-Subject: [PATCH v3 1/8] docs/zh_CN: add infiniband index translation
-Date:   Fri,  6 Aug 2021 10:23:20 +0800
-Message-Id: <9ba560c4bdbb141502539fbc352e80110677ecee.1628213809.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 3/8] docs/zh_CN: add infiniband ipoib translation
+Date:   Fri,  6 Aug 2021 10:23:22 +0800
+Message-Id: <36a29147009b88bfa0f25892b89785047b115d26.1628213809.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1628213809.git.siyanteng@loongson.cn>
 References: <cover.1628213809.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFy7tw4DJw1xJF4UWr18AFb_yoW8Cw1Up3
-        WkKryfK3W8X3W2k3yfCF17JF1UG3WIkw4DGa9FqwnYqFs8Ja1Svrnxt34qgasrKr4rZay5
-        Xa1Fgr4UKrW8C3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S5
+X-Coremail-Antispam: 1UD129KBjvJXoW3WFyUurWUtw4UJF4xKw1kuFg_yoWxJF48pr
+        n7uF97Kw17GFyay397Cr4UXa47Jas7Cw15CFyvg3s8XFn5JayfJrn0k345CFs2gFy8urW5
+        XF4fuF17CayFkwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
         Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
         A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
         M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
@@ -54,56 +54,50 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7tFy7tw4DJw1xJF4UWr18AFb_yoW8Cw1Up3
         IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
         wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
         0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-        xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr
-        1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU4T5dU
-        UUUU=
+        xVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjg
+        UUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/index.rst into Chinese.
+Translate Documentation/infiniband/ipoib.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
 ---
- Documentation/translations/zh_CN/index.rst    |  2 +-
- .../translations/zh_CN/infiniband/index.rst   | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/index.rst
+ .../translations/zh_CN/infiniband/index.rst   |   2 +-
+ .../translations/zh_CN/infiniband/ipoib.rst   | 111 ++++++++++++++++++
+ 2 files changed, 112 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/infiniband/ipoib.rst
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index e0d51a167032..84d000245102 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -102,6 +102,7 @@ TODOList:
-    iio/index
-    sound/index
-    filesystems/index
-+   infiniband/index
- 
- TODOList:
- 
-@@ -116,7 +117,6 @@ TODOList:
- * hid/index
- * i2c/index
- * isdn/index
--* infiniband/index
- * leds/index
- * netlabel/index
- * networking/index
 diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-new file mode 100644
-index 000000000000..ebb1e20b7df4
---- /dev/null
+index cc00f31c77d0..da5e2821f767 100644
+--- a/Documentation/translations/zh_CN/infiniband/index.rst
 +++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
+@@ -23,10 +23,10 @@ infiniband
+    :maxdepth: 1
+ 
+    core_locking
++   ipoib
+ 
+ TODOLIST:
+ 
+-   ipoib
+    opa_vnic
+    sysfs
+    tag_matching
+diff --git a/Documentation/translations/zh_CN/infiniband/ipoib.rst b/Documentation/translations/zh_CN/infiniband/ipoib.rst
+new file mode 100644
+index 000000000000..56517ea5fe9d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/infiniband/ipoib.rst
+@@ -0,0 +1,111 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/infiniband/index.rst
++:Original: Documentation/infiniband/ipoib.rst
 +
 +:翻译:
 +
@@ -114,31 +108,104 @@ index 000000000000..ebb1e20b7df4
 + 王普宇 Puyu Wang <realpuyuwang@gmail.com>
 + 时奎亮 Alex Shi <alexs@kernel.org>
 +
-+.. _cn_infiniband_index:
++.. _cn_infiniband_ipoib:
 +
++=========================
++infiniband上的IP（IPoIB）
++=========================
++
++  ib_ipoib驱动是IETF ipoib工作组发布的RFC 4391和4392所规定的
++  infiniband上IP协议的一个实现。它是一个“本地”实现，即把接口类型设置为
++  ARPHRD_INFINIBAND，硬件地址长度为20（早期的专有实现向内核伪装为以太网
++  接口）。
++
++分区和P_Keys
++============
++
++  当IPoIB驱动被加载时，它会使用索引为0的P_Key给每个端口创建一个接口。要用
++  不同的P_Key创建一个接口，将所需的P_Key写入主接口的
++  /sys/class/net/<intf name>/create_child文件里面。比如说::
++
++    echo 0x8001 > /sys/class/net/ib0/create_child
++
++  这将用P_Key 0x8001创建一个名为ib0.8001的接口。要删除一个子接口，使用
++  ``delete_child`` 文件::
++
++    echo 0x8001 > /sys/class/net/ib0/delete_child
++
++  任何接口的P_Key都由“pkey”文件给出，而子接口的主接口在“parent”中。
++
++  子接口的创建/删除也可以使用IPoIB的rtnl_link_ops来完成，使用两种
++  方式创建的子接口的行为是一样的。
++
++数据报与连接模式
++================
++
++  IPoIB驱动支持两种操作模式：数据报和连接。模式是通过接口的
++  /sys/class/net/<intf name>/mode文件设置和读取的。
++
++  在数据报模式下，使用IB UD（不可靠数据报）传输，因此接口MTU等于IB L2 MTU
++  减去IPoIB封装头（4字节）。例如，在一个典型的具有2K MTU的IB结构中，IPoIB
++  MTU将是2048 - 4 = 2044字节。
++
++  在连接模式下，使用IB RC（可靠的连接）传输。连接模式利用IB传输的连接特性，
++  允许MTU达到最大的IP包大小64K，这减少了处理大型UDP数据包、TCP段等所需的
++  IP包数量，提高了大型信息的性能。
++
++  在连接模式下，接口的UD QP仍被用于组播和与不支持连接模式的对等体的通信。
++  在这种情况下，ICMP PMTU数据包的RX仿真被用来使网络堆栈对这些邻居使用较
++  小的UD MTU。
++
++无状态卸载
 +==========
-+infiniband
-+==========
 +
-+.. toctree::
-+   :maxdepth: 1
++  如果IB HW支持IPoIB无状态卸载，IPoIB会向网络堆栈广播TCP/IP校验和/或大量
++  传送（LSO）负载转移能力。
 +
-+TODOLIST:
++  大量传送（LSO）负载转移也已实现，可以使用ethtool调用打开/关闭。目前，LRO
++  只支持具有校验和卸载能力的设备。
 +
-+   core_locking
-+   ipoib
-+   opa_vnic
-+   sysfs
-+   tag_matching
-+   user_mad
-+   user_verbs
++  无状态卸载只在数据报模式下支持。
 +
-+.. only::  subproject and html
++中断管理
++========
 +
-+   Indices
-+   =======
++  如果底层IB设备支持CQ事件管理，可以使用ethtool来设置中断缓解参数，从而减少
++  处理中断产生的开销。IPoIB的主要代码路径不使用TX完成信号的事件，所以只支持
++  RX管理。
 +
-+   * :ref:`genindex`
++调试信息
++========
++
++  通过将CONFIG_INFINIBAND_IPOIB_DEBUG设置为“y”来编译IPoIB驱动，跟踪信
++  息被编译到驱动中。通过将模块参数debug_level和mcast_debug_level设置为1来
++  打开它们。这些参数可以在运行时通过/sys/module/ib_ipoib/的文件来控制。
++
++  CONFIG_INFINIBAND_IPOIB_DEBUG也启用debugfs虚拟文件系统中的文件。通过挂
++  载这个文件系统，例如用::
++
++    mount -t debugfs none /sys/kernel/debug
++
++  可以从/sys/kernel/debug/ipoib/ib0_mcg等文件中获得关于多播组的统计数据。
++
++  这个选项对性能的影响可以忽略不计，所以在正常运行时，在debug_level设置为
++  0的情况下启用这个选项是安全的。
++
++  CONFIG_INFINIBAND_IPOIB_DEBUG_DATA当data_debug_level设置为1时，可以
++  在数据路径中启用更多的调试输出。 然而，即使禁用输出，启用这个配置选项也
++  会影响性能，因为它在快速路径中增加了测试。
++
++引用
++====
++
++  在InfiniBand上传输IP（IPoIB）（RFC 4391）。
++    http://ietf.org/rfc/rfc4391.txt
++
++  infiniband上的IP:上的IP架构（RFC 4392）。
++    http://ietf.org/rfc/rfc4392.txt
++
++  infiniband上的IP: 连接模式 (RFC 4755)
++    http://ietf.org/rfc/rfc4755.txt
 -- 
 2.27.0
 
