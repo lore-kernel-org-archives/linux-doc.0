@@ -2,171 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AE2C43214
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D83C4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:29:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5812961185
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:23:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2CB361186
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 02:29:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237396AbhHFCXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 Aug 2021 22:23:42 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34538 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238074AbhHFCXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 5 Aug 2021 22:23:41 -0400
-Received: from localhost.localdomain (unknown [223.106.24.69])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz0APnQxhudkrAA--.60302S10;
-        Fri, 06 Aug 2021 10:23:21 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
-        chris.chenfeiyang@gmail.com, siyanteng01@gmail.com,
-        chenweiguang82@126.com
-Subject: [PATCH v3 8/8] docs/zh_CN: add infiniband user_verbs translation
-Date:   Fri,  6 Aug 2021 10:23:27 +0800
-Message-Id: <406b836936a5c31a373c78bc4f533d0d3fe9856c.1628213809.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1628213809.git.siyanteng@loongson.cn>
-References: <cover.1628213809.git.siyanteng@loongson.cn>
+        id S235548AbhHFC3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 Aug 2021 22:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235436AbhHFC33 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Aug 2021 22:29:29 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B43C061798
+        for <linux-doc@vger.kernel.org>; Thu,  5 Aug 2021 19:29:13 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id y7so9805494ljp.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Aug 2021 19:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wV1R0Zqu02lXg+5/LsK9dfwK+lnNllKeL5xWssAsSnw=;
+        b=I62CfjWEiDRSoLrNGTj/A3FwjTs0wP87ZMUU/riZGIlraQP5vhLoLrIlPI3qRUEo3y
+         OV+JoJSrSxQ/M2443Ucz6ftiFQlqWzFRqME8R4mP0QWGLxHuwDGD80A0jkT5QeTph1HD
+         Zg2BlCskyJGkjGftXw1knyrc9LKKq0+a4DXOUJTKiWpuXd0HQ/ZavyfpCc17Yvt/2MpN
+         iqxEJ4it/VlMLNkS4wIePpbBXT8lAjdpVM0T+74k6floBC/fDwOSlIr7MK5QHDdTHQdl
+         gTtrJSOYvvMQkZxqnw6cD92OdK1pdpOx8vbsra/d8dwT3Ytj9nBlfkbR5TyoGxnfH5mQ
+         aXGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wV1R0Zqu02lXg+5/LsK9dfwK+lnNllKeL5xWssAsSnw=;
+        b=dxSdycMM9i/6sHTPDM1qT+tee++NAZkDt1HbQFRAuP1SWvzEQVrGw4kLCHiSXdDaws
+         ++0OQvXrcSDjlaoL8p4Dh98YN8zpx5r1OD9TVGRK4ylVJElUuma0exkfgOJ42+B0Avei
+         00sa8tbVO07lf3g6CLQJPsO2CI4SZjxUjESG1EhNx6MXXgEbTzZwRZPxC7LyrlI8su6g
+         P59u22EbfBYPTH9+ymDlpq9Vh4S5hM6Ng2Ob5U77eBBzsgvAfzIKiAGd0OHCOR6rOxO7
+         WfUSkDuzi23eG5QqLlSUKkMbgqVBqTnk96BlcMPnDezOvAQFBd+kPqy3OR+NwwxMSLvs
+         4FRA==
+X-Gm-Message-State: AOAM533Nfs6+h95cHqUTh+NLjKtyCypb4ZESpcAhGjl1fPy/w27azpwD
+        HPBWKYUnRkgS6shHPAdvcUuRXC5ve1EisXp34lg=
+X-Google-Smtp-Source: ABdhPJxsniXDkmUIXshIY05GjPtNT5I7f83bcGyO6jYB6wACRb2kAiC5VXlFu1NQ89zyDEHWfJM/+V3Octr0/H47tTI=
+X-Received: by 2002:a2e:a90b:: with SMTP id j11mr4996819ljq.475.1628216952142;
+ Thu, 05 Aug 2021 19:29:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz0APnQxhudkrAA--.60302S10
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrW8Gw1UJF4xGrWDZr43Wrg_yoWrKFy5pr
-        yDC34xK3WUAa42yayxGFy7Aa18Ga4xCFW5Jas7twnIqFn8J3yfArnIy34j9FZxKrW8AFZ0
-        qr4YgFyv9rWSyw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl
-        6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x
-        IIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_
-        Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
-        xan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-        rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
-        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
-        67AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
-        W8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7V
-        UbmZX7UUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+References: <cover.1627820210.git.siyanteng@loongson.cn> <b25147d5c53daf4d4faaa0a33c068dbd6013459a.1627820210.git.siyanteng@loongson.cn>
+In-Reply-To: <b25147d5c53daf4d4faaa0a33c068dbd6013459a.1627820210.git.siyanteng@loongson.cn>
+From:   Puyu Wang <realpuyuwang@gmail.com>
+Date:   Fri, 6 Aug 2021 02:29:00 +0000
+Message-ID: <CADQR0QgROPTwPMsGcYv9S3hCPD5V7Ym-jZE_SW7gcVSn8bbNjg@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] docs/zh_CN: add infiniband user_verbs translation
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, chenweiguang82@126.com,
+        Yanteng Si <siyanteng01@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/infiniband/user_verbs.rst into Chinese.
-
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Puyu Wang <realpuyuwang@gmail.com>
----
- .../translations/zh_CN/infiniband/index.rst   |  3 +-
- .../zh_CN/infiniband/user_verbs.rst           | 72 +++++++++++++++++++
- 2 files changed, 73 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/infiniband/user_verbs.rst
-
-diff --git a/Documentation/translations/zh_CN/infiniband/index.rst b/Documentation/translations/zh_CN/infiniband/index.rst
-index 55645171a675..5634cc48379f 100644
---- a/Documentation/translations/zh_CN/infiniband/index.rst
-+++ b/Documentation/translations/zh_CN/infiniband/index.rst
-@@ -28,10 +28,9 @@ infiniband
-    sysfs
-    tag_matching
-    user_mad
-+   user_verbs
- 
--TODOLIST:
- 
--   user_verbs
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/translations/zh_CN/infiniband/user_verbs.rst b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
-new file mode 100644
-index 000000000000..cb98cf3628c2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
-@@ -0,0 +1,72 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/infiniband/user_verbs.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+ 王普宇 Puyu Wang <realpuyuwang@gmail.com>
-+ 时奎亮 Alex Shi <alexs@kernel.org>
-+
-+.. _cn_infiniband_user_verbs:
-+
-+=================
-+用户空间verbs访问
-+=================
-+
-+  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_VERBS构建，使用户空间
-+  通过“verbs”直接访问IB硬件，如InfiniBand架构规范第11章所述。
-+
-+  要使用verbs，需要libibverbs库，可从https://github.com/linux-rdma/rdma-core。
-+  libibverbs包含一个独立于设备的API，用于使用ib_uverbs接口。libibverbs
-+  还需要为你的InfiniBand硬件提供适当的独立于设备的内核和用户空间驱动。例如，
-+  要使用Mellanox HCA，你需要安装ib_mthca内核模块和libmthca用户空间驱动。
-+
-+用户-内核通信
-+=============
-+
-+  用户空间通过/dev/infiniband/uverbsN字符设备与内核进行慢速路径、资源管理
-+  操作的通信。快速路径操作通常是通过直接写入硬件寄存器mmap()到用户空间来完成
-+  的，没有系统调用或上下文切换到内核。
-+
-+  命令是通过在这些设备文件上的write()s发送给内核的。ABI在
-+  drivers/infiniband/include/ib_user_verbs.h中定义。需要内核响应的命令的结
-+  构包含一个64位字段，用来传递一个指向输出缓冲区的指针。状态作为write()系统调
-+  用的返回值被返回到用户空间。
-+
-+资源管理
-+========
-+
-+  由于所有IB资源的创建和销毁都是通过文件描述符传递的命令完成的，所以内核可以跟
-+  踪哪些资源被附加到一个给定的用户空间上下文。ib_uverbs模块维护着idr表，用来在
-+  内核指针和不透明的用户空间句柄之间进行转换，这样内核指针就不会暴露给用户空间，
-+  而用户空间也无法欺骗内核去跟踪一个假的指针。
-+
-+  这也允许内核在一个进程退出时进行清理，并防止一个进程触及另一个进程的资源。
-+
-+内存固定
-+========
-+
-+  直接的用户空间I/O要求与作为潜在I/O目标的内存区域保持在同一物理地址上。ib_uverbs
-+  模块通过get_user_pages()和put_page()调用来管理内存区域的固定和解除固定。它还核
-+  算进程的pinned_vm中被固定的内存量，并检查非特权进程是否超过其RLIMIT_MEMLOCK限制。
-+
-+  被多次固定的页面在每次被固定时都会被计数，所以pinned_vm的值可能会高估一个进程所
-+  固定的页面数量。
-+
-+/dev文件
-+========
-+
-+  要想用udev自动创建适当的字符设备文件，可以采用如下规则::
-+
-+    KERNEL=="uverbs*", NAME="infiniband/%k"
-+
-+  可以使用。 这将创建设备节点，名为::
-+
-+    /dev/infiniband/uverbs0
-+
-+  等等。由于InfiniBand的用户空间verbs对于非特权进程来说应该是安全的，因此在udev规
-+  则中加入适当的MODE或GROUP可能是有用的。
--- 
-2.27.0
-
+T24gU3VuLCBBdWcgMSwgMjAyMSBhdCAxMjoyNSBQTSBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9v
+bmdzb24uY24+IHdyb3RlOg0KPg0KPiBUcmFuc2xhdGUgRG9jdW1lbnRhdGlvbi9pbmZpbmliYW5k
+L3VzZXJfdmVyYnMucnN0IGludG8gQ2hpbmVzZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVu
+ZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KUmV2aWV3ZWQtYnk6IFB1eXUgV2FuZyA8cmVh
+bHB1eXV3YW5nQGdtYWlsLmNvbT4NCj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2lu
+ZmluaWJhbmQvaW5kZXgucnN0ICAgfCAgMyArLQ0KPiAgLi4uL3poX0NOL2luZmluaWJhbmQvdXNl
+cl92ZXJicy5yc3QgICAgICAgICAgIHwgNzIgKysrKysrKysrKysrKysrKysrKw0KPiAgMiBmaWxl
+cyBjaGFuZ2VkLCA3MyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZmluaWJhbmQvdXNl
+cl92ZXJicy5yc3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2luZmluaWJhbmQvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
+emhfQ04vaW5maW5pYmFuZC9pbmRleC5yc3QNCj4gaW5kZXggNTU2NDUxNzFhNjc1Li41NjM0Y2M0
+ODM3OWYgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2lu
+ZmluaWJhbmQvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL2luZmluaWJhbmQvaW5kZXgucnN0DQo+IEBAIC0yOCwxMCArMjgsOSBAQCBpbmZpbmliYW5k
+DQo+ICAgICBzeXNmcw0KPiAgICAgdGFnX21hdGNoaW5nDQo+ICAgICB1c2VyX21hZA0KPiArICAg
+dXNlcl92ZXJicw0KPg0KPiAtVE9ET0xJU1Q6DQo+DQo+IC0gICB1c2VyX3ZlcmJzDQo+DQo+ICAu
+LiBvbmx5OjogIHN1YnByb2plY3QgYW5kIGh0bWwNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZmluaWJhbmQvdXNlcl92ZXJicy5yc3QgYi9Eb2N1
+bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmZpbmliYW5kL3VzZXJfdmVyYnMucnN0DQo+
+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uYmE1ZGI4NWFlNzIy
+DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
+Q04vaW5maW5pYmFuZC91c2VyX3ZlcmJzLnJzdA0KPiBAQCAtMCwwICsxLDcyIEBADQo+ICsuLiBp
+bmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gKw0KPiArOk9yaWdpbmFsOiBEb2N1
+bWVudGF0aW9uL2luZmluaWJhbmQvdXNlcl92ZXJicy5yc3QNCj4gKw0KPiArOue/u+ivkToNCj4g
+Kw0KPiArIOWPuOW7tuiFviBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ICsN
+Cj4gKzrmoKHor5E6DQo+ICsNCj4gKyDnjovmma7lrocgUHV5dSBXYW5nIDxyZWFscHV5dXdhbmdA
+Z21haWwuY29tPg0KPiArIOaXtuWljuS6riBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4g
+Kw0KPiArLi4gX2NuX2luZmluaWJhbmRfdXNlcl92ZXJiczoNCj4gKw0KPiArPT09PT09PT09PT09
+PT09PT0NCj4gK+eUqOaIt+epuumXtHZlcmJz6K6/6ZeuDQo+ICs9PT09PT09PT09PT09PT09PQ0K
+PiArDQo+ICsgIGliX3V2ZXJic+aooeWdl++8jOmAmui/h+WQr+eUqENPTkZJR19JTkZJTklCQU5E
+X1VTRVJfVkVSQlPmnoTlu7rvvIzkvb/nlKjmiLfnqbrpl7QNCj4gKyAg6YCa6L+H4oCcdmVyYnPi
+gJ3nm7TmjqXorr/pl65JQuehrOS7tu+8jOWmgkluZmluaUJhbmTmnrbmnoTop4TojIPnrKwxMeer
+oOaJgOi/sOOAgg0KPiArDQo+ICsgIOimgeS9v+eUqHZlcmJz77yM6ZyA6KaBbGliaWJ2ZXJic+W6
+k++8jOWPr+S7jmh0dHBzOi8vZ2l0aHViLmNvbS9saW51eC1yZG1hL3JkbWEtY29yZeOAgg0KPiAr
+ICBsaWJpYnZlcmJz5YyF5ZCr5LiA5Liq54us56uL5LqO6K6+5aSH55qEQVBJ77yM55So5LqO5L2/
+55SoaWJfdXZlcmJz5o6l5Y+j44CCbGliaWJ2ZXJicw0KPiArICDov5jpnIDopoHkuLrkvaDnmoRJ
+bmZpbmlCYW5k56Gs5Lu25o+Q5L6b6YCC5b2T55qE54us56uL5LqO6K6+5aSH55qE5YaF5qC45ZKM
+55So5oi356m66Ze06amx5Yqo44CC5L6L5aaC77yMDQo+ICsgIOimgeS9v+eUqE1lbGxhbm94IEhD
+Qe+8jOS9oOmcgOimgeWuieijhWliX210aGNh5YaF5qC45qih5Z2X5ZKMbGlibXRoY2HnlKjmiLfn
+qbrpl7TpqbHliqjjgIINCj4gKw0KPiAr55So5oi3LeWGheaguOmAmuS/oQ0KPiArPT09PT09PT09
+PT09PQ0KPiArDQo+ICsgIOeUqOaIt+epuumXtOmAmui/hy9kZXYvaW5maW5pYmFuZC91dmVyYnNO
+5a2X56ym6K6+5aSH5LiO5YaF5qC46L+b6KGM5oWi6YCf6Lev5b6E44CB6LWE5rqQ566h55CGDQo+
+ICsgIOaTjeS9nOeahOmAmuS/oeOAguW/q+mAn+i3r+W+hOaTjeS9nOmAmuW4uOaYr+mAmui/h+eb
+tOaOpeWGmeWFpeehrOS7tuWvhOWtmOWZqG1tYXAoKeWIsOeUqOaIt+epuumXtOadpeWujOaIkA0K
+PiArICDnmoTvvIzmsqHmnInns7vnu5/osIPnlKjmiJbkuIrkuIvmlofliIfmjaLliLDlhoXmoLjj
+gIINCj4gKw0KPiArICDlkb3ku6TmmK/pgJrov4flnKjov5nkupvorr7lpIfmlofku7bkuIrnmoR3
+cml0ZSgpc+WPkemAgee7meWGheaguOeahOOAgkFCSeWcqA0KPiArICBkcml2ZXJzL2luZmluaWJh
+bmQvaW5jbHVkZS9pYl91c2VyX3ZlcmJzLmjkuK3lrprkuYnjgILpnIDopoHlhoXmoLjlk43lupTn
+moTlkb3ku6TnmoTnu5MNCj4gKyAg5p6E5YyF5ZCr5LiA5LiqNjTkvY3lrZfmrrXvvIznlKjmnaXk
+vKDpgJLkuIDkuKrmjIflkJHovpPlh7rnvJPlhrLljLrnmoTmjIfpkojjgILnirbmgIHkvZzkuLp3
+cml0ZSgp57O757uf6LCDDQo+ICsgIOeUqOeahOi/lOWbnuWAvOiiq+i/lOWbnuWIsOeUqOaIt+ep
+uumXtOOAgg0KPiArDQo+ICvotYTmupDnrqHnkIYNCj4gKz09PT09PT09DQo+ICsNCj4gKyAg55Sx
+5LqO5omA5pyJSULotYTmupDnmoTliJvlu7rlkozplIDmr4Hpg73mmK/pgJrov4fmlofku7bmj4/o
+v7DnrKbkvKDpgJLnmoTlkb3ku6TlrozmiJDnmoTvvIzmiYDku6XlhoXmoLjlj6/ku6Xot58NCj4g
+KyAg6Liq5ZOq5Lqb6LWE5rqQ6KKr6ZmE5Yqg5Yiw5LiA5Liq57uZ5a6a55qE55So5oi356m66Ze0
+5LiK5LiL5paH44CCaWJfdXZlcmJz5qih5Z2X57u05oqk552AaWRy6KGo77yM55So5p2l5ZyoDQpJ
+IHRoaW5rIGl0IHNob3VsZCBiZSAn6Lef6Liq6YKj5Lqb6KKr6ZmE5Yqg5Yiw57uZ5a6a55So5oi3
+56m66Ze05LiK5LiL5paH55qE6LWE5rqQJywgaW5zdGVhZCBvZg0K4oCY6Lef6Liq5ZOq5Lqb6LWE
+5rqQ6KKr6ZmE5Yqg5Yiw5LiA5Liq57uZ5a6a55qE55So5oi356m66Ze05LiK5LiL5paH4oCZLg0K
+PiArICDlhoXmoLjmjIfpkojlkozkuI3pgI/mmI7nmoTnlKjmiLfnqbrpl7Tlj6Xmn4TkuYvpl7To
+v5vooYzovazmjaLvvIzov5nmoLflhoXmoLjmjIfpkojlsLHkuI3kvJrmmrTpnLLnu5nnlKjmiLfn
+qbrpl7TvvIwNCj4gKyAg6ICM55So5oi356m66Ze05Lmf5peg5rOV5qy66aqX5YaF5qC45Y676Lef
+6Liq5LiA5Liq5YGH55qE5oyH6ZKI44CCDQo+ICsNCj4gKyAg6L+Z5Lmf5YWB6K645YaF5qC45Zyo
+5LiA5Liq6L+b56iL6YCA5Ye65pe26L+b6KGM5riF55CG77yM5bm26Ziy5q2i5LiA5Liq6L+b56iL
+6Kem5Y+K5Y+m5LiA5Liq6L+b56iL55qE6LWE5rqQ44CCDQo+ICsNCj4gK+WGheWtmOW8leiEmg0K
+PiArPT09PT09PT0NCj4gKw0KPiArICDnm7TmjqXnmoTnlKjmiLfnqbrpl7RJL0/opoHmsYLkuI7k
+vZzkuLrmvZzlnKhJL0/nm67moIfnmoTlhoXlrZjljLrln5/kv53mjIHlnKjlkIzkuIDniannkIbl
+nLDlnYDkuIrjgIJpYl91dmVyYnMNCj4gKyAg5qih5Z2X6YCa6L+HZ2V0X3VzZXJfcGFnZXMoKeWS
+jHB1dF9wYWdlKCnosIPnlKjmnaXnrqHnkIblhoXlrZjljLrln5/nmoTlm7rlrprlkozop6PpmaTl
+m7rlrprjgILlroPov5jmoLgNCj4gKyAg566X6L+b56iL55qEcGlubmVkX3Zt5Lit6KKr5Zu65a6a
+55qE5YaF5a2Y6YeP77yM5bm25qOA5p+l6Z2e54m55p2D6L+b56iL5piv5ZCm6LaF6L+H5YW2UkxJ
+TUlUX01FTUxPQ0vpmZDliLbjgIINCj4gKw0KPiArICDooqvlpJrmrKHlm7rlrprnmoTpobXpnaLl
+nKjmr4/mrKHooqvlm7rlrprml7bpg73kvJrooqvorqHmlbDvvIzmiYDku6VwaW5uZWRfdm3nmoTl
+gLzlj6/og73kvJrpq5jkvLDkuIDkuKrov5vnqIvmiYANCj4gKyAg5Zu65a6a55qE6aG16Z2i5pWw
+6YeP44CCDQo+ICsNCj4gKy9kZXbmlofku7YNCj4gKz09PT09PT09DQo+ICsNCj4gKyAg6KaB5oOz
+55SodWRlduiHquWKqOWIm+W7uumAguW9k+eahOWtl+espuiuvuWkh+aWh+S7tu+8jOWPr+S7pemH
+h+eUqOWmguS4i+inhOWImTo6DQo+ICsNCj4gKyAgICBLRVJORUw9PSJ1dmVyYnMqIiwgTkFNRT0i
+aW5maW5pYmFuZC8layINCj4gKw0KPiArICDlj6/ku6Xkvb/nlKjjgIIg6L+Z5bCG5Yib5bu66K6+
+5aSH6IqC54K577yM5ZCN5Li6OjoNCj4gKw0KPiArICAgIC9kZXYvaW5maW5pYmFuZC91dmVyYnMw
+DQo+ICsNCj4gKyAg562J562J44CC55Sx5LqOSW5maW5pQmFuZOeahOeUqOaIt+epuumXtHZlcmJz
+5a+55LqO6Z2e54m55p2D6L+b56iL5p2l6K+05bqU6K+l5piv5a6J5YWo55qE77yM5Zug5q2k5Zyo
+dWRlduinhA0KPiArICDliJnkuK3liqDlhaXpgILlvZPnmoRNT0RF5oiWR1JPVVDlj6/og73mmK/m
+nInnlKjnmoTjgIINCj4gLS0NCj4gMi4yNy4wDQo+DQo=
