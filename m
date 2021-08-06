@@ -2,139 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19624C4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 10:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DCBC4338F
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:16:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3D9E60E97
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 10:07:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDE9160243
+	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 11:16:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244856AbhHFKIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 06:08:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244840AbhHFKIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 06:08:02 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A642FC061798
-        for <linux-doc@vger.kernel.org>; Fri,  6 Aug 2021 03:07:46 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id z3so6395849plg.8
-        for <linux-doc@vger.kernel.org>; Fri, 06 Aug 2021 03:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iyZptw0PZMngUpuqTbhFqAgHUBZ0pdUlUAf/+I6duzw=;
-        b=CtVi//qKnyxS/ct/N+YbU6Len9+6aCpNg2+v9ZZ3f6BQCNUzgLxxflvvevFm2Ab1Fd
-         oLJMXrHf3u7Ja2HQWCDmmqwZEjlREMGLQa3kIKXMZIxMG70f1F74xjigutP2SR3Zhuif
-         6mwlkQwBRksfU6508ZkkZ9Pqs+QiZC5xkIrqs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iyZptw0PZMngUpuqTbhFqAgHUBZ0pdUlUAf/+I6duzw=;
-        b=M+G6FX1hscgSL/ntcCndu+0RBh0wYZd8zPSFIgDkkenqj1qzMlClbrowIglAuyWOvl
-         ZG4a4bBVQF8jpII/UpdC4jjKxc8GlUMQ9zj2O4STblUItbw+3RM2gMLrYRWfTAOvHwPJ
-         gRBaegGe+jZVU3PRLAacb40upeN2JHbuFy9eKpfVQ7tV/DvnNKL6zIiuGkAyIcFAg7h/
-         /nVRZ9Vo5rB43Zlsq8KbWXN+j0rlhSz2AG6x5amEbK/KQOmoIk1FqVUkOIHxTrAPxxwn
-         PVbfL71ccTs8yDwe/3eYQ5bKwT4Toem/SeVEOa4uLeuo+LBr5yRWgFCQIS5xqlmZ1mbO
-         yKrQ==
-X-Gm-Message-State: AOAM530q/C0LVjO75BfRC1HwT3UqNfALaN9nw61VKFIFerSLO1OkHvFv
-        xiRjCyvb/geKfMGH0cwI4q3sgQ==
-X-Google-Smtp-Source: ABdhPJwbwyFvqN3dFGM/nqaIm+PPwkZWIqK4YckrFa8pOh7tfwvzrMA8dUeq682X7hqZ3nlMJ4qvZA==
-X-Received: by 2002:a17:902:a702:b029:12b:aa0f:d553 with SMTP id w2-20020a170902a702b029012baa0fd553mr8181136plq.3.1628244466238;
-        Fri, 06 Aug 2021 03:07:46 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:b731:9e91:71e2:65e7])
-        by smtp.gmail.com with UTF8SMTPSA id d17sm9696510pfn.110.2021.08.06.03.07.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Aug 2021 03:07:45 -0700 (PDT)
-From:   Hikaru Nishida <hikalium@chromium.org>
-To:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
-        mlevitsk@redhat.com
-Cc:     suleiman@google.com, Hikaru Nishida <hikalium@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [v2 PATCH 1/4] x86/kvm: Reserve KVM_FEATURE_HOST_SUSPEND_TIME and MSR_KVM_HOST_SUSPEND_TIME
-Date:   Fri,  6 Aug 2021 19:07:07 +0900
-Message-Id: <20210806190607.v2.1.I2a67009253163b8eecf1ae8d050c541d35ac0bd8@changeid>
-X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
-In-Reply-To: <20210806100710.2425336-1-hikalium@chromium.org>
-References: <20210806100710.2425336-1-hikalium@chromium.org>
+        id S231337AbhHFLQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 07:16:27 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3604 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229836AbhHFLQ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 07:16:27 -0400
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Gh2w70PJGz6BCPp;
+        Fri,  6 Aug 2021 19:15:51 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 6 Aug 2021 13:16:09 +0200
+Received: from localhost (10.52.123.57) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 6 Aug 2021
+ 12:16:08 +0100
+Date:   Fri, 6 Aug 2021 12:15:38 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Dan Williams <dan.j.williams@intel.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1] driver: base: Add driver filter support
+Message-ID: <20210806121538.00004e7d@Huawei.com>
+In-Reply-To: <CAPcyv4g1oBU3J3qpd+hDy9cKMYqn0FAsAO4BxxfrNCnpaxzO9g@mail.gmail.com>
+References: <YQuYCePPZEmVbkfc@kroah.com>
+        <YQuZdVuaGG/Cr62y@kroah.com>
+        <YQuaJ78y8j1UmBoz@kroah.com>
+        <fdf8b6b6-58c3-8392-2fc6-1908a314e991@linux.intel.com>
+        <YQwlHrJBw79xhTSI@kroah.com>
+        <21db8884-5aa1-3971-79ef-f173a0a95bef@linux.intel.com>
+        <YQwpa+LAYt7YZ5dh@kroah.com>
+        <7d6751b1-c476-51d3-25c6-b65c0e93d23b@linux.intel.com>
+        <YQw4AEwIUGe3RpCx@kroah.com>
+        <CAPcyv4gV9GK93rgtoHxhshzDGk0ueJn0d9LXYitJ8=wJWzmWHg@mail.gmail.com>
+        <YQw71hBx4/w14Fir@kroah.com>
+        <CAPcyv4g1oBU3J3qpd+hDy9cKMYqn0FAsAO4BxxfrNCnpaxzO9g@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.123.57]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-No functional change; just add documentation for
-KVM_FEATURE_HOST_SUSPEND_TIME and its corresponding
-MSR_KVM_HOST_SUSPEND_TIME to support virtual suspend timing injection in
-later patches.
+On Thu, 5 Aug 2021 12:52:30 -0700
+Dan Williams <dan.j.williams@intel.com> wrote:
 
-Signed-off-by: Hikaru Nishida <hikalium@chromium.org>
----
+> [ add Jonathan ]
+> 
+> On Thu, Aug 5, 2021 at 12:28 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Aug 05, 2021 at 12:18:12PM -0700, Dan Williams wrote:  
+> > > On Thu, Aug 5, 2021 at 12:12 PM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:  
+> > > >
+> > > > On Thu, Aug 05, 2021 at 11:53:52AM -0700, Kuppuswamy, Sathyanarayanan wrote:  
+> > > > > I am not sure how USB and Thunderbolt "authorzied" model works. But I
+> > > > > don't think it prevents built-in driver probes during kernel boot right?  
+> > > >
+> > > > Yes it does.
+> > > >
+> > > > Again Intel created this framework well over a decade ago for busses
+> > > > that it deemed that it did not want to "trust" to instantly probe
+> > > > drivers for and made it part of the Wireless USB specification.
+> > > >
+> > > > Then Intel went and added the same framework to Thunderbolt for the same
+> > > > reason.
+> > > >
+> > > > To ignore this work is quite odd, you might want to talk to your
+> > > > coworkers...  
+> > >
+> > > Sometimes we need upstream to connect us wayward drones back into the
+> > > hive mind. Forgive me for not immediately recognizing that the
+> > > existing 'authorized' mechanisms might be repurposed for this use
+> > > case.  
+> >
+> > Not your fault, I'm more amazed that Andi doesn't remember this, he's
+> > been around longer :)
+> >  
+> 
+> In the driver core? No, not so much, and I do remember it flying by,
+> just did not connect the dots. In fact, it had just gone upstream when
+> you and I had that thread about blocking PCI drivers [1], September
+> 2017 vs June 2017 when the Thunderbolt connection manager was merged.
+> There was no internal review process back then so I failed to
+> internalize its implications for this TDX filter. You had taken the
+> time to review it in a way that I had not.
+> 
+> > But the first instinct should not be "let's go add a new feature", but
+> > rather, "how has this problem been solved by others first" because,
+> > really, this is not a new issue at all.  You should not rely on just me
+> > to point out existing kernel features, we do have documentation you
+> > know...  
+> 
+> I have added, "review driver core attribute proposal for duplication
+> of bus-local capabilities" to my review checklist.
+> 
+> The good news is I think this generic authorization support in the
+> core may answer one of Jonathan's questions about how to integrate PCI
+> SPDM/CMA support [2].
 
- Documentation/virt/kvm/cpuid.rst |  3 +++
- Documentation/virt/kvm/msr.rst   | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+Definitely an interesting discussion, and the SPDM stuff
+feeds into Greg's point about establishing trust with hardware.
 
-diff --git a/Documentation/virt/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
-index bda3e3e737d7..f17b95b0d943 100644
---- a/Documentation/virt/kvm/cpuid.rst
-+++ b/Documentation/virt/kvm/cpuid.rst
-@@ -103,6 +103,9 @@ KVM_FEATURE_HC_MAP_GPA_RANGE       16          guest checks this feature bit bef
- KVM_FEATURE_MIGRATION_CONTROL      17          guest checks this feature bit before
-                                                using MSR_KVM_MIGRATION_CONTROL
- 
-+KVM_FEATURE_HOST_SUSPEND_TIME      18          host suspend time information
-+                                               is available at msr 0x4b564d09.
-+
- KVM_FEATURE_CLOCKSOURCE_STABLE_BIT 24          host will warn if no guest-side
-                                                per-cpu warps are expected in
-                                                kvmclock
-diff --git a/Documentation/virt/kvm/msr.rst b/Documentation/virt/kvm/msr.rst
-index 9315fc385fb0..a218a350d0d0 100644
---- a/Documentation/virt/kvm/msr.rst
-+++ b/Documentation/virt/kvm/msr.rst
-@@ -389,3 +389,33 @@ data:
-         guest is communicating page encryption status to the host using the
-         ``KVM_HC_MAP_GPA_RANGE`` hypercall, it can set bit 0 in this MSR to
-         allow live migration of the guest.
-+
-+MSR_KVM_HOST_SUSPEND_TIME:
-+	0x4b564d09
-+
-+data:
-+	8-byte alignment physical address of a memory area which must be
-+	in guest RAM, plus an enable bit in bit 0. This memory is expected to
-+	hold a copy of the following structure::
-+
-+	 struct kvm_suspend_time {
-+		__u64   suspend_time_ns;
-+	 };
-+
-+	whose data will be filled in by the hypervisor.
-+	If the guest register this structure through the MSR write, the host
-+	will stop all the clocks including TSCs observed by the guest during
-+	the host's suspension and report the duration of suspend through this
-+	structure. The update will be notified through
-+	VIRT_SUSPEND_TIMING_VECTOR IRQ. Fields have the following meanings:
-+
-+	suspend_time_ns:
-+		Total number of nanoseconds passed during the host's suspend
-+		while the VM is running. This value will be increasing
-+		monotonically.
-+
-+	Note that although MSRs are per-CPU entities, the effect of this
-+	particular MSR is global.
-+
-+	Availability of this MSR must be checked via bit 18 in 0x4000001 cpuid
-+	leaf prior to usage.
--- 
-2.32.0.605.g8dce9f2422-goog
+If anyone is looking at the USB authentication specification (which is
+more or less SPDM), would be good to align on that.
+
+My current model is really basic (driver checks and fails probe if
+failure occurs). Definitely better to bolt into standard approach.
+
+*Goes off to read up on this topic*
+
+Thanks for highlighting this thread Dan,
+
+Jonathan
+
+> 
+> [1]: https://lore.kernel.org/lkml/20170928090901.GC12599@kroah.com/
+> [2]: https://lore.kernel.org/r/20210804161839.3492053-1-Jonathan.Cameron@huawei.com
 
