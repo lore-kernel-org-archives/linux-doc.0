@@ -2,82 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2FEC4338F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 19:56:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A71EC432BE
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Aug 2021 01:01:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51EFB61167
-	for <linux-doc@archiver.kernel.org>; Fri,  6 Aug 2021 19:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23412611C6
+	for <linux-doc@archiver.kernel.org>; Sat,  7 Aug 2021 01:01:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244172AbhHFT5G convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 Aug 2021 15:57:06 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:34589 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232086AbhHFT5G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 15:57:06 -0400
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 833DE1BF205;
-        Fri,  6 Aug 2021 19:56:48 +0000 (UTC)
-Date:   Fri, 6 Aug 2021 21:56:47 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/15] MAINTAINERS: update arm,pl353-smc.yaml reference
-Message-ID: <20210806215647.46369f3f@xps13>
-In-Reply-To: <1a9b26e4f9f7a01bcd676d7e7a3a929085fc2adb.1626947923.git.mchehab+huawei@kernel.org>
-References: <cover.1626947923.git.mchehab+huawei@kernel.org>
-        <1a9b26e4f9f7a01bcd676d7e7a3a929085fc2adb.1626947923.git.mchehab+huawei@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S229729AbhHGBBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 Aug 2021 21:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26178 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229512AbhHGBBx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Aug 2021 21:01:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628298096;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=ZHKTu8mLlmvqP5/EG23Ge70ypLYDuqHlMFMJ1YrpXI0=;
+        b=NTprtnqJq+rMGbrwcQYM/coCLmchoEE+z3qsS8UUbdI79QpvchaPnV0hkToNvlRtjNDOfn
+        QH4Ut5+M6RLzZ9NkrvGOw0boyzLgR7O45W2Cq2D6BBqTK5xKH6qxB0V1Z3YKaOtf+DaBgg
+        elsFRPVnUJhLGUjlMuCKf+vfcrNumWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-MLtUEOIENFu489mkHhdK6w-1; Fri, 06 Aug 2021 21:01:32 -0400
+X-MC-Unique: MLtUEOIENFu489mkHhdK6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7374F801AE7;
+        Sat,  7 Aug 2021 01:01:30 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.36.110.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C8EF119CBA;
+        Sat,  7 Aug 2021 01:01:23 +0000 (UTC)
+Date:   Sat, 7 Aug 2021 03:01:23 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mel Gorman <mgorman@suse.de>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] uapi: expose enum pid_type
+Message-ID: <20210807010123.GA5174@asgard.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+made use of enum pid_type in prctl's arg4; this type and the associated
+enumeration definitions are not exposed to userspace.  Try to fix that
+by providing enum _kernel_pid_type and tying in-kernel enum pid_type
+definitions to it.  Note that enum pid_type cannot be exposed as is,
+since "enum pid_type" is already exists in various projects [1] (notably
+gcc and strace), and "enum __pid_type" is defined by glibc and uclibc
+for fcntl(F_SETOWN_EX) owner ID type.
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote on Thu, 22 Jul
-2021 12:00:10 +0200:
+[1] https://codesearch.debian.net/search?q=enum+pid_type
 
-> The file name: Documentation/devicetree/bindings/mtd/arm,pl353-smc.yaml
-> should be, instead: Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: 813d52799ad2 ("MAINTAINERS: Add PL353 SMC entry")
-> Fixes: d3d0e1e85711 ("dt-binding: memory: pl353-smc: Convert to yaml")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+---
+ .../admin-guide/hw-vuln/core-scheduling.rst          |  7 ++++---
+ include/linux/pid.h                                  | 12 +++++++-----
+ include/uapi/linux/pid.h                             | 20 ++++++++++++++++++++
+ include/uapi/linux/prctl.h                           |  1 +
+ 4 files changed, 32 insertions(+), 8 deletions(-)
+ create mode 100644 include/uapi/linux/pid.h
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+index 7b410ae..3eb2b7c 100644
+--- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
++++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+@@ -61,9 +61,10 @@ arg3:
+     ``pid`` of the task for which the operation applies.
+ 
+ arg4:
+-    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
+-    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
+-    will be performed for all tasks in the task group of ``pid``.
++    ``pid_type`` for which the operation applies. It is of type
++    ``enum __kernel_pid_type``.  For example, if arg4 is ``__PIDTYPE_TGID``,
++    then the operation of this command will be performed for all tasks
++    in the task group of ``pid``.
+ 
+ arg5:
+     userspace pointer to an unsigned long for storing the cookie returned by
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index fa10acb..f8ca4c9 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -5,14 +5,16 @@
+ #include <linux/rculist.h>
+ #include <linux/wait.h>
+ #include <linux/refcount.h>
++#include <uapi/linux/pid.h>
+ 
+ enum pid_type
+ {
+-	PIDTYPE_PID,
+-	PIDTYPE_TGID,
+-	PIDTYPE_PGID,
+-	PIDTYPE_SID,
+-	PIDTYPE_MAX,
++	PIDTYPE_PID = __PIDTYPE_PID,
++	PIDTYPE_TGID = __PIDTYPE_TGID,
++	PIDTYPE_PGID = __PIDTYPE_PGID,
++	PIDTYPE_SID = __PIDTYPE_SID,
++
++	PIDTYPE_MAX = __PIDTYPE_MAX
+ };
+ 
+ /*
+diff --git a/include/uapi/linux/pid.h b/include/uapi/linux/pid.h
+new file mode 100644
+index 0000000..91d08e4
+--- /dev/null
++++ b/include/uapi/linux/pid.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_LINUX_PID_H
++#define _UAPI_LINUX_PID_H
++
++/*
++ * Type of process-related ID.  So far, it is used only for prctl(PR_SCHED_CORE);
++ * not to be confused with type field of f_owner_ex structure argument
++ * of fcntl(F_SETOWN_EX).
++ */
++enum __kernel_pid_type
++{
++	__PIDTYPE_PID,
++	__PIDTYPE_TGID,
++	__PIDTYPE_PGID,
++	__PIDTYPE_SID,
++
++	__PIDTYPE_MAX /* Non-UAPI */
++};
++
++#endif /* _UAPI_LINUX_PID_H */
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 967d9c5..4e794aa 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -3,6 +3,7 @@
+ #define _LINUX_PRCTL_H
+ 
+ #include <linux/types.h>
++#include <linux/pid.h> /* enum __kernel_pid_type */
+ 
+ /* Values to pass as first argument to prctl() */
+ 
+-- 
+2.1.4
 
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7e1e5385d971..0a571273f308 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1488,7 +1488,7 @@ M:	Miquel Raynal <miquel.raynal@bootlin.com@bootlin.com>
->  M:	Naga Sureshkumar Relli <nagasure@xilinx.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/mtd/arm,pl353-smc.yaml
-> +F:	Documentation/devicetree/bindings/memory-controllers/arm,pl353-smc.yaml
->  F:	drivers/memory/pl353-smc.c
->  
->  ARM PRIMECELL CLCD PL110 DRIVER
-
-Thanks,
-Miquèl
