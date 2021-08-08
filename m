@@ -2,75 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CB3C4338F
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Aug 2021 18:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7060C4338F
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Aug 2021 03:53:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C38F610A6
-	for <linux-doc@archiver.kernel.org>; Sat,  7 Aug 2021 18:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74D2D60F38
+	for <linux-doc@archiver.kernel.org>; Sun,  8 Aug 2021 03:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbhHGS2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 Aug 2021 14:28:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36790 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229471AbhHGS2m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 7 Aug 2021 14:28:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A203960F10;
-        Sat,  7 Aug 2021 18:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1628360903;
-        bh=hUy6JCFT7S9GDfapP7Jen82ePlO0aa/6QvYnH01I6KE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=0laZdmp6mlS97qz3LHmO1crutgDpb0s9DZKQtGk0YGTw81d+4EXyrvedzyg7mlF4H
-         L5wLTkyuNsKp8/DwhTd1yRHLoUp6IsZ6RJeyW57poFwmVVBFac/WHZrdiONU6ZvZgp
-         JOhNfHNer1F53YyxgIkZHEQi5c8b8TqWRooXP90g=
-Date:   Sat, 7 Aug 2021 11:28:20 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
-        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
-        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
-        guoju.fgj@alibaba-inc.com, jgowans@amazon.com, joe@perches.com,
-        mgorman@suse.de, mheyne@amazon.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
-        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
-        sieberf@amazon.com, snu@zelle79.org, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v34 00/13] Introduce Data Access MONitor (DAMON)
-Message-Id: <20210807112820.dd8d0a7ae972730f196631c3@linux-foundation.org>
-In-Reply-To: <20210806114831.7009-1-sjpark@amazon.de>
-References: <20210805174324.2aaf0fb67cd19da893a86d80@linux-foundation.org>
-        <20210806114831.7009-1-sjpark@amazon.de>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S230147AbhHHDyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 Aug 2021 23:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230030AbhHHDyG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Aug 2021 23:54:06 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03BFC061760;
+        Sat,  7 Aug 2021 20:53:47 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id u5-20020a17090ae005b029017842fe8f82so15089651pjy.0;
+        Sat, 07 Aug 2021 20:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mJCzvgG17lDIrPVUXi3Q36FAL+nZMzi8syW3cWaF/28=;
+        b=DFjyMlNiJhu+rvkBzvFde/2g0HmPd6knViZBvTLAWhfcp3BXNS6beo9J13yf4i18Cj
+         yVDbL95ZEEJrlyG9VfjDu2aDMIAf5vt8U6VQQ0gaIDQOtWqozv3MCLmlL8g/1RZfOO6/
+         a1HgdtfsiDUaiFnBxGW2Q0ORRXyh6hrRSJrRpSdGnICBXSmcuuwXW2lm9IY5xn2aOaQZ
+         CWVDAuWapV4C5Lmj7c8wObNFJXNIjQiZkjvgeCOKQJ6L8eSTGvLXtCWInm8sea8simLj
+         LLfalKpRnmHFx9dJrluhIvm/HQMa7hTThXzheFAFgAkRaWBgtIJSuYKtGPdzTl/pH2Mh
+         7K/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mJCzvgG17lDIrPVUXi3Q36FAL+nZMzi8syW3cWaF/28=;
+        b=JagKi631NNKiLqIfq5cNHppSMcepAUlVYq+jgcZyH7B491zKTOlP6IcB2HS13iTHW7
+         8plHgFvq2tIBFMiqdXNFyMpKKczCCrY7LednP5EhN7NtB6e/Dbp72zbeHmGZFmkQzPtR
+         8I4d5yL/bUa6a8maFAvQXfzbBA2JeKFcxYcGj0apoOYPnIKdmLCr96YRIG3m48SH6HHz
+         vJ+uh2GcxtV49L6kIoX6tSGqUM0y9sjv2XCeH37tMo+OjeT11C6zsGR/dNEd9nDTkdL7
+         P4p5Le4HU12Vg7brKTBFPILh11xMyV4v2yFANlaTHjVd9hohQBYwORe4VFgd5Ljf6wmO
+         Erdw==
+X-Gm-Message-State: AOAM530HQbvyBpxjzBcllhjeyn6rr6lZqvZnoW6u6yCDNsxHh6+A+SB/
+        Zr/2+/0/h4gUpLrIHCylcPA=
+X-Google-Smtp-Source: ABdhPJyzYc0VSp1iw09YIr5eKAXmqOajXuR8ynvhj4oPhBmWzk5ih95NadTh5o+tNERzBIAIF3xGpA==
+X-Received: by 2002:a63:f341:: with SMTP id t1mr238565pgj.149.1628394827249;
+        Sat, 07 Aug 2021 20:53:47 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id a22sm15641180pfa.137.2021.08.07.20.53.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Aug 2021 20:53:46 -0700 (PDT)
+Subject: Re: [PATCH v3 6/9] docs: pdfdocs: One-half spacing for CJK
+ translations
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com>
+ <a1c19fe1-2960-1c4b-b355-7e6da13b9630@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <8e70e5ed-c0d9-a0f0-6640-a0f1ebdda6d4@gmail.com>
+Date:   Sun, 8 Aug 2021 12:53:43 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <a1c19fe1-2960-1c4b-b355-7e6da13b9630@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  6 Aug 2021 11:48:30 +0000 SeongJae Park <sj38.park@gmail.com> wrote:
+On Mon, 2 Aug 2021 18:56:16 +0900, Akira Yokosawa wrote:
+> CJK documents are much easier to read with a wider baseline stretch.
+> Applying the onehalfspacing option of "setspace" package looks
+> reasonable.
+>=20
+> Note: \usepackage{setspace} needs to be before that of hyperref in the
+> preamble.  The 'extrapackages' key (available since Sphinx 2.3) is for
+> this purpose.
 
-> > 
-> > Presumably there are companion userspace tools for DAMON.  Are they
-> > available?  Is there a plan to release and maintain these?
-> 
-> Yes, the userspace tool[1] is available, released under GPLv2, and actively
-> being maintained.  I am also planning to implement another basic user interface
-> in perf[2].  Also, the basic test suite for DAMON is available under GPLv2[3].
-> 
-> [1] https://github.com/awslabs/damo
-> [2] https://lore.kernel.org/linux-mm/20210107120729.22328-1-sjpark@amazon.com/
-> [3] https://github.com/awslabs/damon-tests
+Sphinx versions < 2.3 ignore 'extrapackages' and generate LaTeX
+sources without setspace package.
+Obviously, building such LaTeX sources will end up in the error of:
 
-Ah.  Useful info to have in the changelogs!  I added the above words to the [0/n] introduction in mm-introduce-data-access-monitor-damon.patch
+    ! Undefined control sequence.
+    \kerneldocCJKoff ...exeCJKinactive \singlespacing
+
+Current requirement to build pdfdocs is Sphinx 2.4.4, but LaTeX
+sources generated by 1.7.9 can at least be built prior to this change.
+
+Jon, Mauro, do you think this is a regression?
+
+You can skip 6/9 if you'd like.=20
+
+I'll see what can be done for compatibility with Sphinx < 2.3.
+
+        Thanks, Akira
+
+>=20
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+>  Documentation/conf.py                      | 9 +++++++--
+>  Documentation/translations/ja_JP/howto.rst | 8 ++++++++
+>  Documentation/translations/ko_KR/howto.rst | 8 ++++++++
+>  3 files changed, 23 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 2ccfe4442acc..2e54488e2480 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -341,6 +341,9 @@ latex_elements =3D {
+>          verbatimhintsturnover=3Dfalse,
+>      ''',
+> =20
+> +    # For CJK One-half spacing, need to be in front of hyperref
+> +    'extrapackages': r'\usepackage{setspace}',
+> +
+>      # Additional stuff for the LaTeX preamble.
+>      'preamble': '''
+>  	% Prevent column squeezing of tabulary.
+> @@ -405,8 +408,8 @@ latex_elements['preamble']  +=3D '''
+>  	\\newCJKfontfamily[JPsans]\\jpsans{Noto Sans CJK JP}
+>  	\\newCJKfontfamily[JPmono]\\jpmono{Noto Sans Mono CJK JP}
+>  	% Define custom macros to on/off CJK
+> -	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
+> -	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
+> +	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive\\onehalfspacing}
+> +	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive\\singlespacing}
+>  	\\newcommand{\\kerneldocBeginSC}{%
+>  	    \\begingroup%
+>  	    \\scmain%
+> @@ -437,6 +440,8 @@ latex_elements['preamble']  +=3D '''
+>  	    \\renewcommand{\\CJKttdefault}{JPmono}%
+>  	}
+>  	\\newcommand{\\kerneldocEndJP}{\\endgroup}
+> +	% Single spacing in literal blocks
+> +	\\fvset{baselinestretch=3D1}
+>  	% To customize \\sphinxtableofcontents
+>  	\\usepackage{etoolbox}
+>  	% Inactivate CJK after tableofcontents
+> diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation=
+/translations/ja_JP/howto.rst
+> index 73ebdab4ced7..d667f9d8a02a 100644
+> --- a/Documentation/translations/ja_JP/howto.rst
+> +++ b/Documentation/translations/ja_JP/howto.rst
+> @@ -1,3 +1,7 @@
+> +.. raw:: latex
+> +
+> +	\kerneldocCJKoff
+> +
+>  NOTE:
+>  This is a version of Documentation/process/howto.rst translated into J=
+apanese.
+>  This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.c=
+om>
+> @@ -11,6 +15,10 @@ try to update the original English file first.
+> =20
+>  ----------------------------------
+> =20
+> +.. raw:: latex
+> +
+> +	\kerneldocCJKon
+> +
+>  =E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E3=80=81
+>  Documentation/process/howto.rst
+>  =E3=81=AE=E5=92=8C=E8=A8=B3=E3=81=A7=E3=81=99=E3=80=82
+> diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation=
+/translations/ko_KR/howto.rst
+> index a2bdd564c907..e3cdf0c84892 100644
+> --- a/Documentation/translations/ko_KR/howto.rst
+> +++ b/Documentation/translations/ko_KR/howto.rst
+> @@ -1,3 +1,7 @@
+> +.. raw:: latex
+> +
+> +	\kerneldocCJKoff
+> +
+>  NOTE:
+>  This is a version of Documentation/process/howto.rst translated into k=
+orean
+>  This document is maintained by Minchan Kim <minchan@kernel.org>
+> @@ -11,6 +15,10 @@ try to update the original English file first.
+> =20
+>  ----------------------------------
+> =20
+> +.. raw:: latex
+> +
+> +	\kerneldocCJKon
+> +
+>  =EC=9D=B4 =EB=AC=B8=EC=84=9C=EB=8A=94
+>  Documentation/process/howto.rst
+>  =EC=9D=98 =ED=95=9C=EA=B8=80 =EB=B2=88=EC=97=AD=EC=9E=85=EB=8B=88=EB=8B=
+=A4.
+>=20
+
