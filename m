@@ -2,152 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D835EC4320A
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Aug 2021 08:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC34FC432BE
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:09:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA18A60230
-	for <linux-doc@archiver.kernel.org>; Sun,  8 Aug 2021 08:54:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92404606A5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231136AbhHHIzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Aug 2021 04:55:10 -0400
-Received: from mail-bn1nam07on2089.outbound.protection.outlook.com ([40.107.212.89]:4416
-        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230301AbhHHIzJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 8 Aug 2021 04:55:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ltAfO6wUtANh+zL/ZQnDO5y8UitwD8XouNNvG9YwJ4bTBcqDgJrHGWeePRK5vFsIJtCiXvtWw3MxdV7H/gSyk7JQ9aSUIdJulckFAFTTfoOGyJub7L2pJO2GweyzMCe1DwD6K5YP4gP1oCJEYJULwflEu+sidxINvMHwYLmSnQuNPusgJ2KkZdoxbuA8Lq+nqx/Ncfydlq+/6C9xsAyfSnmvP+HKj5ufXn3VCKUOogRdOC0LWybnK3876XfDAMhxNuYRfIcsj77vS/oq52uKrBmK+rCv1Iu46K9da23gT9m9FhwlGTM5nsRNJU9xNurW+GTojzCQeEPbP4f+HNyzsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L/RGAJknooE9Djhl97guu1XK/xCdaQ/XCwgF7v9kTkA=;
- b=AIQUAoyBC+oUGEftsdtvwQEa6CV1ffIi2uhI0N/u7n3vKppZf9W1m8zH7ZEUHaf0Ds6Jqdt7y2PZUUMYSFMXixMM82J8gLXbu8HsRmG6gv2vo0taf4fNeSlFkX29BaM4+6owYiTPGKLWwzTEcRS1sKZ9gFvbcEWJQfFxOfl4jo0a6K11dzDfJjntmbZ1wCZ3IHf1bJj6f/WvpgnkjLk/XUsym1CNaB+ewDVict1kt5/2HrvAMQTyBNBSizWu6OWEDDMw6Hu57Xt+a7VXjUKexHUB/s7hmQzPZvc/BVTvEF4Il58lxYix1QUbiNXeConVlb1xzC5GvmmVuJVm65Ms+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L/RGAJknooE9Djhl97guu1XK/xCdaQ/XCwgF7v9kTkA=;
- b=jtelv8o7qEr51w+a8U9gdOYQ/UQrZJ7nMjCymzk68G7Z05z3l4OOJW2P8EIbTeGC7t9brKONoT7fS+9CfjbWtig+PgJwxYOwUA44sLITwnccYdjcenb4kXsbMnQZB9nAh4OoG5ggYhZUSfQU8Ii0q7hg0F3kp3sX98odaC2iQS5Vg/jqH06G9U6PhX3As6mYm4Ee2T4O8wSxad0TChJaSq3Z/rk7r2hjiHejTisHLH0293efaoBlUj/Qb5/2LIekDKTrJwGDGTQYSp7XV2xKn/80OFoBrM3xSbngjEXEhmIHJ9I6vzPD60udrs7IS4tZfxwmvgIGXfROY8TmgyrASQ==
-Received: from DM6PR07CA0058.namprd07.prod.outlook.com (2603:10b6:5:74::35) by
- DM5PR12MB2519.namprd12.prod.outlook.com (2603:10b6:4:b5::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.21; Sun, 8 Aug 2021 08:54:48 +0000
-Received: from DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:74:cafe::70) by DM6PR07CA0058.outlook.office365.com
- (2603:10b6:5:74::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend
- Transport; Sun, 8 Aug 2021 08:54:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux.ibm.com; dkim=none (message not signed)
- header.d=none;linux.ibm.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT064.mail.protection.outlook.com (10.13.172.234) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4394.16 via Frontend Transport; Sun, 8 Aug 2021 08:54:47 +0000
-Received: from [172.27.14.153] (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 8 Aug
- 2021 08:54:36 +0000
-Subject: Re: [PATCH v4 01/14] vfio/samples: Remove module get/put
-To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
-        "Tony Krowiak" <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        "Eric Farman" <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        <intel-gfx@lists.freedesktop.org>,
-        <intel-gvt-dev@lists.freedesktop.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        <kvm@vger.kernel.org>, Kirti Wankhede <kwankhede@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        "Halil Pasic" <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        "Vineeth Vijayan" <vneethv@linux.ibm.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-CC:     "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
-        "Leon Romanovsky" <leonro@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        "Zhenyu Wang" <zhenyuw@linux.intel.com>
-References: <1-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
-From:   Max Gurtovoy <mgurtovoy@nvidia.com>
-Message-ID: <a5fc93a0-4634-d0aa-8b4c-0dc28b1459d5@nvidia.com>
-Date:   Sun, 8 Aug 2021 11:54:29 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S229942AbhHIBJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Aug 2021 21:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229891AbhHIBJo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Aug 2021 21:09:44 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C6BC061757;
+        Sun,  8 Aug 2021 18:09:24 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id bo18so3359379pjb.0;
+        Sun, 08 Aug 2021 18:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=jLQyBU8VTizRie2ANBYDCTuzQESy6ouD7F0lRuwx+Gs=;
+        b=OClwux1dZHviyRaacX3aDsWwre7i/BxBGrwjI65ZRcYFI1REsymgGuSwoVMq7Ko1Z5
+         fumX3UhvaGB3rrIBuBU8Y7z/T4q4+JRhfyuxfOg1VNFvwhNRAP2It1BmKzMQ3cBeIyo+
+         O0YS4yvAEQDunm9mJ7JtrkAT9WdMIQQsQoxVuWfwW2xw3hNOudCo18YQtlsEljhw08U1
+         sLgFd2JPj2r7XSHaUZg5jIO1r4THimpK2wb+wsxS1YcI35Eh3WgyrQoXgEcaOngWtvUW
+         pImJ4d0cfhFv5KA6QoI1ONx9/Us5aXAwcW0W7/UAd+tNs+XSlS9lYvewMVuzBfwxf0wf
+         l4aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=jLQyBU8VTizRie2ANBYDCTuzQESy6ouD7F0lRuwx+Gs=;
+        b=EM5xL6MPc4sbG61ZAB3hZO8WJnNMlMEJqCB7QFcUOg6UAfcRKRz5bnUqJEsEp0mgVM
+         q+3PtQ78n61OcVy4JInnw+U7t+oxhNtH27ISTb3JgmC4ofp9MFGIBcraNXpk9IEGQLXF
+         fvIajGeEVu/aVpw/yxZNKllNM0vadnhE2UOKL/kUex/ifw5avKRKAST2gsMq0ISq0r3p
+         d127Ni19CQ4fmfIGJ3Z0B5r5mh7jTK/dAqV2+LzA6ydyBq1hhrH6Labi4+xiR3TA4Kdp
+         F9BM767+tgWSP0YdnEYrxnZHGAZmFEYKILrH/IfRuk2Bdie/QCVt6jZyOIgZGIcaUXYB
+         0k1Q==
+X-Gm-Message-State: AOAM530ScRNLA/ubRzfw8dzugwuTWIzMilnDJKac1/oVo+mmJ+m8kZGK
+        JrI1h/lUtxR/mWI2IEjXall1pj5qw1M=
+X-Google-Smtp-Source: ABdhPJwht86+28kUjUzEr4jaJOOM26JLyKv3pEaGnzZZJKSsJO5s/4UPMMEVdoibvkypdWo+3KC5zw==
+X-Received: by 2002:a17:902:bd49:b029:12c:7775:cdea with SMTP id b9-20020a170902bd49b029012c7775cdeamr18267232plx.68.1628471364465;
+        Sun, 08 Aug 2021 18:09:24 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id l14sm18536799pfd.58.2021.08.08.18.09.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Aug 2021 18:09:24 -0700 (PDT)
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v4 0/9] docs: pdfdocs: Improve font choice in CJK translations
+Message-ID: <39d0fb0f-b248-bca4-2dac-df69e8d697b1@gmail.com>
+Date:   Mon, 9 Aug 2021 10:09:20 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd05e1ac-103b-44ad-f4b0-08d95a4a2d08
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2519:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB251973393625C9941809DC86DEF59@DM5PR12MB2519.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HMlVj7ZIwwFIMUcH2+f0d0OXjAUrrhiU3h94vgUvO2v7qAA/YfrcsQqC+1zln3SrU/ouSVNwC7V2i9y70Uo4Gcek1w1enXHzjk0LP6FFcJ75tPvKFIuzEXS0KSMuxkGQC2AKWEFOsPfdsYmfVQoGdXBIhEjtPwRppfIs97EPZFpk1DXI/0JeijB3Z9i04zRo4M6yhjaIqQgrkXmzTAV3pwge/ffLEYEQB2A4oJcysiInetbWj3o3Mez029RuNINaMflxQtA+vdczf878zVNwuLhkjwrdIP0p0Ke0+ODMIiYje6zOkK0nV1K+R0tdp/X6rCymuUE5lmfR+6XA9PaiiRpzE6X4vf29jJL0IvIdK2VntnQ441PqopO3/X453MwInKNqssLqDINGXoXlFFLe0MEdQ+1JAxuSfl2SpL8nWUyz6QwMlEkv4fG7Mh7T4uLBEErAvgkYAMRzdFcYVyN3eU/bXvsU4ffTJ0l3N8ZwpCouKoCfeAR9bEI4sGllKi7N2hnWVcILrJYaCuAU8LFRQPCGVN4nuaFTaj+xaHP4wn1y2uIW7ProRfouxSRx/q6E3RirEQn9LqUtd8x72A+fB6G4u+4N0Qp+IYKps5GlkzfQR6ARLgchuzi0JX3IhFyN/ICSwltNAODYOcjEiv6VpCUYsuGYuKRBIF+H4rT+MVjVNSa4yxzdEsAe13NMERdBSlW5iwLMwgWQ19ZToTNcQW7Jt8VZyUUDZhaG2tbf3n3YQXZyqsX/szMmxmaiTXzGVrq+23B60aJoBb26wkWoLwjM+ewgf3edzrObFMA1NhA=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(46966006)(36840700001)(31696002)(478600001)(7636003)(316002)(4326008)(356005)(16576012)(86362001)(2616005)(31686004)(47076005)(7406005)(110136005)(7416002)(82740400003)(54906003)(36860700001)(70586007)(5660300002)(426003)(70206006)(921005)(8676002)(8936002)(82310400003)(336012)(4744005)(186003)(6666004)(26005)(2906002)(53546011)(36756003)(83380400001)(36906005)(16526019)(43740500002)(2101003)(83996005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2021 08:54:47.8057
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd05e1ac-103b-44ad-f4b0-08d95a4a2d08
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2519
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
-On 8/6/2021 4:18 AM, Jason Gunthorpe wrote:
-> The patch to move the get/put to core and the patch to convert the samples
-> to use vfio_device crossed in a way that this was missed. When both
-> patches are together the samples do not need their own get/put.
->
-> Fixes: 437e41368c01 ("vfio/mdpy: Convert to use vfio_register_group_dev()")
-> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   samples/vfio-mdev/mbochs.c | 4 ----
->   samples/vfio-mdev/mdpy.c   | 4 ----
->   2 files changed, 8 deletions(-)
+6/9 in v3 was not compatible with Sphinx < 2.3.
+It is now fixed in v4.
 
-Looks good,
+Change in v3 [1] -> v4:
 
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+    o Provide dummy commands for Sphinx < 2.3 to keep compatible
+      with Sphinx < 2.3 (6/9).
+    o Add Reviewed-by and Tested-by tags from Hu Haowen (9/9).
 
+Changes in RFC v2 [2] -> v3:
+
+    o Regression fixes:
+      - CJK Serif font is chosen only when it is available (3/9).
+        Now systems with only "Noto Sans CJK" fonts are good enough
+        for building pdfdocs.
+      - \usepackage{setspace} is moved before that of hyperref for
+        compatibility (6/9).
+    o Split RFC v2's 2/7 into 4 smaller chunks (2/9 -- 5/9).
+    o Cover zh_TW translations (2/9, 9/9).
+    o Use \scmain, \tcmain, \krmain, and \jpmain instead of
+      \scserif, \tcserif, \krserif, and \jpserif in the definition
+      of \kerneldocBegin(SC|TC|KR|JP) (2/9).
+    o Having heard nothing from Mauro and SeongJae, dropped RFC v2's
+      6/7 and 7/7.
+      (I'll post them later as a separate RFC patch set.)
+    o Wordsmith change logs.
+
+[1] v3: https://lore.kernel.org/linux-doc/eb8184ab-cfab-680b-f180-1157a7f709b3@gmail.com/#t
+[2] RFC v2: https://lore.kernel.org/linux-doc/20ff8a65-6a5c-c062-fe1a-0f5c5ddc813c@gmail.com/#t
+
+For those wondering how the difference of SC and TC font variants would
+look, here are links to screenshots from the traditional Chinese chapter.
+
+    "Noto Serif CJK SC": https://fars.ee/oOAS.png
+    "Noto Serif CJK TC": https://fars.ee/11Li.png
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (9):
+  docs: pdfdocs: Refactor config for CJK document
+  docs: pdfdocs: Add CJK-language-specific font settings
+  docs: pdfdocs: Choose Serif font as CJK mainfont if possible
+  docs: pdfdocs: Preserve inter-phrase space in Korean translations
+  docs: pdfdocs: Add conf.py local to translations for ascii-art
+    alignment
+  docs: pdfdocs: One-half spacing for CJK translations
+  docs: pdfdocs: Permit AutoFakeSlant for CJK fonts
+  docs: pdfdocs: Teach xeCJK about character classes of quotation marks
+  docs: pdfdocs: Enable language-specific font choice of zh_TW
+    translations
+
+ Documentation/conf.py                      | 121 ++++++++++++++++++---
+ Documentation/translations/conf.py         |  12 ++
+ Documentation/translations/ja_JP/howto.rst |   8 ++
+ Documentation/translations/ja_JP/index.rst |   5 +
+ Documentation/translations/ko_KR/howto.rst |   8 ++
+ Documentation/translations/ko_KR/index.rst |   2 +
+ Documentation/translations/zh_CN/index.rst |   5 +
+ Documentation/translations/zh_TW/index.rst |   4 +
+ 8 files changed, 149 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/translations/conf.py
+
+-- 
+2.17.1
 
