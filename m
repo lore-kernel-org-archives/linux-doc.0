@@ -8,57 +8,57 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93764C4338F
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C031C4338F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:29:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B8C960F4B
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A7C460F4B
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:29:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhHIB1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Aug 2021 21:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37278 "EHLO
+        id S232359AbhHIB3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Aug 2021 21:29:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbhHIB1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Aug 2021 21:27:42 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE415C061757;
-        Sun,  8 Aug 2021 18:27:21 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id oa17so573018pjb.1;
-        Sun, 08 Aug 2021 18:27:21 -0700 (PDT)
+        with ESMTP id S231730AbhHIB3c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Aug 2021 21:29:32 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC93AC061757;
+        Sun,  8 Aug 2021 18:29:12 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso4203710pjb.2;
+        Sun, 08 Aug 2021 18:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cnqTbXmmA+ClGgIm+08APSfICc9j7eEK30S97HC1gQ8=;
-        b=mqJcFEc8wwJnJBTlXcp+Dhbs5+cUv25eXYpq6+PAFnhLTdKIjl/FN9UEunjFY1mvC0
-         F6WzSLxcL9EgsPXfaukruFOssv0LCtFBV9H9aIju3GAkn08N8Vlz20Xs07zDcNBe/XUh
-         xKUFPgFl0+XPlUg48s/kHNH/UmWXypQl/ldN6sjr13AyVsuYTY8dUBwt7wBL/r5b/sNC
-         MH036B/822JDCJkzHk6Kq6XztdMY4+QgWkLaMVPHbLIEEDuTgMGBoL2g6HQmVax1t6CK
-         rsqS0jUw7L0gLBygrcbFjoaMJk/BfGVCTNNr+yn9paYh/a60wwIhWou1bBffDixOp5II
-         Hs6A==
+        bh=9e/dTAUWTOCCi1nN3rGdg1NsL6ZavcZ8gQG0xuwCChc=;
+        b=NEO0UmqlRALFwaGRieJ0h2rn1CZT5WXiV1hTPAkRxbQ2KQp2fmOgxMzXHNdTDbOLVp
+         3PapWJbtu9w4cMUMmLRp/kiVbyAXop38NbsarkOYCcdwbX/1SNnY4RMHTwvbRVX/j7PU
+         rDCBmNIh+PX+Mq4U4BgAxRS+OWMn8akxYFtst4i1Mihgeg2mDMmIpYQFrb5xHGnIrtVb
+         s/RuEXmD1qAiArE1sblexNhX/UkEk0tU67oXcpD5nnZfVnmekRhaQRxQWw2R3tQjDGL+
+         5AObGIrKUJJ8V/ISGrV5aqw1Wub2vZ85Jwg40UDiDsS1CVgO/uLlq0lWAdF1o/yWLRxp
+         z/Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=cnqTbXmmA+ClGgIm+08APSfICc9j7eEK30S97HC1gQ8=;
-        b=IDinmdINP2aecqhXSD0ZYPdQOpjYLvZLKE1xwS1rlEWuFSFY2NyYlYB4btAc6OVKEs
-         qR36cBibtiW6g3mel8lWI0ndzwUxFp/1Nnhb/WhQiyLXOPi2kD0u8cx+DBNC0FxD+k3B
-         mkwM0sUFmLJ5tJZdlWH2cK7rsDaB9+aMhnZh8BshD7z36eXi+pbwAakqUlWipnYcSBVx
-         FrN/VFVZpUdGDSkAHKcHc+uWL5V9qItz1HucnuuVgPZeG3ZIsbU0ruT6+9AoPbzgAuvH
-         eF0v1VDJ71Q8taB36rKkiY98NFrP/qlk0WKSsi32rg+KzHS+6fQEBLfSjeLY0Wswfgyt
-         GgoA==
-X-Gm-Message-State: AOAM530bTNsvLChfBwnmZh7jax71HHuwYco8dWX8ipak3qBBF6AY7lGm
-        /4cTob9Zimoah/0oOXS22pI=
-X-Google-Smtp-Source: ABdhPJy2mNAjTfZw6q4LHl2cYEXVibApC5QG1dgrj9MQ23/Mg/QtiBvoCVI6f0j8KNtfEDzixZ92rg==
-X-Received: by 2002:a62:ea10:0:b029:399:ff48:e9da with SMTP id t16-20020a62ea100000b0290399ff48e9damr21500610pfh.56.1628472441473;
-        Sun, 08 Aug 2021 18:27:21 -0700 (PDT)
+        bh=9e/dTAUWTOCCi1nN3rGdg1NsL6ZavcZ8gQG0xuwCChc=;
+        b=nNx1uwQ/Lzx3aU5AZyffsQ6A4cyM12x8n7OOfYKtkOuV+i86ayQEk6f7mi4dhjwef6
+         8tCCMSvjzNhriSI8nRpx8z/tqD3xplQULx8TNEJBAMJHUHep/JbxRoEc+u9kEicZmvZm
+         9CTAgTDsFqSq2uXglDhZ9VxgZv24Ui7rIA7GPo9gvFOZFIe18eVLhGgtmZ0rW703a4UJ
+         BLl+b2iLJEwrElfukNd1HoB+ngVQRmjcbTsJJoa9Z7TrACTSseRV3lB3HEBiSVGs4Cqm
+         PTmHwhV76JgpD3zIGJzhT+dQC3nwGNzBiZs9LoXBfweJx+XhJXov+fdKhhFoQbYALHVd
+         oxNw==
+X-Gm-Message-State: AOAM532Wg191AOggGtCxZYGaLUFK7I92ZWLHFWiPKmv5+fN13vCeL/k9
+        aU/qaM53Qj0XTd5GiVce2Wk=
+X-Google-Smtp-Source: ABdhPJxLiY0LATkcsfExiqGb3MP8Nr2nr6Tqs4/nwyd3NV3f9xYasq9aKf7nV+XNuthzKXyYYnI6MQ==
+X-Received: by 2002:a17:902:bb92:b029:12c:31cd:2400 with SMTP id m18-20020a170902bb92b029012c31cd2400mr1004814pls.16.1628472552060;
+        Sun, 08 Aug 2021 18:29:12 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id r14sm10534384pff.106.2021.08.08.18.27.19
+        by smtp.gmail.com with ESMTPSA id n11sm16322073pjf.17.2021.08.08.18.29.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Aug 2021 18:27:21 -0700 (PDT)
-Subject: [PATCH v4 8/9] docs: pdfdocs: Teach xeCJK about character classes of
- quotation marks
+        Sun, 08 Aug 2021 18:29:11 -0700 (PDT)
+Subject: [PATCH v4 9/9] docs: pdfdocs: Enable language-specific font choice of
+ zh_TW translations
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
@@ -66,55 +66,49 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <39d0fb0f-b248-bca4-2dac-df69e8d697b1@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0da9e3c5-2716-f576-1df5-2f28ea69f0e8@gmail.com>
-Date:   Mon, 9 Aug 2021 10:27:18 +0900
+Message-ID: <9d8e8fa2-3e7a-3a0a-1a0d-7d797a605ff8@gmail.com>
+Date:   Mon, 9 Aug 2021 10:29:09 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <39d0fb0f-b248-bca4-2dac-df69e8d697b1@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quotation marks in "KR" and "JP" variants of Noto CJK fonts are half
-width.
-xeCJK assumes they are full width by default and does excessive kerning
-around them in Korean and Japanese translations.
-
-Give xeCJK proper hints by the \xeCJKDeclareCharClass command.
+The "TC" variants are supposed to be the choice for traditional
+Chinese documents.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Reviewed-by: Hu Haowen <src.res@email.cn>
+Tested-by: Hu Haowen <src.res@email.cn>
 ---
- Documentation/conf.py | 4 ++++
+ Documentation/translations/zh_TW/index.rst | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index afa085c71781..75650f6443af 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -428,6 +428,8 @@ latex_elements['preamble']  +=3D '''
- 	\\newcommand{\\kerneldocEndTC}{\\endgroup}
- 	\\newcommand{\\kerneldocBeginKR}{%
- 	    \\begingroup%
-+	    \\xeCJKDeclareCharClass{HalfLeft}{`=E2=80=9C,`=E2=80=98}%
-+	    \\xeCJKDeclareCharClass{HalfRight}{`=E2=80=9D,`=E2=80=99}%
- 	    \\krmain%
- 	    \\renewcommand{\\CJKrmdefault}{KRserif}%
- 	    \\renewcommand{\\CJKsfdefault}{KRsans}%
-@@ -437,6 +439,8 @@ latex_elements['preamble']  +=3D '''
- 	\\newcommand{\\kerneldocEndKR}{\\endgroup}
- 	\\newcommand{\\kerneldocBeginJP}{%
- 	    \\begingroup%
-+	    \\xeCJKDeclareCharClass{HalfLeft}{`=E2=80=9C,`=E2=80=98}%
-+	    \\xeCJKDeclareCharClass{HalfRight}{`=E2=80=9D,`=E2=80=99}%
- 	    \\jpmain%
- 	    \\renewcommand{\\CJKrmdefault}{JPserif}%
- 	    \\renewcommand{\\CJKsfdefault}{JPsans}%
---=20
+diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+index 76981b2111f6..c02c4b5281e6 100644
+--- a/Documentation/translations/zh_TW/index.rst
++++ b/Documentation/translations/zh_TW/index.rst
+@@ -5,6 +5,7 @@
+ 	\renewcommand\thesection*
+ 	\renewcommand\thesubsection*
+ 	\kerneldocCJKon
++	\kerneldocBeginTC
+ 
+ .. _linux_doc_zh_tw:
+ 
+@@ -162,3 +163,6 @@ TODOList:
+ 
+ * :ref:`genindex`
+ 
++.. raw:: latex
++
++	\kerneldocEndTC
+-- 
 2.17.1
-
 
 
