@@ -2,63 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87974C4338F
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BDCC4338F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:24:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DE5260FC2
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:21:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE9BC60F55
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 01:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbhHIBVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 Aug 2021 21:21:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S230076AbhHIBYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 Aug 2021 21:24:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbhHIBVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Aug 2021 21:21:53 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72EF1C061757;
-        Sun,  8 Aug 2021 18:21:33 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id f3so4023931plg.3;
-        Sun, 08 Aug 2021 18:21:33 -0700 (PDT)
+        with ESMTP id S229891AbhHIBYV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Aug 2021 21:24:21 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF519C061760;
+        Sun,  8 Aug 2021 18:24:00 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id a8so25417492pjk.4;
+        Sun, 08 Aug 2021 18:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qt3JSp3w7IVZ6nUcMxFL1E+Q1Rl42RnvY6bsLilfOP0=;
-        b=ZQwpyZ+oMI7Vub1eMk6YmC/nOH3cVNSQhFDU6QMHq2mNhNdg854h0Q+om7j8VhPexT
-         sZdWOKtYiKhizL+D5Gh0712PCjpAF7YHRitheIe+CBKI5eiZZ+IsQjtcAt47FJYleHP4
-         2lJiQ/JlTWaA1xWXZIkpNK8KXdTtvx0VE7Fd+p5dCdQAFLFUTuZbBdSE9zx+KRiVyIMF
-         Zx5kirwRyGp5E2qA42AK6jmJR0wDxzuYetI+y6v7f9lfiZnAnmCF7gDhnEEi/hyLwr8J
-         rT4c9UnOC5W1kpjcZkdqgW78pzIHHqSS0bzRmJcJwrWBMGznMrXmEbmKw6o6DXDlhAKc
-         vhhw==
+        bh=65uq92+uPfX201VDvmSTKZbSUN3WhilhgfG4rF4gYBQ=;
+        b=Iokl1Pdx38bGc8N5LxtjlSPrwWf2MQ3RZbCEuhb2oRZnT8eRjpKKA7b4jznKdYq3SJ
+         lHkVePrUQcfN+aHDl1rcHmSHztiBn3hk3ebt1svGRp5yFgbllkUuVFNGlqDJlYxWUGp+
+         2VlKGjmbyYLddQtooHV8CRwS8XWDPKqlmW9L3eF0eEt82HzIr3XkE74DZpC1gPY1KE/Q
+         HqGYD4Z1XKZ10v3fJTTRajWDaJbbDYO+DTgx1HjALqFm+AsQS22drQRxAPhCJhw9bohg
+         lfYzBbkpR1cLwG122cvqDqw3ZYJdEAZX5K6yU1zZcrFch9P0qEtNsRYsHuPyHEWsQFuZ
+         Xh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qt3JSp3w7IVZ6nUcMxFL1E+Q1Rl42RnvY6bsLilfOP0=;
-        b=b+ScfOpiHeh4BZUEWJgi1DIy8iEZM3nAnplASdgDCrFcxdiIi73I+v7W7ibgEG+MBk
-         R5f3W29mUDhDdL9gcVDbfjctRj5YvjDFKr0zpHT0qwvuuaHzsXKqqF+5N82op9awITMZ
-         U3hy9cC4Pp2ySm/Ij+R7Hpqzb8kKSiF+DIJzRTpyGv3YltjOxLlu3wYT5BKri7HTVvlo
-         q7qweHs/Ck1y2utItqOLsEwZlxjIkAEQRtl+DONojJw4HuVC2LvrpKdxevdr+exxva2U
-         Ynx/6kaGOwsHaVsRXhUyIYviS+snAkEIkiIYokyTPbpEr5HJdSkbWh+9MXiUGm76GtF6
-         IXfw==
-X-Gm-Message-State: AOAM530G1kJe/aldneEWNtTRnfuwY1HqKHHZoD5f0MKH1LHG+zLoLUJl
-        5HgZEehtoXA8bWR3Jjkw8jA=
-X-Google-Smtp-Source: ABdhPJwQOmRestr/bZCmmkkZiGbnzhAGivd+6MhiLaM4ZJQ5qEpW0lMFIFiFFr61Pl4kmlrcWYWwZQ==
-X-Received: by 2002:a17:90b:33c5:: with SMTP id lk5mr33779775pjb.129.1628472093067;
-        Sun, 08 Aug 2021 18:21:33 -0700 (PDT)
+        bh=65uq92+uPfX201VDvmSTKZbSUN3WhilhgfG4rF4gYBQ=;
+        b=qj/fbYXX0lZtaUIsEwKllCYRVHsVI4cKF6zVBib0rAQqsX0wgSsoDp+K/VWQ3gAHKM
+         QIqcX/+ZeTLJddz07Ln2bMo/KmdlLW7UH9lsjsZJGVZHHh25YjQo0DPHEuy+1tUuKQs9
+         Kkyd/IPeNujDhP2+x1jM4Uzhj3MfkFd3oSDDq4eKeC62xNCsZxnxElX1zmiydmzRpw/+
+         wEGz5VBuuSh4n2KR0/Z2Mq7T4OJzuh8lZTLd82qFhBsw04sKfJx+PJhD38cKnOCDEBQL
+         sDsu+K1UJqFjqxIwR/SrCJnbPm+9PVLqM/rgdnyetsHlOfPo/FS3mrMLKtc3DTfBIMx/
+         iYSg==
+X-Gm-Message-State: AOAM5312ncZbyuVfo4jbuNCE1nIJ95f5gVIQnXE94ZCAXzzqDUf20o3x
+        tERDx5lz9WvAfykrmpHPSOk=
+X-Google-Smtp-Source: ABdhPJzqDgD3D1BVfv5dPas/nj/OdblGE2h3Arz+ZTKGupLDSDn7I1jBTcCtcj7rE20LT645sAaekQ==
+X-Received: by 2002:a65:6785:: with SMTP id e5mr195805pgr.199.1628472240324;
+        Sun, 08 Aug 2021 18:24:00 -0700 (PDT)
 Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 11sm17482904pfl.41.2021.08.08.18.21.30
+        by smtp.gmail.com with ESMTPSA id q13sm18837759pjq.10.2021.08.08.18.23.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Aug 2021 18:21:32 -0700 (PDT)
-Subject: [PATCH v4 5/9] docs: pdfdocs: Add conf.py local to translations for
- ascii-art alignment
+        Sun, 08 Aug 2021 18:24:00 -0700 (PDT)
+Subject: [PATCH v4 6/9] docs: pdfdocs: One-half spacing for CJK translations
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Wu X.C." <bobwxc@email.cn>, SeongJae Park <sj38.park@gmail.com>,
@@ -66,64 +65,130 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <39d0fb0f-b248-bca4-2dac-df69e8d697b1@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <79a876fc-a552-f972-4a1b-c6df4cbb36dd@gmail.com>
-Date:   Mon, 9 Aug 2021 10:21:29 +0900
+Message-ID: <547a1f1c-0bb5-20a7-ea0e-951bfc3c3925@gmail.com>
+Date:   Mon, 9 Aug 2021 10:23:57 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <39d0fb0f-b248-bca4-2dac-df69e8d697b1@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Globally choosing "Noto Sans Mono CJK SC" would result in sub-optimal look
-of literal blocks in Latin documents.
-Therefore, localize the font choice to translations by adding conf.py under
-Documentation/translations/.
+CJK documents are much easier to read with a wider baseline stretch.
+Applying onehalfspacing option of "setspace" package looks reasonable.
 
-The local conf.py is enabled when the command:
+Note: \usepackage{setspace} needs to be before that of hyperref in the
+preamble.
+The 'extrapackages' key (available since Sphinx 2.3) is for this purpose.=
 
-    make SPHINXDIRS=translations pdfdocs
-
-is used to build the PDF.
-Resulting translations.pdf (under Documentation/output/translations/pdf)
-will have properly aligned ascii-art figures.
-
-NOTE: There remain mis-aligned ascii-art figures in Korean translations.
-This is due to the font designer's decision to assign slightly narrower
-widths (920) to Hangul characters in "Noto Sans Mono CJK KR" than those
-of Hanja (Hanzi/Kanji) characters (1000) [1].
-
-[1]: https://github.com/googlefonts/noto-cjk/issues/17
+For systems with Sphinx < 2.3, dummy commands of \onehalfspacing and
+\singlespacing are provided instead.
+One-half spacing is not effective in LaTeX sources generated by such
+revisions of Sphinx.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Documentation/translations/conf.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
- create mode 100644 Documentation/translations/conf.py
+ Documentation/conf.py                      | 12 ++++++++++--
+ Documentation/translations/ja_JP/howto.rst |  8 ++++++++
+ Documentation/translations/ko_KR/howto.rst |  8 ++++++++
+ 3 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/translations/conf.py b/Documentation/translations/conf.py
-new file mode 100644
-index 000000000000..e859c2e19e8b
---- /dev/null
-+++ b/Documentation/translations/conf.py
-@@ -0,0 +1,12 @@
-+# -*- coding: utf-8 -*-
-+# SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 2ccfe4442acc..f219a7a41f48 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -341,6 +341,9 @@ latex_elements =3D {
+         verbatimhintsturnover=3Dfalse,
+     ''',
+=20
++    # For CJK One-half spacing, need to be in front of hyperref
++    'extrapackages': r'\usepackage{setspace}',
 +
-+# -- Additinal options for LaTeX output ----------------------------------
-+# font config for ascii-art alignment
+     # Additional stuff for the LaTeX preamble.
+     'preamble': '''
+ 	% Prevent column squeezing of tabulary.
+@@ -404,9 +407,12 @@ latex_elements['preamble']  +=3D '''
+ 	}
+ 	\\newCJKfontfamily[JPsans]\\jpsans{Noto Sans CJK JP}
+ 	\\newCJKfontfamily[JPmono]\\jpmono{Noto Sans Mono CJK JP}
++	% Dummy commands for Sphinx < 2.3 (no 'extrapackages' support)
++	\\providecommand{\\onehalfspacing}{}
++	\\providecommand{\\singlespacing}{}
+ 	% Define custom macros to on/off CJK
+-	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive}
+-	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive}
++	\\newcommand{\\kerneldocCJKon}{\\makexeCJKactive\\onehalfspacing}
++	\\newcommand{\\kerneldocCJKoff}{\\makexeCJKinactive\\singlespacing}
+ 	\\newcommand{\\kerneldocBeginSC}{%
+ 	    \\begingroup%
+ 	    \\scmain%
+@@ -437,6 +443,8 @@ latex_elements['preamble']  +=3D '''
+ 	    \\renewcommand{\\CJKttdefault}{JPmono}%
+ 	}
+ 	\\newcommand{\\kerneldocEndJP}{\\endgroup}
++	% Single spacing in literal blocks
++	\\fvset{baselinestretch=3D1}
+ 	% To customize \\sphinxtableofcontents
+ 	\\usepackage{etoolbox}
+ 	% Inactivate CJK after tableofcontents
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/t=
+ranslations/ja_JP/howto.rst
+index 73ebdab4ced7..d667f9d8a02a 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -1,3 +1,7 @@
++.. raw:: latex
 +
-+latex_elements['preamble']  += '''
-+    \\IfFontExistsTF{Noto Sans CJK SC}{
-+	% For CJK ascii-art alignment
-+	\\setmonofont{Noto Sans Mono CJK SC}
-+    }{}
-+'''
--- 
++	\kerneldocCJKoff
++
+ NOTE:
+ This is a version of Documentation/process/howto.rst translated into Jap=
+anese.
+ This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com=
+>
+@@ -11,6 +15,10 @@ try to update the original English file first.
+=20
+ ----------------------------------
+=20
++.. raw:: latex
++
++	\kerneldocCJKon
++
+ =E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E3=80=81
+ Documentation/process/howto.rst
+ =E3=81=AE=E5=92=8C=E8=A8=B3=E3=81=A7=E3=81=99=E3=80=82
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/t=
+ranslations/ko_KR/howto.rst
+index a2bdd564c907..e3cdf0c84892 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -1,3 +1,7 @@
++.. raw:: latex
++
++	\kerneldocCJKoff
++
+ NOTE:
+ This is a version of Documentation/process/howto.rst translated into kor=
+ean
+ This document is maintained by Minchan Kim <minchan@kernel.org>
+@@ -11,6 +15,10 @@ try to update the original English file first.
+=20
+ ----------------------------------
+=20
++.. raw:: latex
++
++	\kerneldocCJKon
++
+ =EC=9D=B4 =EB=AC=B8=EC=84=9C=EB=8A=94
+ Documentation/process/howto.rst
+ =EC=9D=98 =ED=95=9C=EA=B8=80 =EB=B2=88=EC=97=AD=EC=9E=85=EB=8B=88=EB=8B=A4=
+=2E
+--=20
 2.17.1
+
 
 
