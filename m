@@ -4,159 +4,219 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39683C432BE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 17:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 141FAC4338F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 18:00:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1893F6023F
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 17:50:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFB06610EA
+	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 18:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234690AbhHIRuy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Aug 2021 13:50:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35162 "EHLO
+        id S232288AbhHISA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Aug 2021 14:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234154AbhHIRuy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 13:50:54 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C376C0613D3;
-        Mon,  9 Aug 2021 10:50:33 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f26f300329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f26:f300:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D10FB1EC03D5;
-        Mon,  9 Aug 2021 19:50:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1628531428;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+x3/xw0UdgR0O51M+V/8Rb1MeOGiWw7WKdkNzGmn/YI=;
-        b=U1X3txxUjanACHAzsR0g0dw+exNq+LViOYU7718e5a7O0H0nnZNcZ+u/6JuZ0smrHRzHae
-        8nmHvJY3RZavNfP3ZNvxAzqDbJKgs/MR1ZKtuvdgluq+MkDPp9BDt35UhUmy4IPjD8yakb
-        B4NQppg4Hd+7eoA365j3GHbF/SVZxPo=
-Date:   Mon, 9 Aug 2021 19:51:12 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v28 06/32] x86/cet: Add control-protection fault handler
-Message-ID: <YRFrECvCESC4Irlk@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-7-yu-cheng.yu@intel.com>
+        with ESMTP id S234191AbhHISAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 14:00:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5254FC0619E6
+        for <linux-doc@vger.kernel.org>; Mon,  9 Aug 2021 10:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=lHE4HzpZaTp+FdxnkpZbo9WozF/kjMU5fb50w0SBw6Y=; b=BBUHxmtSm28cBxsXVtoob/PmWT
+        Y4lp0ZDRUqrm1nT5eTqzweXT4N0mvIzJzQxSmcFnveqsg/8tKojPO2MSfRcOK3RM3HjaRlzdtaUX0
+        M8vvcPgowr75uzAiuDAh/hDOGmChTOjECzkqT0SvZe0XpGB4XCyGHY1cVeBL89x4rke+vPU8Xya/H
+        Z9Ej1a8nAhGEhskQ3m2r07zoUe+7dvPcYugmtx3xLMHpdaw+Xqfp/ktL4rTkGhoi8fq9YueKTNMgA
+        tphZ++2FfUYzmWHICkzBjRdW2pCaQ9AvSzO/qXtFyEW6/QsnqMZBze3eWlH3z8UZrrsp1yJcOShBw
+        f1Q3IpqQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mD9X1-00BFsf-US; Mon, 09 Aug 2021 17:58:17 +0000
+Date:   Mon, 9 Aug 2021 18:57:47 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     linux-doc@vger.kernel.org
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: Hawkmoth & kernel-doc
+Message-ID: <YRFsmwqiui6z3689@casper.infradead.org>
+References: <YPnD1vkOTDhktnei@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210722205219.7934-7-yu-cheng.yu@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YPnD1vkOTDhktnei@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 01:51:53PM -0700, Yu-cheng Yu wrote:
-> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
-> +{
-> +	struct task_struct *tsk;
-> +
-> +	if (!user_mode(regs)) {
-> +		pr_emerg("PANIC: unexpected kernel control protection fault\n");
+Jani, any comments?
 
-No need for that call...
-
-> +		die("kernel control protection fault", regs, error_code);
-
-... as this one can say "unexpected" in the string too.
-
-> +		panic("Machine halted.");
-> +	}
-> +
-> +	cond_local_irq_enable(regs);
-> +
-> +	if (!boot_cpu_has(X86_FEATURE_SHSTK))
-
-cpu_feature_enabled()
-
-> +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
-> +
-> +	tsk = current;
-> +	tsk->thread.error_code = error_code;
-> +	tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +	/*
-> +	 * Ratelimit to prevent log spamming.
-> +	 */
-> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +	    __ratelimit(&cpf_rate)) {
-> +		unsigned long ssp;
-> +		int cpf_type;
-> +
-> +		cpf_type = array_index_nospec(error_code, ARRAY_SIZE(control_protection_err));
-> +
-> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
-> +			 tsk->comm, task_pid_nr(tsk),
-> +			 regs->ip, regs->sp, ssp, error_code,
-> +			 control_protection_err[cpf_type]);
-> +		print_vma_addr(KERN_CONT " in ", regs->ip);
-> +		pr_cont("\n");
-> +	}
-> +
-> +	force_sig_fault(SIGSEGV, SEGV_CPERR, (void __user *)0);
-> +	cond_local_irq_disable(regs);
-> +}
-> +#endif
-> +
->  static bool do_int3(struct pt_regs *regs)
->  {
->  	int res;
-> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-> index 5a3c221f4c9d..a1a153ea3cc3 100644
-> --- a/include/uapi/asm-generic/siginfo.h
-> +++ b/include/uapi/asm-generic/siginfo.h
-> @@ -235,7 +235,8 @@ typedef struct siginfo {
->  #define SEGV_ADIPERR	7	/* Precise MCD exception */
->  #define SEGV_MTEAERR	8	/* Asynchronous ARM MTE error */
->  #define SEGV_MTESERR	9	/* Synchronous ARM MTE exception */
-> -#define NSIGSEGV	9
-> +#define SEGV_CPERR	10	/* Control protection fault */
-> +#define NSIGSEGV	10
+On Thu, Jul 22, 2021 at 08:15:34PM +0100, Matthew Wilcox wrote:
+> I really dislike the javadoc style, so at Jani's urging I gave Hawkmoth
+> a try.  It's a little fiddly and a little buggy, but I think it
+> encourages better-written documentation.
+> 
+> I chose mm_inline.h as my victim.  It isn't currently included in the
+> documentation, and it only has three kernel-doc comments in it to
+> convert.
+> 
+> I'm approximating what firefox displays here ...
+> 
+> int page_is_file_lru(struct page *page)
+> 
+>   Should the page be on a file LRU or anon LRU?
+> 
+>     Parameters:  * page – The page to test.
+> 
+>     We would like to get this info without a page flag, but the state
+>     needs to survive until the page is last deleted from the LRU, which
+>     could be as far down as __page_cache_release.
+> 
+>     Returns:
+> 
+>              An integer (not a boolean!) used to sort a page onto the right
+>              LRU list and to account folios correctly.
+> 
+>              * 1 if @page is a regular filesystem backed page cache page or a lazily freed anonymous page (e.g. via MADV_FREE).
+>              * 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or swap backed page.
+> 
+> That's not _bad_.
+> 
+> 1. 'Parameters' is indented further than kernel-doc does (2 levels of
+>    indent, rather than 0)
+> 
+> 2. Output:
+> <dd><p>Should the page be on a file LRU or anon LRU?</p>
+> <dl class="field-list simple">
+> <dt class="field-odd">Parameters</dt>
+> <dd class="field-odd"><ul class="simple">
+> <li><p><strong>page</strong> – The page to test.</p></li>
+> </ul>
+> </dd>
+> </dl>
+> having gone to the trouble of using a <dl>, I feel that each parameter
+> should be a <dt> and its definition a <dd>.  That seems to be what
+> kernel-doc is doing.
+> 
+> 3. kernel-doc includes the type of the parameter in the definition,
+>    while hawkmoth drops it.  I'm ambivalent about which is better.
+> 
+> 4. It seems that the indentation of the 'Returns:' paragraph is a bit
+>    too deep, but it did get the list correct.
+> 
+> 5. The second and third functions documented by hawkmoth lose their
+>    parameter in the initial heading:
+> 
+> 
+> int __clear_page_lru_flags()
+> 
+>     Clear page lru flags before releasing a page.
+> 
+>     Parameters  * page – The page that was on lru and now has a zero reference
+> 
+> That first line really should have a 'struct page *page' in it.
+> 
+> 6. There's also a warning from the build:
+> 
+> /home/willy/kernel/linux/Documentation/core-api/mm-api.rst:101: WARNING: /home/willy/kernel/linux/include/linux/mm_inline.h:5: 'linux/huge_mm.h' file not found
+> 
+> Looks like I can probably pass arbitrary flags to clang to get it to
+> find that file, but I'm not sure whether I should.
+> 
+> Here's the diff against current Linus tree that I'm working with:
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 7d92ec3e5b6e..13fcce3ec18d 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -39,7 +39,7 @@ needs_sphinx = '1.7'
+>  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+>                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+>                'maintainers_include', 'sphinx.ext.autosectionlabel',
+> -              'kernel_abi', 'kernel_feat']
+> +              'kernel_abi', 'kernel_feat', 'hawkmoth']
 >  
->  /*
->   * SIGBUS si_codes
-> -- 
-
-Was there a manpage patch for the user-visible bits?
-
-I seem to remember something flying by very vaguely ...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>  if major >= 3:
+>      if (major > 3) or (minor > 0 or patch >= 2):
+> @@ -104,6 +104,7 @@ if major >= 3:
+>  else:
+>      extensions.append('cdomain')
+>  
+> +cautodoc_root = os.path.abspath('..')
+>  # Ensure that autosectionlabel will produce unique names
+>  autosectionlabel_prefix_document = True
+>  autosectionlabel_maxdepth = 2
+> diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+> index adabb5c5798a..b724e29772b0 100644
+> --- a/Documentation/core-api/mm-api.rst
+> +++ b/Documentation/core-api/mm-api.rst
+> @@ -98,4 +98,5 @@ More Memory Management Functions
+>     :internal:
+>  .. kernel-doc:: include/linux/mm.h
+>     :internal:
+> +.. c:autodoc:: include/linux/mm_inline.h
+>  .. kernel-doc:: include/linux/mmzone.h
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 355ea1ee32bd..7db1193a0d94 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -6,18 +6,21 @@
+>  #include <linux/swap.h>
+>  
+>  /**
+> - * page_is_file_lru - should the page be on a file LRU or anon LRU?
+> - * @page: the page to test
+> + * Should the page be on a file LRU or anon LRU?
+>   *
+> - * Returns 1 if @page is a regular filesystem backed page cache page or a lazily
+> - * freed anonymous page (e.g. via MADV_FREE).  Returns 0 if @page is a normal
+> - * anonymous page, a tmpfs page or otherwise ram or swap backed page.  Used by
+> - * functions that manipulate the LRU lists, to sort a page onto the right LRU
+> - * list.
+> + * :param page: The page to test.
+>   *
+>   * We would like to get this info without a page flag, but the state
+>   * needs to survive until the page is last deleted from the LRU, which
+>   * could be as far down as __page_cache_release.
+> + *
+> + * :return: An integer (not a boolean!) used to sort a page onto the right
+> + *   LRU list and to account folios correctly.
+> + *
+> + *   - 1 if @page is a regular filesystem backed page cache page or a lazily
+> + *     freed anonymous page (e.g. via MADV_FREE).
+> + *   - 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or
+> + *     swap backed page.
+>   */
+>  static inline int page_is_file_lru(struct page *page)
+>  {
+> @@ -39,8 +42,9 @@ static __always_inline void update_lru_size(struct lruvec *lruvec,
+>  }
+>  
+>  /**
+> - * __clear_page_lru_flags - clear page lru flags before releasing a page
+> - * @page: the page that was on lru and now has a zero reference
+> + * Clear page lru flags before releasing a page.
+> + *
+> + * :param page: The page that was on lru and now has a zero reference
+>   */
+>  static __always_inline void __clear_page_lru_flags(struct page *page)
+>  {
+> @@ -57,11 +61,12 @@ static __always_inline void __clear_page_lru_flags(struct page *page)
+>  }
+>  
+>  /**
+> - * page_lru - which LRU list should a page be on?
+> - * @page: the page to test
+> + * Which LRU list should a page be on?
+> + *
+> + * :param page: The page to test
+>   *
+> - * Returns the LRU list a page should be on, as an index
+> - * into the array of LRU lists.
+> + * :return: The LRU list a page should be on, as an index into the array
+> + *          of LRU lists.
+>   */
+>  static __always_inline enum lru_list page_lru(struct page *page)
+>  {
+> 
