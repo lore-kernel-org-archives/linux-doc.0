@@ -2,134 +2,227 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B44C5C4320A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:07:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDA7C4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:54:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B8B860C40
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:07:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4554160EDF
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:54:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237128AbhHJAH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Aug 2021 20:07:56 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:16916 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237108AbhHJAHz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 20:07:55 -0400
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 17A073gm027642;
-        Tue, 10 Aug 2021 09:07:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 17A073gm027642
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628554023;
-        bh=YHT1wdO9BJeEnVYWadet580A1QtIyBQoR9aiFtvfZGQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qpeaZfj1S52In9OqzugDwJq7LR5sf7DfsN2Ra4D4/7Mj7Sk8kVQ+Ze4SEJu9nxAWr
-         zuOtjmoizVRjdYz+IQ1+0hk8/3F2IkCEiA2JrFs51NCRM2ZTqC5Oz6bzK7nbjxIe86
-         Z4E0Ot1qLc47QDixlLSWr2EeR9DD9eoLOPKsiB/dE4KOQ+zO2rG8SnFmK9m//xIJyL
-         IzO79wsh46l09Bdey5qYnr7xjz6Mp0DFimoh1qGoaQeyaHrOihwNammcKKBbKJDr2d
-         Q0l6y+oOFPYo0z0mNu9C0TpATi4L3yAjIbTSVJ2i+uAHpW8cmyS4JrZDGyxB7uj4bb
-         KYwCOXGXlc7XA==
-X-Nifty-SrcIP: [209.85.214.176]
-Received: by mail-pl1-f176.google.com with SMTP id j3so18531277plx.4;
-        Mon, 09 Aug 2021 17:07:03 -0700 (PDT)
-X-Gm-Message-State: AOAM531hLOgbSq7Md+AJ3QkWY66rLc67hOigjihaUpsY84xskrgxQs6F
-        qvHaWI/gIFhQlpeGGkqhjvbkS99C5g6YR9cK2tg=
-X-Google-Smtp-Source: ABdhPJz5g2UH5l3Gvz6QSJjrySe0RZ6IE4VBgrreB7tp3UOmjppEP2ZS0P89yIPjgFj+aYeVphRC5LeTe/8xavReZBE=
-X-Received: by 2002:a63:dd51:: with SMTP id g17mr282732pgj.47.1628554022572;
- Mon, 09 Aug 2021 17:07:02 -0700 (PDT)
+        id S236299AbhHJAyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Aug 2021 20:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233500AbhHJAyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 20:54:55 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5990C0613D3;
+        Mon,  9 Aug 2021 17:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=DKH9L/D5qWxaAYmJH5xbQWOuTOQkBWl8uns/CseNhGI=; b=rWSTU6LyG3Ax19GY5TRFGp3+EI
+        cK5Kj49eUFo/5agYJLdXh0kG9PjYd5ZnoFD/w8SBNowK5uYx/kDyizv25fS0eupVxxIBM8O55+ZIr
+        OPPe9941zxUFGzF4sXn5vKbKf08LawMRROeZ1vTchFMQQwSKiRGirfastgCKxmNxAciBlFwxHZTY6
+        m60cKzysbUNzPDHOo25a41W8hyzSjW2xxRYlYr5FbAHZrtyDaIfdWTdgl1zdBjpP8SXNdGtqsOs29
+        NbygccEBtX2L/DQr1HLoj+RMxbLjEwMiexOewXwKUkS2N0KzIVxFCS/7q/6KWDUYsqZye8y6JYdR1
+        HLOGQFvg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mDG2K-002BdO-5f; Tue, 10 Aug 2021 00:54:32 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        kernel test robot <lkp@intel.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] clk/at91: remove kernel-doc warnings in sama7g5.c
+Date:   Mon,  9 Aug 2021 17:54:31 -0700
+Message-Id: <20210810005431.22007-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210806172701.3993843-1-ndesaulniers@google.com> <YQ2TGPwjvn8w4rKs@archlinux-ax161>
-In-Reply-To: <YQ2TGPwjvn8w4rKs@archlinux-ax161>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 10 Aug 2021 09:06:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARitJhPF5sggQ_k2885TSS3VbKQ0APAE7G8ANsYxxmz1g@mail.gmail.com>
-Message-ID: <CAK7LNARitJhPF5sggQ_k2885TSS3VbKQ0APAE7G8ANsYxxmz1g@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/Makefile.clang: default to LLVM_IAS=1
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Khem Raj <raj.khem@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-s390 <linux-s390@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 7, 2021 at 4:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Fri, Aug 06, 2021 at 10:27:01AM -0700, Nick Desaulniers wrote:
-> > LLVM_IAS=1 controls enabling clang's integrated assembler via
-> > -integrated-as. This was an explicit opt in until we could enable
-> > assembler support in Clang for more architecures. Now we have support
-> > and CI coverage of LLVM_IAS=1 for all architecures except a few more
-> > bugs affecting s390 and powerpc.
->
-> The powerpc and s390 folks have been testing with clang, I think they
-> should have been on CC for this change (done now).
->
-> > This commit flips the default from opt in via LLVM_IAS=1 to opt out via
-> > LLVM_IAS=0.  CI systems or developers that were previously doing builds
-> > with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
-> > explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
-> > opted-in.
-> >
-> > This finally shortens the command line invocation when cross compiling
-> > with LLVM to simply:
-> >
-> > $ make ARCH=arm64 LLVM=1
-> >
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> I am still not really sure how I feel about this. I would prefer not to
-> break people's builds but I suppose this is inevitabile eventually.
->
-> A little support matrix that I drafted up where based on ARCH and clang
-> version for LLVM_IAS=1 support:
->
->              | 10.x | 11.x | 12.x | 13.x | 14.x |
-> ARCH=arm     |  NO  |  NO  |  NO  |  YES |  YES |
-> ARCH=arm64   |  NO  |  YES |  YES |  YES |  YES |
-> ARCH=i386    |  YES |  YES |  YES |  YES |  YES |
-> ARCH=mips*   |  YES |  YES |  YES |  YES |  YES |
-> ARCH=powerpc |  NO  |  NO  |  NO  |  NO  |  NO  |
-> ARCH=s390    |  NO  |  NO  |  NO  |  NO  |  NO  |
-> ARCH=x86_64  |  NO  |  YES |  YES |  YES |  YES |
->
-> The main issue that I have with this change is that all of these
-> architectures work fine with CC=clang and their build commands that used
-> to work fine will not with this change, as they will have to specify
-> LLVM_IAS=0. I think that making this change for LLVM=1 makes sense but
-> changing the default for just CC=clang feels like a bit much at this
-> point in time. I would love to hear from others on this though, I am not
-> going to object much further than this.
->
-> Regardless of that concern, this patch does what it says so:
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Fix multiple kernel-doc warnings in sama7g5.c. There are several
+enums and structs that were not identified as such.
+There are also several anonymous structs (that scripts/kernel-doc
+has problems with), so add struct names to them.
 
+Fixes the following warnings:
 
-Applied to linux-kbuild.
-Thanks.
+drivers/clk/at91/sama7g5.c:39: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * PLL clocks identifiers
+drivers/clk/at91/sama7g5.c:60: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * PLL type identifiers
+drivers/clk/at91/sama7g5.c:122: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * PLL clocks description
+drivers/clk/at91/sama7g5.c:289: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Master clock (MCK[1..4]) description
+drivers/clk/at91/sama7g5.c:341: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * System clock description
+drivers/clk/at91/sama7g5.c:365: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Peripheral clock description
+drivers/clk/at91/sama7g5.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Generic clock description
+drivers/clk/at91/sama7g5.c:339: warning: Function parameter or member 'ep_chg_id' not described in 'master_clock'
 
+Some kernel-doc warnings are still printed, but they are all due to
+problems in the kernel-doc script (if anyone is interested in playing
+with some Perl :). These warnings are:
 
--- 
-Best Regards
-Masahiro Yamada
+sama7g5.c:287: warning: Function parameter or member '{' not described in 'sama7g5_plls'
+sama7g5.c:287: warning: Function parameter or member '' not described in 'sama7g5_plls'
+sama7g5.c:287: warning: Function parameter or member '}' not described in 'sama7g5_plls'
+sama7g5.c:339: warning: Function parameter or member 'sama7g5_mckx' not described in 'master_clock'
+sama7g5.c:339: warning: Function parameter or member '}' not described in 'master_clock'
+sama7g5.c:360: warning: Function parameter or member 'sama7g5_systemck' not described in 'system_clock'
+sama7g5.c:451: warning: Function parameter or member 'sama7g5_periphck' not described in 'periph_clock'
+sama7g5.c:451: warning: Function parameter or member '' not described in 'periph_clock'
+sama7g5.c:451: warning: Function parameter or member '}' not described in 'periph_clock'
+sama7g5.c:841: warning: Function parameter or member 'sama7g5_gck' not described in 'generic_clock'
+sama7g5.c:841: warning: Function parameter or member '}' not described in 'generic_clock'
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Eugen Hristev <eugen.hristev@microchip.com>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ drivers/clk/at91/sama7g5.c |   27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
+
+--- linux-next-20210809.orig/drivers/clk/at91/sama7g5.c
++++ linux-next-20210809/drivers/clk/at91/sama7g5.c
+@@ -36,7 +36,7 @@ static DEFINE_SPINLOCK(pmc_mck0_lock);
+ static DEFINE_SPINLOCK(pmc_mckX_lock);
+ 
+ /**
+- * PLL clocks identifiers
++ * enum pll_ids - PLL clocks identifiers
+  * @PLL_ID_CPU:		CPU PLL identifier
+  * @PLL_ID_SYS:		System PLL identifier
+  * @PLL_ID_DDR:		DDR PLL identifier
+@@ -44,6 +44,7 @@ static DEFINE_SPINLOCK(pmc_mckX_lock);
+  * @PLL_ID_BAUD:	Baud PLL identifier
+  * @PLL_ID_AUDIO:	Audio PLL identifier
+  * @PLL_ID_ETH:		Ethernet PLL identifier
++ * @PLL_ID_MAX:		Number of PLL_ID values (1 more than the last valid PLL_ID)
+  */
+ enum pll_ids {
+ 	PLL_ID_CPU,
+@@ -57,7 +58,7 @@ enum pll_ids {
+ };
+ 
+ /**
+- * PLL type identifiers
++ * enum pll_type - PLL type identifiers
+  * @PLL_TYPE_FRAC:	fractional PLL identifier
+  * @PLL_TYPE_DIV:	divider PLL identifier
+  */
+@@ -119,7 +120,7 @@ static const struct clk_pll_characterist
+ };
+ 
+ /**
+- * PLL clocks description
++ * struct sama7g5_plls - PLL clocks description
+  * @n:		clock name
+  * @p:		clock parent
+  * @l:		clock layout
+@@ -128,7 +129,7 @@ static const struct clk_pll_characterist
+  * @f:		clock flags
+  * @eid:	export index in sama7g5->chws[] array
+  */
+-static const struct {
++static const struct sama7g5_plls {
+ 	const char *n;
+ 	const char *p;
+ 	const struct clk_pll_layout *l;
+@@ -286,17 +287,17 @@ static const struct {
+ };
+ 
+ /**
+- * Master clock (MCK[1..4]) description
++ * struct master_clock - Master clock (MCK[1..4]) description
+  * @n:			clock name
+  * @ep:			extra parents names array
+- * @ep_chg_chg_id:	index in parents array that specifies the changeable
++ * @ep_chg_id:		index in parents array that specifies the changeable
+  *			parent
+  * @ep_count:		extra parents count
+  * @ep_mux_table:	mux table for extra parents
+  * @id:			clock id
+  * @c:			true if clock is critical and cannot be disabled
+  */
+-static const struct {
++static const struct master_clock {
+ 	const char *n;
+ 	const char *ep[4];
+ 	int ep_chg_id;
+@@ -338,12 +339,12 @@ static const struct {
+ };
+ 
+ /**
+- * System clock description
++ * struct system_clock - System clock description
+  * @n:	clock name
+  * @p:	clock parent name
+  * @id: clock id
+  */
+-static const struct {
++static const struct system_clock {
+ 	const char *n;
+ 	const char *p;
+ 	u8 id;
+@@ -362,14 +363,14 @@ static const struct {
+ static u32 sama7g5_prog_mux_table[] = { 0, 1, 2, 5, 6, 7, 8, 9, 10, };
+ 
+ /**
+- * Peripheral clock description
++ * struct periph_clock - Peripheral clock description
+  * @n:		clock name
+  * @p:		clock parent name
+  * @r:		clock range values
+  * @id:		clock id
+  * @chgp:	index in parent array of the changeable parent
+  */
+-static const struct {
++static const struct periph_clock {
+ 	const char *n;
+ 	const char *p;
+ 	struct clk_range r;
+@@ -450,7 +451,7 @@ static const struct {
+ };
+ 
+ /**
+- * Generic clock description
++ * struct generic_clock - Generic clock description
+  * @n:			clock name
+  * @pp:			PLL parents
+  * @pp_mux_table:	PLL parents mux table
+@@ -459,7 +460,7 @@ static const struct {
+  * @pp_count:		PLL parents count
+  * @id:			clock id
+  */
+-static const struct {
++static const struct generic_clock {
+ 	const char *n;
+ 	const char *pp[8];
+ 	const char pp_mux_table[8];
