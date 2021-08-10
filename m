@@ -2,94 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADB5C43214
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 23:04:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44C5C4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:07:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F089361002
-	for <linux-doc@archiver.kernel.org>; Mon,  9 Aug 2021 23:04:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B8B860C40
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236991AbhHIXEs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Aug 2021 19:04:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41140 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236956AbhHIXEo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Aug 2021 19:04:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D5E0460EE7;
-        Mon,  9 Aug 2021 23:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628550263;
-        bh=OIh9zq+IYhIhIiKupvVvEHfwMY95evZX39qJfIxbmIQ=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=X8QGkNyjeiBeJxlag/3SN2Xpw8+OC6Gj+cGkK/KDvR2kMaz8dO92SR2ah14t3AUn7
-         QEvsvIrJr17Mc59De5xJNqhaOuVxNocXjM3Yo3B2cZMswh85C10nzKhXAXBwA05ja3
-         8SOA/ErgtlUiuGMylliyQqHxqeeUEjhIRfxEZ3ZMuhVJOtFORoydv5utNDDo6Q23+U
-         afQKwHGApnvhQwEyf/iMawyeTk4ZokAahsi8gDVxwfvP6jYw82QHgZdSyXvabZhqSp
-         0BqWOwqMQcxjWSmwX1GaHhbeF4UGmmjF9tTGPHkzUsmeik75aOTd8fKRzJlbzOgiag
-         tzAt5zk5K1n8A==
-Subject: Re: [PATCH v28 04/10] x86/cet/ibt: Disable IBT for ia32
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>
-References: <20210722205723.9476-1-yu-cheng.yu@intel.com>
- <20210722205723.9476-5-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Message-ID: <3318ca57-7ac3-8296-f9ae-0ae83d5f95dd@kernel.org>
-Date:   Mon, 9 Aug 2021 16:04:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S237128AbhHJAH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Aug 2021 20:07:56 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:16916 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237108AbhHJAHz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 20:07:55 -0400
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 17A073gm027642;
+        Tue, 10 Aug 2021 09:07:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 17A073gm027642
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1628554023;
+        bh=YHT1wdO9BJeEnVYWadet580A1QtIyBQoR9aiFtvfZGQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qpeaZfj1S52In9OqzugDwJq7LR5sf7DfsN2Ra4D4/7Mj7Sk8kVQ+Ze4SEJu9nxAWr
+         zuOtjmoizVRjdYz+IQ1+0hk8/3F2IkCEiA2JrFs51NCRM2ZTqC5Oz6bzK7nbjxIe86
+         Z4E0Ot1qLc47QDixlLSWr2EeR9DD9eoLOPKsiB/dE4KOQ+zO2rG8SnFmK9m//xIJyL
+         IzO79wsh46l09Bdey5qYnr7xjz6Mp0DFimoh1qGoaQeyaHrOihwNammcKKBbKJDr2d
+         Q0l6y+oOFPYo0z0mNu9C0TpATi4L3yAjIbTSVJ2i+uAHpW8cmyS4JrZDGyxB7uj4bb
+         KYwCOXGXlc7XA==
+X-Nifty-SrcIP: [209.85.214.176]
+Received: by mail-pl1-f176.google.com with SMTP id j3so18531277plx.4;
+        Mon, 09 Aug 2021 17:07:03 -0700 (PDT)
+X-Gm-Message-State: AOAM531hLOgbSq7Md+AJ3QkWY66rLc67hOigjihaUpsY84xskrgxQs6F
+        qvHaWI/gIFhQlpeGGkqhjvbkS99C5g6YR9cK2tg=
+X-Google-Smtp-Source: ABdhPJz5g2UH5l3Gvz6QSJjrySe0RZ6IE4VBgrreB7tp3UOmjppEP2ZS0P89yIPjgFj+aYeVphRC5LeTe/8xavReZBE=
+X-Received: by 2002:a63:dd51:: with SMTP id g17mr282732pgj.47.1628554022572;
+ Mon, 09 Aug 2021 17:07:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210722205723.9476-5-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210806172701.3993843-1-ndesaulniers@google.com> <YQ2TGPwjvn8w4rKs@archlinux-ax161>
+In-Reply-To: <YQ2TGPwjvn8w4rKs@archlinux-ax161>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 10 Aug 2021 09:06:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARitJhPF5sggQ_k2885TSS3VbKQ0APAE7G8ANsYxxmz1g@mail.gmail.com>
+Message-ID: <CAK7LNARitJhPF5sggQ_k2885TSS3VbKQ0APAE7G8ANsYxxmz1g@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts/Makefile.clang: default to LLVM_IAS=1
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Khem Raj <raj.khem@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390 <linux-s390@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/22/21 1:57 PM, Yu-cheng Yu wrote:
-> In a signal, a task's IBT status needs to be saved to the signal frame, and
-> later restored in sigreturn.  For the purpose, previous versions of the
-> series add a new struct to the signal frame.  However, a new signal frame
-> format (or re-using a reserved space) introduces complex compatibility
-> issues.
-> 
-> In the discussion (see link below), Andy Lutomirski proposed using a
-> ucontext flag.  The approach is clean and eliminates most compatibility
-> issues.
-> 
-> However, a legacy IA32 signal frame does not have ucontext and cannot
-> support a uc flag.  Thus,
-> 
-> - Disable IBT for ia32.
-> - In ia32 sigreturn, verify ibt is disabled.
+On Sat, Aug 7, 2021 at 4:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Fri, Aug 06, 2021 at 10:27:01AM -0700, Nick Desaulniers wrote:
+> > LLVM_IAS=1 controls enabling clang's integrated assembler via
+> > -integrated-as. This was an explicit opt in until we could enable
+> > assembler support in Clang for more architecures. Now we have support
+> > and CI coverage of LLVM_IAS=1 for all architecures except a few more
+> > bugs affecting s390 and powerpc.
+>
+> The powerpc and s390 folks have been testing with clang, I think they
+> should have been on CC for this change (done now).
+>
+> > This commit flips the default from opt in via LLVM_IAS=1 to opt out via
+> > LLVM_IAS=0.  CI systems or developers that were previously doing builds
+> > with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
+> > explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
+> > opted-in.
+> >
+> > This finally shortens the command line invocation when cross compiling
+> > with LLVM to simply:
+> >
+> > $ make ARCH=arm64 LLVM=1
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> I am still not really sure how I feel about this. I would prefer not to
+> break people's builds but I suppose this is inevitabile eventually.
+>
+> A little support matrix that I drafted up where based on ARCH and clang
+> version for LLVM_IAS=1 support:
+>
+>              | 10.x | 11.x | 12.x | 13.x | 14.x |
+> ARCH=arm     |  NO  |  NO  |  NO  |  YES |  YES |
+> ARCH=arm64   |  NO  |  YES |  YES |  YES |  YES |
+> ARCH=i386    |  YES |  YES |  YES |  YES |  YES |
+> ARCH=mips*   |  YES |  YES |  YES |  YES |  YES |
+> ARCH=powerpc |  NO  |  NO  |  NO  |  NO  |  NO  |
+> ARCH=s390    |  NO  |  NO  |  NO  |  NO  |  NO  |
+> ARCH=x86_64  |  NO  |  YES |  YES |  YES |  YES |
+>
+> The main issue that I have with this change is that all of these
+> architectures work fine with CC=clang and their build commands that used
+> to work fine will not with this change, as they will have to specify
+> LLVM_IAS=0. I think that making this change for LLVM=1 makes sense but
+> changing the default for just CC=clang feels like a bit much at this
+> point in time. I would love to hear from others on this though, I am not
+> going to object much further than this.
+>
+> Regardless of that concern, this patch does what it says so:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Acked-by: Andy Lutomirski <luto@kernel.org>
+
+Applied to linux-kbuild.
+Thanks.
+
+
+-- 
+Best Regards
+Masahiro Yamada
