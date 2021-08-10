@@ -2,227 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDA7C4320A
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F31DEC432BE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 01:12:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4554160EDF
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 00:54:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D70D461052
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 01:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236299AbhHJAyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Aug 2021 20:54:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233500AbhHJAyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 20:54:55 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5990C0613D3;
-        Mon,  9 Aug 2021 17:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=DKH9L/D5qWxaAYmJH5xbQWOuTOQkBWl8uns/CseNhGI=; b=rWSTU6LyG3Ax19GY5TRFGp3+EI
-        cK5Kj49eUFo/5agYJLdXh0kG9PjYd5ZnoFD/w8SBNowK5uYx/kDyizv25fS0eupVxxIBM8O55+ZIr
-        OPPe9941zxUFGzF4sXn5vKbKf08LawMRROeZ1vTchFMQQwSKiRGirfastgCKxmNxAciBlFwxHZTY6
-        m60cKzysbUNzPDHOo25a41W8hyzSjW2xxRYlYr5FbAHZrtyDaIfdWTdgl1zdBjpP8SXNdGtqsOs29
-        NbygccEBtX2L/DQr1HLoj+RMxbLjEwMiexOewXwKUkS2N0KzIVxFCS/7q/6KWDUYsqZye8y6JYdR1
-        HLOGQFvg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mDG2K-002BdO-5f; Tue, 10 Aug 2021 00:54:32 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] clk/at91: remove kernel-doc warnings in sama7g5.c
-Date:   Mon,  9 Aug 2021 17:54:31 -0700
-Message-Id: <20210810005431.22007-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S237183AbhHJBMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 Aug 2021 21:12:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47214 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229739AbhHJBMn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 21:12:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628557941;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=b7XJ3sqkjfHFuPFTck2dP2wBhFySTzytxDlqqd+iwHA=;
+        b=h1OFKbIIeaeupfqAQWeURjAt5qoHseogEQGFEhh3RL8PrXaUpF13xi1G48mDcsW5MF+s9S
+        weJqAxJvvoTMDTJc2MBycqwaj8kX1U70jFR+KS4uVLJjDHo8SoQBzlG22updBhcbR/SMvK
+        XRS0KBIrlRYwIKkdJuRjzwXBa9DXq0k=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-I4v62UH9NGK-WvHWexbIsw-1; Mon, 09 Aug 2021 21:12:20 -0400
+X-MC-Unique: I4v62UH9NGK-WvHWexbIsw-1
+Received: by mail-qk1-f200.google.com with SMTP id h5-20020a05620a0525b02903b861bec838so14212447qkh.7
+        for <linux-doc@vger.kernel.org>; Mon, 09 Aug 2021 18:12:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=b7XJ3sqkjfHFuPFTck2dP2wBhFySTzytxDlqqd+iwHA=;
+        b=i8M8Go4b+WDogJhW9arkSQvOAgZ9hgoUts5sXVAT2nzLbSJ0Rnm8QzHTW6j6TPY0a8
+         35PLJRlwgKucP7qHujMphW59OmjEJh7EfgAtBLNUYqfjHw2NBJBaYi+UsI6ZelaHIlwF
+         h79j0z6oq6eicptkCIsrB239esQSlKrrqD0qiVcgolmcq0xLYQxTwA0dMUEqlp/L1ODy
+         SEhc4UtWuSAQsR/W5rl/u5RS/in5C55ld1f+H4aiGNIusrNqHAhzwShlSR/fgeoNrvct
+         1Xs0xBWZjqSBnezCgCqG36q3VuQF6o/6PCzP30csd6BXBEOZaWO/dG/4jWp+L6JcgMrT
+         rngQ==
+X-Gm-Message-State: AOAM533xHaRJd7ZvSCzntk9OgGmbVvV9TC2RwEaNvGPJsLsPc70o1kY2
+        sPY++ycwY3Y3j03BdNNz4HmI91OdKHWquVpoISG+ouMB9q7sFQR8rqBLBwvC0ZKbFFVOruGBxB/
+        HGDJFKf8lVrdCzzaC9NnO
+X-Received: by 2002:ac8:5385:: with SMTP id x5mr7914714qtp.369.1628557940373;
+        Mon, 09 Aug 2021 18:12:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxF6rIf3rD64IJtihYoHCyLMTR4SvYsVu31YT92d5TjMiatftJQfAismFO2/uJ2ApU7xiMVEQ==
+X-Received: by 2002:ac8:5385:: with SMTP id x5mr7914688qtp.369.1628557940198;
+        Mon, 09 Aug 2021 18:12:20 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id b22sm2183568qtr.2.2021.08.09.18.12.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Aug 2021 18:12:19 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v3 0/9] cgroup/cpuset: Add new cpuset partition type &
+ empty effecitve cpus
+To:     Tejun Heo <tj@kernel.org>, Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20210720141834.10624-1-longman@redhat.com>
+ <YP9ChFvrGrDMGzbe@slm.duckdns.org>
+ <b2f49b2e-d5a4-1504-bd0c-0bd82943d855@redhat.com>
+ <YRGwXw3KW8eFhEa8@mtj.duckdns.org>
+Message-ID: <1df2d0be-f2b7-3e57-e656-2bcdf2a3c821@redhat.com>
+Date:   Mon, 9 Aug 2021 21:12:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YRGwXw3KW8eFhEa8@mtj.duckdns.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix multiple kernel-doc warnings in sama7g5.c. There are several
-enums and structs that were not identified as such.
-There are also several anonymous structs (that scripts/kernel-doc
-has problems with), so add struct names to them.
+On 8/9/21 6:46 PM, Tejun Heo wrote:
+> Hello, Waiman. Sorry about the delay. Was off for a while.
+>
+> On Tue, Jul 27, 2021 at 05:14:27PM -0400, Waiman Long wrote:
+>> However, if we have a complicated partition setup with multiple child
+>> partitions. Invalid cpuset.cpus change in a parent partition will cause all
+>> the child partitions to become invalid too. That is the scenario that I
+>> don't want to happen inadvertently. Alternatively, we can restrict those
+> I don't think there's anything fundamentally wrong with it given the
+> requirement that userland has to monitor invalid state transitions.
+> The same mass transition can happen through cpu hotplug operations,
+> right?
+>
+>> invalid changes if a child partition exist and let it pass through and make
+>> it invalid if it is a standalone partition.
+>>
+>> Please let me know which approach do you want me to take.
+> I think it'd be best if we can stick to some principles rather than
+> trying to adjust it for specific scenarios. e.g.:
+>
+> * If a given state can be reached through cpu hot [un]plug, any
+>    configuration attempt which reaches the same state should be allowed
+>    with the same end result as cpu hot [un]plug.
+>
+> * If a given state can't ever be reached in whichever way, the
+>    configuration attempting to reach such state should be rejected.
 
-Fixes the following warnings:
+OK, I got it. I will make the necessary changes and submit a new patch 
+series.
 
-drivers/clk/at91/sama7g5.c:39: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * PLL clocks identifiers
-drivers/clk/at91/sama7g5.c:60: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * PLL type identifiers
-drivers/clk/at91/sama7g5.c:122: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * PLL clocks description
-drivers/clk/at91/sama7g5.c:289: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Master clock (MCK[1..4]) description
-drivers/clk/at91/sama7g5.c:341: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * System clock description
-drivers/clk/at91/sama7g5.c:365: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Peripheral clock description
-drivers/clk/at91/sama7g5.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Generic clock description
-drivers/clk/at91/sama7g5.c:339: warning: Function parameter or member 'ep_chg_id' not described in 'master_clock'
+Thanks,
+Longman
 
-Some kernel-doc warnings are still printed, but they are all due to
-problems in the kernel-doc script (if anyone is interested in playing
-with some Perl :). These warnings are:
-
-sama7g5.c:287: warning: Function parameter or member '{' not described in 'sama7g5_plls'
-sama7g5.c:287: warning: Function parameter or member '' not described in 'sama7g5_plls'
-sama7g5.c:287: warning: Function parameter or member '}' not described in 'sama7g5_plls'
-sama7g5.c:339: warning: Function parameter or member 'sama7g5_mckx' not described in 'master_clock'
-sama7g5.c:339: warning: Function parameter or member '}' not described in 'master_clock'
-sama7g5.c:360: warning: Function parameter or member 'sama7g5_systemck' not described in 'system_clock'
-sama7g5.c:451: warning: Function parameter or member 'sama7g5_periphck' not described in 'periph_clock'
-sama7g5.c:451: warning: Function parameter or member '' not described in 'periph_clock'
-sama7g5.c:451: warning: Function parameter or member '}' not described in 'periph_clock'
-sama7g5.c:841: warning: Function parameter or member 'sama7g5_gck' not described in 'generic_clock'
-sama7g5.c:841: warning: Function parameter or member '}' not described in 'generic_clock'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Eugen Hristev <eugen.hristev@microchip.com>
-Cc: linux-clk@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- drivers/clk/at91/sama7g5.c |   27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
-
---- linux-next-20210809.orig/drivers/clk/at91/sama7g5.c
-+++ linux-next-20210809/drivers/clk/at91/sama7g5.c
-@@ -36,7 +36,7 @@ static DEFINE_SPINLOCK(pmc_mck0_lock);
- static DEFINE_SPINLOCK(pmc_mckX_lock);
- 
- /**
-- * PLL clocks identifiers
-+ * enum pll_ids - PLL clocks identifiers
-  * @PLL_ID_CPU:		CPU PLL identifier
-  * @PLL_ID_SYS:		System PLL identifier
-  * @PLL_ID_DDR:		DDR PLL identifier
-@@ -44,6 +44,7 @@ static DEFINE_SPINLOCK(pmc_mckX_lock);
-  * @PLL_ID_BAUD:	Baud PLL identifier
-  * @PLL_ID_AUDIO:	Audio PLL identifier
-  * @PLL_ID_ETH:		Ethernet PLL identifier
-+ * @PLL_ID_MAX:		Number of PLL_ID values (1 more than the last valid PLL_ID)
-  */
- enum pll_ids {
- 	PLL_ID_CPU,
-@@ -57,7 +58,7 @@ enum pll_ids {
- };
- 
- /**
-- * PLL type identifiers
-+ * enum pll_type - PLL type identifiers
-  * @PLL_TYPE_FRAC:	fractional PLL identifier
-  * @PLL_TYPE_DIV:	divider PLL identifier
-  */
-@@ -119,7 +120,7 @@ static const struct clk_pll_characterist
- };
- 
- /**
-- * PLL clocks description
-+ * struct sama7g5_plls - PLL clocks description
-  * @n:		clock name
-  * @p:		clock parent
-  * @l:		clock layout
-@@ -128,7 +129,7 @@ static const struct clk_pll_characterist
-  * @f:		clock flags
-  * @eid:	export index in sama7g5->chws[] array
-  */
--static const struct {
-+static const struct sama7g5_plls {
- 	const char *n;
- 	const char *p;
- 	const struct clk_pll_layout *l;
-@@ -286,17 +287,17 @@ static const struct {
- };
- 
- /**
-- * Master clock (MCK[1..4]) description
-+ * struct master_clock - Master clock (MCK[1..4]) description
-  * @n:			clock name
-  * @ep:			extra parents names array
-- * @ep_chg_chg_id:	index in parents array that specifies the changeable
-+ * @ep_chg_id:		index in parents array that specifies the changeable
-  *			parent
-  * @ep_count:		extra parents count
-  * @ep_mux_table:	mux table for extra parents
-  * @id:			clock id
-  * @c:			true if clock is critical and cannot be disabled
-  */
--static const struct {
-+static const struct master_clock {
- 	const char *n;
- 	const char *ep[4];
- 	int ep_chg_id;
-@@ -338,12 +339,12 @@ static const struct {
- };
- 
- /**
-- * System clock description
-+ * struct system_clock - System clock description
-  * @n:	clock name
-  * @p:	clock parent name
-  * @id: clock id
-  */
--static const struct {
-+static const struct system_clock {
- 	const char *n;
- 	const char *p;
- 	u8 id;
-@@ -362,14 +363,14 @@ static const struct {
- static u32 sama7g5_prog_mux_table[] = { 0, 1, 2, 5, 6, 7, 8, 9, 10, };
- 
- /**
-- * Peripheral clock description
-+ * struct periph_clock - Peripheral clock description
-  * @n:		clock name
-  * @p:		clock parent name
-  * @r:		clock range values
-  * @id:		clock id
-  * @chgp:	index in parent array of the changeable parent
-  */
--static const struct {
-+static const struct periph_clock {
- 	const char *n;
- 	const char *p;
- 	struct clk_range r;
-@@ -450,7 +451,7 @@ static const struct {
- };
- 
- /**
-- * Generic clock description
-+ * struct generic_clock - Generic clock description
-  * @n:			clock name
-  * @pp:			PLL parents
-  * @pp_mux_table:	PLL parents mux table
-@@ -459,7 +460,7 @@ static const struct {
-  * @pp_count:		PLL parents count
-  * @id:			clock id
-  */
--static const struct {
-+static const struct generic_clock {
- 	const char *n;
- 	const char *pp[8];
- 	const char pp_mux_table[8];
