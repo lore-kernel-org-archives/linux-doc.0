@@ -2,85 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F400FC4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 02:11:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1402C4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 08:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA9B161040
-	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 02:11:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B50BE60200
+	for <linux-doc@archiver.kernel.org>; Tue, 10 Aug 2021 08:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232193AbhHJCML (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 Aug 2021 22:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbhHJCMK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Aug 2021 22:12:10 -0400
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D527C0613D3;
-        Mon,  9 Aug 2021 19:11:49 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id x19so131092uat.2;
-        Mon, 09 Aug 2021 19:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x0aJYD6TjTDMi3R9m4pgh65PD1DpJvMkeB8G/Vjd7x0=;
-        b=iX5627+50O+w7tY7Cx0TB4COgpo90xKNCN+iDrRhyB22OxcEDE2ZmusDTF0xlITbSZ
-         MM7ZVCICBUTRDtipUnR1skjQU30zce38v19btEmXyI2/XN98i3zUBukxI/XX1tsoX2yW
-         HnW2UAlZivkAa/Rf41H4Y6mrAZek0BCtVCaEA4JJqkczX4U3BO+GwHd0S8MrDWl3yrqt
-         WqtsavoBITGNsYAGDAS6UrjyPmqO8FEPxWRbUiV/qAIw73s1VUADpiGG9BGXY9YRZDMC
-         WeodRCVTTwJQQ5Z/uucU5bVat6r/BT7AZS5cKYzWIsXWdufViBueISd+FHRmSDVvbyJ+
-         Jg0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x0aJYD6TjTDMi3R9m4pgh65PD1DpJvMkeB8G/Vjd7x0=;
-        b=PpDnpra6gp/JbDO8UixX8e/u4OqB6kY6J2msrLkXaDI33DTtnE4ZfV2Ll25s5Uql2V
-         9rm5LcW13Y0imeAOuQML+by7sXLO3tNhpU/YjBha7XQsXnNS6YrCOSmJmOmMozVWvoVI
-         /3uj3KImZd+hyaN5vSqI4ceQXbIHQZRB/sckL3YkFaqrng8mcCcG3ZpjMZK5CKJqtyIM
-         G8iAaQ3JV6/1AinxXrYrZiu+9YVyO+iOQNcZosP92+Ne7gtqCSjAdL25lhoPT9l44nZF
-         T5vcpubNHQkNFj1QcUI5DadYDwxbbv6NSVnupdHZlqI8cf+3OkQD1H7esUJCzB34Q5Ob
-         53uw==
-X-Gm-Message-State: AOAM533uNFHyD42GUnYzF3CdFUFwO5ypFbFAzg122wCd1jVH0+laEdJp
-        Fh+0SZ3/otxxSo2735OwFmzceOHKDPlhiJhfSAM=
-X-Google-Smtp-Source: ABdhPJzt2PYRxiXJ0IZnBsmNX2iOQMJpUWz+w89tGaOhKsxFTXrX8A4cKRSSibcnHvzJq2jKP7+ev3iEqt/fehzld0k=
-X-Received: by 2002:ab0:3ca7:: with SMTP id a39mr5849776uax.127.1628561508276;
- Mon, 09 Aug 2021 19:11:48 -0700 (PDT)
+        id S238072AbhHJI1S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Aug 2021 04:27:18 -0400
+Received: from verein.lst.de ([213.95.11.211]:35145 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232772AbhHJI1R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Aug 2021 04:27:17 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2F59F67373; Tue, 10 Aug 2021 10:26:48 +0200 (CEST)
+Date:   Tue, 10 Aug 2021 10:26:47 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        dri-devel@lists.freedesktop.org,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v4 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
+ use the dev_set
+Message-ID: <20210810082647.GA21036@lst.de>
+References: <0-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com> <9-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
 MIME-Version: 1.0
-References: <20210810020508.280639-1-grantseltzer@gmail.com>
-In-Reply-To: <20210810020508.280639-1-grantseltzer@gmail.com>
-From:   Grant Seltzer Richman <grantseltzer@gmail.com>
-Date:   Mon, 9 Aug 2021 22:11:37 -0400
-Message-ID: <CAO658oWxU2dWvgojR-XnmHYyYeCxiB6VAefGvmHx=5=bX0q-TA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v1] bpf: Reconfigure libbpf docs to remove
- unversioned API
-To:     Andrii Nakryiko <andrii@kernel.org>
-Cc:     bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 9, 2021 at 10:05 PM grantseltzer <grantseltzer@gmail.com> wrote:
->
-> This removes the libbpf_api.rst file from the kernel documentation.
-> The intention for this file was to pull documentation from comments
-> above API functions in libbpf. However, due to limitations of the
-> kernel documentation system, this API documentation could not be
-> versioned, which is counterintuitive to how users expect to use it.
-> There is also currently no doc comments, making this a blank page.
->
-> Once the kernel comment documentation is actually contributed, it
-> will still exist in the kernel repository, just in the code itself.
->
-> A seperate site is being spun up to generate documentaiton from those
-> comments in a way in which it can be versioned properly.
+Looks good,
 
-For more info regarding the above mentioned separate documentation
-site, see https://github.com/libbpf/libbpf/pull/357
+Reviewed-by: Christoph Hellwig <hch@lst.de>
