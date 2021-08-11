@@ -2,150 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E8FC432BE
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 14:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A40CC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 15:26:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB66261076
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 14:30:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44CED60F11
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 15:26:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbhHKObG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Aug 2021 10:31:06 -0400
-Received: from mga07.intel.com ([134.134.136.100]:59338 "EHLO mga07.intel.com"
+        id S233121AbhHKP0k convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 11:26:40 -0400
+Received: from mga14.intel.com ([192.55.52.115]:51055 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232350AbhHKObE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Aug 2021 10:31:04 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="278878948"
+        id S232791AbhHKP0f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Aug 2021 11:26:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="214874237"
 X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; 
-   d="scan'208";a="278878948"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2021 07:30:16 -0700
+   d="scan'208";a="214874237"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2021 08:26:11 -0700
 X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; 
-   d="scan'208";a="439729607"
-Received: from drewfarr-mobl.amr.corp.intel.com (HELO [10.209.67.133]) ([10.209.67.133])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2021 07:30:15 -0700
-Subject: Re: [PATCH RFC v3] x86/sgx: Add /proc/sys/kernel/sgx/total_mem
-To:     Jarkko Sakkinen <jarkko@kernel.org>, linux-sgx@vger.kernel.org
-Cc:     Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20210811032133.853680-1-jarkko@kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <0c935066-008d-b023-7dc3-f4e0ac1b3d20@intel.com>
-Date:   Wed, 11 Aug 2021 07:30:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+   d="scan'208";a="516837152"
+Received: from fbrausse-mobl.ger.corp.intel.com (HELO localhost) ([10.251.209.112])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2021 08:26:09 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: Hawkmoth & kernel-doc
+In-Reply-To: <YPnD1vkOTDhktnei@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <YPnD1vkOTDhktnei@casper.infradead.org>
+Date:   Wed, 11 Aug 2021 18:26:06 +0300
+Message-ID: <87h7fwm29d.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210811032133.853680-1-jarkko@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/10/21 8:21 PM, Jarkko Sakkinen wrote:
-> +The following sysctl files can be found in the ``/proc/sys/kernel/sgx/`` directory:
-> +
-> +``total_mem``
-> +	The total amount of SGX protected memory in bytes available in the system
-> +	available for use. In other words, it describes the size of the Enclave
-> +	Page Cache (EPC).
+On Thu, 22 Jul 2021, Matthew Wilcox <willy@infradead.org> wrote:
+> I really dislike the javadoc style, so at Jani's urging I gave Hawkmoth
+> a try.  It's a little fiddly and a little buggy, but I think it
+> encourages better-written documentation.
 
-I've been acting as if /proc is deprecated for new stuff.  Shouldn't
-this be going in sysfs?
+Hi, sorry about the long delay, been off the grid a bit.
 
-I figured, at some point, someone is going to ask for NUMA statistics.
-That would tend to point in the direction of us needing something in:
+I doubt I would have urged you to try Hawkmoth for kernel documentation
+specifically, but rather more, uh, regular C projects, but I'll take
+your word for it if you say so. ;D
 
-	/sys/devices/system/node/nodeN/
+Bug reports are always welcome at
+https://github.com/jnikula/hawkmoth/issues
 
-Maybe 'sgxinfo' or 'sgxstat' to go along with 'meminfo'.
+> I chose mm_inline.h as my victim.  It isn't currently included in the
+> documentation, and it only has three kernel-doc comments in it to
+> convert.
+>
+> I'm approximating what firefox displays here ...
+>
+> int page_is_file_lru(struct page *page)
+>
+>   Should the page be on a file LRU or anon LRU?
+>
+>     Parameters:  * page – The page to test.
+>
+>     We would like to get this info without a page flag, but the state
+>     needs to survive until the page is last deleted from the LRU, which
+>     could be as far down as __page_cache_release.
+>
+>     Returns:
+>
+>              An integer (not a boolean!) used to sort a page onto the right
+>              LRU list and to account folios correctly.
+>
+>              * 1 if @page is a regular filesystem backed page cache page or a lazily freed anonymous page (e.g. via MADV_FREE).
+>              * 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or swap backed page.
+>
+> That's not _bad_.
 
-But, we'll probably also end up needing some stats for other things.
-Folks have, for instance, asked for a counter of the number of
-instantiated enclaves.
+The main difference between kernel-doc and Hawkmoth is that the latter
+does not try to parse the documentation comment at all, apart from
+removing the comment markers. It's expected to be pure rst, and it's fed
+to Sphinx as-is. What I'm saying is that what the output ends up being
+is not in the control of Hawkmoth, it's between the rst and Sphinx.
 
-We could also use the drivers' namespaces:
+> 1. 'Parameters' is indented further than kernel-doc does (2 levels of
+>    indent, rather than 0)
 
-	/sys/class/misc/sgx_enclave
-	/sys/class/misc/sgx_provision
-	/sys/class/misc/sgx_vepc
+With Hawkmoth, it's whatever Sphinx and doctools generate from pure rst
+field lists.
 
-although that is a bit awkward for reporting global resources like memory.
+> 2. Output:
+> <dd><p>Should the page be on a file LRU or anon LRU?</p>
+> <dl class="field-list simple">
+> <dt class="field-odd">Parameters</dt>
+> <dd class="field-odd"><ul class="simple">
+> <li><p><strong>page</strong> – The page to test.</p></li>
+> </ul>
+> </dd>
+> </dl>
+> having gone to the trouble of using a <dl>, I feel that each parameter
+> should be a <dt> and its definition a <dd>.  That seems to be what
+> kernel-doc is doing.
 
-We could create a platform device just for these stats, say:
+Ditto. kernel-doc does not use field lists.
 
-	/sys/bus/platform/devices/sgx
+> 3. kernel-doc includes the type of the parameter in the definition,
+>    while hawkmoth drops it.  I'm ambivalent about which is better.
 
-But I think platform devices are rather highly scrutinized these days.
-I'm not sure if SGX counts as one.
+kernel-doc generates that information, while Hawkmoth sticks to pure
+rst.
 
-/sys/kernel also appears to be a bit of a free-for-all.  Perhaps it
-could go in:
+> 4. It seems that the indentation of the 'Returns:' paragraph is a bit
+>    too deep, but it did get the list correct.
 
-	/sys/kernel/sgx
-or
-	/sys/kernel/enclaves
+Hmm, I think it should be similar to the parameters. See e.g.
+https://hawkmoth.readthedocs.io/en/latest/examples.html#function
 
-The other crazy thing we could try would be to just hijack core mm
-mechanisms:
+> 5. The second and third functions documented by hawkmoth lose their
+>    parameter in the initial heading:
+>
+>
+> int __clear_page_lru_flags()
+>
+>     Clear page lru flags before releasing a page.
+>
+>     Parameters  * page – The page that was on lru and now has a zero reference
+>
+> That first line really should have a 'struct page *page' in it.
 
-	/proc/{meminfo,vmstat}
-	/sys/devices/system/node/nodeN/{vmstat,meminfo}
+That's indeed a bit odd.
 
-Then we can just use the existing counter infrastructure, which I think
-gets us into /sys and /proc.  I'm not sure the mm folks would be fond of
-this for something arch and vendor specific, though.
+> 6. There's also a warning from the build:
+>
+> /home/willy/kernel/linux/Documentation/core-api/mm-api.rst:101: WARNING: /home/willy/kernel/linux/include/linux/mm_inline.h:5: 'linux/huge_mm.h' file not found
+>
+> Looks like I can probably pass arbitrary flags to clang to get it to
+> find that file, but I'm not sure whether I should.
+>
+> Here's the diff against current Linus tree that I'm working with:
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 7d92ec3e5b6e..13fcce3ec18d 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -39,7 +39,7 @@ needs_sphinx = '1.7'
+>  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+>                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+>                'maintainers_include', 'sphinx.ext.autosectionlabel',
+> -              'kernel_abi', 'kernel_feat']
+> +              'kernel_abi', 'kernel_feat', 'hawkmoth']
+>  
+>  if major >= 3:
+>      if (major > 3) or (minor > 0 or patch >= 2):
+> @@ -104,6 +104,7 @@ if major >= 3:
+>  else:
+>      extensions.append('cdomain')
+>  
+> +cautodoc_root = os.path.abspath('..')
+>  # Ensure that autosectionlabel will produce unique names
+>  autosectionlabel_prefix_document = True
+>  autosectionlabel_maxdepth = 2
+> diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+> index adabb5c5798a..b724e29772b0 100644
+> --- a/Documentation/core-api/mm-api.rst
+> +++ b/Documentation/core-api/mm-api.rst
+> @@ -98,4 +98,5 @@ More Memory Management Functions
+>     :internal:
+>  .. kernel-doc:: include/linux/mm.h
+>     :internal:
+> +.. c:autodoc:: include/linux/mm_inline.h
+>  .. kernel-doc:: include/linux/mmzone.h
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 355ea1ee32bd..7db1193a0d94 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -6,18 +6,21 @@
+>  #include <linux/swap.h>
+>  
+>  /**
+> - * page_is_file_lru - should the page be on a file LRU or anon LRU?
+> - * @page: the page to test
+> + * Should the page be on a file LRU or anon LRU?
+>   *
+> - * Returns 1 if @page is a regular filesystem backed page cache page or a lazily
+> - * freed anonymous page (e.g. via MADV_FREE).  Returns 0 if @page is a normal
+> - * anonymous page, a tmpfs page or otherwise ram or swap backed page.  Used by
+> - * functions that manipulate the LRU lists, to sort a page onto the right LRU
+> - * list.
+> + * :param page: The page to test.
+>   *
+>   * We would like to get this info without a page flag, but the state
+>   * needs to survive until the page is last deleted from the LRU, which
+>   * could be as far down as __page_cache_release.
+> + *
+> + * :return: An integer (not a boolean!) used to sort a page onto the right
+> + *   LRU list and to account folios correctly.
+> + *
+> + *   - 1 if @page is a regular filesystem backed page cache page or a lazily
+> + *     freed anonymous page (e.g. via MADV_FREE).
+> + *   - 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or
+> + *     swap backed page.
 
-In any case, ABIs are hard and SGX is weird.  News at 11.
+An alternative to using a bulleted list for different return values is
+to use a separate :return: field list item for each.
+
+For example,
+
+ * :return: 1 if @page is a regular filesystem backed page cache page or a lazily
+ *   freed anonymous page (e.g. via MADV_FREE).
+ * :return: 0 if @page is a normal anonymous page, a tmpfs page or otherwise ram or
+ *   swap backed page.
+
+Obviously in this case you'd need to figure out where to put the first,
+common sentence, so might not be so nice here.
+
+BR,
+Jani.
+
+
+>   */
+>  static inline int page_is_file_lru(struct page *page)
+>  {
+> @@ -39,8 +42,9 @@ static __always_inline void update_lru_size(struct lruvec *lruvec,
+>  }
+>  
+>  /**
+> - * __clear_page_lru_flags - clear page lru flags before releasing a page
+> - * @page: the page that was on lru and now has a zero reference
+> + * Clear page lru flags before releasing a page.
+> + *
+> + * :param page: The page that was on lru and now has a zero reference
+>   */
+>  static __always_inline void __clear_page_lru_flags(struct page *page)
+>  {
+> @@ -57,11 +61,12 @@ static __always_inline void __clear_page_lru_flags(struct page *page)
+>  }
+>  
+>  /**
+> - * page_lru - which LRU list should a page be on?
+> - * @page: the page to test
+> + * Which LRU list should a page be on?
+> + *
+> + * :param page: The page to test
+>   *
+> - * Returns the LRU list a page should be on, as an index
+> - * into the array of LRU lists.
+> + * :return: The LRU list a page should be on, as an index into the array
+> + *          of LRU lists.
+>   */
+>  static __always_inline enum lru_list page_lru(struct page *page)
+>  {
+>
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
