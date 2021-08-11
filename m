@@ -2,188 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F94C4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D68C4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:06:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 180BC60EDF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:02:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3F4460E78
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232169AbhHKDDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Aug 2021 23:03:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41596 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231967AbhHKDDB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Aug 2021 23:03:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 537D760462;
-        Wed, 11 Aug 2021 03:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628650958;
-        bh=LVEvsCUnhkiBvovzKLcl7idNN3Nj5VRggMyAEysn2w4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=alBGW0y1DL8L+ffz+YpIivtU7Da14LWtT26vscB0O8/5JM2VWIBsZ4unRsn9P6MQ5
-         ePbklliswl++8La6QzKfiEjRXaVWHEcmJ1fAoiS1cuy6yu+WQJw96r2cVvPsKln2TF
-         uTmnWOMUSIej6d0q1SjQ8ZUfYeu4g97nZEG3wJa1HSIJoiWzgOSZJRPbQqfVQj0fT7
-         RwhjxOrnrlTmjk3DCV39ppkQOFeAeJBwrZf4jWiXaU3UGiz/5954jY5Dnj8MnGEukG
-         1X6eGJXUmYBaVdxoVg8cmPzUaFvqeeGUQY6m7gM1VBYo8/ox3YMqUZj7SxLw5zMdwQ
-         PDvUMkC/8xevA==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     linux-sgx@vger.kernel.org
-Cc:     Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH RFC v2] x86/sgx: Add a read-only sysctl attribute kernel.sgx.total_mem
-Date:   Wed, 11 Aug 2021 06:02:21 +0300
-Message-Id: <20210811030221.852092-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S232813AbhHKDHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 Aug 2021 23:07:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48390 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232702AbhHKDHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Aug 2021 23:07:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628651201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=GVV0lBAl3hD0f4Dk5D3L8gm1OSCHD8KzaozfnnFi9L0=;
+        b=DdBb5aXMW9xSteoL9Vvx8wryHlU0W9v56GPw7PDcYl5g4uUmY9X0rJ9lt/5f8EPdrU2L+s
+        eHDwBzyflf3+cudDcPwwSAVyepaz8W73jMfyPYe8kjI+aYkIhaaXRXSnAbmbtWglOB6UwL
+        /7yJs0s6hmQMs+5PC4amHMHxNGjDr6I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-ASrI6lgrN26pqJ3VzKN9kw-1; Tue, 10 Aug 2021 23:06:40 -0400
+X-MC-Unique: ASrI6lgrN26pqJ3VzKN9kw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D18688712D6;
+        Wed, 11 Aug 2021 03:06:37 +0000 (UTC)
+Received: from llong.com (unknown [10.22.17.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4458A5D6CF;
+        Wed, 11 Aug 2021 03:06:28 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH-cgroup v4 0/6] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
+Date:   Tue, 10 Aug 2021 23:06:01 -0400
+Message-Id: <20210811030607.13824-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The amount of EPC on the system is determined by the BIOS and it varies
-wildly between systems.  It can be dozens of MB on desktops, or many GB
-on servers. Introduce a read-only sysctl attribute kernel.sgx_total_mem,
-which provides the amount of EPC memory available in the system.
+v4:
+ - Rebased to the for-5.15 branch of cgroup git tree and dropped the
+   first 3 patches of v3 series which have been merged.
+ - Beside prohibiting violation of cpu exclusivity rule, allow arbitrary
+   changes to cpuset.cpus of a partition root and force the partition root
+   to become invalid in case any of the partition root constraints
+   are violated. The documentation file and self test are modified
+   accordingly.
 
-The primary use case for this attribute are stress tests.
-
-Just like normal memory, SGX memory can be overcommitted.  SGX has its
-own reclaim mechanism which kicks in when physical SGX memory (Enclave
-Page Cache / EPC) is exhausted.  That reclaim mechanism is relatively
-rarely exercised and needs selftests to poke at it.
-
-To run in a reasonable amount of time, the selftest needs to know how
-much EPC there is in the system.
-
-Using a sysctl attribute makes most sense, given that its meaning is
-shared with the SGX driver and KVM. It must be available even when the
-driver is disabled.
-
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
+v3:
+ - Add two new patches (patches 2 & 3) to fix bugs found during the
+   testing process.
+ - Add a new patch to enable inotify event notification when partition
+   become invalid.
+ - Add a test to test event notification when partition become invalid.
 
 v2:
-* Removed Dave's ack.
-* Rewrote Documentation/x86/sgx.rst. It was not properly updated in the
-  previous iteration.
+ - Drop v1 patch 1.
+ - Break out some cosmetic changes into a separate patch (patch #1).
+ - Add a new patch to clarify the transition to invalid partition root
+   is mainly caused by hotplug events.
+ - Enhance the partition root state test including CPU online/offline
+   behavior and fix issues found by the test.
 
- Documentation/x86/sgx.rst      | 10 +++++++++
- arch/x86/kernel/cpu/sgx/main.c | 40 ++++++++++++++++++++++++++++++++--
- 2 files changed, 48 insertions(+), 2 deletions(-)
+This patchset makes four enhancements to the cpuset v2 code.
 
-diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-index dd0ac96ff9ef..f29402aa824a 100644
---- a/Documentation/x86/sgx.rst
-+++ b/Documentation/x86/sgx.rst
-@@ -250,3 +250,13 @@ user wants to deploy SGX applications both on the host and in guests
- on the same machine, the user should reserve enough EPC (by taking out
- total virtual EPC size of all SGX VMs from the physical EPC size) for
- host SGX applications so they can run with acceptable performance.
-+
-+Sysctls
-+=======
-+
-+The following sysctl files can be found in the ``/proc/sys/kernel/sgx/`` directory:
-+
-+``sgx_total_mem``
-+	The total amount of SGX protected memory in bytes available in the system
-+	available for use. In other words, it describes the size of the Enclave
-+	Page Cache (EPC).
-diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
-index 63d3de02bbcc..c857253a2e5d 100644
---- a/arch/x86/kernel/cpu/sgx/main.c
-+++ b/arch/x86/kernel/cpu/sgx/main.c
-@@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
- static LIST_HEAD(sgx_active_page_list);
- static DEFINE_SPINLOCK(sgx_reclaimer_lock);
- 
--/* The free page list lock protected variables prepend the lock. */
-+/* Total EPC memory available in bytes. */
-+static unsigned long sgx_total_mem;
-+
-+/* The number of free EPC pages in all nodes. */
- static unsigned long sgx_nr_free_pages;
- 
- /* Nodes with one or more EPC sections. */
-@@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
- 		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
- 	}
- 
-+	sgx_total_mem += nr_pages * PAGE_SIZE;
-+
- 	return true;
- }
- 
-@@ -790,8 +795,30 @@ int sgx_set_attribute(unsigned long *allowed_attributes,
- }
- EXPORT_SYMBOL_GPL(sgx_set_attribute);
- 
-+static struct ctl_path sgx_sysctl_path[] = {
-+	{ .procname = "kernel", },
-+	{ .procname = "sgx", },
-+	{ }
-+};
-+
-+static unsigned long sgx_total_mem_max = ~0UL;
-+
-+static struct ctl_table sgx_sysctl_table[] = {
-+	{
-+		.procname       = "total_mem",
-+		.data           = &sgx_total_mem,
-+		.maxlen         = sizeof(unsigned long),
-+		.mode           = 0444,
-+		.proc_handler   = proc_doulongvec_minmax,
-+		.extra1		= SYSCTL_ZERO, /* min */
-+		.extra2		= &sgx_total_mem_max, /* max */
-+	},
-+	{ }
-+};
-+
- static int __init sgx_init(void)
- {
-+	struct ctl_table_header *sysctl_table_header;
- 	int ret;
- 	int i;
- 
-@@ -810,6 +837,12 @@ static int __init sgx_init(void)
- 	if (ret)
- 		goto err_kthread;
- 
-+	sysctl_table_header = register_sysctl_paths(sgx_sysctl_path, sgx_sysctl_table);
-+	if (!sysctl_table_header) {
-+		pr_err("sysctl registration failed.\n");
-+		goto err_provision;
-+	}
-+
- 	/*
- 	 * Always try to initialize the native *and* KVM drivers.
- 	 * The KVM driver is less picky than the native one and
-@@ -821,10 +854,13 @@ static int __init sgx_init(void)
- 	ret = sgx_drv_init();
- 
- 	if (sgx_vepc_init() && ret)
--		goto err_provision;
-+		goto err_sysctl;
- 
- 	return 0;
- 
-+err_sysctl:
-+	unregister_sysctl_table(sysctl_table_header);
-+
- err_provision:
- 	misc_deregister(&sgx_dev_provision);
- 
+ Patch 1: Enable event notification on "cpuset.cpus.partition" whenever
+ the state of a partition changes.
+
+ Patch 2: Properly handle partition root tree and make partition
+ invalid in case changes to cpuset.cpus violate any of the partition
+ root constraints.
+
+ Patch 3: Add a new partition state "isolated" to create a partition
+ root without load balancing. This is for handling intermitten workloads
+ that have a strict low latency requirement.
+
+ Patch 4: Allow partition roots that are not the top cpuset to distribute
+ all its cpus to child partitions as long as there is no task associated
+ with that partition root. This allows more flexibility for middleware
+ to manage multiple partitions.
+
+Patch 5 updates the cgroup-v2.rst file accordingly. Patch 6 adds a new
+cpuset test to test the new cpuset partition code.
+
+Waiman Long (6):
+  cgroup/cpuset: Enable event notification when partition state changes
+  cgroup/cpuset: Properly handle partition root tree
+  cgroup/cpuset: Add a new isolated cpus.partition type
+  cgroup/cpuset: Allow non-top parent partition root to distribute out
+    all CPUs
+  cgroup/cpuset: Update description of cpuset.cpus.partition in
+    cgroup-v2.rst
+  kselftest/cgroup: Add cpuset v2 partition root state test
+
+ Documentation/admin-guide/cgroup-v2.rst       | 104 +--
+ kernel/cgroup/cpuset.c                        | 282 +++++---
+ tools/testing/selftests/cgroup/Makefile       |   5 +-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 632 ++++++++++++++++++
+ tools/testing/selftests/cgroup/wait_inotify.c |  86 +++
+ 5 files changed, 980 insertions(+), 129 deletions(-)
+ create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+ create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
+
 -- 
-2.32.0
+2.18.1
 
