@@ -2,247 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D29C4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 19:07:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 229BEC4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 19:27:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A061260F21
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 19:07:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05CD860F35
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 19:27:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbhHKTID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Aug 2021 15:08:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33426 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229655AbhHKTID (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Aug 2021 15:08:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E315360EB9;
-        Wed, 11 Aug 2021 19:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628708859;
-        bh=1hYJaS9V+VuBZvtWB2L4aOhM8mH8mTWyc+75eQ94cnA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=Y9K4xPCz9DFNcuZKdF98a04mIrOW7O5VSC3yfwagEuf0rzKYDMiOhzHF2KEYpVkLq
-         9uCG/DMWzXnD75Uu+52rNC2cHlhctCvddfuZMMC6NgqdbOX8LD/dwJ/7gf0vjR4uqS
-         chboryptqNVfXJbZPuaZn/cP+8tKKiHne/TNhI98m7UjS5jEfhp2MEixyM6CcFBk/2
-         +wZOhSwCgI0SwJ8IcBUTtpZPmjxV3JoC80llXrW32HvjYE/mU6dE3LWmSL0ojdtqfo
-         0zVH4hNsYVCgiwtB7Qzgm2KZofsOOxGSATSwSh4ytP88mlpBptzF3IMFnwCMKjs2Fv
-         UT42cojvlPYqA==
-Date:   Wed, 11 Aug 2021 14:07:37 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
-        corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
-Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
- struct pci_device_id
-Message-ID: <20210811190737.GA2378935@bjorn-Precision-5520>
+        id S229655AbhHKT1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 15:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54694 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230290AbhHKT1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 15:27:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628710044;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tiwffSXoiH4DxwCpTg6qh9csw8fx7R1FkfmT6DZocnc=;
+        b=CyRliTBNRNsLfXCLTY0EZhKVS21jvL2Auc5Su/LojcjPOGhDuJb8oK8MspIiOaWKGufPHS
+        f395vfpoq1a7DDL7mzKS0xQrRYROn1GXoOvuv8C2jebsJhIIWSxWZKJfFr5hu6hFsGZ//i
+        Utgy7nBiX1XbbKhTFeErpfi+s4xw7ZI=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-7u8UjJvoMN-PPVG3-GJoHQ-1; Wed, 11 Aug 2021 15:27:23 -0400
+X-MC-Unique: 7u8UjJvoMN-PPVG3-GJoHQ-1
+Received: by mail-qt1-f199.google.com with SMTP id g17-20020ac870d10000b02902928f62e229so1844248qtp.18
+        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 12:27:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=tiwffSXoiH4DxwCpTg6qh9csw8fx7R1FkfmT6DZocnc=;
+        b=L97rI62ZKCnIIwsz8fDofHduSu3KCSAKo/0ymJZNMcaFQE/i4FEjcjN2h7YdBAaSAv
+         sPFZhfAJMm9qiHen9HOIwSMzLXtCjksAdCs1IIyCOesY0YQ4PW+13OvFqSBzfhuer8wq
+         v517348l/3/NxKo133xOhtaatJsut+Ytgu4i0RDT/Pn33KuO60/nw/2oSjYHcIKfiIVY
+         EEObwDcPu9qgd4F0eg7k8VAlK+2iWnNrZTywdaE3MYNolTpNuENF6WBW8bEtIGJ5jNC+
+         /92GArHF4kFl8WvCl0/IFCG/lVkx6HgTo4qVVCviXLz2Vonp9AuSvfMqTMqd+ucOZjzz
+         ZtGw==
+X-Gm-Message-State: AOAM530GE2QW2vs+lru5ZNVoTmVgSr5FzkmcGUyssrXao3z1GnmqXrjH
+        5amI9Yj/6o+CnninVVD1nevsHjwQk1DF2nZdPOxujq6aTWSxIHiDzNmNtb05zVW5k76aJduI1YQ
+        yeCV07iWss44zEXZTFx3T
+X-Received: by 2002:a05:6214:528a:: with SMTP id kj10mr223853qvb.38.1628710042541;
+        Wed, 11 Aug 2021 12:27:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxpq/PfA7+2XCpTTT9aRZ2gHbPglInuSLcGqqGbvnQp/UX636wyca1IWuYEvOy4vg/NuCUfRQ==
+X-Received: by 2002:a05:6214:528a:: with SMTP id kj10mr223832qvb.38.1628710042306;
+        Wed, 11 Aug 2021 12:27:22 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id n11sm45000qkk.93.2021.08.11.12.27.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Aug 2021 12:27:21 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v4 2/6] cgroup/cpuset: Properly handle partition root tree
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20210811030607.13824-1-longman@redhat.com>
+ <20210811030607.13824-3-longman@redhat.com>
+ <YRQSKZB8rQUsfF2K@slm.duckdns.org>
+Message-ID: <b7897818-8fe6-8dd8-3ff6-6b15401162ba@redhat.com>
+Date:   Wed, 11 Aug 2021 15:27:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210806002357.GD1672295@nvidia.com>
+In-Reply-To: <YRQSKZB8rQUsfF2K@slm.duckdns.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
-> On Wed, Aug 04, 2021 at 03:34:12PM -0500, Bjorn Helgaas wrote:
-> 
-> > > The first use will be to define a VFIO flag that indicates the PCI driver
-> > > is a VFIO driver.
-> >
-> > Is there such a thing as a "VFIO driver" today?  
-> 
-> Yes.
-> 
-> VFIO has long existed as a driver subsystem that binds drivers to
-> devices in various bus types. In the case of PCI the admin moves a PCI
-> device from normal operation to VFIO operation via something like:
+On 8/11/21 2:08 PM, Tejun Heo wrote:
+> Hello,
+>
+> On Tue, Aug 10, 2021 at 11:06:03PM -0400, Waiman Long wrote:
+>> For a partition root tree with parent and child partition roots, this
+>> patch will now prohibit changing parent partition root back to member
+>> as changes to "cpuset.cpus.partition" should not cause those child
+>> partition roots to become invalid.
+> So, the general rule is that a descendant should never be able to affect or
+> restrict what an ancestor can do in terms of configuration. This is because
+> descendant cgroups can be delegated and a system manager sitting at a higher
+> level in the hierarchy may not have much control over what happens under
+> delegated subtrees.
+>
+> Given that we're promoting the error state as the first class citizen in the
+> interface anyway, wouldn't it be better to keep this in line too?
 
-What specifically makes a driver a "VFIO driver"?  Maybe that it
-supports the VFIO ioctls in include/uapi/linux/vfio.h?  That by itself
-doesn't require special treatment by the kernel, so I think there's
-more here.
+Disabling partition at the parent level does invalidate all the child 
+partitions under it. So it must be done with care when we disable a 
+partition.
 
-> echo vfio_pci > /sys/bus/pci/devices/0000:01:00.0/driver_override
-> 
-> Other bus types (platform, acpi, etc) have a similar command to move
-> them to VFIO.
+How about we give some indication that a child partition exist when 
+reading cpuset.cpus.partition and recommend double-checking it before 
+disabling a partition? For example, we keep track of the number of cpus 
+delegated to child partitions. Perhaps we can list that information on read.
 
-Do the other bus types have a flag analogous to
-PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
-other bus types, it'd be nice if the approach were similar.
+With that information available, I have no objection to allow disabling 
+a parent partition with child partitions under it.
 
-> > > This patch is the infrastructure to provide the information in the
-> > > modules.alias to userspace and enable the only PCI VFIO driver. Later
-> > > series introduce additional HW specific VFIO PCI drivers.
-> > 
-> > s/the only/only the/ ?  (Not sure what you intend, but "the only"
-> > doesn't seem right)
-> 
-> "the only" is correct, at this point in the sequence there is only one
-> pci_driver that uses this, vfio_pci.ko
+Cheers,
+Longman
 
-Can we just name the specific driver instead of obliquely referring to
-"the only such driver", e.g., something like "... add a modules.alias
-entry for vfio_pci.ko, currently the only PCI VFIO driver"?
-
-> > Sorry, I know I'm totally missing the point here.
-> 
-> Lets try again..
-> 
-> PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to struct pci_device_id
-> 
-> Allow device drivers to include match entries in the modules.alias file
-> produced by kbuild that are not used for normal driver autoprobing and
-> module autoloading. Drivers using these match entries can be connected to
-> the PCI device manually, by userspace, using the existing driver_override
-> sysfs.
-
-IIUC, the end result of this is basically a tweak to the existing
-sysfs driver_override functionality.
-
-And I *think* (correct me if I'm wrong), this actually has nothing in
-particular to do with VFIO.  It's just that you want to expose some
-device IDs that are only used for binding when driver_override is set.
-
-> Add the flag PCI_ID_F_VFIO_DRIVER_OVERRIDE to indicate that the match
-> entry is for the VFIO subsystem. These match entries are prefixed with
-> "vfio_" in the modules.alias.
-> 
-> For example the resulting modules.alias may have:
-> 
->   alias pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_core
->   alias vfio_pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_vfio_pci
->   alias vfio_pci:v*d*sv*sd*bc*sc*i* vfio_pci
-> 
-> In this example mlx5_core and mlx5_vfio_pci match to the same PCI
-> device. The kernel will autoload and autobind to mlx5_core but the kernel
-> and udev mechanisms will ignore mlx5_vfio_pci.
-> 
-> When userspace wants to change a device to the VFIO subsystem userspace
-> can implement a generic algorithm:
-> 
->    1) Identify the sysfs path to the device:
->     /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0
-> 
->    2) Get the modalias string from the kernel:
->     $ cat /sys/bus/pci/devices/0000:01:00.0/modalias
->     pci:v000015B3d00001021sv000015B3sd00000001bc02sc00i00
-
-So far, I think this is all the existing behavior, unaffected by this
-patch.
-
->    3) Prefix it with vfio_:
->     vfio_pci:v000015B3d00001021sv000015B3sd00000001bc02sc00i00
-> 
->    4) Search modules.alias for the above string and select the entry that
->       has the fewest *'s:
->     alias vfio_pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_vfio_pci
-
-And this patch basically adds this modules.alias entry.
-
-Previously vfio_pci contained no vendor/device IDs, and the only way
-to bind it to a device was to either:
-
-  - Modprobe the driver and write dynamic device IDs to the driver's
-    /sys/.../new_id.  This should directly bind the driver to all
-    devices that match the new IDs (see new_id_store()).
-
-or
-
-  - Write "vfio_pci" to the device's /sys/.../driver_override.
-    AFAICS, this won't bind anything (see driver_override_store()),
-    but if we call the driver's .probe() method via modprobe or
-    rescan, the driver_override will match any device regardless of
-    ID.
-
-IIUC, after this patch, you can add vendor/device IDs to a struct
-pci_driver with this new flag.  These IDs are advertised via
-modules.alias.
-
-For driver binding, IDs with the new flag are eligible to match only
-when driver_override is set to the matching driver.
-
-Setting a device's driver_override has *always* caused the matching
-driver to bind.  The only difference after this patch is that now we
-give the driver an ID from its .id_table instead of pci_device_id_any.
-
->    5) modprobe the matched module name:
->     $ modprobe mlx5_vfio_pci
-
-I assume somewhere in here you need to unbind mlx5_core before binding
-mlx5_vfio_pci?
-
->    6) cat the matched module name to driver_override:
->     echo mlx5_vfio_pci > /sys/bus/pci/devices/0000:01:00.0/driver_override
-
-Don't you need something here to trigger the driver attach, i.e.,
-should step 5 and step 6 be swapped?  What if the driver is already
-loaded?  Can you modprobe again to make it bind to a second device?
-
-> The algorithm is independent of bus type. In future the other buses's with
-> VFIO device drivers, like platform and ACPI, can use this algorithm as
-> well.
-
-s/buses's/buses/
-
-I see drivers/vfio/platform/vfio_platform.c; is that what you mean?  I
-don't see any VFIO things with ACPI in their name, so maybe I'm
-looking the wrong place.  If this is purely *plans* for the future,
-maybe say something like "planned VFIO drivers ..."
-
-> This patch is the infrastructure to provide the information in the
-> modules.alias to userspace. Convert the only VFIO pci_driver which
-> results in one new line in the modules.alias:
-
-"Convert vfio_pci, currently the only VFIO PCI driver, which ..." ?
-
->   alias vfio_pci:v*d*sv*sd*bc*sc*i* vfio_pci
-> 
-> Later series introduce additional HW specific VFIO PCI drivers, such as
-> mlx5_vfio_pci.
-> 
-> > > diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> > > index 7c97fa8e36bc..f53b38e8f696 100644
-> > > +++ b/scripts/mod/file2alias.c
-> > > @@ -426,7 +426,7 @@ static int do_ieee1394_entry(const char *filename,
-> > >  	return 1;
-> > >  }
-> > >  
-> > > -/* Looks like: pci:vNdNsvNsdNbcNscNiN. */
-> > > +/* Looks like: pci:vNdNsvNsdNbcNscNiN or <prefix>_pci:vNdNsvNsdNbcNscNiN. */
-> > >  static int do_pci_entry(const char *filename,
-> > >  			void *symval, char *alias)
-> > >  {
-> > > @@ -440,8 +440,12 @@ static int do_pci_entry(const char *filename,
-> > >  	DEF_FIELD(symval, pci_device_id, subdevice);
-> > >  	DEF_FIELD(symval, pci_device_id, class);
-> > >  	DEF_FIELD(symval, pci_device_id, class_mask);
-> > > +	DEF_FIELD(symval, pci_device_id, flags);
-> > 
-> > I'm a little bit wary of adding a new field to this kernel/user
-> > interface just for this single bit.  Maybe it's justified but feels
-> > like it's worth being careful.
-> 
-> A couple of us looked at this in one of the RFC threads..
-> 
-> As far as we could tell this is not a kernel/user interface. It is an
-> interface within kbuild between gcc and file2alias and is not used or
-> really exported beyond the kernel build sequence.
-> 
-> Debian code search didn't find anything, for instance.
-> 
-> modules.alias, as output by file2alias during kbuild, is the canonical
-> "kernel/user" interface here. Everything that needs this data should
-> be using that.
-
-Ah, thanks.  I was thinking this added something to /sys/.../modalias,
-but sounds like that's not the case.
