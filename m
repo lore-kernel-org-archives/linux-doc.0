@@ -2,96 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E2AC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 08:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF913C4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 09:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 287E660F41
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 08:34:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E77D60FA0
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 09:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236128AbhHKIep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Aug 2021 04:34:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57602 "EHLO
+        id S236312AbhHKJLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 05:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236074AbhHKIeo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 04:34:44 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6559EC061765
-        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 01:34:21 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so2448419oth.7
-        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 01:34:21 -0700 (PDT)
+        with ESMTP id S235282AbhHKJLx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 05:11:53 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF058C0613D5
+        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 02:11:29 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id h9so3411870ljq.8
+        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 02:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bzh+taYnzcE6w49ZMmI023UlhKRNJVItMBz4npN/cIQ=;
-        b=S6nXdSJxQNEWwWUiEQuWSpHzGzwHwt2wabyv8QGbK2rPXorucnUXVsDnqAk2t3lnVQ
-         9uHXDUYfeKtgyAt61o0QQ+dyasAJXk2NZRgnu3k/VWn95LOGgu8FXocMZa8oFRTEDWus
-         vWoApcx3JpaaGsbufKRQbKXT4BSCrHnonhaoQbX/p2+Ctst/wK3IBon9fpBsInNiWXCL
-         rDhzaxaooLGAP949tYwp4TnHHZZwf9YcOZeGEl9Pojh8NrQa8G7J/FslHSJZw4XD/ZCF
-         NZ+nTftEfbYbQB8JGCr1cawrMT144dHgD58+VSnjY31QF1j2ScKraB6D3NRYPUOl8tCx
-         Gw1w==
+         :cc;
+        bh=45L965AHZgo82l4aN2SrSPr1cis24KkD7elj4CXl2IE=;
+        b=tHkB54ySsHx551ghZG3oiWj9E5OW/jA0gsGikYmUj5abrUVPS1pVfN3YxmEs2Txlur
+         ZUKxCfCNrdIg4aTp9DKXjGgZMeKIi7GQEmtRY7jd6QCzL89NhZceOeCtuySmIX8VXHB0
+         +fwB+P1mzXXtfPraNDkgH0mZOQmFtC97CavMsU6Y7KYupLPgkK2B5BYh77cPr/720/ks
+         CK6XjfVWlCWsRwnBexZGmArWthojlDpRrGh4UTWPSanKqLH2ldait5j3KFIvWCI5ji6d
+         67JYZJ2Xm+uVc0Cv6VHJn5x7tGKGvldtq2Kcfk0d1vuVQbKOsUwkjr5fuAm0fDlrX5yC
+         TbXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bzh+taYnzcE6w49ZMmI023UlhKRNJVItMBz4npN/cIQ=;
-        b=fxuy3zaGpYol/uXv3IY/3s9W9z6Dj0OO/ft17Dp/iiOGiOOio3/B007ISF21c60tNv
-         fbZzGtKrs+3/2E9lUKbR2olOIpVLNEr1tX7l++P/D0R/7buQ8H0xMOdNzyviq8Ick/ne
-         DmqznV+HeaBvNWc5X6vAvon3I8daX91uYAF+Ec+GFJwLUGlq23zycbMofD4EdhzYc/0O
-         pTAUR49uOFy1U9jOp9tCCQodEE9NnNK5a3tWLNsvu5UI+EdVnHD8RnNj0NPmJOYhwcgO
-         LYHN4WQnqlR24vt+1iSIwQiKcXjCPvNXXLDvy9xEN38VhgW04OJubQiSb+CBDiWdG2fz
-         CUGQ==
-X-Gm-Message-State: AOAM531VLQbxi4qR9hdyAOTn5c2yHVTxdL7fMnRCghXdds+JMfJtWW7p
-        68o73S+dvyrd6P/EH7lscnjp/HfY1pZoEo77pbg=
-X-Google-Smtp-Source: ABdhPJxrADIOwmmSA9OuoKMN+NqGh6YW1L+s4N4iIajxgDQ8Q7137od1fXqdoT6+kwyrxu1mA5KKU0RCnMWBHM5LCY8=
-X-Received: by 2002:a9d:53cd:: with SMTP id i13mr10995663oth.302.1628670860773;
- Wed, 11 Aug 2021 01:34:20 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=45L965AHZgo82l4aN2SrSPr1cis24KkD7elj4CXl2IE=;
+        b=I9YIUBmIXQEKljBv1NSzAxE5S8e6/pFaK8Qs3JxVGpEHh684kJSTnaiJh8ENv9ecaE
+         eIyinH6SThCvVqYzS8Y8XS0PqeJwPMmqA0bhAytmJh3AhZWfz5EPRrv0rz4MgjySW08i
+         xFQiYDX0qGqw/h802lj5LHfFC63j7mZq//glagemfa6wGSpYEPfv65dn82xZ++O09B7Q
+         90QPZHYYx8QWdozS+JxtRXXJas5FvZWQ7UeZZI8nRwAYTB51p2UsAdW5hQEsEluZggDK
+         wSJvjSbgY/QaUIBMjeOmlYbDLYH/CfrqTfCxzu2rqWlTwJn3oM8vGhKj/kmTXfMYgRoL
+         X8Xg==
+X-Gm-Message-State: AOAM533UTBeaxYONqHn7kWwfCAcptccCQ4rG9g0cQ3AKpAfI6G612N10
+        frcXXzfK480WvchpeOiKJFnfVt5+W5IF/XFODypWMw==
+X-Google-Smtp-Source: ABdhPJzRqUz/cks6mC/kThItyPh6HXSuFGyiXatmiGVouPLRVCOkyePXj7L3M7v54DYVWz6HfqDUb6kTsZt1fLEjXvo=
+X-Received: by 2002:a2e:9e46:: with SMTP id g6mr2650552ljk.326.1628673088252;
+ Wed, 11 Aug 2021 02:11:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1625795862.git.siyanteng@loongson.cn>
-In-Reply-To: <cover.1625795862.git.siyanteng@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 11 Aug 2021 16:34:11 +0800
-Message-ID: <CAEensMzC6T0jrGNe8JetS_OQsHD3B=UtNMH6aPbJjYrff_AbDg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] docs/zh_CN: add core-api Memory management translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
+References: <20210625235532.19575-1-dipenp@nvidia.com> <20210625235532.19575-10-dipenp@nvidia.com>
+ <CACRpkdaqKJLUdf3NiFHaTgu6buyhMb_D1yKyHF4M=eTQ94pe-g@mail.gmail.com>
+ <b87fa5d8-bef9-9046-9747-d4428ddf58ea@nvidia.com> <20210731061617.GA12414@sol>
+In-Reply-To: <20210731061617.GA12414@sol>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 11 Aug 2021 11:11:17 +0200
+Message-ID: <CACRpkdab=VhSgWOpBQ2rB4AiQF4zXJ_S20A826ZxufJAvN9cWg@mail.gmail.com>
+Subject: Re: [RFC 09/11] tools: gpio: Add new hardware clock type
+To:     Kent Gibson <warthog618@gmail.com>
+Cc:     Dipen Patel <dipenp@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> =E4=BA=8E2021=E5=B9=B47=E6=9C=889=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8810:57=E5=86=99=E9=81=93=EF=BC=9A
+On Sat, Jul 31, 2021 at 8:16 AM Kent Gibson <warthog618@gmail.com> wrote:
+> On Thu, Jul 29, 2021 at 08:17:22PM -0700, Dipen Patel wrote:
+> >
+> > On 6/27/21 4:36 AM, Linus Walleij wrote:
+> > > On Sat, Jun 26, 2021 at 1:48 AM Dipen Patel <dipenp@nvidia.com> wrote:
+> > >
+> > >> gpiolib-cdev is extended to support hardware clock type, this
+> > >> patch reflects that fact.
+> > >>
+> > >> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> > > (...)
+> > >>                 case 'w':
+> > >>                         config.flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME;
+> > >>                         break;
+> > >> +               case 't':
+> > >> +                       config.flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE;
+> > >> +                       break;
+> > > After the checking of the command line options we need a small sanity
+> > > check so we don't try to enable both realtime and hardware clock
+> > > at the same time, we will only be able to request one of them.
+> >
+> > This will any way fail at gpiolib-cdev layer. Do we want to add it here
+> >
+> > as well?
+> >
 >
-> v2:
->
-> * Modified some words under Alex's advices;Many thanks to alex for his re=
-view, which
->     kept him busy until the early hours of the morning.Thank you!
->
-> * add =E6=A0=A1=E8=AF=91=E8=80=85(proofreading) sign.If you don't want me=
- to do this, please let me know.
->
-> Yanteng Si (6):
->   docs/zh_CN: add core-api memory-allocation translation
->   docs/zh_CN: add core-api unaligned-memory-access translation
->   docs/zh_CN: add core-api mm-api translation
->   docs/zh_CN: add core-api genalloc translation
->   docs/zh_CN: add core-api boot-time-mm translation
->   docs/zh_CN: add core-api gfp_mask-from-fs-io translation
+> I can't speak for Linus, but I'm fine with it as is as it allows the tool
+> to be used to exercise the sanity check in the kernel.
 
-Anyone else want to review this set?   :-)
+Fair enough, that sounds useful. Go ahead with this as-is.
 
-Thanks,
-
-Yanteng
+Yours,
+Linus Walleij
