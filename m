@@ -2,192 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF594C432BE
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 191CFC432BE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 06:47:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F7A560F13
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 03:21:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0C8C6056C
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 06:47:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232730AbhHKDWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 Aug 2021 23:22:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49932 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232498AbhHKDWB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Aug 2021 23:22:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F340360C40;
-        Wed, 11 Aug 2021 03:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628652098;
-        bh=FziP7e2670iPjg8hna/JeFwBLNVYppJ3PZ01fQLOw/U=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nIvAui6v/LPO29iiGB3hzfZLYxQVJVopHjOUa+eKxSGH4jeLbBR/+qak7yUl5+TyL
-         Ui/7U4fQJyfasqyNddyevqkKnSOtvFdA0KClebP1cgA4nouMXIgSGp5zStGCum5cEP
-         Gwsvdg9K9sYGxj4gGOQbWbQXr91H1ayjDsbwBWnZJAsjkJGJVQAHJpGqvHqu0g6cFc
-         XaKQDNKtTpY3tw2KQJi7xd/Dd+gvLXWTGMfoRKDXuFRQz3r81r9+DR9ls7KO73fqAL
-         Y3LLDH16tbLi6slsmord8Wm+3tcUj7PZQXQVy53GwW1WQhgGPopq7Vw+AEoymG0uZU
-         fn8LKtITULIzQ==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     linux-sgx@vger.kernel.org
-Cc:     Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH RFC v3] x86/sgx: Add /proc/sys/kernel/sgx/total_mem
-Date:   Wed, 11 Aug 2021 06:21:33 +0300
-Message-Id: <20210811032133.853680-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        id S234992AbhHKGsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 02:48:01 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:42338 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234760AbhHKGsA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 02:48:00 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17B6l62r026237;
+        Wed, 11 Aug 2021 01:47:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1628664426;
+        bh=5ToVPmf6k46EPyuQaA+kyIopP+BZEXEzFZsUj6vHfEs=;
+        h=From:To:CC:Subject:Date;
+        b=duvuwC3oC8q/7b+habCxAah+q2QYc5oJdTvaOWMZSB4eO6InmE+UfSW4xCDbIVVlA
+         IIRrhNDvfNr+/EnoGPm7Z27IPew3TDhrtZ+/qMh38IgjRp3KRAQoWrJuUUOIdQ5m9K
+         Vcvd+L2/2h6pOAcHBejTbB1kFBCp6U5UqrW5pb8Q=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17B6l6Ft111940
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 11 Aug 2021 01:47:06 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 11
+ Aug 2021 01:47:06 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Wed, 11 Aug 2021 01:47:05 -0500
+Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17B6kvu1013269;
+        Wed, 11 Aug 2021 01:46:57 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>, <kishon@ti.com>
+Subject: [PATCH v8 0/8] Add SR-IOV support in PCIe Endpoint Core
+Date:   Wed, 11 Aug 2021 12:16:48 +0530
+Message-ID: <20210811064656.15399-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The amount of EPC on the system is determined by the BIOS and it varies
-wildly between systems.  It can be dozens of MB on desktops, or many GB on
-servers.
+Patch series
+*) Adds support to add virtual functions to enable endpoint controller
+   which supports SR-IOV capability
+*) Add support in Cadence endpoint driver to configure virtual functions
+*) Enable pci_endpoint_test driver to create pci_device for virtual
+   functions
 
-Just like normal memory, SGX memory can be overcommitted.  SGX has its own
-reclaim mechanism which kicks in when physical SGX memory (Enclave Page
-Cache / EPC) is exhausted.  SGX memory can also be sliced into a number
-pieces when utilizing /dev/sgx_vepc to allocate SGX memory regions for the
-VM's.
+v1 of the patch series can be found at [1]
+v2 of the patch series can be found at [2]
+v3 of the patch series can be found at [3]
+v4 of the patch series can be found at [4]
+v5 of the patch series can be found at [5]
+v6 of the patch series can be found at [6]
+v7 of the patch series can be found at [7]
 
-For all these needs and purposes, it is often useful to know what is the
-physical limit for SGX memory.
+Here both physical functions and virtual functions use the same
+pci_endpoint_test driver and existing pcitest utility can be used
+to test virtual functions as well.
 
-Add /proc/sys/kernel/sgx/total_mem read-only sysctl attribute for to report
-the total available SGX memory to help with configuring SGX applications
-based on the system capabilities. Since having this makes sense both for
-KVM and the driver, it makes most sense to have it as a global sysfs
-attribute.
+Changes from v7:
+1) Added conditional operator to consicely write code to configure BAR
+   (Added a new patch to first simplify configuring BAR for physical
+    function)
+2) Return error if virtual function number is > 1 for configuring config
+   space header
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
+Changes from v6:
+*) Rebased to 5.14-rc4
 
-v3:
-* ``sgx_total_mem`` -> ``total_mem``
-* Rewrote the commit message.
+Changes from v5:
+*) Rebased to 5.13-rc1
 
-v2:
-* Removed Dave's ack.
-* Rewrote Documentation/x86/sgx.rst. It was not properly updated in the
-  previous iteration.
+Changes from v4:
+*) Added a fix in Cadence driver which was overwriting BAR configuration
+   of physical function.
+*) Didn't include Tom's Acked-by since Cadence driver is modified in
+   this revision.
 
- Documentation/x86/sgx.rst      | 10 +++++++++
- arch/x86/kernel/cpu/sgx/main.c | 40 ++++++++++++++++++++++++++++++++--
- 2 files changed, 48 insertions(+), 2 deletions(-)
+Changes from v3:
+*) Fixed Rob's comment and added his Reviewed-by as suggested by him.
 
-diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-index dd0ac96ff9ef..32d579c90d82 100644
---- a/Documentation/x86/sgx.rst
-+++ b/Documentation/x86/sgx.rst
-@@ -250,3 +250,13 @@ user wants to deploy SGX applications both on the host and in guests
- on the same machine, the user should reserve enough EPC (by taking out
- total virtual EPC size of all SGX VMs from the physical EPC size) for
- host SGX applications so they can run with acceptable performance.
-+
-+Sysctls
-+=======
-+
-+The following sysctl files can be found in the ``/proc/sys/kernel/sgx/`` directory:
-+
-+``total_mem``
-+	The total amount of SGX protected memory in bytes available in the system
-+	available for use. In other words, it describes the size of the Enclave
-+	Page Cache (EPC).
-diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
-index 63d3de02bbcc..c857253a2e5d 100644
---- a/arch/x86/kernel/cpu/sgx/main.c
-+++ b/arch/x86/kernel/cpu/sgx/main.c
-@@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
- static LIST_HEAD(sgx_active_page_list);
- static DEFINE_SPINLOCK(sgx_reclaimer_lock);
- 
--/* The free page list lock protected variables prepend the lock. */
-+/* Total EPC memory available in bytes. */
-+static unsigned long sgx_total_mem;
-+
-+/* The number of free EPC pages in all nodes. */
- static unsigned long sgx_nr_free_pages;
- 
- /* Nodes with one or more EPC sections. */
-@@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
- 		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
- 	}
- 
-+	sgx_total_mem += nr_pages * PAGE_SIZE;
-+
- 	return true;
- }
- 
-@@ -790,8 +795,30 @@ int sgx_set_attribute(unsigned long *allowed_attributes,
- }
- EXPORT_SYMBOL_GPL(sgx_set_attribute);
- 
-+static struct ctl_path sgx_sysctl_path[] = {
-+	{ .procname = "kernel", },
-+	{ .procname = "sgx", },
-+	{ }
-+};
-+
-+static unsigned long sgx_total_mem_max = ~0UL;
-+
-+static struct ctl_table sgx_sysctl_table[] = {
-+	{
-+		.procname       = "total_mem",
-+		.data           = &sgx_total_mem,
-+		.maxlen         = sizeof(unsigned long),
-+		.mode           = 0444,
-+		.proc_handler   = proc_doulongvec_minmax,
-+		.extra1		= SYSCTL_ZERO, /* min */
-+		.extra2		= &sgx_total_mem_max, /* max */
-+	},
-+	{ }
-+};
-+
- static int __init sgx_init(void)
- {
-+	struct ctl_table_header *sysctl_table_header;
- 	int ret;
- 	int i;
- 
-@@ -810,6 +837,12 @@ static int __init sgx_init(void)
- 	if (ret)
- 		goto err_kthread;
- 
-+	sysctl_table_header = register_sysctl_paths(sgx_sysctl_path, sgx_sysctl_table);
-+	if (!sysctl_table_header) {
-+		pr_err("sysctl registration failed.\n");
-+		goto err_provision;
-+	}
-+
- 	/*
- 	 * Always try to initialize the native *and* KVM drivers.
- 	 * The KVM driver is less picky than the native one and
-@@ -821,10 +854,13 @@ static int __init sgx_init(void)
- 	ret = sgx_drv_init();
- 
- 	if (sgx_vepc_init() && ret)
--		goto err_provision;
-+		goto err_sysctl;
- 
- 	return 0;
- 
-+err_sysctl:
-+	unregister_sysctl_table(sysctl_table_header);
-+
- err_provision:
- 	misc_deregister(&sgx_dev_provision);
- 
+Changes from v2:
+*) Fixed DT binding documentation comment by Rob
+*) Fixed the error check in pci-epc-core.c
+
+Changes from v1:
+*) Re-based and Re-worked to latest kernel 5.10.0-rc2+ (now has generic
+   binding for EP)
+
+[1] -> http://lore.kernel.org/r/20191231113534.30405-1-kishon@ti.com
+[2] -> http://lore.kernel.org/r/20201112175358.2653-1-kishon@ti.com
+[3] -> https://lore.kernel.org/r/20210305050410.9201-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20210310160943.7606-1-kishon@ti.com
+[5] -> https://lore.kernel.org/r/20210419083401.31628-1-kishon@ti.com
+[6] -> http://lore.kernel.org/r/20210517074723.10212-1-kishon@ti.com
+[7] -> https://lore.kernel.org/r/20210803050310.27122-1-kishon@ti.com
+
+Kishon Vijay Abraham I (8):
+  dt-bindings: PCI: pci-ep: Add binding to specify virtual function
+  PCI: endpoint: Add support to add virtual function in endpoint core
+  PCI: endpoint: Add support to link a physical function to a virtual
+    function
+  PCI: endpoint: Add virtual function number in pci_epc ops
+  PCI: cadence: Simplify code to get register base address for
+    configuring BAR
+  PCI: cadence: Add support to configure virtual functions
+  misc: pci_endpoint_test: Populate sriov_configure ops to configure
+    SR-IOV device
+  Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  12 +-
+ .../devicetree/bindings/pci/pci-ep.yaml       |   7 +
+ drivers/misc/pci_endpoint_test.c              |   1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  | 194 +++++++++++++-----
+ drivers/pci/controller/cadence/pcie-cadence.h |  11 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |  36 ++--
+ drivers/pci/controller/pcie-rcar-ep.c         |  19 +-
+ drivers/pci/controller/pcie-rockchip-ep.c     |  18 +-
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  89 ++++----
+ drivers/pci/endpoint/functions/pci-epf-test.c |  74 ++++---
+ drivers/pci/endpoint/pci-ep-cfs.c             |  24 +++
+ drivers/pci/endpoint/pci-epc-core.c           | 134 ++++++++----
+ drivers/pci/endpoint/pci-epf-core.c           | 144 ++++++++++++-
+ include/linux/pci-epc.h                       |  57 ++---
+ include/linux/pci-epf.h                       |  16 +-
+ 15 files changed, 611 insertions(+), 225 deletions(-)
+
 -- 
-2.32.0
+2.17.1
 
