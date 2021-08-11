@@ -2,184 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2DCC432BE
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 12:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B03C4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 12:29:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C14EF60F22
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 12:25:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B14F61019
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 12:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238318AbhHKM0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Aug 2021 08:26:16 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:46205 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238337AbhHKMZO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 08:25:14 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id BD85C5C01A3;
-        Wed, 11 Aug 2021 08:24:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 11 Aug 2021 08:24:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        subject:to:cc:references:from:message-id:date:mime-version
-        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=L
-        DVE8vQuo3/b4D1fp7wG+aU/0M79q5uZCrkMXpB/sC4=; b=aMQuC2y+loNMbpcgG
-        Z4YB3HhybENR2ZjV4yORvvBsfSiAjXRhG/uRd5eH/SnY5mSdeHeSMWxON3XJ7GTx
-        li3Syfg04KI81wSj6RmgBJl7BQLsO8GHQK/itqPNgzzvraj+30bRWGsalWpYhuIu
-        XiQ7+ofxXe1A7xKNMmb4KyFQ7J40iWalDQfEzJJaKt2cAXZwGD9Sb6RqgMHx9MeS
-        OFCHSDeFZbbKYqcSjoLvKwD3uRRXBhRJqqmVzAURNREBVEnrocjg2d0F7byZxuVc
-        /BMBNJPxrLVfRJQpZAYJkmE1XUpWegGIw3OoenZPyinMrHQvcFgugq7WSfuwJAnH
-        ynPkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=LDVE8vQuo3/b4D1fp7wG+aU/0M79q5uZCrkMXpB/s
-        C4=; b=eLQ26k/KBDHYn5pUwoPNgyN/Sgsj5mjBiA5GXd+RATQVi4yye7blcdU2v
-        9LTVpEwhStOyude5HDSNadzlXWx5ryeXvyknldBLz1vfjGImQET1APmzeclXbtgR
-        M6aXHHgMIXDkxEcmkjfyPisOBAuEb/CVlgEkH4+75l9r22ln7EoPyniG8SReLG3p
-        8BEF4H1yJuZbiKZZ/TK0T2Kadjw9D8AQkaKNs/QSwE52Yc8E+FV+GDLlzqgry1Ur
-        AVUPrYsg5KiCqA/GigpEB6eB+5BlbTVilP63EkfOozh6blU1dTrq7ZaiNqwXGCim
-        fcpllIvIW87wav4a6FxSTT6msK5zg==
-X-ME-Sender: <xms:kMETYaRpZP7JxGzgynqUk4AavK2Ski52tKYNdgAp5Oy0P9E9xVHusg>
-    <xme:kMETYfxu0Grn9iZi7JjnmQZ-5OX6-nIb3m-N4WvZbl8IrkEOFJ7Tmd9zMgg8jdaFu
-    QG96ZE33bWlWgSwd8Y>
-X-ME-Received: <xmr:kMETYX0BJo64aRn19NBVe6ACn-a3qTrSwwJVRAEWLAV3XUrV7V0r85fwRQqK8b4_9cU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrkedugdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
-    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
-    ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
-    ueegveefgfefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:kMETYWBcpLUU_FaaS41tNWvmNDGOP9z3FkemkM8u3gn7L0UV_ru4qg>
-    <xmx:kMETYThZvaY_Pl0iRqjSvmDBO42pkD3sp7XMWCa50gxPK4nbPBiAdw>
-    <xmx:kMETYSrpTW0YEoqmwIUAbZtB73n4nHjIxfaUsiIUtu94tURUN490Sg>
-    <xmx:ksETYTiwY3xdUnrYq5UNqNynriB3MPop761g71YouIJ1QiHxaE8zng>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Aug 2021 08:24:44 -0400 (EDT)
-Subject: Re: [PATCH v2 5/6] docs/zh_CN: add core-api boot-time-mm translation
-To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
-Cc:     chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-References: <cover.1625795862.git.siyanteng@loongson.cn>
- <223f4142aff4eba5ba7e4442cce77dd87591cc3a.1625795862.git.siyanteng@loongson.cn>
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <d67612cc-e396-25dd-bcc6-1129db8cf08d@flygoat.com>
-Date:   Wed, 11 Aug 2021 20:24:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        id S231865AbhHKMaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 08:30:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51112 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238176AbhHKMaC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 08:30:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628684978;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=QO0nSAu92MP8RiEuIhgxVdsQv6XTTqKChhiysXgjNsE=;
+        b=gj8otU2dLuXZvf6euOpCiu0ImD0cCPUEQABI0Uxf3w5Wk+9GAa5DjUjE3ZhKN+gHM7RA0M
+        CPbM5GQ8rEHrOtVZrospJooqBylsmYOL87DP+TCZkixpXaFTmmuBuSwraqzVH3TvtaAttL
+        dsz+NsxznsQjmBZVNSNc0Hwxs99ycUM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-9kiyAvy9M6275xO6WjeebA-1; Wed, 11 Aug 2021 08:29:37 -0400
+X-MC-Unique: 9kiyAvy9M6275xO6WjeebA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D075F593A8;
+        Wed, 11 Aug 2021 12:29:34 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.50])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C6C3D5D9C6;
+        Wed, 11 Aug 2021 12:29:28 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Kieran Bingham <kbingham@kernel.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Johannes Berg <johannes.berg@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Yang Weijiang <weijiang.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v3 0/6] KVM: my debug patch queue
+Date:   Wed, 11 Aug 2021 15:29:21 +0300
+Message-Id: <20210811122927.900604-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <223f4142aff4eba5ba7e4442cce77dd87591cc3a.1625795862.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi!=0D
+=0D
+I would like to publish two debug features which were needed for other stuf=
+f=0D
+I work on.=0D
+=0D
+One is the reworked lx-symbols script which now actually works on at least=
+=0D
+gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the ke=
+rnel=0D
+for some reason, not related to this patch) and upstream qemu.=0D
+=0D
+The other feature is the ability to trap all guest exceptions (on SVM for n=
+ow)=0D
+and see them in kvmtrace prior to potential merge to double/triple fault.=0D
+=0D
+This can be very useful and I already had to manually patch KVM a few=0D
+times for this.=0D
+I will, once time permits, implement this feature on Intel as well.=0D
+=0D
+V2:=0D
+=0D
+ * Some more refactoring and workarounds for lx-symbols script=0D
+=0D
+ * added KVM_GUESTDBG_BLOCKIRQ flag to enable 'block interrupts on=0D
+   single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability=0D
+   to indicate which guest debug flags are supported.=0D
+=0D
+   This is a replacement for unconditional block of interrupts on single=0D
+   step that was done in previous version of this patch set.=0D
+   Patches to qemu to use that feature will be sent soon.=0D
+=0D
+ * Reworked the the 'intercept all exceptions for debug' feature according=
+=0D
+   to the review feedback:=0D
+=0D
+   - renamed the parameter that enables the feature and=0D
+     moved it to common kvm module.=0D
+     (only SVM part is currently implemented though)=0D
+=0D
+   - disable the feature for SEV guests as was suggested during the review=
+=0D
+   - made the vmexit table const again, as was suggested in the review as w=
+ell.=0D
+=0D
+V3:=0D
+ * Modified a selftest to cover the KVM_GUESTDBG_BLOCKIRQ=0D
+ * Rebased on kvm/queue=0D
+=0D
+Best regards,=0D
+        Maxim Levitsky=0D
+=0D
+Maxim Levitsky (6):=0D
+  KVM: SVM: split svm_handle_invalid_exit=0D
+  KVM: x86: add force_intercept_exceptions_mask=0D
+  KVM: SVM: implement force_intercept_exceptions_mask=0D
+  scripts/gdb: rework lx-symbols gdb script=0D
+  KVM: x86: implement KVM_GUESTDBG_BLOCKIRQ=0D
+  KVM: selftests: test KVM_GUESTDBG_BLOCKIRQ=0D
+=0D
+ Documentation/virt/kvm/api.rst                |   1 +=0D
+ arch/x86/include/asm/kvm_host.h               |   5 +-=0D
+ arch/x86/include/uapi/asm/kvm.h               |   1 +=0D
+ arch/x86/kvm/svm/svm.c                        |  87 +++++++-=0D
+ arch/x86/kvm/svm/svm.h                        |   6 +-=0D
+ arch/x86/kvm/x86.c                            |  12 +-=0D
+ arch/x86/kvm/x86.h                            |   2 +=0D
+ kernel/module.c                               |   8 +-=0D
+ scripts/gdb/linux/symbols.py                  | 203 ++++++++++++------=0D
+ .../testing/selftests/kvm/x86_64/debug_regs.c |  24 ++-=0D
+ 10 files changed, 266 insertions(+), 83 deletions(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
-在 2021/7/9 10:57, Yanteng Si 写道:
-> Translate Documentation/core-api/boot-time-mm.rst into Chinese.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> ---
->   .../zh_CN/core-api/boot-time-mm.rst           | 49 +++++++++++++++++++
->   .../translations/zh_CN/core-api/index.rst     |  2 +-
->   2 files changed, 50 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/core-api/boot-time-mm.rst
->
-> diff --git a/Documentation/translations/zh_CN/core-api/boot-time-mm.rst b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
-> new file mode 100644
-> index 000000000000..ba20dfed1017
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
-> @@ -0,0 +1,49 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/boot-time-mm.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> + 时奎亮<alexs@kernel.org>
-> +
-> +.. _cn_core-api_boot-time-mm:
-> +
-> +================
-> +启动时的内存管理
-> +================
-> +
-> +系统初始化早期不能使用“正常”的内存管理，只是因为它还没有被设置好。但是仍
-> +然需要为各种数据结构分配内存，例如为物理页分配器分配内存。
-
-系统初始化早期“正常”的内存管理由于没有设置完毕无法使用。但是内核仍然需要为各种数据结构分配内存，例如物理页分配器。 
-
-
-> +
-> +一个叫做 ``memblock`` 的专用分配器执行启动时的内存管理。特定架构的初始化
-> +必须在setup_arch()中设置它，并在mem_init()函数中移除它。
-> +
-> +一旦早期的内存管理可用，它就为内存分配提供了各种函数和宏。分配请求可以指向
-> +第一个（也可能是唯一的）节点或NUMA系统中的某个特定节点。有一些API变体在分
-> +配失败时panic，也有一些不panic的。
-^ 不会panic。
-> +
-> +Memblock还提供了各种控制其自身行为的API。
-> +
-> +Memblock概述
-> +============
-> +
-> +该API在以下内核代码中:
-> +
-> +mm/memblock.c
-> +
-> +
-> +函数和结构体
-> +============
-> +
-> +下面是关于memblock数据结构、函数和宏的描述。其中一些实际上是内部（内联函数注释）
-> +的，但由于它们被记录下来，漏掉它们是很愚蠢的。此外，阅读内部函数的注释可以帮助理
-> +解引擎盖下真正发生的事情。
-
-I think internal here means not facing memblock users, 内联函数注释 seems 
-wired.
-
-Thanks.
-
-- Jiaxun
-
-> +
-> +该API在以下内核代码中:
-> +
-> +include/linux/memblock.h
-> +mm/memblock.c
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-> index 1e8c5963c499..1d6fecd69c3b 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -103,6 +103,7 @@ Todolist:
->      unaligned-memory-access
->      mm-api
->      genalloc
-> +   boot-time-mm
->   
->   Todolist:
->   
-> @@ -111,7 +112,6 @@ Todolist:
->      dma-attributes
->      dma-isa-lpc
->      pin_user_pages
-> -   boot-time-mm
->      gfp_mask-from-fs-io
->   
->   内核调试的接口
