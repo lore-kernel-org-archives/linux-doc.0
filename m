@@ -2,135 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC0FC4320E
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 06:48:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF1BC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 07:43:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4C3E6056C
-	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 06:48:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93E7D6056B
+	for <linux-doc@archiver.kernel.org>; Wed, 11 Aug 2021 07:43:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235315AbhHKGst (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 Aug 2021 02:48:49 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:42506 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235436AbhHKGsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 02:48:46 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17B6m3oE026588;
-        Wed, 11 Aug 2021 01:48:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1628664483;
-        bh=poueu/euKtfcqbr8LzsTcjIQ1wgv6v/lzsChvHScOeU=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=YJ4wM9L3VEJmYH2KJBKukyKV33WYLZuiUi/z2m4KlsPYdbuurecgPUgfG9Ll1Wzue
-         JUpLXuH8RiZU/cYqCesDw37rQ4NtA+d4wwvfl0TVmHCCoIq7BaKzrf7K3JaFI3kQpN
-         JlD0qjWHNlL346IFMqKjrgv76D42uX8Ro39p6MXE=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17B6m3CT078454
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Aug 2021 01:48:03 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 11
- Aug 2021 01:48:02 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 11 Aug 2021 01:48:02 -0500
-Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17B6kvu9013269;
-        Wed, 11 Aug 2021 01:47:56 -0500
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-CC:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>, <kishon@ti.com>
-Subject: [PATCH v8 8/8] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-Date:   Wed, 11 Aug 2021 12:16:56 +0530
-Message-ID: <20210811064656.15399-9-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210811064656.15399-1-kishon@ti.com>
-References: <20210811064656.15399-1-kishon@ti.com>
+        id S235037AbhHKHnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 Aug 2021 03:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233182AbhHKHnp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Aug 2021 03:43:45 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BA1C061765
+        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 00:43:22 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id u1so1284721wmm.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Aug 2021 00:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VMBx2f2ryRnJij4HtLsN4bhexipr1N0Fd89Und7jmKI=;
+        b=OHS+HDA/+vtY1W2F4658aQ5/aftHc5fos2EiMnnlnm3ilKAedbXnd1UT8E4MPPExeg
+         5FcsVkg/QGNCxiUyJH/DX1pCzK5OtXQO0W90j9G2vOh5gzXE0X0SezisX+0wnhkibw60
+         XEKJWbtZSb/y9Zw89h+DZZNjurTz2vy59REoBKzcUm/MyqJ7JhTOtQwknsbAlmYKK8I6
+         16deGiUypBSWja/CkdRcrSyglq701sm9dSwLD5ic+pcnVCQSArSDu6oJ4dS7/g9Jh9Sq
+         gjviwFVBh9HVt0JU3a5oUG2Ep3Jin1jtkcvuBD4vb+UemavZFH+ukzRLnxmzo6LT0/X2
+         Zy2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VMBx2f2ryRnJij4HtLsN4bhexipr1N0Fd89Und7jmKI=;
+        b=XMQBHJ9+ZYyJejVgbygStvtYCc/2/CxV+gYqg3guV3kXFyg1vpyE7b9L2FXYF5QNT3
+         YBNYPoquLZyR10bIQRK8ZAhk9TnfwKSxlsR3T2EwwM0F5+8LF+2XMuPeSx4vCouefxee
+         WFJxjIWxbT3VHr96fttcoANj4ILQU8doGog0lD6gY0B/P+o/Uo1R6+2WVidXjIBxlxYc
+         R6QBYSqMp6srr4tnQ1ebon1rNYHWALZYUfNabdmldrmXxGqiH06Lcii3G2cpPUyDPgWb
+         rGTAJ2GlvpbDtn+uSWFECNUDpTfu5aLMCph7d6GrGnKvi0MLhQ3CpwsfiPEpLwOspdkA
+         M63Q==
+X-Gm-Message-State: AOAM5334FISM9mtlcwhl7HYsQO+/6KBnsYkDDpwlN8XSNiqOmT2wcjrt
+        OGRfiWTTBW44ybzUtlUtwOOllg==
+X-Google-Smtp-Source: ABdhPJyG8267tX3nOVt0WHe1OYMAOORenF0eZsNc5CO6sBxjMZ0l2qi1hLB2Kr9hVjp+qCU+aH/6KQ==
+X-Received: by 2002:a05:600c:3653:: with SMTP id y19mr26494417wmq.147.1628667800522;
+        Wed, 11 Aug 2021 00:43:20 -0700 (PDT)
+Received: from blmsp.lan ([2a02:2454:3e6:c900::97e])
+        by smtp.gmail.com with ESMTPSA id d9sm15348592wrw.26.2021.08.11.00.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Aug 2021 00:43:20 -0700 (PDT)
+From:   Markus Schneider-Pargmann <msp@baylibre.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     linux-doc@vger.kernel.org,
+        Markus Schneider-Pargmann <msp@baylibre.com>,
+        Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH] doc: gpu: drm-internals: Create reference to DRM mm
+Date:   Wed, 11 Aug 2021 09:42:54 +0200
+Message-Id: <20210811074254.1707991-1-msp@baylibre.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Documentation to help users use PCI endpoint to create virtual
-functions using configfs. An endpoint function is designated as a
-virtual endpoint function device when it is linked to a physical
-endpoint function device (instead of a endpoint controller).
+This short sentence references nothing for details about memory manager.
+Replace it with the documentation file for DRM memory management.
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 ---
- Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ Documentation/gpu/drm-internals.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-index db609b97ad58..fb73345cfb8a 100644
---- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-@@ -43,6 +43,7 @@ entries corresponding to EPF driver will be created by the EPF core.
- 		.. <EPF Driver1>/
- 			... <EPF Device 11>/
- 			... <EPF Device 21>/
-+			... <EPF Device 31>/
- 		.. <EPF Driver2>/
- 			... <EPF Device 12>/
- 			... <EPF Device 22>/
-@@ -68,6 +69,7 @@ created)
- 				... subsys_vendor_id
- 				... subsys_id
- 				... interrupt_pin
-+			        ... <Symlink EPF Device 31>/
-                                 ... primary/
- 			                ... <Symlink EPC Device1>/
-                                 ... secondary/
-@@ -79,6 +81,13 @@ interface should be added in 'primary' directory and symlink of endpoint
- controller connected to secondary interface should be added in 'secondary'
- directory.
+diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+index 06af044c882f..bdcdfc4ede04 100644
+--- a/Documentation/gpu/drm-internals.rst
++++ b/Documentation/gpu/drm-internals.rst
+@@ -126,8 +126,8 @@ Memory Manager Initialization
+ Every DRM driver requires a memory manager which must be initialized at
+ load time. DRM currently contains two memory managers, the Translation
+ Table Manager (TTM) and the Graphics Execution Manager (GEM). This
+-document describes the use of the GEM memory manager only. See ? for
+-details.
++document describes the use of the GEM memory manager only. See
++Documentation/gpu/drm-mm.rst for details.
  
-+The <EPF Device> directory can have a list of symbolic links
-+(<Symlink EPF Device 31>) to other <EPF Device>. These symbolic links should
-+be created by the user to represent the virtual functions that are bound to
-+the physical function. In the above directory structure <EPF Device 11> is a
-+physical function and <EPF Device 31> is a virtual function. An EPF device once
-+it's linked to another EPF device, cannot be linked to a EPC device.
-+
- EPC Device
- ==========
- 
-@@ -98,7 +107,8 @@ entries corresponding to EPC device will be created by the EPC core.
- 
- The <EPC Device> directory will have a list of symbolic links to
- <EPF Device>. These symbolic links should be created by the user to
--represent the functions present in the endpoint device.
-+represent the functions present in the endpoint device. Only <EPF Device>
-+that represents a physical function can be linked to a EPC device.
- 
- The <EPC Device> directory will also have a *start* field. Once
- "1" is written to this field, the endpoint device will be ready to
+ Miscellaneous Device Configuration
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
-2.17.1
+2.32.0
 
