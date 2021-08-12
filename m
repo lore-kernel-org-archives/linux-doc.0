@@ -2,94 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EFCC4320A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AC4C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:42:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA43761102
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2665160F91
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237976AbhHLP0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 11:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232854AbhHLP0S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 11:26:18 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8947C061756
-        for <linux-doc@vger.kernel.org>; Thu, 12 Aug 2021 08:25:52 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id d10-20020a9d4f0a0000b02904f51c5004e3so8175370otl.9
-        for <linux-doc@vger.kernel.org>; Thu, 12 Aug 2021 08:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9hXvAGfNY118VdixW3MyB3N5r/DKb/+U9KqtyZYkawo=;
-        b=SFmhYo/MU8urBuVsnsV5nyU34QCFb0/WEb/foFgeWy11nfy+Gw+VlEO72uaxxNeolc
-         yXpezptn3k59gtCZCmPLiWiTZVTHH5Qnq4aCEQB5KYerPHDpUVUhAWOho12JVrFkkwSk
-         6Y7MypztsVYupU3m5g9GhpC5iKYIIaDNQRf2ECsGmnuf1w17qTrDylv88ctCiarZv2Vw
-         pzIV4Xjjxv/HBlZmaOrD1nuhkYIUxhoZmmxoHYG+aUba1zdDe00O8j4NUURFLooZdVvH
-         hdu0/uERzeJUD86kESfC/wbAueNhHXij/uTlze5venc1/1VsMeMS3vFOXXrtaBrAdoX6
-         C4ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9hXvAGfNY118VdixW3MyB3N5r/DKb/+U9KqtyZYkawo=;
-        b=VynN/iY0hWziIQtdfs/SzU70v/X1aOvZIQ6CEk5REcQLCB4DmVr0w+Ljmt50pHRAbb
-         teenZiS4vvkJMRPb2amP0tBSrdu5+ETQxGECBf2s0jKnac9RdsVTxGPx0lU2Rl8dQJt3
-         0oKt59sqzqmFzsVdJD5I1ry1h0GsEBDQhHsZ9WGK/3o3mrRwGSaqLHoZcnhq+RvHVZsx
-         eVvJbill1oEjg24jSufveydYgNpJzA1kl2zTKI4uYsu0uNZzc0/Z3diVbWOgLruEKeOP
-         0G7rhB3uwrdK3OpzfIn9aJ6R0/jxeFRqyXdXSl3AUL4CmDoow7yQD18/VNp1wtGwC0pw
-         j3Ag==
-X-Gm-Message-State: AOAM532YOEEsx185uVVSCd1Si1VUvB0K7vybCc+Vpzrpf0/kvJY58t+h
-        8DzkI2oGP2c1VucaD2Tw18U=
-X-Google-Smtp-Source: ABdhPJze8IqlNqV5ihvDilVzRpYSjANb/abzu6I/VYmDHyWsTyx6zAiND1voAtxafyJJ8TRl/7Cq0A==
-X-Received: by 2002:a9d:2601:: with SMTP id a1mr4065701otb.122.1628781952140;
-        Thu, 12 Aug 2021 08:25:52 -0700 (PDT)
-Received: from jinay-x1l.attlocal.net ([2600:1700:3ec6:d50:4fab:2de4:2e2f:9546])
-        by smtp.gmail.com with ESMTPSA id z23sm683733oib.36.2021.08.12.08.25.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 08:25:51 -0700 (PDT)
-From:   Jinay Jain <jinaybjain@gmail.com>
-To:     corbet@lwn.net
-Cc:     trivial@kernel.org, linux-doc@vger.kernel.org,
-        Jinay Jain <jinaybjain@gmail.com>
-Subject: [PATCH] Documentation: block: blk-mq: Fix small typo in multi-queue docs
-Date:   Thu, 12 Aug 2021 08:25:28 -0700
-Message-Id: <20210812152528.300668-1-jinaybjain@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S237981AbhHLPmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 11:42:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234287AbhHLPmn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Aug 2021 11:42:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BCBF60D07;
+        Thu, 12 Aug 2021 15:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628782937;
+        bh=qBpC7WYzogfOhZyzsyuRKruDRx/wBsEIhRmz7HaVzcw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=GyMu3gPEScbOHbOgAZ7UW9DjIVAVG0Uq1k1Rctc15KKJTWQwSKQRwHq5L2pXFYZqN
+         SI6UZhJCdU8LyjCTXS9mdRkKVoQu4Xr2bXhiFg9awZECtcPTzwJ+DKOovX34aSCOTh
+         eZf6SKEMYQV92pxd6Bx6UHECqlxHd8eAdjcY3vody3xVxC1DeFahEo6Ym5z8qT97mw
+         ylRk38w0xRzFTW6SGQSC5YoTu+41hYx0MjaR+lLdRpeJnMwrf2OrpPA10T6aHMuqag
+         NieaHhQ1IswcDzopjtLId4K78EkkFN/cKfqEs74dJ+XofOrl1GObAplSw4sQnRyQh0
+         ywda2dMQ4FERw==
+Date:   Thu, 12 Aug 2021 10:42:16 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yishai Hadas <yishaih@nvidia.com>
+Cc:     bhelgaas@google.com, corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, jgg@nvidia.com, maorg@nvidia.com,
+        leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210812154216.GA2473009@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210721161609.68223-10-yishaih@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixed a small typo in the documentation for multi-queue block IO.
+On Wed, Jul 21, 2021 at 07:16:06PM +0300, Yishai Hadas wrote:
+> From: Max Gurtovoy <mgurtovoy@nvidia.com>
+> 
+> The new flag field is be used to allow PCI drivers to signal the core code
+> during driver matching and when generating the modules.alias information.
+> ...
 
-Signed-off-by: Jinay Jain <jinaybjain@gmail.com>
----
- Documentation/block/blk-mq.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> @@ -152,10 +152,27 @@ static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
+>  	}
+>  	spin_unlock(&drv->dynids.lock);
+>  
+> -	if (!found_id)
+> -		found_id = pci_match_id(drv->id_table, dev);
+> +	if (found_id)
+> +		return found_id;
+> +
+> +	ids = drv->id_table;
+> +	while ((found_id = pci_match_id(ids, dev))) {
+> +		/*
+> +		 * The match table is split based on driver_override. Check the
+> +		 * flags as well so that any matching PCI_ID_F_DRIVER_OVERRIDE
+> +		 * entry is returned.
+> +		 */
+> +		if ((found_id->flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE) &&
+> +		    !dev->driver_override)
+> +			ids = found_id + 1;
+> +		else
+> +			break;
+> +	}
+>  
+> -	/* driver_override will always match, send a dummy id */
+> +	/*
+> +	 * if no static match, driver_override will always match, send a dummy
+> +	 * id.
+> +	 */
+>  	if (!found_id && dev->driver_override)
+>  		found_id = &pci_device_id_any;
 
-diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
-index d96118c73954..31f52f326971 100644
---- a/Documentation/block/blk-mq.rst
-+++ b/Documentation/block/blk-mq.rst
-@@ -54,7 +54,7 @@ layer or if we want to try to merge requests. In both cases, requests will be
- sent to the software queue.
- 
- Then, after the requests are processed by software queues, they will be placed
--at the hardware queue, a second stage queue were the hardware has direct access
-+at the hardware queue, a second stage queue where the hardware has direct access
- to process those requests. However, if the hardware does not have enough
- resources to accept more requests, blk-mq will places requests on a temporary
- queue, to be sent in the future, when the hardware is able.
--- 
-2.25.1
+Possibly more readable:
 
+  while ((found_id = pci_match_id(ids, dev))) {
+
+    /*
+     * PCI_ID_F_VFIO_DRIVER_OVERRIDE entries only match when
+     * driver_override matches this driver.
+     */
+    if (found_id->flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE) {
+      if (dev->driver_override)
+	return found_id;
+      else
+	ids = found_id + 1;
+    } else {
+      return found_id;
+    }
+  }
+
+  /* Driver_override will always match; send a dummy ID */
+  if (dev->driver_override)
+    return &pci_device_id_any;
+
+  return NULL;
