@@ -2,113 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A688FC432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 20:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F16C4320E
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 21:41:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 813C86103E
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 20:26:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D26C060EE2
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 21:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233263AbhHLU1A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 16:27:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59690 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229677AbhHLU07 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Aug 2021 16:26:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E738460C3F;
-        Thu, 12 Aug 2021 20:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628799994;
-        bh=gCEp159FxcYRrujxKawE9sngnP7fwMT//Cws8omxxXk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=Rlk/u6kQYLNpFKp8UJoMnJ47Gbu/5kTeNIql9WNhUq8z14w6/CePlVBh2xFgaNzNy
-         JEeHenkeXihHz8fTtvPcrBLgUtLmLnrUuyCSQUFw9s48Tpr0MOA3XGeC7lWhHDpp95
-         GDfiIpF6EtiY5RkNguRglHyxmYgdWLtVr5yVI4xzgV6GAulNFSUPx8vwoi5a8bcBSR
-         k+caNmWAej31OGt5WsodKzUWNs/Kwc50GQkUFhI4t3zmlJ0v+1/imuH4BtOR4qdggN
-         kxT9EF+Z5j4GS9Lc+eDJXAwfqRvlJovKk+UBYtNA/0Kk0TGY6b4alp0jgmV0gbd1TH
-         5E4Boix3cf8Ow==
-Date:   Thu, 12 Aug 2021 15:26:32 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
-        corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
-Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
- struct pci_device_id
-Message-ID: <20210812202632.GA2504075@bjorn-Precision-5520>
+        id S237956AbhHLVlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 17:41:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237921AbhHLVlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 17:41:44 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B205C061756;
+        Thu, 12 Aug 2021 14:41:18 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id e15so9127628plh.8;
+        Thu, 12 Aug 2021 14:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TAC7usbSxJAj4Uf52V6UWSOyNZ0nwEBnpPn4ZOBy98U=;
+        b=N19jAu7ypTXt6WK7cfJ0LMDOqywRj+Jwavt99QhQohJWtN4D3MU5t9zGcqaItP0Gt6
+         Z8wkY6LhQhZ61HOWBUtfY8d6PLtkaMY7xGmmmvr8Q9vgQXi2lDBhCXzPedrMqMgy44OX
+         BkCZfXCvjlGo8duK1PJTdKuhu5tQcgvVwNQBFvscXnfMVEdjPgs8BfJ7v3ApWfkBzeYZ
+         Qur5/Wv9akKhyJn+x3QOE1D2tDZdUkTO9cnK+qC4Wx6QdnHDzbAkoCgDQD5PIYXDJ8V/
+         NoZnEZ2VEhJWtk8/WwgZ6qImb4PDaCBvAiornHAvrL+UcURc6q3EwSf2JVxrxaN9q47j
+         FyYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=TAC7usbSxJAj4Uf52V6UWSOyNZ0nwEBnpPn4ZOBy98U=;
+        b=Uut3HTwLQBjAt4+2b/5nvg1j3xcTKy/qt3Gd878eIDMh7zVUeBgIWsNILfOWMyCG/x
+         c5Vd2AUpPhI+DtK1JsGazLGSCymfQmVHKfrMksszObfxH9uzhiWXMMCN5z2nU2tglEDh
+         Legwi/drxl6MSx8vD+ZgALUx0+6ZukbshnKYoY/djWzZx7cUdM+OGH4X0sQFdPM1K5Vd
+         nxMBcUlycNH6lXEjJE8+wg+C83X2ICyY4MSQZCp/x3d4tz7ZrsXUXs7fkeM4IXtzqdwT
+         BbRtGKdPTJN42blgSZFfT+/AEtaBlu/lL3mSa+h1W8kMO/YZ29ZTBEc6LWGhRlxN8Te6
+         vMOg==
+X-Gm-Message-State: AOAM530YZ0x5I39kAT7FiqZIAxdz8lbQATYOosFXeqAqYOVKPdWFC8KJ
+        kB9qNisSJAOGqUBkG5d1V54=
+X-Google-Smtp-Source: ABdhPJy3pQeWEPeVupAuFxBDvjFrN6aPESruOg+x2WRkhnEUCUEDHySfROWKgUilKid5hosVOf5Ciw==
+X-Received: by 2002:a63:4d18:: with SMTP id a24mr5550376pgb.324.1628804477955;
+        Thu, 12 Aug 2021 14:41:17 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id v10sm11118067pjd.29.2021.08.12.14.41.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Aug 2021 14:41:17 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 12 Aug 2021 11:41:15 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] cgroup/cpuset: Enable memory migration for cpuset v2
+Message-ID: <YRWVe5j8G2LLvTt4@slm.duckdns.org>
+References: <20210811195707.30851-1-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210812195126.GA4026@nvidia.com>
+In-Reply-To: <20210811195707.30851-1-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 04:51:26PM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 12, 2021 at 10:57:07AM -0500, Bjorn Helgaas wrote:
-> > On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
-> > > On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
-> > > > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
-> > 
-> > > > Do the other bus types have a flag analogous to
-> > > > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
-> > > > other bus types, it'd be nice if the approach were similar.
-> > > 
-> > > They could, this series doesn't attempt it. I expect the approach to
-> > > be similar as driver_override was copied from PCI to other
-> > > busses. When this is completed I hope to take a look at it.
-> > 
-> > I think this would make more sense as two patches:
-> > 
-> >   - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
-> >     since nothing in PCI depends on the VFIO-ness of drivers that use
-> >     the flag.  The only point here is that driver id_table entries
-> >     with this flag only match when driver_override matches the driver.
+On Wed, Aug 11, 2021 at 03:57:07PM -0400, Waiman Long wrote:
+> When a user changes cpuset.cpus, each task in a v2 cpuset will be moved
+> to one of the new cpus if it is not there already. For memory, however,
+> they won't be migrated to the new nodes when cpuset.mems changes. This is
+> an inconsistency in behavior.
 > 
-> This would require using two flags, one to indicate the above to the
-> PCI code and another to indicate the vfio_pci string to
-> file2alias. This doesn't seem justified at this point, IMHO.
-
-I don't think it requires two flags.  do_pci_entry() has:
-
-  if (flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
-    strcpy(alias, "vfio_pci:");
-
-I'm just proposing a rename:
-
-s/PCI_ID_F_VFIO_DRIVER_OVERRIDE/PCI_ID_DRIVER_OVERRIDE/
-
-> >   - Update file2alias.c to export the flags and the "vfio_pci:" alias.
-> >     This seems to be the only place where VFIO comes into play, and
-> >     putting it in a separate patch will make it much smaller and it
-> >     will be clear how it could be extended for other buses.
+> In cpuset v1, there is a memory_migrate control file to enable such
+> behavior by setting the CS_MEMORY_MIGRATE flag. Make it the default
+> for cpuset v2 so that we have a consistent set of behavior for both
+> cpus and memory.
 > 
-> Well, I don't want to see a flag called PCI_ID_DRIVER_OVERRIDE mapped
-> to the string "vfio_pci", that is just really confusing.
+> There is certainly a cost to make memory migration the default, but it
+> is a one time cost that shouldn't really matter as long as cpuset.mems
+> isn't changed frequenty.  Update the cgroup-v2.rst file to document the
+> new behavior and recommend against changing cpuset.mems frequently.
+> 
+> Since there won't be any concurrent access to the newly allocated cpuset
+> structure in cpuset_css_alloc(), we can use the cheaper non-atomic
+> __set_bit() instead of the more expensive atomic set_bit().
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Hahaha, I see, that's fair :)  It confused me for a long time why you
-wanted "VFIO" in the flag name because from the kernel's point of
-view, the flag is not related to any VFIO-ness.  It's only related to
-a special variety of driver_override, and VFIO happens to be one user
-of it.
+Applied to cgroup/for-5.15.
 
-I think a separate patch that maps the flag to "vfio_pci" would be
-less confusing because without the distractions of the PCI core
-changes, it will be obvious that "vfio_" is a file2alias thing that's
-there for userspace convenience, not for kernel reasons.
+Thanks.
 
-Do you envision any other prefixes in the future?  I hope we don't
-have to clutter pci_match_device() with checking multiple flags.
-Maybe the problem is that the modules.alias entry includes "vfio_" --
-maybe we need a more generic prefix with just the idea of an
-"alternate" driver.
-
-Bjorn
+-- 
+tejun
