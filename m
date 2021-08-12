@@ -2,86 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4FBC4320A
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C057CC4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:18:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8103F60E97
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:11:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A461D6104F
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:18:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238123AbhHLWMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 18:12:10 -0400
-Received: from mga03.intel.com ([134.134.136.65]:12115 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230089AbhHLWMI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Aug 2021 18:12:08 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="215488885"
-X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
-   d="scan'208";a="215488885"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 15:11:41 -0700
-X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
-   d="scan'208";a="517637294"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.255.231.194]) ([10.255.231.194])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 15:11:40 -0700
-Subject: Re: [PATCH v4 09/15] pci: Consolidate pci_iomap* and pci_iomap*wc
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S238175AbhHLWTJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 18:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238173AbhHLWTJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 18:19:09 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504EBC061756;
+        Thu, 12 Aug 2021 15:18:43 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso12996855pjy.5;
+        Thu, 12 Aug 2021 15:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8zFCvlCdjE9f7sPEj6Bash+YWPaS4lcq1GCfTDwodeA=;
+        b=R4yXwtdcvocwR/bdi8p+iX4Ffhyp8BtxcPTMUe3KaMmMcL1xZcLE1vuGp3F+9TdP8s
+         dcdiW38YxfL7HE1FEOsByI0q89D59M470EtczPWxls4gAKkZCVpWm8S3vtG+tqrudv5v
+         iHMG81t3Qc0Sf6N8VvoQqo5NhBfUb2x7FUlnJf5rwedYdXxYmNIEuOzvCV1rwq3AEtvl
+         nWr8FlzZzZHYpft+FuA/4H7fvr3ch3zOHKlg6zcM9pAw4l+fz+850kwswV+B/kfb17Uf
+         FrCh5S5NxORAqyS3QZTWFqQLNdxbEZJQBLHr3ILpsZfUO/WxiNpSd0slQY8bifjFOZLP
+         XVdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=8zFCvlCdjE9f7sPEj6Bash+YWPaS4lcq1GCfTDwodeA=;
+        b=M4Y3Ud0hv6RzbCYqqeMnfBSi/HSmsL0HYdfNEMRfGINMHg3vEUq7U4ERHj9rNS5FNH
+         fxEFFE5vGjbOsmj6qXvA+jBVLQvzDc3oD0bHqfh6ySE+zIVDf5qZBGR3Cwx+w2lc5TME
+         MZ0Z8dwX3Yhex/NYnZ6OrQKpyUZHtSe6Dlyh/TNhbnng53cyYVtiQMSKmMK5z8nSqfvP
+         pBlE6poXBWMtkfIPEcV1y1/qW6FRBGiQ6waJAVXLhIiam8IJe+oRu/aiJN2TK1PxkAJM
+         wF1k2zdu83xFPKjmj+PkJNC2SxBnvakrl6U/p7m7/F/ANaoNJEVEHuspvh024O3pbKZ6
+         ucuw==
+X-Gm-Message-State: AOAM5317KL+Jq7zIHjW2g+ct5IdopE/CQzEEtohlDZr3/EWp76lE7pUv
+        8XW2GT1RBTsaeI8ekozU6oA=
+X-Google-Smtp-Source: ABdhPJwq7UxbTK/xozt+a4+BFNvqsdHWNZO26y8utQHcyBcySVkk/2qjJLg3m5a1Mawi8kjR1cfZ9Q==
+X-Received: by 2002:a65:41c6:: with SMTP id b6mr5846997pgq.206.1628806722676;
+        Thu, 12 Aug 2021 15:18:42 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id x19sm5101642pgk.37.2021.08.12.15.18.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Aug 2021 15:18:42 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 12 Aug 2021 12:18:40 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20210812194330.GA2500473@bjorn-Precision-5520>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <bc5d4268-2304-5c1d-8311-24d141cb5ced@linux.intel.com>
-Date:   Thu, 12 Aug 2021 15:11:39 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v4 2/6] cgroup/cpuset: Properly handle partition root tree
+Message-ID: <YRWeQH6gY5PqIanD@slm.duckdns.org>
+References: <20210811030607.13824-1-longman@redhat.com>
+ <20210811030607.13824-3-longman@redhat.com>
+ <YRQSKZB8rQUsfF2K@slm.duckdns.org>
+ <b7897818-8fe6-8dd8-3ff6-6b15401162ba@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210812194330.GA2500473@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7897818-8fe6-8dd8-3ff6-6b15401162ba@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
-> Why is it safe to make pci_iomap_wc_range() support IO ports when it
-> didn't before?  That might be desirable, but I think it *is* a
-> functional change here.
+On Wed, Aug 11, 2021 at 03:27:20PM -0400, Waiman Long wrote:
+> Disabling partition at the parent level does invalidate all the child
+> partitions under it. So it must be done with care when we disable a
+> partition.
+> 
+> How about we give some indication that a child partition exist when reading
+> cpuset.cpus.partition and recommend double-checking it before disabling a
+> partition? For example, we keep track of the number of cpus delegated to
+> child partitions. Perhaps we can list that information on read.
+> 
+> With that information available, I have no objection to allow disabling a
+> parent partition with child partitions under it.
 
-None of the callers use it to map IO ports, so it will be a no-op for 
-them. But you're right, it's a (minor) functional change.
+This is a general problem which has always existed regardless of whether the
+errors are synchronous or not. There are many different reasons that a write
+to a cpuset interface file could fail and it has never been easy to tell why
+a given operation was rejected. Making error notifications asynchronous
+doesn't really change anything fundamental although it does make the
+situation a bit more opaque.
 
--Andi
+I'm all for improving visibility. Now that we can consolidate most error
+states into a unified failure state, this might actually be easier to do.
+IOW, we now just have to explain why a given cgroup is in an invalid state
+rather than additionally having to explain why a given write has been
+rejected, which is pretty awkward to do as those failures are transient and
+local to the writer.
 
+So, if you wanna tackle this, let's do it right and provide something
+comprehensive rather than explaining just one failure.
 
+Thanks.
 
-
+-- 
+tejun
