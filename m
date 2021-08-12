@@ -2,128 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D13FC4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 21:51:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4FBC4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:11:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 757A16104F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 21:51:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8103F60E97
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 22:11:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235688AbhHLVv4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 17:51:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233038AbhHLVvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 17:51:55 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BDDC061756;
-        Thu, 12 Aug 2021 14:51:30 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso17515710pjb.2;
-        Thu, 12 Aug 2021 14:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jH45JI3TRK33maJqrgZXXznOLgIkQBFryW79S8eId3M=;
-        b=Y9WHxm/HccEPeJfkiPBSqOtIQdiDsYdt/RUttWpOGC4h8GALHwr5TYVrcHS/FwHdAW
-         brH64YsniZ1m2CNdrbrRALQs4yxFN228FlIYSp3S0S81J4b6QJOTWS/mu0gD20utmJ4x
-         mB0yPjJdiz3mudogXhcCUvzXk7KEW3/afkG4GAVpFUIkWVh+DvpPNLLJu2S0RFYmI34h
-         2l3Qd9IzJRZjgCQqH93U+FiFNpHfZT5x9yWgcHrcG+V3oXyZa/BN7M+FKmnG3winetMh
-         U2i52F02EYfs7f0/kK4ctk7+orUAr3RLJDZxf9bOxVyu9FtRjPORwymlSEnsMzmX7cmf
-         Rq2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=jH45JI3TRK33maJqrgZXXznOLgIkQBFryW79S8eId3M=;
-        b=UFWcEwc9mxWTxTEaSSvaPoYTsHj7xK81KpEQxWx4erOuT064tSaaH25IIU49vhY0zd
-         VTB8PdtxKw1WRDnGz31hBVTsN4pdR8F8LGratmYeImY2Nos3J1y/QZFrVTtSIXu3fNpe
-         CKKpfxnMGX+HSkuwkixrUeDWI2wQgKZQVymIu9bzcDrnqzmzj0pGWBbtKKy8VxBZ5V4L
-         S0d/CERgrefSODLEm0I+LPoYoGVJZUHjzBDvfARqAxWSMSwa/3cVMVYkTuS2lD0JtpGi
-         BhntUgyLn/Eo+DU7RaZ8wKR5XDUaihi0UWaKpQIgBHzF5cInxTgccuixw9E2ak3rZMXp
-         9/Zg==
-X-Gm-Message-State: AOAM533uIbjFfDwdoI6KCqFZRp1Z2nepJZxARnLLydyA2z1SNOld9cdE
-        fyfwhNt1kt+fYCxXKOF3hJ8=
-X-Google-Smtp-Source: ABdhPJwEXO2THTKS4vvUuPSEOfOrBsgd6SOTklUjz6kq5d0glnm2/Fvo+k2qec0LQGwZrRypvtx47w==
-X-Received: by 2002:a63:ef45:: with SMTP id c5mr5795654pgk.78.1628805089495;
-        Thu, 12 Aug 2021 14:51:29 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id u21sm5031925pgk.57.2021.08.12.14.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 14:51:28 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Thu, 12 Aug 2021 11:51:27 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <llong@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        id S238123AbhHLWMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 18:12:10 -0400
+Received: from mga03.intel.com ([134.134.136.65]:12115 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230089AbhHLWMI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Aug 2021 18:12:08 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="215488885"
+X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
+   d="scan'208";a="215488885"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 15:11:41 -0700
+X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; 
+   d="scan'208";a="517637294"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.255.231.194]) ([10.255.231.194])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2021 15:11:40 -0700
+Subject: Re: [PATCH v4 09/15] pci: Consolidate pci_iomap* and pci_iomap*wc
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v4 4/6] cgroup/cpuset: Allow non-top parent partition
- root to distribute out all CPUs
-Message-ID: <YRWX3z6Nl41GsXR8@slm.duckdns.org>
-References: <20210811030607.13824-1-longman@redhat.com>
- <20210811030607.13824-5-longman@redhat.com>
- <YRQTTf+bJZ8f3O3+@slm.duckdns.org>
- <abfa6f2f-aa13-f18e-5a16-f568082d07bc@redhat.com>
- <YRQVFkNX5DcKixzy@slm.duckdns.org>
- <ef02d96b-325c-87f6-a6a3-d840feefef24@redhat.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20210812194330.GA2500473@bjorn-Precision-5520>
+From:   Andi Kleen <ak@linux.intel.com>
+Message-ID: <bc5d4268-2304-5c1d-8311-24d141cb5ced@linux.intel.com>
+Date:   Thu, 12 Aug 2021 15:11:39 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef02d96b-325c-87f6-a6a3-d840feefef24@redhat.com>
+In-Reply-To: <20210812194330.GA2500473@bjorn-Precision-5520>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 02:46:24PM -0400, Waiman Long wrote:
-> On 8/11/21 2:21 PM, Tejun Heo wrote:
-> > On Wed, Aug 11, 2021 at 02:18:17PM -0400, Waiman Long wrote:
-> > > I don't think that is true. A task can reside anywhere in the cgroup
-> > > hierarchy. I have encountered no problem moving tasks around.
-> > Oh, that shouldn't be happening with controllers enabled. Can you please
-> > share a repro?
-> 
-> I have done further testing. Enabling controllers won't prohibit moving a
-> task into a parent cgroup as long as the child cgroups have no tasks. Once
 
-Should be "as long as there's no child cgroups".
+> Why is it safe to make pci_iomap_wc_range() support IO ports when it
+> didn't before?  That might be desirable, but I think it *is* a
+> functional change here.
 
-  root@test /s/f/cgroup# mkdir test
-  root@test /s/f/cgroup# mkdir -p test/A
-  root@test /s/f/cgroup# echo +io > test/cgroup.subtree_control 
-  root@test /s/f/cgroup# echo $fish_pid > test/cgroup.procs
-  write: Device or resource busy
+None of the callers use it to map IO ports, so it will be a no-op for 
+them. But you're right, it's a (minor) functional change.
 
-> the child cgroup has task, moving another task to the parent is not allowed
-> (-EBUSY). Similarly if a parent cgroup has tasks, you can't put new tasks
-> into the child cgroup. I don't realize that we have such constraints as I
+-Andi
 
-You can't enable controller from a populated cgroup:
 
-  root@test /s/f/cgroup# mkdir test
-  root@test /s/f/cgroup# echo +io > test/cgroup.subtree_control 
-  root@test /s/f/cgroup# echo $fish_pid > test/cgroup.procs
 
-> usually do my testing with a cgroup hierarchy with no tasks initially.
-> Anyway, a new lesson learned.
 
-The invariant is that from each controller's POV, all cgroups with processes
-in them are leaves. This is all pretty well documented in cgroup-v2.rst.
-
-Thanks.
-
--- 
-tejun
