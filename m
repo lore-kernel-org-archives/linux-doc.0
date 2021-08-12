@@ -5,82 +5,92 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B797C43214
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:08:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C93C4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33D066044F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:08:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12B5E60F35
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238363AbhHLPI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 11:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
+        id S236311AbhHLPLz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 11:11:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238349AbhHLPIY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 11:08:24 -0400
+        with ESMTP id S235052AbhHLPLz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Aug 2021 11:11:55 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 002C1C061756;
-        Thu, 12 Aug 2021 08:07:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C78DC061756
+        for <linux-doc@vger.kernel.org>; Thu, 12 Aug 2021 08:11:30 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E1D02CC;
-        Thu, 12 Aug 2021 15:07:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E1D02CC
+        by ms.lwn.net (Postfix) with ESMTPSA id CA7E46E2;
+        Thu, 12 Aug 2021 15:11:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CA7E46E2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1628780878; bh=Ir7SHWH+PuCwXz2BKzIlhif8rFKrQ9xaedDIeOtDmVs=;
+        t=1628781089; bh=MxL340qOaQoN/doogsQ5NhegtX8GhBY7SXLxUkPLf4Y=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jvEiCujtVz3wh/UXFCHAo5zNx0zj0ssX7GDVOvPevyRxaqklcL3NmdicVrPwmA7XP
-         WTIxVPFTwHqWDPcZOwZ4Nf6d2HMqyx3+ccJDJaZuEfAgWACv57ZCeIysxUonqrrbjm
-         /2fTrMqadC32/7fiI65vT8+R1HNECcXnAktbJ0akYv5HtEXbVCIQVgdzLjNhHXlyJE
-         ns7OyyS06utzHCyusaDMjUIXwsete3fbErN4NKTNvplRsrpoWWLHydp5D1hcwC1iVm
-         3yPwB7J14QYXBaB038F+U2PtzTDpNW2dufL89v/DnBKxaT/HDH8ck2HWGvl6p0BbDT
-         SApRNRWAYZdbA==
+        b=mkXdwW1uPZUFQIYmGvDkn2B7P9YAfW7Xj7x9wMwIQQBfwUsD8dSys+NoOvmMNaiqi
+         TjE1zFZ+zYfuVA4qMVKlgW1x4tH6qZRwZB4P1f1GZK+aFOMUi84+Ntph2z/+jqxmKh
+         kCDFqN5DpEF+U1RKOkNFCXsSj1fmwGKOohfY6nTo465xz4zdV87Zt17By8RnXElhfD
+         YxP6mldWSKXqJzmIscSnT0AHrVf10nFGbF6PxIE3nX+0nnH+sYSMTV1f1lP1YdCILd
+         18HxE7ZLNayRzdK+YEghScv/A6pk5euYXAK8SJHYu1qhfhqUihtOSYCSkCiPY4ZGUF
+         QyljJl+lV7wqg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+To:     Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>,
         linux-doc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] scripts/kernel-doc: Override -Werror from KCFLAGS with
- KDOC_WERROR
-In-Reply-To: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20210730225401.4401-1-laurent.pinchart+renesas@ideasonboard.com>
-Date:   Thu, 12 Aug 2021 09:07:58 -0600
-Message-ID: <87sfzezooh.fsf@meer.lwn.net>
+Cc:     ivan.teterevkov@nutanix.com, florian.schmidt@nutanix.com,
+        carl.waldspurger@nutanix.com, jonathan.davies@nutanix.com,
+        Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
+Subject: Re: [PATCH] Documentation: update pagemap with SOFT_DIRTY & UFFD_WP
+ shmem issue
+In-Reply-To: <20210730160227.63017-1-tiberiu.georgescu@nutanix.com>
+References: <20210730160227.63017-1-tiberiu.georgescu@nutanix.com>
+Date:   Thu, 12 Aug 2021 09:11:29 -0600
+Message-ID: <87o8a2zoim.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> writes:
+Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com> writes:
 
-> Since commit 2c12c8103d8f ("scripts/kernel-doc: optionally treat
-> warnings as errors"), the kernel-doc script will treat warnings as
-> errors when one of the following conditions is true:
+> Mentioning the current missing functionality of the pagemap, in case
+> someone stumbles upon unexpected behaviour.
 >
-> - The KDOC_WERROR environment variable is non-zero
-> - The KCFLAGS environment variable contains -Werror
-> - The -Werror parameter is passed to kernel-doc
->
-> Checking KCFLAGS for -Werror allows piggy-backing on the C compiler
-> error handling. However, unlike the C compiler, kernel-doc has no
-> provision for -Wno-error. This makes compiling the kernel with -Werror
-> (to catch regressions) and W=1 (to enable more checks) always fail,
-> without the same possibility as offered by the C compiler to treating
-> some selected warnings as warnings despite the global -Werror setting.
->
-> To fix this, evaluate KDOC_WERROR after KCFLAGS, which allows disabling
-> the warnings-as-errors behaviour of kernel-doc selectively by setting
-> KDOC_WERROR=0.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
+> Reviewed-by: Ivan Teterevkov <ivan.teterevkov@nutanix.com>
+> Reviewed-by: Florian Schmidt <florian.schmidt@nutanix.com>
+> Reviewed-by: Carl Waldspurger <carl.waldspurger@nutanix.com>
+> Reviewed-by: Jonathan Davies <jonathan.davies@nutanix.com>
 > ---
->  scripts/kernel-doc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/mm/pagemap.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+> index fb578fbbb76c..627f3832b3a2 100644
+> --- a/Documentation/admin-guide/mm/pagemap.rst
+> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> @@ -207,3 +207,9 @@ Before Linux 3.11 pagemap bits 55-60 were used for "page-shift" (which is
+>  always 12 at most architectures). Since Linux 3.11 their meaning changes
+>  after first clear of soft-dirty bits. Since Linux 4.2 they are used for
+>  flags unconditionally.
+> +
+> +Note that the page table entries for swappable and non-syncable pages are
+> +cleared when those pages are zapped or swapped out. This makes information
+> +about the page disappear from the pagemap.  The location of the swapped
+> +page can still be retrieved from the page cache, but flags like SOFT_DIRTY
+> +and UFFD_WP are lost irretrievably.
 
-Applied, thanks.
+Thanks for the patch, please accept my apologies for taking to long to
+look at it.
+
+The change seems OK to me, but I think that the memory-management
+developers should get a chance to at least look at it before I merge
+it.  Could I ask you to submit, including the linux-mm list on CC?
+
+Thanks,
 
 jon
