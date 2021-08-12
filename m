@@ -2,122 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F52C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9EF5C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DB1660D07
-	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:45:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD29B6109F
+	for <linux-doc@archiver.kernel.org>; Thu, 12 Aug 2021 15:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238025AbhHLPqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 Aug 2021 11:46:01 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:35548 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232854AbhHLPqB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Aug 2021 11:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=To:From:Date; bh=CFn0e2H7AIgFYK5bRsMKv9jVtbaIb5udBqIFG
-        gq5fX8=; b=Q2pUGaKMRpGjkBQzPQryMm6mF3Z43D8KmDSjO579IjIBDk0DZHlcd
-        MA/n3M0dc5uQoB7wjP8+lBu9/bZ0N0wIyHUJ1OWV8njpBNYBfu+fNcXI7pR1p/qw
-        Rj2ilF6fDCpMO9byu2TcVN6FdK3PP+Fty/9Th5s/QDY8SF6HoODMmw=
-Received: from [0.0.0.0] (unknown [113.251.11.184])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAXJAMcQhVh7FInAA--.9551S3;
-        Thu, 12 Aug 2021 23:45:33 +0800 (CST)
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-From:   Hu Haowen <src.res@email.cn>
-Subject: [GIT PULL] docs: zh_TW translation fixes
-Message-ID: <b19c4d3f-9a36-c217-c4ad-0f818f8e864a@email.cn>
-Date:   Thu, 12 Aug 2021 23:45:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S238487AbhHLP5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 Aug 2021 11:57:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238369AbhHLP5e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Aug 2021 11:57:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54B1E6103A;
+        Thu, 12 Aug 2021 15:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628783828;
+        bh=8GwFBGz58jJD2VYjjtxO4poe0sIxyPAvRkwfEKB1zek=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=ueaY50N/lQDLfwvuIeSxqrlAMo2nbgEeliWDW71YXu3IL0Bi4BKcBrFNwszVIJhFk
+         0MyvrDI3A5ozU6czjasd7iqQHgVJhBEMgj0c9BPF8oAeOaF7avM1R2hAvJP6EzeEkY
+         cGtN6BbAerWtt7NAvlhGtPcc7rAWg0Ey7F1auYtzrjCjVdJGKNITmr+acM6QbzA5F+
+         xQRDIb0wwoWrja362PZZA3HM2IggaqnswD7nWT26vE02n95mUF7XfC7FKuvvNN84Tx
+         ml0NUcsMoi56FB7A4QfOWlKjOUbS4OtDBS3UPGjVbQS5XvVlPy+/QvzKvaiI8WTnKW
+         0Ay0XRMT57FkQ==
+Date:   Thu, 12 Aug 2021 10:57:07 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210812155707.GA2464922@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: LCKnCgAXJAMcQhVh7FInAA--.9551S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3JFW7Jw1xXF17Gr4kKF4kJFb_yoW7ArW8p3
-        WSkr13Ja47Jr1xJr13Kr17Jry5AF1xGw4UGF17X3Z5try8Ar4Fqrs0qr9FgFy3JrW8XF40
-        qr1Utr1Uur12yrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUglb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY4
-        87MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
-        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-        AF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
-        IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
-        xhVjvjDU0xZFpf9x07UjhFxUUUUU=
-X-Originating-IP: [113.251.11.184]
-X-CM-SenderInfo: hvufh21hv6vzxdlohubq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210812132728.GB8367@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit ff17578e267c74db1619b6643a98e8a83ff6b996:
+On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
+> On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
+> > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
 
-  docs/zh_TW: add translations for zh_TW/process (2021-07-27 23:08:50 +0800)
+> > Do the other bus types have a flag analogous to
+> > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
+> > other bus types, it'd be nice if the approach were similar.
+> 
+> They could, this series doesn't attempt it. I expect the approach to
+> be similar as driver_override was copied from PCI to other
+> busses. When this is completed I hope to take a look at it.
 
-are available in the Git repository at:
+I think this would make more sense as two patches:
 
-  https://github.com/srcres258/linux-doc.git doc-zh-tw
+  - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
+    since nothing in PCI depends on the VFIO-ness of drivers that use
+    the flag.  The only point here is that driver id_table entries
+    with this flag only match when driver_override matches the driver.
 
-for you to fetch changes up to d9b28270985fdc551cf4aaae3d8a5b3e9ae2ee9e:
+  - Update file2alias.c to export the flags and the "vfio_pci:" alias.
+    This seems to be the only place where VFIO comes into play, and
+    putting it in a separate patch will make it much smaller and it
+    will be clear how it could be extended for other buses.
 
-  docs/zh_TW: add translations for zh_TW/filesystems (2021-08-12 22:54:51 +0800)
+> > I assume somewhere in here you need to unbind mlx5_core before binding
+> > mlx5_vfio_pci?
+> 
+> Er, yes, I skipped some steps here where unbind/bind has to be done
+>  
+> > >    6) cat the matched module name to driver_override:
+> > >     echo mlx5_vfio_pci > /sys/bus/pci/devices/0000:01:00.0/driver_override
+> > 
+> > Don't you need something here to trigger the driver attach, i.e.,
+> > should step 5 and step 6 be swapped?  What if the driver is already
+> > loaded? 
+> 
+> The full sequence is more like:
+> 
+>      echo mlx5_vfio_pci > /sys/bus/pci/devices/0000:01:00.0/driver_override
+>      echo 0000:01:00.0 > /sys/bus/pci/devices/0000:01:00.0/driver/unbind
+>      echo 0000:01:00.0 > /sys/bus/pci/drivers_probe
 
-----------------------------------------------------------------
-Hu Haowen (3):
-      docs/zh_TW: add translations for zh_TW/arm64
-      docs/zh_TW: add translations for zh_TW/cpu-freq
-      docs/zh_TW: add translations for zh_TW/filesystems
+Thanks a lot for this!  I didn't know about drivers_probe (see
+drivers_probe_store()), and it doesn't seem to be documented anywhere
+except sysfs-bus-usb, where it's only incidental to USB.
 
- Documentation/translations/zh_TW/arm64/amu.rst                 | 104 +++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/booting.txt             | 251 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/elf_hwcaps.rst          | 244 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/hugetlbpage.rst         |  49 ++++++++++++++++++
- Documentation/translations/zh_TW/arm64/index.rst               |  23 ++++++++
- Documentation/translations/zh_TW/arm64/legacy_instructions.txt |  77 +++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/memory.txt              | 119 ++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/perf.rst                |  88 +++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/silicon-errata.txt      |  79 ++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/arm64/tagged-pointers.txt     |  57 ++++++++++++++++++++
- Documentation/translations/zh_TW/cpu-freq/core.rst             | 108 ++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst      | 256 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst    | 132 ++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/cpu-freq/index.rst            |  47 +++++++++++++++++
- Documentation/translations/zh_TW/filesystems/debugfs.rst       | 224 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/filesystems/index.rst         |  31 +++++++++++
- Documentation/translations/zh_TW/filesystems/sysfs.txt         | 377 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/filesystems/tmpfs.rst         | 148 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_TW/filesystems/virtiofs.rst      |  61 ++++++++++++++++++++++
- Documentation/translations/zh_TW/index.rst                     |  13 ++++-
- 20 files changed, 2486 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_TW/arm64/amu.rst
- create mode 100644 Documentation/translations/zh_TW/arm64/booting.txt
- create mode 100644 Documentation/translations/zh_TW/arm64/elf_hwcaps.rst
- create mode 100644 Documentation/translations/zh_TW/arm64/hugetlbpage.rst
- create mode 100644 Documentation/translations/zh_TW/arm64/index.rst
- create mode 100644 Documentation/translations/zh_TW/arm64/legacy_instructions.txt
- create mode 100644 Documentation/translations/zh_TW/arm64/memory.txt
- create mode 100644 Documentation/translations/zh_TW/arm64/perf.rst
- create mode 100644 Documentation/translations/zh_TW/arm64/silicon-errata.txt
- create mode 100644 Documentation/translations/zh_TW/arm64/tagged-pointers.txt
- create mode 100644 Documentation/translations/zh_TW/cpu-freq/core.rst
- create mode 100644 Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
- create mode 100644 Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
- create mode 100644 Documentation/translations/zh_TW/cpu-freq/index.rst
- create mode 100644 Documentation/translations/zh_TW/filesystems/debugfs.rst
- create mode 100644 Documentation/translations/zh_TW/filesystems/index.rst
- create mode 100644 Documentation/translations/zh_TW/filesystems/sysfs.txt
- create mode 100644 Documentation/translations/zh_TW/filesystems/tmpfs.rst
- create mode 100644 Documentation/translations/zh_TW/filesystems/virtiofs.rst
-
+Bjorn
