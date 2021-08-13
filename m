@@ -2,83 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91FB1C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 15:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD1FC4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 16:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73DEF60FC4
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 15:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF16160FBF
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 16:07:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241094AbhHMPo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Aug 2021 11:44:57 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41974 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236919AbhHMPo4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 13 Aug 2021 11:44:56 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BD906385;
-        Fri, 13 Aug 2021 15:44:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BD906385
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1628869469; bh=RVDS4amGP7ioflmfiU6sdMVFaxdxocLjvCtU764fm50=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=cJNzzI3KwzA2NOTsrfmf7cGnO1eBpmbSg3FmcV9Dd6PIyetQ6JteUhCfb6mBcR3vj
-         BA4kkyo29eaA5S6oFS2G4Wk4wljlf3N/eLZqpuzQ2+J0DlUqd3NZyeWWXBdqCUm+eP
-         HjF3AnVn0Tf1phYBYJKAgyz173uNPePCCOj49lNRm7kIjXLJP+bpvEjmM8AzxQCigy
-         0Z8qDZeB4+pQQseOH7SGJzhf8db6h/tCu/QlaGyTFGQZcm/MXaNkyzXR6p5AcauahJ
-         MMUPJWhF6OepvSHZT7h97WSi2AKWOiDHOv9oiY/iFOzPgsVeYQ/trYvvvFuVAS4Yna
-         q8LjpMEB0bw/Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: Re: [PATCH] Documentation: in_irq() cleanup
-In-Reply-To: <20210813144713.85598-1-changbin.du@gmail.com>
-References: <20210813144713.85598-1-changbin.du@gmail.com>
-Date:   Fri, 13 Aug 2021 09:44:28 -0600
-Message-ID: <87o8a1xsbn.fsf@meer.lwn.net>
+        id S236473AbhHMQHk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Aug 2021 12:07:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231382AbhHMQHk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 12:07:40 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26CEC061756;
+        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso16633190pjy.5;
+        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=2HZmfNWRvGEoCRS06cZMTLlzgFfVxMJbsV7IaJqnVhg=;
+        b=InkfaLY0ZCFXGoifgEOs48VdU5Jc2nx9zdixJj7MXoz71NPOd9R/5Djc+ydBfpFtC4
+         U7i7R7lQHGegengPSWbI6FBgclDyJ+QYg9Y3rQAL5n4XXy6FmCv4P2ja1DedF1M1k566
+         3sQ7P/9K4G8wvzRsUlBkW+9SrhtPKBNAMQIUziuOLTeiSRAaIgzdb+NO+xIj9Dhc1DlX
+         +GT31B2T0I3oFoJ4SlosCJtzNHRwgl6oRkFCvuePaOQ06nPvp5u1k73RPa/4MkwkiXja
+         NzXKhkthXwFpZyoJSqkiBLKSmxL/qsBDP4SY9Uou84ybT+2MWIlJibdv8EG0Y4da47oA
+         xN3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=2HZmfNWRvGEoCRS06cZMTLlzgFfVxMJbsV7IaJqnVhg=;
+        b=kt4mDW6R4NqNa5Tr1tihvo+ph0uqh/p6rY6D9mWDG0WnJul1nOtGBTMN5/GP6Q37/2
+         Hc2ocBJ+eM8e8DhpHgIGf6MTNhK6vqL6D3uVvYnSB8CQlh8cRPJu8S2KPtjisnKFc+94
+         HC4KaPplyhZoeLMliN1rWgjcTvqS6Yviacc+z2FSAr8smjKXL/LFH/YjRc6IbJqMsKjm
+         T10oD83FT9aa2JSAUmlZyU3RfElKJRkFLlyRua7zJU5FfDMRsroxbq24iVa8SveAtcbG
+         BvpWP0zrjpYth3ZhC3IdON1Fl/yjzPB4j6tUaZ7iYZqateYIMSAfPNgp95fVuMtFzyzd
+         Y5OA==
+X-Gm-Message-State: AOAM533BBUwPyMt/OanlHwRVtpm60KkXfJMQWr6qakZtndrtZPbF0IKG
+        CB1ECgIFvy+Nqza25r3fRzY=
+X-Google-Smtp-Source: ABdhPJz3R1A5NO638+ZUp0B36ATcaFEx5Zr17zv5kMxc2MYB1KhFNEa2YyDRNNu12Zcj44Ualq+Yqg==
+X-Received: by 2002:a17:902:c40d:b0:12d:97e1:e19b with SMTP id k13-20020a170902c40d00b0012d97e1e19bmr1978773plk.45.1628870833217;
+        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-44e6-6a58-44be-40a6.res6.spectrum.com. [2603:800c:1a02:1bae:44e6:6a58:44be:40a6])
+        by smtp.gmail.com with ESMTPSA id m2sm3277407pgu.15.2021.08.13.09.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 09:07:12 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Fri, 13 Aug 2021 06:07:11 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v4 2/6] cgroup/cpuset: Properly handle partition root tree
+Message-ID: <YRaYr0sf9L1GY7i5@mtj.duckdns.org>
+References: <20210811030607.13824-1-longman@redhat.com>
+ <20210811030607.13824-3-longman@redhat.com>
+ <YRQSKZB8rQUsfF2K@slm.duckdns.org>
+ <b7897818-8fe6-8dd8-3ff6-6b15401162ba@redhat.com>
+ <YRWeQH6gY5PqIanD@slm.duckdns.org>
+ <55f61b66-5159-7e13-6e41-33df042612b0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <55f61b66-5159-7e13-6e41-33df042612b0@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changbin Du <changbin.du@gmail.com> writes:
+On Thu, Aug 12, 2021 at 06:56:00PM -0400, Waiman Long wrote:
+> That sounds reasonable. My current idea is to add invalid partition reason
+> string to cpuset. So when users read cpuset.cpus.partition of an invalid
+> partition, it will read something like "root invalid  (<reason>)".
+> 
+> What do you think?
 
-> Replace the obsolete and ambiguos macro in_irq() with new
-> macro in_hardirq().
->
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> ---
->  Documentation/kernel-hacking/hacking.rst                    | 2 +-
->  Documentation/kernel-hacking/locking.rst                    | 4 ++--
->  Documentation/translations/it_IT/kernel-hacking/hacking.rst | 2 +-
->  Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
->  Documentation/translations/zh_CN/kernel-hacking/hacking.rst | 2 +-
->  5 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-> index df65c19aa7df..f514cec8e16b 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -77,7 +77,7 @@ fast: frequently it simply acknowledges the interrupt, marks a 'software
->  interrupt' for execution and exits.
->  
->  You can tell you are in a hardware interrupt, because
-> -:c:func:`in_irq()` returns true.
-> +:c:func:`in_hardirq()` returns true.
+Sounds good to me.
 
-While you're in the neighborhood, can you please get rid of the :c:func:
-markup?  We've not needed that for some time now; simply saying
-in_hardirq() is sufficient.
+Thanks.
 
-Thanks,
-
-jon
+-- 
+tejun
