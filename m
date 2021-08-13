@@ -2,103 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD1FC4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 16:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C0EC4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 17:33:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF16160FBF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 16:07:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8A0D610EA
+	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 17:33:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236473AbhHMQHk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Aug 2021 12:07:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
+        id S229919AbhHMRds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Aug 2021 13:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231382AbhHMQHk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 12:07:40 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26CEC061756;
-        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso16633190pjy.5;
-        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
+        with ESMTP id S229703AbhHMRdq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 13:33:46 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDF0C0617AD
+        for <linux-doc@vger.kernel.org>; Fri, 13 Aug 2021 10:33:19 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 61-20020a9d0d430000b02903eabfc221a9so12993562oti.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Aug 2021 10:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2HZmfNWRvGEoCRS06cZMTLlzgFfVxMJbsV7IaJqnVhg=;
-        b=InkfaLY0ZCFXGoifgEOs48VdU5Jc2nx9zdixJj7MXoz71NPOd9R/5Djc+ydBfpFtC4
-         U7i7R7lQHGegengPSWbI6FBgclDyJ+QYg9Y3rQAL5n4XXy6FmCv4P2ja1DedF1M1k566
-         3sQ7P/9K4G8wvzRsUlBkW+9SrhtPKBNAMQIUziuOLTeiSRAaIgzdb+NO+xIj9Dhc1DlX
-         +GT31B2T0I3oFoJ4SlosCJtzNHRwgl6oRkFCvuePaOQ06nPvp5u1k73RPa/4MkwkiXja
-         NzXKhkthXwFpZyoJSqkiBLKSmxL/qsBDP4SY9Uou84ybT+2MWIlJibdv8EG0Y4da47oA
-         xN3A==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=T8OEJ0/DfNYzSKTeZkxD23Gy87W8zwO51wj73rgksrQ=;
+        b=JESa9g5aaaaCF1y1elHvztrDLIciDsjdQt+82RK/MNFx9vn4u6mARLGlKteIl1i+lq
+         UTpHZGJjiLGyFLJhseHG38lhqJmNpsLHXJwlxrh6zrM1OayUdIarDNjjDxSz8jxuq5hj
+         rtOYQlO/YHqvTmAjgX8f0Tbwpxux4jeIe+3nA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=2HZmfNWRvGEoCRS06cZMTLlzgFfVxMJbsV7IaJqnVhg=;
-        b=kt4mDW6R4NqNa5Tr1tihvo+ph0uqh/p6rY6D9mWDG0WnJul1nOtGBTMN5/GP6Q37/2
-         Hc2ocBJ+eM8e8DhpHgIGf6MTNhK6vqL6D3uVvYnSB8CQlh8cRPJu8S2KPtjisnKFc+94
-         HC4KaPplyhZoeLMliN1rWgjcTvqS6Yviacc+z2FSAr8smjKXL/LFH/YjRc6IbJqMsKjm
-         T10oD83FT9aa2JSAUmlZyU3RfElKJRkFLlyRua7zJU5FfDMRsroxbq24iVa8SveAtcbG
-         BvpWP0zrjpYth3ZhC3IdON1Fl/yjzPB4j6tUaZ7iYZqateYIMSAfPNgp95fVuMtFzyzd
-         Y5OA==
-X-Gm-Message-State: AOAM533BBUwPyMt/OanlHwRVtpm60KkXfJMQWr6qakZtndrtZPbF0IKG
-        CB1ECgIFvy+Nqza25r3fRzY=
-X-Google-Smtp-Source: ABdhPJz3R1A5NO638+ZUp0B36ATcaFEx5Zr17zv5kMxc2MYB1KhFNEa2YyDRNNu12Zcj44Ualq+Yqg==
-X-Received: by 2002:a17:902:c40d:b0:12d:97e1:e19b with SMTP id k13-20020a170902c40d00b0012d97e1e19bmr1978773plk.45.1628870833217;
-        Fri, 13 Aug 2021 09:07:13 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-44e6-6a58-44be-40a6.res6.spectrum.com. [2603:800c:1a02:1bae:44e6:6a58:44be:40a6])
-        by smtp.gmail.com with ESMTPSA id m2sm3277407pgu.15.2021.08.13.09.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 09:07:12 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Fri, 13 Aug 2021 06:07:11 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <llong@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=T8OEJ0/DfNYzSKTeZkxD23Gy87W8zwO51wj73rgksrQ=;
+        b=YaGj62agfWXMuXk/A9hof7196erWlo7sa9+82adsI26GVtUcnjalqZLRCLRzqjfgA2
+         eRBuAb+/vM+M9PhHd3gz9RdljWy//rMmG3EDEpd+qZ3XITq7tIgQ0I81aoDpeFpWyfIy
+         F81ZYMaEdh804N5fOghtdSN00XLrmqKJj4dBNJAUU0AaXHpuK60FG2MEr2E7C8tP9Jui
+         oEl0X4QbGrgpSKak8DmZrxO0h+bzmbUxWAdBq689fNDp1joQ43wEGbYl76fEkB0Z2d3F
+         SSyLtzdBFLEXIxuvtSoCARZK46DIVc7k3A27C4y10qF5Q6md7cbDA3H+qwbMp9DqVLBB
+         m4Sg==
+X-Gm-Message-State: AOAM533W/x0qnnP/IVOq9WbJfF1DIC0yhuIPhotqVR8aIsFZbEjmCMJh
+        M3jUFSOMp+JKj06Qd04bksWbIQ==
+X-Google-Smtp-Source: ABdhPJwYke0vW2ZjfpTmneIbMUrd1MH8HL+Dglj/3ch/im2ZcLs194mx/BcIxtbq9/RbeuO0sdJMvQ==
+X-Received: by 2002:a9d:887:: with SMTP id 7mr3013539otf.120.1628875998401;
+        Fri, 13 Aug 2021 10:33:18 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id j6sm386809ooj.11.2021.08.13.10.33.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Aug 2021 10:33:17 -0700 (PDT)
+Subject: Re: [PATCH v4 1/8] x86/sgx: Add /sys/kernel/debug/x86/sgx_total_mem
+To:     Jarkko Sakkinen <jarkko@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc:     linux-kselftest@vger.kernel.org, linux-sgx@vger.kernel.org,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v4 2/6] cgroup/cpuset: Properly handle partition root tree
-Message-ID: <YRaYr0sf9L1GY7i5@mtj.duckdns.org>
-References: <20210811030607.13824-1-longman@redhat.com>
- <20210811030607.13824-3-longman@redhat.com>
- <YRQSKZB8rQUsfF2K@slm.duckdns.org>
- <b7897818-8fe6-8dd8-3ff6-6b15401162ba@redhat.com>
- <YRWeQH6gY5PqIanD@slm.duckdns.org>
- <55f61b66-5159-7e13-6e41-33df042612b0@redhat.com>
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20210809093127.76264-1-jarkko@kernel.org>
+ <20210809093127.76264-2-jarkko@kernel.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <4bcc069d-fafe-11e8-3fac-135e9ece2eec@linuxfoundation.org>
+Date:   Fri, 13 Aug 2021 11:33:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <55f61b66-5159-7e13-6e41-33df042612b0@redhat.com>
+In-Reply-To: <20210809093127.76264-2-jarkko@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 06:56:00PM -0400, Waiman Long wrote:
-> That sounds reasonable. My current idea is to add invalid partition reason
-> string to cpuset. So when users read cpuset.cpus.partition of an invalid
-> partition, it will read something like "root invalid  (<reason>)".
+On 8/9/21 3:31 AM, Jarkko Sakkinen wrote:
+> Just like normal memory, SGX memory can be overcommitted.  SGX has its
+> own reclaim mechanism which kicks in when physical SGX memory (Enclave
+> Page Cache / EPC) is exhausted.  That reclaim mechanism is relatively
+> rarely exercised and needs selftests to poke at it.
 > 
-> What do you think?
+> The amount of EPC on the system is determined by the BIOS and it varies
+> wildly between systems.  It can be dozens of MB on desktops, or many GB
+> on servers.
+> 
+> To run in a reasonable amount of time, the selftest needs to know how
+> much EPC there is in the system.
+> 
+> Introduce a new debugfs file to export that information.
+> 
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+> 
+> v3:
+> * Describe the units of sgx_total_mem in Dcumentation/x86/sgx.rst.
+> * Rewrite of the commit message (suggested by Dave):
+>    https://lore.kernel.org/linux-sgx/5d3614af-2393-6744-9d85-7001241ca76e@intel.com/
+> 
+> v2:
+> * sgx_nr_all_pages -> sgx_total_mem
+> 
+>   Documentation/x86/sgx.rst      |  6 ++++++
+>   arch/x86/kernel/cpu/sgx/main.c | 10 +++++++++-
+>   2 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+> index dd0ac96ff9ef..f11bfb331b93 100644
+> --- a/Documentation/x86/sgx.rst
+> +++ b/Documentation/x86/sgx.rst
+> @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
+>   on the same machine, the user should reserve enough EPC (by taking out
+>   total virtual EPC size of all SGX VMs from the physical EPC size) for
+>   host SGX applications so they can run with acceptable performance.
+> +
+> +Debugging
+> +=========
+> +
+> +*/sys/kernel/debug/x86/sgx_total_mem* contains an integer describing
+> +the total SGX reserved memory in bytes, available in the system.
 
-Sounds good to me.
+Why not add the details you have in the commit log to the document?
+Also add more details on how to debug/test.
 
-Thanks.
+> diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+> index 63d3de02bbcc..b65da19a53ee 100644
+> --- a/arch/x86/kernel/cpu/sgx/main.c
+> +++ b/arch/x86/kernel/cpu/sgx/main.c
+> @@ -1,6 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   /*  Copyright(c) 2016-20 Intel Corporation. */
+>   
+> +#include <linux/debugfs.h>
+>   #include <linux/file.h>
+>   #include <linux/freezer.h>
+>   #include <linux/highmem.h>
+> @@ -28,7 +29,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
+>   static LIST_HEAD(sgx_active_page_list);
+>   static DEFINE_SPINLOCK(sgx_reclaimer_lock);
+>   
+> -/* The free page list lock protected variables prepend the lock. */
+> +/* Total EPC memory available in bytes. */
+> +static unsigned long sgx_total_mem;
+> +
+> +/* The number of free EPC pages in all nodes. */
+>   static unsigned long sgx_nr_free_pages;
+>   
+>   /* Nodes with one or more EPC sections. */
+> @@ -656,6 +660,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
+>   		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
+>   	}
+>   
+> +	sgx_total_mem += nr_pages * PAGE_SIZE;
+> +
+>   	return true;
+>   }
+>   
+> @@ -823,6 +829,8 @@ static int __init sgx_init(void)
+>   	if (sgx_vepc_init() && ret)
+>   		goto err_provision;
+>   
+> +	debugfs_create_ulong("sgx_total_mem", 0444, arch_debugfs_dir, &sgx_total_mem);
+> +
+>   	return 0;
+>   
+>   err_provision:
+> 
 
--- 
-tejun
+thanks,
+-- Shuah
