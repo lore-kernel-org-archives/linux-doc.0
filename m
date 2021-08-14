@@ -2,172 +2,371 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93517C4338F
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 01:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B3EC4320A
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 07:43:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FE196103A
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 01:48:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBBDB61042
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 07:42:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236362AbhHNBtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Aug 2021 21:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50692 "EHLO
+        id S237208AbhHNHn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Aug 2021 03:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236200AbhHNBtL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 21:49:11 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41922C061756;
-        Fri, 13 Aug 2021 18:48:44 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id e19so14268089pla.10;
-        Fri, 13 Aug 2021 18:48:44 -0700 (PDT)
+        with ESMTP id S236519AbhHNHnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Aug 2021 03:43:25 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A93BC06175F;
+        Sat, 14 Aug 2021 00:42:57 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id d6so18767730edt.7;
+        Sat, 14 Aug 2021 00:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kJmxB482cA5ul6CcBMvGgK4Q0eveD39EM9aKbFMmIvk=;
-        b=G5xqlDDp9hTT/j5oSHlmY9k2va0fbUGTVHgrmtVhbNjwOHy3v254hy1hu3uV7+kSDE
-         7/O88F7KhY7805LE2JAs6Wqx/lQk6Zo6CR49YHaQ2/Bs7PTj5W3FfeRx3Vp5Hqja+01w
-         ouDaiOSXHU/KRp+QUu9xpoJo0VVdFmPBQdN3731y4rpnzIsM43TlFH3bThLwjJI39zSb
-         Lp/iq32M5RvcAvFX+UP3jrYaxw3HZcmD6/YqO1F05CEDLio2ffkCcv2h5olol8ylOo4e
-         zBM3uGkv5CNKCO4c3tjGKZbouJqJLJynOoGWTI5y7HbW5A+6pYNEpKXBRNv6kEJDB+EJ
-         uUdQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=n/9eVe94qg32eDuR5Sub7dC4HJnOAqHahylr2ScIf/Q=;
+        b=kR7nOBAH9oNW0CeyP88yQLYiFcQLbIViHk4FoBequcFo0rHqQqoN6HKfrrXu+RYHPu
+         77iNmCRx80RkHq/sgFWuzpJOcoX/2JLWnTbik6bUe63G34ff481sLvkxdgw8JqPFCNRG
+         tyPxVlidi7tLGOTjhPp2xOuSWjW6nmswVHq6xckry2tX/iawsop0igxOnWMLlTzymhSo
+         q8fz0HPRR+J+tvyYAIHlNv+zBebV92ALeyvnCORo/QUg6nc9y7l7576JIVCUHEZhjnWF
+         sQVDDTcG9l4rVie1KWciBchjulumQ6J+VXuvS8rQ9bBZwwavGtzet8DpkOF27bpSRlj4
+         2Kiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kJmxB482cA5ul6CcBMvGgK4Q0eveD39EM9aKbFMmIvk=;
-        b=be7Kyzddle5E7slH9uarj/8YkUt99iqLqj0jbvmm1eE2YQ27jK8g2rDa1u5vSRQ9hb
-         2si4n8kZStzq/xqbe9uwCGHIW83H9ze6db4J0dQrFG8RCKyxJoJcHWU8v8nJU6rqyHz8
-         T55dvkI8/psxWKbL0gJ7xqU2Oe3S/yTkwsW+ciDopYnpqbWgSMl6m0DiRi+ss6bn8+vX
-         43TpPEG43r7olGnu8IClCC+b3o8bzUdxf2UWiTOvgjxBKWo3TpoGSAK7tyA7qAjE7ZjY
-         PGwwiN5Op/Ef3+e1nHu9mUROPXCt+rjkX/Xg4t5strT0+XMUQ4EdMK8IzY99QBR1K7Xn
-         SekA==
-X-Gm-Message-State: AOAM530OXTLK75EiWSgiF4yu9YbEP2PfC/whaBc9wceRcXaffOr310C5
-        PFPA4AuQtNDcDcWhJmeYVAw=
-X-Google-Smtp-Source: ABdhPJyfYUdvCFUD02cuaIXOo88Ssmg1Z5SFo8Jaw9p35r27avMEnNx1R4ei11f0mh6povpJOQlgxw==
-X-Received: by 2002:aa7:880f:0:b029:3e0:6f99:1f88 with SMTP id c15-20020aa7880f0000b02903e06f991f88mr5109976pfo.38.1628905723711;
-        Fri, 13 Aug 2021 18:48:43 -0700 (PDT)
-Received: from WRT-WX9.. ([141.164.41.4])
-        by smtp.gmail.com with ESMTPSA id k25sm3549031pfa.213.2021.08.13.18.48.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 18:48:43 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v2] Documentation: in_irq() cleanup
-Date:   Sat, 14 Aug 2021 09:48:31 +0800
-Message-Id: <20210814014831.53083-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=n/9eVe94qg32eDuR5Sub7dC4HJnOAqHahylr2ScIf/Q=;
+        b=MhfuuAt7USj3TMssUruscvRASfTaXrU1qa0bGJCuPrS1NcjpMTIWxWbNcjmFmygNh7
+         x/OYAj8t3wFAzxldP6V/23eEPEPcacebiWvrIJjEg47ETM6wlDiddoOjnRubhILv7txa
+         m6GHzrVyh4StOwsO4zAsqK+1rvjuEJmUfics+Y4kCKGSqGZ9bdf0irEFp4xW/Ee49/QT
+         xxjIkuPnv86GL1TeoNyT8x5R0zNPmoI3oxdoQ4i1hDTB/Zdjm8hF+9zyqkVkrZThGF8T
+         6D29cvWd/NPeRvXTidQd5RQvima+qj6DiQM8AKtQS6z4oFijozXfiWxAThs7FSE39Jdx
+         zGag==
+X-Gm-Message-State: AOAM532xgMqfU5UJgEfENov5bNIfzV45fZe/F33COGpqvGvmfECW7vC9
+        EgehOGYa8ZoFJvyrezNALzjiZsZZogLvIUpShLQ=
+X-Google-Smtp-Source: ABdhPJz/EKDVXUA5K/AItW/qCU7xSBzZDKJTDdiAy1Kejsx7h+SGdWXv4w6v2f8id3TnV9fNEplqgpWg0ZxCEE/+IOA=
+X-Received: by 2002:a05:6402:104a:: with SMTP id e10mr8006711edu.188.1628926975710;
+ Sat, 14 Aug 2021 00:42:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1628855870-5070-1-git-send-email-wang.yong12@zte.com.cn> <7ca54e3d-b797-bcd1-8e3c-c66fa4e367e7@email.cn>
+In-Reply-To: <7ca54e3d-b797-bcd1-8e3c-c66fa4e367e7@email.cn>
+From:   yong w <yongw.pur@gmail.com>
+Date:   Sat, 14 Aug 2021 15:42:41 +0800
+Message-ID: <CAOH5QeC5i0-Nk6BZ+jNzCq0qAWSrso=ULk_mwtBsC94KrSOjdw@mail.gmail.com>
+Subject: Re: [PATCH v1] mm: Add configuration to control whether vmpressure
+ notifier is enabled
+To:     Hu Haowen <src.res@email.cn>
+Cc:     tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com, tglx@linutronix.de,
+        peterz@infradead.org, Shakeel Butt <shakeelb@google.com>,
+        guro@fb.com, alexs@kernel.org, richard.weiyang@gmail.com,
+        sh_def@163.com, sfr@canb.auug.org.au, wang.yong12@zte.com.cn,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        yang.yang29@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace the obsolete and ambiguos macro in_irq() with new
-macro in_hardirq().
+Hu Haowen <src.res@email.cn> =E4=BA=8E2021=E5=B9=B48=E6=9C=8813=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:45=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+> =E5=9C=A8 2021/8/13 =E4=B8=8B=E5=8D=887:57, yongw.pur@gmail.com =E5=86=99=
+=E9=81=93:
+> > From: wangyong <wang.yong12@zte.com.cn>
+> >
+> > Inspired by PSI features, vmpressure inotifier function should also be
+> > configured to decide whether it is used, because it is an independent
+> > feature which notifies the user of memory pressure.
+> >
+> > Since the vmpressure interface is used in kernel common code, for
+> > users who do not use the vmpressure function, there will be
+> > additional overhead.
+> >
+> > So we add configuration to control whether vmpressure notifier is
+> > enabled, and provide a boot parameter to use use vmpressure notifier
+> > flexibly
+> >
+> > Signed-off-by: wangyong <wang.yong12@zte.com.cn>
+> > ---
+> >  Documentation/admin-guide/cgroup-v1/memory.rst  |  3 ++-
+> >  Documentation/admin-guide/kernel-parameters.txt |  3 +++
+> >  include/linux/memcontrol.h                      |  2 ++
+> >  include/linux/vmpressure.h                      |  7 +++++--
+> >  init/Kconfig                                    | 20 +++++++++++++++++=
+++
+> >  mm/Makefile                                     |  3 ++-
+> >  mm/memcontrol.c                                 |  7 ++++++-
+> >  mm/vmpressure.c                                 | 26 +++++++++++++++++=
+++++++++
+> >  8 files changed, 66 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documenta=
+tion/admin-guide/cgroup-v1/memory.rst
+> > index 41191b5..967418a 100644
+> > --- a/Documentation/admin-guide/cgroup-v1/memory.rst
+> > +++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+> > @@ -388,6 +388,7 @@ a. Enable CONFIG_CGROUPS
+> >  b. Enable CONFIG_MEMCG
+> >  c. Enable CONFIG_MEMCG_SWAP (to use swap extension)
+> >  d. Enable CONFIG_MEMCG_KMEM (to use kmem extension)
+> > +e. Enable CONFIG_MEMCG_VMPRESSURE (to use vmpressure extension)
+> >
+> >  3.1. Prepare the cgroups (see cgroups.txt, Why are cgroups needed?)
+> >  -------------------------------------------------------------------
+> > @@ -855,7 +856,7 @@ At reading, current status of OOM is shown.
+> >            The number of processes belonging to this cgroup killed by a=
+ny
+> >            kind of OOM killer.
+> >
+> > -11. Memory Pressure
+> > +11. Memory Pressure (CONFIG_MEMCG_VMPRESSURE)
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+>
+>
+> Please replace:
+>
+> 11. Memory Pressure (CONFIG_MEMCG_VMPRESSURE)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> with:
+>
+> 11. Memory Pressure (CONFIG_MEMCG_VMPRESSURE)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Cheers,
+> Hu Haowen
+>
+Thank you for your reply, I will modify it in the next patch.
+Are there any other questions about this patch?
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
-
----
-v2: remove unnecessary ':c:func:'.
----
- Documentation/kernel-hacking/hacking.rst                    | 4 ++--
- Documentation/kernel-hacking/locking.rst                    | 4 ++--
- Documentation/translations/it_IT/kernel-hacking/hacking.rst | 2 +-
- Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
- Documentation/translations/zh_CN/kernel-hacking/hacking.rst | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index df65c19aa7df..55bd37a2efb0 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -76,8 +76,8 @@ handler is never re-entered: if the same interrupt arrives, it is queued
- fast: frequently it simply acknowledges the interrupt, marks a 'software
- interrupt' for execution and exits.
- 
--You can tell you are in a hardware interrupt, because
--:c:func:`in_irq()` returns true.
-+You can tell you are in a hardware interrupt, because in_hardirq() returns
-+true.
- 
- .. warning::
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index ed1284c6f078..94232ed1d592 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -1406,7 +1406,7 @@ bh
-   half will be running at any time.
- 
- Hardware Interrupt / Hardware IRQ
--  Hardware interrupt request. in_irq() returns true in a
-+  Hardware interrupt request. in_hardirq() returns true in a
-   hardware interrupt handler.
- 
- Interrupt Context
-@@ -1418,7 +1418,7 @@ SMP
-   (``CONFIG_SMP=y``).
- 
- Software Interrupt / softirq
--  Software interrupt handler. in_irq() returns false;
-+  Software interrupt handler. in_hardirq() returns false;
-   in_softirq() returns true. Tasklets and softirqs both
-   fall into the category of 'software interrupts'.
- 
-diff --git a/Documentation/translations/it_IT/kernel-hacking/hacking.rst b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-index f6beb385b4ac..487c8732dfe8 100644
---- a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-@@ -90,7 +90,7 @@ i gestori d'interruzioni devono essere veloci: spesso si limitano
- esclusivamente a notificare la presa in carico dell'interruzione,
- programmare una 'interruzione software' per l'esecuzione e quindi terminare.
- 
--Potete dire d'essere in una interruzione hardware perché :c:func:`in_irq()`
-+Potete dire d'essere in una interruzione hardware perché in_hardirq()
- ritorna vero.
- 
- .. warning::
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 1e7c84def369..1efb8293bf1f 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -1459,11 +1459,11 @@ contesto utente
-   che hardware.
- 
- interruzione hardware
--  Richiesta di interruzione hardware. in_irq() ritorna vero in un
-+  Richiesta di interruzione hardware. in_hardirq() ritorna vero in un
-   gestore d'interruzioni hardware.
- 
- interruzione software / softirq
--  Gestore di interruzioni software: in_irq() ritorna falso;
-+  Gestore di interruzioni software: in_hardirq() ritorna falso;
-   in_softirq() ritorna vero. I tasklet e le softirq sono entrambi
-   considerati 'interruzioni software'.
- 
-diff --git a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-index ab974faddecf..f2bc154c5bcc 100644
---- a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-+++ b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-@@ -68,7 +68,7 @@
- 它将被排队（或丢弃）。因为它会关闭中断，所以处理程序必须很快：通常它只是
- 确认中断，标记一个“软件中断”以执行并退出。
- 
--您可以通过 :c:func:`in_irq()` 返回真来判断您处于硬件中断状态。
-+您可以通过 in_hardirq() 返回真来判断您处于硬件中断状态。
- 
- .. warning::
- 
--- 
-2.30.2
-
+Thanks.
+> >  The pressure level notifications can be used to monitor the memory
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index 4042a82..d119fb8 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -6158,6 +6158,9 @@
+> >       vmpoff=3D         [KNL,S390] Perform z/VM CP command after power =
+off.
+> >                       Format: <command>
+> >
+> > +     vmpressure=3D     [KNL] Enable or disable vmpressure notifier.
+> > +                     Format: <bool>
+> > +
+> >       vsyscall=3D       [X86-64]
+> >                       Controls the behavior of vsyscalls (i.e. calls to
+> >                       fixed addresses of 0xffffffffff600x00 from legacy
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 0ff1464..b201d8e 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -257,8 +257,10 @@ struct mem_cgroup {
+> >
+> >       unsigned long soft_limit;
+> >
+> > +#ifdef CONFIG_MEMCG_VMPRESSURE
+> >       /* vmpressure notifications */
+> >       struct vmpressure vmpressure;
+> > +#endif
+> >
+> >       /*
+> >        * Should the OOM killer kill all belonging tasks, had it kill on=
+e?
+> > diff --git a/include/linux/vmpressure.h b/include/linux/vmpressure.h
+> > index 6a2f51e..dcae02e 100644
+> > --- a/include/linux/vmpressure.h
+> > +++ b/include/linux/vmpressure.h
+> > @@ -29,7 +29,8 @@ struct vmpressure {
+> >
+> >  struct mem_cgroup;
+> >
+> > -#ifdef CONFIG_MEMCG
+> > +#ifdef CONFIG_MEMCG_VMPRESSURE
+> > +extern bool vmpressure_enable;
+> >  extern void vmpressure(gfp_t gfp, struct mem_cgroup *memcg, bool tree,
+> >                      unsigned long scanned, unsigned long reclaimed);
+> >  extern void vmpressure_prio(gfp_t gfp, struct mem_cgroup *memcg, int p=
+rio);
+> > @@ -48,5 +49,7 @@ static inline void vmpressure(gfp_t gfp, struct mem_c=
+group *memcg, bool tree,
+> >                             unsigned long scanned, unsigned long reclai=
+med) {}
+> >  static inline void vmpressure_prio(gfp_t gfp, struct mem_cgroup *memcg=
+,
+> >                                  int prio) {}
+> > -#endif /* CONFIG_MEMCG */
+> > +static inline void vmpressure_init(struct vmpressure *vmpr) {}
+> > +static inline void vmpressure_cleanup(struct vmpressure *vmpr) {}
+> > +#endif /* CONFIG_MEMCG_PRESSURE */
+> >  #endif /* __LINUX_VMPRESSURE_H */
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 71a028d..d3afeb2 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -948,6 +948,26 @@ config MEMCG_KMEM
+> >       depends on MEMCG && !SLOB
+> >       default y
+> >
+> > +config MEMCG_VMPRESSURE
+> > +     bool "Memory pressure notifier"
+> > +     depends on MEMCG
+> > +     default y
+> > +     help
+> > +       Vmpressure extension is used to monitor the memory allocation c=
+ost.
+> > +       The pressure level can be set according to the use scenario and
+> > +       application will be notified through eventfd when memory pressu=
+re is at
+> > +       the specific level (or higher).
+> > +
+> > +config VMPRESSURE_DEFAULT_DISABLED
+> > +     bool "Require boot parameter to enable memory pressure notifier"
+> > +     depends on MEMCG_VMPRESSURE
+> > +     default n
+> > +     help
+> > +       If set, memory pressure notifier will be disabled  but can be
+> > +       enabled through passing vmpressure=3D1 on the kernel commandlin=
+e
+> > +       during boot.
+> > +       For those who want to use memory pressure notifier flexibly.
+> > +
+> >  config BLK_CGROUP
+> >       bool "IO controller"
+> >       depends on BLOCK
+> > diff --git a/mm/Makefile b/mm/Makefile
+> > index 970604e..e4f99c1 100644
+> > --- a/mm/Makefile
+> > +++ b/mm/Makefile
+> > @@ -92,7 +92,8 @@ obj-$(CONFIG_MEMTEST)               +=3D memtest.o
+> >  obj-$(CONFIG_MIGRATION) +=3D migrate.o
+> >  obj-$(CONFIG_TRANSPARENT_HUGEPAGE) +=3D huge_memory.o khugepaged.o
+> >  obj-$(CONFIG_PAGE_COUNTER) +=3D page_counter.o
+> > -obj-$(CONFIG_MEMCG) +=3D memcontrol.o vmpressure.o
+> > +obj-$(CONFIG_MEMCG) +=3D memcontrol.o
+> > +obj-$(CONFIG_MEMCG_VMPRESSURE) +=3D vmpressure.o
+> >  obj-$(CONFIG_MEMCG_SWAP) +=3D swap_cgroup.o
+> >  obj-$(CONFIG_CGROUP_HUGETLB) +=3D hugetlb_cgroup.o
+> >  obj-$(CONFIG_GUP_TEST) +=3D gup_test.o
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 3e7c205..ee060ae2 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -248,6 +248,7 @@ static inline bool should_force_charge(void)
+> >               (current->flags & PF_EXITING);
+> >  }
+> >
+> > +#ifdef CONFIG_MEMCG_VMPRESSURE
+> >  /* Some nice accessors for the vmpressure. */
+> >  struct vmpressure *memcg_to_vmpressure(struct mem_cgroup *memcg)
+> >  {
+> > @@ -260,6 +261,7 @@ struct mem_cgroup *vmpressure_to_memcg(struct vmpre=
+ssure *vmpr)
+> >  {
+> >       return container_of(vmpr, struct mem_cgroup, vmpressure);
+> >  }
+> > +#endif
+> >
+> >  #ifdef CONFIG_MEMCG_KMEM
+> >  extern spinlock_t css_set_lock;
+> > @@ -4794,9 +4796,12 @@ static ssize_t memcg_write_event_control(struct =
+kernfs_open_file *of,
+> >       } else if (!strcmp(name, "memory.oom_control")) {
+> >               event->register_event =3D mem_cgroup_oom_register_event;
+> >               event->unregister_event =3D mem_cgroup_oom_unregister_eve=
+nt;
+> > -     } else if (!strcmp(name, "memory.pressure_level")) {
+> > +#ifdef CONFIG_MEMCG_VMPRESSURE
+> > +     } else if (vmpressure_enable &&
+> > +                !strcmp(name, "memory.pressure_level")) {
+> >               event->register_event =3D vmpressure_register_event;
+> >               event->unregister_event =3D vmpressure_unregister_event;
+> > +#endif
+> >       } else if (!strcmp(name, "memory.memsw.usage_in_bytes")) {
+> >               event->register_event =3D memsw_cgroup_usage_register_eve=
+nt;
+> >               event->unregister_event =3D memsw_cgroup_usage_unregister=
+_event;
+> > diff --git a/mm/vmpressure.c b/mm/vmpressure.c
+> > index 76518e4..b0d4358 100644
+> > --- a/mm/vmpressure.c
+> > +++ b/mm/vmpressure.c
+> > @@ -67,6 +67,19 @@ static const unsigned int vmpressure_level_critical =
+=3D 95;
+> >   */
+> >  static const unsigned int vmpressure_level_critical_prio =3D ilog2(100=
+ / 10);
+> >
+> > +DEFINE_STATIC_KEY_FALSE(vmpressure_disabled);
+> > +#ifdef CONFIG_VMPRESSURE_DEFAULT_DISABLED
+> > +bool vmpressure_enable;
+> > +#else
+> > +bool vmpressure_enable =3D true;
+> > +#endif
+> > +static int __init setup_vmpressure(char *str)
+> > +{
+> > +     return kstrtobool(str, &vmpressure_enable) =3D=3D 0;
+> > +}
+> > +__setup("vmpressure=3D", setup_vmpressure);
+> > +
+> > +
+> >  static struct vmpressure *work_to_vmpressure(struct work_struct *work)
+> >  {
+> >       return container_of(work, struct vmpressure, work);
+> > @@ -246,6 +259,9 @@ void vmpressure(gfp_t gfp, struct mem_cgroup *memcg=
+, bool tree,
+> >
+> >       vmpr =3D memcg_to_vmpressure(memcg);
+> >
+> > +     if (static_branch_likely(&vmpressure_disabled))
+> > +             return;
+> > +
+> >       /*
+> >        * Here we only want to account pressure that userland is able to
+> >        * help us with. For example, suppose that DMA zone is under
+> > @@ -326,6 +342,8 @@ void vmpressure(gfp_t gfp, struct mem_cgroup *memcg=
+, bool tree,
+> >   */
+> >  void vmpressure_prio(gfp_t gfp, struct mem_cgroup *memcg, int prio)
+> >  {
+> > +     if (static_branch_likely(&vmpressure_disabled))
+> > +             return;
+> >       /*
+> >        * We only use prio for accounting critical level. For more info
+> >        * see comment for vmpressure_level_critical_prio variable above.
+> > @@ -450,6 +468,11 @@ void vmpressure_unregister_event(struct mem_cgroup=
+ *memcg,
+> >   */
+> >  void vmpressure_init(struct vmpressure *vmpr)
+> >  {
+> > +     if (!vmpressure_enable) {
+> > +             static_branch_enable(&vmpressure_disabled);
+> > +             return;
+> > +     }
+> > +
+> >       spin_lock_init(&vmpr->sr_lock);
+> >       mutex_init(&vmpr->events_lock);
+> >       INIT_LIST_HEAD(&vmpr->events);
+> > @@ -465,6 +488,9 @@ void vmpressure_init(struct vmpressure *vmpr)
+> >   */
+> >  void vmpressure_cleanup(struct vmpressure *vmpr)
+> >  {
+> > +
+> > +     if (static_branch_likely(&vmpressure_disabled))
+> > +             return;
+> >       /*
+> >        * Make sure there is no pending work before eventfd infrastructu=
+re
+> >        * goes away.
+>
