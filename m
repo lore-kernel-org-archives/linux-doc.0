@@ -2,103 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A58C4338F
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 15:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F687C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 17:41:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B7B16101E
-	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 15:44:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5777960E9B
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 17:41:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbhHNPo7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 Aug 2021 11:44:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56890 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238763AbhHNPo5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 14 Aug 2021 11:44:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 698D860F92;
-        Sat, 14 Aug 2021 15:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628955868;
-        bh=QII7/Obag25Xr03PZZ/pofMlG3w80AxigjvxgXiYhWM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h6r0v/32SlNA1mP8bma4MFg3tJJf7dmgZ6b3lGUdsVQQZcqsk88kB6ZSe8VmqG6p+
-         e9KkyXwKgdh8aldiJvdKlzNMSU0XUmaD8uk96CoyhjKEf3/yj3mnBj2W9VU3+rGRrq
-         QTwOiOmvk7v3ubFPWn7DPrx1qYMonz2sVHh3L+IeQz8TUazydFOC/kY97mKoiGtb8A
-         1yHyM2wgpxuhjX1BQd7ILD8JmTsSTj0dVozKRdWh+lw4WNyJLhKKS6cGFcMSR6OoCm
-         5+Ram7IsDyGeFMgerXcgNt68tWVod0GmMRMO9j7jn2evruXUpx33LQiIDcsXWfDonF
-         FeHskXBx6uz4w==
-Received: by pali.im (Postfix)
-        id 27D4C9CA; Sat, 14 Aug 2021 17:44:26 +0200 (CEST)
-Date:   Sat, 14 Aug 2021 17:44:25 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add 88F6825 model into list
-Message-ID: <20210814154425.4rrelaju6lilzdju@pali>
-References: <20210814124805.14568-1-pali@kernel.org>
- <YRfhOJttJlXRYSzL@lunn.ch>
- <20210814153307.vxun5jgy7ooeovgh@pali>
- <YRfjpjrCcLdIHLSc@lunn.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YRfjpjrCcLdIHLSc@lunn.ch>
-User-Agent: NeoMutt/20180716
+        id S238805AbhHNRlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 Aug 2021 13:41:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52944 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238785AbhHNRlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Aug 2021 13:41:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628962874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=S/27zO2jNZB6YHStofzFjSmTX0cZBNRgUk+CUXiaBjg=;
+        b=N2+B5F9KRfKF8XW5cTNMxrEK8PWEfaKR9exJdAXKr7XgOdkcfmOW6/pPgOdBfzftdHKWGu
+        BYy+RDZx5n3UbNvvH5jp6jv4TIfFR240wpGyUgRMPblLderj6PPn/8FmSYY/0gdDzk3w+G
+        jeO/fiK3+H/4USLqSOsMsw06IHxr/Ek=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-fmMW-tygPuCf3WEyvYCEsA-1; Sat, 14 Aug 2021 13:41:13 -0400
+X-MC-Unique: fmMW-tygPuCf3WEyvYCEsA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D080E8799EB;
+        Sat, 14 Aug 2021 17:41:11 +0000 (UTC)
+Received: from llong.com (unknown [10.22.8.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 325A6105C89F;
+        Sat, 14 Aug 2021 17:41:02 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH-cgroup v5 0/6] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
+Date:   Sat, 14 Aug 2021 13:38:42 -0400
+Message-Id: <20210814173848.11540-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Saturday 14 August 2021 17:39:18 Andrew Lunn wrote:
-> On Sat, Aug 14, 2021 at 05:33:07PM +0200, Pali Rohár wrote:
-> > On Saturday 14 August 2021 17:28:56 Andrew Lunn wrote:
-> > > On Sat, Aug 14, 2021 at 02:48:05PM +0200, Pali Rohár wrote:
-> > > > 88F6825 is just 88F6820 but without encryption acceleration hardware and is
-> > > > used e.g. in DTS file arch/arm/boot/dts/armada-385-clearfog-gtr.dtsi
-> > > > 
-> > > > Signed-off-by: Pali Rohár <pali@kernel.org>
-> > > > 
-> > > > ---
-> > > > Depends on patch: https://lore.kernel.org/linux-doc/20210625215437.2156-1-pali@kernel.org/
-> > > > ---
-> > > >  Documentation/arm/marvell.rst | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-> > > > index 85169bc3f538..56bb592dbd0c 100644
-> > > > --- a/Documentation/arm/marvell.rst
-> > > > +++ b/Documentation/arm/marvell.rst
-> > > > @@ -140,6 +140,7 @@ EBU Armada family
-> > > >  	- 88F6821 Armada 382
-> > > >  	- 88F6W21 Armada 383
-> > > >  	- 88F6820 Armada 385
-> > > > +	- 88F6825
-> > > 
-> > > Hi Pali
-> > > 
-> > > Does it have the marketing name of Armada 385?
-> > 
-> > No, there is no marking. The only name in Marvell documents and also in
-> > DTS files and on wikis/internet is just 88F6825.
-> > 
-> > I found only this statement from Marvell:
-> > 
-> > "The 88F6825 device is a member of the ARMADA® 380, 385, and 388 Family
-> > of devices."
-> 
-> O.K, thanks
+v5:
+ - Rebased to the latest for-5.15 branch of cgroup git tree and drop the
+   1st v4 patch as it has been merged.
+ - Update patch 1 to always allow changing partition root back to member
+   even if it invalidates child partitions undeneath it.
+ - Adjust the empty effective cpu partition patch to not allow 0 effective
+   cpu for terminal partition which will make it invalid).
+ - Add a new patch to enable reading of cpuset.cpus.partition to display
+   the reason that causes invalid partition.
+ - Adjust the documentation and testing patch accordingly.
 
-Normally I do not care about such thing... but as kernel already
-supports this SoC and also have DTS file for some device, it
-indicates that it is in use and supported... so mentioning this SoC in
-documentation is a good idea, even it does not have "code name".
+v4:
+ - Rebased to the for-5.15 branch of cgroup git tree and dropped the
+   first 3 patches of v3 series which have been merged.
+ - Beside prohibiting violation of cpu exclusivity rule, allow arbitrary
+   changes to cpuset.cpus of a partition root and force the partition root
+   to become invalid in case any of the partition root constraints
+   are violated. The documentation file and self test are modified
+   accordingly.
 
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> 
->     Andrew
+This patchset makes four enhancements to the cpuset v2 code.
+
+ Patch 1: Properly handle partition root tree and make partition
+ invalid in case changes to cpuset.cpus violate any of the partition
+ root constraints.
+
+ Patch 2: Enable the "cpuset.cpus.partition" file to show the reason
+ that causes invalid partition like "root invalid (No cpu available
+ due to hotplug)".
+
+ Patch 3: Add a new partition state "isolated" to create a partition
+ root without load balancing. This is for handling intermitten workloads
+ that have a strict low latency requirement.
+
+ Patch 4: Allow partition roots that are not the top cpuset to distribute
+ all its cpus to child partitions as long as there is no task associated
+ with that partition root. This allows more flexibility for middleware
+ to manage multiple partitions.
+
+Patch 5 updates the cgroup-v2.rst file accordingly. Patch 6 adds a new
+cpuset test to test the new cpuset partition code.
+
+Waiman Long (6):
+  cgroup/cpuset: Properly transition to invalid partition
+  cgroup/cpuset: Show invalid partition reason string
+  cgroup/cpuset: Add a new isolated cpus.partition type
+  cgroup/cpuset: Allow non-top parent partition to distribute out all
+    CPUs
+  cgroup/cpuset: Update description of cpuset.cpus.partition in
+    cgroup-v2.rst
+  kselftest/cgroup: Add cpuset v2 partition root state test
+
+ Documentation/admin-guide/cgroup-v2.rst       | 116 +--
+ kernel/cgroup/cpuset.c                        | 347 ++++++---
+ tools/testing/selftests/cgroup/Makefile       |   5 +-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 663 ++++++++++++++++++
+ tools/testing/selftests/cgroup/wait_inotify.c |  86 +++
+ 5 files changed, 1068 insertions(+), 149 deletions(-)
+ create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+ create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
+
+-- 
+2.18.1
+
