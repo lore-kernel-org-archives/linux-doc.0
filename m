@@ -2,174 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE7FC4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 18:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E97C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 01:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 699696109E
-	for <linux-doc@archiver.kernel.org>; Fri, 13 Aug 2021 18:53:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC72160F91
+	for <linux-doc@archiver.kernel.org>; Sat, 14 Aug 2021 01:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233309AbhHMSyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 Aug 2021 14:54:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42004 "EHLO
+        id S232615AbhHNBpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 Aug 2021 21:45:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232803AbhHMSyN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 14:54:13 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678E0C0617AD
-        for <linux-doc@vger.kernel.org>; Fri, 13 Aug 2021 11:53:46 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id h11so17382034oie.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Aug 2021 11:53:46 -0700 (PDT)
+        with ESMTP id S236284AbhHNBpg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Aug 2021 21:45:36 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EC3C061756;
+        Fri, 13 Aug 2021 18:45:08 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id fa24-20020a17090af0d8b0290178bfa69d97so18610876pjb.0;
+        Fri, 13 Aug 2021 18:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w/q5TpmhXtwE97hfUFtXadpNp8zPMY0oD8ZlmGnSHRg=;
-        b=S9WsONofc4SyP+/yj8JqnZeQ6HcCuUkMSd1rc4T0/KNl7Z6pmTce/e39X3wjTWeRMS
-         aDdFrpT+I5YzCSbfHkIdutSBtgxmP4A2fQ/U/wlxDu8Q0UoyICmgBrjwU6ghgNZ4nTuQ
-         BWCQedhyV9HR0R4SB/lLsUhxAAtsluYWLn/Pw=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=07FaLwcmmX6AOmFfgsqh6GrkV1dN1p5dJytNMnSho7U=;
+        b=YlbngJoJ3f8Vv11tmVmRDAe/WJz03jxqYRsj4VIzgBv/GSyKCJ89pqGU7imCYjqdX1
+         rK+MQVg4YM6okfXTtPjYEH5mzwHgA3vpygUR2LKTUX1lkNAwOdsfCWtf3K0zQxPLOW7p
+         8Jc6TY3ib3/PEB2Cef6wlVzKPFRR3Y2rz5pfBRpLrLail0dbtMQB21AnyNxbw4Fm5DnT
+         gDL1wTnJnArvUrXGYsbu0bQH/PFkxrx7nCQF5ps2x6zvzLlAnuFi8hCHdjostQQ943G7
+         LMr21rZOdKSkvc/s7SyYOQDS9+XlyUQe/Kcahzxqjv1Vq44VVnAvjabKLIeVnjv4BXqR
+         AnkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=w/q5TpmhXtwE97hfUFtXadpNp8zPMY0oD8ZlmGnSHRg=;
-        b=eHtkrTRpV1fg23/MR7XK/DxqxpExsYu7koT2JPIxkoyo6aaMEveFM7WD1EN0B6P8I4
-         laDKM9f0rDTRy/UTEzIDovxYQgqvEPyczrc/LIlCu2n8mUFMtIDHyFBlZltS0kkQHkwp
-         85skowtL3xk1Zq6yNvXHA1VK26C2SO/pYi9NOmreJMGbyiHBWAl4oO9IRXFvxwvjik6I
-         x1ie492pURcRjmpxfAUr0JUOj0Sm8FjqWuxQsjCIX6VEnWPP7PP+033u4+IizGEXg+Nm
-         jZ7bgGuqmZdHNM0hCPLLRlLXCg7X1D5DJHiKNG0ViWDnrNMBGpwoC+F8G4CjnmBK6DB1
-         lDFA==
-X-Gm-Message-State: AOAM531qV11WKHUX76cKSshQIh6cjUfLjmYGEMqZcwE7Kr1+Qyaf//8x
-        R8u6W8M15IXQZNoBbbGHKoLsvg==
-X-Google-Smtp-Source: ABdhPJwnZcOOBZbpWswVfhbAAHEPrKTCAXZGjNpPeup8tKCA3LBcBy4NO9eLDTMORYk8niZKL0YwJg==
-X-Received: by 2002:a54:468d:: with SMTP id k13mr3333895oic.125.1628880825829;
-        Fri, 13 Aug 2021 11:53:45 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id p64sm533827oib.4.2021.08.13.11.53.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Aug 2021 11:53:45 -0700 (PDT)
-Subject: Re: [PATCH v4 1/8] x86/sgx: Add /sys/kernel/debug/x86/sgx_total_mem
-To:     Jarkko Sakkinen <jarkko@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc:     linux-kselftest@vger.kernel.org, linux-sgx@vger.kernel.org,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20210809093127.76264-1-jarkko@kernel.org>
- <20210809093127.76264-2-jarkko@kernel.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <df28390f-dbb3-79fa-258f-1c8477c10c04@linuxfoundation.org>
-Date:   Fri, 13 Aug 2021 12:53:44 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=07FaLwcmmX6AOmFfgsqh6GrkV1dN1p5dJytNMnSho7U=;
+        b=lCquCkrbg+X65lKh8xCgAQT5+JENgQMJ5bpvcssI4LKFKKuLowUYEj/Wtud6YTRqVm
+         c4BHj7p4yrp81ru8ex21Gc8mfF3oRghfGnvUXBdc+sgspjAxaPAL0e+UNjrQwaHGDWl/
+         7vzlsXM6ZgrL7akExwpzPwgPbpkt6O/Xh1iUHBbfrTM7wbnB+H21SeZW/H0I+AsIS0oB
+         aZRnx5aiJ1ESlKTFbecQiu1yUjDZuTet1dd1CJ/KRnV2zGLTzLNQKJ1U5J0Dx4mksPtL
+         gNdbjwKBdck+/6nxeKwJEyHWCfXMlyt3Mb8sMncqagGuJjN7A5QDwkuYuAAm3hK6Uh7j
+         axBA==
+X-Gm-Message-State: AOAM530nkU7DcIbuLNf/l6UylDtPuwXrRFzKRrG1+xzg62DJA/DeK0w1
+        VeE4goqLVwNCdGcepuDnTVo=
+X-Google-Smtp-Source: ABdhPJwvkHis4sOBiqm/ITKlGQRBIYW3ndn3dGo/AJ/jO3TNHJK7n5l4YvlKXA2L3qMWsvqac+Zi7w==
+X-Received: by 2002:a63:1e4e:: with SMTP id p14mr4804871pgm.261.1628905508159;
+        Fri, 13 Aug 2021 18:45:08 -0700 (PDT)
+Received: from mail.google.com ([141.164.41.4])
+        by smtp.gmail.com with ESMTPSA id u20sm4298718pgm.4.2021.08.13.18.45.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 18:45:07 -0700 (PDT)
+Date:   Sat, 14 Aug 2021 09:44:55 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: in_irq() cleanup
+Message-ID: <20210814014455.wffdzvtgz54y6mgn@mail.google.com>
+References: <20210813144713.85598-1-changbin.du@gmail.com>
+ <87o8a1xsbn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210809093127.76264-2-jarkko@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o8a1xsbn.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/9/21 3:31 AM, Jarkko Sakkinen wrote:
-> Just like normal memory, SGX memory can be overcommitted.  SGX has its
-> own reclaim mechanism which kicks in when physical SGX memory (Enclave
-> Page Cache / EPC) is exhausted.  That reclaim mechanism is relatively
-> rarely exercised and needs selftests to poke at it.
+On Fri, Aug 13, 2021 at 09:44:28AM -0600, Jonathan Corbet wrote:
+> Changbin Du <changbin.du@gmail.com> writes:
 > 
-> The amount of EPC on the system is determined by the BIOS and it varies
-> wildly between systems.  It can be dozens of MB on desktops, or many GB
-> on servers.
+> > Replace the obsolete and ambiguos macro in_irq() with new
+> > macro in_hardirq().
+> >
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > ---
+> >  Documentation/kernel-hacking/hacking.rst                    | 2 +-
+> >  Documentation/kernel-hacking/locking.rst                    | 4 ++--
+> >  Documentation/translations/it_IT/kernel-hacking/hacking.rst | 2 +-
+> >  Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
+> >  Documentation/translations/zh_CN/kernel-hacking/hacking.rst | 2 +-
+> >  5 files changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+> > index df65c19aa7df..f514cec8e16b 100644
+> > --- a/Documentation/kernel-hacking/hacking.rst
+> > +++ b/Documentation/kernel-hacking/hacking.rst
+> > @@ -77,7 +77,7 @@ fast: frequently it simply acknowledges the interrupt, marks a 'software
+> >  interrupt' for execution and exits.
+> >  
+> >  You can tell you are in a hardware interrupt, because
+> > -:c:func:`in_irq()` returns true.
+> > +:c:func:`in_hardirq()` returns true.
 > 
-> To run in a reasonable amount of time, the selftest needs to know how
-> much EPC there is in the system.
-> 
-> Introduce a new debugfs file to export that information.
-> 
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> ---
-> 
-> v3:
-> * Describe the units of sgx_total_mem in Dcumentation/x86/sgx.rst.
-> * Rewrite of the commit message (suggested by Dave):
->    https://lore.kernel.org/linux-sgx/5d3614af-2393-6744-9d85-7001241ca76e@intel.com/
-> 
-> v2:
-> * sgx_nr_all_pages -> sgx_total_mem
-> 
->   Documentation/x86/sgx.rst      |  6 ++++++
->   arch/x86/kernel/cpu/sgx/main.c | 10 +++++++++-
->   2 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-> index dd0ac96ff9ef..f11bfb331b93 100644
-> --- a/Documentation/x86/sgx.rst
-> +++ b/Documentation/x86/sgx.rst
-> @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
->   on the same machine, the user should reserve enough EPC (by taking out
->   total virtual EPC size of all SGX VMs from the physical EPC size) for
->   host SGX applications so they can run with acceptable performance.
-> +
-> +Debugging
-> +=========
-> +
-> +*/sys/kernel/debug/x86/sgx_total_mem* contains an integer describing
-> +the total SGX reserved memory in bytes, available in the system.
-> diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
-> index 63d3de02bbcc..b65da19a53ee 100644
-> --- a/arch/x86/kernel/cpu/sgx/main.c
-> +++ b/arch/x86/kernel/cpu/sgx/main.c
-> @@ -1,6 +1,7 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*  Copyright(c) 2016-20 Intel Corporation. */
->   
-> +#include <linux/debugfs.h>
->   #include <linux/file.h>
->   #include <linux/freezer.h>
->   #include <linux/highmem.h>
-> @@ -28,7 +29,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
->   static LIST_HEAD(sgx_active_page_list);
->   static DEFINE_SPINLOCK(sgx_reclaimer_lock);
->   
-> -/* The free page list lock protected variables prepend the lock. */
-> +/* Total EPC memory available in bytes. */
-> +static unsigned long sgx_total_mem;
-> +
-> +/* The number of free EPC pages in all nodes. */
->   static unsigned long sgx_nr_free_pages;
->   
->   /* Nodes with one or more EPC sections. */
-> @@ -656,6 +660,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
->   		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
->   	}
->   
-> +	sgx_total_mem += nr_pages * PAGE_SIZE;
-> +
->   	return true;
->   }
->   
-> @@ -823,6 +829,8 @@ static int __init sgx_init(void)
->   	if (sgx_vepc_init() && ret)
->   		goto err_provision;
->   
-> +	debugfs_create_ulong("sgx_total_mem", 0444, arch_debugfs_dir, &sgx_total_mem);
+> While you're in the neighborhood, can you please get rid of the :c:func:
+> markup?  We've not needed that for some time now; simply saying
+> in_hardirq() is sufficient.
+>
+No problem, will updaate it soon.
 
-dbugfs init dependency would be met I assume by this time?
-
-> +
->   	return 0;
->   
->   err_provision:
+> Thanks,
 > 
+> jon
 
+-- 
+Cheers,
+Changbin Du
