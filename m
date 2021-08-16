@@ -2,89 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10189C432BE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B23D6C4338F
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:03:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E504060E76
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:01:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A3C260F38
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:03:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbhHPRBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Aug 2021 13:01:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:46696 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230294AbhHPRBv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Aug 2021 13:01:51 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DD216D;
-        Mon, 16 Aug 2021 10:01:19 -0700 (PDT)
-Received: from e123427-lin.arm.com (unknown [10.57.42.29])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C118D3F40C;
-        Mon, 16 Aug 2021 10:01:14 -0700 (PDT)
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Lokesh Vutla <lokeshvutla@ti.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S232164AbhHPRD5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Aug 2021 13:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231799AbhHPRDz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Aug 2021 13:03:55 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43432C0613CF;
+        Mon, 16 Aug 2021 10:03:20 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f08b500a9c2327ac48af0d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:a9c2:327a:c48a:f0d7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 045F31EC0516;
+        Mon, 16 Aug 2021 19:03:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1629133395;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=cdjFAwQRlWFZrMh487IcfeXjtfV+kPYJk4xdQyxxwG8=;
+        b=NUhUMN3z0T5t1Vvly3U2phQ+JRBo7JbQ8+kHQYZTrWatPMnvakMbGX9OCYIvzB8DUgNiZt
+        3rFOUKsALV6KjJSsyxTWCiPKl9M3JpH0v9SzbA6vMHgawtmQG+yebfxl2m+mllhj+FPIrh
+        dQjTxAjZbSBwv9k/ww48hnbm+fPbw5M=
+Date:   Mon, 16 Aug 2021 19:03:54 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v8 0/8] Add SR-IOV support in PCIe Endpoint Core
-Date:   Mon, 16 Aug 2021 18:01:08 +0100
-Message-Id: <162913323780.3691.9972292377170327162.b4-ty@arm.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210811064656.15399-1-kishon@ti.com>
-References: <20210811064656.15399-1-kishon@ti.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v28 16/32] x86/mm: Update maybe_mkwrite() for shadow stack
+Message-ID: <YRqaesuEy9ZGttZ6@zn.tnic>
+References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
+ <20210722205219.7934-17-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210722205219.7934-17-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 Aug 2021 12:16:48 +0530, Kishon Vijay Abraham I wrote:
-> Patch series
-> *) Adds support to add virtual functions to enable endpoint controller
->    which supports SR-IOV capability
-> *) Add support in Cadence endpoint driver to configure virtual functions
-> *) Enable pci_endpoint_test driver to create pci_device for virtual
->    functions
-> 
-> [...]
+On Thu, Jul 22, 2021 at 01:52:03PM -0700, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+> index 3364fe62b903..ba449d12ec32 100644
+> --- a/arch/x86/mm/pgtable.c
+> +++ b/arch/x86/mm/pgtable.c
+> @@ -610,6 +610,26 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
+>  }
+>  #endif
+>  
+> +pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+> +{
+> +	if (likely(vma->vm_flags & VM_WRITE))
+> +		pte = pte_mkwrite(pte);
+> +	else if (likely(vma->vm_flags & VM_SHADOW_STACK))
+> +		pte = pte_mkwrite_shstk(pte);
+> +	return pte;
+> +}
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
+> +{
+> +	if (likely(vma->vm_flags & VM_WRITE))
+> +		pmd = pmd_mkwrite(pmd);
+> +	else if (likely(vma->vm_flags & VM_SHADOW_STACK))
+> +		pmd = pmd_mkwrite_shstk(pmd);
 
-Applied to pci/endpoint, thanks!
+What are all those likely()ies here for?
 
-[1/8] dt-bindings: PCI: pci-ep: Add binding to specify virtual function
-      https://git.kernel.org/lpieralisi/pci/c/ea96be4a7b
-[2/8] PCI: endpoint: Add support to add virtual function in endpoint core
-      https://git.kernel.org/lpieralisi/pci/c/b64215ff2b
-[3/8] PCI: endpoint: Add support to link a physical function to a virtual function
-      https://git.kernel.org/lpieralisi/pci/c/555d7c5f83
-[4/8] PCI: endpoint: Add virtual function number in pci_epc ops
-      https://git.kernel.org/lpieralisi/pci/c/22a8013ade
-[5/8] PCI: cadence: Simplify code to get register base address for configuring BAR
-      https://git.kernel.org/lpieralisi/pci/c/9d26fd710f
-[6/8] PCI: cadence: Add support to configure virtual functions
-      https://git.kernel.org/lpieralisi/pci/c/f52e1cf18d
-[7/8] misc: pci_endpoint_test: Populate sriov_configure ops to configure SR-IOV device
-      https://git.kernel.org/lpieralisi/pci/c/681883d1d1
-[8/8] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-      https://git.kernel.org/lpieralisi/pci/c/805ff686a1
+-- 
+Regards/Gruss,
+    Boris.
 
-Thanks,
-Lorenzo
+https://people.kernel.org/tglx/notes-about-netiquette
