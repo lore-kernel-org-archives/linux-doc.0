@@ -2,113 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B23D6C4338F
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 348FCC432BE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:08:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A3C260F38
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1110560F35
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:08:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbhHPRD5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Aug 2021 13:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44730 "EHLO
+        id S229854AbhHPRJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Aug 2021 13:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231799AbhHPRDz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Aug 2021 13:03:55 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43432C0613CF;
-        Mon, 16 Aug 2021 10:03:20 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f08b500a9c2327ac48af0d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:a9c2:327a:c48a:f0d7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 045F31EC0516;
-        Mon, 16 Aug 2021 19:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629133395;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=cdjFAwQRlWFZrMh487IcfeXjtfV+kPYJk4xdQyxxwG8=;
-        b=NUhUMN3z0T5t1Vvly3U2phQ+JRBo7JbQ8+kHQYZTrWatPMnvakMbGX9OCYIvzB8DUgNiZt
-        3rFOUKsALV6KjJSsyxTWCiPKl9M3JpH0v9SzbA6vMHgawtmQG+yebfxl2m+mllhj+FPIrh
-        dQjTxAjZbSBwv9k/ww48hnbm+fPbw5M=
-Date:   Mon, 16 Aug 2021 19:03:54 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S229723AbhHPRJG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Aug 2021 13:09:06 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559AFC061764;
+        Mon, 16 Aug 2021 10:08:34 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so15189159pjb.3;
+        Mon, 16 Aug 2021 10:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ezzl1wWnIMpMxrnM4W7DDVrnVpy6eCY3TnCdM56lXyY=;
+        b=bz0Ae35bR0EHDskVbOAz6ZJTJsciOg38ggObJYVxbzJbN6FSJ2ga3D1fhPcm3CBqpu
+         3K137eUco3rmgdvBI9wOWnRzVqJSHdIRWwzQRZVMq9CYCbapAYdanPceAefq2A03pnEk
+         ScQnPxf2oxwtXTyjKIK2YI3gVybmud2L8ktcDPC9qxhthbEbk0zZQlIxeZhSeuwb5oYW
+         9X2NF47UZc9uMfeoB5Wkg07GZfJzpqJDFJGhSzqy2xMdfwd2JTZXm6fOFfqwndB7PkVO
+         ZXyVbhwHcMWgPdS0q0PU8vFbLywFpxrvVfNCdp9x+byGTE+82sJ4puxpdMTTOxtrG8/d
+         OFdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=ezzl1wWnIMpMxrnM4W7DDVrnVpy6eCY3TnCdM56lXyY=;
+        b=Fxy5dvJq4tNe7bhcGG+PFyDrANErL+Bk2Rzk0HxcGQrtey6TnJE1Xi+X9QtdVIGTMH
+         fSQE4PU4GF7G2YnxYXXgfAvZ5yW7Nt5Clc3fhT+Be7aEGRAfkxrOGABGggW6A64f6cJ8
+         /EusrF5XL6PxJ1Y2Hk+WhM3Jof78XiKYirBzS6qc9iHsqcdavG35NTPzBbTxZNQ/9Bbd
+         EZn4Zh0el7Siu25f1aqP7Pbk0Kq8kkd4k2cvMFrwxvBJ19INSoeNo3GqW+p5eoAxuEbU
+         I5KnvdfLcnrF9cFuOjW+H3ChNpYdho9WSotpm0zl8vwpcXV3wMLh7g363t4JExK2HOkE
+         bFEg==
+X-Gm-Message-State: AOAM533IBAjHkACXhJf7qXRjrVRK5LNzq0hl4cxf7n/n7PLs3ZleCAWC
+        /kTgG0Pue6AtzIM+v5Dead0=
+X-Google-Smtp-Source: ABdhPJxRuP4eiiPsWD4zzp6jNj7ax4FTsTMWJEepxl8GOYruGJOctgnU1X900LAC34J+DvA5dVvmsQ==
+X-Received: by 2002:a63:f241:: with SMTP id d1mr16821140pgk.424.1629133713651;
+        Mon, 16 Aug 2021 10:08:33 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id n23sm13215976pgv.76.2021.08.16.10.08.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 10:08:33 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 16 Aug 2021 07:08:31 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 16/32] x86/mm: Update maybe_mkwrite() for shadow stack
-Message-ID: <YRqaesuEy9ZGttZ6@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-17-yu-cheng.yu@intel.com>
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v6 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YRqbj5+ZdS+7k0Fn@slm.duckdns.org>
+References: <20210814205743.3039-1-longman@redhat.com>
+ <20210814205743.3039-6-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210722205219.7934-17-yu-cheng.yu@intel.com>
+In-Reply-To: <20210814205743.3039-6-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 01:52:03PM -0700, Yu-cheng Yu wrote:
-> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-> index 3364fe62b903..ba449d12ec32 100644
-> --- a/arch/x86/mm/pgtable.c
-> +++ b/arch/x86/mm/pgtable.c
-> @@ -610,6 +610,26 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
->  }
->  #endif
->  
-> +pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
-> +{
-> +	if (likely(vma->vm_flags & VM_WRITE))
-> +		pte = pte_mkwrite(pte);
-> +	else if (likely(vma->vm_flags & VM_SHADOW_STACK))
-> +		pte = pte_mkwrite_shstk(pte);
-> +	return pte;
-> +}
-> +
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
-> +{
-> +	if (likely(vma->vm_flags & VM_WRITE))
-> +		pmd = pmd_mkwrite(pmd);
-> +	else if (likely(vma->vm_flags & VM_SHADOW_STACK))
-> +		pmd = pmd_mkwrite_shstk(pmd);
+On Sat, Aug 14, 2021 at 04:57:42PM -0400, Waiman Long wrote:
+> +	A parent partition may distribute all its CPUs to its child
+> +	partitions as long as it is not the root cgroup and there is no
+> +	task directly associated with that parent partition.  Otherwise,
 
-What are all those likely()ies here for?
+"there is not task directly associated with the parent partition" isn't
+necessary, right? That's already enforced by the cgroup hierarchy itself.
+
+> +	there must be at least one cpu left in the parent partition.
+> +	A new task cannot be moved to a partition root with no effective
+> +	cpu.
+> +
+> +	Once becoming a partition root, changes to "cpuset.cpus"
+> +	is generally allowed as long as the first condition above
+> +	(cpu exclusivity rule) is true.
+
+All the above ultimately says is that "a new task cannot be moved to a
+partition root with no effective cpu", but I don't understand why this would
+be a separate rule. Shouldn't the partition just stop being a partition when
+it doesn't have any exclusive cpu? What's the benefit of having multiple its
+own failure mode?
+
+> +	Sometimes, changes to "cpuset.cpus" or cpu hotplug may cause
+> +	the state of the partition root to become invalid when the
+> +	other constraints of partition root are violated.  Therefore,
+> +	it is recommended that users should always set "cpuset.cpus"
+> +	to the proper value first before enabling partition.  In case
+> +	"cpuset.cpus" has to be modified after partition is enabled,
+> +	users should check the state of "cpuset.cpus.partition" after
+> +	making change to it to make sure that the partition is still
+> +	valid.
+
+So, idk why the this doesn't cover the one above it. Also, this really
+should be worded a lot stronger. It's not just recommended - confirming and
+monitoring the transitions is an integral and essential part of using
+cpuset.
+
+...
+> +	An invalid partition is not a real partition even though the
+> +	restriction of the cpu exclusivity rule will still apply.
+
+Is there a reason we can't bring this in line with other failure behaviors?
+
+> +	In the special case of a parent partition competing with a child
+> +	partition for the only CPU left, the parent partition wins and
+> +	the child partition becomes invalid.
+
+Given that parent partitions are *always* empty, this rule doesn't seem to
+make sense.
+
+So, I think this definitely is a step in the right direction but still seems
+to be neither here or there. Before, we pretended that we could police the
+input when we couldn't. Now, we're changing the interface so that it
+includes configuration failures as an integral part; however, we're still
+policing some particular inputs while letting other inputs pass through and
+trigger failures and why one is handled one way while the other differently
+seems rather arbitrary.
+
+Thanks.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+tejun
