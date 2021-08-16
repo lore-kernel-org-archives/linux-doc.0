@@ -2,77 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B3CC4338F
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 21:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB03C432BE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 22:26:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7AF760E97
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 21:30:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E7B160F55
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 22:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233587AbhHPVbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Aug 2021 17:31:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34994 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232067AbhHPVbS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Aug 2021 17:31:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E57060F41;
-        Mon, 16 Aug 2021 21:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629149446;
-        bh=KEmU9Bigm57pHUOkVoJMJRZUEO1xwhUaBi/gbSqX9B4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ORFM2iqNU5RfMJsDHs1Ztz7RIBTTEqBK3w8IYHyNYME1EBVc9ul5SFqldjMi8A86m
-         Ad1yIMoG3Yi+j1leaM40dS59NVGIYTnyRumM74540CvswTDg122rFMYy8239YSdHmO
-         +ord3bcHw6zxgQOUyBh1h15PARmcBwWCEhfFzkuD4E0xHXdbE8SVoPvWQ6DMqaEEgX
-         IL5d+thWLYXHz5zzQQprwZ8GyFMkkQGG5plWAjioQVl0zXxXhQ22LzNkrDfMPtEp83
-         65Ok8F1tL2Xo2uT2X5u2UA7MjE7JH8FcJ9krI091+cddh6BNBIv1xYzyvb84+U79AK
-         3pL0TreueU5LA==
-Message-ID: <f8674dac5579a8a424de1565f7ffa2b5bf2f8e36.camel@kernel.org>
-Subject: Re: [PATCH v4 1/8] x86/sgx: Add /sys/kernel/debug/x86/sgx_total_mem
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Shuah Khan <shuah@kernel.org>
-Cc:     linux-kselftest@vger.kernel.org, linux-sgx@vger.kernel.org,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date:   Tue, 17 Aug 2021 00:30:43 +0300
-In-Reply-To: <4bcc069d-fafe-11e8-3fac-135e9ece2eec@linuxfoundation.org>
-References: <20210809093127.76264-1-jarkko@kernel.org>
-         <20210809093127.76264-2-jarkko@kernel.org>
-         <4bcc069d-fafe-11e8-3fac-135e9ece2eec@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.40.0-1 
+        id S232419AbhHPW11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Aug 2021 18:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232269AbhHPW10 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Aug 2021 18:27:26 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E19C061764;
+        Mon, 16 Aug 2021 15:26:54 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id i28so10741010lfl.2;
+        Mon, 16 Aug 2021 15:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2UtcWyxKanqewyEomH7eaNfuTOc6IlC0Xy1k7aGXlSE=;
+        b=lcmw3r8FU2y1XXC9wKun2gZLoWzE7JpjpAtecByfo530tgsRxDOB8tgzGswBiNxdOg
+         My4dP3IqasAamCFXowpoKM+/IZ5QzxvF9x05/7pLUUGty3nuoPG7lItd3Ul/5SRzjQMc
+         0gqqzH1mMjVpACQetrx6Uj8BJ4G7U4Rv+ZjJuFHlMl3E57zw29z2Ox2jiMFZPpbJ05VE
+         R2j5/lQkhARZNwJAUPswAoKLErqr8J7eJzPpEEp7jNhpurlZhadZ/dFcQ/DNGiTC6nky
+         2CzYwSZrgREyJ4sLrrWMV54fQ6x/8sN8XFut1Y0WmBkCTIKWEayF3d7KnREIDQHejx9N
+         tG/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2UtcWyxKanqewyEomH7eaNfuTOc6IlC0Xy1k7aGXlSE=;
+        b=WzLbPmu0GznP0kvVGWAO36x+dDch/lO1GKzf72/SYb6H13zFeTWGjZgtDEw8g2wSFy
+         He9wQrGQO1XOz20ZeUFuL8zG5aj+7NtBn+13leT+djo0UmgYISLihAvUUeRLPugh0fQE
+         YlTZSx9fSTYoL2OLOSBArFxw26cn/1tv7F9Iqmr0yPCGwu0VNDZXF9zHgby1gTST8LVn
+         yIqFQsO8+VTGlwORYtR3edgf6JI0pEOwLg2jE6bY/aEU8A7VUaY08Na1JnT6BGEjmTTb
+         ZeCc0otegxDGH89fxPD8PP6hjaisjsHCVrM7e8oHO3rslgTWMPTuo8GWVwtUU+5fe/i8
+         Cz2Q==
+X-Gm-Message-State: AOAM531lWIWqMf/ulK8wPs8c95lMlw6jqR+iHeMVrkc699uqSBm07GAM
+        nKLya4iKem8ET7I6VtDeNCp+SRiqqmh6LdCX
+X-Google-Smtp-Source: ABdhPJyoJ6NSRGihDkLk201nJTRz2gF+IcdRIgJZG2YQ0PK67BT1MS4181R6iv0MD4L3OpHYDLrxmw==
+X-Received: by 2002:ac2:5108:: with SMTP id q8mr41408lfb.334.1629152812907;
+        Mon, 16 Aug 2021 15:26:52 -0700 (PDT)
+Received: from kari-VirtualBox.telewell.oy (85-23-89-224.bb.dnainternet.fi. [85.23.89.224])
+        by smtp.gmail.com with ESMTPSA id j13sm16563lfe.48.2021.08.16.15.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 15:26:52 -0700 (PDT)
+From:   Kari Argillander <kari.argillander@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kari Argillander <kari.argillander@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] docs: fs: Refactor directory-locking.rst for better reading
+Date:   Tue, 17 Aug 2021 01:26:39 +0300
+Message-Id: <20210816222639.73838-1-kari.argillander@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-08-13 at 11:33 -0600, Shuah Khan wrote:
-> Why not add the details you have in the commit log to the document?
-> Also add more details on how to debug/test.
+Reorganize classes so that it is easier to read. Before number 4 was
+written in one lenghty paragraph. It is as long as number 6 and it is
+basically same kind of class (rename()). Also old number 5 was list and
+it is as short as 1, 2, 3 so it can be converted non list.
 
-Agreed, we can re-use it, thanks for the remark. I'll extend it,=20
-but it remains to be seen where exactly it will be documented.
+This makes file now much readible.
 
-I've started to manage this patch as a separate cycle:
+Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
+---
+ .../filesystems/directory-locking.rst         | 31 +++++++++----------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-https://lore.kernel.org/linux-sgx/20210812224645.90280-1-jarkko@kernel.org/=
-T/#u
+diff --git a/Documentation/filesystems/directory-locking.rst b/Documentation/filesystems/directory-locking.rst
+index 504ba940c36c..33921dff7af4 100644
+--- a/Documentation/filesystems/directory-locking.rst
++++ b/Documentation/filesystems/directory-locking.rst
+@@ -11,7 +11,7 @@ When taking the i_rwsem on multiple non-directory objects, we
+ always acquire the locks in order by increasing address.  We'll call
+ that "inode pointer" order in the following.
+ 
+-For our purposes all operations fall in 5 classes:
++For our purposes all operations fall in 6 classes:
+ 
+ 1) read access.  Locking rules: caller locks directory we are accessing.
+ The lock is taken shared.
+@@ -22,26 +22,25 @@ exclusive.
+ 3) object removal.  Locking rules: caller locks parent, finds victim,
+ locks victim and calls the method.  Locks are exclusive.
+ 
+-4) rename() that is _not_ cross-directory.  Locking rules: caller locks
+-the parent and finds source and target.  In case of exchange (with
+-RENAME_EXCHANGE in flags argument) lock both.  In any case,
+-if the target already exists, lock it.  If the source is a non-directory,
+-lock it.  If we need to lock both, lock them in inode pointer order.
+-Then call the method.  All locks are exclusive.
+-NB: we might get away with locking the source (and target in exchange
+-case) shared.
++4) link creation.  Locking rules: lock parent, check that source is not
++a directory, lock source and call the method.  Locks are exclusive.
+ 
+-5) link creation.  Locking rules:
++5) rename() that is _not_ cross-directory.
++Locking rules:
+ 
+-	* lock parent
+-	* check that source is not a directory
+-	* lock source
+-	* call the method.
++	* Caller locks the parent and finds source and target.
++	* In case of exchange (with RENAME_EXCHANGE in flags argument)
++	  lock both the source and the target.
++	* If the target exists, lock it,  If the source is a non-directory,
++	  lock it. If we need to lock both, do so in inode pointer order.
++	* Call the method.
+ 
+ All locks are exclusive.
++NB: we might get away with locking the source (and target in exchange
++case) shared.
+ 
+-6) cross-directory rename.  The trickiest in the whole bunch.  Locking
+-rules:
++6) rename() that _is_ cross-directory.  The trickiest in the whole bunch.
++Locking rules:
+ 
+ 	* lock the filesystem
+ 	* lock parents in "ancestors first" order.
+-- 
+2.30.2
 
-I'll CC you the 1st non-RFC version, and hold on with the patch set
-under discussion up until we get the kernel change first to the
-mainline.
-
-Should happen within couple of days as I think we got quite well
-sorted out with Dave last week, what to do next.
-
-/Jarkko
