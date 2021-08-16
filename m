@@ -2,147 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 348FCC432BE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:08:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA388C4320A
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1110560F35
-	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:08:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9A9D60F42
+	for <linux-doc@archiver.kernel.org>; Mon, 16 Aug 2021 17:21:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhHPRJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 Aug 2021 13:09:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbhHPRJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Aug 2021 13:09:06 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559AFC061764;
-        Mon, 16 Aug 2021 10:08:34 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so15189159pjb.3;
-        Mon, 16 Aug 2021 10:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ezzl1wWnIMpMxrnM4W7DDVrnVpy6eCY3TnCdM56lXyY=;
-        b=bz0Ae35bR0EHDskVbOAz6ZJTJsciOg38ggObJYVxbzJbN6FSJ2ga3D1fhPcm3CBqpu
-         3K137eUco3rmgdvBI9wOWnRzVqJSHdIRWwzQRZVMq9CYCbapAYdanPceAefq2A03pnEk
-         ScQnPxf2oxwtXTyjKIK2YI3gVybmud2L8ktcDPC9qxhthbEbk0zZQlIxeZhSeuwb5oYW
-         9X2NF47UZc9uMfeoB5Wkg07GZfJzpqJDFJGhSzqy2xMdfwd2JTZXm6fOFfqwndB7PkVO
-         ZXyVbhwHcMWgPdS0q0PU8vFbLywFpxrvVfNCdp9x+byGTE+82sJ4puxpdMTTOxtrG8/d
-         OFdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=ezzl1wWnIMpMxrnM4W7DDVrnVpy6eCY3TnCdM56lXyY=;
-        b=Fxy5dvJq4tNe7bhcGG+PFyDrANErL+Bk2Rzk0HxcGQrtey6TnJE1Xi+X9QtdVIGTMH
-         fSQE4PU4GF7G2YnxYXXgfAvZ5yW7Nt5Clc3fhT+Be7aEGRAfkxrOGABGggW6A64f6cJ8
-         /EusrF5XL6PxJ1Y2Hk+WhM3Jof78XiKYirBzS6qc9iHsqcdavG35NTPzBbTxZNQ/9Bbd
-         EZn4Zh0el7Siu25f1aqP7Pbk0Kq8kkd4k2cvMFrwxvBJ19INSoeNo3GqW+p5eoAxuEbU
-         I5KnvdfLcnrF9cFuOjW+H3ChNpYdho9WSotpm0zl8vwpcXV3wMLh7g363t4JExK2HOkE
-         bFEg==
-X-Gm-Message-State: AOAM533IBAjHkACXhJf7qXRjrVRK5LNzq0hl4cxf7n/n7PLs3ZleCAWC
-        /kTgG0Pue6AtzIM+v5Dead0=
-X-Google-Smtp-Source: ABdhPJxRuP4eiiPsWD4zzp6jNj7ax4FTsTMWJEepxl8GOYruGJOctgnU1X900LAC34J+DvA5dVvmsQ==
-X-Received: by 2002:a63:f241:: with SMTP id d1mr16821140pgk.424.1629133713651;
-        Mon, 16 Aug 2021 10:08:33 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id n23sm13215976pgv.76.2021.08.16.10.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 10:08:33 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 16 Aug 2021 07:08:31 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v6 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <YRqbj5+ZdS+7k0Fn@slm.duckdns.org>
-References: <20210814205743.3039-1-longman@redhat.com>
- <20210814205743.3039-6-longman@redhat.com>
+        id S230287AbhHPRWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 Aug 2021 13:22:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37616 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229699AbhHPRWa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Aug 2021 13:22:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3162060F36;
+        Mon, 16 Aug 2021 17:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629134518;
+        bh=T95dy8xDwmnj3xMLg+BxdSqSlJdDFxTpNhwOo+ufyxY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=q/jcjvQp5u7c4Z4NX4k89/A9rvxJX6opl1ESU8/tEAKSG3pbBYPqGiOXIMIlu7aeE
+         VxB6xriFBE2R81fM69E497PuFPIhzmfbR8IJaL4PCQWvpt0eZuUmT1LJ4kqCErljNk
+         zsGHB9OhlpB9p7YroNnkFU2bk1LbDQIDxNe03dGq8cfIexMvwpXuyhBOTAXl/lKdz5
+         3veEAWdG+/ligzxOf1OyiNQdfIx/6GolN6wr8Eq6Xvf+lrkw+DUbaBaKJfCbRwn7tO
+         kEQ/6rMyi+6u2+FXzJh7UzzDGMaC/jXmm6fsFmyAqslon3YLwoivbBgG9ymqyzPzry
+         cmmva8bSOKDEA==
+Date:   Mon, 16 Aug 2021 12:21:56 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc:     Jason Gunthorpe <jgg@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210816172156.GA2928236@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210814205743.3039-6-longman@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2ee30d21-5305-5e58-6fa2-da74b2c8ff5a@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 14, 2021 at 04:57:42PM -0400, Waiman Long wrote:
-> +	A parent partition may distribute all its CPUs to its child
-> +	partitions as long as it is not the root cgroup and there is no
-> +	task directly associated with that parent partition.  Otherwise,
+On Sun, Aug 15, 2021 at 02:27:13AM +0300, Max Gurtovoy wrote:
+> On 8/13/2021 8:44 PM, Bjorn Helgaas wrote:
+> > On Fri, Aug 13, 2021 at 02:21:41AM +0300, Max Gurtovoy wrote:
+> > > On 8/12/2021 11:26 PM, Bjorn Helgaas wrote:
+> > > > On Thu, Aug 12, 2021 at 04:51:26PM -0300, Jason Gunthorpe wrote:
+> > > > > On Thu, Aug 12, 2021 at 10:57:07AM -0500, Bjorn Helgaas wrote:
+> > > > > > On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
+> > > > > > > On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
+> > > > > > > > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
+> > > > > > > > Do the other bus types have a flag analogous to
+> > > > > > > > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
+> > > > > > > > other bus types, it'd be nice if the approach were similar.
+> > > > > > > They could, this series doesn't attempt it. I expect the approach to
+> > > > > > > be similar as driver_override was copied from PCI to other
+> > > > > > > busses. When this is completed I hope to take a look at it.
+> > > > > > I think this would make more sense as two patches:
+> > > > > > 
+> > > > > >     - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
+> > > > > >       since nothing in PCI depends on the VFIO-ness of drivers that use
+> > > > > >       the flag.  The only point here is that driver id_table entries
+> > > > > >       with this flag only match when driver_override matches the driver.
+> > > > > This would require using two flags, one to indicate the above to the
+> > > > > PCI code and another to indicate the vfio_pci string to
+> > > > > file2alias. This doesn't seem justified at this point, IMHO.
+> > > > I don't think it requires two flags.  do_pci_entry() has:
+> > > > 
+> > > >     if (flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
+> > > >       strcpy(alias, "vfio_pci:");
+> > > > 
+> > > > I'm just proposing a rename:
+> > > > 
+> > > > s/PCI_ID_F_VFIO_DRIVER_OVERRIDE/PCI_ID_DRIVER_OVERRIDE/
+> > > > 
+> > > > > >     - Update file2alias.c to export the flags and the "vfio_pci:" alias.
+> > > > > >       This seems to be the only place where VFIO comes into play, and
+> > > > > >       putting it in a separate patch will make it much smaller and it
+> > > > > >       will be clear how it could be extended for other buses.
+> > > > > Well, I don't want to see a flag called PCI_ID_DRIVER_OVERRIDE mapped
+> > > > > to the string "vfio_pci", that is just really confusing.
+> > > > Hahaha, I see, that's fair :)  It confused me for a long time why you
+> > > > wanted "VFIO" in the flag name because from the kernel's point of
+> > > > view, the flag is not related to any VFIO-ness.  It's only related to
+> > > > a special variety of driver_override, and VFIO happens to be one user
+> > > > of it.
+> > > In my original patch I used
+> > > 
+> > > #define PCI_ID_DRIVER_OVERRIDE PCI_ID_F_VFIO_DRIVER_OVERRIDE
+> > > 
+> > > and in the pci core code I used PCI_ID_DRIVER_OVERRIDE in the "if" clause.
+> > > 
+> > > So we can maybe do that and leave the option to future update of the define
+> > > without changing the core code.
+> > > 
+> > > In the future we can have something like:
+> > > 
+> > > #define PCI_ID_DRIVER_OVERRIDE (PCI_ID_F_VFIO_DRIVER_OVERRIDE |
+> > > PCI_ID_F_MY_BUS_DRIVER_OVERRIDE)
+> > > 
+> > > The file2alias.c still have to use the exact PCI_ID_F_VFIO_DRIVER_OVERRIDE
+> > > flag to add "vfio_" prefix.
+> > > 
+> > > Is that better ?
+> > I don't think it's worth having two separate #defines.  If we need
+> > more in the future, we can add them when we need them.
+> 
+> I meant 1 #define and 1 enum:
+> 
+> enum {
+>     PCI_ID_F_VFIO_DRIVER_OVERRIDE    = 1 << 0,
+> };
+> 
+> #define PCI_ID_DRIVER_OVERRIDE PCI_ID_F_VFIO_DRIVER_OVERRIDE
 
-"there is not task directly associated with the parent partition" isn't
-necessary, right? That's already enforced by the cgroup hierarchy itself.
+Basically the same thing.  Doesn't seem worthwhile to me to have both.
+When reading the code, it's not at all obvious why you would define a
+new name for PCI_ID_F_VFIO_DRIVER_OVERRIDE.
 
-> +	there must be at least one cpu left in the parent partition.
-> +	A new task cannot be moved to a partition root with no effective
-> +	cpu.
-> +
-> +	Once becoming a partition root, changes to "cpuset.cpus"
-> +	is generally allowed as long as the first condition above
-> +	(cpu exclusivity rule) is true.
+> > What if we renamed "flags" to be specifically for this override case,
+> > e.g., "override_only"?  Then the flag could be
+> > PCI_ID_F_VFIO_DRIVER_OVERRIDE, which would trigger a "vfio_" prefix in
+> > file2alias.c, but pci_match_device() could just check for it being
+> > non-zero, without caring whether the reason is VFIO or something else,
+> > e.g.,
+> > 
+> >    pci_match_device(...)
+> >    {
+> >      ...
+> >      if (found_id->override_only) {
+> >        if (dev->driver_override)
+> >          return found_id;
+> >        ...
+> 
+> Jason suggested something like this:
+> 
+> static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
+>                             struct pci_dev *dev)
+> {
+>     struct pci_dynid *dynid;
+>     const struct pci_device_id *found_id = NULL, *ids;
+> 
+>     /* When driver_override is set, only bind to the matching driver */
+>     if (dev->driver_override && strcmp(dev->driver_override, drv->name))
+>         return NULL;
+> 
+>     /* Look at the dynamic ids first, before the static ones */
+>     spin_lock(&drv->dynids.lock);
+>     list_for_each_entry(dynid, &drv->dynids.list, node) {
+>         if (pci_match_one_device(&dynid->id, dev)) {
+>             found_id = &dynid->id;
+>             break;
+>         }
+>     }
+>     spin_unlock(&drv->dynids.lock);
+> 
+>     if (found_id)
+>         return found_id;
+> 
+>     for (ids = drv->id_table; (found_id = pci_match_id(ids, dev));
+>          ids = found_id + 1) {
+>         /*
+>          * The match table is split based on driver_override. Check the
+>          * flags as well so that any matching
+>          * PCI_ID_F_VFIO_DRIVER_OVERRIDE entry is returned.
+>          */
+>         if (!(found_id->flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE) ||
+>             dev->driver_override)
+>             return found_id;
+>     }
+> 
+>     /*
+>      * if no static match, driver_override will always match, send a dummy
+>      * id.
+>      */
+>     if (dev->driver_override)
+>         return &pci_device_id_any;
+>     return NULL;
+> }
+> 
+> 
+> It looks good to me as well.
 
-All the above ultimately says is that "a new task cannot be moved to a
-partition root with no effective cpu", but I don't understand why this would
-be a separate rule. Shouldn't the partition just stop being a partition when
-it doesn't have any exclusive cpu? What's the benefit of having multiple its
-own failure mode?
+I missed your point.  Isn't the above basically the 09/12 patch [1] we're
+talking about?
 
-> +	Sometimes, changes to "cpuset.cpus" or cpu hotplug may cause
-> +	the state of the partition root to become invalid when the
-> +	other constraints of partition root are violated.  Therefore,
-> +	it is recommended that users should always set "cpuset.cpus"
-> +	to the proper value first before enabling partition.  In case
-> +	"cpuset.cpus" has to be modified after partition is enabled,
-> +	users should check the state of "cpuset.cpus.partition" after
-> +	making change to it to make sure that the partition is still
-> +	valid.
+Yes, I see the code structure is slightly different, but the question
+we're talking about here is the name of the "flags" field and the enum
+or #define for the VFIO bit.
 
-So, idk why the this doesn't cover the one above it. Also, this really
-should be worded a lot stronger. It's not just recommended - confirming and
-monitoring the transitions is an integral and essential part of using
-cpuset.
+> I prefer the "flags" naming since its more generic and easy to extend.
 
-...
-> +	An invalid partition is not a real partition even though the
-> +	restriction of the cpu exclusivity rule will still apply.
+We don't need to worry about "flags" being generic or extensible until
+we need to extend it.  It's easy to fiddle with it at that point.
 
-Is there a reason we can't bring this in line with other failure behaviors?
+> can we continue with the above suggestion for V2 ?
 
-> +	In the special case of a parent partition competing with a child
-> +	partition for the only CPU left, the parent partition wins and
-> +	the child partition becomes invalid.
+I don't see what really changed with the above suggestion.
 
-Given that parent partitions are *always* empty, this rule doesn't seem to
-make sense.
+The point I'm trying to make is that using PCI_ID_F_VFIO_DRIVER_OVERRIDE 
+in pci_match_device() suggests that the code there has some connection
+or dependency on VFIO, but it does not.
 
-So, I think this definitely is a step in the right direction but still seems
-to be neither here or there. Before, we pretended that we could police the
-input when we couldn't. Now, we're changing the interface so that it
-includes configuration failures as an integral part; however, we're still
-policing some particular inputs while letting other inputs pass through and
-trigger failures and why one is handled one way while the other differently
-seems rather arbitrary.
-
-Thanks.
-
--- 
-tejun
+[1] https://lore.kernel.org/r/20210721161609.68223-10-yishaih@nvidia.com
