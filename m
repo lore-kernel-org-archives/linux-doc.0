@@ -2,114 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E019C43214
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Aug 2021 21:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED7DC432BE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Aug 2021 21:23:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1345661029
-	for <linux-doc@archiver.kernel.org>; Tue, 17 Aug 2021 21:00:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B29B6102A
+	for <linux-doc@archiver.kernel.org>; Tue, 17 Aug 2021 21:23:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234082AbhHQVBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 Aug 2021 17:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhHQVBT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Aug 2021 17:01:19 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F79C061764;
-        Tue, 17 Aug 2021 14:00:45 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f1175002d6ed1db7aad8219.dip0.t-ipconnect.de [IPv6:2003:ec:2f11:7500:2d6e:d1db:7aad:8219])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ECBC61EC054F;
-        Tue, 17 Aug 2021 23:00:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629234040;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mXsfggRjwQDlm0H7Ke4Yg4s+PjvD0gM8YpelP0TsXHU=;
-        b=h50TDWS4H9GdDodATzIk47AkyXvA4xxH+tNY8zodUJbiv66vz2uFecq8W13pkePmohzcG+
-        9bTxxFbcNJNR6KjEBv4mabKrZU3gRqlEIj14TxD1Hrp0arnMYTBjLNHIqwAoViz5K4MhkU
-        9jeBsoXMtMB5jcgWi4P1gXtqA77We3I=
-Date:   Tue, 17 Aug 2021 23:01:18 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "luto@amacapital.net" <luto@amacapital.net>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 09/32] x86/mm: Introduce _PAGE_COW
-Message-ID: <YRwjnmT9O8jYmL/9@zn.tnic>
-References: <YRwT7XX36fQ2GWXn@zn.tnic>
- <1A27F5DF-477B-45B7-AD33-CC68D9B7CB89@amacapital.net>
- <YRwbD1hCYFXlYysI@zn.tnic>
- <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+        id S234794AbhHQVY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 Aug 2021 17:24:28 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:60697 "EHLO
+        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230515AbhHQVY1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Aug 2021 17:24:27 -0400
+Date:   Tue, 17 Aug 2021 21:23:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1629235431;
+        bh=fq9xtSctpJFOJ0TUdfdUrM7+LLteSdnTo3nOM0tSV4Y=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=WVUSHfN8sBdp7xCLftG2i3HX3FLYSTXW22nDka7mgYvTVp/K7tgnZj/1xTcU4L+kN
+         vaO8Q+qkgC+QUeGfq3i3o0RRACkHV6An7t2hQ8iI1HWfYa9Z31YEsjDs7RE1OX7kgA
+         Nn5tlCCESlVU/4pwq7vdpdwaLUcM6ox1mvf7n8rY=
+To:     Randy Dunlap <rdunlap@infradead.org>
+From:   pioneer695 <pioneer695@protonmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Reply-To: pioneer695 <pioneer695@protonmail.com>
+Subject: Re: make cleandocs issue: rm -rf /output when obj not defined
+Message-ID: <WixHEp3fUSF_o1Jlx9vrXMktH8NiBsrlkrt1DdlxjMW0nWodwmEDDN362q_abrg6ZNERbKy27jdOwbk0CMqQSB4-MsJFyVrJVvDymp9bg44=@protonmail.com>
+In-Reply-To: <5e93f77f-79a5-7dc9-287e-a48865afd133@infradead.org>
+References: <hMV_L3bAsgmBToxsfiYBJDxTBoLHll-1BOk7FvqialjmZFNDp14Bq69ddTVagVH49yViCM43-yFpZ39Kfr6geVK7ota0QhCDA4MaC_5vILY=@protonmail.com> <875ywyw3ui.fsf@meer.lwn.net> <5e93f77f-79a5-7dc9-287e-a48865afd133@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 01:51:52PM -0700, Andy Lutomirski wrote:
-> WRSS can be used from user mode depending on the configuration.
+Hi,
 
-My point being, if you're going to do shadow stack management
-operations, you should check whether the target you're writing to is a
-shadow stack page. Clearly userspace can't do that but userspace will
-get notified of that pretty timely.
+Sorry for a rather delayed feedback. Got cut of due to various circumstance=
+s in real life. Added a comment below.
 
-> Double-you shmouble-you. You can't write it with MOV, but you can
-> write it from user code and from kernel code. As far as the mm is
-> concerned, I think it should be considered writable.
+=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original Me=
+ssage =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90
 
-Because?
+On Sunday, July 25th, 2021 at 10:53 PM, Randy Dunlap <rdunlap@infradead.org=
+> wrote:
 
-> Although... anyone who tries to copy_to_user() it is going to be a bit
-> surprised. Hmm.
+> On 7/25/21 1:11 PM, Jonathan Corbet wrote:
+>
+> > pioneer695 pioneer695@protonmail.com writes:
+> >
+> > > In an attempt to get some readable documentation I cloned the git rep=
+ository
+> > >
+> > > to check how the PDF format is.
+> > >
+> > > Entered Documentation and proceeded with:
+> > >
+> > > make pdfdocs
+>
+> Hi,
+>
+> I'm curious about this part above. Are you saying that you did:
+>
+> cd Documentation
+>
+> make pdfdocs
+>
+> I've never tried that and don't expect it to be done that way.
+>
+> I do (from the top of the kernel source tree):
+>
+> make pdfdocs
+>
+> or
+>
+> make htmldocs
+>
+> with no problems, other than I may not have all of the latex
+>
+> tools installed.
+>
 
-Ok, so you see the confusion.
+Yes. This is correct. After realizing my errors building from root gave no =
+issues. I thought the Documentation was a separate make tree from the rest.
 
-In any case, I don't think you can simply look at a shadow stack page as
-simple writable page. There are cases where it is going to be fun.
+IF it could be an issue, beyond my stupidity, a simple README that say *bui=
+ld this from root* or similar should suffice in my opinion. I always look f=
+or README, COMPILING or the like (but that's me).
 
-So why are we even saying that a shadow stack page is writable? Why
-can't we simply say that a shadow stack page is, well, something
-special?
+~pioneer695
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> > > which failed, so to start fresh, my thought was that:
+> > >
+> > > make cleandocs
+> > >
+> > > would be the next step before anything else. But, this resulted in:
+> > >
+> > > rm -rf /output
+> >
+> > That's not good...
+> >
+> > > as $(obj) for some reason was empty.
+> >
+> > This would appear to be the real problem. If you could do some
+> >
+> > digging to figure out why that happened, I suspect that would be
+> >
+> > useful.
+> >
+> > > Makefile for Documentation has:
+> > >
+> > > BUILDDIR =3D $(obj)/output
+> > >
+> > > cleandocs:
+> > >
+> > > $(Q)rm -rf $(BUILDDIR)
+> > >
+> > > This should (at least?!) be:
+> > >
+> > > BUILDDIR =3D ./$(obj)/output
+> > >
+> > > or:
+> > >
+> > > $(Q)rm -rf ./$(BUILDDIR)
+> >
+> > These would break builds for a lot of people and are not the right
+> >
+> > solution.
+>
+> --
+>
+> ~Randy
