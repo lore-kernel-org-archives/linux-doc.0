@@ -5,120 +5,130 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94149C4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28CF5C432BE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:47:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ED4C6109F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:28:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12E30610D2
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:47:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233849AbhHRP3H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 11:29:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36220 "EHLO
+        id S237494AbhHRPsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 11:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238837AbhHRP3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 11:29:07 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876B7C061764;
-        Wed, 18 Aug 2021 08:28:32 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id l11so2022989plk.6;
-        Wed, 18 Aug 2021 08:28:32 -0700 (PDT)
+        with ESMTP id S240058AbhHRPsL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 11:48:11 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60663C061796;
+        Wed, 18 Aug 2021 08:47:33 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id a126so6132324ybg.6;
+        Wed, 18 Aug 2021 08:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dT+pL+9YhtUImpcGN/cKN8jzBfuzVCiFl8hmF6VGry0=;
-        b=hD3mxBhnDdODBl5zrCmekRuyAN49XWYkOcgChl79sRL1WCPUAuS5sDnhh8IeB80ab9
-         RhOqTw8wduv5KWLenIcV0a0/dMAHR+ewwJYm6xaZpKNA0rHrO7I9GxxJgBl9VgpeTqqT
-         pw0eQQ+s2z4wz11RAu+nyA4UCDz4ooPceIeLdoVYki8A56TaRrjcsNVYt1EVoLLesx/9
-         u6erXipMKMQkZa1UF3Ik568mL57hskgp8b4OMc/fkl5pT+C9wcE4kohy5Dtp/+hxFNr7
-         EIHPWWjl8EUmlN3dUD5RLsV6BCSwrmy9vRhhEx7+SgLTfkwFHqwd1OujaiSGaK91V8Hb
-         rn+w==
+        bh=JOrhWSG8tjo5OSgprY2llNKO2ACxIKOE7ZmEL78dvtA=;
+        b=lnkPfyjpYTKtkW0YIEaCP0fpL/NjGrkOQlEMxEXRlBSsNUzoegDivDw2F8Afx5bPuP
+         dpiZ58rSEc0ylRTvgkN4nErsvEqcTuO4iDb4r9WcCXSohzB9f8Op7DsW5M4U5AyB4//9
+         qAzZBzAxGGlFq4hrDCqm9nNHEzbzYaWzWPD+5HK73W6bVLj0vgyr8HMyw6KIYoxqB0RE
+         3aYUHs3+UncBIMHaWnj3yjKjMowIsz0i5jSGqR6CLkNPz3zI7CfVhSmvK1iMagUn0q2H
+         9PNnnhw3K9eB7zxCp/S2Sa3Vo1cEeqZG72ptLClwHxMlTDluDq8asQ5k7EWrKHrjAbfQ
+         bmIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dT+pL+9YhtUImpcGN/cKN8jzBfuzVCiFl8hmF6VGry0=;
-        b=AtySR+V5gvPlj3XyXIXFgAUOyk51VvBWDymQdrvF8gAaVq2SuqzmU7fIKa8BXzOfCd
-         B5X1+cs1nEM6/icKPG2zLGFKSuNSyajaixkfy5B1gBk2dvJukccVbX2cfenzM6+2HO9c
-         n31dVhLewIwW4QM3vlXJn7fojEtToz07hPXN8h0bFfGMZbmtp+navo6EO7aV4oOGFZX+
-         1I2zCUhsPd9C7dFI32+oRVLtAk+auD4eM+IPzafackJXtfjAlsN5lfsDL7K4LA2r83MC
-         mp6ZTZXlq8BdYKCq7KiBV4yxMToxsRQCFJp5TAknU2DHPd8boAY29NjNov7Kvp1KMvS0
-         KEPQ==
-X-Gm-Message-State: AOAM532CYwBuiw1xLtI4D/Ff5wC9CtD+iZdIrJmFqoNG4Da5BSA+E4Mq
-        HwH8u/56Nr14TTFGxfXIlLCDrl27MxqPNQidfY8=
-X-Google-Smtp-Source: ABdhPJz37Yoh/AQvwctMhVs2WQyFUTaJPKB6tkwCcsPDUiRztdii+LOHXMP3q4VbsAXM9iNGkqkeUajI37fr6Cquw2E=
-X-Received: by 2002:a17:902:bb81:b0:12d:a7ec:3d85 with SMTP id
- m1-20020a170902bb8100b0012da7ec3d85mr7739762pls.17.1629300511960; Wed, 18 Aug
- 2021 08:28:31 -0700 (PDT)
+        bh=JOrhWSG8tjo5OSgprY2llNKO2ACxIKOE7ZmEL78dvtA=;
+        b=CW0aTAN0VnQd+im03tlUk+ddjrSWNbriRyNxXtFDCWm2D/Nr05hy748YVUJv2JnSNT
+         h/Z9CUKwbMy5j21U5nqcO33IMN6AEqF58b3jGN8Rdv7FsslTWQjHqszoDPhUciGW5WeM
+         yJzORYZ9JZaVesNzSZIlUgfJj2hUH4tfRsa+ubtl58RuAkd93Za2tsAzTppIfGR2a6xv
+         XgeyGBq4rk6EF+Ra80zFDLId3RdRx5GdWqE/liasBlaXvI4yKDDet9rYRsvkc5MeIgDp
+         WJsayycwkxL1azqCHIApt4iolYss9Un/YJzFxH4oVbbAOh7h6nrMAmKoML8bwThU9vcw
+         5wtA==
+X-Gm-Message-State: AOAM530N6C5YQSVvwAmzfmOFj7gibPDPSRjX+zQV/IMvbZmWXzrtNXM4
+        8ISRpTvIoL4QfNDfNYFiElEBdvo3rKOM3AefYZs=
+X-Google-Smtp-Source: ABdhPJyR8QdcODzDgT542cUdR9MMX31xJ9TBOBbg8rC/FPv6K014VhQRs/xKw6Ltm4n0i4SuwWZFfWxyJ/3jdqSG+0A=
+X-Received: by 2002:a25:5054:: with SMTP id e81mr12147806ybb.510.1629301652564;
+ Wed, 18 Aug 2021 08:47:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210818151315.9505-1-daniel.thompson@linaro.org> <20210818151315.9505-2-daniel.thompson@linaro.org>
-In-Reply-To: <20210818151315.9505-2-daniel.thompson@linaro.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Aug 2021 18:27:52 +0300
-Message-ID: <CAHp75VdDZJ+aUtx-A3y62WQ5+OtrS47Ts6PDe1bGQ0OcRRV+7Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation: dmaengine: Add a description of what
- dmatest does
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        patches@linaro.org, Haavard Skinnemoen <hskinnemoen@atmel.com>
+References: <20210818151313.49992-1-grantseltzer@gmail.com>
+In-Reply-To: <20210818151313.49992-1-grantseltzer@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Wed, 18 Aug 2021 08:47:21 -0700
+Message-ID: <CAEf4BzavDNohwRpQmuow2PRzqnnRBWnOvMxx3Xbgudgv5=K6TA@mail.gmail.com>
+Subject: Re: [PATCH] Rename libbpf documentation index file
+To:     grantseltzer <grantseltzer@gmail.com>
+Cc:     Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 6:15 PM Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
+On Wed, Aug 18, 2021 at 8:13 AM grantseltzer <grantseltzer@gmail.com> wrote:
 >
-> Currently it can difficult to determine what dmatest does without
-> reading the source code. Let's add a description.
+> From: Grant Seltzer <grantseltzer@gmail.com>
 >
-> The description is taken mostly from the patch header of
-> commit 4a776f0aa922 ("dmatest: Simple DMA memcpy test client")
-> although it has been edited and updated slightly.
-
-> Signed-off-by: Haavard Skinnemoen <hskinnemoen@atmel.com>
-
-Not sure if you can use it like this (I mean the above SoB)
-Otherwise it's a good idea, thanks!
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+> This patch renames a documentation libbpf.rst to index.rst. In order
+> for readthedocs to pick this file up and properly build the
+> documentation site.
+>
+> It also changes the title type of the ABI subsection in the
+> naming convention doc. This is so that readthedocs doesn't treat this
+> section as a seperate document.
+>
+> Signed-off-by: Grant Seltzer <grantseltzer@gmail.com>
 > ---
->  Documentation/driver-api/dmaengine/dmatest.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+
+Please don't forget to add [PATCH bpf-next] to your future patches.
+Also libbpf-related patches should come with "libbpf: " prefix in
+patch subject.
+
+Applied to bpf-next, thanks.
+
+
+>  Documentation/bpf/libbpf/{libbpf.rst => index.rst}    | 8 ++++++++
+>  Documentation/bpf/libbpf/libbpf_naming_convention.rst | 2 +-
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+>  rename Documentation/bpf/libbpf/{libbpf.rst => index.rst} (75%)
 >
-> diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
-> index ee268d445d38..529cc2cbbb1b 100644
-> --- a/Documentation/driver-api/dmaengine/dmatest.rst
-> +++ b/Documentation/driver-api/dmaengine/dmatest.rst
-> @@ -6,6 +6,16 @@ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> diff --git a/Documentation/bpf/libbpf/libbpf.rst b/Documentation/bpf/libbpf/index.rst
+> similarity index 75%
+> rename from Documentation/bpf/libbpf/libbpf.rst
+> rename to Documentation/bpf/libbpf/index.rst
+> index 1b1e61d5ead1..4f8adfc3ab83 100644
+> --- a/Documentation/bpf/libbpf/libbpf.rst
+> +++ b/Documentation/bpf/libbpf/index.rst
+> @@ -3,6 +3,14 @@
+>  libbpf
+>  ======
 >
->  This small document introduces how to test DMA drivers using dmatest module.
->
-> +The dmatest module tests DMA memcpy, memset, XOR and RAID6 P+Q operations using
-> +various lengths and various offsets into the source and destination buffers. It
-> +will initialize both buffers with a repeatable pattern and verify that the DMA
-> +engine copies the requested region and nothing more. It will also verify that
-> +the bytes aren't swapped around, and that the source buffer isn't modified.
+> +For API documentation see the `versioned API documentation site <https://libbpf.readthedocs.io/en/latest/api.html>`_.
 > +
-> +The dmatest module can be configured to test a specific channel. It can also
-> +test multiple channels at the same time, and it can start multiple threads
-> +competing for the same channel.
+> +.. toctree::
+> +   :maxdepth: 1
 > +
->  .. note::
->    The test suite works only on the channels that have at least one
->    capability of the following: DMA_MEMCPY (memory-to-memory), DMA_MEMSET
+> +   libbpf_naming_convention
+> +   libbpf_build
+> +
+>  This is documentation for libbpf, a userspace library for loading and
+>  interacting with bpf programs.
+>
+> diff --git a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> index 6bf9c5ac7576..9c68d5014ff1 100644
+> --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> @@ -69,7 +69,7 @@ functions. These can be mixed and matched. Note that these functions
+>  are not reentrant for performance reasons.
+>
+>  ABI
+> -==========
+> +---
+>
+>  libbpf can be both linked statically or used as DSO. To avoid possible
+>  conflicts with other libraries an application is linked with, all
 > --
-> 2.30.2
+> 2.31.1
 >
-
-
--- 
-With Best Regards,
-Andy Shevchenko
