@@ -2,183 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0212C4320E
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE07C4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:13:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0FF06108F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:56:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10F576104F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237458AbhHRN4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 09:56:38 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:52820 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236970AbhHRN4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 09:56:38 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17IDtUbX104904;
-        Wed, 18 Aug 2021 08:55:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1629294930;
-        bh=/SM7hS5s/+pWFzi30GOYLIjoFM9YcVwy3bRzaQGqTvo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=ghTl1mD69mVfxcDyDXbA11WBlA0PvG3TwRD4Lj544RjjKOkst9FqCPvdpP2lpf4uz
-         K5+8MwEElG/B4NPLRfTzovEBVKee7w0+G5wrG3f6BVaFxzwovH4JD9ak6DG0ryVDrY
-         SwOBE1LDTWYJrJX2PMbbTx2o6OP15YhLcpvUd6kM=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17IDtUGN116309
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 18 Aug 2021 08:55:30 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 18
- Aug 2021 08:55:30 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 18 Aug 2021 08:55:30 -0500
-Received: from [10.250.232.133] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17IDtK7Q105937;
-        Wed, 18 Aug 2021 08:55:22 -0500
-Subject: Re: [PATCH v8 6/8] PCI: cadence: Add support to configure virtual
- functions
-To:     Bjorn Helgaas <helgaas@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210817153852.GA3016660@bjorn-Precision-5520>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <ce380e6f-d10a-4db2-9bde-82615cfbe4db@ti.com>
-Date:   Wed, 18 Aug 2021 19:25:09 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S239854AbhHRPO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 11:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239832AbhHRPOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 11:14:24 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F321C0613CF
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 08:13:49 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id l11so4114766wrx.4
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 08:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qoZ5/2UWBHWiefaepOTj74QF+R/T3B3ep4P+G4GpmBk=;
+        b=ysQzummWZFRxjHAe7mXB3AHPWLwPUtmjc0LuCo4tsGWjD8BK3nI23I0aPbHxcfWwrR
+         p/QhgIb0gnva9hU7RUPeBtLSw8BlPKv2r0yUh7sB08OHEZCl0v718i5EuaPnYfy4oQPB
+         u9lcoG3GGKvEecvMu8wDx76Zb95XHqILqOUF8uGxfgGvIlcFnyyKN0QbzliUXqklpVnI
+         xaP2Cbu5UFhZwD0tfcZD7UmwUOonanb8Zu60T1x1ILMj8yg6ykHXaWPHWTwgR5RkPE3H
+         6w+nAOk9d13UVxTtnG6DwFw0p4NOb47S0JtGo1r90p63X0cObJ8Il1aMIpVaSoGrlVmI
+         ZaXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qoZ5/2UWBHWiefaepOTj74QF+R/T3B3ep4P+G4GpmBk=;
+        b=ZOerFir/nutCf9LZRW2GgBFaf3iPhlmr8390XW6LXjqYJSEexeryP6f32zz1+rAAZY
+         QbYzbyRVSGszbvLS2HxGj4oqs4W6r5wdgD/BWWgKL3uOQjUKh4/4Ad1KdcT0JY+ZqYm9
+         SSMV3Kzn0jU2ZzcKqdXx2DLiT9NcNYcjkwGzJIumF4/zCSa0bz6j+6WFszJ69JuxKJ/r
+         D45DN+/xIeAeUIYJe0dbDS2ftum90GCPyzgcyE7ezbIFjyxvv5u+PaPHRfhJo9BTMqcu
+         JPMNQK/M6w84ZgUS5EHn9wpdVxp2dwBDj3RFMSumToAOUspTxJ3K8M1Qwt+wbeS+XYOd
+         XdTg==
+X-Gm-Message-State: AOAM530G1Ux/45egMxZFUnu2BFb3ttnFrOMHRph53iwKd2KG4cgDMOgc
+        tm6i9AdwQgsiWYc0NCMFNP5YRg==
+X-Google-Smtp-Source: ABdhPJyhbAySDzbEYd9YP+taXFk34acrm5nzmziQoBK+X7ZLqDuRGhC7C//Qyf5SMo+wHxmRvOkcMA==
+X-Received: by 2002:adf:f20d:: with SMTP id p13mr11240480wro.95.1629299628146;
+        Wed, 18 Aug 2021 08:13:48 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id l21sm101829wmh.31.2021.08.18.08.13.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 08:13:47 -0700 (PDT)
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@linaro.org
+Subject: [PATCH 0/2] Documentation: dmaengine: Tweak dmatest docs
+Date:   Wed, 18 Aug 2021 16:13:13 +0100
+Message-Id: <20210818151315.9505-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210817153852.GA3016660@bjorn-Precision-5520>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bjorn,
+A couple of small improvements to the dmatest documentation.
 
-On 17/08/21 9:08 pm, Bjorn Helgaas wrote:
-> On Wed, Aug 11, 2021 at 12:16:54PM +0530, Kishon Vijay Abraham I wrote:
->> Now that support for SR-IOV is added in PCIe endpoint core, add support
->> to configure virtual functions in the Cadence PCIe EP driver.
->>
->> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
->> ---
->>  .../pci/controller/cadence/pcie-cadence-ep.c  | 136 +++++++++++++++---
->>  drivers/pci/controller/cadence/pcie-cadence.h |   9 ++
->>  2 files changed, 125 insertions(+), 20 deletions(-)
-> 
->> @@ -92,21 +118,29 @@ static int cdns_pcie_ep_set_bar(struct pci_epc *epc, u8 fn, u8 vfn,
->>  
->>  	addr0 = lower_32_bits(bar_phys);
->>  	addr1 = upper_32_bits(bar_phys);
->> -	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR0(fn, bar),
->> -			 addr0);
->> -	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR1(fn, bar),
->> -			 addr1);
->>  
->>  	reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
->> +	if (vfn == 1)
->> +		reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
-> 
-> Seems sort of weird to compute "reg", then sometimes overwrite it, as
-> opposed to:
-> 
->   if (vfn == 1)
->     reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
->   else
->     reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
+The first provides a description of what the test actually does.  The
+second corrects the description of how the test behaves if the channel
+parameter is not configured.
 
-I tried to write it without "else". But I can change it back.
-> 
-> Also slightly weird that "vfn" is basically used as a boolean, but
-> it's actually a u8 virtual function number.  I guess VF 1 is special
-> and not like the other VFs?
+Daniel Thompson (2):
+  Documentation: dmaengine: Add a description of what dmatest does
+  Documentation: dmaengine: Correctly describe dmatest with channel
+    unset
 
-VF1 is special in that it's enough for configuring the SR-IOV capability
-but below the "vfn" is used for configuring inbound window.
+ Documentation/driver-api/dmaengine/dmatest.rst | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-Thanks
-Kishon
-> 
->>  	b = (bar < BAR_4) ? bar : bar - BAR_4;
->>  
->> -	cfg = cdns_pcie_readl(pcie, reg);
->> -	cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
->> -		 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
->> -	cfg |= (CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE(b, aperture) |
->> -		CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl));
->> -	cdns_pcie_writel(pcie, reg, cfg);
->> +	if (vfn == 0 || vfn == 1) {
->> +		cfg = cdns_pcie_readl(pcie, reg);
->> +		cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
->> +			 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
->> +		cfg |= (CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE(b, aperture) |
->> +			CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl));
->> +		cdns_pcie_writel(pcie, reg, cfg);
->> +	}
->>  
->> +	fn = cdns_pcie_get_fn_from_vfn(pcie, fn, vfn);
->> +	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR0(fn, bar),
->> +			 addr0);
->> +	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR1(fn, bar),
->> +			 addr1);
->> +
->> +	if (vfn > 0)
->> +		epf = &epf->epf[vfn - 1];
->>  	epf->epf_bar[bar] = epf_bar;
->>  
->>  	return 0;
->> @@ -122,18 +156,25 @@ static void cdns_pcie_ep_clear_bar(struct pci_epc *epc, u8 fn, u8 vfn,
->>  	u32 reg, cfg, b, ctrl;
->>  
->>  	reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
->> +	if (vfn == 1)
->> +		reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
-> 
-> Similar recomputation of "reg".
-> 
->>  	b = (bar < BAR_4) ? bar : bar - BAR_4;
->>  
->> -	ctrl = CDNS_PCIE_LM_BAR_CFG_CTRL_DISABLED;
->> -	cfg = cdns_pcie_readl(pcie, reg);
->> -	cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
->> -		 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
->> -	cfg |= CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl);
->> -	cdns_pcie_writel(pcie, reg, cfg);
->> +	if (vfn == 0 || vfn == 1) {
->> +		ctrl = CDNS_PCIE_LM_BAR_CFG_CTRL_DISABLED;
->> +		cfg = cdns_pcie_readl(pcie, reg);
->> +		cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
->> +			 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
->> +		cfg |= CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl);
->> +		cdns_pcie_writel(pcie, reg, cfg);
->> +	}
+
+base-commit: 7c60610d476766e128cc4284bb6349732cbd6606
+--
+2.30.2
+
