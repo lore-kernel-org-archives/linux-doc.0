@@ -2,113 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE8AC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C4FC432BE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:34:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3E49610FD
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:28:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38406610FF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:34:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbhHRS2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 14:28:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33960 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhHRS2g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Aug 2021 14:28:36 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3CC0C60E90;
-        Wed, 18 Aug 2021 18:28:01 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1mGQIB-005ofQ-6o; Wed, 18 Aug 2021 19:27:59 +0100
-Date:   Wed, 18 Aug 2021 19:27:58 +0100
-Message-ID: <878s0ysj4h.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S229965AbhHRSej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 14:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229952AbhHRSei (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 14:34:38 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D661C0613D9
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 11:34:03 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id f16-20020a056830205000b00519b99d3dcbso5272249otp.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 11:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Vgeh/MzsdgwRSXW6dyIwI2/BL0uvJknZ4Sn+7U4jq50=;
+        b=DhCQE9W2ArEvgMqCCf1kvbZPaabjdblH2zbUsaT4Jgemxapu3HQp0ev2pW9UhBaxXz
+         eBamkvJRYr/6gZES2Wi4gkMgt77GnYA/bJaC6EcaEFJaXe6/OPtusvv7eb5NUfYKswOr
+         uw34Gz62iOzUc4iMbHzdngw0NEN+Y0zN+vTLo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Vgeh/MzsdgwRSXW6dyIwI2/BL0uvJknZ4Sn+7U4jq50=;
+        b=Bg6oUzdWMx4ixrAVQDiH9fhV0GODWMg8iPYC21XqSPbFIhXEGzeHxCqw2Doro4Kw5n
+         AV3U8yztDkDTlrrLv9NQVmdV6Xw24LZYMr7UYbjF53j2plvWErCcY2IpR9INpKCUpyAe
+         cQ8ZmYydE/KjVXsud4bsYgpbGUo58hSM80cC7G4Atd7jnizaV4OCsVg+Qtfw95PKYj0L
+         5jYJhO5VkyJpioczScO0NUPSwLyLgu24mvKN2WJ9/HeiAEJugZ0o8Ku4rXYawmc/VdRr
+         Iq5nI7221xRoBygHs04FG+NEmjyUOzoUPF41HsCnPRbTRMWShTsCBCbsYNk9hFCxhxCS
+         JNEg==
+X-Gm-Message-State: AOAM530qiyaZq27Y5YMK/2c/XiknT5PHpK36JOY6a9zw2j3ZbaKMYuk5
+        71F8yhTO7xiPPomvgTyxurGXyw==
+X-Google-Smtp-Source: ABdhPJxMhv6/aTc07g+aRu0kKwlSBZngH3ac2/UzBiPg0iYY592dYXV1r/vGD/eQSlFnx2neGTkSkg==
+X-Received: by 2002:a9d:887:: with SMTP id 7mr8265142otf.120.1629311642661;
+        Wed, 18 Aug 2021 11:34:02 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id j6sm112299ooj.11.2021.08.18.11.34.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 11:34:02 -0700 (PDT)
+Subject: Re: [PATCH] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        Jethro Beekman <jethro@fortanix.com>
+Cc:     linux-sgx@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v4 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
-In-Reply-To: <20210818101849.602257-2-jens.wiklander@linaro.org>
-References: <20210818101849.602257-1-jens.wiklander@linaro.org>
-        <20210818101849.602257-2-jens.wiklander@linaro.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: jens.wiklander@linaro.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, jerome@forissier.org, etienne.carriere@linaro.org, sumit.garg@linaro.org, vincent.guittot@linaro.org, robh+dt@kernel.org, corbet@lwn.net, ardb@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Saravanan D <saravanand@fb.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20210818132509.545997-1-jarkko@kernel.org>
+ <acd5a925-ce86-9934-5e1c-d0bcee3f606b@fortanix.com>
+ <20210818134026.GA7967@iki.fi>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <ffcef189-78fd-1b57-88bb-577708fb7abc@linuxfoundation.org>
+Date:   Wed, 18 Aug 2021 12:34:00 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210818134026.GA7967@iki.fi>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Aug 2021 11:18:44 +0100,
-Jens Wiklander <jens.wiklander@linaro.org> wrote:
+On 8/18/21 7:40 AM, Jarkko Sakkinen wrote:
+> On Wed, Aug 18, 2021 at 03:29:59PM +0200, Jethro Beekman wrote:
+>> On 2021-08-18 15:25, Jarkko Sakkinen wrote:
+>>> The amount of SGX memory on the system is determined by the BIOS and it
+>>> varies wildly between systems.  It can be from dozens of MB's on desktops
+>>> or VM's, up to many GB's on servers.  Just like for regular memory, it is
+>>> sometimes useful to know the amount of usable SGX memory in the system.
+>>>
+>>> Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
+>>> usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+>>> BIOS, the printout would be:
+>>>
+>>> SGX_MemTotal:      22528 kB
+>>>
+>>> It is less than 32 MB because some of the space is reserved for Enclave
+>>> Page Cache Metadata (EPCM), which contains state variables for all the
+>>> pages in the Enclave Page Cache (EPC).  The latter contains the pages,
+>>> which applications can use to create enclaves.
+>>>
+>>> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+>>> ---
+>>>   Documentation/x86/sgx.rst      |  6 ++++++
+>>>   arch/x86/include/asm/sgx.h     | 10 +++++++---
+>>>   arch/x86/kernel/cpu/sgx/main.c |  7 ++++++-
+>>>   arch/x86/mm/pat/set_memory.c   |  5 +++++
+>>>   4 files changed, 24 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+>>> index dd0ac96ff9ef..68ee171e1d8f 100644
+>>> --- a/Documentation/x86/sgx.rst
+>>> +++ b/Documentation/x86/sgx.rst
+>>> @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
+>>>   on the same machine, the user should reserve enough EPC (by taking out
+>>>   total virtual EPC size of all SGX VMs from the physical EPC size) for
+>>>   host SGX applications so they can run with acceptable performance.
+>>> +
+>>> +Supplemental fields for /proc/meminfo
+>>> +=====================================
+>>> +
+>>> +SGX_MemTotal
+>>> +	The total usable SGX protected memory in kilobytes.
+>>> diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
+>>> index 05f3e21f01a7..2ae9dc8c9411 100644
+>>> --- a/arch/x86/include/asm/sgx.h
+>>> +++ b/arch/x86/include/asm/sgx.h
+>>> @@ -365,6 +365,13 @@ struct sgx_sigstruct {
+>>>    * comment!
+>>>    */
+>>>   
+>>> +#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
+>>> +extern unsigned long sgx_nr_all_pages;
+>>> +
+>>> +int sgx_set_attribute(unsigned long *allowed_attributes,
+>>> +		      unsigned int attribute_fd);
+>>> +#endif
+>>> +
+>>>   #ifdef CONFIG_X86_SGX_KVM
+>>>   int sgx_virt_ecreate(struct sgx_pageinfo *pageinfo, void __user *secs,
+>>>   		     int *trapnr);
+>>> @@ -372,7 +379,4 @@ int sgx_virt_einit(void __user *sigstruct, void __user *token,
+>>>   		   void __user *secs, u64 *lepubkeyhash, int *trapnr);
+>>>   #endif
+>>>   
+>>> -int sgx_set_attribute(unsigned long *allowed_attributes,
+>>> -		      unsigned int attribute_fd);
+>>> -
+>>
+>> This change seems unrelated?
 > 
-> Adds a section on notifications used by OP-TEE, synchronous and
-> asynchronous.
+> It's just a good practice not to define symbols that do not exist, so that
+> if the symbol is ever used, we get a compilation error, not linking error.
 > 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  Documentation/staging/tee.rst | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+> Since this is included to set_memory.c, based on this conclusion, I added
+> the check.
 > 
-> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-> index 4d4b5f889603..951f07dd026b 100644
-> --- a/Documentation/staging/tee.rst
-> +++ b/Documentation/staging/tee.rst
-> @@ -184,6 +184,35 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
->  application to retrieve a list of Trusted Applications which can be registered
->  as devices on the TEE bus.
->  
-> +OP-TEE notifications
-> +--------------------
-> +
-> +There are two kinds of notifications that secure world can use to make
-> +normal world aware of some event.
-> +
-> +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-> +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-> +2. Asynchronous notifications delivered with a combination of a non-secure
-> +   edge-triggered interrupt and a fast call from the non-secure interrupt
-> +   handler.
-> +
-> +Synchronous notifications are limited by depending on RPC for delivery,
-> +this is only usable when secure world is entered with a yielding call via
-> +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-> +world interrupt handlers.
-> +
-> +An asynchronous notification is delivered via a non-secure edge-triggered
-> +interrupt to an interrupt handler registered in the OP-TEE driver. The
-> +actual notification value are retrieved with the fast call
-> +``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
 
-One thing you may want to describe whether a single interrupt can
-represent multiple notification (multiple edge interrupts will happily
-be coalesced into a single one if not acknowledged before the next
-notification).
+It would make sense to make this change in a separate patch since.
 
-Otherwise,
+thanks,
+-- Shuah
 
-Acked-by: Marc Zyngier <maz@kernel.org>
 
-	M.
 
--- 
-Without deviation from the norm, progress is not possible.
