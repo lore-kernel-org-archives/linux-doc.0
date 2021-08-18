@@ -2,137 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F76CC4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0212C4320E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:56:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 594766103A
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:41:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0FF06108F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 13:56:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236970AbhHRNlg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 09:41:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238611AbhHRNlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Aug 2021 09:41:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF83D60238;
-        Wed, 18 Aug 2021 13:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629294029;
-        bh=80IaIFDHGWp7QnPlslmoBONoY+Zu3mlFuG4CYvGNkRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j9bfDo033NsQwUiEzHOU9Px4wj9HNOad/7sRDzXkX1HcRJQtiBwM/PZ47Bxwihbtu
-         J/l6NvO92buF2SRsR/itWFowe3/geUXGTHkPwAJLmff4e2l6XcgrTj0ZKS3rJuSXv5
-         6uDKVLvqvIrkvIqoIb3vvHH2V2VR/zddJ1QlyIJx+0+OaHf6SuW2hdLJFYsH3HuS+f
-         z+71YvHeJSWJq5p686UecVrug5ZP+X1CHFkrW0Lm3rcCMKlxJvzKG13w+w0TyR2cHI
-         2NwRHkyWiDmB6UQ7ESrkxvuCY9DuVzIhrJW9U3DYzGVw9M7x3P2Op8mBDTdjhYrt9V
-         kUfW4hbmhMHNQ==
-Date:   Wed, 18 Aug 2021 16:40:26 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Jethro Beekman <jethro@fortanix.com>
-Cc:     linux-sgx@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S237458AbhHRN4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 09:56:38 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:52820 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236970AbhHRN4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 09:56:38 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17IDtUbX104904;
+        Wed, 18 Aug 2021 08:55:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1629294930;
+        bh=/SM7hS5s/+pWFzi30GOYLIjoFM9YcVwy3bRzaQGqTvo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=ghTl1mD69mVfxcDyDXbA11WBlA0PvG3TwRD4Lj544RjjKOkst9FqCPvdpP2lpf4uz
+         K5+8MwEElG/B4NPLRfTzovEBVKee7w0+G5wrG3f6BVaFxzwovH4JD9ak6DG0ryVDrY
+         SwOBE1LDTWYJrJX2PMbbTx2o6OP15YhLcpvUd6kM=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17IDtUGN116309
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Aug 2021 08:55:30 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 18
+ Aug 2021 08:55:30 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Wed, 18 Aug 2021 08:55:30 -0500
+Received: from [10.250.232.133] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17IDtK7Q105937;
+        Wed, 18 Aug 2021 08:55:22 -0500
+Subject: Re: [PATCH v8 6/8] PCI: cadence: Add support to configure virtual
+ functions
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Saravanan D <saravanand@fb.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] x86/sgx: Add SGX_MemTotal to /proc/meminfo
-Message-ID: <20210818134026.GA7967@iki.fi>
-References: <20210818132509.545997-1-jarkko@kernel.org>
- <acd5a925-ce86-9934-5e1c-d0bcee3f606b@fortanix.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+References: <20210817153852.GA3016660@bjorn-Precision-5520>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <ce380e6f-d10a-4db2-9bde-82615cfbe4db@ti.com>
+Date:   Wed, 18 Aug 2021 19:25:09 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acd5a925-ce86-9934-5e1c-d0bcee3f606b@fortanix.com>
+In-Reply-To: <20210817153852.GA3016660@bjorn-Precision-5520>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 03:29:59PM +0200, Jethro Beekman wrote:
-> On 2021-08-18 15:25, Jarkko Sakkinen wrote:
-> > The amount of SGX memory on the system is determined by the BIOS and it
-> > varies wildly between systems.  It can be from dozens of MB's on desktops
-> > or VM's, up to many GB's on servers.  Just like for regular memory, it is
-> > sometimes useful to know the amount of usable SGX memory in the system.
-> > 
-> > Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
-> > usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
-> > BIOS, the printout would be:
-> > 
-> > SGX_MemTotal:      22528 kB
-> > 
-> > It is less than 32 MB because some of the space is reserved for Enclave
-> > Page Cache Metadata (EPCM), which contains state variables for all the
-> > pages in the Enclave Page Cache (EPC).  The latter contains the pages,
-> > which applications can use to create enclaves.
-> > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > ---
-> >  Documentation/x86/sgx.rst      |  6 ++++++
-> >  arch/x86/include/asm/sgx.h     | 10 +++++++---
-> >  arch/x86/kernel/cpu/sgx/main.c |  7 ++++++-
-> >  arch/x86/mm/pat/set_memory.c   |  5 +++++
-> >  4 files changed, 24 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-> > index dd0ac96ff9ef..68ee171e1d8f 100644
-> > --- a/Documentation/x86/sgx.rst
-> > +++ b/Documentation/x86/sgx.rst
-> > @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
-> >  on the same machine, the user should reserve enough EPC (by taking out
-> >  total virtual EPC size of all SGX VMs from the physical EPC size) for
-> >  host SGX applications so they can run with acceptable performance.
-> > +
-> > +Supplemental fields for /proc/meminfo
-> > +=====================================
-> > +
-> > +SGX_MemTotal
-> > +	The total usable SGX protected memory in kilobytes.
-> > diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
-> > index 05f3e21f01a7..2ae9dc8c9411 100644
-> > --- a/arch/x86/include/asm/sgx.h
-> > +++ b/arch/x86/include/asm/sgx.h
-> > @@ -365,6 +365,13 @@ struct sgx_sigstruct {
-> >   * comment!
-> >   */
-> >  
-> > +#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
-> > +extern unsigned long sgx_nr_all_pages;
-> > +
-> > +int sgx_set_attribute(unsigned long *allowed_attributes,
-> > +		      unsigned int attribute_fd);
-> > +#endif
-> > +
-> >  #ifdef CONFIG_X86_SGX_KVM
-> >  int sgx_virt_ecreate(struct sgx_pageinfo *pageinfo, void __user *secs,
-> >  		     int *trapnr);
-> > @@ -372,7 +379,4 @@ int sgx_virt_einit(void __user *sigstruct, void __user *token,
-> >  		   void __user *secs, u64 *lepubkeyhash, int *trapnr);
-> >  #endif
-> >  
-> > -int sgx_set_attribute(unsigned long *allowed_attributes,
-> > -		      unsigned int attribute_fd);
-> > -
+Hi Bjorn,
+
+On 17/08/21 9:08 pm, Bjorn Helgaas wrote:
+> On Wed, Aug 11, 2021 at 12:16:54PM +0530, Kishon Vijay Abraham I wrote:
+>> Now that support for SR-IOV is added in PCIe endpoint core, add support
+>> to configure virtual functions in the Cadence PCIe EP driver.
+>>
+>> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+>> ---
+>>  .../pci/controller/cadence/pcie-cadence-ep.c  | 136 +++++++++++++++---
+>>  drivers/pci/controller/cadence/pcie-cadence.h |   9 ++
+>>  2 files changed, 125 insertions(+), 20 deletions(-)
 > 
-> This change seems unrelated?
+>> @@ -92,21 +118,29 @@ static int cdns_pcie_ep_set_bar(struct pci_epc *epc, u8 fn, u8 vfn,
+>>  
+>>  	addr0 = lower_32_bits(bar_phys);
+>>  	addr1 = upper_32_bits(bar_phys);
+>> -	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR0(fn, bar),
+>> -			 addr0);
+>> -	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR1(fn, bar),
+>> -			 addr1);
+>>  
+>>  	reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
+>> +	if (vfn == 1)
+>> +		reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
+> 
+> Seems sort of weird to compute "reg", then sometimes overwrite it, as
+> opposed to:
+> 
+>   if (vfn == 1)
+>     reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
+>   else
+>     reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
 
-It's just a good practice not to define symbols that do not exist, so that
-if the symbol is ever used, we get a compilation error, not linking error.
+I tried to write it without "else". But I can change it back.
+> 
+> Also slightly weird that "vfn" is basically used as a boolean, but
+> it's actually a u8 virtual function number.  I guess VF 1 is special
+> and not like the other VFs?
 
-Since this is included to set_memory.c, based on this conclusion, I added
-the check.
+VF1 is special in that it's enough for configuring the SR-IOV capability
+but below the "vfn" is used for configuring inbound window.
 
-/Jarkko
+Thanks
+Kishon
+> 
+>>  	b = (bar < BAR_4) ? bar : bar - BAR_4;
+>>  
+>> -	cfg = cdns_pcie_readl(pcie, reg);
+>> -	cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
+>> -		 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
+>> -	cfg |= (CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE(b, aperture) |
+>> -		CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl));
+>> -	cdns_pcie_writel(pcie, reg, cfg);
+>> +	if (vfn == 0 || vfn == 1) {
+>> +		cfg = cdns_pcie_readl(pcie, reg);
+>> +		cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
+>> +			 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
+>> +		cfg |= (CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE(b, aperture) |
+>> +			CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl));
+>> +		cdns_pcie_writel(pcie, reg, cfg);
+>> +	}
+>>  
+>> +	fn = cdns_pcie_get_fn_from_vfn(pcie, fn, vfn);
+>> +	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR0(fn, bar),
+>> +			 addr0);
+>> +	cdns_pcie_writel(pcie, CDNS_PCIE_AT_IB_EP_FUNC_BAR_ADDR1(fn, bar),
+>> +			 addr1);
+>> +
+>> +	if (vfn > 0)
+>> +		epf = &epf->epf[vfn - 1];
+>>  	epf->epf_bar[bar] = epf_bar;
+>>  
+>>  	return 0;
+>> @@ -122,18 +156,25 @@ static void cdns_pcie_ep_clear_bar(struct pci_epc *epc, u8 fn, u8 vfn,
+>>  	u32 reg, cfg, b, ctrl;
+>>  
+>>  	reg = CDNS_PCIE_LM_EP_FUNC_BAR_CFG(bar, fn);
+>> +	if (vfn == 1)
+>> +		reg = CDNS_PCIE_LM_EP_VFUNC_BAR_CFG(bar, fn);
+> 
+> Similar recomputation of "reg".
+> 
+>>  	b = (bar < BAR_4) ? bar : bar - BAR_4;
+>>  
+>> -	ctrl = CDNS_PCIE_LM_BAR_CFG_CTRL_DISABLED;
+>> -	cfg = cdns_pcie_readl(pcie, reg);
+>> -	cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
+>> -		 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
+>> -	cfg |= CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl);
+>> -	cdns_pcie_writel(pcie, reg, cfg);
+>> +	if (vfn == 0 || vfn == 1) {
+>> +		ctrl = CDNS_PCIE_LM_BAR_CFG_CTRL_DISABLED;
+>> +		cfg = cdns_pcie_readl(pcie, reg);
+>> +		cfg &= ~(CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_APERTURE_MASK(b) |
+>> +			 CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL_MASK(b));
+>> +		cfg |= CDNS_PCIE_LM_EP_FUNC_BAR_CFG_BAR_CTRL(b, ctrl);
+>> +		cdns_pcie_writel(pcie, reg, cfg);
+>> +	}
