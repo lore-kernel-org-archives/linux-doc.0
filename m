@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51DA1C4338F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D82C4320A
 	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 08:32:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 302ED61042
+	by mail.kernel.org (Postfix) with ESMTP id 9ECF761042
 	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 08:32:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239262AbhHRIdM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 04:33:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:35682 "EHLO loongson.cn"
+        id S238050AbhHRIdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 04:33:13 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35696 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238050AbhHRIdL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238324AbhHRIdL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 18 Aug 2021 04:33:11 -0400
 Received: from localhost.localdomain (unknown [112.20.110.91])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv0OYxRxhUK4xAA--.877S3;
-        Wed, 18 Aug 2021 16:32:27 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv0OYxRxhUK4xAA--.877S4;
+        Wed, 18 Aug 2021 16:32:28 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
@@ -29,75 +29,72 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
         chris.chenfeiyang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v3 1/6] docs/zh_CN: add core-api memory-allocation translation
-Date:   Wed, 18 Aug 2021 16:32:16 +0800
-Message-Id: <4bd848d988f1ec53e1a3eda9966378421bed81b5.1629274856.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 2/6] docs/zh_CN: add core-api unaligned-memory-access translation
+Date:   Wed, 18 Aug 2021 16:32:17 +0800
+Message-Id: <b38ea3f1e3be0cc98a243f1af50bf95fef7ce18b.1629274856.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1629274856.git.siyanteng@loongson.cn>
 References: <cover.1629274856.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxv0OYxRxhUK4xAA--.877S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3tFyUGryruw45GFy5tr4Utwb_yoWDtF1rpr
-        929r97Ka15Ary5ZFy0kr4xXF18CayxA3WYga1xKa4UAFs5trWakrWUtFyj9as3u345AFyk
-        JrWIgF4IyrWvvwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPC14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7VUUzuWPUUUUU==
+X-CM-TRANSID: AQAAf9Dxv0OYxRxhUK4xAA--.877S4
+X-Coremail-Antispam: 1UD129KBjvAXoW3tFyUGr4kuw1fXFykCF4fuFg_yoW8JF4rCo
+        Z0k3Z0k393Aw13J3Waga98Jay7Jrs8GrsxZan2kw17Aay7Jry8Aws5Jw13AF1YvrWYqF43
+        Kr18Xa17ua9rJa4Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUOF7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
+        kI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
+        1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
+        M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+        v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+        F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+        IY04v7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+        0xZFpf9x0JUS1vsUUUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/memory-allocation.rst into Chinese.
+Translate Documentation/core-api/unaligned-memory-access.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/core-api/index.rst     |   6 +-
- .../zh_CN/core-api/memory-allocation.rst      | 138 ++++++++++++++++++
- 2 files changed, 143 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/memory-allocation.rst
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ .../core-api/unaligned-memory-access.rst      | 229 ++++++++++++++++++
+ 2 files changed, 230 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
 
 diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index b4bde9396339..9367128c4cb7 100644
+index 9367128c4cb7..9bc1dfeab98e 100644
 --- a/Documentation/translations/zh_CN/core-api/index.rst
 +++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -96,9 +96,13 @@ Todolist:
- 如何在内核中分配和使用内存。请注意，在
- :doc:`/vm/index` 中有更多的内存管理文档。
- 
--Todolist:
-+.. toctree::
-+   :maxdepth: 1
+@@ -100,10 +100,10 @@ Todolist:
+    :maxdepth: 1
  
     memory-allocation
-+
-+Todolist:
-+
-    unaligned-memory-access
++   unaligned-memory-access
+ 
+ Todolist:
+ 
+-   unaligned-memory-access
     dma-api
     dma-api-howto
-diff --git a/Documentation/translations/zh_CN/core-api/memory-allocation.rst b/Documentation/translations/zh_CN/core-api/memory-allocation.rst
+    dma-attributes
+diff --git a/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst b/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
 new file mode 100644
-index 000000000000..50b2f266a7f9
+index 000000000000..ab15cc01c922
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/memory-allocation.rst
-@@ -0,0 +1,138 @@
++++ b/Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
+@@ -0,0 +1,229 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/memory-allocation.rst
++:Original: Documentation/core-api/unaligned-memory-access.rst
 +
 +:翻译:
 +
@@ -107,132 +104,223 @@ index 000000000000..50b2f266a7f9
 +
 + 时奎亮<alexs@kernel.org>
 +
-+.. _cn_core-api_memory-allocation:
++.. _cn_core-api_unaligned-memory-access:
 +
-+============
-+内存分配指南
-+============
-+
-+Linux为内存分配提供了多种API。你可以使用 `kmalloc` 或 `kmem_cache_alloc`
-+系列分配小块内存，使用 `vmalloc` 及其派生产品分配大的几乎连续的区域，或者
-+你可以用 alloc_pages 直接向页面分配器请求页面。也可以使用更专业的分配器，
-+例如 `cma_alloc` 或 `zs_malloc` 。
-+
-+大多数的内存分配API使用GFP标志来表达该内存应该如何分配。GFP的缩写代表
-+“(get free pages)获取空闲页”，是底层的内存分配功能。
-+
-+（内存）分配API的多样性与众多的GFP标志相结合，使得“我应该如何分配内存？”这个问
-+题不那么容易回答，尽管很可能你应该使用
-+
-+::
-+
-+  kzalloc(<size>, GFP_KERNEL);
-+
-+当然，有些情况下必须使用其他分配API和不同的GFP标志。
-+
-+获取空闲页标志
 +==============
-+GFP标志控制分配器的行为。它们告诉我们哪些内存区域可以被使用，分配器应该多努力寻
-+找空闲的内存，这些内存是否可以被用户空间访问等等。内存管理API为GFP标志和它们的
-+组合提供了参考文件，这里我们简要介绍一下它们的推荐用法:
-+
-+  * 大多数时候， ``GFP_KERNEL`` 是你需要的。内核数据结构的内存，DMA可用内存，inode
-+    缓存，所有这些和其他许多分配类型都可以使用 ``GFP_KERNEL`` 。注意，使用 ``GFP_KERNEL``
-+    意味着 ``GFP_RECLAIM`` ，这意味着在有内存压力的情况下可能会触发直接回收；调用上
-+    下文必须允许睡眠。
-+
-+  * 如果分配是从一个原子上下文中进行的，例如中断处理程序，使用 ``GFP_NOWAIT`` 。这个
-+    标志可以防止直接回收和IO或文件系统操作。因此，在内存压力下， ``GFP_NOWAIT`` 分配
-+    可能会失败。有合理退路的分配应该使用 ``GFP_NOWARN`` 。
-+
-+  * 如果你认为访问保留内存区是合理的，并且除非分配成功，否则内核会有压力，你可以使用 ``GFP_ATOMIC`` 。
-+
-+  * 从用户空间触发的不可信任的分配应该是kmem核算的对象，必须设置 ``__GFP_ACCOUNT`` 位。
-+    有一个方便的用于 ``GFP_KERNEL`` 分配的 ``GFP_KERNEL_ACCOUNT`` 快捷键，其应该被核
-+    算。
-+
-+  * 用户空间的分配应该使用 ``GFP_USER`` 、 ``GFP_HIGHUSER`` 或 ``GFP_HIGHUSER_MOVABLE``
-+    中的一个标志。标志名称越长，限制性越小。
-+
-+    ``GFP_HIGHUSER_MOVABLE`` 不要求分配的内存将被内核直接访问，并意味着数据是可迁移的。
-+
-+    ``GFP_HIGHUSER`` 意味着所分配的内存是不可迁移的，但也不要求它能被内核直接访问。举个
-+    例子就是一个硬件分配内存，这些数据直接映射到用户空间，但没有寻址限制。
-+
-+    ``GFP_USER`` 意味着分配的内存是不可迁移的，它必须被内核直接访问。
-+
-+你可能会注意到，在现有的代码中，有相当多的分配指定了 ``GFP_NOIO`` 或 ``GFP_NOFS`` 。
-+从历史上看，它们被用来防止递归死锁，这种死锁是由直接内存回收调用到FS或IO路径以及对已
-+经持有的资源进行阻塞引起的。从4.12开始，解决这个问题的首选方法是使用新的范围API，即
-+:ref:`Documentation/core-api/gfp_mask-from-fs-io.rst <gfp_mask_from_fs_io>`.
-+
-+其他传统的GFP标志是 ``GFP_DMA`` 和 ``GFP_DMA32`` 。它们用于确保分配的内存可以被寻
-+址能力有限的硬件访问。因此，除非你正在为一个有这种限制的设备编写驱动程序，否则要避免
-+使用这些标志。而且，即使是有限制的硬件，也最好使用dma_alloc* APIs。
-+
-+GFP标志和回收行为
-+-----------------
-+内存分配可能会触发直接或后台回收，了解页面分配器将如何努力满足该请求或其他请求是非常
-+有用的。
-+
-+  * ``GFP_KERNEL & ~__GFP_RECLAIM`` - 乐观分配，完全不尝试释放内存。最轻量级的模
-+    式，甚至不启动后台回收。应该小心使用，因为它可能会耗尽内存，而下一个用户可能会启
-+    动更积极的回收。
-+
-+  * ``GFP_KERNEL & ~__GFP_DIRECT_RECLAIM`` (or ``GFP_NOWAIT`` ) - 乐观分配，不
-+    试图从当前上下文中释放内存，但如果该区域低于低水位，可以唤醒kswapd来回收内存。可
-+    以从原子上下文中使用，或者当请求是一个性能优化，并且有另一个慢速路径的回退。
-+
-+  * ``(GFP_KERNEL|__GFP_HIGH) & ~__GFP_DIRECT_RECLAIM`` (aka ``GFP_ATOMIC`` ) - 非
-+    睡眠分配，有一个昂贵的回退，所以它可以访问某些部分的内存储备。通常从中断/底层上下
-+    文中使用，有一个昂贵的慢速路径回退。
-+
-+  * ``GFP_KERNEL`` - 允许后台和直接回收，并使用默认的页面分配器行为。这意味着廉价
-+    的分配请求基本上是不会失败的，但不能保证这种行为，所以失败必须由调用者适当检查（例
-+    如，目前允许OOM杀手失败）。
-+
-+  * ``GFP_KERNEL | __GFP_NORETRY`` - 覆盖默认的分配器行为，所有的分配请求都会提前
-+    失败，而不是导致破坏性的回收（在这个实现中是一轮的回收）。OOM杀手不被调用。
-+
-+  * ``GFP_KERNEL | __GFP_RETRY_MAYFAIL`` - 覆盖 **默认** 的分配器行为，所有分配请求都非
-+    常努力。如果回收不能取得任何进展，该请求将失败。OOM杀手不会被触发。
-+
-+  * ``GFP_KERNEL | __GFP_NOFAIL`` - 覆盖默认的分配器行为，所有分配请求将无休止地循
-+    环，直到成功。这可能真的很危险，特别是对于较大的需求。
-+
-+选择内存分配器
++非对齐内存访问
 +==============
 +
-+分配内存的最直接的方法是使用kmalloc()系列的函数。而且，为了安全起见，最好使用将内存
-+设置为零的例程，如kzalloc()。如果你需要为一个数组分配内存，有kmalloc_array()和kcalloc()
-+辅助程序。辅助程序struct_size()、array_size()和array3_size()可以用来安全地计算对
-+象的大小而不会溢出。
++:作者: Daniel Drake <dsd@gentoo.org>,
++:作者: Johannes Berg <johannes@sipsolutions.net>
 +
-+可以用 `kmalloc` 分配的块的最大尺寸是有限的。实际的限制取决于硬件和内核配置，但是对于
-+小于页面大小的对象，使用 `kmalloc` 是一个好的做法。
++:感谢他们的帮助: Alan Cox, Avuton Olrich, Heikki Orsila, Jan Engelhardt,
++  Kyle McMartin, Kyle Moffett, Randy Dunlap, Robert Hancock, Uli Kunitz,
++  Vadim Lobanov
 +
-+用 `kmalloc` 分配的块的地址至少要对齐到ARCH_KMALLOC_MINALIGN字节。对于2的幂的大小，
-+对齐方式也被保证为至少是各自的大小。
 +
-+用kmalloc()分配的块可以用krealloc()调整大小。与kmalloc_array()类似：以krealloc_array()
-+的形式提供了一个用于调整数组大小的辅助工具。
++Linux运行在各种各样的架构上，这些架构在内存访问方面有不同的表现。本文介绍了一些
++关于不对齐访问的细节，为什么你需要编写不引起不对齐访问的代码，以及如何编写这样的
++代码
 +
-+对于大量的分配，你可以使用vmalloc()和vzalloc()，或者直接向页面分配器请求页面。由vmalloc
-+和相关函数分配的内存在物理上是不连续的。
 +
-+如果你不确定分配的大小对 `kmalloc` 来说是否太大，可以使用kvmalloc()及其派生函数。它将尝
-+试用kmalloc分配内存，如果分配失败，将用 `vmalloc` 重新尝试。对于哪些GFP标志可以与 `kvmalloc`
-+一起使用是有限制的；请看kvmalloc_node()参考文档。注意， `kvmalloc` 可能会返回物理上不连
-+续的内存。
++非对齐访问的定义
++================
 +
-+如果你需要分配许多相同的对象，你可以使用slab缓存分配器。在使用缓存之前，应该用
-+kmem_cache_create()或kmem_cache_create_usercopy()来设置缓存。如果缓存的一部分可能被复
-+制到用户空间，应该使用第二个函数。在缓存被创建后，kmem_cache_alloc()和它的封装可以从该缓
-+存中分配内存。
++当你试图从一个不被N偶数整除的地址（即addr % N != 0）开始读取N字节的数据时，就
++会发生无对齐内存访问。例如，从地址0x10004读取4个字节的数据是可以的，但从地址
++0x10005读取4个字节的数据将是一个不对齐的内存访问。
 +
-+当分配的内存不再需要时，它必须被释放。你可以使用kvfree()来处理用 `kmalloc` 、 `vmalloc`
-+和 `kvmalloc` 分配的内存。slab缓存应该用kmem_cache_free()来释放。不要忘记用
-+kmem_cache_destroy()来销毁缓存。
++上述内容可能看起来有点模糊，因为内存访问可以以不同的方式发生。这里的背景是在机器
++码层面上：某些指令在内存中读取或写入一些字节（例如x86汇编中的movb、movw、movl）。
++正如将变得清晰的那样，相对容易发现那些将编译为多字节内存访问指令的C语句，即在处理
++u16、u32和u64等类型时。
++
++
++自然对齐
++========
++
++上面提到的规则构成了我们所说的自然对齐。当访问N个字节的内存时，基础内存地址必须被
++N平均分割，即addr % N == 0。
++
++在编写代码时，假设目标架构有自然对齐的要求。
++
++在现实中，只有少数架构在所有大小的内存访问上都要求自然对齐。然而，我们必须考虑所
++有支持的架构；编写满足自然对齐要求的代码是实现完全可移植性的最简单方法。
++
++
++为什么非对齐访问时坏事
++======================
++
++执行非对齐内存访问的效果因架构不同而不同。在这里写一整篇关于这些差异的文档是很容
++易的；下面是对常见情况的总结:
++
++ - 一些架构能够透明地执行非对齐内存访问，但通常会有很大的性能代价。
++ - 当不对齐的访问发生时，一些架构会引发处理器异常。异常处理程序能够纠正不对齐的
++   访问，但要付出很大的性能代价。
++ - 一些架构在发生不对齐访问时，会引发处理器异常，但异常中并没有包含足够的信息来
++   纠正不对齐访问。
++ - 有些架构不能进行无对齐内存访问，但会默默地执行与请求不同的内存访问，从而导致
++   难以发现的微妙的代码错误!
++
++从上文可以看出，如果你的代码导致不对齐的内存访问发生，那么你的代码在某些平台上将无
++法正常工作，在其他平台上将导致性能问题。
++
++不会导致非对齐访问的代码
++========================
++
++起初，上面的概念似乎有点难以与实际编码实践联系起来。毕竟，你对某些变量的内存地址没
++有很大的控制权，等等。
++
++幸运的是事情并不复杂，因为在大多数情况下，编译器会确保事情为你工作。例如，以下面的
++结构体为例::
++
++	struct foo {
++		u16 field1;
++		u32 field2;
++		u8 field3;
++	};
++
++让我们假设上述结构体的一个实例驻留在从地址0x10000开始的内存中。根据基本的理解，访问
++field2会导致非对齐访问，这并不是不合理的。你会期望field2位于该结构体的2个字节的偏移
++量，即地址0x10002，但该地址不能被4平均整除（注意，我们在这里读一个4字节的值）。
++
++幸运的是，编译器理解对齐约束，所以在上述情况下，它会在field1和field2之间插入2个字节
++的填充。因此，对于标准的结构体类型，你总是可以依靠编译器来填充结构体，以便对字段的访
++问可以适当地对齐（假设你没有将字段定义不同长度的类型）。
++
++同样，你也可以依靠编译器根据变量类型的大小，将变量和函数参数对齐到一个自然对齐的方案。
++
++在这一点上，应该很清楚，访问单个字节（u8或char）永远不会导致无对齐访问，因为所有的内
++存地址都可以被1均匀地整除。
++
++在一个相关的话题上，考虑到上述因素，你可以观察到，你可以对结构体中的字段进行重新排序，
++以便将字段放在不重排就会插入填充物的地方，从而减少结构体实例的整体常驻内存大小。上述
++例子的最佳布局是::
++
++	struct foo {
++		u32 field2;
++		u16 field1;
++		u8 field3;
++	};
++
++对于一个自然对齐方案，编译器只需要在结构的末尾添加一个字节的填充。添加这种填充是为了满
++足这些结构的数组的对齐约束。
++
++另一点值得一提的是在结构体类型上使用__attribute__((packed))。这个GCC特有的属性告诉编
++译器永远不要在结构体中插入任何填充，当你想用C结构体来表示一些“off the wire”的固定排列
++的数据时，这个属性很有用。
++
++你可能会倾向于认为，在访问不满足架构对齐要求的字段时，使用这个属性很容易导致不对齐的访
++问。然而，编译器也意识到了对齐的限制，并且会产生额外的指令来执行内存访问，以避免造成不
++对齐的访问。当然，与非打包的情况相比，额外的指令显然会造成性能上的损失，所以打包属性应
++该只在避免结构填充很重要的时候使用。
++
++
++导致非对齐访问的代码
++====================
++
++考虑到上述情况，让我们来看看一个现实生活中可能导致非对齐内存访问的函数的例子。下面这个
++函数取自include/linux/etherdevice.h，是一个优化的例程，用于比较两个以太网MAC地址是否
++相等::
++
++  bool ether_addr_equal(const u8 *addr1, const u8 *addr2)
++  {
++  #ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
++	u32 fold = ((*(const u32 *)addr1) ^ (*(const u32 *)addr2)) |
++		   ((*(const u16 *)(addr1 + 4)) ^ (*(const u16 *)(addr2 + 4)));
++
++	return fold == 0;
++  #else
++	const u16 *a = (const u16 *)addr1;
++	const u16 *b = (const u16 *)addr2;
++	return ((a[0] ^ b[0]) | (a[1] ^ b[1]) | (a[2] ^ b[2])) == 0;
++  #endif
++  }
++
++在上述函数中，当硬件具有高效的非对齐访问能力时，这段代码没有问题。但是当硬件不能在任意
++边界上访问内存时，对a[0]的引用导致从地址addr1开始的2个字节（16位）被读取。
++
++想一想，如果addr1是一个奇怪的地址，如0x10003，会发生什么？(提示：这将是一个非对齐访
++问。)
++
++尽管上述函数存在潜在的非对齐访问问题，但它还是被包含在内核中，但被理解为只在16位对齐
++的地址上正常工作。调用者应该确保这种对齐方式或者根本不使用这个函数。这个不对齐的函数
++仍然是有用的，因为它是在你能确保对齐的情况下的一个很好的优化，这在以太网网络环境中几
++乎是一直如此。
++
++
++下面是另一个可能导致非对齐访问的代码的例子::
++
++	void myfunc(u8 *data, u32 value)
++	{
++		[...]
++		*((u32 *) data) = cpu_to_le32(value);
++		[...]
++	}
++
++每当数据参数指向的地址不被4均匀整除时，这段代码就会导致非对齐访问。
++
++综上所述，你可能遇到非对齐访问问题的两种主要情况包括:
++
++ 1. 将变量定义不同长度的类型
++ 2. 指针运算后访问至少2个字节的数据
++
++
++避免非对齐访问
++==============
++
++避免非对齐访问的最简单方法是使用<asm/unaligned.h>头文件提供的get_unaligned()和
++put_unaligned()宏。
++
++回到前面的一个可能导致非对齐访问的代码例子::
++
++	void myfunc(u8 *data, u32 value)
++	{
++		[...]
++		*((u32 *) data) = cpu_to_le32(value);
++		[...]
++	}
++
++为了避免非对齐的内存访问，你可以将其改写如下::
++
++	void myfunc(u8 *data, u32 value)
++	{
++		[...]
++		value = cpu_to_le32(value);
++		put_unaligned(value, (u32 *) data);
++		[...]
++	}
++
++get_unaligned()宏的工作原理与此类似。假设'data'是一个指向内存的指针，并且你希望避免
++非对齐访问，其用法如下::
++
++	u32 value = get_unaligned((u32 *) data);
++
++这些宏适用于任何长度的内存访问（不仅仅是上面例子中的32位）。请注意，与标准的对齐内存
++访问相比，使用这些宏来访问非对齐内存可能会在性能上付出代价。
++
++如果使用这些宏不方便，另一个选择是使用memcpy()，其中源或目标（或两者）的类型为u8*或
++非对齐char*。由于这种操作的字节性质，避免了非对齐访问。
++
++
++对齐 vs. 网络
++=============
++
++在需要对齐负载的架构上，网络要求IP头在四字节边界上对齐，以优化IP栈。对于普通的以太网
++硬件，常数NET_IP_ALIGN被使用。在大多数架构上，这个常数的值是2，因为正常的以太网头是
++14个字节，所以为了获得适当的对齐，需要DMA到一个可以表示为4*n+2的地址。一个值得注意的
++例外是powerpc，它将NET_IP_ALIGN定义为0，因为DMA到未对齐的地址可能非常昂贵，与未对齐
++的负载的成本相比相形见绌。
++
++对于一些不能DMA到未对齐地址的以太网硬件，如4*n+2或非以太网硬件，这可能是一个问题，这
++时需要将传入的帧复制到一个对齐的缓冲区。因为这在可以进行非对齐访问的架构上是不必要的，
++所以可以使代码依赖于CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS，像这样::
++
++	#ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
++		skb = original skb
++	#else
++		skb = copy skb
++	#endif
 -- 
 2.27.0
 
