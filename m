@@ -2,133 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28CF5C432BE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB46C4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 16:05:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12E30610D2
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 15:47:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7664F610CB
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 16:05:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237494AbhHRPsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 11:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40622 "EHLO
+        id S229649AbhHRQFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 12:05:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240058AbhHRPsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 11:48:11 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60663C061796;
-        Wed, 18 Aug 2021 08:47:33 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id a126so6132324ybg.6;
-        Wed, 18 Aug 2021 08:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JOrhWSG8tjo5OSgprY2llNKO2ACxIKOE7ZmEL78dvtA=;
-        b=lnkPfyjpYTKtkW0YIEaCP0fpL/NjGrkOQlEMxEXRlBSsNUzoegDivDw2F8Afx5bPuP
-         dpiZ58rSEc0ylRTvgkN4nErsvEqcTuO4iDb4r9WcCXSohzB9f8Op7DsW5M4U5AyB4//9
-         qAzZBzAxGGlFq4hrDCqm9nNHEzbzYaWzWPD+5HK73W6bVLj0vgyr8HMyw6KIYoxqB0RE
-         3aYUHs3+UncBIMHaWnj3yjKjMowIsz0i5jSGqR6CLkNPz3zI7CfVhSmvK1iMagUn0q2H
-         9PNnnhw3K9eB7zxCp/S2Sa3Vo1cEeqZG72ptLClwHxMlTDluDq8asQ5k7EWrKHrjAbfQ
-         bmIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JOrhWSG8tjo5OSgprY2llNKO2ACxIKOE7ZmEL78dvtA=;
-        b=CW0aTAN0VnQd+im03tlUk+ddjrSWNbriRyNxXtFDCWm2D/Nr05hy748YVUJv2JnSNT
-         h/Z9CUKwbMy5j21U5nqcO33IMN6AEqF58b3jGN8Rdv7FsslTWQjHqszoDPhUciGW5WeM
-         yJzORYZ9JZaVesNzSZIlUgfJj2hUH4tfRsa+ubtl58RuAkd93Za2tsAzTppIfGR2a6xv
-         XgeyGBq4rk6EF+Ra80zFDLId3RdRx5GdWqE/liasBlaXvI4yKDDet9rYRsvkc5MeIgDp
-         WJsayycwkxL1azqCHIApt4iolYss9Un/YJzFxH4oVbbAOh7h6nrMAmKoML8bwThU9vcw
-         5wtA==
-X-Gm-Message-State: AOAM530N6C5YQSVvwAmzfmOFj7gibPDPSRjX+zQV/IMvbZmWXzrtNXM4
-        8ISRpTvIoL4QfNDfNYFiElEBdvo3rKOM3AefYZs=
-X-Google-Smtp-Source: ABdhPJyR8QdcODzDgT542cUdR9MMX31xJ9TBOBbg8rC/FPv6K014VhQRs/xKw6Ltm4n0i4SuwWZFfWxyJ/3jdqSG+0A=
-X-Received: by 2002:a25:5054:: with SMTP id e81mr12147806ybb.510.1629301652564;
- Wed, 18 Aug 2021 08:47:32 -0700 (PDT)
+        with ESMTP id S229471AbhHRQFo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 12:05:44 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0C0C061764
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 09:05:09 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mGO3s-0008WN-Ib; Wed, 18 Aug 2021 18:05:04 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mGO3p-00088y-QS; Wed, 18 Aug 2021 18:05:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mGO3p-0003yw-Pb; Wed, 18 Aug 2021 18:05:01 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH] clk: expand clk_ignore_unused mechanism to keep only a few clks on
+Date:   Wed, 18 Aug 2021 18:04:57 +0200
+Message-Id: <20210818160457.320598-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210818151313.49992-1-grantseltzer@gmail.com>
-In-Reply-To: <20210818151313.49992-1-grantseltzer@gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Wed, 18 Aug 2021 08:47:21 -0700
-Message-ID: <CAEf4BzavDNohwRpQmuow2PRzqnnRBWnOvMxx3Xbgudgv5=K6TA@mail.gmail.com>
-Subject: Re: [PATCH] Rename libbpf documentation index file
-To:     grantseltzer <grantseltzer@gmail.com>
-Cc:     Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Patch-Hashes: v=1; h=sha256; i=6fYG3N27aP3RxGkdjJx+eQpQfw+B/9UsoCC6yr5DVh4=; m=Wdwflwi90I4cCBeib1j1UNX47P0rpqfdzRni5sSiBLg=; p=kc1PwVF5dTn2HiF8Yhbu+eW52ORveCw6bmJWvdZ5dzA=; g=f4a36396aa3bbd06149d2f39257e07a5c4e8afbb
+X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmEdL6YACgkQwfwUeK3K7An02wf+Jhw xQRBiTEgWzp681eUqbGP+vZXXAD8TX4H3XgFOVOi4VX07YO8G0bnSK5a3FTEQA6p1+kTViaJRJNjn 3QR0ep4V81Yt8ArYGbYsrgyBKytqSfe4ozfXefTv5dp0muwF5YoHVyOe+O4rN6ZvlVdKnt4oG0qfQ SScpQ8hG2ogWyQ5kpGw6xhIDuZ4tKI7g5fE0+FpchjN3Mx5j+1mTV1Pyhxxh0oZN2WDYojmFf0x4C wIdurkHHhsJ6C5lg1s4/gASxGKtqctjjNwJzSL74JHNn8WYSdwTnRT+Snb/Xb8QtomhErDDTenh1G Oj/DkFOcXQRA7B/YEsPUyIUt7eahpZw==
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 8:13 AM grantseltzer <grantseltzer@gmail.com> wrote:
->
-> From: Grant Seltzer <grantseltzer@gmail.com>
->
-> This patch renames a documentation libbpf.rst to index.rst. In order
-> for readthedocs to pick this file up and properly build the
-> documentation site.
->
-> It also changes the title type of the ABI subsection in the
-> naming convention doc. This is so that readthedocs doesn't treat this
-> section as a seperate document.
->
-> Signed-off-by: Grant Seltzer <grantseltzer@gmail.com>
-> ---
+Allow to pass an integer n that results in only keeping n unused clocks
+enabled.
 
-Please don't forget to add [PATCH bpf-next] to your future patches.
-Also libbpf-related patches should come with "libbpf: " prefix in
-patch subject.
+This helps to debug the problem if you only know that clk_ignore_unused
+helps but you have no clue yet which clock is the culprit.
 
-Applied to bpf-next, thanks.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ Documentation/driver-api/clk.rst |  4 +++-
+ drivers/clk/clk.c                | 33 ++++++++++++++++++++++++--------
+ 2 files changed, 28 insertions(+), 9 deletions(-)
 
+diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/clk.rst
+index 3cad45d14187..65ae7c3e2b33 100644
+--- a/Documentation/driver-api/clk.rst
++++ b/Documentation/driver-api/clk.rst
+@@ -259,7 +259,9 @@ the disabling means that the driver will remain functional while the issues
+ are sorted out.
+ 
+ To bypass this disabling, include "clk_ignore_unused" in the bootargs to the
+-kernel.
++kernel. If you pass "clk_ignore_unused=n" (where n is an integer) the first n
++found clocks are not disabled which can be useful for bisecting over the unused
++clks if you don't know yet which of them is reponsible for your problem.
+ 
+ Locking
+ =======
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 65508eb89ec9..7189a56bb29f 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -1236,6 +1236,8 @@ static void __init clk_unprepare_unused_subtree(struct clk_core *core)
+ 	clk_pm_runtime_put(core);
+ }
+ 
++static unsigned clk_unused_keep_on __initdata;
++
+ static void __init clk_disable_unused_subtree(struct clk_core *core)
+ {
+ 	struct clk_core *child;
+@@ -1266,12 +1268,17 @@ static void __init clk_disable_unused_subtree(struct clk_core *core)
+ 	 * back to .disable
+ 	 */
+ 	if (clk_core_is_enabled(core)) {
+-		trace_clk_disable(core);
+-		if (core->ops->disable_unused)
+-			core->ops->disable_unused(core->hw);
+-		else if (core->ops->disable)
+-			core->ops->disable(core->hw);
+-		trace_clk_disable_complete(core);
++		if (clk_unused_keep_on) {
++			pr_warn("Keep unused clk \"%s\" on\n", core->name);
++			clk_unused_keep_on -= 1;
++		} else {
++			trace_clk_disable(core);
++			if (core->ops->disable_unused)
++				core->ops->disable_unused(core->hw);
++			else if (core->ops->disable)
++				core->ops->disable(core->hw);
++			trace_clk_disable_complete(core);
++		}
+ 	}
+ 
+ unlock_out:
+@@ -1283,9 +1290,17 @@ static void __init clk_disable_unused_subtree(struct clk_core *core)
+ }
+ 
+ static bool clk_ignore_unused __initdata;
+-static int __init clk_ignore_unused_setup(char *__unused)
++static int __init clk_ignore_unused_setup(char *keep)
+ {
+-	clk_ignore_unused = true;
++	if (*keep == '=') {
++		int ret;
++
++		ret = kstrtouint(keep + 1, 0, &clk_unused_keep_on);
++		if (ret < 0)
++			pr_err("Warning: failed to parse clk_ignore_unused parameter, ignoring");
++	} else {
++		clk_ignore_unused = true;
++	}
+ 	return 1;
+ }
+ __setup("clk_ignore_unused", clk_ignore_unused_setup);
+@@ -1297,6 +1312,8 @@ static int __init clk_disable_unused(void)
+ 	if (clk_ignore_unused) {
+ 		pr_warn("clk: Not disabling unused clocks\n");
+ 		return 0;
++	} else if (clk_ignore_unused) {
++		pr_warn("clk: Not disabling %u unused clocks\n", clk_ignore_unused);
+ 	}
+ 
+ 	clk_prepare_lock();
+-- 
+2.30.2
 
->  Documentation/bpf/libbpf/{libbpf.rst => index.rst}    | 8 ++++++++
->  Documentation/bpf/libbpf/libbpf_naming_convention.rst | 2 +-
->  2 files changed, 9 insertions(+), 1 deletion(-)
->  rename Documentation/bpf/libbpf/{libbpf.rst => index.rst} (75%)
->
-> diff --git a/Documentation/bpf/libbpf/libbpf.rst b/Documentation/bpf/libbpf/index.rst
-> similarity index 75%
-> rename from Documentation/bpf/libbpf/libbpf.rst
-> rename to Documentation/bpf/libbpf/index.rst
-> index 1b1e61d5ead1..4f8adfc3ab83 100644
-> --- a/Documentation/bpf/libbpf/libbpf.rst
-> +++ b/Documentation/bpf/libbpf/index.rst
-> @@ -3,6 +3,14 @@
->  libbpf
->  ======
->
-> +For API documentation see the `versioned API documentation site <https://libbpf.readthedocs.io/en/latest/api.html>`_.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   libbpf_naming_convention
-> +   libbpf_build
-> +
->  This is documentation for libbpf, a userspace library for loading and
->  interacting with bpf programs.
->
-> diff --git a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> index 6bf9c5ac7576..9c68d5014ff1 100644
-> --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> @@ -69,7 +69,7 @@ functions. These can be mixed and matched. Note that these functions
->  are not reentrant for performance reasons.
->
->  ABI
-> -==========
-> +---
->
->  libbpf can be both linked statically or used as DSO. To avoid possible
->  conflicts with other libraries an application is linked with, all
-> --
-> 2.31.1
->
