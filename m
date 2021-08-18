@@ -2,150 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED375C43216
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 08:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DFDC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 10:19:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD5F96108B
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 08:32:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C89CD6108E
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 10:19:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238561AbhHRIdO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 04:33:14 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:35762 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239012AbhHRIdN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Aug 2021 04:33:13 -0400
-Received: from localhost.localdomain (unknown [112.20.110.91])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv0OYxRxhUK4xAA--.877S7;
-        Wed, 18 Aug 2021 16:32:34 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, chenfeiyang@loongson.cn,
-        chris.chenfeiyang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v3 5/6] docs/zh_CN: add core-api boot-time-mm translation
-Date:   Wed, 18 Aug 2021 16:32:20 +0800
-Message-Id: <950ef53a971ff4b5b7d961eb7c97a31165a866ed.1629274856.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1629274856.git.siyanteng@loongson.cn>
-References: <cover.1629274856.git.siyanteng@loongson.cn>
+        id S233118AbhHRKTm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 06:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231143AbhHRKTl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 06:19:41 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25167C061764
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 03:19:07 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id u22so3475071lfq.13
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 03:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rHBrWaWim5usRXgaQc82lkSp0WhXjJF3AlpJqDKSRoY=;
+        b=GDnV57ya+XOUfwuB+AthU31Le+ZY/IfqyOmuCLkVjM+9R78nZb3Dv5kpSDiS8I1hH2
+         RJo0LBY3PBhCQCIa3qIWl+7jmpfnOSibSiuqdm4zGZ4xk1MIbrFSlVPGgCUEPHfs8td4
+         ee7EJaW3QVSbHcdIqbVvyYgh1PAE7ZaqGp4ZyT39TgtJGeYw4nWZMNutwtgnW3H6/AFL
+         dtLsgiqCBxPMjrSNBkgDfuTI+eHKybfm0t2kUgO/amW98oODQA/1HRHuNn2N1kkltk+O
+         qaTkaBchJy/GvFaeuPn2OVDdupw95u7YdGLAs5BHOiI4+DRpFGUcjcdOWVvazt4857wR
+         pDzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rHBrWaWim5usRXgaQc82lkSp0WhXjJF3AlpJqDKSRoY=;
+        b=qeYiZckPvwdroB9LaZxNfWSOo9T6xryF9MjU0k0/YIl/4ceIfHzhyLgt9Zux+uqGAA
+         QwL9Uh1+BMXXOSB5mr9pKrWoypCwt1w3vkadylbDWIdeEfNRkfHEDxZyn0RONSJTSEli
+         DAlVpVEtflWnWvL11qonpn4uFsIn6tY/Vg/hz64Xar/+abkZXdOZ5UMQoDY1qCB/blqN
+         XB5xLS6GGWmwOTziPW9H5qLIuQhfOQXoe/LFrNPHspgavlB2mharKSuK/Bdf42Q1VOo9
+         EDUpvgwtqfUnKOmnCPAqozNpeAhF+2+nCPYsKUA8E3jZQQmWfqKDpFfZPem9N6+QkuSA
+         hXjQ==
+X-Gm-Message-State: AOAM533QoaVca8DMGqAi7ApsE4dpvSJcnXRgB2C0NTxJyqSAIFODQEHq
+        4rucxswhmON47Tu9Ruf8bj5mNA==
+X-Google-Smtp-Source: ABdhPJwSv3BebV09GBYhVLGn/Bal3GHoGVdLYigqOg+XWj0wJyAnN5sif8OZ80tEZJcbyYZ5WRg9aA==
+X-Received: by 2002:a19:c517:: with SMTP id w23mr5963508lfe.219.1629281945441;
+        Wed, 18 Aug 2021 03:19:05 -0700 (PDT)
+Received: from jade.urgonet (h-94-254-48-165.A175.priv.bahnhof.se. [94.254.48.165])
+        by smtp.gmail.com with ESMTPSA id l27sm451160lfp.245.2021.08.18.03.19.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 03:19:05 -0700 (PDT)
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>
+Subject: [PATCH v4 0/6] Asynchronous notifications from secure world
+Date:   Wed, 18 Aug 2021 12:18:43 +0200
+Message-Id: <20210818101849.602257-1-jens.wiklander@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxv0OYxRxhUK4xAA--.877S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxCrW7XrWruF45tF1ruF45KFg_yoW5Aw1kpF
-        9FgryxGan3Jay3CrWxWr1UWFn7Xayxua1DGayxJw1aqF98tF4Yyr42yry5tr97Gr92yFyr
-        XF4ftrZ5CrWYvw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
-        3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
-        x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
-        JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
-        ka0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE
-        2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-        vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-        vjDU0xZFpf9x0JUfhLnUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/boot-time-mm.rst into Chinese.
+Hi all,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../zh_CN/core-api/boot-time-mm.rst           | 49 +++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |  2 +-
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+This adds support for asynchronous notifications from OP-TEE in secure
+world to the OP-TEE driver. This allows a design with a top half and bottom
+half type of driver where the top half runs in secure interrupt context and
+a notifications tells normal world to schedule a yielding call to do the
+bottom half processing.
 
-diff --git a/Documentation/translations/zh_CN/core-api/boot-time-mm.rst b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
-new file mode 100644
-index 000000000000..db09efb83684
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
-@@ -0,0 +1,49 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/boot-time-mm.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+ 时奎亮<alexs@kernel.org>
-+
-+.. _cn_core-api_boot-time-mm:
-+
-+================
-+启动时的内存管理
-+================
-+
-+系统初始化早期“正常”的内存管理由于没有设置完毕无法使用。但是内核仍然需要
-+为各种数据结构分配内存，例如物理页分配器。
-+
-+一个叫做 ``memblock`` 的专用分配器执行启动时的内存管理。特定架构的初始化
-+必须在setup_arch()中设置它，并在mem_init()函数中移除它。
-+
-+一旦早期的内存管理可用，它就为内存分配提供了各种函数和宏。分配请求可以指向
-+第一个（也可能是唯一的）节点或NUMA系统中的某个特定节点。有一些API变体在分
-+配失败时panic，也有一些不会panic的。
-+
-+Memblock还提供了各种控制其自身行为的API。
-+
-+Memblock概述
-+============
-+
-+该API在以下内核代码中:
-+
-+mm/memblock.c
-+
-+
-+函数和结构体
-+============
-+
-+下面是关于memblock数据结构、函数和宏的描述。其中一些实际上是内部的，但由于
-+它们被记录下来，漏掉它们是很愚蠢的。此外，阅读内部函数的注释可以帮助理解引
-+擎盖下真正发生的事情。
-+
-+该API在以下内核代码中:
-+
-+include/linux/memblock.h
-+mm/memblock.c
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 1e8c5963c499..1d6fecd69c3b 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -103,6 +103,7 @@ Todolist:
-    unaligned-memory-access
-    mm-api
-    genalloc
-+   boot-time-mm
- 
- Todolist:
- 
-@@ -111,7 +112,6 @@ Todolist:
-    dma-attributes
-    dma-isa-lpc
-    pin_user_pages
--   boot-time-mm
-    gfp_mask-from-fs-io
- 
- 内核调试的接口
+An edge-triggered interrupt is used to notify the driver that there are
+asynchronous notifications pending.
+
+v3->v4:
+* Clarfied the expected type of interrypt is edge-triggered, both in
+  the normal documentation and in the DT bindings as requested.
+
+v2->v3:
+* Rebased on v5.14-rc2 which made the patch "dt-bindings: arm: Convert
+  optee binding to json-schema" from the V2 patch set obsolete.
+* Applied Ard's Acked-by on "optee: add asynchronous notifications"
+
+v1->v2:
+* Added documentation
+* Converted optee bindings to json-schema and added interrupt property
+* Configure notification interrupt from DT instead of getting it
+  from secure world, suggested by Ard Biesheuvel <ardb@kernel.org>.
+
+Thanks,
+Jens
+
+Jens Wiklander (6):
+  docs: staging/tee.rst: add a section on OP-TEE notifications
+  dt-bindings: arm: optee: add interrupt property
+  tee: fix put order in teedev_close_context()
+  tee: add tee_dev_open_helper() primitive
+  optee: separate notification functions
+  optee: add asynchronous notifications
+
+ .../arm/firmware/linaro,optee-tz.yaml         |   7 +
+ Documentation/staging/tee.rst                 |  29 +++
+ drivers/tee/optee/Makefile                    |   1 +
+ drivers/tee/optee/call.c                      |  27 +++
+ drivers/tee/optee/core.c                      |  87 +++++--
+ drivers/tee/optee/notif.c                     | 226 ++++++++++++++++++
+ drivers/tee/optee/optee_msg.h                 |   9 +
+ drivers/tee/optee/optee_private.h             |  23 +-
+ drivers/tee/optee/optee_rpc_cmd.h             |  31 +--
+ drivers/tee/optee/optee_smc.h                 |  75 +++++-
+ drivers/tee/optee/rpc.c                       |  73 +-----
+ drivers/tee/tee_core.c                        |  37 ++-
+ include/linux/tee_drv.h                       |  27 +++
+ 13 files changed, 528 insertions(+), 124 deletions(-)
+ create mode 100644 drivers/tee/optee/notif.c
+
 -- 
-2.27.0
+2.31.1
 
