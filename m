@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60908C4338F
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE8AC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:28:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B1266108D
-	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:24:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3E49610FD
+	for <linux-doc@archiver.kernel.org>; Wed, 18 Aug 2021 18:28:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbhHRSY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 14:24:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33282 "EHLO mail.kernel.org"
+        id S229661AbhHRS2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 14:28:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33960 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhHRSY6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Aug 2021 14:24:58 -0400
+        id S229448AbhHRS2g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Aug 2021 14:28:36 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A0B36108D;
-        Wed, 18 Aug 2021 18:24:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3CC0C60E90;
+        Wed, 18 Aug 2021 18:28:01 +0000 (UTC)
 Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <maz@kernel.org>)
-        id 1mGQEf-005odj-Bu; Wed, 18 Aug 2021 19:24:21 +0100
-Date:   Wed, 18 Aug 2021 19:24:20 +0100
-Message-ID: <87a6lesjaj.wl-maz@kernel.org>
+        id 1mGQIB-005ofQ-6o; Wed, 18 Aug 2021 19:27:59 +0100
+Date:   Wed, 18 Aug 2021 19:27:58 +0100
+Message-ID: <878s0ysj4h.wl-maz@kernel.org>
 From:   Marc Zyngier <maz@kernel.org>
 To:     Jens Wiklander <jens.wiklander@linaro.org>
 Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -41,10 +41,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v4 2/6] dt-bindings: arm: optee: add interrupt property
-In-Reply-To: <20210818101849.602257-3-jens.wiklander@linaro.org>
+Subject: Re: [PATCH v4 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
+In-Reply-To: <20210818101849.602257-2-jens.wiklander@linaro.org>
 References: <20210818101849.602257-1-jens.wiklander@linaro.org>
-        <20210818101849.602257-3-jens.wiklander@linaro.org>
+        <20210818101849.602257-2-jens.wiklander@linaro.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -58,41 +58,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 18 Aug 2021 11:18:45 +0100,
+On Wed, 18 Aug 2021 11:18:44 +0100,
 Jens Wiklander <jens.wiklander@linaro.org> wrote:
 > 
-> Adds an optional interrupt property to the optee binding.
+> Adds a section on notifications used by OP-TEE, synchronous and
+> asynchronous.
 > 
 > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 > ---
->  .../devicetree/bindings/arm/firmware/linaro,optee-tz.yaml  | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  Documentation/staging/tee.rst | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml b/Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
-> index c24047c1fdd5..40c9f1901e3f 100644
-> --- a/Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
-> +++ b/Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.yaml
-> @@ -24,6 +24,12 @@ properties:
->    compatible:
->      const: linaro,optee-tz
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> index 4d4b5f889603..951f07dd026b 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -184,6 +184,35 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
+>  application to retrieve a list of Trusted Applications which can be registered
+>  as devices on the TEE bus.
 >  
-> +  interrupts:
-> +    maxItems: 1
-> +    description: |
-> +      This interrupt which is used to signal an event by the secure world
-> +      software is expected to be edge-triggered.
+> +OP-TEE notifications
+> +--------------------
 > +
->    method:
->      enum: [smc, hvc]
->      description: |
-> @@ -46,6 +52,7 @@ examples:
->          optee  {
->              compatible = "linaro,optee-tz";
->              method = "smc";
-> +            interrupts = <0 187 1>;
->          };
->      };
->  
+> +There are two kinds of notifications that secure world can use to make
+> +normal world aware of some event.
+> +
+> +1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
+> +   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
+> +2. Asynchronous notifications delivered with a combination of a non-secure
+> +   edge-triggered interrupt and a fast call from the non-secure interrupt
+> +   handler.
+> +
+> +Synchronous notifications are limited by depending on RPC for delivery,
+> +this is only usable when secure world is entered with a yielding call via
+> +``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
+> +world interrupt handlers.
+> +
+> +An asynchronous notification is delivered via a non-secure edge-triggered
+> +interrupt to an interrupt handler registered in the OP-TEE driver. The
+> +actual notification value are retrieved with the fast call
+> +``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``.
+
+One thing you may want to describe whether a single interrupt can
+represent multiple notification (multiple edge interrupts will happily
+be coalesced into a single one if not acknowledged before the next
+notification).
+
+Otherwise,
 
 Acked-by: Marc Zyngier <maz@kernel.org>
 
