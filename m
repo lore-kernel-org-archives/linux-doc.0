@@ -2,131 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0769FC4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2345C4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 08:42:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB9B56113A
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:58:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9CB260E78
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 08:42:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235052AbhHSH70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 03:59:26 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:52478 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231909AbhHSH7Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:59:25 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1CEB5220AB;
-        Thu, 19 Aug 2021 07:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1629359929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GasiM7Gy5clKgsCGkYZlWv0QVHBzwTvldYtpCJdLXlY=;
-        b=F/EtMP5KGs1HWPLA29hG+3PQYkUbvNF6FWEBiwDZc2Z2AJJGG0g/5m5ndZe2yxr93HAWuj
-        yBcCD/txDvEp7IqUcLhalILcKdFnQjyT8heCgiJ4jeRmirL2Yt4o3Tvh91z/5ZKGKbaacK
-        9HrQ2hO7xm07IbVAyNB3dA/O36Fm7Q8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1629359929;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GasiM7Gy5clKgsCGkYZlWv0QVHBzwTvldYtpCJdLXlY=;
-        b=CNSD3tLSPcXd5p99d1UpO7Ehx9Mu3IroRkaLNmapediVk8MBqEHzK4lOYu72geIGzEPPIU
-        DDZw6mtXroOYG5AQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 97E57136DD;
-        Thu, 19 Aug 2021 07:58:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap1.suse-dmz.suse.de with ESMTPSA
-        id aGpJIzgPHmFyEAAAGKfGzw
-        (envelope-from <jroedel@suse.de>); Thu, 19 Aug 2021 07:58:48 +0000
-Date:   Thu, 19 Aug 2021 09:58:46 +0200
-From:   Joerg Roedel <jroedel@suse.de>
-To:     Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
-        Cong Wang <cong.wang@bytedance.com>,
-        Peilin Ye <peilin.ye@bytedance.com>
-Subject: Re: [PATCH RESEND v2] docs: x86: Remove obsolete information about
- x86_64 vmalloc() faulting
-Message-ID: <YR4PNjIM3W5zkPnt@suse.de>
-References: <20210818220123.2623-1-yepeilin.cs@gmail.com>
+        id S233610AbhHSInW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 04:43:22 -0400
+Received: from mail-dm6nam08on2056.outbound.protection.outlook.com ([40.107.102.56]:57697
+        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229869AbhHSInU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Aug 2021 04:43:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xp+8kvXSbDz1rFQkSoK9ZrSNBMVuC6KqgaoAOGg5atf1bOhsO9QhqQnd85A+PVESLJCBvDMfkqSFMhbf+fVzRFqQOzFYmVzuZTq5zJYAbJ+HfuZ09q+lFVGQCvx+7eE/hRfnodqfZLpbcpIB5D/dLg9TOJJAiyMDZj2FC+rQG8jD43jRYzFnFJ8cR5YskENEeX4aah2efw/IjAZox6bIohp7hClKSCfO4GxhK23swKe/oiuRfKXEwREZH0XQSqF8VKIWHdegOj9PgVI3nAslhbIs9HBhmcAnWUJAs7APs2dW+b/qsVBVov1VqOQAewArI5mXR5en1ggWHsD8eZ/1BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sRDnv16PJev7PxNDrk2mKEKcd2VQ4n7MSrXbsaC+5Ys=;
+ b=dGIvlonN6QIB7NZAKtFFLnQobInYCayuh0/flXecyImH1jQlCZQvgaOQEWve0/krApEHbxiWFp0ExGVFMqRrzRy9JM5vDjLVs4QW+8AbGfv4yXYXmPx7I3FosRDAf07nd9YZqyahlyzGOWzLaSi088RISF6+aGcMj1FXERU2+sjLtQW+uvv1fr8eJTnOpQSPo5yqXGxWx9XFa4QU6yC2UQvvfVVgbA1a9tFgkkyraV6ibaq4uGDiJxW0RkgwHzgyEmR0+xohH9H/VzzJ6v5Th32ygbOepFhkTehUSF9vDd44EwB3UAVOozuzStsqiJRDacN7sbs+flZfAoI82Tt+Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sRDnv16PJev7PxNDrk2mKEKcd2VQ4n7MSrXbsaC+5Ys=;
+ b=Uy6syuPjX+aW6CKmF2Ufd9PhkkAMDGjCuolyeVERSsI/a63bWsv2b5W7ZD9NQOwKsv45lU/C9MTRuEVs+vRLNBsE8eBxQExyIw2zqkEgBkZw4s0BWVYWd+wu6j/1swFF6wY5UsF6BSzMe3AkiJAD5a5iNSoYSzCorpLM5iWU0WcsBUQJxzf3r/VxzUrtWvuzyg7W6RUfd/v+BsEnVCDEYIB6BIMGYWbBiYh24PHP4t1dSeUojenCbuKwW8EWL7bB+kYWr4UfX0dd+ABUY3C3Abt44DC2Z65gTdeaWJaGfinZvegQTyXw6boIjXoS2gUvthchqMY2DaXyPZE3jevz8A==
+Received: from DM5PR06CA0068.namprd06.prod.outlook.com (2603:10b6:3:37::30) by
+ BN6PR1201MB2546.namprd12.prod.outlook.com (2603:10b6:404:b0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.19; Thu, 19 Aug
+ 2021 08:42:43 +0000
+Received: from DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:37:cafe::de) by DM5PR06CA0068.outlook.office365.com
+ (2603:10b6:3:37::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Thu, 19 Aug 2021 08:42:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; lwn.net; dkim=none (message not signed)
+ header.d=none;lwn.net; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ DM6NAM11FT021.mail.protection.outlook.com (10.13.173.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Thu, 19 Aug 2021 08:42:42 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 19 Aug
+ 2021 08:42:42 +0000
+Received: from d3.nvidia.com (172.20.187.5) by mail.nvidia.com (172.20.187.10)
+ with Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Thu, 19 Aug
+ 2021 08:42:41 +0000
+From:   Benjamin Poirier <bpoirier@nvidia.com>
+To:     David Ahern <dsahern@kernel.org>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH net-next] doc: Document unexpected tcp_l3mdev_accept=1 behavior
+Date:   Thu, 19 Aug 2021 17:38:54 +0900
+Message-ID: <20210819083854.156996-1-bpoirier@nvidia.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818220123.2623-1-yepeilin.cs@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 42ff079a-d112-4382-2dc6-08d962ed4f65
+X-MS-TrafficTypeDiagnostic: BN6PR1201MB2546:
+X-Microsoft-Antispam-PRVS: <BN6PR1201MB2546C35C76989DF4A11763A9B0C09@BN6PR1201MB2546.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JuApuU7H8bunIrgUzb+6w5q/rBvaC/9/TCs3I7qobSIibW4DrOM55XHONntGbSEV+ZD50qNJVkbxLUBvEysX72kCem0MFvlK7WFuD0bRe7+rmLzWgP/4AdDAH5g18aB7KVjM+j8v6+7U+dOsY5khL5oEz1FhkfggnrgJfayXEFpSUAYFQGNZOLlAFJYebw92FWRZX1b60z414eMCz6a1q8t9TZ8U2f2BPPV9uuLmH5J5iiy6pxt0VS6dQYjEcKxnJBPUwB4WQIU+lJtVBRcgZrI6Ugiy6/NsvuPGKHLVl2x3ezwZ8FOmQekqVTXep/KzPY4mvtwFBj0xyaOzqq7cujAihqwTwb110k+tMc1nTjjgiUMm3xGG/QW6I2976LCwyS03QESaYXR/ta/uEyHQCTjWnJ16aFMo6dOqFXEYqaj9nr2SVkfCRz2b37ufoX90jCQklQKhFphI95il/+TSDpIOAVBI8pO9UGv/OC5cHXKjf2iRgtUx47vYQmzoCFlftYK8kviBzXfGa08h41s+NBYwcnQShY33QVc+3ffAOEPW1VwOD6fAd/bFFxxPVRS7ZUQsdJOjtsEM8K6wKsogxRpUa7bh8yi4FkiCAx9CfzcZLR9+ziyqjFRXmzEpdVKIJKOqh8Koo8vKzAHI2eskXME412BoRqKLShi1T4CHUIL6nnQWjexdHswBxWtsrfYZ1lphvC5RyTwfHDfCW7Cmig==
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(376002)(39860400002)(46966006)(36840700001)(2906002)(6916009)(26005)(186003)(8936002)(6666004)(2616005)(86362001)(5660300002)(478600001)(47076005)(426003)(7696005)(82310400003)(54906003)(70206006)(70586007)(336012)(316002)(83380400001)(1076003)(36756003)(82740400003)(7636003)(356005)(4326008)(36860700001)(8676002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 08:42:42.7368
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42ff079a-d112-4382-2dc6-08d962ed4f65
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT021.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB2546
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 03:01:23PM -0700, Peilin Ye wrote:
-> From: Peilin Ye <peilin.ye@bytedance.com>
-> 
-> x86_64 vmalloc() mappings are no longer "synchronized" among page tables
-> via faulting since commit 6eb82f994026 ("x86/mm: Pre-allocate P4D/PUD
-> pages for vmalloc area"), since the corresponding P4D or PUD pages are
-> now preallocated at boot, by preallocate_vmalloc_pages().  Drop the
-> "lazily synchronized" description for less confusion.
-> 
-> While this file is x86_64-specific, it is worth noting that things are
-> different for x86_32, where vmalloc()-related changes to `init_mm.pgd` are
-> synchronized to all page tables in the system during runtime, via
-> arch_sync_kernel_mappings().  Unfortunately, this synchronization is
-> subject to race condition, which is further handled via faulting, see
-> vmalloc_fault().  See commit 4819e15f740e ("x86/mm/32: Bring back vmalloc
-> faulting on x86_32") for more details.
-> 
-> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
-> Signed-off-by: Peilin Ye <peilin.ye@bytedance.com>
+As suggested by David, document a somewhat unexpected behavior that results
+from net.ipv4.tcp_l3mdev_accept=1. This behavior was encountered while
+debugging FRR, a VRF-aware application, on a system which used
+net.ipv4.tcp_l3mdev_accept=1 and where TCP connections for BGP with MD5
+keys were failing to establish.
 
-Reviewed-by: Joerg Roedel <jroedel@suse.de>
+Cc: David Ahern <dsahern@gmail.com>
+Signed-off-by: Benjamin Poirier <bpoirier@nvidia.com>
+---
+ Documentation/networking/vrf.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> ---
-> Hi all,
-> 
-> Resending this with Muchun's Reviewed-by:.
-> 
-> Thanks,
-> Peilin Ye
-> 
-> Changes in v2:
->     - More information for x86_32 in commit message (Joerg Roedel
->       <jroedel@suse.de>)
->     - Use my new email address for work
-> 
->  Documentation/x86/x86_64/mm.rst | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
-> index ede1875719fb..9798676bb0bf 100644
-> --- a/Documentation/x86/x86_64/mm.rst
-> +++ b/Documentation/x86/x86_64/mm.rst
-> @@ -140,10 +140,6 @@ The direct mapping covers all memory in the system up to the highest
->  memory address (this means in some cases it can also include PCI memory
->  holes).
->  
-> -vmalloc space is lazily synchronized into the different PML4/PML5 pages of
-> -the processes using the page fault handler, with init_top_pgt as
-> -reference.
-> -
->  We map EFI runtime services in the 'efi_pgd' PGD in a 64Gb large virtual
->  memory window (this size is arbitrary, it can be raised later if needed).
->  The mappings are not part of any other kernel PGD and are only available
-> -- 
-> 2.20.1
-> 
+diff --git a/Documentation/networking/vrf.rst b/Documentation/networking/vrf.rst
+index 0dde145043bc..0a9a6f968cb9 100644
+--- a/Documentation/networking/vrf.rst
++++ b/Documentation/networking/vrf.rst
+@@ -144,6 +144,19 @@ default VRF are only handled by a socket not bound to any VRF::
+ netfilter rules on the VRF device can be used to limit access to services
+ running in the default VRF context as well.
+ 
++Using VRF-aware applications (applications which simultaneously create sockets
++outside and inside VRFs) in conjunction with ``net.ipv4.tcp_l3mdev_accept=1``
++is possible but may lead to problems in some situations. With that sysctl
++value, it is unspecified which listening socket will be selected to handle
++connections for VRF traffic; ie. either a socket bound to the VRF or an unbound
++socket may be used to accept new connections from a VRF. This somewhat
++unexpected behavior can lead to problems if sockets are configured with extra
++options (ex. TCP MD5 keys) with the expectation that VRF traffic will
++exclusively be handled by sockets bound to VRFs, as would be the case with
++``net.ipv4.tcp_l3mdev_accept=0``. Finally and as a reminder, regardless of
++which listening socket is selected, established sockets will be created in the
++VRF based on the ingress interface, as documented earlier.
++
+ --------------------------------------------------------------------------------
+ 
+ Using iproute2 for VRFs
+-- 
+2.32.0
+
