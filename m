@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5288C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77797C4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CEBB61029
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CE306024A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231426AbhHSHBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 03:01:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
+        id S232003AbhHSHCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 03:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231411AbhHSHBx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:01:53 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C9BC061575
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:17 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id y23so4979387pgi.7
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:17 -0700 (PDT)
+        with ESMTP id S231986AbhHSHB7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:01:59 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EABC061756
+        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:24 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id x16so4615285pfh.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=COyVX7DGswoLsT07bE7693Is9lpdbptkw7XZJq06dVE=;
-        b=mbMCyhird95qS+Yla1yXzpOlmZrRUMQ71pWPpfzmMopuQKJvRINFP/i47lYrDp/uAs
-         T7mgM7lTYPbqV9o9fN29nmg9nOo+Qb94iLBjQpSJA2hFDzloeoeOU7XhOdnr8Je4gyOM
-         dShHm47W8pdOJvS9EytUQzkcR/CW5SV1UOvK1k8kHDz0F7pcZ9JZSP+t0vuEd6XMUDCO
-         GA55e06bVgTC839A0JCWtfzNgpw8lfbAxGXBNSN38dnNAhT3c/vVVCTUOzA2X1qEOhhI
-         mTXJ/DuszuE43W7eAfUeylslFj8cgYhZfOt6pYs2rQXC/ve40/yRb5nAr0Rw88zgQbhr
-         Xhxw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tPeELtqCwjpvRVGceyyXb8wT9tIIs0jEr3fTLflB/X8=;
+        b=fZgUHxGhmwtdl7UBLqg84E06NfJLqcmh+VZLYnCZmyfGY7d728NMUDb5pHOhN+ErPN
+         +ZOusejpqJSEvuhBzhoYzJVEotzGiBoVhbX2Q9PkiwftWd3ABHGb+NjNYIeKzBuWbxiA
+         s5KxFUB8Wdbdq6fdmlIWTHdg2X4z6J9xiHzdQzEWsucjNUKjcvVcmjmEagBpyfsb7bi6
+         jm8NfC+dhdNuBNPFH+UjaeeU9nPqc4UUEXCwpSFceNHAVse9N7gmFgHseNIy3TKVQZ4K
+         XG0NylInaagAoRXsaNm8w8fxuhBrTDszQQigWcYNbIYQje863ru4aQGn6zscbleVZ4od
+         LPhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=COyVX7DGswoLsT07bE7693Is9lpdbptkw7XZJq06dVE=;
-        b=eatFO004lDa/JXa6wG8yYhctpRpm7ydtjt21VXajogAkAUiK/5L7QBW759r7tkXZw0
-         yLHSyDQFFUnKqIBhnb9ibsQOKX2Cv6z6Bv95nOfYV7I0VF84TD7KP6ZV66WqAbEzgdd8
-         zIzalLCy6LynQWoFeONinL4kuDKV4utgnDrclfX0s/TztPs+w7BoYsn++IQ8v7lk7Mci
-         JxoGD+BC0x0K57Z9i+UK3GcKhKJaV3Kbm4tREFxo79phwjmspEtw28BV++LDJ3VBlD3X
-         gqfBKfWqHY/0iDicnJZKREI6TW94g17p9n13X7rdfCiEOE7d020K0yZ9DHOwGwqjQoNr
-         RnRw==
-X-Gm-Message-State: AOAM530fe3A/C9X9EGEXkjE+FhcFD5l6iwqzb8pUzxAuy2tAKsFvWXq6
-        Ny9wDcE2QLiMvc77HzUgMtai7A==
-X-Google-Smtp-Source: ABdhPJx2xyVqZmF+texY3vtwLaBS7RZT8T4ghFi9Ki5m8/cAxmOqX5mlxtewEl+7oTvNcjN1iz8mog==
-X-Received: by 2002:a63:25c7:: with SMTP id l190mr12592795pgl.165.1629356477276;
-        Thu, 19 Aug 2021 00:01:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tPeELtqCwjpvRVGceyyXb8wT9tIIs0jEr3fTLflB/X8=;
+        b=j90h2CU2s2ppal0ad0loD52mKFIFPw7yDKEBEWdbC69K4VSHFxYsfB3RhBcATvCE4r
+         b829WhQ+381sVXSsuSad3uPr7gs+mM7o/dcaGFKx2AG5ZC7got1lFtSujlxCs75P6HVT
+         7RXWzDLb9+poiLCxbsxK6UTcwlbcfnlbqRoG5H9qbxiF4iwcrh6PX7an1+PLeOVwr0mQ
+         rjL2scGvuL756eKEDN8H0M+Jl6+RfEkVh327CC6BXO7vgQey8p1OLjoWTTLDs0NvI0D8
+         oPVVYKAhBao0KCFQdWu2pLOq6r7xhwqu+yIB1PtvgRvTw7vj3aP5DUbVEaLuNwPs8WNl
+         k2jQ==
+X-Gm-Message-State: AOAM532rWZImd4kkcm+eg0LpR1dpR0D0LCU8wnK4q6CutUPDw5nlRqyt
+        a18GCnqmR+mSf+tLA7++NrfRqQ==
+X-Google-Smtp-Source: ABdhPJwv/wjwYA3OfRoLnhbJkD2hJue5q8lDQLXbPSdmpOrDp8q5sb0noWCNmQ/lWmBX1yb1hzO6Kg==
+X-Received: by 2002:a63:ce57:: with SMTP id r23mr12761914pgi.271.1629356483522;
+        Thu, 19 Aug 2021 00:01:23 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.237])
-        by smtp.gmail.com with ESMTPSA id t30sm2490395pgl.47.2021.08.19.00.01.11
+        by smtp.gmail.com with ESMTPSA id t30sm2490395pgl.47.2021.08.19.00.01.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Aug 2021 00:01:16 -0700 (PDT)
+        Thu, 19 Aug 2021 00:01:23 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
         osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
@@ -64,123 +64,328 @@ Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
         smuchun@gmail.com, zhengqi.arch@bytedance.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v2 0/4] Free the 2nd vmemmap page associated with each HugeTLB page
-Date:   Thu, 19 Aug 2021 14:58:27 +0800
-Message-Id: <20210819065831.43186-1-songmuchun@bytedance.com>
+Subject: [PATCH v2 1/4] mm: hugetlb: free the 2nd vmemmap page associated with each HugeTLB page
+Date:   Thu, 19 Aug 2021 14:58:28 +0800
+Message-Id: <20210819065831.43186-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+In-Reply-To: <20210819065831.43186-1-songmuchun@bytedance.com>
+References: <20210819065831.43186-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After the feature of "Free sonme vmemmap pages of HugeTLB page" is enabled,
-the mapping of the vmemmap addresses associated with a 2MB HugeTLB page
-becomes the figure below.
+Currently, we only free 6 vmemmap pages associated with a 2MB HugeTLB
+page. However, we can remap all tail vmemmap pages to the page frame
+mapped to with the head vmemmap page. Finally, we can free 7 vmemmap
+pages for a 2MB HugeTLB page. It is a fine gain (e.g. we can save
+extra 2GB memory when there is 1TB HugeTLB pages in the system
+compared with the current implementation).
 
-     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
- |           |                     |     0     | -------------> |     0     |
- |           |                     +-----------+                +-----------+
- |           |                     |     1     | -------------> |     1     |
- |           |                     +-----------+                +-----------+
- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
- |           |                     +-----------+                   | | | | |
- |           |                     |     3     | ------------------+ | | | |
- |           |                     +-----------+                     | | | |
- |           |                     |     4     | --------------------+ | | |
- |    2MB    |                     +-----------+                       | | |
- |           |                     |     5     | ----------------------+ | |
- |           |                     +-----------+                         | |
- |           |                     |     6     | ------------------------+ |
- |           |                     +-----------+                           |
- |           |                     |     7     | --------------------------+
- |           |                     +-----------+
- |           |
- |           |
- |           |
- +-----------+
+But the head vmemmap page is not freed to the buddy allocator and all
+tail vmemmap pages are mapped to the head vmemmap page frame. So we
+can see more than one struct page struct with PG_head (e.g. 8 per 2 MB
+HugeTLB page) associated with each HugeTLB page. We should adjust
+compound_head() to make it returns the real head struct page when the
+parameter is the tail struct page but with PG_head flag.
 
-As we can see, the 2nd vmemmap page frame (indexed by 1) is reused and remaped.
-However, the 2nd vmemmap page frame is also can be freed to the buddy allocator,
-then we can change the mapping from the figure above to the figure below.
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ include/linux/page-flags.h                      | 75 +++++++++++++++++++++++--
+ mm/hugetlb_vmemmap.c                            | 60 +++++++++++---------
+ mm/sparse-vmemmap.c                             | 21 +++++++
+ 4 files changed, 126 insertions(+), 32 deletions(-)
 
-    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
- |           |                     |     0     | -------------> |     0     |
- |           |                     +-----------+                +-----------+
- |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
- |           |                     +-----------+                  | | | | | |
- |           |                     |     2     | -----------------+ | | | | |
- |           |                     +-----------+                    | | | | |
- |           |                     |     3     | -------------------+ | | | |
- |           |                     +-----------+                      | | | |
- |           |                     |     4     | ---------------------+ | | |
- |    2MB    |                     +-----------+                        | | |
- |           |                     |     5     | -----------------------+ | |
- |           |                     +-----------+                          | |
- |           |                     |     6     | -------------------------+ |
- |           |                     +-----------+                            |
- |           |                     |     7     | ---------------------------+
- |           |                     +-----------+
- |           |
- |           |
- |           |
- +-----------+
-
-After we do this, all tail vmemmap pages (1-7) are mapped to the head vmemmap
-page frame (0). In other words, there are more than one page struct with
-PG_head associated with each HugeTLB page.  We __know__ that there is only one
-head page struct, the tail page structs with PG_head are fake head page structs.
-We need an approach to distinguish between those two different types of page
-structs so that compound_head(), PageHead() and PageTail() can work properly
-if the parameter is the tail page struct but with PG_head.
-
-The following code snippet describes how to distinguish between real and fake
-head page struct.
-
-	if (test_bit(PG_head, &page->flags)) {
-		unsigned long head = READ_ONCE(page[1].compound_head);
-
-		if (head & 1) {
-			if (head == (unsigned long)page + 1)
-				==> head page struct
-			else
-				==> tail page struct
-		} else
-			==> head page struct
-	}
-
-We can safely access the field of the @page[1] with PG_head because the @page
-is a compound page composed with at least two contiguous pages. The main
-implementation is in the patch 1.
-
-In our server, we can save extra 2GB memory with this patchset applied if there
-are 1 TB HugeTLB (2 MB) pages. If the size of the HugeTLB page is 1 GB, it only
-can save 4MB. For 2 MB HugeTLB page, it is a nice gain.
-
-Changlogs in v2:
-  1. Drop two patches of introducing PAGEFLAGS_MASK from this series.
-  2. Let page_head_if_fake() return page instead of NULL.
-  3. Add a selftest to check if PageHead or PageTail work well.
-
-Muchun Song (4):
-  mm: hugetlb: free the 2nd vmemmap page associated with each HugeTLB
-    page
-  mm: hugetlb: replace hugetlb_free_vmemmap_enabled with a static_key
-  mm: sparsemem: use page table lock to protect kernel pmd operations
-  selftests: vm: add a hugetlb test case
-
- Documentation/admin-guide/kernel-parameters.txt |   2 +-
- include/linux/hugetlb.h                         |   6 +-
- include/linux/page-flags.h                      |  77 ++++++++++++-
- mm/hugetlb_vmemmap.c                            |  64 ++++++-----
- mm/ptdump.c                                     |  16 ++-
- mm/sparse-vmemmap.c                             |  70 +++++++++---
- tools/testing/selftests/vm/vmemmap_hugetlb.c    | 139 ++++++++++++++++++++++++
- 7 files changed, 320 insertions(+), 54 deletions(-)
- create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdb22006f713..a154a7b3b9a5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1606,7 +1606,7 @@
+ 			[KNL] Reguires CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+ 			enabled.
+ 			Allows heavy hugetlb users to free up some more
+-			memory (6 * PAGE_SIZE for each 2MB hugetlb page).
++			memory (7 * PAGE_SIZE for each 2MB hugetlb page).
+ 			Format: { on | off (default) }
+ 
+ 			on:  enable the feature
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 8e1d97d8f3bd..7b1a918ebd43 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -184,13 +184,64 @@ enum pageflags {
+ 
+ #ifndef __GENERATING_BOUNDS_H
+ 
++#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++extern bool hugetlb_free_vmemmap_enabled;
++
++/*
++ * If the feature of freeing some vmemmap pages associated with each HugeTLB
++ * page is enabled, the head vmemmap page frame is reused and all of the tail
++ * vmemmap addresses map to the head vmemmap page frame (furture details can
++ * refer to the figure at the head of the mm/hugetlb_vmemmap.c).  In other
++ * word, there are more than one page struct with PG_head associated with each
++ * HugeTLB page.  We __know__ that there is only one head page struct, the tail
++ * page structs with PG_head are fake head page structs.  We need an approach
++ * to distinguish between those two different types of page structs so that
++ * compound_head() can return the real head page struct when the parameter is
++ * the tail page struct but with PG_head.
++ *
++ * The page_head_if_fake() returns the real head page struct iff the @page may
++ * be fake, otherwise, returns the @page if it cannot be a fake page struct.
++ */
++static __always_inline const struct page *page_head_if_fake(const struct page *page)
++{
++	if (!hugetlb_free_vmemmap_enabled)
++		return page;
++
++	/*
++	 * Only addresses aligned with PAGE_SIZE of struct page may be fake head
++	 * struct page. The alignment check aims to avoid access the fields (
++	 * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
++	 * cold cacheline in some cases.
++	 */
++	if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
++	    test_bit(PG_head, &page->flags)) {
++		/*
++		 * We can safely access the field of the @page[1] with PG_head
++		 * because the @page is a compound page composed with at least
++		 * two contiguous pages.
++		 */
++		unsigned long head = READ_ONCE(page[1].compound_head);
++
++		if (likely(head & 1))
++			return (const struct page *)(head - 1);
++	}
++
++	return page;
++}
++#else
++static __always_inline const struct page *page_head_if_fake(const struct page *page)
++{
++	return page;
++}
++#endif
++
+ static inline unsigned long _compound_head(const struct page *page)
+ {
+ 	unsigned long head = READ_ONCE(page->compound_head);
+ 
+ 	if (unlikely(head & 1))
+ 		return head - 1;
+-	return (unsigned long)page;
++	return (unsigned long)page_head_if_fake(page);
+ }
+ 
+ #define compound_head(page)	((typeof(page))_compound_head(page))
+@@ -225,12 +276,14 @@ static inline unsigned long _compound_head(const struct page *page)
+ 
+ static __always_inline int PageTail(struct page *page)
+ {
+-	return READ_ONCE(page->compound_head) & 1;
++	return READ_ONCE(page->compound_head) & 1 ||
++	       page_head_if_fake(page) != page;
+ }
+ 
+ static __always_inline int PageCompound(struct page *page)
+ {
+-	return test_bit(PG_head, &page->flags) || PageTail(page);
++	return test_bit(PG_head, &page->flags) ||
++	       READ_ONCE(page->compound_head) & 1;
+ }
+ 
+ #define	PAGE_POISON_PATTERN	-1l
+@@ -675,7 +728,21 @@ static inline bool test_set_page_writeback(struct page *page)
+ 	return set_page_writeback(page);
+ }
+ 
+-__PAGEFLAG(Head, head, PF_ANY) CLEARPAGEFLAG(Head, head, PF_ANY)
++static __always_inline bool folio_test_head(struct folio *folio)
++{
++	return test_bit(PG_head, folio_flags(folio, FOLIO_PF_ANY));
++}
++
++static __always_inline int PageHead(struct page *page)
++{
++	PF_POISONED_CHECK(page);
++	return test_bit(PG_head, &page->flags) &&
++	       page_head_if_fake(page) == page;
++}
++
++__SETPAGEFLAG(Head, head, PF_ANY)
++__CLEARPAGEFLAG(Head, head, PF_ANY)
++CLEARPAGEFLAG(Head, head, PF_ANY)
+ 
+ /* Whether there are one or multiple pages in a folio */
+ static inline bool folio_single(struct folio *folio)
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index c540c21e26f5..527bcaa44a48 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -124,9 +124,9 @@
+  * page of page structs (page 0) associated with the HugeTLB page contains the 4
+  * page structs necessary to describe the HugeTLB. The only use of the remaining
+  * pages of page structs (page 1 to page 7) is to point to page->compound_head.
+- * Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
++ * Therefore, we can remap pages 1 to 7 to page 0. Only 1 pages of page structs
+  * will be used for each HugeTLB page. This will allow us to free the remaining
+- * 6 pages to the buddy allocator.
++ * 7 pages to the buddy allocator.
+  *
+  * Here is how things look after remapping.
+  *
+@@ -134,30 +134,30 @@
+  * +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+  * |           |                     |     0     | -------------> |     0     |
+  * |           |                     +-----------+                +-----------+
+- * |           |                     |     1     | -------------> |     1     |
+- * |           |                     +-----------+                +-----------+
+- * |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+- * |           |                     +-----------+                   | | | | |
+- * |           |                     |     3     | ------------------+ | | | |
+- * |           |                     +-----------+                     | | | |
+- * |           |                     |     4     | --------------------+ | | |
+- * |    PMD    |                     +-----------+                       | | |
+- * |   level   |                     |     5     | ----------------------+ | |
+- * |  mapping  |                     +-----------+                         | |
+- * |           |                     |     6     | ------------------------+ |
+- * |           |                     +-----------+                           |
+- * |           |                     |     7     | --------------------------+
++ * |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
++ * |           |                     +-----------+                  | | | | | |
++ * |           |                     |     2     | -----------------+ | | | | |
++ * |           |                     +-----------+                    | | | | |
++ * |           |                     |     3     | -------------------+ | | | |
++ * |           |                     +-----------+                      | | | |
++ * |           |                     |     4     | ---------------------+ | | |
++ * |    PMD    |                     +-----------+                        | | |
++ * |   level   |                     |     5     | -----------------------+ | |
++ * |  mapping  |                     +-----------+                          | |
++ * |           |                     |     6     | -------------------------+ |
++ * |           |                     +-----------+                            |
++ * |           |                     |     7     | ---------------------------+
+  * |           |                     +-----------+
+  * |           |
+  * |           |
+  * |           |
+  * +-----------+
+  *
+- * When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
++ * When a HugeTLB is freed to the buddy system, we should allocate 7 pages for
+  * vmemmap pages and restore the previous mapping relationship.
+  *
+  * For the HugeTLB page of the pud level mapping. It is similar to the former.
+- * We also can use this approach to free (PAGE_SIZE - 2) vmemmap pages.
++ * We also can use this approach to free (PAGE_SIZE - 1) vmemmap pages.
+  *
+  * Apart from the HugeTLB page of the pmd/pud level mapping, some architectures
+  * (e.g. aarch64) provides a contiguous bit in the translation table entries
+@@ -166,7 +166,13 @@
+  *
+  * The contiguous bit is used to increase the mapping size at the pmd and pte
+  * (last) level. So this type of HugeTLB page can be optimized only when its
+- * size of the struct page structs is greater than 2 pages.
++ * size of the struct page structs is greater than 1 pages.
++ *
++ * Notice: The head vmemmap page is not freed to the buddy allocator and all
++ * tail vmemmap pages are mapped to the head vmemmap page frame. So we can see
++ * more than one struct page struct with PG_head (e.g. 8 per 2 MB HugeTLB page)
++ * associated with each HugeTLB page. The compound_head() can handle this
++ * correctly (more details refer to the comment above compound_head()).
+  */
+ #define pr_fmt(fmt)	"HugeTLB: " fmt
+ 
+@@ -175,14 +181,16 @@
+ /*
+  * There are a lot of struct page structures associated with each HugeTLB page.
+  * For tail pages, the value of compound_head is the same. So we can reuse first
+- * page of tail page structures. We map the virtual addresses of the remaining
+- * pages of tail page structures to the first tail page struct, and then free
+- * these page frames. Therefore, we need to reserve two pages as vmemmap areas.
++ * page of head page structures. We map the virtual addresses of all the pages
++ * of tail page structures to the head page struct, and then free these page
++ * frames. Therefore, we need to reserve one pages as vmemmap areas.
+  */
+-#define RESERVE_VMEMMAP_NR		2U
++#define RESERVE_VMEMMAP_NR		1U
+ #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+ 
+-bool hugetlb_free_vmemmap_enabled = IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
++bool hugetlb_free_vmemmap_enabled __read_mostly =
++	IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
++EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled);
+ 
+ static int __init early_hugetlb_free_vmemmap_param(char *buf)
+ {
+@@ -236,7 +244,6 @@ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+ 	 */
+ 	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+ 				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+-
+ 	if (!ret)
+ 		ClearHPageVmemmapOptimized(head);
+ 
+@@ -282,9 +289,8 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+ 
+ 	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
+ 	/*
+-	 * The head page and the first tail page are not to be freed to buddy
+-	 * allocator, the other pages will map to the first tail page, so they
+-	 * can be freed.
++	 * The head page is not to be freed to buddy allocator, the other tail
++	 * pages will map to the head page, so they can be freed.
+ 	 *
+ 	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
+ 	 * on some architectures (e.g. aarch64). See Documentation/arm64/
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index bdce883f9286..62e3d20648ce 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -53,6 +53,17 @@ struct vmemmap_remap_walk {
+ 	struct list_head *vmemmap_pages;
+ };
+ 
++/*
++ * How many struct page structs need to be reset. When we reuse the head
++ * struct page, the special metadata (e.g. page->flags or page->mapping)
++ * cannot copy to the tail struct page structs. The invalid value will be
++ * checked in the free_tail_pages_check(). In order to avoid the message
++ * of "corrupted mapping in tail page". We need to reset at least 3 (one
++ * head struct page struct and two tail struct page structs) struct page
++ * structs.
++ */
++#define NR_RESET_STRUCT_PAGE		3
++
+ static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
+ 				  struct vmemmap_remap_walk *walk)
+ {
+@@ -245,6 +256,15 @@ static void vmemmap_remap_pte(pte_t *pte, unsigned long addr,
+ 	set_pte_at(&init_mm, addr, pte, entry);
+ }
+ 
++static inline void reset_struct_pages(struct page *start)
++{
++	int i;
++	struct page *from = start + NR_RESET_STRUCT_PAGE;
++
++	for (i = 0; i < NR_RESET_STRUCT_PAGE; i++)
++		memcpy(start + i, from, sizeof(*from));
++}
++
+ static void vmemmap_restore_pte(pte_t *pte, unsigned long addr,
+ 				struct vmemmap_remap_walk *walk)
+ {
+@@ -258,6 +278,7 @@ static void vmemmap_restore_pte(pte_t *pte, unsigned long addr,
+ 	list_del(&page->lru);
+ 	to = page_to_virt(page);
+ 	copy_page(to, (void *)walk->reuse_addr);
++	reset_struct_pages(to);
+ 
+ 	set_pte_at(&init_mm, addr, pte, mk_pte(page, pgprot));
+ }
 -- 
 2.11.0
 
