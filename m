@@ -2,133 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8781C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 12:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46852C4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 12:48:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89C6961152
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 12:35:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F21261153
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 12:48:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239591AbhHSMfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 08:35:53 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:37444 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239899AbhHSMfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 08:35:53 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17JCYqMd032825;
-        Thu, 19 Aug 2021 07:34:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1629376492;
-        bh=poueu/euKtfcqbr8LzsTcjIQ1wgv6v/lzsChvHScOeU=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=ZO3lyeAp/+ym6hviOL+iomxGGyQI32S9tJNCKz70lGObJ05m3i051CPdwOBtpOSzH
-         oCrtIw/S/Omrt8DwCOyIGLZFO8tZv4lezJ0u0tZ16nNWnS2NAFCfTV/VXwJ1AZbTll
-         0y93YdwVt9YFrEiKU0nccDh8JxtoiOupvRIDO62c=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17JCYqkM057235
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 19 Aug 2021 07:34:52 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 19
- Aug 2021 07:34:51 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 19 Aug 2021 07:34:52 -0500
-Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17JCXlZW035715;
-        Thu, 19 Aug 2021 07:34:45 -0500
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        id S239275AbhHSMtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 08:49:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229577AbhHSMtI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Aug 2021 08:49:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D39361154;
+        Thu, 19 Aug 2021 12:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629377312;
+        bh=xIQ/zVqxRG/q7zsWF4vebQ5bnJmagrf+yNKkdMIvQAI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=j6oz3OBfmcYPf8GHcWhS87HrdGq07GcxI1UkNO5Dq/veO0GikBMoR4D3IFLXNaaLs
+         UbXglUgFQLjeNYc3lo9vtPjkMN6SS5zemcCDzF0d2b1NSqczfdSb9hX8SV4u3zFXOW
+         Jp48lbIbMRiS6ScMx0J6oy+8XehJE3Wv/y7XtzFEa/9MjN/slArOZ+ntMewoMRuC/J
+         kt4FDLhD9voqPZKG5m4oCRUIqX4IL/Zzg6ZPVqWFdl2rP3+C2mFnkIxwD5EsrIpU6r
+         iSOwVUor9t4SobtP46IKgoIyDk4MApAOThcLEdy78N/l5zCe1cXl0QR5fQzIlWHxc9
+         aUa6pAoEYGTeg==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     linux-sgx@vger.kernel.org
+Cc:     Shuah Khan <shuah@kernel.org>, Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Subject: [PATCH v9 8/8] Documentation: PCI: endpoint/pci-endpoint-cfs: Guide to use SR-IOV
-Date:   Thu, 19 Aug 2021 18:03:43 +0530
-Message-ID: <20210819123343.1951-9-kishon@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210819123343.1951-1-kishon@ti.com>
-References: <20210819123343.1951-1-kishon@ti.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        Saravanan D <saravanand@fb.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+Date:   Thu, 19 Aug 2021 15:48:24 +0300
+Message-Id: <20210819124824.52169-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210819124824.52169-1-jarkko@kernel.org>
+References: <20210819124824.52169-1-jarkko@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Documentation to help users use PCI endpoint to create virtual
-functions using configfs. An endpoint function is designated as a
-virtual endpoint function device when it is linked to a physical
-endpoint function device (instead of a endpoint controller).
+The amount of SGX memory on the system is determined by the BIOS and it
+varies wildly between systems.  It can be from dozens of MB's on desktops
+or VM's, up to many GB's on servers.  Just like for regular memory, it is
+sometimes useful to know the amount of usable SGX memory in the system.
 
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
+usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+BIOS, the printout would be:
+
+SGX_MemTotal:      22528 kB
+
+It is less than 32 MB because some of the space is reserved for Enclave
+Page Cache Metadata (EPCM), which contains state variables for all the
+pages in the Enclave Page Cache (EPC).  The latter contains the pages,
+which applications can use to create enclaves.
+
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- Documentation/PCI/endpoint/pci-endpoint-cfs.rst | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-index db609b97ad58..fb73345cfb8a 100644
---- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
-@@ -43,6 +43,7 @@ entries corresponding to EPF driver will be created by the EPF core.
- 		.. <EPF Driver1>/
- 			... <EPF Device 11>/
- 			... <EPF Device 21>/
-+			... <EPF Device 31>/
- 		.. <EPF Driver2>/
- 			... <EPF Device 12>/
- 			... <EPF Device 22>/
-@@ -68,6 +69,7 @@ created)
- 				... subsys_vendor_id
- 				... subsys_id
- 				... interrupt_pin
-+			        ... <Symlink EPF Device 31>/
-                                 ... primary/
- 			                ... <Symlink EPC Device1>/
-                                 ... secondary/
-@@ -79,6 +81,13 @@ interface should be added in 'primary' directory and symlink of endpoint
- controller connected to secondary interface should be added in 'secondary'
- directory.
- 
-+The <EPF Device> directory can have a list of symbolic links
-+(<Symlink EPF Device 31>) to other <EPF Device>. These symbolic links should
-+be created by the user to represent the virtual functions that are bound to
-+the physical function. In the above directory structure <EPF Device 11> is a
-+physical function and <EPF Device 31> is a virtual function. An EPF device once
-+it's linked to another EPF device, cannot be linked to a EPC device.
+v2:
+* Move ifdef fix for sgx_set_attribute() to a separate patch.
+
+---
+ Documentation/x86/sgx.rst      | 6 ++++++
+ arch/x86/include/asm/sgx.h     | 2 ++
+ arch/x86/kernel/cpu/sgx/main.c | 7 ++++++-
+ arch/x86/mm/pat/set_memory.c   | 5 +++++
+ 4 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+index dd0ac96ff9ef..68ee171e1d8f 100644
+--- a/Documentation/x86/sgx.rst
++++ b/Documentation/x86/sgx.rst
+@@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
+ on the same machine, the user should reserve enough EPC (by taking out
+ total virtual EPC size of all SGX VMs from the physical EPC size) for
+ host SGX applications so they can run with acceptable performance.
 +
- EPC Device
- ==========
++Supplemental fields for /proc/meminfo
++=====================================
++
++SGX_MemTotal
++	The total usable SGX protected memory in kilobytes.
+diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
+index 38c397ef35a8..2ae9dc8c9411 100644
+--- a/arch/x86/include/asm/sgx.h
++++ b/arch/x86/include/asm/sgx.h
+@@ -366,6 +366,8 @@ struct sgx_sigstruct {
+  */
  
-@@ -98,7 +107,8 @@ entries corresponding to EPC device will be created by the EPC core.
+ #if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
++extern unsigned long sgx_nr_all_pages;
++
+ int sgx_set_attribute(unsigned long *allowed_attributes,
+ 		      unsigned int attribute_fd);
+ #endif
+diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+index 63d3de02bbcc..1fe26a8e80dc 100644
+--- a/arch/x86/kernel/cpu/sgx/main.c
++++ b/arch/x86/kernel/cpu/sgx/main.c
+@@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
+ static LIST_HEAD(sgx_active_page_list);
+ static DEFINE_SPINLOCK(sgx_reclaimer_lock);
  
- The <EPC Device> directory will have a list of symbolic links to
- <EPF Device>. These symbolic links should be created by the user to
--represent the functions present in the endpoint device.
-+represent the functions present in the endpoint device. Only <EPF Device>
-+that represents a physical function can be linked to a EPC device.
+-/* The free page list lock protected variables prepend the lock. */
++/* The number of usable EPC pages in the system. */
++unsigned long sgx_nr_all_pages;
++
++/* The number of free EPC pages in all nodes. */
+ static unsigned long sgx_nr_free_pages;
  
- The <EPC Device> directory will also have a *start* field. Once
- "1" is written to this field, the endpoint device will be ready to
+ /* Nodes with one or more EPC sections. */
+@@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
+ 		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
+ 	}
+ 
++	sgx_nr_all_pages += nr_pages;
++
+ 	return true;
+ }
+ 
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index ad8a5c586a35..82bb09c298de 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -29,6 +29,7 @@
+ #include <asm/proto.h>
+ #include <asm/memtype.h>
+ #include <asm/set_memory.h>
++#include <asm/sgx.h>
+ 
+ #include "../mm_internal.h"
+ 
+@@ -116,6 +117,10 @@ void arch_report_meminfo(struct seq_file *m)
+ 	if (direct_gbpages)
+ 		seq_printf(m, "DirectMap1G:    %8lu kB\n",
+ 			direct_pages_count[PG_LEVEL_1G] << 20);
++
++#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
++	seq_printf(m, "SGX_MemTotal:   %8lu kB\n", sgx_nr_all_pages << 2);
++#endif
+ }
+ #else
+ static inline void split_page_count(int level) { }
 -- 
-2.17.1
+2.25.1
 
