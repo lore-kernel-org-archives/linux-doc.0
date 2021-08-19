@@ -5,77 +5,77 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F9E4C4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 21:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF51C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 22:19:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28AF6610A0
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 21:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A07E7610A0
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 22:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbhHSVjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 17:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36488 "EHLO
+        id S236651AbhHSWT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 18:19:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27644 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229619AbhHSVjb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 17:39:31 -0400
+        by vger.kernel.org with ESMTP id S235907AbhHSWT5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 18:19:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629409134;
+        s=mimecast20190719; t=1629411559;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=nBzgR7XCkOLtoH5Yvb/WeoEepDn8l0sH9+YEvlAnXq8=;
-        b=KU+n2ErUKSTPKaXu88iuo/2bj9UQpxiKptSDWKlFS4KH+ESb5V4s1dLoTquBgA2dxgbp++
-        GOupbhiOG2WrYgjn/w2UUdWKU3aCNCMRXtiSerLT7NlktK7hIIMlUawBcKt9xEX6gumAvD
-        NqIskeeL9aX1Fh50EP6p6g/IFLjMbyc=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-a9asPX0RPyGyUoLH-8mYHw-1; Thu, 19 Aug 2021 17:38:52 -0400
-X-MC-Unique: a9asPX0RPyGyUoLH-8mYHw-1
-Received: by mail-oo1-f71.google.com with SMTP id s20-20020a4aead40000b029028b41986b27so3285755ooh.14
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 14:38:52 -0700 (PDT)
+        bh=EbhZJqeN1nM9qIrKQm6mxxNUIRdgxznhenqwUNNt6uM=;
+        b=IYbl6FGEUZN0CgLVj9Q2tvLRbGaTSkfWW7aWXdzMpbxEjVSn0IICuA7XXu0Bne07oXpzPh
+        VSst/rxjWvyvNTio0TBnQP8yjzEu2mQ5/0i+Szj4QILHcMXVPJywAqvgq84YGJ62L2uYkj
+        FEsX4gUUJSfLC0WbeSUsxhV5JBOYNPs=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-yXgRmhqJPUOAjeqQ0NJBug-1; Thu, 19 Aug 2021 18:19:17 -0400
+X-MC-Unique: yXgRmhqJPUOAjeqQ0NJBug-1
+Received: by mail-oi1-f200.google.com with SMTP id a14-20020a056808128eb029022053bcedd7so2771449oiw.17
+        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 15:19:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nBzgR7XCkOLtoH5Yvb/WeoEepDn8l0sH9+YEvlAnXq8=;
-        b=NaCVTU7a9XtQoRg6YA6SYyP/dvXBRPABvSBICmgCa3w5Cr7Z9j8qkkfuc7ihR0OITM
-         3EgZzhDI5hakywyLaCs8X4TAvlgXuI/wIBPdXt/85DahqC7eFqzYGiBJWYA7wBog/Lon
-         fsznUD56eiiGutgH/KdkhDuC0VbVJ44eZaqKtiO7EVIAC3HFham3IK6TJPVrjw0C3s25
-         ewVSkV3GKpGXk4uFmlZBlbNEIbP5BB1l20k8b+7VsczvaYaBMHpELwKymI9SZfxshZBT
-         BUcEEP51hfxrCnLpmq8TSXjI4zsQXxORR0DNV04qEdhAhgjLfm6iO8dMzM3Dn+0HOzYd
-         EXww==
-X-Gm-Message-State: AOAM533jdCr0v0LLgee8j9IYgYzbDx8/TYAXasPsdUmgZGXo3N7OqlDN
-        8JxkXsCq2pOrc3HtWKzTW86sXohJ3MFCdMFeZLVpBkD++snEjayNAYqoTxReFnz0RcZEbc5Pm5l
-        1UHdpdmX0XG3+272gtrcN
-X-Received: by 2002:a05:6830:25ce:: with SMTP id d14mr13997897otu.87.1629409131797;
-        Thu, 19 Aug 2021 14:38:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXo86cMZwiteRgztCDTbYxT83N7YNWeCuTuo1Gafd50BVVBx8Z/pbVTsnabs0y+xWiACesDA==
-X-Received: by 2002:a05:6830:25ce:: with SMTP id d14mr13997878otu.87.1629409131629;
-        Thu, 19 Aug 2021 14:38:51 -0700 (PDT)
+        bh=EbhZJqeN1nM9qIrKQm6mxxNUIRdgxznhenqwUNNt6uM=;
+        b=VlYa6K5rzsX7BHXfSX7oc+TNIl9IyajMxp6SM0RkUwqxxVnlMgHxC9VzxoM2ac3ZAI
+         ENyeZDbutIYQ17kJ95c6YLd/h3UiV1Tk5IWfzYS+nMIgCY0gLG2f2sA0QAAdaWoldN5I
+         HU86eJKcLq1cV9ry0TSoeo8Jc3EgDbXspAH6dW87b7TsELVLpTQVRTtJ2RFJ1fJXN1sU
+         F1OZBxVRpWBpNujxUFBQ9c9uBV6ItXEVE3XmYjT3+KWnqnaB/8XuKTt0pf/owrTqz3JO
+         SquY0u9bUFgEbC1x1DacrJLPh6T/PRy6F9gAO537zhhgRxEWYAM+6d9ORHQT9A1dqBuV
+         0bOA==
+X-Gm-Message-State: AOAM531xaQcz3GHZRQuXdpKJzJW0Eijlwwv0HwfXmEOLOWvxLV4Voljv
+        38useO9/DXW4+SaDbRKalvI1kc+Hmspr7/D67/wJumJW1ziSm2VoZpelkizRWgGRm8bXI/gGzja
+        DjnF09aOo9R9MhHD1ICGy
+X-Received: by 2002:a4a:a552:: with SMTP id s18mr13338724oom.1.1629411556752;
+        Thu, 19 Aug 2021 15:19:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzX5rfq5sQLsDwtph+vjRR0C26I9lgF4XK9hL1qrYyyg0cWYI/hPwJPKxCIkfjVts0o9JG5Kg==
+X-Received: by 2002:a4a:a552:: with SMTP id s18mr13338701oom.1.1629411556534;
+        Thu, 19 Aug 2021 15:19:16 -0700 (PDT)
 Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id g16sm968289otr.20.2021.08.19.14.38.50
+        by smtp.gmail.com with ESMTPSA id z25sm942600oic.24.2021.08.19.15.19.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 14:38:51 -0700 (PDT)
-Date:   Thu, 19 Aug 2021 15:38:49 -0600
+        Thu, 19 Aug 2021 15:19:16 -0700 (PDT)
+Date:   Thu, 19 Aug 2021 16:19:14 -0600
 From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Yishai Hadas <yishaih@nvidia.com>
-Cc:     <bhelgaas@google.com>, <corbet@lwn.net>,
-        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
-        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
-        <michal.lkml@markovi.net>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <mgurtovoy@nvidia.com>, <jgg@nvidia.com>, <maorg@nvidia.com>,
-        <leonro@nvidia.com>
-Subject: Re: [PATCH V2 06/12] vfio/pci: Split the pci_driver code out of
- vfio_pci_core.c
-Message-ID: <20210819153849.1e1ffc83.alex.williamson@redhat.com>
-In-Reply-To: <20210819151235.6fe61269.alex.williamson@redhat.com>
-References: <20210818151606.202815-1-yishaih@nvidia.com>
-        <20210818151606.202815-7-yishaih@nvidia.com>
-        <20210819151235.6fe61269.alex.williamson@redhat.com>
+To:     Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Yishai Hadas <yishaih@nvidia.com>, <bhelgaas@google.com>,
+        <corbet@lwn.net>, <diana.craciun@oss.nxp.com>,
+        <kwankhede@nvidia.com>, <eric.auger@redhat.com>,
+        <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>, <jgg@nvidia.com>,
+        <maorg@nvidia.com>, <leonro@nvidia.com>
+Subject: Re: [PATCH V2 09/12] PCI: Add 'override_only' bitmap to struct
+ pci_device_id
+Message-ID: <20210819161914.7ad2e80e.alex.williamson@redhat.com>
+In-Reply-To: <cd749d14-16ba-6442-0855-32c1bfac6e2d@nvidia.com>
+References: <20210819163945.GA3211852@bjorn-Precision-5520>
+        <cd749d14-16ba-6442-0855-32c1bfac6e2d@nvidia.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -84,73 +84,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Aug 2021 15:12:35 -0600
-Alex Williamson <alex.williamson@redhat.com> wrote:
+On Thu, 19 Aug 2021 22:57:30 +0300
+Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
 
-> On Wed, 18 Aug 2021 18:16:00 +0300
-> Yishai Hadas <yishaih@nvidia.com> wrote:
-> > +
-> > +static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
-> > +{
-> > +	might_sleep();  
-> 
-> vfio_pci_core_sriov_configure() retained the might_sleep(), it
-> shouldn't be needed here.
-> 
-> > +
-> > +	if (!enable_sriov)
-> > +		return -ENOENT;
-> > +
-> > +	return vfio_pci_core_sriov_configure(pdev, nr_virtfn);
-> > +}  
-> ...
-> > @@ -509,7 +449,7 @@ static struct vfio_pci_core_device *get_pf_vdev(struct vfio_pci_core_device *vde
-> >  	if (!pf_dev)
-> >  		return NULL;
+> On 8/19/2021 7:39 PM, Bjorn Helgaas wrote:
+> > On Thu, Aug 19, 2021 at 07:16:20PM +0300, Yishai Hadas wrote:  
+> >> On 8/19/2021 6:15 PM, Bjorn Helgaas wrote:  
+> >>> On Wed, Aug 18, 2021 at 06:16:03PM +0300, Yishai Hadas wrote:  
+> >>>> From: Max Gurtovoy <mgurtovoy@nvidia.com>
+> >>>>    /**
+> >>>>     * struct pci_device_id - PCI device ID structure
+> >>>>     * @vendor:		Vendor ID to match (or PCI_ANY_ID)
+> >>>> @@ -34,12 +38,14 @@ typedef unsigned long kernel_ulong_t;
+> >>>>     *			Best practice is to use driver_data as an index
+> >>>>     *			into a static list of equivalent device types,
+> >>>>     *			instead of using it as a pointer.
+> >>>> + * @override_only:	Bitmap for override_only PCI drivers.  
+> >>> "Match only when dev->driver_override is this driver"?  
+> >> Just to be aligned here,
+> >>
+> >> This field will stay __u32 and may hold at the most 1 bit value set to
+> >> represent the actual subsystem/driver.  
+> > The PCI core does not require "at most 1 bit is set."
+> >
+> > Actually, I don't think even the file2alias code requires that.  If
+> > you set two bits, you can generate two aliases.
 > >  
-> > -	if (pci_dev_driver(physfn) != &vfio_pci_driver) {
-> > +	if (pci_dev_driver(physfn) != pci_dev_driver(vdev->pdev)) {  
+> >> This is required to later on set the correct prefix in the modules.alias
+> >> file, and you just suggested to change the comment as of above, right ?  
+> > Yes, __u32 is fine and I'm only suggesting a comment change here.  
 > 
-> I think this means that the PF and VF must use the same vfio-pci
-> "variant" driver, it's too bad we're not enabling vfio-pci to own the
-> PF while vfio-vendor-foo-pci owns the VF since our SR-IOV security
-> model remains in the core.  We can work on that later though, no loss
-> of functionality here.
+> great.
 > 
-> ...
-> > @@ -1795,12 +1723,12 @@ static int vfio_pci_bus_notifier(struct notifier_block *nb,
-> >  		pci_info(vdev->pdev, "Captured SR-IOV VF %s driver_override\n",
-> >  			 pci_name(pdev));
-> >  		pdev->driver_override = kasprintf(GFP_KERNEL, "%s",
-> > -						  vfio_pci_ops.name);
-> > +						  vdev->vdev.ops->name);
-> >  	} else if (action == BUS_NOTIFY_BOUND_DRIVER &&
-> >  		   pdev->is_virtfn && physfn == vdev->pdev) {
-> >  		struct pci_driver *drv = pci_dev_driver(pdev);
+> 
 > >  
-> > -		if (drv && drv != &vfio_pci_driver)
-> > +		if (drv && drv != pci_dev_driver(vdev->pdev))
-> >  			pci_warn(vdev->pdev,
-> >  				 "VF %s bound to driver %s while PF bound to vfio-pci\n",  
+> >>> As far as PCI core is concerned there's no need for this to be a
+> >>> bitmap.
+> >>>
+> >>> I think this would make more sense if split into two patches.  The
+> >>> first would add override_only and change pci_match_device().  Then
+> >>> there's no confusion about whether this is specific to VFIO.  
+> >> Splitting may end-up the first patch with a dead-code on below, as
+> >> found_id->override_only will be always 0.
+> >>
+> >> If you still believe that this is better we can do it.  
+> > I think it's fine to add the functionality in one patch and use it in
+> > the next if it makes the commit clearer.  I wouldn't want to add
+> > functionality that's not used at all in the series, but it's OK when
+> > they're both posted together.  
 > 
-> "vfio-pci" is hardcoded in this comment.  There are a few other user
-> visible instances of this in vfio-pci-core.c as well:
+> Ok. We can do the separation if all agree that the first commit is have 
+> a dead section.
 > 
-> MODULE_PARM_DESC(disable_vga, "Disable VGA resource access through vfio-pci");
+> Alex,
+> 
+> we would like to get few more reviewed-by signatures and we'll send the 
+> V3 series in a couple of days to make it to 5.15 merge window as we planned.
+> 
+> Are you ok with the series after we got the green light for this patch ?
+> 
+> do you think we need another pair of eyes to review the other patches ?
 
-I see this one is resolved in a later patch.  Thanks,
+More eyes is always better, but I'm not finding much to complain about
+in this series.  This patch was probably the most pivotal for agreement,
+the rest is largely mechanical at this point.
+
+In addition to Bjorn for the PCI parts of this, I'd also like to see an
+ack from Yamada-san or Michal for scripts/mod/, who are already cc'd 
+
+I also notice include/linux/vfio_pci_core.h doesn't get added to
+MAINTAINERS in the series.  Please fix in patch 12/
+
+It seems plausible that this could be ready for v5.15.  Thanks,
 
 Alex
-
-> 
->                 ret = pci_request_selected_regions(pdev,
->                                                    1 << index, "vfio-pci");
-> 
->                         pci_info_ratelimited(vdev->pdev,
->                                 "VF token incorrectly provided, PF not bound to vfio-pci\n");
-> 
-> We should try to fix or reword as many of these as we reasonably can.
-> Thanks,
-> 
-> Alex
 
