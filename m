@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BAC0C432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 03:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C50FC4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 03:20:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4530C60698
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 03:20:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6638161107
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 03:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236152AbhHSDUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 Aug 2021 23:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58206 "EHLO
+        id S236062AbhHSDUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 Aug 2021 23:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236121AbhHSDUn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 23:20:43 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE47C061796
-        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 20:20:08 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id s11so4522915pgr.11
-        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 20:20:08 -0700 (PDT)
+        with ESMTP id S236358AbhHSDUx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Aug 2021 23:20:53 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE5EC061764
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 20:20:17 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso3780010pjy.5
+        for <linux-doc@vger.kernel.org>; Wed, 18 Aug 2021 20:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nbYzfQrconcsR+4RpHS7arH5FSzBDfWHN7dK/RaMaFw=;
-        b=YOM/CjZFQYUfZyT2Fc4Nn6IQVqf1WWt7EkHXDVMuyNb9SvyKWGL4qXbtcpAg4Sg89e
-         oKOQEQQ11KPcU9hGocbQx/bTVUA0qlaM2sgIc0MH6y/Vd2e6ytt6c8FPfDjSIrOwWG3X
-         rOogyzQzLB/Sbb4E1vsRCSOf0MYhhEHsy+0u9P2z7HeBDcvETioDnM01k+OJ9DwHEb1a
-         zEmY73foZoQLq/cmt4/+CftyhY4k06xm1Ymfa9qbY94zjbReMLua3J0NFbWd9xgOHZ5g
-         he3vwICKNs+p1+Nd98SAa9UrwjxADENYVRUtjWlPf5DDby19E/Q1iXTFOMoPgooL28O2
-         lr1A==
+        bh=mOJy7d3mMHwvnCJysEKs+l/IQmr3k7czrKmvR87Rq+Y=;
+        b=ZQtPcDfT/IvJ0lwmDwNMUvKubfxsfdrSWJTX/Gyl20U7Bj8zWdMmAiyW4sP1seBT41
+         gZIooZB7ch001lCJCH2ckerONpSyV5p8Je2yJ6eo4vjFpaJxp0DWG8c/eiA5g7s/dGaZ
+         JtRu4quV5wLxRc9tM4UGEuBc43812xdRVPM7L81ugs34foHzwTt9qgu6eb7hZn7XBUKX
+         Fuz04duulFSLI7saoBwqk3QS47Y0BTIniWSs0WUJPK21KoQItsDaaHIr8M1YFqwrWWFF
+         kziYc+T7nV+iHv+IOcONPKLBMRERYmbnAJdS4FTuR2jTo3XU9Cx+G7dtXBSTlkfVgJkq
+         vH+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nbYzfQrconcsR+4RpHS7arH5FSzBDfWHN7dK/RaMaFw=;
-        b=HdO0NwaAEwJRyfMFzzu+9AvpRKLdsrXW0b0p2Q1fTtkM9MyONXgPpgmxyc+9rJNo/O
-         8yJitt0F1yE3zhMypis7Uflp8ZkzOXeTXnQVPY8iSWpRgsNbXZD6DJQdc4mikeueMRkx
-         nDH19zAV1v1BfPauxzowb3seXi8bCfvxOoVr9R9jTUJNMtcqN6gcBaZW1jxVDsMOvIl/
-         wXiV+nvbm76MrEfgQaJkmbO8ZgJfF3ToEDOKByOkjKsXpmHtlI3Tftfk4p4Km3nKORD0
-         itjVaJpctbtDwtP6XCe05KeOceok7IL4R69kzbOZNKNnAsrKx/RyCAnGT5qZWFxxcm7d
-         3mrg==
-X-Gm-Message-State: AOAM5312vUULeR7I90E016eXadkFG8XHdMsfrf/HFqxumE9dhE33VUi4
-        W4RId+foXcoTpHIGAlOhezFK2g==
-X-Google-Smtp-Source: ABdhPJycFOiVUzzFfHyRJZNon6CB7juNZC+TEA1Mqbc1P3fyFSV4ULUnK2OqTYn5F+dvtiLDyjMJ4A==
-X-Received: by 2002:a65:6107:: with SMTP id z7mr11924617pgu.43.1629343207673;
-        Wed, 18 Aug 2021 20:20:07 -0700 (PDT)
+        bh=mOJy7d3mMHwvnCJysEKs+l/IQmr3k7czrKmvR87Rq+Y=;
+        b=ELxGoXG1O0mCysNoj1JhAY0alPm/t111PgBJSUnAw8eXxVEELJZneexAkinnGs1WDY
+         UrUxboJy4hjWCAGQ/zk7++VFZ+ZYl14DgDcoon0i8pcz/zgoam2rFlLymmD1Ifjynq3N
+         9LOJw48a2dHfoJY6qsmfQykwO47NSdrUgR+VGopl6j0AQfBj1ft4PSA81XheSPhK1+bG
+         MspBi+fYhl+eKrCI2gVmH+f3EGsl0sHwAXk0etf2Qg7Qf7wYYHdgZwUVVfCHXYMcOLGs
+         OIdOJns2ehk2aFizhmXi9K978UXpXDNAHX4Lu63qtW+dafzm6jzs59iReY6bz8I41CY1
+         6CdA==
+X-Gm-Message-State: AOAM532EfMQSCxl2z5NSYYuUjqW/7ghH+cIDfHV6Bx7GFYhBttXFzUe+
+        pfrm4YlNtnrHmKcbscApqZ11Mg==
+X-Google-Smtp-Source: ABdhPJwEZ4RGOFInOKpqGaEMoIBV8Dz6mSB99TTKJzOR8VkbejafmMz0iT7mYo7EUQgIqYstfbLNlw==
+X-Received: by 2002:a17:90a:5d12:: with SMTP id s18mr10115629pji.35.1629343216801;
+        Wed, 18 Aug 2021 20:20:16 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id k3sm1261276pfc.16.2021.08.18.20.20.03
+        by smtp.gmail.com with ESMTPSA id k3sm1261276pfc.16.2021.08.18.20.20.12
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Aug 2021 20:20:07 -0700 (PDT)
+        Wed, 18 Aug 2021 20:20:16 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
         mhocko@kernel.org, vdavydov.dev@gmail.com,
@@ -63,9 +63,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH v2 3/9] mm: rework the parameter of lock_page_or_retry()
-Date:   Thu, 19 Aug 2021 11:18:52 +0800
-Message-Id: <20210819031858.98043-4-zhengqi.arch@bytedance.com>
+Subject: [PATCH v2 5/9] mm: pte_refcount infrastructure
+Date:   Thu, 19 Aug 2021 11:18:54 +0800
+Message-Id: <20210819031858.98043-6-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
 References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
@@ -75,87 +75,470 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-we need the vmf in lock_page_or_retry() in the subsequent patch,
-so pass in it directly.
+In this patch, we add two fields to the struct page of PTE page
+table, the pte_refcount is used to track how many users of PTE
+page table, the pmd is used to record the pmd entry which is
+populated by the PTE. And we introduce some APIs that will be
+used in subsequent patches:
+
+The following are some APIs related to ->pte_refcount:
+
+	pte_get{,_many}()
+	pte_put{,_many,_vmf}()
+	pte_try_get()
+
+And we add pte_alloc_get{,_map,_map_lock}(), the semantics of
+these function is to hold a pte_refcount count when it returns 0,
+and its caller is responsible for decrease the pte_refcount by
+calling pte_put(), like the following pattern:
+
+	--> pte_alloc_get()
+
+	    do something about pte
+
+	    pte_put()
+
+This patch contains no functional changes, just creates some
+infrastructure, and we will use these in the next patch.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- include/linux/pagemap.h | 8 +++-----
- mm/filemap.c            | 6 ++++--
- mm/memory.c             | 4 ++--
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ include/linux/mm_types.h |   8 +-
+ include/linux/pgtable.h  |   3 +-
+ include/linux/pte_ref.h  | 208 ++++++++++++++++++++++++++++++++++++++++++++++-
+ mm/Kconfig               |   4 +
+ mm/memory.c              |   8 +-
+ mm/pte_ref.c             |  59 ++++++++++++--
+ mm/sparse-vmemmap.c      |   2 +-
+ 7 files changed, 279 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index c36292181a21..dbb4dd6bb608 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -710,8 +710,7 @@ static inline bool wake_page_match(struct wait_page_queue *wait_page,
- 
- void __folio_lock(struct folio *folio);
- int __folio_lock_killable(struct folio *folio);
--bool __folio_lock_or_retry(struct folio *folio, struct mm_struct *mm,
--				unsigned int flags);
-+bool __folio_lock_or_retry(struct folio *folio, struct vm_fault *vmf);
- void unlock_page(struct page *page);
- void folio_unlock(struct folio *folio);
- 
-@@ -773,14 +772,13 @@ static inline int lock_page_killable(struct page *page)
-  * Return value and mmap_lock implications depend on flags; see
-  * __folio_lock_or_retry().
-  */
--static inline bool lock_page_or_retry(struct page *page, struct mm_struct *mm,
--				     unsigned int flags)
-+static inline bool lock_page_or_retry(struct page *page, struct vm_fault *vmf)
- {
- 	struct folio *folio;
- 	might_sleep();
- 
- 	folio = page_folio(page);
--	return folio_trylock(folio) || __folio_lock_or_retry(folio, mm, flags);
-+	return folio_trylock(folio) || __folio_lock_or_retry(folio, vmf);
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index b9aa9aa99924..85c5cc4b95b3 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -161,11 +161,17 @@ struct page {
+ 		};
+ 		struct {	/* Page table pages */
+ 			unsigned long _pt_pad_1;	/* compound_head */
+-			pgtable_t pmd_huge_pte; /* protected by page->ptl */
++			union {
++				pgtable_t pmd_huge_pte; /* protected by page->ptl */
++				pmd_t *pmd;             /* PTE page only */
++			};
+ 			unsigned long _pt_pad_2;	/* mapping */
+ 			union {
+ 				struct mm_struct *pt_mm; /* x86 pgds only */
+ 				atomic_t pt_frag_refcount; /* powerpc */
++#ifdef CONFIG_FREE_USER_PTE
++				atomic_t pte_refcount;  /* PTE page only */
++#endif
+ 			};
+ #if USE_SPLIT_PTE_PTLOCKS
+ #if ALLOC_SPLIT_PTLOCKS
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index e24d2c992b11..c799475bc5c9 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -331,7 +331,6 @@ static inline pte_t ptep_get_lockless(pte_t *ptep)
  }
+ #endif /* CONFIG_GUP_GET_PTE_LOW_HIGH */
  
- /*
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 9f773059c6dc..eeac0e119cf5 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1688,9 +1688,11 @@ static int __folio_lock_async(struct folio *folio, struct wait_page_queue *wait)
-  * If neither ALLOW_RETRY nor KILLABLE are set, will always return 1
-  * with the folio locked and the mmap_lock unperturbed.
-  */
--bool __folio_lock_or_retry(struct folio *folio, struct mm_struct *mm,
--			 unsigned int flags)
-+bool __folio_lock_or_retry(struct folio *folio, struct vm_fault *vmf)
- {
-+	unsigned int flags = vmf->flags;
-+	struct mm_struct *mm = vmf->vma->vm_mm;
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #ifndef __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
+ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm,
+ 					    unsigned long address,
+@@ -342,6 +341,8 @@ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm,
+ 	return pmd;
+ }
+ #endif /* __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR */
 +
- 	if (fault_flag_allow_retry_first(flags)) {
- 		/*
- 		 * CAUTION! In this case, mmap_lock is not released
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #ifndef __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR
+ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+ 					    unsigned long address,
+diff --git a/include/linux/pte_ref.h b/include/linux/pte_ref.h
+index 60b752dd7846..47aaeac7507e 100644
+--- a/include/linux/pte_ref.h
++++ b/include/linux/pte_ref.h
+@@ -15,6 +15,8 @@
+ 
+ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte);
+ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd);
++void pmd_install_get(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte);
++int __pte_alloc_get(struct mm_struct *mm, pmd_t *pmd);
+ 
+ #define pte_alloc(mm, pmd) (unlikely(pmd_none(*(pmd))) && __pte_alloc(mm, pmd))
+ 
+@@ -25,5 +27,209 @@ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd);
+ 	(pte_alloc(mm, pmd) ?				\
+ 		 NULL : pte_offset_map_lock(mm, pmd, address, ptlp))
+ 
+-#endif
++#ifdef CONFIG_FREE_USER_PTE
++
++void free_pte_table(struct mm_struct *mm, pmd_t *pmdp, unsigned long addr);
++
++static inline void pte_ref_init(pgtable_t pte, pmd_t *pmd, int count)
++{
++	pte->pmd = pmd;
++	atomic_set(&pte->pte_refcount, count);
++}
++
++static inline pmd_t *pte_to_pmd(pte_t *pte)
++{
++	return virt_to_page(pte)->pmd;
++}
++
++static inline void pte_migrate_pmd(pmd_t old_pmd, pmd_t *new_pmd)
++{
++	pmd_pgtable(old_pmd)->pmd = new_pmd;
++}
++
++static inline void pte_get_many(pmd_t *pmdp, unsigned int nr)
++{
++	pgtable_t pte = pmd_pgtable(*pmdp);
++
++	VM_BUG_ON(!PageTable(pte));
++	atomic_add(nr, &pte->pte_refcount);
++}
++
++/*
++ * pte_get - Increment ->pte_refcount for the PTE page table.
++ * @pmdp: a pointer to the pmd entry corresponding to the PTE page table.
++ *
++ * Similar to the mechanism of page refcount, the user of PTE page table
++ * should hold a refcount to it before accessing.
++ */
++static inline void pte_get(pmd_t *pmdp)
++{
++	pte_get_many(pmdp, 1);
++}
++
++/*
++ * pte_get_unless_zero - Increment ->pte_refcount for the PTE page table
++ *			 unless it is zero.
++ * @pmdp: a pointer to the pmd entry corresponding to the PTE page table.
++ */
++static inline bool pte_get_unless_zero(pmd_t *pmdp)
++{
++	pgtable_t pte = pmd_pgtable(*pmdp);
+ 
++	VM_BUG_ON(!PageTable(pte));
++	return atomic_inc_not_zero(&pte->pte_refcount);
++}
++
++/*
++ * pte_try_get - Try to increment ->pte_refcount for the PTE page table.
++ * @mm: the mm_struct of the target address space.
++ * @pmdp: a pointer to the pmd entry corresponding to the PTE page table.
++ *
++ * Return true if the increment succeeded. Otherwise return false.
++ *
++ * Before Operating the PTE page table, we need to hold a ->pte_refcount
++ * to protect against the concurrent release of the PTE page table.
++ */
++static inline bool pte_try_get(struct mm_struct *mm, pmd_t *pmdp)
++{
++	bool retval = true;
++	spinlock_t *ptl;
++
++	ptl = pmd_lock(mm, pmdp);
++	if (!pmd_present(*pmdp) || !pte_get_unless_zero(pmdp))
++		retval = false;
++	spin_unlock(ptl);
++
++	return retval;
++}
++
++static inline void pte_put_many(struct mm_struct *mm, pmd_t *pmdp,
++				unsigned long addr, unsigned int nr)
++{
++	pgtable_t pte = pmd_pgtable(*pmdp);
++
++	VM_BUG_ON(!PageTable(pte));
++	if (atomic_sub_and_test(nr, &pte->pte_refcount))
++		free_pte_table(mm, pmdp, addr & PMD_MASK);
++}
++
++/*
++ * pte_put - Decrement ->pte_refcount for the PTE page table.
++ * @mm: the mm_struct of the target address space.
++ * @pmdp: a pointer to the pmd entry corresponding to the PTE page table.
++ * @addr: the start address of the tlb range to be flushed.
++ *
++ * The PTE page table page will be freed when the last refcount is dropped.
++ */
++static inline void pte_put(struct mm_struct *mm, pmd_t *pmdp, unsigned long addr)
++{
++	pte_put_many(mm, pmdp, addr, 1);
++}
++
++/*
++ * pte_put_vmf - Decrement ->pte_refcount for the PTE page table.
++ * @vmf: fault information
++ *
++ * While we access ->pte_refcount of a PTE page table, any of the following
++ * ensures the pmd entry corresponding to the PTE page table stability:
++ * 	- mmap_lock
++ * 	- anon_lock
++ * 	- i_mmap_lock
++ * 	- parallel threads are excluded by other means which
++ * 	  can make ->pmd stable(e.g. gup case)
++ * But the mmap_lock maybe unlocked in advance in some cases in
++ * handle_pte_fault(), so we should ensure the pte_put() is performed
++ * in the critical section of the mmap_lock.
++ */
++static inline void pte_put_vmf(struct vm_fault *vmf)
++{
++	if (!(vmf->flags & FAULT_FLAG_PTE_GET))
++		return;
++	vmf->flags &= ~FAULT_FLAG_PTE_GET;
++
++	pte_put(vmf->vma->vm_mm, vmf->pmd, vmf->address);
++}
++
++/*
++ * pte_alloc_get - allocate a PTE page table if the pmd entry is none, and
++ *		   hold a ->pte_refcount when returning
++ * @mm: the mm_struct of the target address space.
++ * @pmdp: a pointer to the pmd entry corresponding to the PTE page table.
++ */
++static inline int pte_alloc_get(struct mm_struct *mm, pmd_t *pmdp)
++{
++	spinlock_t *ptl;
++
++	ptl = pmd_lock(mm, pmdp);
++	if (pmd_none(*pmdp) || !pte_get_unless_zero(pmdp)) {
++		spin_unlock(ptl);
++		return __pte_alloc_get(mm, pmdp);
++	}
++	spin_unlock(ptl);
++	return 0;
++}
++
++#define pte_alloc_get_map(mm, pmd, address)			\
++	(pte_alloc_get(mm, pmd) ? NULL : pte_offset_map(pmd, address))
++
++#define pte_alloc_get_map_lock(mm, pmd, address, ptlp)		\
++	(pte_alloc_get(mm, pmd) ?				\
++		 NULL : pte_offset_map_lock(mm, pmd, address, ptlp))
++#else
++static inline void pte_ref_init(pgtable_t pte, pmd_t *pmd, int count)
++{
++}
++
++static inline pmd_t *pte_to_pmd(pte_t *pte)
++{
++	return NULL;
++}
++
++static inline void pte_migrate_pmd(pmd_t old_pmd, pmd_t *new_pmd)
++{
++}
++
++static inline void pte_get_many(pmd_t *pmdp, unsigned int nr)
++{
++}
++
++static inline void pte_get(pmd_t *pmdp)
++{
++}
++
++static inline bool pte_get_unless_zero(pmd_t *pmdp)
++{
++	return true;
++}
++
++static inline bool pte_try_get(struct mm_struct *mm, pmd_t *pmdp)
++{
++	return true;
++}
++
++static inline void pte_put_many(struct mm_struct *mm, pmd_t *pmdp,
++				unsigned long addr, unsigned int value)
++{
++}
++
++static inline void pte_put(struct mm_struct *mm, pmd_t *pmdp, unsigned long addr)
++{
++}
++
++static inline void pte_put_vmf(struct vm_fault *vmf)
++{
++}
++
++static inline int pte_alloc_get(struct mm_struct *mm, pmd_t *pmdp)
++{
++	return pte_alloc(mm, pmdp);
++}
++
++#define pte_alloc_get_map(mm, pmd, address)			\
++	pte_alloc_map(mm, pmd, address)
++
++#define pte_alloc_get_map_lock(mm, pmd, address, ptlp)		\
++	pte_alloc_map_lock(mm, pmd, address, ptlp)
++#endif /* CONFIG_FREE_USER_PTE */
++
++#endif
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 50ca602edeb6..fb16ecebcb80 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -894,6 +894,10 @@ config IO_MAPPING
+ config SECRETMEM
+ 	def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
+ 
++config FREE_USER_PTE
++	def_bool y
++	depends on X86_64 && !TRANSPARENT_HUGEPAGE
++
+ source "mm/damon/Kconfig"
+ 
+ endmenu
 diff --git a/mm/memory.c b/mm/memory.c
-index 9c7534187454..d2aaa85b840c 100644
+index 265b841cc7f9..d1efb868e682 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -3451,7 +3451,7 @@ static vm_fault_t remove_device_exclusive_entry(struct vm_fault *vmf)
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct mmu_notifier_range range;
+@@ -441,7 +441,7 @@ int __pte_alloc_kernel(pmd_t *pmd)
  
--	if (!lock_page_or_retry(page, vma->vm_mm, vmf->flags))
-+	if (!lock_page_or_retry(page, vmf))
- 		return VM_FAULT_RETRY;
- 	mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0, vma,
- 				vma->vm_mm, vmf->address & PAGE_MASK,
-@@ -3584,7 +3584,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 		goto out_release;
+ 	spin_lock(&init_mm.page_table_lock);
+ 	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
+-		smp_wmb(); /* See comment in pmd_install() */
++		smp_wmb(); /* See comment in pmd_install_get() */
+ 		pmd_populate_kernel(&init_mm, pmd, new);
+ 		new = NULL;
+ 	}
+@@ -4780,7 +4780,7 @@ int __p4d_alloc(struct mm_struct *mm, pgd_t *pgd, unsigned long address)
+ 	if (pgd_present(*pgd))		/* Another has populated it */
+ 		p4d_free(mm, new);
+ 	else {
+-		smp_wmb(); /* See comment in pmd_install() */
++		smp_wmb(); /* See comment in pmd_install_get() */
+ 		pgd_populate(mm, pgd, new);
+ 	}
+ 	spin_unlock(&mm->page_table_lock);
+@@ -4802,7 +4802,7 @@ int __pud_alloc(struct mm_struct *mm, p4d_t *p4d, unsigned long address)
+ 	spin_lock(&mm->page_table_lock);
+ 	if (!p4d_present(*p4d)) {
+ 		mm_inc_nr_puds(mm);
+-		smp_wmb(); /* See comment in pmd_install() */
++		smp_wmb(); /* See comment in pmd_install_get() */
+ 		p4d_populate(mm, p4d, new);
+ 	} else	/* Another has populated it */
+ 		pud_free(mm, new);
+@@ -4826,7 +4826,7 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address)
+ 	ptl = pud_lock(mm, pud);
+ 	if (!pud_present(*pud)) {
+ 		mm_inc_nr_pmds(mm);
+-		smp_wmb(); /* See comment in pmd_install() */
++		smp_wmb(); /* See comment in pmd_install_get() */
+ 		pud_populate(mm, pud, new);
+ 	} else	/* Another has populated it */
+ 		pmd_free(mm, new);
+diff --git a/mm/pte_ref.c b/mm/pte_ref.c
+index 07a73b5521cc..630704ae26db 100644
+--- a/mm/pte_ref.c
++++ b/mm/pte_ref.c
+@@ -8,12 +8,47 @@
+  */
+ 
+ #include <linux/pte_ref.h>
++#include <linux/hugetlb.h>
++#include <asm/tlbflush.h>
+ 
+-void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
++#ifdef CONFIG_DEBUG_VM
++static void pte_free_debug(pmd_t pmd)
++{
++	pte_t *ptep = (pte_t *)pmd_page_vaddr(pmd);
++	int i = 0;
++
++	for (i = 0; i < PTRS_PER_PTE; i++)
++		BUG_ON(!pte_none(*ptep++));
++}
++#else
++static inline void pte_free_debug(pmd_t pmd)
++{
++}
++#endif
++
++void free_pte_table(struct mm_struct *mm, pmd_t *pmdp, unsigned long addr)
++{
++	struct vm_area_struct vma = TLB_FLUSH_VMA(mm, 0);
++	spinlock_t *ptl;
++	pmd_t pmd;
++
++	ptl = pmd_lock(mm, pmdp);
++	pmd = pmdp_huge_get_and_clear(mm, addr, pmdp);
++	spin_unlock(ptl);
++
++	pte_free_debug(pmd);
++	flush_tlb_range(&vma, addr, addr + PMD_SIZE);
++	mm_dec_nr_ptes(mm);
++	pte_free(mm, pmd_pgtable(pmd));
++}
++
++void pmd_install_get(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
+ {
+-	spinlock_t *ptl = pmd_lock(mm, pmd);
++	spinlock_t *ptl;
+ 
+-	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
++retry:
++	ptl = pmd_lock(mm, pmd);
++	if (likely(pmd_none(*pmd))) {
+ 		mm_inc_nr_ptes(mm);
+ 		/*
+ 		 * Ensure all pte setup (eg. pte page lock and page clearing) are
+@@ -30,19 +65,33 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
+ 		 */
+ 		smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+ 		pmd_populate(mm, pmd, *pte);
++		pte_ref_init(*pte, pmd, 1);
+ 		*pte = NULL;
++	} else if (!pte_get_unless_zero(pmd)) {
++		spin_unlock(ptl);
++		goto retry;
+ 	}
+ 	spin_unlock(ptl);
+ }
+ 
+-int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
++void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
++{
++	pmd_install_get(mm, pmd, pte);
++}
++
++int __pte_alloc_get(struct mm_struct *mm, pmd_t *pmd)
+ {
+ 	pgtable_t new = pte_alloc_one(mm);
+ 	if (!new)
+ 		return -ENOMEM;
+ 
+-	pmd_install(mm, pmd, &new);
++	pmd_install_get(mm, pmd, &new);
+ 	if (new)
+ 		pte_free(mm, new);
+ 	return 0;
+ }
++
++int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
++{
++	return __pte_alloc_get(mm, pmd);
++}
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index db6df27c852a..818c82ee3c6e 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -76,7 +76,7 @@ static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
+ 		set_pte_at(&init_mm, addr, pte, entry);
  	}
  
--	locked = lock_page_or_retry(page, vma->vm_mm, vmf->flags);
-+	locked = lock_page_or_retry(page, vmf);
+-	/* Make pte visible before pmd. See comment in pmd_install(). */
++	/* Make pte visible before pmd. See comment in pmd_install_get(). */
+ 	smp_wmb();
+ 	pmd_populate_kernel(&init_mm, pmd, pgtable);
  
- 	delayacct_clear_flag(current, DELAYACCT_PF_SWAPIN);
- 	if (!locked) {
 -- 
 2.11.0
 
