@@ -2,98 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5AFC4338F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0769FC4338F
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 784EE6108E
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:09:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB9B56113A
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:58:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbhHSHKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 03:10:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53310 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231831AbhHSHKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:10:03 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3924C061757
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:09:27 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id n18so5007207pgm.12
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mijRCYJWhiNYKUcggEieBjK/IJfHCFKEgd0FRoEC7LM=;
-        b=cqgCRQ1U6V4JJ4tcDdUV6PMZNDJO6XuUV6fP/t3dh/cJalqPpz+xCy/06fBvpomlAl
-         UZF6lSZHstctDQGwsKhCOgxp7IHejOGO/QJVoL1C8pDygvtuMGpPKEFlULUpR3/sY9Ms
-         oz4aGL1Mw1EONt2nEtsSg0dAWr9nqJfC0EEAI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mijRCYJWhiNYKUcggEieBjK/IJfHCFKEgd0FRoEC7LM=;
-        b=pjnxK50FB6gOx86++KOkZ893oTGrVEiksQmw8ZaHx6JYyN6IzULDn4BTV727mSUW8a
-         HQNZBkRQ60kTCU+nq3xGPHQqO2LmDuDhXZtmqTT/dO6fq7xIkeXhf/vKgILo8wyHD1zj
-         5JhofQTf/UgIG6d+5e7Yn5r2FtbjrxQFgYT5MH28zA/5hc2ICdtiy4hzMNxR7egHz2wE
-         +XB5h/LIIisztvk+ZRDg2dKH+4RZRAgMK4iKgLPuhZe7b0nyy/DlZwztvs49GXtlEN+P
-         bSrsC0QJXIwl0aGirn6o43aUQiUd3pzLwgSip1frJNS4qpA533PbB/37LgLvA/FUA/bU
-         mq/A==
-X-Gm-Message-State: AOAM530DFVmbiOje198h4nTut6uyNXBowKIJO34D2Y/7dzOynQm8R4G2
-        wttkxS/OwH5Jt7aqlBPpTc+XtQ==
-X-Google-Smtp-Source: ABdhPJxImLZctpQIjKmcj34VRkZg/VYmBXTz1xVTM1Ta1cbYQsomWRTwQxx74j2ybW2hZ502i4sO3g==
-X-Received: by 2002:a05:6a00:10cf:b0:3e1:d742:ad81 with SMTP id d15-20020a056a0010cf00b003e1d742ad81mr13283518pfu.29.1629356967408;
-        Thu, 19 Aug 2021 00:09:27 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e12sm1987947pfc.214.2021.08.19.00.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 00:09:26 -0700 (PDT)
-Date:   Thu, 19 Aug 2021 00:09:25 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-scsi@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Kevin Mitchell <kevmitch@arista.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
+        id S235052AbhHSH70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 03:59:26 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:52478 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231909AbhHSH7Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:59:25 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 1CEB5220AB;
+        Thu, 19 Aug 2021 07:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1629359929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GasiM7Gy5clKgsCGkYZlWv0QVHBzwTvldYtpCJdLXlY=;
+        b=F/EtMP5KGs1HWPLA29hG+3PQYkUbvNF6FWEBiwDZc2Z2AJJGG0g/5m5ndZe2yxr93HAWuj
+        yBcCD/txDvEp7IqUcLhalILcKdFnQjyT8heCgiJ4jeRmirL2Yt4o3Tvh91z/5ZKGKbaacK
+        9HrQ2hO7xm07IbVAyNB3dA/O36Fm7Q8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1629359929;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GasiM7Gy5clKgsCGkYZlWv0QVHBzwTvldYtpCJdLXlY=;
+        b=CNSD3tLSPcXd5p99d1UpO7Ehx9Mu3IroRkaLNmapediVk8MBqEHzK4lOYu72geIGzEPPIU
+        DDZw6mtXroOYG5AQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 97E57136DD;
+        Thu, 19 Aug 2021 07:58:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id aGpJIzgPHmFyEAAAGKfGzw
+        (envelope-from <jroedel@suse.de>); Thu, 19 Aug 2021 07:58:48 +0000
+Date:   Thu, 19 Aug 2021 09:58:46 +0200
+From:   Joerg Roedel <jroedel@suse.de>
+To:     Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, x86@kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, Hannes Reinecke <hare@suse.de>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] lkdtm: update block layer crashpoints
-Message-ID: <202108190008.2BBB6B68F@keescook>
-References: <20210819022940.561875-1-kevmitch@arista.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Peilin Ye <peilin.ye@bytedance.com>
+Subject: Re: [PATCH RESEND v2] docs: x86: Remove obsolete information about
+ x86_64 vmalloc() faulting
+Message-ID: <YR4PNjIM3W5zkPnt@suse.de>
+References: <20210818220123.2623-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210819022940.561875-1-kevmitch@arista.com>
+In-Reply-To: <20210818220123.2623-1-yepeilin.cs@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
-
-You weren't explicitly in the To: for this series (only Cc), but are
-you able to pick these up as well? I can resend them as a pull request
-if you need.
-
-Thanks!
-
--Kees
-
-On Wed, Aug 18, 2021 at 07:29:38PM -0700, Kevin Mitchell wrote:
-> This is v2 of https://lkml.org/lkml/2021/8/16/1497.
+On Wed, Aug 18, 2021 at 03:01:23PM -0700, Peilin Ye wrote:
+> From: Peilin Ye <peilin.ye@bytedance.com>
 > 
-> These patches update the lkdtm crashpoints in the block layer that have been
-> moved or removed.  In response to feedback, I've renamed the SCSI_DISPATCH_CMD
-> crashpoint to SCSI_QUEUE_RQ to correspond to the new function that it hooks
-> into. I have also added a commit to remove IDE_CORE_CP.
+> x86_64 vmalloc() mappings are no longer "synchronized" among page tables
+> via faulting since commit 6eb82f994026 ("x86/mm: Pre-allocate P4D/PUD
+> pages for vmalloc area"), since the corresponding P4D or PUD pages are
+> now preallocated at boot, by preallocate_vmalloc_pages().  Drop the
+> "lazily synchronized" description for less confusion.
 > 
+> While this file is x86_64-specific, it is worth noting that things are
+> different for x86_32, where vmalloc()-related changes to `init_mm.pgd` are
+> synchronized to all page tables in the system during runtime, via
+> arch_sync_kernel_mappings().  Unfortunately, this synchronization is
+> subject to race condition, which is further handled via faulting, see
+> vmalloc_fault().  See commit 4819e15f740e ("x86/mm/32: Bring back vmalloc
+> faulting on x86_32") for more details.
 > 
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> Signed-off-by: Peilin Ye <peilin.ye@bytedance.com>
 
--- 
-Kees Cook
+Reviewed-by: Joerg Roedel <jroedel@suse.de>
+
+> ---
+> Hi all,
+> 
+> Resending this with Muchun's Reviewed-by:.
+> 
+> Thanks,
+> Peilin Ye
+> 
+> Changes in v2:
+>     - More information for x86_32 in commit message (Joerg Roedel
+>       <jroedel@suse.de>)
+>     - Use my new email address for work
+> 
+>  Documentation/x86/x86_64/mm.rst | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/Documentation/x86/x86_64/mm.rst b/Documentation/x86/x86_64/mm.rst
+> index ede1875719fb..9798676bb0bf 100644
+> --- a/Documentation/x86/x86_64/mm.rst
+> +++ b/Documentation/x86/x86_64/mm.rst
+> @@ -140,10 +140,6 @@ The direct mapping covers all memory in the system up to the highest
+>  memory address (this means in some cases it can also include PCI memory
+>  holes).
+>  
+> -vmalloc space is lazily synchronized into the different PML4/PML5 pages of
+> -the processes using the page fault handler, with init_top_pgt as
+> -reference.
+> -
+>  We map EFI runtime services in the 'efi_pgd' PGD in a 64Gb large virtual
+>  memory window (this size is arbitrary, it can be raised later if needed).
+>  The mappings are not part of any other kernel PGD and are only available
+> -- 
+> 2.20.1
+> 
