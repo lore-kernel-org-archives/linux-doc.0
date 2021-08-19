@@ -2,235 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1190C432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB05C432BE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A729861106
-	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8031610A7
+	for <linux-doc@archiver.kernel.org>; Thu, 19 Aug 2021 07:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234198AbhHSHCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 Aug 2021 03:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235102AbhHSHCR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:02:17 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4513DC0613CF
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:42 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id j187so4604301pfg.4
-        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TGoc9aaZ7sLEp8beTZ83fWsgv448hw3NlquoSI1tIpc=;
-        b=bwr/h7J8Lb9dED0QAbvdKsEfFQ/MFTlsI31a+1pZku2apk3Fl0LXScilrk5x4A2Xbn
-         fTP7qJo4jpMohkbX5wICFS4p9/N2yaaiqmGM8Q6VcZHFc8qcdjGwEbkCmXRN/xsWYLpj
-         xablzhxnPCGGpgzbOyo46k6DQEs+sJqI3Y1K1dGdtKb4HmbArT+b4JMN3JXkrf4i8Wxa
-         PZ5mmkmwX0BAtnCoBmtoD2dV8D4gCP1B3wXC6CUPZ3HgtPVXJnwc6yHtc8C+fQBiEuuE
-         Yaz1W0Hoix1uUJVJu6hgdP8ggF8Fk6L5ef14ba5r3nhFwcMevvg91/unY6ljsZmP4cZF
-         NtfA==
+        id S235205AbhHSHCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 Aug 2021 03:02:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26193 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234803AbhHSHCU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Aug 2021 03:02:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629356504;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xhVHosNfawIyQK5RmFK8SONJExNGksIgOyq5OVKNQ4c=;
+        b=UPlQG1n74bsmxhnWSLNekkXAgaPUV460NvpOjzJXtAiOJdDrqneKDKs80AIUbTJ9bzWq9P
+        ITtW8C7OA7bU7tOlQKYlxCbN0fqMnFdMRL3DYV9Voy41qivfEgjb8OqB0QHgh8I5ShYaVS
+        0Q0IAf6utqBZg4tP8eRur0p116s7JFA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-XrxNs5AWNBCLPzxMj29iYg-1; Thu, 19 Aug 2021 03:01:43 -0400
+X-MC-Unique: XrxNs5AWNBCLPzxMj29iYg-1
+Received: by mail-wm1-f71.google.com with SMTP id r11-20020a05600c35cb00b002e706077614so1010209wmq.5
+        for <linux-doc@vger.kernel.org>; Thu, 19 Aug 2021 00:01:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TGoc9aaZ7sLEp8beTZ83fWsgv448hw3NlquoSI1tIpc=;
-        b=M4yTZOd7VmlfuVLB1SmxcURO+Zahn9TdU/dFyzGUVmoHEN+i9ctg39ApizVVi61Rx0
-         nTdwnCNyMhIcrlEojyLqCLVCRDjutCRFKq2J5cpt9XEMuyOv8PtzHEvP9COA98Y0dAi4
-         SzhtNDda/k+vCmagsBQi3BeIDLtalgcarQph73NDHsNygBVCMvM/kQ65eASsn0BgwpoT
-         nxBRCtC0CGViLCl4vtAO3dsdnqUZWoGTpt5sck8e90TYPTtuST5xkRkycIh5AiqRw8bp
-         Y7TnkVmyrcc7UYslOgOeApj67fyp7pehFpwdWE3AKFKHa9jmLPaBUt3K/ZGYp19GwcMc
-         mx5w==
-X-Gm-Message-State: AOAM530JDfD+avls7dfR3rhv2nJx2ZwBStR+ibj+Ob2M52R04P0caD0o
-        HDc+WeqaC0C11x2hh3g7vQ1J9w==
-X-Google-Smtp-Source: ABdhPJw1t5bEpzzN39Y5h9hV/52kGgevNTt539gpBKbVZs4zR6Bnyux1Z24rBd7QIGzHw2oc3ZBUBw==
-X-Received: by 2002:a63:fd12:: with SMTP id d18mr12704852pgh.129.1629356501856;
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=xhVHosNfawIyQK5RmFK8SONJExNGksIgOyq5OVKNQ4c=;
+        b=ZzCAlAsbCJHXgDo8w2CJrV0gS1/JhZG5EsxrqQF9D2nGGwhhd0jX2NLtJjVE77L8gG
+         kPX+eidFzXuHio9TQSzcygkf9nz+AIomijSlsbGYClS1Z7NYoy+1sSVtTkEAQiG2jI7O
+         QVzlIPbV1N2jOm0O4Jk9k8XO1gZ/4ZniAacIKgPrcwPXZPNSWRT7dzhkI8JCegp7lxMF
+         5e875WdTG/20VJARSBr7QqNd0ph5Rd/uE3RN4/PLjC/cZQ9sD0U1T8uUnUd42Ox0QGXh
+         HGdeOObrLtsIuBiHdgu0KPfXctd/Kl0jRiWCY7eata+oEJYB7NX8AsvlqzP13Bi4cYtz
+         DfrQ==
+X-Gm-Message-State: AOAM530b69jViEVwCqgSgN4/WHITur9UQb2+/rCnu+CtZKbA3XHcMCVQ
+        38hJ8vGDbNSgi5KACetMemiq0MZlta1GHFV2L1yuDZpMbd6URy8wb0XW087DWYkocPPyQ0VqaAP
+        BrytREPKs9wd8MM53JF63
+X-Received: by 2002:adf:979d:: with SMTP id s29mr1814080wrb.264.1629356501860;
         Thu, 19 Aug 2021 00:01:41 -0700 (PDT)
-Received: from localhost.localdomain ([139.177.225.237])
-        by smtp.gmail.com with ESMTPSA id t30sm2490395pgl.47.2021.08.19.00.01.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+X-Google-Smtp-Source: ABdhPJzPgcRMOO9d5aL/kke4yL0+nCtx2qzOwpYP3VaQCsuq/+pt+iZrukIeGZIVhuF0VsLGshS14w==
+X-Received: by 2002:adf:979d:: with SMTP id s29mr1814047wrb.264.1629356501621;
         Thu, 19 Aug 2021 00:01:41 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
-        corbet@lwn.net, willy@infradead.org
-Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
-        smuchun@gmail.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v2 4/4] selftests: vm: add a hugetlb test case
-Date:   Thu, 19 Aug 2021 14:58:31 +0800
-Message-Id: <20210819065831.43186-5-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20210819065831.43186-1-songmuchun@bytedance.com>
-References: <20210819065831.43186-1-songmuchun@bytedance.com>
+Received: from [192.168.3.132] (p5b0c6bd1.dip0.t-ipconnect.de. [91.12.107.209])
+        by smtp.gmail.com with ESMTPSA id k13sm1640202wms.33.2021.08.19.00.01.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 00:01:41 -0700 (PDT)
+To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
+ <20210819031858.98043-7-zhengqi.arch@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
+Message-ID: <5aa3020c-fcf2-87bd-31fe-e2b5c2aafcf2@redhat.com>
+Date:   Thu, 19 Aug 2021 09:01:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210819031858.98043-7-zhengqi.arch@bytedance.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the head vmemmap page frame associated with each HugeTLB page is
-reused, we should hide the PG_head flag of tail struct page from the
-user. Add a tese case to check whether it is work properly.
+On 19.08.21 05:18, Qi Zheng wrote:
+> Some malloc libraries(e.g. jemalloc or tcmalloc) usually
+> allocate the amount of VAs by mmap() and do not unmap
+> those VAs. They will use madvise(MADV_DONTNEED) to free
+> physical memory if they want. But the page tables do not
+> be freed by madvise(), so it can produce many page tables
+> when the process touches an enormous virtual address space.
+> 
+> The following figures are a memory usage snapshot of one
+> process which actually happened on our server:
+> 
+>          VIRT:  55t
+>          RES:   590g
+>          VmPTE: 110g
+> 
+> As we can see, the PTE page tables size is 110g, while the
+> RES is 590g. In theory, the process only need 1.2g PTE page
+> tables to map those physical memory. The reason why PTE page
+> tables occupy a lot of memory is that madvise(MADV_DONTNEED)
+> only empty the PTE and free physical memory but doesn't free
+> the PTE page table pages. So we can free those empty PTE page
+> tables to save memory. In the above cases, we can save memory
+> about 108g(best case). And the larger the difference between
+> the size of VIRT and RES, the more memory we save.
+> 
+> In this patch series, we add a pte_refcount field to the
+> struct page of page table to track how many users of PTE page
+> table. Similar to the mechanism of page refcount, the user of
+> PTE page table should hold a refcount to it before accessing.
+> The PTE page table page will be freed when the last refcount
+> is dropped.
+> 
+> While we access ->pte_refcount of a PTE page table, any of the
+> following ensures the pmd entry corresponding to the PTE page
+> table stability:
+> 
+> 	- mmap_lock
+> 	- anon_lock
+> 	- i_mmap_lock
+> 	- parallel threads are excluded by other means which
+> 	  can make ->pmd stable(e.g. gup case)
+> 
+> This patch does not support THP temporarily, it will be
+> supported in the next patch.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- tools/testing/selftests/vm/vmemmap_hugetlb.c | 139 +++++++++++++++++++++++++++
- 1 file changed, 139 insertions(+)
- create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
+Can you clarify (and document here) who exactly takes a reference on the 
+page table? Do I understand correctly that
 
-diff --git a/tools/testing/selftests/vm/vmemmap_hugetlb.c b/tools/testing/selftests/vm/vmemmap_hugetlb.c
-new file mode 100644
-index 000000000000..b6e945bf4053
---- /dev/null
-+++ b/tools/testing/selftests/vm/vmemmap_hugetlb.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A test case of using hugepage memory in a user application using the
-+ * mmap system call with MAP_HUGETLB flag.  Before running this program
-+ * make sure the administrator has allocated enough default sized huge
-+ * pages to cover the 2 MB allocation.
-+ *
-+ * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
-+ * That means the addresses starting with 0x800000... will need to be
-+ * specified.  Specifying a fixed address is not required on ppc64, i386
-+ * or x86_64.
-+ */
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/mman.h>
-+#include <fcntl.h>
-+
-+#define MAP_LENGTH		(2UL * 1024 * 1024)
-+
-+#ifndef MAP_HUGETLB
-+#define MAP_HUGETLB		0x40000	/* arch specific */
-+#endif
-+
-+#define PAGE_SIZE		4096
-+
-+#define PAGE_COMPOUND_HEAD	(1UL << 15)
-+#define PAGE_COMPOUND_TAIL	(1UL << 16)
-+#define PAGE_HUGE		(1UL << 17)
-+
-+#define HEAD_PAGE_FLAGS		(PAGE_COMPOUND_HEAD | PAGE_HUGE)
-+#define TAIL_PAGE_FLAGS		(PAGE_COMPOUND_TAIL | PAGE_HUGE)
-+
-+#define PM_PFRAME_BITS		55
-+#define PM_PFRAME_MASK		~((1UL << PM_PFRAME_BITS) - 1)
-+
-+/* Only ia64 requires this */
-+#ifdef __ia64__
-+#define MAP_ADDR		(void *)(0x8000000000000000UL)
-+#define MAP_FLAGS		(MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
-+#else
-+#define MAP_ADDR		NULL
-+#define MAP_FLAGS		(MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
-+#endif
-+
-+static void write_bytes(char *addr, size_t length)
-+{
-+	unsigned long i;
-+
-+	for (i = 0; i < length; i++)
-+		*(addr + i) = (char)i;
-+}
-+
-+static unsigned long virt_to_pfn(void *addr)
-+{
-+	int fd;
-+	unsigned long pagemap;
-+
-+	fd = open("/proc/self/pagemap", O_RDONLY);
-+	if (fd < 0)
-+		return -1UL;
-+
-+	lseek(fd, (unsigned long)addr / PAGE_SIZE * sizeof(pagemap), SEEK_SET);
-+	read(fd, &pagemap, sizeof(pagemap));
-+	close(fd);
-+
-+	return pagemap & ~PM_PFRAME_MASK;
-+}
-+
-+static int check_page_flags(unsigned long pfn)
-+{
-+	int fd, i;
-+	unsigned long pageflags;
-+
-+	fd = open("/proc/kpageflags", O_RDONLY);
-+	if (fd < 0)
-+		return -1;
-+
-+	lseek(fd, pfn * sizeof(pageflags), SEEK_SET);
-+
-+	read(fd, &pageflags, sizeof(pageflags));
-+	if ((pageflags & HEAD_PAGE_FLAGS) != HEAD_PAGE_FLAGS) {
-+		close(fd);
-+		printf("Head page flags (%lx) is invalid\n", pageflags);
-+		return -1;
-+	}
-+
-+	for (i = 1; i < MAP_LENGTH / PAGE_SIZE; i++) {
-+		read(fd, &pageflags, sizeof(pageflags));
-+		if ((pageflags & TAIL_PAGE_FLAGS) != TAIL_PAGE_FLAGS ||
-+		    (pageflags & HEAD_PAGE_FLAGS) == HEAD_PAGE_FLAGS) {
-+			close(fd);
-+			printf("Tail page flags (%lx) is invalid\n", pageflags);
-+			return -1;
-+		}
-+	}
-+
-+	close(fd);
-+
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	void *addr;
-+	unsigned long pfn;
-+
-+	addr = mmap(MAP_ADDR, MAP_LENGTH, PROT_READ | PROT_WRITE, MAP_FLAGS, -1, 0);
-+	if (addr == MAP_FAILED) {
-+		perror("mmap");
-+		exit(1);
-+	}
-+
-+	/* Trigger allocation of HugeTLB page. */
-+	write_bytes(addr, MAP_LENGTH);
-+
-+	pfn = virt_to_pfn(addr);
-+	if (pfn == -1UL) {
-+		munmap(addr, MAP_LENGTH);
-+		perror("virt_to_pfn");
-+		exit(1);
-+	}
-+
-+	printf("Returned address is %p whose pfn is %lx\n", addr, pfn);
-+
-+	if (check_page_flags(pfn) < 0) {
-+		munmap(addr, MAP_LENGTH);
-+		perror("check_page_flags");
-+		exit(1);
-+	}
-+
-+	/* munmap() length of MAP_HUGETLB memory must be hugepage aligned */
-+	if (munmap(addr, MAP_LENGTH)) {
-+		perror("munmap");
-+		exit(1);
-+	}
-+
-+	return 0;
-+}
+a) each !pte_none() entry inside a page table take a reference to the 
+page it's containted in.
+b) each page table walker temporarily grabs a page table reference
+c) The PMD tables the PTE is referenced in (->currently only ever a 
+single one) does *not* take a reference.
+
+So if there are no PTE entries left and nobody walks the page tables, 
+you can remove it? You should really extend the 
+description/documentation to make it clearer how exactly it's supposed 
+to work.
+
+
+It feels kind of strange to not introduce the CONFIG_FREE_USER_PTE 
+Kconfig option in this patch. At least it took me a while to identify it 
+in the previous patch.
+
+Maybe you should introduce the empty stubs and use them in a separate 
+patch, and then have this patch just introduce CONFIG_FREE_USER_PTE 
+along with the actual refcounting magic inside the !stub implementation.
+
 -- 
-2.11.0
+Thanks,
+
+David / dhildenb
 
