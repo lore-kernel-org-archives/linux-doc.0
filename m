@@ -2,99 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D58C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4BADC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2A24611AD
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:17:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB13561101
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:28:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbhHTRSN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 13:18:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36508 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232460AbhHTRSM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Aug 2021 13:18:12 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E8AF5ED0;
-        Fri, 20 Aug 2021 17:17:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E8AF5ED0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1629479854; bh=Y3LRHMBOx4EfnbSvJscaQWctmXzRQBWppOEpiEFNqKw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=iSWyy5o7/syqdcoUybuNdBUNuR7F/wWAgw4t4EGLOLL/w/nl2X1SURREPtww++D0O
-         VlJ9CiPjXGL/mJ3Rl/VHGDpeBXZl1BDQI6DTOMoVFHErP3wB3lMczkvY8U2vzzzHQ3
-         Vt7irFQD8Wq/lUuyWoxHzgdYyWhYUDQjJ3OAR8UiOHHSZD7URvxTcToT1B6Db22z4B
-         rFfcXi0NDEqSOkvGC33pif8pX0ACaSHwn06Ss5cuoPx/LNEuyITFp5VDhQItsbSIZn
-         tijL67q3PQsUJLSvX364j1fmbjQeg+w8oEhffXy6dznlljKTDxmcXV7Jam8g8lAqvz
-         GgXpuEgUqrW0Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chun-Hung Tseng <henrybear327@gmail.com>
-Cc:     jmseyas@dit.upm.es, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, henrybear327@gmail.com
-Subject: Re: [PATCH v2] Documentation: Update details of The Linux Kernel
- Module Programming Guide
-In-Reply-To: <20210819031407.17044-1-henrybear327@gmail.com>
-References: <20210819031407.17044-1-henrybear327@gmail.com>
-Date:   Fri, 20 Aug 2021 11:17:34 -0600
-Message-ID: <877dggrq6p.fsf@meer.lwn.net>
+        id S233452AbhHTR2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 13:28:42 -0400
+Received: from smtprelay0233.hostedemail.com ([216.40.44.233]:36192 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233320AbhHTR2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 13:28:42 -0400
+Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id C2CF5101CE23F;
+        Fri, 20 Aug 2021 17:28:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id D00E220D764;
+        Fri, 20 Aug 2021 17:28:00 +0000 (UTC)
+Message-ID: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
+Subject: What is the oldest perl version being used with the kernel ? update
+ oldest supported to 5.14 ?
+From:   Joe Perches <joe@perches.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        LukasBulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        linux-csky@vger.kernel.org
+Date:   Fri, 20 Aug 2021 10:27:59 -0700
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: wojh18d5ecfq9mr8d36u5p8pct8mmia8
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: D00E220D764
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18C1in7YDsawPZeoRsFE518C5c7FR0zQJA=
+X-HE-Tag: 1629480480-234339
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chun-Hung Tseng <henrybear327@gmail.com> writes:
+Perl 5.8 is nearly 20 years old now.
 
-> Recently, the content and examples of the book "The Linux Kernel Module
-> Programming Guide" are being actively maintained and added on Github[1].
-> Currently, the book is being regularly built into webpage and pdf
-> file using Github static page[2].
->
-> [1]: https://github.com/sysprog21/lkmpg
-> [2]: https://sysprog21.github.io/lkmpg/
->
-> Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
-> ---
->  Documentation/process/kernel-docs.rst | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> index 22d9ace5df2a..631a3dc04e3e 100644
-> --- a/Documentation/process/kernel-docs.rst
-> +++ b/Documentation/process/kernel-docs.rst
-> @@ -126,15 +126,17 @@ On-line docs
->          describes how to write user-mode utilities for communicating with
->          Card Services.
->  
-> -    * Title: **Linux Kernel Module Programming Guide**
-> +    * Title: **The Linux Kernel Module Programming Guide**
->  
-> -      :Author: Ori Pomerantz.
-> -      :URL: https://tldp.org/LDP/lkmpg/2.6/html/index.html
-> -      :Date: 2001
-> +      :Author: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
-> +      Jim Huang.
-> +      :URL: https://sysprog21.github.io/lkmpg/
-> +      :Date: 2021
->        :Keywords: modules, GPL book, /proc, ioctls, system calls,
->          interrupt handlers .
-> -      :Description: Very nice 92 pages GPL book on the topic of modules
-> -        programming. Lots of examples.
-> +      :Description: A very nice 93 pages GPL book on the topic of modules
-> +        programming. Lots of examples. Currently the new version is being
-> +        actively maintained at https://github.com/sysprog21/lkmpg.
+https://en.wikipedia.org/wiki/Perl_5_version_history
 
-If this book is now being consistently maintained, then the number of
-pages is sure to change in short order; it seems like kind of a strange
-thing to track here...?
+checkpatch uses regexes that are incompatible with perl versions
+earlier than 5.10, but these uses are currently runtime checked
+and skipped if the perl version is too old.  This runtime checking
+skips several useful tests.
 
-Thanks,
+There is also some desire for tools like kernel-doc, checkpatch and
+get_maintainer to use a common library of regexes and functions:
+https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
 
-jon
+It'd be useful to set the minimum perl version to something more modern.
+
+I believe perl 5.14, now only a decade old, is a reasonable target.
+
+Any objections or suggestions for a newer minimum version?
+
