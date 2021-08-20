@@ -2,71 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E2ADC43214
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D9C4C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:15:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 014196115C
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 17:33:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 709E661101
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbhHTReh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 13:34:37 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:37202 "EHLO 1wt.eu"
+        id S236023AbhHTSQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 14:16:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47104 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229516AbhHTReg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Aug 2021 13:34:36 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 17KHXall026146;
-        Fri, 20 Aug 2021 19:33:36 +0200
-Date:   Fri, 20 Aug 2021 19:33:36 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Joe Perches <joe@perches.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        LukasBulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        linux-csky@vger.kernel.org
-Subject: Re: What is the oldest perl version being used with the kernel ?
- update oldest supported to 5.14 ?
-Message-ID: <20210820173336.GA26130@1wt.eu>
-References: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
+        id S235950AbhHTSQZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:16:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E56A461056;
+        Fri, 20 Aug 2021 18:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629483347;
+        bh=lEauG8US0wWV105yX+m78yPpsHVn1SxEBoQkVuK3wLQ=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=iZ8eL9VRJ2N0qnU/+VFbVX5aGbw4kSBmXpVBDdGtuWN2mZZshQv3Sb6XkSinqPdSC
+         R5RyHVBJpS81J3HejjC36ETWbCFSCGZ0D5WUK6YDB8XgpgWPo63s8BlbXeGRbCRKnt
+         GV70SMKuQrvX1zNhZMdl9qhyq1Q+3jFAVMH49sDZrL3YMWU1Q1IxIWMrV1YzPOmaMu
+         JB6HA0VU2hf0RC2+nKj9N4D7MveLwtqVI1BcAPje48v763gchaevYK9wjV2GBFR1+G
+         gZtxMTvv1RC6qzlHrVFmgvJGAekzzmMg1Kz3BfKshjEKmIWIV9wrDLBOwoXfdzT/Sg
+         6GTkKruOhJ+QQ==
+Message-ID: <30fdfda30b42b8b836a199b3cbe65d1673f5100f.camel@kernel.org>
+Subject: Re: [PATCH v3 0/2] fs: remove support for mandatory locking
+From:   Jeff Layton <jlayton@kernel.org>
+To:     torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     ebiederm@xmission.com, david@redhat.com, willy@infradead.org,
+        linux-nfs@vger.kernel.org, viro@zeniv.linux.org.uk,
+        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
+        ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
+        akpm@linux-foundation.org, luto@kernel.org, bfields@fieldses.org,
+        rostedt@goodmis.org
+Date:   Fri, 20 Aug 2021 14:15:44 -0400
+In-Reply-To: <20210820163919.435135-1-jlayton@kernel.org>
+References: <20210820163919.435135-1-jlayton@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 10:27:59AM -0700, Joe Perches wrote:
-> Perl 5.8 is nearly 20 years old now.
+On Fri, 2021-08-20 at 12:39 -0400, Jeff Layton wrote:
+> v3: slight revision to verbiage, and use pr_warn_once
 > 
-> https://en.wikipedia.org/wiki/Perl_5_version_history
+> The first patch in this series adds a new warning that should pop on
+> kernels that have mandatory locking enabled when someone mounts a
+> filesystem with -o mand. The second patch removes support for mandatory
+> locking altogether.
 > 
-> checkpatch uses regexes that are incompatible with perl versions
-> earlier than 5.10, but these uses are currently runtime checked
-> and skipped if the perl version is too old.  This runtime checking
-> skips several useful tests.
+> What I think we probably want to do is apply the first to v5.14 before
+> it ships and allow the new warning to trickle out into stable kernels.
+> Then we can merge the second patch in v5.15 to go ahead and remove it.
 > 
-> There is also some desire for tools like kernel-doc, checkpatch and
-> get_maintainer to use a common library of regexes and functions:
-> https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
+> Sound like a plan?
 > 
-> It'd be useful to set the minimum perl version to something more modern.
+> Jeff Layton (2):
+>   fs: warn about impending deprecation of mandatory locks
+>   fs: remove mandatory file locking support
 > 
-> I believe perl 5.14, now only a decade old, is a reasonable target.
+>  .../filesystems/mandatory-locking.rst         | 188 ------------------
+>  fs/9p/vfs_file.c                              |  12 --
+>  fs/Kconfig                                    |  10 -
+>  fs/afs/flock.c                                |   4 -
+>  fs/ceph/locks.c                               |   3 -
+>  fs/gfs2/file.c                                |   3 -
+>  fs/locks.c                                    | 116 +----------
+>  fs/namei.c                                    |   4 +-
+>  fs/namespace.c                                |  25 +--
+>  fs/nfs/file.c                                 |   4 -
+>  fs/nfsd/nfs4state.c                           |  13 --
+>  fs/nfsd/vfs.c                                 |  15 --
+>  fs/ocfs2/locks.c                              |   4 -
+>  fs/open.c                                     |   8 +-
+>  fs/read_write.c                               |   7 -
+>  fs/remap_range.c                              |  10 -
+>  include/linux/fs.h                            |  84 --------
+>  mm/mmap.c                                     |   6 -
+>  mm/nommu.c                                    |   3 -
+>  19 files changed, 14 insertions(+), 505 deletions(-)
+>  delete mode 100644 Documentation/filesystems/mandatory-locking.rst
 > 
-> Any objections or suggestions for a newer minimum version?
 
-It's probably reasonable, even the Slackware 14.2 on my home PC, which
-is starting to date, ships a 5.22.
+I went ahead and pushed this version into the locks-next branch, so we
+can give it some soak time before merging.
 
-Willy
+-- 
+Jeff Layton <jlayton@kernel.org>
+
