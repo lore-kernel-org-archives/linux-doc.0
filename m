@@ -2,79 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A84C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 16:09:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D8DC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 16:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 367A961220
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 16:09:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 479D661152
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 16:39:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233507AbhHTQKa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 12:10:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46976 "EHLO mail.kernel.org"
+        id S231757AbhHTQkA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 12:40:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51838 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238564AbhHTQJf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Aug 2021 12:09:35 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8898D61213;
-        Fri, 20 Aug 2021 16:08:55 +0000 (UTC)
-Date:   Fri, 20 Aug 2021 12:08:48 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jeff Layton <jlayton@kernel.org>, torvalds@linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ebiederm@xmission.com, willy@infradead.org,
+        id S231318AbhHTQj7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Aug 2021 12:39:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 294CF610A3;
+        Fri, 20 Aug 2021 16:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629477561;
+        bh=fQVEnoDE2Gjbt5CEfpajFLqE2D9pqoShMYb2SpVXfmc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eqD+1vSJQ9VAzRyAVh6ORjz/OOen6ChPbsPPA0Bd0oIhpqN3zbr4stgPyj8ufqUON
+         EwJAhVaaWdzGdoYVzIy+s0h3KD/7XRsRaBMidPklVN23TWEeNjvHs5eXor1QeL9BR/
+         VqBlWHodQxCuUDwuKOrh+3idz0+VQgbdm13oCnS0XZw335YK54B0nxT4luICeHe6bP
+         93+t84fNHACxCtgsuJISmHnMyaKrOjSZYi3oidm1CJTzOS8rm7+XthOEbGSZfjTPO4
+         wKdn9pCXwRZBoCFSwwmvRzFZoQQzKictNDnW9EmUe/Ufc9xH7wgMK9eYYKJSbmE4eW
+         wvO0/oXmlL4rA==
+From:   Jeff Layton <jlayton@kernel.org>
+To:     torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     ebiederm@xmission.com, david@redhat.com, willy@infradead.org,
         linux-nfs@vger.kernel.org, viro@zeniv.linux.org.uk,
         linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
         linux-afs@lists.infradead.org, cluster-devel@redhat.com,
         ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
         akpm@linux-foundation.org, luto@kernel.org, bfields@fieldses.org,
-        w@1wt.eu, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] fs: warn about impending deprecation of
- mandatory locks
-Message-ID: <20210820120848.5692d25a@oasis.local.home>
-In-Reply-To: <0f4f3e65-1d2d-e512-2a6f-d7d63effc479@redhat.com>
-References: <20210820135707.171001-1-jlayton@kernel.org>
-        <20210820135707.171001-2-jlayton@kernel.org>
-        <0f4f3e65-1d2d-e512-2a6f-d7d63effc479@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        rostedt@goodmis.org
+Subject: [PATCH v3 0/2] fs: remove support for mandatory locking
+Date:   Fri, 20 Aug 2021 12:39:17 -0400
+Message-Id: <20210820163919.435135-1-jlayton@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Aug 2021 17:52:19 +0200
-David Hildenbrand <david@redhat.com> wrote:
+v3: slight revision to verbiage, and use pr_warn_once
 
-> > +static bool warned_mand;
-> >   static inline bool may_mandlock(void)
-> >   {
-> > +	if (!warned_mand) {
-> > +		warned_mand = true;
-> > +		pr_warn("======================================================\n");
-> > +		pr_warn("WARNING: the mand mount option is being deprecated and\n");
-> > +		pr_warn("         will be removed in v5.15!\n");
-> > +		pr_warn("======================================================\n");
-> > +	}  
-> 
-> Is there a reason not to use pr_warn_once() ?
+The first patch in this series adds a new warning that should pop on
+kernels that have mandatory locking enabled when someone mounts a
+filesystem with -o mand. The second patch removes support for mandatory
+locking altogether.
 
-You would need a single call though, otherwise each pr_warn_once()
-would have its own state that it warned once.
+What I think we probably want to do is apply the first to v5.14 before
+it ships and allow the new warning to trickle out into stable kernels.
+Then we can merge the second patch in v5.15 to go ahead and remove it.
 
-	const char warning[] =
-		"======================================================\n"
-		"WARNING: the mand mount option is being deprecated and\n"
-		"         will be removed in v5.15!\n"
-		"======================================================\n";
+Sound like a plan?
 
-	pr_warn_once(warning);
+Jeff Layton (2):
+  fs: warn about impending deprecation of mandatory locks
+  fs: remove mandatory file locking support
 
--- Steve
+ .../filesystems/mandatory-locking.rst         | 188 ------------------
+ fs/9p/vfs_file.c                              |  12 --
+ fs/Kconfig                                    |  10 -
+ fs/afs/flock.c                                |   4 -
+ fs/ceph/locks.c                               |   3 -
+ fs/gfs2/file.c                                |   3 -
+ fs/locks.c                                    | 116 +----------
+ fs/namei.c                                    |   4 +-
+ fs/namespace.c                                |  25 +--
+ fs/nfs/file.c                                 |   4 -
+ fs/nfsd/nfs4state.c                           |  13 --
+ fs/nfsd/vfs.c                                 |  15 --
+ fs/ocfs2/locks.c                              |   4 -
+ fs/open.c                                     |   8 +-
+ fs/read_write.c                               |   7 -
+ fs/remap_range.c                              |  10 -
+ include/linux/fs.h                            |  84 --------
+ mm/mmap.c                                     |   6 -
+ mm/nommu.c                                    |   3 -
+ 19 files changed, 14 insertions(+), 505 deletions(-)
+ delete mode 100644 Documentation/filesystems/mandatory-locking.rst
+
+-- 
+2.31.1
+
