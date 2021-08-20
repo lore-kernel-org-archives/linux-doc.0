@@ -2,101 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D9C4C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:15:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52295C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:18:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 709E661101
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:15:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 330EA61186
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236023AbhHTSQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 14:16:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47104 "EHLO mail.kernel.org"
+        id S235726AbhHTSTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 14:19:23 -0400
+Received: from mga05.intel.com ([192.55.52.43]:22426 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235950AbhHTSQZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Aug 2021 14:16:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E56A461056;
-        Fri, 20 Aug 2021 18:15:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629483347;
-        bh=lEauG8US0wWV105yX+m78yPpsHVn1SxEBoQkVuK3wLQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=iZ8eL9VRJ2N0qnU/+VFbVX5aGbw4kSBmXpVBDdGtuWN2mZZshQv3Sb6XkSinqPdSC
-         R5RyHVBJpS81J3HejjC36ETWbCFSCGZ0D5WUK6YDB8XgpgWPo63s8BlbXeGRbCRKnt
-         GV70SMKuQrvX1zNhZMdl9qhyq1Q+3jFAVMH49sDZrL3YMWU1Q1IxIWMrV1YzPOmaMu
-         JB6HA0VU2hf0RC2+nKj9N4D7MveLwtqVI1BcAPje48v763gchaevYK9wjV2GBFR1+G
-         gZtxMTvv1RC6qzlHrVFmgvJGAekzzmMg1Kz3BfKshjEKmIWIV9wrDLBOwoXfdzT/Sg
-         6GTkKruOhJ+QQ==
-Message-ID: <30fdfda30b42b8b836a199b3cbe65d1673f5100f.camel@kernel.org>
-Subject: Re: [PATCH v3 0/2] fs: remove support for mandatory locking
-From:   Jeff Layton <jlayton@kernel.org>
-To:     torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     ebiederm@xmission.com, david@redhat.com, willy@infradead.org,
-        linux-nfs@vger.kernel.org, viro@zeniv.linux.org.uk,
-        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
-        ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
-        akpm@linux-foundation.org, luto@kernel.org, bfields@fieldses.org,
-        rostedt@goodmis.org
-Date:   Fri, 20 Aug 2021 14:15:44 -0400
-In-Reply-To: <20210820163919.435135-1-jlayton@kernel.org>
-References: <20210820163919.435135-1-jlayton@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        id S230089AbhHTSTX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:19:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="302407780"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
+   d="scan'208";a="302407780"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:18:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
+   d="scan'208";a="533074670"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:18:44 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v29 02/32] x86/cet/shstk: Add Kconfig option for Shadow Stack
+Date:   Fri, 20 Aug 2021 11:11:31 -0700
+Message-Id: <20210820181201.31490-3-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20210820181201.31490-1-yu-cheng.yu@intel.com>
+References: <20210820181201.31490-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-08-20 at 12:39 -0400, Jeff Layton wrote:
-> v3: slight revision to verbiage, and use pr_warn_once
-> 
-> The first patch in this series adds a new warning that should pop on
-> kernels that have mandatory locking enabled when someone mounts a
-> filesystem with -o mand. The second patch removes support for mandatory
-> locking altogether.
-> 
-> What I think we probably want to do is apply the first to v5.14 before
-> it ships and allow the new warning to trickle out into stable kernels.
-> Then we can merge the second patch in v5.15 to go ahead and remove it.
-> 
-> Sound like a plan?
-> 
-> Jeff Layton (2):
->   fs: warn about impending deprecation of mandatory locks
->   fs: remove mandatory file locking support
-> 
->  .../filesystems/mandatory-locking.rst         | 188 ------------------
->  fs/9p/vfs_file.c                              |  12 --
->  fs/Kconfig                                    |  10 -
->  fs/afs/flock.c                                |   4 -
->  fs/ceph/locks.c                               |   3 -
->  fs/gfs2/file.c                                |   3 -
->  fs/locks.c                                    | 116 +----------
->  fs/namei.c                                    |   4 +-
->  fs/namespace.c                                |  25 +--
->  fs/nfs/file.c                                 |   4 -
->  fs/nfsd/nfs4state.c                           |  13 --
->  fs/nfsd/vfs.c                                 |  15 --
->  fs/ocfs2/locks.c                              |   4 -
->  fs/open.c                                     |   8 +-
->  fs/read_write.c                               |   7 -
->  fs/remap_range.c                              |  10 -
->  include/linux/fs.h                            |  84 --------
->  mm/mmap.c                                     |   6 -
->  mm/nommu.c                                    |   3 -
->  19 files changed, 14 insertions(+), 505 deletions(-)
->  delete mode 100644 Documentation/filesystems/mandatory-locking.rst
-> 
+Shadow Stack provides protection against function return address
+corruption.  It is active when the processor supports it, the kernel has
+CONFIG_X86_SHADOW_STACK enabled, and the application is built for the
+feature.  This is only implemented for the 64-bit kernel.  When it is
+enabled, legacy non-Shadow Stack applications continue to work, but without
+protection.
 
-I went ahead and pushed this version into the locks-next branch, so we
-can give it some soak time before merging.
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc: Kees Cook <keescook@chromium.org>
+---
+v25:
+- Remove X86_CET and use X86_SHADOW_STACK directly.
 
+v24:
+- Update for the splitting X86_CET to X86_SHADOW_STACK and X86_IBT.
+---
+ arch/x86/Kconfig           | 22 ++++++++++++++++++++++
+ arch/x86/Kconfig.assembler |  5 +++++
+ 2 files changed, 27 insertions(+)
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 88fb922c23a0..cb0405ccf858 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -26,6 +26,7 @@ config X86_64
+ 	depends on 64BIT
+ 	# Options that are inherently 64-bit kernel only:
+ 	select ARCH_HAS_GIGANTIC_PAGE
++	select ARCH_HAS_SHADOW_STACK
+ 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+ 	select ARCH_USE_CMPXCHG_LOCKREF
+ 	select HAVE_ARCH_SOFT_DIRTY
+@@ -1908,6 +1909,27 @@ config X86_SGX
+ 
+ 	  If unsure, say N.
+ 
++config ARCH_HAS_SHADOW_STACK
++	def_bool n
++
++config X86_SHADOW_STACK
++	prompt "Intel Shadow Stack"
++	def_bool n
++	depends on AS_WRUSS
++	depends on ARCH_HAS_SHADOW_STACK
++	select ARCH_USES_HIGH_VMA_FLAGS
++	help
++	  Shadow Stack protection is a hardware feature that detects function
++	  return address corruption.  This helps mitigate ROP attacks.
++	  Applications must be enabled to use it, and old userspace does not
++	  get protection "for free".
++	  Support for this feature is present on Tiger Lake family of
++	  processors released in 2020 or later.  Enabling this feature
++	  increases kernel text size by 3.7 KB.
++	  See Documentation/x86/intel_cet.rst for more information.
++
++	  If unsure, say N.
++
+ config EFI
+ 	bool "EFI runtime service support"
+ 	depends on ACPI
+diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+index 26b8c08e2fc4..00c79dd93651 100644
+--- a/arch/x86/Kconfig.assembler
++++ b/arch/x86/Kconfig.assembler
+@@ -19,3 +19,8 @@ config AS_TPAUSE
+ 	def_bool $(as-instr,tpause %ecx)
+ 	help
+ 	  Supported by binutils >= 2.31.1 and LLVM integrated assembler >= V7
++
++config AS_WRUSS
++	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
++	help
++	  Supported by binutils >= 2.31 and LLVM integrated assembler
 -- 
-Jeff Layton <jlayton@kernel.org>
+2.21.0
 
