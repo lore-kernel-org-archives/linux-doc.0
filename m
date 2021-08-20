@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11947C43214
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:23:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C97FFC432BE
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:23:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB88561266
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:23:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E4D16126A
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237617AbhHTSYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 14:24:25 -0400
-Received: from mga18.intel.com ([134.134.136.126]:48046 "EHLO mga18.intel.com"
+        id S238262AbhHTSYb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 14:24:31 -0400
+Received: from mga18.intel.com ([134.134.136.126]:48048 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238711AbhHTSYR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 20 Aug 2021 14:24:17 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="203964949"
+        id S238868AbhHTSYT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:24:19 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="203964954"
 X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
-   d="scan'208";a="203964949"
+   d="scan'208";a="203964954"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:23:08 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:23:09 -0700
 X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
-   d="scan'208";a="523799163"
+   d="scan'208";a="523799170"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:23:08 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -57,9 +57,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Haitao Huang <haitao.huang@intel.com>,
         Rick P Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v29 04/10] x86/cet/ibt: Disable IBT for ia32
-Date:   Fri, 20 Aug 2021 11:22:39 -0700
-Message-Id: <20210820182245.1188-5-yu-cheng.yu@intel.com>
+Subject: [PATCH v29 06/10] x86/cet/ibt: Update arch_prctl functions for Indirect Branch Tracking
+Date:   Fri, 20 Aug 2021 11:22:41 -0700
+Message-Id: <20210820182245.1188-7-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210820182245.1188-1-yu-cheng.yu@intel.com>
 References: <20210820182245.1188-1-yu-cheng.yu@intel.com>
@@ -69,83 +69,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In a signal, a task's IBT status needs to be saved to the signal frame, and
-later restored in sigreturn.  For the purpose, previous versions of the
-series add a new struct to the signal frame.  However, a new signal frame
-format (or re-using a reserved space) introduces complex compatibility
-issues.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-In the discussion (see link below), Andy Lutomirski proposed using a
-ucontext flag.  The approach is clean and eliminates most compatibility
-issues.
+Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
+Tracking.
 
-However, a legacy IA32 signal frame does not have ucontext and cannot
-support a uc flag.  Thus,
-
-- Disable IBT for ia32.
-- In ia32 sigreturn, verify ibt is disabled.
-
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Acked-by: Andy Lutomirski <luto@kernel.org>
-Cc: Cyrill Gorcunov <gorcunov@gmail.com>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/linux-api/f6e61dae-9805-c855-8873-7481ceb7ea79@intel.com/
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/ia32/ia32_signal.c |  7 +++++++
- arch/x86/include/asm/elf.h  | 13 ++++++++++++-
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cet_prctl.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
-index 77d0fa90cc19..946039cb3150 100644
---- a/arch/x86/ia32/ia32_signal.c
-+++ b/arch/x86/ia32/ia32_signal.c
-@@ -104,6 +104,13 @@ COMPAT_SYSCALL_DEFINE0(sigreturn)
- 	struct sigframe_ia32 __user *frame = (struct sigframe_ia32 __user *)(regs->sp-8);
- 	sigset_t set;
+diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+index b426d200e070..bd3c80d402e7 100644
+--- a/arch/x86/kernel/cet_prctl.c
++++ b/arch/x86/kernel/cet_prctl.c
+@@ -22,6 +22,9 @@ static int cet_copy_status_to_user(struct thread_shstk *shstk, u64 __user *ubuf)
+ 		buf[2] = shstk->size;
+ 	}
  
-+	/*
-+	 * Verify legacy sigreturn does not have IBT enabled.
-+	 */
-+#ifdef CONFIG_X86_IBT
-+	if (current->thread.shstk.ibt)
-+		goto badframe;
-+#endif
- 	if (!access_ok(frame, sizeof(*frame)))
- 		goto badframe;
- 	if (__get_user(set.sig[0], &frame->sc.oldmask)
-diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-index 3281a3d01bd2..cf9eeb30c00c 100644
---- a/arch/x86/include/asm/elf.h
-+++ b/arch/x86/include/asm/elf.h
-@@ -6,6 +6,7 @@
-  * ELF register definitions..
-  */
- #include <linux/thread_info.h>
-+#include <uapi/linux/elf.h>
- 
- #include <asm/ptrace.h>
- #include <asm/user.h>
-@@ -403,7 +404,17 @@ struct arch_elf_state {
++	if (shstk->ibt)
++		buf[0] |= GNU_PROPERTY_X86_FEATURE_1_IBT;
++
+ 	return copy_to_user(ubuf, buf, sizeof(buf));
  }
  
- #define arch_elf_pt_proc(ehdr, phdr, elf, interp, state) (0)
--#define arch_check_elf(ehdr, interp, interp_ehdr, state) (0)
-+static inline int arch_check_elf(void *ehdr, bool interp,
-+				 void *interp_ehdr,
-+				 struct arch_elf_state *state)
-+{
-+	/*
-+	 * Disable IBT for ia32
-+	 */
-+	if (elf_check_arch_ia32((struct elf32_hdr *)ehdr))
-+		state->gnu_property &= ~GNU_PROPERTY_X86_FEATURE_1_IBT;
-+	return 0;
-+}
+@@ -46,6 +49,8 @@ int prctl_cet(int option, u64 arg2)
+ 			return -EINVAL;
+ 		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+ 			shstk_disable();
++		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			ibt_disable();
+ 		return 0;
  
- /* Do not change the values. See get_align_mask() */
- enum align_flags {
+ 	case ARCH_X86_CET_LOCK:
 -- 
 2.21.0
 
