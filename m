@@ -2,92 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12098C4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:28:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F53C4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:49:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED42E61241
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:28:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E35861051
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 18:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236193AbhHTS2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 14:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34720 "EHLO
+        id S230165AbhHTStu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 14:49:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236378AbhHTS2u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 14:28:50 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F86C061756;
-        Fri, 20 Aug 2021 11:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=tdQqeccCak7gZvzJh0sTAGQqu+YU4rsLzWI4kGslWng=; b=ZJbBe6oXsxX7AoqefdSkvbjVKX
-        P5f7bDtiCLrra3haNmrU9N9PCmgaNVQ5s/CNFqinUSqm4Qc/Jnk9gM9hVkQzYqGyZbqN8D70oNeeE
-        Xvyrwn0m9SzLjkao8fmr7ydM/5Xhiks8Z6mqMbYL+0PnJGDerVm9q+bngGnHRsXlMwzv8Wm9u/RQN
-        67qOSlYM5mos5r+CRhC630VaCVtW7wNULIkBGJDl+s+l0hkEUmzg6EzmIWL5VVWXP9t/mQJU/jihx
-        RPpHOVJGWmqyuoxA/Wb2nbldQOg6ZTwjd9PxbLAjIs2N4FRTEhrAhohu3r3RVPRFZiDQTLy+wHi/A
-        smy81+gg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mH9DC-006qfn-8u; Fri, 20 Aug 2021 18:26:17 +0000
-Date:   Fri, 20 Aug 2021 19:25:50 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        LukasBulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        linux-csky@vger.kernel.org
-Subject: Re: What is the oldest perl version being used with the kernel ?
- update oldest supported to 5.14 ?
-Message-ID: <YR/zrjiCwnzMMcmA@casper.infradead.org>
-References: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
+        with ESMTP id S229927AbhHTStt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 14:49:49 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB20C061756
+        for <linux-doc@vger.kernel.org>; Fri, 20 Aug 2021 11:49:11 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id n11so11891519qkk.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Aug 2021 11:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UdUf1AFFmq8vkogFZzhYw8djub7X7CPEGtEw7SwIdK8=;
+        b=Cmdhmms2k9zLRdAZjTsQghObPy1K33cXuM3Gf4RkvBwRxflxuW0twNw2pOx33gU9PP
+         NCBswM1+O47VjvNHQOxvRoQrRIAcc7Zq3t4+oP+OQwuVxRUZoY8550foGDOxkeCffFXs
+         er2xDt7LPKqTfv82R8sW9dwFDXw2dpBMCXQW4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UdUf1AFFmq8vkogFZzhYw8djub7X7CPEGtEw7SwIdK8=;
+        b=phqZpCgcB+jAWvEw6c1wkgJLnkMedU8HEcqhRZKrAJ6F47kw9zwBvYpO33TO7IEtA8
+         cF4Wr+NsdsPZzGRtHFa2ZvTqDrGXcYZKHMCrQBbOMdTWlWEZ8hAjNLBW3Y7iBin704NQ
+         pV+ZKHqIJWZMC5617bcLtp+3OBcuzXcid+ccMo39mSLhXgtb3ulRTGBAFWSfdegPyD0T
+         46aEUx3t9YNCqN/iSJodH5euUABJyNumKPfFrbUgqMcTaxBVszXkx9OLeEX5HCQF+dcV
+         rCt42xu4KKAEZie7GXfCY5pZhVC30YiBvjlOm444KFETNlKanjY1ejlER5g64np0AUSm
+         KQxg==
+X-Gm-Message-State: AOAM5306J29I50wLk2BGyFKBMzIw2NdV3VW6Zf/geqbmuc2ZXFVoXu8z
+        p4txGZ8w3WpS/MCvL6fXbIJbHtz3etiHsGp3
+X-Google-Smtp-Source: ABdhPJzn8Uz2tHnUy8gV9fGzqXPRy9jbL3k/vX/hp/wFWJsVHz2PO7hwReO6b5o9YUAygHPtd5srpA==
+X-Received: by 2002:a05:620a:4106:: with SMTP id j6mr10345615qko.392.1629485350480;
+        Fri, 20 Aug 2021 11:49:10 -0700 (PDT)
+Received: from nitro.local ([89.36.78.230])
+        by smtp.gmail.com with ESMTPSA id s69sm3612715qka.102.2021.08.20.11.49.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Aug 2021 11:49:10 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 14:49:06 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     SeongJae Park <sj38.park@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
+Subject: Re: [PATCH 2/2] Documentation/process/maintainer-pgp-guide: Replace
+ broken link to PGP path finder
+Message-ID: <20210820184906.bcypsextkp2rm4e4@nitro.local>
+References: <20210812095030.4704-1-sj38.park@gmail.com>
+ <20210812095030.4704-2-sj38.park@gmail.com>
+ <87fsv4rqfq.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
+In-Reply-To: <87fsv4rqfq.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 10:27:59AM -0700, Joe Perches wrote:
-> Perl 5.8 is nearly 20 years old now.
-> 
-> https://en.wikipedia.org/wiki/Perl_5_version_history
-> 
-> checkpatch uses regexes that are incompatible with perl versions
-> earlier than 5.10, but these uses are currently runtime checked
-> and skipped if the perl version is too old.  This runtime checking
-> skips several useful tests.
-> 
-> There is also some desire for tools like kernel-doc, checkpatch and
-> get_maintainer to use a common library of regexes and functions:
-> https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
-> 
-> It'd be useful to set the minimum perl version to something more modern.
-> 
-> I believe perl 5.14, now only a decade old, is a reasonable target.
-> 
-> Any objections or suggestions for a newer minimum version?
+On Fri, Aug 20, 2021 at 11:12:09AM -0600, Jonathan Corbet wrote:
+> This looks fine to me, but I'd like Konstantin [CC'd] to have a look and
+> let me know if he agrees...
 
-Not an objection per se, but some data points.
+Yes, this looks good to me. The entire section needs a more in-depth rewrite,
+but I'm not ready for that work yet, and this patch at least removes a dead
+link and offers some alternatives.
 
-Oracle Linux 5 (released 2007, still under support) has perl 5.8.8
-Oracle Linux 6 (released 2011) has perl 5.10.1
-Oracle Linux 7 (released 2014) has perl 5.16.3
-Oracle Linux 8 (released 2019) has perl 5.26.3
+Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-I don't know that we need to be able to build on a distro from 2007
-or even from 2011.  I think it's reasonable to require updating to a
-2014 distro in order to build a 2021 kernel.
+Thank you!
+-K
 
-For comparison, we currently require gcc-4.9 to build the kernel, and
-4.9.0 was released in 2014.  So perl-5.16 wouldn't be an unreasonable
-requirement, I believe.
+
+> > -Next, open the `PGP pathfinder`_. In the "From" field, paste the key
+> > -fingerprint of Linus Torvalds from the output above. In the "To" field,
+> > -paste the key-id you found via ``gpg --search`` of the unknown key, and
+> > -check the results:
+> > -
+> > -- `Finding paths to Linus`_
+> > +Next, find a trust path from Linus Torvalds to the key-id you found via ``gpg
+> > +--search`` of the unknown key.  For this, you can use several tools including
+> > +https://github.com/mricon/wotmate,
+> > +https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git/tree/graphs, and
+> > +https://the.earth.li/~noodles/pathfind.html.
+> >  
+> >  If you get a few decent trust paths, then it's a pretty good indication
+> >  that it is a valid key. You can add it to your keyring from the
+> > @@ -962,6 +961,3 @@ administrators of the PGP Pathfinder service to not be malicious (in
+> >  fact, this goes against :ref:`devs_not_infra`). However, if you
+> >  do not carefully maintain your own web of trust, then it is a marked
+> >  improvement over blindly trusting keyservers.
+> > -
+> > -.. _`PGP pathfinder`: https://pgp.cs.uu.nl/
+> > -.. _`Finding paths to Linus`: https://pgp.cs.uu.nl/paths/79BE3E4300411886/to/C94035C21B4F2AEB.html
