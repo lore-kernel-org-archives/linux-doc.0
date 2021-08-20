@@ -2,100 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B05C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 14:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1775FC4338F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 14:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4813661101
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 14:09:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E555961130
+	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 14:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240627AbhHTOJp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 10:09:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58176 "EHLO
+        id S240758AbhHTOaS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 10:30:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235032AbhHTOJm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 10:09:42 -0400
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6801C061575;
-        Fri, 20 Aug 2021 07:09:04 -0700 (PDT)
-Received: by fieldses.org (Postfix, from userid 2815)
-        id 0D0065BAF; Fri, 20 Aug 2021 10:09:03 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 0D0065BAF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
-        s=default; t=1629468543;
-        bh=wY8RC3nRl8mw74fg4RiQly9sGS6KY5S4e1kT6ficbDo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uLNQrICJHtuq70LWUUqRVgWozgalJ08WFOOsOZqBRr7hBYe8itNg2uNRHfsX8hV9w
-         iqbK/sRw2HXqb1WneQoev11t5SeB+7ucMp6ayp/tLrKmxHPhmbqboCVfkuJrHpOG7M
-         yUwi7bYbplF6X0LxX0UaNOAxpOKbsXq8dEkfIV4U=
-Date:   Fri, 20 Aug 2021 10:09:03 -0400
-From:   "J. Bruce Fields" <bfields@fieldses.org>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     torvalds@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ebiederm@xmission.com,
-        david@redhat.com, willy@infradead.org, linux-nfs@vger.kernel.org,
-        viro@zeniv.linux.org.uk, linux-doc@vger.kernel.org,
-        v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, cluster-devel@redhat.com,
-        ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
-        akpm@linux-foundation.org, luto@kernel.org, w@1wt.eu,
-        rostedt@goodmis.org
-Subject: Re: [PATCH v2 0/2] fs: remove support for mandatory locking
-Message-ID: <20210820140903.GA18096@fieldses.org>
-References: <20210820135707.171001-1-jlayton@kernel.org>
+        with ESMTP id S235928AbhHTOaR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 10:30:17 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B158EC061575;
+        Fri, 20 Aug 2021 07:29:39 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id w5so20665953ejq.2;
+        Fri, 20 Aug 2021 07:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=AcRjO0xn0//tKpsefB7FKZRMM8l5ZYGF15ZbjtpoAwc=;
+        b=TWeYTHvGvR0cOQKdJQxLaHbz89VS4iAf2sA0cXbL8lbSvh4YCxheGK/bYtm27yVOGi
+         Nsq4u3RPE5xUohWi6naocP38+1gL35O9AT6HU+m42uKyXid6C5KfYrZ2WUFF9Y2ADv+W
+         t7sab2777I5dKUOCnKxTR29xng+cMxCCwbx39g6rY6kFYK1KdTDcpEv4ySpcpQNivrAk
+         l27JqtARINoSWYUHGbIFKBVlKHhik4aUhYmy/AFgrGBdJuNTYVx14c/UQ5twYn9a5csn
+         tPUPCq9QAeowEKVZC2imbRitgY+UTbFYGW/jd5EuT114hP0laTFG3FMiXmCMKK+TgjBM
+         MVBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=AcRjO0xn0//tKpsefB7FKZRMM8l5ZYGF15ZbjtpoAwc=;
+        b=e9GthX3pmnVXKxCK4KBuXjV4Lmvzg0n6zK7rQP1Vi8zqOBbAOqO0g8xXZ4kNXXE5IZ
+         X9YkVIqMzTeFvM1bQVdO2LRMlG0/RP6/3KAAaV3Pntjrd83jOe261bMOcnBPVosdhVxT
+         6ewOMmOfIHqJElNk8iHlDJ8NwJrKcjfiPDpN6ECMC7Q+Ow6b0uh7OPcUCRj0JsQSY3/4
+         mdqkUg3gQwwpAQi9MJz/BUEdXeLq5j3sJzjFo6DmXzKpo9UOZjePNAx/06du7i2WWLrd
+         Ay0IdSBc2sYAOwCLDEzKhyMYZ7+Ls25psbWbUcIHnrqCeDDRn/tEVoxftUK+QAriuHdr
+         4/+g==
+X-Gm-Message-State: AOAM530lQ0qMwrcwdse6JA1T4eeP1ED3yfZnvnNXaPvyzgw4eDMToNfp
+        tutgRGGlpmJSnhUtuigIc7bKqySWAzaIQNkdJk4=
+X-Google-Smtp-Source: ABdhPJwl9Szaq0NwViH9tbZzRec2evrbfvGpbQ4MDluQFkX033nMgneAjafalGucnJYUxLvnziS5DOyJlhAzMp+W+hk=
+X-Received: by 2002:a17:906:3148:: with SMTP id e8mr21857061eje.240.1629469778125;
+ Fri, 20 Aug 2021 07:29:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210820135707.171001-1-jlayton@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <1629417219-74853-1-git-send-email-wang.yong12@zte.com.cn> <CALvZod5usW9OEsJSbeGYBnSGVDNLLKqMoGAx-JQrX6s62r-XiA@mail.gmail.com>
+In-Reply-To: <CALvZod5usW9OEsJSbeGYBnSGVDNLLKqMoGAx-JQrX6s62r-XiA@mail.gmail.com>
+From:   yong w <yongw.pur@gmail.com>
+Date:   Fri, 20 Aug 2021 22:29:27 +0800
+Message-ID: <CAOH5QeCf6+xiT_Wjtw=BegCYWc2H52qeKVsTh2aha0SG2xyU5w@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: Add configuration to control whether vmpressure
+ notifier is enabled
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Roman Gushchin <guro@fb.com>, alexs@kernel.org,
+        Wei Yang <richard.weiyang@gmail.com>, Hui Su <sh_def@163.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        wang.yong12@zte.com.cn, Cgroups <cgroups@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>, yang.yang29@zte.com.cn,
+        wangyong <wang.yong@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 09:57:05AM -0400, Jeff Layton wrote:
-> The first patch in this series adds a new warning that should pop on
-> kernels have mandatory locking enabled when someone mounts a filesystem
-> with -o mand. The second patch removes support for mandatory locking
-> altogether.
-> 
-> What I think we probably want to do is apply the first to v5.14 before
-> it ships and allow the new warning to trickle out into stable kernels.
-> Then we can merge the second patch in v5.15 to go ahead and remove it.
-> 
-> Sound like a plan?
+Shakeel Butt <shakeelb@google.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8820=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=887:42=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, Aug 19, 2021 at 4:54 PM <yongw.pur@gmail.com> wrote:
+> >
+> > From: wangyong <wang.yong@zte.com.cn>
+> >
+> > Inspired by PSI features, vmpressure inotifier function should
+> > also be configured to decide whether it is used, because it is an
+> > independent feature which notifies the user of memory pressure.
+> >
+>
+> It is also used by the networking stack to check memory pressure. See
+> mem_cgroup_under_socket_pressure().
 
-Sounds good to me.--b.
-
-> 
-> Jeff Layton (2):
->   fs: warn about impending deprecation of mandatory locks
->   fs: remove mandatory file locking support
-> 
->  .../filesystems/mandatory-locking.rst         | 188 ------------------
->  fs/9p/vfs_file.c                              |  12 --
->  fs/Kconfig                                    |  10 -
->  fs/afs/flock.c                                |   4 -
->  fs/ceph/locks.c                               |   3 -
->  fs/gfs2/file.c                                |   3 -
->  fs/locks.c                                    | 116 +----------
->  fs/namei.c                                    |   4 +-
->  fs/namespace.c                                |  31 +--
->  fs/nfs/file.c                                 |   4 -
->  fs/nfsd/nfs4state.c                           |  13 --
->  fs/nfsd/vfs.c                                 |  15 --
->  fs/ocfs2/locks.c                              |   4 -
->  fs/open.c                                     |   8 +-
->  fs/read_write.c                               |   7 -
->  fs/remap_range.c                              |  10 -
->  include/linux/fs.h                            |  84 --------
->  mm/mmap.c                                     |   6 -
->  mm/nommu.c                                    |   3 -
->  19 files changed, 20 insertions(+), 505 deletions(-)
->  delete mode 100644 Documentation/filesystems/mandatory-locking.rst
-> 
-> -- 
-> 2.31.1
+ Thanks for your replly, mem_cgroup_under_socket_pressure does use vmpressu=
+e,
+ I'll check it.
