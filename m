@@ -2,124 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB58FC4338F
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 23:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0BA7C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 02:29:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B6B661164
-	for <linux-doc@archiver.kernel.org>; Fri, 20 Aug 2021 23:06:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F0A0611C6
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 02:29:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234097AbhHTXHJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 Aug 2021 19:07:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhHTXHI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 19:07:08 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77067C061575;
-        Fri, 20 Aug 2021 16:06:30 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 320BC304D;
-        Fri, 20 Aug 2021 23:06:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 320BC304D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1629500790; bh=P484nEup8mwy7o/GlnCfNrpRd2m85VLTrnFKH46PfH8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sAo3MuqW+YPbPfuXXePJiOyuKqkQwP5YIcfAd9f43Qvc235P/pJqVLQ/i1tD0KpEN
-         pe/dr6VXjlNNdB9LMXM0OYtJ7zL3HkGFCNharqObSYD0kiSgYVlyJMd9DCoW7ETf+W
-         TZg7dTpEW2NqQp+H14SeAwzHoWihD4sqRRHkXqDgTMHCBpII59ErIahvHkr22VHkjI
-         IneY4hqglN8uGxCSgCqknUKPfwtRrVeu+OE05w6UOOVJdsgXMY/Y3isj2RvTbLMHdP
-         +OASwNJTn4rqbWzTLB+C1oMoq8vcRpLe08csMTvlyps4AGNtfa4Iy17bzsQIpxc/Vh
-         y7p+EEnKA+uJA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chun-Hung Tseng <henrybear327@gmail.com>
-Cc:     jmseyas@dit.upm.es, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, henrybear327@gmail.com
-Subject: Re: [PATCH v3] Documentation: Update details of The Linux Kernel
- Module Programming Guide
-In-Reply-To: <20210820222152.971174-1-henrybear327@gmail.com>
-References: <20210820222152.971174-1-henrybear327@gmail.com>
-Date:   Fri, 20 Aug 2021 17:06:29 -0600
-Message-ID: <87zgtbpvgq.fsf@meer.lwn.net>
+        id S232858AbhHUC3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 Aug 2021 22:29:45 -0400
+Received: from mail-il1-f199.google.com ([209.85.166.199]:56122 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229837AbhHUC3p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Aug 2021 22:29:45 -0400
+Received: by mail-il1-f199.google.com with SMTP id c16-20020a92cf500000b02902243aec7e27so6446138ilr.22
+        for <linux-doc@vger.kernel.org>; Fri, 20 Aug 2021 19:29:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=iHf8LUR6Ovn1Eydbqz2P3rlkkwnXm6QsDeIBC7GD3Qg=;
+        b=LbY8ClJTgRKAT2uDexYIyD9VMPKWrlro8bQxqLxLTHJPTsBAMuWv4a8r4YAR6GkJqZ
+         JIpWeNUoMhpt8LK/f35vLQltVuUsSESHl9XZQtz7rs/2SXh/WTUxknCnMLJ0qSIRwc6J
+         2l5fijfDyqAeDcdvrJQslnsUWFnFACoAoQhloqp6XzBsR5LpjvcBCDfiDKB4nZ/OwQ2B
+         SPDf7xm50bWSZAZbpN1fxfDyuAEruKlHVb+4kXz0WmsYVRi1rCV0vHcJwGU/loxzkm4x
+         UFQSB4N+ahlwJHYSwT/3uNrkfHwQTThLu4MjpPw1yDz0gCc9uihY1zd23XKBim8BR77W
+         g8Tg==
+X-Gm-Message-State: AOAM5307e0VKtAeBZUGzCS9rC5uO31TuwLGRpej8Uqmwdk0Tjwl0/h2P
+        gqV4RaT1SbH3tq2k6C8vnzVHc5zXx7srCjhC2/N3s+QrMrGm
+X-Google-Smtp-Source: ABdhPJzK0a8DAE41lfsQEjn583iPFBrbzLkXnZnYep9X4S+LuDPXekPfSUKswjhPhf9qYgtRx0WLpEqRtx7gWnRPEARQrCKJT9xa
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6e02:5c8:: with SMTP id l8mr16040022ils.282.1629512946491;
+ Fri, 20 Aug 2021 19:29:06 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 19:29:06 -0700
+In-Reply-To: <00000000000000410c05c8e29289@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000552aaf05ca088c20@google.com>
+Subject: Re: [syzbot] KASAN: invalid-free in bdev_free_inode (2)
+From:   syzbot <syzbot+5fa698422954b6b9307b@syzkaller.appspotmail.com>
+To:     axboe@kernel.dk, balbi@kernel.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        lorenzo@google.com, manish.narani@xilinx.com, maze@google.com,
+        netdev@vger.kernel.org, phind.uet@gmail.com,
+        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chun-Hung Tseng <henrybear327@gmail.com> writes:
+syzbot has bisected this issue to:
 
-> Recently, the content and examples of the book "The Linux Kernel Module
-> Programming Guide" are being actively maintained and added on Github[1].
-> Currently, the book is being regularly built into webpage and pdf
-> file using Github static page[2].
->
-> [1]: https://github.com/sysprog21/lkmpg
-> [2]: https://sysprog21.github.io/lkmpg/
->
-> Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
-> ---
->  Documentation/process/kernel-docs.rst | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> index 22d9ace5df2a..dd911cf09b55 100644
-> --- a/Documentation/process/kernel-docs.rst
-> +++ b/Documentation/process/kernel-docs.rst
-> @@ -126,15 +126,17 @@ On-line docs
->          describes how to write user-mode utilities for communicating with
->          Card Services.
->  
-> -    * Title: **Linux Kernel Module Programming Guide**
-> +    * Title: **The Linux Kernel Module Programming Guide**
->  
-> -      :Author: Ori Pomerantz.
-> -      :URL: https://tldp.org/LDP/lkmpg/2.6/html/index.html
-> -      :Date: 2001
-> +      :Author: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
-> +      Jim Huang.
-> +      :URL: https://sysprog21.github.io/lkmpg/
-> +      :Date: 2021
->        :Keywords: modules, GPL book, /proc, ioctls, system calls,
->          interrupt handlers .
-> -      :Description: Very nice 92 pages GPL book on the topic of modules
-> -        programming. Lots of examples.
-> +      :Description: A very nice GPL book on the topic of modules
-> +        programming. Lots of examples. Currently the new version is being
-> +        actively maintained at https://github.com/sysprog21/lkmpg.
+commit 63d152149b2d0860ccf8c4e6596b6175b2b7ace6
+Author: Lorenzo Colitti <lorenzo@google.com>
+Date:   Wed Jan 13 23:42:22 2021 +0000
 
-I have applied this, thanks.
+    usb: gadget: u_ether: support configuring interface names.
 
-That said, this change introduced a set of build warnings:
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=155abcc1300000
+start commit:   d3432bf10f17 net: Support filtering interfaces on no master
+git tree:       net-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=175abcc1300000
+console output: https://syzkaller.appspot.com/x/log.txt?x=135abcc1300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8075b2614f3db143
+dashboard link: https://syzkaller.appspot.com/bug?extid=5fa698422954b6b9307b
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=174ebaf6300000
 
-    Documentation/process/kernel-docs.rst:132: WARNING: Field list ends without a blank line; unexpected unindent.
-    Documentation/process/kernel-docs.rst:136: WARNING: Unexpected indentation.
-    Documentation/process/kernel-docs.rst:137: WARNING: Block quote ends without a blank line; unexpected unindent.
+Reported-by: syzbot+5fa698422954b6b9307b@syzkaller.appspotmail.com
+Fixes: 63d152149b2d ("usb: gadget: u_ether: support configuring interface names.")
 
-To fix that, I had to do this:
-
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index dd911cf09b55..da9527502ef0 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -129,7 +129,7 @@ On-line docs
-     * Title: **The Linux Kernel Module Programming Guide**
- 
-       :Author: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
--      Jim Huang.
-+        Jim Huang.
-       :URL: https://sysprog21.github.io/lkmpg/
-       :Date: 2021
-       :Keywords: modules, GPL book, /proc, ioctls, system calls,
-
-Please, be sure to test the docs build before sending patches.
-
-Thanks,
-
-jon
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
