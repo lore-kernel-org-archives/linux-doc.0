@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 613DFC4338F
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C24E7C4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37ACD611C8
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:15:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98685611F2
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbhHUNQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Aug 2021 09:16:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57368 "EHLO
+        id S232965AbhHUNTK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Aug 2021 09:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbhHUNQU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Aug 2021 09:16:20 -0400
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05080C061575;
-        Sat, 21 Aug 2021 06:15:40 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id e9so7993246vst.6;
-        Sat, 21 Aug 2021 06:15:40 -0700 (PDT)
+        with ESMTP id S229793AbhHUNTI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Aug 2021 09:19:08 -0400
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C336BC061575;
+        Sat, 21 Aug 2021 06:18:28 -0700 (PDT)
+Received: by mail-vk1-xa2c.google.com with SMTP id d15so3231874vko.3;
+        Sat, 21 Aug 2021 06:18:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=vfaQf0lp7sfjKT26+UEo2bDUyBDeG4IA93iti7qV08o=;
-        b=kxE1xJzjdqGi3dN4a2VJcMkFf7K6IyB09P3EnHhhmTgcQg+D+rpk8o78fewBkIGibJ
-         yvnaLTNbtJaP+y0Vf58FTWslBBkLhxM33LMtA3+aT+mTJJBb9L3wrElwOJToFBYzOESW
-         gH7S2k6J5v/ACQrrERr8efbDQNwL7vBZtKIblX2paKnTV4ObiMq/3LYZUXvM6xArmusR
-         Jjp/8uP/3/5v6zRW2lY6IRkQQPZlEhAURgFE+OJjTWgKEb3blXRPK6NoBMJz8B5qmNeL
-         LlVJBt7+POWmEvMLB8mYvv0UwfycLpEvWRs92UcThmGOsapOjoa0Alg4r8Pk9ywtGjPV
-         h2xg==
+        bh=uFRmRO4bx547JQZk7zfcmX9Gg3inUL3DdB+b66UoXCI=;
+        b=us3iTR4CLxM0+GA8QA3f6a3mlRRsF3Q2Ld+SlE2F2gzTxZDtQNQNggdpO+ZZWTFYBd
+         j2T9h8TYuqX7YyLgOb1P5OGKJ3uYvwKoyuNBHI7o8vMErWqo1Ac1p9Mt5y/HggCI4jVj
+         6t5sIh1bI7uyrDeHgiA9Z57PQFedHu1vGe3LeMjH8sdMIhk4EnA6kjSS9nTJ6UzKOLaa
+         pNtIAGVF0m55aKV1eSvngbWAooLgJtLcomptNnmzA4X0RMHAyZnNP0LGj0zM1Dvyo5Pc
+         g/yEGtVWtNCPkKTer+kwyqv9e29ft9gc99+2usOG2UooNYw83BJNlG+G3gnrhc+GLbBH
+         EyXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=vfaQf0lp7sfjKT26+UEo2bDUyBDeG4IA93iti7qV08o=;
-        b=Jk0PEJ/3PLVCyXZJtCqndowAwQbjx7cVuXN2RVcLCuBhTj8jbeZpesGHr3AEo74WX1
-         AccrPkkwNLh6pakAVJFJ+jyKs+0RSOHXozBTsU3mL2IsH0d02nEaRcGPvVaxqTGx1mTS
-         m+2UvnS+sFQRYuufcoTiGpaYi5TFAOoqG1kQ2CNre3bXt5qkBW0cWUoEIWc9OCJR+GNG
-         1V2Ekpz9m1edGxgk6hrwRSmzXLd3btKmC5jZncjy/ztu/YfmxlTDPlgti3IuhTJ39P0r
-         OL/JEG68lIPavOWHwCnKcTDA2oXSk0sTDVjHDk7DvZx5Ft2IOONWXJwyBirlvvYGS18u
-         hQuw==
-X-Gm-Message-State: AOAM530KRa3rVz7OdJOPdn+cDe6sDTxSnkFNx/luQuj0y8JRX+rTo4yM
-        XJjd/ttW3UU/EFBDyAjPel2hE49q7P7G6oUTv5WpUlfC
-X-Google-Smtp-Source: ABdhPJxpBJNyVN57HzS/5gM/y47+boTSsh3DvOVdD/UxGF7W9Np8btK1rZ64ePlvBRrV5iKvZ7sT/oOmdf1umOxRmPw=
-X-Received: by 2002:a05:6102:4af:: with SMTP id r15mr20282978vsa.31.1629551739588;
- Sat, 21 Aug 2021 06:15:39 -0700 (PDT)
+        bh=uFRmRO4bx547JQZk7zfcmX9Gg3inUL3DdB+b66UoXCI=;
+        b=jWxecsYb9bUeKuX1Q+jCw1Uo7ZtOevAvEKfqftkLe0AYM4p7AJq54Tqw0eYCBbfV9n
+         P38Elsg48e9uaeWy4xFoov/qo5/Kzxg/RSew6hoJr5NpQ6t47bQ2QsZHOoyQp38hCnXG
+         pcKEK2XMVkZHVM6cj6h1NVIES7EDrCquczMdPUMoMm0P2u/v6fP3nzLj9JL8qtV7JluZ
+         tlBECBKdddLNAZVLE2dzUh6n1dRDcjYkor/ypWD3eQZy0LKjewJHdrqNjMUtezMKvNM6
+         SwRT+UIwHnWw2xI5BCm4JIZF7DnzCy//QD9TDw1Uvko4YRGiOrcwuJRdBSRQonT6B24v
+         7ygw==
+X-Gm-Message-State: AOAM532BELD6mdah/J/PUyZAwrWf6TG4JLGWsEYjYA1V7Hcnt8FSfh8p
+        MHmaHvRynjB/NpdXN2lTFLv3v4Zq97FNG3p2e/k=
+X-Google-Smtp-Source: ABdhPJzmp2SOuNpw1ADlYvu3NOsjaBxJHjR8nwQHCkWAiIPQw4YRT4Ny75/C8BbP6O5RqhkQgbdax/sutzEu5T/PKMY=
+X-Received: by 2002:a1f:a10f:: with SMTP id k15mr18827961vke.3.1629551907793;
+ Sat, 21 Aug 2021 06:18:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:55cf:0:0:0:0:0 with HTTP; Sat, 21 Aug 2021 06:15:38
+Received: by 2002:ab0:55cf:0:0:0:0:0 with HTTP; Sat, 21 Aug 2021 06:18:27
  -0700 (PDT)
 In-Reply-To: <87zgtbpvgq.fsf@meer.lwn.net>
 References: <20210820222152.971174-1-henrybear327@gmail.com> <87zgtbpvgq.fsf@meer.lwn.net>
 From:   Henry Tseng <henrybear327@gmail.com>
-Date:   Sat, 21 Aug 2021 15:15:38 +0200
-Message-ID: <CAA5xa-=WXZ5QqQ7FwtruOk_7+dPtcQr_FBjZ8VRNFOWfpuVFrQ@mail.gmail.com>
+Date:   Sat, 21 Aug 2021 15:18:27 +0200
+Message-ID: <CAA5xa-mewxNmr9HJvWQVXRgTkG_1us90E76CHgd9gz1Jr1FK-A@mail.gmail.com>
 Subject: Re: [PATCH v3] Documentation: Update details of The Linux Kernel
  Module Programming Guide
 To:     Jonathan Corbet <corbet@lwn.net>
@@ -147,21 +147,20 @@ On 8/21/21, Jonathan Corbet <corbet@lwn.net> wrote:
 >
 > Please, be sure to test the docs build before sending patches.
 >
+
+Hi Jon,
+
+Thank you for applying the patch and giving me feedback!
+
+I will be more careful in the future.
+
+Thank you!
+
+Best wishes,
+Henry
+
+
 > Thanks,
 >
 > jon
 >
-
-Hi Jon,
-
-I tried to put Juan-Mariano de Goyeneche (jmseyas@dit.upm.es) in cc,
-as indicated on the kernel-docs file. But the email account is not reachable
-in the last few email exchanges.
-
-Should we probably amend that part of the file, too?
-
-Thank you!
-
--- 
-Best wishes,
-Henry
