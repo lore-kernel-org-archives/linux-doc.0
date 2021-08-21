@@ -2,165 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C24E7C4338F
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2364DC4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 16:26:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98685611F2
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 13:18:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BDC861242
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 16:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232965AbhHUNTK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Aug 2021 09:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbhHUNTI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Aug 2021 09:19:08 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C336BC061575;
-        Sat, 21 Aug 2021 06:18:28 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id d15so3231874vko.3;
-        Sat, 21 Aug 2021 06:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=uFRmRO4bx547JQZk7zfcmX9Gg3inUL3DdB+b66UoXCI=;
-        b=us3iTR4CLxM0+GA8QA3f6a3mlRRsF3Q2Ld+SlE2F2gzTxZDtQNQNggdpO+ZZWTFYBd
-         j2T9h8TYuqX7YyLgOb1P5OGKJ3uYvwKoyuNBHI7o8vMErWqo1Ac1p9Mt5y/HggCI4jVj
-         6t5sIh1bI7uyrDeHgiA9Z57PQFedHu1vGe3LeMjH8sdMIhk4EnA6kjSS9nTJ6UzKOLaa
-         pNtIAGVF0m55aKV1eSvngbWAooLgJtLcomptNnmzA4X0RMHAyZnNP0LGj0zM1Dvyo5Pc
-         g/yEGtVWtNCPkKTer+kwyqv9e29ft9gc99+2usOG2UooNYw83BJNlG+G3gnrhc+GLbBH
-         EyXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=uFRmRO4bx547JQZk7zfcmX9Gg3inUL3DdB+b66UoXCI=;
-        b=jWxecsYb9bUeKuX1Q+jCw1Uo7ZtOevAvEKfqftkLe0AYM4p7AJq54Tqw0eYCBbfV9n
-         P38Elsg48e9uaeWy4xFoov/qo5/Kzxg/RSew6hoJr5NpQ6t47bQ2QsZHOoyQp38hCnXG
-         pcKEK2XMVkZHVM6cj6h1NVIES7EDrCquczMdPUMoMm0P2u/v6fP3nzLj9JL8qtV7JluZ
-         tlBECBKdddLNAZVLE2dzUh6n1dRDcjYkor/ypWD3eQZy0LKjewJHdrqNjMUtezMKvNM6
-         SwRT+UIwHnWw2xI5BCm4JIZF7DnzCy//QD9TDw1Uvko4YRGiOrcwuJRdBSRQonT6B24v
-         7ygw==
-X-Gm-Message-State: AOAM532BELD6mdah/J/PUyZAwrWf6TG4JLGWsEYjYA1V7Hcnt8FSfh8p
-        MHmaHvRynjB/NpdXN2lTFLv3v4Zq97FNG3p2e/k=
-X-Google-Smtp-Source: ABdhPJzmp2SOuNpw1ADlYvu3NOsjaBxJHjR8nwQHCkWAiIPQw4YRT4Ny75/C8BbP6O5RqhkQgbdax/sutzEu5T/PKMY=
-X-Received: by 2002:a1f:a10f:: with SMTP id k15mr18827961vke.3.1629551907793;
- Sat, 21 Aug 2021 06:18:27 -0700 (PDT)
+        id S229644AbhHUQ1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Aug 2021 12:27:36 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:40166 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229571AbhHUQ1g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 21 Aug 2021 12:27:36 -0400
+Received: from zn.tnic (p200300ec2f24ae00bda189edbc359330.dip0.t-ipconnect.de [IPv6:2003:ec:2f24:ae00:bda1:89ed:bc35:9330])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 34D691EC0236;
+        Sat, 21 Aug 2021 18:26:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1629563211;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=0X9mARlIoI2YRPMAIxP7vYnoH77rVjJv4iOG9yPzbYo=;
+        b=beFqjaCUR9g7x13v6kfDTVD7cJJ5lUQ02pYgQqgQQW+Dx4bC8R5jG/1T5ZRYq6EDDb5+xa
+        bw0pZXorCmCVKLFYYdtk53S2JVodDz0MBX3kC+g2G6IQ6GLmr+H4J/r4sw2B7gBfwwqSDs
+        rfWLAA2/wQdC4xwNfxLmtKRs7WN/+Sw=
+Date:   Sat, 21 Aug 2021 18:27:29 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "luto@amacapital.net" <luto@amacapital.net>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v28 09/32] x86/mm: Introduce _PAGE_COW
+Message-ID: <YSEpcQG7WEa8hl9c@zn.tnic>
+References: <YRwT7XX36fQ2GWXn@zn.tnic>
+ <1A27F5DF-477B-45B7-AD33-CC68D9B7CB89@amacapital.net>
+ <YRwbD1hCYFXlYysI@zn.tnic>
+ <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+ <YRwjnmT9O8jYmL/9@zn.tnic>
+ <9a2b91ea-6a07-b7c8-24ac-3a15f62fbb7c@intel.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:55cf:0:0:0:0:0 with HTTP; Sat, 21 Aug 2021 06:18:27
- -0700 (PDT)
-In-Reply-To: <87zgtbpvgq.fsf@meer.lwn.net>
-References: <20210820222152.971174-1-henrybear327@gmail.com> <87zgtbpvgq.fsf@meer.lwn.net>
-From:   Henry Tseng <henrybear327@gmail.com>
-Date:   Sat, 21 Aug 2021 15:18:27 +0200
-Message-ID: <CAA5xa-mewxNmr9HJvWQVXRgTkG_1us90E76CHgd9gz1Jr1FK-A@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: Update details of The Linux Kernel
- Module Programming Guide
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     jmseyas@dit.upm.es, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9a2b91ea-6a07-b7c8-24ac-3a15f62fbb7c@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/21/21, Jonathan Corbet <corbet@lwn.net> wrote:
-> Chun-Hung Tseng <henrybear327@gmail.com> writes:
->
->> Recently, the content and examples of the book "The Linux Kernel Module
->> Programming Guide" are being actively maintained and added on Github[1].
->> Currently, the book is being regularly built into webpage and pdf
->> file using Github static page[2].
->>
->> [1]: https://github.com/sysprog21/lkmpg
->> [2]: https://sysprog21.github.io/lkmpg/
->>
->> Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
->> ---
->>  Documentation/process/kernel-docs.rst | 14 ++++++++------
->>  1 file changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/Documentation/process/kernel-docs.rst
->> b/Documentation/process/kernel-docs.rst
->> index 22d9ace5df2a..dd911cf09b55 100644
->> --- a/Documentation/process/kernel-docs.rst
->> +++ b/Documentation/process/kernel-docs.rst
->> @@ -126,15 +126,17 @@ On-line docs
->>          describes how to write user-mode utilities for communicating
->> with
->>          Card Services.
->>
->> -    * Title: **Linux Kernel Module Programming Guide**
->> +    * Title: **The Linux Kernel Module Programming Guide**
->>
->> -      :Author: Ori Pomerantz.
->> -      :URL: https://tldp.org/LDP/lkmpg/2.6/html/index.html
->> -      :Date: 2001
->> +      :Author: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob
->> Mottram,
->> +      Jim Huang.
->> +      :URL: https://sysprog21.github.io/lkmpg/
->> +      :Date: 2021
->>        :Keywords: modules, GPL book, /proc, ioctls, system calls,
->>          interrupt handlers .
->> -      :Description: Very nice 92 pages GPL book on the topic of modules
->> -        programming. Lots of examples.
->> +      :Description: A very nice GPL book on the topic of modules
->> +        programming. Lots of examples. Currently the new version is
->> being
->> +        actively maintained at https://github.com/sysprog21/lkmpg.
->
-> I have applied this, thanks.
->
-> That said, this change introduced a set of build warnings:
->
->     Documentation/process/kernel-docs.rst:132: WARNING: Field list ends
-> without a blank line; unexpected unindent.
->     Documentation/process/kernel-docs.rst:136: WARNING: Unexpected
-> indentation.
->     Documentation/process/kernel-docs.rst:137: WARNING: Block quote ends
-> without a blank line; unexpected unindent.
->
-> To fix that, I had to do this:
->
-> diff --git a/Documentation/process/kernel-docs.rst
-> b/Documentation/process/kernel-docs.rst
-> index dd911cf09b55..da9527502ef0 100644
-> --- a/Documentation/process/kernel-docs.rst
-> +++ b/Documentation/process/kernel-docs.rst
-> @@ -129,7 +129,7 @@ On-line docs
->      * Title: **The Linux Kernel Module Programming Guide**
->
->        :Author: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob
-> Mottram,
-> -      Jim Huang.
-> +        Jim Huang.
->        :URL: https://sysprog21.github.io/lkmpg/
->        :Date: 2021
->        :Keywords: modules, GPL book, /proc, ioctls, system calls,
->
-> Please, be sure to test the docs build before sending patches.
->
+On Wed, Aug 18, 2021 at 09:38:30AM -0700, Yu, Yu-cheng wrote:
+> We can visualize the type of a mm area by looking at vma->vm_flags, e.g.
 
-Hi Jon,
+visualize?
 
-Thank you for applying the patch and giving me feedback!
+> maybe_mkwrite(), and PTE macros as lower-level operatives.  These two have
+> some relations but not one-to-one.  Note that a PTE in a writable area is
+> not always pte_write().
+> 
+> I have considered and implemented a shadow stack PTE either pte_write() or
+> not.  Making shadow stack as pte_write() results in less arch_* macros and
+> less confusion in copy-on-write code.  That is one more thing to consider.
 
-I will be more careful in the future.
+Ok, even though I'm still not 100% convinced by both amluto's and your
+arguments. Let's try it and see what happens...
 
-Thank you!
+-- 
+Regards/Gruss,
+    Boris.
 
-Best wishes,
-Henry
-
-
-> Thanks,
->
-> jon
->
+https://people.kernel.org/tglx/notes-about-netiquette
