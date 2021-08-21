@@ -2,120 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B49C432BE
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 05:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A4EC4338F
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 06:34:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C380C611EE
-	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 05:43:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2920D611C9
+	for <linux-doc@archiver.kernel.org>; Sat, 21 Aug 2021 06:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbhHUFnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 Aug 2021 01:43:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbhHUFnu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Aug 2021 01:43:50 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA60C061764
-        for <linux-doc@vger.kernel.org>; Fri, 20 Aug 2021 22:43:11 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id a5so7170076plh.5
-        for <linux-doc@vger.kernel.org>; Fri, 20 Aug 2021 22:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9sE8/Gezsq3ktVT1yBNWUnjMOxfVYbA50Rdyo+0rKjg=;
-        b=i+WrkoXjNKg4kf7Ku0gUlQx7eIoc5b0b0YLG92TKYL9BVo0rPqj+uzdLB+MjPabU3J
-         HjWDWfEsdrVtR+NH2G9+XReIX26V18hHaRdIgzgV8JpSXS7H5HUc9NyL4mjtoZdJexDM
-         PZIXoQghEQmI+ZcvoTlg3lVMhlUTAKbTqJLVM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9sE8/Gezsq3ktVT1yBNWUnjMOxfVYbA50Rdyo+0rKjg=;
-        b=ietDjxNeBfq1P6KeC+TtF1OL8HOAKeoqL4Yxf4Jo8eFFEjfY7uHa6nG9NwDU9VkNYS
-         X3IknBWolG+pUbgOsrIiTtdq7ZeYFePIS6ha4SoFRaOwZdn3gq8rKl12JjeEHcXR3yWI
-         i9I7YRq1K76psHqnStg3z3p1Cbk6lWJCK1zutwQsL3GgPsUiwDh/v/xRYvf3A/H6HfgE
-         ioTPWTA8fC02gvXPC+eaubUx1Tj3UElp002NJapbzG2xddHvKyYD8yAwh3NbF5Hp6Dh1
-         t1lV4NmHzxi7oma9BwpR8xsHz8zNQVta7U+xlLrgKWmr8IeuNwhCbryr7kFQZFhVdnSd
-         egNA==
-X-Gm-Message-State: AOAM532ZZZHm1lriTvuKGhDp50mvsiGwveurb4h2OKJtB58O8kbF+CvY
-        0gEFU3HjcKl8f4Ds70Oxi65VkQ==
-X-Google-Smtp-Source: ABdhPJzgQUYdkk9J8dqAROFTOnmvvqyCpq+uP6WafjZ2SeuiM0a5Vtnmi8qv2wGXx2oleUl8CurB6g==
-X-Received: by 2002:a17:902:bb92:b0:12d:ad99:7fb6 with SMTP id m18-20020a170902bb9200b0012dad997fb6mr19095378pls.49.1629524590503;
-        Fri, 20 Aug 2021 22:43:10 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n11sm7570761pjf.17.2021.08.20.22.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 22:43:09 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 22:43:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        LukasBulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        linux-csky@vger.kernel.org
-Subject: Re: What is the oldest perl version being used with the kernel ?
- update oldest supported to 5.14 ?
-Message-ID: <202108201856.41AB391@keescook>
-References: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
- <YR/zrjiCwnzMMcmA@casper.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YR/zrjiCwnzMMcmA@casper.infradead.org>
+        id S231666AbhHUGfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 Aug 2021 02:35:36 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:36173 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230375AbhHUGff (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 Aug 2021 02:35:35 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7406C5803E5;
+        Sat, 21 Aug 2021 02:34:56 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+  by compute2.internal (MEProxy); Sat, 21 Aug 2021 02:34:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type:content-transfer-encoding; s=fm3; bh=Lor52
+        0YwbwX238QHKnZqSuw70Y+9yVKwFUIDXkDQWYE=; b=jHvnQipcwAcr59UxERBTB
+        VzPIex5FMn04arVZ3JtxjJQG4AzxlZXk39qw0Ue0d5BLvxDfOoBdkjOnGFjzzc9a
+        Dwb2ldtsikhbhO2bhIHCPSn9MTBrvKbYrKRcM5puqsMgGxuFDr7ioEl3ihS3vtHk
+        QSTmCM6pOFY9hhA6WOgiiQJXzh5khcoDy0wXLAH6BG9HspAyP3tdNXkKQVqPvkC3
+        MqLS61zi64SrEmlTkxs0tOZKGvUQPcmG1+r9f+QYG8rCKiy55pM3jDmfkirRKh9J
+        IwEGFyPzwVQ+DkSYLV/frd5i2+caFi/Nl9pTQQfAJTwwdj9TlA4kGFPsxW8vSdl5
+        w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=Lor520YwbwX238QHKnZqSuw70Y+9yVKwFUIDXkDQW
+        YE=; b=uKitq8GJPttUQ/us1IJYfRVgnxMAXG4OyUoeJwc0CeKuwBzEg9neSiWVG
+        facbHJjw3MlQLXOpzy3lL3w8G4X8KQD1hyOjWQQ6hWrLpJwmP20DKtSMT1bnrIGI
+        AkY+97iVJT+6iWf6ov42iDFw0a86q4HPtdu2ClZWIImi9QIyLG3HQW6oFRbkt4Sk
+        pckf2E8vxcP1kvi90mmEXxT6r0lDXyvDnoK3w6xzxndunS/o08zzRtUpxAzBSKTv
+        E+Wi7U1AoXG+lIuCdRgekvYsJlz1gJ+Z7cyjNKoJ/23p1AbYQNGqA/5RWwu8nhlN
+        6yKi3FTc34iJ8EzQTXdxE1gC8iaDg==
+X-ME-Sender: <xms:jZ4gYfT-xRxYfVgPqDGgVxTVMzaarPy0uaJqH_eai1Qxmy75DaWzyQ>
+    <xme:jZ4gYQziQgwHCk5MWqp5zWNAQIP9ESmsgbm0MhPauxZZepbrW-xer9PbIMkTSq5v4
+    M868pdI2zaQcYs_O4U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddttddguddtjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdfl
+    ihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtoh
+    hmqeenucggtffrrghtthgvrhhnpeefteegkeevfeethffgudehgedvueduvdeifedvvdel
+    hfefheekteefueektdefjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:jZ4gYU1fARLPPix3fYUs0nnMDE2-5eepRHtU7sWzyf-jk_P905af4w>
+    <xmx:jZ4gYfAtFMxCQPbA-ko5OEnDwpAN0iiyGKQhhS1n0x57jX88tp0plQ>
+    <xmx:jZ4gYYjzYLu5oO_rEY6OUeeGw9mL-sCinNy9CKklIIMRJ1T7U7j3ZQ>
+    <xmx:kJ4gYRW1qtvKtLVWT0-Xno2831JygCaZBoI6LxoqW-ZaRebs-jrWLA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id A6D4EFA0AA4; Sat, 21 Aug 2021 02:34:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1118-g75eff666e5-fm-20210816.002-g75eff666
+Mime-Version: 1.0
+Message-Id: <2e839a16-93d0-4fa7-b610-2e614f1fbbd3@www.fastmail.com>
+In-Reply-To: <950ef53a971ff4b5b7d961eb7c97a31165a866ed.1629274856.git.siyanteng@loongson.cn>
+References: <cover.1629274856.git.siyanteng@loongson.cn>
+ <950ef53a971ff4b5b7d961eb7c97a31165a866ed.1629274856.git.siyanteng@loongson.cn>
+Date:   Sat, 21 Aug 2021 14:34:32 +0800
+From:   "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To:     "Yanteng Si" <siyanteng@loongson.cn>,
+        "Jonathan Corbet" <corbet@lwn.net>, alexs@kernel.org,
+        "Wu XiangCheng" <bobwxc@email.cn>, seakeel@gmail.com
+Cc:     "Huacai Chen" <chenhuacai@kernel.org>, linux-doc@vger.kernel.org,
+        "Puyu Wang" <realpuyuwang@gmail.com>, chenfeiyang@loongson.cn,
+        chris.chenfeiyang@gmail.com, "yanteng si" <siyanteng01@gmail.com>
+Subject: Re: [PATCH v3 5/6] docs/zh_CN: add core-api boot-time-mm translation
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 07:25:50PM +0100, Matthew Wilcox wrote:
-> On Fri, Aug 20, 2021 at 10:27:59AM -0700, Joe Perches wrote:
-> > Perl 5.8 is nearly 20 years old now.
-> > 
-> > https://en.wikipedia.org/wiki/Perl_5_version_history
-> > 
-> > checkpatch uses regexes that are incompatible with perl versions
-> > earlier than 5.10, but these uses are currently runtime checked
-> > and skipped if the perl version is too old.  This runtime checking
-> > skips several useful tests.
-> > 
-> > There is also some desire for tools like kernel-doc, checkpatch and
-> > get_maintainer to use a common library of regexes and functions:
-> > https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
-> > 
-> > It'd be useful to set the minimum perl version to something more modern.
-> > 
-> > I believe perl 5.14, now only a decade old, is a reasonable target.
-> > 
-> > Any objections or suggestions for a newer minimum version?
-> 
-> Not an objection per se, but some data points.
-> 
-> Oracle Linux 5 (released 2007, still under support) has perl 5.8.8
-> Oracle Linux 6 (released 2011) has perl 5.10.1
-> Oracle Linux 7 (released 2014) has perl 5.16.3
-> Oracle Linux 8 (released 2019) has perl 5.26.3
-> 
-> I don't know that we need to be able to build on a distro from 2007
-> or even from 2011.  I think it's reasonable to require updating to a
-> 2014 distro in order to build a 2021 kernel.
-> 
-> For comparison, we currently require gcc-4.9 to build the kernel, and
-> 4.9.0 was released in 2014.  So perl-5.16 wouldn't be an unreasonable
-> requirement, I believe.
 
-Ubuntu name/version mapping: https://wiki.ubuntu.com/
-Ubuntu Perl versions: https://launchpad.net/ubuntu/+source/perl
 
-The oldest publicly supported Ubuntu (18.04 Bionic) uses Perl 5.26.
+=E5=9C=A82021=E5=B9=B48=E6=9C=8818=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8B=E5=
+=8D=884:32=EF=BC=8CYanteng Si=E5=86=99=E9=81=93=EF=BC=9A
+> Translate Documentation/core-api/boot-time-mm.rst into Chinese.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
 
--- 
-Kees Cook
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+Thanks!
+
+
+> ---
+>  .../zh_CN/core-api/boot-time-mm.rst           | 49 +++++++++++++++++++
+>  .../translations/zh_CN/core-api/index.rst     |  2 +-
+>  2 files changed, 50 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/boot-tim=
+e-mm.rst
+>=20
+> diff --git a/Documentation/translations/zh_CN/core-api/boot-time-mm.rs=
+t=20
+> b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+> new file mode 100644
+> index 000000000000..db09efb83684
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+> @@ -0,0 +1,49 @@
+> +.. include:: ../disclaimer-zh_CN.rst
