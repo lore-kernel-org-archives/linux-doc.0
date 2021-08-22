@@ -2,64 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8E2C4338F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CC5C4338F
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C8156120A
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:54:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E269061214
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231747AbhHVIzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 04:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231147AbhHVIzI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 04:55:08 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412CEC061575;
-        Sun, 22 Aug 2021 01:54:28 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id t1so13716853pgv.3;
-        Sun, 22 Aug 2021 01:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lvNMyE85L3cDE7yFVWP+Yu8ahoocUDdS5XBLBbQKoCQ=;
-        b=gC1xasEG1/rELLocg8RMv19imcQavXuz2w4Q4dovD6R45I71J/gnu37Jiea+WcOspu
-         zmk1PKFEsOAvHQd1j+Dlrth8IxSrQfsi2ZY2hakNwR3nV6PRptNgHIdhhzyROMV5o+qz
-         IIpS9L/QdcpM+JIZcf2m2O2vE//1D5SA8xWe9bfqGrJYtkGgGriy/vNKXSFWkJWjgMHv
-         0VOFE4lMnGgcUvhW8UvcddRmakEE6vL6Vkrv7BroQ5PQ0sogzETpoAs6Z37AiUvI4vyc
-         g2upKErKYajTg7f4yVElkMq5ZGOfBVvKRruE9r6IGBZG53EiadAqHU9X3jL9O9VRJhO0
-         fhjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lvNMyE85L3cDE7yFVWP+Yu8ahoocUDdS5XBLBbQKoCQ=;
-        b=M+mKCsZsH7WQEpY2t5hYWTxRloG2ZujPnidNE5Qppkzhb2PTle0fMW0V2UchgYm7ZM
-         ZvsKEVhULQHmHJrwuAbD8/wUrqt2aPxNwsCpf0wz3xwbsZjKZOKDe1dlh0MXsT0+6AGX
-         nYod8hJN5Eh7JpkPN0oovLIbRTDitoZoI+pwEBm4dAVtarzfda7A/y8aWuTW4+S17kjJ
-         eDPOzaoZaOzwRi0mYDXqmGR/YvSArzPl/PgNYhjVb8GDpn33AOlWx/+GzlcpxQpUtylA
-         XJP2OTMlvvUXy7ytGveU/wkVJrhmhu96z0rG49yzrQ4Cl1ig6767tRGDuD6NzYb4jGHo
-         pFug==
-X-Gm-Message-State: AOAM530ceNrN1DmQnSrm6aaJehDm4d9R/OtzZoX2lkJK0wyJOdBgmo3B
-        XVU231Ys/uHub7+GZhnhlE4z9O/W55H7uE0s5B9RO1/N3u9jkA==
-X-Google-Smtp-Source: ABdhPJxXZYaf0MP8eUkEc9RRkDexoXasf59iFPwXlnPExtDeMYXSjG7MvEsyUSTDaduzSB5kjnyLvSXs6honZsxxlUk=
-X-Received: by 2002:a65:63d6:: with SMTP id n22mr24791208pgv.74.1629622462652;
- Sun, 22 Aug 2021 01:54:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
- <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com> <12a41a13f8d03a16c3d5c20710a901c090b7d244.camel@perches.com>
-In-Reply-To: <12a41a13f8d03a16c3d5c20710a901c090b7d244.camel@perches.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 22 Aug 2021 11:53:46 +0300
-Message-ID: <CAHp75Vdyms1O+GLFDNn+P0CswbCnk8=XR4t2OBex8i-KuuD9Pg@mail.gmail.com>
+        id S232156AbhHVI5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 04:57:48 -0400
+Received: from smtprelay0195.hostedemail.com ([216.40.44.195]:52918 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231147AbhHVI5s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 04:57:48 -0400
+Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 179F0837F24A;
+        Sun, 22 Aug 2021 08:57:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id B9EDD18A600;
+        Sun, 22 Aug 2021 08:57:05 +0000 (UTC)
+Message-ID: <8afa5f3847a18ab15005614903646da822c1267a.camel@perches.com>
 Subject: Re: [PATCH] vsprintf and docs: Add X to %ph for upper case output
-To:     Joe Perches <joe@perches.com>
+From:   Joe Perches <joe@perches.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Petr Mladek <pmladek@suse.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
@@ -68,35 +35,50 @@ Cc:     Petr Mladek <pmladek@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Linux Documentation List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Sun, 22 Aug 2021 01:57:04 -0700
+In-Reply-To: <CAHp75Vdyms1O+GLFDNn+P0CswbCnk8=XR4t2OBex8i-KuuD9Pg@mail.gmail.com>
+References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
+         <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
+         <12a41a13f8d03a16c3d5c20710a901c090b7d244.camel@perches.com>
+         <CAHp75Vdyms1O+GLFDNn+P0CswbCnk8=XR4t2OBex8i-KuuD9Pg@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: B9EDD18A600
+X-Stat-Signature: wgy1553wk4biasi49qfz8yjj6b44wkmz
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18rAtfRSpKbw6o4poblu2d7KN68o7P98rA=
+X-HE-Tag: 1629622625-21147
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 22, 2021 at 11:45 AM Joe Perches <joe@perches.com> wrote:
-> On Sun, 2021-08-22 at 11:31 +0300, Andy Shevchenko wrote:
-> > On Sun, Aug 22, 2021 at 6:00 AM Joe Perches <joe@perches.com> wrote:
-> > >
-> > > Uppercase hex output of small char arrays is moderately frequently used.
-> > > Add a mechanism to support the %*ph output as uppercase using 'X'.
-> >
-> > Besides the fact of existing hex_asc_upper_*(), what ABI (!) uses
-> > this? If none, I dunno we need this.
-> > And show at least a few users where we gain something after conversion.
-> >
->
-> There are at least a few uses that could be converted.
+On Sun, 2021-08-22 at 11:53 +0300, Andy Shevchenko wrote:
+> On Sun, Aug 22, 2021 at 11:45 AM Joe Perches <joe@perches.com> wrote:
+> > On Sun, 2021-08-22 at 11:31 +0300, Andy Shevchenko wrote:
+> > > On Sun, Aug 22, 2021 at 6:00 AM Joe Perches <joe@perches.com> wrote:
+> > > > 
+> > > > Uppercase hex output of small char arrays is moderately frequently used.
+> > > > Add a mechanism to support the %*ph output as uppercase using 'X'.
+> > > 
+> > > Besides the fact of existing hex_asc_upper_*(), what ABI (!) uses
+> > > this? If none, I dunno we need this.
+> > > And show at least a few users where we gain something after conversion.
+> > > 
+> > 
+> > There are at least a few uses that could be converted.
+> 
+> Provide a series then!
+> 
+> ...
+> 
+> > +       return snprintf(buf, 16 * 2 + 2, "%16phNX\n", sn);
+> 
+> > +       return scnprintf(buffer, PAGE_SIZE, "%16phNX\n", unique_id);
+> 
+> I think you need to convert to sysfs_emit() in both cases.
 
-Provide a series then!
+First things first...
 
-...
-
-> +       return snprintf(buf, 16 * 2 + 2, "%16phNX\n", sn);
-
-> +       return scnprintf(buffer, PAGE_SIZE, "%16phNX\n", unique_id);
-
-I think you need to convert to sysfs_emit() in both cases.
-
--- 
-With Best Regards,
-Andy Shevchenko
