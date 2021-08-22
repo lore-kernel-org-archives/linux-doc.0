@@ -4,96 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C29C4338F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 09:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A84EBC4320A
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 09:46:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D98356120A
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 09:00:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88D9D61266
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 09:46:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhHVJB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 05:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59682 "EHLO
+        id S232849AbhHVJrE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 05:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231147AbhHVJB1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 05:01:27 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC94DC061575;
-        Sun, 22 Aug 2021 02:00:46 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id a21so12665077pfh.5;
-        Sun, 22 Aug 2021 02:00:46 -0700 (PDT)
+        with ESMTP id S229719AbhHVJrE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 05:47:04 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5343DC061575;
+        Sun, 22 Aug 2021 02:46:23 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id me10so1789047ejb.11;
+        Sun, 22 Aug 2021 02:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=g6KjlbNbnKQOdXW8I3XO8GYFdv56dKxIcNuRwEDg+I0=;
-        b=EKUO+vkYuLfJJ/yUooPmMrnWDMJqqZi5baoE8sAZMz7bLJovtaB+cna4Pb6GxqSKhU
-         iXTf9wdtlTY2OI3/5L1brhvVD81ePCDOJjGxORwx6oz5yqimNnxKkSa+8mWb4OKUyEQt
-         eaMJiRlTciYzXK8se4ZDK2NNhBqohNVgGN48towG/rSG+zA71KTM7rbJ8tPm5KZmh9tv
-         tQ4p6nWgXorJfWv+0vGQaaE2lKPJDTaUQGfFy4hZ9RDsLWZPQi0DIaL28Jqme89XBrnF
-         efhft1hWMLuQIE+qDp6FMGLb4Kq6j8KVXBKaKTzJeW1poLtKwAhZTZqzZY/aR+Cw5UTL
-         ocyw==
+        bh=0e3vNQgHPFxuVsKWr/oiMNC9HxWPWcJlOWQMgnCyZR0=;
+        b=fc7l3zQQBiTvLtZ8kw7ugWuyAEkBM9yOfrxUda3mcyP2YOK/iuevz3ldkBdbTGAFLR
+         NjU2QWLhmeb4es1ZtlCij3Ejl4pkK4OIqFC1XRUgurK338ndY3KSx9Ql/OZeNNPQ0LRs
+         srT8tXDwVj5+QHv0uUcPx9Vn7se2owBwg+f4hXjPxOx9gKWu8t7LY/ycUcicpxdPei5r
+         VKO9/Qm5WAZshb3BK5bPL2m6uAtiVFURCJ5iD97XSPCW2mc1sai0KIr3XVgvPUzeBCFB
+         Gblig3buVPTC0GFSM7kZXGvulIrou6p8bsvPfTNH9k/SwYk/E6YhPasCoj9jpPr6utP+
+         T09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g6KjlbNbnKQOdXW8I3XO8GYFdv56dKxIcNuRwEDg+I0=;
-        b=f3xBNcJbEhxg3qhAlo8Hwmm8G7GusqEH+9FnlcBBvEzUJWpLUNMsd1UZ2mqS4PWm1v
-         kxVPdvIrWAtjC6jUtxDjCD0v87xjS2mOVNNvILpatRJZSqfc5Sn50urerFbD5P7671o6
-         +mN7yejs8MjVmVZ1soxNPTbEC3aMRstESKwWdnt68ZB0ggI7e9dSBpqUTCtK5YRu3Onb
-         eIQ9GORBgiZRaUTtxygou8mjnAGNBUURDJkmIVXKy3XiBDkffu2sBg94FS+QP4Ui4noq
-         dtDcvu2JqrGloKsqr35IatCEdIuVwGmRX8Ui5V8b2Hz2wf2oCFL4uePD8EQRGmtKSW7g
-         zUrA==
-X-Gm-Message-State: AOAM531jqcAko6LFVAqi6WBxD+7dX/p0687mfRef6bDN3VGVT5RzWe/K
-        TeY1nz/o+xyRJ19MJ4I4JHJw7rZL22lwOZOrvdg=
-X-Google-Smtp-Source: ABdhPJzyT9FtSbnZnOhvbwH1u4xX27on850c8vC0/PGAM9iCuJtB4NkJx4taGHAZ7Zb0hlahzhtz1ROXY+DNeKBqWHo=
-X-Received: by 2002:aa7:800b:0:b029:330:455f:57a8 with SMTP id
- j11-20020aa7800b0000b0290330455f57a8mr27890153pfi.7.1629622846378; Sun, 22
- Aug 2021 02:00:46 -0700 (PDT)
+        bh=0e3vNQgHPFxuVsKWr/oiMNC9HxWPWcJlOWQMgnCyZR0=;
+        b=Lwq1cBWK3A9ne2VfTtbbxHT2L/bTtG7k+CLNHH+9+Re1gp75b3YOuAmhvK/JuzBOai
+         b+u3CYcaItxUPlK8cCoz+WlFPbgWgEdMV/XEFQQV3IS4Z0jw2syALoixO5BHNVrkPeV+
+         aW+Y8LAy0laOWNoPqyhGzE0QTVS9U1l21mwYzxkMVERW/lIxVOlXo6M+eW7Vw0B/NaVc
+         sYUYuwEBm+iEFzVv1TOU0Ln+Nf3mMrAMiWVBOo7x5tuI+IkN1iJIGhi1XAO/HcmqMydm
+         pzjJLDBGx7FbhTsqyq+RkazdZGFONpV8gaDnHiLLudiDanDT7OGigK6u+agE6WKhSrSB
+         Lrdg==
+X-Gm-Message-State: AOAM532HelauJyv3sG32qQz2hqNlY0XGJ0K0kHpSRPq7u4cu+k7usPaZ
+        0J5GfsDhYiMkJ2O7en8oOlkA4g4TYl74jqQnhto=
+X-Google-Smtp-Source: ABdhPJxVfiwhlP4JKkL/U2DXMsUbZPLWOJO1lrKtf4l/kc1VMF0+3F69CLJDWAl1TEhXs1BicZrGGWQtMPGdL+zUMr8=
+X-Received: by 2002:a17:906:a18b:: with SMTP id s11mr30974716ejy.8.1629625581682;
+ Sun, 22 Aug 2021 02:46:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
- <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
- <12a41a13f8d03a16c3d5c20710a901c090b7d244.camel@perches.com>
- <CAHp75Vdyms1O+GLFDNn+P0CswbCnk8=XR4t2OBex8i-KuuD9Pg@mail.gmail.com> <8afa5f3847a18ab15005614903646da822c1267a.camel@perches.com>
-In-Reply-To: <8afa5f3847a18ab15005614903646da822c1267a.camel@perches.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 22 Aug 2021 12:00:10 +0300
-Message-ID: <CAHp75VdKjo7F50FxBiGnPZXT=vjRCXMW7ZpfVwPJHgz11P35Nw@mail.gmail.com>
-Subject: Re: [PATCH] vsprintf and docs: Add X to %ph for upper case output
-To:     Joe Perches <joe@perches.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <1629417219-74853-1-git-send-email-wang.yong12@zte.com.cn>
+ <YR+Rc9HC6OqlEq4I@dhcp22.suse.cz> <CAOH5QeCfwF0hX3XpoThEtwnddtOFEU9Jtp0Hoj+Q37D4Q6HC0Q@mail.gmail.com>
+ <YR/NRJEhPKRQ1r22@dhcp22.suse.cz>
+In-Reply-To: <YR/NRJEhPKRQ1r22@dhcp22.suse.cz>
+From:   yong w <yongw.pur@gmail.com>
+Date:   Sun, 22 Aug 2021 17:46:08 +0800
+Message-ID: <CAOH5QeDUUqrMnuws6cnBDU_oub4cK6KsHeX39p7Eikr4Bcjcnw@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: Add configuration to control whether vmpressure
+ notifier is enabled
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>, alexs@kernel.org,
+        Wei Yang <richard.weiyang@gmail.com>, Hui Su <sh_def@163.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        wang.yong12@zte.com.cn, Cgroups <cgroups@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>, yang.yang29@zte.com.cn
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 22, 2021 at 11:57 AM Joe Perches <joe@perches.com> wrote:
-> On Sun, 2021-08-22 at 11:53 +0300, Andy Shevchenko wrote:
-> > On Sun, Aug 22, 2021 at 11:45 AM Joe Perches <joe@perches.com> wrote:
-> > > On Sun, 2021-08-22 at 11:31 +0300, Andy Shevchenko wrote:
-
-...
-
-> > > +       return snprintf(buf, 16 * 2 + 2, "%16phNX\n", sn);
-> >
-> > > +       return scnprintf(buffer, PAGE_SIZE, "%16phNX\n", unique_id);
-> >
-> > I think you need to convert to sysfs_emit() in both cases.
+> All those reasons should be a part of the changelog.
+>....
+> I am not sure these are sufficient justifications but that is something
+> to discuss. And hence it should be a part of the changelog.
 >
-> First things first...
+OK, These reasons will be added to the patch notesin later versions.
 
-Yep. and to avoid ping-pong style, first here is converting to
-sysfs_emit*() since it's already in the kernel.
+> > 3. In the case where the user does not need vmpressure,  vmpressure
+> > calculation is additional overhead.
+>
+> You should quantify that and argue why that overhead cannot be further
+> reduced without config/boot time knobs.
+>
+The test results of the previously used PFT tool may not be obvious.
+Is there a better way to quantify it?
 
--- 
-With Best Regards,
-Andy Shevchenko
+> > In some special scenes with tight memory, vmpressure will be executed
+> > frequently.we use "likely" and "inline"
+> > to improve the performance of the kernel, why not reduce some
+> > unnecessary calculations?
+>
+> I am all for improving the code. Is it possible to do it by other means?
+> E.g. reduce a potential overhead when there no events registered?
+Yes, the method you mentioned may be feasible, but it does not conflict
+with this patch.
+
+Thanks.
