@@ -2,110 +2,246 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A83B6C4338F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 10:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2D07C432BE
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:36:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8832D601FA
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 10:06:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAB47610A3
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233182AbhHVKG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 06:06:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232971AbhHVKG5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 06:06:57 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B50A3C061575;
-        Sun, 22 Aug 2021 03:06:13 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id z20so30181907ejf.5;
-        Sun, 22 Aug 2021 03:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lDNBGIq+xGdVYw1TUBg1mZGiYyDFgWVG+GX+moPobUw=;
-        b=czNcR77rw/X56j3Zar4Kopj/sUheukLLzJQWR+1pmlT99701iQkSSg0UgAVn0Y9+iY
-         ylQLwbDLvKww8h65MzXNUl7vU72Njq70cP9MPI5Ebg+3ZWgMOj+7mXct1RhyLdtjvMRK
-         AUgCmab2SKk7y+BtB614dhhP0ehHirc9NiSMlqtX4cJyM33u3F6dsCCx+1rX8QYQFLtE
-         U/FjAXG/VhwnTeFyjZTq0O1icCvLC6RRAkXfolLTIZovp/bG5NPvE+XEXqskkNg3Jfc6
-         EBtNJxdBcGw5oMxCgqkK+Jx4q4Yh3Y6/zNR51GOPYKGhXr9VJf1D+jpUJm9wziX6x9OZ
-         faWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lDNBGIq+xGdVYw1TUBg1mZGiYyDFgWVG+GX+moPobUw=;
-        b=qESLC4H4nk6jQ4p64+OMgT+wYBOc6qTbELGUxZv5Ew9R2x9fO6NRgKhw7D7IgXcZAe
-         BJSomMRVRQaIYDdRG+SLpYOgXcW5RvHmp9ZfP6GOEDKUkvQ3dOb59IdU2mAUXiLGNU/n
-         d5hRSI7WqVZa77Tnas2tdk2b3t452Klu0dzUx1F7kMrBNCcR4n9PnAAacZo1wVKN1h7W
-         56ooUIfWw2GLbpuF2IcwtlFLQJzH42ecpS2XK9cjafdQz+jheHOKiWy0S5pk1wvMMHcC
-         zEwV1U5Nn/iop/pYOCTpNkZYHX8pcf9AJC+zuWdsiSYCz8iAcMlisl1ZrWdlV6g5oP/K
-         alsQ==
-X-Gm-Message-State: AOAM530EqSjqHd7P22fPgT9eK7c6jVogqk/WqwS7fTXdJKn+YuAgBiKA
-        HppfRA+09tTRXH1hqLie0hb71zSz/lV49WX8iTg=
-X-Google-Smtp-Source: ABdhPJwM28Y6tOVIUwHzDZsMLViJQBLmV74+c9NknAMPcnKlC5q+2TlV9KJm7u5imxL5BSM3d3X2G4Umy6NFLpLDdX4=
-X-Received: by 2002:a17:906:93e8:: with SMTP id yl8mr3892304ejb.524.1629626771746;
- Sun, 22 Aug 2021 03:06:11 -0700 (PDT)
+        id S233083AbhHVOhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 10:37:38 -0400
+Received: from mail-bn8nam11on2076.outbound.protection.outlook.com ([40.107.236.76]:62084
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233009AbhHVOhi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 22 Aug 2021 10:37:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QOJws1GootFIn1jA6SVC6qQn95rpBMMqx//CoF9MVv6G3ZXxuvU0eDsgVd8NRTgs+bOkLTYCXebQaFEwnO+K2QkJmmAXv3Xkiz2IYmwmw9ngyAzVCDZl6VzfsVtqWZYs9m6tKShYD/t6iliuBEXGwBJFVkstn+O5sZ73MDekLJlw2UCS4RsQJbb1/hVPYgvbESZWCD5bXlX8+1f4ZS0tupd91SWob1MDK3Cx1O+7sCxnAleifI9b4jIQc6arDfZVpdNact+kutGqPDFsbWdR8bUnHIAMY2ZB3/MUqyFyi7+ySPV4E1uc5BT2xZnnExbW6U0sgbNCGfUO0Dpc6NG/Ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZA4q+NGPv66yFxtD6G8mvChZBXyE3HbO9Du7FbA7wc4=;
+ b=VZPSB5wpxNWoQM7jC5gdKQPHNhcQLfIqxotpKR/TfFt3lSbhK81DxJ6nnR3uHvhyUumI1gATGxfELnh6GxMgW8lIrGW4wsK/GOvVoFnEE6gj2KDe16O6qeRjDsz0rixCP0XKjpuzr2A4yHpnqbkZVTvCkeT2Ifotyxp7+kG6AZOfs/v5da0HW4joy5gBMEKbp14myn5ntgy82XZ2sqq9TY5/ittv3B6zy6xlOX4G7mUmQQG5ngwMqct5YaB3qPie+bSaM53FkJTheucRWW9qtIDPprvspl8KJn2M+6Jkv1sEZnkxiMhpmYhaDAxv9B2xf8PfjGMhI41NIP2rh4JO3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.32) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZA4q+NGPv66yFxtD6G8mvChZBXyE3HbO9Du7FbA7wc4=;
+ b=nFHpul+b07ZdmaqqQdPoGa4UvTtANgxSBfWXwpfY5oEQeArTfG9VgKc64Ey+V3/dJOBW07w9Tx93ia1pWbV2vB7Pa1Hh0uv9CBTm+gJsPKujdxvq2WenvTKngMbC6fgfIGz0iONwMmWvwJmpIkJCjZVIOiFBps3xBcNmRTSKujbkDd3wKBeCFNu1KU/ttGXS5w5+SP5CKlEEGlrxSwAKXEjVfHypZpVKo/X19FRUa08TfkYMIYO/rONFyWNtXM5Lxq6eFhqo6vJ5Ir8FFHUgQBktJrOh+jlezF3EHhMQSvgEtPpcsGxX4S9G/wQV9eX1Rtkf/GXv38jpMqj7oAjIYg==
+Received: from BN8PR16CA0014.namprd16.prod.outlook.com (2603:10b6:408:4c::27)
+ by DM6PR12MB4267.namprd12.prod.outlook.com (2603:10b6:5:21e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Sun, 22 Aug
+ 2021 14:36:55 +0000
+Received: from BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:4c:cafe::fc) by BN8PR16CA0014.outlook.office365.com
+ (2603:10b6:408:4c::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Sun, 22 Aug 2021 14:36:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ BN8NAM11FT029.mail.protection.outlook.com (10.13.177.68) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Sun, 22 Aug 2021 14:36:54 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 22 Aug
+ 2021 07:36:54 -0700
+Received: from vdi.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sun, 22 Aug 2021 14:36:50 +0000
+From:   Yishai Hadas <yishaih@nvidia.com>
+To:     <bhelgaas@google.com>, <corbet@lwn.net>,
+        <alex.williamson@redhat.com>, <diana.craciun@oss.nxp.com>,
+        <kwankhede@nvidia.com>, <eric.auger@redhat.com>,
+        <masahiroy@kernel.org>, <michal.lkml@markovi.net>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>, <mgurtovoy@nvidia.com>,
+        <jgg@nvidia.com>, <yishaih@nvidia.com>, <maorg@nvidia.com>,
+        <leonro@nvidia.com>
+Subject: [PATCH V3 00/13] Introduce vfio_pci_core subsystem
+Date:   Sun, 22 Aug 2021 17:35:49 +0300
+Message-ID: <20210822143602.153816-1-yishaih@nvidia.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <1629417219-74853-1-git-send-email-wang.yong12@zte.com.cn>
- <CALvZod5usW9OEsJSbeGYBnSGVDNLLKqMoGAx-JQrX6s62r-XiA@mail.gmail.com> <CAOH5QeCf6+xiT_Wjtw=BegCYWc2H52qeKVsTh2aha0SG2xyU5w@mail.gmail.com>
-In-Reply-To: <CAOH5QeCf6+xiT_Wjtw=BegCYWc2H52qeKVsTh2aha0SG2xyU5w@mail.gmail.com>
-From:   yong w <yongw.pur@gmail.com>
-Date:   Sun, 22 Aug 2021 18:06:00 +0800
-Message-ID: <CAOH5QeCGunHAnYD=s8vDZ1krnruoCV9kbpEikTcHsxcC+KXoow@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: Add configuration to control whether vmpressure
- notifier is enabled
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Roman Gushchin <guro@fb.com>, alexs@kernel.org,
-        Wei Yang <richard.weiyang@gmail.com>, Hui Su <sh_def@163.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        wang.yong12@zte.com.cn, Cgroups <cgroups@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>, yang.yang29@zte.com.cn,
-        wangyong <wang.yong@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3ac7bf8c-438b-4a1d-a8a9-08d9657a49f0
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4267:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42674FA0C3932F34EDB0CAE6C3C39@DM6PR12MB4267.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nuqED++V1a6cjwpfTEnZbP6em+6yg+GlPTHT/z7e5u0j4PQeO4F+wxv5U+FZEnSL9QzztZpcpUCzhvlX4iIyzPnmcFj/km2CQxblg9uw1/Mf8hTZbTHPCp39dG7JgINPKy6TUOrnpM8wgrjcQKkEmPAXCo7ywZ5GKWDMvdvSCw7z0xEQImsWTm5NsnTIiN5RdObidvMwVJc8p/nPlQZRCt3MDjJ/PuU+hWrgH9kwaZ0mrsnUZPZInXtbQLI7GiSdDQ+DCqfNPoSD+dvKTnsmcWRKobRDrj+lkdT8534gEz0bUpQNiKf0NjPqJji/7HkUilvSuSMv9g2H/k+BmZzPfjwj+oRnrogeAkk2FA9ks9367S1wHob0SaDyBB8DDU/axrRlzPK+iO4cUEq1vGl/Qw9vAoGiXsrxzzOBjUe0BZtBfusxubctkgz65TUwI5ypIpuPTa2pljk175J/U5GF+PwZp+28/4fZOCi+bk4aeVQh1aOwYYqMOdyLVTmWxY/41oz93lK+QVv0KoJcv2SpsrddHbxPw3EtM4ywjAOsemSCRQ6t9o/FuKLaQpplpRCWJn3NdCDDLrfV2PsLK7dQHIrMrsmRlmqbsamqERcQ6DKVAAN8OpmU6Yb+mYMFm3QAjnMkQ++m88uzC0R8T4oDTrj5lqbg4S0sCOHBVfgXqtyRV+NctT3qjOEjXB4Is0f6DSYYssFgsm9HT4PO6TWs2AEilDOfOrLPAX0ZuYkcyaC34co0TZPGKQppjNZ2eAV2myK8A6CiZQ6fR9QzKlqThum/k+Adxemgfeuf64aK/o0YBXsUCizsc+vnAvser0h53lh3hNKduIuQrZ4+Dqmc9Cozh2ZnSjF8XKO7Oo6zSRQ=
+X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(186003)(426003)(70206006)(107886003)(336012)(8676002)(26005)(2906002)(8936002)(70586007)(7416002)(1076003)(36756003)(7696005)(47076005)(82310400003)(86362001)(83380400001)(2616005)(54906003)(110136005)(5660300002)(508600001)(4326008)(966005)(36860700001)(7636003)(356005)(316002)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2021 14:36:54.7661
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ac7bf8c-438b-4a1d-a8a9-08d9657a49f0
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4267
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, I find the code of socket pressure and vmpressure are related.
-And there are two ways to be discussed
-1. The calculation of socket pressure is handed over to the psi.
-2. Vmpresssure and psi update socket pressure respectively, and are
-configured separately.
+Prologue:
 
-Thanks.
+This is the second series of three to send the "mlx5_vfio_pci" driver
+that has been discussed on the list for a while now. It comes on top of
+the first series (i.e. Reorganize reflck to support splitting vfio_pci)
+that was merged already.
 
-yong w <yongw.pur@gmail.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8820=E6=97=A5=E5=
-=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8810:29=E5=86=99=E9=81=93=EF=BC=9A
->
-> Shakeel Butt <shakeelb@google.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8820=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=887:42=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Thu, Aug 19, 2021 at 4:54 PM <yongw.pur@gmail.com> wrote:
-> > >
-> > > From: wangyong <wang.yong@zte.com.cn>
-> > >
-> > > Inspired by PSI features, vmpressure inotifier function should
-> > > also be configured to decide whether it is used, because it is an
-> > > independent feature which notifies the user of memory pressure.
-> > >
-> >
-> > It is also used by the networking stack to check memory pressure. See
-> > mem_cgroup_under_socket_pressure().
->
->  Thanks for your replly, mem_cgroup_under_socket_pressure does use vmpres=
-sue,
->  I'll check it.
+ - Split vfio_pci into vfio_pci/vfio_pci_core and provide infrastructure
+   for non-generic VFIO PCI drivers.
+ - The new driver mlx5_vfio_pci that is a full implementation of
+   suspend/resume functionality for mlx5 devices.
+
+A preview of the third series for mlx5_vfio_pci can be seen here:
+https://github.com/jgunthorpe/linux/commits/mlx5_vfio_pci
+=====================
+
+From Max Gurtovoy:
+====================
+This series splits the vfio_pci driver into two parts, a PCI driver and
+a subsystem driver that will also be library of code. The main PCI
+driver, vfio_pci.ko, will remain as before and it will use the library
+module vfio_pci_core.ko to help create the vfio_device.
+
+This series is intended to solve the issues that were raised in the
+previous attempts for extending vfio-pci for device specific
+functionality:
+
+1.
+https://lore.kernel.org/kvm/20200518024202.13996-1-yan.y.zhao@intel.com
+   by Yan Zhao
+2.
+https://lore.kernel.org/kvm/20210702095849.1610-1-shameerali.kolothum.thodi@huawei.com
+   by Longfang Liu
+
+Also to support proposed future changes to virtio and other common
+protocols to support migration:
+
+https://lists.oasis-open.org/archives/virtio-comment/202106/msg00044.html
+
+This subsystem framework will also ease adding new device specific
+functionality to VFIO devices in the future by allowing another module
+to provide the pci_driver that can setup a number of details before
+registering to the VFIO subsystem, such as injecting its own operations.
+
+This series also extends the "driver_override" mechanism. A flag is
+added for PCI drivers that will declare themselves as "driver_override"
+capable which sends their match table to the modules.alias file but
+otherwise leaves them outside of the normal driver core auto-binding
+world, like vfio_pci.
+
+In order to get the best match for "driver_override" drivers, one can
+create a userspace program to inspect the modules.alias, an example can
+be found at:
+
+https://github.com/maxgurtovoy/linux_tools/blob/main/vfio/bind_vfio_pci_driver.py
+
+Which finds the 'best match' according to a simple algorithm: "the
+driver with the fewest '*' matches wins."
+
+For example, the vfio-pci driver will match to any pci device. So it
+will have the maximal '*' matches.
+
+In case we are looking for a match to a mlx5 based device, we'll have a
+match to vfio-pci.ko and mlx5-vfio-pci.ko. We'll prefer mlx5-vfio-pci.ko
+since it will have less '*' matches (probably vendor and device IDs will
+match). This will work in the future for NVMe/Virtio devices that can
+match according to a class code or other criteria.
+
+v3:
+Patch #6:
+- Upon error flow, print PF driver name instead of hard-coded vfio-pci.
+Patch #9:
+- Split into two patches and follow the notes given by Bjorn Helgaas.
+
+v2:
+Patch #6:
+- Drop DRIVER_VERSION as it's useless and not required any more.
+
+Patch #9:
+- Follow Bjorn Helgaas suggestion to enable having "vfio_" prefix in
+  modules.alias file without the unnecessary VFIO connection in
+  pci_match_device.
+
+- Add the sequence of commands/algorithm that is required by
+  userspace to discover the matching driver to the commit message to let
+  the patch documentation be self-contained.
+
+Patch #12:
+- Save compatibility with Kconfig as was asked in the mailing list.
+- Drop DRIVER_VERSION as it's useless and not required any more.
+
+Yishai
+
+Jason Gunthorpe (2):
+  vfio: Use select for eventfd
+  vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
+
+Max Gurtovoy (10):
+  vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
+  vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
+  vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
+  vfio/pci: Rename ops functions to fit core namings
+  vfio/pci: Include vfio header in vfio_pci_core.h
+  vfio/pci: Split the pci_driver code out of vfio_pci_core.c
+  vfio/pci: Move igd initialization to vfio_pci.c
+  PCI: Add 'override_only' field to struct pci_device_id
+  PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
+  vfio/pci: Introduce vfio_pci_core.ko
+
+Yishai Hadas (1):
+  vfio/pci: Move module parameters to vfio_pci.c
+
+ Documentation/PCI/pci.rst                     |    1 +
+ drivers/pci/pci-driver.c                      |   28 +-
+ drivers/vfio/Kconfig                          |   29 +-
+ drivers/vfio/fsl-mc/Kconfig                   |    3 +-
+ drivers/vfio/mdev/Kconfig                     |    1 -
+ drivers/vfio/pci/Kconfig                      |   40 +-
+ drivers/vfio/pci/Makefile                     |    8 +-
+ drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
+ drivers/vfio/pci/vfio_pci_config.c            |   70 +-
+ drivers/vfio/pci/vfio_pci_core.c              | 2160 ++++++++++++++++
+ drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
+ drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
+ drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
+ drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
+ drivers/vfio/platform/Kconfig                 |    6 +-
+ drivers/vfio/platform/reset/Kconfig           |    4 +-
+ include/linux/mod_devicetable.h               |    6 +
+ include/linux/pci.h                           |   29 +
+ .../linux/vfio_pci_core.h                     |   89 +-
+ scripts/mod/devicetable-offsets.c             |    1 +
+ scripts/mod/file2alias.c                      |    8 +-
+ 21 files changed, 2518 insertions(+), 2310 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_core.c
+ rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
+
+-- 
+2.18.1
+
