@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E33DC4320A
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C18A8C4320E
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:37:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62B2A610A3
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:37:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3C5B61245
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 14:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234160AbhHVOiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 10:38:00 -0400
-Received: from mail-dm6nam11on2059.outbound.protection.outlook.com ([40.107.223.59]:26944
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        id S233642AbhHVOiI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 10:38:08 -0400
+Received: from mail-co1nam11on2047.outbound.protection.outlook.com ([40.107.220.47]:63136
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233642AbhHVOh7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 22 Aug 2021 10:37:59 -0400
+        id S234275AbhHVOiH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 22 Aug 2021 10:38:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sp12XYvQYvw3v4VgsanWVnTpaTqn343nPWoEaWn4BMGMcb0sPWKxroHtlT+gGPH3a6EuNTVZ/T9GO6n+h6rQ0PzfXqoFT5VsPYUaBpY4foPp01O9SxeKnctcC7Q4TJuVnVHYjqUgn6jf0KcGf/rfCqZ0Nx4KNx3E8The5h1/axu16/7ybdl1EZD6BB98dWtVHC4g0Dur/vTQHL+i+5B3bSb6p5I6jElVN2UjsQJhitQeUbT1VHvGTT5pEWOqgWIOZlxtobC8kvn2qj+jU1n/DRmYRCXchIsIUFP/XoR7HjW93oJpH0f+bpRmMQbU+ABWKfbmFsML/31vLLffNG+V4g==
+ b=MTXt743x9WxP51qi3QYefoGyvwwX33USqSFj878f08tQHdiXlV50iorWaBpnvsLOwWzbNeoppfdnTLD5TwRXmlv20g2Ztq9SPCmo7ogNWxwRxLdLzBIV+9nZFiGmcRdM9rq4gTlI3ILq1v5bJq2n+2DxiDIs05u4mX6Nfq59GZmDCGspz+PNYbSL++RQ2Udw2F7i2nbX8HGnzSDz2Q8IqZboYkAbfCKK50OmvA1buMu5F2c8qXkDg4PT1l9IEQWKQV6pypCR0kUCAr8UYIjPgdeQrd1NxrXsoInsCF7Fz6kda21PEQge+mgon9jgXiQuSX2zaXC6wGXN++0owae7BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EA12dOSs+X500lgNhQm9waVsEnhHX7aMIyxRdvZyw+8=;
- b=GDw88CzqLb9Z+OhDvCOmkbymWyD4oCqFnp0kWjyIcLuUmFi0+laxcD5sZMzgZJxnEf+AMwz3Yp+bLvKVBereWOHTUvORuJzXyeNFSCe/2GpRsEr6w1aAZswbcDkI3zmhBqBzkAjWqpARE+RE9FVptOQEuS52vM7+X3wp00t/UUJXzWocjOi6M5Lsx3l09bEupHjStzGXMrBNDQuA9yR5tXH0MZLYHolbc2EtGU7L7xhwP9tyk1mwwQJ3UHKNuyaA6mNEwM6is1u1LdGVaTTNwedGjSoz3m0xJvpSNChovAUyfgTC8XDTWDPLJMF7j4ZkTNHGFEPdhb9b/V1O+jEsbA==
+ bh=BQCexz9A3AOmXN51nxuZ/OMbV9Qxk1YkmRaoDyAEGCE=;
+ b=b3ed89c56HeRly5WUoX37+ytilTHEPqA8zpHnmW2au+5pSQm0lMBZX2vzyYK5W4ea5R+Md/yqKtPm7cSEXkI3uRnZkylA80C8dFqmh0ZE9PY1k6ykzzHvMnV2Cwa8cZe7tzS/9HESvRBNWcK3sj2HPyv4+LQipgwEBe7Hi4Y0C1w6/Y6VBPVIdDFFQ4wp9m4qK0v4V4C2BbFLy8vlfDQsuyXFahIim3iqURw6adTJI/+b45bn9zh217SSv2ckZ6DM8elSyv3IahppHWaBQnl7Qq1zaDj1t5WSTzQ7mlv4sekqTQOV4+5Pau4d/y++RZb9S0UlXBm1yjqBzDIhLjsMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.36) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ 216.228.112.32) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EA12dOSs+X500lgNhQm9waVsEnhHX7aMIyxRdvZyw+8=;
- b=h3wNJ/QLGgvjwb3O1FIUiDimAlDW0I987If8emvh1oh/+Qq58FKNqs++ic2m29cuXxfICER3W3B2KX/7nDLATpkQ7Z8OiahQNuX9WXSxRlrmnTiKP3h4vsnwyxcqfH1lnC9WhpILC+KJNsqs+px1sZjSbCjRSzSmhLodmUlXSPshSGxQlXiFaAj+d22YOnKhy74QGMi76sCzUy7r8vQLYlN046tnKWpdHjHKsFIPkOyp7TfP35MIKObCxPcHMAfUzB/04mgvRzNc/6jFPSbBwBWcfiRKdzYBkR/6Z6vlTFtepIWugeYsQ0V+HfGRpLgQdGW5LZZyaVknubaa+oCTuw==
-Received: from DS7PR06CA0002.namprd06.prod.outlook.com (2603:10b6:8:2a::16) by
- MN2PR12MB4221.namprd12.prod.outlook.com (2603:10b6:208:1d2::23) with
+ bh=BQCexz9A3AOmXN51nxuZ/OMbV9Qxk1YkmRaoDyAEGCE=;
+ b=XvBp3rMzt43vkfpo5spS59d12KfuhSM7NfgF9temsMnlgnrwfgSNW+M4lYJ3JgyZE1GVGaM14HHhAoPa+0qeLrFi9RI55itcCIV5ZMcOuKbEE0Js5s4xUpd4lsddDCdf9zw4uOH+rzn4FQqtY/ohmLsGY1dfgA+G4KfwkI/m0rI86w/a5o66fufoC5dqfCaPZxXcGOjsb8pcLUG9VZSSL3qtrYPROkWiR1kM7FTK7nPkRm0WJYe6oEouEA/pjx3VwDa5L55kXJcT9CCdXv3WDnN2Wml2i+855o2asQ9LK7NxbFhsl4QIP1u+0FIuliu+EJq2+C4MW2D3P73lzafdog==
+Received: from BN8PR16CA0028.namprd16.prod.outlook.com (2603:10b6:408:4c::41)
+ by BN8PR12MB3473.namprd12.prod.outlook.com (2603:10b6:408:65::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Sun, 22 Aug
- 2021 14:37:16 +0000
-Received: from DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:2a:cafe::70) by DS7PR06CA0002.outlook.office365.com
- (2603:10b6:8:2a::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Sun, 22 Aug
+ 2021 14:37:24 +0000
+Received: from BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:4c:cafe::c9) by BN8PR16CA0028.outlook.office365.com
+ (2603:10b6:408:4c::41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Sun, 22 Aug 2021 14:37:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.36)
+ Transport; Sun, 22 Aug 2021 14:37:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
  smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.36 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.36; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.36) by
- DM6NAM11FT040.mail.protection.outlook.com (10.13.173.133) with Microsoft SMTP
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ BN8NAM11FT029.mail.protection.outlook.com (10.13.177.68) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4436.19 via Frontend Transport; Sun, 22 Aug 2021 14:37:16 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 22 Aug
- 2021 14:37:15 +0000
+ 15.20.4436.19 via Frontend Transport; Sun, 22 Aug 2021 14:37:24 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 22 Aug
+ 2021 07:37:24 -0700
 Received: from vdi.nvidia.com (172.20.187.5) by mail.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 22 Aug 2021 14:37:12 +0000
+ Transport; Sun, 22 Aug 2021 14:37:20 +0000
 From:   Yishai Hadas <yishaih@nvidia.com>
 To:     <bhelgaas@google.com>, <corbet@lwn.net>,
         <alex.williamson@redhat.com>, <diana.craciun@oss.nxp.com>,
@@ -73,9 +73,9 @@ CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kbuild@vger.kernel.org>, <mgurtovoy@nvidia.com>,
         <jgg@nvidia.com>, <yishaih@nvidia.com>, <maorg@nvidia.com>,
         <leonro@nvidia.com>
-Subject: [PATCH V3 05/13] vfio/pci: Include vfio header in vfio_pci_core.h
-Date:   Sun, 22 Aug 2021 17:35:54 +0300
-Message-ID: <20210822143602.153816-6-yishaih@nvidia.com>
+Subject: [PATCH V3 07/13] vfio/pci: Move igd initialization to vfio_pci.c
+Date:   Sun, 22 Aug 2021 17:35:56 +0300
+Message-ID: <20210822143602.153816-8-yishaih@nvidia.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210822143602.153816-1-yishaih@nvidia.com>
 References: <20210822143602.153816-1-yishaih@nvidia.com>
@@ -84,66 +84,204 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed252cb7-631c-4227-01c8-08d9657a56c4
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4221:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB422173A3574C65DDE55CDFD8C3C39@MN2PR12MB4221.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Office365-Filtering-Correlation-Id: b687916e-956c-4179-ab4f-08d9657a5bc2
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3473:
+X-Microsoft-Antispam-PRVS: <BN8PR12MB347305450874C668284F663FC3C39@BN8PR12MB3473.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ERs4iAepDtfLAQUqJeZEZZK0HfE9avthFJ4qRTIMqMSI/xpjqIgthv8yvMBgVKZQlVOc7ran6MeexAIMbuJ5Zn8+xOwiYWGjMqWZYO/S6PuLdZ9OhH/PU9t/LC4+qrEv7ck/ESNhto8fcL4M10KUk1zQ9fGKmJUC6TYxseYT/YC4Rh/VQvPJSCmgJ+FB7rzx/6Nb/36nRfilRRWzjtFv4UMjkEnKAPZCJlBeQ9oP6iE/FoUfo79UhfoWnGOk62LuL8uH9ut+mjj9pHaXg0U6X0fkrbL8xja8raXlAz+6rY4HMJ6JB7fMhqzysuhmFUS9xdq7ZRtWvXE6WFcMBt3MgLU1Ny6K0RUkXlcyadHzhSTHv5kLEpCDgJmaWOqnhcRzuW2g338XTP3MQoy1Zb0DTwAPbelGhlRst54uowHilQTxdhifdks8Gf05n56Xha+upYtdxhAiPN1msMaEZb4lA+Idmu0w9557J/cE+4tJm2sOYz3+y7JYrLpR/g+qDL66Wim6sghnRPmvTBVhoqj+GaqYcqpvyu3rgyz0wj12VNAb2iGOpyA5S1EqIdyjBt40Utm1La/UE+9MFovpt/jBp0qCHh/8WY4NLloOTx89fpzFBojvsEyjbjalc+sdId569DFe/lU/daPAQWd0k6AM1HwFCboWTzHmx2pI1rWnrfrN7mybSOqL2JhRY6BKrZ4DXjtUUt3jnyY9K7acU4R6pCuDYrZqlNus7ympbSfThFs=
-X-Forefront-Antispam-Report: CIP:216.228.112.36;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid05.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(396003)(36840700001)(46966006)(6666004)(47076005)(83380400001)(107886003)(36756003)(426003)(70206006)(82310400003)(26005)(86362001)(36860700001)(316002)(7636003)(82740400003)(8936002)(2906002)(5660300002)(110136005)(54906003)(7696005)(1076003)(4326008)(356005)(36906005)(70586007)(2616005)(186003)(8676002)(478600001)(7416002)(336012)(2101003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: +cmbBIXpPRq3SU4m4LLbvQWbDh8NZ0qEz01gYh7Au778Xz4Dyc/347pD/ktV+ts1bQYPvxb9ZM+qsY/3Z/QOt8OcPJubRqOKnfQa29tKLwQ6Da4JDUxEKihWlvLmFcLV8Pe0tBiChj49IABrtU2rHLeOaIm+I1/9+TNh5jfCxKnEdEA4VdwIezgkCGXTdGCUT0lEvMjg54LdER4BMLHPCVK3yne/A47halt4yKwQuJvErln2qdd/HDZHrD+9Pmf1SoYF9Dt3oKzzzbRhGQW0uZBIsB7fI+oXibPc85r8GT/oyuLRoo0QnpMgRyRLJWDoPIEL20PfHXwkXEJHKukaApekAoSPLmIYoUiC9PPGsszZGru3KqR92Xqo4YNuUTz+UfD4g54IA5gSThBcQNJ/S6EFbTeWdMrEgf0ekFtBdquIc4QV68R5n6f2xfib+/zzCJJTzIR7w3uB0LlHU/R0rcQ4ZDh2DarvUCtbLychVyinMNe9ZK+Dggl06qzBy8Z80PHyBTr8AYhukDcCo0ETysFzPjZokm6jljcJCDdx3UmkCmegWJbwyZxBW2YR5B0VkVA9yDFE/iAV/qcnDJbEf8rqyGg733CbcHDoExcKj8K+nl2sBF0b6jKQrZmB4LACzU/xGI4qZBVnzt71F4Gpr5FEl0yyr8+uVOqDN77geHAGu0RSMeLNFsOfC0B5ELgi0EJH1/wyCubQ3rUDrIrJxXeuZFIjVE41eWFckMA/Gz8=
+X-Forefront-Antispam-Report: CIP:216.228.112.32;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid01.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(136003)(396003)(46966006)(36840700001)(26005)(36756003)(316002)(86362001)(70206006)(54906003)(186003)(8936002)(5660300002)(356005)(2616005)(82740400003)(426003)(107886003)(7636003)(70586007)(110136005)(2906002)(7416002)(82310400003)(336012)(8676002)(6666004)(36860700001)(47076005)(478600001)(1076003)(4326008)(7696005)(83380400001)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2021 14:37:16.3818
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2021 14:37:24.7906
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed252cb7-631c-4227-01c8-08d9657a56c4
+X-MS-Exchange-CrossTenant-Network-Message-Id: b687916e-956c-4179-ab4f-08d9657a5bc2
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.36];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.32];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4221
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3473
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 
-The vfio_device structure is embedded into the vfio_pci_core_device
-structure, so there is no reason for not including the header file in the
-vfio_pci_core header as well.
+igd is related to the vfio_pci pci_driver implementation, move it out of
+vfio_pci_core.c.
+
+This is preparation for splitting vfio_pci.ko into 2 drivers.
 
 Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 ---
- drivers/vfio/pci/vfio_pci_core.c | 1 -
- drivers/vfio/pci/vfio_pci_core.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/vfio/pci/vfio_pci.c      | 29 +++++++++++++++++++++++-
+ drivers/vfio/pci/vfio_pci_core.c | 39 ++++----------------------------
+ drivers/vfio/pci/vfio_pci_core.h |  9 +++++++-
+ 3 files changed, 41 insertions(+), 36 deletions(-)
 
+diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+index 15474ebadd98..121a7296ac63 100644
+--- a/drivers/vfio/pci/vfio_pci.c
++++ b/drivers/vfio/pci/vfio_pci.c
+@@ -82,9 +82,36 @@ static bool vfio_pci_is_denylisted(struct pci_dev *pdev)
+ 	return true;
+ }
+ 
++static int vfio_pci_open_device(struct vfio_device *core_vdev)
++{
++	struct vfio_pci_core_device *vdev =
++		container_of(core_vdev, struct vfio_pci_core_device, vdev);
++	struct pci_dev *pdev = vdev->pdev;
++	int ret;
++
++	ret = vfio_pci_core_enable(vdev);
++	if (ret)
++		return ret;
++
++	if (vfio_pci_is_vga(pdev) &&
++	    pdev->vendor == PCI_VENDOR_ID_INTEL &&
++	    IS_ENABLED(CONFIG_VFIO_PCI_IGD)) {
++		ret = vfio_pci_igd_init(vdev);
++		if (ret && ret != -ENODEV) {
++			pci_warn(pdev, "Failed to setup Intel IGD regions\n");
++			vfio_pci_core_disable(vdev);
++			return ret;
++		}
++	}
++
++	vfio_pci_core_finish_enable(vdev);
++
++	return 0;
++}
++
+ static const struct vfio_device_ops vfio_pci_ops = {
+ 	.name		= "vfio-pci",
+-	.open_device	= vfio_pci_core_open_device,
++	.open_device	= vfio_pci_open_device,
+ 	.close_device	= vfio_pci_core_close_device,
+ 	.ioctl		= vfio_pci_core_ioctl,
+ 	.read		= vfio_pci_core_read,
 diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index ee5c8fe2a324..94f062818e0c 100644
+index 87d1960d0d61..d4b3a53ee2ed 100644
 --- a/drivers/vfio/pci/vfio_pci_core.c
 +++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -23,7 +23,6 @@
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
--#include <linux/vfio.h>
- #include <linux/vgaarb.h>
- #include <linux/nospec.h>
- #include <linux/sched/mm.h>
+@@ -91,11 +91,6 @@ static unsigned int vfio_pci_set_vga_decode(void *opaque, bool single_vga)
+ 	return decodes;
+ }
+ 
+-static inline bool vfio_pci_is_vga(struct pci_dev *pdev)
+-{
+-	return (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
+-}
+-
+ static void vfio_pci_probe_mmaps(struct vfio_pci_core_device *vdev)
+ {
+ 	struct resource *res;
+@@ -166,7 +161,6 @@ static void vfio_pci_probe_mmaps(struct vfio_pci_core_device *vdev)
+ 
+ struct vfio_pci_group_info;
+ static bool vfio_pci_dev_set_try_reset(struct vfio_device_set *dev_set);
+-static void vfio_pci_disable(struct vfio_pci_core_device *vdev);
+ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
+ 				      struct vfio_pci_group_info *groups);
+ 
+@@ -252,7 +246,7 @@ int vfio_pci_set_power_state(struct vfio_pci_core_device *vdev, pci_power_t stat
+ 	return ret;
+ }
+ 
+-static int vfio_pci_enable(struct vfio_pci_core_device *vdev)
++int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
+ {
+ 	struct pci_dev *pdev = vdev->pdev;
+ 	int ret;
+@@ -321,26 +315,11 @@ static int vfio_pci_enable(struct vfio_pci_core_device *vdev)
+ 	if (!vfio_vga_disabled() && vfio_pci_is_vga(pdev))
+ 		vdev->has_vga = true;
+ 
+-	if (vfio_pci_is_vga(pdev) &&
+-	    pdev->vendor == PCI_VENDOR_ID_INTEL &&
+-	    IS_ENABLED(CONFIG_VFIO_PCI_IGD)) {
+-		ret = vfio_pci_igd_init(vdev);
+-		if (ret && ret != -ENODEV) {
+-			pci_warn(pdev, "Failed to setup Intel IGD regions\n");
+-			goto disable_exit;
+-		}
+-	}
+-
+-	vfio_pci_probe_mmaps(vdev);
+ 
+ 	return 0;
+-
+-disable_exit:
+-	vfio_pci_disable(vdev);
+-	return ret;
+ }
+ 
+-static void vfio_pci_disable(struct vfio_pci_core_device *vdev)
++void vfio_pci_core_disable(struct vfio_pci_core_device *vdev)
+ {
+ 	struct pci_dev *pdev = vdev->pdev;
+ 	struct vfio_pci_dummy_resource *dummy_res, *tmp;
+@@ -479,7 +458,7 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
+ 
+ 	vfio_pci_vf_token_user_add(vdev, -1);
+ 	vfio_spapr_pci_eeh_release(vdev->pdev);
+-	vfio_pci_disable(vdev);
++	vfio_pci_core_disable(vdev);
+ 
+ 	mutex_lock(&vdev->igate);
+ 	if (vdev->err_trigger) {
+@@ -493,19 +472,11 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
+ 	mutex_unlock(&vdev->igate);
+ }
+ 
+-int vfio_pci_core_open_device(struct vfio_device *core_vdev)
++void vfio_pci_core_finish_enable(struct vfio_pci_core_device *vdev)
+ {
+-	struct vfio_pci_core_device *vdev =
+-		container_of(core_vdev, struct vfio_pci_core_device, vdev);
+-	int ret = 0;
+-
+-	ret = vfio_pci_enable(vdev);
+-	if (ret)
+-		return ret;
+-
++	vfio_pci_probe_mmaps(vdev);
+ 	vfio_spapr_pci_eeh_open(vdev->pdev);
+ 	vfio_pci_vf_token_user_add(vdev, 1);
+-	return 0;
+ }
+ 
+ static int vfio_pci_get_irq_count(struct vfio_pci_core_device *vdev, int irq_type)
 diff --git a/drivers/vfio/pci/vfio_pci_core.h b/drivers/vfio/pci/vfio_pci_core.h
-index 2ceaa6e4ca25..17ad048752b6 100644
+index 7dbdd4dda5c0..ffaf544f35db 100644
 --- a/drivers/vfio/pci/vfio_pci_core.h
 +++ b/drivers/vfio/pci/vfio_pci_core.h
-@@ -10,6 +10,7 @@
+@@ -210,7 +210,6 @@ static inline int vfio_pci_info_zdev_add_caps(struct vfio_pci_core_device *vdev,
+ void vfio_pci_core_cleanup(void);
+ int vfio_pci_core_init(void);
+ void vfio_pci_core_close_device(struct vfio_device *core_vdev);
+-int vfio_pci_core_open_device(struct vfio_device *core_vdev);
+ void vfio_pci_core_init_device(struct vfio_pci_core_device *vdev,
+ 			       struct pci_dev *pdev,
+ 			       const struct vfio_device_ops *vfio_pci_ops);
+@@ -228,5 +227,13 @@ ssize_t vfio_pci_core_write(struct vfio_device *core_vdev, const char __user *bu
+ int vfio_pci_core_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma);
+ void vfio_pci_core_request(struct vfio_device *core_vdev, unsigned int count);
+ int vfio_pci_core_match(struct vfio_device *core_vdev, char *buf);
++int vfio_pci_core_enable(struct vfio_pci_core_device *vdev);
++void vfio_pci_core_disable(struct vfio_pci_core_device *vdev);
++void vfio_pci_core_finish_enable(struct vfio_pci_core_device *vdev);
++
++static inline bool vfio_pci_is_vga(struct pci_dev *pdev)
++{
++	return (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
++}
  
- #include <linux/mutex.h>
- #include <linux/pci.h>
-+#include <linux/vfio.h>
- #include <linux/irqbypass.h>
- #include <linux/types.h>
- #include <linux/uuid.h>
+ #endif /* VFIO_PCI_CORE_H */
 -- 
 2.18.1
 
