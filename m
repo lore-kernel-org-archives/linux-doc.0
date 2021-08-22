@@ -2,103 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2824BC4338F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 06:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F329C432BE
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF51761261
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 06:07:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 519A36125F
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbhHVGIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 02:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
+        id S231640AbhHVIc0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 04:32:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbhHVGIQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 02:08:16 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02817C061575
-        for <linux-doc@vger.kernel.org>; Sat, 21 Aug 2021 23:07:35 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id k14so13526087pga.13
-        for <linux-doc@vger.kernel.org>; Sat, 21 Aug 2021 23:07:35 -0700 (PDT)
+        with ESMTP id S231147AbhHVIcZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 04:32:25 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CB5C061575;
+        Sun, 22 Aug 2021 01:31:44 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id b9so4015461plx.2;
+        Sun, 22 Aug 2021 01:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m8xtan08Su1aPHkuXwbXQb4qxZDxvf0Qz0X3flwzJxU=;
-        b=glTLbJ2Sj4cEiSfUev0riRc/uov5ePb3Ps1DkQXEkdZ7BFC2eaoMXOIqCSaMvc4D5m
-         aeGo9Z8QFVBz1v/4W89yuiVMMqc+rrAZnwspKsiwxrjgDSDK2lAe7k3Sss+pMBftKYIa
-         pz+Ev49XPauOM4Yo7gZkZeRYpXvVdkZSJIfqQ=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=APvVQF1z6WQa9rlK96FDBdWRJewiu2JOsywqsMpZgNs=;
+        b=sRAh3FVCbY2swrn+sqq//F/sNMrBV40CVbFYovk2M4K/xYSQBCszVB3BZGXU2rCP9Y
+         /6/wOe7PUqMHr1gJWHL/PzctBanbs4IPaafr//Wv18138zQk5HLWYwwl7fF3uIhfZEq/
+         ZzRltYHfPgzhWOOMapcueqmDkQ/FO1v4fF4ZlAIejvLAjJwv8t3mV42FSPIW4OBxCopD
+         BWwyNjXQG1KodRXjh5u6UezFwZhyuPK0LY8bJTST4e0t4k1dLhBTrwCKmRKjJhQbhfQ5
+         85Cd6HznAgPURfS5lC7CQX7XvfRQxDVeFQ/KwD4lxRyIw8CVcNqityp1NAwgEcMJ02j9
+         pN1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m8xtan08Su1aPHkuXwbXQb4qxZDxvf0Qz0X3flwzJxU=;
-        b=WCmmRdoCHkYr16EDITL2CmZNJvRo9eG4qQTpWNmwcmOqgKgxj97Rk+ODx+hJrZmvim
-         2hK3PYTYuv+NyLv62AQkGph9dHf/B2+Kjyn/tOr6XkuFe5m6ruc7CSiRrEA8oTUQHbA8
-         ArYWSboNIoK3T5cGBp/GCJtco/MjIIEpaCP2fm8lNrvrJq3jyu9YxsRAl7X5XJSe8BCA
-         2odWWw1XP0i43idCDPt4XajZx1KTNKl4ZDs3TuZFUTkjrdqppIeuJH5ElwJ7ALFDnJuq
-         x9ryouaVpPAxz1YD7s1GBjr8ysCGT2zrOsZmCEqQ8Hq9p7ZGC3NM72CnCag/l8Jpf8f0
-         /wtQ==
-X-Gm-Message-State: AOAM531djVuvuzxA+77kwZ1yJeVYOl1+Gh2lZL6eq11qvNpigAx9o2fM
-        8FVelCAefL5uyW37ilpFncag4w==
-X-Google-Smtp-Source: ABdhPJwl0IV4B5B/h0qlM8PDt7ajy2UF47YRyW5udsODdhJEXLGCjKRdBd3cBwW8MKRIaxdrHD0vVw==
-X-Received: by 2002:a62:1d0a:0:b0:3e2:7dd6:e4b0 with SMTP id d10-20020a621d0a000000b003e27dd6e4b0mr27511966pfd.27.1629612455373;
-        Sat, 21 Aug 2021 23:07:35 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p9sm11953817pfn.97.2021.08.21.23.07.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 23:07:34 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH] stddef: Fix kerndoc for sizeof_field() and offsetofend()
-Date:   Sat, 21 Aug 2021 23:07:30 -0700
-Message-Id: <20210822060730.4092722-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=APvVQF1z6WQa9rlK96FDBdWRJewiu2JOsywqsMpZgNs=;
+        b=t8B2lK3bqK+ba/NYOtK+LTbZMaw3JPkwUff6QrNBehRFlRtBkTXGnwVBZ91liOq3Rr
+         KqK9fBOjJk2PBy6idMRCtnhbKD8UrTpZlor/9Fw+FmBg79jJp6rXIJzeCLqfWhaUqmAU
+         Oxq3O1LQFvErwO8q7AnInuq5XaSuuccuOK7eHUfq6y0sW7AdD+nblGNsI37GFSP0BmAO
+         3eMi5DQ7G3UxuJhjidVzLynaXJqD715vX7BbGFal2qFcCPntFEteTnGxG2tLFeHfBUhh
+         g8NnoJNhtAi7yYGuw6UKMdTuhYcOmhyMjhuSmddt71M80RSJJNxD1csE1k7Rp3Jyr2Pt
+         C/0A==
+X-Gm-Message-State: AOAM5311jTidZohrvwxQOGpQ3aBDtjCkwwFgayvX6673YbxJl1RyhMwo
+        odWIuqZ6oONRQNPjlivvrXeRi+bRaWLiv1D5Nhk=
+X-Google-Smtp-Source: ABdhPJwSFmnSX6sXHzoIVdPMKv8nPOQWXu5gIglXllmhU94Jg+e4guxACgEmiQaql+ycOaOJemHVccJH5Fm0oSg78+Y=
+X-Received: by 2002:a17:902:ced0:b029:12d:4ce1:ce3a with SMTP id
+ d16-20020a170902ced0b029012d4ce1ce3amr23513063plg.0.1629621103647; Sun, 22
+ Aug 2021 01:31:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=973; h=from:subject; bh=LSI9Ve3iPXm24/e6+dJ/Whm/+Dq6iMvpCYAHC2kT7As=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhIemiw21LSBQACqZKJobE9QLuzQzYC1C0zIz8fHlJ j7xmpjuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYSHpogAKCRCJcvTf3G3AJsEuD/ 9nAv6y7l5rXl2sYk4uF4Ov/U/QKP+wOj3BHK+n7i02qn0JCUqxf80SNlWsMsdTxWDSUe+ytP7lM0q/ 0hJLWDeWevdw1lbp6ueVf8RBUEcJJKfpsNKjFM9i0hlFo/dRh0of5t3v2IkLycPWs1kl/Hc4svUR6v 6A7DrQVT19u8LHWGE9Dm+a7ck+Jq8DfLeBD1M3ZELoUi7Azp7uVC4zekS4si3qPdkYerxG0rX+QcUn UR67m6+Jj/cxOZ+mOAd7g3lLvFj5iPiMMAgUyj37/y10k+tNfBeKdrrMgl6C/7NEoRJh/qbyxhF2/e ezLN9dwUz9umJx3rcAL3XFkQkk/PSjDEMVWM/AdBN52hdhiLAqBQUKwlM39R0NElwfYEdADSnz6Jim RU/ggWjdxKvOkoyIUjDVemFzlAURDbwWYqCew1sG6LcGfpMbauVwgwU1RMzA2vTHnt2V+biG+Cqo9O ZscMMfu4twsHuy9HIKxAiHP9tu7I8GJn5q0vldy1PR6TFfxxJaIgok4+oJ50Bw080XxBS+pZU5gz9v Y77l22xvuqCCtsnEHDm5eWYb1IhRR/tNdA1JtatDwjlS2Ew/++vug2RoLovBHALGpv4jvJ/MILU0+1 YZnInWkA+okHJAckUn5arm7SVVosyKlbKgUSQ1ncyIOtjjA7lymUUJWSlnXQ==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
+In-Reply-To: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 22 Aug 2021 11:31:07 +0300
+Message-ID: <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
+Subject: Re: [PATCH] vsprintf and docs: Add X to %ph for upper case output
+To:     Joe Perches <joe@perches.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adjust the comment styles so these are correctly identified as valid
-kern-doc.
+On Sun, Aug 22, 2021 at 6:00 AM Joe Perches <joe@perches.com> wrote:
+>
+> Uppercase hex output of small char arrays is moderately frequently used.
+> Add a mechanism to support the %*ph output as uppercase using 'X'.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/stddef.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Besides the fact of existing hex_asc_upper_*(), what ABI (!) uses
+this? If none, I dunno we need this.
+And show at least a few users where we gain something after conversion.
 
-diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-index 998a4ba28eba..8553b33143d1 100644
---- a/include/linux/stddef.h
-+++ b/include/linux/stddef.h
-@@ -20,7 +20,7 @@ enum {
- #endif
- 
- /**
-- * sizeof_field(TYPE, MEMBER)
-+ * sizeof_field() - Report the size of a struct field in bytes
-  *
-  * @TYPE: The structure containing the field of interest
-  * @MEMBER: The field to return the size of
-@@ -28,7 +28,7 @@ enum {
- #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
- 
- /**
-- * offsetofend(TYPE, MEMBER)
-+ * offsetofend() - Report the offset of a struct field within the struct
-  *
-  * @TYPE: The type of the structure
-  * @MEMBER: The member within the structure to get the end offset of
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
