@@ -2,64 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F329C432BE
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F4DC4338F
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:45:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 519A36125F
-	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:31:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98FDA61248
+	for <linux-doc@archiver.kernel.org>; Sun, 22 Aug 2021 08:45:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbhHVIc0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 04:32:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231147AbhHVIcZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 04:32:25 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CB5C061575;
-        Sun, 22 Aug 2021 01:31:44 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id b9so4015461plx.2;
-        Sun, 22 Aug 2021 01:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=APvVQF1z6WQa9rlK96FDBdWRJewiu2JOsywqsMpZgNs=;
-        b=sRAh3FVCbY2swrn+sqq//F/sNMrBV40CVbFYovk2M4K/xYSQBCszVB3BZGXU2rCP9Y
-         /6/wOe7PUqMHr1gJWHL/PzctBanbs4IPaafr//Wv18138zQk5HLWYwwl7fF3uIhfZEq/
-         ZzRltYHfPgzhWOOMapcueqmDkQ/FO1v4fF4ZlAIejvLAjJwv8t3mV42FSPIW4OBxCopD
-         BWwyNjXQG1KodRXjh5u6UezFwZhyuPK0LY8bJTST4e0t4k1dLhBTrwCKmRKjJhQbhfQ5
-         85Cd6HznAgPURfS5lC7CQX7XvfRQxDVeFQ/KwD4lxRyIw8CVcNqityp1NAwgEcMJ02j9
-         pN1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=APvVQF1z6WQa9rlK96FDBdWRJewiu2JOsywqsMpZgNs=;
-        b=t8B2lK3bqK+ba/NYOtK+LTbZMaw3JPkwUff6QrNBehRFlRtBkTXGnwVBZ91liOq3Rr
-         KqK9fBOjJk2PBy6idMRCtnhbKD8UrTpZlor/9Fw+FmBg79jJp6rXIJzeCLqfWhaUqmAU
-         Oxq3O1LQFvErwO8q7AnInuq5XaSuuccuOK7eHUfq6y0sW7AdD+nblGNsI37GFSP0BmAO
-         3eMi5DQ7G3UxuJhjidVzLynaXJqD715vX7BbGFal2qFcCPntFEteTnGxG2tLFeHfBUhh
-         g8NnoJNhtAi7yYGuw6UKMdTuhYcOmhyMjhuSmddt71M80RSJJNxD1csE1k7Rp3Jyr2Pt
-         C/0A==
-X-Gm-Message-State: AOAM5311jTidZohrvwxQOGpQ3aBDtjCkwwFgayvX6673YbxJl1RyhMwo
-        odWIuqZ6oONRQNPjlivvrXeRi+bRaWLiv1D5Nhk=
-X-Google-Smtp-Source: ABdhPJwSFmnSX6sXHzoIVdPMKv8nPOQWXu5gIglXllmhU94Jg+e4guxACgEmiQaql+ycOaOJemHVccJH5Fm0oSg78+Y=
-X-Received: by 2002:a17:902:ced0:b029:12d:4ce1:ce3a with SMTP id
- d16-20020a170902ced0b029012d4ce1ce3amr23513063plg.0.1629621103647; Sun, 22
- Aug 2021 01:31:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
-In-Reply-To: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 22 Aug 2021 11:31:07 +0300
-Message-ID: <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
+        id S232003AbhHVIqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 04:46:34 -0400
+Received: from smtprelay0233.hostedemail.com ([216.40.44.233]:43048 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231147AbhHVIqe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 04:46:34 -0400
+Received: from omf11.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 554F11803893D;
+        Sun, 22 Aug 2021 08:45:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id E0A5120A297;
+        Sun, 22 Aug 2021 08:45:50 +0000 (UTC)
+Message-ID: <12a41a13f8d03a16c3d5c20710a901c090b7d244.camel@perches.com>
 Subject: Re: [PATCH] vsprintf and docs: Add X to %ph for upper case output
-To:     Joe Perches <joe@perches.com>
+From:   Joe Perches <joe@perches.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Petr Mladek <pmladek@suse.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
@@ -68,20 +36,77 @@ Cc:     Petr Mladek <pmladek@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Linux Documentation List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Sun, 22 Aug 2021 01:45:49 -0700
+In-Reply-To: <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
+References: <6abd83d11f1daa3094f82e92843e8279f302e349.camel@perches.com>
+         <CAHp75Vdh2CP9n0FrU+6nkmzVWKoKD6RN-RGv7Z+UD_KUoFXPfw@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: E0A5120A297
+X-Stat-Signature: 5xq3nkycjjd5n7oa7haaj1ys1k77u6ud
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+5/U6GonMEN9W3NGgqoM7MjYGf8g8TEwg=
+X-HE-Tag: 1629621950-549273
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 22, 2021 at 6:00 AM Joe Perches <joe@perches.com> wrote:
->
-> Uppercase hex output of small char arrays is moderately frequently used.
-> Add a mechanism to support the %*ph output as uppercase using 'X'.
+On Sun, 2021-08-22 at 11:31 +0300, Andy Shevchenko wrote:
+> On Sun, Aug 22, 2021 at 6:00 AM Joe Perches <joe@perches.com> wrote:
+> > 
+> > Uppercase hex output of small char arrays is moderately frequently used.
+> > Add a mechanism to support the %*ph output as uppercase using 'X'.
+> 
+> Besides the fact of existing hex_asc_upper_*(), what ABI (!) uses
+> this? If none, I dunno we need this.
+> And show at least a few users where we gain something after conversion.
+> 
 
-Besides the fact of existing hex_asc_upper_*(), what ABI (!) uses
-this? If none, I dunno we need this.
-And show at least a few users where we gain something after conversion.
+There are at least a few uses that could be converted.
 
--- 
-With Best Regards,
-Andy Shevchenko
+For instance:
+
+diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
+index 3faa87fa296a2..c56871e8ce1b7 100644
+--- a/drivers/scsi/hpsa.c
++++ b/drivers/scsi/hpsa.c
+@@ -743,13 +743,7 @@ static ssize_t unique_id_show(struct device *dev,
+ 	}
+ 	memcpy(sn, hdev->device_id, sizeof(sn));
+ 	spin_unlock_irqrestore(&h->lock, flags);
+-	return snprintf(buf, 16 * 2 + 2,
+-			"%02X%02X%02X%02X%02X%02X%02X%02X"
+-			"%02X%02X%02X%02X%02X%02X%02X%02X\n",
+-			sn[0], sn[1], sn[2], sn[3],
+-			sn[4], sn[5], sn[6], sn[7],
+-			sn[8], sn[9], sn[10], sn[11],
+-			sn[12], sn[13], sn[14], sn[15]);
++	return snprintf(buf, 16 * 2 + 2, "%16phNX\n", sn);
+ }
+ 
+ static ssize_t sas_address_show(struct device *dev,
+
+and
+
+diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+index ecb2af3f43ca3..eb39490b196cc 100644
+--- a/drivers/scsi/smartpqi/smartpqi_init.c
++++ b/drivers/scsi/smartpqi/smartpqi_init.c
+@@ -6674,13 +6674,7 @@ static ssize_t pqi_unique_id_show(struct device *dev,
+ 
+ 	spin_unlock_irqrestore(&ctrl_info->scsi_device_list_lock, flags);
+ 
+-	return scnprintf(buffer, PAGE_SIZE,
+-		"%02X%02X%02X%02X%02X%02X%02X%02X"
+-		"%02X%02X%02X%02X%02X%02X%02X%02X\n",
+-		unique_id[0], unique_id[1], unique_id[2], unique_id[3],
+-		unique_id[4], unique_id[5], unique_id[6], unique_id[7],
+-		unique_id[8], unique_id[9], unique_id[10], unique_id[11],
+-		unique_id[12], unique_id[13], unique_id[14], unique_id[15]);
++	return scnprintf(buffer, PAGE_SIZE, "%16phNX\n", unique_id);
+ }
+
+
