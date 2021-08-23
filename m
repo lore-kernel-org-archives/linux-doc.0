@@ -7,105 +7,95 @@ X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675EBC4338F
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Aug 2021 01:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA507C432BE
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Aug 2021 02:05:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CC8F6124B
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Aug 2021 01:58:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB56D61284
+	for <linux-doc@archiver.kernel.org>; Mon, 23 Aug 2021 02:05:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234539AbhHWB6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 Aug 2021 21:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56442 "EHLO
+        id S234697AbhHWCFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 Aug 2021 22:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233258AbhHWB6q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 21:58:46 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BAF0C061575;
-        Sun, 22 Aug 2021 18:58:05 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id n126so17810237ybf.6;
-        Sun, 22 Aug 2021 18:58:05 -0700 (PDT)
+        with ESMTP id S234692AbhHWCFw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 Aug 2021 22:05:52 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4DDDC061575;
+        Sun, 22 Aug 2021 19:05:10 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id z5so31180507ybj.2;
+        Sun, 22 Aug 2021 19:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=wLsr+R0Fve9ivW+7qc/jUuotRZ00tnDPLOXaKuMzzD4=;
-        b=RkT7Ab1TdRuLb9JbE9JxGn14hi9GH2rFmC4TG7zt/+6Ai+lnjwwfRqKVWumQIP1NHz
-         TSwE5cSAXmTimpu03Q5vD3ve+pA3rlI0ZWUKLOq7Mh1//0bcuJ3PP6ZZEC5/jnZIjImj
-         ZXKKvbwiPLSwLLv4pQneuFAMoiDrgjDFCzvM6XPhBAddFaszBV/NNQzXsCgVEWGlMQt4
-         53/NFAqgHiNJiVdCcDYIugaFG0paytp0T3hs6jBMsSzH64WkXPL88QKUK32ycBqo70xp
-         dKtKHYYFqUXTwqOPO9emQvjbxRor4yx4e4pl/EScwhZE0tNjYn5bLTgmGhyG0Pf7FjWQ
-         0PFw==
+        bh=a+lvHaFeJkkkAOQLbRXTzBc/XIrK+hutoY3j14PFZrI=;
+        b=MfNfBTZ2vcGCOpo/Q3VnL1nXtWkssmtLA67FYLhXkbprxOmIcdaa36AnwIWnjLW8D1
+         HLM7wFzyNanE6G8JALSOZVZwO8ZFHnC09STF42HCeoYDAM4zpFJSSDdCg3zCUfMMacFr
+         Db8KAmWZ4jjC3mg4yztVvenudvzmZTy4BlFHUdEt75kQz0bcYJm2FdhLzVcR+UGlxQy2
+         QP5aSBZX6VOC4bDPCoq4+D1Vaz4ZeeFGnlckBf+QM3O5R5cj/dsf0HLTWnLfKmQeC6Vp
+         duEdP6c/qB4BGDGN1APcKqtckive9N3vW1ESJSRQB/jdS00w5p1RHegoBup37/Xcz1+3
+         75sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wLsr+R0Fve9ivW+7qc/jUuotRZ00tnDPLOXaKuMzzD4=;
-        b=l/uJULeYcIuWQt1blH82AruYe1lVAd52sW9lSbMI1LqzK3+eWyZXeBkpLfCF/GfoJH
-         1pKFr7LsmkuvRZtux2wR+CP99F2LGvCngeJnUJvCuRHPKpcVuYZEqWDlfIR2Fk8jGNV+
-         rUnyaXbC29Ctw7z8CTrNAC4/3Vt6OCoXvET5Wk/FmbtFHZAMpdCeCM3QoCUaKc+VVGn+
-         9vqL7OjwfCXI9qDLGSkjzpJlcCLH2fSw7JYscFqAT06L/ShTF7473hclx6oPz13q4pMv
-         rLZddrroAsjY0RxeoxfadTmAnvsqpTVTAtATjJq/xUQhjZLZRMBCN5MTxPgPJujRf68o
-         balA==
-X-Gm-Message-State: AOAM5323sJdh0PpDEfH9/+GiLqDqVJQyfx1vuWWKYGYYZZzRiFYviUUQ
-        WKFRCYDBFqszTJlzom3TbfotV6hF8YqqCq+tPgE86CNyBQ1DKQJ/+Rk=
-X-Google-Smtp-Source: ABdhPJxRvdQG0Ud1bze67w4fbPLedynZ27gerJNJTzB4xfNCcMWZBJ9gwk33CZztFXNBYImwJ9ALQOhaC6ZoSpzAyJk=
-X-Received: by 2002:a25:b7c8:: with SMTP id u8mr39872181ybj.268.1629683884334;
- Sun, 22 Aug 2021 18:58:04 -0700 (PDT)
+        bh=a+lvHaFeJkkkAOQLbRXTzBc/XIrK+hutoY3j14PFZrI=;
+        b=Ojc+FIZVdE9n6Q6f8/EBdA9Y9m530m8X77oJO/Mga9OwBlDhwcahVSO/H74G11GTdE
+         ru8Jdc0V4W/dwacpDv5YL/FffdCjQkfE32TpHNn0+GGpbI0kd7U0DUewbtel03AKNcPa
+         +UOvnDlOt39udZELPob1Gb2ZudSIpXp+wMPLSWEBYtOGL1EFascwBaRUIA4rENPlXW9v
+         TvDgw70PCrU71RRt11i+q0ythWKeeTYf9Tc+lqiYehvcSytI7CUnxz3Cf/0AZcUZv6fK
+         bCm1S4KF/LjNMy5T3bEQHQgzDJthbPWNaiMj1ezQl2+glRCM+Sc258LnJ1p/AXGtLC5x
+         ve8g==
+X-Gm-Message-State: AOAM531sLMHRvTdbh0IbtwJ136UdiwUDlO7Xon1xyG5lUxPNycciUvUi
+        mSqVzK7FDTLdjCq5oVisIIJBTzo7uQRy8FSkPuk=
+X-Google-Smtp-Source: ABdhPJyTFctQxEFbGQTEAfjJ9SfrzImsMKkPY0StuBM9e+G/q6jRwHnf/sBE+LKSoOeNbdsilCTJjhL7/Czd0I9Fd5g=
+X-Received: by 2002:a25:b845:: with SMTP id b5mr40137971ybm.343.1629684309946;
+ Sun, 22 Aug 2021 19:05:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210820030536.25737-1-yaozhenguo1@gmail.com> <20210822151952.23ca9547316dc34c9f3bd482@linux-foundation.org>
- <YSLPWybBCyE/6x7s@casper.infradead.org>
-In-Reply-To: <YSLPWybBCyE/6x7s@casper.infradead.org>
+In-Reply-To: <20210822151952.23ca9547316dc34c9f3bd482@linux-foundation.org>
 From:   zhenguo yao <yaozhenguo1@gmail.com>
-Date:   Mon, 23 Aug 2021 09:57:53 +0800
-Message-ID: <CA+WzARmb+KVLo=isfU7T2bi=9O=UFFG57CBk6w-+haKp_OqbMg@mail.gmail.com>
+Date:   Mon, 23 Aug 2021 10:04:59 +0800
+Message-ID: <CA+WzARkRYP=n1T+G3ciUYmM+nK3H-FpRMG5Nq8kpujTwpYmnMA@mail.gmail.com>
 Subject: Re: [PATCH] hugetlbfs: add hugepages_node kernel parameter
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     mike.kravetz@oracle.com, corbet@lwn.net, akpm@linux-foundation.org,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     mike.kravetz@oracle.com, corbet@lwn.net,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
+        linux-mm@kvack.org, yaozhenguo@jd.com,
+        Matthew Wilcox <willy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yes, the expanding of hugepages is more elegant. I  will change it in
-the next version.
+OK,  It's better to use a concise way to add this function.  I will
+use a better way in the next version.
 
-Matthew Wilcox <willy@infradead.org> =E4=BA=8E2021=E5=B9=B48=E6=9C=8823=E6=
-=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=886:28=E5=86=99=E9=81=93=EF=BC=9A
+Andrew Morton <akpm@linux-foundation.org> =E4=BA=8E2021=E5=B9=B48=E6=9C=882=
+3=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=886:19=E5=86=99=E9=81=93=EF=BC=
+=9A
 >
-> On Sun, Aug 22, 2021 at 03:19:52PM -0700, Andrew Morton wrote:
-> > On Fri, 20 Aug 2021 11:05:36 +0800 yaozhenguo <yaozhenguo1@gmail.com> w=
-rote:
+> On Fri, 20 Aug 2021 11:05:36 +0800 yaozhenguo <yaozhenguo1@gmail.com> wro=
+te:
+>
+> > We can specify the number of hugepages to allocate at boot. But the
+> > hugepages is balanced in all nodes at present. In some scenarios,
+> > we only need hugepags in one node. For example: DPDK needs hugepages
+> > which is in the same node as NIC. if DPDK needs four hugepags of 1G
+> > size in node1 and system has 16 numa nodes. We must reserve 64 hugepags
+> > in kernel cmdline. But, only four hugepages is used. The others should
+> > be free after boot.If the system memory is low(for example: 64G), it wi=
+ll
+> > be an impossible task. So, add hugepages_node kernel parameter to speci=
+fy
+> > node number of hugepages to allocate at boot.
+> > For example add following parameter:
 > >
-> > > We can specify the number of hugepages to allocate at boot. But the
-> > > hugepages is balanced in all nodes at present. In some scenarios,
-> > > we only need hugepags in one node. For example: DPDK needs hugepages
-> > > which is in the same node as NIC. if DPDK needs four hugepags of 1G
-> > > size in node1 and system has 16 numa nodes. We must reserve 64 hugepa=
-gs
-> > > in kernel cmdline. But, only four hugepages is used. The others shoul=
-d
-> > > be free after boot.If the system memory is low(for example: 64G), it =
-will
-> > > be an impossible task. So, add hugepages_node kernel parameter to spe=
-cify
-> > > node number of hugepages to allocate at boot.
-> > > For example add following parameter:
-> > >
-> > > hugepagesz=3D1G hugepages_node=3D1 hugepages=3D4
-> > >
-> > > It will allocate 4 hugepags in node1 at boot.
+> > hugepagesz=3D1G hugepages_node=3D1 hugepages=3D4
 > >
-> > If were going to do this, shouldn't we permit more than one node?
-> >
-> >       hugepages_nodes=3D1,2,5
+> > It will allocate 4 hugepags in node1 at boot.
 >
-> I'd think we'd be better off expanding the definition of hugepages.
-> eg:
+> If were going to do this, shouldn't we permit more than one node?
 >
-> hugepagesz=3D1G hugepages=3D1:4,3:8,5:2
->
-> would say to allocate 4 pages from node 1, 8 pages from node 3 and 2
-> pages from node 5.
+>         hugepages_nodes=3D1,2,5
