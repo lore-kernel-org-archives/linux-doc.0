@@ -2,110 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0CAC4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 11:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A955DC4320E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D5CE6120A
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 11:18:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94EA26127B
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236104AbhHXLTm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 07:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33042 "EHLO
+        id S237081AbhHXMr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 08:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236395AbhHXLTl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 07:19:41 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301C6C061757
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 04:18:57 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so36464342otg.11
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 04:18:57 -0700 (PDT)
+        with ESMTP id S237058AbhHXMr0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 08:47:26 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08583C0613D9
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:42 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so2231080wml.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bXzCEfxCRgmCKLZrbkn/VI25FIAwR2Oka2xODnds5sY=;
-        b=OWaFG+FQQBsbCIWiQIzXHnqBxTNEDF8ZYnKITZz6yKDH0+aVTnjS1vjsA24+EM34oP
-         /L7zYDgtFrYoMJYATd7NwldmvgMoG9ZtUUGIB/wYHBigYAHkXEIgar8K7Heff5s76wkH
-         QQ7Oe28fZ9lnHAsL/9Rr1/9B6kfr3iBj8vdA0/HE4gvOHVeSLwh6iA7fvNtpBHG77s7g
-         hVG/EMbS7uuqwMksUyYHZCONH/M2Yj2IDTPnR1tooO2c7/PAWtXhdtauXvDwe2iOnD4V
-         wjcBal3QsuLsaPu2xiDzfyKgDKgrtBKiy1oz04Id7ZFeKvzMk1muXoyA/0kGmJIf86If
-         vkYA==
+        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ITgBrnsXxYt5ExpwAjy0F9kmoKjlzzIxaEpH+sT/Rk=;
+        b=QBtxPtjwG4dfo9XZYXEZnqNkMHCffokDdBKiI5SeAVA8McCkKuICiG38qL7tujK4OE
+         Fkse0XEGHa0/LrCkdnBufyDDk/i4kgUbk5h0/DqumwDMK8y2L1+3AV0kgvaqUEnquuI0
+         T/AYhpSvdJ9MGy+Mf/3Y2jr+fwvQodi/UMw2lpElHMvFuHmp6MW9iSYFIn2ZMpm5Jkab
+         O3a2T+/S2D85S0ixmw40pU0mYjDQtbOCuZvxCT/s9Pog/NTuoVKx0okGH0Jdj+AULYUu
+         lvMMe/ZC76gIcMKUISEBlZBvqKpp/P6bkJ8ROBxcjLQPttqaJh5qHpdoBAqfHLQFwShU
+         2cbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bXzCEfxCRgmCKLZrbkn/VI25FIAwR2Oka2xODnds5sY=;
-        b=MriLETmnAeAwOsc0cWmva2emkvdMM9OZsMC2Isvelltoj9ShuR5YJQywvp9w88u7Qs
-         lkVbShXe0NATa2sVAMLdVr9McXh8yGyR7BB14FlZYkMe3PH45wJAMkreJVdO64WUXez8
-         Xb/BoHQHqR4hLtd8A7XPfZfwzAQ5c1YeebTbglPf0OQjzylex0xQwY+7p+2c4OYOHfED
-         fvLjSCFbBjd8ClpbiJjBqQMwjo3fLZXEcF1hR+cTZrNFKHQ4HvVZ4/1wLYDbAuKCjmlN
-         YFgSAGvUAV11AxupiPKaBVNBv3FpjayrLJO4Iw/RbY1/1ccFMB823JjcwiF1riw0gBHs
-         komQ==
-X-Gm-Message-State: AOAM5331uCoFVcH3kQ/arL0hgpUpztf6ZiAtz+LhV2YFkmv2ywxn7QRX
-        a6hb5NsVIW1B8JNXvB82I9jQAjiIasNAmJxrSSY=
-X-Google-Smtp-Source: ABdhPJzDG0Xcfaj7b9bbkATcXox1prApCGt0v2bX/VyNyXPhEZZvaUt4w22JAGNcukIS93MRPqsgmjMxphSMxQvyt34=
-X-Received: by 2002:a9d:664c:: with SMTP id q12mr32845098otm.243.1629803936447;
- Tue, 24 Aug 2021 04:18:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ITgBrnsXxYt5ExpwAjy0F9kmoKjlzzIxaEpH+sT/Rk=;
+        b=U6dlcPpbgQXPqxfflt6UFHVoAyI1o5z4e7YqzeghtCiIp4GiN9S8/5HzLYk5E19QYd
+         B2UAFkZTQWOLYGyNTQoJ7aCtUMSoUNhrHYqrdeRJUlAqcZ6X0dcBZfsyWbjY8B4R4SiD
+         8xX5/a6/m6EzPL7uX85+wRKxi55sfOG0SvqsK5mVmI+8MhxS0ja9L5q77o2vR4CkGtJ9
+         YhKvCa1+6PJdBd1hnD+h69bMl+kezWrjBf5KYO7vXpbQjx+iQQqNbCwYNr4ot/DZM0q0
+         WUuTnK0pKs7q4xje1wZq7Mtrq8R3uMgOpzC2z+7eY3j94NgIi2M7XtJIhVJ19tADpOCg
+         p1pQ==
+X-Gm-Message-State: AOAM533OdlMlYjlb1lBnBhE2jWMhZh9G4zpr7xIKPjBTDlPclDjtf6yF
+        0fb+FMutlSoLyUisq138EWh3NdlhSrxrQ6xHZl5ORnMO1goThJPE+xkhsyLYQdtDCc9ReZfBD80
+        Koi2Ps4BSSczcZTGtJJAbpx/S/A8wYZNTLFWYNGMJOrvlEfbeBk3C1wfluuIahaH4L+lEV8gyH+
+        xaTi0=
+X-Google-Smtp-Source: ABdhPJyQncu3C98MMppeelVklXU66lwyJO4PyyVNy0drV5Eh39UqMaUwwAgDeOaLk3lOd2fu/Waofw==
+X-Received: by 2002:a1c:f610:: with SMTP id w16mr4023868wmc.116.1629809200179;
+        Tue, 24 Aug 2021 05:46:40 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:ee2:4b0d:3001:fe74:75c8:e909:251b])
+        by smtp.gmail.com with ESMTPSA id i14sm2255454wmq.40.2021.08.24.05.46.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 05:46:39 -0700 (PDT)
+From:   Luka Kovacic <luka.kovacic@sartura.hr>
+To:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, geert+renesas@glider.be,
+        Max.Merchel@tq-group.com, linux@rempel-privat.de, daniel@0x0f.com,
+        shawnguo@kernel.org, sam@ravnborg.org, arnd@arndb.de,
+        krzysztof.kozlowski@canonical.com, pavo.banicevic@sartura.hr,
+        corbet@lwn.net, lee.jones@linaro.org, pavel@ucw.cz,
+        robh+dt@kernel.org, linux@roeck-us.net, jdelvare@suse.com,
+        goran.medic@sartura.hr, luka.perkov@sartura.hr,
+        robert.marko@sartura.hr
+Cc:     Luka Kovacic <luka.kovacic@sartura.hr>
+Subject: [PATCH v9 0/7] Add support for the IEI WT61P803 PUZZLE MCU
+Date:   Tue, 24 Aug 2021 14:44:31 +0200
+Message-Id: <20210824124438.14519-1-luka.kovacic@sartura.hr>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <cover.1629274856.git.siyanteng@loongson.cn> <ead97c192e0f947e214fd857905bab5eeaeda14f.1629274856.git.siyanteng@loongson.cn>
- <CAJy-Amkm-_UrxXkTMn0=EJb+no3Y_rf8TQUAu-AjGJH0jniQkQ@mail.gmail.com>
-In-Reply-To: <CAJy-Amkm-_UrxXkTMn0=EJb+no3Y_rf8TQUAu-AjGJH0jniQkQ@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 24 Aug 2021 19:18:45 +0800
-Message-ID: <CAEensMxVp3J-tDJUJz7k2TS7aid2Xtj_tNDiEEO1n5Lv-b67wQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] docs/zh_CN: add core-api gfp_mask-from-fs-io translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        chenfeiyang@loongson.cn,
-        =?UTF-8?B?6ZmI6aOe5oms?= <chris.chenfeiyang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0OOaciDI05pel5ZGo5LqMIOS4
-i+WNiDU6MTXlhpnpgZPvvJoNCj4NCj4gT24gV2VkLCBBdWcgMTgsIDIwMjEgYXQgNDozMiBQTSBZ
-YW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNs
-YXRlIERvY3VtZW50YXRpb24vY29yZS1hcGkvZ2ZwX21hc2stZnJvbS1mcy1pby5yc3QgaW50byBD
-aGluZXNlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxv
-b25nc29uLmNuPg0KPiA+IC0tLQ0KPiA+ICAuLi4vemhfQ04vY29yZS1hcGkvZ2ZwX21hc2stZnJv
-bS1mcy1pby5yc3QgICAgfCA2NiArKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi90cmFuc2xh
-dGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0ICAgICB8ICAyICstDQo+ID4gIDIgZmlsZXMg
-Y2hhbmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9k
-ZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvZ2ZwX21h
-c2stZnJvbS1mcy1pby5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9nZnBfbWFzay1mcm9tLWZzLWlvLnJzdCBiL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2dmcF9tYXNrLWZyb20tZnMtaW8u
-cnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmEy
-YjgxMzEzZjdhNw0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9nZnBfbWFzay1mcm9tLWZzLWlvLnJzdA0KPiA+IEBA
-IC0wLDAgKzEsNjYgQEANCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0
-DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vY29yZS1hcGkvZ2ZwX21hc2st
-ZnJvbS1mcy1pby5yc3QNCj4gPiArDQo+ID4gKzrnv7vor5E6DQo+ID4gKw0KPiA+ICsg5Y+45bu2
-6IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiArDQo+ID4gKzrmoKHo
-r5E6DQo+ID4gKw0KPiA+ICsNCj4gPiArDQo+ID4gKy4uIF9jbl9jb3JlLWFwaV9nZnBfbWFzay1m
-cm9tLWZzLWlvOg0KPiA+ICsNCj4gPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+
-ICvku45GUy9JT+S4iuS4i+aWh+S4reS9v+eUqOeahEdGUOaOqeeggQ0KPiA+ICs9PT09PT09PT09
-PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICs65pel5pyfOiAyMDE45bm0NeaciA0KPiA+
-ICs65L2c6ICFOiBNaWNoYWwgSG9ja28gPG1ob2Nrb0BrZXJuZWwub3JnPg0KPiA+ICsNCj4gPiAr
-566A5LuLDQo+ID4gKz09PT0NCj4gPiArDQo+ID4gK+aWh+S7tuezu+e7n+WSjElP5qCI5Lit55qE
-5Luj56CB6Lev5b6E5Zyo5YiG6YWN5YaF5a2Y5pe25b+F6aG75bCP5b+D77yM5Lul6Ziy5q2i5Zug
-55u05o6l6LCD55SoRlPmiJZJT+i3r+W+hOeahOWGhQ0KPiA+ICvlrZjlm57mlLblkozpmLvloZ7l
-t7Lnu4/mjIHmnInnmoTotYTmupDvvIjkvovlpoLplIEtLeacgOW4uOingeeahOaYr+eUqOS6juS6
-i+WKoeS4iuS4i+aWh+eahOmUge+8ieiAjOmAoOaIkOmAkuW9kuatuw0KPiA+ICvplIHjgIINCj4N
-Cj4g4oCdYW5kIGJsb2NraW5n4oCcICBoZXJlLCBhcyBteSB1bmRlcnN0YW5kaW5nLCBpcyB0byBl
-bXBoYXNpemUgdGhlICdhbmQnLA0KPiBzbyBtYXliZSB0aGUgJ2FuZCcgY291bGQgYmUNCj4gdHJh
-bnNsYXRlZCBhcyDigJjlubbkuJTigJnvvJ8NCk9LIQ0KPg0KPiBBcyB0byBvdGhlcnMsDQo+IFJl
-dmlld2VkLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCg0KVGhhbmsgeW91IGZvciB5
-b3VyIHJldmlldyENCg0KDQpUaGFua3MsDQoNCllhbnRlbmcNCg==
+This patchset adds support for the IEI WT61P803 PUZZLE microcontroller,
+which enables some board specific features like fan and LED control,
+system power management and temperature sensor reading on some IEI
+Puzzle series boards.
+
+The first board to use this functionality is IEI Puzzle-M801 1U
+Rackmount Network Appliance and is since v4 sent separately, as a
+standalone patch.
+
+Changes for v2:
+   - Use LAAs for local-mac-address and match reg values
+   - Code styling changes
+   - Error handling moved to the end of the function
+   - Define all magic numbers in the main header file
+   - Convert the driver to make it OF independent
+   - Refactor hwmon to use devm_hwmon_device_register_with_info()
+   - Reduce the number of mutex locks
+   - Allocate memory once for the response buffer
+   - Reduce managed memory allocations
+Changes for v3:
+   - Move iei-wt61p803-puzzle driver sysfs interface documentation to testing
+   - Change some internal functions to static
+   - Sync dt-bindings examples with the IEI Puzzle-M801 board dts
+   - Remove obsolete device tree properties and correct LED functions
+   - Reverse christmas tree variable declaration order, where possible
+   - MAC address sysfs function rewrite
+   - Fixed struct members size, where reasonable (MFD driver)
+   - Add an error check for hwmon_dev
+   - Use devm_led_classdev_register_ext() in the LED driver
+Changes for v4:
+   - Clean up sensible checks reported by checkpatch --strict
+   - Document the mutex lock usage in the LED driver
+   - Fix error handling and code styling issues in the HWMON driver
+   - Break up the patchset and send the IEI Puzzle-M801 board support
+     patch separately
+Changes for v5:
+   - Remove the return before goto to also fwnode_handle_put(child)
+     when ret is 0 (LED driver)
+   - Change unsigned char arrays to static where applicable
+   - Fix unconventional line indentations
+   - Remove unnecessary checks in the HWMON driver
+   - Remove unnecessary type casts
+   - Clear up command array assignments, where the command array is
+     modified before it is sent
+   - Resolve a checksum calculation issue
+   - Add Luka Perkov to MAINTAINERS
+Changes for v6:
+   - Use the container_of() macro to get the led_cdev parent struct
+   - Use %u instead of %lu in a printf() (LED driver)
+Changes for v7:
+   - Use the correct vendor title (IEI instead of iEi)
+   - Add missing properties to dt-bindings and fix styling issues
+   - Styling changes in the IEI WT61P803 PUZZLE HWMON driver
+   - Add missing commas in array definitions
+   - Check reply_size, where possible
+   - Clean up kernel-doc comments
+Changes for v8:
+   - Fix multiple style issues
+   - Reduce number of special allocations
+   - Remove unnecessary special state tracking with write/read commands
+   - Remove most of commands calls from probing of driver
+   - Add hwmon documentation file
+   - Replace some sprintf() calls with safer scnprintf()
+   - Remove unused defines
+   - Remove all explicit castings
+   - Shorter name of device for hwmon driver so snprintf() can
+     store device number
+   - Remove special kobj usage
+   - Use dev groups in place of deprecated device attributes
+   - Extend documentation for some descriptions of ABI documentation
+   - Add missing locking for response buffer in hwmon driver
+   - Fix inconsistency with license versions
+   - Check return value of iei_wt61p803_puzzle_sysfs_create()
+   - Remove unneeded initializations of reply_size variable in drivers
+   - Use define for fixed number of MAC addresses
+   - Reorder some variable declarations to follow preferred style
+   - Spell whole WoL acronym
+   - Drop __func__ from device error message
+   - Use sizeof() where it is possible
+   - Use hex_asc[] array for converting number to ascii value
+   - Remove unnecessary hwmon-sysfs.h include
+   - Stop being overly verbose when probing mfd driver
+Changes for v9:
+   - Add hwmon documentation to index.rst
+   - Describe the temperature sensors in hwmon documentation
+   - Only describe 1 LED in the dt-bindings
+   - Use absoulute references in dt-bindings, instead of relative ones
+
+Luka Kovacic (7):
+  dt-bindings: Add IEI vendor prefix and IEI WT61P803 PUZZLE driver
+    bindings
+  drivers: mfd: Add a driver for IEI WT61P803 PUZZLE MCU
+  drivers: hwmon: Add the IEI WT61P803 PUZZLE HWMON driver
+  drivers: leds: Add the IEI WT61P803 PUZZLE LED driver
+  Documentation/ABI: Add iei-wt61p803-puzzle driver sysfs interface
+    documentation
+  Documentation/hwmon: Add iei-wt61p803-puzzle hwmon driver
+    documentation
+  MAINTAINERS: Add an entry for the IEI WT61P803 PUZZLE driver
+
+ .../testing/sysfs-driver-iei-wt61p803-puzzle  |  61 ++
+ .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      |  53 +
+ .../leds/iei,wt61p803-puzzle-leds.yaml        |  39 +
+ .../bindings/mfd/iei,wt61p803-puzzle.yaml     |  82 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../hwmon/iei-wt61p803-puzzle-hwmon.rst       |  43 +
+ Documentation/hwmon/index.rst                 |   1 +
+ MAINTAINERS                                   |  16 +
+ drivers/hwmon/Kconfig                         |   8 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/iei-wt61p803-puzzle-hwmon.c     | 413 ++++++++
+ drivers/leds/Kconfig                          |   8 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-iei-wt61p803-puzzle.c       | 147 +++
+ drivers/mfd/Kconfig                           |   8 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/iei-wt61p803-puzzle.c             | 908 ++++++++++++++++++
+ include/linux/mfd/iei-wt61p803-puzzle.h       |  66 ++
+ 18 files changed, 1858 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-iei-wt61p803-puzzle
+ create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+ create mode 100644 Documentation/hwmon/iei-wt61p803-puzzle-hwmon.rst
+ create mode 100644 drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
+ create mode 100644 drivers/leds/leds-iei-wt61p803-puzzle.c
+ create mode 100644 drivers/mfd/iei-wt61p803-puzzle.c
+ create mode 100644 include/linux/mfd/iei-wt61p803-puzzle.h
+
+-- 
+2.31.1
+
