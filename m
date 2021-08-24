@@ -8,96 +8,80 @@ X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5CCC4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 07:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7479C4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 08:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C09461246
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 07:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF67261265
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 08:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234618AbhHXHs4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 03:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40010 "EHLO
+        id S234988AbhHXIke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 04:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234969AbhHXHsz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 03:48:55 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70449C061575;
-        Tue, 24 Aug 2021 00:48:11 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id x4so19007058pgh.1;
-        Tue, 24 Aug 2021 00:48:11 -0700 (PDT)
+        with ESMTP id S232714AbhHXIkd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 04:40:33 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD442C061757
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id a21so25337687ioq.6
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=B3hQaZ5ORQMoz4CCAkI30BUWirzjOBvm7urDWULbWbQ=;
-        b=S8wae+Cm7KQ0oz0TBIQHrlOaWDyBSNfMbGC0rwjMOGsN6pwh4ocA7w/zQV2CNac8EC
-         W5g7vkbhANy7LhccPm7uAbt4qzpJJPxPpH2cdSatG3eMmX0vRWhricHcRc868lcBIdXG
-         3+a7bjf/coMT6tmm7L0ki+yIzNiWXBK8IMDCg6jSG8Uf+sW/UYfuyiBGW0qEwLRJU8M8
-         VxTnDfHJaHuXh3OzlHVF1Dno477AvluEV5oIcUsNMV99JamJptdavgO3eBvmt8H8rZtL
-         96jYmE82ja//lfSe9c4PMZSmKMmu6c6k2ZVWCD1R2tPJRTTaVih6dmfjbylfKibZlUd8
-         ri0Q==
+         :cc;
+        bh=fIaJkxrINABCGe/Iug5/poGhfIdeb8mZr2zVkeuZiyk=;
+        b=kHTTXTXksWgsHJPnpVB59oOfzUtmQA8RIlmIUrXtIrzHAq1ndsCWtHdoAHjx99VDlV
+         CbSgcrdKjFaVlKmnDvSdDGu/FlJ6ksMJhaYMoeyEw4JrohYPmBFZnm81tVnOW+Fgcwcv
+         S0kLABy3eOsJWaUARW0JnOceTpR54yXgasDHyMJTYSlsoDapzS2Q2iOlDikOBkHft90u
+         B1+KEKx2JPBAzaL/Zg4HH1/99MwHX29L77Qj76dDJCkp2XCCLzO37qhfZu6KWKXZ7bkD
+         w1BSIiwJ2TL04lavumlWwmuzqVbQSXVnZb6trWN554SKo5GCr955sqjvEb/0ur55OfXJ
+         i3sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=B3hQaZ5ORQMoz4CCAkI30BUWirzjOBvm7urDWULbWbQ=;
-        b=lqrZIkmNCgdZEEHhYmjx5eEAZt8Szd6zd7lXd5AEWjwjxVCMslTfAwWK26yvCEz5gX
-         9nbN9JywVinuHpmgfmWtBrsP9RN4JiXoC6p8k7OywUFfzg79f+UAjzpnG8ywSt7ovTHw
-         Wc5IXu0JWLtBWJROQnOEhIwOA1bQ+/zMUyjtKorakjR0P4eElwOGM2N42tl0WBtC1Pcx
-         bBCXFFwqvosun4LldRken3E2qhUt8RPtWXUUX3N1mrPcIXdZx3JwcAUqG6PInMV4DnAe
-         8ijVs35MQVFKjB7BdHCbd3279lXI+zVtCaujge8nqaNa/0V5PN54A4/CS3gGOEvOmKid
-         2low==
-X-Gm-Message-State: AOAM533ekKfbZtl77L0PK7xEBo9urWD63NUm75lMeM3G8ideeJNKsGv+
-        t00TQTQNg0iVo9v2t/3o2utqapYrb9Skd6NWEeM=
-X-Google-Smtp-Source: ABdhPJx4ng34Xy4WoR/xFCYy/YHed0mgmj3F6o3zE9O4ix8neySH/Gw4ig9ph27LIA1EsGViKfcVsiKKzbZC4tWnqDU=
-X-Received: by 2002:a63:1e20:: with SMTP id e32mr35751311pge.108.1629791291013;
- Tue, 24 Aug 2021 00:48:11 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=fIaJkxrINABCGe/Iug5/poGhfIdeb8mZr2zVkeuZiyk=;
+        b=dk7GSo2JJAVe5d/359qpVYbndhDzEnzaDktnVTjYmQH3EMxrUzXkl5zHlOoWRUi5Qa
+         OrFWAnjWU8Be4RqPoA3N6i80E7GJ/3iVfwRKo4saJBZYiJZo/oKJ4FZdjdZ/fDbg9zb3
+         W1DzRsC4FlnFzYwPhOpe84/W4bE/k6d225lgHA3fxOHa4VTcjeP/jUkOayb546E43yfx
+         2N+kjFPTxUCHLbqbPHokdJpva4AJxPEmfWI1mx9DKwRagRNl4NQ1RvBMMKkQ4heeLL1X
+         jN29HDqBqUS0xP5Zwx3r7fEOH/i7i1U4Xzrw8qeIHYHiN1yKvcoyw5YcVXQdiBy+Vz8I
+         O8KQ==
+X-Gm-Message-State: AOAM531rr65GPBT/4M0OEw7DgGWWd0P/pKPI676zKtRUijW99j+slzot
+        nv6te7VdMcQbgOWh8KhMAp87PD39tRcqN5xt6J0=
+X-Google-Smtp-Source: ABdhPJzucpIA4Fwut467/LXAspudVZ8iqE7gqE0fBPnjBL84g3BcFW5q7NxJf3qkh9ZOushbOJ12bbeYs9Zkd1quzhI=
+X-Received: by 2002:a5d:8b04:: with SMTP id k4mr21979876ion.58.1629794389243;
+ Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210822143204.224282-1-junhuahuangdream@163.com>
-In-Reply-To: <20210822143204.224282-1-junhuahuangdream@163.com>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Tue, 24 Aug 2021 15:48:00 +0800
-Message-ID: <CAMU9jJq-z0qkX=-60zFqyP=YdUFyqY8WJWTWZZyPdREBB-uD5Q@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add zh_CN/admin-guide/sysrq.rst
-To:     Junhua Huang <junhuahuangdream@163.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Wu X.C." <bobwxc@email.cn>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Junhua Huang <huang.junhua@zte.com.cn>,
-        Yanteng Si <siyanteng@loongson.cn>
+References: <20210821081800.2205103-1-siyanteng@loongson.cn>
+In-Reply-To: <20210821081800.2205103-1-siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Tue, 24 Aug 2021 16:39:12 +0800
+Message-ID: <CAJy-AmnoWbX_PPo=NS69+muohgdgUSL1t5GAE2j5iYPEu=vZRw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Modify the translator tag and fix the wrong word
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        yanteng si <siyanteng01@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Junhua Huang <junhuahuangdream@163.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8822=
-=E6=97=A5=E5=91=A8=E6=97=A5 =E4=B8=8B=E5=8D=8810:33=E5=86=99=E9=81=93=EF=BC=
-=9A
+On Sat, Aug 21, 2021 at 4:18 PM Yanteng Si <siyanteng@loongson.cn> wrote:
 >
-> From: Junhua Huang <huang.junhua@zte.com.cn>
+> Fix a wrong word;
 >
-> Add translation zh_CN/admin-guide/sysrq.rst and link it to
-> zh_CN/admin-guide/index.rst while clean its todo entry.
+> Fix old Original tag;
 >
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> Signed-off-by: Junhua Huang <huang.junhua@zte.com.cn>
-Hi Junhua:
+> Remove unnecessary blank lines;
+>
+> Modify the translator tag to be consistent with the current.
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
-Some warnings were generated during the build process, if you can fix them:
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-BTW:
-
-* It is best not to pick the Reviewed-by tag until the reviewer
-voluntarily signs it.
-
-* Perform adequate testing before send patches.
-     build it, --------> fix error and warning.
-     checkpatch.pl <your patch>, ---------> fix error and warning.
-> ---
-
-Thanks,
-
-Yanteng
+Thanks
