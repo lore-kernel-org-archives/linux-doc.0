@@ -2,110 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 993F6C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 18:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFEFC4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:04:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8173E613A7
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 18:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E07561178
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:04:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232710AbhHXS4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 14:56:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54640 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230500AbhHXS41 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Aug 2021 14:56:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC45C61178;
-        Tue, 24 Aug 2021 18:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629831343;
-        bh=d/Fr0mBMXraTW+Ew01Yil+DCXSSjTvd5q9qem138RPE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=t5cnqJZj36He9/zjegb9+V9+U3YiQamVwwKvzU1WrQq1Qaa+otNQjIpOiBqlsMEdM
-         /Hqh3iR5wCXL+mGe6LqhWoGFpktgZ9b12IewTtcxFDv1maXi/yfljyIhDOnl/z5XMt
-         kqtFzOpSSbjXME95XQ70DtnBwGzFO7+zGwLjQy9HFrGMtxqHJNh2QDgWLglZ5C35GH
-         hnCcNOL4lw0MsGxbMWF0J/SLHbKZSnrBA1q8ych11j+zeKHwRGuUnfE1N3/f5XMPXs
-         oyQMr/mk68NjLI3llarex6W2QR/Y9G8ODdkhohBntXV7QiObuNljxc6qSrgPHYc8ep
-         rrO89m1YOIQlQ==
-Date:   Tue, 24 Aug 2021 13:55:41 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S234028AbhHXTFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 15:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231745AbhHXTFS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 15:05:18 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75E11C061757;
+        Tue, 24 Aug 2021 12:04:34 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id q3so998131plx.4;
+        Tue, 24 Aug 2021 12:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/UA6BwC0CYO3Y/QhMBFUGVm/MkfIStQXJiA2tvHOy2E=;
+        b=InWzEdcms5aFyJNybcPjVBSg4/YyHC4fs7zj6R3+Yv8npQ+KHDzLn7itVIJu+p0sHT
+         Q6/AUyTgYzD4VmqdR9mT1dT/7tCLVlhkqQ/1fiIhbCTjlCBCkR0yPpVP4Ca8n7w2ruLK
+         XWlTNoMagLkN9eGT4Cw2YtHTD8+Z3VwnEmanlqU5CZ0xTq6kvLeWtXHeIAqIeABYjt0f
+         d3erx68+4v5ESugAEzgpSqPJvh3Y/ygsLs1WR4yWXbCmSqKrnG7ph4qWLPKhvlxAPqQn
+         sKyLbd5GGKgF0NFzQJ/4M8M/eNrdTnpp2PZvqEyxbd5bFuVuIpnAOVFlYGR1lUTG1JJ5
+         CFDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=/UA6BwC0CYO3Y/QhMBFUGVm/MkfIStQXJiA2tvHOy2E=;
+        b=lS4W5pM2Wl0BBsmO52qQMvrliPU6rbS8gxrMsakpZONEcSGQcPqgserR6rOkgXmprY
+         +/dmMVWjswUy83IcdTSVaG7JKe4H9l6QPJGOlftdakPHVAmPdMqw0kl8TB0tKjXP5oEf
+         uDDj+W+IpnKauHAdbEpIY94nqIrgJXlo6MxGciKlLhCYZUhsRQ9phQZCW7JzqG/5TGDW
+         jGeZS9bANaqUJwAVqwcL2gRIVnrPNlkOa0daunmXMROy0LKJTmajuesUoe05PTSvCdtT
+         nBmocAlmLqo0nP+i1l06W2WBxR4GdgMzGtLj2RHuwPh3/vkd2gQPc2CaYQqWgnk2XZdY
+         lUwQ==
+X-Gm-Message-State: AOAM530vvaKQzfH/jFhSQZY2Yv8Btzl/TS5JfV2etjXK/wKGV3b3pM2V
+        S9o4nawErxQR9SSaG8TAoAo=
+X-Google-Smtp-Source: ABdhPJyhbBipA6XjYTSx4y0PY5Ht0XzmDWNUtPlnqLHfabUjvvNeTCPw9WKJzvTRd4sM/RPuAgOVYw==
+X-Received: by 2002:a17:90a:3fcb:: with SMTP id u11mr6071898pjm.178.1629831873686;
+        Tue, 24 Aug 2021 12:04:33 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id y12sm19425378pfa.25.2021.08.24.12.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 12:04:32 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 24 Aug 2021 09:04:31 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Rajat Jain <rajatja@google.com>
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-Message-ID: <20210824185541.GA3485816@bjorn-Precision-5520>
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v6 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YSVCv0WjTzwPUWUN@slm.duckdns.org>
+References: <20210814205743.3039-1-longman@redhat.com>
+ <20210814205743.3039-6-longman@redhat.com>
+ <YRqbj5+ZdS+7k0Fn@slm.duckdns.org>
+ <95b72d36-32a9-8356-05b7-2829e4cc29ad@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
+In-Reply-To: <95b72d36-32a9-8356-05b7-2829e4cc29ad@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Rajat; I still don't know what "shared memory with a hypervisor
-in a confidential guest" means, but now we're talking about hardened
-drivers and allow lists, which Rajat is interested in]
+Hello,
 
-On Tue, Aug 24, 2021 at 10:20:44AM -0700, Andi Kleen wrote:
-> 
-> > I see. Hmm. It's a bit of a random thing to do it at the map time
-> > though. E.g. DMA is all handled transparently behind the DMA API.
-> > Hardening is much more than just replacing map with map_shared
-> > and I suspect what you will end up with is basically
-> > vendors replacing map with map shared to make things work
-> > for their users and washing their hands.
-> 
-> That concept exists too. There is a separate allow list for the drivers. So
-> just adding shared to a driver is not enough, until it's also added to the
-> allowlist
-> 
-> Users can of course chose to disable the allowlist, but they need to
-> understand the security implications.
-> 
-> > I would say an explicit flag in the driver that says "hardened"
-> > and refusing to init a non hardened one would be better.
-> 
-> We have that too (that's the device filtering)
-> 
-> But the problem is that device filtering just stops the probe functions, not
-> the initcalls, and lot of legacy drivers do MMIO interactions before going
-> into probe. In some cases it's unavoidable because of the device doesn't
-> have a separate enumeration mechanism it needs some kind of probing to even
-> check for its existence And since we don't want to change all of them it's
-> far safer to make the ioremap opt-in.
-> 
-> 
-> -Andi
-> 
+On Tue, Aug 24, 2021 at 01:35:33AM -0400, Waiman Long wrote:
+> Sorry for the late reply as I was on vacation last week.
+
+No worries. Hope you enjoyed the vacation. :)
+
+> > All the above ultimately says is that "a new task cannot be moved to a
+> > partition root with no effective cpu", but I don't understand why this would
+> > be a separate rule. Shouldn't the partition just stop being a partition when
+> > it doesn't have any exclusive cpu? What's the benefit of having multiple its
+> > own failure mode?
+>
+> A partition with 0 cpu can be considered as a special partition type for
+> spawning child partitions. This can be temporary as the cpus will be given
+> back when a child partition is destroyed.
+
+But it can also happen by cpus going offline while the partition is
+populated, right? Am I correct in thinking that a partition without cpu is
+valid if its subtree contains cpus and invalid otherwise? If that's the
+case, it looks like the rules can be made significantly simpler. The parent
+cgroups never have processes anyway, so a partition is valid if its subtree
+contains cpus, invalid otherwise.
+
+> > So, I think this definitely is a step in the right direction but still seems
+> > to be neither here or there. Before, we pretended that we could police the
+> > input when we couldn't. Now, we're changing the interface so that it
+> > includes configuration failures as an integral part; however, we're still
+> > policing some particular inputs while letting other inputs pass through and
+> > trigger failures and why one is handled one way while the other differently
+> > seems rather arbitrary.
+> > 
+> The cpu_exclusive and load_balance flags are attributes associated directly
+> with the partition type. They are not affected by cpu availability or
+> changing of cpu list. That is why they are kept even when the partition
+> become invalid. If we have to remove them, it will be equivalent to changing
+> partition back to member and we may not need an invalid partition type at
+> all. Also, we will not be able to revert back to partition again when the
+> cpus becomes available.
+
+Oh, yeah, I'm not saying to lose those states. What I'm trying to say is
+that the rules and failure modes seem a lot more complicated than they need
+to be. If the configuration becomes invalid for whatever reason, transition
+the partition into invalid state and report why. If the situation resolves
+for whatever reason, transition it back to valid state. Shouldn't that work?
+
+Thanks.
+
+-- 
+tejun
