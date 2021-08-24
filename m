@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DF8C43214
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985BBC19F3A
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2FDD61374
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B04561374
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 12:46:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237299AbhHXMrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 08:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53224 "EHLO
+        id S237363AbhHXMri (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 08:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237171AbhHXMrb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 08:47:31 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD00C061764
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:46 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id m2so1107721wmm.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:46 -0700 (PDT)
+        with ESMTP id S237396AbhHXMrf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 08:47:35 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E2BC0612A3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:50 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id j17-20020a05600c1c1100b002e754875260so2228874wms.4
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 05:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sartura-hr.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RlhMCNVQj8tgI3bOFGUOyJK2bXilK+DtFnBKbul2qAc=;
-        b=e96UKQn0biz6omQY/6P+Y58whEfQhm2BfPpmQncCFJL2+DCWAom4VE6ypBYOy4HJEZ
-         4D+1U+r8/xa4g2L/o8/kaLwE2w+vR/wqI0nfkRwYNg/oW4a1KjAbXWJm1vLWH7NwvAcI
-         ON99ldIHGIa8XXpyT8Q/55eg6fljdczV/oEoZuVPI/XYXMZtNz3MlQ/l9D+oW6qSC0sl
-         cBieabU/BVv4OznPcvKOqGG4cRFpkXZqNJvyg+/EmGuT/ACBzRsynj3RGr+sgY43qeVq
-         /g9w5QTEEabN6fkJKOV7mLRzB2McQXqYvdfxlwkqg8qN6QCAlS0IRyaadaPtevCfmNEB
-         oOcw==
+        bh=y7XVmNtUHcirytMFNhQwNXF7iiYbnCyuCnpJ15AR8Ds=;
+        b=RDNjDQuqBK/2+S+Swkj6n/EQUnaPiRP1ORqRLpI3kPPv9wM2DVWD4R6l7iYXezIrCX
+         bBD3PXO4bnzY6I6tVY2ZdffxVBnKYjEZBDVKEf8uf9B2AmHefOEJBGLQVRVJDm/Ik6Fe
+         lQxEtvOEwNQVNBwMcEqY7m8Q4O8yGBgrWsKwZbOE2GxMoALP2oJcyoBvM5S33qKmqChv
+         Rj3paaSljv2en6HOk9WlpI9KN2ATVOiusYcEyDlv7wzXwIm/jajDifrPjLvHXszUPC40
+         EG5UaD/I4z+7QGZYQVpCT1PNNl0PDJcREJG6dbhiiW2fn8XBwjWGkslhkE8K4ZFH70ap
+         bxAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RlhMCNVQj8tgI3bOFGUOyJK2bXilK+DtFnBKbul2qAc=;
-        b=L6f+5pWBGpI9+5lOduxCZWTQuaqdfJprPXHVJyw0Qqcu7y6EQf+IrGjkm5QRlYXBGH
-         9o1ozB4BbVphcAQRHvBMLUASMox7FsK1Ucw/c401J1DQupJCvipqogj6Fev5IzvfGOqq
-         YMykmjPjnM9aXIqWWL+S/0Y4pkOVKlS8rXiMXCaOxLGUx6WpfWooFkkbib3GgUaiNTxS
-         CcwAqWpSURAQbHKkiSwiofW7XkxdPVm8kJa8NEF9IekLiZM+gtI/1u3a0Lu1nCU+A0nB
-         gjVLrKNenfAOIqMK5P7UG8akMq3EvZiqixEIC3x1I7qY121P8Gh1lvCvPL/KWMkCDPq/
-         7umg==
-X-Gm-Message-State: AOAM533i/lyoh3Rzk4EwRb2qIPBo5oo479P77m5Ujh10b73LsPuUSTcY
-        MLo7hFm2XrlZrhB4O6to/CwBKEpbSh0uV1qYSJ20xrIbBnXmbcSj1hHRw8C8v+GiN7LsG1CpdAu
-        G/od38HdxZiGN0cbI8KQkDMPi5O89j8Fbut0XrvzbD8KAh75iqA3oOmg+cwAbEk1omY0WGV+TXL
-        oPTHI=
-X-Google-Smtp-Source: ABdhPJy9Nu5kFPseS2CPJZONoD6pnbAGlOY506wDQhQjVuf8khfJ1mKhYDgigcuZzQ83feWVWsWtLQ==
-X-Received: by 2002:a05:600c:35d2:: with SMTP id r18mr3964271wmq.116.1629809204635;
-        Tue, 24 Aug 2021 05:46:44 -0700 (PDT)
+        bh=y7XVmNtUHcirytMFNhQwNXF7iiYbnCyuCnpJ15AR8Ds=;
+        b=dEA32ZXKZT/wfGTA+QygSKxFWaocfnn6O9ytR1IX/hWatwHTqhGOIL0WvXyGwYAcgU
+         1l4b1mzkFh7iEyJWSv4Pd3e7vPHQsuA67fBj5GcW/E9eJWAqLLSbWSi6AXZx/Ttnp6hA
+         MwoKoqzwSJK33ktCH2wsA4VMSAjr/utN69pxPjt+sbPDa6kFDZhwLMxM1oiv3MerMpgX
+         dtLpNmYCawlE/3NmONnICBPGuVQW0aJuAeF/BQdLrpgaXdBW4Y5tkKcZByKx3SMVTkXI
+         6h9cQCx1+OQS//Nw44fOiouH8Da5K2AnisncetifR9VY2jfZBsA0P8Wdb7mik45qmV/D
+         C8dw==
+X-Gm-Message-State: AOAM531+Ss3N/U189D1sAj4LQP7swyDz7MHLrW0kqDb5yxsyZG2gdtr1
+        wb45WaLAu+fZ0BmjAolckRovjiSIYC5HLmV/a36YjMIbXzKFlBYFfGjJYVhTVv1EXcU/XTfLVNr
+        aEmv3Xm/7zmuNzU1Sgi5+Bl4W0iGPLCmbioi5qzCSitEEmyP/TxRbhQu6fpj7kB3GjyG4H7bpB8
+        2bHtg=
+X-Google-Smtp-Source: ABdhPJxodLcGaQCQ2uB5/ygFlqr1RyHNBrgSt0h4WGFQ2HlsU82sRxfdI0E9xOYUQbFP8HsYHBEf8g==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr4075017wmk.5.1629809209029;
+        Tue, 24 Aug 2021 05:46:49 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:ee2:4b0d:3001:fe74:75c8:e909:251b])
-        by smtp.gmail.com with ESMTPSA id i14sm2255454wmq.40.2021.08.24.05.46.42
+        by smtp.gmail.com with ESMTPSA id i14sm2255454wmq.40.2021.08.24.05.46.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 05:46:44 -0700 (PDT)
+        Tue, 24 Aug 2021 05:46:48 -0700 (PDT)
 From:   Luka Kovacic <luka.kovacic@sartura.hr>
 To:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
@@ -69,9 +69,9 @@ To:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
         goran.medic@sartura.hr, luka.perkov@sartura.hr,
         robert.marko@sartura.hr
 Cc:     Luka Kovacic <luka.kovacic@sartura.hr>
-Subject: [PATCH v9 2/7] drivers: mfd: Add a driver for IEI WT61P803 PUZZLE MCU
-Date:   Tue, 24 Aug 2021 14:44:33 +0200
-Message-Id: <20210824124438.14519-3-luka.kovacic@sartura.hr>
+Subject: [PATCH v9 4/7] drivers: leds: Add the IEI WT61P803 PUZZLE LED driver
+Date:   Tue, 24 Aug 2021 14:44:35 +0200
+Message-Id: <20210824124438.14519-5-luka.kovacic@sartura.hr>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824124438.14519-1-luka.kovacic@sartura.hr>
 References: <20210824124438.14519-1-luka.kovacic@sartura.hr>
@@ -81,1044 +81,215 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a driver for the IEI WT61P803 PUZZLE microcontroller, used in some
-IEI Puzzle series devices. The microcontroller controls system power,
-temperature sensors, fans and LEDs.
+Add support for the IEI WT61P803 PUZZLE LED driver.
+Currently only the front panel power LED is supported,
+since it is the only LED on this board wired through the
+MCU.
 
-This driver implements the core functionality for device communication
-over the system serial (serdev bus). It handles MCU messages and the
-internal MCU properties. Some properties can be managed over sysfs.
+The LED is wired directly to the on-board MCU controller
+and is toggled using an MCU command.
+
+Support for more LEDs is going to be added in case more
+boards implement this microcontroller, as LEDs use many
+different GPIOs.
+
+This driver depends on the IEI WT61P803 PUZZLE MFD driver.
 
 Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
 Signed-off-by: Pavo Banicevic <pavo.banicevic@sartura.hr>
 Cc: Luka Perkov <luka.perkov@sartura.hr>
 Cc: Robert Marko <robert.marko@sartura.hr>
 ---
- drivers/mfd/Kconfig                     |   8 +
- drivers/mfd/Makefile                    |   1 +
- drivers/mfd/iei-wt61p803-puzzle.c       | 908 ++++++++++++++++++++++++
- include/linux/mfd/iei-wt61p803-puzzle.h |  66 ++
- 4 files changed, 983 insertions(+)
- create mode 100644 drivers/mfd/iei-wt61p803-puzzle.c
- create mode 100644 include/linux/mfd/iei-wt61p803-puzzle.h
+ drivers/leds/Kconfig                    |   8 ++
+ drivers/leds/Makefile                   |   1 +
+ drivers/leds/leds-iei-wt61p803-puzzle.c | 147 ++++++++++++++++++++++++
+ 3 files changed, 156 insertions(+)
+ create mode 100644 drivers/leds/leds-iei-wt61p803-puzzle.c
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 6a3fd2d75f96..c2183eb0775f 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -2170,6 +2170,14 @@ config SGI_MFD_IOC3
- 	  If you have an SGI Origin, Octane, or a PCI IOC3 card,
- 	  then say Y. Otherwise say N.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index bdf16180f5ff..702ffd98486b 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -333,6 +333,14 @@ config LEDS_IPAQ_MICRO
+ 	  Choose this option if you want to use the notification LED on
+ 	  Compaq/HP iPAQ h3100 and h3600.
  
-+config MFD_IEI_WT61P803_PUZZLE
-+	tristate "IEI WT61P803 PUZZLE MCU driver"
-+	depends on SERIAL_DEV_BUS
++config LEDS_IEI_WT61P803_PUZZLE
++	tristate "LED Support for the IEI WT61P803 PUZZLE MCU"
++	depends on LEDS_CLASS
++	depends on MFD_IEI_WT61P803_PUZZLE
 +	help
-+	  IEI WT61P803 PUZZLE is a system power management microcontroller
-+	  used for fan control, temperature sensor reading, LED control
-+	  and system identification.
++	  This option enables support for LEDs controlled by the IEI WT61P803
++	  M801 MCU.
 +
- config MFD_INTEL_M10_BMC
- 	tristate "Intel MAX 10 Board Management Controller"
- 	depends on SPI_MASTER
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 8116c19d5fd4..42b9767ec37a 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -236,6 +236,7 @@ obj-$(CONFIG_MFD_DLN2)		+= dln2.o
- obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
- obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
- obj-$(CONFIG_MFD_SKY81452)	+= sky81452.o
-+obj-$(CONFIG_MFD_IEI_WT61P803_PUZZLE)	+= iei-wt61p803-puzzle.o
- 
- intel-soc-pmic-objs		:= intel_soc_pmic_core.o intel_soc_pmic_crc.o
- obj-$(CONFIG_INTEL_SOC_PMIC)	+= intel-soc-pmic.o
-diff --git a/drivers/mfd/iei-wt61p803-puzzle.c b/drivers/mfd/iei-wt61p803-puzzle.c
+ config LEDS_HP6XX
+ 	tristate "LED Support for the HP Jornada 6xx"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 7e604d3028c8..2cae3d7e5b1b 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -35,6 +35,7 @@ obj-$(CONFIG_LEDS_HP6XX)		+= leds-hp6xx.o
+ obj-$(CONFIG_LEDS_INTEL_SS4200)		+= leds-ss4200.o
+ obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
+ obj-$(CONFIG_LEDS_IPAQ_MICRO)		+= leds-ipaq-micro.o
++obj-$(CONFIG_LEDS_IEI_WT61P803_PUZZLE)	+= leds-iei-wt61p803-puzzle.o
+ obj-$(CONFIG_LEDS_IS31FL319X)		+= leds-is31fl319x.o
+ obj-$(CONFIG_LEDS_IS31FL32XX)		+= leds-is31fl32xx.o
+ obj-$(CONFIG_LEDS_KTD2692)		+= leds-ktd2692.o
+diff --git a/drivers/leds/leds-iei-wt61p803-puzzle.c b/drivers/leds/leds-iei-wt61p803-puzzle.c
 new file mode 100644
-index 000000000000..596ecbc65627
+index 000000000000..67d542d6ac72
 --- /dev/null
-+++ b/drivers/mfd/iei-wt61p803-puzzle.c
-@@ -0,0 +1,908 @@
++++ b/drivers/leds/leds-iei-wt61p803-puzzle.c
+@@ -0,0 +1,147 @@
 +// SPDX-License-Identifier: GPL-2.0-only
-+/* IEI WT61P803 PUZZLE MCU Driver
-+ * System management microcontroller for fan control, temperature sensor reading,
-+ * LED control and system identification on IEI Puzzle series ARM-based appliances.
++/* IEI WT61P803 PUZZLE MCU LED Driver
 + *
 + * Copyright (C) 2020 Sartura Ltd.
 + * Author: Luka Kovacic <luka.kovacic@sartura.hr>
 + */
 +
-+#include <linux/atomic.h>
-+#include <linux/delay.h>
-+#include <linux/export.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/core.h>
++#include <linux/leds.h>
 +#include <linux/mfd/iei-wt61p803-puzzle.h>
 +#include <linux/mod_devicetable.h>
 +#include <linux/module.h>
-+#include <linux/of_platform.h>
++#include <linux/platform_device.h>
 +#include <linux/property.h>
-+#include <linux/sched.h>
-+#include <linux/serdev.h>
 +#include <linux/slab.h>
-+#include <linux/sysfs.h>
-+#include <asm/unaligned.h>
 +
-+/* start, payload and XOR checksum at end */
-+#define IEI_WT61P803_PUZZLE_MAX_COMMAND_LENGTH	(1 + 20 + 1)
-+#define IEI_WT61P803_PUZZLE_RESP_BUF_SIZE	512
-+
-+#define IEI_WT61P803_PUZZLE_MAC_LENGTH			17
-+#define IEI_WT61P803_PUZZLE_SN_LENGTH			36
-+#define IEI_WT61P803_PUZZLE_VERSION_LENGTH		 6
-+#define IEI_WT61P803_PUZZLE_BUILD_INFO_LENGTH		16
-+#define IEI_WT61P803_PUZZLE_PROTOCOL_VERSION_LENGTH	 8
-+#define IEI_WT61P803_PUZZLE_NB_MAC			 8
-+
-+/* Use HZ as a timeout value throughout the driver */
-+#define IEI_WT61P803_PUZZLE_GENERAL_TIMEOUT HZ
-+
-+enum iei_wt61p803_puzzle_attribute_type {
-+	IEI_WT61P803_PUZZLE_VERSION,
-+	IEI_WT61P803_PUZZLE_BUILD_INFO,
-+	IEI_WT61P803_PUZZLE_BOOTLOADER_MODE,
-+	IEI_WT61P803_PUZZLE_PROTOCOL_VERSION,
-+	IEI_WT61P803_PUZZLE_SERIAL_NUMBER,
-+	IEI_WT61P803_PUZZLE_MAC_ADDRESS,
-+	IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS,
-+	IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY,
-+	IEI_WT61P803_PUZZLE_POWER_STATUS,
-+};
-+
-+struct iei_wt61p803_puzzle_device_attribute {
-+	struct device_attribute dev_attr;
-+	enum iei_wt61p803_puzzle_attribute_type type;
-+	u8 index;
++enum iei_wt61p803_puzzle_led_state {
++	IEI_LED_OFF = 0x30,
++	IEI_LED_ON = 0x31,
++	IEI_LED_BLINK_5HZ = 0x32,
++	IEI_LED_BLINK_1HZ = 0x33,
 +};
 +
 +/**
-+ * struct iei_wt61p803_puzzle_mcu_status - MCU flags state
-+ * @ac_recovery_status_flag:	AC Recovery Status Flag
-+ * @power_loss_recovery:	System recovery after power loss
-+ * @power_status:		System Power-on Method
++ * struct iei_wt61p803_puzzle_led - MCU LED Driver
++ * @cdev:		LED classdev
++ * @mcu:		MCU struct pointer
++ * @response_buffer	Global MCU response buffer
++ * @lock:		General mutex lock to protect simultaneous R/W access to led_power_state
++ * @led_power_state:	State of the front panel power LED
 + */
-+struct iei_wt61p803_puzzle_mcu_status {
-+	u8 ac_recovery_status_flag;
-+	u8 power_loss_recovery;
-+	u8 power_status;
-+};
-+
-+/**
-+ * struct iei_wt61p803_puzzle_reply - MCU reply
-+ * @size:	Size of the MCU reply
-+ * @data:	Full MCU reply buffer
-+ * @state:	Current state of the packet
-+ * @received:	Was the response fullfilled
-+ */
-+struct iei_wt61p803_puzzle_reply {
-+	size_t size;
-+	unsigned char data[IEI_WT61P803_PUZZLE_RESP_BUF_SIZE];
-+	struct completion received;
-+};
-+
-+/**
-+ * struct iei_wt61p803_puzzle_mcu_version - MCU version status
-+ * @version:		Primary firmware version
-+ * @build_info:		Build date and time
-+ * @bootloader_mode:	Status of the MCU operation
-+ * @protocol_version:	MCU communication protocol version
-+ * @serial_number:	Device factory serial number
-+ * @mac_address:	Device factory MAC addresses
-+ *
-+ * Last element of arrays is reserved for '\0'.
-+ */
-+struct iei_wt61p803_puzzle_mcu_version {
-+	char version[IEI_WT61P803_PUZZLE_VERSION_LENGTH + 1];
-+	char build_info[IEI_WT61P803_PUZZLE_BUILD_INFO_LENGTH + 1];
-+	bool bootloader_mode;
-+	char protocol_version[IEI_WT61P803_PUZZLE_PROTOCOL_VERSION_LENGTH + 1];
-+	char serial_number[IEI_WT61P803_PUZZLE_SN_LENGTH + 1];
-+	char mac_address[IEI_WT61P803_PUZZLE_NB_MAC][IEI_WT61P803_PUZZLE_MAC_LENGTH + 1];
-+};
-+
-+/**
-+ * struct iei_wt61p803_puzzle - IEI WT61P803 PUZZLE MCU Driver
-+ * @serdev:		Pointer to underlying serdev device
-+ * @dev:		Pointer to underlying dev device
-+ * @reply_lock:		Reply mutex lock
-+ * @reply:		Pointer to the iei_wt61p803_puzzle_reply struct
-+ * @version:		MCU version related data
-+ * @status:		MCU status related data
-+ * @response_buffer	Command response buffer allocation
-+ * @lock		General member mutex lock
-+ */
-+struct iei_wt61p803_puzzle {
-+	struct serdev_device *serdev;
-+	struct device *dev;
-+	struct mutex reply_lock; /* lock to prevent multiple firmware calls */
-+	struct iei_wt61p803_puzzle_reply *reply;
-+	struct iei_wt61p803_puzzle_mcu_version version;
-+	struct iei_wt61p803_puzzle_mcu_status status;
-+	unsigned char response_buffer[IEI_WT61P803_PUZZLE_BUF_SIZE];
-+	struct mutex lock; /* lock to protect response buffer */
-+};
-+
-+static unsigned char iei_wt61p803_puzzle_checksum(unsigned char *buf, size_t len)
-+{
-+	unsigned char checksum = 0;
-+	size_t i;
-+
-+	for (i = 0; i < len; i++)
-+		checksum ^= buf[i];
-+	return checksum;
-+}
-+
-+static int iei_wt61p803_puzzle_process_resp(struct iei_wt61p803_puzzle *mcu,
-+					    const unsigned char *raw_resp_data, size_t size)
-+{
-+	unsigned char checksum;
-+
-+	/* Check the incoming frame header */
-+	if (!(raw_resp_data[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START ||
-+	      raw_resp_data[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER ||
-+	     (raw_resp_data[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM &&
-+	      raw_resp_data[1] == IEI_WT61P803_PUZZLE_CMD_EEPROM_READ))) {
-+		if (mcu->reply->size + size >= sizeof(mcu->reply->data))
-+			return -EIO;
-+
-+		/* Append the frame to existing data */
-+		memcpy(mcu->reply->data + mcu->reply->size, raw_resp_data, size);
-+		mcu->reply->size += size;
-+	} else {
-+		if (size >= sizeof(mcu->reply->data))
-+			return -EIO;
-+
-+		/* Start processing a new frame */
-+		memcpy(mcu->reply->data, raw_resp_data, size);
-+		mcu->reply->size = size;
-+	}
-+
-+	checksum = iei_wt61p803_puzzle_checksum(mcu->reply->data, mcu->reply->size - 1);
-+	if (checksum != mcu->reply->data[mcu->reply->size - 1]) {
-+		/* The checksum isn't matched yet, wait for new frames */
-+		return size;
-+	}
-+
-+	/* Received all the data */
-+	complete(&mcu->reply->received);
-+
-+	return size;
-+}
-+
-+static int iei_wt61p803_puzzle_recv_buf(struct serdev_device *serdev,
-+					const unsigned char *data, size_t size)
-+{
-+	struct iei_wt61p803_puzzle *mcu = serdev_device_get_drvdata(serdev);
-+	int ret;
-+
-+	ret = iei_wt61p803_puzzle_process_resp(mcu, data, size);
-+	/* Return the number of processed bytes if function returns error,
-+	 * discard the remaining incoming data, since the frame this data
-+	 * belongs to is broken anyway
-+	 */
-+	if (ret < 0)
-+		return size;
-+
-+	return ret;
-+}
-+
-+static const struct serdev_device_ops iei_wt61p803_puzzle_serdev_device_ops = {
-+	.receive_buf  = iei_wt61p803_puzzle_recv_buf,
-+	.write_wakeup = serdev_device_write_wakeup,
-+};
-+
-+/**
-+ * iei_wt61p803_puzzle_write_command_watchdog() - Watchdog of the normal cmd
-+ * @mcu: Pointer to the iei_wt61p803_puzzle core MFD struct
-+ * @cmd: Pointer to the char array to send (size should be content + 1 (xor))
-+ * @size: Size of the cmd char array
-+ * @reply_data: Pointer to the reply/response data array (should be allocated)
-+ * @reply_size: Pointer to size_t (size of reply_data)
-+ * @retry_count: Number of times to retry sending the command to the MCU
-+ */
-+int iei_wt61p803_puzzle_write_command_watchdog(struct iei_wt61p803_puzzle *mcu,
-+					       unsigned char *cmd, size_t size,
-+					       unsigned char *reply_data,
-+					       size_t *reply_size, int retry_count)
-+{
-+	struct device *dev = &mcu->serdev->dev;
-+	int ret, i;
-+
-+	for (i = 0; i < retry_count; i++) {
-+		ret = iei_wt61p803_puzzle_write_command(mcu, cmd, size,
-+							reply_data, reply_size);
-+		if (ret != -ETIMEDOUT)
-+			return ret;
-+	}
-+
-+	dev_err(dev, "Command response timed out. Retries: %d\n", retry_count);
-+
-+	return -ETIMEDOUT;
-+}
-+EXPORT_SYMBOL_GPL(iei_wt61p803_puzzle_write_command_watchdog);
-+
-+/**
-+ * iei_wt61p803_puzzle_write_command() - Send a structured command to the MCU
-+ * @mcu: Pointer to the iei_wt61p803_puzzle core MFD struct
-+ * @cmd: Pointer to the char array to send (size should be content + 1 (xor))
-+ * @size: Size of the cmd char array
-+ * @reply_data: Pointer to the reply/response data array (should be allocated)
-+ *
-+ * Sends a structured command to the MCU.
-+ */
-+int iei_wt61p803_puzzle_write_command(struct iei_wt61p803_puzzle *mcu,
-+				      unsigned char *cmd, size_t size,
-+				      unsigned char *reply_data,
-+				      size_t *reply_size)
-+{
-+	struct device *dev = &mcu->serdev->dev;
-+	int ret;
-+
-+	if (size <= 1 || size > IEI_WT61P803_PUZZLE_MAX_COMMAND_LENGTH)
-+		return -EINVAL;
-+
-+	mutex_lock(&mcu->reply_lock);
-+
-+	cmd[size - 1] = iei_wt61p803_puzzle_checksum(cmd, size - 1);
-+
-+	/* Initialize reply struct */
-+	reinit_completion(&mcu->reply->received);
-+	mcu->reply->size = 0;
-+	usleep_range(2000, 10000);
-+	serdev_device_write_flush(mcu->serdev);
-+	ret = serdev_device_write_buf(mcu->serdev, cmd, size);
-+	if (ret < 0)
-+		goto exit;
-+
-+	serdev_device_wait_until_sent(mcu->serdev, IEI_WT61P803_PUZZLE_GENERAL_TIMEOUT);
-+	ret = wait_for_completion_timeout(&mcu->reply->received,
-+					  IEI_WT61P803_PUZZLE_GENERAL_TIMEOUT);
-+	if (ret == 0) {
-+		dev_err(dev, "Command reply receive timeout\n");
-+		ret = -ETIMEDOUT;
-+		goto exit;
-+	}
-+
-+	*reply_size = mcu->reply->size;
-+	/* Copy the received data, as it will not be available after a new frame is received */
-+	memcpy(reply_data, mcu->reply->data, mcu->reply->size);
-+	ret = 0;
-+exit:
-+	mutex_unlock(&mcu->reply_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(iei_wt61p803_puzzle_write_command);
-+
-+static int iei_wt61p803_puzzle_buzzer(struct iei_wt61p803_puzzle *mcu, bool long_beep)
-+{
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char buzzer_cmd[4] = {};
-+	size_t reply_size;
-+	int ret;
-+
-+	buzzer_cmd[0] = IEI_WT61P803_PUZZLE_CMD_HEADER_START;
-+	buzzer_cmd[1] = IEI_WT61P803_PUZZLE_CMD_FUNCTION_SINGLE;
-+	buzzer_cmd[2] = long_beep ? '3' : '2'; /* Buzzer 1.5 / 0.5 second beep */
-+
-+	mutex_lock(&mcu->lock);
-+	ret = iei_wt61p803_puzzle_write_command(mcu, buzzer_cmd, sizeof(buzzer_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto exit;
-+
-+	if (reply_size != 3) {
-+		ret = -EIO;
-+		goto exit;
-+	}
-+
-+	if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-+	      resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
-+	      resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)) {
-+		ret = -EPROTO;
-+		goto exit;
-+	}
-+exit:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_get_version(struct iei_wt61p803_puzzle *mcu)
-+{
-+	unsigned char version_cmd[3] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER,
-+		IEI_WT61P803_PUZZLE_CMD_OTHER_VERSION,
-+	};
-+	unsigned char build_info_cmd[3] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER,
-+		IEI_WT61P803_PUZZLE_CMD_OTHER_BUILD,
-+	};
-+	unsigned char bootloader_mode_cmd[3] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER,
-+		IEI_WT61P803_PUZZLE_CMD_OTHER_BOOTLOADER_MODE,
-+	};
-+	unsigned char protocol_version_cmd[3] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER,
-+		IEI_WT61P803_PUZZLE_CMD_OTHER_PROTOCOL_VERSION,
-+	};
-+	unsigned char *rb = mcu->response_buffer;
-+	size_t reply_size;
-+	int ret;
-+
-+	mutex_lock(&mcu->lock);
-+
-+	ret = iei_wt61p803_puzzle_write_command(mcu, version_cmd, sizeof(version_cmd),
-+						rb, &reply_size);
-+	if (ret)
-+		goto err;
-+	if (reply_size < 7) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+	sprintf(mcu->version.version, "v%c.%.3s", rb[2], &rb[3]);
-+
-+	ret = iei_wt61p803_puzzle_write_command(mcu, build_info_cmd,
-+						sizeof(build_info_cmd),	rb,
-+						&reply_size);
-+	if (ret)
-+		goto err;
-+	if (reply_size < 15) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+	sprintf(mcu->version.build_info, "%c%c/%c%c/%.4s %c%c:%c%c",
-+		rb[8], rb[9], rb[6], rb[7], &rb[2], rb[10], rb[11],
-+		rb[12], rb[13]);
-+
-+	ret = iei_wt61p803_puzzle_write_command(mcu, bootloader_mode_cmd,
-+						sizeof(bootloader_mode_cmd), rb,
-+						&reply_size);
-+	if (ret)
-+		goto err;
-+	if (reply_size < 4) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+	if (rb[2] == IEI_WT61P803_PUZZLE_CMD_OTHER_MODE_APPS)
-+		mcu->version.bootloader_mode = false;
-+	else if (rb[2] == IEI_WT61P803_PUZZLE_CMD_OTHER_MODE_BOOTLOADER)
-+		mcu->version.bootloader_mode = true;
-+
-+	ret = iei_wt61p803_puzzle_write_command(mcu, protocol_version_cmd,
-+						sizeof(protocol_version_cmd), rb,
-+						&reply_size);
-+	if (ret)
-+		goto err;
-+	if (reply_size < 9) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+	sprintf(mcu->version.protocol_version, "v%c.%c%c%c%c%c",
-+		rb[7], rb[6], rb[5], rb[4], rb[3], rb[2]);
-+err:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_get_mcu_status(struct iei_wt61p803_puzzle *mcu)
-+{
-+	unsigned char mcu_status_cmd[5] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_START,
-+		IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER,
-+		IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_STATUS,
-+		IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_STATUS,
-+	};
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	size_t reply_size;
-+	int ret;
-+
-+	mutex_lock(&mcu->lock);
-+	ret = iei_wt61p803_puzzle_write_command(mcu, mcu_status_cmd, sizeof(mcu_status_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto exit;
-+	if (reply_size < 20) {
-+		ret = -EIO;
-+		goto exit;
-+	}
-+
-+	/* Response format:
-+	 * (IDX	RESPONSE)
-+	 * 0	@
-+	 * 1	O
-+	 * 2	S
-+	 * 3	S
-+	 * ...
-+	 * 5	AC Recovery Status Flag
-+	 * ...
-+	 * 10	Power Loss Recovery
-+	 * ...
-+	 * 19	Power Status (system power on method)
-+	 * 20	XOR checksum
-+	 */
-+	if (resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-+	    resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER &&
-+	    resp_buf[2] == IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_STATUS &&
-+	    resp_buf[3] == IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_STATUS) {
-+		mcu->status.ac_recovery_status_flag = resp_buf[5];
-+		mcu->status.power_loss_recovery = resp_buf[10];
-+		mcu->status.power_status = resp_buf[19];
-+	}
-+exit:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_get_serial_number(struct iei_wt61p803_puzzle *mcu)
-+{
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char serial_number_cmd[5] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM,
-+		IEI_WT61P803_PUZZLE_CMD_EEPROM_READ,
-+		0x00,	/* EEPROM read address */
-+		0x24,	/* Data length */
-+	};
-+	size_t reply_size;
-+	int ret;
-+
-+	mutex_lock(&mcu->lock);
-+	ret = iei_wt61p803_puzzle_write_command(mcu, serial_number_cmd,
-+						sizeof(serial_number_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto err;
-+
-+	if (reply_size < IEI_WT61P803_PUZZLE_SN_LENGTH + 4) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+
-+	sprintf(mcu->version.serial_number, "%.*s",
-+		IEI_WT61P803_PUZZLE_SN_LENGTH, resp_buf + 4);
-+err:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_write_serial_number(struct iei_wt61p803_puzzle *mcu,
-+						   unsigned char serial_number[36])
-+{
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char serial_number_header[4] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM,
-+		IEI_WT61P803_PUZZLE_CMD_EEPROM_WRITE,
-+		0x00,	/* EEPROM write address */
-+		0xC,	/* Data length */
-+	};
-+	unsigned char serial_number_cmd[4 + 12 + 1]; /* header, serial number, XOR checksum */
-+	int ret, sn_counter;
-+	size_t reply_size;
-+
-+	/* The MCU can only handle 22 byte messages, send the S/N in 12 byte chunks */
-+	mutex_lock(&mcu->lock);
-+	for (sn_counter = 0; sn_counter < 3; sn_counter++) {
-+		serial_number_header[2] = 0x0 + 0xC * sn_counter;
-+
-+		memcpy(serial_number_cmd, serial_number_header, sizeof(serial_number_header));
-+		memcpy(serial_number_cmd + sizeof(serial_number_header),
-+		       serial_number + 0xC * sn_counter, 0xC);
-+
-+		ret = iei_wt61p803_puzzle_write_command(mcu, serial_number_cmd,
-+							sizeof(serial_number_cmd),
-+							resp_buf, &reply_size);
-+		if (ret)
-+			goto err;
-+		if (reply_size != 3) {
-+			ret = -EIO;
-+			goto err;
-+		}
-+		if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-+		      resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
-+		      resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)) {
-+			ret = -EPROTO;
-+			goto err;
-+		}
-+	}
-+
-+	sprintf(mcu->version.serial_number, "%.*s",
-+		IEI_WT61P803_PUZZLE_SN_LENGTH, serial_number);
-+err:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_get_mac_address(struct iei_wt61p803_puzzle *mcu, int index)
-+{
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char mac_address_cmd[5] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM,
-+		IEI_WT61P803_PUZZLE_CMD_EEPROM_READ,
-+		0x00,	/* EEPROM read address */
-+		0x11,	/* Data length */
-+	};
-+	size_t reply_size;
-+	int ret;
-+
-+	mutex_lock(&mcu->lock);
-+	mac_address_cmd[2] = 0x24 + 0x11 * index;
-+
-+	ret = iei_wt61p803_puzzle_write_command(mcu, mac_address_cmd,
-+						sizeof(mac_address_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto err;
-+
-+	if (reply_size < 22) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+
-+	sprintf(mcu->version.mac_address[index], "%.*s",
-+		IEI_WT61P803_PUZZLE_MAC_LENGTH, resp_buf + 4);
-+err:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int
-+iei_wt61p803_puzzle_write_mac_address(struct iei_wt61p803_puzzle *mcu,
-+				      unsigned char mac_address[IEI_WT61P803_PUZZLE_MAC_LENGTH],
-+				      int mac_address_idx)
-+{
-+	unsigned char mac_address_cmd[4 + IEI_WT61P803_PUZZLE_MAC_LENGTH + 1];
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char mac_address_header[4] = {
-+		IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM,
-+		IEI_WT61P803_PUZZLE_CMD_EEPROM_WRITE,
-+		0x00,	/* EEPROM write address */
-+		0x11,	/* Data length */
-+	};
-+	size_t reply_size;
-+	int ret;
-+
-+	if (mac_address_idx < 0 || mac_address_idx >= IEI_WT61P803_PUZZLE_NB_MAC)
-+		return -EINVAL;
-+
-+	mac_address_header[2] = 0x24 + 0x11 * mac_address_idx;
-+
-+	/* Concat mac_address_header, mac_address to mac_address_cmd */
-+	memcpy(mac_address_cmd, mac_address_header, sizeof(mac_address_header));
-+	memcpy(mac_address_cmd + sizeof(mac_address_header), mac_address,
-+	       IEI_WT61P803_PUZZLE_MAC_LENGTH);
-+
-+	mutex_lock(&mcu->lock);
-+	ret = iei_wt61p803_puzzle_write_command(mcu, mac_address_cmd,
-+						sizeof(mac_address_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto err;
-+	if (reply_size != 3) {
-+		ret = -EIO;
-+		goto err;
-+	}
-+	if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-+	      resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
-+	      resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)) {
-+		ret = -EPROTO;
-+		goto err;
-+	}
-+
-+	sprintf(mcu->version.mac_address[mac_address_idx], "%.*s",
-+		IEI_WT61P803_PUZZLE_MAC_LENGTH, mac_address);
-+err:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_write_power_loss_recovery(struct iei_wt61p803_puzzle *mcu,
-+							 int power_loss_recovery_action)
-+{
-+	unsigned char *resp_buf = mcu->response_buffer;
-+	unsigned char power_loss_recovery_cmd[5] = {};
-+	size_t reply_size;
-+	int ret;
-+
-+	if (power_loss_recovery_action < 0 || power_loss_recovery_action > 4)
-+		return -EINVAL;
-+
-+	power_loss_recovery_cmd[0] = IEI_WT61P803_PUZZLE_CMD_HEADER_START;
-+	power_loss_recovery_cmd[1] = IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER;
-+	power_loss_recovery_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_POWER_LOSS;
-+	power_loss_recovery_cmd[3] = hex_asc[power_loss_recovery_action];
-+
-+	mutex_lock(&mcu->lock);
-+	ret = iei_wt61p803_puzzle_write_command(mcu, power_loss_recovery_cmd,
-+						sizeof(power_loss_recovery_cmd),
-+						resp_buf, &reply_size);
-+	if (ret)
-+		goto exit;
-+	mcu->status.power_loss_recovery = power_loss_recovery_action;
-+exit:
-+	mutex_unlock(&mcu->lock);
-+	return ret;
-+}
-+
-+#define to_puzzle_dev_attr(_attr) \
-+	container_of(_attr, struct iei_wt61p803_puzzle_device_attribute, dev_attr)
-+
-+static ssize_t show_output(struct device *dev,
-+			   struct device_attribute *attr, char *buf)
-+{
-+	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev);
-+	struct iei_wt61p803_puzzle_device_attribute *pattr = to_puzzle_dev_attr(attr);
-+	int ret;
-+
-+	switch (pattr->type) {
-+	case IEI_WT61P803_PUZZLE_VERSION:
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.version);
-+	case IEI_WT61P803_PUZZLE_BUILD_INFO:
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.build_info);
-+	case IEI_WT61P803_PUZZLE_BOOTLOADER_MODE:
-+		return scnprintf(buf, PAGE_SIZE, "%d\n", mcu->version.bootloader_mode);
-+	case IEI_WT61P803_PUZZLE_PROTOCOL_VERSION:
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.protocol_version);
-+	case IEI_WT61P803_PUZZLE_SERIAL_NUMBER:
-+		ret = iei_wt61p803_puzzle_get_serial_number(mcu);
-+		if (!ret)
-+			ret = scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.serial_number);
-+		else
-+			ret = 0;
-+		return ret;
-+	case IEI_WT61P803_PUZZLE_MAC_ADDRESS:
-+		ret = iei_wt61p803_puzzle_get_mac_address(mcu, pattr->index);
-+		if (!ret)
-+			ret = scnprintf(buf, PAGE_SIZE, "%s\n",
-+					mcu->version.mac_address[pattr->index]);
-+		else
-+			ret = 0;
-+		return ret;
-+	case IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS:
-+	case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
-+	case IEI_WT61P803_PUZZLE_POWER_STATUS:
-+		ret = iei_wt61p803_puzzle_get_mcu_status(mcu);
-+		if (ret)
-+			return ret;
-+
-+		mutex_lock(&mcu->lock);
-+		switch (pattr->type) {
-+		case IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS:
-+			ret = scnprintf(buf, PAGE_SIZE, "%x\n",
-+					mcu->status.ac_recovery_status_flag);
-+			break;
-+		case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
-+			ret = scnprintf(buf, PAGE_SIZE, "%x\n", mcu->status.power_loss_recovery);
-+			break;
-+		case IEI_WT61P803_PUZZLE_POWER_STATUS:
-+			ret = scnprintf(buf, PAGE_SIZE, "%x\n", mcu->status.power_status);
-+			break;
-+		default:
-+			ret = 0;
-+			break;
-+		}
-+		mutex_unlock(&mcu->lock);
-+		return ret;
-+	default:
-+		return 0;
-+	}
-+
-+	return 0;
-+}
-+
-+static ssize_t store_output(struct device *dev,
-+			    struct device_attribute *attr,
-+			    const char *buf, size_t len)
-+{
-+	unsigned char serial_number[IEI_WT61P803_PUZZLE_SN_LENGTH];
-+	unsigned char mac_address[IEI_WT61P803_PUZZLE_MAC_LENGTH];
-+	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev);
-+	struct iei_wt61p803_puzzle_device_attribute *pattr = to_puzzle_dev_attr(attr);
-+	int power_loss_recovery_action = 0;
-+	int ret;
-+
-+	switch (pattr->type) {
-+	case IEI_WT61P803_PUZZLE_SERIAL_NUMBER:
-+		if (len != (size_t)(IEI_WT61P803_PUZZLE_SN_LENGTH + 1))
-+			return -EINVAL;
-+		memcpy(serial_number, buf, sizeof(serial_number));
-+		ret = iei_wt61p803_puzzle_write_serial_number(mcu, serial_number);
-+		if (ret)
-+			return ret;
-+		return len;
-+	case IEI_WT61P803_PUZZLE_MAC_ADDRESS:
-+		if (len != (size_t)(IEI_WT61P803_PUZZLE_MAC_LENGTH + 1))
-+			return -EINVAL;
-+
-+		memcpy(mac_address, buf, sizeof(mac_address));
-+
-+		if (strlen(attr->attr.name) != 13)
-+			return -EIO;
-+
-+		ret = iei_wt61p803_puzzle_write_mac_address(mcu, mac_address, pattr->index);
-+		if (ret)
-+			return ret;
-+		return len;
-+	case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
-+		ret = kstrtoint(buf, 10, &power_loss_recovery_action);
-+		if (ret)
-+			return ret;
-+		ret = iei_wt61p803_puzzle_write_power_loss_recovery(mcu,
-+								    power_loss_recovery_action);
-+		if (ret)
-+			return ret;
-+		return len;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+#define IEI_WT61P803_PUZZLE_ATTR(_name, _mode, _show, _store, _type, _index) \
-+	struct iei_wt61p803_puzzle_device_attribute dev_attr_##_name = \
-+		{ .dev_attr	= __ATTR(_name, _mode, _show, _store), \
-+		  .type		= _type, \
-+		  .index	= _index }
-+
-+#define IEI_WT61P803_PUZZLE_ATTR_RO(_name, _type, _id) \
-+	IEI_WT61P803_PUZZLE_ATTR(_name, 0444, show_output, NULL, _type, _id)
-+
-+#define IEI_WT61P803_PUZZLE_ATTR_RW(_name, _type, _id) \
-+	IEI_WT61P803_PUZZLE_ATTR(_name, 0644, show_output, store_output, _type, _id)
-+
-+static IEI_WT61P803_PUZZLE_ATTR_RO(version, IEI_WT61P803_PUZZLE_VERSION, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RO(build_info, IEI_WT61P803_PUZZLE_BUILD_INFO, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RO(bootloader_mode, IEI_WT61P803_PUZZLE_BOOTLOADER_MODE, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RO(protocol_version, IEI_WT61P803_PUZZLE_PROTOCOL_VERSION, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(serial_number, IEI_WT61P803_PUZZLE_SERIAL_NUMBER, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_0, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_1, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 1);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_2, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 2);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_3, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 3);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_4, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 4);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_5, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 5);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_6, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 6);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_7, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 7);
-+static IEI_WT61P803_PUZZLE_ATTR_RO(ac_recovery_status, IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RW(power_loss_recovery, IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY, 0);
-+static IEI_WT61P803_PUZZLE_ATTR_RO(power_status, IEI_WT61P803_PUZZLE_POWER_STATUS, 0);
-+
-+static struct attribute *iei_wt61p803_puzzle_attrs[] = {
-+	&dev_attr_version.dev_attr.attr,
-+	&dev_attr_build_info.dev_attr.attr,
-+	&dev_attr_bootloader_mode.dev_attr.attr,
-+	&dev_attr_protocol_version.dev_attr.attr,
-+	&dev_attr_serial_number.dev_attr.attr,
-+	&dev_attr_mac_address_0.dev_attr.attr,
-+	&dev_attr_mac_address_1.dev_attr.attr,
-+	&dev_attr_mac_address_2.dev_attr.attr,
-+	&dev_attr_mac_address_3.dev_attr.attr,
-+	&dev_attr_mac_address_4.dev_attr.attr,
-+	&dev_attr_mac_address_5.dev_attr.attr,
-+	&dev_attr_mac_address_6.dev_attr.attr,
-+	&dev_attr_mac_address_7.dev_attr.attr,
-+	&dev_attr_ac_recovery_status.dev_attr.attr,
-+	&dev_attr_power_loss_recovery.dev_attr.attr,
-+	&dev_attr_power_status.dev_attr.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(iei_wt61p803_puzzle);
-+
-+static int iei_wt61p803_puzzle_sysfs_create(struct device *dev,
-+					    struct iei_wt61p803_puzzle *mcu)
-+{
-+	int ret;
-+
-+	ret = sysfs_create_groups(&mcu->dev->kobj, iei_wt61p803_puzzle_groups);
-+	if (ret)
-+		mfd_remove_devices(mcu->dev);
-+
-+	return ret;
-+}
-+
-+static int iei_wt61p803_puzzle_sysfs_remove(struct device *dev,
-+					    struct iei_wt61p803_puzzle *mcu)
-+{
-+	/* Remove sysfs groups */
-+	sysfs_remove_groups(&mcu->dev->kobj, iei_wt61p803_puzzle_groups);
-+	mfd_remove_devices(mcu->dev);
-+
-+	return 0;
-+}
-+
-+static int iei_wt61p803_puzzle_probe(struct serdev_device *serdev)
-+{
-+	struct device *dev = &serdev->dev;
++struct iei_wt61p803_puzzle_led {
++	struct led_classdev cdev;
 +	struct iei_wt61p803_puzzle *mcu;
-+	u32 baud;
++	unsigned char response_buffer[IEI_WT61P803_PUZZLE_BUF_SIZE];
++	struct mutex lock; /* mutex to protect led_power_state */
++	int led_power_state;
++};
++
++static inline struct iei_wt61p803_puzzle_led *cdev_to_iei_wt61p803_puzzle_led
++	(struct led_classdev *led_cdev)
++{
++	return container_of(led_cdev, struct iei_wt61p803_puzzle_led, cdev);
++}
++
++static int iei_wt61p803_puzzle_led_brightness_set_blocking(struct led_classdev *cdev,
++							   enum led_brightness brightness)
++{
++	struct iei_wt61p803_puzzle_led *priv = cdev_to_iei_wt61p803_puzzle_led(cdev);
++	unsigned char *resp_buf = priv->response_buffer;
++	unsigned char led_power_cmd[5] = {};
++	size_t reply_size;
 +	int ret;
 +
-+	/* Read the baud rate from 'current-speed', because the MCU supports different rates */
-+	if (device_property_read_u32(dev, "current-speed", &baud)) {
-+		dev_err(dev,
-+			"'current-speed' is not specified in device node\n");
-+		return -EINVAL;
-+	}
-+	dev_dbg(dev, "Driver baud rate: %d\n", baud);
++	led_power_cmd[0] = IEI_WT61P803_PUZZLE_CMD_HEADER_START;
++	led_power_cmd[1] = IEI_WT61P803_PUZZLE_CMD_LED;
++	led_power_cmd[2] = IEI_WT61P803_PUZZLE_CMD_LED_POWER;
++	led_power_cmd[3] = brightness == LED_OFF ? IEI_LED_OFF : IEI_LED_ON;
 +
-+	/* Allocate the memory */
-+	mcu = devm_kzalloc(dev, sizeof(*mcu), GFP_KERNEL);
-+	if (!mcu)
-+		return -ENOMEM;
-+
-+	mcu->reply = devm_kzalloc(dev, sizeof(*mcu->reply), GFP_KERNEL);
-+	if (!mcu->reply)
-+		return -ENOMEM;
-+
-+	/* Initialize device struct data */
-+	mcu->serdev = serdev;
-+	mcu->dev = dev;
-+	init_completion(&mcu->reply->received);
-+	mutex_init(&mcu->reply_lock);
-+	mutex_init(&mcu->lock);
-+
-+	/* Setup UART interface */
-+	serdev_device_set_drvdata(serdev, mcu);
-+	serdev_device_set_client_ops(serdev, &iei_wt61p803_puzzle_serdev_device_ops);
-+	ret = devm_serdev_device_open(dev, serdev);
-+	if (ret)
-+		return ret;
-+	serdev_device_set_baudrate(serdev, baud);
-+	serdev_device_set_flow_control(serdev, false);
-+	ret = serdev_device_set_parity(serdev, SERDEV_PARITY_NONE);
-+	if (ret) {
-+		dev_err(dev, "Failed to set parity\n");
-+		return ret;
-+	}
-+
-+	ret = iei_wt61p803_puzzle_get_version(mcu);
++	ret = iei_wt61p803_puzzle_write_command(priv->mcu, led_power_cmd,
++						sizeof(led_power_cmd),
++						resp_buf,
++						&reply_size);
 +	if (ret)
 +		return ret;
 +
-+	dev_dbg(dev, "MCU version: %s\n", mcu->version.version);
-+	dev_dbg(dev, "MCU firmware build info: %s\n", mcu->version.build_info);
-+	dev_dbg(dev, "MCU in bootloader mode: %s\n",
-+		mcu->version.bootloader_mode ? "true" : "false");
-+	dev_dbg(dev, "MCU protocol version: %s\n", mcu->version.protocol_version);
++	if (reply_size != 3)
++		return -EIO;
 +
-+	if (device_property_read_bool(dev, "enable-beep")) {
-+		ret = iei_wt61p803_puzzle_buzzer(mcu, false);
-+		if (ret)
-+			return ret;
-+	}
++	if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
++	      resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
++	      resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK))
++		return -EIO;
 +
-+	ret = iei_wt61p803_puzzle_sysfs_create(dev, mcu);
-+	if (ret)
-+		return ret;
++	mutex_lock(&priv->lock);
++	priv->led_power_state = brightness;
++	mutex_unlock(&priv->lock);
 +
-+	return devm_of_platform_populate(dev);
++	return 0;
 +}
 +
-+static void iei_wt61p803_puzzle_remove(struct serdev_device *serdev)
++static enum led_brightness iei_wt61p803_puzzle_led_brightness_get(struct led_classdev *cdev)
 +{
-+	struct device *dev = &serdev->dev;
-+	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev);
++	struct iei_wt61p803_puzzle_led *priv = cdev_to_iei_wt61p803_puzzle_led(cdev);
++	int led_state;
 +
-+	iei_wt61p803_puzzle_sysfs_remove(dev, mcu);
++	mutex_lock(&priv->lock);
++	led_state = priv->led_power_state;
++	mutex_unlock(&priv->lock);
++
++	return led_state;
 +}
 +
-+static const struct of_device_id iei_wt61p803_puzzle_dt_ids[] = {
-+	{ .compatible = "iei,wt61p803-puzzle" },
++static int iei_wt61p803_puzzle_led_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev->parent);
++	struct iei_wt61p803_puzzle_led *priv;
++	struct led_init_data init_data = {};
++	struct fwnode_handle *child;
++	int ret;
++
++	if (device_get_child_node_count(dev) != 1)
++		return -EINVAL;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->mcu = mcu;
++	priv->led_power_state = 1;
++	mutex_init(&priv->lock);
++	dev_set_drvdata(dev, priv);
++
++	child = device_get_next_child_node(dev, NULL);
++	init_data.fwnode = child;
++
++	priv->cdev.brightness_set_blocking = iei_wt61p803_puzzle_led_brightness_set_blocking;
++	priv->cdev.brightness_get = iei_wt61p803_puzzle_led_brightness_get;
++	priv->cdev.max_brightness = 1;
++
++	ret = devm_led_classdev_register_ext(dev, &priv->cdev, &init_data);
++	if (ret)
++		dev_err(dev, "Could not register LED\n");
++
++	fwnode_handle_put(child);
++	return ret;
++}
++
++static const struct of_device_id iei_wt61p803_puzzle_led_of_match[] = {
++	{ .compatible = "iei,wt61p803-puzzle-leds" },
 +	{ }
 +};
++MODULE_DEVICE_TABLE(of, iei_wt61p803_puzzle_led_of_match);
 +
-+MODULE_DEVICE_TABLE(of, iei_wt61p803_puzzle_dt_ids);
-+
-+static struct serdev_device_driver iei_wt61p803_puzzle_drv = {
-+	.probe			= iei_wt61p803_puzzle_probe,
-+	.remove			= iei_wt61p803_puzzle_remove,
++static struct platform_driver iei_wt61p803_puzzle_led_driver = {
 +	.driver = {
-+		.name		= "iei-wt61p803-puzzle",
-+		.of_match_table	= iei_wt61p803_puzzle_dt_ids,
++		.name = "iei-wt61p803-puzzle-led",
++		.of_match_table = iei_wt61p803_puzzle_led_of_match,
 +	},
++	.probe = iei_wt61p803_puzzle_led_probe,
 +};
++module_platform_driver(iei_wt61p803_puzzle_led_driver);
 +
-+module_serdev_device_driver(iei_wt61p803_puzzle_drv);
-+
-+MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("IEI WT61P803 PUZZLE front panel LED driver");
 +MODULE_AUTHOR("Luka Kovacic <luka.kovacic@sartura.hr>");
-+MODULE_DESCRIPTION("IEI WT61P803 PUZZLE MCU Driver");
-diff --git a/include/linux/mfd/iei-wt61p803-puzzle.h b/include/linux/mfd/iei-wt61p803-puzzle.h
-new file mode 100644
-index 000000000000..7f2da5887dae
---- /dev/null
-+++ b/include/linux/mfd/iei-wt61p803-puzzle.h
-@@ -0,0 +1,66 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* IEI WT61P803 PUZZLE MCU Driver
-+ * System management microcontroller for fan control, temperature sensor reading,
-+ * LED control and system identification on IEI Puzzle series ARM-based appliances.
-+ *
-+ * Copyright (C) 2020 Sartura Ltd.
-+ * Author: Luka Kovacic <luka.kovacic@sartura.hr>
-+ */
-+
-+#ifndef _MFD_IEI_WT61P803_PUZZLE_H_
-+#define _MFD_IEI_WT61P803_PUZZLE_H_
-+
-+#define IEI_WT61P803_PUZZLE_BUF_SIZE 512
-+
-+/* Command magic numbers */
-+#define IEI_WT61P803_PUZZLE_CMD_HEADER_START		0x40 /* @ */
-+#define IEI_WT61P803_PUZZLE_CMD_HEADER_START_OTHER	0x25 /* % */
-+#define IEI_WT61P803_PUZZLE_CMD_HEADER_EEPROM		0xF7
-+
-+#define IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK		0x30 /* 0 */
-+#define IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK	0x70
-+
-+#define IEI_WT61P803_PUZZLE_CMD_EEPROM_READ		0xA1
-+#define IEI_WT61P803_PUZZLE_CMD_EEPROM_WRITE		0xA0
-+
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_VERSION		0x56 /* V */
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_BUILD		0x42 /* B */
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_BOOTLOADER_MODE	0x4D /* M */
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_MODE_BOOTLOADER	0x30
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_MODE_APPS		0x31
-+#define IEI_WT61P803_PUZZLE_CMD_OTHER_PROTOCOL_VERSION	0x50 /* P */
-+
-+#define IEI_WT61P803_PUZZLE_CMD_FUNCTION_SINGLE		0x43 /* C */
-+#define IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER		0x4F /* O */
-+#define IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_STATUS	0x53 /* S */
-+#define IEI_WT61P803_PUZZLE_CMD_FUNCTION_OTHER_POWER_LOSS 0x41 /* A */
-+
-+#define IEI_WT61P803_PUZZLE_CMD_LED			0x52 /* R */
-+#define IEI_WT61P803_PUZZLE_CMD_LED_POWER		0x31 /* 1 */
-+
-+#define IEI_WT61P803_PUZZLE_CMD_TEMP			0x54 /* T */
-+#define IEI_WT61P803_PUZZLE_CMD_TEMP_ALL		0x41 /* A */
-+
-+#define IEI_WT61P803_PUZZLE_CMD_FAN			0x46 /* F */
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_PWM_READ		0x5A /* Z */
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_PWM_WRITE		0x57 /* W */
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_PWM_BASE		0x30
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_RPM_BASE		0x41 /* A */
-+
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_PWM(x) (IEI_WT61P803_PUZZLE_CMD_FAN_PWM_BASE + (x)) /* 0 - 1 */
-+#define IEI_WT61P803_PUZZLE_CMD_FAN_RPM(x) (IEI_WT61P803_PUZZLE_CMD_FAN_RPM_BASE + (x)) /* 0 - 5 */
-+
-+struct iei_wt61p803_puzzle_mcu_version;
-+struct iei_wt61p803_puzzle_reply;
-+struct iei_wt61p803_puzzle;
-+
-+int iei_wt61p803_puzzle_write_command_watchdog(struct iei_wt61p803_puzzle *mcu,
-+					       unsigned char *cmd, size_t size,
-+					       unsigned char *reply_data, size_t *reply_size,
-+					       int retry_count);
-+
-+int iei_wt61p803_puzzle_write_command(struct iei_wt61p803_puzzle *mcu,
-+				      unsigned char *cmd, size_t size,
-+				      unsigned char *reply_data, size_t *reply_size);
-+
-+#endif /* _MFD_IEI_WT61P803_PUZZLE_H_ */
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:leds-iei-wt61p803-puzzle");
 -- 
 2.31.1
 
