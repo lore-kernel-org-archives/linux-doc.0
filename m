@@ -2,86 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7479C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 08:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F141C4320E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 09:12:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF67261265
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 08:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55A8B61165
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 09:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234988AbhHXIke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 04:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232714AbhHXIkd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 04:40:33 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD442C061757
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id a21so25337687ioq.6
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fIaJkxrINABCGe/Iug5/poGhfIdeb8mZr2zVkeuZiyk=;
-        b=kHTTXTXksWgsHJPnpVB59oOfzUtmQA8RIlmIUrXtIrzHAq1ndsCWtHdoAHjx99VDlV
-         CbSgcrdKjFaVlKmnDvSdDGu/FlJ6ksMJhaYMoeyEw4JrohYPmBFZnm81tVnOW+Fgcwcv
-         S0kLABy3eOsJWaUARW0JnOceTpR54yXgasDHyMJTYSlsoDapzS2Q2iOlDikOBkHft90u
-         B1+KEKx2JPBAzaL/Zg4HH1/99MwHX29L77Qj76dDJCkp2XCCLzO37qhfZu6KWKXZ7bkD
-         w1BSIiwJ2TL04lavumlWwmuzqVbQSXVnZb6trWN554SKo5GCr955sqjvEb/0ur55OfXJ
-         i3sA==
+        id S235637AbhHXJM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 05:12:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39042 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235685AbhHXJM5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 05:12:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629796332;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UO2zBbBs1G6uT3R3xch5pdAd9JzMFmQCenqYTZnnAws=;
+        b=ciI55oT+4ry/YlJLlDbugRTfprdq8vmV8TxkKb01viiPuKkCGhO804W14LS76wuqUuE+pJ
+        KfuZCRH8vytOEwSgN/ZVJOTN8ffYpvEEqlTWk9AnsTrzYcdsb0W9dwj/0mW756MhXE+X9y
+        cur4x82RiyCts6/Ze32mfLqL6/9yMes=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-vJNRMV7LP7q5IYVB7yODJQ-1; Tue, 24 Aug 2021 05:12:11 -0400
+X-MC-Unique: vJNRMV7LP7q5IYVB7yODJQ-1
+Received: by mail-ed1-f72.google.com with SMTP id f21-20020a056402005500b003bf4e6b5b96so8420588edu.5
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 02:12:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fIaJkxrINABCGe/Iug5/poGhfIdeb8mZr2zVkeuZiyk=;
-        b=dk7GSo2JJAVe5d/359qpVYbndhDzEnzaDktnVTjYmQH3EMxrUzXkl5zHlOoWRUi5Qa
-         OrFWAnjWU8Be4RqPoA3N6i80E7GJ/3iVfwRKo4saJBZYiJZo/oKJ4FZdjdZ/fDbg9zb3
-         W1DzRsC4FlnFzYwPhOpe84/W4bE/k6d225lgHA3fxOHa4VTcjeP/jUkOayb546E43yfx
-         2N+kjFPTxUCHLbqbPHokdJpva4AJxPEmfWI1mx9DKwRagRNl4NQ1RvBMMKkQ4heeLL1X
-         jN29HDqBqUS0xP5Zwx3r7fEOH/i7i1U4Xzrw8qeIHYHiN1yKvcoyw5YcVXQdiBy+Vz8I
-         O8KQ==
-X-Gm-Message-State: AOAM531rr65GPBT/4M0OEw7DgGWWd0P/pKPI676zKtRUijW99j+slzot
-        nv6te7VdMcQbgOWh8KhMAp87PD39tRcqN5xt6J0=
-X-Google-Smtp-Source: ABdhPJzucpIA4Fwut467/LXAspudVZ8iqE7gqE0fBPnjBL84g3BcFW5q7NxJf3qkh9ZOushbOJ12bbeYs9Zkd1quzhI=
-X-Received: by 2002:a5d:8b04:: with SMTP id k4mr21979876ion.58.1629794389243;
- Tue, 24 Aug 2021 01:39:49 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UO2zBbBs1G6uT3R3xch5pdAd9JzMFmQCenqYTZnnAws=;
+        b=T/Eb/Ptr7vBazqkCB8S/AZVh8PF6qcehL7ZHso/yVKtWYCGcwPC8BPqBgyh254bRGR
+         VgBhW6idZ1HZeKIwqBVCXdb8SDlbgQnpCczeKg1q4QmmGh4yxISG8DFhTODI9nuQ5CU0
+         lf2L6XjaZftwr/kcxOpJOeWgzuJ4ntiB1tc7/xOqqJvuBGiKQsUVHrnV5802UUSU09VA
+         ikBo/aSUqzFcWe18szam/8dl+QBu/sYEr4oTXrBMv7L4VcKeQP0UiIAcu7Q3cprb0B+V
+         +Mggz7jq12oUjhLygrAzi7RdvOC0DX6JGaq4bdijkQLk1gUna5dLhApO/e3ayhTXGtij
+         y48Q==
+X-Gm-Message-State: AOAM530sBvYafVuf+jxtrNe16bck9BDWuRDnl0i52RRa3O7rxoRgO5DC
+        lcnkm2sfTE44WzO/1DzMH1wKCL/WIM9EzzuxapeuJyK1MI+85h+swBUrmnSddm6Z6v2dIICbNu1
+        7wfZksfxuKIXb5UvLEtF7
+X-Received: by 2002:a17:906:544f:: with SMTP id d15mr39905076ejp.520.1629796330483;
+        Tue, 24 Aug 2021 02:12:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3bMICaqu3WLm0C02mi3EAPqHyfBIAeSrxUN0aqhXmoBEhQ7Pz6k5PO9S6BLCHr/N7T4Bnvg==
+X-Received: by 2002:a17:906:544f:: with SMTP id d15mr39905053ejp.520.1629796330344;
+        Tue, 24 Aug 2021 02:12:10 -0700 (PDT)
+Received: from redhat.com ([2.55.137.225])
+        by smtp.gmail.com with ESMTPSA id b18sm2737239ejl.90.2021.08.24.02.12.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 02:12:09 -0700 (PDT)
+Date:   Tue, 24 Aug 2021 05:12:03 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210824050842-mutt-send-email-mst@kernel.org>
+References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20210805005218.2912076-12-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20210823195409-mutt-send-email-mst@kernel.org>
+ <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
 MIME-Version: 1.0
-References: <20210821081800.2205103-1-siyanteng@loongson.cn>
-In-Reply-To: <20210821081800.2205103-1-siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Tue, 24 Aug 2021 16:39:12 +0800
-Message-ID: <CAJy-AmnoWbX_PPo=NS69+muohgdgUSL1t5GAE2j5iYPEu=vZRw@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Modify the translator tag and fix the wrong word
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
-        yanteng si <siyanteng01@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 21, 2021 at 4:18 PM Yanteng Si <siyanteng@loongson.cn> wrote:
->
-> Fix a wrong word;
->
-> Fix old Original tag;
->
-> Remove unnecessary blank lines;
->
-> Modify the translator tag to be consistent with the current.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+On Mon, Aug 23, 2021 at 05:30:54PM -0700, Kuppuswamy, Sathyanarayanan wrote:
+> 
+> 
+> On 8/23/21 4:56 PM, Michael S. Tsirkin wrote:
+> > > Add a new variant of pci_iomap for mapping all PCI resources
+> > > of a devices as shared memory with a hypervisor in a confidential
+> > > guest.
+> > > 
+> > > Signed-off-by: Andi Kleen<ak@linux.intel.com>
+> > > Signed-off-by: Kuppuswamy Sathyanarayanan<sathyanarayanan.kuppuswamy@linux.intel.com>
+> > I'm a bit puzzled by this part. So why should the guest*not*  map
+> > pci memory as shared? And if the answer is never (as it seems to be)
+> > then why not just make regular pci_iomap DTRT?
+> 
+> It is in the context of confidential guest (where VMM is un-trusted). So
+> we don't want to make all PCI resource as shared. It should be allowed
+> only for hardened drivers/devices.
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+I can't say this answers the question at all. PCI devices are part of
+the VMM and so un-trusted. In particular PCI devices do not have
+the key to decrypt memory. Therefore as far as I can see PCI resources
+should not be encrypted.  I conclude they all should be marked
+shared.
 
-Thanks
+If I'm wrong can you please give an example of a PCI resource
+that is encrypted?
+
+-- 
+MST
+
