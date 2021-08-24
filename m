@@ -2,160 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C41C4320E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 09:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0CAC4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 11:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F78B613AD
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 09:47:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D5CE6120A
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 11:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235743AbhHXJsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 05:48:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49173 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235797AbhHXJsA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 05:48:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629798435;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=byOliS/hAlH982j95uoj9FjiMsaJUQkzdYQOZKOZeFM=;
-        b=EpSjaKaORit2KBe35XMrcFltkhci8RVMV7pN97m/XqxyihAXn2G+tohwnWuAezzH4bp48M
-        efD8nrjBZJ6yjreif7/fjD3rTeTWH11Tav+ryGfZYH2nwH71eP7mowc9EipQYYwbSrgdrl
-        bEd+dJo0mtOfCZWeq1ubGE6hNpUgYI4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-IXULYnx4MNi_b9JMwIEARA-1; Tue, 24 Aug 2021 05:47:14 -0400
-X-MC-Unique: IXULYnx4MNi_b9JMwIEARA-1
-Received: by mail-ej1-f72.google.com with SMTP id c25-20020a170906529900b005c56c92caa2so2160715ejm.19
-        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 02:47:14 -0700 (PDT)
+        id S236104AbhHXLTm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 07:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236395AbhHXLTl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 07:19:41 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301C6C061757
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 04:18:57 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so36464342otg.11
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 04:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bXzCEfxCRgmCKLZrbkn/VI25FIAwR2Oka2xODnds5sY=;
+        b=OWaFG+FQQBsbCIWiQIzXHnqBxTNEDF8ZYnKITZz6yKDH0+aVTnjS1vjsA24+EM34oP
+         /L7zYDgtFrYoMJYATd7NwldmvgMoG9ZtUUGIB/wYHBigYAHkXEIgar8K7Heff5s76wkH
+         QQ7Oe28fZ9lnHAsL/9Rr1/9B6kfr3iBj8vdA0/HE4gvOHVeSLwh6iA7fvNtpBHG77s7g
+         hVG/EMbS7uuqwMksUyYHZCONH/M2Yj2IDTPnR1tooO2c7/PAWtXhdtauXvDwe2iOnD4V
+         wjcBal3QsuLsaPu2xiDzfyKgDKgrtBKiy1oz04Id7ZFeKvzMk1muXoyA/0kGmJIf86If
+         vkYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=byOliS/hAlH982j95uoj9FjiMsaJUQkzdYQOZKOZeFM=;
-        b=pc25thVqL5rC8/CZ7jsd7ehVSf+Nv7k9vDlicICq/6HqmnL2qiJT61Pv87B7TZGWWv
-         wbJyvl5xS0LqjbO3X403Yw0vMqAWn32FjprL1bknmU73/vxkj9n5u6wG+Uc3K94+LSDh
-         IjIwNSPNLVdhjjQCnBVMvPMczOQefa6Y1+fEe1JIBMpVAhMZF4JB/fvUBLeRsYvqLxsS
-         SotixSd83DQ011051wZPdpb+nf3jiW0noYVHTBeitWuZNT3aOyTzlIP/HhhviSiCoiCa
-         dHdwQKOtPA57oMCV/zfGFxuCDGX7TpMlaEzk+UgFMMRJIyqc/Q3Ek0kzTJexNrXIzdD9
-         sU/Q==
-X-Gm-Message-State: AOAM532rP3Zh+6BhFIYKRYcUGC4Y+MfFvlFyOUS0dw3IfAigEIjaufyD
-        OHnW6zAE4V4uVT3SqvhZLb7MH6xMT1udIGznWiTITp94SSsGytsmvsDfJhwZVULJSoAcezNl8JN
-        oWEZMfyB2U4PVGmLFCxPx
-X-Received: by 2002:a17:906:3542:: with SMTP id s2mr40413088eja.379.1629798433290;
-        Tue, 24 Aug 2021 02:47:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUO88Sc9irEBtMZmBbVQ8WcILdFFNEosAjyt1865+nkRLAobkOu3Zuf3KEOK5TLE4bRYLW2A==
-X-Received: by 2002:a17:906:3542:: with SMTP id s2mr40413054eja.379.1629798433111;
-        Tue, 24 Aug 2021 02:47:13 -0700 (PDT)
-Received: from redhat.com ([2.55.137.225])
-        by smtp.gmail.com with ESMTPSA id b18sm2800522ejl.90.2021.08.24.02.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 02:47:12 -0700 (PDT)
-Date:   Tue, 24 Aug 2021 05:47:03 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-Message-ID: <20210824053830-mutt-send-email-mst@kernel.org>
-References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210805005218.2912076-12-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210823195409-mutt-send-email-mst@kernel.org>
- <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
- <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
- <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bXzCEfxCRgmCKLZrbkn/VI25FIAwR2Oka2xODnds5sY=;
+        b=MriLETmnAeAwOsc0cWmva2emkvdMM9OZsMC2Isvelltoj9ShuR5YJQywvp9w88u7Qs
+         lkVbShXe0NATa2sVAMLdVr9McXh8yGyR7BB14FlZYkMe3PH45wJAMkreJVdO64WUXez8
+         Xb/BoHQHqR4hLtd8A7XPfZfwzAQ5c1YeebTbglPf0OQjzylex0xQwY+7p+2c4OYOHfED
+         fvLjSCFbBjd8ClpbiJjBqQMwjo3fLZXEcF1hR+cTZrNFKHQ4HvVZ4/1wLYDbAuKCjmlN
+         YFgSAGvUAV11AxupiPKaBVNBv3FpjayrLJO4Iw/RbY1/1ccFMB823JjcwiF1riw0gBHs
+         komQ==
+X-Gm-Message-State: AOAM5331uCoFVcH3kQ/arL0hgpUpztf6ZiAtz+LhV2YFkmv2ywxn7QRX
+        a6hb5NsVIW1B8JNXvB82I9jQAjiIasNAmJxrSSY=
+X-Google-Smtp-Source: ABdhPJzDG0Xcfaj7b9bbkATcXox1prApCGt0v2bX/VyNyXPhEZZvaUt4w22JAGNcukIS93MRPqsgmjMxphSMxQvyt34=
+X-Received: by 2002:a9d:664c:: with SMTP id q12mr32845098otm.243.1629803936447;
+ Tue, 24 Aug 2021 04:18:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
+References: <cover.1629274856.git.siyanteng@loongson.cn> <ead97c192e0f947e214fd857905bab5eeaeda14f.1629274856.git.siyanteng@loongson.cn>
+ <CAJy-Amkm-_UrxXkTMn0=EJb+no3Y_rf8TQUAu-AjGJH0jniQkQ@mail.gmail.com>
+In-Reply-To: <CAJy-Amkm-_UrxXkTMn0=EJb+no3Y_rf8TQUAu-AjGJH0jniQkQ@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 24 Aug 2021 19:18:45 +0800
+Message-ID: <CAEensMxVp3J-tDJUJz7k2TS7aid2Xtj_tNDiEEO1n5Lv-b67wQ@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] docs/zh_CN: add core-api gfp_mask-from-fs-io translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>,
+        chenfeiyang@loongson.cn,
+        =?UTF-8?B?6ZmI6aOe5oms?= <chris.chenfeiyang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 07:14:18PM -0700, Andi Kleen wrote:
-> 
-> On 8/23/2021 6:04 PM, Dan Williams wrote:
-> > On Mon, Aug 23, 2021 at 5:31 PM Kuppuswamy, Sathyanarayanan
-> > <sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
-> > > 
-> > > 
-> > > On 8/23/21 4:56 PM, Michael S. Tsirkin wrote:
-> > > > > Add a new variant of pci_iomap for mapping all PCI resources
-> > > > > of a devices as shared memory with a hypervisor in a confidential
-> > > > > guest.
-> > > > > 
-> > > > > Signed-off-by: Andi Kleen<ak@linux.intel.com>
-> > > > > Signed-off-by: Kuppuswamy Sathyanarayanan<sathyanarayanan.kuppuswamy@linux.intel.com>
-> > > > I'm a bit puzzled by this part. So why should the guest*not*  map
-> > > > pci memory as shared? And if the answer is never (as it seems to be)
-> > > > then why not just make regular pci_iomap DTRT?
-> > > It is in the context of confidential guest (where VMM is un-trusted). So
-> > > we don't want to make all PCI resource as shared. It should be allowed
-> > > only for hardened drivers/devices.
-> > That's confusing, isn't device authorization what keeps unaudited
-> > drivers from loading against untrusted devices? I'm feeling like
-> > Michael that this should be a detail that drivers need not care about
-> > explicitly, in which case it does not need to be exported because the
-> > detail can be buried in lower levels.
-> 
-> We originally made it default (similar to AMD), but it during code audit we
-> found a lot of drivers who do ioremap early outside the probe function.
-> Since it would be difficult to change them all we made it opt-in, which
-> ensures that only drivers that have been enabled can talk with the host at
-> all and can't be attacked. That made the problem of hardening all these
-> drivers a lot more practical.
-> 
-> Currently we only really need virtio and MSI-X shared, so for changing two
-> places in the tree you avoid a lot of headache elsewhere.
-> 
-> Note there is still a command line option to override if you want to allow
-> and load other drivers.
-> 
-> -Andi
-
-I see. Hmm. It's a bit of a random thing to do it at the map time
-though. E.g. DMA is all handled transparently behind the DMA API.
-Hardening is much more than just replacing map with map_shared
-and I suspect what you will end up with is basically
-vendors replacing map with map shared to make things work
-for their users and washing their hands.
-
-I would say an explicit flag in the driver that says "hardened"
-and refusing to init a non hardened one would be better.
-
--- 
-MST
-
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0OOaciDI05pel5ZGo5LqMIOS4
+i+WNiDU6MTXlhpnpgZPvvJoNCj4NCj4gT24gV2VkLCBBdWcgMTgsIDIwMjEgYXQgNDozMiBQTSBZ
+YW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNs
+YXRlIERvY3VtZW50YXRpb24vY29yZS1hcGkvZ2ZwX21hc2stZnJvbS1mcy1pby5yc3QgaW50byBD
+aGluZXNlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxv
+b25nc29uLmNuPg0KPiA+IC0tLQ0KPiA+ICAuLi4vemhfQ04vY29yZS1hcGkvZ2ZwX21hc2stZnJv
+bS1mcy1pby5yc3QgICAgfCA2NiArKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi90cmFuc2xh
+dGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0ICAgICB8ICAyICstDQo+ID4gIDIgZmlsZXMg
+Y2hhbmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvZ2ZwX21h
+c2stZnJvbS1mcy1pby5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9nZnBfbWFzay1mcm9tLWZzLWlvLnJzdCBiL0RvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2dmcF9tYXNrLWZyb20tZnMtaW8u
+cnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmEy
+YjgxMzEzZjdhNw0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9nZnBfbWFzay1mcm9tLWZzLWlvLnJzdA0KPiA+IEBA
+IC0wLDAgKzEsNjYgQEANCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0
+DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vY29yZS1hcGkvZ2ZwX21hc2st
+ZnJvbS1mcy1pby5yc3QNCj4gPiArDQo+ID4gKzrnv7vor5E6DQo+ID4gKw0KPiA+ICsg5Y+45bu2
+6IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiArDQo+ID4gKzrmoKHo
+r5E6DQo+ID4gKw0KPiA+ICsNCj4gPiArDQo+ID4gKy4uIF9jbl9jb3JlLWFwaV9nZnBfbWFzay1m
+cm9tLWZzLWlvOg0KPiA+ICsNCj4gPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+
+ICvku45GUy9JT+S4iuS4i+aWh+S4reS9v+eUqOeahEdGUOaOqeeggQ0KPiA+ICs9PT09PT09PT09
+PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICs65pel5pyfOiAyMDE45bm0NeaciA0KPiA+
+ICs65L2c6ICFOiBNaWNoYWwgSG9ja28gPG1ob2Nrb0BrZXJuZWwub3JnPg0KPiA+ICsNCj4gPiAr
+566A5LuLDQo+ID4gKz09PT0NCj4gPiArDQo+ID4gK+aWh+S7tuezu+e7n+WSjElP5qCI5Lit55qE
+5Luj56CB6Lev5b6E5Zyo5YiG6YWN5YaF5a2Y5pe25b+F6aG75bCP5b+D77yM5Lul6Ziy5q2i5Zug
+55u05o6l6LCD55SoRlPmiJZJT+i3r+W+hOeahOWGhQ0KPiA+ICvlrZjlm57mlLblkozpmLvloZ7l
+t7Lnu4/mjIHmnInnmoTotYTmupDvvIjkvovlpoLplIEtLeacgOW4uOingeeahOaYr+eUqOS6juS6
+i+WKoeS4iuS4i+aWh+eahOmUge+8ieiAjOmAoOaIkOmAkuW9kuatuw0KPiA+ICvplIHjgIINCj4N
+Cj4g4oCdYW5kIGJsb2NraW5n4oCcICBoZXJlLCBhcyBteSB1bmRlcnN0YW5kaW5nLCBpcyB0byBl
+bXBoYXNpemUgdGhlICdhbmQnLA0KPiBzbyBtYXliZSB0aGUgJ2FuZCcgY291bGQgYmUNCj4gdHJh
+bnNsYXRlZCBhcyDigJjlubbkuJTigJnvvJ8NCk9LIQ0KPg0KPiBBcyB0byBvdGhlcnMsDQo+IFJl
+dmlld2VkLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCg0KVGhhbmsgeW91IGZvciB5
+b3VyIHJldmlldyENCg0KDQpUaGFua3MsDQoNCllhbnRlbmcNCg==
