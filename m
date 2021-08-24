@@ -7,73 +7,105 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 393AFC4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6221AC4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:35:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12C08611C9
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:31:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44E3861206
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 19:35:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbhHXTcK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 15:32:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
+        id S234738AbhHXTfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Aug 2021 15:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234542AbhHXTcK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 15:32:10 -0400
+        with ESMTP id S229913AbhHXTfr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 15:35:47 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7348C061757;
-        Tue, 24 Aug 2021 12:31:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC53C061757
+        for <linux-doc@vger.kernel.org>; Tue, 24 Aug 2021 12:35:03 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9FCDB50E9;
-        Tue, 24 Aug 2021 19:31:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9FCDB50E9
+        by ms.lwn.net (Postfix) with ESMTPSA id C8F64304D;
+        Tue, 24 Aug 2021 19:35:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8F64304D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1629833485; bh=wEib72W3RhRTZhXv5w6Wk1JJhCa3oQ2BXfVgq/fWCDI=;
+        t=1629833702; bh=bzbEQM2DO8F14bZex+T272uZgB3Lb+wzcjJa4RFzEp4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O7VH9bsvy+0L3tyvMNaIOm9U9CPLb7TUA3Zu8JN/MQYPeDdTiex2J1+1XFJcJE5ge
-         MV591oX/jMbx+0QmPcQMf9NXV03yu7Qj78qPdKcq0MZKQJLKIy7C6H/3v5iBM5FIRW
-         fXgrKUdtrIPgbOlYpqHrpD9l1XNh/jkoy84htbu+XriR8zdFEWpUP96HTz3flXh+SV
-         +BoNHW5tVcaXzBcK5S0TKuNNEgV8N4T4gAquRiXCrKGrpshjCsVNxkDC4FXs6KgJZ0
-         ikfeNr/zpKqmX/QbRP2wc4PvBp+9XR0onzF7OUVr0KjLjl8merMv65H5lf1jvJOMak
-         CYZDPp2C7rK5Q==
+        b=i0wFR/JmFUq1X3XZcnzEh0Q6RI7yteDi0gU/8SVP1BwRBJ8T+/8xlrwTh1X0FwlpT
+         vVj8bdsWVFY75J6+4iXqKDx/36nRUk8CaBflLS6UhVl7R4f79i38lu2Xr4ZhynIQBs
+         8D1l00J3WiVNQt1u+WLkqXZ0kM9UTh7Fg4DYchprYtvzs/skJmXK6/LwVkmSXREdQ8
+         aZ/li8pjajOSPeVW/fGqcP03ardCR+z5BIOTiJ4Qggno7C01a8VQTdIAHA9lANf9La
+         J1duurLqPo+pSl5BsuwONRGiMCwZd+94N8jcB0RClHdHoBfHzdBXggHC0D2bxKCaV+
+         Mmey5VawoJq0Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org
-Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        mark.rutland@arm.com, mingo@kernel.org, npiggin@gmail.com
-Subject: Re: [PATCH] Documentation/features/vm: correct huge-vmap APIs
-In-Reply-To: <20210817091621.16799-1-mark.rutland@arm.com>
-References: <20210817091621.16799-1-mark.rutland@arm.com>
-Date:   Tue, 24 Aug 2021 13:31:25 -0600
-Message-ID: <87wnoaljw2.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH] docs/zh_CN: Modify the translator tag and fix the wrong
+ word
+In-Reply-To: <20210821081800.2205103-1-siyanteng@loongson.cn>
+References: <20210821081800.2205103-1-siyanteng@loongson.cn>
+Date:   Tue, 24 Aug 2021 13:35:02 -0600
+Message-ID: <87sfyyljq1.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mark Rutland <mark.rutland@arm.com> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> In commit:
+> Fix a wrong word;
 >
->   bbc180a5adb05ee8 ("mm: HUGE_VMAP arch support cleanup")
+> Fix old Original tag;
 >
-> We replaced:
+> Remove unnecessary blank lines;
 >
->   * ioremap_pud_enabled() with arch_vmap_pud_supported()
->   * ioremap_pmd_enabled() with arch_vmap_pmd_supported()
+> Modify the translator tag to be consistent with the current.
 >
-> Update the documentation accordingly.
->
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Ingo Molnar <mingo@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  Documentation/features/vm/huge-vmap/arch-support.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/translations/zh_CN/core-api/cachetlb.rst    | 2 +-
+>  Documentation/translations/zh_CN/core-api/index.rst       | 8 +++++---
+>  .../translations/zh_CN/core-api/irq/concepts.rst          | 8 +++++---
+>  Documentation/translations/zh_CN/core-api/irq/index.rst   | 7 +++++--
+>  .../translations/zh_CN/core-api/irq/irq-affinity.rst      | 8 +++++---
+>  .../translations/zh_CN/core-api/irq/irq-domain.rst        | 8 +++++---
+>  .../translations/zh_CN/core-api/irq/irqflags-tracing.rst  | 8 +++++---
+>  Documentation/translations/zh_CN/core-api/kernel-api.rst  | 6 ++++--
+>  Documentation/translations/zh_CN/core-api/kobject.rst     | 5 ++++-
+>  Documentation/translations/zh_CN/core-api/local_ops.rst   | 6 ++++--
+>  Documentation/translations/zh_CN/core-api/padata.rst      | 5 ++++-
+>  .../translations/zh_CN/core-api/printk-basics.rst         | 6 ++++--
+>  .../translations/zh_CN/core-api/printk-formats.rst        | 6 ++++--
+>  .../translations/zh_CN/core-api/refcount-vs-atomic.rst    | 6 ++++--
+>  .../translations/zh_CN/core-api/symbol-namespaces.rst     | 6 ++++--
+>  Documentation/translations/zh_CN/core-api/workqueue.rst   | 6 ++++--
+>  Documentation/translations/zh_CN/cpu-freq/core.rst        | 8 +++++---
+>  Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 8 +++++---
+>  .../translations/zh_CN/cpu-freq/cpufreq-stats.rst         | 8 +++++---
+>  Documentation/translations/zh_CN/cpu-freq/index.rst       | 8 +++++---
+>  Documentation/translations/zh_CN/filesystems/debugfs.rst  | 2 +-
+>  Documentation/translations/zh_CN/iio/ep93xx_adc.rst       | 8 +++++---
+>  Documentation/translations/zh_CN/iio/iio_configfs.rst     | 8 +++++---
+>  Documentation/translations/zh_CN/iio/index.rst            | 8 +++++---
+>  Documentation/translations/zh_CN/mips/booting.rst         | 7 +++++--
+>  Documentation/translations/zh_CN/mips/features.rst        | 7 +++++--
+>  Documentation/translations/zh_CN/mips/index.rst           | 7 +++++--
+>  Documentation/translations/zh_CN/mips/ingenic-tcu.rst     | 7 +++++--
+>  Documentation/translations/zh_CN/openrisc/index.rst       | 8 +++++---
+>  .../translations/zh_CN/openrisc/openrisc_port.rst         | 7 +++++--
+>  Documentation/translations/zh_CN/openrisc/todo.rst        | 7 +++++--
+>  Documentation/translations/zh_CN/parisc/debugging.rst     | 5 ++++-
+>  Documentation/translations/zh_CN/parisc/index.rst         | 5 ++++-
+>  Documentation/translations/zh_CN/parisc/registers.rst     | 5 ++++-
+>  .../translations/zh_CN/riscv/boot-image-header.rst        | 8 +++++---
+>  Documentation/translations/zh_CN/riscv/index.rst          | 8 +++++---
+>  .../translations/zh_CN/riscv/patch-acceptance.rst         | 8 +++++---
+>  Documentation/translations/zh_CN/riscv/pmu.rst            | 8 +++++---
+>  38 files changed, 170 insertions(+), 86 deletions(-)
 
 Applied, thanks.
 
