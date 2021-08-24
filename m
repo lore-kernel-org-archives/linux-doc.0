@@ -2,126 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C74C4338F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 01:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38327C4338F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 01:16:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A73F60E8B
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 01:06:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21D926101C
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Aug 2021 01:16:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbhHXBGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Aug 2021 21:06:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234722AbhHXBGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Aug 2021 21:06:33 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8268CC061575
-        for <linux-doc@vger.kernel.org>; Mon, 23 Aug 2021 18:04:11 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id n18so18267554pgm.12
-        for <linux-doc@vger.kernel.org>; Mon, 23 Aug 2021 18:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+KWjXh2lT4oyxvT6TUUge6cE2M/3E1/QPatrdIWAbCk=;
-        b=ssDUJbZQUoHOjzKeOoupouQflaDtoV/KGM0ZbImx65Id9YAIXzBr7xLGKgTJu5h7I2
-         HHPWAyYNY1bDMlXgvnD4vDkqa1dsykDsMeTtzg3vHCZHA743vpTJ8zJ4NdfqSdbmmqvy
-         KiEWa7Khi9N0O/9RoziHtutYHO2/nwyh6DBm4tBUK7GNpef0LXqDL+0p5s3nrsgMW6K/
-         FFWm8o5SonyxAvLyA2+U5fUS7ZWjvbxn5iMEzqko5Bo0H+b6KX6dRPsNpkxsT+0zJzz9
-         wV+DeBmwuvYfrQWDLM0QASdRWxoXpFfTwLTHLiDMsXuWjkskMss7fMermWEKgv/FmCUr
-         IxMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+KWjXh2lT4oyxvT6TUUge6cE2M/3E1/QPatrdIWAbCk=;
-        b=a2GCqw+V/vZK5d+QXawlvE33gFivs1X08KG1VHrd62Q0jaAeleo4adsAacDz4OSgBN
-         zRbS259f+WvF7jv3ilck/S8zQJgYhGfDcQ8DkA9aUoHZHxs07se3eB2veDbYpnm+D8jn
-         arucpnZtUij9aRj6XkSE7tgiJ7vZ7JMuepR8/4cs7vyQRRNlbO3uczUeTptypI3NRSay
-         Rt32VIHoJYQ/20Z15+vJjMwOB/vY+9O1B8uWad1eTvd8drXsaTvNAnbSe3+hUniC4Fuk
-         gnLKg5/tg6XkHSJcpQECjC4HlIchrT8EmamlgwuJxBDv6lYCojmXW8ivIkaYAZ/G0qg7
-         mLWA==
-X-Gm-Message-State: AOAM533f5DVB/f0Nu2Exj1VDz95QUmJvXPgqzoK/HmB26hx4yxV3vhiX
-        8jbnInE6aTzBaFEOSJ3gRnSLDrMDVEuwEjhiNR9fag==
-X-Google-Smtp-Source: ABdhPJwr+d+03lWZE5hBC3RKJQrz+BrvZKJ9PwHrCLpkrlXplyqx0kAfavOgC5QFY0A8k9yCeP+k8gHn1t12t0fKZcY=
-X-Received: by 2002:a05:6a00:16c6:b029:32d:e190:9dd0 with SMTP id
- l6-20020a056a0016c6b029032de1909dd0mr36118105pfc.70.1629767051049; Mon, 23
- Aug 2021 18:04:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210805005218.2912076-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210805005218.2912076-12-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210823195409-mutt-send-email-mst@kernel.org> <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
-In-Reply-To: <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Mon, 23 Aug 2021 18:04:00 -0700
-Message-ID: <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        id S231653AbhHXBQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Aug 2021 21:16:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45676 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229697AbhHXBQ5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Aug 2021 21:16:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B773C61027;
+        Tue, 24 Aug 2021 01:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629767774;
+        bh=ekDtvYKAlbCftbuIBYVlLpODh9IVH8ezEybZDfXZKlM=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=fTTCaiLL+T5+TNhz7WyeJwCMVO+UMsQirJiA62/vVpGhfr5GM1IEuEKB7GCRpC1M3
+         heCvYdSXOGKGSBJAQIRW0dNXG+GLfdbBhfJjcrtXwi/DnRnYsH5jiokSjeozU3SNGY
+         1p4totkh9wf3fvB+QHFePJ1AYMMoPIiN8x+dWDc0jDzmRDcUA+bhAyGck2LqPKWJ2e
+         6acukbqbxBVURrsSkJhym861m+PmkZvHLbviFn6ru2/kXOK48F2CSddmBCbFLKUF7i
+         U1APV72lCXW/a4GaTEbXMlQPEsOySFEG5EnAQpDWgDeHYvfKAp/ZjjTmwaxqjbihD3
+         u3NkeNUgYbTxg==
+Message-ID: <e0522fa59b2029d6a2210c1113919b572746f794.camel@kernel.org>
+Subject: Re: [PATCH] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Dave Hansen <dave.hansen@intel.com>, linux-sgx@vger.kernel.org
+Cc:     Shuah Khan <shuah@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Saravanan D <saravanand@fb.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Krish Sadhukhan <krish.sadhukhan@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date:   Tue, 24 Aug 2021 04:16:11 +0300
+In-Reply-To: <8e6e42b0-0a1e-6892-b601-ce4a94172ef1@intel.com>
+References: <20210818132509.545997-1-jarkko@kernel.org>
+         <8e6e42b0-0a1e-6892-b601-ce4a94172ef1@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 5:31 PM Kuppuswamy, Sathyanarayanan
-<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
->
->
->
-> On 8/23/21 4:56 PM, Michael S. Tsirkin wrote:
-> >> Add a new variant of pci_iomap for mapping all PCI resources
-> >> of a devices as shared memory with a hypervisor in a confidential
-> >> guest.
-> >>
-> >> Signed-off-by: Andi Kleen<ak@linux.intel.com>
-> >> Signed-off-by: Kuppuswamy Sathyanarayanan<sathyanarayanan.kuppuswamy@linux.intel.com>
-> > I'm a bit puzzled by this part. So why should the guest*not*  map
-> > pci memory as shared? And if the answer is never (as it seems to be)
-> > then why not just make regular pci_iomap DTRT?
->
-> It is in the context of confidential guest (where VMM is un-trusted). So
-> we don't want to make all PCI resource as shared. It should be allowed
-> only for hardened drivers/devices.
+On Mon, 2021-08-23 at 08:15 -0700, Dave Hansen wrote:
+> On 8/18/21 6:25 AM, Jarkko Sakkinen wrote:
+> > The amount of SGX memory on the system is determined by the BIOS and it
+> > varies wildly between systems.  It can be from dozens of MB's on deskto=
+ps
+> > or VM's, up to many GB's on servers.  Just like for regular memory, it =
+is
+> > sometimes useful to know the amount of usable SGX memory in the system.
+> >=20
+> > Add SGX_MemTotal field to /proc/meminfo, which shows the total amount o=
+f
+> > usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+> > BIOS, the printout would be:
+> >=20
+> > SGX_MemTotal:      22528 kB
+>=20
+> The big question here: Do we want to put purely architecture-specific
+> entries in (the currently quite arch-independent) /proc/meminfo?
+>=20
+> The current "DirectMap4k/2M/1G" entries from arch_report_meminfo() are
+> arch-specific in their sizes, of course, but the concept is at least
+> quite arch-independent.
 
-That's confusing, isn't device authorization what keeps unaudited
-drivers from loading against untrusted devices? I'm feeling like
-Michael that this should be a detail that drivers need not care about
-explicitly, in which case it does not need to be exported because the
-detail can be buried in lower levels.
+I started with /proc/meminfo instead of /sys/devices/system/node/*/meminfo
+because there is pre-existing arch callback, and secondary because it's als=
+o
+better fit for my kselftest code.
 
-Note, I specifically said "unaudited", not "hardened" because as Greg
-mentioned the kernel must trust drivers, its devices that may not be
-trusted.
+The same discussion still applies to both files, they probably should follo=
+w a
+matching pattern.
+
+/Jarkko
+
