@@ -2,103 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=BAYES_00,
+	CHARSET_FARAWAY_HEADER,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49766C432BE
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 14:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A67FAC4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 14:53:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D6D96112D
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 14:52:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 773DD610E6
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 14:53:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240722AbhHYOxX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 10:53:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54138 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240395AbhHYOxW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Aug 2021 10:53:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36A4E610CD;
-        Wed, 25 Aug 2021 14:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629903156;
-        bh=JavDwpgii8kF2lXyvHOwR8IF/SUWfOr82rbSiTe1nco=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=etlal+X6PK/iyyE+nCKJqe8xvh6sOY35Jz8lqksr6gEQVCToh4OokpBhqzSLN+EQd
-         CbpLIssWEQtnZPMe70kfBxZJeme2Vw5EfXhChn/2RVE74/XOQ0ogJdDJbJSxQ6B6tW
-         NpWtwQV/bKLoQqX4+aw+rClsxeZQuTcMptgtwqLJE9cPhKmxBAMOvE9u1TAbpbyusm
-         2r/bieajK+y11XHoHy7rRrWGS+kpuVvgAm5FMOgzMz/YOJ/ryEgttZaNO+A2gFqSgV
-         gSDOXXqDHEGwZCzB6XgcGfNipfy8ECvl8ldyO/Fs4RX/PiHXnplmt9Ddb5SbfOzVkW
-         H7gyI/GMyzCTg==
-Date:   Wed, 25 Aug 2021 09:52:35 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Rajat Jain <rajatja@google.com>
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-Message-ID: <20210825145235.GA3565590@bjorn-Precision-5520>
+        id S241875AbhHYOxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 10:53:45 -0400
+Received: from m13153.mail.163.com ([220.181.13.153]:14451 "EHLO
+        m13153.mail.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241873AbhHYOxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 10:53:44 -0400
+X-Greylist: delayed 914 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Aug 2021 10:53:43 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=aEdnm
+        Q2XKRbyf+UVdYL1Swp9HKEwTMTQQk3fBsu3y6Q=; b=Re5xfPIeJE6WSA4DPnvHX
+        zWe8zCCXs/ytE8UU6jtTooCP3FplB12JKwOA3Io8eMWf5clLVUC9KdWQrhALpu4e
+        YsV5tRwWdVmOPPk3hhHelGs59gAMDn25ciGPiycGyLC3XPnwzLgxKGzRBWKePrDQ
+        DZH609y608UOwj3kGmbsZ4=
+Received: from junhuahuangdream$163.com ( [183.220.92.18] ) by
+ ajax-webmail-wmsvr153 (Coremail) ; Wed, 25 Aug 2021 22:37:29 +0800 (CST)
+X-Originating-IP: [183.220.92.18]
+Date:   Wed, 25 Aug 2021 22:37:29 +0800 (CST)
+From:   =?GBK?B?u8a+/Luq?= <junhuahuangdream@163.com>
+To:     "teng sterling" <sterlingteng@gmail.com>
+Cc:     "Alex Shi" <alexs@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        "Wu X.C." <bobwxc@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Junhua Huang" <huang.junhua@zte.com.cn>,
+        "Yanteng Si" <siyanteng@loongson.cn>
+Subject: Re:Re: [PATCH v2] docs/zh_CN: Add zh_CN/admin-guide/sysrq.rst
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+In-Reply-To: <CAMU9jJq-z0qkX=-60zFqyP=YdUFyqY8WJWTWZZyPdREBB-uD5Q@mail.gmail.com>
+References: <20210822143204.224282-1-junhuahuangdream@163.com>
+ <CAMU9jJq-z0qkX=-60zFqyP=YdUFyqY8WJWTWZZyPdREBB-uD5Q@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bb8c6f96-2597-bb80-bd08-7958405e1bf5@linux.intel.com>
+Message-ID: <51b6f421.6a57.17b7dbe9c89.Coremail.junhuahuangdream@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: mcGowADX+5ipVSZhbuYSAQ--.14997W
+X-CM-SenderInfo: xmxqx3pdkxt05jguvtrp6rljoofrz/1tbiTgD5ZVUDLjMyDwABsl
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 24, 2021 at 01:50:00PM -0700, Andi Kleen wrote:
-> 
-> On 8/24/2021 1:31 PM, Bjorn Helgaas wrote:
-> > On Tue, Aug 24, 2021 at 01:14:02PM -0700, Andi Kleen wrote:
-> > > On 8/24/2021 11:55 AM, Bjorn Helgaas wrote:
-> > > > [+cc Rajat; I still don't know what "shared memory with a hypervisor
-> > > > in a confidential guest" means,
-> > > A confidential guest is a guest which uses memory encryption to isolate
-> > > itself from the host. It doesn't trust the host. But it still needs to
-> > > communicate with the host for IO, so it has some special memory areas that
-> > > are explicitly marked shared. These are used to do IO with the host. All
-> > > their usage needs to be carefully hardened to avoid any security attacks on
-> > > the guest, that's why we want to limit this interaction only to a small set
-> > > of hardened drivers. For MMIO, the set is currently only virtio and MSI-X.
-> > Good material for the commit log next time around.  Thanks!
-> 
-> This is all in the patch intro too, which should make it into the merge
-> commits.
-
-It's good if the cover letter makes into the merge commit log.
-
-It's probably just because my git foo is lacking, but merge commit
-logs don't seem as discoverable as the actual patch commit logs.  Five
-years from now, if I want to learn about pci_iomap_shared() history, I
-would "git log -p lib/pci_iomap.c" and search for it.  But I don't
-think I would see the merge commit then.
-
-Bjorn
+Ckhpo6xZYW50ZW5nCgpUaGFuayB5b3UgIGZvciBwb2ludGluZyBteSBwcm9ibGVtcy4gSSB3aWxs
+IGZpeCBpdCBpbiB2My4KCgrU2iAyMDIxLTA4LTI0IDE1OjQ4OjAwo6widGVuZyBzdGVybGluZyIg
+PHN0ZXJsaW5ndGVuZ0BnbWFpbC5jb20+INC0tcCjugo+SnVuaHVhIEh1YW5nIDxqdW5odWFodWFu
+Z2RyZWFtQDE2My5jb20+INPaMjAyMcTqONTCMjLI1dbcyNUgz8LO5zEwOjMz0LS1wKO6Cj4+Cj4+
+IEZyb206IEp1bmh1YSBIdWFuZyA8aHVhbmcuanVuaHVhQHp0ZS5jb20uY24+Cj4+Cj4+IEFkZCB0
+cmFuc2xhdGlvbiB6aF9DTi9hZG1pbi1ndWlkZS9zeXNycS5yc3QgYW5kIGxpbmsgaXQgdG8KPj4g
+emhfQ04vYWRtaW4tZ3VpZGUvaW5kZXgucnN0IHdoaWxlIGNsZWFuIGl0cyB0b2RvIGVudHJ5Lgo+
+Pgo+PiBSZXZpZXdlZC1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPgo+PiBT
+aWduZWQtb2ZmLWJ5OiBKdW5odWEgSHVhbmcgPGh1YW5nLmp1bmh1YUB6dGUuY29tLmNuPgo+SGkg
+SnVuaHVhOgo+Cj5Tb21lIHdhcm5pbmdzIHdlcmUgZ2VuZXJhdGVkIGR1cmluZyB0aGUgYnVpbGQg
+cHJvY2VzcywgaWYgeW91IGNhbiBmaXggdGhlbToKT0ssIEkgd2lsbCBmaXggdGhlbS4KPgo+UmV2
+aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4KPgo+QlRXOgo+Cj4q
+IEl0IGlzIGJlc3Qgbm90IHRvIHBpY2sgdGhlIFJldmlld2VkLWJ5IHRhZyB1bnRpbCB0aGUgcmV2
+aWV3ZXIKPnZvbHVudGFyaWx5IHNpZ25zIGl0LgpteSBtaXN1bmRlcnN0YW5kaW5nIGZvciBpdC4K
+Pgo+KiBQZXJmb3JtIGFkZXF1YXRlIHRlc3RpbmcgYmVmb3JlIHNlbmQgcGF0Y2hlcy4KPiAgICAg
+YnVpbGQgaXQsIC0tLS0tLS0tPiBmaXggZXJyb3IgYW5kIHdhcm5pbmcuCj4gICAgIGNoZWNrcGF0
+Y2gucGwgPHlvdXIgcGF0Y2g+LCAtLS0tLS0tLS0+IGZpeCBlcnJvciBhbmQgd2FybmluZy4KPj4g
+LS0tCj4KPlRoYW5rcywKPgo+WWFudGVuZwoKVGhhbmtzLAoKSnVuaHVhCg==
