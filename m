@@ -2,299 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 718F4C4320E
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 22:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DE2C4320E
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 23:52:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 499E861073
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 22:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DEC66109E
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 23:52:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232756AbhHYW7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 18:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbhHYW7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 18:59:51 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD74C061757
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 15:59:04 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso872852pjq.4
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 15:59:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jjpd+6Tkj8BgAWV6v+XCBx0rlbb+NUWeFyE7jkLpQ1k=;
-        b=iAh988u8pEDhR1u1+NwvQuyLrnH1m2WLNKg8/J7jmqi87o50icpHKwaWVCiqODTY0P
-         tb3Fjl2lTTItneH7R8xNYg3W2YPW6gSNEWTT5xbX+keJ8Ld7xfr7JJzAtCpAUrnaR7wL
-         u+APYHoIUU3TdXYmUjnL7N0CsvF2Q1UOullJ0zPV8KiIW468cy0gPObegFFsmc94pvvi
-         FOZ0MlYWDjr0PpROP6UIiwqBt3gQYhJq83HduPbWWo5jm/WLXCgM4JQ4yFlXypyziRKO
-         7dd+lcVcZnQTajm02jMrK4ygLPx+LvALFNIXwni0kVJ6qJN8wpcdd5hCOEo97PUy6LR+
-         bwYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jjpd+6Tkj8BgAWV6v+XCBx0rlbb+NUWeFyE7jkLpQ1k=;
-        b=cnFWd1xnb3fQE4cymN/DPiu4g7c4cP+AJ3VK9pcDPcveJSO6LuUI/JU+E9PGtr/rdm
-         FcccovQyFZol26bqT6xyj/5y6rNaOrmTSHL5AS9EPB3j2qwhAwutllMzTDSl9wfxeOMA
-         y1tMbQnLVHtu+xlR59UF/9RvHSg35YzDbJpVCA3twsZUyRz+CoR1oTnsdBJby+4ZlWnI
-         hmeEEYU+yjA2lkTHYajzuVAuY1diJu+S2Qu2ssfzG+FvSKZFEA4Lmxno304QZhxgX6h1
-         9ckwFMYxX7NfF1YWgZIbGMT0TVL89k7H1+lAXhVKvMMwckvUmnHPG4UuAGtEgIGpR4v0
-         xRjg==
-X-Gm-Message-State: AOAM532TZ8dmG3pR6LyzhuYF81KJrspOa/ScSSwCJR/610INRoKrHuXk
-        DDXdVQA1AH6NGTo1rMIPxJJvZllunUpKzdXw7KlOQQ==
-X-Google-Smtp-Source: ABdhPJx+NsBGX+c8+wggJKsFYh0kOCsfhHj0McL3arbWNJl4J7SNXCvWTZH3iT1Dl4y5DfRHyE86J/48TBUJkj3j1wI=
-X-Received: by 2002:a17:90a:708c:: with SMTP id g12mr13271794pjk.13.1629932344184;
- Wed, 25 Aug 2021 15:59:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com> <20210803113134.2262882-7-iwona.winiarska@intel.com>
-In-Reply-To: <20210803113134.2262882-7-iwona.winiarska@intel.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 25 Aug 2021 15:58:53 -0700
-Message-ID: <CAPcyv4giVBjZWjXO2H+vYSR29Vapi6_FvMwO7nvts-JXmCHcOA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/15] peci: Add core infrastructure
-To:     Iwona Winiarska <iwona.winiarska@intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        X86 ML <x86@kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        linux-aspeed@lists.ozlabs.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S234411AbhHYXx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 19:53:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44148 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231535AbhHYXx0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Aug 2021 19:53:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A784D61101;
+        Wed, 25 Aug 2021 23:52:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629935560;
+        bh=2J2pSA9thXsSjhup1CAV2YxmdPx4Eg9gANJwKe6Itpc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=W6G0XMtprnOLvrnCs/I5fQkmK469SX5c9DbwQLQdSliinv57v+wiQ0KstFal1DRVk
+         GcYGdwmGCgV+ge03tUp8DyRELVlJHqLkUWeA/Lpq9pYj5d/Th0yA7pQEB6ZD+3EcTK
+         gKfKas4HVFa7f4LqWwm2r2VQMSIgYH6j0I015uzXIOENODOH56tiDSCEU6usWxILRb
+         w0hxUv4k9hXoDC2IjnrAmpOcoeuvXbNhkmT0184DcG5PfEL7GmjPsTq7x5mBj5y7tD
+         8eGRuC9xTNEcDl6P0nKNbHMKYmF3hWA1Az3X3u7uqkps5GyYr4SoYZQzdHZdn5g6KE
+         led5s3UH4f1kw==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     linux-sgx@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Andy Lutomirski <luto@kernel.org>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Zev Weiss <zweiss@equinix.com>,
-        David Muller <d.mueller@elsoft.ch>,
-        Jason M Bills <jason.m.bills@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+Date:   Thu, 26 Aug 2021 02:52:33 +0300
+Message-Id: <20210825235234.153013-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210825235234.153013-1-jarkko@kernel.org>
+References: <20210825235234.153013-1-jarkko@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 3, 2021 at 4:35 AM Iwona Winiarska
-<iwona.winiarska@intel.com> wrote:
->
-> Intel processors provide access for various services designed to support
-> processor and DRAM thermal management, platform manageability and
-> processor interface tuning and diagnostics.
-> Those services are available via the Platform Environment Control
-> Interface (PECI) that provides a communication channel between the
-> processor and the Baseboard Management Controller (BMC) or other
-> platform management device.
->
-> This change introduces PECI subsystem by adding the initial core module
-> and API for controller drivers.
->
-> Co-developed-by: Jason M Bills <jason.m.bills@linux.intel.com>
-> Signed-off-by: Jason M Bills <jason.m.bills@linux.intel.com>
-> Co-developed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> ---
->  MAINTAINERS             |   9 +++
->  drivers/Kconfig         |   3 +
->  drivers/Makefile        |   1 +
->  drivers/peci/Kconfig    |  15 ++++
->  drivers/peci/Makefile   |   5 ++
->  drivers/peci/core.c     | 155 ++++++++++++++++++++++++++++++++++++++++
->  drivers/peci/internal.h |  16 +++++
->  include/linux/peci.h    |  99 +++++++++++++++++++++++++
->  8 files changed, 303 insertions(+)
->  create mode 100644 drivers/peci/Kconfig
->  create mode 100644 drivers/peci/Makefile
->  create mode 100644 drivers/peci/core.c
->  create mode 100644 drivers/peci/internal.h
->  create mode 100644 include/linux/peci.h
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7cdab7229651..d411974aaa5e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14503,6 +14503,15 @@ L:     platform-driver-x86@vger.kernel.org
->  S:     Maintained
->  F:     drivers/platform/x86/peaq-wmi.c
->
-> +PECI SUBSYSTEM
-> +M:     Iwona Winiarska <iwona.winiarska@intel.com>
-> +R:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> +L:     openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +S:     Supported
-> +F:     Documentation/devicetree/bindings/peci/
-> +F:     drivers/peci/
-> +F:     include/linux/peci.h
-> +
->  PENSANDO ETHERNET DRIVERS
->  M:     Shannon Nelson <snelson@pensando.io>
->  M:     drivers@pensando.io
-> diff --git a/drivers/Kconfig b/drivers/Kconfig
-> index 8bad63417a50..f472b3d972b3 100644
-> --- a/drivers/Kconfig
-> +++ b/drivers/Kconfig
-> @@ -236,4 +236,7 @@ source "drivers/interconnect/Kconfig"
->  source "drivers/counter/Kconfig"
->
->  source "drivers/most/Kconfig"
-> +
-> +source "drivers/peci/Kconfig"
-> +
->  endmenu
-> diff --git a/drivers/Makefile b/drivers/Makefile
-> index 27c018bdf4de..8d96f0c3dde5 100644
-> --- a/drivers/Makefile
-> +++ b/drivers/Makefile
-> @@ -189,3 +189,4 @@ obj-$(CONFIG_GNSS)          += gnss/
->  obj-$(CONFIG_INTERCONNECT)     += interconnect/
->  obj-$(CONFIG_COUNTER)          += counter/
->  obj-$(CONFIG_MOST)             += most/
-> +obj-$(CONFIG_PECI)             += peci/
-> diff --git a/drivers/peci/Kconfig b/drivers/peci/Kconfig
-> new file mode 100644
-> index 000000000000..71a4ad81225a
-> --- /dev/null
-> +++ b/drivers/peci/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +menuconfig PECI
-> +       tristate "PECI support"
-> +       help
-> +         The Platform Environment Control Interface (PECI) is an interface
-> +         that provides a communication channel to Intel processors and
-> +         chipset components from external monitoring or control devices.
-> +
-> +         If you are building a Baseboard Management Controller (BMC) kernel
-> +         for Intel platform say Y here and also to the specific driver for
-> +         your adapter(s) below. If unsure say N.
-> +
-> +         This support is also available as a module. If so, the module
-> +         will be called peci.
-> diff --git a/drivers/peci/Makefile b/drivers/peci/Makefile
-> new file mode 100644
-> index 000000000000..e789a354e842
-> --- /dev/null
-> +++ b/drivers/peci/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +# Core functionality
-> +peci-y := core.o
-> +obj-$(CONFIG_PECI) += peci.o
-> diff --git a/drivers/peci/core.c b/drivers/peci/core.c
-> new file mode 100644
-> index 000000000000..7b3938af0396
-> --- /dev/null
-> +++ b/drivers/peci/core.c
-> @@ -0,0 +1,155 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Copyright (c) 2018-2021 Intel Corporation
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+The amount of SGX memory on the system is determined by the BIOS and it
+varies wildly between systems.  It can be from dozens of MB's on desktops
+or VM's, up to many GB's on servers.  Just like for regular memory, it is
+sometimes useful to know the amount of usable SGX memory in the system.
 
-This looks like overkill for only one print statement in this module,
-especially when the dev_ print helpers offer more detail.
+Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
+usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+BIOS, the printout would be:
 
-> +
-> +#include <linux/bug.h>
-> +#include <linux/device.h>
-> +#include <linux/export.h>
-> +#include <linux/idr.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/peci.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/property.h>
-> +#include <linux/slab.h>
-> +
-> +#include "internal.h"
-> +
-> +static DEFINE_IDA(peci_controller_ida);
-> +
-> +static void peci_controller_dev_release(struct device *dev)
-> +{
-> +       struct peci_controller *controller = to_peci_controller(dev);
-> +
-> +       pm_runtime_disable(&controller->dev);
+SGX_MemTotal:      22528 kB
 
-This seems late to be disabling power management, the device is about
-to be freed. Keep in mind the lifetime of the this object can be
-artificially prolonged. I expect this to be done when the device is
-unregistered from the bus.
+It is less than 32 MB because some of the space is reserved for Enclave
+Page Cache Metadata (EPCM), which contains state variables for all the
+pages in the Enclave Page Cache (EPC).  The latter contains the pages,
+which applications can use to create enclaves.
 
-> +
-> +       mutex_destroy(&controller->bus_lock);
-> +       ida_free(&peci_controller_ida, controller->id);
-> +       fwnode_handle_put(controller->dev.fwnode);
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-Shouldn't the get / put of this handle reference be bound to specific
-accesses not held for the entire lifetime of the object? At a minimum
-it seems to be a reference that can taken at registration and dropped
-at unregistration.
+---
+v2:
+* Move ifdef fix for sgx_set_attribute() to a separate patch.
+---
+ Documentation/x86/sgx.rst      | 6 ++++++
+ arch/x86/include/asm/sgx.h     | 2 ++
+ arch/x86/kernel/cpu/sgx/main.c | 7 ++++++-
+ arch/x86/mm/pat/set_memory.c   | 5 +++++
+ 4 files changed, 19 insertions(+), 1 deletion(-)
 
-> +       kfree(controller);
-> +}
-> +
-> +struct device_type peci_controller_type = {
-> +       .release        = peci_controller_dev_release,
-> +};
-> +
-> +static struct peci_controller *peci_controller_alloc(struct device *dev,
-> +                                                    struct peci_controller_ops *ops)
-> +{
-> +       struct fwnode_handle *node = fwnode_handle_get(dev_fwnode(dev));
-> +       struct peci_controller *controller;
-> +       int ret;
-> +
-> +       if (!ops->xfer)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       controller = kzalloc(sizeof(*controller), GFP_KERNEL);
-> +       if (!controller)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       ret = ida_alloc_max(&peci_controller_ida, U8_MAX, GFP_KERNEL);
-> +       if (ret < 0)
-> +               goto err;
-> +       controller->id = ret;
-> +
-> +       controller->ops = ops;
-> +
-> +       controller->dev.parent = dev;
-> +       controller->dev.bus = &peci_bus_type;
-> +       controller->dev.type = &peci_controller_type;
-> +       controller->dev.fwnode = node;
-> +       controller->dev.of_node = to_of_node(node);
-> +
-> +       device_initialize(&controller->dev);
-> +
-> +       mutex_init(&controller->bus_lock);
-> +
-> +       pm_runtime_no_callbacks(&controller->dev);
-> +       pm_suspend_ignore_children(&controller->dev, true);
-> +       pm_runtime_enable(&controller->dev);
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+index dd0ac96ff9ef..68ee171e1d8f 100644
+--- a/Documentation/x86/sgx.rst
++++ b/Documentation/x86/sgx.rst
+@@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
+ on the same machine, the user should reserve enough EPC (by taking out
+ total virtual EPC size of all SGX VMs from the physical EPC size) for
+ host SGX applications so they can run with acceptable performance.
++
++Supplemental fields for /proc/meminfo
++=====================================
++
++SGX_MemTotal
++	The total usable SGX protected memory in kilobytes.
+diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
+index 996e56590a10..d8e526b5487b 100644
+--- a/arch/x86/include/asm/sgx.h
++++ b/arch/x86/include/asm/sgx.h
+@@ -367,6 +367,8 @@ struct sgx_sigstruct {
+ 
+ #ifdef CONFIG_X86_SGX
+ 
++extern unsigned long sgx_nr_all_pages;
++
+ int sgx_set_attribute(unsigned long *allowed_attributes,
+ 		      unsigned int attribute_fd);
+ 
+diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+index 63d3de02bbcc..1fe26a8e80dc 100644
+--- a/arch/x86/kernel/cpu/sgx/main.c
++++ b/arch/x86/kernel/cpu/sgx/main.c
+@@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
+ static LIST_HEAD(sgx_active_page_list);
+ static DEFINE_SPINLOCK(sgx_reclaimer_lock);
+ 
+-/* The free page list lock protected variables prepend the lock. */
++/* The number of usable EPC pages in the system. */
++unsigned long sgx_nr_all_pages;
++
++/* The number of free EPC pages in all nodes. */
+ static unsigned long sgx_nr_free_pages;
+ 
+ /* Nodes with one or more EPC sections. */
+@@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
+ 		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
+ 	}
+ 
++	sgx_nr_all_pages += nr_pages;
++
+ 	return true;
+ }
+ 
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index ad8a5c586a35..82bb09c298de 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -29,6 +29,7 @@
+ #include <asm/proto.h>
+ #include <asm/memtype.h>
+ #include <asm/set_memory.h>
++#include <asm/sgx.h>
+ 
+ #include "../mm_internal.h"
+ 
+@@ -116,6 +117,10 @@ void arch_report_meminfo(struct seq_file *m)
+ 	if (direct_gbpages)
+ 		seq_printf(m, "DirectMap1G:    %8lu kB\n",
+ 			direct_pages_count[PG_LEVEL_1G] << 20);
++
++#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
++	seq_printf(m, "SGX_MemTotal:   %8lu kB\n", sgx_nr_all_pages << 2);
++#endif
+ }
+ #else
+ static inline void split_page_count(int level) { }
+-- 
+2.25.1
 
-Per above, are you sure unregistered devices need pm_runtime enabled?
-
-Rest looks ok to me.
