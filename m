@@ -2,238 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D5DC4320E
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 15:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5024C4320A
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 16:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C971C61153
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 15:55:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDD69610E5
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 16:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241529AbhHYP4Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 11:56:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44028 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240495AbhHYP4Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Aug 2021 11:56:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A8F461151;
-        Wed, 25 Aug 2021 15:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629906939;
-        bh=V9s9KJfOQtTa6v8mYQHZaDcryO1e0OuOtnamjdvnDW8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=j48Eos7dG1irfytts2VXxMQlEKVsprLOBBgHDV3Ke2GU5I+HG+NxN6NED0G+RBwR1
-         reNklRdpyDciCXFAItYXzKe4nz+n+M6UVjYszJ0Oq+ciOT5XA95Q5HhnKN0Lam1lMF
-         AqamKFiBc9g1iuIQanioHWG3eOwETCdO/QIgfgZKqSMy3+Tr4uSwnlPFjw9267fe/W
-         uNiSrp2XpF9dOFIyqXhVF7CoZM+1dFWsVW6Z9YM+YAOnlbGIf+n1hnWYZu4WD0yjln
-         AH46VkxDg9bry8APkUAsKeDSHIdo+D3We7r6+9eWqoBYn6EkDmiFtPQg1teKQyaD1Z
-         feR2+12oRRprg==
-Date:   Wed, 25 Aug 2021 10:55:38 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Yishai Hadas <yishaih@nvidia.com>
-Cc:     bhelgaas@google.com, corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        mgurtovoy@nvidia.com, jgg@nvidia.com, maorg@nvidia.com,
-        leonro@nvidia.com
-Subject: Re: [PATCH V4 10/13] PCI / VFIO: Add 'override_only' support for
- VFIO PCI sub system
-Message-ID: <20210825155538.GA3575783@bjorn-Precision-5520>
+        id S241399AbhHYQV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 12:21:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38490 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241637AbhHYQVu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 12:21:50 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99686C0611C2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 09:20:38 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q68so195655pga.9
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 09:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=WfApXgIAJKG8HDMpDxeWIJ0g5a0zCGdRTXnLP/N3w6w=;
+        b=yNWmLg4D3MPNwz3iBAd040R8jR3mwmiT7/OveoBUnx9MNH0mZGUVD5U24u+11fAfKu
+         a91IZ8N7rdaeM0orJk9dy3N0mjCx0Yu0Sfpiog/Q0vvp5SjYBYa+qB5aucbHlPvnFQxg
+         ELDRto3TAI3GsKS4J5a7nQHfFBCd8MS8Em89BuJD8j8ZUk/ROgeXYelhYWzO9Ynho1mq
+         Db15kqUQUWEeBPBAI9ezdNAxXbSzajoKJWmZTScnNGMZvCjyw6jXoE8XpGD3UA0+LVPF
+         B1qo2b1h/VoOZgU61Jjek+nZEIIsBbUB2TYNMi/CBZ7lLCGLRI69QP+7/KPDIMTjF+5X
+         ZxBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=WfApXgIAJKG8HDMpDxeWIJ0g5a0zCGdRTXnLP/N3w6w=;
+        b=TndnivnDKiAliZzo5GyEVKJiJK8ChT7cgupnDQfbcNzCdgMPibc0a82PcqX/wNDrdY
+         L6YhyApK8zaLF8J0Z4bw0UxW3m36MMQrFm32pV+ZSWCUQN4mdNY/dF/V9cba5vJAvF/1
+         YeaZgMEj7Y019bOKXOEgivau2txYSEz02vMN9QqRM2VlaJ2UJJvCmRKTDQvQCBI00kUc
+         vv+kgBJuJ2IGQ9G3DaFs0Ya/xyLwlRA+YnHSNQlaCpAP7mFwhqgs2XH1eTmHXSITib68
+         BobwgjdDKuCJXR0/SrPVXos2uiO9SflduhJjkJAcl6B1VFG5IdqYo6/+WAM5x0KNCZRl
+         fvQQ==
+X-Gm-Message-State: AOAM531xGhr2N4kAYij9jroISpkdhPW4S0bvoaI/rt42Xu3Bms4OlLMG
+        XPgVyExvpvW+z6j3ZFf9rdVhWQ==
+X-Google-Smtp-Source: ABdhPJwrAL8hgbvN02uYYKtBnE1DUYV7Xq1vYTj0mWjw2e7+NUaM6k7pyNoflK0khzA8RTUOnBiSQQ==
+X-Received: by 2002:a63:2242:: with SMTP id t2mr41795283pgm.111.1629908438181;
+        Wed, 25 Aug 2021 09:20:38 -0700 (PDT)
+Received: from [10.255.189.11] ([139.177.225.249])
+        by smtp.gmail.com with ESMTPSA id t13sm121019pjg.25.2021.08.25.09.20.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 09:20:37 -0700 (PDT)
+Subject: Re: [PATCH v2 1/9] mm: introduce pmd_install() helper
+To:     David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
+ <20210819031858.98043-2-zhengqi.arch@bytedance.com>
+ <edd82170-7149-1abf-6204-f1d665a5fca2@redhat.com>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+Message-ID: <c650ef29-0f9e-02a0-9426-b406a4608c8f@bytedance.com>
+Date:   Thu, 26 Aug 2021 00:20:31 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210825135139.79034-11-yishaih@nvidia.com>
+In-Reply-To: <edd82170-7149-1abf-6204-f1d665a5fca2@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 04:51:36PM +0300, Yishai Hadas wrote:
-> From: Max Gurtovoy <mgurtovoy@nvidia.com>
-> 
-> Expose an 'override_only' helper macro (i.e.
-> PCI_DRIVER_OVERRIDE_DEVICE_VFIO) for VFIO PCI sub system and add the
-> required code to prefix its matching entries with "vfio_" in
-> modules.alias file.
-> 
-> It allows VFIO device drivers to include match entries in the
-> modules.alias file produced by kbuild that are not used for normal
-> driver autoprobing and module autoloading. Drivers using these match
-> entries can be connected to the PCI device manually, by userspace, using
-> the existing driver_override sysfs.
-> 
-> For example the resulting modules.alias may have:
-> 
->   alias pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_core
->   alias vfio_pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_vfio_pci
->   alias vfio_pci:v*d*sv*sd*bc*sc*i* vfio_pci
-> 
-> In this example mlx5_core and mlx5_vfio_pci match to the same PCI
-> device. The kernel will autoload and autobind to mlx5_core but the
-> kernel and udev mechanisms will ignore mlx5_vfio_pci.
-> 
-> When userspace wants to change a device to the VFIO subsystem it can
-> implement a generic algorithm:
-> 
->    1) Identify the sysfs path to the device:
->     /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0
-> 
->    2) Get the modalias string from the kernel:
->     $ cat /sys/bus/pci/devices/0000:01:00.0/modalias
->     pci:v000015B3d00001021sv000015B3sd00000001bc02sc00i00
-> 
->    3) Prefix it with vfio_:
->     vfio_pci:v000015B3d00001021sv000015B3sd00000001bc02sc00i00
-> 
->    4) Search modules.alias for the above string and select the entry that
->       has the fewest *'s:
->     alias vfio_pci:v000015B3d00001021sv*sd*bc*sc*i* mlx5_vfio_pci
-> 
->    5) modprobe the matched module name:
->     $ modprobe mlx5_vfio_pci
-> 
->    6) cat the matched module name to driver_override:
->     echo mlx5_vfio_pci > /sys/bus/pci/devices/0000:01:00.0/driver_override
-> 
->    7) unbind device from original module
->      echo 0000:01:00.0 > /sys/bus/pci/devices/0000:01:00.0/driver/unbind
-> 
->    8) probe PCI drivers (or explicitly bind to mlx5_vfio_pci)
->     echo 0000:01:00.0 > /sys/bus/pci/drivers_probe
-> 
-> The algorithm is independent of bus type. In future the other buses with
-> VFIO device drivers, like platform and ACPI, can use this algorithm as
-> well.
-> 
-> This patch is the infrastructure to provide the information in the
-> modules.alias to userspace. Convert the only VFIO pci_driver which results
-> in one new line in the modules.alias:
-> 
->   alias vfio_pci:v*d*sv*sd*bc*sc*i* vfio_pci
-> 
-> Later series introduce additional HW specific VFIO PCI drivers, such as
-> mlx5_vfio_pci.
-> 
-> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>  # for pci.h
 
-> ---
->  drivers/vfio/pci/vfio_pci.c       |  9 ++++++++-
->  include/linux/mod_devicetable.h   |  4 ++++
->  include/linux/pci.h               | 14 ++++++++++++++
->  scripts/mod/devicetable-offsets.c |  1 +
->  scripts/mod/file2alias.c          |  8 ++++++--
->  5 files changed, 33 insertions(+), 3 deletions(-)
+On 2021/8/25 AM12:26, David Hildenbrand wrote:
+> On 19.08.21 05:18, Qi Zheng wrote:
+>> Currently we have three times the same few lines repeated in the
+>> code. Deduplicate them by newly introduced pmd_install() helper.
+>>
+>> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+>> ---
+>>   include/linux/mm.h |  1 +
+>>   mm/filemap.c       | 11 ++---------
+>>   mm/memory.c        | 34 ++++++++++++++++------------------
+>>   3 files changed, 19 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index ce8fc0fd6d6e..57e48217bd71 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -2471,6 +2471,7 @@ static inline spinlock_t *pud_lock(struct 
+>> mm_struct *mm, pud_t *pud)
+>>       return ptl;
+>>   }
+>> +extern void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t 
+>> *pte);
+>>   extern void __init pagecache_init(void);
+>>   extern void __init free_area_init_memoryless_node(int nid);
+>>   extern void free_initmem(void);
+>> diff --git a/mm/filemap.c b/mm/filemap.c
+>> index 53913fced7ae..9f773059c6dc 100644
+>> --- a/mm/filemap.c
+>> +++ b/mm/filemap.c
+>> @@ -3210,15 +3210,8 @@ static bool filemap_map_pmd(struct vm_fault 
+>> *vmf, struct page *page)
+>>           }
+>>       }
+>> -    if (pmd_none(*vmf->pmd)) {
+>> -        vmf->ptl = pmd_lock(mm, vmf->pmd);
+>> -        if (likely(pmd_none(*vmf->pmd))) {
+>> -            mm_inc_nr_ptes(mm);
+>> -            pmd_populate(mm, vmf->pmd, vmf->prealloc_pte);
+>> -            vmf->prealloc_pte = NULL;
+>> -        }
+>> -        spin_unlock(vmf->ptl);
+>> -    }
+>> +    if (pmd_none(*vmf->pmd))
+>> +        pmd_install(mm, vmf->pmd, &vmf->prealloc_pte);
+>>       /* See comment in handle_pte_fault() */
+>>       if (pmd_devmap_trans_unstable(vmf->pmd)) {
+>> diff --git a/mm/memory.c b/mm/memory.c
+>> index 39e7a1495c3c..ef7b1762e996 100644
+>> --- a/mm/memory.c
+>> +++ b/mm/memory.c
+>> @@ -433,9 +433,20 @@ void free_pgtables(struct mmu_gather *tlb, struct 
+>> vm_area_struct *vma,
+>>       }
+>>   }
+>> +void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
+>> +{
+>> +    spinlock_t *ptl = pmd_lock(mm, pmd);
+>> +
+>> +    if (likely(pmd_none(*pmd))) {    /* Has another populated it ? */
+>> +        mm_inc_nr_ptes(mm);
+>> +        pmd_populate(mm, pmd, *pte);
+>> +        *pte = NULL;
+>> +    }
+>> +    spin_unlock(ptl);
+>> +}
+>> +
+>>   int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+>>   {
+>> -    spinlock_t *ptl;
+>>       pgtable_t new = pte_alloc_one(mm);
+>>       if (!new)
+>>           return -ENOMEM;
+>> @@ -455,13 +466,7 @@ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+>>        */
+>>       smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+>> -    ptl = pmd_lock(mm, pmd);
+>> -    if (likely(pmd_none(*pmd))) {    /* Has another populated it ? */
+>> -        mm_inc_nr_ptes(mm);
+>> -        pmd_populate(mm, pmd, new);
+>> -        new = NULL;
+>> -    }
+>> -    spin_unlock(ptl);
+>> +    pmd_install(mm, pmd, &new);
+>>       if (new)
+>>           pte_free(mm, new);
+>>       return 0;
+>> @@ -4027,17 +4032,10 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
+>>                   return ret;
+>>           }
+>> -        if (vmf->prealloc_pte) {
+>> -            vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+>> -            if (likely(pmd_none(*vmf->pmd))) {
+>> -                mm_inc_nr_ptes(vma->vm_mm);
+>> -                pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
+>> -                vmf->prealloc_pte = NULL;
+>> -            }
+>> -            spin_unlock(vmf->ptl);
+>> -        } else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
+>> +        if (vmf->prealloc_pte)
+>> +            pmd_install(vma->vm_mm, vmf->pmd, &vmf->prealloc_pte);
+>> +        else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
+>>               return VM_FAULT_OOM;
+>> -        }
+>>       }
+>>       /* See comment in handle_pte_fault() */
+>>
 > 
-> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> index 163e560c4495..85fd638a5955 100644
-> --- a/drivers/vfio/pci/vfio_pci.c
-> +++ b/drivers/vfio/pci/vfio_pci.c
-> @@ -178,9 +178,16 @@ static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
->  	return vfio_pci_core_sriov_configure(pdev, nr_virtfn);
->  }
->  
-> +static const struct pci_device_id vfio_pci_table[] = {
-> +	{ PCI_DRIVER_OVERRIDE_DEVICE_VFIO(PCI_ANY_ID, PCI_ANY_ID) }, /* match all by default */
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(pci, vfio_pci_table);
-> +
->  static struct pci_driver vfio_pci_driver = {
->  	.name			= "vfio-pci",
-> -	.id_table		= NULL, /* only dynamic ids */
-> +	.id_table		= vfio_pci_table,
->  	.probe			= vfio_pci_probe,
->  	.remove			= vfio_pci_remove,
->  	.sriov_configure	= vfio_pci_sriov_configure,
-> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> index 2e3ba6d9ece0..f0325a172f87 100644
-> --- a/include/linux/mod_devicetable.h
-> +++ b/include/linux/mod_devicetable.h
-> @@ -16,6 +16,10 @@ typedef unsigned long kernel_ulong_t;
->  
->  #define PCI_ANY_ID (~0)
->  
-> +enum {
-> +	PCI_ID_F_VFIO_DRIVER_OVERRIDE	= 1 << 0,
-> +};
-> +
->  /**
->   * struct pci_device_id - PCI device ID structure
->   * @vendor:		Vendor ID to match (or PCI_ANY_ID)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 0506b1a8c921..527a1dfd1d06 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -916,6 +916,20 @@ struct pci_driver {
->  	.vendor = (vend), .device = (dev), .subvendor = PCI_ANY_ID, \
->  	.subdevice = PCI_ANY_ID, .override_only = (driver_override)
->  
-> +/**
-> + * PCI_DRIVER_OVERRIDE_DEVICE_VFIO - macro used to describe a VFIO
-> + *                                   "driver_override" PCI device.
-> + * @vend: the 16 bit PCI Vendor ID
-> + * @dev: the 16 bit PCI Device ID
-> + *
-> + * This macro is used to create a struct pci_device_id that matches a
-> + * specific device. The subvendor and subdevice fields will be set to
-> + * PCI_ANY_ID and the driver_override will be set to
-> + * PCI_ID_F_VFIO_DRIVER_OVERRIDE.
-> + */
-> +#define PCI_DRIVER_OVERRIDE_DEVICE_VFIO(vend, dev) \
-> +	PCI_DEVICE_DRIVER_OVERRIDE(vend, dev, PCI_ID_F_VFIO_DRIVER_OVERRIDE)
-> +
->  /**
->   * PCI_DEVICE_SUB - macro used to describe a specific PCI device with subsystem
->   * @vend: the 16 bit PCI Vendor ID
-> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
-> index 9bb6c7edccc4..cc3625617a0e 100644
-> --- a/scripts/mod/devicetable-offsets.c
-> +++ b/scripts/mod/devicetable-offsets.c
-> @@ -42,6 +42,7 @@ int main(void)
->  	DEVID_FIELD(pci_device_id, subdevice);
->  	DEVID_FIELD(pci_device_id, class);
->  	DEVID_FIELD(pci_device_id, class_mask);
-> +	DEVID_FIELD(pci_device_id, override_only);
->  
->  	DEVID(ccw_device_id);
->  	DEVID_FIELD(ccw_device_id, match_flags);
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 7c97fa8e36bc..c3edbf73157e 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -426,7 +426,7 @@ static int do_ieee1394_entry(const char *filename,
->  	return 1;
->  }
->  
-> -/* Looks like: pci:vNdNsvNsdNbcNscNiN. */
-> +/* Looks like: pci:vNdNsvNsdNbcNscNiN or <prefix>_pci:vNdNsvNsdNbcNscNiN. */
->  static int do_pci_entry(const char *filename,
->  			void *symval, char *alias)
->  {
-> @@ -440,8 +440,12 @@ static int do_pci_entry(const char *filename,
->  	DEF_FIELD(symval, pci_device_id, subdevice);
->  	DEF_FIELD(symval, pci_device_id, class);
->  	DEF_FIELD(symval, pci_device_id, class_mask);
-> +	DEF_FIELD(symval, pci_device_id, override_only);
->  
-> -	strcpy(alias, "pci:");
-> +	if (override_only & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
-> +		strcpy(alias, "vfio_pci:");
-> +	else
-> +		strcpy(alias, "pci:");
->  	ADD(alias, "v", vendor != PCI_ANY_ID, vendor);
->  	ADD(alias, "d", device != PCI_ANY_ID, device);
->  	ADD(alias, "sv", subvendor != PCI_ANY_ID, subvendor);
-> -- 
-> 2.18.1
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+
+Thanks for your review, I will add this to the patch v3.
+
 > 
+> That's mostly unrelated to the remaining part of the series and can be 
+> picked up early.
+
+The implementation of subsequent patches depends on pmd_install().
+So I am worried that if this patch is submitted as a separate patch,
+subsequent patches will not be updated until this patch is merged.
+What do you think?
+
+> 
+
+
