@@ -2,84 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B56C4320A
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 02:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77096C4338F
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 05:53:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D15F61052
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 02:11:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 581CB61368
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Aug 2021 05:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235237AbhHYCLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Aug 2021 22:11:48 -0400
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21104 "EHLO
-        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbhHYCLs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Aug 2021 22:11:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1629857426; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=iPNY0Lm2xQU0W7XwDtIE6SOu4GH5QePOWGUQs6Qg0U9PONN9gPMfg5XPiO8SxxbBlVCx6bXt+ta8bmcYtmSrWI0voDWKOl2TC8Khu4j88Xz0jQtpnoPtGx1f2Fpx2qSpx5nQfOp75vjgHX3zwxYPImoshHS0+sMCg8Urj7owoXk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1629857426; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=EW4MjGTVwYJgE+935/0lwYuBbIgSXYbtlsZKkKFkB0w=; 
-        b=kHJL6VY2fb9JQ2ce5pYYg4xiqFRZkn3QlLPKMIT+MV4WVpPBFH9oEhayRDN/iW4lavPb4wiTkTAXR7z+7LDpw/xrvTQqBNZAkeJmuxbPw8LL3KQHFV7kGJ2SgmurnDzGQSY3mVL07WZI7cC3BOuhLp3Eu6Lc9gy2wuyhf8AiHMY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1629857426;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=To:Cc:References:From:Subject:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        bh=EW4MjGTVwYJgE+935/0lwYuBbIgSXYbtlsZKkKFkB0w=;
-        b=pBV8y4/4zpYQsPzg6Kg66nRFWqt75lKoC9oHsHtBErzcAVDWx9qqTY1/m228IOze
-        441OLy1hueS22Lxu8nHK2P5hs4acGvXFkGYU+QhMwsjScWJa0anUR1LXaA8uuE5RCPH
-        GQYkJkzPxmjt58KNVgkd5OWLDfhXOp53oNiWUXcA=
-Received: from [10.10.1.24] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
-        with SMTPS id 162985742413164.47891803749803; Tue, 24 Aug 2021 19:10:24 -0700 (PDT)
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <1628527136-2478-1-git-send-email-ross.philipson@oracle.com>
- <20210810162320.6rfpvdvzgxi35ylx@kernel.org>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Subject: Re: [PATCH v3 00/14] x86: Trenchboot secure dynamic launch Linux
- kernel support
-Message-ID: <1de59a4d-b29f-2a67-1cbe-8d5f80e59ba5@apertussolutions.com>
-Date:   Tue, 24 Aug 2021 22:10:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S238020AbhHYFyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 01:54:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37776 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232420AbhHYFy0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Aug 2021 01:54:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9130661212;
+        Wed, 25 Aug 2021 05:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629870821;
+        bh=OuVdKfR/MOuYBuzNycEWQRB8+cfvT8D53yuzUluBSe0=;
+        h=References:From:To:Cc:Subject:Date:In-reply-to:From;
+        b=lWfGGAtXommJm8HbFE7PK3rWnM2Ku1enbbQBZExVftmvW7IhIE6tr/zNYRuBci8a0
+         pTAudCS2VqAdfDTwNCoEyN73YqFS2GQfQPHpcSkdLMRHMOO3Jsu43pJAnPW6uqA6SM
+         mBgbiONurHm0CQ7/dkaj2UfhtoP80hRDF9mAXCe82rdbPCW5w4J9P8u1S6cEp9HZbB
+         VHvGXDMnnIhj0lukvuGZ/6f1mGoNgxtwknJ3d2U0+euK31ZQac/B+any40wHaWfBn2
+         A/8un0oTT1Z555PAO9tZRKi1rViVHR0SSWy0qFexWt10xBLWpPAUodoLvahpgSMBp8
+         Y4GTib4ywAPwg==
+References: <20210824201433.11385-1-ftoth@exalondelft.nl>
+User-agent: mu4e 1.6.4; emacs 27.2
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Ferry Toth <ftoth@exalondelft.nl>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Colitti <lorenzo@google.com>,
+        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        frowand.list@gmail.com, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ferry Toth <fntoth@gmail.com>
+Subject: Re: [PATCH v1 1/3] Revert "usb: gadget: u_audio: add real feedback
+ implementation"
+Date:   Wed, 25 Aug 2021 08:53:23 +0300
+In-reply-to: <20210824201433.11385-1-ftoth@exalondelft.nl>
+Message-ID: <87v93u5au9.fsf@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210810162320.6rfpvdvzgxi35ylx@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/10/21 12:23 PM, Jarkko Sakkinen wrote:
-> On Mon, Aug 09, 2021 at 12:38:42PM -0400, Ross Philipson wrote:
->> The focus of Trechboot project (https://github.com/TrenchBoot) is to
->> enhance the boot security and integrity. This requires the linux kernel
->                                                              ~~~~~
->                                                              Linux
-> 
-> How does it enhance it? The following sentence explains the requirements
-> for the Linux kernel, i.e. it's a question without answer. And if there
-> is no answer, there is no need to merge this.
 
-We have added a documentation patch that provides background
-information, an overview of the capability, and details about the
-implementation. We can reword the cover letter, adding reference to this
-documentation. And ack on fixing the incorrect case on Linux.
+Ferry Toth <ftoth@exalondelft.nl> writes:
 
-V/r
-dps
+> This reverts commit e89bb4288378b85c82212b60dc98ecda6b3d3a70.
+>
+> The commit is part of a series with commit
+> 24f779dac8f3efb9629adc0e486914d93dc45517 causing a BUG on dwc3
+> hardware, at least on Intel Merrifield platform when configured
+> through configfs:
+> BUG: kernel NULL pointer dereference, address: 0000000000000008
+> ...
+> RIP: 0010:dwc3_gadget_del_and_unmap_request+0x19/0xe0
+> ...
+> Call Trace:
+>  dwc3_remove_requests.constprop.0+0x12f/0x170
+>  __dwc3_gadget_ep_disable+0x7a/0x160
+>  dwc3_gadget_ep_disable+0x3d/0xd0
+>  usb_ep_disable+0x1c/0x70
+>  u_audio_stop_capture+0x79/0x120 [u_audio]
+>  afunc_set_alt+0x73/0x80 [usb_f_uac2]
+>  composite_setup+0x224/0x1b90 [libcomposite]
+>
+> Pavel's suggestion to add
+> `echo "adaptive" > functions/uac2.usb0/c_sync` to the configfs script
+> resolves the issue.
+> Thinh suggests "the crash is probably because of f_uac2 prematurely
+> freeing feedback request before its completion. usb_ep_dequeue() is
+> asynchronous. dwc2() may treat it as a synchronous call so you didn't
+> get a crash."
+>
+> Revert as this is a regression and the kernel shouldn't crash depending
+> on configuration parameters.
+>
+> Reported-by: Ferry Toth <fntoth@gmail.com>
+
+this should be Signed-off-by ;-)
+
+-- 
+balbi
