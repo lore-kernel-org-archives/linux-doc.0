@@ -2,126 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ECCC432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 14:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92195C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 16:17:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32F7D6108F
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 14:09:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7138861073
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 16:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234875AbhHZOKQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 10:10:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41438 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229832AbhHZOKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 10:10:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629986968;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8G/7ZlO3OCW/oELCaVsXFVvVuQOIOXBoolUrlOFg5ds=;
-        b=T7H6w4XCPD32D4jzvKxRdfYCaXQ75H36vjDO9GQLqZapOkxmmvWvqHKcRcs7SVpFDc/m/R
-        XXvufAemqnt+B+hRTK1TGgGIi2vJEj002Hk52PFdhr/DrXaoN++zeg7DRT/f+A0+3DkNIl
-        48EYfqHnQaVEsQtVjMNVcIZshOIlGYM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-aIwFaBy9MpyjshLEmuRltw-1; Thu, 26 Aug 2021 10:09:27 -0400
-X-MC-Unique: aIwFaBy9MpyjshLEmuRltw-1
-Received: by mail-wr1-f72.google.com with SMTP id z15-20020adff74f000000b001577d70c98dso879789wrp.12
-        for <linux-doc@vger.kernel.org>; Thu, 26 Aug 2021 07:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=8G/7ZlO3OCW/oELCaVsXFVvVuQOIOXBoolUrlOFg5ds=;
-        b=EIvApRdDwuPw/gdtV44hrfxPNV7Dnk7l4EbvgGqhYPPF+57wY1FvH4oUUNjUZf3Rzr
-         K/ZuzHYoiQwIDBv/VvDLfioHx8Wu2I9ajCkuNDisIuIt5zYZaPDv93soKJ38F489L1NZ
-         jmQz66GjpE+xrVrxSDLkBYa5k33360z4FG6uF1hzQiRpBos2JEDsCbvWIWc95VE238cZ
-         FQPegnhESYW337mHxjoFr6ZrqtGo1L9R2mIDO9jj6YSLksjxVQCRImzOTbvp5sHlK3vN
-         DalljZdPYggVZx+kQXR1O5OTbSEX29mY0hExF5W/rJ5trZM0m51ULlMPhAzVibal8nAv
-         +0NQ==
-X-Gm-Message-State: AOAM531Z8SzSfLlOPsOH4gfspAZbnzCXgRs19iZbe+YGmm+sJThcuK5f
-        j1xGZSI90JBpcDyRes9GDeYGLXomBHjYcSMfTiQ6YL8lHXvnxQyubmk4DLI8R40+UB2yjXW54jY
-        kPdJsot54KalA3jx95Hu8
-X-Received: by 2002:a05:600c:4786:: with SMTP id k6mr3810267wmo.177.1629986966052;
-        Thu, 26 Aug 2021 07:09:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNZb+DI3d7hc5fu4d3o+gW7xumIsZ6ppo8lQ6GiIt4+/RCYJMTCrbeKlf8aKlmLHYchjnECQ==
-X-Received: by 2002:a05:600c:4786:: with SMTP id k6mr3810237wmo.177.1629986965829;
-        Thu, 26 Aug 2021 07:09:25 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23dec.dip0.t-ipconnect.de. [79.242.61.236])
-        by smtp.gmail.com with ESMTPSA id s7sm3255500wra.75.2021.08.26.07.09.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Aug 2021 07:09:25 -0700 (PDT)
-To:     SeongJae Park <sj38.park@gmail.com>, akpm@linux-foundation.org
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        amit@kernel.org, benh@kernel.crashing.org,
-        brendanhiggins@google.com, corbet@lwn.net, dwmw@amazon.com,
-        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
-        greg@kroah.com, gthelen@google.com, guoju.fgj@alibaba-inc.com,
-        jgowans@amazon.com, joe@perches.com, mgorman@suse.de,
-        mheyne@amazon.de, minchan@kernel.org, mingo@redhat.com,
-        namhyung@kernel.org, peterz@infradead.org, riel@surriel.com,
-        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
-        shakeelb@google.com, shuah@kernel.org, sieberf@amazon.com,
-        snu@zelle79.org, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        zgf574564920@gmail.com, linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210716081449.22187-1-sj38.park@gmail.com>
- <20210716081449.22187-6-sj38.park@gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v34 05/13] mm/damon: Implement primitives for the virtual
- memory address spaces
-Message-ID: <358fa060-7702-d523-5169-f25a3de0c22e@redhat.com>
-Date:   Thu, 26 Aug 2021 16:09:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S243015AbhHZQSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 12:18:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232555AbhHZQSa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Aug 2021 12:18:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 67A1460ED3;
+        Thu, 26 Aug 2021 16:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629994662;
+        bh=pWmHQBlYwsNWsIX3eOuUwj8YH2EBIx3MDU5DMLTc/Sg=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=A+Nbd6UkhDDLQq9N19VoXjqk8Fxh+SbxWk0gOGNFKdaJC1k12n9xRHQg1RCAW/sjA
+         4lK1ZHFx8RQgedJcKJAtYP/PsAoNKpADCPBhnd7PpM3td76Zdn8UJfO61E/YIygZO6
+         FVyMn6zWh/6N8WCIcP0fXvUQVPJx/2MD2Eo/2yBn43iFXJEgklI8zYYPFnNUKYzpbu
+         QEjEp0lSIyJmpgabZ3qzLb6bpUpJVmgfcZCujnMnzMnO8sSGStuu/TKYP1XToSyF1F
+         0QiqtvJEFLrZheBnfef6qReLdxRVqPEJavyNxyeeXv+WgqJ3Z07y3gvRGpnJ48tVFS
+         X3QYddHkjBGMg==
+Message-ID: <e1ff36db0e7ed909653b6adb45094cc459dbad0b.camel@kernel.org>
+Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-sgx@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Thu, 26 Aug 2021 19:17:40 +0300
+In-Reply-To: <ba483b7e-19a3-d4d3-56c0-3371a77341cb@infradead.org>
+References: <20210825235234.153013-1-jarkko@kernel.org>
+         <20210825235234.153013-2-jarkko@kernel.org>
+         <ba483b7e-19a3-d4d3-56c0-3371a77341cb@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20210716081449.22187-6-sj38.park@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static void damon_va_mkold(struct mm_struct *mm, unsigned long addr)
-> +{
-> +	pte_t *pte = NULL;
-> +	pmd_t *pmd = NULL;
-> +	spinlock_t *ptl;
-> +
+On Wed, 2021-08-25 at 17:39 -0700, Randy Dunlap wrote:
+> On 8/25/21 4:52 PM, Jarkko Sakkinen wrote:
+> > The amount of SGX memory on the system is determined by the BIOS and it
+> > varies wildly between systems.  It can be from dozens of MB's on deskto=
+ps
+> > or VM's, up to many GB's on servers.  Just like for regular memory, it =
+is
+> > sometimes useful to know the amount of usable SGX memory in the system.
+> >=20
+> > Add SGX_MemTotal field to /proc/meminfo, which shows the total amount o=
+f
+> > usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+> > BIOS, the printout would be:
+> >=20
+> > SGX_MemTotal:      22528 kB
+> >=20
+> > It is less than 32 MB because some of the space is reserved for Enclave
+> > Page Cache Metadata (EPCM), which contains state variables for all the
+> > pages in the Enclave Page Cache (EPC).  The latter contains the pages,
+> > which applications can use to create enclaves.
+> >=20
+> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> >=20
+> > ---
+> > v2:
+> > * Move ifdef fix for sgx_set_attribute() to a separate patch.
+> > ---
+> >   Documentation/x86/sgx.rst      | 6 ++++++
+> >   arch/x86/include/asm/sgx.h     | 2 ++
+> >   arch/x86/kernel/cpu/sgx/main.c | 7 ++++++-
+> >   arch/x86/mm/pat/set_memory.c   | 5 +++++
+> >   4 files changed, 19 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+> > index dd0ac96ff9ef..68ee171e1d8f 100644
+> > --- a/Documentation/x86/sgx.rst
+> > +++ b/Documentation/x86/sgx.rst
+> > @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the h=
+ost and in guests
+> >   on the same machine, the user should reserve enough EPC (by taking ou=
+t
+> >   total virtual EPC size of all SGX VMs from the physical EPC size) for
+> >   host SGX applications so they can run with acceptable performance.
+> > +
+> > +Supplemental fields for /proc/meminfo
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +SGX_MemTotal
+> > +	The total usable SGX protected memory in kilobytes.
+>=20
+> Hi,
+>=20
+> I would prefer to see this listed in Documentation/filesystems/proc.rst
+> as an optional field, depending on CONFIG_X86_SGX.
+> Or at least put a reference in proc.rst to this doc file and its
+> supplemental fields.
+>=20
+> thanks.
 
-I just stumbled over this, sorry for the dumb questions:
+I *can* put it there but I did have reason not to, i.e. these attributes
+are neither there:
 
+DirectMap4k:     3930904 kB
+DirectMap2M:    29440000 kB
+DirectMap1G:     1048576 kB
 
-a) What do we know about that region we are messing with?
+And they are implemented in arch specific code.
 
-AFAIU, just like follow_pte() and follow_pfn(), follow_invalidate_pte() 
-should only be called on VM_IO and raw VM_PFNMAP mappings in general 
-(see the doc of follow_pte()). Do you even know that it's within a 
-single VMA and that there are no concurrent modifications?
+Actually they are undocumented, e.g.
 
-b) Which locks are we holding?
+$ git grep DirectMap4k
+arch/powerpc/mm/book3s64/pgtable.c:     seq_printf(m, "DirectMap4k:    %8lu=
+ kB\n",
+arch/s390/mm/pageattr.c:        seq_printf(m, "DirectMap4k:    %8lu kB\n",
+arch/x86/mm/pat/set_memory.c:   seq_printf(m, "DirectMap4k:    %8lu kB\n",
 
-I hope we're holding the mmap lock in read mode at least. Or how are you 
-making sure there are no concurrent modifications to page tables / VMA 
-layout ... ?
-
-> +	if (follow_invalidate_pte(mm, addr, NULL, &pte, &pmd, &ptl))
-
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+/Jarkko
