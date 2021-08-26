@@ -2,122 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86764C432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 03:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58083C432BE
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 04:48:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6328C610C9
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 03:04:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E25560EFE
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 04:48:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236741AbhHZDFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 23:05:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
+        id S238062AbhHZEs5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 00:48:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236708AbhHZDFU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 23:05:20 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BBCC0613C1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 20:04:34 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id c4so883104plh.7
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 20:04:34 -0700 (PDT)
+        with ESMTP id S235468AbhHZEsz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 00:48:55 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21422C0613C1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 21:48:09 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id fs6so1365535pjb.4
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 21:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=Hf4b8kKe8+zCps4bUNp1ug1RGqjC8xfMz7Zwk5whBzY=;
-        b=AdhaKecFsynrryav1LJhn4GpBg3BUa/8LEsccr/8oQstjlgJUHwMlii/xBzCN6bcxG
-         oyBfpm5K3+yLYPiE0kYB70B7rj2uh8XJwVsxqem7TIsoVWDYZdrUzo59QEkndUQK3qgw
-         eNpCAgg9Civ3hnAh9KMiHazns2fYng1BcVr/3725nr8X1lDBEcar1/ekBXDgaVM29HZf
-         hoIvZDzdkZQxQQjFW3AYgEbkjYYKMaX/UiF5lDwXV+ESbNEW/fCQVrWkimJ+WTRj/a2v
-         cnvASVT4zujztBYqZLaWdoyT5UtugtlgMHu1vErwY/h6UJ7EOXfY2GkMju78p2c943UA
-         9fvw==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CVByhjP1i2oA1KBEUJykBzcIy3uSqCrwHbgIyy+OMWM=;
+        b=zhQLVwXtUQ1F9xPIqwJobzGM3h5hp6Kb+jAqR0TufspBhPHjmVsD+AGl+hG/tYR4S0
+         LeADLT1tE+KRKccHrTnRTbTAvwjXEkHM8RT2b3peDV1kyJ243rn8yDekCV/Qsd8dAGQq
+         ndSBRt8LHCjXK131bSl7A4HgruAK5pNgjiNYHCVovnYjEPvQzTknX/2XuQ9uMo4XC/xd
+         xIN7YAx5mAIPCXP8wwVvnD5GI7aVu9w5hnqyJn1sfPsrWjK3plgphoKn3wQ7qxhzgHSe
+         sny85sDvMCZ9gZh9akVe7bXNh5clX+Amj8nHwO4mGXDK2poM77d+SKYpjToRrs5iUGJX
+         4BBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=Hf4b8kKe8+zCps4bUNp1ug1RGqjC8xfMz7Zwk5whBzY=;
-        b=O0guWOSNBhVaqgzGbhSuaKqOeykRjjSui55M8/sfrVfOburhx6z/prTDGM7g9eetTX
-         YOLALR/7Km1weznRSLZVCRyb3ERwJYirl6LcO6OapzoA39Cs7bfqLcXQXLnGAsm1e4O8
-         6rp1Ib7Nb+DJvaKAs6uPg/KwRZWwnl9TgHflUa0lqj3cY9vTOE1YBxbnDLKcaOlv++CX
-         uEuwKWW3AWu2mGhOkP7uaSJqjTg1W8CK/jk5Qk4rjma4ZTet4Qs8ZtLrdGWSxVXz7i6Z
-         l0+laMxNWazg2tOG9Da2CfxQQrnz/MITNdfxDxZ8p8Py7BM2k0org5ln7V1Z4wUYNJ8e
-         Z8Uw==
-X-Gm-Message-State: AOAM530so6T7p1qQxpn3+h046Uds++6hqBOJ4CTTH7ApuzdL/jwb0TsN
-        csYtGGMyjquQ9g7ozx+xlTK0Ug==
-X-Google-Smtp-Source: ABdhPJzTy3uY3MsGRvf9gr6ZiLtxFolfbghsfX0P0tg0lphiVjDFB8SoshdeyFzPIztuf/eqqCYRuw==
-X-Received: by 2002:a17:902:b10b:b0:134:de66:4f8c with SMTP id q11-20020a170902b10b00b00134de664f8cmr1419984plr.66.1629947073848;
-        Wed, 25 Aug 2021 20:04:33 -0700 (PDT)
-Received: from [10.255.175.44] ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id e18sm922154pfv.172.2021.08.25.20.04.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 20:04:33 -0700 (PDT)
-Subject: Re: [PATCH v2 1/9] mm: introduce pmd_install() helper
-To:     David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
-        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
-        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
-        mika.penttila@nextfour.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com
-References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
- <20210819031858.98043-2-zhengqi.arch@bytedance.com>
- <edd82170-7149-1abf-6204-f1d665a5fca2@redhat.com>
- <c650ef29-0f9e-02a0-9426-b406a4608c8f@bytedance.com>
- <324674f0-399b-aea4-e9b9-fe054a926fdf@redhat.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-Message-ID: <4154bc99-e9c9-d194-dc07-577b9e5131e8@bytedance.com>
-Date:   Thu, 26 Aug 2021 11:04:27 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <324674f0-399b-aea4-e9b9-fe054a926fdf@redhat.com>
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=CVByhjP1i2oA1KBEUJykBzcIy3uSqCrwHbgIyy+OMWM=;
+        b=Owgf64OfY4qyUO+a59rhIpY6SOL6GE7PLBJCiFjjllpc1Pkz5OfPcUW2XuMufSjlWL
+         mYhxtpq7SWtWX1iOMSaRQwUdqudnmQrdqwweUeuYauUWdUJQmoeVXW5JIynlpN2SEUbA
+         EWuojyjmH79W6lm95ds3kjp1xkcUI1bHWLNtk+Z8LI2ySR4eKwUXxFQPzIk9Tj418HK1
+         7ceREYKUbvoLR/qSXaQymIo4/uQdh1B2jdMhdcP23ogX2oz4jIo0p7W0vZJztNBJACGB
+         bcy/uyV5jvhAo5z4LI+ZV/t4fLRQzU05vyW6oCWGaUNveFjGpsIhxgJHsfSoaQvWryb/
+         Q/WA==
+X-Gm-Message-State: AOAM533NcJ1Abh5vGDaHjX5bSM69nJ0onXoy9o9B2b4vafZtTWGEeyFc
+        fV54FDIYd/1WwrsgH5XukGOzug==
+X-Google-Smtp-Source: ABdhPJwW/hCGfEDMPcpzaroks8UhmWJ1z7TQk2gskjWvpBtS/EGSHzKUSsDiTTWuk0fFJ3MUQWGHMA==
+X-Received: by 2002:a17:902:f552:b029:12d:3d11:4ff1 with SMTP id h18-20020a170902f552b029012d3d114ff1mr1709114plf.1.1629953288396;
+        Wed, 25 Aug 2021 21:48:08 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id q3sm1655685pgf.18.2021.08.25.21.48.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Aug 2021 21:48:07 -0700 (PDT)
+Date:   Wed, 25 Aug 2021 21:48:07 -0700 (PDT)
+X-Google-Original-Date: Wed, 25 Aug 2021 21:48:03 PDT (-0700)
+Subject:     Re: [PATCH -next] riscv: Enable HAVE_ARCH_HUGE_VMAP for 64BIT
+In-Reply-To: <20210805113837.805805-1-liushixin2@huawei.com>
+CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        liushixin2@huawei.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     liushixin2@huawei.com
+Message-ID: <mhng-57cbc077-dfa6-48a7-a29d-b27862e1e800@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 05 Aug 2021 04:38:37 PDT (-0700), liushixin2@huawei.com wrote:
+> This sets the HAVE_ARCH_HUGE_VMAP option. Enable pmd vmap support and
+> define the required page table functions(Currently, riscv has only
+> three-level page tables support for 64BIT).
+>
+> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+> ---
+>  .../features/vm/huge-vmap/arch-support.txt    |  2 +-
+>  arch/riscv/Kconfig                            |  1 +
+>  arch/riscv/include/asm/vmalloc.h              | 12 +++++
+>  arch/riscv/mm/Makefile                        |  1 +
+>  arch/riscv/mm/pgtable.c                       | 53 +++++++++++++++++++
+>  5 files changed, 68 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/riscv/mm/pgtable.c
+>
+> diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
+> index 439fd9069b8b..0ff394acc9cf 100644
+> --- a/Documentation/features/vm/huge-vmap/arch-support.txt
+> +++ b/Documentation/features/vm/huge-vmap/arch-support.txt
+> @@ -22,7 +22,7 @@
+>      |    openrisc: | TODO |
+>      |      parisc: | TODO |
+>      |     powerpc: |  ok  |
+> -    |       riscv: | TODO |
+> +    |       riscv: |  ok  |
+>      |        s390: | TODO |
+>      |          sh: | TODO |
+>      |       sparc: | TODO |
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 8fcceb8eda07..94cc2a254773 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -61,6 +61,7 @@ config RISCV
+>  	select GENERIC_TIME_VSYSCALL if MMU && 64BIT
+>  	select HANDLE_DOMAIN_IRQ
+>  	select HAVE_ARCH_AUDITSYSCALL
+> +	select HAVE_ARCH_HUGE_VMAP if MMU && 64BIT
+>  	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL
+>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE if !XIP_KERNEL
+>  	select HAVE_ARCH_KASAN if MMU && 64BIT
+> diff --git a/arch/riscv/include/asm/vmalloc.h b/arch/riscv/include/asm/vmalloc.h
+> index ff9abc00d139..8f17f421f80c 100644
+> --- a/arch/riscv/include/asm/vmalloc.h
+> +++ b/arch/riscv/include/asm/vmalloc.h
+> @@ -1,4 +1,16 @@
+>  #ifndef _ASM_RISCV_VMALLOC_H
+>  #define _ASM_RISCV_VMALLOC_H
+>
+> +#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
+> +
+> +#define IOREMAP_MAX_ORDER (PMD_SHIFT)
+> +
+> +#define arch_vmap_pmd_supported	arch_vmap_pmd_supported
+> +static inline bool __init arch_vmap_pmd_supported(pgprot_t prot)
+> +{
+> +	return true;
+> +}
+> +
+> +#endif
+> +
+>  #endif /* _ASM_RISCV_VMALLOC_H */
+> diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+> index 7ebaef10ea1b..f932b4d69946 100644
+> --- a/arch/riscv/mm/Makefile
+> +++ b/arch/riscv/mm/Makefile
+> @@ -13,6 +13,7 @@ obj-y += extable.o
+>  obj-$(CONFIG_MMU) += fault.o pageattr.o
+>  obj-y += cacheflush.o
+>  obj-y += context.o
+> +obj-y += pgtable.o
+>
+>  ifeq ($(CONFIG_MMU),y)
+>  obj-$(CONFIG_SMP) += tlbflush.o
+> diff --git a/arch/riscv/mm/pgtable.c b/arch/riscv/mm/pgtable.c
+> new file mode 100644
+> index 000000000000..f68dd2b71dce
+> --- /dev/null
+> +++ b/arch/riscv/mm/pgtable.c
+> @@ -0,0 +1,53 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <asm/pgalloc.h>
+> +#include <linux/gfp.h>
+> +#include <linux/kernel.h>
+> +#include <linux/pgtable.h>
+> +
+> +#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
+> +
+> +int pud_set_huge(pud_t *pud, phys_addr_t phys, pgprot_t prot)
+> +{
+> +	return 0;
+> +}
+> +
+> +int pud_clear_huge(pud_t *pud)
+> +{
+> +	return 0;
+> +}
+> +
+> +int pud_free_pmd_page(pud_t *pud, unsigned long addr)
+> +{
+> +	return 0;
+> +}
 
+Do we actually need the PUD helpers?  I'd prefer to avoid adding these 
+unimplemented stubs, IIUC the other architectures are relying on the 
+generic implementations (which are themselves stubs) for configurations 
+that don't have PUDs.
 
-On 2021/8/26 AM12:32, David Hildenbrand wrote:
-> On 25.08.21 18:20, Qi Zheng wrote:
->>
->>
->> On 2021/8/25 AM12:26, David Hildenbrand wrote:
->>> On 19.08.21 05:18, Qi Zheng wrote:
->>>> Currently we have three times the same few lines repeated in the
->>>
->>> Reviewed-by: David Hildenbrand <david@redhat.com>
->>
->> Thanks for your review, I will add this to the patch v3.
->>
->>>
->>> That's mostly unrelated to the remaining part of the series and can be
->>> picked up early.
->>
->> The implementation of subsequent patches depends on pmd_install().
->> So I am worried that if this patch is submitted as a separate patch,
->> subsequent patches will not be updated until this patch is merged.
->> What do you think?
-> 
-> Usually I tend to send cleanups out independently, and then just base 
-> the other series on top of the other series.
-
-LGTM, I will submit [PATCH v2 1/9] and [PATCH v2 2/9] as a separate
-patch series.
-
-> 
-> I'll have some more comments in reply to v2. It's fairly hard to revie > because you do a lot of complicated stuff in only a handful of patches
-> :) I'll try to think of something reasonable on how to split this up to 
-> make it easier to digest.
-> 
-
-Thank you very much, and I look forward to your suggestions. At the same
-time, I'll also find ways to organize the code more clearly and
-concisely, and add documentation to explain the new APIs.
-
-Thanks,
-Qi
+> +int pmd_set_huge(pmd_t *pmd, phys_addr_t phys, pgprot_t prot)
+> +{
+> +	pmd_t new_pmd = pfn_pmd(__phys_to_pfn(phys), prot);
+> +
+> +	set_pmd(pmd, new_pmd);
+> +	return 1;
+> +}
+> +
+> +int pmd_clear_huge(pmd_t *pmd)
+> +{
+> +	if (!pmd_leaf(READ_ONCE(*pmd)))
+> +		return 0;
+> +	pmd_clear(pmd);
+> +	return 1;
+> +}
+> +
+> +int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
+> +{
+> +	pte_t *pte;
+> +
+> +	pte = (pte_t *)pmd_page_vaddr(*pmd);
+> +	pmd_clear(pmd);
+> +
+> +	flush_tlb_kernel_range(addr, addr + PMD_SIZE);
+> +	pte_free_kernel(NULL, pte);
+> +	return 1;
+> +}
+> +
+> +#endif /* CONFIG_HAVE_ARCH_HUGE_VMAP */
