@@ -2,691 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549F4C4320A
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 01:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C54EFC43214
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 02:20:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3220360F45
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 01:36:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 979BF610FD
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 02:20:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235987AbhHZBgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 21:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235792AbhHZBgx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 21:36:53 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE4A8C0613D9
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 18:36:05 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id oc2-20020a17090b1c0200b00179e56772d6so5396121pjb.4
-        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 18:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RG0H94xd0UOZq/hx1Z7vIDohBIJ9x0ffRWEXS/+MBwQ=;
-        b=VOUhqeYZMuitOX4NK4CEGVhmjQH5aQda9PVoc3zOBzkP9umHbTNzw11+Khc6cdgixJ
-         kNlGI+tJIbIIr7kX3vEkbo0b0FBRJYpP+Ryx+Z5KQ0B28Kp+i4c9hapJ+4/IqMFR5XtS
-         EKV8+Ji91+Er7NmdF5czVuw7+w8AycAmTnTfVA3hyAxGMFLRhBZ/5GJEZioFcPTZ0EBJ
-         nt/nYemT1IXEfu8a6A2JSgfCTAG3XFQXtXus6yr2d0i6VeFRtROcUaABT/rCwz5Y1hHu
-         KF0INEDC73PlqBhHdYgV4ojvXBvL7upl0bTYJf8H6SqJLeZJPjCJMw1i78+197LE0FWf
-         FTHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RG0H94xd0UOZq/hx1Z7vIDohBIJ9x0ffRWEXS/+MBwQ=;
-        b=soY7O0+HvhfkhJUp4LK2N2ap+vn5fkrUngTq1LRZrCa/Awupklw5uloNOexgo31lzT
-         aNWmdvT5ZH/Wv88KIb6mg+YB9E1iEQ9B1/esUCc8gXxlMiBO2BvU9AsPC2klrTwBmEL/
-         VUsCfLdCcZe1RxN0Mc1Sv6AZMBcuMaG1kMovcsr6+GlQJ763ri5REYu8loLHfHY+fSzW
-         bzv/Rj74uBJO02XDZOXoleXwVLd53iE06T6ojSPViB3Bw8FZxR9+R9RrOmEPUc8cEt+E
-         2X5ejYZO9tE38pbE+VDFfYjDigD9Nd6P+cNdAVytXOg/Kq4YFxweC1cfBUJvplaLlbAI
-         UBWg==
-X-Gm-Message-State: AOAM532Ri/WU1ycdI8POuq6axngHF9P7VZOi6kpMD5VU2Nni0GZGQopJ
-        xx3lYdg1lvqXCoO0OXUS5uGGwVDJpvpmsBFxbZI67g==
-X-Google-Smtp-Source: ABdhPJw2EQoMk+VkGKH34pT9dv8bAf98oQur3rF5nOSjeRaWUuBWEh6Lixalh4VzsNZ6ymIsfgB6HzEtEAoKy/jbEuQ=
-X-Received: by 2002:a17:902:ba90:b0:135:6709:705 with SMTP id
- k16-20020a170902ba9000b0013567090705mr1227850pls.79.1629941764989; Wed, 25
- Aug 2021 18:36:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com> <20210803113134.2262882-8-iwona.winiarska@intel.com>
-In-Reply-To: <20210803113134.2262882-8-iwona.winiarska@intel.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 25 Aug 2021 18:35:53 -0700
-Message-ID: <CAPcyv4jPVSt9Wr2TkDActFVLP+ygaDwBnsKG410Nf1qfP_MB9A@mail.gmail.com>
-Subject: Re: [PATCH v2 07/15] peci: Add peci-aspeed controller driver
-To:     Iwona Winiarska <iwona.winiarska@intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        X86 ML <x86@kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        linux-aspeed@lists.ozlabs.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S236803AbhHZCUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 22:20:54 -0400
+Received: from mga01.intel.com ([192.55.52.88]:9700 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235677AbhHZCUx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Aug 2021 22:20:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="239843049"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
+   d="scan'208";a="239843049"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 19:20:05 -0700
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
+   d="scan'208";a="527572260"
+Received: from tgandhi-mobl1.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.254.59.96])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 19:20:02 -0700
+Date:   Thu, 26 Aug 2021 14:19:59 +1200
+From:   Kai Huang <kai.huang@intel.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     linux-sgx@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Andy Lutomirski <luto@kernel.org>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Zev Weiss <zweiss@equinix.com>,
-        David Muller <d.mueller@elsoft.ch>
-Content-Type: text/plain; charset="UTF-8"
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+Message-Id: <20210826141959.5f13ff3c9c560c23b58443b1@intel.com>
+In-Reply-To: <20210825235234.153013-2-jarkko@kernel.org>
+References: <20210825235234.153013-1-jarkko@kernel.org>
+        <20210825235234.153013-2-jarkko@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 3, 2021 at 4:35 AM Iwona Winiarska
-<iwona.winiarska@intel.com> wrote:
->
-> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->
-> ASPEED AST24xx/AST25xx/AST26xx SoCs supports the PECI electrical
-> interface (a.k.a PECI wire).
-
-Maybe a one sentence blurb here and in the Kconfig reminding people
-why they should care if they have a PECI driver or not?
-
->
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On Thu, 26 Aug 2021 02:52:33 +0300 Jarkko Sakkinen wrote:
+> The amount of SGX memory on the system is determined by the BIOS and it
+> varies wildly between systems.  It can be from dozens of MB's on desktops
+> or VM's, up to many GB's on servers.  Just like for regular memory, it is
+> sometimes useful to know the amount of usable SGX memory in the system.
+> 
+> Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
+> usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
+> BIOS, the printout would be:
+> 
+> SGX_MemTotal:      22528 kB
+> 
+> It is less than 32 MB because some of the space is reserved for Enclave
+> Page Cache Metadata (EPCM), which contains state variables for all the
+> pages in the Enclave Page Cache (EPC).  The latter contains the pages,
+> which applications can use to create enclaves.
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> 
 > ---
->  MAINTAINERS                           |   9 +
->  drivers/peci/Kconfig                  |   6 +
->  drivers/peci/Makefile                 |   3 +
->  drivers/peci/controller/Kconfig       |  16 +
->  drivers/peci/controller/Makefile      |   3 +
->  drivers/peci/controller/peci-aspeed.c | 445 ++++++++++++++++++++++++++
->  6 files changed, 482 insertions(+)
->  create mode 100644 drivers/peci/controller/Kconfig
->  create mode 100644 drivers/peci/controller/Makefile
->  create mode 100644 drivers/peci/controller/peci-aspeed.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d411974aaa5e..6e9d53ff68ab 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2866,6 +2866,15 @@ S:       Maintained
->  F:     Documentation/hwmon/asc7621.rst
->  F:     drivers/hwmon/asc7621.c
->
-> +ASPEED PECI CONTROLLER
-> +M:     Iwona Winiarska <iwona.winiarska@intel.com>
-> +M:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> +L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> +L:     openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +S:     Supported
-> +F:     Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-> +F:     drivers/peci/controller/peci-aspeed.c
+> v2:
+> * Move ifdef fix for sgx_set_attribute() to a separate patch.
+> ---
+>  Documentation/x86/sgx.rst      | 6 ++++++
+>  arch/x86/include/asm/sgx.h     | 2 ++
+>  arch/x86/kernel/cpu/sgx/main.c | 7 ++++++-
+>  arch/x86/mm/pat/set_memory.c   | 5 +++++
+>  4 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+> index dd0ac96ff9ef..68ee171e1d8f 100644
+> --- a/Documentation/x86/sgx.rst
+> +++ b/Documentation/x86/sgx.rst
+> @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
+>  on the same machine, the user should reserve enough EPC (by taking out
+>  total virtual EPC size of all SGX VMs from the physical EPC size) for
+>  host SGX applications so they can run with acceptable performance.
 > +
->  ASPEED PINCTRL DRIVERS
->  M:     Andrew Jeffery <andrew@aj.id.au>
->  L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> diff --git a/drivers/peci/Kconfig b/drivers/peci/Kconfig
-> index 71a4ad81225a..99279df97a78 100644
-> --- a/drivers/peci/Kconfig
-> +++ b/drivers/peci/Kconfig
-> @@ -13,3 +13,9 @@ menuconfig PECI
->
->           This support is also available as a module. If so, the module
->           will be called peci.
+> +Supplemental fields for /proc/meminfo
+> +=====================================
 > +
-> +if PECI
+> +SGX_MemTotal
+> +	The total usable SGX protected memory in kilobytes.
+> diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
+> index 996e56590a10..d8e526b5487b 100644
+> --- a/arch/x86/include/asm/sgx.h
+> +++ b/arch/x86/include/asm/sgx.h
+> @@ -367,6 +367,8 @@ struct sgx_sigstruct {
+>  
+>  #ifdef CONFIG_X86_SGX
+>  
+> +extern unsigned long sgx_nr_all_pages;
 > +
-> +source "drivers/peci/controller/Kconfig"
+>  int sgx_set_attribute(unsigned long *allowed_attributes,
+>  		      unsigned int attribute_fd);
+>  
+> diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+> index 63d3de02bbcc..1fe26a8e80dc 100644
+> --- a/arch/x86/kernel/cpu/sgx/main.c
+> +++ b/arch/x86/kernel/cpu/sgx/main.c
+> @@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
+>  static LIST_HEAD(sgx_active_page_list);
+>  static DEFINE_SPINLOCK(sgx_reclaimer_lock);
+>  
+> -/* The free page list lock protected variables prepend the lock. */
+> +/* The number of usable EPC pages in the system. */
+> +unsigned long sgx_nr_all_pages;
 > +
-> +endif # PECI
-> diff --git a/drivers/peci/Makefile b/drivers/peci/Makefile
-> index e789a354e842..926d8df15cbd 100644
-> --- a/drivers/peci/Makefile
-> +++ b/drivers/peci/Makefile
-> @@ -3,3 +3,6 @@
->  # Core functionality
->  peci-y := core.o
->  obj-$(CONFIG_PECI) += peci.o
+> +/* The number of free EPC pages in all nodes. */
+>  static unsigned long sgx_nr_free_pages;
+>  
+>  /* Nodes with one or more EPC sections. */
+> @@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
+>  		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
+>  	}
+>  
+> +	sgx_nr_all_pages += nr_pages;
 > +
-> +# Hardware specific bus drivers
-> +obj-y += controller/
-> diff --git a/drivers/peci/controller/Kconfig b/drivers/peci/controller/Kconfig
-> new file mode 100644
-> index 000000000000..6d48df08db1c
-> --- /dev/null
-> +++ b/drivers/peci/controller/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config PECI_ASPEED
-> +       tristate "ASPEED PECI support"
-> +       depends on ARCH_ASPEED || COMPILE_TEST
-> +       depends on OF
-> +       depends on HAS_IOMEM
-> +       help
-> +         This option enables PECI controller driver for ASPEED AST2400,
-> +         AST2500 and AST2600 SoCs.
-> +
-> +         Say Y here if your system runs on ASPEED SoC and you are using it
-> +         as BMC for Intel platform.
-> +
-> +         This driver can also be built as a module. If so, the module will
-> +         be called peci-aspeed.
-> diff --git a/drivers/peci/controller/Makefile b/drivers/peci/controller/Makefile
-> new file mode 100644
-> index 000000000000..022c28ef1bf0
-> --- /dev/null
-> +++ b/drivers/peci/controller/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_PECI_ASPEED)      += peci-aspeed.o
-> diff --git a/drivers/peci/controller/peci-aspeed.c b/drivers/peci/controller/peci-aspeed.c
-> new file mode 100644
-> index 000000000000..1d708c983749
-> --- /dev/null
-> +++ b/drivers/peci/controller/peci-aspeed.c
-> @@ -0,0 +1,445 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Copyright (C) 2012-2017 ASPEED Technology Inc.
-> +// Copyright (c) 2018-2021 Intel Corporation
 
-Why different copyright capitalization?
+EPC sections can be freed again in sgx_init() after they are successfully
+initialized, when any further initialization fails (i.e. when fails to create
+ksgxd, or fails to register /dev/sgx_provision).  In which case, I think
+sgx_nr_all_pages should also be cleared.  But current sgx_init() seems doesn't
+reset it.  Do you need to fix that too?
 
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/peci.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +
-> +#include <asm/unaligned.h>
+>  	return true;
+>  }
+>  
+> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+> index ad8a5c586a35..82bb09c298de 100644
+> --- a/arch/x86/mm/pat/set_memory.c
+> +++ b/arch/x86/mm/pat/set_memory.c
+> @@ -29,6 +29,7 @@
+>  #include <asm/proto.h>
+>  #include <asm/memtype.h>
+>  #include <asm/set_memory.h>
+> +#include <asm/sgx.h>
 
-Why is this included?
+How about only include <asm/sgx.h> when CONFIG_X86_SGX is on, then you don't
+have to do #ifdef CONFIG_X86_SGX changes to sgx.h?
 
+>  
+>  #include "../mm_internal.h"
+>  
+> @@ -116,6 +117,10 @@ void arch_report_meminfo(struct seq_file *m)
+>  	if (direct_gbpages)
+>  		seq_printf(m, "DirectMap1G:    %8lu kB\n",
+>  			direct_pages_count[PG_LEVEL_1G] << 20);
 > +
-> +/* ASPEED PECI Registers */
-> +/* Control Register */
-> +#define ASPEED_PECI_CTRL                       0x00
-> +#define   ASPEED_PECI_CTRL_SAMPLING_MASK       GENMASK(19, 16)
-> +#define   ASPEED_PECI_CTRL_RD_MODE_MASK                GENMASK(13, 12)
-> +#define     ASPEED_PECI_CTRL_RD_MODE_DBG       BIT(13)
-> +#define     ASPEED_PECI_CTRL_RD_MODE_COUNT     BIT(12)
-> +#define   ASPEED_PECI_CTRL_CLK_SOURCE          BIT(11)
-> +#define   ASPEED_PECI_CTRL_CLK_DIV_MASK                GENMASK(10, 8)
-> +#define   ASPEED_PECI_CTRL_INVERT_OUT          BIT(7)
-> +#define   ASPEED_PECI_CTRL_INVERT_IN           BIT(6)
-> +#define   ASPEED_PECI_CTRL_BUS_CONTENTION_EN   BIT(5)
-> +#define   ASPEED_PECI_CTRL_PECI_EN             BIT(4)
-> +#define   ASPEED_PECI_CTRL_PECI_CLK_EN         BIT(0)
-> +
-> +/* Timing Negotiation Register */
-> +#define ASPEED_PECI_TIMING_NEGOTIATION         0x04
-> +#define   ASPEED_PECI_T_NEGO_MSG_MASK          GENMASK(15, 8)
-> +#define   ASPEED_PECI_T_NEGO_ADDR_MASK         GENMASK(7, 0)
-> +
-> +/* Command Register */
-> +#define ASPEED_PECI_CMD                                0x08
-> +#define   ASPEED_PECI_CMD_PIN_MONITORING       BIT(31)
-> +#define   ASPEED_PECI_CMD_STS_MASK             GENMASK(27, 24)
-> +#define     ASPEED_PECI_CMD_STS_ADDR_T_NEGO    0x3
-> +#define   ASPEED_PECI_CMD_IDLE_MASK            \
-> +         (ASPEED_PECI_CMD_STS_MASK | ASPEED_PECI_CMD_PIN_MONITORING)
-> +#define   ASPEED_PECI_CMD_FIRE                 BIT(0)
-> +
-> +/* Read/Write Length Register */
-> +#define ASPEED_PECI_RW_LENGTH                  0x0c
-> +#define   ASPEED_PECI_AW_FCS_EN                        BIT(31)
-> +#define   ASPEED_PECI_RD_LEN_MASK              GENMASK(23, 16)
-> +#define   ASPEED_PECI_WR_LEN_MASK              GENMASK(15, 8)
-> +#define   ASPEED_PECI_TARGET_ADDR_MASK         GENMASK(7, 0)
-> +
-> +/* Expected FCS Data Register */
-> +#define ASPEED_PECI_EXPECTED_FCS               0x10
-> +#define   ASPEED_PECI_EXPECTED_RD_FCS_MASK     GENMASK(23, 16)
-> +#define   ASPEED_PECI_EXPECTED_AW_FCS_AUTO_MASK        GENMASK(15, 8)
-> +#define   ASPEED_PECI_EXPECTED_WR_FCS_MASK     GENMASK(7, 0)
-> +
-> +/* Captured FCS Data Register */
-> +#define ASPEED_PECI_CAPTURED_FCS               0x14
-> +#define   ASPEED_PECI_CAPTURED_RD_FCS_MASK     GENMASK(23, 16)
-> +#define   ASPEED_PECI_CAPTURED_WR_FCS_MASK     GENMASK(7, 0)
-> +
-> +/* Interrupt Register */
-> +#define ASPEED_PECI_INT_CTRL                   0x18
-> +#define   ASPEED_PECI_TIMING_NEGO_SEL_MASK     GENMASK(31, 30)
-> +#define     ASPEED_PECI_1ST_BIT_OF_ADDR_NEGO   0
-> +#define     ASPEED_PECI_2ND_BIT_OF_ADDR_NEGO   1
-> +#define     ASPEED_PECI_MESSAGE_NEGO           2
-> +#define   ASPEED_PECI_INT_MASK                 GENMASK(4, 0)
-> +#define     ASPEED_PECI_INT_BUS_TIMEOUT                BIT(4)
-> +#define     ASPEED_PECI_INT_BUS_CONTENTION     BIT(3)
-> +#define     ASPEED_PECI_INT_WR_FCS_BAD         BIT(2)
-> +#define     ASPEED_PECI_INT_WR_FCS_ABORT       BIT(1)
-> +#define     ASPEED_PECI_INT_CMD_DONE           BIT(0)
-> +
-> +/* Interrupt Status Register */
-> +#define ASPEED_PECI_INT_STS                    0x1c
-> +#define   ASPEED_PECI_INT_TIMING_RESULT_MASK   GENMASK(29, 16)
-> +         /* bits[4..0]: Same bit fields in the 'Interrupt Register' */
-> +
-> +/* Rx/Tx Data Buffer Registers */
-> +#define ASPEED_PECI_WR_DATA0                   0x20
-> +#define ASPEED_PECI_WR_DATA1                   0x24
-> +#define ASPEED_PECI_WR_DATA2                   0x28
-> +#define ASPEED_PECI_WR_DATA3                   0x2c
-> +#define ASPEED_PECI_RD_DATA0                   0x30
-> +#define ASPEED_PECI_RD_DATA1                   0x34
-> +#define ASPEED_PECI_RD_DATA2                   0x38
-> +#define ASPEED_PECI_RD_DATA3                   0x3c
-> +#define ASPEED_PECI_WR_DATA4                   0x40
-> +#define ASPEED_PECI_WR_DATA5                   0x44
-> +#define ASPEED_PECI_WR_DATA6                   0x48
-> +#define ASPEED_PECI_WR_DATA7                   0x4c
-> +#define ASPEED_PECI_RD_DATA4                   0x50
-> +#define ASPEED_PECI_RD_DATA5                   0x54
-> +#define ASPEED_PECI_RD_DATA6                   0x58
-> +#define ASPEED_PECI_RD_DATA7                   0x5c
-> +#define   ASPEED_PECI_DATA_BUF_SIZE_MAX                32
-> +
-> +/* Timing Negotiation */
-> +#define ASPEED_PECI_RD_SAMPLING_POINT_DEFAULT  8
-> +#define ASPEED_PECI_RD_SAMPLING_POINT_MAX      (BIT(4) - 1)
-> +#define ASPEED_PECI_CLK_DIV_DEFAULT            0
-> +#define ASPEED_PECI_CLK_DIV_MAX                        (BIT(3) - 1)
-> +#define ASPEED_PECI_MSG_TIMING_DEFAULT         1
-> +#define ASPEED_PECI_MSG_TIMING_MAX             (BIT(8) - 1)
-> +#define ASPEED_PECI_ADDR_TIMING_DEFAULT                1
-> +#define ASPEED_PECI_ADDR_TIMING_MAX            (BIT(8) - 1)
-> +
-> +/* Timeout */
-> +#define ASPEED_PECI_IDLE_CHECK_TIMEOUT_US      (50 * USEC_PER_MSEC)
-> +#define ASPEED_PECI_IDLE_CHECK_INTERVAL_US     (10 * USEC_PER_MSEC)
-> +#define ASPEED_PECI_CMD_TIMEOUT_MS_DEFAULT     (1000)
-> +#define ASPEED_PECI_CMD_TIMEOUT_MS_MAX         (1000)
-> +
-> +struct aspeed_peci {
-> +       struct peci_controller *controller;
-> +       struct device *dev;
-> +       void __iomem *base;
-> +       struct clk *clk;
-> +       struct reset_control *rst;
-> +       int irq;
-> +       spinlock_t lock; /* to sync completion status handling */
-> +       struct completion xfer_complete;
-> +       u32 status;
-> +       u32 cmd_timeout_ms;
-> +       u32 msg_timing;
-> +       u32 addr_timing;
-> +       u32 rd_sampling_point;
-> +       u32 clk_div;
-> +};
-> +
-> +static void aspeed_peci_init_regs(struct aspeed_peci *priv)
-> +{
-> +       u32 val;
-> +
-> +       val = FIELD_PREP(ASPEED_PECI_CTRL_CLK_DIV_MASK, ASPEED_PECI_CLK_DIV_DEFAULT);
-> +       val |= ASPEED_PECI_CTRL_PECI_CLK_EN;
-> +       writel(val, priv->base + ASPEED_PECI_CTRL);
-> +       /*
-> +        * Timing negotiation period setting.
-> +        * The unit of the programmed value is 4 times of PECI clock period.
-> +        */
-> +       val = FIELD_PREP(ASPEED_PECI_T_NEGO_MSG_MASK, priv->msg_timing);
-> +       val |= FIELD_PREP(ASPEED_PECI_T_NEGO_ADDR_MASK, priv->addr_timing);
-> +       writel(val, priv->base + ASPEED_PECI_TIMING_NEGOTIATION);
-> +
-> +       /* Clear interrupts */
-> +       val = readl(priv->base + ASPEED_PECI_INT_STS) | ASPEED_PECI_INT_MASK;
-> +       writel(val, priv->base + ASPEED_PECI_INT_STS);
-> +
-> +       /* Set timing negotiation mode and enable interrupts */
-> +       val = FIELD_PREP(ASPEED_PECI_TIMING_NEGO_SEL_MASK, ASPEED_PECI_1ST_BIT_OF_ADDR_NEGO);
-> +       val |= ASPEED_PECI_INT_MASK;
-> +       writel(val, priv->base + ASPEED_PECI_INT_CTRL);
-> +
-> +       val = FIELD_PREP(ASPEED_PECI_CTRL_SAMPLING_MASK, priv->rd_sampling_point);
-> +       val |= FIELD_PREP(ASPEED_PECI_CTRL_CLK_DIV_MASK, priv->clk_div);
-> +       val |= ASPEED_PECI_CTRL_PECI_EN;
-> +       val |= ASPEED_PECI_CTRL_PECI_CLK_EN;
-> +       writel(val, priv->base + ASPEED_PECI_CTRL);
-> +}
-> +
-> +static inline int aspeed_peci_check_idle(struct aspeed_peci *priv)
-> +{
-> +       u32 cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
-> +
-> +       if (FIELD_GET(ASPEED_PECI_CMD_STS_MASK, cmd_sts) == ASPEED_PECI_CMD_STS_ADDR_T_NEGO)
-> +               aspeed_peci_init_regs(priv);
-> +
-> +       return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
-> +                                 cmd_sts,
-> +                                 !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
-> +                                 ASPEED_PECI_IDLE_CHECK_INTERVAL_US,
-> +                                 ASPEED_PECI_IDLE_CHECK_TIMEOUT_US);
-> +}
-> +
-> +static int aspeed_peci_xfer(struct peci_controller *controller,
-> +                           u8 addr, struct peci_request *req)
-> +{
-> +       struct aspeed_peci *priv = dev_get_drvdata(controller->dev.parent);
-> +       unsigned long flags, timeout = msecs_to_jiffies(priv->cmd_timeout_ms);
-> +       u32 peci_head;
-> +       int ret;
-> +
-> +       if (req->tx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX ||
-> +           req->rx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX)
-> +               return -EINVAL;
-> +
-> +       /* Check command sts and bus idle state */
-> +       ret = aspeed_peci_check_idle(priv);
-> +       if (ret)
-> +               return ret; /* -ETIMEDOUT */
-> +
-> +       spin_lock_irqsave(&priv->lock, flags);
-> +       reinit_completion(&priv->xfer_complete);
-> +
-> +       peci_head = FIELD_PREP(ASPEED_PECI_TARGET_ADDR_MASK, addr) |
-> +                   FIELD_PREP(ASPEED_PECI_WR_LEN_MASK, req->tx.len) |
-> +                   FIELD_PREP(ASPEED_PECI_RD_LEN_MASK, req->rx.len);
-> +
-> +       writel(peci_head, priv->base + ASPEED_PECI_RW_LENGTH);
-> +
-> +       memcpy_toio(priv->base + ASPEED_PECI_WR_DATA0, req->tx.buf, min_t(u8, req->tx.len, 16));
-> +       if (req->tx.len > 16)
-> +               memcpy_toio(priv->base + ASPEED_PECI_WR_DATA4, req->tx.buf + 16,
-> +                           req->tx.len - 16);
-> +
-> +       dev_dbg(priv->dev, "HEAD : 0x%08x\n", peci_head);
-> +       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf, req->tx.len);
+> +#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
+> +	seq_printf(m, "SGX_MemTotal:   %8lu kB\n", sgx_nr_all_pages << 2);
+> +#endif
 
-On CONFIG_DYNAMIC_DEBUG=n builds the kernel will do all the work of
-reading through this buffer, but skip emitting it. Are you sure you
-want to pay that overhead for every transaction?
+CONFIG_X86_SGX_KVM depends on CONFIG_X86_SGX, so I don't think KVM part is
+required.
 
-> +
-> +       priv->status = 0;
-> +       writel(ASPEED_PECI_CMD_FIRE, priv->base + ASPEED_PECI_CMD);
-> +       spin_unlock_irqrestore(&priv->lock, flags);
-> +
-> +       ret = wait_for_completion_interruptible_timeout(&priv->xfer_complete, timeout);
+Plus, even  CONFIG_X86_SGX is on, EPC can be empty, i.e. when SGX FLC is not
+present and KVM SGX is off too, or when SGX itslef is not present at all. 
 
-spin_lock_irqsave() says "I don't know if interrupts are disabled
-already, so I'll save the state, whatever it is, and restore later"
+Do you need to add additional check, for instance, only print when
+sgx_nr_all_pages is not 0?
 
-wait_for_completion_interruptible_timeout() says "I know I am in a
-sleepable context where interrupts are enabled"
-
-So, one of those is wrong, i.e. should it be spin_{lock,unlock}_irq()?
-
-
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (ret == 0) {
-> +               dev_dbg(priv->dev, "Timeout waiting for a response!\n");
-> +               return -ETIMEDOUT;
-> +       }
-> +
-> +       spin_lock_irqsave(&priv->lock, flags);
-> +
-> +       writel(0, priv->base + ASPEED_PECI_CMD);
-> +
-> +       if (priv->status != ASPEED_PECI_INT_CMD_DONE) {
-> +               spin_unlock_irqrestore(&priv->lock, flags);
-> +               dev_dbg(priv->dev, "No valid response!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       spin_unlock_irqrestore(&priv->lock, flags);
-> +
-> +       memcpy_fromio(req->rx.buf, priv->base + ASPEED_PECI_RD_DATA0, min_t(u8, req->rx.len, 16));
-> +       if (req->rx.len > 16)
-> +               memcpy_fromio(req->rx.buf + 16, priv->base + ASPEED_PECI_RD_DATA4,
-> +                             req->rx.len - 16);
-> +
-> +       print_hex_dump_bytes("RX : ", DUMP_PREFIX_NONE, req->rx.buf, req->rx.len);
-> +
-> +       return 0;
-> +}
-> +
-> +static irqreturn_t aspeed_peci_irq_handler(int irq, void *arg)
-> +{
-> +       struct aspeed_peci *priv = arg;
-> +       u32 status;
-> +
-> +       spin_lock(&priv->lock);
-> +       status = readl(priv->base + ASPEED_PECI_INT_STS);
-> +       writel(status, priv->base + ASPEED_PECI_INT_STS);
-> +       priv->status |= (status & ASPEED_PECI_INT_MASK);
-> +
-> +       /*
-> +        * In most cases, interrupt bits will be set one by one but also note
-> +        * that multiple interrupt bits could be set at the same time.
-> +        */
-> +       if (status & ASPEED_PECI_INT_BUS_TIMEOUT)
-> +               dev_dbg_ratelimited(priv->dev, "ASPEED_PECI_INT_BUS_TIMEOUT\n");
-> +
-> +       if (status & ASPEED_PECI_INT_BUS_CONTENTION)
-> +               dev_dbg_ratelimited(priv->dev, "ASPEED_PECI_INT_BUS_CONTENTION\n");
-> +
-> +       if (status & ASPEED_PECI_INT_WR_FCS_BAD)
-> +               dev_dbg_ratelimited(priv->dev, "ASPEED_PECI_INT_WR_FCS_BAD\n");
-> +
-> +       if (status & ASPEED_PECI_INT_WR_FCS_ABORT)
-> +               dev_dbg_ratelimited(priv->dev, "ASPEED_PECI_INT_WR_FCS_ABORT\n");
-
-Are you sure these would not be better as tracepoints? If you're
-debugging an interrupt related failure, the ratelimiting might get in
-your way when you really need to know when one of these error
-interrupts fire relative to another event.
-
-> +
-> +       /*
-> +        * All commands should be ended up with a ASPEED_PECI_INT_CMD_DONE bit
-> +        * set even in an error case.
-> +        */
-> +       if (status & ASPEED_PECI_INT_CMD_DONE)
-> +               complete(&priv->xfer_complete);
-
-Hmm, no need to check if there was a sequencing error, like a command
-was never submitted?
-
-> +
-> +       spin_unlock(&priv->lock);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
-> +static void aspeed_peci_property_sanitize(struct device *dev, const char *propname,
-> +                                         u32 min, u32 max, u32 default_val, u32 *propval)
-> +{
-> +       u32 val;
-> +       int ret;
-> +
-> +       ret = device_property_read_u32(dev, propname, &val);
-> +       if (ret) {
-> +               val = default_val;
-> +       } else if (val > max || val < min) {
-> +               dev_warn(dev, "Invalid %s: %u, falling back to: %u\n",
-> +                        propname, val, default_val);
-> +
-> +               val = default_val;
-> +       }
-> +
-> +       *propval = val;
-> +}
-> +
-> +static void aspeed_peci_property_setup(struct aspeed_peci *priv)
-> +{
-> +       aspeed_peci_property_sanitize(priv->dev, "aspeed,clock-divider",
-> +                                     0, ASPEED_PECI_CLK_DIV_MAX,
-> +                                     ASPEED_PECI_CLK_DIV_DEFAULT, &priv->clk_div);
-> +       aspeed_peci_property_sanitize(priv->dev, "aspeed,msg-timing",
-> +                                     0, ASPEED_PECI_MSG_TIMING_MAX,
-> +                                     ASPEED_PECI_MSG_TIMING_DEFAULT, &priv->msg_timing);
-> +       aspeed_peci_property_sanitize(priv->dev, "aspeed,addr-timing",
-> +                                     0, ASPEED_PECI_ADDR_TIMING_MAX,
-> +                                     ASPEED_PECI_ADDR_TIMING_DEFAULT, &priv->addr_timing);
-> +       aspeed_peci_property_sanitize(priv->dev, "aspeed,rd-sampling-point",
-> +                                     0, ASPEED_PECI_RD_SAMPLING_POINT_MAX,
-> +                                     ASPEED_PECI_RD_SAMPLING_POINT_DEFAULT,
-> +                                     &priv->rd_sampling_point);
-> +       aspeed_peci_property_sanitize(priv->dev, "cmd-timeout-ms",
-> +                                     1, ASPEED_PECI_CMD_TIMEOUT_MS_MAX,
-> +                                     ASPEED_PECI_CMD_TIMEOUT_MS_DEFAULT, &priv->cmd_timeout_ms);
-> +}
-> +
-> +static struct peci_controller_ops aspeed_ops = {
-> +       .xfer = aspeed_peci_xfer,
-> +};
-> +
-> +static void aspeed_peci_reset_control_release(void *data)
-> +{
-> +       reset_control_assert(data);
-> +}
-> +
-> +int aspeed_peci_reset_control_deassert(struct device *dev, struct reset_control *rst)
-
-I'd recommend naming this devm_aspeed_peci_reset_control_deassert(),
-because I came looking here from reading probe for why there was no
-reassertion of reset on driver ->remove().
-
-> +{
-> +       int ret;
-> +
-> +       ret = reset_control_deassert(rst);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return devm_add_action_or_reset(dev, aspeed_peci_reset_control_release, rst);
-> +}
-> +
-> +static void aspeed_peci_clk_release(void *data)
-> +{
-> +       clk_disable_unprepare(data);
-> +}
-> +
-> +static int aspeed_peci_clk_enable(struct device *dev, struct clk *clk)
-
-...ditto on the devm prefix, just to speed readability.
-
-> +{
-> +       int ret;
-> +
-> +       ret = clk_prepare_enable(clk);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return devm_add_action_or_reset(dev, aspeed_peci_clk_release, clk);
-> +}
-> +
-> +static int aspeed_peci_probe(struct platform_device *pdev)
-> +{
-> +       struct peci_controller *controller;
-> +       struct aspeed_peci *priv;
-> +       int ret;
-> +
-> +       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> +       if (!priv)
-> +               return -ENOMEM;
-> +
-> +       priv->dev = &pdev->dev;
-> +       dev_set_drvdata(priv->dev, priv);
-> +
-> +       priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(priv->base))
-> +               return PTR_ERR(priv->base);
-> +
-> +       priv->irq = platform_get_irq(pdev, 0);
-> +       if (!priv->irq)
-> +               return priv->irq;
-> +
-> +       ret = devm_request_irq(&pdev->dev, priv->irq, aspeed_peci_irq_handler,
-> +                              0, "peci-aspeed", priv);
-> +       if (ret)
-> +               return ret;
-> +
-> +       init_completion(&priv->xfer_complete);
-> +       spin_lock_init(&priv->lock);
-> +
-> +       priv->rst = devm_reset_control_get(&pdev->dev, NULL);
-> +       if (IS_ERR(priv->rst))
-> +               return dev_err_probe(priv->dev, PTR_ERR(priv->rst),
-> +                                    "failed to get reset control\n");
-> +
-> +       ret = aspeed_peci_reset_control_deassert(priv->dev, priv->rst);
-> +       if (ret)
-> +               return dev_err_probe(priv->dev, ret, "cannot deassert reset control\n");
-> +
-> +       priv->clk = devm_clk_get(priv->dev, NULL);
-> +       if (IS_ERR(priv->clk))
-> +               return dev_err_probe(priv->dev, PTR_ERR(priv->clk), "failed to get clk\n");
-> +
-> +       ret = aspeed_peci_clk_enable(priv->dev, priv->clk);
-> +       if (ret)
-> +               return dev_err_probe(priv->dev, ret, "failed to enable clock\n");
-> +
-> +       aspeed_peci_property_setup(priv);
-> +
-> +       aspeed_peci_init_regs(priv);
-> +
-> +       controller = devm_peci_controller_add(priv->dev, &aspeed_ops);
-> +       if (IS_ERR(controller))
-> +               return dev_err_probe(priv->dev, PTR_ERR(controller),
-> +                                    "failed to add aspeed peci controller\n");
-> +
-> +       priv->controller = controller;
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct of_device_id aspeed_peci_of_table[] = {
-> +       { .compatible = "aspeed,ast2400-peci", },
-> +       { .compatible = "aspeed,ast2500-peci", },
-> +       { .compatible = "aspeed,ast2600-peci", },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(of, aspeed_peci_of_table);
-> +
-> +static struct platform_driver aspeed_peci_driver = {
-> +       .probe  = aspeed_peci_probe,
-> +       .driver = {
-> +               .name           = "peci-aspeed",
-> +               .of_match_table = aspeed_peci_of_table,
-> +       },
-> +};
-> +module_platform_driver(aspeed_peci_driver);
-> +
-> +MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
-> +MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
-> +MODULE_DESCRIPTION("ASPEED PECI driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS(PECI);
-> --
-> 2.31.1
->
+>  }
+>  #else
+>  static inline void split_page_count(int level) { }
+> -- 
+> 2.25.1
+> 
