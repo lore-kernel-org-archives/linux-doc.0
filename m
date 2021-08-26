@@ -2,183 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C54EFC43214
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 02:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86764C432BE
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 03:04:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 979BF610FD
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 02:20:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6328C610C9
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 03:04:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236803AbhHZCUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Aug 2021 22:20:54 -0400
-Received: from mga01.intel.com ([192.55.52.88]:9700 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235677AbhHZCUx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Aug 2021 22:20:53 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="239843049"
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
-   d="scan'208";a="239843049"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 19:20:05 -0700
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
-   d="scan'208";a="527572260"
-Received: from tgandhi-mobl1.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.254.59.96])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 19:20:02 -0700
-Date:   Thu, 26 Aug 2021 14:19:59 +1200
-From:   Kai Huang <kai.huang@intel.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     linux-sgx@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
-Message-Id: <20210826141959.5f13ff3c9c560c23b58443b1@intel.com>
-In-Reply-To: <20210825235234.153013-2-jarkko@kernel.org>
-References: <20210825235234.153013-1-jarkko@kernel.org>
-        <20210825235234.153013-2-jarkko@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S236741AbhHZDFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Aug 2021 23:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236708AbhHZDFU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Aug 2021 23:05:20 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BBCC0613C1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 20:04:34 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id c4so883104plh.7
+        for <linux-doc@vger.kernel.org>; Wed, 25 Aug 2021 20:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=Hf4b8kKe8+zCps4bUNp1ug1RGqjC8xfMz7Zwk5whBzY=;
+        b=AdhaKecFsynrryav1LJhn4GpBg3BUa/8LEsccr/8oQstjlgJUHwMlii/xBzCN6bcxG
+         oyBfpm5K3+yLYPiE0kYB70B7rj2uh8XJwVsxqem7TIsoVWDYZdrUzo59QEkndUQK3qgw
+         eNpCAgg9Civ3hnAh9KMiHazns2fYng1BcVr/3725nr8X1lDBEcar1/ekBXDgaVM29HZf
+         hoIvZDzdkZQxQQjFW3AYgEbkjYYKMaX/UiF5lDwXV+ESbNEW/fCQVrWkimJ+WTRj/a2v
+         cnvASVT4zujztBYqZLaWdoyT5UtugtlgMHu1vErwY/h6UJ7EOXfY2GkMju78p2c943UA
+         9fvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=Hf4b8kKe8+zCps4bUNp1ug1RGqjC8xfMz7Zwk5whBzY=;
+        b=O0guWOSNBhVaqgzGbhSuaKqOeykRjjSui55M8/sfrVfOburhx6z/prTDGM7g9eetTX
+         YOLALR/7Km1weznRSLZVCRyb3ERwJYirl6LcO6OapzoA39Cs7bfqLcXQXLnGAsm1e4O8
+         6rp1Ib7Nb+DJvaKAs6uPg/KwRZWwnl9TgHflUa0lqj3cY9vTOE1YBxbnDLKcaOlv++CX
+         uEuwKWW3AWu2mGhOkP7uaSJqjTg1W8CK/jk5Qk4rjma4ZTet4Qs8ZtLrdGWSxVXz7i6Z
+         l0+laMxNWazg2tOG9Da2CfxQQrnz/MITNdfxDxZ8p8Py7BM2k0org5ln7V1Z4wUYNJ8e
+         Z8Uw==
+X-Gm-Message-State: AOAM530so6T7p1qQxpn3+h046Uds++6hqBOJ4CTTH7ApuzdL/jwb0TsN
+        csYtGGMyjquQ9g7ozx+xlTK0Ug==
+X-Google-Smtp-Source: ABdhPJzTy3uY3MsGRvf9gr6ZiLtxFolfbghsfX0P0tg0lphiVjDFB8SoshdeyFzPIztuf/eqqCYRuw==
+X-Received: by 2002:a17:902:b10b:b0:134:de66:4f8c with SMTP id q11-20020a170902b10b00b00134de664f8cmr1419984plr.66.1629947073848;
+        Wed, 25 Aug 2021 20:04:33 -0700 (PDT)
+Received: from [10.255.175.44] ([139.177.225.247])
+        by smtp.gmail.com with ESMTPSA id e18sm922154pfv.172.2021.08.25.20.04.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 20:04:33 -0700 (PDT)
+Subject: Re: [PATCH v2 1/9] mm: introduce pmd_install() helper
+To:     David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
+ <20210819031858.98043-2-zhengqi.arch@bytedance.com>
+ <edd82170-7149-1abf-6204-f1d665a5fca2@redhat.com>
+ <c650ef29-0f9e-02a0-9426-b406a4608c8f@bytedance.com>
+ <324674f0-399b-aea4-e9b9-fe054a926fdf@redhat.com>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+Message-ID: <4154bc99-e9c9-d194-dc07-577b9e5131e8@bytedance.com>
+Date:   Thu, 26 Aug 2021 11:04:27 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <324674f0-399b-aea4-e9b9-fe054a926fdf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Aug 2021 02:52:33 +0300 Jarkko Sakkinen wrote:
-> The amount of SGX memory on the system is determined by the BIOS and it
-> varies wildly between systems.  It can be from dozens of MB's on desktops
-> or VM's, up to many GB's on servers.  Just like for regular memory, it is
-> sometimes useful to know the amount of usable SGX memory in the system.
+
+
+On 2021/8/26 AM12:32, David Hildenbrand wrote:
+> On 25.08.21 18:20, Qi Zheng wrote:
+>>
+>>
+>> On 2021/8/25 AM12:26, David Hildenbrand wrote:
+>>> On 19.08.21 05:18, Qi Zheng wrote:
+>>>> Currently we have three times the same few lines repeated in the
+>>>
+>>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>>
+>> Thanks for your review, I will add this to the patch v3.
+>>
+>>>
+>>> That's mostly unrelated to the remaining part of the series and can be
+>>> picked up early.
+>>
+>> The implementation of subsequent patches depends on pmd_install().
+>> So I am worried that if this patch is submitted as a separate patch,
+>> subsequent patches will not be updated until this patch is merged.
+>> What do you think?
 > 
-> Add SGX_MemTotal field to /proc/meminfo, which shows the total amount of
-> usable SGX memory in the system.  E.g. with 32 MB reserved for SGX from
-> BIOS, the printout would be:
+> Usually I tend to send cleanups out independently, and then just base 
+> the other series on top of the other series.
+
+LGTM, I will submit [PATCH v2 1/9] and [PATCH v2 2/9] as a separate
+patch series.
+
 > 
-> SGX_MemTotal:      22528 kB
+> I'll have some more comments in reply to v2. It's fairly hard to revie > because you do a lot of complicated stuff in only a handful of patches
+> :) I'll try to think of something reasonable on how to split this up to 
+> make it easier to digest.
 > 
-> It is less than 32 MB because some of the space is reserved for Enclave
-> Page Cache Metadata (EPCM), which contains state variables for all the
-> pages in the Enclave Page Cache (EPC).  The latter contains the pages,
-> which applications can use to create enclaves.
-> 
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> 
-> ---
-> v2:
-> * Move ifdef fix for sgx_set_attribute() to a separate patch.
-> ---
->  Documentation/x86/sgx.rst      | 6 ++++++
->  arch/x86/include/asm/sgx.h     | 2 ++
->  arch/x86/kernel/cpu/sgx/main.c | 7 ++++++-
->  arch/x86/mm/pat/set_memory.c   | 5 +++++
->  4 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-> index dd0ac96ff9ef..68ee171e1d8f 100644
-> --- a/Documentation/x86/sgx.rst
-> +++ b/Documentation/x86/sgx.rst
-> @@ -250,3 +250,9 @@ user wants to deploy SGX applications both on the host and in guests
->  on the same machine, the user should reserve enough EPC (by taking out
->  total virtual EPC size of all SGX VMs from the physical EPC size) for
->  host SGX applications so they can run with acceptable performance.
-> +
-> +Supplemental fields for /proc/meminfo
-> +=====================================
-> +
-> +SGX_MemTotal
-> +	The total usable SGX protected memory in kilobytes.
-> diff --git a/arch/x86/include/asm/sgx.h b/arch/x86/include/asm/sgx.h
-> index 996e56590a10..d8e526b5487b 100644
-> --- a/arch/x86/include/asm/sgx.h
-> +++ b/arch/x86/include/asm/sgx.h
-> @@ -367,6 +367,8 @@ struct sgx_sigstruct {
->  
->  #ifdef CONFIG_X86_SGX
->  
-> +extern unsigned long sgx_nr_all_pages;
-> +
->  int sgx_set_attribute(unsigned long *allowed_attributes,
->  		      unsigned int attribute_fd);
->  
-> diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
-> index 63d3de02bbcc..1fe26a8e80dc 100644
-> --- a/arch/x86/kernel/cpu/sgx/main.c
-> +++ b/arch/x86/kernel/cpu/sgx/main.c
-> @@ -28,7 +28,10 @@ static DECLARE_WAIT_QUEUE_HEAD(ksgxd_waitq);
->  static LIST_HEAD(sgx_active_page_list);
->  static DEFINE_SPINLOCK(sgx_reclaimer_lock);
->  
-> -/* The free page list lock protected variables prepend the lock. */
-> +/* The number of usable EPC pages in the system. */
-> +unsigned long sgx_nr_all_pages;
-> +
-> +/* The number of free EPC pages in all nodes. */
->  static unsigned long sgx_nr_free_pages;
->  
->  /* Nodes with one or more EPC sections. */
-> @@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
->  		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
->  	}
->  
-> +	sgx_nr_all_pages += nr_pages;
-> +
 
-EPC sections can be freed again in sgx_init() after they are successfully
-initialized, when any further initialization fails (i.e. when fails to create
-ksgxd, or fails to register /dev/sgx_provision).  In which case, I think
-sgx_nr_all_pages should also be cleared.  But current sgx_init() seems doesn't
-reset it.  Do you need to fix that too?
+Thank you very much, and I look forward to your suggestions. At the same
+time, I'll also find ways to organize the code more clearly and
+concisely, and add documentation to explain the new APIs.
 
->  	return true;
->  }
->  
-> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-> index ad8a5c586a35..82bb09c298de 100644
-> --- a/arch/x86/mm/pat/set_memory.c
-> +++ b/arch/x86/mm/pat/set_memory.c
-> @@ -29,6 +29,7 @@
->  #include <asm/proto.h>
->  #include <asm/memtype.h>
->  #include <asm/set_memory.h>
-> +#include <asm/sgx.h>
-
-How about only include <asm/sgx.h> when CONFIG_X86_SGX is on, then you don't
-have to do #ifdef CONFIG_X86_SGX changes to sgx.h?
-
->  
->  #include "../mm_internal.h"
->  
-> @@ -116,6 +117,10 @@ void arch_report_meminfo(struct seq_file *m)
->  	if (direct_gbpages)
->  		seq_printf(m, "DirectMap1G:    %8lu kB\n",
->  			direct_pages_count[PG_LEVEL_1G] << 20);
-> +
-> +#if defined(CONFIG_X86_SGX) || defined(CONFIG_X86_SGX_KVM)
-> +	seq_printf(m, "SGX_MemTotal:   %8lu kB\n", sgx_nr_all_pages << 2);
-> +#endif
-
-CONFIG_X86_SGX_KVM depends on CONFIG_X86_SGX, so I don't think KVM part is
-required.
-
-Plus, even  CONFIG_X86_SGX is on, EPC can be empty, i.e. when SGX FLC is not
-present and KVM SGX is off too, or when SGX itslef is not present at all. 
-
-Do you need to add additional check, for instance, only print when
-sgx_nr_all_pages is not 0?
-
->  }
->  #else
->  static inline void split_page_count(int level) { }
-> -- 
-> 2.25.1
-> 
+Thanks,
+Qi
