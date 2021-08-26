@@ -2,431 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D5EC43214
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 19:15:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C56C4320E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 20:27:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A506461058
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 19:15:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFDE561004
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 20:27:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243469AbhHZTQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 15:16:06 -0400
-Received: from mailfilter05-out40.webhostingserver.nl ([195.211.74.36]:28550
-        "EHLO mailfilter05-out40.webhostingserver.nl" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243466AbhHZTQG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 15:16:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=exalondelft.nl; s=whs1;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-         subject:cc:to:from:from;
-        bh=HMuEEu4uHVXJlnlSWbD6E0RyqKUtkAopwNxZWCagDfw=;
-        b=jPi0yKuXsNq261eUFw4/JhpTZcz6zhKugrLx5KE196XtCkrCsukJdJG4XEfuCyTdJuOxRfoCjzj1T
-         YmLFv+jYYLKLjqtOv8LqHXhQG5ovisG6eX8Fjt31MoGVZjW+nySxQ3OF+MCmh3CsNnL6DQeuw/liS6
-         Zk+5v18sFuFsU28UAIfR3Ov8I65V/NLq++x24lcE/NH8JbTcwfvTwhECCxe4nrrGNfrukGxkmyiWJh
-         OKYAdx0Q+QPcZPSdkt79ZspI0oK0LWtKrs8tkUPqNT5DbAgG+TEwoPbJTT7tiMf5gra51LZE6LsQre
-         N5vc7HHlJ6m9+c8nCL+z77JqMIIDqKQ==
-X-Halon-ID: b02d5335-069f-11ec-adfe-001a4a4cb933
-Received: from s198.webhostingserver.nl (s198.webhostingserver.nl [141.138.168.154])
-        by mailfilter05.webhostingserver.nl (Halon) with ESMTPSA
-        id b02d5335-069f-11ec-adfe-001a4a4cb933;
-        Thu, 26 Aug 2021 20:59:06 +0200 (CEST)
-Received: from [2001:981:6fec:1:f9ad:97f3:2f9b:d8ba] (helo=localhost.localdomain)
-        by s198.webhostingserver.nl with esmtpa (Exim 4.94.2)
-        (envelope-from <ftoth@exalondelft.nl>)
-        id 1mJKai-009E4p-Gj; Thu, 26 Aug 2021 20:59:06 +0200
-From:   Ferry Toth <ftoth@exalondelft.nl>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ferry Toth <ftoth@exalondelft.nl>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
+        id S243459AbhHZU2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 16:28:44 -0400
+Received: from mga05.intel.com ([192.55.52.43]:4380 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229916AbhHZU2o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Aug 2021 16:28:44 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="303412502"
+X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; 
+   d="scan'208";a="303412502"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2021 13:27:56 -0700
+X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; 
+   d="scan'208";a="687140813"
+Received: from clmangi-mobl2.amr.corp.intel.com (HELO [10.209.102.110]) ([10.209.102.110])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2021 13:27:55 -0700
+Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-sgx@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Lorenzo Colitti <lorenzo@google.com>,
-        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        frowand.list@gmail.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pavel Hofman <pavel.hofman@ivitera.com>
-Subject: [PATCH v2 3/3] Revert "usb: gadget: f_uac2/u_audio: add feedback endpoint support"
-Date:   Thu, 26 Aug 2021 20:57:39 +0200
-Message-Id: <20210826185739.3868-4-ftoth@exalondelft.nl>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210826185739.3868-1-ftoth@exalondelft.nl>
-References: <20210826185739.3868-1-ftoth@exalondelft.nl>
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20210825235234.153013-1-jarkko@kernel.org>
+ <20210825235234.153013-2-jarkko@kernel.org>
+ <ba483b7e-19a3-d4d3-56c0-3371a77341cb@infradead.org>
+ <e1ff36db0e7ed909653b6adb45094cc459dbad0b.camel@kernel.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <e87c5c8f-dead-ebdc-62f1-aa635288671c@intel.com>
+Date:   Thu, 26 Aug 2021 13:27:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <e1ff36db0e7ed909653b6adb45094cc459dbad0b.camel@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This reverts commit 24f779dac8f3efb9629adc0e486914d93dc45517.
+On 8/26/21 9:17 AM, Jarkko Sakkinen wrote:
+>> I would prefer to see this listed in Documentation/filesystems/proc.rst
+>> as an optional field, depending on CONFIG_X86_SGX.
+>> Or at least put a reference in proc.rst to this doc file and its
+>> supplemental fields.
+>>
+>> thanks.
+> I *can* put it there but I did have reason not to, i.e. these attributes
+> are neither there:
+> 
+> DirectMap4k:     3930904 kB
+> DirectMap2M:    29440000 kB
+> DirectMap1G:     1048576 kB
+> 
+> And they are implemented in arch specific code.
+> 
+> Actually they are undocumented, e.g.
+> 
+> $ git grep DirectMap4k
+> arch/powerpc/mm/book3s64/pgtable.c:     seq_printf(m, "DirectMap4k:    %8lu kB\n",
+> arch/s390/mm/pageattr.c:        seq_printf(m, "DirectMap4k:    %8lu kB\n",
+> arch/x86/mm/pat/set_memory.c:   seq_printf(m, "DirectMap4k:    %8lu kB\n",
 
-The commit is part of a series with commit
-24f779dac8f3efb9629adc0e486914d93dc45517 causing a BUG on dwc3
-hardware, at least on Intel Merrifield platform when configured
-through configfs:
-BUG: kernel NULL pointer dereference, address: 0000000000000008
-...
-RIP: 0010:dwc3_gadget_del_and_unmap_request+0x19/0xe0
-...
-Call Trace:
- dwc3_remove_requests.constprop.0+0x12f/0x170
- __dwc3_gadget_ep_disable+0x7a/0x160
- dwc3_gadget_ep_disable+0x3d/0xd0
- usb_ep_disable+0x1c/0x70
- u_audio_stop_capture+0x79/0x120 [u_audio]
- afunc_set_alt+0x73/0x80 [usb_f_uac2]
- composite_setup+0x224/0x1b90 [libcomposite]
+Yeah, we need to add some arch-specific sections to the documentation.
+That *could* just be a reference over to a new file:
 
-Pavel's suggestion to add
-`echo "adaptive" > functions/uac2.usb0/c_sync` to the configfs script
-resolves the issue.
-Thinh suggests "the crash is probably because of f_uac2 prematurely
-freeing feedback request before its completion. usb_ep_dequeue() is
-asynchronous. dwc2() may treat it as a synchronous call so you didn't
-get a crash."
+	Documentation/x86/meminfo.rst
 
-Revert as this is a regression and the kernel shouldn't crash depending
-on configuration parameters.
-
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
----
- drivers/usb/gadget/function/f_uac2.c  |  49 +----------
- drivers/usb/gadget/function/u_audio.c | 119 +-------------------------
- drivers/usb/gadget/function/u_audio.h |   3 -
- 3 files changed, 3 insertions(+), 168 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 5d63244ba319..7aa4c8bc5a1a 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -240,7 +240,7 @@ static struct usb_interface_descriptor std_as_out_if1_desc = {
- 	.bDescriptorType = USB_DT_INTERFACE,
- 
- 	.bAlternateSetting = 1,
--	.bNumEndpoints = 2,
-+	.bNumEndpoints = 1,
- 	.bInterfaceClass = USB_CLASS_AUDIO,
- 	.bInterfaceSubClass = USB_SUBCLASS_AUDIOSTREAMING,
- 	.bInterfaceProtocol = UAC_VERSION_2,
-@@ -317,37 +317,6 @@ static struct uac2_iso_endpoint_descriptor as_iso_out_desc = {
- 	.wLockDelay = 0,
- };
- 
--/* STD AS ISO IN Feedback Endpoint */
--static struct usb_endpoint_descriptor fs_epin_fback_desc = {
--	.bLength = USB_DT_ENDPOINT_SIZE,
--	.bDescriptorType = USB_DT_ENDPOINT,
--
--	.bEndpointAddress = USB_DIR_IN,
--	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_USAGE_FEEDBACK,
--	.wMaxPacketSize = cpu_to_le16(3),
--	.bInterval = 1,
--};
--
--static struct usb_endpoint_descriptor hs_epin_fback_desc = {
--	.bLength = USB_DT_ENDPOINT_SIZE,
--	.bDescriptorType = USB_DT_ENDPOINT,
--
--	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_USAGE_FEEDBACK,
--	.wMaxPacketSize = cpu_to_le16(4),
--	.bInterval = 4,
--};
--
--static struct usb_endpoint_descriptor ss_epin_fback_desc = {
--	.bLength = USB_DT_ENDPOINT_SIZE,
--	.bDescriptorType = USB_DT_ENDPOINT,
--
--	.bEndpointAddress = USB_DIR_IN,
--	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_USAGE_FEEDBACK,
--	.wMaxPacketSize = cpu_to_le16(4),
--	.bInterval = 4,
--};
--
--
- /* Audio Streaming IN Interface - Alt0 */
- static struct usb_interface_descriptor std_as_in_if0_desc = {
- 	.bLength = sizeof std_as_in_if0_desc,
-@@ -462,7 +431,6 @@ static struct usb_descriptor_header *fs_audio_desc[] = {
- 	(struct usb_descriptor_header *)&as_out_fmt1_desc,
- 	(struct usb_descriptor_header *)&fs_epout_desc,
- 	(struct usb_descriptor_header *)&as_iso_out_desc,
--	(struct usb_descriptor_header *)&fs_epin_fback_desc,
- 
- 	(struct usb_descriptor_header *)&std_as_in_if0_desc,
- 	(struct usb_descriptor_header *)&std_as_in_if1_desc,
-@@ -493,7 +461,6 @@ static struct usb_descriptor_header *hs_audio_desc[] = {
- 	(struct usb_descriptor_header *)&as_out_fmt1_desc,
- 	(struct usb_descriptor_header *)&hs_epout_desc,
- 	(struct usb_descriptor_header *)&as_iso_out_desc,
--	(struct usb_descriptor_header *)&hs_epin_fback_desc,
- 
- 	(struct usb_descriptor_header *)&std_as_in_if0_desc,
- 	(struct usb_descriptor_header *)&std_as_in_if1_desc,
-@@ -525,7 +492,6 @@ static struct usb_descriptor_header *ss_audio_desc[] = {
- 	(struct usb_descriptor_header *)&ss_epout_desc,
- 	(struct usb_descriptor_header *)&ss_epout_desc_comp,
- 	(struct usb_descriptor_header *)&as_iso_out_desc,
--	(struct usb_descriptor_header *)&ss_epin_fback_desc,
- 
- 	(struct usb_descriptor_header *)&std_as_in_if0_desc,
- 	(struct usb_descriptor_header *)&std_as_in_if1_desc,
-@@ -602,26 +568,22 @@ static void setup_headers(struct f_uac2_opts *opts,
- 	struct usb_ss_ep_comp_descriptor *epin_desc_comp = NULL;
- 	struct usb_endpoint_descriptor *epout_desc;
- 	struct usb_endpoint_descriptor *epin_desc;
--	struct usb_endpoint_descriptor *epin_fback_desc;
- 	int i;
- 
- 	switch (speed) {
- 	case USB_SPEED_FULL:
- 		epout_desc = &fs_epout_desc;
- 		epin_desc = &fs_epin_desc;
--		epin_fback_desc = &fs_epin_fback_desc;
- 		break;
- 	case USB_SPEED_HIGH:
- 		epout_desc = &hs_epout_desc;
- 		epin_desc = &hs_epin_desc;
--		epin_fback_desc = &hs_epin_fback_desc;
- 		break;
- 	default:
- 		epout_desc = &ss_epout_desc;
- 		epin_desc = &ss_epin_desc;
- 		epout_desc_comp = &ss_epout_desc_comp;
- 		epin_desc_comp = &ss_epin_desc_comp;
--		epin_fback_desc = &ss_epin_fback_desc;
- 	}
- 
- 	i = 0;
-@@ -649,7 +611,6 @@ static void setup_headers(struct f_uac2_opts *opts,
- 			headers[i++] = USBDHDR(epout_desc_comp);
- 
- 		headers[i++] = USBDHDR(&as_iso_out_desc);
--		headers[i++] = USBDHDR(epin_fback_desc);
- 	}
- 	if (EPIN_EN(opts)) {
- 		headers[i++] = USBDHDR(&std_as_in_if0_desc);
-@@ -883,12 +844,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
- 			return -ENODEV;
- 		}
--		agdev->in_ep_fback = usb_ep_autoconfig(gadget,
--						       &fs_epin_fback_desc);
--		if (!agdev->in_ep_fback) {
--			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
--			return -ENODEV;
--		}
- 	}
- 
- 	if (EPIN_EN(uac2_opts)) {
-@@ -912,10 +867,8 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 				le16_to_cpu(ss_epout_desc.wMaxPacketSize));
- 
- 	hs_epout_desc.bEndpointAddress = fs_epout_desc.bEndpointAddress;
--	hs_epin_fback_desc.bEndpointAddress = fs_epin_fback_desc.bEndpointAddress;
- 	hs_epin_desc.bEndpointAddress = fs_epin_desc.bEndpointAddress;
- 	ss_epout_desc.bEndpointAddress = fs_epout_desc.bEndpointAddress;
--	ss_epin_fback_desc.bEndpointAddress = fs_epin_fback_desc.bEndpointAddress;
- 	ss_epin_desc.bEndpointAddress = fs_epin_desc.bEndpointAddress;
- 
- 	setup_descriptor(uac2_opts);
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index f637ebec80b0..5fbceee897a3 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -38,10 +38,6 @@ struct uac_rtd_params {
- 	unsigned int max_psize;	/* MaxPacketSize of endpoint */
- 
- 	struct usb_request **reqs;
--
--	struct usb_request *req_fback; /* Feedback endpoint request */
--	unsigned int ffback; /* Real frequency reported by feedback endpoint */
--	bool fb_ep_enabled; /* if the ep is enabled */
- };
- 
- struct snd_uac_chip {
-@@ -74,32 +70,6 @@ static const struct snd_pcm_hardware uac_pcm_hardware = {
- 	.periods_min = MIN_PERIODS,
- };
- 
--static void u_audio_set_fback_frequency(enum usb_device_speed speed,
--					unsigned int freq, void *buf)
--{
--	u32 ff = 0;
--
--	if (speed == USB_SPEED_FULL) {
--		/*
--		 * Full-speed feedback endpoints report frequency
--		 * in samples/microframe
--		 * Format is encoded in Q10.10 left-justified in the 24 bits,
--		 * so that it has a Q10.14 format.
--		 */
--		ff = DIV_ROUND_UP((freq << 14), 1000);
--	} else {
--		/*
--		 * High-speed feedback endpoints report frequency
--		 * in samples/microframe.
--		 * Format is encoded in Q12.13 fitted into four bytes so that
--		 * the binary point is located between the second and the third
--		 * byte fromat (that is Q16.16)
--		 */
--		ff = DIV_ROUND_UP((freq << 13), 1000);
--	}
--	*(__le32 *)buf = cpu_to_le32(ff);
--}
--
- static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	unsigned int pending;
-@@ -203,34 +173,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
- 		dev_err(uac->card->dev, "%d Error!\n", __LINE__);
- }
- 
--static void u_audio_iso_fback_complete(struct usb_ep *ep,
--				       struct usb_request *req)
--{
--	struct uac_rtd_params *prm = req->context;
--	struct snd_uac_chip *uac = prm->uac;
--	struct g_audio *audio_dev = uac->audio_dev;
--	int status = req->status;
--	unsigned long flags;
--
--	/* i/f shutting down */
--	if (!prm->fb_ep_enabled || req->status == -ESHUTDOWN)
--		return;
--
--	/*
--	 * We can't really do much about bad xfers.
--	 * Afterall, the ISOCH xfers could fail legitimately.
--	 */
--	if (status)
--		pr_debug("%s: iso_complete status(%d) %d/%d\n",
--			__func__, status, req->actual, req->length);
--
--	u_audio_set_fback_frequency(audio_dev->gadget->speed,
--				    prm->ffback, req->buf);
--
--	if (usb_ep_queue(ep, req, GFP_ATOMIC))
--		dev_err(uac->card->dev, "%d Error!\n", __LINE__);
--}
--
- static int uac_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- {
- 	struct snd_uac_chip *uac = snd_pcm_substream_chip(substream);
-@@ -393,33 +335,14 @@ static inline void free_ep(struct uac_rtd_params *prm, struct usb_ep *ep)
- 		dev_err(uac->card->dev, "%s:%d Error!\n", __func__, __LINE__);
- }
- 
--static inline void free_ep_fback(struct uac_rtd_params *prm, struct usb_ep *ep)
--{
--	struct snd_uac_chip *uac = prm->uac;
--
--	if (!prm->fb_ep_enabled)
--		return;
--
--	prm->fb_ep_enabled = false;
--
--	if (prm->req_fback) {
--		usb_ep_dequeue(ep, prm->req_fback);
--		kfree(prm->req_fback->buf);
--		usb_ep_free_request(ep, prm->req_fback);
--		prm->req_fback = NULL;
--	}
--
--	if (usb_ep_disable(ep))
--		dev_err(uac->card->dev, "%s:%d Error!\n", __func__, __LINE__);
--}
- 
- int u_audio_start_capture(struct g_audio *audio_dev)
- {
- 	struct snd_uac_chip *uac = audio_dev->uac;
- 	struct usb_gadget *gadget = audio_dev->gadget;
- 	struct device *dev = &gadget->dev;
--	struct usb_request *req, *req_fback;
--	struct usb_ep *ep, *ep_fback;
-+	struct usb_request *req;
-+	struct usb_ep *ep;
- 	struct uac_rtd_params *prm;
- 	struct uac_params *params = &audio_dev->params;
- 	int req_len, i;
-@@ -451,42 +374,6 @@ int u_audio_start_capture(struct g_audio *audio_dev)
- 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
- 	}
- 
--	ep_fback = audio_dev->in_ep_fback;
--	if (!ep_fback)
--		return 0;
--
--	/* Setup feedback endpoint */
--	config_ep_by_speed(gadget, &audio_dev->func, ep_fback);
--	prm->fb_ep_enabled = true;
--	usb_ep_enable(ep_fback);
--	req_len = ep_fback->maxpacket;
--
--	req_fback = usb_ep_alloc_request(ep_fback, GFP_ATOMIC);
--	if (req_fback == NULL)
--		return -ENOMEM;
--
--	prm->req_fback = req_fback;
--	req_fback->zero = 0;
--	req_fback->context = prm;
--	req_fback->length = req_len;
--	req_fback->complete = u_audio_iso_fback_complete;
--
--	req_fback->buf = kzalloc(req_len, GFP_ATOMIC);
--	if (!req_fback->buf)
--		return -ENOMEM;
--
--	/*
--	 * Configure the feedback endpoint's reported frequency.
--	 * Always start with original frequency since its deviation can't
--	 * be meauserd at start of playback
--	 */
--	prm->ffback = params->c_srate;
--	u_audio_set_fback_frequency(audio_dev->gadget->speed,
--				    prm->ffback, req_fback->buf);
--
--	if (usb_ep_queue(ep_fback, req_fback, GFP_ATOMIC))
--		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
--
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(u_audio_start_capture);
-@@ -495,8 +382,6 @@ void u_audio_stop_capture(struct g_audio *audio_dev)
- {
- 	struct snd_uac_chip *uac = audio_dev->uac;
- 
--	if (audio_dev->in_ep_fback)
--		free_ep_fback(&uac->c_prm, audio_dev->in_ep_fback);
- 	free_ep(&uac->c_prm, audio_dev->out_ep);
- }
- EXPORT_SYMBOL_GPL(u_audio_stop_capture);
-diff --git a/drivers/usb/gadget/function/u_audio.h b/drivers/usb/gadget/function/u_audio.h
-index 53e6baf55cbf..5ea6b86f1fda 100644
---- a/drivers/usb/gadget/function/u_audio.h
-+++ b/drivers/usb/gadget/function/u_audio.h
-@@ -30,10 +30,7 @@ struct g_audio {
- 	struct usb_gadget *gadget;
- 
- 	struct usb_ep *in_ep;
--
- 	struct usb_ep *out_ep;
--	/* feedback IN endpoint corresponding to out_ep */
--	struct usb_ep *in_ep_fback;
- 
- 	/* Max packet size for all in_ep possible speeds */
- 	unsigned int in_ep_maxpsize;
--- 
-2.30.2
-
+along with whatever other arches provide their own fields too.
