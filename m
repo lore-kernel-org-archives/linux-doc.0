@@ -2,154 +2,343 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF0AC43216
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 18:43:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95CD5C4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 18:58:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1DE161027
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 18:43:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81B4661040
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 18:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243373AbhHZSoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 14:44:01 -0400
-Received: from smtprelay0174.hostedemail.com ([216.40.44.174]:38202 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S243288AbhHZSoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 14:44:01 -0400
-Received: from omf02.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id DC885100E894C;
-        Thu, 26 Aug 2021 18:43:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf02.hostedemail.com (Postfix) with ESMTPA id A1BD71D42F8;
-        Thu, 26 Aug 2021 18:43:11 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] vsprintf/Documentation: Add X to %*ph extension to output upper case hex
-Date:   Thu, 26 Aug 2021 11:43:01 -0700
-Message-Id: <bc33e306a9064dfbf1180a35f9bfa587c6502eca.1630003183.git.joe@perches.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1630003183.git.joe@perches.com>
-References: <cover.1630003183.git.joe@perches.com>
+        id S243436AbhHZS7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 14:59:41 -0400
+Received: from mailfilter02-out40.webhostingserver.nl ([195.211.72.22]:22966
+        "EHLO mailfilter02-out40.webhostingserver.nl" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243447AbhHZS7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 14:59:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=exalondelft.nl; s=whs1;
+        h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
+         subject:cc:to:from:from;
+        bh=yP4ZiiabAHmwBdK9Dfhd4Xhdf3X2enycZSmYcpTu9lk=;
+        b=Goe6uZ+fCbPanNhpbBvWUApG85bx/XxasUKp5x/W+0YD9203pNqlA3Q3fVZNtKxemVf2cZ6FNEZr5
+         34QPMD6lRw1FFqACTm2fsx9fUvAGOQ/PLVaQSl5z/n3BLVsgv9H3oGcwobSiYnVgg+VHhaqdGpuw8L
+         164LnWNLT+kQbQddRSyVF31KKZbLDZO3i7InDknuGIQ4UONQhry+vwlFZ3UCdJULNhRZAgw69G141C
+         8+hpLo10mwD7wtRK8weq1RnfQvrRhHqQEtsFGVw2jWKPcOxPK6vRZ6c+C6a422dV11YnaHRDzIZ06h
+         8XlsmsmbB5aG6l1XOfj8E4oAkOssUHA==
+X-Halon-ID: a3dae139-069f-11ec-a0ff-001a4a4cb922
+Received: from s198.webhostingserver.nl (s198.webhostingserver.nl [141.138.168.154])
+        by mailfilter02.webhostingserver.nl (Halon) with ESMTPSA
+        id a3dae139-069f-11ec-a0ff-001a4a4cb922;
+        Thu, 26 Aug 2021 20:58:46 +0200 (CEST)
+Received: from [2001:981:6fec:1:f9ad:97f3:2f9b:d8ba] (helo=localhost.localdomain)
+        by s198.webhostingserver.nl with esmtpa (Exim 4.94.2)
+        (envelope-from <ftoth@exalondelft.nl>)
+        id 1mJKaN-009E4p-Ry; Thu, 26 Aug 2021 20:58:45 +0200
+From:   Ferry Toth <ftoth@exalondelft.nl>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ferry Toth <ftoth@exalondelft.nl>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Lorenzo Colitti <lorenzo@google.com>,
+        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        frowand.list@gmail.com, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Hofman <pavel.hofman@ivitera.com>
+Subject: [PATCH v2 2/3] Revert "usb: gadget: f_uac2: add adaptive sync support for capture"
+Date:   Thu, 26 Aug 2021 20:57:38 +0200
+Message-Id: <20210826185739.3868-3-ftoth@exalondelft.nl>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210826185739.3868-1-ftoth@exalondelft.nl>
+References: <20210826185739.3868-1-ftoth@exalondelft.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Stat-Signature: xma4geogintafk4fq5999pib9fb915sa
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: A1BD71D42F8
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+We4XWtKcgRIaH66WbuAlHEKemFDnH12Y=
-X-HE-Tag: 1630003391-142208
+X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A few sysfs output uses of hex arrays are uppercase and are nominally ABI.
+This reverts commit 40c73b30546e759bedcec607fedc2d4be954508f.
 
-Add a mechanism to the existing vsprintf %*ph hex output extension to
-support upper case hex output.
+The commit is part of a series with commit
+24f779dac8f3efb9629adc0e486914d93dc45517 causing a BUG on dwc3
+hardware, at least on Intel Merrifield platform when configured
+through configfs:
+BUG: kernel NULL pointer dereference, address: 0000000000000008
+...
+RIP: 0010:dwc3_gadget_del_and_unmap_request+0x19/0xe0
+...
+Call Trace:
+ dwc3_remove_requests.constprop.0+0x12f/0x170
+ __dwc3_gadget_ep_disable+0x7a/0x160
+ dwc3_gadget_ep_disable+0x3d/0xd0
+ usb_ep_disable+0x1c/0x70
+ u_audio_stop_capture+0x79/0x120 [u_audio]
+ afunc_set_alt+0x73/0x80 [usb_f_uac2]
+ composite_setup+0x224/0x1b90 [libcomposite]
 
-Signed-off-by: Joe Perches <joe@perches.com>
+Pavel's suggestion to add
+`echo "adaptive" > functions/uac2.usb0/c_sync` to the configfs script
+resolves the issue.
+Thinh suggests "the crash is probably because of f_uac2 prematurely
+freeing feedback request before its completion. usb_ep_dequeue() is
+asynchronous. dwc2() may treat it as a synchronous call so you didn't
+get a crash."
+
+Revert as this is a regression and the kernel shouldn't crash depending
+on configuration parameters.
+
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
 ---
- Documentation/core-api/printk-formats.rst |  6 ++++
- lib/vsprintf.c                            | 42 ++++++++++++++---------
- 2 files changed, 31 insertions(+), 17 deletions(-)
+ .../ABI/testing/configfs-usb-gadget-uac2      |   1 -
+ Documentation/usb/gadget-testing.rst          |   1 -
+ drivers/usb/gadget/function/f_uac2.c          | 100 ++----------------
+ drivers/usb/gadget/function/u_uac2.h          |   2 -
+ 4 files changed, 9 insertions(+), 95 deletions(-)
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index e08bbe9b0cbf3..ca750274992e6 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -284,10 +284,16 @@ Raw buffer as a hex string
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac2 b/Documentation/ABI/testing/configfs-usb-gadget-uac2
+index e7e59d7fb12f..d4356c8b8cd6 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uac2
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uac2
+@@ -8,7 +8,6 @@ Description:
+ 		c_chmask   capture channel mask
+ 		c_srate    capture sampling rate
+ 		c_ssize    capture sample size (bytes)
+-		c_sync     capture synchronization type (async/adaptive)
+ 		p_chmask   playback channel mask
+ 		p_srate    playback sampling rate
+ 		p_ssize    playback sample size (bytes)
+diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+index f5a12667bd41..2085e7b24eeb 100644
+--- a/Documentation/usb/gadget-testing.rst
++++ b/Documentation/usb/gadget-testing.rst
+@@ -728,7 +728,6 @@ The uac2 function provides these attributes in its function directory:
+ 	c_chmask	capture channel mask
+ 	c_srate		capture sampling rate
+ 	c_ssize		capture sample size (bytes)
+-	c_sync		capture synchronization type (async/adaptive)
+ 	p_chmask	playback channel mask
+ 	p_srate		playback sampling rate
+ 	p_ssize		playback sample size (bytes)
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 321e6c05ba93..5d63244ba319 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -44,7 +44,6 @@
  
- ::
+ #define EPIN_EN(_opts) ((_opts)->p_chmask != 0)
+ #define EPOUT_EN(_opts) ((_opts)->c_chmask != 0)
+-#define EPOUT_FBACK_IN_EN(_opts) ((_opts)->c_sync == USB_ENDPOINT_SYNC_ASYNC)
  
-+	The preferred output is lowercase
- 	%*ph	00 01 02  ...  3f
- 	%*phC	00:01:02: ... :3f
- 	%*phD	00-01-02- ... -3f
- 	%*phN	000102 ... 3f
-+	Formats with X are uppercase, used for backwards compatibility
-+	%*phX	00 01 02  ...  3F
-+	%*phCX	00:01:02: ... :3F
-+	%*phDX	00-01-02- ... -3F
-+	%*phNX	000102 ... 3F
+ struct f_uac2 {
+ 	struct g_audio g_audio;
+@@ -241,7 +240,7 @@ static struct usb_interface_descriptor std_as_out_if1_desc = {
+ 	.bDescriptorType = USB_DT_INTERFACE,
  
- For printing small buffers (up to 64 bytes long) as a hex string with a
- certain separator. For larger buffers consider using
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 134216c45980e..5c22a07bbe3a7 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1147,7 +1147,10 @@ char *hex_string(char *buf, char *end, u8 *addr, struct printf_spec spec,
- {
- 	int i, len = 1;		/* if we pass '%ph[CDN]', field width remains
- 				   negative value, fallback to the default */
--	char separator;
-+	char separator = ' ';
-+	int count = 1;
-+	bool found = true;
-+	char locase = 0x20;	/* ASCII OR'd for lower case see: number() */
+ 	.bAlternateSetting = 1,
+-	.bNumEndpoints = 1,
++	.bNumEndpoints = 2,
+ 	.bInterfaceClass = USB_CLASS_AUDIO,
+ 	.bInterfaceSubClass = USB_SUBCLASS_AUDIOSTREAMING,
+ 	.bInterfaceProtocol = UAC_VERSION_2,
+@@ -274,7 +273,7 @@ static struct usb_endpoint_descriptor fs_epout_desc = {
+ 	.bDescriptorType = USB_DT_ENDPOINT,
  
- 	if (spec.field_width == 0)
- 		/* nothing to print */
-@@ -1156,30 +1159,35 @@ char *hex_string(char *buf, char *end, u8 *addr, struct printf_spec spec,
- 	if (check_pointer(&buf, end, addr, spec))
- 		return buf;
+ 	.bEndpointAddress = USB_DIR_OUT,
+-	/* .bmAttributes = DYNAMIC */
++	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 1,
+ };
+@@ -283,7 +282,7 @@ static struct usb_endpoint_descriptor hs_epout_desc = {
+ 	.bLength = USB_DT_ENDPOINT_SIZE,
+ 	.bDescriptorType = USB_DT_ENDPOINT,
  
--	switch (fmt[1]) {
--	case 'C':
--		separator = ':';
--		break;
--	case 'D':
--		separator = '-';
--		break;
--	case 'N':
--		separator = 0;
--		break;
--	default:
--		separator = ' ';
--		break;
--	}
-+	do {
-+		switch (fmt[count++]) {
-+		case 'C':
-+			separator = ':';
-+			break;
-+		case 'D':
-+			separator = '-';
-+			break;
-+		case 'N':
-+			separator = 0;
-+			break;
-+		case 'X':
-+			locase = 0;
-+			break;
-+		default:
-+			found = false;
-+			break;
-+		}
-+	} while (found);
+-	/* .bmAttributes = DYNAMIC */
++	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 4,
+ };
+@@ -293,7 +292,7 @@ static struct usb_endpoint_descriptor ss_epout_desc = {
+ 	.bDescriptorType = USB_DT_ENDPOINT,
  
- 	if (spec.field_width > 0)
- 		len = min_t(int, spec.field_width, 64);
+ 	.bEndpointAddress = USB_DIR_OUT,
+-	/* .bmAttributes = DYNAMIC */
++	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 4,
+ };
+@@ -650,9 +649,7 @@ static void setup_headers(struct f_uac2_opts *opts,
+ 			headers[i++] = USBDHDR(epout_desc_comp);
  
- 	for (i = 0; i < len; ++i) {
- 		if (buf < end)
--			*buf = hex_asc_hi(addr[i]);
-+			*buf = hex_asc_upper_hi(addr[i]) | locase;
- 		++buf;
- 		if (buf < end)
--			*buf = hex_asc_lo(addr[i]);
-+			*buf = hex_asc_upper_lo(addr[i]) | locase;
- 		++buf;
+ 		headers[i++] = USBDHDR(&as_iso_out_desc);
+-
+-		if (EPOUT_FBACK_IN_EN(opts))
+-			headers[i++] = USBDHDR(epin_fback_desc);
++		headers[i++] = USBDHDR(epin_fback_desc);
+ 	}
+ 	if (EPIN_EN(opts)) {
+ 		headers[i++] = USBDHDR(&std_as_in_if0_desc);
+@@ -823,23 +820,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 		std_as_out_if1_desc.bInterfaceNumber = ret;
+ 		uac2->as_out_intf = ret;
+ 		uac2->as_out_alt = 0;
+-
+-		if (EPOUT_FBACK_IN_EN(uac2_opts)) {
+-			fs_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
+-			hs_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
+-			ss_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
+-			std_as_out_if1_desc.bNumEndpoints++;
+-		} else {
+-			fs_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
+-			hs_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
+-			ss_epout_desc.bmAttributes =
+-			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
+-		}
+ 	}
  
- 		if (separator && i != len - 1) {
+ 	if (EPIN_EN(uac2_opts)) {
+@@ -903,14 +883,11 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 			return -ENODEV;
+ 		}
+-		if (EPOUT_FBACK_IN_EN(uac2_opts)) {
+-			agdev->in_ep_fback = usb_ep_autoconfig(gadget,
++		agdev->in_ep_fback = usb_ep_autoconfig(gadget,
+ 						       &fs_epin_fback_desc);
+-			if (!agdev->in_ep_fback) {
+-				dev_err(dev, "%s:%d Error!\n",
+-					__func__, __LINE__);
+-				return -ENODEV;
+-			}
++		if (!agdev->in_ep_fback) {
++			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
++			return -ENODEV;
+ 		}
+ 	}
+ 
+@@ -1265,68 +1242,11 @@ end:									\
+ 									\
+ CONFIGFS_ATTR(f_uac2_opts_, name)
+ 
+-#define UAC2_ATTRIBUTE_SYNC(name)					\
+-static ssize_t f_uac2_opts_##name##_show(struct config_item *item,	\
+-					 char *page)			\
+-{									\
+-	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
+-	int result;							\
+-	char *str;							\
+-									\
+-	mutex_lock(&opts->lock);					\
+-	switch (opts->name) {						\
+-	case USB_ENDPOINT_SYNC_ASYNC:					\
+-		str = "async";						\
+-		break;							\
+-	case USB_ENDPOINT_SYNC_ADAPTIVE:				\
+-		str = "adaptive";					\
+-		break;							\
+-	default:							\
+-		str = "unknown";					\
+-		break;							\
+-	}								\
+-	result = sprintf(page, "%s\n", str);				\
+-	mutex_unlock(&opts->lock);					\
+-									\
+-	return result;							\
+-}									\
+-									\
+-static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+-					  const char *page, size_t len)	\
+-{									\
+-	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
+-	int ret = 0;							\
+-									\
+-	mutex_lock(&opts->lock);					\
+-	if (opts->refcnt) {						\
+-		ret = -EBUSY;						\
+-		goto end;						\
+-	}								\
+-									\
+-	if (!strncmp(page, "async", 5))					\
+-		opts->name = USB_ENDPOINT_SYNC_ASYNC;			\
+-	else if (!strncmp(page, "adaptive", 8))				\
+-		opts->name = USB_ENDPOINT_SYNC_ADAPTIVE;		\
+-	else {								\
+-		ret = -EINVAL;						\
+-		goto end;						\
+-	}								\
+-									\
+-	ret = len;							\
+-									\
+-end:									\
+-	mutex_unlock(&opts->lock);					\
+-	return ret;							\
+-}									\
+-									\
+-CONFIGFS_ATTR(f_uac2_opts_, name)
+-
+ UAC2_ATTRIBUTE(p_chmask);
+ UAC2_ATTRIBUTE(p_srate);
+ UAC2_ATTRIBUTE(p_ssize);
+ UAC2_ATTRIBUTE(c_chmask);
+ UAC2_ATTRIBUTE(c_srate);
+-UAC2_ATTRIBUTE_SYNC(c_sync);
+ UAC2_ATTRIBUTE(c_ssize);
+ UAC2_ATTRIBUTE(req_number);
+ 
+@@ -1337,7 +1257,6 @@ static struct configfs_attribute *f_uac2_attrs[] = {
+ 	&f_uac2_opts_attr_c_chmask,
+ 	&f_uac2_opts_attr_c_srate,
+ 	&f_uac2_opts_attr_c_ssize,
+-	&f_uac2_opts_attr_c_sync,
+ 	&f_uac2_opts_attr_req_number,
+ 	NULL,
+ };
+@@ -1376,7 +1295,6 @@ static struct usb_function_instance *afunc_alloc_inst(void)
+ 	opts->c_chmask = UAC2_DEF_CCHMASK;
+ 	opts->c_srate = UAC2_DEF_CSRATE;
+ 	opts->c_ssize = UAC2_DEF_CSSIZE;
+-	opts->c_sync = UAC2_DEF_CSYNC;
+ 	opts->req_number = UAC2_DEF_REQ_NUM;
+ 	return &opts->func_inst;
+ }
+diff --git a/drivers/usb/gadget/function/u_uac2.h b/drivers/usb/gadget/function/u_uac2.h
+index 13589c3c805c..b5035711172d 100644
+--- a/drivers/usb/gadget/function/u_uac2.h
++++ b/drivers/usb/gadget/function/u_uac2.h
+@@ -21,7 +21,6 @@
+ #define UAC2_DEF_CCHMASK 0x3
+ #define UAC2_DEF_CSRATE 64000
+ #define UAC2_DEF_CSSIZE 2
+-#define UAC2_DEF_CSYNC		USB_ENDPOINT_SYNC_ASYNC
+ #define UAC2_DEF_REQ_NUM 2
+ 
+ struct f_uac2_opts {
+@@ -32,7 +31,6 @@ struct f_uac2_opts {
+ 	int				c_chmask;
+ 	int				c_srate;
+ 	int				c_ssize;
+-	int				c_sync;
+ 	int				req_number;
+ 	bool				bound;
+ 
 -- 
-2.30.0
+2.30.2
 
