@@ -2,134 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4709C4320E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 22:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7457DC4320A
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 22:27:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABA2360FD8
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 22:21:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D3816101C
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 22:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243760AbhHZWWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 18:22:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29858 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243764AbhHZWWA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 18:22:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630016471;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
-        b=SpUL2EN9m3B+cWKmrBo/UFN9CEgN+hY3Sg9BmGaoDLIQP+tFXphc9VVpnoDVX8Es+75AEv
-        XeCzqBBPc0ONCa2qxVHGNWi9YvYZylVEOZzn5qDQB0lhXL8AjVdjfu0ImKZ00rLagBjxDj
-        BM5WLTh6zOIdzkx4pn5Ob1aB3V7pw88=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-t2LgWHDXPF-VO2rVeI-0lw-1; Thu, 26 Aug 2021 18:21:10 -0400
-X-MC-Unique: t2LgWHDXPF-VO2rVeI-0lw-1
-Received: by mail-ot1-f69.google.com with SMTP id i7-20020a9d6507000000b0051c10643794so1810516otl.22
-        for <linux-doc@vger.kernel.org>; Thu, 26 Aug 2021 15:21:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
-        b=iqC9CdZbqq9+ImHzIbR2WHuVMbvTvTitMu+uXpgRS9wqzSnfurCjIt8hojkfqfKS1h
-         ufVEDtM720owmzwDZtRerMtZhRLpvexnpcqntXdkZcWNu9cyGD7s/y70bZ+UF9Phf9k/
-         lHXU5+OLb2Sj0lIiKs/pAqXjvLj/WeNnV+71JfIbjPeFnvmwN41FauIUTofsQKwm60Nh
-         MHr0CF/Nq5yq1vEXijZyRg0iUk3PKNffoZ7QV+P3+xqNXES6ClbH9Pun7LY/JJiqYEzV
-         4/p1BcHc6HaF3KBYNH73/i2gtOw7MIRwcTxkmZujHWp4hpgRxbfI1huYtU1Dv6jjvXls
-         Kgwg==
-X-Gm-Message-State: AOAM531v5aO7pQyPCDpV76wrQ04pJWFxz/VTzfVInncFLfL9j+VnGyt7
-        ykIsh929SDXjs5vepRAWmehPBkjz3/fLD5cVnovyU5ikLpM+UHdaFkaovC3gt+COA2nag6xezvK
-        myX+T0wSZxB+rR+lOr0QK
-X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965322oic.63.1630016469674;
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4wg/4PueI4scRfq8vf8o5WoWu5Cqwvs4cYyqbBPHaHmLY1mmgaQFiaPn6NoNF0UOWDizXew==
-X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965308oic.63.1630016469544;
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id s24sm840218otp.37.2021.08.26.15.21.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 16:21:08 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Yishai Hadas <yishaih@nvidia.com>
-Cc:     <bhelgaas@google.com>, <corbet@lwn.net>,
-        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
-        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
-        <michal.lkml@markovi.net>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <mgurtovoy@nvidia.com>, <jgg@nvidia.com>, <maorg@nvidia.com>,
-        <leonro@nvidia.com>
-Subject: Re: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Message-ID: <20210826162108.4fc8b844.alex.williamson@redhat.com>
-In-Reply-To: <20210826103912.128972-1-yishaih@nvidia.com>
-References: <20210826103912.128972-1-yishaih@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S243786AbhHZW2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 18:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243782AbhHZW2D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 18:28:03 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BFF8C0613C1;
+        Thu, 26 Aug 2021 15:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=NmGVEeD4f8GyoVLFzkkr+SOsTZSFXpPD5NNKXMPh4iI=; b=BEfzKtSSzenCGG8PcnTcDRY7ka
+        2EhoRY1gg1xloqLf0gyivyjnhKX/7/GxC1Oipx8t04nznYASqPUTPp0uzV1LnA0sc33N1aHH3nsDe
+        bzzFf5pkvTZG+5UUwOETdLytj+5k3hjIYocA3KzpZop13YWHoLWYE+isMO+BKA44fMaHdqrXE75v1
+        FrNGb/UZYgSXVojqkQOvW4ZXX5ZJkbx+t4JDxe5S6H6MVyE4SPUoply1T/AQVKriHg5ym4JZ0oOsU
+        AML4LTaadXfoXYpxYauPsAsvukACTeM4yhwqnwxbhDudDwQ7pb+Wo3r7A91mBXzkWpEUU5YRzTix9
+        LrEAEEUg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mJNq5-00B0BZ-0A; Thu, 26 Aug 2021 22:27:13 +0000
+Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-sgx@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20210825235234.153013-1-jarkko@kernel.org>
+ <20210825235234.153013-2-jarkko@kernel.org>
+ <ba483b7e-19a3-d4d3-56c0-3371a77341cb@infradead.org>
+ <e1ff36db0e7ed909653b6adb45094cc459dbad0b.camel@kernel.org>
+ <e87c5c8f-dead-ebdc-62f1-aa635288671c@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <124ad6ff-ee0d-5d59-0857-f1355578b59b@infradead.org>
+Date:   Thu, 26 Aug 2021 15:27:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <e87c5c8f-dead-ebdc-62f1-aa635288671c@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Aug 2021 13:38:59 +0300
-Yishai Hadas <yishaih@nvidia.com> wrote:
+On 8/26/21 1:27 PM, Dave Hansen wrote:
+> On 8/26/21 9:17 AM, Jarkko Sakkinen wrote:
+>>> I would prefer to see this listed in Documentation/filesystems/proc.rst
+>>> as an optional field, depending on CONFIG_X86_SGX.
+>>> Or at least put a reference in proc.rst to this doc file and its
+>>> supplemental fields.
+>>>
+>>> thanks.
+>> I *can* put it there but I did have reason not to, i.e. these attributes
+>> are neither there:
+>>
+>> DirectMap4k:     3930904 kB
+>> DirectMap2M:    29440000 kB
+>> DirectMap1G:     1048576 kB
+>>
+>> And they are implemented in arch specific code.
+>>
+>> Actually they are undocumented, e.g.
+>>
+>> $ git grep DirectMap4k
+>> arch/powerpc/mm/book3s64/pgtable.c:     seq_printf(m, "DirectMap4k:    %8lu kB\n",
+>> arch/s390/mm/pageattr.c:        seq_printf(m, "DirectMap4k:    %8lu kB\n",
+>> arch/x86/mm/pat/set_memory.c:   seq_printf(m, "DirectMap4k:    %8lu kB\n",
 > 
-> Jason Gunthorpe (2):
->   vfio: Use select for eventfd
->   vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
+> Yeah, we need to add some arch-specific sections to the documentation.
+> That *could* just be a reference over to a new file:
 > 
-> Max Gurtovoy (10):
->   vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
->   vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
->   vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
->   vfio/pci: Rename ops functions to fit core namings
->   vfio/pci: Include vfio header in vfio_pci_core.h
->   vfio/pci: Split the pci_driver code out of vfio_pci_core.c
->   vfio/pci: Move igd initialization to vfio_pci.c
->   PCI: Add 'override_only' field to struct pci_device_id
->   PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
->   vfio/pci: Introduce vfio_pci_core.ko
+> 	Documentation/x86/meminfo.rst
 > 
-> Yishai Hadas (1):
->   vfio/pci: Move module parameters to vfio_pci.c
+> along with whatever other arches provide their own fields too.
 > 
->  Documentation/PCI/pci.rst                     |    1 +
->  MAINTAINERS                                   |    1 +
->  drivers/pci/pci-driver.c                      |   28 +-
->  drivers/vfio/Kconfig                          |   29 +-
->  drivers/vfio/fsl-mc/Kconfig                   |    3 +-
->  drivers/vfio/mdev/Kconfig                     |    1 -
->  drivers/vfio/pci/Kconfig                      |   40 +-
->  drivers/vfio/pci/Makefile                     |    8 +-
->  drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
->  drivers/vfio/pci/vfio_pci_config.c            |   70 +-
->  drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
->  drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
->  drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
->  drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
->  drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
->  drivers/vfio/platform/Kconfig                 |    6 +-
->  drivers/vfio/platform/reset/Kconfig           |    4 +-
->  include/linux/mod_devicetable.h               |    6 +
->  include/linux/pci.h                           |   29 +
->  .../linux/vfio_pci_core.h                     |   89 +-
->  scripts/mod/devicetable-offsets.c             |    1 +
->  scripts/mod/file2alias.c                      |   17 +-
->  22 files changed, 2525 insertions(+), 2311 deletions(-)
->  create mode 100644 drivers/vfio/pci/vfio_pci_core.c
->  rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
 
-Applied to vfio next branch for v5.15.  Thanks,
+Yes, either way works. Thanks.
 
-Alex 
+-- 
+~Randy
 
