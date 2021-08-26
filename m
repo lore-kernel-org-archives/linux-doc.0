@@ -2,121 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCA4C432BE
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 09:12:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8803EC4320E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 09:15:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0B81610D0
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 09:12:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65582610A7
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Aug 2021 09:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240883AbhHZJNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 05:13:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56458 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240568AbhHZJNK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Aug 2021 05:13:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E6E1610C9;
-        Thu, 26 Aug 2021 09:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629969143;
-        bh=uDYKss5H51+qlIxfwS1FoAJZats7oowU7sDnItkFnkM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g+Dd0uchzkhttjR2fUYqF873FDaPGvREczo8WfLlhIj9+AMkkYd59L9t5sqNKUllR
-         Z+opvWlq5I8niffvM4jJSCYpkPS7BDFULoSYJsIwOzsjLm6eUgJdDnrrJjSfLOCbpR
-         IuYfFSeYYS2ye33ZK9BY8LOYB1aq6wAKxUpYH6zPmS9jltgXEE5DnAJSHDtjdW23iO
-         urlf5VXah4PJsqzjlSAYyrs2KoQCM1chOl/z1TDeEwW4bWrcdKlW40auTe8i+H8c0E
-         ueCXJLC55xEuHdUqmsUKgEtXt99ET+LgEt6iCpuXDx/QaWf1kQRcrVm6/fAeJCjjWV
-         fP6k6YD4NXd9A==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] docs: bootconfig: Add how to use bootconfig for kernel parameters
-Date:   Thu, 26 Aug 2021 18:12:21 +0900
-Message-Id: <162996914170.236535.439632993302650531.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <162996911932.236535.7533708592332223449.stgit@devnote2>
-References: <162996911932.236535.7533708592332223449.stgit@devnote2>
-User-Agent: StGit/0.19
+        id S240759AbhHZJQO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 05:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240674AbhHZJQN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 05:16:13 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F23B2C061757;
+        Thu, 26 Aug 2021 02:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Ihrfoe+h5Gg9VSrxwCLJOFQdRJ20cFSEfYzj5YNpG8Q=; b=wY38G8ajxEChFLwyC3iRnxB39A
+        2EC3dFAUwsP05slk284As6B+u1JXjX/VL9yNrm088GdJvIsvjIpo3vn+octhnoEBML9oASladIgHz
+        6kr0LPc8SPuYaNmuOIFdZ/FdMqrn5iqV1KMFzDhTbvC81X21ji6hVWQKe++zavBOiF380QYOMApAG
+        Y3dbeW7C/lO6r1ENhS8CMumFjOBwV9113GbZ2dVeQL8mL5XjQDH+qZJU5R4v2Qcrvql1nMVYyoBEy
+        CqT0YiRTiqO8aVu4sTwqY7X1kMNzN1tdTB+5Oqd5hZWfczn3mCJLW5PrjFHSPRQEfG7vd5fd1Zbsn
+        p2jgF1uA==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mJBQt-00D8iq-Gm; Thu, 26 Aug 2021 09:13:07 +0000
+Date:   Thu, 26 Aug 2021 10:12:23 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Yishai Hadas <yishaih@nvidia.com>
+Cc:     bhelgaas@google.com, corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, jgg@nvidia.com, maorg@nvidia.com,
+        leonro@nvidia.com
+Subject: Re: [PATCH V4 13/13] vfio/pci: Introduce vfio_pci_core.ko
+Message-ID: <YSda91k6G6yPWjCa@infradead.org>
+References: <20210825135139.79034-1-yishaih@nvidia.com>
+ <20210825135139.79034-14-yishaih@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210825135139.79034-14-yishaih@nvidia.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a section to describe how to use the bootconfig for
-specifying kernel and init parameters. This is an important
-section because it is the reason why this document is under
-the admin-guide.
+On Wed, Aug 25, 2021 at 04:51:39PM +0300, Yishai Hadas wrote:
+> From: Max Gurtovoy <mgurtovoy@nvidia.com>
+> 
+> Now that vfio_pci has been split into two source modules, one focusing on
+> the "struct pci_driver" (vfio_pci.c) and a toolbox library of code
+> (vfio_pci_core.c), complete the split and move them into two different
+> kernel modules.
+> 
+> As before vfio_pci.ko continues to present the same interface under sysfs
+> and this change will have no functional impact.
+> 
+> Splitting into another module and adding exports allows creating new HW
+> specific VFIO PCI drivers that can implement device specific
+> functionality, such as VFIO migration interfaces or specialized device
+> requirements.
+> 
+> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/bootconfig.rst |   39 +++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+Looks good,
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index 6a79f2e59396..a1860fc0ca88 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -178,7 +178,7 @@ update the boot loader and the kernel image itself as long as the boot
- loader passes the correct initrd file size. If by any chance, the boot
- loader passes a longer size, the kernel fails to find the bootconfig data.
- 
--To do this operation, Linux kernel provides "bootconfig" command under
-+To do this operation, Linux kernel provides ``bootconfig`` command under
- tools/bootconfig, which allows admin to apply or delete the config file
- to/from initrd image. You can build it by the following command::
- 
-@@ -196,6 +196,43 @@ To remove the config from the image, you can use -d option as below::
- Then add "bootconfig" on the normal kernel command line to tell the
- kernel to look for the bootconfig at the end of the initrd file.
- 
-+
-+Kernel parameters via Boot Config
-+=================================
-+
-+In addition to the kernel command line, the boot config can be used for
-+passing the kernel parameters. All the key-value pairs under ``kernel``
-+key will be passed to kernel cmdline directly. Moreover, the key-value
-+pairs under ``init`` will be passed to init process via the cmdline.
-+The parameters are concatinated with user-given kernel cmdline string
-+as the following order, so that the command line parameter can override
-+bootconfig parameters (this depends on how the subsystem handles parameters
-+but in general, earlier parameter will be overwritten by later one.)::
-+
-+ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
-+
-+Here is an example of the bootconfig file for kernel/init parameters.::
-+
-+ kernel {
-+   root = 01234567-89ab-cdef-0123-456789abcd
-+ }
-+ init {
-+  splash
-+ }
-+
-+This will be copied into the kernel cmdline string as the following::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" -- splash
-+
-+If user gives some other command line like,::
-+
-+ ro bootconfig -- quiet
-+
-+The final kernel cmdline will be the following::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
-+
-+
- Config File Limitation
- ======================
- 
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
