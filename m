@@ -2,66 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5551C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 07:52:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED9BC43214
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:05:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE4ED60FD9
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 07:52:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8406260FD9
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244513AbhH0Hw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 03:52:56 -0400
-Received: from mga05.intel.com ([192.55.52.43]:44331 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244507AbhH0Hwz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Aug 2021 03:52:55 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="303492623"
-X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
-   d="scan'208";a="303492623"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 00:52:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
-   d="scan'208";a="457447060"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 00:51:59 -0700
-Received: from andy by smile with local (Exim 4.94.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1mJWeV-00EFZG-TS; Fri, 27 Aug 2021 10:51:51 +0300
-Date:   Fri, 27 Aug 2021 10:51:51 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-scsi@vger.kernel.org, storagedev@microchip.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/5] vsprintf and uses: Add upper case output to %*ph
- extension
-Message-ID: <YSiZlyQzgW8umsjj@smile.fi.intel.com>
-References: <cover.1630003183.git.joe@perches.com>
+        id S244547AbhH0IGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 04:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232977AbhH0IGQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 04:06:16 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8437C0613D9
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 01:05:27 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id g138so3293318wmg.4
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 01:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=references:user-agent:from:to:cc:subject:date:in-reply-to
+         :message-id:mime-version;
+        bh=ixnLe+zWdJqfExJqEhC4uAFON4JzfuO3wZ4PfyB4wTU=;
+        b=ChcI6LD1hhvK7IWPuiUgGc32sfc2Bc31ZwVb33jYzQJFhe5M9Ou2Awfi6IwNpY01+s
+         MOUG88jTMCJSmZIX0XFj9gLuNqRxnOvXHo9vuIQYnDMlGnm1UCfFCjc8aGsZl+ex7/PJ
+         JVMdRZTjATPFWVphiv8UxSwFoC81QPShHW/G/2QaOiWDicJMM0epYUhtyPaPbHmUX7W6
+         WJm492D+mw5qR2auojscz7813Z3gQ13Dn0EX6oYz6hq+VFLRNixxl7MRROCBa0AqpK3r
+         pB497Y3lvrIDriKqoDFtFONC9fkFDg1OxQuZWUZJiSqkoKKJWmCW+RTSrGBYzaRXGpak
+         kkdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+         :in-reply-to:message-id:mime-version;
+        bh=ixnLe+zWdJqfExJqEhC4uAFON4JzfuO3wZ4PfyB4wTU=;
+        b=rXQ3G36Nlfvf2fYxZk10dqD7hXQCZ0a4we8nKC4ZCKw0eHFBzUmGqgwQ4Ryvk4aa68
+         1UsWIzoONjUhSogcrdA4DhP0DtP0W+O7DED3nql3cNK3B1MvhiSXuHh41oWGKpSI0iuP
+         Oy8KVoU4YcOSEjS3fkU2kxtn4qmex33Ywy6GNWiGO7ZzplqJtXZmIsagt2vAbRXg/OHA
+         fAYH9P8nqPeBcs4XK8nhyZZG6QNVydqzbUX51Yj+Sa4GbP3WrnG9gMo2pRnmiUnB5DnA
+         4VyLcO5BPLSB9nmTB/pk+f6N9V+MYVRSdPgsoJ6lcBE3fdLQF3t5CsNgqZzbfq6svq5J
+         I+MA==
+X-Gm-Message-State: AOAM533asmA+Dd5PJRCirAI9/INeJfyfpDSUrsB2SbEXUgLt9KtGn+71
+        B8y0BUbg9IwROwuX+QpuStzOMw==
+X-Google-Smtp-Source: ABdhPJxyo4ok+1HHsPzPr+B6L02WuYJwVVSaUa6YJRBOcMdv0HlA0T8C/yHvDPKAfGmjepjMGZwYng==
+X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr748834wmj.169.1630051526356;
+        Fri, 27 Aug 2021 01:05:26 -0700 (PDT)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id a5sm4786692wmj.30.2021.08.27.01.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Aug 2021 01:05:25 -0700 (PDT)
+References: <20210826185739.3868-1-ftoth@exalondelft.nl>
+User-agent: mu4e 1.6.4; emacs 27.1
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ferry Toth <ftoth@exalondelft.nl>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Lorenzo Colitti <lorenzo@google.com>,
+        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        frowand.list@gmail.com, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Hofman <pavel.hofman@ivitera.com>
+Subject: Re: [PATCH v2 0/3] Revert "usb: gadget: u_audio: add real feedback
+ implementation"
+Date:   Fri, 27 Aug 2021 09:59:40 +0200
+In-reply-to: <20210826185739.3868-1-ftoth@exalondelft.nl>
+Message-ID: <1j4kbbxqgr.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1630003183.git.joe@perches.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 11:43:00AM -0700, Joe Perches wrote:
-> Several sysfs uses that could use %*ph are upper case hex output.
-> Add a flag to the short hex formatting routine in vsprintf to support them.
-> Add documentation too.
 
-Thanks!
+On Thu 26 Aug 2021 at 20:57, Ferry Toth <ftoth@exalondelft.nl> wrote:
 
-Unfortunately I have got only first patch and this cover letter. Can you,
-please, Cc entire series?
+> Although there is a patch resolving this issue (see 
+> https://lore.kernel.org/linux-usb/1jilzsy8g7.fsf@starbuckisacylon.baylibre.com/T/#u)
+> it needs a little work and will not be ready for v5.14.0 release. Until then
+> revert the series.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Seems like a quite messy solution when the fix available :/
+Change with the updated commit description is avaialable BTW [0]
 
+[0]: https://lore.kernel.org/20210827075853.266912-1-jbrunet@baylibre.com
+
+>
+> v2:
+> - Added SoB (Balbi)
+>
+>
+> Ferry Toth (3):
+>   Revert "usb: gadget: u_audio: add real feedback implementation"
+>   Revert "usb: gadget: f_uac2: add adaptive sync support for capture"
+>   Revert "usb: gadget: f_uac2/u_audio: add feedback endpoint support"
+>
+>  .../ABI/testing/configfs-usb-gadget-uac2      |   2 -
+>  Documentation/usb/gadget-testing.rst          |   2 -
+>  drivers/usb/gadget/function/f_uac2.c          | 144 +----------
+>  drivers/usb/gadget/function/u_audio.c         | 225 +-----------------
+>  drivers/usb/gadget/function/u_audio.h         |  12 -
+>  drivers/usb/gadget/function/u_uac2.h          |   4 -
+>  6 files changed, 6 insertions(+), 383 deletions(-)
 
