@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F266C4320E
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F587C43216
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B90D60F39
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D2C660F58
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231654AbhH0TUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 15:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59870 "EHLO
+        id S231358AbhH0TUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 15:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbhH0TU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 15:20:29 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C506C0612AC
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:09 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id w6-20020a0cfc46000000b00370b0997afeso759342qvp.15
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:09 -0700 (PDT)
+        with ESMTP id S231635AbhH0TUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 15:20:30 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCA8C061226
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:13 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id f34-20020a05622a1a2200b0029c338949c1so908918qtb.8
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=l3p35V4V3g6cnININ+8tr1NFaRZ4RnaNYTh1TTlueAY=;
-        b=hF7FyliRwGyH3pXtC+OR2ff6WwjtNZrc+yTjL673rNOyJuFF7Yfznku96l9nSKCFxR
-         DIwErP8nNddfprMs3kjtwPNcUb9+AmYZ4k6FD1YWXdH3sOzidEkrYN9qIgBk0SMkqqRu
-         B4wJOa6PKL1i0XXgwhhvAQCWMuACSFuGfJNn6eNnP5tQTz0SMzhF+eHGD+TXJnDnm+M6
-         twGEw1kyuAkY9xbxobF+qCUUjfbaSkmALgrisTGdNAVzhjGJCGkx4EoGyOXb8UQgvoTU
-         PWNi5Nb38dFAH9sCZ19CjagKPT7ZCZ5b2k25S+r6MZTTp2G7JUE9cGIwA2hLcMvcdCvL
-         6okg==
+        bh=92AD8OF4VIc1rlAFfcwW/pEz9e2egvqx/M9b8ZJAWpE=;
+        b=U1r28Zn21CMYH1IWX1+CqiQPJum6eut/4WKOlqpJA4LXxU9BnjStINa9tWEQcyXqdA
+         2GC8K6g8qxZzYAtsKLExS6CTUdnrmUNotKOsIsb8oPbJKmVBL3yOh1aM/fZMmT7DTQKx
+         5FzYiOnBP4AFk1fM85v+rgAhdRIMmMctyf+b3QmPgeuh4IvzQxWVbmQs5sIMV1fbgJUO
+         AWFMVLC+J00Jqn+jxZcgPCFZoxkthxgzrpI0Mb32Hax6smgI2qnnC+rWNH4fk6/jGYrp
+         0+JMPysJ0sLFnfoeUGacmt+92YG19EERqdizt0rUcvnkDJziPqvDp39iiFIhvJv2n+zA
+         s1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=l3p35V4V3g6cnININ+8tr1NFaRZ4RnaNYTh1TTlueAY=;
-        b=RUiXf3YXr+IyDrFlMOSfTb0pqqFmPmx39RJ/ZXiUjZv2ZABsNI/7NHEJNbAMIcEigM
-         7A43cSw80u12jXYwdJ0wHSr1MVaJMEJGl1kVr3G/oIfdZXdqDJztT0AlDTnM9+NiIGbU
-         7NGtPFg6tqoNKh5k3hjdE161RqV8zLavoYknOYMaSluczlZr6Cy7iKecLUjp8ug1u5wr
-         1T4NlTmje8jW3wZc1QlvBNDGPNhaFjbhGVTT5oTF4wTy7jKy8vcNqP9AnYMlmqBWmBi+
-         8H5J9bxiDGaiEFaH/BFugM/sG1lNskLZzqowf3QDotN/O+Y7Vea98QHZqCbd6OTezW/I
-         yw6g==
-X-Gm-Message-State: AOAM530odTGj3Ogp/pQDOFpeIG9RCYtFshDVX+7TYWlIpMA3DBzQ84c2
-        YBR5GM69Ti3LggNO3V8hNW/rgHW6WJQ=
-X-Google-Smtp-Source: ABdhPJxQpBRAu6ApG3+nE1cz4JPsH3kScpcz32Jj8Tua0k6rSW3GwUEHotfKlN0XQvY3CIsbYdJCXp2PVwA=
+        bh=92AD8OF4VIc1rlAFfcwW/pEz9e2egvqx/M9b8ZJAWpE=;
+        b=dJkOeo9r7e8sUiN1uSoTROH6dDC17fa5UWAJcocj/m6s5CaXjEGEMmX2yzydtYy0v+
+         voyDmXPrXcc4HcfZIBrwbIX/esecTr71mk9OgaMpCKVyaeCsGnrofjg2Zc/NZtz4D7qj
+         2Kku5XC++idXqi3DI+LWq7yQJHfFH84YaiOpbAa7YX/PnQTBjiZIWptbUnG31fQXdoru
+         4qTzzzaaRrbzFvve0N7TzFsEo7pRYkxDF4ACbQwIGzYFzMB6sjuOxcu0cj9LbadPCzt/
+         UzpECgyISEFnmWrQJHxXU57tAZUw03yJ2cvRSgfVJGbvQ8iSIPWJFsIywKModFQ5uBsr
+         gwMw==
+X-Gm-Message-State: AOAM533pFyAmCdLIVsbQfkrZ4jYre2eEckTbpPTvlEBW4pR6NlT1BNqY
+        2qxtr3G/h0C5GsLZIDdedQ4xef5ms9M=
+X-Google-Smtp-Source: ABdhPJwT8bSKRR/90ZvLEsSj8F7NXY06PlZN4un4/T72i/BmMxtmSrmqf3pUsR2YfyBD8tO+04YlzB+EGKU=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:fd8e:f32b:a64b:dd89])
- (user=surenb job=sendgmr) by 2002:a05:6214:332:: with SMTP id
- j18mr11332835qvu.12.1630091948153; Fri, 27 Aug 2021 12:19:08 -0700 (PDT)
-Date:   Fri, 27 Aug 2021 12:18:56 -0700
+ (user=surenb job=sendgmr) by 2002:a05:6214:762:: with SMTP id
+ f2mr11382474qvz.48.1630091952884; Fri, 27 Aug 2021 12:19:12 -0700 (PDT)
+Date:   Fri, 27 Aug 2021 12:18:58 -0700
 In-Reply-To: <20210827191858.2037087-1-surenb@google.com>
-Message-Id: <20210827191858.2037087-2-surenb@google.com>
+Message-Id: <20210827191858.2037087-4-surenb@google.com>
 Mime-Version: 1.0
 References: <20210827191858.2037087-1-surenb@google.com>
 X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
-Subject: [PATCH v8 1/3] mm: rearrange madvise code to allow for reuse
+Subject: [PATCH v8 3/3] mm: add anonymous vma name refcounting
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     akpm@linux-foundation.org
 Cc:     ccross@google.com, sumit.semwal@linaro.org, mhocko@suse.com,
@@ -80,477 +80,163 @@ Cc:     ccross@google.com, sumit.semwal@linaro.org, mhocko@suse.com,
         sashal@kernel.org, cxfcosmos@gmail.com, linux@rasmusvillemoes.dk,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        kernel-team@android.com, surenb@google.com,
-        Pekka Enberg <penberg@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Jan Glauber <jan.glauber@gmail.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Rob Landley <rob@landley.net>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Serge E. Hallyn" <serge.hallyn@ubuntu.com>,
-        David Rientjes <rientjes@google.com>,
-        Rik van Riel <riel@redhat.com>, Mel Gorman <mgorman@suse.de>,
-        Michel Lespinasse <walken@google.com>,
-        Tang Chen <tangchen@cn.fujitsu.com>, Robin Holt <holt@sgi.com>,
-        Shaohua Li <shli@fusionio.com>,
-        Sasha Levin <sasha.levin@oracle.com>,
-        Minchan Kim <minchan@kernel.org>
+        kernel-team@android.com, surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Colin Cross <ccross@google.com>
+While forking a process with high number (64K) of named anonymous vmas the
+overhead caused by strdup() is noticeable. Experiments with ARM64 Android
+device show up to 40% performance regression when forking a process with
+64k unpopulated anonymous vmas using the max name lengths vs the same
+process with the same number of anonymous vmas having no name.
+Introduce anon_vma_name refcounted structure to avoid the overhead of
+copying vma names during fork() and when splitting named anonymous vmas.
+When a vma is duplicated, instead of copying the name we increment the
+refcount of this structure. Multiple vmas can point to the same
+anon_vma_name as long as they increment the refcount. The name member of
+anon_vma_name structure is assigned at structure allocation time and is
+never changed. If vma name changes then the refcount of the original
+structure is dropped, a new anon_vma_name structure is allocated
+to hold the new name and the vma pointer is updated to point to the new
+structure.
+With this approach the fork() performance regressions is reduced 3-4x
+times and with usecases using more reasonable number of VMAs (a few
+thousand) the regressions is not measurable.
 
-Refactor the madvise syscall to allow for parts of it to be reused by a
-prctl syscall that affects vmas.
-
-Move the code that walks vmas in a virtual address range into a function
-that takes a function pointer as a parameter.  The only caller for now is
-sys_madvise, which uses it to call madvise_vma_behavior on each vma, but
-the next patch will add an additional caller.
-
-Move handling all vma behaviors inside madvise_behavior, and rename it to
-madvise_vma_behavior.
-
-Move the code that updates the flags on a vma, including splitting or
-merging the vma as necessary, into a new function called
-madvise_update_vma.  The next patch will add support for updating a new
-anon_name field as well.
-
-Signed-off-by: Colin Cross <ccross@google.com>
-Cc: Pekka Enberg <penberg@kernel.org>
-Cc: Dave Hansen <dave.hansen@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Jan Glauber <jan.glauber@gmail.com>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Rob Landley <rob@landley.net>
-Cc: Cyrill Gorcunov <gorcunov@openvz.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: "Serge E. Hallyn" <serge.hallyn@ubuntu.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Rik van Riel <riel@redhat.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Michel Lespinasse <walken@google.com>
-Cc: Tang Chen <tangchen@cn.fujitsu.com>
-Cc: Robin Holt <holt@sgi.com>
-Cc: Shaohua Li <shli@fusionio.com>
-Cc: Sasha Levin <sasha.levin@oracle.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Minchan Kim <minchan@kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-  [sumits: rebased over v5.9-rc3]
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-  [surenb: rebased over v5.14-rc7]
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- mm/madvise.c | 319 +++++++++++++++++++++++++++------------------------
- 1 file changed, 172 insertions(+), 147 deletions(-)
+ include/linux/mm_types.h |  9 ++++++++-
+ mm/madvise.c             | 42 +++++++++++++++++++++++++++++++++-------
+ 2 files changed, 43 insertions(+), 8 deletions(-)
 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 26a30f7a5228..a7361acf2921 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -5,6 +5,7 @@
+ #include <linux/mm_types_task.h>
+ 
+ #include <linux/auxvec.h>
++#include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/spinlock.h>
+ #include <linux/rbtree.h>
+@@ -302,6 +303,12 @@ struct vm_userfaultfd_ctx {
+ struct vm_userfaultfd_ctx {};
+ #endif /* CONFIG_USERFAULTFD */
+ 
++struct anon_vma_name {
++	struct kref kref;
++	/* The name needs to be at the end because it is dynamically sized. */
++	char name[];
++};
++
+ /*
+  * This struct describes a virtual memory area. There is one of these
+  * per VM-area/task. A VM area is any part of the process virtual memory
+@@ -353,7 +360,7 @@ struct vm_area_struct {
+ 			unsigned long rb_subtree_last;
+ 		} shared;
+ 		/* Serialized by mmap_sem. */
+-		char *anon_name;
++		struct anon_vma_name *anon_name;
+ 	};
+ 
+ 	/*
 diff --git a/mm/madvise.c b/mm/madvise.c
-index 5c065bc8b5f6..359cd3fa612c 100644
+index bc029f3fca6a..32ac5dc5ebf3 100644
 --- a/mm/madvise.c
 +++ b/mm/madvise.c
-@@ -63,76 +63,20 @@ static int madvise_need_mmap_write(int behavior)
+@@ -63,6 +63,27 @@ static int madvise_need_mmap_write(int behavior)
+ 	}
  }
  
- /*
-- * We can potentially split a vm area into separate
-- * areas, each area with its own behavior.
-+ * Update the vm_flags on regiion of a vma, splitting it or merging it as
-+ * necessary.  Must be called with mmap_sem held for writing;
-  */
--static long madvise_behavior(struct vm_area_struct *vma,
--		     struct vm_area_struct **prev,
--		     unsigned long start, unsigned long end, int behavior)
-+static int madvise_update_vma(struct vm_area_struct *vma,
-+			      struct vm_area_struct **prev, unsigned long start,
-+			      unsigned long end, unsigned long new_flags)
- {
- 	struct mm_struct *mm = vma->vm_mm;
--	int error = 0;
-+	int error;
- 	pgoff_t pgoff;
--	unsigned long new_flags = vma->vm_flags;
--
--	switch (behavior) {
--	case MADV_NORMAL:
--		new_flags = new_flags & ~VM_RAND_READ & ~VM_SEQ_READ;
--		break;
--	case MADV_SEQUENTIAL:
--		new_flags = (new_flags & ~VM_RAND_READ) | VM_SEQ_READ;
--		break;
--	case MADV_RANDOM:
--		new_flags = (new_flags & ~VM_SEQ_READ) | VM_RAND_READ;
--		break;
--	case MADV_DONTFORK:
--		new_flags |= VM_DONTCOPY;
--		break;
--	case MADV_DOFORK:
--		if (vma->vm_flags & VM_IO) {
--			error = -EINVAL;
--			goto out;
--		}
--		new_flags &= ~VM_DONTCOPY;
--		break;
--	case MADV_WIPEONFORK:
--		/* MADV_WIPEONFORK is only supported on anonymous memory. */
--		if (vma->vm_file || vma->vm_flags & VM_SHARED) {
--			error = -EINVAL;
--			goto out;
--		}
--		new_flags |= VM_WIPEONFORK;
--		break;
--	case MADV_KEEPONFORK:
--		new_flags &= ~VM_WIPEONFORK;
--		break;
--	case MADV_DONTDUMP:
--		new_flags |= VM_DONTDUMP;
--		break;
--	case MADV_DODUMP:
--		if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) {
--			error = -EINVAL;
--			goto out;
--		}
--		new_flags &= ~VM_DONTDUMP;
--		break;
--	case MADV_MERGEABLE:
--	case MADV_UNMERGEABLE:
--		error = ksm_madvise(vma, start, end, behavior, &new_flags);
--		if (error)
--			goto out_convert_errno;
--		break;
--	case MADV_HUGEPAGE:
--	case MADV_NOHUGEPAGE:
--		error = hugepage_madvise(vma, &new_flags, behavior);
--		if (error)
--			goto out_convert_errno;
--		break;
--	}
- 
- 	if (new_flags == vma->vm_flags) {
- 		*prev = vma;
--		goto out;
-+		return 0;
- 	}
- 
- 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
-@@ -149,21 +93,21 @@ static long madvise_behavior(struct vm_area_struct *vma,
- 	if (start != vma->vm_start) {
- 		if (unlikely(mm->map_count >= sysctl_max_map_count)) {
- 			error = -ENOMEM;
--			goto out;
-+			return error;
- 		}
- 		error = __split_vma(mm, vma, start, 1);
- 		if (error)
--			goto out_convert_errno;
-+			return error;
- 	}
- 
- 	if (end != vma->vm_end) {
- 		if (unlikely(mm->map_count >= sysctl_max_map_count)) {
- 			error = -ENOMEM;
--			goto out;
-+			return error;
- 		}
- 		error = __split_vma(mm, vma, end, 0);
- 		if (error)
--			goto out_convert_errno;
-+			return error;
- 	}
- 
- success:
-@@ -172,15 +116,7 @@ static long madvise_behavior(struct vm_area_struct *vma,
- 	 */
- 	vma->vm_flags = new_flags;
- 
--out_convert_errno:
--	/*
--	 * madvise() returns EAGAIN if kernel resources, such as
--	 * slab, are temporarily unavailable.
--	 */
--	if (error == -ENOMEM)
--		error = -EAGAIN;
--out:
--	return error;
-+	return 0;
- }
- 
- #ifdef CONFIG_SWAP
-@@ -930,6 +866,96 @@ static long madvise_remove(struct vm_area_struct *vma,
- 	return error;
- }
- 
-+/*
-+ * Apply an madvise behavior to a region of a vma.  madvise_update_vma
-+ * will handle splitting a vm area into separate areas, each area with its own
-+ * behavior.
-+ */
-+static int madvise_vma_behavior(struct vm_area_struct *vma,
-+				struct vm_area_struct **prev,
-+				unsigned long start, unsigned long end,
-+				unsigned long behavior)
++static struct anon_vma_name *anon_vma_name_alloc(const char *name)
 +{
-+	int error = 0;
-+	unsigned long new_flags = vma->vm_flags;
++	struct anon_vma_name *anon_name;
++	size_t len = strlen(name);
 +
-+	switch (behavior) {
-+	case MADV_REMOVE:
-+		return madvise_remove(vma, prev, start, end);
-+	case MADV_WILLNEED:
-+		return madvise_willneed(vma, prev, start, end);
-+	case MADV_COLD:
-+		return madvise_cold(vma, prev, start, end);
-+	case MADV_PAGEOUT:
-+		return madvise_pageout(vma, prev, start, end);
-+	case MADV_FREE:
-+	case MADV_DONTNEED:
-+		return madvise_dontneed_free(vma, prev, start, end, behavior);
-+	case MADV_POPULATE_READ:
-+	case MADV_POPULATE_WRITE:
-+		return madvise_populate(vma, prev, start, end, behavior);
-+	case MADV_NORMAL:
-+		new_flags = new_flags & ~VM_RAND_READ & ~VM_SEQ_READ;
-+		break;
-+	case MADV_SEQUENTIAL:
-+		new_flags = (new_flags & ~VM_RAND_READ) | VM_SEQ_READ;
-+		break;
-+	case MADV_RANDOM:
-+		new_flags = (new_flags & ~VM_SEQ_READ) | VM_RAND_READ;
-+		break;
-+	case MADV_DONTFORK:
-+		new_flags |= VM_DONTCOPY;
-+		break;
-+	case MADV_DOFORK:
-+		if (vma->vm_flags & VM_IO) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+		new_flags &= ~VM_DONTCOPY;
-+		break;
-+	case MADV_WIPEONFORK:
-+		/* MADV_WIPEONFORK is only supported on anonymous memory. */
-+		if (vma->vm_file || vma->vm_flags & VM_SHARED) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+		new_flags |= VM_WIPEONFORK;
-+		break;
-+	case MADV_KEEPONFORK:
-+		new_flags &= ~VM_WIPEONFORK;
-+		break;
-+	case MADV_DONTDUMP:
-+		new_flags |= VM_DONTDUMP;
-+		break;
-+	case MADV_DODUMP:
-+		if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+		new_flags &= ~VM_DONTDUMP;
-+		break;
-+	case MADV_MERGEABLE:
-+	case MADV_UNMERGEABLE:
-+		error = ksm_madvise(vma, start, end, behavior, &new_flags);
-+		if (error)
-+			goto out;
-+		break;
-+	case MADV_HUGEPAGE:
-+	case MADV_NOHUGEPAGE:
-+		error = hugepage_madvise(vma, &new_flags, behavior);
-+		if (error)
-+			goto out;
-+		break;
-+	}
++	/* Add 1 for NUL terminator at the end of the anon_name->name */
++	anon_name = kzalloc(sizeof(*anon_name) + len + 1,
++			    GFP_KERNEL);
++	kref_init(&anon_name->kref);
++	strcpy(anon_name->name, name);
 +
-+	error = madvise_update_vma(vma, prev, start, end, new_flags);
-+
-+out:
-+	if (error == -ENOMEM)
-+		error = -EAGAIN;
-+	return error;
++	return anon_name;
 +}
 +
- #ifdef CONFIG_MEMORY_FAILURE
- /*
-  * Error injection support for memory error handling.
-@@ -978,30 +1004,6 @@ static int madvise_inject_error(int behavior,
- }
- #endif
- 
--static long
--madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
--		unsigned long start, unsigned long end, int behavior)
--{
--	switch (behavior) {
--	case MADV_REMOVE:
--		return madvise_remove(vma, prev, start, end);
--	case MADV_WILLNEED:
--		return madvise_willneed(vma, prev, start, end);
--	case MADV_COLD:
--		return madvise_cold(vma, prev, start, end);
--	case MADV_PAGEOUT:
--		return madvise_pageout(vma, prev, start, end);
--	case MADV_FREE:
--	case MADV_DONTNEED:
--		return madvise_dontneed_free(vma, prev, start, end, behavior);
--	case MADV_POPULATE_READ:
--	case MADV_POPULATE_WRITE:
--		return madvise_populate(vma, prev, start, end, behavior);
--	default:
--		return madvise_behavior(vma, prev, start, end, behavior);
--	}
--}
--
- static bool
- madvise_behavior_valid(int behavior)
- {
-@@ -1054,6 +1056,73 @@ process_madvise_behavior_valid(int behavior)
- 	}
- }
- 
-+/*
-+ * Walk the vmas in range [start,end), and call the visit function on each one.
-+ * The visit function will get start and end parameters that cover the overlap
-+ * between the current vma and the original range.  Any unmapped regions in the
-+ * original range will result in this function returning -ENOMEM while still
-+ * calling the visit function on all of the existing vmas in the range.
-+ * Must be called with the mmap_lock held for reading or writing.
-+ */
-+static
-+int madvise_walk_vmas(struct mm_struct *mm, unsigned long start,
-+		      unsigned long end, unsigned long arg,
-+		      int (*visit)(struct vm_area_struct *vma,
-+				   struct vm_area_struct **prev, unsigned long start,
-+				   unsigned long end, unsigned long arg))
++static void vma_anon_name_free(struct kref *kref)
 +{
-+	struct vm_area_struct *vma;
-+	struct vm_area_struct *prev;
-+	unsigned long tmp;
-+	int unmapped_error = 0;
-+
-+	/*
-+	 * If the interval [start,end) covers some unmapped address
-+	 * ranges, just ignore them, but return -ENOMEM at the end.
-+	 * - different from the way of handling in mlock etc.
-+	 */
-+	vma = find_vma_prev(mm, start, &prev);
-+	if (vma && start > vma->vm_start)
-+		prev = vma;
-+
-+	for (;;) {
-+		int error;
-+
-+		/* Still start < end. */
-+		if (!vma)
-+			return -ENOMEM;
-+
-+		/* Here start < (end|vma->vm_end). */
-+		if (start < vma->vm_start) {
-+			unmapped_error = -ENOMEM;
-+			start = vma->vm_start;
-+			if (start >= end)
-+				break;
-+		}
-+
-+		/* Here vma->vm_start <= start < (end|vma->vm_end) */
-+		tmp = vma->vm_end;
-+		if (end < tmp)
-+			tmp = end;
-+
-+		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
-+		error = visit(vma, &prev, start, tmp, arg);
-+		if (error)
-+			return error;
-+		start = tmp;
-+		if (prev && start < prev->vm_end)
-+			start = prev->vm_end;
-+		if (start >= end)
-+			break;
-+		if (prev)
-+			vma = prev->vm_next;
-+		else	/* madvise_remove dropped mmap_lock */
-+			vma = find_vma(mm, start);
-+	}
-+
-+	return unmapped_error;
++	struct anon_vma_name *anon_name =
++			container_of(kref, struct anon_vma_name, kref);
++	kfree(anon_name);
 +}
 +
- /*
-  * The madvise(2) system call.
-  *
-@@ -1126,9 +1195,7 @@ process_madvise_behavior_valid(int behavior)
-  */
- int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int behavior)
+ static inline bool has_vma_anon_name(struct vm_area_struct *vma)
  {
--	unsigned long end, tmp;
--	struct vm_area_struct *vma, *prev;
--	int unmapped_error = 0;
-+	unsigned long end;
- 	int error = -EINVAL;
- 	int write;
- 	size_t len;
-@@ -1168,51 +1235,9 @@ int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int beh
- 		mmap_read_lock(mm);
+ 	return !vma->vm_file && vma->anon_name;
+@@ -75,7 +96,7 @@ const char *vma_anon_name(struct vm_area_struct *vma)
+ 
+ 	mmap_assert_locked(vma->vm_mm);
+ 
+-	return vma->anon_name;
++	return vma->anon_name->name;
+ }
+ 
+ void dup_vma_anon_name(struct vm_area_struct *orig_vma,
+@@ -84,37 +105,44 @@ void dup_vma_anon_name(struct vm_area_struct *orig_vma,
+ 	if (!has_vma_anon_name(orig_vma))
+ 		return;
+ 
+-	new_vma->anon_name = kstrdup(orig_vma->anon_name, GFP_KERNEL);
++	kref_get(&orig_vma->anon_name->kref);
++	new_vma->anon_name = orig_vma->anon_name;
+ }
+ 
+ void free_vma_anon_name(struct vm_area_struct *vma)
+ {
++	struct anon_vma_name *anon_name;
++
+ 	if (!has_vma_anon_name(vma))
+ 		return;
+ 
+-	kfree(vma->anon_name);
++	anon_name = vma->anon_name;
+ 	vma->anon_name = NULL;
++	kref_put(&anon_name->kref, vma_anon_name_free);
+ }
+ 
+ /* mmap_lock should be write-locked */
+ static void replace_vma_anon_name(struct vm_area_struct *vma, const char *name)
+ {
++	const char *anon_name;
++
+ 	if (!name) {
+ 		free_vma_anon_name(vma);
+ 		return;
  	}
  
--	/*
--	 * If the interval [start,end) covers some unmapped address
--	 * ranges, just ignore them, but return -ENOMEM at the end.
--	 * - different from the way of handling in mlock etc.
--	 */
--	vma = find_vma_prev(mm, start, &prev);
--	if (vma && start > vma->vm_start)
--		prev = vma;
--
- 	blk_start_plug(&plug);
--	for (;;) {
--		/* Still start < end. */
--		error = -ENOMEM;
--		if (!vma)
--			goto out;
--
--		/* Here start < (end|vma->vm_end). */
--		if (start < vma->vm_start) {
--			unmapped_error = -ENOMEM;
--			start = vma->vm_start;
--			if (start >= end)
--				goto out;
--		}
--
--		/* Here vma->vm_start <= start < (end|vma->vm_end) */
--		tmp = vma->vm_end;
--		if (end < tmp)
--			tmp = end;
--
--		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
--		error = madvise_vma(vma, &prev, start, tmp, behavior);
--		if (error)
--			goto out;
--		start = tmp;
--		if (prev && start < prev->vm_end)
--			start = prev->vm_end;
--		error = unmapped_error;
--		if (start >= end)
--			goto out;
--		if (prev)
--			vma = prev->vm_next;
--		else	/* madvise_remove dropped mmap_lock */
--			vma = find_vma(mm, start);
--	}
--out:
-+	error = madvise_walk_vmas(mm, start, end, behavior,
-+			madvise_vma_behavior);
- 	blk_finish_plug(&plug);
- 	if (write)
- 		mmap_write_unlock(mm);
+-	if (vma->anon_name) {
++	anon_name = vma_anon_name(vma);
++	if (anon_name) {
+ 		/* Should never happen, to dup use dup_vma_anon_name() */
+-		WARN_ON(vma->anon_name == name);
++		WARN_ON(anon_name == name);
+ 
+ 		/* Same name, nothing to do here */
+-		if (!strcmp(name, vma->anon_name))
++		if (!strcmp(name, anon_name))
+ 			return;
+ 
+ 		free_vma_anon_name(vma);
+ 	}
+-	vma->anon_name = kstrdup(name, GFP_KERNEL);
++	vma->anon_name = anon_vma_name_alloc(name);
+ }
+ 
+ /*
 -- 
 2.33.0.259.gc128427fd7-goog
 
