@@ -2,117 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED9BC43214
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C063C432BE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8406260FD9
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:05:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AAC160F4F
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244547AbhH0IGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 04:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232977AbhH0IGQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 04:06:16 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8437C0613D9
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 01:05:27 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id g138so3293318wmg.4
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 01:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=references:user-agent:from:to:cc:subject:date:in-reply-to
-         :message-id:mime-version;
-        bh=ixnLe+zWdJqfExJqEhC4uAFON4JzfuO3wZ4PfyB4wTU=;
-        b=ChcI6LD1hhvK7IWPuiUgGc32sfc2Bc31ZwVb33jYzQJFhe5M9Ou2Awfi6IwNpY01+s
-         MOUG88jTMCJSmZIX0XFj9gLuNqRxnOvXHo9vuIQYnDMlGnm1UCfFCjc8aGsZl+ex7/PJ
-         JVMdRZTjATPFWVphiv8UxSwFoC81QPShHW/G/2QaOiWDicJMM0epYUhtyPaPbHmUX7W6
-         WJm492D+mw5qR2auojscz7813Z3gQ13Dn0EX6oYz6hq+VFLRNixxl7MRROCBa0AqpK3r
-         pB497Y3lvrIDriKqoDFtFONC9fkFDg1OxQuZWUZJiSqkoKKJWmCW+RTSrGBYzaRXGpak
-         kkdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
-         :in-reply-to:message-id:mime-version;
-        bh=ixnLe+zWdJqfExJqEhC4uAFON4JzfuO3wZ4PfyB4wTU=;
-        b=rXQ3G36Nlfvf2fYxZk10dqD7hXQCZ0a4we8nKC4ZCKw0eHFBzUmGqgwQ4Ryvk4aa68
-         1UsWIzoONjUhSogcrdA4DhP0DtP0W+O7DED3nql3cNK3B1MvhiSXuHh41oWGKpSI0iuP
-         Oy8KVoU4YcOSEjS3fkU2kxtn4qmex33Ywy6GNWiGO7ZzplqJtXZmIsagt2vAbRXg/OHA
-         fAYH9P8nqPeBcs4XK8nhyZZG6QNVydqzbUX51Yj+Sa4GbP3WrnG9gMo2pRnmiUnB5DnA
-         4VyLcO5BPLSB9nmTB/pk+f6N9V+MYVRSdPgsoJ6lcBE3fdLQF3t5CsNgqZzbfq6svq5J
-         I+MA==
-X-Gm-Message-State: AOAM533asmA+Dd5PJRCirAI9/INeJfyfpDSUrsB2SbEXUgLt9KtGn+71
-        B8y0BUbg9IwROwuX+QpuStzOMw==
-X-Google-Smtp-Source: ABdhPJxyo4ok+1HHsPzPr+B6L02WuYJwVVSaUa6YJRBOcMdv0HlA0T8C/yHvDPKAfGmjepjMGZwYng==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr748834wmj.169.1630051526356;
-        Fri, 27 Aug 2021 01:05:26 -0700 (PDT)
-Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id a5sm4786692wmj.30.2021.08.27.01.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 01:05:25 -0700 (PDT)
-References: <20210826185739.3868-1-ftoth@exalondelft.nl>
-User-agent: mu4e 1.6.4; emacs 27.1
-From:   Jerome Brunet <jbrunet@baylibre.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ferry Toth <ftoth@exalondelft.nl>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Lorenzo Colitti <lorenzo@google.com>,
-        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        frowand.list@gmail.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pavel Hofman <pavel.hofman@ivitera.com>
-Subject: Re: [PATCH v2 0/3] Revert "usb: gadget: u_audio: add real feedback
- implementation"
-Date:   Fri, 27 Aug 2021 09:59:40 +0200
-In-reply-to: <20210826185739.3868-1-ftoth@exalondelft.nl>
-Message-ID: <1j4kbbxqgr.fsf@starbuckisacylon.baylibre.com>
+        id S231700AbhH0IJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 04:09:07 -0400
+Received: from smtprelay0131.hostedemail.com ([216.40.44.131]:58164 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229934AbhH0IJG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 04:09:06 -0400
+Received: from omf11.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id BFC5E22AB5;
+        Fri, 27 Aug 2021 08:08:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 7395520A298;
+        Fri, 27 Aug 2021 08:08:12 +0000 (UTC)
+Message-ID: <18d9f8d6803c8957ec091c207780c163af07e41f.camel@perches.com>
+Subject: Re: [PATCH 1/5] vsprintf/Documentation: Add X to %*ph extension to
+ output upper case hex
+From:   Joe Perches <joe@perches.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 27 Aug 2021 01:08:10 -0700
+In-Reply-To: <YSiY0aa+C9cyJni4@smile.fi.intel.com>
+References: <cover.1630003183.git.joe@perches.com>
+         <bc33e306a9064dfbf1180a35f9bfa587c6502eca.1630003183.git.joe@perches.com>
+         <YSiY0aa+C9cyJni4@smile.fi.intel.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Stat-Signature: 59ktf3o3pnawonoefr8m9jwr44aeznyf
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 7395520A298
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/Xj/j/nAJ4SKNqA3ky0WP/6cqw4QroyOk=
+X-HE-Tag: 1630051692-852234
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 2021-08-27 at 10:48 +0300, Andy Shevchenko wrote:
+> On Thu, Aug 26, 2021 at 11:43:01AM -0700, Joe Perches wrote:
+> > A few sysfs output uses of hex arrays are uppercase and are nominally ABI.
+> > 
+> > Add a mechanism to the existing vsprintf %*ph hex output extension to
+> > support upper case hex output.
+> 
+> ...
+> 
+> > +	The preferred output is lowercase
+> >  	%*ph	00 01 02  ...  3f
+> >  	%*phC	00:01:02: ... :3f
+> >  	%*phD	00-01-02- ... -3f
+> >  	%*phN	000102 ... 3f
+> > +	Formats with X are uppercase, used for backwards compatibility
+> > +	%*phX	00 01 02  ...  3F
+> > +	%*phCX	00:01:02: ... :3F
+> > +	%*phDX	00-01-02- ... -3F
+> > +	%*phNX	000102 ... 3F
+> 
+> Why not using %*pH...?
 
-On Thu 26 Aug 2021 at 20:57, Ferry Toth <ftoth@exalondelft.nl> wrote:
+I find X more intelligible.
 
-> Although there is a patch resolving this issue (see 
-> https://lore.kernel.org/linux-usb/1jilzsy8g7.fsf@starbuckisacylon.baylibre.com/T/#u)
-> it needs a little work and will not be ready for v5.14.0 release. Until then
-> revert the series.
+> > +	char locase = 0x20;	/* ASCII OR'd for lower case see: number() */
+> 
+> If you use h vs H, you may derive this from (fmt[...] & SMALL).
 
-Seems like a quite messy solution when the fix available :/
-Change with the updated commit description is avaialable BTW [0]
+It's not necessary to use any more of the rather limited vsprintf
+extension namespace.
 
-[0]: https://lore.kernel.org/20210827075853.266912-1-jbrunet@baylibre.com
-
->
-> v2:
-> - Added SoB (Balbi)
->
->
-> Ferry Toth (3):
->   Revert "usb: gadget: u_audio: add real feedback implementation"
->   Revert "usb: gadget: f_uac2: add adaptive sync support for capture"
->   Revert "usb: gadget: f_uac2/u_audio: add feedback endpoint support"
->
->  .../ABI/testing/configfs-usb-gadget-uac2      |   2 -
->  Documentation/usb/gadget-testing.rst          |   2 -
->  drivers/usb/gadget/function/f_uac2.c          | 144 +----------
->  drivers/usb/gadget/function/u_audio.c         | 225 +-----------------
->  drivers/usb/gadget/function/u_audio.h         |  12 -
->  drivers/usb/gadget/function/u_uac2.h          |   4 -
->  6 files changed, 6 insertions(+), 383 deletions(-)
 
