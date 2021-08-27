@@ -7,76 +7,76 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7811CC43214
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 13:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA18C41537
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 13:21:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5913460F6C
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 13:21:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C74DF60FF2
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 13:21:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245216AbhH0NWG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 09:22:06 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28646 "EHLO
+        id S245200AbhH0NWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 09:22:08 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28174 "EHLO
         mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245167AbhH0NWB (ORCPT
+        by vger.kernel.org with ESMTP id S245153AbhH0NWB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 09:22:01 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17RA60N9020751;
-        Fri, 27 Aug 2021 13:20:59 GMT
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17RA8dsT025578;
+        Fri, 27 Aug 2021 13:20:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=JrmrYv+4itrNkuyJVx9owj6FchfSRMm8+sp7P2G5ya8=;
- b=PnIysyTZ+4Xg555PEAG5JcHegv4YxCUqFymU2MmB9obhWoarusQR7Zef1mWVaNsanrNk
- hJPi4BTgbxzOLOOtY+61LKPbo9mU4DNZl29Y9NzjS6532XlU6QY4hoBW59fuaaM56LII
- NOOFLfAFoI99ChNuAFxoIyJFP5tNkv9L9heFnVZg3c8G0u7Wjo6rJ/v5QTQaMoZZRoEM
- bIJm9GVJ+xYmAIwCJM8tXq3uxrts4R+0AjYNl5XRd18eCdJj+2NI3CDwbI0RM4F1gTmH
- 29tNcjEjN3j5jJgEh39KRbgDPGonkehAHQskneSDbHdEup10Q4yITFLLtZIhU2piTSo/ /A== 
+ bh=ryFmKdn22aDzTv7hHbtLareszmknkHuvUfAEeNFJAMw=;
+ b=xhFGcUFwrN6ewYsW+QVqZkNY5IF/4glpZhjosMVPbcsMI8MqmBPDxb270ptCxpL/SOid
+ ntKLisXwmvqVB63nmDsIV+scIovW0Cm4YNIAobJuR4pJ4bCxNI+d3/wIdPZzNpAmhRwx
+ PK5bdpurOFIdo2Yv8pnL4QxtoPHDj3S9O7+2Q5izKliJQht/6qy0lO2iEqmfKDP7JN1/
+ VJ5Nalir5pMPxbXopbuOc8O62oOnN/D4WgaMYCItIr0wHo2e2G9VHzjxETuX44S00wLx
+ MWwR3/Fm/1xNYS4Zha8gFmYFapYrQF36a7VXPvbDf8kMeoyqrIKD2iUJ5GnhWvdj8rfk fA== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=JrmrYv+4itrNkuyJVx9owj6FchfSRMm8+sp7P2G5ya8=;
- b=KKehDOrauj/UVs1h+DikboJFjeXa0+aIhqFxQioA4TfOYD6dlRP+V3u6y+S37tq09LUM
- rU8O+lKjPjmk4iOJVdugQdF++IQ6RrelPx46CdXoFMFcSFLDAM5wPXf1XYoaFWPX/D17
- /9uirC8nOqOYHXlEaWWOOTKoELtYkeVCUk/uvminqqxkEq/2c6vLaOxXXDygXn6Vx+fC
- aWowyTJNYptqWCcAKfmA6Mk8fClJMOv+NfCh05czyppZ9jRFs6s4XLz9vETc2WXSotvD
- 6gRgGaOAqe4hMyAG9nPbnlf9VzMab2Gc8l+tsIOhvRfLb3CExazzgMGRehy2NgMUZ55N 4g== 
+ bh=ryFmKdn22aDzTv7hHbtLareszmknkHuvUfAEeNFJAMw=;
+ b=PmXxhYdf8zaVv19lqdt8YZ4rtP4jiF3HCmQ8PWiHCtsYwqF1nOwIGDkbX997HwUGmPA1
+ YMlXZBN3DzNyBo/TIRXSCh9IhYZ9I6emDJ9BWVDKfIa7Mi0qzZcX5wJ8+MJ7+pnRa5o0
+ 4q8x+ZJAhqXaZXrriVU2mRIQ/UyedACI94lYpCM4kzGMXBT4cOYsqPt62GxEvAQcwsKI
+ sJCCp4gct590jlUE9Jw/oK7OFDcI8C4jyDCAISyyoiLvbup7J3xO6y+4xg2k1+oAccV3
+ I87krG8nU9QSSdJ1FiqnWecAis2FUUhjKQMVIzJ8vOHBLwFuHpwyQFjcvJAPeTtAGJJj dA== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ap4ekuncg-1
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ap3eauqkt-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Aug 2021 13:20:59 +0000
+        Fri, 27 Aug 2021 13:20:51 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RD9nxL076969;
-        Fri, 27 Aug 2021 13:20:58 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2044.outbound.protection.outlook.com [104.47.51.44])
-        by userp3030.oracle.com with ESMTP id 3ajpm4pqdq-3
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RD9oud076983;
+        Fri, 27 Aug 2021 13:20:50 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2041.outbound.protection.outlook.com [104.47.51.41])
+        by userp3030.oracle.com with ESMTP id 3ajpm4pqa4-2
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Aug 2021 13:20:58 +0000
+        Fri, 27 Aug 2021 13:20:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d9bd8SH8nNpzj/fS0T3MQ+grl16sG2PxBzhwHq4dOOKydy1jyChi9txvlH4QyEMwhCm7OSz7dh36RKFC4fSP0RcKYfVS+FZWIIVaJbIVKlB/D4+5W1Kl78ZHdDw8m9vDTnAzSMxmZR+a8kz18Tgyvbt2Wmy+wlxn3zVYIU+0x8ufXqMhAli66YOcnXrzMknbxHNcuT1o0bmnhM81CFivgNyLLRaHBJnQ0mbXRUxT0x+rNlnP9X9mMWy001K3IJzHIX+WfCje+LocQU0a5vHtNK+pF2MjpLu09iF0QkKAwMs7dtLsSBt7IsUTOALkvkOW1B4eDzsYlylNglBKbRoR5w==
+ b=aYyHW2sSW+E5Ziwy3YazlnLm97s8vIFRi0KoTenxUEBJb26ZtzscVi/ozbUbuH6kJMN9hg/jTkdX2ejY8PmChnK6SjfqAHhEZAbBNxHTews5317OYJI13008iQqnP9FIB3ZudtjYfXsE/WIwk7xq7Nq1o3UHWLDy9DUGZi2mUkaIQWYFJPMnLrxIBHa2UwK6AL9TNyKIeWHduTpqBPp5ZqX5Bh4Kmzf9B69x42kwbaz5mFBTDUT0B1Zveqhg0FyE9ZLKd/Nnwp7fjn47nvSIMje0Ik4gcIh8MS5lmE4xCrRDAGVqCvUYPyO3L0cLxKM5u/AwC8xwWRd+od8y/VpArw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JrmrYv+4itrNkuyJVx9owj6FchfSRMm8+sp7P2G5ya8=;
- b=L4mN3ToDGIo6NvYBpNPh2vQtYh2VXnVhGRTc3tdJqfQ4bow8puIyug6yqEZP6/Fr9Mfv84V+rjJPyy7da99afw/L0c0AN+w1gjfz7tUlHghKLMNbXrtWH32n1mIshx62oGiNp5Mo+vIgi0X2GuDbacvAwzHoaJ/pt6A+TYEqPPdGo8KX8DOUEV86cR2z7w3HT5T6G5hnS/v2QCAG7/fvwzue1RdGbD+EMHN2RUR62m07Wk/KSQbOQfVaIsddkMIz9WnTVn8f0h13olXVu16gw3XE4Sdho6eWrKtv15U/2ovGxvTFadMnd4gDJVIbk+T19TjrcMOt8r6u9RkL7S9OnQ==
+ bh=ryFmKdn22aDzTv7hHbtLareszmknkHuvUfAEeNFJAMw=;
+ b=cYliL/fJqjRaRxJap9LryXh5hs0BRiwUsdjFShFWrbyLhM6mHUtLiukNATIoU1X62fdsPMlFvdmULkjoRsukA95vDuFNFq54dYLOX5yF+0c/oRq90kGt7PcF+4/B582q2wUHc2t6mqjCdVPKJCjDtuJovnPODlEvbbEh3RhAffAQP9CD8MTSNufUXoZzS60Jh0eP5XjohOdzUCuhd7Kjhj+8UHbjNJ5rXwdExvsxuf6rZPE+q0xOsfvFLHqysBxPamERa8T5Q3KfOEkt5mLNW0eZvMzo16SPPWe3K20PbhakEo4ach+Yqybx9CqoxJHMgoNvUEAB7PEXkd0yvNUxmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JrmrYv+4itrNkuyJVx9owj6FchfSRMm8+sp7P2G5ya8=;
- b=xjOEwlUyI4dIvUNSpW0CQC3aerLlZGdlB4Kt0Krd2/2DOh//THxju41vNSPiEEgzReTlge0o2s65qCO+0jx3Ey92fboBlUAvrz3AlI+xQQNcJpNbKG3Dr0ceY542s3nqPen8ZcktUz3hlfp+V15cPRpCn2y1V2jRqtCHYFk+Wio=
+ bh=ryFmKdn22aDzTv7hHbtLareszmknkHuvUfAEeNFJAMw=;
+ b=Ezf/KzfqMzdeT1qfRW1jYm9WGpzRh5fzlEzL4aBg1ahcsmBAkOKOOf2wW5Nn6hYqw7G7Yvlb1b4o77eU+M83hfXaGTdHsqhXgkojE46+NXDJIPogsA7KbsUavNm4FBhKKA0GkEVTKSWISow59OCnkVKt1oMplJzbXnVv/PHkb1k=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
 Received: from BY5PR10MB3793.namprd10.prod.outlook.com (2603:10b6:a03:1f6::14)
  by BYAPR10MB3237.namprd10.prod.outlook.com (2603:10b6:a03:153::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Fri, 27 Aug
- 2021 13:20:57 +0000
+ 2021 13:20:48 +0000
 Received: from BY5PR10MB3793.namprd10.prod.outlook.com
  ([fe80::e035:720f:86fd:bae3]) by BY5PR10MB3793.namprd10.prod.outlook.com
  ([fe80::e035:720f:86fd:bae3%4]) with mapi id 15.20.4457.020; Fri, 27 Aug 2021
- 13:20:57 +0000
+ 13:20:48 +0000
 From:   Ross Philipson <ross.philipson@oracle.com>
 To:     linux-kernel@vger.kernel.org, x86@kernel.org,
         iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
@@ -85,9 +85,9 @@ Cc:     ross.philipson@oracle.com, dpsmith@apertussolutions.com,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
         luto@amacapital.net, kanth.ghatraju@oracle.com,
         trenchboot-devel@googlegroups.com
-Subject: [PATCH v4 12/14] reboot: Secure Launch SEXIT support on reboot paths
-Date:   Fri, 27 Aug 2021 09:28:35 -0400
-Message-Id: <1630070917-9896-13-git-send-email-ross.philipson@oracle.com>
+Subject: [PATCH v4 07/14] x86: Add early SHA support for Secure Launch early measurements
+Date:   Fri, 27 Aug 2021 09:28:30 -0400
+Message-Id: <1630070917-9896-8-git-send-email-ross.philipson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
 References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
@@ -97,128 +97,310 @@ X-ClientProxiedBy: SN6PR05CA0011.namprd05.prod.outlook.com
  (2603:10b6:a03:1f6::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lateralus.us.oracle.com (209.17.40.45) by SN6PR05CA0011.namprd05.prod.outlook.com (2603:10b6:805:de::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.8 via Frontend Transport; Fri, 27 Aug 2021 13:20:55 +0000
+Received: from lateralus.us.oracle.com (209.17.40.45) by SN6PR05CA0011.namprd05.prod.outlook.com (2603:10b6:805:de::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.8 via Frontend Transport; Fri, 27 Aug 2021 13:20:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a51f7ad-7c76-459a-de1e-08d9695d812e
+X-MS-Office365-Filtering-Correlation-Id: e33f5f5c-bda8-41a8-b75c-08d9695d7c24
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3237:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3237CC8FF809DB8AB5FCB12AE6C89@BYAPR10MB3237.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB323743A22630132F0D84B168E6C89@BYAPR10MB3237.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DWDjBC/d5lyXaGq7h6lL0IEXULjSkeiKXYHoZQgFzxmmEAREoT3WvyLTsBWrQpGePiQKkuJ6e/iaOkDKrkAC4AfmvhacM81cxS0mqfQ3maQHqThK+pq7dPppDdXvKOhpKRT0efxYheLE1slr79aoRPOsTOzhh2qZsjGwJCvuXxu+veb4egMDKNnp0KIR1+NjVNBwQfJ4fTpvQJxIYnSKSCHc70bDMny76TZARj89QnDE3NmKigqSeYWmnDBtKobXu6rNIYvuBzuNsWW7IPAliHND+GSN6RgNcd3452XGyIuW6faB2/XBfBxCxwdqgtVjm+TLveePuCYMZJ73YUg3dd4JU4b6nLjfbhe8kRjEaSswVoznahSsOzYRTxhWY9mrnTkIfh7O5+AC3W7L1GYqJGugBANOBf12nuznwTUTawkaNji+hbWPHcAF3pIuuv09XBPcwLQym8gNzU4ho/U7BqU/rImjMK1xFskXOFOQ/G3bVBoBzba0mpq77Ym8bvh2j4UJaOeg/rrN5+02jUghe+qFI6A0YjFPaM0MFcZoKYEwgWOT+sslRXMAxdL34F7VEZ++jlhDgTqZtvKODrBEToLhMzVD388TDuYqvpxwa4n8jKumkGGNlG7FfTmNPcmbf0WXWkN8P+qSUmSLJKFQNjxM9vC3uY1bcpTydioMxiqcpjS+CfnGNy31j3nVxwy/wnNGBlGxg2R5aipm3BaiBA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3793.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(346002)(376002)(396003)(956004)(44832011)(2616005)(2906002)(52116002)(26005)(7696005)(478600001)(38350700002)(38100700002)(6486002)(36756003)(186003)(6666004)(86362001)(8936002)(8676002)(316002)(66946007)(66556008)(4326008)(66476007)(7416002)(5660300002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: O2MTsUjJtFIjmgJ/884LO9SCXZvBoDSOT/+1b5O/kUwQQJ5IudOVtzVdQqvhYj8KFDsJnUC1JgsaHNAXticBoZz5AL58cUp+xM4ZrxQ5xAgJ2NrIZ/TFrBl62cBtSwSfDZYQmy8CwdSy8JJZox0Uyw0fIrcelXmrkrP2CjB4U9D2X+5VUAyWM3KF4IdniHsK/vxKpVovGeieVhlYC4AC1FyHnX/JDuEP1txLeDft7x41BiMC73vNabQ1gMih+2Cvv/09WEHtW0F5jHs2UUVAM1Q4E5PVL/HZOna+iyuI2OWQmLn6UnZCD7x780DYBjf2uTdd+4qZQm8O/PTKHW7Ae1brerU1yds9KLGiaP51eLYsbMdOxXc10c3KZVOBdBhDaItOKHatpTNKcJ9948j81U8+ZydeGM2Cfpvqb4PsbprHlHV5O2/RvcwQBmbgnIqRDa3tvtZdqAd8IKZMPHESkU367l9T5SHWvK5WJxmxHRultN79Ht1FplPb/7W0belUdTR1KQLNXyzlE8+BRTOnhNwnY6DR+y+Px1l8almGQoQagBtp9oC9O7eotGtv5A5WflywVKziEXq4AlkaVmbcwiY0k7TCq3BrNQMV8CsjpCrutwK5B3vFUQNlZM4+dB781MumWSnJfhPq5dOO8uXQSLjRf2F+xeVAl+/7TrB3n8dxVlwu6NGOZp3c5zoLeuxSa3sjmlZzFoN+9liI6w850A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3793.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(346002)(376002)(396003)(956004)(44832011)(2616005)(2906002)(52116002)(26005)(7696005)(478600001)(38350700002)(38100700002)(6486002)(36756003)(186003)(83380400001)(6666004)(86362001)(8936002)(8676002)(316002)(66946007)(66556008)(4326008)(66476007)(7416002)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TuDye1fP2a/25cQxBXbyjud3AozLHU6dgk8ZnRPM7SHwUXE19QW/W38a+y8P?=
- =?us-ascii?Q?r141dt0rUSVRyyB5jlZKPKYw1oSojWAOHMWBgwhPH5D57Bz03/NrnnKC3URH?=
- =?us-ascii?Q?e9EcMhMH6Yoq+dkWtGTY9BqSRuhq9sEpP58hVeoG+u7L5sISe8+AsmzWGyLc?=
- =?us-ascii?Q?4MwrCWToxc/CtQdJWO0o5QF4SugLziKIRKGtn0S0NehtTCXBAE3+F6M8jDr+?=
- =?us-ascii?Q?FIiYJDPcCZDirQHUfaEL9rZNbisddWdwLuLLNv+cwx8Gi8kXlE0K+jG/J1uC?=
- =?us-ascii?Q?2y4oC4uncbRiaHuqTIUrO2n7ei/0+zFQCpP/Bv6IcZUegtoa1ho2qE1+9ceN?=
- =?us-ascii?Q?QnaSvf2P27a4W/MjCrMFkpUM1y/EjUgwuLg2POvSARN1bkZmCgzXMPnwn8VG?=
- =?us-ascii?Q?Qxk7OuN/Gp8A3MAUpOyZGljdE6qB++bUJyq6tN2e/VbFIZaMxOHo8pmZqse8?=
- =?us-ascii?Q?lSPhLxblfSAXVTQGtNUsIr1X03foxMmdvamWdoWldAltvzyjprlMnu1NOgEi?=
- =?us-ascii?Q?b3R/cRv0gF7/hHyLlGF7DzfjvYhkMwpNysp1GDqH584OVnEQ9oxIJIKaXqku?=
- =?us-ascii?Q?dQDUilUQUuYkVSGV5x6XDfDVrvDJoIfBZT136IRT7GKFHeeTj/wdkl5cMXPk?=
- =?us-ascii?Q?FJh/z71r9R3ej7JmQuZ9fQ1jV8TbKJceDbJAqP6YiQh6qDpOE+qJ6KMcHvnS?=
- =?us-ascii?Q?5xFWivhkz3+fS7R0tq/st6WsEhQk+x1YGTgn6XClgVgrWpZpeZOFBCXHmBnf?=
- =?us-ascii?Q?wDlG1Madr2QSErBLIvDsIHO/xmi7VlwtzAf8PNsfMPtdNczBTShDpneOm85+?=
- =?us-ascii?Q?TgGu7OQZISImOU1s3fuD7sE2pD+oE31GcIwvBhWwJ85HSnGWL9CRFzOKuGgn?=
- =?us-ascii?Q?5R2eKCtCaIePwm8DFpE++a1Sin+AryS5dDf1Md2VGGrLb1is32jt6Wby5iG1?=
- =?us-ascii?Q?9SAZDuQhiC7urOi6LX9/fjcInkWuTo8fC37raVW0pQ77IQ836Xjbsi4iQWqh?=
- =?us-ascii?Q?E/9bZjJyw7CI6E4pwYTOhYs5dw74yaBQEAYXjMXWDoZxBOn5Hmf1rddF7PpL?=
- =?us-ascii?Q?/T1nKDn7huYqP6kH87GLEbQD5y5LeRHi9MCNMjcdkjP/nmJHI/rmqJ+HuyoP?=
- =?us-ascii?Q?tPpXpIDwC/QY2nUhVzG8qq04TLwLh9OUFWOWHs5saV2gRDW9yLP5WwceV6wA?=
- =?us-ascii?Q?f8Ha4jNaLKVTf8N43nZrsm5bcq4+rSSG18PIv1+wkJSvSPQLuF1uOY7D8QPs?=
- =?us-ascii?Q?qGavZi36QNUzhne4qAAkW614wrk0Mf+X/im/x6sLMNGXQICTNOyTiLFHmjmA?=
- =?us-ascii?Q?6NzdgV34KnPTCt0eQ5JjkdO/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rh1DckNapPGX41PPTfvPTQbt2zD4a/ohioOziajk4T6rutPWKK6s+/BOicCp?=
+ =?us-ascii?Q?dWoSTkcGnXlIgjk+DL20P6iRJt4m+KUCXdFIr+wucSgXxqRrnNVVs+moWtT9?=
+ =?us-ascii?Q?G0rHLSAWxY4PnWf9uQUZPAt4E3gD7hTbGIUCi0+LCfChT1DpZeUPBG1WqgQH?=
+ =?us-ascii?Q?qzK5cSVaUi40PYaXNaG0wsMlgeE23g95duYvcVv/dVf8Op25a9qIHBjv4UGz?=
+ =?us-ascii?Q?v5E9BklbMvV3Xu2gg6WgmOeVwFYrfGyIXv3C+pqosaV0ZoermCaaJFWTPbVV?=
+ =?us-ascii?Q?hUKY964g5uSGiCLyNlGZHWTx/mSG8I5bHWau4yjNRV8mqIZAau5pRN+yYnzd?=
+ =?us-ascii?Q?T02pNsntTM4iNhWjO4rQyxT7vqM0HcoFWZe9u7YhLnOqgFo2S/qBqgs44rCA?=
+ =?us-ascii?Q?GPClZ9cJAnhZ6IZZLB0VKX5uTyt04GAr36A7pP6UXaNNeyOzYcxUKRGz66CV?=
+ =?us-ascii?Q?Mz5/NzMwWxcbhbmHiJhknc8Qgq9Emlsc60aUHq7SN6fswFwik7CFUaUfAWd1?=
+ =?us-ascii?Q?lKHlhXmizTVRpWreH1w5jH5T61mhD3rWqwRU2tly/vVD536mjJC8GJD0wMag?=
+ =?us-ascii?Q?vVXV+QUIqYd/C4vawsdtMbWOG+0k8Ig9Fn9CHnVXrXJwKx7zWGg4tbG55fI0?=
+ =?us-ascii?Q?gu7ws4djtK8/mlG7nmx0l8eD1ulrXpVQVIOKA5/M0HrjufOStGo6OoCc3Laf?=
+ =?us-ascii?Q?NI8IKHLtT3GiqHNSJpQOfqT84ZO6wHKJjIbXnowAOnKmVgbrao3iyrzUs9a9?=
+ =?us-ascii?Q?N6oHrBZTqaaESmJGLGBsCLab995j9ZPe+/DUs0y/lt7cmD7fFgpJj2M5Cc/G?=
+ =?us-ascii?Q?tmiOn93BsDedq5BkBufNRSrZXMUyicToL6Nf7yMrnzjxE/0PdrcT8nwuFE+y?=
+ =?us-ascii?Q?vQPnBGFC3AIoDQ6sPDwONpSAhbYVWJ2v1JF4dT5heU5sF5QrDgl/RRsJNU95?=
+ =?us-ascii?Q?jWUf16U8gNl7zmC3ob1uvDJrr+Bc5ZTOHbnzceiTuVYo3ZnJepe/Qes8oqnu?=
+ =?us-ascii?Q?w63vLhuFNLU8mVQAna3aVkg9YAuPW7AmwmX6UceZWDoO72hHIMqkpeBGIafB?=
+ =?us-ascii?Q?nyeU7VVeCb+NTD11vwmxBt99SqQZ4T3kxB5QuWjXCmp4qwBQKkYVmFWXcYw/?=
+ =?us-ascii?Q?gHyf2LoGKZpjq8jU0MAQoq9xA7n9nt2tGGmKrd/Mlr0VgQ+v5Z69O1ClPGPM?=
+ =?us-ascii?Q?d0kdOUbQhIPifouQVtiqZzZKGa2XMabaURCs9l9rOG89vOEzR9LpiXFCvq8v?=
+ =?us-ascii?Q?okZhI6dQj5359EouSGR/FB0RW4EFfJKQPJObPCp0ZkcYkcinyqIJnlBj7qBF?=
+ =?us-ascii?Q?MEe/AP+dxHZQxHndM6rn3Bl4?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a51f7ad-7c76-459a-de1e-08d9695d812e
+X-MS-Exchange-CrossTenant-Network-Message-Id: e33f5f5c-bda8-41a8-b75c-08d9695d7c24
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3793.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 13:20:57.1522
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 13:20:48.6591
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bgmH8LzRW8OjJ/OL/sljIT0DRoqcjE5uu1KxpcEdXmw0N28FrGRXppB+NNDGzxMBkg5kv+Y9fDBCrL2wyAGvrCeooO2LiIqoLB3Y+rlf4So=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /8sx5g9P6PNdyI77w9Pl9xvuC9v5z9gxCa7gVHMk3MDltm5MjHFn1PFc0C3qKW8tMm3QntTG3gd4J03t4pwyF5Gfmls7kEN+Aq53JZfKt0o=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3237
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10088 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
  mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108270086
-X-Proofpoint-GUID: XOFqQTLDcIwPfpSoPgy08_Ufy4FS9ETo
-X-Proofpoint-ORIG-GUID: XOFqQTLDcIwPfpSoPgy08_Ufy4FS9ETo
+X-Proofpoint-ORIG-GUID: 2miuq_qZC1s68I_qsjvuqUng2blpsPLM
+X-Proofpoint-GUID: 2miuq_qZC1s68I_qsjvuqUng2blpsPLM
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If the MLE kernel is being powered off, rebooted or halted,
-then SEXIT must be called. Note that the SEXIT GETSEC leaf
-can only be called after a machine_shutdown() has been done on
-these paths. The machine_shutdown() is not called on a few paths
-like when poweroff action does not have a poweroff callback (into
-ACPI code) or when an emergency reset is done. In these cases,
-just the TXT registers are finalized but SEXIT is skipped.
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
 
+The SHA algorithms are necessary to measure configuration information into
+the TPM as early as possible before using the values. This implementation
+uses the established approach of #including the SHA libraries directly in
+the code since the compressed kernel is not uncompressed at this point.
+
+The SHA code here has its origins in the code from the main kernel, commit
+c4d5b9ffa31f (crypto: sha1 - implement base layer for SHA-1). That code could
+not be pulled directly into the setup portion of the compressed kernel because
+of other dependencies it pulls in. The result is this is a modified copy of
+that code that still leverages the core SHA algorithms.
+
+Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
 Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 ---
- arch/x86/kernel/reboot.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/x86/boot/compressed/Makefile       |   2 +
+ arch/x86/boot/compressed/early_sha1.c   | 103 ++++++++++++++++++++++++++++++++
+ arch/x86/boot/compressed/early_sha1.h   |  17 ++++++
+ arch/x86/boot/compressed/early_sha256.c |   7 +++
+ lib/crypto/sha256.c                     |   8 +++
+ lib/sha1.c                              |   4 ++
+ 6 files changed, 141 insertions(+)
+ create mode 100644 arch/x86/boot/compressed/early_sha1.c
+ create mode 100644 arch/x86/boot/compressed/early_sha1.h
+ create mode 100644 arch/x86/boot/compressed/early_sha256.c
 
-diff --git a/arch/x86/kernel/reboot.c b/arch/x86/kernel/reboot.c
-index ebfb911..fe9d8cc 100644
---- a/arch/x86/kernel/reboot.c
-+++ b/arch/x86/kernel/reboot.c
-@@ -12,6 +12,7 @@
- #include <linux/delay.h>
- #include <linux/objtool.h>
- #include <linux/pgtable.h>
-+#include <linux/slaunch.h>
- #include <acpi/reboot.h>
- #include <asm/io.h>
- #include <asm/apic.h>
-@@ -731,6 +732,7 @@ static void native_machine_restart(char *__unused)
+diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+index 431bf7f..059d49a 100644
+--- a/arch/x86/boot/compressed/Makefile
++++ b/arch/x86/boot/compressed/Makefile
+@@ -102,6 +102,8 @@ vmlinux-objs-$(CONFIG_ACPI) += $(obj)/acpi.o
+ vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_thunk_$(BITS).o
+ efi-obj-$(CONFIG_EFI_STUB) = $(objtree)/drivers/firmware/efi/libstub/lib.a
  
- 	if (!reboot_force)
- 		machine_shutdown();
-+	slaunch_finalize(!reboot_force);
- 	__machine_emergency_restart(0);
- }
- 
-@@ -741,6 +743,9 @@ static void native_machine_halt(void)
- 
- 	tboot_shutdown(TB_SHUTDOWN_HALT);
- 
-+	/* SEXIT done after machine_shutdown() to meet TXT requirements */
-+	slaunch_finalize(1);
++vmlinux-objs-$(CONFIG_SECURE_LAUNCH) += $(obj)/early_sha1.o $(obj)/early_sha256.o
 +
- 	stop_this_cpu(NULL);
- }
+ $(obj)/vmlinux: $(vmlinux-objs-y) $(efi-obj-y) FORCE
+ 	$(call if_changed,ld)
  
-@@ -749,8 +754,12 @@ static void native_machine_power_off(void)
- 	if (pm_power_off) {
- 		if (!reboot_force)
- 			machine_shutdown();
-+		slaunch_finalize(!reboot_force);
- 		pm_power_off();
-+	} else {
-+		slaunch_finalize(0);
+diff --git a/arch/x86/boot/compressed/early_sha1.c b/arch/x86/boot/compressed/early_sha1.c
+new file mode 100644
+index 0000000..74f4654
+--- /dev/null
++++ b/arch/x86/boot/compressed/early_sha1.c
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2021 Apertus Solutions, LLC.
++ */
++
++#include <linux/init.h>
++#include <linux/linkage.h>
++#include <linux/string.h>
++#include <asm/boot.h>
++#include <asm/unaligned.h>
++
++#include "early_sha1.h"
++
++#define SHA1_DISABLE_EXPORT
++#include "../../../../lib/sha1.c"
++
++/* The SHA1 implementation in lib/sha1.c was written to get the workspace
++ * buffer as a parameter. This wrapper function provides a container
++ * around a temporary workspace that is cleared after the transform completes.
++ */
++static void __sha_transform(u32 *digest, const char *data)
++{
++	u32 ws[SHA1_WORKSPACE_WORDS];
++
++	sha1_transform(digest, data, ws);
++
++	memset(ws, 0, sizeof(ws));
++	/*
++	 * As this is cryptographic code, prevent the memset 0 from being
++	 * optimized out potentially leaving secrets in memory.
++	 */
++	wmb();
++
++}
++
++void early_sha1_init(struct sha1_state *sctx)
++{
++	sha1_init(sctx->state);
++	sctx->count = 0;
++}
++
++void early_sha1_update(struct sha1_state *sctx,
++		       const u8 *data,
++		       unsigned int len)
++{
++	unsigned int partial = sctx->count % SHA1_BLOCK_SIZE;
++
++	sctx->count += len;
++
++	if (likely((partial + len) >= SHA1_BLOCK_SIZE)) {
++		int blocks;
++
++		if (partial) {
++			int p = SHA1_BLOCK_SIZE - partial;
++
++			memcpy(sctx->buffer + partial, data, p);
++			data += p;
++			len -= p;
++
++			__sha_transform(sctx->state, sctx->buffer);
++		}
++
++		blocks = len / SHA1_BLOCK_SIZE;
++		len %= SHA1_BLOCK_SIZE;
++
++		if (blocks) {
++			while (blocks--) {
++				__sha_transform(sctx->state, data);
++				data += SHA1_BLOCK_SIZE;
++			}
++		}
++		partial = 0;
++	}
++
++	if (len)
++		memcpy(sctx->buffer + partial, data, len);
++}
++
++void early_sha1_final(struct sha1_state *sctx, u8 *out)
++{
++	const int bit_offset = SHA1_BLOCK_SIZE - sizeof(__be64);
++	__be64 *bits = (__be64 *)(sctx->buffer + bit_offset);
++	__be32 *digest = (__be32 *)out;
++	unsigned int partial = sctx->count % SHA1_BLOCK_SIZE;
++	int i;
++
++	sctx->buffer[partial++] = 0x80;
++	if (partial > bit_offset) {
++		memset(sctx->buffer + partial, 0x0, SHA1_BLOCK_SIZE - partial);
++		partial = 0;
++
++		__sha_transform(sctx->state, sctx->buffer);
++	}
++
++	memset(sctx->buffer + partial, 0x0, bit_offset - partial);
++	*bits = cpu_to_be64(sctx->count << 3);
++	__sha_transform(sctx->state, sctx->buffer);
++
++	for (i = 0; i < SHA1_DIGEST_SIZE / sizeof(__be32); i++)
++		put_unaligned_be32(sctx->state[i], digest++);
++
++	*sctx = (struct sha1_state){};
++}
+diff --git a/arch/x86/boot/compressed/early_sha1.h b/arch/x86/boot/compressed/early_sha1.h
+new file mode 100644
+index 0000000..6584ea5
+--- /dev/null
++++ b/arch/x86/boot/compressed/early_sha1.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Apertus Solutions, LLC
++ */
++
++#ifndef BOOT_COMPRESSED_EARLY_SHA1_H
++#define BOOT_COMPRESSED_EARLY_SHA1_H
++
++#include <crypto/sha1.h>
++
++void early_sha1_init(struct sha1_state *sctx);
++void early_sha1_update(struct sha1_state *sctx,
++		       const u8 *data,
++		       unsigned int len);
++void early_sha1_final(struct sha1_state *sctx, u8 *out);
++
++#endif /* BOOT_COMPRESSED_EARLY_SHA1_H */
+diff --git a/arch/x86/boot/compressed/early_sha256.c b/arch/x86/boot/compressed/early_sha256.c
+new file mode 100644
+index 0000000..db8d784
+--- /dev/null
++++ b/arch/x86/boot/compressed/early_sha256.c
+@@ -0,0 +1,7 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2021 Apertus Solutions, LLC
++ */
++
++#define SHA256_DISABLE_EXPORT
++#include "../../../../lib/crypto/sha256.c"
+diff --git a/lib/crypto/sha256.c b/lib/crypto/sha256.c
+index 72a4b0b..e532220 100644
+--- a/lib/crypto/sha256.c
++++ b/lib/crypto/sha256.c
+@@ -149,13 +149,17 @@ void sha256_update(struct sha256_state *sctx, const u8 *data, unsigned int len)
  	}
-+
- 	/* A fallback in case there is no PM info available */
- 	tboot_shutdown(TB_SHUTDOWN_HALT);
+ 	memcpy(sctx->buf + partial, src, len - done);
  }
-@@ -778,6 +787,7 @@ void machine_shutdown(void)
++#ifndef SHA256_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha256_update);
++#endif
  
- void machine_emergency_restart(void)
+ void sha224_update(struct sha256_state *sctx, const u8 *data, unsigned int len)
  {
-+	slaunch_finalize(0);
- 	__machine_emergency_restart(1);
+ 	sha256_update(sctx, data, len);
  }
++#ifndef SHA256_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha224_update);
++#endif
  
+ static void __sha256_final(struct sha256_state *sctx, u8 *out, int digest_words)
+ {
+@@ -188,13 +192,17 @@ void sha256_final(struct sha256_state *sctx, u8 *out)
+ {
+ 	__sha256_final(sctx, out, 8);
+ }
++#ifndef SHA256_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha256_final);
++#endif
+ 
+ void sha224_final(struct sha256_state *sctx, u8 *out)
+ {
+ 	__sha256_final(sctx, out, 7);
+ }
++#ifndef SHA256_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha224_final);
++#endif
+ 
+ void sha256(const u8 *data, unsigned int len, u8 *out)
+ {
+diff --git a/lib/sha1.c b/lib/sha1.c
+index 9bd1935..0598efd 100644
+--- a/lib/sha1.c
++++ b/lib/sha1.c
+@@ -187,7 +187,9 @@ void sha1_transform(__u32 *digest, const char *data, __u32 *array)
+ 	digest[3] += D;
+ 	digest[4] += E;
+ }
++#ifndef SHA1_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha1_transform);
++#endif
+ 
+ /**
+  * sha1_init - initialize the vectors for a SHA1 digest
+@@ -201,4 +203,6 @@ void sha1_init(__u32 *buf)
+ 	buf[3] = 0x10325476;
+ 	buf[4] = 0xc3d2e1f0;
+ }
++#ifndef SHA1_DISABLE_EXPORT
+ EXPORT_SYMBOL(sha1_init);
++#endif
 -- 
 1.8.3.1
 
