@@ -2,140 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B0B6C4320A
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 16:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B4FC4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 17:13:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F29B360560
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 16:25:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBDCD60F5B
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 17:13:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbhH0Q0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 12:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231415AbhH0Q0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 12:26:43 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA29AC0613D9
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 09:25:54 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id c10so7710685qko.11
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 09:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6UXnHWuhKzdu/oSUtPKlkCaxdX6yM9oY2hFSeSoJKFk=;
-        b=MBKXEHmhUOxNCtbOpmWHL1bTGVLftX21Bc+ceHSSen0risnXXb2gF7W5nRFloJm1Mj
-         LDmuW+oGvWNmNdbSmr9Cyobr4WdbmKIzdaO5fGSoOW0DaSgkigWZ0xCJHZxmnVFI+Key
-         Mq7r/RuCT6tUX2SivKPGa0TiRSpYQ8oc4ipBmMJ4Rhzw4uFfPDS7uN9mRHzsjHBv27oX
-         GfitSLhjYpVh7N8xsl0zmEUB9zuYyadeA1M+Tt4dCzVbAl40w+Q6gogENMI6RBkTAlU5
-         xwM2imVS4i1d0tQS4T6Y+c9Giks7NFwLPOyzfEZdEsN4sq8t/24OeII55CeOMijLLvYe
-         QsPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6UXnHWuhKzdu/oSUtPKlkCaxdX6yM9oY2hFSeSoJKFk=;
-        b=VpuQY10HSPZbeVcUioHSj8N6KhnURE58beaKdNZchYMvwlIL61K+CtbqFSi7mq6AR8
-         FP28Ggvdpva84mwRCrB5sABNJI6eb6jQRnRlHk2beXhDMrO2Vca0Sw8B2WkQ93lCfdm8
-         AXkkfteSRqXFqF3rDCFLIougUZ3uU082Sz8eHjlsMOSd+mWYuAQZYs20BammA866holx
-         0TAQbdKaQjj12+xgRk8ezEf3NkZ3r4/h2k6loYk2T36erDrhwgecmSKrJfgQN8oL8YKo
-         lGe2AsZ1lZW7TRFC/z0Ilb8dkzLvMCjeuKnFwQo7lon/RyK8ZEk+e61OfqdoWrxwab7g
-         7HGw==
-X-Gm-Message-State: AOAM532RRzzPPoGGmASaS2Dqtxwxg9o/NHrX70eVuPMN2XP682ktOSyI
-        4Zvu0UCioekmekTd866S7zLILw==
-X-Google-Smtp-Source: ABdhPJzxYeFXuTHbMzxeNMezaNcAi/eCldZjs5Wu+hIW4J1zkBCfYUFDgsaQw27Tcf1kMf3qE5UBQg==
-X-Received: by 2002:a37:a9d2:: with SMTP id s201mr9435593qke.132.1630081553947;
-        Fri, 27 Aug 2021 09:25:53 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id j3sm4040399qti.4.2021.08.27.09.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 09:25:53 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mJefw-005jle-Kb; Fri, 27 Aug 2021 13:25:52 -0300
-Date:   Fri, 27 Aug 2021 13:25:52 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
- of subpages
-Message-ID: <20210827162552.GK1200268@ziepe.ca>
-References: <20210827145819.16471-1-joao.m.martins@oracle.com>
- <20210827145819.16471-9-joao.m.martins@oracle.com>
+        id S235974AbhH0RNt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 13:13:49 -0400
+Received: from mout.gmx.net ([212.227.17.22]:56999 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235695AbhH0RNs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Aug 2021 13:13:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1630084370;
+        bh=YGrt/tZqC6Fgg1MGVMuVmS6neQk6AN33ybHRfOyG7U4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=HexiUg1W5x2Jo15hbQizUtOvWIGA7i04Ksg6C4jYtc9xdf/4EcF+Hr5T+y3uwh2H+
+         nnkZ+QOQRvYtD/qi1VtgNc8k+jlMk9UcdGH+PxQhFIhw+Jl1mFyaEDoCRGzSF3YIQY
+         tG5kWehi9jn49B5WbDbQ9g0/CCDKAAJZtZr6vpMM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1N8XPt-1n60o70u0H-014Vvb; Fri, 27 Aug 2021 19:12:50 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>
+Cc:     Len Baker <len.baker@gmx.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH] docs: deprecated.rst: Clarify open-coded arithmetic with literals
+Date:   Fri, 27 Aug 2021 19:12:26 +0200
+Message-Id: <20210827171226.2938-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210827145819.16471-9-joao.m.martins@oracle.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:I4VWPP58QCGSuKHAt9e7f4B6GR0oJLIbfsgC5vaEc4Jc+JHrAW/
+ M8cvyz1w4tH1262z1GzwPm7Yy/QsCM+Vv0UAV7x/DqOpdjRa/hRByyP3Xzbyi67knQD8aek
+ b/m8TnEg9IQROi9C2I+iIjWx20VYjJerMA2GtIpeY2noVT6Eg4G1DQH3ncBfar9gb+6SNM/
+ jwcjwJobLqQzVzi+IC+LA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eJgriy0mrwI=:BRr/Xj1/Ce77Qxj3YGdtWH
+ 900bbVsHm6mQeIWxP1zoB9sgWuq1885wFtslqEN/+l9wJxXfaqyuSDE9wvAT2tWOhDCGeagc/
+ VlfRsgzJQr54TnB8gELEbfCWRNPeJioRovPh0znkMooyZkF0D/ZfOYD8wclbvq3Un4NrGlOR0
+ IOx/UjqmDrOrZ7wOiCppKuvfb/hW/8GKAxXvUAg8l1pZz88/gmBsLgsdC0louSCm2/rLM//+V
+ dWvvYh+OnmkgcBnIw3pVZmQvBoFJSNbAFByOIv0GH37kp3UGmonNtk+GHvW/fcEq67AXZCd/c
+ xNRAGUcCxKzjEyYEKffDQVfK1ANPMjdTOZbGunJaOGlfzuTNbZ+BA+jkJYlGukrwO8VfiDKDd
+ Y27ly0uCWBcixtHZgrCaXv5jSRL9Y9MmIgbCvsdHx0R6P/nGBMQOy726KonYpsOClhdoFgWZY
+ vdAG/PbNRyQgRUikzqCB6w7zA/lyzm5HOKtDi/O5cikXMXSCgiJmEyGwAyjFYdMoyDQ99PPaL
+ ZYPUTMjimH8qeUj8Twz1pYydnX2G/c3dYC4i4+8K0FbK3jQ+CbnWAa1jwvm1IgmOe9Khu/xbj
+ +TqUzfJSimkaP6kjlEurxyslOiIRLmI3XoelrXcDNPQmItrd9Jy0hcxxvo9RVNP1jp5bqUXrT
+ d8xM5IxrMLiDxw23aUKi84aQqw0l56OeoU4fjsz5IUje3QJQk5e8e+4DTaz2gsGuaJ66sS8TQ
+ RHhyxP1syRFD6vwuUsjghqjW3CeCTZkghqKl3fcFIBZIBCYgF7dP6qhcs/cJjBCFL7xM6Edvx
+ AfEhL9+U9AxsvuPNjLd6ilGSziwDsImiCncZFN1JbT50oZKQfI5e/LIr5qpW8veg60b6wEmut
+ ELPlaLfSCOBaFluHWvY4Hs4Zu8QIXCHAiWPfWI9EOBCeWrBDji6hbCg8ktpjShbTm60kf9HM8
+ QLU8wmOMoQ/5nMPw8Yjfd9u6DhDrdrxzkyryZXjsc4/HQWJsWZckcaTpVcgCgT1kuZL3CqzuK
+ OBWzcAVfLKlQ5SYxGc8JN/Q0D8EqCYFWh+eNUiutQL56GRL943xFGlgogzhfghmtmvbxCDuOk
+ qPHbgb5oqk0DIqJN4/X4I6kJ1a22yoKAAMjCk6iOEmqUppnS6R73Ovmgw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 27, 2021 at 03:58:13PM +0100, Joao Martins wrote:
+Although using literals for size calculation in allocator arguments may
+be harmless due to compiler warnings in case of overflows, it is better
+to refactor the code to avoid the use of open-coded math idiom.
 
->  #if defined(CONFIG_ARCH_HAS_PTE_DEVMAP) && defined(CONFIG_TRANSPARENT_HUGEPAGE)
->  static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->  			     unsigned long end, unsigned int flags,
->  			     struct page **pages, int *nr)
->  {
-> -	int nr_start = *nr;
-> +	int refs, nr_start = *nr;
->  	struct dev_pagemap *pgmap = NULL;
->  	int ret = 1;
->  
->  	do {
-> -		struct page *page = pfn_to_page(pfn);
-> +		struct page *head, *page = pfn_to_page(pfn);
-> +		unsigned long next = addr + PAGE_SIZE;
->  
->  		pgmap = get_dev_pagemap(pfn, pgmap);
->  		if (unlikely(!pgmap)) {
-> @@ -2252,16 +2265,25 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->  			ret = 0;
->  			break;
->  		}
-> -		SetPageReferenced(page);
-> -		pages[*nr] = page;
-> -		if (unlikely(!try_grab_page(page, flags))) {
-> -			undo_dev_pagemap(nr, nr_start, flags, pages);
-> +
-> +		head = compound_head(page);
-> +		/* @end is assumed to be limited at most one compound page */
-> +		if (PageHead(head))
-> +			next = end;
-> +		refs = record_subpages(page, addr, next, pages + *nr);
-> +
-> +		SetPageReferenced(head);
-> +		if (unlikely(!try_grab_compound_head(head, refs, flags))) {
-> +			if (PageHead(head))
-> +				ClearPageReferenced(head);
-> +			else
-> +				undo_dev_pagemap(nr, nr_start, flags, pages);
->  			ret = 0;
->  			break;
+So, clarify the preferred way in these cases.
 
-Why is this special cased for devmap?
+Suggested-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ Documentation/process/deprecated.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Shouldn't everything processing pud/pmds/etc use the same basic loop
-that is similar in idea to the 'for_each_compound_head' scheme in
-unpin_user_pages_dirty_lock()?
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/=
+deprecated.rst
+index 9d83b8db8874..fdfafdefe296 100644
+=2D-- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -60,7 +60,8 @@ smaller allocation being made than the caller was expect=
+ing. Using those
+ allocations could lead to linear overflows of heap memory and other
+ misbehaviors. (One exception to this is literal values where the compiler
+ can warn if they might overflow. Though using literals for arguments as
+-suggested below is also harmless.)
++suggested below is also harmless. So, the preferred way in these cases is
++to refactor the code to keep the open-coded math idiom out.)
 
-Doesn't that work for all the special page type cases here?
+ For example, do not use ``count * size`` as an argument, as in::
 
-Jason
+=2D-
+2.25.1
+
