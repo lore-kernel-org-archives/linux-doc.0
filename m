@@ -6,82 +6,64 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C063C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4537EC4320E
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:10:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AAC160F4F
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:08:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 275DD61004
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbhH0IJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 04:09:07 -0400
-Received: from smtprelay0131.hostedemail.com ([216.40.44.131]:58164 "EHLO
+        id S231282AbhH0ILf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 04:11:35 -0400
+Received: from smtprelay0089.hostedemail.com ([216.40.44.89]:48492 "EHLO
         smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229934AbhH0IJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 04:09:06 -0400
-Received: from omf11.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id BFC5E22AB5;
-        Fri, 27 Aug 2021 08:08:13 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 7395520A298;
-        Fri, 27 Aug 2021 08:08:12 +0000 (UTC)
-Message-ID: <18d9f8d6803c8957ec091c207780c163af07e41f.camel@perches.com>
-Subject: Re: [PATCH 1/5] vsprintf/Documentation: Add X to %*ph extension to
- output upper case hex
+        by vger.kernel.org with ESMTP id S231818AbhH0ILf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 04:11:35 -0400
+Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 1FAC38384364;
+        Fri, 27 Aug 2021 08:10:44 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id 07829315D7C;
+        Fri, 27 Aug 2021 08:10:42 +0000 (UTC)
+Message-ID: <4b8e2987c1ff384bac497a20fcd75f9051990cff.camel@perches.com>
+Subject: Re: [PATCH 0/5] vsprintf and uses: Add upper case output to %*ph
+ extension
 From:   Joe Perches <joe@perches.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 27 Aug 2021 01:08:10 -0700
-In-Reply-To: <YSiY0aa+C9cyJni4@smile.fi.intel.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-scsi@vger.kernel.org, storagedev@microchip.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Date:   Fri, 27 Aug 2021 01:10:41 -0700
+In-Reply-To: <YSiZlyQzgW8umsjj@smile.fi.intel.com>
 References: <cover.1630003183.git.joe@perches.com>
-         <bc33e306a9064dfbf1180a35f9bfa587c6502eca.1630003183.git.joe@perches.com>
-         <YSiY0aa+C9cyJni4@smile.fi.intel.com>
+         <YSiZlyQzgW8umsjj@smile.fi.intel.com>
 Content-Type: text/plain; charset="ISO-8859-1"
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Stat-Signature: 59ktf3o3pnawonoefr8m9jwr44aeznyf
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 7395520A298
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: szskg1krzie8bc9fwr5cdpm3hhrjpf6c
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 07829315D7C
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/Xj/j/nAJ4SKNqA3ky0WP/6cqw4QroyOk=
-X-HE-Tag: 1630051692-852234
+X-Session-ID: U2FsdGVkX19RlAkoJotf8b5Ato6PNKec4d2UgR/Nn0E=
+X-HE-Tag: 1630051842-479260
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-08-27 at 10:48 +0300, Andy Shevchenko wrote:
-> On Thu, Aug 26, 2021 at 11:43:01AM -0700, Joe Perches wrote:
-> > A few sysfs output uses of hex arrays are uppercase and are nominally ABI.
-> > 
-> > Add a mechanism to the existing vsprintf %*ph hex output extension to
-> > support upper case hex output.
+On Fri, 2021-08-27 at 10:51 +0300, Andy Shevchenko wrote:
+> On Thu, Aug 26, 2021 at 11:43:00AM -0700, Joe Perches wrote:
+> > Several sysfs uses that could use %*ph are upper case hex output.
+> > Add a flag to the short hex formatting routine in vsprintf to support them.
+> > Add documentation too.
 > 
-> ...
+> Thanks!
 > 
-> > +	The preferred output is lowercase
-> >  	%*ph	00 01 02  ...  3f
-> >  	%*phC	00:01:02: ... :3f
-> >  	%*phD	00-01-02- ... -3f
-> >  	%*phN	000102 ... 3f
-> > +	Formats with X are uppercase, used for backwards compatibility
-> > +	%*phX	00 01 02  ...  3F
-> > +	%*phCX	00:01:02: ... :3F
-> > +	%*phDX	00-01-02- ... -3F
-> > +	%*phNX	000102 ... 3F
-> 
-> Why not using %*pH...?
+> Unfortunately I have got only first patch and this cover letter. Can you,
+> please, Cc entire series?
 
-I find X more intelligible.
+It's on lore.
 
-> > +	char locase = 0x20;	/* ASCII OR'd for lower case see: number() */
-> 
-> If you use h vs H, you may derive this from (fmt[...] & SMALL).
-
-It's not necessary to use any more of the rather limited vsprintf
-extension namespace.
+https://lore.kernel.org/lkml/cover.1630003183.git.joe@perches.com/T/#u
+ 
 
 
