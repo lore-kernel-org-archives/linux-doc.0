@@ -2,121 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BC9C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 20:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1084C4320E
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 21:19:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B735160EFE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 20:50:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3E8E60F58
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 21:19:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231533AbhH0Uuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 16:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbhH0Uuu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 16:50:50 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C118C0613D9;
-        Fri, 27 Aug 2021 13:50:01 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id u14so16380403ejf.13;
-        Fri, 27 Aug 2021 13:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KasoWwT+Q4gofr9QBSjUL1Cy40NSgOuJugmN8Oq4nsE=;
-        b=By+JlkafpyWxPZomHEu2Y2TyodMM0TU543YMHcTvIy2L+aTaEoRyk2J8dVpk3WVub1
-         mPAadkKwt7guXNRr++RlV7BPEbFDe3XIrlT1RGF8s3D97H9h+xCDFGSKPhiToPLMhI9V
-         O4unzIRx3Q8C7zMZeU7kKlMdzZeEoTEFA2Iis/zM8d5U5Cff9dG57YR+JyQbHS9PtT13
-         JoIs0zChUHjvQfxC1f5T+5VjOOK60YCHl8p8q8jX73tu1jNxp2B1a9ttlDHMv1Xb+GiZ
-         c6LlNlwSmoDgiQV9WS5vMk9VLkBM1XYhwuT3bp/4gcuK+2cN56FpoXLz8dCzEdyzivdw
-         XHMw==
+        id S231960AbhH0VU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 17:20:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21103 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231954AbhH0VU0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 17:20:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630099177;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=U1joG16srsSQx+ASNF6WUB8jVFgT0G7DpTPaFt49UTk=;
+        b=DXN2dRTvX6QWbIqjQ9YAAcbsKUkSYxZZs4me7wK1rdCY994MdltPNBtRk60TKmtCOAK5ro
+        1dWlFe5ePx8kdJ//XpMUuw3uta9uQr7OapSjqPUwvZHnd4yMgjQmsmWvbk9UNDYKid6BLk
+        iaFB83vgdb7LYx4hdC3qK4TXtVbcrZ0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-BjKdzM3UO1iPQCNjHaDBUQ-1; Fri, 27 Aug 2021 17:19:35 -0400
+X-MC-Unique: BjKdzM3UO1iPQCNjHaDBUQ-1
+Received: by mail-qk1-f197.google.com with SMTP id w2-20020a3794020000b02903b54f40b442so2091726qkd.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 14:19:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KasoWwT+Q4gofr9QBSjUL1Cy40NSgOuJugmN8Oq4nsE=;
-        b=EBsVbeSqHKX+d0pt7utjdjk8mtD3QJLY/IW7VhtOqY3RM5hbXus1IYK8N5A3MoYokn
-         LQTUV30LNeJtLk0T6a8/7p+4QsXJkksAREzzP9Un4icsP0kJ4daDmQEo1xKj2wxrw/F8
-         V8Cq+jKqkBaxA8Mh67ppTDfMf9vsyqS7YW5Z9WzGyYgUUOc07+3+/nprBTzSSmBrHH0y
-         lPg7d3OOHzQYOnrBOK7Uw5/IQ6KRo+d3XOva0zGMY0LFJ8Qr5FGDg49HfjbhqoNwMkqH
-         KDrI3t7Bkf8/PTxvKdZK45jnOJOjykGD6yuoEw4oGkHMzNK0y1oxlruXhhTMfLaLsSPX
-         PAVA==
-X-Gm-Message-State: AOAM530YS6Q3FkiF/h8nZeSyF6Kd1XGl7E1sYk4RJwa/jY2/zk9OLjZS
-        yD2mJZWFxa1AUwbiaoRtq3g=
-X-Google-Smtp-Source: ABdhPJx2+g1sK5VxQEGFGoscts265WqnlDMr+9lMq3kOysNCtnz5SSqKD5X7moIfAQoTeiuOzLkNxA==
-X-Received: by 2002:a17:906:3589:: with SMTP id o9mr11975443ejb.150.1630097398595;
-        Fri, 27 Aug 2021 13:49:58 -0700 (PDT)
-Received: from ?IPv6:2001:981:6fec:1:1b32:912f:78cc:6c61? ([2001:981:6fec:1:1b32:912f:78cc:6c61])
-        by smtp.gmail.com with ESMTPSA id k6sm3810520edv.77.2021.08.27.13.49.57
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=U1joG16srsSQx+ASNF6WUB8jVFgT0G7DpTPaFt49UTk=;
+        b=YsI4dRGpYEKIHW2OlzAHqX6whyRNaByLQNyKfT9EIitJtjRp64A4eM+ercTGgji2G8
+         T3tpGInMOCFrlH+AoHl13eEwWsbgii39O+htp17RLcxthbeEqEPDFX0XJX4uI+Hpsi5V
+         DMXnUBTdP3XCI28PIHlzsZAMygqhejAtI6+7GSMbpgxMQdrDrGA9Gpg1f3KA0aI3NIMM
+         HO5QncFNLcyZ84XTdS2GWy4RVzCE0beOhjgq/sVtPteSUpNPSuN2gOceRhZfaKn4OOqi
+         uMiXLtEpLmep/TApTevUqX5lqfoJsv+35Pk6oEx8raPM37d9RmTwwUZ68oAbm+fYuReF
+         WN1A==
+X-Gm-Message-State: AOAM530qGVO9+sDel96UINt6OCkNoX5U6YJQ1y9S7ulqHNsYE+hcx0h7
+        +aDWFWBT4XY6SmqR1XpfvaSFJunsYwwDY2ivQgFg6WhUx7OTBh/sTuk3lo+NC1zjrINj0lXOeh2
+        xnwy2tqc4sVexQKlkjmmZ
+X-Received: by 2002:ac8:5905:: with SMTP id 5mr10126464qty.286.1630099174846;
+        Fri, 27 Aug 2021 14:19:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSgcChWoGG7JzhgBHKTsf5bPMKevttJCBAb34KxbwiSpBx7V0ruD8rOHDWgSN7ARHcPzidpQ==
+X-Received: by 2002:ac8:5905:: with SMTP id 5mr10126447qty.286.1630099174585;
+        Fri, 27 Aug 2021 14:19:34 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id 75sm5578360qko.100.2021.08.27.14.19.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Aug 2021 13:49:58 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] Revert "usb: gadget: u_audio: add real feedback
- implementation"
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ferry Toth <ftoth@exalondelft.nl>
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
+        Fri, 27 Aug 2021 14:19:33 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v7 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+To:     Tejun Heo <tj@kernel.org>, Waiman Long <llong@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        Lorenzo Colitti <lorenzo@google.com>,
-        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        frowand.list@gmail.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pavel Hofman <pavel.hofman@ivitera.com>
-References: <20210826185739.3868-1-ftoth@exalondelft.nl>
- <YSiiAsrCaxOn8myU@kroah.com>
-From:   Ferry Toth <fntoth@gmail.com>
-Message-ID: <1faf1ad0-25eb-4d78-98d5-4612b8b8f3be@gmail.com>
-Date:   Fri, 27 Aug 2021 22:49:56 +0200
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20210825213750.6933-1-longman@redhat.com>
+ <20210825213750.6933-6-longman@redhat.com> <YSfQ0mYWs2zUyqGY@mtj.duckdns.org>
+ <32e27fcc-32f1-b26c-ae91-9e03f7e433af@redhat.com>
+ <YShjb2WwvuB4s4gX@slm.duckdns.org>
+Message-ID: <d22ea3be-2429-5923-a80c-5af3b384def9@redhat.com>
+Date:   Fri, 27 Aug 2021 17:19:31 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YSiiAsrCaxOn8myU@kroah.com>
+In-Reply-To: <YShjb2WwvuB4s4gX@slm.duckdns.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi
-Op 27-08-2021 om 10:27 schreef Greg Kroah-Hartman:
-> On Thu, Aug 26, 2021 at 08:57:36PM +0200, Ferry Toth wrote:
->> Although there is a patch resolving this issue (see
->> https://lore.kernel.org/linux-usb/1jilzsy8g7.fsf@starbuckisacylon.baylibre.com/T/#u)
->> it needs a little work and will not be ready for v5.14.0 release. Until then
->> revert the series.
-> 
-> revert the series for what?  5.14-final needs these reverts?  Or are
-> these for 5.15-rc1?
-> 
-> confused,
+On 8/27/21 12:00 AM, Tejun Heo wrote:
+> Hello,
+>
+> On Thu, Aug 26, 2021 at 11:01:30PM -0400, Waiman Long wrote:
+>> What I am doing here is setting a high bar for transitioning from member to
+>> either "root" or "isolated". Once it becomes a partition, there are multiple
+>> ways that can make it invalid. I am fine with that. However, I am not sure
+>> it is a good idea to allow users to echo "root" to cpuset.cpus.partition
+>> anywhere in the cgroup hierarchy and require them to read it back to see if
+>> it succeed.
+> The problem is that the "high" bar is rather arbitrary. It might feel like a
+> good idea to some but not to others. There are no clear technical reasons or
+> principles for rules to be set this particular way.
+>
+>> All the checking are done with cpuset_rwsem held. So there shouldn't be any
+>> racing. Of course, a hotplug can immediately follow and make the partition
+>> invalid.
+> Imagine a system which dynamically on/offlines its cpus based on load or
+> whatever and also configures partitions for cases where the needed cpus are
+> online. If the partitions are set up while the cpus are online, it'd work as
+> expected - partitions are in effect when the system can support them and
+> ignored otherwise. However, if the partition configuration is attempted
+> while the cpus happen to be offline, the configuration will fail, and there
+> is no guaranteed way to make that configuration stick short of disabling
+> hotplug operations. This is a pretty jarring brekage happening exactly
+> because the behavior is an inconsistent amalgam.
+>
+> It's usually not a good sign if interface restrictions can be added or
+> removed because how one feels without clear functional reasons and often
+> indicates that there's something broken, which seems to be the case here
+> too.
 
-Apologies. Yes, the idea was to revert for 5.14-final as the series 
-creates a regression.
+Well, that is a valid point. The cpus may have been offlined when a 
+partition is being created. I can certainly relent on this check in 
+forming a partition. IOW, cpus_allowed can contain some or all offline 
+cpus and a valid (some are online) or invalid (all are offline) 
+partition can be formed. I can also allow an invalid child partition to 
+be formed with an invalid parent partition. However, the cpu exclusivity 
+rules will still apply.
 
-However, an updated patch "usb: gadget: f_uac2: fixup feedback endpoint 
-stop"
-https://lore.kernel.org/linux-usb/1jfsuvw817.fsf@starbuckisacylon.baylibre.com/T/#m922149b7e74204c8ed1bed2c624910ab4eafd43c
-now has been acked by Felipe.
+Other than that, do you envision any other circumstances where we should 
+allow an invalid partition to be formed?
 
-If we can get that it for 5.14-final it would be less messy.
+Cheers,
+Longman
 
-Can we?
-
-> greg k-h
-> 
 
