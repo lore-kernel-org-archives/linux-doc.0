@@ -2,809 +2,640 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F52EC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4690C4320A
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:31:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1940E60F39
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC7F160EBC
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 19:31:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbhH0TUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 15:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S230231AbhH0TcC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 15:32:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbhH0TUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 15:20:30 -0400
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F70C06121D
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:11 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id g10-20020ad4510a000000b00374e412478fso1073707qvp.18
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 12:19:11 -0700 (PDT)
+        with ESMTP id S230005AbhH0TcB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 15:32:01 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A70C061757;
+        Fri, 27 Aug 2021 12:31:11 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id g18so4479491wrc.11;
+        Fri, 27 Aug 2021 12:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=h6rO3EhHNNFkOGFC1QBuBIktP4uiheREsetuLrE0mas=;
-        b=SfWTdZnZoEs/+lLm00I5gLoulDxOn1fXjXO0E5IIi1afYvpHo3zBWGy/CqsTMGxACM
-         E3IWLuziyXsUqX1nr9RwEE9kMVMZZh2JvrKOU6TpwqVoArVR7BLJG6fqMTn8hs+/oWXW
-         lJ80GqO7xFSTkCvBMBfber5ujyxQhkUSmOXb3HyJUsxK7DcY03cDBXL0yWHIyL23odxT
-         9XW4ILVhxfAngNhO9DEBrA9SkCbZQGt/4jq1Izd58MfwLtzsKGhh++QYPvDRWx1MyRwz
-         a7ihUM3SQL2GY/V4h69Py2Xkp6FMPfhE55jbm13lcZPxluf9sU2MbKgYdQsjwWpFJvkK
-         0JSQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=COIqd+BTbELXM7s10YvWhpKv6gNubEDT2i23tGtoIYE=;
+        b=lORsPmBV2BGeuvXV9Vc4V9I83Snw1Jx38L99p8P/Tb398hRiS6S9ITIfMFui1NAFat
+         O08ReQAPPAsS1Nlt1yJPv9Z0gfiRrz95M4OBHBhlYW4BWNqPZFcQHzoR5fZwYU3Wpyta
+         KJKh44QukoPV1GQ5RF5Ronc/LAUSbaH4wlNLgI7FPC3c0XrR9HCX42C97Vj7LAu1ozEI
+         veSiKIFSPEvu2gUouhRM6VZWTTxkKWGcG/4s9jfJMMZgpiG90aBIizP10ULNXXJRuhu1
+         FQsfAXZKBsDcOzoF8aeSLV2GvCAOjHrL29irSxhvRrkpO4waHL5/rwTg3hXx3pHN7Py3
+         6MTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=h6rO3EhHNNFkOGFC1QBuBIktP4uiheREsetuLrE0mas=;
-        b=Lh2kljEIRGQPgDkt8i5i/EdL7iWeM/0OQflNq3JMl0ZrSJ6mapr6hqRu4VKfTU07SX
-         liZ3XssWilrCKXUCT6JVDFTfJFWPowPwlCbVxSIM7mQpkwcFOD+F6orZPsio24CyOKAg
-         rv/06hMaHdG3oVyXJPovp/EEYsVSPEpEwaPWO2PV2mvG8WzSWq4jfNeX9kmOMqPKSS3C
-         ZsVorIE0V9P7l3UZK+60MhdKA6zjdE5SmtpROO0hcNjK7WS/nGkwz2UGSbLnn0/zdMTN
-         tB66UPkxh++j8eyV9VhHRfX6IWTo8oCM0J8Ng5PQ58PwJ8dCM1FdbclOAr+lxfrgJx78
-         g20w==
-X-Gm-Message-State: AOAM5300taZXIgKgPVpVrxikIFFz5PAWtqvcrDqIEJuHKILtLF+yjLnp
-        wtDayAYTO3XyjtC4B6J12/YKo1oAy+U=
-X-Google-Smtp-Source: ABdhPJzQc6Q/uj1nznzYASgRtCGmMi4LFyP+LXHElMFzzUqJGPvP31PT+8lURuIIP93k5/RyAgq+IhQf7Uc=
-X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:fd8e:f32b:a64b:dd89])
- (user=surenb job=sendgmr) by 2002:a05:6214:1366:: with SMTP id
- c6mr8066321qvw.30.1630091950697; Fri, 27 Aug 2021 12:19:10 -0700 (PDT)
-Date:   Fri, 27 Aug 2021 12:18:57 -0700
-In-Reply-To: <20210827191858.2037087-1-surenb@google.com>
-Message-Id: <20210827191858.2037087-3-surenb@google.com>
-Mime-Version: 1.0
-References: <20210827191858.2037087-1-surenb@google.com>
-X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
-Subject: [PATCH v8 2/3] mm: add a field to store names for private anonymous memory
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     akpm@linux-foundation.org
-Cc:     ccross@google.com, sumit.semwal@linaro.org, mhocko@suse.com,
-        dave.hansen@intel.com, keescook@chromium.org, willy@infradead.org,
-        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
-        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
-        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, songmuchun@bytedance.com,
-        viresh.kumar@linaro.org, thomascedeno@google.com,
-        sashal@kernel.org, cxfcosmos@gmail.com, linux@rasmusvillemoes.dk,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        kernel-team@android.com, surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=COIqd+BTbELXM7s10YvWhpKv6gNubEDT2i23tGtoIYE=;
+        b=GG5Ao7zzQKl93vcCI8t+mBAu9GDS+UbRh0BwlC4tcJ2E0gZKIWq3MuYGphR8UYF3qk
+         9IQppd6Nxq26xuSA8sF2NRHscgeAkoPROLHqBfbBASBLVKDMVelwrygsd9mg8bQmrW2f
+         yuyb+waY0Ic6jcmcLY8GhG1k8DMWn08rF/agvwGFppx1H+FUBIQ6hxLSKfGAOMDiBdw1
+         A5MIX5UMKQzS+IVr8pKf/vXnIaUzp088baT/lDYHSzxToa/Ch/1H0YiGXAw1HysK3nAn
+         ibLmxM7BXpQQv5AS0zzP/KJ93jEuqwmnm2+CsI+LVayB+TdsWiiY8Gab7Wq+1fxASF3h
+         /N1A==
+X-Gm-Message-State: AOAM533xooxZQGyfnq6jurz/K2Ik9e7KgExeI9NvgGj/5iymMIOTp1DX
+        cv/au5Avx3R3HdnEhAfdKi7MnQdQDWXIYtLf
+X-Google-Smtp-Source: ABdhPJyHiw3LWwAgSERcWrsBYbs7lQSzWrXWsjMhzoEaOnoSe6Lzxc2DI2gl0mA7RSlG52laBPHfgg==
+X-Received: by 2002:adf:c3d4:: with SMTP id d20mr12164249wrg.358.1630092670330;
+        Fri, 27 Aug 2021 12:31:10 -0700 (PDT)
+Received: from fedora (cable-178-148-241-131.dynamic.sbb.rs. [178.148.241.131])
+        by smtp.gmail.com with ESMTPSA id h16sm7376279wre.52.2021.08.27.12.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Aug 2021 12:31:09 -0700 (PDT)
+Date:   Fri, 27 Aug 2021 21:31:06 +0200
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: add driver for Aquacomputer D5 Next
+Message-ID: <YSk9ehM45/rQrOOV@fedora>
+References: <20210827082507.10591-1-savicaleksa83@gmail.com>
+ <20210827154745.GA204608@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210827154745.GA204608@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Colin Cross <ccross@google.com>
+On Fri, Aug 27, 2021 at 08:47:45AM -0700, Guenter Roeck wrote:
+> On Fri, Aug 27, 2021 at 10:25:05AM +0200, Aleksa Savic wrote:
+> > This driver exposes hardware sensors of the Aquacomputer D5 Next
+> > watercooling pump, which communicates through a proprietary USB HID
+> > protocol.
+> > 
+> > Available sensors are pump and fan speed, power, voltage and current, as
+> > well as coolant temperature. Also available through debugfs are the serial
+> > number, firmware version and power-on count.
+> > 
+> > Attaching a fan is optional and allows it to be controlled using
+> > temperature curves directly from the pump. If it's not connected,
+> > the fan-related sensors will report zeroes.
+> > 
+> > The pump can be configured either through software or via its physical
+> > interface. Configuring the pump through this driver is not implemented,
+> > as it seems to require sending it a complete configuration. That
+> > includes addressable RGB LEDs, for which there is no standard sysfs
+> > interface. Thus, that task is better suited for userspace tools.
+> > 
+> > This driver has been tested on x86_64, both in-kernel and as a module.
+> > 
+> > Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+> > ---
+> >  Documentation/hwmon/aquacomputer_d5next.rst |  61 ++++
+> >  Documentation/hwmon/index.rst               |   1 +
+> >  MAINTAINERS                                 |   7 +
+> >  drivers/hwmon/Kconfig                       |  10 +
+> >  drivers/hwmon/Makefile                      |   1 +
+> >  drivers/hwmon/aquacomputer_d5next.c         | 366 ++++++++++++++++++++
+> >  6 files changed, 446 insertions(+)
+> >  create mode 100644 Documentation/hwmon/aquacomputer_d5next.rst
+> >  create mode 100644 drivers/hwmon/aquacomputer_d5next.c
+> > 
+> > diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
+> > new file mode 100644
+> > index 000000000000..1f4bb4ba2e4b
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/aquacomputer_d5next.rst
+> > @@ -0,0 +1,61 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-or-later
+> > +
+> > +Kernel driver aquacomputer-d5next
+> > +=================================
+> > +
+> > +Supported devices:
+> > +
+> > +* Aquacomputer D5 Next watercooling pump
+> > +
+> > +Author: Aleksa Savic
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +This driver exposes hardware sensors of the Aquacomputer D5 Next watercooling
+> > +pump, which communicates through a proprietary USB HID protocol.
+> > +
+> > +Available sensors are pump and fan speed, power, voltage and current, as
+> > +well as coolant temperature. Also available through debugfs are the serial
+> > +number, firmware version and power-on count.
+> > +
+> > +Attaching a fan is optional and allows it to be controlled using temperature
+> > +curves directly from the pump. If it's not connected, the fan-related sensors
+> > +will report zeroes.
+> > +
+> > +The pump can be configured either through software or via its physical
+> > +interface. Configuring the pump through this driver is not implemented, as it
+> > +seems to require sending it a complete configuration. That includes addressable
+> > +RGB LEDs, for which there is no standard sysfs interface. Thus, that task is
+> > +better suited for userspace tools.
+> > +
+> > +Usage notes
+> > +-----------
+> > +
+> > +The pump communicates via HID reports. The driver is loaded automatically by
+> > +the kernel and supports hotswapping.
+> > +
+> > +Sysfs entries
+> > +-------------
+> > +
+> > +============ =============================================
+> > +temp1_input  Coolant temperature (in millidegrees Celsius)
+> > +fan1_input   Pump speed (in RPM)
+> > +fan2_input   Fan speed (in RPM)
+> > +power1_input Pump power (in micro Watts)
+> > +power2_input Fan power (in micro Watts)
+> > +in0_input    Pump voltage (in milli Volts)
+> > +in1_input    Fan voltage (in milli Volts)
+> > +in2_input    +5V rail voltage (in milli Volts)
+> > +curr1_input  Pump current (in milli Amperes)
+> > +curr2_input  Fan current (in milli Amperes)
+> > +============ =============================================
+> > +
+> > +Debugfs entries
+> > +---------------
+> > +
+> > +================ ===============================================
+> > +serial_number    Serial number of the pump
+> > +firmware_version Version of installed firmware
+> > +power_cycles     Count of how many times the pump was powered on
+> > +================ ===============================================
+> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> > index bc01601ea81a..77bfb2e2e8a9 100644
+> > --- a/Documentation/hwmon/index.rst
+> > +++ b/Documentation/hwmon/index.rst
+> > @@ -39,6 +39,7 @@ Hardware Monitoring Kernel Drivers
+> >     adt7475
+> >     aht10
+> >     amc6821
+> > +   aquacomputer_d5next
+> >     asb100
+> >     asc7621
+> >     aspeed-pwm-tacho
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index d7b4f32875a9..ec0aa0dcf635 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1316,6 +1316,13 @@ L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  F:	drivers/media/i2c/aptina-pll.*
+> >  
+> > +AQUACOMPUTER D5 NEXT PUMP SENSOR DRIVER
+> > +M:	Aleksa Savic <savicaleksa83@gmail.com>
+> > +L:	linux-hwmon@vger.kernel.org
+> > +S:	Maintained
+> > +F:	Documentation/hwmon/aquacomputer_d5next.rst
+> > +F:	drivers/hwmon/aquacomputer_d5next.c
+> > +
+> >  AQUANTIA ETHERNET DRIVER (atlantic)
+> >  M:	Igor Russkikh <irusskikh@marvell.com>
+> >  L:	netdev@vger.kernel.org
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index e3675377bc5d..2bd563850f87 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -254,6 +254,16 @@ config SENSORS_AHT10
+> >  	  This driver can also be built as a module. If so, the module
+> >  	  will be called aht10.
+> >  
+> > +config SENSORS_AQUACOMPUTER_D5NEXT
+> > +	tristate "Aquacomputer D5 Next watercooling pump"
+> > +	depends on USB_HID
+> > +	help
+> > +	  If you say yes here you get support for the Aquacomputer D5 Next
+> > +	  watercooling pump sensors.
+> > +
+> > +	  This driver can also be built as a module. If so, the module
+> > +	  will be called aquacomputer_d5next.
+> > +
+> >  config SENSORS_AS370
+> >  	tristate "Synaptics AS370 SoC hardware monitoring driver"
+> >  	help
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index d712c61c1f5e..790a611a3188 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -47,6 +47,7 @@ obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
+> >  obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
+> >  obj-$(CONFIG_SENSORS_AMD_ENERGY) += amd_energy.o
+> >  obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
+> > +obj-$(CONFIG_SENSORS_AQUACOMPUTER_D5NEXT) += aquacomputer_d5next.o
+> >  obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
+> >  obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
+> >  obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
+> > diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+> > new file mode 100644
+> > index 000000000000..0f831b0eb94c
+> > --- /dev/null
+> > +++ b/drivers/hwmon/aquacomputer_d5next.c
+> > @@ -0,0 +1,366 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * hwmon driver for Aquacomputer D5 Next watercooling pump
+> > + *
+> > + * The D5 Next sends HID reports (with ID 0x01) every second to report sensor values
+> > + * (coolant temperature, pump and fan speed, voltage, current and power). It responds to
+> > + * Get_Report requests, but returns a dummy value of no use.
+> > + *
+> > + * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
+> > + */
+> > +
+> > +#include <asm/unaligned.h>
+> > +#include <linux/debugfs.h>
+> > +#include <linux/hid.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/jiffies.h>
+> > +#include <linux/module.h>
+> 
+> #include <linux/seq_file.h>
+> 
+> > +
+> > +#define DRIVER_NAME		      "aquacomputer-d5next"
+> > +
+> > +#define D5NEXT_STATUS_REPORT_ID	      0x01
+> > +#define D5NEXT_STATUS_UPDATE_INTERVAL 1 /* In seconds */
+> > +
+> > +/* Register offsets for the D5 Next pump */
+> > +
+> > +#define D5NEXT_SERIAL_FIRST_PART      3
+> > +#define D5NEXT_SERIAL_SECOND_PART     5
+> > +#define D5NEXT_FIRMWARE_VERSION	      13
+> 
+> Please always use
+> 
+> #define<space>WHAT<tab>value
+> 
+> with aligned values.
+> 
+> > +#define D5NEXT_POWER_CYCLES	      24
+> > +
+> > +#define D5NEXT_COOLANT_TEMP	      87
+> > +
+> > +#define D5NEXT_PUMP_SPEED	      116
+> > +#define D5NEXT_FAN_SPEED	      103
+> > +
+> > +#define D5NEXT_PUMP_POWER	      114
+> > +#define D5NEXT_FAN_POWER	      101
+> > +
+> > +#define D5NEXT_PUMP_VOLTAGE	      110
+> > +#define D5NEXT_FAN_VOLTAGE	      97
+> > +#define D5NEXT_5V_VOLTAGE	      57
+> > +
+> > +#define D5NEXT_PUMP_CURRENT	      112
+> > +#define D5NEXT_FAN_CURRENT	      99
+> > +
+> > +/* Labels for provided values */
+> > +
+> > +#define L_COOLANT_TEMP		      "Coolant temp"
+> > +
+> > +#define L_PUMP_SPEED		      "Pump speed"
+> > +#define L_FAN_SPEED		      "Fan speed"
+> > +
+> > +#define L_PUMP_POWER		      "Pump power"
+> > +#define L_FAN_POWER		      "Fan power"
+> > +
+> > +#define L_PUMP_VOLTAGE		      "Pump voltage"
+> > +#define L_FAN_VOLTAGE		      "Fan voltage"
+> > +#define L_5V_VOLTAGE		      "+5V voltage"
+> > +
+> > +#define L_PUMP_CURRENT		      "Pump current"
+> > +#define L_FAN_CURRENT		      "Fan current"
+> > +
+> > +static const char *const label_temp[] = {
+> > +	L_COOLANT_TEMP,
+> > +};
+> > +
+> > +static const char *const label_speeds[] = {
+> > +	L_PUMP_SPEED,
+> > +	L_FAN_SPEED,
+> > +};
+> > +
+> > +static const char *const label_power[] = {
+> > +	L_PUMP_POWER,
+> > +	L_FAN_POWER,
+> > +};
+> > +
+> > +static const char *const label_voltages[] = {
+> > +	L_PUMP_VOLTAGE,
+> > +	L_FAN_VOLTAGE,
+> > +	L_5V_VOLTAGE,
+> > +};
+> > +
+> > +static const char *const label_current[] = {
+> > +	L_PUMP_CURRENT,
+> > +	L_FAN_CURRENT,
+> > +};
+> > +
+> > +struct d5next_data {
+> > +	struct hid_device *hdev;
+> > +	struct device *hwmon_dev;
+> > +	struct dentry *debugfs;
+> > +	s32 temp_input[1];
+> 
+> This doesn't have to be an array.
+> 
+> > +	u16 speed_input[2];
+> > +	u32 power_input[2];
+> > +	u16 voltage_input[3];
+> > +	u16 current_input[2];
+> > +	u32 serial_number[2];
+> > +	u16 firmware_version;
+> > +	u32 power_cycles; /* How many times the device was powered on */
+> > +	unsigned long updated;
+> > +};
+> > +
+> > +static umode_t d5next_is_visible(const void *data, enum hwmon_sensor_types type, u32 attr,
+> > +				 int channel)
+> > +{
+> > +	return 0444;
+> > +}
+> > +
+> > +static int d5next_read(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
+> > +		       long *val)
+> > +{
+> > +	struct d5next_data *priv = dev_get_drvdata(dev);
+> > +
+> > +	if (time_after(jiffies, priv->updated + D5NEXT_STATUS_UPDATE_INTERVAL * HZ))
+> > +		return -ENODATA;
+> 
+> This seems a bit strict; it results in ENODATA if a single update
+> is missed or if it comes just a little late. I would suggest to relax
+> it a bit.
+> 
+> Also, D5NEXT_STATUS_UPDATE_INTERVAL is always used with "* HZ".
+> I would suggest to make that part of the define.
+> 
 
-In many userspace applications, and especially in VM based applications
-like Android uses heavily, there are multiple different allocators in use.
- At a minimum there is libc malloc and the stack, and in many cases there
-are libc malloc, the stack, direct syscalls to mmap anonymous memory, and
-multiple VM heaps (one for small objects, one for big objects, etc.).
-Each of these layers usually has its own tools to inspect its usage;
-malloc by compiling a debug version, the VM through heap inspection tools,
-and for direct syscalls there is usually no way to track them.
+Thanks for the feedback here and above! I'll send a v2 soon.
 
-On Android we heavily use a set of tools that use an extended version of
-the logic covered in Documentation/vm/pagemap.txt to walk all pages mapped
-in userspace and slice their usage by process, shared (COW) vs.  unique
-mappings, backing, etc.  This can account for real physical memory usage
-even in cases like fork without exec (which Android uses heavily to share
-as many private COW pages as possible between processes), Kernel SamePage
-Merging, and clean zero pages.  It produces a measurement of the pages
-that only exist in that process (USS, for unique), and a measurement of
-the physical memory usage of that process with the cost of shared pages
-being evenly split between processes that share them (PSS).
+Aleksa
 
-If all anonymous memory is indistinguishable then figuring out the real
-physical memory usage (PSS) of each heap requires either a pagemap walking
-tool that can understand the heap debugging of every layer, or for every
-layer's heap debugging tools to implement the pagemap walking logic, in
-which case it is hard to get a consistent view of memory across the whole
-system.
-
-Tracking the information in userspace leads to all sorts of problems.
-It either needs to be stored inside the process, which means every
-process has to have an API to export its current heap information upon
-request, or it has to be stored externally in a filesystem that
-somebody needs to clean up on crashes.  It needs to be readable while
-the process is still running, so it has to have some sort of
-synchronization with every layer of userspace.  Efficiently tracking
-the ranges requires reimplementing something like the kernel vma
-trees, and linking to it from every layer of userspace.  It requires
-more memory, more syscalls, more runtime cost, and more complexity to
-separately track regions that the kernel is already tracking.
-
-This patch adds a field to /proc/pid/maps and /proc/pid/smaps to show a
-userspace-provided name for anonymous vmas.  The names of named anonymous
-vmas are shown in /proc/pid/maps and /proc/pid/smaps as [anon:<name>].
-
-Userspace can set the name for a region of memory by calling
-prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, start, len, (unsigned long)name);
-Setting the name to NULL clears it. The name length limit is 64 bytes
-including NUL-terminator (to have some reasonable limit and because the
-longest name used in Android has 50 chars) and is checked to contain only
-printable characters.
-
-The name is stored in a pointer in the shared union in vm_area_struct
-that points to a null terminated string. Anonymous vmas with the same
-name (equivalent strings) and are otherwise mergeable will be merged.
-The name pointers are not shared between vmas even if they contain the
-same name. The name pointer is stored in a union with fields that are
-only used on file-backed mappings, so it does not increase memory usage.
-
-The patch is based on the original patch developed by Colin Cross, more
-specifically on its latest version [1] posted upstream by Sumit Semwal.
-It used a userspace pointer to store vma names. In that design, name
-pointers could be shared between vmas. However during the last upstreaming
-attempt, Kees Cook raised concerns [2] about this approach and suggested
-to copy the name into kernel memory space, perform validity checks [3]
-and store as a string referenced from vm_area_struct.
-One big concern is about fork() performance which would need to strdup
-anonymous vma names. Dave Hansen suggested experimenting with worst-case
-scenario of forking a process with 64k vmas having longest possible names
-[4]. I ran this experiment on an ARM64 Android device and recorded a
-worst-case regression of almost 40% when forking such a process. This
-regression is addressed in the followup patch which replaces the pointer
-to a name with a refcounted structure that allows sharing the name pointer
-between vmas of the same name. Instead of duplicating the string during
-fork() or when splitting a vma it increments the refcount.
-
-[1] https://lore.kernel.org/linux-mm/20200901161459.11772-4-sumit.semwal@linaro.org/
-[2] https://lore.kernel.org/linux-mm/202009031031.D32EF57ED@keescook/
-[3] https://lore.kernel.org/linux-mm/202009031022.3834F692@keescook/
-[4] https://lore.kernel.org/linux-mm/5d0358ab-8c47-2f5f-8e43-23b89d6a8e95@intel.com/
-
-Signed-off-by: Colin Cross <ccross@google.com>
-[surenb: rebased over v5.14-rc7, replaced userpointer with a kernel copy
-and added input sanitization. The bulk of the work here was done by Colin
-Cross, therefore, with his permission, keeping him as the author]
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- Documentation/filesystems/proc.rst |   2 +
- fs/proc/task_mmu.c                 |  14 +++-
- fs/userfaultfd.c                   |   7 +-
- include/linux/mm.h                 |  13 +++-
- include/linux/mm_types.h           |  48 +++++++++++--
- include/uapi/linux/prctl.h         |   3 +
- kernel/fork.c                      |   2 +
- kernel/sys.c                       |  48 +++++++++++++
- mm/madvise.c                       | 112 +++++++++++++++++++++++++++--
- mm/mempolicy.c                     |   3 +-
- mm/mlock.c                         |   2 +-
- mm/mmap.c                          |  38 +++++-----
- mm/mprotect.c                      |   2 +-
- 13 files changed, 261 insertions(+), 33 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 042c418f4090..a067eec54ef1 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -431,6 +431,8 @@ is not associated with a file:
-  [stack]                    the stack of the main process
-  [vdso]                     the "virtual dynamic shared object",
-                             the kernel system call handler
-+[anon:<name>]               an anonymous mapping that has been
-+                            named by userspace
-  =======                    ====================================
- 
-  or if empty, the mapping is anonymous.
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index eb97468dfe4c..2ce5b3c4e7fc 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -308,6 +308,8 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 
- 	name = arch_vma_name(vma);
- 	if (!name) {
-+		const char *anon_name;
-+
- 		if (!mm) {
- 			name = "[vdso]";
- 			goto done;
-@@ -319,8 +321,18 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 			goto done;
- 		}
- 
--		if (is_stack(vma))
-+		if (is_stack(vma)) {
- 			name = "[stack]";
-+			goto done;
-+		}
-+
-+		anon_name = vma_anon_name(vma);
-+		if (anon_name) {
-+			seq_pad(m, ' ');
-+			seq_puts(m, "[anon:");
-+			seq_write(m, anon_name, strlen(anon_name));
-+			seq_putc(m, ']');
-+		}
- 	}
- 
- done:
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index 5c2d806e6ae5..5057843fb71a 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -876,7 +876,7 @@ static int userfaultfd_release(struct inode *inode, struct file *file)
- 				 new_flags, vma->anon_vma,
- 				 vma->vm_file, vma->vm_pgoff,
- 				 vma_policy(vma),
--				 NULL_VM_UFFD_CTX);
-+				 NULL_VM_UFFD_CTX, vma_anon_name(vma));
- 		if (prev)
- 			vma = prev;
- 		else
-@@ -1440,7 +1440,8 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
- 		prev = vma_merge(mm, prev, start, vma_end, new_flags,
- 				 vma->anon_vma, vma->vm_file, vma->vm_pgoff,
- 				 vma_policy(vma),
--				 ((struct vm_userfaultfd_ctx){ ctx }));
-+				 ((struct vm_userfaultfd_ctx){ ctx }),
-+				 vma_anon_name(vma));
- 		if (prev) {
- 			vma = prev;
- 			goto next;
-@@ -1617,7 +1618,7 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
- 		prev = vma_merge(mm, prev, start, vma_end, new_flags,
- 				 vma->anon_vma, vma->vm_file, vma->vm_pgoff,
- 				 vma_policy(vma),
--				 NULL_VM_UFFD_CTX);
-+				 NULL_VM_UFFD_CTX, vma_anon_name(vma));
- 		if (prev) {
- 			vma = prev;
- 			goto next;
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7ca22e6e694a..45c003fae7fe 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2548,7 +2548,7 @@ static inline int vma_adjust(struct vm_area_struct *vma, unsigned long start,
- extern struct vm_area_struct *vma_merge(struct mm_struct *,
- 	struct vm_area_struct *prev, unsigned long addr, unsigned long end,
- 	unsigned long vm_flags, struct anon_vma *, struct file *, pgoff_t,
--	struct mempolicy *, struct vm_userfaultfd_ctx);
-+	struct mempolicy *, struct vm_userfaultfd_ctx, const char *);
- extern struct anon_vma *find_mergeable_anon_vma(struct vm_area_struct *);
- extern int __split_vma(struct mm_struct *, struct vm_area_struct *,
- 	unsigned long addr, int new_below);
-@@ -3283,5 +3283,16 @@ static inline int seal_check_future_write(int seals, struct vm_area_struct *vma)
- 	return 0;
- }
- 
-+#ifdef CONFIG_ADVISE_SYSCALLS
-+int madvise_set_anon_name(struct mm_struct *mm, unsigned long start,
-+			  unsigned long len_in, const char *name);
-+#else
-+static inline int
-+madvise_set_anon_name(struct mm_struct *mm, unsigned long start,
-+		      unsigned long len_in, const char *name) {
-+	return 0;
-+}
-+#endif
-+
- #endif /* __KERNEL__ */
- #endif /* _LINUX_MM_H */
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 52bbd2b7cb46..26a30f7a5228 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -342,11 +342,19 @@ struct vm_area_struct {
- 	/*
- 	 * For areas with an address space and backing store,
- 	 * linkage into the address_space->i_mmap interval tree.
-+	 *
-+	 * For private anonymous mappings, a pointer to a null terminated string
-+	 * containing the name given to the vma, or NULL if unnamed.
- 	 */
--	struct {
--		struct rb_node rb;
--		unsigned long rb_subtree_last;
--	} shared;
-+
-+	union {
-+		struct {
-+			struct rb_node rb;
-+			unsigned long rb_subtree_last;
-+		} shared;
-+		/* Serialized by mmap_sem. */
-+		char *anon_name;
-+	};
- 
- 	/*
- 	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
-@@ -801,4 +809,36 @@ typedef struct {
- 	unsigned long val;
- } swp_entry_t;
- 
-+/*
-+ * mmap_lock should be read-locked when calling vma_anon_name() and while using
-+ * the returned pointer.
-+ */
-+extern const char *vma_anon_name(struct vm_area_struct *vma);
-+
-+/*
-+ * mmap_lock should be read-locked for orig_vma->vm_mm.
-+ * mmap_lock should be write-locked for new_vma->vm_mm or new_vma should be
-+ * isolated.
-+ */
-+extern void dup_vma_anon_name(struct vm_area_struct *orig_vma,
-+			      struct vm_area_struct *new_vma);
-+
-+/*
-+ * mmap_lock should be write-locked or vma should have been isolated under
-+ * write-locked mmap_lock protection.
-+ */
-+extern void free_vma_anon_name(struct vm_area_struct *vma);
-+
-+/* mmap_lock should be read-locked */
-+static inline bool is_same_vma_anon_name(struct vm_area_struct *vma,
-+					 const char *name)
-+{
-+	const char *vma_name = vma_anon_name(vma);
-+
-+	if (likely(!vma_name))
-+		return name == NULL;
-+
-+	return name && !strcmp(name, vma_name);
-+}
-+
- #endif /* _LINUX_MM_TYPES_H */
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 967d9c55323d..968582cd91b5 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -267,4 +267,7 @@ struct prctl_mm_map {
- # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
- # define PR_SCHED_CORE_MAX		4
- 
-+#define PR_SET_VMA		0x53564d41
-+# define PR_SET_VMA_ANON_NAME		0
-+
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 44f4c2d83763..e086f56a4628 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -366,12 +366,14 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
- 		*new = data_race(*orig);
- 		INIT_LIST_HEAD(&new->anon_vma_chain);
- 		new->vm_next = new->vm_prev = NULL;
-+		dup_vma_anon_name(orig, new);
- 	}
- 	return new;
- }
- 
- void vm_area_free(struct vm_area_struct *vma)
- {
-+	free_vma_anon_name(vma);
- 	kmem_cache_free(vm_area_cachep, vma);
- }
- 
-diff --git a/kernel/sys.c b/kernel/sys.c
-index ef1a78f5d71c..c48267a8b857 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -2298,6 +2298,51 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
- 
- #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
- 
-+#ifdef CONFIG_MMU
-+
-+#define ANON_VMA_NAME_MAX_LEN	64
-+
-+static int prctl_set_vma(unsigned long opt, unsigned long addr,
-+			 unsigned long size, unsigned long arg)
-+{
-+	struct mm_struct *mm = current->mm;
-+	char *name, *pch;
-+	int error;
-+
-+	switch (opt) {
-+	case PR_SET_VMA_ANON_NAME:
-+		name = strndup_user((const char __user *)arg,
-+				    ANON_VMA_NAME_MAX_LEN);
-+
-+		if (IS_ERR(name))
-+			return PTR_ERR(name);
-+
-+		for (pch = name; *pch != '\0'; pch++) {
-+			if (!isprint(*pch)) {
-+				kfree(name);
-+				return -EINVAL;
-+			}
-+		}
-+
-+		mmap_write_lock(mm);
-+		error = madvise_set_anon_name(mm, addr, size, name);
-+		mmap_write_unlock(mm);
-+		kfree(name);
-+		break;
-+	default:
-+		error = -EINVAL;
-+	}
-+
-+	return error;
-+}
-+#else /* CONFIG_MMU */
-+static int prctl_set_vma(unsigned long opt, unsigned long start,
-+			 unsigned long size, unsigned long arg)
-+{
-+	return -EINVAL;
-+}
-+#endif
-+
- SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 		unsigned long, arg4, unsigned long, arg5)
- {
-@@ -2567,6 +2612,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
- 		break;
- #endif
-+	case PR_SET_VMA:
-+		error = prctl_set_vma(arg2, arg3, arg4, arg5);
-+		break;
- 	default:
- 		error = -EINVAL;
- 		break;
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 359cd3fa612c..bc029f3fca6a 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -18,6 +18,7 @@
- #include <linux/fadvise.h>
- #include <linux/sched.h>
- #include <linux/sched/mm.h>
-+#include <linux/string.h>
- #include <linux/uio.h>
- #include <linux/ksm.h>
- #include <linux/fs.h>
-@@ -62,19 +63,74 @@ static int madvise_need_mmap_write(int behavior)
- 	}
- }
- 
-+static inline bool has_vma_anon_name(struct vm_area_struct *vma)
-+{
-+	return !vma->vm_file && vma->anon_name;
-+}
-+
-+const char *vma_anon_name(struct vm_area_struct *vma)
-+{
-+	if (!has_vma_anon_name(vma))
-+		return NULL;
-+
-+	mmap_assert_locked(vma->vm_mm);
-+
-+	return vma->anon_name;
-+}
-+
-+void dup_vma_anon_name(struct vm_area_struct *orig_vma,
-+		       struct vm_area_struct *new_vma)
-+{
-+	if (!has_vma_anon_name(orig_vma))
-+		return;
-+
-+	new_vma->anon_name = kstrdup(orig_vma->anon_name, GFP_KERNEL);
-+}
-+
-+void free_vma_anon_name(struct vm_area_struct *vma)
-+{
-+	if (!has_vma_anon_name(vma))
-+		return;
-+
-+	kfree(vma->anon_name);
-+	vma->anon_name = NULL;
-+}
-+
-+/* mmap_lock should be write-locked */
-+static void replace_vma_anon_name(struct vm_area_struct *vma, const char *name)
-+{
-+	if (!name) {
-+		free_vma_anon_name(vma);
-+		return;
-+	}
-+
-+	if (vma->anon_name) {
-+		/* Should never happen, to dup use dup_vma_anon_name() */
-+		WARN_ON(vma->anon_name == name);
-+
-+		/* Same name, nothing to do here */
-+		if (!strcmp(name, vma->anon_name))
-+			return;
-+
-+		free_vma_anon_name(vma);
-+	}
-+	vma->anon_name = kstrdup(name, GFP_KERNEL);
-+}
-+
- /*
-- * Update the vm_flags on regiion of a vma, splitting it or merging it as
-+ * Update the vm_flags on region of a vma, splitting it or merging it as
-  * necessary.  Must be called with mmap_sem held for writing;
-  */
- static int madvise_update_vma(struct vm_area_struct *vma,
- 			      struct vm_area_struct **prev, unsigned long start,
--			      unsigned long end, unsigned long new_flags)
-+			      unsigned long end, unsigned long new_flags,
-+			      const char *name)
- {
- 	struct mm_struct *mm = vma->vm_mm;
- 	int error;
- 	pgoff_t pgoff;
- 
--	if (new_flags == vma->vm_flags) {
-+	if (new_flags == vma->vm_flags && is_same_vma_anon_name(vma, name)) {
- 		*prev = vma;
- 		return 0;
- 	}
-@@ -82,7 +138,7 @@ static int madvise_update_vma(struct vm_area_struct *vma,
- 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
- 	*prev = vma_merge(mm, *prev, start, end, new_flags, vma->anon_vma,
- 			  vma->vm_file, pgoff, vma_policy(vma),
--			  vma->vm_userfaultfd_ctx);
-+			  vma->vm_userfaultfd_ctx, name);
- 	if (*prev) {
- 		vma = *prev;
- 		goto success;
-@@ -115,10 +171,30 @@ static int madvise_update_vma(struct vm_area_struct *vma,
- 	 * vm_flags is protected by the mmap_lock held in write mode.
- 	 */
- 	vma->vm_flags = new_flags;
-+	if (!vma->vm_file)
-+		replace_vma_anon_name(vma, name);
- 
- 	return 0;
- }
- 
-+static int madvise_vma_anon_name(struct vm_area_struct *vma,
-+				 struct vm_area_struct **prev,
-+				 unsigned long start, unsigned long end,
-+				 unsigned long name)
-+{
-+	int error;
-+
-+	/* Only anonymous mappings can be named */
-+	if (vma->vm_file)
-+		return -EINVAL;
-+
-+	error = madvise_update_vma(vma, prev, start, end, vma->vm_flags,
-+				   (const char *)name);
-+	if (error == -ENOMEM)
-+		error = -EAGAIN;
-+	return error;
-+}
-+
- #ifdef CONFIG_SWAP
- static int swapin_walk_pmd_entry(pmd_t *pmd, unsigned long start,
- 	unsigned long end, struct mm_walk *walk)
-@@ -948,7 +1024,8 @@ static int madvise_vma_behavior(struct vm_area_struct *vma,
- 		break;
- 	}
- 
--	error = madvise_update_vma(vma, prev, start, end, new_flags);
-+	error = madvise_update_vma(vma, prev, start, end, new_flags,
-+				   vma_anon_name(vma));
- 
- out:
- 	if (error == -ENOMEM)
-@@ -1123,6 +1200,31 @@ int madvise_walk_vmas(struct mm_struct *mm, unsigned long start,
- 	return unmapped_error;
- }
- 
-+int madvise_set_anon_name(struct mm_struct *mm, unsigned long start,
-+			  unsigned long len_in, const char *name)
-+{
-+	unsigned long end;
-+	unsigned long len;
-+
-+	if (start & ~PAGE_MASK)
-+		return -EINVAL;
-+	len = (len_in + ~PAGE_MASK) & PAGE_MASK;
-+
-+	/* Check to see whether len was rounded up from small -ve to zero */
-+	if (len_in && !len)
-+		return -EINVAL;
-+
-+	end = start + len;
-+	if (end < start)
-+		return -EINVAL;
-+
-+	if (end == start)
-+		return 0;
-+
-+	return madvise_walk_vmas(mm, start, end, (unsigned long)name,
-+				 madvise_vma_anon_name);
-+}
-+
- /*
-  * The madvise(2) system call.
-  *
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index e32360e90274..cc21ca7e9d40 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -811,7 +811,8 @@ static int mbind_range(struct mm_struct *mm, unsigned long start,
- 			((vmstart - vma->vm_start) >> PAGE_SHIFT);
- 		prev = vma_merge(mm, prev, vmstart, vmend, vma->vm_flags,
- 				 vma->anon_vma, vma->vm_file, pgoff,
--				 new_pol, vma->vm_userfaultfd_ctx);
-+				 new_pol, vma->vm_userfaultfd_ctx,
-+				 vma_anon_name(vma));
- 		if (prev) {
- 			vma = prev;
- 			next = vma->vm_next;
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 16d2ee160d43..c878515680af 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -511,7 +511,7 @@ static int mlock_fixup(struct vm_area_struct *vma, struct vm_area_struct **prev,
- 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
- 	*prev = vma_merge(mm, *prev, start, end, newflags, vma->anon_vma,
- 			  vma->vm_file, pgoff, vma_policy(vma),
--			  vma->vm_userfaultfd_ctx);
-+			  vma->vm_userfaultfd_ctx, vma_anon_name(vma));
- 	if (*prev) {
- 		vma = *prev;
- 		goto success;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index ca54d36d203a..baf00fbb1f4c 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1032,7 +1032,8 @@ int __vma_adjust(struct vm_area_struct *vma, unsigned long start,
-  */
- static inline int is_mergeable_vma(struct vm_area_struct *vma,
- 				struct file *file, unsigned long vm_flags,
--				struct vm_userfaultfd_ctx vm_userfaultfd_ctx)
-+				struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
-+				const char *anon_name)
- {
- 	/*
- 	 * VM_SOFTDIRTY should not prevent from VMA merging, if we
-@@ -1050,6 +1051,8 @@ static inline int is_mergeable_vma(struct vm_area_struct *vma,
- 		return 0;
- 	if (!is_mergeable_vm_userfaultfd_ctx(vma, vm_userfaultfd_ctx))
- 		return 0;
-+	if (!is_same_vma_anon_name(vma, anon_name))
-+		return 0;
- 	return 1;
- }
- 
-@@ -1082,9 +1085,10 @@ static int
- can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
- 		     struct anon_vma *anon_vma, struct file *file,
- 		     pgoff_t vm_pgoff,
--		     struct vm_userfaultfd_ctx vm_userfaultfd_ctx)
-+		     struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
-+		     const char *anon_name)
- {
--	if (is_mergeable_vma(vma, file, vm_flags, vm_userfaultfd_ctx) &&
-+	if (is_mergeable_vma(vma, file, vm_flags, vm_userfaultfd_ctx, anon_name) &&
- 	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
- 		if (vma->vm_pgoff == vm_pgoff)
- 			return 1;
-@@ -1103,9 +1107,10 @@ static int
- can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
- 		    struct anon_vma *anon_vma, struct file *file,
- 		    pgoff_t vm_pgoff,
--		    struct vm_userfaultfd_ctx vm_userfaultfd_ctx)
-+		    struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
-+		     const char *anon_name)
- {
--	if (is_mergeable_vma(vma, file, vm_flags, vm_userfaultfd_ctx) &&
-+	if (is_mergeable_vma(vma, file, vm_flags, vm_userfaultfd_ctx, anon_name) &&
- 	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
- 		pgoff_t vm_pglen;
- 		vm_pglen = vma_pages(vma);
-@@ -1116,9 +1121,9 @@ can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
- }
- 
- /*
-- * Given a mapping request (addr,end,vm_flags,file,pgoff), figure out
-- * whether that can be merged with its predecessor or its successor.
-- * Or both (it neatly fills a hole).
-+ * Given a mapping request (addr,end,vm_flags,file,pgoff,anon_name),
-+ * figure out whether that can be merged with its predecessor or its
-+ * successor.  Or both (it neatly fills a hole).
-  *
-  * In most cases - when called for mmap, brk or mremap - [addr,end) is
-  * certain not to be mapped by the time vma_merge is called; but when
-@@ -1163,7 +1168,8 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
- 			unsigned long end, unsigned long vm_flags,
- 			struct anon_vma *anon_vma, struct file *file,
- 			pgoff_t pgoff, struct mempolicy *policy,
--			struct vm_userfaultfd_ctx vm_userfaultfd_ctx)
-+			struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
-+			const char *anon_name)
- {
- 	pgoff_t pglen = (end - addr) >> PAGE_SHIFT;
- 	struct vm_area_struct *area, *next;
-@@ -1193,7 +1199,7 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
- 			mpol_equal(vma_policy(prev), policy) &&
- 			can_vma_merge_after(prev, vm_flags,
- 					    anon_vma, file, pgoff,
--					    vm_userfaultfd_ctx)) {
-+					    vm_userfaultfd_ctx, anon_name)) {
- 		/*
- 		 * OK, it can.  Can we now merge in the successor as well?
- 		 */
-@@ -1202,7 +1208,7 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
- 				can_vma_merge_before(next, vm_flags,
- 						     anon_vma, file,
- 						     pgoff+pglen,
--						     vm_userfaultfd_ctx) &&
-+						     vm_userfaultfd_ctx, anon_name) &&
- 				is_mergeable_anon_vma(prev->anon_vma,
- 						      next->anon_vma, NULL)) {
- 							/* cases 1, 6 */
-@@ -1225,7 +1231,7 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
- 			mpol_equal(policy, vma_policy(next)) &&
- 			can_vma_merge_before(next, vm_flags,
- 					     anon_vma, file, pgoff+pglen,
--					     vm_userfaultfd_ctx)) {
-+					     vm_userfaultfd_ctx, anon_name)) {
- 		if (prev && addr < prev->vm_end)	/* case 4 */
- 			err = __vma_adjust(prev, prev->vm_start,
- 					 addr, prev->vm_pgoff, NULL, next);
-@@ -1766,7 +1772,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
- 	 * Can we just expand an old mapping?
- 	 */
- 	vma = vma_merge(mm, prev, addr, addr + len, vm_flags,
--			NULL, file, pgoff, NULL, NULL_VM_UFFD_CTX);
-+			NULL, file, pgoff, NULL, NULL_VM_UFFD_CTX, NULL);
- 	if (vma)
- 		goto out;
- 
-@@ -1825,7 +1831,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
- 		 */
- 		if (unlikely(vm_flags != vma->vm_flags && prev)) {
- 			merge = vma_merge(mm, prev, vma->vm_start, vma->vm_end, vma->vm_flags,
--				NULL, vma->vm_file, vma->vm_pgoff, NULL, NULL_VM_UFFD_CTX);
-+				NULL, vma->vm_file, vma->vm_pgoff, NULL, NULL_VM_UFFD_CTX, NULL);
- 			if (merge) {
- 				/* ->mmap() can change vma->vm_file and fput the original file. So
- 				 * fput the vma->vm_file here or we would add an extra fput for file
-@@ -3087,7 +3093,7 @@ static int do_brk_flags(unsigned long addr, unsigned long len, unsigned long fla
- 
- 	/* Can we just expand an old private anonymous mapping? */
- 	vma = vma_merge(mm, prev, addr, addr + len, flags,
--			NULL, NULL, pgoff, NULL, NULL_VM_UFFD_CTX);
-+			NULL, NULL, pgoff, NULL, NULL_VM_UFFD_CTX, NULL);
- 	if (vma)
- 		goto out;
- 
-@@ -3280,7 +3286,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
- 		return NULL;	/* should never get here */
- 	new_vma = vma_merge(mm, prev, addr, addr + len, vma->vm_flags,
- 			    vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
--			    vma->vm_userfaultfd_ctx);
-+			    vma->vm_userfaultfd_ctx, vma_anon_name(vma));
- 	if (new_vma) {
- 		/*
- 		 * Source vma may have been merged into new_vma
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index 883e2cc85cad..a48ff8e79f48 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -464,7 +464,7 @@ mprotect_fixup(struct vm_area_struct *vma, struct vm_area_struct **pprev,
- 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
- 	*pprev = vma_merge(mm, *pprev, start, end, newflags,
- 			   vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
--			   vma->vm_userfaultfd_ctx);
-+			   vma->vm_userfaultfd_ctx, vma_anon_name(vma));
- 	if (*pprev) {
- 		vma = *pprev;
- 		VM_WARN_ON((vma->vm_flags ^ newflags) & ~VM_SOFTDIRTY);
--- 
-2.33.0.259.gc128427fd7-goog
-
+> > +
+> > +	switch (type) {
+> > +	case hwmon_temp:
+> > +		*val = priv->temp_input[channel];
+> > +		break;
+> > +	case hwmon_fan:
+> > +		*val = priv->speed_input[channel];
+> > +		break;
+> > +	case hwmon_power:
+> > +		*val = priv->power_input[channel];
+> > +		break;
+> > +	case hwmon_in:
+> > +		*val = priv->voltage_input[channel];
+> > +		break;
+> > +	case hwmon_curr:
+> > +		*val = priv->current_input[channel];
+> > +		break;
+> > +	default:
+> > +		return -EOPNOTSUPP;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int d5next_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> > +			      int channel, const char **str)
+> > +{
+> > +	switch (type) {
+> > +	case hwmon_temp:
+> > +		*str = label_temp[channel];
+> > +		break;
+> > +	case hwmon_fan:
+> > +		*str = label_speeds[channel];
+> > +		break;
+> > +	case hwmon_power:
+> > +		*str = label_power[channel];
+> > +		break;
+> > +	case hwmon_in:
+> > +		*str = label_voltages[channel];
+> > +		break;
+> > +	case hwmon_curr:
+> > +		*str = label_current[channel];
+> > +		break;
+> > +	default:
+> > +		return -EOPNOTSUPP;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct hwmon_ops d5next_hwmon_ops = {
+> > +	.is_visible = d5next_is_visible,
+> > +	.read = d5next_read,
+> > +	.read_string = d5next_read_string,
+> > +};
+> > +
+> > +static const struct hwmon_channel_info *d5next_info[] = {
+> > +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL),
+> > +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL, HWMON_F_INPUT | HWMON_F_LABEL),
+> > +	HWMON_CHANNEL_INFO(power, HWMON_P_INPUT | HWMON_P_LABEL, HWMON_P_INPUT | HWMON_P_LABEL),
+> > +	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT | HWMON_I_LABEL, HWMON_I_INPUT | HWMON_I_LABEL,
+> > +			   HWMON_I_INPUT | HWMON_I_LABEL),
+> > +	HWMON_CHANNEL_INFO(curr, HWMON_C_INPUT | HWMON_C_LABEL, HWMON_C_INPUT | HWMON_C_LABEL),
+> > +	NULL
+> > +};
+> > +
+> > +static const struct hwmon_chip_info d5next_chip_info = {
+> > +	.ops = &d5next_hwmon_ops,
+> > +	.info = d5next_info,
+> > +};
+> > +
+> > +static int d5next_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
+> > +{
+> > +	struct d5next_data *priv;
+> > +
+> > +	if (report->id != D5NEXT_STATUS_REPORT_ID)
+> > +		return 0;
+> > +
+> > +	priv = hid_get_drvdata(hdev);
+> > +
+> > +	/* Info provided with every report */
+> > +
+> > +	priv->serial_number[0] = get_unaligned_be16(data + D5NEXT_SERIAL_FIRST_PART);
+> > +	priv->serial_number[1] = get_unaligned_be16(data + D5NEXT_SERIAL_SECOND_PART);
+> > +
+> > +	priv->firmware_version = get_unaligned_be16(data + D5NEXT_FIRMWARE_VERSION);
+> > +	priv->power_cycles = get_unaligned_be32(data + D5NEXT_POWER_CYCLES);
+> > +
+> > +	/* Sensor readings */
+> > +
+> > +	priv->temp_input[0] = get_unaligned_be16(data + D5NEXT_COOLANT_TEMP) * 10;
+> > +
+> > +	priv->speed_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_SPEED);
+> > +	priv->speed_input[1] = get_unaligned_be16(data + D5NEXT_FAN_SPEED);
+> > +
+> > +	priv->power_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_POWER) * 10000;
+> > +	priv->power_input[1] = get_unaligned_be16(data + D5NEXT_FAN_POWER) * 10000;
+> > +
+> > +	priv->voltage_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_VOLTAGE) * 10;
+> > +	priv->voltage_input[1] = get_unaligned_be16(data + D5NEXT_FAN_VOLTAGE) * 10;
+> > +	priv->voltage_input[2] = get_unaligned_be16(data + D5NEXT_5V_VOLTAGE) * 10;
+> > +
+> > +	priv->current_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_CURRENT);
+> > +	priv->current_input[1] = get_unaligned_be16(data + D5NEXT_FAN_CURRENT);
+> > +
+> > +	priv->updated = jiffies;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +
+> > +static int serial_number_show(struct seq_file *seqf, void *unused)
+> > +{
+> > +	struct d5next_data *priv = seqf->private;
+> > +
+> > +	seq_printf(seqf, "%05u-%05u\n", priv->serial_number[0], priv->serial_number[1]);
+> > +
+> > +	return 0;
+> > +}
+> > +DEFINE_SHOW_ATTRIBUTE(serial_number);
+> > +
+> > +static int firmware_version_show(struct seq_file *seqf, void *unused)
+> > +{
+> > +	struct d5next_data *priv = seqf->private;
+> > +
+> > +	seq_printf(seqf, "%u\n", priv->firmware_version);
+> > +
+> > +	return 0;
+> > +}
+> > +DEFINE_SHOW_ATTRIBUTE(firmware_version);
+> > +
+> > +static int power_cycles_show(struct seq_file *seqf, void *unused)
+> > +{
+> > +	struct d5next_data *priv = seqf->private;
+> > +
+> > +	seq_printf(seqf, "%u\n", priv->power_cycles);
+> > +
+> > +	return 0;
+> > +}
+> > +DEFINE_SHOW_ATTRIBUTE(power_cycles);
+> > +
+> > +static void d5next_debugfs_init(struct d5next_data *priv)
+> > +{
+> > +	char name[32];
+> > +
+> > +	scnprintf(name, sizeof(name), "%s-%s", DRIVER_NAME, dev_name(&priv->hdev->dev));
+> > +
+> > +	priv->debugfs = debugfs_create_dir(name, NULL);
+> > +	debugfs_create_file("serial_number", 0444, priv->debugfs, priv, &serial_number_fops);
+> > +	debugfs_create_file("firmware_version", 0444, priv->debugfs, priv, &firmware_version_fops);
+> > +	debugfs_create_file("power_cycles", 0444, priv->debugfs, priv, &power_cycles_fops);
+> > +}
+> > +
+> > +#else
+> > +
+> > +static void d5next_debugfs_init(struct d5next_data *priv)
+> > +{
+> > +}
+> > +
+> > +#endif
+> > +
+> > +static int d5next_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> > +{
+> > +	struct d5next_data *priv;
+> > +	int ret;
+> > +
+> > +	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+> > +	if (!priv)
+> > +		return -ENOMEM;
+> > +
+> > +	priv->hdev = hdev;
+> > +	hid_set_drvdata(hdev, priv);
+> > +
+> > +	priv->updated = jiffies - D5NEXT_STATUS_UPDATE_INTERVAL * HZ;
+> > +
+> > +	ret = hid_parse(hdev);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = hid_hw_open(hdev);
+> > +	if (ret)
+> > +		goto fail_and_stop;
+> > +
+> > +	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "d5next", priv,
+> > +							  &d5next_chip_info, NULL);
+> > +
+> > +	if (IS_ERR(priv->hwmon_dev)) {
+> > +		ret = PTR_ERR(priv->hwmon_dev);
+> > +		goto fail_and_close;
+> > +	}
+> > +
+> > +	d5next_debugfs_init(priv);
+> > +
+> > +	return 0;
+> > +
+> > +fail_and_close:
+> > +	hid_hw_close(hdev);
+> > +fail_and_stop:
+> > +	hid_hw_stop(hdev);
+> > +	return ret;
+> > +}
+> > +
+> > +static void d5next_remove(struct hid_device *hdev)
+> > +{
+> > +	struct d5next_data *priv = hid_get_drvdata(hdev);
+> > +
+> > +	debugfs_remove_recursive(priv->debugfs);
+> > +	hwmon_device_unregister(priv->hwmon_dev);
+> > +
+> > +	hid_hw_close(hdev);
+> > +	hid_hw_stop(hdev);
+> > +}
+> > +
+> > +static const struct hid_device_id d5next_table[] = {
+> > +	{ HID_USB_DEVICE(0x0c70, 0xf00e) }, /* Aquacomputer D5 Next */
+> > +	{},
+> > +};
+> > +
+> > +MODULE_DEVICE_TABLE(hid, d5next_table);
+> > +
+> > +static struct hid_driver d5next_driver = {
+> > +	.name = DRIVER_NAME,
+> > +	.id_table = d5next_table,
+> > +	.probe = d5next_probe,
+> > +	.remove = d5next_remove,
+> > +	.raw_event = d5next_raw_event,
+> > +};
+> > +
+> > +static int __init d5next_init(void)
+> > +{
+> > +	return hid_register_driver(&d5next_driver);
+> > +}
+> > +
+> > +static void __exit d5next_exit(void)
+> > +{
+> > +	hid_unregister_driver(&d5next_driver);
+> > +}
+> > +
+> > +/* Request to initialize after the HID bus to ensure it's not being loaded before */
+> > +
+> > +late_initcall(d5next_init);
+> > +module_exit(d5next_exit);
+> > +
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
+> > +MODULE_DESCRIPTION("Hwmon driver for Aquacomputer D5 Next pump");
+> > -- 
+> > 2.31.1
+> > 
