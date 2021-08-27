@@ -2,102 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6293CC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 071CDC432BE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:46:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D6AC60FDA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:29:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC14360F92
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 08:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244505AbhH0I36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 04:29:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44000 "EHLO mail.kernel.org"
+        id S244608AbhH0IrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 04:47:19 -0400
+Received: from mga06.intel.com ([134.134.136.31]:23139 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232048AbhH0I36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Aug 2021 04:29:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D255E60F92;
-        Fri, 27 Aug 2021 08:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1630052949;
-        bh=BU9TRzkMG53KIKBgnqTa/wiySOBfMjCnl6DVJZAWeR8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AkxzV2bWozX+avMROB8UwIqZy81fYWziObSlO5YoQPeCWrvnzwnTkH9hZoql89feF
-         OQZ+indgwfTFbxp6FK7hde02GgkG/34BwW47EzC1Wt3i9pWpdX0pgQpcW4WIFvO4uZ
-         eL7yE5pzmJQNXzFdEcumG9p0BgwRatKXIdJ8IGa8=
-Date:   Fri, 27 Aug 2021 10:29:02 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ferry Toth <ftoth@exalondelft.nl>
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        Lorenzo Colitti <lorenzo@google.com>,
-        Wesley Cheng <wcheng@codeaurora.org>, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        frowand.list@gmail.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pavel Hofman <pavel.hofman@ivitera.com>
-Subject: Re: [PATCH v2 1/3] Revert "usb: gadget: u_audio: add real feedback
- implementation"
-Message-ID: <YSiiTrW/ZF2PyGWd@kroah.com>
-References: <20210826185739.3868-1-ftoth@exalondelft.nl>
- <20210826185739.3868-2-ftoth@exalondelft.nl>
+        id S244548AbhH0IrS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Aug 2021 04:47:18 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="278936755"
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
+   d="scan'208";a="278936755"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 01:46:28 -0700
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
+   d="scan'208";a="599107092"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 01:46:26 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mJXVE-00EGyS-UN; Fri, 27 Aug 2021 11:46:20 +0300
+Date:   Fri, 27 Aug 2021 11:46:20 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-scsi@vger.kernel.org, storagedev@microchip.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/5] vsprintf and uses: Add upper case output to %*ph
+ extension
+Message-ID: <YSimXPUVcy9zhpYG@smile.fi.intel.com>
+References: <cover.1630003183.git.joe@perches.com>
+ <YSiZlyQzgW8umsjj@smile.fi.intel.com>
+ <4b8e2987c1ff384bac497a20fcd75f9051990cff.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210826185739.3868-2-ftoth@exalondelft.nl>
+In-Reply-To: <4b8e2987c1ff384bac497a20fcd75f9051990cff.camel@perches.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 08:57:37PM +0200, Ferry Toth wrote:
-> This reverts commit e89bb4288378b85c82212b60dc98ecda6b3d3a70.
+On Fri, Aug 27, 2021 at 01:10:41AM -0700, Joe Perches wrote:
+> On Fri, 2021-08-27 at 10:51 +0300, Andy Shevchenko wrote:
+> > On Thu, Aug 26, 2021 at 11:43:00AM -0700, Joe Perches wrote:
+> > > Several sysfs uses that could use %*ph are upper case hex output.
+> > > Add a flag to the short hex formatting routine in vsprintf to support them.
+> > > Add documentation too.
+> >
+> > Thanks!
+> >
+> > Unfortunately I have got only first patch and this cover letter. Can you,
+> > please, Cc entire series?
 > 
-> The commit is part of a series with commit
-> 24f779dac8f3efb9629adc0e486914d93dc45517 causing a BUG on dwc3
-> hardware, at least on Intel Merrifield platform when configured
-> through configfs:
-> BUG: kernel NULL pointer dereference, address: 0000000000000008
-> ...
-> RIP: 0010:dwc3_gadget_del_and_unmap_request+0x19/0xe0
-> ...
-> Call Trace:
->  dwc3_remove_requests.constprop.0+0x12f/0x170
->  __dwc3_gadget_ep_disable+0x7a/0x160
->  dwc3_gadget_ep_disable+0x3d/0xd0
->  usb_ep_disable+0x1c/0x70
->  u_audio_stop_capture+0x79/0x120 [u_audio]
->  afunc_set_alt+0x73/0x80 [usb_f_uac2]
->  composite_setup+0x224/0x1b90 [libcomposite]
+> It's on lore.
 > 
-> Pavel's suggestion to add
-> `echo "adaptive" > functions/uac2.usb0/c_sync` to the configfs script
-> resolves the issue.
-> Thinh suggests "the crash is probably because of f_uac2 prematurely
-> freeing feedback request before its completion. usb_ep_dequeue() is
-> asynchronous. dwc2() may treat it as a synchronous call so you didn't
-> get a crash."
-> 
-> Revert as this is a regression and the kernel shouldn't crash depending
-> on configuration parameters.
+> https://lore.kernel.org/lkml/cover.1630003183.git.joe@perches.com/T/#u
 
-Are these normal configuration options in the wild, or is this just
-something that you "can do"?
+Thanks. So, you won't me to review them in a regular way :-)
 
-> Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+TBH, I think those examples may pretty much be safe to use small
+letters always.
 
-I need an ack from the original authors to revert all this...
+-- 
+With Best Regards,
+Andy Shevchenko
 
-thanks,
 
-greg k-h
