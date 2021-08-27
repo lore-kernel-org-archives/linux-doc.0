@@ -2,121 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3304FC432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 02:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7048AC4320E
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 03:01:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 099DF60E97
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 02:16:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EB0660F35
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 03:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244060AbhH0CRV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Aug 2021 22:17:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42352 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241128AbhH0CRV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Aug 2021 22:17:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4CD9860EE4;
-        Fri, 27 Aug 2021 02:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630030593;
-        bh=uDYKss5H51+qlIxfwS1FoAJZats7oowU7sDnItkFnkM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DqVbZaXCL8jSy0LZAmP6+zE3UBKplz6lO0Tgb+lQTdDG86f1MKzwCSJUv28C/cZeI
-         5V75g8WD2iT6ZYs1+IlJQ0ut22NjiQGeLIH+ecR5+gz0EGB/Q4K3QDfEVp2DIbTZYS
-         tB8nlsUSjgBD1LHuEF7FHqt+aCpjR5VVk0PDAUdvxYBv7jXuLRVSQfHLrgwWLMTvN6
-         cj+TGPXM5pmeDCuY6u1T6VV8s7A/mbMFu1/5BSyGMCoeb4C5YVfh9dG392eE3BtiA8
-         Qgvt0kcaOb5DHeoU+gUOF7BoQJrPea7QH7NCt1Cqi3JhS4ENelU7YgX+6dSa9dRLzx
-         K4G91ice+nXAQ==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 3/3] docs: bootconfig: Add how to use bootconfig for kernel parameters
-Date:   Fri, 27 Aug 2021 11:16:30 +0900
-Message-Id: <163003058988.284890.9518735919599994613.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <163003056713.284890.5878333391812608469.stgit@devnote2>
-References: <163003056713.284890.5878333391812608469.stgit@devnote2>
-User-Agent: StGit/0.19
+        id S232197AbhH0DCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Aug 2021 23:02:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36375 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244100AbhH0DCX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Aug 2021 23:02:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630033295;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=K4jOE7EOyJEUtyvbzwon/FpGiE9ELVYRNObVBK/Xg7Q=;
+        b=I4Krasr7KLrpSkNAg5+wq0d12gkVocEvCi8tf7hTdukjeAEkUAfqn5kxGTkqOXW5nNLYdk
+        msSqeFPon0VCAeMg2ZDyiapytq6S/fi3BlQwXBRlWx88tkcNHbscTjD2Asyjsw3GDeUVRY
+        7NrOJNh0cw0jPjgPuCkYInW2FkoD0SY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-tQl6MIWwPsKkkxcu4ZdeKg-1; Thu, 26 Aug 2021 23:01:33 -0400
+X-MC-Unique: tQl6MIWwPsKkkxcu4ZdeKg-1
+Received: by mail-qt1-f199.google.com with SMTP id r5-20020ac85e85000000b0029bd6ee5179so2370623qtx.18
+        for <linux-doc@vger.kernel.org>; Thu, 26 Aug 2021 20:01:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=K4jOE7EOyJEUtyvbzwon/FpGiE9ELVYRNObVBK/Xg7Q=;
+        b=q0dnHEUWylZ9GzA1rgfQnPPAMP5ZssxzvkceGoBf8elYFOVLcQ9uF+y57cLW3vlT+d
+         5vfyEoZERAI0fG2sDVommLDTvlDVi/qqgmLlHYOzHzmPUClh0dh8b1BnWy6lDEoR4htH
+         oy23aS9HHDYusBqkLQ1JiTqhkNInPsVj1TpbMav0Ad3lXB/M0M8pukuuF0ko4uJjYM/K
+         iElxyjxcHH9IKA6Jj/lwnLlYcfq9KkQYDmb2Bv64yEmDUE6dqIma4F12vN6IJws/Drej
+         6RY0fa3YhZG2ZjOA3AbVpK2Wi6TXzB03pncss0JLZW7vrPMgiIdAP3gPlEa0hySpL+DV
+         4/mg==
+X-Gm-Message-State: AOAM530BRCBaiNi300cmOy051aNYzfp5RYTufNBZ+BynigGjJZJK4Co5
+        XaO0EEldFkTNNVIiNgDpqeKSqNgPJGcWDGKgw4HlYkOh1dIuvI+PX0u8DHcNr/hNs9OLMyuc2SF
+        oVfXSH6GejtWsh0zWWcP9
+X-Received: by 2002:a05:620a:2492:: with SMTP id i18mr7242247qkn.57.1630033293067;
+        Thu, 26 Aug 2021 20:01:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH38hLETGQM+sg7xDFhHxk8Ho4XlE30avAUmXfRuimCPma+GJB5ntZuUwdTw7Cewi7vQSA0g==
+X-Received: by 2002:a05:620a:2492:: with SMTP id i18mr7242217qkn.57.1630033292764;
+        Thu, 26 Aug 2021 20:01:32 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+        by smtp.gmail.com with ESMTPSA id v128sm4003899qkh.27.2021.08.26.20.01.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Aug 2021 20:01:32 -0700 (PDT)
+From:   Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v7 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20210825213750.6933-1-longman@redhat.com>
+ <20210825213750.6933-6-longman@redhat.com> <YSfQ0mYWs2zUyqGY@mtj.duckdns.org>
+Message-ID: <32e27fcc-32f1-b26c-ae91-9e03f7e433af@redhat.com>
+Date:   Thu, 26 Aug 2021 23:01:30 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YSfQ0mYWs2zUyqGY@mtj.duckdns.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a section to describe how to use the bootconfig for
-specifying kernel and init parameters. This is an important
-section because it is the reason why this document is under
-the admin-guide.
+On 8/26/21 1:35 PM, Tejun Heo wrote:
+> Hello, Waiman.
+>
+> Let's stop iterating on the patchset until we reach a consensus.
+>
+> On Wed, Aug 25, 2021 at 05:37:49PM -0400, Waiman Long wrote:
+>>   	1) The "cpuset.cpus" is not empty and the list of CPUs are
+>>   	   exclusive, i.e. they are not shared by any of its siblings.
+> Part of it can be reached by cpus going offline.
+>
+>>   	2) The parent cgroup is a partition root.
+> This condition can happen if a parent stop being a partition.
+>
+>> -	3) The "cpuset.cpus" is also a proper subset of the parent's
+>> +	3) The "cpuset.cpus" is a subset of the parent's
+>>   	   "cpuset.cpus.effective".
+> This can happen if cpus go offline.
+>
+>>   	4) There is no child cgroups with cpuset enabled.  This is for
+>>   	   eliminating corner cases that have to be handled if such a
+>>   	   condition is allowed.
+> This may make sense as a short cut for us but doesn't really stem from
+> interface or behavior requirements.
+>
+> Of the four conditions listed, two are bogus (the states can be
+> reached through a different path and the configuration success or
+> failure can be timing dependent if configuration racaes against cpu
+> hotplug operations) and one maybe makes sense half-way and one is more
+> of a shortcut.
+>
+> Can't we just replace these with transitions to invalid state with
+> proper explanation? That'd get rid of the error handling duplications
+> from both the kernel and user side, make automated configurations
+> which may race against hot plug operations reliable, and consistently
+> provide users with why something failed.
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/bootconfig.rst |   39 +++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+What I am doing here is setting a high bar for transitioning from member 
+to either "root" or "isolated". Once it becomes a partition, there are 
+multiple ways that can make it invalid. I am fine with that. However, I 
+am not sure it is a good idea to allow users to echo "root" to 
+cpuset.cpus.partition anywhere in the cgroup hierarchy and require them 
+to read it back to see if it succeed.
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index 6a79f2e59396..a1860fc0ca88 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -178,7 +178,7 @@ update the boot loader and the kernel image itself as long as the boot
- loader passes the correct initrd file size. If by any chance, the boot
- loader passes a longer size, the kernel fails to find the bootconfig data.
- 
--To do this operation, Linux kernel provides "bootconfig" command under
-+To do this operation, Linux kernel provides ``bootconfig`` command under
- tools/bootconfig, which allows admin to apply or delete the config file
- to/from initrd image. You can build it by the following command::
- 
-@@ -196,6 +196,43 @@ To remove the config from the image, you can use -d option as below::
- Then add "bootconfig" on the normal kernel command line to tell the
- kernel to look for the bootconfig at the end of the initrd file.
- 
-+
-+Kernel parameters via Boot Config
-+=================================
-+
-+In addition to the kernel command line, the boot config can be used for
-+passing the kernel parameters. All the key-value pairs under ``kernel``
-+key will be passed to kernel cmdline directly. Moreover, the key-value
-+pairs under ``init`` will be passed to init process via the cmdline.
-+The parameters are concatinated with user-given kernel cmdline string
-+as the following order, so that the command line parameter can override
-+bootconfig parameters (this depends on how the subsystem handles parameters
-+but in general, earlier parameter will be overwritten by later one.)::
-+
-+ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
-+
-+Here is an example of the bootconfig file for kernel/init parameters.::
-+
-+ kernel {
-+   root = 01234567-89ab-cdef-0123-456789abcd
-+ }
-+ init {
-+  splash
-+ }
-+
-+This will be copied into the kernel cmdline string as the following::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" -- splash
-+
-+If user gives some other command line like,::
-+
-+ ro bootconfig -- quiet
-+
-+The final kernel cmdline will be the following::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
-+
-+
- Config File Limitation
- ======================
- 
+All the checking are done with cpuset_rwsem held. So there shouldn't be 
+any racing. Of course, a hotplug can immediately follow and make the 
+partition invalid.
+
+Cheers,
+Longman
 
