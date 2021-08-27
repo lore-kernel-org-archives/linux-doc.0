@@ -7,76 +7,76 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E19C432BE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 15:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 142AAC432BE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 15:01:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 251F660EB3
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 15:01:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8CFD60EFF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Aug 2021 15:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245263AbhH0PC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Aug 2021 11:02:27 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:33112 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245333AbhH0PCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 11:02:25 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RDWNnF015229;
-        Fri, 27 Aug 2021 14:58:51 GMT
+        id S245333AbhH0PCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Aug 2021 11:02:31 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:58196 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S245337AbhH0PC2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Aug 2021 11:02:28 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RDWHDH002206;
+        Fri, 27 Aug 2021 14:59:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=DJxhtf2UP32RKJtBZO6aYGJ0FEFIQg4NRMEDKTpC288=;
- b=AOpwsd+ySzxx6CSxxVCWQL1nStC8+NJ+DKxFYxG2eIwj1ZIw+AwiWsi9wee/6clSr505
- MQkJhzjh8wC3uFP7Vr8vcNMMcF8jgVJMCr9JoAALTUx4yYlBwvxg+HvuYYB7W5ZE/bzx
- lm2vwPdIn32LKf+btUpBkll36pV2RYH7wHxJSB5nO3+7W/5uwIHVOkNBdooGteFymw+1
- ejHiYUpH5FUWhLjqoo2rlMbXzeEdLB4eRWw88j5MpyYcXN2zUOCrKHSveBhcPjlGJ2Ku
- XURptiugO4g7+Tpgi7oDvC6Z1jyOlkNokpNB50OcsFl/6sbQGOLh5eH/38IsXmX73EoT fg== 
+ bh=vAhtJAv1Ep8TEn/uiSYFII5C86zN825jI8yYzbOwAOM=;
+ b=NnPNeTvAD1WjGZBkTFK54tKLTUyjuBB1DbSQiZYk5CgEhOtjJgYo5hE/f6TmWPQ0JL5D
+ /frXQaHqVBO53QLkYKRg1UrbWJMM0MWBoZOJZqE6kgjqTsMUNpKhowuMstm4cQITSxy1
+ ZN6WBsU6yMmbj0x1EawpUqdlgVqO3cGQzyYuTp2dGS6wbF3W5VkinfMyY8/RpHItY51s
+ cS1XIvFmJ1sFOpE7GggK3ZzswB7FO58xZXTOhOvpfTt5A4pXX44uoxzpqu5nBHyuLpWq
+ B4ouIub3eWq4F7noCIVTogCFt3SMcDOTtkZaRfE2wIHShA/ZIlSXK02Kkc+B8CdHNsEN Mg== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=DJxhtf2UP32RKJtBZO6aYGJ0FEFIQg4NRMEDKTpC288=;
- b=njvoaE409aSv52T8ngPgfVWUWKiLOsLpq4/ylpHLKxVR1Zo+2JB7XXhSMky5Ko9xfpdG
- FPy/W1A8xF4eWqRNC1zaKCEY1P2o+x+Y/bSWDqKKoyukE25JxYsK8vxySgfOWWi8e3CA
- CSOfcdMnWyBJVh4V4zIKvhLAp/Vmm9gw1yDiFGzsByr/J+d2kD82EQR/uugNp+XGP14B
- OyySFod8KjiKYOi5KTaehZqWF800JkWR81gctlf8yqHGtaLM9bkBzUtwrRQa3+vIG00J
- BVrgt4obHPDvX9Lppa32AtXtOQt3DCTPRWVZ05cRN4urOrkUdZyx3vEIdcxF41h1xoCa cg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ap4ekuwq5-1
+ bh=vAhtJAv1Ep8TEn/uiSYFII5C86zN825jI8yYzbOwAOM=;
+ b=k5xzmkgptY6eoVhkw+FeVGE9Xmzvx0XmaB92JPG/n1urUt4VE/XKlHOY5/8zAs5BS3F5
+ /CWij4ZbQwesS0By6viQBDdgC5tko41elbxkNBiFvW71JeAtv1qpyyUd4f/+tJPWwnTD
+ A3vbX08rcjQ3KO8RzemhQRE3xCCmYqhYuwmmKExmHnQG3kpRSGrGGfVjg4wOqytIsmFm
+ RmNdTZMCqD7XWoNHqAdknDyfLpBFdekSVqn72MEPOv0H7LMBiCyF5FWubm3LoX+OYiLu
+ 9O/GWYE2Gse9IwWOwOGOhjj/2gbnKuafMtMTjbizbARO/hjQEuWLRn/2KLqQ4A5wLQ+e Cw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3apvjr0vj6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Aug 2021 14:58:51 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17REpph2034347;
-        Fri, 27 Aug 2021 14:58:50 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-        by userp3030.oracle.com with ESMTP id 3ajpm4u8av-1
+        Fri, 27 Aug 2021 14:59:22 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17REpP1T187148;
+        Fri, 27 Aug 2021 14:59:21 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
+        by aserp3020.oracle.com with ESMTP id 3ajsabbqt0-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Aug 2021 14:58:50 +0000
+        Fri, 27 Aug 2021 14:59:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rpk5j1EMeH/ByyXdOrDygTUtBdwTUJm4JgAYKwtqgrQYkE5Q/hvQEg+flj7Q4jnb2/GxlV0HIPzwz51uv4xEMVCUUokpM3dWWvR+WfFau0DFFJaQGXzQfBDxU7DQoEm573eG1TmR2npWEGUhF4Pk0A7qks7gizWhbjsbaorRZ+ugi2hMtaAcaV/OAX/NJ0A23abFz0bpW4HEGN6qBVLwho2Q2eZg/ELKUsS944RDGu9+3w166GMzcJ1rXcWrHzwr6SiIQzOddKDu5gwoFMh7wj2CIAFSluSLKQNq0S5tTRhVdmVGYeXQX8ZWdCQK+g4ZT8EAiBJo5abrkZfE+NyNwQ==
+ b=I7AhMQ50vTM9l4ldxLlWlQiTRyorHsxUDyYDVZPpsIGCByaQm8OSx78AybFTtdRx9vR0jw4zgqU2hulH4+DDG0YmB68+oZqzB1GpQ2Rsyhp6rJiOUfOKtd60ut3Az+cwUJhaR9UZV6NXQpDPFir67XwgcBl0WbsZ4ihzzW3XZQLLgJpkAo6yzhA2JVNtOLztA2fyowbeLjkF6tslOE3d9NPWR6MPt6k89EmNk6ZjdIcmQwCK1Rkw78JHYiBPdSs4X6pc9CmkWW+ZIS9l9RlJVoIAmn50kAa9yDWZYWOF2NQzuetj4OxsQoffw//E3Re2wiYgqMGyZvYN2+/IlOMBhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DJxhtf2UP32RKJtBZO6aYGJ0FEFIQg4NRMEDKTpC288=;
- b=jjttVF/qSETGyADOoL8uWEZcCNmsg7Oq+s52a8f56KC0h0AWAf2iFAzf2DAQOelRTaBX1KLSBWQrqAMt6QCIQ//qR6w1VfJgd4Qz5naVrbNNhZ9y4EMv5PmXJO2mQbFx5zPirx+ZJfJLu+VXpGzsWax7ixZlbMPBFfdtmyUVbcv1/KpgLL0T5kCiDZ2WsfhN12JOzKH/MGnhcxForHNx2YBJnEDyRTnrggJ9vjTzA6Ia899X0Y7GylUvPoRa1vxIWADrkbuvyhE2J98bzJ6GvcMkdtJs6gcHDlRAikUZE/SVs2Of4bO3twiZL33LarVIYSzTmzKbFu2UoCHabmocSA==
+ bh=vAhtJAv1Ep8TEn/uiSYFII5C86zN825jI8yYzbOwAOM=;
+ b=BKfUOVUanZhdTMH5OJ7KOhsPSy01qGVj6k+D/YCFT35YbMZUY7gkIkOdm1AvJaKusfiTbWI9soCP83ZhHQZyicbOnXRBD4XJdJUTtoHJUP/k2tX0JRx/EyIlm3khNGQeWTNOk5hJZK1aVe6Y80iklyd/IQ88fcUFZz+SpW5FHwRjUXb6BATtO42bDmHo8vKFP1/WoZuh/XwnRFI8PxTttaNtj0BZ/iQjbTV2eW1CXDMWCf0qaI8OdfbpPLxt6huKfZDwoWwV2RONCj4YKMhed+zwsWTb8gRC5AozgF4UwFrgsFsqltD+XVDAhljPoGK3gYTh13sFYoM1Brlr53T/Vg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DJxhtf2UP32RKJtBZO6aYGJ0FEFIQg4NRMEDKTpC288=;
- b=VdtDsPbNKNEB+2ekF97eOzHbDqszFhJ1N5uy2VlzEyWL8jJVmbhUKjbbKDXOt57B7MvYNF/IG3Kjp4FrNUYqBCQG6Z3b6FTBmQAem3IXZfPo/L9AhEC/ShRZhPmt2EjMawzbHoA1AStX9ZKFKI4kunXXsXJG/bfnmzufamGXE8U=
+ bh=vAhtJAv1Ep8TEn/uiSYFII5C86zN825jI8yYzbOwAOM=;
+ b=d8KpFDJPxyY3z5cT7C0/4r8DvRlgW2qyUd8RV9RQ6QrTc6Q5cwk01e7dspdr6lyxrxNPVfT6PjR/+4H/pTwM1flg8lo0VuFwrGdlDLC4Lt++poqGBHEISrZpyy2W4aEtCwsNg8qtEO01+VLq9M3TQeu1HA8aUlDoqHiOUWOm92g=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BLAPR10MB5025.namprd10.prod.outlook.com (2603:10b6:208:30d::24) with
+ by BLAPR10MB4946.namprd10.prod.outlook.com (2603:10b6:208:323::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Fri, 27 Aug
- 2021 14:58:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Fri, 27 Aug
+ 2021 14:59:19 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::c9e9:caf3:fa4a:198]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::c9e9:caf3:fa4a:198%5]) with mapi id 15.20.4457.020; Fri, 27 Aug 2021
- 14:58:47 +0000
+ 14:59:19 +0000
 From:   Joao Martins <joao.m.martins@oracle.com>
 To:     linux-mm@kvack.org
 Cc:     Dan Williams <dan.j.williams@intel.com>,
@@ -93,9 +93,9 @@ Cc:     Dan Williams <dan.j.williams@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
         linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v4 03/14] mm/page_alloc: refactor memmap_init_zone_device() page init
-Date:   Fri, 27 Aug 2021 15:58:08 +0100
-Message-Id: <20210827145819.16471-4-joao.m.martins@oracle.com>
+Subject: [PATCH v4 12/14] mm/sparse-vmemmap: populate compound devmaps
+Date:   Fri, 27 Aug 2021 15:58:17 +0100
+Message-Id: <20210827145819.16471-13-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20210827145819.16471-1-joao.m.martins@oracle.com>
 References: <20210827145819.16471-1-joao.m.martins@oracle.com>
@@ -105,167 +105,373 @@ X-ClientProxiedBy: LO4P123CA0443.GBRP123.PROD.OUTLOOK.COM
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from paddy.uk.oracle.com (138.3.204.8) by LO4P123CA0443.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1a9::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 14:58:45 +0000
+Received: from paddy.uk.oracle.com (138.3.204.8) by LO4P123CA0443.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1a9::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 14:59:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f763bd4d-e7a5-4ae8-ae53-08d9696b2c5b
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5025:
+X-MS-Office365-Filtering-Correlation-Id: 3b3aad28-e758-41f6-9e03-08d9696b3f1b
+X-MS-TrafficTypeDiagnostic: BLAPR10MB4946:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB502514DD9489BE4F34753CD4BBC89@BLAPR10MB5025.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB4946398C835CD4CFA178AF52BBC89@BLAPR10MB4946.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rO8I8YU1cWASEYR10rBb7Jpf3RIL7x5WCfc632W755QOPqynQLdpPuCD1bzlbmoxxBllydKfMK/VQu9lhESwpMv+It6jJZxXSQ18+u0YTScEmlEoEElcZxibYSjbsDSmFTeT/Ml/4A7ewXNs+0J+Molzqsj0PiH5HUJQiyo0ChOult3XvoRHC0YPCaT33d5T4tWqNjOkI2ommpELtfBHcq7lHOAkPs4WeMcQ3NU7OHLYylj3tQLz4uX2fKrPfrURCqI5W/fIvkwWz8b9AWICvh3YnV7sknsRR2Xm30VDbQ5VudY/Cnc6pbANX2Dn6fb7DmX7B8y6Gw7Oe2CV2Y7gwNDNdMB4SaRtdb1QQnf+psOlRwbbQ9O0jyk8Lf67sYmkTvWLvxDSN9ik8bIuW1Z9CuxpDt/RTpWIld4DHX58NyN+DzaI/pLMb4clkEG2ZvkKXTwa15hWSNGWj4nOrM178/aqT/5rf6JqtXapRpCeq3/rUZwUwoLSsmMS9PVUw9yawcb8ZJ1lLm5tNbl51/5SUemah6Ytz7Df12YOBhRFtOD4/ocuPLUAuK6VV9xenlfft7582YF4Yr/GoFIdTteQv/UkFbnJaOI3iv3E/FYlpPuT02Ssm5KsgKSpDuobul/jfoKYI0Rj1cr4B7Q7fYuI4uwg261sawgEoIzCmVAnvO4zOOzw0RfabDwI/dU3vUWJd/Q6U1hz3MfUplKgJB7UvQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(316002)(508600001)(103116003)(66946007)(83380400001)(66476007)(86362001)(54906003)(6916009)(6666004)(6486002)(2906002)(1076003)(107886003)(8676002)(186003)(4326008)(38350700002)(5660300002)(956004)(26005)(66556008)(52116002)(7696005)(8936002)(36756003)(2616005)(7416002)(38100700002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: bo8OaTPUht27kA74sk6Lp9dhdr+Ja3YxNS9mRbcv6j6gUq1Ql5RwRXN9hTqU8g68tlOiiplRw7OkzXFliF7QPiKLSiI4MrR/i8D6darLSXcWKKuguNPZGWBzLu2k+Xkc6KCxw8MpTe3rGGcVrNid3xASuPJbQaYE/X/18UuscTD0aDLOYA8fddUcTzkxQ6hMQVUBXOE1OZWRR9loOUjbSQW5VE7h0slEXP9fyFUPHFgaTGXzLLxAG4/Swn7uD8FckSgG1kjGCS7IAJAoj0KDbWO9Pc6TB5Q5FICyrypfbqALkSLtqUNrk7vipw3YThaan0xgba69iuKtMS04O9NiQgpK6oe16x0nVJYmiXSRaSlEuXlUGQp1RHEp6yCTRKTqSyly0zxt+fRVj0huwL/GO4SXkGIJksRQYv3TBdMEap9BBjAQABrjqKh42anmG1lWmVTr45SRmpArgNKBPpNnZ9m67dEWCBV4XBpyUfYvzpNpHl2MwNmj+SWmhrdgfRhSkK02d0PEHqSPcwDBKMR9UxaS3QCyXXm2tKkn7oZBkWTcHhhtlbE1JvEx/TAYpr9bYrYkJ2P9U7yl/OdbAh72gdlV5yq37ojbuIRDHjxA9mruzpD8CpbqHU/9kz68DWesxaupTtrwuWywbbKU1Q/9y04yiLQy+8Vg4sKvXo71uesyKEfJ0KKls29x0kYh+OupEiFAMHWjNWFFXSeEhEgBqDmyIAJceJX8FYMWQBpDDII=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(136003)(376002)(346002)(396003)(366004)(316002)(86362001)(1076003)(2906002)(7416002)(107886003)(8936002)(66476007)(66556008)(186003)(66946007)(478600001)(38350700002)(36756003)(4326008)(7696005)(2616005)(8676002)(5660300002)(52116002)(956004)(103116003)(6486002)(38100700002)(6916009)(26005)(54906003)(83380400001)(334744004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SSWmmgPdPDXviN/K87m0ecGYzjz1+l6zy93T18C9W+GRKEIenIfAlvhE7+8G?=
- =?us-ascii?Q?/3V6Rrrim6DZ9wrDYFUI+wqD95FbCORwkofATPEMT6Z+S+t3eBd9U6qvi5El?=
- =?us-ascii?Q?VKfS56dm2P40pHcosLxROxx9K5Gh7dsw8+s3CghgB7hFxbN7cQJBk3wza2EP?=
- =?us-ascii?Q?kwf8wckWCfDziQi2p38nkWpb+YCxtXXLJNIsVqClIYXHdeDxe2I97BJqi4pg?=
- =?us-ascii?Q?G/mHqRpNniRmArCq4cophU6Q1+3v5Xb7Ul8wUL2JO6WidlNg3sFoA9p4dYpx?=
- =?us-ascii?Q?ELQa+8Elb0fwsQ+SlZJdam7l8VNWC3aWhrv1mNp6RTaodX4AOH/bygccFRbQ?=
- =?us-ascii?Q?wFXDAfOxPPEI/O44JWx2wyyOQRhePFuO8a0nYEpQCRjdnxrijJJMbdN+H/YV?=
- =?us-ascii?Q?HDiaqQyQ9t/q3/f1pgGxxWorhl0LwYEYjIJHx0lxPqZROit2Kf8mJ7eZeFBk?=
- =?us-ascii?Q?Of7EkJcZ/NJPVEoSVgZhuyCXR6WDIQz5LsNzzgtWEWfqRlQDmhfnIzk7akfY?=
- =?us-ascii?Q?425twZFq7H2ScTXiwfoVm+DWKY2x1QSnI1AvXt18bFZ6vsKIxB166umV8RQi?=
- =?us-ascii?Q?rpgme3xlfxGINzxnfU4+hgy0AZfz81TqQP6VaZ/hUFqKFf1+EH+pl3YmRgBl?=
- =?us-ascii?Q?2oz7fFN5WqEi1x+hAY95jlOWs3NVFfADQxBZ0Pdmonw6dfUGcMDR2AB+9LD8?=
- =?us-ascii?Q?zT/Z2bTY83lHLYXmn4ecPVTIeNWUWyx0qTIWuVyaYR6izYtzWHdQjlHza44G?=
- =?us-ascii?Q?XvGkmEeATj5PP5+yPnkamPXAaOoWve8gAoaeMwRWS2oC5GEcy4YLUgGSQzBD?=
- =?us-ascii?Q?05vz4fYqKdxUcEdk/RvOr1bzy27Ca6XC65j7MSA7D39pqYUVeIChuuZcUBDC?=
- =?us-ascii?Q?ntTnyQGKJkq5jLnWBgufiY4l1Hf1C4zQdrtoROsORieuR0cvA88fgw18bsep?=
- =?us-ascii?Q?XCz1J0QofDlJpeSb1ZijyNwByKd0TJ+3XbytXAfMIamv2C02edOALfim1nWI?=
- =?us-ascii?Q?sSsvnQF0bNPwpnIXtIoKqYEo1RrlS4BgasI5MxitfS9CiI131WZl42dskM3+?=
- =?us-ascii?Q?304GvNCLRmDizIGwnRQqS8y1vxPtFklo0+4bHa6ECjx6GM+9/xuKLLNPSJkM?=
- =?us-ascii?Q?zJePboGofS+HAFBJWAruhEUVNg4WlUiHMoMsqRP5gt04x+N0eVK+t6yzmkjk?=
- =?us-ascii?Q?cX0pH/n76EOuzmSjkl11QRHuEs1bf12wbaLSouTXZfuIpJTXXix2Yw9cuRRm?=
- =?us-ascii?Q?XZEFiBBA1D+w8aaOwMQRmKXGF+X7cZjYkak3wA7pyt6aEw4pi4y1tfkjpTjR?=
- =?us-ascii?Q?lMVQpIx3asGZzFa1VAPf6L+I?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rdAwp7V+rvDVyc6WAC4OrcQ3PH/RykiEXZ22Sr2g6LEDN1w3cIRF4JlJZimL?=
+ =?us-ascii?Q?2t3TlZ4DKGDEBTIh6R5pWz/BCilRbS3c1nCr4z1Q742V0fjkJUe6cDV3sd2X?=
+ =?us-ascii?Q?6iz0ld4QiX4AM4KYUVZykfCbQCff4sz6EdE0lP/xOWJsFuhTfPDiR2f52Q16?=
+ =?us-ascii?Q?SiPWiIGmKDvZqnrs6xvmcPd8JVkDS3ywOIhvbP0tYV9cv1EPAXFd4tlP97zO?=
+ =?us-ascii?Q?EMRlEIeR8Z+AAqIODfFizIBM822FoHKeLzyVxr3uIAyX2U2TQK8qhl/JNJri?=
+ =?us-ascii?Q?lpMg60cV+M7sE7DQF4YgbsVCYWVnzcR5UuFAS23QpQaflH7tQiD/acOSPjJK?=
+ =?us-ascii?Q?DcdbHoL0PhU6ZU6z5h1ltaaSa6ipHbg18b0JPloJPDvFr2X4rhWsO0AsQI00?=
+ =?us-ascii?Q?kCPRDVjstlC4+pSN9HbnGKZ6vtYhPzRcZhVE8B751CKPh5mnDYmzXc5wfq9i?=
+ =?us-ascii?Q?abRssI62QtcbvEYDFETYqMBmeksVu0jQs56z0tC5bBAIfrAe5Q7gMsuDtHW0?=
+ =?us-ascii?Q?95n7zCmAvFKJsx04JVsLByjYcdhaCeBcPpZyqBSF/JLYOumLgPPhgIGYty0O?=
+ =?us-ascii?Q?EphGPe86vx6PT6EN9qyGG0cIHVEneO0bSTBi8r2xrLDZ6DhYgpoV+FM1U2F0?=
+ =?us-ascii?Q?3NDQv4yQnvPT13Z/qTDLIRrtd6mCPrjWXvwge13Cpw8+r4fC5KRn1Qj2g4Ly?=
+ =?us-ascii?Q?HZlESWSpeE9WnnpuV8Qs08pTPpiZcwhVo8/QWZDluGNHmSZt9+z8ndq4/E/P?=
+ =?us-ascii?Q?5kUlX3llZ+YvSoBTqYhzieRZyqxctBWiPfBBiw7Bg54AjQ3RXcTiq7cyPF/L?=
+ =?us-ascii?Q?DGwQt/qhlqfCE8kUuLsn8y1GtTPD2Hb3XWMdA7ZnzvMI3wnGvv852xRur+Wj?=
+ =?us-ascii?Q?81QS2BZvHK42an8pCB8Qr9lRl9zBQkUKM3/M+NuhLewuFYs6Vl/tdDrRAp+V?=
+ =?us-ascii?Q?XfpG9J139KqO+2H0Qz/HLcOhJ345hu1yjfczdK3Yv9l5MzAaxXHOcC4HU5+a?=
+ =?us-ascii?Q?pdENa23LmMxJbABkRVMriPlimqCrG+l2zEjKetpkAntiRnbS7JKGB7FtAy9P?=
+ =?us-ascii?Q?mkqJ8cOW2Q+QZq2fKZQGkwVIeu2L+6ZD3c0F6k5BP19Jow5dVtxjmxXOZhdk?=
+ =?us-ascii?Q?6PESReDv9jGcl2SKIlsvwIM0in6O59bs6wgLYllcZvIxsvbf3OZN+jQZtmup?=
+ =?us-ascii?Q?69KilVg1t6Ar2Z3N9QXDnur3qZVwV1X1OzY43tMGzeYb9M93GAqR2CqOsZbW?=
+ =?us-ascii?Q?sww4T8wjWCYq5L8W6oIahPvy4LrEe6Q+tZ+skywpJLR7j+KqmXBXeCf0zzVt?=
+ =?us-ascii?Q?c/Iwqgpfw7+h8fo4rLGty8+N?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f763bd4d-e7a5-4ae8-ae53-08d9696b2c5b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b3aad28-e758-41f6-9e03-08d9696b3f1b
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 14:58:47.8051
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 14:59:19.3326
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P6aWHdLsE/NgOOYmS7Xs15NP6V3k1f/gRa7L5RdXMRfsfg32E1kGxXhjxO24nyTD2l2aLkxEQe3ROwkG2GUxNW8kmntkVEqVDy2wjp1gXxQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5025
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9/vEcUDS3YgVKdfxSdMmrNbdZzxj6++wlxgBCR0myY+TF0Z3UUJnIbUiS7DAXeXDlfAwVhzNFUVJgiNFh2dVsHk+ddVh1eUju5jymiN55mA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4946
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10089 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
- mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108270092
-X-Proofpoint-GUID: Vn1QbcZUwBvuxadr5ikVqud0sA3FbdF_
-X-Proofpoint-ORIG-GUID: Vn1QbcZUwBvuxadr5ikVqud0sA3FbdF_
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108270092
+X-Proofpoint-GUID: uiTuuas6BCndbBl9g2c3Uig-rb87hsgZ
+X-Proofpoint-ORIG-GUID: uiTuuas6BCndbBl9g2c3Uig-rb87hsgZ
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move struct page init to an helper function __init_zone_device_page().
+A compound devmap is a dev_pagemap with @geometry > PAGE_SIZE and it
+means that pages are mapped at a given huge page alignment and utilize
+uses compound pages as opposed to order-0 pages.
 
-This is in preparation for sharing the storage for / deduplicating
-compound page metadata.
+Take advantage of the fact that most tail pages look the same (except
+the first two) to minimize struct page overhead. Allocate a separate
+page for the vmemmap area which contains the head page and separate for
+the next 64 pages. The rest of the subsections then reuse this tail
+vmemmap page to initialize the rest of the tail pages.
+
+Sections are arch-dependent (e.g. on x86 it's 64M, 128M or 512M) and
+when initializing compound devmap with big enough @geometry (e.g. 1G
+PUD) it may cross multiple sections. The vmemmap code needs to consult
+@pgmap so that multiple sections that all map the same tail data can
+refer back to the first copy of that data for a given gigantic page.
+
+On compound devmaps with 2M align, this mechanism lets 6 pages be
+saved out of the 8 necessary PFNs necessary to set the subsection's
+512 struct pages being mapped. On a 1G compound devmap it saves
+4094 pages.
+
+Altmap isn't supported yet, given various restrictions in altmap pfn
+allocator, thus fallback to the already in use vmemmap_populate().  It
+is worth noting that altmap for devmap mappings was there to relieve the
+pressure of inordinate amounts of memmap space to map terabytes of pmem.
+With compound pages the motivation for altmaps for pmem gets reduced.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
 ---
- mm/page_alloc.c | 74 +++++++++++++++++++++++++++----------------------
- 1 file changed, 41 insertions(+), 33 deletions(-)
+ Documentation/vm/vmemmap_dedup.rst |  27 +++++-
+ include/linux/mm.h                 |   2 +-
+ mm/memremap.c                      |   1 +
+ mm/sparse-vmemmap.c                | 150 +++++++++++++++++++++++++++--
+ 4 files changed, 168 insertions(+), 12 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 2f735b2ff417..57ef05800c06 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6570,6 +6570,46 @@ void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone
+diff --git a/Documentation/vm/vmemmap_dedup.rst b/Documentation/vm/vmemmap_dedup.rst
+index 215ae2ef3bce..faac78bef01c 100644
+--- a/Documentation/vm/vmemmap_dedup.rst
++++ b/Documentation/vm/vmemmap_dedup.rst
+@@ -2,9 +2,12 @@
+ 
+ .. _vmemmap_dedup:
+ 
+-==================================
+-Free some vmemmap pages of HugeTLB
+-==================================
++=========================================
++A vmemmap diet for HugeTLB and Device DAX
++=========================================
++
++HugeTLB
++=======
+ 
+ The struct page structures (page structs) are used to describe a physical
+ page frame. By default, there is a one-to-one mapping from a page frame to
+@@ -168,3 +171,21 @@ The contiguous bit is used to increase the mapping size at the pmd and pte
+ (last) level. So this type of HugeTLB page can be optimized only when its
+ size of the struct page structs is greater than 2 pages.
+ 
++Device DAX
++==========
++
++The device-dax interface uses the same tail deduplication technique explained
++in the previous chapter, except when used with the vmemmap in the device (altmap).
++
++The differences with HugeTLB are relatively minor.
++
++The following page sizes are supported in DAX: PAGE_SIZE (4K on x86_64),
++PMD_SIZE (2M on x86_64) and PUD_SIZE (1G on x86_64).
++
++There's no remapping of vmemmap given that device-dax memory is not part of
++System RAM ranges initialized at boot, hence the tail deduplication happens
++at a later stage when we populate the sections.
++
++It only use 3 page structs for storing all information as opposed
++to 4 on HugeTLB pages. This does not affect memory savings between both.
++
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 4fca4942c0ab..77eaeae497f9 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3174,7 +3174,7 @@ p4d_t *vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, int node);
+ pud_t *vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int node);
+ pmd_t *vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node);
+ pte_t *vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, int node,
+-			    struct vmem_altmap *altmap);
++			    struct vmem_altmap *altmap, struct page *block);
+ void *vmemmap_alloc_block(unsigned long size, int node);
+ struct vmem_altmap;
+ void *vmemmap_alloc_block_buf(unsigned long size, int node,
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 99646082436f..0d4c98722c12 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -338,6 +338,7 @@ void *memremap_pages(struct dev_pagemap *pgmap, int nid)
+ {
+ 	struct mhp_params params = {
+ 		.altmap = pgmap_altmap(pgmap),
++		.pgmap = pgmap,
+ 		.pgprot = PAGE_KERNEL,
+ 	};
+ 	const int nr_range = pgmap->nr_range;
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index 58e8e77bd5b5..441bb95edd68 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -495,16 +495,31 @@ void __meminit vmemmap_verify(pte_t *pte, int node,
  }
  
- #ifdef CONFIG_ZONE_DEVICE
-+static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
-+					  unsigned long zone_idx, int nid,
-+					  struct dev_pagemap *pgmap)
-+{
-+
-+	__init_single_page(page, pfn, zone_idx, nid);
-+
-+	/*
-+	 * Mark page reserved as it will need to wait for onlining
-+	 * phase for it to be fully associated with a zone.
-+	 *
-+	 * We can use the non-atomic __set_bit operation for setting
-+	 * the flag as we are still initializing the pages.
-+	 */
-+	__SetPageReserved(page);
-+
-+	/*
-+	 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
-+	 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
-+	 * ever freed or placed on a driver-private list.
-+	 */
-+	page->pgmap = pgmap;
-+	page->zone_device_data = NULL;
-+
-+	/*
-+	 * Mark the block movable so that blocks are reserved for
-+	 * movable at startup. This will force kernel allocations
-+	 * to reserve their blocks rather than leaking throughout
-+	 * the address space during boot when many long-lived
-+	 * kernel allocations are made.
-+	 *
-+	 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
-+	 * because this is done early in section_activate()
-+	 */
-+	if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
-+		set_pageblock_migratetype(page, MIGRATE_MOVABLE);
-+		cond_resched();
+ pte_t * __meminit vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, int node,
+-				       struct vmem_altmap *altmap)
++				       struct vmem_altmap *altmap,
++				       struct page *block)
+ {
+ 	pte_t *pte = pte_offset_kernel(pmd, addr);
+ 	if (pte_none(*pte)) {
+ 		pte_t entry;
+ 		void *p;
+ 
+-		p = vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
+-		if (!p)
+-			return NULL;
++		if (!block) {
++			p = vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
++			if (!p)
++				return NULL;
++		} else {
++			/*
++			 * When a PTE/PMD entry is freed from the init_mm
++			 * there's a a free_pages() call to this page allocated
++			 * above. Thus this get_page() is paired with the
++			 * put_page_testzero() on the freeing path.
++			 * This can only called by certain ZONE_DEVICE path,
++			 * and through vmemmap_populate_compound_pages() when
++			 * slab is available.
++			 */
++			get_page(block);
++			p = page_to_virt(block);
++		}
+ 		entry = pfn_pte(__pa(p) >> PAGE_SHIFT, PAGE_KERNEL);
+ 		set_pte_at(&init_mm, addr, pte, entry);
+ 	}
+@@ -571,7 +586,8 @@ pgd_t * __meminit vmemmap_pgd_populate(unsigned long addr, int node)
+ }
+ 
+ static int __meminit vmemmap_populate_address(unsigned long addr, int node,
+-					      struct vmem_altmap *altmap)
++					      struct vmem_altmap *altmap,
++					      struct page *reuse, struct page **page)
+ {
+ 	pgd_t *pgd;
+ 	p4d_t *p4d;
+@@ -591,11 +607,13 @@ static int __meminit vmemmap_populate_address(unsigned long addr, int node,
+ 	pmd = vmemmap_pmd_populate(pud, addr, node);
+ 	if (!pmd)
+ 		return -ENOMEM;
+-	pte = vmemmap_pte_populate(pmd, addr, node, altmap);
++	pte = vmemmap_pte_populate(pmd, addr, node, altmap, reuse);
+ 	if (!pte)
+ 		return -ENOMEM;
+ 	vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
+ 
++	if (page)
++		*page = pte_page(*pte);
+ 	return 0;
+ }
+ 
+@@ -606,10 +624,120 @@ int __meminit vmemmap_populate_basepages(unsigned long start, unsigned long end,
+ 	int rc;
+ 
+ 	for (; addr < end; addr += PAGE_SIZE) {
+-		rc = vmemmap_populate_address(addr, node, altmap);
++		rc = vmemmap_populate_address(addr, node, altmap, NULL, NULL);
+ 		if (rc)
+ 			return rc;
 +	}
++
++	return 0;
 +}
 +
- void __ref memmap_init_zone_device(struct zone *zone,
- 				   unsigned long start_pfn,
- 				   unsigned long nr_pages,
-@@ -6598,39 +6638,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
- 	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
- 		struct page *page = pfn_to_page(pfn);
++static int __meminit vmemmap_populate_range(unsigned long start,
++					    unsigned long end,
++					    int node, struct page *page)
++{
++	unsigned long addr = start;
++	int rc;
  
--		__init_single_page(page, pfn, zone_idx, nid);
--
--		/*
--		 * Mark page reserved as it will need to wait for onlining
--		 * phase for it to be fully associated with a zone.
--		 *
--		 * We can use the non-atomic __set_bit operation for setting
--		 * the flag as we are still initializing the pages.
--		 */
--		__SetPageReserved(page);
--
--		/*
--		 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
--		 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
--		 * ever freed or placed on a driver-private list.
--		 */
--		page->pgmap = pgmap;
--		page->zone_device_data = NULL;
--
--		/*
--		 * Mark the block movable so that blocks are reserved for
--		 * movable at startup. This will force kernel allocations
--		 * to reserve their blocks rather than leaking throughout
--		 * the address space during boot when many long-lived
--		 * kernel allocations are made.
--		 *
--		 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
--		 * because this is done early in section_activate()
--		 */
--		if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
--			set_pageblock_migratetype(page, MIGRATE_MOVABLE);
--			cond_resched();
--		}
-+		__init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
++	for (; addr < end; addr += PAGE_SIZE) {
++		rc = vmemmap_populate_address(addr, node, NULL, page, NULL);
++		if (rc)
++			return rc;
++	}
++
++	return 0;
++}
++
++static inline int __meminit vmemmap_populate_page(unsigned long addr, int node,
++						  struct page **page)
++{
++	return vmemmap_populate_address(addr, node, NULL, NULL, page);
++}
++
++/*
++ * For compound pages bigger than section size (e.g. x86 1G compound
++ * pages with 2M subsection size) fill the rest of sections as tail
++ * pages.
++ *
++ * Note that memremap_pages() resets @nr_range value and will increment
++ * it after each range successful onlining. Thus the value or @nr_range
++ * at section memmap populate corresponds to the in-progress range
++ * being onlined here.
++ */
++static bool __meminit reuse_compound_section(unsigned long start_pfn,
++					     struct dev_pagemap *pgmap)
++{
++	unsigned long geometry = pgmap_geometry(pgmap);
++	unsigned long offset = start_pfn -
++		PHYS_PFN(pgmap->ranges[pgmap->nr_range].start);
++
++	return !IS_ALIGNED(offset, geometry) && geometry > PAGES_PER_SUBSECTION;
++}
++
++static struct page * __meminit compound_section_tail_page(unsigned long addr)
++{
++	pte_t *ptep;
++
++	addr -= PAGE_SIZE;
++
++	/*
++	 * Assuming sections are populated sequentially, the previous section's
++	 * page data can be reused.
++	 */
++	ptep = pte_offset_kernel(pmd_off_k(addr), addr);
++	if (!ptep)
++		return NULL;
++
++	return pte_page(*ptep);
++}
++
++static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
++						     unsigned long start,
++						     unsigned long end, int node,
++						     struct dev_pagemap *pgmap)
++{
++	unsigned long size, addr;
++
++	if (reuse_compound_section(start_pfn, pgmap)) {
++		struct page *page;
++
++		page = compound_section_tail_page(start);
++		if (!page)
++			return -ENOMEM;
++
++		/*
++		 * Reuse the page that was populated in the prior iteration
++		 * with just tail struct pages.
++		 */
++		return vmemmap_populate_range(start, end, node, page);
++	}
++
++	size = min(end - start, pgmap_geometry(pgmap) * sizeof(struct page));
++	for (addr = start; addr < end; addr += size) {
++		unsigned long next = addr, last = addr + size;
++		struct page *block;
++		int rc;
++
++		/* Populate the head page vmemmap page */
++		rc = vmemmap_populate_page(addr, node, NULL);
++		if (rc)
++			return rc;
++
++		/* Populate the tail pages vmemmap page */
++		block = NULL;
++		next = addr + PAGE_SIZE;
++		rc = vmemmap_populate_page(next, node, &block);
++		if (rc)
++			return rc;
++
++		/*
++		 * Reuse the previous page for the rest of tail pages
++		 * See layout diagram in Documentation/vm/vmemmap_dedup.rst
++		 */
++		next += PAGE_SIZE;
++		rc = vmemmap_populate_range(next, last, node, block);
++		if (rc)
++			return rc;
  	}
  
- 	pr_info("%s initialised %lu pages in %ums\n", __func__,
+ 	return 0;
+@@ -621,12 +749,18 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
+ {
+ 	unsigned long start = (unsigned long) pfn_to_page(pfn);
+ 	unsigned long end = start + nr_pages * sizeof(struct page);
++	int r;
+ 
+ 	if (WARN_ON_ONCE(!IS_ALIGNED(pfn, PAGES_PER_SUBSECTION) ||
+ 		!IS_ALIGNED(nr_pages, PAGES_PER_SUBSECTION)))
+ 		return NULL;
+ 
+-	if (vmemmap_populate(start, end, nid, altmap))
++	if (pgmap_geometry(pgmap) > 1 && !altmap)
++		r = vmemmap_populate_compound_pages(pfn, start, end, nid, pgmap);
++	else
++		r = vmemmap_populate(start, end, nid, altmap);
++
++	if (r < 0)
+ 		return NULL;
+ 
+ 	return pfn_to_page(pfn);
 -- 
 2.17.1
 
