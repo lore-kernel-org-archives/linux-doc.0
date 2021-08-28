@@ -2,105 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A19A5C4320E
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 17:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D558C4320A
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 21:14:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A33060187
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 17:04:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 089A360E90
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 21:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234467AbhH1RFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Aug 2021 13:05:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        id S232404AbhH1VOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Aug 2021 17:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234357AbhH1RFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 13:05:45 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F8BC061756;
-        Sat, 28 Aug 2021 10:04:55 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id bt14so21024739ejb.3;
-        Sat, 28 Aug 2021 10:04:54 -0700 (PDT)
+        with ESMTP id S231773AbhH1VOt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 17:14:49 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3742C0613D9
+        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 14:13:58 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id e133so4203299ybh.0
+        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 14:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=w86O53R0J9hPAmoMxLqD9PUEU69iy1C6zXa6K7LrGPI=;
-        b=tBbxa08M5/VPnFYR/fRRU2HTgiMaRnWmPpYIu9p9xu4RjenmHk+md/NRFDHqIHESH9
-         NwVuWCVd421jvPydzefGSgsnVE9aGQU0HWgC5cycZ7Fx4RkSM9xOpL+hOtQfDv9bcYEJ
-         0tmUK+Hqr+AE1NRgpTjpwG/hrp+3RYWe0dI/SPqWedGE5qf7tSHfACBpry6XZx4dEA88
-         gK7gmco7c7zxu9aYKVHIgphuenONlHDdM+V/S0Uo6wzlw6D09wfNrfOtKJ3Sphz6sOew
-         DHKrYbBVQL2a47WAHN0R2CuaAAP2MJ6ByeFgFaRKHg7wF4dvSSr7WZ5IsvhkP5lfSxDv
-         qiAQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ICcSCFexjhpp8PBl0tQjqKkSyaD0mJsG1uKHkuscRbw=;
+        b=gV1T+5i/k5S8ZzJnpNhMlyvXxAUnUgvbFDNvQcSjiLmWAm+5RMKOptlxPVAbDSB9y5
+         DjNRnN5aBxTyw4/H75I2FCH88Zwihmjf9TpcXO0SJAX0UN8e8SIAlqjOOjkIanqGlbTY
+         RMI8YRMNYv2G0S6FVFQCX5uNDAR2kKbD92SjaqnfnhfD0tQqLs3X8CtGg8rjSdEceQ6S
+         MvJcXW+AL/eJW0wFEQvZwnxxN6qjnabEpuE4gDcxYezkBmtBq4lWKff5KT71Tk38dlWf
+         Y6FEywUwpOgKyVBbSlLlUHSK8Ky94Q6eoOfKdGBLWf3OAxCQyDjyLfUl+Mam1YIEpNhr
+         GF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=w86O53R0J9hPAmoMxLqD9PUEU69iy1C6zXa6K7LrGPI=;
-        b=KqT1hgP/fP3qCDaheN4qZ93447OwV4XI/kA4C/bEaoYll+THyDsseoNKlAmnPmNb7z
-         FdFWeofG4MfL/mpZoNv4WOL5SXMsTearV6Ehd1JSV7CruzGzAmQSLWQ+kfvmdfKDKKSz
-         qQCe3xaR8+k/+PG+wzScrkx4QUKBH2ZR3a8JMoME8xy9vus+9VLSVw/9/NFlQ/XGqc+d
-         YwBurSzTzo4F9c2JKZZc/4QiqlFjFZfRAoHBBuo7eqlHOJGBYnA7nwFNHOwroTpr1gHm
-         EqTC03M8aj3ufKTPyE02p2eBy1JmrdUEaN1gaoSoxL6ElNvZMoSnvT1F+VFuVSaXNvsE
-         MF2g==
-X-Gm-Message-State: AOAM532Phs8V8n09yCsgw0+h7+2Dbq2KeuVOj3oJklKEMAssfBph2oA9
-        86MmPLnakasUiZXqQ7sCkjjvKzEwyUji2L/L59s=
-X-Google-Smtp-Source: ABdhPJyzSQfA/Xqemm3AqsLNOWUIM10kvcUovjp0GttH/+y7Wm9S5+vX2S9WWNyyCG2N6dytdtR5wQ==
-X-Received: by 2002:a17:907:75d9:: with SMTP id jl25mr16224777ejc.4.1630170293607;
-        Sat, 28 Aug 2021 10:04:53 -0700 (PDT)
-Received: from fedora (cable-178-148-241-131.dynamic.sbb.rs. [178.148.241.131])
-        by smtp.gmail.com with ESMTPSA id v10sm5102658edt.25.2021.08.28.10.04.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 10:04:53 -0700 (PDT)
-Date:   Sat, 28 Aug 2021 19:04:50 +0200
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: add driver for Aquacomputer D5 Next
-Message-ID: <YSpssm0+rN6nr2Yi@fedora>
-References: <20210828155441.GA820794@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ICcSCFexjhpp8PBl0tQjqKkSyaD0mJsG1uKHkuscRbw=;
+        b=XZfmjhDSDPx4swUwoa1vCRLK3+7dQ11Jgd4Z/LgkMOhyGV/URRLGlr9uexphZdpFtG
+         uoVGtQPhfzQ+CQbrNj9uKNICsJ99lI2DQJJ8px0Rv00vo7xU6ENWoVBKfVScLDAm+q6z
+         zHh2w1xczpRjxykjioM+kSPTH58Neb5+uyIc4/d3RhTMlzj8k4Hdif4zG/J8+mCrOW/R
+         FDF8G/R78IlhoUxEr26A4p8RVd4QA4bU17eqtAgfJNaGV6hIj5XY75gmaEcNFrGcpEkP
+         tpzKlnQV0B2Q2eKMIf9+DOCgT+iD/wfMgpohqumCd14wNug3n+dwFyfwDXBsxQYBci8s
+         bkuQ==
+X-Gm-Message-State: AOAM532nwiCh0iHiGKeUOJtcXp+tEN0Ym/3NANVNvpYaz372vVOxSGAm
+        WZv7e7YJWrhkWoXiJKAse6+X5ht2ssoVqyG4X5vqeA==
+X-Google-Smtp-Source: ABdhPJzTGgBAMEHL0PjhT2MzcQ07lzKlvxCvWWXzRYRZdMn4dsVrA+qJVnFa57VycofHCrLOcfOcy4S0yhD1Mp8cwI0=
+X-Received: by 2002:a25:810c:: with SMTP id o12mr14438431ybk.250.1630185237477;
+ Sat, 28 Aug 2021 14:13:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210828155441.GA820794@roeck-us.net>
+References: <20210827191858.2037087-1-surenb@google.com> <20210827191858.2037087-4-surenb@google.com>
+ <202108271746.F444DA6C9@keescook>
+In-Reply-To: <202108271746.F444DA6C9@keescook>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Sat, 28 Aug 2021 14:13:46 -0700
+Message-ID: <CAJuCfpHLTMyAFsxAYHbiwkZNidzQU3qKWzj57LZX=b-Zybmugg@mail.gmail.com>
+Subject: Re: [PATCH v8 3/3] mm: add anonymous vma name refcounting
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org, eb@emlix.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
+        linux@rasmusvillemoes.dk, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 28, 2021 at 08:54:41AM -0700, Guenter Roeck wrote:
-> On Sat, Aug 28, 2021 at 07:26:28AM +0200, Aleksa Savic wrote:
-> > This driver exposes hardware sensors of the Aquacomputer D5 Next
-> > watercooling pump, which communicates through a proprietary USB HID
-> > protocol.
-> > 
-> > Available sensors are pump and fan speed, power, voltage and current, as
-> > well as coolant temperature. Also available through debugfs are the serial
-> > number, firmware version and power-on count.
-> > 
-> > Attaching a fan is optional and allows it to be controlled using
-> > temperature curves directly from the pump. If it's not connected,
-> > the fan-related sensors will report zeroes.
-> > 
-> > The pump can be configured either through software or via its physical
-> > interface. Configuring the pump through this driver is not implemented,
-> > as it seems to require sending it a complete configuration. That
-> > includes addressable RGB LEDs, for which there is no standard sysfs
-> > interface. Thus, that task is better suited for userspace tools.
-> > 
-> > This driver has been tested on x86_64, both in-kernel and as a module.
-> > 
-> > Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
-> 
-> Applied.
-> 
-> Thanks,
-> Guenter
+On Fri, Aug 27, 2021 at 10:28 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Aug 27, 2021 at 12:18:58PM -0700, Suren Baghdasaryan wrote:
+> > While forking a process with high number (64K) of named anonymous vmas the
+> > overhead caused by strdup() is noticeable. Experiments with ARM64 Android
+> > device show up to 40% performance regression when forking a process with
+> > 64k unpopulated anonymous vmas using the max name lengths vs the same
+> > process with the same number of anonymous vmas having no name.
+> > Introduce anon_vma_name refcounted structure to avoid the overhead of
+> > copying vma names during fork() and when splitting named anonymous vmas.
+> > When a vma is duplicated, instead of copying the name we increment the
+> > refcount of this structure. Multiple vmas can point to the same
+> > anon_vma_name as long as they increment the refcount. The name member of
+> > anon_vma_name structure is assigned at structure allocation time and is
+> > never changed. If vma name changes then the refcount of the original
+> > structure is dropped, a new anon_vma_name structure is allocated
+> > to hold the new name and the vma pointer is updated to point to the new
+> > structure.
+> > With this approach the fork() performance regressions is reduced 3-4x
+> > times and with usecases using more reasonable number of VMAs (a few
+> > thousand) the regressions is not measurable.
+>
+> I like the refcounting; thank you!
+>
+> Since patch2 adds a lot of things that are changed by patch3; maybe
+> combine them?
 
-Thanks.
+I thought it would be easier to review with the main logic being
+written using a basic type (string) first and then replace the basic
+type with a more complex refcounted structure. Also, if someone would
+like to rerun the tests and measure the regression of strdup vs
+refcounting approach, keeping this patch separate makes it easier to
+set up these tests.
+If that's not convenient I can absolutely squash them together.
 
-Aleksa
+>
+> --
+> Kees Cook
