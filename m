@@ -2,64 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16BAC432BE
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 21:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2564AC432BE
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 22:06:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85BB560E77
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 21:59:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E25DD604D7
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 22:06:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234621AbhH1WAg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Aug 2021 18:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45044 "EHLO
+        id S232059AbhH1WHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Aug 2021 18:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234694AbhH1WAc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 18:00:32 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC767C0612A6
-        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 14:59:27 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id v19so6307305ybv.9
-        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 14:59:27 -0700 (PDT)
+        with ESMTP id S231982AbhH1WHn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 18:07:43 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4173C061796
+        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 15:06:52 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id z5so19927471ybj.2
+        for <linux-doc@vger.kernel.org>; Sat, 28 Aug 2021 15:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pyWbJNHHz8eg8MTD7gm92l9NEwd2/uLCVNwtVRUk+N8=;
-        b=RtWc0eULZASFS2c8UT3utLEPhZqsSiVw4hdmjvsPupSThfmle1yxbAmgOSFLM1o7lV
-         7X72oEIxSujnXwjV8bx2uMA4uZgDJ5sYemIqpxhRKsyJZJr6OEjZbWXiXnBE7GiPSS7e
-         gDC2jE+VsDNNpvIxQfR/v1D46KuGZfJO/lyuifEhSVr8GTZbrc9XmwRcFat4Ght4g83P
-         j5lsNBhkGkRZGyKtF9aPiYaNts0GyiDAxnqG68VrxKwwwqP5usAYcy6aBN7avZicL7CR
-         bYoDwqQf4ZtSk8C66XQOP04BnHYF+fnfJCGDzn8ZriiSkUjhboIZQ+ijtZZgiFhDd6vC
-         OElg==
+        bh=5FaNp+rgluakS1NovJ9xRQmt2mW1nmBLtnie3IiMHfk=;
+        b=hIw/qm9pg9ZdeTcKNLVVVOW4DRFhCbswcN4AUxuYQhsj8UGDdLJ/SeljNcx4n22yOJ
+         C6jcmzcxhg7nfftciaoBfso9qRnMyBAO5PHFpG/udUXPdax6qLwAvxYqJYdYvmDya3xj
+         7WtgdX+zuglKrfCseQdR07ng41SjaPz2H7F0bVObVVHfZw0V9pdKKOARroIHqjX72s5n
+         vba2EQEd+3aOJO2sRbJ5TTKru6JrvWUogyWP0hAYWybVPUQ2COPxZi3D9MnQ+OroZSIs
+         VTN253xQeZ2n6BmFRAoPI3FJlvfm9M5lU8N85Nu30Dqsmny9K9llY0zlZR7R4BHWRZYt
+         efkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pyWbJNHHz8eg8MTD7gm92l9NEwd2/uLCVNwtVRUk+N8=;
-        b=LEKXByPZ5FSoYe0G5+NP/mQkJbBeuCxFKVTvp1jmSXcx0zzCJEfsNwPGa4NV+d5qTq
-         ZVyq1R8WDJoia/Bs7X8PqQCVKzqqY8v5rwRMpA178VU5AdWtmlR4cd9BFWCImS/HSe6g
-         EzYvT+HtI+/3Pd5tyWILJGXvGfm8S6gCwHs0BTpgAbUaAAkvidllkGJqSL09ghry5BUJ
-         XQgxy9+4hhPC9xNrlTKvChlZEzBWBn3P+elsQMpP+1EYC458CM9o1zy22XCPfY5CHWvQ
-         pdkxkx/2Mqeym/PRcvmEX/QSpg2TQCT4QqY202ZA91lvAObpLUasW3KtBudOSRHIHcaX
-         SYaw==
-X-Gm-Message-State: AOAM530sSWTlot/CaWd/q/HjGyJgFR6S+xpZoJnL+2/SiRqzJLOGdw4T
-        viNOnaBxK09QM94D0ArfyU5evAMSA5XnSpe8iZJ2rg==
-X-Google-Smtp-Source: ABdhPJxcsvbqwcIf6UU/EabbulfP5bhcIGDCQHmNnC1Py259tPI6pmKG7LONTo/wpRs8g1yhIw0178/u97GU7v8ekPI=
-X-Received: by 2002:a25:7ec4:: with SMTP id z187mr13867314ybc.136.1630187967034;
- Sat, 28 Aug 2021 14:59:27 -0700 (PDT)
+        bh=5FaNp+rgluakS1NovJ9xRQmt2mW1nmBLtnie3IiMHfk=;
+        b=hm0QwAfACY/oplhLLNvIpZy6j0zfYB3W+i3uqtajt9orqKskkTCF+HfqI7Qr5cv4/h
+         grGZJQRRlsy8tIq65Dk23Fy51qV89hD1zRZHnDaxcvM4q79XAq1O5Wi3yduFS0xKabZG
+         qETVri0I/kUp5byOL2ZnR6MorouqRXhFBsIKN7a5fJEY8wnA2Oy11ir7WWY/8aJea24j
+         DvYU+GBO4HP12Zpm9jCqC0RdXdxUh1CNyqBW3bSQVW9jC2YYNxJyVXmgrl7GPwMrrGIY
+         Je6xmCwOwOHDBbah+DjWnQOYUMahTiopwXn+7hStk0g6x6HyAkYWoGnrHlJhGK/5Di4o
+         5vXA==
+X-Gm-Message-State: AOAM532kKbPK7AbxFGMMhwMI/uoApxHzRCvdYd1HgxcH/zOdEeqQAIO3
+        M6Je91Dx0YB+KHy49yRh+a29/RzzQQjbMKa37Lnoew==
+X-Google-Smtp-Source: ABdhPJxnDgVOH0h+Up9Sphumk/kGeSq9m09jSJlI2gZqPuf7VFR01D96XmdG0df9NqzDHkYt3N6qEPla3dpUcRXoYxM=
+X-Received: by 2002:a25:ba08:: with SMTP id t8mr13478289ybg.111.1630188411767;
+ Sat, 28 Aug 2021 15:06:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210827191858.2037087-1-surenb@google.com> <20210827191858.2037087-2-surenb@google.com>
- <YSpiIrQKs5RUccYk@grain>
-In-Reply-To: <YSpiIrQKs5RUccYk@grain>
+References: <20210827191858.2037087-1-surenb@google.com> <20210828124852.GA12580@duo.ucw.cz>
+In-Reply-To: <20210828124852.GA12580@duo.ucw.cz>
 From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Sat, 28 Aug 2021 14:59:16 -0700
-Message-ID: <CAJuCfpGsr4Za7xj5O1-KJyj+WF2OTiWdMUWPALq3K155G539yw@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] mm: rearrange madvise code to allow for reuse
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Date:   Sat, 28 Aug 2021 15:06:40 -0700
+Message-ID: <CAJuCfpE85Pbw7TDcZOOonMLNgHMWsaWR-2qR5iUZJ4dyJ-6k7g@mail.gmail.com>
+Subject: Re: [PATCH v8 0/3] Anonymous VMA naming patches
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Colin Cross <ccross@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -99,110 +98,34 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Jan Glauber <jan.glauber@gmail.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Rob Landley <rob@landley.net>,
-        "Serge E. Hallyn" <serge.hallyn@ubuntu.com>,
-        David Rientjes <rientjes@google.com>,
-        Rik van Riel <riel@redhat.com>, Mel Gorman <mgorman@suse.de>,
-        Michel Lespinasse <walken@google.com>,
-        Tang Chen <tangchen@cn.fujitsu.com>, Robin Holt <holt@sgi.com>,
-        Shaohua Li <shli@fusionio.com>,
-        Sasha Levin <sasha.levin@oracle.com>,
-        Minchan Kim <minchan@kernel.org>
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 28, 2021 at 9:19 AM Cyrill Gorcunov <gorcunov@gmail.com> wrote:
+On Sat, Aug 28, 2021 at 5:48 AM Pavel Machek <pavel@ucw.cz> wrote:
 >
-> On Fri, Aug 27, 2021 at 12:18:56PM -0700, Suren Baghdasaryan wrote:
-> ...
-> >
-> > +/*
-> > + * Apply an madvise behavior to a region of a vma.  madvise_update_vma
-> > + * will handle splitting a vm area into separate areas, each area with its own
-> > + * behavior.
-> > + */
-> > +static int madvise_vma_behavior(struct vm_area_struct *vma,
-> > +                             struct vm_area_struct **prev,
-> > +                             unsigned long start, unsigned long end,
-> > +                             unsigned long behavior)
-> > +{
-> > +     int error = 0;
+> Hi!
 >
+> >  Documentation/filesystems/proc.rst |   2 +
 >
-> Hi Suren! A nitpick -- this variable is never used with default value
-> so I think we could drop assignment here.
-> ...
-> > +     case MADV_DONTFORK:
-> > +             new_flags |= VM_DONTCOPY;
-> > +             break;
-> > +     case MADV_DOFORK:
-> > +             if (vma->vm_flags & VM_IO) {
-> > +                     error = -EINVAL;
->
-> We can exit early here, without jumping to the end of the function, right?
->
-> > +                     goto out;
-> > +             }
-> > +             new_flags &= ~VM_DONTCOPY;
-> > +             break;
-> > +     case MADV_WIPEONFORK:
-> > +             /* MADV_WIPEONFORK is only supported on anonymous memory. */
-> > +             if (vma->vm_file || vma->vm_flags & VM_SHARED) {
-> > +                     error = -EINVAL;
->
-> And here too.
->
-> > +                     goto out;
-> > +             }
-> > +             new_flags |= VM_WIPEONFORK;
-> > +             break;
-> > +     case MADV_KEEPONFORK:
-> > +             new_flags &= ~VM_WIPEONFORK;
-> > +             break;
-> > +     case MADV_DONTDUMP:
-> > +             new_flags |= VM_DONTDUMP;
-> > +             break;
-> > +     case MADV_DODUMP:
-> > +             if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) {
-> > +                     error = -EINVAL;
->
-> Same.
->
-> > +                     goto out;
-> > +             }
-> > +             new_flags &= ~VM_DONTDUMP;
-> > +             break;
-> > +     case MADV_MERGEABLE:
-> > +     case MADV_UNMERGEABLE:
-> > +             error = ksm_madvise(vma, start, end, behavior, &new_flags);
-> > +             if (error)
-> > +                     goto out;
-> > +             break;
-> > +     case MADV_HUGEPAGE:
-> > +     case MADV_NOHUGEPAGE:
-> > +             error = hugepage_madvise(vma, &new_flags, behavior);
-> > +             if (error)
-> > +                     goto out;
-> > +             break;
-> > +     }
-> > +
-> > +     error = madvise_update_vma(vma, prev, start, end, new_flags);
-> > +
-> > +out:
->
-> I suppose we better keep the former comment on why we maps ENOMEM to EAGAIN?
+> Documentation for the setting part would be welcome, too.
 
-Thanks for the review Cyrill! Proposed changes sound good to me. Will
-change in the next revision.
+Absolutely! Thanks for reminding me. I'll add a description of the new
+PR_SET_VMA and PR_SET_VMA_ANON_NAME options for prctl(2) manpage into
+the second patch of this series which introduces them. After the patch
+is finalized and accepted I'll also post a patch to update the
+prctl(2) manpage.
+Thanks,
 Suren.
 
+
 >
->         Cyrill
+> Best regards,
+>                                                         Pavel
+> --
+> http://www.livejournal.com/~pavelmachek
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
