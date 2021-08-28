@@ -2,83 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEA3C432BE
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 05:26:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8314BC43214
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 05:28:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C38B60EFE
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 05:26:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D69E60EBC
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 05:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232587AbhH1F0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Aug 2021 01:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53446 "EHLO
+        id S231617AbhH1F3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Aug 2021 01:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231532AbhH1F0x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 01:26:53 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011BDC061796
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 22:26:04 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id fs6so6051542pjb.4
-        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 22:26:03 -0700 (PDT)
+        with ESMTP id S231189AbhH1F3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 01:29:34 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D9FC061796
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 22:28:44 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id w7so6793764pgk.13
+        for <linux-doc@vger.kernel.org>; Fri, 27 Aug 2021 22:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2JfUpe2H37PEi8fU0OKJL2trjpNhW7D/OwMqmglIVHg=;
-        b=wmdEvv2ENIhYYGUB7JTLAaIAv0cY9J3AEXqGcxs1JW+wpuG+n6GX/zaphPuMCLN3xI
-         ns9idB6Sg7OOr03SuAxG8sRfuinLdHFSjEU7Jq3tp6oLpTSXdhzJPqGFq/uZ+786OV8p
-         xd/s6r1r4ESyAYa+7j4DekrjGfL2n2mT9Ovr+H0dMEBLRaDX5FUtiImrzjnlHt2guhE4
-         SttN5jwQ2wwEd3jfeAACvoIdQHjZHFJkMFIJcbCmI+cJx+9Z5ebldao2y6R7yv1o1Gnl
-         WYYQWav3jQ0a7SPEmpucjj3+iuyqLjSHpDbeiKtEJylvNGStg8w9l95tdLZctBgLKoTg
-         DR+g==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=stWDJ7pxROB/EYFBbI7ThyH/rSYnoU9WnqG7bRnPt18=;
+        b=bt25+nM3eSC/BvfoTicc0kvU8X0ALlSypYs6nMG+ihBxWlZaCFTdELOgHd4ypV3SQF
+         bNmfO7MJWL23KdE8b6R633QbGHj6wsYkr8qI4bQIAjy/oem5n+xTmj1AvXlQVcFUHF+r
+         KxLKNJshPsF238Mfaa8vML8FvFyRRVbeIlieg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2JfUpe2H37PEi8fU0OKJL2trjpNhW7D/OwMqmglIVHg=;
-        b=i8vmGPdkHAlHK6GfKo+5rvrr5wO0m0DxsVO4zOy9hoOLavKqo3F9pChVup+Oup4isz
-         CRai4Fk554iB5XN5/EyGHj4wm7bU8+34mN4Kp35SG2uLjaav5KDDlwtBik8Tfa+mJ2jd
-         iKbhU/g2SrVO6p62mMTcsFvX10ZePUjg0IgntkuDgF/zRRLy9FWg4k2qLaG5D1Ykz0dT
-         JhA3EISjupofeqiCSMONmLEckk89ba2Rg2t6zqRZ6CXEqfl797Y+A2X3rOzQcZzL5LcB
-         aMrSVQax+A8napDXdkprERhyjxi+Ff3s1uhGafkb+9VKnN8KPLBoL2aScF+AqKapBhyB
-         SFEQ==
-X-Gm-Message-State: AOAM5323XLfrAq4xSGBVXjXRUHvndExCkrNT2gKjMaiAfZSReEvLHoNJ
-        6UYBFd5uwY7TOUtD++RN0z8eCfrDN5JEXm2NPAKJaw==
-X-Google-Smtp-Source: ABdhPJyWIL3bp2Wtvc8QNlN/2pOeczW9cA7a6NJ+Yc79O9glgqWDdhp+1YDeYsbIyXrjH7fSFmW+RMAB1LNFKreobxU=
-X-Received: by 2002:a17:90a:5405:: with SMTP id z5mr14659897pjh.229.1630128363484;
- Fri, 27 Aug 2021 22:26:03 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=stWDJ7pxROB/EYFBbI7ThyH/rSYnoU9WnqG7bRnPt18=;
+        b=RXja/E4P/36wusNZlRYmnWMZEjvaohAzBbZvHe+KxqCxdgtpuBQTjg1HcSYsV7QgK3
+         Uizzjd19X7qXSe6N8Ck2ZgWr/2uGbVDiNIWgn2oUnJcq7B9S8IDzK6ZARiq+ifN7+MKD
+         yNVbLfmH8sGLw36Rj5cLUSw5w1epcU1lauLEqF/90zTDyNXFAzUBw00s4BOQ3jbyWW7H
+         IissQmWuQsXeWJ8TqlmuoBRhVwz6gT+waDWAh5icQUTXSQ+0Z3NA7rkVQcAWoHgfEX1b
+         /X68UjDL57xaM67t3oSjRBoEMHBabxwqwUvQRk8ohIaZPLPTspsG/ZwV7bd9dtnvDfcg
+         nhuw==
+X-Gm-Message-State: AOAM533P9IjmyUyADWhXehFYU0Y9W7US2doDTwKeXC4xdaoSCyEbOub5
+        XmdRVPJTs5pNGXELgguvE3jFww==
+X-Google-Smtp-Source: ABdhPJyRblUvU4gbCZ7vv2bulSDNoJ7Vp3Z6WWqczImBz1dyvqqdk84ObtLecw4DydDVqpr9htn1SQ==
+X-Received: by 2002:a05:6a00:2142:b029:3b9:e5df:77ab with SMTP id o2-20020a056a002142b02903b9e5df77abmr12703170pfk.52.1630128524423;
+        Fri, 27 Aug 2021 22:28:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d18sm8883397pgk.24.2021.08.27.22.28.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Aug 2021 22:28:43 -0700 (PDT)
+Date:   Fri, 27 Aug 2021 22:28:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, ccross@google.com,
+        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
+        willy@infradead.org, kirill.shutemov@linux.intel.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, corbet@lwn.net,
+        viro@zeniv.linux.org.uk, rdunlap@infradead.org,
+        kaleshsingh@google.com, peterx@redhat.com, rppt@kernel.org,
+        peterz@infradead.org, catalin.marinas@arm.com,
+        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
+        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
+        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
+        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
+        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
+        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
+        legion@kernel.org, eb@emlix.com, songmuchun@bytedance.com,
+        viresh.kumar@linaro.org, thomascedeno@google.com,
+        sashal@kernel.org, cxfcosmos@gmail.com, linux@rasmusvillemoes.dk,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v8 3/3] mm: add anonymous vma name refcounting
+Message-ID: <202108271746.F444DA6C9@keescook>
+References: <20210827191858.2037087-1-surenb@google.com>
+ <20210827191858.2037087-4-surenb@google.com>
 MIME-Version: 1.0
-References: <20210828042306.42886-1-zhengqi.arch@bytedance.com> <20210828042306.42886-2-zhengqi.arch@bytedance.com>
-In-Reply-To: <20210828042306.42886-2-zhengqi.arch@bytedance.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Sat, 28 Aug 2021 13:25:27 +0800
-Message-ID: <CAMZfGtW8CVMQkkC_rwJoHXQQYsuJBAfCuWC_XjhHyKnxFdc3kw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] mm: introduce pmd_install() helper
-To:     Qi Zheng <zhengqi.arch@bytedance.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        mika.penttila@nextfour.com, David Hildenbrand <david@redhat.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210827191858.2037087-4-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 28, 2021 at 12:23 PM Qi Zheng <zhengqi.arch@bytedance.com> wrote:
->
-> Currently we have three times the same few lines repeated in the
-> code. Deduplicate them by newly introduced pmd_install() helper.
->
-> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+On Fri, Aug 27, 2021 at 12:18:58PM -0700, Suren Baghdasaryan wrote:
+> While forking a process with high number (64K) of named anonymous vmas the
+> overhead caused by strdup() is noticeable. Experiments with ARM64 Android
+> device show up to 40% performance regression when forking a process with
+> 64k unpopulated anonymous vmas using the max name lengths vs the same
+> process with the same number of anonymous vmas having no name.
+> Introduce anon_vma_name refcounted structure to avoid the overhead of
+> copying vma names during fork() and when splitting named anonymous vmas.
+> When a vma is duplicated, instead of copying the name we increment the
+> refcount of this structure. Multiple vmas can point to the same
+> anon_vma_name as long as they increment the refcount. The name member of
+> anon_vma_name structure is assigned at structure allocation time and is
+> never changed. If vma name changes then the refcount of the original
+> structure is dropped, a new anon_vma_name structure is allocated
+> to hold the new name and the vma pointer is updated to point to the new
+> structure.
+> With this approach the fork() performance regressions is reduced 3-4x
+> times and with usecases using more reasonable number of VMAs (a few
+> thousand) the regressions is not measurable.
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+I like the refcounting; thank you!
+
+Since patch2 adds a lot of things that are changed by patch3; maybe
+combine them?
+
+-- 
+Kees Cook
