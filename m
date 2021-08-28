@@ -2,86 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2988C432BE
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 12:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 750C2C4320A
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 15:54:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 876A360E97
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 12:49:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 636BE60E77
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Aug 2021 15:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234188AbhH1Mtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Aug 2021 08:49:50 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38248 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234181AbhH1Mts (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 08:49:48 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 950851C0B80; Sat, 28 Aug 2021 14:48:52 +0200 (CEST)
-Date:   Sat, 28 Aug 2021 14:48:52 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, ccross@google.com,
-        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
-        keescook@chromium.org, willy@infradead.org,
-        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
-        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
-        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, songmuchun@bytedance.com,
-        viresh.kumar@linaro.org, thomascedeno@google.com,
-        sashal@kernel.org, cxfcosmos@gmail.com, linux@rasmusvillemoes.dk,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v8 0/3] Anonymous VMA naming patches
-Message-ID: <20210828124852.GA12580@duo.ucw.cz>
-References: <20210827191858.2037087-1-surenb@google.com>
+        id S231680AbhH1Pze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Aug 2021 11:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229813AbhH1Pzd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Aug 2021 11:55:33 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E742C061756;
+        Sat, 28 Aug 2021 08:54:43 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id i3-20020a056830210300b0051af5666070so12070990otc.4;
+        Sat, 28 Aug 2021 08:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=e4TSKtefWHgQZdSiBJs6Tav40y6+gqilbiq5J43BUIw=;
+        b=nFROXdNBrxSlGnuA5utpR0mhMT+0n6ucfU8Qpu1kdrBXnWscx5Ub/IQHf+92Z9WVdN
+         lLS0Dnc6FtM6Z/TZRfD81m4dWXT0fArhfTw4LWhNC/SsQiyN95ZXitQ38ds2rjechkAB
+         RmqpoTUa3M2vrpCXwuB5aAeWg4qlslU+jG/aGRefBXH0iXa4LHDDqNmSZFjwUHHD6Kuj
+         ys3uy+OGE4tNnOiXwASLtm9rWI+NPyx5dMp3M3rkI7MIIEFky4Yc7+njJCqetwupwvLr
+         3dsPYtOV8zd3tn+/b999xYgo5CSu/Y1fv17s7TxM6eUUtq6pVuCyyVMqMFNBiOiRdsjE
+         7rKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition;
+        bh=e4TSKtefWHgQZdSiBJs6Tav40y6+gqilbiq5J43BUIw=;
+        b=pxPcYZUT+kB0wtOg1M0xnee0ODdxX/K6FLhbBAtnOfETCOCHljgr+l4NfOZV5xvmay
+         S3YQkfL0rIq6dSm/a4PgIOR4UkueO+oy3av/Yh3hSNby6YYLUgt/+JrT5cKeeExwXl3I
+         evRk1VqysEga6O+83QJ8bAkHSUeLTuWh3jmBm/GSK0DonVqjPAoX7M150c0vdkWL/fUq
+         Ooni4w6sN2cfFYJhR4HJBw/t+aif3i8tz5NAiPdSCrWoLUJ+qGM0jH7f8mmGS68zXiC+
+         hHJi9xPMVunhqAhEUiTI5xiSu2NweXoK4msOksYQCH1lTEKoiFv3aWoKKGPgz+/D2tKL
+         whsA==
+X-Gm-Message-State: AOAM530jPHJ3pKXzrtW5eu56OGB+QMQpC9Uqh7f1jUpDyjb9OsHanFOl
+        BXsjosVEfLACpTQNLeTLt4hl9tgxIrk=
+X-Google-Smtp-Source: ABdhPJzvfO+otutJpyPVfF9fgAPnQdVfC70ML1OfN4ahmqpyvxFnOY4dSZsijiMT/xxxqFyxyXPxng==
+X-Received: by 2002:a9d:70cc:: with SMTP id w12mr12356628otj.306.1630166082642;
+        Sat, 28 Aug 2021 08:54:42 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x4sm34010ood.2.2021.08.28.08.54.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Aug 2021 08:54:42 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 28 Aug 2021 08:54:41 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Aleksa Savic <savicaleksa83@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: add driver for Aquacomputer D5 Next
+Message-ID: <20210828155441.GA820794@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210827191858.2037087-1-surenb@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Aug 28, 2021 at 07:26:28AM +0200, Aleksa Savic wrote:
+> This driver exposes hardware sensors of the Aquacomputer D5 Next
+> watercooling pump, which communicates through a proprietary USB HID
+> protocol.
+> 
+> Available sensors are pump and fan speed, power, voltage and current, as
+> well as coolant temperature. Also available through debugfs are the serial
+> number, firmware version and power-on count.
+> 
+> Attaching a fan is optional and allows it to be controlled using
+> temperature curves directly from the pump. If it's not connected,
+> the fan-related sensors will report zeroes.
+> 
+> The pump can be configured either through software or via its physical
+> interface. Configuring the pump through this driver is not implemented,
+> as it seems to require sending it a complete configuration. That
+> includes addressable RGB LEDs, for which there is no standard sysfs
+> interface. Thus, that task is better suited for userspace tools.
+> 
+> This driver has been tested on x86_64, both in-kernel and as a module.
+> 
+> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 
---rwEMma7ioTxnRzrJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied.
 
-Hi!
-
->  Documentation/filesystems/proc.rst |   2 +
-
-Documentation for the setting part would be welcome, too.
-
-Best regards,
-							Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---rwEMma7ioTxnRzrJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYSowtAAKCRAw5/Bqldv6
-8jSvAKCxJZznmRcj1IaqbSg4leIEDn+cXgCfeS9zT/HzkA5sLB+xnKVjT1Id/A0=
-=X0pp
------END PGP SIGNATURE-----
-
---rwEMma7ioTxnRzrJ--
+Thanks,
+Guenter
