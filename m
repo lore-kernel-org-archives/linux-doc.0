@@ -2,165 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AE7C432BE
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Aug 2021 13:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48268C432BE
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Aug 2021 14:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78FFA60F38
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Aug 2021 13:22:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 243B360F3A
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Aug 2021 14:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235459AbhH2NXi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Aug 2021 09:23:38 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8392 "EHLO mga12.intel.com"
+        id S235409AbhH2OdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Aug 2021 10:33:17 -0400
+Received: from mout.gmx.net ([212.227.15.18]:46603 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235434AbhH2NXi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Aug 2021 09:23:38 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10090"; a="197722819"
-X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; 
-   d="scan'208";a="197722819"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2021 06:22:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; 
-   d="scan'208";a="644731144"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 29 Aug 2021 06:22:44 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 2B198C5; Sun, 29 Aug 2021 16:22:45 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S231791AbhH2OdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Aug 2021 10:33:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1630247534;
+        bh=nvs8837RL/FatuUxRpR3LhumAcLvvX9cPIPV4FvwiMY=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=BjFyeo8JUe3Jw+zYj7BGClvNYAj0E9f+o7JAfMNlQOS4NaNkNdNS8TDnzxpABsSLl
+         6Gvxk25GsS0+hxX33+3A2e5xn2w2+8D0tv8RtnGFmnc+PyEUgAtJ4R4YIP1aO6+iAz
+         Hs1Q1T+BUjAadhrDUjivdGBtEYiR5P8RCTPOgvdw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N5G9n-1n392G41On-011BBk; Sun, 29
+ Aug 2021 16:32:14 +0200
+Date:   Sun, 29 Aug 2021 16:32:00 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Len Baker <len.baker@gmx.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [PATCH v1 1/1] Documentation: ACPI: Align the SSDT overlays file with the code
-Date:   Sun, 29 Aug 2021 16:22:43 +0300
-Message-Id: <20210829132243.82281-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.33.0
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Clarify open-coded arithmetic with
+ literals
+Message-ID: <20210829143200.GA2185@titan>
+References: <20210827171226.2938-1-len.baker@gmx.com>
+ <bd7487c725e15b0c20612a44ecf301637a60c157.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <bd7487c725e15b0c20612a44ecf301637a60c157.camel@perches.com>
+X-Provags-ID: V03:K1:FeeK8l1PQF76mrGFcok+5fvjCtP8b80O0RczVz9pQCL76eUr90Y
+ YOqUfFd9Wu6YV5NK7NhbaEDZ5PsWH+OVf5icznT9kVfiDChGgQsdBnxO6awRVi/BDGKOhzi
+ m/5cJjg6xXp56u6Th1uxU9hiUJYX3gn3qU9zU3use1GIkS20PCP8dMEaaKMX9yD9h4Lteyy
+ QDQxkKHCLzszbU8IZiTug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BbSC90bemSE=:57FwL7S+I37KEX6nDvpsT/
+ MD3jACPRwaJ/PZc7PjI3vpohZjJsmNoD5iVIuz6Y2ivWWPjJMiLBGMpj8h/hDngjxOLUV6Fv6
+ vafjv1OjiwSj39j86Zq9iuqm1Q3/8KP3cd+Bzu55Z/s04iIHwP0CXCV8XZ5wHO1+Eq7Udlw5u
+ gYfVKNjVtpHDpRTFl/7he8VC8J7ojvNsElkz2xwOb2R9pIttFjeLV40h7E8/+u2KwhJNuv+39
+ JDyJNITRWI6yE7cgAtTLAsVw0tAn2+IQvc8FMvernU7ppc5+x4nB7oRTdVqqrCNOh1EtYNPyh
+ kOol2cDUJ1g8kILQqAAExUJi7VojOUsFYZCzJeFxz27zMLZ3Ja0vEx0HrdF7hLtONu4NPOgrH
+ XU3HGa2mHviFDM0Nlx8ZK28sP1rqQqdO9OPJHA/WoZeNk67oBHD6JRbJWAgBJWAwGYkWrZYEL
+ eJfG37FtDYZxM1jseG6ign4jiRkYu0nqNodm9mR7/XZJt3OO6IhZ8GnyUAH0k0PaDhoDvK/tZ
+ /sIHrhLrKxbWF9PZDi2mIzmjIMEdf+cUnohEGmRERjWKnVORoXKfvSgQZL/cHJR91fjovMjCa
+ u+xaPl4ebv+QIJXW2B1WCqiJBUIUZ1dFYu1dYHapqcohda8+fLWpPoZZYzvCg8PL9846vCW64
+ 0YNumYeYjdJ3/gbkvvZkZExo3GmnUnKYcTYXbAYt2gF/lsPrXg+bw6pOwbtz/4loK1Z6G1Mju
+ lIlXqBUhW18EP4HUFo/rX6dFxz8jDLGiw8W1F6y3hyHYJ6QF9BGiTQjT0//ThCiZ/s2xmYGtI
+ nKFUAAZ+yVv7Mko4CO+KC7vX2by0eBJXH/GWaM5X45PUoL9CIP9Z9iDHxVIBS2cBkB7npSltu
+ aoezIM8zVqeQ94ZhYEHMX1pNLnu4/HcOc30OM5GNVnFxIKW73XW77HFrZ0Xxh7bH2iZERCm3s
+ NjXB2CuttKTOwPAvuBfGraf4i9VhpJmcDyoWYSLEuDwhtSJ0SyxgbXAJ/CVoVvA74kgAVxv3r
+ XARAdMC+6TSRag6/cfN4sDVEc7tC7cDqGV8E3HzxQNHbt1fswSxU5tlAa6wHSefFRPwoYs/43
+ VqhbVEo2ecCwbc6uY/cm2FXajA74nL/cJHQjp8KED2luLJh9M3VewbvMw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This updates the following:
+Hi,
 
-1) The ASL code to follow latest ACPI requirements, i.e.
-   - static buffer to be defined outside of the method
-   - The _ADR and _HID shouldn't be together for the same device
+On Fri, Aug 27, 2021 at 12:06:18PM -0700, Joe Perches wrote:
+> On Fri, 2021-08-27 at 19:12 +0200, Len Baker wrote:
+> > Although using literals for size calculation in allocator arguments ma=
+y
+> > be harmless due to compiler warnings in case of overflows, it is bette=
+r
+> > to refactor the code to avoid the use of open-coded math idiom.
+> >
+> > So, clarify the preferred way in these cases.
+> []
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/proc=
+ess/deprecated.rst
+> []
+> > @@ -60,7 +60,8 @@ smaller allocation being made than the caller was ex=
+pecting. Using those
+> > =A0allocations could lead to linear overflows of heap memory and other
+> > =A0misbehaviors. (One exception to this is literal values where the co=
+mpiler
+> > =A0can warn if they might overflow. Though using literals for argument=
+s as
+> > -suggested below is also harmless.)
+> > +suggested below is also harmless. So, the preferred way in these case=
+s is
+> > +to refactor the code to keep the open-coded math idiom out.)
+>
+> wordsmithing trivia:
+>
+> 'keep <foo> out' is difficult to parse as 'keep' is generally a positive
+> word but its meaning is later reversed with out.
+>
+> 'avoid <foo>' maybe be better phrasing.
+>
+Understood. I will do this change and I will send a new version.
+Thanks for the review.
 
-2) EFI section relies on the additional kernel configuration option,
-   i.e. CONFIG_EFI_CUSTOM_SSDT_OVERLAYS
-
-3) Refer to ACPI machine language as AML (capitalized)
-
-4) Miscellaneous amendments
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../admin-guide/acpi/ssdt-overlays.rst        | 49 ++++++++++---------
- 1 file changed, 25 insertions(+), 24 deletions(-)
-
-diff --git a/Documentation/admin-guide/acpi/ssdt-overlays.rst b/Documentation/admin-guide/acpi/ssdt-overlays.rst
-index 5d7e25988085..b5fbf54dca19 100644
---- a/Documentation/admin-guide/acpi/ssdt-overlays.rst
-+++ b/Documentation/admin-guide/acpi/ssdt-overlays.rst
-@@ -30,22 +30,21 @@ following ASL code can be used::
-         {
-             Device (STAC)
-             {
--                Name (_ADR, Zero)
-                 Name (_HID, "BMA222E")
-+                Name (RBUF, ResourceTemplate ()
-+                {
-+                    I2cSerialBus (0x0018, ControllerInitiated, 0x00061A80,
-+                                AddressingMode7Bit, "\\_SB.I2C6", 0x00,
-+                                ResourceConsumer, ,)
-+                    GpioInt (Edge, ActiveHigh, Exclusive, PullDown, 0x0000,
-+                            "\\_SB.GPO2", 0x00, ResourceConsumer, , )
-+                    { // Pin list
-+                        0
-+                    }
-+                })
- 
-                 Method (_CRS, 0, Serialized)
-                 {
--                    Name (RBUF, ResourceTemplate ()
--                    {
--                        I2cSerialBus (0x0018, ControllerInitiated, 0x00061A80,
--                                    AddressingMode7Bit, "\\_SB.I2C6", 0x00,
--                                    ResourceConsumer, ,)
--                        GpioInt (Edge, ActiveHigh, Exclusive, PullDown, 0x0000,
--                                "\\_SB.GPO2", 0x00, ResourceConsumer, , )
--                        { // Pin list
--                            0
--                        }
--                    })
-                     Return (RBUF)
-                 }
-             }
-@@ -75,7 +74,7 @@ This option allows loading of user defined SSDTs from initrd and it is useful
- when the system does not support EFI or when there is not enough EFI storage.
- 
- It works in a similar way with initrd based ACPI tables override/upgrade: SSDT
--aml code must be placed in the first, uncompressed, initrd under the
-+AML code must be placed in the first, uncompressed, initrd under the
- "kernel/firmware/acpi" path. Multiple files can be used and this will translate
- in loading multiple tables. Only SSDT and OEM tables are allowed. See
- initrd_table_override.txt for more details.
-@@ -103,12 +102,14 @@ This is the preferred method, when EFI is supported on the platform, because it
- allows a persistent, OS independent way of storing the user defined SSDTs. There
- is also work underway to implement EFI support for loading user defined SSDTs
- and using this method will make it easier to convert to the EFI loading
--mechanism when that will arrive.
-+mechanism when that will arrive. To enable it, the
-+CONFIG_EFI_CUSTOM_SSDT_OVERLAYS shoyld be chosen to y.
- 
--In order to load SSDTs from an EFI variable the efivar_ssdt kernel command line
--parameter can be used. The argument for the option is the variable name to
--use. If there are multiple variables with the same name but with different
--vendor GUIDs, all of them will be loaded.
-+In order to load SSDTs from an EFI variable the ``"efivar_ssdt=..."`` kernel
-+command line parameter can be used (the name has a limitation of 16 characters).
-+The argument for the option is the variable name to use. If there are multiple
-+variables with the same name but with different vendor GUIDs, all of them will
-+be loaded.
- 
- In order to store the AML code in an EFI variable the efivarfs filesystem can be
- used. It is enabled and mounted by default in /sys/firmware/efi/efivars in all
-@@ -127,7 +128,7 @@ variable with the content from a given file::
- 
-     #!/bin/sh -e
- 
--    while ! [ -z "$1" ]; do
-+    while [ -n "$1" ]; do
-             case "$1" in
-             "-f") filename="$2"; shift;;
-             "-g") guid="$2"; shift;;
-@@ -167,14 +168,14 @@ variable with the content from a given file::
- Loading ACPI SSDTs from configfs
- ================================
- 
--This option allows loading of user defined SSDTs from userspace via the configfs
-+This option allows loading of user defined SSDTs from user space via the configfs
- interface. The CONFIG_ACPI_CONFIGFS option must be select and configfs must be
- mounted. In the following examples, we assume that configfs has been mounted in
--/config.
-+/sys/kernel/config.
- 
--New tables can be loading by creating new directories in /config/acpi/table/ and
--writing the SSDT aml code in the aml attribute::
-+New tables can be loading by creating new directories in /sys/kernel/config/acpi/table
-+and writing the SSDT AML code in the aml attribute::
- 
--    cd /config/acpi/table
-+    cd /sys/kernel/config/acpi/table
-     mkdir my_ssdt
-     cat ~/ssdt.aml > my_ssdt/aml
--- 
-2.33.0
-
+Regards,
+Len
