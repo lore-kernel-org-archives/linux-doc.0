@@ -4,151 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CBFC432BE
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C318EC4320A
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:59:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F285B60F42
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:03:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A61C060E98
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:59:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231890AbhH3REY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Aug 2021 13:04:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237892AbhH3RET (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 13:04:19 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBB81C06175F;
-        Mon, 30 Aug 2021 10:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xoB9y/6gb5tvI+qqY/ALh9vMOrQQ9QlAyNC2IX3tc1Y=; b=pqZfVDzw4vekFytMGTd+nWCCR8
-        2YO5nnghGG2115wp916H67WC44RJL9F0/DeML/IkIabm+LR2wvHyAok6I3oHh6Axa9yufbd4+LYjx
-        doZkgz/i7MqsMhY8LYZePDVgGDNyXh947bd+P/ghJT/ePsYjVsJURruhNp4aEO5QqrLKmIIfyWudl
-        8eAY6GmK6ZhUo2HYv4dsXb5gIYpULHzMCdyK8iaEZb1wdlf1UGuYdTlO2yw0au6tLyxDKVBOcJtEm
-        vUeyPfSGhfyZEy+jr+e9eMOHZFqPagB/WsG4e4noe+wRFWjha8yZ3lCS5TlSiPaW4GZ3p5kChwJr7
-        sILUD6WQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mKkci-000LX7-Qk; Mon, 30 Aug 2021 16:59:09 +0000
-Date:   Mon, 30 Aug 2021 17:59:04 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
+        id S238214AbhH3SAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Aug 2021 14:00:40 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:51556 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238134AbhH3SAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 14:00:40 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 4B61222121;
+        Mon, 30 Aug 2021 17:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1630346385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fjtm8tVefXUCT0rdTzMn/o5zpc91NrF6pXy1z50nDUM=;
+        b=TyI+3u+QEneileBnDmwJhe/7GU/cZ4f+Sj8PsvZ9ugakdDVaT8ur0+WioUJKotS8fyURo0
+        Mm12eWM1b0hCFWGb0F0M+ECUj56MCl6ARx+3TzD2Y8ZHaqgpxOq8DgRVIyvlvXxef349Py
+        dUMXeDS74InyxljMGcbhds/MtAMoLJk=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6D6F13A98;
+        Mon, 30 Aug 2021 17:59:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 74kZM5AcLWEBdAAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Mon, 30 Aug 2021 17:59:44 +0000
+Date:   Mon, 30 Aug 2021 19:59:43 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Waiman Long <llong@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v8 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <YS0OWFnzLHJViamF@casper.infradead.org>
-References: <20210827191858.2037087-1-surenb@google.com>
- <20210827191858.2037087-3-surenb@google.com>
- <YSmVl+DEPrU6oUR4@casper.infradead.org>
- <202108272228.7D36F0373@keescook>
- <CAJuCfpEWc+eTLYp_Xf9exMJCO_cFtvBUzi39+WbcSKZBXHe3SQ@mail.gmail.com>
- <f7117620-28ba-cfa5-b2c6-21812f15e4d6@rasmusvillemoes.dk>
- <CAJuCfpHXF34THa=zVcRozYiLA9QPeNyU09WvyJFKk=ZjCq0ZZw@mail.gmail.com>
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v7 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YS0cj+0thCHmXw/M@blackbook>
+References: <20210825213750.6933-1-longman@redhat.com>
+ <20210825213750.6933-6-longman@redhat.com>
+ <YSfQ0mYWs2zUyqGY@mtj.duckdns.org>
+ <32e27fcc-32f1-b26c-ae91-9e03f7e433af@redhat.com>
+ <YShjb2WwvuB4s4gX@slm.duckdns.org>
+ <d22ea3be-2429-5923-a80c-5af3b384def9@redhat.com>
+ <YSlY0H/qeXQIGOfk@slm.duckdns.org>
+ <392c3724-f583-c7fc-cfa1-a3f1665114c9@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpHXF34THa=zVcRozYiLA9QPeNyU09WvyJFKk=ZjCq0ZZw@mail.gmail.com>
+In-Reply-To: <392c3724-f583-c7fc-cfa1-a3f1665114c9@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 30, 2021 at 09:16:14AM -0700, Suren Baghdasaryan wrote:
-> On Mon, Aug 30, 2021 at 1:12 AM Rasmus Villemoes
-> <linux@rasmusvillemoes.dk> wrote:
-> >
-> > On 28/08/2021 23.47, Suren Baghdasaryan wrote:
-> > > On Fri, Aug 27, 2021 at 10:52 PM Kees Cook <keescook@chromium.org> wrote:
-> > >>
-> > >>>> +   case PR_SET_VMA_ANON_NAME:
-> > >>>> +           name = strndup_user((const char __user *)arg,
-> > >>>> +                               ANON_VMA_NAME_MAX_LEN);
-> > >>>> +
-> > >>>> +           if (IS_ERR(name))
-> > >>>> +                   return PTR_ERR(name);
-> > >>>> +
-> > >>>> +           for (pch = name; *pch != '\0'; pch++) {
-> > >>>> +                   if (!isprint(*pch)) {
-> > >>>> +                           kfree(name);
-> > >>>> +                           return -EINVAL;
-> > >>>
-> > >>> I think isprint() is too weak a check.  For example, I would suggest
-> > >>> forbidding the following characters: ':', ']', '[', ' '.  Perhaps
-> >
-> > Indeed. There's also the issue that the kernel's ctype actually
-> > implements some almost-but-not-quite latin1, so (some) chars above 0x7f
-> > would also pass isprint() - while everybody today expects utf-8, so the
-> > ability to put almost arbitrary sequences of chars with the high bit set
-> > could certainly confuse some parsers. IOW, don't use isprint() at all,
-> > just explicitly check for the byte values that we and up agreeing to
-> > allow/forbid.
-> >
-> > >>> isalnum() would be better?  (permit a-zA-Z0-9)  I wouldn't necessarily
-> > >>> be opposed to some punctuation characters, but let's avoid creating
-> > >>> confusion.  Do you happen to know which characters are actually in use
-> > >>> today?
-> > >>
-> > >> There's some sense in refusing [, ], and :, but removing " " seems
-> > >> unhelpful for reasonable descriptors. As long as weird stuff is escaped,
-> > >> I think it's fine. Any parser can just extract with m|\[anon:(.*)\]$|
-> > >
-> > > I see no issue in forbidding '[' and ']' but whitespace and ':' are
-> > > currently used by Android. Would forbidding or escaping '[' and ']' be
-> > > enough?
-> >
-> > how about allowing [0x20, 0x7e] except [0x5b, 0x5d], i.e. all printable
-> > (including space) ascii characters, except [ \ ] - the brackets as
-> > already discussed, and backslash because then there's nobody who can get
-> > confused about whether there's some (and then which?) escaping mechanism
-> > in play - "\n" is simply never going to appear. Simple rules, easy to
-> > implement, easy to explain in a man page.
-> 
-> Thanks for the suggestion, Rasmus. I'm all for keeping it simple.
-> Kees, Matthew, would that be acceptable?
+Hello.
 
-Yes, I think so.  It permits all kinds of characters that might
-be confusing if passed on to something else, but we can't prohibit
-everything, and forbidding just these three should remove any confusion
-for any parser of /proc.  Little Bobby Tables thanks you.
+On Fri, Aug 27, 2021 at 06:50:10PM -0400, Waiman Long <llong@redhat.com> wrote:
+> So the new rules will be:
+
+When I followed the thread, it seemed to me you're talking past each
+other a bit. I'd suggest the following terminology:
+
+- config space: what's written by the user and saved,
+
+- reality space: what's currently available (primarily subject to
+  on-/offlinng but I think it'd be helpful to consider here also what's
+  given by the parent),
+
+- effect space: what's actually possible and happening.
+
+Not all elements of config_space x reality_space (Cartesian product) can
+be represented in the effect_space (e.g. root partition with no
+(effective) cpus).
+
+IIUC, Waiman's "high bar" is supposed to be defined over transitions in
+the config_space. However, there can be independent changes in the
+reality_space so the rules should be actually formulated in the
+effect_space:
+
+The conditions for being a valid partition root rewritten into the effect
+space:
+
+> 1) The "cpuset.cpus" is not empty and the list of CPUs are exclusive.
+- effective CPUs are non-empty and exclusive wrt siblings
+- (E.g. setting empty cpuset.cpus might be possible but it invalidates
+  the partition root, same as offlining or removal by an ancestor.)
+
+> 2) The parent cgroup is a partition root (can be an invalid one).
+- parent cgroup is a (valid) partition
+- (Being valid partition means owning "stolen" cpus from the parent, if
+  the parent is not valid partition itself, you can't steal what is not
+  owned.)
+- (And I think it's OK that: "the child partitions will stay invalid
+  forever unless the parent become a valid partition again" [1].)
+
+> 3) The "cpuset.cpus" is a subset of the parent's cpuset.cpus.allowed.
+- I'm not sure what is the use of this condition (together with the
+  rewrite of the 1st condition which covers effective cpus). I think it
+  would make sense if being a valid parition root guaranteed that all
+  configured cpuset.cpus will be available, however, that's not the case
+  IIUC (e.g. due to offlining).
+
+> 4) No child cgroup with cpuset enabled.
+- A child cgroup with cpuset enabled is OK in the effect space
+  (achievable by switching first and creating children later).
+- For technical reasons this may be a condition on the transitions in
+  the config_space.
+
+Generally, most config changes should succeed and user should check (or
+watch) how they landed in combination with the reality_space.
+
+Regards,
+Michal
+
+[1] This follows the general model where ancestors can "preempt"
+resources from their subtree.
