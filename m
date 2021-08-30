@@ -2,122 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B147AC432BE
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 19:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADC3C41537
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 21:00:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9900A60462
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 19:46:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EDB160F6C
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 21:00:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233423AbhH3Tq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Aug 2021 15:46:59 -0400
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21184 "EHLO
-        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232279AbhH3Tq7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 15:46:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1630352726; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=SVHn6COC9v9vBFsLvcEs7dr3HVFNBJTVzni/EkloLN6O5viMtWWj6Tae7tY5LSqMayUip2OwmXpCPBeh8StLC0HSKfA9v4RBf402L+FXbCgqzb5ek2Un8zrhO+eAzSdMcdeXOPemJw94j/P5VzzmH5Uxa160b31YrttEytI+YkI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1630352726; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=yNOkI2F3ECfnM1Ds3LEUzcVyW9YJrCDLxnfkHPWP5Bw=; 
-        b=Y4riUrabFYj0b6DV/fDwG8D+TJWGMsTa2KkKjietvIYTinnwsrV9GAJCRxqzHnrmQAfcRZ2FuLSkwDrCU/p37bvCCMZQ4oncVTMXIuTKzyxU8utaz2SI3v/9ouNKMtirvFnmwm6ENL21lsSYR9FooIsZmb4ozkS3rKyJVnLmB00=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1630352726;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=To:Cc:References:From:Subject:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        bh=yNOkI2F3ECfnM1Ds3LEUzcVyW9YJrCDLxnfkHPWP5Bw=;
-        b=mwtop516etIwYk691Qmw9i4ypq0dGhP3x9W2DH2WOOO16HN/YY4Zwhq7sMNSBvs4
-        vnNIH2ifuPaAIHNh7/eGtqkGwtt9XfOnfk6d8PK8+GyyoihJP6oOV/oYS8uAh/GP0zK
-        75uDRW9iUfKSH0ext6bgxXovU0LJOZdpXPaQsB6U=
-Received: from [10.10.1.24] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
-        with SMTPS id 1630352723773366.9884523607444; Mon, 30 Aug 2021 12:45:23 -0700 (PDT)
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Ross Philipson <ross.philipson@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
- <1630070917-9896-15-git-send-email-ross.philipson@oracle.com>
- <20210827133011.GJ1200268@ziepe.ca>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Subject: Re: [PATCH v4 14/14] tpm: Allow locality 2 to be set when
- initializing the TPM for Secure Launch
-Message-ID: <e40a22d6-22f3-3374-01dc-75f14f310c7d@apertussolutions.com>
-Date:   Mon, 30 Aug 2021 15:45:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S236673AbhH3VA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Aug 2021 17:00:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23173 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236021AbhH3VAy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 17:00:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630357199;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZDgZoaGxuF8+VxsBt8mWUj6L6RMapnQD42kDmE3TNZQ=;
+        b=GH03Om/445Kfh0spCpfgBXGkgopeKaJKIqsbbIqGNoDmAlnZTvAthA2tI2dz9Aq5cuTnHb
+        S/4bNzDF2aRH+g5BXDAau4HDRE6CwBE5H4ZiUVX0kxknRtFixsmYk2gTkESXfR+1kQusEc
+        NugrIp20O33foRVdV+QJ3G9RR3jW/9o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-1eeGDMyLMDqQAh5bM-2YhA-1; Mon, 30 Aug 2021 16:59:57 -0400
+X-MC-Unique: 1eeGDMyLMDqQAh5bM-2YhA-1
+Received: by mail-wm1-f70.google.com with SMTP id s197-20020a1ca9ce000000b002e72ba822dcso235891wme.6
+        for <linux-doc@vger.kernel.org>; Mon, 30 Aug 2021 13:59:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ZDgZoaGxuF8+VxsBt8mWUj6L6RMapnQD42kDmE3TNZQ=;
+        b=gxgyN/T/lZsc6fHqMCt6TtS6UzStpgQIjAB5+Iq0z87ZY4C79RQ3dO25gZUJdmYkqx
+         RI9Ds94JFWqutrVy6FU7gzDtMGgRi47lobkic2cGf0ZgqIIvtKzBw0RLEfW/1nlVjOr5
+         897FXI07aD1lYbTjhAGiAWdmFASpLFDUgQaOhR8uMs/VgVj/vvTA+231WlrJ68zR4F74
+         f34yf/xqL3sOIkgLOB57wt1PAMkqJ7RYpVANxf3I5Eursp5nLo56JRGTlgObtmrw8kWs
+         /pEVfNjfWzrN5oezAPCrZYNKMLds+VPM7FPeHcIZXVu64eFDH4dkCJAAye22ODQAaH+t
+         LPNw==
+X-Gm-Message-State: AOAM5306m1lPK6dTKWRpPjjmrQ/6ZF1aneqOJNrimtFFFfIbnbugdQMH
+        2lqelVS+St6O9G3M+8cVL98BSgUdmCu+o/KT+Rw4+dr3DH8aO5r8lGrfy46I3C6dGOOsJuT2g7i
+        yqZxKQWmaMjo9IQGaEsSs
+X-Received: by 2002:a1c:7f48:: with SMTP id a69mr887119wmd.166.1630357196518;
+        Mon, 30 Aug 2021 13:59:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjS6eag15Cf7xmVDHk/qvmWoQLzIdnk7dLXkY7XjvOHcTw6SiXs3ksmYcUzh73pyrAtLIGDA==
+X-Received: by 2002:a1c:7f48:: with SMTP id a69mr887093wmd.166.1630357196296;
+        Mon, 30 Aug 2021 13:59:56 -0700 (PDT)
+Received: from redhat.com ([2.55.138.60])
+        by smtp.gmail.com with ESMTPSA id z9sm12277068wre.11.2021.08.30.13.59.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 13:59:55 -0700 (PDT)
+Date:   Mon, 30 Aug 2021 16:59:50 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210830163723-mutt-send-email-mst@kernel.org>
+References: <20210823195409-mutt-send-email-mst@kernel.org>
+ <26a3cce5-ddf7-cbe6-a41e-58a2aea48f78@linux.intel.com>
+ <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
+ <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
+ <20210824053830-mutt-send-email-mst@kernel.org>
+ <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
+ <20210829112105-mutt-send-email-mst@kernel.org>
+ <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
+ <20210829181635-mutt-send-email-mst@kernel.org>
+ <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210827133011.GJ1200268@ziepe.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+In-Reply-To: <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/27/21 9:30 AM, Jason Gunthorpe wrote:
-> On Fri, Aug 27, 2021 at 09:28:37AM -0400, Ross Philipson wrote:
->> The Secure Launch MLE environment uses PCRs that are only accessible from
->> the DRTM locality 2. By default the TPM drivers always initialize the
->> locality to 0. When a Secure Launch is in progress, initialize the
->> locality to 2.
->>
->> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
->> ---
->>  drivers/char/tpm/tpm-chip.c | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
+On Sun, Aug 29, 2021 at 10:11:46PM -0700, Andi Kleen wrote:
 > 
-> Global state like this seems quite dangerous, shouldn't the locality
-> be selected based on the PCR being accessed, or passed down from
-> higher up in the call chain?
+> On 8/29/2021 3:26 PM, Michael S. Tsirkin wrote:
+> > On Sun, Aug 29, 2021 at 09:17:53AM -0700, Andi Kleen wrote:
+> > > Also I changing this single call really that bad? It's not that we changing
+> > > anything drastic here, just give the low level subsystem a better hint about
+> > > the intention. If you don't like the function name, could make it an
+> > > argument instead?
+> > My point however is that the API should say that the
+> > driver has been audited,
 > 
-> Jason
+> We have that status in the struct device. If you want to tie the ioremap to
+> that we could define a ioremap_device() with a device argument and decide
+> based on that.
+
+But it's not the device that is audited. And it's not the device
+that might be secure or insecure. It's the driver.
+
+> Or we can add _audited to the name. ioremap_shared_audited?
+
+But it's not the mapping that has to be done in handled special way.
+It's any data we get from device, not all of it coming from IO, e.g.
+there's DMA and interrupts that all have to be validated.
+Wouldn't you say that what is really wanted is just not running
+unaudited drivers in the first place?
+
 > 
+> > not that the mapping has been
+> > done in some special way. For example the mapping can be
+> > in some kind of wrapper, not directly in the driver.
+> > However you want the driver validated, not the wrapper.
+> > 
+> > Here's an idea:
+> 
+> 
+> I don't think magic differences of API behavior based on some define are a
+> good idea.� That's easy to miss.
 
-Hey Jason,
+Well ... my point is that actually there is no difference in API
+behaviour. the map is the same map, exactly same data goes to device. If
+anything any non-shared map is special in that encrypted data goes to
+device.
 
-While locality does control which PCRs are accessible, it is meant to
-reflect what component that a TPM command is originating. To quote the
-TCG Spec, "“Locality” is an assertion to the TPM that a command’s source
-is associated with a particular component. Locality can be thought of as
-a hardware-based authorization."
+> 
+> That's a "COME FROM" in API design.
+> 
+> Also it wouldn't handle the case that a driver has both private and shared
+> ioremaps, e.g. for BIOS structures.
 
-Thus when the SRTM chain, to include the Static OS, is in control, the
-hardware is required to restrict access to only Locality 0. Once a
-Dynamic Launch has occurred, the hardware grants access to Locality 1
-and 2. Again to refer to the TCG spec, the definition of Locality 2 is,
-the "Dynamically Launched OS (Dynamic OS) “runtime” environment".
+Hmm. Interesting.  It's bios maps that are unusual and need to be private though ...
 
-When Linux is started from the SRTM, it is correct for the TPM driver to
-set the locality to Locality 0 to denote that the source is the Static
-OS. Now when Linux is started from the DRTM, the TPM driver should set
-the locality to Locality 2 to denote that it is the "runtime" Dynamic
-OS. As for the differences in access, with Locality 0 Linux (being the
-Static OS) is restricted to the Static PCRs (0-15), the Debug PCR (16),
-and the Application PCR (23). Whereas with Locality 2 Linux now being
-the Dynamic OS will have access to all PCRs.
+> And we've been avoiding that drivers can self declare auditing, we've been
+> trying to have a separate centralized list so that it's easier to enforce
+> and avoids any cut'n'paste mistakes.
+> 
+> -Andi
 
-To summarize, TPM locality really is a global state that reflects the
-component in control of the platform. Considering the definition of
-locality, setting the locality to Locality 0 is saying that the Static
-Environment is now in control. Doing so after the Dynamic Environment
-has started would be an inaccurate setting of the platform state. The
-correct time at which the locality should change back to Locality 0 is
-after the Dynamic Environment has been exited. On Intel this can be done
-by invoking the instruction GETSEC[SEXIT]. It should be noted that
-Secure Launch adds the call to the GETSEC[SEXIT] instruction in the
-kexec, reboot, and shutdown paths.
+Now I'm confused. What is proposed here seems to be basically that,
+drivers need to declare auditing by replacing ioremap with
+ioremap_shared.
 
-v/r,
-dps
+-- 
+MST
+
