@@ -2,139 +2,232 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C318EC4320A
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE0C7C4320A
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 18:16:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A61C060E98
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 17:59:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B55160E98
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 18:16:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238214AbhH3SAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Aug 2021 14:00:40 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:51556 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238134AbhH3SAk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 14:00:40 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 4B61222121;
-        Mon, 30 Aug 2021 17:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1630346385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Fjtm8tVefXUCT0rdTzMn/o5zpc91NrF6pXy1z50nDUM=;
-        b=TyI+3u+QEneileBnDmwJhe/7GU/cZ4f+Sj8PsvZ9ugakdDVaT8ur0+WioUJKotS8fyURo0
-        Mm12eWM1b0hCFWGb0F0M+ECUj56MCl6ARx+3TzD2Y8ZHaqgpxOq8DgRVIyvlvXxef349Py
-        dUMXeDS74InyxljMGcbhds/MtAMoLJk=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6D6F13A98;
-        Mon, 30 Aug 2021 17:59:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 74kZM5AcLWEBdAAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Mon, 30 Aug 2021 17:59:44 +0000
-Date:   Mon, 30 Aug 2021 19:59:43 +0200
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <llong@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S238505AbhH3SRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Aug 2021 14:17:10 -0400
+Received: from mga06.intel.com ([134.134.136.31]:23984 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238506AbhH3SRJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Aug 2021 14:17:09 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="279339840"
+X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; 
+   d="scan'208";a="279339840"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 11:16:15 -0700
+X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; 
+   d="scan'208";a="530533247"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 11:16:15 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v7 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <YS0cj+0thCHmXw/M@blackbook>
-References: <20210825213750.6933-1-longman@redhat.com>
- <20210825213750.6933-6-longman@redhat.com>
- <YSfQ0mYWs2zUyqGY@mtj.duckdns.org>
- <32e27fcc-32f1-b26c-ae91-9e03f7e433af@redhat.com>
- <YShjb2WwvuB4s4gX@slm.duckdns.org>
- <d22ea3be-2429-5923-a80c-5af3b384def9@redhat.com>
- <YSlY0H/qeXQIGOfk@slm.duckdns.org>
- <392c3724-f583-c7fc-cfa1-a3f1665114c9@redhat.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v30 00/32] Control-flow Enforcement: Shadow Stack
+Date:   Mon, 30 Aug 2021 11:14:56 -0700
+Message-Id: <20210830181528.1569-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <392c3724-f583-c7fc-cfa1-a3f1665114c9@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-On Fri, Aug 27, 2021 at 06:50:10PM -0400, Waiman Long <llong@redhat.com> wrote:
-> So the new rules will be:
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and is further split into the Shadow Stack
+and Indirect Branch Tracking.
 
-When I followed the thread, it seemed to me you're talking past each
-other a bit. I'd suggest the following terminology:
+Linux distributions with CET are available now.  The patches being sent are
+regularly applied to upstream Linus tree and tested by Zero-day service and
+verified in all configurations of GLIBC tests.  In addition, Linux kernel
+selftests/x86 has been updated and run with CET enabled.  Selftests patches
+v2 will be sent separately [2].
 
-- config space: what's written by the user and saved,
+Changes in v30:
+- Patch #12: Replace (pmdval_t) cast with CONFIG_PGTABLE_LEVELES > 2.
+- Patch #15: Update Subject line and add a verb.
+- Patch #23: Remove superfluous comments for struct thread_shstk.  Replace
+	     'populate' with 'unused'.
+- Patch #25: Update comments about clone()/clone3().
+- Patch #26: Update commit log and various comments.  Remove variable init.
+	     Replace 'ia32' with 'proc32'.
+- Rebase to Linus tree v5.14.
 
-- reality space: what's currently available (primarily subject to
-  on-/offlinng but I think it'd be helpful to consider here also what's
-  given by the parent),
+Changes in v29:
+- Patch #5: Move CET MSR definitions up in msr-index.h.
+- Patch #6: Remove pr_emerg() from CP fault handler, since that is followed by die().
+- Patch #16: Remove likely().
+- Patch #25: Add WARN_ON_ONCE() when get_xsave_addr() returns NULL (Dave Hansen).
+- Rebased to Linus tree v5.14-rc6.
 
-- effect space: what's actually possible and happening.
+Changes in v28:
+- Patch #1: Update Document to indicate no-user-shstk also disables IBT.
+- Patch #23: Update shstk_setup() with wrmsrl_safe().  Update return value.
+- Patch #25: Split out copy_thread() changes.  Add support for old clone().
+  Add comments.
+- Add comments for get_xsave_addr() (Patch #25, #26).
+- Rebase to Linus tree v5.14-rc2.
 
-Not all elements of config_space x reality_space (Cartesian product) can
-be represented in the effect_space (e.g. root partition with no
-(effective) cpus).
+Changes in v27:
+- Eliminate signal context extension structure.  Simplify signal handling.
+- Add a new patch to move VM_UFFD_MINOR_BIT to 38.
+- Smaller changes are in each patch's log.
+- Rebase to Linus tree v5.13-rc2.
 
-IIUC, Waiman's "high bar" is supposed to be defined over transitions in
-the config_space. However, there can be independent changes in the
-reality_space so the rules should be actually formulated in the
-effect_space:
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
 
-The conditions for being a valid partition root rewritten into the effect
-space:
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
 
-> 1) The "cpuset.cpus" is not empty and the list of CPUs are exclusive.
-- effective CPUs are non-empty and exclusive wrt siblings
-- (E.g. setting empty cpuset.cpus might be possible but it invalidates
-  the partition root, same as offlining or removal by an ancestor.)
+[2] Selftests patches v1:
 
-> 2) The parent cgroup is a partition root (can be an invalid one).
-- parent cgroup is a (valid) partition
-- (Being valid partition means owning "stolen" cpus from the parent, if
-  the parent is not valid partition itself, you can't steal what is not
-  owned.)
-- (And I think it's OK that: "the child partitions will stay invalid
-  forever unless the parent become a valid partition again" [1].)
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
 
-> 3) The "cpuset.cpus" is a subset of the parent's cpuset.cpus.allowed.
-- I'm not sure what is the use of this condition (together with the
-  rewrite of the 1st condition which covers effective cpus). I think it
-  would make sense if being a valid parition root guaranteed that all
-  configured cpuset.cpus will be available, however, that's not the case
-  IIUC (e.g. due to offlining).
+Yu-cheng Yu (32):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Check Shadow Stack page fault errors
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/process: Change copy_thread() argument 'arg' to 'stack_size'
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to test vma anonymous
+  mm: Introduce PROT_SHADOW_STACK for shadow stack
 
-> 4) No child cgroup with cpuset enabled.
-- A child cgroup with cpuset enabled is OK in the effect space
-  (achievable by switching first and creating children later).
-- For technical reasons this may be a condition on the transitions in
-  the config_space.
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 139 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  25 +-
+ arch/x86/include/asm/cet.h                    |  50 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  11 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  88 ++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  20 +
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 302 ++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  30 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 +++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/xstate.c                  |  11 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  27 ++
+ arch/x86/kernel/shstk.c                       | 376 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |  13 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  62 +++
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |  48 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  20 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   7 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 64 files changed, 1581 insertions(+), 115 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
 
-Generally, most config changes should succeed and user should check (or
-watch) how they landed in combination with the reality_space.
+-- 
+2.21.0
 
-Regards,
-Michal
-
-[1] This follows the general model where ancestors can "preempt"
-resources from their subtree.
