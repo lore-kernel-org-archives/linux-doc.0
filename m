@@ -2,217 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0539EC4320E
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 15:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B64C432BE
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 16:12:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1C4960F44
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 15:40:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A318A60F46
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Aug 2021 16:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237542AbhH3Plv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Aug 2021 11:41:51 -0400
-Received: from mga05.intel.com ([192.55.52.43]:43616 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237187AbhH3Plu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Aug 2021 11:41:50 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="303874716"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="303874716"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 08:40:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="466151168"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by orsmga007.jf.intel.com with ESMTP; 30 Aug 2021 08:40:55 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Mon, 30 Aug 2021 08:40:54 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Mon, 30 Aug 2021 08:40:54 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Mon, 30 Aug 2021 08:40:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VLkXqn6/vkOzaScw0W9wEklyj4zAHu/l4qIEV6N3UXoVy9mECksWvJmGLl07rPqIxrcBLo7rAGSNxlaMSdSCJrHdAAY3k3xPFv4uIEf6Asqm8cxPlb0USkBSHAK7gbpwi9dbVaPD6sPrGvlKZQfnjUqag/0VGHddqzttqp9m+f9WPpUgm6vJyNnaNNCcWAtglf1d0S7vTs0R1kvYlwNAnagkWmz+w0L9BRB8dwCfMcf7ykLlZes63mK85fj4sMFpPFD6iLn173yuLDUrBg6eZEPFKOezYuoeAhM+qL9WLPQjBGy5OR++0vzB2/RkiTllLGbawLLW3SGHkU0iafr4+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xgf/sAQDv1MpyNvWnCOdRuiQO+k/BcM+xzy8/DkPNdI=;
- b=PyvV5TfPFVWQfK6K+7KhGq29DrRzv8w+YfrmC4W4evxFzVd23YjR9ttSFl1eZA/ABxA3tVCODVIKaXG9Osha9UMfVQwJl2eP/CK1lmRhsQ6zqPuq6h6sPDtEKT6B7TFofwUnWOOK4ESeicycJVmxU/Lrk8BM690psNulBpLX+7URA334/cW0yzryFzDpqq1yMk53SBBHUmWhBISV3wVcj5vrlyFjvZ6NqxP+foaEVYO+/FCYPYll81oQOs86FwwpSJ/vw+VgigEhtMr1DFfuErxuROGv28/aG5S8TLTzcOEIUfrikAR7f5qZuFwlZIZoCaXoghczYokHPRL4ylBp7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xgf/sAQDv1MpyNvWnCOdRuiQO+k/BcM+xzy8/DkPNdI=;
- b=X1aq+DngkvcfSpnX4iMzhcEZIegoIQASNNghps+cOymxlnKVkT6S29s1SzrWp1P8qDLjC+eYo86CaaURMPTtaodspWm29VpNhsvzwdJpNK6dvjs0PssKJK6b5w35yHGkQmNMl5XigZxb/LQbPeoWyLD/vh6gw2M2vSF0DTSx+gc=
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com (2603:10b6:5:c::28) by
- DM5PR1101MB2236.namprd11.prod.outlook.com (2603:10b6:4:58::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.17; Mon, 30 Aug 2021 15:40:53 +0000
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::1801:b765:5ffd:d121]) by DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::1801:b765:5ffd:d121%3]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
- 15:40:53 +0000
-From:   "Xu, Terrence" <terrence.xu@intel.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "diana.craciun@oss.nxp.com" <diana.craciun@oss.nxp.com>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "mgurtovoy@nvidia.com" <mgurtovoy@nvidia.com>,
-        "jgg@nvidia.com" <jgg@nvidia.com>,
-        "maorg@nvidia.com" <maorg@nvidia.com>,
-        "leonro@nvidia.com" <leonro@nvidia.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>
-Subject: RE: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Thread-Topic: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Thread-Index: AQHXmmaz1ZiP+FI92ECDLhV+GQ7uqKuGXIgAgAXXhpA=
-Date:   Mon, 30 Aug 2021 15:40:53 +0000
-Message-ID: <DM6PR11MB3177A7D59FAB8EE420F14BC5F0CB9@DM6PR11MB3177.namprd11.prod.outlook.com>
-References: <20210826103912.128972-1-yishaih@nvidia.com>
- <20210826162108.4fc8b844.alex.williamson@redhat.com>
-In-Reply-To: <20210826162108.4fc8b844.alex.williamson@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 000256ca-1bdf-4b07-5de0-08d96bcc8d14
-x-ms-traffictypediagnostic: DM5PR1101MB2236:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR1101MB2236689271E2C40494E88D99F0CB9@DM5PR1101MB2236.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mgoiCLes5+aaluH2TIIiBjkLh+HJJpCvqQsQOjv0SPcXri+SMWaLy3Berc+BziFX7vr2vwaqeX6p0KdhsTOJRRcriyQ830EOLd6OKkeZ9ij+ACfWMBORCl7gt6NxJmfR6W7I3E5zW5FXxQ0iLPucbRsm9a0OWS2enBJHdjpdXL6b6/Bb/gHhFAT66JO0mw9/vcEtoxT5axTEm7XdwnF1Nq85cHWKpfDvpQsN2hiksaWd+GdD8RDfI4p41G0gzYEScyfUuZSOs4QtOeayMnqH+vWA61lTT722Of7wayyD6gTMLJvVN35ovEu/nBuYg644GWKumUumwl/9cntWa3M3k0W0K4Ks2Cjub6PtYcay8GGn7f+e61EkqIhceffThuZ6rMChbfKIFg4ZbnABXtSQI2c+fSlBMn1Vf+AX4+SZXxHWTlK407NXz0Y+SLmpDMMxTb07XuLEhMccol8HX1sKgJ0yWP5F1MkkejsoSCmaHS8JBP7owkQcLeTCdRTL5yprRSjhqXT2qyRBuSRcck29CmMjUrrdHce3CH5tl9N830HqxWbjWIU8f+JdPBIWAPmQa+QjqyIqvvsfjsZYC1YM2MOchJ6tUToUslO6dEckZGA0dWq8MLklZdiIT4QcJ4rLjXry5iiT65UwntFn8e2WtZpRpZJFkI7znDf4He0qbJOExcxC4FBnVJSa8FVJ82TnurqoQpyE/rv+ogZaJkwgFg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3177.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(366004)(136003)(346002)(38070700005)(33656002)(86362001)(316002)(54906003)(110136005)(7416002)(478600001)(64756008)(7696005)(66476007)(122000001)(107886003)(83380400001)(52536014)(71200400001)(9686003)(38100700002)(5660300002)(6506007)(2906002)(55016002)(186003)(4326008)(26005)(8936002)(8676002)(66946007)(66446008)(66556008)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?a4fBqYTYrMKhJkR1fvFbGYwjRmwMUJGh7aKVqYW52Cs4dnx4hydy9R/rPcFW?=
- =?us-ascii?Q?h6JRWHZThpANxfqaNTRA7UgTuRhFfAfDiBPq1B0cAZBflOtAUXSexqVOne6O?=
- =?us-ascii?Q?hv/nu8fk8QA5oTo1d5fLEVrjkvtxGCkINSILbcWOpHNQeb961ahgFWvOm9Yh?=
- =?us-ascii?Q?WufS6hrj+H4ssG1aE6zbPgX+HyGhwc7qh9hWnQkdctlKlbr7Uh7MNKlk5HgV?=
- =?us-ascii?Q?FLg1OhAaZnER52pKFBB2cLp941+IZbFOrsTmyC1F3GC8ba6yothKY3DEHoQi?=
- =?us-ascii?Q?I225ZexI/NnBBSf0XoF4tCT1WlcbdUug3GSUuN9vtyHyFzMOADsTfzEI0IsJ?=
- =?us-ascii?Q?GYSxrJf2Mlv1URs3wtrIRCR/D2pivju8gzw3cReUG+hLnUCxq+MA7R7Dfsz2?=
- =?us-ascii?Q?8S9mhF1HZxsXn+40DPUwh1uh5jWfyA+l7/r1K5XVkwvJdB0zsxSuGr5fllNa?=
- =?us-ascii?Q?RHIsTnYKOSgP4TdjB7MFZ9OqivTVp8hpmiPkOPr82lx11PBV/6o14Jm0bdVP?=
- =?us-ascii?Q?JKEaBYXdwVD4qdwJKwySIT584SR4dfiZPgCXUymDh4JRAb/Ne2cZETDLZN7G?=
- =?us-ascii?Q?LMyN24B0oEvvVvez5MzX1Khmf+dgtIL6zMX6KqdLe02Zskw21EFNf2qTrjxV?=
- =?us-ascii?Q?ZVHrl/E4u0r2JTRuAGvcGgABHf4baCTI3Q7ivLBfL7wq0p3E+MWnGUFf3Trb?=
- =?us-ascii?Q?Ad6Doe7fgv0da/OXjj575uhlj3zq48LIW/xo5DClBK/7lJmzIRmvBOOm0hWt?=
- =?us-ascii?Q?U5G+DRyGpb3oPJZsUGMeLDFGJ2sggz/OdXl0V/WhfneChQ/WXyGp0GzhJeBh?=
- =?us-ascii?Q?DQ1/MkXqD+DbvICbmCqOrFYpuA43m0cL221xHmcjkmw2KAgThj28+yUOUt1E?=
- =?us-ascii?Q?n7KvYQrUaCCQZT1olIfdmvOf8tfqjst/5X2y1fxqaWT8MvFLxvz5Ppy8Xr3+?=
- =?us-ascii?Q?UWysCA7j1Z5jce18eHPVGmQ3RMjQrN62HWhQ2CfBXxN7BADfs+ITOwrYbd7q?=
- =?us-ascii?Q?qBRkLETkZaCbmogsoSbDssRd4l2XFbT8bXllSErROSxEjyQxpR3JYygW5ck9?=
- =?us-ascii?Q?9WKVF7KM6Xsd7KwIddfLvqtu0NQlHLCiDw7p8FnL8AuXluQEIK9LK2bC77ir?=
- =?us-ascii?Q?0X4a0kicYAQmn8n7vJfeDF3K10+GP2RNr0f7zVlneRo3OdnCu+vgSMM3e+bK?=
- =?us-ascii?Q?b9KQvm+HZ4wthKvXNJiDiQx+kptRcsq0+1yaRP1NuOGDSSNiO5y83VMBh1vU?=
- =?us-ascii?Q?Z/2t9GTIKs4iM65u0IQ4lPfUpqkBibn35nf0jv/42/hPdKcSJr9Ko0M7nGqd?=
- =?us-ascii?Q?f2PQBSAQ6HY/l0KBdna7V5SL?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S237708AbhH3QNK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Aug 2021 12:13:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237665AbhH3QNJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Aug 2021 12:13:09 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4244BC06175F
+        for <linux-doc@vger.kernel.org>; Mon, 30 Aug 2021 09:12:16 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id c206so8546161ybb.12
+        for <linux-doc@vger.kernel.org>; Mon, 30 Aug 2021 09:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1GG6tg8XbUgZaMZCQ5xRATgRnP/jMPvp3jA/MirEbNo=;
+        b=twvcbEdVEBll9AfkQNe5af0zQd9ziYfYCKCAn9VET2O5NOWONGcLr3SY6j5VijsHIH
+         ApkpmIc6t+2HUtK/lec+2ElqW4bz5E0CDT3wDB1Nue+Mi+6ffiFmM7yZ2qpxSwGNJd+q
+         fmdqxrxlR21OU1mv1NMGzHcu4Gx02yL/Q/h+00WNA3OUghz2WZLfSaoNf0kv1agW/zkQ
+         H+CD+GGnOnvNeqIQVY9MmHW7E8dlOkbXPZfhTo6j7x8ku2/6VAB4q+ZcFyrv3CGvw2WK
+         Y2YR4l69YSC2350Fykt8SGF4QjW7RiDEZVvvjOas0D4IL15nkBVSwyd9vLusrz2TF43D
+         WUpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1GG6tg8XbUgZaMZCQ5xRATgRnP/jMPvp3jA/MirEbNo=;
+        b=ghZpQBqVJNh0vZZ6lPrmKN7f4hRINrHU+8y6QXBYqnCqOOdljP32cImCtA9LCN9fo9
+         Uyi4ypLya6EEcb9LyRkzFmlvHatJ/eYr6lOOoMLMzuj6VsjC+75AzCsjIH2+3vnmN5UV
+         JUbXLl7t8m0aZYFbE7N/iVLtCzMXXOMdujmy0gG7wFApR58C0khShgfmgvyvDVO3eDzR
+         VXFQV5Jbln8j+FDBsNaaDhbR8+GYYzo2vR3LyQhJN1iz3eXkzpHO/BJFAsM6/LjeqP9v
+         6FcYvu7bTWQY5is+NiJux8KuKW70aav/UuHNzBJV5dDYe0b+wTZqyMECKAM+yU8eUTrR
+         XH5w==
+X-Gm-Message-State: AOAM531vjagrfsIBq9E8Y+6Hl+lP9TklUSbT1Tv8NfipOJxyl20pVlCh
+        fykv8eQvO3ulESujxzk07v8J6n9OfLeKu9GjudaZrA==
+X-Google-Smtp-Source: ABdhPJyZ5H68bvwLbFLqiWFTMo5h8kw5ktkDNCncmkDU7epUUx9pY1a0ha08PueWlXCu+9PrzTDAqwFl5KIme8kL57c=
+X-Received: by 2002:a25:810c:: with SMTP id o12mr26240733ybk.250.1630339935154;
+ Mon, 30 Aug 2021 09:12:15 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 000256ca-1bdf-4b07-5de0-08d96bcc8d14
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2021 15:40:53.2589
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: V9T4fscDXU4zfe3OZsOQIOPmA9zno2sH4nY/peT4foMj05Qd/51iafjRkuJWAlPu5cFQwgNfXPidb6PH0yeSjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2236
-X-OriginatorOrg: intel.com
+References: <20210827191858.2037087-1-surenb@google.com> <20210827191858.2037087-4-surenb@google.com>
+ <15537178.k4V9gYNSIy@devpool47>
+In-Reply-To: <15537178.k4V9gYNSIy@devpool47>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 30 Aug 2021 09:12:04 -0700
+Message-ID: <CAJuCfpH+EsqTTok8sT1dXoO6_jz0UJa+PsCbX-_zUty6g-mPYQ@mail.gmail.com>
+Subject: Re: [PATCH v8 3/3] mm: add anonymous vma name refcounting
+To:     Rolf Eike Beer <eb@emlix.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Alex Williamson <alex.williamson@redhat.com>
-> Sent: Friday, August 27, 2021 6:21 AM
->=20
-> On Thu, 26 Aug 2021 13:38:59 +0300
-> Yishai Hadas <yishaih@nvidia.com> wrote:
+On Mon, Aug 30, 2021 at 12:03 AM Rolf Eike Beer <eb@emlix.com> wrote:
+>
+> Am Freitag, 27. August 2021, 21:18:58 CEST schrieb Suren Baghdasaryan:
+> > While forking a process with high number (64K) of named anonymous vmas =
+the
+> > overhead caused by strdup() is noticeable. Experiments with ARM64 Andro=
+id
+> > device show up to 40% performance regression when forking a process wit=
+h
+> > 64k unpopulated anonymous vmas using the max name lengths vs the same
+> > process with the same number of anonymous vmas having no name.
+> > Introduce anon_vma_name refcounted structure to avoid the overhead of
+> > copying vma names during fork() and when splitting named anonymous vmas=
+.
+> > When a vma is duplicated, instead of copying the name we increment the
+> > refcount of this structure. Multiple vmas can point to the same
+> > anon_vma_name as long as they increment the refcount. The name member o=
+f
+> > anon_vma_name structure is assigned at structure allocation time and is
+> > never changed. If vma name changes then the refcount of the original
+> > structure is dropped, a new anon_vma_name structure is allocated
+> > to hold the new name and the vma pointer is updated to point to the new
+> > structure.
+> > With this approach the fork() performance regressions is reduced 3-4x
+> > times and with usecases using more reasonable number of VMAs (a few
+> > thousand) the regressions is not measurable.
 > >
-> > Jason Gunthorpe (2):
-> >   vfio: Use select for eventfd
-> >   vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on=
-'
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  include/linux/mm_types.h |  9 ++++++++-
+> >  mm/madvise.c             | 42 +++++++++++++++++++++++++++++++++-------
+> >  2 files changed, 43 insertions(+), 8 deletions(-)
 > >
-> > Max Gurtovoy (10):
-> >   vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
-> >   vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
-> >   vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
-> >   vfio/pci: Rename ops functions to fit core namings
-> >   vfio/pci: Include vfio header in vfio_pci_core.h
-> >   vfio/pci: Split the pci_driver code out of vfio_pci_core.c
-> >   vfio/pci: Move igd initialization to vfio_pci.c
-> >   PCI: Add 'override_only' field to struct pci_device_id
-> >   PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
-> >   vfio/pci: Introduce vfio_pci_core.ko
+> > diff --git a/mm/madvise.c b/mm/madvise.c
+> > index bc029f3fca6a..32ac5dc5ebf3 100644
+> > --- a/mm/madvise.c
+> > +++ b/mm/madvise.c
+> > @@ -63,6 +63,27 @@ static int madvise_need_mmap_write(int behavior)
+> >       }
+> >  }
 > >
-> > Yishai Hadas (1):
-> >   vfio/pci: Move module parameters to vfio_pci.c
-> >
-> >  Documentation/PCI/pci.rst                     |    1 +
-> >  MAINTAINERS                                   |    1 +
-> >  drivers/pci/pci-driver.c                      |   28 +-
-> >  drivers/vfio/Kconfig                          |   29 +-
-> >  drivers/vfio/fsl-mc/Kconfig                   |    3 +-
-> >  drivers/vfio/mdev/Kconfig                     |    1 -
-> >  drivers/vfio/pci/Kconfig                      |   40 +-
-> >  drivers/vfio/pci/Makefile                     |    8 +-
-> >  drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
-> >  drivers/vfio/pci/vfio_pci_config.c            |   70 +-
-> >  drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
-> >  drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
-> >  drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
-> >  drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
-> >  drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
-> >  drivers/vfio/platform/Kconfig                 |    6 +-
-> >  drivers/vfio/platform/reset/Kconfig           |    4 +-
-> >  include/linux/mod_devicetable.h               |    6 +
-> >  include/linux/pci.h                           |   29 +
-> >  .../linux/vfio_pci_core.h                     |   89 +-
-> >  scripts/mod/devicetable-offsets.c             |    1 +
-> >  scripts/mod/file2alias.c                      |   17 +-
-> >  22 files changed, 2525 insertions(+), 2311 deletions(-)  create mode
-> > 100644 drivers/vfio/pci/vfio_pci_core.c  rename
-> > drivers/vfio/pci/vfio_pci_private.h =3D> include/linux/vfio_pci_core.h
-> > (56%)
-> Applied to vfio next branch for v5.15.  Thanks,
->=20
-> Alex
-We verified the Intel KVMGT and GVT-d KVM feature, no regression be introdu=
-ced by these patch series.
-Tested-by: Terrence Xu <terrence.xu@intel.com>
+> > +static struct anon_vma_name *anon_vma_name_alloc(const char *name)
+> > +{
+> > +     struct anon_vma_name *anon_name;
+> > +     size_t len =3D strlen(name);
+> > +
+> > +     /* Add 1 for NUL terminator at the end of the anon_name->name */
+> > +     anon_name =3D kzalloc(sizeof(*anon_name) + len + 1,
+> > +                         GFP_KERNEL);
+> > +     kref_init(&anon_name->kref);
+> > +     strcpy(anon_name->name, name);
+> > +
+> > +     return anon_name;
+> > +}
+>
+> Given that you overwrite anything in that struct anyway this could be red=
+uced
+> to kmalloc(), no? And it definitely needs a NULL check.
 
-Thanks
-Terrence
+Ack. I'll address both points in the next revision.
+Thanks!
+Suren.
+
+>
+> Eike
+> --
+> Rolf Eike Beer, emlix GmbH, http://www.emlix.com
+> Fon +49 551 30664-0, Fax +49 551 30664-11
+> Gothaer Platz 3, 37083 G=C3=B6ttingen, Germany
+> Sitz der Gesellschaft: G=C3=B6ttingen, Amtsgericht G=C3=B6ttingen HR B 31=
+60
+> Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-Id=
+Nr.: DE 205 198 055
+>
+> emlix - smart embedded open source
