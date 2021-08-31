@@ -2,187 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A19C4320E
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 16:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C14C432BE
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 16:41:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8E3160F92
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 16:15:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C45561057
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 16:41:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239848AbhHaQQu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Aug 2021 12:16:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44912 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239837AbhHaQQt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 12:16:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630426554;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iC/vqrnC8agefEfcK8F2l8XU9S2U0FJkOrhS5FcGFpE=;
-        b=C2U3gFFXnWKCpPsxZEuvCgkzD2JjfmADTfOk1D1dKN3bDJtHeSIvz/dj6dyYvCNwQpzd3n
-        O9WNgJYT9hTG87SKEIJhFzehGeIQ1+Cyoj2PPMRbnIvI7RPYHH1KKm8R8g8HnGizhSUCXc
-        5ABluoVUp8NATVIoQcEi8JHvDTAtvfA=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-fNJa_eRGMxWoeQf7IrfV_g-1; Tue, 31 Aug 2021 12:15:52 -0400
-X-MC-Unique: fNJa_eRGMxWoeQf7IrfV_g-1
-Received: by mail-io1-f69.google.com with SMTP id b202-20020a6bb2d3000000b005b7fb465c4aso11134507iof.17
-        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 09:15:52 -0700 (PDT)
+        id S240096AbhHaQmG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Aug 2021 12:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240087AbhHaQmG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 12:42:06 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FC2C061764
+        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 09:41:11 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id d5so6449413pjx.2
+        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 09:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=norberthealth-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6ofROlvTu1E1hVbZ28WkGRDdjDewSdNfrPBGyLPdKxw=;
+        b=eWcbSYm9Ou+SKpzFZH64hU1XB9AQL4hX8f/ozcFkxsFMVmKOVq6EYNCwo3pGkSFeau
+         zJvkw5DumscbfX9AbV+Tk2Hvkczt6b+g0Q0SsXCmxg1bZYvJFvQFYEH6EdizEK4Qw6cH
+         cWo/lMTvnKMK/wGicv28u4BiwaycKQ6qjFV7T8toBj/eN1VEqaU6kUlIM8rMuhXdmf19
+         3ZV1t+2IsqixTsud2p62M9eHiMLU1FV0ozR12unNrQgfEBDItTm+/94DfSA16HElK31L
+         hTmK37Llo0y0IpoUtZYk4a0MToXB2sjhRrX0PfcwDrIKCEvYis+/iwzsJH1doZgZU6Db
+         1Abw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=iC/vqrnC8agefEfcK8F2l8XU9S2U0FJkOrhS5FcGFpE=;
-        b=ZptL+VWjhE6/bW/xYZ+TV/XVduxBmyxE4/Df35IVqnYhUb0qq4oqiBw/YL6zZ8IrR/
-         7lsPnwMFmIdlR0BHWC61IcDF+rNs1A7FM3T6bzQXqqQqXjeiC7XRlapxvbTBRz637WU5
-         vqNAU0jm14ApVDM8uT6p4I4t/8wA26gknTJ+utRDN0QEJHDajZCUzuIXHb6lhPQh+WX5
-         7gmheqgbIjnlgRgU+IXVKq0DxLlpfJ8Pt6Ai0qcCFXpIBk0g/phTPYm1Fmk1Y5Ug0fu6
-         AlUZ+xLVFfjenwGnd0t/6mebwkJ9pCVe8T4o1/4Y02E8y+vaZd9w28/jAfjRucNEanjO
-         aiAQ==
-X-Gm-Message-State: AOAM533q2dha/t8AZduny8tmUQufWLRZ/76H7sk4jynUXN8oxsBiH7aL
-        RnRmFq5uM87wBNfk52Nx5R/NV6SiWqLPt2eQGtOdvPPT7pWAe13ivesPpczmDJsElOZ9Ni7zJQs
-        V5ySnHeKVr19sbvQuXMLp
-X-Received: by 2002:a92:1306:: with SMTP id 6mr10977691ilt.183.1630426552024;
-        Tue, 31 Aug 2021 09:15:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyU8Gm8fnWRjCaSBCl5W6DLLHCeLpBofrbxoK/jTZqCPsDHAV1I8o6zW03fTiw16wfuaHsuSQ==
-X-Received: by 2002:a92:1306:: with SMTP id 6mr10977660ilt.183.1630426551786;
-        Tue, 31 Aug 2021 09:15:51 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id u13sm9685406iot.29.2021.08.31.09.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 09:15:51 -0700 (PDT)
-Date:   Tue, 31 Aug 2021 10:15:49 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Nicolin Chen <nicolinc@nvidia.com>
-Cc:     <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-        <cohuck@redhat.com>, <corbet@lwn.net>, <nicoleotsuka@gmail.com>,
-        <vdumpa@nvidia.com>, <thierry.reding@gmail.com>,
-        <linux-tegra@vger.kernel.org>, <nwatterson@nvidia.com>,
-        <Jonathan.Cameron@huawei.com>, <jean-philippe@linaro.org>,
-        <song.bao.hua@hisilicon.com>, <eric.auger@redhat.com>,
-        <thunder.leizhen@huawei.com>, <yuzenghui@huawei.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, "Tian, Kevin" <kevin.tian@intel.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC][PATCH v2 00/13] iommu/arm-smmu-v3: Add NVIDIA
- implementation
-Message-ID: <20210831101549.237151fa.alex.williamson@redhat.com>
-In-Reply-To: <20210831025923.15812-1-nicolinc@nvidia.com>
-References: <20210831025923.15812-1-nicolinc@nvidia.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ofROlvTu1E1hVbZ28WkGRDdjDewSdNfrPBGyLPdKxw=;
+        b=ge7VNiK4FvtjGYLM0hsi0BP2hkgQAM9WbcZMftMBa95qYIHmkhhhEDeATWCzzPUc6R
+         kc/0dlxnmBcEMynVgRXkEUnOSlN1R2YYs010SYVAdJisNwqDSnlQsbaQpoN/LE3xPbHP
+         ezAPQmI5fjypdKeu+MnHVgBKGKQHafxoSK9BSpBW32W5/eVu+E3xJLs6147WbJ8KQIEP
+         6uv+jF3bsLwubga3T95X8tSjP9jQPj8ymx95UZr8Nkzyr9GnhRFR8j5RKh4obfC/Krvx
+         8GAovij+KIIUSR8bhseIWojOBnCsDEbRI7llHk64Izb3ClqLW5K+RcSRJbp2X+BiB/Ck
+         tU5w==
+X-Gm-Message-State: AOAM531cRuiT+R6V+4i1ZzFcYltr7Pxw8kllbcu1RjfbvaJpYGJAJIYj
+        cXkBDHT2zT+LJ54X+0NzMX82dJSn2ays4+NH0nEhDg==
+X-Google-Smtp-Source: ABdhPJzUUsuFUyfYvCeCod2PWQHXawkudz0iKl+h2TTtZf4NEpXj88CuWJS1uiygyv78DjhoEMXXQ++n0FX+toPhwr4=
+X-Received: by 2002:a17:902:a702:b029:12b:aa0f:d553 with SMTP id
+ w2-20020a170902a702b029012baa0fd553mr5470508plq.3.1630428070408; Tue, 31 Aug
+ 2021 09:41:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210831151125.2401-1-roger@norberthealth.com> <3f26402b-00fd-1da3-0717-e2a6fc254060@infradead.org>
+In-Reply-To: <3f26402b-00fd-1da3-0717-e2a6fc254060@infradead.org>
+From:   Roger Knecht <roger@norberthealth.com>
+Date:   Tue, 31 Aug 2021 18:40:59 +0200
+Message-ID: <CAO_iFwoqbajgiKwQeNjTDWYPAjcnQWJFZM7EQLHadumtbJuBQQ@mail.gmail.com>
+Subject: Re: [PATCH v4] Trivial comment fix for the CRC ITU-T polynom
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jiri Kosina <jkosina@suse.cz>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jiri Kosina <trivial@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 30 Aug 2021 19:59:10 -0700
-Nicolin Chen <nicolinc@nvidia.com> wrote:
+Will do, thanks Randy!
 
-> The SMMUv3 devices implemented in the Grace SoC support NVIDIA's custom
-> CMDQ-Virtualization (CMDQV) hardware. Like the new ECMDQ feature first
-> introduced in the ARM SMMUv3.3 specification, CMDQV adds multiple VCMDQ
-> interfaces to supplement the single architected SMMU_CMDQ in an effort
-> to reduce contention.
-> 
-> This series of patches add CMDQV support with its preparational changes:
-> 
-> * PATCH-1 to PATCH-8 are related to shared VMID feature: they are used
->   first to improve TLB utilization, second to bind a shared VMID with a
->   VCMDQ interface for hardware configuring requirement.
-
-The vfio changes would need to be implemented in alignment with the
-/dev/iommu proposals[1].  AIUI, the VMID is essentially binding
-multiple containers together for TLB invalidation, which I expect in
-the proposal below is largely already taken care of in that a single
-iommu-fd can support multiple I/O address spaces and it's largely
-expected that a hypervisor would use a single iommu-fd so this explicit
-connection by userspace across containers wouldn't be necessary.
-
-We're expecting to talk more about the /dev/iommu approach at Plumbers
-in few weeks.  Thanks,
-
-Alex
-
-[1]https://lore.kernel.org/kvm/BN9PR11MB5433B1E4AE5B0480369F97178C189@BN9PR11MB5433.namprd11.prod.outlook.com/
-
- 
-> * PATCH-9 and PATCH-10 are to accommodate the NVIDIA implementation with
->   the existing arm-smmu-v3 driver.
-> 
-> * PATCH-11 borrows the "implementation infrastructure" from the arm-smmu
->   driver so later change can build upon it.
-> 
-> * PATCH-12 adds an initial NVIDIA implementation related to host feature,
->   and also adds implementation specific ->device_reset() and ->get_cmdq()
->   callback functions.
-> 
-> * PATCH-13 adds virtualization features using VFIO mdev interface, which
->   allows user space hypervisor to map and get access to one of the VCMDQ
->   interfaces of CMDQV module.
-> 
-> ( Thinking that reviewers can get a better view of this implementation,
->   I am attaching QEMU changes here for reference purpose:
->       https://github.com/nicolinc/qemu/commits/dev/cmdqv_v6.0.0-rc2
->   The branch has all preparational changes, while I'm still integrating
->   device model and ARM-VIRT changes, and will push them these two days,
->   although they might not be in a good shape of being sent to review yet )
-> 
-> Above all, I marked RFC for this series, as I feel that we may come up
-> some better solution. So please kindly share your reviews and insights.
-> 
-> Thank you!
-> 
-> Changelog
-> v1->v2:
->  * Added mdev interface support for hypervisor and VMs.
->  * Added preparational changes for mdev interface implementation.
->  * PATCH-12 Changed ->issue_cmdlist() to ->get_cmdq() for a better
->    integration with recently merged ECMDQ-related changes.
-> 
-> Nate Watterson (3):
->   iommu/arm-smmu-v3: Add implementation infrastructure
->   iommu/arm-smmu-v3: Add support for NVIDIA CMDQ-Virtualization hw
->   iommu/nvidia-smmu-v3: Add mdev interface support
-> 
-> Nicolin Chen (10):
->   iommu: Add set_nesting_vmid/get_nesting_vmid functions
->   vfio: add VFIO_IOMMU_GET_VMID and VFIO_IOMMU_SET_VMID
->   vfio: Document VMID control for IOMMU Virtualization
->   vfio: add set_vmid and get_vmid for vfio_iommu_type1
->   vfio/type1: Implement set_vmid and get_vmid
->   vfio/type1: Set/get VMID to/from iommu driver
->   iommu/arm-smmu-v3: Add shared VMID support for NESTING
->   iommu/arm-smmu-v3: Add VMID alloc/free helpers
->   iommu/arm-smmu-v3: Pass dev pointer to arm_smmu_detach_dev
->   iommu/arm-smmu-v3: Pass cmdq pointer in arm_smmu_cmdq_issue_cmdlist()
-> 
->  Documentation/driver-api/vfio.rst             |   34 +
->  MAINTAINERS                                   |    2 +
->  drivers/iommu/arm/arm-smmu-v3/Makefile        |    2 +-
->  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-impl.c  |   15 +
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |  121 +-
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   18 +
->  .../iommu/arm/arm-smmu-v3/nvidia-smmu-v3.c    | 1249 +++++++++++++++++
->  drivers/iommu/iommu.c                         |   20 +
->  drivers/vfio/vfio.c                           |   25 +
->  drivers/vfio/vfio_iommu_type1.c               |   37 +
->  include/linux/iommu.h                         |    5 +
->  include/linux/vfio.h                          |    2 +
->  include/uapi/linux/vfio.h                     |   26 +
->  13 files changed, 1537 insertions(+), 19 deletions(-)
->  create mode 100644 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-impl.c
->  create mode 100644 drivers/iommu/arm/arm-smmu-v3/nvidia-smmu-v3.c
-> 
-
+Roger
