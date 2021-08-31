@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33B39C432BE
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 13:21:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A839DC4320E
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 13:21:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18D9B60FED
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 13:21:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F90861057
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 13:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234144AbhHaNWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Aug 2021 09:22:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49224 "EHLO
+        id S235908AbhHaNWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Aug 2021 09:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235634AbhHaNWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 09:22:16 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7690C061760
-        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 06:21:21 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id w7so15521898pgk.13
-        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 06:21:21 -0700 (PDT)
+        with ESMTP id S235772AbhHaNWV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 09:22:21 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8E8C061764
+        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 06:21:26 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id 2so14917617pfo.8
+        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 06:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GsWUUlqRM6xaooAMH6/u0lnxKvf1pa5+XIEe1KTGSvU=;
-        b=AMSUHUxRbjxZ3rAo6TCl0ZVWkittLg32Qo+FUhDa3mJkCt4OtMM3OJnvDCXikRrmMG
-         eFq3Sx3npB1zIrmaC0Xsmm35b8VhFmsj/KYW/B0gzVyMZ5w4RoW/HxF/VSgrCWKf4OHp
-         vC6A8OW0Tx0C4eJd22yKT8dWPnYRjNggxMRa/Vn+fJcEYzcIgGThi6AEyp8BNprALc1c
-         DppOPny0CjUE612X52d2Q/N/oMs5TO46yClbydS3yClR6obi1+UHCxPEcX63XXVIM+ej
-         ENxSNCTkSZtTObSWIQhKtmuMIyr+4BuX7lmQf63KHN/EZiUOk3dfDClj89v9zbXAVrZC
-         juIQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gBv4DIzKRcOu69g1wqCeY57nVaNCSDRinCugPrU4tQ4=;
+        b=Br7vpBZuYB1KrRcH3aKb7TMzr+uOaRmUFrH3fj/WmfhYU79w3x5hfLOQLdYXzEluyi
+         qG6kfJdrSnRDysJ3mx5rqJSFGrb8GQ9huouLqjh71elt8wDLUoivxP/y6KeNmpfL2ArN
+         Catlao+CgXWLXb0HaiHJcPptCx4UHRytvDGzWi9XVPcsPRk5aIbJBv7VZmwD2Bhz6Dzm
+         UmA1mvHNW8gBrQyN2a2Wb2CVsSguzQGeLd61qiLWlC7Jx8x8afme3bckRf3xz4HMea5t
+         pVrPLSUZOK7V0Tcb8DdKtd6SlS1NKFOUQFzCF9Dq3A5sqns7HDFWN2EYf8kvkV8gF9Gm
+         rItA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GsWUUlqRM6xaooAMH6/u0lnxKvf1pa5+XIEe1KTGSvU=;
-        b=d619XzmM4cNvrGnUHSBOczeAx1V+vp6XlPOrmmezSBiAe1GBazrs5RL4EQJglE5U1Y
-         H51ZA92wHqm53UTYtfm+3dfFZQgM5rMiAAkSiGPvrihJOh0z0vQryfTDdatzAod3tCJA
-         aKSPvFE6bDpsqRZJKdGQgFxq+YuSZTCgduuE2nuGmH1qmutInqxOs6rbGZFvoaSEZSN+
-         Mu6QxVSBdQgWVPX6Zj893VwbCcI0RiU63L7NAUmRe16GvpnXK7QXXBX9KFoEefyv5Vfh
-         LkEEKs7Geg4RHI7O/4Ewn0iS/mpqXuPuFvreS33wiNqYhUs4M5IETpKtEMSvZ8QsRZBn
-         f8Sg==
-X-Gm-Message-State: AOAM533m08ZiiR5oNaXf9hqXYDU2t6JcfyttyVZaIUVf1Jw7wD2JOxDK
-        0kmg52KYc27lm7evf6uyy8ZeLQ==
-X-Google-Smtp-Source: ABdhPJwcwA6muxuNEVXfiVFwtrkQS44Njfc3fF2ygtaKQ3zaos8mueS3k61o49prp411W3YvnuLK/g==
-X-Received: by 2002:a63:185b:: with SMTP id 27mr27151622pgy.0.1630416081265;
-        Tue, 31 Aug 2021 06:21:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gBv4DIzKRcOu69g1wqCeY57nVaNCSDRinCugPrU4tQ4=;
+        b=g8Do0CK4fSTTc0BMH+xbM8A4LK/g8sFdaV5HpjORTrFbjkPX0W8bnyRFOimoQkXLFC
+         VpfH9ILc6wlriT/HlNhZeAwAtdGhCsFiVkGcINWXrU3tHdcB1LP5ZbN6KRNqhr57/D2O
+         e6KVkbB2kHvlwieysDQEQZqipBQ7U4sc4Ckwq9L9otvGco5YIqpKnDPWZc8ffPpgNZxG
+         G9wZXkST1FpSgb7v8GLvfdmyQflRps07ZmVTsS+SgKXQi9Z4N5TsBMxLIwrhopCgaxps
+         D1JCbKmkI86R6stdSOuIdkUkd9KL85pexrFGRcxJkMCYLxtVRl1scOy6OcpDJDjgMlIO
+         j19g==
+X-Gm-Message-State: AOAM532f2yqMu5+wbW8G0dQSU/SAQwQwtuAtd9OXrSYquBzh1y1F7MuD
+        rWhnfM45HaZrRqyMQdiXg+gyng==
+X-Google-Smtp-Source: ABdhPJwQBi8vJ/iQd/BGDlY9g6T4MsHzHwWv2+qPpqkNnzGGbU5YKSYjZBBxI+8Rqp+HGFPKuZantQ==
+X-Received: by 2002:a63:fc1d:: with SMTP id j29mr26405642pgi.54.1630416086289;
+        Tue, 31 Aug 2021 06:21:26 -0700 (PDT)
 Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.230])
-        by smtp.gmail.com with ESMTPSA id k190sm9548352pgc.11.2021.08.31.06.21.16
+        by smtp.gmail.com with ESMTPSA id k190sm9548352pgc.11.2021.08.31.06.21.21
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 31 Aug 2021 06:21:20 -0700 (PDT)
+        Tue, 31 Aug 2021 06:21:25 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
         mhocko@kernel.org, vdavydov.dev@gmail.com,
@@ -63,40 +63,126 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH v2 0/2] Do some code cleanups related to mm
-Date:   Tue, 31 Aug 2021 21:21:09 +0800
-Message-Id: <20210831132111.85437-1-zhengqi.arch@bytedance.com>
+Subject: [PATCH v2 1/2] mm: introduce pmd_install() helper
+Date:   Tue, 31 Aug 2021 21:21:10 +0800
+Message-Id: <20210831132111.85437-2-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20210831132111.85437-1-zhengqi.arch@bytedance.com>
+References: <20210831132111.85437-1-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Currently we have three times the same few lines repeated in the
+code. Deduplicate them by newly introduced pmd_install() helper.
 
-This patch series aims to do some code cleanups related to mm.
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+---
+ include/linux/mm.h |  1 +
+ mm/filemap.c       | 11 ++---------
+ mm/memory.c        | 34 ++++++++++++++++------------------
+ 3 files changed, 19 insertions(+), 27 deletions(-)
 
-This series is based on next-20210827.
-
-Comments and suggestions are welcome.
-
-Thanks,
-Qi.
-
-Changelog in v1 -> v2:
- - Fix some typo and code style problems.
-
-Qi Zheng (2):
-  mm: introduce pmd_install() helper
-  mm: remove redundant smp_wmb()
-
- include/linux/mm.h  |  1 +
- mm/filemap.c        | 11 ++-----
- mm/memory.c         | 86 ++++++++++++++++++++++++-----------------------------
- mm/sparse-vmemmap.c |  2 +-
- 4 files changed, 43 insertions(+), 57 deletions(-)
-
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index a3cc83d64564..0af420a7e382 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2463,6 +2463,7 @@ static inline spinlock_t *pud_lock(struct mm_struct *mm, pud_t *pud)
+ 	return ptl;
+ }
+ 
++extern void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte);
+ extern void __init pagecache_init(void);
+ extern void __init free_area_init_memoryless_node(int nid);
+ extern void free_initmem(void);
+diff --git a/mm/filemap.c b/mm/filemap.c
+index c90b6e4984c9..923cbba1bf37 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3209,15 +3209,8 @@ static bool filemap_map_pmd(struct vm_fault *vmf, struct page *page)
+ 	    }
+ 	}
+ 
+-	if (pmd_none(*vmf->pmd)) {
+-		vmf->ptl = pmd_lock(mm, vmf->pmd);
+-		if (likely(pmd_none(*vmf->pmd))) {
+-			mm_inc_nr_ptes(mm);
+-			pmd_populate(mm, vmf->pmd, vmf->prealloc_pte);
+-			vmf->prealloc_pte = NULL;
+-		}
+-		spin_unlock(vmf->ptl);
+-	}
++	if (pmd_none(*vmf->pmd))
++		pmd_install(mm, vmf->pmd, &vmf->prealloc_pte);
+ 
+ 	/* See comment in handle_pte_fault() */
+ 	if (pmd_devmap_trans_unstable(vmf->pmd)) {
+diff --git a/mm/memory.c b/mm/memory.c
+index 39e7a1495c3c..ef7b1762e996 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -433,9 +433,20 @@ void free_pgtables(struct mmu_gather *tlb, struct vm_area_struct *vma,
+ 	}
+ }
+ 
++void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
++{
++	spinlock_t *ptl = pmd_lock(mm, pmd);
++
++	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
++		mm_inc_nr_ptes(mm);
++		pmd_populate(mm, pmd, *pte);
++		*pte = NULL;
++	}
++	spin_unlock(ptl);
++}
++
+ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+ {
+-	spinlock_t *ptl;
+ 	pgtable_t new = pte_alloc_one(mm);
+ 	if (!new)
+ 		return -ENOMEM;
+@@ -455,13 +466,7 @@ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+ 	 */
+ 	smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+ 
+-	ptl = pmd_lock(mm, pmd);
+-	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
+-		mm_inc_nr_ptes(mm);
+-		pmd_populate(mm, pmd, new);
+-		new = NULL;
+-	}
+-	spin_unlock(ptl);
++	pmd_install(mm, pmd, &new);
+ 	if (new)
+ 		pte_free(mm, new);
+ 	return 0;
+@@ -4027,17 +4032,10 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
+ 				return ret;
+ 		}
+ 
+-		if (vmf->prealloc_pte) {
+-			vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+-			if (likely(pmd_none(*vmf->pmd))) {
+-				mm_inc_nr_ptes(vma->vm_mm);
+-				pmd_populate(vma->vm_mm, vmf->pmd, vmf->prealloc_pte);
+-				vmf->prealloc_pte = NULL;
+-			}
+-			spin_unlock(vmf->ptl);
+-		} else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd))) {
++		if (vmf->prealloc_pte)
++			pmd_install(vma->vm_mm, vmf->pmd, &vmf->prealloc_pte);
++		else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
+ 			return VM_FAULT_OOM;
+-		}
+ 	}
+ 
+ 	/* See comment in handle_pte_fault() */
 -- 
 2.11.0
 
