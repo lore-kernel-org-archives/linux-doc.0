@@ -2,146 +2,440 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45836C432BE
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 12:52:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82040C4320A
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 12:58:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24F7D61041
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 12:52:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F7CB61053
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 12:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232332AbhHaMxr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Aug 2021 08:53:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
+        id S233409AbhHaM7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Aug 2021 08:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231917AbhHaMxq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 08:53:46 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6373C061575
-        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 05:52:51 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so1924990pjr.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 05:52:51 -0700 (PDT)
+        with ESMTP id S232238AbhHaM7J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 08:59:09 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B403C061575;
+        Tue, 31 Aug 2021 05:58:14 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id r4so34738461ybp.4;
+        Tue, 31 Aug 2021 05:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=WabTdj9An5z5ILEGVeAkv4WhYJoKZFzGY2Bi+4jqu40=;
-        b=QtbFCBQwB7vEOOjsNeuQm4+4/dYAfMe3yCq4qGgDMPEP2HtgL0c0UNl/2IPOdesOwR
-         HDN5aoeyLSKvd+pOu/bNSqj8hw6KjAf4fMtcvarHbALjsd0qhaiAcfKjFl/s6XmzbDuw
-         vLl3jBaDIzoMLuMw5BwFwqtLcpVMUyTzUszMSRvVcSFXLn4/4JEu/EVetR9Z6cTOAjY5
-         cdOVD9RO944Bt20RgMPPgjxMYbMVnck3LxIogxCXaDIWuG4hPo5ECGXyanqvTrD7gEgS
-         X9pMjDGgKSHs87IlIUdATLZY0ETAiGXiePf2ln3VFdMx1NnXGtSG8wHIgXcvGnketO+E
-         hRbg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=JMsTpTVMZq7gvmUh021z/8rT9+eN/7M8i1ngOTsjSWA=;
+        b=OXMxALOe+FCfcQe/n3ihBjok/iVHCWyLDFtlrKC7wFwRP2GjJKWPG+xTqGFa/OPVXQ
+         kjrR3Ee9VooNLQ6Vow88RMvWkNVg27WEwGzQx90ymC4zbusFwJ4MOQulwgxqt+P0eRia
+         oP9CbKfIxB02gCIusMiXE/TeKMInZ+nGSQ83mw7pgu8AqshGiUlOysgOF8MhUG08hghj
+         44RIkOPVAV/aCtJyU083vGJh23BwbsmZe7UaTrkYz6nb1VFDNiKh2vrcLk/WpKQE1fhw
+         UUlqbXUh1kbTPPHtctHYHRFUeOUGxvsBYKKmcLn5OYYM67/nWztbnWWJ0n/V9ETIDPj6
+         ptnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=WabTdj9An5z5ILEGVeAkv4WhYJoKZFzGY2Bi+4jqu40=;
-        b=qZCohsZFXZpYPQ6uABvKNw4itWWrHHYOvRZPvNTrVLUeMZc3b7pJkPKKDakUjSnd2k
-         7X3ioOggWE3eesmfRAbx9f26X44BqxqF/dLwkBM4q3numjTZDH1JsqBgp0KoDff57+Wr
-         fKcRKGp03y5YkMnrRyuDqRzQytpSoBniDrFZ2VgA5YQ+B/Be6fwBUJJCSIFiSyDIQNI5
-         pseoW7yi5vG9MO8zVXlqslafsga7pI2X3ldeQiEeMla8L5ESDmT7lkxZxYE0U72XqXAW
-         VjJldSw+CoZ3Tuh3tgVIlyfgCIwvkBPGemNFE+RimVJQ5lNve0fZDxl6nBZcizxGgeSq
-         dnnw==
-X-Gm-Message-State: AOAM533xI8HZE5hGECMiLS41rxshVGIGqtBv7P6ObNHaqAMukiEC6KBf
-        UUBbeA++GnaeziNbbvy3wk7nZA==
-X-Google-Smtp-Source: ABdhPJzUHSDAap4VmW6faAIG74gQrS2lCsqGRTOMEhdKrHauFD9+QCaCpWYcdIqu3MWTwEcslg6jEA==
-X-Received: by 2002:a17:902:c643:b0:138:b603:f944 with SMTP id s3-20020a170902c64300b00138b603f944mr4593654pls.45.1630414371312;
-        Tue, 31 Aug 2021 05:52:51 -0700 (PDT)
-Received: from [10.254.46.235] ([139.177.225.230])
-        by smtp.gmail.com with ESMTPSA id s29sm20965758pgl.38.2021.08.31.05.52.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Aug 2021 05:52:50 -0700 (PDT)
-Subject: Re: [PATCH v1 2/2] mm: remove redundant smp_wmb()
-To:     Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org,
-        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
-        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
-        mika.penttila@nextfour.com, david@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com
-References: <20210828042306.42886-1-zhengqi.arch@bytedance.com>
- <20210828042306.42886-3-zhengqi.arch@bytedance.com>
- <17a36dfc-cbd1-56c5-46a9-9f4043bb56e6@suse.cz>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-Message-ID: <766d0039-02c9-4511-6421-9d2ccfd0cfb2@bytedance.com>
-Date:   Tue, 31 Aug 2021 20:52:42 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JMsTpTVMZq7gvmUh021z/8rT9+eN/7M8i1ngOTsjSWA=;
+        b=H8GmFrt1hu/aDYd7GrF4zlEzV9xOfWXkfutU9WtkRp0mtpp1JhUy5c+/PT6x2dThIj
+         kuZhi/AX76EY7zT/8PXq2TpSvLUhxx8MPeeIOLu8SMqqFCN78YoJ2W8fr9gAE5TK/uTR
+         FXUNLSj7j/aLfQqzSrk2ZD7YwR8p3PTsApM+Dyr0Vltm7ONnKOGxzfLoAKhat3EBqjLu
+         9HUnF7v6C+WetmaiFr+5uhxj3GksEUW+UUYeLDCmt86jdMwp/DiZ/uKYH81TVUalgBjl
+         XJEoN9S4E4E8Cdg4XwbQhCLbZLnXpIEQw//JcJQB/GTvrd5wUc5DExiguZiaRnXW7Lvq
+         CDCA==
+X-Gm-Message-State: AOAM532opbjATD9TcqXuVfU70/S5GqAHRE24u7/ims/oX1zQTHmGqGQa
+        Nis2x0X2t7lVYlx+e+NgLITUtQCwoTKxYvI/Y184w+Pd7KrGUtPNVP0=
+X-Google-Smtp-Source: ABdhPJy1/E33qmF4jE+jHaOS377/qj7jDf1eRXxnZd/UpjLbqi2Fp0+Wi5RHqtyRRvtx/Pfz3GFt8SAfIU7xKhIGCi4=
+X-Received: by 2002:a25:b7c8:: with SMTP id u8mr29928219ybj.268.1630414693732;
+ Tue, 31 Aug 2021 05:58:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <17a36dfc-cbd1-56c5-46a9-9f4043bb56e6@suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210827015839.90219-1-yaozhenguo1@gmail.com> <cb57eb20-4812-674c-5488-277449cc06f8@oracle.com>
+In-Reply-To: <cb57eb20-4812-674c-5488-277449cc06f8@oracle.com>
+From:   zhenguo yao <yaozhenguo1@gmail.com>
+Date:   Tue, 31 Aug 2021 20:58:02 +0800
+Message-ID: <CA+WzAR=8y7fi007ccHM7pZyKFy5xB4BATN23UdSk-4HTxxz2KQ@mail.gmail.com>
+Subject: Re: [v2] hugetlbfs: Extend the definition of hugepages parameter to
+ support node allocation
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     corbet@lwn.net, Andrew Morton <akpm@linux-foundation.org>,
+        yaozhenguo@jd.com, Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+thanks for your review. I will fix all in the next version and do a fully t=
+est.
 
-
-On 2021/8/31 PM6:20, Vlastimil Babka wrote:
-> On 8/28/21 06:23, Qi Zheng wrote:
->> The smp_wmb() which is in the __pte_alloc() is used to
->> ensure all ptes setup is visible before the pte is made
->> visible to other CPUs by being put into page tables. We
->> only need this when the pte is actually populated, so
->> move it to pte_install(). __pte_alloc_kernel(),
-> 
-> It's named pmd_install()?
-
-Yes, I will update it in the next version.
-
-> 
->> __p4d_alloc(), __pud_alloc() and __pmd_alloc() are similar
->> to this case.
->>
->> We can also defer smp_wmb() to the place where the pmd entry
->> is really populated by preallocated pte. There are two kinds
->> of user of preallocated pte, one is filemap & finish_fault(),
->> another is THP. The former does not need another smp_wmb()
->> because the smp_wmb() has been done by pte_install().
-> 
-> Same here.
-> 
->> Fortunately, the latter also does not need another smp_wmb()
->> because there is already a smp_wmb() before populating the
->> new pte when the THP uses a preallocated pte to split a huge
->> pmd.
->>
->> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
->> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
->> ---
->>   mm/memory.c         | 47 ++++++++++++++++++++---------------------------
->>   mm/sparse-vmemmap.c |  2 +-
->>   2 files changed, 21 insertions(+), 28 deletions(-)
->>
->> diff --git a/mm/memory.c b/mm/memory.c
->> index ef7b1762e996..9c7534187454 100644
->> --- a/mm/memory.c
->> +++ b/mm/memory.c
->> @@ -439,6 +439,20 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
->>   
->>   	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
->>   		mm_inc_nr_ptes(mm);
->> +		/*
->> +		 * Ensure all pte setup (eg. pte page lock and page clearing) are
->> +		 * visible before the pte is made visible to other CPUs by being
->> +		 * put into page tables.
->> +		 *
->> +		 * The other side of the story is the pointer chasing in the page
->> +		 * table walking code (when walking the page table without locking;
->> +		 * ie. most of the time). Fortunately, these data accesses consist
->> +		 * of a chain of data-dependent loads, meaning most CPUs (alpha
->> +		 * being the notable exception) will already guarantee loads are
->> +		 * seen in-order. See the alpha page table accessors for the
->> +		 * smp_rmb() barriers in page table walking code.
->> +		 */
->> +		smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
-> 
-> So, could it? :)
-> 
-
-Yes, it could, but we don't have smp_wmb__after_spin_lock() now.
-
-
+Mike Kravetz <mike.kravetz@oracle.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8831=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=887:51=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> Thank you for continuing to work on this.  Some comments below.
+>
+> On 8/26/21 6:58 PM, yaozhenguo wrote:
+> > We can specify the number of hugepages to allocate at boot. But the
+> > hugepages is balanced in all nodes at present. In some scenarios,
+> > we only need hugepags in one node. For example: DPDK needs hugepages
+> > which is in the same node as NIC. if DPDK needs four hugepags of 1G
+> > size in node1 and system has 16 numa nodes. We must reserve 64 hugepags
+> > in kernel cmdline. But, only four hugepages is used. The others should
+> > be free after boot.If the system memory is low(for example: 64G), it wi=
+ll
+> > be an impossible task. So, extend hugepages kernel parameter to specify
+> > node number of hugepages to allocate at boot.
+> > For example add following parameter:
+> >
+> > hugepagesz=3D1G hugepages=3D0:1,1:3
+> >
+> > It will allocate 1 hugepags in node0 and 3 hugepages in node1.
+>                      hugepages
+> >
+> > Signed-off-by: yaozhenguo <yaozhenguo1@gmail.com>
+> > ---
+> > v2: 1. add checking for max node to avoid array out of bounds.
+> >     2. fix wrong max_huge_pages after failed allocation.
+> >     3. fix wrong behavior when parsing parameter: hugepages=3D0:1,2,3:4=
+.
+> >     4. return 0 when parsing invalid parameter in hugepages_setup
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |   8 +-
+> >  include/linux/hugetlb.h                       |   1 +
+> >  mm/hugetlb.c                                  | 133 ++++++++++++++++--
+> >  3 files changed, 126 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index bdb22006f..64a128924 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -1588,9 +1588,11 @@
+> >                       the number of pages of hugepagesz to be allocated=
+.
+> >                       If this is the first HugeTLB parameter on the com=
+mand
+> >                       line, it specifies the number of pages to allocat=
+e for
+> > -                     the default huge page size.  See also
+> > -                     Documentation/admin-guide/mm/hugetlbpage.rst.
+> > -                     Format: <integer>
+> > +                     the default huge page size. If using node format,=
+ It
+> > +                     specifies numbers of hugepage in a specific node.
+> > +                     See also Documentation/admin-guide/mm/hugetlbpage=
+.rst.
+>
+> Documentation/admin-guide/mm/hugetlbpage.rst also describes the
+> hugepages parameter.  It should also be updated.
+>
+ok.
+> > +                     Format: <integer> or (node format)
+> > +                             <node>:<numbers>[,<node>:<numbers>]
+> >
+> >       hugepagesz=3D
+> >                       [HW] The size of the HugeTLB pages.  This is used=
+ in
+> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> > index f7ca1a387..5939ecd4f 100644
+> > --- a/include/linux/hugetlb.h
+> > +++ b/include/linux/hugetlb.h
+> > @@ -605,6 +605,7 @@ struct hstate {
+> >       unsigned long nr_overcommit_huge_pages;
+> >       struct list_head hugepage_activelist;
+> >       struct list_head hugepage_freelists[MAX_NUMNODES];
+> > +     unsigned int max_huge_pages_node[MAX_NUMNODES];
+> >       unsigned int nr_huge_pages_node[MAX_NUMNODES];
+> >       unsigned int free_huge_pages_node[MAX_NUMNODES];
+> >       unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index dfc940d52..9e9d94b2a 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -66,6 +66,7 @@ static struct hstate * __initdata parsed_hstate;
+> >  static unsigned long __initdata default_hstate_max_huge_pages;
+> >  static bool __initdata parsed_valid_hugepagesz =3D true;
+> >  static bool __initdata parsed_default_hugepagesz;
+> > +static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata=
+;
+> >
+> >  /*
+> >   * Protects updates to hugepage_freelists, hugepage_activelist, nr_hug=
+e_pages,
+> > @@ -2842,10 +2843,65 @@ static void __init gather_bootmem_prealloc(void=
+)
+> >       }
+> >  }
+> >
+> > +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h=
+, int nid)
+> > +{
+> > +     unsigned long i;
+> > +     char buf[32];
+> > +
+> > +     for (i =3D 0; i < h->max_huge_pages_node[nid]; ++i) {
+> > +             if (hstate_is_gigantic(h)) {
+> > +                     struct huge_bootmem_page *m;
+> > +                     void *addr;
+> > +
+> > +                     addr =3D memblock_alloc_try_nid_raw(
+> > +                                     huge_page_size(h), huge_page_size=
+(h),
+> > +                                     0, MEMBLOCK_ALLOC_ACCESSIBLE, nid=
+);
+> > +                     if (!addr)
+> > +                             break;
+> > +                     m =3D addr;
+> > +                     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_siz=
+e(h)));
+> > +                     /* Put them into a private list first because mem=
+_map is not up yet */
+> > +                     INIT_LIST_HEAD(&m->list);
+> > +                     list_add(&m->list, &huge_boot_pages);
+> > +                     m->hstate =3D h;
+> > +             } else {
+> > +                     struct page *page;
+> > +
+> > +                     gfp_t gfp_mask =3D htlb_alloc_mask(h) | __GFP_THI=
+SNODE;
+> > +
+> > +                     page =3D alloc_fresh_huge_page(h, gfp_mask, nid,
+> > +                                     &node_states[N_MEMORY], NULL);
+> > +                     if (!page)
+> > +                             break;
+> > +                     put_page(page); /* free it into the hugepage allo=
+cator */
+> > +             }
+> > +     }
+> > +     if (i =3D=3D h->max_huge_pages_node[nid])
+> > +             return;
+> > +
+> > +     string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
+> > +     pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  O=
+nly allocated %lu hugepages.\n",
+> > +             h->max_huge_pages_node[nid], buf, nid, i);
+> > +     h->max_huge_pages_node[nid] =3D i;
+> > +     h->max_huge_pages -=3D (h->max_huge_pages_node[nid] - i);
+> > +}
+> > +
+> >  static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
+> >  {
+> >       unsigned long i;
+> >       nodemask_t *node_alloc_noretry;
+> > +     bool hugetlb_node_set =3D false;
+> > +
+> > +     /* do node alloc */
+> > +     for (i =3D 0; i < nodes_weight(node_states[N_MEMORY]); i++) {
+> > +             if (h->max_huge_pages_node[i] > 0) {
+> > +                     hugetlb_hstate_alloc_pages_onenode(h, i);
+> > +                     hugetlb_node_set =3D true;
+> > +             }
+> > +     }
+>
+> How does this interact with the hugetlb_cma parameter?  Currently, boot
+> time allocation of gigantic pages is skipped if hugetlb_cma is
+> specified.  Looks like the above code will allocate them.
+>
+> This also brings up the quesiton,  Should hugetlb_cma be changed to be
+> node specific as well?
+>
+> For now, I would keep the current behavior and skip all boot time
+> allocation of gigantic pages if hugetlb_cma.
+>
+I will skip gigantic pages allocation when hugetlb_cma is enabled in
+the next version.
+For the function of hugetlb_cma node specific allocation, I think it's
+also needed. I will send another patch for it later.
+> > +
+> > +     if (hugetlb_node_set)
+> > +             return;
+> >
+> >       if (!hstate_is_gigantic(h)) {
+> >               /*
+> > @@ -3580,6 +3636,9 @@ static int __init hugetlb_init(void)
+> >                               default_hstate_max_huge_pages;
+> >               }
+> >       }
+> > +     for (i =3D 0; i < nodes_weight(node_states[N_MEMORY]); i++)
+> > +             if (default_hugepages_in_node[i] > 0)
+> > +                     default_hstate.max_huge_pages_node[i] =3D default=
+_hugepages_in_node[i];
+> >
+> >       hugetlb_cma_check();
+> >       hugetlb_init_hstates();
+> > @@ -3649,6 +3708,11 @@ static int __init hugepages_setup(char *s)
+> >  {
+> >       unsigned long *mhp;
+> >       static unsigned long *last_mhp;
+> > +     unsigned int node =3D NUMA_NO_NODE;
+> > +     int ret;
+> > +     int count;
+> > +     unsigned long tmp;
+> > +     char *p =3D s;
+> >
+> >       if (!parsed_valid_hugepagesz) {
+> >               pr_warn("HugeTLB: hugepages=3D%s does not follow a valid =
+hugepagesz, ignoring\n", s);
+> > @@ -3656,25 +3720,68 @@ static int __init hugepages_setup(char *s)
+> >               return 0;
+> >       }
+> >
+> > -     /*
+> > -      * !hugetlb_max_hstate means we haven't parsed a hugepagesz=3D pa=
+rameter
+> > -      * yet, so this hugepages=3D parameter goes to the "default hstat=
+e".
+> > -      * Otherwise, it goes with the previously parsed hugepagesz or
+> > -      * default_hugepagesz.
+> > -      */
+> > -     else if (!hugetlb_max_hstate)
+> > -             mhp =3D &default_hstate_max_huge_pages;
+> > -     else
+> > -             mhp =3D &parsed_hstate->max_huge_pages;
+> > +     while (*p) {
+> > +             count =3D 0;
+> > +             ret =3D sscanf(p, "%lu%n", &tmp, &count);
+> > +             if (ret !=3D 1) {
+> > +                     pr_warn("HugeTLB: Invalid hugepages parameter %s\=
+n", p);
+> > +                     return 0;
+> > +             }
+> > +             /* Parameter is node format */
+> > +             if (p[count] =3D=3D ':') {
+> > +                     node =3D tmp;
+> > +                     p +=3D count + 1;
+> > +                     if (node < 0 || node >=3D nodes_weight(node_state=
+s[N_MEMORY])) {
+> > +                             pr_warn("HugeTLB: Invalid hugepages param=
+eter node:%d\n", node);
+> > +                             return 0;
+> > +                     }
+> > +                     if (!hugetlb_max_hstate)
+> > +                             mhp =3D (unsigned long *)
+> > +                                     &(default_hugepages_in_node[node]=
+);
+> > +                     else
+> > +                             mhp =3D (unsigned long *)
+> > +                                     &(parsed_hstate->max_huge_pages_n=
+ode[node]);
+> > +                     /* Parse hugepages */
+> > +                     ret =3D sscanf(p, "%lu%n", mhp, &count);
+> > +                     if (ret !=3D 1) {
+> > +                             pr_warn("HugeTLB: Invalid hugepages param=
+eter %s\n", p);
+> > +                             return 0;
+> > +                     }
+> > +                     if (!hugetlb_max_hstate)
+> > +                             default_hstate_max_huge_pages +=3D *mhp;
+> > +                     else
+> > +                             parsed_hstate->max_huge_pages +=3D *mhp;
+> > +                     /* Go to parse next node*/
+> > +                     if (p[count] =3D=3D ',')
+> > +                             p +=3D count + 1;
+> > +                     else
+> > +                             break;
+> > +             } else if (p =3D=3D s) {
+> > +
+> > +                     /*
+> > +                      * !hugetlb_max_hstate means we haven't parsed a =
+hugepagesz=3D parameter
+> > +                      * yet, so this hugepages=3D parameter goes to th=
+e "default hstate".
+> > +                      * Otherwise, it goes with the previously parsed =
+hugepagesz or
+> > +                      * default_hugepagesz.
+> > +                      */
+> > +                     if (!hugetlb_max_hstate) {
+> > +                             default_hstate_max_huge_pages =3D tmp;
+> > +                             mhp =3D &default_hstate_max_huge_pages;
+> > +                     } else {
+> > +                             parsed_hstate->max_huge_pages =3D tmp;
+> > +                             mhp =3D &parsed_hstate->max_huge_pages;
+> > +                     }
+> > +                     break;
+> > +             }
+> > +             pr_warn("HugeTLB: Invalid hugepages parameter %s\n", p);
+> > +             return 0;
+> > +     }
+> >
+> >       if (mhp =3D=3D last_mhp) {
+> >               pr_warn("HugeTLB: hugepages=3D specified twice without in=
+terleaving hugepagesz=3D, ignoring hugepages=3D%s\n", s);
+> >               return 0;
+> >       }
+>
+> This check for 'mhp =3D=3D last_mhp' after setting parameters will result=
+ in
+> a change of behavior.  For example, consider the following command line
+> options:
+>
+>         hugepagesz=3D2M hugepages=3D2 hugepages=3D5
+>
+> Before this change,
+>
+> # dmesg | grep -i huge
+> [    0.000000] Command line: BOOT_IMAGE=3D/vmlinuz-5.14.0+.old root=3D/de=
+v/mapper/fedora_new--host-root ro rd.lvm.lv=3Dfedora_new-host/root rd.lvm.l=
+v=3Dfedora_new-host/swap console=3Dtty0 console=3DttyS0,115200 audit=3D0 tr=
+ansparent_hugepage=3Dalways hugetlb_free_vmemmap=3Don hugepagesz=3D2M hugep=
+ages=3D2 hugepages=3D5
+> [    0.054206] Kernel command line: BOOT_IMAGE=3D/vmlinuz-5.14.0+.old roo=
+t=3D/dev/mapper/fedora_new--host-root ro rd.lvm.lv=3Dfedora_new-host/root r=
+d.lvm.lv=3Dfedora_new-host/swap console=3Dtty0 console=3DttyS0,115200 audit=
+=3D0 transparent_hugepage=3Dalways hugetlb_free_vmemmap=3Don hugepagesz=3D2=
+M hugepages=3D2 hugepages=3D5
+> [    0.054271] HugeTLB: can free 6 vmemmap pages for hugepages-2048kB
+> [    0.054282] HugeTLB: hugepages=3D specified twice without interleaving=
+ hugepagesz=3D, ignoring hugepages=3D5
+> [    0.054286] Unknown command line parameters: BOOT_IMAGE=3D/vmlinuz-5.1=
+4.0+.old hugepages=3D5
+> [    0.412456] HugeTLB: can free 4094 vmemmap pages for hugepages-1048576=
+kB
+> [    0.424527] HugeTLB registered 2.00 MiB page size, pre-allocated 2 pag=
+es
+> [    0.425459] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pag=
+es
+> [    5.168890]     hugepages=3D5
+>
+> After this change,
+>
+> # dmesg | grep -i huge
+> [    0.000000] Command line: BOOT_IMAGE=3D/vmlinuz-5.14.0+ root=3D/dev/ma=
+pper/fedora_new--host-root ro rd.lvm.lv=3Dfedora_new-host/root rd.lvm.lv=3D=
+fedora_new-host/swap console=3Dtty0 console=3DttyS0,115200 audit=3D0 transp=
+arent_hugepage=3Dalways hugetlb_free_vmemmap=3Don hugepagesz=3D2M hugepages=
+=3D2 hugepages=3D5
+> [    0.054569] Kernel command line: BOOT_IMAGE=3D/vmlinuz-5.14.0+ root=3D=
+/dev/mapper/fedora_new--host-root ro rd.lvm.lv=3Dfedora_new-host/root rd.lv=
+m.lv=3Dfedora_new-host/swap console=3Dtty0 console=3DttyS0,115200 audit=3D0=
+ transparent_hugepage=3Dalways hugetlb_free_vmemmap=3Don hugepagesz=3D2M hu=
+gepages=3D2 hugepages=3D5
+> [    0.054636] HugeTLB: can free 6 vmemmap pages for hugepages-2048kB
+> [    0.054647] HugeTLB: hugepages=3D specified twice without interleaving=
+ hugepagesz=3D, ignoring hugepages=3D5
+> [    0.054651] Unknown command line parameters: BOOT_IMAGE=3D/vmlinuz-5.1=
+4.0+ hugepages=3D5
+> [    0.413714] HugeTLB: can free 4094 vmemmap pages for hugepages-1048576=
+kB
+> [    0.427774] HugeTLB registered 2.00 MiB page size, pre-allocated 5 pag=
+es
+> [    0.428628] HugeTLB registered 1.
+>
+I will fix it in the next version
+> --
+> Mike Kravetz
+>
+> >
+> > -     if (sscanf(s, "%lu", mhp) <=3D 0)
+> > -             *mhp =3D 0;
+> > -
+> >       /*
+> >        * Global state is always initialized later in hugetlb_init.
+> >        * But we need to allocate gigantic hstates here early to still
+> >
