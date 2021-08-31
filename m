@@ -2,187 +2,232 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C01C4320A
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 03:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B279C4320E
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 10:02:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37D4161056
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 03:08:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7747A60240
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Aug 2021 10:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239697AbhHaDJq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Aug 2021 23:09:46 -0400
-Received: from mail-mw2nam10on2063.outbound.protection.outlook.com ([40.107.94.63]:1117
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239469AbhHaDIa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Aug 2021 23:08:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kq4Eg3QQR/y80Wnl1YFQq3uw0w1BERxc9J16Wdjre5aliTxUHChXnFq6PMGzt7PSm3x/c7AdNq0qki2wgiDZaLPeCHl4cK8FANHCxhJpFWHDwtfDGtowsxxRvAqgiommj4fknS7cMzxC5kKQnP5qYlQfRD0qvZzo6GVC7bClMHvvRT8pD8nyBGZg+FlDl6JQE0UatTVi4ZMlP4qE1jp7OtZBBHIKiMCSAx98bt7MdiZPPoOwv9R286zpBWwOqGT6dvetT2Irdd2p8VAB5zFE/f9rDdnrOwqyr3z+01HfUxQKdlvpQAHwPPW1t5Fn1sb0bGCqcsYw2bep+EulOqCAwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hRoWwVZ0qFjyy84HJrH7KnAp6D0Tim4zu0pbGXeP1U0=;
- b=Li60Y9CyWh/dEtAnKkr2VUjBYMIVNrvAGhJHq3U+l6XtcylsTWoni2Vhv8qV3MV20zuK8KkJfhYAilitr4pQ16uH9fx9JXV0/BvmtETkDcDSCfW/NwEYO3ki1vvrNTt0NWMY2Ye4WamBjRwq5oqcYwIMFLVIsYbhBpKiWTUOG14AZuMSnNU6WcQQP7U+HhCp6IEBNgR54R4Rqhk6YtDiLVFXcdtliKhkq8h10vPSWdzm0ia4NXmqD/upW8/XltbaifrV9M+THjOEBtH0exApdP3HGYelU2JTbSt8M5wU4Wz5mcMigiYbCrFJynAtFK5u0cNwlLkcUGlTwjN9Sq+lJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.35) smtp.rcpttodomain=huawei.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hRoWwVZ0qFjyy84HJrH7KnAp6D0Tim4zu0pbGXeP1U0=;
- b=W4sUj1v/EGdu4mFXeCmwT6kFEFSxezJkRhm3n8Si5M1Ukl0ZpOmcQJUCZ5KsG2Hi622ySIAkAS4xhRwc2xKf+LXEfM+uPxmhE+LoWd1QCCJovZM95G2Z8ZWT3XXemzt3ZHihfpTfRlRmc6mnTmHzECl/iBpr2UwCFIJlNF1y0QaVf2Vf9YIQCtNffLhUUPjbmGdb7KLIswKHgL0kx17KtvZoKdpAzfb2bKRsXj3T3T2O7frY524M3i2e7qN9w+9x7gUqZMfFxYptH1h4WIBgMEFP2PBAk+goYvZ6C+HsA0SpHjAvuuD3hTfRF7VKzVhwXSmtmngyOSd6IGrZCCExsA==
-Received: from BN9P222CA0015.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::20)
- by SN6PR12MB4717.namprd12.prod.outlook.com (2603:10b6:805:e2::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.24; Tue, 31 Aug
- 2021 03:07:31 +0000
-Received: from BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10c:cafe::c) by BN9P222CA0015.outlook.office365.com
- (2603:10b6:408:10c::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
- Transport; Tue, 31 Aug 2021 03:07:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
- smtp.mailfrom=nvidia.com; huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.35; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.35) by
- BN8NAM11FT025.mail.protection.outlook.com (10.13.177.136) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4457.17 via Frontend Transport; Tue, 31 Aug 2021 03:07:30 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 31 Aug
- 2021 03:07:30 +0000
-Received: from Asurada-Nvidia.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 31 Aug 2021 03:07:30 +0000
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-        <alex.williamson@redhat.com>, <cohuck@redhat.com>, <corbet@lwn.net>
-CC:     <nicoleotsuka@gmail.com>, <vdumpa@nvidia.com>,
-        <thierry.reding@gmail.com>, <linux-tegra@vger.kernel.org>,
-        <nwatterson@nvidia.com>, <Jonathan.Cameron@huawei.com>,
-        <jean-philippe@linaro.org>, <song.bao.hua@hisilicon.com>,
-        <eric.auger@redhat.com>, <thunder.leizhen@huawei.com>,
-        <yuzenghui@huawei.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [RFC][PATCH v2 01/13] iommu: Add set_nesting_vmid/get_nesting_vmid functions
-Date:   Mon, 30 Aug 2021 19:59:11 -0700
-Message-ID: <20210831025923.15812-2-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210831025923.15812-1-nicolinc@nvidia.com>
-References: <20210831025923.15812-1-nicolinc@nvidia.com>
+        id S240826AbhHaKDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Aug 2021 06:03:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28496 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240576AbhHaKDT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Aug 2021 06:03:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630404144;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jqeS5dJqGL2la3qFAC0w58iwikTbH3qg69LBZX5HqFA=;
+        b=DozJFKxDkAL7Hi9hDUAHBwawuAjvJHrJDwqfbIw8jsru+rL4Ptn3BpCziuLRdahSsDxUaI
+        Qk1dkdhRDpPpW6HunDPofIxm3mwU1JrSD5MTTJVp/dA3GXreZLzlis7oiz2yB3iFDx6AGQ
+        DTE2FCXcEOjASSwYyf1+f7hdDnNu61A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-J0FXNiv4MluBNYWmcOxA0w-1; Tue, 31 Aug 2021 06:02:20 -0400
+X-MC-Unique: J0FXNiv4MluBNYWmcOxA0w-1
+Received: by mail-wm1-f72.google.com with SMTP id u1-20020a05600c210100b002e74fc5af71so5779394wml.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Aug 2021 03:02:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=jqeS5dJqGL2la3qFAC0w58iwikTbH3qg69LBZX5HqFA=;
+        b=EexK9OALcQmu5X3ohiZCS+V2VG5TBGJSd0ba4uwClAwhTnpZUgHVROolVLvZwnzK2f
+         vjvyV0pw/uw/S1e6jH+04/MnI81xYWLTu6Ip8u0mINULnaJrS/8HBlEa7hfLhE7DCmRG
+         7qE1NXjAgdxIeO2acyNZyU6QjKP5bsEIuEFly4VWkzHcyh7dIZwmbLASm51qmwa0nHvj
+         jlyJzmpWgtm7Lt6LeWj52Te9esfl+QVV/vwNsxIDMRJAyKvnY0F6jelju7bTrsLihoFf
+         TqrHpPeawtj99GwNggdbJTpzOKtg8q77Vh0CdihZwW//8efzM8BCzwA2R/0Ob06OhdAf
+         Aupw==
+X-Gm-Message-State: AOAM5333p0AflBBhYv7kwdohVvRwnPt1V8P2+qnmr/LlUnhQt+5amMrW
+        xz37tn2d58hpjxhS+NIkHMwMTCEnMB9VI8m0VaU8CZsic3v455huzf60UNARP+lLgZKSc4o4sx4
+        jBXkjaXI9wjRzMRiuW0oy
+X-Received: by 2002:a5d:63ca:: with SMTP id c10mr31069149wrw.16.1630404139500;
+        Tue, 31 Aug 2021 03:02:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKNc4Ju1F4md5mAzye9cqjPnfpX+wtAYfUopsMsDu2iTaFHvQ0m854e37aG8+UXY3KNLHFbg==
+X-Received: by 2002:a5d:63ca:: with SMTP id c10mr31069113wrw.16.1630404139279;
+        Tue, 31 Aug 2021 03:02:19 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23bf5.dip0.t-ipconnect.de. [79.242.59.245])
+        by smtp.gmail.com with ESMTPSA id t7sm19573261wrq.90.2021.08.31.03.02.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Aug 2021 03:02:18 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] mm: remove redundant smp_wmb()
+To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
+        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com
+References: <20210828042306.42886-1-zhengqi.arch@bytedance.com>
+ <20210828042306.42886-3-zhengqi.arch@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <9da807d4-1fcc-72e0-dc9e-91ab9fbeb7c6@redhat.com>
+Date:   Tue, 31 Aug 2021 12:02:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4956911e-727e-44dc-3606-08d96c2c78cc
-X-MS-TrafficTypeDiagnostic: SN6PR12MB4717:
-X-Microsoft-Antispam-PRVS: <SN6PR12MB4717B51C508DA6952E77F1FAABCC9@SN6PR12MB4717.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: upqo3zLCzUfotU+WTyAYedipiOzp+sb9g8lHi/ujeplvDdrwTuPbEQExnehM1dTycNjwISUFaLbUrLxWSm+io0ubaQzE3nvZArGpjScw3ea8fXQ4fwqEubUbtnjN7GJFpfuksjfzgHHos01E4i2lunWyvhi78VTQROhqLAWaAKwUm1+wBpi7gCqSfda1cb68Yyf5jtrvs4M7fudaNDZdFeev+5MOOzm2pd2SBxxisdwBk/Aw0cAJv2lFFCLxn9SmbSQp6zQiNfFaKvklxHaoSHiIHszpSQVcf2UAcBcWEEVuq6jRoswF3YJE16zWUAs6T874bJ6xqLon+G+1Aakvj2ZZMHiwV39VE5mXx0phbbGPkjVhl9YusCOFn8TW6mxkuykmNhyJVXrom7zTzwFxljOs3kaXNxX4aPnSnuEBIdM8cT0B43qQTk1ND2riXnZsQZOSxyePL27COOPxMesetCpns6LCFwgL070mVnWoU6yespo+LjwdDpv0D16YyrlGuesSgF1pCxsTXCbl9C+ZPgMqSY7cXB1p/dVFa3Wv4Nq1Oqkx2T41p0Qu508qeZeWXtJ07cOvxei61cDCRvblGN5otFOEOaHMyz65zgDhitYljhEUx0TdTxTDXUsTo8mcfLcaF64trT1b0pBdUHXV5W1UOqra/L5YKux94U6K63Z/uKf7ThDrq4mxuj3sxgG9ynTFGoCLuQmk9L9VM6GYOxbszYWFK19ZSCTDgalIzkc=
-X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(46966006)(36840700001)(5660300002)(36860700001)(336012)(426003)(2906002)(1076003)(83380400001)(186003)(2616005)(82740400003)(36756003)(86362001)(7696005)(478600001)(7636003)(82310400003)(8676002)(356005)(36906005)(26005)(54906003)(316002)(70206006)(7416002)(6666004)(110136005)(70586007)(47076005)(8936002)(4326008)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 03:07:30.8986
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4956911e-727e-44dc-3606-08d96c2c78cc
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4717
+In-Reply-To: <20210828042306.42886-3-zhengqi.arch@bytedance.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VMID stands for Virtual Machine Identifier, being used to tag
-TLB entries to indicate which VM they belong to. This is used
-by some IOMMU like SMMUv3 for virtualization case, in nesting
-mode.
+On 28.08.21 06:23, Qi Zheng wrote:
+> The smp_wmb() which is in the __pte_alloc() is used to
+> ensure all ptes setup is visible before the pte is made
+> visible to other CPUs by being put into page tables. We
+> only need this when the pte is actually populated, so
+> move it to pte_install(). __pte_alloc_kernel(),
+> __p4d_alloc(), __pud_alloc() and __pmd_alloc() are similar
+> to this case.
+> 
+> We can also defer smp_wmb() to the place where the pmd entry
+> is really populated by preallocated pte. There are two kinds
+> of user of preallocated pte, one is filemap & finish_fault(),
+> another is THP. The former does not need another smp_wmb()
+> because the smp_wmb() has been done by pte_install().
+> Fortunately, the latter also does not need another smp_wmb()
+> because there is already a smp_wmb() before populating the
+> new pte when the THP uses a preallocated pte to split a huge
+> pmd.
+> 
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>   mm/memory.c         | 47 ++++++++++++++++++++---------------------------
+>   mm/sparse-vmemmap.c |  2 +-
+>   2 files changed, 21 insertions(+), 28 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index ef7b1762e996..9c7534187454 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -439,6 +439,20 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
+>   
+>   	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
+>   		mm_inc_nr_ptes(mm);
+> +		/*
+> +		 * Ensure all pte setup (eg. pte page lock and page clearing) are
+> +		 * visible before the pte is made visible to other CPUs by being
+> +		 * put into page tables.
+> +		 *
+> +		 * The other side of the story is the pointer chasing in the page
+> +		 * table walking code (when walking the page table without locking;
+> +		 * ie. most of the time). Fortunately, these data accesses consist
+> +		 * of a chain of data-dependent loads, meaning most CPUs (alpha
+> +		 * being the notable exception) will already guarantee loads are
+> +		 * seen in-order. See the alpha page table accessors for the
+> +		 * smp_rmb() barriers in page table walking code.
+> +		 */
+> +		smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+>   		pmd_populate(mm, pmd, *pte);
+>   		*pte = NULL;
+>   	}
+> @@ -451,21 +465,6 @@ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
+>   	if (!new)
+>   		return -ENOMEM;
+>   
+> -	/*
+> -	 * Ensure all pte setup (eg. pte page lock and page clearing) are
+> -	 * visible before the pte is made visible to other CPUs by being
+> -	 * put into page tables.
+> -	 *
+> -	 * The other side of the story is the pointer chasing in the page
+> -	 * table walking code (when walking the page table without locking;
+> -	 * ie. most of the time). Fortunately, these data accesses consist
+> -	 * of a chain of data-dependent loads, meaning most CPUs (alpha
+> -	 * being the notable exception) will already guarantee loads are
+> -	 * seen in-order. See the alpha page table accessors for the
+> -	 * smp_rmb() barriers in page table walking code.
+> -	 */
+> -	smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+> -
+>   	pmd_install(mm, pmd, &new);
+>   	if (new)
+>   		pte_free(mm, new);
+> @@ -478,10 +477,9 @@ int __pte_alloc_kernel(pmd_t *pmd)
+>   	if (!new)
+>   		return -ENOMEM;
+>   
+> -	smp_wmb(); /* See comment in __pte_alloc */
+> -
+>   	spin_lock(&init_mm.page_table_lock);
+>   	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
+> +		smp_wmb(); /* See comment in pmd_install() */
+>   		pmd_populate_kernel(&init_mm, pmd, new);
+>   		new = NULL;
+>   	}
+> @@ -3857,7 +3855,6 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
+>   		vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
+>   		if (!vmf->prealloc_pte)
+>   			return VM_FAULT_OOM;
+> -		smp_wmb(); /* See comment in __pte_alloc() */
+>   	}
+>   
+>   	ret = vma->vm_ops->fault(vmf);
+> @@ -3919,7 +3916,6 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct page *page)
+>   		vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
+>   		if (!vmf->prealloc_pte)
+>   			return VM_FAULT_OOM;
+> -		smp_wmb(); /* See comment in __pte_alloc() */
+>   	}
+>   
+>   	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
+> @@ -4144,7 +4140,6 @@ static vm_fault_t do_fault_around(struct vm_fault *vmf)
+>   		vmf->prealloc_pte = pte_alloc_one(vmf->vma->vm_mm);
+>   		if (!vmf->prealloc_pte)
+>   			return VM_FAULT_OOM;
+> -		smp_wmb(); /* See comment in __pte_alloc() */
+>   	}
+>   
+>   	return vmf->vma->vm_ops->map_pages(vmf, start_pgoff, end_pgoff);
+> @@ -4819,13 +4814,13 @@ int __p4d_alloc(struct mm_struct *mm, pgd_t *pgd, unsigned long address)
+>   	if (!new)
+>   		return -ENOMEM;
+>   
+> -	smp_wmb(); /* See comment in __pte_alloc */
+> -
+>   	spin_lock(&mm->page_table_lock);
+>   	if (pgd_present(*pgd))		/* Another has populated it */
+>   		p4d_free(mm, new);
+> -	else
+> +	else {
+> +		smp_wmb(); /* See comment in pmd_install() */
+>   		pgd_populate(mm, pgd, new);
+> +	}
 
-So this patch adds a pair of new iommu_ops callback functions
-with a pair of exported set/get functions to allow VFIO core
-to get access of the VMID value in an IOMMU driver.
+Nit:
 
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/iommu/iommu.c | 20 ++++++++++++++++++++
- include/linux/iommu.h |  5 +++++
- 2 files changed, 25 insertions(+)
+if () {
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 3303d707bab4..051f2df36dc0 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2774,6 +2774,26 @@ int iommu_enable_nesting(struct iommu_domain *domain)
- }
- EXPORT_SYMBOL_GPL(iommu_enable_nesting);
- 
-+int iommu_set_nesting_vmid(struct iommu_domain *domain, u32 vmid)
-+{
-+	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
-+		return -EINVAL;
-+	if (!domain->ops->set_nesting_vmid)
-+		return -EINVAL;
-+	return domain->ops->set_nesting_vmid(domain, vmid);
-+}
-+EXPORT_SYMBOL_GPL(iommu_set_nesting_vmid);
-+
-+int iommu_get_nesting_vmid(struct iommu_domain *domain, u32 *vmid)
-+{
-+	if (domain->type != IOMMU_DOMAIN_UNMANAGED)
-+		return -EINVAL;
-+	if (!domain->ops->get_nesting_vmid)
-+		return -EINVAL;
-+	return domain->ops->get_nesting_vmid(domain, vmid);
-+}
-+EXPORT_SYMBOL_GPL(iommu_get_nesting_vmid);
-+
- int iommu_set_pgtable_quirks(struct iommu_domain *domain,
- 		unsigned long quirk)
- {
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index d2f3435e7d17..bda6b3450909 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -163,6 +163,7 @@ enum iommu_dev_features {
- };
- 
- #define IOMMU_PASID_INVALID	(-1U)
-+#define IOMMU_VMID_INVALID	(-1U)
- 
- #ifdef CONFIG_IOMMU_API
- 
-@@ -269,6 +270,8 @@ struct iommu_ops {
- 	void (*probe_finalize)(struct device *dev);
- 	struct iommu_group *(*device_group)(struct device *dev);
- 	int (*enable_nesting)(struct iommu_domain *domain);
-+	int (*set_nesting_vmid)(struct iommu_domain *domain, u32 vmid);
-+	int (*get_nesting_vmid)(struct iommu_domain *domain, u32 *vmid);
- 	int (*set_pgtable_quirks)(struct iommu_domain *domain,
- 				  unsigned long quirks);
- 
-@@ -500,6 +503,8 @@ extern int iommu_group_id(struct iommu_group *group);
- extern struct iommu_domain *iommu_group_default_domain(struct iommu_group *);
- 
- int iommu_enable_nesting(struct iommu_domain *domain);
-+int iommu_set_nesting_vmid(struct iommu_domain *domain, u32 vmid);
-+int iommu_get_nesting_vmid(struct iommu_domain *domain, u32 *vmid);
- int iommu_set_pgtable_quirks(struct iommu_domain *domain,
- 		unsigned long quirks);
- 
+} else {
+
+}
+
+see Documentation/process/coding-style.rst
+
+"This does not apply if only one branch of a conditional statement is a 
+single statement; in the latter case use braces in both branches:"
+
+
+Apart from that, I think this is fine,
+
+Acked-by: David Hildenbrand <david@redhat.com>
+
 -- 
-2.17.1
+Thanks,
+
+David / dhildenb
 
