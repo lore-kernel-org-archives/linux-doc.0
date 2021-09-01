@@ -2,98 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8127AC432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 08:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68363C432BE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:12:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6252E6103A
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 08:10:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EB6360F90
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242889AbhIAILR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 04:11:17 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:39296 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242766AbhIAILR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 04:11:17 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id ACB58224B8;
-        Wed,  1 Sep 2021 08:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1630483818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GHTY9I51VG4C7aTV8oDtjnPiG0Wf5YKwTyayXS/Ire4=;
-        b=ILCGDl0sDjQqHhpMDxu05cHf7kKxPWynTyaTuP+hTxgRpsq4gZpONxzwWlqt958hOfg9WW
-        9vnj3ooGOTm2ZAE/21dJtE2RsDuNMuymiwoJcMrmIwatyxasL1Pqg+qjh7d+lMJJUW5jKK
-        tJv/0rqvwKPw4Kc9auN8DbvUSd+WRWo=
-Received: from suse.cz (mhocko.udp.ovpn2.prg.suse.de [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 57C29A3B9B;
-        Wed,  1 Sep 2021 08:10:18 +0000 (UTC)
-Date:   Wed, 1 Sep 2021 10:10:17 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, ccross@google.com,
-        sumit.semwal@linaro.org, dave.hansen@intel.com,
-        keescook@chromium.org, willy@infradead.org,
-        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
-        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
-        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, songmuchun@bytedance.com,
-        viresh.kumar@linaro.org, thomascedeno@google.com,
-        sashal@kernel.org, cxfcosmos@gmail.com, linux@rasmusvillemoes.dk,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v8 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <YS81abHD8KZMrX8D@dhcp22.suse.cz>
-References: <20210827191858.2037087-1-surenb@google.com>
- <20210827191858.2037087-3-surenb@google.com>
+        id S243314AbhIAJNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 05:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39864 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243292AbhIAJNE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 05:13:04 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41B2C061575
+        for <linux-doc@vger.kernel.org>; Wed,  1 Sep 2021 02:12:07 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id n18so2077934pgm.12
+        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 02:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D2Xus3Gy0mJ3a1u6RNwyvEN4uw8eYtNFGPcMxDGXN9M=;
+        b=Bx6byuMPel9lHgsPbKf4KC5IjOhTYoo8YCfeX/ez4d1rmD9UGdz5wF5AkmIciKt0XV
+         LJIyRnIdG0PkTA4WsK4Zmba5qXZGVY47KnsG55X7ee56SjuOk85MJZSPe1y2ajUQpzqN
+         WBzuLsp48KPPopeS/SAECPr5YENYEmS6Zb+KlXPQloZchS/9YllT2y9bO688pHMBusxe
+         EkJhsF4zBjEhaMexQUoIDFYv9M3TrCxiwlv2b4/woERAMO7Bgdivm/lmWTlhvekv03nM
+         34MEvb+inO6DZErkDUmx5Ry7w903eRzTHjknfgZzNOdEs4NA+jiEZDcWBsNVXOFF8NR2
+         EMiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D2Xus3Gy0mJ3a1u6RNwyvEN4uw8eYtNFGPcMxDGXN9M=;
+        b=kYAJBuKJPALTpcKJr1iua/5WCVZkcD3nStoUVu3lBeOWARDCB/7m4syq+kVr/GVLoZ
+         pHWocqACHDXSKMNVBvO/2YSNtEiawAr0YdYof2vUHwEccJ5f+fKARASRTIJ6a8fi3ouI
+         ULMFw0fWfLXMc9vbG20pcpNh3mLWfVGYOV8shgvtcLC4MgSx6R39zP0OTGVrWjm09aFq
+         /braRM2RkVu24XZepecrz3f84a3+38qK94GwAXTkdpSEOpjRVZrMuemDeyw8BUs5Zs8C
+         2leHZXRNx7tITboRN29KAdPFh3tVjL4whRMVFcj/UWrJ9KOT6Vn0NOOGhPeEYJW1Kgcl
+         68DA==
+X-Gm-Message-State: AOAM532YWZvPJs1DX1bzaA8w24hdHxxHBfupRcaNC/XY2inYRgL5dHMn
+        HHtYjt1NFmFdsh+/M4AHn/NlxA==
+X-Google-Smtp-Source: ABdhPJxGJPhjggihqO4HCv4MWi4qvUBWkSQDZ8pmiBmqwZfdTqXF134RIxSAesKIsvtKNWMITqTvfg==
+X-Received: by 2002:a05:6a00:140e:b029:38b:c129:9f2f with SMTP id l14-20020a056a00140eb029038bc1299f2fmr32314916pfu.75.1630487527427;
+        Wed, 01 Sep 2021 02:12:07 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id u24sm21816388pfm.27.2021.09.01.02.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 02:12:06 -0700 (PDT)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Rafael Wysocki <rjw@rjwysocki.net>, Alex Shi <alexs@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] cpufreq: Remove ready() callback
+Date:   Wed,  1 Sep 2021 14:41:54 +0530
+Message-Id: <cover.1630487322.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210827191858.2037087-3-surenb@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 27-08-21 12:18:57, Suren Baghdasaryan wrote:
-[...]
-> +static void replace_vma_anon_name(struct vm_area_struct *vma, const char *name)
-> +{
-> +	if (!name) {
-> +		free_vma_anon_name(vma);
-> +		return;
-> +	}
-> +
-> +	if (vma->anon_name) {
-> +		/* Should never happen, to dup use dup_vma_anon_name() */
-> +		WARN_ON(vma->anon_name == name);
+Remove the last few users of the ready() callback and get rid of it.
 
-What is the point of this warning?
+Viresh Kumar (3):
+  cpufreq: acpi: Remove acpi_cpufreq_cpu_ready()
+  cpufreq: sh: Remove sh_cpufreq_cpu_ready()
+  cpufreq: Remove ready() callback
 
-> +
-> +		/* Same name, nothing to do here */
-> +		if (!strcmp(name, vma->anon_name))
-> +			return;
-> +
-> +		free_vma_anon_name(vma);
-> +	}
-> +	vma->anon_name = kstrdup(name, GFP_KERNEL);
-> +}
+ Documentation/cpu-freq/cpu-drivers.rst             |  3 ---
+ .../translations/zh_CN/cpu-freq/cpu-drivers.rst    |  2 --
+ drivers/cpufreq/acpi-cpufreq.c                     | 14 +++-----------
+ drivers/cpufreq/cpufreq.c                          |  4 ----
+ drivers/cpufreq/sh-cpufreq.c                       | 11 -----------
+ include/linux/cpufreq.h                            |  3 ---
+ 6 files changed, 3 insertions(+), 34 deletions(-)
+
 -- 
-Michal Hocko
-SUSE Labs
+2.31.1.272.g89b43f80a514
+
