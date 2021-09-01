@@ -2,215 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8768EC4320E
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 10:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F01A2C432BE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 10:27:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C3C26101A
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 10:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8D0E60F6F
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 10:27:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232997AbhIAKYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 06:24:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56656 "EHLO
+        id S235131AbhIAK23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 06:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231903AbhIAKYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 06:24:40 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148AFC061575;
-        Wed,  1 Sep 2021 03:23:44 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id s29so1665236pfw.5;
-        Wed, 01 Sep 2021 03:23:44 -0700 (PDT)
+        with ESMTP id S234997AbhIAK23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 06:28:29 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B85C061575
+        for <linux-doc@vger.kernel.org>; Wed,  1 Sep 2021 03:27:32 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id x4so2322797pgh.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 03:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XvXMSHbU+THAhLHihGL5O8BC1MEnybNiRpWcJSnCFq8=;
-        b=vCcdzsC5mN8BKv7yF05P9EC3GSgVwYy4A5BxE205tbJQ5TCC3VjLw63EPsxw208K6v
-         g+Ou45q9vaMnVSYRUQ7xTqHpwpcdKqJfKvBXg+s6eYCpQ9Ok17IAs3QA2bVsq101rzmv
-         xS7KpGXVkF5jVLThpdWuzqXMTnwhLh2dSWiOKzCNGVnG+DPzskYSSJLDmQ6/XAttr+oE
-         upZriN68MTKOiNxJ8DyrFzTSwGceAehco+0BYG+g0zmf/LUvpg+CuxFVmO7vhZkFrDeC
-         foCz6/TqvTeGkB0pECXwSofmsXlDWudN3fPgrwuDv7ww2lduC7EhQeiLE9jw+zxPOgEH
-         6szA==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rdLWPNlr2o2VGQKs6yMiulbcewjUkJEpjEDyxs856Jo=;
+        b=HQh5dd3NEOPvmgmvw5Hm2HI//JYez9GvSeWCvLHE/l7cDlybq6m5QB/DQw2oFnbUyX
+         6lqNLpQ7aR/qL9dBjLIPOvIQwlCE2UuJGeK1E6qBpZyGk7N0i4Nnvzg2aAAtEV6Y+0mi
+         RhEQkI2zxhc/clSNpvArSD/j/fqeSH6Zz6uThMdrOdyV8vWmGjT7wioKUr02+NeDOyad
+         dDw4gKSKZFnmmeZ+Sdx8alU22hPKmQJbhBzyreDjkQ3XREdtwb08Xld6QaL49vOyH+JI
+         zMtp3UOu7lCzZreZaPiCdMz6P3BlzfYjs59ljp1Rad46Jrkc/ytjyoTa8O71uRlhAKgP
+         Vevw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XvXMSHbU+THAhLHihGL5O8BC1MEnybNiRpWcJSnCFq8=;
-        b=ATgkyzNDWZllLwO8ewSBom/KmnUQr2LkUpMxXi3jM2PrVdRHZraE3i1UkajRBCkeuM
-         ArwsqtHB0YWXWs4iXk8sCxfppGAML7Jm/dfpSC9C8loHoaQDyzhx7LPRKvdo20iDrV8I
-         1sa37LXuv7ETp7XrMIJT32qFYvK0jPr9w32HvwaHCOcjHyRvj/ihjbMce+ftA78Xvfss
-         8xQHI3aYywLDz5JISHuDjrMvDXFr6RPWLdN7vY2mnUnbZ7ID93y3l8nhDNgbMt7++9L3
-         bPT+h6vDX+iEBfnxFQonuE+VEkX/oqj39N35mi8SLtvu634lF5LX8EzQQPIuak5CZFMv
-         nwSg==
-X-Gm-Message-State: AOAM531WluzW1hLZz78TWPL2xREZA+1ctncWcpZEM0ggz6zdPNsOGvqo
-        Ip4253aKT1uBabL27yABUxo=
-X-Google-Smtp-Source: ABdhPJyFQWzVHq1SuxONZMLModl2znpRbEGYKPZ9VGNV3rN1VoslhuY0oD2x8DmHvm5c1RxbacG1Ig==
-X-Received: by 2002:a65:620d:: with SMTP id d13mr31847979pgv.36.1630491823510;
-        Wed, 01 Sep 2021 03:23:43 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id m13sm5814363pjv.20.2021.09.01.03.23.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 03:23:43 -0700 (PDT)
-To:     corbet@lwn.net, src.res@email.cn
-Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87o89mljgn.fsf@meer.lwn.net>
-Subject: Re: [PATCH 1/3] docs/zh_TW: add translations for zh_TW/arm64
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <150c0a8e-2254-10b4-a31f-35a70273afee@gmail.com>
-Date:   Wed, 1 Sep 2021 19:23:39 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        bh=rdLWPNlr2o2VGQKs6yMiulbcewjUkJEpjEDyxs856Jo=;
+        b=TkQqZoTkS0Lh6PWW5XheOTjIU4phDTNxH8iPaN+2XJl2Yib+PjVbydcOazP8svgqeV
+         ZYGf+6GpQuEITkKpee8ZMvfQME7Qs+sClAJslp9GHXWCRfPgJB6U8/8f3T9092DwLric
+         q3xLGecDRwAw8STcNCwwpi3XdIifguDP8Y/d2J0L4DAIN5WgsOPAOUWV1Fsa99BTRR1p
+         Mrq3EjIC4782xDybfHcvioufhgqQsEiwHHD22q1dAeWOgsCD4MEctOwwcwkl6ZqeNjjM
+         uv1iMAWsA26z7ycLJ+e79j7vUeWlUpy1LM7tTvKVNYdmDZs6PqJV7BXOpLe3sw9Abx/E
+         44vg==
+X-Gm-Message-State: AOAM530Of8A5SzMVp6H8x+dJ4JYGMPP6tViovfVUGU3pax97Je/WnRo/
+        AsvjgCqqfnSb0vQi9hj5VcMPIVppY45foA==
+X-Google-Smtp-Source: ABdhPJxwN7E+eBlVRqTpWQPGRAkwixB/l2TIHvOUXhSDO+sI8n8sfWMEdbyDMhle95rN6O8ZZqsmHg==
+X-Received: by 2002:a63:515f:: with SMTP id r31mr31104283pgl.41.1630492052286;
+        Wed, 01 Sep 2021 03:27:32 -0700 (PDT)
+Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.254])
+        by smtp.gmail.com with ESMTPSA id i10sm5291497pfk.87.2021.09.01.03.27.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 Sep 2021 03:27:31 -0700 (PDT)
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+To:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
+        david@redhat.com, vbabka@suse.cz
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com,
+        Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: [PATCH v3 0/2] Do some code cleanups related to mm
+Date:   Wed,  1 Sep 2021 18:27:20 +0800
+Message-Id: <20210901102722.47686-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <87o89mljgn.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Aug 2021 13:40:40 -0600, Jonathan Corbet wrote:
-> Hu Haowen <src.res@email.cn> writes:
->=20
->> Create new translations for zh_TW/arm64 and link them to index.
->>
->> Signed-off-by: Hu Haowen <src.res@email.cn>
->> ---
->>  .../translations/zh_TW/arm64/amu.rst          | 104 ++++++++
->>  .../translations/zh_TW/arm64/booting.txt      | 251 +++++++++++++++++=
-+
->>  .../translations/zh_TW/arm64/elf_hwcaps.rst   | 244 +++++++++++++++++=
+Hi,
 
->>  .../translations/zh_TW/arm64/hugetlbpage.rst  |  49 ++++
->>  .../translations/zh_TW/arm64/index.rst        |  23 ++
->>  .../zh_TW/arm64/legacy_instructions.txt       |  77 ++++++
->>  .../translations/zh_TW/arm64/memory.txt       | 119 +++++++++
->>  .../translations/zh_TW/arm64/perf.rst         |  88 ++++++
->>  .../zh_TW/arm64/silicon-errata.txt            |  79 ++++++
->>  .../zh_TW/arm64/tagged-pointers.txt           |  57 ++++
->>  Documentation/translations/zh_TW/index.rst    |   5 +
->>  11 files changed, 1096 insertions(+)
->>  create mode 100644 Documentation/translations/zh_TW/arm64/amu.rst
->>  create mode 100644 Documentation/translations/zh_TW/arm64/booting.txt=
+This patch series aims to do some code cleanups related to mm.
 
->>  create mode 100644 Documentation/translations/zh_TW/arm64/elf_hwcaps.=
-rst
->>  create mode 100644 Documentation/translations/zh_TW/arm64/hugetlbpage=
-=2Erst
->>  create mode 100644 Documentation/translations/zh_TW/arm64/index.rst
->>  create mode 100644 Documentation/translations/zh_TW/arm64/legacy_inst=
-ructions.txt
->>  create mode 100644 Documentation/translations/zh_TW/arm64/memory.txt
->>  create mode 100644 Documentation/translations/zh_TW/arm64/perf.rst
->>  create mode 100644 Documentation/translations/zh_TW/arm64/silicon-err=
-ata.txt
->>  create mode 100644 Documentation/translations/zh_TW/arm64/tagged-poin=
-ters.txt
+This series is based on next-20210827.
 
-Hi Jon,
+Comments and suggestions are welcome.
 
->=20
-> I have gone ahead and applied this set.  I really do have to ask,
-> though: is there really nobody with sufficient interest to review these=
+Thanks,
+Qi.
 
-> patches?  The zh_CN translators have done a good job of organizing
-> themselves to review this work; could you please try to do the same?
-> Otherwise I'm being asked to add lots of material that, as far as I can=
+Changelog in v2 -> v3:
+ - Move the declaration of pmd_install() to mm/internal.h
 
-> tell, nobody has looked at...
+Changelog in v1 -> v2:
+ - Fix some typo and code style problems.
 
-I expected there would be some response from Haowen to your concern.
-I'm an outsider of the zh_TW translation effort (except for the font
-setting for pdfdocs) and does not read Chinese, but let me describe
-my observation of what Haowen is up to in the hope of making you feel
-better.
-(I might be missing something important, though.)
+Qi Zheng (2):
+  mm: introduce pmd_install() helper
+  mm: remove redundant smp_wmb()
 
-The zh_TW work is not a direct translation from English documents,
-rather, it is based on the zh_CN translations.
+ mm/filemap.c        | 11 ++-----
+ mm/internal.h       |  1 +
+ mm/memory.c         | 86 ++++++++++++++++++++++++-----------------------------
+ mm/sparse-vmemmap.c |  2 +-
+ 4 files changed, 43 insertions(+), 57 deletions(-)
 
-This is not explicitly mentioned in the change logs of Haowan's patch set=
-s,
-but if you compare the "Translator" fields under zh_TW to that of under
-zh_CN, the chain of translation/conversion can be seen easily.
-
-For example, the head of Documentation/translations/zh_CN/arm64/amu.rst
-reads:
-
-------
-    .. include:: ../disclaimer-zh_CN.rst
-   =20
-    :Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
-   =20
-    Translator: Bailu Lin <bailu.lin@vivo.com>
-   =20
-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-    AArch64 Linux =E4=B8=AD=E6=89=A9=E5=B1=95=E7=9A=84=E6=B4=BB=E5=8A=A8=E7=
-=9B=91=E6=8E=A7=E5=8D=95=E5=85=83
-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-------
-
-, while the head of Documentation/translations/zh_TW/arm64/amu.rst
-reads:
-
-------
-    .. SPDX-License-Identifier: GPL-2.0
-   =20
-    .. include:: ../disclaimer-zh_TW.rst
-   =20
-    :Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
-   =20
-    Translator: Bailu Lin <bailu.lin@vivo.com>
-                Hu Haowen <src.res@email.cn>
-   =20
-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-    AArch64 Linux =E4=B8=AD=E6=93=B4=E5=B1=95=E7=9A=84=E6=B4=BB=E5=8B=95=E7=
-=9B=A3=E6=8E=A7=E5=96=AE=E5=85=83
-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-------
-
-My interpretation of above is that the zh_TW work is based on the
-zh_CN translation by Bailu Lin, which has got proper reviews by
-the zh_CN community.
-
-IIUC, changes in zh_CN -> zh_TW are mostly "Simplified Chinese" ->
-"Traditional Chinese" character substitutions.
-They can be done semi-automatically based on a character mapping.
-Exception is that some of the character mapping are one (SC) to
-many (TC) [1].
-And simply substituting characters might end up in unnatural wording
-in the zh_TW documents due to vocabulary/convention differences.
-This is where human intervention is required occasionally.
-
-So, Huawen's patches can be regarded nearly as good as that of
-the zh_CN counterparts even if they don't have anyone's
-Reviewed-by tags, I suppose.
-
-Of course, it would be much better to have regular reviewers.=20
-
-Haowen, if I'm saying something far from reality, please let
-me know.
-
-[1]: https://en.wikipedia.org/wiki/Ambiguities_in_Chinese_character_simpl=
-ification
-
-        Thanks, Akira
-=20
->=20
-> Thanks,
->=20
-> jon
-
+-- 
+2.11.0
 
