@@ -2,72 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDA5C432BE
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:09:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8526CC4320E
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:10:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19025610A1
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:09:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BA9B6109E
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:10:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344455AbhIASKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 14:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239445AbhIASKN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 14:10:13 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D822C061575
-        for <linux-doc@vger.kernel.org>; Wed,  1 Sep 2021 11:09:16 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id c19so464713qte.7
-        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 11:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UOqfD8w800F/Nfr4LOJfJfsHlltggA7GI5D0/+MPf2Q=;
-        b=Ox9bs87nkVrewaMMUlmMJkOnilGfEsCVRAIQ+aQ83+2LTkk4h/rfLyEw9kzGGh6UpR
-         4CtRpZ+/j4GRqwTl34I65RkJQf/OPEjZVmow8X6L1VRpz9859K3wwvgan3k/Fcoucoei
-         U2//8DP3FjO6Xxf5VV5GE7ZOq2ZQ3dcZOjy47iUsEyIQ3WzmvUhitw0p0JpxVRRUzWuF
-         Ug1rDffJGaYnXFPzE6hUvpasFgtSoMMMEyyhfqTLNHRBptyziZ+WHbjyVg9MAv4BkbLo
-         wxAgFY1zeIceBN1z4GpO4J+tFKHI5aA2Ux1r4yj46YnPsRcuESDC6eeWJhMYhw8CrVpN
-         08Yg==
+        id S1344554AbhIASLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 14:11:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39635 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236874AbhIASLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 14:11:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630519809;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9NKf3uO34AvCSRdJEV//9X5/WuVnzohW4EzO2VLlwhk=;
+        b=FKh9pXjyrA5VUcTjVMLEwJV8w4aGM34Y5zt9AJLrLHzAnZOeV0gXU374Uc30UofLDsnfBJ
+        LuGBLM5qv5cldwkKCuu/D3xLMvG9P5xpg+mKNcHNHQeevTv1EuQ5NNe84ViGUmocM4oCma
+        zXVvM/0SRtqLDXbBDGC9fi+tyZZhxz8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-NW-wB2jpMqmmd1Bnb8oTeQ-1; Wed, 01 Sep 2021 14:10:08 -0400
+X-MC-Unique: NW-wB2jpMqmmd1Bnb8oTeQ-1
+Received: by mail-wm1-f71.google.com with SMTP id a201-20020a1c7fd2000000b002e748bf0544so167553wmd.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 11:10:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UOqfD8w800F/Nfr4LOJfJfsHlltggA7GI5D0/+MPf2Q=;
-        b=OJ0ZNXEQfB6W8tgrxLxgdvp4cqdgSLgQ4WM11G19ASme7LtsyKtFE9b1F8qAusiACJ
-         rcDpNCujT1ZtI477ry3tfYBc68M7jgUacTJkKiHkIsckOm1nT8MlNRD7cLyCSIk6gybY
-         4w4RosJKbm97yj2c3E6xSgAM4+0iBkERMe7ECSpTd0pymPMXfsrupnfp/TaVMQ5z0bmw
-         Pp1XEdvCHO8YG0ACk/3xvaORsTQENUX828YdxH+KTN5n5xpe3rQUNwq3jhzm8jh/aWEE
-         1W7w2mXluIMWVKvIjG4qadTgyf5qNbAWCOGeynlDYJsYwkAFfY6osBAplenyDCjQLdG7
-         ltDA==
-X-Gm-Message-State: AOAM530rIuP7bx1XwEu+lpazwQ44Kqe49W+LwL1ciiv/TPkhiJtCVZLR
-        cF4g3GfCpxIEwd1/0svftDSoew==
-X-Google-Smtp-Source: ABdhPJwrzZAjc9PfHsU/3i22e2xwCxmIaT47VTkSIAldmXSwTLWpE8m34PMXxRVPzqe7h14/7Os0xQ==
-X-Received: by 2002:a05:622a:100e:: with SMTP id d14mr561548qte.350.1630519755603;
-        Wed, 01 Sep 2021 11:09:15 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id h20sm318081qtr.81.2021.09.01.11.09.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 11:09:14 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mLUfi-0088XO-9Q; Wed, 01 Sep 2021 15:09:14 -0300
-Date:   Wed, 1 Sep 2021 15:09:14 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=9NKf3uO34AvCSRdJEV//9X5/WuVnzohW4EzO2VLlwhk=;
+        b=jApCMh5tuR3McKyjtXViHlqPTTZHpjza793cRVLdl2N/iEV0hbU9oVtXQllH2HOgMb
+         doGbR4bNSVzYqvr6KryDa4PRU7PbtIDNMI1/56yzEecIgQD1UtcsqWpjZnW+lJlD/0Ef
+         PP0jSuD358EpU5tNnaNLQG2+YQn2DC5s4vMtRJrUxEErElZ09/6BPeQGrQm1ybWJYXKr
+         B8FQxD3E2rZ5L7+C5Dwk8sACkPuTykmZeAuhKLuR9M8lPSQTgBK3TW0Vph7+HMXZos1H
+         boC8PFj/QVeNADZpQDNbGS/E3k8CUD+G7UrlQbTFgHj09Zl5yNJaI6tQejQNX9MZLYdD
+         TsRA==
+X-Gm-Message-State: AOAM5332KHKZNzvZYuIW/GmWyp+EleA6ODehnKmzcrcXHSZgrbKZv6eQ
+        R3zCqQuaq5r+CUAxOVga5UNC66IDfOmhK7FQVowuYqlJ9dTndW/vuoQRn4Q/5fMjUqtYS8P2a3J
+        IRC2PWrDqkl83rF3fWvGJ
+X-Received: by 2002:adf:c3c3:: with SMTP id d3mr762064wrg.373.1630519807442;
+        Wed, 01 Sep 2021 11:10:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+M43pfhuaLKye8YBTMT45+0fbZOP2iZhzz9o/djvCwsKzzBpvEOE73hmUgETCVRm8npRcXg==
+X-Received: by 2002:adf:c3c3:: with SMTP id d3mr762051wrg.373.1630519807306;
+        Wed, 01 Sep 2021 11:10:07 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23f71.dip0.t-ipconnect.de. [79.242.63.113])
+        by smtp.gmail.com with ESMTPSA id c13sm165598wru.73.2021.09.01.11.10.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Sep 2021 11:10:06 -0700 (PDT)
+Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
+To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
         tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
         vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
         mika.penttila@nextfour.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         songmuchun@bytedance.com
-Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
-Message-ID: <20210901180914.GS1200268@ziepe.ca>
 References: <20210901135314.GA1859446@nvidia.com>
  <0c9766c9-6e8b-5445-83dc-9f2b71a76b4f@redhat.com>
  <20210901153247.GJ1721383@nvidia.com>
@@ -78,25 +77,44 @@ References: <20210901135314.GA1859446@nvidia.com>
  <ef7a722d-0bc0-1c68-b11b-9ede073516e0@redhat.com>
  <20210901175547.GP1721383@nvidia.com>
  <52ba8125-0382-3270-a958-ed113ae1db2a@redhat.com>
+ <20210901180914.GS1200268@ziepe.ca>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <01754b36-12c6-48dc-4f84-c289b7aa47ec@redhat.com>
+Date:   Wed, 1 Sep 2021 20:10:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <52ba8125-0382-3270-a958-ed113ae1db2a@redhat.com>
+In-Reply-To: <20210901180914.GS1200268@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 01, 2021 at 07:58:47PM +0200, David Hildenbrand wrote:
-> You'll most likely have to touch each and every place either way, for
-> example when suddenly returning "null" instead of a pte. It's just a matter
-> of making this easier to review and the changes as minimal and as clear as
-> possible.
+On 01.09.21 20:09, Jason Gunthorpe wrote:
+> On Wed, Sep 01, 2021 at 07:58:47PM +0200, David Hildenbrand wrote:
+>> You'll most likely have to touch each and every place either way, for
+>> example when suddenly returning "null" instead of a pte. It's just a matter
+>> of making this easier to review and the changes as minimal and as clear as
+>> possible.
+> 
+> I imagine the leading series to add the simplified API would include
+> the null return already - the THP race avoidance requires it anyhow.
+> 
 
-I imagine the leading series to add the simplified API would include
-the null return already - the THP race avoidance requires it anyhow.
+Okay, so we're on the same page.
 
-So you end up with a simpler self contained series that is a stand
-alone improvement followed by a much smaller series here that doesn't
-got back and re-touch the first series's changes.
+> So you end up with a simpler self contained series that is a stand
+> alone improvement followed by a much smaller series here that doesn't
+> got back and re-touch the first series's changes.
 
-Jason
+Exactly.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
