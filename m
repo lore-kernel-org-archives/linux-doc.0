@@ -2,137 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77356C43216
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 13:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD930C4320E
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 13:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DAA36108E
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 13:02:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B20B661059
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 13:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344885AbhIANDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 09:03:02 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:60240 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345667AbhIANAf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Sep 2021 09:00:35 -0400
-Received: from zn.tnic (p200300ec2f0f3000a727e3aff00b12e4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:3000:a727:e3af:f00b:12e4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A1A921EC01A9;
-        Wed,  1 Sep 2021 14:59:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1630501172;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=rmuIuK2FpCv0DEu4TLFx/eI7rk7UX7fPyKr+Xpl6u6Y=;
-        b=r6jEqxA1kBmuK19FN0TZsUfbKoQ7P8WADTQ/AuwKBFXRf0vuABalTI+NeMLZzvHfQhU0lz
-        JXg1YfbZcebXpZsQS93mOTHnX6cbN/oIqd0/Trgkwk2YknnwEPwDH+M/mOd99wNtlfUDXz
-        Ptadg5YGr8MMIdz7HKbk7vTpO7zRv9g=
-Date:   Wed, 1 Sep 2021 15:00:07 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH v29 23/32] x86/cet/shstk: Add user-mode shadow stack
- support
-Message-ID: <YS95VzrNhDhFpsop@zn.tnic>
-References: <20210820181201.31490-1-yu-cheng.yu@intel.com>
- <20210820181201.31490-24-yu-cheng.yu@intel.com>
- <YSfAbaMxQegvmN2p@zn.tnic>
- <fa372ba8-7019-46d6-3520-03859e44cad9@intel.com>
- <YSktDrcJIAo9mQBV@zn.tnic>
- <ab5bfeb4-af66-35b4-40da-829c7f98dcc2@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S244877AbhIANyP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 09:54:15 -0400
+Received: from mail-dm6nam08on2047.outbound.protection.outlook.com ([40.107.102.47]:31104
+        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S244846AbhIANyO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Sep 2021 09:54:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OCjFnXm+0V0VwDKjr5yTyG4wCNNWr6MJqeR/OXM0QzRJ2REHThoMB8t5Wo+6UMIJHt89Nmc6pikTuQfhtiMJ+kopX8OiX7WVCg1BenV3z4oslk1V53/7lka+72UDFInRLAP912T1V1iiJ/VDZZ725Bta3A0nggPG8AH3Zt4IU/DuA45tEHF/EFuS+Fgu4qow9k0w1GVghDGaUdV3IJyjgiTTwEOImMMRiW+Quf9HMwIzBUBX5/DogXnZiuAiCGtZGL7liy1ewPCI6kxFcxJ+StDOBgt6mdSLSQIxUyezj2wsw5ToL8t7GtqqIjCqU6YfuyQr6CLUN6uz+T7EoM+g5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pRzi4WPfDQkmKfbJMy/tmtGoOu1mAqKmKiiIRNGP804=;
+ b=ICqeAs4T7vLMjTyia327vaeR8c1T7R+I1nLUkkH1fRHeNKxlPZmGgUmUPcMOYXiJuUOYtU1nDchR0T2zuPROCYKOvPK1HZTDinhUITyPKIg8dI901ihoTlq2qi7gumAIAykwKGKVcRPFQiEOB7FaqwogN4OZxab5nnqNrzRkzM1r2Hvp6t50J5OAKpefTLmMadQUMZnLwEep7dX7WGvSxlJBITHe1GJYKQG5fX6ABjS670ABPt024Nrxoc4OV/gG+pQchxIGv6Dw3vP3s9RRhlq71E5xtderjQzViWCxW22VGdYCeqVfZsfidZrekzTHOSMRwsv5+YIm3MKUOUUErw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pRzi4WPfDQkmKfbJMy/tmtGoOu1mAqKmKiiIRNGP804=;
+ b=QhTiL3FSxM+Eap7yG08zuCNhbuSkFg4aO1ICVXojJsuO/woAt4xQk/9CL0w2KdiiYLGholCNFtteLch72AFxfwHGO67RaL1arlN8mN01KtIK+qmyngv2rK93vu5V/YIwLd07+s3D1QAi7ySRkEtjKcUOdojhiPLa9rPyzXFgX9TxcVgbp5MpLiDSo0/XkzJCNuduNyZa31HFbEvJf0gqYTjb0ZL0xWhy7tnoMTZqRcsgnUdT9wxOu7Maeb+J/BFlewGkmCpoeryPwGyeLqs7wpCacV5E4quTFz4AhvTlcgA5tvXlvHr7w9eEwN7rmd00om7GM1FaR2mLijTkPZFNNg==
+Authentication-Results: bytedance.com; dkim=none (message not signed)
+ header.d=none;bytedance.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5286.namprd12.prod.outlook.com (2603:10b6:208:31d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.19; Wed, 1 Sep
+ 2021 13:53:15 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4478.020; Wed, 1 Sep 2021
+ 13:53:15 +0000
+Date:   Wed, 1 Sep 2021 10:53:14 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Qi Zheng <zhengqi.arch@bytedance.com>
+Cc:     akpm@linux-foundation.org, tglx@linutronix.de, hannes@cmpxchg.org,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        songmuchun@bytedance.com
+Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
+Message-ID: <20210901135314.GA1859446@nvidia.com>
+References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
+ <20210819031858.98043-7-zhengqi.arch@bytedance.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ab5bfeb4-af66-35b4-40da-829c7f98dcc2@intel.com>
+In-Reply-To: <20210819031858.98043-7-zhengqi.arch@bytedance.com>
+X-ClientProxiedBy: MN2PR18CA0004.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::9) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR18CA0004.namprd18.prod.outlook.com (2603:10b6:208:23c::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Wed, 1 Sep 2021 13:53:15 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mLQfy-007pbH-5W; Wed, 01 Sep 2021 10:53:14 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dbd00787-d1e4-41d9-5762-08d96d4fd883
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5286:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5286AA93D0DBBEBEFC6E12F6C2CD9@BL1PR12MB5286.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2nhfqv8viZp6jYigElODiyvJ12lBmOa4z9s+RndLYmkRmQvXt3G/MUyn6VJYERP1wwDrmtuwzj0WkfP9P3G1STYzrXGXSm2ds0sz4nmxt4lKWb3wezXwRJapaxUbDrtN29RgoX5ocYrVXv9C/5CItWVrEvUEoP9HYAOjKNBZ8+thpDiNwhO+OfizrJ6xosTtGA3mZ9+mf+6go1ibLZT6B+ypID0RZcdz9IdEn5S3oZwlScbstT2y11/o2vt+JbNqSdvf+5PAsIf8xFx6MRRBPzUdTKhNphRRDVamq+gl0iHhPV0BzAAbvRhasZYKrN/aI86chO7GhzF2awBZk/EtxMvJe6koO3AKVS3mhWgHrIVJHAA5zpBzRm8+Q7v1+pQEOo+5BW9ITO3+5awo+bjHQ8y0SD38RjMqA7ZSnRiwxBQ0fxynsP0xwapeWMcP/CIN93uMpVKHGjOC4UXikwDy/qV+IGwMXpTc7tFSxHMZhmfmYz09mxXNn+qjAD7r0613n0Qiz2fQSAYzk46mchRPoOd6xEssSK924GJAyGbZH6E/Xp0KLv1DT8p31Nqv/KRh9Oe6hyZPNk5E7wvhP7IhanwUHaIjw+/8Y0OITqkpOJSPcex4uSCWFnUMOrUyXi3PD473J1yzFhzk8wGSi2vINQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(39860400002)(376002)(396003)(478600001)(5660300002)(38100700002)(1076003)(7416002)(33656002)(2616005)(83380400001)(8936002)(6916009)(9786002)(9746002)(8676002)(2906002)(316002)(86362001)(26005)(426003)(66946007)(36756003)(186003)(4326008)(66476007)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iYgy8aU8TYIsPy6hex9g7Jk+J7EGdgoavXkrC1mEvLBMHchVco2V2z1DgkEZ?=
+ =?us-ascii?Q?NhvGG6T+sQybN/Q9QAlVp59aCJIsKBfjiPfm2R2u24c3FamwTGM2Vfl9UVLu?=
+ =?us-ascii?Q?s72V8+re8KTrm1XhzUNN23QNmZBcMUai5M2qj+SvxB9fwruyRKecoDJXU4Et?=
+ =?us-ascii?Q?8weyGwJEeiKEAJwQ8G1NpOV+2FURHfjlmrsGa0QZKYCbdPCPhkhS4nbfR8Tg?=
+ =?us-ascii?Q?LzNSt4QxGLJJOADZa9sM3xKEGuU/p0YZSJf4VB0lYry1soEAwKLeJYZHYNlA?=
+ =?us-ascii?Q?x6ofjycv1VHLJ2yvL80F6aDtV9Ab6I9NNBJzGenzOws3skW6znsRDzamvmYO?=
+ =?us-ascii?Q?T2q8JfjlwwSBrhshaJ8k7rsr60wfEwnmrOOkWMoLG0wWb+CnZPGo3H4N0MGd?=
+ =?us-ascii?Q?/7oOdV94+TW8Dcqp7l91+zOad4o4GHxm4TVnBBQBnrQyjIYH3J82i7ddcteB?=
+ =?us-ascii?Q?VBn4DGSn0N7/rk3nLd/NBpUqQbgpeuhf9GqWmwKADjEC5NBQviv+wJRD8kTp?=
+ =?us-ascii?Q?tYH4fwh1BIAChsldIJfgxP18g/Td8uZ0UbQG3AaeQK+l09hAxXbWvarNcoxs?=
+ =?us-ascii?Q?5zJtzIGIs+xSY8nYpCwQIwrk+9IyIwtat/8uqi9zrBNa1DT5ig8YnLURqX5f?=
+ =?us-ascii?Q?a2J5IBehO6ChxZQLaJFhPeGq33eWNuixmWdJt40UptC0D3b+YnmvaCa46GaT?=
+ =?us-ascii?Q?Wr3V25ok22tHogNbuGiKyd/TjGXboCgjNnzZHWD5ATbjVvZFz6z+i5VHZbXq?=
+ =?us-ascii?Q?TWncdwiGDqgVEbE03ug6iBLWf9LIMYp7DC27G1UacCzqq+5osZkHx9imqFUz?=
+ =?us-ascii?Q?kB2g4EurMTlixjiu0hbEN5w2xSGCba6AzUbTiwEAIaoe8bfQUMirvWk79VhJ?=
+ =?us-ascii?Q?OOHaxljHbklcRaMg7v2LscYrdiGGw2/AK0XRzDPOja+h3HS3vfSQZBoFfi5L?=
+ =?us-ascii?Q?u+4m+VJ1UIL+uQ5d/e80vIKxXOnMyqgF2irchH7S66IbUSBABosplaazLEB0?=
+ =?us-ascii?Q?OSpP2baDdwke3M1qsJTHd1CeKw8SH7FV/Cw+NfaURWkihD3p8aRZx0yp+0ah?=
+ =?us-ascii?Q?EC7jvflLpcNTxsZ6Uec3exfoG9FNe6b+ZJdINguuy5YCAjm26qKXy0AUpRC4?=
+ =?us-ascii?Q?31yC6nPYJlfat0/SHSWuRHlSAqfJD1JEH9xHdqYLZIAsWvZM2D2PDZhXVeoX?=
+ =?us-ascii?Q?TngBdQJkrWDSdoo0S/QaYGuU4XhRrrZdsAXXWjUfmFdx5GGT9g4iRIBQKsgi?=
+ =?us-ascii?Q?ZkYCB8g1pNxvuZL52v8XOZVRbObfYvkEOKS3pIZe5dL4Rs5f7R3y67NTIhd3?=
+ =?us-ascii?Q?wBGB2UbmMBIlnS7V9Kx+nw2M?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbd00787-d1e4-41d9-5762-08d96d4fd883
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 13:53:15.5430
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6XGF31JXLi7W32QtTdMEEPYeP/bMjRvuVmWLGXsATBLWRM6c0g28qFN/7Io4K0xg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5286
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-First of all,
+On Thu, Aug 19, 2021 at 11:18:55AM +0800, Qi Zheng wrote:
 
-thanks a lot Dave for taking the time to communicate properly with me!
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 2630ed1bb4f4..30757f3b176c 100644
+> +++ b/mm/gup.c
+> @@ -500,6 +500,9 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+>  	if (unlikely(pmd_bad(*pmd)))
+>  		return no_page_table(vma, flags);
+>  
+> +	if (!pte_try_get(mm, pmd))
+> +		return no_page_table(vma, flags);
+> +
+>  	ptep = pte_offset_map_lock(mm, pmd, address, &ptl);
 
-On Fri, Aug 27, 2021 at 01:25:29PM -0700, Dave Hansen wrote:
-> I don't think this has anything to do with context-switching, really.
-> 
-> The code lands in shstk_setup() which wants to make sure that the new
-> MSR values are set before the task goes out to userspace.  If
-> TIF_NEED_FPU_LOAD was set, it could do that by going out to the XSAVE
-> buffer and setting the MSR state in the buffer.  Before returning to
-> userspace, it would be XRSTOR'd.  A WRMSR by itself would not be
-> persistent because that XRSTOR would overwrite it.
-> 
-> But, if TIF_NEED_FPU_LOAD is *clear* it means the XSAVE buffer is
-> out-of-date and the registers are live.  WRMSR can be used and there
-> will be a XSAVE* to the task buffer during a context switch.
-> 
-> So, this code takes the coward's way out: it *forces* TIF_NEED_FPU_LOAD
-> to be clear by making the registers live with fpregs_restore_userregs().
->  That lets it just use WRMSR instead of dealing with the XSAVE buffer
-> directly.  If it didn't do this with the *WHOLE* set of user FPU state,
-> we'd need more fine-granted "NEED_*_LOAD" tracking than our one FPU bit.
-> 
-> This is also *only* safe because the task is newly-exec()'d and the FPU
-> state was just reset.  Otherwise, we might have had to worry that the
-> non-PL3 SSPs have garbage or that non-SHSTK bits are set in MSR_IA32_U_CET.
-> 
-> That said, after staring at it, I *think* this code is functionally
-> correct and OK performance-wise.
+This is not good on a performance path, the pte_try_get() is
+locking/locking the same lock that pte_offset_map_lock() is getting.
 
-Right, except that that is being done in
-setup_signal_shadow_stack()/restore_signal_shadow_stack() too, for the
-restore token.
+This would be much better if the map_lock infra could manage the
+refcount itself.
 
-Which means, a potential XRSTOR each time just for a single MSR. That
-means, twice per signal in the worst case.
+I'm also not really keen on adding ptl level locking to all the
+currently no-lock paths. If we are doing that then the no-lock paths
+should rely on the ptl for alot more of their operations and avoid the
+complicatred no-lock data access we have. eg 'pte_try_get()' should
+also copy the pte_t under the lock.
 
-Which means, shadow stack should be pretty noticeable in signal-heavy
-benchmarks...
+Also, I don't really understand how this scheme works with
+get_user_pages_fast.
 
-> I suspect that the (very blunt) XRSTOR inside of
-> start_update_msrs()->fpregs_restore_userregs() is quite rare because
-> TIF_NEED_FPU_LOAD will usually be clear due to the proximity to
-> execve(). So, adding direct XSAVE buffer manipulation would probably
-> only make it more error prone.
+Currently the zap triggers a TLB invalidation which synchronizes with
+GUP fast, however this only makes the ptes non-present. The purpose is
+to synchronize with the struct page refcount, not a pte refcount.
 
-@Yu-cheng: please take Dave's explanation as is and stick it over
-start_update_msrs() so that it is clear what that thing is doing.
+With this series the non-present PTEs are freed but how does this
+synchronize with gup fast to avoid a use-after-free on the pte struct
+page?
 
-Thx.
+I agree with David, this series needs significant splitting to be
+readable and a lot more explanation in the commit messages how all the
+locking is working. Eg introducing the freeing should be a single
+short patch at at end with a full explanation of the locking in all
+the major scenarios.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Jason
