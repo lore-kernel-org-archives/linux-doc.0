@@ -2,74 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A32AC4320E
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 17:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDA5C432BE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:09:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8267960F23
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 17:58:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19025610A1
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 18:09:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235811AbhIAR7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 13:59:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40308 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231669AbhIAR7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 13:59:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630519131;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i0smCMwmVwKCQLrLP9ThmbbkbGXWzmsdDycWPMRoaPI=;
-        b=FqeA51nNxEr45U1Hodx0kjGDpjN84euYLpZkB/Olc6ERQETkVDdUyvNFdNrUMINXfpDjx2
-        jD3q8IGyqDA7ctFe1YpIY195KoviQ+hA+yoqp5Vw9gYzfjwXybt3GFW8a2p9a9Lla8JeBK
-        nLUF8H90m04e8i111DlOWekTLQZ6Djw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-CiWfWXLFPEqFlY26UYThBw-1; Wed, 01 Sep 2021 13:58:50 -0400
-X-MC-Unique: CiWfWXLFPEqFlY26UYThBw-1
-Received: by mail-wm1-f71.google.com with SMTP id y24-20020a7bcd98000000b002eb50db2b62so116927wmj.5
-        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 10:58:49 -0700 (PDT)
+        id S1344455AbhIASKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 14:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239445AbhIASKN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 14:10:13 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D822C061575
+        for <linux-doc@vger.kernel.org>; Wed,  1 Sep 2021 11:09:16 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id c19so464713qte.7
+        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 11:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UOqfD8w800F/Nfr4LOJfJfsHlltggA7GI5D0/+MPf2Q=;
+        b=Ox9bs87nkVrewaMMUlmMJkOnilGfEsCVRAIQ+aQ83+2LTkk4h/rfLyEw9kzGGh6UpR
+         4CtRpZ+/j4GRqwTl34I65RkJQf/OPEjZVmow8X6L1VRpz9859K3wwvgan3k/Fcoucoei
+         U2//8DP3FjO6Xxf5VV5GE7ZOq2ZQ3dcZOjy47iUsEyIQ3WzmvUhitw0p0JpxVRRUzWuF
+         Ug1rDffJGaYnXFPzE6hUvpasFgtSoMMMEyyhfqTLNHRBptyziZ+WHbjyVg9MAv4BkbLo
+         wxAgFY1zeIceBN1z4GpO4J+tFKHI5aA2Ux1r4yj46YnPsRcuESDC6eeWJhMYhw8CrVpN
+         08Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=i0smCMwmVwKCQLrLP9ThmbbkbGXWzmsdDycWPMRoaPI=;
-        b=Qfzu4wmoUGbXwuQOdwKyBI8sxQITR1Tr+7gJDt91c2/gyqJjJA/sKgyt9gJu3RNBXf
-         4zxQTFOc7bt0eHMiSUezwLMef94iwzFIK1UxP1ohDQ3B/GAG8GXSOQ6TN2g6u6Uuu7kM
-         zO+L6z632DKIjCwpXwlNREpJI5KY1eKg7QqYO52UgZUzpITjD1jC/SgF5Au3gXyAkj1w
-         NUmbqC8c+vTJmFQOZ/9fvn17CzTluKgeK5WWC4kC6FVLJQgbAPxJqwRVEiZaa+dV3wlS
-         I0WbByZv+NkRR8e6byNInVJMdUCj02iXBvi4Uymdw8eOa9bPSWwoPSOCPW0dAZV1iEFV
-         lSOg==
-X-Gm-Message-State: AOAM533F0v5bRxOqa1xBUgPIP3men9kr0CwTFG7t4fximM9tTxFQDYvN
-        b6ZTOudZPFCmtOrlpnU9yEpWD2K3Y08BSAC2m2urcyL8mTCyfUK28vgfn0jTAXEmKLyMDSRftfw
-        X5KXtTbvd1ahWHUPAZgO0
-X-Received: by 2002:a1c:1904:: with SMTP id 4mr632317wmz.93.1630519129027;
-        Wed, 01 Sep 2021 10:58:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznn407qu+Ost99CYfe2lcliOS2h2St5mYG0lHHVc+4MOX4G0xXAv7RYLIHHtKhlQzOV2LngA==
-X-Received: by 2002:a1c:1904:: with SMTP id 4mr632301wmz.93.1630519128815;
-        Wed, 01 Sep 2021 10:58:48 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23f71.dip0.t-ipconnect.de. [79.242.63.113])
-        by smtp.gmail.com with ESMTPSA id t14sm224966wmi.12.2021.09.01.10.58.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 10:58:48 -0700 (PDT)
-Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
-To:     Jason Gunthorpe <jgg@nvidia.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UOqfD8w800F/Nfr4LOJfJfsHlltggA7GI5D0/+MPf2Q=;
+        b=OJ0ZNXEQfB6W8tgrxLxgdvp4cqdgSLgQ4WM11G19ASme7LtsyKtFE9b1F8qAusiACJ
+         rcDpNCujT1ZtI477ry3tfYBc68M7jgUacTJkKiHkIsckOm1nT8MlNRD7cLyCSIk6gybY
+         4w4RosJKbm97yj2c3E6xSgAM4+0iBkERMe7ECSpTd0pymPMXfsrupnfp/TaVMQ5z0bmw
+         Pp1XEdvCHO8YG0ACk/3xvaORsTQENUX828YdxH+KTN5n5xpe3rQUNwq3jhzm8jh/aWEE
+         1W7w2mXluIMWVKvIjG4qadTgyf5qNbAWCOGeynlDYJsYwkAFfY6osBAplenyDCjQLdG7
+         ltDA==
+X-Gm-Message-State: AOAM530rIuP7bx1XwEu+lpazwQ44Kqe49W+LwL1ciiv/TPkhiJtCVZLR
+        cF4g3GfCpxIEwd1/0svftDSoew==
+X-Google-Smtp-Source: ABdhPJwrzZAjc9PfHsU/3i22e2xwCxmIaT47VTkSIAldmXSwTLWpE8m34PMXxRVPzqe7h14/7Os0xQ==
+X-Received: by 2002:a05:622a:100e:: with SMTP id d14mr561548qte.350.1630519755603;
+        Wed, 01 Sep 2021 11:09:15 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id h20sm318081qtr.81.2021.09.01.11.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 11:09:14 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mLUfi-0088XO-9Q; Wed, 01 Sep 2021 15:09:14 -0300
+Date:   Wed, 1 Sep 2021 15:09:14 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     David Hildenbrand <david@redhat.com>
 Cc:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
         tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
         vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
         mika.penttila@nextfour.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         songmuchun@bytedance.com
-References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
- <20210819031858.98043-7-zhengqi.arch@bytedance.com>
- <20210901135314.GA1859446@nvidia.com>
+Subject: Re: [PATCH v2 6/9] mm: free user PTE page table pages
+Message-ID: <20210901180914.GS1200268@ziepe.ca>
+References: <20210901135314.GA1859446@nvidia.com>
  <0c9766c9-6e8b-5445-83dc-9f2b71a76b4f@redhat.com>
  <20210901153247.GJ1721383@nvidia.com>
  <7789261d-6a64-c47b-be6c-c9be680e5d33@redhat.com>
@@ -78,75 +77,26 @@ References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
  <20210901171039.GO1721383@nvidia.com>
  <ef7a722d-0bc0-1c68-b11b-9ede073516e0@redhat.com>
  <20210901175547.GP1721383@nvidia.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <52ba8125-0382-3270-a958-ed113ae1db2a@redhat.com>
-Date:   Wed, 1 Sep 2021 19:58:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <52ba8125-0382-3270-a958-ed113ae1db2a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210901175547.GP1721383@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <52ba8125-0382-3270-a958-ed113ae1db2a@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01.09.21 19:55, Jason Gunthorpe wrote:
-> On Wed, Sep 01, 2021 at 07:49:23PM +0200, David Hildenbrand wrote:
->> On 01.09.21 19:10, Jason Gunthorpe wrote:
->>> On Wed, Sep 01, 2021 at 06:19:03PM +0200, David Hildenbrand wrote:
->>>
->>>>> I wouldn't think it works everywhere, bit it works in a lot of places,
->>>>> and it is a heck of a lot better than what is proposed here. I'd
->>>>> rather see the places that can use it be moved, and the few places
->>>>> that can't be opencoded.
->>>>
->>>> Well, I used ptep_get_map_lock() and friends. But hacking directly into
->>>> ptep_map_lock() and friends wasn't possible due to all the corner cases.
->>>
->>> Sure, I'm not surprised you can't get every single case, but that just
->>> suggest we need two API families, today's to support the special cases
->>> and a different one for the other regular simple cases.
->>>
->>> A new function family pte_try_map/_locked() and paired unmap that can
->>> internally do the recounting and THP trickery and convert the easy
->>> callsites.
->>>
->>> Very rough counting suggest at least half of the pte_offset_map_lock()
->>> call sites can trivially use the simpler API.
->>>
->>> The other cases can stay as is and get open coded refcounts, or maybe
->>> someone will have a better idea once they are more clearly identified.
->>>
->>> But I don't think we should take a performance hit of additional
->>> atomics in cases like GUP where this is trivially delt with by using a
->>> better API.
->>
->> Right, but as I said in the cover letter, we can happily optimize once we
->> have the basic infrastructure in place and properly reviewed. Getting rid of
->> some unnecessary atomics by introducing additional fancy helpers falls under
->> that category.
-> 
-> I'm not sure I agree given how big and wide this patch series is. It
-> would be easier to review if it was touching less places. The helpers
-> are not fancy, it is a logical re-arrangement of existing code that
-> shrinks the LOC of this series and makes it more reviewable.
+On Wed, Sep 01, 2021 at 07:58:47PM +0200, David Hildenbrand wrote:
+> You'll most likely have to touch each and every place either way, for
+> example when suddenly returning "null" instead of a pte. It's just a matter
+> of making this easier to review and the changes as minimal and as clear as
+> possible.
 
-You'll most likely have to touch each and every place either way, for 
-example when suddenly returning "null" instead of a pte. It's just a 
-matter of making this easier to review and the changes as minimal and as 
-clear as possible.
+I imagine the leading series to add the simplified API would include
+the null return already - the THP race avoidance requires it anyhow.
 
-> 
-> Or stated another way, a niche feature like this try much harder not
-> to add more complexity everywhere.
+So you end up with a simpler self contained series that is a stand
+alone improvement followed by a much smaller series here that doesn't
+got back and re-touch the first series's changes.
 
-I fully agree.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Jason
