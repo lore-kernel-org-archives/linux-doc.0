@@ -2,145 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E75C43214
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BB9C4320E
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:44:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A72BE61056
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:12:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B7FE60F3A
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Sep 2021 09:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243446AbhIAJNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Sep 2021 05:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243460AbhIAJNO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Sep 2021 05:13:14 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E2BC061796
-        for <linux-doc@vger.kernel.org>; Wed,  1 Sep 2021 02:12:17 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id m26so1548119pff.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Sep 2021 02:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rSLnBv6HzrzRT2E+OrtX7br/e1aM+QCsCVPYd1HLzdc=;
-        b=gamJq1iYdnzqTJXSjm+5RkT6COhyrD+KFLc/YuFGGAyOn10TEbeOJ+VJJ/PMMkbAbb
-         X8TVF4KZGYZKD2YBT1ll8KLrV6NMxqEdNpP27Hfce9FAbTSmzKiVRXIa6h1SdrK5/3oS
-         QgcGhCmBL9ANHdpdCml7SSM8VwC53T7fEDYi3DwyXO8n7sPg7VgW8CdDoL828KmOZwiO
-         uY7q60iFvh7y5e6/kpwIG6tXxZrvbUQNYj+7afblhj1EWFnXxAclrcdHvUq4SHeOWTba
-         YRNchczQ0me0e6DJrm9o87wVIEpn9ad82xPYPIPQ98xjHX/J2eE0hkeCFp7YR9YTgeMb
-         blUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rSLnBv6HzrzRT2E+OrtX7br/e1aM+QCsCVPYd1HLzdc=;
-        b=tt8hGMF3E4fpk6DhnLmbOHYH1EZKW73v1fTJpQt5y4weLL/s6k/FVHz2VZUEBKyBTJ
-         ToX8l8NIveMPpX4ahkvPt3phYuTKU9E13MaXTstnVEs22Uu6leA4XfEbzfIdTewlxkOd
-         nI/c7sYuduHvTI7rEKqvHL7DJDjLCxH7eVvJ5ro9YFSVC3F2iCfNE2AeH9RfdTyUQ0SH
-         9rvKuiDXalYpxnX/muASGJZM9UM10WBCxorSfJx4QopdYU2wTASDQopmUqDWRnNDi+4a
-         wH4Y+hP9OTveTC2FCfmnObVLPqgx+uS4UKW2joDUn23un8hKFmnEc00o6w1Q3so0L+SO
-         5BJA==
-X-Gm-Message-State: AOAM53247orouZKQHeUPhru1zu5Lun54feFn66pV+PZpxCb8dA9cyoWs
-        1VbuIRd9y89sacEJqyifOhRFQg==
-X-Google-Smtp-Source: ABdhPJx3GapedXo1LpKHC7Vvi+SwU4/wP2MNKKT+1JUHstrRZUG0Jx8e4bs6LSJDFeo5HtO+2iR6kA==
-X-Received: by 2002:a65:648b:: with SMTP id e11mr30941505pgv.138.1630487537479;
-        Wed, 01 Sep 2021 02:12:17 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id o15sm4900093pjr.0.2021.09.01.02.12.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 02:12:17 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
-Cc:     linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] cpufreq: Remove ready() callback
-Date:   Wed,  1 Sep 2021 14:41:57 +0530
-Message-Id: <9c2435b18039fe50328b8f443dcd4dbb009f4618.1630487322.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1630487322.git.viresh.kumar@linaro.org>
-References: <cover.1630487322.git.viresh.kumar@linaro.org>
+        id S243714AbhIAJpr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Sep 2021 05:45:47 -0400
+Received: from verein.lst.de ([213.95.11.211]:46991 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242789AbhIAJpr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Sep 2021 05:45:47 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 3F54868AFE; Wed,  1 Sep 2021 11:44:47 +0200 (CEST)
+Date:   Wed, 1 Sep 2021 11:44:46 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Christoph Hellwig <hch@lst.de>, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 04/14] mm/memremap: add ZONE_DEVICE support for
+ compound pages
+Message-ID: <20210901094446.GA29632@lst.de>
+References: <20210827145819.16471-1-joao.m.martins@oracle.com> <20210827145819.16471-5-joao.m.martins@oracle.com> <20210827153308.GA20687@lst.de> <9ee23c67-e600-555a-85fc-d527b1484bcc@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ee23c67-e600-555a-85fc-d527b1484bcc@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This isn't used anymore, get rid of it.
+On Fri, Aug 27, 2021 at 05:00:11PM +0100, Joao Martins wrote:
+> So felt like doing it inline straight away inline when calling percpu_ref_get_many():
+> 	
+> 	(pfn_end(pgmap, range_id) - pfn_first(pgmap, range_id)) / pgmap_geometry(pgmap);
+> 
+> I can switch to a shift if you prefer:
+> 
+> 	(pfn_end(pgmap, range_id) - pfn_first(pgmap, range_id))
+> 		<< pgmap_geometry_order(pgmap);
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- Documentation/cpu-freq/cpu-drivers.rst                    | 3 ---
- Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst | 2 --
- drivers/cpufreq/cpufreq.c                                 | 4 ----
- include/linux/cpufreq.h                                   | 3 ---
- 4 files changed, 12 deletions(-)
+Yes.  A shift is less overhead than a branch.
 
-diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
-index d84ededb66f9..3b32336a7803 100644
---- a/Documentation/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/cpu-freq/cpu-drivers.rst
-@@ -75,9 +75,6 @@ And optionally
-  .resume - A pointer to a per-policy resume function which is called
-  with interrupts disabled and _before_ the governor is started again.
- 
-- .ready - A pointer to a per-policy ready function which is called after
-- the policy is fully initialized.
--
-  .attr - A pointer to a NULL-terminated list of "struct freq_attr" which
-  allow to export values to sysfs.
- 
-diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-index 5ae9cfa2ec55..334f30ae198b 100644
---- a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-@@ -80,8 +80,6 @@ 并且可选择
-  .resume - 一个指向per-policy恢复函数的指针，该函数在关中断且在调节器再一次开始前被
-  调用。
- 
-- .ready - 一个指向per-policy准备函数的指针，该函数在策略完全初始化之后被调用。
--
-  .attr - 一个指向NULL结尾的"struct freq_attr"列表的指针，该函数允许导出值到
-  sysfs。
- 
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 7d5f170ecad1..5782b15a8caa 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -1517,10 +1517,6 @@ static int cpufreq_online(unsigned int cpu)
- 
- 	kobject_uevent(&policy->kobj, KOBJ_ADD);
- 
--	/* Callback for handling stuff after policy is ready */
--	if (cpufreq_driver->ready)
--		cpufreq_driver->ready(policy);
--
- 	if (cpufreq_thermal_control_enabled(cpufreq_driver))
- 		policy->cdev = of_cpufreq_cooling_register(policy);
- 
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index c65a1d7385f8..fe6acc04e5e5 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -367,9 +367,6 @@ struct cpufreq_driver {
- 	int		(*suspend)(struct cpufreq_policy *policy);
- 	int		(*resume)(struct cpufreq_policy *policy);
- 
--	/* Will be called after the driver is fully initialized */
--	void		(*ready)(struct cpufreq_policy *policy);
--
- 	struct freq_attr **attr;
- 
- 	/* platform specific boost support code */
--- 
-2.31.1.272.g89b43f80a514
+> > Also geometry sounds a bit strange, even if I can't really
+> > offer anything better offhand.
+> > 
+> We started with @align (like in device dax core), and then we switched
+> to @geometry because these are slightly different things (one relates
+> to vmemmap metadata structure (number of pages) and the other is how
+> the mmap is aligned to a page size. I couldn't suggest anything else,
+> besides a more verbose name like vmemmap_align maybe.
 
+It for sure isn't an alignment.  I think the term that comes closest
+is a granularity.  But something like vmemmap_shift if switching to
+a shift might be descriptive enough for the struct member name.
