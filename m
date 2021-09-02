@@ -2,138 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DDBC432BE
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 12:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B5FC4320E
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 13:44:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ED2E60295
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 12:15:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BAD6610A1
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 13:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343940AbhIBMQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Sep 2021 08:16:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36486 "EHLO mail.kernel.org"
+        id S234364AbhIBNpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Sep 2021 09:45:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33332 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343984AbhIBMQw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Sep 2021 08:16:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A954A60F90;
-        Thu,  2 Sep 2021 12:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630584954;
-        bh=hr+t/bJ+QD4jlEcI9TsTp6H1aIJD4dtF+RqEdbB6Hrs=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Xcn+mpNutq0ztqFE9/Cl8RHOuDeLeYGfQIxYWM8uTCKRAnO9OgXIp/UtD3YBcAaYO
-         lrHqhjB2UHFKzm1grkYptjY250P7pYtuOlo9fX8QnAx+Hl6fdLEPyyHKxwIVa7pD6J
-         iLXQSXrMjBnOoGt0BIpDVkd8b9j1Z7EQY7H7ZwKzKLgczpFnHXacS28g624cq1QPfI
-         klu8+iKpyeCMe1Uiv8ZKQXgLZeCGLWtBwj4dtIfoG6zOUGbBIl04i7KoKajRwwiqaj
-         nQQ9Tt/CMCCMzcmJqq5IgRbF+QfI36ipK/MOMDLX65kothi8gWb4ZAnqiwE6Ts+CR6
-         Rq0Civj3ajWhQ==
-Message-ID: <41e9b099f6492c389b3ed3bbe107d61804a307e9.camel@kernel.org>
-Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Kai Huang <kai.huang@intel.com>
-Cc:     linux-sgx@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S234188AbhIBNpi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Sep 2021 09:45:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0605161056;
+        Thu,  2 Sep 2021 13:44:36 +0000 (UTC)
+Date:   Thu, 2 Sep 2021 15:44:34 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mel Gorman <mgorman@suse.de>, linux-kernel@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Thu, 02 Sep 2021 15:15:51 +0300
-In-Reply-To: <20210901174705.3b1a943ef8c4bb09323c6d76@intel.com>
-References: <20210825235234.153013-1-jarkko@kernel.org>
-         <20210825235234.153013-2-jarkko@kernel.org>
-         <20210826141959.5f13ff3c9c560c23b58443b1@intel.com>
-         <54923ac01fc303e5105cadca06b7c5cbd322d815.camel@kernel.org>
-         <20210828000335.1d40dfff0f408b2d91467491@intel.com>
-         <04b90a702328712204430db604b2a92ddfe8f990.camel@kernel.org>
-         <20210901173322.78f94b694b4be6b1225bee98@intel.com>
-         <6a9fccdb6a458960e43a63afcce87cc62184adf9.camel@kernel.org>
-         <20210901174705.3b1a943ef8c4bb09323c6d76@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
+ PR_SCHED_CORE type argument
+Message-ID: <20210902134434.gdctjkc5pvrwm3db@wittgenstein>
+References: <20210825170613.GA3884@asgard.redhat.com>
+ <20210826100025.pdakvmg24gomnuk5@wittgenstein>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210826100025.pdakvmg24gomnuk5@wittgenstein>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-09-01 at 17:47 +1200, Kai Huang wrote:
-> On Wed, 01 Sep 2021 08:41:12 +0300 Jarkko Sakkinen wrote:
-> > On Wed, 2021-09-01 at 17:33 +1200, Kai Huang wrote:
-> > > On Wed, 01 Sep 2021 05:02:45 +0300 Jarkko Sakkinen wrote:
-> > > > On Sat, 2021-08-28 at 00:03 +1200, Kai Huang wrote:
-> > > > > > > > -/* The free page list lock protected variables prepend the=
- lock. */
-> > > > > > > > +/* The number of usable EPC pages in the system. */
-> > > > > > > > +unsigned long sgx_nr_all_pages;
-> > > > > > > > +
-> > > > > > > > +/* The number of free EPC pages in all nodes. */
-> > > > > > > >  static unsigned long sgx_nr_free_pages;
-> > > > > > > > =20
-> > > > > > > >  /* Nodes with one or more EPC sections. */
-> > > > > > > > @@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_sectio=
-n(u64 phys_addr, u64 size,
-> > > > > > > >  		list_add_tail(&section->pages[i].list, &sgx_dirty_page_l=
-ist);
-> > > > > > > >  	}
-> > > > > > > > =20
-> > > > > > > > +	sgx_nr_all_pages +=3D nr_pages;
-> > > > > > > > +
-> > > > > > >=20
-> > > > > > > EPC sections can be freed again in sgx_init() after they are =
-successfully
-> > > > > > > initialized, when any further initialization fails (i.e. when=
- fails to create
-> > > > > > > ksgxd, or fails to register /dev/sgx_provision).  In which ca=
-se, I think
-> > > > > > > sgx_nr_all_pages should also be cleared.  But current sgx_ini=
-t() seems doesn't
-> > > > > > > reset it.  Do you need to fix that too?
-> > > > > >=20
-> > > > > > sgx_nr_all_pages tells just the total pages in the system, i.e.=
- it's a constant.
-> > > > > >=20
-> > > > > > Maybe a rename to "sgx_nr_total_pages" would be a good idea? Wo=
-uld match with
-> > > > > > the meminfo field better too.
-> > > > >=20
-> > > > > I don't have preference on name.  I just think if there's no actu=
-al user of
-> > > > > EPC (when both driver and KVM SGX cannot be enabled), it's pointl=
-ess to print
-> > > > > number of EPC pages.
-> > > >=20
-> > > > I'd presume that you refer to the code, which prints the number of =
-*bytes* in
-> > > > the system because code printing the number of pages does not exist=
- in this
-> > > > patch set.
-> > > >=20
-> > > > I have troubles the decipher your statement.
-> > > >=20
-> > > > You think that only if both the driver and KVM are *both* enabled, =
-only then
-> > > > it makes sense to have this information available for sysadmin?
-> > >=20
-> > > Only if at least one of them is enabled.
-> >=20
-> > OK, thank you, that does make sense.
-> >=20
-> > What would happen if neither is enabled is that SGX_MemTotal would
-> > state that there is zero bytes of EPC.=20
->=20
-> This is the problem I pointed out at the beginning, that (if I read code
-> correctly), it seems your current patch doesn't clear sgx_nr_all_pages wh=
-en
-> neither is enabled (in sgx_init() in sgx/main.c).
+On Thu, Aug 26, 2021 at 12:00:25PM +0200, Christian Brauner wrote:
+> On Wed, Aug 25, 2021 at 07:06:13PM +0200, Eugene Syromiatnikov wrote:
+> > Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+> > made use of enum pid_type in prctl's arg4; this type and the associated
+> > enumeration definitions are not exposed to userspace.  Christian
+> > has suggested to provide additional macro definitions that convey
+> > the meaning of the type argument more in alignment with its actual
+> > usage, and this patch does exactly that.
+> > 
+> > Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+> > Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> > ---
+> 
+> I mean, I proposed the names so I'm ok with them. :)
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> 
+> Peter et al. are you ok with this and do the names make sense to you?
 
-It's initialized to zero, so are you talking about fallback when something
-fails?
+I'll pick this up once the merge window closes then.
 
-/Jarkko
+Thanks!
+Christian
+
+> 
+> Christian
+> 
+> > v4:
+> >   - Rewritten in accordance with Christian Brauner's suggestion to provide
+> >     macro definitions that are explicitly tailored for the prctl op.
+> > 
+> > v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
+> >   - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
+> >     as noted by Dmitry Levin.
+> > 
+> > v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
+> >   - Header file is renamed from pid.h to pidtype.h to avoid collisions
+> >     with include/linux/pid.h when included from uapi headers;
+> >   - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
+> >     to avoid possible confusion with __kernel_pid_t.
+> > 
+> > v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
+> > ---
+> >  Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
+> >  include/uapi/linux/prctl.h                            | 3 +++
+> >  kernel/sched/core_sched.c                             | 4 ++++
+> >  3 files changed, 10 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > index 7b410ae..9a65fed 100644
+> > --- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > +++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > @@ -61,8 +61,9 @@ arg3:
+> >      ``pid`` of the task for which the operation applies.
+> >  
+> >  arg4:
+> > -    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
+> > -    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
+> > +    ``pid_type`` for which the operation applies. It is one of
+> > +    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
+> > +    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
+> >      will be performed for all tasks in the task group of ``pid``.
+> >  
+> >  arg5:
+> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> > index 967d9c5..644a3b4 100644
+> > --- a/include/uapi/linux/prctl.h
+> > +++ b/include/uapi/linux/prctl.h
+> > @@ -266,5 +266,8 @@ struct prctl_mm_map {
+> >  # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
+> >  # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
+> >  # define PR_SCHED_CORE_MAX		4
+> > +# define PR_SCHED_CORE_SCOPE_THREAD		0
+> > +# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
+> > +# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
+> >  
+> >  #endif /* _LINUX_PRCTL_H */
+> > diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
+> > index 9a80e9a..20f6409 100644
+> > --- a/kernel/sched/core_sched.c
+> > +++ b/kernel/sched/core_sched.c
+> > @@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
+> >  	if (!static_branch_likely(&sched_smt_present))
+> >  		return -ENODEV;
+> >  
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
+> > +
+> >  	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
+> >  	    (cmd != PR_SCHED_CORE_GET && uaddr))
+> >  		return -EINVAL;
+> > -- 
+> > 2.1.4
+> > 
