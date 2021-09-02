@@ -2,271 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A492C83029
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 17:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAEAC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 21:56:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 020FE61103
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 17:34:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45E9860F12
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Sep 2021 21:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346674AbhIBRfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Sep 2021 13:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346667AbhIBRfy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Sep 2021 13:35:54 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0549C061575
-        for <linux-doc@vger.kernel.org>; Thu,  2 Sep 2021 10:34:55 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id w19-20020a17090aaf9300b00191e6d10a19so2005434pjq.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Sep 2021 10:34:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kuxbSrJC7raCjCUG7LcB8YHVpag242X34QlRVBQEJck=;
-        b=Qz1JtxK/pZoFgGuAbj5ok/V6BdH4SNaUT0cKQyYvHFapEjheOiI0V1dmLqkEhLpRjc
-         PgDWnKnhzn0LqSnm65THcoYdBpQ02rtkl9jynSOqt18yD+GXKqlfo7sZzQY6ul/QeocB
-         9SWc/o9T0R70mbqBqOiC0m8ivO+EJlbbDddTJjJhP9iHQeCjhocVeDcg3ob6HPQIu3Yy
-         34/e8WkJ6Vv1KZc2kuJCz1o0zIbWhcMMnK/6dFbNCtCmrBRsIInyQeKKtec1vieRwuL+
-         C8Kjz16NnffK8oQQjWjxwDpT3epVz++uQVOUpkcRcKTXwRiRpX6wwJz21f5oIw+OE1Mj
-         dOSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kuxbSrJC7raCjCUG7LcB8YHVpag242X34QlRVBQEJck=;
-        b=NBbswGx9uT/xmIhRNS/Xj/l+TSkpKaJ6ORjHCezCats+7/QpgcP5GtIoqkbK04Nhxg
-         Mbl+rl65iEcdjZ9SJiSb5+hDzjh9p0EIWN6gURrCkvmydxntpUPI13lLrbsR3idvQCWM
-         tmrRp6TVnlqsu1M7H8kBcLTqy6HhjOFsAS29lUD+H89ewx/GvMz6T0qgLnd7BAhOzTCO
-         pSHYPOZM6PuO/zsNwTJKhIaJwGWEd6ubJMeQDc+cOeOvqM64+4737EpzzmLmuh25sN+s
-         FC3A1oqwQagCD6vRtOJ6s/wiNmTHl+KjKyFgRIhiK/E0YyjUsFJNregbmYfhbM+2ztqw
-         pIxw==
-X-Gm-Message-State: AOAM530wjev/p5WCuUzyYZ+KFgryKLLmhr3fBkO4rv8yh7T52XTnIMGj
-        lkC5RlQgN2tnxktuJCWkOrcxnQ==
-X-Google-Smtp-Source: ABdhPJzikB/whUMv0CGvwxBEkqeGMSm9SVinoKW03uCXHvCgtKkl9lYMXN2IL/CRuNFSIuqIGEGsfA==
-X-Received: by 2002:a17:90a:af88:: with SMTP id w8mr5157122pjq.104.1630604095117;
-        Thu, 02 Sep 2021 10:34:55 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id g4sm3268835pgs.42.2021.09.02.10.34.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 10:34:54 -0700 (PDT)
-Date:   Thu, 2 Sep 2021 17:34:50 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     kvm@vger.kernel.org, Kieran Bingham <kbingham@kernel.org>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1347656AbhIBV5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Sep 2021 17:57:35 -0400
+Received: from mga14.intel.com ([192.55.52.115]:41290 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347809AbhIBV5W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Sep 2021 17:57:22 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="218963659"
+X-IronPort-AV: E=Sophos;i="5.85,263,1624345200"; 
+   d="scan'208";a="218963659"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2021 14:56:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,263,1624345200"; 
+   d="scan'208";a="500007646"
+Received: from mmijoce-mobl.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.255.94.151])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2021 14:56:18 -0700
+Date:   Fri, 3 Sep 2021 09:56:16 +1200
+From:   Kai Huang <kai.huang@intel.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     linux-sgx@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Yang Weijiang <weijiang.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 3/6] KVM: SVM: implement
- force_intercept_exceptions_mask
-Message-ID: <YTELOvhj5lERBKeC@google.com>
-References: <20210811122927.900604-1-mlevitsk@redhat.com>
- <20210811122927.900604-4-mlevitsk@redhat.com>
- <73f3eff092ca9624ebd55bc02193b39f248c8877.camel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <73f3eff092ca9624ebd55bc02193b39f248c8877.camel@redhat.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] x86/sgx: Add SGX_MemTotal to /proc/meminfo
+Message-Id: <20210903095616.9806a6dd4938c021aa204b33@intel.com>
+In-Reply-To: <41e9b099f6492c389b3ed3bbe107d61804a307e9.camel@kernel.org>
+References: <20210825235234.153013-1-jarkko@kernel.org>
+        <20210825235234.153013-2-jarkko@kernel.org>
+        <20210826141959.5f13ff3c9c560c23b58443b1@intel.com>
+        <54923ac01fc303e5105cadca06b7c5cbd322d815.camel@kernel.org>
+        <20210828000335.1d40dfff0f408b2d91467491@intel.com>
+        <04b90a702328712204430db604b2a92ddfe8f990.camel@kernel.org>
+        <20210901173322.78f94b694b4be6b1225bee98@intel.com>
+        <6a9fccdb6a458960e43a63afcce87cc62184adf9.camel@kernel.org>
+        <20210901174705.3b1a943ef8c4bb09323c6d76@intel.com>
+        <41e9b099f6492c389b3ed3bbe107d61804a307e9.camel@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 11, 2021, Maxim Levitsky wrote:
-> On Wed, 2021-08-11 at 15:29 +0300, Maxim Levitsky wrote:
-> > diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> > index e45259177009..19f54b07161a 100644
-> > --- a/arch/x86/kvm/svm/svm.c
-> > +++ b/arch/x86/kvm/svm/svm.c
-> > @@ -233,6 +233,8 @@ static const u32 msrpm_ranges[] = {0, 0xc0000000, 0xc0010000};
-> >  #define MSRS_RANGE_SIZE 2048
-> >  #define MSRS_IN_RANGE (MSRS_RANGE_SIZE * 8 / 2)
-> >  
-> > +static int svm_handle_invalid_exit(struct kvm_vcpu *vcpu, u64 exit_code);
-> > +
-> >  u32 svm_msrpm_offset(u32 msr)
-> >  {
-> >  	u32 offset;
-> > @@ -1153,6 +1155,22 @@ static void svm_recalc_instruction_intercepts(struct kvm_vcpu *vcpu,
-> >  	}
-> >  }
-> >  
-> > +static void svm_init_force_exceptions_intercepts(struct vcpu_svm *svm)
-> > +{
-> > +	int exc;
-> > +
-> > +	svm->force_intercept_exceptions_mask = force_intercept_exceptions_mask;
+On Thu, 02 Sep 2021 15:15:51 +0300 Jarkko Sakkinen wrote:
+> On Wed, 2021-09-01 at 17:47 +1200, Kai Huang wrote:
+> > On Wed, 01 Sep 2021 08:41:12 +0300 Jarkko Sakkinen wrote:
+> > > On Wed, 2021-09-01 at 17:33 +1200, Kai Huang wrote:
+> > > > On Wed, 01 Sep 2021 05:02:45 +0300 Jarkko Sakkinen wrote:
+> > > > > On Sat, 2021-08-28 at 00:03 +1200, Kai Huang wrote:
+> > > > > > > > > -/* The free page list lock protected variables prepend the lock. */
+> > > > > > > > > +/* The number of usable EPC pages in the system. */
+> > > > > > > > > +unsigned long sgx_nr_all_pages;
+> > > > > > > > > +
+> > > > > > > > > +/* The number of free EPC pages in all nodes. */
+> > > > > > > > >  static unsigned long sgx_nr_free_pages;
+> > > > > > > > >  
+> > > > > > > > >  /* Nodes with one or more EPC sections. */
+> > > > > > > > > @@ -656,6 +659,8 @@ static bool __init sgx_setup_epc_section(u64 phys_addr, u64 size,
+> > > > > > > > >  		list_add_tail(&section->pages[i].list, &sgx_dirty_page_list);
+> > > > > > > > >  	}
+> > > > > > > > >  
+> > > > > > > > > +	sgx_nr_all_pages += nr_pages;
+> > > > > > > > > +
+> > > > > > > > 
+> > > > > > > > EPC sections can be freed again in sgx_init() after they are successfully
+> > > > > > > > initialized, when any further initialization fails (i.e. when fails to create
+> > > > > > > > ksgxd, or fails to register /dev/sgx_provision).  In which case, I think
+> > > > > > > > sgx_nr_all_pages should also be cleared.  But current sgx_init() seems doesn't
+> > > > > > > > reset it.  Do you need to fix that too?
+> > > > > > > 
+> > > > > > > sgx_nr_all_pages tells just the total pages in the system, i.e. it's a constant.
+> > > > > > > 
+> > > > > > > Maybe a rename to "sgx_nr_total_pages" would be a good idea? Would match with
+> > > > > > > the meminfo field better too.
+> > > > > > 
+> > > > > > I don't have preference on name.  I just think if there's no actual user of
+> > > > > > EPC (when both driver and KVM SGX cannot be enabled), it's pointless to print
+> > > > > > number of EPC pages.
+> > > > > 
+> > > > > I'd presume that you refer to the code, which prints the number of *bytes* in
+> > > > > the system because code printing the number of pages does not exist in this
+> > > > > patch set.
+> > > > > 
+> > > > > I have troubles the decipher your statement.
+> > > > > 
+> > > > > You think that only if both the driver and KVM are *both* enabled, only then
+> > > > > it makes sense to have this information available for sysadmin?
+> > > > 
+> > > > Only if at least one of them is enabled.
+> > > 
+> > > OK, thank you, that does make sense.
+> > > 
+> > > What would happen if neither is enabled is that SGX_MemTotal would
+> > > state that there is zero bytes of EPC. 
+> > 
+> > This is the problem I pointed out at the beginning, that (if I read code
+> > correctly), it seems your current patch doesn't clear sgx_nr_all_pages when
+> > neither is enabled (in sgx_init() in sgx/main.c).
+> 
+> It's initialized to zero, so are you talking about fallback when something
+> fails?
+> 
+> /Jarkko
 
-Ah, the param is being snapshotted on vCPU creation, hence the writable module
-param.  That works, though it'd be better to snapshot it on a per-VM basic, not
-per-vCPU, and do so in common x86 code so that the param doesn't need to be
-exported.
+Yes, shouldn't you have something similar to below?
 
-> > +	for (exc = 0 ; exc < 32 ; exc++) {
+diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+index 63d3de02bbcc..270f6103b6c0 100644
+--- a/arch/x86/kernel/cpu/sgx/main.c
++++ b/arch/x86/kernel/cpu/sgx/main.c
+@@ -836,6 +836,7 @@ static int __init sgx_init(void)
+                vfree(sgx_epc_sections[i].pages);
+                memunmap(sgx_epc_sections[i].virt_addr);
+        }
++       sgx_nr_all_pages = 0;
+ 
+        return ret;
+ }
 
-for_each_set_bit()
-
-> > +		if (!(svm->force_intercept_exceptions_mask & (1 << exc)))
-> > +			continue;
-> > +
-> > +		/* Those are defined to have undefined behavior in the SVM spec */
-> > +		if (exc != 2 && exc != 9)
-
-Maybe add a pr_warn_once() to let the user know they done messed up?
-
-And given that there are already intercepts with undefined behavior, it's probably
-best to disallow intercepting anything we aren't 100% postive will be handled
-correctly, e.g. intercepting vector 31 is nonsensical at this time.
-
-> > +			continue;
-> > +		set_exception_intercept(svm, exc);
-
-...
-
-> > +static int gen_exc_interception(struct kvm_vcpu *vcpu)
-> > +{
-> > +	/*
-> > +	 * Generic exception intercept handler which forwards a guest exception
-> > +	 * as-is to the guest.
-> > +	 * For exceptions that don't have a special intercept handler.
-> > +	 *
-> > +	 * Used only for 'force_intercept_exceptions_mask' KVM debug feature.
-> > +	 */
-> > +	struct vcpu_svm *svm = to_svm(vcpu);
-> > +	int exc = svm->vmcb->control.exit_code - SVM_EXIT_EXCP_BASE;
-> > +
-> > +	/* SVM doesn't provide us with an error code for the #DF */
-> > +	u32 err_code = exc == DF_VECTOR ? 0 : svm->vmcb->control.exit_info_1;
-
-Might be better to handle this in the x86_exception_has_error_code() path to
-avoid confusing readers with respect to exceptions that don't have an error code,
-e.g.
-
-	else if (x86_exception_has_error_code(exc)) {
-		/* SVM doesn't provide the error code on #DF :-( */
-		if (exc == DF_VECTOR)
-			kvm_queue_exception_e(vcpu, exc, 0);
-		else
-			kvm_queue_exception_e(vcpu, exc, svm->vmcb->control.exit_info_1);
-	} else {
-		...
-	}
-
-Alternatively, can we zero svm->vmcb->control.exit_info_1 on #DF to make it more
-obvious that SVM leaves stale data in exit_info_1 (assuming that's true)?  E.g.
-
-	...
-
-	if (exc == TS_VECTOR) {
-		...
-	} else if (x86_exception_has_error_code(exc)) {
-		/* SVM doesn't provide the error code on #DF :-( */
-		if (exc == DF_VECTOR)
-			svm->vmcb->control.exit_info_1 = 0;
-
-		kvm_queue_exception_e(vcpu, exc, svm->vmcb->control.exit_info_1);
-	} else {
-		...
-	}
-
-		
-> > +
-> > +	if (!(svm->force_intercept_exceptions_mask & (1 << exc)))
-
-BIT(exc)
-
-> > +		return svm_handle_invalid_exit(vcpu, svm->vmcb->control.exit_code);
-> > +
-> > +	if (exc == TS_VECTOR) {
-> > +		/*
-> > +		 * SVM doesn't provide us with an error code to be able to
-> > +		 * re-inject the #TS exception, so just disable its
-> > +		 * intercept, and let the guest re-execute the instruction.
-> > +		 */
-> > +		vmcb_clr_intercept(&svm->vmcb01.ptr->control,
-> > +				   INTERCEPT_EXCEPTION_OFFSET + TS_VECTOR);
-
-Maybe just disallow intercepting #TS altogether?  Or does this fall into your
-Win98 use case? :-)
-
-> > +		recalc_intercepts(svm);
-> > +	} else if (x86_exception_has_error_code(exc))
-> > +		kvm_queue_exception_e(vcpu, exc, err_code);
-> > +	else
-> > +		kvm_queue_exception(vcpu, exc);
-> > +	return 1;
-> > +}
-> > +
-> >  static bool is_erratum_383(void)
-> >  {
-> >  	int err, i;
-> > @@ -3065,6 +3131,10 @@ static int (*const svm_exit_handlers[])(struct kvm_vcpu *vcpu) = {
-> >  	[SVM_EXIT_WRITE_DR5]			= dr_interception,
-> >  	[SVM_EXIT_WRITE_DR6]			= dr_interception,
-> >  	[SVM_EXIT_WRITE_DR7]			= dr_interception,
-> > +
-> > +	[SVM_EXIT_EXCP_BASE ...
-> > +	SVM_EXIT_EXCP_BASE + 31]		= gen_exc_interception,
-
-This generates a Sparse warning due to the duplicate initializer.  IMO that's a
-very good warning as I have zero idea how the compiler actually handles this
-particular scenario, e.g. do later entries take priority, is it technically
-"undefined" behavior, etc...
-
-arch/x86/kvm/svm/svm.c:3065:10: warning: Initializer entry defined twice
-arch/x86/kvm/svm/svm.c:3067:29:   also defined here
-
-I don't have a clever solution though :-(
-
-> > +
-> >  	[SVM_EXIT_EXCP_BASE + DB_VECTOR]	= db_interception,
-> >  	[SVM_EXIT_EXCP_BASE + BP_VECTOR]	= bp_interception,
-> >  	[SVM_EXIT_EXCP_BASE + UD_VECTOR]	= ud_interception,
-> > diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-> > index 524d943f3efc..187ada7c5b03 100644
-> > --- a/arch/x86/kvm/svm/svm.h
-> > +++ b/arch/x86/kvm/svm/svm.h
-> > @@ -196,6 +196,7 @@ struct vcpu_svm {
-> >  	bool ghcb_sa_free;
-> >  
-> >  	bool guest_state_loaded;
-> > +	u32 force_intercept_exceptions_mask;
-> >  };
-> >  
-> >  struct svm_cpu_data {
-> > @@ -351,8 +352,11 @@ static inline void clr_exception_intercept(struct vcpu_svm *svm, u32 bit)
-> >  	struct vmcb *vmcb = svm->vmcb01.ptr;
-> >  
-> >  	WARN_ON_ONCE(bit >= 32);
-> > -	vmcb_clr_intercept(&vmcb->control, INTERCEPT_EXCEPTION_OFFSET + bit);
-> >  
-> > +	if ((1 << bit) & svm->force_intercept_exceptions_mask)
-
-BIT(bit)
-
-> > +		return;
-> > +
-> > +	vmcb_clr_intercept(&vmcb->control, INTERCEPT_EXCEPTION_OFFSET + bit);
-> >  	recalc_intercepts(svm);
-> >  }
