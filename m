@@ -2,586 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496B6C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 00:29:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A52BC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 06:34:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A1EC6056B
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 00:29:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5554F6102A
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 06:34:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240840AbhICAaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Sep 2021 20:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46660 "EHLO
+        id S242770AbhICGfP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 02:35:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236197AbhICAaK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Sep 2021 20:30:10 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE3EC061757
-        for <linux-doc@vger.kernel.org>; Thu,  2 Sep 2021 17:29:11 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id e131so7106105ybb.7
-        for <linux-doc@vger.kernel.org>; Thu, 02 Sep 2021 17:29:11 -0700 (PDT)
+        with ESMTP id S230128AbhICGfO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 02:35:14 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC1FC061575;
+        Thu,  2 Sep 2021 23:34:15 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id q3so2710880plx.4;
+        Thu, 02 Sep 2021 23:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U9SaGHSuOXCrItgAbBPYGhsYiz2vs3ute8NQFPvnaUQ=;
-        b=V6AgF1x9oVWCjF2hTKLjoxWgqPgnmoYwiACxC56iF1TZ9hdA+2iGh3TRshNQb2Qvha
-         QF66aXDqKrmni2DXQRZNAaGniJ2MBXiTn2qJ4XXB0qhtWUNqxNOEUz6phOkV6YtzMNzz
-         1VXyU64s2wAFu4FkYPt05FDGiVbGZnZ9NCjDCl3Z2Qh+6NtIckL+GqNUQI85hV9XdRYa
-         nM8GYTq8y306Cq3RX514UlqQmx37SSI9GxtkG6lRS8D/RXXICnVeeH1lMT1xsbYtqPLC
-         ayf+V28SOtV2YV06ICcOKSmZ/tbsQLOMdvOMLB1y/P0r+RpjZz5yJo5PWyZ4Fd7RgrDE
-         1bGg==
+        d=gmail.com; s=20210112;
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eUpW6d6s4oHd6jmEUW6QkIvZXo5st+Kpg9QF8HRR6rA=;
+        b=NzBBjCS2po1yKEWQe9R3DFWucJ8vaHvVzkcZxE0ZmQ0fd/eDTVYnpTR1N38OnH7toZ
+         f5kxVgPPhTXyMHvnt1sTLI+SxlPMHKIKxW4q/FOee+04P4EOSaJl9+617st3bzbLa4rv
+         wOyQKC99XyT5F4jLGJNFz6XjB7d/I2bwnK+lVS3RM9ZX9YOSxC7pIuxaaKD/VVDiclHm
+         4sLp9x4mONgT0hZQQ00PaT8dQaC/OjCKaCBaCncikt4UkW7aGlPvFC9f3ohwy7H/Czem
+         JCv6Nknt3/alnGJRRuxnRWiVFijF/LhMiSu68aoEm9FyGclHcXGgk+KS0OtANbtM2cXO
+         ctOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U9SaGHSuOXCrItgAbBPYGhsYiz2vs3ute8NQFPvnaUQ=;
-        b=sw0cTHCXyGtGx9I/IG09Rkz7tkM6Gi1BZaqSVh5lUzJwZy/pCmZqr5zyW7oWVkZ8FP
-         1KhOj6NhnJAWjqNV1ozsxvGw7Jdvwi1A5z7/0qr3TmGVaJ5jAT8mzQSRdEdv+/AQC8NL
-         3FTzwDUr3TQhuXfo+BtHH1diKNpMeTpOUfSy6moX/E4bKYnX8yAxvtuxZLFVpX14ys2V
-         TGcfBIjSggdzH5LoOC3gYQFsPqlt1kw6zi8tWe7b0tIeLOZYOR0nMSP+4jXXd1ZqEtEo
-         pTM3m5YEIkmGmGp0DYAwVvkRdOEN0Nt2u1evXqxBG7w/DPiVMGgo33vP3jB9XJx1PEeo
-         RvLw==
-X-Gm-Message-State: AOAM531hyLLk8j9endM5mJ+ui5Z0W7jaAqLWiYULWkokF0tILTGC0drN
-        D/GaF4v7XwdSeyCbfN2K/9QzftXqI1NHqN+wExGiDw==
-X-Google-Smtp-Source: ABdhPJy2m5S1Zb6iZbjNfn32rAHmkKxfVRbZ/Yj3k68ca7klTUsu6U3xir0cSBVoer5aI0SozL4U5yIX46sumyNR7kI=
-X-Received: by 2002:a25:49c2:: with SMTP id w185mr1274569yba.294.1630628950482;
- Thu, 02 Sep 2021 17:29:10 -0700 (PDT)
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eUpW6d6s4oHd6jmEUW6QkIvZXo5st+Kpg9QF8HRR6rA=;
+        b=UZWBrjeNlWm0+ssfWw4Zm3wRhFj0LSVbhxz+nUYoqJ7eAL1aKNAV0a/rFrTBQ/0eul
+         XnAnsuEl829hqpHfQ/EuhjbHYjlOCrj9NCf13OBkR/h4EPhPDJdmFJKinoVz0I2cpNXG
+         f4Xyi8GHRzHppJRjxLyCROjZKfLh/YypOc9/XpzbjecE6Zhz07qoc0Vmj1bmoLlR9Rk7
+         b5P0uzSimEV1SXpDeCFk9hbNaopqU3/ey1DPQfVcGSuadEgav3FXe5OKLl/Bwv2py2I9
+         XsLHy8uvhWwYS6Mf4SAeN0okdOyd1TaRFYehhsH4/1Oew/1Vsv9wPZAXZupmb7QXddIf
+         bVrA==
+X-Gm-Message-State: AOAM532V0DAZAPgTfbqBJiF4jjeto7DRNYlofA2wgog/yiDMFYngKMKS
+        ZSRlRDCK/u8xXJ9JQdRxKb8=
+X-Google-Smtp-Source: ABdhPJylv6eQkhn7qf8RRjJAu5/K5uzb3Fmf9xZsCCgnKOhMu5PInhG6oSWMHNthoC0SH27MRZalCQ==
+X-Received: by 2002:a17:90b:3a8e:: with SMTP id om14mr8418298pjb.192.1630650854496;
+        Thu, 02 Sep 2021 23:34:14 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id x10sm4482508pfj.174.2021.09.02.23.34.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Sep 2021 23:34:14 -0700 (PDT)
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     jack@suse.cz, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, tytso@mit.edu,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20210902220854.198850-2-corbet@lwn.net>
+Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <b1909f4c-9e07-abd7-89ee-c2e551f9dc5b@gmail.com>
+Date:   Fri, 3 Sep 2021 15:34:09 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210902231813.3597709-1-surenb@google.com>
-In-Reply-To: <20210902231813.3597709-1-surenb@google.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 2 Sep 2021 17:28:59 -0700
-Message-ID: <CAJuCfpFDBJ_W1y2tqAT4BGtPbWrjjDud_JuKO8ZbnjYfeVNvRg@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] mm: rearrange madvise code to allow for reuse
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Jan Glauber <jan.glauber@gmail.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Rob Landley <rob@landley.net>,
-        Cyrill Gorcunov <gorcunov@openvz.org>,
-        "Serge E. Hallyn" <serge.hallyn@ubuntu.com>,
-        David Rientjes <rientjes@google.com>,
-        Mel Gorman <mgorman@suse.de>, Shaohua Li <shli@fusionio.com>,
-        Minchan Kim <minchan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210902220854.198850-2-corbet@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 2, 2021 at 4:18 PM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> From: Colin Cross <ccross@google.com>
->
-> Refactor the madvise syscall to allow for parts of it to be reused by a
-> prctl syscall that affects vmas.
->
-> Move the code that walks vmas in a virtual address range into a function
-> that takes a function pointer as a parameter.  The only caller for now is
-> sys_madvise, which uses it to call madvise_vma_behavior on each vma, but
-> the next patch will add an additional caller.
->
-> Move handling all vma behaviors inside madvise_behavior, and rename it to
-> madvise_vma_behavior.
->
-> Move the code that updates the flags on a vma, including splitting or
-> merging the vma as necessary, into a new function called
-> madvise_update_vma.  The next patch will add support for updating a new
-> anon_name field as well.
->
-> Signed-off-by: Colin Cross <ccross@google.com>
-> Cc: Pekka Enberg <penberg@kernel.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Ingo Molnar <mingo@kernel.org>
-> Cc: Oleg Nesterov <oleg@redhat.com>
-> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-> Cc: Jan Glauber <jan.glauber@gmail.com>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Rob Landley <rob@landley.net>
-> Cc: Cyrill Gorcunov <gorcunov@openvz.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: "Serge E. Hallyn" <serge.hallyn@ubuntu.com>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Shaohua Li <shli@fusionio.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: Minchan Kim <minchan@kernel.org>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
->   [sumits: rebased over v5.9-rc3]
-> Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
->   [surenb: rebased over v5.14-rc7]
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
-> previous version including cover letter with test results is at:
-> https://lore.kernel.org/linux-mm/20210827191858.2037087-1-surenb@google.com/
->
-> changes in v9
-> - Removed unnecessary initialization of 'error' to 0 in madvise_vma_behavior,
-> per Cyrill Gorcunov
-> - Replaced goto's with returns in madvise_vma_behavior, per Cyrill Gorcunov
-> - Recovered the comment explaining why we map ENOMEM to EAGAIN in
-> madvise_vma_behavior, per Cyrill Gorcunov
->
->  mm/madvise.c | 317 +++++++++++++++++++++++++++------------------------
->  1 file changed, 170 insertions(+), 147 deletions(-)
->
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 56324a3dbc4e..54bf9f73f95d 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -63,76 +63,20 @@ static int madvise_need_mmap_write(int behavior)
->  }
->
->  /*
-> - * We can potentially split a vm area into separate
-> - * areas, each area with its own behavior.
-> + * Update the vm_flags on regiion of a vma, splitting it or merging it as
-> + * necessary.  Must be called with mmap_sem held for writing;
->   */
-> -static long madvise_behavior(struct vm_area_struct *vma,
-> -                    struct vm_area_struct **prev,
-> -                    unsigned long start, unsigned long end, int behavior)
-> +static int madvise_update_vma(struct vm_area_struct *vma,
-> +                             struct vm_area_struct **prev, unsigned long start,
-> +                             unsigned long end, unsigned long new_flags)
->  {
->         struct mm_struct *mm = vma->vm_mm;
-> -       int error = 0;
-> +       int error;
->         pgoff_t pgoff;
-> -       unsigned long new_flags = vma->vm_flags;
-> -
-> -       switch (behavior) {
-> -       case MADV_NORMAL:
-> -               new_flags = new_flags & ~VM_RAND_READ & ~VM_SEQ_READ;
-> -               break;
-> -       case MADV_SEQUENTIAL:
-> -               new_flags = (new_flags & ~VM_RAND_READ) | VM_SEQ_READ;
-> -               break;
-> -       case MADV_RANDOM:
-> -               new_flags = (new_flags & ~VM_SEQ_READ) | VM_RAND_READ;
-> -               break;
-> -       case MADV_DONTFORK:
-> -               new_flags |= VM_DONTCOPY;
-> -               break;
-> -       case MADV_DOFORK:
-> -               if (vma->vm_flags & VM_IO) {
-> -                       error = -EINVAL;
-> -                       goto out;
-> -               }
-> -               new_flags &= ~VM_DONTCOPY;
-> -               break;
-> -       case MADV_WIPEONFORK:
-> -               /* MADV_WIPEONFORK is only supported on anonymous memory. */
-> -               if (vma->vm_file || vma->vm_flags & VM_SHARED) {
-> -                       error = -EINVAL;
-> -                       goto out;
-> -               }
-> -               new_flags |= VM_WIPEONFORK;
-> -               break;
-> -       case MADV_KEEPONFORK:
-> -               new_flags &= ~VM_WIPEONFORK;
-> -               break;
-> -       case MADV_DONTDUMP:
-> -               new_flags |= VM_DONTDUMP;
-> -               break;
-> -       case MADV_DODUMP:
-> -               if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) {
-> -                       error = -EINVAL;
-> -                       goto out;
-> -               }
-> -               new_flags &= ~VM_DONTDUMP;
-> -               break;
-> -       case MADV_MERGEABLE:
-> -       case MADV_UNMERGEABLE:
-> -               error = ksm_madvise(vma, start, end, behavior, &new_flags);
-> -               if (error)
-> -                       goto out_convert_errno;
-> -               break;
-> -       case MADV_HUGEPAGE:
-> -       case MADV_NOHUGEPAGE:
-> -               error = hugepage_madvise(vma, &new_flags, behavior);
-> -               if (error)
-> -                       goto out_convert_errno;
-> -               break;
-> -       }
->
->         if (new_flags == vma->vm_flags) {
->                 *prev = vma;
-> -               goto out;
-> +               return 0;
->         }
->
->         pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
-> @@ -149,21 +93,21 @@ static long madvise_behavior(struct vm_area_struct *vma,
->         if (start != vma->vm_start) {
->                 if (unlikely(mm->map_count >= sysctl_max_map_count)) {
->                         error = -ENOMEM;
-> -                       goto out;
-> +                       return error;
+Hi Jon,
 
-Oh, I missed this one. Should be simply:
--                       error = -ENOMEM;
--                       goto out;
-+                       return -ENOMEM;
+On Thu,  2 Sep 2021 16:08:53 -0600, Jonathan Corbet wrote:
 
+> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
+> a new document on orphan files, which is great.  But the use of
+> "list-table" results in documents that are absolutely unreadable in their
+> plain-text form.  Switch this file to the regular RST table format instead;
+> the rendered (HTML) output is identical.
 
->                 }
->                 error = __split_vma(mm, vma, start, 1);
->                 if (error)
-> -                       goto out_convert_errno;
-> +                       return error;
->         }
->
->         if (end != vma->vm_end) {
->                 if (unlikely(mm->map_count >= sysctl_max_map_count)) {
->                         error = -ENOMEM;
-> -                       goto out;
-> +                       return error;
+In the "list tables" section of doc-guide/sphinx.rst, the first paragraph
+starts with the sentence:
 
-same here.
+    We recommend the use of list table formats.
 
->                 }
->                 error = __split_vma(mm, vma, end, 0);
->                 if (error)
-> -                       goto out_convert_errno;
-> +                       return error;
->         }
->
->  success:
-> @@ -172,15 +116,7 @@ static long madvise_behavior(struct vm_area_struct *vma,
->          */
->         vma->vm_flags = new_flags;
->
-> -out_convert_errno:
-> -       /*
-> -        * madvise() returns EAGAIN if kernel resources, such as
-> -        * slab, are temporarily unavailable.
-> -        */
-> -       if (error == -ENOMEM)
-> -               error = -EAGAIN;
-> -out:
-> -       return error;
-> +       return 0;
->  }
->
->  #ifdef CONFIG_SWAP
-> @@ -930,6 +866,94 @@ static long madvise_remove(struct vm_area_struct *vma,
->         return error;
->  }
->
-> +/*
-> + * Apply an madvise behavior to a region of a vma.  madvise_update_vma
-> + * will handle splitting a vm area into separate areas, each area with its own
-> + * behavior.
-> + */
-> +static int madvise_vma_behavior(struct vm_area_struct *vma,
-> +                               struct vm_area_struct **prev,
-> +                               unsigned long start, unsigned long end,
-> +                               unsigned long behavior)
-> +{
-> +       int error;
-> +       unsigned long new_flags = vma->vm_flags;
-> +
-> +       switch (behavior) {
-> +       case MADV_REMOVE:
-> +               return madvise_remove(vma, prev, start, end);
-> +       case MADV_WILLNEED:
-> +               return madvise_willneed(vma, prev, start, end);
-> +       case MADV_COLD:
-> +               return madvise_cold(vma, prev, start, end);
-> +       case MADV_PAGEOUT:
-> +               return madvise_pageout(vma, prev, start, end);
-> +       case MADV_FREE:
-> +       case MADV_DONTNEED:
-> +               return madvise_dontneed_free(vma, prev, start, end, behavior);
-> +       case MADV_POPULATE_READ:
-> +       case MADV_POPULATE_WRITE:
-> +               return madvise_populate(vma, prev, start, end, behavior);
-> +       case MADV_NORMAL:
-> +               new_flags = new_flags & ~VM_RAND_READ & ~VM_SEQ_READ;
-> +               break;
-> +       case MADV_SEQUENTIAL:
-> +               new_flags = (new_flags & ~VM_RAND_READ) | VM_SEQ_READ;
-> +               break;
-> +       case MADV_RANDOM:
-> +               new_flags = (new_flags & ~VM_SEQ_READ) | VM_RAND_READ;
-> +               break;
-> +       case MADV_DONTFORK:
-> +               new_flags |= VM_DONTCOPY;
-> +               break;
-> +       case MADV_DOFORK:
-> +               if (vma->vm_flags & VM_IO)
-> +                       return -EINVAL;
-> +               new_flags &= ~VM_DONTCOPY;
-> +               break;
-> +       case MADV_WIPEONFORK:
-> +               /* MADV_WIPEONFORK is only supported on anonymous memory. */
-> +               if (vma->vm_file || vma->vm_flags & VM_SHARED)
-> +                       return -EINVAL;
-> +               new_flags |= VM_WIPEONFORK;
-> +               break;
-> +       case MADV_KEEPONFORK:
-> +               new_flags &= ~VM_WIPEONFORK;
-> +               break;
-> +       case MADV_DONTDUMP:
-> +               new_flags |= VM_DONTDUMP;
-> +               break;
-> +       case MADV_DODUMP:
-> +               if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL)
-> +                       return -EINVAL;
-> +               new_flags &= ~VM_DONTDUMP;
-> +               break;
-> +       case MADV_MERGEABLE:
-> +       case MADV_UNMERGEABLE:
-> +               error = ksm_madvise(vma, start, end, behavior, &new_flags);
-> +               if (error)
-> +                       goto out;
-> +               break;
-> +       case MADV_HUGEPAGE:
-> +       case MADV_NOHUGEPAGE:
-> +               error = hugepage_madvise(vma, &new_flags, behavior);
-> +               if (error)
-> +                       goto out;
-> +               break;
-> +       }
-> +
-> +       error = madvise_update_vma(vma, prev, start, end, new_flags);
-> +
-> +out:
-> +       /*
-> +        * madvise() returns EAGAIN if kernel resources, such as
-> +        * slab, are temporarily unavailable.
-> +        */
-> +       if (error == -ENOMEM)
-> +               error = -EAGAIN;
-> +       return error;
-> +}
-> +
->  #ifdef CONFIG_MEMORY_FAILURE
->  /*
->   * Error injection support for memory error handling.
-> @@ -978,30 +1002,6 @@ static int madvise_inject_error(int behavior,
->  }
->  #endif
->
-> -static long
-> -madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
-> -               unsigned long start, unsigned long end, int behavior)
-> -{
-> -       switch (behavior) {
-> -       case MADV_REMOVE:
-> -               return madvise_remove(vma, prev, start, end);
-> -       case MADV_WILLNEED:
-> -               return madvise_willneed(vma, prev, start, end);
-> -       case MADV_COLD:
-> -               return madvise_cold(vma, prev, start, end);
-> -       case MADV_PAGEOUT:
-> -               return madvise_pageout(vma, prev, start, end);
-> -       case MADV_FREE:
-> -       case MADV_DONTNEED:
-> -               return madvise_dontneed_free(vma, prev, start, end, behavior);
-> -       case MADV_POPULATE_READ:
-> -       case MADV_POPULATE_WRITE:
-> -               return madvise_populate(vma, prev, start, end, behavior);
-> -       default:
-> -               return madvise_behavior(vma, prev, start, end, behavior);
-> -       }
-> -}
-> -
->  static bool
->  madvise_behavior_valid(int behavior)
->  {
-> @@ -1054,6 +1054,73 @@ process_madvise_behavior_valid(int behavior)
->         }
->  }
->
-> +/*
-> + * Walk the vmas in range [start,end), and call the visit function on each one.
-> + * The visit function will get start and end parameters that cover the overlap
-> + * between the current vma and the original range.  Any unmapped regions in the
-> + * original range will result in this function returning -ENOMEM while still
-> + * calling the visit function on all of the existing vmas in the range.
-> + * Must be called with the mmap_lock held for reading or writing.
-> + */
-> +static
-> +int madvise_walk_vmas(struct mm_struct *mm, unsigned long start,
-> +                     unsigned long end, unsigned long arg,
-> +                     int (*visit)(struct vm_area_struct *vma,
-> +                                  struct vm_area_struct **prev, unsigned long start,
-> +                                  unsigned long end, unsigned long arg))
-> +{
-> +       struct vm_area_struct *vma;
-> +       struct vm_area_struct *prev;
-> +       unsigned long tmp;
-> +       int unmapped_error = 0;
-> +
-> +       /*
-> +        * If the interval [start,end) covers some unmapped address
-> +        * ranges, just ignore them, but return -ENOMEM at the end.
-> +        * - different from the way of handling in mlock etc.
-> +        */
-> +       vma = find_vma_prev(mm, start, &prev);
-> +       if (vma && start > vma->vm_start)
-> +               prev = vma;
-> +
-> +       for (;;) {
-> +               int error;
-> +
-> +               /* Still start < end. */
-> +               if (!vma)
-> +                       return -ENOMEM;
-> +
-> +               /* Here start < (end|vma->vm_end). */
-> +               if (start < vma->vm_start) {
-> +                       unmapped_error = -ENOMEM;
-> +                       start = vma->vm_start;
-> +                       if (start >= end)
-> +                               break;
-> +               }
-> +
-> +               /* Here vma->vm_start <= start < (end|vma->vm_end) */
-> +               tmp = vma->vm_end;
-> +               if (end < tmp)
-> +                       tmp = end;
-> +
-> +               /* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
-> +               error = visit(vma, &prev, start, tmp, arg);
-> +               if (error)
-> +                       return error;
-> +               start = tmp;
-> +               if (prev && start < prev->vm_end)
-> +                       start = prev->vm_end;
-> +               if (start >= end)
-> +                       break;
-> +               if (prev)
-> +                       vma = prev->vm_next;
-> +               else    /* madvise_remove dropped mmap_lock */
-> +                       vma = find_vma(mm, start);
-> +       }
-> +
-> +       return unmapped_error;
-> +}
-> +
->  /*
->   * The madvise(2) system call.
->   *
-> @@ -1126,9 +1193,7 @@ process_madvise_behavior_valid(int behavior)
->   */
->  int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int behavior)
->  {
-> -       unsigned long end, tmp;
-> -       struct vm_area_struct *vma, *prev;
-> -       int unmapped_error = 0;
-> +       unsigned long end;
->         int error = -EINVAL;
->         int write;
->         size_t len;
-> @@ -1168,51 +1233,9 @@ int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int beh
->                 mmap_read_lock(mm);
->         }
->
-> -       /*
-> -        * If the interval [start,end) covers some unmapped address
-> -        * ranges, just ignore them, but return -ENOMEM at the end.
-> -        * - different from the way of handling in mlock etc.
-> -        */
-> -       vma = find_vma_prev(mm, start, &prev);
-> -       if (vma && start > vma->vm_start)
-> -               prev = vma;
-> -
->         blk_start_plug(&plug);
-> -       for (;;) {
-> -               /* Still start < end. */
-> -               error = -ENOMEM;
-> -               if (!vma)
-> -                       goto out;
-> -
-> -               /* Here start < (end|vma->vm_end). */
-> -               if (start < vma->vm_start) {
-> -                       unmapped_error = -ENOMEM;
-> -                       start = vma->vm_start;
-> -                       if (start >= end)
-> -                               goto out;
-> -               }
-> -
-> -               /* Here vma->vm_start <= start < (end|vma->vm_end) */
-> -               tmp = vma->vm_end;
-> -               if (end < tmp)
-> -                       tmp = end;
-> -
-> -               /* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
-> -               error = madvise_vma(vma, &prev, start, tmp, behavior);
-> -               if (error)
-> -                       goto out;
-> -               start = tmp;
-> -               if (prev && start < prev->vm_end)
-> -                       start = prev->vm_end;
-> -               error = unmapped_error;
-> -               if (start >= end)
-> -                       goto out;
-> -               if (prev)
-> -                       vma = prev->vm_next;
-> -               else    /* madvise_remove dropped mmap_lock */
-> -                       vma = find_vma(mm, start);
-> -       }
-> -out:
-> +       error = madvise_walk_vmas(mm, start, end, behavior,
-> +                       madvise_vma_behavior);
->         blk_finish_plug(&plug);
->         if (write)
->                 mmap_write_unlock(mm);
-> --
-> 2.33.0.153.gba50c8fa24-goog
->
+Yes, the disadvantage of list tables is mentioned later in the paragraph:
+
+    Compared to the ASCII-art they might not be as comfortable for readers
+    of the text files.
+
+, but I still see list-table is meant as the preferred format.
+
+If you prefer the ASCII-art form for simple tables, you might need to
+de-emphasize the above mentioned recommendation as well.
+
+        Thanks, Akira
