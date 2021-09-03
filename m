@@ -2,128 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD123C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC078C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:40:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81E3960FC0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:22:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C45B260FE6
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235140AbhICNXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 09:23:21 -0400
-Received: from mga18.intel.com ([134.134.136.126]:44709 "EHLO mga18.intel.com"
+        id S235169AbhICNla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 09:41:30 -0400
+Received: from mga11.intel.com ([192.55.52.93]:32026 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234262AbhICNXV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Sep 2021 09:23:21 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="206540026"
+        id S235128AbhICNla (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Sep 2021 09:41:30 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="216283921"
 X-IronPort-AV: E=Sophos;i="5.85,265,1624345200"; 
-   d="scan'208";a="206540026"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2021 06:22:21 -0700
+   d="scan'208";a="216283921"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2021 06:40:20 -0700
 X-IronPort-AV: E=Sophos;i="5.85,265,1624345200"; 
-   d="scan'208";a="521691004"
+   d="scan'208";a="477223512"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2021 06:22:19 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2021 06:40:18 -0700
 Received: from andy by smile with local (Exim 4.95-RC2)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1mM995-00HCzm-Qp;
-        Fri, 03 Sep 2021 16:22:15 +0300
-Date:   Fri, 3 Sep 2021 16:22:15 +0300
+        id 1mM9QV-00HDPF-KO;
+        Fri, 03 Sep 2021 16:40:15 +0300
+Date:   Fri, 3 Sep 2021 16:40:15 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Alexandru Ardelean <aardelean@deviqon.com>
 Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, jic23@kernel.org, hdegoede@redhat.com,
         wens@csie.org
-Subject: Re: [PATCH 2/5] iio: adc: intel_mrfld_adc: convert probe to full
- device-managed
-Message-ID: <YTIhh7TkIo+mqIvA@smile.fi.intel.com>
+Subject: Re: [PATCH 1/5] iio: inkern: introduce devm_iio_map_array_register()
+ short-hand function
+Message-ID: <YTIlv9MR2wG9AzSe@smile.fi.intel.com>
 References: <20210903072917.45769-1-aardelean@deviqon.com>
- <20210903072917.45769-3-aardelean@deviqon.com>
+ <20210903072917.45769-2-aardelean@deviqon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210903072917.45769-3-aardelean@deviqon.com>
+In-Reply-To: <20210903072917.45769-2-aardelean@deviqon.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 03, 2021 at 10:29:14AM +0300, Alexandru Ardelean wrote:
-> The only call in the remove hook is the iio_map_array_unregister() call.
-> Since we have a devm_iio_map_array_register() function now, we can use that
-> and remove the remove hook entirely.
-> The IIO device was registered with the devm_iio_device_register() prior to
-> this change.
+On Fri, Sep 03, 2021 at 10:29:13AM +0300, Alexandru Ardelean wrote:
+> This change introduces a device-managed variant to the
+> iio_map_array_register() function. It's a simple implementation of calling
+> iio_map_array_register() and registering a callback to
+> iio_map_array_unregister() with the devm_add_action_or_reset().
 > 
-> Also, the platform_set_drvdata() can be removed now, since it was used only
-> in the remove hook.
+> The function uses an explicit 'dev' parameter to bind the unwinding to. It
+> could have been implemented to implicitly use the parent of the IIO device,
+> however it shouldn't be too expensive to callers to just specify to which
+> device object to bind this unwind call.
+> It would make the API a bit more flexible.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-> Signed-off-by: Alexandru Ardelean <aardelean@deviqon.com>
-> ---
->  drivers/iio/adc/intel_mrfld_adc.c | 24 ++----------------------
->  1 file changed, 2 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/intel_mrfld_adc.c b/drivers/iio/adc/intel_mrfld_adc.c
-> index 75394350eb4c..616de0c3a049 100644
-> --- a/drivers/iio/adc/intel_mrfld_adc.c
-> +++ b/drivers/iio/adc/intel_mrfld_adc.c
-> @@ -205,8 +205,6 @@ static int mrfld_adc_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> -	platform_set_drvdata(pdev, indio_dev);
-> -
->  	indio_dev->name = pdev->name;
->  
->  	indio_dev->channels = mrfld_adc_channels;
-> @@ -214,28 +212,11 @@ static int mrfld_adc_probe(struct platform_device *pdev)
->  	indio_dev->info = &mrfld_adc_iio_info;
->  	indio_dev->modes = INDIO_DIRECT_MODE;
->  
-> -	ret = iio_map_array_register(indio_dev, iio_maps);
-> +	ret = devm_iio_map_array_register(dev, indio_dev, iio_maps);
->  	if (ret)
->  		return ret;
->  
-> -	ret = devm_iio_device_register(dev, indio_dev);
-> -	if (ret < 0)
-> -		goto err_array_unregister;
-> -
-> -	return 0;
-> -
-> -err_array_unregister:
-> -	iio_map_array_unregister(indio_dev);
-> -	return ret;
-> -}
-> -
-> -static int mrfld_adc_remove(struct platform_device *pdev)
-> -{
-> -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-> -
-> -	iio_map_array_unregister(indio_dev);
-> -
-> -	return 0;
-> +	return devm_iio_device_register(dev, indio_dev);
->  }
->  
->  static const struct platform_device_id mrfld_adc_id_table[] = {
-> @@ -249,7 +230,6 @@ static struct platform_driver mrfld_adc_driver = {
->  		.name = "mrfld_bcove_adc",
->  	},
->  	.probe = mrfld_adc_probe,
-> -	.remove = mrfld_adc_remove,
->  	.id_table = mrfld_adc_id_table,
->  };
->  module_platform_driver(mrfld_adc_driver);
-> -- 
-> 2.31.1
-> 
+AFAIU this dev pointer is kinda discussable thing. What scenario do you expect
+(have in mind) when it shouldn't use parent?
 
 -- 
 With Best Regards,
