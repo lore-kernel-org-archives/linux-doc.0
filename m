@@ -2,51 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5FDC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1EC0C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3704560E52
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E6DF60F42
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349407AbhICNJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 09:09:27 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:36486 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbhICNJ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 09:09:27 -0400
+        id S1349448AbhICNJb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 09:09:31 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:43182 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349406AbhICNJ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 09:09:28 -0400
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 7E4AD226F0;
-        Fri,  3 Sep 2021 13:08:26 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id AC088203CC;
+        Fri,  3 Sep 2021 13:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1630674506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=NN5HIyhd2hnMW2pPqHYMruB3Bj3fGyUnsWK7Hj00imw=;
-        b=T6lLGd6FQmb5ouXURJN/wpryYuxVyDYwFIXSM5ovqZU54Zy7M5ma6Mo9+sCnCBUy9rnA2y
-        B1RFvgVp76vfG6u/8j7GCV8SVom0jO5vLkNpBSOJYRirwRZwHOpSqDORiG15hcaHLLMD+9
-        aaEe5Z5h7+o8DLK+z5EBLnk6ybOdLxE=
+        t=1630674507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=srYd8N1kwJyXSG9t/tPAVgBKit3UllHBRwHxweLyPmQ=;
+        b=s1b0pqxMFL7gQcZLDmrazAsE6b+0pI+WcgYSVs9i5GJ86/DVflu9jL2370QqtVEJ44hBnR
+        ke1176bH6i9Y4ognpwcNOVPim2Kp1/eUOMp6eqiVZ3N9gumnL6d7V/vWxHsVBwPVw5gCGr
+        dcpdbmOtF1jcr+7/pwxsTC2VF1t5pPU=
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id BDFEF137D4;
-        Fri,  3 Sep 2021 13:08:25 +0000 (UTC)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 22741137D4;
+        Fri,  3 Sep 2021 13:08:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap1.suse-dmz.suse.de with ESMTPSA
-        id MJjBLEkeMmHYOAAAGKfGzw
-        (envelope-from <jgross@suse.com>); Fri, 03 Sep 2021 13:08:25 +0000
+        id wOHABkseMmHYOAAAGKfGzw
+        (envelope-from <jgross@suse.com>); Fri, 03 Sep 2021 13:08:27 +0000
 From:   Juergen Gross <jgross@suse.com>
-To:     kvm@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+To:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     maz@kernel.org, ehabkost@redhat.com,
         Juergen Gross <jgross@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -55,68 +58,200 @@ Cc:     maz@kernel.org, ehabkost@redhat.com,
         Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        James Morse <james.morse@arm.com>,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu
-Subject: [PATCH v2 0/6] x86/kvm: add boot parameters for max vcpu configs
-Date:   Fri,  3 Sep 2021 15:08:01 +0200
-Message-Id: <20210903130808.30142-1-jgross@suse.com>
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v2 2/6] x86/kvm: add boot parameter for adding vcpu-id bits
+Date:   Fri,  3 Sep 2021 15:08:03 +0200
+Message-Id: <20210903130808.30142-3-jgross@suse.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210903130808.30142-1-jgross@suse.com>
+References: <20210903130808.30142-1-jgross@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to have a single kernel for supporting even huge
-numbers of vcpus per guest some arrays should be sized dynamically.
+Today the maximum vcpu-id of a kvm guest's vcpu on x86 systems is set
+via a #define in a header file.
 
-The easiest way to do that is to add boot parameters for the maximum
-number of vcpus and to calculate the maximum vcpu-id from that using
-either the host topology or a topology hint via another boot parameter.
+In order to support higher vcpu-ids without generally increasing the
+memory consumption of guests on the host (some guest structures contain
+arrays sized by KVM_MAX_VCPU_ID) add a boot parameter for adding some
+bits to the vcpu-id. Additional bits are needed as the vcpu-id is
+constructed via bit-wise concatenation of socket-id, core-id, etc.
+As those ids maximum values are not always a power of 2, the vcpu-ids
+are sparse.
 
-This patch series is doing that for x86. The same scheme can be easily
-adapted to other architectures, but I don't want to do that in the
-first iteration.
+The additional number of bits needed is basically the number of
+topology levels with a non-power-of-2 maximum value, excluding the top
+most level.
 
-In the long term I'd suggest to have a per-guest setting of the two
-parameters allowing to spare some memory for smaller guests. OTOH this
-would require new ioctl()s and respective qemu modifications, so I let
-those away for now.
+The default value of the new parameter will be to take the correct
+setting from the host's topology.
 
-I've tested the series not to break normal guest operation and the new
-parameters to be effective on x86. For Arm64 I did a compile test only.
+Calculating the maximum vcpu-id dynamically requires to allocate the
+arrays using KVM_MAX_VCPU_ID as the size dynamically.
 
-Changes in V2:
-- removed old patch 1, as already applied
-- patch 1 (old patch 2) only for reference, as the patch is already in
-  the kvm tree
-- switch patch 2 (old patch 3) to calculate vcpu-id
-- added patch 4
+Signed-of-by: Juergen Gross <jgross@suse.com>
+---
+V2:
+- switch to specifying additional bits (based on comment by Vitaly
+  Kuznetsov)
 
-Juergen Gross (6):
-  x86/kvm: remove non-x86 stuff from arch/x86/kvm/ioapic.h
-  x86/kvm: add boot parameter for adding vcpu-id bits
-  x86/kvm: introduce per cpu vcpu masks
-  kvm: use kvfree() in kvm_arch_free_vm()
-  kvm: allocate vcpu pointer array separately
-  x86/kvm: add boot parameter for setting max number of vcpus per guest
+Signed-off-by: Juergen Gross <jgross@suse.com>
+---
+ .../admin-guide/kernel-parameters.txt         | 18 ++++++++++++
+ arch/x86/include/asm/kvm_host.h               |  4 ++-
+ arch/x86/kvm/ioapic.c                         | 12 +++++++-
+ arch/x86/kvm/ioapic.h                         |  4 +--
+ arch/x86/kvm/x86.c                            | 29 +++++++++++++++++++
+ 5 files changed, 63 insertions(+), 4 deletions(-)
 
- .../admin-guide/kernel-parameters.txt         | 25 ++++++
- arch/arm64/include/asm/kvm_host.h             |  1 -
- arch/arm64/kvm/arm.c                          | 23 ++++--
- arch/x86/include/asm/kvm_host.h               | 26 +++++--
- arch/x86/kvm/hyperv.c                         | 25 ++++--
- arch/x86/kvm/ioapic.c                         | 12 ++-
- arch/x86/kvm/ioapic.h                         |  8 +-
- arch/x86/kvm/irq_comm.c                       |  9 ++-
- arch/x86/kvm/x86.c                            | 78 ++++++++++++++++++-
- include/linux/kvm_host.h                      | 26 ++++++-
- 10 files changed, 198 insertions(+), 35 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 84dc5790741b..37e194299311 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2435,6 +2435,24 @@
+ 			feature (tagged TLBs) on capable Intel chips.
+ 			Default is 1 (enabled)
+ 
++	kvm.vcpu_id_add_bits=
++			[KVM,X86] The vcpu-ids of guests are sparse, as they
++			are constructed by bit-wise concatenation of the ids of
++			the different topology levels (sockets, cores, threads).
++
++			This parameter specifies how many additional bits the
++			maximum vcpu-id needs compared to the maximum number of
++			vcpus.
++
++			Normally this value is the number of topology levels
++			without the threads level and without the highest
++			level.
++
++			The special value -1 can be used to support guests
++			with the same topology is the host.
++
++			Default: -1
++
+ 	l1d_flush=	[X86,INTEL]
+ 			Control mitigation for L1D based snooping vulnerability.
+ 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index af6ce8d4c86a..3513edee8e22 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -39,7 +39,7 @@
+ 
+ #define KVM_MAX_VCPUS 288
+ #define KVM_SOFT_MAX_VCPUS 240
+-#define KVM_MAX_VCPU_ID 1023
++#define KVM_MAX_VCPU_ID kvm_max_vcpu_id()
+ /* memory slots that are not exposed to userspace */
+ #define KVM_PRIVATE_MEM_SLOTS 3
+ 
+@@ -1588,6 +1588,8 @@ extern u64  kvm_max_tsc_scaling_ratio;
+ extern u64  kvm_default_tsc_scaling_ratio;
+ /* bus lock detection supported? */
+ extern bool kvm_has_bus_lock_exit;
++/* maximum vcpu-id */
++unsigned int kvm_max_vcpu_id(void);
+ 
+ extern u64 kvm_mce_cap_supported;
+ 
+diff --git a/arch/x86/kvm/ioapic.c b/arch/x86/kvm/ioapic.c
+index ff005fe738a4..52e8ea90c914 100644
+--- a/arch/x86/kvm/ioapic.c
++++ b/arch/x86/kvm/ioapic.c
+@@ -685,11 +685,21 @@ static const struct kvm_io_device_ops ioapic_mmio_ops = {
+ int kvm_ioapic_init(struct kvm *kvm)
+ {
+ 	struct kvm_ioapic *ioapic;
++	size_t sz;
+ 	int ret;
+ 
+-	ioapic = kzalloc(sizeof(struct kvm_ioapic), GFP_KERNEL_ACCOUNT);
++	sz = sizeof(struct kvm_ioapic) +
++	     sizeof(*ioapic->rtc_status.dest_map.map) *
++		    BITS_TO_LONGS(KVM_MAX_VCPU_ID + 1) +
++	     sizeof(*ioapic->rtc_status.dest_map.vectors) *
++		    (KVM_MAX_VCPU_ID + 1);
++	ioapic = kzalloc(sz, GFP_KERNEL_ACCOUNT);
+ 	if (!ioapic)
+ 		return -ENOMEM;
++	ioapic->rtc_status.dest_map.map = (void *)(ioapic + 1);
++	ioapic->rtc_status.dest_map.vectors =
++		(void *)(ioapic->rtc_status.dest_map.map +
++			 BITS_TO_LONGS(KVM_MAX_VCPU_ID + 1));
+ 	spin_lock_init(&ioapic->lock);
+ 	INIT_DELAYED_WORK(&ioapic->eoi_inject, kvm_ioapic_eoi_inject_work);
+ 	kvm->arch.vioapic = ioapic;
+diff --git a/arch/x86/kvm/ioapic.h b/arch/x86/kvm/ioapic.h
+index bbd4a5d18b5d..623a3c5afad7 100644
+--- a/arch/x86/kvm/ioapic.h
++++ b/arch/x86/kvm/ioapic.h
+@@ -39,13 +39,13 @@ struct kvm_vcpu;
+ 
+ struct dest_map {
+ 	/* vcpu bitmap where IRQ has been sent */
+-	DECLARE_BITMAP(map, KVM_MAX_VCPU_ID + 1);
++	unsigned long *map;
+ 
+ 	/*
+ 	 * Vector sent to a given vcpu, only valid when
+ 	 * the vcpu's bit in map is set
+ 	 */
+-	u8 vectors[KVM_MAX_VCPU_ID + 1];
++	u8 *vectors;
+ };
+ 
+ 
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index e5d5c5ed7dd4..6b6f38f0b617 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -78,6 +78,7 @@
+ #include <asm/intel_pt.h>
+ #include <asm/emulate_prefix.h>
+ #include <asm/sgx.h>
++#include <asm/topology.h>
+ #include <clocksource/hyperv_timer.h>
+ 
+ #define CREATE_TRACE_POINTS
+@@ -184,6 +185,34 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
+ int __read_mostly pi_inject_timer = -1;
+ module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
+ 
++static int __read_mostly vcpu_id_add_bits = -1;
++module_param(vcpu_id_add_bits, int, S_IRUGO);
++
++unsigned int kvm_max_vcpu_id(void)
++{
++	int n_bits = fls(KVM_MAX_VCPUS - 1);
++
++	if (vcpu_id_add_bits < -1 || vcpu_id_add_bits > (32 - n_bits)) {
++		pr_err("Invalid value of vcpu_id_add_bits=%d parameter!\n",
++		       vcpu_id_add_bits);
++		vcpu_id_add_bits = -1;
++	}
++
++	if (vcpu_id_add_bits >= 0) {
++		n_bits += vcpu_id_add_bits;
++	} else {
++		n_bits++;		/* One additional bit for core level. */
++		if (topology_max_die_per_package() > 1)
++			n_bits++;	/* One additional bit for die level. */
++	}
++
++	if (!n_bits)
++		n_bits = 1;
++
++	return (1U << n_bits) - 1;
++}
++EXPORT_SYMBOL_GPL(kvm_max_vcpu_id);
++
+ /*
+  * Restoring the host value for MSRs that are only consumed when running in
+  * usermode, e.g. SYSCALL MSRs and TSC_AUX, can be deferred until the CPU
 -- 
 2.26.2
 
