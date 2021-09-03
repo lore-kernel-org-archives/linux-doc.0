@@ -2,137 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B3FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A20C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 08:00:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 443B26109E
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:41:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2639610A2
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 08:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348050AbhICHl7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 03:41:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52060 "EHLO
+        id S1348101AbhICIBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 04:01:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48716 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348007AbhICHl6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 03:41:58 -0400
+        by vger.kernel.org with ESMTP id S1348081AbhICIBJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 04:01:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630654858;
+        s=mimecast20190719; t=1630656007;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=m2Gk1gYDhm7oWdNwheDfEhB69vSHBptODccZaywq6VI=;
-        b=cxLVwprhnJWNIpI6yzztbHfSK/UNLfgKz7N402Z5v54N62E1CpH9RQAolSDxK8NfT1BfPk
-        9Muq8GDzhhxuGM49LwSVM3V5IwvnLl3wiT7Uu4IVO+PovY6VakgwZDY9pb+MzEGiDd7iVg
-        qYFjPiQSeQ2hiG99wCEGuxAZVjY3VVQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-hM0ae5XDN4CkDu9W305rnA-1; Fri, 03 Sep 2021 03:40:57 -0400
-X-MC-Unique: hM0ae5XDN4CkDu9W305rnA-1
-Received: by mail-wr1-f70.google.com with SMTP id t15-20020a5d42cf000000b001565f9c9ee8so1291040wrr.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 00:40:56 -0700 (PDT)
+        bh=InxKCwkaY+BSOwQRBiaO8xW0lNamfxvr6pOVA9nU0nQ=;
+        b=QkyXCzTOlf3km0KSamF3vOkrQBloePaJmiH5hGsXDghVNG3CLjY0NXYuG7A7okxsxut9E4
+        jWLe4oJYWVjDvg9cLoRQlmTjZ0zdsiBcLQi+QaStkwS7GwWEG7rrf3XKPrQyS6r9VmUYKK
+        +bRez9rIJH+C3XJ61Jd2v8xLO/5d1fo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-axWGzDTFO2m54KuukEhJaw-1; Fri, 03 Sep 2021 04:00:06 -0400
+X-MC-Unique: axWGzDTFO2m54KuukEhJaw-1
+Received: by mail-ed1-f71.google.com with SMTP id y11-20020aa7d50b000000b003ca1ef38cf3so2355372edq.7
+        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 01:00:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=m2Gk1gYDhm7oWdNwheDfEhB69vSHBptODccZaywq6VI=;
-        b=oUlLNXbK4jFq4oBzkbAebB/R9qYri9AQs+g2GdYYioPe2SFvFt6EcUC6imqxzQ0apU
-         mwZBF0nZPFIJI7bteLiLX9V/1+urFtZAypxDPak+XAQceOzP8RORQSex2zEZQkeM+6aM
-         hdjanRyFycsNUkqpQ9xvgxg5KRWPasMeDl/ULWOAkoFXlD0AWg2KRXF3IxyQT/nzZ/ue
-         VWU9sRCH6tB1TZOVe/XfBU0AeLGtWF+ZkIA5TtYWSODeY4Zh0KdVEap2Q/w87P7PN1/+
-         /0Kiudz9C4cJqCBDuHoLe/g9WOHwXB4jsizw8t+02QhJvksWdsQj+grbhNxGnA8j07WL
-         zP1g==
-X-Gm-Message-State: AOAM531y7/MD6UWJJajPm40TL1ApTskkWJ+xWMDyPMy1k6yFeIlWs70N
-        6PfbtVJLLtUBxWJSMLF/kZG+FM6YrTz0QrQPgLL0hkoPqndYYH/tr9g6AVAIA0OX0zTSML6JkAe
-        GDDIN9qMV48RwZFFz/e/C
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr2386324wrq.263.1630654855933;
-        Fri, 03 Sep 2021 00:40:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBvBmc/wTAPRQ7Yv14HcqIk/YmtYTtuC3HB1QfbK/IRroOVGU4Pdtb7PhRFhAOb6trK6S1jA==
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr2386308wrq.263.1630654855762;
-        Fri, 03 Sep 2021 00:40:55 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id i5sm3220951wrc.86.2021.09.03.00.40.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 00:40:55 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 6/6] x86/kvm: add boot parameter for setting max number
- of vcpus per guest
-In-Reply-To: <bb4ebe24-1de5-82b8-001d-1c0f9f28861b@suse.com>
-References: <20210701154105.23215-1-jgross@suse.com>
- <20210701154105.23215-7-jgross@suse.com>
- <87h7gx2lkt.fsf@vitty.brq.redhat.com>
- <1ddffb87-a6a2-eba3-3f34-cf606a2ecba2@suse.com>
- <878s292k75.fsf@vitty.brq.redhat.com>
- <62679c6a-2f23-c1d1-f54c-1872ec748965@suse.com>
- <8735sh2fr7.fsf@vitty.brq.redhat.com>
- <bb4ebe24-1de5-82b8-001d-1c0f9f28861b@suse.com>
-Date:   Fri, 03 Sep 2021 09:40:53 +0200
-Message-ID: <87lf4em7i2.fsf@vitty.brq.redhat.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=InxKCwkaY+BSOwQRBiaO8xW0lNamfxvr6pOVA9nU0nQ=;
+        b=lGXrZLjXlPvlEmlQvooadnsOTTX/kn+MM4SdQ355bEdb8ehtQ0K77KKKIxt9Kk0yqo
+         MygIm8C1BTY8CV61HNCgWniVgN89CGke/3HFmcYv+X0xJPLnIrKGVgZofN+57NYnQqKR
+         xN+UGVlBjDQWdGcNrI/XSiiEkkont15ZiNc7g9ZVGC0ak9BiS9Q6iJ8vg00ooHjC6xfO
+         ujQb9H84+ylkibqOkHJZhuY/8086q9yOhJHm3YKFWnZo52xA0rGWT56HjQRpbk9aNv2W
+         R+WLIABZsdFfwsWcaHJWQAcwrg1puUy+Epxvzu2L+qE0ajmbnRl7kzcj/A//DdoBZ2mZ
+         jZdg==
+X-Gm-Message-State: AOAM532DhZQ16qg09j3NR0EnJXaoW9HtoftSZMyb+w+Bire3lTg6kmGF
+        uadp+xBIdxDOVSw9wU4EGWKggiOoCxxS7rZ4U+MUW/LEWTrRWmIg9768rvp8Gdkh8xWYpVlMoZF
+        Wc8Z/7+OR5jH/Wqy3Xft1
+X-Received: by 2002:a17:906:4c8c:: with SMTP id q12mr2884980eju.254.1630656005511;
+        Fri, 03 Sep 2021 01:00:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8fQU/ds5USfJd2Tckg+EXgt7GKbH1YbqcBJ6WAavCdiwLIBnSSmb8NLjjEqZaYwQzo4sQEQ==
+X-Received: by 2002:a17:906:4c8c:: with SMTP id q12mr2884963eju.254.1630656005317;
+        Fri, 03 Sep 2021 01:00:05 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id r16sm2554300edt.15.2021.09.03.01.00.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Sep 2021 01:00:04 -0700 (PDT)
+Subject: Re: [PATCH 3/5] iio: adc: axp288_adc: convert probe to full
+ device-managed
+To:     Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     jic23@kernel.org, wens@csie.org, andriy.shevchenko@linux.intel.com
+References: <20210903072917.45769-1-aardelean@deviqon.com>
+ <20210903072917.45769-4-aardelean@deviqon.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <1e26dd27-475c-7815-9a9d-240546fa9088@redhat.com>
+Date:   Fri, 3 Sep 2021 10:00:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210903072917.45769-4-aardelean@deviqon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Juergen Gross <jgross@suse.com> writes:
+Hi,
 
-> On 14.07.21 15:21, Vitaly Kuznetsov wrote:
->> Juergen Gross <jgross@suse.com> writes:
->> 
->>> On 14.07.21 13:45, Vitaly Kuznetsov wrote:
->>>
->>>> Personally, I'd vote for introducing a 'ratio' parameter then so
->>>> generally users will only have to set 'kvm.max_vcpus'.
->>>
->>> Okay.
->>>
->>> Default '4' then? Or '2 ^ (topology_levels - 2)' (assuming a
->>> topology_level of 3 on Intel: thread/core/socket and 4 on EPYC:
->>> thread/core/package/socket).
->> 
->> I'd suggest we default to '4' for both Intel and AMD as we haven't given
->> up completely on cross-vendor VMs (running AMD VMs on Intel CPUs and
->> vice versa). It would be great to leave a comment where the number comes
->> from of course.
->> 
->
-> Thinking more about it I believe it would be better to make the
-> parameter something like "additional vcpu-id bits" with a default of
-> topology_levels - 2 (cross-vendor VMs are so special that I think the
-> need to specify another value explicitly in this case is acceptable).
->
-> Reasons are:
->
-> - the ability to specify factor values not being a power of 2 is weird
-> - just specifying the additional number of bits would lead to compatible
->    behavior (e.g. a max vcpu-id of 1023 with max_vcpus being 288 and the
->    default value of 1)
-> - the max vcpu-id should (normally) be 2^n - 1
+On 9/3/21 9:29 AM, Alexandru Ardelean wrote:
+> This change converts the probe of this driver to use device-managed
+> functions only, which means that the remove hook can be removed.
+> The remove hook has only 2 calls to iio_device_unregister() and
+> iio_map_array_unregister(). Both these can now be done via devm register
+> functions, now that there's also a devm_iio_map_array_register() function.
+> 
+> The platform_set_drvdata() can also be removed now.
+> 
+> This change also removes the error print for when the iio_device_register()
+> call fails. This isn't required now.
+> > Signed-off-by: Alexandru Ardelean <aardelean@deviqon.com>
 
-Sounds good to me! 
+Thanks, patch looks good to me:
 
-Also, there's an ongoing work to raise the default KVM_MAX_VCPUS number
-by Eduardo (Cc):
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-https://lore.kernel.org/kvm/20210831204535.1594297-1-ehabkost@redhat.com/
+Regards,
 
-It would be great if you could unify your efforts)
+Hans
 
--- 
-Vitaly
+
+
+> ---
+>  drivers/iio/adc/axp288_adc.c | 28 ++++------------------------
+>  1 file changed, 4 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/axp288_adc.c b/drivers/iio/adc/axp288_adc.c
+> index 5f5e8b39e4d2..a4b8be5b8f88 100644
+> --- a/drivers/iio/adc/axp288_adc.c
+> +++ b/drivers/iio/adc/axp288_adc.c
+> @@ -259,7 +259,7 @@ static int axp288_adc_probe(struct platform_device *pdev)
+>  	info->irq = platform_get_irq(pdev, 0);
+>  	if (info->irq < 0)
+>  		return info->irq;
+> -	platform_set_drvdata(pdev, indio_dev);
+> +
+>  	info->regmap = axp20x->regmap;
+>  	/*
+>  	 * Set ADC to enabled state at all time, including system suspend.
+> @@ -276,31 +276,12 @@ static int axp288_adc_probe(struct platform_device *pdev)
+>  	indio_dev->num_channels = ARRAY_SIZE(axp288_adc_channels);
+>  	indio_dev->info = &axp288_adc_iio_info;
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+> -	ret = iio_map_array_register(indio_dev, axp288_adc_default_maps);
+> +
+> +	ret = devm_iio_map_array_register(&pdev->dev, indio_dev, axp288_adc_default_maps);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = iio_device_register(indio_dev);
+> -	if (ret < 0) {
+> -		dev_err(&pdev->dev, "unable to register iio device\n");
+> -		goto err_array_unregister;
+> -	}
+> -	return 0;
+> -
+> -err_array_unregister:
+> -	iio_map_array_unregister(indio_dev);
+> -
+> -	return ret;
+> -}
+> -
+> -static int axp288_adc_remove(struct platform_device *pdev)
+> -{
+> -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+> -
+> -	iio_device_unregister(indio_dev);
+> -	iio_map_array_unregister(indio_dev);
+> -
+> -	return 0;
+> +	return devm_iio_device_register(&pdev->dev, indio_dev);
+>  }
+>  
+>  static const struct platform_device_id axp288_adc_id_table[] = {
+> @@ -310,7 +291,6 @@ static const struct platform_device_id axp288_adc_id_table[] = {
+>  
+>  static struct platform_driver axp288_adc_driver = {
+>  	.probe = axp288_adc_probe,
+> -	.remove = axp288_adc_remove,
+>  	.id_table = axp288_adc_id_table,
+>  	.driver = {
+>  		.name = "axp288_adc",
+> 
 
