@@ -2,88 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D51A5C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 15:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F47C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 15:26:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAE46610D2
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 15:11:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 481D461059
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 15:26:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236353AbhICPM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 11:12:28 -0400
-Received: from ms.lwn.net ([45.79.88.28]:46748 "EHLO ms.lwn.net"
+        id S1349813AbhICP1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 11:27:20 -0400
+Received: from rosenzweig.io ([138.197.143.207]:45794 "EHLO rosenzweig.io"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229789AbhICPM1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Sep 2021 11:12:27 -0400
-X-Greylist: delayed 61319 seconds by postgrey-1.27 at vger.kernel.org; Fri, 03 Sep 2021 11:12:27 EDT
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4D2C5663B;
-        Fri,  3 Sep 2021 15:11:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4D2C5663B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1630681887; bh=I7eHpaDCMcn+gV/Go7uz+qvINtjF5jC2bNVhtMJtDN0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=p6w3uIRTp7YZD/LBsZ1EruHgD6tJFHamUaUv8UelNcPQz32KefofopmreGzFM5xf5
-         ZLJZgbQjMEoOgBt1iUux4MbXjEsOU/MjE+7bFZO28z5QIWVUtq96t4OHkjvum0SYGs
-         ffXXBq6uVgnuk7PdlkWjbAcbxbhlRA6RpMjTAHf1Kek8Ck9FJFI0JaZz4UlVkzrKqj
-         lrXSthYiEN6oi+z0on3n7gTwt8I0ssWaVNec6+vvght4/8+rHTyWmBZ8S6gJ3iivBN
-         EDqOr01NNs0DMRGnifT7kQPWGPN9zxwvNt7VS1qJjVEQItvEQoCZTmTvMF/zn+zXAU
-         0yJbSUDV5oNvQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     jack@suse.cz, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, tytso@mit.edu,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
-In-Reply-To: <b1909f4c-9e07-abd7-89ee-c2e551f9dc5b@gmail.com>
-References: <20210902220854.198850-2-corbet@lwn.net>
- <b1909f4c-9e07-abd7-89ee-c2e551f9dc5b@gmail.com>
-Date:   Fri, 03 Sep 2021 09:11:26 -0600
-Message-ID: <871r65zobl.fsf@meer.lwn.net>
+        id S1349776AbhICP1J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Sep 2021 11:27:09 -0400
+X-Greylist: delayed 460 seconds by postgrey-1.27 at vger.kernel.org; Fri, 03 Sep 2021 11:27:09 EDT
+From:   Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Takashi Iwai <tiwai@suse.de>,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: [PATCH] docs: kernel-hacking: Remove inappropriate text
+Date:   Fri,  3 Sep 2021 11:18:26 -0400
+Message-Id: <20210903151826.6300-1-alyssa@rosenzweig.io>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Remove inappropriate sexual (and ableist) text from the locking
+documentation, aligning it with the kernel code-of-conduct. As the text
+was unrelated to locking, this change streamlines the document and
+improves readability.
 
-[Adding Mauro]
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+---
+ Documentation/kernel-hacking/locking.rst | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-> On Thu,  2 Sep 2021 16:08:53 -0600, Jonathan Corbet wrote:
->
->> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
->> a new document on orphan files, which is great.  But the use of
->> "list-table" results in documents that are absolutely unreadable in their
->> plain-text form.  Switch this file to the regular RST table format instead;
->> the rendered (HTML) output is identical.
->
-> In the "list tables" section of doc-guide/sphinx.rst, the first paragraph
-> starts with the sentence:
->
->     We recommend the use of list table formats.
->
-> Yes, the disadvantage of list tables is mentioned later in the paragraph:
->
->     Compared to the ASCII-art they might not be as comfortable for readers
->     of the text files.
->
-> , but I still see list-table is meant as the preferred format.
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index ed1284c6f078..3e1f71608f11 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -94,16 +94,10 @@ primitives, but I'll pretend they don't exist.
+ Locking in the Linux Kernel
+ ===========================
+ 
+-If I could give you one piece of advice: never sleep with anyone crazier
+-than yourself. But if I had to give you advice on locking: **keep it
+-simple**.
++If I could give you one piece of advice on locking: **keep it simple**.
+ 
+ Be reluctant to introduce new locks.
+ 
+-Strangely enough, this last one is the exact reverse of my advice when
+-you **have** slept with someone crazier than yourself. And you should
+-think about getting a big dog.
+-
+ Two Main Types of Kernel Locks: Spinlocks and Mutexes
+ -----------------------------------------------------
+ 
+-- 
+2.30.2
 
-Interesting...that is not at all my memory of the discussions we had at
-that time.  There was a lot of pushback against anything that makes the
-RST files less readable - still is, if certain people join the
-conversation.  Tables were one of the early flash points.  
-
-Mauro, you added that text; do you remember things differently?  Do you
-feel we should retain that recommendation?
-
-Thanks,
-
-jon
