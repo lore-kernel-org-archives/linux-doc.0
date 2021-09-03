@@ -2,138 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DC7C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 11:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5FDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9008860FDC
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 11:49:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3704560E52
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 13:08:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347765AbhICLuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 07:50:10 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:50590 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349322AbhICLuJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 07:50:09 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 870801FD7C;
-        Fri,  3 Sep 2021 11:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1630669748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VfAx4578eKO6ywPf0rOdh/3/SGLIJXIZHm6hFxGY/Wo=;
-        b=jIxthijMtzQRiBd9X04NvrXa4xjN0DmTCz8VK6V20CtXdSkT5hWK2bjFKThlBBIxIYpYBs
-        XVuq0BMkNXLHVaexin+1yL3VQ7y/QJ6t8VyFxBSZkKS0tTrgKZAJSxyUhfWO32ry+EXJgQ
-        Vv1bPyvpdPTSlRsCCtivoNs5juTxt58=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1349407AbhICNJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 09:09:27 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:36486 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229645AbhICNJ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 09:09:27 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 8CEBDA3BB6;
-        Fri,  3 Sep 2021 11:49:06 +0000 (UTC)
-Date:   Fri, 3 Sep 2021 13:49:01 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 7E4AD226F0;
+        Fri,  3 Sep 2021 13:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1630674506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=NN5HIyhd2hnMW2pPqHYMruB3Bj3fGyUnsWK7Hj00imw=;
+        b=T6lLGd6FQmb5ouXURJN/wpryYuxVyDYwFIXSM5ovqZU54Zy7M5ma6Mo9+sCnCBUy9rnA2y
+        B1RFvgVp76vfG6u/8j7GCV8SVom0jO5vLkNpBSOJYRirwRZwHOpSqDORiG15hcaHLLMD+9
+        aaEe5Z5h7+o8DLK+z5EBLnk6ybOdLxE=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id BDFEF137D4;
+        Fri,  3 Sep 2021 13:08:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id MJjBLEkeMmHYOAAAGKfGzw
+        (envelope-from <jgross@suse.com>); Fri, 03 Sep 2021 13:08:25 +0000
+From:   Juergen Gross <jgross@suse.com>
+To:     kvm@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     maz@kernel.org, ehabkost@redhat.com,
+        Juergen Gross <jgross@suse.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        James Morse <james.morse@arm.com>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v8 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <YTILrVHLMBky9YjP@dhcp22.suse.cz>
-References: <20210827191858.2037087-1-surenb@google.com>
- <20210827191858.2037087-3-surenb@google.com>
- <YS81abHD8KZMrX8D@dhcp22.suse.cz>
- <CAJuCfpHWCtqCcuZdyfc4-virtynOMv2f_iU=OJUB_6b2Xz+k9g@mail.gmail.com>
+        Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu
+Subject: [PATCH v2 0/6] x86/kvm: add boot parameters for max vcpu configs
+Date:   Fri,  3 Sep 2021 15:08:01 +0200
+Message-Id: <20210903130808.30142-1-jgross@suse.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpHWCtqCcuZdyfc4-virtynOMv2f_iU=OJUB_6b2Xz+k9g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 01-09-21 08:42:29, Suren Baghdasaryan wrote:
-> On Wed, Sep 1, 2021 at 1:10 AM 'Michal Hocko' via kernel-team
-> <kernel-team@android.com> wrote:
-> >
-> > On Fri 27-08-21 12:18:57, Suren Baghdasaryan wrote:
-> > [...]
-> > > +static void replace_vma_anon_name(struct vm_area_struct *vma, const char *name)
-> > > +{
-> > > +     if (!name) {
-> > > +             free_vma_anon_name(vma);
-> > > +             return;
-> > > +     }
-> > > +
-> > > +     if (vma->anon_name) {
-> > > +             /* Should never happen, to dup use dup_vma_anon_name() */
-> > > +             WARN_ON(vma->anon_name == name);
-> >
-> > What is the point of this warning?
-> 
-> I wanted to make sure replace_vma_anon_name() is not used from inside
-> vm_area_dup() or some similar place (does not exist today but maybe in
-> the future) where "new" vma is a copy of "orig" vma and
-> new->anon_name==orig->anon_name. If someone by mistake calls
-> replace_vma_anon_name(new, orig->anon_name) and
-> new->anon_name==orig->anon_name then they will keep pointing to the
-> same name pointer, which breaks an assumption that ->anon_name
-> pointers are not shared among vmas even if the string is the same.
-> That would eventually lead to use-after-free error. After the next
-> patch implementing refcounting, the similar situation would lead to
-> both new and orig vma pointing to the same anon_vma_name structure
-> without raising the refcount, which would also lead to use-after-free
-> error. That's why the above comment asks to use dup_vma_anon_name() if
-> this warning ever happens.
-> I can remove the warning but I thought the problem is subtle enough to
-> put some safeguards.
+In order to be able to have a single kernel for supporting even huge
+numbers of vcpus per guest some arrays should be sized dynamically.
 
-This to me sounds very much like a debugging code that shouldn't make it
-to the final patch to be merged. I do see your point of an early
-diagnostic but we are talking about an internal MM code and that is not
-really designed to be robust against its own failures so I do not see
-why this should be any special.
+The easiest way to do that is to add boot parameters for the maximum
+number of vcpus and to calculate the maximum vcpu-id from that using
+either the host topology or a topology hint via another boot parameter.
+
+This patch series is doing that for x86. The same scheme can be easily
+adapted to other architectures, but I don't want to do that in the
+first iteration.
+
+In the long term I'd suggest to have a per-guest setting of the two
+parameters allowing to spare some memory for smaller guests. OTOH this
+would require new ioctl()s and respective qemu modifications, so I let
+those away for now.
+
+I've tested the series not to break normal guest operation and the new
+parameters to be effective on x86. For Arm64 I did a compile test only.
+
+Changes in V2:
+- removed old patch 1, as already applied
+- patch 1 (old patch 2) only for reference, as the patch is already in
+  the kvm tree
+- switch patch 2 (old patch 3) to calculate vcpu-id
+- added patch 4
+
+Juergen Gross (6):
+  x86/kvm: remove non-x86 stuff from arch/x86/kvm/ioapic.h
+  x86/kvm: add boot parameter for adding vcpu-id bits
+  x86/kvm: introduce per cpu vcpu masks
+  kvm: use kvfree() in kvm_arch_free_vm()
+  kvm: allocate vcpu pointer array separately
+  x86/kvm: add boot parameter for setting max number of vcpus per guest
+
+ .../admin-guide/kernel-parameters.txt         | 25 ++++++
+ arch/arm64/include/asm/kvm_host.h             |  1 -
+ arch/arm64/kvm/arm.c                          | 23 ++++--
+ arch/x86/include/asm/kvm_host.h               | 26 +++++--
+ arch/x86/kvm/hyperv.c                         | 25 ++++--
+ arch/x86/kvm/ioapic.c                         | 12 ++-
+ arch/x86/kvm/ioapic.h                         |  8 +-
+ arch/x86/kvm/irq_comm.c                       |  9 ++-
+ arch/x86/kvm/x86.c                            | 78 ++++++++++++++++++-
+ include/linux/kvm_host.h                      | 26 ++++++-
+ 10 files changed, 198 insertions(+), 35 deletions(-)
+
 -- 
-Michal Hocko
-SUSE Labs
+2.26.2
+
