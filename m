@@ -2,275 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68485C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 687FCC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:28:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D02B6054E
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:21:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A55C60C51
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:28:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237294AbhICWWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 18:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
+        id S242847AbhICW3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 18:29:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235238AbhICWWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 18:22:01 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237D5C061757
-        for <linux-doc@vger.kernel.org>; Fri,  3 Sep 2021 15:21:01 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id 7so576338pfl.10
-        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 15:21:01 -0700 (PDT)
+        with ESMTP id S242472AbhICW3Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 18:29:25 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD71BC061760
+        for <linux-doc@vger.kernel.org>; Fri,  3 Sep 2021 15:28:24 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id ot2-20020a17090b3b4200b0019127f8ed87so430259pjb.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 15:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=z6Ahe3HyFCsln3WxhiPzlBdzSMzmQy1MoB9r0kQJYjY=;
-        b=j+i4OnKQlx67qf6KsGGrXn+kDIVbopkXPqg29WuanGw7D+NxxpUfn+yNtPO3lEjAlq
-         IC+p3mgGgnWHwDwxvLzVWdG4G9j3wn6czhDnEmn2BCIcsFo5+Pljd/R4gG4PpcE5j/Lw
-         n3fNJJKD0jBLyuMESbHVez1HBAiBgQ+3l0nAc=
+        bh=BS6jWoL9pWSi0KXjHeej6vjUIclKhlV3mGFNGSvhg5w=;
+        b=lvAfLsLnn/50KH5BhXOVM8yk6EQsU+CWCcB3ajHc68JoJFkEsFipc+RHheUz83Bfbt
+         t+8Fh+FZC2ScHzSuqtnikr4XATusXLxd9ZaDi4YqJjYk9Vp/H1MwSsOXtB154B9cS2u5
+         gd4PrW561dBLiOjrX3i69lbR51p3vC5CyFNis=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=z6Ahe3HyFCsln3WxhiPzlBdzSMzmQy1MoB9r0kQJYjY=;
-        b=fjKQ3QfuL+3im58q9STA3LWvptH2oEGrMuPXJQiH2t2kBt79auU680YhdESIQSFqI6
-         nAsFj6VU1abJO07W9R5EfZWuQfZxdhlZfclLzMhn5AxLZx5KNUVYsAeIQ7qpCyoaBhzx
-         382KFwRsd5pbYXrfEMzV3UiKSSexq11WW9TsfLjDVcHlkJM/e8uge/VukrmeoJZMvFId
-         GPxS8Ytw2Or+c179YEcjZyYl/CqAmG1kcnOIJCVYZTDWQCpYokugo3ib3E/WJ1cBlIG5
-         OT2abfUy5C7vNMEaSSuJ9tvp5wGh5ROUGHYJCLzlOm4zqI+bNwzL1cphVXPix4OlkAj9
-         qQSA==
-X-Gm-Message-State: AOAM530zcaiyIo4x4cg2UuxmvpdVmHnpRpvGre2DeOQtlibmty9yPdRk
-        Yg03/O/xUd9Scz6aobQhgn0mOA==
-X-Google-Smtp-Source: ABdhPJyWCdRDESu1+RloArQDnrUNo5Gz+AwhyFui33D17W9ipNom5uKCB8s4H5hAYBrPJBoGl295nA==
-X-Received: by 2002:a63:4610:: with SMTP id t16mr1059608pga.176.1630707660544;
-        Fri, 03 Sep 2021 15:21:00 -0700 (PDT)
+        bh=BS6jWoL9pWSi0KXjHeej6vjUIclKhlV3mGFNGSvhg5w=;
+        b=XRXHTI0jNxriFrFqnZGJxUWxu3/QmwrEcBwRL1tREsTVKHOR7LFQ4NJuB7yiSc3BCv
+         SATnELMJL/2tzcuelZG/Mjnw7dkPRdM8UlDT24MWQe1F2ped5pLJs9NxK7PPZ9oqXMmw
+         r/sq6yZXZDVsWwKf5aXhp+iruiVYdHI/xcxO0Vr8m7TSRJZ5Qw3DIgIeRVcQCRA96Tn2
+         +qnk0QuvWsRLnktw8TIb15hX/RxNHqqK95PfFG363kSITtnwkj9ByVovPX7ZtYkVMnyJ
+         v41HxEQpRBHS6wVy1ZuJUT329QPtkOnnbpUsWUI3ii/noYsqAAjNQ//orOroLah1AVC+
+         sunA==
+X-Gm-Message-State: AOAM533LNwIrWA2qaHRf4PgcR2h+t2gkP+UVLAi6+7GmBej4XKE/QVPd
+        miuHEaBP4XcZ0CrH4DqcGJLP5Q==
+X-Google-Smtp-Source: ABdhPJzuaBI1DIl35wZKJ43uYtU+X5MQjRpDOgfLtB5e93HgeqaaD+mSm3mJj0NaFzUqMvKInh7J3Q==
+X-Received: by 2002:a17:90a:194a:: with SMTP id 10mr1071828pjh.221.1630708104224;
+        Fri, 03 Sep 2021 15:28:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 11sm319586pfm.208.2021.09.03.15.20.59
+        by smtp.gmail.com with ESMTPSA id j11sm359051pfa.10.2021.09.03.15.28.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 15:20:59 -0700 (PDT)
-Date:   Fri, 3 Sep 2021 15:20:58 -0700
+        Fri, 03 Sep 2021 15:28:23 -0700 (PDT)
+Date:   Fri, 3 Sep 2021 15:28:22 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, ccross@google.com,
-        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
-        willy@infradead.org, kirill.shutemov@linux.intel.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, corbet@lwn.net,
-        viro@zeniv.linux.org.uk, rdunlap@infradead.org,
-        kaleshsingh@google.com, peterx@redhat.com, rppt@kernel.org,
-        peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com,
-        songmuchun@bytedance.com, viresh.kumar@linaro.org,
-        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
-        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, kernel-team@android.com
-Subject: Re: [PATCH v9 3/3] mm: add anonymous vma name refcounting
-Message-ID: <202109031450.CDA7090A@keescook>
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
+ anonymous memory
+Message-ID: <202109031522.ACDF5BA8@keescook>
 References: <20210902231813.3597709-1-surenb@google.com>
- <20210902231813.3597709-3-surenb@google.com>
+ <20210902231813.3597709-2-surenb@google.com>
+ <202109031439.B58932AF0@keescook>
+ <CAJuCfpEQAJqu2DLf5D5pCkv4nq+dtVOpiJSnsxwGrgb9H6inQA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210902231813.3597709-3-surenb@google.com>
+In-Reply-To: <CAJuCfpEQAJqu2DLf5D5pCkv4nq+dtVOpiJSnsxwGrgb9H6inQA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 02, 2021 at 04:18:13PM -0700, Suren Baghdasaryan wrote:
-> While forking a process with high number (64K) of named anonymous vmas the
-> overhead caused by strdup() is noticeable. Experiments with ARM64 Android
-> device show up to 40% performance regression when forking a process with
-> 64k unpopulated anonymous vmas using the max name lengths vs the same
-> process with the same number of anonymous vmas having no name.
-> Introduce anon_vma_name refcounted structure to avoid the overhead of
-> copying vma names during fork() and when splitting named anonymous vmas.
-> When a vma is duplicated, instead of copying the name we increment the
-> refcount of this structure. Multiple vmas can point to the same
-> anon_vma_name as long as they increment the refcount. The name member of
-> anon_vma_name structure is assigned at structure allocation time and is
-> never changed. If vma name changes then the refcount of the original
-> structure is dropped, a new anon_vma_name structure is allocated
-> to hold the new name and the vma pointer is updated to point to the new
-> structure.
-> With this approach the fork() performance regressions is reduced 3-4x
-> times and with usecases using more reasonable number of VMAs (a few
-> thousand) the regressions is not measurable.
+On Fri, Sep 03, 2021 at 02:56:21PM -0700, Suren Baghdasaryan wrote:
+> On Fri, Sep 3, 2021 at 2:47 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > (Sorry, a few more things jumped out at me when I looked again...)
+> >
+> > On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
+> > > [...]
+> > > diff --git a/kernel/sys.c b/kernel/sys.c
+> > > index 72c7639e3c98..25118902a376 100644
+> > > --- a/kernel/sys.c
+> > > +++ b/kernel/sys.c
+> > > @@ -2299,6 +2299,64 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
+> > >
+> > >  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
+> > >
+> > > +#ifdef CONFIG_MMU
+> > > +
+> > > +#define ANON_VMA_NAME_MAX_LEN        256
+> > > +
+> > > +static inline bool is_valid_name_char(char ch)
+> > > +{
+> > > +     /* printable ascii characters, except [ \ ] */
+> > > +     return (ch > 0x1f && ch < 0x5b) || (ch > 0x5d && ch < 0x7f);
+> > > +}
+> >
+> > In the back of my mind, I feel like disallowing backtick would be nice,
+> > but then if $, (, and ) are allowed, it doesn't matter, and that seems
+> > too limiting. :)
 > 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
-> previous version including cover letter with test results is at:
-> https://lore.kernel.org/linux-mm/20210827191858.2037087-1-surenb@google.com/
-> 
-> changes in v9
-> - Replaced kzalloc with kmalloc in anon_vma_name_alloc, per Rolf Eike Beer
-> 
->  include/linux/mm_types.h |  9 ++++++++-
->  mm/madvise.c             | 43 +++++++++++++++++++++++++++++++++-------
->  2 files changed, 44 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 968a1d0463d8..7feb43daee6c 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -5,6 +5,7 @@
->  #include <linux/mm_types_task.h>
->  
->  #include <linux/auxvec.h>
-> +#include <linux/kref.h>
->  #include <linux/list.h>
->  #include <linux/spinlock.h>
->  #include <linux/rbtree.h>
-> @@ -310,6 +311,12 @@ struct vm_userfaultfd_ctx {
->  struct vm_userfaultfd_ctx {};
->  #endif /* CONFIG_USERFAULTFD */
->  
-> +struct anon_vma_name {
-> +	struct kref kref;
-> +	/* The name needs to be at the end because it is dynamically sized. */
-> +	char name[];
-> +};
-> +
->  /*
->   * This struct describes a virtual memory area. There is one of these
->   * per VM-area/task. A VM area is any part of the process virtual memory
-> @@ -361,7 +368,7 @@ struct vm_area_struct {
->  			unsigned long rb_subtree_last;
->  		} shared;
->  		/* Serialized by mmap_sem. */
-> -		char *anon_name;
-> +		struct anon_vma_name *anon_name;
->  	};
->  
->  	/*
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 0c6d0f64d432..adc53edd3fe7 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -63,6 +63,28 @@ static int madvise_need_mmap_write(int behavior)
->  	}
->  }
->  
-> +static struct anon_vma_name *anon_vma_name_alloc(const char *name)
-> +{
-> +	struct anon_vma_name *anon_name;
-> +	size_t len = strlen(name);
-> +
-> +	/* Add 1 for NUL terminator at the end of the anon_name->name */
-> +	anon_name = kmalloc(sizeof(*anon_name) + len + 1, GFP_KERNEL);
-> +	if (anon_name) {
-> +		kref_init(&anon_name->kref);
-> +		strcpy(anon_name->name, name);
+> It's not used by the only current user (Android) and we can always
+> allow more chars later. However going the other direction and
+> disallowing some of them I think would be harder (need to make sure
+> nobody uses them). WDYT if we keep it stricter and relax if needed?
 
-Please don't use strcpy(), even though we know it's safe here. We're
-trying to remove it globally (or at least for non-constant buffers)[1].
-We can also use the struct_size() helper, along with memcpy():
+I'd say, if we can also drop each of: ` $ ( )
+then let's do it. Better to keep the obvious shell meta-characters out
+of this, although I don't feel strongly about it. Anything that might
+get confused by this would be similarly confused by binary names too:
 
-	/* Add 1 for NUL terminator at the end of the anon_name->name */
-	size_t count = strlen(name) + 1;
+$ cat /proc/3407216/maps
+560bdafd4000-560bdafd6000 r--p 00000000 fd:02 2621909 /tmp/yay`wat
 
-	anon_name = kmalloc(struct_size(anon_name, name, count), GFP_KERNEL);
-	if (anon_name) {
-		kref_init(&anon_name->kref);
-		memcpy(anon_name->name, name, count);
-	}
+And it's probably easier to change a binary name than to call prctl. :P
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
-
-> +	}
-> +
-> +	return anon_name;
-> +}
-> +
-> +static void vma_anon_name_free(struct kref *kref)
-> +{
-> +	struct anon_vma_name *anon_name =
-> +			container_of(kref, struct anon_vma_name, kref);
-> +	kfree(anon_name);
-> +}
-> +
->  static inline bool has_vma_anon_name(struct vm_area_struct *vma)
->  {
->  	return !vma->vm_file && vma->anon_name;
-> @@ -75,7 +97,7 @@ const char *vma_anon_name(struct vm_area_struct *vma)
->  
->  	mmap_assert_locked(vma->vm_mm);
->  
-> -	return vma->anon_name;
-> +	return vma->anon_name->name;
->  }
->  
->  void dup_vma_anon_name(struct vm_area_struct *orig_vma,
-> @@ -84,37 +106,44 @@ void dup_vma_anon_name(struct vm_area_struct *orig_vma,
->  	if (!has_vma_anon_name(orig_vma))
->  		return;
->  
-> -	new_vma->anon_name = kstrdup(orig_vma->anon_name, GFP_KERNEL);
-> +	kref_get(&orig_vma->anon_name->kref);
-> +	new_vma->anon_name = orig_vma->anon_name;
->  }
->  
->  void free_vma_anon_name(struct vm_area_struct *vma)
->  {
-> +	struct anon_vma_name *anon_name;
-> +
->  	if (!has_vma_anon_name(vma))
->  		return;
->  
-> -	kfree(vma->anon_name);
-> +	anon_name = vma->anon_name;
->  	vma->anon_name = NULL;
-> +	kref_put(&anon_name->kref, vma_anon_name_free);
->  }
->  
->  /* mmap_lock should be write-locked */
->  static int replace_vma_anon_name(struct vm_area_struct *vma, const char *name)
->  {
-> +	const char *anon_name;
-> +
->  	if (!name) {
->  		free_vma_anon_name(vma);
->  		return 0;
->  	}
->  
-> -	if (vma->anon_name) {
-> +	anon_name = vma_anon_name(vma);
-> +	if (anon_name) {
->  		/* Should never happen, to dup use dup_vma_anon_name() */
-> -		WARN_ON(vma->anon_name == name);
-> +		WARN_ON(anon_name == name);
->  
->  		/* Same name, nothing to do here */
-> -		if (!strcmp(name, vma->anon_name))
-> +		if (!strcmp(name, anon_name))
->  			return 0;
->  
->  		free_vma_anon_name(vma);
->  	}
-> -	vma->anon_name = kstrdup(name, GFP_KERNEL);
-> +	vma->anon_name = anon_vma_name_alloc(name);
->  	if (!vma->anon_name)
->  		return -ENOMEM;
->  
-> -- 
-> 2.33.0.153.gba50c8fa24-goog
-> 
-
-With the above tweak, please consider this:
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
-Thanks for working on this!
+I'm good either way. What you have now is great, but if we wanted to be
+extra extra strict, we can add the other 4 above.
 
 -- 
 Kees Cook
