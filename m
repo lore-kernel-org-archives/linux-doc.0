@@ -5,65 +5,65 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A30B9C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E77C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AAD8610E6
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:29:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6992961057
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 07:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347994AbhICHah (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 03:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54886 "EHLO
+        id S1347977AbhICHak (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 03:30:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347888AbhICHaf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 03:30:35 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E845AC061575
-        for <linux-doc@vger.kernel.org>; Fri,  3 Sep 2021 00:29:34 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id u14so10126528ejf.13
-        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 00:29:34 -0700 (PDT)
+        with ESMTP id S1347981AbhICHag (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 03:30:36 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14102C0613C1
+        for <linux-doc@vger.kernel.org>; Fri,  3 Sep 2021 00:29:35 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id h9so10191457ejs.4
+        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 00:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=deviqon.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HnKxxaQYNnWTD9UVNnr24MR8zjRJb29eptl0bMy8Qq4=;
-        b=Qcz0qeTuAYOCren9Bte0rJrya/cpxtrK46NHFyqZw0Mlz1MB0RvC//GSaMk1pNJsge
-         u1l1AxWZiJhMBK3JzofjfGSEYBUpXsUTMBf7NUbECF+itGa3CujJQbKacFN0ry9qY5sb
-         uD0p6ZLx1KxONRQOhQCaMz4UJdNRNYFC7TLCEznC3HyfY1/arEYDJd+NiTAWJUrknYiV
-         CPd+1Bm/vFwa4fA2rAD53RKml9MaerqrAEZcJj98yco2ot1fxHdEqhXaqZB3eT+HMsks
-         kERZJGTZlreijmnTbeJsYTlUP9q9ayz1Y5ORKOI0wVDAFuuQ9zPqA3T3pzQC3Vrt0PV1
-         HqpA==
+        bh=W/2bGRX6h2ShjY2Ue+ETXCUOUj7+vt7FE17ZT3HOV+8=;
+        b=Lvrc4VxY92tToYNa/OcJfuMJMmDvqrpBTZJCKToRaG7VWGR68hJ1446jXykOL/5w18
+         C4wN0v7li4i53cC69kh0QRxfqj15o199V7ddMOOLKu+IZ8uFk5z8CvRJ2P5eO8cLmSeY
+         2Yxsrfrckc0tc68ZUAPcHrX0f0QVoaol8AS+1WDLvElOCt8i+nH3Wf0csvAR22q5Ry+0
+         w+a3ZORE1SaFwtVvNarPg6ZDUC+VWW//l/G/b9g++QxWeeVZtMUA38pieCIFXE6S1T1N
+         /3pthPe1rQ8Ivd4tWLkuzK9fcaq5x25kFHyf1UzSe/qv6/WLhc+Pev75Rz/FWXq54C5l
+         biNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HnKxxaQYNnWTD9UVNnr24MR8zjRJb29eptl0bMy8Qq4=;
-        b=M/0Yfwdmu6tSe8S3rDC59UP80xHD0h/wS8HXG8ntbUm4fCZTeAXMBnaBDdpumi7av9
-         LTvAyISB/UVl1vbGIQC9SgKWLQosoRB/8e6Yf4gBZKOC16Pw5LAqzsmxbiv4ys5k6x2e
-         yaou1Xhq7rEyKWUmegCLQnEeU1KewmjHKo2uJC+kR/PAchJxVQlKqRdYqtlM6ostyu4p
-         TT6vxvTsLvV2EZTWHshs5rii9RHObCSJlQDJZuxyFEzVhRH5S/ZEzAW2po+DO8+edHEN
-         93CnBWaPFR1kMd5/tbLDX/D3irt4r5Gp4pwGrnAxZtblj05Gr7cdOvqZopZCssc1A3Jk
-         GxLw==
-X-Gm-Message-State: AOAM531qiXlWqJvfHBD0PsCCGqU4MniYTpg2jxCfYiHOVf7nOaXbZZIj
-        IWmUI5mgSzaWMVPq3vH4/NNpOw==
-X-Google-Smtp-Source: ABdhPJwFO572GXMyC8Iym92Njj9JtaNsYe0AZpZmJobeLhP6IQXc2R3B8cIlE08zeVVXsXVevPaQ5g==
-X-Received: by 2002:a17:906:d20a:: with SMTP id w10mr2724357ejz.426.1630654173566;
-        Fri, 03 Sep 2021 00:29:33 -0700 (PDT)
+        bh=W/2bGRX6h2ShjY2Ue+ETXCUOUj7+vt7FE17ZT3HOV+8=;
+        b=M7naeWAGMnAJx8qdUMmH8dT0pYxRno0p/6BGbpbwtYRLSH6PKW6SkmSwpdelJZGll8
+         nFNxdAFGtR4I77Yq0RgNHQou81VFP86awvNJe0QD5VV/GzBxjAMcsR2bL99VcsznJPfr
+         TlS842zPyK+7O9qTwSBOEMklldFMoze+g8Xmz7pH0mGR9DZIHvtlsraeoc7kLdmZ/yzp
+         MI5M9PDqBR8kofe4IsydgUALp5pD5pFF698JQKAE9Qc2WzxKOZNyq3YEdW+yKYju16bj
+         m9HM91Y0Gtuz+zf4paPkVSf4q8eCZra4Xef3pN+fXiCrv1BKjKr3Q/P9kwL+vvqf4Wpu
+         qTWw==
+X-Gm-Message-State: AOAM530uFmVvlP7fUOLuf3yaZCyqv0dMuFz1MQBfWaSb3NdZ8P5lKZ2O
+        vmcp5UW4UurY2Tshpqq2bGRIAhvW+MrY5w==
+X-Google-Smtp-Source: ABdhPJxg0pseOGWd1vWo2NudsDVj5BE/f7evKJG5rPT7E2j7RfWRsClIqJXNCaLzXo2utpB+Pm5rIA==
+X-Received: by 2002:a17:906:f2d8:: with SMTP id gz24mr2648681ejb.343.1630654174478;
+        Fri, 03 Sep 2021 00:29:34 -0700 (PDT)
 Received: from neptune.. ([5.2.193.191])
-        by smtp.gmail.com with ESMTPSA id a15sm2376969edr.2.2021.09.03.00.29.32
+        by smtp.gmail.com with ESMTPSA id a15sm2376969edr.2.2021.09.03.00.29.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 00:29:33 -0700 (PDT)
+        Fri, 03 Sep 2021 00:29:34 -0700 (PDT)
 From:   Alexandru Ardelean <aardelean@deviqon.com>
 To:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
 Cc:     jic23@kernel.org, hdegoede@redhat.com, wens@csie.org,
         andriy.shevchenko@linux.intel.com,
         Alexandru Ardelean <aardelean@deviqon.com>
-Subject: [PATCH 3/5] iio: adc: axp288_adc: convert probe to full device-managed
-Date:   Fri,  3 Sep 2021 10:29:15 +0300
-Message-Id: <20210903072917.45769-4-aardelean@deviqon.com>
+Subject: [PATCH 4/5] iio: adc: lp8788_adc: convert probe to full-device managed
+Date:   Fri,  3 Sep 2021 10:29:16 +0300
+Message-Id: <20210903072917.45769-5-aardelean@deviqon.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903072917.45769-1-aardelean@deviqon.com>
 References: <20210903072917.45769-1-aardelean@deviqon.com>
@@ -86,46 +86,61 @@ call fails. This isn't required now.
 
 Signed-off-by: Alexandru Ardelean <aardelean@deviqon.com>
 ---
- drivers/iio/adc/axp288_adc.c | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ drivers/iio/adc/lp8788_adc.c | 31 +++++--------------------------
+ 1 file changed, 5 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/iio/adc/axp288_adc.c b/drivers/iio/adc/axp288_adc.c
-index 5f5e8b39e4d2..a4b8be5b8f88 100644
---- a/drivers/iio/adc/axp288_adc.c
-+++ b/drivers/iio/adc/axp288_adc.c
-@@ -259,7 +259,7 @@ static int axp288_adc_probe(struct platform_device *pdev)
- 	info->irq = platform_get_irq(pdev, 0);
- 	if (info->irq < 0)
- 		return info->irq;
+diff --git a/drivers/iio/adc/lp8788_adc.c b/drivers/iio/adc/lp8788_adc.c
+index 8fb57e375529..6d9b354bc705 100644
+--- a/drivers/iio/adc/lp8788_adc.c
++++ b/drivers/iio/adc/lp8788_adc.c
+@@ -163,7 +163,8 @@ static struct iio_map lp8788_default_iio_maps[] = {
+ 	{ }
+ };
+ 
+-static int lp8788_iio_map_register(struct iio_dev *indio_dev,
++static int lp8788_iio_map_register(struct device *dev,
++				struct iio_dev *indio_dev,
+ 				struct lp8788_platform_data *pdata,
+ 				struct lp8788_adc *adc)
+ {
+@@ -173,7 +174,7 @@ static int lp8788_iio_map_register(struct iio_dev *indio_dev,
+ 	map = (!pdata || !pdata->adc_pdata) ?
+ 		lp8788_default_iio_maps : pdata->adc_pdata;
+ 
+-	ret = iio_map_array_register(indio_dev, map);
++	ret = devm_iio_map_array_register(dev, indio_dev, map);
+ 	if (ret) {
+ 		dev_err(&indio_dev->dev, "iio map err: %d\n", ret);
+ 		return ret;
+@@ -196,9 +197,8 @@ static int lp8788_adc_probe(struct platform_device *pdev)
+ 
+ 	adc = iio_priv(indio_dev);
+ 	adc->lp = lp;
 -	platform_set_drvdata(pdev, indio_dev);
-+
- 	info->regmap = axp20x->regmap;
- 	/*
- 	 * Set ADC to enabled state at all time, including system suspend.
-@@ -276,31 +276,12 @@ static int axp288_adc_probe(struct platform_device *pdev)
- 	indio_dev->num_channels = ARRAY_SIZE(axp288_adc_channels);
- 	indio_dev->info = &axp288_adc_iio_info;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
--	ret = iio_map_array_register(indio_dev, axp288_adc_default_maps);
-+
-+	ret = devm_iio_map_array_register(&pdev->dev, indio_dev, axp288_adc_default_maps);
- 	if (ret < 0)
+ 
+-	ret = lp8788_iio_map_register(indio_dev, lp->pdata, adc);
++	ret = lp8788_iio_map_register(&pdev->dev, indio_dev, lp->pdata, adc);
+ 	if (ret)
  		return ret;
  
+@@ -210,32 +210,11 @@ static int lp8788_adc_probe(struct platform_device *pdev)
+ 	indio_dev->channels = lp8788_adc_channels;
+ 	indio_dev->num_channels = ARRAY_SIZE(lp8788_adc_channels);
+ 
 -	ret = iio_device_register(indio_dev);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "unable to register iio device\n");
--		goto err_array_unregister;
+-	if (ret) {
+-		dev_err(&pdev->dev, "iio dev register err: %d\n", ret);
+-		goto err_iio_device;
 -	}
+-
 -	return 0;
 -
--err_array_unregister:
+-err_iio_device:
 -	iio_map_array_unregister(indio_dev);
--
 -	return ret;
 -}
 -
--static int axp288_adc_remove(struct platform_device *pdev)
+-static int lp8788_adc_remove(struct platform_device *pdev)
 -{
 -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
 -
@@ -136,15 +151,12 @@ index 5f5e8b39e4d2..a4b8be5b8f88 100644
 +	return devm_iio_device_register(&pdev->dev, indio_dev);
  }
  
- static const struct platform_device_id axp288_adc_id_table[] = {
-@@ -310,7 +291,6 @@ static const struct platform_device_id axp288_adc_id_table[] = {
- 
- static struct platform_driver axp288_adc_driver = {
- 	.probe = axp288_adc_probe,
--	.remove = axp288_adc_remove,
- 	.id_table = axp288_adc_id_table,
+ static struct platform_driver lp8788_adc_driver = {
+ 	.probe = lp8788_adc_probe,
+-	.remove = lp8788_adc_remove,
  	.driver = {
- 		.name = "axp288_adc",
+ 		.name = LP8788_DEV_ADC,
+ 	},
 -- 
 2.31.1
 
