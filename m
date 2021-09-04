@@ -2,123 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A0BC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 07:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D3AC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 07:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A54660FA0
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 07:47:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 008CA61054
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 07:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbhIDHsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Sep 2021 03:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233340AbhIDHsB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Sep 2021 03:48:01 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452BDC061575;
-        Sat,  4 Sep 2021 00:47:00 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id f15so2820625ybg.3;
-        Sat, 04 Sep 2021 00:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O7pFDoTDG83sXYm3yFYU/ALPWpomicRzzImF0sKpKW0=;
-        b=ccMUmEJZTMqvMiO4qDEJz9UIC9A7ZaCIp9jDhsXqJ5Ev75Fxx6tmimIki1gyPQUPXS
-         WUq6vqhnlpebDLPREpSmGpTghCvaQ7I1t01NqKoILpqjhefYji3+KrmbyFtUkdfSEFMJ
-         UNwklfNd5oZpXUbNtuS3Oq+g4hQudXjwXg1XEFeEAUaktgjFZB/kPlvDx7egLukEmhkQ
-         KlsFkF03WrbLns7SWJ2p3vqZWsqreGnTfotAuElmmYxanXxACNPJgkmZ16+Syj62X9W+
-         SAM5JaMcIrLBK/eVLU/0qgK95SGuyD2xbVFiDFCL54EJplm833L1/itj17ZCvI0BT/b6
-         8S9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O7pFDoTDG83sXYm3yFYU/ALPWpomicRzzImF0sKpKW0=;
-        b=VnOHcGZYGk4w3DggqIXVkchi2r0nDq0eBsww9d7S/50zP0SztsS94VAP2UesXlFlcU
-         im2kq4CqT/8AO0NrfyRfWxB2exH8Xz+OizOYPJ06NxRQ9+W6j9uIsN53rgacEWVUoZCL
-         fq/leZ57rqa6kENjbAQVGB64sSEApZqS/0cuPz/Pf65KcRNjzyH9zIqaIH/dUmDfzHPA
-         qOAMyz88/7G5txxMqoBIqs7M7apeczbPWULTVWFszgMhLP+PpOR6lYybIW1tL0L1PFgC
-         7+YIH0hm7Xiu/29oYTKfMWi3xUQqFNwOJJ/cTR2IHTTdLl3aZ3rF+bMtM7HuYfcwY0x6
-         Uozw==
-X-Gm-Message-State: AOAM532vhwO6zAwXZoHaTO5OOCxi0+NdV+N+2MQpC85rmRmiR2VvOasj
-        +/ggPNjel/fJQBSlQ/p3t5tWWyYPvcdNCoXKXVHgUlmw/Zw=
-X-Google-Smtp-Source: ABdhPJzKd12zJEaEmP4vMVbx87FxdriXYFR5EUre4fMKtstyxhr3RpJv2J0y5Wq4kmgxZlQsWGBvNl+pB3Rcq1FgLww=
-X-Received: by 2002:a25:7ec4:: with SMTP id z187mr3949441ybc.35.1630741619439;
- Sat, 04 Sep 2021 00:46:59 -0700 (PDT)
+        id S233340AbhIDHvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Sep 2021 03:51:31 -0400
+Received: from smtp3-1.goneo.de ([85.220.129.38]:46960 "EHLO smtp3-1.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233068AbhIDHvb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 4 Sep 2021 03:51:31 -0400
+X-Greylist: delayed 309 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 Sep 2021 03:51:30 EDT
+Received: from [192.168.1.107] (dyndsl-085-016-043-081.ewe-ip-backbone.de [85.16.43.81])
+        by smtp3.goneo.de (Postfix) with ESMTPSA id 4A8E82040DA4;
+        Sat,  4 Sep 2021 09:45:18 +0200 (CEST)
+Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
+To:     Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     jack@suse.cz, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, tytso@mit.edu,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210902220854.198850-2-corbet@lwn.net>
+ <b1909f4c-9e07-abd7-89ee-c2e551f9dc5b@gmail.com>
+ <871r65zobl.fsf@meer.lwn.net>
+ <a93af4a2-9b9f-6430-bc3a-dfb2dbf7e56b@gmail.com>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <68ae637d-dc8d-cedc-b058-8f4ebb146137@darmarit.de>
+Date:   Sat, 4 Sep 2021 09:45:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210904072951.12556-1-utkarshverma294@gmail.com>
-In-Reply-To: <20210904072951.12556-1-utkarshverma294@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Sat, 4 Sep 2021 09:46:48 +0200
-Message-ID: <CAKXUXMyRKM9Ev_Yyyup-T=AZe2aYcN-ZneXsLmHtUC7as67zNQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: checkpatch: Add SYMBOLIC_PERMS message
-To:     Utkarsh Verma <utkarshverma294@gmail.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a93af4a2-9b9f-6430-bc3a-dfb2dbf7e56b@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 4, 2021 at 9:30 AM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
->
-> Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-> subsection. Octal permission bits are easier to read and understand
-> instead of their symbolic macro names.
->
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index f0956e9ea2d8..01105e9c89de 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -957,6 +957,17 @@ Permissions
->      Permission bits should use 4 digit octal permissions (like 0700 or 0444).
->      Avoid using any other base like decimal.
->
-> +  **SYMBOLIC_PERMS**
-> +    Permission bits in the octal form are more readable and easier to
-> +    understand than their symbolic counterparts because many command-line
-> +    tools use this notation only. Experienced kernel developers have been using
-> +    this traditional Unix permission bits for decades and so they find it
-> +    easier to understand the octal notation than the symbolic macros.
-> +    Also, it is harder to read S_IWUSR|S_IRUGO than 0644, which obscures the
-> +    developer's intent rather than clarifying it.
+Am 04.09.21 um 03:23 schrieb Akira Yokosawa:
+> On Fri, 03 Sep 2021 09:11:26 -0600, Jonathan Corbet wrote:
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>>
+>> [Adding Mauro]
+>>
+>>> On Thu,  2 Sep 2021 16:08:53 -0600, Jonathan Corbet wrote:
+>>>
+>>>> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
+>>>> a new document on orphan files, which is great.  But the use of
+>>>> "list-table" results in documents that are absolutely unreadable in their
+>>>> plain-text form.  Switch this file to the regular RST table format instead;
+>>>> the rendered (HTML) output is identical.
+>>>
+>>> In the "list tables" section of doc-guide/sphinx.rst, the first paragraph
+>>> starts with the sentence:
+>>>
+>>>      We recommend the use of list table formats.
+>>>
+>>> Yes, the disadvantage of list tables is mentioned later in the paragraph:
+>>>
+>>>      Compared to the ASCII-art they might not be as comfortable for readers
+>>>      of the text files.
+>>>
+>>> , but I still see list-table is meant as the preferred format.
+>>
+>> Interesting...that is not at all my memory of the discussions we had at
+>> that time.  There was a lot of pushback against anything that makes the
+>> RST files less readable - still is, if certain people join the
+>> conversation.  Tables were one of the early flash points.
+>>
+>> Mauro, you added that text; do you remember things differently?  Do you
+>> feel we should retain that recommendation?
+> 
+> No, the text was first added by Markus Heiser [added to CC] in commit
+> 0249a7644857 ("doc-rst: flat-table directive - initial implementation")
+> and have not updated ever since.
+> 
+> He might remember the circumstances, but 2016 was a long time ago,
+> I guess.
 
-Just a quick stylistic nit:
+We prefer list tables ...
 
-s/Also, it is harder to read /For example, it is harder to read/
+"""Their advantage is that they are easy to create or modify and that the
+diff of a modification is much more meaningful, because it is limited to
+the modified content."""
 
-Other than that:
+By example: We have some very large tables with tons of rows and cols.
+If you need to extend one column just by one character you have to edit
+the whole table and the diff is not readable.
 
-Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+It is not limited to big tables, e.g. if you patch a simple typo,
+you might need touch content not related to your fix.
 
-Feel free to send a quick v2 for my nitpicking, and apply the tags
-from this email.
+At the end it is a trade of, what weights more, readability of the
+plain text or readability of the patch / most often I would vote
+for the latter.
 
-Lukas
+  -- Markus --
 
-> +
-> +    See: https://lore.kernel.org/lkml/CA+55aFw5v23T-zvDZp-MmD_EYxF8WbafwwB59934FV7g21uMGQ@mail.gmail.com/
-> +
->
->  Spacing and Brackets
->  --------------------
-> --
-> 2.25.1
->
+
+> 
+> Or did the discussions take place after the list table support had been
+> added?
+> 
+>          Thanks, Akira (a newcomer to kerneldoc)
+> 
+>>
+>> Thanks,
+>>
+>> jon
+>>
