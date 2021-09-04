@@ -2,161 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687FCC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0803C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 01:27:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A55C60C51
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Sep 2021 22:28:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B43F460EE6
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 01:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242847AbhICW3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Sep 2021 18:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
+        id S236127AbhIDBYS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Sep 2021 21:24:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242472AbhICW3Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 18:29:25 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD71BC061760
-        for <linux-doc@vger.kernel.org>; Fri,  3 Sep 2021 15:28:24 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id ot2-20020a17090b3b4200b0019127f8ed87so430259pjb.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Sep 2021 15:28:24 -0700 (PDT)
+        with ESMTP id S233140AbhIDBYQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Sep 2021 21:24:16 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15B7C061575;
+        Fri,  3 Sep 2021 18:23:15 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id c17so757147pgc.0;
+        Fri, 03 Sep 2021 18:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BS6jWoL9pWSi0KXjHeej6vjUIclKhlV3mGFNGSvhg5w=;
-        b=lvAfLsLnn/50KH5BhXOVM8yk6EQsU+CWCcB3ajHc68JoJFkEsFipc+RHheUz83Bfbt
-         t+8Fh+FZC2ScHzSuqtnikr4XATusXLxd9ZaDi4YqJjYk9Vp/H1MwSsOXtB154B9cS2u5
-         gd4PrW561dBLiOjrX3i69lbR51p3vC5CyFNis=
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WAUchL1K8xTugSJMq/L+WthLaKkPMxmVeEzi7Gkydvg=;
+        b=J+zjBJfT8aODlFyMGXOGVNZFnbutstsEatEUdIyWuQ6vpjXZWKJhFlpqfrdwkPjhlv
+         RCLJJi7OW4NGti+X+9tTr1CSUV3zKvQbVs57yhIAeRloF2g5AcWbENRNEbnd+7d/8dHb
+         TDoWOanTNsFlArxTOp7jPcW0gA1V+nAbqiS7vxwwlq42Mkz1xOd7Y+9/MK/5HdB6hF5g
+         q6XYu+PaIMvhdstA7/UN1/Z52Pv2rNjLAHrAtrRb5EmsULYLgyVP2aN7D5XkjI1i6rrq
+         OEcfUZ7lHeNHzw2Sb5pQjPEdyEqpavVb8+5wegolEsZqFwaVSgk1uvmy51lvHE6UXs9l
+         eqaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BS6jWoL9pWSi0KXjHeej6vjUIclKhlV3mGFNGSvhg5w=;
-        b=XRXHTI0jNxriFrFqnZGJxUWxu3/QmwrEcBwRL1tREsTVKHOR7LFQ4NJuB7yiSc3BCv
-         SATnELMJL/2tzcuelZG/Mjnw7dkPRdM8UlDT24MWQe1F2ped5pLJs9NxK7PPZ9oqXMmw
-         r/sq6yZXZDVsWwKf5aXhp+iruiVYdHI/xcxO0Vr8m7TSRJZ5Qw3DIgIeRVcQCRA96Tn2
-         +qnk0QuvWsRLnktw8TIb15hX/RxNHqqK95PfFG363kSITtnwkj9ByVovPX7ZtYkVMnyJ
-         v41HxEQpRBHS6wVy1ZuJUT329QPtkOnnbpUsWUI3ii/noYsqAAjNQ//orOroLah1AVC+
-         sunA==
-X-Gm-Message-State: AOAM533LNwIrWA2qaHRf4PgcR2h+t2gkP+UVLAi6+7GmBej4XKE/QVPd
-        miuHEaBP4XcZ0CrH4DqcGJLP5Q==
-X-Google-Smtp-Source: ABdhPJzuaBI1DIl35wZKJ43uYtU+X5MQjRpDOgfLtB5e93HgeqaaD+mSm3mJj0NaFzUqMvKInh7J3Q==
-X-Received: by 2002:a17:90a:194a:: with SMTP id 10mr1071828pjh.221.1630708104224;
-        Fri, 03 Sep 2021 15:28:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j11sm359051pfa.10.2021.09.03.15.28.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 15:28:23 -0700 (PDT)
-Date:   Fri, 3 Sep 2021 15:28:22 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <202109031522.ACDF5BA8@keescook>
-References: <20210902231813.3597709-1-surenb@google.com>
- <20210902231813.3597709-2-surenb@google.com>
- <202109031439.B58932AF0@keescook>
- <CAJuCfpEQAJqu2DLf5D5pCkv4nq+dtVOpiJSnsxwGrgb9H6inQA@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WAUchL1K8xTugSJMq/L+WthLaKkPMxmVeEzi7Gkydvg=;
+        b=d27G08pgPjV5wnhMPM3Y3UUHXwwCE/7M6loFdPmJ7o5iUpDWZB5YoDNvadv/2faB5/
+         NO8twq9BxcEuSGP+vf8A0V7FzgRcz7Ei6Wayvhb1B+wr+FuKgdpDqf2Wxan29VhYastz
+         Tpp6N+5zpCKE0CdfhnWD4ZIzrIS9+nCv6/lDSMZyz1mFRcUU1M1bkxOaTcevG5xu5288
+         7eFIWnzSw55Z2H3H2HhnaIMPE0XTOaO+jVZ5wjRNwCTujnwqZEXngYZGxLGzosycTwu0
+         g75zg+2jSdgQU93PjRuUrUx32ZDmy+QhsW+afv2cnvp/YuBHA9Kgi8vv8PqmeN9/0vqI
+         XxAw==
+X-Gm-Message-State: AOAM5310+A1DRefwjplQSti2MgNLHrYphZ+NoOuRTsDEputYteLDdVwp
+        gwzKIRJ/VXwGGjhgp7rr1xQ=
+X-Google-Smtp-Source: ABdhPJz3iDIcgGgZxPlIFWnAYdOPcj0FdPd6SG3PzfE63/jcxe2EwUoWjxqbDZuYkfwyQLSFzZkukw==
+X-Received: by 2002:a63:eb41:: with SMTP id b1mr1558809pgk.236.1630718595445;
+        Fri, 03 Sep 2021 18:23:15 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id n21sm509093pfo.61.2021.09.03.18.23.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Sep 2021 18:23:15 -0700 (PDT)
+Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     jack@suse.cz, linux-doc@vger.kernel.org,
+        linux-ext4@vger.kernel.org, tytso@mit.edu,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Markus Heiser <markus.heiser@darmarIT.de>,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20210902220854.198850-2-corbet@lwn.net>
+ <b1909f4c-9e07-abd7-89ee-c2e551f9dc5b@gmail.com>
+ <871r65zobl.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <a93af4a2-9b9f-6430-bc3a-dfb2dbf7e56b@gmail.com>
+Date:   Sat, 4 Sep 2021 10:23:11 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpEQAJqu2DLf5D5pCkv4nq+dtVOpiJSnsxwGrgb9H6inQA@mail.gmail.com>
+In-Reply-To: <871r65zobl.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 03, 2021 at 02:56:21PM -0700, Suren Baghdasaryan wrote:
-> On Fri, Sep 3, 2021 at 2:47 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > (Sorry, a few more things jumped out at me when I looked again...)
-> >
-> > On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
-> > > [...]
-> > > diff --git a/kernel/sys.c b/kernel/sys.c
-> > > index 72c7639e3c98..25118902a376 100644
-> > > --- a/kernel/sys.c
-> > > +++ b/kernel/sys.c
-> > > @@ -2299,6 +2299,64 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
-> > >
-> > >  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
-> > >
-> > > +#ifdef CONFIG_MMU
-> > > +
-> > > +#define ANON_VMA_NAME_MAX_LEN        256
-> > > +
-> > > +static inline bool is_valid_name_char(char ch)
-> > > +{
-> > > +     /* printable ascii characters, except [ \ ] */
-> > > +     return (ch > 0x1f && ch < 0x5b) || (ch > 0x5d && ch < 0x7f);
-> > > +}
-> >
-> > In the back of my mind, I feel like disallowing backtick would be nice,
-> > but then if $, (, and ) are allowed, it doesn't matter, and that seems
-> > too limiting. :)
+On Fri, 03 Sep 2021 09:11:26 -0600, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
 > 
-> It's not used by the only current user (Android) and we can always
-> allow more chars later. However going the other direction and
-> disallowing some of them I think would be harder (need to make sure
-> nobody uses them). WDYT if we keep it stricter and relax if needed?
+> [Adding Mauro]
+> 
+>> On Thu,  2 Sep 2021 16:08:53 -0600, Jonathan Corbet wrote:
+>>
+>>> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
+>>> a new document on orphan files, which is great.  But the use of
+>>> "list-table" results in documents that are absolutely unreadable in their
+>>> plain-text form.  Switch this file to the regular RST table format instead;
+>>> the rendered (HTML) output is identical.
+>>
+>> In the "list tables" section of doc-guide/sphinx.rst, the first paragraph
+>> starts with the sentence:
+>>
+>>     We recommend the use of list table formats.
+>>
+>> Yes, the disadvantage of list tables is mentioned later in the paragraph:
+>>
+>>     Compared to the ASCII-art they might not be as comfortable for readers
+>>     of the text files.
+>>
+>> , but I still see list-table is meant as the preferred format.
+> 
+> Interesting...that is not at all my memory of the discussions we had at
+> that time.  There was a lot of pushback against anything that makes the
+> RST files less readable - still is, if certain people join the
+> conversation.  Tables were one of the early flash points.  
+> 
+> Mauro, you added that text; do you remember things differently?  Do you
+> feel we should retain that recommendation?
 
-I'd say, if we can also drop each of: ` $ ( )
-then let's do it. Better to keep the obvious shell meta-characters out
-of this, although I don't feel strongly about it. Anything that might
-get confused by this would be similarly confused by binary names too:
+No, the text was first added by Markus Heiser [added to CC] in commit
+0249a7644857 ("doc-rst: flat-table directive - initial implementation")
+and have not updated ever since.
 
-$ cat /proc/3407216/maps
-560bdafd4000-560bdafd6000 r--p 00000000 fd:02 2621909 /tmp/yay`wat
+He might remember the circumstances, but 2016 was a long time ago,
+I guess.
 
-And it's probably easier to change a binary name than to call prctl. :P
+Or did the discussions take place after the list table support had been
+added?
 
-I'm good either way. What you have now is great, but if we wanted to be
-extra extra strict, we can add the other 4 above.
+        Thanks, Akira (a newcomer to kerneldoc)
 
--- 
-Kees Cook
+> 
+> Thanks,
+> 
+> jon
+> 
