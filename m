@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7255C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C14FCC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:02:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC39360F91
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:02:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4BD461056
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:02:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235973AbhIDKDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Sep 2021 06:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46826 "EHLO
+        id S1350907AbhIDKDQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Sep 2021 06:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350907AbhIDKDL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Sep 2021 06:03:11 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06228C061575
-        for <linux-doc@vger.kernel.org>; Sat,  4 Sep 2021 03:02:09 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id e7so994197plh.8
-        for <linux-doc@vger.kernel.org>; Sat, 04 Sep 2021 03:02:09 -0700 (PDT)
+        with ESMTP id S1350918AbhIDKDP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Sep 2021 06:03:15 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B20DC061575
+        for <linux-doc@vger.kernel.org>; Sat,  4 Sep 2021 03:02:14 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id mw10-20020a17090b4d0a00b0017b59213831so1171921pjb.0
+        for <linux-doc@vger.kernel.org>; Sat, 04 Sep 2021 03:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NPfcnPcN3A3/vZ31g4e/8HYUhbUqKy3mocrjaR0G+BE=;
-        b=S1xVyZsl3SjsMLpVevsuIBftispr9wi7AhJN92vCpzJqsBdcEL12yAdfb3q60OCbpf
-         vjSnR0QEEU/PkCmD9M/gMHL/IAgQGKKFgHtke0jbnkwwAF0Rnx4BD/h+E3fRPpXdj2PJ
-         +GuUbpunpPp6fqlf9WNfp6LpHSPEzQR1bhl9KNd+ExnLnlYJ7kwARRaLHI6fyMofYFVi
-         BpP0d9R3O8/4ZonAW6JvPZMvCambTrjJhbGFU/y1T9PY7Vgn+zCUhWW6oknDydtHcfZi
-         XzxcfUqMfX/UMXnunftl+3ha2PtuM2/nRRt0xMOa8zQBIGBJMDlO4BV09qDMwwSyrppI
-         7J2A==
+        bh=cb5T0goC06B92YRvq42DSC1LvNraKM6zUuukPa9ppxE=;
+        b=Al02/gS4c/eOaNBKBVAbU7ipSL53XLothS/rSK/WMMl/2UR6x/jAwcOEMjdIR6Luuq
+         IorEVgo2Cy48Ox3hYG5EzvKbnOmjNEhHFJs/M+L1I7HUbMecc5DwIkY5uVvDh47Hs5HI
+         II2teUosAmKGqzbk+Dmp3nPFwZZfPvHtaGLr5HZbxFvS65or/M/dqqUlDlT+5apSxCcp
+         bwuH29Xkb0WJZHYeYzpney5a6bDgR7adyhDyIvLtcIh7CjrCE3JH3E5krpYSiquqkTqH
+         Vl8tykaZAzpKAedB8lSv0KcFQgd6b1Cmuzsq0w87qLTAmFNLi4nT7ddQS8CF1yPsDhZJ
+         hvEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NPfcnPcN3A3/vZ31g4e/8HYUhbUqKy3mocrjaR0G+BE=;
-        b=P02+ITbcy+XRBkDMCytVkZnQkP/1SiF61Wp4qpyO/HP75pNYdm3fmd8eBGBYzHR3mP
-         z9cgLd6jG/VQjAGbcYIw0hsBEQPTgM7qCormgxFzBg/r+cfiH/a5pCKgkKXids05FPmr
-         H66eINWWBmNly0wUYeTNeFOSLVdqDNfI1vdEEHLHQ1rcspz1bSCEZPZwALKdfuMNjEnU
-         lwf/Fcsj9WT7SLCxamPxuWZQKnMHxJGbY4KA5Wi6ZEDY71Y/8FJ8AzBPTOBHJoecvU4P
-         Kt7eQ4q/lVoEwTtd4jdQJoaZdbHyKPGkCInfP86lyVyw0jkTksk+gSktEzr/4CIQX409
-         N5eA==
-X-Gm-Message-State: AOAM5325XBG51gEqjL4IuJ5TADxodviysvHp4ZzwkCapviKvDtWXe8Hu
-        bywamIPaY6ZUgF8ANiIPL4I=
-X-Google-Smtp-Source: ABdhPJzLg7weyhfd9gxT9SomZvRqZCPJgAvyRxuHkSR0RE4XKtAFT4ywp3EwBeekeZVRHgVStzb+8g==
-X-Received: by 2002:a17:90b:a4b:: with SMTP id gw11mr3484604pjb.227.1630749728570;
-        Sat, 04 Sep 2021 03:02:08 -0700 (PDT)
+        bh=cb5T0goC06B92YRvq42DSC1LvNraKM6zUuukPa9ppxE=;
+        b=qwmk4s1c8my1n2aqWZ+ACovSbhCxnwc3eDDCShBd+2/Z91dWGnMXSlf9zv4ZfIhWad
+         gs+udrdknCf88N5WaInjO31GIqUiT/Pedjei9UOjESzYRvyxmwdsFSH/G3r+XpGj/JkF
+         kSctMEG1K3LBOsNFVoEPxQuHTY4q6SZVkd1jJHyDze4zQhj4IiiPux3ToTpGwwU3XOT3
+         MDaT4vdqaM8kXIb9ZcOcGn73R5uHLSU75o339ACkGidEXLNPgi4pjPSIgqRWq8SlxS5V
+         h6FWtX7y1enISK4X2dqX3vbmuh4hESw+q99SHcN3B22iBzZU2jW2Fi5JkllB6WKRhr13
+         7rsg==
+X-Gm-Message-State: AOAM530QVTGr7JXodQhFdh/x6EmbDe4sewgGt/u8JsBMH5HBi+XO3qlk
+        lwn7dG/J655uVqUhTkVS+ww=
+X-Google-Smtp-Source: ABdhPJxnq5JUHW4hoSQcPFmz1n3TNlzso3/3tCi1Xce7NW9fOBUSB4Ychpjh77RA3ClrzsYUk3GQCQ==
+X-Received: by 2002:a17:90b:4c8b:: with SMTP id my11mr3460274pjb.220.1630749733775;
+        Sat, 04 Sep 2021 03:02:13 -0700 (PDT)
 Received: from localhost.localdomain ([107.172.82.230])
-        by smtp.gmail.com with ESMTPSA id e16sm1955458pfj.90.2021.09.04.03.02.03
+        by smtp.gmail.com with ESMTPSA id e16sm1955458pfj.90.2021.09.04.03.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 03:02:08 -0700 (PDT)
+        Sat, 04 Sep 2021 03:02:13 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
@@ -63,9 +63,9 @@ To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v5 5/6] docs/zh_CN: add core-api boot-time-mm translation
-Date:   Sat,  4 Sep 2021 18:01:03 +0800
-Message-Id: <c1d26141ddbe2f3c40b0dc45f95c9013e5343cce.1630747462.git.siyanteng@loongson.cn>
+Subject: [PATCH v5 6/6] docs/zh_CN: add core-api gfp_mask-from-fs-io translation
+Date:   Sat,  4 Sep 2021 18:01:04 +0800
+Message-Id: <01fb8c6a57179a0cc30cad01077e50b162c80e55.1630747462.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1630747462.git.siyanteng@loongson.cn>
 References: <cover.1630747462.git.siyanteng@loongson.cn>
@@ -76,26 +76,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/boot-time-mm.rst into Chinese.
+Translate Documentation/core-api/gfp_mask-from-fs-io.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- .../zh_CN/core-api/boot-time-mm.rst           | 49 +++++++++++++++++++
+ .../zh_CN/core-api/gfp_mask-from-fs-io.rst    | 66 +++++++++++++++++++
  .../translations/zh_CN/core-api/index.rst     |  2 +-
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+ 2 files changed, 67 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/gfp_mask-from-fs-io.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/boot-time-mm.rst b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+diff --git a/Documentation/translations/zh_CN/core-api/gfp_mask-from-fs-io.rst b/Documentation/translations/zh_CN/core-api/gfp_mask-from-fs-io.rst
 new file mode 100644
-index 000000000000..9e81dbec71f8
+index 000000000000..75d2997e9bc3
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/boot-time-mm.rst
-@@ -0,0 +1,49 @@
++++ b/Documentation/translations/zh_CN/core-api/gfp_mask-from-fs-io.rst
+@@ -0,0 +1,66 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/boot-time-mm.rst
++:Original: Documentation/core-api/gfp_mask-from-fs-io.rst
 +
 +:翻译:
 +
@@ -105,63 +104,80 @@ index 000000000000..9e81dbec71f8
 +
 + 时奎亮 <alexs@kernel.org>
 +
-+.. _cn_core-api_boot-time-mm:
++.. _cn_core-api_gfp_mask-from-fs-io:
 +
-+================
-+启动时的内存管理
-+================
++============================
++从FS/IO上下文中使用的GFP掩码
++============================
 +
-+系统初始化早期“正常”的内存管理由于没有设置完毕无法使用。但是内核仍然需要
-+为各种数据结构分配内存，例如物理页分配器。
++:日期: 2018年5月
++:作者: Michal Hocko <mhocko@kernel.org>
 +
-+一个叫做 ``memblock`` 的专用分配器执行启动时的内存管理。特定架构的初始化
-+必须在setup_arch()中设置它，并在mem_init()函数中移除它。
++简介
++====
 +
-+一旦早期的内存管理可用，它就为内存分配提供了各种函数和宏。分配请求可以指向
-+第一个（也可能是唯一的）节点或NUMA系统中的某个特定节点。有一些API变体在分
-+配失败时panic，也有一些不会panic的。
++文件系统和IO栈中的代码路径在分配内存时必须小心，以防止因直接调用FS或IO路径的内
++存回收和阻塞已经持有的资源（例如锁--最常见的是用于事务上下文的锁）而造成递归死
++锁。
 +
-+Memblock还提供了各种控制其自身行为的API。
++避免这种死锁问题的传统方法是在调用分配器时，在gfp掩码中清除__GFP_FS和__GFP_IO
++（注意后者意味着也要清除第一个）。GFP_NOFS和GFP_NOIO可以作为快捷方式使用。但事
++实证明，上述方法导致了滥用，当限制性的gfp掩码被用于“万一”时，没有更深入的考虑，
++这导致了问题，因为过度使用GFP_NOFS/GFP_NOIO会导致内存过度回收或其他内存回收的问
++题。
 +
-+Memblock概述
-+============
++新API
++=====
++
++从4.12开始，我们为NOFS和NOIO上下文提供了一个通用的作用域API，分别是
++``memalloc_nofs_save`` , ``memalloc_nofs_restore`` 和 ``memalloc_noio_save`` ,
++``memalloc_noio_restore`` ，允许从文件系统或I/O的角度将一个作用域标记为一个
++关键部分。从该作用域的任何分配都将从给定的掩码中删除__GFP_FS和__GFP_IO，所以
++没有内存分配可以追溯到FS/IO中。
++
 +
 +该API在以下内核代码中:
 +
-+mm/memblock.c
++include/linux/sched/mm.h
 +
++然后，FS/IO代码在任何与回收有关的关键部分开始之前简单地调用适当的保存函数
++——例如，与回收上下文共享的锁或当事务上下文嵌套可能通过回收进行时。恢复函数
++应该在关键部分结束时被调用。所有这一切最好都伴随着解释什么是回收上下文，以
++方便维护。
 +
-+函数和结构体
-+============
++请注意，保存/恢复函数的正确配对允许嵌套，所以从现有的NOIO或NOFS范围分别调
++用 ``memalloc_noio_save`` 或 ``memalloc_noio_restore`` 是安全的。
 +
-+下面是关于memblock数据结构、函数和宏的描述。其中一些实际上是内部的，但由于
-+它们被记录下来，漏掉它们是很愚蠢的。此外，阅读内部函数的注释可以帮助理解引
-+擎盖下真正发生的事情。
++那么__vmalloc(GFP_NOFS)呢？
++===========================
 +
-+该API在以下内核代码中:
++vmalloc不支持GFP_NOFS语义，因为在分配器的深处有硬编码的GFP_KERNEL分配，要修
++复这些分配是相当不容易的。这意味着用GFP_NOFS/GFP_NOIO调用 ``vmalloc`` 几乎
++总是一个错误。好消息是，NOFS/NOIO语义可以通过范围API实现。
 +
-+include/linux/memblock.h
-+mm/memblock.c
++在理想的世界中，上层应该已经标记了危险的上下文，因此不需要特别的照顾， ``vmalloc``
++的调用应该没有任何问题。有时，如果上下文不是很清楚，或者有叠加的违规行为，那么
++推荐的方法是用范围API包装vmalloc，并加上注释来解释问题。
 diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 88f11c3945a0..3f8a86716ac1 100644
+index 3f8a86716ac1..52bda404f9e4 100644
 --- a/Documentation/translations/zh_CN/core-api/index.rst
 +++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -106,6 +106,7 @@ Todolist:
-    unaligned-memory-access
+@@ -107,6 +107,7 @@ Todolist:
     mm-api
     genalloc
-+   boot-time-mm
+    boot-time-mm
++   gfp_mask-from-fs-io
  
  Todolist:
  
-@@ -114,7 +115,6 @@ Todolist:
+@@ -115,7 +116,6 @@ Todolist:
     dma-attributes
     dma-isa-lpc
     pin_user_pages
--   boot-time-mm
-    gfp_mask-from-fs-io
+-   gfp_mask-from-fs-io
  
  内核调试的接口
+ ==============
 -- 
 2.27.0
 
