@@ -2,113 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D26FFC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 08:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC01C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9EBB61054
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 08:24:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D9A60F91
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Sep 2021 10:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbhIDIY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Sep 2021 04:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53694 "EHLO
+        id S235449AbhIDKCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Sep 2021 06:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233631AbhIDIY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Sep 2021 04:24:57 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39A4C061575;
-        Sat,  4 Sep 2021 01:23:56 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id q3so911327plx.4;
-        Sat, 04 Sep 2021 01:23:56 -0700 (PDT)
+        with ESMTP id S235274AbhIDKCo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Sep 2021 06:02:44 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD2BFC061575
+        for <linux-doc@vger.kernel.org>; Sat,  4 Sep 2021 03:01:42 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id s29so1491860pfw.5
+        for <linux-doc@vger.kernel.org>; Sat, 04 Sep 2021 03:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EdPM9OkvNtaA6JmcGv7qKKN0+VaFm3GfDoaj2YCcIDg=;
-        b=j5OTxawlS1akez9Dq295CULgeV4Bul2jYcQB7efxgLDT1BKJ2cS/7dclXPqGer3Odz
-         Uwk85+fxEGbLwRT7dj5ZCwTKEt5dFxRcmvK6lpjqlV6t1GLe8zW2bnrlojqPtMSdYbmN
-         NL8R7uAyHozMmYyOebHPED20mG2WALvQP52w9/CIaymApbf9lMWJoM1z+WiJu6lTOVlC
-         vzv4SYsqVubyOoftJiNuZMcbYFbTJM1RloYdnu+7j26eu3smcQ/fd7uEwdhDOTViVFfT
-         5A1bHDyKzcxdHMUIQgezxhbYqiKj89qFN+YFl5pR/knx+oD+sEOxNaV9mOinuv5OkFFE
-         4n6w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=We2wMjoE/rlPZ2BowUWGX57WDVrHto0OvQqK+p6ptyM=;
+        b=Sv1R2tya27LVyvoyhXfGwZViZSOpZCPP8FHEbS2S8aZ5Ss1n4yzOKAetJ4QUdHDaNo
+         Wrjtlwx5vbz3v9zD4TMPHdLQR8wYyPHwk5pEheeCdyvSmyKKFOslQKlVUOWOB1pIgigC
+         d6QMI/LCmtyZTObluv/cHZUwS9atNSX60zBI9hJhsIriAkIB9blXsTyiB8RE5/Jo037e
+         gsn8y1JFdOfNlWhA9LYU4BELHrAY3iflWHtM815nm5S2olJn4IbMtVowye8FeqIrHAYI
+         lt6meE1L7JaIWYmpfhuJk+swP8BW9K3UvnvRpothANMfyYaM6MWqIwArikS+uqpGkmCN
+         uyBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EdPM9OkvNtaA6JmcGv7qKKN0+VaFm3GfDoaj2YCcIDg=;
-        b=mzG97JGaHeNvRvmcBA9wN7qluTZMM9k4uAb2RXsGCYB9KfOnACBMcqfE5Sm3o8JWaV
-         RXqYcFyaAVbVKiHdRzz3rVDqiuwUw7IYRm7Fy0B/x9nHGzKvvEt196h2kB0LcRjiLJzC
-         Ul7Hzx7TBd0EFeYpe+hBlBPx1y65SFRi+/VofFBjFPumcYcsbmIcFL704lFICsUUqxRd
-         Di4Y1LjEmc43/0+tAEXxYH1xSGy+/B71ck80vvFAQt4G2a0zxv8DHVk682pdHMHEVmuh
-         uCkyoFkju/MWD//DaBqoEsh6NO9BriPMtetN8mfpwyeYYbBW5XbLstnQsqXRt89q/6/9
-         nSXg==
-X-Gm-Message-State: AOAM533YqKL2RWLco7NQb9jQoyEEl6uruDybc5JHuBw4fu26OKzSkcRk
-        IVmZj70IShvhm409UF34Lspo81hbPJ2/XeYS
-X-Google-Smtp-Source: ABdhPJzdRa7yBABS9qwaDrM5X8LcyvwnYQziq/YPZ29RwLEmiQ0BW2m1KfTx15CTAOTSV+rUwOhc8Q==
-X-Received: by 2002:a17:90b:188f:: with SMTP id mn15mr3143916pjb.154.1630743835956;
-        Sat, 04 Sep 2021 01:23:55 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:6006:a148:82a8:3271:93dc:763c])
-        by smtp.googlemail.com with ESMTPSA id o1sm1522099pjk.1.2021.09.04.01.23.52
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=We2wMjoE/rlPZ2BowUWGX57WDVrHto0OvQqK+p6ptyM=;
+        b=rEwYkp2vKUx4A4wRwBvDl4cv5OuCtvKeabmvxl6jiFZjZ2ZXRDB4Vyjl7U4BEVfuzK
+         fxH4traAaQ3wIe4UcAWosSjWlxvnBW2W3c0x1TVlALNuHjqnwzMrewM+W2aLwE+jLrCX
+         Fhyr7pVvpfta4JOpyGIF1Nq0mvVLjIqNBKrVFh6lr4Gpi6qgedrqx6NhCyVu6xbPaiQ8
+         1rMRCmGD+vsi4QgcwGt4s1/z6OdWsPC28v69tmXid5z7cqxZ7E/wgDFH+g12MJggY98V
+         vhG1CGe/F03T1b+qQQD1tsRIQFfI5IzGLJkeLQDPbWNvI5cLfqjBVm1W4aHL0TX+b+PP
+         y3QQ==
+X-Gm-Message-State: AOAM533z1fFXHABUnRknU6nUNpn7TW9KrurY4BKX/+3HvQNmUq2wyqLs
+        S5xVX4DmN/Mo4ySAXcYcXq0=
+X-Google-Smtp-Source: ABdhPJxdk/WStAeHnOC+AVVVgddVGwR5OVqyBexEzDfMqTPS6dKNR6Dwq5svJFJWj/Kq/i/Yg/Ldtw==
+X-Received: by 2002:a63:df0d:: with SMTP id u13mr2946023pgg.417.1630749702396;
+        Sat, 04 Sep 2021 03:01:42 -0700 (PDT)
+Received: from localhost.localdomain ([107.172.82.230])
+        by smtp.gmail.com with ESMTPSA id e16sm1955458pfj.90.2021.09.04.03.01.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 01:23:55 -0700 (PDT)
-From:   Utkarsh Verma <utkarshverma294@gmail.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Utkarsh Verma <utkarshverma294@gmail.com>
-Subject: [PATCH v2] Documentation: checkpatch: Add SYMBOLIC_PERMS message
-Date:   Sat,  4 Sep 2021 13:53:30 +0530
-Message-Id: <20210904082330.14864-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAKXUXMyRKM9Ev_Yyyup-T=AZe2aYcN-ZneXsLmHtUC7as67zNQ@mail.gmail.com>
-References: <CAKXUXMyRKM9Ev_Yyyup-T=AZe2aYcN-ZneXsLmHtUC7as67zNQ@mail.gmail.com>
+        Sat, 04 Sep 2021 03:01:42 -0700 (PDT)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH v5 0/6] docs/zh_CN: add core-api Memory management translation
+Date:   Sat,  4 Sep 2021 18:00:58 +0800
+Message-Id: <cover.1630747462.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-subsection. Octal permission bits are easier to read and understand
-instead of their symbolic macro names.
+v5:
 
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+* resent to linux-doc list.
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea2d8..41037594ec24 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -957,6 +957,17 @@ Permissions
-     Permission bits should use 4 digit octal permissions (like 0700 or 0444).
-     Avoid using any other base like decimal.
- 
-+  **SYMBOLIC_PERMS**
-+    Permission bits in the octal form are more readable and easier to
-+    understand than their symbolic counterparts because many command-line
-+    tools use this notation only. Experienced kernel developers have been using
-+    this traditional Unix permission bits for decades and so they find it
-+    easier to understand the octal notation than the symbolic macros.
-+    For example, it is harder to read S_IWUSR|S_IRUGO than 0644, which
-+    obscures the developer's intent rather than clarifying it.
-+
-+    See: https://lore.kernel.org/lkml/CA+55aFw5v23T-zvDZp-MmD_EYxF8WbafwwB59934FV7g21uMGQ@mail.gmail.com/
-+
- 
- Spacing and Brackets
- --------------------
+v4:
+
+* pick Alex's Reviewed-by tag.
+* Modified some words under Alex's advices.
+
+v3:
+
+* Modified some words under Jiaxun's advices.[PATCH 5/6]
+
+v2:
+
+* Modified some words under Alex's advices;Many thanks to alex for his review, which
+    kept him busy until the early hours of the morning.Thank you!
+
+* add 校译者(proofreading) sign.If you don't want me to do this, please let me know.
+
+Yanteng Si (6):
+  docs/zh_CN: add core-api memory-allocation translation
+  docs/zh_CN: add core-api unaligned-memory-access translation
+  docs/zh_CN: add core-api mm-api translation
+  docs/zh_CN: add core-api genalloc translation
+  docs/zh_CN: add core-api boot-time-mm translation
+  docs/zh_CN: add core-api gfp_mask-from-fs-io translation
+
+ .../zh_CN/core-api/boot-time-mm.rst           |  49 ++++
+ .../translations/zh_CN/core-api/genalloc.rst  | 109 +++++++++
+ .../zh_CN/core-api/gfp_mask-from-fs-io.rst    |  66 +++++
+ .../translations/zh_CN/core-api/index.rst     |  14 +-
+ .../zh_CN/core-api/memory-allocation.rst      | 138 +++++++++++
+ .../translations/zh_CN/core-api/mm-api.rst    | 110 +++++++++
+ .../core-api/unaligned-memory-access.rst      | 229 ++++++++++++++++++
+ 7 files changed, 710 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/boot-time-mm.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/genalloc.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/gfp_mask-from-fs-io.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/memory-allocation.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/mm-api.rst
+ create mode 100644 Documentation/translations/zh_CN/core-api/unaligned-memory-access.rst
+
 -- 
-2.25.1
+2.27.0
 
