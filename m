@@ -2,109 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B46C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Sep 2021 11:05:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 289E5C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Sep 2021 13:04:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6856E60EE6
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Sep 2021 11:05:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 035D660F92
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Sep 2021 13:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237754AbhIELGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Sep 2021 07:06:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38084 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230145AbhIELGP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 Sep 2021 07:06:15 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B13260F45;
-        Sun,  5 Sep 2021 11:05:10 +0000 (UTC)
-Date:   Sun, 5 Sep 2021 12:08:32 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Alexandru Ardelean <aardelean@deviqon.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, hdegoede@redhat.com, wens@csie.org
-Subject: Re: [PATCH 1/5] iio: inkern: introduce
- devm_iio_map_array_register() short-hand function
-Message-ID: <20210905120832.6566219d@jic23-huawei>
-In-Reply-To: <CAASAkoa0D7++CW6ua0_-9LWxhtchG_dKDOih6Ho2NH2gGdtvrQ@mail.gmail.com>
-References: <20210903072917.45769-1-aardelean@deviqon.com>
-        <20210903072917.45769-2-aardelean@deviqon.com>
-        <YTIlv9MR2wG9AzSe@smile.fi.intel.com>
-        <CAASAkoa0D7++CW6ua0_-9LWxhtchG_dKDOih6Ho2NH2gGdtvrQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        id S229566AbhIENF3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Sep 2021 09:05:29 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:55996 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229759AbhIENF2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Sep 2021 09:05:28 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 59FEE1C0B77; Sun,  5 Sep 2021 15:04:23 +0200 (CEST)
+Date:   Sun, 5 Sep 2021 15:04:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+        ccross@google.com, sumit.semwal@linaro.org, mhocko@suse.com,
+        dave.hansen@intel.com, willy@infradead.org,
+        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
+        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
+        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
+        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
+        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
+        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
+        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
+        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
+        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com,
+        songmuchun@bytedance.com, viresh.kumar@linaro.org,
+        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
+        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, kernel-team@android.com
+Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
+ anonymous memory
+Message-ID: <20210905130418.GA7117@localhost>
+References: <20210902231813.3597709-1-surenb@google.com>
+ <20210902231813.3597709-2-surenb@google.com>
+ <202109031420.2F17A2C9@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202109031420.2F17A2C9@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 3 Sep 2021 16:56:43 +0300
-Alexandru Ardelean <aardelean@deviqon.com> wrote:
+Hi!
 
-> On Fri, 3 Sept 2021 at 16:40, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > On Fri, Sep 03, 2021 at 10:29:13AM +0300, Alexandru Ardelean wrote:  
-> > > This change introduces a device-managed variant to the
-> > > iio_map_array_register() function. It's a simple implementation of calling
-> > > iio_map_array_register() and registering a callback to
-> > > iio_map_array_unregister() with the devm_add_action_or_reset().
-> > >
-> > > The function uses an explicit 'dev' parameter to bind the unwinding to. It
-> > > could have been implemented to implicitly use the parent of the IIO device,
-> > > however it shouldn't be too expensive to callers to just specify to which
-> > > device object to bind this unwind call.
-> > > It would make the API a bit more flexible.  
-> >
-> > AFAIU this dev pointer is kinda discussable thing. What scenario do you expect
-> > (have in mind) when it shouldn't use parent?  
-> 
-> So, this brings me back to an older discussion about devm_ when I
-> thought about making some devm_ function that implicitly takes uses
-> the parent of the IIO device.
-> 
-> Jonathan mentioned that if we go that route, maybe we should prefix it
-> with iiom_ .
-> But we weren't sure at the time if that makes sense.
-> The idea was to bind the management of the unwinding to either the
-> parent of the IIO device, or the IIO device itself (indio_dev->dev).
+> > the process is still running, so it has to have some sort of
+> > synchronization with every layer of userspace.  Efficiently tracking
+> > the ranges requires reimplementing something like the kernel vma
+> > trees, and linking to it from every layer of userspace.  It requires
+> > more memory, more syscalls, more runtime cost, and more complexity to
+> > separately track regions that the kernel is already tracking.
 
-I'm not keen on playing the same games that say pcim does where it
-effectively combines all cleanup into one devres call because that
-can end up doing things in an order that isn't strict reversal if
-the setup path isn't carefully organised.  It's 'clever' but to my mind
-doing something similar in IIO would need to subtle bugs.
+Ok so far.
 
-So we would simply be using iiom_ as a shortcut to say bind to the parent
-device.  Might be worth considering long term but I'm not keen to do
-it for a random little used function first!
+> > This patch adds a field to /proc/pid/maps and /proc/pid/smaps to show a
+> > userspace-provided name for anonymous vmas.  The names of named anonymous
+> > vmas are shown in /proc/pid/maps and /proc/pid/smaps as [anon:<name>].
+> > 
+> > Userspace can set the name for a region of memory by calling
+> > prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, start, len, (unsigned
+> > long)name);
 
-Series looks good to me, but I'll let it sit a little longer before applying.
+Would setting a 64-bit integer instead of name be enough? Even if
+each party would set it randomly, risk of collisions would be very
+low... and we'd not have to deal with strings in kernel.
 
-Jonathan
+								Pavel
 
 
-> 
-> We kind of concluded that it may probably not be a good to hide
-> anything and make standard a devm_ function with an explicit 'dev'
-> object parameter.
-> 
-> I found a recent mention here (while searching for iiom_  on linux-iio):
-> https://lore.kernel.org/linux-iio/20210313192150.74c0a91b@archlinux/
-> 
-> 
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-> >
-> >  
-
+-- 
