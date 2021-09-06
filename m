@@ -2,107 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA94C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 17:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35DC7C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 21:03:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D7F460698
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 17:01:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AE656108D
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 21:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240979AbhIFRCN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Sep 2021 13:02:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233888AbhIFRCM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 13:02:12 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 195ABC061575;
-        Mon,  6 Sep 2021 10:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=MT10U4Fb2yrV/o7nel8We7nzm4JzOXr+NT/ZqDcuAPU=; b=rcFf6HHcKYcC6WYuRsQUmbf+Co
-        BLs3xJOIi/fpxkw21lrBYoykFjlkDHylFfBq4eeiLMCO6vBqvaRuUt/IN/6WInQ95mzV0o0FQ3tnL
-        /guKGayuPIuWl6r/g14pwRHusRV03hCBGVlm6FSnyRjVF6tKzounSzfllJMPea3B8trl+c33++r+9
-        fYE1Lupo7y3obORedbLu/d4eIvahDQMTYHPxLV1q+t0H5edGA4X/8USfPinDV7fO89O7fcw2/VwU6
-        MlfFiXHDTmpteG/qnfsEXiJ/AC2gka0Zz5+8zY8v6S0ziX44BcHowaWQkAQHANhoEB6NQZpJiXVh4
-        XB9H+PYw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mNHuU-007896-6m; Mon, 06 Sep 2021 16:56:05 +0000
-Date:   Mon, 6 Sep 2021 17:55:54 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, ccross@google.com,
-        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
-        keescook@chromium.org, kirill.shutemov@linux.intel.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, corbet@lwn.net,
-        viro@zeniv.linux.org.uk, rdunlap@infradead.org,
-        kaleshsingh@google.com, peterx@redhat.com, rppt@kernel.org,
-        peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com,
-        songmuchun@bytedance.com, viresh.kumar@linaro.org,
-        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
-        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, kernel-team@android.com
-Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <YTZIGhbSTghbUay+@casper.infradead.org>
-References: <20210902231813.3597709-1-surenb@google.com>
- <20210902231813.3597709-2-surenb@google.com>
+        id S231256AbhIFVEd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Sep 2021 17:04:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25984 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231146AbhIFVEd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 17:04:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630962207;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6zz5nxlrQtpfoMyc8K53x2jtzybHx8hYr7zwDuDWfXs=;
+        b=hviGSOUK7IkFfErGyBqH+JMRjocysbTgSezPfHh9ajZ1FF1g5cw/BIemUnFv/6fBnQxQHH
+        P4rReYwA0eHBkaU1Ga3KNRaHbM8g/bNjN+ImSj9mhuBQqL7ZL2Ya2C5pRMrAlZqFj0yioG
+        s9VYGWtfNnTduZF0mX3HdLcWUbngj5I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-uZc-LRAoNMyRVS2c3iyUSw-1; Mon, 06 Sep 2021 17:03:26 -0400
+X-MC-Unique: uZc-LRAoNMyRVS2c3iyUSw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23486107ACCD;
+        Mon,  6 Sep 2021 21:03:22 +0000 (UTC)
+Received: from starship (unknown [10.35.206.50])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 91FD05C1BB;
+        Mon,  6 Sep 2021 21:03:15 +0000 (UTC)
+Message-ID: <37b82ee53a3a84563b65be8e63193d4b823ea139.camel@redhat.com>
+Subject: Re: [PATCH v3 6/6] KVM: selftests: test KVM_GUESTDBG_BLOCKIRQ
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Cc:     Kieran Bingham <kbingham@kernel.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Yang Weijiang <weijiang.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Date:   Tue, 07 Sep 2021 00:03:14 +0300
+In-Reply-To: <137f2dcc-75d2-9d71-e259-dd66d43ad377@redhat.com>
+References: <20210811122927.900604-1-mlevitsk@redhat.com>
+         <20210811122927.900604-7-mlevitsk@redhat.com>
+         <137f2dcc-75d2-9d71-e259-dd66d43ad377@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210902231813.3597709-2-surenb@google.com>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
-> On Android we heavily use a set of tools that use an extended version of
-> the logic covered in Documentation/vm/pagemap.txt to walk all pages mapped
-> in userspace and slice their usage by process, shared (COW) vs.  unique
-> mappings, backing, etc.  This can account for real physical memory usage
-> even in cases like fork without exec (which Android uses heavily to share
-> as many private COW pages as possible between processes), Kernel SamePage
-> Merging, and clean zero pages.  It produces a measurement of the pages
-> that only exist in that process (USS, for unique), and a measurement of
-> the physical memory usage of that process with the cost of shared pages
-> being evenly split between processes that share them (PSS).
+On Mon, 2021-09-06 at 13:20 +0200, Paolo Bonzini wrote:
+> On 11/08/21 14:29, Maxim Levitsky wrote:
+> > Modify debug_regs test to create a pending interrupt
+> > and see that it is blocked when single stepping is done
+> > with KVM_GUESTDBG_BLOCKIRQ
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >   .../testing/selftests/kvm/x86_64/debug_regs.c | 24 ++++++++++++++++---
+> >   1 file changed, 21 insertions(+), 3 deletions(-)
 > 
-> If all anonymous memory is indistinguishable then figuring out the real
-> physical memory usage (PSS) of each heap requires either a pagemap walking
-> tool that can understand the heap debugging of every layer, or for every
-> layer's heap debugging tools to implement the pagemap walking logic, in
-> which case it is hard to get a consistent view of memory across the whole
-> system.
-> 
-> Tracking the information in userspace leads to all sorts of problems.
-> It either needs to be stored inside the process, which means every
-> process has to have an API to export its current heap information upon
-> request, or it has to be stored externally in a filesystem that
-> somebody needs to clean up on crashes.  It needs to be readable while
-> the process is still running, so it has to have some sort of
-> synchronization with every layer of userspace.  Efficiently tracking
-> the ranges requires reimplementing something like the kernel vma
-> trees, and linking to it from every layer of userspace.  It requires
-> more memory, more syscalls, more runtime cost, and more complexity to
-> separately track regions that the kernel is already tracking.
+> I haven't looked very much at this, but the test fails.
 
-I understand that the information is currently incoherent, but why is
-this the right way to make it coherent?  It would seem more useful to
-use something like one of the tracing mechanisms (eg ftrace, LTTng,
-whatever the current hotness is in userspace tracing) for the malloc
-library to log all the useful information, instead of injecting a subset
-of it into the kernel for userspace to read out again.
+Works for me :-(
+
+[mlevitsk@starship ~/Kernel/master/src/tools/testing/selftests/kvm]$./x86_64/debug_regs 
+[mlevitsk@starship ~/Kernel/master/src/tools/testing/selftests/kvm]$echo $?
+0
+
+
+Maybe you run the test on kernel that doesn't support KVM_GUESTDBG_BLOCKIRQ?
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> Paolo
+> 
+> > diff --git a/tools/testing/selftests/kvm/x86_64/debug_regs.c b/tools/testing/selftests/kvm/x86_64/debug_regs.c
+> > index 6097a8283377..5f078db1bcba 100644
+> > --- a/tools/testing/selftests/kvm/x86_64/debug_regs.c
+> > +++ b/tools/testing/selftests/kvm/x86_64/debug_regs.c
+> > @@ -8,12 +8,15 @@
+> >   #include <string.h>
+> >   #include "kvm_util.h"
+> >   #include "processor.h"
+> > +#include "apic.h"
+> >   
+> >   #define VCPU_ID 0
+> >   
+> >   #define DR6_BD		(1 << 13)
+> >   #define DR7_GD		(1 << 13)
+> >   
+> > +#define IRQ_VECTOR 0xAA
+> > +
+> >   /* For testing data access debug BP */
+> >   uint32_t guest_value;
+> >   
+> > @@ -21,6 +24,11 @@ extern unsigned char sw_bp, hw_bp, write_data, ss_start, bd_start;
+> >   
+> >   static void guest_code(void)
+> >   {
+> > +	/* Create a pending interrupt on current vCPU */
+> > +	x2apic_enable();
+> > +	x2apic_write_reg(APIC_ICR, APIC_DEST_SELF | APIC_INT_ASSERT |
+> > +			 APIC_DM_FIXED | IRQ_VECTOR);
+> > +
+> >   	/*
+> >   	 * Software BP tests.
+> >   	 *
+> > @@ -38,12 +46,19 @@ static void guest_code(void)
+> >   		     "mov %%rax,%0;\n\t write_data:"
+> >   		     : "=m" (guest_value) : : "rax");
+> >   
+> > -	/* Single step test, covers 2 basic instructions and 2 emulated */
+> > +	/*
+> > +	 * Single step test, covers 2 basic instructions and 2 emulated
+> > +	 *
+> > +	 * Enable interrupts during the single stepping to see that
+> > +	 * pending interrupt we raised is not handled due to KVM_GUESTDBG_BLOCKIRQ
+> > +	 */
+> >   	asm volatile("ss_start: "
+> > +		     "sti\n\t"
+> >   		     "xor %%eax,%%eax\n\t"
+> >   		     "cpuid\n\t"
+> >   		     "movl $0x1a0,%%ecx\n\t"
+> >   		     "rdmsr\n\t"
+> > +		     "cli\n\t"
+> >   		     : : : "eax", "ebx", "ecx", "edx");
+> >   
+> >   	/* DR6.BD test */
+> > @@ -72,11 +87,13 @@ int main(void)
+> >   	uint64_t cmd;
+> >   	int i;
+> >   	/* Instruction lengths starting at ss_start */
+> > -	int ss_size[4] = {
+> > +	int ss_size[6] = {
+> > +		1,		/* sti*/
+> >   		2,		/* xor */
+> >   		2,		/* cpuid */
+> >   		5,		/* mov */
+> >   		2,		/* rdmsr */
+> > +		1,		/* cli */
+> >   	};
+> >   
+> >   	if (!kvm_check_cap(KVM_CAP_SET_GUEST_DEBUG)) {
+> > @@ -154,7 +171,8 @@ int main(void)
+> >   	for (i = 0; i < (sizeof(ss_size) / sizeof(ss_size[0])); i++) {
+> >   		target_rip += ss_size[i];
+> >   		CLEAR_DEBUG();
+> > -		debug.control = KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP;
+> > +		debug.control = KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP |
+> > +				KVM_GUESTDBG_BLOCKIRQ;
+> >   		debug.arch.debugreg[7] = 0x00000400;
+> >   		APPLY_DEBUG();
+> >   		vcpu_run(vm, VCPU_ID);
+> > 
+
+
