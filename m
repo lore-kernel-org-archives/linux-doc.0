@@ -2,149 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABC5C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 15:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA94C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 17:01:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B270360F6B
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 15:52:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D7F460698
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 17:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243403AbhIFPxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Sep 2021 11:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51500 "EHLO
+        id S240979AbhIFRCN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Sep 2021 13:02:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243386AbhIFPxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 11:53:39 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C9FC061757
-        for <linux-doc@vger.kernel.org>; Mon,  6 Sep 2021 08:52:35 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id a93so14380117ybi.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Sep 2021 08:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/bgcmHKDn3LorkuSVcyCAc/MMYfBn+zOMCmk2ZUB6aM=;
-        b=olm2PhGCTEx8jQKQDPim0F/G0tBroK7mfgYdUepqc+UelRqSX/GROVmY2M3UCa0lob
-         Vljs4WXF/BrdWjVIYgzg4cHFZ5N3sLEb4jPJ8VHqmMqO0WIJ7jMdOvI7xve98ywgsEmk
-         EJ+yoAt2Mwy2iuR9zQuXuWrMK5753BkiByyq7AqIO9hK2DPVV1IeUeZNeZ9AZ4W3GdHt
-         Ys+bDqqEUpRXHYUH2HmtmAv4xb0GKy4kmP1/5emiSbc9kHoTUoanAAe7XrLQRbhDn5CA
-         8xhWkM+3BdIWs3T0IY3LbfaCLto0Jy/FxqN+q+PyMvj7bDJY5Gr7MuaL3DwjC39N8BLS
-         h9Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/bgcmHKDn3LorkuSVcyCAc/MMYfBn+zOMCmk2ZUB6aM=;
-        b=ee8YxeknqRXa8CA1nHTg2YLplTgW1biVDjSPP0iTEWyRjSe1KzowRTgwgiJgvtcBzp
-         I3Vxx4eV2HexQ7lEyvNmGhtspp41rZ8wJsd6LN+4VsOk0xfRD4uRZHrsMTdYtb20bDBu
-         +IbJVrs6O52yPp517ErDou0s5yyQz3aGtnEw5Rd8WCsvhC2U3yCsiUOA7BJF56t6dpAc
-         0CY8KJEhxw0SSNKaff/8bUlprryaKiF+3eTYhhcZuGhsWRbWZ6NvrodgxBBPcJOOKWz+
-         1M0636tnnH2QIBddVYZzTK+bn3tnZLmP5m3YXi9buD8DYvbIKnytIz04c5/+Cz2nJL7e
-         YI/A==
-X-Gm-Message-State: AOAM532VNutawIpHD/elK2v6TGwiMjh7pRaavCJvvHGT9F1ltlurkRN4
-        0ydgaUSCZJY6+AWRKXRrUsJkGE/xTG/ym1oDTpoGjA==
-X-Google-Smtp-Source: ABdhPJxgYWk6hy+mdeQO4de4+4PREXPTlKpeaHpkquia6aZN9siSokaYw+RKTlqY3cv1THELavVZ+hiDZKAMXGk9cW0=
-X-Received: by 2002:a25:b9c8:: with SMTP id y8mr18444413ybj.487.1630943554077;
- Mon, 06 Sep 2021 08:52:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210902231813.3597709-1-surenb@google.com> <20210902231813.3597709-2-surenb@google.com>
- <202109031420.2F17A2C9@keescook> <20210905130418.GA7117@localhost>
-In-Reply-To: <20210905130418.GA7117@localhost>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 6 Sep 2021 08:52:23 -0700
-Message-ID: <CAJuCfpH9o=SPE=vspc-o8mFomyg_LZsx7OQtzSQh91pTwKH6Mg@mail.gmail.com>
+        with ESMTP id S233888AbhIFRCM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 13:02:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 195ABC061575;
+        Mon,  6 Sep 2021 10:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=MT10U4Fb2yrV/o7nel8We7nzm4JzOXr+NT/ZqDcuAPU=; b=rcFf6HHcKYcC6WYuRsQUmbf+Co
+        BLs3xJOIi/fpxkw21lrBYoykFjlkDHylFfBq4eeiLMCO6vBqvaRuUt/IN/6WInQ95mzV0o0FQ3tnL
+        /guKGayuPIuWl6r/g14pwRHusRV03hCBGVlm6FSnyRjVF6tKzounSzfllJMPea3B8trl+c33++r+9
+        fYE1Lupo7y3obORedbLu/d4eIvahDQMTYHPxLV1q+t0H5edGA4X/8USfPinDV7fO89O7fcw2/VwU6
+        MlfFiXHDTmpteG/qnfsEXiJ/AC2gka0Zz5+8zY8v6S0ziX44BcHowaWQkAQHANhoEB6NQZpJiXVh4
+        XB9H+PYw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mNHuU-007896-6m; Mon, 06 Sep 2021 16:56:05 +0000
+Date:   Mon, 6 Sep 2021 17:55:54 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, ccross@google.com,
+        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
+        keescook@chromium.org, kirill.shutemov@linux.intel.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, corbet@lwn.net,
+        viro@zeniv.linux.org.uk, rdunlap@infradead.org,
+        kaleshsingh@google.com, peterx@redhat.com, rppt@kernel.org,
+        peterz@infradead.org, catalin.marinas@arm.com,
+        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
+        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
+        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
+        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
+        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
+        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
+        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com,
+        songmuchun@bytedance.com, viresh.kumar@linaro.org,
+        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
+        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, kernel-team@android.com
 Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
  anonymous memory
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <YTZIGhbSTghbUay+@casper.infradead.org>
+References: <20210902231813.3597709-1-surenb@google.com>
+ <20210902231813.3597709-2-surenb@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210902231813.3597709-2-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 5, 2021 at 6:04 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > > the process is still running, so it has to have some sort of
-> > > synchronization with every layer of userspace.  Efficiently tracking
-> > > the ranges requires reimplementing something like the kernel vma
-> > > trees, and linking to it from every layer of userspace.  It requires
-> > > more memory, more syscalls, more runtime cost, and more complexity to
-> > > separately track regions that the kernel is already tracking.
->
-> Ok so far.
->
-> > > This patch adds a field to /proc/pid/maps and /proc/pid/smaps to show a
-> > > userspace-provided name for anonymous vmas.  The names of named anonymous
-> > > vmas are shown in /proc/pid/maps and /proc/pid/smaps as [anon:<name>].
-> > >
-> > > Userspace can set the name for a region of memory by calling
-> > > prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, start, len, (unsigned
-> > > long)name);
->
-> Would setting a 64-bit integer instead of name be enough? Even if
-> each party would set it randomly, risk of collisions would be very
-> low... and we'd not have to deal with strings in kernel.
+On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
+> On Android we heavily use a set of tools that use an extended version of
+> the logic covered in Documentation/vm/pagemap.txt to walk all pages mapped
+> in userspace and slice their usage by process, shared (COW) vs.  unique
+> mappings, backing, etc.  This can account for real physical memory usage
+> even in cases like fork without exec (which Android uses heavily to share
+> as many private COW pages as possible between processes), Kernel SamePage
+> Merging, and clean zero pages.  It produces a measurement of the pages
+> that only exist in that process (USS, for unique), and a measurement of
+> the physical memory usage of that process with the cost of shared pages
+> being evenly split between processes that share them (PSS).
+> 
+> If all anonymous memory is indistinguishable then figuring out the real
+> physical memory usage (PSS) of each heap requires either a pagemap walking
+> tool that can understand the heap debugging of every layer, or for every
+> layer's heap debugging tools to implement the pagemap walking logic, in
+> which case it is hard to get a consistent view of memory across the whole
+> system.
+> 
+> Tracking the information in userspace leads to all sorts of problems.
+> It either needs to be stored inside the process, which means every
+> process has to have an API to export its current heap information upon
+> request, or it has to be stored externally in a filesystem that
+> somebody needs to clean up on crashes.  It needs to be readable while
+> the process is still running, so it has to have some sort of
+> synchronization with every layer of userspace.  Efficiently tracking
+> the ranges requires reimplementing something like the kernel vma
+> trees, and linking to it from every layer of userspace.  It requires
+> more memory, more syscalls, more runtime cost, and more complexity to
+> separately track regions that the kernel is already tracking.
 
-Thanks for the question, Pavel. I believe this was discussed in this
-thread before and Colin provided the explanation with usage examples:
-https://lore.kernel.org/linux-mm/20200821070552.GW2074@grain/.
-Thanks,
-Suren.
-
->
->                                                                 Pavel
->
->
-> --
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+I understand that the information is currently incoherent, but why is
+this the right way to make it coherent?  It would seem more useful to
+use something like one of the tracing mechanisms (eg ftrace, LTTng,
+whatever the current hotness is in userspace tracing) for the malloc
+library to log all the useful information, instead of injecting a subset
+of it into the kernel for userspace to read out again.
