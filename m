@@ -2,94 +2,308 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A18E7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 03:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B287C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 04:46:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84B4060F3A
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 03:12:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D7E460041
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 04:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239262AbhIFDNc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Sep 2021 23:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230228AbhIFDNc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Sep 2021 23:13:32 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAAFC061575
-        for <linux-doc@vger.kernel.org>; Sun,  5 Sep 2021 20:12:28 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id n18so5322132pgm.12
-        for <linux-doc@vger.kernel.org>; Sun, 05 Sep 2021 20:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0aYegbSdO1FiBlBWI80aWTW7O5daH/lQmVZ3sA4ZzqQ=;
-        b=dXDsfstAi1nwSKNQPFc4yUdvxR7lswwqgUZ6mH9AXmO7D84gxGtW5ZpWQr8wX0BBRp
-         guQqJXC27/rEL83giZKOX7RsV6eY/4QLNp8JKtKPpAe3b74YYtmCssXbuSxzk98PQupH
-         WbNRAg/UrX4tREkeTFaS8+o1K9sRyfdgbMEGa8joVhiP77ruaYEfcVf5PjvhPDKKiseB
-         KhmD5chslTCfDlqAlnbB97Lzg7HTX6vpm0xTLWTTKQ/Tvk9zyhenXpswSnlP5f+hLE+/
-         heTwmNJC3ltSvXlXckhmTf4K/Hcw2w9zuPtQ9UBW0doXSJKzpYmP+pG4ElhDf1pyV6t7
-         AXCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0aYegbSdO1FiBlBWI80aWTW7O5daH/lQmVZ3sA4ZzqQ=;
-        b=eZlLugXINIlejLLPa5qdmyWh6CRzR8eoJV3st0E9H+N4LEWkYmLxnmMMyV8SsqU0l5
-         C4oVZ7GGjpVfRDVnj33A1WK2tN0V3hQzh5EYomI7WrKRQMujkoSNeLOEzxEhXDy5eJQc
-         5MoShqt5aXMxqQqzOAbiF5v06rZgIdLmPOriISdlhasTv6s/kexM0od1vX0nB/TVS+Fb
-         47f9b/eIxLN3PfhrI5M4l55vcEEh7JlUhnwO3VgbKlaV137Xj+Zx7RWtWnvPAfkgBow1
-         sHa8pWpoc6eii53+TDOJwr+Hwqhu5u2RsyJ0HlP+c7TtZG9L/wUmBX0S59OTlJB7Kr99
-         MUtQ==
-X-Gm-Message-State: AOAM530C5ztROCmFZEuxFikpRj2C+HwzmQi7xrfOJG0YTpzZoZip6Ox3
-        95rQDybbNKx/7DH/tddH/4Oavg==
-X-Google-Smtp-Source: ABdhPJzucBpcVDmS1+5Zg1wfMR3rlA068aDQSarztWzxXv2zpAXEVkANgx4TW6cPMc7AMCubTuHv1w==
-X-Received: by 2002:a62:a513:0:b0:3f1:e19c:a23 with SMTP id v19-20020a62a513000000b003f1e19c0a23mr9904179pfm.43.1630897948086;
-        Sun, 05 Sep 2021 20:12:28 -0700 (PDT)
-Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
-        by smtp.gmail.com with ESMTPSA id h24sm5847316pfn.180.2021.09.05.20.12.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Sep 2021 20:12:27 -0700 (PDT)
-Subject: Re: [PATCH] mq-deadline: Fix build error for !BLK_DEBUG_FS
-To:     Huacai Chen <chenhuacai@loongson.cn>
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210906030918.3901521-1-chenhuacai@loongson.cn>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <2985f817-9195-528b-b814-1929058fe085@kernel.dk>
-Date:   Sun, 5 Sep 2021 21:12:25 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S230340AbhIFErc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Sep 2021 00:47:32 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:36086 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236292AbhIFErc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 00:47:32 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 608F21FEC0;
+        Mon,  6 Sep 2021 04:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1630903586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5WXZWDjsL6VCDzFfKsy+fr5w2Ib5Q48se+K6nAixw7A=;
+        b=skiUEYbZPkGoKoSnNKDcWM2FTl6pRFomATdSKpYlwHm+RVUcnGhls0q3bU138VCdwYyHAn
+        Rkh/CE3wMrsCbW8E6Q274XJ+Imtmo22cZt7aKVwITgcELWNkbAgZlhhDVBdi7D79TrR29m
+        WcqcE3xs8V6NIepJ9N/RHBbbPcpCw8M=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CB30A1332A;
+        Mon,  6 Sep 2021 04:46:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id qWCDLyGdNWFDQwAAGKfGzw
+        (envelope-from <jgross@suse.com>); Mon, 06 Sep 2021 04:46:25 +0000
+To:     Eduardo Habkost <ehabkost@redhat.com>
+Cc:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, maz@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>
+References: <20210903130808.30142-1-jgross@suse.com>
+ <20210903130808.30142-3-jgross@suse.com>
+ <20210903194824.lfjzeaab6ct72pxn@habkost.net>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v2 2/6] x86/kvm: add boot parameter for adding vcpu-id
+ bits
+Message-ID: <2f7d511e-e846-e6a4-f180-987511518f42@suse.com>
+Date:   Mon, 6 Sep 2021 06:46:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210906030918.3901521-1-chenhuacai@loongson.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210903194824.lfjzeaab6ct72pxn@habkost.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="qJYM4kX82J82dgMD9nuy8n4hbZ6zojjbg"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/5/21 9:09 PM, Huacai Chen wrote:
-> Function dd_queued() is only used in dd_queued_show(), but dd_queued_
-> show() is only defined for BLK_DEBUG_FS enabled. However, in the commit
-> 3fe617ccafd6f5bb3 ("Enable '-Werror' by default for all kernel builds")
-> Werror is enabled by default, which cause a build error if DEBUG_FS is
-> not enabled.
-> 
-> So we move dd_queued() in the CONFIG_BLK_DEBUG_FS block to fix it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qJYM4kX82J82dgMD9nuy8n4hbZ6zojjbg
+Content-Type: multipart/mixed; boundary="qU4uyZzhiMzt6qlPfC6tu7Ah3DhhJy0mE";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Cc: kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maz@kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <2f7d511e-e846-e6a4-f180-987511518f42@suse.com>
+Subject: Re: [PATCH v2 2/6] x86/kvm: add boot parameter for adding vcpu-id
+ bits
+References: <20210903130808.30142-1-jgross@suse.com>
+ <20210903130808.30142-3-jgross@suse.com>
+ <20210903194824.lfjzeaab6ct72pxn@habkost.net>
+In-Reply-To: <20210903194824.lfjzeaab6ct72pxn@habkost.net>
 
-This has already been queued up for a while:
+--qU4uyZzhiMzt6qlPfC6tu7Ah3DhhJy0mE
+Content-Type: multipart/mixed;
+ boundary="------------0F5B31BAE14E271D71F849BD"
+Content-Language: en-US
 
-https://git.kernel.dk/cgit/linux-block/commit/?h=block-5.15&id=55a51ea14094a1e7dd0d7f33237d246033dd39ab
+This is a multi-part message in MIME format.
+--------------0F5B31BAE14E271D71F849BD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Jens Axboe
+On 03.09.21 21:48, Eduardo Habkost wrote:
+> On Fri, Sep 03, 2021 at 03:08:03PM +0200, Juergen Gross wrote:
+>> Today the maximum vcpu-id of a kvm guest's vcpu on x86 systems is set
+>> via a #define in a header file.
+>>
+>> In order to support higher vcpu-ids without generally increasing the
+>> memory consumption of guests on the host (some guest structures contai=
+n
+>> arrays sized by KVM_MAX_VCPU_ID) add a boot parameter for adding some
+>> bits to the vcpu-id. Additional bits are needed as the vcpu-id is
+>> constructed via bit-wise concatenation of socket-id, core-id, etc.
+>> As those ids maximum values are not always a power of 2, the vcpu-ids
+>> are sparse.
+>>
+>> The additional number of bits needed is basically the number of
+>> topology levels with a non-power-of-2 maximum value, excluding the top=
 
+>> most level.
+>>
+>> The default value of the new parameter will be to take the correct
+>> setting from the host's topology.
+>=20
+> Having the default depend on the host topology makes the host
+> behaviour unpredictable (which might be a problem when migrating
+> VMs from another host with a different topology).  Can't we just
+> default to 2?
+
+Okay, fine with me.
+
+>=20
+>>
+>> Calculating the maximum vcpu-id dynamically requires to allocate the
+>> arrays using KVM_MAX_VCPU_ID as the size dynamically.
+>>
+>> Signed-of-by: Juergen Gross <jgross@suse.com>
+>> ---
+>> V2:
+>> - switch to specifying additional bits (based on comment by Vitaly
+>>    Kuznetsov)
+>>
+>> Signed-off-by: Juergen Gross <jgross@suse.com>
+>> ---
+> [...]
+>>   #define KVM_MAX_VCPUS 288
+>>   #define KVM_SOFT_MAX_VCPUS 240
+>> -#define KVM_MAX_VCPU_ID 1023
+>> +#define KVM_MAX_VCPU_ID kvm_max_vcpu_id()
+> [...]
+>> +unsigned int kvm_max_vcpu_id(void)
+>> +{
+>> +	int n_bits =3D fls(KVM_MAX_VCPUS - 1);
+>> +
+>> +	if (vcpu_id_add_bits < -1 || vcpu_id_add_bits > (32 - n_bits)) {
+>> +		pr_err("Invalid value of vcpu_id_add_bits=3D%d parameter!\n",
+>> +		       vcpu_id_add_bits);
+>> +		vcpu_id_add_bits =3D -1;
+>> +	}
+>> +
+>> +	if (vcpu_id_add_bits >=3D 0) {
+>> +		n_bits +=3D vcpu_id_add_bits;
+>> +	} else {
+>> +		n_bits++;		/* One additional bit for core level. */
+>> +		if (topology_max_die_per_package() > 1)
+>> +			n_bits++;	/* One additional bit for die level. */
+>> +	}
+>> +
+>> +	if (!n_bits)
+>> +		n_bits =3D 1;
+>> +
+>> +	return (1U << n_bits) - 1;
+>=20
+> The largest possible VCPU ID is not KVM_MAX_VCPU_ID,
+> it's (KVM_MAX_VCPU_ID - 1).  This is enforced by
+> kvm_vm_ioctl_create_vcpu().
+>=20
+> That would mean KVM_MAX_VCPU_ID should be (1 << n_bits) instead
+> of ((1 << n_bits) - 1), wouldn't it?
+
+Oh, indeed. I have been fooled by the IMO bad naming of this macro.
+
+The current value 1023 suggests it is not only me having been fooled.
+
+Shouldn't it be named "KVM_MAX_VCPU_IDS" instead?
+
+
+Juergen
+
+--------------0F5B31BAE14E271D71F849BD
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------0F5B31BAE14E271D71F849BD--
+
+--qU4uyZzhiMzt6qlPfC6tu7Ah3DhhJy0mE--
+
+--qJYM4kX82J82dgMD9nuy8n4hbZ6zojjbg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmE1nSEFAwAAAAAACgkQsN6d1ii/Ey/F
+iwf+JakrFmIMZA1TmRtmVd91vNMvvhViqIM50lB0PwvHQil927rdUMhZt3zkycnFGG8cKZt9pr4s
+3slKFOOABizkHQPY+PxcZvkTqb08IhIoUN7aXcg4nPkTzqV7PCU7fpO8szHWNA8pcPIwWLF5KStK
+dNRVlhZcplKOXKdO6U2zK/cUrM0IkzcW4RSOmOI58VNgoO1RDC2h6ATx9llKqbw1nv0/s/31vbQ/
+2bhMMYd55xv+2tN8fqZXJ/1lalwOokXn5WlVmoet5nx779ZFSrl+Zi0H5DgmSJNO1iImbuf+KYCx
+sezN3deb7YtLXlhRe0WirXZv+6pzScmzbOHryDVQUA==
+=u0+B
+-----END PGP SIGNATURE-----
+
+--qJYM4kX82J82dgMD9nuy8n4hbZ6zojjbg--
