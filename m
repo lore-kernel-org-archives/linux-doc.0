@@ -2,81 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C14C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 06:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D625C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 09:07:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0057860F45
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 06:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB6EB60F3A
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Sep 2021 09:07:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238906AbhIFGiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Sep 2021 02:38:15 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:54940 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbhIFGiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 02:38:14 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id CA74F2007A;
-        Mon,  6 Sep 2021 06:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1630910225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=C18ucwuH+xJ590fcQPWTQo1wKpR5pILZsUHhaeFFJM8=;
-        b=NQJNxXbGll03ANbTcVcmNA5GRE1HmZ8q8Gkbt8sMek82fcvVlXMxFNq8skistKpgpjAyFl
-        ptCsa57t0u4Izkcuk8A6SGw5VPSP6VR/Cdm6uuxiUnB8PZPvFHFElwZASWjuaWujvQGPD0
-        XbzzL0owuRWs7ezDAcoUrEO7IcyHWK8=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 02B5DA3B8E;
-        Mon,  6 Sep 2021 06:37:04 +0000 (UTC)
-Date:   Mon, 6 Sep 2021 08:37:04 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     yong w <yongw.pur@gmail.com>
-Cc:     Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Roman Gushchin <guro@fb.com>, alexs@kernel.org,
-        Wei Yang <richard.weiyang@gmail.com>, Hui Su <sh_def@163.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        wang.yong12@zte.com.cn, Cgroups <cgroups@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>, yang.yang29@zte.com.cn
-Subject: Re: [PATCH v2] mm: Add configuration to control whether vmpressure
- notifier is enabled
-Message-ID: <YTW3EMKU7fLl62bC@dhcp22.suse.cz>
-References: <1629417219-74853-1-git-send-email-wang.yong12@zte.com.cn>
- <YR+Rc9HC6OqlEq4I@dhcp22.suse.cz>
- <CAOH5QeCfwF0hX3XpoThEtwnddtOFEU9Jtp0Hoj+Q37D4Q6HC0Q@mail.gmail.com>
- <YR/NRJEhPKRQ1r22@dhcp22.suse.cz>
- <CAOH5QeDUUqrMnuws6cnBDU_oub4cK6KsHeX39p7Eikr4Bcjcnw@mail.gmail.com>
- <YSzh31BasoxUQXAu@dhcp22.suse.cz>
- <CAOH5QeBrxpddmTL40ryajjCJZ4WHJsaubYKBvaeikikn1JmJ9Q@mail.gmail.com>
+        id S234755AbhIFJIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Sep 2021 05:08:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229499AbhIFJIE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Sep 2021 05:08:04 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690A7C061575;
+        Mon,  6 Sep 2021 02:07:00 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id y17so5131894pfl.13;
+        Mon, 06 Sep 2021 02:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7TvTCAQAKWGsSR90jk8cgr0doCoZwdzVQCvvtv6JSzU=;
+        b=SoFOcLd2b5JNE80CYq2/ba/SX8C6n+g/tuwwUSeHe4CmGZ05rORjqIqjdqVvYBxlNs
+         BIT5b5F73MyI2DiF0m8U2Ll3uz6WnULYATapd0NgD1rOtPphuofEpRtUpajpRkSERNAB
+         88umh9itDc4rIvpoAIYNWcIV+4vBqJn1pN1RG46fHyxRDmDaOyb2Fm4DMmED+Ad0uz6P
+         cgQPkRgOG/9EixCCtRT72Snj/f/s1lSKK1d+U3mYAGwg1qcDWdV+xrF8j9VEzBb9XNfw
+         WHoAzqfM9XxQAmLELEpicU0MzXR5ByzMhDZKeUoxvzqi5cphKQ3BpS2WPzfoPMQPuS+j
+         cCfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7TvTCAQAKWGsSR90jk8cgr0doCoZwdzVQCvvtv6JSzU=;
+        b=tj4qpaMW70olpCDdiI4DS0wHAD7Uvg8xhHZlUvQsWE76vgIWHj+udt3jIBtdS/66l1
+         701+1jKVLwNB1hnEf2WsdcxyHv6tpTvvXt6mBH+xkJ0s2msZiMN9fQ4iaOhPefZyALs8
+         FS4DWSLT3LP1Y4fiTS3RfehaHX5E+row7OGi4btaXmMKsg6QTYs1XkzC7a4jUlqKWKEJ
+         Cx4LAoap+RSmBZVkrIlxuvaCmM9SwByg8Q0fcmVuNuzNRBFgjILQrQdfEK5nYyJTLxDy
+         w7yVnKj8Ul6iNgYdlptDzkxO0ByXnqBFQezUSPVwX0MXVxT2iYJUGo0IhDhUJpVxloZR
+         jDMQ==
+X-Gm-Message-State: AOAM5316r8rFgtxANlydjN/NIkOQRV8PaW/WCYfXK8QAHsU2StNnqVzj
+        G3wytjj2nuM5NAvlWtVmFmVjm2lojG1ao3jCcFM=
+X-Google-Smtp-Source: ABdhPJz9/3ZOZ03+sae5raOlBsnWSXNV1XhZcCe9pKR8e9TswPMP26OqQrn91tBBIEKrzOCq1c15BcU5cLjzNY8n+/g=
+X-Received: by 2002:a65:5a49:: with SMTP id z9mr11387468pgs.121.1630919219912;
+ Mon, 06 Sep 2021 02:06:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOH5QeBrxpddmTL40ryajjCJZ4WHJsaubYKBvaeikikn1JmJ9Q@mail.gmail.com>
+References: <20210825154817.242411-1-junhuahuangdream@163.com>
+In-Reply-To: <20210825154817.242411-1-junhuahuangdream@163.com>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Mon, 6 Sep 2021 17:06:49 +0800
+Message-ID: <CAMU9jJpq+Yz+hCrGGWa+c619YgFzwqTRF-m9s_R=V7jFHak1uw@mail.gmail.com>
+Subject: Re: [PATCH v3] docs/zh_CN: Add zh_CN/admin-guide/sysrq.rst
+To:     Junhua Huang <junhuahuangdream@163.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Wu X.C." <bobwxc@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Junhua Huang <huang.junhua@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat 04-09-21 18:41:00, yong w wrote:
-[..]
-> > It is not in conflict but runtime overhead reduction without more burden
-> > on the configurability is usually a preferred approach.
-> I agree with you.I had an idea that we use global variables to identify whether
-> there is event registration,however, global variables need to be
-> protected with locks.
+Junhua Huang <junhuahuangdream@163.com> =E4=BA=8E2021=E5=B9=B48=E6=9C=8826=
+=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=8812:13=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> From: Junhua Huang <huang.junhua@zte.com.cn>
+>
+> Add translation zh_CN/admin-guide/sysrq.rst and link it to
+> zh_CN/admin-guide/index.rst while clean its todo entry.
+>
+> Signed-off-by: Junhua Huang <huang.junhua@zte.com.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-Have a look at static keys which are usual tool to provide effectivelly
-zero overhead disabled branch.
--- 
-Michal Hocko
-SUSE Labs
+Thanks,
+
+Yanteng
