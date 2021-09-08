@@ -2,59 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE8BAC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BFA0C43217
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7A6561104
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44BA961178
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351988AbhIHPAO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Sep 2021 11:00:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59216 "EHLO mail.kernel.org"
+        id S1352000AbhIHPAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Sep 2021 11:00:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59212 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351929AbhIHPAL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1351932AbhIHPAL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 8 Sep 2021 11:00:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 946FB61176;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 831A661163;
         Wed,  8 Sep 2021 14:59:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631113142;
-        bh=I9nRCiQVEaw8EMBn5XYRpxUoWQZ4SY7CJXtl/LWJAoI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s6LAHJt5xWJXpN07aWvZO3sjC9t8KEqalsjJyNJ8VVUDLuzqaibDLwkIcbhXc9UMT
-         TF4mLT0q2e6KySMk8Zo+/HYNbf2KZwwnOWlN3AaE8UOIMZUEgXT952ws/TsOxJcbJE
-         aIIHxb8Glx1PTcJk9lvbGbF08JcBPuwMrL8b8cVq/56RScimnA/uwzMPjttm0DEmYb
-         NQLiGFl+5CDhvhKegBNwAZK1UuD0lUp0CAeGD12ZCbgP2JaHaAkGh3MleLU6YJcsY/
-         bpkFdvDzHU2aHe5Q7Hivc/IKFArBmfYLI2kTN+FfvTixJc5I4X9oKdhxsu7IafXfzE
-         HbtZ/drai+QEA==
+        bh=iER6cNpcjgk8n1TWkifigpXyj5UmGCift9D4uF2jMns=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jEUUiYNesrwxixTuVWUx37ompZysIA5p0KCoiioN0f2BlrS+efomxgByiawC6Jjl8
+         PfASkEjlfK7hzn3PNaz05R+fyf9GRreUV4a7BzTb9ouOrpuHon2nuQvF1WY/NNgHmC
+         4t4sQQQX0l/0beJPHdHfx/wbrDWugLr74aLeNc3pPp2boRHSfLPcda06Vfzz/bPVkP
+         STfQDLJpguHWxcT/MVZBintfsTiKoFKXdekzRbOzF+JA36vlO4oBOHqfVXsVVkX30W
+         3j2HjgCY9z6S4nOOWu7yrTZmsviG4hwOnZf1Xez8C06XGSDDbZzBtD7v0995qNdA82
+         mmKlHGuSQkIxQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mNz2S-006r45-VW; Wed, 08 Sep 2021 16:59:00 +0200
+        id 1mNz2S-006r3a-E3; Wed, 08 Sep 2021 16:59:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Raphael Gianotti <raphgi@linux.microsoft.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        THOBY Simon <Simon.THOBY@viveris.fr>,
-        Tushar Sugandhi <tusharsu@linux.microsoft.com>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 8/9] ABI: security: fix location for evm and ima_policy
-Date:   Wed,  8 Sep 2021 16:58:55 +0200
-Message-Id: <27f568bf8973afb9c7aa023e96dcd4f50b07a188.1631112725.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 0/9] get_abi.pl: Check for missing symbols at the ABI specs
+Date:   Wed,  8 Sep 2021 16:58:47 +0200
+Message-Id: <cover.1631112725.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1631112725.git.mchehab+huawei@kernel.org>
-References: <cover.1631112725.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -62,44 +59,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The What: definitions there are wrong, pointing to different
-locations than what's expected.
+Hi Greg,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/ABI/testing/evm        | 4 ++--
- Documentation/ABI/testing/ima_policy | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Sometime ago, I discussed with Jonathan Cameron about providing 
+a way check that the ABI documentation is incomplete.
 
-diff --git a/Documentation/ABI/testing/evm b/Documentation/ABI/testing/evm
-index 553fd8a33e56..4b76a19b7bb4 100644
---- a/Documentation/ABI/testing/evm
-+++ b/Documentation/ABI/testing/evm
-@@ -1,4 +1,4 @@
--What:		security/evm
-+What:		/sys/kernel/security/evm /sys/kernel/security/*/evm
- Date:		March 2011
- Contact:	Mimi Zohar <zohar@us.ibm.com>
- Description:
-@@ -93,7 +93,7 @@ Description:
- 		core/ima-setup) have support for loading keys at boot
- 		time.
- 
--What:		security/integrity/evm/evm_xattrs
-+What:		/sys/kernel/security/*/evm/evm_xattrs
- Date:		April 2018
- Contact:	Matthew Garrett <mjg59@google.com>
- Description:
-diff --git a/Documentation/ABI/testing/ima_policy b/Documentation/ABI/testing/ima_policy
-index 5c2798534950..2d84063d196f 100644
---- a/Documentation/ABI/testing/ima_policy
-+++ b/Documentation/ABI/testing/ima_policy
-@@ -1,4 +1,4 @@
--What:		security/ima/policy
-+What:		/sys/kernel/security/*/ima/policy
- Date:		May 2008
- Contact:	Mimi Zohar <zohar@us.ibm.com>
- Description:
+While it would be doable to validate the ABI by searching __ATTR and 
+similar macros around the driver, this would probably be very complex
+and would take a while to parse.
+
+So, I ended by implementing a new feature at scripts/get_abi.pl
+which does a check on the sysfs contents of a running system:
+it reads everything under /sys and reads the entire ABI from
+Documentation/ABI. It then warns for symbols that weren't found,
+optionally showing possible candidates that might be misdefined.
+
+I opted to place it on 3 patches:
+
+The first patch adds the basic logic. It runs really quicky (up to 2
+seconds), but it doesn't use sysfs softlinks.
+
+Patch 2 adds support for also parsing softlinks. It slows the logic,
+with now takes ~40 seconds to run on my desktop (and ~23
+seconds on a HiKey970 ARM board). There are space there for
+performance improvements, by using a more sophisticated
+algorithm, at the expense of making the code harder to
+understand. I ended opting to use a simple implementation
+for now, as ~40 seconds sounds acceptable on my eyes.
+
+Patch 3 adds an optional parameter to allow filtering the results
+using a regex given by the user.
+
+One of the problems with the current ABI definitions is that several
+symbols define wildcards, on non-standard ways. The more commonly
+wildcards used there are:
+
+	<foo>
+	{foo}
+	[foo]
+	X
+	Y
+	Z
+	/.../
+
+The script converts the above wildcards into (somewhat relaxed)
+regexes.
+
+There's one place using  "(some description)". This one is harder to
+parse, as parenthesis are used by the parsing regexes. As this happens
+only on one file, patch 4 addresses such case.
+
+Patch 5 to 9 fix some other ABI troubles I identified.
+
+In long term, perhaps the better would be to just use regex on What:
+fields, as this would avoid extra heuristics at get_abi.pl, but this is
+OOT from this patch, and would mean a large number of changes.
+
+-
+
+As reference, I sent an early implementation of this change as a RFC:
+	https://lore.kernel.org/lkml/cover.1624014140.git.mchehab+huawei@kernel.org/
+
+Mauro Carvalho Chehab (9):
+  scripts: get_abi.pl: Check for missing symbols at the ABI specs
+  scripts: get_abi.pl: detect softlinks
+  scripts: get_abi.pl: add an option to filter undefined results
+  ABI: sysfs-bus-usb: better document variable argument
+  ABI: sysfs-module: better document module name parameter
+  ABI: sysfs-tty: better document module name parameter
+  ABI: sysfs-kernel-slab: use a wildcard for the cache name
+  ABI: security: fix location for evm and ima_policy
+  ABI: sysfs-module: document initstate
+
+ Documentation/ABI/stable/sysfs-module       |  10 +-
+ Documentation/ABI/testing/evm               |   4 +-
+ Documentation/ABI/testing/ima_policy        |   2 +-
+ Documentation/ABI/testing/sysfs-bus-usb     |  16 +-
+ Documentation/ABI/testing/sysfs-kernel-slab |  94 ++++-----
+ Documentation/ABI/testing/sysfs-module      |   7 +
+ Documentation/ABI/testing/sysfs-tty         |  32 +--
+ scripts/get_abi.pl                          | 218 +++++++++++++++++++-
+ 8 files changed, 303 insertions(+), 80 deletions(-)
+
 -- 
 2.31.1
+
 
