@@ -2,88 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF61C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 13:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A21C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:52:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 032986115C
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 13:25:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A934C6115C
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:52:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348991AbhIHN0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Sep 2021 09:26:46 -0400
-Received: from 59-120-53-16.hinet-ip.hinet.net ([59.120.53.16]:54886 "EHLO
-        atcsqa06.andestech.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235294AbhIHN0q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Sep 2021 09:26:46 -0400
-Received: by atcsqa06.andestech.com (Postfix, from userid 5427)
-        id 3043CC389C; Wed,  8 Sep 2021 21:17:53 +0800 (CST)
-From:   Leo Yu-Chi Liang <ycliang@andestech.com>
-To:     corbet@lwn.net, src.res@email.cn,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Cc:     linux-doc@vger.kernel.org, ycliang@cs.nctu.edu.tw,
-        Leo Yu-Chi Liang <ycliang@andestech.com>
-Subject: [PATCH 1/1] docs/zh_TW: Add translation for riscv/patch-acceptance
-Date:   Wed,  8 Sep 2021 21:17:50 +0800
-Message-Id: <20210908131750.1104-1-ycliang@andestech.com>
-X-Mailer: git-send-email 2.17.0
+        id S1351894AbhIHOxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Sep 2021 10:53:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351890AbhIHOxc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Sep 2021 10:53:32 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53AA9C061575
+        for <linux-doc@vger.kernel.org>; Wed,  8 Sep 2021 07:52:24 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id j12so3972140ljg.10
+        for <linux-doc@vger.kernel.org>; Wed, 08 Sep 2021 07:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pFykh56fVhrB6oR9lO0QT54mhC5cY17423X2Shqa6c0=;
+        b=EBdO9aHJfpaOHpK3R9gTmTek8dl4W4yl4Z9al8F36i7nOD7xdmUtpM6J+d+ZI/PJr+
+         ZVZfMpDdnAWAT4KfQeYn6C+1+Hs0B6OH/UEnQjo8ZaKXZQFfoAX4/YN0tLnRClugReTD
+         En7aZ488O31NDpyfWIoivdVhALYAR6j0gUQZtinJ2JWtJyQWhcYBUDWucq4aWS/omH4L
+         WGk3KPTwUlG0IdY6tTVrdr56b9d8fn2jVJxz7ALnLXeyUtbv4AzAhltJUANgujR3ct3W
+         iMajEQyBFuC9kRwm8v4Ym7wsRHUbXtoPvoR+m3wyfZoVzz8TbH3eYPTGppKrH+RlklA0
+         futQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pFykh56fVhrB6oR9lO0QT54mhC5cY17423X2Shqa6c0=;
+        b=xeg1sj3VXEdmJB8dOgh/0rqWj1opvRlo7Anw5GOWx+wjhZHH6qY34mCYYwzfDuzFPW
+         V3Gnbkb4aaO7HWemnkppxaRKJ4y4DaDtzUZvVaQUXJTLd6QlbMiGfOmihwIT6XC6JwOI
+         GhMhqEB1KadeJRLKRiE4dn9+H5+9aILGAZseuUj9XGbuz29FLZxg8weXKVSAsdYX7HHG
+         HEguBysCm/dCE/wCRuFzUOg9/tvpoXSkFGGFSckeD6j2b8T823Ygs9soIJR+ch4YNtWQ
+         BOIVa6+2LB2WJVktR9t4rWLgVH0n3SFF73FMjlDkaDsBcewl4RRoapX9UbTbBZlejweP
+         oAxg==
+X-Gm-Message-State: AOAM530ZdivNXstaKVi6oqGzjo0gigHGG6gGfcxxfS4jU8AWUd4eei0u
+        yeKyhk39vV3dkcMy5oUwwZ8tm/59bGY=
+X-Google-Smtp-Source: ABdhPJyoyqPAYOKnQ2zD4/cI+bmgP9i3kANz7fSa8D05HbHOCFZWoCFi8JpaSgQ17CXYfrmp1Dtp+Q==
+X-Received: by 2002:a2e:89c5:: with SMTP id c5mr3130929ljk.329.1631112742740;
+        Wed, 08 Sep 2021 07:52:22 -0700 (PDT)
+Received: from localhost.localdomain ([2a03:5342:f:6::2])
+        by smtp.gmail.com with ESMTPSA id z1sm210564lfe.137.2021.09.08.07.52.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Sep 2021 07:52:22 -0700 (PDT)
+From:   Li Xinhai <lixinhai.lxh@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net
+Subject: [PATCH] Doc: page_migration: fix numbering for non-LRU movable flags
+Date:   Wed,  8 Sep 2021 22:52:15 +0800
+Message-Id: <20210908145215.592325-1-lixinhai.lxh@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add new translation for Documentation/riscv/patch-acceptance.rst
+The non-LRU movable flags part is not relevant to above 3 funcitons, so remove
+the number 4.
 
-Signed-off-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
+
 ---
- .../zh_TW/riscv/patch-acceptance.rst          | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 Documentation/translations/zh_TW/riscv/patch-acceptance.rst
+ Documentation/vm/page_migration.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_TW/riscv/patch-acceptance.rst b/Documentation/translations/zh_TW/riscv/patch-acceptance.rst
-new file mode 100644
-index 000000000000..f3bb8392454c
---- /dev/null
-+++ b/Documentation/translations/zh_TW/riscv/patch-acceptance.rst
-@@ -0,0 +1,33 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_TW.rst
-+
-+:Original: Documentation/riscv/patch-acceptance.rst
-+
-+:譯者:
-+
-+ 梁育齊 Liang YuChi <ycliang@andestech.com>
-+
-+arch/riscv 開發人員的維護守則
-+=============================
-+
-+概述
-+----
-+RISC-V 指令集架構是公開開發的：
-+正在開發中的草案可供所有人檢閱和實驗自己的實作。
-+新模組或擴充指令集的草案可能會在開發過程中發生變化——
-+有時會變化的與先前的草案不相容。
-+這樣的彈性可能會對 RISC-V Linux 的維護帶來挑戰。
-+Linux 維護者反對混亂，且 Linux 開發過程更傾向接受，經過仔細審查和測試的程式碼而非實驗性質的程式碼。
-+我們希望將相同的原則，運用在檢視這些可能被接受且放進核心的 RISC-V 相關程式碼中。
-+
-+附註提交檢查事項
-+------------------
-+我們將只會接受，和那些被 RISC-V 基金會列為"凍結"或是"批准生效"的模組和擴充指令集相關的 patches。
-+（當然，開發人員可以自行維護含有他們想要有的擴充指令集的 Linux 核心程式碼。）
-+
-+此外，RISC-V 規格允許實作者創造自己的擴充指令集。
-+這些自己定義的擴充指令集不需要經過 RISC-V 基金會的任何審查或批准過程。
-+為了避免這些擴充指令集造成維護的複雜性，以及對效能產生影響，
-+我們將只接受已被 RISC-V 基金會正式"凍結"或"批准"的擴充指令集實作。
-+（當然，實作者可以自行維護含有自己擴充指令集實作的 Linux 核心程式碼。）
---
-2.25.1
+diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
+index db9d7e5539cb..08810f549f70 100644
+--- a/Documentation/vm/page_migration.rst
++++ b/Documentation/vm/page_migration.rst
+@@ -205,7 +205,7 @@ which are function pointers of struct address_space_operations.
+    In this function, the driver should put the isolated page back into its own data
+    structure.
+ 
+-4. non-LRU movable page flags
++Non-LRU movable page flags
+ 
+    There are two page flags for supporting non-LRU movable page.
+ 
+-- 
+2.27.0
 
