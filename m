@@ -2,95 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A21C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA0C1C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A934C6115C
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:52:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87B7560E77
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 14:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351894AbhIHOxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Sep 2021 10:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351890AbhIHOxc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Sep 2021 10:53:32 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53AA9C061575
-        for <linux-doc@vger.kernel.org>; Wed,  8 Sep 2021 07:52:24 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id j12so3972140ljg.10
-        for <linux-doc@vger.kernel.org>; Wed, 08 Sep 2021 07:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pFykh56fVhrB6oR9lO0QT54mhC5cY17423X2Shqa6c0=;
-        b=EBdO9aHJfpaOHpK3R9gTmTek8dl4W4yl4Z9al8F36i7nOD7xdmUtpM6J+d+ZI/PJr+
-         ZVZfMpDdnAWAT4KfQeYn6C+1+Hs0B6OH/UEnQjo8ZaKXZQFfoAX4/YN0tLnRClugReTD
-         En7aZ488O31NDpyfWIoivdVhALYAR6j0gUQZtinJ2JWtJyQWhcYBUDWucq4aWS/omH4L
-         WGk3KPTwUlG0IdY6tTVrdr56b9d8fn2jVJxz7ALnLXeyUtbv4AzAhltJUANgujR3ct3W
-         iMajEQyBFuC9kRwm8v4Ym7wsRHUbXtoPvoR+m3wyfZoVzz8TbH3eYPTGppKrH+RlklA0
-         futQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pFykh56fVhrB6oR9lO0QT54mhC5cY17423X2Shqa6c0=;
-        b=xeg1sj3VXEdmJB8dOgh/0rqWj1opvRlo7Anw5GOWx+wjhZHH6qY34mCYYwzfDuzFPW
-         V3Gnbkb4aaO7HWemnkppxaRKJ4y4DaDtzUZvVaQUXJTLd6QlbMiGfOmihwIT6XC6JwOI
-         GhMhqEB1KadeJRLKRiE4dn9+H5+9aILGAZseuUj9XGbuz29FLZxg8weXKVSAsdYX7HHG
-         HEguBysCm/dCE/wCRuFzUOg9/tvpoXSkFGGFSckeD6j2b8T823Ygs9soIJR+ch4YNtWQ
-         BOIVa6+2LB2WJVktR9t4rWLgVH0n3SFF73FMjlDkaDsBcewl4RRoapX9UbTbBZlejweP
-         oAxg==
-X-Gm-Message-State: AOAM530ZdivNXstaKVi6oqGzjo0gigHGG6gGfcxxfS4jU8AWUd4eei0u
-        yeKyhk39vV3dkcMy5oUwwZ8tm/59bGY=
-X-Google-Smtp-Source: ABdhPJyoyqPAYOKnQ2zD4/cI+bmgP9i3kANz7fSa8D05HbHOCFZWoCFi8JpaSgQ17CXYfrmp1Dtp+Q==
-X-Received: by 2002:a2e:89c5:: with SMTP id c5mr3130929ljk.329.1631112742740;
-        Wed, 08 Sep 2021 07:52:22 -0700 (PDT)
-Received: from localhost.localdomain ([2a03:5342:f:6::2])
-        by smtp.gmail.com with ESMTPSA id z1sm210564lfe.137.2021.09.08.07.52.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 07:52:22 -0700 (PDT)
-From:   Li Xinhai <lixinhai.lxh@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net
-Subject: [PATCH] Doc: page_migration: fix numbering for non-LRU movable flags
-Date:   Wed,  8 Sep 2021 22:52:15 +0800
-Message-Id: <20210908145215.592325-1-lixinhai.lxh@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        id S1351949AbhIHPAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Sep 2021 11:00:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59098 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233754AbhIHPAK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Sep 2021 11:00:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CC5E6115C;
+        Wed,  8 Sep 2021 14:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631113142;
+        bh=hJAa8hcqeiDM+/Qqlnhml4tyTWniUKhXeti2Cw12wWY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bxv+YLVsE/VLimRrKOF3A3mhABtKMOoRJHViJ1cAOCEJ3+dFsQZ8g76HckcjXuyQO
+         WVgJBfobl125+5JML5VDaJhCHnf7JUbIcdKGmffXn0MJ2uH9ldm3eE7E2YeR96ECkX
+         oHBzDkqXVwoaLWf8OpKuEk5JuFgg/EFUZmSA6KMOb1N1wHmenHqTT1KpxvrH1gW+mZ
+         ++2EXRKCpfphiudKlf2lxopnCfRV6Uk4OVHkfwG74XJXVKJ//2h9z3hdxUjeEho6rD
+         M9RbINGN3f1rJYnd3Z7oLmWKnxX108sBHutnC3lM1B/8SQgEmC+zYZFt7A6CoTGGdO
+         AQdpT5BGv6Nkg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mNz2S-006r3t-RV; Wed, 08 Sep 2021 16:59:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 5/9] ABI: sysfs-module: better document module name parameter
+Date:   Wed,  8 Sep 2021 16:58:52 +0200
+Message-Id: <dc60b13a593ee3f95fa437da7a7f3d066b7b61d3.1631112725.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1631112725.git.mchehab+huawei@kernel.org>
+References: <cover.1631112725.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The non-LRU movable flags part is not relevant to above 3 funcitons, so remove
-the number 4.
+On almost all ABI documents, variable arguments are declared
+as <foo_bar>. Change it here too, in order to allow replacing
+such wildcards by regexes on a scriptable way.
 
-Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/vm/page_migration.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/stable/sysfs-module | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
-index db9d7e5539cb..08810f549f70 100644
---- a/Documentation/vm/page_migration.rst
-+++ b/Documentation/vm/page_migration.rst
-@@ -205,7 +205,7 @@ which are function pointers of struct address_space_operations.
-    In this function, the driver should put the isolated page back into its own data
-    structure.
+diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
+index 6272ae5fb366..c60c7a6f5aff 100644
+--- a/Documentation/ABI/stable/sysfs-module
++++ b/Documentation/ABI/stable/sysfs-module
+@@ -2,7 +2,7 @@ What:		/sys/module
+ Description:
+ 	The /sys/module tree consists of the following structure:
  
--4. non-LRU movable page flags
-+Non-LRU movable page flags
+-	/sys/module/MODULENAME
++	/sys/module/<MODULENAME>
+ 		The name of the module that is in the kernel.  This
+ 		module name will always show up if the module is loaded as a
+ 		dynamic module.  If it is built directly into the kernel, it
+@@ -12,7 +12,7 @@ Description:
+ 		Note: The conditions of creation in the built-in case are not
+ 		by design and may be removed in the future.
  
-    There are two page flags for supporting non-LRU movable page.
+-	/sys/module/MODULENAME/parameters
++	/sys/module/<MODULENAME>/parameters
+ 		This directory contains individual files that are each
+ 		individual parameters of the module that are able to be
+ 		changed at runtime.  See the individual module
+@@ -25,10 +25,14 @@ Description:
+ 		individual driver documentation for details as to the
+ 		stability of the different parameters.
  
+-	/sys/module/MODULENAME/refcnt
++	/sys/module/<MODULENAME>/refcnt
+ 		If the module is able to be unloaded from the kernel, this file
+ 		will contain the current reference count of the module.
+ 
+ 		Note: If the module is built into the kernel, or if the
+ 		CONFIG_MODULE_UNLOAD kernel configuration value is not enabled,
+ 		this file will not be present.
++
++	/sys/module/<MODULENAME>/srcversion
++		If the module source has MODULE_VERSION, this file will contain
++		the version of the source code.
 -- 
-2.27.0
+2.31.1
 
