@@ -2,129 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 888F9C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 03:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40615C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 08:08:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6253F60E52
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 03:22:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CB1A6113C
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Sep 2021 08:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232931AbhIHDXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Sep 2021 23:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49550 "EHLO
+        id S1347475AbhIHIJx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Sep 2021 04:09:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbhIHDXm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Sep 2021 23:23:42 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F324C061575;
-        Tue,  7 Sep 2021 20:22:35 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id m26so850717pff.3;
-        Tue, 07 Sep 2021 20:22:35 -0700 (PDT)
+        with ESMTP id S235106AbhIHIJw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Sep 2021 04:09:52 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488A2C061575;
+        Wed,  8 Sep 2021 01:08:44 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id c8-20020a7bc008000000b002e6e462e95fso860179wmb.2;
+        Wed, 08 Sep 2021 01:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=JDypbW+LfLzXGf0hDgoUroHgIdfKmH/FQrJkEZpGnbs=;
-        b=VGc4LucmZPAYAossEfjwERMo5F1auVco/0qByRPcFFp7OGn8KKBLk3MDEnmncsSaeq
-         oYXCkLRJxC4gPqQLv08ax5teRg+AQWC/RSn7pchvbKmcY7Gr14iOlugLcO49q7aBfhaQ
-         9hslrKF2qO7cuH9+XEwSnq9Qau9I858/GEUQ+7xhOEeyKTzMiyZL4RTb7ElVe5Ch0+Sy
-         Pk1dDfwrsrV0EvjBCcO02E7s9n5E4X5NDMzKfIhgYe8hvufWvQVMmwoV09P0sLE+jFt3
-         YiiL9C59UdMTaU0XvkCKnh8GsHrxz44lafKZDy7Ly7VKK0OEhEe2HfYj2oxNhyF/HIey
-         MtRA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y+Q+aEeekHfF1o1bJCRwVNKDlh1bJxhJjIkMXUIhHF8=;
+        b=VpWYEJ2o4h481bAFIQ5qyBeYNfgFYaJLk+dCVV0gzxsAsUFZtIphsslnx9UiWQiAFu
+         1FjXww2jU/tAdltUiT83KbiCXks5DsJgVc8aOS4Uit2qf774Np8ZHOJIn9cFc+aeZgOL
+         VzHyAPqtEM0eKlZztGvC5JxEPZIAQqurzu06+/THFGdXluUo+goGHbgptXxFBaiHM7rx
+         MLSpMngYM9VDUUaBX4zK0N0ni0EU7TXXHfa/9EeNhmM1LOPkPjNex0FtOcaHRRM8a5FM
+         65+UyXxeel4G9bOwbNpujyP3R8G20vTYLKcXEqwaNAilpmPK6jlaIyMSC/5gInI2T3SJ
+         AmBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=JDypbW+LfLzXGf0hDgoUroHgIdfKmH/FQrJkEZpGnbs=;
-        b=Z0/SBc9cdhqpWgafaUwE2nd1F8VuztQcO0f4STVZ2dLoVR+zacII83nTO+FrrQFp+F
-         qMRpytRWokEW8cgS3cuy+LJ6xyI1cLX1R6JuJL2TspytQVHVv57O1PXdjvZ3H0c6ThyH
-         aFQLzPWPUf3WzvWRfAVDDcaGfB/WVhTGNPwM/4jDeIY6DDGjWDnQdFdUNHEy0AeIqblW
-         HoAVBPfgVHGKSmalZXOHEvMmFFUKun53SO7uf7jZc6rHGeWtbpu8eLqx4r8l+aUWKrn5
-         vBaV9HbAHME5RDR1opfM7Vhw6MpZQ3Br/p6Nb63K0zF0RdLwjA3VitBgvxwVap/JvbKm
-         z+GQ==
-X-Gm-Message-State: AOAM531x7cq+HFHz+NkkBbeHuxI/QVyXyibbTN+gzYe3cJgG9KFhHx4r
-        B/Rz+4FFGISiYiMmuaDHtuO59T5wNw0=
-X-Google-Smtp-Source: ABdhPJwzTHpLlSU7GIBz982yD7LZnjiPTqQcVWwEi+TFYfdysc3BMG4k9p45bqHa3518TxTBH3cIIw==
-X-Received: by 2002:a62:8287:0:b0:3ec:f6dc:9672 with SMTP id w129-20020a628287000000b003ecf6dc9672mr1495384pfd.65.1631071354479;
-        Tue, 07 Sep 2021 20:22:34 -0700 (PDT)
-Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x75sm584134pgx.43.2021.09.07.20.22.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 20:22:34 -0700 (PDT)
-To:     Jonathan Corbet <corbet@lwn.net>, Hu Haowen <src.res@email.cn>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: zh_TW/index: Move arm64/index to arch-specific section
-Message-ID: <53d86385-b4db-5d02-be6b-795900166f17@gmail.com>
-Date:   Wed, 8 Sep 2021 12:22:30 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y+Q+aEeekHfF1o1bJCRwVNKDlh1bJxhJjIkMXUIhHF8=;
+        b=Ceh8gZ0ryasYh8GLeWIGHBd5ZTQ4Jsy7muQ7qpH5IKIB9izsHOKft8F/Q9FoA6pOVg
+         hKxYUhtSiE68IakCZxyLdGiTgRqfqZr7kLfUbNmEccQw2VEdAN3noF/4RPd0bEaQZhQg
+         nokpo1cqZEUIFZmkeAK45cMmowe0fAqm2+wBmXHXhd60+Et1FGeRNKCXV4MRdsru62OC
+         3Wrn6AJXhyDaQnhJx8Ru0yTToOzRWCd9X/Usg+kyBCkOQBEkb3bfGkTWb/UG2QGN8cMs
+         rfXN7q2nxxNbzJSsOdtPplMdaurGVkQQhEUcC3TpWbaIZERLf/Nq07O93P+DvdcCy1Rs
+         +zew==
+X-Gm-Message-State: AOAM531vSxLc5c5vT8I3hVKfzsD6ryTBoGnIUAkpYem+A+1WRiTjNOxd
+        Kzufjwr1c6tupKmVzx3e4cAHIflQ1wyzlbLZ
+X-Google-Smtp-Source: ABdhPJwdt0QosFeR1ZRVauFFD2WNLUQ4nlHUVghZiHRZ+TPdDL3xecyeUKQ9nqfdwwpJ976DOqAPtg==
+X-Received: by 2002:a05:600c:3584:: with SMTP id p4mr2167325wmq.39.1631088522722;
+        Wed, 08 Sep 2021 01:08:42 -0700 (PDT)
+Received: from localhost.localdomain ([45.251.105.183])
+        by smtp.gmail.com with ESMTPSA id i5sm1191566wmq.17.2021.09.08.01.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Sep 2021 01:08:42 -0700 (PDT)
+From:   ArthurChiao <sjtuyananzhao@gmail.com>
+X-Google-Original-From: ArthurChiao <arthurchiao@hotmail.com>
+To:     cgroups@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, ArthurChiao <arthurchiao@hotmail.com>
+Subject: [PATCH RESEND] cgroupv2, docs: fix misinformation in "device controller" section
+Date:   Wed,  8 Sep 2021 16:08:15 +0800
+Message-Id: <20210908080815.130952-1-arthurchiao@hotmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64/index is architecture specific.
-Move it to the section "=E7=89=B9=E5=AE=9A=E9=AB=94=E7=B3=BB=E7=B5=90=E6=A7=
-=8B=E6=96=87=E6=AA=94" or "Architecture-specific
-documentation".
+Hotmail was rejected by the mailing list, switched to gmail to resend.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: e5cb9494fe79 ("docs/zh_TW: add translations for zh_TW/arm64")
-Cc: Hu Haowen <src.res@email.cn>
+1. Clarify cgroup BPF program type and attach type;
+2. Fix file path broken.
+
+Signed-off-by: ArthurChiao <arthurchiao@hotmail.com>
 ---
-Hi,
+ Documentation/admin-guide/cgroup-v2.rst | 26 ++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-zh_CN/index.rst has arm64/index under the section "=E7=89=B9=E5=AE=9A=E4=BD=
-=93=E7=B3=BB=E7=BB=93=E6=9E=84=E6=96=87=E6=A1=A3".
-zh_TW should be consistent with it.
-
-        Thanks, Akira
---
- Documentation/translations/zh_TW/index.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/t=
-ranslations/zh_TW/index.rst
-index 2a281036c406..f56f78ba7860 100644
---- a/Documentation/translations/zh_TW/index.rst
-+++ b/Documentation/translations/zh_TW/index.rst
-@@ -140,11 +140,6 @@ TODOList:
- =E9=AB=94=E7=B3=BB=E7=B5=90=E6=A7=8B=E7=84=A1=E9=97=9C=E6=96=87=E6=AA=94=
-
- ----------------
-=20
--.. toctree::
--   :maxdepth: 2
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 5c7377b5bd3e..ad83f87a042c 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2159,19 +2159,19 @@ existing device files.
+ 
+ Cgroup v2 device controller has no interface files and is implemented
+ on top of cgroup BPF. To control access to device files, a user may
+-create bpf programs of the BPF_CGROUP_DEVICE type and attach them
+-to cgroups. On an attempt to access a device file, corresponding
+-BPF programs will be executed, and depending on the return value
+-the attempt will succeed or fail with -EPERM.
 -
--   arm64/index
+-A BPF_CGROUP_DEVICE program takes a pointer to the bpf_cgroup_dev_ctx
+-structure, which describes the device access attempt: access type
+-(mknod/read/write) and device (type, major and minor numbers).
+-If the program returns 0, the attempt fails with -EPERM, otherwise
+-it succeeds.
 -
- TODOList:
-=20
- * asm-annotations
-@@ -152,6 +147,11 @@ TODOList:
- =E7=89=B9=E5=AE=9A=E9=AB=94=E7=B3=BB=E7=B5=90=E6=A7=8B=E6=96=87=E6=AA=94=
-
- ----------------
-=20
-+.. toctree::
-+   :maxdepth: 2
+-An example of BPF_CGROUP_DEVICE program may be found in the kernel
+-source tree in the tools/testing/selftests/bpf/progs/dev_cgroup.c file.
++create bpf programs of type BPF_PROG_TYPE_CGROUP_DEVICE and attach
++them to cgroups with BPF_CGROUP_DEVICE flag. On an attempt to access a
++device file, corresponding BPF programs will be executed, and depending
++on the return value the attempt will succeed or fail with -EPERM.
 +
-+   arm64/index
++A BPF_PROG_TYPE_CGROUP_DEVICE program takes a pointer to the
++bpf_cgroup_dev_ctx structure, which describes the device access attempt:
++access type (mknod/read/write) and device (type, major and minor numbers).
++If the program returns 0, the attempt fails with -EPERM, otherwise it
++succeeds.
 +
- TODOList:
-=20
- * arch
---=20
-2.17.1
-
++An example of BPF_PROG_TYPE_CGROUP_DEVICE program may be found in
++tools/testing/selftests/bpf/progs/dev_cgroup.c in the kernel source tree.
+ 
+ 
+ RDMA
+-- 
+2.25.1
 
