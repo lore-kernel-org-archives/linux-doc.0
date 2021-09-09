@@ -2,112 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B0EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 01:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B2BC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 04:05:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56B5061168
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 01:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36A9761181
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 04:05:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349015AbhIIBVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Sep 2021 21:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37768 "EHLO
+        id S230270AbhIIEGW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Sep 2021 00:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348988AbhIIBVr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Sep 2021 21:21:47 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEE1C061575
-        for <linux-doc@vger.kernel.org>; Wed,  8 Sep 2021 18:20:39 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id k13so293318lfv.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Sep 2021 18:20:38 -0700 (PDT)
+        with ESMTP id S230229AbhIIEGV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Sep 2021 00:06:21 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7543C061757
+        for <linux-doc@vger.kernel.org>; Wed,  8 Sep 2021 21:05:12 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id v10so1187241ybq.7
+        for <linux-doc@vger.kernel.org>; Wed, 08 Sep 2021 21:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OefVOVq0AzG5SCIZk9X5n8kU1bubBJVxFW/wP6CcUpU=;
-        b=gAMYrAraY6OvoyClxwwXsWd5ezMnRlIVwXQ/DTKtTFiIWUwFskxuJ8xYitd8xKWTS+
-         jKS5bHr3baY59fGTZliG5wwlCVCx+abcuE7W1KP23mhVhPgHV2O3JZbj4fD0l0drcnnA
-         p1pUKfZiDzqIdpp/7BiTgqiXDAvzg3n8T9jKIjvx9STCU8btABjiyhOiVjvLJ7EDu5uS
-         ihgkLCqomNaHntdfaM99wC6lmSjXwwH6LdJ3D2acQM8M6rFnTK/ftpUjW5Ot1krkWhf8
-         EuUW1XeaPVQPzqOvMCaGp/ZrkYjQ7rwiOc9TscLnnR0SlfsxyGBOxr83UysinEWlaiSE
-         +gqA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=05Ca02pfZvMrXfNgNF9H2Jldx1Sa0htxtnSYmB+/GC4=;
+        b=SgGkejg8RZ2dnBni6dl85OnH4iOIyLF/M6i7gPVENPUDCRUIk+yvWZAImRqtABeonR
+         VAdcK4ErYk0Hk4/9PdgyesGnr6YgvqrA0/hkLVgH2AfKICiKuf7f54KkP1TVWkESDtWg
+         z+AM6q2j2FivdWCjRrQWu8CopagTJZ+wu/IDCpTeB6qzZSMeREkeBaYCa08PHeb5g1xr
+         VDcO2PkAKUPJo64vRLAAJJ7cQCiEVPDy//15HTO09nHUCz08onlbq/mpWC8VyTDqcAgA
+         bpZ9oy79vhAOqkQmeThDkhPZp4PIUlv0Kncd+PBqELTtNT1RRckw3yN32Gj533cLWmvQ
+         Su0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OefVOVq0AzG5SCIZk9X5n8kU1bubBJVxFW/wP6CcUpU=;
-        b=AVNw2T5whlquAtWCKSohfKzMcSeHcYjsX4fkCIYJ+cWEmCKpmXC0iy/fSGzMV9xMY5
-         eAizW54mBmlAwKz3LaAAj5Q8je+ImoFtj74SwBJWqqXX0/PU1O6ExEL1W3yjc/OuXhUw
-         4exvLAdFlweJTFnXQqfQGzvwo50INA2oH0wNX4mjm7Vb/KtvyKDW20oBXMB+9OdWd2vT
-         cdCjeRREWW3acgQEqdtKDJSXyJgu+GEPkeVakALfjr6tTxW08R+v3VF7ek0B+mxG1U86
-         pqyprh0Ffx4JbEsJNfdglsEsd5VBgbmuIi8+jjl67zn4OlTlbGzMdCvslxjZQdTWG7XO
-         MDWg==
-X-Gm-Message-State: AOAM5320GxAdFYn7Mp/OewqfT/1PPu3YXAxaW60DMNnVs+q8GLbC5hfw
-        Gx8n4AG0Tirodml1b4s4+WMpldUdUo4=
-X-Google-Smtp-Source: ABdhPJxvtbSi8GLrkaTM/w35glIAA32YPMwZo8xDu/esxqb89hRYWVTK2zsOdsBmLCFevvUY9nGBXw==
-X-Received: by 2002:a05:6512:159e:: with SMTP id bp30mr351365lfb.539.1631150437423;
-        Wed, 08 Sep 2021 18:20:37 -0700 (PDT)
-Received: from localhost.localdomain ([2a03:5342:f:6::2])
-        by smtp.gmail.com with ESMTPSA id u21sm21733lju.119.2021.09.08.18.20.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Sep 2021 18:20:36 -0700 (PDT)
-Subject: Re: [PATCH] Doc: page_migration: fix numbering for non-LRU movable
- flags
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20210908145215.592325-1-lixinhai.lxh@gmail.com>
- <87mtomq1hb.fsf@meer.lwn.net>
-Cc:     linux-mm@kvack.org
-From:   Li Xinhai <lixinhai.lxh@gmail.com>
-Message-ID: <f6efb4d9-55cb-f782-cfcb-75e6a2dd9285@gmail.com>
-Date:   Thu, 9 Sep 2021 09:20:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=05Ca02pfZvMrXfNgNF9H2Jldx1Sa0htxtnSYmB+/GC4=;
+        b=s3BktDUh0cmsblCyhXOhDZEu4UVJIKq8v7GdGnf5q4NmnVd2BH3Mn7tLV9qTwwWf+N
+         Qrmvr+zuJmHFsnTL/qkbif4zSRInwVwVz6qUwosObR3QKrDelQjit+XJJ+fQhVz7dT9n
+         HMBwLyId9kqE5elLlRQCQG1/QJO5VoVL2H2GCZYNS2PZgPJcO6rEgjV4DNv0spRkBC+p
+         6UUN7sLmAMiXVdt7cjVD5UhIMvCtkunMxh47+SMwzLll/1PvC9C3CV5fcAp6hZrUSnai
+         hEjtgRR374znf8mUFhK7Owp8toyGDLqJxNB5ToRzdHn6lc7deKu5CDymBh0/+du05klx
+         2z7A==
+X-Gm-Message-State: AOAM531FGVRsfLEcxc3MXFv5XbcoCQfUwa3rQDRZQcoQWPZBOX8FCJfv
+        usAlDaOlxCXsBt9SpwZCgTBtbHXv0OS755E04qbaLg==
+X-Google-Smtp-Source: ABdhPJxuNY87tzok68GgeB3m1htJffEiGR2YFQ3UhtbaNUVg1oevrcc5jxFYrxHr29PrD7NwsKVz9p1BOps9N0WBCC0=
+X-Received: by 2002:a25:d04a:: with SMTP id h71mr1243688ybg.418.1631160311597;
+ Wed, 08 Sep 2021 21:05:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87mtomq1hb.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210902231813.3597709-1-surenb@google.com> <20210902231813.3597709-2-surenb@google.com>
+ <YTZIGhbSTghbUay+@casper.infradead.org>
+In-Reply-To: <YTZIGhbSTghbUay+@casper.infradead.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 8 Sep 2021 21:05:00 -0700
+Message-ID: <CAJuCfpEYOC+6FPmVzzV2od3H8vqWVCsb1hiu5CiDS0-hSg6cfQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
+ anonymous memory
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 9/9/21 4:03 AM, Jonathan Corbet wrote:
-> Li Xinhai <lixinhai.lxh@gmail.com> writes:
-> 
->> The non-LRU movable flags part is not relevant to above 3 funcitons, so remove
->> the number 4.
->>
->> Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
->>
->> ---
->>   Documentation/vm/page_migration.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
->> index db9d7e5539cb..08810f549f70 100644
->> --- a/Documentation/vm/page_migration.rst
->> +++ b/Documentation/vm/page_migration.rst
->> @@ -205,7 +205,7 @@ which are function pointers of struct address_space_operations.
->>      In this function, the driver should put the isolated page back into its own data
->>      structure.
->>   
->> -4. non-LRU movable page flags
->> +Non-LRU movable page flags
-> 
-> So should this be a section heading instead?
-No. This line and the following content still belong to its current section, so only
-need remove '4.', and 'non'-> 'Non'.
-
+On Mon, Sep 6, 2021 at 9:57 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> Thanks,
-> 
-> jon
-> 
+> On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
+> > On Android we heavily use a set of tools that use an extended version of
+> > the logic covered in Documentation/vm/pagemap.txt to walk all pages mapped
+> > in userspace and slice their usage by process, shared (COW) vs.  unique
+> > mappings, backing, etc.  This can account for real physical memory usage
+> > even in cases like fork without exec (which Android uses heavily to share
+> > as many private COW pages as possible between processes), Kernel SamePage
+> > Merging, and clean zero pages.  It produces a measurement of the pages
+> > that only exist in that process (USS, for unique), and a measurement of
+> > the physical memory usage of that process with the cost of shared pages
+> > being evenly split between processes that share them (PSS).
+> >
+> > If all anonymous memory is indistinguishable then figuring out the real
+> > physical memory usage (PSS) of each heap requires either a pagemap walking
+> > tool that can understand the heap debugging of every layer, or for every
+> > layer's heap debugging tools to implement the pagemap walking logic, in
+> > which case it is hard to get a consistent view of memory across the whole
+> > system.
+> >
+> > Tracking the information in userspace leads to all sorts of problems.
+> > It either needs to be stored inside the process, which means every
+> > process has to have an API to export its current heap information upon
+> > request, or it has to be stored externally in a filesystem that
+> > somebody needs to clean up on crashes.  It needs to be readable while
+> > the process is still running, so it has to have some sort of
+> > synchronization with every layer of userspace.  Efficiently tracking
+> > the ranges requires reimplementing something like the kernel vma
+> > trees, and linking to it from every layer of userspace.  It requires
+> > more memory, more syscalls, more runtime cost, and more complexity to
+> > separately track regions that the kernel is already tracking.
+>
+> I understand that the information is currently incoherent, but why is
+> this the right way to make it coherent?  It would seem more useful to
+> use something like one of the tracing mechanisms (eg ftrace, LTTng,
+> whatever the current hotness is in userspace tracing) for the malloc
+> library to log all the useful information, instead of injecting a subset
+> of it into the kernel for userspace to read out again.
+
+Sorry, for the delay with the response. I'm travelling and my internet
+access is very patchy.
+
+Just to clarify, your suggestion is to require userspace to log any
+allocation using ftrace or a similar mechanism and then for the system
+to parse these logs to calculate the memory usage for each process?
+I didn't think much in this direction but I guess logging each
+allocation in the system and periodically collecting that data would
+be quite expensive both from memory usage and performance POV. I'll
+need to think a bit more but these are to me the obvious downsides of
+this approach.
