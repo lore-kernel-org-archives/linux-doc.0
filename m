@@ -2,122 +2,364 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 515B6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B44C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:43:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A31A6120A
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:39:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB1C26120E
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241934AbhIIOkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Sep 2021 10:40:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:36725 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345868AbhIIOkM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Sep 2021 10:40:12 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MwQKp-1nGiPJ417l-00sMtQ; Thu, 09 Sep 2021 16:39:01 +0200
-Received: by mail-wr1-f48.google.com with SMTP id n5so2890226wro.12;
-        Thu, 09 Sep 2021 07:39:00 -0700 (PDT)
-X-Gm-Message-State: AOAM532HtoxK1XpA+mTMgj665ydCxWcued8HQi65X6IhdunYFTg6jUXm
-        mj5KYquY9stAAqq3Qk+TpUazDfmjJn/iIWO3jjU=
-X-Google-Smtp-Source: ABdhPJzH5FTm4Ahmznq9ht5nhkowj4Zn4u5BlABEuGXnJNNsamOP9/btoCFXPbNmcqykva7+mI6cbFrg6KQkTPzWsbQ=
-X-Received: by 2002:adf:c10b:: with SMTP id r11mr3986816wre.336.1631198340414;
- Thu, 09 Sep 2021 07:39:00 -0700 (PDT)
+        id S232395AbhIIOom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Sep 2021 10:44:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344038AbhIIOoM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Sep 2021 10:44:12 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938C9C03547D;
+        Thu,  9 Sep 2021 07:17:38 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id f129so1924481pgc.1;
+        Thu, 09 Sep 2021 07:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uIfdnfFYe7CXfYMyKUIkrwUaExyxjd6v554ANyt2LoQ=;
+        b=c3IljvfTRREUH/FbmtAi+v/46GJDMmJWi56ht3zjJxfKgNP9e5y+uQa6fGy5PK+w3o
+         pHXiCXKTp78ORmivKtGmUBuXZmcYMoE7yzqR4CPYYTC+Wkgj0tTWiSL6On/Ja1aoQJ/q
+         po1dZhk3itHaSew+Iv3mTjDQ35A2gNq5/uXnA+NPBmVrAMYp8pC716fhz6rjR7oMcoTv
+         gyKvmc0lmLIP5HugWGWn6arpISFixqMOU1+J0Vk7ZVpsV/fyWK1PNGFL7tRpq+pKxDZY
+         0ZOzDiD5d4jN7pIDQgt0Syq8+vBuRduUHpEPYf68dqNo9+EgK7+A5bK5YyEifFnEZRJ2
+         PkEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uIfdnfFYe7CXfYMyKUIkrwUaExyxjd6v554ANyt2LoQ=;
+        b=rMAF4wEDfapttHr9VcuDBcr++eERR3wvm8yvGjpsM/yox3lpfcxWofVzc+XvDDjviR
+         +WG1QEaYlXJJ3b7TXWrIRWiJgbpT5f7qwlwZHUkdf4BogpDuQUS7h7EAaJfNySmBuHnY
+         M6sz0CQmFa8tPKRxgw8X3i30Y42kn3eyUoQYyO+LGeDuJx1657+2Zdo3jM1SVQNqyYqT
+         WK5GcKIopWG4s2iBbh00dtMWDtBysBDz6uo++9KnPnBnQSODrqsxQxSa9cA5WqZJxjmb
+         iKx0VYqEVfNbJwwNlGpEttCNyAM6O8O5DVgdgD0GA3SBqtIgQbJP3r4ZN8O2pYGNTDCL
+         VUPg==
+X-Gm-Message-State: AOAM530O7plDbsGiuJXyGVkjUCdnMpOTfVIvoz99VIYmZbgGnqdVtjv4
+        U/nb/fUX4JZ3Io7gvp76UwU=
+X-Google-Smtp-Source: ABdhPJxvSy40b++F7HHqqFUe//1pPNUn2vjUjPsH0Sb3Z3Y5h6hlOLBaoHmaS7Zdce6PYlKVCvfegA==
+X-Received: by 2002:a63:7112:: with SMTP id m18mr2900138pgc.93.1631197058066;
+        Thu, 09 Sep 2021 07:17:38 -0700 (PDT)
+Received: from localhost.localdomain (f.a4.5177.ip4.static.sl-reverse.com. [119.81.164.15])
+        by smtp.gmail.com with ESMTPSA id e19sm2460957pfi.139.2021.09.09.07.17.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 Sep 2021 07:17:37 -0700 (PDT)
+From:   yaozhenguo <yaozhenguo1@gmail.com>
+To:     mike.kravetz@oracle.com
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, yaozhenguo@jd.com,
+        willy@infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        yaozhenguo <yaozhenguo1@gmail.com>
+Subject: [PATCH v4] hugetlbfs: Extend the definition of hugepages parameter to support node allocation
+Date:   Thu,  9 Sep 2021 22:16:55 +0800
+Message-Id: <20210909141655.87821-1-yaozhenguo1@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210903095213.797973-1-chenhuacai@loongson.cn>
- <20210903095213.797973-19-chenhuacai@loongson.cn> <YTjbaz7iea1kwGYb@robh.at.kernel.org>
- <CAK8P3a3sY63WN6Mn6_xNqDYmdhv1PN6CFRfQGNDRO4dHtSjE7Q@mail.gmail.com> <CAL_JsqJh3b9BxRU3ye=Qtmip+XE9gJxUKvPKuKNpxfOvmq08pg@mail.gmail.com>
-In-Reply-To: <CAL_JsqJh3b9BxRU3ye=Qtmip+XE9gJxUKvPKuKNpxfOvmq08pg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 9 Sep 2021 16:38:44 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0=D3XCqn5bGZOWYfM1WH355VgmoVevfwtz=ex4g6yj5Q@mail.gmail.com>
-Message-ID: <CAK8P3a0=D3XCqn5bGZOWYfM1WH355VgmoVevfwtz=ex4g6yj5Q@mail.gmail.com>
-Subject: Re: [PATCH V2 18/22] LoongArch: Add PCI controller support
-To:     Rob Herring <robh@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:svpU8AQp5Rd7CMD4hqLYblNGNirVWo0vDiZGy/XTBdaFQnEWAdg
- Gl8PDjtchE9W850Bev9rFP7PXEv5PrBHx8UCCIEzM3sbZZ7JRNswhdWOZBv82PeSeNnqnGI
- TYlpMTmqXqI0002RGiuPrjA4GddDvhsRbaYLnour4T+HMIrYfW547GCvq/kBrsS/DCfj853
- YF05cjPfcIiLnRB4CpmTg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8JEk7UuEk94=:qZVGbdCz5qGV/ZqeIbj893
- Ah6sbVLWhriE2BFPydbMdT3ox4eo0Xda7kd+SQ4m3slqz4I8pwj8E5p/asFTw9zzrjh5jsq58
- ffRKXvtxNyBj8tB1t2+dLFabxezgw2jrtyE1QsgAosobWPD1OWWgpGOa08BiX/JkaILiLzFuC
- zH4PtaLIw7LnEPxGMY3SsvACLZ1mk67NV0qb/62+ptPaa6WaM9lRpkHsIt0lLJ3eensBiCxV+
- UaCRd3CNLt90NVhvZzN6+zjGs1Osi8gJBMIglo5CkNjLofoRy5uNnnH0eXAj6ks6kz3+jp4dC
- 6v3UuQk8BCn1/b6iZ09Oveou/2ScdovVDudnpSMHGTlC6EqiTc0OJv86lmj/dL1nKXfI/kw1Q
- zD7jVMgMN6AU98/h/CJTn+erq+Rjcmoj/1Fo4ASfjkttTFGZlaOtElxeNKR6W+4kTJqpweQ+2
- ph2jJ1VNVKynItBOPYilPNq9ZZEvWPzv87RKvNxGxaWcDxawGTE/GKJMwK+QUK08WKqBhNItZ
- 8nTqcX3Xlg8U5sRL2ciEOIdatt2Twjop6/xVK6n+BNMzFi4A6mCNBF8IGKT2eVhQm3lHWx/Cm
- WMK6Wb2EKKnWWDklHnXW7weJeei6U+9aMB6e0vo2VB7iIOoMu28SNW8Ub+cz8lWDt0repg4Va
- lDtrm0ClYCJMtZbpD7NQbKD1SaBMJOoAZFCun3NUZKuQucRZHaic0lCp9/S+37rNvJvl37ZOy
- IlS+KxiXHKDflaAHSmAPtcrHt9v5hUPrnAnOU3np0pTTbB7unmLq+HQ+LQsDlNPMmklxH07mI
- 59rSnf72jIVkYgNl5vpHLsokQFYDwjjGX1h3AeWhDu2qKPu9CW1bzuLGDv5WM5GFqGI3lEiNV
- mkaDdbTQBodijznyb3sQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 4:10 PM Rob Herring <robh@kernel.org> wrote:
-> On Wed, Sep 8, 2021 at 11:39 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > > It might be time for default implementations here that can be shared
-> > > with arm64. The functions look the same or similar to the arm64
-> > > version in many cases and why they are different isn't that clear to me
-> > > not being all that familar with the ACPI code.
-> >
-> > I think it can be simplified quite a bit if we restructure the acpi pci
-> > code to behave like a normal pci host bridge driver.
->
-> That is exactly what I want to see happen! I'm not that familiar with
-> the ACPI device probing piece of it or I probably would have done that
-> by now. I gather there's not a normal acpi_device (or platform_device
-> with ACPI matching?) so we'd have to create the device(s) based on the
-> MCFG table.
+We can specify the number of hugepages to allocate at boot. But the
+hugepages is balanced in all nodes at present. In some scenarios,
+we only need hugepages in one node. For example: DPDK needs hugepages
+which are in the same node as NIC. if DPDK needs four hugepages of 1G
+size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
+in kernel cmdline. But, only four hugepages are used. The others should
+be free after boot. If the system memory is low(for example: 64G), it will
+be an impossible task. So, Extending hugepages parameter to support
+specifying hugepages at a specific node.
+For example add following parameter:
 
-I have a patch that I did as part of a longer series to modernize
-some of the more unusual pci host bridges, it's only a small step
-but should help follow up for the rest:
+hugepagesz=1G hugepages=0:1,1:3
 
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/commit/?h=pci-probe-rework-20210320&id=7346fbf1938e547833726ebdf25dfe0ef185cbff
+It will allocate 1 hugepage in node0 and 3 hugepages in node1.
 
-What I noticed is that there are a couple of data structures that each
-exist for every acpi host bridge:
+Signed-off-by: yaozhenguo <yaozhenguo1@gmail.com>
+---
+v3 -> v4: changes
+    - fix wrong behavior for parameter: hugepages=0:1,1:3 default_hugepagesz=1G
+    - make the change of documentation more reasonable
+---
+ .../admin-guide/kernel-parameters.txt         |   8 +-
+ Documentation/admin-guide/mm/hugetlbpage.rst  |  12 +-
+ include/linux/hugetlb.h                       |   1 +
+ mm/hugetlb.c                                  | 122 +++++++++++++++++-
+ 4 files changed, 132 insertions(+), 11 deletions(-)
 
-struct acpi_pci_root
-struct acpi_pci_root_ops
-struct acpi_pci_root_info
-struct acpi_pci_generic_root_info
-struct pci_sysdata (arch specific, but includes data used by acpi)
-struct pci_host_bridge
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdb22006f..a2046b2c5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1588,9 +1588,11 @@
+ 			the number of pages of hugepagesz to be allocated.
+ 			If this is the first HugeTLB parameter on the command
+ 			line, it specifies the number of pages to allocate for
+-			the default huge page size.  See also
+-			Documentation/admin-guide/mm/hugetlbpage.rst.
+-			Format: <integer>
++			the default huge page size. If using node format, the
++			number of pages to allocate per-node can be specified.
++			See also Documentation/admin-guide/mm/hugetlbpage.rst.
++			Format: <integer> or (node format)
++				<node>:<integer>[,<node>:<integer>]
+ 
+ 	hugepagesz=
+ 			[HW] The size of the HugeTLB pages.  This is used in
+diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+index 8abaeb144..d70828c07 100644
+--- a/Documentation/admin-guide/mm/hugetlbpage.rst
++++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+@@ -128,7 +128,9 @@ hugepages
+ 	implicitly specifies the number of huge pages of default size to
+ 	allocate.  If the number of huge pages of default size is implicitly
+ 	specified, it can not be overwritten by a hugepagesz,hugepages
+-	parameter pair for the default size.
++	parameter pair for the default size.  This parameter also has a
++	node format.  The node format specifies the number of huge pages
++	to allocate on specific nodes.
+ 
+ 	For example, on an architecture with 2M default huge page size::
+ 
+@@ -138,6 +140,14 @@ hugepages
+ 	indicating that the hugepages=512 parameter is ignored.  If a hugepages
+ 	parameter is preceded by an invalid hugepagesz parameter, it will
+ 	be ignored.
++
++	Node format example::
++
++		hugepagesz=2M hugepages=0:1,1:2
++
++	It will allocate 1 2M hugepage on node0 and 2 2M hugepages on node1.
++	If the node number is invalid,  the parameter will be ignored.
++
+ default_hugepagesz
+ 	Specify the default huge page size.  This parameter can
+ 	only be specified once on the command line.  default_hugepagesz can
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index f7ca1a387..5939ecd4f 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -605,6 +605,7 @@ struct hstate {
+ 	unsigned long nr_overcommit_huge_pages;
+ 	struct list_head hugepage_activelist;
+ 	struct list_head hugepage_freelists[MAX_NUMNODES];
++	unsigned int max_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int free_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index dfc940d52..c92ab09cf 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -66,6 +66,7 @@ static struct hstate * __initdata parsed_hstate;
+ static unsigned long __initdata default_hstate_max_huge_pages;
+ static bool __initdata parsed_valid_hugepagesz = true;
+ static bool __initdata parsed_default_hugepagesz;
++static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
+ 
+ /*
+  * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_pages,
+@@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void)
+ 	}
+ }
+ 
++static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
++{
++	unsigned long i;
++	char buf[32];
++
++	for (i = 0; i < h->max_huge_pages_node[nid]; ++i) {
++		if (hstate_is_gigantic(h)) {
++			struct huge_bootmem_page *m;
++			void *addr;
++
++			addr = memblock_alloc_try_nid_raw(
++					huge_page_size(h), huge_page_size(h),
++					0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
++			if (!addr)
++				break;
++			m = addr;
++			BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
++			/*
++			 * Put them into a private list first because mem_map
++			 * is not up yet
++			 */
++			INIT_LIST_HEAD(&m->list);
++			list_add(&m->list, &huge_boot_pages);
++			m->hstate = h;
++		} else {
++			struct page *page;
++
++			gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
++
++			page = alloc_fresh_huge_page(h, gfp_mask, nid,
++					&node_states[N_MEMORY], NULL);
++			if (!page)
++				break;
++			put_page(page); /* free it into the hugepage allocator */
++		}
++		cond_resched();
++	}
++	if (i == h->max_huge_pages_node[nid])
++		return;
++
++	string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
++	pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  Only allocated %lu hugepages.\n",
++		h->max_huge_pages_node[nid], buf, nid, i);
++	h->max_huge_pages_node[nid] = i;
++	h->max_huge_pages -= (h->max_huge_pages_node[nid] - i);
++}
++
+ static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
+ {
+ 	unsigned long i;
+ 	nodemask_t *node_alloc_noretry;
++	bool hugetlb_node_set = false;
++
++	/* skip gigantic hugepages allocation if hugetlb_cma enabled */
++	if (hstate_is_gigantic(h) && hugetlb_cma_size) {
++		pr_warn_once("HugeTLB: hugetlb_cma is enabled, skip boot time allocation\n");
++		return;
++	}
++
++	/* do node alloc */
++	for (i = 0; i < nodes_weight(node_states[N_MEMORY]); i++) {
++		if (h->max_huge_pages_node[i] > 0) {
++			hugetlb_hstate_alloc_pages_onenode(h, i);
++			hugetlb_node_set = true;
++		}
++	}
++
++	if (hugetlb_node_set)
++		return;
+ 
+ 	if (!hstate_is_gigantic(h)) {
+ 		/*
+@@ -2867,10 +2933,6 @@ static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
+ 
+ 	for (i = 0; i < h->max_huge_pages; ++i) {
+ 		if (hstate_is_gigantic(h)) {
+-			if (hugetlb_cma_size) {
+-				pr_warn_once("HugeTLB: hugetlb_cma is enabled, skip boot time allocation\n");
+-				goto free;
+-			}
+ 			if (!alloc_bootmem_huge_page(h))
+ 				break;
+ 		} else if (!alloc_pool_huge_page(h,
+@@ -2887,7 +2949,6 @@ static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
+ 			h->max_huge_pages, buf, i);
+ 		h->max_huge_pages = i;
+ 	}
+-free:
+ 	kfree(node_alloc_noretry);
+ }
+ 
+@@ -3578,6 +3639,11 @@ static int __init hugetlb_init(void)
+ 			}
+ 			default_hstate.max_huge_pages =
+ 				default_hstate_max_huge_pages;
++
++			for (i = 0; i < nodes_weight(node_states[N_MEMORY]); i++)
++				if (default_hugepages_in_node[i] > 0)
++					default_hstate.max_huge_pages_node[i] =
++						default_hugepages_in_node[i];
+ 		}
+ 	}
+ 
+@@ -3649,6 +3715,10 @@ static int __init hugepages_setup(char *s)
+ {
+ 	unsigned long *mhp;
+ 	static unsigned long *last_mhp;
++	unsigned int node = NUMA_NO_NODE;
++	int count;
++	unsigned long tmp;
++	char *p = s;
+ 
+ 	if (!parsed_valid_hugepagesz) {
+ 		pr_warn("HugeTLB: hugepages=%s does not follow a valid hugepagesz, ignoring\n", s);
+@@ -3672,8 +3742,37 @@ static int __init hugepages_setup(char *s)
+ 		return 0;
+ 	}
+ 
+-	if (sscanf(s, "%lu", mhp) <= 0)
+-		*mhp = 0;
++	while (*p) {
++		count = 0;
++		if (sscanf(p, "%lu%n", &tmp, &count) != 1)
++			goto invalid;
++		/* Parameter is node format */
++		if (p[count] == ':') {
++			node = tmp;
++			p += count + 1;
++			if (node < 0 ||
++				node >= nodes_weight(node_states[N_MEMORY]))
++				goto invalid;
++			/* Parse hugepages */
++			if (sscanf(p, "%lu%n", &tmp, &count) != 1)
++				goto invalid;
++			if (!hugetlb_max_hstate)
++				default_hugepages_in_node[node] = tmp;
++			else
++				parsed_hstate->max_huge_pages_node[node] = tmp;
++			*mhp += tmp;
++			/* Go to parse next node*/
++			if (p[count] == ',')
++				p += count + 1;
++			else
++				break;
++		} else {
++			if (p != s)
++				goto invalid;
++			*mhp = tmp;
++			break;
++		}
++	}
+ 
+ 	/*
+ 	 * Global state is always initialized later in hugetlb_init.
+@@ -3686,6 +3785,10 @@ static int __init hugepages_setup(char *s)
+ 	last_mhp = mhp;
+ 
+ 	return 1;
++
++invalid:
++	pr_warn("HugeTLB: Invalid hugepages parameter %s\n", p);
++	return 0;
+ }
+ __setup("hugepages=", hugepages_setup);
+ 
+@@ -3747,6 +3850,7 @@ __setup("hugepagesz=", hugepagesz_setup);
+ static int __init default_hugepagesz_setup(char *s)
+ {
+ 	unsigned long size;
++	int i;
+ 
+ 	parsed_valid_hugepagesz = false;
+ 	if (parsed_default_hugepagesz) {
+@@ -3775,6 +3879,10 @@ static int __init default_hugepagesz_setup(char *s)
+ 	 */
+ 	if (default_hstate_max_huge_pages) {
+ 		default_hstate.max_huge_pages = default_hstate_max_huge_pages;
++		for (i = 0; i < nodes_weight(node_states[N_MEMORY]); i++)
++			if (default_hugepages_in_node[i] > 0)
++				default_hstate.max_huge_pages_node[i] =
++					default_hugepages_in_node[i];
+ 		if (hstate_is_gigantic(&default_hstate))
+ 			hugetlb_hstate_alloc_pages(&default_hstate);
+ 		default_hstate_max_huge_pages = 0;
+-- 
+2.27.0
 
-I think we can pretty much move all the struct members from those
-into the generic pci_host_bridge, removing the duplicates and
-adding #ifdef CONFIG_ACPI for some of them.
-
-Similarly, for the global functions from arch/arm64/kernel/pci.c etc,
-I think they should mostly get turned into callback handlers that
-get set by the probe function, replacing the __weak defaults.
-
-       Arnd
