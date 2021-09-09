@@ -2,117 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A3CC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 13:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A8CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:11:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB1016108D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 13:52:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA549611AD
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Sep 2021 14:11:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355673AbhIINxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:53:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38060 "EHLO mail.kernel.org"
+        id S1348334AbhIIOMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Sep 2021 10:12:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238647AbhIINwN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Sep 2021 09:52:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C66B460041;
-        Thu,  9 Sep 2021 13:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631195463;
-        bh=9nVW5b9CIZO8paiwj2IcNBcJlmc8azfXpVGaorx2PoM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0CRAFxiZS4HATnPqHRQ5opfDmDlB+Dfo989YpBV2bc+BAk91QDpOyEA7mJViyEfFt
-         uymiKP/rVMkYOAQesVKHWRqffJbnGMAtNYbvqo6pJLA/NkuAhbCGNBuAGj9+ThYXe7
-         4mXgoU/5ftg5CrUHR7D3+mdcd1d8IffjeUw2qBKE=
-Date:   Thu, 9 Sep 2021 15:51:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 0/9] get_abi.pl: Check for missing symbols at the ABI
- specs
-Message-ID: <YToRRMhYfdnzFyMB@kroah.com>
-References: <cover.1631112725.git.mchehab+huawei@kernel.org>
+        id S242586AbhIIOMF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Sep 2021 10:12:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C6FFF6120E;
+        Thu,  9 Sep 2021 14:10:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631196655;
+        bh=QnFWolxfZay1KMpuuJiy3t4+3J08Jw2jb7kKsRqKiRI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=s8OMagPIG0mUnQ7VETHmYD2RHn+VHA71FedeB9+SRUD+n47dhjv8EAjZzN5gxZXSF
+         FdkztBACksqPV5juPjY26iPjASI6s6kPY3WQh7pbw4T6ER8Klr02KYob4VfKAD4ZUg
+         +z4esWg7IKBGwHRaAWO10tein74R9UXIt4v7qsu+y6qkXopw+JaAQP+qar7Du9v1u/
+         tv6JZ9h2YeEhluZ00HS7l9zEBhtqulrkvr52U813OMocE9Am2eyXxWDnNy0cNLLLCm
+         H6wVjcz/euq6fVPlX9sGA5lkqRwCXd0grl0xbm/YkHeyxoP+ffoqlgRPlleXaQpx3q
+         6i2ZXqmFq2Gxw==
+Received: by mail-ej1-f48.google.com with SMTP id lc21so3882510ejc.7;
+        Thu, 09 Sep 2021 07:10:55 -0700 (PDT)
+X-Gm-Message-State: AOAM531FzKKcSYj2qWKWlcsCeWF95qNSksCHk0EXk2finC6PMGCehqNA
+        hr2XgOb3f8WK7vb0lWu/A7yjvYkQVZNDjdJyXQ==
+X-Google-Smtp-Source: ABdhPJx78xiZSPaticSCU5QeXk5UGX/qy1ALDt4dQ95ViMAZspsdbsMUPxdOKI8sScOzdKeEWTPe/Itcz6D9fMwrLU0=
+X-Received: by 2002:a17:907:50a1:: with SMTP id fv33mr3650324ejc.128.1631196654351;
+ Thu, 09 Sep 2021 07:10:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1631112725.git.mchehab+huawei@kernel.org>
+References: <20210903095213.797973-1-chenhuacai@loongson.cn>
+ <20210903095213.797973-19-chenhuacai@loongson.cn> <YTjbaz7iea1kwGYb@robh.at.kernel.org>
+ <CAK8P3a3sY63WN6Mn6_xNqDYmdhv1PN6CFRfQGNDRO4dHtSjE7Q@mail.gmail.com>
+In-Reply-To: <CAK8P3a3sY63WN6Mn6_xNqDYmdhv1PN6CFRfQGNDRO4dHtSjE7Q@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 9 Sep 2021 09:10:42 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJh3b9BxRU3ye=Qtmip+XE9gJxUKvPKuKNpxfOvmq08pg@mail.gmail.com>
+Message-ID: <CAL_JsqJh3b9BxRU3ye=Qtmip+XE9gJxUKvPKuKNpxfOvmq08pg@mail.gmail.com>
+Subject: Re: [PATCH V2 18/22] LoongArch: Add PCI controller support
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-pci <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 08, 2021 at 04:58:47PM +0200, Mauro Carvalho Chehab wrote:
-> Hi Greg,
-> 
-> Sometime ago, I discussed with Jonathan Cameron about providing 
-> a way check that the ABI documentation is incomplete.
-> 
-> While it would be doable to validate the ABI by searching __ATTR and 
-> similar macros around the driver, this would probably be very complex
-> and would take a while to parse.
-> 
-> So, I ended by implementing a new feature at scripts/get_abi.pl
-> which does a check on the sysfs contents of a running system:
-> it reads everything under /sys and reads the entire ABI from
-> Documentation/ABI. It then warns for symbols that weren't found,
-> optionally showing possible candidates that might be misdefined.
-> 
-> I opted to place it on 3 patches:
-> 
-> The first patch adds the basic logic. It runs really quicky (up to 2
-> seconds), but it doesn't use sysfs softlinks.
-> 
-> Patch 2 adds support for also parsing softlinks. It slows the logic,
-> with now takes ~40 seconds to run on my desktop (and ~23
-> seconds on a HiKey970 ARM board). There are space there for
-> performance improvements, by using a more sophisticated
-> algorithm, at the expense of making the code harder to
-> understand. I ended opting to use a simple implementation
-> for now, as ~40 seconds sounds acceptable on my eyes.
-> 
-> Patch 3 adds an optional parameter to allow filtering the results
-> using a regex given by the user.
-> 
-> One of the problems with the current ABI definitions is that several
-> symbols define wildcards, on non-standard ways. The more commonly
-> wildcards used there are:
-> 
-> 	<foo>
-> 	{foo}
-> 	[foo]
-> 	X
-> 	Y
-> 	Z
-> 	/.../
-> 
-> The script converts the above wildcards into (somewhat relaxed)
-> regexes.
-> 
-> There's one place using  "(some description)". This one is harder to
-> parse, as parenthesis are used by the parsing regexes. As this happens
-> only on one file, patch 4 addresses such case.
-> 
-> Patch 5 to 9 fix some other ABI troubles I identified.
-> 
-> In long term, perhaps the better would be to just use regex on What:
-> fields, as this would avoid extra heuristics at get_abi.pl, but this is
-> OOT from this patch, and would mean a large number of changes.
+On Wed, Sep 8, 2021 at 11:39 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Sep 8, 2021 at 5:48 PM Rob Herring <robh@kernel.org> wrote:
+> > On Fri, Sep 03, 2021 at 05:52:09PM +0800, Huacai Chen wrote:
+>
+> > > diff --git a/arch/loongarch/pci/acpi.c b/arch/loongarch/pci/acpi.c
+> > > new file mode 100644
+> > > index 000000000000..d6e2f69b9503
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/pci/acpi.c
+> > > @@ -0,0 +1,174 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+>
+> A lot of this file appears to duplicate what we already have on other
+> architectures.
+> I would suggest moving the other architecture specific code into
+> drivers/acpi/pci*.c and share as much as possible to make it easier to
+> make modifications in the future.
 
-This is cool stuff, thanks for doing this!
+Yes. I was sad to see after I replied you already said this for v1.
 
-I'll look at it more once 5.15-rc1 is out, thanks.
+> > It might be time for default implementations here that can be shared
+> > with arm64. The functions look the same or similar to the arm64
+> > version in many cases and why they are different isn't that clear to me
+> > not being all that familar with the ACPI code.
+>
+> I think it can be simplified quite a bit if we restructure the acpi pci
+> code to behave like a normal pci host bridge driver.
 
-greg k-h
+That is exactly what I want to see happen! I'm not that familiar with
+the ACPI device probing piece of it or I probably would have done that
+by now. I gather there's not a normal acpi_device (or platform_device
+with ACPI matching?) so we'd have to create the device(s) based on the
+MCFG table.
+
+Rob
