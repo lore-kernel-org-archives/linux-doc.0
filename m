@@ -2,388 +2,421 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0C3C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 02:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56FBC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7925361051
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 02:27:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87C6A6109F
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbhIJC2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Sep 2021 22:28:10 -0400
-Received: from m12-13.163.com ([220.181.12.13]:47612 "EHLO m12-13.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229628AbhIJC2J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Sep 2021 22:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hhPBH
-        /AGmNXeDRA+7MV4gJYYBNXBcNZ9QWtRHPEVEZE=; b=NUXOJb4dRY+YjftsfhGla
-        DV36MUbGu9IKthPkn7tJ4tga/wzeVpk/ldrvcgilhczIsMsQv1uIPyTG2XiSQTBC
-        sD0FAeE2mJy2oTplkpXyJl+6YEKIcUvnBGHhOYV8e8rSxJDrWfDW3/CCcxvikKqU
-        q1DW4J+bF/NUEcU3bR38uU=
-Received: from ubuntu.localdomain (unknown [183.220.91.20])
-        by smtp9 (Coremail) with SMTP id DcCowADHBuNZwjphcFVnDQ--.5829S2;
-        Fri, 10 Sep 2021 10:26:34 +0800 (CST)
-From:   Junhua Huang <junhuahuangdream@163.com>
-To:     alexs@kernel.org, corbet@lwn.net, bobwxc@email.cn,
-        sterlingteng@gmail.com
-Cc:     siyanteng01@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Junhua Huang <huang.junhua@zte.com.cn>,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4] docs/zh_CN: Add zh_CN/admin-guide/sysrq.rst
-Date:   Thu,  9 Sep 2021 19:25:31 -0700
-Message-Id: <20210910022531.243882-1-junhuahuangdream@163.com>
-X-Mailer: git-send-email 2.25.1
+        id S231228AbhIJGp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Sep 2021 02:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231223AbhIJGp1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 02:45:27 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7EFC061574
+        for <linux-doc@vger.kernel.org>; Thu,  9 Sep 2021 23:44:16 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so804664pjr.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Sep 2021 23:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmF8tTkH4WQ/6zHs7VLcZ1o8NJFJxGGp7q9c2tUCatw=;
+        b=h+pLcIiDXusJeDYb8YyebyGOJJXm2W5VcfgyjAQkgA6MN3pTTOLukZXW8of2r0uQHF
+         bvsC20XkQ9UCdoIx7nAhO2R9gAxNOeSDTXazwCj7MzcWjBbBJKQbiXIZfAbSKKBcrjuV
+         crVuLi0inaaD85YK5SLl/3/aktTU5aGdflxTReD1DcBSj7B4Bv0Hn2HNUVw1OjbRRwtJ
+         zJliZBGNKgNWVg1W2r9KEgCnqVJyFAjIxJFOGIM9/LCP38U3mKuBswhCbIN5q+DdCmvv
+         WcTK6EQQ1dr0Rn3envKUz2IXSzEFR9Tdd7E+MgX4TmlkBuQchxSzCo7E3VAqGKUHULFE
+         9wlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmF8tTkH4WQ/6zHs7VLcZ1o8NJFJxGGp7q9c2tUCatw=;
+        b=m+iPXWtRXpUz5epwsrePFTCmTUm4aioFoQYLYBsg+PlReri1rq9GNrrB7eebATEulg
+         VQO1/yJzRB29ERyOPdCKY+72k8EsEftQEyW0rpSexJ5E4l70QOjykJuLeB/xN8jrwHI7
+         32185QxvJlMSNwDV5QnW20thE3KG+e2PAR/WRwzesmkqbKnWAmNGCofxjCPFs2UDt/nB
+         lm5s33AY/2CxFiwAANna16xtVD8825tqH+83FBNOw0Cpe1pP2DdvviBsRzH7uXJCnuVJ
+         0URnTbLg+dYLAPhxjoDu7QYuFJFPzpztR3I3IDeWWF9PyCwDc1y30bd6wsxSF1KQyfk6
+         CGfw==
+X-Gm-Message-State: AOAM530eo0yXKFJXb1u74nJ2G8J8dkmsoP5gGliRFcX4+uUojr2xg0ue
+        ld4CcCH+/y7bNvKqqB/khaU=
+X-Google-Smtp-Source: ABdhPJyZjxJqeDTWK1dcwfunwZbhJhpeizLBgNYN1UUK9KW/RVGsn8JpjgkcZVfwsAV/7attRDxwYQ==
+X-Received: by 2002:a17:902:bf09:b029:12c:d762:96c with SMTP id bi9-20020a170902bf09b029012cd762096cmr6234143plb.15.1631256256252;
+        Thu, 09 Sep 2021 23:44:16 -0700 (PDT)
+Received: from localhost.localdomain ([223.106.33.147])
+        by smtp.gmail.com with ESMTPSA id g3sm4038282pjm.22.2021.09.09.23.44.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 23:44:15 -0700 (PDT)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
+        siyanteng01@gmail.com, junhuahuangdream@163.com,
+        cgel.zte@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH] docs/zh_CN: add core api kref translation
+Date:   Fri, 10 Sep 2021 14:42:55 +0800
+Message-Id: <20210910064255.385012-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DcCowADHBuNZwjphcFVnDQ--.5829S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUk4EEUUUUU
-X-Originating-IP: [183.220.91.20]
-X-CM-SenderInfo: xmxqx3pdkxt05jguvtrp6rljoofrz/1tbipRoKZVUMgaN9xwAAsR
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Junhua Huang <huang.junhua@zte.com.cn>
+Translate Documentation/core-api/kref.rst into Chinese.
 
-Add translation zh_CN/admin-guide/sysrq.rst and link it to
-zh_CN/admin-guide/index.rst while clean its todo entry.
-
-Signed-off-by: Junhua Huang <huang.junhua@zte.com.cn>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
+ .../translations/zh_CN/core-api/index.rst     |   3 +-
+ .../translations/zh_CN/core-api/kref.rst      | 311 ++++++++++++++++++
+ 2 files changed, 313 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/kref.rst
 
-v4:
-* add the Reviewed-by tag after approved by Yanteng.
-
-v3:
-* fix the building warnings and some format issues in presentation.
-* remove the Reviewed-by tag.
-
-v2:
-* modify some translation issues according to review from Yanteng.
-* add the Reviewed-by tag.
----
- .../translations/zh_CN/admin-guide/index.rst  |   2 +-
- .../translations/zh_CN/admin-guide/sysrq.rst  | 280 ++++++++++++++++++
- 2 files changed, 281 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/sysrq.rst
-
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index 460034cbc2ab..83db84282562 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -67,6 +67,7 @@ Todolist:
-    cpu-load
-    lockup-watchdogs
-    unicode
-+   sysrq
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index 72f0a36daa1c..8665df464efe 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -39,10 +39,11 @@
+    :maxdepth: 1
+ 
+    kobject
++   kref
  
  Todolist:
  
-@@ -118,7 +119,6 @@ Todolist:
-    rtc
-    serial-console
-    svga
--   sysrq
-    thunderbolt
-    ufs
-    vga-softcursor
-diff --git a/Documentation/translations/zh_CN/admin-guide/sysrq.rst b/Documentation/translations/zh_CN/admin-guide/sysrq.rst
+-   kref
++
+    assoc_array
+    xarray
+    idr
+diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
 new file mode 100644
-index 000000000000..8276d70f3b40
+index 000000000000..b9902af310c5
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/sysrq.rst
-@@ -0,0 +1,280 @@
++++ b/Documentation/translations/zh_CN/core-api/kref.rst
+@@ -0,0 +1,311 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/admin-guide/sysrq.rst
++:Original: Documentation/core-api/kref.rst
 +
-+:翻译:
++翻译:
 +
-+ 黄军华 Junhua Huang <huang.junhua@zte.com.cn>
++司延腾 Yanteng Si <siyanteng@loongson.cn>
 +
-+:校译:
++校译：
 +
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++ <此处请校译员签名（自愿），我将在下一个版本添加>
 +
-+.. _cn_admin-guide_sysrq:
++.. _cn_core_api_kref.rst:
 +
-+Linux 魔法系统请求键骇客
-+========================
++=================================
++为内核对象添加引用计数器（krefs）
++=================================
 +
-+针对 sysrq.c 的文档说明
++:作者: Corey Minyard <minyard@acm.org>
++:作者: Thomas Hellstrom <thellstrom@vmware.com>
 +
-+什么是魔法 SysRq 键？
-+~~~~~~~~~~~~~~~~~~~~~
++其中很多内容都是从Greg Kroah-Hartman2004年关于krefs的OLS论文和演讲中摘
++录的，可以在以下网址找到:
 +
-+它是一个你可以输入的具有魔法般的组合键。
-+无论内核在做什么，内核都会响应 SysRq 键的输入，除非内核完全卡死。
++  - http://www.kroah.com/linux/talks/ols_2004_kref_paper/Reprint-Kroah-Hartman-OLS2004.pdf
++  - http://www.kroah.com/linux/talks/ols_2004_kref_talk/
 +
-+如何使能魔法 SysRq 键？
-+~~~~~~~~~~~~~~~~~~~~~~~
++简介
++====
 +
-+在配置内核时，我们需要设置 'Magic SysRq key (CONFIG_MAGIC_SYSRQ)' 为 'Y'。
-+当运行一个编译进 sysrq 功能的内核时，/proc/sys/kernel/sysrq 控制着被
-+SysRq 键调用的功能许可。这个文件的默认值由 CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE
-+配置符号设定，文件本身默认设置为 1。以下是 /proc/sys/kernel/sysrq 中可能的
-+值列表：
++krefs允许你为你的对象添加引用计数器。如果你有在多个地方使用和传递的对象，
++而你没有refcounts，你的代码几乎肯定是坏的。如果你想要引用计数，krefs是个
++好办法。
 +
-+   -  0 - 完全不使能 SysRq 键
-+   -  1 - 使能 SysRq 键的全部功能
-+   - >1 - 对于允许的 SysRq 键功能的比特掩码（参见下面更详细的功能描述）::
++要使用kref，请在你的数据结构中添加一个，如::
 +
-+          2 =   0x2 - 使能对控制台日志记录级别的控制
-+          4 =   0x4 - 使能对键盘的控制 (SAK, unraw)
-+          8 =   0x8 - 使能对进程的调试导出等
-+         16 =  0x10 - 使能同步命令
-+         32 =  0x20 - 使能重新挂载只读
-+         64 =  0x40 - 使能对进程的信号操作 (term, kill, oom-kill)
-+        128 =  0x80 - 允许重启、断电
-+        256 = 0x100 - 允许让所有实时任务变普通任务
++    struct my_data
++    {
++	.
++	.
++	struct kref refcount;
++	.
++	.
++    };
 +
-+你可以通过如下命令把值设置到这个文件中::
++kref可以出现在数据结构体中的任何地方。
 +
-+    echo "number" >/proc/sys/kernel/sysrq
++初始化
++======
 +
-+这里被写入的 number 可以是 10 进制数，或者是带着 0x 前缀的 16 进制数。
-+CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE 必须是以 16 进制数写入。
++你必须在分配kref之后初始化它。 要做到这一点，可以这样调用kref_init::
 +
-+注意，``/proc/sys/kernel/sysrq`` 的值只影响通过键盘触发 SySRq 的调用，对于
-+通过 ``/proc/sysrq-trigger`` 的任何操作调用都是允许的
-+（通过具有系统权限的用户）。
++     struct my_data *data;
 +
-+如何使用魔法 SysRq 键？
-+~~~~~~~~~~~~~~~~~~~~~~~
++     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     if (!data)
++            return -ENOMEM;
++     kref_init(&data->refcount);
 +
-+在 x86 架构上
-+	你可以按下键盘组合键 :kbd:`ALT-SysRq-<command key>`。
++这将kref中的refcount设置为1。
 +
-+	.. note::
-+	   一些键盘可能没有标识 'SySRq' 键。'SySRq' 键也被当做 'Print Screen'键。
-+	   同时有些键盘无法处理同时按下这么多键，因此你可以先按下键盘 :kbd:`Alt` 键，
-+	   然后按下键盘 :kbd:`SysRq` 键，再释放键盘 :kbd:`SysRq` 键，之后按下键盘上命令键
-+	   :kbd:`<command key>`，最后释放所有键。
++Kref规则
++========
 +
-+在 SPARC 架构上
-+	你可以按下键盘组合键 :kbd:`ALT-STOP-<command key>` 。
++一旦你有一个初始化的kref，你必须遵循以下规则:
 +
-+在串行控制台（只针对 PC 类型的标准串口）
-+        你可以发一个 ``BREAK`` ，然后在 5 秒内发送一个命令键，
-+	发送 ``BREAK`` 两次将被翻译为一个正常的 BREAK 操作。
++1) 如果你对一个指针做了一个非临时性的拷贝，特别是如果它可以被传递给另一个执
++   行线程，你必须在传递之前用kref_get()增加refcount::
 +
-+在 PowerPC 架构上
-+	按下键盘组合键 :kbd:`ALT - Print Screen` （或者 :kbd:`F13`） - :kbd:`<命令键>` 。
-+        :kbd:`Print Screen` （或者 :kbd:`F13`） - :kbd:`<命令键>` 或许也能实现。
++       kref_get(&data->refcount);
 +
-+在其他架构上
-+	如果你知道其他架构的组合键，请告诉我，我可以把它们添加到这部分。
++	如果你已经有了一个指向kref-ed结构体的有效指针（refcount不能为零），你
++	可以在没有锁的情况下这样做。
 +
-+在所有架构上
-+	写一个字符到 /proc/sysrq-trigger 文件，例如::
++2) 当你完成对一个指针的处理时，你必须调用kref_put()::
 +
-+		echo t > /proc/sysrq-trigger
++       kref_put(&data->refcount, data_release);
 +
-+这个命令键 :kbd:`<command key>` 是区分大小写的。
++   如果这是对该指针的最后一次引用，释放程序将被调用。如果代码从来没有尝试过
++   在没有已经持有有效指针的情况下获得一个kref-ed结构体的有效指针，那么在没
++   有锁的情况下这样做是安全的。
 +
-+什么是命令键？
-+~~~~~~~~~~~~~~
++3) 如果代码试图获得对一个kref-ed结构体的引用，而不持有一个有效的指针，它必
++   须按顺序访问，在kref_put()期间不能发生kref_get()，并且该结构体在kref_get()
++   期间必须保持有效。
 +
-+=========== ================================================================
-+命令键	    功能
-+=========== ================================================================
-+``b``	    将立即重启系统，不会同步或者卸载磁盘。
-+
-+``c``	    将执行系统 crash，如果配置了系统 crashdump，将执行 crashdump。
-+
-+``d``	    显示所有持有的锁。
-+
-+``e``	    发送 SIGTERM 信号给所有进程，除了 init 进程。
-+
-+``f``	    将调用 oom killer 杀掉一个过度占用内存的进程，如果什么任务都没杀，
-+            也不会 panic。
-+
-+``g``	    kgdb 使用（内核调试器）。
-+
-+``h``	    将会显示帮助。（实际上除了这里列举的键，其他的都将显示帮助，
-+	    但是 ``h`` 容易记住）:-)
-+
-+``i``	    发送 SIGKILL 给所有进程，除了 init 进程。
-+
-+``j``	    强制性的 “解冻它” - 用于被 FIFREEZE ioctl 操作冻住的文件系统。
-+
-+``k``	    安全访问秘钥(SAK)杀掉在当前虚拟控制台的所有程序，注意：参考
-+            下面 SAK 节重要论述。
-+
-+``l``	    显示所有活动 cpu 的栈回溯。
-+
-+``m``	    将导出当前内存信息到你的控制台。
-+
-+``n``	    用于使所有实时任务变成普通任务。
-+
-+``o``	    将关闭系统（如果配置和支持的话）。
-+
-+``p``	    将导出当前寄存器和标志位到控制台。
-+
-+``q``	    将导出每个 cpu 上所有已装备的高精度定时器（不是完整的
-+            time_list 文件显示的 timers）和所有时钟事件设备的详细信息。
-+
-+``r``	    关闭键盘的原始模式，设置为转换模式。
-+
-+``s``	    将尝试同步所有的已挂载文件系统。
-+
-+``t``	    将导出当前所有任务列表和它们的信息到控制台。
-+
-+``u``	    将尝试重新挂载已挂载文件系统为只读。
-+
-+``v``	    强制恢复帧缓存控制台。
-+``v``	    触发 ETM 缓存导出 [ARM 架构特有]
-+
-+``w``	    导出处于不可中断状态（阻塞）的任务。
-+
-+``x``	    在 ppc/powerpc 架构上用于 xmon 接口。
-+            在 sparc64 架构上用于显示全局的 PMU（性能监控单元）寄存器。
-+            在 MIPS 架构上导出所有的 tlb 条目。
-+
-+``y``	    显示全局 cpu 寄存器 [SPARC-64 架构特有]
-+
-+``z``	    导出 ftrace 缓存信息
-+
-+``0``-``9`` 设置控制台日志级别，该级别控制什么样的内核信息将被打印到你的
-+	    控制台。（比如 ``0`` ，将使得只有紧急信息，像 PANICs or OOPSes
-+	    才能到你的控制台。）
-+=========== ================================================================
-+
-+好了，我能用他们做什么呢？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+嗯，当你的 X 服务端或者 svgalib 程序崩溃，unraw(r) 非原始模式命令键是非常
-+方便的。
-+
-+sak(k)（安全访问秘钥）在你尝试登陆的同时，又想确保当前控制台没有可以获取你的
-+密码的特洛伊木马程序运行时是有用的。它会杀掉给定控制台的所有程序，这样你
-+就可以确认当前的登陆提示程序是实际来自 init 进程的程序，而不是某些特洛伊
-+木马程序。
-+
-+.. important::
-+
-+   在其实际的形式中，在兼容 C2 安全标准的系统上，它不是一个真正的 SAK，
-+   它也不应该误认为此。
-+
-+似乎其他人发现其可以作为（系统终端联机键）当你想退出一个程序，
-+同时不会让你切换控制台的方法。（比如，X 服务端或者 svgalib 程序）
-+
-+``reboot(b)`` 是个好方法，当你不能关闭机器时，它等同于按下"复位"按钮。
-+
-+``crash(c)`` 可以用于手动触发一个 crashdump，当系统卡住时。
-+注意当 crashdump 机制不可用时，这个只是触发一个内核 crash。
-+
-+``sync(s)`` 在拔掉可移动介质之前，或者在使用不提供优雅关机的
-+救援 shell 之后很方便 -- 它将确保你的数据被安全地写入磁盘。注意，在你看到
-+屏幕上出现 "OK" 和 "Done" 之前，同步还没有发生。
-+
-+``umount(u)`` 可以用来标记文件系统正常卸载，从正在运行的系统角度来看，它们将
-+被重新挂载为只读。这个重新挂载动作直到你看到 "OK" 和 "Done" 信息出现在屏幕上
-+才算完成。
-+
-+日志级别 ``0`` - ``9`` 用于当你的控制台被大量的内核信息冲击，你不想看见的时候。
-+选择 ``0`` 将禁止除了最紧急的内核信息外的所有的内核信息输出到控制台。（但是如果
-+syslogd/klogd 进程是运行的，它们仍将被记录。）
-+
-+``term(e)`` 和 ``kill(i)`` 用于当你有些有点失控的进程，你无法通过其他方式杀掉
-+它们的时候，特别是它正在创建其他进程。
-+
-+"just thaw ``it(j)`` " 用于当你的系统由于一个 FIFREEZE ioctl 调用而产生的文件
-+系统冻结，而导致的不响应时。
-+
-+有的时候 SysRq 键在使用它之后，看起来像是“卡住”了，我能做些什么？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+这也会发生在我这，我发现轻敲键盘两侧的 shift、alt 和 control 键，然后再次敲击
-+一个无效的 SysRq 键序列可以解决问题。（比如，像键盘组合键 :kbd:`alt-sysrq-z` ）
-+切换到另一个虚拟控制台（键盘操作 :kbd:`ALT+Fn` ），然后再切回来应该也有帮助。
-+
-+我敲击了 SysRq 键，但像是什么都没发生，发生了什么错误？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+有一些键盘对于 SysRq 键设置了不同的键值，而不是提前定义的 99
-+(查看在 ``include/uapi/linux/input-event-codes.h`` 文件中 ``KEY_SYSRQ`` 的定义)
-+或者就根本没有 SysRq 键。在这些场景下，执行 ``showkey -s`` 命令来找到一个合适
-+的扫描码序列，然后使用 ``setkeycodes <sequence> 99`` 命令映射这个序列值到通用
-+的 SysRq 键编码上（比如 ``setkeycodes e05b 99`` ）。最好将这个命令放在启动脚本
-+中。
-+哦，顺便说一句，你十秒钟不输入任何东西就将退出 “showkey”。
-+
-+我想添加一个 SysRq 键事件到一个模块中，如何去做呢？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+为了注册一个基础函数到这个表中，首先你必须包含 ``include/linux/sysrq.h`` 头
-+文件，这个头文件定义了你所需要的所有东西。然后你必须创建一个 ``sysrq_key_op``
-+结构体，然后初始化它，使用如下内容，A） 你将使用的这个键的处理函数， B） 一个
-+help_msg 字符串，在 SysRq 键打印帮助信息时将打印出来，C） 一个 action_msg 字
-+符串，就在你的处理函数调用前打印出来。你的处理函数必须符合在 'sysrq.h' 文件中
-+的函数原型。
-+
-+在 ``sysrq_key_op`` 结构体被创建后，你可以调用内核函数
-+``register_sysrq_key(int key, const struct sysrq_key_op *op_p);``，
-+该函数在表中的 'key' 对应位置内容是空的情况下，将通过 ``op_p`` 指针注册这个操作
-+函数到表中 'key' 对应位置上。在模块卸载的时候，你必须调用
-+``unregister_sysrq_key(int key, const struct sysrq_key_op *op_p)`` 函数，该函数
-+只有在当前该键对应的处理函数被注册到了 'key' 对应位置时，才会移除 'op_p' 指针
-+对应的键值操作函数。这是为了防止在你注册之后，该位置被改写的情况。
-+
-+魔法 SysRq 键系统的工作原理是将键对应操作函数注册到键的操作查找表，
-+该表定义在 'drivers/tty/sysrq.c' 文件中。
-+该键表有许多在编译时候就注册进去的操作函数，但是是可变的。
-+并且有两个函数作为操作该表的接口被导出::
-+
-+	register_sysrq_key 和 unregister_sysrq_key.
-+
-+当然，永远不要在表中留下无效指针，即，当你的模块存在调用 register_sysrq_key()
-+函数，它一定要调用 unregister_sysrq_key() 来清除它使用过的 SysRq 键表条目。
-+表中的空指针是安全的。:)
-+
-+如果对于某种原因，在 handle_sysrq 调用的处理函数中，你认为有必要调用
-+handle_sysrq 函数时，你必须意识到当前你处于一个锁中（你同时也处于一个中断处理
-+函数中，这意味着不能睡眠）。所以这时你必须使用 ``__handle_sysrq_nolock`` 替代。
-+
-+当我敲击一个 SysRq 组合键时，只有标题打印出现在控制台？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+SysRq 键的输出和所有其他控制台输出一样，受制于控制台日志级别控制。
-+这意味着，如果内核以发行版内核中常见的 "quiet" 方式启动，则输出可能不会出现在实际
-+的控制台上，即使它会出现在 dmesg 缓存中，也可以通过 dmesg 命令和 ``/proc/kmsg``
-+文件的消费访问到。作为一个特例，来自 sysrq 命令的标题行将被传递给所有控制台
-+使用者，就好像当前日志级别是最大的一样。如果只发出标题头，则几乎可以肯定内核日志
-+级别太低。如果你需要控制台上的输出，那么你将需要临时提高控制台日志级别，通过使用
-+键盘组合键 :kbd:`alt-sysrq-8` 或者::
-+
-+    echo 8 > /proc/sysrq-trigger
-+
-+在触发了你感兴趣的 SysRq 键命令后，记得恢复日志级别到正常情况。
-+
-+我有很多问题时，可以请教谁？
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+请教在内核邮件列表上的人，邮箱：
-+	linux-kernel@vger.kernel.org
-+
-+致谢
-+~~~~
-+
-+- Mydraal <vulpyne@vulpyne.net> 撰写了该文件
-+- Adam Sulmicki <adam@cfar.umd.edu> 进行了更新
-+- Jeremy M. Dolan <jmd@turbogeek.org> 在 2001/01/28 10:15:59 进行了更新
-+- Crutcher Dunnavant <crutcher+kernel@datastacks.com> 添加键注册部分
++例如，如果你分配了一些数据，然后将其传递给另一个线程来处理::
++
++    void data_release(struct kref *ref)
++    {
++	struct my_data *data = container_of(ref, struct my_data, refcount);
++	kfree(data);
++    }
++
++    void more_data_handling(void *cb_data)
++    {
++	struct my_data *data = cb_data;
++	.
++	. do stuff with data here
++	.
++	kref_put(&data->refcount, data_release);
++    }
++
++    int my_data_handler(void)
++    {
++	int rv = 0;
++	struct my_data *data;
++	struct task_struct *task;
++	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++	kref_init(&data->refcount);
++
++	kref_get(&data->refcount);
++	task = kthread_run(more_data_handling, data, "more_data_handling");
++	if (task == ERR_PTR(-ENOMEM)) {
++		rv = -ENOMEM;
++	        kref_put(&data->refcount, data_release);
++		goto out;
++	}
++
++	.
++	. do stuff with data here
++	.
++    out:
++	kref_put(&data->refcount, data_release);
++	return rv;
++    }
++
++这样，两个线程处理数据的顺序并不重要，kref_put()处理知道数据不再被引用并释
++放它。kref_get()不需要锁，因为我们已经有了一个有效的指针，我们拥有一个
++refcount。put不需要锁，因为没有任何东西试图在没有持有指针的情况下获取数据。
++
++在上面的例子中，kref_put()在成功和错误路径中都会被调用2次。这是必要的，因
++为引用计数被kref_init()和kref_get()递增了2次。
++
++请注意，规则1中的 "before "是非常重要的。你不应该做类似于::
++
++	task = kthread_run(more_data_handling, data, "more_data_handling");
++	if (task == ERR_PTR(-ENOMEM)) {
++		rv = -ENOMEM;
++		goto out;
++	} else
++		/* BAD BAD BAD - 在交接后得到 */
++		kref_get(&data->refcount);
++
++不要以为你知道自己在做什么而使用上述构造。首先，你可能不知道自己在做什么。
++其次，你可能知道自己在做什么（有些情况下涉及到锁，上述做法可能是合法的），
++但其他不知道自己在做什么的人可能会改变代码或复制代码。这是很危险的作风。请
++不要这样做。
++
++在有些情况下，你可以优化get和put。例如，如果你已经完成了一个对象，并且给其
++他对象排队，或者把它传递给其他对象，那么就没有理由先做一个get，然后再做一个
++put::
++
++	/* 糟糕的额外获取(get)和输出(put) */
++	kref_get(&obj->ref);
++	enqueue(obj);
++	kref_put(&obj->ref, obj_cleanup);
++
++只要做enqueue就可以了。 我们随时欢迎对这个问题的评论::
++
++	enqueue(obj);
++	/* 我们已经完成了对obj的处理，所以我们把我们的refcount传给了队列。
++	 在这之后不要再碰obj了! */
++
++最后一条规则（规则3）是最难处理的一条。例如，你有一个每个项目都被krefed的列表，
++而你希望得到第一个项目。你不能只是从列表中抽出第一个项目，然后kref_get()它。
++这违反了规则3，因为你还没有持有一个有效的指针。你必须添加一个mutex（或其他锁）。
++比如说::
++
++	static DEFINE_MUTEX(mutex);
++	static LIST_HEAD(q);
++	struct my_data
++	{
++		struct kref      refcount;
++		struct list_head link;
++	};
++
++	static struct my_data *get_entry()
++	{
++		struct my_data *entry = NULL;
++		mutex_lock(&mutex);
++		if (!list_empty(&q)) {
++			entry = container_of(q.next, struct my_data, link);
++			kref_get(&entry->refcount);
++		}
++		mutex_unlock(&mutex);
++		return entry;
++	}
++
++	static void release_entry(struct kref *ref)
++	{
++		struct my_data *entry = container_of(ref, struct my_data, refcount);
++
++		list_del(&entry->link);
++		kfree(entry);
++	}
++
++	static void put_entry(struct my_data *entry)
++	{
++		mutex_lock(&mutex);
++		kref_put(&entry->refcount, release_entry);
++		mutex_unlock(&mutex);
++	}
++
++如果你不想在整个释放操作过程中持有锁，kref_put()的返回值是有用的。假设你不想在
++上面的例子中在持有锁的情况下调用kfree()（因为这样做有点无意义）。你可以使用kref_put()，
++如下所示::
++
++	static void release_entry(struct kref *ref)
++	{
++		/* 所有的工作都是在从kref_put()返回后完成的。*/
++	}
++
++	static void put_entry(struct my_data *entry)
++	{
++		mutex_lock(&mutex);
++		if (kref_put(&entry->refcount, release_entry)) {
++			list_del(&entry->link);
++			mutex_unlock(&mutex);
++			kfree(entry);
++		} else
++			mutex_unlock(&mutex);
++	}
++
++如果你必须调用其他程序作为释放操作的一部分，而这些程序可能需要很长的时间，或者可
++能要求相同的锁，那么这真的更有用。请注意，在释放例程中做所有的事情还是比较好的，
++因为它比较整洁。
++
++上面的例子也可以用kref_get_unless_zero()来优化，方法如下::
++
++	static struct my_data *get_entry()
++	{
++		struct my_data *entry = NULL;
++		mutex_lock(&mutex);
++		if (!list_empty(&q)) {
++			entry = container_of(q.next, struct my_data, link);
++			if (!kref_get_unless_zero(&entry->refcount))
++				entry = NULL;
++		}
++		mutex_unlock(&mutex);
++		return entry;
++	}
++
++	static void release_entry(struct kref *ref)
++	{
++		struct my_data *entry = container_of(ref, struct my_data, refcount);
++
++		mutex_lock(&mutex);
++		list_del(&entry->link);
++		mutex_unlock(&mutex);
++		kfree(entry);
++	}
++
++	static void put_entry(struct my_data *entry)
++	{
++		kref_put(&entry->refcount, release_entry);
++	}
++
++这对于在put_entry()中移除kref_put()周围的mutex锁是很有用的，但是重要的是
++kref_get_unless_zero被封装在查找表中的同一关键部分，否则kref_get_unless_zero
++可能引用已经释放的内存。注意，在不检查其返回值的情况下使用kref_get_unless_zero
++是非法的。如果你确信（已经有了一个有效的指针）kref_get_unless_zero()会返回true，
++那么就用kref_get()代替。
++
++Krefs和RCU
++==========
++
++函数kref_get_unless_zero也使得在上述例子中使用rcu锁进行查找成为可能::
++
++	struct my_data
++	{
++		struct rcu_head rhead;
++		.
++		struct kref refcount;
++		.
++		.
++	};
++
++	static struct my_data *get_entry_rcu()
++	{
++		struct my_data *entry = NULL;
++		rcu_read_lock();
++		if (!list_empty(&q)) {
++			entry = container_of(q.next, struct my_data, link);
++			if (!kref_get_unless_zero(&entry->refcount))
++				entry = NULL;
++		}
++		rcu_read_unlock();
++		return entry;
++	}
++
++	static void release_entry_rcu(struct kref *ref)
++	{
++		struct my_data *entry = container_of(ref, struct my_data, refcount);
++
++		mutex_lock(&mutex);
++		list_del_rcu(&entry->link);
++		mutex_unlock(&mutex);
++		kfree_rcu(entry, rhead);
++	}
++
++	static void put_entry(struct my_data *entry)
++	{
++		kref_put(&entry->refcount, release_entry_rcu);
++	}
++
++但要注意的是，在调用release_entry_rcu后，结构kref成员需要在有效内存中保留一个rcu
++宽限期。这可以通过使用上面的kfree_rcu(entry, rhead)来实现，或者在使用kfree之前
++调用synchronize_rcu()，但注意synchronize_rcu()可能会睡眠相当长的时间。
 -- 
-2.25.1
-
+2.27.0
 
