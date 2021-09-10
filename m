@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 295B5C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 00:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DBE4C4321E
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 00:45:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 178EB61186
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 00:45:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BFB060C40
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 00:45:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241944AbhIJAqJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Sep 2021 20:46:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44094 "EHLO mail.kernel.org"
+        id S241975AbhIJAqK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Sep 2021 20:46:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46624 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232008AbhIJASh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Sep 2021 20:18:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C0D661214;
-        Fri, 10 Sep 2021 00:17:03 +0000 (UTC)
+        id S233626AbhIJAU3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Sep 2021 20:20:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C0F46023D;
+        Fri, 10 Sep 2021 00:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631233024;
+        s=k20201202; t=1631233159;
         bh=E4c3HQ78lDsQLlQX3N/Djo6I8196nom3UukxgmiwP3Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DriGSVvUkV/8t1+Sm62V+zmkhNEmQWUfxGPmKg5DYy7M9L6BLQizM+dZ5aaY7d+71
-         NrZeXSPPhrTh+RWZzJqkF1D3iONux7NpOUwbfeAvjfhiDsiGdoQyYNSEMVYB//Mp5N
-         xauFxw/X+Ag8psNSS5yBjq7PX8R+/A0yAI9t/qFTFwwzt2+qoXkft+fAfbCXNAsKBi
-         /wYixXPDQUdgjo0UNOJC9ae0Xdg8D6bICdXpML85mTuTURXpF20qETf6iMMXqyWdK9
-         P5F2h/cceZk2Tbj5l0PrD6B7CjnlPnCZZBQDOBXXF8fZHffX26e3PH82Z4gwoPpSlh
-         kg7LNqW89hpAw==
+        b=Cd+BQc925qGXZ3NeN9ZtZJzTxLrcOKqzuQ+gAliR4Uu/n0l6qd1e5TmCgRvmpm5ps
+         1+hHTYD7zS4TziOf2TI93awuhcOSJSxtLycYjBGS8zzkKq82R46RsSni/bMvZG05JX
+         yQsv9lpBWXBdSPFV8RLvm8Dv1uXsdmNJhvYd334ZfRQK/T7bBkaZV1GiO0wz6cwt5H
+         iO0hdML+Y+gRYtAqLLtAzsbj9z4j0UuLfZww69y1ddUcFIuafKk0ySz31dC+9u4ie1
+         603AAxLJROGegFKa+suhRPl8UIt0BSADFkjFhD2s0FmqsckcdpMeSQgYqq89uH0038
+         G4K6TLiG8nnmw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Chengguang Xu <cgxu519@mykernel.net>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-unionfs@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 47/99] ovl: skip checking lower file's i_writecount on truncate
-Date:   Thu,  9 Sep 2021 20:15:06 -0400
-Message-Id: <20210910001558.173296-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 41/88] ovl: skip checking lower file's i_writecount on truncate
+Date:   Thu,  9 Sep 2021 20:17:33 -0400
+Message-Id: <20210910001820.174272-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210910001558.173296-1-sashal@kernel.org>
-References: <20210910001558.173296-1-sashal@kernel.org>
+In-Reply-To: <20210910001820.174272-1-sashal@kernel.org>
+References: <20210910001820.174272-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
