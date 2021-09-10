@@ -2,421 +2,701 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A56FBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 196C8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 07:44:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87C6A6109F
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0468B61186
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 07:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbhIJGp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Sep 2021 02:45:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37966 "EHLO
+        id S231602AbhIJHpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Sep 2021 03:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbhIJGp1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 02:45:27 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7EFC061574
-        for <linux-doc@vger.kernel.org>; Thu,  9 Sep 2021 23:44:16 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so804664pjr.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Sep 2021 23:44:16 -0700 (PDT)
+        with ESMTP id S231384AbhIJHpN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 03:45:13 -0400
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3558FC061574;
+        Fri, 10 Sep 2021 00:44:03 -0700 (PDT)
+Received: by mail-vk1-xa34.google.com with SMTP id t13so319766vkm.4;
+        Fri, 10 Sep 2021 00:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AmF8tTkH4WQ/6zHs7VLcZ1o8NJFJxGGp7q9c2tUCatw=;
-        b=h+pLcIiDXusJeDYb8YyebyGOJJXm2W5VcfgyjAQkgA6MN3pTTOLukZXW8of2r0uQHF
-         bvsC20XkQ9UCdoIx7nAhO2R9gAxNOeSDTXazwCj7MzcWjBbBJKQbiXIZfAbSKKBcrjuV
-         crVuLi0inaaD85YK5SLl/3/aktTU5aGdflxTReD1DcBSj7B4Bv0Hn2HNUVw1OjbRRwtJ
-         zJliZBGNKgNWVg1W2r9KEgCnqVJyFAjIxJFOGIM9/LCP38U3mKuBswhCbIN5q+DdCmvv
-         WcTK6EQQ1dr0Rn3envKUz2IXSzEFR9Tdd7E+MgX4TmlkBuQchxSzCo7E3VAqGKUHULFE
-         9wlg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=afAK0F8Qpxmyxp4dXVEbC4bRMlaABk3RvaT05w9xS2A=;
+        b=GJWX5QDndpA0d9oqTjkB5UkJ1ysy3rBvVMKWZ8E+/0NvaCAYmJB7mz6n1NGuV33R4C
+         YBP3Ve7M+/xg/rlrbn3cwFagQeEs3xxmmvrsuX5KtaYXKtEYggFkZg83Qx89a6w8AHIC
+         5o0/6g97DzAi2eXN3ck2sHCQhNj2F8aDtXE3R+A8QxQGVvZ2S6nt6pXPONz+c7tCmcLh
+         icVeGv25Uu8Ma2yt8ctPPOxfupicFWPLrSBad/95rBI3MKokNQNCiMc6lryRtv2And6H
+         O9TQVvv6prTHu5yh/UjzVe5vE+TSVUv6s2Lon1oBuCh1Nnt03+Kd4USrvyz+WLgcI1ah
+         ucMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AmF8tTkH4WQ/6zHs7VLcZ1o8NJFJxGGp7q9c2tUCatw=;
-        b=m+iPXWtRXpUz5epwsrePFTCmTUm4aioFoQYLYBsg+PlReri1rq9GNrrB7eebATEulg
-         VQO1/yJzRB29ERyOPdCKY+72k8EsEftQEyW0rpSexJ5E4l70QOjykJuLeB/xN8jrwHI7
-         32185QxvJlMSNwDV5QnW20thE3KG+e2PAR/WRwzesmkqbKnWAmNGCofxjCPFs2UDt/nB
-         lm5s33AY/2CxFiwAANna16xtVD8825tqH+83FBNOw0Cpe1pP2DdvviBsRzH7uXJCnuVJ
-         0URnTbLg+dYLAPhxjoDu7QYuFJFPzpztR3I3IDeWWF9PyCwDc1y30bd6wsxSF1KQyfk6
-         CGfw==
-X-Gm-Message-State: AOAM530eo0yXKFJXb1u74nJ2G8J8dkmsoP5gGliRFcX4+uUojr2xg0ue
-        ld4CcCH+/y7bNvKqqB/khaU=
-X-Google-Smtp-Source: ABdhPJyZjxJqeDTWK1dcwfunwZbhJhpeizLBgNYN1UUK9KW/RVGsn8JpjgkcZVfwsAV/7attRDxwYQ==
-X-Received: by 2002:a17:902:bf09:b029:12c:d762:96c with SMTP id bi9-20020a170902bf09b029012cd762096cmr6234143plb.15.1631256256252;
-        Thu, 09 Sep 2021 23:44:16 -0700 (PDT)
-Received: from localhost.localdomain ([223.106.33.147])
-        by smtp.gmail.com with ESMTPSA id g3sm4038282pjm.22.2021.09.09.23.44.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 23:44:15 -0700 (PDT)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com, junhuahuangdream@163.com,
-        cgel.zte@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH] docs/zh_CN: add core api kref translation
-Date:   Fri, 10 Sep 2021 14:42:55 +0800
-Message-Id: <20210910064255.385012-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=afAK0F8Qpxmyxp4dXVEbC4bRMlaABk3RvaT05w9xS2A=;
+        b=UGCqSOQ+LURLmoICmGkFa+vV8WATo2ORfPwPKTUVw34oSTvj+KGfjThiHhKsvXJRog
+         1svbnNk+QQZ1j8goDrmwpm6QTTi3MtR0eIc/A6KG5aBUL2QOtM/pV8yuPiSdv40EZKra
+         e4JtN+j1Y3o7qai0089d+Wm6b3Rfz9SFKh5HYAjsyfZLyIaDu2vh26Cb/zxl1OXAgbWQ
+         usTc9/1Ez0vTTRmAYY1xz5863BZzUa1UUHCWy6RJ7g6AZzZBYhLlXWS/fAxEPvwmu9Au
+         FXqaEE362w5lmfYg8s5MyThpLiW8Zapy4NvfWTKm1sSrxUkk8XhQewSYUQUZFPMl3mUw
+         NVIw==
+X-Gm-Message-State: AOAM530JFrM/khIyMh+NeYiTtaRd+sFs942zWD3K6wRyurjail/r2dfo
+        k4dyPFJPafAhMdnAN7SV5JvptLMyeoKnajsZ+4Siltc9/h0=
+X-Google-Smtp-Source: ABdhPJzNvHo871QC4d62Hwf3fF4JjQpGUq0KPSGdz7oCWxi/9dG5TWvYS6wcCgsJ9oUszhLDHP53ZW6hVNQ7+SvlDuA=
+X-Received: by 2002:a1f:fc8f:: with SMTP id a137mr4383217vki.19.1631259842160;
+ Fri, 10 Sep 2021 00:44:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210903095213.797973-1-chenhuacai@loongson.cn>
+ <20210903095213.797973-19-chenhuacai@loongson.cn> <YTjbaz7iea1kwGYb@robh.at.kernel.org>
+In-Reply-To: <YTjbaz7iea1kwGYb@robh.at.kernel.org>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 10 Sep 2021 15:43:49 +0800
+Message-ID: <CAAhV-H6yPscb_wZRDjaY+h0HB8No-7muP87G+wWnUJdSPE00+g@mail.gmail.com>
+Subject: Re: [PATCH V2 18/22] LoongArch: Add PCI controller support
+To:     Rob Herring <robh@kernel.org>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-pci <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/kref.rst into Chinese.
+Hi, Rob and Arnd,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/core-api/index.rst     |   3 +-
- .../translations/zh_CN/core-api/kref.rst      | 311 ++++++++++++++++++
- 2 files changed, 313 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/kref.rst
+On Wed, Sep 8, 2021 at 11:49 PM Rob Herring <robh@kernel.org> wrote:
+>
+> +linux-pci
+>
+> On the next version, Cc linux-pci list so PCI maintainers can review.
+>
+> On Fri, Sep 03, 2021 at 05:52:09PM +0800, Huacai Chen wrote:
+> > Loongson64 based systems are PC-like systems which use PCI/PCIe as its
+> > I/O bus, This patch adds the PCI host controller support for LoongArch.
+> >
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > ---
+> >  arch/loongarch/include/asm/device.h |  17 +++
+> >  arch/loongarch/include/asm/dma.h    |  13 +++
+> >  arch/loongarch/include/asm/pci.h    |  42 +++++++
+> >  arch/loongarch/pci/acpi.c           | 174 ++++++++++++++++++++++++++++
+> >  arch/loongarch/pci/msi.c            |  30 +++++
+> >  arch/loongarch/pci/pci.c            | 169 +++++++++++++++++++++++++++
+> >  6 files changed, 445 insertions(+)
+> >  create mode 100644 arch/loongarch/include/asm/device.h
+> >  create mode 100644 arch/loongarch/include/asm/dma.h
+> >  create mode 100644 arch/loongarch/include/asm/pci.h
+> >  create mode 100644 arch/loongarch/pci/acpi.c
+> >  create mode 100644 arch/loongarch/pci/msi.c
+> >  create mode 100644 arch/loongarch/pci/pci.c
+> >
+> > diff --git a/arch/loongarch/include/asm/device.h b/arch/loongarch/include/asm/device.h
+> > new file mode 100644
+> > index 000000000000..75693eeba5c6
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/device.h
+> > @@ -0,0 +1,17 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Arch specific extensions to struct device
+> > + *
+> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_LOONGARCH_DEVICE_H
+> > +#define _ASM_LOONGARCH_DEVICE_H
+> > +
+> > +struct dev_archdata {
+> > +     unsigned long dma_attrs;
+>
+> Strange that no other arch needs something like this. Aren't DMA attrs
+> accessed via ops functions?
+OK, this will be removed, it comes from our old internal repo.
 
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 72f0a36daa1c..8665df464efe 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -39,10 +39,11 @@
-    :maxdepth: 1
- 
-    kobject
-+   kref
- 
- Todolist:
- 
--   kref
-+
-    assoc_array
-    xarray
-    idr
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-new file mode 100644
-index 000000000000..b9902af310c5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -0,0 +1,311 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/kref.rst
-+
-+翻译:
-+
-+司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+校译：
-+
-+ <此处请校译员签名（自愿），我将在下一个版本添加>
-+
-+.. _cn_core_api_kref.rst:
-+
-+=================================
-+为内核对象添加引用计数器（krefs）
-+=================================
-+
-+:作者: Corey Minyard <minyard@acm.org>
-+:作者: Thomas Hellstrom <thellstrom@vmware.com>
-+
-+其中很多内容都是从Greg Kroah-Hartman2004年关于krefs的OLS论文和演讲中摘
-+录的，可以在以下网址找到:
-+
-+  - http://www.kroah.com/linux/talks/ols_2004_kref_paper/Reprint-Kroah-Hartman-OLS2004.pdf
-+  - http://www.kroah.com/linux/talks/ols_2004_kref_talk/
-+
-+简介
-+====
-+
-+krefs允许你为你的对象添加引用计数器。如果你有在多个地方使用和传递的对象，
-+而你没有refcounts，你的代码几乎肯定是坏的。如果你想要引用计数，krefs是个
-+好办法。
-+
-+要使用kref，请在你的数据结构中添加一个，如::
-+
-+    struct my_data
-+    {
-+	.
-+	.
-+	struct kref refcount;
-+	.
-+	.
-+    };
-+
-+kref可以出现在数据结构体中的任何地方。
-+
-+初始化
-+======
-+
-+你必须在分配kref之后初始化它。 要做到这一点，可以这样调用kref_init::
-+
-+     struct my_data *data;
-+
-+     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     if (!data)
-+            return -ENOMEM;
-+     kref_init(&data->refcount);
-+
-+这将kref中的refcount设置为1。
-+
-+Kref规则
-+========
-+
-+一旦你有一个初始化的kref，你必须遵循以下规则:
-+
-+1) 如果你对一个指针做了一个非临时性的拷贝，特别是如果它可以被传递给另一个执
-+   行线程，你必须在传递之前用kref_get()增加refcount::
-+
-+       kref_get(&data->refcount);
-+
-+	如果你已经有了一个指向kref-ed结构体的有效指针（refcount不能为零），你
-+	可以在没有锁的情况下这样做。
-+
-+2) 当你完成对一个指针的处理时，你必须调用kref_put()::
-+
-+       kref_put(&data->refcount, data_release);
-+
-+   如果这是对该指针的最后一次引用，释放程序将被调用。如果代码从来没有尝试过
-+   在没有已经持有有效指针的情况下获得一个kref-ed结构体的有效指针，那么在没
-+   有锁的情况下这样做是安全的。
-+
-+3) 如果代码试图获得对一个kref-ed结构体的引用，而不持有一个有效的指针，它必
-+   须按顺序访问，在kref_put()期间不能发生kref_get()，并且该结构体在kref_get()
-+   期间必须保持有效。
-+
-+例如，如果你分配了一些数据，然后将其传递给另一个线程来处理::
-+
-+    void data_release(struct kref *ref)
-+    {
-+	struct my_data *data = container_of(ref, struct my_data, refcount);
-+	kfree(data);
-+    }
-+
-+    void more_data_handling(void *cb_data)
-+    {
-+	struct my_data *data = cb_data;
-+	.
-+	. do stuff with data here
-+	.
-+	kref_put(&data->refcount, data_release);
-+    }
-+
-+    int my_data_handler(void)
-+    {
-+	int rv = 0;
-+	struct my_data *data;
-+	struct task_struct *task;
-+	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+	kref_init(&data->refcount);
-+
-+	kref_get(&data->refcount);
-+	task = kthread_run(more_data_handling, data, "more_data_handling");
-+	if (task == ERR_PTR(-ENOMEM)) {
-+		rv = -ENOMEM;
-+	        kref_put(&data->refcount, data_release);
-+		goto out;
-+	}
-+
-+	.
-+	. do stuff with data here
-+	.
-+    out:
-+	kref_put(&data->refcount, data_release);
-+	return rv;
-+    }
-+
-+这样，两个线程处理数据的顺序并不重要，kref_put()处理知道数据不再被引用并释
-+放它。kref_get()不需要锁，因为我们已经有了一个有效的指针，我们拥有一个
-+refcount。put不需要锁，因为没有任何东西试图在没有持有指针的情况下获取数据。
-+
-+在上面的例子中，kref_put()在成功和错误路径中都会被调用2次。这是必要的，因
-+为引用计数被kref_init()和kref_get()递增了2次。
-+
-+请注意，规则1中的 "before "是非常重要的。你不应该做类似于::
-+
-+	task = kthread_run(more_data_handling, data, "more_data_handling");
-+	if (task == ERR_PTR(-ENOMEM)) {
-+		rv = -ENOMEM;
-+		goto out;
-+	} else
-+		/* BAD BAD BAD - 在交接后得到 */
-+		kref_get(&data->refcount);
-+
-+不要以为你知道自己在做什么而使用上述构造。首先，你可能不知道自己在做什么。
-+其次，你可能知道自己在做什么（有些情况下涉及到锁，上述做法可能是合法的），
-+但其他不知道自己在做什么的人可能会改变代码或复制代码。这是很危险的作风。请
-+不要这样做。
-+
-+在有些情况下，你可以优化get和put。例如，如果你已经完成了一个对象，并且给其
-+他对象排队，或者把它传递给其他对象，那么就没有理由先做一个get，然后再做一个
-+put::
-+
-+	/* 糟糕的额外获取(get)和输出(put) */
-+	kref_get(&obj->ref);
-+	enqueue(obj);
-+	kref_put(&obj->ref, obj_cleanup);
-+
-+只要做enqueue就可以了。 我们随时欢迎对这个问题的评论::
-+
-+	enqueue(obj);
-+	/* 我们已经完成了对obj的处理，所以我们把我们的refcount传给了队列。
-+	 在这之后不要再碰obj了! */
-+
-+最后一条规则（规则3）是最难处理的一条。例如，你有一个每个项目都被krefed的列表，
-+而你希望得到第一个项目。你不能只是从列表中抽出第一个项目，然后kref_get()它。
-+这违反了规则3，因为你还没有持有一个有效的指针。你必须添加一个mutex（或其他锁）。
-+比如说::
-+
-+	static DEFINE_MUTEX(mutex);
-+	static LIST_HEAD(q);
-+	struct my_data
-+	{
-+		struct kref      refcount;
-+		struct list_head link;
-+	};
-+
-+	static struct my_data *get_entry()
-+	{
-+		struct my_data *entry = NULL;
-+		mutex_lock(&mutex);
-+		if (!list_empty(&q)) {
-+			entry = container_of(q.next, struct my_data, link);
-+			kref_get(&entry->refcount);
-+		}
-+		mutex_unlock(&mutex);
-+		return entry;
-+	}
-+
-+	static void release_entry(struct kref *ref)
-+	{
-+		struct my_data *entry = container_of(ref, struct my_data, refcount);
-+
-+		list_del(&entry->link);
-+		kfree(entry);
-+	}
-+
-+	static void put_entry(struct my_data *entry)
-+	{
-+		mutex_lock(&mutex);
-+		kref_put(&entry->refcount, release_entry);
-+		mutex_unlock(&mutex);
-+	}
-+
-+如果你不想在整个释放操作过程中持有锁，kref_put()的返回值是有用的。假设你不想在
-+上面的例子中在持有锁的情况下调用kfree()（因为这样做有点无意义）。你可以使用kref_put()，
-+如下所示::
-+
-+	static void release_entry(struct kref *ref)
-+	{
-+		/* 所有的工作都是在从kref_put()返回后完成的。*/
-+	}
-+
-+	static void put_entry(struct my_data *entry)
-+	{
-+		mutex_lock(&mutex);
-+		if (kref_put(&entry->refcount, release_entry)) {
-+			list_del(&entry->link);
-+			mutex_unlock(&mutex);
-+			kfree(entry);
-+		} else
-+			mutex_unlock(&mutex);
-+	}
-+
-+如果你必须调用其他程序作为释放操作的一部分，而这些程序可能需要很长的时间，或者可
-+能要求相同的锁，那么这真的更有用。请注意，在释放例程中做所有的事情还是比较好的，
-+因为它比较整洁。
-+
-+上面的例子也可以用kref_get_unless_zero()来优化，方法如下::
-+
-+	static struct my_data *get_entry()
-+	{
-+		struct my_data *entry = NULL;
-+		mutex_lock(&mutex);
-+		if (!list_empty(&q)) {
-+			entry = container_of(q.next, struct my_data, link);
-+			if (!kref_get_unless_zero(&entry->refcount))
-+				entry = NULL;
-+		}
-+		mutex_unlock(&mutex);
-+		return entry;
-+	}
-+
-+	static void release_entry(struct kref *ref)
-+	{
-+		struct my_data *entry = container_of(ref, struct my_data, refcount);
-+
-+		mutex_lock(&mutex);
-+		list_del(&entry->link);
-+		mutex_unlock(&mutex);
-+		kfree(entry);
-+	}
-+
-+	static void put_entry(struct my_data *entry)
-+	{
-+		kref_put(&entry->refcount, release_entry);
-+	}
-+
-+这对于在put_entry()中移除kref_put()周围的mutex锁是很有用的，但是重要的是
-+kref_get_unless_zero被封装在查找表中的同一关键部分，否则kref_get_unless_zero
-+可能引用已经释放的内存。注意，在不检查其返回值的情况下使用kref_get_unless_zero
-+是非法的。如果你确信（已经有了一个有效的指针）kref_get_unless_zero()会返回true，
-+那么就用kref_get()代替。
-+
-+Krefs和RCU
-+==========
-+
-+函数kref_get_unless_zero也使得在上述例子中使用rcu锁进行查找成为可能::
-+
-+	struct my_data
-+	{
-+		struct rcu_head rhead;
-+		.
-+		struct kref refcount;
-+		.
-+		.
-+	};
-+
-+	static struct my_data *get_entry_rcu()
-+	{
-+		struct my_data *entry = NULL;
-+		rcu_read_lock();
-+		if (!list_empty(&q)) {
-+			entry = container_of(q.next, struct my_data, link);
-+			if (!kref_get_unless_zero(&entry->refcount))
-+				entry = NULL;
-+		}
-+		rcu_read_unlock();
-+		return entry;
-+	}
-+
-+	static void release_entry_rcu(struct kref *ref)
-+	{
-+		struct my_data *entry = container_of(ref, struct my_data, refcount);
-+
-+		mutex_lock(&mutex);
-+		list_del_rcu(&entry->link);
-+		mutex_unlock(&mutex);
-+		kfree_rcu(entry, rhead);
-+	}
-+
-+	static void put_entry(struct my_data *entry)
-+	{
-+		kref_put(&entry->refcount, release_entry_rcu);
-+	}
-+
-+但要注意的是，在调用release_entry_rcu后，结构kref成员需要在有效内存中保留一个rcu
-+宽限期。这可以通过使用上面的kfree_rcu(entry, rhead)来实现，或者在使用kfree之前
-+调用synchronize_rcu()，但注意synchronize_rcu()可能会睡眠相当长的时间。
--- 
-2.27.0
+>
+> > +};
+> > +
+> > +struct pdev_archdata {
+> > +};
+> > +
+> > +#endif /* _ASM_LOONGARCH_DEVICE_H*/
+> > diff --git a/arch/loongarch/include/asm/dma.h b/arch/loongarch/include/asm/dma.h
+> > new file mode 100644
+> > index 000000000000..a8a58dc93422
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/dma.h
+> > @@ -0,0 +1,13 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef __ASM_DMA_H
+> > +#define __ASM_DMA_H
+> > +
+> > +#define MAX_DMA_ADDRESS      PAGE_OFFSET
+> > +#define MAX_DMA32_PFN        (1UL << (32 - PAGE_SHIFT))
+> > +
+> > +extern int isa_dma_bridge_buggy;
+> > +
+> > +#endif
+> > diff --git a/arch/loongarch/include/asm/pci.h b/arch/loongarch/include/asm/pci.h
+> > new file mode 100644
+> > index 000000000000..e9f483396864
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/pci.h
+> > @@ -0,0 +1,42 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_PCI_H
+> > +#define _ASM_PCI_H
+> > +
+> > +#include <linux/ioport.h>
+> > +#include <linux/list.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/types.h>
+> > +#include <asm/io.h>
+> > +
+> > +#define PCIBIOS_MIN_IO               0x4000
+> > +#define PCIBIOS_MIN_MEM              0x20000000
+> > +#define PCIBIOS_MIN_CARDBUS_IO       0x4000
+> > +
+> > +#define HAVE_PCI_MMAP
+> > +#define ARCH_GENERIC_PCI_MMAP_RESOURCE
+> > +
+> > +extern phys_addr_t mcfg_addr_init(int node);
+> > +extern void pcibios_add_root_resources(struct list_head *resources);
+>
+> This is not a 'pcibios' function, so the name is not right. The
+> intention is also to get rid of 'pcibios' functions.
+OK, it should be removed.
 
+>
+> > +
+> > +static inline int pci_proc_domain(struct pci_bus *bus)
+> > +{
+> > +     return pci_domain_nr(bus);
+>
+> Based on what newer arches do, should be just 'return 1'?
+OK, it can just return 1.
+
+
+>
+> > +}
+> > +
+> > +/*
+> > + * Can be used to override the logic in pci_scan_bus for skipping
+> > + * already-configured bus numbers - to be used for buggy BIOSes
+> > + * or architectures with incomplete PCI setup by the loader
+> > + */
+> > +static inline unsigned int pcibios_assign_all_busses(void)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +/* generic pci stuff */
+> > +#include <asm-generic/pci.h>
+> > +
+> > +#endif /* _ASM_PCI_H */
+> > diff --git a/arch/loongarch/pci/acpi.c b/arch/loongarch/pci/acpi.c
+> > new file mode 100644
+> > index 000000000000..d6e2f69b9503
+> > --- /dev/null
+> > +++ b/arch/loongarch/pci/acpi.c
+> > @@ -0,0 +1,174 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
+> > + */
+> > +#include <linux/pci.h>
+> > +#include <linux/acpi.h>
+> > +#include <linux/init.h>
+> > +#include <linux/irq.h>
+> > +#include <linux/dmi.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/pci-acpi.h>
+> > +#include <linux/pci-ecam.h>
+> > +
+> > +#include <asm/pci.h>
+> > +#include <asm/loongson.h>
+> > +
+> > +struct pci_root_info {
+> > +     struct acpi_pci_root_info common;
+> > +     struct pci_config_window *cfg;
+> > +};
+> > +
+> > +void pcibios_add_bus(struct pci_bus *bus)
+> > +{
+> > +     acpi_pci_add_bus(bus);
+> > +}
+> > +
+> > +int pcibios_root_bridge_prepare(struct pci_host_bridge *bridge)
+> > +{
+> > +     struct pci_config_window *cfg = bridge->bus->sysdata;
+> > +     struct acpi_device *adev = to_acpi_device(cfg->parent);
+> > +
+> > +     ACPI_COMPANION_SET(&bridge->dev, adev);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +int acpi_pci_bus_find_domain_nr(struct pci_bus *bus)
+> > +{
+> > +     struct pci_config_window *cfg = bus->sysdata;
+> > +     struct acpi_device *adev = to_acpi_device(cfg->parent);
+> > +     struct acpi_pci_root *root = acpi_driver_data(adev);
+> > +
+> > +     return root->segment;
+> > +}
+> > +
+> > +static void acpi_release_root_info(struct acpi_pci_root_info *ci)
+> > +{
+> > +     struct pci_root_info *info;
+> > +
+> > +     info = container_of(ci, struct pci_root_info, common);
+> > +     pci_ecam_free(info->cfg);
+> > +     kfree(ci->ops);
+> > +     kfree(info);
+> > +}
+> > +
+> > +static int acpi_prepare_root_resources(struct acpi_pci_root_info *ci)
+> > +{
+> > +     struct acpi_device *device = ci->bridge;
+> > +     struct resource_entry *entry, *tmp;
+> > +     int status;
+> > +
+> > +     status = acpi_pci_probe_root_resources(ci);
+> > +     if (status > 0)
+> > +             return status;
+> > +
+> > +     resource_list_for_each_entry_safe(entry, tmp, &ci->resources) {
+> > +             dev_dbg(&device->dev,
+> > +                        "host bridge window %pR (ignored)\n", entry->res);
+> > +             resource_list_destroy_entry(entry);
+> > +     }
+> > +
+> > +     pcibios_add_root_resources(&ci->resources);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Lookup the bus range for the domain in MCFG, and set up config space
+> > + * mapping.
+> > + */
+> > +static struct pci_config_window *
+> > +pci_acpi_setup_ecam_mapping(struct acpi_pci_root *root)
+> > +{
+> > +     int ret;
+> > +     u16 seg = root->segment;
+> > +     struct device *dev = &root->device->dev;
+> > +     struct resource cfgres;
+> > +     struct resource *bus_res = &root->secondary;
+> > +     struct pci_config_window *cfg;
+> > +     const struct pci_ecam_ops *ecam_ops;
+> > +
+> > +     ret = pci_mcfg_lookup(root, &cfgres, &ecam_ops);
+> > +     if (ret) {
+> > +             dev_err(dev, "%04x:%pR ECAM region not found, use default value\n", seg, bus_res);
+> > +             root->mcfg_addr = mcfg_addr_init(0);
+> > +             ecam_ops = &loongson_pci_ecam_ops;
+> > +     }
+> > +
+> > +     cfgres.start = root->mcfg_addr + (bus_res->start << ecam_ops->bus_shift);
+> > +     cfgres.end = cfgres.start + (resource_size(bus_res) << ecam_ops->bus_shift) - 1;
+> > +     cfgres.flags = IORESOURCE_MEM;
+> > +
+> > +     cfg = pci_ecam_create(dev, &cfgres, bus_res, ecam_ops);
+> > +     if (IS_ERR(cfg)) {
+> > +             dev_err(dev, "%04x:%pR error %ld mapping ECAM\n", seg, bus_res,
+> > +                     PTR_ERR(cfg));
+> > +             return NULL;
+> > +     }
+> > +
+> > +     return cfg;
+> > +}
+> > +
+> > +struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root)
+> > +{
+> > +     struct pci_bus *bus;
+> > +     struct pci_root_info *info;
+> > +     struct acpi_pci_root_ops *root_ops;
+> > +     int domain = root->segment;
+> > +     int busnum = root->secondary.start;
+> > +
+> > +     info = kzalloc(sizeof(*info), GFP_KERNEL);
+> > +     if (!info) {
+> > +             pr_warn("pci_bus %04x:%02x: ignored (out of memory)\n", domain, busnum);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     root_ops = kzalloc(sizeof(*root_ops), GFP_KERNEL);
+> > +     if (!root_ops) {
+> > +             kfree(info);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     info->cfg = pci_acpi_setup_ecam_mapping(root);
+> > +     if (!info->cfg) {
+> > +             kfree(info);
+> > +             kfree(root_ops);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     root_ops->release_info = acpi_release_root_info;
+> > +     root_ops->prepare_resources = acpi_prepare_root_resources;
+> > +     root_ops->pci_ops = (struct pci_ops *)&info->cfg->ops->pci_ops;
+> > +
+> > +     bus = pci_find_bus(domain, busnum);
+> > +     if (bus) {
+> > +             memcpy(bus->sysdata, info->cfg, sizeof(struct pci_config_window));
+> > +             kfree(info);
+> > +     } else {
+> > +             bus = acpi_pci_root_create(root, root_ops,
+> > +                                        &info->common, info->cfg);
+> > +             if (bus) {
+> > +                     /*
+> > +                      * We insert PCI resources into the iomem_resource
+> > +                      * and ioport_resource trees in either
+> > +                      * pci_bus_claim_resources() or
+> > +                      * pci_bus_assign_resources().
+> > +                      */
+> > +                     if (pci_has_flag(PCI_PROBE_ONLY)) {
+> > +                             pci_bus_claim_resources(bus);
+> > +                     } else {
+> > +                             struct pci_bus *child;
+> > +
+> > +                             pci_bus_size_bridges(bus);
+> > +                             pci_bus_assign_resources(bus);
+> > +                             list_for_each_entry(child, &bus->children, node)
+> > +                                     pcie_bus_configure_settings(child);
+> > +                     }
+> > +             } else {
+> > +                     kfree(info);
+> > +             }
+> > +     }
+> > +
+> > +     return bus;
+> > +}
+>
+> It might be time for default implementations here that can be shared
+> with arm64. The functions look the same or similar to the arm64
+> version in many cases and why they are different isn't that clear to me
+> not being all that familar with the ACPI code.
+I agree, but I think that cannot be done in this series.
+
+>
+> > diff --git a/arch/loongarch/pci/msi.c b/arch/loongarch/pci/msi.c
+> > new file mode 100644
+> > index 000000000000..2888c5e11539
+> > --- /dev/null
+> > +++ b/arch/loongarch/pci/msi.c
+> > @@ -0,0 +1,30 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+>
+> Is this copied from somewhere else? Otherwise, kernel code should be
+> GPL-2.0-only.
+>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/init.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/msi.h>
+> > +#include <linux/pci.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +static bool msix_enable = 1;
+> > +core_param(msix, msix_enable, bool, 0664);
+>
+> The standard 'nomsi' command line param is not good enough?
+Sometimes we want to enable msi but disable msix. :)
+>
+> > +
+> > +int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
+> > +{
+> > +     int id = pci_domain_nr(dev->bus);
+> > +
+> > +     if (!pci_msi_enabled())
+> > +             return -ENOSPC;
+>
+> I would assume if the default implementation doesn't need this check,
+> then neither do you.
+Yes, it can be removed.
+
+>
+> > +
+> > +     if (type == PCI_CAP_ID_MSIX && !msix_enable)
+> > +             return -ENOSPC;
+> > +
+> > +     return msi_domain_alloc_irqs(pch_msi_domain[id], &dev->dev, nvec);
+>
+> Why does the standard way of getting the domain from the 'dev' not work?
+Emm, it seems if I add pcibios_add_device() then we can use the
+standard way. Thanks.
+
+>
+> > +
+> > +}
+> > +
+> > +void arch_teardown_msi_irq(unsigned int irq)
+> > +{
+> > +     irq_domain_free_irqs(irq, 1);
+> > +}
+> > diff --git a/arch/loongarch/pci/pci.c b/arch/loongarch/pci/pci.c
+> > new file mode 100644
+> > index 000000000000..68f36368b0df
+> > --- /dev/null
+> > +++ b/arch/loongarch/pci/pci.c
+> > @@ -0,0 +1,169 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
+> > + */
+> > +#include <linux/kernel.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/export.h>
+> > +#include <linux/init.h>
+> > +#include <linux/acpi.h>
+> > +#include <linux/types.h>
+> > +#include <linux/pci.h>
+> > +#include <linux/of_address.h>
+> > +#include <linux/vgaarb.h>
+> > +#include <asm/loongson.h>
+> > +
+> > +#define PCI_DEVICE_ID_LOONGSON_HOST     0x7a00
+> > +#define PCI_DEVICE_ID_LOONGSON_DC       0x7a06
+> > +
+> > +int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
+> > +                                             int reg, int len, u32 *val)
+> > +{
+> > +     struct pci_bus *bus_tmp = pci_find_bus(domain, bus);
+> > +
+> > +     if (bus_tmp)
+> > +             return bus_tmp->ops->read(bus_tmp, devfn, reg, len, val);
+> > +     return -EINVAL;
+> > +}
+> > +
+> > +int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
+> > +                                             int reg, int len, u32 val)
+> > +{
+> > +     struct pci_bus *bus_tmp = pci_find_bus(domain, bus);
+> > +
+> > +     if (bus_tmp)
+> > +             return bus_tmp->ops->write(bus_tmp, devfn, reg, len, val);
+> > +     return -EINVAL;
+> > +}
+>
+> These should be moved to drivers/acpi/osl.c as weak functions.
+>
+> Really, I'm not sure they need to be weak because I think they'd work on
+> x86 because bus_tmp->ops here should just point to the raw_pci_*
+> functions. There would be more overhead of doing pci_find_bus every time
+> though.
+>
+> > +
+> > +/*
+> > + * We need to avoid collisions with `mirrored' VGA ports
+> > + * and other strange ISA hardware, so we always want the
+> > + * addresses to be allocated in the 0x000-0x0ff region
+> > + * modulo 0x400.
+> > + *
+> > + * Why? Because some silly external IO cards only decode
+> > + * the low 10 bits of the IO address. The 0x00-0xff region
+> > + * is reserved for motherboard devices that decode all 16
+> > + * bits, so it's ok to allocate at, say, 0x2800-0x28ff,
+> > + * but we want to try to avoid allocating at 0x2900-0x2bff
+> > + * which might have be mirrored at 0x0100-0x03ff..
+>
+> Is this something you need to worry about on this h/w? arm64 and riscv
+> don't seem to need this. If you do need this, then shouldn't everyone?
+>
+> Don't blindly copy code unless you know you need it. If multiple arches
+> have the same code, then that's a sign of blindly copying stuff or a
+> need to refactor into common code. It looks like some things are just
+> copied from MIPS. The MIPS arch code is a mess and not a good choice to
+> draw inspiration from (aka blindly copy). Pick more recently added
+> architectures given they will more closely follow current rules as to
+> what maintainers want.
+I assume the "mirrored VGA ports" is a common request. But it seems we
+can remove this at present, and recover it later if needed.
+
+>
+> > + */
+> > +resource_size_t
+> > +pcibios_align_resource(void *data, const struct resource *res,
+> > +                    resource_size_t size, resource_size_t align)
+> > +{
+> > +     resource_size_t start = res->start;
+> > +
+> > +     if (res->flags & IORESOURCE_IO) {
+> > +             /*
+> > +              * Put everything into 0x00-0xff region modulo 0x400
+> > +              */
+> > +             if (start & 0x300)
+> > +                     start = (start + 0x3ff) & ~0x3ff;
+> > +     } else if (res->flags & IORESOURCE_MEM) {
+> > +             /* Make sure we start at our min on all hoses */
+> > +             if (start < PCIBIOS_MIN_MEM)
+> > +                     start = PCIBIOS_MIN_MEM;
+> > +     }
+> > +
+> > +     return start;
+> > +}
+> > +
+> > +phys_addr_t mcfg_addr_init(int node)
+> > +{
+> > +     return (((u64)node << 44) | MCFG_EXT_PCICFG_BASE);
+> > +}
+> > +
+> > +static struct resource pci_mem_resource = {
+> > +     .name   = "pci memory space",
+> > +     .flags  = IORESOURCE_MEM,
+> > +};
+> > +
+> > +static struct resource pci_io_resource = {
+> > +     .name   = "pci io space",
+> > +     .flags  = IORESOURCE_IO,
+> > +};
+> > +
+> > +void pcibios_add_root_resources(struct list_head *resources)
+> > +{
+> > +     if (resources) {
+> > +             pci_add_resource(resources, &pci_mem_resource);
+> > +             pci_add_resource(resources, &pci_io_resource);
+>
+> This doesn't look right. What if you have more than 1 root/domain? You
+> need a io and memory space for each.
+OK, I know.
+
+>
+> > +     }
+> > +}
+> > +
+> > +static int __init pcibios_set_cache_line_size(void)
+> > +{
+> > +     unsigned int lsize;
+> > +
+> > +     /*
+> > +      * Set PCI cacheline size to that of the highest level in the
+> > +      * cache hierarchy.
+> > +      */
+> > +     lsize = cpu_dcache_line_size();
+> > +     lsize = cpu_vcache_line_size() ? : lsize;
+> > +     lsize = cpu_scache_line_size() ? : lsize;
+> > +
+> > +     BUG_ON(!lsize);
+> > +
+> > +     pci_dfl_cache_line_size = lsize >> 2;
+> > +
+> > +     pr_debug("PCI: pci_cache_line_size set to %d bytes\n", lsize);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int __init pcibios_init(void)
+> > +{
+> > +     return pcibios_set_cache_line_size();
+>
+> Not really any reason to have 2 functions for this.
+>
+> And these aren't 'pcibios' calls.
+I searched the whole tree. The function of setting
+pci_dfl_cache_line_size is pcibios_init() for parisc, sparc, x86, and
+pcibios_set_cache_line_size() for MIPS and IA64. So, it seems 2
+functions are unnecessary, but the pcibios_ prefix is reasonable.
+
+>
+> > +}
+> > +
+> > +subsys_initcall(pcibios_init);
+> > +
+> > +int pcibios_dev_init(struct pci_dev *dev)
+> > +{
+> > +#ifdef CONFIG_ACPI
+> > +     if (acpi_disabled)
+>
+> Won't this be true for !CONFIG_ACPI?
+>
+> > +             return 0;
+> > +     if (pci_dev_msi_enabled(dev))
+> > +             return 0;
+> > +     return acpi_pci_irq_enable(dev);
+>
+> Looks to me like pcibios_alloc_irq() would be the better place for this
+> instead of pcibios_enable_device().
+Yes, that's better.
+
+>
+> > +#endif
+>
+> You'll have a build warning for !CONFIG_ACPI with no return value. But
+> then again, I'd assume CONFIG_ACPI can't be disabled for this code and
+> the ifdef is pointless.
+Yes, CONFIG_ACPI can't be disabled.
+
+>
+> > +}
+> > +
+> > +int pcibios_enable_device(struct pci_dev *dev, int mask)
+> > +{
+> > +     int err;
+> > +
+> > +     err = pci_enable_resources(dev, mask);
+> > +     if (err < 0)
+> > +             return err;
+> > +
+> > +     return pcibios_dev_init(dev);
+> > +}
+> > +
+> > +void pcibios_fixup_bus(struct pci_bus *bus)
+> > +{
+> > +     struct pci_dev *dev = bus->self;
+> > +
+> > +     if (pci_has_flag(PCI_PROBE_ONLY) && dev &&
+> > +         (dev->class >> 8) == PCI_CLASS_BRIDGE_PCI) {
+>
+> I don't think this is ever true because you don't have any way to set
+> PCI_PROBE_ONLY.
+Yes, this function is unneeded.
+
+>
+> > +             pci_read_bridge_bases(bus);
+> > +     }
+> > +}
+> > +
+> > +static void pci_fixup_vgadev(struct pci_dev *pdev)
+> > +{
+> > +     struct pci_dev *devp = NULL;
+> > +
+> > +     while ((devp = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, devp))) {
+> > +             if (devp->vendor != PCI_VENDOR_ID_LOONGSON) {
+> > +                     vga_set_default_device(devp);
+> > +                     dev_info(&pdev->dev,
+> > +                             "Overriding boot device as %X:%X\n",
+> > +                             devp->vendor, devp->device);
+> > +             }
+> > +     }
+> > +}
+> > +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_LOONGSON, PCI_DEVICE_ID_LOONGSON_DC, pci_fixup_vgadev);
+> > --
+> > 2.27.0
+> >
+> >
