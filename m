@@ -2,165 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9E5C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 16:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EEAFC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 16:51:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E3D1B61205
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 16:34:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 203556103D
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 16:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbhIJQf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Sep 2021 12:35:59 -0400
-Received: from mga18.intel.com ([134.134.136.126]:41169 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhIJQf7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Sep 2021 12:35:59 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="208226577"
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; 
-   d="scan'208";a="208226577"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 09:34:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; 
-   d="scan'208";a="581420171"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.212.255.212]) ([10.212.255.212])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 09:34:46 -0700
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-References: <CAPcyv4iJVQKJ3bVwZhD08c8GNEP0jW2gx=H504NXcYK5o2t01A@mail.gmail.com>
- <d992b5af-8d57-6aa6-bd49-8e2b8d832b19@linux.intel.com>
- <20210824053830-mutt-send-email-mst@kernel.org>
- <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
- <20210829112105-mutt-send-email-mst@kernel.org>
- <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
- <20210829181635-mutt-send-email-mst@kernel.org>
- <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
- <20210830163723-mutt-send-email-mst@kernel.org>
- <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
- <20210910054044-mutt-send-email-mst@kernel.org>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
-Date:   Fri, 10 Sep 2021 09:34:45 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S229566AbhIJQwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Sep 2021 12:52:21 -0400
+Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:41576 "EHLO
+        3.mo179.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229466AbhIJQwU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 12:52:20 -0400
+X-Greylist: delayed 4200 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Sep 2021 12:52:19 EDT
+Received: from player758.ha.ovh.net (unknown [10.109.146.132])
+        by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7C2321AB87D
+        for <linux-doc@vger.kernel.org>; Fri, 10 Sep 2021 12:51:54 +0200 (CEST)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player758.ha.ovh.net (Postfix) with ESMTPSA id BA65621F68EE9;
+        Fri, 10 Sep 2021 10:51:49 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-97G0024541a0f2-7580-44e4-9d72-f6fc93e3f470,
+                    C73725976D6A61EA55E4E62C2A2E1C1EB10F42AA) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH] docs: block: fix discard_max_bytes references
+Date:   Fri, 10 Sep 2021 12:51:42 +0200
+Message-Id: <20210910105142.2116749-1-steve@sk2.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210910054044-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 4092083213097797254
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeetgedugfelkeeikeetgeegteevfeeufeetuefgudeiiedthfehtdeffeekvdeffeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+When discard_max_hw_bytes was introduced, in commit 0034af036554
+("block: make /sys/block/<dev>/queue/discard_max_bytes writeable"),
+the discard_max_bytes documentation section was renamed to
+discard_max_hw_bytes, but the references it contains to
+discard_max_bytes weren't updated.
 
->>>> And we've been avoiding that drivers can self declare auditing, we've been
->>>> trying to have a separate centralized list so that it's easier to enforce
->>>> and avoids any cut'n'paste mistakes.
->>>>
->>>> -Andi
->>> Now I'm confused. What is proposed here seems to be basically that,
->>> drivers need to declare auditing by replacing ioremap with
->>> ioremap_shared.
->> Auditing is declared on the device model level using a central allow list.
-> Can we not have an init call allow list instead of, or in addition to, a
-> device allow list?
+This patch refers to discard_max_hw_bytes instead. It also reflows the
+paragraph so that sentences end lines.
 
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/block/queue-sysfs.rst | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-That would be quite complicated and intrusive. In fact I'm not even sure 
-how to do maintain something like this. There are a lot of needed 
-initcalls, they would all need to be marked. How can we distinguish 
-them? It would be a giant auditing project. And of course how would you 
-prevent it from bitrotting?
+diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
+index 4dc7f0d499a8..5fb4299cdb23 100644
+--- a/Documentation/block/queue-sysfs.rst
++++ b/Documentation/block/queue-sysfs.rst
+@@ -40,10 +40,11 @@ discard_max_hw_bytes (RO)
+ -------------------------
+ Devices that support discard functionality may have internal limits on
+ the number of bytes that can be trimmed or unmapped in a single operation.
+-The discard_max_bytes parameter is set by the device driver to the maximum
+-number of bytes that can be discarded in a single operation. Discard
+-requests issued to the device must not exceed this limit. A discard_max_bytes
+-value of 0 means that the device does not support discard functionality.
++The `discard_max_hw_bytes` parameter is set by the device driver to the
++maximum number of bytes that can be discarded in a single operation.
++Discard requests issued to the device must not exceed this limit.
++A `discard_max_hw_bytes` value of 0 means that the device does not support
++discard functionality.
+ 
+ discard_max_bytes (RW)
+ ----------------------
 
+base-commit: 7c60610d476766e128cc4284bb6349732cbd6606
+-- 
+2.27.0
 
-Basically it would be hundreds of changes all over the tree, just to 
-avoid two changes in virtio and MSI. Approach of just stopping the 
-initcalls from doing bad things is much less intrusive.
-
->
->> But this cannot do anything to initcalls that run before probe,
-> Can't we extend module_init so init calls are validated against the
-> allow list?
-
-See above.
-
-
-Also the problem isn't really with modules (we rely on udev not loading 
-them), but with builtin initcalls
-
-
->
->> that's why
->> an extra level of defense of ioremap opt-in is useful.
-> OK even assuming this, why is pci_iomap opt-in useful?
-> That never happens before probe - there's simply no pci_device then.
-
-
-Hmm, yes that's true. I guess we can make it default to opt-in for 
-pci_iomap.
-
-It only really matters for device less ioremaps.
-
->
-> It looks suspiciously like drivers self-declaring auditing to me which
-> we both seem to agree is undesirable. What exactly is the difference?
-
-
-Just allow listing the ioremaps is not self declaration because the 
-device will still not initialize due to the central device filter. If 
-you want to use it that has to be changed.
-
-It's just an additional safety net to contain code running before probe.
-
-
->
-> Or are you just trying to disable anything that runs before probe?
-
-
-Well anything that could do dangerous host interactions (like processing 
-ioremap data) A lot of things are harmless and can be allowed, or 
-already blocked elsewhere (e.g. we have a IO port filter). This just 
-handles the ioremap/MMIO case.
-
-> In that case I don't see a reason to touch pci drivers though.
-> These should be fine with just the device model list.
-
-
-That won't stop initcalls.
-
-
--Andi
-
-
->
