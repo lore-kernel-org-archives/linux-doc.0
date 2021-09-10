@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 884A6C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFA8C4167E
 	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 19:28:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E24A611EE
+	by mail.kernel.org (Postfix) with ESMTP id BFDAE610C7
 	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 19:28:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233397AbhIJT3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Sep 2021 15:29:36 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:29550 "EHLO
+        id S233625AbhIJT3k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Sep 2021 15:29:40 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:29548 "EHLO
         esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232430AbhIJT3d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 15:29:33 -0400
+        with ESMTP id S232697AbhIJT3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 15:29:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1631302101; x=1662838101;
+  t=1631302102; x=1662838102;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=GO7omq3rVi+V+CzKbzcTcJGYp29gXK/DeiBhKM0seGs=;
-  b=qZerMyucJD+6VT/18+gN/JC9k1+Is55YBg4g0Bb3LQRy+bSrG+ElEmmE
-   3oqnVkCjrvIYarqQWZ8adnFw0GgN+MDvAiOuz8NZ5zLlLpsrS/vlzTgOZ
-   2+SgV42np8wjenJefVap4G5eg/eltkDw+0u80wFYaNe0UoO6xRBZsYDPz
-   jqiWLpXbp3xo2V4tC2lZYp/ljAALU0Nl2G1VXmCQYffwIyDxkgW+4InRy
-   4+fJysfic0VchFTcvz1HVUWWmO/PxgeG2Fc+MPirIraab0Okr4zq80Yf5
-   PKLRQ23jO2o//MpRpG8QTrcV8PsBIq0UoRC2JbRD7wZA8cyp2RgSpUBVJ
-   g==;
+  bh=EwPH8S2shtkXPtK91LcmbvBxHJQny+yb+LwDXIyqGOc=;
+  b=j2fBEIIB2Ft1JFBPinmoj7mQNAR6HqqPYEBN37ehzNlQKJ9bUEKds2tV
+   5T/2X6Rqq30PHwoFZur3ALKFc5Thv3ngGlb1vebK6ivdjXaam2i4+K1XX
+   ZTxO9ANsLYEENwMuV1gx/nVZMFvXq8/lvAc+pUbgvj0+oKPy42MoaiRME
+   Hd1zRQAC6b3Iq9y6KxpJKUYSUkQbAkG3/oTTM4cSVbPR4d28x8bITJSvy
+   WT9ijxJDFcFt5Q3QUZl8K6xRuPKkC0JgAv/bUR9oX8ehnVKGDkTqZ09R3
+   S2NDSwfUEJGReBmksqoNXweRNYEkknzysw4x4a+vl7lKtoRx/QTVjr801
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.85,283,1624291200"; 
-   d="scan'208";a="179706171"
+   d="scan'208";a="179706173"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2021 03:28:19 +0800
-IronPort-SDR: rWkAUIA7EYvSa9t2N7ELO9idCj9yW8V1Xw6mj7c7qC08J1+j3z2I9e4avGhK3uKiQuFMlFacWC
- h9LIofBNPT6suAdTsqjAZmFhSLszC4rxHCRBB3tGwVuWPQWSa4bKyPXOSAYslCeh8C3PZT3J+y
- 5kVu/KBp1weRjhkpe1Jtf26BiBEj2f2K2/Z+W6LpRIKHRRTErhcstm1le5O/PdppZHyVL9idmf
- 6cmYXPM8zZNHalqhMZPekwzVfpXiUTtbb8sg+6Qe/OAX1xP5hIYGb0yBsshil61LyzMnEZHWTt
- 1WrIDKnMJhNE4Vnhee95A0wF
+  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2021 03:28:21 +0800
+IronPort-SDR: Xg+tmhDuaJhbO7IX1GjaOOB4T28MM8BHel6tLkj2FH0DqKi0hSesPo7ft5icCjjSFZb7lf5D2y
+ 1cTsA34He3Kyp6Ti/MWHe3NOUHGuJcC2BfBy/g9erl0ikBg7bozvjlG16FaKtEy78XE9RTCExB
+ Q/+IT2nLBAjDcZ9LAwiWt4XlQ9ztW/h63MzCiXQhJQyc7LxErDf2cTKk1uM+c6cyTP5DuHVcUx
+ gAeow4ItpdDr4uqxAgifELw7Isq/9x3qIan1Th8w0/4Thx1lmfZ4MTbcFa1XHyCdAwiClYtOhU
+ SAxvMFIpkZ/ua+SpNICL+4h1
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 12:03:14 -0700
-IronPort-SDR: Pi5w3WBSwQLpYocu6+1OCZR4qfNgdu33q8ZyZCDQmT6KaBuyr7NQd/pmCPqgFxHF0ggFXPqWPI
- 1XWIXvtzgstTo2WYEzTBzJpELtB42UivH9fcusm3D0USH7yscN3XlCc2rnBVqP0FoMGubfyqb7
- NJD3uXeaWgrNKAIMsruMovMkq6SlZHHqVlmBm8FnN2REzSbOrdR4j7i1qtboo2oIOhkBazpQvb
- iL/OeYzGN+A/Lu/u6pzCtgREIkRcMYFlcmUZPeiwXAFwfqlTvJ91wtitQSNerq5/88AZHzSBGe
- Yqc=
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 12:03:16 -0700
+IronPort-SDR: nPSEnoM5BDTrXlc0+cTbP6KkjikRYcijTCnBUjY87wVNLQN92bAnao9h421g3jMCxwUy0O9DW/
+ bjv3DfmnysavGNXow0K2mq/Llaxh3kBVXb1bNerrprNT7JTMAH3HyKOGrAqhFsuZZe3fOiYCee
+ IuXmPWXms6BCvxAKYY4v6CSy5wiQrRc2zY6aH07+nFtZSYRCZXOGOD1Y5o4xfMAKZF7Zu05BLc
+ 8OusOABMaXMOPIoRud+FrLLDZbbXpbbMH80n79ON8cvPdZjv/u+V1rIojA0XmMOKe0fGm+IWQT
+ yV8=
 WDCIronportException: Internal
 Received: from unknown (HELO hulk.wdc.com) ([10.225.167.73])
-  by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2021 12:28:20 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2021 12:28:21 -0700
 From:   Atish Patra <atish.patra@wdc.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Atish Patra <atish.patra@wdc.com>,
@@ -69,9 +69,9 @@ Cc:     Atish Patra <atish.patra@wdc.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Rob Herring <robh+dt@kernel.org>,
         Vincent Chen <vincent.chen@sifive.com>
-Subject: [v3 02/10] RISC-V: Add CSR encodings for all HPMCOUNTERS
-Date:   Fri, 10 Sep 2021 12:27:49 -0700
-Message-Id: <20210910192757.2309100-3-atish.patra@wdc.com>
+Subject: [v3 04/10] RISC-V: Add a simple platform driver for RISC-V legacy perf
+Date:   Fri, 10 Sep 2021 12:27:51 -0700
+Message-Id: <20210910192757.2309100-5-atish.patra@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910192757.2309100-1-atish.patra@wdc.com>
 References: <20210910192757.2309100-1-atish.patra@wdc.com>
@@ -81,83 +81,225 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The old RISC-V perf implementation allowed counting of only
+cycle/instruction counters using perf. Restore that feature by implementing
+a simple platform driver under a separate config to provide backward
+compatibility. Any existing software stack will continue to work as it is.
+However, it provides an easy way out in future where we can remove the
+legacy driver.
+
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- arch/riscv/include/asm/csr.h | 58 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+ drivers/perf/Kconfig            |   9 ++
+ drivers/perf/Makefile           |   3 +
+ drivers/perf/riscv_pmu_legacy.c | 143 ++++++++++++++++++++++++++++++++
+ include/linux/perf/riscv_pmu.h  |   2 +
+ 4 files changed, 157 insertions(+)
+ create mode 100644 drivers/perf/riscv_pmu_legacy.c
 
-diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-index 87ac65696871..e4d369830af4 100644
---- a/arch/riscv/include/asm/csr.h
-+++ b/arch/riscv/include/asm/csr.h
-@@ -89,9 +89,67 @@
- #define CSR_CYCLE		0xc00
- #define CSR_TIME		0xc01
- #define CSR_INSTRET		0xc02
-+#define CSR_HPMCOUNTER3		0xc03
-+#define CSR_HPMCOUNTER4		0xc04
-+#define CSR_HPMCOUNTER5		0xc05
-+#define CSR_HPMCOUNTER6		0xc06
-+#define CSR_HPMCOUNTER7		0xc07
-+#define CSR_HPMCOUNTER8		0xc08
-+#define CSR_HPMCOUNTER9		0xc09
-+#define CSR_HPMCOUNTER10	0xc0a
-+#define CSR_HPMCOUNTER11	0xc0b
-+#define CSR_HPMCOUNTER12	0xc0c
-+#define CSR_HPMCOUNTER13	0xc0d
-+#define CSR_HPMCOUNTER14	0xc0e
-+#define CSR_HPMCOUNTER15	0xc0f
-+#define CSR_HPMCOUNTER16	0xc10
-+#define CSR_HPMCOUNTER17	0xc11
-+#define CSR_HPMCOUNTER18	0xc12
-+#define CSR_HPMCOUNTER19	0xc13
-+#define CSR_HPMCOUNTER20	0xc14
-+#define CSR_HPMCOUNTER21	0xc15
-+#define CSR_HPMCOUNTER22	0xc16
-+#define CSR_HPMCOUNTER23	0xc17
-+#define CSR_HPMCOUNTER24	0xc18
-+#define CSR_HPMCOUNTER25	0xc19
-+#define CSR_HPMCOUNTER26	0xc1a
-+#define CSR_HPMCOUNTER27	0xc1b
-+#define CSR_HPMCOUNTER28	0xc1c
-+#define CSR_HPMCOUNTER29	0xc1d
-+#define CSR_HPMCOUNTER30	0xc1e
-+#define CSR_HPMCOUNTER31	0xc1f
- #define CSR_CYCLEH		0xc80
- #define CSR_TIMEH		0xc81
- #define CSR_INSTRETH		0xc82
-+#define CSR_HPMCOUNTER3H	0xc83
-+#define CSR_HPMCOUNTER4H	0xc84
-+#define CSR_HPMCOUNTER5H	0xc85
-+#define CSR_HPMCOUNTER6H	0xc86
-+#define CSR_HPMCOUNTER7H	0xc87
-+#define CSR_HPMCOUNTER8H	0xc88
-+#define CSR_HPMCOUNTER9H	0xc89
-+#define CSR_HPMCOUNTER10H	0xc8a
-+#define CSR_HPMCOUNTER11H	0xc8b
-+#define CSR_HPMCOUNTER12H	0xc8c
-+#define CSR_HPMCOUNTER13H	0xc8d
-+#define CSR_HPMCOUNTER14H	0xc8e
-+#define CSR_HPMCOUNTER15H	0xc8f
-+#define CSR_HPMCOUNTER16H	0xc90
-+#define CSR_HPMCOUNTER17H	0xc91
-+#define CSR_HPMCOUNTER18H	0xc92
-+#define CSR_HPMCOUNTER19H	0xc93
-+#define CSR_HPMCOUNTER20H	0xc94
-+#define CSR_HPMCOUNTER21H	0xc95
-+#define CSR_HPMCOUNTER22H	0xc96
-+#define CSR_HPMCOUNTER23H	0xc97
-+#define CSR_HPMCOUNTER24H	0xc98
-+#define CSR_HPMCOUNTER25H	0xc99
-+#define CSR_HPMCOUNTER26H	0xc9a
-+#define CSR_HPMCOUNTER27H	0xc9b
-+#define CSR_HPMCOUNTER28H	0xc9c
-+#define CSR_HPMCOUNTER29H	0xc9d
-+#define CSR_HPMCOUNTER30H	0xc9e
-+#define CSR_HPMCOUNTER31H	0xc9f
+diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+index fc42ab613ea0..1546a487d970 100644
+--- a/drivers/perf/Kconfig
++++ b/drivers/perf/Kconfig
+@@ -64,6 +64,15 @@ config RISCV_PMU
+ 	  Say y if you want to use CPU performance monitors on RISCV-based
+ 	  systems.
  
- #define CSR_SSTATUS		0x100
- #define CSR_SIE			0x104
++config RISCV_PMU_LEGACY
++	depends on RISCV_PMU
++	bool "RISC-V legacy PMU implementation"
++	default y
++	help
++	  Say y if you want to use the legacy CPU performance monitor
++	  implementation on RISC-V based systems. This only allows counting
++	  of cycle/instruction counter and will be removed in future.
++
+ config ARM_PMU_ACPI
+ 	depends on ARM_PMU && ACPI
+ 	def_bool y
+diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
+index 76e5c50e24bb..e8aa666a9d28 100644
+--- a/drivers/perf/Makefile
++++ b/drivers/perf/Makefile
+@@ -11,6 +11,9 @@ obj-$(CONFIG_HISI_PMU) += hisilicon/
+ obj-$(CONFIG_QCOM_L2_PMU)	+= qcom_l2_pmu.o
+ obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
+ obj-$(CONFIG_RISCV_PMU) += riscv_pmu.o
++ifeq ($(CONFIG_RISCV_PMU), y)
++obj-$(CONFIG_RISCV_PMU_LEGACY) += riscv_pmu_legacy.o
++endif
+ obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
+ obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
+ obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
+diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_legacy.c
+new file mode 100644
+index 000000000000..8bb973f2d9f7
+--- /dev/null
++++ b/drivers/perf/riscv_pmu_legacy.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * RISC-V performance counter support.
++ *
++ * Copyright (C) 2021 Western Digital Corporation or its affiliates.
++ *
++ * This implementation is based on old RISC-V perf and ARM perf event code
++ * which are in turn based on sparc64 and x86 code.
++ */
++
++#include <linux/mod_devicetable.h>
++#include <linux/perf/riscv_pmu.h>
++#include <linux/platform_device.h>
++
++#define RISCV_PMU_LEGACY_CYCLE		0
++#define RISCV_PMU_LEGACY_INSTRET	1
++#define RISCV_PMU_LEGACY_NUM_CTR	2
++
++bool pmu_init_done;
++
++static int pmu_legacy_ctr_get_idx(struct perf_event *event)
++{
++	struct perf_event_attr *attr = &event->attr;
++
++	if (event->attr.type != PERF_TYPE_HARDWARE)
++		return -EOPNOTSUPP;
++	if (attr->config == PERF_COUNT_HW_CPU_CYCLES)
++		return RISCV_PMU_LEGACY_CYCLE;
++	else if (attr->config == PERF_COUNT_HW_INSTRUCTIONS)
++		return RISCV_PMU_LEGACY_INSTRET;
++	else
++		return -EOPNOTSUPP;
++}
++
++/* For legacy config & counter index are same */
++static int pmu_legacy_event_map(struct perf_event *event, u64 *config)
++{
++	return pmu_legacy_ctr_get_idx(event);
++}
++
++static u64 pmu_legacy_read_ctr(struct perf_event *event)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	int idx = hwc->idx;
++	u64 val;
++
++	if (idx == RISCV_PMU_LEGACY_CYCLE) {
++		val = riscv_pmu_ctr_read_csr(CSR_CYCLE);
++		if (IS_ENABLED(CONFIG_32BIT))
++			val = (u64)riscv_pmu_ctr_read_csr(CSR_CYCLEH) << 32 | val;
++	} else if (idx == RISCV_PMU_LEGACY_INSTRET) {
++		val = riscv_pmu_ctr_read_csr(CSR_INSTRET);
++		if (IS_ENABLED(CONFIG_32BIT))
++			val = ((u64)riscv_pmu_ctr_read_csr(CSR_INSTRETH)) << 32 | val;
++	} else
++		return 0;
++
++	return val;
++}
++
++static void pmu_legacy_ctr_start(struct perf_event *event, u64 ival)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	u64 initial_val = pmu_legacy_read_ctr(event);
++
++	/**
++	 * The legacy method doesn't really have a start/stop method.
++	 * It also can not update the counter with a initial value.
++	 * But we still need to set the prev_count so that read() can compute
++	 * the delta. Just use the current counter value to set the prev_count.
++	 */
++	local64_set(&hwc->prev_count, initial_val);
++}
++
++/**
++ * This is just a simple implementation to allow legacy implementations
++ * compatible with new RISC-V PMU driver framework.
++ * This driver only allows reading two counters i.e CYCLE & INSTRET.
++ * However, it can not start or stop the counter. Thus, it is not very useful
++ * will be removed in future.
++ */
++static void pmu_legacy_init(struct riscv_pmu *pmu)
++{
++	pr_info("Legacy PMU implementation is available\n");
++
++	pmu->num_counters = RISCV_PMU_LEGACY_NUM_CTR;
++	pmu->ctr_start = pmu_legacy_ctr_start;
++	pmu->ctr_stop = NULL;
++	pmu->event_map = pmu_legacy_event_map;
++	pmu->ctr_get_idx = pmu_legacy_ctr_get_idx;
++	pmu->ctr_get_width = NULL;
++	pmu->ctr_clear_idx = NULL;
++	pmu->ctr_read = pmu_legacy_read_ctr;
++
++	perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
++}
++
++static int pmu_legacy_device_probe(struct platform_device *pdev)
++{
++	struct riscv_pmu *pmu = NULL;
++
++	pmu = riscv_pmu_alloc();
++	if (!pmu)
++		return -ENOMEM;
++	pmu_legacy_init(pmu);
++
++	return 0;
++}
++
++static struct platform_driver pmu_legacy_driver = {
++	.probe		= pmu_legacy_device_probe,
++	.driver		= {
++		.name	= RISCV_PMU_LEGACY_PDEV_NAME,
++	},
++};
++
++static int __init riscv_pmu_legacy_devinit(void)
++{
++	int ret;
++	struct platform_device *pdev;
++
++	if (likely(pmu_init_done))
++		return 0;
++
++	ret = platform_driver_register(&pmu_legacy_driver);
++	if (ret)
++		return ret;
++
++	pdev = platform_device_register_simple(RISCV_PMU_LEGACY_PDEV_NAME, -1, NULL, 0);
++	if (IS_ERR(pdev)) {
++		platform_driver_unregister(&pmu_legacy_driver);
++		return PTR_ERR(pdev);
++	}
++
++	return ret;
++}
++late_initcall(riscv_pmu_legacy_devinit);
++
++void riscv_pmu_legacy_init(bool done)
++{
++	if (done)
++		pmu_init_done = true;
++}
+diff --git a/include/linux/perf/riscv_pmu.h b/include/linux/perf/riscv_pmu.h
+index 564129839e19..f3bce79d8998 100644
+--- a/include/linux/perf/riscv_pmu.h
++++ b/include/linux/perf/riscv_pmu.h
+@@ -22,6 +22,7 @@
+ #define RISCV_MAX_COUNTERS	64
+ #define RISCV_OP_UNSUPP		(-EOPNOTSUPP)
+ #define RISCV_PMU_PDEV_NAME	"riscv-pmu"
++#define RISCV_PMU_LEGACY_PDEV_NAME	"riscv-pmu-legacy"
+ 
+ #define RISCV_PMU_STOP_FLAG_RESET 1
+ 
+@@ -58,6 +59,7 @@ struct riscv_pmu {
+ unsigned long riscv_pmu_ctr_read_csr(unsigned long csr);
+ int riscv_pmu_event_set_period(struct perf_event *event, u64 *init_val);
+ u64 riscv_pmu_event_update(struct perf_event *event);
++void riscv_pmu_legacy_init(bool init_done);
+ struct riscv_pmu *riscv_pmu_alloc(void);
+ 
+ #endif /* CONFIG_RISCV_PMU */
 -- 
 2.31.1
 
