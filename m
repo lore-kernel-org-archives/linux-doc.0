@@ -2,77 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAC2C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 23:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82EFC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Sep 2021 02:38:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3011161213
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Sep 2021 23:32:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0A2F61214
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Sep 2021 02:38:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234789AbhIJXdV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Sep 2021 19:33:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234835AbhIJXdV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Sep 2021 19:33:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5166A611B0;
-        Fri, 10 Sep 2021 23:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631316729;
-        bh=nqr4f1XS47t1B3ClErUzXUPQwwrVsVEXFPpaLcDk9OQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fBQuqIxZxWbDIEmllHYXleekwU32ZHdacYJMzktzIf2VIFlZl1Fhw8GQ3a1De2wD0
-         IbR+mjddZGceCMdz7BKFq/S9irYTDPD8SPtk2xAfGLYyGO1zhaGVDkBfsf70k+5CH5
-         +0CbN3o1bS4rmM3pBSVo0qHrjYCd+G/R6GjgCbberP75WQ+m+MWuEoO/XYyEJKRO6u
-         JYmwP4PIx0zKYf88qXMQM+R9Be1O7RJaU7KNicY7khuEKA0b60Irs0ASOqC7knewe4
-         Kdjq/m8nmhiVXu2C/tut9dn6LrchCqjouAJ1vRIjReBjWQGFjoF2Sc8b5dQwJVYxeg
-         LrboeN4sqkGRQ==
-Received: by pali.im (Postfix)
-        id DDED02828; Sat, 11 Sep 2021 01:32:06 +0200 (CEST)
-Date:   Sat, 11 Sep 2021 01:32:06 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add link to Orion
- Functional Errata document
-Message-ID: <20210910233206.fpwd7smtlgrovt5q@pali>
-References: <20210704181110.9254-1-pali@kernel.org>
+        id S235187AbhIKCj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Sep 2021 22:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50834 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235173AbhIKCjz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Sep 2021 22:39:55 -0400
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB7CC061574;
+        Fri, 10 Sep 2021 19:38:43 -0700 (PDT)
+Received: by mail-vs1-xe2c.google.com with SMTP id x137so3332217vsx.1;
+        Fri, 10 Sep 2021 19:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aW+ZVGbPVSNBQ73btRhAUuj6asXoMiMDa/u/F2G13vI=;
+        b=ftQ0uKjMn5tPFV5bwG8Z7q6OzfWOzJhUVAd5/qWpyNovHPDvXTahUNVairz/H+YKnd
+         xdLw7VlDgOnrB3OLS31WNj2XJcH4A4OmRKd6f/YykMyyvui8bwM7RvN403XywqLnvbeq
+         99bAxikzAyeF93A8u2rcz5IgpP4zWg1YGK4oZUo8KgUIaU8uiyWJhhiQSOelSQM84/yH
+         7/dOiqGjpFuLhafxKRoFu2B8m1uEyLgEPe2VcT6r5sXPb8dxpbaLtiHDIeU+DW9vazN9
+         JhuH/xlVhwHFjQ8oIFXvFEKf54hw1FZnEXT8XlASJ9g8TPWMhNh4zxwVH5RKDJde0It3
+         9Jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aW+ZVGbPVSNBQ73btRhAUuj6asXoMiMDa/u/F2G13vI=;
+        b=gAcgV3UGkzmvnjnkgZtUlSH8xdO1Lm0bFRVPdXIUQSpcT+PeUZJtLVPTRnhTMmEccj
+         oDEkWpaxs8di1QTfz8jGxYULJQwSsB7jK1wFpLySgaevDiznE6U/vy8jbc9yMxHw40IA
+         gBA7F+mrTG6n/rvzZBpPG3tR4IqUAaQJF/IbeDIB5WFegBBi0zhfZySkCjqmFoEPwaKN
+         cOeBx725MKvSi4rqxaS7idOAoBxUh9GmiyOYYAfZo+DsYyJs0dIYOXbFchu0MhKrCd4G
+         Q7Hv5q55RCo/wUSTB9CXZp2CO2t15e0a8fdTX8Td6D1DlsS0KWTP2jL8NnnLEUoiyIHF
+         Huvg==
+X-Gm-Message-State: AOAM530ZfmDmaP15d7zLrcFcJzvUZkV32zpuaXscN7T5wSDZNr5722gu
+        oDYrAbM+Bix5543cRrfaBRDw5Lx8FcyJNMOah9w=
+X-Google-Smtp-Source: ABdhPJyQOhZeVbMc1c7mVO/ypSmFl93WdNeuctGrk2DAfbRh2kLiX/GlrOl0lTJ/fwFPk+3BVvcLg9le0eny7DIjTtQ=
+X-Received: by 2002:a05:6102:214c:: with SMTP id h12mr196015vsg.3.1631327922727;
+ Fri, 10 Sep 2021 19:38:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210704181110.9254-1-pali@kernel.org>
-User-Agent: NeoMutt/20180716
+References: <20210903095213.797973-1-chenhuacai@loongson.cn>
+ <20210903095213.797973-19-chenhuacai@loongson.cn> <YTjbaz7iea1kwGYb@robh.at.kernel.org>
+ <YTs0WGYEFZp8uIO7@infradead.org>
+In-Reply-To: <YTs0WGYEFZp8uIO7@infradead.org>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Sat, 11 Sep 2021 10:38:31 +0800
+Message-ID: <CAAhV-H7LVFeirw5D7FBW8mfG=o=WydvUcZ_eemxe0c820KCwgA@mail.gmail.com>
+Subject: Re: [PATCH V2 18/22] LoongArch: Add PCI controller support
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-pci <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello! I would like to remind this patch.
+Hi, Christoph,
 
-On Sunday 04 July 2021 20:11:10 Pali Rohár wrote:
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> ---
->  Documentation/arm/marvell.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-> index db2246493d18..753a422d3bb1 100644
-> --- a/Documentation/arm/marvell.rst
-> +++ b/Documentation/arm/marvell.rst
-> @@ -21,6 +21,7 @@ Orion family
->                 - Datasheet: https://web.archive.org/web/20210124231420/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-datasheet.pdf
->                 - Programmer's User Guide: https://web.archive.org/web/20210124231536/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-opensource-manual.pdf
->                 - User Manual: https://web.archive.org/web/20210124231631/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-usermanual.pdf
-> +               - Functional Errata: https://web.archive.org/web/20210704165540/https://www.digriz.org.uk/ts78xx/88F5182_Functional_Errata.pdf
->          - 88F5281
->  
->                 - Datasheet: https://web.archive.org/web/20131028144728/http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
-> -- 
-> 2.20.1
-> 
+On Fri, Sep 10, 2021 at 6:35 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> Why is this whole series not on linux-kernel?
+When I was a newbie sending patches to the linux community for the
+first time, maintainers told me that if a series is more than 15
+patches, then sending to linux-kernel means killing the mail list. So
+... I only send it to linux-arch. :)
+
+Huacai
