@@ -7,132 +7,75 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FECC433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F0CC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FC6B61050
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B47D961050
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234663AbhILQAX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Sep 2021 12:00:23 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:44369 "EHLO
+        id S235521AbhILQAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Sep 2021 12:00:31 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:43868 "EHLO
         ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235577AbhILQAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Sep 2021 12:00:22 -0400
-X-Greylist: delayed 453 seconds by postgrey-1.27 at vger.kernel.org; Sun, 12 Sep 2021 12:00:21 EDT
+        with ESMTP id S235577AbhILQAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Sep 2021 12:00:31 -0400
 Received: from ATCSQR.andestech.com (localhost [127.0.0.2] (may be forged))
-        by ATCSQR.andestech.com with ESMTP id 18CFpVxs066046;
-        Sun, 12 Sep 2021 23:51:31 +0800 (GMT-8)
+        by ATCSQR.andestech.com with ESMTP id 18CFqNbK066105;
+        Sun, 12 Sep 2021 23:52:23 +0800 (GMT-8)
         (envelope-from ycliang@andestech.com)
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id 18CFoth5065966;
-        Sun, 12 Sep 2021 23:50:55 +0800 (GMT-8)
+        by ATCSQR.andestech.com with ESMTP id 18CFppbW066052;
+        Sun, 12 Sep 2021 23:51:51 +0800 (GMT-8)
         (envelope-from ycliang@andestech.com)
 Received: from ubuntu01.andestech.com (192.168.21.16) by
  ATCPCS16.andestech.com (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
- Sun, 12 Sep 2021 23:50:57 +0800
+ Sun, 12 Sep 2021 23:51:54 +0800
 From:   Leo Yu-Chi Liang <ycliang@andestech.com>
-To:     <corbet@lwn.net>, <src.res@email.cn>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+To:     <corbet@lwn.net>, <alex@ghiti.fr>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
         <linux-doc-tw-discuss@lists.sourceforge.net>
 CC:     <ycliang@cs.nctu.edu.tw>, <ycliang@andestech.com>
-Subject: [PATCH 1/1] docs/zh_TW: Add translation for riscv/boot-image-header
-Date:   Sun, 12 Sep 2021 15:50:49 +0000
-Message-ID: <20210912155049.129774-1-ycliang@andestech.com>
+Subject: [PATCH 1/2] doc: Fix typo in Documentation/riscv/vm-layout
+Date:   Sun, 12 Sep 2021 15:51:49 +0000
+Message-ID: <20210912155149.130332-1-ycliang@andestech.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
 X-Originating-IP: [192.168.21.16]
 X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 18CFpVxs066046
+X-MAIL: ATCSQR.andestech.com 18CFqNbK066105
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Leo Yu-Chi Liang <ycliang@cs.nctu.edu.tw>
 
-Add Traditional Chinese for Documentation/riscv/boot-image-header.rst
+Fix a typo of the End Addr field for `direct mapping` section.
 
-Signed-off-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+The value 0xffffffff7fffffff - 0xffffffe000000000 is 126 GB
+and is not equal to value in the size field.
+
+Update the value to make sense of the memory layout table.
+
+Signed-off-by: Leo Yu-Chi Liang <ycliang@cs.nctu.edu.tw>
 ---
- .../zh_TW/riscv/boot-image-header.rst         | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/translations/zh_TW/riscv/boot-image-header.rst
+ Documentation/riscv/vm-layout.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_TW/riscv/boot-image-header.rst b/Documentation/translations/zh_TW/riscv/boot-image-header.rst
-new file mode 100644
-index 000000000000..86519d3c4f3b
---- /dev/null
-+++ b/Documentation/translations/zh_TW/riscv/boot-image-header.rst
-@@ -0,0 +1,67 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_TW.rst
-+
-+:Original: Documentation/riscv/patch-acceptance.rst
-+
-+:譯者:
-+
-+ 梁育齊 Liang YuChi <ycliang@cs.nctu.edu.tw>
-+
-+=============================
-+RISC-V Linux 的啟動影像檔標頭
-+=============================
-+
-+:Author: Atish Patra <atish.patra@wdc.com>
-+:Date:   20 May 2019
-+
-+這份文件僅描述 RISC-V Linux 啟動影像檔標頭的詳細訊息。
-+
-+待完成:
-+    寫一份完整的啟動流程指南。
-+    
-+解壓縮後的 Linux 核心影像檔中會含有以下 64 位元組的標頭::
-+
-+        u32 code0;                /* 可執行程式碼 */
-+        u32 code1;                /* 可執行程式碼 */
-+        u64 text_offset;          /* 載入影像的偏移量  */
-+        u64 image_size;           /* 有效影像大小，小端序 */
-+        u64 flags;                /* 核心旗標，小端序 */
-+        u32 version;              /* 標頭版本 */
-+        u32 res1 = 0;             /* 保留 */
-+        u64 res2 = 0;             /* 保留 */
-+        u64 magic = 0x5643534952; /* 魔術數字，小端序，"RISCV" */
-+        u32 magic2 = 0x05435352;  /* 魔術數字 2，小端序，"RSC\x05" */
-+        u32 res3;                 /* 保留 PE COFF 的偏移量 */
-+
-+這種標頭格式是深受 ARM64 標頭的影響並且相容於 PE/COFF 標頭。
-+因此，將來可以將 ARM64 和 RISC-V 標頭合併為一個通用標頭。
-+
-+註
-+==
-+- 將來，這個標頭還可用來支援 RISC-V 的 EFI 模擬實作。 
-+  EFI 規範需要核心影像開頭的 PE/COFF 影像標頭，以便將其視作 EFI 應用程式來運行。
-+  為了支援 EFI 模擬，code0 應替換為 "MZ" 魔術字串，res3（偏移量 0x3c）應指向 PE/COFF 標頭的其餘部分。
-+
-+- 版本欄位標示的是版本號
-+
-+        ==========  ======
-+        位元 0:15   小版號
-+        位元 16:31  大版號
-+        ==========  ======
-+
-+   這樣可以保證新、舊版本間的相容性。
-+   目前的版本被定義為 0.2。
-+
-+- 自 0.2 版後，"magic" 欄位已不適用。
-+  在未來的版本中，它可能會被刪除。
-+  這本來應該和 ARM64 標頭 "magic" 欄位相符，但不幸的是沒有。 
-+  "magic 2" 欄位是用來替換 "magic" 的，並且與 ARM64 標頭相符。
-+
-+- 在目前的標頭中，旗標欄位僅只有一個欄位。
-+
-+        ======  ===================================================
-+        位元 0  核心的位元組順序。 小端序，則為 1；大端序，則為 0。
-+        ======  ===================================================
-+
-+- 啟動載入程式會需要核心影像檔案的大小資訊，否則啟動程序將會失敗。
+diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+index b7f98930d38d..2525cf0d6794 100644
+--- a/Documentation/riscv/vm-layout.rst
++++ b/Documentation/riscv/vm-layout.rst
+@@ -52,7 +52,7 @@ RISC-V Linux Kernel SV39
+    ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
+    ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
+    ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
+-   ffffffe000000000 | -128    GB | ffffffff7fffffff |  124 GB | direct mapping of all physical memory
++   ffffffe000000000 | -128    GB | fffffffeffffffff |  124 GB | direct mapping of all physical memory
+   __________________|____________|__________________|_________|____________________________________________________________
+                                                               |
+                                                               |
 -- 
 2.25.1
 
