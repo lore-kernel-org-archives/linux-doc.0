@@ -2,136 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B1EC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A2DC433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 17:28:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67E0E61050
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 15:59:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 255F461051
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Sep 2021 17:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235390AbhILQAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Sep 2021 12:00:40 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:33700 "EHLO
-        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235850AbhILQAk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Sep 2021 12:00:40 -0400
-Received: from ATCSQR.andestech.com (localhost [127.0.0.2] (may be forged))
-        by ATCSQR.andestech.com with ESMTP id 18CFrdfQ066177;
-        Sun, 12 Sep 2021 23:53:39 +0800 (GMT-8)
-        (envelope-from ycliang@andestech.com)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id 18CFrNvJ066155;
-        Sun, 12 Sep 2021 23:53:23 +0800 (GMT-8)
-        (envelope-from ycliang@andestech.com)
-Received: from ubuntu01.andestech.com (192.168.21.16) by
- ATCPCS16.andestech.com (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
- Sun, 12 Sep 2021 23:53:24 +0800
-From:   Leo Yu-Chi Liang <ycliang@andestech.com>
-To:     <corbet@lwn.net>, <src.res@email.cn>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-doc-tw-discuss@lists.sourceforge.net>
-CC:     <ycliang@cs.nctu.edu.tw>, <ycliang@andestech.com>
-Subject: [PATCH 2/2] docs/zh_TW: Add translation for riscv/vm-layout
-Date:   Sun, 12 Sep 2021 15:53:19 +0000
-Message-ID: <20210912155319.130461-1-ycliang@andestech.com>
-X-Mailer: git-send-email 2.25.1
+        id S229726AbhILRaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Sep 2021 13:30:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229643AbhILRaE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Sep 2021 13:30:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B077BC061574;
+        Sun, 12 Sep 2021 10:28:49 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A031B2CB;
+        Sun, 12 Sep 2021 17:28:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A031B2CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1631467728; bh=Z93cyMUcOAaNaWs7wlKg4p0OMtDBsNw9FZrykDTTdeo=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Laoic5faTcOU5xhvqSxr9jWZaRGqesd4HDpgIQNQpoOrfWSxMHFATIVrsqMls72V/
+         lCuxxCP8uxA2+Mmd3aeksEe0svctduUMWjdjajvHi9pBnrBL05QdIed1f9yWHsWHnD
+         76ECF4isWDCiubQEesrB0ThyNUQfvtPl3fFdEVfqcbwR7QYu4ACeeJJAWUOwP+1MSY
+         VKIVi9PLCATN8st1x1jPzXZPTF6Ty9ifbo2P7B1xGCCLmUzvDdzup7l7XPHZyj+IoC
+         ZBi54GE40YMYw3lKSMrmN1Z/3oaQJ36LKyj9+Ok5nYTrPn67LUAzyZIv4M5WtRp3zb
+         gwJj2xXB/RbuA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Leo Yu-Chi Liang <ycliang@andestech.com>, src.res@email.cn,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Cc:     ycliang@cs.nctu.edu.tw, ycliang@andestech.com
+Subject: Re: [PATCH 1/1] docs/zh_TW: Add translation for
+ riscv/boot-image-header
+In-Reply-To: <20210912155049.129774-1-ycliang@andestech.com>
+References: <20210912155049.129774-1-ycliang@andestech.com>
+Date:   Sun, 12 Sep 2021 11:28:47 -0600
+Message-ID: <87v935n1o0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.21.16]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 18CFrdfQ066177
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Leo Yu-Chi Liang <ycliang@cs.nctu.edu.tw>
+Leo Yu-Chi Liang <ycliang@andestech.com> writes:
 
-Add Traditional Chinese for Documentation/riscv/vm-layout.rst
+> From: Leo Yu-Chi Liang <ycliang@cs.nctu.edu.tw>
+>
+> Add Traditional Chinese for Documentation/riscv/boot-image-header.rst
+>
+> Signed-off-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+> ---
+>  .../zh_TW/riscv/boot-image-header.rst         | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/translations/zh_TW/riscv/boot-image-header.rst
+>
+> diff --git a/Documentation/translations/zh_TW/riscv/boot-image-header.rst b/Documentation/translations/zh_TW/riscv/boot-image-header.rst
+> new file mode 100644
+> index 000000000000..86519d3c4f3b
+> --- /dev/null
+> +++ b/Documentation/translations/zh_TW/riscv/boot-image-header.rst
 
-Signed-off-by: Leo Yu-Chi Liang <ycliang@cs.nctu.edu.tw>
----
- .../translations/zh_TW/riscv/vm-layout.rst    | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/translations/zh_TW/riscv/vm-layout.rst
+When you add new RST files you *always* have to add them to the
+index.rst file to include them in the docs build.  Please always test
+the docs build and be sure your changes work before sending them.
 
-diff --git a/Documentation/translations/zh_TW/riscv/vm-layout.rst b/Documentation/translations/zh_TW/riscv/vm-layout.rst
-new file mode 100644
-index 000000000000..628bba3f139d
---- /dev/null
-+++ b/Documentation/translations/zh_TW/riscv/vm-layout.rst
-@@ -0,0 +1,67 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_TW.rst
-+
-+:Original: Documentation/riscv/patch-acceptance.rst
-+
-+:譯者:
-+
-+  梁育齊 Liang YuChi <ycliang@cs.nctu.edu.tw>
-+
-+=============================
-+RISC-V Linux 的虛擬記憶體佈局
-+=============================
-+
-+:Author: Alexandre Ghiti <alex@ghiti.fr>
-+:Date: 12 February 2021
-+
-+這份文件描述 RISC-V Linux 核心的虛擬記憶體佈局。
-+
-+32 位元 RISC-V Linux 核心
-+=========================
-+
-+32 位元 RISC-V Linux 核心
-+------------------------
-+
-+待完成
-+
-+64 位元 RISC-V Linux 核心
-+=========================
-+RISC-V 的特權架構文件描述 64 位元長度的位址
-+"必須讓第 63-48 位都等於第 47 位，否則會發生分頁錯誤中斷。"
-+而這表示有一個巨大的記憶體"孔洞"將虛擬記憶體空間分成兩半，
-+下半部是使用者空間所在的位址，上半部則是 RISC-V Linux 核心所使用的位址。
-+
-+RISC-V Linux Kernel SV39
-+------------------------
-+
-+::
-+
-+  ========================================================================================================================
-+       起始位址     |   偏移量   |     終端位址     |  大小   | 虛擬記憶體區塊的描述
-+  ========================================================================================================================
-+                    |            |                  |         |
-+   0000000000000000 |    0       | 0000003fffffffff |  256 GB | 使用者空間的虛擬記憶體，每個 mm 有各自的虛擬記憶體
-+  __________________|____________|__________________|_________|___________________________________________________________
-+                    |            |                  |         |
-+   0000004000000000 | +256    GB | ffffffbfffffffff | ~16M TB | ... 非常大，大約是 64 位元寬的一塊非標準化的虛擬記憶體孔洞
-+                    |            |                  |         |     ，從核心起始記憶體位址對映 -256 GB 偏移量的位址。
-+  __________________|____________|__________________|_________|___________________________________________________________
-+                                                              |
-+                                                              | 核心空間的虛擬記憶體，被所有的程序所共享：
-+  ____________________________________________________________|___________________________________________________________
-+                    |            |                  |         |
-+   ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
-+   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
-+   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
-+   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
-+   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
-+   ffffffe000000000 | -128    GB | fffffffeffffffff |  124 GB | 所有實體記憶體的直接映射
-+  __________________|____________|__________________|_________|____________________________________________________________
-+                                                              |
-+                                                              |
-+  ____________________________________________________________|____________________________________________________________
-+                    |            |                  |         |
-+   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | 核心模組，BPF
-+   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | 核心
-+  __________________|____________|__________________|_________|____________________________________________________________
--- 
-2.25.1
+Thanks,
 
+jon
