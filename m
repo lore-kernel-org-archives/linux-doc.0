@@ -2,104 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 135DCC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 16:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B9ECC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 16:57:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAFA360FF2
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 16:52:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09F7961029
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 16:57:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240672AbhIMQxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Sep 2021 12:53:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240665AbhIMQxi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 12:53:38 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34CB0C061574
-        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 09:52:22 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id n2so22520983lfk.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 09:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h7Yl//dy5tlfXJpNjGw/RwytM2u2c4Gl1NK7VqTyQik=;
-        b=KNPJ8GcEHSQYCyweuG+VxPhO+NQJEAV5rGoLEtdlZyPcGARXJQ4RTZmYrXPQfJq0v+
-         JanZlPaQbOkPRxSWiNI7mgttz1ig7R1UWK98/qdxhmYcIdlNdL9m9uVRXNb+ON8CCUur
-         Vi9ROjD9c/UG3PSZEYPWnZvIs+mpSkp1gAPlYOOV1lg1vbFVacUc2xpLTvh/AmsP+JgO
-         4CrYqxGaCg/pOU8W4zn7fgOltRuocCUBGyxISE3mCIfbIKI1U3Q4O+bntohv6KwRgW+T
-         qOJmtLwKuZdVpRejUHOK+0Qj6SFpB03AyU99MOkQ/8LtIFscGQ+9aG4sMtPZh+ra5Rex
-         hqhw==
+        id S241125AbhIMQ6R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Sep 2021 12:58:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31899 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240872AbhIMQ6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 12:58:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1631552219;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=g+3cqH6ifdVqKTPD8DSIcY8WRiPrRg0IjI4GufOGc8I=;
+        b=Msp7aB1MnnFIoQcVFpmEF8x6z7ic0wfUmr4qs4z0RFBIj4yhykhXu/RdwJr08dsBy0TpQX
+        2DykgNtMzUX6tJGZ2HXMiQKF4DuhWKmkS04urQ0Bye4G+/v3cyjdXMjfHHtzvtP0nM/xQA
+        wXwok8/1aYJ17rjf2Brg7ktQZGMwWDE=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-UP45wr0xM364OFIAyq24-g-1; Mon, 13 Sep 2021 12:56:58 -0400
+X-MC-Unique: UP45wr0xM364OFIAyq24-g-1
+Received: by mail-lj1-f200.google.com with SMTP id d19-20020a2e8913000000b001c2cf57d9b7so4473718lji.16
+        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 09:56:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=h7Yl//dy5tlfXJpNjGw/RwytM2u2c4Gl1NK7VqTyQik=;
-        b=VPYu6h1D3vQUKUhV6N0Pt64gGpVRtdXg+uI5ODg8DGgnRqcI4TeeN7u6pOdennalcK
-         xCjIzsJUMQHxmG7yfYO13JefeZ7MSlhRQKvGcVXDg962PAJn11jkvZFq7YmYXYu4vlQ5
-         vhsV+3jF/xELvGgeH0vrndUipLVxFA4D6PMTfrpV3TPfirIQ53SYNBFp3G+wxvFNWrNN
-         3go2EWqoIdx9OoRNK+r6kagHSBKJNWUS5ZAzrABXqG4JbvlL67jSWs9qJLs4x4tCLxxI
-         r3DN/F8hpQphQQV7i2Yk2lgwKPTKvmlLe36E7rtkleNg9TeyM2uJO8+OBLnFSKaUMU7q
-         vtkA==
-X-Gm-Message-State: AOAM533qen1+DGR8uRAXLwkMHQp+2ecUYMmez5rVYap8RhGYpe3EkACC
-        kI/hlBiCKwyAumG/TsM7uHsQ7DPyiqo4bAStvTtemg==
-X-Google-Smtp-Source: ABdhPJzCAM1ELjBbRxjqidCSeOp6uM/bwe4+ZcMAmINHRMWKcX6tqFGPCAcCIcI3Cvdy9FWpXQH7U/5uwggj7OdIvNY=
-X-Received: by 2002:ac2:5c4b:: with SMTP id s11mr9909008lfp.368.1631551940275;
- Mon, 13 Sep 2021 09:52:20 -0700 (PDT)
+        bh=g+3cqH6ifdVqKTPD8DSIcY8WRiPrRg0IjI4GufOGc8I=;
+        b=MmZO/8mksR7CUPja62zYwIRXiRb6WFEoS8FsL1QQm4bdD18cAP6i1NElneZbQ1OFSd
+         uweoIoe9/8zSUA/+JF4SdPXsR9qEhdoMwaJNcruNZ7tbuNhS6i+4bD9Ek1JxAfbD3Ayk
+         3p5z2ywbouWZXJLgvaCDdcSgAnPEdF1YmT+Ojg/gITSUYuS3zfTsUef3gBE0+hmcIvqt
+         fQP3lufNOK6S3GuVfOoTHt274VlJscQeezzOTGcvvCSUYYno91gHK5HVDqyZg7/7ex94
+         z8vPo86VE0ZLMY2CoEdT5QuK4AUY2rbcwMJAK+GB+TM7GriS5j8TLPegLSWiQMRA79Cq
+         1C0Q==
+X-Gm-Message-State: AOAM532VK1vd/r2ULiGrDO8cOMd9EdAnDrT/9Me2bhsh6IoYjsjXx2o6
+        MzeGciQkZvUHU5VPPCku1TFIfoNBlFJ/UNXDUCmTApXWKZXqjzaeoAl9gd6EybYGqHCBrMZMge4
+        fQosPftJOYH+ElAKbTMDORpMRBJB4F78jz0Az
+X-Received: by 2002:a2e:7304:: with SMTP id o4mr11659527ljc.51.1631552216993;
+        Mon, 13 Sep 2021 09:56:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEsueuL9hseX4+IMXePvu65lhG7CpxBDTW6sDERh7JVYGERNaG5Xeiw6ppL+jq20MLxOXsjghqm8q8r+/BSJY=
+X-Received: by 2002:a2e:7304:: with SMTP id o4mr11659504ljc.51.1631552216735;
+ Mon, 13 Sep 2021 09:56:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <50b83893065acaef2a9bc3f91c03812dc872f316.1631504710.git.brookxu@tencent.com>
-In-Reply-To: <50b83893065acaef2a9bc3f91c03812dc872f316.1631504710.git.brookxu@tencent.com>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Mon, 13 Sep 2021 09:51:44 -0700
-Message-ID: <CAHVum0dmTULvzD6dhr4Jzow-M1ATi-ubDkO5wQR=RQmWtt_78w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] misc_cgroup: introduce misc.events and misc_events.local
-To:     brookxu <brookxu.cn@gmail.com>
-Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        mkoutny@suse.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20210913135745.13944-1-jgross@suse.com> <20210913135745.13944-3-jgross@suse.com>
+ <YT97K7yXyCrphyCt@google.com>
+In-Reply-To: <YT97K7yXyCrphyCt@google.com>
+From:   Eduardo Habkost <ehabkost@redhat.com>
+Date:   Mon, 13 Sep 2021 12:56:41 -0400
+Message-ID: <CAOpTY_pyeOo2Kh-r1cEFk2XL4g8A1mxQpP1y62thWk2mh6XUUg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kvm: rename KVM_MAX_VCPU_ID to KVM_MAX_VCPU_IDS
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Juergen Gross <jgross@suse.com>, kvm@vger.kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 10:01 PM brookxu <brookxu.cn@gmail.com> wrote:
+On Mon, Sep 13, 2021 at 12:24 PM Sean Christopherson <seanjc@google.com> wrote:
 >
-> From: Chunguang Xu <brookxu@tencent.com>
+> On Mon, Sep 13, 2021, Juergen Gross wrote:
+> > KVM_MAX_VCPU_ID is not specifying the highest allowed vcpu-id, but the
+> > number of allowed vcpu-ids. This has already led to confusion, so
+> > rename KVM_MAX_VCPU_ID to KVM_MAX_VCPU_IDS to make its semantics more
+> > clear
 >
-> Introduce misc.events and misc.events.local to make it easier for
-
-I thought Tejun only gave go ahead for misc.events and not for
-misc.events.local.
-
-> us to understand the pressure of resources. The main idea comes
-> from mem_cgroup. Currently only the 'max' event is implemented,
-> which indicates the times the resource exceeds the limit.
+> My hesitation with this rename is that the max _number_ of IDs is not the same
+> thing as the max allowed ID.  E.g. on x86, given a capability that enumerates the
+> max number of IDs, I would expect to be able to create vCPUs with arbitrary 32-bit
+> x2APIC IDs so long as the total number of IDs is below the max.
 >
 
-For future emails, please provide the links to previous discussions
-like [1], [2],...
+What name would you suggest instead? KVM_VCPU_ID_LIMIT, maybe?
 
-> @@ -36,6 +41,8 @@ enum misc_res_type {
->  struct misc_res {
->         unsigned long max;
->         atomic_long_t usage;
-> +       atomic_long_t events[MISC_CG_EVENT_TYPES];
+I'm assuming we are not going to redefine KVM_MAX_VCPU_ID to be an
+inclusive limit.
 
-Since there is only one event type for now, my recommendation is to
-not use the array and just use a single atomic_long_t.
+--
+Eduardo
 
->
-> +static const char *const misc_event_name[] = {
-> +       "max"
-> +};
-> +
-
-We will not need it if you remove the array in struct misc_res.
-
-Thanks
-Vipin
