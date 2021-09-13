@@ -2,133 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A039CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 11:55:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E847C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 12:18:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87D9760FC0
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 11:55:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 789F060FBF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 12:18:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239817AbhIML5L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Sep 2021 07:57:11 -0400
-Received: from mga12.intel.com ([192.55.52.136]:41795 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239705AbhIML4o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Sep 2021 07:56:44 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="201159271"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
-   d="scan'208";a="201159271"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 04:55:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; 
-   d="scan'208";a="608946068"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 13 Sep 2021 04:55:13 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 13 Sep 2021 14:55:13 +0300
-Date:   Mon, 13 Sep 2021 14:55:13 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
+        id S239916AbhIMMUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Sep 2021 08:20:02 -0400
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:46758 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235252AbhIMMUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 08:20:01 -0400
+Received: by mail-ot1-f43.google.com with SMTP id c8-20020a9d6c88000000b00517cd06302dso12952734otr.13;
+        Mon, 13 Sep 2021 05:18:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=yAANwLMWDLEO6I7ZRYD4RFaA1eZZfYg/uLblDuOz8Iw=;
+        b=8OUPKotk8mlwlgzQ1SzI5dyOsPrCpUtirWXrHRJvIdOQdClNSe+2sWKeQ1S+mdZSHd
+         s3lmiwBMJF7SoYflkd9X7C/7vuXWS/uKzmXro3WnQnCXZn6pdnfEWm/RwZaB8EvUffAZ
+         1tF8BE5BeYD0zyX07AL/WK5YOn9VaunrN35JsjhguwKfou2a1zwfUiXXUx6DJeTSBlIu
+         GmapSAJe4DTm2oNvVFYUxL6nGfxz1I88CztJLl3ICNJO69S2EB6+37jNHb8eHC4RMUeT
+         gIQfC8aff/JvJGEcV/IIFdcqaY162Rr1AjNRCigFIXcw4c62fF8JTYohP6+V1US8IIHo
+         /u6Q==
+X-Gm-Message-State: AOAM533+MjEujcVSQv0Mph0znagcMuVUwRh0J4zZGgU1lTLBwLN8eivY
+        XtMePgUtQ6MZ3UWksxszCA==
+X-Google-Smtp-Source: ABdhPJzYnMEYkbxkurS4PpZO/QSrg41SFbZti1sBP50QH1OMY0W6b4aKzKiENjcLtUjXkbrnVoCMkg==
+X-Received: by 2002:a9d:36d:: with SMTP id 100mr9346988otv.237.1631535525388;
+        Mon, 13 Sep 2021 05:18:45 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id h3sm1800959otu.7.2021.09.13.05.18.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Sep 2021 05:18:44 -0700 (PDT)
+Received: (nullmailer pid 444714 invoked by uid 1000);
+        Mon, 13 Sep 2021 12:18:43 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     devicetree@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Rajat Jain <rajatja@google.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/9] ABI: sysfs-bus-usb: better document variable argument
-Message-ID: <YT88IYrNS4a48aPK@kuha.fi.intel.com>
-References: <cover.1631112725.git.mchehab+huawei@kernel.org>
- <8b01bf910a236796e5571fd089619d5f51a874f6.1631112725.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b01bf910a236796e5571fd089619d5f51a874f6.1631112725.git.mchehab+huawei@kernel.org>
+        Anup Patel <anup.patel@wdc.com>, linux-doc@vger.kernel.org,
+        Vincent Chen <vincent.chen@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        John Garry <john.garry@huawei.com>,
+        linux-kernel@vger.kernel.org, Nick Kossifidis <mick@ics.forth.gr>,
+        linux-riscv@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>,
+        linux-perf-users@vger.kernel.org, Jiri Olsa <jolsa@redhat.com>
+In-Reply-To: <20210910192757.2309100-7-atish.patra@wdc.com>
+References: <20210910192757.2309100-1-atish.patra@wdc.com> <20210910192757.2309100-7-atish.patra@wdc.com>
+Subject: Re: [v3 06/10] dt-binding: pmu: Add RISC-V PMU DT bindings
+Date:   Mon, 13 Sep 2021 07:18:43 -0500
+Message-Id: <1631535523.169353.444713.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 08, 2021 at 04:58:51PM +0200, Mauro Carvalho Chehab wrote:
-> On almost all ABI documents, variable arguments are declared
-> as <foo_bar>. Change it here too, in order to allow replacing
-> such wildcards by regexes on a scriptable way.
+On Fri, 10 Sep 2021 12:27:53 -0700, Atish Patra wrote:
+> This patch adds the DT bindings for RISC-V PMU driver. It also defines
+> the interrupt related properties to allow counter overflow interrupt.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
 > ---
->  Documentation/ABI/testing/sysfs-bus-usb | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  .../devicetree/bindings/perf/riscv,pmu.yaml   | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-> index 73eb23bc1f34..42103f0f54d6 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-usb
-> +++ b/Documentation/ABI/testing/sysfs-bus-usb
-> @@ -166,14 +166,14 @@ Description:
->  		The file will be present for all speeds of USB devices, and will
->  		always read "no" for USB 1.1 and USB 2.0 devices.
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>
->  Date:		August 2012
->  Contact:	Lan Tianyu <tianyu.lan@intel.com>
->  Description:
-> -		The /sys/bus/usb/devices/.../(hub interface)/portX
-> +		The /sys/bus/usb/devices/.../<hub_interface>/port<X>
->  		is usb port device's sysfs directory.
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX/connect_type
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/connect_type
->  Date:		January 2013
->  Contact:	Lan Tianyu <tianyu.lan@intel.com>
->  Description:
-> @@ -182,7 +182,7 @@ Description:
->  		The file will read "hotplug", "hardwired" and "not used" if the
->  		information is available, and "unknown" otherwise.
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX/location
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/location
->  Date:		October 2018
->  Contact:	Bjørn Mork <bjorn@mork.no>
->  Description:
-> @@ -192,7 +192,7 @@ Description:
->  		raw location value as a hex integer.
->  
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX/quirks
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/quirks
->  Date:		May 2018
->  Contact:	Nicolas Boichat <drinkcat@chromium.org>
->  Description:
-> @@ -216,7 +216,7 @@ Description:
->  		   used to help make enumeration work better on some high speed
->  		   devices.
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX/over_current_count
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/over_current_count
->  Date:		February 2018
->  Contact:	Richard Leitner <richard.leitner@skidata.com>
->  Description:
-> @@ -230,10 +230,10 @@ Description:
->  		Any time this value changes the corresponding hub device will send a
->  		udev event with the following attributes::
->  
-> -		  OVER_CURRENT_PORT=/sys/bus/usb/devices/.../(hub interface)/portX
-> +		  OVER_CURRENT_PORT=/sys/bus/usb/devices/.../<hub_interface>/port<X>
->  		  OVER_CURRENT_COUNT=[current value of this sysfs attribute]
->  
-> -What:		/sys/bus/usb/devices/.../(hub interface)/portX/usb3_lpm_permit
-> +What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/usb3_lpm_permit
->  Date:		November 2015
->  Contact:	Lu Baolu <baolu.lu@linux.intel.com>
->  Description:
-> -- 
-> 2.31.1
 
--- 
-heikki
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/perf/riscv,pmu.yaml: 'optional' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'patternProperties', 'properties', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select']
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+./Documentation/devicetree/bindings/perf/riscv,pmu.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/perf/riscv,pmu.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/perf/riscv,pmu.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+Documentation/devicetree/bindings/perf/riscv,pmu.example.dt.yaml:0:0: /example-0/pmu: failed to match any schema with compatible: ['riscv,pmu']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1526606
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
