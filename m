@@ -2,113 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41F80C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 22:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F7BC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 22:33:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2929A60FC1
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 22:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C72C6113D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 22:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244769AbhIMW2p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Sep 2021 18:28:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54296 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244989AbhIMW2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 18:28:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1631572048;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ed60XhekeWquIFLKIHPQ4y2Tgzq2QS36FAffaebUrj0=;
-        b=Pm/Bcwbxgs2yC8586DcP0MSkF6JgDqxSXgKD8tud+7B7mAy8dUmck87TOGOjQ63rm6JQXX
-        HzNB9b+hV+79ciwwqbZuTFaqz3KFAFT0jh8TqbB7P1AHNfTPQ0ZBHlQoXNnZvQiX53c6YY
-        DJ0BKYFITJycmiuxzkX8XDAi39l2tgI=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-LF5gIdLPOl-vUnPcw_r2_A-1; Mon, 13 Sep 2021 18:27:27 -0400
-X-MC-Unique: LF5gIdLPOl-vUnPcw_r2_A-1
-Received: by mail-io1-f71.google.com with SMTP id e18-20020a6b7312000000b005be766a70dbso14953383ioh.19
-        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 15:27:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ed60XhekeWquIFLKIHPQ4y2Tgzq2QS36FAffaebUrj0=;
-        b=R+lpJBpkTZLq5KTbHXiRKvZg998qaCJcDwOyjbztYrWOoSVdF0I7/J68SsZm9tjKOo
-         epAGyx1xvyZntLFxRB+vlf65snY2cZjmtXnm2nx38jqDPj+wJGjaDCZux7l7I42mDxy3
-         ffz14ZC3CtN85BNUGv3SHSmcRxDWuCusPDAoLRaNXnLn1wU08mi1XJNl3R1yVduEeUqV
-         Q7WuUPqmXAzs1uUrxaBl8Wxyd7nFai1fBBCUMcIQmjPe9RJe6MkAHv2SPOnPcJ7OGtb+
-         zxHrlio7K6cv8/98TKTsD9d55SMWrEbEb6i8BGuzcL04qLaY1WG+m92f/63+4CAE4Hvo
-         QggA==
-X-Gm-Message-State: AOAM533D/uRpgSf8SY65CNhyowdsh5FiC/qoO8QmXpfS6krLlKv0TjD4
-        iBmtpg5WdyUPFHGt5gUPyBd5NYr6AsZ3regC8rUowJVwtHM2FxLv/djtu6FMEyIldByYk4vA/Tg
-        ho6+AbPgVxOc/rUwzhr35
-X-Received: by 2002:a05:6602:2e0c:: with SMTP id o12mr6655573iow.59.1631572046778;
-        Mon, 13 Sep 2021 15:27:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2Be4X0ICHDQBimF+mHMVXCAyyI9/XcjxSzsnAR7FEgXBWZfVi9jiMU8MDsACdC3ZIM8EokA==
-X-Received: by 2002:a05:6602:2e0c:: with SMTP id o12mr6655564iow.59.1631572046636;
-        Mon, 13 Sep 2021 15:27:26 -0700 (PDT)
-Received: from halaneylaptop.redhat.com (068-184-200-203.res.spectrum.com. [68.184.200.203])
-        by smtp.gmail.com with ESMTPSA id d10sm5809457ilu.54.2021.09.13.15.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 15:27:26 -0700 (PDT)
-From:   Andrew Halaney <ahalaney@redhat.com>
-To:     Jason Baron <jbaron@akamai.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Cromie <jim.cromie@gmail.com>
-Cc:     Andrew Halaney <ahalaney@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] Documentation: dyndbg: Improve cli param examples
-Date:   Mon, 13 Sep 2021 17:24:40 -0500
-Message-Id: <20210913222440.731329-4-ahalaney@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210913222440.731329-1-ahalaney@redhat.com>
-References: <20210913222440.731329-1-ahalaney@redhat.com>
+        id S1343605AbhIMWfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Sep 2021 18:35:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50092 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245355AbhIMWfB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Sep 2021 18:35:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA277610CE;
+        Mon, 13 Sep 2021 22:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631572424;
+        bh=TPisBgC+/AkvYuRI6mVcJsHZlYaY2djoSzgyABiD+hY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=q9xSTxSubTfSDnYrGE7CxOv3izfqaKqDBMisXNsiOvvQknEvw7yhbpvrOrZv7H+mx
+         +soOug156/m0iATJG1dF8XnQ0Jw5KJECEkbukk2lR+HxtaLp7r4wmMm/6lxtR6HcjQ
+         xAN2tg5zTqj6xDYWSgLx1IFxID50lfDD8+vLxQJzbzTzILqqlPL+meeN4jgr9uLm8+
+         8Ju1/gVSXTNnwFwMKj9iclcNhkJU1/5JvjozrlI1E/w9nwbSWAggIgavSmRnhRa/uK
+         0UxQQB4lV9Qf5mRe+zhMNxSJULpu3r97sHT6mv6Gh6KwtK/0eKyrANIHoezVbZ8l9e
+         R/q3l8MNtncoA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Ben Widawsky <ben.widawsky@intel.com>,
+        kernel test robot <lkp@intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-cxl@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 03/25] cxl: Move cxl_core to new directory
+Date:   Mon, 13 Sep 2021 18:33:17 -0400
+Message-Id: <20210913223339.435347-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210913223339.435347-1-sashal@kernel.org>
+References: <20210913223339.435347-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jim pointed out that using $module.dyndbg= is always a more flexible
-choice for using dynamic debug on the command line. The $module.dyndbg
-style is checked at boot and handles if $module is a builtin. If it is
-actually a loadable module, it is handled again later when the module is
-loaded.
+From: Ben Widawsky <ben.widawsky@intel.com>
 
-If you just use dyndbg="module $module +p" dynamic debug is only enabled
-when $module is a builtin.
+[ Upstream commit 5161a55c069f53d88da49274cbef6e3c74eadea9 ]
 
-It was recommended to illustrate wildcard usage as well.
+CXL core is growing, and it's already arguably unmanageable. To support
+future growth, move core functionality to a new directory and rename the
+file to represent just bus support. Future work will remove non-bus
+functionality.
 
-Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
-Suggested-by: Jim Cromie <jim.cromie@gmail.com>
+Note that mem.h is renamed to cxlmem.h to avoid a namespace collision
+with the global ARCH=um mem.h header.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Link: https://lore.kernel.org/r/162792537866.368511.8915631504621088321.stgit@dwillia2-desk3.amr.corp.intel.com
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/admin-guide/dynamic-debug-howto.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/driver-api/cxl/memory-devices.rst | 2 +-
+ drivers/cxl/Makefile                            | 4 +---
+ drivers/cxl/core/Makefile                       | 5 +++++
+ drivers/cxl/{core.c => core/bus.c}              | 4 ++--
+ drivers/cxl/{mem.h => cxlmem.h}                 | 0
+ drivers/cxl/pci.c                               | 2 +-
+ drivers/cxl/pmem.c                              | 2 +-
+ 7 files changed, 11 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/cxl/core/Makefile
+ rename drivers/cxl/{core.c => core/bus.c} (99%)
+ rename drivers/cxl/{mem.h => cxlmem.h} (100%)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index d0911e7cc271..4bfb23ed64ec 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -357,7 +357,10 @@ Examples
-   Kernel command line: ...
-     // see whats going on in dyndbg=value processing
-     dynamic_debug.verbose=1
--    // enable pr_debugs in 2 builtins, #cmt is stripped
--    dyndbg="module params +p #cmt ; module sys +p"
-+    // Enable pr_debugs in the params builtin
-+    params.dyndbg="+p"
-+    // enable pr_debugs in all files under init/
-+    // and the function pc87360_init_device, #cmt is stripped
-+    dyndbg="file init/* +p #cmt ; func pc87360_init_device +p"
-     // enable pr_debugs in 2 functions in a module loaded later
-     pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
+diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
+index 487ce4f41d77..a86e2c7c551a 100644
+--- a/Documentation/driver-api/cxl/memory-devices.rst
++++ b/Documentation/driver-api/cxl/memory-devices.rst
+@@ -36,7 +36,7 @@ CXL Core
+ .. kernel-doc:: drivers/cxl/cxl.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/cxl/core.c
++.. kernel-doc:: drivers/cxl/core/bus.c
+    :doc: cxl core
+ 
+ External Interfaces
+diff --git a/drivers/cxl/Makefile b/drivers/cxl/Makefile
+index 32954059b37b..d1aaabc940f3 100644
+--- a/drivers/cxl/Makefile
++++ b/drivers/cxl/Makefile
+@@ -1,11 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_CXL_BUS) += cxl_core.o
++obj-$(CONFIG_CXL_BUS) += core/
+ obj-$(CONFIG_CXL_MEM) += cxl_pci.o
+ obj-$(CONFIG_CXL_ACPI) += cxl_acpi.o
+ obj-$(CONFIG_CXL_PMEM) += cxl_pmem.o
+ 
+-ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=CXL
+-cxl_core-y := core.o
+ cxl_pci-y := pci.o
+ cxl_acpi-y := acpi.o
+ cxl_pmem-y := pmem.o
+diff --git a/drivers/cxl/core/Makefile b/drivers/cxl/core/Makefile
+new file mode 100644
+index 000000000000..ad137f96e5c8
+--- /dev/null
++++ b/drivers/cxl/core/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_CXL_BUS) += cxl_core.o
++
++ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=CXL -I$(srctree)/drivers/cxl
++cxl_core-y := bus.o
+diff --git a/drivers/cxl/core.c b/drivers/cxl/core/bus.c
+similarity index 99%
+rename from drivers/cxl/core.c
+rename to drivers/cxl/core/bus.c
+index a2e4d54fc7bc..0815eec23944 100644
+--- a/drivers/cxl/core.c
++++ b/drivers/cxl/core/bus.c
+@@ -6,8 +6,8 @@
+ #include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/idr.h>
+-#include "cxl.h"
+-#include "mem.h"
++#include <cxlmem.h>
++#include <cxl.h>
+ 
+ /**
+  * DOC: cxl core
+diff --git a/drivers/cxl/mem.h b/drivers/cxl/cxlmem.h
+similarity index 100%
+rename from drivers/cxl/mem.h
+rename to drivers/cxl/cxlmem.h
+diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
+index 4cf351a3cf99..a945c5fda292 100644
+--- a/drivers/cxl/pci.c
++++ b/drivers/cxl/pci.c
+@@ -12,9 +12,9 @@
+ #include <linux/pci.h>
+ #include <linux/io.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
++#include "cxlmem.h"
+ #include "pci.h"
+ #include "cxl.h"
+-#include "mem.h"
+ 
+ /**
+  * DOC: cxl pci
+diff --git a/drivers/cxl/pmem.c b/drivers/cxl/pmem.c
+index 0088e41dd2f3..9652c3ee41e7 100644
+--- a/drivers/cxl/pmem.c
++++ b/drivers/cxl/pmem.c
+@@ -6,7 +6,7 @@
+ #include <linux/ndctl.h>
+ #include <linux/async.h>
+ #include <linux/slab.h>
+-#include "mem.h"
++#include "cxlmem.h"
+ #include "cxl.h"
+ 
+ /*
 -- 
-2.31.1
+2.30.2
 
