@@ -2,87 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B4A7C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 18:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE20CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 18:21:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02C16610D1
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 18:09:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C54F761103
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Sep 2021 18:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346524AbhIMSK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Sep 2021 14:10:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40642 "EHLO
+        id S239594AbhIMSWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Sep 2021 14:22:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346508AbhIMSKY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 14:10:24 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC425C061574;
-        Mon, 13 Sep 2021 11:09:08 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id h3so10209798pgb.7;
-        Mon, 13 Sep 2021 11:09:08 -0700 (PDT)
+        with ESMTP id S240927AbhIMSWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 14:22:46 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CB2C061760
+        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 11:21:30 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id w8so10225334pgf.5
+        for <linux-doc@vger.kernel.org>; Mon, 13 Sep 2021 11:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=i1ekjg9yMuKBiH8XeW5HvCgZVasiBrWrygr7iOMv0/w=;
-        b=FLD44LaaQn9HDkF4eTXX3iAjKbIr201+F8gAoc3gLLSVcedbAzA++CFkMiEzIhUrjk
-         KEMPeoKz0lCQLFx9206No+8jSKhcwXXgFG+ycog5v6v501NW9ZiPlKGg1KvUCSljbESo
-         ZJxXIR9hRr9nD7VLNTvnydnFM/CGpeayTchioTqW7W45vsZefKqSQYFr48F1Tdvia16g
-         27S1J8VTxZLIPv9bBSL6J7we4V1toTVBwlQCRVkjuGrqOvnPr9uB1HKWimaMtEgD7l4r
-         rdQAbkzz/xtOcZw0S5Kb16cNY5qSwwVGLb+fPSDtPa0R8nIksJxQee/lPMY1NHbYq7fy
-         PvZw==
+        bh=6++MUHqyHKCB5FgpZ/mPI8mWFFcZJMAIOAPJiYxj2J8=;
+        b=I8oAss5KvNOxSzhenZXmIesL1MTLaeyUnk6Q8EYJv5KLYqd1LxYtn/ptQxgv3SD+T9
+         PsQ3lmeYGUOmkmNBEchDt3vbOWf9cDZ90nOdyyxe+PJxS6IItldgrzQgOojUBQJ9bxR0
+         MyBt75NYyvzrKbm2331lHF5jPUnLM/Z4/K+PyuyXMBjivWPXQ5CUE0HDc1dRbLaZYOKY
+         BxXw50eAQgSRSTQ7ePnQPyXCKvYAlFcNZ3SQ6pgwqdpfVP7+nhLYaOvgheq0lrdxWlWB
+         3bBhDAN6CcQfyLsrTyRTzGqroPXLKVttcyRR7ITwmfGoVYHHNY4Xpa/Dj/oY2lcBFm/W
+         hDMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=i1ekjg9yMuKBiH8XeW5HvCgZVasiBrWrygr7iOMv0/w=;
-        b=00F7mZM2aIeQsllHw2kvDzhMEX4BdMeCQZ0315EhZ7ktaZ4mu365n1pToiffu/kA7e
-         JXGU9MW6KvtYudEa4X1PdJ1Y8XPNbCj2sycW2Ymgg9XAMLpgGe+Vwj+RPEpdMI3BTsi7
-         4BQfGhry1BnnMSeqWGaovePKWI8q1tJpoMHirdHJcYv+nWMf97KkfZ3L4s5ftDUHN9Ly
-         WMLfBbnej+nWjy9ZxkBCGWLW5WuoxkdWINsbI24/efSyvtOnSpe2CjWD4P3rpPG30Swl
-         CmWor1n+WpXTjO5qOy5NoKQ9YgAD3AeOgRQbEI5Yj4jCjTbho5vi3jZF36iT7dh37m2G
-         ZeYg==
-X-Gm-Message-State: AOAM531C6/zkEhMz/yemr/uBlLrLIbxMM9rUryzRmEOAFrO4f1fZuLqf
-        nwMTIzpQ1yjrriv+Yw/3IzQ=
-X-Google-Smtp-Source: ABdhPJyTWm2jzYWMRxBJCzI/nB/AWKEXxojzSUo+Sx2oIaKgTrrsQxq4n55U54BSRQA3pifbRIIDfQ==
-X-Received: by 2002:a63:4917:: with SMTP id w23mr11987407pga.344.1631556547481;
-        Mon, 13 Sep 2021 11:09:07 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id p24sm9418286pgm.54.2021.09.13.11.09.06
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6++MUHqyHKCB5FgpZ/mPI8mWFFcZJMAIOAPJiYxj2J8=;
+        b=AkvBloiu1WBdFYJPZ9Qi1rhodBxzp2I68nfrHft79VFQPlauCZDLkdQdvI5MKZInCU
+         iClCQ3/Ni5at07nRU+Wf2VkqEQCGDzJu0v9sOssPikQCyLvfWh4KG2825blb/o1R2QgN
+         Cv+NJKfKn69X+xmBDWQQOVvQPVl04+Ldj1Le+K0hehDaVIJ4Q3qTivPLeDUT7zLKsCxJ
+         REDAfIz3IOeQdI+7iJ/vXt6HA1RyjIo2k80O9Ps63Fq7tG2D1LuEr/S+ybhHvA1oe9O7
+         EIbE7lnSOUxS3aB0P3Mkk6Zj6N6qiw6IrTMg7nNuceaAz5jeakzo28K/8iLzDYmMuA53
+         wqmQ==
+X-Gm-Message-State: AOAM532PZL4s3g++HhKPzp8UT3klN8+SetH89WeQawGLDyPHqWlv/9oF
+        SDqtp8Db0xcWWYk3TcB/gjnpmraGYesyNQ==
+X-Google-Smtp-Source: ABdhPJzgg07OWjq2bQtnbrD/FW+0dCRqz+/2tJpzVzU6KzTpUZG3HRY1sfxYtkNoWAuSpFfjZ/hUlw==
+X-Received: by 2002:a05:6a00:1a10:b0:412:448c:89ca with SMTP id g16-20020a056a001a1000b00412448c89camr811832pfv.86.1631557289837;
+        Mon, 13 Sep 2021 11:21:29 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x13sm4547221pfp.133.2021.09.13.11.21.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 11:09:07 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 13 Sep 2021 08:09:05 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     ArthurChiao <sjtuyananzhao@gmail.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        ArthurChiao <arthurchiao@hotmail.com>
-Subject: Re: [PATCH RESEND] cgroupv2, docs: fix misinformation in "device
- controller" section
-Message-ID: <YT+TwTmPEliba601@slm.duckdns.org>
-References: <20210908080815.130952-1-arthurchiao@hotmail.com>
+        Mon, 13 Sep 2021 11:21:29 -0700 (PDT)
+Date:   Mon, 13 Sep 2021 18:21:25 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Eduardo Habkost <ehabkost@redhat.com>
+Cc:     Juergen Gross <jgross@suse.com>, kvm@vger.kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] kvm: rename KVM_MAX_VCPU_ID to KVM_MAX_VCPU_IDS
+Message-ID: <YT+WpdnGodZE9krY@google.com>
+References: <20210913135745.13944-1-jgross@suse.com>
+ <20210913135745.13944-3-jgross@suse.com>
+ <YT97K7yXyCrphyCt@google.com>
+ <CAOpTY_pyeOo2Kh-r1cEFk2XL4g8A1mxQpP1y62thWk2mh6XUUg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210908080815.130952-1-arthurchiao@hotmail.com>
+In-Reply-To: <CAOpTY_pyeOo2Kh-r1cEFk2XL4g8A1mxQpP1y62thWk2mh6XUUg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 08, 2021 at 04:08:15PM +0800, ArthurChiao wrote:
-> Hotmail was rejected by the mailing list, switched to gmail to resend.
+On Mon, Sep 13, 2021, Eduardo Habkost wrote:
+> On Mon, Sep 13, 2021 at 12:24 PM Sean Christopherson <seanjc@google.com> wrote:
+> >
+> > On Mon, Sep 13, 2021, Juergen Gross wrote:
+> > > KVM_MAX_VCPU_ID is not specifying the highest allowed vcpu-id, but the
+> > > number of allowed vcpu-ids. This has already led to confusion, so
+> > > rename KVM_MAX_VCPU_ID to KVM_MAX_VCPU_IDS to make its semantics more
+> > > clear
+> >
+> > My hesitation with this rename is that the max _number_ of IDs is not the same
+> > thing as the max allowed ID.  E.g. on x86, given a capability that enumerates the
+> > max number of IDs, I would expect to be able to create vCPUs with arbitrary 32-bit
+> > x2APIC IDs so long as the total number of IDs is below the max.
+> >
 > 
-> 1. Clarify cgroup BPF program type and attach type;
-> 2. Fix file path broken.
+> What name would you suggest instead? KVM_VCPU_ID_LIMIT, maybe?
 > 
-> Signed-off-by: ArthurChiao <arthurchiao@hotmail.com>
+> I'm assuming we are not going to redefine KVM_MAX_VCPU_ID to be an
+> inclusive limit.
 
-Applied to cgroup/for-5.15-fixes.
-
-Thanks.
-
--- 
-tejun
+Heh, I haven't been able to come up with one, which is why I suggested the route
+of making it an inclusive value internally within KVM.
