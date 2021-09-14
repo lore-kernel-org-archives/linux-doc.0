@@ -7,44 +7,43 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33078C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3C2C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C6BD6108B
+	by mail.kernel.org (Postfix) with ESMTP id E798861107
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233909AbhINOgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57480 "EHLO mail.kernel.org"
+        id S234051AbhINOgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233836AbhINOeI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233829AbhINOeI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A08E061165;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 93BD56113B;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=rsagThLGknwU91UW+wq7iwL8KzIpjk7Uz5TTbN5z6wU=;
+        bh=y83gaW55yksloBuWX0OKO49iArybMqGw/eZJ7F2ASQA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AxxBjqtUr5BzEsBi7poyCNuZU8OZ4EXanOLXeBYKiUL1CPEx5KfMMtRyyrTxwEj6c
-         RtNmqfTiRoDPGArPs7spcsC3N8BG7qZBJPUr6RFf7B3PcYvO2Z1A5IUAsRwHz7EzWD
-         N8ESPcDYTVBoiqLcafk3cElJHavpvzNWMXrF89tcLk3G1hqP2EzsItHXK9HwdNYut/
-         k2wP9CfeRHHZbni3lRdQ39zErgg0wsD5MeY/TddNeA0rDQHr31HC3Ojy60zL//HCiV
-         ag9eg+BoI2hAL0/XHapwbfmXGnSoC5+eBaRZe1rhHSWje+3AcdDvd+LW+d0Qr2Gns3
-         mg5i9X2iTVXOw==
+        b=JhODY8aFqwgVKH21JzlyjGW0cQKw6SgXCzp5VvqDNIWs5Ob71JQlrN4+3G6JxeFxP
+         6BWVruT4kRN92cgNQ1Oe571RTGqA3it2a1/yB4WPXdGl0Ithzk7deExfrP2Lmrpg3g
+         FN9PsKSar/IU3E4oibappobztr1OYzEeSuxRPifNBCkgzG+8O3577KzicrXMGYMfcD
+         6FCBLhYgre+r//3ltb+e/LXecpAW4yR7nz4koqXyRvfaZXtjsWD1j7UMuHb6hNbS8d
+         QNIvMAO7Tb5WLr7u9/AHAoCGnzNbm8Nc7GbAAU4XGovyRAmRy8rWfp6UedMYt+uQG1
+         aSYhY0n1TnmHA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UN-000Kkm-ON; Tue, 14 Sep 2021 16:32:47 +0200
+        id 1mQ9UO-000Klw-Jv; Tue, 14 Sep 2021 16:32:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/29] ABI: sysfs-class-mic: use the right wildcards on What definitions
-Date:   Tue, 14 Sep 2021 16:32:24 +0200
-Message-Id: <321f36fe60fdd0d51013fbf79e5116decca5a4a2.1631629496.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 27/29] ABI: sysfs-firmware-efi-esrt: use wildcards on What definitions
+Date:   Tue, 14 Sep 2021 16:32:42 +0200
+Message-Id: <1480eb6c86fbb27c8fad6db614249cae8e39df09.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -55,128 +54,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On most ABI files, the wildcards are used as <x>, instead of (x).
-
-Replace it to make it using a more standard wildcard. That helps
-get_abi.pl to convert it into a regex.
+An "N" upper letter is not a wildcard, nor can easily be identified
+by script, specially since the USB sysfs define things like.
+bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-mic | 24 +++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ .../ABI/testing/sysfs-firmware-efi-esrt          | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-mic b/Documentation/ABI/testing/sysfs-class-mic
-index bd0e780c3760..5e5f36d10055 100644
---- a/Documentation/ABI/testing/sysfs-class-mic
-+++ b/Documentation/ABI/testing/sysfs-class-mic
-@@ -8,7 +8,7 @@ Description:
- 		PCIe form factor add-in Coprocessor card based on the Intel Many
- 		Integrated Core (MIC) architecture that runs a Linux OS.
+diff --git a/Documentation/ABI/testing/sysfs-firmware-efi-esrt b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
+index 31b57676d4ad..4c2d440487dd 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-efi-esrt
++++ b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
+@@ -24,14 +24,14 @@ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The version of the ESRT structure provided by the firmware.
  
--What:		/sys/class/mic/mic(x)
-+What:		/sys/class/mic/mic<X>
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -17,7 +17,7 @@ Description:
- 		represent MIC devices (0,1,..etc). Each directory has
- 		information specific to that MIC device.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/
++What:		/sys/firmware/efi/esrt/entries/entry<N>/
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	Each ESRT entry is identified by a GUID, and each gets a
+ 		subdirectory under entries/ .
+ 		example: /sys/firmware/efi/esrt/entries/entry0/
  
--What:		/sys/class/mic/mic(x)/family
-+What:		/sys/class/mic/mic<X>/family
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -25,7 +25,7 @@ Description:
- 		Provides information about the Coprocessor family for an Intel
- 		MIC device. For example - "x100"
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_type
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_type
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	What kind of firmware entry this is:
+@@ -43,33 +43,33 @@ Description:	What kind of firmware entry this is:
+ 		3   UEFI Driver
+ 		==  ===============
  
--What:		/sys/class/mic/mic(x)/stepping
-+What:		/sys/class/mic/mic<X>/stepping
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -33,7 +33,7 @@ Description:
- 		Provides information about the silicon stepping for an Intel
- 		MIC device. For example - "A0" or "B0"
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_class
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_class
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	This is the entry's guid, and will match the directory name.
  
--What:		/sys/class/mic/mic(x)/state
-+What:		/sys/class/mic/mic<X>/state
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -69,7 +69,7 @@ Description:
- 		"shutdown"  Initiates card OS shutdown.
- 		==========  ===================================================
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The version of the firmware currently installed.  This is a
+ 		32-bit unsigned integer.
  
--What:		/sys/class/mic/mic(x)/shutdown_status
-+What:		/sys/class/mic/mic<X>/shutdown_status
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -88,7 +88,7 @@ Description:
- 		"restart"   Shutdown because of a restart command.
- 		==========  ===================================================
+-What:		/sys/firmware/efi/esrt/entries/entry$N/lowest_supported_fw_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/lowest_supported_fw_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The lowest version of the firmware that can be installed.
  
--What:		/sys/class/mic/mic(x)/cmdline
-+What:		/sys/class/mic/mic<X>/cmdline
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -104,7 +104,7 @@ Description:
- 		or modify existing ones and then write the whole kernel command
- 		line back to this entry.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/capsule_flags
++What:		/sys/firmware/efi/esrt/entries/entry<N>/capsule_flags
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	Flags that must be passed to UpdateCapsule()
  
--What:		/sys/class/mic/mic(x)/firmware
-+What:		/sys/class/mic/mic<X>/firmware
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -114,7 +114,7 @@ Description:
- 		card can be found. The entry can be written to change the
- 		firmware image location under /lib/firmware/.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The last firmware version for which an update was attempted.
  
--What:		/sys/class/mic/mic(x)/ramdisk
-+What:		/sys/class/mic/mic<X>/ramdisk
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -124,7 +124,7 @@ Description:
- 		OS boot can be found. The entry can be written to change
- 		the ramdisk image location under /lib/firmware/.
- 
--What:		/sys/class/mic/mic(x)/bootmode
-+What:		/sys/class/mic/mic<X>/bootmode
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -135,7 +135,7 @@ Description:
- 		a) linux - Boot a Linux image.
- 		b) flash - Boot an image for flash updates.
- 
--What:		/sys/class/mic/mic(x)/log_buf_addr
-+What:		/sys/class/mic/mic<X>/log_buf_addr
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -149,7 +149,7 @@ Description:
- 		log buffer address to be written can be found in the System.map
- 		file of the card OS.
- 
--What:		/sys/class/mic/mic(x)/log_buf_len
-+What:		/sys/class/mic/mic<X>/log_buf_len
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -163,7 +163,7 @@ Description:
- 		buffer length address to be written can be found in the
- 		System.map file of the card OS.
- 
--What:		/sys/class/mic/mic(x)/heartbeat_enable
-+What:		/sys/class/mic/mic<X>/heartbeat_enable
- Date:		March 2015
- KernelVersion:	4.4
- Contact:	Ashutosh Dixit <ashutosh.dixit@intel.com>
+-What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_status
++What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_status
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The result of the last firmware update attempt for the
 -- 
 2.31.1
 
