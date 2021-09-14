@@ -2,130 +2,232 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C05FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 02:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F497C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 03:04:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42BBC60EFF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 02:24:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16B8761165
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 03:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236953AbhINCZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Sep 2021 22:25:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40074 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235213AbhINCZT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Sep 2021 22:25:19 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C33C061574;
-        Mon, 13 Sep 2021 19:24:03 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id w19so6315586pfn.12;
-        Mon, 13 Sep 2021 19:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6bHeWjV3HGfhLob3U0wkIQ8wiGJnN6iWzgMWgki4WRA=;
-        b=KDkT9e32/Y9iJjHHqek7M4egxwe+SRvGz5YRzUEkoBI+GO2NmGzFfAIzOi1trat/2d
-         iC6xrRNW6XHGrwX5yKWRp4xAO575uxyYMHEyAKHtl37YY/360gEy3hx/UvRKMqJU14th
-         4Nd1+yHQkAxwbvrkLPmPn2TJviUwPvGGpSMipipQB6C3j1Gbs4iPSeodJf+WEqzCoTqY
-         v8+OfagxpSQPqhkwIh1pfZr4u+jC7zZXyL4r3mAvH81vHNIbKHMJs9RGsIkomamQCaQq
-         cZghOvUn9cFgiLkWwNpcMIN6TDKV1FMq21JNGH5uf9tFd0e/t0C2NfOAs+vGO2+tM6yn
-         jEHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6bHeWjV3HGfhLob3U0wkIQ8wiGJnN6iWzgMWgki4WRA=;
-        b=RktSgj0Wm64Fsc5DMKj5FqiPywwKHV1V0npIEVOFZW9IslkYBlkIM3f81iwTOAr17t
-         iGVv7BTKlXwipLlKWJC6itRZXMCq7nP1Hk1qCZHr4oZ2BupjyBfkaDe3f49Tx1g/x7Si
-         q1LE5qhMWbiJfAguEzFvkBxEdc+isynjYID5sHvTTq3Hor8o/uj/5DFcUk07tzC/fk8f
-         KRkQrOGFiE8ZCsYwA9SBUgDw1FbNxFqPKVRRLjXlNtVReYJgBXaKq5WeOz9GyKQ07F1U
-         NAWS7YPY40ku7ed88+LO7e/d8AWLT5WQxW2BfWtAxMvlYpxJjDEw9QXZ8aijJVL1URFh
-         cxyg==
-X-Gm-Message-State: AOAM532Ahaa3kU4BwecbRipVCkv0LQk1isCxgJgyPgwuMPC0/Y1/GVoF
-        MUqu1hm1lgvBv/75v31nwd3ChpQCxCtfbQ==
-X-Google-Smtp-Source: ABdhPJznYYgoZbjQNv8p8/lJ1ILows+/lwtewj9vGKlUNhcTZ5D5Ve/FSOR7smfZ5r7yfwXXaluIhw==
-X-Received: by 2002:a62:ddd8:0:b0:435:4de8:2652 with SMTP id w207-20020a62ddd8000000b004354de82652mr2424526pff.53.1631586242271;
-        Mon, 13 Sep 2021 19:24:02 -0700 (PDT)
-Received: from [192.168.255.10] ([203.205.141.116])
-        by smtp.gmail.com with ESMTPSA id r4sm8012126pjm.50.2021.09.13.19.23.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Sep 2021 19:24:01 -0700 (PDT)
-Subject: Re: [PATCH v2 1/3] misc_cgroup: introduce misc.events and
- misc_events.local
-To:     Vipin Sharma <vipinsh@google.com>, Tejun Heo <tj@kernel.org>
-Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, mkoutny@suse.com,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-References: <50b83893065acaef2a9bc3f91c03812dc872f316.1631504710.git.brookxu@tencent.com>
- <CAHVum0dmTULvzD6dhr4Jzow-M1ATi-ubDkO5wQR=RQmWtt_78w@mail.gmail.com>
-From:   brookxu <brookxu.cn@gmail.com>
-Message-ID: <b62597e9-72c4-563e-fdc7-3315569502f0@gmail.com>
-Date:   Tue, 14 Sep 2021 10:23:13 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+        id S238312AbhINDFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Sep 2021 23:05:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34924 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237777AbhINDFp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Sep 2021 23:05:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 589576112E;
+        Tue, 14 Sep 2021 03:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631588668;
+        bh=0F5jSnD62cR5VFmZSZmBT7r8grfZA8jifIrD3awKk/0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Ru5otmVH8ogKC4M+hKS6NIiLdDgchqUlLtD6Vwp1xKPrtmM15MYFMajLGlQggFwbm
+         JaCGNnVNDe3DOjE6XeDtKMdU4LlNPGumuJUmVEgC63svYHswYY4cCBJngcs8e8pES2
+         HEUWqjsuG/k0M4gAo2hQz+BHojU5isKOBD/1bgf64+l/89is3Uj/S6eaWAlQczM3Gz
+         zof7S9fOq6SAp26VH8Twz7kKaWgPx3fFJDJjck3MM1cAESB+POFwvKKd5UKltzzoXk
+         U4h4bbRLhyeABHm7FMb3VE5976lxKgehA1eHREM7vq8/sMVTORVWP2IMxKMRGD+lS8
+         BNRteIeLovq4Q==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 2/2] x86/sgx: Add an attribute for the amount of SGX memory in a NUMA node
+Date:   Tue, 14 Sep 2021 06:04:22 +0300
+Message-Id: <20210914030422.377601-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210914030422.377601-1-jarkko@kernel.org>
+References: <20210914030422.377601-1-jarkko@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHVum0dmTULvzD6dhr4Jzow-M1ATi-ubDkO5wQR=RQmWtt_78w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for your time.
+The amount of SGX memory on the system is determined by the BIOS and it
+varies wildly between systems.  It can be from dozens of MB's on desktops
+or VM's, up to many GB's on servers.  Just like for regular memory, it is
+sometimes useful to know the amount of usable SGX memory in the system.
 
-Vipin Sharma wrote on 2021/9/14 12:51 上午:
-> On Sun, Sep 12, 2021 at 10:01 PM brookxu <brookxu.cn@gmail.com> wrote:
->>
->> From: Chunguang Xu <brookxu@tencent.com>
->>
->> Introduce misc.events and misc.events.local to make it easier for
-> 
-> I thought Tejun only gave go ahead for misc.events and not for
-> misc.events.local.
-> 
+Add an attribute for the amount of SGX memory in bytes to each NUMA
+node. The path is /sys/devices/system/node/node[0-9]*/sgx/memory_size.
 
-Maybe I missed something. I think events.local is somewhat useful. For
-example, the events of node A is large. If we need to determine whether
-it is caused by the max of node A, if there is no events.local, then we
-need to traverse the events of the child nodes and compare them with
-node A. This is a bit complicated. If there is events.local, we can do
-it very easily. Should we keep the events.local interface？
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 
->> us to understand the pressure of resources. The main idea comes
->> from mem_cgroup. Currently only the 'max' event is implemented,
->> which indicates the times the resource exceeds the limit.
->>
-> 
-> For future emails, please provide the links to previous discussions
-> like [1], [2],...
-> 
->> @@ -36,6 +41,8 @@ enum misc_res_type {
->>  struct misc_res {
->>         unsigned long max;
->>         atomic_long_t usage;
->> +       atomic_long_t events[MISC_CG_EVENT_TYPES];
-> 
-> Since there is only one event type for now, my recommendation is to
-> not use the array and just use a single atomic_long_t.
-> 
->>
->> +static const char *const misc_event_name[] = {
->> +       "max"
->> +};
->> +
-> 
-> We will not need it if you remove the array in struct misc_res.
+---
+v5: A new patch based on the discussion at
+    https://lore.kernel.org/linux-sgx/3a7cab4115b4f902f3509ad8652e616b91703e1d.camel@kernel.org/T/#t
+---
+ Documentation/x86/sgx.rst      | 14 ++++++
+ arch/x86/kernel/cpu/sgx/main.c | 90 ++++++++++++++++++++++++++++++++++
+ arch/x86/kernel/cpu/sgx/sgx.h  |  2 +
+ 3 files changed, 106 insertions(+)
 
-All right, thanks.
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+index dd0ac96ff9ef..f9d9cfa6dbf9 100644
+--- a/Documentation/x86/sgx.rst
++++ b/Documentation/x86/sgx.rst
+@@ -250,3 +250,17 @@ user wants to deploy SGX applications both on the host and in guests
+ on the same machine, the user should reserve enough EPC (by taking out
+ total virtual EPC size of all SGX VMs from the physical EPC size) for
+ host SGX applications so they can run with acceptable performance.
++
++Per NUMA node SGX attributes
++============================
++
++NUMA nodes devices expose SGX specific attributes in the following path:
++
++	/sys/devices/system/node/node[0-9]*/sgx/
++
++Attributes
++----------
++
++memory_size
++                Total available physical SGX memory, also known as Enclave
++                Page Cache (EPC), in bytes.
+diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/sgx/main.c
+index a6e313f1a82d..c43b5a0120c1 100644
+--- a/arch/x86/kernel/cpu/sgx/main.c
++++ b/arch/x86/kernel/cpu/sgx/main.c
+@@ -717,6 +717,7 @@ static bool __init sgx_page_cache_init(void)
+ 		}
+ 
+ 		sgx_epc_sections[i].node =  &sgx_numa_nodes[nid];
++		sgx_numa_nodes[nid].size += size;
+ 
+ 		sgx_nr_epc_sections++;
+ 	}
+@@ -790,6 +791,87 @@ int sgx_set_attribute(unsigned long *allowed_attributes,
+ }
+ EXPORT_SYMBOL_GPL(sgx_set_attribute);
+ 
++#ifdef CONFIG_NUMA
++static void sgx_numa_exit(void)
++{
++	int nid;
++
++	for (nid = 0; nid < num_possible_nodes(); nid++) {
++		if (!sgx_numa_nodes[nid].kobj)
++			continue;
++
++		kobject_put(sgx_numa_nodes[nid].kobj);
++	}
++}
++
++#define SGX_NODE_ATTR_RO(_name) \
++	static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
++
++static ssize_t memory_size_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
++{
++	unsigned long size = 0;
++	int nid;
++
++	for (nid = 0; nid < num_possible_nodes(); nid++) {
++		if (kobj == sgx_numa_nodes[nid].kobj) {
++			size = sgx_numa_nodes[nid].size;
++			break;
++		}
++	}
++
++	return sysfs_emit(buf, "%lu\n", size);
++}
++SGX_NODE_ATTR_RO(memory_size);
++
++static struct attribute *sgx_node_attrs[] = {
++	&memory_size_attr.attr,
++	NULL,
++};
++
++static const struct attribute_group sgx_node_attr_group = {
++	.attrs = sgx_node_attrs,
++};
++
++static bool sgx_numa_init(void)
++{
++	struct sgx_numa_node *node;
++	struct device *dev;
++	int nid;
++	int ret;
++
++	for (nid = 0; nid < num_possible_nodes(); nid++) {
++		if (!sgx_numa_nodes[nid].size)
++			continue;
++
++		node = &sgx_numa_nodes[nid];
++		dev = &node_devices[nid]->dev;
++
++		node->kobj = kobject_create_and_add("sgx", &dev->kobj);
++		if (!node->kobj) {
++			sgx_numa_exit();
++			return false;
++		}
++
++		ret = sysfs_create_group(node->kobj, &sgx_node_attr_group);
++		if (ret) {
++			sgx_numa_exit();
++			return false;
++		}
++	}
++
++	return true;
++}
++#else
++static inline void sgx_numa_exit(void)
++{
++}
++
++static inline bool sgx_numa_init(void)
++{
++	return true;
++}
++#endif /* CONFIG_NUMA */
++
+ static int __init sgx_init(void)
+ {
+ 	int ret;
+@@ -806,6 +888,11 @@ static int __init sgx_init(void)
+ 		goto err_reclaimer;
+ 	}
+ 
++	if (!sgx_numa_init()) {
++		ret = -ENOMEM;
++		goto err_numa_nodes;
++	}
++
+ 	ret = misc_register(&sgx_dev_provision);
+ 	if (ret)
+ 		goto err_provision;
+@@ -829,6 +916,9 @@ static int __init sgx_init(void)
+ 	misc_deregister(&sgx_dev_provision);
+ 
+ err_provision:
++	sgx_numa_exit();
++
++err_numa_nodes:
+ 	kthread_stop(ksgxd_tsk);
+ 
+ err_reclaimer:
+diff --git a/arch/x86/kernel/cpu/sgx/sgx.h b/arch/x86/kernel/cpu/sgx/sgx.h
+index 4628acec0009..c2c5e7c66d21 100644
+--- a/arch/x86/kernel/cpu/sgx/sgx.h
++++ b/arch/x86/kernel/cpu/sgx/sgx.h
+@@ -39,6 +39,8 @@ struct sgx_epc_page {
+  */
+ struct sgx_numa_node {
+ 	struct list_head free_page_list;
++	struct kobject *kobj;
++	unsigned long size;
+ 	spinlock_t lock;
+ };
+ 
+-- 
+2.25.1
 
-> Thanks
-> Vipin
-> 
