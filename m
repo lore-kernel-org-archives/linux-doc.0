@@ -7,49 +7,45 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC2BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA63CC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9F2E61157
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AC69610A6
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234577AbhINO4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231816AbhINO4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 14 Sep 2021 10:56:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45120 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:45126 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234363AbhINO4p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 10:56:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DB9B6113B;
+        id S234438AbhINO4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 10:56:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DD306113E;
         Tue, 14 Sep 2021 14:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631631328;
-        bh=QC67BJg7ZAdm46Ej3uu4GekTnusX8K0SxeusxKKINvQ=;
+        bh=ki4td2MFWNbZVRLxp5SDjFPg8foyU6N+QHzIjpS9V0U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GZjs80UuZEZUU6lIOQ3uBu4QArNdhbSo/ZdgDtVgn2HjzG4U3KHg0zuuUCqzsbTLm
-         5ncsahcrwOjUJT+6c9WLUh+ESPFRVlTyCg1xZeBVy5a9UY7tbQpQPpkwHQqhgHOSFq
-         BixHkdxF7PFiqPp/6OILepbycc/l7PvL+XIcGESIqx9hp4t9jFGulXG9izNTu7mosK
-         jVEOPH83URPaHKW1laDxTwfXsyJnM9Mup/AEwtIkV5YV/P0iz0URKQFqENxnzvcKsW
-         +WI3bmGYBo7iQO1XOA8T1klIcAabjzOZ1uKF+FMZypoYduW7TXoUOCgiwkEnY2rZtZ
-         1wsBYllu41RHA==
+        b=FOBsADcoE1BUoS6MdZ/vEa6s2InXpuEzmcn2yA86IxuXdxmggKvsUI6eEmWIXy51u
+         b3jmyWjHXSvMjJ5qKoGKVneQPaNohWP4Fc8rRl0veY5+fLo+zDQWmX+0HTAuKlmW9p
+         gxNbkkAq3t481/eoyeoS4WsngsjywL3JAJtxRGs10Ak/8swb41kOKO/4HorHjf9Mma
+         gG0TGPA+PzqKioEuLittN7/TM0JI6Z6hr0oQzEBmBpvbmbaxeGGbd4WfrcndOA+OeN
+         TTLio5WsByyL7OPd6BgvGvRE2Ct8P3vPuORTUlOimHb8aPJH3uk+i7lgYjbdVgcbln
+         iznO+4JlsYgsw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9qI-000L75-Qa; Tue, 14 Sep 2021 16:55:26 +0200
+        id 1mQ9qI-000L6s-LN; Tue, 14 Sep 2021 16:55:26 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Amey Narkhede <ameynarkhede03@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/8] ABI: sysfs-bus-pci: add documentation for modalias
-Date:   Tue, 14 Sep 2021 16:55:19 +0200
-Message-Id: <c2dfcf56d156a13d9c7c82122efdb64ddbc4e7d9.1631630792.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 3/8] ABI: testing/sysfs-module: document initstate
+Date:   Tue, 14 Sep 2021 16:55:16 +0200
+Message-Id: <71f413776d93dbe9489627617944bc9a1069dd4a.1631630792.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631630792.git.mchehab+huawei@kernel.org>
 References: <cover.1631630792.git.mchehab+huawei@kernel.org>
@@ -60,42 +56,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Even being available since 2005, there's no documentation for
-modalias.
+Despite being an old ABI, present on all modules, its documentation
+is missing. Add it, based on the original commit.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-bus-pci | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/ABI/testing/sysfs-module | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 191cbe9ae5ed..1da4c8db3a9e 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -187,6 +187,23 @@ Description:
- 		The symbolic link points to the PCI device sysfs entry of the
- 		Physical Function this device associates with.
+diff --git a/Documentation/ABI/testing/sysfs-module b/Documentation/ABI/testing/sysfs-module
+index 88bddf192ceb..08886367d047 100644
+--- a/Documentation/ABI/testing/sysfs-module
++++ b/Documentation/ABI/testing/sysfs-module
+@@ -41,6 +41,13 @@ KernelVersion:	3.3
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:	Module size in bytes.
  
-+What:		/sys/bus/pci/devices/.../modalias
-+Date:		May 2005
-+Contact:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-+Description:
-+		This attribute indicates the PCI ID of the device object.
++What:		/sys/module/*/initstate
++Date:		Nov 2006
++KernelVersion:	2.6.19
++Contact:	Kay Sievers <kay.sievers@vrfy.org>
++Description:	Show the initialization state(live, coming, going) of
++		the module.
 +
-+		That is in the format:
-+		pci:vXXXXXXXXdXXXXXXXXsvXXXXXXXXsdXXXXXXXXbcXXscXXiXX,
-+		where:
-+		    - vXXXXXXXX contains the vendor ID;
-+		    - dXXXXXXXX contains the device ID;
-+		    - svXXXXXXXX contains the sub-vendor ID;
-+		    - sdXXXXXXXX contains the subsystem device ID;
-+		    - bcXX contains the device class;
-+		    - scXX contains the device subclass;
-+		    - iXX contains the device class programming interface.
-+
- What:		/sys/bus/pci/slots/.../module
- Date:		June 2009
- Contact:	linux-pci@vger.kernel.org
+ What:		/sys/module/*/taint
+ Date:		Jan 2012
+ KernelVersion:	3.3
 -- 
 2.31.1
 
