@@ -2,95 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC888C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:34:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC86C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:48:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B7A160FED
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:34:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE10160F26
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233476AbhINUfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 16:35:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232341AbhINUfg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 16:35:36 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A54C061574;
-        Tue, 14 Sep 2021 13:34:18 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f104800104a7ca086fcfa54.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:4800:104a:7ca0:86fc:fa54])
+        id S234649AbhINUte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 16:49:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40322 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234523AbhINUta (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 16:49:30 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D40BA1EC0298;
-        Tue, 14 Sep 2021 22:34:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1631651657;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:
-         content-transfer-encoding:content-transfer-encoding:in-reply-to:
-         references; bh=ho0dIkyXb9rhQ4ltF8xF/Fh/kKjZFTuUyHYcmevz7B4=;
-        b=mFAnc9V6M98Xy3oMHBpkH8puEf9GQ4HT6tCOMvcz22KIL9BnyevbDohEJ8tTUH/g+OODfq
-        O5n3/1zLTzv7YcAnB3qfsu3R3UndsBwSi//8U3d2kzNDuiLtaIU6Ie853ibz75ZxPnPblM
-        zft0USk3XtqZ/+D7z+UBI6J0V6jmh1k=
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Documentation/no_hz: Introduce "dyntick-idle mode" before using it
-Date:   Tue, 14 Sep 2021 22:33:55 +0200
-Message-Id: <20210914203355.21360-1-bp@alien8.de>
-X-Mailer: git-send-email 2.29.2
+        by ms.lwn.net (Postfix) with ESMTPSA id F3DDC6156;
+        Tue, 14 Sep 2021 20:48:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F3DDC6156
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1631652492; bh=25q3roP7moFr66dZAdbNxxrJLdL486o1EL3S3vBbRiY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ZCbLP+A3kCkn5AB7Ec4A3M9JLEKRTyVp7t7f7PXl6teTrDKd8WE7tRtI5Iw0aWAVN
+         u4q0c8Mel5/IS/majhpS9Hup6IjStzVmjiAproB4PJ9cXpZGGZ79vFOKNJQ66lSdph
+         T59jD6PIa9RWn5jAtaOoXsB55r0U2TY1X72x0LbTnJAfsRIPzr+dqkfHbd9Iz05/Bo
+         4t6WaCs2FBkvKiWpT9Q1C4UqG4yFgbXUCBz6TV+uwjZaEsPl6IN+5AIhRd7Kj0emPk
+         PUauxm4lEWSkkWtPcXBwLHCORqdWNteCbjqTaV+KJGXzhltOipHaWZgZPh/K+6OvT2
+         RQi7GaGnwS8Pg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     X86 ML <x86@kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] doc: Add tip maintainer's handbook
+In-Reply-To: <20210913153942.15251-1-bp@alien8.de>
+References: <20210913153942.15251-1-bp@alien8.de>
+Date:   Tue, 14 Sep 2021 14:48:11 -0600
+Message-ID: <87h7emevec.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Borislav Petkov <bp@suse.de>
+Borislav Petkov <bp@alien8.de> writes:
 
-The CONFIG_NO_HZ_IDLE paragraph is using "dyntick-idle mode" before
-having defined it while the definition comes a couple of paragraphs
-later.
+> From: Borislav Petkov <bp@suse.de>
+>
+> Hi Jon,
+>
+> here is the rest of the tip maintainer handbook "preachings" which are
+> not generic enough to go into the main documentation but are tip-tree
+> specific and are collected in a separate handbook.
 
-That is leaving the reader with scratching head what that dyntick-idle
-mode might be. Pull its definition up so that it is clear.
+Applied, thanks.
 
-Signed-off-by: Borislav Petkov <bp@suse.de>
----
- Documentation/timers/no_hz.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/timers/no_hz.rst b/Documentation/timers/no_hz.rst
-index 6cadad7c3aad..20ad23a6c618 100644
---- a/Documentation/timers/no_hz.rst
-+++ b/Documentation/timers/no_hz.rst
-@@ -70,6 +70,10 @@ interrupt.  After all, the primary purpose of a scheduling-clock interrupt
- is to force a busy CPU to shift its attention among multiple duties,
- and an idle CPU has no duties to shift its attention among.
- 
-+An idle CPU that is not receiving scheduling-clock interrupts is said to
-+be "dyntick-idle", "in dyntick-idle mode", "in nohz mode", or "running
-+tickless".  The remainder of this document will use "dyntick-idle mode".
-+
- The CONFIG_NO_HZ_IDLE=y Kconfig option causes the kernel to avoid sending
- scheduling-clock interrupts to idle CPUs, which is critically important
- both to battery-powered devices and to highly virtualized mainframes.
-@@ -91,10 +95,6 @@ Therefore, systems with aggressive real-time response constraints often
- run CONFIG_HZ_PERIODIC=y kernels (or CONFIG_NO_HZ=n for older kernels)
- in order to avoid degrading from-idle transition latencies.
- 
--An idle CPU that is not receiving scheduling-clock interrupts is said to
--be "dyntick-idle", "in dyntick-idle mode", "in nohz mode", or "running
--tickless".  The remainder of this document will use "dyntick-idle mode".
--
- There is also a boot parameter "nohz=" that can be used to disable
- dyntick-idle mode in CONFIG_NO_HZ_IDLE=y kernels by specifying "nohz=off".
- By default, CONFIG_NO_HZ_IDLE=y kernels boot with "nohz=on", enabling
--- 
-2.29.2
-
+jon
