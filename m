@@ -7,48 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1598C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622D6C43219
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8987610E6
+	by mail.kernel.org (Postfix) with ESMTP id 4C2BE610CE
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233618AbhINOgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57500 "EHLO mail.kernel.org"
+        id S233803AbhINOgN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57444 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233844AbhINOeI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 10:34:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A9E2061168;
+        id S233850AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 10:34:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BA86761212;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=KNBPNk1//mcnk2FNKBwWq1QXjN5szO00uqOSQNF0zz4=;
+        bh=+z6dw7Tog78+7mQUP8MykHTfS8BskbmMD+pw4Idm0Jk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gEBQ0ImkcnLt22GjdBhi4T2j4TfO2OKXfHd6RYhDQSzO/U5AXJ1jVv32/r6hqyw4c
-         PWYZXBzGGYOxrpU66D5dv3RG/skb0i99obvj98y9czITugasWWlcQwyIG9ySJnKjmU
-         d5LXzPL5i9AzVOgvE0HyVrv/ki2ioEuxbC/anysDv1Zd0hRr262x4n6qzCLvUWFleR
-         rWyI8IqAvOWbIeBJeE7Ogale2palrNYxET0+ra+PlV6Ov2rSyQq3zd0WMj/cUlGVn8
-         QmgJabJGA/xiPRE1YJwyN3xCMDjbOY6smIXKCiVp8Uw9MGGmaGhStOL3ZHErQCsN/D
-         HPElNpJu2YzQg==
+        b=Tgy5hfhCwcWSBKHc0aU3V1vJUdNYwNVp/gbV8Nh/QADvdhwcQgNJ6EOSrbkVWa7uI
+         FeG3NrT4s2yJZjRLPLNtW1aia9Hm7vjXDy+3uZpBg/c5ojq8DwffOwP7lS/09uyEH1
+         FuVGt948NJuScrOpOidbK7SEF1vwbnoftslyOYt3syuwGEe24RAR+FsvcDclvswevV
+         22IKorzl6F10p4PX8TLSeSwmEzL1xNKOSb/33AU/f9WI8DHBw8Q63aLaaRNSGKrq7A
+         SWQku5ZLPR2c3SB8NU9BnggbxlxVS/+eEFoXMAj0Mmxc5G3uRqSk/kcROYZP0wF+zW
+         Vy7dTv9rs6Tqg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UN-000Kkq-Pg; Tue, 14 Sep 2021 16:32:47 +0200
+        id 1mQ9UN-000KkK-CT; Tue, 14 Sep 2021 16:32:47 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/29] ABI: pstore: Fix What field
-Date:   Tue, 14 Sep 2021 16:32:25 +0200
-Message-Id: <b0ad4d3e915f2e1543b3037b43148b76d5480a37.1631629496.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/29] ABI: sysfs-tty: better document module name parameter
+Date:   Tue, 14 Sep 2021 16:32:17 +0200
+Message-Id: <d72c3257c3875769df7340f4f2d55011fd0ad002.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -59,25 +52,163 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If both /sys/fs/pstore/... and /dev/pstore/... are possible,
-it should use, instead, two What: fields.
+On almost all ABI documents, variable arguments are declared
+as <foo_bar>. Change it here too, in order to allow replacing
+such wildcards by regexes on a scriptable way.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/pstore | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-tty | 32 ++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/ABI/testing/pstore b/Documentation/ABI/testing/pstore
-index 5b02540781a2..d3cff4a7ee10 100644
---- a/Documentation/ABI/testing/pstore
-+++ b/Documentation/ABI/testing/pstore
-@@ -1,4 +1,5 @@
--What:		/sys/fs/pstore/... (or /dev/pstore/...)
-+What:		/sys/fs/pstore/...
-+What:		/dev/pstore/...
- Date:		March 2011
- KernelVersion: 2.6.39
- Contact:	tony.luck@intel.com
+diff --git a/Documentation/ABI/testing/sysfs-tty b/Documentation/ABI/testing/sysfs-tty
+index e157130a6792..820e412d38a8 100644
+--- a/Documentation/ABI/testing/sysfs-tty
++++ b/Documentation/ABI/testing/sysfs-tty
+@@ -9,7 +9,7 @@ Description:
+ 		 The file supports poll() to detect virtual
+ 		 console switches.
+ 
+-What:		/sys/class/tty/tty0/active
++What:		/sys/class/tty/tty<x>/active
+ Date:		Nov 2010
+ Contact:	Kay Sievers <kay.sievers@vrfy.org>
+ Description:
+@@ -18,7 +18,7 @@ Description:
+ 		 The file supports poll() to detect virtual
+ 		 console switches.
+ 
+-What:		/sys/class/tty/ttyS0/uartclk
++What:		/sys/class/tty/ttyS<x>/uartclk
+ Date:		Sep 2012
+ Contact:	Tomas Hlavacek <tmshlvck@gmail.com>
+ Description:
+@@ -29,7 +29,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/type
++What:		/sys/class/tty/ttyS<x>/type
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -38,7 +38,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/line
++What:		/sys/class/tty/ttyS<x>/line
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -47,7 +47,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/port
++What:		/sys/class/tty/ttyS<x>/port
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -56,7 +56,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/irq
++What:		/sys/class/tty/ttyS<x>/irq
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -65,7 +65,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/flags
++What:		/sys/class/tty/ttyS<x>/flags
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -74,7 +74,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/xmit_fifo_size
++What:		/sys/class/tty/ttyS<x>/xmit_fifo_size
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -83,7 +83,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/close_delay
++What:		/sys/class/tty/ttyS<x>/close_delay
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -92,7 +92,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/closing_wait
++What:		/sys/class/tty/ttyS<x>/closing_wait
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -101,7 +101,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/custom_divisor
++What:		/sys/class/tty/ttyS<x>/custom_divisor
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -110,7 +110,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/io_type
++What:		/sys/class/tty/ttyS<x>/io_type
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -120,7 +120,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/iomem_base
++What:		/sys/class/tty/ttyS<x>/iomem_base
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -129,7 +129,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/iomem_reg_shift
++What:		/sys/class/tty/ttyS<x>/iomem_reg_shift
+ Date:		October 2012
+ Contact:	Alan Cox <alan@linux.intel.com>
+ Description:
+@@ -139,7 +139,7 @@ Description:
+ 		 These sysfs values expose the TIOCGSERIAL interface via
+ 		 sysfs rather than via ioctls.
+ 
+-What:		/sys/class/tty/ttyS0/rx_trig_bytes
++What:		/sys/class/tty/ttyS<x>/rx_trig_bytes
+ Date:		May 2014
+ Contact:	Yoshihiro YUNOMAE <yoshihiro.yunomae.ez@hitachi.com>
+ Description:
+@@ -155,7 +155,7 @@ Description:
+ 		 16550A, which has 1/4/8/14 bytes trigger, the RX trigger is
+ 		 automatically changed to 4 bytes.
+ 
+-What:		/sys/class/tty/ttyS0/console
++What:		/sys/class/tty/ttyS<x>/console
+ Date:		February 2020
+ Contact:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ Description:
 -- 
 2.31.1
 
