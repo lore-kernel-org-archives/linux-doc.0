@@ -2,73 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CD6AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 15:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FD9C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 15:34:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 437D660234
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 15:30:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54CB26113E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 15:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234167AbhINPcJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 11:32:09 -0400
-Received: from verein.lst.de ([213.95.11.211]:60860 "EHLO verein.lst.de"
+        id S234388AbhINPf3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 11:35:29 -0400
+Received: from mga01.intel.com ([192.55.52.88]:24594 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233202AbhINPcJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 11:32:09 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 375B567373; Tue, 14 Sep 2021 17:30:47 +0200 (CEST)
-Date:   Tue, 14 Sep 2021 17:30:46 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jan Beulich <jbeulich@suse.com>
-Cc:     Roman Skakun <rm.skakun@gmail.com>,
-        Andrii Anisov <andrii_anisov@epam.com>,
-        Roman Skakun <roman_skakun@epam.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
-Message-ID: <20210914153046.GB815@lst.de>
-References: <20210914151016.3174924-1-Roman_Skakun@epam.com> <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com>
+        id S233241AbhINPf3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 11:35:29 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="244371129"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
+   d="scan'208";a="244371129"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2021 08:28:25 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
+   d="scan'208";a="481865571"
+Received: from tjohn2x-mobl.amr.corp.intel.com (HELO [10.209.157.105]) ([10.209.157.105])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2021 08:28:23 -0700
+Subject: Re: [PATCH v2 16/29] ABI: sysfs-bus-soundwire-slave: use wildcards on
+ What definitions
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>,
+        linux-kernel@vger.kernel.org
+References: <cover.1631629496.git.mchehab+huawei@kernel.org>
+ <5b868cdb441090cd9c1c4fcc593f069d1b1023d9.1631629496.git.mchehab+huawei@kernel.org>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <89985d2d-2aff-b7d6-ad9f-535655a5feb5@linux.intel.com>
+Date:   Tue, 14 Sep 2021 10:28:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <5b868cdb441090cd9c1c4fcc593f069d1b1023d9.1631629496.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 05:29:07PM +0200, Jan Beulich wrote:
-> I'm not convinced the swiotlb use describe there falls under "intended
-> use" - mapping a 1280x720 framebuffer in a single chunk? (As an aside,
-> the bottom of this page is also confusing, as following "Then we can
-> confirm the modified swiotlb size in the boot log:" there is a log
-> fragment showing the same original size of 64Mb.
 
-It doesn't.  We also do not add hacks to the kernel for whacky out
-of tree modules.
+
+On 9/14/21 9:32 AM, Mauro Carvalho Chehab wrote:
+> An "N" upper letter is not a wildcard, nor can easily be identified
+> by script, specially since the USB sysfs define things like.
+> bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+> to convert it into a Regex.
+
+No objection on the convention but shouldn't that convention be applied
+to all attributes?
+
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/ABI/testing/sysfs-bus-soundwire-slave | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-soundwire-slave b/Documentation/ABI/testing/sysfs-bus-soundwire-slave
+> index d324aa0b678f..db6b8ffa753e 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-soundwire-slave
+> +++ b/Documentation/ABI/testing/sysfs-bus-soundwire-slave
+> @@ -64,7 +64,7 @@ Description:	SoundWire Slave Data Port-0 DisCo properties.
+>  		Data port 0 are used by the bus to configure the Data Port 0.
+>  
+>  
+> -What:		/sys/bus/soundwire/devices/sdw:.../dpN_src/max_word
+> +What:		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/max_word
+>  		/sys/bus/soundwire/devices/sdw:.../dpN_src/min_word
+>  		/sys/bus/soundwire/devices/sdw:.../dpN_src/words
+>  		/sys/bus/soundwire/devices/sdw:.../dpN_src/type
+
+if we change max_word, shouldn't we change all the others as well?
