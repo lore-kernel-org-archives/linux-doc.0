@@ -2,87 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 773DCC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E77F2C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C6F3610A6
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:49:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C724B60FD7
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234717AbhINOuk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235258AbhINOuI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 10:50:08 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76EBC0613BA;
-        Tue, 14 Sep 2021 07:47:38 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id 5so8355967plo.5;
-        Tue, 14 Sep 2021 07:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DFVYjmutsndVs1ZuTbUoHDKL/zDwuKKZLd3sEqGsf30=;
-        b=aLXTsKBX4Rold9d9yvndZNLNlk7FEA3iFWu++Vw+wsB50Mb5fUz1D9gq0aKO6oheEq
-         4a2lEHd4s0KFi69yL9AMhSrl17fmlsx5s542xSdiAtUCDETSqjxXJ6YCRrpW6itnzK4z
-         lLSWjrdt64wHloJZvNsVwiP/Yu6zXpP/i9VA/ZqJXxVnv3Hcf7XEsuMr9vpB5X4lKHeW
-         x+ylrA16PBZBRW6XiZhV9E4GmDM+lUCwN/B3FhvUDwxMt8lzkYq0lJJUAoKXTVUNC/NO
-         TasCdeOJ9vfTCn58W3CNIDxQMldPlCoUVY+5uN8WjDKEQ/E/kXO08tOi47wjle69Ym/N
-         tuww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DFVYjmutsndVs1ZuTbUoHDKL/zDwuKKZLd3sEqGsf30=;
-        b=z2VNU7OpElagLhziT3oQL3CpNnxnTOmthn+dJPdCSRLorKWjbCgTPIp8rFWllmDry1
-         lwamhUQ9JKwNOSirbrO7AvDgQWysm6HRkHYLpGX2OdAC/OwR/NlsZM01HcyTXIFXfgQL
-         MovH5U5VgSq3JIVHoH0b73Zh4iVqYEyLxo0oWwNtUovsNIfJljRvICsY0zAqYCNNeS71
-         OQEV/apNIZF4Nza8Lxh2Fb7UofElvnJyTi5SSIuLv1bueabl0Beth6yDTbUoGkFVrDE2
-         VIvaff7l2lBHUxGbARNU4W7DbkjDHpc4DRX3jK7kWjVJ/Woe7edoESWyC/e4wIDi/jMz
-         RgpA==
-X-Gm-Message-State: AOAM531lJ9BHrA7iO8fNsKWYjjMO6x4vitClfEG50oqf8XPJSwz3qVlD
-        h0MCZT5IP85pk0bB9319qvX3ZW1RMeI=
-X-Google-Smtp-Source: ABdhPJzO1eGYQioaLUQKJjYs439ok7X8lVlfFqEAw5m0vfIlGjvskR9EZaPEwap7NCSYxHi3U38BUg==
-X-Received: by 2002:a17:90b:3b4c:: with SMTP id ot12mr2535674pjb.36.1631630858406;
-        Tue, 14 Sep 2021 07:47:38 -0700 (PDT)
-Received: from hoboy.vegasvil.org ([2601:645:c000:2163:e2d5:5eff:fea5:802f])
-        by smtp.gmail.com with ESMTPSA id c23sm11643249pgb.74.2021.09.14.07.47.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 07:47:37 -0700 (PDT)
-Date:   Tue, 14 Sep 2021 07:47:35 -0700
-From:   Richard Cochran <richardcochran@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH v2 29/29] ABI: sysfs-ptp: use wildcards on What
- definitions
-Message-ID: <20210914144735.GD23296@hoboy.vegasvil.org>
-References: <cover.1631629496.git.mchehab+huawei@kernel.org>
- <ead7c9b34e7a00146e518d5f7c255b9fc72a9903.1631629496.git.mchehab+huawei@kernel.org>
+        id S234469AbhINO4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:56:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231816AbhINO4p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 10:56:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B8A960FD7;
+        Tue, 14 Sep 2021 14:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631631328;
+        bh=xP0GIfd+EZ5UAddK+nHIS6wuNIEIjdABJRHeANPwTrw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=eLtmU7RKiOMnKM7OQP9iGQJXQnd5aacbttEPuOuWHbgMm2Iw7Ar9GtS/tB+Ora1hD
+         K2yki83IGy/TO4eboTmiFBax4uQk4+sbxgDuxR4krpr9oHfnuA0jUGhD4vSWPJezOJ
+         QAXQ3mAnvCEErxsPmIhEH/N9kZ4sFdB7K6MQiUBnXnnALBVRU53+BaOmejWe+5hEY7
+         AVnrr2uuCugyidORn81BJhOzEsY03bQ/E/gINNjqdrjHPxwM1YOejmu0sLWfon+Gxx
+         86vhP6JYm67x44Qd271ak5CTayW/N+o7yoipsNq4pYw6AueGCeMUBAfCIEQIFm9onc
+         mLyesLzjxpX1g==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mQ9qI-000L6k-Hr; Tue, 14 Sep 2021 16:55:26 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/8] ABI: stable/sysfs-module: better document modules
+Date:   Tue, 14 Sep 2021 16:55:14 +0200
+Message-Id: <9875b31c9c45c0b66600cf929325697222993076.1631630792.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1631630792.git.mchehab+huawei@kernel.org>
+References: <cover.1631630792.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ead7c9b34e7a00146e518d5f7c255b9fc72a9903.1631629496.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 04:32:44PM +0200, Mauro Carvalho Chehab wrote:
-> An "N" upper letter is not a wildcard, nor can easily be identified
-> by script, specially since the USB sysfs define things like.
-> bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
-> to convert it into a Regex.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Instead of placing almost everything there as a text, use
+the proper What: for each component of the ABI.
 
-Acked-by: Richard Cochran <richardcochran@gmail.com>
+This allows it to be better documented and parsed by
+get_abi.pl.
+
+While here, use wildcards for MODULENAME.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/stable/sysfs-module | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
+index 6272ae5fb366..5c028af9921a 100644
+--- a/Documentation/ABI/stable/sysfs-module
++++ b/Documentation/ABI/stable/sysfs-module
+@@ -1,8 +1,7 @@
+-What:		/sys/module
+-Description:
+-	The /sys/module tree consists of the following structure:
++The /sys/module tree consists of the following structure:
+ 
+-	/sys/module/MODULENAME
++What:		/sys/module/<MODULENAME>
++Description:
+ 		The name of the module that is in the kernel.  This
+ 		module name will always show up if the module is loaded as a
+ 		dynamic module.  If it is built directly into the kernel, it
+@@ -12,7 +11,8 @@ Description:
+ 		Note: The conditions of creation in the built-in case are not
+ 		by design and may be removed in the future.
+ 
+-	/sys/module/MODULENAME/parameters
++What:		/sys/module/<MODULENAME>/parameters
++Description:
+ 		This directory contains individual files that are each
+ 		individual parameters of the module that are able to be
+ 		changed at runtime.  See the individual module
+@@ -25,7 +25,8 @@ Description:
+ 		individual driver documentation for details as to the
+ 		stability of the different parameters.
+ 
+-	/sys/module/MODULENAME/refcnt
++What:		/sys/module/<MODULENAME>/refcnt
++Description:
+ 		If the module is able to be unloaded from the kernel, this file
+ 		will contain the current reference count of the module.
+ 
+-- 
+2.31.1
+
