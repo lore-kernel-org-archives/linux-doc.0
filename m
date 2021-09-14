@@ -2,49 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C2BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA637C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC653610E6
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2E1F61183
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234176AbhINOg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57588 "EHLO mail.kernel.org"
+        id S234073AbhINOg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57596 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233863AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233876AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA76861211;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D82806124A;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=FL//ARyKpVZvvzBsfsKotKPtQwCMgGn355bElMoK46s=;
+        bh=LYe9oOSzt+kJG5LBerNEEaYI0BlPAHReLL+PyWjMW7Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HJ03/l+7VPxsuHZGMwOG5NTszRWIyNHPKXAi2qFi1S7ozrWncMovti01/qK3iQIl7
-         G17X9pGqNohvpQB14/ORTmDc/kD0WN72y5+3CozxFFH7fxy1ydhH/drproEdJIzH+E
-         ogGWZuAVFPVeLkNgzdG67TA5o1z5YKTrbi7+BxdX/8FQZFZyqJh+NtED9Day820eb2
-         e4MLOTDys66ZOOM/kaeBDSDPOMqjAUt0n4EwzHzOAFB4g+75Vtiz/ugH5sNb/9Yy+g
-         j7UmeHErsELX2iFFT2hP5kOmyvXrQXdvUR7dWLUfs0G7fZHKJaMM7yT4MR60zT248h
-         7hSqh9n3JYbdA==
+        b=CiB0U9Qd02sGjsmjsxVuerMvy8H3s6D3FfF61j2R5g/3ORdiFmJnj5ekGh3zhqNQb
+         fEXNRSnk9LQvoFNHdeZqr/u17rs6MUTb9oItZ7TZvAY3TnftPgjCYqy7alwEOVdmZl
+         IZ3HcAFHEC8wnkK+gTwkTbQzXijx5Rni3NEq1akx3HCnqKcJ6YmaaUohwhvN20BzJq
+         71UWrFJZKxHRp5dX1smVjFcfUo76WETwygbaV2pTXAbMKSC0LwhET9NdJXuhegyxQi
+         P2IhS0KtN2Wxd066D52Qt3Ce+i6Dg0DcqraFc0CkHyNIk3fqFLsO4jU4S6VggKpFvP
+         YoFQqw8YEoj4w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UN-000Kke-Kx; Tue, 14 Sep 2021 16:32:47 +0200
+        id 1mQ9UO-000Klg-D5; Tue, 14 Sep 2021 16:32:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v2 07/29] ABI: sysfs-class-cxl: place "not in a guest" at description
-Date:   Tue, 14 Sep 2021 16:32:22 +0200
-Message-Id: <88ce67c9eed1ae08af3d3992415032723184af9e.1631629496.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Tom Rix <trix@redhat.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 23/29] ABI: sysfs-class-uwb_rc: use wildcards on What definitions
+Date:   Tue, 14 Sep 2021 16:32:38 +0200
+Message-Id: <434dd46b3615d4b15a8f800bb7b6f1ff143d1e67.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -55,81 +54,136 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The What: field should have just the location of the ABI.
-Anything else should be inside the description.
-
-This fixes its parsing by get_abi.pl script.
+An "N" upper letter is not a wildcard, nor can easily be identified
+by script, specially since the USB sysfs define things like.
+bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-cxl | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ Documentation/ABI/testing/sysfs-class-uwb_rc | 26 ++++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
-index 818f55970efb..3c77677e0ca7 100644
---- a/Documentation/ABI/testing/sysfs-class-cxl
-+++ b/Documentation/ABI/testing/sysfs-class-cxl
-@@ -166,10 +166,11 @@ Description:    read only
-                 Decimal value of the Per Process MMIO space length.
- Users:		https://github.com/ibm-capi/libcxl
+diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc b/Documentation/ABI/testing/sysfs-class-uwb_rc
+index 6c5dcad21e19..a7ea169dc4eb 100644
+--- a/Documentation/ABI/testing/sysfs-class-uwb_rc
++++ b/Documentation/ABI/testing/sysfs-class-uwb_rc
+@@ -18,14 +18,14 @@ Description:
+                 and it will be removed.  The default is 3 superframes
+                 (~197 ms) as required by the specification.
  
--What:           /sys/class/cxl/<afu>m/pp_mmio_off (not in a guest)
-+What:           /sys/class/cxl/<afu>m/pp_mmio_off
- Date:           September 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read only
-+                (not in a guest)
-                 Decimal value of the Per Process MMIO space offset.
- Users:		https://github.com/ibm-capi/libcxl
+-What:           /sys/class/uwb_rc/uwbN/
++What:           /sys/class/uwb_rc/uwb<N>/
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+ Description:
+                 An individual UWB radio controller.
  
-@@ -190,28 +191,31 @@ Description:    read only
-                 Identifies the revision level of the PSL.
- Users:		https://github.com/ibm-capi/libcxl
+-What:           /sys/class/uwb_rc/uwbN/beacon
++What:           /sys/class/uwb_rc/uwb<N>/beacon
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -43,7 +43,7 @@ Description:
+                 Reading returns the currently active channel, or -1 if
+                 the radio controller is not beaconing.
  
--What:           /sys/class/cxl/<card>/base_image (not in a guest)
-+What:           /sys/class/cxl/<card>/base_image
- Date:           September 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read only
-+                (not in a guest)
-                 Identifies the revision level of the base image for devices
-                 that support loadable PSLs. For FPGAs this field identifies
-                 the image contained in the on-adapter flash which is loaded
-                 during the initial program load.
- Users:		https://github.com/ibm-capi/libcxl
+-What:           /sys/class/uwb_rc/uwbN/ASIE
++What:           /sys/class/uwb_rc/uwb<N>/ASIE
+ Date:           August 2014
+ KernelVersion:  3.18
+ Contact:        linux-usb@vger.kernel.org
+@@ -56,7 +56,7 @@ Description:
+                 Reading returns the current ASIE.  Writing replaces
+                 the current ASIE with the one written.
  
--What:           /sys/class/cxl/<card>/image_loaded (not in a guest)
-+What:           /sys/class/cxl/<card>/image_loaded
- Date:           September 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read only
-+                (not in a guest)
-                 Will return "user" or "factory" depending on the image loaded
-                 onto the card.
- Users:		https://github.com/ibm-capi/libcxl
+-What:           /sys/class/uwb_rc/uwbN/scan
++What:           /sys/class/uwb_rc/uwb<N>/scan
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -75,7 +75,7 @@ Description:
+                     4   scan (with start time of <bpst offset>)
+ 		   ==   =======================================
  
--What:           /sys/class/cxl/<card>/load_image_on_perst (not in a guest)
-+What:           /sys/class/cxl/<card>/load_image_on_perst
- Date:           December 2014
- Contact:        linuxppc-dev@lists.ozlabs.org
- Description:    read/write
-+                (not in a guest)
-                 Valid entries are "none", "user", and "factory".
-                 "none" means PERST will not cause image to be loaded to the
-                 card.  A power cycle is required to load the image.
-@@ -235,10 +239,11 @@ Description:    write only
-                 contexts on the card AFUs.
- Users:		https://github.com/ibm-capi/libcxl
+-What:           /sys/class/uwb_rc/uwbN/mac_address
++What:           /sys/class/uwb_rc/uwb<N>/mac_address
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -85,7 +85,7 @@ Description:
+                 controller's EUI-48 but only do so while the device is
+                 not beaconing or scanning.
  
--What:		/sys/class/cxl/<card>/perst_reloads_same_image (not in a guest)
-+What:		/sys/class/cxl/<card>/perst_reloads_same_image
- Date:		July 2015
- Contact:	linuxppc-dev@lists.ozlabs.org
- Description:	read/write
-+                (not in a guest)
- 		Trust that when an image is reloaded via PERST, it will not
- 		have changed.
+-What:           /sys/class/uwb_rc/uwbN/wusbhc
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -93,7 +93,7 @@ Description:
+                 A symlink to the device (if any) of the WUSB Host
+                 Controller PAL using this radio controller.
  
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -102,7 +102,7 @@ Description:
+                 as part of a scan or is a member of the radio
+                 controllers beacon group.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/BPST
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/BPST
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -111,7 +111,7 @@ Description:
+                 interval superframe timer) of the last beacon from
+                 this device was received.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/DevAddr
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/DevAddr
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -119,7 +119,7 @@ Description:
+                 The current DevAddr of this device in colon separated
+                 hex octets.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/EUI_48
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/EUI_48
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -128,7 +128,7 @@ Description:
+                 The EUI-48 of this device in colon separated hex
+                 octets.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/IEs
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/IEs
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -136,7 +136,7 @@ Description:
+                 The latest IEs included in this device's beacon, in
+                 space separated hex octets with one IE per line.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/LQE
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/LQE
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
+@@ -146,7 +146,7 @@ Description:
+                 This gives an estimate on a suitable PHY rate. Refer
+                 to [ECMA-368] section 13.3 for more details.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/RSSI
++What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/RSSI
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        linux-usb@vger.kernel.org
 -- 
 2.31.1
 
