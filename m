@@ -2,134 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BE3C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 08:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A6AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 08:56:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F29E3600AA
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 08:11:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C138261108
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 08:56:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbhINIMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 04:12:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60950 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229590AbhINIMu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 04:12:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED4FF60EB6;
-        Tue, 14 Sep 2021 08:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631607093;
-        bh=XgV0VOwvYlmpCGt57z0PpVVIaNEuFhMTiNswnTjNPNc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g+2g4OFaI37lXcjPLJCQ+0laA6wruiudyCf/zFuxrhhSCpwWDxenL6rtAWeDR6OwP
-         qoM4EnRUWdvuX/xPQVORsc348Aooa0WKhnfCu0wUh0VydPo8LkaRn4DlvFPrhAovn1
-         uuybODtnhmLh9kjflC5slScmpz3iKy7a7WtBKNTo=
-Date:   Tue, 14 Sep 2021 10:11:31 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chen Yu <yu.c.chen@intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Aubrey Li <aubrey.li@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Alexander Graf <graf@amazon.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Hannes Reinecke <hare@suse.de>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S231192AbhINI5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 04:57:46 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3788 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229526AbhINI5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 04:57:46 -0400
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4H7xwq1S5Mz67Y1y;
+        Tue, 14 Sep 2021 16:54:19 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 14 Sep 2021 10:56:27 +0200
+Received: from localhost (10.52.120.164) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 14 Sep
+ 2021 09:56:26 +0100
+Date:   Tue, 14 Sep 2021 09:56:23 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Sasha Levin <sashal@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
         Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] drivers/acpi: Introduce Platform Firmware Runtime
- Update device driver
-Message-ID: <YUBZM1vnZ3LjfUKc@kroah.com>
-References: <cover.1631600169.git.yu.c.chen@intel.com>
- <7a739633b30f6fb5c258f21c443ed0c17b12896f.1631600169.git.yu.c.chen@intel.com>
+        kernel test robot <lkp@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        <linux-doc@vger.kernel.org>, <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH AUTOSEL 5.14 03/25] cxl: Move cxl_core to new directory
+Message-ID: <20210914095623.00005306@Huawei.com>
+In-Reply-To: <20210913223339.435347-3-sashal@kernel.org>
+References: <20210913223339.435347-1-sashal@kernel.org>
+        <20210913223339.435347-3-sashal@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7a739633b30f6fb5c258f21c443ed0c17b12896f.1631600169.git.yu.c.chen@intel.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.120.164]
+X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 03:58:41PM +0800, Chen Yu wrote:
-> +enum start_action {
-> +	START_STAGE,
-> +	START_ACTIVATE,
-> +	START_STAGE_ACTIVATE,
-> +};
-> +
-> +enum dsm_status {
-> +	DSM_SUCCEED,
-> +	DSM_FUNC_NOT_SUPPORT,
-> +	DSM_INVAL_INPUT,
-> +	DSM_HARDWARE_ERR,
-> +	DSM_RETRY_SUGGESTED,
-> +	DSM_UNKNOWN,
-> +	DSM_FUNC_SPEC_ERR,
-> +};
-> +
-> +struct update_cap_info {
-> +	enum dsm_status status;
-> +	int update_cap;
-> +
-> +	uuid_t code_type;
-> +	int fw_version;
-> +	int code_rt_version;
-> +
-> +	uuid_t drv_type;
-> +	int drv_rt_version;
-> +	int drv_svn;
-> +
-> +	uuid_t platform_id;
-> +	uuid_t oem_id;
-> +
-> +	char oem_info[];
+On Mon, 13 Sep 2021 18:33:17 -0400
+Sasha Levin <sashal@kernel.org> wrote:
 
-Please use valid types for structures that cross the user/kernel
-boundry.
+> From: Ben Widawsky <ben.widawsky@intel.com>
+> 
+> [ Upstream commit 5161a55c069f53d88da49274cbef6e3c74eadea9 ]
+> 
+> CXL core is growing, and it's already arguably unmanageable. To support
+> future growth, move core functionality to a new directory and rename the
+> file to represent just bus support. Future work will remove non-bus
+> functionality.
+> 
+> Note that mem.h is renamed to cxlmem.h to avoid a namespace collision
+> with the global ARCH=um mem.h header.
 
-> +};
+Not a fix...
+
+I'm guessing this got picked up on the basis of the Reported-by: tag?
+I think that was added for a minor tweak as this went through review rather
+than referring to the whole patch.
+
+Jonathan
+
+
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Link: https://lore.kernel.org/r/162792537866.368511.8915631504621088321.stgit@dwillia2-desk3.amr.corp.intel.com
+> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/driver-api/cxl/memory-devices.rst | 2 +-
+>  drivers/cxl/Makefile                            | 4 +---
+>  drivers/cxl/core/Makefile                       | 5 +++++
+>  drivers/cxl/{core.c => core/bus.c}              | 4 ++--
+>  drivers/cxl/{mem.h => cxlmem.h}                 | 0
+>  drivers/cxl/pci.c                               | 2 +-
+>  drivers/cxl/pmem.c                              | 2 +-
+>  7 files changed, 11 insertions(+), 8 deletions(-)
+>  create mode 100644 drivers/cxl/core/Makefile
+>  rename drivers/cxl/{core.c => core/bus.c} (99%)
+>  rename drivers/cxl/{mem.h => cxlmem.h} (100%)
+> 
+> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
+> index 487ce4f41d77..a86e2c7c551a 100644
+> --- a/Documentation/driver-api/cxl/memory-devices.rst
+> +++ b/Documentation/driver-api/cxl/memory-devices.rst
+> @@ -36,7 +36,7 @@ CXL Core
+>  .. kernel-doc:: drivers/cxl/cxl.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/cxl/core.c
+> +.. kernel-doc:: drivers/cxl/core/bus.c
+>     :doc: cxl core
+>  
+>  External Interfaces
+> diff --git a/drivers/cxl/Makefile b/drivers/cxl/Makefile
+> index 32954059b37b..d1aaabc940f3 100644
+> --- a/drivers/cxl/Makefile
+> +++ b/drivers/cxl/Makefile
+> @@ -1,11 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -obj-$(CONFIG_CXL_BUS) += cxl_core.o
+> +obj-$(CONFIG_CXL_BUS) += core/
+>  obj-$(CONFIG_CXL_MEM) += cxl_pci.o
+>  obj-$(CONFIG_CXL_ACPI) += cxl_acpi.o
+>  obj-$(CONFIG_CXL_PMEM) += cxl_pmem.o
+>  
+> -ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=CXL
+> -cxl_core-y := core.o
+>  cxl_pci-y := pci.o
+>  cxl_acpi-y := acpi.o
+>  cxl_pmem-y := pmem.o
+> diff --git a/drivers/cxl/core/Makefile b/drivers/cxl/core/Makefile
+> new file mode 100644
+> index 000000000000..ad137f96e5c8
+> --- /dev/null
+> +++ b/drivers/cxl/core/Makefile
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_CXL_BUS) += cxl_core.o
 > +
-> +struct com_buf_info {
-> +	enum dsm_status status;
-> +	enum dsm_status ext_status;
-> +	unsigned long addr_lo;
-> +	unsigned long addr_hi;
-> +	int buf_size;
-> +};
+> +ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=CXL -I$(srctree)/drivers/cxl
+> +cxl_core-y := bus.o
+> diff --git a/drivers/cxl/core.c b/drivers/cxl/core/bus.c
+> similarity index 99%
+> rename from drivers/cxl/core.c
+> rename to drivers/cxl/core/bus.c
+> index a2e4d54fc7bc..0815eec23944 100644
+> --- a/drivers/cxl/core.c
+> +++ b/drivers/cxl/core/bus.c
+> @@ -6,8 +6,8 @@
+>  #include <linux/pci.h>
+>  #include <linux/slab.h>
+>  #include <linux/idr.h>
+> -#include "cxl.h"
+> -#include "mem.h"
+> +#include <cxlmem.h>
+> +#include <cxl.h>
+>  
+>  /**
+>   * DOC: cxl core
+> diff --git a/drivers/cxl/mem.h b/drivers/cxl/cxlmem.h
+> similarity index 100%
+> rename from drivers/cxl/mem.h
+> rename to drivers/cxl/cxlmem.h
+> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
+> index 4cf351a3cf99..a945c5fda292 100644
+> --- a/drivers/cxl/pci.c
+> +++ b/drivers/cxl/pci.c
+> @@ -12,9 +12,9 @@
+>  #include <linux/pci.h>
+>  #include <linux/io.h>
+>  #include <linux/io-64-nonatomic-lo-hi.h>
+> +#include "cxlmem.h"
+>  #include "pci.h"
+>  #include "cxl.h"
+> -#include "mem.h"
+>  
+>  /**
+>   * DOC: cxl pci
+> diff --git a/drivers/cxl/pmem.c b/drivers/cxl/pmem.c
+> index 0088e41dd2f3..9652c3ee41e7 100644
+> --- a/drivers/cxl/pmem.c
+> +++ b/drivers/cxl/pmem.c
+> @@ -6,7 +6,7 @@
+>  #include <linux/ndctl.h>
+>  #include <linux/async.h>
+>  #include <linux/slab.h>
+> -#include "mem.h"
+> +#include "cxlmem.h"
+>  #include "cxl.h"
+>  
+>  /*
 
-Same here.
-
-> +
-> +struct updated_result {
-> +	enum dsm_status status;
-> +	enum dsm_status ext_status;
-> +	unsigned long low_auth_time;
-> +	unsigned long high_auth_time;
-> +	unsigned long low_exec_time;
-> +	unsigned long high_exec_time;
-
-And same here.
-
-And these are very odd structure names that you are adding to the
-"global" namespace.  Please make them have a prefix for your driver so
-that people know what they belong to.  "updated_result" is way too
-generic.
-
-thanks,
-
-greg k-h
