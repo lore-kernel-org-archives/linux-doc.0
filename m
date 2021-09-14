@@ -4,44 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE0CFC43217
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CA4C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA7D1610D1
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4864E610A2
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233763AbhINOgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57450 "EHLO mail.kernel.org"
+        id S233813AbhINOgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57442 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233858AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233856AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0AE46121F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BD2C96121D;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=223jFRZJMMHbkDrjPCo1stNDFp9oupnGkKgVhQoSgTU=;
+        bh=0VhIU7oIW19mqtxZEKsJZTHlixOevr7iBll8y7c2BTg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iWi5ce2ENkIx6IkcoCtiSBiCY6slQSMjqTDUTdzChM9ELxZ0OhZ1Vi2pPm7hnbOyR
-         IITyJO+Y6dWmw3sM2P2aHtIaAvLuujpBNyqGXI37qOYo6eW0aoZKQEyOHWMhBVYbrk
-         vvwlNi5e+xODaokNKTRJuyCpDNI0CeFIJWRX1Vqf/jOtZrHArftuGXvHb1m5eQlTdr
-         AFx54DNLSmF4In/L0y0rcgNyV1Q4sjoxAATEAobH5wF4LWMXysSidCmH2a4+ZW4yXm
-         JKRnAfLCzgshVH7X4OV2+kIaQTqm/fE5kHy4c5SpvqaeLxJptvC1Vem+8n4xwf8lu8
-         oKQO9PJSb4uSg==
+        b=XbeK0VC+l2SkgW03upKsvRJE39T0pqT2/VBXEJmCHnpC7CHgRNW20n4nK1IZRGPcy
+         iEfrkYaDQlfd5vMjCZZyMa35AWT5FP9SgoE2aHAUL8cgiWacOa2EsBXRBIw0m6NdNB
+         Ln4DK2d5GRa8gZpiGco85+lVmhYE1hThOBmwCaarcNa0vHa8DcyTer/AnOfdvHtutE
+         8y8NrtWmtH0j0pcFv9RcYMNknRBeBxtK71A0Is/z5zvDpUspkbiWDB6SDA745okEGC
+         AFkrFQDiocmrCR+tyW28uXpYMh+QlHmJMmFsESVHPy/l+OiyeOci7zuelsxxXR8c+Y
+         p69wxfmSWmsJw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UO-000KlA-1B; Tue, 14 Sep 2021 16:32:48 +0200
+        id 1mQ9UN-000Kku-RE; Tue, 14 Sep 2021 16:32:47 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 15/29] ABI: sysfs-bus-soundwire-master: use wildcards on What definitions
-Date:   Tue, 14 Sep 2021 16:32:30 +0200
-Message-Id: <b666b3ae34ca8228332767616954ca35afba323b.1631629496.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v2 11/29] ABI: sysfs-class-typec: fix a bad What field
+Date:   Tue, 14 Sep 2021 16:32:26 +0200
+Message-Id: <3284da746c7f2bf7c120913a35db51cc5650e2ea.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -52,26 +54,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An "N" upper letter is not a wildcard, nor can easily be identified
-by script, specially since the USB sysfs define things like.
-bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
-to convert it into a Regex.
+The <partner> wildcard is missing the '<' character. Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-bus-soundwire-master | 2 +-
+ Documentation/ABI/testing/sysfs-class-typec | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-soundwire-master b/Documentation/ABI/testing/sysfs-bus-soundwire-master
-index 46ef038d8722..f63db707ee7a 100644
---- a/Documentation/ABI/testing/sysfs-bus-soundwire-master
-+++ b/Documentation/ABI/testing/sysfs-bus-soundwire-master
-@@ -1,4 +1,4 @@
--What:		/sys/bus/soundwire/devices/sdw-master-N/revision
-+What:		/sys/bus/soundwire/devices/sdw-master-<N>/revision
- 		/sys/bus/soundwire/devices/sdw-master-N/clk_stop_modes
- 		/sys/bus/soundwire/devices/sdw-master-N/clk_freq
- 		/sys/bus/soundwire/devices/sdw-master-N/clk_gears
+diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+index 40122d915ae1..c09add32e596 100644
+--- a/Documentation/ABI/testing/sysfs-class-typec
++++ b/Documentation/ABI/testing/sysfs-class-typec
+@@ -200,7 +200,7 @@ Description:	USB Power Delivery Specification defines a set of product types
+ 		amc			Alternate Mode Controller
+ 		======================  ==========================
+ 
+-What:		/sys/class/typec/<port>-partner>/identity/
++What:		/sys/class/typec/<port>-<partner>/identity/
+ Date:		April 2017
+ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+ Description:
 -- 
 2.31.1
 
