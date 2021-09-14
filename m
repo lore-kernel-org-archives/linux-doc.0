@@ -7,43 +7,44 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA637C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 728D1C43217
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2E1F61183
+	by mail.kernel.org (Postfix) with ESMTP id 5DB776108B
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234073AbhINOg2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57596 "EHLO mail.kernel.org"
+        id S234198AbhINOg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233876AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233860AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D82806124A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 834D56108B;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=LYe9oOSzt+kJG5LBerNEEaYI0BlPAHReLL+PyWjMW7Q=;
+        bh=HtBY1I39rjIRmneRFjC4/l5VFjhQC7Mk73QhgY5JabI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CiB0U9Qd02sGjsmjsxVuerMvy8H3s6D3FfF61j2R5g/3ORdiFmJnj5ekGh3zhqNQb
-         fEXNRSnk9LQvoFNHdeZqr/u17rs6MUTb9oItZ7TZvAY3TnftPgjCYqy7alwEOVdmZl
-         IZ3HcAFHEC8wnkK+gTwkTbQzXijx5Rni3NEq1akx3HCnqKcJ6YmaaUohwhvN20BzJq
-         71UWrFJZKxHRp5dX1smVjFcfUo76WETwygbaV2pTXAbMKSC0LwhET9NdJXuhegyxQi
-         P2IhS0KtN2Wxd066D52Qt3Ce+i6Dg0DcqraFc0CkHyNIk3fqFLsO4jU4S6VggKpFvP
-         YoFQqw8YEoj4w==
+        b=AEbJB+JRzKbJHpl7RudAuOzPexaf/ag/xvDCcWImkRfUp9TnE8+QXhRoWIuKccPZK
+         yxTMNHrQEgn1SEa7d90JMa+kdayloBhZT83bwoFoOmgfHqRqmo/6ww7FXuji6sPJRm
+         HPAOiS82zGrfUNLS2Xdd2xrcRuEPvtadPmv8b1QN6H4VB+YNPFCEvQIBlw+ko+HUPG
+         XRl0rsAm0NQPjQ3VW7wyE9SO82OZihlpqYJ+J5/nSsffTFQmedt+1qrEFUOtz4cmRH
+         wS9wT+tTvo0y/QosPgsC2kErvjDS1BAdtbHEw/2gZtRj1R+SiV19X7edABLqMdrK+J
+         8LqgZ5aqTJ9nQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UO-000Klg-D5; Tue, 14 Sep 2021 16:32:48 +0200
+        id 1mQ9UN-000KkO-Dd; Tue, 14 Sep 2021 16:32:47 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/29] ABI: sysfs-class-uwb_rc: use wildcards on What definitions
-Date:   Tue, 14 Sep 2021 16:32:38 +0200
-Message-Id: <434dd46b3615d4b15a8f800bb7b6f1ff143d1e67.1631629496.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 03/29] ABI: sysfs-kernel-slab: use a wildcard for the cache name
+Date:   Tue, 14 Sep 2021 16:32:18 +0200
+Message-Id: <ddfdb142a98edc08e41eabfceca522283b037bd4.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -54,136 +55,441 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An "N" upper letter is not a wildcard, nor can easily be identified
-by script, specially since the USB sysfs define things like.
-bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
-to convert it into a Regex.
+the "cache" part of the description is actually a wildcard,
+as, in practice, this will use per-subsystem names:
+
+    /sys/kernel/slab/Acpi-Namespace/align
+    /sys/kernel/slab/Acpi-Operand/align
+    /sys/kernel/slab/Acpi-Parse/align
+...
+    /sys/kernel/slab/zswap_entry/align
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-uwb_rc | 26 ++++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ Documentation/ABI/testing/sysfs-kernel-slab | 94 ++++++++++-----------
+ 1 file changed, 47 insertions(+), 47 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc b/Documentation/ABI/testing/sysfs-class-uwb_rc
-index 6c5dcad21e19..a7ea169dc4eb 100644
---- a/Documentation/ABI/testing/sysfs-class-uwb_rc
-+++ b/Documentation/ABI/testing/sysfs-class-uwb_rc
-@@ -18,14 +18,14 @@ Description:
-                 and it will be removed.  The default is 3 superframes
-                 (~197 ms) as required by the specification.
+diff --git a/Documentation/ABI/testing/sysfs-kernel-slab b/Documentation/ABI/testing/sysfs-kernel-slab
+index c9f12baf8baa..77e5840b00a5 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-slab
++++ b/Documentation/ABI/testing/sysfs-kernel-slab
+@@ -10,7 +10,7 @@ Description:
+ 		any cache it aliases, if any).
+ Users:		kernel memory tuning tools
  
--What:           /sys/class/uwb_rc/uwbN/
-+What:           /sys/class/uwb_rc/uwb<N>/
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
- Description:
-                 An individual UWB radio controller.
+-What:		/sys/kernel/slab/cache/aliases
++What:		/sys/kernel/slab/<cache>/aliases
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -19,7 +19,7 @@ Description:
+ 		The aliases file is read-only and specifies how many caches
+ 		have merged into this cache.
  
--What:           /sys/class/uwb_rc/uwbN/beacon
-+What:           /sys/class/uwb_rc/uwb<N>/beacon
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -43,7 +43,7 @@ Description:
-                 Reading returns the currently active channel, or -1 if
-                 the radio controller is not beaconing.
+-What:		/sys/kernel/slab/cache/align
++What:		/sys/kernel/slab/<cache>/align
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -28,7 +28,7 @@ Description:
+ 		The align file is read-only and specifies the cache's object
+ 		alignment in bytes.
  
--What:           /sys/class/uwb_rc/uwbN/ASIE
-+What:           /sys/class/uwb_rc/uwb<N>/ASIE
- Date:           August 2014
- KernelVersion:  3.18
- Contact:        linux-usb@vger.kernel.org
-@@ -56,7 +56,7 @@ Description:
-                 Reading returns the current ASIE.  Writing replaces
-                 the current ASIE with the one written.
+-What:		/sys/kernel/slab/cache/alloc_calls
++What:		/sys/kernel/slab/<cache>/alloc_calls
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -39,7 +39,7 @@ Description:
+ 		The alloc_calls file only contains information if debugging is
+ 		enabled for that cache (see Documentation/vm/slub.rst).
  
--What:           /sys/class/uwb_rc/uwbN/scan
-+What:           /sys/class/uwb_rc/uwb<N>/scan
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -75,7 +75,7 @@ Description:
-                     4   scan (with start time of <bpst offset>)
- 		   ==   =======================================
+-What:		/sys/kernel/slab/cache/alloc_fastpath
++What:		/sys/kernel/slab/<cache>/alloc_fastpath
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -50,7 +50,7 @@ Description:
+ 		current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/mac_address
-+What:           /sys/class/uwb_rc/uwb<N>/mac_address
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -85,7 +85,7 @@ Description:
-                 controller's EUI-48 but only do so while the device is
-                 not beaconing or scanning.
+-What:		/sys/kernel/slab/cache/alloc_from_partial
++What:		/sys/kernel/slab/<cache>/alloc_from_partial
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -62,7 +62,7 @@ Description:
+ 		count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/wusbhc
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -93,7 +93,7 @@ Description:
-                 A symlink to the device (if any) of the WUSB Host
-                 Controller PAL using this radio controller.
+-What:		/sys/kernel/slab/cache/alloc_refill
++What:		/sys/kernel/slab/<cache>/alloc_refill
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -73,7 +73,7 @@ Description:
+ 		remote cpu frees.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -102,7 +102,7 @@ Description:
-                 as part of a scan or is a member of the radio
-                 controllers beacon group.
+-What:		/sys/kernel/slab/cache/alloc_slab
++What:		/sys/kernel/slab/<cache>/alloc_slab
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -84,7 +84,7 @@ Description:
+ 		clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/BPST
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/BPST
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -111,7 +111,7 @@ Description:
-                 interval superframe timer) of the last beacon from
-                 this device was received.
+-What:		/sys/kernel/slab/cache/alloc_slowpath
++What:		/sys/kernel/slab/<cache>/alloc_slowpath
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -96,7 +96,7 @@ Description:
+ 		clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/DevAddr
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/DevAddr
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -119,7 +119,7 @@ Description:
-                 The current DevAddr of this device in colon separated
-                 hex octets.
+-What:		/sys/kernel/slab/cache/cache_dma
++What:		/sys/kernel/slab/<cache>/cache_dma
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -106,7 +106,7 @@ Description:
+ 		are from ZONE_DMA.
+ 		Available when CONFIG_ZONE_DMA is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/EUI_48
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/EUI_48
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
+-What:		/sys/kernel/slab/cache/cpu_slabs
++What:		/sys/kernel/slab/<cache>/cpu_slabs
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -115,7 +115,7 @@ Description:
+ 		The cpu_slabs file is read-only and displays how many cpu slabs
+ 		are active and their NUMA locality.
+ 
+-What:		/sys/kernel/slab/cache/cpuslab_flush
++What:		/sys/kernel/slab/<cache>/cpuslab_flush
+ Date:		April 2009
+ KernelVersion:	2.6.31
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
 @@ -128,7 +128,7 @@ Description:
-                 The EUI-48 of this device in colon separated hex
-                 octets.
+ 		current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/IEs
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/IEs
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -136,7 +136,7 @@ Description:
-                 The latest IEs included in this device's beacon, in
-                 space separated hex octets with one IE per line.
+-What:		/sys/kernel/slab/cache/ctor
++What:		/sys/kernel/slab/<cache>/ctor
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -138,7 +138,7 @@ Description:
+ 		constructor function, which is invoked for each object when a
+ 		new slab is allocated.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/LQE
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/LQE
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
-@@ -146,7 +146,7 @@ Description:
-                 This gives an estimate on a suitable PHY rate. Refer
-                 to [ECMA-368] section 13.3 for more details.
+-What:		/sys/kernel/slab/cache/deactivate_empty
++What:		/sys/kernel/slab/<cache>/deactivate_empty
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -148,7 +148,7 @@ Description:
+ 		was deactivated.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
  
--What:           /sys/class/uwb_rc/uwbN/<EUI-48>/RSSI
-+What:           /sys/class/uwb_rc/uwb<N>/<EUI-48>/RSSI
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        linux-usb@vger.kernel.org
+-What:		/sys/kernel/slab/cache/deactivate_full
++What:		/sys/kernel/slab/<cache>/deactivate_full
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -158,7 +158,7 @@ Description:
+ 		was deactivated.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/deactivate_remote_frees
++What:		/sys/kernel/slab/<cache>/deactivate_remote_frees
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -169,7 +169,7 @@ Description:
+ 		remotely.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/deactivate_to_head
++What:		/sys/kernel/slab/<cache>/deactivate_to_head
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -180,7 +180,7 @@ Description:
+ 		list.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/deactivate_to_tail
++What:		/sys/kernel/slab/<cache>/deactivate_to_tail
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -191,7 +191,7 @@ Description:
+ 		list.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/destroy_by_rcu
++What:		/sys/kernel/slab/<cache>/destroy_by_rcu
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -200,7 +200,7 @@ Description:
+ 		The destroy_by_rcu file is read-only and specifies whether
+ 		slabs (not objects) are freed by rcu.
+ 
+-What:		/sys/kernel/slab/cache/free_add_partial
++What:		/sys/kernel/slab/<cache>/free_add_partial
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -211,7 +211,7 @@ Description:
+ 		partial list.  It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/free_calls
++What:		/sys/kernel/slab/<cache>/free_calls
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -221,7 +221,7 @@ Description:
+ 		object frees if slab debugging is enabled (see
+ 		Documentation/vm/slub.rst).
+ 
+-What:		/sys/kernel/slab/cache/free_fastpath
++What:		/sys/kernel/slab/<cache>/free_fastpath
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -232,7 +232,7 @@ Description:
+ 		It can be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/free_frozen
++What:		/sys/kernel/slab/<cache>/free_frozen
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -243,7 +243,7 @@ Description:
+ 		clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/free_remove_partial
++What:		/sys/kernel/slab/<cache>/free_remove_partial
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -255,7 +255,7 @@ Description:
+ 		count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/free_slab
++What:		/sys/kernel/slab/<cache>/free_slab
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -266,7 +266,7 @@ Description:
+ 		the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/free_slowpath
++What:		/sys/kernel/slab/<cache>/free_slowpath
+ Date:		February 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -277,7 +277,7 @@ Description:
+ 		be written to clear the current count.
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/hwcache_align
++What:		/sys/kernel/slab/<cache>/hwcache_align
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -286,7 +286,7 @@ Description:
+ 		The hwcache_align file is read-only and specifies whether
+ 		objects are aligned on cachelines.
+ 
+-What:		/sys/kernel/slab/cache/min_partial
++What:		/sys/kernel/slab/<cache>/min_partial
+ Date:		February 2009
+ KernelVersion:	2.6.30
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -297,7 +297,7 @@ Description:
+ 		allocating new slabs.  Such slabs may be reclaimed by utilizing
+ 		the shrink file.
+ 
+-What:		/sys/kernel/slab/cache/object_size
++What:		/sys/kernel/slab/<cache>/object_size
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -306,7 +306,7 @@ Description:
+ 		The object_size file is read-only and specifies the cache's
+ 		object size.
+ 
+-What:		/sys/kernel/slab/cache/objects
++What:		/sys/kernel/slab/<cache>/objects
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -315,7 +315,7 @@ Description:
+ 		The objects file is read-only and displays how many objects are
+ 		active and from which nodes they are from.
+ 
+-What:		/sys/kernel/slab/cache/objects_partial
++What:		/sys/kernel/slab/<cache>/objects_partial
+ Date:		April 2008
+ KernelVersion:	2.6.26
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -325,7 +325,7 @@ Description:
+ 		objects are on partial slabs and from which nodes they are
+ 		from.
+ 
+-What:		/sys/kernel/slab/cache/objs_per_slab
++What:		/sys/kernel/slab/<cache>/objs_per_slab
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -333,9 +333,9 @@ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+ Description:
+ 		The file objs_per_slab is read-only and specifies how many
+ 		objects may be allocated from a single slab of the order
+-		specified in /sys/kernel/slab/cache/order.
++		specified in /sys/kernel/slab/<cache>/order.
+ 
+-What:		/sys/kernel/slab/cache/order
++What:		/sys/kernel/slab/<cache>/order
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -352,7 +352,7 @@ Description:
+ 		order is used and this sysfs entry can not be used to change
+ 		the order at run time.
+ 
+-What:		/sys/kernel/slab/cache/order_fallback
++What:		/sys/kernel/slab/<cache>/order_fallback
+ Date:		April 2008
+ KernelVersion:	2.6.26
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -365,7 +365,7 @@ Description:
+ 
+ 		Available when CONFIG_SLUB_STATS is enabled.
+ 
+-What:		/sys/kernel/slab/cache/partial
++What:		/sys/kernel/slab/<cache>/partial
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -374,7 +374,7 @@ Description:
+ 		The partial file is read-only and displays how long many
+ 		partial slabs there are and how long each node's list is.
+ 
+-What:		/sys/kernel/slab/cache/poison
++What:		/sys/kernel/slab/<cache>/poison
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -383,7 +383,7 @@ Description:
+ 		The poison file specifies whether objects should be poisoned
+ 		when a new slab is allocated.
+ 
+-What:		/sys/kernel/slab/cache/reclaim_account
++What:		/sys/kernel/slab/<cache>/reclaim_account
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -392,7 +392,7 @@ Description:
+ 		The reclaim_account file specifies whether the cache's objects
+ 		are reclaimable (and grouped by their mobility).
+ 
+-What:		/sys/kernel/slab/cache/red_zone
++What:		/sys/kernel/slab/<cache>/red_zone
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -401,7 +401,7 @@ Description:
+ 		The red_zone file specifies whether the cache's objects are red
+ 		zoned.
+ 
+-What:		/sys/kernel/slab/cache/remote_node_defrag_ratio
++What:		/sys/kernel/slab/<cache>/remote_node_defrag_ratio
+ Date:		January 2008
+ KernelVersion:	2.6.25
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -415,7 +415,7 @@ Description:
+ 
+ 		Available when CONFIG_NUMA is enabled.
+ 
+-What:		/sys/kernel/slab/cache/sanity_checks
++What:		/sys/kernel/slab/<cache>/sanity_checks
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -426,7 +426,7 @@ Description:
+ 		checks.  Caches that enable sanity_checks cannot be merged with
+ 		caches that do not.
+ 
+-What:		/sys/kernel/slab/cache/shrink
++What:		/sys/kernel/slab/<cache>/shrink
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -442,7 +442,7 @@ Description:
+ 		adversely impact other running applications.  So it
+ 		should be used with care.
+ 
+-What:		/sys/kernel/slab/cache/slab_size
++What:		/sys/kernel/slab/<cache>/slab_size
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -451,7 +451,7 @@ Description:
+ 		The slab_size file is read-only and specifies the object size
+ 		with metadata (debugging information and alignment) in bytes.
+ 
+-What:		/sys/kernel/slab/cache/slabs
++What:		/sys/kernel/slab/<cache>/slabs
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -461,7 +461,7 @@ Description:
+ 		there are (both cpu and partial) and from which nodes they are
+ 		from.
+ 
+-What:		/sys/kernel/slab/cache/store_user
++What:		/sys/kernel/slab/<cache>/store_user
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -470,7 +470,7 @@ Description:
+ 		The store_user file specifies whether the location of
+ 		allocation or free should be tracked for a cache.
+ 
+-What:		/sys/kernel/slab/cache/total_objects
++What:		/sys/kernel/slab/<cache>/total_objects
+ Date:		April 2008
+ KernelVersion:	2.6.26
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -479,7 +479,7 @@ Description:
+ 		The total_objects file is read-only and displays how many total
+ 		objects a cache has and from which nodes they are from.
+ 
+-What:		/sys/kernel/slab/cache/trace
++What:		/sys/kernel/slab/<cache>/trace
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+@@ -488,7 +488,7 @@ Description:
+ 		The trace file specifies whether object allocations and frees
+ 		should be traced.
+ 
+-What:		/sys/kernel/slab/cache/validate
++What:		/sys/kernel/slab/<cache>/validate
+ Date:		May 2007
+ KernelVersion:	2.6.22
+ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
 -- 
 2.31.1
 
