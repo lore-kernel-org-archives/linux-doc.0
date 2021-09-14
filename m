@@ -2,121 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBE6C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 09:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA778C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:24:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 147F561108
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 09:53:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93A1D6109E
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:24:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbhINJyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 05:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbhINJyf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 05:54:35 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF63C061762;
-        Tue, 14 Sep 2021 02:53:18 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f1048004bf380b26d2cf776.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:4800:4bf3:80b2:6d2c:f776])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 07D1D1EC0453;
-        Tue, 14 Sep 2021 11:53:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1631613192;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ViyruqyaOCoCW/0p2JZLgQLm3FfQGbXjvmpiABsrfCI=;
-        b=RJB4znnZ3Vdx8xwIRKp/GquN5eUjvPjpfOZhxfz0G06K+1tAtY4CRKjGHkci8G6uqT909A
-        hWeLlUA99oGVkIlEzNF1pgmmUafrY+0e3mG4RMHGGDr5b4CPS7Wv3qN3hMvbzoi15ZESpr
-        gJLpU/Z822KRQonHTRZ/g1iP6GsO1d4=
-Date:   Tue, 14 Sep 2021 11:53:06 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "Lutomirski, Andy" <luto@kernel.org>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "esyr@redhat.com" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "tarasmadan@google.com" <tarasmadan@google.com>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "vedvyas.shanbhogue@intel.com" <vedvyas.shanbhogue@intel.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [NEEDS-REVIEW] Re: [PATCH v11 25/25] x86/cet/shstk: Add
- arch_prctl functions for shadow stack
-Message-ID: <YUBxAut2PtGzX/6k@zn.tnic>
-References: <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
- <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
- <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
- <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
- <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
- <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
- <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
- <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
- <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
- <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
+        id S233481AbhINOZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:25:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54220 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233437AbhINOZf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 10:25:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BED0E60EFF;
+        Tue, 14 Sep 2021 14:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631629457;
+        bh=ICIH7KIpkdBO4VMxLxo32ZU28uu9Bch7RY2U4rQOErk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cVol9SmVMg6mvsb7u/IvVv1Eh8NERn0k4VZmSJLfCXcd8frhf5Hh0yloOI/eI1deZ
+         d56kT7BPfvDTXa472KGsuv90IhCbBCXir70dW0jD+CbHp6RVzy0UeMlfxVLqkw3Ema
+         L03jD+s1sQEbIamAH03/HTLVn0lJH7V2Gordt8u5n5J8tZ4tJay3DNvQG3D7Nzn3Wl
+         yhi8WdiCV2BbooWkqcv7WWkTR/s4yY4x8yxVgX06bETX23HfEHy0A6v3lFCzldUhqt
+         7MIjq1p+fiXrThFfedfJkIl4Oz5X+dE6HXQIyoWs0Zlj57ake0ZDMHQaZUksph1kfJ
+         nbe+bI1tFbGUA==
+Date:   Tue, 14 Sep 2021 16:24:12 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/9] get_abi.pl: Check for missing symbols at the ABI
+ specs
+Message-ID: <20210914162412.0b642091@coco.lan>
+In-Reply-To: <YToRRMhYfdnzFyMB@kroah.com>
+References: <cover.1631112725.git.mchehab+huawei@kernel.org>
+        <YToRRMhYfdnzFyMB@kroah.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 01:33:02AM +0000, Edgecombe, Rick P wrote:
-> The original prctl solution prevents this case since the kernel did the
-> allocation and restore token setup, but of course it had other issues.
-> The other ideas discussed previously were a new syscall, or some sort
-> of new madvise() operation that could be involved in setting up shadow
-> stack, such that it is never writable in userspace.
+Em Thu, 9 Sep 2021 15:51:00 +0200
+Greg KH <gregkh@linuxfoundation.org> escreveu:
 
-If I had to choose - and this is only my 2¢ anyway - I'd opt for this
-until there's a really good reason for allowing shstk programs to fiddle
-with their own shstk. Maybe there is but allowing them to do that sounds
-to me like: "ew, why do we go to all this trouble to have shadow stacks
-if programs would be allowed to fumble with it themselves? Might as well
-not do shadow stacks at all."
+> On Wed, Sep 08, 2021 at 04:58:47PM +0200, Mauro Carvalho Chehab wrote:
+> > Hi Greg,
+> > 
+> > Sometime ago, I discussed with Jonathan Cameron about providing 
+> > a way check that the ABI documentation is incomplete.
+> > 
+> > While it would be doable to validate the ABI by searching __ATTR and 
+> > similar macros around the driver, this would probably be very complex
+> > and would take a while to parse.
+> > 
+> > So, I ended by implementing a new feature at scripts/get_abi.pl
+> > which does a check on the sysfs contents of a running system:
+> > it reads everything under /sys and reads the entire ABI from
+> > Documentation/ABI. It then warns for symbols that weren't found,
+> > optionally showing possible candidates that might be misdefined.
+> > 
+> > I opted to place it on 3 patches:
+> > 
+> > The first patch adds the basic logic. It runs really quicky (up to 2
+> > seconds), but it doesn't use sysfs softlinks.
+> > 
+> > Patch 2 adds support for also parsing softlinks. It slows the logic,
+> > with now takes ~40 seconds to run on my desktop (and ~23
+> > seconds on a HiKey970 ARM board). There are space there for
+> > performance improvements, by using a more sophisticated
+> > algorithm, at the expense of making the code harder to
+> > understand. I ended opting to use a simple implementation
+> > for now, as ~40 seconds sounds acceptable on my eyes.
+> > 
+> > Patch 3 adds an optional parameter to allow filtering the results
+> > using a regex given by the user.
+> > 
+> > One of the problems with the current ABI definitions is that several
+> > symbols define wildcards, on non-standard ways. The more commonly
+> > wildcards used there are:
+> > 
+> > 	<foo>
+> > 	{foo}
+> > 	[foo]
+> > 	X
+> > 	Y
+> > 	Z
+> > 	/.../
+> > 
+> > The script converts the above wildcards into (somewhat relaxed)
+> > regexes.
+> > 
+> > There's one place using  "(some description)". This one is harder to
+> > parse, as parenthesis are used by the parsing regexes. As this happens
+> > only on one file, patch 4 addresses such case.
+> > 
+> > Patch 5 to 9 fix some other ABI troubles I identified.
+> > 
+> > In long term, perhaps the better would be to just use regex on What:
+> > fields, as this would avoid extra heuristics at get_abi.pl, but this is
+> > OOT from this patch, and would mean a large number of changes.  
+> 
+> This is cool stuff, thanks for doing this!
+> 
+> I'll look at it more once 5.15-rc1 is out, thanks.
 
-And if/when there is a good reason, the API should be defined and
-discussed properly at first, before we expose it to luserspace, ofc.
+FYI, there's a new version at:
 
-Thx.
+	https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_undefined
 
--- 
-Regards/Gruss,
-    Boris.
+In order for get_abi.pl to convert What: into regex, changes are needed on
+existing ABI files. One alternative would be to convert everything into
+regex, but that would probably mean that most ABI files would require work.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+In order to avoid a huge number of patches/changes, I opted to touch only
+the ones that aren't following the de-facto wildcard standards already 
+found on most of the ABI files. So, I added support at get_abi.pl to
+consider those patterns as wildcards:
+
+	/.../
+	*
+	<foo>
+	X
+	Y
+	Z
+	[0-9] (and variants)
+
+The files that use something else meaning a wildcard need changes, in order
+to avoid ambiguity when the script decides if a character is either a 
+wildcard or not. 
+
+One of the issues there is with "N". several files use it as a wildcard, 
+but USB sysfs parameters have several ABI nodes with an uppercase "N"
+letter (like bNumInterfaces and such). So, this one had to be converted
+too (and represents the vast majority of patches).
+
+Anyway, as the number of such patches is high, I'll submit the work 
+on three separate series:
+
+	- What: changes needed for regex conversion;
+	- get_abi.pl updates;
+	- Some additions for missing symbols found on my
+	  desktop.
+
+Thanks,
+Mauro
