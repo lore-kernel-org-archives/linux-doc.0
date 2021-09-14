@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7596C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 17:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DBDC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 17:11:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C99A861164
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 17:11:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1BF861184
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 17:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231354AbhINRMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231318AbhINRMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 14 Sep 2021 13:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49030 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbhINRM1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 13:12:27 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E08C061574
-        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 10:11:10 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id a66so149370qkc.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 10:11:10 -0700 (PDT)
+        with ESMTP id S230415AbhINRMa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 13:12:30 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3384C061766
+        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 10:11:12 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id a66so149554qkc.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 10:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=determinate-systems.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=pGPO8aXiMyFr9xGkKJ7nDzZ1O2MpyXvL26J5zpRPMr8=;
-        b=z1zp2X5RzqK9p0okCWs5cE4c1vkO2tKU/KmTq2i36qs9/+PZvXBLLRsVJoI+AY13+d
-         kP2vMxN9Sq9xwXISzm6P0PXDrPzjl7LM/nxNIoxX38MxTBkZc4xg+KvcgXqQRToMme40
-         6y1rHUVj7VlPsx3FKEoGJCf9Bz/coUnrY5qQBeDTfJK0YOQyCaWW0Bfwmg1ZOp+3GDdL
-         ei/zac3VgZrbtbUKhP2VrfOmaRm8X0fnKyO+jVUuUHItggpbh3b2fcK1d0W8+hfsLv9R
-         mR89ikSqCc1u0sSfZOC6vxYyXl6pMcsXYOG6zAkGg+h7k9EY1PFq3TUZp5vl38PU/Y73
-         mxTA==
+        b=hk4NtdW9eKImQGzCH/9GmXuOzx+C9Vbqh+6NpITtiQgE0rg+KuwBU6pvS7CsyvlO1n
+         rYOF0vC0gap2u2GGfxdtSI44hXnL0jEdmLj270t27YYNoiXI/pR3QOGMYXGJj38FZGsz
+         Tt77CediPQ8CZbV5iIt9qNIiHhRBkNrVSm3zviQZBmAym/DhBuxaZa6/lt+VHCzOEkFx
+         S/uGfYPWEZnbQjeNK11Og6N2tduaMP+V8BSQc9v84rjSoGOtFBl9/3AtvdJFz6RLPGrG
+         uTBn14CgJuTgc6CVTB/rC0labhlt0jykpak/U2gQfdKftYDBVcQUiJT7unBkMprJwrns
+         QIHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=pGPO8aXiMyFr9xGkKJ7nDzZ1O2MpyXvL26J5zpRPMr8=;
-        b=5LIe5jpmoF0DhKPr+PONGrjm2tN5h+9mKbs9uI1zRPhOM6j0swj+PKgWJYP/pMOUu9
-         uiNJRupbWPYttTKnNEazwcGJ7hd6W+c4Y1w9T6sClzU8Vohscqx2oVGhO4Brje2lPSl3
-         15QGyl4vZ6DFGePTSO08Qy328XuAY8Y9bXr4/hZl11AnDt6UXjfZOaDEO7A4u1nwvl6f
-         xLUOUWIEiFF4k87G9UKRpHxvgpyvFuyagTdqbVjovqK6FwaWTDLG1YNbfqYsRv84IIxY
-         M9a3Q3gtHyDQya8RFWtt/1DjAlc6Kkx317XcRA71WlIeM99yU11SU1PVNjEBjRaiLBvY
-         fKnQ==
-X-Gm-Message-State: AOAM530DQJBusZ70ENfWRb7iq0B6LtdWVN+LfK8eUb5d6gMCiHugzizc
-        y9E6ZaOP9QhfZbBrHgUONaIpsQ==
-X-Google-Smtp-Source: ABdhPJyX09LuIknFVVfLI/6zpiGY3O9KR+Z63SpGXMrDbqFYPBmkeqUqm2ABF1+dPeyaY28mrII7qA==
-X-Received: by 2002:a37:741:: with SMTP id 62mr6011709qkh.490.1631639469527;
-        Tue, 14 Sep 2021 10:11:09 -0700 (PDT)
+        b=aupHIfUr8QyQOFCamO4IPAM5E9258P3Y6WLleip3y8oEjeKAsT/aLaGm/RWNY4n8NS
+         idID1ZdQdcnvjig2526RFfNlf4D4JRsIEC5etZA3LrHKrfRIkSym8EbTDbv/4YCfN6eA
+         tChO/mHFSWTUIOEJuwbLlASbUJ5NUBkDRonjKGKpL9GUL3zBm/nIkrsfEn3VjB3IUAnX
+         lbtcMbxbso7dcF6yL2TsfVUaTcCuhXFC9KvaPtktCzTKINlfEMxz3zuck5ytOxvWwsVL
+         u9LTyyGr0fMtwF99yyjOU7xRm8wF0U6kH4to5L09vsnmaNO3JcKF5i2G//hEw3i9WwUD
+         R1Iw==
+X-Gm-Message-State: AOAM530qlfKsK3V4v0wJgx8qZV8FT7X3+4wGMYOVIMGEAsReR0UfjdZe
+        T56vyHVkXkqbLs4N9JAARKC5Bg==
+X-Google-Smtp-Source: ABdhPJzIYBO0rohQg/SmOuz6BclTFzizLOyXSqI20jEc28Hr64Lesz2vrjXf8V05mhhxHDrcsZEyiw==
+X-Received: by 2002:ae9:e012:: with SMTP id m18mr6032913qkk.396.1631639472174;
+        Tue, 14 Sep 2021 10:11:12 -0700 (PDT)
 Received: from localhost (cpe-67-246-1-194.nycap.res.rr.com. [67.246.1.194])
-        by smtp.gmail.com with ESMTPSA id c2sm7951595qkd.57.2021.09.14.10.11.08
+        by smtp.gmail.com with ESMTPSA id r23sm6410998qtp.60.2021.09.14.10.11.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 10:11:09 -0700 (PDT)
+        Tue, 14 Sep 2021 10:11:11 -0700 (PDT)
 From:   graham@determinate.systems
 To:     graham@determinate.systems, Jonathan Corbet <corbet@lwn.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>
 Cc:     Ignat Korchagin <ignat@cloudflare.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH] mnt: add support for non-rootfs initramfs
-Date:   Tue, 14 Sep 2021 13:09:33 -0400
-Message-Id: <20210914170933.1922584-2-graham@determinate.systems>
+Subject: [PATCH v3] mnt: add support for non-rootfs initramfs
+Date:   Tue, 14 Sep 2021 13:09:34 -0400
+Message-Id: <20210914170933.1922584-3-graham@determinate.systems>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210914170933.1922584-1-graham@determinate.systems>
 References: <20210914170933.1922584-1-graham@determinate.systems>
