@@ -2,190 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A74E0C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A5DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:26:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E88561056
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:22:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1219360C51
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:26:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240437AbhINHXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 03:23:49 -0400
-Received: from mga17.intel.com ([192.55.52.151]:36496 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239423AbhINHXp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 03:23:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="202084496"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
-   d="scan'208";a="202084496"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2021 00:22:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
-   d="scan'208";a="451919968"
-Received: from chenyu-desktop.sh.intel.com ([10.239.158.176])
-  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2021 00:22:21 -0700
-From:   Chen Yu <yu.c.chen@intel.com>
-To:     linux-acpi@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Aubrey Li <aubrey.li@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>, Chen Yu <yu.c.chen@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v2 1/5] Documentation: Introduce Platform Firmware Runtime Update documentation
-Date:   Tue, 14 Sep 2021 15:28:00 +0800
-Message-Id: <8c182383300b043195bc00a293dfd5b2fad59772.1631600169.git.yu.c.chen@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1631600169.git.yu.c.chen@intel.com>
-References: <cover.1631600169.git.yu.c.chen@intel.com>
+        id S240656AbhINH2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 03:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52276 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239257AbhINH2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 03:28:09 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83601C061574;
+        Tue, 14 Sep 2021 00:26:52 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso1419681pjh.5;
+        Tue, 14 Sep 2021 00:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hp6GUAgrHFu7b5baJ2ikcAxV/WkbZIz5NLHRCJHH//0=;
+        b=ESZImyvw6EcVDRtmwwENKmlVK99GkWlIyipZteDq3OiKmImLMHq1fylxRO7GbaHkfs
+         NI0FfA8XxOv0MPSVT1XdLHhld1nDVyNkYM+G6RmOcOHu5LtiY/mmtQ8cxwGXC3lGhQSb
+         3A7+bDlLlwQB9bCMVKu2wQrpvRFzRwtgbwQ11pEyKUTmb1dcvcTTHuuJwHKslL7JZecK
+         +3dXIC03s1KaVJpI1gGdqfqLSutcRJbFxjt3Lf5bJSW5d0e0FsFXCZktCBcPkpNg/uHl
+         OTS8b4dd2nKuFN/QSPkdNBG5QZu4wLlAFAhAAYhri6n8PhrmfPKYpCIfVqUrdPsTFg1s
+         ytuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hp6GUAgrHFu7b5baJ2ikcAxV/WkbZIz5NLHRCJHH//0=;
+        b=WFRTQIbe7jIVEnQNusL0oRsjID2GZaZQa4S34g8fOiDt7TBXkgen00OBW8xf3VDAnH
+         PXH3UOEfLibbByFv+8CGPpNQd+t1HHRFlDGU6KrbS9WWNTi4kGihmSotJl3OEs+kDymo
+         9WFxotyZbh5USB3IyxNrA6uSY8fcUilR+tzeCSGuYuzspWWPdSbx+5qMJ59MoQvwfLfy
+         rg9u/0hsYW9BLGoDCMOXHzS2bUAyiFpZmdJPQdUtrwBHTk/Osj/HI7JmCWEQ93D3/m8X
+         gcZ7NogYT+cHTsKChSG2dyr8V/kkkRo6wZacVQOoz86ymxVGQIdbj5KI2TmFfjEljDdw
+         my7g==
+X-Gm-Message-State: AOAM533cdgmG3u+jbeT5qfmaEDzdlL4kaM7z1EhEnylsjkk5PWha0iMC
+        OIqxHo4q6gM+/rujItAJhasuextlBsu5t/CuTtE=
+X-Google-Smtp-Source: ABdhPJwDCIVl44gfdd1sKqX7nVUs+eR/MLALxF9c21ndqIA2Y/hvdtjZ2cgeOLIhKa6QUicMOSfpO29hrKScM4TqUD4=
+X-Received: by 2002:a17:90a:cc6:: with SMTP id 6mr494466pjt.233.1631604412035;
+ Tue, 14 Sep 2021 00:26:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210903095213.797973-1-chenhuacai@loongson.cn> <20210903095213.797973-3-chenhuacai@loongson.cn>
+In-Reply-To: <20210903095213.797973-3-chenhuacai@loongson.cn>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Tue, 14 Sep 2021 15:26:42 +0800
+Message-ID: <CAMU9jJqrBbD4RqL8EB=Wu0xsd69HzTcF=nfOzZQw8k0Cqy0xwQ@mail.gmail.com>
+Subject: Re: [PATCH V2 02/22] Documentation/zh_CN: Add basic LoongArch documentations
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the Platform Firmware Runtime Update/Telemetry documentation.
+Huacai Chen <chenhuacai@loongson.cn> =E4=BA=8E2021=E5=B9=B49=E6=9C=883=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:54=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Add some basic documentations (zh_CN version) for LoongArch. LoongArch
+> is a new RISC ISA, which is a bit like MIPS or RISC-V. LoongArch
+> includes a reduced 32-bit version (LA32R), a standard 32-bit version
+> (LA32S) and a 64-bit version (LA64).
+>
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-Signed-off-by: Chen Yu <yu.c.chen@intel.com>
----
-v2: Add a spot in index.rst so it becomes part of the docs build
-    (Jonathan Corbet).
-    Sticking to the 80-column limit(Jonathan Corbet).
-    Underline lengths should match the title text(Jonathan Corbet).
-    Use literal blocks for the code samples(Jonathan Corbet).
----
- Documentation/x86/index.rst |   1 +
- Documentation/x86/pfru.rst  | 100 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 Documentation/x86/pfru.rst
+BTW=EF=BC=9A
+Alex's Reviewed-by tag  is missing.  :)
+https://lore.kernel.org/linux-doc/31263309-cd53-6627-b647-4ffc86b4d405@gmai=
+l.com/
 
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 383048396336..3791fabf964c 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -37,3 +37,4 @@ x86-specific Documentation
-    sgx
-    features
-    elf_auxvec
-+   pfru
-diff --git a/Documentation/x86/pfru.rst b/Documentation/x86/pfru.rst
-new file mode 100644
-index 000000000000..29fe0e518e6d
---- /dev/null
-+++ b/Documentation/x86/pfru.rst
-@@ -0,0 +1,100 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================================
-+The Linux Platform Firmware Runtime Update and Telemetry
-+========================================================
-+
-+According to the specification of `Management Mode Firmware Runtime Update
-+<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
-+Rev100.pdf>`_, certain computing systems require high Service Level Agreements
-+(SLAs) where system reboot fewer firmware updates are required to deploy
-+firmware changes to address bug fixes, security updates and to debug and root
-+cause issues. This technology is called Intel Seamless Update. The management
-+mode (MM), UEFI runtime services and ACPI services handle most of the system
-+runtime functions. Changing the MM code execution during runtime is called MM
-+Runtime Update. Since the "MM" acronyms might be misunderstood as "Memory
-+Management", this driver uses the name of "Platform Firmware Runtime Update"
-+(PFRU).
-+
-+PFRU provides the following facilities: Performs a runtime firmware driver
-+update and activate. Ability to inject firmware code at runtime, for dynamic
-+instrumentation. PFRU Telemetry is a service which allows Runtime Update
-+handler to produce telemetry data to upper layer OS consumer at runtime. The
-+OS provides interfaces to let the users query the telemetry data via read
-+operations. The specification specifies the interface and recommended policy
-+to extract the data, the format and use are left to individual OEM's and BIOS
-+implementations on what that data represents.
-+
-+PFRU interfaces
-+===============
-+
-+The user space tool manipulates on /dev/pfru/update for code injection and
-+driver update. PFRU stands for Platform Firmware Runtime Update, and the
-+/dev/pfru directory might be reserved for future usage::
-+
-+ 1. mmap the capsule file.
-+    fd_capsule = open("capsule.cap", O_RDONLY);
-+    fstat(fd_capsule, &stat);
-+    addr = mmap(0, stat.st_size, PROT_READ, fd_capsule);
-+
-+ 2. Get the capability information(version control, etc) from BIOS via
-+    read() and do sanity check in user space.
-+    fd_update = open("/dev/pfru/update", O_RDWR);
-+    read(fd_update, &cap, sizeof(cap));
-+    sanity_check(&cap);
-+
-+ 3. Write the capsule file to runtime update communication buffer.
-+    kernel might return error if capsule file size is longer than
-+    communication buffer.
-+    write(fd_update, addr, stat.st_size);
-+
-+ 4. Stage the code injection.
-+    ioctl(fd_update, PFRU_IOC_STATGE);
-+
-+ 5. Activate the code injection.
-+    ioctl(fd_update, PFRU_IOC_ACTIVATE);
-+
-+ 6. Stage and activate the code injection.
-+    ioctl(fd_update, PFRU_IOC_STAGE_ACTIVATE);
-+
-+    PFRU_IOC_STATGE: Stage a capsule image from communication buffer
-+    and perform authentication.
-+    [PFRU_IOC_ACTIVATE] Activate a previous staged capsule image.
-+    [PFRU_IOC_STAGE_ACTIVATE] Perform both stage and activation actions.
-+
-+
-+PFRU Telemetry interfaces
-+=========================
-+
-+The user space tool manipulates on /dev/pfru/telemetry for PFRU telemetry log::
-+
-+ 1. Open telemetry device
-+    fd_log = open("/dev/pfru/telemetry", O_RDWR);
-+
-+ 2. Get log level, log type, revision_id via one ioctl invoke
-+    ioctl(fd_log, PFRU_IOC_GET_LOG_INFO, &info);
-+
-+ 3. Set log level, log type, revision_id
-+    ioctl(fd_log, PFRU_IOC_SET_LOG_INFO, &info);
-+
-+ 4. ioctl(fd_log, PFRU_IOC_GET_DATA_INFO, &data_info);
-+    Query the information of PFRU telemetry log buffer. The user is
-+    responsible for parsing the result per the specification.
-+
-+ 5. Read the telemetry data:
-+    read(fd_log, buf, data_info.size);
-+
-+Please refer to tools/testing/selftests/pfru/pfru_test.c for detail.
-+
-+According to the specification of `Management Mode Firmware Runtime Update
-+<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
-+Rev100.pdf>`_, the telemetry buffer is a wrap around buffer. If the telemetry
-+buffer gets full, most recent log data will overwrite old log data. Besides,
-+it is required in the spec that the read of telemetry should support both full
-+data retrieval and delta telemetry data retrieval. Since this requirement is
-+more likely a policy we leave this implementation in user space. That is to
-+say, it is recommended for the user to double-read the telemetry parameters
-+such as chunk1_size, chunk2_size, rollover_cnt in data_info structure to make
-+sure that there is no more data appended while the user is reading the buffer.
-+Besides, only after the runtime update has been run at least once, the telemetry
-+log would have valid data, otherwise errno code of EBUSY would be returned.
--- 
-2.25.1
+Thanks,
 
+Yanteng
