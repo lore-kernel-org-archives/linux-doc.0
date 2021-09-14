@@ -2,49 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6779AC4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 229FBC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42AD460FD7
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CDAD610E6
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:55:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234624AbhINO4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:56:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45172 "EHLO mail.kernel.org"
+        id S234682AbhINO4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:56:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45174 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233464AbhINO4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234452AbhINO4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:56:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8759261157;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89E416112E;
         Tue, 14 Sep 2021 14:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631631328;
-        bh=jwBvmMOmjYkXF39zRKm8ty4zFYEarHAXbppvfDBGqGU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PWSGAEHYBULHEesvzWRCd/qxV8KtefeIKT+WbuHgnVvWEqyYqFr1oQ0S9l//z55wf
-         NAojxhK0+FQov+7WVV60n0opXfPBfZ27ys17ssxSTnYl7zO/pNLZUhgdpj0nxWzzx/
-         Ac77POMBopitj8NdS1BkmjMflvXtS4t9SriIKdf0CPgrICWcL+C7zBrJrActXMmQ7m
-         mZ8w5wDo//iey6lBjcOcgvFXMOXC/t4brwAjtxFM2h842xmh+7gFWMNwO8/JqcDifI
-         mCI647Vz722pyX1gs4kPUyNuCTEwVIeS+NzR1KFvu2jAX4m2BdPuZ5R3opSSBaoMoL
-         WVkjAShEiPGoQ==
+        bh=U/rjBRCMz8JCgCNhy/QYJ+duzkOcKbP/UB9ONK8C6/k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZOIEzZUBslaTNFgA7r2pvqOj6ndXrE4UFMwzWO/fvR9cYPclC5ZQb4uxN332eoVl/
+         qP5NhSKWn7U33og9jfthQ7pm3OduqO8LR5vgtjtkAj7xAGLWdMeO5zcpZVxZIsWfbr
+         RIY/oE4d65zH5px9OTAmC62IX+yg4sbWT9aAVJm6v91hyB6rSIO6l1lFtpkpBilHAM
+         7qo0dCUZe3PuwAqwIgcG+fYYBC56BmiQpaz7Qz1D2s1emObGyHLugP+svDeMzPoB23
+         8zaxIOhz+M6xwusSmUdvVIN9VVQ9tuaGvX0pACpVrjRWcImMHrV5WzIU3rsGo5dIKv
+         DiENfYHNeYaxw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9qI-000L6o-Jb; Tue, 14 Sep 2021 16:55:26 +0200
+        id 1mQ9qI-000L6h-Gc; Tue, 14 Sep 2021 16:55:26 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/8] ABI: stable/sysfs-module: document version and srcversion
-Date:   Tue, 14 Sep 2021 16:55:15 +0200
-Message-Id: <b1ad99d45a8bf9a0ec4aa69723ca0c5afb7132a8.1631630792.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/8] Add some missing ABI symbols
+Date:   Tue, 14 Sep 2021 16:55:13 +0200
+Message-Id: <cover.1631630792.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1631630792.git.mchehab+huawei@kernel.org>
-References: <cover.1631630792.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -52,34 +50,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset c988d2b28454 ("[PATCH] modules: add version and srcversion to sysfs")
-added version and srcversion ABI to modules. Document them.
+Hi Greg,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/ABI/stable/sysfs-module | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+This series contain some things I detected when using scripts/get_abi.pl.
 
-diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
-index 5c028af9921a..560b4a3278df 100644
---- a/Documentation/ABI/stable/sysfs-module
-+++ b/Documentation/ABI/stable/sysfs-module
-@@ -33,3 +33,15 @@ Description:
- 		Note: If the module is built into the kernel, or if the
- 		CONFIG_MODULE_UNLOAD kernel configuration value is not enabled,
- 		this file will not be present.
-+
-+What:		/sys/module/<MODULENAME>/srcversion
-+Date:		Jun 2005
-+Description:
-+		If the module source has MODULE_VERSION, this file will contain
-+		the checksum of the the source code.
-+
-+What:		/sys/module/<MODULENAME>/version
-+Date:		Jun 2005
-+Description:
-+		If the module source has MODULE_VERSION, this file will contain
-+		the version of the source code.
+Most of the patches here add documentation for some symbols that
+were upstreamed a long time ago, but, up to today, they weren't
+defined.
+
+There are still a lot to be addressed, as, at least on my desktop, there are
+8k+ undefined symbols:
+
+	./scripts/get_abi.pl undefined|wc -l
+	   8792
+
+Mauro Carvalho Chehab (8):
+  ABI: stable/sysfs-module: better document modules
+  ABI: stable/sysfs-module: document version and srcversion
+  ABI: testing/sysfs-module: document initstate
+  ABI: sysfs-devices-power: document some RPM statistics
+  ABI: sysfs-devices: add /dev ABI
+  ABI: sysfs-bus-pci: add documentation for modalias
+  ABI: o2cb: add an obsolete file for /sys/o2cb
+  ABI: sysfs-bus-usb: add some missing definitions
+
+ Documentation/ABI/obsolete/o2cb               | 11 +++++
+ Documentation/ABI/stable/o2cb                 |  2 +-
+ Documentation/ABI/stable/sysfs-devices        |  7 +++
+ Documentation/ABI/stable/sysfs-module         | 25 ++++++++---
+ Documentation/ABI/testing/sysfs-bus-pci       | 17 ++++++++
+ Documentation/ABI/testing/sysfs-bus-usb       | 43 ++++++++++++++++++-
+ Documentation/ABI/testing/sysfs-devices-power | 14 ++++++
+ Documentation/ABI/testing/sysfs-module        |  7 +++
+ 8 files changed, 117 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/ABI/obsolete/o2cb
+
 -- 
 2.31.1
+
 
