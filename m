@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E86C4167B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 16:34:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78851C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 16:34:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BE5A61183
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 16:34:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62441610A6
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 16:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbhINQfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 12:35:42 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3795 "EHLO
+        id S229967AbhINQfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 12:35:44 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3798 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbhINQfm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 12:35:42 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4H884w3zWLz67xjd;
-        Wed, 15 Sep 2021 00:32:00 +0800 (CST)
+        with ESMTP id S229801AbhINQfo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 12:35:44 -0400
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4H885C3ZFBz67wqf;
+        Wed, 15 Sep 2021 00:32:15 +0800 (CST)
 Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
  fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 14 Sep 2021 18:34:21 +0200
+ 15.1.2308.8; Tue, 14 Sep 2021 18:34:23 +0200
 From:   Roberto Sassu <roberto.sassu@huawei.com>
 To:     <zohar@linux.ibm.com>, <gregkh@linuxfoundation.org>,
         <mchehab+huawei@kernel.org>
@@ -34,9 +34,9 @@ CC:     <linux-integrity@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v3 01/13] diglim: Overview
-Date:   Tue, 14 Sep 2021 18:33:49 +0200
-Message-ID: <20210914163401.864635-2-roberto.sassu@huawei.com>
+Subject: [PATCH v3 04/13] diglim: Methods
+Date:   Tue, 14 Sep 2021 18:33:52 +0200
+Message-ID: <20210914163401.864635-5-roberto.sassu@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210914163401.864635-1-roberto.sassu@huawei.com>
 References: <20210914163401.864635-1-roberto.sassu@huawei.com>
@@ -51,724 +51,721 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an overview of DIGLIM to Documentation/security/diglim/introduction.rst
-and the architecture to Documentation/security/diglim/architecture.rst
+Introduce the methods requires to manage the three objects defined.
+
+- digest_item methods:
+  - digest_add()
+  - digest_del()
+  - __digest_lookup()
+  - diglim_digest_get_info()
+
+- digest_list_item_ref methods:
+  - digest_list_ref_add()
+  - digest_list_ref_del()
+
+- digest_list_item methods:
+  - digest_list_add()
+  - digest_list_del()
+
+More information about these functions can be found in
+Documentation/security/diglim/implementation.rst.
 
 Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 ---
- .../security/diglim/architecture.rst          |  46 ++
- Documentation/security/diglim/index.rst       |  11 +
- .../security/diglim/introduction.rst          | 599 ++++++++++++++++++
- Documentation/security/index.rst              |   1 +
- MAINTAINERS                                   |   9 +
- 5 files changed, 666 insertions(+)
- create mode 100644 Documentation/security/diglim/architecture.rst
- create mode 100644 Documentation/security/diglim/index.rst
- create mode 100644 Documentation/security/diglim/introduction.rst
+ .../security/diglim/implementation.rst        |   9 +
+ MAINTAINERS                                   |   2 +
+ include/linux/diglim.h                        |  28 +
+ security/integrity/Kconfig                    |   1 +
+ security/integrity/Makefile                   |   1 +
+ security/integrity/diglim/Kconfig             |  11 +
+ security/integrity/diglim/Makefile            |   8 +
+ security/integrity/diglim/diglim.h            |  20 +-
+ security/integrity/diglim/methods.c           | 513 ++++++++++++++++++
+ 9 files changed, 592 insertions(+), 1 deletion(-)
+ create mode 100644 include/linux/diglim.h
+ create mode 100644 security/integrity/diglim/Kconfig
+ create mode 100644 security/integrity/diglim/Makefile
+ create mode 100644 security/integrity/diglim/methods.c
 
-diff --git a/Documentation/security/diglim/architecture.rst b/Documentation/security/diglim/architecture.rst
-new file mode 100644
-index 000000000000..bb22e25c92a1
---- /dev/null
-+++ b/Documentation/security/diglim/architecture.rst
-@@ -0,0 +1,46 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Architecture
-+============
-+
-+This section introduces the high level architecture of DIGLIM.
-+
-+::
-+
-+ 5. add/delete from hash table and add refs to digest list
-+        +---------------------------------------------+
-+        |                            +-----+   +-------------+         +--+
-+        |                            | key |-->| digest refs |-->...-->|  |
-+        V                            +-----+   +-------------+         +--+
-+ +-------------+                     +-----+   +-------------+
-+ | digest list |                     | key |-->| digest refs |
-+ |  (compact)  |                     +-----+   +-------------+
-+ +-------------+                     +-----+   +-------------+
-+        ^ 4. copy to                 | key |-->| digest refs |
-+        |    kernel memory           +-----+   +-------------+ kernel space
-+ --------------------------------------------------------------------------
-+        ^                                          ^             user space
-+        |<----------------+       3b. upload       |
-+ +-------------+   +------------+                  | 6. query digest
-+ | digest list |   | user space | 2b. convert
-+ |  (compact)  |   |   parser   |
-+ +-------------+   +------------+
-+ 1a. upload               ^       1b. read
-+                          |
-+                   +------------+
-+                   | RPM header |
-+                   +------------+
-+
-+
-+As mentioned at Documentation/security/diglim/introductions.rst, digest
-+lists can be uploaded directly if they are in the compact format (step 1a)
-+or can be uploaded indirectly by the user space parser if they are in an
-+alternative format (steps 1b-3b).
-+
-+During upload, the kernel makes a copy of the digest list to the kernel
-+memory (step 4), and creates the necessary structures to index the digests
-+(hash table and a linked list of digest list references to locate the
-+digests in the digest list) (step 5).
-+
-+Finally, digests can be searched from user space through a securityfs file
-+(step 6) or by the kernel itself.
-diff --git a/Documentation/security/diglim/index.rst b/Documentation/security/diglim/index.rst
-new file mode 100644
-index 000000000000..0fc5ab019bc0
---- /dev/null
-+++ b/Documentation/security/diglim/index.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Digest Lists Integrity Module (DIGLIM)
-+======================================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   introduction
-+   architecture
-diff --git a/Documentation/security/diglim/introduction.rst b/Documentation/security/diglim/introduction.rst
-new file mode 100644
-index 000000000000..c73fe70c0f44
---- /dev/null
-+++ b/Documentation/security/diglim/introduction.rst
-@@ -0,0 +1,599 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Introduction
-+============
-+
-+Digest Lists Integrity Module (DIGLIM) is a component of the integrity
-+subsystem in the kernel, primarily aiming to aid Integrity Measurement
-+Architecture (IMA) in the process of checking the integrity of file content
-+and metadata. It accomplishes this task by storing reference values coming
-+from software vendors and by reporting whether or not the digest of file
-+content or metadata calculated by IMA (or EVM) is found among those values.
-+In this way, IMA can decide, depending on the result of a query, if a
-+measurement should be taken or access to the file should be granted. The
-+`Security Assumptions`_ section explains more in detail why this component
-+has been placed in the kernel.
-+
-+The main benefits of using IMA in conjunction with DIGLIM are the ability
-+to implement advanced remote attestation schemes based on the usage of a
-+TPM key for establishing a TLS secure channel [1]_ [2]_, and to reduce the
-+burden on Linux distribution vendors to extend secure boot at OS level to
-+applications.
-+
-+DIGLIM does not have the complexity of feature-rich databases. In fact, its
-+main functionality comes from the hash table primitives already in the
-+kernel. It does not have an ad-hoc storage module, it just indexes data in
-+a fixed format (digest lists, a set of concatenated digests preceded by a
-+header), copied to kernel memory as they are. Lastly, it does not support
-+database-oriented languages such as SQL, but only accepts a digest and its
-+algorithm as a query.
-+
-+The only digest list format supported by DIGLIM is called ``compact``.
-+However, Linux distribution vendors don't have to generate new digest lists
-+in this format for the packages they release, as already available
-+information, such as RPM headers and DEB package metadata, can be used as a
-+source for reference values (they include file digests), with a user space
-+parser taking care of the conversion to the compact format.
-+
-+Although one might perceive that storing file or metadata digests for a
-+Linux distribution would significantly increase the memory usage, this does
-+not seem to be the case. As an anticipation of the evaluation done in the
-+`Preliminary Performance Evaluation`_ section, protecting binaries and
-+shared libraries of a minimal Fedora 33 installation requires 208K of
-+memory for the digest lists plus 556K for indexing.
-+
-+In exchange for a slightly increased memory usage, DIGLIM improves the
-+performance of the integrity subsystem. In the considered scenario, IMA
-+measurement and appraisal of 5896 files with digest lists requires
-+respectively less than one quarter and less than half the time, compared to
-+the current solution.
-+
-+DIGLIM also keeps track of whether digest lists have been processed in some
-+way (e.g. measured or appraised by IMA). This is important for example for
-+remote attestation, so that remote verifiers understand what has been
-+uploaded to the kernel.
-+
-+Operations in DIGLIM are atomic: if an error occurs during the addition of
-+a digest list, DIGLIM rolls back the entire insert operation; deletions
-+instead always succeed. This capability has been tested with an ad-hoc
-+fault injection mechanism capable of simulating failures during the
-+operations.
-+
-+Finally, DIGLIM exposes to user space, through securityfs, the digest lists
-+currently loaded, the number of digests added, a query interface and an
-+interface to set digest list labels.
-+
-+.. [1] LSS EU 2019
-+       `slides <https://static.sched.com/hosted_files/lsseu2019/bd/secure_attested_communication_channels_lss_eu_2019.pdf>`__
-+       and `video <https://youtu.be/mffdQgkvDNY>`__
-+
-+.. [2] FutureTPM EU project, final review meeting demo
-+       `slides <https://futuretpm.eu/images/07-3-FutureTPM-Final-Review-Slides-WP6-Device-Management-Use-Case-HWDU.pdf>`__
-+       and `video <https://vimeo.com/528251864/4c1d55abcd>`__
-+
-+
-+Binary Integrity
-+----------------
-+
-+Integrity is a fundamental security property in information systems.
-+Integrity could be described as the condition in which a generic
-+component is just after it has been released by the entity that created it.
-+
-+One way to check whether a component is in this condition (called binary
-+integrity) is to calculate its digest and to compare it with a reference
-+value (i.e. the digest calculated in controlled conditions, when the
-+component is released).
-+
-+IMA, a software part of the integrity subsystem, can perform such
-+evaluation and execute different actions:
-+
-+- store the digest in an integrity-protected measurement list, so that it
-+  can be sent to a remote verifier for analysis;
-+- compare the calculated digest with a reference value (usually protected
-+  with a signature) and deny operations if the file is found corrupted;
-+- store the digest in the system log.
-+
-+
-+Benefits
-+--------
-+
-+DIGLIM further enhances the capabilities offered by IMA-based solutions
-+and, at the same time, makes them more practical to adopt by reusing
-+existing sources as reference values for integrity decisions.
-+
-+Possible sources for digest lists are:
-+
-+- RPM headers;
-+- Debian repository metadata.
-+
-+
-+Benefits for IMA Measurement
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+One of the issues that arises when files are measured by the OS is that,
-+due to parallel execution, the order in which file accesses happen cannot
-+be predicted. Since the TPM Platform Configuration Register (PCR) extend
-+operation, executed after each file measurement, cryptographically binds
-+the current measurement to the previous ones, the PCR value at the end of a
-+workload cannot be predicted too.
-+
-+Thus, even if the usage of a TPM key, bound to a PCR value, should be
-+allowed when only good files were accessed, the TPM could unexpectedly deny
-+an operation on that key if files accesses did not happen as stated by the
-+key policy (which allows only one of the possible sequences).
-+
-+DIGLIM solves this issue by making the PCR value stable over the time and
-+not dependent on file accesses. The following figure depicts the current
-+and the new approaches::
-+
-+ IMA measurement list (current)
-+
-+ entry#        1st boot               2nd boot               3rd boot
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+ 1:    | 10 | file1 measur. | | 10 | file3 measur. | | 10 | file2 measur. |
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+ 2:    | 10 | file2 measur. | | 10 | file2 measur. | | 10 | file3 measur. |
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+ 3:    | 10 | file3 measur. | | 10 | file1 measur. | | 10 | file4 measur. |
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+
-+ PCR:  Extend              != Extend              != Extend
-+       file1, file2, file3    file3, file2, file1    file2, file3, file4
-+
-+
-+ PCR Extend definition:
-+
-+       PCR(new value) = Hash(Hash(meas. entry), PCR(previous value))
-+
-+A new entry in the measurement list is created by IMA for each file access.
-+Assuming that ``file1``, ``file2`` and ``file3`` are files provided by the
-+software vendor, ``file4`` is an unknown file, the first two PCR values
-+above represent a good system state, the third a bad system state. The PCR
-+values are the result of the PCR extend operation performed for each
-+measurement entry with the digest of the measurement entry as an input.
-+
-+::
-+
-+ IMA measurement list (with DIGLIM)
-+
-+ dlist
-+ +--------------+
-+ |    header    |
-+ +--------------+
-+ | file1 digest |
-+ | file2 digest |
-+ | file3 digest |
-+ +--------------+
-+
-+``dlist`` is a digest list containing the digest of ``file1``, ``file2``
-+and ``file3``. In the intended scenario, it is generated by a software
-+vendor at the end of the building process, and retrieved by the
-+administrator of the system where the digest list is loaded.
-+
-+::
-+
-+ entry#        1st boot               2nd boot               3rd boot
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+ 0:    | 11 | dlist measur. | | 11 | dlist measur. | | 11 | dlist measur. |
-+       +----+---------------+ +----+---------------+ +----+---------------+
-+ 1:    < file1 measur. skip > < file3 measur. skip > < file2 measur. skip >
-+
-+ 2:    < file2 measur. skip > < file2 measur. skip > < file3 measur. skip >
-+                                                     +----+---------------+
-+ 3:    < file3 measur. skip > < file1 measur. skip > | 11 | file4 measur. |
-+                                                     +----+---------------+
-+
-+ PCR:  Extend               = Extend              != Extend
-+       dlist                  dlist                  dlist, file4
-+
-+
-+The first entry in the measurement list contains the digest of the digest
-+list uploaded to the kernel at kernel initialization time.
-+
-+When a file is accessed, IMA queries DIGLIM with the calculated file digest
-+and, if it is found, IMA skips the measurement.
-+
-+Thus, the only information sent to remote verifiers are: the list of
-+files that could possibly be accessed (from the digest list), but not if
-+they were accessed and when; the measurement of unknown files.
-+
-+Despite providing less information, this solution has the advantage that
-+the good system state (i.e. when only ``file1``, ``file2`` and ``file3``
-+are accessed) now can be represented with a deterministic PCR value (the
-+PCR is extended only with the measurement of the digest list). Also, the
-+bad system state can still be distinguished from the good state (the PCR is
-+extended also with the measurement of ``file4``).
-+
-+If a TPM key is bound to the good PCR value, the TPM would allow the key to
-+be used if ``file1``, ``file2`` or ``file3`` are accessed, regardless of
-+the sequence in which they are accessed (the PCR value does not change),
-+and would revoke the permission when the unknown ``file4`` is accessed (the
-+PCR value changes). If a system is able to establish a TLS connection with
-+a peer, this implicitly means that the system was in a good state (i.e.
-+``file4`` was not accessed, otherwise the TPM would have denied the usage
-+of the TPM key due to the key policy).
-+
-+
-+Benefits for IMA Appraisal
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Extending secure boot to applications means being able to verify the
-+provenance of files accessed. IMA does it by verifying file signatures with
-+a key that it trusts, which requires Linux distribution vendors to
-+additionally include in the package header a signature for each file that
-+must be verified (there is the dedicated ``RPMTAG_FILESIGNATURES`` section
-+in the RPM header).
-+
-+The proposed approach would be instead to verify data provenance from
-+already available metadata (file digests) in existing packages. IMA would
-+verify the signature of package metadata and search file digests extracted
-+from package metadata and added to the hash table in the kernel.
-+
-+For RPMs, file digests can be found in the ``RPMTAG_FILEDIGESTS`` section
-+of ``RPMTAG_IMMUTABLE``, whose signature is in ``RPMTAG_RSAHEADER``. For
-+DEBs, file digests (unsafe to use due to a weak digest algorithm) can be
-+found in the ``md5sum`` file, which can be indirectly verified from
-+``Release.gpg``.
-+
-+The following figure highlights the differences between the current and the
-+proposed approach.
-+
-+::
-+
-+ IMA appraisal (current solution, with file signatures):
-+
-+                                                         appraise
-+                                                      +-----------+
-+                                                      V           |
-+ +-------------------------+-----+         +-------+-----+        |
-+ | RPM header              |     | ima rpm | file1 | sig |        |
-+ | ...                     |     | plugin  +-------+-----+     +-----+
-+ | file1 sig [to be added] | sig |-------->      ...           | IMA |
-+ | ...                     |     |         +-------+-----+     +-----+
-+ | fileN sig [to be added] |     |         | fileN | sig |
-+ +-------------------------+-----+         +-------+-----+
-+
-+In this case, file signatures must be added to the RPM header, so that the
-+``ima`` rpm plugin can extract them together with the file content. The RPM
-+header signature is not used.
-+
-+::
-+
-+ IMA appraisal (with DIGLIM):
-+
-+                                    kernel hash table
-+                                    with RPM header content
-+                                    +---+    +--------------+
-+                                    |   |--->| file1 digest |
-+                                    +---+    +--------------+
-+                                     ...
-+                                    +---+         appraise (file1)
-+                                    |   |  <--------------+
-+ +----------------+-----+           +---+                 |
-+ | RPM header     |     |             ^                   |
-+ | ...            |     | digest_list |                   |
-+ | file1 digest   | sig | rpm plugin  |    +-------+   +-----+
-+ | ...            |     |-------------+--->| file1 |   | IMA |
-+ | fileN digest   |     |                  +-------+   +-----+
-+ +----------------+-----+                                 |
-+                     ^                                    |
-+                     +------------------------------------+
-+                             appraise (RPM header)
-+
-+In this case, the RPM header is used as it is, and its signature is used
-+for IMA appraisal. Then, the ``digest_list`` rpm plugin executes the user
-+space parser to parse the RPM header and add the extracted digests to an
-+hash table in the kernel. IMA appraisal of the files in the RPM package
-+consists in searching their digest in the hash table.
-+
-+Other than reusing available information as digest list, another advantage
-+is the lower computational overhead compared to the solution with file
-+signatures (only one signature verification for many files and digest
-+lookup, instead of per file signature verification, see `Preliminary
-+Performance Evaluation`_ for more details).
-+
-+
-+Lifecycle
-+---------
-+
-+The lifecycle of DIGLIM is represented in the following figure::
-+
-+ Vendor premises (release process with modifications):
-+
-+ +------------+   +-----------------------+   +------------------------+
-+ | 1. build a |   | 2. generate and sign  |   | 3. publish the package |
-+ |    package |-->|    a digest list from |-->|    and digest list in  |
-+ |            |   |    packaged files     |   |    a repository        |
-+ +------------+   +-----------------------+   +------------------------+
-+                                                                 |
-+                                                                 |
-+ User premises:                                                  |
-+                                                                 V
-+ +---------------------+   +------------------------+   +-----------------+
-+ | 6. use digest lists |   | 5. download the digest |   | 4. download and |
-+ |    for measurement  |<--|    list and upload to  |<--|    install the  |
-+ |    and/or appraisal |   |    the kernel          |   |    package      |
-+ +---------------------+   +------------------------+   +-----------------+
-+
-+The figure above represents all the steps when a digest list is generated
-+separately. However, as mentioned in `Benefits`_, in most cases existing
-+packages can be already used as a source for digest lists, limiting the
-+effort for software vendors.
-+
-+If, for example, RPMs are used as a source for digest lists, the figure
-+above becomes::
-+
-+ Vendor premises (release process without modifications):
-+
-+ +------------+   +------------------------+
-+ | 1. build a |   | 2. publish the package |
-+ |    package |-->|    in a repository     |---------------------+
-+ |            |   |                        |                     |
-+ +------------+   +------------------------+                     |
-+                                                                 |
-+                                                                 |
-+ User premises:                                                  |
-+                                                                 V
-+ +---------------------+   +------------------------+   +-----------------+
-+ | 5. use digest lists |   | 4. extract digest list |   | 3. download and |
-+ |    for measurement  |<--|    from the package    |<--|    install the  |
-+ |    and/or appraisal |   |    and upload to the   |   |    package      |
-+ |                     |   |    kernel              |   |                 |
-+ +---------------------+   +------------------------+   +-----------------+
-+
-+Step 4 can be performed with the ``digest_list`` rpm plugin and the user
-+space parser, without changes to rpm itself.
-+
-+
-+Security Assumptions
-+--------------------
-+
-+As mentioned in the `Introduction`_, DIGLIM will be primarily used in
-+conjunction with IMA to enforce a mandatory policy on all user space
-+processes, including those owned by root. Even root, in a system with a
-+locked-down kernel, cannot affect the enforcement of the mandatory policy
-+or, if changes are permitted, it cannot do so without being detected.
-+
-+Given that the target of the enforcement are user space processes, DIGLIM
-+cannot be placed in the target, as a Mandatory Access Control (MAC) design
-+is required to have the components responsible to enforce the mandatory
-+policy separated from the target.
-+
-+While locking-down a system and limiting actions with a mandatory policy is
-+generally perceived by users as an obstacle, it has noteworthy benefits for
-+the users themselves.
-+
-+First, it would timely block attempts by malicious software to steal or
-+misuse user assets. Although users could query the package managers to
-+detect them, detection would happen after the fact, or it wouldn't happen
-+at all if the malicious software tampered with package managers. With a
-+mandatory policy enforced by the kernel, users would still be able to
-+decide which software they want to be executed except that, unlike package
-+managers, the kernel is not affected by user space processes or root.
-+
-+Second, it might make systems more easily verifiable from outside, due to
-+the limited actions the system allows. When users connect to a server, not
-+only they would be able to verify the server identity, which is already
-+possible with communication protocols like TLS, but also if the software
-+running on that server can be trusted to handle their sensitive data.
-+
-+
-+Adoption
-+--------
-+
-+A former version of DIGLIM is used in the following OSes:
-+
-+- openEuler 20.09
-+  https://github.com/openeuler-mirror/kernel/tree/openEuler-20.09
-+
-+- openEuler 21.03
-+  https://github.com/openeuler-mirror/kernel/tree/openEuler-21.03
-+
-+Originally, DIGLIM was part of IMA (known as IMA Digest Lists). In this
-+version, it has been redesigned as a standalone module with an API that
-+makes its functionality accessible by IMA and, eventually, other
-+subsystems.
-+
-+User Space Support
-+------------------
-+
-+Digest lists can be generated and managed with ``digest-list-tools``:
-+
-+https://github.com/openeuler-mirror/digest-list-tools
-+
-+It includes two main applications:
-+
-+- ``gen_digest_lists``: generates digest lists from files in the
-+  filesystem or from the RPM database (more digest list sources can be
-+  supported);
-+- ``manage_digest_lists``: converts and uploads digest lists to the
-+  kernel.
-+
-+Integration with rpm is done with the ``digest_list`` plugin:
-+
-+https://gitee.com/src-openeuler/rpm/blob/master/Add-digest-list-plugin.patch
-+
-+This plugin writes the RPM header and its signature to a file, so that the
-+file is ready to be appraised by IMA, and calls the user space parser to
-+convert and upload the digest list to the kernel.
-+
-+
-+Simple Usage Example (Tested with Fedora 33)
-+--------------------------------------------
-+
-+1. Digest list generation (RPM headers and their signature are copied to
-+   the specified directory):
-+
-+.. code-block:: bash
-+
-+ # mkdir /etc/digest_lists
-+ # gen_digest_lists -t file -f rpm+db -d /etc/digest_lists -o add
-+
-+2. Digest list upload with the user space parser:
-+
-+.. code-block:: bash
-+
-+ # manage_digest_lists -p add-digest -d /etc/digest_lists
-+
-+3. First digest list query:
-+
-+.. code-block:: bash
-+
-+ # echo sha256-$(sha256sum /bin/cat) > /sys/kernel/security/integrity/diglim/digest_query
-+ # cat /sys/kernel/security/integrity/diglim/digest_query
-+   sha256-[...]-0-file_list-rpm-coreutils-8.32-18.fc33.x86_64 (actions: 0): version: 1, algo: sha256, type: 2, modifiers: 1, count: 106, datalen: 3392
-+
-+4. Second digest list query:
-+
-+.. code-block:: bash
-+
-+ # echo sha256-$(sha256sum /bin/zip) > /sys/kernel/security/integrity/diglim/digest_query
-+ # cat /sys/kernel/security/integrity/diglim/digest_query
-+   sha256-[...]-0-file_list-rpm-zip-3.0-27.fc33.x86_64 (actions: 0): version: 1, algo: sha256, type: 2, modifiers: 1, count: 4, datalen: 128
-+
-+
-+Preliminary Performance Evaluation
-+----------------------------------
-+
-+This section provides an initial estimation of the overhead introduced by
-+DIGLIM. The estimation has been performed on a Fedora 33 virtual machine
-+with 1447 packages installed. The virtual machine has 16 vCPU (host CPU:
-+AMD Ryzen Threadripper PRO 3955WX 16-Cores) and 2G of RAM (host memory:
-+64G). The virtual machine also has a vTPM with libtpms and swtpm as
-+backend.
-+
-+After writing the RPM headers to files, the size of the directory
-+containing them is 36M.
-+
-+After converting the RPM headers to the compact digest list, the size of
-+the data being uploaded to the kernel is 3.6M.
-+
-+The time to load the entire RPM database is 0.628s.
-+
-+After loading the digest lists to the kernel, the slab usage due to
-+indexing is (obtained with slab_nomerge in the kernel command line)::
-+
-+ OBJS   ACTIVE  USE OBJ SIZE  SLABS OBJ/SLAB CACHE SIZE NAME
-+ 118144 118144 100%    0,03K    923      128      3692K digest_list_item_ref_cache
-+ 102400 102400 100%    0,03K    800      128      3200K digest_item_cache
-+   2646   2646 100%    0,09K     63       42       252K digest_list_item_cache
-+
-+The stats, obtained from the ``digests_count`` interface, introduced later,
-+are::
-+
-+ Parser digests: 0
-+ File digests: 99100
-+ Metadata digests: 0
-+ Digest list digests: 1423
-+
-+On this installation, this would be the worst case in which all files are
-+measured and/or appraised, which is currently not recommended without
-+enforcing an integrity policy protecting mutable files. Infoflow LSM is a
-+component to accomplish this task:
-+
-+https://patchwork.kernel.org/project/linux-integrity/cover/20190818235745.1417-1-roberto.sassu@huawei.com/
-+
-+The first manageable goal of IMA with DIGLIM is to use an execution policy,
-+with measurement and/or appraisal of files executed or mapped in memory as
-+executable (in addition to kernel modules and firmware). In this
-+case, the digest list contains the digest only for those files. The numbers
-+above change as follows.
-+
-+After converting the RPM headers to the compact digest list, the size of
-+the data being uploaded to the kernel is 208K.
-+
-+The time to load the digest of binaries and shared libraries is 0.062s.
-+
-+After loading the digest lists to the kernel, the slab usage due to
-+indexing is::
-+
-+ OBJS ACTIVE  USE OBJ SIZE  SLABS OBJ/SLAB CACHE SIZE NAME
-+ 7168   7168 100%    0,03K     56      128       224K digest_list_item_ref_cache
-+ 7168   7168 100%    0,03K     56      128       224K digest_item_cache
-+ 1134   1134 100%    0,09K     27       42       108K digest_list_item_cache
-+
-+
-+The stats, obtained from the ``digests_count`` interface, are::
-+
-+ Parser digests: 0
-+ File digests: 5986
-+ Metadata digests: 0
-+ Digest list digests: 1104
-+
-+
-+Comparison with IMA
-+~~~~~~~~~~~~~~~~~~~
-+
-+This section compares the performance between the current solution for IMA
-+measurement and appraisal, and IMA with DIGLIM.
-+
-+
-+Workload A (without DIGLIM):
-+
-+#. cat file[0-5985] > /dev/null
-+
-+
-+Workload B (with DIGLIM):
-+
-+#. echo $PWD/0-file_list-compact-file[0-1103] > <securityfs>/integrity/diglim/digest_list_add
-+#. cat file[0-5985] > /dev/null
-+
-+
-+Workload A execution time without IMA policy::
-+
-+ real	0m0,155s
-+ user	0m0,008s
-+ sys	0m0,066s
-+
-+
-+Measurement
-+...........
-+
-+IMA policy::
-+
-+ measure fowner=2000 func=FILE_CHECK mask=MAY_READ use_diglim=allow pcr=11 ima_template=ima-sig
-+
-+``use_diglim`` is a policy keyword not yet supported by IMA.
-+
-+
-+Workload A execution time with IMA and 5986 files with signature measured::
-+
-+ real	0m8,273s
-+ user	0m0,008s
-+ sys	0m2,537s
-+
-+
-+Workload B execution time with IMA, 1104 digest lists with signature
-+measured and uploaded to the kernel, and 5986 files with signature accessed
-+but not measured (due to the file digest being found in the hash table)::
-+
-+ real	0m1,837s
-+ user	0m0,036s
-+ sys	0m0,583s
-+
-+
-+Appraisal
-+.........
-+
-+IMA policy::
-+
-+ appraise fowner=2000 func=FILE_CHECK mask=MAY_READ use_diglim=allow
-+
-+``use_diglim`` is a policy keyword not yet supported by IMA.
-+
-+
-+Workload A execution time with IMA and 5986 files with file signature
-+appraised::
-+
-+ real	0m2,197s
-+ user	0m0,011s
-+ sys	0m2,022s
-+
-+
-+Workload B execution time with IMA, 1104 digest lists with signature
-+appraised and uploaded to the kernel, and with 5986 files with signature
-+not verified (due to the file digest being found in the hash table)::
-+
-+ real	0m0,982s
-+ user	0m0,020s
-+ sys	0m0,865s
-diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
-index 16335de04e8c..6c3aea41c55b 100644
---- a/Documentation/security/index.rst
-+++ b/Documentation/security/index.rst
-@@ -17,3 +17,4 @@ Security Documentation
-    tpm/index
-    digsig
-    landlock
-+   diglim/index
+diff --git a/Documentation/security/diglim/implementation.rst b/Documentation/security/diglim/implementation.rst
+index 2089b854e5a5..83342ec12f74 100644
+--- a/Documentation/security/diglim/implementation.rst
++++ b/Documentation/security/diglim/implementation.rst
+@@ -173,3 +173,12 @@ header the digest belongs to. For example:
+ 
+ .. kernel-doc:: security/integrity/diglim/diglim.h
+    :identifiers: get_digest
++
++
++Methods
++-------
++
++This section introduces the methods requires to manage the three objects
++defined.
++
++.. kernel-doc:: security/integrity/diglim/methods.c
 diff --git a/MAINTAINERS b/MAINTAINERS
-index eeb4c70b3d5b..a3e8a6f2e34d 100644
+index 49e3989677a1..06c6ba0b3f25 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -5502,6 +5502,15 @@ L:	linux-gpio@vger.kernel.org
- S:	Maintained
- F:	drivers/gpio/gpio-gpio-mm.c
+@@ -5511,8 +5511,10 @@ F:	Documentation/security/diglim/architecture.rst
+ F:	Documentation/security/diglim/implementation.rst
+ F:	Documentation/security/diglim/index.rst
+ F:	Documentation/security/diglim/introduction.rst
++F:	include/linux/diglim.h
+ F:	include/uapi/linux/diglim.h
+ F:	security/integrity/diglim/diglim.h
++F:	security/integrity/diglim/methods.c
  
-+DIGLIM
-+M:	Roberto Sassu <roberto.sassu@huawei.com>
-+L:	linux-integrity@vger.kernel.org
-+S:	Supported
-+T:	git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
-+F:	Documentation/security/diglim/architecture.rst
-+F:	Documentation/security/diglim/index.rst
-+F:	Documentation/security/diglim/introduction.rst
-+
  DIOLAN U2C-12 I2C DRIVER
  M:	Guenter Roeck <linux@roeck-us.net>
- L:	linux-i2c@vger.kernel.org
+diff --git a/include/linux/diglim.h b/include/linux/diglim.h
+new file mode 100644
+index 000000000000..d4b4548a288b
+--- /dev/null
++++ b/include/linux/diglim.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
++ *
++ * Author: Roberto Sassu <roberto.sassu@huawei.com>
++ *
++ * DIGLIM functions available for use by kernel subsystems.
++ */
++
++#ifndef __DIGLIM_H
++#define __DIGLIM_H
++
++#include <crypto/hash_info.h>
++#include <uapi/linux/diglim.h>
++
++#ifdef CONFIG_DIGLIM
++extern int diglim_digest_get_info(u8 *digest, enum hash_algo algo,
++				  enum compact_types type, u16 *modifiers,
++				  u8 *actions);
++#else
++static inline int diglim_digest_get_info(u8 *digest, enum hash_algo algo,
++					 enum compact_types type,
++					 u16 *modifiers, u8 *actions)
++{
++	return -ENOENT;
++}
++#endif /*CONFIG_DIGLIM*/
++#endif /*__DIGLIM_H*/
+diff --git a/security/integrity/Kconfig b/security/integrity/Kconfig
+index 71f0177e8716..8f94f4dcc052 100644
+--- a/security/integrity/Kconfig
++++ b/security/integrity/Kconfig
+@@ -98,5 +98,6 @@ config INTEGRITY_AUDIT
+ 
+ source "security/integrity/ima/Kconfig"
+ source "security/integrity/evm/Kconfig"
++source "security/integrity/diglim/Kconfig"
+ 
+ endif   # if INTEGRITY
+diff --git a/security/integrity/Makefile b/security/integrity/Makefile
+index 7ee39d66cf16..d6166550a6b8 100644
+--- a/security/integrity/Makefile
++++ b/security/integrity/Makefile
+@@ -19,3 +19,4 @@ integrity-$(CONFIG_LOAD_PPC_KEYS) += platform_certs/efi_parser.o \
+                                      platform_certs/keyring_handler.o
+ obj-$(CONFIG_IMA)			+= ima/
+ obj-$(CONFIG_EVM)			+= evm/
++obj-$(CONFIG_DIGLIM)			+= diglim/
+diff --git a/security/integrity/diglim/Kconfig b/security/integrity/diglim/Kconfig
+new file mode 100644
+index 000000000000..436a76a14337
+--- /dev/null
++++ b/security/integrity/diglim/Kconfig
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# Digest Lists Integrity Module (DIGLIM)
++#
++config DIGLIM
++	bool "Digest Lists Integrity Module (DIGLIM)"
++	select SECURITYFS
++	select CRYPTO
++	select CRYPTO_HASH_INFO
++	help
++	  DIGLIM provides reference values for file content and metadata,
++	  that can be used for measurement and appraisal with IMA.
+diff --git a/security/integrity/diglim/Makefile b/security/integrity/diglim/Makefile
+new file mode 100644
+index 000000000000..b761ed8cfb3e
+--- /dev/null
++++ b/security/integrity/diglim/Makefile
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Makefile for building Digest Lists Integrity Module (DIGLIM).
++#
++
++obj-$(CONFIG_DIGLIM) += diglim.o
++
++diglim-y := methods.o
+diff --git a/security/integrity/diglim/diglim.h b/security/integrity/diglim/diglim.h
+index 1c1f513060c7..75359f9cd3dd 100644
+--- a/security/integrity/diglim/diglim.h
++++ b/security/integrity/diglim/diglim.h
+@@ -20,7 +20,7 @@
+ #include <linux/audit.h>
+ #include <crypto/hash_info.h>
+ #include <linux/hash_info.h>
+-#include <uapi/linux/diglim.h>
++#include <linux/diglim.h>
+ 
+ #define MAX_DIGEST_SIZE 64
+ #define HASH_BITS 10
+@@ -87,6 +87,8 @@ static inline unsigned int hash_key(u8 *digest)
+ 	return (digest[0] | digest[1] << 8) % DIGLIM_HTABLE_SIZE;
+ }
+ 
++extern struct h_table diglim_htable[COMPACT__LAST];
++
+ /**
+  * get_hdr - get a compact header from a digest list
+  * @digest_list: digest list the header is obtained from
+@@ -200,4 +202,20 @@ static inline u8 *get_digest_ref(struct digest_list_item_ref *ref)
+ 
+ 	return ref->digest_list->buf + ref->digest_offset;
+ }
++
++struct digest_item *__digest_lookup(u8 *digest, enum hash_algo algo,
++				    enum compact_types type, u16 *modifiers,
++				    u8 *actions);
++struct digest_item *digest_add(u8 *digest, enum hash_algo algo,
++			       enum compact_types type,
++			       struct digest_list_item *digest_list,
++			       loff_t digest_offset, loff_t hdr_offset);
++void digest_del(u8 *digest, enum hash_algo algo, enum compact_types type,
++		struct digest_list_item *digest_list, loff_t digest_offset,
++		loff_t hdr_offset);
++struct digest_item *digest_list_add(u8 *digest, enum hash_algo algo,
++				    loff_t size, u8 *buf, u8 actions,
++				    const char *label);
++void digest_list_del(u8 *digest, enum hash_algo algo, u8 actions,
++		     struct digest_list_item *digest_list);
+ #endif /*__DIGLIM_INTERNAL_H*/
+diff --git a/security/integrity/diglim/methods.c b/security/integrity/diglim/methods.c
+new file mode 100644
+index 000000000000..b90c8c9dbd1a
+--- /dev/null
++++ b/security/integrity/diglim/methods.c
+@@ -0,0 +1,513 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2005,2006,2007,2008 IBM Corporation
++ * Copyright (C) 2017-2021 Huawei Technologies Duesseldorf GmbH
++ *
++ * Author: Roberto Sassu <roberto.sassu@huawei.com>
++ *
++ * Functions to manage digest lists.
++ */
++
++#include <linux/vmalloc.h>
++#include <linux/module.h>
++#include <linux/fault-inject.h>
++
++#include "diglim.h"
++#include "../integrity.h"
++
++/* Define a cache for each object type. */
++static struct kmem_cache *digest_list_item_cache __read_mostly;
++static struct kmem_cache *digest_list_item_ref_cache __read_mostly;
++static struct kmem_cache *digest_item_cache __read_mostly;
++
++/* Define a hash table for each digest type. */
++struct h_table diglim_htable[COMPACT__LAST] = {{
++	.queue[0 ... DIGLIM_HTABLE_SIZE - 1] = HLIST_HEAD_INIT
++}};
++
++#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
++static DECLARE_FAULT_ATTR(fail_diglim);
++
++static int __init fail_diglim_debugfs(void)
++{
++	struct dentry *dir = fault_create_debugfs_attr("fail_diglim", NULL,
++						       &fail_diglim);
++
++	return PTR_ERR_OR_ZERO(dir);
++}
++
++static inline bool should_fail_diglim(void)
++{
++	return should_fail(&fail_diglim, 1);
++}
++
++late_initcall(fail_diglim_debugfs);
++#else
++static inline bool should_fail_diglim(void)
++{
++	return false;
++}
++#endif
++
++/**
++ * __digest_lookup - lookup digest and return associated modifiers and actions
++ * @digest: digest to lookup
++ * @algo: digest algorithm
++ * @type: type of digest to lookup (e.g. file, metadata)
++ * @modifiers: modifiers (attributes) associated to the found digest
++ * @actions: actions performed by IMA on the digest list containing the digest
++ *
++ * This function searches the given digest in the hash table depending on the
++ * passed type and sets the modifiers and actions associated to the digest, if
++ * the pointers are not NULL.
++ *
++ * This function is not intended for external use, as the returned digest item
++ * could be freed at any time after it has been returned.
++ * diglim_digest_get_info() should be used instead by external callers, as it
++ * only returns the modifiers and the actions associated to the digest at the
++ * time the digest is searched.
++ *
++ * RCU protects both the hash table and the linked list of references to the
++ * digest lists containing the found digest.
++ *
++ * Return: a digest_item structure if the digest is found, NULL otherwise.
++ */
++struct digest_item *__digest_lookup(u8 *digest, enum hash_algo algo,
++				    enum compact_types type, u16 *modifiers,
++				    u8 *actions)
++{
++	struct digest_item *d = NULL;
++	struct digest_list_item_ref *ref;
++	int digest_len = hash_digest_size[algo];
++	unsigned int key = hash_key(digest);
++	bool found = false;
++
++	rcu_read_lock();
++	hlist_for_each_entry_rcu(d, &diglim_htable[type].queue[key], hnext) {
++		list_for_each_entry_rcu(ref, &d->refs, list) {
++			if (get_algo_ref(ref) != algo ||
++			    memcmp(get_digest_ref(ref), digest, digest_len))
++				break;
++
++			found = true;
++
++			/* There is no need to scan all digest list refs. */
++			if (!modifiers || !actions)
++				break;
++
++			/*
++			 * The resulting modifiers and actions are the OR of the
++			 * modifiers and actions for each digest list.
++			 */
++			*modifiers |= get_hdr_ref(ref)->modifiers;
++			*actions |= ref->digest_list->actions;
++		}
++
++		if (found)
++			break;
++	}
++
++	rcu_read_unlock();
++	return d;
++}
++
++/**
++ * diglim_digest_get_info - lookup digest and return modifiers and actions
++ * @digest: digest to lookup
++ * @algo: digest algorithm
++ * @type: type of digest to lookup (e.g. file, metadata)
++ * @modifiers: modifiers (attributes) associated to the found digest
++ * @actions: actions performed by IMA on the digest lists containing the digest
++ *
++ * This function searches the given digest in the hash table depending on the
++ * passed type and sets the modifiers and actions associated to the digest, if
++ * the pointers are not NULL.
++ *
++ * This function is safe for external use, as it does not return pointers of
++ * objects that can be freed without the caller notices it.
++ *
++ * Return: 0 if the digest is found, -ENOENT otherwise.
++ */
++int diglim_digest_get_info(u8 *digest, enum hash_algo algo,
++			   enum compact_types type, u16 *modifiers, u8 *actions)
++{
++	struct digest_item *d;
++
++	d = __digest_lookup(digest, algo, type, modifiers, actions);
++	if (!d)
++		return -ENOENT;
++
++	return 0;
++}
++
++/**
++ * digest_list_ref_add - add reference to a digest list
++ * @d: digest a new reference is added to
++ * @digest_list: digest list whose reference is being added
++ * @digest_offset: offset of the digest in the buffer of the digest list
++ * @hdr_offset: offset of the header within the digest list the digest refers to
++ *
++ * This function adds a new reference to an existing digest list for a given
++ * digest. The reference is described by the digest_list_item_ref structure and
++ * consists of a pointer of the digest list, the offset of the digest to the
++ * beginning of the digest list buffer and the offset of the header the digest
++ * refers to (each digest list might be composed of several digest blocks, each
++ * prefixed by a header describing the attributes of those digests).
++ *
++ * Return: 0 if a new digest list reference was successfully added, a negative
++ * value otherwise.
++ */
++static int digest_list_ref_add(struct digest_item *d,
++			       struct digest_list_item *digest_list,
++			       loff_t digest_offset, loff_t hdr_offset)
++{
++	struct digest_list_item_ref *new_ref = NULL;
++	u8 *digest = get_digest(digest_list, digest_offset, hdr_offset);
++	enum hash_algo algo = get_algo(digest_list, digest_offset, hdr_offset);
++	int digest_len = hash_digest_size[algo];
++
++	/* Allocate a new reference. */
++	if (!should_fail_diglim())
++		new_ref = kmem_cache_alloc(digest_list_item_ref_cache,
++					   GFP_KERNEL);
++	if (!new_ref) {
++		print_hex_dump(KERN_ERR, "digest list ref allocation failed: ",
++			       DUMP_PREFIX_NONE, digest_len, 1, digest,
++			       digest_len, true);
++		return -ENOMEM;
++	}
++
++	/* Set the new reference. */
++	new_ref->digest_list = digest_list;
++	/* Converting loff_t -> u32 is fine as long as the digest list < 4G. */
++	new_ref->digest_offset = digest_offset;
++	new_ref->hdr_offset = hdr_offset;
++
++	list_add_tail_rcu(&new_ref->list, &d->refs);
++
++	print_hex_dump_debug("add digest list ref: ", DUMP_PREFIX_NONE,
++			     digest_len, 1, digest, digest_len, true);
++	return 0;
++}
++
++/**
++ * digest_list_ref_del - del reference to a digest list
++ * @d: digest a reference is deleted from
++ * @digest_list: digest list whose reference is being deleted
++ * @digest_offset: offset of the digest in the buffer of the digest list
++ * @hdr_offset: offset of the header within the digest list the digest refers to
++ *
++ * This function searches the reference to an already loaded digest list in the
++ * linked list of references stored for each digest item. If the reference is
++ * found (if not, it is a bug), the function deletes it from the linked list.
++ */
++static void digest_list_ref_del(struct digest_item *d,
++				struct digest_list_item *digest_list,
++				loff_t digest_offset, loff_t hdr_offset)
++{
++	struct digest_list_item_ref *ref;
++	u8 *digest = get_digest(digest_list, digest_offset, hdr_offset);
++	enum hash_algo algo = get_algo(digest_list, digest_offset, hdr_offset);
++	int digest_len = hash_digest_size[algo];
++
++	/* Search for a digest list reference. */
++	list_for_each_entry(ref, &d->refs, list)
++		if (ref->digest_list == digest_list)
++			break;
++
++	if (!ref) {
++		print_hex_dump(KERN_ERR, "digest list ref not found: ",
++			       DUMP_PREFIX_NONE, digest_len, 1, digest,
++			       digest_len, true);
++		return;
++	}
++
++	list_del_rcu(&ref->list);
++	kmem_cache_free(digest_list_item_ref_cache, ref);
++
++	print_hex_dump_debug("del digest list ref: ", DUMP_PREFIX_NONE,
++			     digest_len, 1, digest, digest_len, true);
++}
++
++/**
++ * digest_add - add a new digest
++ * @digest: digest in binary form
++ * @algo: digest algorithm
++ * @type: digest type
++ * @digest_list: digest list the new digest belongs to
++ * @digest_offset: offset of the digest in the buffer of the digest list
++ * @hdr_offset: offset of the header within the digest list the digest refers to
++ *
++ * This function first searches if the digest is already in the hash table for
++ * the given type. The digest is searched by comparing the passed digest and
++ * algorithm with the digest obtained from the first digest list reference
++ * (buffer + digest_offset), or from the digest field of a digest list item,
++ * for a digest list.
++ *
++ * If the digest exists, only a new reference is added (there might be multiple
++ * references to the same digest list).
++ *
++ * If the digest is not found, a new digest item is allocated and a reference to
++ * the passed digest list is added to that item. The digest item is finally
++ * added to the hash table for the given type.
++ *
++ * Proper locking must be provided by the caller.
++ *
++ * Return: a new or the found digest item on success, an error pointer
++ * otherwise.
++ */
++struct digest_item *digest_add(u8 *digest, enum hash_algo algo,
++			       enum compact_types type,
++			       struct digest_list_item *digest_list,
++			       loff_t digest_offset, loff_t hdr_offset)
++{
++	int digest_len = hash_digest_size[algo];
++	struct digest_item *d;
++	int ret;
++
++	/* Search the digest. */
++	d = __digest_lookup(digest, algo, type, NULL, NULL);
++	if (d) {
++		/*
++		 * Add a new digest list reference to the existing digest item.
++		 */
++		ret = digest_list_ref_add(d, digest_list, digest_offset,
++					  hdr_offset);
++		if (ret < 0)
++			return ERR_PTR(ret);
++
++		print_hex_dump_debug("digest add duplicate: ", DUMP_PREFIX_NONE,
++				     digest_len, 1, digest, digest_len, true);
++		return d;
++	}
++
++	/* Allocate a new digest item. */
++	if (!should_fail_diglim())
++		d = kmem_cache_alloc(digest_item_cache, GFP_KERNEL);
++	if (!d) {
++		print_hex_dump_debug("digest allocation failed: ",
++				     DUMP_PREFIX_NONE, digest_len, 1, digest,
++				     digest_len, true);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	INIT_LIST_HEAD(&d->refs);
++
++	/* Add a new digest list reference to the new digest item. */
++	ret = digest_list_ref_add(d, digest_list, digest_offset, hdr_offset);
++	if (ret < 0) {
++		kmem_cache_free(digest_item_cache, d);
++		return ERR_PTR(ret);
++	}
++
++	/* Add the new digest item to the hash table for the given type. */
++	hlist_add_head_rcu(&d->hnext,
++			   &diglim_htable[type].queue[hash_key(digest)]);
++	diglim_htable[type].len++;
++
++	print_hex_dump_debug("digest add: ", DUMP_PREFIX_NONE, digest_len, 1,
++			     digest, digest_len, true);
++	return d;
++}
++
++/**
++ * digest_del - delete a digest with one reference, or just a reference
++ * @digest: digest in binary form
++ * @algo: digest algorithm
++ * @type: digest type
++ * @digest_list: digest list the digest belongs to
++ * @digest_offset: offset of the digest in the buffer of the digest list
++ * @hdr_offset: offset of the header within the digest list the digest refers to
++ *
++ * This function is called when a digest list is being removed. The digest is
++ * first searched in the hash table for the given type. If it is found (if not,
++ * it is a bug, because digest lists can be deleted only if they were added
++ * previously), a reference of the passed digest list is deleted from the linked
++ * list of references of the digest item.
++ *
++ * If the last reference was deleted, the digest item is also deleted and
++ * removed from the hash table.
++ *
++ * Proper locking must be provided by the caller.
++ */
++void digest_del(u8 *digest, enum hash_algo algo, enum compact_types type,
++		struct digest_list_item *digest_list, loff_t digest_offset,
++		loff_t hdr_offset)
++{
++	struct digest_item *d;
++	int digest_len = hash_digest_size[algo];
++
++	/* Search the digest. */
++	d = __digest_lookup(digest, algo, type, NULL, NULL);
++	if (!d) {
++		print_hex_dump(KERN_ERR, "digest not found: ", DUMP_PREFIX_NONE,
++			       digest_len, 1, digest, digest_len, true);
++		return;
++	}
++
++	/* Delete a reference of the passed digest list. */
++	digest_list_ref_del(d, digest_list, digest_offset, hdr_offset);
++
++	print_hex_dump_debug(!list_empty(&d->refs) ?
++			     "digest del duplicate: " : "digest del: ",
++			     DUMP_PREFIX_NONE, digest_len, 1, digest,
++			     digest_len, true);
++
++	/* Return if there are still references. */
++	if (!list_empty(&d->refs))
++		return;
++
++	/*
++	 * Remove the digest item from the hash table and free it if there are
++	 * no more references left.
++	 */
++	hlist_del_rcu(&d->hnext);
++	diglim_htable[type].len--;
++	kmem_cache_free(digest_item_cache, d);
++}
++
++static void digest_list_free(struct digest_list_item *digest_list)
++{
++	kfree(digest_list->label);
++	kfree(digest_list->buf);
++	kmem_cache_free(digest_list_item_cache, digest_list);
++}
++
++/**
++ * digest_list_add - add a new digest list
++ * @digest: digest of the digest list in binary form
++ * @algo: digest algorithm
++ * @size: digest list size
++ * @buf: digest list buffer
++ * @actions: actions (measure/appraise) performed by IMA on the digest list
++ * @label: label to be used to identify the digest list
++ *
++ * This function allocates a new digest list item, which contains the buffer,
++ * size, actions performed by IMA and a label. Each digest list item is
++ * associated to a digest item representing the digest of the digest list.
++ *
++ * This function prevents the same digest list to be added multiple times by
++ * searching its digest in the hash table for the COMPACT_DIGEST_LIST type.
++ *
++ * The passed buffer is copied in a new memory area, to avoid to reference
++ * memory that could be freed by the caller.
++ *
++ * If allocation of a new digest list and the associated buffer was successful,
++ * its digest is added to the hash table for the COMPACT_DIGEST_LIST type.
++ *
++ * Proper locking must be provided by the caller.
++ *
++ * Return: the digest item associated to the digest list item on success, an
++ * error pointer otherwise.
++ */
++struct digest_item *digest_list_add(u8 *digest, enum hash_algo algo,
++				    loff_t size, u8 *buf, u8 actions,
++				    const char *label)
++{
++	struct digest_item *d;
++	struct digest_list_item *digest_list = NULL;
++	int digest_len = hash_digest_size[algo];
++
++	/* Search the digest of the digest list. */
++	d = __digest_lookup(digest, algo, COMPACT_DIGEST_LIST, NULL, NULL);
++	if (d) {
++		print_hex_dump_debug("digest list already uploaded: ",
++				     DUMP_PREFIX_NONE, digest_len, 1, digest,
++				     digest_len, true);
++		return ERR_PTR(-EEXIST);
++	}
++
++	/* Allocate a new digest list. */
++	if (!should_fail_diglim())
++		digest_list = kmem_cache_alloc(digest_list_item_cache,
++					       GFP_KERNEL);
++	if (!digest_list) {
++		print_hex_dump(KERN_ERR, "digest list allocation failed: ",
++			       DUMP_PREFIX_NONE, digest_len, 1, digest,
++			       digest_len, true);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	digest_list->buf = NULL;
++	digest_list->size = size;
++	digest_list->label = NULL;
++
++	if (!should_fail_diglim())
++		digest_list->buf = kmemdup(buf, size, GFP_KERNEL);
++	if (!digest_list->buf) {
++		print_hex_dump(KERN_ERR, "digest list allocation failed: ",
++			       DUMP_PREFIX_NONE, digest_len, 1, digest,
++			       digest_len, true);
++		digest_list_free(digest_list);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	digest_list->actions = actions;
++	memcpy(digest_list->digest, digest, hash_digest_size[algo]);
++	digest_list->algo = algo;
++	if (!should_fail_diglim())
++		digest_list->label = kstrdup(label, GFP_KERNEL);
++	if (!digest_list->label) {
++		print_hex_dump(KERN_ERR, "digest list allocation failed: ",
++			       DUMP_PREFIX_NONE, digest_len, 1, digest,
++			       digest_len, true);
++		digest_list_free(digest_list);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	/* Add the digest of the digest list to the hash table. */
++	d = digest_add(digest, algo, COMPACT_DIGEST_LIST, digest_list, 0, 0);
++	if (IS_ERR(d))
++		digest_list_free(digest_list);
++
++	return d;
++}
++
++/**
++ * digest_list_del - delete an existing digest list
++ * @digest: digest of the digest list in binary form
++ * @algo: digest algorithm
++ * @actions: actions (measure/appraise) performed by IMA on the digest list
++ * @digest_list: digest list to delete
++ *
++ * This function searches the digest of the digest list in the hash table for
++ * the COMPACT_DIGEST_LIST type. If it is found, this function frees the buffer
++ * and the digest list item allocated in digest_list_add().
++ *
++ * This function will be executed only for digest lists that were previously
++ * added.
++ *
++ * Proper locking must be provided by the caller.
++ */
++void digest_list_del(u8 *digest, enum hash_algo algo, u8 actions,
++		     struct digest_list_item *digest_list)
++{
++	/* Delete the digest item associated to the digest list. */
++	digest_del(digest, algo, COMPACT_DIGEST_LIST, digest_list, 0, 0);
++
++	/*
++	 * Free the buffer, the label and the digest list item allocated when
++	 * the digest list was added.
++	 */
++	digest_list_free(digest_list);
++}
++
++static int __init digest_list_cache_init(void)
++{
++	digest_list_item_cache = kmem_cache_create("digest_list_item_cache",
++						sizeof(struct digest_list_item),
++						0, SLAB_PANIC, NULL);
++
++	digest_list_item_ref_cache = kmem_cache_create(
++					"digest_list_item_ref_cache",
++					sizeof(struct digest_list_item_ref), 0,
++					SLAB_PANIC, NULL);
++
++	digest_item_cache = kmem_cache_create("digest_item_cache",
++					      sizeof(struct digest_item), 0,
++					      SLAB_PANIC, NULL);
++
++	return 0;
++}
++
++late_initcall(digest_list_cache_init)
 -- 
 2.25.1
 
