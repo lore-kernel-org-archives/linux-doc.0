@@ -7,44 +7,45 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22707C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A17E8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DF5461155
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AB346108B
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234137AbhINOgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57592 "EHLO mail.kernel.org"
+        id S234070AbhINOgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57590 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233870AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233868AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C878A61242;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B3A5461183;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=omLihTTkbbmL7wIzlqe8Cy3U+pVQfVA1OrggMS33ax4=;
+        bh=rfMpabz47Kf6QrjB2iI6nVOHZzo6l9WN7hrjr+mEb+I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Mcjjl1/mIuLKA5wTDc8SGCaPui4mak+DTZPM3c5wtPbMXXp6i6UjOauzyyU+z97Es
-         /fTbvoCedhKymDn8KRRIIar5cyzueQaDRCfwIwgWy3quqZXLbV1TLjX5YmmkKOEx1O
-         NDX3fLQkXvbeGKGq0kvr41OAl9tlypqnskiQM2OP6Ej4ZBkVTR18XkwX7PUU2MPHbc
-         A4sf6y4RoVZ/3Dgt3fkaukYMM95ZhJ41LJGuh8uUh+p56Du2PvKOa7cy4A7J8ku75h
-         4Xig/0pqmuv8Xdmk1DWnMS1idSVKY0e04n7r0MexHHo7YSmB/Rd8Jqzp6L8CaW9GtL
-         Gze/SXJ3VEwYQ==
+        b=IAeA1iFOMOrza37rU5eD4T/wcycH8jg0fQ4rT0Kb1I1+hcBeOxan5c3RBUuZYwt9W
+         n6kvqvtWMU3HFpNiVCm/rhTKRncmxIfuedOHmfl0Js/U9PKrZIzfTgrU/MPN3+5PqX
+         PSyDjG2qaEXidsrj/eU5UrEZh1NZPpKfm2W9PbNMf9pLr7OLm8P4P9dglH2LHcCXvn
+         +t9dSf5pyMOOC5gFshJFuagmRRihcz9w9HbMNbov/JsD44THmEhzU8DPxPTgOlIOws
+         ubjs/bNEUT23S26xU/eXtk+RAjDt+ner4CWFjMhKuZ4uh87M6F4eX3LCMqfpUSHp+6
+         ng1tZ0+QChSKQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UN-000Kka-Iw; Tue, 14 Sep 2021 16:32:47 +0200
+        id 1mQ9UO-000Kls-I4; Tue, 14 Sep 2021 16:32:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/29] ABI: sysfs-bus-rapidio: use wildcards on What definitions
-Date:   Tue, 14 Sep 2021 16:32:21 +0200
-Message-Id: <e66677d1473dd275b7386f971e0d9fb9eec40ca0.1631629496.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Carlos Bilbao <bilbao@vt.edu>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 26/29] ABI: sysfs-devices-system-cpu: use wildcards on What definitions
+Date:   Tue, 14 Sep 2021 16:32:41 +0200
+Message-Id: <a0bbb519e67d57b0fa38e2b9fb4d0ac7ad942531.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -55,172 +56,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While humans may be able to understand that something like:
-
-	/sys/bus/rapidio/devices/nn:d:iiii
-
-could actually mean:
-
-	/sys/bus/rapidio/devices/00:e:0000
-
-This is something that computers can't easily identify. As
-get_abi.pl needs to convert it into a regex, change What: lines
-to:
-
-	/sys/bus/rapidio/devices/<nn>:<d>:<iiii>
-
-Which is the commonly-used pattern on ABI files for wildcards.
+An "N" upper letter is not a wildcard, nor can easily be identified
+by script, specially since the USB sysfs define things like.
+bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-bus-rapidio | 32 ++++++++++-----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ .../ABI/testing/sysfs-devices-system-cpu         | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-rapidio b/Documentation/ABI/testing/sysfs-bus-rapidio
-index 634ea207a50a..f8b6728dac10 100644
---- a/Documentation/ABI/testing/sysfs-bus-rapidio
-+++ b/Documentation/ABI/testing/sysfs-bus-rapidio
-@@ -1,4 +1,4 @@
--What:		/sys/bus/rapidio/devices/nn:d:iiii
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index b46ef147616a..4ffc7e6ef403 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -135,7 +135,7 @@ Description:	Discover cpuidle policy and mechanism
+ 		Documentation/driver-api/pm/cpuidle.rst for more information.
+ 
+ 
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/name
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/name
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/latency
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
+@@ -174,7 +174,7 @@ Description:
+ 			      (a count).
+ 		======== ==== =================================================
+ 
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/desc
+ Date:		February 2008
+ KernelVersion:	v2.6.25
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -182,7 +182,7 @@ Description:
+ 		(RO) A small description about the idle state (string).
+ 
+ 
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/disable
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/disable
+ Date:		March 2012
+ KernelVersion:	v3.10
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -195,14 +195,14 @@ Description:
+ 		does not reflect it. Likewise, if one enables a deep state but a
+ 		lighter state still is disabled, then this has no effect.
+ 
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/default_status
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/default_status
+ Date:		December 2019
+ KernelVersion:	v5.6
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
  Description:
- 		For each RapidIO device, the RapidIO subsystem creates files in
- 		an individual subdirectory with the following name format of
-@@ -29,7 +29,7 @@ Description:
- Attributes Common for All RapidIO Devices
- -----------------------------------------
+ 		(RO) The default status of this state, "enabled" or "disabled".
  
--What:		/sys/bus/rapidio/devices/nn:d:iiii/did
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/did
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -37,7 +37,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) returns the device identifier
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/residency
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/residency
+ Date:		March 2014
+ KernelVersion:	v3.15
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -211,7 +211,7 @@ Description:
+ 		time (in microseconds) this cpu should spend in this idle state
+ 		to make the transition worth the effort.
  
--What:		/sys/bus/rapidio/devices/nn:d:iiii/vid
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/vid
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -45,7 +45,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) returns the device vendor identifier
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/s2idle/
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/s2idle/
+ Date:		March 2018
+ KernelVersion:	v4.17
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -221,7 +221,7 @@ Description:
+ 		This attribute group is only present for states that can be
+ 		used in suspend-to-idle with suspended timekeeping.
  
--What:		/sys/bus/rapidio/devices/nn:d:iiii/device_rev
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/device_rev
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -53,7 +53,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) returns the device revision level
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/s2idle/time
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/s2idle/time
+ Date:		March 2018
+ KernelVersion:	v4.17
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -229,7 +229,7 @@ Description:
+ 		Total time spent by the CPU in suspend-to-idle (with scheduler
+ 		tick suspended) after requesting this state.
  
--What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_did
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_did
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -61,7 +61,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) returns identifier for the assembly containing the device
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_rev
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_rev
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -70,7 +70,7 @@ Description:
- 		(RO) returns revision level of the assembly containing the
- 		device
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_vid
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_vid
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -79,7 +79,7 @@ Description:
- 		(RO) returns vendor identifier of the assembly containing the
- 		device
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/destid
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/destid
- Date:		Mar, 2011
- KernelVersion:	v2.6.3
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -88,7 +88,7 @@ Description:
- 		(RO) returns device destination ID assigned by the enumeration
- 		routine
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/lprev
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/lprev
- Date:		Mar, 2011
- KernelVersion:	v2.6.39
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -97,7 +97,7 @@ Description:
- 		(RO) returns name of previous device (switch) on the path to the
- 		device that that owns this attribute
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/modalias
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/modalias
- Date:		Jul, 2013
- KernelVersion:	v3.11
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -105,7 +105,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) returns the device modalias
- 
--What:		/sys/bus/rapidio/devices/nn:d:iiii/config
-+What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/config
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -128,7 +128,7 @@ device-specific sysfs attributes by specifying a callback function that may be
- set by the switch initialization routine during enumeration or discovery
- process.
- 
--What:		/sys/bus/rapidio/devices/nn:s:iiii/routes
-+What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/routes
- Date:		Nov, 2005
- KernelVersion:	v2.6.15
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -138,7 +138,7 @@ Description:
- 		This attribute reports only valid routing table entries, one
- 		line for each entry.
- 
--What:		/sys/bus/rapidio/devices/nn:s:iiii/destid
-+What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/destid
- Date:		Mar, 2011
- KernelVersion:	v2.6.3
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -147,7 +147,7 @@ Description:
- 		(RO) device destination ID of the associated device that defines
- 		a route to the switch
- 
--What:		/sys/bus/rapidio/devices/nn:s:iiii/hopcount
-+What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/hopcount
- Date:		Mar, 2011
- KernelVersion:	v2.6.39
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -155,7 +155,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
- Description:
- 		(RO) number of hops on the path to the switch
- 
--What:		/sys/bus/rapidio/devices/nn:s:iiii/lnext
-+What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/lnext
- Date:		Mar, 2011
- KernelVersion:	v2.6.39
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
-@@ -172,7 +172,7 @@ Device-specific Switch Attributes
- 
- IDT_GEN2-
- 
--What:		/sys/bus/rapidio/devices/nn:s:iiii/errlog
-+What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/errlog
- Date:		Oct, 2010
- KernelVersion:	v2.6.37
- Contact:	Matt Porter <mporter@kernel.crashing.org>,
+-What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/s2idle/usage
++What:		/sys/devices/system/cpu/cpuX/cpuidle/state<N>/s2idle/usage
+ Date:		March 2018
+ KernelVersion:	v4.17
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
 -- 
 2.31.1
 
