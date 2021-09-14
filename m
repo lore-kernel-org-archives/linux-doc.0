@@ -2,77 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F65C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 21:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79ED7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 22:29:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 412A060FC1
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 21:16:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5376061185
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 22:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235085AbhINVRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 17:17:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41628 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234971AbhINVR3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 17:17:29 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BAA202C1;
-        Tue, 14 Sep 2021 21:16:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BAA202C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1631654160; bh=a4m+4kMVVStlQpILsxYOg56lxqhaYiXtRb4lYmS46AM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SCcTBBiHBe6ERIUulMDT2Wc1s3L/Wqzxg/2gI6BWAoDm53EHQvFzNPwMQc1HCUkyh
-         ns3+crQXrMvnk7qXUwI5JYEfpX4YCAhSJSUuKHkT4eovQE06b7BIV/oj1XstDYubTj
-         kV5O0c2qlsVcfnRM/Qm980CMQquA+THk0CXlX/OZjKgFSOMLRV09oodYmmwkRWwTrW
-         aKXYIvVcTuLjo/YxKAzinKd8kJQJLFuDjVf2ZoYw794bEH8ln2hqeHuidL2kOXWy6R
-         FP00qWtWJcp67gOnqtWO6utSO5kMZmSfQq6rKX/M7e0RT2Y34m49fLLfRSBCbRH/0/
-         fU6RJUGtE97mg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>, Hu Haowen <src.res@email.cn>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs: zh_TW/index: Move arm64/index to arch-specific
- section
-In-Reply-To: <53d86385-b4db-5d02-be6b-795900166f17@gmail.com>
-References: <53d86385-b4db-5d02-be6b-795900166f17@gmail.com>
-Date:   Tue, 14 Sep 2021 15:15:59 -0600
-Message-ID: <875yv2dfjk.fsf@meer.lwn.net>
+        id S235429AbhINWa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 18:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235137AbhINWaZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 18:30:25 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DDFC061574;
+        Tue, 14 Sep 2021 15:29:07 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id bq5so1672201lfb.9;
+        Tue, 14 Sep 2021 15:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OOGSJMiHA0GrsheLPjqZOApUIXPheFNmd6HaQBlmI6I=;
+        b=NNcYyS7n3cxhdsmKNyNkWrRNCtdUVe+k005bVrKWPhkxeKYJGDY7JQItsGKP0R9ag7
+         OF+scHQFB5sD+jQDhuOe3nOtvvfvUuMtkvYC/bL7WEhlnv9VayfRoIia/JDeqdIvRpT0
+         nf+ouQMJ3XmxzytlJ82aHi5DVAbyQiCs8016ZBqVMJwDeSo/JNzCKUs8/Ky0shyBhgPO
+         NJfelis94P6JIDsDFPz/m+mydSHi4sdw8ZvVGDTjn9ZFY5TPB/gikmi6MK0Ldf+XqdWj
+         w2ymYG3Ykr64kMAOzTDhi15hF7mluus045/hquIPHuGz52xvc1+4LgfWCKBNeA0zhVpW
+         1UrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OOGSJMiHA0GrsheLPjqZOApUIXPheFNmd6HaQBlmI6I=;
+        b=hW19RyCSQ8eeNXLf45HxW/7yUmKzkvcExNxYSzTogYPuUSg2fUKoVh5NJuqQSkafJx
+         uKXJO3sMt8m+e4ooRNKUvvAS1Phwv7R9+XfsbpDSC83wUvHD8IN/wf4cUElOJvm4LugP
+         pH44ISYEJZaJ7/w8H/uZ3PZrCESngZqI10E5hWwE1lvD865ycvW/QL9J1m8w204HiZJH
+         3tpNk1hzvQ9O2SruAYuXbKtABIWZDbjFTaRed24QVD5RAM770CmdpcO0Yi0gtjP79xD7
+         CLsQ+pKjszeGDC/Heha6Dz1aNV+aD8ZVqclEI9SdqUPjC+oYPUMw7QkKMym45yqoX3sB
+         cYyA==
+X-Gm-Message-State: AOAM530PTohr6hyrROPMLHVYql9baYYVYqwZn4htp1E3EZscO7cstRC5
+        DwRAnR71pOpp95ZxXQ4DQ5J9rewijclxhb1IkhIy4VM9hhQ=
+X-Google-Smtp-Source: ABdhPJxJRmrTSph3hEv5MyeNd4gzes70mmgLByycynCqyyqbKeWk3vdJZkpOYkAbqWNKa+I8G1dibBpNsazFoGIk7X4=
+X-Received: by 2002:a05:6512:3f91:: with SMTP id x17mr15108290lfa.518.1631658545482;
+ Tue, 14 Sep 2021 15:29:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <CAKXUXMyRKM9Ev_Yyyup-T=AZe2aYcN-ZneXsLmHtUC7as67zNQ@mail.gmail.com>
+ <20210904082330.14864-1-utkarshverma294@gmail.com> <CABJPP5DyppeW=_XXJKn_NnQahOn=k0oBi-dDdcyxN8rygwusEw@mail.gmail.com>
+ <87ee9qdft1.fsf@meer.lwn.net>
+In-Reply-To: <87ee9qdft1.fsf@meer.lwn.net>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Wed, 15 Sep 2021 03:58:54 +0530
+Message-ID: <CABJPP5DjazfiTUe3wvnKyk86hN+SUK7aP9K5GP0L5tRW_TD_xw@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: checkpatch: Add SYMBOLIC_PERMS message
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Utkarsh Verma <utkarshverma294@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
-
-> arm64/index is architecture specific.
-> Move it to the section "=E7=89=B9=E5=AE=9A=E9=AB=94=E7=B3=BB=E7=B5=90=E6=
-=A7=8B=E6=96=87=E6=AA=94" or "Architecture-specific
-> documentation".
+On Wed, Sep 15, 2021 at 2:40 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: e5cb9494fe79 ("docs/zh_TW: add translations for zh_TW/arm64")
-> Cc: Hu Haowen <src.res@email.cn>
-> ---
-> Hi,
+> Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
 >
-> zh_CN/index.rst has arm64/index under the section "=E7=89=B9=E5=AE=9A=E4=
-=BD=93=E7=B3=BB=E7=BB=93=E6=9E=84=E6=96=87=E6=A1=A3".
-> zh_TW should be consistent with it.
+> > On Sat, Sep 4, 2021 at 1:53 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
+> >>
+> >> Add a new message type SYMBOLIC_PERMS under the 'Permissions'
+> >> subsection. Octal permission bits are easier to read and understand
+> >> instead of their symbolic macro names.
+> >>
+> >> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> >> Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >> ---
+> >>  Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
+> >>  1 file changed, 11 insertions(+)
+> >>
+> >> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> >> index f0956e9ea2d8..41037594ec24 100644
+> >> --- a/Documentation/dev-tools/checkpatch.rst
+> >> +++ b/Documentation/dev-tools/checkpatch.rst
+> >> @@ -957,6 +957,17 @@ Permissions
+> >>      Permission bits should use 4 digit octal permissions (like 0700 or 0444).
+> >>      Avoid using any other base like decimal.
+> >>
+> >> +  **SYMBOLIC_PERMS**
+> >> +    Permission bits in the octal form are more readable and easier to
+> >> +    understand than their symbolic counterparts because many command-line
+> >> +    tools use this notation only. Experienced kernel developers have been using
+> >
+> > Let's remove "only".
+> >
+> >> +    this traditional Unix permission bits for decades and so they find it
+> >
+> > Maybe you meant "these" here.
+> >
+> > With these changes made,
+> > Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 >
->         Thanks, Akira
-> --
->  Documentation/translations/zh_TW/index.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> I took the liberty of apply the patch with those changes made.
+>
 
-Applied, thanks.
+Thanks Jonathan.
 
-jon
+Utkarsh, you can start working on your next patches after submitting, you don't
+have to wait for the existing patches to be first accepted. They will follow
+the same review -> changes -> review cycle until they are good for
+acceptance.
+
+Like lukas said, try preparing a batch of say 3 to 5 rules and let's
+review it and get it in.
+
+Thanks,
+Dwaipayan.
