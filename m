@@ -2,333 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD635C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 05:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A74E0C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:22:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5BF161165
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 05:49:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E88561056
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 07:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239853AbhINFuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 01:50:21 -0400
-Received: from mga05.intel.com ([192.55.52.43]:30591 "EHLO mga05.intel.com"
+        id S240437AbhINHXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 03:23:49 -0400
+Received: from mga17.intel.com ([192.55.52.151]:36496 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239813AbhINFuS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 01:50:18 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="307440953"
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; 
-   d="scan'208";a="307440953"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 22:49:00 -0700
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; 
-   d="scan'208";a="543692500"
-Received: from chenyu-desktop.sh.intel.com (HELO chenyu-desktop) ([10.239.158.176])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2021 22:48:54 -0700
-Date:   Tue, 14 Sep 2021 13:54:47 +0800
+        id S239423AbhINHXp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 03:23:45 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="202084496"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
+   d="scan'208";a="202084496"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2021 00:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; 
+   d="scan'208";a="451919968"
+Received: from chenyu-desktop.sh.intel.com ([10.239.158.176])
+  by orsmga002.jf.intel.com with ESMTP; 14 Sep 2021 00:22:21 -0700
 From:   Chen Yu <yu.c.chen@intel.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+To:     linux-acpi@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         Len Brown <len.brown@intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Andy Shevchenko <andriy.shevchenko@intel.com>,
         Aubrey Li <aubrey.li@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Alexander Graf <graf@amazon.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Shuo Liu <shuo.a.liu@intel.com>,
-        Hannes Reinecke <hare@suse.de>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/5][RFC] drivers/acpi: Introduce Platform Firmware
- Runtime Update device driver
-Message-ID: <20210914055447.GA78108@chenyu-desktop>
-References: <cover.1631025237.git.yu.c.chen@intel.com>
- <9b2bd7d1e40633ce6f4845fb5c9e30a3faad5e7a.1631025237.git.yu.c.chen@intel.com>
- <YTh8mPOVv8T1Yhgy@kernel.org>
+        Ashok Raj <ashok.raj@intel.com>, Chen Yu <yu.c.chen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v2 1/5] Documentation: Introduce Platform Firmware Runtime Update documentation
+Date:   Tue, 14 Sep 2021 15:28:00 +0800
+Message-Id: <8c182383300b043195bc00a293dfd5b2fad59772.1631600169.git.yu.c.chen@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1631600169.git.yu.c.chen@intel.com>
+References: <cover.1631600169.git.yu.c.chen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YTh8mPOVv8T1Yhgy@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you very much and sorry for late response, Mike,
-On Wed, Sep 08, 2021 at 12:04:24PM +0300, Mike Rapoport wrote:
-> Hi,
-> 
-> On Tue, Sep 07, 2021 at 11:27:42PM +0800, Chen Yu wrote:
-> > Introduce the pfru_update driver which can be used for Platform Firmware
-> > Runtime code injection and driver update. The user is expected to provide
-> > the update firmware in the form of capsule file, and pass it to the driver
-> > via ioctl. Then the driver would hand this capsule file to the Platform
-> > Firmware Runtime Update via the ACPI device _DSM method. At last the low
-> > level Management Mode would do the firmware update.
-> > 
-> > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
-> > ---
-> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> >  drivers/acpi/Kconfig                          |   1 +
-> >  drivers/acpi/Makefile                         |   1 +
-> >  drivers/acpi/pfru/Kconfig                     |  15 +
-> >  drivers/acpi/pfru/Makefile                    |   2 +
-> >  drivers/acpi/pfru/pfru_update.c               | 544 ++++++++++++++++++
-> >  include/uapi/linux/pfru.h                     | 106 ++++
-> >  7 files changed, 670 insertions(+)
-[cut]
-> > +struct pfru_device {
-> > +	guid_t uuid;
-> > +	int rev_id;
-> > +	struct device *dev;
-> > +};
-> > +
-> > +static struct pfru_device pfru_dev;
-> 
-> Please don't presume a single instance and update the driver to work with
-> allocated pfru_device objects.
-> 
-Okay, this global variable has been switched to a dynamic allocated pointer.
-Since there would be only one instance of this ACPI device, more than one
-instance would indicate a bogus BIOS. The duplication check logic was added
-during driver initialization that, if more than than one instance was detected,
-only the first instance would take effect.
-> > +static struct pfru_device *get_pfru_dev(void)
-> > +{
-> > +	return &pfru_dev;
-> > +}
-> > +
-[cut]
-> > +	for (i = 0; i < out_obj->package.count; i++) {
-> > +		union acpi_object *obj = &out_obj->package.elements[i];
-> > +
-> > +		switch (i) {
-> > +		case 0:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->status = obj->integer.value;
-> > +			break;
-> > +		case 1:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->update_cap = obj->integer.value;
-> > +			break;
-> > +		case 2:
-> > +			if (obj->type != ACPI_TYPE_BUFFER)
-> > +				goto free_acpi_buffer;
-> > +			memcpy(&cap->code_type, obj->buffer.pointer,
-> > +			       obj->buffer.length);
-> > +			break;
-> > +		case 3:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->fw_version = obj->integer.value;
-> > +			break;
-> > +		case 4:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->code_rt_version = obj->integer.value;
-> > +			break;
-> > +		case 5:
-> > +			if (obj->type != ACPI_TYPE_BUFFER)
-> > +				goto free_acpi_buffer;
-> > +			memcpy(&cap->drv_type, obj->buffer.pointer,
-> > +			       obj->buffer.length);
-> > +			break;
-> > +		case 6:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->drv_rt_version = obj->integer.value;
-> > +			break;
-> > +		case 7:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			cap->drv_svn = obj->integer.value;
-> > +			break;
-> > +		case 8:
-> > +			if (obj->type != ACPI_TYPE_BUFFER)
-> > +				goto free_acpi_buffer;
-> > +			memcpy(&cap->platform_id, obj->buffer.pointer,
-> > +			       obj->buffer.length);
-> > +			break;
-> > +		case 9:
-> > +			if (obj->type != ACPI_TYPE_BUFFER)
-> > +				goto free_acpi_buffer;
-> > +			memcpy(&cap->oem_id, obj->buffer.pointer,
-> > +			       obj->buffer.length);
-> > +			break;
-> 
-> Please get rid of the magic numbers and add a default clause with the error
-> handling. Nothing guaranties that there will be exactly 10 fields in the
-> out_obj.
-> 
-Okay, got it, changed in next version.
-> Also, the obj->type checks could move outside the switch, with an if or a
-> static mapping between the field number and the desired type.
-> 
-> 
-Okay, changed in next version.
-> > +		}
-> > +	}
-[cut]
-> > +		case 4:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			info->buf_size = obj->integer.value;
-> > +			break;
-> 
-> The same comments as for query_capability() functions apply here as well.
-> 
-Okay.
-> > +		}
-> > +	}
-> > +	ret = 0;
-> > +
-> > +free_acpi_buffer:
-> > +	ACPI_FREE(out_obj);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int get_image_type(efi_manage_capsule_image_header_t *img_hdr,
-> > +			  int *type)
-> > +{
-> > +	int ret;
-> > +	guid_t code_inj_id, drv_update_id, *image_type_id;
-> > +
-> > +	ret = guid_parse(PFRU_CODE_INJ_UUID, &code_inj_id);
-> > +	if (ret)
-> > +		return ret;
-> > +	ret = guid_parse(PFRU_DRV_UPDATE_UUID, &drv_update_id);
-> > +	if (ret)
-> > +		return ret;
-> 
-> The code_inj_id and drv_update_id are "constant", they can be parsed once
-> at driver initialization time. 
-> 
-Okay, changed in next version.
-> > +	/* check whether this is a code injection or driver update */
-> > +	image_type_id = &img_hdr->image_type_id;
-> > +	if (guid_equal(image_type_id, &code_inj_id))
-> > +		*type = CODE_INJECT_TYPE;
-> > +	else if (guid_equal(image_type_id, &drv_update_id))
-> > +		*type = DRIVER_UPDATE_TYPE;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * The (u64 hw_ins) was introduced in UEFI spec version 2,
-> > + * and (u64 capsule_support) was introduced in version 3.
-> > + * The size needs to be adjusted accordingly.
-> 
-> The comment here does not really explain how exactly the size needs to be
-> adjusted.
-> 
-The comment has been refined in next version.
-> > +
-[cut]
-> > +static void parse_update_result(struct updated_result *result)
-> 
-> I think dump_update_result() would be more appropriate.
-> 
-Okay, changed accordingly.
-> > +{
-> > +	pr_debug("Update result:\n");
-> > +	pr_debug("Status:%d\n", result->status);
-> > +	pr_debug("Extended Status:%d\n", result->ext_status);
-> > +	pr_debug("Authentication Time Low:%ld\n", result->low_auth_time);
-> > +	pr_debug("Authentication Time High:%ld\n", result->high_auth_time);
-> > +	pr_debug("Execution Time Low:%ld\n", result->low_exec_time);
-> > +	pr_debug("Execution Time High:%ld\n", result->high_exec_time);
-> > +}
-> > +
-> > +		case 5:
-> > +			if (obj->type != ACPI_TYPE_INTEGER)
-> > +				goto free_acpi_buffer;
-> > +			update_result.high_exec_time = obj->integer.value;
-> > +			break;
-> > +		}
-> 
-> The same comments as for query_capability() functions apply here as well.
->
-Okay, changed in next version. 
-> > +	}
-> > +	parse_update_result(&update_result);
-> > +	ret = 0;
-> > +
-> > +free_acpi_buffer:
-> > +	ACPI_FREE(out_obj);
-> > +
-> > +	return ret;
-> > +}
-> > +
-[cut]
-> > +	case PFRU_IOC_STAGE_ACTIVATE:
-> > +		ret = start_acpi_update(START_STAGE_ACTIVATE);
-> > +		if (ret)
-> > +			return ret;
-> 
-> These 
-> 	if (ret)
-> 		return ret;
-> 
-> seem redundant here.
-> 
-I see. Changed accordingly.
-> > +		break;
-> > +	default:
-> > +		ret = -ENOIOCTLCMD;
-> > +		break;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +
-[cut]
-> > +struct com_buf_info {
-> > +	enum dsm_status status;
-> > +	enum dsm_status ext_status;
-> > +	unsigned long addr_lo;
-> > +	unsigned long addr_hi;
-> > +	int buf_size;
-> > +};
-> > +
-> > +struct capsulate_buf_info {
-> > +	unsigned long src;
-> > +	int size;
-> > +};
-> > +
-> > +struct updated_result {
-> > +	enum dsm_status status;
-> > +	enum dsm_status ext_status;
-> > +	unsigned long low_auth_time;
-> > +	unsigned long high_auth_time;
-> > +	unsigned long low_exec_time;
-> > +	unsigned long high_exec_time;
-> > +};
-> 
-> Are all these types need to be visible to userspace?
-> If not, please move the driver internal types to pfru_update.c.
-> 
-The struct capsulate_buf_info is only usable in kernel space, so it
-is moved into pfru_update.c in next version. While the other structures
-are required by the userspace for customization.
+Add the Platform Firmware Runtime Update/Telemetry documentation.
 
-thanks,
-Chenyu
+Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+---
+v2: Add a spot in index.rst so it becomes part of the docs build
+    (Jonathan Corbet).
+    Sticking to the 80-column limit(Jonathan Corbet).
+    Underline lengths should match the title text(Jonathan Corbet).
+    Use literal blocks for the code samples(Jonathan Corbet).
+---
+ Documentation/x86/index.rst |   1 +
+ Documentation/x86/pfru.rst  | 100 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 Documentation/x86/pfru.rst
+
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 383048396336..3791fabf964c 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -37,3 +37,4 @@ x86-specific Documentation
+    sgx
+    features
+    elf_auxvec
++   pfru
+diff --git a/Documentation/x86/pfru.rst b/Documentation/x86/pfru.rst
+new file mode 100644
+index 000000000000..29fe0e518e6d
+--- /dev/null
++++ b/Documentation/x86/pfru.rst
+@@ -0,0 +1,100 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================================================
++The Linux Platform Firmware Runtime Update and Telemetry
++========================================================
++
++According to the specification of `Management Mode Firmware Runtime Update
++<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
++Rev100.pdf>`_, certain computing systems require high Service Level Agreements
++(SLAs) where system reboot fewer firmware updates are required to deploy
++firmware changes to address bug fixes, security updates and to debug and root
++cause issues. This technology is called Intel Seamless Update. The management
++mode (MM), UEFI runtime services and ACPI services handle most of the system
++runtime functions. Changing the MM code execution during runtime is called MM
++Runtime Update. Since the "MM" acronyms might be misunderstood as "Memory
++Management", this driver uses the name of "Platform Firmware Runtime Update"
++(PFRU).
++
++PFRU provides the following facilities: Performs a runtime firmware driver
++update and activate. Ability to inject firmware code at runtime, for dynamic
++instrumentation. PFRU Telemetry is a service which allows Runtime Update
++handler to produce telemetry data to upper layer OS consumer at runtime. The
++OS provides interfaces to let the users query the telemetry data via read
++operations. The specification specifies the interface and recommended policy
++to extract the data, the format and use are left to individual OEM's and BIOS
++implementations on what that data represents.
++
++PFRU interfaces
++===============
++
++The user space tool manipulates on /dev/pfru/update for code injection and
++driver update. PFRU stands for Platform Firmware Runtime Update, and the
++/dev/pfru directory might be reserved for future usage::
++
++ 1. mmap the capsule file.
++    fd_capsule = open("capsule.cap", O_RDONLY);
++    fstat(fd_capsule, &stat);
++    addr = mmap(0, stat.st_size, PROT_READ, fd_capsule);
++
++ 2. Get the capability information(version control, etc) from BIOS via
++    read() and do sanity check in user space.
++    fd_update = open("/dev/pfru/update", O_RDWR);
++    read(fd_update, &cap, sizeof(cap));
++    sanity_check(&cap);
++
++ 3. Write the capsule file to runtime update communication buffer.
++    kernel might return error if capsule file size is longer than
++    communication buffer.
++    write(fd_update, addr, stat.st_size);
++
++ 4. Stage the code injection.
++    ioctl(fd_update, PFRU_IOC_STATGE);
++
++ 5. Activate the code injection.
++    ioctl(fd_update, PFRU_IOC_ACTIVATE);
++
++ 6. Stage and activate the code injection.
++    ioctl(fd_update, PFRU_IOC_STAGE_ACTIVATE);
++
++    PFRU_IOC_STATGE: Stage a capsule image from communication buffer
++    and perform authentication.
++    [PFRU_IOC_ACTIVATE] Activate a previous staged capsule image.
++    [PFRU_IOC_STAGE_ACTIVATE] Perform both stage and activation actions.
++
++
++PFRU Telemetry interfaces
++=========================
++
++The user space tool manipulates on /dev/pfru/telemetry for PFRU telemetry log::
++
++ 1. Open telemetry device
++    fd_log = open("/dev/pfru/telemetry", O_RDWR);
++
++ 2. Get log level, log type, revision_id via one ioctl invoke
++    ioctl(fd_log, PFRU_IOC_GET_LOG_INFO, &info);
++
++ 3. Set log level, log type, revision_id
++    ioctl(fd_log, PFRU_IOC_SET_LOG_INFO, &info);
++
++ 4. ioctl(fd_log, PFRU_IOC_GET_DATA_INFO, &data_info);
++    Query the information of PFRU telemetry log buffer. The user is
++    responsible for parsing the result per the specification.
++
++ 5. Read the telemetry data:
++    read(fd_log, buf, data_info.size);
++
++Please refer to tools/testing/selftests/pfru/pfru_test.c for detail.
++
++According to the specification of `Management Mode Firmware Runtime Update
++<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
++Rev100.pdf>`_, the telemetry buffer is a wrap around buffer. If the telemetry
++buffer gets full, most recent log data will overwrite old log data. Besides,
++it is required in the spec that the read of telemetry should support both full
++data retrieval and delta telemetry data retrieval. Since this requirement is
++more likely a policy we leave this implementation in user space. That is to
++say, it is recommended for the user to double-read the telemetry parameters
++such as chunk1_size, chunk2_size, rollover_cnt in data_info structure to make
++sure that there is no more data appended while the user is reading the buffer.
++Besides, only after the runtime update has been run at least once, the telemetry
++log would have valid data, otherwise errno code of EBUSY would be returned.
+-- 
+2.25.1
+
