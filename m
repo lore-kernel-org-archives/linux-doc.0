@@ -2,72 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28606C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C271C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:53:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0245261164
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:50:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E7E561166
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 20:53:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233776AbhINUwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 16:52:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233373AbhINUwM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 16:52:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA6BBC061574;
-        Tue, 14 Sep 2021 13:50:54 -0700 (PDT)
+        id S233373AbhINUzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 16:55:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40502 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233145AbhINUy7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 16:54:59 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AEA0E2C1;
-        Tue, 14 Sep 2021 20:50:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AEA0E2C1
+        by ms.lwn.net (Postfix) with ESMTPSA id B6EE22CA;
+        Tue, 14 Sep 2021 20:53:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6EE22CA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1631652653; bh=1C1Lum1SJ8liV3Fk2FKIE54N6AIkTwNqtnJFFKjEs1Q=;
+        t=1631652821; bh=qNG+QjYpTqVVqPYQyVubIzCa4nYlNsW4VLhC6GdB9/Q=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=W98IYDdkY7yNcjoWpD0qh92VOblQdoSU8ry90boi4zCCKsq1kJ+rgx4va0VB6KT8t
-         j3yBqeySZgdaG+tGC+HYYc3dSYSniWROOGqPwxMkuJldJjsAupsFMRJcUWSAWZrpJQ
-         voeA3MLmfBLlzdfyJIHsTqhItsr9Ur5jPM75JIW6broYgfiArNaD1LLgEafZ0FsQds
-         czXgOgMXdzs1Gc/wlHU+J0m5QTTLku8Ht4orMm/v1uNGusmPqSKwd9RvnlVidfHxBj
-         Y6f7y0aA/OZd3tBok4XeF9fYDRkGuV/IU5Yvis5zoNGHR+wDKjJ4jKh2TdiaShEo9C
-         LI+scrjijhkMg==
+        b=kvKW++o9akpZL2djRjp3Gh2X0Q4u5rv8gexPH5qwZ+kHS0rhS9cyHvaZvQDiT70o5
+         su8sgfPO1tcPn3+xLbg6w//gvKJgLRuIuzVwDwE57P8ZNd5Z0CnTQ4QvTy0+mwv7vN
+         qJnaLZICjkt/oYgWgfqZyigwWtUvDuFk1rvA6Cl/KwsOXV3PVHE2UqhI8GJP5D1IsQ
+         0cFk/HO56WWZ7Ks+pvMdtxfelJT0LTrs0ILqJNUBOyPZnCX3GWMvoJa/BSTVpI1Xdh
+         gpl9ffTbsIOWwY/+04dg6bFBm32QFOgWNP2asLYlKiw2Lzvn6PQbPC9bF5KZG5l89L
+         5DXshKbS/EzbA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>, Jens Axboe <axboe@kernel.dk>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH] docs: block: fix discard_max_bytes references
-In-Reply-To: <20210910105142.2116749-1-steve@sk2.org>
-References: <20210910105142.2116749-1-steve@sk2.org>
-Date:   Tue, 14 Sep 2021 14:50:53 -0600
-Message-ID: <87czpaev9u.fsf@meer.lwn.net>
+To:     Kari Argillander <kari.argillander@gmail.com>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        ntfs3@lists.linux.dev
+Cc:     Kari Argillander <kari.argillander@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Doc/fs/ntfs3: Fix rst format and make it cleaner
+In-Reply-To: <20210909215753.34138-1-kari.argillander@gmail.com>
+References: <20210909215753.34138-1-kari.argillander@gmail.com>
+Date:   Tue, 14 Sep 2021 14:53:41 -0600
+Message-ID: <878rzyev56.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Kitt <steve@sk2.org> writes:
+Kari Argillander <kari.argillander@gmail.com> writes:
 
-> When discard_max_hw_bytes was introduced, in commit 0034af036554
-> ("block: make /sys/block/<dev>/queue/discard_max_bytes writeable"),
-> the discard_max_bytes documentation section was renamed to
-> discard_max_hw_bytes, but the references it contains to
-> discard_max_bytes weren't updated.
+> Current ntfs3 rst documentation is broken. I turn table to list table as
+> this is current Linux documentation quide line. Simple table also did
+> not quite work in our situation as we need to span rows together.
 >
-> This patch refers to discard_max_hw_bytes instead. It also reflows the
-> paragraph so that sentences end lines.
+> It still look quite good as text so we did not loss anything. This will
+> also make diffing quite bit more pleasure.
 >
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
 > ---
->  Documentation/block/queue-sysfs.rst | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> As this is pretty new to me and Konstantin I CC Jonathan because he is
+> maintainer of documentation section. Do you want to get all
+> documentation patches to you about ntfs3? This probably still goes
+> through our tree? I ask because checkpatch will give your address also
+> and it is not clear to me at least should I send these to you also.
 
-Applied, thanks.
+Don't hesitate to CC people when in doubt - it's the kernel way :)
+
+As for merging, documentation patches should go through whatever is the
+best path.  Some subsystem maintainers want me to take them, others want
+to handle them themselves.  It sounds like you're in the latter camp, so
+I'll assume I don't need to apply this one; let me know if I've
+misunderstood.
+
+Thanks,
 
 jon
