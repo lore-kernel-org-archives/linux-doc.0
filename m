@@ -7,42 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B6FC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DABE1C43219
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60609610A2
+	by mail.kernel.org (Postfix) with ESMTP id C7826610D1
 	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 14:35:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234089AbhINOgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:36:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57480 "EHLO mail.kernel.org"
+        id S234102AbhINOgU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57474 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233880AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233874AbhINOeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 14 Sep 2021 10:34:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA8A26124E;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9DC26124D;
         Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631629970;
-        bh=VU1FdXfqgwu2xC6IKLl/1hUB4FG2TU42WbTm0oHgE54=;
+        bh=lnViX5JeCxtvET+iaFNRtFAQr+eduL6y6bzYMTy334Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oVKpZ4fjo8hcvP7tIFxs8z4c5s6sgCi18/TvwAWZPGxfBgZ+qVw+ifJuff3j6dL5z
-         aP23M0ONHkO3unD9yG+qj8ULCdB/9IzZRBqcces5ZMMd6DqZ4r0GfahGW7JjMMQ+2R
-         f7TspFKzQOIHhEbyxBPT4aHjoVo5xnuQkP8SPGC06mCFJTHsINjXtGkUIYqjn46OMo
-         2UYpDFu+CZ+d2RDPQIUKcWmoGHRJJl5nxwdqAi4BTLdjiSCMwQRoTCutGhJTKr7Vcw
-         uJmnzotQ9QiguEe9zbrIp8/p9jfj7+dnU/4cPg4Ek/FEMpbjj047PsQmHViU+iwMbJ
-         NFcD8LWoXqNYA==
+        b=svnV/6ImnLkpfQlnov3z0Pgqm1rpOxmGiGFsyFgdPBIyRReKxPZkbAfPfXkPvYd3x
+         q1C/MrFUlh1zxgCV5yPDKw7biX/HAzToJN/CVexE/9Xq5SUVRG/3UlCmzKzNujwa++
+         a5Xa7psFHnTRUTso87XNj4dxZYgZlgQRR/JYH0dKdFTZNN2zQcI5/wiAGRvaE0YxNv
+         S6JkTRbh2JOHBphl5tNFUlLvZHdl34WpafgkXi8n9XckGu1EwzeQPVWK6kXQWlkWgN
+         NHFd3gCHbjN9cMkk9W8HzC9ncUqS+EPv+k4hhPPFTvlQUoPFGOb3dnzpVQb0hRM/39
+         XafmMbRArohrg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQ9UO-000KlI-48; Tue, 14 Sep 2021 16:32:48 +0200
+        id 1mQ9UO-000Klk-Ex; Tue, 14 Sep 2021 16:32:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/29] ABI: sysfs-class-gnss: use wildcards on What definitions
-Date:   Tue, 14 Sep 2021 16:32:32 +0200
-Message-Id: <96f8a52482a789931820d197f3a288556c47e46d.1631629496.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 24/29] ABI: sysfs-class-uwb_rc-wusbhc: use wildcards on What definitions
+Date:   Tue, 14 Sep 2021 16:32:39 +0200
+Message-Id: <f5e4fcc47341482f879c89914c1cb5aa69af8d59.1631629496.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
 References: <cover.1631629496.git.mchehab+huawei@kernel.org>
@@ -60,19 +59,55 @@ to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-gnss | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-gnss b/Documentation/ABI/testing/sysfs-class-gnss
-index c8553d972edd..9650f3a7fc03 100644
---- a/Documentation/ABI/testing/sysfs-class-gnss
-+++ b/Documentation/ABI/testing/sysfs-class-gnss
+diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
+index 5977e2875325..55eb55cac92e 100644
+--- a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
++++ b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
 @@ -1,4 +1,4 @@
--What:		/sys/class/gnss/gnssN/type
-+What:		/sys/class/gnss/gnss<N>/type
- Date:		May 2018
- KernelVersion:	4.18
- Contact:	Johan Hovold <johan@kernel.org>
+-What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_chid
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_chid
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        David Vrabel <david.vrabel@csr.com>
+@@ -9,7 +9,7 @@ Description:
+ 
+                 Set an all zero CHID to stop the host controller.
+ 
+-What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_trust_timeout
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_trust_timeout
+ Date:           July 2008
+ KernelVersion:  2.6.27
+ Contact:        David Vrabel <david.vrabel@csr.com>
+@@ -24,7 +24,7 @@ Description:
+                 lifetime of PTKs and GTKs) it should not be changed
+                 from the default.
+ 
+-What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_phy_rate
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_phy_rate
+ Date:           August 2009
+ KernelVersion:  2.6.32
+ Contact:        David Vrabel <david.vrabel@csr.com>
+@@ -37,7 +37,7 @@ Description:
+                 Refer to [ECMA-368] section 10.3.1.1 for the value to
+                 use.
+ 
+-What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_dnts
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_dnts
+ Date:           June 2013
+ KernelVersion:  3.11
+ Contact:        Thomas Pugliese <thomas.pugliese@gmail.com>
+@@ -47,7 +47,7 @@ Description:
+                 often the devices will have the opportunity to send
+                 notifications to the host.
+ 
+-What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_retry_count
++What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_retry_count
+ Date:           June 2013
+ KernelVersion:  3.11
+ Contact:        Thomas Pugliese <thomas.pugliese@gmail.com>
 -- 
 2.31.1
 
