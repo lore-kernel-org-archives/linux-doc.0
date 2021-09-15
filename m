@@ -2,113 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 307FDC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:11:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42586C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A8AB6112D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:11:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BA3D60527
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237080AbhIOINE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Sep 2021 04:13:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236980AbhIOIMn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 04:12:43 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F98C061793
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 01:11:13 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id t4so1192217plo.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 01:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=0lzqJ0IFOIwpfG9VjTMOLnqtlCXfGoScH+1pWzeN6iQ=;
-        b=bPaqTDVkl2u2NMIPKlzMrV9ZAjM5+cyhP/3TEnMV5pQFAPLA1orXph4GJF30NRuC9a
-         j7YdN0rrePpfoVinmEh24ePqDWjkmqphkuJBTnBIYbiMcDE2sx23+34PAmOnA+Kdym5N
-         jbCWR9M5jcLeSOCAy1fzJE4VUPcjYY+wq44LAtJCd1wFHuan1mfRyJvbS/wDEfbLM7ov
-         4hpV0E0sPqxdYAuMz27PwHgVPd5mu9OZ9bFl5RThUu6p8byfF6V3JsvwxiCUS9eZWvta
-         McaSI7xgWkqgcfOBlajKNIud7tnhqkXkuWrVwVrxFmC1Z6CwyM75fvTZ6wWj334RqyGK
-         cBnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=0lzqJ0IFOIwpfG9VjTMOLnqtlCXfGoScH+1pWzeN6iQ=;
-        b=r89R+hE8D7XjGLWcHib2O9HtjKF8cHgUUjjOh9twzEd06ecMgJthQDEP0xKUOc3eLQ
-         o+zMW6aRhrd4reLr639uQi266R9qYxCvTDFLqRJieH8CngF1H4LN+x2Y+IwP4lus6MUa
-         94dgem1kjQHOVxuRMbxYCWvLg0Pe+NKwLG2hfl5btaH+adM1P1hexi6zkTpIyXCJvFZD
-         vzfl1LdEh9b6R2cV7egCjUT1dBtk4P4l1zd6SsBNo76QCpAepR7+2u7TWdTPAg7BVBo8
-         5epctRx/VdN7pcjcFJxXG2BTko4bktm426w71p7YEFseZQIhegxJVW5YVYacUupINXNv
-         U2IQ==
-X-Gm-Message-State: AOAM530AHe1GmutMzxLEx/kkZDJ/QrWxX98ophPKmvPxASAg1jOs7+qQ
-        6l+8zdEzdbK5GYI9jYdMfg7V7Q==
-X-Google-Smtp-Source: ABdhPJwO5ZEySTpWA2HNEO/3qhT/LWzNZyVsMvfF1qHJgCPxM4ss708hWHXkO4fYT0vq9XnNjh+E7g==
-X-Received: by 2002:a17:90a:bc8d:: with SMTP id x13mr7132847pjr.2.1631693472721;
-        Wed, 15 Sep 2021 01:11:12 -0700 (PDT)
-Received: from [10.254.148.129] ([139.177.225.252])
-        by smtp.gmail.com with ESMTPSA id b20sm8374540pfp.26.2021.09.15.01.11.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Sep 2021 01:11:12 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] Do some code cleanups related to mm
-To:     akpm@linux-foundation.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com, tglx@linutronix.de,
-        hannes@cmpxchg.org, mhocko@kernel.org, vdavydov.dev@gmail.com,
-        mika.penttila@nextfour.com, david@redhat.com,
-        kirill.shutemov@linux.intel.com, vbabka@suse.cz
-References: <20210901102722.47686-1-zhengqi.arch@bytedance.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-Message-ID: <5dc4516a-4425-864b-8ea3-ab5e29b6d9cc@bytedance.com>
-Date:   Wed, 15 Sep 2021 16:11:06 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        id S237117AbhIOI7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Sep 2021 04:59:30 -0400
+Received: from mga06.intel.com ([134.134.136.31]:4552 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237098AbhIOI72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Sep 2021 04:59:28 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="283261630"
+X-IronPort-AV: E=Sophos;i="5.85,294,1624345200"; 
+   d="scan'208";a="283261630"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 01:58:09 -0700
+X-IronPort-AV: E=Sophos;i="5.85,294,1624345200"; 
+   d="scan'208";a="552999867"
+Received: from chenyu-desktop.sh.intel.com (HELO chenyu-desktop) ([10.239.158.176])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 01:58:04 -0700
+Date:   Wed, 15 Sep 2021 17:03:57 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Aubrey Li <aubrey.li@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Alexander Graf <graf@amazon.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Hannes Reinecke <hare@suse.de>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andra Paraschiv <andraprs@amazon.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] drivers/acpi: Introduce Platform Firmware Runtime
+ Update device driver
+Message-ID: <20210915090357.GA282742@chenyu-desktop>
+References: <cover.1631600169.git.yu.c.chen@intel.com>
+ <7a739633b30f6fb5c258f21c443ed0c17b12896f.1631600169.git.yu.c.chen@intel.com>
+ <YUBZM1vnZ3LjfUKc@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20210901102722.47686-1-zhengqi.arch@bytedance.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUBZM1vnZ3LjfUKc@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrew,
+Hi Greg,
+thank you very much for your comments,
+On Tue, Sep 14, 2021 at 10:11:31AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Sep 14, 2021 at 03:58:41PM +0800, Chen Yu wrote:
+> > +enum start_action {
+> > +	START_STAGE,
+> > +	START_ACTIVATE,
+> > +	START_STAGE_ACTIVATE,
+> > +};
+> > +
+> > +enum dsm_status {
+> > +	DSM_SUCCEED,
+> > +	DSM_FUNC_NOT_SUPPORT,
+> > +	DSM_INVAL_INPUT,
+> > +	DSM_HARDWARE_ERR,
+> > +	DSM_RETRY_SUGGESTED,
+> > +	DSM_UNKNOWN,
+> > +	DSM_FUNC_SPEC_ERR,
+> > +};
+> > +
+> > +struct update_cap_info {
+> > +	enum dsm_status status;
+> > +	int update_cap;
+> > +
+> > +	uuid_t code_type;
+> > +	int fw_version;
+> > +	int code_rt_version;
+> > +
+> > +	uuid_t drv_type;
+> > +	int drv_rt_version;
+> > +	int drv_svn;
+> > +
+> > +	uuid_t platform_id;
+> > +	uuid_t oem_id;
+> > +
+> > +	char oem_info[];
+> 
+> Please use valid types for structures that cross the user/kernel
+> boundry.
+> 
+Okay, I'll switch them into __u prefixed one.
+> > +};
+> > +
+> > +struct com_buf_info {
+> > +	enum dsm_status status;
+> > +	enum dsm_status ext_status;
+> > +	unsigned long addr_lo;
+> > +	unsigned long addr_hi;
+> > +	int buf_size;
+> > +};
+> 
+> Same here.
+> 
+Okay, I'll fix them.
+> > +
+> > +struct updated_result {
+> > +	enum dsm_status status;
+> > +	enum dsm_status ext_status;
+> > +	unsigned long low_auth_time;
+> > +	unsigned long high_auth_time;
+> > +	unsigned long low_exec_time;
+> > +	unsigned long high_exec_time;
+> 
+> And same here.
+> 
+> And these are very odd structure names that you are adding to the
+> "global" namespace.  Please make them have a prefix for your driver so
+> that people know what they belong to.  "updated_result" is way too
+> generic.
+> 
+Okay, added the driver name prefix in next version.
 
-This patch series seems to have no other problems.
-Can it be merged into your mm tree?
-
-Thanks,
-Qi
-
-On 9/1/21 6:27 PM, Qi Zheng wrote:
-> Hi,
-> 
-> This patch series aims to do some code cleanups related to mm.
-> 
-> This series is based on next-20210827.
-> 
-> Comments and suggestions are welcome.
-> 
-> Thanks,
-> Qi.
-> 
-> Changelog in v2 -> v3:
->   - Move the declaration of pmd_install() to mm/internal.h
-> 
-> Changelog in v1 -> v2:
->   - Fix some typo and code style problems.
-> 
-> Qi Zheng (2):
->    mm: introduce pmd_install() helper
->    mm: remove redundant smp_wmb()
-> 
->   mm/filemap.c        | 11 ++-----
->   mm/internal.h       |  1 +
->   mm/memory.c         | 86 ++++++++++++++++++++++++-----------------------------
->   mm/sparse-vmemmap.c |  2 +-
->   4 files changed, 43 insertions(+), 57 deletions(-)
-> 
+thanks,
+Chenyu
