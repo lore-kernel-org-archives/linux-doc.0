@@ -2,89 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE83C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 01:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03745C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 02:18:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D53861247
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 01:51:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D169E60EFF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 02:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbhIOBwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 21:52:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229489AbhIOBwV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Sep 2021 21:52:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CDF8061211;
-        Wed, 15 Sep 2021 01:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631670662;
-        bh=z0W70Z4JOetSa7g8CfvjNwgRWC4qCwo9bmhv6sh9Bxs=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=DhJ6GOb1z9RF8MoKZiSnxeXdJKNkyxJ7YyiEn0qQubMzT9FZtSjTJUt/KUr+QwVKI
-         +frjDgFVeOdxWz9IZc7wervGNYWJ63gSfCERzcvLkSnA46r3ypahZL2U/4IHNXcntT
-         /DqRf5MOYuMRlQ77Uv0SNMsaDJzboDdlLxIhocqe0R7UgiEK7ZBy99L8v0w5K3bX72
-         sJ48QhBWhdiCuNKFPKWm/Qjfkv8EiwrcYFd4jtxEycZyiFEiLrwMg1PFndT/7dOiPM
-         zl0gJLYf7yi4Oohaksg8j8XTXXQSSgFUXRaPI/wIqRfum+bBu2e2ldXr9TpWz6n+3M
-         stAUSLvG5uH7w==
-Date:   Tue, 14 Sep 2021 18:51:01 -0700 (PDT)
-From:   Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To:     rm.skakun@gmail.com
-cc:     Jan Beulich <jbeulich@suse.com>,
-        Roman Skakun <rm.skakun@gmail.com>,
-        Andrii Anisov <andrii_anisov@epam.com>,
-        Roman Skakun <roman_skakun@epam.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        hch@lst.de
-Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
-In-Reply-To: <20210914153046.GB815@lst.de>
-Message-ID: <alpine.DEB.2.21.2109141838290.21985@sstabellini-ThinkPad-T480s>
-References: <20210914151016.3174924-1-Roman_Skakun@epam.com> <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <20210914153046.GB815@lst.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S229710AbhIOCUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 22:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229595AbhIOCUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 22:20:13 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61D8C061574;
+        Tue, 14 Sep 2021 19:18:55 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id y8so1239217pfa.7;
+        Tue, 14 Sep 2021 19:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=KS/QwJbXlDtbJY8wk7S0QPKRodL4Gi6TNWnyfZqcUsc=;
+        b=BDdRgNFnivHELsufZi5Y67KCRQ+turQ+ETLrOuZr31w/hlYiAT0q7e/AYlOXrHxoE3
+         rsrb/r8rHzlc2qZhkWDmUGa+t2EAUUy+hcPMKjpR+k5mf84m69tZ+j89dDvJaQatO2Cy
+         Jfs+RmDMtjwh+0iDgy+Xs51uz2DBusZJiUBg3Y2qU+spy1NpSXFgKKE5M6dC5ohyHq7m
+         SxLdVt9KllK85H50K8ocVCS307En1WqpeGuVt8JHHvsLa8jb4eOsiYzvuNVxR9sYYavV
+         yTAPll9Vr87kqtOou1/cUYNzBAvTW9ZeuMvOhs8nqSS+0QmV+/5HZxSz5gqcPkVSJ3rM
+         IROg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KS/QwJbXlDtbJY8wk7S0QPKRodL4Gi6TNWnyfZqcUsc=;
+        b=snphWB7xjOY9WSgydayvQuG/hK3qMAMOyFd4Fjz3bqlRuMxeBMLJVIUW3HPqW9vJWz
+         3D015GjoTs9aij+7sdksnCiOqPBgpqpT2cTBA/RzROslRI3U6TMXdFVoJL3sFvcxzDW4
+         pcJwVv6+vFQWT2MfWBoDnYUrqGsXcZV/1djvnH85eQcw2fTG1b0Ntbj2H/fu/2ssv3cZ
+         zT2RoGubpRT+xQfjosIQe7vM/ZpbYngHZJOXORH20uXlmXcmSaqn9tM0z/gzwL8NhxrA
+         ykjb9SGKYhHcoUoRBRjEwo3DNDulI1Bh62P3ZA1JNzg8c2h+9646ZARcmbf6EvNVBWX8
+         Tg/A==
+X-Gm-Message-State: AOAM530iwTUXEVhArCb412aMioVzclouWP3IZiou0j30JV6xJ2rT5epT
+        dwf0e3gcEpP0l8dhAXMAv/k=
+X-Google-Smtp-Source: ABdhPJzUZcwL6uDC3czj/pf+r/1ZBWwMx8x/4XwL4Gu8uprMS7KbhWusOKuPD3SJWNx7xksHVmmJ1w==
+X-Received: by 2002:a62:4e0f:0:b0:3ee:668d:b841 with SMTP id c15-20020a624e0f000000b003ee668db841mr7913717pfb.48.1631672335451;
+        Tue, 14 Sep 2021 19:18:55 -0700 (PDT)
+Received: from VM-0-3-centos.localdomain ([101.32.213.191])
+        by smtp.gmail.com with ESMTPSA id h4sm3297645pjc.28.2021.09.14.19.18.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 Sep 2021 19:18:55 -0700 (PDT)
+From:   brookxu <brookxu.cn@gmail.com>
+To:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org
+Cc:     vipinsh@google.com, mkoutny@suse.com, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 1/3] misc_cgroup: introduce misc.events to count failures
+Date:   Wed, 15 Sep 2021 10:18:49 +0800
+Message-Id: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 14 Sep 2021, Christoph Hellwig wrote:
-> On Tue, Sep 14, 2021 at 05:29:07PM +0200, Jan Beulich wrote:
-> > I'm not convinced the swiotlb use describe there falls under "intended
-> > use" - mapping a 1280x720 framebuffer in a single chunk? (As an aside,
-> > the bottom of this page is also confusing, as following "Then we can
-> > confirm the modified swiotlb size in the boot log:" there is a log
-> > fragment showing the same original size of 64Mb.
-> 
-> It doesn't.  We also do not add hacks to the kernel for whacky out
-> of tree modules.
+From: Chunguang Xu <brookxu@tencent.com>
 
-Also, Option 1 listed in the webpage seems to be a lot better. Any
-reason you can't do that? Because that option both solves the problem
-and increases performance.
+Introduce misc.events to make it easier for us to understand
+the pressure of resources. Currently only the 'max' event is
+implemented, which indicates the times the resource is about
+to exceeds the max limit.
+
+Signed-off-by: Chunguang Xu <brookxu@tencent.com>
+---
+
+v3: remove misc.events.local.
+v2: remove cgroup v1 files.
+
+ include/linux/misc_cgroup.h |  5 +++++
+ kernel/cgroup/misc.c        | 24 ++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
+index da2367e..091f2d2 100644
+--- a/include/linux/misc_cgroup.h
++++ b/include/linux/misc_cgroup.h
+@@ -36,6 +36,7 @@ enum misc_res_type {
+ struct misc_res {
+ 	unsigned long max;
+ 	atomic_long_t usage;
++	atomic_long_t events;
+ 	bool failed;
+ };
+ 
+@@ -46,6 +47,10 @@ struct misc_res {
+  */
+ struct misc_cg {
+ 	struct cgroup_subsys_state css;
++
++	/* misc.events */
++	struct cgroup_file events_file;
++
+ 	struct misc_res res[MISC_CG_RES_TYPES];
+ };
+ 
+diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
+index ec02d96..4b2b492 100644
+--- a/kernel/cgroup/misc.c
++++ b/kernel/cgroup/misc.c
+@@ -171,6 +171,11 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
+ 	return 0;
+ 
+ err_charge:
++	for (j = i; j; j = parent_misc(j)) {
++		atomic_long_inc(&j->res[type].events);
++		cgroup_file_notify(&j->events_file);
++	}
++
+ 	for (j = cg; j != i; j = parent_misc(j))
+ 		misc_cg_cancel_charge(type, j, amount);
+ 	misc_cg_cancel_charge(type, i, amount);
+@@ -335,6 +340,19 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+ 	return 0;
+ }
+ 
++static int misc_events_show(struct seq_file *sf, void *v)
++{
++	struct misc_cg *cg = css_misc(seq_css(sf));
++	unsigned long events, i;
++
++	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
++		events = atomic_long_read(&cg->res[i].events);
++		if (READ_ONCE(misc_res_capacity[i]) || events)
++			seq_printf(sf, "%s.max %lu\n", misc_res_name[i], events);
++	}
++	return 0;
++}
++
+ /* Misc cgroup interface files */
+ static struct cftype misc_cg_files[] = {
+ 	{
+@@ -353,6 +371,12 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+ 		.seq_show = misc_cg_capacity_show,
+ 		.flags = CFTYPE_ONLY_ON_ROOT,
+ 	},
++	{
++		.name = "events",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.file_offset = offsetof(struct misc_cg, events_file),
++		.seq_show = misc_events_show,
++	},
+ 	{}
+ };
+ 
+-- 
+1.8.3.1
+
