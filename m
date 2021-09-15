@@ -2,170 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E03CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3314DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:20:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2974F60232
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1922E61263
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbhIONMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Sep 2021 09:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41480 "EHLO
+        id S237544AbhIONWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Sep 2021 09:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233325AbhIONMs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 09:12:48 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037AFC061574;
-        Wed, 15 Sep 2021 06:11:30 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id z5so5701178ybj.2;
-        Wed, 15 Sep 2021 06:11:29 -0700 (PDT)
+        with ESMTP id S234801AbhIONWP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 09:22:15 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07448C061574;
+        Wed, 15 Sep 2021 06:20:57 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id q22so2760956pfu.0;
+        Wed, 15 Sep 2021 06:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ED99zdvhstpRwne3A80pR035C5tjOiYeGYSORJ4vyUI=;
-        b=mRApUvE7DCV++1EHNPSejp0a8tIpDWVQyTQSaND0kFtCoc3Il7ld7oNoRb6KEhENtS
-         A3Tn2QgUKG9V+tc0gVthsKJg5W+Hh9X0spx7d1SF4Y7ROkmGWIgtLy1Y28+ROoCqHpYF
-         +pybtnFOOpkCZrQwqQGG/eRkRSgxrgDd9eC5eHKF7NYZamPYNM+Ts1ajOuQmWnpc3sBg
-         ocmt5prfqE93rt5stU/aARYzd30pgt3tXVQAisv4u+WJZE8d5EC+ytWJF4k1Yexcp8OK
-         RlJLcUFkKiwlOdgU04t0eUKRWvSLHF0yByB0waEcj8svBd6DjIflAF55DsVLCIMw0m/o
-         /sPQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6TlVjbFwM5s9cIrpaYR8atHU4al4NYLpsVPRqKrSjDs=;
+        b=FljGuWBUtihlbUrqgBFHLVYygXQXJUHTjKLeGK7kZC0PEtFeP2OofVYtTragXBLGGg
+         p+d4P85MvccsjGcHAL2LVAi/v8jWzZiVeMrg+aGVWxBScgAIpX1V/spZJCj32qU765Z0
+         xdtYwhrduDHmXFCr/A3bKEqJnkN4hHWWkHWZn0kUdmBERbRXTaOb5qJirLjttt+Hwmmg
+         JyhurMgRX5A7Qm+ubL3UApa8ww+KgkT180QRh+ipyFLpeFQwBQUxfBNL5zxY53WGVwXG
+         5+h5VOoqZA2hwPP23TS76HLovG/BmiJgFXrBo25VB2ypupaEsW+14qRyauLSbIHZv+a9
+         kf6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ED99zdvhstpRwne3A80pR035C5tjOiYeGYSORJ4vyUI=;
-        b=0CiqLKZeT1xxqLj5woN4sg9xdCu95dweZNBs4apKIV+zvT6z8SBLtZf4eQaQUH/ojs
-         32PkVgWw+g1g1TGCybuPjswn6K5r1fEhEH7IKgTeHr8p1bYpsfOig7vP+ZjPKtfxgCaw
-         TbTK+jeBNISC0PaQZ7WdUBrA+ke6RLPDphEEOCM+GQn3I8HIr+MXzV/LpqPnz7srdi+2
-         8kWVJyVzKLoW+IkgrWHIVYsLb36eXQJ9dhF3JD0EBNIKmRqmMaRsol3hZimv4khBHdRK
-         F65MJkbuPiIWkNWGfwoqnyb3AsbhtYpTLxhTdNmoD0yHTmIb6Rrag2chzmSLMm7cj9Iz
-         Qb7w==
-X-Gm-Message-State: AOAM53046XA7d5Rd1JouDscNAVZ3gYlTZ16sshcQ2WG51KpSOXCaTpuO
-        bVUgaBPpTM+zFCLWeyB9omq3NddfbG4V9JzvfF8=
-X-Google-Smtp-Source: ABdhPJyxDnkgfri42t9pLIdq//afItaRTyEbocdXWj3uaAT0K+adBcfzVFKBOm6slfbiHx+FjL9MadGg5Z3COebWstc=
-X-Received: by 2002:a25:d9c8:: with SMTP id q191mr6344715ybg.61.1631711489262;
- Wed, 15 Sep 2021 06:11:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6TlVjbFwM5s9cIrpaYR8atHU4al4NYLpsVPRqKrSjDs=;
+        b=Khw5iKXQI06g1mREM0YQ0RGzz9m0LYmMrAP6TlT8bada+04qqELhm+94LMha4ANHdx
+         hTdqtkmluoIUYuL3dNCtPqowojxC/Y7+sQs11lvDELo/z2XTaHONla9MBTQA9wMYKi5T
+         8fyySGDahr1H29Md4HaFJGbRAKr7zLp6ctBkj0R0x8Kw+jlMtf44e8Q8OiXHJ+NOKYrn
+         NDiGZw7ppQ5LCoJHbVBtIrakgfXw6Dg4NVmGbn57O8esrGddlewIZ3mA5WbxIyYF+Le4
+         I7dCfIHL3ncjrlcs0dnV5+SpCh3jSGgI01LOtRgRwv2ak1wikF6frKjW4WFKTXgitxuI
+         BIVg==
+X-Gm-Message-State: AOAM531Zn8YdYZVRfVEP0hVFlccC9Ksf2arZIMGRJS0FaUcHHtaVu7US
+        MS2aQrSC6YD3nxzfzPPYmLQZ0F27iLk=
+X-Google-Smtp-Source: ABdhPJwcx3z36UfZRhxXH5OP9FS4+Q9VDye6BgDJQylLF3ytD+rENcPQ5CgX/7wG71/CAPkIt+WiQg==
+X-Received: by 2002:a63:ec45:: with SMTP id r5mr20669794pgj.440.1631712056441;
+        Wed, 15 Sep 2021 06:20:56 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id y13sm11026pfb.115.2021.09.15.06.20.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Sep 2021 06:20:55 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     alexs@kernel.org, siyanteng@loongson.cn
+Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
+Date:   Wed, 15 Sep 2021 13:20:38 +0000
+Message-Id: <20210915132037.169162-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210909141655.87821-1-yaozhenguo1@gmail.com> <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
-In-Reply-To: <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
-From:   zhenguo yao <yaozhenguo1@gmail.com>
-Date:   Wed, 15 Sep 2021 21:11:18 +0800
-Message-ID: <CA+WzARmsPT46ck17-96cJVWE-=QEK8QobRFnCnEcNxsd42zNTw@mail.gmail.com>
-Subject: Re: [PATCH v4] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, yaozhenguo@jd.com,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrew Morton <akpm@linux-foundation.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=881=
-5=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=8811:50=E5=86=99=E9=81=93=EF=
-=BC=9A
->
-> On Thu,  9 Sep 2021 22:16:55 +0800 yaozhenguo <yaozhenguo1@gmail.com> wro=
-te:
->
-> > We can specify the number of hugepages to allocate at boot. But the
-> > hugepages is balanced in all nodes at present. In some scenarios,
-> > we only need hugepages in one node. For example: DPDK needs hugepages
-> > which are in the same node as NIC. if DPDK needs four hugepages of 1G
-> > size in node1 and system has 16 numa nodes. We must reserve 64 hugepage=
-s
-> > in kernel cmdline. But, only four hugepages are used. The others should
-> > be free after boot. If the system memory is low(for example: 64G), it w=
-ill
-> > be an impossible task. So, Extending hugepages parameter to support
-> > specifying hugepages at a specific node.
-> > For example add following parameter:
-> >
-> > hugepagesz=3D1G hugepages=3D0:1,1:3
-> >
-> > It will allocate 1 hugepage in node0 and 3 hugepages in node1.
-> >
-> > ...
-> >
-> > @@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void=
-)
-> >       }
-> >  }
-> >
-> > +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h=
-, int nid)
-> > +{
-> > +     unsigned long i;
-> > +     char buf[32];
-> > +
-> > +     for (i =3D 0; i < h->max_huge_pages_node[nid]; ++i) {
-> > +             if (hstate_is_gigantic(h)) {
-> > +                     struct huge_bootmem_page *m;
-> > +                     void *addr;
-> > +
-> > +                     addr =3D memblock_alloc_try_nid_raw(
-> > +                                     huge_page_size(h), huge_page_size=
-(h),
-> > +                                     0, MEMBLOCK_ALLOC_ACCESSIBLE, nid=
-);
-> > +                     if (!addr)
-> > +                             break;
-> > +                     m =3D addr;
-> > +                     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_siz=
-e(h)));
->
-> We try very hard to avoid adding BUG calls.  Is there any way in which
-> this code can emit a WARNing then permit the kernel to keep operating?
->
-Maybe we can rewrite it as below:
-                        if (WARN(!IS_ALIGNED(virt_to_phys(m),
-huge_page_size(h)),
-                                "HugeTLB: page addr:%p is not aligned\n", m=
-))
-                                break;
-@Mike,  Do you think it's OK?
-> > +                     /*
-> > +                      * Put them into a private list first because mem=
-_map
-> > +                      * is not up yet
-> > +                      */
-> > +                     INIT_LIST_HEAD(&m->list);
-> > +                     list_add(&m->list, &huge_boot_pages);
-> > +                     m->hstate =3D h;
-> > +             } else {
-> > +                     struct page *page;
-> > +
-> > +                     gfp_t gfp_mask =3D htlb_alloc_mask(h) | __GFP_THI=
-SNODE;
-> > +
-> > +                     page =3D alloc_fresh_huge_page(h, gfp_mask, nid,
-> > +                                     &node_states[N_MEMORY], NULL);
-> > +                     if (!page)
-> > +                             break;
-> > +                     put_page(page); /* free it into the hugepage allo=
-cator */
-> > +             }
-> > +             cond_resched();
-> > +     }
-> > +     if (i =3D=3D h->max_huge_pages_node[nid])
-> > +             return;
-> > +
-> > +     string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
-> > +     pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  O=
-nly allocated %lu hugepages.\n",
-> > +             h->max_huge_pages_node[nid], buf, nid, i);
-> > +     h->max_huge_pages_node[nid] =3D i;
-> > +     h->max_huge_pages -=3D (h->max_huge_pages_node[nid] - i);
-> > +}
-> > +
->
+From: Yang Yang <yang.yang29@zte.com.cn>
+
+Add translation zh_CN/accounting/delay-accounting.rst and links it
+to zh_CN/accounting/index.rst while clean its todo entry.
+
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+ .../zh_CN/accounting/delay-accounting.rst     | 114 ++++++++++++++++++
+ .../translations/zh_CN/accounting/index.rst   |   2 +-
+ 2 files changed, 115 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/accounting/delay-accounting.rst
+
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+new file mode 100644
+index 000000000000..1df7d2354e07
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -0,0 +1,114 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/accounting/delay-accounting.rst
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
++
++.. _cn_delay-accounting.rst:
++
++
++========
++延迟计数
++========
++
++任务在等待某些内核资源可用时，会造成延迟。例如一个可运行的任务可能会等待
++一个空闲CPU来运行。
++
++基于每任务的延迟计数功能度量由以下情况造成的任务延迟：
++
++a) 等待一个CPU（任务为可运行）
++b) 完成由该任务发起的块I/O同步请求
++c) 页面交换
++d) 内存回收
++
++并将这些统计信息通过taskstats接口提供给用户空间。
++
++这些延迟信息为适当的调整任务CPU优先级、io优先级、rss限制提供反馈。重要任务
++长期延迟，表示可能需要提高其相关优先级。
++
++通过使用taskstats接口，本功能还可提供一个线程组（对应传统Unix进程）所有任务
++（或线程）的总延迟统计信息。此类汇总往往是需要的，由内核来完成更加高效。
++
++用户空间的实体，特别是资源管理程序，可将延迟统计信息汇总到任意组中。为实现
++这一点，任务的延迟统计信息在其生命周期内和退出时皆可获取，从而确保可进行
++连续、完整的监控
++
++
++接口
++----
++
++延迟计数使用taskstats接口，该接口由本目录另一个单独的文档详细描述。Taskstats
++向用户态返回一个通用数据结构，对应每pid或每tgid的统计信息。延迟计数功能填写
++该数据结构的特定字段。见
++
++     include/linux/taskstats.h
++
++其描述了延迟计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
++回收等的累积延迟。
++
++取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延迟。
++
++当任务退出时，内核会将包含每任务的统计信息发送给用户空间，而无需额外的命令。
++若其为线程组最后一个退出的任务，内核还会发送每tgid的统计信息。更多详细信息见
++taskstats接口的描述。
++
++tools/accounting目录中的用户空间程序getdelays.c提供了一些简单的命令，用以显示
++延迟统计信息。其也是使用taskstats接口的示例。
++
++用法
++----
++
++使用以下配置编译内核::
++
++	CONFIG_TASK_DELAY_ACCT=y
++	CONFIG_TASKSTATS=y
++
++延迟计数在启动时默认关闭。
++若需开启，在启动参数中增加::
++
++   delayacct
++
++本文后续的说明基于延迟计数已开启。也可在系统运行时，使用sysctl的kernel.task_delayacct
++进行开关。注意，只有在启用延迟计数后启动的任务才会有相关信息。
++
++系统启动后，使用类似getdelays.c的工具获取任务或线程组（tgid）的延迟信息。
++
++getdelays命令的一般格式::
++
++	getdelays [-t tgid] [-p pid] [-c cmd...]
++
++获取pid为10的任务从系统启动后的延迟信息::
++
++	# ./getdelays -p 10
++	（输出信息和下例相似）
++
++获取所有tgid为5的任务从系统启动后的总延迟信息::
++
++	# ./getdelays -t 5
++
++
++	CPU	count	real total	virtual total	delay total
++		7876	92005750	100000000	24001500
++	IO	count	delay total
++		0	0
++	SWAP	count	delay total
++		0	0
++	RECLAIM	count	delay total
++		0	0
++
++获取指定简单命令运行时的延迟信息::
++
++  # ./getdelays -c ls /
++
++  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
++  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
++
++
++  CPU	count	real total	virtual total	delay total
++	6	4000250		4000000		0
++  IO	count	delay total
++	0	0
++  SWAP	count	delay total
++	0	0
++  RECLAIM	count	delay total
++	0	0
++
+diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
+index 362e907b41f9..090f93776faa 100644
+--- a/Documentation/translations/zh_CN/accounting/index.rst
++++ b/Documentation/translations/zh_CN/accounting/index.rst
+@@ -16,10 +16,10 @@
+    :maxdepth: 1
+ 
+    psi
++   delay-accounting
+ 
+ Todolist:
+ 
+    cgroupstats
+-   delay-accounting
+    taskstats
+    taskstats-struct
+-- 
+2.25.1
+
