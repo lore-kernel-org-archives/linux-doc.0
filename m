@@ -2,147 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D68A9C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 02:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3003CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:33:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF7A96115B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 02:24:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 077DB61216
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:33:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234432AbhIOCZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 22:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234501AbhIOCZY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 22:25:24 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F27C061574
-        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 19:24:06 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id 5so687078plo.5
-        for <linux-doc@vger.kernel.org>; Tue, 14 Sep 2021 19:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7eh5S1OMfT995HIEwzia5eaz9Eu9i8D/vKkCv202vVU=;
-        b=RItsHYyxu9XmShy0nWTcWz4Tmh2ZjNidrSYYcqtUhPPGMnaWPpUMfFiBTl+tFcUWuA
-         C8HqpUMo7VoPJtY4eaRPnuLNcJb7Cg6u2vXuHzDM8xuMcvUUXHaNadX/+lRv4xMFTSPB
-         Wis1aAmBmN4wah0zBFkXc1dbucmne49B/RnBjHgEdmuenPMN/1ZhtarXgiwQz/yblf+H
-         ZWTLoW3qeuB69HhOTg3mpRObWsrYNqrc/UxducsDgzj1mSsaoqhtcsepLBmIiCFi/llt
-         6Y3UWqZ+T4tmobT1nyAoI1A4C8K2GdchUCUvUCVCoIs21UNRAqPquVRgRTdbBSmI27rK
-         sGGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7eh5S1OMfT995HIEwzia5eaz9Eu9i8D/vKkCv202vVU=;
-        b=jU8nleIMhmYqBeh7EIClwuuNtFyBGs0c4kH7rRTMCZS2aGhsS6utbkCpnGdeHqpqVz
-         keV/oJkrfeT/d7lcywYDHE+0pVTmUiKCgSSUGLOgsT6DdrCXRwmBloZj71RvS0p/bh7v
-         Ca/3s2mWr3kMFb+dAv4IoVcmw4ByyJuJfi/Si/dvXz1dnuGynH+zo8rN/JlRtPXpctP2
-         Zq8yjeSHekO1GMWVDLHygDcvb+CAkoMKIpysmwceR6/vfyvdkpsBYuFzjjpTRJV7C2vc
-         UKPM6qXhIGZxXwYI6h3ZgvCFUUB0FV1eutIES69/Niaq9R+KAgCs7c+mtKMUIleossG7
-         47ow==
-X-Gm-Message-State: AOAM530k29QuANgPtt5+44XsY3f/0bc2mPF+Fh4NtKPNtI9AbEA/g6+9
-        9D9/Q0fzQKnSJ2RDb5nl5Pq3nEKTCc2l0BfvSQU=
-X-Google-Smtp-Source: ABdhPJzp6coNPaEr7oW18TsMCwZ4Y0QU1evY44tdl5xEi6B4T+5vBAyGqfXjO7HVsBofC0sgNSSGPU1NDyZOtXHdmvA=
-X-Received: by 2002:a17:90a:3ec7:: with SMTP id k65mr5662223pjc.12.1631672646164;
- Tue, 14 Sep 2021 19:24:06 -0700 (PDT)
+        id S230009AbhIODev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 23:34:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43790 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230004AbhIODeu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 23:34:50 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18F0Tu2d015659;
+        Tue, 14 Sep 2021 23:33:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=BRjAQIdENxqRUy9PFv5aAg1MPkBvqrtMXYjCJQcsNdE=;
+ b=Kl9f2kL4qw3Qc0uuiCRCmrg5r3yOkFZD9Ha22gpnC9L9Mp3mJVjaGqr+I1wAQg9UrkwE
+ tvDTWYjcC4trSZkw88kGVwuaC5C8/JzbIUedNlQEDWDKmgC7NtYwqyLsFKboNRFXhRWd
+ VA/I169MwJkPqocKej6N3FXUyLve6OsUMcG1n+y5vmA75ajntZgxSbYeN0EKzY/hXP1D
+ P+TsdtXhM2OL8NQ4SqjkuLbg2/4afUp8nPsqw9qFNl//bq2sGyr57bknyg5TaFR+S7pw
+ CWPt3nNCDj7dyp4ygxp0ysBPFYpKE1x7D84w+mG8SeMglYpbpXRWSJWFdmCqdCXkjYVW Rw== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3b36bftwha-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Sep 2021 23:33:24 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18F3XCgN011738;
+        Wed, 15 Sep 2021 03:33:22 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma04ams.nl.ibm.com with ESMTP id 3b0m3a1mf9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 15 Sep 2021 03:33:22 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 18F3XK3s42991878
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 Sep 2021 03:33:20 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E90DD11C04C;
+        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 450A011C04A;
+        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
+Received: from [9.206.163.168] (unknown [9.206.163.168])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 5263C600F5;
+        Wed, 15 Sep 2021 13:33:17 +1000 (AEST)
+Subject: Re: [PATCH v2 07/29] ABI: sysfs-class-cxl: place "not in a guest" at
+ description
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <cover.1631629496.git.mchehab+huawei@kernel.org>
+ <88ce67c9eed1ae08af3d3992415032723184af9e.1631629496.git.mchehab+huawei@kernel.org>
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+Message-ID: <3334441d-03f0-5d21-49d3-84e87a5eddc5@linux.ibm.com>
+Date:   Wed, 15 Sep 2021 13:33:13 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <88ce67c9eed1ae08af3d3992415032723184af9e.1631629496.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: -ODydiBoNOxTCJj2e_ZKxDXlgzfX2ghS
+X-Proofpoint-ORIG-GUID: -ODydiBoNOxTCJj2e_ZKxDXlgzfX2ghS
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <cover.1630747462.git.siyanteng@loongson.cn> <87zgsedgem.fsf@meer.lwn.net>
-In-Reply-To: <87zgsedgem.fsf@meer.lwn.net>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Wed, 15 Sep 2021 10:23:55 +0800
-Message-ID: <CAMU9jJqYhvBCNQgzjVZwZrj5AKLiYJKDzffekg0VW5+WBtvgDQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] docs/zh_CN: add core-api Memory management translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng01@gmail.com>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
+ definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 bulkscore=0 mlxscore=0 clxscore=1011 impostorscore=0
+ adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109140132
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B49=E6=9C=8815=E6=97=
-=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=884:58=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng01@gmail.com> writes:
->
-> > v5:
-> >
-> > * resent to linux-doc list.
-> >
-> > v4:
-> >
-> > * pick Alex's Reviewed-by tag.
-> > * Modified some words under Alex's advices.
-> >
-> > v3:
-> >
-> > * Modified some words under Jiaxun's advices.[PATCH 5/6]
-> >
-> > v2:
-> >
-> > * Modified some words under Alex's advices;Many thanks to alex for his =
-review, which
-> >     kept him busy until the early hours of the morning.Thank you!
-> >
-> > * add =E6=A0=A1=E8=AF=91=E8=80=85(proofreading) sign.If you don't want =
-me to do this, please let me know.
-> >
-> > Yanteng Si (6):
-> >   docs/zh_CN: add core-api memory-allocation translation
-> >   docs/zh_CN: add core-api unaligned-memory-access translation
-> >   docs/zh_CN: add core-api mm-api translation
-> >   docs/zh_CN: add core-api genalloc translation
-> >   docs/zh_CN: add core-api boot-time-mm translation
-> >   docs/zh_CN: add core-api gfp_mask-from-fs-io translation
-> >
-> >  .../zh_CN/core-api/boot-time-mm.rst           |  49 ++++
-> >  .../translations/zh_CN/core-api/genalloc.rst  | 109 +++++++++
-> >  .../zh_CN/core-api/gfp_mask-from-fs-io.rst    |  66 +++++
-> >  .../translations/zh_CN/core-api/index.rst     |  14 +-
-> >  .../zh_CN/core-api/memory-allocation.rst      | 138 +++++++++++
-> >  .../translations/zh_CN/core-api/mm-api.rst    | 110 +++++++++
-> >  .../core-api/unaligned-memory-access.rst      | 229 ++++++++++++++++++
-> >  7 files changed, 710 insertions(+), 5 deletions(-)
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/boot-time=
--mm.rst
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/genalloc.=
-rst
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/gfp_mask-=
-from-fs-io.rst
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/memory-al=
-location.rst
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/mm-api.rs=
-t
-> >  create mode 100644 Documentation/translations/zh_CN/core-api/unaligned=
--memory-access.rst
->
-> This set adds a new warning:
->
->   Documentation/translations/zh_CN/core-api/mm-api.rst:35: WARNING: dupli=
-cate label mm-api-gfp-flags, other instance in /stuff/k/git/kernel/Document=
-ation/core-api/mm-api.rst
->
-> Please fix this and resubmit (and please always test the docs build
-> before submitting patches!)
-Dear jon
+On 15/9/21 12:32 am, Mauro Carvalho Chehab wrote:
+> The What: field should have just the location of the ABI.
+> Anything else should be inside the description.
+> 
+> This fixes its parsing by get_abi.pl script.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Sorry, this is my fault=E3=80=82
-I test it every time, and strangely enough I don't get this warning,
-but the tag is obviously unreasonable because the same tag already
-exists in the original document.
-I will fix it.
+Looks fine to me.
 
-Thanks,
+Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
 
-Yanteng
+> ---
+>   Documentation/ABI/testing/sysfs-class-cxl | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
+> index 818f55970efb..3c77677e0ca7 100644
+> --- a/Documentation/ABI/testing/sysfs-class-cxl
+> +++ b/Documentation/ABI/testing/sysfs-class-cxl
+> @@ -166,10 +166,11 @@ Description:    read only
+>                   Decimal value of the Per Process MMIO space length.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> -What:           /sys/class/cxl/<afu>m/pp_mmio_off (not in a guest)
+> +What:           /sys/class/cxl/<afu>m/pp_mmio_off
+>   Date:           September 2014
+>   Contact:        linuxppc-dev@lists.ozlabs.org
+>   Description:    read only
+> +                (not in a guest)
+>                   Decimal value of the Per Process MMIO space offset.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> @@ -190,28 +191,31 @@ Description:    read only
+>                   Identifies the revision level of the PSL.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> -What:           /sys/class/cxl/<card>/base_image (not in a guest)
+> +What:           /sys/class/cxl/<card>/base_image
+>   Date:           September 2014
+>   Contact:        linuxppc-dev@lists.ozlabs.org
+>   Description:    read only
+> +                (not in a guest)
+>                   Identifies the revision level of the base image for devices
+>                   that support loadable PSLs. For FPGAs this field identifies
+>                   the image contained in the on-adapter flash which is loaded
+>                   during the initial program load.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> -What:           /sys/class/cxl/<card>/image_loaded (not in a guest)
+> +What:           /sys/class/cxl/<card>/image_loaded
+>   Date:           September 2014
+>   Contact:        linuxppc-dev@lists.ozlabs.org
+>   Description:    read only
+> +                (not in a guest)
+>                   Will return "user" or "factory" depending on the image loaded
+>                   onto the card.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> -What:           /sys/class/cxl/<card>/load_image_on_perst (not in a guest)
+> +What:           /sys/class/cxl/<card>/load_image_on_perst
+>   Date:           December 2014
+>   Contact:        linuxppc-dev@lists.ozlabs.org
+>   Description:    read/write
+> +                (not in a guest)
+>                   Valid entries are "none", "user", and "factory".
+>                   "none" means PERST will not cause image to be loaded to the
+>                   card.  A power cycle is required to load the image.
+> @@ -235,10 +239,11 @@ Description:    write only
+>                   contexts on the card AFUs.
+>   Users:		https://github.com/ibm-capi/libcxl
+>   
+> -What:		/sys/class/cxl/<card>/perst_reloads_same_image (not in a guest)
+> +What:		/sys/class/cxl/<card>/perst_reloads_same_image
+>   Date:		July 2015
+>   Contact:	linuxppc-dev@lists.ozlabs.org
+>   Description:	read/write
+> +                (not in a guest)
+>   		Trust that when an image is reloaded via PERST, it will not
+>   		have changed.
+>   
+> 
+
+-- 
+Andrew Donnellan              OzLabs, ADL Canberra
+ajd@linux.ibm.com             IBM Australia Limited
