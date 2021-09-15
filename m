@@ -2,128 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79ED7C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 22:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE83C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 01:51:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5376061185
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Sep 2021 22:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D53861247
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 01:51:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235429AbhINWa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 18:30:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235137AbhINWaZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 18:30:25 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DDFC061574;
-        Tue, 14 Sep 2021 15:29:07 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id bq5so1672201lfb.9;
-        Tue, 14 Sep 2021 15:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OOGSJMiHA0GrsheLPjqZOApUIXPheFNmd6HaQBlmI6I=;
-        b=NNcYyS7n3cxhdsmKNyNkWrRNCtdUVe+k005bVrKWPhkxeKYJGDY7JQItsGKP0R9ag7
-         OF+scHQFB5sD+jQDhuOe3nOtvvfvUuMtkvYC/bL7WEhlnv9VayfRoIia/JDeqdIvRpT0
-         nf+ouQMJ3XmxzytlJ82aHi5DVAbyQiCs8016ZBqVMJwDeSo/JNzCKUs8/Ky0shyBhgPO
-         NJfelis94P6JIDsDFPz/m+mydSHi4sdw8ZvVGDTjn9ZFY5TPB/gikmi6MK0Ldf+XqdWj
-         w2ymYG3Ykr64kMAOzTDhi15hF7mluus045/hquIPHuGz52xvc1+4LgfWCKBNeA0zhVpW
-         1UrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OOGSJMiHA0GrsheLPjqZOApUIXPheFNmd6HaQBlmI6I=;
-        b=hW19RyCSQ8eeNXLf45HxW/7yUmKzkvcExNxYSzTogYPuUSg2fUKoVh5NJuqQSkafJx
-         uKXJO3sMt8m+e4ooRNKUvvAS1Phwv7R9+XfsbpDSC83wUvHD8IN/wf4cUElOJvm4LugP
-         pH44ISYEJZaJ7/w8H/uZ3PZrCESngZqI10E5hWwE1lvD865ycvW/QL9J1m8w204HiZJH
-         3tpNk1hzvQ9O2SruAYuXbKtABIWZDbjFTaRed24QVD5RAM770CmdpcO0Yi0gtjP79xD7
-         CLsQ+pKjszeGDC/Heha6Dz1aNV+aD8ZVqclEI9SdqUPjC+oYPUMw7QkKMym45yqoX3sB
-         cYyA==
-X-Gm-Message-State: AOAM530PTohr6hyrROPMLHVYql9baYYVYqwZn4htp1E3EZscO7cstRC5
-        DwRAnR71pOpp95ZxXQ4DQ5J9rewijclxhb1IkhIy4VM9hhQ=
-X-Google-Smtp-Source: ABdhPJxJRmrTSph3hEv5MyeNd4gzes70mmgLByycynCqyyqbKeWk3vdJZkpOYkAbqWNKa+I8G1dibBpNsazFoGIk7X4=
-X-Received: by 2002:a05:6512:3f91:: with SMTP id x17mr15108290lfa.518.1631658545482;
- Tue, 14 Sep 2021 15:29:05 -0700 (PDT)
+        id S229498AbhIOBwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 21:52:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41472 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229489AbhIOBwV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 21:52:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CDF8061211;
+        Wed, 15 Sep 2021 01:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631670662;
+        bh=z0W70Z4JOetSa7g8CfvjNwgRWC4qCwo9bmhv6sh9Bxs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=DhJ6GOb1z9RF8MoKZiSnxeXdJKNkyxJ7YyiEn0qQubMzT9FZtSjTJUt/KUr+QwVKI
+         +frjDgFVeOdxWz9IZc7wervGNYWJ63gSfCERzcvLkSnA46r3ypahZL2U/4IHNXcntT
+         /DqRf5MOYuMRlQ77Uv0SNMsaDJzboDdlLxIhocqe0R7UgiEK7ZBy99L8v0w5K3bX72
+         sJ48QhBWhdiCuNKFPKWm/Qjfkv8EiwrcYFd4jtxEycZyiFEiLrwMg1PFndT/7dOiPM
+         zl0gJLYf7yi4Oohaksg8j8XTXXQSSgFUXRaPI/wIqRfum+bBu2e2ldXr9TpWz6n+3M
+         stAUSLvG5uH7w==
+Date:   Tue, 14 Sep 2021 18:51:01 -0700 (PDT)
+From:   Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
+To:     rm.skakun@gmail.com
+cc:     Jan Beulich <jbeulich@suse.com>,
+        Roman Skakun <rm.skakun@gmail.com>,
+        Andrii Anisov <andrii_anisov@epam.com>,
+        Roman Skakun <roman_skakun@epam.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        hch@lst.de
+Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
+In-Reply-To: <20210914153046.GB815@lst.de>
+Message-ID: <alpine.DEB.2.21.2109141838290.21985@sstabellini-ThinkPad-T480s>
+References: <20210914151016.3174924-1-Roman_Skakun@epam.com> <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <20210914153046.GB815@lst.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-References: <CAKXUXMyRKM9Ev_Yyyup-T=AZe2aYcN-ZneXsLmHtUC7as67zNQ@mail.gmail.com>
- <20210904082330.14864-1-utkarshverma294@gmail.com> <CABJPP5DyppeW=_XXJKn_NnQahOn=k0oBi-dDdcyxN8rygwusEw@mail.gmail.com>
- <87ee9qdft1.fsf@meer.lwn.net>
-In-Reply-To: <87ee9qdft1.fsf@meer.lwn.net>
-From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date:   Wed, 15 Sep 2021 03:58:54 +0530
-Message-ID: <CABJPP5DjazfiTUe3wvnKyk86hN+SUK7aP9K5GP0L5tRW_TD_xw@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: checkpatch: Add SYMBOLIC_PERMS message
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Utkarsh Verma <utkarshverma294@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 15, 2021 at 2:40 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
->
-> > On Sat, Sep 4, 2021 at 1:53 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
-> >>
-> >> Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-> >> subsection. Octal permission bits are easier to read and understand
-> >> instead of their symbolic macro names.
-> >>
-> >> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> >> Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >> ---
-> >>  Documentation/dev-tools/checkpatch.rst | 11 +++++++++++
-> >>  1 file changed, 11 insertions(+)
-> >>
-> >> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> >> index f0956e9ea2d8..41037594ec24 100644
-> >> --- a/Documentation/dev-tools/checkpatch.rst
-> >> +++ b/Documentation/dev-tools/checkpatch.rst
-> >> @@ -957,6 +957,17 @@ Permissions
-> >>      Permission bits should use 4 digit octal permissions (like 0700 or 0444).
-> >>      Avoid using any other base like decimal.
-> >>
-> >> +  **SYMBOLIC_PERMS**
-> >> +    Permission bits in the octal form are more readable and easier to
-> >> +    understand than their symbolic counterparts because many command-line
-> >> +    tools use this notation only. Experienced kernel developers have been using
-> >
-> > Let's remove "only".
-> >
-> >> +    this traditional Unix permission bits for decades and so they find it
-> >
-> > Maybe you meant "these" here.
-> >
-> > With these changes made,
-> > Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
->
-> I took the liberty of apply the patch with those changes made.
->
+On Tue, 14 Sep 2021, Christoph Hellwig wrote:
+> On Tue, Sep 14, 2021 at 05:29:07PM +0200, Jan Beulich wrote:
+> > I'm not convinced the swiotlb use describe there falls under "intended
+> > use" - mapping a 1280x720 framebuffer in a single chunk? (As an aside,
+> > the bottom of this page is also confusing, as following "Then we can
+> > confirm the modified swiotlb size in the boot log:" there is a log
+> > fragment showing the same original size of 64Mb.
+> 
+> It doesn't.  We also do not add hacks to the kernel for whacky out
+> of tree modules.
 
-Thanks Jonathan.
-
-Utkarsh, you can start working on your next patches after submitting, you don't
-have to wait for the existing patches to be first accepted. They will follow
-the same review -> changes -> review cycle until they are good for
-acceptance.
-
-Like lukas said, try preparing a batch of say 3 to 5 rules and let's
-review it and get it in.
-
-Thanks,
-Dwaipayan.
+Also, Option 1 listed in the webpage seems to be a lot better. Any
+reason you can't do that? Because that option both solves the problem
+and increases performance.
