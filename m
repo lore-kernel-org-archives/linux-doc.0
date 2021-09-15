@@ -2,110 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9075C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 14:59:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB130C4321E
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 16:32:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88A4961242
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 14:59:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDB4961247
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 16:32:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237875AbhIOPAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Sep 2021 11:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233901AbhIOPAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 11:00:55 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24842C061575
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 07:59:36 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id a12so2042301qvz.4
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 07:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=P573y5Vc2zJUuuf0RRwx4Cvk5IBWAT6Ne62UqhX4bYU=;
-        b=Bp8gUfAr1azAr/3FG2yM2/cwGeN6T4EF5Krx23caRq0ZMdS/q4W2WTqsWqzmgzLUT+
-         +xXlZtuf+NA6/DWKxdwEdKEsocN/RrK8k9lEeUdsAk8FcZjEN/btABeccOE0wTk823zB
-         A/Tpg/hqHk5Mw/HAhH+KsdpqQFtHKA3thT66fVa5NDlsQpaZyBwLmfYL7QpYL+2Y8yyi
-         zyKebTydIhoK7/yWuSq/LKJVoLly0v26Pg7hecQ1bLZkmLmKsbSuqzNaydUXvAYqw/TN
-         LpcxqhDbyosCIwX64guMvOY8QulPBTYRVucJPuSMt1hXQBFvDvQu3JU0WUIX0Snaqsrm
-         Dg2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=P573y5Vc2zJUuuf0RRwx4Cvk5IBWAT6Ne62UqhX4bYU=;
-        b=uaS5jpsycr6mz4F8i1d/FowMSVvWlvgpIIxFlm/igUzHZ07afsDjtZcdyy2deNlsN0
-         +NWZEgbC6roJyHIbyedcSbmwQI5aZ5QP75e+t518PK2YagQD5+njA/rmot0kXDBkhECv
-         hIaXixzHvs/T6cSRA4aHHryQ8N65W+UgS5B5qp/TnEf/LMNs4qDlzmJiRe+VyiYKZbXt
-         LXk7+rUIRx3nljYk1qLMROaOsChN6XevVbkZPNuYHafN3c3QrPRFr4yonrCCwJAl78Xe
-         IGMEtOPlulHH4aRDWolxJC1ZIMAjLs+vVXSjH0zHjfFNKKl81eH+szZQGlDFg32p1y6Q
-         BMOw==
-X-Gm-Message-State: AOAM530RLNJ5kBpoAYZ4xlfY7AtVlDCc+kRDEbcBDF0gTlKX6dl/MubE
-        w+ODBAQsHXWcSrdvmClR8vBhIG1JlL3bGg==
-X-Google-Smtp-Source: ABdhPJwRB1i8P/5MUsqecQu4H3LUbFlyF2TgQTNcjPoCkKhtdYqz9bQtL7i0zMYAUUN3+WsBh6P3RA==
-X-Received: by 2002:ad4:436b:: with SMTP id u11mr138020qvt.26.1631717975370;
-        Wed, 15 Sep 2021 07:59:35 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id b12sm166578qkk.3.2021.09.15.07.59.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 07:59:34 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mQWNp-000zui-M1; Wed, 15 Sep 2021 11:59:33 -0300
-Date:   Wed, 15 Sep 2021 11:59:33 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Qi Zheng <zhengqi.arch@bytedance.com>
-Cc:     David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
-        tglx@linutronix.de, hannes@cmpxchg.org, mhocko@kernel.org,
-        vdavydov.dev@gmail.com, kirill.shutemov@linux.intel.com,
-        mika.penttila@nextfour.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        songmuchun@bytedance.com
-Subject: Re: [PATCH v2 0/9] Free user PTE page table pages
-Message-ID: <20210915145933.GH3544071@ziepe.ca>
-References: <20210819031858.98043-1-zhengqi.arch@bytedance.com>
- <5b9348fc-95fe-5be2-e9df-7c906e0c9b81@redhat.com>
- <41ceeec1-52c4-4e99-201c-e1e05b2afbbc@bytedance.com>
+        id S229956AbhIOQeL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Sep 2021 12:34:11 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3823 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229834AbhIOQeJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 12:34:09 -0400
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4H8m0q01TBz67jmn;
+        Thu, 16 Sep 2021 00:30:35 +0800 (CST)
+Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Wed, 15 Sep 2021 18:32:46 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     <zohar@linux.ibm.com>, <gregkh@linuxfoundation.org>,
+        <mchehab+huawei@kernel.org>
+CC:     <linux-integrity@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [RFC][PATCH 0/9] integrity: Introduce DIGLIM advanced features
+Date:   Wed, 15 Sep 2021 18:31:36 +0200
+Message-ID: <20210915163145.1046505-1-roberto.sassu@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41ceeec1-52c4-4e99-201c-e1e05b2afbbc@bytedance.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.204.63.22]
+X-ClientProxiedBy: lhreml753-chm.china.huawei.com (10.201.108.203) To
+ fraeml714-chm.china.huawei.com (10.206.15.33)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 15, 2021 at 10:52:40PM +0800, Qi Zheng wrote:
-> I am going to split this patch series as follows:
-> 
-> 1. Introduce the new dummy APIs, which is an empty implementation.
->    But I will explain its semantics.
-> 2. Merge #6, #7 and #8, and call these dummy APIs in any necessary
->    location, and split some special cases into single patches, such as
->    pagefault and gup, etc. So that we can explain in more detail the
->    concurrency in these cases. For example, we don't need to hold any
->    pte_refcount in the fast path in gup on the x86_64 platform. Because
->    the PTE page can't be freed after the local CPU interrupt is closed
->    in the fast path in gup.
-> 3. Introduce CONFIG_FREE_USER_PTE and implement these empty dummy APIs.
-> 4. Add a description document.
-> 
-> And I try to add a function that combines pte_offset_map() and
-> pte_try_get(). Maybe the func name is pte_try_map() recommended by
-> Jason, or keep the pte_offset_map() unchanged?
+Introduction
+============
 
-It is part of the transformation, add a
-pte_try_map()/pte_undo_try_map() and replace all the pte_offset_map()
-callsites that can use the new API with it. The idea was that try_map
-would incorporate the pmd_trans_unstable/etc mess so searching for
-trans_unstable is a good place to start finding candidates. Some are
-simple, some are tricky.
+This patch set depends on:
+- support for the euid policy keyword for critical data
+  (https://lore.kernel.org/linux-integrity/20210705115650.3373599-1-roberto.sassu@huawei.com/)
+- basic DIGLIM
+  (https://lore.kernel.org/linux-integrity/20210914163401.864635-1-roberto.sassu@huawei.com/)
 
-When you get to step 3 you just change pte_try_map() and the callsites
-don't need changing.
+Introduce the remaining features necessary to upload to the kernel
+reference values from RPM headers or digest lists in other formats.
 
-Jason
+Loader: it will automatically uploads digest lists from a directory
+        specified in the kernel configuration and will execute a user space
+        uploader to upload digest lists in a format that is not recognized
+        by the kernel;
+
+LSM: it identifies digest list parsers and monitor their activity for
+     integrity evaluation; it protects digest list parsers from other user
+     space processes considered as untrusted;
+
+Digest list generators: user space tools to generate digest lists from
+                        files (in the compact format) or from the RPM DB;
+
+Digest list uploader and parsers: user space tools responsible to upload to
+                                  the kernel digest lists not in the
+                                  compact format (e.g. those derived from
+                                  the RPM DB);
+
+Administration guide: it describes the steps necessary to upload to the
+                      kernel all the digests of an RPM-based Linux
+                      distribution, using a custom kernel with the DIGLIM
+                      patches applied.
+
+With these changes, DIGLIM is ready to be used by IMA for measurement and
+appraisal (this functionality will be added with a future patch set).
+
+DIGLIM already supports appended signatures, but at the moment they cannot
+be interpreted by IMA (unsupported ID PKEY_ID_PGP). Another patch set is
+necessary to load the PGP keys from the Linux distribution to the system
+keyring and to verify the PGP signatures of the RPM headers.
+
+With the patch sets above and the execution policies for IMA proposed some
+time ago, it will be possible to generate a measurement list with digest
+lists and unknown files, and enable IMA appraisal in enforcing mode.
+The kernel command line would be:
+
+ima_template=ima-modsig ima_policy="exec_tcb|tmpfs|digest_lists|appraise_exec_tcb|appraise_tmpfs|appraise_digest_lists"
+
+The effort required for Linux distribution vendors will be to generate and
+sign the digest lists for the digest list uploader and the RPM parser. This
+could be done for example in the kernel-tools package (or in a separate
+package). Existing package signatures are sufficient for remaining files.
+
+
+Issues/Questions
+================
+
+Lockdep (patch 2/9)
+-------------------
+
+I'm using iterate_dir() and file_open_root() to iterate and open files
+in a directory. Unfortunately, I get the following warning:
+
+============================================
+WARNING: possible recursive locking detected
+5.15.0-rc1-dont-use-00049-ga5a881519991 #134 Not tainted
+--------------------------------------------
+swapper/1 is trying to acquire lock:
+0000000066812898 (&sb->s_type->i_mutex_key#7){++++}-{4:4}, at: path_openat+0x75d/0xd20
+
+but task is already holding lock:
+0000000066812898 (&sb->s_type->i_mutex_key#7){++++}-{4:4}, at: iterate_dir+0x65/0x250
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&sb->s_type->i_mutex_key#7);
+  lock(&sb->s_type->i_mutex_key#7);
+
+ *** DEADLOCK ***
+
+
+due to the fact that path_openat() might be trying to lock the directory
+already locked by iterate_dir(). What it would be a good way to avoid it?
+
+
+Inode availability in security_file_free() (patch 3/9)
+------------------------------------------------------
+
+It seems that this hook is called when the last reference to a file is
+released. After enabling debugging, sometimes the kernel reported that the
+inode I was trying to access was already freed.
+
+To avoid this situation, I'm grabbing an additional reference of the inode
+in the security_file_open() hook, to ensure that the inode does not
+disappear, and I'm releasing it in the security_file_free() hook. Is this
+solution acceptable?
+
+Roberto Sassu (9):
+  ima: Introduce new hook DIGEST_LIST_CHECK
+  diglim: Loader
+  diglim: LSM
+  diglim: Tests - LSM
+  diglim: Compact digest list generator
+  diglim: RPM digest list generator
+  diglim: Digest list uploader
+  diglim: RPM parser
+  diglim: Admin guide
+
+ Documentation/admin-guide/diglim.rst          | 136 +++++
+ Documentation/admin-guide/index.rst           |   1 +
+ .../security/diglim/implementation.rst        |  16 +
+ Documentation/security/diglim/index.rst       |   1 +
+ Documentation/security/diglim/lsm.rst         |  65 +++
+ Documentation/security/diglim/tests.rst       |  18 +-
+ MAINTAINERS                                   |  10 +
+ security/integrity/diglim/Kconfig             |  14 +
+ security/integrity/diglim/Makefile            |   2 +-
+ security/integrity/diglim/diglim.h            |  27 +
+ security/integrity/diglim/fs.c                |   3 +
+ security/integrity/diglim/hooks.c             | 436 ++++++++++++++++
+ security/integrity/diglim/loader.c            |  92 ++++
+ security/integrity/iint.c                     |   1 +
+ security/integrity/ima/ima.h                  |   1 +
+ security/integrity/ima/ima_main.c             |   3 +-
+ security/integrity/ima/ima_policy.c           |   3 +
+ security/integrity/integrity.h                |   8 +
+ tools/diglim/Makefile                         |  27 +
+ tools/diglim/common.c                         |  79 +++
+ tools/diglim/common.h                         |  59 +++
+ tools/diglim/compact_gen.c                    | 349 +++++++++++++
+ tools/diglim/rpm_gen.c                        | 334 ++++++++++++
+ tools/diglim/rpm_parser.c                     | 483 ++++++++++++++++++
+ tools/diglim/upload_digest_lists.c            | 238 +++++++++
+ tools/testing/selftests/diglim/Makefile       |  12 +-
+ tools/testing/selftests/diglim/common.h       |   9 +
+ tools/testing/selftests/diglim/selftest.c     | 357 ++++++++++++-
+ 28 files changed, 2764 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/admin-guide/diglim.rst
+ create mode 100644 Documentation/security/diglim/lsm.rst
+ create mode 100644 security/integrity/diglim/hooks.c
+ create mode 100644 security/integrity/diglim/loader.c
+ create mode 100644 tools/diglim/Makefile
+ create mode 100644 tools/diglim/common.c
+ create mode 100644 tools/diglim/common.h
+ create mode 100644 tools/diglim/compact_gen.c
+ create mode 100644 tools/diglim/rpm_gen.c
+ create mode 100644 tools/diglim/rpm_parser.c
+ create mode 100644 tools/diglim/upload_digest_lists.c
+
+-- 
+2.25.1
+
