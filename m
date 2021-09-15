@@ -2,140 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42586C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E03CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:11:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BA3D60527
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 08:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2974F60232
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 13:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237117AbhIOI7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Sep 2021 04:59:30 -0400
-Received: from mga06.intel.com ([134.134.136.31]:4552 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237098AbhIOI72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Sep 2021 04:59:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="283261630"
-X-IronPort-AV: E=Sophos;i="5.85,294,1624345200"; 
-   d="scan'208";a="283261630"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 01:58:09 -0700
-X-IronPort-AV: E=Sophos;i="5.85,294,1624345200"; 
-   d="scan'208";a="552999867"
-Received: from chenyu-desktop.sh.intel.com (HELO chenyu-desktop) ([10.239.158.176])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 01:58:04 -0700
-Date:   Wed, 15 Sep 2021 17:03:57 +0800
-From:   Chen Yu <yu.c.chen@intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Aubrey Li <aubrey.li@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Alexander Graf <graf@amazon.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Hannes Reinecke <hare@suse.de>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] drivers/acpi: Introduce Platform Firmware Runtime
- Update device driver
-Message-ID: <20210915090357.GA282742@chenyu-desktop>
-References: <cover.1631600169.git.yu.c.chen@intel.com>
- <7a739633b30f6fb5c258f21c443ed0c17b12896f.1631600169.git.yu.c.chen@intel.com>
- <YUBZM1vnZ3LjfUKc@kroah.com>
+        id S229670AbhIONMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Sep 2021 09:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233325AbhIONMs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 09:12:48 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037AFC061574;
+        Wed, 15 Sep 2021 06:11:30 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id z5so5701178ybj.2;
+        Wed, 15 Sep 2021 06:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ED99zdvhstpRwne3A80pR035C5tjOiYeGYSORJ4vyUI=;
+        b=mRApUvE7DCV++1EHNPSejp0a8tIpDWVQyTQSaND0kFtCoc3Il7ld7oNoRb6KEhENtS
+         A3Tn2QgUKG9V+tc0gVthsKJg5W+Hh9X0spx7d1SF4Y7ROkmGWIgtLy1Y28+ROoCqHpYF
+         +pybtnFOOpkCZrQwqQGG/eRkRSgxrgDd9eC5eHKF7NYZamPYNM+Ts1ajOuQmWnpc3sBg
+         ocmt5prfqE93rt5stU/aARYzd30pgt3tXVQAisv4u+WJZE8d5EC+ytWJF4k1Yexcp8OK
+         RlJLcUFkKiwlOdgU04t0eUKRWvSLHF0yByB0waEcj8svBd6DjIflAF55DsVLCIMw0m/o
+         /sPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ED99zdvhstpRwne3A80pR035C5tjOiYeGYSORJ4vyUI=;
+        b=0CiqLKZeT1xxqLj5woN4sg9xdCu95dweZNBs4apKIV+zvT6z8SBLtZf4eQaQUH/ojs
+         32PkVgWw+g1g1TGCybuPjswn6K5r1fEhEH7IKgTeHr8p1bYpsfOig7vP+ZjPKtfxgCaw
+         TbTK+jeBNISC0PaQZ7WdUBrA+ke6RLPDphEEOCM+GQn3I8HIr+MXzV/LpqPnz7srdi+2
+         8kWVJyVzKLoW+IkgrWHIVYsLb36eXQJ9dhF3JD0EBNIKmRqmMaRsol3hZimv4khBHdRK
+         F65MJkbuPiIWkNWGfwoqnyb3AsbhtYpTLxhTdNmoD0yHTmIb6Rrag2chzmSLMm7cj9Iz
+         Qb7w==
+X-Gm-Message-State: AOAM53046XA7d5Rd1JouDscNAVZ3gYlTZ16sshcQ2WG51KpSOXCaTpuO
+        bVUgaBPpTM+zFCLWeyB9omq3NddfbG4V9JzvfF8=
+X-Google-Smtp-Source: ABdhPJyxDnkgfri42t9pLIdq//afItaRTyEbocdXWj3uaAT0K+adBcfzVFKBOm6slfbiHx+FjL9MadGg5Z3COebWstc=
+X-Received: by 2002:a25:d9c8:: with SMTP id q191mr6344715ybg.61.1631711489262;
+ Wed, 15 Sep 2021 06:11:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUBZM1vnZ3LjfUKc@kroah.com>
+References: <20210909141655.87821-1-yaozhenguo1@gmail.com> <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
+In-Reply-To: <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
+From:   zhenguo yao <yaozhenguo1@gmail.com>
+Date:   Wed, 15 Sep 2021 21:11:18 +0800
+Message-ID: <CA+WzARmsPT46ck17-96cJVWE-=QEK8QobRFnCnEcNxsd42zNTw@mail.gmail.com>
+Subject: Re: [PATCH v4] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     corbet@lwn.net, yaozhenguo@jd.com,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
-thank you very much for your comments,
-On Tue, Sep 14, 2021 at 10:11:31AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Sep 14, 2021 at 03:58:41PM +0800, Chen Yu wrote:
-> > +enum start_action {
-> > +	START_STAGE,
-> > +	START_ACTIVATE,
-> > +	START_STAGE_ACTIVATE,
-> > +};
+Andrew Morton <akpm@linux-foundation.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=881=
+5=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=8811:50=E5=86=99=E9=81=93=EF=
+=BC=9A
+>
+> On Thu,  9 Sep 2021 22:16:55 +0800 yaozhenguo <yaozhenguo1@gmail.com> wro=
+te:
+>
+> > We can specify the number of hugepages to allocate at boot. But the
+> > hugepages is balanced in all nodes at present. In some scenarios,
+> > we only need hugepages in one node. For example: DPDK needs hugepages
+> > which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> > size in node1 and system has 16 numa nodes. We must reserve 64 hugepage=
+s
+> > in kernel cmdline. But, only four hugepages are used. The others should
+> > be free after boot. If the system memory is low(for example: 64G), it w=
+ill
+> > be an impossible task. So, Extending hugepages parameter to support
+> > specifying hugepages at a specific node.
+> > For example add following parameter:
+> >
+> > hugepagesz=3D1G hugepages=3D0:1,1:3
+> >
+> > It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> >
+> > ...
+> >
+> > @@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void=
+)
+> >       }
+> >  }
+> >
+> > +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h=
+, int nid)
+> > +{
+> > +     unsigned long i;
+> > +     char buf[32];
 > > +
-> > +enum dsm_status {
-> > +	DSM_SUCCEED,
-> > +	DSM_FUNC_NOT_SUPPORT,
-> > +	DSM_INVAL_INPUT,
-> > +	DSM_HARDWARE_ERR,
-> > +	DSM_RETRY_SUGGESTED,
-> > +	DSM_UNKNOWN,
-> > +	DSM_FUNC_SPEC_ERR,
-> > +};
+> > +     for (i =3D 0; i < h->max_huge_pages_node[nid]; ++i) {
+> > +             if (hstate_is_gigantic(h)) {
+> > +                     struct huge_bootmem_page *m;
+> > +                     void *addr;
 > > +
-> > +struct update_cap_info {
-> > +	enum dsm_status status;
-> > +	int update_cap;
+> > +                     addr =3D memblock_alloc_try_nid_raw(
+> > +                                     huge_page_size(h), huge_page_size=
+(h),
+> > +                                     0, MEMBLOCK_ALLOC_ACCESSIBLE, nid=
+);
+> > +                     if (!addr)
+> > +                             break;
+> > +                     m =3D addr;
+> > +                     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_siz=
+e(h)));
+>
+> We try very hard to avoid adding BUG calls.  Is there any way in which
+> this code can emit a WARNing then permit the kernel to keep operating?
+>
+Maybe we can rewrite it as below:
+                        if (WARN(!IS_ALIGNED(virt_to_phys(m),
+huge_page_size(h)),
+                                "HugeTLB: page addr:%p is not aligned\n", m=
+))
+                                break;
+@Mike,  Do you think it's OK?
+> > +                     /*
+> > +                      * Put them into a private list first because mem=
+_map
+> > +                      * is not up yet
+> > +                      */
+> > +                     INIT_LIST_HEAD(&m->list);
+> > +                     list_add(&m->list, &huge_boot_pages);
+> > +                     m->hstate =3D h;
+> > +             } else {
+> > +                     struct page *page;
 > > +
-> > +	uuid_t code_type;
-> > +	int fw_version;
-> > +	int code_rt_version;
+> > +                     gfp_t gfp_mask =3D htlb_alloc_mask(h) | __GFP_THI=
+SNODE;
 > > +
-> > +	uuid_t drv_type;
-> > +	int drv_rt_version;
-> > +	int drv_svn;
+> > +                     page =3D alloc_fresh_huge_page(h, gfp_mask, nid,
+> > +                                     &node_states[N_MEMORY], NULL);
+> > +                     if (!page)
+> > +                             break;
+> > +                     put_page(page); /* free it into the hugepage allo=
+cator */
+> > +             }
+> > +             cond_resched();
+> > +     }
+> > +     if (i =3D=3D h->max_huge_pages_node[nid])
+> > +             return;
 > > +
-> > +	uuid_t platform_id;
-> > +	uuid_t oem_id;
+> > +     string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
+> > +     pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  O=
+nly allocated %lu hugepages.\n",
+> > +             h->max_huge_pages_node[nid], buf, nid, i);
+> > +     h->max_huge_pages_node[nid] =3D i;
+> > +     h->max_huge_pages -=3D (h->max_huge_pages_node[nid] - i);
+> > +}
 > > +
-> > +	char oem_info[];
-> 
-> Please use valid types for structures that cross the user/kernel
-> boundry.
-> 
-Okay, I'll switch them into __u prefixed one.
-> > +};
-> > +
-> > +struct com_buf_info {
-> > +	enum dsm_status status;
-> > +	enum dsm_status ext_status;
-> > +	unsigned long addr_lo;
-> > +	unsigned long addr_hi;
-> > +	int buf_size;
-> > +};
-> 
-> Same here.
-> 
-Okay, I'll fix them.
-> > +
-> > +struct updated_result {
-> > +	enum dsm_status status;
-> > +	enum dsm_status ext_status;
-> > +	unsigned long low_auth_time;
-> > +	unsigned long high_auth_time;
-> > +	unsigned long low_exec_time;
-> > +	unsigned long high_exec_time;
-> 
-> And same here.
-> 
-> And these are very odd structure names that you are adding to the
-> "global" namespace.  Please make them have a prefix for your driver so
-> that people know what they belong to.  "updated_result" is way too
-> generic.
-> 
-Okay, added the driver name prefix in next version.
-
-thanks,
-Chenyu
+>
