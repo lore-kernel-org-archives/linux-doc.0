@@ -2,183 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3003CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AE3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:50:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 077DB61216
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:33:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F364A60F23
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 03:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbhIODev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Sep 2021 23:34:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43790 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230004AbhIODeu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Sep 2021 23:34:50 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18F0Tu2d015659;
-        Tue, 14 Sep 2021 23:33:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=BRjAQIdENxqRUy9PFv5aAg1MPkBvqrtMXYjCJQcsNdE=;
- b=Kl9f2kL4qw3Qc0uuiCRCmrg5r3yOkFZD9Ha22gpnC9L9Mp3mJVjaGqr+I1wAQg9UrkwE
- tvDTWYjcC4trSZkw88kGVwuaC5C8/JzbIUedNlQEDWDKmgC7NtYwqyLsFKboNRFXhRWd
- VA/I169MwJkPqocKej6N3FXUyLve6OsUMcG1n+y5vmA75ajntZgxSbYeN0EKzY/hXP1D
- P+TsdtXhM2OL8NQ4SqjkuLbg2/4afUp8nPsqw9qFNl//bq2sGyr57bknyg5TaFR+S7pw
- CWPt3nNCDj7dyp4ygxp0ysBPFYpKE1x7D84w+mG8SeMglYpbpXRWSJWFdmCqdCXkjYVW Rw== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3b36bftwha-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Sep 2021 23:33:24 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18F3XCgN011738;
-        Wed, 15 Sep 2021 03:33:22 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04ams.nl.ibm.com with ESMTP id 3b0m3a1mf9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 Sep 2021 03:33:22 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 18F3XK3s42991878
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 Sep 2021 03:33:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E90DD11C04C;
-        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 450A011C04A;
-        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 15 Sep 2021 03:33:19 +0000 (GMT)
-Received: from [9.206.163.168] (unknown [9.206.163.168])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 5263C600F5;
-        Wed, 15 Sep 2021 13:33:17 +1000 (AEST)
-Subject: Re: [PATCH v2 07/29] ABI: sysfs-class-cxl: place "not in a guest" at
- description
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-References: <cover.1631629496.git.mchehab+huawei@kernel.org>
- <88ce67c9eed1ae08af3d3992415032723184af9e.1631629496.git.mchehab+huawei@kernel.org>
-From:   Andrew Donnellan <ajd@linux.ibm.com>
-Message-ID: <3334441d-03f0-5d21-49d3-84e87a5eddc5@linux.ibm.com>
-Date:   Wed, 15 Sep 2021 13:33:13 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <88ce67c9eed1ae08af3d3992415032723184af9e.1631629496.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -ODydiBoNOxTCJj2e_ZKxDXlgzfX2ghS
-X-Proofpoint-ORIG-GUID: -ODydiBoNOxTCJj2e_ZKxDXlgzfX2ghS
+        id S232517AbhIODvV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Sep 2021 23:51:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38878 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230107AbhIODvU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Sep 2021 23:51:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68A3761211;
+        Wed, 15 Sep 2021 03:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1631677802;
+        bh=ehBnRriQ/9bYDl2cldEheYmnNbHXE8FmT0zYlMMkxj4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=npz36+ING3M584KM4OWfeBT3W5anGIE8wDXk0eEyia6Jrk1iusXcHvfRigsNoI9Bo
+         YDzySz87GkViL2SWP6/pqDfaGYTKMumsdtTYyRDoe2/duDJR/zoGaFLk7E7ahLX+VJ
+         9QpXhSYa0xSrq0tQ2bbOs5jPTDJGTOyYsnsx836E=
+Date:   Tue, 14 Sep 2021 20:50:01 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     yaozhenguo <yaozhenguo1@gmail.com>
+Cc:     mike.kravetz@oracle.com, corbet@lwn.net, yaozhenguo@jd.com,
+        willy@infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+Message-Id: <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
+In-Reply-To: <20210909141655.87821-1-yaozhenguo1@gmail.com>
+References: <20210909141655.87821-1-yaozhenguo1@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
- definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 bulkscore=0 mlxscore=0 clxscore=1011 impostorscore=0
- adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109140132
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/9/21 12:32 am, Mauro Carvalho Chehab wrote:
-> The What: field should have just the location of the ABI.
-> Anything else should be inside the description.
-> 
-> This fixes its parsing by get_abi.pl script.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu,  9 Sep 2021 22:16:55 +0800 yaozhenguo <yaozhenguo1@gmail.com> wrote:
 
-Looks fine to me.
-
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
-
-> ---
->   Documentation/ABI/testing/sysfs-class-cxl | 15 ++++++++++-----
->   1 file changed, 10 insertions(+), 5 deletions(-)
+> We can specify the number of hugepages to allocate at boot. But the
+> hugepages is balanced in all nodes at present. In some scenarios,
+> we only need hugepages in one node. For example: DPDK needs hugepages
+> which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
+> in kernel cmdline. But, only four hugepages are used. The others should
+> be free after boot. If the system memory is low(for example: 64G), it will
+> be an impossible task. So, Extending hugepages parameter to support
+> specifying hugepages at a specific node.
+> For example add following parameter:
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
-> index 818f55970efb..3c77677e0ca7 100644
-> --- a/Documentation/ABI/testing/sysfs-class-cxl
-> +++ b/Documentation/ABI/testing/sysfs-class-cxl
-> @@ -166,10 +166,11 @@ Description:    read only
->                   Decimal value of the Per Process MMIO space length.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> -What:           /sys/class/cxl/<afu>m/pp_mmio_off (not in a guest)
-> +What:           /sys/class/cxl/<afu>m/pp_mmio_off
->   Date:           September 2014
->   Contact:        linuxppc-dev@lists.ozlabs.org
->   Description:    read only
-> +                (not in a guest)
->                   Decimal value of the Per Process MMIO space offset.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> @@ -190,28 +191,31 @@ Description:    read only
->                   Identifies the revision level of the PSL.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> -What:           /sys/class/cxl/<card>/base_image (not in a guest)
-> +What:           /sys/class/cxl/<card>/base_image
->   Date:           September 2014
->   Contact:        linuxppc-dev@lists.ozlabs.org
->   Description:    read only
-> +                (not in a guest)
->                   Identifies the revision level of the base image for devices
->                   that support loadable PSLs. For FPGAs this field identifies
->                   the image contained in the on-adapter flash which is loaded
->                   during the initial program load.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> -What:           /sys/class/cxl/<card>/image_loaded (not in a guest)
-> +What:           /sys/class/cxl/<card>/image_loaded
->   Date:           September 2014
->   Contact:        linuxppc-dev@lists.ozlabs.org
->   Description:    read only
-> +                (not in a guest)
->                   Will return "user" or "factory" depending on the image loaded
->                   onto the card.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> -What:           /sys/class/cxl/<card>/load_image_on_perst (not in a guest)
-> +What:           /sys/class/cxl/<card>/load_image_on_perst
->   Date:           December 2014
->   Contact:        linuxppc-dev@lists.ozlabs.org
->   Description:    read/write
-> +                (not in a guest)
->                   Valid entries are "none", "user", and "factory".
->                   "none" means PERST will not cause image to be loaded to the
->                   card.  A power cycle is required to load the image.
-> @@ -235,10 +239,11 @@ Description:    write only
->                   contexts on the card AFUs.
->   Users:		https://github.com/ibm-capi/libcxl
->   
-> -What:		/sys/class/cxl/<card>/perst_reloads_same_image (not in a guest)
-> +What:		/sys/class/cxl/<card>/perst_reloads_same_image
->   Date:		July 2015
->   Contact:	linuxppc-dev@lists.ozlabs.org
->   Description:	read/write
-> +                (not in a guest)
->   		Trust that when an image is reloaded via PERST, it will not
->   		have changed.
->   
+> hugepagesz=1G hugepages=0:1,1:3
 > 
+> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> 
+> ...
+>
+> @@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void)
+>  	}
+>  }
+>  
+> +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
+> +{
+> +	unsigned long i;
+> +	char buf[32];
+> +
+> +	for (i = 0; i < h->max_huge_pages_node[nid]; ++i) {
+> +		if (hstate_is_gigantic(h)) {
+> +			struct huge_bootmem_page *m;
+> +			void *addr;
+> +
+> +			addr = memblock_alloc_try_nid_raw(
+> +					huge_page_size(h), huge_page_size(h),
+> +					0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> +			if (!addr)
+> +				break;
+> +			m = addr;
+> +			BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
 
--- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
+We try very hard to avoid adding BUG calls.  Is there any way in which
+this code can emit a WARNing then permit the kernel to keep operating?
+
+> +			/*
+> +			 * Put them into a private list first because mem_map
+> +			 * is not up yet
+> +			 */
+> +			INIT_LIST_HEAD(&m->list);
+> +			list_add(&m->list, &huge_boot_pages);
+> +			m->hstate = h;
+> +		} else {
+> +			struct page *page;
+> +
+> +			gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
+> +
+> +			page = alloc_fresh_huge_page(h, gfp_mask, nid,
+> +					&node_states[N_MEMORY], NULL);
+> +			if (!page)
+> +				break;
+> +			put_page(page); /* free it into the hugepage allocator */
+> +		}
+> +		cond_resched();
+> +	}
+> +	if (i == h->max_huge_pages_node[nid])
+> +		return;
+> +
+> +	string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
+> +	pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  Only allocated %lu hugepages.\n",
+> +		h->max_huge_pages_node[nid], buf, nid, i);
+> +	h->max_huge_pages_node[nid] = i;
+> +	h->max_huge_pages -= (h->max_huge_pages_node[nid] - i);
+> +}
+> +
+
