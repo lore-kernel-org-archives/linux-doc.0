@@ -2,165 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AFEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 17:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8555C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 19:53:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D729861246
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 17:04:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D6576105A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Sep 2021 19:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbhIORGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Sep 2021 13:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
+        id S231562AbhIOTyj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Sep 2021 15:54:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbhIORGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 13:06:15 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BABAC061764
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 10:04:56 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id b18so6186468lfb.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 10:04:55 -0700 (PDT)
+        with ESMTP id S230451AbhIOTyj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Sep 2021 15:54:39 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2CB3C061574
+        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 12:53:19 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id q19-20020ac87353000000b0029a09eca2afso6580660qtp.21
+        for <linux-doc@vger.kernel.org>; Wed, 15 Sep 2021 12:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QiL7YfwCSR7LokE5J56usk6i2TFHnfpVhu2pbczR/rY=;
-        b=YjgBRMW6BxNZ9RQ3OrB64PcgAbpzCvURuVzS2ChPGQ9FOfcjAuiJ7nOYupy9eB316J
-         1NZt9Ps0lkvdwH0tDss0B+Lg5rtk1l4NTDZwUiJsDF4T3zxmRk1zqgBcgsBqAFfdu7/5
-         6l9Ztk6P9WF+a8hA1jgJj9VOxjhHhOx9y4kPo54MY7fqix74AHRoTUQ1EDWkE0j4G377
-         2uJ8qxBYEA1cW8jAd8iVorR13sx3cItzUFzoj07UXEzzHRNn6hyAlkBex7PDCLU8gQSA
-         vhVIZn+mQpAee7wuK8C4+KrKqs7KOrVZN55UAlWSX2/Z/zzfWt1i78uNilaLmN6eLC4B
-         yUrw==
+        h=date:message-id:mime-version:subject:from:cc;
+        bh=ZN8L1SRgYQneOokAyF/YDPfiVZ2ZJf5kUNPTEXGrDyM=;
+        b=oOWHam1LZ3eZVZuUUKQnwIZD45mGvoGWhDIGGcaJ/ZVuaxJgr9C12nV1IedLU0nJUK
+         rPAvCc0ieMBeNadMOasQbF021ZURMfXk3HM1Hx28jK9CP0R9rAiqoXXBWM2zoPdrFZx5
+         5CIEkMxg5A7eeCUu5e7QpVjIo50IneSZIba6f7dwTlDzcMSqUnTCLUs8t8GNYWz1RirZ
+         gZ1O5YVjciLF2y565msC2T0fJe/tyM8XRS1SxvHRKdzAt9PbzKEUaNXz1RheFKUK+x/L
+         Yv5GsRq+7WsmVaMUo2k83oTrKFmm+N/ujJBzn6NIFv+tXxi8JPdqdAdhBNfPUitdZm3L
+         ewvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QiL7YfwCSR7LokE5J56usk6i2TFHnfpVhu2pbczR/rY=;
-        b=FtdyiNTaRzoBv9j/GMBu1O0kqftM+XnubEHnrK+BZQiunTY480jIqkqzX1sr+hmRfT
-         n1u31KzLsUA9cNiwCI9XYIZqw1k3RjDXhFR1rsap+vCm16Q8PzpN87gnfwxw3ACHlc2M
-         A3TKagIMpYBJN/j/cvhCfJwyJd29B7spWHW4vLLg5J3HRnqZHp/Y2hmJacqVUbbH2ZXM
-         bHHr4XiJHEteY3QtAToHpI+jgud09SmfHaVeJr0Vy1izMAHqLrLiFwEBatE4/i4hCssO
-         PJMlsGXieajC6w7iOb2mXLqM2cwENoCUMInsDBIjVoDJj0HohT0gYbLc1UguuapsP5rZ
-         oOKA==
-X-Gm-Message-State: AOAM533zJUre9Gbgc8shlix6+kMXBMQcyENyYOQDWuy/5aKnnNwF4tFJ
-        OpaV7ZFY05EYBk4kBKYq4u8FkAT0+eF0YO8YfQKSWw==
-X-Google-Smtp-Source: ABdhPJyPOjV0ZpbMt3W6lj6EoQRoL7MRqeIFJLX3H5JfFbprdhI8dXfa7UQ0YFUHuvKQmtzNEFB6m5Zf2bMrT45EqbM=
-X-Received: by 2002:ac2:5fb2:: with SMTP id s18mr730787lfe.580.1631725493981;
- Wed, 15 Sep 2021 10:04:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
-In-Reply-To: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Wed, 15 Sep 2021 10:04:18 -0700
-Message-ID: <CAHVum0d657HeoSyXS9RGW8YHkwJFmvLQ6ebwYy_wVnR0gM8uPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] misc_cgroup: introduce misc.events to count failures
-To:     brookxu <brookxu.cn@gmail.com>
-Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        mkoutny@suse.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:cc;
+        bh=ZN8L1SRgYQneOokAyF/YDPfiVZ2ZJf5kUNPTEXGrDyM=;
+        b=WcjIxrnoBhGkHMeqQiEZ8mIaQB8mLrALZQgHTUXaMVA5Ibqh6DQ80EWYrDtFw7eXZ+
+         bhULIk+8FOtdu/NYolHRGHtxNBvxcvAWeM0zpqetsWsnWnd20yvT5urEckoN4/razUL1
+         2ERV10g8XmvDi3HvUqsOKEdKGY2oRzLzzcjnkWibGxE6X742YPgmhtKuTWkkemA8IAXr
+         EicKKO0Ye4a4KmwWia75DlqxjYTD2XY3vbwgnueC2IKF1nOacn25bq767uYalumwIlcc
+         a/hZSqFbTEGh6yp7YS7mC8yLu1WBDhYw3HdcVoaym0G70sq2v13xIDuoZsEpGvL6X802
+         zGDA==
+X-Gm-Message-State: AOAM532CthVz453cD0hwsbivAErA1J9/exK35g/KyISo+hDW0SeabK5E
+        AzQTweA73Sc06CH8mDIr9/IJiIgD5ki/eQGJmQ==
+X-Google-Smtp-Source: ABdhPJyi27fA7iU5UGtpeuYB5pqLFXaWsK5XRc4GI4VOmjlh0qYYnWCd1v1FR24xxOzz+cwyWWbIz0v2Qb/QaMlZlQ==
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a05:6214:13e9:: with SMTP id
+ ch9mr1497532qvb.45.1631735598972; Wed, 15 Sep 2021 12:53:18 -0700 (PDT)
+Date:   Wed, 15 Sep 2021 19:52:44 +0000
+Message-Id: <20210915195306.612966-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
+Subject: [PATCH 0/5] tracing: Extend histogram triggers expression parsing
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 7:18 PM brookxu <brookxu.cn@gmail.com> wrote:
->
-> From: Chunguang Xu <brookxu@tencent.com>
->
-> Introduce misc.events to make it easier for us to understand
-> the pressure of resources. Currently only the 'max' event is
-> implemented, which indicates the times the resource is about
-> to exceeds the max limit.
->
-> Signed-off-by: Chunguang Xu <brookxu@tencent.com>
-> ---
->
-> v3: remove misc.events.local.
-> v2: remove cgroup v1 files.
->
->  include/linux/misc_cgroup.h |  5 +++++
->  kernel/cgroup/misc.c        | 24 ++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
->
-> diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
-> index da2367e..091f2d2 100644
-> --- a/include/linux/misc_cgroup.h
-> +++ b/include/linux/misc_cgroup.h
-> @@ -36,6 +36,7 @@ enum misc_res_type {
->  struct misc_res {
->         unsigned long max;
->         atomic_long_t usage;
-> +       atomic_long_t events;
->         bool failed;
->  };
->
-> @@ -46,6 +47,10 @@ struct misc_res {
->   */
->  struct misc_cg {
->         struct cgroup_subsys_state css;
-> +
-> +       /* misc.events */
-> +       struct cgroup_file events_file;
-> +
->         struct misc_res res[MISC_CG_RES_TYPES];
->  };
->
-> diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
-> index ec02d96..4b2b492 100644
-> --- a/kernel/cgroup/misc.c
-> +++ b/kernel/cgroup/misc.c
-> @@ -171,6 +171,11 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
->         return 0;
->
->  err_charge:
-> +       for (j = i; j; j = parent_misc(j)) {
-> +               atomic_long_inc(&j->res[type].events);
-> +               cgroup_file_notify(&j->events_file);
-> +       }
-> +
->         for (j = cg; j != i; j = parent_misc(j))
->                 misc_cg_cancel_charge(type, j, amount);
->         misc_cg_cancel_charge(type, i, amount);
-> @@ -335,6 +340,19 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
->         return 0;
->  }
->
-> +static int misc_events_show(struct seq_file *sf, void *v)
-> +{
-> +       struct misc_cg *cg = css_misc(seq_css(sf));
-> +       unsigned long events, i;
-> +
-> +       for (i = 0; i < MISC_CG_RES_TYPES; i++) {
-> +               events = atomic_long_read(&cg->res[i].events);
-> +               if (READ_ONCE(misc_res_capacity[i]) || events)
-> +                       seq_printf(sf, "%s.max %lu\n", misc_res_name[i], events);
-> +       }
-> +       return 0;
-> +}
-> +
->  /* Misc cgroup interface files */
->  static struct cftype misc_cg_files[] = {
->         {
-> @@ -353,6 +371,12 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
->                 .seq_show = misc_cg_capacity_show,
->                 .flags = CFTYPE_ONLY_ON_ROOT,
->         },
-> +       {
-> +               .name = "events",
-> +               .flags = CFTYPE_NOT_ON_ROOT,
-> +               .file_offset = offsetof(struct misc_cg, events_file),
-> +               .seq_show = misc_events_show,
-> +       },
->         {}
->  };
->
-> --
-> 1.8.3.1
->
+The frequency of the rss_stat trace event is known to be of the same
+magnitude as that of the sched_switch event on Android devices. This can
+cause flooding of the trace buffer with rss_stat traces leading to a
+decreased trace buffer capacity and loss of data.
 
-Reviewed-by: Vipin Sharma <vipinsh@google.com>
+If it is not necessary to monitor very small changes in rss (as is the
+case in Android) then the rss_stat tracepoint can be throttled to only
+emit the event once there is a large enough change in the rss size.
+The original patch that introduced the rss_stat tracepoint also proposed
+a fixed throttling mechanism that only emits the rss_stat event
+when the rss size crosses a 512KB boundary. It was concluded that more
+generic support for this type of filtering/throttling was need, so that
+it can be applied to any trace event. [1]
+
+From the discussion in [1], histogram triggers seemed the most likely
+candidate to support this type of throttling. For instance to achieve the
+same throttling as was proposed in [1]:
+
+  (1) Create a histogram variable to save the 512KB bucket of the rss size
+  (2) Use the onchange handler to generate a synthetic event when the
+      rss size bucket changes.
+
+The only missing pieces to support such a hist trigger are:
+  (1) Support for setting a hist variable to a specific value -- to set
+      the bucket size / granularity.
+  (2) Support for division arithmetic operation -- to determine the
+      corresponding bucket for an rss size.
+
+This series extends histogram trigger expressions to:
+  (1) Allow assigning numeric literals to hist variable (eg. x=1234)
+      and using literals directly in expressions (eg. x=size/1234)
+  (2) Support division and multiplication in hist expressions.
+      (eg. a=$x/$y*z); and
+  (3) Fixes expression parsing for non-associative operators: subtraction
+      and division. (eg. 8-4-2 should be 2 not 6)
+
+The rss_stat event can then be throttled using histogram triggers as
+below:
+
+  # Create a synthetic event to monitor instead of the high frequency
+  # rss_stat event
+  echo 'rss_stat_throttled unsigned int mm_id; unsigned int curr;
+         int member; long size' >> tracing/synthetic_events
+
+  # Create a hist trigger that emits the synthetic rss_stat_throttled
+  # event only when the rss size crosses a 512KB boundary.
+  echo 'hist:keys=common_pid:bucket=size/0x80000:onchange($bucket)
+              .rss_stat_throttled(mm_id,curr,member,size)'
+        >> events/kmem/rss_stat/trigger
+
+ ------ Test Results ------
+Histograms can also be used to evaluate the effectiveness of this
+throttling by noting the Total Hits on each trigger:
+
+  echo 'hist:keys=common_pid' >> events/sched/sched_switch/trigger
+  echo 'hist:keys=common_pid' >> events/kmem/rss_stat/trigger
+  echo 'hist:keys=common_pid'
+           >> events/synthetic/rss_stat_throttled/trigger
+
+Allowing the above example (512KB granularity) run for 5 minutes on
+an arm64 device with 5.10 kernel:
+
+   sched_switch      : total hits = 147153
+   rss_stat          : total hits =  38863
+   rss_stat_throttled: total hits =   2409
+
+The synthetic rss_stat_throttled event is ~16x less frequent than the
+rss_stat event when using a 512KB granularity.
+
+
+The results are more pronounced when rss size is changing at a higher
+rate in small increments. For instance the following results were obtained
+by recording the hits on the above events for a run of Android's
+lmkd_unit_test [2], which continually forks processes that map anonymous
+memory until there is an oom kill:
+
+   sched_switch      : total hits =  148832
+   rss_stat          : total hits = 4754802
+   rss_stat_throttled: total hits =   96214
+
+In this stress this, the  synthetic rss_stat_throttled event is ~50x less
+frequent than the rss_stat event when using a 512KB granularity.
+
+
+[1] https://lore.kernel.org/lkml/20190903200905.198642-1-joel@joelfernandes.org/
+[2] https://cs.android.com/android/platform/superproject/+/master:system/memory/lmkd/tests/lmkd_test.cpp
+
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+
+Kalesh Singh (5):
+  tracing: Add support for creating hist trigger variables from literal
+  tracing: Add division and multiplication support for hist triggers
+  tracing: Fix operator precedence for hist triggers expression
+  tracing/selftests: Add tests for hist trigger expression parsing
+  tracing/histogram: Document expression arithmetic and constants
+
+ Documentation/trace/histogram.rst             |  14 +
+ kernel/trace/trace_events_hist.c              | 318 +++++++++++++++---
+ .../testing/selftests/ftrace/test.d/functions |   4 +-
+ .../trigger/trigger-hist-expressions.tc       |  73 ++++
+ 4 files changed, 357 insertions(+), 52 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
+
+
+base-commit: 3ca706c189db861b2ca2019a0901b94050ca49d8
+-- 
+2.33.0.309.g3052b89438-goog
+
