@@ -4,45 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F4DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2FEC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66C5161185
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BF906120C
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236567AbhIPJ5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:57:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58046 "EHLO mail.kernel.org"
+        id S236569AbhIPJ5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:57:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57872 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236091AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:56:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 53F4F61251;
+        id S235886AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:56:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 33DB161212;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=f7KEII6zbM/s1ow9VZn6Ba4YgTKnQf1/xmRqyKEMF40=;
+        bh=KFZt39MYhJdE0FBZY8pCk3XsJMfrKwUmacKBtK1J1wQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kEPLS+Z/BJdnRBvbblkvqFIASGvTDHgxGmID6SANMowySg5p1upNFEEhgr1dGi2lL
-         NqRFb8MJzZzpAppBqqvJ+UOMr/JXRoSs/qNjUdURVhrIjVWiOp4cD4ial6UQd3T06v
-         ajzhlWT5BctbZwz7tEunoQHnq2DzVKciv3Bxiw733cprOCNaRqakr+HfefouckmyN4
-         KPRE2jQCPEoFcLzy6IMq2bCq+6gVSRgMopMMHYKeTPDyKjnolKU7jG3pdc6PX3X3DM
-         /QjYft5aYmXfbLt6dH4+3Feq4u0J9UCxIt9VBM64c7nevThfxzHpO3pgvtw7boCKvf
-         qV13GautZo10Q==
+        b=uknr1V520dfXc5yR9JbBMedoKiY1uDif77Yx+087gaQQUxMHT8gsnN69X8BHl+NNg
+         ObGVZ7G0iGJm2Jxfe3zmZXxm/Awtm/037IUQtCcPiSyU89/s8SbTZlyTQZg5x7Izn1
+         M2Cy9kmtVSD0H99Ft5TEFycMxCoJECMdiZdoA5o8eJHs7CB/rP2sQv76HN1bmux4Wj
+         oLC0XDyhvxZ6v73Uri4udvHpJuvi+ZSZB75U8QvCltJxyWjwa/ReZrbea2mBh1QNZT
+         s0W16P6Q0JhXkxgK0zhepHeFzxEdJXe9A6+/elqYmuExMbshyvLoSb6XgNw4K2VoVV
+         oLZbX6HYk0wBw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vU4-J7; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vTo-EA; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jamin Lin <jamin_lin@aspeedtech.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/23] MAINTAINERS: update aspeed,i2c.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:11 +0200
-Message-Id: <3e3b05f4a2517f3ed784dfb441a13ba0cfb6a7ea.1631785820.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Beckett <david.beckett@netronome.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 08/23] tools: bpftool: update bpftool-prog.rst reference
+Date:   Thu, 16 Sep 2021 11:55:07 +0200
+Message-Id: <fe4bb3cf5984623976b3e8d751657bc1bcbb598e.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -53,31 +64,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 810e4441946c ("dt-bindings: aspeed-i2c: Convert txt to yaml format")
-renamed: Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-to: Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml.
+The file name: Documentation/bpftool-prog.rst
+should be, instead: tools/bpf/bpftool/Documentation/bpftool-prog.rst.
 
 Update its cross-reference accordingly.
 
-Fixes: 810e4441946c ("dt-bindings: aspeed-i2c: Convert txt to yaml format")
+Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+Fixes: ff69c21a85a4 ("tools: bpftool: add documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ddea1f2cdadc..e63f3c4fceb9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1745,7 +1745,7 @@ R:	Joel Stanley <joel@jms.id.au>
- L:	linux-i2c@vger.kernel.org
- L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-+F:	Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-i2c-ic.txt
- F:	drivers/i2c/busses/i2c-aspeed.c
- F:	drivers/irqchip/irq-aspeed-i2c-ic.c
+diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+index be54b7335a76..27a2c369a798 100755
+--- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
++++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+@@ -374,7 +374,7 @@ class ManProgExtractor(ManPageExtractor):
+     """
+     An extractor for bpftool-prog.rst.
+     """
+-    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-prog.rst')
++    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-prog.rst')
+ 
+     def get_attach_types(self):
+         return self.get_rst_list('ATTACH_TYPE')
 -- 
 2.31.1
 
