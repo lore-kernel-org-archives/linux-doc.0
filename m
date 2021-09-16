@@ -2,90 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98049C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F7BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BC2960F6C
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:49:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A05FC61212
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235852AbhIPJu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:50:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55728 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235287AbhIPJuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:50:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E2D960F6C;
-        Thu, 16 Sep 2021 09:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631785771;
-        bh=ZL36CtfQPIByWCEdkXe9MMBPrn88jj47xHWZOqeo/aM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=agYldPhVUM/jkq3nabLH8doK7az+QbhwSa1QkRsJsw+f+dF43Hf0YU9y42UFHK3UR
-         sNErnc61PHJPtXU9CC8uk4wII9C3RFyKa0lgj+WKjYaZhpeDk79+S6IVjAjeZbIBQf
-         cexgQlGNri9PJHAwQ6vrSnPyKG8ekyV6TYw9mkC72DFA5MpFWnbxKE8nVvFn+FHn17
-         nhzYbPln0d8lXf+M2759LVkEjSxewL0E8BASK1cG4Y29l+RMsob6BborKwIk5eJSsN
-         4VMMQeSHRmllg7YkuGrU4O0s5C/7ZTt3zMRq6n0vAUxmvQfreqJ6SxDtNcvFxYcCmO
-         yJCH4qRaoINxg==
-Date:   Thu, 16 Sep 2021 11:49:26 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/24] MAINTAINERS: update arm,vic.yaml reference
-Message-ID: <20210916114926.71c789fd@coco.lan>
-In-Reply-To: <20210916091836.oevsk4eui6wa7xkt@bogus>
-References: <cover.1631783482.git.mchehab+huawei@kernel.org>
-        <61989ac6bc0bece7078c32320049c74443bbb5ba.1631783482.git.mchehab+huawei@kernel.org>
-        <20210916091836.oevsk4eui6wa7xkt@bogus>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S235476AbhIPJ4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:56:18 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:33002 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235287AbhIPJ4S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 05:56:18 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 72FB122376;
+        Thu, 16 Sep 2021 09:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1631786097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7Hr/2iIZwIEgCfldPaWyF8ZFWOFNeO1vGU+ls4G7YRI=;
+        b=mWETj69L9GUgeYnhoAaHEVHJ+GR89fRjzab/9tY2mcpPQ6CY5VzXTWoOcYirKRPtTAP/4u
+        R+LOTCIU2oUSOGMVUqBWoiF0qhT5tiNFl//rzYCvYtBWi+zbp/JzD9LD+Eq1TqDCcn/fOD
+        oVkycPzqVARLnHaOlqX2mwX7UJzPrdY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1631786097;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7Hr/2iIZwIEgCfldPaWyF8ZFWOFNeO1vGU+ls4G7YRI=;
+        b=vdd/mdK8Kd1wgwBLy4fKohEi+Mcqx1OYk7NF9U+Q+XEN2LvGN69Q3oZuY3B+/jtKMQrkvp
+        0sNiClqPglIuTHCQ==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id A5A38A3B90;
+        Thu, 16 Sep 2021 09:54:52 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id A82661E0C04; Thu, 16 Sep 2021 11:54:55 +0200 (CEST)
+Date:   Thu, 16 Sep 2021 11:54:55 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
+Message-ID: <20210916095455.GE10610@quack2.suse.cz>
+References: <20210902220854.198850-1-corbet@lwn.net>
+ <20210902220854.198850-2-corbet@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210902220854.198850-2-corbet@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 16 Sep 2021 10:18:36 +0100
-Sudeep Holla <sudeep.holla@arm.com> escreveu:
-
-> On Thu, Sep 16, 2021 at 11:14:05AM +0200, Mauro Carvalho Chehab wrote:
-> > Changeset b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-> > renamed: Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-> > to: Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml.
-> > 
-> > Update its cross-reference accordingly.
-> > 
-> > Fixes: b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  MAINTAINERS | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 0ea4cd772a0c..f02d1c94a219 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1550,7 +1550,7 @@ ARM PRIMECELL VIC PL190/PL192 DRIVER
-> >  M:	Linus Walleij <linus.walleij@linaro.org>
-> >  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> >  S:	Maintained
-> > -F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-> > +F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
-> >  F:	drivers/irqchip/irq-vic.c  
+On Thu 02-09-21 16:08:53, Jonathan Corbet wrote:
+> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
+> a new document on orphan files, which is great.  But the use of
+> "list-table" results in documents that are absolutely unreadable in their
+> plain-text form.  Switch this file to the regular RST table format instead;
+> the rendered (HTML) output is identical.
 > 
-> You seem to have dropped the tags already provided here [1]
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-Gah, true :-(
+Thanks! Definitely looks more readable :). You can add:
 
-I forgot I submitted part of those patches already. Will send a v2
-with the missing reviewed-by/acked-by.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks,
-Mauro
+								Honza
+
+> ---
+>  Documentation/filesystems/ext4/orphan.rst | 32 ++++++++---------------
+>  1 file changed, 11 insertions(+), 21 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/ext4/orphan.rst b/Documentation/filesystems/ext4/orphan.rst
+> index bb19ecd1b626..d096fe0ba19e 100644
+> --- a/Documentation/filesystems/ext4/orphan.rst
+> +++ b/Documentation/filesystems/ext4/orphan.rst
+> @@ -21,27 +21,17 @@ in heavy creation of orphan inodes. When orphan file feature
+>  (referenced from the superblock through s\_orphan_file_inum) with several
+>  blocks. Each of these blocks has a structure:
+>  
+> -.. list-table::
+> -   :widths: 8 8 24 40
+> -   :header-rows: 1
+> -
+> -   * - Offset
+> -     - Type
+> -     - Name
+> -     - Description
+> -   * - 0x0
+> -     - Array of \_\_le32 entries
+> -     - Orphan inode entries
+> -     - Each \_\_le32 entry is either empty (0) or it contains inode number of
+> -       an orphan inode.
+> -   * - blocksize - 8
+> -     - \_\_le32
+> -     - ob\_magic
+> -     - Magic value stored in orphan block tail (0x0b10ca04)
+> -   * - blocksize - 4
+> -     - \_\_le32
+> -     - ob\_checksum
+> -     - Checksum of the orphan block.
+> +============= ================ =============== ===============================
+> +Offset        Type             Name            Description
+> +============= ================ =============== ===============================
+> +0x0           Array of         Orphan inode    Each \_\_le32 entry is either
+> +              \_\_le32 entries entries         empty (0) or it contains
+> +	                                       inode number of an orphan
+> +					       inode.
+> +blocksize-8   \_\_le32         ob\_magic       Magic value stored in orphan
+> +                                               block tail (0x0b10ca04)
+> +blocksize-4   \_\_le32         ob\_checksum    Checksum of the orphan block.
+> +============= ================ =============== ===============================
+>  
+>  When a filesystem with orphan file feature is writeably mounted, we set
+>  RO\_COMPAT\_ORPHAN\_PRESENT feature in the superblock to indicate there may
+> -- 
+> 2.31.1
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
