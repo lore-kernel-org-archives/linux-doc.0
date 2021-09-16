@@ -7,45 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EB1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF00BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BA096120D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B734F61209
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236061AbhIPJBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S236064AbhIPJBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 16 Sep 2021 05:01:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36214 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:36182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235505AbhIPJBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5063C6137B;
-        Thu, 16 Sep 2021 09:00:03 +0000 (UTC)
+        id S235473AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:01:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F213361359;
+        Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782803;
-        bh=y83gaW55yksloBuWX0OKO49iArybMqGw/eZJ7F2ASQA=;
+        bh=NvR0aGI4jVMzGyFJm0RPZ2nXSN3IomPG5411ayW0HtY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LwSlOUN3DE4CgKwHy7xaSWTpq3vTxOCIYCPTXEabg8/O5wU4sghPNQhdNFbTRR3b5
-         B7Z5yTncwqP6UO7PqFbrJXO8+5bEcVFDvHjvlNOSNuxOeTF1ttC74aKij7P/D9zO4x
-         CxmUyoxKJ+Tz7GXMzvaRkjXuucGknyfW1xztbKINahr3zgWKu9FSKikEoZSGgVyBsc
-         E44kJJI9JCmKc2/5w8s3/Lqm61PEJxthOma0RBJHO93vgjps5qXIfKso5VfAcvPJqw
-         Au0aqfkEjITZJpHk0t/6Tq7rnhovkZZcdB1dWHyl+VSV+b3CyO3iTG3Gb95pypY2t8
-         Pnp+iozUXJUJg==
+        b=LYYZJ7o6cnp8dP8z6HDVJKzB4dNe+bHSUC2N087xXMhVH9ODMu/dQ2yI631kbdlXl
+         mohghUtlu+MQ5EGBXKPxkoD+9qctf3eVdi2kOx4lSrUOeVvK54XOoRPlYNUHSMX78i
+         /Ka+kxdBPxXuCQSzYZsAGlvFOcRL3ZnopW6GS4ZuQ9IwVeE1yEdYmFXeyf4DtGSAmZ
+         NcYSNs9GlmRKCKCxLN5cXWkOclDT5udbi1A/1SxddSD+hyjAdkkaS7VSslGjX2FNnx
+         B4N9jdD9GCI2r3aVr7kZe9faQIGUgDi7A91a1TZLtenoOvYKr+GT6f9W+fS/G4Jrkh
+         s0di1AoAiFA5w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFR-001qlL-I5; Thu, 16 Sep 2021 11:00:01 +0200
+        id 1mQnFR-001qkq-6q; Thu, 16 Sep 2021 11:00:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 27/30] ABI: sysfs-firmware-efi-esrt: use wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:54 +0200
-Message-Id: <44f63335333d019490297903609a8a1754a66183.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 20/30] ABI: sysfs-class-pwm: use wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:47 +0200
+Message-Id: <eb3edca0f3cf693d8d28ee7bd00339cac2039014.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -63,70 +59,99 @@ to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../ABI/testing/sysfs-firmware-efi-esrt          | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Documentation/ABI/testing/sysfs-class-pwm | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-firmware-efi-esrt b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
-index 31b57676d4ad..4c2d440487dd 100644
---- a/Documentation/ABI/testing/sysfs-firmware-efi-esrt
-+++ b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
-@@ -24,14 +24,14 @@ Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	The version of the ESRT structure provided by the firmware.
+diff --git a/Documentation/ABI/testing/sysfs-class-pwm b/Documentation/ABI/testing/sysfs-class-pwm
+index c20e61354561..3d65285bcd5f 100644
+--- a/Documentation/ABI/testing/sysfs-class-pwm
++++ b/Documentation/ABI/testing/sysfs-class-pwm
+@@ -7,7 +7,7 @@ Description:
+ 		Framework and provides a sysfs interface for using PWM
+ 		channels.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	Each ESRT entry is identified by a GUID, and each gets a
- 		subdirectory under entries/ .
- 		example: /sys/firmware/efi/esrt/entries/entry0/
+-What:		/sys/class/pwm/pwmchipN/
++What:		/sys/class/pwm/pwmchip<N>/
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+@@ -16,14 +16,14 @@ Description:
+ 		probed PWM controller/chip where N is the base of the
+ 		PWM chip.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/fw_type
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_type
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	What kind of firmware entry this is:
-@@ -43,33 +43,33 @@ Description:	What kind of firmware entry this is:
- 		3   UEFI Driver
- 		==  ===============
+-What:		/sys/class/pwm/pwmchipN/npwm
++What:		/sys/class/pwm/pwmchip<N>/npwm
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+ Description:
+ 		The number of PWM channels supported by the PWM chip.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/fw_class
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_class
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	This is the entry's guid, and will match the directory name.
+-What:		/sys/class/pwm/pwmchipN/export
++What:		/sys/class/pwm/pwmchip<N>/export
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+@@ -31,14 +31,14 @@ Description:
+ 		Exports a PWM channel from the PWM chip for sysfs control.
+ 		Value is between 0 and /sys/class/pwm/pwmchipN/npwm - 1.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/fw_version
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_version
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	The version of the firmware currently installed.  This is a
- 		32-bit unsigned integer.
+-What:		/sys/class/pwm/pwmchipN/unexport
++What:		/sys/class/pwm/pwmchip<N>/unexport
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+ Description:
+ 		Unexports a PWM channel.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/lowest_supported_fw_version
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/lowest_supported_fw_version
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	The lowest version of the firmware that can be installed.
+-What:		/sys/class/pwm/pwmchipN/pwmX
++What:		/sys/class/pwm/pwmchip<N>/pwmX
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+@@ -47,21 +47,21 @@ Description:
+ 		each exported PWM channel where X is the exported PWM
+ 		channel number.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/capsule_flags
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/capsule_flags
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	Flags that must be passed to UpdateCapsule()
+-What:		/sys/class/pwm/pwmchipN/pwmX/period
++What:		/sys/class/pwm/pwmchip<N>/pwmX/period
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+ Description:
+ 		Sets the PWM signal period in nanoseconds.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_version
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_version
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	The last firmware version for which an update was attempted.
+-What:		/sys/class/pwm/pwmchipN/pwmX/duty_cycle
++What:		/sys/class/pwm/pwmchip<N>/pwmX/duty_cycle
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+ Description:
+ 		Sets the PWM signal duty cycle in nanoseconds.
  
--What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_status
-+What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_status
- Date:		February 2015
- Contact:	Peter Jones <pjones@redhat.com>
- Description:	The result of the last firmware update attempt for the
+-What:		/sys/class/pwm/pwmchipN/pwmX/polarity
++What:		/sys/class/pwm/pwmchip<N>/pwmX/polarity
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+@@ -69,7 +69,7 @@ Description:
+ 		Sets the output polarity of the PWM signal to "normal" or
+ 		"inversed".
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/enable
++What:		/sys/class/pwm/pwmchip<N>/pwmX/enable
+ Date:		May 2013
+ KernelVersion:	3.11
+ Contact:	H Hartley Sweeten <hsweeten@visionengravers.com>
+@@ -78,7 +78,7 @@ Description:
+ 		0 is disabled
+ 		1 is enabled
+ 
+-What:		/sys/class/pwm/pwmchipN/pwmX/capture
++What:		/sys/class/pwm/pwmchip<N>/pwmX/capture
+ Date:		June 2016
+ KernelVersion:	4.8
+ Contact:	Lee Jones <lee.jones@linaro.org>
 -- 
 2.31.1
 
