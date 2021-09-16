@@ -2,83 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81935C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 928E4C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DD0D61212
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:24:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 707AC61350
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235686AbhIPLZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 07:25:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35882 "EHLO mail.kernel.org"
+        id S237715AbhIPLcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 07:32:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49672 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235650AbhIPLZ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 07:25:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB22C61209;
-        Thu, 16 Sep 2021 11:24:07 +0000 (UTC)
+        id S236506AbhIPLcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 07:32:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 161C061351;
+        Thu, 16 Sep 2021 11:30:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631791448;
-        bh=NMgNoIq6hJP/OBlSS3MAr+6o3KajWt99OdGKIwdT+34=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=flZVHBUkb84eZY2YTJwMjBb1P0hQ7pdNuafibxNm8iWR5LZqHMIihA4bYLoeMia/s
-         SUIFvZevPTxYNOO7hVq1J+RgTp6xjcvcHqI6XOfQbIxqb80HNOfA9C6nmOG/l3FEKu
-         zJ3w7w2FSiFOQwSKjhkf7yOyqmzYD23IzCh20lWlxwaUh9Nqt8YLZeh+tJNmSF4ZU2
-         odPdga05b/CzQBY4H3hX8jBUphFCN7xnB1lUojutI9aUlcJ8mYPj6W1pxYZ7b+fLZs
-         l5l7AO3WC3NuJfLH2bM929NrCBqx9Yjc8js5H/KkVPl/wdVxJlqevpaF6k/TCsRzob
-         wdJpFjx9T8tMg==
-Date:   Thu, 16 Sep 2021 12:23:27 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        s=k20201202; t=1631791842;
+        bh=JomLulPT/VCa+Ld8PCnrA61X+KN3aqBET6nR8VSiCbM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=k1M+1/F/Hux3jkf4B1W11De6kD+bQcAiJRC79Lj20yajPs9mGiBCduaxXvwvJ4XhA
+         dz+xAbstwBu4vi6QwIV/1347BkfeEB0wREiMQw2yXelvXXoeIvClKJV4KOiz2OyZVn
+         G1X8lr0807q4YeIKiVdeVkBVjmq97q7KSQmJ6kLHslXeqUodbT6QXU3W3Vht4VuI1i
+         ZWiKHS1pFRZ03ggixwAFQBUeKJ3WiLCZs/wfbcbowQqkibVOHxa3f39JEN88EzPThd
+         wUzW65zAYR/d28PKzqn5MLFVWqJzhv5umIFSbzQA9Yay51lRWo4FcOcebUS/V3MrwW
+         o6yVi5yAZV82A==
+Date:   Thu, 16 Sep 2021 13:30:36 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Quentin Monnet <quentin@isovalent.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 24/24] MAINTAINERS: update silergy,sy8106a.yaml reference
-Message-ID: <20210916112327.GC5048@sirena.org.uk>
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Beckett <david.beckett@netronome.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
+Message-ID: <20210916133036.37c50383@coco.lan>
+In-Reply-To: <33d66a49-2fc0-57a1-c1e5-34e932bcc237@isovalent.com>
 References: <cover.1631783482.git.mchehab+huawei@kernel.org>
- <eed037d15b9b919d6401898cd5cdeea0542a41d5.1631783482.git.mchehab+huawei@kernel.org>
+        <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
+        <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
+        <20210916124930.7ae3b722@coco.lan>
+        <33d66a49-2fc0-57a1-c1e5-34e932bcc237@isovalent.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
-Content-Disposition: inline
-In-Reply-To: <eed037d15b9b919d6401898cd5cdeea0542a41d5.1631783482.git.mchehab+huawei@kernel.org>
-X-Cookie: We've upped our standards, so up yours!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Thu, 16 Sep 2021 11:57:51 +0100
+Quentin Monnet <quentin@isovalent.com> escreveu:
 
---vOmOzSkFvhd7u8Ms
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> 2021-09-16 12:49 UTC+0200 ~ Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org>
+> > Hi Quentin,
+> > 
+> > Em Thu, 16 Sep 2021 10:43:45 +0100
+> > Quentin Monnet <quentin@isovalent.com> escreveu:
+> >   
+> >> 2021-09-16 11:14 UTC+0200 ~ Mauro Carvalho Chehab
+> >> <mchehab+huawei@kernel.org>  
+> >>> The file name: Documentation/bpftool-prog.rst
+> >>> should be, instead: tools/bpf/bpftool/Documentation/bpftool-prog.rst.
+> >>>
+> >>> Update its cross-reference accordingly.
+> >>>
+> >>> Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+> >>> Fixes: ff69c21a85a4 ("tools: bpftool: add documentation")    
+> >>
+> >> Hi,
+> >> How is this a fix for the commit that added the documentation in bpftool?
+> >>  
+> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>> ---
+> >>>  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> >>> index be54b7335a76..27a2c369a798 100755
+> >>> --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> >>> +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> >>> @@ -374,7 +374,7 @@ class ManProgExtractor(ManPageExtractor):
+> >>>      """
+> >>>      An extractor for bpftool-prog.rst.
+> >>>      """
+> >>> -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-prog.rst')
+> >>> +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-prog.rst')
+> >>>  
+> >>>      def get_attach_types(self):
+> >>>          return self.get_rst_list('ATTACH_TYPE')
+> >>>     
+> >>
+> >> No I don't believe it should. BPFTOOL_DIR already contains
+> >> 'tools/bpf/bpftool' and the os.path.join() concatenates the two path
+> >> fragments.
+> >>
+> >> Where is this suggestion coming from? Did you face an issue with the script?  
+> > 
+> > No, I didn't face any issues with this script.
+> > 
+> > The suggestion cames from the script at:
+> > 
+> > 	./scripts/documentation-file-ref-check
+> > 
+> > which is meant to discover broken doc references. 
+> > 
+> > Such script has already a rule to handle stuff under tools/:
+> > 
+> > 		# Accept relative Documentation patches for tools/
+> > 		if ($f =~ m/tools/) {
+> > 			my $path = $f;
+> > 			$path =~ s,(.*)/.*,$1,;
+> > 			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
+> > 		}
+> > 
+> > but it seems it needs a fixup in order for it to stop reporting issues
+> > at test_bpftool_synctypes.py:
+> > 
+> > 	$ ./scripts/documentation-file-ref-check 
+> > 	...
+> > 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-prog.rst
+> > 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-map.rst
+> > 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-cgroup.rst  
+> 
+> Oh, I see, thanks for explaining. I didn't know this script would catch
+> the paths in bpftool's test file.
+> 
+> > 
+> > I'll drop the patches touching it for a next version, probably
+> > adding a fix for such script.
+> > 
+> > Thanks,
+> > Mauro
+> >   
+> 
+> Sounds good to me, thanks a lot!
 
-On Thu, Sep 16, 2021 at 11:14:17AM +0200, Mauro Carvalho Chehab wrote:
-> Changeset b1c36aae51c9 ("regulator: Convert SY8106A binding to a schema")
-> renamed: Documentation/devicetree/bindings/regulator/sy8106a-regulator.txt
-> to: Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml.
+The enclosed patch should do the trick.
 
-What's the story with dependencies here?  You've just sent a single
-patch with no cover letter or anything.  I can't see any reason why
-there would be any?
+> Quentin
 
---vOmOzSkFvhd7u8Ms
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Mauro
 
------BEGIN PGP SIGNATURE-----
+[PATCH] scripts: documentation-file-ref-check: fix bpf selftests path
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFDKS4ACgkQJNaLcl1U
-h9DwbAf/QW/5nmCsGZ25qSz42lrNLKtYY+VAdQupk1EdCJB62CnwWTWWQ7XhhRln
-T/Ldj7ebSiXJje0QEos53RrumNu1rQyIV72OmeBKHUe81Lb3xizOLmZD1uFMkJzO
-8FeO6f/9aCLCDRvcWA9ijY1O4Ew9NejZVA+C54xWFxwH1gulYHds1U7Nzd0eQ/i1
-XKbDDregcvJw+Q3Kd+8cOIsQpSSKBpUW/4f0CT53tVZJXgx+u6JCeiKQHBa32FfD
-e6AgvOId7q9oJYFCdhST00wPxM4jnr1SjeeWPI5b1ziILMb1dBlgwzAPsF9sQZ0M
-KqXQKdaWLuBphA++ZGGB9e8LotPmOQ==
-=2KFO
------END PGP SIGNATURE-----
+tools/testing/selftests/bpf/test_bpftool_synctypes.py use
+relative patches on the top of BPFTOOL_DIR:
 
---vOmOzSkFvhd7u8Ms--
+	BPFTOOL_DIR = os.path.join(LINUX_ROOT, 'tools/bpf/bpftool')
+
+Change the script to automatically convert:
+
+	testing/selftests/bpf -> bpf/bpftool
+
+In order to properly check the files used by such script.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 7187ea5e5149..2d91cfe11cd2 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -144,6 +144,7 @@ while (<IN>) {
+ 		if ($f =~ m/tools/) {
+ 			my $path = $f;
+ 			$path =~ s,(.*)/.*,$1,;
++			$path =~ s,testing/selftests/bpf,bpf/bpftool,;
+ 			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
+ 		}
+ 
+
+
+
