@@ -4,50 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8587FC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBCBC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6986661209
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D288861261
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236025AbhIPJBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36178 "EHLO mail.kernel.org"
+        id S235479AbhIPJPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:15:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235383AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5ABBE61248;
-        Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
+        id S235243AbhIPJPl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:15:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A8AE611C8;
+        Thu, 16 Sep 2021 09:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631782802;
-        bh=rsagThLGknwU91UW+wq7iwL8KzIpjk7Uz5TTbN5z6wU=;
+        s=k20201202; t=1631783661;
+        bh=JwWCjmG96CZuiWgSlG9dyPmxEM9GvaJcEKBMYRMsB90=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tFeBv/ST/rANAh5y9PoCDrb44Avd9v5sTqHvfjT16NhNlU5fCrE+oG8CzCbx+IOLX
-         QVGnWRaG1LcZRrvKmRfOJ7oNFoSjmwB59m5ZbTiHq1qctr+8uwOzmHmgVoar/V8qEp
-         nwkVj3tH4e+a8u1B/JUtT0hkcUO1OOaawFbppBPKHdVpehXQBnyKSc4buLt1iqjfwy
-         UBI7Bg40H3252wXJM7L6Wec52fArj+RLb4NAvcO0Tf8Vkztw8JdbGVZDXpnJjvLPqv
-         2StIOGSOsH0ESC+uI5iT4iGWjoXZdSVx/8nnDr5DvgHmN9qlu4Xp79Z+tkqU3GcCfs
-         kMv2uYcD/KUkQ==
+        b=h+l3xVhrI7zt21b+ioX8SbwwGExRKlakRD4WElIq+yjA1P3EhyxfM9Umri1Um4q5W
+         ODLyWgFwxvJltlcWhcKl8mmrUVoCDDeY7Hoh0vlftiK9Vj+Oc+XoaO4Bwp5vQUbEzp
+         camz4FsSyoxvKTBWmwIChphQzZG5dQr8vzueaZqwy5FAhhJvY5UyVo8DUyHN/z9xs/
+         c0CGdsD7JoEDcMgLghH16PJJo7OlDhsCcS+v1z4fru7qcpTf8Hh4nvyzqchD2uynAG
+         8bzUkXMn5IxQYaivNN9JgLjQGg1juBNfNsRQm0P0KuMn75CPiNzsTAtS9orz9oLIL2
+         rkUOhF6TYUmhQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qk7-Lj; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnTH-001sKt-EJ; Thu, 16 Sep 2021 11:14:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 09/30] ABI: sysfs-class-mic: use the right wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:36 +0200
-Message-Id: <d0713698c609410506f9e520fa879c0592a5e11d.1631782432.git.mchehab+huawei@kernel.org>
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: [PATCH 05/24] dt-bindings: mmc: update mmc-card.yaml reference
+Date:   Thu, 16 Sep 2021 11:13:58 +0200
+Message-Id: <865336184bbf2306b5f185cd11d39ed69fddeca6.1631783482.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
-References: <cover.1631782432.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1631783482.git.mchehab+huawei@kernel.org>
+References: <cover.1631783482.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -55,128 +58,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On most ABI files, the wildcards are used as <x>, instead of (x).
+Changeset 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
+renamed: Documentation/devicetree/bindings/mmc/mmc-card.txt
+to: Documentation/devicetree/bindings/mmc/mmc-card.yaml.
 
-Replace it to make it using a more standard wildcard. That helps
-get_abi.pl to convert it into a regex.
+Update its cross-reference accordingly.
 
+Fixes: 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-mic | 24 +++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/mmc/host/omap_hsmmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-mic b/Documentation/ABI/testing/sysfs-class-mic
-index bd0e780c3760..5e5f36d10055 100644
---- a/Documentation/ABI/testing/sysfs-class-mic
-+++ b/Documentation/ABI/testing/sysfs-class-mic
-@@ -8,7 +8,7 @@ Description:
- 		PCIe form factor add-in Coprocessor card based on the Intel Many
- 		Integrated Core (MIC) architecture that runs a Linux OS.
+diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
+index 7a29ad542e4a..9dafcbf969d9 100644
+--- a/drivers/mmc/host/omap_hsmmc.c
++++ b/drivers/mmc/host/omap_hsmmc.c
+@@ -1510,7 +1510,7 @@ static void omap_hsmmc_init_card(struct mmc_host *mmc, struct mmc_card *card)
+ 		 * REVISIT: should be moved to sdio core and made more
+ 		 * general e.g. by expanding the DT bindings of child nodes
+ 		 * to provide a mechanism to provide this information:
+-		 * Documentation/devicetree/bindings/mmc/mmc-card.txt
++		 * Documentation/devicetree/bindings/mmc/mmc-card.yaml
+ 		 */
  
--What:		/sys/class/mic/mic(x)
-+What:		/sys/class/mic/mic<X>
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -17,7 +17,7 @@ Description:
- 		represent MIC devices (0,1,..etc). Each directory has
- 		information specific to that MIC device.
- 
--What:		/sys/class/mic/mic(x)/family
-+What:		/sys/class/mic/mic<X>/family
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -25,7 +25,7 @@ Description:
- 		Provides information about the Coprocessor family for an Intel
- 		MIC device. For example - "x100"
- 
--What:		/sys/class/mic/mic(x)/stepping
-+What:		/sys/class/mic/mic<X>/stepping
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -33,7 +33,7 @@ Description:
- 		Provides information about the silicon stepping for an Intel
- 		MIC device. For example - "A0" or "B0"
- 
--What:		/sys/class/mic/mic(x)/state
-+What:		/sys/class/mic/mic<X>/state
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -69,7 +69,7 @@ Description:
- 		"shutdown"  Initiates card OS shutdown.
- 		==========  ===================================================
- 
--What:		/sys/class/mic/mic(x)/shutdown_status
-+What:		/sys/class/mic/mic<X>/shutdown_status
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -88,7 +88,7 @@ Description:
- 		"restart"   Shutdown because of a restart command.
- 		==========  ===================================================
- 
--What:		/sys/class/mic/mic(x)/cmdline
-+What:		/sys/class/mic/mic<X>/cmdline
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -104,7 +104,7 @@ Description:
- 		or modify existing ones and then write the whole kernel command
- 		line back to this entry.
- 
--What:		/sys/class/mic/mic(x)/firmware
-+What:		/sys/class/mic/mic<X>/firmware
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -114,7 +114,7 @@ Description:
- 		card can be found. The entry can be written to change the
- 		firmware image location under /lib/firmware/.
- 
--What:		/sys/class/mic/mic(x)/ramdisk
-+What:		/sys/class/mic/mic<X>/ramdisk
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -124,7 +124,7 @@ Description:
- 		OS boot can be found. The entry can be written to change
- 		the ramdisk image location under /lib/firmware/.
- 
--What:		/sys/class/mic/mic(x)/bootmode
-+What:		/sys/class/mic/mic<X>/bootmode
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -135,7 +135,7 @@ Description:
- 		a) linux - Boot a Linux image.
- 		b) flash - Boot an image for flash updates.
- 
--What:		/sys/class/mic/mic(x)/log_buf_addr
-+What:		/sys/class/mic/mic<X>/log_buf_addr
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -149,7 +149,7 @@ Description:
- 		log buffer address to be written can be found in the System.map
- 		file of the card OS.
- 
--What:		/sys/class/mic/mic(x)/log_buf_len
-+What:		/sys/class/mic/mic<X>/log_buf_len
- Date:		October 2013
- KernelVersion:	3.13
- Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
-@@ -163,7 +163,7 @@ Description:
- 		buffer length address to be written can be found in the
- 		System.map file of the card OS.
- 
--What:		/sys/class/mic/mic(x)/heartbeat_enable
-+What:		/sys/class/mic/mic<X>/heartbeat_enable
- Date:		March 2015
- KernelVersion:	4.4
- Contact:	Ashutosh Dixit <ashutosh.dixit@intel.com>
+ 		np = of_get_compatible_child(np, "ti,wl1251");
 -- 
 2.31.1
 
