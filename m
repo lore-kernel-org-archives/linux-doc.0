@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC78EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF40C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7EC661185
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE2CB61214
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236214AbhIPJ4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:56:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57814 "EHLO mail.kernel.org"
+        id S237216AbhIPJ5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:57:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58076 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235625AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:56:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3306120C;
+        id S236276AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:56:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 97B3B61391;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=W6jGf7EkX3lQniCXTbNfJeDPlrO+LIjN+LLgn+bQ1JA=;
+        bh=ZcxvkAbWjBsIcFPKpT1xpJuBqiIZbL/L98Lbld4uPuc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L6TVulWiQXqYEVgkpN7p+Ldrv39fHjs8yRvhHKwP38Ijmmd/msoactlozwsM7COxk
-         /IzdeQQ7ru/0CTntG4y7amQJaH4nuOLg3laRdGWEdWiVjF7RiqwNc9H2bb/zeXqBu1
-         Luf8iX5cb5BavSm0yCHY3n1HouKzUNH3KDxl1Tni+1GW3jV6ehp4QuMVauQqaXbA0Y
-         scFFmv0RyT5I2ZLe1kl1t2cNwiAkJtW8luTAZMKF/YNmaZpUlCJRRWqNn4ef9psY3A
-         nRP3ZJyV98q6sjLlKENWlDUD+sdan9VO+v+0TfAEhV7cbgVyE0Kov4ECmwOcxWSVji
-         4482HsEINQqXA==
+        b=GxfhP/0T/WN0qknT4xXozXWLabRvKo4yzrfRVuBUK1D07wBz/6l/JLRHS2eIxLnt7
+         kqckjsqWGedg2cWifIvcOqrJnYUZAxgDLfdlSc7cOXhDzZNoI09vaYrs5ZX+5/cbGv
+         DiGif1x9flHsNwgAB8jU6n6QNzRZRF8zl0wX86nEP2okzVwlOl5bhbXaSrBXeZ8t/8
+         t8fR/6dBCgjgcTzSXLPpBuERMofca5cPI5e5PaM+08TQh+LA75EP3IPS+EBuI46KQL
+         fhg9dSuRXv0FT9615B4gShaARAylcdxV1MqSylB2VQP0+9cTiE86n5tb5ApUVUmg64
+         vkriq808pE+jA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vTO-6E; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vUc-Sx; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 02/23] dt-bindings: net: dsa: sja1105: update nxp,sja1105.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:01 +0200
-Message-Id: <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 20/23] MAINTAINERS: update chipone,icn8318.yaml reference
+Date:   Thu, 16 Sep 2021 11:55:19 +0200
+Message-Id: <20911bb5ac8b61f9ff598a997efce8c0dfaef130.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -55,32 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
-renamed: Documentation/devicetree/bindings/net/dsa/sja1105.txt
-to: Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml.
+Changeset 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
+renamed: Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
+to: Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
-Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Fixes: 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/dsa/sja1105.rst | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
-index 564caeebe2b2..29b1bae0cf00 100644
---- a/Documentation/networking/dsa/sja1105.rst
-+++ b/Documentation/networking/dsa/sja1105.rst
-@@ -296,7 +296,7 @@ not available.
- Device Tree bindings and board design
- =====================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3b66ca83e29d..d6df4f5eb86a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4397,7 +4397,7 @@ CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
++F:	Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
+ F:	drivers/input/touchscreen/chipone_icn8318.c
  
--This section references ``Documentation/devicetree/bindings/net/dsa/sja1105.txt``
-+This section references ``Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml``
- and aims to showcase some potential switch caveats.
- 
- RMII PHY role and out-of-band signaling
+ CHIPONE ICN8505 I2C TOUCHSCREEN DRIVER
 -- 
 2.31.1
 
