@@ -2,91 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32893C28CE7
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 17:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A997C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 17:52:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A26B6120C
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 17:44:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 599EF6105A
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 17:52:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242362AbhIPRpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 13:45:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57066 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355811AbhIPRmJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 13:42:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 507A763273;
-        Thu, 16 Sep 2021 16:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631811263;
-        bh=bF0wIcTJ91ImgJF0Qm7WlA+Rccqg9DNB53j+Xh5Pnrw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xSNKa9W6loaUShNUlfbYhP7BtiP8ciVX64eG1vYaJCP6cCyUk9ZBuMedIasqw3Gr1
-         1V32pypgkddBCB8Cj/Oj2q8rGWp3gSWEdSox9dQWSr1J09+EymvvLIR/VSmYCln9kI
-         nlR3RYjN4zAdS+xo0We1MuBGS0X+eiMNlVequcGY=
-Date:   Thu, 16 Sep 2021 18:06:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/30] ABI: sysfs-class-tpm: use wildcards for pcr-*
- nodes
-Message-ID: <YUNrez8qiAUZ2oOO@kroah.com>
-References: <cover.1631782432.git.mchehab+huawei@kernel.org>
- <4ab3fce91ea2bd7c36a07e6c646bf7bd6f4f8634.1631782432.git.mchehab+huawei@kernel.org>
- <26ba3d661d0c8a9e4a44be908dfc7cd2d89a2d43.camel@kernel.org>
- <82ae04ed8546e301553d9985367c771a23d4623e.camel@kernel.org>
+        id S245581AbhIPRxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 13:53:52 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:52544 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350618AbhIPRsz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 13:48:55 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 4544C2230A;
+        Thu, 16 Sep 2021 17:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1631814453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1UXGxl36cCRWagHQx1D/4h9BCgAVpOE3Af+7fYOJUV0=;
+        b=dLDaSykl5mJR7jcwRnUhxcauNzcBfc2gCtJt0X6VjDaaQPGiRZ6kqREm42HSHFP7BjyPBz
+        gZBqtJs2KSomO0SiqC7mfpXTbuuui65pkm1+BsbDHWMuPiFQdS+1GL4W0XdPPqfsdZjYah
+        vcqv3ZcEYYJkkff26vT71jIz3uVG/g4=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2386F13D5A;
+        Thu, 16 Sep 2021 17:47:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id X14PCDWDQ2HtbQAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Thu, 16 Sep 2021 17:47:33 +0000
+Date:   Thu, 16 Sep 2021 19:47:31 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     brookxu <brookxu.cn@gmail.com>
+Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        vipinsh@google.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] misc_cgroup: introduce misc.events to count
+ failures
+Message-ID: <20210916174731.GB9090@blackbody.suse.cz>
+References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <82ae04ed8546e301553d9985367c771a23d4623e.camel@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 16, 2021 at 07:00:51PM +0300, Jarkko Sakkinen wrote:
-> On Thu, 2021-09-16 at 18:59 +0300, Jarkko Sakkinen wrote:
-> > On Thu, 2021-09-16 at 10:59 +0200, Mauro Carvalho Chehab wrote:
-> > > Change how this expression is defined:
-> > > 
-> > > 	/sys/class/tpm/tpmX/pcr-H/N
-> > > 
-> > > in order to allow get_abi.pl to convert it into this regex:
-> > > 
-> > > 	/sys/class/tpm/tpmX/pcr-.*/.*
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  Documentation/ABI/stable/sysfs-class-tpm | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/ABI/stable/sysfs-class-tpm b/Documentation/ABI/stable/sysfs-class-tpm
-> > > index d897ecb9615f..411d5895bed4 100644
-> > > --- a/Documentation/ABI/stable/sysfs-class-tpm
-> > > +++ b/Documentation/ABI/stable/sysfs-class-tpm
-> > > @@ -195,7 +195,7 @@ Description:	The "tpm_version_major" property shows the TCG spec major version
-> > >  
-> > >  		  2
-> > >  
-> > > -What:		/sys/class/tpm/tpmX/pcr-H/N
-> > > +What:		/sys/class/tpm/tpmX/pcr-<H>/<N>
-> > >  Date:		March 2021
-> > >  KernelVersion:	5.12
-> > >  Contact:	linux-integrity@vger.kernel.org
-> > 
-> > Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+On Wed, Sep 15, 2021 at 10:18:49AM +0800, brookxu <brookxu.cn@gmail.com> wrote:
+> From: Chunguang Xu <brookxu@tencent.com>
 > 
-> I guess I don't have to pick this tho? Just checking.
+> Introduce misc.events to make it easier for us to understand
+> the pressure of resources. Currently only the 'max' event is
+> implemented, which indicates the times the resource is about
+> to exceeds the max limit.
 > 
-> Presuming that the whole series is applied by someone...
+> Signed-off-by: Chunguang Xu <brookxu@tencent.com>
+> ---
+> 
+> v3: remove misc.events.local.
+> v2: remove cgroup v1 files.
+> 
+>  include/linux/misc_cgroup.h |  5 +++++
+>  kernel/cgroup/misc.c        | 24 ++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+)
 
-I'll be taking these, thanks!
-
-greg k-h
+LGTM,
+Reviewed-by: Michal Koutný <mkoutny@suse.com>
