@@ -2,70 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 029EFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98049C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:49:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFE2B61185
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:44:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BC2960F6C
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:49:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235649AbhIPJqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:46:05 -0400
-Received: from 1.mo7.mail-out.ovh.net ([178.33.45.51]:38745 "EHLO
-        1.mo7.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235352AbhIPJqF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 05:46:05 -0400
-X-Greylist: delayed 604 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Sep 2021 05:46:05 EDT
-Received: from player726.ha.ovh.net (unknown [10.110.171.173])
-        by mo7.mail-out.ovh.net (Postfix) with ESMTP id A7E1B1B7B01
-        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 11:34:39 +0200 (CEST)
-Received: from RCM-web1.webmail.mail.ovh.net (ip-194-187-74-233.konfederacka.maverick.com.pl [194.187.74.233])
-        (Authenticated sender: rafal@milecki.pl)
-        by player726.ha.ovh.net (Postfix) with ESMTPSA id 1C4E5221DD910;
-        Thu, 16 Sep 2021 09:34:33 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Thu, 16 Sep 2021 11:34:32 +0200
-From:   =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
+        id S235852AbhIPJu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:50:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55728 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235287AbhIPJuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:50:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E2D960F6C;
+        Thu, 16 Sep 2021 09:49:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631785771;
+        bh=ZL36CtfQPIByWCEdkXe9MMBPrn88jj47xHWZOqeo/aM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=agYldPhVUM/jkq3nabLH8doK7az+QbhwSa1QkRsJsw+f+dF43Hf0YU9y42UFHK3UR
+         sNErnc61PHJPtXU9CC8uk4wII9C3RFyKa0lgj+WKjYaZhpeDk79+S6IVjAjeZbIBQf
+         cexgQlGNri9PJHAwQ6vrSnPyKG8ekyV6TYw9mkC72DFA5MpFWnbxKE8nVvFn+FHn17
+         nhzYbPln0d8lXf+M2759LVkEjSxewL0E8BASK1cG4Y29l+RMsob6BborKwIk5eJSsN
+         4VMMQeSHRmllg7YkuGrU4O0s5C/7ZTt3zMRq6n0vAUxmvQfreqJ6SxDtNcvFxYcCmO
+         yJCH4qRaoINxg==
+Date:   Thu, 16 Sep 2021 11:49:26 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sudeep Holla <sudeep.holla@arm.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 22/24] MAINTAINERS: update brcm,unimac-mdio.yaml reference
-In-Reply-To: <39e251389606fb11d0d5888d76aacaf595643da8.1631783482.git.mchehab+huawei@kernel.org>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/24] MAINTAINERS: update arm,vic.yaml reference
+Message-ID: <20210916114926.71c789fd@coco.lan>
+In-Reply-To: <20210916091836.oevsk4eui6wa7xkt@bogus>
 References: <cover.1631783482.git.mchehab+huawei@kernel.org>
- <39e251389606fb11d0d5888d76aacaf595643da8.1631783482.git.mchehab+huawei@kernel.org>
-User-Agent: Roundcube Webmail/1.4.10
-Message-ID: <9b8d6cab5e682e9fdd3031294ec8efba@milecki.pl>
-X-Sender: rafal@milecki.pl
-X-Originating-IP: 194.187.74.233
-X-Webmail-UserID: rafal@milecki.pl
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+        <61989ac6bc0bece7078c32320049c74443bbb5ba.1631783482.git.mchehab+huawei@kernel.org>
+        <20210916091836.oevsk4eui6wa7xkt@bogus>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 1130122033111215067
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvufgjfhgfkfigihgtgfesthejjhdttdervdenucfhrhhomheptfgrfhgrlhgpofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepveefvdetjeffueefkeeuuedvgefhgeegjefgvedvgeeiteduueeivdeltedthfetnecukfhppedtrddtrddtrddtpdduleegrddukeejrdejgedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheprhgrfhgrlhesmhhilhgvtghkihdrphhlpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-09-16 11:14, Mauro Carvalho Chehab wrote:
-> Changeset 5d1c5594b646 ("dt-bindings: net: brcm,unimac-mdio: convert
-> to the json-schema")
-> renamed: Documentation/devicetree/bindings/net/brcm,unimac-mdio.txt
-> to: Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml.
+Em Thu, 16 Sep 2021 10:18:36 +0100
+Sudeep Holla <sudeep.holla@arm.com> escreveu:
+
+> On Thu, Sep 16, 2021 at 11:14:05AM +0200, Mauro Carvalho Chehab wrote:
+> > Changeset b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
+> > renamed: Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
+> > to: Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml.
+> > 
+> > Update its cross-reference accordingly.
+> > 
+> > Fixes: b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  MAINTAINERS | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 0ea4cd772a0c..f02d1c94a219 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1550,7 +1550,7 @@ ARM PRIMECELL VIC PL190/PL192 DRIVER
+> >  M:	Linus Walleij <linus.walleij@linaro.org>
+> >  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> >  S:	Maintained
+> > -F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
+> > +F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
+> >  F:	drivers/irqchip/irq-vic.c  
 > 
-> Update its cross-reference accordingly.
+> You seem to have dropped the tags already provided here [1]
 
-Quick question: do we want to reference .yaml files in the MAINTAINERS
-at all?
+Gah, true :-(
 
-Every YAML has maintainer specified on its own and new YAML files often
-come without a MAINTAINERS entry.
+I forgot I submitted part of those patches already. Will send a v2
+with the missing reviewed-by/acked-by.
+
+Thanks,
+Mauro
