@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4DF8C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC78EC433FE
 	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA69D61212
+	by mail.kernel.org (Postfix) with ESMTP id C7EC661185
 	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236351AbhIPJ5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:57:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58056 "EHLO mail.kernel.org"
+        id S236214AbhIPJ4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:56:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236311AbhIPJ4w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:56:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD902613A9;
+        id S235625AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:56:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3306120C;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=9HM99bp42GrDo8Wh8WFpyjKqMlQVsdN9rnF+mvtZRYw=;
+        bh=W6jGf7EkX3lQniCXTbNfJeDPlrO+LIjN+LLgn+bQ1JA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JXMWPRfl8clOecIpLQ+0or+fcVaWPbp+aeTNkhOFTQx1fWuZ+EzKw2SB5dSQAa3vg
-         4FkSr9izc4DcZqH9SOh3M+FHJiX9ZQF74dS/RLcYOloLMsK4qK2z3qQn8Q+3yBjvDZ
-         RGAdHFsV5rp0/V1Id7kSa7YM6OON59hT0fMsqoycqaKXYmsMeqsE7i582URYqz1Qig
-         hnFFpVi3+/iqDCK0vfL0sELFhKDKNJlY0jtp8/J5yTrG0iTnuaXQKXIndfV+WXnKPM
-         XSHklKvrAivyzkdbDXKPkGklxnliE+8JoaVqGXq0uHrVaKNztDzmKjxTC/BucvEae7
-         GTrMx/sL5FdFA==
+        b=L6TVulWiQXqYEVgkpN7p+Ldrv39fHjs8yRvhHKwP38Ijmmd/msoactlozwsM7COxk
+         /IzdeQQ7ru/0CTntG4y7amQJaH4nuOLg3laRdGWEdWiVjF7RiqwNc9H2bb/zeXqBu1
+         Luf8iX5cb5BavSm0yCHY3n1HouKzUNH3KDxl1Tni+1GW3jV6ehp4QuMVauQqaXbA0Y
+         scFFmv0RyT5I2ZLe1kl1t2cNwiAkJtW8luTAZMKF/YNmaZpUlCJRRWqNn4ef9psY3A
+         nRP3ZJyV98q6sjLlKENWlDUD+sdan9VO+v+0TfAEhV7cbgVyE0Kov4ECmwOcxWSVji
+         4482HsEINQqXA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vUo-W3; Thu, 16 Sep 2021 11:55:25 +0200
+        id 1mQo72-001vTO-6E; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/23] MAINTAINERS: update ti,am654-hbmc.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:22 +0200
-Message-Id: <86f95f891eb73a9b9865d9b3dd4338bc54aac54d.1631785820.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 02/23] dt-bindings: net: dsa: sja1105: update nxp,sja1105.yaml reference
+Date:   Thu, 16 Sep 2021 11:55:01 +0200
+Message-Id: <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -55,31 +55,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6947ad674944 ("dt-bindings: mtd: Convert ti, am654-hbmc.txt to YAML schema")
-renamed: Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
-to: Documentation/devicetree/bindings/mtd/ti,am654-hbmc.yaml.
+Changeset 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+renamed: Documentation/devicetree/bindings/net/dsa/sja1105.txt
+to: Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 6947ad674944 ("dt-bindings: mtd: Convert ti, am654-hbmc.txt to YAML schema")
+Fixes: 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ Documentation/networking/dsa/sja1105.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 067ae42b53aa..8fed382b1935 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8725,7 +8725,7 @@ Q:	http://patchwork.ozlabs.org/project/linux-mtd/list/
- C:	irc://irc.oftc.net/mtd
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git cfi/next
- F:	Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
--F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
-+F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.yaml
- F:	drivers/mtd/hyperbus/
- F:	include/linux/mtd/hyperbus.h
+diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
+index 564caeebe2b2..29b1bae0cf00 100644
+--- a/Documentation/networking/dsa/sja1105.rst
++++ b/Documentation/networking/dsa/sja1105.rst
+@@ -296,7 +296,7 @@ not available.
+ Device Tree bindings and board design
+ =====================================
  
+-This section references ``Documentation/devicetree/bindings/net/dsa/sja1105.txt``
++This section references ``Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml``
+ and aims to showcase some potential switch caveats.
+ 
+ RMII PHY role and out-of-band signaling
 -- 
 2.31.1
 
