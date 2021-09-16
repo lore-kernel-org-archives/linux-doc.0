@@ -2,49 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0ABC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2A5C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:15:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9DC561108
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55B2461214
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:15:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236690AbhIPJQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:16:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40980 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235509AbhIPJPm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235585AbhIPJPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 16 Sep 2021 05:15:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D70161260;
+Received: from mail.kernel.org ([198.145.29.99]:40852 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235383AbhIPJPl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:15:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5099861209;
         Thu, 16 Sep 2021 09:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631783661;
-        bh=EfSEPvAIlcpmhHsnVHD6WhtDDost7aNu58XXoESLtgM=;
+        bh=83vkFWOnmUdHmvdZYCb71ZYm+RoKY7l/VWT0C4zUsJ4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cL+jRoHKOE53akLnckgtY2+1Si/BK3/e+pNtGm73I2lw3W0E9yFk5qnggqyJ/uD0W
-         XX0sAqyxttLTyeL7TROz5twT9n3rV6jpKPleLUoVPhBOgSsAOTmk1+RtfnZWN+gLKu
-         Zz2e577Z99Pc8T6O0d6V3mCimeaOjvlcPttkKlMKOetJQlI+cIqH6CCxP55Vq5hX4x
-         TwE6BvL+x7d+RVNQ57krMrqx9suzrZPb85BWfnIGOJIwNgjhDRhgAVKMcHYGyFTxrT
-         F0NXzl/wnhUqDnojfYgixcgL6pUgyttjiPhIqdKo+mAyxDrIf19dhqdyJJYxwEAek8
-         QprBm0qi8O8Gw==
+        b=E+lyG1uloXhex9KJPzmERJ3/tNtAQeJV7eTNB8mZFXHv/gDwyyG+pYEv5ko8Dkn1T
+         UMNuZZPpEshs5pCUZ7dcLyjqwghAlh3HAtVR4RT0OUXRJOKKdtWKKw3G03zLGrAJTX
+         uVemPgyMaJuyNEermSBMcxsXQ9EWFuHa4RWSoYekzz8LdOE7sgx3RTQ6cYj1Dp0VAa
+         SeqEBrQipxYXiBpSXd63V5XTrzJKB5fuGD/0M/4MLWEfgzr03F7HZ7/7FqB3GmXJxm
+         XEHuflOkrFQttorRbUDFr8/CWGtkV89b1gAuwQwLTlhsrNqxdrMDb6vR6Wv+bDbePu
+         7x/XuJ4YYU2xA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnTH-001sLW-Q8; Thu, 16 Sep 2021 11:14:19 +0200
+        id 1mQnTH-001sKx-Fd; Thu, 16 Sep 2021 11:14:19 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 14/24] MAINTAINERS: update faraday,ftrtc010.yaml reference
-Date:   Thu, 16 Sep 2021 11:14:07 +0200
-Message-Id: <59b2f6dd8f4ec587dad2d80f4e0f99686b051a21.1631783482.git.mchehab+huawei@kernel.org>
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Grant Seltzer <grantseltzer@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 06/24] libbpf: update index.rst reference
+Date:   Thu, 16 Sep 2021 11:13:59 +0200
+Message-Id: <ae12f5de645a2ae07f183babe6615bdf0384f9a8.1631783482.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631783482.git.mchehab+huawei@kernel.org>
 References: <cover.1631783482.git.mchehab+huawei@kernel.org>
@@ -55,31 +60,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
-renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
+Changeset d20b41115ad5 ("libbpf: Rename libbpf documentation index file")
+renamed: Documentation/bpf/libbpf/libbpf.rst
+to: Documentation/bpf/libbpf/index.rst.
 
 Update its cross-reference accordingly.
 
-Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+Fixes: d20b41115ad5 ("libbpf: Rename libbpf documentation index file")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ Documentation/bpf/index.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d0f4fe1481da..dce6cafeedab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1875,7 +1875,7 @@ T:	git git://github.com/ulli-kroll/linux.git
- F:	Documentation/devicetree/bindings/arm/gemini.txt
- F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
- F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
--F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
-+F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
- F:	arch/arm/boot/dts/gemini*
- F:	arch/arm/mach-gemini/
- F:	drivers/crypto/gemini/
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 1ceb5d704a97..817a201a1282 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -15,7 +15,7 @@ that goes into great technical depth about the BPF Architecture.
+ libbpf
+ ======
+ 
+-Documentation/bpf/libbpf/libbpf.rst is a userspace library for loading and interacting with bpf programs.
++Documentation/bpf/libbpf/index.rst is a userspace library for loading and interacting with bpf programs.
+ 
+ BPF Type Format (BTF)
+ =====================
 -- 
 2.31.1
 
