@@ -2,48 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-24.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C3A6C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 750B7C4321E
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16E736120C
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CD1A61209
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235725AbhIPJBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36312 "EHLO mail.kernel.org"
+        id S235680AbhIPJBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235453AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D1CCB61350;
+        id S235384AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:01:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 55B786124E;
         Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782802;
-        bh=8X6iKZKbq4im/83b/dKnmIbN89ytuKdprO9tSswagyY=;
+        bh=XrTWM3XUmOYwQg4h4rg2YNW0ywb33mfG3HDzuCggoYg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WYMBrPDPCcvja0Yc3J1jiuq/AmXN0UaZ9stSHBsmrwgDjaluzcISXENaSciODSmMZ
-         +OE37P0PvRuocXJ90CokLvSOsc0qz2CnG5ec2eT0nHOzieMPRFVXxcZkvdVogVEixB
-         4KU2bnyPjxk7yuwvUysIFS0KPjzeF8IIOJI/Qjy18WzuCpNjBI3DFGzzPe+BSOMYeA
-         LD2B59woMwbQMhFMbCMhs8trGhrwmj6tXLa6Cz35vtkG/0rakEySwB5XsG1JC+aqZL
-         Z4viRAd0vOiNIMLIKAJ9ikuXPKPgFZGMgnWNYXyDF3wrIt6f12y+dVtA5zstHoMa5R
-         xlZaFcz6w1bXw==
+        b=DvR3Qf+k/Q7sPFc4MBwz51EaAvKJS/UdfZCZtp+fB1aWz64p5452UgaJQB9pPj/zp
+         hLzgdD/QRhw/OolRl3HCzN1sJh16kiv/KsNRlX1Ctq4AR0ZNfAFA49X1DkNaf0Noay
+         B4JL2Li/HCzg75I1BvoIthtAizZt+XXqqucULD095PIBbsiz3UL1RDtPbx0eDE9DMP
+         wD8yqKixtftLzR8uJ02DFLSLfTmpCacw6lvBbNGbqECFGwQWHX+WqwQWqPnCUqiQXy
+         NEoDShuOX4la3jiqsqPAUrDhCbZ6n8JoWdSl+u1zr3HzG5/CRgj4Voj4ewc+dx3E4d
+         DZgGY/TiMbHpw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFR-001qka-0J; Thu, 16 Sep 2021 11:00:01 +0200
+        id 1mQnFQ-001qjz-IM; Thu, 16 Sep 2021 11:00:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 16/30] ABI: sysfs-bus-soundwire-slave: use wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:43 +0200
-Message-Id: <416f4a746c116147abb08fb0155a6a4ed065dfd7.1631782432.git.mchehab+huawei@kernel.org>
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v3 07/30] ABI: sysfs-class-cxl: place "not in a guest" at description
+Date:   Thu, 16 Sep 2021 10:59:34 +0200
+Message-Id: <cb1f2af183369d682a46efa4e5c01ad5f66e99c4.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -54,87 +55,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An "N" upper letter is not a wildcard, nor can easily be identified
-by script, specially since the USB sysfs define things like.
-bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
-to convert it into a Regex.
+The What: field should have just the location of the ABI.
+Anything else should be inside the description.
 
+This fixes its parsing by get_abi.pl script.
+
+Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../ABI/testing/sysfs-bus-soundwire-slave     | 60 +++++++++----------
- 1 file changed, 30 insertions(+), 30 deletions(-)
+ Documentation/ABI/testing/sysfs-class-cxl | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-soundwire-slave b/Documentation/ABI/testing/sysfs-bus-soundwire-slave
-index d324aa0b678f..fbf55834dfee 100644
---- a/Documentation/ABI/testing/sysfs-bus-soundwire-slave
-+++ b/Documentation/ABI/testing/sysfs-bus-soundwire-slave
-@@ -64,37 +64,37 @@ Description:	SoundWire Slave Data Port-0 DisCo properties.
- 		Data port 0 are used by the bus to configure the Data Port 0.
+diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
+index 818f55970efb..3c77677e0ca7 100644
+--- a/Documentation/ABI/testing/sysfs-class-cxl
++++ b/Documentation/ABI/testing/sysfs-class-cxl
+@@ -166,10 +166,11 @@ Description:    read only
+                 Decimal value of the Per Process MMIO space length.
+ Users:		https://github.com/ibm-capi/libcxl
  
+-What:           /sys/class/cxl/<afu>m/pp_mmio_off (not in a guest)
++What:           /sys/class/cxl/<afu>m/pp_mmio_off
+ Date:           September 2014
+ Contact:        linuxppc-dev@lists.ozlabs.org
+ Description:    read only
++                (not in a guest)
+                 Decimal value of the Per Process MMIO space offset.
+ Users:		https://github.com/ibm-capi/libcxl
  
--What:		/sys/bus/soundwire/devices/sdw:.../dpN_src/max_word
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/min_word
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/words
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/type
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/max_grouping
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/simple_ch_prep_sm
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/ch_prep_timeout
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/imp_def_interrupts
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/min_ch
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/max_ch
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/channels
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/ch_combinations
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/max_async_buffer
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/block_pack_mode
--		/sys/bus/soundwire/devices/sdw:.../dpN_src/port_encoding
-+What:		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/max_word
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/min_word
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/words
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/type
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/max_grouping
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/simple_ch_prep_sm
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/ch_prep_timeout
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/imp_def_interrupts
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/min_ch
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/max_ch
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/channels
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/ch_combinations
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/max_async_buffer
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/block_pack_mode
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_src/port_encoding
+@@ -190,28 +191,31 @@ Description:    read only
+                 Identifies the revision level of the PSL.
+ Users:		https://github.com/ibm-capi/libcxl
  
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/max_word
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/min_word
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/words
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/type
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/max_grouping
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/simple_ch_prep_sm
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/ch_prep_timeout
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/imp_def_interrupts
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/min_ch
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/max_ch
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/channels
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/ch_combinations
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/max_async_buffer
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/block_pack_mode
--		/sys/bus/soundwire/devices/sdw:.../dpN_sink/port_encoding
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/max_word
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/min_word
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/words
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/type
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/max_grouping
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/simple_ch_prep_sm
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/ch_prep_timeout
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/imp_def_interrupts
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/min_ch
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/max_ch
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/channels
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/ch_combinations
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/max_async_buffer
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/block_pack_mode
-+		/sys/bus/soundwire/devices/sdw:.../dp<N>_sink/port_encoding
+-What:           /sys/class/cxl/<card>/base_image (not in a guest)
++What:           /sys/class/cxl/<card>/base_image
+ Date:           September 2014
+ Contact:        linuxppc-dev@lists.ozlabs.org
+ Description:    read only
++                (not in a guest)
+                 Identifies the revision level of the base image for devices
+                 that support loadable PSLs. For FPGAs this field identifies
+                 the image contained in the on-adapter flash which is loaded
+                 during the initial program load.
+ Users:		https://github.com/ibm-capi/libcxl
  
- Date:		May 2020
+-What:           /sys/class/cxl/<card>/image_loaded (not in a guest)
++What:           /sys/class/cxl/<card>/image_loaded
+ Date:           September 2014
+ Contact:        linuxppc-dev@lists.ozlabs.org
+ Description:    read only
++                (not in a guest)
+                 Will return "user" or "factory" depending on the image loaded
+                 onto the card.
+ Users:		https://github.com/ibm-capi/libcxl
+ 
+-What:           /sys/class/cxl/<card>/load_image_on_perst (not in a guest)
++What:           /sys/class/cxl/<card>/load_image_on_perst
+ Date:           December 2014
+ Contact:        linuxppc-dev@lists.ozlabs.org
+ Description:    read/write
++                (not in a guest)
+                 Valid entries are "none", "user", and "factory".
+                 "none" means PERST will not cause image to be loaded to the
+                 card.  A power cycle is required to load the image.
+@@ -235,10 +239,11 @@ Description:    write only
+                 contexts on the card AFUs.
+ Users:		https://github.com/ibm-capi/libcxl
+ 
+-What:		/sys/class/cxl/<card>/perst_reloads_same_image (not in a guest)
++What:		/sys/class/cxl/<card>/perst_reloads_same_image
+ Date:		July 2015
+ Contact:	linuxppc-dev@lists.ozlabs.org
+ Description:	read/write
++                (not in a guest)
+ 		Trust that when an image is reloaded via PERST, it will not
+ 		have changed.
  
 -- 
 2.31.1
