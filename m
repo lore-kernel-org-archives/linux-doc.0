@@ -2,56 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1187C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75F07C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6E8E6120D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E6B36120C
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235524AbhIPJBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36104 "EHLO mail.kernel.org"
+        id S235607AbhIPJBZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36122 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235298AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235352AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:01:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B4A561186;
-        Thu, 16 Sep 2021 09:00:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3F90761242;
+        Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782802;
-        bh=yv/P65NUKvPLn6I6fZBzrh0PDDXSPJiG66WIrAPEy9s=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LLhS5oBLZruJX3JmpWVk5IJo2JNurjB95S2PHKc/CjWbGOnVz3yL0gyDWBmOqlW5U
-         mUrGY1dBe1BoEgWBrVxkc3HZgpj7iss+nGNQJGM1txpZL8ELg9bGll6NiJKG1u/zFO
-         iYCjhBrW4XyjR4/Z8CDOyxLtzEuGaqzUA2Wuv1+f8fvvFkseQEi+g3WZC5KIRaV/xM
-         8Cbck66UVwFx55O/f7tip/Txp0RtzTMqRjKrQ7pFcY2qI9nvSw0p5Bexf1yTv5f3lE
-         NCPvtJdfgA4M/FC8k95UL3I5p16D9dwqkNhsQwLi/b7s4FiEAMsdTwZXaeuw1KCCot
-         I7xNhLeMbVqjg==
+        bh=omLihTTkbbmL7wIzlqe8Cy3U+pVQfVA1OrggMS33ax4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mVBG/hXI7JDss9Q+jJqkj3TfpB+OXbetHzNP4olp3iWLCuZNzsalqMRT5LMKOpkaP
+         dn96iCT5XBcDQT6hEB5QRBS+EzJlBDsEY3epW6gjNIweY4gIhkLV3qdiGU7eYAArVx
+         uKQp7shwPwlJR8YD4MSOGLIRzzBEJvIOuBCFNiU6HEfvytSF02rC4ydpN455A5slq7
+         OZGPQ+SqvVzqwoHfKzK/LdGNT/u/L7Qz6PW8/rpW1JpNNVz0QvWBigquWdJsF9YQb4
+         cSQxYgjhdeG45Uf6CszXLt+NLdxOrctqaA3GvqKT+XcaGulVZ9xhm95ZMBgZcjE/B1
+         c8kkU9oYCOzFw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qjS-5M; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnFQ-001qjv-Gq; Thu, 16 Sep 2021 11:00:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Johan Hovold <johan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Rosin <peda@axentia.se>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Tony Luck <tony.luck@intel.com>, linux-usb@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org
-Subject: [PATCH v3 00/30]Change wildcards on ABI files
-Date:   Thu, 16 Sep 2021 10:59:27 +0200
-Message-Id: <cover.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 06/30] ABI: sysfs-bus-rapidio: use wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:33 +0200
+Message-Id: <207762e994d50eec0bf8d61c3adf153030c821eb.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
+References: <cover.1631782432.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -59,106 +55,172 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ABI files are meant to be parsed via a script (scripts/get_abi.pl).
+While humans may be able to understand that something like:
 
-A new improvement on it will allow it to help to detect if an ABI description
-is missing, or if the What: field won't match the actual location of the symbol.
+	/sys/bus/rapidio/devices/nn:d:iiii
 
-In order for get_abi.pl to convert What: into regex, changes are needed on
-existing ABI files, as the conversion should not be ambiguous.
+could actually mean:
 
-One alternative would be to convert everything into regexes, but this
-would generate a huge amount of patches/changes. So, instead, let's
-touch only the ABI files that aren't following the de-facto wildcard 
-standards already found on most of the ABI files, e. g.:
+	/sys/bus/rapidio/devices/00:e:0000
 
-	/.../
-	*
-	<foo>
-	(option1|option2)
-	X
-	Y
-	Z
-	[0-9] (and variants)
+This is something that computers can't easily identify. As
+get_abi.pl needs to convert it into a regex, change What: lines
+to:
 
+	/sys/bus/rapidio/devices/<nn>:<d>:<iiii>
+
+Which is the commonly-used pattern on ABI files for wildcards.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ Documentation/ABI/testing/sysfs-bus-rapidio | 32 ++++++++++-----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-v3:
-   - Added a new patch for sysfs-class-rapidio;
-   - sysfs-class-typec had a typo, instead of a wildcard;
-   - sysfs-bus-soundwire-* had some additional What to be fixed;
-   - added some reviewed-by/acked-by tags.
-
-v2:
-   - Added several patches to address uppercase "N" meaning
-     as a wildcard.
-
-Mauro Carvalho Chehab (30):
-  ABI: sysfs-bus-usb: better document variable argument
-  ABI: sysfs-tty: better document module name parameter
-  ABI: sysfs-kernel-slab: use a wildcard for the cache name
-  ABI: security: fix location for evm and ima_policy
-  ABI: sysfs-class-tpm: use wildcards for pcr-* nodes
-  ABI: sysfs-bus-rapidio: use wildcards on What definitions
-  ABI: sysfs-class-cxl: place "not in a guest" at description
-  ABI: sysfs-class-devfreq-event: use the right wildcards on What
-  ABI: sysfs-class-mic: use the right wildcards on What definitions
-  ABI: pstore: Fix What field
-  ABI:  fix a typo on a What field
-  ABI: sysfs-ata: use a proper wildcard for ata_*
-  ABI: sysfs-class-infiniband: use wildcards on What definitions
-  ABI: sysfs-bus-pci: use wildcards on What definitions
-  ABI: -master: use wildcards on What definitions
-  ABI: sysfs-bus-soundwire-slave: use wildcards on What definitions
-  ABI: sysfs-class-gnss: use wildcards on What definitions
-  ABI: sysfs-class-mei: use wildcards on What definitions
-  ABI: sysfs-class-mux: use wildcards on What definitions
-  ABI: sysfs-class-pwm: use wildcards on What definitions
-  ABI: sysfs-class-rc: use wildcards on What definitions
-  ABI: sysfs-class-rc-nuvoton: use wildcards on What definitions
-  ABI: sysfs-class-uwb_rc: use wildcards on What definitions
-  ABI: sysfs-class-uwb_rc-wusbhc: use wildcards on What definitions
-  ABI: sysfs-devices-platform-dock: use wildcards on What definitions
-  ABI: sysfs-devices-system-cpu: use wildcards on What definitions
-  ABI: sysfs-firmware-efi-esrt: use wildcards on What definitions
-  ABI: sysfs-platform-sst-atom: use wildcards on What definitions
-  ABI: sysfs-ptp: use wildcards on What definitions
-  ABI: sysfs-class-rapidio: use wildcards on What definitions
-
- .../ABI/stable/sysfs-class-infiniband         | 64 ++++++-------
- Documentation/ABI/stable/sysfs-class-tpm      |  2 +-
- Documentation/ABI/testing/evm                 |  4 +-
- Documentation/ABI/testing/ima_policy          |  2 +-
- Documentation/ABI/testing/pstore              |  3 +-
- Documentation/ABI/testing/sysfs-ata           |  2 +-
- Documentation/ABI/testing/sysfs-bus-pci       |  2 +-
- Documentation/ABI/testing/sysfs-bus-rapidio   | 32 +++----
- .../ABI/testing/sysfs-bus-soundwire-master    | 20 ++--
- .../ABI/testing/sysfs-bus-soundwire-slave     | 60 ++++++------
- Documentation/ABI/testing/sysfs-bus-usb       | 16 ++--
- Documentation/ABI/testing/sysfs-class-cxl     | 15 ++-
- .../ABI/testing/sysfs-class-devfreq-event     | 12 +--
- Documentation/ABI/testing/sysfs-class-gnss    |  2 +-
- Documentation/ABI/testing/sysfs-class-mei     | 18 ++--
- Documentation/ABI/testing/sysfs-class-mic     | 24 ++---
- Documentation/ABI/testing/sysfs-class-mux     |  2 +-
- Documentation/ABI/testing/sysfs-class-pwm     | 20 ++--
- Documentation/ABI/testing/sysfs-class-rapidio |  4 +-
- Documentation/ABI/testing/sysfs-class-rc      | 14 +--
- .../ABI/testing/sysfs-class-rc-nuvoton        |  2 +-
- Documentation/ABI/testing/sysfs-class-typec   |  2 +-
- Documentation/ABI/testing/sysfs-class-uwb_rc  | 26 ++---
- .../ABI/testing/sysfs-class-uwb_rc-wusbhc     | 10 +-
- .../ABI/testing/sysfs-devices-platform-dock   | 10 +-
- .../ABI/testing/sysfs-devices-system-cpu      | 16 ++--
- .../ABI/testing/sysfs-firmware-efi-esrt       | 16 ++--
- Documentation/ABI/testing/sysfs-kernel-slab   | 94 +++++++++----------
- .../ABI/testing/sysfs-platform-sst-atom       |  2 +-
- Documentation/ABI/testing/sysfs-ptp           | 30 +++---
- Documentation/ABI/testing/sysfs-tty           | 32 +++----
- 31 files changed, 282 insertions(+), 276 deletions(-)
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-rapidio b/Documentation/ABI/testing/sysfs-bus-rapidio
+index 634ea207a50a..f8b6728dac10 100644
+--- a/Documentation/ABI/testing/sysfs-bus-rapidio
++++ b/Documentation/ABI/testing/sysfs-bus-rapidio
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/rapidio/devices/nn:d:iiii
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>
+ Description:
+ 		For each RapidIO device, the RapidIO subsystem creates files in
+ 		an individual subdirectory with the following name format of
+@@ -29,7 +29,7 @@ Description:
+ Attributes Common for All RapidIO Devices
+ -----------------------------------------
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/did
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/did
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -37,7 +37,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) returns the device identifier
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/vid
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/vid
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -45,7 +45,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) returns the device vendor identifier
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/device_rev
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/device_rev
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -53,7 +53,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) returns the device revision level
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_did
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_did
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -61,7 +61,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) returns identifier for the assembly containing the device
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_rev
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_rev
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -70,7 +70,7 @@ Description:
+ 		(RO) returns revision level of the assembly containing the
+ 		device
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/asm_vid
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/asm_vid
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -79,7 +79,7 @@ Description:
+ 		(RO) returns vendor identifier of the assembly containing the
+ 		device
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/destid
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/destid
+ Date:		Mar, 2011
+ KernelVersion:	v2.6.3
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -88,7 +88,7 @@ Description:
+ 		(RO) returns device destination ID assigned by the enumeration
+ 		routine
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/lprev
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/lprev
+ Date:		Mar, 2011
+ KernelVersion:	v2.6.39
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -97,7 +97,7 @@ Description:
+ 		(RO) returns name of previous device (switch) on the path to the
+ 		device that that owns this attribute
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/modalias
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/modalias
+ Date:		Jul, 2013
+ KernelVersion:	v3.11
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -105,7 +105,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) returns the device modalias
+ 
+-What:		/sys/bus/rapidio/devices/nn:d:iiii/config
++What:		/sys/bus/rapidio/devices/<nn>:<d>:<iiii>/config
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -128,7 +128,7 @@ device-specific sysfs attributes by specifying a callback function that may be
+ set by the switch initialization routine during enumeration or discovery
+ process.
+ 
+-What:		/sys/bus/rapidio/devices/nn:s:iiii/routes
++What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/routes
+ Date:		Nov, 2005
+ KernelVersion:	v2.6.15
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -138,7 +138,7 @@ Description:
+ 		This attribute reports only valid routing table entries, one
+ 		line for each entry.
+ 
+-What:		/sys/bus/rapidio/devices/nn:s:iiii/destid
++What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/destid
+ Date:		Mar, 2011
+ KernelVersion:	v2.6.3
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -147,7 +147,7 @@ Description:
+ 		(RO) device destination ID of the associated device that defines
+ 		a route to the switch
+ 
+-What:		/sys/bus/rapidio/devices/nn:s:iiii/hopcount
++What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/hopcount
+ Date:		Mar, 2011
+ KernelVersion:	v2.6.39
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -155,7 +155,7 @@ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+ Description:
+ 		(RO) number of hops on the path to the switch
+ 
+-What:		/sys/bus/rapidio/devices/nn:s:iiii/lnext
++What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/lnext
+ Date:		Mar, 2011
+ KernelVersion:	v2.6.39
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
+@@ -172,7 +172,7 @@ Device-specific Switch Attributes
+ 
+ IDT_GEN2-
+ 
+-What:		/sys/bus/rapidio/devices/nn:s:iiii/errlog
++What:		/sys/bus/rapidio/devices/<nn>:<s>:<iiii>/errlog
+ Date:		Oct, 2010
+ KernelVersion:	v2.6.37
+ Contact:	Matt Porter <mporter@kernel.crashing.org>,
 -- 
 2.31.1
-
 
