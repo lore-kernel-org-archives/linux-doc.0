@@ -4,46 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF40C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C2BC43219
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE2CB61214
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAEDE61207
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237216AbhIPJ5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:57:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58076 "EHLO mail.kernel.org"
+        id S237255AbhIPJ5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:57:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58054 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236276AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S236221AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:56:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 97B3B61391;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 422DE61246;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=ZcxvkAbWjBsIcFPKpT1xpJuBqiIZbL/L98Lbld4uPuc=;
+        bh=SoojYHvRGcHq15wi1lokm8T7b2MKM9WukjphpKpCLUU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GxfhP/0T/WN0qknT4xXozXWLabRvKo4yzrfRVuBUK1D07wBz/6l/JLRHS2eIxLnt7
-         kqckjsqWGedg2cWifIvcOqrJnYUZAxgDLfdlSc7cOXhDzZNoI09vaYrs5ZX+5/cbGv
-         DiGif1x9flHsNwgAB8jU6n6QNzRZRF8zl0wX86nEP2okzVwlOl5bhbXaSrBXeZ8t/8
-         t8fR/6dBCgjgcTzSXLPpBuERMofca5cPI5e5PaM+08TQh+LA75EP3IPS+EBuI46KQL
-         fhg9dSuRXv0FT9615B4gShaARAylcdxV1MqSylB2VQP0+9cTiE86n5tb5ApUVUmg64
-         vkriq808pE+jA==
+        b=qNqk8O4PX1qXimy6EWm5bQoVNFiVTR5H3v6A43glANGoBIWoKM/8Tzvig7E5moXtT
+         l1/0IqcfiTwxlPZGO9wQDDYvh3G2dFW673LPfUvSG8FhJtXWgsm6McLgJvTassg1/W
+         BRTx36XZrifByAfgOmkfwtP48stDuKpUH/8WXzDdGjiD5d02DZkg78B09ZBW4HVo/y
+         6YM74V+b1EdkuM4VUaHeZrwlFQkb7kcBVsOLBwJjcw6dsHrWypnIk0vOGF78UF0V1I
+         Q6fNOtbAUT+CU4A1HKWmaABEXYsBFawsegShcjzQU8oVZG9ssnEDAtBOOW47npnz5m
+         0h07Tuz/vydlA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vUc-Sx; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vTw-Gk; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 20/23] MAINTAINERS: update chipone,icn8318.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:19 +0200
-Message-Id: <20911bb5ac8b61f9ff598a997efce8c0dfaef130.1631785820.git.mchehab+huawei@kernel.org>
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Ahern <dsahern@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 10/23] bpftool: update bpftool-cgroup.rst reference
+Date:   Thu, 16 Sep 2021 11:55:09 +0200
+Message-Id: <9e9f62ab09c26736338545f9aa27c0e825517a32.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -54,31 +63,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
-renamed: Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
-to: Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml.
+The file name: Documentation/bpftool-cgroup.rst
+should be, instead: tools/bpf/bpftool/Documentation/bpftool-cgroup.rst.
 
 Update its cross-reference accordingly.
 
-Fixes: 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
+Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+Fixes: 5ccda64d38cc ("bpftool: implement cgroup bpf operations")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3b66ca83e29d..d6df4f5eb86a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4397,7 +4397,7 @@ CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
- M:	Hans de Goede <hdegoede@redhat.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
-+F:	Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
- F:	drivers/input/touchscreen/chipone_icn8318.c
+diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+index 2d7eb683bd5a..c974abd4db13 100755
+--- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
++++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+@@ -392,7 +392,7 @@ class ManCgroupExtractor(ManPageExtractor):
+     """
+     An extractor for bpftool-cgroup.rst.
+     """
+-    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-cgroup.rst')
++    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-cgroup.rst')
  
- CHIPONE ICN8505 I2C TOUCHSCREEN DRIVER
+     def get_attach_types(self):
+         return self.get_rst_list('ATTACH_TYPE')
 -- 
 2.31.1
 
