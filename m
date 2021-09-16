@@ -2,88 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F02C9C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED76DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D50EF6120F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:34:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D01B661241
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:49:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236689AbhIPKfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 06:35:31 -0400
-Received: from foss.arm.com ([217.140.110.172]:35998 "EHLO foss.arm.com"
+        id S235665AbhIPKu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 06:50:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38034 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236569AbhIPKfa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 06:35:30 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDAD16D;
-        Thu, 16 Sep 2021 03:34:09 -0700 (PDT)
-Received: from bogus (unknown [10.57.23.241])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 87EE73F5A1;
-        Thu, 16 Sep 2021 03:34:08 -0700 (PDT)
-Date:   Thu, 16 Sep 2021 11:33:49 +0100
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S235644AbhIPKu5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 06:50:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B08C461212;
+        Thu, 16 Sep 2021 10:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631789377;
+        bh=fp1TNMHOFsWq2J/VHlgIglOFHSB2pZWpIK3WKY20BB0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JLBWL53G2batQtel8a586fQ7gSdE+AdJTh5qkJ7j9B1MTl3GkRcrJyjszQG1/PYzS
+         dfpeFx29TJZfq5rNLRu/8+/omTILNZe2pZ4D3h99zTnqwzPILu8LvtA6EY96z28cWR
+         KxHgbaZnB71knyCA2rQ+wK3XNAbDDFKlnwNyJuksfyGf5BgSGD67OWvqWq+zJghcGF
+         McFZ8aavNQq0Ul5HAjDlC0jLJDVtJq6iYq3zshXa0ErQmHn1jnAq44b53IpWC8C/66
+         vkplh0A3mOpQYrYTXyeLFrdyNeCMHXkpgmfzc1oxShgVo6RsjtMq18w98xGvby3sXx
+         tK7ipVa9SOzug==
+Date:   Thu, 16 Sep 2021 12:49:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Quentin Monnet <quentin@isovalent.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 11/23] MAINTAINERS: update arm,vic.yaml reference
-Message-ID: <20210916103349.jn236anjr35zkdem@bogus>
-References: <cover.1631785820.git.mchehab+huawei@kernel.org>
- <404ece147136b7094e2e3a6b33426a9359ac1ca1.1631785820.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Beckett <david.beckett@netronome.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
+Message-ID: <20210916124930.7ae3b722@coco.lan>
+In-Reply-To: <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
+References: <cover.1631783482.git.mchehab+huawei@kernel.org>
+        <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
+        <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <404ece147136b7094e2e3a6b33426a9359ac1ca1.1631785820.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 16, 2021 at 11:55:10AM +0200, Mauro Carvalho Chehab wrote:
-> Changeset b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-> renamed: Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-> to: Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml.
+Hi Quentin,
+
+Em Thu, 16 Sep 2021 10:43:45 +0100
+Quentin Monnet <quentin@isovalent.com> escreveu:
+
+> 2021-09-16 11:14 UTC+0200 ~ Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org>
+> > The file name: Documentation/bpftool-prog.rst
+> > should be, instead: tools/bpf/bpftool/Documentation/bpftool-prog.rst.
+> > 
+> > Update its cross-reference accordingly.
+> > 
+> > Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+> > Fixes: ff69c21a85a4 ("tools: bpftool: add documentation")  
 > 
-> Update its cross-reference accordingly.
+> Hi,
+> How is this a fix for the commit that added the documentation in bpftool?
 > 
-> Fixes: b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
-
-You had my ack already here [1] 😄
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> > index be54b7335a76..27a2c369a798 100755
+> > --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> > +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> > @@ -374,7 +374,7 @@ class ManProgExtractor(ManPageExtractor):
+> >      """
+> >      An extractor for bpftool-prog.rst.
+> >      """
+> > -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-prog.rst')
+> > +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-prog.rst')
+> >  
+> >      def get_attach_types(self):
+> >          return self.get_rst_list('ATTACH_TYPE')
+> >   
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 30f75af400f3..ddea1f2cdadc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1550,7 +1550,7 @@ ARM PRIMECELL VIC PL190/PL192 DRIVER
->  M:	Linus Walleij <linus.walleij@linaro.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-> +F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
->  F:	drivers/irqchip/irq-vic.c
->  
->  ARM SMC WATCHDOG DRIVER
-> -- 
-> 2.31.1
+> No I don't believe it should. BPFTOOL_DIR already contains
+> 'tools/bpf/bpftool' and the os.path.join() concatenates the two path
+> fragments.
 > 
+> Where is this suggestion coming from? Did you face an issue with the script?
 
--- 
-Regards,
-Sudeep
+No, I didn't face any issues with this script.
 
-[1] https://lore.kernel.org/all/20210722101117.5anhjut6djso2ojr@bogus/
+The suggestion cames from the script at:
+
+	./scripts/documentation-file-ref-check
+
+which is meant to discover broken doc references. 
+
+Such script has already a rule to handle stuff under tools/:
+
+		# Accept relative Documentation patches for tools/
+		if ($f =~ m/tools/) {
+			my $path = $f;
+			$path =~ s,(.*)/.*,$1,;
+			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
+		}
+
+but it seems it needs a fixup in order for it to stop reporting issues
+at test_bpftool_synctypes.py:
+
+	$ ./scripts/documentation-file-ref-check 
+	...
+	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-prog.rst
+	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-map.rst
+	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-cgroup.rst
+
+I'll drop the patches touching it for a next version, probably
+adding a fix for such script.
+
+Thanks,
+Mauro
