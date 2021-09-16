@@ -4,46 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D103C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C11C4321E
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C6A06120F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A69061186
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbhIPJB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36204 "EHLO mail.kernel.org"
+        id S235704AbhIPJB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36138 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235398AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235406AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:01:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CF1161263;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 928CE61279;
         Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782802;
-        bh=/kqJLSvbuqjIZcymwD8v27dJaGZvLklGBpG5D51n1lE=;
+        bh=EITKoccU4E1iR3VkhTp48668Q3t6P/4e5dWQsfbYlJU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MLyVVgs1D/BCsy1mAarh85I47SLChbwU/p9W9bz5c3h5MWe5xuE1sJDU/U+bYX8jq
-         C2BTQucezMkbL3Wc9aBkz/an/06X7wSbqVhmPFqCkowKNEOHgBNJZsQrlx0vLNbGM9
-         /rDoaOuTK9RE0/9LNX8Oti+UWaDE65ZYOHDSfVHNXEZjm4xUXau/rVhWTSXYThlFG0
-         42ZnUyt6PhUBh2WIbuE1nurYAhGDpjsCs2m9N/S+VOfbQKnc903sahCAxSab7u1pCq
-         0dogN3rbOLWwHBpfmEGYPSOfnYdZQgm4SEpX8nabyO5pnaaU0SGLgQK+mgE0vUbHnO
-         ko/G0Gk2T9s6A==
+        b=iiygUvf74DSL19wkTEc1Ow6H3enAEgU8vwdCY4xiacEFT0bnizl11B3kO9Eei5n/4
+         h1AaDMN8J/areAONuBZATL1YFoaazDlhqDFYf5hP9s1H5uFg/5hW8MZlplblHfhtIh
+         /QrVd65AXhZGIdk3Y4+75kfyMwyfv/Etoy6YRuUgi2ga2kqiuVUyMqI4jBlZylLolJ
+         4dwtl1B05ChDH4DhehYq4F34jH9dD6dK//B4dJK4VC+h6zUZ2Oj2gf9h9S4CzcONor
+         k7+V88UuK1yL5x5Q0svMlKEEpD0qp7BH7f96t2LGTh4Y+py4R8H1fWEBhAnr5ZdJBi
+         js2vsmgNNbFTA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qkF-P7; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnFQ-001qkJ-Qk; Thu, 16 Sep 2021 11:00:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v3 11/30] ABI: sysfs-class-typec: fix a typo on a What field
-Date:   Thu, 16 Sep 2021 10:59:38 +0200
-Message-Id: <bff0e7c137fb4f41ac0b2ed9c5a21c0948203f15.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 12/30] ABI: sysfs-ata: use a proper wildcard for ata_*
+Date:   Thu, 16 Sep 2021 10:59:39 +0200
+Message-Id: <72f783bc0287411f11d6640368926f8a357c002d.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -54,29 +52,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This what:
-	/sys/class/typec/<port>-partner>/identity/
-
-Contains an extra ">" character. Remove it.
+In order to let script/get_abi.pl to convert it into a Regex,
+replace the three "..." at the end, meaning a wildcard to
+a real filesystem wildcard.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-typec | 2 +-
+ Documentation/ABI/testing/sysfs-ata | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index 40122d915ae1..75088ecad202 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -200,7 +200,7 @@ Description:	USB Power Delivery Specification defines a set of product types
- 		amc			Alternate Mode Controller
- 		======================  ==========================
- 
--What:		/sys/class/typec/<port>-partner>/identity/
-+What:		/sys/class/typec/<port>-partner/identity/
- Date:		April 2017
- Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+diff --git a/Documentation/ABI/testing/sysfs-ata b/Documentation/ABI/testing/sysfs-ata
+index 9ab0ef1dd1c7..2f726c914752 100644
+--- a/Documentation/ABI/testing/sysfs-ata
++++ b/Documentation/ABI/testing/sysfs-ata
+@@ -1,4 +1,4 @@
+-What:		/sys/class/ata_...
++What:		/sys/class/ata_*
  Description:
+ 		Provide a place in sysfs for storing the ATA topology of the
+ 		system. This allows retrieving various information about ATA
 -- 
 2.31.1
 
