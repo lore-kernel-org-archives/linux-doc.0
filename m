@@ -7,129 +7,99 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 740B5C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 628F5C433F5
 	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4420D61279
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAB5A61362
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235411AbhIPJBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36024 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233839AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235394AbhIPJBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 16 Sep 2021 05:01:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F16B861164;
-        Thu, 16 Sep 2021 09:00:01 +0000 (UTC)
+Received: from mail.kernel.org ([198.145.29.99]:36060 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235020AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:01:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21A6F61214;
+        Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782802;
-        bh=SqZchVqZxkW6t0zHPuYku3hO4ezMbv0eEJe0nexpu94=;
+        bh=/gTtdkHXx1jI6ewBAwsc8ZqU2Y29Oq1glLytoFarCxk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aDldzzMujLRsTxLsX7x6Bm5XrDfob99F/57kkQVOyB4o+PvMJRU7O/UgPeONnGQd/
-         3hrCbYSlJuJiyk1Er+JQReYPrhS/8Orl7M8n2k05Py1pOxLUdfMdm11nub9jpKQ35E
-         W3inI59JrUh+QKanlug8WsaIDSpVuV9Mwe6C1PHBO0DHsxtQdyTGB347FdYvlP4tib
-         /RoW8hJu3tORpFhLRKx1oKz9yqj/ey152R3upB12ndXz3VNUIRk7vuYslTKqzOwxSx
-         aJWFgGOkvWq06vig5Z1pKmDaWofEgkNBwUdFq++Jz9Xbf5USvn+k1ax3P2GQ5D3Xpz
-         ddRHIoDuTy10g==
+        b=n+e8bBdEhq+DtEckcct2l4N4D0R0tKnJ402A1DKu1HUTyJIqq38sYQwSu6yCOohz4
+         SYikGNbd5DuL4eE3S9QnxxB2VCFG9E4UGJIj8XAxsjQizYBSZNKyfwJXy8oT7iV4aA
+         VpMHq/Dlm9ica5RmVDvTulDdktCg3wXNXQLDX/hWVX3lpwA5sPqFocP9ONgK4zLBc3
+         rKDzZYa1NtFHeR52Xw8NAOqOc4s5wnhc2jYYBGsV39rcTeE8Gfz7WiKKSA9V4n7ce7
+         LltWwoNVRPDTu/tUP63qmBE2IVE8ujUHB0aBb8ovXBm8RzqFz8L/+cV7BackC6wN25
+         dKsvAOOtqc6Yw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qjW-7Z; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnFQ-001qjl-Dt; Thu, 16 Sep 2021 11:00:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        =?UTF-8?q?Michael=20Wei=C3=9F?= <michael.weiss@aisec.fraunhofer.de>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Rajat Jain <rajatja@google.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/30] ABI: sysfs-bus-usb: better document variable argument
-Date:   Thu, 16 Sep 2021 10:59:28 +0200
-Message-Id: <2f7e4e874677dbd82693a6b219decefa18802e8f.1631782432.git.mchehab+huawei@kernel.org>
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Raphael Gianotti <raphgi@linux.microsoft.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        THOBY Simon <Simon.THOBY@viveris.fr>,
+        Tushar Sugandhi <tusharsu@linux.microsoft.com>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 04/30] ABI: security: fix location for evm and ima_policy
+Date:   Thu, 16 Sep 2021 10:59:31 +0200
+Message-Id: <b2563ac34c2e234cdd728f0c701b57ac9023c45a.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On almost all ABI documents, variable arguments are declared
-as <foo_bar>. Change it here too, in order to allow replacing
-such wildcards by regexes on a scriptable way.
+The What: definitions there are wrong, pointing to different
+locations than what's expected.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Acked-by: Rajat Jain <rajatja@google.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-bus-usb | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Documentation/ABI/testing/evm        | 4 ++--
+ Documentation/ABI/testing/ima_policy | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-index 73eb23bc1f34..42103f0f54d6 100644
---- a/Documentation/ABI/testing/sysfs-bus-usb
-+++ b/Documentation/ABI/testing/sysfs-bus-usb
-@@ -166,14 +166,14 @@ Description:
- 		The file will be present for all speeds of USB devices, and will
- 		always read "no" for USB 1.1 and USB 2.0 devices.
- 
--What:		/sys/bus/usb/devices/.../(hub interface)/portX
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>
- Date:		August 2012
- Contact:	Lan Tianyu <tianyu.lan@intel.com>
+diff --git a/Documentation/ABI/testing/evm b/Documentation/ABI/testing/evm
+index 553fd8a33e56..4b76a19b7bb4 100644
+--- a/Documentation/ABI/testing/evm
++++ b/Documentation/ABI/testing/evm
+@@ -1,4 +1,4 @@
+-What:		security/evm
++What:		/sys/kernel/security/evm /sys/kernel/security/*/evm
+ Date:		March 2011
+ Contact:	Mimi Zohar <zohar@us.ibm.com>
  Description:
--		The /sys/bus/usb/devices/.../(hub interface)/portX
-+		The /sys/bus/usb/devices/.../<hub_interface>/port<X>
- 		is usb port device's sysfs directory.
+@@ -93,7 +93,7 @@ Description:
+ 		core/ima-setup) have support for loading keys at boot
+ 		time.
  
--What:		/sys/bus/usb/devices/.../(hub interface)/portX/connect_type
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/connect_type
- Date:		January 2013
- Contact:	Lan Tianyu <tianyu.lan@intel.com>
+-What:		security/integrity/evm/evm_xattrs
++What:		/sys/kernel/security/*/evm/evm_xattrs
+ Date:		April 2018
+ Contact:	Matthew Garrett <mjg59@google.com>
  Description:
-@@ -182,7 +182,7 @@ Description:
- 		The file will read "hotplug", "hardwired" and "not used" if the
- 		information is available, and "unknown" otherwise.
- 
--What:		/sys/bus/usb/devices/.../(hub interface)/portX/location
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/location
- Date:		October 2018
- Contact:	Bjørn Mork <bjorn@mork.no>
- Description:
-@@ -192,7 +192,7 @@ Description:
- 		raw location value as a hex integer.
- 
- 
--What:		/sys/bus/usb/devices/.../(hub interface)/portX/quirks
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/quirks
- Date:		May 2018
- Contact:	Nicolas Boichat <drinkcat@chromium.org>
- Description:
-@@ -216,7 +216,7 @@ Description:
- 		   used to help make enumeration work better on some high speed
- 		   devices.
- 
--What:		/sys/bus/usb/devices/.../(hub interface)/portX/over_current_count
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/over_current_count
- Date:		February 2018
- Contact:	Richard Leitner <richard.leitner@skidata.com>
- Description:
-@@ -230,10 +230,10 @@ Description:
- 		Any time this value changes the corresponding hub device will send a
- 		udev event with the following attributes::
- 
--		  OVER_CURRENT_PORT=/sys/bus/usb/devices/.../(hub interface)/portX
-+		  OVER_CURRENT_PORT=/sys/bus/usb/devices/.../<hub_interface>/port<X>
- 		  OVER_CURRENT_COUNT=[current value of this sysfs attribute]
- 
--What:		/sys/bus/usb/devices/.../(hub interface)/portX/usb3_lpm_permit
-+What:		/sys/bus/usb/devices/.../<hub_interface>/port<X>/usb3_lpm_permit
- Date:		November 2015
- Contact:	Lu Baolu <baolu.lu@linux.intel.com>
+diff --git a/Documentation/ABI/testing/ima_policy b/Documentation/ABI/testing/ima_policy
+index 5c2798534950..2d84063d196f 100644
+--- a/Documentation/ABI/testing/ima_policy
++++ b/Documentation/ABI/testing/ima_policy
+@@ -1,4 +1,4 @@
+-What:		security/ima/policy
++What:		/sys/kernel/security/*/ima/policy
+ Date:		May 2008
+ Contact:	Mimi Zohar <zohar@us.ibm.com>
  Description:
 -- 
 2.31.1
