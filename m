@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86C3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34FCC4321E
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B562461246
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD0C76120F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:14:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236442AbhIPJQK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:16:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41084 "EHLO mail.kernel.org"
+        id S235662AbhIPJQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:16:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41074 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235633AbhIPJPn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:15:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD02961283;
+        id S235626AbhIPJPm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:15:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C3CCB61391;
         Thu, 16 Sep 2021 09:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631783661;
-        bh=jZ+YuMwIRm8yO99k5rOkj2OohhYMN2RebEYpArnFa9s=;
+        bh=d/p4SVK0pew6QaRrn57KYVF/7hRgydYOHWrBy364hyI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GWY1JiUUXVvuRZwJxo0HYxeOaDzpmRfvQSGmM0UTi2qzWhAJRGiHaBae69wGPB1cL
-         9J2VcoGZGXKilzInl3PSj7fipUi+8g7Cf9aNBfQ0/S2uZvPiezIg8JIsSHVq49Btem
-         aiiof4xR+8b56Zfyi63zdayjgomhvRHFP3CwGXa92NlteRxNzN+M5olcC6YEgfcZrh
-         cZq/fEm6hVqyuxkRSooDM2CFuPFpGvUcUClD+w8bjkFdTODecLs5JOFQCxT9iPGRXF
-         r2Hf7oxUJH6OpLNsFYF7uong91z9LU3rzts0lL7Qr74j1+7/b9i+lF4bJNZbNA8V51
-         Z6DQKgGQ70Mmw==
+        b=oGPOxw8VqlHx6PSzCfo5kqoEacn8vnGLfPNTF4LfR74zXVtoGDSuRmYQz8WjlyNAy
+         S410enue6zr+NlFfvgf1rhaE/V2BNu61tXc81O8oyBDwO4VW76Kescg5OA9FrGref0
+         I1dq5SDM/4NmhijRjbd7rqz3rMVIzxDAfqtMlL76IKR93Ee9ILoZZzgXegDdQs+/WW
+         JbaEOK9PTTiaXw3j3ubAc+V6FyVk8zIfpYdxE6mjvGKvyQEks0MrZhHqeTUZ01Ms7q
+         m1PXmgBKFprrDhckq9SBhUo2ee2sOaX80V+Jyt8uM3//nOCwLVrFje+7mGzl0oXPIk
+         /P0tq+HZHoXGQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnTI-001sMH-4c; Thu, 16 Sep 2021 11:14:20 +0200
+        id 1mQnTI-001sMD-3d; Thu, 16 Sep 2021 11:14:20 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Maxime Ripard <maxime@cerno.tech>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 24/24] MAINTAINERS: update silergy,sy8106a.yaml reference
-Date:   Thu, 16 Sep 2021 11:14:17 +0200
-Message-Id: <eed037d15b9b919d6401898cd5cdeea0542a41d5.1631783482.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 23/24] MAINTAINERS: update chipone,icn8318.yaml reference
+Date:   Thu, 16 Sep 2021 11:14:16 +0200
+Message-Id: <db813df22e44459c72069315d4c5783a3c14bd69.1631783482.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631783482.git.mchehab+huawei@kernel.org>
 References: <cover.1631783482.git.mchehab+huawei@kernel.org>
@@ -54,31 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset b1c36aae51c9 ("regulator: Convert SY8106A binding to a schema")
-renamed: Documentation/devicetree/bindings/regulator/sy8106a-regulator.txt
-to: Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml.
+Changeset 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
+renamed: Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
+to: Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: b1c36aae51c9 ("regulator: Convert SY8106A binding to a schema")
+Fixes: 04647773d648 ("dt-bindings: input: Convert ChipOne ICN8318 binding to a schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4bfa4d72589e..8fed382b1935 100644
+index adce2bdedb9e..4bfa4d72589e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -18021,7 +18021,7 @@ F:	net/switchdev/
- SY8106A REGULATOR DRIVER
- M:	Icenowy Zheng <icenowy@aosc.io>
+@@ -4397,7 +4397,7 @@ CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	linux-input@vger.kernel.org
  S:	Maintained
--F:	Documentation/devicetree/bindings/regulator/sy8106a-regulator.txt
-+F:	Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml
- F:	drivers/regulator/sy8106a-regulator.c
+-F:	Documentation/devicetree/bindings/input/touchscreen/chipone_icn8318.txt
++F:	Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
+ F:	drivers/input/touchscreen/chipone_icn8318.c
  
- SYNC FILE FRAMEWORK
+ CHIPONE ICN8505 I2C TOUCHSCREEN DRIVER
 -- 
 2.31.1
 
