@@ -2,145 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D12DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 12:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA50C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 15:53:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3479660E52
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 12:13:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 704AA611C4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 15:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239403AbhIPMOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 08:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239341AbhIPMOU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 08:14:20 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774D6C061764
-        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 05:13:00 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id u15so9121981wru.6
-        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 05:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nAa7hcN3ascpVQvM2OTeR2k2GxYPakXsr5xj8Xor+Lw=;
-        b=WmD/Z3+ncYgIZPTkselMJKRJwFC5I8QlynB+q8Lx4A4w+1BwjPde8V+HFZ6T61d3Z0
-         WKVnlly6gf/xyNqeuOpkTGnrKuo3Nxcf/0+NI5UBolir1q1MWuUtuIz/RXfmU9IeW4lo
-         Wn1ilNGM56xVE7XDbRQu4sBu+57OlID40Z97fV41DuOiSZVTetL3kTj2ZwthotdFdH/Q
-         SXUKvUGfvyzlorYs+n55BkMW476UbDatDv318GaIiqZLzQesajEooYAG0rOQ92vePetd
-         EhyWlX87ZPx152HdnX8/byXkwQz6eKseOdCyzYZYo0y2pwUyJfEPx4ro/AcoWJzqDAQt
-         ERWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nAa7hcN3ascpVQvM2OTeR2k2GxYPakXsr5xj8Xor+Lw=;
-        b=VDWA3lZvPc65RCmXDS0XowUtDwK/eTplgLT/xICN5rvIYPRRqYKRRiO6YY+UBCYn/3
-         cXjikAd5PkNDAeEYnl8fFNyd3DFxbyOg1TFBV9MM+eZ8ZegF7IAx89A3nDsKNWAcOMs/
-         3zeogvU2fCkwUhK5l2eDGVqWpFhKvDFjIRjMXebf45dhKB/MoX3kGx7QNcXU84e2Jp+Q
-         ut41xNi/3LR++c00dGz2WDDiiT3GnUzGMTFKtzK5QB+uw4T1xXd0N0z3PYiZUr5NzQBY
-         DNFeTCDBWaMITikP4DT864evap7dKlnqHZfUBc0IzCDa6vAugpBcE3nvmYQz5lD4P5gA
-         54cQ==
-X-Gm-Message-State: AOAM531KeOatb7NdGEo3Q0M8PVnLKd7vfp1Rk9S4FXno1GkUEppS+faT
-        aC9S85BSBHUuJioCftkfAkQsfQ==
-X-Google-Smtp-Source: ABdhPJzjhJgO8cFIT2GipL1pyLBESTYNhG5MXheT1l5nRxXPi6XFjSoeUvTa4kKMZP8Y/iAwUO0X0A==
-X-Received: by 2002:a5d:64ea:: with SMTP id g10mr2658238wri.274.1631794379049;
-        Thu, 16 Sep 2021 05:12:59 -0700 (PDT)
-Received: from [192.168.1.8] ([149.86.87.95])
-        by smtp.gmail.com with ESMTPSA id m29sm3450939wrb.89.2021.09.16.05.12.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 05:12:58 -0700 (PDT)
-Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Beckett <david.beckett@netronome.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
-References: <cover.1631783482.git.mchehab+huawei@kernel.org>
- <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
- <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
- <20210916124930.7ae3b722@coco.lan>
- <33d66a49-2fc0-57a1-c1e5-34e932bcc237@isovalent.com>
- <20210916133036.37c50383@coco.lan>
-From:   Quentin Monnet <quentin@isovalent.com>
-Message-ID: <8d5eaebb-29ac-5ee6-20ec-09d30d33dd73@isovalent.com>
-Date:   Thu, 16 Sep 2021 13:12:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S239117AbhIPPyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 11:54:21 -0400
+Received: from mga02.intel.com ([134.134.136.20]:52211 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231702AbhIPPyV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 11:54:21 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="209826596"
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
+   d="scan'208";a="209826596"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2021 08:53:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
+   d="scan'208";a="472822890"
+Received: from chenyu-desktop.sh.intel.com ([10.239.158.176])
+  by orsmga007.jf.intel.com with ESMTP; 16 Sep 2021 08:52:55 -0700
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     linux-acpi@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Aubrey Li <aubrey.li@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>, Chen Yu <yu.c.chen@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v3 1/5] Documentation: Introduce Platform Firmware Runtime Update documentation
+Date:   Thu, 16 Sep 2021 23:58:02 +0800
+Message-Id: <084c590593cb18fed03c6631fb9f39dcfaf66d53.1631802162.git.yu.c.chen@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1631802162.git.yu.c.chen@intel.com>
+References: <cover.1631802162.git.yu.c.chen@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210916133036.37c50383@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2021-09-16 13:30 UTC+0200 ~ Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org>
+Add the Platform Firmware Runtime Update/Telemetry documentation.
 
-> [PATCH] scripts: documentation-file-ref-check: fix bpf selftests path
-> 
-> tools/testing/selftests/bpf/test_bpftool_synctypes.py use
-> relative patches on the top of BPFTOOL_DIR:
-> 
-> 	BPFTOOL_DIR = os.path.join(LINUX_ROOT, 'tools/bpf/bpftool')
-> 
-> Change the script to automatically convert:
-> 
-> 	testing/selftests/bpf -> bpf/bpftool
-> 
-> In order to properly check the files used by such script.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-> index 7187ea5e5149..2d91cfe11cd2 100755
-> --- a/scripts/documentation-file-ref-check
-> +++ b/scripts/documentation-file-ref-check
-> @@ -144,6 +144,7 @@ while (<IN>) {
->  		if ($f =~ m/tools/) {
->  			my $path = $f;
->  			$path =~ s,(.*)/.*,$1,;
-> +			$path =~ s,testing/selftests/bpf,bpf/bpftool,;
->  			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
->  		}
->  
-> 
-> 
-> 
+Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+---
+v3: No change since v2.
+v2: Add a spot in index.rst so it becomes part of the docs build
+    (Jonathan Corbet).
+    Sticking to the 80-column limit(Jonathan Corbet).
+    Underline lengths should match the title text(Jonathan Corbet).
+    Use literal blocks for the code samples(Jonathan Corbet).
+---
+ Documentation/x86/index.rst |   1 +
+ Documentation/x86/pfru.rst  | 100 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 Documentation/x86/pfru.rst
 
-I tested the patch and it works well on my side.
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 383048396336..3791fabf964c 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -37,3 +37,4 @@ x86-specific Documentation
+    sgx
+    features
+    elf_auxvec
++   pfru
+diff --git a/Documentation/x86/pfru.rst b/Documentation/x86/pfru.rst
+new file mode 100644
+index 000000000000..29fe0e518e6d
+--- /dev/null
++++ b/Documentation/x86/pfru.rst
+@@ -0,0 +1,100 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================================================
++The Linux Platform Firmware Runtime Update and Telemetry
++========================================================
++
++According to the specification of `Management Mode Firmware Runtime Update
++<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
++Rev100.pdf>`_, certain computing systems require high Service Level Agreements
++(SLAs) where system reboot fewer firmware updates are required to deploy
++firmware changes to address bug fixes, security updates and to debug and root
++cause issues. This technology is called Intel Seamless Update. The management
++mode (MM), UEFI runtime services and ACPI services handle most of the system
++runtime functions. Changing the MM code execution during runtime is called MM
++Runtime Update. Since the "MM" acronyms might be misunderstood as "Memory
++Management", this driver uses the name of "Platform Firmware Runtime Update"
++(PFRU).
++
++PFRU provides the following facilities: Performs a runtime firmware driver
++update and activate. Ability to inject firmware code at runtime, for dynamic
++instrumentation. PFRU Telemetry is a service which allows Runtime Update
++handler to produce telemetry data to upper layer OS consumer at runtime. The
++OS provides interfaces to let the users query the telemetry data via read
++operations. The specification specifies the interface and recommended policy
++to extract the data, the format and use are left to individual OEM's and BIOS
++implementations on what that data represents.
++
++PFRU interfaces
++===============
++
++The user space tool manipulates on /dev/pfru/update for code injection and
++driver update. PFRU stands for Platform Firmware Runtime Update, and the
++/dev/pfru directory might be reserved for future usage::
++
++ 1. mmap the capsule file.
++    fd_capsule = open("capsule.cap", O_RDONLY);
++    fstat(fd_capsule, &stat);
++    addr = mmap(0, stat.st_size, PROT_READ, fd_capsule);
++
++ 2. Get the capability information(version control, etc) from BIOS via
++    read() and do sanity check in user space.
++    fd_update = open("/dev/pfru/update", O_RDWR);
++    read(fd_update, &cap, sizeof(cap));
++    sanity_check(&cap);
++
++ 3. Write the capsule file to runtime update communication buffer.
++    kernel might return error if capsule file size is longer than
++    communication buffer.
++    write(fd_update, addr, stat.st_size);
++
++ 4. Stage the code injection.
++    ioctl(fd_update, PFRU_IOC_STATGE);
++
++ 5. Activate the code injection.
++    ioctl(fd_update, PFRU_IOC_ACTIVATE);
++
++ 6. Stage and activate the code injection.
++    ioctl(fd_update, PFRU_IOC_STAGE_ACTIVATE);
++
++    PFRU_IOC_STATGE: Stage a capsule image from communication buffer
++    and perform authentication.
++    [PFRU_IOC_ACTIVATE] Activate a previous staged capsule image.
++    [PFRU_IOC_STAGE_ACTIVATE] Perform both stage and activation actions.
++
++
++PFRU Telemetry interfaces
++=========================
++
++The user space tool manipulates on /dev/pfru/telemetry for PFRU telemetry log::
++
++ 1. Open telemetry device
++    fd_log = open("/dev/pfru/telemetry", O_RDWR);
++
++ 2. Get log level, log type, revision_id via one ioctl invoke
++    ioctl(fd_log, PFRU_IOC_GET_LOG_INFO, &info);
++
++ 3. Set log level, log type, revision_id
++    ioctl(fd_log, PFRU_IOC_SET_LOG_INFO, &info);
++
++ 4. ioctl(fd_log, PFRU_IOC_GET_DATA_INFO, &data_info);
++    Query the information of PFRU telemetry log buffer. The user is
++    responsible for parsing the result per the specification.
++
++ 5. Read the telemetry data:
++    read(fd_log, buf, data_info.size);
++
++Please refer to tools/testing/selftests/pfru/pfru_test.c for detail.
++
++According to the specification of `Management Mode Firmware Runtime Update
++<https://uefi.org/sites/default/files/resources/Intel_MM_OS_Interface_Spec_
++Rev100.pdf>`_, the telemetry buffer is a wrap around buffer. If the telemetry
++buffer gets full, most recent log data will overwrite old log data. Besides,
++it is required in the spec that the read of telemetry should support both full
++data retrieval and delta telemetry data retrieval. Since this requirement is
++more likely a policy we leave this implementation in user space. That is to
++say, it is recommended for the user to double-read the telemetry parameters
++such as chunk1_size, chunk2_size, rollover_cnt in data_info structure to make
++sure that there is no more data appended while the user is reading the buffer.
++Besides, only after the runtime update has been run at least once, the telemetry
++log would have valid data, otherwise errno code of EBUSY would be returned.
+-- 
+2.25.1
 
-However, this looks a bit fragile to me. There is no particular reason
-to have testing/selftests/bpf point to bpf/bpftool other than to
-accommodate the current case, we could imagine other selftest files
-pointing to other parts of the documentation in the future. I would
-instead make an exception for test_bpftool_synctypes.py specifically
-(other selftest files don't usually parse documentation anyway).
-Alternatively, I would look at excluding lines where the path is used in
-code (tricky to detect), maybe at least when used with os.path.join():
-
-    next if ($ln =~ m,os\.path\.join\([^\,]*\,\s*['"]$fulref,);
-
-But I'm not familiar with documentation-file-ref-check in the first
-place, so these are just my two cents.
-
-Thanks,
-Quentin
