@@ -7,44 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD9A3C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E684C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC7DA6120D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28F3C61164
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235898AbhIPJBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36476 "EHLO mail.kernel.org"
+        id S235717AbhIPJBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235521AbhIPJBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235509AbhIPJBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:01:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AEC36137F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4373B61374;
         Thu, 16 Sep 2021 09:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782803;
-        bh=mQWncG+nkMNDW24ydsD02ptTFMcYE2iljRDwZ4M8aHA=;
+        bh=Gte8UaRM2J4G1pHxecj1ex46V96WgBtr85RhT9C+zxg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rOn2JGyIOlH1ulM9t94j/OChAKPPVyfQrV9Zh+ybQ3Py23o+G5F9N/ze9FGt4OgKN
-         ABPBrS6fsJnr5LSpHlzjPvDJhEPvp7YCatdBhLbHhyRuOB+c8mKhTY4FxJ8CIN5gdr
-         NvArnM5lrOiqKLMZtJglF6YjOi0zBrBQEur39AeAgup3thNOHUTF4rbFFkZ5bfel9I
-         tZsdlLrFoF1dUeP1MVpYBuF2ev1KRUiZgHDg+A/Nut2nBLdxdu+AmoxfWuyF6V5Urc
-         /1mJKU4tMSeNwkfb6cRsulagB+DYQOScFWJ5D/SvoD7/WHuvKSoqkjHUqA/iU9fQPe
-         ytVw04UeoxqOA==
+        b=hwWJ/mjCuSbl9nktDP/w4FTv8doGADlYJQUDPCF3y3QOSEJ4hzo7U5eBr3x9BrOEi
+         CwL8uQhdB4YyhHQkJXRL6nwbpEur9pr5ezuAUC5iambnoxZXS64GWwRlbzUzN9M+vH
+         48H+IgOm8BCmZnQyKJz7Vsy20pgmGFT4UpNbOnT46o7vTXS9IeXv96E7oa3x9wB/w2
+         o1ag39AsTCCwM0eBdDxK01yFiX6b6Z4Q3l8p7vRfRKdTgdp7gRFRb91c060nFaAenJ
+         IkL4Rs0iA0/8ZrK9BXM2V0IozLYjKE7Z968qEkmRBJlBIVndLxRkNutHHMtb7aSqF0
+         NcJzYgw4H3YPw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFR-001qlP-JO; Thu, 16 Sep 2021 11:00:01 +0200
+        id 1mQnFR-001qlC-FH; Thu, 16 Sep 2021 11:00:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 28/30] ABI: sysfs-platform-sst-atom: use wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:55 +0200
-Message-Id: <ca1f384f1e77210e2807f97abe77a36ac5fa284a.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 25/30] ABI: sysfs-devices-platform-dock: use wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:52 +0200
+Message-Id: <56790ba596b34c234da1e0d17ca7f19435df87ff.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -55,24 +52,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-%x is not a valid wildcard. Use <x> instead, as this allows
-script/get_abi.pl to convert it into a regex.
+An "N" upper letter is not a wildcard, nor can easily be identified
+by script, specially since the USB sysfs define things like.
+bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-platform-sst-atom | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-devices-platform-dock | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-sst-atom b/Documentation/ABI/testing/sysfs-platform-sst-atom
-index d5f6e21f0e42..0154b0fba759 100644
---- a/Documentation/ABI/testing/sysfs-platform-sst-atom
-+++ b/Documentation/ABI/testing/sysfs-platform-sst-atom
+diff --git a/Documentation/ABI/testing/sysfs-devices-platform-dock b/Documentation/ABI/testing/sysfs-devices-platform-dock
+index 1d8c18f905c7..411c174de830 100644
+--- a/Documentation/ABI/testing/sysfs-devices-platform-dock
++++ b/Documentation/ABI/testing/sysfs-devices-platform-dock
 @@ -1,4 +1,4 @@
--What:		/sys/devices/platform/8086%x:00/firmware_version
-+What:		/sys/devices/platform/8086<x>:00/firmware_version
- Date:		November 2016
- KernelVersion:	4.10
- Contact:	"Sebastien Guiriec" <sebastien.guiriec@intel.com>
+-What:		/sys/devices/platform/dock.N/docked
++What:		/sys/devices/platform/dock.<N>/docked
+ Date:		Dec, 2006
+ KernelVersion:	2.6.19
+ Contact:	linux-acpi@vger.kernel.org
+@@ -6,7 +6,7 @@ Description:
+ 		(RO) Value 1 or 0 indicates whether the software believes the
+ 		laptop is docked in a docking station.
+ 
+-What:		/sys/devices/platform/dock.N/undock
++What:		/sys/devices/platform/dock.<N>/undock
+ Date:		Dec, 2006
+ KernelVersion:	2.6.19
+ Contact:	linux-acpi@vger.kernel.org
+@@ -14,14 +14,14 @@ Description:
+ 		(WO) Writing to this file causes the software to initiate an
+ 		undock request to the firmware.
+ 
+-What:		/sys/devices/platform/dock.N/uid
++What:		/sys/devices/platform/dock.<N>/uid
+ Date:		Feb, 2007
+ KernelVersion:	v2.6.21
+ Contact:	linux-acpi@vger.kernel.org
+ Description:
+ 		(RO) Displays the docking station the laptop is docked to.
+ 
+-What:		/sys/devices/platform/dock.N/flags
++What:		/sys/devices/platform/dock.<N>/flags
+ Date:		May, 2007
+ KernelVersion:	v2.6.21
+ Contact:	linux-acpi@vger.kernel.org
+@@ -30,7 +30,7 @@ Description:
+ 		request has been made by the user (from the immediate_undock
+ 		option).
+ 
+-What:		/sys/devices/platform/dock.N/type
++What:		/sys/devices/platform/dock.<N>/type
+ Date:		Aug, 2008
+ KernelVersion:	v2.6.27
+ Contact:	linux-acpi@vger.kernel.org
 -- 
 2.31.1
 
