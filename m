@@ -2,130 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F7BC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:54:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C8AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A05FC61212
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:54:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 294EC61216
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235476AbhIPJ4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:56:18 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:33002 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235287AbhIPJ4S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 05:56:18 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 72FB122376;
-        Thu, 16 Sep 2021 09:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1631786097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Hr/2iIZwIEgCfldPaWyF8ZFWOFNeO1vGU+ls4G7YRI=;
-        b=mWETj69L9GUgeYnhoAaHEVHJ+GR89fRjzab/9tY2mcpPQ6CY5VzXTWoOcYirKRPtTAP/4u
-        R+LOTCIU2oUSOGMVUqBWoiF0qhT5tiNFl//rzYCvYtBWi+zbp/JzD9LD+Eq1TqDCcn/fOD
-        oVkycPzqVARLnHaOlqX2mwX7UJzPrdY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1631786097;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Hr/2iIZwIEgCfldPaWyF8ZFWOFNeO1vGU+ls4G7YRI=;
-        b=vdd/mdK8Kd1wgwBLy4fKohEi+Mcqx1OYk7NF9U+Q+XEN2LvGN69Q3oZuY3B+/jtKMQrkvp
-        0sNiClqPglIuTHCQ==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id A5A38A3B90;
-        Thu, 16 Sep 2021 09:54:52 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id A82661E0C04; Thu, 16 Sep 2021 11:54:55 +0200 (CEST)
-Date:   Thu, 16 Sep 2021 11:54:55 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
-Message-ID: <20210916095455.GE10610@quack2.suse.cz>
-References: <20210902220854.198850-1-corbet@lwn.net>
- <20210902220854.198850-2-corbet@lwn.net>
+        id S235946AbhIPJ4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:56:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57724 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235287AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:56:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E792611CA;
+        Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631786126;
+        bh=lCFQ10/rKoEUoXpgY/RKNlMSo/l4Wf718K79pRH2kXw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ObqqEZed2gEOjDwwLnMW85WUSshm88SkBEfljKdJ90G8e0EboIVAdazbN/igpn3Rw
+         AhzUd/eQ5MFlVLh+jw+R6eH2gmblpo9bFgr30HCMd3PhGGLiOh0+a/o1XB9c/zjewN
+         23o9ywRY7YKwkofciGYTt1juluS/0sGwbwLV56XMj9+EeDw3bo/NMV4p5zN7KphiK1
+         +KUVMGmGKLrWan2Mn+arKaqYwxM693dSsrxWiYIs35SnIqP1HGMA1xCEGrSkS84PcJ
+         EvsDWmypOeGoIsNMMkBmc3I6YDWaU5Wq1whvKzFEjqwbs2/Y/DcAZN2GkFGFbMa54V
+         9Wgvm3l9LgLNQ==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mQo72-001vTk-Cm; Thu, 16 Sep 2021 11:55:24 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Mel Gorman <mgorman@suse.de>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 07/23] docs: accounting: update delay-accounting.rst reference
+Date:   Thu, 16 Sep 2021 11:55:06 +0200
+Message-Id: <472ebc3662053a0d52879818354e1742551afbc9.1631785820.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
+References: <cover.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210902220854.198850-2-corbet@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 02-09-21 16:08:53, Jonathan Corbet wrote:
-> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
-> a new document on orphan files, which is great.  But the use of
-> "list-table" results in documents that are absolutely unreadable in their
-> plain-text form.  Switch this file to the regular RST table format instead;
-> the rendered (HTML) output is identical.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+The file name: accounting/delay-accounting.rst
+should be, instead: Documentation/accounting/delay-accounting.rst.
 
-Thanks! Definitely looks more readable :). You can add:
+Update its cross-reference accordingly.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: fcb501704554 ("delayacct: Document task_delayacct sysctl")
+Fixes: c3123552aad3 ("docs: accounting: convert to ReST")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-								Honza
-
-> ---
->  Documentation/filesystems/ext4/orphan.rst | 32 ++++++++---------------
->  1 file changed, 11 insertions(+), 21 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/ext4/orphan.rst b/Documentation/filesystems/ext4/orphan.rst
-> index bb19ecd1b626..d096fe0ba19e 100644
-> --- a/Documentation/filesystems/ext4/orphan.rst
-> +++ b/Documentation/filesystems/ext4/orphan.rst
-> @@ -21,27 +21,17 @@ in heavy creation of orphan inodes. When orphan file feature
->  (referenced from the superblock through s\_orphan_file_inum) with several
->  blocks. Each of these blocks has a structure:
->  
-> -.. list-table::
-> -   :widths: 8 8 24 40
-> -   :header-rows: 1
-> -
-> -   * - Offset
-> -     - Type
-> -     - Name
-> -     - Description
-> -   * - 0x0
-> -     - Array of \_\_le32 entries
-> -     - Orphan inode entries
-> -     - Each \_\_le32 entry is either empty (0) or it contains inode number of
-> -       an orphan inode.
-> -   * - blocksize - 8
-> -     - \_\_le32
-> -     - ob\_magic
-> -     - Magic value stored in orphan block tail (0x0b10ca04)
-> -   * - blocksize - 4
-> -     - \_\_le32
-> -     - ob\_checksum
-> -     - Checksum of the orphan block.
-> +============= ================ =============== ===============================
-> +Offset        Type             Name            Description
-> +============= ================ =============== ===============================
-> +0x0           Array of         Orphan inode    Each \_\_le32 entry is either
-> +              \_\_le32 entries entries         empty (0) or it contains
-> +	                                       inode number of an orphan
-> +					       inode.
-> +blocksize-8   \_\_le32         ob\_magic       Magic value stored in orphan
-> +                                               block tail (0x0b10ca04)
-> +blocksize-4   \_\_le32         ob\_checksum    Checksum of the orphan block.
-> +============= ================ =============== ===============================
->  
->  When a filesystem with orphan file feature is writeably mounted, we set
->  RO\_COMPAT\_ORPHAN\_PRESENT feature in the superblock to indicate there may
-> -- 
-> 2.31.1
-> 
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 426162009ce9..2b03422ef5f7 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1099,7 +1099,7 @@ task_delayacct
+ ===============
+ 
+ Enables/disables task delay accounting (see
+-:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
++:doc:`Documentation/accounting/delay-accounting.rst`). Enabling this feature incurs
+ a small amount of overhead in the scheduler but is useful for debugging
+ and performance tuning. It is required by some tools such as iotop.
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.31.1
+
