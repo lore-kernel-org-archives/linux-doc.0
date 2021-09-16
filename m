@@ -7,82 +7,75 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C8AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBC1C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 294EC61216
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4AD8761209
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235946AbhIPJ4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:56:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57724 "EHLO mail.kernel.org"
+        id S236417AbhIPJ44 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:56:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235287AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235649AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:56:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E792611CA;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B3CD61244;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=lCFQ10/rKoEUoXpgY/RKNlMSo/l4Wf718K79pRH2kXw=;
+        bh=bpIM64MitjT0L278MXyuSFiAmcVN5+3I+6bnlUhY+Ss=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ObqqEZed2gEOjDwwLnMW85WUSshm88SkBEfljKdJ90G8e0EboIVAdazbN/igpn3Rw
-         AhzUd/eQ5MFlVLh+jw+R6eH2gmblpo9bFgr30HCMd3PhGGLiOh0+a/o1XB9c/zjewN
-         23o9ywRY7YKwkofciGYTt1juluS/0sGwbwLV56XMj9+EeDw3bo/NMV4p5zN7KphiK1
-         +KUVMGmGKLrWan2Mn+arKaqYwxM693dSsrxWiYIs35SnIqP1HGMA1xCEGrSkS84PcJ
-         EvsDWmypOeGoIsNMMkBmc3I6YDWaU5Wq1whvKzFEjqwbs2/Y/DcAZN2GkFGFbMa54V
-         9Wgvm3l9LgLNQ==
+        b=KAqxwWKZIY4hpag0sDa27pCROvnTE7jj2Pogm6S4LSkXjzU92QwHH6m/AmH+kxEuZ
+         byT/7S6WjvRFcGgrxYO2x9wgDDzf1VFc5HCTO1GnsR9ibWxHeZE33ITmR4f+HG4jl0
+         wDkEdz4+SylWOqocTOkjJE96pcXRBeGxD/A+nPsVYYoE+eafJndqm3w9rhub+1Qb7x
+         sV7zc4HBH2Oyno9hWMQS4uvK1j8lzMDPAEnuaGfj6LhD5F2ZogWrpgC1jmhg4+k7dF
+         eFr8PTnC1iTkDxCNusuEjh/S0y7f4rEDKLuI5oMe2ZgADigNpVCY3XLiMEUxDjS7bX
+         bGWap0OjAxQFw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vTk-Cm; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vTK-4a; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Mel Gorman <mgorman@suse.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Stephen Kitt <steve@sk2.org>, Wang Qing <wangqing@vivo.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/23] docs: accounting: update delay-accounting.rst reference
-Date:   Thu, 16 Sep 2021 11:55:06 +0200
-Message-Id: <472ebc3662053a0d52879818354e1742551afbc9.1631785820.git.mchehab+huawei@kernel.org>
+        David Kershner <david.kershner@unisys.com>,
+        linux-kernel@vger.kernel.org, sparmaintainer@unisys.com
+Subject: [PATCH v2 01/23] visorbus: fix a copyright symbol that was bad encoded
+Date:   Thu, 16 Sep 2021 11:55:00 +0200
+Message-Id: <be5fae76111c41c62866686a386fbe21ee7a7b33.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: accounting/delay-accounting.rst
-should be, instead: Documentation/accounting/delay-accounting.rst.
+The copyright symbol was badly encoded using the
+REPLACEMENT CHARACTER U+fffd ('�'), probably due to some
+bad charset conversion.
 
-Update its cross-reference accordingly.
+Fix it.
 
-Fixes: fcb501704554 ("delayacct: Document task_delayacct sysctl")
-Fixes: c3123552aad3 ("docs: accounting: convert to ReST")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ drivers/visorbus/visorbus_main.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 426162009ce9..2b03422ef5f7 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1099,7 +1099,7 @@ task_delayacct
- ===============
- 
- Enables/disables task delay accounting (see
--:doc:`accounting/delay-accounting.rst`). Enabling this feature incurs
-+:doc:`Documentation/accounting/delay-accounting.rst`). Enabling this feature incurs
- a small amount of overhead in the scheduler but is useful for debugging
- and performance tuning. It is required by some tools such as iotop.
+diff --git a/drivers/visorbus/visorbus_main.c b/drivers/visorbus/visorbus_main.c
+index 152fd29f04f2..0aa4cff670dc 100644
+--- a/drivers/visorbus/visorbus_main.c
++++ b/drivers/visorbus/visorbus_main.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Copyright � 2010 - 2015 UNISYS CORPORATION
++ * Copyright © 2010 - 2015 UNISYS CORPORATION
+  * All rights reserved.
+  */
  
 -- 
 2.31.1
