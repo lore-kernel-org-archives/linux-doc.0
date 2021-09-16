@@ -7,44 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DCFC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE478C4167B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C15B061207
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A868861185
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:56:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237365AbhIPJ5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:57:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57890 "EHLO mail.kernel.org"
+        id S237431AbhIPJ5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:57:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236269AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S236273AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:56:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AB126137C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 768676127A;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=JVvfHe0KiYhsG/mCyqJLwBz0y1PfNODhYQyxxhAuzZA=;
+        bh=VbBtGGnEP0rRszkN+muWlKO8Pg69Fpqa5Zw3X5PVFBs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VIIefiv8eYdIJ1481qE9+vYQT1Eo/0aVyjC1jDCTmIxBYZZILyDmjS6T6Xttfdb9H
-         lACYViAH7DZA0aG4tdgcwbBG+UU1bc3CI5COpyeK3Ntu1OZF/KpQPFzGe33nLfLO84
-         tMJyJeeBes+eRAOWseEQ2opfdgruBMZZb0++53amWrJ2DDG5v/Vamlygtmd67SE3zE
-         WhtGtGDICUCcXikArDazIJiZd483/Zao+8CcIwv4E1te7rRO9+TFBuXLOeaB1485P4
-         EOcZy2ndlwk/R9hH6dBKvNF21r1ENZe8f8T4ZD4T2eyNk2d1cEI+/4MowJAS/hPqh5
-         Y8RUFaJrIpg8g==
+        b=i/b7RLL7vYNI5GmRlpDAmgz1e97ex5XYrMKKEFHi6N/ChJMC31UVE2iLpeBTvbhCk
+         D6xhdussZYmKqg5ZUnCauo5exkcuvJ/sLIHFWgjcpI/Vml+GMUe1LNA8n+JWpI+bbe
+         /WWEl7Udwt0090p1L3veUkCazkyKu92gpuZzjsFUVXiQVHeL+1Bi3rFRHjQhP3mY7h
+         06HuOoEBS3KdobHcHr0CFxbH4dDcInERCvYoTy41+b1njPhMvjodoA/64S+ilwDNsZ
+         8JJrWB1Ys8MtmByD8D+uh58yNv3ViU8uCXe76wt5V16/Os/CTO1jhsfj2qOZU6yq4K
+         kry1TvQqPoXIw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vUY-RO; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vUM-Nw; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 19/23] MAINTAINERS: update brcm,unimac-mdio.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:18 +0200
-Message-Id: <b70aba14263e0cc4000c2c3c1c7bb2d29e343ed9.1631785820.git.mchehab+huawei@kernel.org>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 16/23] MAINTAINERS: update intel,ixp46x-rng.yaml reference
+Date:   Thu, 16 Sep 2021 11:55:15 +0200
+Message-Id: <133cca5452d61c89544c2ec5bb4272b1e7bab4b8.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -55,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5d1c5594b646 ("dt-bindings: net: brcm,unimac-mdio: convert to the json-schema")
-renamed: Documentation/devicetree/bindings/net/brcm,unimac-mdio.txt
-to: Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml.
+The file name: Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
+should be, instead: Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 5d1c5594b646 ("dt-bindings: net: brcm,unimac-mdio: convert to the json-schema")
+Fixes: cca061b04c0d ("hw_random: ixp4xx: Add DT bindings")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2b18e6ad7842..3b66ca83e29d 100644
+index 3bc18cfe73a6..91663dfd5af7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3757,7 +3757,7 @@ L:	bcm-kernel-feedback-list@broadcom.com
- L:	netdev@vger.kernel.org
- S:	Supported
- F:	Documentation/devicetree/bindings/net/brcm,bcmgenet.txt
--F:	Documentation/devicetree/bindings/net/brcm,unimac-mdio.txt
-+F:	Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
- F:	drivers/net/ethernet/broadcom/genet/
- F:	drivers/net/ethernet/broadcom/unimac.h
- F:	drivers/net/mdio/mdio-bcm-unimac.c
+@@ -9509,7 +9509,7 @@ F:	include/linux/soc/ixp4xx/qmgr.h
+ INTEL IXP4XX RANDOM NUMBER GENERATOR SUPPORT
+ M:	Deepak Saxena <dsaxena@plexity.net>
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
++F:	Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml
+ F:	drivers/char/hw_random/ixp4xx-rng.c
+ 
+ INTEL KEEM BAY DRM DRIVER
 -- 
 2.31.1
 
