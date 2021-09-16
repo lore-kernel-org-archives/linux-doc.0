@@ -7,43 +7,44 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEBADC43219
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8587FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB82C61247
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6986661209
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235815AbhIPJBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36256 "EHLO mail.kernel.org"
+        id S236025AbhIPJBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235422AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A190E6127A;
+        id S235383AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:01:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5ABBE61248;
         Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782802;
-        bh=2onBDmcX5Z2qOBLRcvgnkoXuBMNPKSL8Szs8OXOsw7k=;
+        bh=rsagThLGknwU91UW+wq7iwL8KzIpjk7Uz5TTbN5z6wU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SECGetP9a1vvU/DzwjmWRHkSoGdF2KXJx2DKQK3VjDYwOKvMpGE2BA7zAtcLC9Lyy
-         8atOeDuuKHaItgPLB6NER+AQidVMx9g8+BwuAK1iv3kzm3IDJsOYarVR3mawEehzfy
-         d64OqJMxnzzlVqprEQ5h1k19pI6FB2VIbiKsH9/sscs60p9WzWyT9+YdAN/Ys/v6Zo
-         Em2m3h9t0kVg29XiAekHy12MaOv52J4ZHSnRcVKF2lI0fPICsFDHrV4YpU7yTYHhsu
-         sxwM7eF6TYDQRlQvGPvueH9M8HsdWTiQMsZMFu9pf8+h7xLJcWQW4P4zZpOqTKrRiA
-         Jwxb62PBUpMlA==
+        b=tFeBv/ST/rANAh5y9PoCDrb44Avd9v5sTqHvfjT16NhNlU5fCrE+oG8CzCbx+IOLX
+         QVGnWRaG1LcZRrvKmRfOJ7oNFoSjmwB59m5ZbTiHq1qctr+8uwOzmHmgVoar/V8qEp
+         nwkVj3tH4e+a8u1B/JUtT0hkcUO1OOaawFbppBPKHdVpehXQBnyKSc4buLt1iqjfwy
+         UBI7Bg40H3252wXJM7L6Wec52fArj+RLb4NAvcO0Tf8Vkztw8JdbGVZDXpnJjvLPqv
+         2StIOGSOsH0ESC+uI5iT4iGWjoXZdSVx/8nnDr5DvgHmN9qlu4Xp79Z+tkqU3GcCfs
+         kMv2uYcD/KUkQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qkO-Rz; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnFQ-001qk7-Lj; Thu, 16 Sep 2021 11:00:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Shiraz Saleem <shiraz.saleem@intel.com>,
-        linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v3 13/30] ABI: sysfs-class-infiniband: use wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:40 +0200
-Message-Id: <3cb5cad69f457ed92b38d719ff7f6f0fc9364285.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 09/30] ABI: sysfs-class-mic: use the right wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:36 +0200
+Message-Id: <d0713698c609410506f9e520fa879c0592a5e11d.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -54,148 +55,128 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An "N" upper letter is not a wildcard, nor can easily be identified
-by script, specially since the USB sysfs define things like.
-bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
-to convert it into a Regex.
+On most ABI files, the wildcards are used as <x>, instead of (x).
 
-Acked-by: Jason Gunthorpe <jgg@nvidia.com>
+Replace it to make it using a more standard wildcard. That helps
+get_abi.pl to convert it into a regex.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../ABI/stable/sysfs-class-infiniband         | 64 +++++++++----------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ Documentation/ABI/testing/sysfs-class-mic | 24 +++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-class-infiniband b/Documentation/ABI/stable/sysfs-class-infiniband
-index 9b1bdfa43354..ebf08c604336 100644
---- a/Documentation/ABI/stable/sysfs-class-infiniband
-+++ b/Documentation/ABI/stable/sysfs-class-infiniband
-@@ -232,10 +232,10 @@ Description: 	The RoCE type of the associated GID resides at index <gid-index>.
- 		or "RoCE v2" for RoCE v2 based GIDs.
+diff --git a/Documentation/ABI/testing/sysfs-class-mic b/Documentation/ABI/testing/sysfs-class-mic
+index bd0e780c3760..5e5f36d10055 100644
+--- a/Documentation/ABI/testing/sysfs-class-mic
++++ b/Documentation/ABI/testing/sysfs-class-mic
+@@ -8,7 +8,7 @@ Description:
+ 		PCIe form factor add-in Coprocessor card based on the Intel Many
+ 		Integrated Core (MIC) architecture that runs a Linux OS.
  
+-What:		/sys/class/mic/mic(x)
++What:		/sys/class/mic/mic<X>
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -17,7 +17,7 @@ Description:
+ 		represent MIC devices (0,1,..etc). Each directory has
+ 		information specific to that MIC device.
  
--What:		/sys/class/infiniband_mad/umadN/ibdev
--What:		/sys/class/infiniband_mad/umadN/port
--What:		/sys/class/infiniband_mad/issmN/ibdev
--What:		/sys/class/infiniband_mad/issmN/port
-+What:		/sys/class/infiniband_mad/umad<N>/ibdev
-+What:		/sys/class/infiniband_mad/umad<N>/port
-+What:		/sys/class/infiniband_mad/issm<N>/ibdev
-+What:		/sys/class/infiniband_mad/issm<N>/port
- Date:		Apr, 2005
- KernelVersion:	v2.6.12
- Contact:	linux-rdma@vger.kernel.org
-@@ -261,8 +261,8 @@ Description:
- 		userspace ABI compatibility of umad & issm devices.
+-What:		/sys/class/mic/mic(x)/family
++What:		/sys/class/mic/mic<X>/family
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -25,7 +25,7 @@ Description:
+ 		Provides information about the Coprocessor family for an Intel
+ 		MIC device. For example - "x100"
  
+-What:		/sys/class/mic/mic(x)/stepping
++What:		/sys/class/mic/mic<X>/stepping
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -33,7 +33,7 @@ Description:
+ 		Provides information about the silicon stepping for an Intel
+ 		MIC device. For example - "A0" or "B0"
  
--What:		/sys/class/infiniband_verbs/uverbsN/ibdev
--What:		/sys/class/infiniband_verbs/uverbsN/abi_version
-+What:		/sys/class/infiniband_verbs/uverbs<N>/ibdev
-+What:		/sys/class/infiniband_verbs/uverbs<N>/abi_version
- Date:		Sept, 2005
- KernelVersion:	v2.6.14
- Contact:	linux-rdma@vger.kernel.org
-@@ -471,7 +471,7 @@ Description:
- 		=============== ======================================================
+-What:		/sys/class/mic/mic(x)/state
++What:		/sys/class/mic/mic<X>/state
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -69,7 +69,7 @@ Description:
+ 		"shutdown"  Initiates card OS shutdown.
+ 		==========  ===================================================
  
+-What:		/sys/class/mic/mic(x)/shutdown_status
++What:		/sys/class/mic/mic<X>/shutdown_status
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -88,7 +88,7 @@ Description:
+ 		"restart"   Shutdown because of a restart command.
+ 		==========  ===================================================
  
--What:		/sys/class/infiniband/qibX/ports/N/sl2vl/[0-15]
-+What:		/sys/class/infiniband/qibX/ports/<N>/sl2vl/[0-15]
- Date:		May, 2010
- KernelVersion:	v2.6.35
- Contact:	linux-rdma@vger.kernel.org
-@@ -480,8 +480,8 @@ Description:
- 		the Service Level (SL). Listing the SL files returns the Virtual
- 		Lane (VL) as programmed by the SL.
+-What:		/sys/class/mic/mic(x)/cmdline
++What:		/sys/class/mic/mic<X>/cmdline
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -104,7 +104,7 @@ Description:
+ 		or modify existing ones and then write the whole kernel command
+ 		line back to this entry.
  
--What:		/sys/class/infiniband/qibX/ports/N/CCMgtA/cc_settings_bin
--What:		/sys/class/infiniband/qibX/ports/N/CCMgtA/cc_table_bin
-+What:		/sys/class/infiniband/qibX/ports/<N>/CCMgtA/cc_settings_bin
-+What:		/sys/class/infiniband/qibX/ports/<N>/CCMgtA/cc_table_bin
- Date:		May, 2010
- KernelVersion:	v2.6.35
- Contact:	linux-rdma@vger.kernel.org
-@@ -499,11 +499,11 @@ Description:
- 				delay.
- 		=============== ================================================
+-What:		/sys/class/mic/mic(x)/firmware
++What:		/sys/class/mic/mic<X>/firmware
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -114,7 +114,7 @@ Description:
+ 		card can be found. The entry can be written to change the
+ 		firmware image location under /lib/firmware/.
  
--What:		/sys/class/infiniband/qibX/ports/N/linkstate/loopback
--What:		/sys/class/infiniband/qibX/ports/N/linkstate/led_override
--What:		/sys/class/infiniband/qibX/ports/N/linkstate/hrtbt_enable
--What:		/sys/class/infiniband/qibX/ports/N/linkstate/status
--What:		/sys/class/infiniband/qibX/ports/N/linkstate/status_str
-+What:		/sys/class/infiniband/qibX/ports/<N>/linkstate/loopback
-+What:		/sys/class/infiniband/qibX/ports/<N>/linkstate/led_override
-+What:		/sys/class/infiniband/qibX/ports/<N>/linkstate/hrtbt_enable
-+What:		/sys/class/infiniband/qibX/ports/<N>/linkstate/status
-+What:		/sys/class/infiniband/qibX/ports/<N>/linkstate/status_str
- Date:		May, 2010
- KernelVersion:	v2.6.35
- Contact:	linux-rdma@vger.kernel.org
-@@ -523,16 +523,16 @@ Description:
- 				"Fatal_Hardware_Error".
- 		=============== ===============================================
+-What:		/sys/class/mic/mic(x)/ramdisk
++What:		/sys/class/mic/mic<X>/ramdisk
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -124,7 +124,7 @@ Description:
+ 		OS boot can be found. The entry can be written to change
+ 		the ramdisk image location under /lib/firmware/.
  
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/rc_resends
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/seq_naks
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/rdma_seq
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/rnr_naks
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/other_naks
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/rc_timeouts
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/look_pkts
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/pkt_drops
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/dma_wait
--What:		/sys/class/infiniband/qibX/ports/N/diag_counters/unaligned
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/rc_resends
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/seq_naks
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/rdma_seq
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/rnr_naks
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/other_naks
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/rc_timeouts
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/look_pkts
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/pkt_drops
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/dma_wait
-+What:		/sys/class/infiniband/qibX/ports/<N>/diag_counters/unaligned
- Date:		May, 2010
- KernelVersion:	v2.6.35
- Contact:	linux-rdma@vger.kernel.org
-@@ -650,9 +650,9 @@ Description:
- 		=============== =============================================
+-What:		/sys/class/mic/mic(x)/bootmode
++What:		/sys/class/mic/mic<X>/bootmode
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -135,7 +135,7 @@ Description:
+ 		a) linux - Boot a Linux image.
+ 		b) flash - Boot an image for flash updates.
  
+-What:		/sys/class/mic/mic(x)/log_buf_addr
++What:		/sys/class/mic/mic<X>/log_buf_addr
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -149,7 +149,7 @@ Description:
+ 		log buffer address to be written can be found in the System.map
+ 		file of the card OS.
  
--What:		/sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_settings_bin
--What:		/sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_table_bin
--What:		/sys/class/infiniband/hfi1_X/ports/N/CCMgtA/cc_prescan
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/CCMgtA/cc_settings_bin
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/CCMgtA/cc_table_bin
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/CCMgtA/cc_prescan
- Date:		May, 2016
- KernelVersion:	v4.6
- Contact:	linux-rdma@vger.kernel.org
-@@ -675,9 +675,9 @@ Description:
- 				disable.
- 		=============== ================================================
+-What:		/sys/class/mic/mic(x)/log_buf_len
++What:		/sys/class/mic/mic<X>/log_buf_len
+ Date:		October 2013
+ KernelVersion:	3.13
+ Contact:	Sudeep Dutt <sudeep.dutt@intel.com>
+@@ -163,7 +163,7 @@ Description:
+ 		buffer length address to be written can be found in the
+ 		System.map file of the card OS.
  
--What:		/sys/class/infiniband/hfi1_X/ports/N/sc2vl/[0-31]
--What:		/sys/class/infiniband/hfi1_X/ports/N/sl2sc/[0-31]
--What:		/sys/class/infiniband/hfi1_X/ports/N/vl2mtu/[0-15]
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/sc2vl/[0-31]
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/sl2sc/[0-31]
-+What:		/sys/class/infiniband/hfi1_X/ports/<N>/vl2mtu/[0-15]
- Date:		May, 2016
- KernelVersion:	v4.6
- Contact:	linux-rdma@vger.kernel.org
-@@ -691,8 +691,8 @@ Description:
- 		=============== ===================================================
- 
- 
--What:		/sys/class/infiniband/hfi1_X/sdma_N/cpu_list
--What:		/sys/class/infiniband/hfi1_X/sdma_N/vl
-+What:		/sys/class/infiniband/hfi1_X/sdma_<N>/cpu_list
-+What:		/sys/class/infiniband/hfi1_X/sdma_<N>/vl
- Date:		Sept, 2016
- KernelVersion:	v4.8
- Contact:	linux-rdma@vger.kernel.org
+-What:		/sys/class/mic/mic(x)/heartbeat_enable
++What:		/sys/class/mic/mic<X>/heartbeat_enable
+ Date:		March 2015
+ KernelVersion:	4.4
+ Contact:	Ashutosh Dixit <ashutosh.dixit@intel.com>
 -- 
 2.31.1
 
