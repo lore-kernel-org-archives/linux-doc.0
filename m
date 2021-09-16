@@ -2,106 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F8FAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D12DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 12:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2398061207
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:58:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3479660E52
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 12:13:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238564AbhIPL7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 07:59:19 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:39452 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238545AbhIPL7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 07:59:18 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 18GBvuCs083945;
-        Thu, 16 Sep 2021 06:57:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1631793476;
-        bh=mOU4i/nCDSwk/pjLnX5ytEKK2R6Otmifat5H8NlpkLU=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=b/Q8VX4KJ84ym0BSvHQSsz7nC6+mEAFDvEUS6E1jVbUYz3MVhazU1EPOUDKxUlrUL
-         Rt3130EuHnYGXD/Yp/g/6CJIqaMyUTsqxeeQIvtX0TKGmRIi/4aIBYunKBa3wuckzE
-         LHLNyaNDtqMEFxPANZ5vU1mHA72uk8Vx7FuUMU1w=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 18GBvt28015765
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 16 Sep 2021 06:57:55 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 16
- Sep 2021 06:57:11 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 16 Sep 2021 06:57:10 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 18GBvA0O001999;
-        Thu, 16 Sep 2021 06:57:10 -0500
-Date:   Thu, 16 Sep 2021 06:57:10 -0500
-From:   Nishanth Menon <nm@ti.com>
+        id S239403AbhIPMOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 08:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239341AbhIPMOU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 08:14:20 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774D6C061764
+        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 05:13:00 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id u15so9121981wru.6
+        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 05:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nAa7hcN3ascpVQvM2OTeR2k2GxYPakXsr5xj8Xor+Lw=;
+        b=WmD/Z3+ncYgIZPTkselMJKRJwFC5I8QlynB+q8Lx4A4w+1BwjPde8V+HFZ6T61d3Z0
+         WKVnlly6gf/xyNqeuOpkTGnrKuo3Nxcf/0+NI5UBolir1q1MWuUtuIz/RXfmU9IeW4lo
+         Wn1ilNGM56xVE7XDbRQu4sBu+57OlID40Z97fV41DuOiSZVTetL3kTj2ZwthotdFdH/Q
+         SXUKvUGfvyzlorYs+n55BkMW476UbDatDv318GaIiqZLzQesajEooYAG0rOQ92vePetd
+         EhyWlX87ZPx152HdnX8/byXkwQz6eKseOdCyzYZYo0y2pwUyJfEPx4ro/AcoWJzqDAQt
+         ERWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nAa7hcN3ascpVQvM2OTeR2k2GxYPakXsr5xj8Xor+Lw=;
+        b=VDWA3lZvPc65RCmXDS0XowUtDwK/eTplgLT/xICN5rvIYPRRqYKRRiO6YY+UBCYn/3
+         cXjikAd5PkNDAeEYnl8fFNyd3DFxbyOg1TFBV9MM+eZ8ZegF7IAx89A3nDsKNWAcOMs/
+         3zeogvU2fCkwUhK5l2eDGVqWpFhKvDFjIRjMXebf45dhKB/MoX3kGx7QNcXU84e2Jp+Q
+         ut41xNi/3LR++c00dGz2WDDiiT3GnUzGMTFKtzK5QB+uw4T1xXd0N0z3PYiZUr5NzQBY
+         DNFeTCDBWaMITikP4DT864evap7dKlnqHZfUBc0IzCDa6vAugpBcE3nvmYQz5lD4P5gA
+         54cQ==
+X-Gm-Message-State: AOAM531KeOatb7NdGEo3Q0M8PVnLKd7vfp1Rk9S4FXno1GkUEppS+faT
+        aC9S85BSBHUuJioCftkfAkQsfQ==
+X-Google-Smtp-Source: ABdhPJzjhJgO8cFIT2GipL1pyLBESTYNhG5MXheT1l5nRxXPi6XFjSoeUvTa4kKMZP8Y/iAwUO0X0A==
+X-Received: by 2002:a5d:64ea:: with SMTP id g10mr2658238wri.274.1631794379049;
+        Thu, 16 Sep 2021 05:12:59 -0700 (PDT)
+Received: from [192.168.1.8] ([149.86.87.95])
+        by smtp.gmail.com with ESMTPSA id m29sm3450939wrb.89.2021.09.16.05.12.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Sep 2021 05:12:58 -0700 (PDT)
+Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Tero Kristo <kristo@kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 15/23] MAINTAINERS: update ti,sci.yaml reference
-Message-ID: <20210916115710.wz63pvfjm6gndiup@squid>
-References: <cover.1631785820.git.mchehab+huawei@kernel.org>
- <271a85356c045155fc92cbfdd4f76594dc789ced.1631785820.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Beckett <david.beckett@netronome.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+References: <cover.1631783482.git.mchehab+huawei@kernel.org>
+ <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
+ <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
+ <20210916124930.7ae3b722@coco.lan>
+ <33d66a49-2fc0-57a1-c1e5-34e932bcc237@isovalent.com>
+ <20210916133036.37c50383@coco.lan>
+From:   Quentin Monnet <quentin@isovalent.com>
+Message-ID: <8d5eaebb-29ac-5ee6-20ec-09d30d33dd73@isovalent.com>
+Date:   Thu, 16 Sep 2021 13:12:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <271a85356c045155fc92cbfdd4f76594dc789ced.1631785820.git.mchehab+huawei@kernel.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20210916133036.37c50383@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11:55-20210916, Mauro Carvalho Chehab wrote:
-> Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
-> renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-> to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
+2021-09-16 13:30 UTC+0200 ~ Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org>
+
+> [PATCH] scripts: documentation-file-ref-check: fix bpf selftests path
 > 
-> Update its cross-reference accordingly.
+> tools/testing/selftests/bpf/test_bpftool_synctypes.py use
+> relative patches on the top of BPFTOOL_DIR:
 > 
-> Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
+> 	BPFTOOL_DIR = os.path.join(LINUX_ROOT, 'tools/bpf/bpftool')
+> 
+> Change the script to automatically convert:
+> 
+> 	testing/selftests/bpf -> bpf/bpftool
+> 
+> In order to properly check the files used by such script.
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-
-Thanks.
-
-Reviewed-by: Nishanth Menon <nm@ti.com>
-
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9cf038e2c783..3bc18cfe73a6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18546,7 +18546,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
-> -F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-> +F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
->  F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
-> -- 
-> 2.31.1
+> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+> index 7187ea5e5149..2d91cfe11cd2 100755
+> --- a/scripts/documentation-file-ref-check
+> +++ b/scripts/documentation-file-ref-check
+> @@ -144,6 +144,7 @@ while (<IN>) {
+>  		if ($f =~ m/tools/) {
+>  			my $path = $f;
+>  			$path =~ s,(.*)/.*,$1,;
+> +			$path =~ s,testing/selftests/bpf,bpf/bpftool,;
+>  			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
+>  		}
+>  
+> 
+> 
 > 
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+I tested the patch and it works well on my side.
+
+However, this looks a bit fragile to me. There is no particular reason
+to have testing/selftests/bpf point to bpf/bpftool other than to
+accommodate the current case, we could imagine other selftest files
+pointing to other parts of the documentation in the future. I would
+instead make an exception for test_bpftool_synctypes.py specifically
+(other selftest files don't usually parse documentation anyway).
+Alternatively, I would look at excluding lines where the path is used in
+code (tricky to detect), maybe at least when used with os.path.join():
+
+    next if ($ln =~ m,os\.path\.join\([^\,]*\,\s*['"]$fulref,);
+
+But I'm not familiar with documentation-file-ref-check in the first
+place, so these are just my two cents.
+
+Thanks,
+Quentin
