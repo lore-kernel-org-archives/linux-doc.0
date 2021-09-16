@@ -2,176 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E24C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81935C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:24:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6DF161260
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 10:57:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DD0D61212
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236506AbhIPK7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 06:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237538AbhIPK7O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 06:59:14 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3F4C061764
-        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 03:57:54 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id u19-20020a7bc053000000b002f8d045b2caso4194965wmc.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 03:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gvciQBRjdKJ+epYnhvh12uEei/mAg84fmaGrBTbZwcI=;
-        b=sl7KqI7lXKNlZd5Y2NBZmthXWE0BxN9jJBaEcMPqwByQ+vRVxh1sDf+na7WazEiqYF
-         jr/fIpeNebDrVKtnJEzpukm1192/nx13KL3YaEhtn8FY5dDxR3bMmxVu4KQvOJpBNEyM
-         ErzJ70IPQT/l3oFI/qqAQtuzq1cn8Pi5/J8rkrbDFVMI6EmD3ic2+pSiYiXd2P/X9i1f
-         HOF5mH+/dxe9BH1qqdHBCn5z8qYH/jKb3Erp/2kdORiF8ny0FjMm4EaTbVt0gBvMgfl1
-         eISpp3j9juqaDsZ1zpIFvMSRbKPFZqPk5TwEAV7j8UaunWJyoeUaSCUGBPQj+7TsDr8B
-         pKTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gvciQBRjdKJ+epYnhvh12uEei/mAg84fmaGrBTbZwcI=;
-        b=f45DI5Pq7hhoXwYrAZFswXRsjDS/mqH+Rq3nJYEa8ES36ek+NSazgqz7Q1pYODt8uB
-         AzWp5k05WUWWIH7pgWW6F02Nk4x3m34+iHAOdDm3LN5EyP8ZIRwOakC7hBB/zU0ljh0n
-         M0vFkRhWzvklXwo44xx9NE5why6MCin7/TBbcwPrOwihjWqrtFuQI7G2ReqgvEaFGoCH
-         AENB/t5LuaGUVO1i6N4o5G8mQlPASJfyjr76HulvRBpcPHSB1ricLbhRaD8WqCj2jDxP
-         EOLm68ZXCLttHqQAc+ghsxbo0SGPKUnMYyYHe1k6+m/I70PiehK7GglBz5Z6oPeKCGGy
-         p00g==
-X-Gm-Message-State: AOAM533KfR5WSZqISXdAglVk/YzHBaNmcbncQiX+b8Hbcf0vWy2nrVya
-        ykrl+2PoteObNeKiaNaZ8QqLXQ==
-X-Google-Smtp-Source: ABdhPJwy1PAeu6n9GWTT6elODrsFuP2EWjwg7KZZ18iKsZn2ewdDTJg2LA13SB/rsk3pKcvLU7haSg==
-X-Received: by 2002:a7b:cd0f:: with SMTP id f15mr4416172wmj.173.1631789872597;
-        Thu, 16 Sep 2021 03:57:52 -0700 (PDT)
-Received: from [192.168.1.8] ([149.86.87.95])
-        by smtp.gmail.com with ESMTPSA id b16sm3067515wrp.82.2021.09.16.03.57.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 03:57:52 -0700 (PDT)
-Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
+        id S235686AbhIPLZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 07:25:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235650AbhIPLZ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 07:25:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB22C61209;
+        Thu, 16 Sep 2021 11:24:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631791448;
+        bh=NMgNoIq6hJP/OBlSS3MAr+6o3KajWt99OdGKIwdT+34=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=flZVHBUkb84eZY2YTJwMjBb1P0hQ7pdNuafibxNm8iWR5LZqHMIihA4bYLoeMia/s
+         SUIFvZevPTxYNOO7hVq1J+RgTp6xjcvcHqI6XOfQbIxqb80HNOfA9C6nmOG/l3FEKu
+         zJ3w7w2FSiFOQwSKjhkf7yOyqmzYD23IzCh20lWlxwaUh9Nqt8YLZeh+tJNmSF4ZU2
+         odPdga05b/CzQBY4H3hX8jBUphFCN7xnB1lUojutI9aUlcJ8mYPj6W1pxYZ7b+fLZs
+         l5l7AO3WC3NuJfLH2bM929NrCBqx9Yjc8js5H/KkVPl/wdVxJlqevpaF6k/TCsRzob
+         wdJpFjx9T8tMg==
+Date:   Thu, 16 Sep 2021 12:23:27 +0100
+From:   Mark Brown <broonie@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Beckett <david.beckett@netronome.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 24/24] MAINTAINERS: update silergy,sy8106a.yaml reference
+Message-ID: <20210916112327.GC5048@sirena.org.uk>
 References: <cover.1631783482.git.mchehab+huawei@kernel.org>
- <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
- <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
- <20210916124930.7ae3b722@coco.lan>
-From:   Quentin Monnet <quentin@isovalent.com>
-Message-ID: <33d66a49-2fc0-57a1-c1e5-34e932bcc237@isovalent.com>
-Date:   Thu, 16 Sep 2021 11:57:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <eed037d15b9b919d6401898cd5cdeea0542a41d5.1631783482.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210916124930.7ae3b722@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
+In-Reply-To: <eed037d15b9b919d6401898cd5cdeea0542a41d5.1631783482.git.mchehab+huawei@kernel.org>
+X-Cookie: We've upped our standards, so up yours!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2021-09-16 12:49 UTC+0200 ~ Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org>
-> Hi Quentin,
-> 
-> Em Thu, 16 Sep 2021 10:43:45 +0100
-> Quentin Monnet <quentin@isovalent.com> escreveu:
-> 
->> 2021-09-16 11:14 UTC+0200 ~ Mauro Carvalho Chehab
->> <mchehab+huawei@kernel.org>
->>> The file name: Documentation/bpftool-prog.rst
->>> should be, instead: tools/bpf/bpftool/Documentation/bpftool-prog.rst.
->>>
->>> Update its cross-reference accordingly.
->>>
->>> Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
->>> Fixes: ff69c21a85a4 ("tools: bpftool: add documentation")  
->>
->> Hi,
->> How is this a fix for the commit that added the documentation in bpftool?
->>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>> ---
->>>  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
->>> index be54b7335a76..27a2c369a798 100755
->>> --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
->>> +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
->>> @@ -374,7 +374,7 @@ class ManProgExtractor(ManPageExtractor):
->>>      """
->>>      An extractor for bpftool-prog.rst.
->>>      """
->>> -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-prog.rst')
->>> +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-prog.rst')
->>>  
->>>      def get_attach_types(self):
->>>          return self.get_rst_list('ATTACH_TYPE')
->>>   
->>
->> No I don't believe it should. BPFTOOL_DIR already contains
->> 'tools/bpf/bpftool' and the os.path.join() concatenates the two path
->> fragments.
->>
->> Where is this suggestion coming from? Did you face an issue with the script?
-> 
-> No, I didn't face any issues with this script.
-> 
-> The suggestion cames from the script at:
-> 
-> 	./scripts/documentation-file-ref-check
-> 
-> which is meant to discover broken doc references. 
-> 
-> Such script has already a rule to handle stuff under tools/:
-> 
-> 		# Accept relative Documentation patches for tools/
-> 		if ($f =~ m/tools/) {
-> 			my $path = $f;
-> 			$path =~ s,(.*)/.*,$1,;
-> 			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
-> 		}
-> 
-> but it seems it needs a fixup in order for it to stop reporting issues
-> at test_bpftool_synctypes.py:
-> 
-> 	$ ./scripts/documentation-file-ref-check 
-> 	...
-> 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-prog.rst
-> 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-map.rst
-> 	tools/testing/selftests/bpf/test_bpftool_synctypes.py: Documentation/bpftool-cgroup.rst
 
-Oh, I see, thanks for explaining. I didn't know this script would catch
-the paths in bpftool's test file.
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> I'll drop the patches touching it for a next version, probably
-> adding a fix for such script.
-> 
-> Thanks,
-> Mauro
-> 
+On Thu, Sep 16, 2021 at 11:14:17AM +0200, Mauro Carvalho Chehab wrote:
+> Changeset b1c36aae51c9 ("regulator: Convert SY8106A binding to a schema")
+> renamed: Documentation/devicetree/bindings/regulator/sy8106a-regulator.txt
+> to: Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml.
 
-Sounds good to me, thanks a lot!
-Quentin
+What's the story with dependencies here?  You've just sent a single
+patch with no cover letter or anything.  I can't see any reason why
+there would be any?
+
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFDKS4ACgkQJNaLcl1U
+h9DwbAf/QW/5nmCsGZ25qSz42lrNLKtYY+VAdQupk1EdCJB62CnwWTWWQ7XhhRln
+T/Ldj7ebSiXJje0QEos53RrumNu1rQyIV72OmeBKHUe81Lb3xizOLmZD1uFMkJzO
+8FeO6f/9aCLCDRvcWA9ijY1O4Ew9NejZVA+C54xWFxwH1gulYHds1U7Nzd0eQ/i1
+XKbDDregcvJw+Q3Kd+8cOIsQpSSKBpUW/4f0CT53tVZJXgx+u6JCeiKQHBa32FfD
+e6AgvOId7q9oJYFCdhST00wPxM4jnr1SjeeWPI5b1ziILMb1dBlgwzAPsF9sQZ0M
+KqXQKdaWLuBphA++ZGGB9e8LotPmOQ==
+=2KFO
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
