@@ -4,44 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00849C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06055C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5A2561164
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB20861186
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235478AbhIPJBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36078 "EHLO mail.kernel.org"
+        id S236127AbhIPJBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36204 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235297AbhIPJBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 14BFF6120C;
+        id S235470AbhIPJBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:01:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E89A261356;
         Thu, 16 Sep 2021 09:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631782802;
-        bh=+z6dw7Tog78+7mQUP8MykHTfS8BskbmMD+pw4Idm0Jk=;
+        s=k20201202; t=1631782803;
+        bh=ncTiBNiZvhwc0SUAMa/QDBZVzsHakSCDZjhxAyiWi0U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VpQQDYRuhK6bjt57SKrRlHde8CXA+5oHzjkVJDQJykYhJQgnO+LLjSETStrufNfXj
-         iREFQZqU/HevOgSYB1opdoyutfrv13vISJ/SSRoLrLehVb1QWi5x46iKjb8w0XGYjD
-         t5cExtQREXP6XcgafQ4ySWk5IUcjOf5jUC5Z6Z6zVxDn7GXkdasn7RDE7VdTnBexKq
-         KrS0ipi1ZydFUIeAXC+iXXK64f/2WIDkeWSfQiYIxQmGqzjgLFO3iqZ4SvylLPPrvy
-         IMMZcGmKtcRNT47+S3aRA4PLb646c8b8ajL5ABSb9I78tKfMuXBOViWfLJ/NUi4QnE
-         xbZFbgOOGL29Q==
+        b=lYblWoLBYr5hBt4KqXeHmZH4mscdzZZmxtifSSyBUbJq1NrE+aP+MRXOavbMmxDUG
+         7m6DL/7BzitEfZJHRj8l01kBzHu9bHbZ/iPGJoE4KE/45QVBTwR2qfmwmfeI60gHyE
+         +CbLVLN/3BZ4Z/LJthNO1SwWvQgny5ruZdVmxMbnU7eSF1QPN+Rt0OZdNcUL69YiJO
+         Y75ld/LeABEJ1s3iiUlSJ15+EitfV9KZKfm+wL8Zz/1y8cgB5kvYCqjyTrYtdwY7X7
+         WEebUNkEMeu5vMw7PgHxDAhRHygsizIWC1KR42Mu/A2fJOtSgTzs2RYmNX2MxT6Z0H
+         45Qz1JDKMNHMw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qjd-BC; Thu, 16 Sep 2021 11:00:00 +0200
+        id 1mQnFR-001qkm-5O; Thu, 16 Sep 2021 11:00:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 02/30] ABI: sysfs-tty: better document module name parameter
-Date:   Thu, 16 Sep 2021 10:59:29 +0200
-Message-Id: <6280edfacdbcbf8db1aeb7bf11e899187c11ac4c.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, Peter Rosin <peda@axentia.se>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 19/30] ABI: sysfs-class-mux: use wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:46 +0200
+Message-Id: <7e8ff8601d5b44b76c5c7f77b6dcf3b1d45bc5be.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -52,163 +53,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On almost all ABI documents, variable arguments are declared
-as <foo_bar>. Change it here too, in order to allow replacing
-such wildcards by regexes on a scriptable way.
+An "N" upper letter is not a wildcard, nor can easily be identified
+by script, specially since the USB sysfs define things like.
+bNumInterfaces. Use, instead, <N>, in order to let script/get_abi.pl
+to convert it into a Regex.
 
+Acked-by: Peter Rosin <peda@axentia.se>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-tty | 32 ++++++++++++++---------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ Documentation/ABI/testing/sysfs-class-mux | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-tty b/Documentation/ABI/testing/sysfs-tty
-index e157130a6792..820e412d38a8 100644
---- a/Documentation/ABI/testing/sysfs-tty
-+++ b/Documentation/ABI/testing/sysfs-tty
-@@ -9,7 +9,7 @@ Description:
- 		 The file supports poll() to detect virtual
- 		 console switches.
+diff --git a/Documentation/ABI/testing/sysfs-class-mux b/Documentation/ABI/testing/sysfs-class-mux
+index 8715f9c7bd4f..c58b7b6e1aa6 100644
+--- a/Documentation/ABI/testing/sysfs-class-mux
++++ b/Documentation/ABI/testing/sysfs-class-mux
+@@ -7,7 +7,7 @@ Description:
+ 		Framework and provides a sysfs interface for using MUX
+ 		controllers.
  
--What:		/sys/class/tty/tty0/active
-+What:		/sys/class/tty/tty<x>/active
- Date:		Nov 2010
- Contact:	Kay Sievers <kay.sievers@vrfy.org>
- Description:
-@@ -18,7 +18,7 @@ Description:
- 		 The file supports poll() to detect virtual
- 		 console switches.
- 
--What:		/sys/class/tty/ttyS0/uartclk
-+What:		/sys/class/tty/ttyS<x>/uartclk
- Date:		Sep 2012
- Contact:	Tomas Hlavacek <tmshlvck@gmail.com>
- Description:
-@@ -29,7 +29,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/type
-+What:		/sys/class/tty/ttyS<x>/type
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -38,7 +38,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/line
-+What:		/sys/class/tty/ttyS<x>/line
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -47,7 +47,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/port
-+What:		/sys/class/tty/ttyS<x>/port
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -56,7 +56,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/irq
-+What:		/sys/class/tty/ttyS<x>/irq
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -65,7 +65,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/flags
-+What:		/sys/class/tty/ttyS<x>/flags
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -74,7 +74,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/xmit_fifo_size
-+What:		/sys/class/tty/ttyS<x>/xmit_fifo_size
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -83,7 +83,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/close_delay
-+What:		/sys/class/tty/ttyS<x>/close_delay
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -92,7 +92,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/closing_wait
-+What:		/sys/class/tty/ttyS<x>/closing_wait
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -101,7 +101,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/custom_divisor
-+What:		/sys/class/tty/ttyS<x>/custom_divisor
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -110,7 +110,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/io_type
-+What:		/sys/class/tty/ttyS<x>/io_type
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -120,7 +120,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/iomem_base
-+What:		/sys/class/tty/ttyS<x>/iomem_base
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -129,7 +129,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/iomem_reg_shift
-+What:		/sys/class/tty/ttyS<x>/iomem_reg_shift
- Date:		October 2012
- Contact:	Alan Cox <alan@linux.intel.com>
- Description:
-@@ -139,7 +139,7 @@ Description:
- 		 These sysfs values expose the TIOCGSERIAL interface via
- 		 sysfs rather than via ioctls.
- 
--What:		/sys/class/tty/ttyS0/rx_trig_bytes
-+What:		/sys/class/tty/ttyS<x>/rx_trig_bytes
- Date:		May 2014
- Contact:	Yoshihiro YUNOMAE <yoshihiro.yunomae.ez@hitachi.com>
- Description:
-@@ -155,7 +155,7 @@ Description:
- 		 16550A, which has 1/4/8/14 bytes trigger, the RX trigger is
- 		 automatically changed to 4 bytes.
- 
--What:		/sys/class/tty/ttyS0/console
-+What:		/sys/class/tty/ttyS<x>/console
- Date:		February 2020
- Contact:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
- Description:
+-What:		/sys/class/mux/muxchipN/
++What:		/sys/class/mux/muxchip<N>/
+ Date:		April 2017
+ KernelVersion:	4.13
+ Contact:	Peter Rosin <peda@axentia.se>
 -- 
 2.31.1
 
