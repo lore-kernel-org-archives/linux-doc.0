@@ -7,41 +7,45 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D50F1C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EB1C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA4D361164
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BA096120D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235692AbhIPJBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36430 "EHLO mail.kernel.org"
+        id S236061AbhIPJBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:01:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36214 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235500AbhIPJBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S235505AbhIPJBY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 16 Sep 2021 05:01:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 31D1A61372;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5063C6137B;
         Thu, 16 Sep 2021 09:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631782803;
-        bh=lnViX5JeCxtvET+iaFNRtFAQr+eduL6y6bzYMTy334Y=;
+        bh=y83gaW55yksloBuWX0OKO49iArybMqGw/eZJ7F2ASQA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JToTUj43gXTBlFxwfSFQ50d77T1VnGL9e+SHQBPqtFtLM8g/e1y0gOkCELSimhHPg
-         hLIxfyk7qaaHxh/0h8N4mriwKfALbAMMWMMqLUr+jHt6uMYxbBfm0YLEGaOtMuBZ+T
-         1Z3sFMdGyibn0p5ChYYM/lFcVdnD8mMRrANJIZJs52AY0/l4OdRpVqRvVa1/S2AjvQ
-         TuLopJtY/2VbFx8kUbfLCRD5gfAafdEsfl/y8TArj+9VEdj0vNIx1dWmGK9udsaDl+
-         tQX+dTi+iVxI0QA0g5o3EChQmQ7klPXGSUelNhdBGEUUDhO56197t4T42nLNBZ62VY
-         p9NiExnewmKgA==
+        b=LwSlOUN3DE4CgKwHy7xaSWTpq3vTxOCIYCPTXEabg8/O5wU4sghPNQhdNFbTRR3b5
+         B7Z5yTncwqP6UO7PqFbrJXO8+5bEcVFDvHjvlNOSNuxOeTF1ttC74aKij7P/D9zO4x
+         CxmUyoxKJ+Tz7GXMzvaRkjXuucGknyfW1xztbKINahr3zgWKu9FSKikEoZSGgVyBsc
+         E44kJJI9JCmKc2/5w8s3/Lqm61PEJxthOma0RBJHO93vgjps5qXIfKso5VfAcvPJqw
+         Au0aqfkEjITZJpHk0t/6Tq7rnhovkZZcdB1dWHyl+VSV+b3CyO3iTG3Gb95pypY2t8
+         Pnp+iozUXJUJg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQnFR-001ql6-Dq; Thu, 16 Sep 2021 11:00:01 +0200
+        id 1mQnFR-001qlL-I5; Thu, 16 Sep 2021 11:00:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 24/30] ABI: sysfs-class-uwb_rc-wusbhc: use wildcards on What definitions
-Date:   Thu, 16 Sep 2021 10:59:51 +0200
-Message-Id: <89dfa95676376f48a7191e1d34264d48a72b3f6a.1631782432.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 27/30] ABI: sysfs-firmware-efi-esrt: use wildcards on What definitions
+Date:   Thu, 16 Sep 2021 10:59:54 +0200
+Message-Id: <44f63335333d019490297903609a8a1754a66183.1631782432.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631782432.git.mchehab+huawei@kernel.org>
 References: <cover.1631782432.git.mchehab+huawei@kernel.org>
@@ -59,55 +63,70 @@ to convert it into a Regex.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../ABI/testing/sysfs-firmware-efi-esrt          | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-index 5977e2875325..55eb55cac92e 100644
---- a/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-+++ b/Documentation/ABI/testing/sysfs-class-uwb_rc-wusbhc
-@@ -1,4 +1,4 @@
--What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_chid
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_chid
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        David Vrabel <david.vrabel@csr.com>
-@@ -9,7 +9,7 @@ Description:
+diff --git a/Documentation/ABI/testing/sysfs-firmware-efi-esrt b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
+index 31b57676d4ad..4c2d440487dd 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-efi-esrt
++++ b/Documentation/ABI/testing/sysfs-firmware-efi-esrt
+@@ -24,14 +24,14 @@ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The version of the ESRT structure provided by the firmware.
  
-                 Set an all zero CHID to stop the host controller.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/
++What:		/sys/firmware/efi/esrt/entries/entry<N>/
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	Each ESRT entry is identified by a GUID, and each gets a
+ 		subdirectory under entries/ .
+ 		example: /sys/firmware/efi/esrt/entries/entry0/
  
--What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_trust_timeout
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_trust_timeout
- Date:           July 2008
- KernelVersion:  2.6.27
- Contact:        David Vrabel <david.vrabel@csr.com>
-@@ -24,7 +24,7 @@ Description:
-                 lifetime of PTKs and GTKs) it should not be changed
-                 from the default.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_type
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_type
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	What kind of firmware entry this is:
+@@ -43,33 +43,33 @@ Description:	What kind of firmware entry this is:
+ 		3   UEFI Driver
+ 		==  ===============
  
--What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_phy_rate
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_phy_rate
- Date:           August 2009
- KernelVersion:  2.6.32
- Contact:        David Vrabel <david.vrabel@csr.com>
-@@ -37,7 +37,7 @@ Description:
-                 Refer to [ECMA-368] section 10.3.1.1 for the value to
-                 use.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_class
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_class
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	This is the entry's guid, and will match the directory name.
  
--What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_dnts
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_dnts
- Date:           June 2013
- KernelVersion:  3.11
- Contact:        Thomas Pugliese <thomas.pugliese@gmail.com>
-@@ -47,7 +47,7 @@ Description:
-                 often the devices will have the opportunity to send
-                 notifications to the host.
+-What:		/sys/firmware/efi/esrt/entries/entry$N/fw_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/fw_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The version of the firmware currently installed.  This is a
+ 		32-bit unsigned integer.
  
--What:           /sys/class/uwb_rc/uwbN/wusbhc/wusb_retry_count
-+What:           /sys/class/uwb_rc/uwb<N>/wusbhc/wusb_retry_count
- Date:           June 2013
- KernelVersion:  3.11
- Contact:        Thomas Pugliese <thomas.pugliese@gmail.com>
+-What:		/sys/firmware/efi/esrt/entries/entry$N/lowest_supported_fw_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/lowest_supported_fw_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The lowest version of the firmware that can be installed.
+ 
+-What:		/sys/firmware/efi/esrt/entries/entry$N/capsule_flags
++What:		/sys/firmware/efi/esrt/entries/entry<N>/capsule_flags
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	Flags that must be passed to UpdateCapsule()
+ 
+-What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_version
++What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_version
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The last firmware version for which an update was attempted.
+ 
+-What:		/sys/firmware/efi/esrt/entries/entry$N/last_attempt_status
++What:		/sys/firmware/efi/esrt/entries/entry<N>/last_attempt_status
+ Date:		February 2015
+ Contact:	Peter Jones <pjones@redhat.com>
+ Description:	The result of the last firmware update attempt for the
 -- 
 2.31.1
 
