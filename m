@@ -2,85 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A4EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F8FAC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:58:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 884B761056
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:47:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2398061207
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 11:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235696AbhIPLsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 07:48:43 -0400
-Received: from mga17.intel.com ([192.55.52.151]:48176 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233746AbhIPLsm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 07:48:42 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="202700800"
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
-   d="scan'208";a="202700800"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2021 04:47:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
-   d="scan'208";a="610617645"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 16 Sep 2021 04:47:19 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 16 Sep 2021 14:47:18 +0300
-Date:   Thu, 16 Sep 2021 14:47:18 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        id S238564AbhIPL7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 07:59:19 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:39452 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238545AbhIPL7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 07:59:18 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 18GBvuCs083945;
+        Thu, 16 Sep 2021 06:57:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1631793476;
+        bh=mOU4i/nCDSwk/pjLnX5ytEKK2R6Otmifat5H8NlpkLU=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=b/Q8VX4KJ84ym0BSvHQSsz7nC6+mEAFDvEUS6E1jVbUYz3MVhazU1EPOUDKxUlrUL
+         Rt3130EuHnYGXD/Yp/g/6CJIqaMyUTsqxeeQIvtX0TKGmRIi/4aIBYunKBa3wuckzE
+         LHLNyaNDtqMEFxPANZ5vU1mHA72uk8Vx7FuUMU1w=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 18GBvt28015765
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 16 Sep 2021 06:57:55 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 16
+ Sep 2021 06:57:11 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Thu, 16 Sep 2021 06:57:10 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 18GBvA0O001999;
+        Thu, 16 Sep 2021 06:57:10 -0500
+Date:   Thu, 16 Sep 2021 06:57:10 -0500
+From:   Nishanth Menon <nm@ti.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 11/30] ABI: sysfs-class-typec: fix a typo on a What
- field
-Message-ID: <YUMuxlSEvJbEJJZl@kuha.fi.intel.com>
-References: <cover.1631782432.git.mchehab+huawei@kernel.org>
- <bff0e7c137fb4f41ac0b2ed9c5a21c0948203f15.1631782432.git.mchehab+huawei@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Tero Kristo <kristo@kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 15/23] MAINTAINERS: update ti,sci.yaml reference
+Message-ID: <20210916115710.wz63pvfjm6gndiup@squid>
+References: <cover.1631785820.git.mchehab+huawei@kernel.org>
+ <271a85356c045155fc92cbfdd4f76594dc789ced.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <bff0e7c137fb4f41ac0b2ed9c5a21c0948203f15.1631782432.git.mchehab+huawei@kernel.org>
+In-Reply-To: <271a85356c045155fc92cbfdd4f76594dc789ced.1631785820.git.mchehab+huawei@kernel.org>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 16, 2021 at 10:59:38AM +0200, Mauro Carvalho Chehab wrote:
-> This what:
-> 	/sys/class/typec/<port>-partner>/identity/
+On 11:55-20210916, Mauro Carvalho Chehab wrote:
+> Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
+> renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
+> to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
 > 
-> Contains an extra ">" character. Remove it.
+> Update its cross-reference accordingly.
 > 
+> Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+Thanks.
+
+Reviewed-by: Nishanth Menon <nm@ti.com>
 
 > ---
->  Documentation/ABI/testing/sysfs-class-typec | 2 +-
+>  MAINTAINERS | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-> index 40122d915ae1..75088ecad202 100644
-> --- a/Documentation/ABI/testing/sysfs-class-typec
-> +++ b/Documentation/ABI/testing/sysfs-class-typec
-> @@ -200,7 +200,7 @@ Description:	USB Power Delivery Specification defines a set of product types
->  		amc			Alternate Mode Controller
->  		======================  ==========================
->  
-> -What:		/sys/class/typec/<port>-partner>/identity/
-> +What:		/sys/class/typec/<port>-partner/identity/
->  Date:		April 2017
->  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
->  Description:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9cf038e2c783..3bc18cfe73a6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18546,7 +18546,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
+> -F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
+> +F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
+>  F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
+>  F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
+>  F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
 > -- 
 > 2.31.1
-
-thanks,
+> 
 
 -- 
-heikki
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
