@@ -2,134 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2FC8C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E64C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:43:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B570060F4A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:40:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8645D6112E
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235717AbhIPJmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:42:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37234 "EHLO
+        id S235798AbhIPJpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbhIPJmB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 05:42:01 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D01AC061574;
-        Thu, 16 Sep 2021 02:40:41 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id h16so16049160lfk.10;
-        Thu, 16 Sep 2021 02:40:41 -0700 (PDT)
+        with ESMTP id S235524AbhIPJpI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 05:45:08 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2839BC061764
+        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 02:43:48 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id t8so1452260wri.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Sep 2021 02:43:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=f4r5L82T8lVgmjDxktA/sisuupFmx7x30+6IlhMnYag=;
-        b=jPcF0P+cHfyIuFllT9s+XQDbpTKL/DP/WZ12xBmDnC0LZJsbJeGpydQ+nj1jG3vyhQ
-         MXkF+s9f9DZe82C3OUmuCqssXSW6Xy1D8PFT7XMOVkyU74aEXJL7HBQJL//WLAcHnHlT
-         6JAWY0XBjZ7XwV9xpdiHpNmVxyHHj5cWcQPRN6QHBZx1dqJ5C5ttXeA+io6IcnyWEI1q
-         dTKH6A8fDq2gQ2GNoUTTZGZkVAhST9ZUJ+pdKy05GPpnzXG3EkGwi93ZGAuCS4fkFkql
-         PEeqVQZUULvnCU7rK1P4+9aDwbpW2w/MkOtNecCIBYtcqqkOy4RB/4LhCrlLfobSeeON
-         wc2A==
+        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vMyxzYnGLIXigftdBAqV9yMGr7SyFbi9TFF15l4WZ8o=;
+        b=bGEKNYVntYkua+rlEKSZTUjCc9reSlmQjIYaXOwPpunsNqyatW0HePiZQgk83Qm5eC
+         7bhZMvpL9IWRHFrSHiYaJ3wcT5tUjvLzfNOU8nHOcwW+XdNCMGNiwSk/iEZ0Pyt87h5v
+         HumjrYrr+NeX1HYiP7SQysd/c3Zk85fsxEh9j14c2U0rFy4sLMRmaImCI717udy0++VV
+         EFT1uwTcuueI6vJFp2JYkcqVshbWkZe2/l889e/a2FPgE6l10mCfhKzSqg0OQOntrRbW
+         e9tYErYSA831aPfexhrVU+9jEf/m+C6eD85mEKFq8zepcPJwROvWM1KwvC4pfiUy+FnR
+         rO3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=f4r5L82T8lVgmjDxktA/sisuupFmx7x30+6IlhMnYag=;
-        b=d04CrElN+9LPFiaWg1zURVABzwjkEb76HQgpIWxTIjVr4nosqwCnbKO1ax7BMFt4Xz
-         VC1trQ0VRjoJiEYb4kD5JVaREOQtjVzJdyglz87/vZGbZR90Jb/zYHWXdSlZQcgjbK48
-         diS3URh+bIfi9ERq957JnZuox8NDamdyU5trBs9+p4ApfJz2dPxo0fNuxUb/VpBT9Bzn
-         AhPbuyDtRyTvTx8HY4YM1C7+RMnjRlmUi6KHnxHZDOzQxoDs5I5hEO7xZutprJKJnj0F
-         QYLM2JnUM/g4WTM/ofUJPYttHzggw9olPcW0QEHt9L1dZl8L8s7jWk2L6018V6u6OaMO
-         NYzA==
-X-Gm-Message-State: AOAM5333fyZugtkXw++Qe9/ZSHnRPIuZnJhWWDKTTJ/5yGEFvM7RO7wa
-        EJjeSxj62CZK5zr2dqWOkL2z9W9yOEa2yVL1cEg=
-X-Google-Smtp-Source: ABdhPJyIIyf4A7fhfDx7l6dTfpk1Ec/zzEqy4u9mdnznrZCiaqfyA9V5XQj08EEuePeq9U7P318zvMYzkOuwjxToNGM=
-X-Received: by 2002:a2e:1508:: with SMTP id s8mr3587923ljd.240.1631785239506;
- Thu, 16 Sep 2021 02:40:39 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vMyxzYnGLIXigftdBAqV9yMGr7SyFbi9TFF15l4WZ8o=;
+        b=a6PR41OP0mYVmoFtRVcMt1mVs/FZlhoRIFti6cULQ0QKTD1ezZq9f9mSTO73qw6znn
+         r4wRK3CHrcJnRg5x+R8/jalVzhlj5A+x99jRg/7A1Jxcal+XUX0ZgHoO2AB4Bks3FKb9
+         h1jPiyHSDzJ89aMIwWGKZjjOrC4KaX49UOB8E/axEhKwlLWyo2lbKTLGEdF2MRUEYlcK
+         ryTWKEbvDQ1qfbH7GnNnDsko/bjfXoCc/rGNv2IzzhnPTW8ItT8DiQppHmMjq9iZ6NFY
+         7Cvtm9ZJxejOSio+Maxd3ZjFDxLA6EwAOHiTYYQojHIF48a+2OmxYtFgGpDNa2tV92aH
+         DYiQ==
+X-Gm-Message-State: AOAM531Q98Avz0cC5ucwQSrjo4AxU8FWCnzi0rOfFnMZOVodp24+elTk
+        bhlY7nA2Lq24n1yMmlE5DY06wg==
+X-Google-Smtp-Source: ABdhPJyyG1PVDSRfmks+2rkllu2IivPebbvtIJiooKKqGJWD7xMwdgVKf6MqnqIWLX7kfhF6PQm+6Q==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr4937429wrs.58.1631785426735;
+        Thu, 16 Sep 2021 02:43:46 -0700 (PDT)
+Received: from [192.168.1.8] ([149.86.87.95])
+        by smtp.gmail.com with ESMTPSA id l19sm2573480wrc.16.2021.09.16.02.43.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Sep 2021 02:43:46 -0700 (PDT)
+Subject: Re: [PATCH 08/24] tools: bpftool: update bpftool-prog.rst reference
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Beckett <david.beckett@netronome.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+References: <cover.1631783482.git.mchehab+huawei@kernel.org>
+ <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
+From:   Quentin Monnet <quentin@isovalent.com>
+Message-ID: <eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com>
+Date:   Thu, 16 Sep 2021 10:43:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20210914151016.3174924-1-Roman_Skakun@epam.com>
- <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <20210914153046.GB815@lst.de> <alpine.DEB.2.21.2109141838290.21985@sstabellini-ThinkPad-T480s>
-In-Reply-To: <alpine.DEB.2.21.2109141838290.21985@sstabellini-ThinkPad-T480s>
-From:   Roman Skakun <rm.skakun@gmail.com>
-Date:   Thu, 16 Sep 2021 12:40:28 +0300
-Message-ID: <CADu_u-OjpYB0-B=tLKYsZH=auvQF-o7PJb-11W=1emY8jaA-mg@mail.gmail.com>
-Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
-To:     Stefano Stabellini <sstabellini@kernel.org>
-Cc:     Jan Beulich <jbeulich@suse.com>,
-        Andrii Anisov <andrii_anisov@epam.com>,
-        Roman Skakun <roman_skakun@epam.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dc4bae7a14518fbfff20a0f539df06a5c19b09de.1631783482.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stefano,
+2021-09-16 11:14 UTC+0200 ~ Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org>
+> The file name: Documentation/bpftool-prog.rst
+> should be, instead: tools/bpf/bpftool/Documentation/bpftool-prog.rst.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+> Fixes: ff69c21a85a4 ("tools: bpftool: add documentation")
 
-> Also, Option 1 listed in the webpage seems to be a lot better. Any
-> reason you can't do that? Because that option both solves the problem
-> and increases performance.
+Hi,
+How is this a fix for the commit that added the documentation in bpftool?
 
-Yes, Option 1 is probably more efficient.
-But I use another platform under Xen without DMA adjustment functionality.
-I pinned this webpage only for example to describe the similar problem I ha=
-d.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> index be54b7335a76..27a2c369a798 100755
+> --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> @@ -374,7 +374,7 @@ class ManProgExtractor(ManPageExtractor):
+>      """
+>      An extractor for bpftool-prog.rst.
+>      """
+> -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-prog.rst')
+> +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-prog.rst')
+>  
+>      def get_attach_types(self):
+>          return self.get_rst_list('ATTACH_TYPE')
+> 
 
-Cheers,
-Roman
+No I don't believe it should. BPFTOOL_DIR already contains
+'tools/bpf/bpftool' and the os.path.join() concatenates the two path
+fragments.
 
-=D1=81=D1=80, 15 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 04:51, Stefa=
-no Stabellini <sstabellini@kernel.org>:
+Where is this suggestion coming from? Did you face an issue with the script?
 
->
-> On Tue, 14 Sep 2021, Christoph Hellwig wrote:
-> > On Tue, Sep 14, 2021 at 05:29:07PM +0200, Jan Beulich wrote:
-> > > I'm not convinced the swiotlb use describe there falls under "intende=
-d
-> > > use" - mapping a 1280x720 framebuffer in a single chunk? (As an aside=
-,
-> > > the bottom of this page is also confusing, as following "Then we can
-> > > confirm the modified swiotlb size in the boot log:" there is a log
-> > > fragment showing the same original size of 64Mb.
-> >
-> > It doesn't.  We also do not add hacks to the kernel for whacky out
-> > of tree modules.
->
-> Also, Option 1 listed in the webpage seems to be a lot better. Any
-> reason you can't do that? Because that option both solves the problem
-> and increases performance.
+Same comment applies for the next two patches.
 
-
-
---
-Best Regards, Roman.
+Quentin
