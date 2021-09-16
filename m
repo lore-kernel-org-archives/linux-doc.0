@@ -4,50 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1389C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1F1C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD61A61207
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 994EC61216
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 09:55:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236524AbhIPJ5B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:57:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57890 "EHLO mail.kernel.org"
+        id S236705AbhIPJ5C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 05:57:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58056 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236019AbhIPJ4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:56:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 378ED61216;
+        id S236194AbhIPJ4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Sep 2021 05:56:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BB4261260;
         Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631786126;
-        bh=JwWCjmG96CZuiWgSlG9dyPmxEM9GvaJcEKBMYRMsB90=;
+        bh=O6tO7kn7hqKkbA5z6e/F1LpaXU8rkhUkSsbrwIN8b1w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MKTqSxcIt9p5H4pJmyp/Oz2PN3adV7AHogAAT8d74S4+05T1Hv1sedSSPJm4eh3ze
-         qQJ2sNzbydSsI52T7JA1TjEvaEeePhI4fOBziTnEtac7yJhfMH6YMVmAbwdqm/32GI
-         Ua2OxhexmmefTGPcIxMu1VZjG+3RGNw1uIAP9JT+Q2F0EmtpcriB7ahpjv4TzfoMIL
-         IybzAi+bhHHP9aCVb8CKx9Iu9/Ky+HCtmhmo05rn2Huery+53QC4518C7ygCLxnto3
-         i921Ceq5frvN9c3tyCE6HcpCu4Svjlmy3ydv1n9R6w+shpEkKW7ulm944yyeUhLE8B
-         vCMRgQeslZMYA==
+        b=Tfw79Zci58Tcm6tPGbJvdJCIXSxxIThpagYOl3bpCkh/nR4DMGe0JXgQbNLup0k7A
+         NtV8ofIjh1DNPhd4/zz1aKguthTHkWv6dWS8VJXy4cLyVnaoNrgB58nfSD5AunO8qk
+         TLOMSnAFAjNTPnumU5AQf0Z4ACoivKIYp21S8HUBu5zmgsiFJeNu0N+6gHtXHzigwR
+         KTdfKyMwhKiqR9OeinLicm6NNJ2Er1MDNzqFYLQF1SGLxJkm7zPzyl85QurFFAnB5m
+         ekuLinwZagzy/IVGN0KU2TZ6odnAtMtpTcUyx5Pfs0cFJJqpXEZfREdIKz6wjHjzJX
+         EUcc/eUN2ZmRw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mQo72-001vTb-9T; Thu, 16 Sep 2021 11:55:24 +0200
+        id 1mQo72-001vUE-LU; Thu, 16 Sep 2021 11:55:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rob Herring <robh@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Yang Li <abaci-bugfix@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Subject: [PATCH v2 05/23] dt-bindings: mmc: update mmc-card.yaml reference
-Date:   Thu, 16 Sep 2021 11:55:04 +0200
-Message-Id: <820bb7a1d7e0e51cbea72c9bee6bce806427d1f3.1631785820.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 14/23] MAINTAINERS: update fsl,fec.yaml reference
+Date:   Thu, 16 Sep 2021 11:55:13 +0200
+Message-Id: <3c74188dbff1f8599d79582649f882b9a829818c.1631785820.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
@@ -58,31 +54,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
-renamed: Documentation/devicetree/bindings/mmc/mmc-card.txt
-to: Documentation/devicetree/bindings/mmc/mmc-card.yaml.
+Changeset 96e4781b3d93 ("dt-bindings: net: fec: convert fsl,*fec bindings to yaml")
+renamed: Documentation/devicetree/bindings/net/fsl-fec.txt
+to: Documentation/devicetree/bindings/net/fsl,fec.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
+Fixes: 96e4781b3d93 ("dt-bindings: net: fec: convert fsl,*fec bindings to yaml")
+Reviewed-by: Joakim Zhang <qiangqing.zhang@nxp.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/mmc/host/omap_hsmmc.c | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
-index 7a29ad542e4a..9dafcbf969d9 100644
---- a/drivers/mmc/host/omap_hsmmc.c
-+++ b/drivers/mmc/host/omap_hsmmc.c
-@@ -1510,7 +1510,7 @@ static void omap_hsmmc_init_card(struct mmc_host *mmc, struct mmc_card *card)
- 		 * REVISIT: should be moved to sdio core and made more
- 		 * general e.g. by expanding the DT bindings of child nodes
- 		 * to provide a mechanism to provide this information:
--		 * Documentation/devicetree/bindings/mmc/mmc-card.txt
-+		 * Documentation/devicetree/bindings/mmc/mmc-card.yaml
- 		 */
- 
- 		np = of_get_compatible_child(np, "ti,wl1251");
+diff --git a/MAINTAINERS b/MAINTAINERS
+index edf8d4253142..9cf038e2c783 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7451,7 +7451,7 @@ FREESCALE IMX / MXC FEC DRIVER
+ M:	Joakim Zhang <qiangqing.zhang@nxp.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/net/fsl-fec.txt
++F:	Documentation/devicetree/bindings/net/fsl,fec.yaml
+ F:	drivers/net/ethernet/freescale/fec.h
+ F:	drivers/net/ethernet/freescale/fec_main.c
+ F:	drivers/net/ethernet/freescale/fec_ptp.c
 -- 
 2.31.1
 
