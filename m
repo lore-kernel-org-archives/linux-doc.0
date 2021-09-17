@@ -7,55 +7,55 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7CBC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A12CBC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:41:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69A0661212
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:41:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 893D561212
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:41:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229680AbhIQPmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 11:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
+        id S233735AbhIQPnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 11:43:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244026AbhIQPmX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 11:42:23 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD77C0613D5
-        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:41:00 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id a10so18682412qka.12
-        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:41:00 -0700 (PDT)
+        with ESMTP id S235345AbhIQPnB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 11:43:01 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DC3C061767
+        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:41:39 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id t4so18693539qkb.9
+        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=poorly.run; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=G/b3XiXy0Sb8x2PtTRvVL/40239eORGz1ZL98EY1EC8=;
-        b=fzPGLaz85DNSjT8BpuMHmKOqlTmjcQ0qE3xixhpENWlDBqA/2YO/GHW63weTUvqukt
-         /hTvkY+SrTcPo885plyDeFM72/dI9tOCbng/4AcduL2xIMkCXnVtu7q+T7+a/dD51gTH
-         L7gwVnqTw/HxFpzCGCbsHv4pnw4VgWgPaHdZVIoNesVklyEarxWWcfWZeFjT4RjtbAt0
-         zKMyHOGfRmRVSf82T/XUmWcFRHrKWywI2DYIEWYrkh+TpOc6k/7I+sqzH4nT9t/FGY5F
-         hAHLlOmKX+HDxFDYattoDa8cZNtr6c5DAixr6gOGgaZ9CCc1QkEkWDxuavEl/4geEn+l
-         1U9g==
+        bh=sD9uOm5tvP8G0xyXDbxUkajObP/tQsvPQSYJ5ZYdDAM=;
+        b=Rg3pQPgRu26LSb3Ym25tiFmMLVhLfw9SdEEPoUud66ykQ931PiVOz52pLoXgAwC0ox
+         /mHm2+hTiXHgLGuu8t2OWBPxQeOxDuKiW2UWpQCJgV/9B2iyAFVPcdrDxhJyA8LPkxyJ
+         OVEGgkK3fO0TjncIvsrXlzuOkF9DG2sCzr1V8nefKneQvr08Iin7PI1M/USyeat1+qSV
+         cOlTWgRk5Y/SwKT1Vqv7vzUsbBQS0nxnQuYMU4VQRwxuRpApDeTEvusujkPUACV+t5Rr
+         PqWzgleLdsIFdM+KfFpZGV0L6vGeeHDCvPQNK/XrwqX+BsWpcls4hgKiAqKiOlKNQk9K
+         vi7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=G/b3XiXy0Sb8x2PtTRvVL/40239eORGz1ZL98EY1EC8=;
-        b=UA6R1o7mjQDeAuHjrd93QjmmPfUB7efCJHjBC8TXYByvGl2vFY6+EUOiyDJVK5z3fq
-         UbBZ2KQZWPNW1CUzS2aimKEACDDLGiItTCoKZjiEQvgFa3131Rl5mRYmEyRVVHuysbtn
-         qEldMScivZlI2F5adtZq0tWaVnbeycRQzgE7OWCJmIkMpCi69BfQjDQaH23gqHH7pzSi
-         Ju+KMMa2OpqkYDwG7Dv7acof+Ncff0E8whZSaGm5hTePe67af7AtNKPyIjo9ixA5k16+
-         KGVu9rvB4BwFP5czJXXRbjSD830ao5Hw6xdwYobvej3csKnu2U/mEINw5P97saDWJWuH
-         JgzQ==
-X-Gm-Message-State: AOAM530euuvw2xQiqzIEL7pzDZ9dK8dO1d9k+CUoXCB3/LFL7z3nbIjB
-        VfpUgbnYeAGDvLHuYgCQbPLtCg==
-X-Google-Smtp-Source: ABdhPJwEOXquIsSStFswyl2f30Mm94RU8fNeBCXsfk8xn7q1LDa0ztl6hhBn29sVtbQXy6Bzc6IuSA==
-X-Received: by 2002:a37:9b93:: with SMTP id d141mr10910675qke.236.1631893259801;
-        Fri, 17 Sep 2021 08:40:59 -0700 (PDT)
+        bh=sD9uOm5tvP8G0xyXDbxUkajObP/tQsvPQSYJ5ZYdDAM=;
+        b=CouhwE+tGK+0NQVgFdxhOdkt0jRrEcIdA7wh4dJt9wYRaHID+7CljWCDKzTPeko6S3
+         f04TfEvc0qzfs6hCw9ui8pXBKoqYPScEfLr8OL4PjAvMNXBL4cROGV4HENTZPPxQGtpi
+         QNIYUUYTCpkx0ImDXmqYRezjTZVrMcH2FG4DyDAVsnCKaDc3zmogQobG3n3qRdc3f0Vu
+         seuYGYHyUin8U24NkqThPSh6CpnjtjoNiWzLRRmkDYLl/fss1CyXshGagBJ/GYSz7wMT
+         svERIwwjBK/1P6QDrre5YXcwbzcM7M+W2nIHtcDyyiAq1DlqMO9qkmK/VjR2iQNozf3y
+         LAVA==
+X-Gm-Message-State: AOAM532e4GU21f4RbX81hiH9pbfpmdqjb7z8+pgg7xcU8cxNwHw6sYNO
+        V/uT8KTmnB3xXpVLHNLJGETNYQ==
+X-Google-Smtp-Source: ABdhPJyjGqSsuJH7awGUj/YMxh1AbnFOYdGXvCtauKtD0RAp5YpZ9/RTGbsIl79Pjc1kmnuFaGBLDw==
+X-Received: by 2002:a37:a87:: with SMTP id 129mr3162058qkk.448.1631893298377;
+        Fri, 17 Sep 2021 08:41:38 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
-        by smtp.gmail.com with ESMTPSA id l195sm3821941qke.98.2021.09.17.08.40.58
+        by smtp.gmail.com with ESMTPSA id 9sm4122038qtz.83.2021.09.17.08.41.37
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 17 Sep 2021 08:40:59 -0700 (PDT)
-Date:   Fri, 17 Sep 2021 11:40:57 -0400
+        Fri, 17 Sep 2021 08:41:37 -0700 (PDT)
+Date:   Fri, 17 Sep 2021 11:41:36 -0400
 From:   Sean Paul <sean@poorly.run>
 To:     Fernando Ramos <greenfoo@u92.eu>
 Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -66,7 +66,7 @@ Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-tegra@vger.kernel.org
 Subject: Re: [PATCH 09/15] drm/omapdrm: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <20210917154057.GI2515@art_vandelay>
+Message-ID: <20210917154136.GJ2515@art_vandelay>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
  <20210916211552.33490-10-greenfoo@u92.eu>
 MIME-Version: 1.0
@@ -110,7 +110,10 @@ On Thu, Sep 16, 2021 at 11:15:46PM +0200, Fernando Ramos wrote:
 >  
 >  	return 0;
 
-Return ret here
+Return ret here, with that,
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
 
 >  }
 > -- 
