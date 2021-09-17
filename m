@@ -2,126 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20284C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDA8C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:59:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 032C161041
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:57:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B08761244
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241723AbhIQB6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 21:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232479AbhIQB6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 21:58:41 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A12C061574;
-        Thu, 16 Sep 2021 18:57:19 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id g14so7746155pfm.1;
-        Thu, 16 Sep 2021 18:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zdlBFrQubRXdUqdsVIqT/f0kDrO2skTyaf0KO7tBrEA=;
-        b=Mm2mXvEmWnkptp65WTD/gcjpkxrVxksIJDvdZDvgHI6cEi5LGPVpNOLCxvzKWLk4NN
-         mnF+nfWG/Xv/QVKeWwa7t1wa5NNH8xeUCdyTmKUrSooxGFE8oz89B+Q0BX8lONlE9LeW
-         0sI9um0vnWjkWx7NfuRjc9xI3nBce0M16bpA7u1uI7ZQeiw229KqTvZKZcwFyLrLVW5I
-         XlwYYmYV9Tkk5jBUlLrGTDbmGX5oseINzQ7WnQHiQl7RfIeyExo08fir0L66wd6uMOl3
-         MVkmq+c5fY75mYTjwFd46+jTsA9ZqLp/W+vw959b4hSftgcER7wWk03a5gvMTgfVUUFJ
-         kNLA==
+        id S241743AbhIQCA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 22:00:26 -0400
+Received: from mail-il1-f169.google.com ([209.85.166.169]:42886 "EHLO
+        mail-il1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230135AbhIQCA0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 22:00:26 -0400
+Received: by mail-il1-f169.google.com with SMTP id m4so8638787ilj.9;
+        Thu, 16 Sep 2021 18:59:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zdlBFrQubRXdUqdsVIqT/f0kDrO2skTyaf0KO7tBrEA=;
-        b=pjCAczheeE2eUuInjw5w98fKvOPz5i6Q2OBESMH+JkLlCIiYP/B/9RGmpopw2vsmny
-         nq7uW2FtMYOBAt/1xyMcGg5+SqZOCJllB3cxKBVQJi8YwUGl6jG9fQNdvh0DJc20V6tz
-         ybkOKvUb30x8gN1yULfP8QYDzkDnx5LcFx6NpnR5hMVILUMMI+G9IO57ZcR2QzoQ7dqK
-         B8ccWGoIVq5Vj1YcR1ls/KHnC8imWXmduCnx/GI03OUJ3BJ9xxfgaStGvg9tYZ0Yku8X
-         VkgPGbvtxzofqZITVaieRsUs/fRPBNq/ssq8hP2vZ/l9ezGTkE9P7RYOYbnItTQtQlOS
-         6yWQ==
-X-Gm-Message-State: AOAM532v3c2OW4DZHNiLtc4A+xK5YbB6O5iXVGoEnTH8uJj2fEwsYSO8
-        1XsE+k9XDZSGHP246neGEmq9RXDF9z0=
-X-Google-Smtp-Source: ABdhPJzfbENTuBRjqv55PN+BgHOkd3mvK106kXS6TpfZpzi302Gp+NlZ64tDh7Ol7MCMPK1nbqpkHA==
-X-Received: by 2002:a63:385e:: with SMTP id h30mr7600655pgn.187.1631843838356;
-        Thu, 16 Sep 2021 18:57:18 -0700 (PDT)
-Received: from [192.168.255.10] ([203.205.141.115])
-        by smtp.gmail.com with ESMTPSA id f27sm4292097pfq.78.2021.09.16.18.57.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 18:57:17 -0700 (PDT)
-Subject: Re: [PATCH v3 2/3] misc_cgroup: remove error log to avoid log flood
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        vipinsh@google.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631671936.git.brookxu@tencent.com>
- <a960cd793f649bd944127fe5e5e3f4d8bb9040a4.1631671936.git.brookxu@tencent.com>
- <20210916175711.GA12643@blackbody.suse.cz>
-From:   brookxu <brookxu.cn@gmail.com>
-Message-ID: <eece1309-4c1e-909a-22ea-3db31ad7a1da@gmail.com>
-Date:   Fri, 17 Sep 2021 09:56:26 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QncgAYsEAj4J6mbF3tLEr0rEZvz4D8ZpN12NlUMUfpg=;
+        b=PMLCg3P243RddnzS/h8Q00884VeMa2k0PSE+y6qhHr3QD5Xfx78rbf2iQY9zbQPLl5
+         2T2Bn6V9ffh4/jiCfz1p8pjE7vhLM46Y/URLJwIm+lsDT8/g7Pvbzoz3NMWUOlvSAp/e
+         bYDECF59pD5Au8gO6VhP6mKpHX2Wip9K3MC2juFkGc8aLhpFjHUHMQyghKojKfJ09eiz
+         Jgf7o56Km22D/ncuglEsYrJBgbs6fBHbUD35WzJuZ63Mkg6BD16XsIrY8yHNTssxSq16
+         AB9CETqEmE8O2nqXxnizm8REG1nTJHLwofZgF95sEqwlJskve032ACZMGP6/Q5Ulq8Im
+         lNqg==
+X-Gm-Message-State: AOAM532TdHnOO/gii/XCBZ2tKiglBpJZdVjSw3l4JB1LAB6dGfxbCqPY
+        N6cUajqYmEw8wIfxltQPhA==
+X-Google-Smtp-Source: ABdhPJy4oTaM24SB6z0pQT/ToKAlRejgZB3SLM155KVMirfdI7mWZ3F3MD1XWjhJyelSQtEkJV3ltw==
+X-Received: by 2002:a05:6e02:20c3:: with SMTP id 3mr1021317ilq.269.1631843944967;
+        Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
+Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
+        by smtp.gmail.com with ESMTPSA id 9sm2670305ily.9.2021.09.16.18.59.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
+Received: (nullmailer pid 1610039 invoked by uid 1000);
+        Fri, 17 Sep 2021 01:58:57 -0000
+Date:   Thu, 16 Sep 2021 20:58:57 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
+        devicetree@vger.kernel.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 03/23] dt-bindings: arm: mediatek: mmsys: update
+ mediatek,mmsys.yaml reference
+Message-ID: <YUP2YYKTVHdvTfD+@robh.at.kernel.org>
+References: <cover.1631785820.git.mchehab+huawei@kernel.org>
+ <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210916175711.GA12643@blackbody.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for your time.
+On Thu, 16 Sep 2021 11:55:02 +0200, Mauro Carvalho Chehab wrote:
+> Changeset cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
+> renamed: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> to: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Michal Koutný wrote on 2021/9/17 1:57 上午:
-> On Wed, Sep 15, 2021 at 10:18:50AM +0800, brookxu <brookxu.cn@gmail.com> wrote:
->> In scenarios where containers are frequently created and deleted,
->> a large number of error logs maybe generated. This log provides
->> less information, we can get more detailed info from misc.events.
-> 
-> IIUC, the log provides equal information (with persistence), no?
-> 
->> diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
->> index 4b2b492..fe3e8a0 100644
->> --- a/kernel/cgroup/misc.c
->> +++ b/kernel/cgroup/misc.c
->> @@ -157,13 +157,6 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
->>  		new_usage = atomic_long_add_return(amount, &res->usage);
->>  		if (new_usage > READ_ONCE(res->max) ||
->>  		    new_usage > READ_ONCE(misc_res_capacity[type])) {
->> -			if (!res->failed) {
->> -				pr_info("cgroup: charge rejected by the misc controller for %s resource in ",
->> -					misc_res_name[type]);
->> -				pr_cont_cgroup_path(i->css.cgroup);
->> -				pr_cont("\n");
->> -				res->failed = true;
->> -			}
-> 
-> As I argued previously, reporting this as "in" `i` cgroup instead
-> of `cg` is not that useful and equivalent to the misc.events:*.max now,
-> so the drop is appropriate.
-> 
-> The change/patch is OK,
-> Reviewed-by: Michal Koutný <mkoutny@suse.com>
-> 
-> The commit message might be fixed (if you agree with remark).
-
-Yeah, maybe we should make it more clearly, What do you think of
-the commit below:
-
-In scenarios where containers are frequently created and deleted,
-a large number of error logs maybe generated. The logs only show
-which node is about to go over the max limit, not the node which
-resource request failed. As misc.event has provided relevant
-information, maybe we can remove this log.
-
-
-> 
+Applied, thanks!
