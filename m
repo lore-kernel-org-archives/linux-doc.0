@@ -2,146 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D24CEC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22161C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B039A610D1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0817E61056
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232832AbhIQMlb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 08:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhIQMla (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 08:41:30 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3E8C061574;
-        Fri, 17 Sep 2021 05:40:08 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id v9so6019696uak.1;
-        Fri, 17 Sep 2021 05:40:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WSw5+PWfzGPv1mvGOdKXsMBSDlzDCpHpboFu5HmJ6bs=;
-        b=bGyH98Wb2bl/RHkaOAUDmNC03B10hQsbdUVcgDHJ7XmvZW2xtUNqbBJ0KnVtUG1Sql
-         gWvG5kxbGPmuEuPVKfZZTmjbC9n46Mtqi0p6kVhW7GnNLys5ECnjSiCCfFkuBq7Hdv1U
-         8UmuQtbKgU+D08o6qaI/+llPM11fAvC4+fJL14fpgMY8J40UEOe9y6Urn9CX0m6wUIzr
-         927W+IqHDdi7SH4EKpp8lUewKJkmOy901SukLDiF0+SAnZO2xiSHCQpDDUpJRlTiTSrE
-         dsMk3axG1sdbfx4ZmKkhQaWsgxwV0FtdemhfDiCRRMfA2GDYBubSXYCtuTXB5oOvua/n
-         VQOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WSw5+PWfzGPv1mvGOdKXsMBSDlzDCpHpboFu5HmJ6bs=;
-        b=jUT30fKv4aBZnpTfwHdZvw/+hWaH8qA2Kefk1Wu5BqlYlDes217tkB72wMmHwCSxGs
-         NpHblfBZGDJoF+iL+Yt5tQUig5/NOyDmoXj9yFZB5yabzdj6s9H5OWJ81J09A9CNnErB
-         2saNXRzi+y4OA+3vd8TFP+smaSYEFUPS+uDtd+5xFZ+1nQM7+DlprFq/RKcGtrWpEfnQ
-         mYVhi9shHnOUUko8D8XAreSj0+oMRUrPMkLQqVej4oPyQV4be9lYgKCbpTeHU1l1U0vl
-         6WDQf36TUZ/DBehQQSIqbYmy9f4MUSSFwWV9CPSxYoUgZLVvZ6UNinmwJ035ghBkSpgB
-         brrA==
-X-Gm-Message-State: AOAM532j/aq3pf9TiRhSdAlYerQAkzC/w/9wRHAD27q/5GIljpd/c+LO
-        OZVmcNGAg3H8bsRF5DrJqM74n+QnGr0hQvEWxPk=
-X-Google-Smtp-Source: ABdhPJwQHyS0M91oIii/Y9xWFL25H8j+O7B5EkBo6fu8FlTP0FtqQpFtLz0/T/4C6RF+e4YPbJ4mIh//I/xYPJEW3tc=
-X-Received: by 2002:ab0:171:: with SMTP id 104mr4212314uak.67.1631882407860;
- Fri, 17 Sep 2021 05:40:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210917101507.8380-1-utkarshverma294@gmail.com>
-In-Reply-To: <20210917101507.8380-1-utkarshverma294@gmail.com>
-From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date:   Fri, 17 Sep 2021 18:09:56 +0530
-Message-ID: <CABJPP5ABOAe2jkaH0fA7+9WMPp79=8i5+-sO99-pyBV-aMcWCQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: checkpatch: Document some more message types
-To:     Utkarsh Verma <utkarshverma294@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S232476AbhIQMmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 08:42:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229474AbhIQMl7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Sep 2021 08:41:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA4D2610C9;
+        Fri, 17 Sep 2021 12:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631882437;
+        bh=JMN+cOzc4FEJ/rTXCOyd6vVaS2oETNboMyto2RaZsks=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ms1CaQw5Z5W22DHJxuKh+gkV+w5c4kppF6VL28aF7AWFF3RMXsGMDxOJEyJ3lr8fZ
+         UkxGC0Y6D5+6GUdFL/QjTQNMQDyg8OA8KOA9FiZweZ2Oj9JXnuSnkupsXIBO/U4X17
+         QSrzz2M9+Jzgu044wXtCLnL5lPna0wjtsfhlKSgeynVPQqWRdRZ74A9/NRmaXyMyoj
+         kmd1Bmaz+ZCULPa3+1S41hhq6fzom+kFlp3vNJcEE/TaarI52FctF3VOPeUT+qZzp+
+         8BwOWoQWdPRqIAd6uXcnQe5YuDfxHB3uLO+3pQ8GHQMkRUPOnLUDfcfyYTI1RVn8no
+         IxqEJAYZzmUcg==
+From:   SeongJae Park <sj@kernel.org>
+To:     akpm@linux-foundation.org
+Cc:     corbet@lwn.net, sj@kernel.org, linux-damon@amazon.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
+Subject: [PATCH 1/5] Documentation/vm: Move user guides to admin-guide/mm/
+Date:   Fri, 17 Sep 2021 12:39:54 +0000
+Message-Id: <20210917123958.3819-2-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210917123958.3819-1-sj@kernel.org>
+References: <20210917123958.3819-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 3:46 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
->
-> Added and documented 4 new message types:
-> - INCLUDE_LINUX
-> - INDENTED_LABEL
-> - IF_0
-> - IF_1
->
-> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index f0956e9ea2d8..ea343a7a5b46 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -435,6 +435,11 @@ API usage
->    **EXPORT_SYMBOL**
->      EXPORT_SYMBOL should immediately follow the symbol to be exported.
->
-> +  **INCLUDE_LINUX**
-> +    Whenever asm/file.h is included and linux/file.h exists, a
-> +    conversion can be made when linux/file.h includes asm/file.h.
-> +    However this is not always the case (See signal.h).
-> +
+From: SeongJae Park <sjpark@amazon.de>
 
-Can you suggest why? And is this true for every use?
+Most memory management user guide documents are in 'admin-guide/mm/',
+but two of those are in 'vm/'.  This commit moves the two docs into
+'admin-guide/mm' for easier documents finding.
 
->    **IN_ATOMIC**
->      in_atomic() is not for driver use so any such use is reported as an ERROR.
->      Also in_atomic() is often used to determine if sleeping is permitted,
-> @@ -661,6 +666,10 @@ Indentation and Line Breaks
->
->      See: https://lore.kernel.org/lkml/1328311239.21255.24.camel@joe2Laptop/
->
-> +  **INDENTED_LABEL**
-> +    goto labels either should not have any indentation or only a single
-> +    space indentation.
-> +
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ Documentation/admin-guide/mm/index.rst        |  2 ++
+ .../{vm => admin-guide/mm}/swap_numa.rst      |  0
+ .../{vm => admin-guide/mm}/zswap.rst          |  0
+ Documentation/vm/index.rst                    | 26 ++++---------------
+ 4 files changed, 7 insertions(+), 21 deletions(-)
+ rename Documentation/{vm => admin-guide/mm}/swap_numa.rst (100%)
+ rename Documentation/{vm => admin-guide/mm}/zswap.rst (100%)
 
-Some reference here maybe?
+diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
+index cbd19d5e625f..c21b5823f126 100644
+--- a/Documentation/admin-guide/mm/index.rst
++++ b/Documentation/admin-guide/mm/index.rst
+@@ -37,5 +37,7 @@ the Linux memory management.
+    numaperf
+    pagemap
+    soft-dirty
++   swap_numa
+    transhuge
+    userfaultfd
++   zswap
+diff --git a/Documentation/vm/swap_numa.rst b/Documentation/admin-guide/mm/swap_numa.rst
+similarity index 100%
+rename from Documentation/vm/swap_numa.rst
+rename to Documentation/admin-guide/mm/swap_numa.rst
+diff --git a/Documentation/vm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+similarity index 100%
+rename from Documentation/vm/zswap.rst
+rename to Documentation/admin-guide/mm/zswap.rst
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index b51f0d8992f8..6f5ffef4b716 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -3,27 +3,11 @@ Linux Memory Management Documentation
+ =====================================
+ 
+ This is a collection of documents about the Linux memory management (mm)
+-subsystem.  If you are looking for advice on simply allocating memory,
+-see the :ref:`memory_allocation`.
+-
+-User guides for MM features
+-===========================
+-
+-The following documents provide guides for controlling and tuning
+-various features of the Linux memory management
+-
+-.. toctree::
+-   :maxdepth: 1
+-
+-   swap_numa
+-   zswap
+-
+-Kernel developers MM documentation
+-==================================
+-
+-The below documents describe MM internals with different level of
+-details ranging from notes and mailing list responses to elaborate
+-descriptions of data structures and algorithms.
++subsystem internals with different level of details ranging from notes and
++mailing list responses for elaborating descriptions of data structures and
++algorithms.  If you are looking for advice on simply allocating memory, see the
++:ref:`memory_allocation`.  For controlling and tuning guides, see the
++:doc:`admin guide <../admin-guide/mm/index>`.
+ 
+ .. toctree::
+    :maxdepth: 1
+-- 
+2.17.1
 
->    **SWITCH_CASE_INDENT_LEVEL**
->      switch should be at the same indent as case.
->      Example::
-> @@ -790,6 +799,19 @@ Macros, Attributes and Symbols
->    **DO_WHILE_MACRO_WITH_TRAILING_SEMICOLON**
->      do {} while(0) macros should not have a trailing semicolon.
->
-> +  **IF_0**
-> +    The code enclosed within #if 0 and #endif is not executed and is used
-> +    for temporarily removing the segments of code with the intention of
-> +    using it in the future, much like comments. But comments cannot be
-> +    nested, so #if 0 is preferred. But if the code inside #if 0 and #endif
-> +    doesn't seem to be anymore required then remove it.
-> +
-> +  **IF_1**
-> +    The code enclosed within #if 1 and #endif is always executed, so the
-> +    #if 1 and #endif statements are redundant, thus remove it.
-> +    It is only useful for debugging purposes, it can quickly disable the
-> +    code enclosed within itself by changing #if 1 to #if 0
-> +
-
-These two are good.
-
->    **INIT_ATTRIBUTE**
->      Const init definitions should use __initconst instead of
->      __initdata.
-> --
-> 2.25.1
->
-
-Thanks,
-Dwaipayan.
