@@ -2,71 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4C0C28CAC
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB787C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:44:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B20DC61056
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:40:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D16A5610C9
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244585AbhIQMmL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 08:42:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35638 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244634AbhIQMmI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Sep 2021 08:42:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1ED7B61212;
-        Fri, 17 Sep 2021 12:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631882446;
-        bh=2CIDCX6x1oa4sPUosrPEzBkEMFmr/pEDHd19Dz5rsho=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pw3RNRPS9HFzowWpSft1GEM0fHx93pRQguP2iuHvQ1GA2qvcRNPNuoFoTgDO1Lnsq
-         //tDEKZIHV3GpDA91n9gmNDZyjVmaTosLytMfrFGt8ozW1g4CXO+oHH73sAkP3OkPe
-         cHhsI5fQI7TATvMX3o1eZB3Nmz9wzXrD3iluaWw5G4m4EHROebg1JtyvcupF1JqZye
-         d46m2DcjJc5f7NHqOK1YY0CepgrzaxI+GVp/D7gsmCzZSLNcbsnJ//uOMW+pGvvNe0
-         xBpnH2f1u+x7sVni3MAy/KdwWgTvhBcQlfaIO1PJp4Jxw0MyfXq+QZvG5eIAG4AX3N
-         +z24RyYD2gwTg==
-From:   SeongJae Park <sj@kernel.org>
-To:     akpm@linux-foundation.org
-Cc:     corbet@lwn.net, sj@kernel.org, linux-damon@amazon.com,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] mm/damon/core: Print kdamond start log in debug mode only
-Date:   Fri, 17 Sep 2021 12:39:58 +0000
-Message-Id: <20210917123958.3819-6-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210917123958.3819-1-sj@kernel.org>
-References: <20210917123958.3819-1-sj@kernel.org>
+        id S234559AbhIQMpq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 08:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40280 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234955AbhIQMpo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 08:45:44 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77A78C061574;
+        Fri, 17 Sep 2021 05:44:21 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so9957766pjr.1;
+        Fri, 17 Sep 2021 05:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OSzpO0eGAMHb0t+Lo/U/QAbo5rkAO22JEZ3SR4zIPhU=;
+        b=F2twX6VgReOw1YqbdLwsv0Q5AKWCE1HmHVnz9MObbwagIuG7WHu0SkblkxjJcKmG4M
+         fAPL52/v52E/3lS9Iyku3hmzBrW57ZsbWXd4k5prUjR1wJ00L0zAydCtnTZHmuOUa+RB
+         FguENUUAqHmi1uoKxF6PulKMAp/HyO54/SbzzF6W7KY9rTMjNTV2AuqKnoHZ+ITF/a1+
+         cWtf3rsA8/GWOTvdSZndYXXsNUULeO20IZIBF/n/WuSND7sZ95b/J0APgrxG0yNEQL1a
+         hGo4NRYBBqpUCjbDIufI3vnHNPGEeGFo/l3bdaxVE3whW3Z9fgJVUo72Jq9q3D8AZTlZ
+         k59Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OSzpO0eGAMHb0t+Lo/U/QAbo5rkAO22JEZ3SR4zIPhU=;
+        b=x/V/KyL2HO4pzsfH8EXuqeN5P3JHpOyTystr7iunaZdlA2ckac1+iZ9qBTj1AIZ7uh
+         OacTV4gd2tRcMel1gTRM6b5yoO/bpseJ/6mW5l1BXRQ4N1I08YebiSH1VYyRXW9rnMLk
+         kFrq0hKBE/x9yFhUKBivyhH5WF7Mc2TAEmCC1gCMp8oaB1NMe/9Awo11SKDeUskmoh0l
+         3h4I+9w/B49mSNLpkJfOE3NhiDRQScVTma8ZS4K22el5ebljYeLZBTemhLy+UhmNLZU8
+         EyElp3rHgLfHNEDv2yDz7R0G4YgIi9unpGQ0l0r4AN+OAUbO5M+Jpt+jU+4raD6aHDLk
+         7jbQ==
+X-Gm-Message-State: AOAM530sCWoOdJWBxCSlfVsQ+VMs1z8Rz3dbBqHsKcNTQqjaTO3RvfdX
+        9rlIWAn/rVcWnp+/5Q+25TU=
+X-Google-Smtp-Source: ABdhPJzQ3Ug6J7niWxEloNTUHKEEErgNiMyODgetlkwucZ7KgLg5GfHYZpUnLgI8uPG71oVLuxCOYg==
+X-Received: by 2002:a17:90a:1009:: with SMTP id b9mr12147441pja.184.1631882660813;
+        Fri, 17 Sep 2021 05:44:20 -0700 (PDT)
+Received: from VM-0-3-centos.localdomain ([101.32.213.191])
+        by smtp.gmail.com with ESMTPSA id n185sm6570299pfn.171.2021.09.17.05.44.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 17 Sep 2021 05:44:20 -0700 (PDT)
+From:   brookxu <brookxu.cn@gmail.com>
+To:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org
+Cc:     vipinsh@google.com, mkoutny@suse.com, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4 1/3] misc_cgroup: introduce misc.events to count failures
+Date:   Fri, 17 Sep 2021 20:44:14 +0800
+Message-Id: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Logging of kdamond startup is using 'pr_info()' unnecessarily.  This
-commit makes it to use 'pr_debug()' instead.
+From: Chunguang Xu <brookxu@tencent.com>
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
+Introduce misc.events to make it easier for us to understand
+the pressure of resources. Currently only the 'max' event is
+implemented, which indicates the times the resource is about
+to exceeds the max limit.
+
+Signed-off-by: Chunguang Xu <brookxu@tencent.com>
+Reviewed-by: Vipin Sharma <vipinsh@google.com>
+Reviewed-by: Michal Koutný <mkoutny@suse.com>
 ---
- mm/damon/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: remove misc.events.local
+v2: remove cgroup v1 files.
 
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 30e9211f494a..874558a790a0 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -653,7 +653,7 @@ static int kdamond_fn(void *data)
- 	unsigned long sz_limit = 0;
+ include/linux/misc_cgroup.h |  5 +++++
+ kernel/cgroup/misc.c        | 24 ++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
+index da2367e..091f2d2 100644
+--- a/include/linux/misc_cgroup.h
++++ b/include/linux/misc_cgroup.h
+@@ -36,6 +36,7 @@ enum misc_res_type {
+ struct misc_res {
+ 	unsigned long max;
+ 	atomic_long_t usage;
++	atomic_long_t events;
+ 	bool failed;
+ };
  
- 	mutex_lock(&ctx->kdamond_lock);
--	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
-+	pr_debug("kdamond (%d) starts\n", ctx->kdamond->pid);
- 	mutex_unlock(&ctx->kdamond_lock);
+@@ -46,6 +47,10 @@ struct misc_res {
+  */
+ struct misc_cg {
+ 	struct cgroup_subsys_state css;
++
++	/* misc.events */
++	struct cgroup_file events_file;
++
+ 	struct misc_res res[MISC_CG_RES_TYPES];
+ };
  
- 	if (ctx->primitive.init)
+diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
+index ec02d96..4b2b492 100644
+--- a/kernel/cgroup/misc.c
++++ b/kernel/cgroup/misc.c
+@@ -171,6 +171,11 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
+ 	return 0;
+ 
+ err_charge:
++	for (j = i; j; j = parent_misc(j)) {
++		atomic_long_inc(&j->res[type].events);
++		cgroup_file_notify(&j->events_file);
++	}
++
+ 	for (j = cg; j != i; j = parent_misc(j))
+ 		misc_cg_cancel_charge(type, j, amount);
+ 	misc_cg_cancel_charge(type, i, amount);
+@@ -335,6 +340,19 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+ 	return 0;
+ }
+ 
++static int misc_events_show(struct seq_file *sf, void *v)
++{
++	struct misc_cg *cg = css_misc(seq_css(sf));
++	unsigned long events, i;
++
++	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
++		events = atomic_long_read(&cg->res[i].events);
++		if (READ_ONCE(misc_res_capacity[i]) || events)
++			seq_printf(sf, "%s.max %lu\n", misc_res_name[i], events);
++	}
++	return 0;
++}
++
+ /* Misc cgroup interface files */
+ static struct cftype misc_cg_files[] = {
+ 	{
+@@ -353,6 +371,12 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+ 		.seq_show = misc_cg_capacity_show,
+ 		.flags = CFTYPE_ONLY_ON_ROOT,
+ 	},
++	{
++		.name = "events",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.file_offset = offsetof(struct misc_cg, events_file),
++		.seq_show = misc_events_show,
++	},
+ 	{}
+ };
+ 
 -- 
-2.17.1
+1.8.3.1
 
