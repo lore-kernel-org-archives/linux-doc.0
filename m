@@ -2,179 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F85DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821E2C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:22:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 213116120D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:53:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6846261164
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:22:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241640AbhIQKyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 06:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240684AbhIQKyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 06:54:40 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13435C061574;
-        Fri, 17 Sep 2021 03:53:18 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id d42so9657365lfv.10;
-        Fri, 17 Sep 2021 03:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GwPKvHPa7SWPdAxFNaWPHxr/qhyv9zoje0np7fedQKE=;
-        b=WPqhGp7YFJx9AUCevICXrAodjCpr6nIpm2Ih1DUPRgTO2JIO4D88GB1S962YfHO9vm
-         DRezWJVTxjj9rs0AZRWxJOWrvy9r+qKMeskCPE927IzPuRXFDgRa2iadYLcTMOd/64+4
-         nzSruXNpaJKUZ/QJMboU8PnvfhM3HxH1/+n2Hxdlkx7TK9deyd8BenrLblqAQ+bMgzVD
-         B6WKlUg0EoDvkkaNdaR+KyTdmSq6OG0BlpLoAPZbqIl9QPO8MWAsO5TjFbpFLhkwDdr4
-         XYe66QAT2Ou7DTn+qqH8GubuMGhG8e16UInR2xW2MYta03lHYWn05LHNPgYs5vhLU3q9
-         bpYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GwPKvHPa7SWPdAxFNaWPHxr/qhyv9zoje0np7fedQKE=;
-        b=T0LpQ8w5B8lTJvVNTMlI+TgfdBMRT/MrX/qcfPOoy5mJM3JH8sh60RsisntFYzx689
-         xGvyC067l7gigDRi9rWMGjFHmOwtd442hW0fFlapNp6iQ1ijN3b6x9eBuzwBetdRecUc
-         HQobn7I8+pMnc3auDM2tmhbukFc0VfGa2A1dgrBA/EaTb1SPW66LHHM5DjQ0utk4+GBd
-         F64TCVbhhMrx1MEOtAI9k5Ae24VSwYOw4MEoN3ebjeL3v9aqxQQuLi9ACNNrba3w6mCa
-         yBiwoZm4wu0yTWppFIaxFrdb3NkVFa1UFHrUzPOBaZ7Y3mNkW26BmKwsyHyL/AYQ58Qu
-         8CTg==
-X-Gm-Message-State: AOAM5322pmm2JT2tao4FGiQcjQKwLkkWhbjEsz8IOOwiDPYrgm0K2Ruk
-        eebLOs8k70EQDetaG+yYiDh1mA1h2EP7G+FTYA0+0OWOUOYORA==
-X-Google-Smtp-Source: ABdhPJxECw0V3jWNF/BA8gW1zDMxBYDkGOJs8qFL3/XqUc3j9ICvKltI4RP4oRxJGpZWee5/Y+mW8GOAZO8FS/BZnHE=
-X-Received: by 2002:ac2:5310:: with SMTP id c16mr7346042lfh.393.1631875996413;
- Fri, 17 Sep 2021 03:53:16 -0700 (PDT)
+        id S243687AbhIQMX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 08:23:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54692 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243710AbhIQMXu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Sep 2021 08:23:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B8DD611C8;
+        Fri, 17 Sep 2021 12:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631881348;
+        bh=cpgmyBFI6GAlRzryA585L1WdlWTMOwIRy1Zsb+LlcJQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uF9HGSzP0ij/EqnDpfpj2Ph5cPa3WB8SOx+9ZJSr9YY8X7qeeQ91GK3kwxHpkMQFO
+         VkxsDF2joaCqCxGBmpMmqL03GXLt0q70RvEasQRfxYcVWlIKkkaY4m2zKSmwNl6ltv
+         iZhEWKjIb8OllzycYqnRoMB/ZgEKxvxjNADkxW740+wvWD33k5j0pnrJEI/OKDyHmS
+         S7hjXbWuLqWG5f0bL8krDIAb5vWrt4l3LQnbF23DjUYNvAbquWU9I/JPphfuUoUak5
+         6DbgPfEf6z+ApFlbNRDlw/NwYJSawl5duDquzYhaDcFw7k0Rtk9JYAGby4XFpzM0UR
+         pp3MGjGrHH8xA==
+From:   SeongJae Park <sj@kernel.org>
+To:     corbet@lwn.net
+Cc:     SeongJae Park <sj@kernel.org>, roger.pau@citrix.com,
+        jgross@suse.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Update SeongJae's email address
+Date:   Fri, 17 Sep 2021 12:22:22 +0000
+Message-Id: <20210917122222.3109-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210914151016.3174924-1-Roman_Skakun@epam.com>
- <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <CADu_u-Ou08tMFm5xU871ae8ct+2YOuvn4rQ=83CMTbg2bx87Pg@mail.gmail.com>
- <84ef7ff7-2c9c-113a-4a2c-cef54a6ded51@suse.com>
-In-Reply-To: <84ef7ff7-2c9c-113a-4a2c-cef54a6ded51@suse.com>
-From:   Roman Skakun <rm.skakun@gmail.com>
-Date:   Fri, 17 Sep 2021 13:53:05 +0300
-Message-ID: <CADu_u-NvDrKkYJXoPSH8BL2GzKmCUNtsSz=6mn1yA+pPcUMpLA@mail.gmail.com>
-Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
-To:     Jan Beulich <jbeulich@suse.com>
-Cc:     Andrii Anisov <andrii_anisov@epam.com>,
-        Roman Skakun <roman_skakun@epam.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jan,
+This commit updates SeongJae's email addresses in documents to his
+preferred one.
 
->>>  In order to be sure to catch all uses like this one (including ones
->>>  which make it upstream in parallel to yours), I think you will want
->>>  to rename the original IO_TLB_SEGSIZE to e.g. IO_TLB_DEFAULT_SEGSIZE.
->>
->> I don't understand your point. Can you clarify this?
->
-> There's a concrete present example: I have a patch pending adding
-> another use of IO_TLB_SEGSIZE. This use would need to be replaced
-> like you do here in several places. The need for the additional
-> replacement would be quite obvious (from a build failure) if you
-> renamed the manifest constant. Without renaming, it'll take
-> someone running into an issue on a live system, which I consider
-> far worse. This is because a simple re-basing of one of the
-> patches on top of the other will not point out the need for the
-> extra replacement, nor would a test build (with both patches in
-> place).
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-driver-xen-blkback   | 4 ++--
+ Documentation/ABI/testing/sysfs-driver-xen-blkfront  | 2 +-
+ Documentation/translations/ko_KR/memory-barriers.txt | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-It's reasonable.
-I will change the original IO_TLB_SEGSIZE to IO_TLB_DEFAULT_SEGSIZE in the
-next patch series.
+diff --git a/Documentation/ABI/testing/sysfs-driver-xen-blkback b/Documentation/ABI/testing/sysfs-driver-xen-blkback
+index ac2947b98950..a74dfe52dd76 100644
+--- a/Documentation/ABI/testing/sysfs-driver-xen-blkback
++++ b/Documentation/ABI/testing/sysfs-driver-xen-blkback
+@@ -29,7 +29,7 @@ Description:
+ What:           /sys/module/xen_blkback/parameters/buffer_squeeze_duration_ms
+ Date:           December 2019
+ KernelVersion:  5.6
+-Contact:        SeongJae Park <sjpark@amazon.de>
++Contact:        SeongJae Park <sj@kernel.org>
+ Description:
+                 When memory pressure is reported to blkback this option
+                 controls the duration in milliseconds that blkback will not
+@@ -39,7 +39,7 @@ Description:
+ What:           /sys/module/xen_blkback/parameters/feature_persistent
+ Date:           September 2020
+ KernelVersion:  5.10
+-Contact:        SeongJae Park <sjpark@amazon.de>
++Contact:        SeongJae Park <sj@kernel.org>
+ Description:
+                 Whether to enable the persistent grants feature or not.  Note
+                 that this option only takes effect on newly created backends.
+diff --git a/Documentation/ABI/testing/sysfs-driver-xen-blkfront b/Documentation/ABI/testing/sysfs-driver-xen-blkfront
+index 28008905615f..61fd173fabfe 100644
+--- a/Documentation/ABI/testing/sysfs-driver-xen-blkfront
++++ b/Documentation/ABI/testing/sysfs-driver-xen-blkfront
+@@ -12,7 +12,7 @@ Description:
+ What:           /sys/module/xen_blkfront/parameters/feature_persistent
+ Date:           September 2020
+ KernelVersion:  5.10
+-Contact:        SeongJae Park <sjpark@amazon.de>
++Contact:        SeongJae Park <sj@kernel.org>
+ Description:
+                 Whether to enable the persistent grants feature or not.  Note
+                 that this option only takes effect on newly created frontends.
+diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+index 64d932f5dc77..75aa5531cc7d 100644
+--- a/Documentation/translations/ko_KR/memory-barriers.txt
++++ b/Documentation/translations/ko_KR/memory-barriers.txt
+@@ -1,6 +1,6 @@
+ NOTE:
+ This is a version of Documentation/memory-barriers.txt translated into Korean.
+-This document is maintained by SeongJae Park <sj38.park@gmail.com>.
++This document is maintained by SeongJae Park <sj@kernel.org>.
+ If you find any difference between this document and the original file or
+ a problem with the translation, please contact the maintainer of this file.
+ 
+@@ -10,13 +10,13 @@ a fork.  So if you have any comments or updates for this file please
+ update the original English file first.  The English version is
+ definitive, and readers should look there if they have any doubt.
+ 
+-===================================
++=================================
+ 이 문서는
+ Documentation/memory-barriers.txt
+ 의 한글 번역입니다.
+ 
+-역자： 박성재 <sj38.park@gmail.com>
+-===================================
++역자： 박성재 <sj@kernel.org>
++=================================
+ 
+ 
+ 			 =========================
+-- 
+2.17.1
 
-Thanks.
-
-=D1=81=D1=80, 15 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 16:50, Jan B=
-eulich <jbeulich@suse.com>:
->
-> On 15.09.2021 15:37, Roman Skakun wrote:
-> >>> From: Roman Skakun <roman_skakun@epam.com>
-> >>>
-> >>> It is possible when default IO TLB size is not
-> >>> enough to fit a long buffers as described here [1].
-> >>>
-> >>> This patch makes a way to set this parameter
-> >>> using cmdline instead of recompiling a kernel.
-> >>>
-> >>> [1] https://www.xilinx.com/support/answers/72694.html
-> >>
-> >>  I'm not convinced the swiotlb use describe there falls under "intende=
-d
-> >>  use" - mapping a 1280x720 framebuffer in a single chunk?
-> >
-> > I had the same issue while mapping DMA chuck ~4MB for gem fb when
-> > using xen vdispl.
-> > I got the next log:
-> > [ 142.030421] rcar-fcp fea2f000.fcp: swiotlb buffer is full (sz:
-> > 3686400 bytes), total 32768 (slots), used 32 (slots)
-> >
-> > It happened when I tried to map bounce buffer, which has a large size.
-> > The default size if 128(IO_TLB_SEGSIZE) * 2048(IO_TLB_SHIFT) =3D 262144
-> > bytes, but we requested 3686400 bytes.
-> > When I change IO_TLB_SEGSIZE to 2048. (2048(IO_TLB_SEGSIZE)  *
-> > 2048(IO_TLB_SHIFT) =3D 4194304bytes).
-> > It makes possible to retrieve a bounce buffer for requested size.
-> > After changing this value, the problem is gone.
->
-> But the question remains: Why does the framebuffer need to be mapped
-> in a single giant chunk?
->
-> >>  In order to be sure to catch all uses like this one (including ones
-> >>  which make it upstream in parallel to yours), I think you will want
-> >>  to rename the original IO_TLB_SEGSIZE to e.g. IO_TLB_DEFAULT_SEGSIZE.
-> >
-> > I don't understand your point. Can you clarify this?
->
-> There's a concrete present example: I have a patch pending adding
-> another use of IO_TLB_SEGSIZE. This use would need to be replaced
-> like you do here in several places. The need for the additional
-> replacement would be quite obvious (from a build failure) if you
-> renamed the manifest constant. Without renaming, it'll take
-> someone running into an issue on a live system, which I consider
-> far worse. This is because a simple re-basing of one of the
-> patches on top of the other will not point out the need for the
-> extra replacement, nor would a test build (with both patches in
-> place).
->
-> Jan
->
-
-
---=20
-Best Regards, Roman.
