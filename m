@@ -2,137 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C87C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 14:42:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 340F9C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E6E1611F2
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 14:42:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E0AC611F2
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 15:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbhIQOoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 10:44:00 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36748 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbhIQOoA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 10:44:00 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 6DEE02028D;
-        Fri, 17 Sep 2021 14:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1631889756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9Q9z58nJWZPYLSInI8nBVh8lTbi5/ptCY6EYwUNxRM4=;
-        b=MUYuU0fOLsgnj8zbOAkl/3jMLDnS31vFMWaKPHkYgJw1tZkKnIOLzJy7WrbTXqjqEpHMcL
-        ClB0fxX40hbcNJFuD00Rt8mCP7uEGLcZYn7LWcomJtLEJLljcA0Z26Y7EeL/pJwQuXZ5R/
-        yKRTA4uf38taeV1zhjd6CARyC2keir4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1631889756;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9Q9z58nJWZPYLSInI8nBVh8lTbi5/ptCY6EYwUNxRM4=;
-        b=iQepc13dGR2A2g+ziflA00yEmJbebWNeoIDsac1mJMFizHHqfl7RS8h8Wtor/t/r2KaHLs
-        t43wYd5JMlQXYmBQ==
-Received: from suse.de (unknown [10.163.32.246])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 21802A3BFF;
-        Fri, 17 Sep 2021 14:42:35 +0000 (UTC)
-Date:   Fri, 17 Sep 2021 15:42:33 +0100
-From:   Mel Gorman <mgorman@suse.de>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Jesper Dangaard Brouer <jbrouer@redhat.com>,
-        ". Dave Chinner" <david@fromorbit.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] MM: Support __GFP_NOFAIL in  alloc_pages_bulk_*()
- and improve doco
-Message-ID: <20210917144233.GD3891@suse.de>
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741776.29351.3565418361661850328.stgit@noble.brown>
+        id S230494AbhIQPZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 11:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229554AbhIQPZy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 11:25:54 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B44C061764
+        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:24:31 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id i3so7631775wmq.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Sep 2021 08:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UUmIc1Zm6f0TtwRpO+dF5pS2Y2cDE7pjg0cLbOF+M+E=;
+        b=Rzn08IPZenhQ6bvtAtCZFtUgcNOadCOdu78eHBCqYGv/hV+L9cluJaEyplz5gcBA7R
+         38wK30kV3P5we6pC4sOpGFJx71Gq1+1ryDNONUjrKLim7Yfc3dXqvMmu3/gJm1MKY0gs
+         TcW6XWN+ON+jrkBcBdm/eQYlZqOq4Sg4Mar8E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=UUmIc1Zm6f0TtwRpO+dF5pS2Y2cDE7pjg0cLbOF+M+E=;
+        b=0CmyWSJ7X1a9oKy8mCq0ZS+Kp2eSjMmf6uluUEHY9bFlCm4xk4m/M6liTBmWzHVsHb
+         JvlDFjfypOF2Wwl99JKRW5Cv4XF2viv3obtwwGfx911kTCw/NqfSQwUt+Hx8pzvNfFLS
+         Ooz+FyX001laYCDsfjwkWGRiGtofQmupt6AnD+BAls+XLqPCn+jx/Sl/WzA8AHndF4e0
+         c8EM9ucUkp7ghz7apa3CQ8wGODo1SSgMWYcCrFvkfqA4gE7WC4YC2UIVan3Nx1+1hW4i
+         87WtdFrpGMkKRUasZd+cOqNRdJY2P7dDH7lYumjxqIhkpCljwBRLJ3h6oEWYorn6jdeG
+         ebdw==
+X-Gm-Message-State: AOAM531OWDTNj3m3jlNftH1GaiefPvc3r/Qly1Oklr//hT4dTOIhfrbH
+        YYUtwgslj2gPNUlVIZPmgOwFBbYfFQjphA==
+X-Google-Smtp-Source: ABdhPJy9S40vw/exT9dD330IOj7yv3V6vas+VLUTS5747KBqEVcQ3/55Lywp40+PNtXXNtDS+CHl4w==
+X-Received: by 2002:a1c:7e12:: with SMTP id z18mr16190125wmc.60.1631892270408;
+        Fri, 17 Sep 2021 08:24:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id r5sm6880779wrm.79.2021.09.17.08.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Sep 2021 08:24:29 -0700 (PDT)
+Date:   Fri, 17 Sep 2021 17:24:27 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Fernando Ramos <greenfoo@u92.eu>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        sean@poorly.run, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/15] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
+ where possible
+Message-ID: <YUSzKxZwW8C29dLV@phenom.ffwll.local>
+Mail-Followup-To: Fernando Ramos <greenfoo@u92.eu>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        sean@poorly.run, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20210916211552.33490-1-greenfoo@u92.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <163184741776.29351.3565418361661850328.stgit@noble.brown>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210916211552.33490-1-greenfoo@u92.eu>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I'm top-posting to cc Jesper with full context of the patch. I don't
-have a problem with this patch other than the Fixes: being a bit
-marginal, I should have acked as Mel Gorman <mgorman@suse.de> and the
-@gfp in the comment should have been @gfp_mask.
+On Thu, Sep 16, 2021 at 11:15:37PM +0200, Fernando Ramos wrote:
+> Hi all,
+> 
+> One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+> patch series is about.
+> 
+> You will find two types of changes here:
+> 
+>   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+>     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+>     already been done in previous commits such as b7ea04d2)
+> 
+>   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+>     in the remaining places (as it has already been done in previous commits
+>     such as 57037094)
+>     
+> Most of the changes are straight forward, except for a few cases in the "amd"
+> and "i915" drivers where some extra dancing was needed to overcome the
+> limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+> once inside the same function (the reason being that the macro expansion
+> includes *labels*, and you can not have two labels named the same inside one
+> function)
+> 
+> Notice that, even after this patch series, some places remain where
+> "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+> all inside drm core (which makes sense), except for two (in "amd" and "i915")
+> which cannot be replaced due to the way they are being used.
 
-However, an assumption the API design made was that it should fail fast
-if memory is not quickly available but have at least one page in the
-array. I don't think the network use case cares about the situation where
-the array is already populated but I'd like Jesper to have the opportunity
-to think about it.  It's possible he would prefer it's explicit and the
-check becomes
-(!nr_populated || ((gfp_mask & __GFP_NOFAIL) && !nr_account)) to
-state that __GFP_NOFAIL users are willing to take a potential latency
-penalty if the array is already partially populated but !__GFP_NOFAIL
-users would prefer fail-fast behaviour. I'm on the fence because while
-I wrote the implementation, it was based on other peoples requirements.
+Can we at least replace those with drm_modeset_lock_all_ctx and delete
+drm_modeset_lock_all? That would be really nice goal to make sure these
+don't spread further.
 
-On Fri, Sep 17, 2021 at 12:56:57PM +1000, NeilBrown wrote:
-> When alloc_pages_bulk_array() is called on an array that is partially
-> allocated, the level of effort to get a single page is less than when
-> the array was completely unallocated.  This behaviour is inconsistent,
-> but now fixed.  One effect if this is that __GFP_NOFAIL will not ensure
-> at least one page is allocated.
+Otherwise great stuff, I'm trying to volunteer a few reviewers.
+-Daniel
+
 > 
-> Also clarify the expected success rate.  __alloc_pages_bulk() will
-> allocated one page according to @gfp, and may allocate more if that can
-> be done cheaply.  It is assumed that the caller values cheap allocation
-> where possible and may decide to use what it has got, or to call again
-> to get more.
+> Fernando Ramos (15):
+>   dmr: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   dmr/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   dmr/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
 > 
-> Acked-by: Mel Gorman <mgorman@suse.com>
-> Fixes: 0f87d9d30f21 ("mm/page_alloc: add an array-based interface to the bulk page allocator")
-> Signed-off-by: NeilBrown <neilb@suse.de>
-> ---
->  mm/page_alloc.c |    7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  Documentation/gpu/todo.rst                    | 17 -------
+>  Documentation/locking/ww-mutex-design.rst     |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 13 +++--
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++++++----------
+>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 23 +++++----
+>  drivers/gpu/drm/drm_client_modeset.c          | 14 +++---
+>  drivers/gpu/drm/drm_crtc_helper.c             | 18 ++++---
+>  drivers/gpu/drm/drm_fb_helper.c               | 10 ++--
+>  drivers/gpu/drm/drm_framebuffer.c             |  6 ++-
+>  drivers/gpu/drm/gma500/psb_device.c           | 14 ++++--
+>  drivers/gpu/drm/i915/display/intel_audio.c    | 12 +++--
+>  drivers/gpu/drm/i915/display/intel_display.c  | 22 +++-----
+>  .../drm/i915/display/intel_display_debugfs.c  | 35 ++++++++-----
+>  drivers/gpu/drm/i915/display/intel_overlay.c  | 45 ++++++++---------
+>  drivers/gpu/drm/i915/display/intel_pipe_crc.c |  5 +-
+>  drivers/gpu/drm/i915/i915_drv.c               | 12 +++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 ++-
+>  .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 10 ++--
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       | 12 +++--
+>  drivers/gpu/drm/omapdrm/omap_fb.c             |  6 ++-
+>  drivers/gpu/drm/radeon/radeon_device.c        | 13 +++--
+>  drivers/gpu/drm/radeon/radeon_dp_mst.c        |  7 ++-
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 ++-
+>  drivers/gpu/drm/tegra/dsi.c                   |  6 ++-
+>  drivers/gpu/drm/tegra/hdmi.c                  |  5 +-
+>  drivers/gpu/drm/tegra/sor.c                   | 10 ++--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 +++--
+>  28 files changed, 222 insertions(+), 180 deletions(-)
 > 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b37435c274cf..aa51016e49c5 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -5191,6 +5191,11 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
->   * is the maximum number of pages that will be stored in the array.
->   *
->   * Returns the number of pages on the list or array.
-> + *
-> + * At least one page will be allocated if that is possible while
-> + * remaining consistent with @gfp.  Extra pages up to the requested
-> + * total will be allocated opportunistically when doing so is
-> + * significantly cheaper than having the caller repeat the request.
->   */
->  unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
->  			nodemask_t *nodemask, int nr_pages,
-> @@ -5292,7 +5297,7 @@ unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
->  								pcp, pcp_list);
->  		if (unlikely(!page)) {
->  			/* Try and get at least one page */
-> -			if (!nr_populated)
-> +			if (!nr_account)
->  				goto failed_irq;
->  			break;
->  		}
+> -- 
+> 2.33.0
 > 
-> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
