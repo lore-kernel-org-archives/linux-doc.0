@@ -2,86 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDA8C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1859EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 02:59:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B08761244
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E07DE611CA
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 02:59:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241743AbhIQCA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 22:00:26 -0400
-Received: from mail-il1-f169.google.com ([209.85.166.169]:42886 "EHLO
-        mail-il1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbhIQCA0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 22:00:26 -0400
-Received: by mail-il1-f169.google.com with SMTP id m4so8638787ilj.9;
-        Thu, 16 Sep 2021 18:59:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QncgAYsEAj4J6mbF3tLEr0rEZvz4D8ZpN12NlUMUfpg=;
-        b=PMLCg3P243RddnzS/h8Q00884VeMa2k0PSE+y6qhHr3QD5Xfx78rbf2iQY9zbQPLl5
-         2T2Bn6V9ffh4/jiCfz1p8pjE7vhLM46Y/URLJwIm+lsDT8/g7Pvbzoz3NMWUOlvSAp/e
-         bYDECF59pD5Au8gO6VhP6mKpHX2Wip9K3MC2juFkGc8aLhpFjHUHMQyghKojKfJ09eiz
-         Jgf7o56Km22D/ncuglEsYrJBgbs6fBHbUD35WzJuZ63Mkg6BD16XsIrY8yHNTssxSq16
-         AB9CETqEmE8O2nqXxnizm8REG1nTJHLwofZgF95sEqwlJskve032ACZMGP6/Q5Ulq8Im
-         lNqg==
-X-Gm-Message-State: AOAM532TdHnOO/gii/XCBZ2tKiglBpJZdVjSw3l4JB1LAB6dGfxbCqPY
-        N6cUajqYmEw8wIfxltQPhA==
-X-Google-Smtp-Source: ABdhPJy4oTaM24SB6z0pQT/ToKAlRejgZB3SLM155KVMirfdI7mWZ3F3MD1XWjhJyelSQtEkJV3ltw==
-X-Received: by 2002:a05:6e02:20c3:: with SMTP id 3mr1021317ilq.269.1631843944967;
-        Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
-Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
-        by smtp.gmail.com with ESMTPSA id 9sm2670305ily.9.2021.09.16.18.59.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
-Received: (nullmailer pid 1610039 invoked by uid 1000);
-        Fri, 17 Sep 2021 01:58:57 -0000
-Date:   Thu, 16 Sep 2021 20:58:57 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
-        devicetree@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v2 03/23] dt-bindings: arm: mediatek: mmsys: update
- mediatek,mmsys.yaml reference
-Message-ID: <YUP2YYKTVHdvTfD+@robh.at.kernel.org>
-References: <cover.1631785820.git.mchehab+huawei@kernel.org>
- <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
+        id S243163AbhIQDAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 23:00:45 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:41356 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243049AbhIQDAp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 23:00:45 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 09F2B2007B;
+        Fri, 17 Sep 2021 02:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1631847562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=8pvkjCFdBH92niZgGsbVOrH9zONIePhOsL1BwdfqgnA=;
+        b=NrP8J0vhVKv0eLroW/bpzL2ejtwWpy1oEAi7DdQ4kMU5Kv8Oq6l5iLYPu7H9EkxbF1q4/A
+        na+xtpPAcJUY68yb7FlQ9lmxSLRRQKANIKbvzZj9RSTof31Djq1vJviErXSODqyW0wqB4e
+        LQe1sAc/mk1g9ojaRCFZduOcyNryYAc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1631847562;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=8pvkjCFdBH92niZgGsbVOrH9zONIePhOsL1BwdfqgnA=;
+        b=PMuREhLfwiF/t1B800k94ChByfic8xUfzyWra9ANkKBEq5p7ic9AJetd/jrDccwucIyfGK
+        Kco4+Zd25/JWTsBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9733913D0B;
+        Fri, 17 Sep 2021 02:59:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id wyQIFYUERGFLMwAAMHmgww
+        (envelope-from <neilb@suse.de>); Fri, 17 Sep 2021 02:59:17 +0000
+Subject: [PATCH 0/6 v2] congestion_wait() and GFP_NOFAIL
+From:   NeilBrown <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+        ". Dave Chinner" <david@fromorbit.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Fri, 17 Sep 2021 12:56:57 +1000
+Message-ID: <163184698512.29351.4735492251524335974.stgit@noble.brown>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Sep 2021 11:55:02 +0200, Mauro Carvalho Chehab wrote:
-> Changeset cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-> renamed: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-> to: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+This second version:
+  - add recipients for the Documentation/core-api changes
+  - add fix for __alloc_pages_bulk() to handle GFP_NOFAIL
+  - drops the annotations for congestion_wait() as being ineffective
+    as that isn't really useful until an alternative is available
+  - changes to GFP_NOFAIL documentation changes to focus on the possible
+    deadlocks rather than the use of memory reserves
+  - Improves ext4 and xfs patches based on feedback from Ted and Dave.
 
-Applied, thanks!
+The patches are independent, except that the last patch depends on the
+first.
+
+As mentioned last time:
+
+  These are the easy bits.  There are 5 calls to congestion_wait() and
+  one to wait_iff_congested() in mm/ which need consideration.  There
+  are multiple calls to congestion_wait in fs/, particularly fs/f2fs/
+  which need to be addressed too.  I'll try to form an opinion about
+  these in coming weeks.
+
+(other interesting comment in original cover letter just duplicates
+ observations made in the commit messages of individual patches).
+
+NeilBrown
+
+
+---
+
+NeilBrown (6):
+      MM: Support __GFP_NOFAIL in  alloc_pages_bulk_*() and improve doco
+      MM: improve documentation for __GFP_NOFAIL
+      EXT4: Remove ENOMEM/congestion_wait() loops.
+      EXT4: remove congestion_wait from ext4_bio_write_page, and simplify
+      XFS: remove congestion_wait() loop from kmem_alloc()
+      XFS: remove congestion_wait() loop from xfs_buf_alloc_pages()
+
+
+ Documentation/core-api/memory-allocation.rst | 25 ++++++++-
+ fs/ext4/ext4.h                               |  2 +-
+ fs/ext4/ext4_jbd2.c                          |  4 +-
+ fs/ext4/ext4_jbd2.h                          | 14 +++---
+ fs/ext4/extents.c                            | 53 ++++++++------------
+ fs/ext4/extents_status.c                     | 35 +++++++------
+ fs/ext4/extents_status.h                     |  2 +-
+ fs/ext4/ialloc.c                             |  3 +-
+ fs/ext4/indirect.c                           |  2 +-
+ fs/ext4/inode.c                              |  6 +--
+ fs/ext4/ioctl.c                              |  4 +-
+ fs/ext4/page-io.c                            | 13 ++---
+ fs/ext4/super.c                              |  2 +-
+ fs/jbd2/transaction.c                        |  8 +--
+ fs/xfs/kmem.c                                | 19 +++----
+ fs/xfs/xfs_buf.c                             | 14 +++---
+ include/linux/gfp.h                          |  6 ++-
+ 17 files changed, 113 insertions(+), 99 deletions(-)
+
+--
+Signature
+
