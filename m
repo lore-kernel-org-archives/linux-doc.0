@@ -2,142 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB78C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E65FC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AD68611CA
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FEBE6103C
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 10:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234517AbhIQKB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 06:01:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:42605 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbhIQKB0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 06:01:26 -0400
-Received: from mail-wr1-f52.google.com ([209.85.221.52]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M9WiK-1mUU3L2KaS-005Yc6; Fri, 17 Sep 2021 12:00:03 +0200
-Received: by mail-wr1-f52.google.com with SMTP id i23so14260117wrb.2;
-        Fri, 17 Sep 2021 03:00:03 -0700 (PDT)
-X-Gm-Message-State: AOAM533ABkHQ9znRVJRWCpoMYS69xHnyGryVcPT3RofVAM/Imw4Gna4m
-        bp17krXeKV5pQ+wUXymYcTil3iC+SH92s1uO7Lk=
-X-Google-Smtp-Source: ABdhPJyvhDrqYzXphcVkK1FBrHhhk/pUL3mymqcJFEcLsVXHNrmMksOOvVhdhgKpF+HOpZzFT0cmgKV+rF7YHvlSJ+I=
-X-Received: by 2002:adf:c10b:: with SMTP id r11mr11167163wre.336.1631872803099;
- Fri, 17 Sep 2021 03:00:03 -0700 (PDT)
+        id S232492AbhIQKRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 06:17:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242138AbhIQKRd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 06:17:33 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A1DEC061574;
+        Fri, 17 Sep 2021 03:16:12 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 203so916510pfy.13;
+        Fri, 17 Sep 2021 03:16:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BALrngyLohinwTd6UGWDU0YYIg7HJpZLXZVlrE0q2aE=;
+        b=SP6oLp6m+1mMV4KznWY5Uly4XE+0jFnlyIl11iHolBLBskFB/Bk+0Ni7DB8AZvZ1aF
+         PEfN3URwo1XOLOHM02mBwLDXtEav2FUAsTmfT7cDMEuSiLVY+XyzEDFGOBcVL1IMZkAj
+         yOTsCvTiTFRucgn63mJlr9A9BX4KyMSa4DwWx+L6dk8gcxTbZc6giA3UljkTXTP/+K0C
+         LCwwQE126Gdmp7h/0EXbc2lPEuxDD2yxmevaodNhlgcE3TW9X8SBhwbBBtA6mZ4aE7yS
+         zPZrW1IRbD3YsU4971TiiOgLIRN5LRvbZFoCk/xAJhNK2VYLHfGgMZGL+bOj+rZXb1b7
+         6jOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BALrngyLohinwTd6UGWDU0YYIg7HJpZLXZVlrE0q2aE=;
+        b=6YkWMtFG5vwF6otfzX7WZpSEfPSCREswfomToKHaMu6U54yBkJ3+lKuqsczG0MXAt3
+         FfCDOxuBuShz5nUlWQ6D0V3ougLbk6lkyC/CDXwbOo5aAYCZMj3xEU3A8b0vrj6ZsBkb
+         Czd2eSdp8uCBUhgEsdWnT2o/ePko30uNl8jxdFQ5EcP7HkTct0hAbAxKt5W9LRZhxOV/
+         sO/W+Fn5a8xWD6keE1s5KF0Sz+cwnA5DgOlLP9hlQYLoRrvaGpjfioMnqPpuwSDcXRqr
+         ltdn6Xf3Ntjcmanjb1fZnLjlRN3wXoPsxrfo4zndiQfpUlTWz/Od757h7jeIYgnEAo5A
+         Dsog==
+X-Gm-Message-State: AOAM533ZTdZhgZw8tDLwlpx11m8Kot/Vth3/45oexuQkoGYnRJQMFwpr
+        SiA6IEppkrnCy3D4/KfkmKNM1EyxcT9jwA==
+X-Google-Smtp-Source: ABdhPJwNKs038ZOgumCB5+FTmqTfb6iPk4s7U1dX5mVKeUb2CJF9TJP8sKr/xu6aIovi6RKhyvacVA==
+X-Received: by 2002:a05:6a00:d60:b0:43d:f987:66be with SMTP id n32-20020a056a000d6000b0043df98766bemr9845570pfv.37.1631873771373;
+        Fri, 17 Sep 2021 03:16:11 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:6005:10e3:be44:5d8a:6628:bf13])
+        by smtp.googlemail.com with ESMTPSA id x128sm4388080pfd.203.2021.09.17.03.15.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Sep 2021 03:16:10 -0700 (PDT)
+From:   Utkarsh Verma <utkarshverma294@gmail.com>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Utkarsh Verma <utkarshverma294@gmail.com>
+Subject: [PATCH] Documentation: checkpatch: Document some more message types
+Date:   Fri, 17 Sep 2021 15:45:07 +0530
+Message-Id: <20210917101507.8380-1-utkarshverma294@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
-In-Reply-To: <20210917035736.3934017-1-chenhuacai@loongson.cn>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 17 Sep 2021 11:59:47 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0jdGhdoc4SHXDrtK2sOFkdWMX+6O2-WgcB1h=yNTqdgQ@mail.gmail.com>
-Message-ID: <CAK8P3a0jdGhdoc4SHXDrtK2sOFkdWMX+6O2-WgcB1h=yNTqdgQ@mail.gmail.com>
-Subject: Re: [PATCH V3 00/22] arch: Add basic LoongArch support
-To:     Huacai Chen <chenhuacai@loongson.cn>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:qo30ntLUtt/uyLMOKOdSoOgpeBVG4SuyO6zNx0ur5ytVr+qF3N/
- g+hbNYKbrj/sxa4R9xKAdRE6RspOsaXCY2tkFrQwq5MffNH6WzrWVxsnC8BsIBuiSMpLLAA
- 0mWBSii/5ws3kld0J35VCQQXpvpuovB+eMzpAzccE1dzwwbgxWvMGIduhas1B1QWZ/Lc21h
- xPnjee0l6aR8b9GgXoXDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wzPYElE+Npg=:tRWDM98sSp0FvXG8LZqP+V
- JplA+AjM1gkws6vAPpypGAA5WmIpJg8k3sUm+I5dlHq7F2Vm7c/1JoksAO8GXwcvmFUNIbg3W
- GbLU1q1fSxMKvYltUUDJ2PN0YyGWFlt0ClXVW207vtIuS2fbZEq3paDZc4TxCzKNkdkp9DUVR
- pdaG6zBZEU5wX2qMb76LzRdTzbTMFih8B2cxrZHRAQU0X41RUT0nnQ+M2xKjjyzoFlAyUDTip
- B+L4eo7mLHFv4Cl0avREMqVo2aSWebJtHZJS5/Q+8R11beSSqSJtqliYis9ZwiCmuHUw7w4fZ
- qmRNcjC4dNxFNrq7EbdkPkt2Vp4qZh8+3hnNHNmhktxtd2My5LxudgXEwpKdeSXHLY2yV4Iiq
- xz7RZ+BNAVNlFRzSMu1O8jqmMouFYGB1fxX6TqjOzF9bgvVZFJZDcaS3M1i6dpDpfw/+cKcXi
- 3HQYt/wfI8dz/hR7S7rLrQgrwLTTKm+uK0efzp/tG5DYkt7/WslzJM9BEFL29BlX2+vypAzL0
- nlX8UzHXuOL+Gih5ZSpJGVOR4jeXOxEf1UjHvRn9d4oJo9bSb1Tmhet+nXygyWrE6CXZLTfdE
- qfxANNXh4ZhLuHtr9wgwDN3yjedJYWTeHH1628cX9ltKhf9052R920Es+dScE4D2kANtZ3071
- hwGBsje6xkLVDF9rd7nJhePenwPLO5LJtqMz6/wwDXlt4x1pw8qxJ4NeSUMsGA7Q4TH7zd1Ob
- pIkUB/+Izp7YARrH8nfvUll1vYHRVyfmQAD1jhMhZo942d3w1UM2lCX1i9T0utnzuQkUP/dzp
- sOxhsiO4s7cLrGZ+9os0MjVL8ss/tZK67J6IVP1G1tiR0Zk5danh46fO1hgY0z+1oTyboP7xi
- 8obHruLvFqvKaAhyx0HQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 5:57 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
->
-> LoongArch is a new RISC ISA, which is a bit like MIPS or RISC-V.
-> LoongArch includes a reduced 32-bit version (LA32R), a standard 32-bit
-> version (LA32S) and a 64-bit version (LA64). LoongArch use ACPI as its
-> boot protocol LoongArch-specific interrupt controllers (similar to APIC)
-> are already added in the next revision of ACPI Specification (current
-> revision is 6.4).
->
-> This patchset is adding basic LoongArch support in mainline kernel, we
-> can see a complete snapshot here:
-> https://github.com/loongson/linux/tree/loongarch-next
->
-> Cross-compile tool chain to build kernel:
-> https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20210812-cross-tools.tar.xz
->
-> A CLFS-based Linux distro:
-> https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-system-2021-08-22.tar.bz2
->
-> Open-source tool chain which is under review:
-> https://github.com/loongson/binutils-gdb/tree/loongarch-2_37
-> https://github.com/loongson/gcc/tree/loongarch-12
-> https://github.com/loongson/glibc/tree/loongarch_2_34_dev
->
-> Loongson and LoongArch documentations:
-> https://github.com/loongson/LoongArch-Documentation
->
-> LoongArch-specific interrupt controllers:
-> https://mantis.uefi.org/mantis/view.php?id=2203
->
-> V1 -> V2:
-> 1, Add documentation patches;
-> 2, Restore copyright statements;
-> 3, Split the big header patch;
-> 4, Cleanup signal-related headers;
-> 5, Cleanup incomplete 32-bit support;
-> 6, Move the major PCI work to drivers/pci;
-> 7, Rework Loongson64 platform support;
-> 8, Rework lpj and __udelay()/__ndelay();
-> 9, Rework page table layout config options;
-> 10, Rework syscall/exception/interrupt with generic entry framework;
-> 11, Simplify the VDSO/VSYSCALL implementation;
-> 12, Use generic I/O access macros and functions;
-> 13, Remove unaligned access emulation at present;
-> 14, Keep clocksource code in arch since it is the "native clocksource";
-> 15, Some other minor fixes and improvements.
->
-> V2 -> V3:
-> 1, Rebased on 5.15-rc1;
-> 2, Cleanup PCI code on V2;
-> 3, Support multiple msi domain;
-> 4, Support cacheable ioremap();
-> 5, Use irq stack for interrupt handling;
-> 6, Adjust struct ucontext and rt_sigframe;
-> 7, Some other minor fixes and improvements.
+Added and documented 4 new message types:
+- INCLUDE_LINUX
+- INDENTED_LABEL
+- IF_0
+- IF_1
 
-I see you have made a lot of progress, that looks nice. I commented on the PCI
-stuff already, I think that needs more work and should be split out so it does
-not hold up the architecture merge. Also as I commented, the series needs more
-review from the EFI/ACPI, signal, and module maintainers among others.
+Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-It would be good if you could add more information in the patch descriptions
-for each patch to summarize the discussions that have led to changes or
-whenever you got comments but argued that the current version is necessary.
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index f0956e9ea2d8..ea343a7a5b46 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -435,6 +435,11 @@ API usage
+   **EXPORT_SYMBOL**
+     EXPORT_SYMBOL should immediately follow the symbol to be exported.
+ 
++  **INCLUDE_LINUX**
++    Whenever asm/file.h is included and linux/file.h exists, a
++    conversion can be made when linux/file.h includes asm/file.h.
++    However this is not always the case (See signal.h).
++
+   **IN_ATOMIC**
+     in_atomic() is not for driver use so any such use is reported as an ERROR.
+     Also in_atomic() is often used to determine if sleeping is permitted,
+@@ -661,6 +666,10 @@ Indentation and Line Breaks
+ 
+     See: https://lore.kernel.org/lkml/1328311239.21255.24.camel@joe2Laptop/
+ 
++  **INDENTED_LABEL**
++    goto labels either should not have any indentation or only a single
++    space indentation.
++
+   **SWITCH_CASE_INDENT_LEVEL**
+     switch should be at the same indent as case.
+     Example::
+@@ -790,6 +799,19 @@ Macros, Attributes and Symbols
+   **DO_WHILE_MACRO_WITH_TRAILING_SEMICOLON**
+     do {} while(0) macros should not have a trailing semicolon.
+ 
++  **IF_0**
++    The code enclosed within #if 0 and #endif is not executed and is used
++    for temporarily removing the segments of code with the intention of
++    using it in the future, much like comments. But comments cannot be
++    nested, so #if 0 is preferred. But if the code inside #if 0 and #endif
++    doesn't seem to be anymore required then remove it.
++
++  **IF_1**
++    The code enclosed within #if 1 and #endif is always executed, so the
++    #if 1 and #endif statements are redundant, thus remove it.
++    It is only useful for debugging purposes, it can quickly disable the
++    code enclosed within itself by changing #if 1 to #if 0
++
+   **INIT_ATTRIBUTE**
+     Const init definitions should use __initconst instead of
+     __initdata.
+-- 
+2.25.1
 
-        Arnd
