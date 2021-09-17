@@ -2,177 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D89F0C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 06:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF2EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:21:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF6A1610C8
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 06:53:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DD1861130
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232906AbhIQGzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 02:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44744 "EHLO
+        id S245031AbhIQHWm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 03:22:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbhIQGzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 02:55:12 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF462C061574;
-        Thu, 16 Sep 2021 23:53:50 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id f21so5558731plb.4;
-        Thu, 16 Sep 2021 23:53:50 -0700 (PDT)
+        with ESMTP id S245309AbhIQHWc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 03:22:32 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650C6C0613E9;
+        Fri, 17 Sep 2021 00:21:04 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id f129so8803981pgc.1;
+        Fri, 17 Sep 2021 00:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=svXHuGHxKjWzR3sN2c/0P1oAvWMIfAPKeWaVAUpp/PU=;
-        b=d1lL4r52QaTKO4VxBF1Ojd4wp6gPZLH/5XU9xFe0qunFzD8a5Y/e4ha595BtkvEKrw
-         nUTjITUyOzUPTc2kbNMjN8x7uykuP4ByWgnNNf1VggrtvL7yBWtFgxoaXsRiZs8eRuij
-         wXzGPwLgHU0kpD9xLjoh4Xg8WiDVirBL1vxk1/DcEKCR5DSGMIHWBQQZugLibTUL+mGX
-         RYdt4ArsXeELIhyZZhZpHGK1GSYrjWC0/x7DLncDF6145+n2AjeoTM8Lkqc81CcjqrzC
-         DXBBXzqUOSISMzUpZhfjSydst57orv35l6mellqEz70L/GUWiX4u56RMEK0Rb1DnEoIF
-         7f1Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o04KVDqW6D3wX8X1Cre/VXEIVNZmQV2zmdh96ibeAQY=;
+        b=BR/QS+2JAgrBOeZu0YkY6PvalYMyvVrsEkwrBac4pHtqkCmtexbIGm2fdHRc1znkUQ
+         8lp5ZV8amAjYWFrj3s1VEHxESU26rhkUE0QBoIage67K1s4ivjKYsD+KfiVM5P/6H8pQ
+         uX8FUrnlnOARWkLuaDKnJIi8W/A94mY5GW4douzfiJ5I/uQvxqQfS4Q/zSwD1wJKyeye
+         rJ43GfyvFNRtyVawhHBvhIKslSkGcgwqmL7T225knXZKNnSvImL/fjyF6QQ6negGKQuF
+         Q/zRX3waDIWp5bpYiNNQ3XhzWqlrHXehYsGLFl8etiTwEjQE1iLPG/ctIs9BrTcK9fg2
+         qQ7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=svXHuGHxKjWzR3sN2c/0P1oAvWMIfAPKeWaVAUpp/PU=;
-        b=AtnB7bcIR7REATeqlw2c0LH9JQZN+11ahoX1F32BO4KU7Wg0BBudG51QAMXIrWloaF
-         /T0OGmTBrQR/M4dngViFtkp/kj6zrc15iqPATjZWmfUFOvvdycgn4rfq4335h/O/fU6e
-         Wz/k4SS8Fmus0EkbM0+wv43T5P1Xxo0djXcAe41RevQLcIDu9pIzRUZzFYaE+Qsk76a+
-         zOnfowqqsGXYnyXmtJEPsY7n+49L8dMnJytBXXO1gAObBs35dZ9pwsL0NmxxaqVP+yMi
-         UJI+4giJDJgubFPlKkwNjzkNT0j5ifa6+Ks7ICZOWyiRmNHvHy1r4TYmB5uHGYjethZL
-         IR8Q==
-X-Gm-Message-State: AOAM532ts7/1z/uNOk/FOjMqWMFYgrKsH8Tca9TvZ9PXZ+ajiWl8dTcz
-        ooJe2SoSU/1o65BFz9Sux8s3N4pleXtFsUc+AM8=
-X-Google-Smtp-Source: ABdhPJxyV8BUJB09rFrJ7BdgAxTkTUQXsk0wxMz7O4cg1d4bEZVtGe3QPGXr3b+0Tywzxcqoy+bsO+hRfWmF9frn7oo=
-X-Received: by 2002:a17:902:b713:b0:132:5a48:18cb with SMTP id
- d19-20020a170902b71300b001325a4818cbmr8179008pls.50.1631861629596; Thu, 16
- Sep 2021 23:53:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o04KVDqW6D3wX8X1Cre/VXEIVNZmQV2zmdh96ibeAQY=;
+        b=QxUx6NW+gsD14c1Hpf7ccCN0NOxiU+C4NCbuBReRELGF4bADY9m9+3XW0XunBeYiHc
+         ckLXHbg7hsKpRxniwo3gEbo4foC9WBiEKyHXeV38T3OvWmr9pvjCVoK+S+d6S5qix/HW
+         cW1OFcb+5VlEprfMilhuMQqGTk2078POgZsjNtC+MM8x8ItV+AeSXSVRB2Ju/ljj8mcv
+         C/TEJ5jtOGzbfgXAmkQXuT2ZHPXFoHOqY6VwMxnZ8geVFklxDNisIn5kQ4caOAlTQ6eX
+         q0B7rGYl7jEH7tI7umdPZUx2euflaItbfYZ5ldC3ev3jTPlhUtt3Xys0uAukW3ACwGzb
+         5OXQ==
+X-Gm-Message-State: AOAM530SPZHNlUTyoNLO+f3UghJETJ0qsZ2MQa9hjbDvoFbJ/biDUowi
+        kjA3JT0IHdoSInWX9xwSAFF1c/qJKI0=
+X-Google-Smtp-Source: ABdhPJyzW/d4w8I9XbSWslHMQAs4RC0lfXl8awU/+YvWa2vzUCeG4mu5GXIyOhBjtRnI5g2PsqNqJA==
+X-Received: by 2002:a62:55c2:0:b0:3ec:c066:495c with SMTP id j185-20020a6255c2000000b003ecc066495cmr9264712pfb.38.1631863263838;
+        Fri, 17 Sep 2021 00:21:03 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id gp11sm9353954pjb.2.2021.09.17.00.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Sep 2021 00:21:03 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     alexs@kernel.org, siyanteng@loongson.cn
+Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
+Date:   Fri, 17 Sep 2021 07:20:48 +0000
+Message-Id: <20210917072047.228685-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210915132037.169162-1-yang.yang29@zte.com.cn>
-In-Reply-To: <20210915132037.169162-1-yang.yang29@zte.com.cn>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Fri, 17 Sep 2021 14:53:39 +0800
-Message-ID: <CAMU9jJqyTipnair8f6oTpP6VYoGhMVft3Qzv95m8TE5NowpHKA@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
-To:     cgel.zte@gmail.com
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, yang.yang29@zte.com.cn,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PGNnZWwuenRlQGdtYWlsLmNvbT4g5LqOMjAyMeW5tDnmnIgxNeaXpeWRqOS4iSDkuIvljYg5OjIx
-5YaZ6YGT77yaDQo+DQo+IEZyb206IFlhbmcgWWFuZyA8eWFuZy55YW5nMjlAenRlLmNvbS5jbj4N
-Cj4NCj4gQWRkIHRyYW5zbGF0aW9uIHpoX0NOL2FjY291bnRpbmcvZGVsYXktYWNjb3VudGluZy5y
-c3QgYW5kIGxpbmtzIGl0DQo+IHRvIHpoX0NOL2FjY291bnRpbmcvaW5kZXgucnN0IHdoaWxlIGNs
-ZWFuIGl0cyB0b2RvIGVudHJ5Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW5nIFlhbmcgPHlhbmcu
-eWFuZzI5QHp0ZS5jb20uY24+DQo+IC0tLQ0KPiAgLi4uL3poX0NOL2FjY291bnRpbmcvZGVsYXkt
-YWNjb3VudGluZy5yc3QgICAgIHwgMTE0ICsrKysrKysrKysrKysrKysrKw0KPiAgLi4uL3RyYW5z
-bGF0aW9ucy96aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdCAgIHwgICAyICstDQo+ICAyIGZpbGVz
-IGNoYW5nZWQsIDExNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUgbW9k
-ZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy9kZWxh
-eS1hY2NvdW50aW5nLnJzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
-dGlvbnMvemhfQ04vYWNjb3VudGluZy9kZWxheS1hY2NvdW50aW5nLnJzdCBiL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvZGVsYXktYWNjb3VudGluZy5yc3QNCj4g
-bmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi4xZGY3ZDIzNTRlMDcN
-Cj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9hY2NvdW50aW5nL2RlbGF5LWFjY291bnRpbmcucnN0DQo+IEBAIC0wLDAgKzEsMTE0IEBADQo+
-ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gKw0KPiArOk9yaWdpbmFs
-OiBEb2N1bWVudGF0aW9uL2FjY291bnRpbmcvZGVsYXktYWNjb3VudGluZy5yc3QNCj4gKzpUcmFu
-c2xhdG9yOiBZYW5nIFlhbmcgPHlhbmcueWFuZzI5QHp0ZS5jb20uY24+DQo+ICsNCj4gKy4uIF9j
-bl9kZWxheS1hY2NvdW50aW5nLnJzdDoNCj4gKw0KPiArDQpvbmx5IG5lZWQgb25lIGJsYWNrbGlu
-ZS4NCj4gKz09PT09PT09DQo+ICvlu7bov5/orqHmlbANCj4gKz09PT09PT09DQo+ICsNCj4gK+S7
-u+WKoeWcqOetieW+heafkOS6m+WGheaguOi1hOa6kOWPr+eUqOaXtu+8jOS8mumAoOaIkOW7tui/
-n+OAguS+i+WmguS4gOS4quWPr+i/kOihjOeahOS7u+WKoeWPr+iDveS8muetieW+hQ0KPiAr5LiA
-5Liq56m66ZeyQ1BV5p2l6L+Q6KGM44CCDQo+ICsNCj4gK+WfuuS6juavj+S7u+WKoeeahOW7tui/
-n+iuoeaVsOWKn+iDveW6pumHj+eUseS7peS4i+aDheWGtemAoOaIkOeahOS7u+WKoeW7tui/n++8
-mg0KPiArDQo+ICthKSDnrYnlvoXkuIDkuKpDUFXvvIjku7vliqHkuLrlj6/ov5DooYzvvIkNCj4g
-K2IpIOWujOaIkOeUseivpeS7u+WKoeWPkei1t+eahOWdl0kvT+WQjOatpeivt+axgg0KPiArYykg
-6aG16Z2i5Lqk5o2iDQo+ICtkKSDlhoXlrZjlm57mlLYNCj4gKw0KPiAr5bm25bCG6L+Z5Lqb57uf
-6K6h5L+h5oGv6YCa6L+HdGFza3N0YXRz5o6l5Y+j5o+Q5L6b57uZ55So5oi356m66Ze044CCDQo+
-ICsNCj4gK+i/meS6m+W7tui/n+S/oeaBr+S4uumAguW9k+eahOiwg+aVtOS7u+WKoUNQVeS8mOWF
-iOe6p+OAgWlv5LyY5YWI57qn44CBcnNz6ZmQ5Yi25o+Q5L6b5Y+N6aaI44CC6YeN6KaB5Lu75Yqh
-DQo+ICvplb/mnJ/lu7bov5/vvIzooajnpLrlj6/og73pnIDopoHmj5Dpq5jlhbbnm7jlhbPkvJjl
-hYjnuqfjgIINCj4gKw0KPiAr6YCa6L+H5L2/55SodGFza3N0YXRz5o6l5Y+j77yM5pys5Yqf6IO9
-6L+Y5Y+v5o+Q5L6b5LiA5Liq57q/56iL57uE77yI5a+55bqU5Lyg57ufVW5peOi/m+eoi++8ieaJ
-gOacieS7u+WKoQ0KPiAr77yI5oiW57q/56iL77yJ55qE5oC75bu26L+f57uf6K6h5L+h5oGv44CC
-5q2k57G75rGH5oC75b6A5b6A5piv6ZyA6KaB55qE77yM55Sx5YaF5qC45p2l5a6M5oiQ5pu05Yqg
-6auY5pWI44CCDQo+ICsNCj4gK+eUqOaIt+epuumXtOeahOWunuS9k++8jOeJueWIq+aYr+i1hOa6
-kOeuoeeQhueoi+W6j++8jOWPr+WwhuW7tui/n+e7n+iuoeS/oeaBr+axh+aAu+WIsOS7u+aEj+e7
-hOS4reOAguS4uuWunueOsA0KPiAr6L+Z5LiA54K577yM5Lu75Yqh55qE5bu26L+f57uf6K6h5L+h
-5oGv5Zyo5YW255Sf5ZG95ZGo5pyf5YaF5ZKM6YCA5Ye65pe255qG5Y+v6I635Y+W77yM5LuO6ICM
-56Gu5L+d5Y+v6L+b6KGMDQo+ICvov57nu63jgIHlrozmlbTnmoTnm5HmjqcNCj4gKw0KPiArDQo+
-ICvmjqXlj6MNCj4gKy0tLS0NCj4gKw0KPiAr5bu26L+f6K6h5pWw5L2/55SodGFza3N0YXRz5o6l
-5Y+j77yM6K+l5o6l5Y+j55Sx5pys55uu5b2V5Y+m5LiA5Liq5Y2V54us55qE5paH5qGj6K+m57uG
-5o+P6L+w44CCVGFza3N0YXRzDQo+ICvlkJHnlKjmiLfmgIHov5Tlm57kuIDkuKrpgJrnlKjmlbDm
-ja7nu5PmnoTvvIzlr7nlupTmr49waWTmiJbmr490Z2lk55qE57uf6K6h5L+h5oGv44CC5bu26L+f
-6K6h5pWw5Yqf6IO95aGr5YaZDQo+ICvor6XmlbDmja7nu5PmnoTnmoTnibnlrprlrZfmrrXjgILo
-p4ENCj4gKw0KPiArICAgICBpbmNsdWRlL2xpbnV4L3Rhc2tzdGF0cy5oDQo+ICsNCj4gK+WFtuaP
-j+i/sOS6huW7tui/n+iuoeaVsOebuOWFs+Wtl+auteOAguezu+e7n+mAmuW4uOS7peiuoeaVsOWZ
-qOW9ouW8j+i/lOWbniBDUFXjgIHlkIzmraXlnZcgSS9P44CB5Lqk5o2i44CB5YaF5a2YDQo+ICvl
-m57mlLbnrYnnmoTntK/np6/lu7bov5/jgIINCj4gKw0KPiAr5Y+W5Lu75Yqh5p+Q6K6h5pWw5Zmo
-5Lik5Liq6L+e57ut6K+75pWw55qE5beu5YC877yM5bCG5b6X5Yiw5Lu75Yqh5Zyo6K+l5pe26Ze0
-6Ze06ZqU5YaF562J5b6F5a+55bqU6LWE5rqQ55qE5oC75bu26L+f44CCDQo+ICsNCj4gK+W9k+S7
-u+WKoemAgOWHuuaXtu+8jOWGheaguOS8muWwhuWMheWQq+avj+S7u+WKoeeahOe7n+iuoeS/oeaB
-r+WPkemAgee7meeUqOaIt+epuumXtO+8jOiAjOaXoOmcgOmineWklueahOWRveS7pOOAgg0KPiAr
-6Iul5YW25Li657q/56iL57uE5pyA5ZCO5LiA5Liq6YCA5Ye655qE5Lu75Yqh77yM5YaF5qC46L+Y
-5Lya5Y+R6YCB5q+PdGdpZOeahOe7n+iuoeS/oeaBr+OAguabtOWkmuivpue7huS/oeaBr+ingQ0K
-PiArdGFza3N0YXRz5o6l5Y+j55qE5o+P6L+w44CCDQo+ICsNCj4gK3Rvb2xzL2FjY291bnRpbmfn
-m67lvZXkuK3nmoTnlKjmiLfnqbrpl7TnqIvluo9nZXRkZWxheXMuY+aPkOS+m+S6huS4gOS6m+eu
-gOWNleeahOWRveS7pO+8jOeUqOS7peaYvuekug0KPiAr5bu26L+f57uf6K6h5L+h5oGv44CC5YW2
-5Lmf5piv5L2/55SodGFza3N0YXRz5o6l5Y+j55qE56S65L6L44CCDQo+ICsNCj4gK+eUqOazlQ0K
-PiArLS0tLQ0KPiArDQo+ICvkvb/nlKjku6XkuIvphY3nva7nvJbor5HlhoXmoLg6Og0KPiArDQo+
-ICsgICAgICAgQ09ORklHX1RBU0tfREVMQVlfQUNDVD15DQo+ICsgICAgICAgQ09ORklHX1RBU0tT
-VEFUUz15DQo+ICsNCj4gK+W7tui/n+iuoeaVsOWcqOWQr+WKqOaXtum7mOiupOWFs+mXreOAgg0K
-PiAr6Iul6ZyA5byA5ZCv77yM5Zyo5ZCv5Yqo5Y+C5pWw5Lit5aKe5YqgOjoNCj4gKw0KPiArICAg
-ZGVsYXlhY2N0DQo+ICsNCj4gK+acrOaWh+WQjue7reeahOivtOaYjuWfuuS6juW7tui/n+iuoeaV
-sOW3suW8gOWQr+OAguS5n+WPr+WcqOezu+e7n+i/kOihjOaXtu+8jOS9v+eUqHN5c2N0bOeahGtl
-cm5lbC50YXNrX2RlbGF5YWNjdA0KPiAr6L+b6KGM5byA5YWz44CC5rOo5oSP77yM5Y+q5pyJ5Zyo
-5ZCv55So5bu26L+f6K6h5pWw5ZCO5ZCv5Yqo55qE5Lu75Yqh5omN5Lya5pyJ55u45YWz5L+h5oGv
-44CCDQo+ICsNCj4gK+ezu+e7n+WQr+WKqOWQju+8jOS9v+eUqOexu+S8vGdldGRlbGF5cy5j55qE
-5bel5YW36I635Y+W5Lu75Yqh5oiW57q/56iL57uE77yIdGdpZO+8ieeahOW7tui/n+S/oeaBr+OA
-gg0KPiArDQo+ICtnZXRkZWxheXPlkb3ku6TnmoTkuIDoiKzmoLzlvI86Og0KPiArDQo+ICsgICAg
-ICAgZ2V0ZGVsYXlzIFstdCB0Z2lkXSBbLXAgcGlkXSBbLWMgY21kLi4uXQ0KPiArDQo+ICvojrfl
-j5ZwaWTkuLoxMOeahOS7u+WKoeS7juezu+e7n+WQr+WKqOWQjueahOW7tui/n+S/oeaBrzo6DQo+
-ICsNCj4gKyAgICAgICAjIC4vZ2V0ZGVsYXlzIC1wIDEwDQo+ICsgICAgICAg77yI6L6T5Ye65L+h
-5oGv5ZKM5LiL5L6L55u45Ly877yJDQo+ICsNCj4gK+iOt+WPluaJgOaciXRnaWTkuLo155qE5Lu7
-5Yqh5LuO57O757uf5ZCv5Yqo5ZCO55qE5oC75bu26L+f5L+h5oGvOjoNCj4gKw0KPiArICAgICAg
-ICMgLi9nZXRkZWxheXMgLXQgNQ0KPiArDQo+ICsNCj4gKyAgICAgICBDUFUgICAgIGNvdW50ICAg
-cmVhbCB0b3RhbCAgICAgIHZpcnR1YWwgdG90YWwgICBkZWxheSB0b3RhbA0KPiArICAgICAgICAg
-ICAgICAgNzg3NiAgICA5MjAwNTc1MCAgICAgICAgMTAwMDAwMDAwICAgICAgIDI0MDAxNTAwDQo+
-ICsgICAgICAgSU8gICAgICBjb3VudCAgIGRlbGF5IHRvdGFsDQo+ICsgICAgICAgICAgICAgICAw
-ICAgICAgIDANCj4gKyAgICAgICBTV0FQICAgIGNvdW50ICAgZGVsYXkgdG90YWwNCj4gKyAgICAg
-ICAgICAgICAgIDAgICAgICAgMA0KPiArICAgICAgIFJFQ0xBSU0gY291bnQgICBkZWxheSB0b3Rh
-bA0KPiArICAgICAgICAgICAgICAgMCAgICAgICAwDQo+ICsNCj4gK+iOt+WPluaMh+WumueugOWN
-leWRveS7pOi/kOihjOaXtueahOW7tui/n+S/oeaBrzo6DQo+ICsNCj4gKyAgIyAuL2dldGRlbGF5
-cyAtYyBscyAvDQo+ICsNCj4gKyAgYmluICAgZGF0YTEgIGRhdGEzICBkYXRhNSAgZGV2ICBob21l
-ICBtZWRpYSAgb3B0ICAgcm9vdCAgc3J2ICAgICAgICBzeXMgIHVzcg0KPiArICBib290ICBkYXRh
-MiAgZGF0YTQgIGRhdGE2ICBldGMgIGxpYiAgIG1udCAgICBwcm9jICBzYmluICBzdWJkb21haW4g
-IHRtcCAgdmFyDQo+ICsNCj4gKw0KPiArICBDUFUgIGNvdW50ICAgcmVhbCB0b3RhbCAgICAgIHZp
-cnR1YWwgdG90YWwgICBkZWxheSB0b3RhbA0KPiArICAgICAgIDYgICAgICAgNDAwMDI1MCAgICAg
-ICAgIDQwMDAwMDAgICAgICAgICAwDQo+ICsgIElPICAgY291bnQgICBkZWxheSB0b3RhbA0KPiAr
-ICAgICAgIDAgICAgICAgMA0KPiArICBTV0FQIGNvdW50ICAgZGVsYXkgdG90YWwNCj4gKyAgICAg
-ICAwICAgICAgIDANCj4gKyAgUkVDTEFJTSAgICAgIGNvdW50ICAgZGVsYXkgdG90YWwNCj4gKyAg
-ICAgICAwICAgICAgIDANCj4gKw0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
-dGlvbnMvemhfQ04vYWNjb3VudGluZy9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdA0KPiBpbmRleCAzNjJlOTA3YjQxZjkuLjA5
-MGY5Mzc3NmZhYSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vYWNjb3VudGluZy9pbmRleC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vYWNjb3VudGluZy9pbmRleC5yc3QNCj4gQEAgLTE2LDEwICsxNiwxMCBAQA0KPiAg
-ICAgOm1heGRlcHRoOiAxDQo+DQo+ICAgICBwc2kNCj4gKyAgIGRlbGF5LWFjY291bnRpbmcNCj4N
-Cj4gIFRvZG9saXN0Og0KPg0KPiAgICAgY2dyb3Vwc3RhdHMNCj4gLSAgIGRlbGF5LWFjY291bnRp
-bmcNCj4gICAgIHRhc2tzdGF0cw0KPiAgICAgdGFza3N0YXRzLXN0cnVjdA0KR29vZCBqb2IsIEkn
-bSB2ZXJ5IGludGVyZXN0ZWQgaW4gdGhpcyBzZXJpZXMgb2YgZG9jdW1lbnRzIGFuZCBJJ20NCmxv
-b2tpbmcgZm9yd2FyZCB0byB5b3VyIHN1YnNlcXVlbnQgdHJhbnNsYXRpb25zLiBUaGlzIGlzIGlu
-dmFsdWFibGUNCmZvciBDaGluZXNlIGRldmVsb3BlcnMgd2hvIGFyZSBub3QgZ29vZCBhdCBFbmds
-aXNoLCB0aGFuayB5b3UgdmVyeQ0KbXVjaCBmb3IgeW91ciBjb250cmlidXRpb24uDQoNClRoYW5r
-cywNCg0KWWFudGVuZw0K
+From: Yang Yang <yang.yang29@zte.com.cn>
+
+Add translation zh_CN/accounting/delay-accounting.rst and links it
+to zh_CN/accounting/index.rst while clean its todo entry.
+
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+v2: delete useless blackline
+---
+ .../zh_CN/accounting/delay-accounting.rst     | 113 ++++++++++++++++++
+ .../translations/zh_CN/accounting/index.rst   |   2 +-
+ 2 files changed, 114 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/accounting/delay-accounting.rst
+
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+new file mode 100644
+index 000000000000..760f96876ea2
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -0,0 +1,113 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/accounting/delay-accounting.rst
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
++
++.. _cn_delay-accounting.rst:
++
++========
++延迟计数
++========
++
++任务在等待某些内核资源可用时，会造成延迟。例如一个可运行的任务可能会等待
++一个空闲CPU来运行。
++
++基于每任务的延迟计数功能度量由以下情况造成的任务延迟：
++
++a) 等待一个CPU（任务为可运行）
++b) 完成由该任务发起的块I/O同步请求
++c) 页面交换
++d) 内存回收
++
++并将这些统计信息通过taskstats接口提供给用户空间。
++
++这些延迟信息为适当的调整任务CPU优先级、io优先级、rss限制提供反馈。重要任务
++长期延迟，表示可能需要提高其相关优先级。
++
++通过使用taskstats接口，本功能还可提供一个线程组（对应传统Unix进程）所有任务
++（或线程）的总延迟统计信息。此类汇总往往是需要的，由内核来完成更加高效。
++
++用户空间的实体，特别是资源管理程序，可将延迟统计信息汇总到任意组中。为实现
++这一点，任务的延迟统计信息在其生命周期内和退出时皆可获取，从而确保可进行
++连续、完整的监控
++
++
++接口
++----
++
++延迟计数使用taskstats接口，该接口由本目录另一个单独的文档详细描述。Taskstats
++向用户态返回一个通用数据结构，对应每pid或每tgid的统计信息。延迟计数功能填写
++该数据结构的特定字段。见
++
++     include/linux/taskstats.h
++
++其描述了延迟计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
++回收等的累积延迟。
++
++取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延迟。
++
++当任务退出时，内核会将包含每任务的统计信息发送给用户空间，而无需额外的命令。
++若其为线程组最后一个退出的任务，内核还会发送每tgid的统计信息。更多详细信息见
++taskstats接口的描述。
++
++tools/accounting目录中的用户空间程序getdelays.c提供了一些简单的命令，用以显示
++延迟统计信息。其也是使用taskstats接口的示例。
++
++用法
++----
++
++使用以下配置编译内核::
++
++	CONFIG_TASK_DELAY_ACCT=y
++	CONFIG_TASKSTATS=y
++
++延迟计数在启动时默认关闭。
++若需开启，在启动参数中增加::
++
++   delayacct
++
++本文后续的说明基于延迟计数已开启。也可在系统运行时，使用sysctl的kernel.task_delayacct
++进行开关。注意，只有在启用延迟计数后启动的任务才会有相关信息。
++
++系统启动后，使用类似getdelays.c的工具获取任务或线程组（tgid）的延迟信息。
++
++getdelays命令的一般格式::
++
++	getdelays [-t tgid] [-p pid] [-c cmd...]
++
++获取pid为10的任务从系统启动后的延迟信息::
++
++	# ./getdelays -p 10
++	（输出信息和下例相似）
++
++获取所有tgid为5的任务从系统启动后的总延迟信息::
++
++	# ./getdelays -t 5
++
++
++	CPU	count	real total	virtual total	delay total
++		7876	92005750	100000000	24001500
++	IO	count	delay total
++		0	0
++	SWAP	count	delay total
++		0	0
++	RECLAIM	count	delay total
++		0	0
++
++获取指定简单命令运行时的延迟信息::
++
++  # ./getdelays -c ls /
++
++  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
++  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
++
++
++  CPU	count	real total	virtual total	delay total
++	6	4000250		4000000		0
++  IO	count	delay total
++	0	0
++  SWAP	count	delay total
++	0	0
++  RECLAIM	count	delay total
++	0	0
++
+diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
+index 362e907b41f9..090f93776faa 100644
+--- a/Documentation/translations/zh_CN/accounting/index.rst
++++ b/Documentation/translations/zh_CN/accounting/index.rst
+@@ -16,10 +16,10 @@
+    :maxdepth: 1
+ 
+    psi
++   delay-accounting
+ 
+ Todolist:
+ 
+    cgroupstats
+-   delay-accounting
+    taskstats
+    taskstats-struct
+-- 
+2.25.1
+
