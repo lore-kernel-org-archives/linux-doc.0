@@ -2,134 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12084C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 21:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 089DFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:45:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E73AE6113A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Sep 2021 21:17:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C44F261029
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240096AbhIPVSx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 17:18:53 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:37287 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240270AbhIPVS0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 17:18:26 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id 075AE2B011FE;
-        Thu, 16 Sep 2021 17:17:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 16 Sep 2021 17:17:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
-        :to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=iroseorgTS5+5
-        6n4OvAi9A0zE9zzgwEyhNq+UyaK88I=; b=JqB6MykZyikjd8FHQpkP2BVRiApCi
-        p97PKlwm5G0/L/4XVX3lqmTmwqebWnYTO76yp5b24TACA4mDucytOHtFwCKVR8pi
-        5Ut3HOIY7pMqcVlQPruSd3NBk1nqJmyk6Q8GmUt/PhC6uecC5BsJCQbe7izkUB1N
-        1oODFBA15PXUkwVN1edova19IWI1k7sl3D7GZlEfJxWteVbHVqnCXIiBON1YeF6Q
-        ke7f46GEo8x9M8/x8g/68cQq+/34OnakZm4nftR794yVgm7HS84DcfEz9/9Xquzn
-        NQIrRugchM7CwmINRox74fte0FisiWe+QHwoEe63kzk/D7XsFOC+W5/Hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=iroseorgTS5+56n4OvAi9A0zE9zzgwEyhNq+UyaK88I=; b=KFmCLz46
-        1FPNUNZEQDILKwJHhkCM3LDNBWvz+Du0FfVwgzscjCIa1lfAFUMCnimOCnz+v2VN
-        OIGyPho+V34dOTg+c/liZ3nhJ8V7rjnRiHRq7+K4LuplvVdLlICSGB4EQRysKM3m
-        XsRnIfK3DrD1MuKduXDb3s4qXdjLNNXnWPtLpx+Svp+INZSW7vWv7S+5pgFBVO/7
-        YKtF8vjl/idG8MDmrMGP+k7KpEgPEie9FYkCHdSaT6Qs2myEMyviDTW4WP8Qkv3U
-        y+kmKM4SWxPDHOWwdVvrKTSZPvdibP0auTw41yvGQfEUDCrBhInYnVVyzHzf1P8w
-        /zDqSRxgO6ai9A==
-X-ME-Sender: <xms:ULRDYUreEiKr9-wfH7gjUQbDYKJlFusHfKWDogv7Ge602Ckdj2vj2g>
-    <xme:ULRDYao97dVnQm7nZvkBz6y2xX7-1i4D6m8xRuEBPuUiX83LHVnC-ALNHac7hyfxI
-    eqfXjkzgZz4MQdYaQ>
-X-ME-Received: <xmr:ULRDYZNVgneZAgEhKnokbUl8KnYcgUKXaZlcEOsOsRIX_j_8iuHMQKyHUnZMPLTcfbv1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudehfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
-    ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
-    fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeefnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:ULRDYb7tx52V7V4Uy3ZFmKN34pzWAWKKXV2pf9Luy9WJAsmvqBWktg>
-    <xmx:ULRDYT6yJPnE9_oDxHhEFQK0wZYXfux_ly9TKvbmMj96gpW4clHJnQ>
-    <xmx:ULRDYbg00qLPg30a5Fg6nDCEH4CMmlk7HY8xQlq1WDVb42fpgWPiGQ>
-    <xmx:ULRDYQH6y7bdl-ZVVuxrF3UsbDA2Ufy00zFfyaZw0zyk9jss2N3JQIvlack>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 17:17:01 -0400 (EDT)
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
-        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 15/15] doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
-Date:   Thu, 16 Sep 2021 23:15:52 +0200
-Message-Id: <20210916211552.33490-16-greenfoo@u92.eu>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916211552.33490-1-greenfoo@u92.eu>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
+        id S242243AbhIQBqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 21:46:48 -0400
+Received: from mail-il1-f173.google.com ([209.85.166.173]:43626 "EHLO
+        mail-il1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242460AbhIQBqr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 21:46:47 -0400
+Received: by mail-il1-f173.google.com with SMTP id b15so8598939ils.10;
+        Thu, 16 Sep 2021 18:45:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SRwnAr4ILMQTscVFm9dj+WlM5ulz8L4gSSBzHDyH6hE=;
+        b=DhcF+WU5M/a4U5+noRdjbE8YGN7Gw0QKcgEr6XvZTActDAfFMoVn/VwaDqsGv1R91g
+         xKgvu8H2OUE/FrFn0abXVfT1uWmU4HBM3Fn63tr8PNORmeiLvs96eNx37XslnO9XxEA8
+         OUyeBgnU6FDVVdkI2QJFr6/SCBXsouX9O54BiMZxgPptg2yYbJBssdrJcqAtZpUGkgfy
+         wBBhYGK3JrxE/FQ5PNS2fWlRO1btI6t5fQIbM3gppgViOj3IVB87Z0nsl3+ZT2CvdGP7
+         FuLz4nwP2eLXuMHIs/v0guT1Ghu8eTskn4csmZsnCgdgTkaO9RNppSOT7Nzer0FGMAUm
+         uIaw==
+X-Gm-Message-State: AOAM533JvA9NZgFe9e5Sjv6/3dXKmw3ljNgp+Fcdca1aLUa/4HM6OFkc
+        /2AFOcT9Wh8N8HX+UchVEXJVlX6HKQ==
+X-Google-Smtp-Source: ABdhPJygin3qGV4r7vzWed2wcAhcroO7KQK88VkWP7w98SvJDjdIdKMV6DCIcvC+RzUU1axIysnQKQ==
+X-Received: by 2002:a05:6e02:156c:: with SMTP id k12mr6095416ilu.61.1631843126429;
+        Thu, 16 Sep 2021 18:45:26 -0700 (PDT)
+Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
+        by smtp.gmail.com with ESMTPSA id s7sm2543558ioe.11.2021.09.16.18.45.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 18:45:25 -0700 (PDT)
+Received: (nullmailer pid 1588176 invoked by uid 1000);
+        Fri, 17 Sep 2021 01:45:24 -0000
+Date:   Thu, 16 Sep 2021 20:45:24 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v2 02/23] dt-bindings: net: dsa: sja1105: update
+ nxp,sja1105.yaml reference
+Message-ID: <YUPzNF0rPhjlQKDU@robh.at.kernel.org>
+References: <cover.1631785820.git.mchehab+huawei@kernel.org>
+ <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous commits do exactly what this entry in the TODO file asks
-for, thus we can remove it now as it is no longer applicable.
+On Thu, 16 Sep 2021 11:55:01 +0200, Mauro Carvalho Chehab wrote:
+> Changeset 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+> renamed: Documentation/devicetree/bindings/net/dsa/sja1105.txt
+> to: Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
+> Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/networking/dsa/sja1105.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
----
- Documentation/gpu/todo.rst                | 17 -----------------
- Documentation/locking/ww-mutex-design.rst |  2 +-
- 2 files changed, 1 insertion(+), 18 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 12e61869939e..6613543955e9 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -353,23 +353,6 @@ converted, except for struct drm_driver.gem_prime_mmap.
- 
- Level: Intermediate
- 
--Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
-----------------------------------------------------------
--
--For cases where drivers are attempting to grab the modeset locks with a local
--acquire context. Replace the boilerplate code surrounding
--drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
--DRM_MODESET_LOCK_ALL_END() instead.
--
--This should also be done for all places where drm_modeset_lock_all() is still
--used.
--
--As a reference, take a look at the conversions already completed in drm core.
--
--Contact: Sean Paul, respective driver maintainers
--
--Level: Starter
--
- Rename CMA helpers to DMA helpers
- ---------------------------------
- 
-diff --git a/Documentation/locking/ww-mutex-design.rst b/Documentation/locking/ww-mutex-design.rst
-index 6a4d7319f8f0..6a8f8beb9ec4 100644
---- a/Documentation/locking/ww-mutex-design.rst
-+++ b/Documentation/locking/ww-mutex-design.rst
-@@ -60,7 +60,7 @@ Concepts
- Compared to normal mutexes two additional concepts/objects show up in the lock
- interface for w/w mutexes:
- 
--Acquire context: To ensure eventual forward progress it is important the a task
-+Acquire context: To ensure eventual forward progress it is important that a task
- trying to acquire locks doesn't grab a new reservation id, but keeps the one it
- acquired when starting the lock acquisition. This ticket is stored in the
- acquire context. Furthermore the acquire context keeps track of debugging state
--- 
-2.33.0
-
+Applied, thanks!
