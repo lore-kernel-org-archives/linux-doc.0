@@ -2,246 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC7BAC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACB8C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:53:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB8BD61130
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:27:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 972BA61074
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 07:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239848AbhIQH2l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 03:28:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239766AbhIQH2l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 03:28:41 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2930C061574;
-        Fri, 17 Sep 2021 00:27:19 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id k24so8784894pgh.8;
-        Fri, 17 Sep 2021 00:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:from:to:cc:subject:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jucBYhBid+exWcBESRLEqUkyA1xlpqVGBAYwvhwM29I=;
-        b=MGAmWnQoRgtGwgnNsVRlbnD3/iX6Nc8/nyLH7IBn4k3aN7YQxJtXV0kkR2zx349pnU
-         Mg5neiuSxFsOAdjH3Lsm6GgJW3lcT2B+1Mj4wZmYhbGLnAxRbSLQL5m+pQQSzsUn+NgY
-         W9KNBmf7fZmb7biO9OmTA9blQxtchptjmJA35v1n7byn34krOpe8O8RoxR//Rxqilqhr
-         neyNciJmzcyIUkOLV+3pn4SAuRhYEMn6Na+YBcKMKFCdP1VWaFYLk3QofLPFJGBMUDH1
-         Mf/Ct+E4qvi1FwqmqcgRbqIAg1fIGtE3Jriz0aiFU6t/lkbrN9Y9MFbpM3Px3Uny7oKG
-         MkiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jucBYhBid+exWcBESRLEqUkyA1xlpqVGBAYwvhwM29I=;
-        b=6+PKbqe5XYJxH0kk9K6+eHcaVzlh+6oksJNqxEIf9u/7BsPUuXqY/2jpIe9hHZjoyv
-         tAr/SlGpcFmz9SyLaowPz7t5mz2ZSwBKjCJtC404o6k/cufitowExeiWY1M2+dOQOFAe
-         mikT8qgXXMnCULWUzx2z3Jp1NahMW9oQMhMaQDFXY1Kcz24fIFf5amdbHAgZBd+jCU5K
-         dQZ2OoztA74Oj95EBryANbdm/VRSSEhumItLDQf0gMgE3Ih3QNtOqtbsu3cTXw57SGRL
-         SkSefoLl86J8CH2IXlNY7B9NFoIaFB38H+ue2rrquhe1+idN1dVq8a8N+1KcTtIrNuBV
-         wdGw==
-X-Gm-Message-State: AOAM532Klg9TkCSzCvQZLVgq5TtpuZHMqWaP+PpoSFqtSnJzegmthKhq
-        JKXoZBCFlBiBjb5upt12tzo=
-X-Google-Smtp-Source: ABdhPJz10CEhQYd2rQYzIbC9MpjXev1lSbEHmM2uIRzZuFN10obm0BGZGkFJ9M8XKPyzEOfHcfCXMw==
-X-Received: by 2002:a65:6648:: with SMTP id z8mr8676928pgv.418.1631863639342;
-        Fri, 17 Sep 2021 00:27:19 -0700 (PDT)
-Received: from localhost ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id n41sm5438106pfv.108.2021.09.17.00.27.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 00:27:18 -0700 (PDT)
-Message-ID: <61444356.1c69fb81.aee39.657e@mx.google.com>
-X-Google-Original-Message-ID: <20210917072717.GA228747@cgel.zte@gmail.com>
-Date:   Fri, 17 Sep 2021 07:27:17 +0000
-From:   CGEL <cgel.zte@gmail.com>
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, yang.yang29@zte.com.cn,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
-References: <20210915132037.169162-1-yang.yang29@zte.com.cn>
- <CAMU9jJqyTipnair8f6oTpP6VYoGhMVft3Qzv95m8TE5NowpHKA@mail.gmail.com>
+        id S241863AbhIQHy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 03:54:58 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:41317 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232766AbhIQHy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 03:54:57 -0400
+Received: from mail-wr1-f47.google.com ([209.85.221.47]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MPosX-1mEiKr2zlD-00MrVl; Fri, 17 Sep 2021 09:53:34 +0200
+Received: by mail-wr1-f47.google.com with SMTP id q26so13649189wrc.7;
+        Fri, 17 Sep 2021 00:53:34 -0700 (PDT)
+X-Gm-Message-State: AOAM533EhJK3HuQUtYj48pB6j9+oAiQplLYHOzFmQxg3wLSIAHVTqFn1
+        hv+tXqBiCJE0tmtEkkFlLg8xTGhfEgzV9/5gyck=
+X-Google-Smtp-Source: ABdhPJyYWqWKnqFY/a4Kf/vPsS0c2qB8QMRqZuZJ195s1S/CG3F7FL+9spSmhLrD/p0ncHSxJEX5URv+rnTr+QzwxYo=
+X-Received: by 2002:a5d:4b50:: with SMTP id w16mr10388372wrs.71.1631865214272;
+ Fri, 17 Sep 2021 00:53:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMU9jJqyTipnair8f6oTpP6VYoGhMVft3Qzv95m8TE5NowpHKA@mail.gmail.com>
+References: <20210917035736.3934017-1-chenhuacai@loongson.cn> <20210917035736.3934017-6-chenhuacai@loongson.cn>
+In-Reply-To: <20210917035736.3934017-6-chenhuacai@loongson.cn>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 17 Sep 2021 09:53:18 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0E3fRJU9VCRp7MQz-jBC0nHi1DwjPGtymEg3vJJoDqrg@mail.gmail.com>
+Message-ID: <CAK8P3a0E3fRJU9VCRp7MQz-jBC0nHi1DwjPGtymEg3vJJoDqrg@mail.gmail.com>
+Subject: Re: [PATCH V3 05/22] LoongArch: Add build infrastructure
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:mBZTQjaYb8WtQneFumZYpiPFBqPGsxI08ewCpal0jnFkIIFYxo4
+ diiQZjq429f8FuIIBDj65MWfDzFCjw/D/iuXcNarN5XIfSTmQ97Mt9aguKcm/al0NwlBsmh
+ hfMAtcltz+Gd7mGXcaSREBdDn8FeDfWP9j/B2Z93Sp//az05nvvBGYxusyXBVKvJ5uB2G2Q
+ eJJOcHHYEPjvsSJXhm4tQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RO7CjDrpNx0=:WyNYbowOlsbISWCJb0bhlX
+ KeZ8N3MfXgj5Df/k/yEFYbaqJlA7yI9BGTg8v0f7syrYEvyGE1W1jIuthb5s63SigUBJN1xee
+ uPHN7Ni7F5RynqmgXahK/TDQuoj9WX7NTvjgquJqjAL7DVeoWTV+g0aMDbOh8su/z1KtopLXM
+ OpVOfbhimz84hvHvDRD0gXci6EsdxoYem/njTdCwG0X4Q9KAjkJ8c0FWKHYRYwJq5ywtr3rqE
+ GcImYrRKN9DIRrT+ThKXE+xVro1nB9uy+S68XLIaUC8I51fgFro3C20isUBGUDkVbN3xO3COg
+ ZRhpjbIdV1wrZ0kLUNmMopTbyIgHM8OHUfj2ni8Q6U1lAwlBVaMymRpGsSJ7Y8fsyrK/A0TRD
+ xAi43MjIV/BrWFGJ8MF4tkwBpAgBPkj/FMmaMbp/cnBTiunPSs3u+rrduS/t7J4vHJhYXgQDO
+ l9N5noa25VPSaaDpicx5/DERnNKRqd47xYEtTYbaS7jJuP0HPWB+FH/Jkc9emc5QgdmdesolY
+ ObQBh4a4cmaKrbwdKhAG3pbnIO5RbHgLbecOE5jmOF7C1pi4nyKgn4bV2crw6z9fSOriO5SH/
+ ByMxoqgrEGB+NuINGuuX3vV2mswKr0OAT59xvSmiGRHSHY3agCVvj3HsydPZSn6cyVZIhhb8U
+ u+RrSgHbeJ2KRNbrdWO7VTu8Q0MiQzdv5g0euCdY+JIF98rNQtP7CgZoFNEBvXNpgGcft0osJ
+ /GN1DgGLc3zO1G/w0qVsyaBN0cJhLJRBuVIq4TjgCo0cj4Tv0rH67+8PfVtCw4o3HDsGvbOvg
+ hqz5E4ETMHHGBV5Rvtu4aMrCF4bx4aZiOuPY2My1XiyGRAio+U/t+zfxYlsOeq9jMVy59zFuO
+ KE0IZLhbDkO02qEBThAA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 02:53:39PM +0800, teng sterling wrote:
-> <cgel.zte@gmail.com> 于2021年9月15日周三 下午9:21写道：
-> >
-> > From: Yang Yang <yang.yang29@zte.com.cn>
-> >
-> > Add translation zh_CN/accounting/delay-accounting.rst and links it
-> > to zh_CN/accounting/index.rst while clean its todo entry.
-> >
-> > Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-> > ---
-> >  .../zh_CN/accounting/delay-accounting.rst     | 114 ++++++++++++++++++
-> >  .../translations/zh_CN/accounting/index.rst   |   2 +-
-> >  2 files changed, 115 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/translations/zh_CN/accounting/delay-accounting.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
-> > new file mode 100644
-> > index 000000000000..1df7d2354e07
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
-> > @@ -0,0 +1,114 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/accounting/delay-accounting.rst
-> > +:Translator: Yang Yang <yang.yang29@zte.com.cn>
-> > +
-> > +.. _cn_delay-accounting.rst:
-> > +
-> > +
-> only need one blackline.
+On Fri, Sep 17, 2021 at 5:57 AM Huacai Chen <chenhuacai@loongson.cn>
+wrote:> --- /dev/null
+> +++ b/arch/loongarch/.gitignore
+> @@ -0,0 +1,9 @@
+> +*.lds
+> +*.raw
+> +calc_vmlinuz_load_addr
+> +elf-entry
+> +relocs
+> +vmlinux.*
+> +vmlinuz.*
+> +
+> +!kernel/vmlinux.lds.S
 
-It's fixed in patch v2.
+Can you double-check that 'make clean' and/or 'make mrproper' remove all the
+generated files? This may already be the case, but I don't see how this is
+done in your Makefile
 
-> > +========
-> > +延迟计数
-> > +========
-> > +
-> > +任务在等待某些内核资源可用时，会造成延迟。例如一个可运行的任务可能会等待
-> > +一个空闲CPU来运行。
-> > +
-> > +基于每任务的延迟计数功能度量由以下情况造成的任务延迟：
-> > +
-> > +a) 等待一个CPU（任务为可运行）
-> > +b) 完成由该任务发起的块I/O同步请求
-> > +c) 页面交换
-> > +d) 内存回收
-> > +
-> > +并将这些统计信息通过taskstats接口提供给用户空间。
-> > +
-> > +这些延迟信息为适当的调整任务CPU优先级、io优先级、rss限制提供反馈。重要任务
-> > +长期延迟，表示可能需要提高其相关优先级。
-> > +
-> > +通过使用taskstats接口，本功能还可提供一个线程组（对应传统Unix进程）所有任务
-> > +（或线程）的总延迟统计信息。此类汇总往往是需要的，由内核来完成更加高效。
-> > +
-> > +用户空间的实体，特别是资源管理程序，可将延迟统计信息汇总到任意组中。为实现
-> > +这一点，任务的延迟统计信息在其生命周期内和退出时皆可获取，从而确保可进行
-> > +连续、完整的监控
-> > +
-> > +
-> > +接口
-> > +----
-> > +
-> > +延迟计数使用taskstats接口，该接口由本目录另一个单独的文档详细描述。Taskstats
-> > +向用户态返回一个通用数据结构，对应每pid或每tgid的统计信息。延迟计数功能填写
-> > +该数据结构的特定字段。见
-> > +
-> > +     include/linux/taskstats.h
-> > +
-> > +其描述了延迟计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
-> > +回收等的累积延迟。
-> > +
-> > +取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延迟。
-> > +
-> > +当任务退出时，内核会将包含每任务的统计信息发送给用户空间，而无需额外的命令。
-> > +若其为线程组最后一个退出的任务，内核还会发送每tgid的统计信息。更多详细信息见
-> > +taskstats接口的描述。
-> > +
-> > +tools/accounting目录中的用户空间程序getdelays.c提供了一些简单的命令，用以显示
-> > +延迟统计信息。其也是使用taskstats接口的示例。
-> > +
-> > +用法
-> > +----
-> > +
-> > +使用以下配置编译内核::
-> > +
-> > +       CONFIG_TASK_DELAY_ACCT=y
-> > +       CONFIG_TASKSTATS=y
-> > +
-> > +延迟计数在启动时默认关闭。
-> > +若需开启，在启动参数中增加::
-> > +
-> > +   delayacct
-> > +
-> > +本文后续的说明基于延迟计数已开启。也可在系统运行时，使用sysctl的kernel.task_delayacct
-> > +进行开关。注意，只有在启用延迟计数后启动的任务才会有相关信息。
-> > +
-> > +系统启动后，使用类似getdelays.c的工具获取任务或线程组（tgid）的延迟信息。
-> > +
-> > +getdelays命令的一般格式::
-> > +
-> > +       getdelays [-t tgid] [-p pid] [-c cmd...]
-> > +
-> > +获取pid为10的任务从系统启动后的延迟信息::
-> > +
-> > +       # ./getdelays -p 10
-> > +       （输出信息和下例相似）
-> > +
-> > +获取所有tgid为5的任务从系统启动后的总延迟信息::
-> > +
-> > +       # ./getdelays -t 5
-> > +
-> > +
-> > +       CPU     count   real total      virtual total   delay total
-> > +               7876    92005750        100000000       24001500
-> > +       IO      count   delay total
-> > +               0       0
-> > +       SWAP    count   delay total
-> > +               0       0
-> > +       RECLAIM count   delay total
-> > +               0       0
-> > +
-> > +获取指定简单命令运行时的延迟信息::
-> > +
-> > +  # ./getdelays -c ls /
-> > +
-> > +  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
-> > +  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
-> > +
-> > +
-> > +  CPU  count   real total      virtual total   delay total
-> > +       6       4000250         4000000         0
-> > +  IO   count   delay total
-> > +       0       0
-> > +  SWAP count   delay total
-> > +       0       0
-> > +  RECLAIM      count   delay total
-> > +       0       0
-> > +
-> > diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
-> > index 362e907b41f9..090f93776faa 100644
-> > --- a/Documentation/translations/zh_CN/accounting/index.rst
-> > +++ b/Documentation/translations/zh_CN/accounting/index.rst
-> > @@ -16,10 +16,10 @@
-> >     :maxdepth: 1
-> >
-> >     psi
-> > +   delay-accounting
-> >
-> >  Todolist:
-> >
-> >     cgroupstats
-> > -   delay-accounting
-> >     taskstats
-> >     taskstats-struct
-> Good job, I'm very interested in this series of documents and I'm
-> looking forward to your subsequent translations. This is invaluable
-> for Chinese developers who are not good at English, thank you very
-> much for your contribution.
->
+> +
+> +choice
+> +       prompt "Page Table Layout"
+> +       default 16KB_2LEVEL if 32BIT
+> +       default 16KB_3LEVEL if 64BIT
+> +       help
+> +         Allows choosing the page table layout, which is a combination
+> +         of page size and page table levels. The virtual memory address
+> +         space bits are determined by the page table layout.
+> +
+> +config 4KB_3LEVEL
+> +       bool "4KB with 3 levels"
+> +       select PAGE_SIZE_4KB
+> +       select PGTABLE_3LEVEL
+> +       help
+> +         This option selects 4KB page size with 3 level page tables, which
+> +         support a maximum 39 bits of application virtual memory.
+> + ...
 
-Thanks for your encourage!
-I will translate the series of documents later. PSI is really usefull
-for system optimize.
+Nice, this choice statement looks a lot better than the version you had before.
 
-> Thanks,
-> 
-> Yanteng
+> +
+> +cflags-y += -ffreestanding
+
+I had not noticed this previously, but I think this should not be used here,
+as -ffreestanding disables a number of optimizations for compiler builtins.
+
+Did you just copy this from MIPS or do you have a particular reason this
+is used here?
+
+> +# Some distribution-specific toolchains might pass the -fstack-check
+> +# option during the build, which adds a simple stack-probe at the beginning
+> +# of every function.  This stack probe is to ensure that there is enough
+> +# stack space, else a SEGV is generated.  This is not desirable for LoongArch
+> +# as kernel stacks are small, placed in unmapped virtual memory, and do not
+> +# grow when overflowed.
+> +#
+> +cflags-y += -fno-stack-check
+
+This is already set in the global Makefile and can be removed as well
+
+> +cflags-y += $(call as-option,-Wa$(comma)-mno-fix-loongson3-llsc,)
+> +cflags-y += -U_LOONGARCH_ISA -D_LOONGARCH_ISA=_LOONGARCH_ISA_LOONGARCH64
+> +
+> +load-y                         = 0x9000000000200000
+> +
+> +drivers-$(CONFIG_PCI)          += arch/loongarch/pci/
+> +
+> +KBUILD_AFLAGS  += $(cflags-y)
+> +KBUILD_CFLAGS  += $(cflags-y)
+> +KBUILD_CPPFLAGS += -DVMLINUX_LOAD_ADDRESS=$(load-y)
+> +
+> +bootvars-y     = VMLINUX_LOAD_ADDRESS=$(load-y) PLATFORM="$(platform-y)"
+
+I would argue that VMLINUX_LOAD_ADDRESS should not be configurable
+here, instead all kernels should use the same value.
+
+> diff --git a/arch/loongarch/include/asm/Kbuild b/arch/loongarch/include/asm/Kbuild
+> new file mode 100644
+> index 000000000000..41a76e675321
+> --- /dev/null
+> +++ b/arch/loongarch/include/asm/Kbuild
+> @@ -0,0 +1,31 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +generic-y += dma-contiguous.h
+> +generic-y += export.h
+> +generic-y += mcs_spinlock.h
+> +generic-y += parport.h
+> +generic-y += early_ioremap.h
+> +generic-y += qrwlock.h
+> +generic-y += qspinlock.h
+
+The list is apparently from an older kernel and no longer needed for
+files that are listed in include/asm-generic/Kbuild.
+
+Please only list the files that are not already there.
+
+        Arnd
