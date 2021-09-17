@@ -3,78 +3,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 089DFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB19C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:52:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C44F261029
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:45:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65244610E9
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 01:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242243AbhIQBqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Sep 2021 21:46:48 -0400
-Received: from mail-il1-f173.google.com ([209.85.166.173]:43626 "EHLO
-        mail-il1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242460AbhIQBqr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 21:46:47 -0400
-Received: by mail-il1-f173.google.com with SMTP id b15so8598939ils.10;
-        Thu, 16 Sep 2021 18:45:26 -0700 (PDT)
+        id S239870AbhIQBxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Sep 2021 21:53:22 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:33356 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230135AbhIQBxV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Sep 2021 21:53:21 -0400
+Received: by mail-io1-f54.google.com with SMTP id f6so10384653iox.0;
+        Thu, 16 Sep 2021 18:52:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=SRwnAr4ILMQTscVFm9dj+WlM5ulz8L4gSSBzHDyH6hE=;
-        b=DhcF+WU5M/a4U5+noRdjbE8YGN7Gw0QKcgEr6XvZTActDAfFMoVn/VwaDqsGv1R91g
-         xKgvu8H2OUE/FrFn0abXVfT1uWmU4HBM3Fn63tr8PNORmeiLvs96eNx37XslnO9XxEA8
-         OUyeBgnU6FDVVdkI2QJFr6/SCBXsouX9O54BiMZxgPptg2yYbJBssdrJcqAtZpUGkgfy
-         wBBhYGK3JrxE/FQ5PNS2fWlRO1btI6t5fQIbM3gppgViOj3IVB87Z0nsl3+ZT2CvdGP7
-         FuLz4nwP2eLXuMHIs/v0guT1Ghu8eTskn4csmZsnCgdgTkaO9RNppSOT7Nzer0FGMAUm
-         uIaw==
-X-Gm-Message-State: AOAM533JvA9NZgFe9e5Sjv6/3dXKmw3ljNgp+Fcdca1aLUa/4HM6OFkc
-        /2AFOcT9Wh8N8HX+UchVEXJVlX6HKQ==
-X-Google-Smtp-Source: ABdhPJygin3qGV4r7vzWed2wcAhcroO7KQK88VkWP7w98SvJDjdIdKMV6DCIcvC+RzUU1axIysnQKQ==
-X-Received: by 2002:a05:6e02:156c:: with SMTP id k12mr6095416ilu.61.1631843126429;
-        Thu, 16 Sep 2021 18:45:26 -0700 (PDT)
+        bh=7w/jw8KCV18lQz7p2av57lC9INYphWvSiOrkUIeJBQU=;
+        b=N3wDmckLqcuJ5bF/JIbzcWuT379OnVRzBPcNvprKvwnbXek48G4M+TtcmDrmEU2s1W
+         k8tGus+ING1k3rPiqIjtpNsflApcVV9pVgFwgCmuAfJ/8YOOdHKykhhvypk1HM9tSSRi
+         FrpiT/EPnqrUiWOvTBFYOOukyl+Ufj14TfnvofSsbhrnd8nobEc09ZRnQ0hj0qhCPtpL
+         n4oxhi4YXCPXMnioeg4LBaxQX7wE7pJyhvlqimrG4cxsbJn8o0Okfr0kt8rcL7wSEXGL
+         UuUt6VQ1mi8HEdZcgvmK3Dqt+LO9tfxKTsdrnMU4Ure+neDkakWL+KHLXAuMS3KVV7GY
+         VfdA==
+X-Gm-Message-State: AOAM533myUHYkwHTSYcNMxPBEh06jsou0d0Dqneuzp9QZJ9pX2uRpGYP
+        9KRtdT0CTwME/IH1F8P1Iw==
+X-Google-Smtp-Source: ABdhPJzgaz1PIrzqWVSwvxEkPzEFkn69nevEqfJXYtepNRlHCE1xYChJoxYKd8FUY5drEC5WGoIAYg==
+X-Received: by 2002:a05:6638:4103:: with SMTP id ay3mr6752299jab.76.1631843520364;
+        Thu, 16 Sep 2021 18:52:00 -0700 (PDT)
 Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
-        by smtp.gmail.com with ESMTPSA id s7sm2543558ioe.11.2021.09.16.18.45.25
+        by smtp.gmail.com with ESMTPSA id q11sm2689474ilg.85.2021.09.16.18.51.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 18:45:25 -0700 (PDT)
-Received: (nullmailer pid 1588176 invoked by uid 1000);
-        Fri, 17 Sep 2021 01:45:24 -0000
-Date:   Thu, 16 Sep 2021 20:45:24 -0500
+        Thu, 16 Sep 2021 18:51:59 -0700 (PDT)
+Received: (nullmailer pid 1598934 invoked by uid 1000);
+        Fri, 17 Sep 2021 01:51:59 -0000
+Date:   Thu, 16 Sep 2021 20:51:59 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v2 02/23] dt-bindings: net: dsa: sja1105: update
- nxp,sja1105.yaml reference
-Message-ID: <YUPzNF0rPhjlQKDU@robh.at.kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/23] dt-bindings: w1: update w1-gpio.yaml reference
+Message-ID: <YUP0v3XRl88zsf5S@robh.at.kernel.org>
 References: <cover.1631785820.git.mchehab+huawei@kernel.org>
- <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
+ <0b415b5e05bcf9d593cb421c96996d914528e732.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <994ce6c6358746ff600459822b9f6e336db933c9.1631785820.git.mchehab+huawei@kernel.org>
+In-Reply-To: <0b415b5e05bcf9d593cb421c96996d914528e732.1631785820.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Sep 2021 11:55:01 +0200, Mauro Carvalho Chehab wrote:
-> Changeset 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
-> renamed: Documentation/devicetree/bindings/net/dsa/sja1105.txt
-> to: Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml.
+On Thu, 16 Sep 2021 11:55:03 +0200, Mauro Carvalho Chehab wrote:
+> Changeset dd2c898bc20b ("dt-bindings: w1: Convert 1-Wire GPIO binding to a schema")
+> renamed: Documentation/devicetree/bindings/w1/w1-gpio.txt
+> to: Documentation/devicetree/bindings/w1/w1-gpio.yaml.
 > 
 > Update its cross-reference accordingly.
 > 
-> Fixes: 62568bdbe6f6 ("dt-bindings: net: dsa: sja1105: convert to YAML schema")
-> Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Fixes: dd2c898bc20b ("dt-bindings: w1: Convert 1-Wire GPIO binding to a schema")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/networking/dsa/sja1105.rst | 2 +-
+>  Documentation/w1/masters/w1-gpio.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
