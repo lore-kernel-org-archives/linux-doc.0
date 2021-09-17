@@ -2,178 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1400AC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF8CC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 22:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF2AC6121F
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:54:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E78AA61100
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 22:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243218AbhIQV4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 17:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbhIQV4D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 17:56:03 -0400
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3386C061574;
-        Fri, 17 Sep 2021 14:54:40 -0700 (PDT)
-Received: from pps.filterd (m0122332.ppops.net [127.0.0.1])
-        by mx0a-00190b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18HIUN41019594;
-        Fri, 17 Sep 2021 22:54:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=UnXkc7guJm5ab+bR3+B5oisv4F3I1czrKU1XKInJrys=;
- b=I2p+w1wK3XfquGwAkIFR9RdE4Qyc8Df2/lEMf2F7K34SkxN8TKR13j4TBNbUQPN+f7Dj
- F1y/KSmUncBFxXXDWOS+L99Eh+aKThBezZEiZMAbPP9dP/pwkB8YDH/wEo0EQQ9Dol6h
- Vu9pvLVP1DY+FRm1mJ1mWywDX/lMI3YkRrSEiuo/jKH+C/3PdoB1fPn2vpOvtFIivsLf
- ULDzd9jbLqTmpdrhNY0diolv6ev2B1UW2fyFD644j1bY21W8qyw/clJHjOv35+YBnrdA
- 1XY2x7QRQxG39qA8iXSBZ/u/a3tmCYIznSjVtBuSY5IH/2bQOsb+PRSNnD2jETk2EKnc Zw== 
-Received: from prod-mail-ppoint8 (a72-247-45-34.deploy.static.akamaitechnologies.com [72.247.45.34] (may be forged))
-        by mx0a-00190b01.pphosted.com with ESMTP id 3b4hdef30p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Sep 2021 22:54:36 +0100
-Received: from pps.filterd (prod-mail-ppoint8.akamai.com [127.0.0.1])
-        by prod-mail-ppoint8.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 18HLoqYe031099;
-        Fri, 17 Sep 2021 17:54:36 -0400
-Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
-        by prod-mail-ppoint8.akamai.com with ESMTP id 3b32mb4upk-1;
-        Fri, 17 Sep 2021 17:54:36 -0400
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
-        by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id 8A02360168;
-        Fri, 17 Sep 2021 21:54:35 +0000 (GMT)
-Subject: Re: [PATCH v2 3/3] Documentation: dyndbg: Improve cli param examples
-To:     Andrew Halaney <ahalaney@redhat.com>, jim.cromie@gmail.com
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20210913222440.731329-1-ahalaney@redhat.com>
- <20210913222440.731329-4-ahalaney@redhat.com>
- <ff05cae4-8fa7-d1b6-795e-3bd85316774d@akamai.com>
- <CAJfuBxzrJwr17-RWZzhw90pKXZ1hL5kepuzvt1Di=JyekMJf4A@mail.gmail.com>
- <20210917205341.5bayndskygan6qrd@halaneylaptop>
-From:   Jason Baron <jbaron@akamai.com>
-Message-ID: <088053f9-3113-66ce-9717-8afd84c48e53@akamai.com>
-Date:   Fri, 17 Sep 2021 17:54:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S240187AbhIQWIf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 18:08:35 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:36869 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244695AbhIQWId (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 18:08:33 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id B227B2B00B9B;
+        Fri, 17 Sep 2021 18:07:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Fri, 17 Sep 2021 18:07:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=RZqwfni5G08cwy4bwCn0VZ2NfU9
+        CVpPHZawELnxT/nw=; b=CFEPoLG3r9CnA2l7rKfHIt4/NhNBzFl/tYNZjS8vfyy
+        /7sCYBUgPrRC6V28BYKuk9Bt2j1P+Iff3ZTYJf4cfr5F2EApL6nSPPeHbJno94Ql
+        0Mhe6eK4Hla69B75bTxb+z0TYEZ76Er4RbLdvE0OhGIO6nGSyfzFO1xh2UBwNaVM
+        g/kiCzmS0gRdD7Ws1BuT4FPalpabDVdL0cDH2HoLQ0l1WClEm8MdwoKvir9yF+KI
+        Mh9jLazd8l1xH2dhP9VnVnH0jZ6mP5ryxws3aKuICOK9b4psPogX/UxTPwuCe9WC
+        1mBj4y513FOjemXjVXaGVuBzIHYG3mfy3SV8tmRQPpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=RZqwfn
+        i5G08cwy4bwCn0VZ2NfU9CVpPHZawELnxT/nw=; b=dUn7PmC0UMgypEUPLvpOHv
+        X2kr0eFnUfnvMEeRbdehbaGOancVzRwPT/g238ZzaSTphUNKKetqLzg9ET9o591s
+        846aL7F1yJ97PEV9sukaCt/59u/0UQEZyxt693FJCnGf9IgL4ZVBS8pI9y7XFX6R
+        b1vUC9gV4CgqBqvZrS478AfxsUpMSTnbaJLNqlTyfT//ffTxil5lyiN34OaOd3N2
+        fcsD+sZqIN6yGeKn6dtaQAGa/3Ix/Ltzmd0sIX1WufyMPD2yByw1I+6cRrLfY8a7
+        BB0lpl6jbeBHOdFRwXZX+b4l8n9B3i8taSi/p/v3fFbMQyHmap9vama1Mcgu+UsQ
+        ==
+X-ME-Sender: <xms:jBFFYfBzwibEOXj6hINpqax_AAqdbLES6-tiCke7xIA4dS-3fTR4JQ>
+    <xme:jBFFYVgZK34L1fEJ66pZVtre9X9hMnXDUFLuQVjAocnE6ZNbG6i2eJv1vJJpkM1Oa
+    _P56YQwY2SWdeCDkg>
+X-ME-Received: <xmr:jBFFYakynxWEBsySxAbMMwLqVYu2OBdDTO-q6DRNF_9Ue1MzP1ujx1ttDzjZBNsY8Jo2-akm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
+    nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
+    gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
+    heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
+    gvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:jRFFYRzU-8KV-gZCQwXeqUpIlPRzLmk-EbmqztYBPFonEx2DOWGrow>
+    <xmx:jRFFYUQ83lMNgvGetRzh9HM3EMX9pXtzdV9P251l9BezZyOHtkKp9A>
+    <xmx:jRFFYUZdW2dQKZSQ9UaXNHTBCwz2mm_nlAa6Zfcd4Uh3Z4nw7i9uEQ>
+    <xmx:jRFFYd8zXjMhg1IYRUCPMcoz4UPUH--EMN53o4xKu55w2dfTb_HlGjBhGno>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Sep 2021 18:07:05 -0400 (EDT)
+Date:   Sat, 18 Sep 2021 00:07:03 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 01/15] dmr: cleanup: drm_modeset_lock_all_ctx() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <YUURh/CDzCGdBLzj@zacax395.localdomain>
+References: <20210916211552.33490-1-greenfoo@u92.eu>
+ <20210916211552.33490-2-greenfoo@u92.eu>
+ <20210917152842.GA2515@art_vandelay>
 MIME-Version: 1.0
-In-Reply-To: <20210917205341.5bayndskygan6qrd@halaneylaptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-09-17_09:2021-09-17,2021-09-17 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 mlxscore=0
- phishscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109170129
-X-Proofpoint-ORIG-GUID: LHGGqVoytQKqOimSGXNm1oajZNFtbKU7
-X-Proofpoint-GUID: LHGGqVoytQKqOimSGXNm1oajZNFtbKU7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-17_09,2021-09-17_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=931 spamscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 mlxscore=0 suspectscore=0
- bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109170130
-X-Agari-Authentication-Results: mx.akamai.com; spf=${SPFResult} (sender IP is 72.247.45.34)
- smtp.mailfrom=jbaron@akamai.com smtp.helo=prod-mail-ppoint8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210917152842.GA2515@art_vandelay>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> 
+> Could you please fix the subject, changing dmr to drm?
+> 
 
+Ups! Sure, I'll fix that. Thanks for noticing.
 
-On 9/17/21 4:53 PM, Andrew Halaney wrote:
-> On Fri, Sep 17, 2021 at 02:30:09PM -0600, jim.cromie@gmail.com wrote:
->> On Fri, Sep 17, 2021 at 1:50 PM Jason Baron <jbaron@akamai.com> wrote:
->>>
->>>
->>> On 9/13/21 6:24 PM, Andrew Halaney wrote:
->>>> Jim pointed out that using $module.dyndbg= is always a more flexible
->>>> choice for using dynamic debug on the command line. The $module.dyndbg
->>>> style is checked at boot and handles if $module is a builtin. If it is
->>>> actually a loadable module, it is handled again later when the module is
->>>> loaded.
->>>>
->>>> If you just use dyndbg="module $module +p" dynamic debug is only enabled
->>>> when $module is a builtin.
->>>>
->>>> It was recommended to illustrate wildcard usage as well.
->>>>
->>>> Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
->>>> Suggested-by: Jim Cromie <jim.cromie@gmail.com>
->>>> ---
->>>>    Documentation/admin-guide/dynamic-debug-howto.rst | 7 +++++--
->>>>    1 file changed, 5 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
->>>> index d0911e7cc271..4bfb23ed64ec 100644
->>>> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
->>>> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
->>>> @@ -357,7 +357,10 @@ Examples
->>>>      Kernel command line: ...
->>>>        // see whats going on in dyndbg=value processing
->>>>        dynamic_debug.verbose=1
->>>> -    // enable pr_debugs in 2 builtins, #cmt is stripped
->>>> -    dyndbg="module params +p #cmt ; module sys +p"
->>>> +    // Enable pr_debugs in the params builtin
->>>> +    params.dyndbg="+p"
->>> If we are going out of our way to change this to indicate that it works
->>> for builtin and modules, it seems like the comment above should reflect
->>> that? IE, something like this?
->>>
->>> '// Enable pr_debugs in the params module or if params is builtin.
->>>
->> I dont think params can be a loadable module, so its not a great
->> example of this.
->> it should be one that "everyone" knows is usually loaded.
->>
->> conversely, bare dyndbg example should have only builtin modules,
->> then the contrast between 2 forms is most evident.
->>
-> Thank you both for the feedback, good points.
->
-> Does something like:
->
->      // Enable pr_debugs in the btrfs module (can be builtin or loadable)
->      btrfs.dyndbg="+p"
->      // enable pr_debugs in all files under init/
->      // and the function parse_one, #cmt is stripped
->      dyndbg="file init/* +p #cmt ; func parse_one +p"
->
-> Work for you both? I think that makes the advantages of $module.dyndbg=
-> more clear and makes the usage of dyndbg= stick to strictly builtins.
-> If so I'll respin this patch in v3 of the series.
-
-Fine with me.
-
-Thanks,
-
--Jason
 
 >
-> Thanks,
-> Andrew
->
->>> The first two patches look fine to me, so if you agree maybe just
->>> re-spin this one?
->>>
->>> Thanks,
->>>
->>> -Jason
->>>
->>>> +    // enable pr_debugs in all files under init/
->>>> +    // and the function pc87360_init_device, #cmt is stripped
->>>> +    dyndbg="file init/* +p #cmt ; func pc87360_init_device +p"
->>>>        // enable pr_debugs in 2 functions in a module loaded later
->>>>        pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
+> I think you can just reuse 'ret' instead of creating a new variable. That
+> ensures if the lock fails we return the error from the macros.
+> 
 
+I didn't reuse "ret" because otherwise I would have had to change the prototype
+of the function (which currently returns a "bool" instead of an "int").
+
+However I could, for example, check for any error and convert that into "false".
+Would that be ok?
