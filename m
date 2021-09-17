@@ -2,112 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9BFC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73225C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 13:59:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED31461056
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 12:44:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D259611C8
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 13:59:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235575AbhIQMps (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 08:45:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235213AbhIQMpr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 08:45:47 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF9DC061574;
-        Fri, 17 Sep 2021 05:44:25 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id 5so6122525plo.5;
-        Fri, 17 Sep 2021 05:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=EiFaqxi/eMHI447ra+FWT3fM5Oq58Q8AgI3FLcLHOAk=;
-        b=lE/hBth4NSTIJYnhOU8/q6QQoji0WAiiMiQlUlzCPKOIEiuWqYCdA76+fB9r00FtqV
-         6osBE4goQE2YTrzuignkcFCXu2VjGV4A7zRu/JuA8GzPM7AgzsaEw0HEXeWjnoLWH8BS
-         2zrW3Ek2IwTGZCuKgk3Hdjpmo21EZ8mwxXXnQiQuuNQBvaIATtR+TYLFZTU9EJ+Mq/vb
-         DChLAY/+A8PVej5zTgHYxg7ksBLoeIBh8mXbkshfrQViBP3Ncxm3/JRLCD4Q7ZiyX+G6
-         ecsYLjFNcsqS3HRSmBijqBrDQP7De4FGMNFW5zXWtxC9dBzSDbgapbg/UNvgGgtNVrGF
-         +Pyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=EiFaqxi/eMHI447ra+FWT3fM5Oq58Q8AgI3FLcLHOAk=;
-        b=CD+tufqCu3a1BnDwK6slnPtzBaETOHcaTyw/ni1uGHxnvuJKLqSkKefLjnX+HLdvFw
-         EQK1xmlc56me+UOtS+h6xuIyLgGKbOpdM0r8DM5ErywvTJo6PPh1NduMzTSzCD3eXWIs
-         rFhcf5ZTUOkfH04ZNITMZFixVDhm7+rcvItwTWiFyMYpdrq+QDObOvV8znTQZ1xMhujO
-         O3tFuNwFZiNijlnJNWON9abbjOMoVtdyf9UHc+7+sUXFWIw8wwRxz22NAtxFTcRttAEz
-         xW/LY3FZRLw8Rhn9V37/RKrdI9Qd1ENW9OVFjmUZXH0x++5haWfGmMYGlzksrRWTdx26
-         8tyg==
-X-Gm-Message-State: AOAM532cKjEeWyBSJ4Z+HtV9T7Qjz+trJtd2gqmI0sgvW/Bgc+1N4NHs
-        qm9QAIWjnENmeGjp0mI9zM8=
-X-Google-Smtp-Source: ABdhPJww0lTIRQxBF0JHclBT1Y516JTZsbmPq5RYMXx40KmVhGe90WXWR9ouVqdqDDWk/GW+Ex+1Ew==
-X-Received: by 2002:a17:90b:78d:: with SMTP id l13mr12250113pjz.239.1631882664814;
-        Fri, 17 Sep 2021 05:44:24 -0700 (PDT)
-Received: from VM-0-3-centos.localdomain ([101.32.213.191])
-        by smtp.gmail.com with ESMTPSA id n185sm6570299pfn.171.2021.09.17.05.44.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 Sep 2021 05:44:24 -0700 (PDT)
-From:   brookxu <brookxu.cn@gmail.com>
-To:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org
-Cc:     vipinsh@google.com, mkoutny@suse.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/3] docs/cgroup: add entry for misc.events
-Date:   Fri, 17 Sep 2021 20:44:16 +0800
-Message-Id: <41b702e0e9ae88b5806f4253ed30e2f2c8e70776.1631881726.git.brookxu@tencent.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
-References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
-In-Reply-To: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
-References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
+        id S242245AbhIQOAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 10:00:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38740 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242097AbhIQOAa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Sep 2021 10:00:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A7892611C3;
+        Fri, 17 Sep 2021 13:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631887148;
+        bh=em7tfOdoqqzx6DYhxHC4BEgcII1sZaKQpkbYD/MwIso=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g0Og+B7AXeoKXtrW8hnQE39HMjCZRg8n6XDJ4j+rMTaP5kheDlzuJQyT8YEakxClK
+         EYLpSblEotfhuyZ7lZGzgJt14WfmJEG1NTfDj5GPiNjTmbZIRtaSlklWwdD1Q4z3uE
+         ca83i62PdVWj6K+SAYWfi46F3+pzOWz1xNc7pMeK3Sn28prY+zWMRy5ERta8nXhZWS
+         plqTrBFty+m8pKCxg+LeymJptpNJl0llSnmZUZum6nCjD6SjiUfY8OqIgjjrIA1A5d
+         Ayxs/SyZuzbS9+LTSRbPA+eCM6UfYUS2+taExPCvy7CBas+GnrncNc1qo5pkk5XJGv
+         hLCnNWm5mvtxg==
+Date:   Fri, 17 Sep 2021 16:59:01 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     zhenguo yao <yaozhenguo1@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        yaozhenguo@jd.com, Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v4] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+Message-ID: <YUSfJRnvYmGbIl1f@kernel.org>
+References: <20210909141655.87821-1-yaozhenguo1@gmail.com>
+ <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
+ <CA+WzARmsPT46ck17-96cJVWE-=QEK8QobRFnCnEcNxsd42zNTw@mail.gmail.com>
+ <c55f0be5-f68d-1a33-a9e4-5890a2887a15@oracle.com>
+ <98a8ea20-5642-d332-d7b4-18e075a594fb@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <98a8ea20-5642-d332-d7b4-18e075a594fb@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chunguang Xu <brookxu@tencent.com>
+Hi Mike,
 
-Added descriptions of misc.events.
+On Wed, Sep 15, 2021 at 03:05:41PM -0700, Mike Kravetz wrote:
+> Now, really CC'ing Mike, and sorry for misspelling your name
+> 
+> On 9/15/21 3:03 PM, Mike Kravetz wrote:
+> > On 9/15/21 6:11 AM, zhenguo yao wrote:
+> >> Andrew Morton <akpm@linux-foundation.org> 于2021年9月15日周三 上午11:50写道：
+> >>>
+> >>> On Thu,  9 Sep 2021 22:16:55 +0800 yaozhenguo <yaozhenguo1@gmail.com> wrote:
+> >>>
+> >>>> We can specify the number of hugepages to allocate at boot. But the
+> >>>> hugepages is balanced in all nodes at present. In some scenarios,
+> >>>> we only need hugepages in one node. For example: DPDK needs hugepages
+> >>>> which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> >>>> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
+> >>>> in kernel cmdline. But, only four hugepages are used. The others should
+> >>>> be free after boot. If the system memory is low(for example: 64G), it will
+> >>>> be an impossible task. So, Extending hugepages parameter to support
+> >>>> specifying hugepages at a specific node.
+> >>>> For example add following parameter:
+> >>>>
+> >>>> hugepagesz=1G hugepages=0:1,1:3
+> >>>>
+> >>>> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> >>>>
+> >>>> ...
+> >>>>
+> >>>> @@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void)
+> >>>>       }
+> >>>>  }
+> >>>>
+> >>>> +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
+> >>>> +{
+> >>>> +     unsigned long i;
+> >>>> +     char buf[32];
+> >>>> +
+> >>>> +     for (i = 0; i < h->max_huge_pages_node[nid]; ++i) {
+> >>>> +             if (hstate_is_gigantic(h)) {
+> >>>> +                     struct huge_bootmem_page *m;
+> >>>> +                     void *addr;
+> >>>> +
+> >>>> +                     addr = memblock_alloc_try_nid_raw(
+> >>>> +                                     huge_page_size(h), huge_page_size(h),
+> >>>> +                                     0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> >>>> +                     if (!addr)
+> >>>> +                             break;
+> >>>> +                     m = addr;
+> >>>> +                     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
+> >>>
+> >>> We try very hard to avoid adding BUG calls.  Is there any way in which
+> >>> this code can emit a WARNing then permit the kernel to keep operating?
+> >>>
+> >> Maybe we can rewrite it as below:
+> >>                         if (WARN(!IS_ALIGNED(virt_to_phys(m),
+> >> huge_page_size(h)),
+> >>                                 "HugeTLB: page addr:%p is not aligned\n", m))
+> >>                                 break;
+> >> @Mike,  Do you think it's OK?
+> > 
+> > Sorry, I have not yet reviewed the latest version of this patch.
+> > Quick thought on this question.
+> > 
+> > The required alignment passed to memblock_alloc_try_nid_raw() is
+> > huge_page_size(h).  Therefore, we know the virtual address m is
+> > huge_page_size(h) aligned.  The BUG is just checking to make sure
+> > the physical address associated with the virtual address is aligned
+> > the same.  I really do not see how this could not be the case.
+> > In fact, the memblock allocator finds a physical address with the
+> > required alignment and then returns phys_to_virt(alloc).
+> > Someone please correct me if I am wrong.  Otherwise, we can drop
+> > the BUG.
 
-Signed-off-by: Chunguang Xu <brookxu@tencent.com>
-Reviewed-by: Michal Koutný <mkoutny@suse.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I agree with your analysis and I also think the BUG() can be dropped
+entirely as well as the BUG() in __alloc_bootmem_huge_page().
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index babbe04..e7acc55 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2310,6 +2310,16 @@ Miscellaneous controller provides 3 interface files. If two misc resources (res_
-         Limits can be set higher than the capacity value in the misc.capacity
-         file.
- 
-+  misc.events
-+	A read-only flat-keyed file which exists on non-root cgroups. The
-+	following entries are defined. Unless specified otherwise, a value
-+	change in this file generates a file modified event. All fields in
-+	this file are hierarchical.
-+
-+	  max
-+		The number of times the cgroup's resource usage was
-+		about to go over the max boundary.
-+
- Migration and Ownership
- ~~~~~~~~~~~~~~~~~~~~~~~
- 
+> > Adding Mike Rapport on Cc:
+> > 
+> > This allocation code and the associated BUG was copied from
+> > __alloc_bootmem_huge_page().  The BUG was added 12 years ago before
+> > the memblock allocator existed and we were using the bootmem allocator.
+> > If there is no need for a BUG in hugetlb_hstate_alloc_pages_onenode,
+> > there is no need for one in __alloc_bootmem_huge_page.
+
+Hmm, even bootmem had alignment guaranties so it seems to me that the BUG()
+was over-protective even then.
+
 -- 
-1.8.3.1
-
+Sincerely yours,
+Mike.
