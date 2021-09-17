@@ -2,147 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73225C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 13:59:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C87C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 14:42:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D259611C8
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 13:59:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E6E1611F2
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 14:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242245AbhIQOAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 10:00:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38740 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242097AbhIQOAa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Sep 2021 10:00:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A7892611C3;
-        Fri, 17 Sep 2021 13:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631887148;
-        bh=em7tfOdoqqzx6DYhxHC4BEgcII1sZaKQpkbYD/MwIso=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g0Og+B7AXeoKXtrW8hnQE39HMjCZRg8n6XDJ4j+rMTaP5kheDlzuJQyT8YEakxClK
-         EYLpSblEotfhuyZ7lZGzgJt14WfmJEG1NTfDj5GPiNjTmbZIRtaSlklWwdD1Q4z3uE
-         ca83i62PdVWj6K+SAYWfi46F3+pzOWz1xNc7pMeK3Sn28prY+zWMRy5ERta8nXhZWS
-         plqTrBFty+m8pKCxg+LeymJptpNJl0llSnmZUZum6nCjD6SjiUfY8OqIgjjrIA1A5d
-         Ayxs/SyZuzbS9+LTSRbPA+eCM6UfYUS2+taExPCvy7CBas+GnrncNc1qo5pkk5XJGv
-         hLCnNWm5mvtxg==
-Date:   Fri, 17 Sep 2021 16:59:01 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     zhenguo yao <yaozhenguo1@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-        yaozhenguo@jd.com, Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v4] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-Message-ID: <YUSfJRnvYmGbIl1f@kernel.org>
-References: <20210909141655.87821-1-yaozhenguo1@gmail.com>
- <20210914205001.7ccc7ef3dd76a9ec551b370e@linux-foundation.org>
- <CA+WzARmsPT46ck17-96cJVWE-=QEK8QobRFnCnEcNxsd42zNTw@mail.gmail.com>
- <c55f0be5-f68d-1a33-a9e4-5890a2887a15@oracle.com>
- <98a8ea20-5642-d332-d7b4-18e075a594fb@oracle.com>
+        id S229489AbhIQOoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 10:44:00 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:36748 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229462AbhIQOoA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 10:44:00 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 6DEE02028D;
+        Fri, 17 Sep 2021 14:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1631889756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9Q9z58nJWZPYLSInI8nBVh8lTbi5/ptCY6EYwUNxRM4=;
+        b=MUYuU0fOLsgnj8zbOAkl/3jMLDnS31vFMWaKPHkYgJw1tZkKnIOLzJy7WrbTXqjqEpHMcL
+        ClB0fxX40hbcNJFuD00Rt8mCP7uEGLcZYn7LWcomJtLEJLljcA0Z26Y7EeL/pJwQuXZ5R/
+        yKRTA4uf38taeV1zhjd6CARyC2keir4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1631889756;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9Q9z58nJWZPYLSInI8nBVh8lTbi5/ptCY6EYwUNxRM4=;
+        b=iQepc13dGR2A2g+ziflA00yEmJbebWNeoIDsac1mJMFizHHqfl7RS8h8Wtor/t/r2KaHLs
+        t43wYd5JMlQXYmBQ==
+Received: from suse.de (unknown [10.163.32.246])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 21802A3BFF;
+        Fri, 17 Sep 2021 14:42:35 +0000 (UTC)
+Date:   Fri, 17 Sep 2021 15:42:33 +0100
+From:   Mel Gorman <mgorman@suse.de>
+To:     NeilBrown <neilb@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Jesper Dangaard Brouer <jbrouer@redhat.com>,
+        ". Dave Chinner" <david@fromorbit.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/6] MM: Support __GFP_NOFAIL in  alloc_pages_bulk_*()
+ and improve doco
+Message-ID: <20210917144233.GD3891@suse.de>
+References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
+ <163184741776.29351.3565418361661850328.stgit@noble.brown>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98a8ea20-5642-d332-d7b4-18e075a594fb@oracle.com>
+In-Reply-To: <163184741776.29351.3565418361661850328.stgit@noble.brown>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+I'm top-posting to cc Jesper with full context of the patch. I don't
+have a problem with this patch other than the Fixes: being a bit
+marginal, I should have acked as Mel Gorman <mgorman@suse.de> and the
+@gfp in the comment should have been @gfp_mask.
 
-On Wed, Sep 15, 2021 at 03:05:41PM -0700, Mike Kravetz wrote:
-> Now, really CC'ing Mike, and sorry for misspelling your name
+However, an assumption the API design made was that it should fail fast
+if memory is not quickly available but have at least one page in the
+array. I don't think the network use case cares about the situation where
+the array is already populated but I'd like Jesper to have the opportunity
+to think about it.  It's possible he would prefer it's explicit and the
+check becomes
+(!nr_populated || ((gfp_mask & __GFP_NOFAIL) && !nr_account)) to
+state that __GFP_NOFAIL users are willing to take a potential latency
+penalty if the array is already partially populated but !__GFP_NOFAIL
+users would prefer fail-fast behaviour. I'm on the fence because while
+I wrote the implementation, it was based on other peoples requirements.
+
+On Fri, Sep 17, 2021 at 12:56:57PM +1000, NeilBrown wrote:
+> When alloc_pages_bulk_array() is called on an array that is partially
+> allocated, the level of effort to get a single page is less than when
+> the array was completely unallocated.  This behaviour is inconsistent,
+> but now fixed.  One effect if this is that __GFP_NOFAIL will not ensure
+> at least one page is allocated.
 > 
-> On 9/15/21 3:03 PM, Mike Kravetz wrote:
-> > On 9/15/21 6:11 AM, zhenguo yao wrote:
-> >> Andrew Morton <akpm@linux-foundation.org> 于2021年9月15日周三 上午11:50写道：
-> >>>
-> >>> On Thu,  9 Sep 2021 22:16:55 +0800 yaozhenguo <yaozhenguo1@gmail.com> wrote:
-> >>>
-> >>>> We can specify the number of hugepages to allocate at boot. But the
-> >>>> hugepages is balanced in all nodes at present. In some scenarios,
-> >>>> we only need hugepages in one node. For example: DPDK needs hugepages
-> >>>> which are in the same node as NIC. if DPDK needs four hugepages of 1G
-> >>>> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
-> >>>> in kernel cmdline. But, only four hugepages are used. The others should
-> >>>> be free after boot. If the system memory is low(for example: 64G), it will
-> >>>> be an impossible task. So, Extending hugepages parameter to support
-> >>>> specifying hugepages at a specific node.
-> >>>> For example add following parameter:
-> >>>>
-> >>>> hugepagesz=1G hugepages=0:1,1:3
-> >>>>
-> >>>> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
-> >>>>
-> >>>> ...
-> >>>>
-> >>>> @@ -2842,10 +2843,75 @@ static void __init gather_bootmem_prealloc(void)
-> >>>>       }
-> >>>>  }
-> >>>>
-> >>>> +static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
-> >>>> +{
-> >>>> +     unsigned long i;
-> >>>> +     char buf[32];
-> >>>> +
-> >>>> +     for (i = 0; i < h->max_huge_pages_node[nid]; ++i) {
-> >>>> +             if (hstate_is_gigantic(h)) {
-> >>>> +                     struct huge_bootmem_page *m;
-> >>>> +                     void *addr;
-> >>>> +
-> >>>> +                     addr = memblock_alloc_try_nid_raw(
-> >>>> +                                     huge_page_size(h), huge_page_size(h),
-> >>>> +                                     0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> >>>> +                     if (!addr)
-> >>>> +                             break;
-> >>>> +                     m = addr;
-> >>>> +                     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
-> >>>
-> >>> We try very hard to avoid adding BUG calls.  Is there any way in which
-> >>> this code can emit a WARNing then permit the kernel to keep operating?
-> >>>
-> >> Maybe we can rewrite it as below:
-> >>                         if (WARN(!IS_ALIGNED(virt_to_phys(m),
-> >> huge_page_size(h)),
-> >>                                 "HugeTLB: page addr:%p is not aligned\n", m))
-> >>                                 break;
-> >> @Mike,  Do you think it's OK?
-> > 
-> > Sorry, I have not yet reviewed the latest version of this patch.
-> > Quick thought on this question.
-> > 
-> > The required alignment passed to memblock_alloc_try_nid_raw() is
-> > huge_page_size(h).  Therefore, we know the virtual address m is
-> > huge_page_size(h) aligned.  The BUG is just checking to make sure
-> > the physical address associated with the virtual address is aligned
-> > the same.  I really do not see how this could not be the case.
-> > In fact, the memblock allocator finds a physical address with the
-> > required alignment and then returns phys_to_virt(alloc).
-> > Someone please correct me if I am wrong.  Otherwise, we can drop
-> > the BUG.
-
-I agree with your analysis and I also think the BUG() can be dropped
-entirely as well as the BUG() in __alloc_bootmem_huge_page().
-
-> > Adding Mike Rapport on Cc:
-> > 
-> > This allocation code and the associated BUG was copied from
-> > __alloc_bootmem_huge_page().  The BUG was added 12 years ago before
-> > the memblock allocator existed and we were using the bootmem allocator.
-> > If there is no need for a BUG in hugetlb_hstate_alloc_pages_onenode,
-> > there is no need for one in __alloc_bootmem_huge_page.
-
-Hmm, even bootmem had alignment guaranties so it seems to me that the BUG()
-was over-protective even then.
-
--- 
-Sincerely yours,
-Mike.
+> Also clarify the expected success rate.  __alloc_pages_bulk() will
+> allocated one page according to @gfp, and may allocate more if that can
+> be done cheaply.  It is assumed that the caller values cheap allocation
+> where possible and may decide to use what it has got, or to call again
+> to get more.
+> 
+> Acked-by: Mel Gorman <mgorman@suse.com>
+> Fixes: 0f87d9d30f21 ("mm/page_alloc: add an array-based interface to the bulk page allocator")
+> Signed-off-by: NeilBrown <neilb@suse.de>
+> ---
+>  mm/page_alloc.c |    7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index b37435c274cf..aa51016e49c5 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5191,6 +5191,11 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+>   * is the maximum number of pages that will be stored in the array.
+>   *
+>   * Returns the number of pages on the list or array.
+> + *
+> + * At least one page will be allocated if that is possible while
+> + * remaining consistent with @gfp.  Extra pages up to the requested
+> + * total will be allocated opportunistically when doing so is
+> + * significantly cheaper than having the caller repeat the request.
+>   */
+>  unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
+>  			nodemask_t *nodemask, int nr_pages,
+> @@ -5292,7 +5297,7 @@ unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
+>  								pcp, pcp_list);
+>  		if (unlikely(!page)) {
+>  			/* Try and get at least one page */
+> -			if (!nr_populated)
+> +			if (!nr_account)
+>  				goto failed_irq;
+>  			break;
+>  		}
+> 
+> 
