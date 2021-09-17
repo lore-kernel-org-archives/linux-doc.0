@@ -2,124 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 720F9C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1400AC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:54:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 434FC61241
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:45:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF2AC6121F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Sep 2021 21:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234889AbhIQVq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Sep 2021 17:46:58 -0400
-Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:49931 "EHLO
-        mail104.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231147AbhIQVq6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 17:46:58 -0400
-Received: from dread.disaster.area (pa49-195-238-16.pa.nsw.optusnet.com.au [49.195.238.16])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 00F248826F6;
-        Sat, 18 Sep 2021 07:45:29 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1mRLfk-00Dfe5-9E; Sat, 18 Sep 2021 07:45:28 +1000
-Date:   Sat, 18 Sep 2021 07:45:28 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] XFS: remove congestion_wait() loop from kmem_alloc()
-Message-ID: <20210917214528.GR2361455@dread.disaster.area>
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741781.29351.4475236694432020436.stgit@noble.brown>
+        id S243218AbhIQV4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Sep 2021 17:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229942AbhIQV4D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Sep 2021 17:56:03 -0400
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3386C061574;
+        Fri, 17 Sep 2021 14:54:40 -0700 (PDT)
+Received: from pps.filterd (m0122332.ppops.net [127.0.0.1])
+        by mx0a-00190b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18HIUN41019594;
+        Fri, 17 Sep 2021 22:54:37 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=UnXkc7guJm5ab+bR3+B5oisv4F3I1czrKU1XKInJrys=;
+ b=I2p+w1wK3XfquGwAkIFR9RdE4Qyc8Df2/lEMf2F7K34SkxN8TKR13j4TBNbUQPN+f7Dj
+ F1y/KSmUncBFxXXDWOS+L99Eh+aKThBezZEiZMAbPP9dP/pwkB8YDH/wEo0EQQ9Dol6h
+ Vu9pvLVP1DY+FRm1mJ1mWywDX/lMI3YkRrSEiuo/jKH+C/3PdoB1fPn2vpOvtFIivsLf
+ ULDzd9jbLqTmpdrhNY0diolv6ev2B1UW2fyFD644j1bY21W8qyw/clJHjOv35+YBnrdA
+ 1XY2x7QRQxG39qA8iXSBZ/u/a3tmCYIznSjVtBuSY5IH/2bQOsb+PRSNnD2jETk2EKnc Zw== 
+Received: from prod-mail-ppoint8 (a72-247-45-34.deploy.static.akamaitechnologies.com [72.247.45.34] (may be forged))
+        by mx0a-00190b01.pphosted.com with ESMTP id 3b4hdef30p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Sep 2021 22:54:36 +0100
+Received: from pps.filterd (prod-mail-ppoint8.akamai.com [127.0.0.1])
+        by prod-mail-ppoint8.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 18HLoqYe031099;
+        Fri, 17 Sep 2021 17:54:36 -0400
+Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
+        by prod-mail-ppoint8.akamai.com with ESMTP id 3b32mb4upk-1;
+        Fri, 17 Sep 2021 17:54:36 -0400
+Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
+        by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id 8A02360168;
+        Fri, 17 Sep 2021 21:54:35 +0000 (GMT)
+Subject: Re: [PATCH v2 3/3] Documentation: dyndbg: Improve cli param examples
+To:     Andrew Halaney <ahalaney@redhat.com>, jim.cromie@gmail.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20210913222440.731329-1-ahalaney@redhat.com>
+ <20210913222440.731329-4-ahalaney@redhat.com>
+ <ff05cae4-8fa7-d1b6-795e-3bd85316774d@akamai.com>
+ <CAJfuBxzrJwr17-RWZzhw90pKXZ1hL5kepuzvt1Di=JyekMJf4A@mail.gmail.com>
+ <20210917205341.5bayndskygan6qrd@halaneylaptop>
+From:   Jason Baron <jbaron@akamai.com>
+Message-ID: <088053f9-3113-66ce-9717-8afd84c48e53@akamai.com>
+Date:   Fri, 17 Sep 2021 17:54:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163184741781.29351.4475236694432020436.stgit@noble.brown>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=Tu+Yewfh c=1 sm=1 tr=0
-        a=DzKKRZjfViQTE5W6EVc0VA==:117 a=DzKKRZjfViQTE5W6EVc0VA==:17
-        a=kj9zAlcOel0A:10 a=7QKq2e-ADPsA:10 a=7-415B0cAAAA:8
-        a=v5R2KkZAp00oN_xiK1YA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+In-Reply-To: <20210917205341.5bayndskygan6qrd@halaneylaptop>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-09-17_09:2021-09-17,2021-09-17 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
+ definitions=main-2109170129
+X-Proofpoint-ORIG-GUID: LHGGqVoytQKqOimSGXNm1oajZNFtbKU7
+X-Proofpoint-GUID: LHGGqVoytQKqOimSGXNm1oajZNFtbKU7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-17_09,2021-09-17_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=931 spamscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 mlxscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
+ definitions=main-2109170130
+X-Agari-Authentication-Results: mx.akamai.com; spf=${SPFResult} (sender IP is 72.247.45.34)
+ smtp.mailfrom=jbaron@akamai.com smtp.helo=prod-mail-ppoint8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 12:56:57PM +1000, NeilBrown wrote:
-> Documentation commment in gfp.h discourages indefinite retry loops on
-> ENOMEM and says of __GFP_NOFAIL that it
-> 
->     is definitely preferable to use the flag rather than opencode
->     endless loop around allocator.
-> 
-> So remove the loop, instead specifying __GFP_NOFAIL if KM_MAYFAIL was
-> not given.
-> 
-> As we no longer have the opportunity to report a warning after some
-> failures, clear __GFP_NOWARN so that the default warning (rate-limited
-> to 1 ever 10 seconds) will be reported instead.
-> 
-> Signed-off-by: NeilBrown <neilb@suse.de>
-> ---
->  fs/xfs/kmem.c |   19 ++++++-------------
->  1 file changed, 6 insertions(+), 13 deletions(-)
-> 
-> diff --git a/fs/xfs/kmem.c b/fs/xfs/kmem.c
-> index 6f49bf39183c..575a58e61391 100644
-> --- a/fs/xfs/kmem.c
-> +++ b/fs/xfs/kmem.c
-> @@ -11,21 +11,14 @@
->  void *
->  kmem_alloc(size_t size, xfs_km_flags_t flags)
->  {
-> -	int	retries = 0;
->  	gfp_t	lflags = kmem_flags_convert(flags);
-> -	void	*ptr;
->  
->  	trace_kmem_alloc(size, flags, _RET_IP_);
->  
-> -	do {
-> -		ptr = kmalloc(size, lflags);
-> -		if (ptr || (flags & KM_MAYFAIL))
-> -			return ptr;
-> -		if (!(++retries % 100))
-> -			xfs_err(NULL,
-> -	"%s(%u) possible memory allocation deadlock size %u in %s (mode:0x%x)",
-> -				current->comm, current->pid,
-> -				(unsigned int)size, __func__, lflags);
-> -		congestion_wait(BLK_RW_ASYNC, HZ/50);
-> -	} while (1);
-> +	if (!(flags & KM_MAYFAIL)) {
-> +		lflags |= __GFP_NOFAIL;
-> +		lflags &= ~__GFP_NOWARN;
-> +	}
 
-This logic should really be in kmem_flags_convert() where the gfp
-flags are set up. kmem_flags_convert() is only called by
-kmem_alloc() now so you should just be able to hack that logic
-to do exactly what is necessary.
 
-FWIW, We've kinda not been caring about warts in this code because
-the next step for kmem_alloc is to remove kmem_alloc/kmem_zalloc
-completely and replace all the callers with kmalloc/kzalloc being
-passed the correct gfp flags. There's about 30 kmem_alloc() callers
-and 45 kmem_zalloc() calls left to be converted before kmem.[ch] can
-go away completely....
+On 9/17/21 4:53 PM, Andrew Halaney wrote:
+> On Fri, Sep 17, 2021 at 02:30:09PM -0600, jim.cromie@gmail.com wrote:
+>> On Fri, Sep 17, 2021 at 1:50 PM Jason Baron <jbaron@akamai.com> wrote:
+>>>
+>>>
+>>> On 9/13/21 6:24 PM, Andrew Halaney wrote:
+>>>> Jim pointed out that using $module.dyndbg= is always a more flexible
+>>>> choice for using dynamic debug on the command line. The $module.dyndbg
+>>>> style is checked at boot and handles if $module is a builtin. If it is
+>>>> actually a loadable module, it is handled again later when the module is
+>>>> loaded.
+>>>>
+>>>> If you just use dyndbg="module $module +p" dynamic debug is only enabled
+>>>> when $module is a builtin.
+>>>>
+>>>> It was recommended to illustrate wildcard usage as well.
+>>>>
+>>>> Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
+>>>> Suggested-by: Jim Cromie <jim.cromie@gmail.com>
+>>>> ---
+>>>>    Documentation/admin-guide/dynamic-debug-howto.rst | 7 +++++--
+>>>>    1 file changed, 5 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+>>>> index d0911e7cc271..4bfb23ed64ec 100644
+>>>> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+>>>> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+>>>> @@ -357,7 +357,10 @@ Examples
+>>>>      Kernel command line: ...
+>>>>        // see whats going on in dyndbg=value processing
+>>>>        dynamic_debug.verbose=1
+>>>> -    // enable pr_debugs in 2 builtins, #cmt is stripped
+>>>> -    dyndbg="module params +p #cmt ; module sys +p"
+>>>> +    // Enable pr_debugs in the params builtin
+>>>> +    params.dyndbg="+p"
+>>> If we are going out of our way to change this to indicate that it works
+>>> for builtin and modules, it seems like the comment above should reflect
+>>> that? IE, something like this?
+>>>
+>>> '// Enable pr_debugs in the params module or if params is builtin.
+>>>
+>> I dont think params can be a loadable module, so its not a great
+>> example of this.
+>> it should be one that "everyone" knows is usually loaded.
+>>
+>> conversely, bare dyndbg example should have only builtin modules,
+>> then the contrast between 2 forms is most evident.
+>>
+> Thank you both for the feedback, good points.
+>
+> Does something like:
+>
+>      // Enable pr_debugs in the btrfs module (can be builtin or loadable)
+>      btrfs.dyndbg="+p"
+>      // enable pr_debugs in all files under init/
+>      // and the function parse_one, #cmt is stripped
+>      dyndbg="file init/* +p #cmt ; func parse_one +p"
+>
+> Work for you both? I think that makes the advantages of $module.dyndbg=
+> more clear and makes the usage of dyndbg= stick to strictly builtins.
+> If so I'll respin this patch in v3 of the series.
 
-Cheers,
+Fine with me.
 
-Dave.
+Thanks,
 
--- 
-Dave Chinner
-david@fromorbit.com
+-Jason
+
+>
+> Thanks,
+> Andrew
+>
+>>> The first two patches look fine to me, so if you agree maybe just
+>>> re-spin this one?
+>>>
+>>> Thanks,
+>>>
+>>> -Jason
+>>>
+>>>> +    // enable pr_debugs in all files under init/
+>>>> +    // and the function pc87360_init_device, #cmt is stripped
+>>>> +    dyndbg="file init/* +p #cmt ; func pc87360_init_device +p"
+>>>>        // enable pr_debugs in 2 functions in a module loaded later
+>>>>        pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
+
