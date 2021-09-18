@@ -2,65 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4638AC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 11:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA557C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 11:15:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CBB960F9C
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 11:02:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6F1961019
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 11:15:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238805AbhIRLDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 07:03:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55924 "EHLO
+        id S238373AbhIRLQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 07:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238803AbhIRLDW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 07:03:22 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CF8C061574;
-        Sat, 18 Sep 2021 04:01:58 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id q3so40037593edt.5;
-        Sat, 18 Sep 2021 04:01:58 -0700 (PDT)
+        with ESMTP id S235543AbhIRLQc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 07:16:32 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA155C061574;
+        Sat, 18 Sep 2021 04:15:08 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id c22so40018548edn.12;
+        Sat, 18 Sep 2021 04:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tgwWxXw9qWF2mVmQmH8HomBdLaqa+aeD+D207S0R8ng=;
-        b=lN6I6aPUKmTKLDI68h3zBHjMSSGs872bSN081mM5Hgxr9QKqBGUbcbrvl1T8xbqNrE
-         No0TnssdKr0M12kaVlsMUlSn1Ejf583f9lzeCVudQ37+pOtA3vuiw0J3afTyEx+NSZg0
-         YVybYMTtQNkjXHBMokgfidQnvbjHIN9rHgHBdjeEJWHTjd5mNZaBQh5MFnEmExLxqj8D
-         qgHq2fFREKQBI9jtGlPTlbP2sLfa1Duzo+8bv1q67U2yfmIe92XnMGvjraxTRJTQBUD0
-         PeyVpGGhGNWkq8Yn2htEHAa1syQ9LyiH/KWgT9QXxTv5N880wvo3EOLDnWuHiXmDwCwR
-         aKkA==
+        bh=hhBkqFl9K1TvuEPZxNRIrEeIc4UVq6Zdqs07eDkUW5Y=;
+        b=DMe+5i2O8BkVUhUwEcr5rpW2w02cGac1v9nLYWXMVnF6r9GjHW8xTD31282esI9/F5
+         hahlmbR4IfxLKWBMqDYMPC1TR+I5qCQZFLM+AMDMcM2jfFM0zJnX+AVT1JfGCINA6213
+         LbrWCkIGVM67C3+M2Emiv/2wuI9KCs4G8G8lRwzYgz8jK7evDExt592lTkLp8RrmJ7wH
+         rjFS9Q7OiTmJQKG5HHnJ83BNYMw8vmxCgEJS8oujAlAzJPehErDJP8ONYIKyOPvmhMIb
+         9Ck/CDOpfScZ2ZRIDlMYCyJ4tIJbsawt0MsFpIpE/lxWeTYG0tVE94pJstBvRrfbD/LI
+         QUkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tgwWxXw9qWF2mVmQmH8HomBdLaqa+aeD+D207S0R8ng=;
-        b=npSsgFWPilyrVUwI9bgCHcJ6siuiaUBmoT9SAhH2I4twPhL0Vdk0+glVMjgDEY8+QN
-         nlFSZT6JimnvQsMiQWFw143vmxJ7Wf84c/nAe+QT8bhO+aLLRVVmiPfvEQ6bAmHciVNo
-         vUPLsiM3PjvO2F6ulMYoiQ6/S+PHq24wTzdLxSRwLzLmykviMBf2exEleKVGvgSWZQuC
-         HcnoUASCy6MQSfNpZkvA1/c9tc8ZG+tQ5d9BYW3vlUa7xbjX5FZNYlT+7VQnf8FwhYow
-         U1QglJqQr5aLJDznjT1i5GMljGKKnC4KVy9E64HghY7Spel1jsT0oMp734W+H6BdCvRS
-         I9cg==
-X-Gm-Message-State: AOAM530Hg8qmcjh16DDbnK/BeQjNv32dmhHRe/zU++/T5JKZc7m8aAGQ
-        CEKFBW9/7Zwm7G80T8s6YxLxjInohCN3u4fRvsM=
-X-Google-Smtp-Source: ABdhPJxjPMJGz7fysVmvyYs/Qt49TE0aDl7xo4okt8Q49xuOgw86nnNYix5jG4r11bj/73Ba0CidOtG9WTvEsezTgpE=
-X-Received: by 2002:a17:907:75ed:: with SMTP id jz13mr17217421ejc.506.1631962917396;
- Sat, 18 Sep 2021 04:01:57 -0700 (PDT)
+        bh=hhBkqFl9K1TvuEPZxNRIrEeIc4UVq6Zdqs07eDkUW5Y=;
+        b=oH9AbNTJAy4SP5q7daXx9T7w1OcMjOVFZtT6wjPDAr8NlxJsdlZCLMwCOOQXFn7as3
+         NMvfGOJEtQxTSlRt+qL6e2ZCCruPl6cdDZU/VMg6UIq//cze/hAovxzRZK6TplcMn2ct
+         OOuKrC6MIZ8KKkcwyM0BoAW9cWrpwi9nmjmajvBpi1/goT3Le3RsbF03coKHRBP+euOE
+         K5aXrAon2OJnyXW1icJcWLDCF4NWSmz6FX2N1BMUP2WkAukDkS69/aImBUhJkLGDQECw
+         KP4+OkcrEHp8oPdp4KidUd7etm3obPt/MhjQgQ7mnv5OLVD9XQlLrKvLkIS3kN/oV96J
+         U6Gw==
+X-Gm-Message-State: AOAM531ZyJJqvFRxq30IYJbomV3JT1NAiyun0XKhgSfJUeSS/MNfQdWM
+        xdsf1w2nnFNtoW6HcQQbLW/01evxHpD2MSJhfII=
+X-Google-Smtp-Source: ABdhPJwKdMhl8Jf4wHEUO3SuwBmvjG+48GphqJaicwEstAJlhgICwp/s15WSokVWIyN0XFwO7fmUKYXaOx2EWvgiUu0=
+X-Received: by 2002:a17:906:dbe5:: with SMTP id yd5mr17297002ejb.134.1631963707450;
+ Sat, 18 Sep 2021 04:15:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210917034815.80264-1-songmuchun@bytedance.com>
- <20210917034815.80264-4-songmuchun@bytedance.com> <CAGsJ_4yWZTcRqnBmLrYJ3Z1Yo_7oWRgR4B3qK5m570xgpeJ-5Q@mail.gmail.com>
- <CAMZfGtW1_U2d=zQFCYBEDfKWB=EkoYTGgVcCHauX-iv4VD7U8Q@mail.gmail.com>
-In-Reply-To: <CAMZfGtW1_U2d=zQFCYBEDfKWB=EkoYTGgVcCHauX-iv4VD7U8Q@mail.gmail.com>
+ <20210917034815.80264-3-songmuchun@bytedance.com> <CAGsJ_4ymutSL-pbWA_TykJ2vE8ZKc+JGn+w_WWy2j7Mn-q+ebA@mail.gmail.com>
+ <CAMZfGtWWvDcz+JZtj0k_YZsD4j42cgaoWOCd1o8jArizqBYKgQ@mail.gmail.com>
+In-Reply-To: <CAMZfGtWWvDcz+JZtj0k_YZsD4j42cgaoWOCd1o8jArizqBYKgQ@mail.gmail.com>
 From:   Barry Song <21cnbao@gmail.com>
-Date:   Sat, 18 Sep 2021 23:01:46 +1200
-Message-ID: <CAGsJ_4wPDxq=wK8zny-G+H9wV9ebouojfdwcoYNb6-_AJHMLdw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 3/4] mm: sparsemem: use page table lock to
- protect kernel pmd operations
+Date:   Sat, 18 Sep 2021 23:14:56 +1200
+Message-ID: <CAGsJ_4zZfemMA9=85sgASacPqaT4OnV7RaYUwtQef=BzEfqW9w@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 2/4] mm: hugetlb: replace hugetlb_free_vmemmap_enabled
+ with a static_key
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -82,43 +83,97 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 10:51 PM Muchun Song <songmuchun@bytedance.com> wrote:
+On Sat, Sep 18, 2021 at 10:31 PM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> On Sat, Sep 18, 2021 at 1:07 PM Barry Song <21cnbao@gmail.com> wrote:
+> On Sat, Sep 18, 2021 at 12:55 PM Barry Song <21cnbao@gmail.com> wrote:
 > >
-> > On Sat, Sep 18, 2021 at 12:09 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> > On Sat, Sep 18, 2021 at 12:08 AM Muchun Song <songmuchun@bytedance.com> wrote:
 > > >
-> > > The init_mm.page_table_lock is used to protect kernel page tables, we
-> > > can use it to serialize splitting vmemmap PMD mappings instead of mmap
-> > > write lock, which can increase the concurrency of vmemmap_remap_free().
+> > > The page_head_if_fake() is used throughout memory management and the
+> > > conditional check requires checking a global variable, although the
+> > > overhead of this check may be small, it increases when the memory
+> > > cache comes under pressure. Also, the global variable will not be
+> > > modified after system boot, so it is very appropriate to use static
+> > > key machanism.
 > > >
+> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > > ---
+> > >  include/linux/hugetlb.h    |  6 +++++-
+> > >  include/linux/page-flags.h |  6 ++++--
+> > >  mm/hugetlb_vmemmap.c       | 10 +++++-----
+> > >  3 files changed, 14 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> > > index f7ca1a3870ea..ee3ddf3d12cf 100644
+> > > --- a/include/linux/hugetlb.h
+> > > +++ b/include/linux/hugetlb.h
+> > > @@ -1057,7 +1057,11 @@ static inline void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr
+> > >  #endif /* CONFIG_HUGETLB_PAGE */
+> > >
+> > >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > > -extern bool hugetlb_free_vmemmap_enabled;
+> > > +DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
+> > > +                        hugetlb_free_vmemmap_enabled_key);
+> > > +#define hugetlb_free_vmemmap_enabled                                    \
+> > > +       static_key_enabled(&hugetlb_free_vmemmap_enabled_key)
+> > > +
+> > >  #else
+> > >  #define hugetlb_free_vmemmap_enabled   false
+> > >  #endif
+> > > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> > > index 7b1a918ebd43..d68d2cf30d76 100644
+> > > --- a/include/linux/page-flags.h
+> > > +++ b/include/linux/page-flags.h
+> > > @@ -185,7 +185,8 @@ enum pageflags {
+> > >  #ifndef __GENERATING_BOUNDS_H
+> > >
+> > >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > > -extern bool hugetlb_free_vmemmap_enabled;
+> > > +DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
+> > > +                        hugetlb_free_vmemmap_enabled_key);
+> > >
+> > >  /*
+> > >   * If the feature of freeing some vmemmap pages associated with each HugeTLB
+> > > @@ -204,7 +205,8 @@ extern bool hugetlb_free_vmemmap_enabled;
+> > >   */
+> > >  static __always_inline const struct page *page_head_if_fake(const struct page *page)
+> > >  {
+> > > -       if (!hugetlb_free_vmemmap_enabled)
+> > > +       if (!static_branch_maybe(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
+> > > +                                &hugetlb_free_vmemmap_enabled_key))
 > >
-> > Curious what is the actual benefit we get in user scenarios from this patch,
-> > 1. we set bootargs to reserve hugetlb statically
-> > 2. we "echo" some figures to sys or proc.
+> > A question bothering me is that we still have hugetlb_free_vmemmap_enabled
+> > defined as static_key_enabled(&hugetlb_free_vmemmap_enabled_key).
+> > but here you are using static_branch_maybe() with the CONFIG and refer the key
+> > directly.
+> > Do we only need one of them? Or something is wrong?
 > >
-> > In other words, Who is going to care about this concurrency?
 >
-> Actually, It increase the concurrency between allocations of
-> HugeTLB pages. But it is not my first consideration. There are
-> a lot of users of mmap read lock of init_mm. The mmap write
-> lock is holding through vmemmap_remap_free(), I want to make
-> it does not affect other users of mmap read lock.
+> Yeah, we only need one. But my consideration is that we
+> use static_branch_maybe() for performance sensitive places.
+> So I do not change hugetlb_free_vmemmap_enabled
+> to static_branch_maybe(), this can reduce some codes
+> that need to be updated when the static key is enabled.
+> Actually, the user of hugetlb_free_vmemmap_enabled
+> is not performance sensitive.
 
-generically makes sense. I guess it wouldn't be critical at all for hugetlb
-allocation as practically we are not going to reserve and release hugtlb
-often as they are not THP.
+not quite sure if an unified inline API will be better, e.g.
 
-anyway, it is not making anything worse and always a win to move.
+#ifdef CONFIG_SCHED_SMT
+extern struct static_key_false sched_smt_present;
 
->
-> I suppose a lot of developers are trying to avoid using mmap write
-> lock. I am also one of them.
->
-> > Can we have some details on this to put in the commit log?
->
-> For sure. Those judgments above should be placed in the
-> commit log.
+static __always_inline bool sched_smt_active(void)
+{
+        return static_branch_likely(&sched_smt_present);
+}
+#else
+static inline bool sched_smt_active(void) { return false; }
+#endif
+
+but in your case, CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+is always true in your page_head_if_fake(). Why do we check it
+again?
+
 >
 > Thanks.
 
