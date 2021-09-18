@@ -2,153 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 063F6C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A47C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:42:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDF5460FDC
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F64960F6C
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:42:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238141AbhIRJMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 05:12:42 -0400
-Received: from mout.gmx.net ([212.227.15.15]:52151 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235575AbhIRJMl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Sep 2021 05:12:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1631956269;
-        bh=6lHVqi2oAFRgu31JzplJx3TGWSkqTLjIaeLQgF6ecoI=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=LgeENGbNsutmTokAbwcWLikRAWA9im4VR59qUC2PoHk9IErmBVj8EA7ol0JX2atuI
-         qsJA66Zq6mth3/fsJtdT2dEVnyq86CQKz86dLkbFcSi2uCAt+eY88/ZCSiWwYMlkbD
-         VNlfLvGl9GUGaOHRRo76hUobDGeHw3l8ICrp73BQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1Mel3n-1mzCZ60Wvt-00ao6q; Sat, 18
- Sep 2021 11:11:09 +0200
-Date:   Sat, 18 Sep 2021 11:10:57 +0200
-From:   Len Baker <len.baker@gmx.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>, Len Baker <len.baker@gmx.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] docs: deprecated.rst: Clarify open-coded arithmetic
- with literals
-Message-ID: <20210918091057.GA2941@titan>
-References: <20210829144716.2931-1-len.baker@gmx.com>
- <87r1dqdfyj.fsf@meer.lwn.net>
+        id S242725AbhIRJoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 05:44:16 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:33631 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242443AbhIRJoM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 05:44:12 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id 3B3CE2B011CB;
+        Sat, 18 Sep 2021 05:42:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 18 Sep 2021 05:42:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=iQMJviYlb4ZEn676riwj+ykMcaY
+        gM3Bpxtt9O2JGErE=; b=WDwHHQXezEJe3XzQX3Em61caD1JOywMykQAjQo9+FvS
+        BAUw0ysziTYQHd2JcCD0Bk8z0AXCgaxpNkpKZQLKoYJ1OqQBcoFQ33Qgu5/ta31z
+        DyByahRv0mE53Ony+dsf9vdzav7TkXvnoNMK9J+5jBpTqlb9TTjAdddlmlrRrTqr
+        Yf6gJ7BLyxE0uyTPoJtiPyFjieupdONy4OEcmHP6qj5k/GfsUOqHapmuJhhnj03u
+        aNQMVgCiAY4CTWJmetOTs/5AqGukMpQkXerlp7nEGlI0rsksg0Xiyj8h6lzqpt5F
+        kGOaxLJK9jw+z2uqeAdy7jRYyyLk3cfoC3lOSyJK4ZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iQMJvi
+        Ylb4ZEn676riwj+ykMcaYgM3Bpxtt9O2JGErE=; b=NQPv4xozCXDNOuWW95l8r0
+        wqgyyHyXfB+TEZFR29p5hrSTv1MyvPh8hK33MLJE8IkeC7FBi0cuYZiJYqFoOouk
+        N1SMt7gdmUOFX7+6dS0zB2EDvB6PtfJ+RXPRE6Xm8Yv6zbnwvVa6/DoxXhlvqsiV
+        DiPPdP8iqD22W7bL33bjydi/YElws4Ckpr/ugaxvRzvclMAOlkEEUlIc955FTNr+
+        MRHnTWDFICCu6KCQ4D+EyAmzhwMruzmoz98VLdiUyE9IpnmcGdvH0hhH/n8X3vhI
+        fEDavwtqAGgk1//zVUmRJDSgl5exPhNz4+P4Pt8zN7dvnYLXClZYKlaWnCVGwsuA
+        ==
+X-ME-Sender: <xms:lrRFYfbjRE-L4f3Nfyw9rN67HO9pJVZbRLl_BAWGbVpLMk1TuqfX0g>
+    <xme:lrRFYeYv4mcID7VMTZfIPCn8tDGxqPm2ySOv1G-A0NKEFUBuK3A-ve84o5-867vr0
+    mX6PcSXDWBC1Grk_A>
+X-ME-Received: <xmr:lrRFYR9hvwXVM79X0a8T4DolehjhDAUODuSF4_ucBL_MRX00TWXEJTRAqvy--tKCLhHOxX8g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
+    nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
+    gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
+    heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
+    gvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:lrRFYVqgNRMK_pamLceVRt2VyFRqwtZ2Qcb5LGQOAC_FeeRGMnNf5g>
+    <xmx:lrRFYarmIXc0_KRWqyzkrnne4mGC_Rk6K5ND2K3AeQUIKytJ04dpkA>
+    <xmx:lrRFYbSOSsDAnV7UWjB8L5nXiW3YpBe6JQMbwEeiJuzXn7eXbd_4lg>
+    <xmx:lrRFYZ2Lu9EzyIqd7DyRxbU3UzqW3Goj4jk6MyoI0oEwokzv5BiUmX82bJc>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 18 Sep 2021 05:42:43 -0400 (EDT)
+Date:   Sat, 18 Sep 2021 11:42:40 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 14/15] drm/amd: cleanup: drm_modeset_lock_all() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <YUW0kJr1XoqCENhl@zacax395.localdomain>
+References: <20210916211552.33490-1-greenfoo@u92.eu>
+ <20210916211552.33490-15-greenfoo@u92.eu>
+ <20210917155548.GO2515@art_vandelay>
+ <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87r1dqdfyj.fsf@meer.lwn.net>
-X-Provags-ID: V03:K1:+rzmVjyumADpwk6ze8EV6Asf3Yjw5vSPudcQosQUPxoZxe/DZAZ
- fd0xuk608Ry2zuEFF+HkMxfOeLR9OMc9gTqVyZ9/6I+PlfBsDkslt3aRueSgPrquZig0f8I
- GXVXWDuEr0LfZfK1bp+kZ5DvaXJbLinfzsrfOnocv1mWIj3zh9D6QLVDWqpqVnZah2AkVux
- OphmbzKU+NIM5214SCl5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/CXm4Xg46iY=:1M0YfzRb9DL+6kpqhW35Z0
- Gjrbw4prYP0ScyduDM1/ZOwnnChTfrKqaaBA7sbIjYTJY7h/EJvAC4zhZbIKwpbo3XP3pSHsN
- HsGMJbv+PkjofuAu0GOSak6IOxMtrNIEyo10nRroQZ/K7ufsgkxoJC3xChFpMcCeezd66kg5f
- MpmRGUrEif82wZR0APv/Hd/3ellsA8q7/dGwLGhArp+s5j2iVElFXa+N7kLg3feta/x7E2uHJ
- Xmhn728r7lJzGQ7bvaTIZC1WrcQMOAcylQ+UDtqCZFe3CUCBFZbZY/m1BEgEoDaRma5/rEuqR
- E8T/qRZYU5YwxzlvsFAUw/SXIGQO/BbohjZ6wS1IVFlbtMvGvQ7XhxGGFeXexQV785BM3NwpJ
- IUkhpr2ophYFfohqocqQV3lZfD02x2aznfRTCOkN3dHMzLEw4dgk6VA9EEzeetiM4rAchEIWR
- g1z2Fz6pOtDE1/4hG5h1T8dwhsdt49reasm6DL1T5J+FTN2irWsyrKecB8Kh4r4o6yaq5I5iD
- Fm0paUelZiV3QkUWpnWSaODsjrdtOHjsaWRSy+KXblwQoiXUGprhT2BJji/k4dqUyYIFWOi6x
- qJUiEw5j/jjkoa6tD0oTRgwFVgY/aSuiHYKu3Yrveq+ZfC8pHFsUHjlMMZgjvNLbr79kKzCPO
- kgKeDMKFSHrRMN5PM9sHwD0TyIWHJ5ZuA9UGEbV3BwfKY19Xp1Th6c3UqZrQILednm6TWU6vs
- Onv4uZ9o72EYHv9UATbYiA8epvQe7kgPvFKIApG8K1Kh8Zc64CdPdXYWPQK7pTylqqbV+t/lG
- /KqEMWbwwLHznmzvW810yP55ElauBVbmqx9U8eti8Aq0ZYJPGTyV6CzZty6gTEJFr8LRQpACx
- p+3yxhW7EXvkHwbMrgSOVhq5oXDzZ2CuHNKNRO3lONMpSpJ0mUTAaFRi2M+67hAELk4xG6nnd
- TXJRQrUOcClkvX0oY6Xx65Ewlvy9jZ1+5gz0Iy73flAWl2cyVO+TUrW0jrlb9mCRig8M8sAyF
- RWF4pAe9TmGfIuPX9pUDA3YoV/Hktpbiz9XrDiKi5PxU3/IZPHjyGilQwiKgRUdkB24O9YSDn
- qQSftDwP8edRTc=
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 21/09/18 01:17AM, Fernando Ramos wrote:
 
-On Tue, Sep 14, 2021 at 03:07:00PM -0600, Jonathan Corbet wrote:
-> Len Baker <len.baker@gmx.com> writes:
->
-> > Although using literals for size calculation in allocator arguments ma=
-y
-> > be harmless due to compiler warnings in case of overflows, it is bette=
-r
-> > to refactor the code to avoid the use of open-coded math idiom.
-> >
-> > So, clarify the preferred way in these cases.
-> >
-> > Suggested-by: Kees Cook <keescook@chromium.org>
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
-> > ---
-> > Changelog v1 -> v2
-> >  - Clarify the sentence by changing "keep <foo> out" with "avoid <foo>=
-"
-> >    (Joe Perches).
-> >
-> >  Documentation/process/deprecated.rst | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/process/deprecated.rst b/Documentation/proc=
-ess/deprecated.rst
-> > index 9d83b8db8874..b5a8be914178 100644
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -60,7 +60,8 @@ smaller allocation being made than the caller was ex=
-pecting. Using those
-> >  allocations could lead to linear overflows of heap memory and other
-> >  misbehaviors. (One exception to this is literal values where the comp=
-iler
-> >  can warn if they might overflow. Though using literals for arguments =
-as
-> > -suggested below is also harmless.)
-> > +suggested below is also harmless. So, the preferred way in these case=
-s is
-> > +to refactor the code to avoid the open-coded math idiom.)
->
-> Sorry for being so slow to get to this...
+> > > +#include <drm/drm_drv.h>
+> > 
+> > Top-level headers generally come above the driver headers. Also, now that I think
+> > about this a bit more, all of the new includes in this set should probably be
+> > for 'drm_modeset_lock.h' instead of 'drm_drv.h'.
+> 
+> Ok. Let me try that.
 
-Don't worry.
+Turns out that the DRM_MODESET_LOCK_ALL_*() macros expansion includes a call
+to drm_drv_uses_atomic_modeset() which is defined in "drm_drv.h".
 
-> honestly, though, I've been
-> staring at it for a bit and cannot figure out what you are trying to
-> communicate.  What does "math idiom" mean here?  If you are trying to
-> say that using literals is *not* harmless, then perhaps the first part
-> of the parenthetical should be taken out?
->
-> Confused...
+Thus, #include'ing <drm/drm_drv.h> cannot be avoided.
 
-The "open-coded arithmetic in allocator arguments" section in the document=
-ation
-explains that dynamic syze calculations should not be performed in memory
-allocator function arguments. Then, the text in parenthesis explains an
-exception to this rule: when the calculus is made using literals for all t=
-he
-operands. However, the text in parenthesis also tells that using the same
-literals in the recommended helpers or purpose specific functions is harml=
-ess.
+This makes me wonder...
 
-So, there are two options for size calculations using literals:
+  1. "drm_drv.h" includes "drm_device.h", which includes "drm_mode_config.h",
+     which includes "drm_modeset_lock.h"
 
-1.- Leave it as is.
-2.- Refactor the code to use purpose specific functions or helpers.
+  2. "drm_modeset_lock.h" defines DRM_MODESET_LOCK_ALL_*() which expands into
+     drm_drv_uses_atomic_modeset()
 
-What I try to explain with this patch is that when the calculus is done us=
-ing
-only literals, the preferred way is the second option. In this manner the
-open-coded calulation (multiplication, addition, ...) is avoided.
+  3. drm_drv_uses_atomic_modeset() is declared in "drm_drv.h"
 
-The "math idiom" refers to the open-coded arithmetic.
+There seems to be a circular dependency here.
 
-I hope this clarify things a bit.
+We can try to fix this, but I suggest to do it in a different patch series.
 
-Regards,
-Len
