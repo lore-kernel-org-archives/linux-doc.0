@@ -2,132 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F59DC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 07:37:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 063F6C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:11:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5238061039
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 07:37:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDF5460FDC
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237629AbhIRHia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 03:38:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbhIRHi2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 03:38:28 -0400
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20894C061574;
-        Sat, 18 Sep 2021 00:37:05 -0700 (PDT)
-Received: by mail-ua1-x931.google.com with SMTP id v9so7572570uak.1;
-        Sat, 18 Sep 2021 00:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DzhfRJtsewrJy9gvg3PVALM7qiexBjbh/6ESbF9yAmQ=;
-        b=i1MTcAD9UnYWPlpu2z9dz7O9pjlQi/vuAb8G6J7B83k+RiE8sojZ6LvZ09CgoUK9n4
-         LczbRL08HgiCe6YvEYzMEkXDh1Q0J6Jk4GWLqVgxj1Zsl2mmDINOHcH8tljgjekYyuja
-         wbCP62A2N6pG33G7GTvW5WMKXBJcNSykuLc68szTgl3hBj0vHo3E9/Zrank8lIIdBfjG
-         oq7az9SaGonnHEdklABpvcpHh9cJebxCySh26hjrimvfq6LvmneliPGe0KzLyvCsp6eT
-         j/JPRVOpE7YO6zUAsiaElas3DlU350eVSGokG8rpu5d8vz5qH8YDH2eKKlIpOecW7U60
-         H3/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DzhfRJtsewrJy9gvg3PVALM7qiexBjbh/6ESbF9yAmQ=;
-        b=UaFj+DX7cbkzfu3IVa6RUpB2tvWMzJTrkTAmI+nZ8Wg6zPISx/+jDXpZf6gHfEZhEy
-         +Fdl/TtptrfqdAHQ+q8dtog9n22yzOLutBpADpWwU1ZuaVmlAzRvUcjbrCwVl63892AX
-         B4VpZ6aBTVvkkpDDRy87U5zAIw3dn83A23PUvSCteT3Fvx/VvwPdjqkt008VD/XKJxsI
-         pEVXhqB02VmHC5eKcoVEmuVN1RrI2y+iemTWdFVGG/UT74ju36SRvzXVSs6mpsU+Un4U
-         IZxHHugNSK6xMlldo7xJS99Nn/nTHRNe5lQrokhyMz/4Pa2yPqTcRtyp+eDVeucmAIZl
-         s5Ew==
-X-Gm-Message-State: AOAM531zpCIcGDoGMcljRfa5sNikGEf2Ca3sOomKnEFz8v+evbEOn+41
-        ZaW3deQSf12M64HhZI1nk73pupKF715JcxQqHjs=
-X-Google-Smtp-Source: ABdhPJwi5zes5aLNI68EPqG8s32AnHOL7SpWjSiidkZRKZ44MpDEG9d4/Z3v+a0xOXreS8EF7zbs/z9Lh4RJ9M+id+w=
-X-Received: by 2002:ab0:31c1:: with SMTP id e1mr7426551uan.132.1631950623485;
- Sat, 18 Sep 2021 00:37:03 -0700 (PDT)
+        id S238141AbhIRJMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 05:12:42 -0400
+Received: from mout.gmx.net ([212.227.15.15]:52151 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235575AbhIRJMl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 18 Sep 2021 05:12:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1631956269;
+        bh=6lHVqi2oAFRgu31JzplJx3TGWSkqTLjIaeLQgF6ecoI=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=LgeENGbNsutmTokAbwcWLikRAWA9im4VR59qUC2PoHk9IErmBVj8EA7ol0JX2atuI
+         qsJA66Zq6mth3/fsJtdT2dEVnyq86CQKz86dLkbFcSi2uCAt+eY88/ZCSiWwYMlkbD
+         VNlfLvGl9GUGaOHRRo76hUobDGeHw3l8ICrp73BQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1Mel3n-1mzCZ60Wvt-00ao6q; Sat, 18
+ Sep 2021 11:11:09 +0200
+Date:   Sat, 18 Sep 2021 11:10:57 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>, Len Baker <len.baker@gmx.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] docs: deprecated.rst: Clarify open-coded arithmetic
+ with literals
+Message-ID: <20210918091057.GA2941@titan>
+References: <20210829144716.2931-1-len.baker@gmx.com>
+ <87r1dqdfyj.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
- <20210917035736.3934017-19-chenhuacai@loongson.cn> <CAK8P3a26CGyiZ9y7KxHGu6eHXZJ08X4mospr+3CL8g_qi=ACpg@mail.gmail.com>
-In-Reply-To: <CAK8P3a26CGyiZ9y7KxHGu6eHXZJ08X4mospr+3CL8g_qi=ACpg@mail.gmail.com>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Sat, 18 Sep 2021 15:36:52 +0800
-Message-ID: <CAAhV-H5=Ut+rymv1RH+1GVS2oVZogtuwY_Sk-dDosJh6=USr0Q@mail.gmail.com>
-Subject: Re: [PATCH V3 18/22] LoongArch: Add PCI controller support
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jianmin Lv <lvjianmin@loongson.cn>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Will Deacon <will@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r1dqdfyj.fsf@meer.lwn.net>
+X-Provags-ID: V03:K1:+rzmVjyumADpwk6ze8EV6Asf3Yjw5vSPudcQosQUPxoZxe/DZAZ
+ fd0xuk608Ry2zuEFF+HkMxfOeLR9OMc9gTqVyZ9/6I+PlfBsDkslt3aRueSgPrquZig0f8I
+ GXVXWDuEr0LfZfK1bp+kZ5DvaXJbLinfzsrfOnocv1mWIj3zh9D6QLVDWqpqVnZah2AkVux
+ OphmbzKU+NIM5214SCl5A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/CXm4Xg46iY=:1M0YfzRb9DL+6kpqhW35Z0
+ Gjrbw4prYP0ScyduDM1/ZOwnnChTfrKqaaBA7sbIjYTJY7h/EJvAC4zhZbIKwpbo3XP3pSHsN
+ HsGMJbv+PkjofuAu0GOSak6IOxMtrNIEyo10nRroQZ/K7ufsgkxoJC3xChFpMcCeezd66kg5f
+ MpmRGUrEif82wZR0APv/Hd/3ellsA8q7/dGwLGhArp+s5j2iVElFXa+N7kLg3feta/x7E2uHJ
+ Xmhn728r7lJzGQ7bvaTIZC1WrcQMOAcylQ+UDtqCZFe3CUCBFZbZY/m1BEgEoDaRma5/rEuqR
+ E8T/qRZYU5YwxzlvsFAUw/SXIGQO/BbohjZ6wS1IVFlbtMvGvQ7XhxGGFeXexQV785BM3NwpJ
+ IUkhpr2ophYFfohqocqQV3lZfD02x2aznfRTCOkN3dHMzLEw4dgk6VA9EEzeetiM4rAchEIWR
+ g1z2Fz6pOtDE1/4hG5h1T8dwhsdt49reasm6DL1T5J+FTN2irWsyrKecB8Kh4r4o6yaq5I5iD
+ Fm0paUelZiV3QkUWpnWSaODsjrdtOHjsaWRSy+KXblwQoiXUGprhT2BJji/k4dqUyYIFWOi6x
+ qJUiEw5j/jjkoa6tD0oTRgwFVgY/aSuiHYKu3Yrveq+ZfC8pHFsUHjlMMZgjvNLbr79kKzCPO
+ kgKeDMKFSHrRMN5PM9sHwD0TyIWHJ5ZuA9UGEbV3BwfKY19Xp1Th6c3UqZrQILednm6TWU6vs
+ Onv4uZ9o72EYHv9UATbYiA8epvQe7kgPvFKIApG8K1Kh8Zc64CdPdXYWPQK7pTylqqbV+t/lG
+ /KqEMWbwwLHznmzvW810yP55ElauBVbmqx9U8eti8Aq0ZYJPGTyV6CzZty6gTEJFr8LRQpACx
+ p+3yxhW7EXvkHwbMrgSOVhq5oXDzZ2CuHNKNRO3lONMpSpJ0mUTAaFRi2M+67hAELk4xG6nnd
+ TXJRQrUOcClkvX0oY6Xx65Ewlvy9jZ1+5gz0Iy73flAWl2cyVO+TUrW0jrlb9mCRig8M8sAyF
+ RWF4pAe9TmGfIuPX9pUDA3YoV/Hktpbiz9XrDiKi5PxU3/IZPHjyGilQwiKgRUdkB24O9YSDn
+ qQSftDwP8edRTc=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Arnd,
+Hi,
 
-On Fri, Sep 17, 2021 at 5:02 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Tue, Sep 14, 2021 at 03:07:00PM -0600, Jonathan Corbet wrote:
+> Len Baker <len.baker@gmx.com> writes:
 >
-> On Fri, Sep 17, 2021 at 5:57 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+> > Although using literals for size calculation in allocator arguments ma=
+y
+> > be harmless due to compiler warnings in case of overflows, it is bette=
+r
+> > to refactor the code to avoid the use of open-coded math idiom.
 > >
-> > Loongson64 based systems are PC-like systems which use PCI/PCIe as its
-> > I/O bus, This patch adds the PCI host controller support for LoongArch.
+> > So, clarify the preferred way in these cases.
 > >
-> > Signed-off-by: Jianmin Lv <lvjianmin@loongson.cn>
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > Suggested-by: Kees Cook <keescook@chromium.org>
+> > Signed-off-by: Len Baker <len.baker@gmx.com>
+> > ---
+> > Changelog v1 -> v2
+> >  - Clarify the sentence by changing "keep <foo> out" with "avoid <foo>=
+"
+> >    (Joe Perches).
+> >
+> >  Documentation/process/deprecated.rst | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/proc=
+ess/deprecated.rst
+> > index 9d83b8db8874..b5a8be914178 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -60,7 +60,8 @@ smaller allocation being made than the caller was ex=
+pecting. Using those
+> >  allocations could lead to linear overflows of heap memory and other
+> >  misbehaviors. (One exception to this is literal values where the comp=
+iler
+> >  can warn if they might overflow. Though using literals for arguments =
+as
+> > -suggested below is also harmless.)
+> > +suggested below is also harmless. So, the preferred way in these case=
+s is
+> > +to refactor the code to avoid the open-coded math idiom.)
 >
-> As discussed before, I think the PCI support should not be part of the
-> architecture code or this patch series. The headers are ok, but the pci.c
-> and acpi.c files have nothing loongarch specific in them, and you clearly
-> just copied most of this from arm64 or x86.
-In V2 part of the PCI code (pci-loongson.c) has moved to
-drivers/pci/controllers. For pci.c and acpi.c, I agree that "the thing
-should be like that", but have some different ideas about "the way to
-arrive at that". In my opinion, we can let this series be merged at
-first, and then do another series to "restructure the files and move
-common parts to the drivers directory". That way looks more natural to
-me (doing the other series at first may block the whole thing).
+> Sorry for being so slow to get to this...
 
+Don't worry.
+
+> honestly, though, I've been
+> staring at it for a bit and cannot figure out what you are trying to
+> communicate.  What does "math idiom" mean here?  If you are trying to
+> say that using literals is *not* harmless, then perhaps the first part
+> of the parenthetical should be taken out?
 >
-> What I would suggest you do instead is:
->
-> - start a separate patch series, addressed to the ACPI, PCI host driver
->   and ARM64 maintainers.
->
-> - Move all the bits you need from arch/{arm64,ia64,x86} into
->   drivers/acpi/pci/pci_root.c, duplicating them with #if/#elif/#else
->   where they are too different, making the #else path the
->   default that can be shared with loongarch.
->
-> - Move the bits from pci_root_info/acpi_pci_root_info that are
->   always needed into struct pci_host_bridge, with an
->   #ifdef CONFIG_ACPI where appropriate.
->
-> - Simplify as much as you can easily do.
->
->         Arnd
+> Confused...
+
+The "open-coded arithmetic in allocator arguments" section in the document=
+ation
+explains that dynamic syze calculations should not be performed in memory
+allocator function arguments. Then, the text in parenthesis explains an
+exception to this rule: when the calculus is made using literals for all t=
+he
+operands. However, the text in parenthesis also tells that using the same
+literals in the recommended helpers or purpose specific functions is harml=
+ess.
+
+So, there are two options for size calculations using literals:
+
+1.- Leave it as is.
+2.- Refactor the code to use purpose specific functions or helpers.
+
+What I try to explain with this patch is that when the calculus is done us=
+ing
+only literals, the preferred way is the second option. In this manner the
+open-coded calulation (multiplication, addition, ...) is avoided.
+
+The "math idiom" refers to the open-coded arithmetic.
+
+I hope this clarify things a bit.
+
+Regards,
+Len
