@@ -2,176 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A59C3C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 04:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7316AC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:05:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 825D261268
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 04:55:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FAF46126A
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235643AbhIRE5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 00:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60466 "EHLO
+        id S234406AbhIRFGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 01:06:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231407AbhIRE5M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 00:57:12 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B3AC061574;
-        Fri, 17 Sep 2021 21:55:48 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id v5so37230169edc.2;
-        Fri, 17 Sep 2021 21:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ugNAmrfcnEDQKSRKVwaF/l+fOTrdNqkk/PXYk6xWiRg=;
-        b=XrCJSfTfzio6OySF2BG05KJTBlfYMJt+/HoWhZGZ26+aCG+G5Ufn+4gGVri7R89eJr
-         RzZBGhYPUMMipFg7IaBg5uOqz1UE+XZYH/7/PCMais2EJF/NGQ4fchoBy8MubH84B5dL
-         icdLavBRh5sf7BNYTqJPFz4dWZpmrjugRD3CUo793l0lSP8gWCxUxXj5ZMZ9Z9sJ55oR
-         SH2W4pgewQrn44G8nwu7k28hLH2j1+NJIc71KuD7nDOUs6sdpLq8m/He9YXHTWIm6tuE
-         +mbpuZIcljHSIkYoW7hpIdiHSsXgbeWcxBG8OhUNc0HaNX/RnITob9GUlaD+JLBjCrpt
-         qTZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ugNAmrfcnEDQKSRKVwaF/l+fOTrdNqkk/PXYk6xWiRg=;
-        b=XVRgqn/nIfyw0Z9ALNghpDUmxh3tZvmBb0ll53QBSAB9jwFVYcWz2B+XKicy4sovZx
-         qtZJv9pLtqD5+g924UBxhvF4fFZ0WNiVZFFVKwb4HBftJcVajdz9hJTNPwlU0dymJBYa
-         auxTbW8I7mxTw8zMh0fMdYPkd8Zf7Z8A1z03UEVArinxsm4DQKCJBeN6+eImNpPzoy0K
-         4RQqColkq3yuDQOhXbWmi97PUC0mjdhzy6G0XDb5dOwAmdzNU7NkxMa1MOLfTjYmlYWM
-         S2n6lBRGfgdA0OB82qaz13NHf5A2gjRxwq/ezrDPptG/iV+5zftoasjFj3oJxZ/efHa4
-         pzDQ==
-X-Gm-Message-State: AOAM531eogVKaLWirFlfmInISD0Dxo4lPY4yDIk3AXpmhyMPXmqB9zx/
-        kguQIwy0tgU8Ry1724YpGbUCYJaoq6DzwAqreq4=
-X-Google-Smtp-Source: ABdhPJyluD/oiIDcmDEv0opbjIIC6hZzNYGqhAUaldypW6bYEwlI/rJccmkztulILIfdedaX4ECzzjgqaja6UePFL5I=
-X-Received: by 2002:aa7:d7d5:: with SMTP id e21mr17147376eds.27.1631940947451;
- Fri, 17 Sep 2021 21:55:47 -0700 (PDT)
+        with ESMTP id S231383AbhIRFGd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 01:06:33 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBBCC061574;
+        Fri, 17 Sep 2021 22:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=b92mAeHk3N99JPkWqvyo9aOeWc+3cnxJoDw3jDX8Mm4=; b=eeTtMC4wY8BdtQg0gqt80SxVcA
+        39IX+w7rFelMrvoaCFJiUd4nRKVK/sHW5Pt/0Fs+3nxOC95/mHALQY8xvC5uUwIwcYfxEuGTRYres
+        BlYNIV4cy+WFIMeWlhvipLU5HDynUEWiS+Y2fOjqwi6IC210qa1yrSxSSRWkhjRn9kk9+ZeKGI7pM
+        zm6fC6FiL/KMGFgNYLCc/HgJPkvyVg0WyRY2AV+y2NREIsZVOyoNkEpT/XyWUMHiDAcWxArrABs4y
+        DJ93zDKWK9wvwbgdcJRjEloQBvTBaooSDmOwF4mgUxh//Pz0J8bmQg5ZRwvbpqUOioenmuCS4+SHv
+        FdNs8PCw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mRSWf-00FP4W-5L; Sat, 18 Sep 2021 05:04:33 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org
+Cc:     rdunlap@infradead.org, rafael@kernel.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, yzaikin@google.com, nathan@kernel.org,
+        ojeda@kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
+        vitor@massaru.org, elver@google.com, jarkko@kernel.org,
+        glider@google.com, rf@opensource.cirrus.com,
+        stephen@networkplumber.org, David.Laight@ACULAB.COM,
+        bvanassche@acm.org, jolsa@kernel.org,
+        andriy.shevchenko@linux.intel.com, trishalfonso@google.com,
+        andreyknvl@gmail.com, jikos@kernel.org, mbenes@suse.com,
+        ngupta@vflare.org, sergey.senozhatsky.work@gmail.com,
+        mcgrof@kernel.org, reinette.chatre@intel.com, fenghua.yu@intel.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        daniel.vetter@ffwll.ch, bhelgaas@google.com, kw@linux.com,
+        dan.j.williams@intel.com, senozhatsky@chromium.org, hch@lst.de,
+        joe@perches.com, hkallweit1@gmail.com, axboe@kernel.dk,
+        jpoimboe@redhat.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, peterz@infradead.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org
+Subject: [PATCH v7 06/12] kernel/module: add documentation for try_module_get()
+Date:   Fri, 17 Sep 2021 22:04:24 -0700
+Message-Id: <20210918050430.3671227-7-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210918050430.3671227-1-mcgrof@kernel.org>
+References: <20210918050430.3671227-1-mcgrof@kernel.org>
 MIME-Version: 1.0
-References: <20210917034815.80264-1-songmuchun@bytedance.com> <20210917034815.80264-3-songmuchun@bytedance.com>
-In-Reply-To: <20210917034815.80264-3-songmuchun@bytedance.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Sat, 18 Sep 2021 16:55:36 +1200
-Message-ID: <CAGsJ_4ymutSL-pbWA_TykJ2vE8ZKc+JGn+w_WWy2j7Mn-q+ebA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 2/4] mm: hugetlb: replace hugetlb_free_vmemmap_enabled
- with a static_key
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     mike.kravetz@oracle.com, Andrew Morton <akpm@linux-foundation.org>,
-        osalvador@suse.de, mhocko@suse.com,
-        Barry Song <song.bao.hua@hisilicon.com>, david@redhat.com,
-        chenhuang5@huawei.com, bodeddub@amazon.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
-        smuchun@gmail.com, zhengqi.arch@bytedance.com,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 12:08 AM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> The page_head_if_fake() is used throughout memory management and the
-> conditional check requires checking a global variable, although the
-> overhead of this check may be small, it increases when the memory
-> cache comes under pressure. Also, the global variable will not be
-> modified after system boot, so it is very appropriate to use static
-> key machanism.
->
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  include/linux/hugetlb.h    |  6 +++++-
->  include/linux/page-flags.h |  6 ++++--
->  mm/hugetlb_vmemmap.c       | 10 +++++-----
->  3 files changed, 14 insertions(+), 8 deletions(-)
->
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index f7ca1a3870ea..ee3ddf3d12cf 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -1057,7 +1057,11 @@ static inline void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr
->  #endif /* CONFIG_HUGETLB_PAGE */
->
->  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> -extern bool hugetlb_free_vmemmap_enabled;
-> +DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> +                        hugetlb_free_vmemmap_enabled_key);
-> +#define hugetlb_free_vmemmap_enabled                                    \
-> +       static_key_enabled(&hugetlb_free_vmemmap_enabled_key)
-> +
->  #else
->  #define hugetlb_free_vmemmap_enabled   false
->  #endif
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 7b1a918ebd43..d68d2cf30d76 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -185,7 +185,8 @@ enum pageflags {
->  #ifndef __GENERATING_BOUNDS_H
->
->  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> -extern bool hugetlb_free_vmemmap_enabled;
-> +DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> +                        hugetlb_free_vmemmap_enabled_key);
->
->  /*
->   * If the feature of freeing some vmemmap pages associated with each HugeTLB
-> @@ -204,7 +205,8 @@ extern bool hugetlb_free_vmemmap_enabled;
->   */
->  static __always_inline const struct page *page_head_if_fake(const struct page *page)
->  {
-> -       if (!hugetlb_free_vmemmap_enabled)
-> +       if (!static_branch_maybe(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> +                                &hugetlb_free_vmemmap_enabled_key))
+There is quite a bit of tribal knowledge around proper use of
+try_module_get() and that it must be used only in a context which
+can ensure the module won't be gone during the operation. Document
+this little bit of tribal knowledge.
 
-A question bothering me is that we still have hugetlb_free_vmemmap_enabled
-defined as static_key_enabled(&hugetlb_free_vmemmap_enabled_key).
-but here you are using static_branch_maybe() with the CONFIG and refer the key
-directly.
-Do we only need one of them? Or something is wrong?
+I'm extending this tribal knowledge with new developments which it
+seems some folks do not yet believe to be true: we can be sure a
+module will exist during the lifetime of a sysfs file operation.
+For proof, refer to test_sysfs test #32:
 
->                 return page;
->
->         /*
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 527bcaa44a48..5b80129c684c 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -188,9 +188,9 @@
->  #define RESERVE_VMEMMAP_NR             1U
->  #define RESERVE_VMEMMAP_SIZE           (RESERVE_VMEMMAP_NR << PAGE_SHIFT)
->
-> -bool hugetlb_free_vmemmap_enabled __read_mostly =
-> -       IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-> -EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled);
-> +DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> +                       hugetlb_free_vmemmap_enabled_key);
-> +EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled_key);
->
->  static int __init early_hugetlb_free_vmemmap_param(char *buf)
->  {
-> @@ -204,9 +204,9 @@ static int __init early_hugetlb_free_vmemmap_param(char *buf)
->                 return -EINVAL;
->
->         if (!strcmp(buf, "on"))
-> -               hugetlb_free_vmemmap_enabled = true;
-> +               static_branch_enable(&hugetlb_free_vmemmap_enabled_key);
->         else if (!strcmp(buf, "off"))
-> -               hugetlb_free_vmemmap_enabled = false;
-> +               static_branch_disable(&hugetlb_free_vmemmap_enabled_key);
->         else
->                 return -EINVAL;
->
-> --
-> 2.11.0
->
+./tools/testing/selftests/sysfs/sysfs.sh -t 0032
 
-Thanks
-barry
+Without this being true, the write would fail or worse,
+a crash would happen, in this test. It does not.
+
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ include/linux/module.h | 34 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/module.h b/include/linux/module.h
+index c9f1200b2312..22eacd5e1e85 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -609,10 +609,40 @@ void symbol_put_addr(void *addr);
+    to handle the error case (which only happens with rmmod --wait). */
+ extern void __module_get(struct module *module);
+ 
+-/* This is the Right Way to get a module: if it fails, it's being removed,
+- * so pretend it's not there. */
++/**
++ * try_module_get() - yields to module removal and bumps refcnt otherwise
++ * @module: the module we should check for
++ *
++ * This can be used to try to bump the reference count of a module, so to
++ * prevent module removal. The reference count of a module is not allowed
++ * to be incremented if the module is already being removed.
++ *
++ * Care must be taken to ensure the module cannot be removed during the call to
++ * try_module_get(). This can be done by having another entity other than the
++ * module itself increment the module reference count, or through some other
++ * means which guarantees the module could not be removed during an operation.
++ * An example of this later case is using try_module_get() in a sysfs file
++ * which the module created. The sysfs store / read file operations are
++ * gauranteed to exist through the use of kernfs's active reference (see
++ * kernfs_active()). If a sysfs file operation is being run, the module which
++ * created it must still exist as the module is in charge of removing the same
++ * sysfs file being read. Also, a sysfs / kernfs file removal cannot happen
++ * unless the same file is not active.
++ *
++ * One of the real values to try_module_get() is the module_is_live() check
++ * which ensures this the caller of try_module_get() can yield to userspace
++ * module removal requests and fail whatever it was about to process.
++ */
+ extern bool try_module_get(struct module *module);
+ 
++/**
++ * module_put() - release a reference count to a module
++ * @module: the module we should release a reference count for
++ *
++ * If you successfully bump a reference count to a module with try_module_get(),
++ * when you are finished you must call module_put() to release that reference
++ * count.
++ */
+ extern void module_put(struct module *module);
+ 
+ #else /*!CONFIG_MODULE_UNLOAD*/
+-- 
+2.30.2
+
