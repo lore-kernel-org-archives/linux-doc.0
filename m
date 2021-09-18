@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB95C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0743EC43217
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:52:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B2E760F70
+	by mail.kernel.org (Postfix) with ESMTP id E47A860FBF
 	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 09:52:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243924AbhIRJxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 05:53:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54608 "EHLO mail.kernel.org"
+        id S243998AbhIRJxr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 05:53:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243336AbhIRJxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S243470AbhIRJxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sat, 18 Sep 2021 05:53:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DA7360F70;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 865A56127A;
         Sat, 18 Sep 2021 09:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1631958742;
-        bh=zeepgnv80bX5Cd++yrGR0sCMsP3604fKdamMk3htmcs=;
+        bh=b4hM6zi20fiL9ExtFZn7NAAY6ZXN4cw11mSm3k3j41Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oJ0jNWA4ZjZFcv32DT3ceCbaaLuBUH64oxKTqJce5S7vEyjhDVILa7tVhTLyT7bGX
-         4petWklMlQDSBDe/HS/QIZJLcq9gopNRtv9fIB7PbWr9KRBhF4m5Uw8yRf3CI697ve
-         oSLNcWRFxbhYnAojcfRedMxaOcMKxKa31QBbwg3RaALZMNYwnzISU8FiOmrTKeQTGp
-         75/fXTzzGOoXCSTUqUw8/Nj+GnmUaVUTdEtyvWxqkmoV9axY2EY8R895n62I4mOuge
-         X+7ZzOedwa5uyMnet6aQyxKk2jU94OoLzye5cXPeoJU1GfECRYwqLYXHjutgBq2DuB
-         d6JGmbeM+T7tw==
+        b=BsVjxuGoVtW40W5cJrExs4WhR98wP9r3o3Cu8cNGY+8voAOXCBFdO6OpxntDpdXwi
+         fzerR1WQXbXIzqGMy4sI61rhUokInmWqg6Lnol4VCDHqFY1mn08viSymGfdJqWf3N2
+         LSBjlKoIbrUWTArFpt6FDO8st6uUww0h62H5cidhRPWFr0RqumDn2Sw8s1OmhDzOtA
+         P8Kqvugyx7WpuH+EfGpBU6f6j9WecxdyCj6PVjmJvRrXwvFOQDVQlfzjpybaMQZHxS
+         94+Rh2+X4XPJneIHg9PO+wGCbuM/SRvwsB1vZJQsZ+YvIAAdt+bHFBaz2IdRU+fgOT
+         g4uJT/TUIVXlw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mRX1A-003b1A-Oj; Sat, 18 Sep 2021 11:52:20 +0200
+        id 1mRX1A-003b12-MQ; Sat, 18 Sep 2021 11:52:20 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/7] scripts: get_abi.pl: Ignore fs/cgroup sysfs nodes earlier
-Date:   Sat, 18 Sep 2021 11:52:16 +0200
-Message-Id: <caa37831c9e02ae58677d1515ed7cee94f52ea9d.1631957565.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 4/7] scripts: get_abi.pl: add an option to filter undefined results
+Date:   Sat, 18 Sep 2021 11:52:14 +0200
+Message-Id: <7b56c10195bb5e5dfd8b5838a3db8d361231d884.1631957565.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631957565.git.mchehab+huawei@kernel.org>
 References: <cover.1631957565.git.mchehab+huawei@kernel.org>
@@ -52,39 +52,137 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to speedup the parser and store less data, handle
-fs/cgroup exceptions a lot earlier.
+The output of this script can be too big. Add an option to
+filter out results, in order to help finding issues at the
+ABI files.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/get_abi.pl | 37 +++++++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index fe83f295600c..aa0a751563ba 100755
+index b0ca4f4e56f2..f5f2f664e336 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -550,6 +550,10 @@ my @files;
- my $escape_symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x29\x2b-\x2d\x3a-\x40\x7b-\xfe]) }x;
- sub parse_existing_sysfs {
- 	my $file = $File::Find::name;
-+
-+	# Ignore cgroup and firmware
-+	return if ($file =~ m#^/sys/(fs/cgroup|firmware)/#);
-+
- 	my $mode = (lstat($file))[2];
- 	my $abs_file = abs_path($file);
+@@ -18,6 +18,7 @@ my $enable_lineno = 0;
+ my $show_warnings = 1;
+ my $prefix="Documentation/ABI";
+ my $sysfs_prefix="/sys";
++my $search_string;
  
-@@ -570,9 +574,6 @@ sub parse_existing_sysfs {
+ #
+ # If true, assumes that the description is formatted with ReST
+@@ -31,6 +32,7 @@ GetOptions(
+ 	"dir=s" => \$prefix,
+ 	'help|?' => \$help,
+ 	"show-hints" => \$hint,
++	"search-string=s" => \$search_string,
+ 	man => \$man
+ ) or pod2usage(2);
+ 
+@@ -568,16 +570,13 @@ sub parse_existing_sysfs {
  sub check_undefined_symbols {
  	foreach my $file (sort @files) {
  
--		# Ignore cgroup and firmware
--		next if ($file =~ m#^/sys/(fs/cgroup|firmware)/#);
+-		# sysfs-module is special, as its definitions are inside
+-		# a text. For now, just ignore them.
+-		next if ($file =~ m#^/sys/module/#);
 -
+ 		# Ignore cgroup and firmware
+ 		next if ($file =~ m#^/sys/(fs/cgroup|firmware)/#);
+ 
  		my $defined = 0;
  		my $exact = 0;
  		my $whats = "";
++		my $found_string;
+ 
+ 		my $leave = $file;
+ 		$leave =~ s,.*/,,;
+@@ -585,6 +584,12 @@ sub check_undefined_symbols {
+ 		my $path = $file;
+ 		$path =~ s,(.*/).*,$1,;
+ 
++		if ($search_string) {
++			next if (!($file =~ m#$search_string#));
++			$found_string = 1;
++		}
++
++		print "--> $file\n" if ($found_string && $hint);
+ 		if (defined($leaf{$leave})) {
+ 			my $what = $leaf{$leave};
+ 			$whats .= " $what" if (!($whats =~ m/$what/));
+@@ -610,6 +615,7 @@ sub check_undefined_symbols {
+ 				if (substr($file, 0, $len) eq $new) {
+ 					my $newf = $a . substr($file, $len);
+ 
++					print "    $newf\n" if ($found_string && $hint);
+ 					foreach my $w (split / /, $what) {
+ 						if ($newf =~ m#^$w$#) {
+ 							$exact = 1;
+@@ -632,10 +638,10 @@ sub check_undefined_symbols {
+ 		next if ($file =~ m#/parameters/#);
+ 
+ 		if ($hint && $defined) {
+-			print "$leave at $path might be one of:$whats\n";
++			print "$leave at $path might be one of:$whats\n"  if (!$search_string || $found_string);
+ 			next;
+ 		}
+-		print "$file not found.\n";
++		print "$file not found.\n" if (!$search_string || $found_string);
+ 	}
+ }
+ 
+@@ -701,16 +707,29 @@ sub undefined_symbols {
+ 			$what =~ s/\\([\[\]\(\)\|])/$1/g;
+ 			$what =~ s/(\d+)\\(-\d+)/$1$2/g;
+ 
++			$what =~ s/\xff/\\d+/g;
++
++
++			# Special case: IIO ABI which a parenthesis.
++			$what =~ s/sqrt(.*)/sqrt\(.*\)/;
++
+ 			$leave =~ s/[\(\)]//g;
+ 
++			my $added = 0;
+ 			foreach my $l (split /\|/, $leave) {
+ 				if (defined($leaf{$l})) {
+ 					next if ($leaf{$l} =~ m/$what/);
+ 					$leaf{$l} .= " " . $what;
++					$added = 1;
+ 				} else {
+ 					$leaf{$l} = $what;
++					$added = 1;
+ 				}
+ 			}
++			if ($search_string && $added) {
++				print "What: $what\n" if ($what =~ m#$search_string#);
++			}
++
+ 		}
+ 	}
+ 	check_undefined_symbols;
+@@ -764,6 +783,7 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
+ 
+ B<abi_book.pl> [--debug] [--enable-lineno] [--man] [--help]
+ 	       [--(no-)rst-source] [--dir=<dir>] [--show-hints]
++	       [--search-string <regex>]
+ 	       <COMAND> [<ARGUMENT>]
+ 
+ Where <COMMAND> can be:
+@@ -811,6 +831,11 @@ times, to increase verbosity.
+ Show hints about possible definitions for the missing ABI symbols.
+ Used only when B<undefined>.
+ 
++=item B<--search-string> [regex string]
++
++Show only occurences that match a search string.
++Used only when B<undefined>.
++
+ =item B<--help>
+ 
+ Prints a brief help message and exits.
 -- 
 2.31.1
 
