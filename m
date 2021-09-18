@@ -2,384 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CA2C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 19:29:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19ADEC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 20:30:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B12E611C8
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 19:29:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFCEA60F51
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 20:30:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbhIRTaX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 15:30:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233010AbhIRTaW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Sep 2021 15:30:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7998461100;
-        Sat, 18 Sep 2021 19:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631993338;
-        bh=672WtfU3kCq0R78tYvtyPMWKcaThtaEK1vpPMZUuzDg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=snu+S3vs8NptfTNBz+21n3jlTMQ/KWDbeqFoI9RLuzpgoHgD8YvFL0RHlfvTlOE0w
-         285XidcMb36lPzJ3vXw8Nw5/UbSlozjmwPnvoYfVoAlUwXSSkFFO+WoDARGQNiwCLn
-         iMxgTJZ0dmlJxCxOyJPCis3Rhl+SpuEM2FDa+TJHv4l2bVKG6l/mnuwPr+H7oCmcKE
-         T6G+sHgyAEyZopLM1p0+gU0A2w1FV4IrevKDMaCL8vhd7+7do2m6vrgl8ujdhD5hYI
-         /yuXi8NDXptMJsKjTqsoeOZwMgEbQR5LtDO6RPTnE8NSaUbCqZmf0T08VEeKbivyMP
-         HDUiir5wgy29w==
-Date:   Sat, 18 Sep 2021 22:28:51 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     yaozhenguo <yaozhenguo1@gmail.com>
-Cc:     mike.kravetz@oracle.com, mpe@ellerman.id.au,
-        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
-        akpm@linux-foundation.org, yaozhenguo@jd.com, willy@infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v5] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-Message-ID: <YUY989PRsrVdHmSq@kernel.org>
-References: <20210918113201.4133-1-yaozhenguo1@gmail.com>
+        id S234491AbhIRUbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 16:31:31 -0400
+Received: from relay.yourmailgateway.de ([185.244.192.111]:33215 "EHLO
+        relay.yourmailgateway.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229568AbhIRUbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 16:31:31 -0400
+X-Greylist: delayed 456 seconds by postgrey-1.27 at vger.kernel.org; Sat, 18 Sep 2021 16:31:30 EDT
+Received: from relay01-mors.netcup.net (localhost [127.0.0.1])
+        by relay01-mors.netcup.net (Postfix) with ESMTPS id 4HBj0t4VCdz7xDT;
+        Sat, 18 Sep 2021 22:22:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=alexander-lochmann.de; s=key2; t=1631996542;
+        bh=DowptoWJEbBfgFX73sqjlKlYA2EYptvjJ/OGIVkwj1k=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=khznvf5YcO+9tsMJ/86jWHBqGOIwLu7pKiBwSfBtwATKNyG6q7jhZ+uDrVtplfbZ2
+         bPlNEwm/32xOPfvUUkT4gWEg/URBcpE+pBBodHXq2DWqjHGa5t5lSNUSEnEKTO9YOh
+         tVYekqqiztGPjJRBGmTh3PDMTgJwQo8U1VmxR9KJFDt5nLG9o9O8DS4J48JfkcKdr9
+         ttP4yx98ev/cpAbFbTxxl+wx8f+uTTq9gvR0Jmn7P7Hc6aHnPAgiaUiQMtbVh2LcIp
+         sHDQQt+RPonfZJlR0B6SRUEsqHPSteH9fZjQgkomZn0sh032ujT/KieS1ko9ambEgj
+         NkLASUfVbfhFA==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+        by relay01-mors.netcup.net (Postfix) with ESMTPS id 4HBj0t4591z7xD3;
+        Sat, 18 Sep 2021 22:22:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+Received: from mx2e12.netcup.net (unknown [10.243.12.53])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by policy01-mors.netcup.net (Postfix) with ESMTPS id 4HBj0r4q5xz8sX7;
+        Sat, 18 Sep 2021 22:22:20 +0200 (CEST)
+Received: from [IPv6:2003:ed:7f18:38f0::67] (p200300ed7f1838f00000000000000067.dip0.t-ipconnect.de [IPv6:2003:ed:7f18:38f0::67])
+        by mx2e12.netcup.net (Postfix) with ESMTPSA id 1E8BEA0591;
+        Sat, 18 Sep 2021 22:22:18 +0200 (CEST)
+Authentication-Results: mx2e12;
+        spf=pass (sender IP is 2003:ed:7f18:38f0::67) smtp.mailfrom=info@alexander-lochmann.de smtp.helo=[IPv6:2003:ed:7f18:38f0::67]
+Received-SPF: pass (mx2e12: connection is authenticated)
+To:     Andrey Konovalov <andreyknvl@gmail.com>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Maciej Grochowski <maciej.grochowski@pm.me>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20210326205135.6098-1-info@alexander-lochmann.de>
+ <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
+From:   Alexander Lochmann <info@alexander-lochmann.de>
+Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
+Message-ID: <aaee2292-022b-d99e-9fa9-b48ad5c2fe92@alexander-lochmann.de>
+Date:   Sat, 18 Sep 2021 22:22:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210918113201.4133-1-yaozhenguo1@gmail.com>
+In-Reply-To: <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jeoiCDS3Yo1W8TmZdEkFUwrpjDXm41xxy"
+X-PPP-Message-ID: <163199653879.4199.11228245821604856147@mx2e12.netcup.net>
+X-PPP-Vhost: alexander-lochmann.de
+X-NC-CID: ldOtAIRfa6FXYg/2lhJBu0h6e2ToKhuNgU4pdNS2aPCKFwbzmIdRzZbn
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 07:32:01PM +0800, yaozhenguo wrote:
-> We can specify the number of hugepages to allocate at boot. But the
-> hugepages is balanced in all nodes at present. In some scenarios,
-> we only need hugepages in one node. For example: DPDK needs hugepages
-> which are in the same node as NIC. if DPDK needs four hugepages of 1G
-> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
-> in kernel cmdline. But, only four hugepages are used. The others should
-> be free after boot. If the system memory is low(for example: 64G), it will
-> be an impossible task. So, Extending hugepages parameter to support
-> specifying hugepages at a specific node.
-> For example add following parameter:
-> 
-> hugepagesz=1G hugepages=0:1,1:3
-> 
-> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
-> 
-> Signed-off-by: yaozhenguo <yaozhenguo1@gmail.com>
-> ---
-> v4->v5 changes:
-> 	- remove BUG_ON in __alloc_bootmem_huge_page.
-> 	- add nid parameter in __alloc_bootmem_huge_page to support
-> 	  called in both specific node alloc and normal alloc.
-> 	- do normal alloc if architecture can't support node specific alloc.
-> 	- return -1 in powerpc version of alloc_bootmem_huge_page when
-> 	  nid is not NUMA_NO_NODE. 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jeoiCDS3Yo1W8TmZdEkFUwrpjDXm41xxy
+Content-Type: multipart/mixed; boundary="ijdinWyZS3cUUOiSvgMUkUAuSPyavspzk";
+ protected-headers="v1"
+From: Alexander Lochmann <info@alexander-lochmann.de>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Konovalov <andreyknvl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jakub Kicinski <kuba@kernel.org>,
+ Aleksandr Nogikh <nogikh@google.com>, Wei Yongjun <weiyongjun1@huawei.com>,
+ Maciej Grochowski <maciej.grochowski@pm.me>, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Message-ID: <aaee2292-022b-d99e-9fa9-b48ad5c2fe92@alexander-lochmann.de>
+Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
+References: <20210326205135.6098-1-info@alexander-lochmann.de>
+ <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
+In-Reply-To: <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
 
-I think, node format should not be enabled on powerpc.  Rather than add a
-new return value to alloc_bootmem_huge_page() and add complex checks for
--1, 0 and 1, it would be simpler to add a new weak function. The default
-implementation will return true and powerpc will have an override that
-returns false.
-This function can be called during command line parsing and if it returned
-false the entire per-node allocation path would be disabled.
+--ijdinWyZS3cUUOiSvgMUkUAuSPyavspzk
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE-1901
+Content-Transfer-Encoding: quoted-printable
 
->
-> ---
->  .../admin-guide/kernel-parameters.txt         |   8 +-
->  Documentation/admin-guide/mm/hugetlbpage.rst  |  12 +-
->  arch/powerpc/mm/hugetlbpage.c                 |   8 +-
->  include/linux/hugetlb.h                       |   5 +-
->  mm/hugetlb.c                                  | 155 ++++++++++++++++--
->  5 files changed, 166 insertions(+), 22 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bdb22006f..a2046b2c5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1588,9 +1588,11 @@
->  			the number of pages of hugepagesz to be allocated.
->  			If this is the first HugeTLB parameter on the command
->  			line, it specifies the number of pages to allocate for
-> -			the default huge page size.  See also
-> -			Documentation/admin-guide/mm/hugetlbpage.rst.
-> -			Format: <integer>
-> +			the default huge page size. If using node format, the
-> +			number of pages to allocate per-node can be specified.
-> +			See also Documentation/admin-guide/mm/hugetlbpage.rst.
-> +			Format: <integer> or (node format)
-> +				<node>:<integer>[,<node>:<integer>]
->  
->  	hugepagesz=
->  			[HW] The size of the HugeTLB pages.  This is used in
-> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> index 8abaeb144..d70828c07 100644
-> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> @@ -128,7 +128,9 @@ hugepages
->  	implicitly specifies the number of huge pages of default size to
->  	allocate.  If the number of huge pages of default size is implicitly
->  	specified, it can not be overwritten by a hugepagesz,hugepages
-> -	parameter pair for the default size.
-> +	parameter pair for the default size.  This parameter also has a
-> +	node format.  The node format specifies the number of huge pages
-> +	to allocate on specific nodes.
->  
->  	For example, on an architecture with 2M default huge page size::
->  
-> @@ -138,6 +140,14 @@ hugepages
->  	indicating that the hugepages=512 parameter is ignored.  If a hugepages
->  	parameter is preceded by an invalid hugepagesz parameter, it will
->  	be ignored.
-> +
-> +	Node format example::
-> +
-> +		hugepagesz=2M hugepages=0:1,1:2
-> +
-> +	It will allocate 1 2M hugepage on node0 and 2 2M hugepages on node1.
-> +	If the node number is invalid,  the parameter will be ignored.
-> +
->  default_hugepagesz
->  	Specify the default huge page size.  This parameter can
->  	only be specified once on the command line.  default_hugepagesz can
-> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
-> index 9a75ba078..4a9cea714 100644
-> --- a/arch/powerpc/mm/hugetlbpage.c
-> +++ b/arch/powerpc/mm/hugetlbpage.c
-> @@ -19,6 +19,7 @@
->  #include <linux/swap.h>
->  #include <linux/swapops.h>
->  #include <linux/kmemleak.h>
-> +#include <linux/numa.h>
->  #include <asm/pgalloc.h>
->  #include <asm/tlb.h>
->  #include <asm/setup.h>
-> @@ -232,14 +233,17 @@ static int __init pseries_alloc_bootmem_huge_page(struct hstate *hstate)
->  #endif
->  
->  
-> -int __init alloc_bootmem_huge_page(struct hstate *h)
-> +int __init alloc_bootmem_huge_page(struct hstate *h, int nid)
->  {
->  
->  #ifdef CONFIG_PPC_BOOK3S_64
-> +	/* Don't support node specific alloc */
-> +	if (nid != NUMA_NO_NODE)
-> +		return -1;
->  	if (firmware_has_feature(FW_FEATURE_LPAR) && !radix_enabled())
->  		return pseries_alloc_bootmem_huge_page(h);
->  #endif
-> -	return __alloc_bootmem_huge_page(h);
-> +	return __alloc_bootmem_huge_page(h, nid);
->  }
->  
->  #ifndef CONFIG_PPC_BOOK3S_64
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index f7ca1a387..a9bdbc870 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -605,6 +605,7 @@ struct hstate {
->  	unsigned long nr_overcommit_huge_pages;
->  	struct list_head hugepage_activelist;
->  	struct list_head hugepage_freelists[MAX_NUMNODES];
-> +	unsigned int max_huge_pages_node[MAX_NUMNODES];
->  	unsigned int nr_huge_pages_node[MAX_NUMNODES];
->  	unsigned int free_huge_pages_node[MAX_NUMNODES];
->  	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-> @@ -637,8 +638,8 @@ void restore_reserve_on_error(struct hstate *h, struct vm_area_struct *vma,
->  				unsigned long address, struct page *page);
->  
->  /* arch callback */
-> -int __init __alloc_bootmem_huge_page(struct hstate *h);
-> -int __init alloc_bootmem_huge_page(struct hstate *h);
-> +int __init __alloc_bootmem_huge_page(struct hstate *h, int nid);
-> +int __init alloc_bootmem_huge_page(struct hstate *h, int nid);
->  
->  void __init hugetlb_add_hstate(unsigned order);
->  bool __init arch_hugetlb_valid_size(unsigned long size);
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index dfc940d52..f7aaca6ff 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -66,6 +66,7 @@ static struct hstate * __initdata parsed_hstate;
->  static unsigned long __initdata default_hstate_max_huge_pages;
->  static bool __initdata parsed_valid_hugepagesz = true;
->  static bool __initdata parsed_default_hugepagesz;
-> +static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
->  
->  /*
->   * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_pages,
-> @@ -2774,17 +2775,30 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
->  	vma_end_reservation(h, vma, addr);
->  	return ERR_PTR(-ENOSPC);
->  }
-> -
-> -int alloc_bootmem_huge_page(struct hstate *h)
-> +/*
-> + * Architecture version must provide there own node specific hugepage
 
-                                       ^ its
 
-> + * allocation code. If not, please return -1 when nid is not NUMA_NO_NODE.
-> + */
-> +int alloc_bootmem_huge_page(struct hstate *h, int nid)
->  	__attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
-> -int __alloc_bootmem_huge_page(struct hstate *h)
-> +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
->  {
->  	struct huge_bootmem_page *m;
->  	int nr_nodes, node;
-> +	void *addr = NULL;
->  
-> +	/* do node specific alloc */
-> +	if (nid != NUMA_NO_NODE && nid < nodes_weight(node_states[N_MEMORY])) {
-> +		addr = memblock_alloc_try_nid_raw(huge_page_size(h), huge_page_size(h),
-> +				0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> +		if (addr) {
-> +			m = addr;
-> +			goto found;
-> +		} else {
-> +			return 0;
-> +		}
+On 27.03.21 15:56, Andrey Konovalov wrote:
+>=20
+>> @@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64=
+ arg1, u64 arg2, u64 ip)
+>>          struct task_struct *t;
+>>          u64 *area;
+>>          u64 count, start_index, end_pos, max_pos;
+>> +       unsigned int mode;
+>>
+>>          t =3D current;
+>> -       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
+>> +       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
+>>                  return;
+>=20
+> mode isn't used here, right? No need for it then.
+>=20
+No, it's not. However, check_kcov_mode() needs it. Dmitry suggested=20
+passing a pointer to check_kcov_mode(), and let the optimizer do the rest=
+=2E
+>> @@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, =
+unsigned int cmd,
+>>   {
+>>          struct task_struct *t;
+>>          unsigned long size, unused;
+>> -       int mode, i;
+>> +       int mode, i, text_size, ret =3D 0;
+>>          struct kcov_remote_arg *remote_arg;
+>>          struct kcov_remote *remote;
+>>          unsigned long flags;
+>>
+>>          switch (cmd) {
+>> +       case KCOV_INIT_UNIQUE:
+>> +               fallthrough;
+>>          case KCOV_INIT_TRACE:
+>>                  /*
+>>                   * Enable kcov in trace mode and setup buffer size.
+>> @@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, =
+unsigned int cmd,
+>>                   * that must not overflow.
+>>                   */
+>>                  size =3D arg;
+>> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long)=
+)
+>> -                       return -EINVAL;
+>> -               kcov->size =3D size;
+>> -               kcov->mode =3D KCOV_MODE_INIT;
+>> -               return 0;
+>> +               if (cmd =3D=3D KCOV_INIT_UNIQUE) {
+>=20
+> Let's put this code under KCOV_INIT_UNIQUE in the switch. This
+> internal if only saves duplicating two lines of code, which isn't
+> worth it.
+So. Shall I skip the fallthrough and move 'my' code upwards?
 
-		if (!addr)
-			return 0;
-		m = addr;
-		goto found;
+--=20
+Alexander Lochmann                PGP key: 0xBC3EF6FD
+Heiliger Weg 72                   phone:  +49.231.28053964
+D-44141 Dortmund                  mobile: +49.151.15738323
 
-seems simpler to me.
 
-Besides, I think addr is not needed at all, m can be assigned directly. I'd
-also rename it to e.g. page.
+--ijdinWyZS3cUUOiSvgMUkUAuSPyavspzk--
 
-> +	}
->  	for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
-> -		void *addr;
-> -
->  		addr = memblock_alloc_try_nid_raw(
->  				huge_page_size(h), huge_page_size(h),
->  				0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
-> @@ -2801,7 +2815,6 @@ int __alloc_bootmem_huge_page(struct hstate *h)
->  	return 0;
->  
->  found:
-> -	BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
->  	/* Put them into a private list first because mem_map is not up yet */
->  	INIT_LIST_HEAD(&m->list);
->  	list_add(&m->list, &huge_boot_pages);
-> @@ -2841,11 +2854,83 @@ static void __init gather_bootmem_prealloc(void)
->  		cond_resched();
->  	}
->  }
-> +/*
-> + * do node specific hugepage allocation
-> + * return  0: allocation is failed
-> + *	   1: allocation is successful
-> + *	   -1: alloc_bootmem_huge_page can't support node specific allocation
-> + */
-> +static int __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
-> +{
-> +	unsigned long i;
-> +	char buf[32];
-> +	int ret = 1;
-> +
-> +	for (i = 0; i < h->max_huge_pages_node[nid]; ++i) {
-> +		if (hstate_is_gigantic(h)) {
-> +			ret = alloc_bootmem_huge_page(h, nid);
-> +			if (ret == 0 || ret == -1)
-> +				break;
-> +		} else {
-> +			struct page *page;
-> +			gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
-> +
-> +			page = alloc_fresh_huge_page(h, gfp_mask, nid,
-> +					&node_states[N_MEMORY], NULL);
-> +			if (!page) {
-> +				ret = 0;
-> +				break;
-> +			}
-> +			put_page(page); /* free it into the hugepage allocator */
-> +		}
-> +		cond_resched();
-> +	}
-> +	if (i == h->max_huge_pages_node[nid])
-> +		return ret;
-> +
-> +	string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
-> +	pr_warn("HugeTLB: allocating %u of page size %s failed node%d.  Only allocated %lu hugepages.\n",
-> +		h->max_huge_pages_node[nid], buf, nid, i);
-> +	/*
-> +	 * we need h->max_huge_pages to do normal alloc,
-> +	 * when alloc_bootm_huge_page can't support node specific allocation.
-> +	 */
-> +	if (ret != -1)
-> +		h->max_huge_pages -= (h->max_huge_pages_node[nid] - i);
-> +	h->max_huge_pages_node[nid] = i;
-> +	return ret;
-> +}
->  
->  static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
->  {
->  	unsigned long i;
->  	nodemask_t *node_alloc_noretry;
-> +	bool hugetlb_node_set = false;
-> +
-> +	/* skip gigantic hugepages allocation if hugetlb_cma enabled */
-> +	if (hstate_is_gigantic(h) && hugetlb_cma_size) {
-> +		pr_warn_once("HugeTLB: hugetlb_cma is enabled, skip boot time allocation\n");
-> +		return;
-> +	}
-> +
-> +	/* do node alloc */
-> +	for (i = 0; i < nodes_weight(node_states[N_MEMORY]); i++) {
-> +		if (h->max_huge_pages_node[i] > 0) {
-> +			/*
-> +			 * if hugetlb_hstate_alloc_pages_onenode return -1
-> +			 * architecture version alloc_bootmem_huge_page
-> +			 * can't support node specific alloc for gigantic
-> +			 * hugepage, so goto normal alloc.
-> +			 */
-> +			if (hugetlb_hstate_alloc_pages_onenode(h, i) == -1)
-> +				pr_warn_once("HugeTLB: architecture can't support node specific alloc, skip!\n");
-> +			else
-> +				hugetlb_node_set = true;
-> +		}
-> +	}
-> +
-> +	if (hugetlb_node_set)
-> +		return;
+--jeoiCDS3Yo1W8TmZdEkFUwrpjDXm41xxy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-If I understand correctly, this means that even if the allocation fails for
-some of the nodes explicitly set in hugepages=nid:pages,..., we won't try
-allocate more huge pages and silently ignore the failure. Is this the
-intended behaviour?
+-----BEGIN PGP SIGNATURE-----
 
->  
->  	if (!hstate_is_gigantic(h)) {
->  		/*
-> @@ -2867,11 +2952,7 @@ static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
->  
->  	for (i = 0; i < h->max_huge_pages; ++i) {
->  		if (hstate_is_gigantic(h)) {
-> -			if (hugetlb_cma_size) {
-> -				pr_warn_once("HugeTLB: hugetlb_cma is enabled, skip boot time allocation\n");
-> -				goto free;
-> -			}
-> -			if (!alloc_bootmem_huge_page(h))
-> +			if (!alloc_bootmem_huge_page(h, NUMA_NO_NODE))
->  				break;
->  		} else if (!alloc_pool_huge_page(h,
->  					 &node_states[N_MEMORY],
-> @@ -2887,7 +2968,6 @@ static void __init hugetlb_hstate_alloc_pages(struct hstate *h)
->  			h->max_huge_pages, buf, i);
->  		h->max_huge_pages = i;
->  	}
-> -free:
->  	kfree(node_alloc_noretry);
->  }
->  
+wsF5BAABCAAjFiEElhZsUHzVP0dbkjCRWT7tBbw+9v0FAmFGSnkFAwAAAAAACgkQWT7tBbw+9v2N
+2RAAzeXvASCTHMOY9leID0oi73MODfrY4EW74Jq2CnbtM+lj6FjzL5kCGkILz5LkSuF5FNsY2zdN
+sYeb6fK6eIIvlSSdHOn4v22lFRrHNP2VOE6ExAZCve8hcw7GlTtSBEGZcHIz4wL2i2A2jNn+furn
+eQLdujoaYQ7keOck/fxVdexQZ1JxE/42VLR/R0yG90/EZLkn/0N7iaQ2jm1XQjtVdV9VkI8xxFwy
+bvyXxRSsmxCHJ8m0GNQY6Jdy6f/wPg2/1hGSAOzZXsh+V0R7azpGh9oLCrECWYZWyyqO85SkGs+m
+LuB3urCeMZVMHci1NccR3hiYP6Ma2B09G+m/inEdU/cf3YdzSoZ/FbqRZO2GenmkvwK5Xv03hdzb
+wgEUBTbSBpD7I4EIuS/eCjsESGCeToFeG9GKhurtzDg4woustiuXkb/S8xP42C+LhXoApAz1yvaF
+Son/f0gS9WzcbQSUxPM1AHE/Flq6B0P0lYAW9906b0aFwHzFW1UHIMzzwhbLJNvFJOb6F/BvtrMy
+LFnp2WqL8xR+oPOXiBPWMkn8OU1pwQtJkwFWyaAlGImJdrcBNrd/qDsYnJF69jK0knIAtEvWAJGe
+cHNX1Pe0/fMska+6bhPUV//2w/dnLHjP5SAlazjFKReZ2/MyujJ0YOtElvckvj3G8MIh9Lu97eye
+KiI=
+=oZeu
+-----END PGP SIGNATURE-----
 
--- 
-Sincerely yours,
-Mike.
+--jeoiCDS3Yo1W8TmZdEkFUwrpjDXm41xxy--
