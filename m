@@ -8,58 +8,57 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC32C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85B23C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:20:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C9EE61251
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:07:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 658EB610C9
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:20:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231197AbhIRFJR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Sep 2021 01:09:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34440 "EHLO
+        id S233207AbhIRFVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Sep 2021 01:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236595AbhIRFJM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 01:09:12 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53869C0613D8;
-        Fri, 17 Sep 2021 22:07:10 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id c21so37445385edj.0;
-        Fri, 17 Sep 2021 22:07:10 -0700 (PDT)
+        with ESMTP id S230287AbhIRFVq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 01:21:46 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C01C061574;
+        Fri, 17 Sep 2021 22:20:21 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id v24so37755566eda.3;
+        Fri, 17 Sep 2021 22:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UELVW64OGifaAHac3foR5XI65mlaDJfcYXp7k1se3yQ=;
-        b=mVodZ0Ytl/BlGYZyd0GWpZDL/5dBZeG8+tWuQDf573eX92F5cAPyOG3e2d6eyxjpTt
-         whZ2pCyI/fBSW9woM067wT/HP14ThWqDB+aI1Oug1mEoYosBiOZvk6pEDLAIGEutDmoh
-         c/cp7UQCYO6//H2ouhMjuXerDElDTvtL/Or05tvSRRkIYV0W8SXe8e7sejImPM13QPeI
-         sfPt45iOPFKs9IAZ1soBHDxJ1f0XOs6n3IPbBQqvbn9cmRnQeWnq3LJ06vO2pbZJsskR
-         ljwlNYYiLo+8gjYdcVTAuwepN6TLjKHqWNVfk90pJqi/GPYi4X4pPFE5R+ayB/J58T0H
-         dHMQ==
+        bh=KGaGHk0/+MRuXa0WhEOc0SBFfauglLIi/BjuNoRZpL4=;
+        b=Y3zILyDiqdDGH0HFI3Cjvl48XL+1HPQrngQFFB9LgbqvwLyZ/3hpBYztltWTafxbyo
+         0WeDWHyxFvuZkUsXxz7btPJ3hqCU5UnFqVxkxxG6dmxYDZzQqsjep0yoRngsSejfiXrl
+         ohaNKW8T3KF6g18B3rZtSXn6WhD1JKrOr0Tn8A6oonKNWtrJcLr3bEGI43+XOl1TNmse
+         X3D2kMlbNE1LozxwzfxS0jWuTjUw4S9ry+MsPueWfGzqGh0CJYMCNgkO842V8kywmS7o
+         9kR3tWtUPvvVqQbPba7VjIGdyqTvTDDUtKOnN735+qu6dRwFPBGOM+8QGct3A7FGnhX0
+         jtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UELVW64OGifaAHac3foR5XI65mlaDJfcYXp7k1se3yQ=;
-        b=0dIbm9zZCgi4xv/MFY8TZbTeukXkc4X46qJHyKAApg7bdpXMjmYxW6BwRPlHoKYs8l
-         wJdyLBUc8bJ6n9Geo59hZcUoI6o1mlo6No1/wiuO82vNEAidnAmmd4/uAO2aJzMRsnt7
-         fli1so7BaamzPWLu0NLMsjVKGR/MLDA/a6wKoFktFWfdbEEtjY6vtl23oDei0c0XdVPG
-         jK8pdgdGifo1nfNmawWyvRMI8ZMieDc4i4HTRNI3lrMbjU1tcKueNE2y1k/1xRaGSLB8
-         AKwKESvLXvl9lKAIarKFKYi57VZseQ8TALUIBHlkCenKM3jrK3QwXJxcHfFvCjqh+z21
-         QypQ==
-X-Gm-Message-State: AOAM533YFBBFxpMddpMkkGPd8o9kqvUxDUX17aX6UY6+HLKa3T4yvej0
-        AnY5yKeI3hGQAMMXpd+58/+k5ySWQ6dJR/y7aSo=
-X-Google-Smtp-Source: ABdhPJxaxXTMZhPBf0+ZkOJ27I9Sr9wmiURH3GEowKm/Irh+EpHvO991mZoMS137Rjkz/N5p7vQL5F7pUUWq6PUZJII=
-X-Received: by 2002:a17:906:dbe5:: with SMTP id yd5mr16064766ejb.134.1631941629538;
- Fri, 17 Sep 2021 22:07:09 -0700 (PDT)
+        bh=KGaGHk0/+MRuXa0WhEOc0SBFfauglLIi/BjuNoRZpL4=;
+        b=qX0vbAZcR2I8ZAwFW7M2SSk1nIqSTcZQcGJv6gH+Z/N8ObmEBVkzZ3aP7LVdgaGLXS
+         a1JOYbA0CauEVRb0SB6pPyjmr7DdNlcsnwpqOHbcyPUv8MmS3gl6o7abx+xUTjjaKeyZ
+         wKX6p4DPFBJqpKoa2Yszlo52PFvQMZNwYkG5OeQTQg2kdvcOgw3ugRLXoHeW0xUA/SYv
+         M8r90WE3lTHzyXOTCtnZ/VuPNLUIGlxPCn8OmY8lxjh0GFrcJMWVBEtSnCyvh4dfoYC7
+         jZoKIhoOXsqBN9LHCPh+mnv2/mo1LCJN5Yc7yEi31N+A7GSCx/j8prvJteuzll91MPnj
+         Fd0A==
+X-Gm-Message-State: AOAM5313YVXs4xOba0AffP4WAR4C8HbSpuhkARGVm7vE9qP6IhVV1x5f
+        vS87II8TH/ujar51wHOA5eAV0AdFzTsYMVX69TtTDXcT0Ns=
+X-Google-Smtp-Source: ABdhPJwld0v9fctoVsqZ8zemyLo0XdGyhSs1s6WAMyzu8Mgiy3wTK6jt+LVq0MqxBRBxbBp4Q7Rsx1sRZUz2MqhZ5Cs=
+X-Received: by 2002:aa7:d0c9:: with SMTP id u9mr16513044edo.167.1631942420464;
+ Fri, 17 Sep 2021 22:20:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210917034815.80264-1-songmuchun@bytedance.com> <20210917034815.80264-4-songmuchun@bytedance.com>
-In-Reply-To: <20210917034815.80264-4-songmuchun@bytedance.com>
+References: <20210917034815.80264-1-songmuchun@bytedance.com> <20210917034815.80264-5-songmuchun@bytedance.com>
+In-Reply-To: <20210917034815.80264-5-songmuchun@bytedance.com>
 From:   Barry Song <21cnbao@gmail.com>
-Date:   Sat, 18 Sep 2021 17:06:58 +1200
-Message-ID: <CAGsJ_4yWZTcRqnBmLrYJ3Z1Yo_7oWRgR4B3qK5m570xgpeJ-5Q@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 3/4] mm: sparsemem: use page table lock to
- protect kernel pmd operations
+Date:   Sat, 18 Sep 2021 17:20:09 +1200
+Message-ID: <CAGsJ_4wW6b5aC4va1_BZuWLqxzRkSi3vLcyJo7XGMbVi8i7iuw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 4/4] selftests: vm: add a hugetlb test case
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     mike.kravetz@oracle.com, Andrew Morton <akpm@linux-foundation.org>,
         osalvador@suse.de, mhocko@suse.com,
@@ -76,169 +75,179 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 12:09 AM Muchun Song <songmuchun@bytedance.com> wrote:
+On Sat, Sep 18, 2021 at 12:08 AM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> The init_mm.page_table_lock is used to protect kernel page tables, we
-> can use it to serialize splitting vmemmap PMD mappings instead of mmap
-> write lock, which can increase the concurrency of vmemmap_remap_free().
+> Since the head vmemmap page frame associated with each HugeTLB page is
+> reused, we should hide the PG_head flag of tail struct page from the
+> user. Add a tese case to check whether it is work properly.
 >
 
-Curious what is the actual benefit we get in user scenarios from this patch,
-1. we set bootargs to reserve hugetlb statically
-2. we "echo" some figures to sys or proc.
+TBH, I am a bit confused. I was thinking about some kernel unit tests to make
+sure those kernel APIs touched by this patchset are still working as before.
+This userspace test, while certainly useful for checking the content of page
+frames as expected, doesn't directly prove things haven't changed.
 
-In other words, Who is going to care about this concurrency?
-Can we have some details on this to put in the commit log?
+In patch 1/4, a couple of APIs have the fixup for the fake head issue.
+Do you think a test like the below would be more sensible?
+1. alloc 2MB hugeTLB
+2. get each page frame
+3. apply those APIs in each page frame
+4. Those APIs work completely the same as before.
 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->  mm/ptdump.c         | 16 ++++++++++++----
->  mm/sparse-vmemmap.c | 49 ++++++++++++++++++++++++++++++++++---------------
->  2 files changed, 46 insertions(+), 19 deletions(-)
+>  tools/testing/selftests/vm/vmemmap_hugetlb.c | 139 +++++++++++++++++++++++++++
+>  1 file changed, 139 insertions(+)
+>  create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
 >
-> diff --git a/mm/ptdump.c b/mm/ptdump.c
-> index da751448d0e4..eea3d28d173c 100644
-> --- a/mm/ptdump.c
-> +++ b/mm/ptdump.c
-> @@ -40,8 +40,10 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 0, pgd_val(val));
->
-> -       if (pgd_leaf(val))
-> +       if (pgd_leaf(val)) {
->                 st->note_page(st, addr, 0, pgd_val(val));
-> +               walk->action = ACTION_CONTINUE;
-> +       }
->
->         return 0;
->  }
-> @@ -61,8 +63,10 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long addr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 1, p4d_val(val));
->
-> -       if (p4d_leaf(val))
-> +       if (p4d_leaf(val)) {
->                 st->note_page(st, addr, 1, p4d_val(val));
-> +               walk->action = ACTION_CONTINUE;
-> +       }
->
->         return 0;
->  }
-> @@ -82,8 +86,10 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long addr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 2, pud_val(val));
->
-> -       if (pud_leaf(val))
-> +       if (pud_leaf(val)) {
->                 st->note_page(st, addr, 2, pud_val(val));
-> +               walk->action = ACTION_CONTINUE;
-> +       }
->
->         return 0;
->  }
-> @@ -101,8 +107,10 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned long addr,
->
->         if (st->effective_prot)
->                 st->effective_prot(st, 3, pmd_val(val));
-> -       if (pmd_leaf(val))
-> +       if (pmd_leaf(val)) {
->                 st->note_page(st, addr, 3, pmd_val(val));
-> +               walk->action = ACTION_CONTINUE;
-> +       }
->
->         return 0;
->  }
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index 62e3d20648ce..e636943ccfc4 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -64,8 +64,8 @@ struct vmemmap_remap_walk {
->   */
->  #define NR_RESET_STRUCT_PAGE           3
->
-> -static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
-> -                                 struct vmemmap_remap_walk *walk)
-> +static int __split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
-> +                                   struct vmemmap_remap_walk *walk)
->  {
->         pmd_t __pmd;
->         int i;
-> @@ -87,15 +87,37 @@ static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
->                 set_pte_at(&init_mm, addr, pte, entry);
->         }
->
-> -       /* Make pte visible before pmd. See comment in __pte_alloc(). */
-> -       smp_wmb();
-> -       pmd_populate_kernel(&init_mm, pmd, pgtable);
-> +       spin_lock(&init_mm.page_table_lock);
-> +       if (likely(pmd_leaf(*pmd))) {
-> +               /* Make pte visible before pmd. See comment in __pte_alloc(). */
-> +               smp_wmb();
-> +               pmd_populate_kernel(&init_mm, pmd, pgtable);
-> +               flush_tlb_kernel_range(start, start + PMD_SIZE);
-> +               spin_unlock(&init_mm.page_table_lock);
->
-> -       flush_tlb_kernel_range(start, start + PMD_SIZE);
-> +               return 0;
-> +       }
-> +       spin_unlock(&init_mm.page_table_lock);
-> +       pte_free_kernel(&init_mm, pgtable);
->
->         return 0;
->  }
->
-> +static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
-> +                                 struct vmemmap_remap_walk *walk)
+> diff --git a/tools/testing/selftests/vm/vmemmap_hugetlb.c b/tools/testing/selftests/vm/vmemmap_hugetlb.c
+> new file mode 100644
+> index 000000000000..b6e945bf4053
+> --- /dev/null
+> +++ b/tools/testing/selftests/vm/vmemmap_hugetlb.c
+> @@ -0,0 +1,139 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * A test case of using hugepage memory in a user application using the
+> + * mmap system call with MAP_HUGETLB flag.  Before running this program
+> + * make sure the administrator has allocated enough default sized huge
+> + * pages to cover the 2 MB allocation.
+> + *
+> + * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
+> + * That means the addresses starting with 0x800000... will need to be
+> + * specified.  Specifying a fixed address is not required on ppc64, i386
+> + * or x86_64.
+> + */
+> +#include <stdlib.h>
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/mman.h>
+> +#include <fcntl.h>
+> +
+> +#define MAP_LENGTH             (2UL * 1024 * 1024)
+> +
+> +#ifndef MAP_HUGETLB
+> +#define MAP_HUGETLB            0x40000 /* arch specific */
+> +#endif
+> +
+> +#define PAGE_SIZE              4096
+> +
+> +#define PAGE_COMPOUND_HEAD     (1UL << 15)
+> +#define PAGE_COMPOUND_TAIL     (1UL << 16)
+> +#define PAGE_HUGE              (1UL << 17)
+> +
+> +#define HEAD_PAGE_FLAGS                (PAGE_COMPOUND_HEAD | PAGE_HUGE)
+> +#define TAIL_PAGE_FLAGS                (PAGE_COMPOUND_TAIL | PAGE_HUGE)
+> +
+> +#define PM_PFRAME_BITS         55
+> +#define PM_PFRAME_MASK         ~((1UL << PM_PFRAME_BITS) - 1)
+> +
+> +/* Only ia64 requires this */
+> +#ifdef __ia64__
+> +#define MAP_ADDR               (void *)(0x8000000000000000UL)
+> +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
+> +#else
+> +#define MAP_ADDR               NULL
+> +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
+> +#endif
+> +
+> +static void write_bytes(char *addr, size_t length)
 > +{
-> +       int ret;
+> +       unsigned long i;
 > +
-> +       spin_lock(&init_mm.page_table_lock);
-> +       ret = pmd_leaf(*pmd);
-> +       spin_unlock(&init_mm.page_table_lock);
-> +
-> +       if (ret)
-> +               ret = __split_vmemmap_huge_pmd(pmd, start, walk);
-> +
-> +       return ret;
+> +       for (i = 0; i < length; i++)
+> +               *(addr + i) = (char)i;
 > +}
 > +
->  static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
->                               unsigned long end,
->                               struct vmemmap_remap_walk *walk)
-> @@ -132,13 +154,12 @@ static int vmemmap_pmd_range(pud_t *pud, unsigned long addr,
->
->         pmd = pmd_offset(pud, addr);
->         do {
-> -               if (pmd_leaf(*pmd)) {
-> -                       int ret;
-> +               int ret;
+> +static unsigned long virt_to_pfn(void *addr)
+> +{
+> +       int fd;
+> +       unsigned long pagemap;
 > +
-> +               ret = split_vmemmap_huge_pmd(pmd, addr & PMD_MASK, walk);
-> +               if (ret)
-> +                       return ret;
->
-> -                       ret = split_vmemmap_huge_pmd(pmd, addr & PMD_MASK, walk);
-> -                       if (ret)
-> -                               return ret;
-> -               }
->                 next = pmd_addr_end(addr, end);
->                 vmemmap_pte_range(pmd, addr, next, walk);
->         } while (pmd++, addr = next, addr != end);
-> @@ -321,10 +342,8 @@ int vmemmap_remap_free(unsigned long start, unsigned long end,
->          */
->         BUG_ON(start - reuse != PAGE_SIZE);
->
-> -       mmap_write_lock(&init_mm);
-> +       mmap_read_lock(&init_mm);
->         ret = vmemmap_remap_range(reuse, end, &walk);
-> -       mmap_write_downgrade(&init_mm);
-> -
->         if (ret && walk.nr_walked) {
->                 end = reuse + walk.nr_walked * PAGE_SIZE;
->                 /*
+> +       fd = open("/proc/self/pagemap", O_RDONLY);
+> +       if (fd < 0)
+> +               return -1UL;
+> +
+> +       lseek(fd, (unsigned long)addr / PAGE_SIZE * sizeof(pagemap), SEEK_SET);
+> +       read(fd, &pagemap, sizeof(pagemap));
+> +       close(fd);
+> +
+> +       return pagemap & ~PM_PFRAME_MASK;
+> +}
+> +
+> +static int check_page_flags(unsigned long pfn)
+> +{
+> +       int fd, i;
+> +       unsigned long pageflags;
+> +
+> +       fd = open("/proc/kpageflags", O_RDONLY);
+> +       if (fd < 0)
+> +               return -1;
+> +
+> +       lseek(fd, pfn * sizeof(pageflags), SEEK_SET);
+> +
+> +       read(fd, &pageflags, sizeof(pageflags));
+> +       if ((pageflags & HEAD_PAGE_FLAGS) != HEAD_PAGE_FLAGS) {
+> +               close(fd);
+> +               printf("Head page flags (%lx) is invalid\n", pageflags);
+> +               return -1;
+> +       }
+> +
+> +       for (i = 1; i < MAP_LENGTH / PAGE_SIZE; i++) {
+> +               read(fd, &pageflags, sizeof(pageflags));
+> +               if ((pageflags & TAIL_PAGE_FLAGS) != TAIL_PAGE_FLAGS ||
+> +                   (pageflags & HEAD_PAGE_FLAGS) == HEAD_PAGE_FLAGS) {
+> +                       close(fd);
+> +                       printf("Tail page flags (%lx) is invalid\n", pageflags);
+> +                       return -1;
+> +               }
+> +       }
+> +
+> +       close(fd);
+> +
+> +       return 0;
+> +}
+> +
+> +int main(int argc, char **argv)
+> +{
+> +       void *addr;
+> +       unsigned long pfn;
+> +
+> +       addr = mmap(MAP_ADDR, MAP_LENGTH, PROT_READ | PROT_WRITE, MAP_FLAGS, -1, 0);
+> +       if (addr == MAP_FAILED) {
+> +               perror("mmap");
+> +               exit(1);
+> +       }
+> +
+> +       /* Trigger allocation of HugeTLB page. */
+> +       write_bytes(addr, MAP_LENGTH);
+> +
+> +       pfn = virt_to_pfn(addr);
+> +       if (pfn == -1UL) {
+> +               munmap(addr, MAP_LENGTH);
+> +               perror("virt_to_pfn");
+> +               exit(1);
+> +       }
+> +
+> +       printf("Returned address is %p whose pfn is %lx\n", addr, pfn);
+> +
+> +       if (check_page_flags(pfn) < 0) {
+> +               munmap(addr, MAP_LENGTH);
+> +               perror("check_page_flags");
+> +               exit(1);
+> +       }
+> +
+> +       /* munmap() length of MAP_HUGETLB memory must be hugepage aligned */
+> +       if (munmap(addr, MAP_LENGTH)) {
+> +               perror("munmap");
+> +               exit(1);
+> +       }
+> +
+> +       return 0;
+> +}
 > --
 > 2.11.0
 >
 
 Thanks
-barry
+Barry
