@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1945C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07131C4167D
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:05:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B5AA61284
+	by mail.kernel.org (Postfix) with ESMTP id F2FB361351
 	for <linux-doc@archiver.kernel.org>; Sat, 18 Sep 2021 05:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240443AbhIRFGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S240708AbhIRFGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 18 Sep 2021 01:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34236 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236251AbhIRFGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 01:06:33 -0400
+        with ESMTP id S238529AbhIRFGf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Sep 2021 01:06:35 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E338FC061757;
-        Fri, 17 Sep 2021 22:05:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C09CC061757;
+        Fri, 17 Sep 2021 22:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=REleVeJdVPAjpr9HeQ2cRfmfpLS6DlhRbk/XlbxpQOE=; b=QzR7NY5Fd+cQRWfTaqtKiaRDUV
-        7qaA68e8dCYZLdZDm52bd5Qv5sR8TTBOZtQE2sCzurKg7c4TAWpBZDfN8TPQFeQSNO0NNCAtRXKjd
-        +eW3WMTgmid5sptLhXA8FJEmBlDDVf/KtTSKj+aW7kly6s9LnI/NMzthxasKWR5NSQLkhSLVM1N5u
-        q1Adv1Z46q6/pEFTCp7nSmls2dmWNOgw+lx+r5+0oX0xV2Kao7Y0j7mDWXvE6bcj7F8AJvIRQqINN
-        tMgQ1XPNN3YpvzDsgq5TLOS7BYsXE3otLzEfvuOIUw3CP1bbCUEEiwC/PHluEyP631IqjSvAFSbeM
-        f3vzE3og==;
+        bh=q2+MnJ/oJog1W0Rk/dtsiaYdpoMihgX+djUDLDDhJ3E=; b=uUfkhq36ZNYHgaZ8euaXy/ld3F
+        ehNPiASo6yRNvYoZ5k/9LDC76Z7r7iJyX4APIz0OVxZ7Y0jZjfn4fVU2m/97SYtnmEXdEYtrhWwgV
+        70W1enzwQmsKtKNb5gJp5/ZErYiibbjVqjmL75+lXaxK3VDfSlSt3Vr9Mk01107bB/St6nNqhTOj5
+        iRSG7I8y7iXrvsX6J41+qC/28dE8oCQ1ZrJUt8HydoVYdkdgpRTK3scA0lbn2cToUm/+BUU3wRlQz
+        aSFlxE62O+qlFVzBi+tvJurYcGdgmdpx767ImIMAbMiIkImk5Ubnxyw1mP5zVRmSloW6jsaceYwY4
+        LkgntUcA==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mRSWf-00FP4e-CH; Sat, 18 Sep 2021 05:04:33 +0000
+        id 1mRSWe-00FP4O-N9; Sat, 18 Sep 2021 05:04:32 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     tj@kernel.org, gregkh@linuxfoundation.org,
         akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
@@ -59,10 +59,17 @@ Cc:     rdunlap@infradead.org, rafael@kernel.org, masahiroy@kernel.org,
         linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org
-Subject: [PATCH v7 10/12] test_sysfs: enable deadlock tests by default
-Date:   Fri, 17 Sep 2021 22:04:28 -0700
-Message-Id: <20210918050430.3671227-11-mcgrof@kernel.org>
+        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org,
+        Goldwyn Rodrigues <rgoldwyn@suse.com>,
+        Kuno Woudt <kuno@frob.nl>,
+        Richard Fontana <fontana@sharpeleven.org>,
+        Ciaran Farrell <Ciaran.Farrell@suse.com>,
+        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Subject: [PATCH v7 02/12] testing: use the copyleft-next-0.3.1 SPDX tag
+Date:   Fri, 17 Sep 2021 22:04:20 -0700
+Message-Id: <20210918050430.3671227-3-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210918050430.3671227-1-mcgrof@kernel.org>
 References: <20210918050430.3671227-1-mcgrof@kernel.org>
@@ -73,38 +80,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that sysfs has the deadlock race fixed with module removal,
-enable the deadlock tests module removal tests. They were left
-disabled by default as otherwise you would deadlock your system
+Two selftests drivers exist under the copyleft-next license.
+These drivers were added prior to SPDX practice taking full swing
+in the kernel. Now that we have an SPDX tag for copylef-next-0.3.1
+documented, embrace it and remove the boiler plate.
 
-./tools/testing/selftests/sysfs/sysfs.sh -t 0027
-Running test: sysfs_test_0027 - run #0
-Test for possible rmmod deadlock while writing x ... ok
-
-./tools/testing/selftests/sysfs/sysfs.sh -t 0028
-Running test: sysfs_test_0028 - run #0
-Test for possible rmmod deadlock using rtnl_lock while writing x ... ok
-
+Cc: Goldwyn Rodrigues <rgoldwyn@suse.com>
+Cc: Kuno Woudt <kuno@frob.nl>
+Cc: Richard Fontana <fontana@sharpeleven.org>
+Cc: copyleft-next@lists.fedorahosted.org
+Cc: Ciaran Farrell <Ciaran.Farrell@suse.com>
+Cc: Christopher De Nicolo <Christopher.DeNicolo@suse.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- tools/testing/selftests/sysfs/sysfs.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ lib/test_kmod.c                          | 12 +-----------
+ lib/test_sysctl.c                        | 12 +-----------
+ tools/testing/selftests/kmod/kmod.sh     | 13 +------------
+ tools/testing/selftests/sysctl/sysctl.sh | 12 +-----------
+ 4 files changed, 4 insertions(+), 45 deletions(-)
 
-diff --git a/tools/testing/selftests/sysfs/sysfs.sh b/tools/testing/selftests/sysfs/sysfs.sh
-index f928635d0e35..4047ac48e764 100755
---- a/tools/testing/selftests/sysfs/sysfs.sh
-+++ b/tools/testing/selftests/sysfs/sysfs.sh
-@@ -60,8 +60,8 @@ ALL_TESTS="$ALL_TESTS 0023:1:1:test_dev_y:block"
- ALL_TESTS="$ALL_TESTS 0024:1:1:test_dev_x:block"
- ALL_TESTS="$ALL_TESTS 0025:1:1:test_dev_y:block"
- ALL_TESTS="$ALL_TESTS 0026:1:1:test_dev_y:block"
--ALL_TESTS="$ALL_TESTS 0027:1:0:test_dev_x:block" # deadlock test
--ALL_TESTS="$ALL_TESTS 0028:1:0:test_dev_x:block" # deadlock test with rntl_lock
-+ALL_TESTS="$ALL_TESTS 0027:1:1:test_dev_x:block" # deadlock test
-+ALL_TESTS="$ALL_TESTS 0028:1:1:test_dev_x:block" # deadlock test with rntl_lock
- ALL_TESTS="$ALL_TESTS 0029:1:1:test_dev_x:block" # kernfs race removal of store
- ALL_TESTS="$ALL_TESTS 0030:1:1:test_dev_x:block" # kernfs race removal before mutex
- ALL_TESTS="$ALL_TESTS 0031:1:1:test_dev_x:block" # kernfs race removal after mutex
+diff --git a/lib/test_kmod.c b/lib/test_kmod.c
+index ce1589391413..d62afd89dc63 100644
+--- a/lib/test_kmod.c
++++ b/lib/test_kmod.c
+@@ -1,18 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
+ /*
+  * kmod stress test driver
+  *
+  * Copyright (C) 2017 Luis R. Rodriguez <mcgrof@kernel.org>
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of the GNU General Public License as published by the Free
+- * Software Foundation; either version 2 of the License, or at your option any
+- * later version; or, when distributed separately from the Linux kernel or
+- * when incorporated into other software packages, subject to the following
+- * license:
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of copyleft-next (version 0.3.1 or later) as published
+- * at http://copyleft-next.org/.
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
+index 3750323973f4..9e5bd10a930a 100644
+--- a/lib/test_sysctl.c
++++ b/lib/test_sysctl.c
+@@ -1,18 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
+ /*
+  * proc sysctl test driver
+  *
+  * Copyright (C) 2017 Luis R. Rodriguez <mcgrof@kernel.org>
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of the GNU General Public License as published by the Free
+- * Software Foundation; either version 2 of the License, or at your option any
+- * later version; or, when distributed separately from the Linux kernel or
+- * when incorporated into other software packages, subject to the following
+- * license:
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms of copyleft-next (version 0.3.1 or later) as published
+- * at http://copyleft-next.org/.
+  */
+ 
+ /*
+diff --git a/tools/testing/selftests/kmod/kmod.sh b/tools/testing/selftests/kmod/kmod.sh
+index afd42387e8b2..7189715d7960 100755
+--- a/tools/testing/selftests/kmod/kmod.sh
++++ b/tools/testing/selftests/kmod/kmod.sh
+@@ -1,18 +1,7 @@
+ #!/bin/bash
+-#
++# SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
+ # Copyright (C) 2017 Luis R. Rodriguez <mcgrof@kernel.org>
+ #
+-# This program is free software; you can redistribute it and/or modify it
+-# under the terms of the GNU General Public License as published by the Free
+-# Software Foundation; either version 2 of the License, or at your option any
+-# later version; or, when distributed separately from the Linux kernel or
+-# when incorporated into other software packages, subject to the following
+-# license:
+-#
+-# This program is free software; you can redistribute it and/or modify it
+-# under the terms of copyleft-next (version 0.3.1 or later) as published
+-# at http://copyleft-next.org/.
+-
+ # This is a stress test script for kmod, the kernel module loader. It uses
+ # test_kmod which exposes a series of knobs for the API for us so we can
+ # tweak each test in userspace rather than in kernelspace.
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index 19515dcb7d04..2046c603a4d4 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -1,16 +1,6 @@
+ #!/bin/bash
++# SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
+ # Copyright (C) 2017 Luis R. Rodriguez <mcgrof@kernel.org>
+-#
+-# This program is free software; you can redistribute it and/or modify it
+-# under the terms of the GNU General Public License as published by the Free
+-# Software Foundation; either version 2 of the License, or at your option any
+-# later version; or, when distributed separately from the Linux kernel or
+-# when incorporated into other software packages, subject to the following
+-# license:
+-#
+-# This program is free software; you can redistribute it and/or modify it
+-# under the terms of copyleft-next (version 0.3.1 or later) as published
+-# at http://copyleft-next.org/.
+ 
+ # This performs a series tests against the proc sysctl interface.
+ 
 -- 
 2.30.2
 
