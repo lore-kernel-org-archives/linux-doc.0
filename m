@@ -2,113 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCD7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 20:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 912D4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:27:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 915E261100
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 20:57:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77C8B6121D
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233259AbhITU7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 16:59:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44194 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232249AbhITU5R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 16:57:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632171350;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S4VKFLtrv5F+Sqia58aIUV8mMMq0gd6yS5dG8Lafx1o=;
-        b=Dry+zZXZgH26hSGHq0Gr1gdn+QBbTX9N+617rNfPIfEwTSbwNjBfsG4rQVmDGmzxHPs2p/
-        RZOQyjVNLDAdocM3bGa4SCFEtNxrVs8cxqj0mki1GGdfDzAipb54atXFe946uYCaSTgiPW
-        GFGoj8GQvdIKhIJ0XXsc+Z294EPUh2I=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-3ZllR6oLOEuQXei-R61_lw-1; Mon, 20 Sep 2021 16:55:46 -0400
-X-MC-Unique: 3ZllR6oLOEuQXei-R61_lw-1
-Received: by mail-io1-f69.google.com with SMTP id g8-20020a05660203c800b005d58875129eso24434360iov.2
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 13:55:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S4VKFLtrv5F+Sqia58aIUV8mMMq0gd6yS5dG8Lafx1o=;
-        b=wGpfqz3iX0KPlmj8OxA5ZE34SkAGHNqBxJD65QcMRT84cKMw4FXKyK2CD9/r0ndVc+
-         cK2f3WCChwWwvhrPbBBtRkwr7hAKjrq7N1vX/BjChrcR3riixDo/Pibw/O1wWqrcv4pA
-         KnKvAlO+lXNpGqhPppolCaLectsgM1lEkt6MwH2VGEmJfMdJ1zW4UdW86zPnYjP9PuG3
-         Kx7Yq6CV5etqkgifBF4pgY9dhykN+/XCvp5x9cAVGxamNRo5lDEHCnMnc1fJzosZI0VO
-         rvXt9GO0m/2W6rvAbsGjYFd+HAak7UWeTqa5djiSb60zJIHM2QamP7XGofassBIxNzSj
-         8fIQ==
-X-Gm-Message-State: AOAM5335K7D0ZnY6yVYYjHtGCIdQenqcxpgjUR2Keb0BIc9E1bqtwyPp
-        p/gr9kmWv6aY4iOzgvGZUYZ45DGWkVDbzffP9wcYfiecCnZr2IbXfNAh/qdTAZxR/P8ADKUpniE
-        vtf9AKVTOl5ZKzlzVsruy
-X-Received: by 2002:a6b:cd01:: with SMTP id d1mr17336331iog.88.1632171346329;
-        Mon, 20 Sep 2021 13:55:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwe95i2375dC+5VC3FwfOiZ49FuXMNgnAsnCt+5yXxUVqT8mSI59DRcKPEVF0316d9KBE3J2w==
-X-Received: by 2002:a6b:cd01:: with SMTP id d1mr17336329iog.88.1632171346122;
-        Mon, 20 Sep 2021 13:55:46 -0700 (PDT)
-Received: from halaneylaptop.redhat.com (068-184-200-203.res.spectrum.com. [68.184.200.203])
-        by smtp.gmail.com with ESMTPSA id v9sm9268905ilc.16.2021.09.20.13.55.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 13:55:45 -0700 (PDT)
-From:   Andrew Halaney <ahalaney@redhat.com>
-To:     Jason Baron <jbaron@akamai.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Cromie <jim.cromie@gmail.com>
-Cc:     Andrew Halaney <ahalaney@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] Documentation: dyndbg: Improve cli param examples
-Date:   Mon, 20 Sep 2021 15:54:44 -0500
-Message-Id: <20210920205444.20068-4-ahalaney@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210920205444.20068-1-ahalaney@redhat.com>
-References: <20210920205444.20068-1-ahalaney@redhat.com>
+        id S238536AbhITV3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 17:29:00 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54121 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231784AbhITV1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:27:00 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id EECA82B012E5;
+        Mon, 20 Sep 2021 17:25:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 20 Sep 2021 17:25:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=AWImI2KGSpvCbthaTGpOCk4QbRl
+        8dZEEYq4SHjBTZJE=; b=USXGjuU+4R2n9u+CDG6f9J49IGnM33Ay4XL+MlmTPNv
+        zeb26cRTrDZymp/Wy0xOKrb0j7P0vB55p2h5DS5Co/L1vAGjJoI0JQcZh93opH11
+        4hsuQsFzDJ4FhOR4s7lTtgsnMNm+7OJWq8pl9qVcXWJF1hr9RNClUgeMfBLC8kcb
+        WyhUfNH8fNniw9f56QJwijgyaUFVFtXVm0bLLG/NskWpOyT6fINV5jlub6v5TEPQ
+        VsBBXzNvOEzK+lONgNf2QcFjqJvJG3T8ipYXGF4VfGvx8NtLjS2OlTOKVN/Oy1pT
+        LUKfj8RyH4XVxQ7OUFm/X8+0xVYdgIpKJSzQ0okyh3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AWImI2
+        KGSpvCbthaTGpOCk4QbRl8dZEEYq4SHjBTZJE=; b=Aaj6hUmY/KPtF72LH13Yrv
+        mhXLRAym+vY8SVlWlLweQ7NtjfFgQ8vEjItH8b++bypf/hy2iQn7jXeRszrOQgwP
+        bXw8UJGlZzVijGiBljQD7wCXpJriQ+UJnLTQq0TINKW2ITc6xyX1sxYD3uohAlQu
+        6NXwJfYejUwBe4HT5zuWM3MzCB5nfIJSe2ywV7rnVQevRT4FOiZsdm/CiUuvY9Ur
+        +w/vhof0UnA4w+UPfcdCYlDEWSOhnSlYH+YUv0M8vfe3CCycZx+YQprmNbDIjPC5
+        Cm8RaSUQGSODp8Y/5sbZydYQDDu4pZLzEq8bUfLwBEXWTYEB65RxOuAwkjZCPNrw
+        ==
+X-ME-Sender: <xms:SvxIYb_SD3L6GKZGVyKR7v3MeCFNcaciiz1aAknxnzN1mAygQkqBOw>
+    <xme:SvxIYXtxHvokL16p3vxzx4LR9djf0dxSIuc0NrHJnrHy5ApNkIX81_FKyP9MujcT9
+    HkykA1gYSfghYEL1Q>
+X-ME-Received: <xmr:SvxIYZArrxeoKSowR3xIM7iucgEBrsqP3y96noTubNXQwy3MMLQSSHnoIGnz94lvXMXyUj08>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgudehlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
+    ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
+    ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
+    fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:SvxIYXdYXMRZ0FKBeMVhN17WTZvhEpWL2Yj5nRDic3kSBqDeyY_H4g>
+    <xmx:SvxIYQNZxI6Eiljl_BP_kv2DzxGV3Hrcbf9AGmdTrdbaPqAM5R83Zw>
+    <xmx:SvxIYZk0PVsalhpoyFR0uPrwJJnzF_M7F_mQGyC2mlSLjujPt_T2Ug>
+    <xmx:S_xIYREyT86uoIjKzNQk2NcGSP8U-MKgIMOwk712MBk4AtGVUt2psHpZW2g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Sep 2021 17:25:27 -0400 (EDT)
+Date:   Mon, 20 Sep 2021 23:25:24 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     kernel test robot <lkp@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 03/15] dmr/msm: cleanup: drm_modeset_lock_all_ctx() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <YUj8RHdl7aIONPa0@zacax395.localdomain>
+References: <20210916211552.33490-4-greenfoo@u92.eu>
+ <202109200942.M3etmn3s-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202109200942.M3etmn3s-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jim pointed out that using $module.dyndbg= is always a more flexible
-choice for using dynamic debug on the command line. The $module.dyndbg
-style is checked at boot and handles if $module is a builtin. If it is
-actually a loadable module, it is handled again later when the module is
-loaded.
+On 21/09/20 09:54AM, kernel test robot wrote:
+> 
+> [auto build test ERROR on drm-exynos/exynos-drm-next]
+> [also build test ERROR on tegra-drm/drm/tegra/for-next linus/master v5.15-rc2 next-20210917]
 
-If you just use dyndbg="module $module +p" dynamic debug is only enabled
-when $module is a builtin.
+I forgot to #include <drm/drm_drv.h> for those platforms and didn't notice
+because I only tried to build for X86. I'll fix it.
 
-It was recommended to illustrate wildcard usage as well.
 
-Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
-Suggested-by: Jim Cromie <jim.cromie@gmail.com>
----
- Documentation/admin-guide/dynamic-debug-howto.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> [cannot apply to drm-intel/for-linux-next tegra/for-next drm-tip/drm-tip airlied/drm-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base'.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index d0911e7cc271..ae264aab42b6 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -357,7 +357,10 @@ Examples
-   Kernel command line: ...
-     // see whats going on in dyndbg=value processing
-     dynamic_debug.verbose=1
--    // enable pr_debugs in 2 builtins, #cmt is stripped
--    dyndbg="module params +p #cmt ; module sys +p"
-+    // enable pr_debugs in the btrfs module (can be builtin or loadable)
-+    btrfs.dyndbg="+p"
-+    // enable pr_debugs in all files under init/
-+    // and the function parse_one, #cmt is stripped
-+    dyndbg="file init/* +p #cmt ; func parse_one +p"
-     // enable pr_debugs in 2 functions in a module loaded later
-     pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
--- 
-2.31.1
+I built this patch against drm-next, which currently points to v5.15-rc1.
 
+Should I be targeting a different branch? In any case, as suggested, I'll
+remember to use "--base" in the future to make it easier to apply. Thanks for
+the hint.
+
+
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/drm/drm_crtc.h:36,
+>                     from include/drm/drm_atomic_helper.h:31,
+>                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot.h:9,
+>                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:8:
+>    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c: In function 'msm_disp_capture_atomic_state':
+> >> include/drm/drm_modeset_lock.h:167:14: error: implicit declaration of function 'drm_drv_uses_atomic_modeset' [-Werror=implicit-function-declaration]
+>      167 |         if (!drm_drv_uses_atomic_modeset(dev))                          \
+>          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:108:9: note: in expansion of macro 'DRM_MODESET_LOCK_ALL_BEGIN'
+>      108 |         DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+
+Out of curiosity: The top comment says there were two build errors (one on
+exynos and another one on tegra), but there is only one reported bug (on msm).
+
+Is this because the bot only reports the first error found? Is there a link to
+a report with each of the build errors on each of the platforms?
+
+Thanks.
