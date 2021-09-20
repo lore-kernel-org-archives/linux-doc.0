@@ -2,125 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 912D4C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B90DC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:38:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77C8B6121D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:27:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB91861213
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238536AbhITV3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 17:29:00 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54121 "EHLO
-        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231784AbhITV1A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:27:00 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.west.internal (Postfix) with ESMTP id EECA82B012E5;
-        Mon, 20 Sep 2021 17:25:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 20 Sep 2021 17:25:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=AWImI2KGSpvCbthaTGpOCk4QbRl
-        8dZEEYq4SHjBTZJE=; b=USXGjuU+4R2n9u+CDG6f9J49IGnM33Ay4XL+MlmTPNv
-        zeb26cRTrDZymp/Wy0xOKrb0j7P0vB55p2h5DS5Co/L1vAGjJoI0JQcZh93opH11
-        4hsuQsFzDJ4FhOR4s7lTtgsnMNm+7OJWq8pl9qVcXWJF1hr9RNClUgeMfBLC8kcb
-        WyhUfNH8fNniw9f56QJwijgyaUFVFtXVm0bLLG/NskWpOyT6fINV5jlub6v5TEPQ
-        VsBBXzNvOEzK+lONgNf2QcFjqJvJG3T8ipYXGF4VfGvx8NtLjS2OlTOKVN/Oy1pT
-        LUKfj8RyH4XVxQ7OUFm/X8+0xVYdgIpKJSzQ0okyh3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AWImI2
-        KGSpvCbthaTGpOCk4QbRl8dZEEYq4SHjBTZJE=; b=Aaj6hUmY/KPtF72LH13Yrv
-        mhXLRAym+vY8SVlWlLweQ7NtjfFgQ8vEjItH8b++bypf/hy2iQn7jXeRszrOQgwP
-        bXw8UJGlZzVijGiBljQD7wCXpJriQ+UJnLTQq0TINKW2ITc6xyX1sxYD3uohAlQu
-        6NXwJfYejUwBe4HT5zuWM3MzCB5nfIJSe2ywV7rnVQevRT4FOiZsdm/CiUuvY9Ur
-        +w/vhof0UnA4w+UPfcdCYlDEWSOhnSlYH+YUv0M8vfe3CCycZx+YQprmNbDIjPC5
-        Cm8RaSUQGSODp8Y/5sbZydYQDDu4pZLzEq8bUfLwBEXWTYEB65RxOuAwkjZCPNrw
-        ==
-X-ME-Sender: <xms:SvxIYb_SD3L6GKZGVyKR7v3MeCFNcaciiz1aAknxnzN1mAygQkqBOw>
-    <xme:SvxIYXtxHvokL16p3vxzx4LR9djf0dxSIuc0NrHJnrHy5ApNkIX81_FKyP9MujcT9
-    HkykA1gYSfghYEL1Q>
-X-ME-Received: <xmr:SvxIYZArrxeoKSowR3xIM7iucgEBrsqP3y96noTubNXQwy3MMLQSSHnoIGnz94lvXMXyUj08>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgudehlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
-    ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
-    ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
-    fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:SvxIYXdYXMRZ0FKBeMVhN17WTZvhEpWL2Yj5nRDic3kSBqDeyY_H4g>
-    <xmx:SvxIYQNZxI6Eiljl_BP_kv2DzxGV3Hrcbf9AGmdTrdbaPqAM5R83Zw>
-    <xmx:SvxIYZk0PVsalhpoyFR0uPrwJJnzF_M7F_mQGyC2mlSLjujPt_T2Ug>
-    <xmx:S_xIYREyT86uoIjKzNQk2NcGSP8U-MKgIMOwk712MBk4AtGVUt2psHpZW2g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Sep 2021 17:25:27 -0400 (EDT)
-Date:   Mon, 20 Sep 2021 23:25:24 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     kernel test robot <lkp@intel.com>
-Cc:     dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, sean@poorly.run,
-        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 03/15] dmr/msm: cleanup: drm_modeset_lock_all_ctx() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUj8RHdl7aIONPa0@zacax395.localdomain>
-References: <20210916211552.33490-4-greenfoo@u92.eu>
- <202109200942.M3etmn3s-lkp@intel.com>
+        id S234291AbhITVkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 17:40:12 -0400
+Received: from mail-pj1-f50.google.com ([209.85.216.50]:39536 "EHLO
+        mail-pj1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232305AbhITViL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:38:11 -0400
+Received: by mail-pj1-f50.google.com with SMTP id h3-20020a17090a580300b0019ce70f8243so436630pji.4;
+        Mon, 20 Sep 2021 14:36:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tUvDrFJV0hIvR0FAKJySgQhotyp6SN23Xzoslz2iXJo=;
+        b=rwZ8zwlOidTutGkQxGYrOqBF81JA94pO/u/nicLbi8TPvOZ0lWpHXtFWr08RN/wTrJ
+         IiIRTTtidtb818tIxjG/sUl5qP6oemw3Jz7NH5ypuMD3jhsZtqgdq7nXaYmVlHPphAe6
+         JpmYpsu8+zYOKlgCbMae/wIw0vaIS9E8dBUCPclWhDxMbd5eZyuMAIQra8GhouB3syxw
+         OBARQGaw+56cXoXGnBWnkpDI96myiIfCgjYJZfOWdKGg0XEEZaPxNDGthq4sLqiMWIhn
+         C5u9x8Dtl1q17tfaSXB4/8frZQnBZ9LqYhC++2BEzCj6ZaLvpFProu+dyeHa57B/KSaG
+         lYuQ==
+X-Gm-Message-State: AOAM530VxUgz86UupmG9CScevh7BcKZpOOC90kodH2IHniIoGjjidd6X
+        ufdv9YGfPrYmJC0PgNlRyQ0=
+X-Google-Smtp-Source: ABdhPJyw/FT9hwIaBUlZHvWR3+Hn3uHenYuvTL7vKPHQz+qO3v2aNVYX5WaGhiZkP6ICvrNNf+Ln6Q==
+X-Received: by 2002:a17:90a:9a2:: with SMTP id 31mr1283242pjo.58.1632173803816;
+        Mon, 20 Sep 2021 14:36:43 -0700 (PDT)
+Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:6e2a:d64:7d9d:bd4a])
+        by smtp.gmail.com with ESMTPSA id i5sm328287pjk.47.2021.09.20.14.36.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 14:36:42 -0700 (PDT)
+Subject: Re: [PATCH v7 09/12] sysfs: fix deadlock race with module removal
+To:     Luis Chamberlain <mcgrof@kernel.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org
+Cc:     rdunlap@infradead.org, rafael@kernel.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, yzaikin@google.com, nathan@kernel.org,
+        ojeda@kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
+        vitor@massaru.org, elver@google.com, jarkko@kernel.org,
+        glider@google.com, rf@opensource.cirrus.com,
+        stephen@networkplumber.org, David.Laight@ACULAB.COM,
+        jolsa@kernel.org, andriy.shevchenko@linux.intel.com,
+        trishalfonso@google.com, andreyknvl@gmail.com, jikos@kernel.org,
+        mbenes@suse.com, ngupta@vflare.org,
+        sergey.senozhatsky.work@gmail.com, reinette.chatre@intel.com,
+        fenghua.yu@intel.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        daniel.vetter@ffwll.ch, bhelgaas@google.com, kw@linux.com,
+        dan.j.williams@intel.com, senozhatsky@chromium.org, hch@lst.de,
+        joe@perches.com, hkallweit1@gmail.com, axboe@kernel.dk,
+        jpoimboe@redhat.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, peterz@infradead.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org
+References: <20210918050430.3671227-1-mcgrof@kernel.org>
+ <20210918050430.3671227-10-mcgrof@kernel.org>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <6db06c27-e3af-b0aa-6f38-9c31dd8194fa@acm.org>
+Date:   Mon, 20 Sep 2021 14:36:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202109200942.M3etmn3s-lkp@intel.com>
+In-Reply-To: <20210918050430.3671227-10-mcgrof@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/09/20 09:54AM, kernel test robot wrote:
+On 9/17/21 10:04 PM, Luis Chamberlain wrote:
+> A sketch of how this can happen follows:
 > 
-> [auto build test ERROR on drm-exynos/exynos-drm-next]
-> [also build test ERROR on tegra-drm/drm/tegra/for-next linus/master v5.15-rc2 next-20210917]
-
-I forgot to #include <drm/drm_drv.h> for those platforms and didn't notice
-because I only tried to build for X86. I'll fix it.
-
-
-> [cannot apply to drm-intel/for-linux-next tegra/for-next drm-tip/drm-tip airlied/drm-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base'.
-
-I built this patch against drm-next, which currently points to v5.15-rc1.
-
-Should I be targeting a different branch? In any case, as suggested, I'll
-remember to use "--base" in the future to make it easier to apply. Thanks for
-the hint.
-
-
-> All errors (new ones prefixed by >>):
+> CPU A                              CPU B
+>                                     whatever_store()
+> module_unload
+>    mutex_lock(foo)
+>                                     mutex_lock(foo)
+>     del_gendisk(zram->disk);
+>       device_del()
+>         device_remove_groups()
 > 
->    In file included from include/drm/drm_crtc.h:36,
->                     from include/drm/drm_atomic_helper.h:31,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot.h:9,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:8:
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c: In function 'msm_disp_capture_atomic_state':
-> >> include/drm/drm_modeset_lock.h:167:14: error: implicit declaration of function 'drm_drv_uses_atomic_modeset' [-Werror=implicit-function-declaration]
->      167 |         if (!drm_drv_uses_atomic_modeset(dev))                          \
->          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:108:9: note: in expansion of macro 'DRM_MODESET_LOCK_ALL_BEGIN'
->      108 |         DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
+> In this situation whatever_store() is waiting for the mutex foo to
+> become unlocked, but that won't happen until module removal is complete.
+> But module removal won't complete until the sysfs file being poked
+> completes which is waiting for a lock already held.
 
-Out of curiosity: The top comment says there were two build errors (one on
-exynos and another one on tegra), but there is only one reported bug (on msm).
+If I remember correctly I encountered the deadlock scenario described
+above for the first time about ten years ago while working on the SCST
+project. We solved this deadlock by removing the sysfs attributes from
+the module unload code before grabbing mutex_lock(foo), e.g. by calling
+sysfs_remove_file(). This works because calling sysfs_remove_file()
+multiple times in a row is safe. Is that solution good enough for the
+zram driver?
 
-Is this because the bot only reports the first error found? Is there a link to
-a report with each of the build errors on each of the platforms?
+Thanks,
 
-Thanks.
+Bart.
