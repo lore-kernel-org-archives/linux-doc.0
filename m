@@ -2,79 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 638B4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C96C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 22:33:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 426BF60F48
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:47:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0371E61100
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 22:33:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236980AbhITVse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 17:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35752 "EHLO
+        id S239115AbhITWe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 18:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238648AbhITVqe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:46:34 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9298C0698D7;
-        Mon, 20 Sep 2021 10:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=KXUOMDD9e8aDRtCMjdtKTE3I6iViL6D6eI7D8ogZ3mM=; b=uq96Xwj4pZdgwT/3V7FLk8WtPg
-        YMjoJxWEbcNpxDi1aA5eIUP8wx2k0w+ft8EZAGVSpCUWeuytzVsMkniR9VUM4gcHG7SHsIGNgTeN7
-        r5namj2wGtuypxeRzCxkjfTLoWKWQiKxP+VK8622VncZUv/1U4dCQ9NpGDcVZFwarsCow3C82Dj6t
-        XnHaV6EF3fXOVY244/V8StSsImq5wLyXbEUeKZ9X77Gy+mlahNPtgunAxs5zHauW5YHbtSIB7IyET
-        +FPv+CFlwXUibadLtKUQF/9C9fPOgiO7dtRLPEDOgvo8CO6zXyKg+blvANJ6SoA9TlwhDSuwbJogK
-        XHexOcHg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mSN2Y-002uyi-DQ; Mon, 20 Sep 2021 17:25:40 +0000
-Date:   Mon, 20 Sep 2021 18:25:14 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Joel Becker <jlbec@evilplan.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jack Winch <sunt.un.morcov@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 2/8] configfs: use BIT() for internal flags
-Message-ID: <YUjD+sAkgjYkTE38@casper.infradead.org>
-References: <20210920140509.5177-1-brgl@bgdev.pl>
- <20210920140509.5177-3-brgl@bgdev.pl>
- <20210920140938.GA24424@lst.de>
- <CAMuHMdXoZdhSydMpbW8B6oQJNnpYpTxmhHrV5CJNTUP7T1KsoA@mail.gmail.com>
- <20210920143046.GA26163@lst.de>
- <CAMRc=McQoD=cUHLu6TMyW85fdtXOm4x38tHVnEGjkVfcfX0mfA@mail.gmail.com>
- <CAMuHMdXUpMvhjjgNdLgfJvaWWG9_oHa_pmx4TTy0mC1p1zUEmw@mail.gmail.com>
- <CAMRc=MdNQ+rquq6_rf-rxvoPzz9G0EzO4T=ryF6XYXh51NBL_w@mail.gmail.com>
+        with ESMTP id S236530AbhITWc6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 18:32:58 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34845C0DBAA5;
+        Mon, 20 Sep 2021 10:36:34 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id n18so11554694plp.7;
+        Mon, 20 Sep 2021 10:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=OU4xzWoGEyQRbV0io9yUzpEtxuso6DGtbaEY+PN0yXY=;
+        b=UWm0G1Ww+g5nv8MIKnO9ITpymPJN2u7uYFkxWjd1PUOcBKrjfgli6E6founBl6k+y7
+         us7VaQS55ELql0B4EdD5cV8NqN1IxNwwd+9oedfl6poL49bXXjSDXBzJ3uigtvICUf9/
+         i1mtFj17iiz7RRsQHxYfUoMWWcraEXtiL/2V4NFXA2RCVHPSYYrp8LZA4t7Ep+T62X1i
+         +9hg5760L5nZ9bEQM14936PQHk8HOHG74410RUjD37TIJkEtRL/xaydv80IX2XgDMr5Q
+         nZfw6O64Rv8W6V9G9a6OIrlh8PIfZy3zavqTOu71sEaQwsz3LyQNBApDYOAcZ2GTG+Li
+         X4Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=OU4xzWoGEyQRbV0io9yUzpEtxuso6DGtbaEY+PN0yXY=;
+        b=Vaei+VhboDLgfy+h1jpu2ybLrCImeyBMwwujPdxvclLPCLsEzoj/szFDxMIExXBcm+
+         LVnUdzMpk44QgXOD1dzn7F723OEoo8VWk6ld7W+znbiXiuEnXTlyXIKkZaoigzSuMlpS
+         dGfj1rJ2TJC5RDp5MxXONaPZ3hKQ8q36mOoA6GAG2WtRZmxb8xKcfsgtXJUuPRf1fD3f
+         pDOcusnvgyngOe57Oj6QJc7WDJEbBCRxF6H/8dVfP6U3d47aFndvREtCp3z0jH06Qwpe
+         1IElCjlT3AU0fRC68YwpP9lmUIqFnh4qKCO0k2c9GylMfdLVeC6m+9tzxAVUL1aa+Q7X
+         y9Iw==
+X-Gm-Message-State: AOAM531R8Yk5Gb6mUkY6CIVfG+SZpjZy7wBoIB/RmNV8gnR+CBe3pj1G
+        CUCDKtvwPwc0sNXShTE/Zjo=
+X-Google-Smtp-Source: ABdhPJy/xEhb9UFKsWXyqXWTn2tK+XGuSIsf++rNqoqZv0PSrdQ1jPKekDzoCA2hfG+qJr96CpPtPg==
+X-Received: by 2002:a17:902:7b83:b029:12c:2758:1d2d with SMTP id w3-20020a1709027b83b029012c27581d2dmr23690925pll.80.1632159393545;
+        Mon, 20 Sep 2021 10:36:33 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id t14sm15672081pga.62.2021.09.20.10.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 10:36:32 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 20 Sep 2021 07:36:31 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     brookxu <brookxu.cn@gmail.com>
+Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, vipinsh@google.com,
+        mkoutny@suse.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] misc_cgroup: introduce misc.events to count
+ failures
+Message-ID: <YUjGn27Ryt5R6Cs7@slm.duckdns.org>
+References: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MdNQ+rquq6_rf-rxvoPzz9G0EzO4T=ryF6XYXh51NBL_w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3834f917d50a6f19402e179e917ef6a9dde5f64a.1631881726.git.brookxu@tencent.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 20, 2021 at 05:00:10PM +0200, Bartosz Golaszewski wrote:
-> Anyway, I'm more interested in Al's comments on the implementation of
-> committable items than bikeshedding about whether to use or not to use
-> BIT() so I'll wait for those before revisiting this patch.
+On Fri, Sep 17, 2021 at 08:44:14PM +0800, brookxu wrote:
+> From: Chunguang Xu <brookxu@tencent.com>
+> 
+> Introduce misc.events to make it easier for us to understand
+> the pressure of resources. Currently only the 'max' event is
+> implemented, which indicates the times the resource is about
+> to exceeds the max limit.
+> 
+> Signed-off-by: Chunguang Xu <brookxu@tencent.com>
+> Reviewed-by: Vipin Sharma <vipinsh@google.com>
+> Reviewed-by: Michal Koutný <mkoutny@suse.com>
 
-This isn't bikeshedding.  Bikeshedding is when lots of people weigh in
-with opinions on what you should do.  This is you failing to listen
-to the maintainer of the code you're changing.
+Applied 1-3 to cgroup/for-5.16.
+
+Thanks.
+
+-- 
+tejun
