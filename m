@@ -2,143 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18E0DC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 17:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B6FC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 18:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3306615A6
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 17:38:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2930661A51
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 18:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348517AbhITRj5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 13:39:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35315 "EHLO
+        id S1351597AbhITST5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 14:19:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57466 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343674AbhITRhn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 13:37:43 -0400
+        by vger.kernel.org with ESMTP id S1377284AbhITSRr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 14:17:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632159372;
+        s=mimecast20190719; t=1632161780;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=joEmUTI4ZZjQtcXVOCrz/b3U1ugGJV5MEzLo31LXFyM=;
-        b=i8TIiM/jE1lK36soC22bYhDiPafqZ4uFV1q81ITefXT+LtWEFPSkDomZa3sD9ZjrVkukEy
-        WK0d2B4FwRejE49yYkcqinj0VobxMUt2ddTfghpNwtRrtx0r+PiNkfZWgK36YEsCzcnGdX
-        CNI70ZFEiMTkEZK9nzFC7peXMRQi1Zg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-qCkmFmlWNleE1DiEIHNSUg-1; Mon, 20 Sep 2021 13:36:11 -0400
-X-MC-Unique: qCkmFmlWNleE1DiEIHNSUg-1
-Received: by mail-wr1-f69.google.com with SMTP id j16-20020adfa550000000b0016012acc443so1337175wrb.14
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 10:36:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=joEmUTI4ZZjQtcXVOCrz/b3U1ugGJV5MEzLo31LXFyM=;
-        b=l25eacxGLlHPDUe+FPkX5WaMQeTTfT1xodF0ERGBfXwXJAua2d4QrBTCamQOymG7JZ
-         zf9IOOqJCYwnXeWlwTtToqYJ/5xI2sK3DMQv9ofD/dYJ1byLtzKU6UxcV+sYlf7xi+Rh
-         VK3olJQ1MC2h7CgpbBjngd1xRtPGF4MYkrxU81eG74/5MtvB9NcirWsLVoc7TMpmlXQN
-         2m83wJBgOPlG/dlkh2FnH9zxUcSjpVHpxZaGngZTRCIl8C1NtWBYsW1gHbw4tb+IprQX
-         XyjoWppVzuJ5TRDS1tvimGtYlsrZSyNQbWgrJh9sDaZ78DjUyK9QudEodHtfej4qir+i
-         HEzA==
-X-Gm-Message-State: AOAM533BgGsUzgm1SOROQEHSPvMmX34cyJPZXKARJNtliShHXcRhwnPA
-        lgn1J1PtxswEOXNh3dGjlReY+BiwT/x/WUslBk7oX1/sxqsfcUCEF6zTFaPLFFdTznz1qoE4g22
-        VfELJKX039HaqMJQgqSTq
-X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr29694377wrs.271.1632159370303;
-        Mon, 20 Sep 2021 10:36:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxd+Ecc/ldnyJDRLp7Hdo6uHjNnF8F4pT5VdfoRiLEQAWtep8SAoFkzsot/bUJ/fdK5Sue1gw==
-X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr29694338wrs.271.1632159369854;
-        Mon, 20 Sep 2021 10:36:09 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23e48.dip0.t-ipconnect.de. [79.242.62.72])
-        by smtp.gmail.com with ESMTPSA id w1sm171783wmc.19.2021.09.20.10.36.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 10:36:09 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] Documentation: update pagemap with shmem
- exceptions
-To:     Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>,
-        akpm@linux-foundation.org, corbet@lwn.net, peterx@redhat.com,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Cc:     ivan.teterevkov@nutanix.com, florian.schmidt@nutanix.com,
-        carl.waldspurger@nutanix.com, jonathan.davies@nutanix.com
-References: <20210920164931.175411-1-tiberiu.georgescu@nutanix.com>
- <20210920164931.175411-2-tiberiu.georgescu@nutanix.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <a89b861e-e5ff-32cf-c511-5b17ef60c2dd@redhat.com>
-Date:   Mon, 20 Sep 2021 19:36:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=smgGeNTJKJdRB3jySjdLq/O6aIDEticWWn8WNZpB814=;
+        b=YuzYaMpkaJ4+hcmiSIGX+WLg+FrxfFxmsxQm/ktdsnP/BzzcfcBcpTS4DM7jtd3dhsYvv+
+        rAe1GcG5MJWgxqwQTaINACBqzJmBKfcmnOmA0KbogN1Gv4Z5hgvDmYC68lQWEBgVHcTS7l
+        kuoC+MOzcpDhniydyD7dcl8h7q+dKVA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-V_dpYbo3NfOmkZRcCVpp8Q-1; Mon, 20 Sep 2021 14:16:19 -0400
+X-MC-Unique: V_dpYbo3NfOmkZRcCVpp8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 467EE802936;
+        Mon, 20 Sep 2021 18:16:17 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 687BB19724;
+        Mon, 20 Sep 2021 18:16:14 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAH2r5murR7TbC9BtSgWyrJVC-YG5dUba2ekZTvX75gg4ukaAZw@mail.gmail.com>
+References: <CAH2r5murR7TbC9BtSgWyrJVC-YG5dUba2ekZTvX75gg4ukaAZw@mail.gmail.com> <163214005516.2945267.7000234432243167892.stgit@warthog.procyon.org.uk>
+To:     Steve French <smfrench@gmail.com>
+Cc:     dhowells@redhat.com, linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Steve French <sfrench@samba.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, CIFS <linux-cifs@vger.kernel.org>,
+        linux-nfs <linux-nfs@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] fscache, 9p, afs, cifs, nfs: Deal with some warnings from W=1
 MIME-Version: 1.0
-In-Reply-To: <20210920164931.175411-2-tiberiu.georgescu@nutanix.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2976711.1632161773.1@warthog.procyon.org.uk>
+Date:   Mon, 20 Sep 2021 19:16:13 +0100
+Message-ID: <2976712.1632161773@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20.09.21 18:49, Tiberiu A Georgescu wrote:
-> Mentioning the current missing information in the pagemap and alternatives
-> on how to retrieve it, in case someone stumbles upon unexpected behaviour.
-> 
-> Signed-off-by: Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
-> Reviewed-by: Ivan Teterevkov <ivan.teterevkov@nutanix.com>
-> Reviewed-by: Florian Schmidt <florian.schmidt@nutanix.com>
-> Reviewed-by: Carl Waldspurger <carl.waldspurger@nutanix.com>
-> Reviewed-by: Jonathan Davies <jonathan.davies@nutanix.com>
-> ---
->   Documentation/admin-guide/mm/pagemap.rst | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-> index fb578fbbb76c..ea3f88f3c18d 100644
-> --- a/Documentation/admin-guide/mm/pagemap.rst
-> +++ b/Documentation/admin-guide/mm/pagemap.rst
-> @@ -196,6 +196,28 @@ you can go through every map in the process, find the PFNs, look those up
->   in kpagecount, and tally up the number of pages that are only referenced
->   once.
->   
-> +Exceptions for Shared Memory
-> +============================
-> +
-> +Page table entries for shared pages are cleared when the pages are zapped or
-> +swapped out. This makes swapped out pages indistinguishable from never-allocated
-> +ones.
-> +
-> +In kernel space, the swap location can still be retrieved from the page cache.
-> +However, values stored only on the normal PTE get lost irretrievably when the
-> +page is swapped out (i.e. SOFT_DIRTY).
-> +
-> +In user space, whether the page is swapped or none can be deduced with the
-> +lseek system call. For a single page, the algorithm is:
-> +
-> +0. If the pagemap entry of the page has bit 63 (page present) set, the page
-> +   is present.
-> +1. Otherwise, get an fd to the file where the page is backed. For anonymous
-> +   shared pages, the file can be found in ``/proc/pid/map_files/``.
-> +2. Call lseek with LSEEK_DATA flag and seek to the virtual address of the page
-> +   you wish to inspect. If it overshoots the PAGE_SIZE, the page is NONE.
-> +3. Otherwise, the page is in swap.
-> +
->   Other notes
->   ===========
->   
-> 
+Steve French <smfrench@gmail.com> wrote:
 
-Thanks!
+> For the cifs ones in connect.c (and also ioctl.c), I had submitted a
+> patch in rc1 for these (haven't heard back on that) but did not submit
+> kerneldoc fixup for fs/cifs/misc.c.  They seem trivial and safe, do
+> you want to split those out and I can put them in?
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+I can, though the reason I did the patch is that the warnings are always
+popping up in what I'm doing.  I can drop the patch from mine when I'm done, I
+guess.
 
--- 
-Thanks,
-
-David / dhildenb
+David
 
