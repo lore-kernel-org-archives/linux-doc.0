@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF59C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 12:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A01EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 13:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7297460F6B
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 12:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31FDA610A3
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 13:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238695AbhITMsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 08:48:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28178 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238687AbhITMso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 08:48:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632142037;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N/2Pe4Rx8NqNClTKB4DSeOEu5W1xviKvYQ55s0CgCms=;
-        b=HD49E9YsYEIJeSwCNS3qrD+fidHrCx2Mir61AAkTqhnyIn6vi2YrC05gYRKm6F9fA+DziY
-        qEgxeraXxe3OKIVjC6DyE826Mq04MFExOk++0NL6ZSywKAoIjnyu/Y3c/D0vrWXC2aX8du
-        dEp5DXN3lt80l+BI9N24j51nrLFns0I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-p4w5CPeYMlu6gISbMFeP6Q-1; Mon, 20 Sep 2021 08:47:14 -0400
-X-MC-Unique: p4w5CPeYMlu6gISbMFeP6Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C1D184A5E0;
-        Mon, 20 Sep 2021 12:47:12 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.44])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E44E10027C4;
-        Mon, 20 Sep 2021 12:47:04 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <YUiAmnMV7+fprNC1@casper.infradead.org>
-References: <YUiAmnMV7+fprNC1@casper.infradead.org> <163214005516.2945267.7000234432243167892.stgit@warthog.procyon.org.uk>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-        Jeff Layton <jlayton@kernel.org>,
-        Dominique Martinet <asmadeus@codewreck.org>,
+        id S238967AbhITNE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 09:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238815AbhITNEx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 09:04:53 -0400
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E5FC061574;
+        Mon, 20 Sep 2021 06:03:26 -0700 (PDT)
+Received: by nautica.notk.org (Postfix, from userid 108)
+        id B1BB1C01F; Mon, 20 Sep 2021 15:03:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1632143001; bh=o0lhty4X6j45MKMdeQ2Ew7ArWBTJlIvbH0JC70A4KkM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Y/g2DGsjZxzT5ePX+rfTYkXtVhY9eBknuuB7V/YYpZuafUobD7/cCSnOTeSVxjQ5s
+         NbIAo65DvpsbqO/Kz3UCNywFXGpXocGVR1GwzOGd3Ry9iGTPEetYlsUhvbtp2Lr407
+         9Z2yT/hqc/rFf/xzPdvJWBhIb1S7W7tOP91rVqfXV+YHtE7j3yBybpqUuNpxfbXdrL
+         4Ms3ZtRNFuwMTT5tT8WSOoMKJkQeKPfwEo5lrEy50XxMa+l6Jq0dYAYIN5c5li6Ock
+         TPrxurSntW8xMHFd3O3vVPL2WJSBTcOcYIoGggOmgq7hDOrQX7RCjyHphaiuVNnT8S
+         Dv7fn183ugkKw==
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+        by nautica.notk.org (Postfix) with ESMTPS id 6B61DC009;
+        Mon, 20 Sep 2021 15:03:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1632143000; bh=o0lhty4X6j45MKMdeQ2Ew7ArWBTJlIvbH0JC70A4KkM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=WPJjhD69bZ4L3Sj16UatugRQAQE+k0FiSJgz/31Pik1fu+m8Hj0yLWfAx46s6qcZz
+         FaTBFxWExHkkKjYURG4rYKnmHZcl0X5IBN3z/o+KOfLisYJmTVxqneBod5248tTDZr
+         j2Qux4cijpqrT6TOHyUm7iEvAGXixCsLfTQTIRve5NDSX/vKESsxSlDrkKGsKXL8X5
+         PEZi+wQWErdr85nSsUKjduLR2eanwkUxza1RqpdXXKpLRwfBVO4SCQzAE5v7LClwJq
+         uIKcio8I0T96BJoQ3DBKnN3UnylWxVMtrTA2fokrK2DIP25iB0bzZNSrj2hfBs+fZB
+         yeux5WMHa+GFQ==
+Received: from localhost (odin.codewreck.org [local])
+        by odin.codewreck.org (OpenSMTPD) with ESMTPA id 8eba130b;
+        Mon, 20 Sep 2021 13:03:11 +0000 (UTC)
+Date:   Mon, 20 Sep 2021 22:02:55 +0900
+From:   Dominique Martinet <asmadeus@codewreck.org>
+To:     David Howells <dhowells@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
         Marc Dionne <marc.dionne@auristor.com>,
         Steve French <sfrench@samba.org>,
         Trond Myklebust <trond.myklebust@hammerspace.com>,
@@ -61,44 +62,56 @@ Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
         linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
         linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] fscache, 9p, afs, cifs, nfs: Deal with some warnings from W=1
+Subject: Re: [RFC PATCH] fscache, 9p, afs, cifs, nfs: Deal with some warnings
+ from W=1
+Message-ID: <YUiGf9bzSX62jUrP@codewreck.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2950843.1632142024.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Mon, 20 Sep 2021 13:47:04 +0100
-Message-ID: <2950844.1632142024@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YUiAmnMV7+fprNC1@casper.infradead.org>
+ <163214005516.2945267.7000234432243167892.stgit@warthog.procyon.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> wrote:
+David Howells wrote on Mon, Sep 20, 2021 at 01:14:15PM +0100:
+> Deal with some warnings generated from make W=1:
+> 
+>  (1) Add/remove/fix kerneldoc parameters descriptions.
+> 
+>  (2) afs_sillyrename() isn't an API functions, so remove the kerneldoc
+>      annotation.
+> 
+>  (3) The fscache object CREATE_OBJECT work state isn't used, so remove it.
+> 
+>  (4) Move __add_fid() from between v9fs_fid_add() and its comment.
+> 
+>  (5) 9p's caches_show() doesn't really make sense as an API function, show
+>      remove the kerneldoc annotation.  It's also not prefixed with 'v9fs_'.
 
-> > +++ b/fs/9p/vfs_addr.c
-> > @@ -88,7 +88,7 @@ static const struct netfs_read_request_ops v9fs_req_=
-ops =3D {
-> >  =
+Happy with the 9p changes:
+Reviewed-by: Dominique Martinet <asmadeus@codewreck.org>
 
-> >  /**
-> >   * v9fs_vfs_readpage - read an entire page in from 9P
-> > - * @filp: file being read
-> > + * @file: file being read
-> >   * @page: structure to page
-> >   *
-> >   */
-> =
+Having all of these in a single commit makes it difficult to deal but I
+don't expect any conflict on my end, so happy to have it go in your
+fscache tree.
 
+Matthew Wilcox wrote on Mon, Sep 20, 2021 at 01:37:46PM +0100:
 > This is an example of a weird pattern in filesystems.  Several of
 > them have kernel-doc for the implementation of various ->ops methods.
 > I don't necessarily believe we should delete the comments (although is
 > there any useful information in the above?), but I don't see the point
 > in the comment being kernel-doc.
 
-Yeah - I would prefer to do that.  Only kdoc it if it's inter-(sub-)driver=
- API
-- and if it is, it must have a namespacing prefix so that it is obvious in
-amongst a kernel-wide general index.
+As far as I'm concerned this is just an "it's always been like this"
+thing for me/9p, I wouldn't mind if it were all converted to normal
+comments -- but now it's describing arguments by name having it as
+kerneldoc has helped catch comments which didn't get updated when
+function changed quite a few times in patches similar to this one so it
+would only make sense if we remove obvious argument descriptions as well
+in my opinion, and that's a bit of manual work.
 
-David
+-- 
+Dominique
+
 
