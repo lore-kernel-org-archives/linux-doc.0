@@ -2,218 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA65C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 16:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62FF2C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 16:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 851CB6126A
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 16:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B17F613CF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 16:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244077AbhITQux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 12:50:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38366 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244355AbhITQuH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Sep 2021 12:50:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AAC461213;
-        Mon, 20 Sep 2021 16:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632156520;
-        bh=JNFmVKopSY3zild0Tv3+xFBOULjKMkMEN821JJpnIGA=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=FsUJa8pYj6IPl/aiRt9kaClSiVbeKeMxQS2AxyS01HnfWhRRTrlWxsEA9AsXVGtxS
-         IYbW+bSCKk79VPwuYVEYNXYRl3lAt8wm1+gaLDEtVQm5CtCfZLnemlvPtNb2HszN70
-         AZGDPXV0cb4pYY+7aOLZZfGBBJZozVfTAoP5RQhfNEcclljTbtswj6mxVoqMvzaUVB
-         SeQTwCXwO6SUVlU2YiftoE5La9MdHw3Rp/mWhXZFLpy8JEdUYmP/twxXeOztxUY7Ee
-         bgm+oL16xqPQ8E4ZN3+F6PD0pjHuuelx3EFFaJR3U83mxWxNsM71BIYM5vATkDhWUZ
-         x1RWJU9sR1AYA==
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 2D57927C005A;
-        Mon, 20 Sep 2021 12:48:37 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-  by compute6.internal (MEProxy); Mon, 20 Sep 2021 12:48:37 -0400
-X-ME-Sender: <xms:YrtIYUOTCuIT4q4qJwYGzgfWBqYr-zpR5kcX02t8OgaUfR876h2EFw>
-    <xme:YrtIYa8BieKbTCcf2O_q8-evxBy66zCNK49kqFi5gi-AaE1J6qiOZBmG__C87mVNX
-    qNUWJrnRubXXk7u3Tg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedvleehjeejvefhuddtgeegffdtjedtffegveethedvgfejieev
-    ieeufeevuedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
-    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
-    hugidrlhhuthhordhush
-X-ME-Proxy: <xmx:YrtIYbRJjdLVd2SslELsb2LzJ7T5vsbKCMsHt50iRXG6H50Bh6WYfQ>
-    <xmx:YrtIYcuFM-XUVyJsiQyiylvKnHoCPAY3VZUipXPh_sU1Jo54ZGY9_Q>
-    <xmx:YrtIYccdjH5tsn67wtNSdMmikWEgmKkdksL6Wr7sKO5Ha08lJgO3hQ>
-    <xmx:ZbtIYQ-vHq5NUKRU6PnOevwmtu3DRLhwx5WmzYWMrHfpRoah-UsoJTxwG7o>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id EF814A03DC4; Mon, 20 Sep 2021 12:48:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1291-gc66fc0a3a2-fm-20210913.001-gc66fc0a3
-Mime-Version: 1.0
-Message-Id: <b5b5787b-17ce-4e66-8bc6-ab42ae3e398d@www.fastmail.com>
-In-Reply-To: <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
-References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
- <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
- <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
- <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
- <20200901102758.GY6642@arm.com>
- <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
- <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
- <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
- <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
- <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
- <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
- <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
- <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
- <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
- <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
- <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
- <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
- <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
- <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
- <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
- <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
-Date:   Mon, 20 Sep 2021 09:48:10 -0700
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
-        "Dave Hansen" <dave.hansen@intel.com>
-Cc:     "Balbir Singh" <bsingharora@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Eugene Syromiatnikov" <esyr@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Yu-cheng Yu" <yu-cheng.yu@intel.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        "Nadav Amit" <nadav.amit@gmail.com>,
-        "Jann Horn" <jannh@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Borislav Petkov" <bp@alien8.de>,
-        "Oleg Nesterov" <oleg@redhat.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-        "Pavel Machek" <pavel@ucw.cz>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Weijiang Yang" <weijiang.yang@intel.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Mike Kravetz" <mike.kravetz@oracle.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "tarasmadan@google.com" <tarasmadan@google.com>,
-        "Dave Martin" <Dave.Martin@arm.com>,
-        "vedvyas.shanbhogue@intel.com" <vedvyas.shanbhogue@intel.com>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
-        "Cyrill Gorcunov" <gorcunov@gmail.com>
-Subject: =?UTF-8?Q?Re:_[NEEDS-REVIEW]_Re:_[PATCH_v11_25/25]_x86/cet/shstk:_Add_ar?=
- =?UTF-8?Q?ch=5Fprctl_functions_for_shadow_stack?=
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        id S237923AbhITQxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 12:53:18 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:1504 "EHLO
+        mx0b-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244593AbhITQvQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 12:51:16 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+        by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18KGiPZ7010607;
+        Mon, 20 Sep 2021 09:49:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=30zwakarzyRdEpNCmgJVJ0S2OTSL2JGTqmbpebtF5fM=;
+ b=B+u4lAt4CnApoEVoJbHaNFjjQ7KSOIs6WxM1Fd8ovuovpB7nu6pdO66D599VP1zn83DH
+ kJEvHWp8mEMrz/UcO3BPyZ4FLN4LL1l7ZpGLz5WN3wb8EoTcUMBeo5d4d+H0ssS1KwAE
+ +6fE29vIslWNIwsFFtasbIuK8DGpTs3X2JqbOQW7X/fvYVX1ewaPZmYiaVt1mv/j/CDm
+ cwWKD06AQL5dM8ToKWSFawIBvqmuwj6xxh83dfVeYrxObiCHvd4MHVc/lFZtxTBXmEpg
+ Iv55cAnTF8K7Xqu1wwrj5Mnma4TESMO9FWsnhJ3u44lpyTkkmXA1gWQgLabe9rytOsT2 rw== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
+        by mx0b-002c1b01.pphosted.com with ESMTP id 3b6udkgcgc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Sep 2021 09:49:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GvSE1gmOdW751eaWRsvfxZ6Vgegr+46NkfEozSpOUbNZ6jroPnSjB/9hjCoQF9m9fMHgtmHOV71UwCOl+av6H0BE98obaOk1elWR2VGjVTK8CoftD0aIx9Hnd23cHe9v/AU+gGMhEaq1EsM39HEg2yfnz7/gY1u3kVTMfK49r9EUlaqw6l44uafNjG+7cz2NfARzIcUIor+JJ/1u4SbVVCcjjkzu2Zw7pNjmJD3jhRXxIZ2odQPC5XuzgaFRL0AaageJWfY0GtStilFSIWbw9Ih9IdKblNIpNUiDB0S1EGp88AeJHWKngjq0Zfm3f76xd9iLQw5QPXL0KYu5TFI4Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=30zwakarzyRdEpNCmgJVJ0S2OTSL2JGTqmbpebtF5fM=;
+ b=V0IWzrvNoMYImYp0s2MmdUlAO2y9ubOu/2CzI6BQr7rSHaaXEprXoroYW99UqWdkwAROHvQVGEmeBsdXk1IC5YfhOhwWd50ZvqZUynCTqXYcEkZiYjiesiWBBF1rbaHU+zFfrYZPnhG0VnhITcBKG+T1lAnvU3rLmKnl3QKQIWJpxcHx1q4EygbEL/k+JnO2wzf6ZKwNiCwE209so6Lidme/I33iaQ8rTld1f3ZAwD6qKlwlHfNRntj1Sq9NPAxUzOXx9RA7PMx1jZa14COq4bQXpIY2yzYkpXIjJTOcQp5OOJJs2SD+XMcR4YLJCjeRMGxISzCbWa1Xq36okgdTzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Authentication-Results: linux-foundation.org; dkim=none (message not signed)
+ header.d=none;linux-foundation.org; dmarc=none action=none
+ header.from=nutanix.com;
+Received: from DM6PR02MB5578.namprd02.prod.outlook.com (2603:10b6:5:79::13) by
+ DM6PR02MB6953.namprd02.prod.outlook.com (2603:10b6:5:253::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14; Mon, 20 Sep 2021 16:49:42 +0000
+Received: from DM6PR02MB5578.namprd02.prod.outlook.com
+ ([fe80::6da5:2da0:efd2:e90e]) by DM6PR02MB5578.namprd02.prod.outlook.com
+ ([fe80::6da5:2da0:efd2:e90e%7]) with mapi id 15.20.4523.018; Mon, 20 Sep 2021
+ 16:49:42 +0000
+From:   Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
+To:     akpm@linux-foundation.org, corbet@lwn.net, peterx@redhat.com,
+        david@redhat.com, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Cc:     ivan.teterevkov@nutanix.com, florian.schmidt@nutanix.com,
+        carl.waldspurger@nutanix.com, jonathan.davies@nutanix.com,
+        Tiberiu A Georgescu <tiberiu.georgescu@nutanix.com>
+Subject: [PATCH v2 0/1] Documenting shmem as an exception case for the pagemap
+Date:   Mon, 20 Sep 2021 16:49:30 +0000
+Message-Id: <20210920164931.175411-1-tiberiu.georgescu@nutanix.com>
+X-Mailer: git-send-email 2.33.0.363.g4c719308ce
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0182.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::7) To DM6PR02MB5578.namprd02.prod.outlook.com
+ (2603:10b6:5:79::13)
+MIME-Version: 1.0
+Received: from tiberiu-georgescu.ubvm.nutanix.com (192.146.154.243) by SJ0PR03CA0182.namprd03.prod.outlook.com (2603:10b6:a03:2ef::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Mon, 20 Sep 2021 16:49:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8637d80e-1492-4c7e-1816-08d97c56a4db
+X-MS-TrafficTypeDiagnostic: DM6PR02MB6953:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR02MB6953866FC763415C41D421F3E6A09@DM6PR02MB6953.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RrRMt89QkB5blmHbG7Y5p8S3KOsofHEvaEkvgxmHdbFkUS0iBsip4lcUPn6M1JgMxLhI50rLL6EC2d0yMqWY+G5HBYB+deAEhPprXb9C3Dx5m05KI6ammcwWjZjmCL2zkSCFA8/rN6yANdJk5NzrUCBO9G/JzWZD0hmDXPRT1zT0Y/zmo6TCbXFP+hP5BcSD5ibnrqhaZ0dR9GCEJswCHlL8ltUZ1HttAanJA37oG+wKjnGQ0UGHAf5y9u0HwNvhSUtLZ55yH50xsDIr/JOdCW1qIGzFXCUC2iON0yPjc3MSLo/VbtmoOvxX9YftEB0ytJAUFPPGdUO3OLjiTCku+kRcDIdtvryjQfIo+UkO2kHW9cyB2J5JZsjhjCNOV6gydry6VanPc7tk27CtrfAHLQTabO2HZl0ZS39ZToQrRuhtwJH5FQPQBl5xI6tCLxCv0RK4wuIEttG8HiSP1o9u0m1ayDskfXEcmibUrd5ZDHSZfliq7rmpSu8e2JfiEeLuAh1V009TdeJ1K9MtbkqZ7lJU/hMnudPJLSF0NbrlQ+3H+NwLoPU6GCnW8uAjrZT293WWIXAg5wQYa4m7hp7RDx/FCY7lhAVuveIM7Jwg/NudIx732YkWGq0AwUnx8rt4SGi+74MbaQKyFT6RYnLsJkit6zP6xToD/fsjlp05lIN+PxV+JXKTO6l4E/Ox7UABg7ELoqb95ZXZbZ3O7gAMZSdjD/nno5wfM+TmghVtFsCegxgmg5KV5w1jGZ3Mt6AhXtJfxOTwemWpPJ7ditr3dlTFP+Sk42+vp54VsJGC127o42A1qSKo1J+aBE2cuu79uKr/ZLONxf7LbdkHGhkH/w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB5578.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39860400002)(136003)(346002)(376002)(366004)(2906002)(5660300002)(86362001)(966005)(66476007)(6486002)(4326008)(36756003)(26005)(38100700002)(316002)(83380400001)(956004)(66946007)(52116002)(2616005)(7696005)(8676002)(38350700002)(107886003)(8936002)(1076003)(186003)(66556008)(6666004)(478600001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MB/WGb8mnUqDgzvc62UhqDssa1clLh6aOcLVCZ3dE2Tm/tcxeLRRjrJq95NG?=
+ =?us-ascii?Q?fJbUQmPfK4iZvfDkr8EHAUuco9b3EMUagHIOcMaRSs5kr7R4O9g4wb26NDQo?=
+ =?us-ascii?Q?S68I5V9H+8bb9vyAcwlxL/CNhmnE9cvalGTGS4cy7sLcMxZ3A/ppgnHOtIc4?=
+ =?us-ascii?Q?9TzDc4X7ieN4UmSZRZhfvtnhE/xobZeFp86lzPPq8TNCX5rKUAQHcD7u9/kM?=
+ =?us-ascii?Q?72dz3ajEaVRofrzVWOr5uWHmPsi0JdgAuiPjmejJoCUy7YHruZXRSsbdLjCW?=
+ =?us-ascii?Q?XNa9HA9qFw/L0gsSbbjmTAPfl5ZjnrOlyPg5xYZeEj7KIn3eJ9Q+ItlqiM4y?=
+ =?us-ascii?Q?HILFi1rxQhRKoCQwpCVKBxc1yk5j+MgPJhH0JthhmyYtzGV7KcM+jR3z5/AT?=
+ =?us-ascii?Q?iRqJvKVpen7gatAInLaBwxhws51OnCb5jvAnFUWSYn+JOKXDBm3M9kXcQVGC?=
+ =?us-ascii?Q?O6Hy4sP0mA7AtymQ0JQTb92ov6DquS80AcU39BEtEKNmLaNzZyrUd6xdrujI?=
+ =?us-ascii?Q?5uKQsxM6BiLn5XDJAeJO/SwnrJtqi13shWzSsy1oYfumkajXg08WaaZsJ/B3?=
+ =?us-ascii?Q?JsoLswfSNieG3es4qvsHbG9KoICWLBfr35lc2bUC4zIATXJTWnEjD3d5IVEg?=
+ =?us-ascii?Q?SShNndn6jMheE3J5iyWgJUsAd2ThHfsyFKScPNCaAclVmgN8DCYwQs45l09/?=
+ =?us-ascii?Q?t+g3dVG3HxW3EGqeFRh+Dylx2drHj4qFE0q8BspxSmsc58gMFfkc7+OGzwad?=
+ =?us-ascii?Q?VNUZG7SBgLqCQYjjpCrckGEVHRQD7uzRPKrcg6AIKBstDeof9mU4wmTM+xas?=
+ =?us-ascii?Q?nF/XehM95WEoYGaqVVbRKsgwwIFCUklujNa1tsDMBMQTA9Esosx4zcme8Lz4?=
+ =?us-ascii?Q?LGk0WCWJrWRnTTYkXOIHEXc4B7VQSMY7gt63jMRRvN6DWfpDJ345SZ7l1ouJ?=
+ =?us-ascii?Q?XBdFWXVYNiCFiQm/dhqBtGSfKyM0m7uFHaOXWiZz3EkOzH3QQHaFkCh592wH?=
+ =?us-ascii?Q?4Yjc3tC5vdZTLrdXGHJk4gG8xcqGgDTIpi30MzEmTZ6J5PlsS5qtDeH5y9A4?=
+ =?us-ascii?Q?APUAscj96btBBAn8MyvY0WqvvsVq1YImtmUHOdZMKW0XKuoSpOhO4U8htKKA?=
+ =?us-ascii?Q?apDfmIdZRGuuv/RC5+x04lP+nEyF+DtHQrMw3Vbd1TDiQrKJTKZGiPZtcTkH?=
+ =?us-ascii?Q?O+jP5fE9XTIhb9spoMyuGdz77nNgpOAireRsO4BBE74PyW+dE8Mvk6QYyUeM?=
+ =?us-ascii?Q?d4Iai8IF3ffZJsjUZJAfLOeCkwiweu11r8SNZtYReUmo4Gg1P4Y+YdKDVxIL?=
+ =?us-ascii?Q?jKzi7gjY5AVQwO2IXQVvHehD?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8637d80e-1492-4c7e-1816-08d97c56a4db
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB5578.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2021 16:49:42.5858
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CrDPZSMlIWXwxosu7ciysjPtNH5wjV0DZqDyiu1S00K0vqi6kmi6Cb3dQnxFSR4S4row4hhq3w+OxjrKpnfhVb/zJwn3bU74ulAGA3a5hjQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6953
+X-Proofpoint-GUID: DGnDJnLsIqyTQ3h3Q2SmQWgkTDdpRXO-
+X-Proofpoint-ORIG-GUID: DGnDJnLsIqyTQ3h3Q2SmQWgkTDdpRXO-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-20_07,2021-09-20_01,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch follows the discussions on a previous documentation patch
+thread [1]. It presents the exception case of shared memory management from
+the pagemap's point of view. It briefly describes what is missing, why it
+is missing and alternatives to the pagemap for swap info retrieval.
 
+In short, the kernel does not keep track of PTEs for shared pages within
+the processes that references them. Thus, the proc/pid/pagemap tool cannot
+print the swap destination of the shared memory pages, instead setting the
+pagemap entry to zero for both non-allocated and swapped out pages. This
+can create confusion for users who need information on swapped out pages.
 
-On Mon, Sep 13, 2021, at 6:33 PM, Edgecombe, Rick P wrote:
-> On Mon, 2020-09-14 at 11:31 -0700, Andy Lutomirski wrote:
-> > > On Sep 14, 2020, at 7:50 AM, Dave Hansen <dave.hansen@intel.com>
-> > > wrote:
-> > >=20
-> > > =EF=BB=BFOn 9/11/20 3:59 PM, Yu-cheng Yu wrote:
-> > > ...
-> > > > Here are the changes if we take the mprotect(PROT_SHSTK)
-> > > > approach.
-> > > > Any comments/suggestions?
-> > >=20
-> > > I still don't like it. :)
-> > >=20
-> > > I'll also be much happier when there's a proper changelog to
-> > > accompany
-> > > this which also spells out the alternatives any why they suck so
-> > > much.
-> > >=20
-> >=20
-> > Let=E2=80=99s take a step back here. Ignoring the precise API, what =
-exactly
-> > is
-> > a shadow stack from the perspective of a Linux user program?
-> >=20
-> > The simplest answer is that it=E2=80=99s just memory that happens to=
- have
-> > certain protections.  This enables all kinds of shenanigans.  A
-> > program could map a memfd twice, once as shadow stack and once as
-> > non-shadow-stack, and change its control flow.  Similarly, a program
-> > could mprotect its shadow stack, modify it, and mprotect it back.  In
-> > some threat models, though could be seen as a WRSS bypass.  (Although
-> > if an attacker can coerce a process to call mprotect(), the game is
-> > likely mostly over anyway.)
-> >=20
-> > But we could be more restrictive, or perhaps we could allow user code
-> > to opt into more restrictions.  For example, we could have shadow
-> > stacks be special memory that cannot be written from usermode by any
-> > means other than ptrace() and friends, WRSS, and actual shadow stack
-> > usage.
-> >=20
-> > What is the goal?
-> >=20
-> > No matter what we do, the effects of calling vfork() are going to be
-> > a
-> > bit odd with SHSTK enabled.  I suppose we could disallow this, but
-> > that seems likely to cause its own issues.
->=20
-> Hi,
->=20
-> Resurrecting this old thread to highlight a consequence of the design
-> change that came out of it. I am going to be taking over this series
-> from Yu-cheng, and wanted to check if people would be interested in re-
-> visiting this interface.
->=20
-> The consequence I wanted to highlight, is that making userspace be
-> responsible for mapping memory as shadow stack, also requires moving
-> the writing of the restore token to userspace for glibc ucontext
-> operations. Since these operations involve creating/pivoting to new
-> stacks in userspace, ucontext cet support involves also creating a new
-> shadow stack. For normal thread stacks, the kernel has always done the
-> shadow stack allocation and so it is never writable (in the normal
-> sense) from userspace. But after this change makecontext() now first
-> has to mmap() writable memory, then write the restore token, then
-> mprotect() it as shadow stack. See the glibc changes to support
-> PROT_SHADOW_STACK here[0].
->=20
-> The writable window leaves an opening for an attacker to create an
-> arbitrary shadow stack that could be pivoted to later by tweaking the
-> ucontext_t structure. To try to see how much this matters, we have done
-> a small test that uses this window to ROP from writes in another
-> thread during the makecontext()/setcontext() window. (offensive work
-> credit to Joao on CC). This would require a real app to already to be
-> using ucontext in the course of normal runtime.
+The reasons why maintaining the PTEs of all swapped out shared pages among
+all processes while maintaining similar performance is not a trivial task,
+or a desirable change have been discussed extensively [1][2][3][4]. There
+are also arguments for why this arguably missing information should be
+exposed to the user in either a future pagemap patch, or an alternative.
 
-My general opinion here (take this with a grain of salt -- I haven't pag=
-ed back in every single detail) is that the kernel should make it straig=
-htforward for a libc to do the right thing without nasty races, cross-th=
-read coordination, or unnecessary permission to write to the stack.  I *=
-also* think that it should be possible for userspace to manage its own s=
-hadow stack allocation if it wants to, since I'm sure there will be JIT =
-or green thread or other use cases that want to do crazy things that we =
-fail to anticipate with in-kernel magic.
+[1]: https://marc.info/?m=162878395426774
+[2]: https://lore.kernel.org/lkml/20210730160826.63785-1-tiberiu.georgescu@nutanix.com/
+[3]: https://lore.kernel.org/lkml/20210807032521.7591-1-peterx@redhat.com/
+[4]: https://lore.kernel.org/lkml/20210715201651.212134-1-peterx@redhat.com/
 
-So perhaps we should keep the explicit allocation and free operations, h=
-ave a way to opt-in to WRSS being flipped on, but also do our best to ha=
-ve API that handle the known cases well.
+Kind regards,
+Tibi
 
-Does that make sense?  Can we have both approaches work in the same kern=
-el?
+Tiberiu A Georgescu (1):
+  Documentation: update pagemap with shmem exceptions
+
+ Documentation/admin-guide/mm/pagemap.rst | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+-- 
+2.33.0.363.g4c719308ce
+
