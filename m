@@ -2,112 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E662AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 14:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB52C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 14:06:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD7CE610F9
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 14:03:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4801D610CE
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 14:06:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234561AbhITOE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 10:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45370 "EHLO
+        id S237963AbhITOHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 10:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhITOE4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 10:04:56 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789D7C061574
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 07:03:29 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id d6so29912509wrc.11
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 07:03:29 -0700 (PDT)
+        with ESMTP id S236890AbhITOHp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 10:07:45 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD638C061574
+        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 07:06:18 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id t8so23065420wri.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 07:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W3n8w9GMO9ZUP6NIizriYpOfVN8d8Sg4lM/F77XL2js=;
-        b=0uS0NJdvqbTiA5X7oSLxPmR3qgZortNn9BwuEH/w90iK/ObZ67skV2c9PPvJ98h37e
-         8zH8fn5kieIv9YOZs9+OK0rh+idSr5UE9UqURkA0L8rvXgwoncLd9ZvmWdPKuDCGTlp+
-         KAnqusj+6ilMWfT9S5FUYYaKiOcTHBr17c+NJHKlNz8bEDH06Ekn7VnfPjDR7MBfJgc7
-         VYlZdcnkI4A3wF0Ck2NzLyuLq9JuzC3yGkoS90kf2uJb09/rEdGRvb+/H8GB7e2qN5bg
-         ZTf92VpBO1N36q/Kv07waXfTMQufq3jKlLz08gBv/xZheDbpecjK6zDAE4PFCsCjRYTc
-         YkNg==
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O2SeWerZdXltMhfaTVsZCSNIABxYcOcCcm3hDyprnBE=;
+        b=1ldbWaNh+BiIxk7g7i+HjTQHdfnb+yjLErf/mNF0xSPpwyEWsxApwjfXK1whheI0aK
+         W1E6VsEy7KpgM/sC8ddOdVaOieimfT+tuvXejannAluyIu+k5UIo7QXxXtIFLJB3AYgd
+         7dlchvc5oKEPm8u+t4d0MaZFYfm3zGIukoVOMa3sUezMu9xvKwEoAdM/COwhT8r6r+ts
+         cCnTIJXYak+vmUQVeJO1PP0GMbAjk4e5/eNka5lJ0myV9HVfmzPXspwQfBxZ6cQrrLFh
+         HdggW5bCI4M8MsnGGVT5wIoGkMLnw5icK4bKMZVliUJmryc3K1fwbkVlWg7mHCv92T9B
+         9k2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W3n8w9GMO9ZUP6NIizriYpOfVN8d8Sg4lM/F77XL2js=;
-        b=glPs2qky9JW/vbfamcczJaoTulQnEQBJ8rmo3fbEI3kPV6XF19P2BOVD9+siGNFx7T
-         B6SgKSwm+LP17tAM73r9c4/e6mFQOGfckdbVVYVqGIze7P8wjB6NX7+TiCTf1e6xc9pC
-         dwmTsiiSo0kfgI6TNjNyvwD72YMoBRsLdllc6z7cvMuOzgqNxwN3ChcbGN2t7aSCCbPG
-         xL9WDyz87E6ezRM3er39C9sJw6Ea1FtPb2xyPRD4LYfPwRGKx1E2QoURcw2bpBSNwexX
-         yfcL8jzeltJ0oAlCBoGqmrU7eRptDCEcSgC4fs3wOeqLJJP5O2OaciFVcdFvDlo9r0RF
-         rciQ==
-X-Gm-Message-State: AOAM530SkFpKDGjmU+TZ8meZYrtp/Wim1zpMMKPUQmKBWZKdCy8nthrD
-        wjrnNsO94PSCtuVg8423IDKSMYq+m/Zo2Q==
-X-Google-Smtp-Source: ABdhPJwIsEhJ1u+ZIQH+wIG7x20h1MpW9i7GiuQkvX+IiwlLe3UiNLae7fg/R3BufJ9vSa0GVSVkAQ==
-X-Received: by 2002:a05:600c:4145:: with SMTP id h5mr14693135wmm.49.1632146607247;
-        Mon, 20 Sep 2021 07:03:27 -0700 (PDT)
-Received: from blmsp ([2a02:2454:3e6:c900::97e])
-        by smtp.gmail.com with ESMTPSA id q126sm3587985wma.10.2021.09.20.07.03.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O2SeWerZdXltMhfaTVsZCSNIABxYcOcCcm3hDyprnBE=;
+        b=mGuUwlYlYcVsVFHJ5fFrvX3D5hdZgTiYWc6/dH0v+qScScfqrKV3yZNvSOIjs6vo1y
+         z2iGgLZGMijeFoPFSetKsWPWsHv5HlSYrI6V300enXNkha8IH59nN77r3YtZ0ZCBg0hy
+         xXUj7w8Plhw5soLvBd8F+VWdJPo2jogi9SCF3fzHw1F75WTDaDlQluglZnjrZdr16Q//
+         oO47by7H9qS1DKp0JP6Nt7ZkkrKYhgVzV/5DDC0SxjDi825Tn+bhIg7wIqG+B25KpWG5
+         U9LbUPKt+QGVn3CDDVL0xBbBGumYbn5Z9fVmsLx/gJnsno3viShTILzI1VFWFup21Zik
+         79FQ==
+X-Gm-Message-State: AOAM532d4Yk30ruGBqyLdje0fegORyPgMX3mksuOYWYjPs8eeXchG7En
+        a23lmnNwqjIqg1iUu7jHpb7Lxw==
+X-Google-Smtp-Source: ABdhPJysPjXLxur6W7ycDbArcws+8iD5fvL6oIa1hfq5qrNaDU5lf7XiK0rX9RvmFEC8KWRhn2vEkw==
+X-Received: by 2002:a1c:a5d8:: with SMTP id o207mr29328254wme.104.1632146777179;
+        Mon, 20 Sep 2021 07:06:17 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:334:ac00:7d50:ff5:f5c1:e225])
+        by smtp.gmail.com with ESMTPSA id h18sm15801461wrb.33.2021.09.20.07.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 07:03:27 -0700 (PDT)
-Date:   Mon, 20 Sep 2021 16:03:26 +0200
-From:   Markus Schneider-Pargmann <msp@baylibre.com>
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: gpu: drm-internals: Create reference to DRM mm
-Message-ID: <20210920140326.ygodeun2qokb6wcw@blmsp>
-References: <20210920101334.249832-1-msp@baylibre.com>
- <874kafv7bu.fsf@intel.com>
+        Mon, 20 Sep 2021 07:06:16 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jack Winch <sunt.un.morcov@gmail.com>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v5 0/8] gpio: implement the configfs testing module
+Date:   Mon, 20 Sep 2021 16:05:01 +0200
+Message-Id: <20210920140509.5177-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <874kafv7bu.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jani,
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-On Mon, Sep 20, 2021 at 02:01:57PM +0300, Jani Nikula wrote:
-> On Mon, 20 Sep 2021, Markus Schneider-Pargmann <msp@baylibre.com> wrote:
-> > This short sentence references nothing for details about memory manager.
-> > Replace it with the documentation file for DRM memory management.
-> >
-> > Cc: Jani Nikula <jani.nikula@intel.com>
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > ---
-> >  Documentation/gpu/drm-internals.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-> > index 06af044c882f..bdcdfc4ede04 100644
-> > --- a/Documentation/gpu/drm-internals.rst
-> > +++ b/Documentation/gpu/drm-internals.rst
-> > @@ -126,8 +126,8 @@ Memory Manager Initialization
-> >  Every DRM driver requires a memory manager which must be initialized at
-> >  load time. DRM currently contains two memory managers, the Translation
-> >  Table Manager (TTM) and the Graphics Execution Manager (GEM). This
-> > -document describes the use of the GEM memory manager only. See ? for
-> > -details.
-> > +document describes the use of the GEM memory manager only. See
-> > +Documentation/gpu/drm-mm.rst for details.
-> 
-> Please use rst references instead of a file reference.
+I'm respinning this series now because I noticed that I need to start writing
+tests for my work on the new libgpiod v2 code to make sense (it's just becoming
+too complicated to make even remotely functional without test coverage). At the
+same time I don't want to rewrite the tests using gpio-mockup if the goal is to
+replace it with gpio-sim anyway.
 
-Thanks for your comment. Could you please explain it a bit more to me?
+I fixed issues pointed out by Al Viro and made sure that references are
+correctly counted (including error paths) and that memory allocated for the
+pending and live groups gets freed.
 
-I am new to the kernel sphinx documentation so I looked it up in
-Documentation/doc-guide/sphinx.rst 'Cross-referencing'. It is listed as
-the preferred way to reference other documents if I understand it
-correctly.
+===
 
-Should the doc-guide be updated then if a rst reference is preferred?
+This series adds a new GPIO testing module based on configfs committable items
+and sysfs. The goal is to provide a testing driver that will be configurable
+at runtime (won't need module reload) and easily extensible. The control over
+the attributes is also much more fine-grained than in gpio-mockup.
 
-Best,
-Markus
+This series also contains a respin of the patches I sent separately to the
+configfs maintainers - these patches implement the concept of committable
+items that was well defined for a long time but never actually completed.
+
+Apart from the new driver itself, its selftests and the configfs patches, this
+series contains some changes to the bitmap API - most importantly: it adds
+devres managed variants of bitmap_alloc() and bitmap_zalloc().
+
+v1 -> v2:
+- add selftests for gpio-sim
+- add helper programs for selftests
+- update the configfs rename callback to work with the new API introduced in
+  v5.11
+- fix a missing quote in the documentation
+- use !! whenever using bits operation that are required to return 0 or 1
+- use provided bitmap API instead of reimplementing copy or fill operations
+- fix a deadlock in gpio_sim_direction_output()
+- add new read-only configfs attributes for mapping of configfs items to GPIO
+  device names
+- and address other minor issues pointed out in reviews of v1
+
+v2 -> v3:
+- use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
+  the bitmap with 1s
+- drop the patch exporting device_is_bound()
+- don't return -ENODEV from dev_nam and chip_name configfs attributes, return
+  a string indicating that the device is not available yet ('n/a')
+- fix indentation where it makes sense
+- don't protect IDA functions which use their own locking and where it's not
+  needed
+- use kmemdup() instead of kzalloc() + memcpy()
+- collected review tags
+- minor coding style fixes
+
+v3 -> v4:
+- return 'none' instead of 'n/a' from dev_name and chip_name before the device
+  is registered
+- use sysfs_emit() instead of s*printf()
+- drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
+  fine to hardcode the value
+
+v4 -> v5:
+- drop lib patches that are already upstream
+- use BIT() instead of (1UL << bit) for flags
+- fix refcounting for the configfs_dirent in rename()
+- drop d_move() from the rename() callback
+- free memory allocated for the live and pending groups in configfs_d_iput()
+  and not in detach_groups()
+- make sure that if a group of some name is in the live directory, a new group
+  with the same name cannot be created in the pending directory
+
+Bartosz Golaszewski (8):
+  configfs: increase the item name length
+  configfs: use BIT() for internal flags
+  configfs: implement committable items
+  samples: configfs: add a committable group
+  gpio: sim: new testing module
+  selftests: gpio: provide a helper for reading chip info
+  selftests: gpio: add a helper for reading GPIO line names
+  selftests: gpio: add test cases for gpio-sim
+
+ Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
+ Documentation/filesystems/configfs.rst        |   6 +-
+ drivers/gpio/Kconfig                          |   8 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sim.c                       | 877 ++++++++++++++++++
+ fs/configfs/configfs_internal.h               |  22 +-
+ fs/configfs/dir.c                             | 277 +++++-
+ include/linux/configfs.h                      |   3 +-
+ samples/configfs/configfs_sample.c            | 153 +++
+ tools/testing/selftests/gpio/.gitignore       |   2 +
+ tools/testing/selftests/gpio/Makefile         |   4 +-
+ tools/testing/selftests/gpio/config           |   1 +
+ tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
+ tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
+ tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
+ 15 files changed, 1744 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
+ create mode 100644 drivers/gpio/gpio-sim.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
+ create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+
+-- 
+2.30.1
+
