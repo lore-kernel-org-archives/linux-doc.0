@@ -2,98 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 520B3C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 638B4C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:47:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 301926121D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:40:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 426BF60F48
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Sep 2021 21:47:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238086AbhITVle (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 17:41:34 -0400
-Received: from mail-pj1-f44.google.com ([209.85.216.44]:36485 "EHLO
-        mail-pj1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231784AbhITVje (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:39:34 -0400
-Received: by mail-pj1-f44.google.com with SMTP id z14-20020a17090a8b8e00b0019cc29ceef1so459916pjn.1;
-        Mon, 20 Sep 2021 14:38:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2ayxZn/lOlQR6TbkkaZBFMOItibmi4Bh0TfB4sua9Dg=;
-        b=cV+CTzsBDkXGVCuwl377DfuN59I/vu0qphxX8zew/xNq+jGTlpj1sotZRDPJ3+fJOd
-         /tjPDSytepJpeQg6mhNsNSBhqdnAjJfiib4S8ZYz+xrnoFKV8jZ/TXoAV8+N4B1bcR4f
-         SbsXqdyPDXs4FwfiSFAlNrGMRyqUVBdE/gvI8jiMGBnccq2IuoNgPyxQvjnUM1XCECdl
-         OgqtRQ/2uy6jew9Vp76yXthSIMpU0GMFZVOGPJoQOlzieJgTjXvORIcG7nq8+y0azWwc
-         xi5R1xtaSDsvW4EMrlEcxWBWTC8blLxlv6Qep9r13nw8v4nkV5T/7LIKzaWG9aYphqIU
-         NjvQ==
-X-Gm-Message-State: AOAM531/5I+BJVIcl24ox+HTfadtC5C1rFarUDLb/7uZmsnwt1QtNldH
-        WDGFuTGJGLpsGXZlJDlaz60=
-X-Google-Smtp-Source: ABdhPJx1Az2oN5wV3HapNIpTDijDyVmric+3mpxs5EaEkRipPE4jz0ZZeyK4NeP32XsrEIfxd+X+Kg==
-X-Received: by 2002:a17:90b:3447:: with SMTP id lj7mr1253820pjb.112.1632173886429;
-        Mon, 20 Sep 2021 14:38:06 -0700 (PDT)
-Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:6e2a:d64:7d9d:bd4a])
-        by smtp.gmail.com with ESMTPSA id x8sm14854198pfm.8.2021.09.20.14.38.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Sep 2021 14:38:05 -0700 (PDT)
-Subject: Re: [PATCH v7 03/12] selftests: add tests_sysfs module
-To:     Luis Chamberlain <mcgrof@kernel.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org
-Cc:     rdunlap@infradead.org, rafael@kernel.org, masahiroy@kernel.org,
-        ndesaulniers@google.com, yzaikin@google.com, nathan@kernel.org,
-        ojeda@kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
-        vitor@massaru.org, elver@google.com, jarkko@kernel.org,
-        glider@google.com, rf@opensource.cirrus.com,
-        stephen@networkplumber.org, David.Laight@ACULAB.COM,
-        jolsa@kernel.org, andriy.shevchenko@linux.intel.com,
-        trishalfonso@google.com, andreyknvl@gmail.com, jikos@kernel.org,
-        mbenes@suse.com, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, reinette.chatre@intel.com,
-        fenghua.yu@intel.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        daniel.vetter@ffwll.ch, bhelgaas@google.com, kw@linux.com,
-        dan.j.williams@intel.com, senozhatsky@chromium.org, hch@lst.de,
-        joe@perches.com, hkallweit1@gmail.com, axboe@kernel.dk,
-        jpoimboe@redhat.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, peterz@infradead.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org
-References: <20210918050430.3671227-1-mcgrof@kernel.org>
- <20210918050430.3671227-4-mcgrof@kernel.org>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <f33732f8-fd8e-abaf-6725-4a048bace2a2@acm.org>
-Date:   Mon, 20 Sep 2021 14:38:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S236980AbhITVse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 17:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238648AbhITVqe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 17:46:34 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9298C0698D7;
+        Mon, 20 Sep 2021 10:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=KXUOMDD9e8aDRtCMjdtKTE3I6iViL6D6eI7D8ogZ3mM=; b=uq96Xwj4pZdgwT/3V7FLk8WtPg
+        YMjoJxWEbcNpxDi1aA5eIUP8wx2k0w+ft8EZAGVSpCUWeuytzVsMkniR9VUM4gcHG7SHsIGNgTeN7
+        r5namj2wGtuypxeRzCxkjfTLoWKWQiKxP+VK8622VncZUv/1U4dCQ9NpGDcVZFwarsCow3C82Dj6t
+        XnHaV6EF3fXOVY244/V8StSsImq5wLyXbEUeKZ9X77Gy+mlahNPtgunAxs5zHauW5YHbtSIB7IyET
+        +FPv+CFlwXUibadLtKUQF/9C9fPOgiO7dtRLPEDOgvo8CO6zXyKg+blvANJ6SoA9TlwhDSuwbJogK
+        XHexOcHg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mSN2Y-002uyi-DQ; Mon, 20 Sep 2021 17:25:40 +0000
+Date:   Mon, 20 Sep 2021 18:25:14 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Joel Becker <jlbec@evilplan.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jack Winch <sunt.un.morcov@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 2/8] configfs: use BIT() for internal flags
+Message-ID: <YUjD+sAkgjYkTE38@casper.infradead.org>
+References: <20210920140509.5177-1-brgl@bgdev.pl>
+ <20210920140509.5177-3-brgl@bgdev.pl>
+ <20210920140938.GA24424@lst.de>
+ <CAMuHMdXoZdhSydMpbW8B6oQJNnpYpTxmhHrV5CJNTUP7T1KsoA@mail.gmail.com>
+ <20210920143046.GA26163@lst.de>
+ <CAMRc=McQoD=cUHLu6TMyW85fdtXOm4x38tHVnEGjkVfcfX0mfA@mail.gmail.com>
+ <CAMuHMdXUpMvhjjgNdLgfJvaWWG9_oHa_pmx4TTy0mC1p1zUEmw@mail.gmail.com>
+ <CAMRc=MdNQ+rquq6_rf-rxvoPzz9G0EzO4T=ryF6XYXh51NBL_w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210918050430.3671227-4-mcgrof@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MdNQ+rquq6_rf-rxvoPzz9G0EzO4T=ryF6XYXh51NBL_w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/17/21 10:04 PM, Luis Chamberlain wrote:
-> +static void test_dev_config_lock(struct sysfs_test_device *test_dev)
-> +{
-> +	struct test_config *config;
-> +
-> +	config = &test_dev->config;
+On Mon, Sep 20, 2021 at 05:00:10PM +0200, Bartosz Golaszewski wrote:
+> Anyway, I'm more interested in Al's comments on the implementation of
+> committable items than bikeshedding about whether to use or not to use
+> BIT() so I'll wait for those before revisiting this patch.
 
-Please change the above into a single line (there are multiple
-occurrences):
-
-struct test_config *config = &test_dev->config;
-
-Thanks,
-
-Bart.
+This isn't bikeshedding.  Bikeshedding is when lots of people weigh in
+with opinions on what you should do.  This is you failing to listen
+to the maintainer of the code you're changing.
