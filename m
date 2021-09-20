@@ -2,176 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BAAC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 01:42:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE2A3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 02:02:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09F6B61168
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 01:42:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE3D560FA0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 02:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbhIUBnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 21:43:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59116 "EHLO
+        id S229985AbhIUCEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Sep 2021 22:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233180AbhIUBlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 21:41:10 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7860AC06EAB9
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 13:52:33 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id c4so11884476pls.6
-        for <linux-doc@vger.kernel.org>; Mon, 20 Sep 2021 13:52:33 -0700 (PDT)
+        with ESMTP id S234662AbhIUBpM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 21:45:12 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21645C05937A;
+        Mon, 20 Sep 2021 14:14:14 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id m26so17470304pff.3;
+        Mon, 20 Sep 2021 14:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CqRJNowvS30DA449VJOT4nm+AVZU/Om+Rqqdzurt050=;
-        b=iNAgLEI2/KhgFVKx72MAqTdpftvJ0aSwNn3Ejh2yEcwAEjl6yoUfTnx7YEE5xxLLuP
-         1vGxRNVkPSZajZSlr8Z++4xK6MAUHC1hmL5Id1qonAbXlE3/B+ITv3TcdqeZXgF72TRn
-         4mGdKsRJPPWvKJHSRyo74FHrclds73dk7pRuX3CP2b8e/4WSGZ1Bq4cr1ZIziuehan85
-         Ibn/f5om/hzTPFJ53Rr+YajWSeJ7r/pZP6MkvHev6u5k9zJZtMW+MjXYotZIebVMDL9X
-         pWqDSK819z2UFpUUjUM2uNFjNrF6D0bjnx9OQJsvR13XORAUQ5lu6dSGmtpqaJqXNUyn
-         bwYA==
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wJbe26PbHhpGOrBm34WfP3EQpBDDdiCtuFeJHFErXao=;
+        b=XsOg/+RTS1dlQNb9LQapBJTEFbCTAMTz0fxmiMQT2IuwKXO/HGmAf4Tv+771pP9njY
+         nMxicCI6TJ7kfiCsL1P9Iq9ia/ZdNxasSfvohF+q+MAN/DS82gHpFxtGPjZ2VVFzOSMB
+         qFKTjVaN6yM9ZYqWlNSs8iqKIhrcc902zTIgS3z/24bT9yGe6DQpfxbfjfW/sH7chB8w
+         hwgxBaJWDPs//QlPZB/rbFStytxNc8xWs+xR8cuUN2HsumNl5VkD7mI713EsofTW81i7
+         q8WkCNTCpbd5NXvqfelOHpsKEV6NKhzoLcqcVsiXPz52vQCKD9vOQ3xesM06Sh4fahOQ
+         vN2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CqRJNowvS30DA449VJOT4nm+AVZU/Om+Rqqdzurt050=;
-        b=r1axLflbKcNSfa6CiNvYypdSZIjU/HJamqLXfnKyqOHtzp8xfArNSEbH2Vdzwz4haP
-         ZIb5FVuke5YvX2RvF8I81CEb+XVHp6MTZVQz/TZEH35IVeqYtqEIx08hoUyDnsMYnotV
-         s3ts+tGQ7Z60gfMFj08EtTKLayw4GYGIo+thsMQsl2z7eRAP6k8kdbRdZI9JkBrI1ZZf
-         mM/VDVkXxx3XJoIdRTfOV3zRB+OKc2MdJBc8P+ir7ActARf65M1eGWPCqbJ/HrJsa+lh
-         gljaW3KcSQC5XNCmpUb+P3+ZeYWFOeUjT49WLi50hm8RVeA60dtSS32S9VkR3szGFhWc
-         PTKw==
-X-Gm-Message-State: AOAM533bV8Gz/BynzXt40FhBmetaJkGRAJtLQ7SAu3Eh1vZ9HL429OP1
-        yPdB/tnUIiQ6AaorstRqbpn8Y/sMDLGqqD5tJr7tTQ==
-X-Google-Smtp-Source: ABdhPJwlOxFidW4+VBTQpNvruOpSKqqJGpGW/zs/xSMhXjo23UCn9pLxSfuB7PpqCI2xw1rI4wP5aIJglQCCa+lha/0=
-X-Received: by 2002:a17:902:bd8d:b0:13a:8c8:a2b2 with SMTP id
- q13-20020a170902bd8d00b0013a08c8a2b2mr24412734pls.89.1632171152630; Mon, 20
- Sep 2021 13:52:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210918050430.3671227-1-mcgrof@kernel.org> <20210918050430.3671227-10-mcgrof@kernel.org>
-In-Reply-To: <20210918050430.3671227-10-mcgrof@kernel.org>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Mon, 20 Sep 2021 13:52:21 -0700
-Message-ID: <CAPcyv4i0xEwMQ5kSK-xGroV7aZr3j1YNrGMVLiLMr3U8nFCMKA@mail.gmail.com>
-Subject: Re: [PATCH v7 09/12] sysfs: fix deadlock race with module removal
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Tejun Heo <tj@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Minchan Kim <minchan@kernel.org>, jeyu@kernel.org,
-        shuah <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>, yzaikin@google.com,
-        Nathan Chancellor <nathan@kernel.org>, ojeda@kernel.org,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        vitor@massaru.org, elver@google.com,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        rf@opensource.cirrus.com,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        David Laight <David.Laight@aculab.com>, bvanassche@acm.org,
-        jolsa@kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        trishalfonso@google.com, andreyknvl@gmail.com,
-        Jiri Kosina <jikos@kernel.org>, mbenes@suse.com,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Borislav Petkov <bp@alien8.de>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, lizefan.x@bytedance.com,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        senozhatsky@chromium.org, Christoph Hellwig <hch@lst.de>,
-        Joe Perches <joe@perches.com>, hkallweit1@gmail.com,
-        Jens Axboe <axboe@kernel.dk>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wJbe26PbHhpGOrBm34WfP3EQpBDDdiCtuFeJHFErXao=;
+        b=pAB9PV995tNH42WiD5igGo40ltmnpk9Xv91Q3pAF63CML4jxpOugaNr5qWKywhGRvA
+         VDKu0I1V6LIKWqiT3kVJZv5YCtbJZ39nIQXIRD3NzhRIiUedu4KK4YpHZb3WnF+T+7xJ
+         by1KLMFNzRO8GcVO3/lmXK5UPhb7Giw416PwcLGYmk8y9r+VXjsUJBXMPJMwqSZiJGAl
+         6BcX0zoCA8G1ExPpySukgItKqMy+y7QwUORUyqMhywJJEAPsk0fN1UyO3yjzsgo9i54M
+         UNqvjgwRBEjOAxqQZVZ3pwy5aWruqgpkAzb8vSWNBeW0yNSdbBrcLZGtrc9N9bQliU45
+         wqIQ==
+X-Gm-Message-State: AOAM5301iSS+dii+GIlmAo3nNVUDSOEVboQCHrY3kfo3/aoRHLiV7as/
+        6rokvisuVeFjGwoMlqM82jU=
+X-Google-Smtp-Source: ABdhPJxT+Kq7mMohFE4vU+4/4A3kHTJgOAReFUeXiGCwjRSGFhNml42MoQBZbYpHGt5HUM9KI8UGng==
+X-Received: by 2002:a05:6a00:c3:b0:43d:e6be:b2a6 with SMTP id e3-20020a056a0000c300b0043de6beb2a6mr27203762pfj.34.1632172453197;
+        Mon, 20 Sep 2021 14:14:13 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+        by smtp.googlemail.com with ESMTPSA id p24sm14925238pfh.136.2021.09.20.14.14.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 14:14:12 -0700 (PDT)
+Sender: Richard Henderson <rth7680@gmail.com>
+Subject: Re: [PATCH V3 14/22] LoongArch: Add signal handling support
+To:     Huacai Chen <chenhuacai@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        linux-spdx@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-block@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        copyleft-next@lists.fedorahosted.org
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
+ <20210917035736.3934017-15-chenhuacai@loongson.cn> <87tuii52o2.fsf@disp2133>
+ <CAAhV-H5MZ9uYyEnVoHXBXkrux1HdcPsKQ66zvB2oeMfq_AP7_A@mail.gmail.com>
+ <CAK8P3a0xghZKNBWbZ-qUWQVKyus4xqJMhSV_baQO7zKDoTtGQg@mail.gmail.com>
+ <CAAhV-H7A=C3Tujt2YNv1np9pEP_Hxc-chGnOdmDCzx5tUt7F5g@mail.gmail.com>
+From:   Richard Henderson <rth@twiddle.net>
+Message-ID: <a0fb870d-3b79-ca77-305f-6178974729e4@twiddle.net>
+Date:   Mon, 20 Sep 2021 14:14:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAAhV-H7A=C3Tujt2YNv1np9pEP_Hxc-chGnOdmDCzx5tUt7F5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 10:05 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> When sysfs attributes use a lock also used on module removal we can
-> race to deadlock. This happens when for instance a sysfs file on
-> a driver is used, then at the same time we have module removal call
-> trigger. The module removal call code holds a lock, and then the sysfs
-> file entry waits for the same lock. While holding the lock the module
-> removal tries to remove the sysfs entries, but these cannot be removed
-> yet as one is waiting for a lock. This won't complete as the lock is
-> already held. Likewise module removal cannot complete, and so we deadlock.
->
-> This can now be easily reproducible with our sysfs selftest as follows:
->
-> ./tools/testing/selftests/sysfs/sysfs.sh -t 0027
->
-> To fix this we extend the struct kernfs_node with a module reference and
-> use the try_module_get() after kernfs_get_active() is called which
-> protects integrity and the existence of the kernfs node during the
-> operation.
->
-> So long as the kernfs node is protected with kernfs_get_active() we know
-> we can rely on its contents. And, as now just documented in the previous
-> patch, we also now know that once kernfs_get_active() is called the module
-> is also guarded to exist and cannot be removed.
->
-> If try_module_get() fails we fail the operation on the kernfs node.
->
-> We use a try method as a full lock means we'd then make our sysfs
-> attributes busy us out from possible module removal, and so userspace
-> could force denying module removal, a silly form of "DOS" against module
-> removal. A try lock on the module removal ensures we give priority to
-> module removal and interacting with sysfs attributes only comes second.
-> Using a full lock could mean for instance that if you don't stop poking
-> at sysfs files you cannot remove a module.
->
-> Races between removal of sysfs files and the module are not possible
-> given sysfs files are created by the same module, and when a sysfs file
-> is being used kernfs prevents removal of the sysfs file. So if module
-> removal is actually happening the removal would have to wait until
-> the sysfs file operation is complete.
->
-> This deadlock was first reported with the zram driver, however the live
-> patching folks have acknowledged they have observed this as well with
-> live patching, when a live patch is removed. I was then able to
-> reproduce easily by creating a dedicated selftests.
->
-> A sketch of how this can happen follows:
->
-> CPU A                              CPU B
->                                    whatever_store()
-> module_unload
->   mutex_lock(foo)
->                                    mutex_lock(foo)
->    del_gendisk(zram->disk);
->      device_del()
->        device_remove_groups()
+On 9/19/21 7:36 PM, Huacai Chen wrote:
+> Hi, Arnd,
+> 
+> On Sun, Sep 19, 2021 at 5:59 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>> On Sat, Sep 18, 2021 at 9:12 AM Huacai Chen <chenhuacai@gmail.com> wrote:
+>>> On Sat, Sep 18, 2021 at 5:10 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>>>> For example does LoongArch have a version without built in floating
+>>>> point support?
+>>>
+>>> Some of these structures seems need rethinking, But we really have
+>>> LoongArch-based MCUs now (no FP, no SMP, and even no MMU).
+>>
+>> NOMMU Linux is kind-of on the way out as interest is fading, so I hope you
+>> don't plan on supporting this in the future.
+>>
+>> Do you expect to see future products with MMU but no FP or no SMP?
+> OK, we will not care no-MMU hardware in Linux, but no-FP and no-SMP
+> hardware will be supported.
 
-This flow seems possible to trigger with:
+Please consider requiring the FP registers to be present even on no-FP hardware.
 
-   echo $dev > /sys/bus/$bus/drivers/$driver/unbind
+With this plus the FP data movement instructions (FMOV, MOVGR2FR, MOVFR2GR, FLD, FST), it 
+is possible to implement soft-float without requiring a separate soft-float ABI.  This can 
+vastly simplify compatibility and deployment.
 
-I am missing why module pinning is part of the solution when it's the
-device_del() path that is racing? Module removal is just a more coarse
-grained way to trigger unbind => device_del(). Isn't the above a bug
-in the driver, not missing synchronization in kernfs? Forgive me if
-the unbind question was asked and answered elsewhere, this is my first
-time taking a look at this series.
+
+r~
