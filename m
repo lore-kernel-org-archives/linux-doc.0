@@ -2,171 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A348C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:49:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A6AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:59:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8B6610A1
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:49:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AD3861166
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:59:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234215AbhIUPul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 11:50:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38636 "EHLO mail.kernel.org"
+        id S234330AbhIUQAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 12:00:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43786 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229804AbhIUPuk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Sep 2021 11:50:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3B061183;
-        Tue, 21 Sep 2021 15:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632239352;
-        bh=SYPIsUeB0QpNl9iOqz8TrUCBGO94e+noRg1ECZdTJME=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UaaVRIqswzz+NS3S8fQEaKMO9RtdOXsyeprnTEIheXJKQGHNj08P7eyrd/PQOFBCR
-         AN5tBBs86O+nP3GdbvOj2N+vfIACcMw2gY7GyzZmcnfLHUMHWEqqTO8tVeryaAcPBC
-         wa3PUemimJFndCXNOCuGMsRHqw57UEYG+Vl8QmekwFARdVX0/7ufVsMqf8T+9g7Szp
-         diWZkbbph3gXn35UaYmr5cUyleLHlYXnKdZMqMkRG/D9zQZoy6oFBj2a59MNnxAHRK
-         YIYKWUHNZvNhOBYpWGFXq5g7hiH0GMlpMxwr02jYDVngebiKxCzBjK5YB3wvzgzdsQ
-         QI6X04sAKlF5w==
-Received: by mail-qt1-f178.google.com with SMTP id x9so6771427qtv.0;
-        Tue, 21 Sep 2021 08:49:12 -0700 (PDT)
-X-Gm-Message-State: AOAM530DTdfrLatLheUDRErjR0q716Etht84WYtht7AKXxWF0VYHTMnt
-        NVdMaemE2/1nYxdiR7t9kXytp6X1M9drt3Q8/zI=
-X-Google-Smtp-Source: ABdhPJxkbOxqy1A7fvfdyNFD5npSBw9ZclgHN9SR+lhraCwiqhyTzn8pzClLHqd6Gjl1VdDdZRtbIZxWA0QsI3m+TXk=
-X-Received: by 2002:ac8:4113:: with SMTP id q19mr29065258qtl.108.1632239341024;
- Tue, 21 Sep 2021 08:49:01 -0700 (PDT)
+        id S234329AbhIUQAg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Sep 2021 12:00:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B83C61090;
+        Tue, 21 Sep 2021 15:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632239947;
+        bh=MBdwhTmywQnQabtIak3fC2dXUw2SZCLuf7QB3uKAk2U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZTUK3RLOnpvyUdrBajnRxOW36VZ/aQrmLIbt/uzyjCrxMO98i5jY0nnSR4eIzVuHt
+         Q7+hCwV7c/9l3Jsd/rU3BY1mmS0T2q2Z9vuN0OrgVGGVD1ybnrDZHpm1JNbfKKJZec
+         ZIcURCGA2QrwiPL0CMaQqmTc2ARdaQbTkUKIyhaU=
+Date:   Tue, 21 Sep 2021 17:59:05 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chen Yu <yu.c.chen@intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Aubrey Li <aubrey.li@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] drivers/acpi: Introduce Platform Firmware Runtime
+ Update device driver
+Message-ID: <YUoBSRrAyaHOCNHb@kroah.com>
+References: <cover.1631802162.git.yu.c.chen@intel.com>
+ <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
 MIME-Version: 1.0
-References: <20210917194709.3562413-1-mcgrof@kernel.org> <20210917194709.3562413-10-mcgrof@kernel.org>
- <c70dcb03e27e43c5b5311e184357df39@AcuMS.aculab.com>
-In-Reply-To: <c70dcb03e27e43c5b5311e184357df39@AcuMS.aculab.com>
-From:   Luis Chamberlain <mcgrof@kernel.org>
-Date:   Tue, 21 Sep 2021 08:48:49 -0700
-X-Gmail-Original-Message-ID: <CAB=NE6WjupsJFwsj94sC_j3gcYn2Qo0sx1=tMv=WUZ83jq_DFw@mail.gmail.com>
-Message-ID: <CAB=NE6WjupsJFwsj94sC_j3gcYn2Qo0sx1=tMv=WUZ83jq_DFw@mail.gmail.com>
-Subject: Re: [PATCH v7 09/12] sysfs: fix deadlock race with module removal
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "tj@kernel.org" <tj@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "jeyu@kernel.org" <jeyu@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "yzaikin@google.com" <yzaikin@google.com>,
-        "nathan@kernel.org" <nathan@kernel.org>,
-        "ojeda@kernel.org" <ojeda@kernel.org>,
-        "vitor@massaru.org" <vitor@massaru.org>,
-        "elver@google.com" <elver@google.com>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "glider@google.com" <glider@google.com>,
-        "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "bvanassche@acm.org" <bvanassche@acm.org>,
-        "jolsa@kernel.org" <jolsa@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "trishalfonso@google.com" <trishalfonso@google.com>,
-        "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "mbenes@suse.com" <mbenes@suse.com>,
-        "ngupta@vflare.org" <ngupta@vflare.org>,
-        "sergey.senozhatsky.work@gmail.com" 
-        <sergey.senozhatsky.work@gmail.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "kw@linux.com" <kw@linux.com>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-        "hch@lst.de" <hch@lst.de>, "joe@perches.com" <joe@perches.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "linux-spdx@vger.kernel.org" <linux-spdx@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "copyleft-next@lists.fedorahosted.org" 
-        <copyleft-next@lists.fedorahosted.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 21, 2021 at 1:24 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Luis Chamberlain
-> > Sent: 17 September 2021 20:47
-> >
-> > When sysfs attributes use a lock also used on module removal we can
-> > race to deadlock. This happens when for instance a sysfs file on
-> > a driver is used, then at the same time we have module removal call
-> > trigger. The module removal call code holds a lock, and then the sysfs
-> > file entry waits for the same lock. While holding the lock the module
-> > removal tries to remove the sysfs entries, but these cannot be removed
-> > yet as one is waiting for a lock. This won't complete as the lock is
-> > already held. Likewise module removal cannot complete, and so we deadlock.
->
-> Isn't the real problem the race between a sysfs file action and the
-> removal of the sysfs node?
+On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
+> Introduce the pfru_update driver which can be used for Platform Firmware
+> Runtime code injection and driver update. The user is expected to provide
+> the update firmware in the form of capsule file, and pass it to the driver
+> via ioctl. Then the driver would hand this capsule file to the Platform
+> Firmware Runtime Update via the ACPI device _DSM method. At last the low
+> level Management Mode would do the firmware update.
+> 
+> Signed-off-by: Chen Yu <yu.c.chen@intel.com>
 
-Nope, that is taken care of by kernfs.
+Where is the userspace code that uses this ioctl and has tested it out
+to verify it works properly?  A link to that in the changelog would be
+great to have.
 
-> This isn't really related to module unload - except that may
-> well remove some sysfs nodes.
+> +static void dump_update_result(struct pfru_updated_result *result)
+> +{
+> +	pr_debug("Update result:\n");
+> +	pr_debug("Status:%d\n", result->status);
+> +	pr_debug("Extended Status:%d\n", result->ext_status);
+> +	pr_debug("Authentication Time Low:%lld\n", result->low_auth_time);
+> +	pr_debug("Authentication Time High:%lld\n", result->high_auth_time);
+> +	pr_debug("Execution Time Low:%lld\n", result->low_exec_time);
+> +	pr_debug("Execution Time High:%lld\n", result->high_exec_time);
 
-Nope, the issue is a deadlock that can happen due to a shared lock on
-module removal and a driver sysfs operation.
+Why not dev_dbg()?  Same for all pr_* calls in this "driver".
 
-> This is the same problem as removing any other kind of driver callback.
-> There are three basic solutions:
-> 1) Use a global lock - not usually useful.
-> 2) Have the remove call sleep until any callbacks are complete.
-> 3) Have the remove just request removal and have a final
->    callback (from a different context).
 
-Kernfs already does a sort of combination of 1) and 2) but 1) is using
-atomic reference counts.
+> +static long pfru_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> +{
+> +	void __user *p;
+> +	int ret = 0, rev;
+> +
+> +	p = (void __user *)arg;
+> +
+> +	switch (cmd) {
+> +	case PFRU_IOC_SET_REV:
+> +		if (copy_from_user(&rev, p, sizeof(unsigned int)))
+> +			return -EFAULT;
+> +		if (!pfru_valid_revid(rev))
+> +			return -EFAULT;
+> +		pfru_dev->rev_id = rev;
+> +		break;
+> +	case PFRU_IOC_STAGE:
+> +		ret = start_acpi_update(START_STAGE);
+> +		break;
+> +	case PFRU_IOC_ACTIVATE:
+> +		ret = start_acpi_update(START_ACTIVATE);
+> +		break;
+> +	case PFRU_IOC_STAGE_ACTIVATE:
+> +		ret = start_acpi_update(START_STAGE_ACTIVATE);
+> +		break;
+> +	default:
+> +		ret = -ENOIOCTLCMD;
 
-> If the remove can sleep (as in 2) then there is a requirement
-> on the driver code to not hold any locks across the 'remove'
-> that can be acquired during the callbacks.
+Wrong value :(
 
-And this is the part that kernfs has no control over since the removal
-and sysfs operation are implementation specific.
 
-> Now, for sysfs, you probably only want to sleep the remove code
-> while a read/write is in progress - not just because the node
-> is open.
-> That probably requires marking an open node 'invalid' and
-> deferring delete to close.
 
-This is already done by kernfs.
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +#ifdef CONFIG_COMPAT
+> +static long compat_pfru_ioctl(struct file *filep, unsigned int cmd,
+> +			      unsigned long arg)
+> +{
+> +	return pfru_ioctl(filep, cmd, arg);
+> +}
+> +#endif
 
-> None of this requires a reference count on the module.
+Why is this compat ioctl needed at all?
 
-You are missing the point to the other aspect of the try_module_get(),
-it lets you also check if module exit has been entered. By using
-try_module_get() you let the module exit trump proceeding with an
-operation, therefore also preventing any potential use of a shared
-lock on module exit and the driver specific sysfs operation.
+> +static struct miscdevice pfru_misc_dev = {
+> +	.minor = MISC_DYNAMIC_MINOR,
+> +	.name = "pfru_update",
+> +	.nodename = "pfru/update",
 
-  Luis
+Why is this in a subdirectory?  What requires this?  Why not just
+"pfru"?
+
+thanks,
+
+greg k-h
