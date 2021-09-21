@@ -2,117 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3796C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 22:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCB7C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:08:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A916B60F70
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 22:36:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53015611C6
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232143AbhIUWhq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 18:37:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48912 "EHLO mail.kernel.org"
+        id S229671AbhIUXJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 19:09:59 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53834 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229775AbhIUWhq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Sep 2021 18:37:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 054F06044F;
-        Tue, 21 Sep 2021 22:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632263777;
-        bh=th3qmPaUNQjiJHw2074qzi6M8+lsZxz3EyRRcE77AdI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=N3V50aLck3umR7T+IFg91Ni1G4xICympd/f/PRvUvUoF83JyMq/4G+7D0GMPML6JN
-         DoRL+w1+pA3sM38+COOT5MX5ugR8+G47LsMljgSS5eui3gBWevytzp/jybvykkizaQ
-         NGZXppqWkILz6E93KrUFYrIL0wVxfxIO2NCJGRQ27YDNp3SzWEHV8WEHsTu/txHRpo
-         g+i1+/YtUZQNQin3jZL61KKNA0lWR/dZBFpRfbCneKNbJ9bzEDOggrmptg5nv0932Z
-         aolA0H92iCs/oK3SVA21xsJ99K6CHmXsETUsH6KiJyHYzB6iWV0pqUr/D9LlohLxB0
-         YDE/kD/1nY3vg==
-Date:   Tue, 21 Sep 2021 17:36:15 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Huacai Chen <chenhuacai@gmail.com>, a@bhelgaas
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jianmin Lv <lvjianmin@loongson.cn>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH V3 18/22] LoongArch: Add PCI controller support
-Message-ID: <20210921223615.GA137894@bhelgaas>
+        id S229576AbhIUXJ6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Sep 2021 19:09:58 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A4DB337B;
+        Tue, 21 Sep 2021 23:08:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A4DB337B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1632265709; bh=CdsObx61OtVA6UmkkyHj1HJ0dVqZUkttfdTVmAMUUrc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=MWZUX3OR2jLyzSwbvwPcjW9ol8lM0z8WzruV89oy4VTyABw8vr5Y8jw+kMt6eVpxT
+         Z35nJbEJu8opiOrZ1sC8QGpj0mLbKx35l3ykPYGkMDBE+nEkhD3Ndi8TmbuH1zRl0j
+         DJzzC89HBrFx4kxhn6p9TT7ljlkQy33HgZ+pkEMLKjxaIkaiKBePtqLmUxcDs3WMO9
+         Q7J6wMChMC640nPKdihTJ9BkP7fL9b4myu+DwTyR/foyGu5rHMrVNbYPtbHxGBjoJX
+         rYP23hhWqHIkT9DbkP9OugQLqZNrzRpVxN22EEtjWQWZdpfNC/RlrAiooYe3hv2TiV
+         e9tdTOCaW6exQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: arm: marvell: Add 88F6040 model into list
+In-Reply-To: <20210919143327.24289-1-pali@kernel.org>
+References: <20210919143327.24289-1-pali@kernel.org>
+Date:   Tue, 21 Sep 2021 17:08:29 -0600
+Message-ID: <87k0j9ttle.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAhV-H5=Ut+rymv1RH+1GVS2oVZogtuwY_Sk-dDosJh6=USr0Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 03:36:52PM +0800, Huacai Chen wrote:
-> On Fri, Sep 17, 2021 at 5:02 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Fri, Sep 17, 2021 at 5:57 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
-> > >
-> > > Loongson64 based systems are PC-like systems which use PCI/PCIe as its
-> > > I/O bus, This patch adds the PCI host controller support for LoongArch.
-> > >
-> > > Signed-off-by: Jianmin Lv <lvjianmin@loongson.cn>
-> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> >
-> > As discussed before, I think the PCI support should not be part of the
-> > architecture code or this patch series. The headers are ok, but the pci.c
-> > and acpi.c files have nothing loongarch specific in them, and you clearly
-> > just copied most of this from arm64 or x86.
+Pali Roh=C3=A1r <pali@kernel.org> writes:
+
+> Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
+> ---
+>  Documentation/arm/marvell.rst | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> In V2 part of the PCI code (pci-loongson.c) has moved to
-> drivers/pci/controllers. For pci.c and acpi.c, I agree that "the thing
-> should be like that", but have some different ideas about "the way to
-> arrive at that". In my opinion, we can let this series be merged at
-> first, and then do another series to "restructure the files and move
-> common parts to the drivers directory". That way looks more natural to
-> me (doing the other series at first may block the whole thing).
-> 
-> > What I would suggest you do instead is:
-> >
-> > - start a separate patch series, addressed to the ACPI, PCI host driver
-> >   and ARM64 maintainers.
-> >
-> > - Move all the bits you need from arch/{arm64,ia64,x86} into
-> >   drivers/acpi/pci/pci_root.c, duplicating them with #if/#elif/#else
-> >   where they are too different, making the #else path the
-> >   default that can be shared with loongarch.
-> >
-> > - Move the bits from pci_root_info/acpi_pci_root_info that are
-> >   always needed into struct pci_host_bridge, with an
-> >   #ifdef CONFIG_ACPI where appropriate.
-> >
-> > - Simplify as much as you can easily do.
+> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+> index 56bb592dbd0c..f9b09b06e1d6 100644
+> --- a/Documentation/arm/marvell.rst
+> +++ b/Documentation/arm/marvell.rst
+> @@ -212,6 +212,7 @@ EBU Armada family ARMv8
+>  	arch/arm64/boot/dts/marvell/armada-37*
+>=20=20
+>    Armada 7K Flavors:
+> +	  - 88F6040 (AP806 Quad 600 MHz + one CP110)
+>  	  - 88F7020 (AP806 Dual + one CP110)
 
-I would love to see this done.
+Applied, thanks.
 
-But we already have this kind of redundant code for arm64/ia64/x86.
-Arguably, we should have refactored it for ia64 or arm64.  It's
-unfortunate to add loongarch to that list, but why should we penalize
-loongarch more than arm64 and ia64?
-
-Bjorn
+jon
