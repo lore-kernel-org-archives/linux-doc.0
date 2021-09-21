@@ -2,69 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23160C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB89BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:18:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AE91611CE
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:10:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0F76611C6
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:18:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbhIUXMT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 19:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44554 "EHLO
+        id S229912AbhIUXTj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 19:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbhIUXMS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 19:12:18 -0400
+        with ESMTP id S229794AbhIUXTj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 19:19:39 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB70C061574;
-        Tue, 21 Sep 2021 16:10:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B674C061574;
+        Tue, 21 Sep 2021 16:18:10 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A95E4735;
-        Tue, 21 Sep 2021 23:10:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A95E4735
+        by ms.lwn.net (Postfix) with ESMTPSA id 4B44937B;
+        Tue, 21 Sep 2021 23:18:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4B44937B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1632265849; bh=73WuaeALzhlRrsbXoGtItMRmtfuk2V2JbCR4hx/XQkk=;
+        t=1632266287; bh=mf0KOo3ckLgLF2xp4Atdjuf2Zv+WYRw9Ib3vZUan8eg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tPM1UeG9HVIb9D5TIXL9rZfLuUQgdrwnPpphHXJqAOyAxp9N9dkolcAGG6gb/PHhN
-         t+cG00UsL1VQ3izB+c1gLTPy6ztEuFdQKoUQErxbuQ73tWe/2MU+mwVz8bUEgayKsG
-         /Hd6pZxZ5HiQhhE/5j7PTOkdK+/GL7ykzlLVbGYLvpwk3dRhpFNqwDsHc5etYX9DC9
-         FbHhDjCP81QZfwj2Pt6j5Ju0XHjUoOxoc28OgfrDYiVAZWKGagb+PlhXpVOiGuAl8J
-         4c+DR/dhA0fosw3XYl16OtXBiZ65FeQuMqy0NAq4UQLjz7fCCxjedU/xo2DQOXzQwb
-         icLnbAcbRDcRA==
+        b=lO0YHeqW1w8s/Pg9atLuXcSU1xX0RkfIxladUKapW/sOBjInYFXRrwiHCoNdkSDLr
+         wFWsLmFHbXkErZd8kwFtequp0VsoALal3sxJZAlzPowiKLo5F9OQj/yFZL3h9kCl7y
+         mrype6ytEXI+PMOoaW8wJtPT9HNmw9dL9BB1mYV89gxfpr6q5ScLrXWhcfk/E6JFP7
+         kLB39WExo53vtTLW8rtoedv7TPxQld/WF0HP21b9/fqTo5M/7+7N0zxkVVa8Y5T/Rg
+         NYTcOF5UFPLDw2kPkPGPB2of2zTIfrsB213dk4qrJ+pWW/fk8CzJItuC12ed//0CO2
+         dOop7seSRrcIg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     SeongJae Park <sj@kernel.org>, roger.pau@citrix.com,
-        jgross@suse.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Update SeongJae's email address
-In-Reply-To: <20210917122222.3109-1-sj@kernel.org>
-References: <20210917122222.3109-1-sj@kernel.org>
-Date:   Tue, 21 Sep 2021 17:10:49 -0600
-Message-ID: <87bl4ltthi.fsf@meer.lwn.net>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] ext4: docs: switch away from list-table
+In-Reply-To: <20210916095455.GE10610@quack2.suse.cz>
+References: <20210902220854.198850-1-corbet@lwn.net>
+ <20210902220854.198850-2-corbet@lwn.net>
+ <20210916095455.GE10610@quack2.suse.cz>
+Date:   Tue, 21 Sep 2021 17:18:06 -0600
+Message-ID: <877df9tt5d.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SeongJae Park <sj@kernel.org> writes:
+Jan Kara <jack@suse.cz> writes:
 
-> This commit updates SeongJae's email addresses in documents to his
-> preferred one.
+> On Thu 02-09-21 16:08:53, Jonathan Corbet wrote:
+>> Commit 3a6541e97c03 (Add documentation about the orphan file feature) added
+>> a new document on orphan files, which is great.  But the use of
+>> "list-table" results in documents that are absolutely unreadable in their
+>> plain-text form.  Switch this file to the regular RST table format instead;
+>> the rendered (HTML) output is identical.
+>> 
+>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 >
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> ---
->  Documentation/ABI/testing/sysfs-driver-xen-blkback   | 4 ++--
->  Documentation/ABI/testing/sysfs-driver-xen-blkfront  | 2 +-
->  Documentation/translations/ko_KR/memory-barriers.txt | 8 ++++----
->  3 files changed, 7 insertions(+), 7 deletions(-)
+> Thanks! Definitely looks more readable :). You can add:
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
 
-Applied, thanks.
+Thanks for having a look!  I'll ahead and apply these, then.
 
 jon
