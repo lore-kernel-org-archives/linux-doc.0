@@ -2,100 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02868C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:08:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23160C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D477761186
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:08:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AE91611CE
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 23:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbhIUXKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 19:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44090 "EHLO
+        id S229801AbhIUXMT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 19:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbhIUXKU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 19:10:20 -0400
+        with ESMTP id S229794AbhIUXMS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 19:12:18 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD80C061574;
-        Tue, 21 Sep 2021 16:08:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB70C061574;
+        Tue, 21 Sep 2021 16:10:50 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5506437B;
-        Tue, 21 Sep 2021 23:08:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5506437B
+        by ms.lwn.net (Postfix) with ESMTPSA id A95E4735;
+        Tue, 21 Sep 2021 23:10:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A95E4735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1632265730; bh=gUTHnTMzSXjgiZ2B1KSrN6Q7k9LMdsUSGEn394b4yrw=;
+        t=1632265849; bh=73WuaeALzhlRrsbXoGtItMRmtfuk2V2JbCR4hx/XQkk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=acEf5RY5JpEJcIQfJOKBsMygMRdt5Oq6RsVPWELx+ScPoAB64Cza85wbakB/b1ADs
-         n2/br6XuGRLKb45ztp6y8iVxec/P+xBT5pk8rR3ou7TbRoyIQ3IR0NBd4KwhNaKuTS
-         Ve6GKJscYK716h2EZrrv3Ytsh+I8JWxRvMPoa1u+goNM8b6jlgtXeI4/pARpkLkqb2
-         A9MU2lixpfdCifNSvcuh+35M8lPcGlx25sKCpANn0xzVnfE4Dz1I+O6NII+CTqMw2o
-         jGD+YzhMCvgg6zJbxULsWfVctQDp6RUeF8IOTPj3nLDfMKeuGd0x5bb0xju21Ynlmt
-         dSUny9n1HzTdw==
+        b=tPM1UeG9HVIb9D5TIXL9rZfLuUQgdrwnPpphHXJqAOyAxp9N9dkolcAGG6gb/PHhN
+         t+cG00UsL1VQ3izB+c1gLTPy6ztEuFdQKoUQErxbuQ73tWe/2MU+mwVz8bUEgayKsG
+         /Hd6pZxZ5HiQhhE/5j7PTOkdK+/GL7ykzlLVbGYLvpwk3dRhpFNqwDsHc5etYX9DC9
+         FbHhDjCP81QZfwj2Pt6j5Ju0XHjUoOxoc28OgfrDYiVAZWKGagb+PlhXpVOiGuAl8J
+         4c+DR/dhA0fosw3XYl16OtXBiZ65FeQuMqy0NAq4UQLjz7fCCxjedU/xo2DQOXzQwb
+         icLnbAcbRDcRA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+To:     SeongJae Park <sj@kernel.org>
+Cc:     SeongJae Park <sj@kernel.org>, roger.pau@citrix.com,
+        jgross@suse.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add Octeon TX2 CN913x Flavors
-In-Reply-To: <20210919143348.24338-1-pali@kernel.org>
-References: <20210919143348.24338-1-pali@kernel.org>
-Date:   Tue, 21 Sep 2021 17:08:49 -0600
-Message-ID: <87fstxttku.fsf@meer.lwn.net>
+Subject: Re: [PATCH] Documentation: Update SeongJae's email address
+In-Reply-To: <20210917122222.3109-1-sj@kernel.org>
+References: <20210917122222.3109-1-sj@kernel.org>
+Date:   Tue, 21 Sep 2021 17:10:49 -0600
+Message-ID: <87bl4ltthi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pali Roh=C3=A1r <pali@kernel.org> writes:
+SeongJae Park <sj@kernel.org> writes:
 
-> Marvell put CN913x into Octeon TX2 family but they are different from all
-> other Octeon TX2 products. Instead CN913x is evolution from Armada 7k/8k
-> products.
+> This commit updates SeongJae's email addresses in documents to his
+> preferred one.
 >
-> Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  Documentation/arm/marvell.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-> index f9b09b06e1d6..c3d3f27edfbb 100644
-> --- a/Documentation/arm/marvell.rst
-> +++ b/Documentation/arm/marvell.rst
-> @@ -244,6 +244,23 @@ EBU Armada family ARMv8
->    Device tree files:
->  	arch/arm64/boot/dts/marvell/armada-80*
->=20=20
-> +  Octeon TX2 CN913x Flavors:
-> +	- CN9130 (AP807 Quad + one internal CP115)
-> +	- CN9131 (AP807 Quad + one internal CP115 + one external CP115 / 88F821=
-5)
-> +	- CN9132 (AP807 Quad + one internal CP115 + two external CP115 / 88F821=
-5)
-> +
-> +  Core:
-> +	ARM Cortex A72
-> +
-> +  Homepage:
-> +	https://web.archive.org/web/20200803150818/https://www.marvell.com/prod=
-ucts/infrastructure-processors/multi-core-processors/octeon-tx2/octeon-tx2-=
-cn9130.html
-> +
-> +  Product Brief:
-> +	https://web.archive.org/web/20200803150818/https://www.marvell.com/cont=
-ent/dam/marvell/en/public-collateral/embedded-processors/marvell-infrastruc=
-ture-processors-octeon-tx2-cn913x-product-brief-2020-02.pdf
-> +
-> +  Device tree files:
-> +	arch/arm64/boot/dts/marvell/cn913*
-> +
->  Avanta family
+>  Documentation/ABI/testing/sysfs-driver-xen-blkback   | 4 ++--
+>  Documentation/ABI/testing/sysfs-driver-xen-blkfront  | 2 +-
+>  Documentation/translations/ko_KR/memory-barriers.txt | 8 ++++----
+>  3 files changed, 7 insertions(+), 7 deletions(-)
 
 Applied, thanks.
 
