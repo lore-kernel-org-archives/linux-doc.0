@@ -2,144 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE0CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2010C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:21:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A9A5610A0
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:04:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D491161186
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:21:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233893AbhIUPGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 11:06:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50589 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233840AbhIUPGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 11:06:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632236686;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2x5rqD0I1Z8EQgTGoic1TcC/yhS9DgiwB+H8dUYgCd0=;
-        b=g5CkODU5Q9Vwn45lgZzyLNfHXzeqUXK9OHsz5/l8HYxLpfdoeMXPwkwYfUkk19hF+a6EoZ
-        GmHKT0nrs/unbtWboGmx/3weLyy48AOQujl9g704NTc35D2CHnFhw4VJOuYXYRyqaSipel
-        rdATN1PlG3+XXVxfb4k+L1gxV35nGWw=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-FY-IhWZCOhK5D2uWvCmsKQ-1; Tue, 21 Sep 2021 11:04:45 -0400
-X-MC-Unique: FY-IhWZCOhK5D2uWvCmsKQ-1
-Received: by mail-qt1-f199.google.com with SMTP id o7-20020ac86d07000000b002a69537d614so89991308qtt.21
-        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 08:04:45 -0700 (PDT)
+        id S233404AbhIUPXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 11:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232704AbhIUPXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 11:23:05 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA5FC061574;
+        Tue, 21 Sep 2021 08:21:37 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id i4so83438098lfv.4;
+        Tue, 21 Sep 2021 08:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=USVqWZAArbWUQLUtDtlQScPgCmgWeWDYUhPzzmzD9cE=;
+        b=d+NekTAs6gdVeYOh1ETzFjnosk7b11Jkdp85cE2xaXNQHzds4fG/DaeBvLIWZok/bT
+         8zlNB+vm+Lbp7HjZs0gwvcYkuGEzY4rYubjc8U1WV2ZAjOWge59m9LsdytVZhYAyMyh/
+         kVUQqPb9S0H0ijHCFY4LkH7mywcT7P6bh7o5IlSwYZH7OErFPJB2l4n+nF1KREawE9Oh
+         9pmHHaVkxCTRT5jOSCSHVffxNpywbXL6aTBdOBwwCr58FHR1JN9q9xV+0XT8s4DT/5fV
+         iByIBKgKwoPVX0GWHFhW7mS1NofIUrEaPpVKSfuC2qDpTtF239YZNsypjKQ+zQwPcaL2
+         R2pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2x5rqD0I1Z8EQgTGoic1TcC/yhS9DgiwB+H8dUYgCd0=;
-        b=NCYTD3WGm1nDXtI2y1PtLo4wH7KzrjxrnP3snxHK9TqipPQ3LORjl52MZh2VxbFpzq
-         SZijC2PZup/0XAt7maYGgBHCAk8hn8Wf5PEyZemizJw2ndX7Q7bv/i5fYlSXBJ39SPVr
-         bYT23JYxKacuZpfwR1k0tkxkTg8PNFwZLsQYGfJzucJU9RKQehNU4ITh5lbkxmjUlvAo
-         SA7DLiKMtL7+yOJDWU7db/iIxwzVH6+l9bfTHXB/s3xT21dyLuCnN+cfN9zp0kvTnbIZ
-         1uGi1V51SjNQIh5ekUn1InV1INQ4q0pVR8CAYqPceVmcujftJs0CbX1idN8boOxvWtBl
-         m7oA==
-X-Gm-Message-State: AOAM530qQ+s0fAXwZ42A2vHQGZqYW2dHmv71Epp0ayllctyo0APtJYi+
-        sscJonhajyD/82bK9BrMrVN/SSpvb2Ov3Zs3dLE1eylzhi7JqLzj5uFbhqWXxKZAbhRy3Dn0kdM
-        BOuB8HyCfwrgrjxBOMXRD
-X-Received: by 2002:a37:bfc6:: with SMTP id p189mr30693098qkf.33.1632236684763;
-        Tue, 21 Sep 2021 08:04:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8U6vZ7gnxEMCR81lmgXlrbyrYpmkZLoTOiSc+Z8PManocp5D4HOKaV68dPRX4Kc12+vjS/g==
-X-Received: by 2002:a37:bfc6:: with SMTP id p189mr30693063qkf.33.1632236684470;
-        Tue, 21 Sep 2021 08:04:44 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a2:9100::d3ec])
-        by smtp.gmail.com with ESMTPSA id g17sm379283qkm.60.2021.09.21.08.04.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 08:04:43 -0700 (PDT)
-Date:   Tue, 21 Sep 2021 11:04:42 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Tiberiu Georgescu <tiberiu.georgescu@nutanix.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "david@redhat.com" <david@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Florian Schmidt <flosch@nutanix.com>,
-        "Carl Waldspurger [C]" <carl.waldspurger@nutanix.com>,
-        Jonathan Davies <jond@nutanix.com>
-Subject: Re: [PATCH v2 1/1] Documentation: update pagemap with shmem
- exceptions
-Message-ID: <YUn0ikP4Gip3Yc6L@t490s>
-References: <20210920164931.175411-1-tiberiu.georgescu@nutanix.com>
- <20210920164931.175411-2-tiberiu.georgescu@nutanix.com>
- <YUjb91tWhd/YAgQW@t490s>
- <F6A49621-C7A4-4643-95C2-F47B02F132D2@nutanix.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=USVqWZAArbWUQLUtDtlQScPgCmgWeWDYUhPzzmzD9cE=;
+        b=soxrctJSHKzTWd9JyO81yKIJfKJzFpF2rsvO2t4iVequ1l2Izvleu33mR4kq5XuZPc
+         o6gIVA4D74ClYRf/pRJGKd54+zbl6U6Hp2bWIkAnzNNEP2VmSUXTEIBds7mRwz1Zoj6n
+         bATDHKnDrMGBuxNbz5xEk9IElUthMXxyFwcXPKahaqaz4etyKXfdKx+4GlNhglfS+W0U
+         JBXSOG+qp4prydGZto0wlB8ksi9ib6y1muSVToZNVxdiGSQryiabEGDssPSBquu0tub7
+         72mac66t2DjpnHHoGD2HOlnKQgya0sct9SH2GMxd0k0uIO8r1QZorfYHPRdocuzdQ2Tc
+         IP6g==
+X-Gm-Message-State: AOAM533mUURsBu1dKwtWlg2gJ5u4pbRpMTMKUX2pCrLc0hsEbad50cnU
+        USZLFUHFP4QgUWgNPYUSIRHpOFyWcTYFiVbEYjuaxFIm1AZrng==
+X-Google-Smtp-Source: ABdhPJzthr3WA2wFCeyKG586GKIXPx3EL+AR4pi1b9V0CS7EWWEg72SpC7PGxABChTKUmIl/7el5hhGdi65vVZvbKIY=
+X-Received: by 2002:a19:ca03:: with SMTP id a3mr22741135lfg.176.1632237637561;
+ Tue, 21 Sep 2021 08:20:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <F6A49621-C7A4-4643-95C2-F47B02F132D2@nutanix.com>
+References: <20210914151016.3174924-1-Roman_Skakun@epam.com>
+ <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <CADu_u-Ou08tMFm5xU871ae8ct+2YOuvn4rQ=83CMTbg2bx87Pg@mail.gmail.com>
+ <84ef7ff7-2c9c-113a-4a2c-cef54a6ded51@suse.com> <20210915135321.GA15216@lst.de>
+ <CADu_u-OZzgVj+z=iD6kUQOZxUufF5QSMR6-MmpN_hLZ9PyQJhQ@mail.gmail.com> <eb98aeac-af61-0dd6-2052-5b55921746c1@arm.com>
+In-Reply-To: <eb98aeac-af61-0dd6-2052-5b55921746c1@arm.com>
+From:   Roman Skakun <rm.skakun@gmail.com>
+Date:   Tue, 21 Sep 2021 18:20:29 +0300
+Message-ID: <CADu_u-O-aDk-J4up-UMfjMGi0DJkD6rhePcKdyqzt5750oo-iA@mail.gmail.com>
+Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>, Jan Beulich <jbeulich@suse.com>,
+        Andrii Anisov <andrii_anisov@epam.com>,
+        Roman Skakun <roman_skakun@epam.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        Roman Skakun <rm.skakun@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Tiberiu,
+Hi Robin,
 
-On Tue, Sep 21, 2021 at 08:52:32AM +0000, Tiberiu Georgescu wrote:
-> I tested it some more, and it still looks like the mincore() syscall considers pages
-> in the swap cache as "in memory". This is how I tested:
-> 
-> 1. Create a cgroup with 1M limit_in_bytes, and allow swapping
-> 2. mmap 1024 pages (both shared and private present the same behaviour)
-> 3. write to all pages in order
-> 4. compare mincore output with pagemap output
-> 
-> This is an example of a usual mincore output in this scenario, shortened for
-> coherency (4x8 instead of 16x64):
-> 00000000
-> 00000000
-> 00001110   <- this bugs me
-> 01111111
-> 
-> The last 7 bits are definitely marking pages present in memory, but there are
-> some other bits set a little earlier. When comparing this output with the pagemap,
-> indeed, there are 7 consecutive pages present, and the rest of them are
-> swapped, including those 3 which are marked as present by mincore.
-> At this point, I can only assume the bits in between are on the swap cache.
-> 
-> If you have another explanation, please share it with me. In the meanwhile,
-> I will rework the doc patch, and see if there is any other way to differentiate
-> clearly between the three types of pages. If not, I guess we'll stick to
-> mincore() and a best-effort 5th step.
+>> I use Xen PV display. In my case, PV display backend(Dom0) allocates
+>> contiguous buffer via DMA-API to
+>> to implement zero-copy between Dom0 and DomU.
+>>
+> Well, something's gone badly wrong there - if you have to shadow the
+> entire thing in a bounce buffer to import it then it's hardly zero-copy,
+> is it? If you want to do buffer sharing the buffer really needs to be
+> allocated appropriately to begin with, such that all relevant devices
+> can access it directly. That might be something which needs fixing in Xen=
+.
+>
 
-IIUC it could be because of that the pages are still in swap cache, so
-mincore() will return 1 for them too.
+Right, in case when we want to use a zero-copy approach need to avoid
+using swiotlb
+bounce buffer for all devices which is potentially using this buffer.
+The root of the problem is that this buffer mapped to foreign pages
+and when I tried to
+retrieve dma_addr for this buffer I got a foreign MFN that bigger than
+32 bit and swiotlb tries to
+use bounce buffer.
+I understood, that, need to find a way to avoid using swiotlb in this case.
+At the moment, it's unclear how to do this properly.
+But, this is another story...
 
-What swap device are you using?  I'm wildly guessing you're not using frontswap
-like zram.  If that's the case, would you try zram?  That should flush the page
-synchronously iiuc, then all the "suspecious 1s" will go away above.
-
-To do that, you may need to firstly turn off your current swap:
-
-        # swapoff -a
-
-Then to configure zram you need:
-
-        # modprobe zram
-        # echo 4G > /sys/block/zram0/disksize
-        # mkswap --label zram0 /dev/zram0
-        # swapon --priority 100 /dev/zram0
-
-Quotting from here:
-
-        https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap
-
-Then you can try run the same test program again.
+I guess, we can have the situation when some device like rcar-du needs
+to use a sufficiently large
+buffer which is greater than 256 KB (128(CURRENT_IO_TLB_SEGMENT *
+2048) and need to
+adjust this parameter during boot time, not compilation time.
+In order to this point, this patch was created.
 
 Thanks,
+Roman
 
--- 
-Peter Xu
+=D0=BF=D1=82, 17 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 12:44, Robin=
+ Murphy <robin.murphy@arm.com>:
+>
+> On 2021-09-17 10:36, Roman Skakun wrote:
+> > Hi, Christoph
+> >
+> > I use Xen PV display. In my case, PV display backend(Dom0) allocates
+> > contiguous buffer via DMA-API to
+> > to implement zero-copy between Dom0 and DomU.
+>
+> Well, something's gone badly wrong there - if you have to shadow the
+> entire thing in a bounce buffer to import it then it's hardly zero-copy,
+> is it? If you want to do buffer sharing the buffer really needs to be
+> allocated appropriately to begin with, such that all relevant devices
+> can access it directly. That might be something which needs fixing in Xen=
+.
+>
+> Robin.
+>
+> > When I start Weston under DomU, I got the next log in Dom0:
+> > ```
+> > [ 112.554471] CPU: 0 PID: 367 Comm: weston Tainted: G O
+> > 5.10.0-yocto-standard+ #312
+> > [ 112.575149] Call trace:
+> > [ 112.577666] dump_backtrace+0x0/0x1b0
+> > [ 112.581373] show_stack+0x18/0x70
+> > [ 112.584746] dump_stack+0xd0/0x12c
+> > [ 112.588200] swiotlb_tbl_map_single+0x234/0x360
+> > [ 112.592781] xen_swiotlb_map_page+0xe4/0x4c0
+> > [ 112.597095] xen_swiotlb_map_sg+0x84/0x12c
+> > [ 112.601249] dma_map_sg_attrs+0x54/0x60
+> > [ 112.605138] vsp1_du_map_sg+0x30/0x60
+> > [ 112.608851] rcar_du_vsp_map_fb+0x134/0x170
+> > [ 112.613082] rcar_du_vsp_plane_prepare_fb+0x44/0x64
+> > [ 112.618007] drm_atomic_helper_prepare_planes+0xac/0x160
+> > [ 112.623362] drm_atomic_helper_commit+0x88/0x390
+> > [ 112.628029] drm_atomic_nonblocking_commit+0x4c/0x60
+> > [ 112.633043] drm_mode_atomic_ioctl+0x9a8/0xb0c
+> > [ 112.637532] drm_ioctl_kernel+0xc4/0x11c
+> > [ 112.641506] drm_ioctl+0x21c/0x460
+> > [ 112.644967] __arm64_sys_ioctl+0xa8/0xf0
+> > [ 112.648939] el0_svc_common.constprop.0+0x78/0x1a0
+> > [ 112.653775] do_el0_svc+0x24/0x90
+> > [ 112.657148] el0_svc+0x14/0x20
+> > [ 112.660254] el0_sync_handler+0x1a4/0x1b0
+> > [ 112.664315] el0_sync+0x174/0x180
+> > [ 112.668145] rcar-fcp fea2f000.fcp: swiotlb buffer is full (sz:
+> > 3686400 bytes), total 65536 (slots), used 112 (slots)
+> > ```
+> > The problem is happened here:
+> > https://elixir.bootlin.com/linux/v5.14.4/source/drivers/gpu/drm/rcar-du=
+/rcar_du_vsp.c#L202
+> >
+> > Sgt was created in dma_get_sgtable() by dma_common_get_sgtable() and
+> > includes a single page chunk
+> > as shown here:
+> > https://elixir.bootlin.com/linux/v5.14.5/source/kernel/dma/ops_helpers.=
+c#L18
+> >
+> > After creating a new sgt, we tried to map this sgt through vsp1_du_map_=
+sg().
+> > Internally, vsp1_du_map_sg() using ops->map_sg (e.g
+> > xen_swiotlb_map_sg) to perform
+> > mapping.
+> >
+> > I realized that required segment is too big to be fitted to default
+> > swiotlb segment and condition
+> > https://elixir.bootlin.com/linux/latest/source/kernel/dma/swiotlb.c#L47=
+4
+> > is always false.
+> >
+> > I know that I use a large buffer, but why can't I map this buffer in on=
+e chunk?
+> >
+> > Thanks!
+> >
+> > =D1=81=D1=80, 15 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 16:53, C=
+hristoph Hellwig <hch@lst.de>:
+> >>
+> >> On Wed, Sep 15, 2021 at 03:49:52PM +0200, Jan Beulich wrote:
+> >>> But the question remains: Why does the framebuffer need to be mapped
+> >>> in a single giant chunk?
+> >>
+> >> More importantly: if you use dynamic dma mappings for your framebuffer
+> >> you're doing something wrong.
+> >
+> >
+> >
 
+
+
+--=20
+Best Regards, Roman.
