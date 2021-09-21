@@ -2,126 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB37C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 03:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 261B6C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 06:41:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 641736126A
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 03:17:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0815A61168
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 06:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbhIUDS6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Sep 2021 23:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
+        id S229833AbhIUGm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 02:42:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350402AbhIUC2a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Sep 2021 22:28:30 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58A0C0F3447;
-        Mon, 20 Sep 2021 12:22:38 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso185553pjh.5;
-        Mon, 20 Sep 2021 12:22:38 -0700 (PDT)
+        with ESMTP id S229763AbhIUGmz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 02:42:55 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B460AC061574;
+        Mon, 20 Sep 2021 23:41:27 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id t4so12743869plo.0;
+        Mon, 20 Sep 2021 23:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JRnq/4c87bKbiNxvafGN4wtXqF6Tb113NW1CCy3N52o=;
-        b=dP4iFexr0a+J311K54uCPdaewF9LzVRZkY/aDH2dPD9xGtZMHeZBij8v6wTihEifkg
-         bIk6GbffogctONMlgfddQ0fGCNpmpMWipeajx9Kyn00jXWS5Lh89zABYQjixzMBZ+eaL
-         Z57MjvIXj5H4kS2oNAwGRXtw/nv8xi3stLkDBC0ZBQ8vdA44wM0qv9TgId7KYVrQFIIj
-         r9NHcIiUB87XojT59VuOwo9LjdF4v5XE5loPh5rx3Uuhui2pBXa+MAb9l6U3Wrz/18ZN
-         8IPl4GNh1/xWGwqjOGo2nh7ySRJNyY6KBJST84Cnz0eSywHu1cHrx+2hzcPKYFzGH1NN
-         eH2g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RDY/CygsuDGr2VxPOJrYoRC69tTkJlPaA3/ke6daSf0=;
+        b=abtdr9HPjC1t7faBledJZIwT3FO22vN7xT97L0vm71+p3bZwqPk3Cu8KJGUNy71vhM
+         VC5CR9QQ5OH06KG0W7lz37bUyFvEgrsUfkNSPOBQepJxPUKPDnRbIDTYexbOjXmEctwF
+         jmZuGDjPCCEDP3yhABGNhgRf7KrRItZ+VHeXW0y48o+n9D02B13jh7JkETslbbpmds4/
+         iZrb1dovtD3/J9c+D3l87ujbMjqac6fwthB2cggkYmvqoojCpS9mmdAkLLnu9psHuTHb
+         w1xdvYnAbSYZBZF6bbdlYYuDb0cWfZatTdzms4YFwWQY1TWwG37DO+UDfG17t8DqgMld
+         zBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=JRnq/4c87bKbiNxvafGN4wtXqF6Tb113NW1CCy3N52o=;
-        b=3khiVuJWR+X38WAjkjDZnEngn962KSBLcBfmTMMWQ8sCZYLRvEw+4wdLQEGHLsiUZ0
-         UiUC2twcSzfUk5fCviZ22BEZk+drnYitOgKnJKpKdO3RxgEE1Qw0zoeI2iIRTKscbsN3
-         ul1di0HiE16Dd4mMfRCH8Isrzul91CkBFeU1viY9DIlVX9GpWSuN+CVKhjSF5IL7FRTw
-         gUpmK2UvsgM5oeGWfYGQcytlW9PjocRezBZcyvCo4EJPERdkMnX+NSMZboQpuudo7fXZ
-         /cVYuQuwQQg3H/on74ivxj3Iu+kfdL/GqNbcc8t0CMQRJRFGMNIMq5JwEsyD1+pG3BiO
-         tpQg==
-X-Gm-Message-State: AOAM530Cn/ufB9mOgQ3jDPr0Csg7BD3yMyO/Kb/mc/bcry0GnZC2Pfvn
-        lzXIgcdIJbLKVCGqCJM2aRM=
-X-Google-Smtp-Source: ABdhPJx7yMc6cu+sDCU/f0AwOhQkBHekSPHI+esLDq4+Bgpc7/NHJVGEMkfUVFWiJyicLFaEpDz9wg==
-X-Received: by 2002:a17:902:6b8a:b029:12d:3f99:9e5e with SMTP id p10-20020a1709026b8ab029012d3f999e5emr24030103plk.66.1632165758222;
-        Mon, 20 Sep 2021 12:22:38 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:9d4d])
-        by smtp.gmail.com with ESMTPSA id c23sm16287436pgb.74.2021.09.20.12.22.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RDY/CygsuDGr2VxPOJrYoRC69tTkJlPaA3/ke6daSf0=;
+        b=LmIlhAHxc+IMIeNavCTqnYeHX6DOBeJ5KkB/Qbb2NCvYO8Xboi+DJ8fH5J0rfaRmHs
+         ECS+rrxdT1NTaXUJO36A5fBQS1YIff0yKo/wCtr+VgVGLFJI+09vfbeKlkcFSkPqMWEM
+         JuekODNpmTdwjvo7m8TeSurHC9O6DO4AH6TvfJGKutTfxCvImA9Sm5tPwNXi4nn/uiow
+         e4VZC/HaeyJ7nBX5tDJzmcj4pf/m/UdegQV3VtA98ehECyxcCPM6BX647pvaiOiKSygF
+         OWJ8sfQqtzAAXKWlMBsWs6F4EHSeenNJaFW7Z3bl8VOYJVN/NXN0E4MrdDE1oxpvC4qs
+         R1KA==
+X-Gm-Message-State: AOAM530l+70EBv+u11Vd0sH101/74h2nsq38Hav/GvFcv1vIoRM2vXTr
+        +rwGi7750vFzb3vOu9Mf110=
+X-Google-Smtp-Source: ABdhPJwgDQTvgVWPoPaDVdxQa0Czy9qxk3RR168T002Vs62HkMDtg5JeT7zgZB21KvxWk30yqWe+DQ==
+X-Received: by 2002:a17:903:246:b0:13a:8c8:8a31 with SMTP id j6-20020a170903024600b0013a08c88a31mr25624046plh.87.1632206487131;
+        Mon, 20 Sep 2021 23:41:27 -0700 (PDT)
+Received: from masabert ([202.12.244.3])
+        by smtp.gmail.com with ESMTPSA id w206sm10760488pfc.45.2021.09.20.23.41.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 12:22:37 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 20 Sep 2021 09:22:32 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        rdunlap@infradead.org, rafael@kernel.org, masahiroy@kernel.org,
-        ndesaulniers@google.com, yzaikin@google.com, nathan@kernel.org,
-        ojeda@kernel.org, penguin-kernel@i-love.sakura.ne.jp,
-        vitor@massaru.org, elver@google.com, jarkko@kernel.org,
-        glider@google.com, rf@opensource.cirrus.com,
-        stephen@networkplumber.org, David.Laight@aculab.com,
-        bvanassche@acm.org, jolsa@kernel.org,
-        andriy.shevchenko@linux.intel.com, trishalfonso@google.com,
-        andreyknvl@gmail.com, jikos@kernel.org, mbenes@suse.com,
-        ngupta@vflare.org, sergey.senozhatsky.work@gmail.com,
-        reinette.chatre@intel.com, fenghua.yu@intel.com, bp@alien8.de,
-        x86@kernel.org, hpa@zytor.com, lizefan.x@bytedance.com,
-        hannes@cmpxchg.org, daniel.vetter@ffwll.ch, bhelgaas@google.com,
-        kw@linux.com, dan.j.williams@intel.com, senozhatsky@chromium.org,
-        hch@lst.de, joe@perches.com, hkallweit1@gmail.com, axboe@kernel.dk,
-        jpoimboe@redhat.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, peterz@infradead.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, copyleft-next@lists.fedorahosted.org
-Subject: Re: [PATCH v7 09/12] sysfs: fix deadlock race with module removal
-Message-ID: <YUjfeGuSVVq84iHc@mtj.duckdns.org>
-References: <20210918050430.3671227-1-mcgrof@kernel.org>
- <20210918050430.3671227-10-mcgrof@kernel.org>
- <YUjKjLzqpcxjRyit@slm.duckdns.org>
- <YUjdytEDkCughtSz@bombadil.infradead.org>
+        Mon, 20 Sep 2021 23:41:26 -0700 (PDT)
+Received: by masabert (Postfix, from userid 1000)
+        id A9C712360A48; Tue, 21 Sep 2021 15:41:24 +0900 (JST)
+From:   Masanari Iida <standby24x7@gmail.com>
+To:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+        netdev@vger.kernel.org
+Cc:     Masanari Iida <standby24x7@gmail.com>
+Subject: [PATCH] Doc: networking: Fox a typo in ice.rst
+Date:   Tue, 21 Sep 2021 15:41:23 +0900
+Message-Id: <20210921064123.251742-1-standby24x7@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUjdytEDkCughtSz@bombadil.infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+This patch fixes a spelling typo in ice.rst
 
-On Mon, Sep 20, 2021 at 12:15:22PM -0700, Luis Chamberlain wrote:
-> > I find this explanation odd because there's no real equivalent to locking
-> > the module (as opposed to try locking) 
-> 
-> Actually there is, __module_get() but I suspect some of these users are
-> probably incorrect and should be be moved to try. The documentation
+Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+---
+ Documentation/networking/device_drivers/ethernet/intel/ice.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-__module_get() is just getting an extra ref when the caller already
-has one (or more). It can't be used to freshly acquire a new
-reference. There is no equivalence between the relationship between
-try_module_get() and __module_get() and the one between spin_trylock()
-and spin_lock().
-
-> Right, the reason I mention the alternative is that we technically don't
-> need to use try in this case since during a kernfs op it is implied the
-> module will be pinned, but we have further motivations to use a try
-
-I'm confused. If the module is already pinned, why are we getting an
-extra reference? Also, I don't understand how this has that much to do
-with preventing ddoses. I mean, it does cut down the duration of one
-operation but the eventual gating is through whoever acquiring the
-initial reference through try_module_get(), which again is the *only*
-way to acquire a fresh reference.
-
-Thanks.
-
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index e7d9cbff771b..67b7a701ce9e 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -851,7 +851,7 @@ NOTES:
+ - 0x88A8 traffic will not be received unless VLAN stripping is disabled with
+   the following command::
+ 
+-    # ethool -K <ethX> rxvlan off
++    # ethtool -K <ethX> rxvlan off
+ 
+ - 0x88A8/0x8100 double VLANs cannot be used with 0x8100 or 0x8100/0x8100 VLANS
+   configured on the same port. 0x88a8/0x8100 traffic will not be received if
 -- 
-tejun
+2.25.0
+
