@@ -2,226 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2010C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A348C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:49:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D491161186
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:21:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F8B6610A1
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 15:49:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233404AbhIUPXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 11:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232704AbhIUPXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 11:23:05 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA5FC061574;
-        Tue, 21 Sep 2021 08:21:37 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id i4so83438098lfv.4;
-        Tue, 21 Sep 2021 08:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=USVqWZAArbWUQLUtDtlQScPgCmgWeWDYUhPzzmzD9cE=;
-        b=d+NekTAs6gdVeYOh1ETzFjnosk7b11Jkdp85cE2xaXNQHzds4fG/DaeBvLIWZok/bT
-         8zlNB+vm+Lbp7HjZs0gwvcYkuGEzY4rYubjc8U1WV2ZAjOWge59m9LsdytVZhYAyMyh/
-         kVUQqPb9S0H0ijHCFY4LkH7mywcT7P6bh7o5IlSwYZH7OErFPJB2l4n+nF1KREawE9Oh
-         9pmHHaVkxCTRT5jOSCSHVffxNpywbXL6aTBdOBwwCr58FHR1JN9q9xV+0XT8s4DT/5fV
-         iByIBKgKwoPVX0GWHFhW7mS1NofIUrEaPpVKSfuC2qDpTtF239YZNsypjKQ+zQwPcaL2
-         R2pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=USVqWZAArbWUQLUtDtlQScPgCmgWeWDYUhPzzmzD9cE=;
-        b=soxrctJSHKzTWd9JyO81yKIJfKJzFpF2rsvO2t4iVequ1l2Izvleu33mR4kq5XuZPc
-         o6gIVA4D74ClYRf/pRJGKd54+zbl6U6Hp2bWIkAnzNNEP2VmSUXTEIBds7mRwz1Zoj6n
-         bATDHKnDrMGBuxNbz5xEk9IElUthMXxyFwcXPKahaqaz4etyKXfdKx+4GlNhglfS+W0U
-         JBXSOG+qp4prydGZto0wlB8ksi9ib6y1muSVToZNVxdiGSQryiabEGDssPSBquu0tub7
-         72mac66t2DjpnHHoGD2HOlnKQgya0sct9SH2GMxd0k0uIO8r1QZorfYHPRdocuzdQ2Tc
-         IP6g==
-X-Gm-Message-State: AOAM533mUURsBu1dKwtWlg2gJ5u4pbRpMTMKUX2pCrLc0hsEbad50cnU
-        USZLFUHFP4QgUWgNPYUSIRHpOFyWcTYFiVbEYjuaxFIm1AZrng==
-X-Google-Smtp-Source: ABdhPJzthr3WA2wFCeyKG586GKIXPx3EL+AR4pi1b9V0CS7EWWEg72SpC7PGxABChTKUmIl/7el5hhGdi65vVZvbKIY=
-X-Received: by 2002:a19:ca03:: with SMTP id a3mr22741135lfg.176.1632237637561;
- Tue, 21 Sep 2021 08:20:37 -0700 (PDT)
+        id S234215AbhIUPul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 11:50:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38636 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229804AbhIUPuk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Sep 2021 11:50:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3B061183;
+        Tue, 21 Sep 2021 15:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632239352;
+        bh=SYPIsUeB0QpNl9iOqz8TrUCBGO94e+noRg1ECZdTJME=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UaaVRIqswzz+NS3S8fQEaKMO9RtdOXsyeprnTEIheXJKQGHNj08P7eyrd/PQOFBCR
+         AN5tBBs86O+nP3GdbvOj2N+vfIACcMw2gY7GyzZmcnfLHUMHWEqqTO8tVeryaAcPBC
+         wa3PUemimJFndCXNOCuGMsRHqw57UEYG+Vl8QmekwFARdVX0/7ufVsMqf8T+9g7Szp
+         diWZkbbph3gXn35UaYmr5cUyleLHlYXnKdZMqMkRG/D9zQZoy6oFBj2a59MNnxAHRK
+         YIYKWUHNZvNhOBYpWGFXq5g7hiH0GMlpMxwr02jYDVngebiKxCzBjK5YB3wvzgzdsQ
+         QI6X04sAKlF5w==
+Received: by mail-qt1-f178.google.com with SMTP id x9so6771427qtv.0;
+        Tue, 21 Sep 2021 08:49:12 -0700 (PDT)
+X-Gm-Message-State: AOAM530DTdfrLatLheUDRErjR0q716Etht84WYtht7AKXxWF0VYHTMnt
+        NVdMaemE2/1nYxdiR7t9kXytp6X1M9drt3Q8/zI=
+X-Google-Smtp-Source: ABdhPJxkbOxqy1A7fvfdyNFD5npSBw9ZclgHN9SR+lhraCwiqhyTzn8pzClLHqd6Gjl1VdDdZRtbIZxWA0QsI3m+TXk=
+X-Received: by 2002:ac8:4113:: with SMTP id q19mr29065258qtl.108.1632239341024;
+ Tue, 21 Sep 2021 08:49:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210914151016.3174924-1-Roman_Skakun@epam.com>
- <7c04db79-7de1-93ff-0908-9bad60a287b9@suse.com> <CADu_u-Ou08tMFm5xU871ae8ct+2YOuvn4rQ=83CMTbg2bx87Pg@mail.gmail.com>
- <84ef7ff7-2c9c-113a-4a2c-cef54a6ded51@suse.com> <20210915135321.GA15216@lst.de>
- <CADu_u-OZzgVj+z=iD6kUQOZxUufF5QSMR6-MmpN_hLZ9PyQJhQ@mail.gmail.com> <eb98aeac-af61-0dd6-2052-5b55921746c1@arm.com>
-In-Reply-To: <eb98aeac-af61-0dd6-2052-5b55921746c1@arm.com>
-From:   Roman Skakun <rm.skakun@gmail.com>
-Date:   Tue, 21 Sep 2021 18:20:29 +0300
-Message-ID: <CADu_u-O-aDk-J4up-UMfjMGi0DJkD6rhePcKdyqzt5750oo-iA@mail.gmail.com>
-Subject: Re: [PATCH] swiotlb: set IO TLB segment size via cmdline
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>, Jan Beulich <jbeulich@suse.com>,
-        Andrii Anisov <andrii_anisov@epam.com>,
-        Roman Skakun <roman_skakun@epam.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        Roman Skakun <rm.skakun@gmail.com>
+References: <20210917194709.3562413-1-mcgrof@kernel.org> <20210917194709.3562413-10-mcgrof@kernel.org>
+ <c70dcb03e27e43c5b5311e184357df39@AcuMS.aculab.com>
+In-Reply-To: <c70dcb03e27e43c5b5311e184357df39@AcuMS.aculab.com>
+From:   Luis Chamberlain <mcgrof@kernel.org>
+Date:   Tue, 21 Sep 2021 08:48:49 -0700
+X-Gmail-Original-Message-ID: <CAB=NE6WjupsJFwsj94sC_j3gcYn2Qo0sx1=tMv=WUZ83jq_DFw@mail.gmail.com>
+Message-ID: <CAB=NE6WjupsJFwsj94sC_j3gcYn2Qo0sx1=tMv=WUZ83jq_DFw@mail.gmail.com>
+Subject: Re: [PATCH v7 09/12] sysfs: fix deadlock race with module removal
+To:     David Laight <David.Laight@aculab.com>
+Cc:     "tj@kernel.org" <tj@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "minchan@kernel.org" <minchan@kernel.org>,
+        "jeyu@kernel.org" <jeyu@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "ndesaulniers@google.com" <ndesaulniers@google.com>,
+        "yzaikin@google.com" <yzaikin@google.com>,
+        "nathan@kernel.org" <nathan@kernel.org>,
+        "ojeda@kernel.org" <ojeda@kernel.org>,
+        "vitor@massaru.org" <vitor@massaru.org>,
+        "elver@google.com" <elver@google.com>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "glider@google.com" <glider@google.com>,
+        "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
+        "stephen@networkplumber.org" <stephen@networkplumber.org>,
+        "bvanassche@acm.org" <bvanassche@acm.org>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "trishalfonso@google.com" <trishalfonso@google.com>,
+        "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
+        "jikos@kernel.org" <jikos@kernel.org>,
+        "mbenes@suse.com" <mbenes@suse.com>,
+        "ngupta@vflare.org" <ngupta@vflare.org>,
+        "sergey.senozhatsky.work@gmail.com" 
+        <sergey.senozhatsky.work@gmail.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "kw@linux.com" <kw@linux.com>,
+        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+        "hch@lst.de" <hch@lst.de>, "joe@perches.com" <joe@perches.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "linux-spdx@vger.kernel.org" <linux-spdx@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "copyleft-next@lists.fedorahosted.org" 
+        <copyleft-next@lists.fedorahosted.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Robin,
-
->> I use Xen PV display. In my case, PV display backend(Dom0) allocates
->> contiguous buffer via DMA-API to
->> to implement zero-copy between Dom0 and DomU.
->>
-> Well, something's gone badly wrong there - if you have to shadow the
-> entire thing in a bounce buffer to import it then it's hardly zero-copy,
-> is it? If you want to do buffer sharing the buffer really needs to be
-> allocated appropriately to begin with, such that all relevant devices
-> can access it directly. That might be something which needs fixing in Xen=
-.
+On Tue, Sep 21, 2021 at 1:24 AM David Laight <David.Laight@aculab.com> wrote:
 >
-
-Right, in case when we want to use a zero-copy approach need to avoid
-using swiotlb
-bounce buffer for all devices which is potentially using this buffer.
-The root of the problem is that this buffer mapped to foreign pages
-and when I tried to
-retrieve dma_addr for this buffer I got a foreign MFN that bigger than
-32 bit and swiotlb tries to
-use bounce buffer.
-I understood, that, need to find a way to avoid using swiotlb in this case.
-At the moment, it's unclear how to do this properly.
-But, this is another story...
-
-I guess, we can have the situation when some device like rcar-du needs
-to use a sufficiently large
-buffer which is greater than 256 KB (128(CURRENT_IO_TLB_SEGMENT *
-2048) and need to
-adjust this parameter during boot time, not compilation time.
-In order to this point, this patch was created.
-
-Thanks,
-Roman
-
-=D0=BF=D1=82, 17 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 12:44, Robin=
- Murphy <robin.murphy@arm.com>:
+> From: Luis Chamberlain
+> > Sent: 17 September 2021 20:47
+> >
+> > When sysfs attributes use a lock also used on module removal we can
+> > race to deadlock. This happens when for instance a sysfs file on
+> > a driver is used, then at the same time we have module removal call
+> > trigger. The module removal call code holds a lock, and then the sysfs
+> > file entry waits for the same lock. While holding the lock the module
+> > removal tries to remove the sysfs entries, but these cannot be removed
+> > yet as one is waiting for a lock. This won't complete as the lock is
+> > already held. Likewise module removal cannot complete, and so we deadlock.
 >
-> On 2021-09-17 10:36, Roman Skakun wrote:
-> > Hi, Christoph
-> >
-> > I use Xen PV display. In my case, PV display backend(Dom0) allocates
-> > contiguous buffer via DMA-API to
-> > to implement zero-copy between Dom0 and DomU.
->
-> Well, something's gone badly wrong there - if you have to shadow the
-> entire thing in a bounce buffer to import it then it's hardly zero-copy,
-> is it? If you want to do buffer sharing the buffer really needs to be
-> allocated appropriately to begin with, such that all relevant devices
-> can access it directly. That might be something which needs fixing in Xen=
-.
->
-> Robin.
->
-> > When I start Weston under DomU, I got the next log in Dom0:
-> > ```
-> > [ 112.554471] CPU: 0 PID: 367 Comm: weston Tainted: G O
-> > 5.10.0-yocto-standard+ #312
-> > [ 112.575149] Call trace:
-> > [ 112.577666] dump_backtrace+0x0/0x1b0
-> > [ 112.581373] show_stack+0x18/0x70
-> > [ 112.584746] dump_stack+0xd0/0x12c
-> > [ 112.588200] swiotlb_tbl_map_single+0x234/0x360
-> > [ 112.592781] xen_swiotlb_map_page+0xe4/0x4c0
-> > [ 112.597095] xen_swiotlb_map_sg+0x84/0x12c
-> > [ 112.601249] dma_map_sg_attrs+0x54/0x60
-> > [ 112.605138] vsp1_du_map_sg+0x30/0x60
-> > [ 112.608851] rcar_du_vsp_map_fb+0x134/0x170
-> > [ 112.613082] rcar_du_vsp_plane_prepare_fb+0x44/0x64
-> > [ 112.618007] drm_atomic_helper_prepare_planes+0xac/0x160
-> > [ 112.623362] drm_atomic_helper_commit+0x88/0x390
-> > [ 112.628029] drm_atomic_nonblocking_commit+0x4c/0x60
-> > [ 112.633043] drm_mode_atomic_ioctl+0x9a8/0xb0c
-> > [ 112.637532] drm_ioctl_kernel+0xc4/0x11c
-> > [ 112.641506] drm_ioctl+0x21c/0x460
-> > [ 112.644967] __arm64_sys_ioctl+0xa8/0xf0
-> > [ 112.648939] el0_svc_common.constprop.0+0x78/0x1a0
-> > [ 112.653775] do_el0_svc+0x24/0x90
-> > [ 112.657148] el0_svc+0x14/0x20
-> > [ 112.660254] el0_sync_handler+0x1a4/0x1b0
-> > [ 112.664315] el0_sync+0x174/0x180
-> > [ 112.668145] rcar-fcp fea2f000.fcp: swiotlb buffer is full (sz:
-> > 3686400 bytes), total 65536 (slots), used 112 (slots)
-> > ```
-> > The problem is happened here:
-> > https://elixir.bootlin.com/linux/v5.14.4/source/drivers/gpu/drm/rcar-du=
-/rcar_du_vsp.c#L202
-> >
-> > Sgt was created in dma_get_sgtable() by dma_common_get_sgtable() and
-> > includes a single page chunk
-> > as shown here:
-> > https://elixir.bootlin.com/linux/v5.14.5/source/kernel/dma/ops_helpers.=
-c#L18
-> >
-> > After creating a new sgt, we tried to map this sgt through vsp1_du_map_=
-sg().
-> > Internally, vsp1_du_map_sg() using ops->map_sg (e.g
-> > xen_swiotlb_map_sg) to perform
-> > mapping.
-> >
-> > I realized that required segment is too big to be fitted to default
-> > swiotlb segment and condition
-> > https://elixir.bootlin.com/linux/latest/source/kernel/dma/swiotlb.c#L47=
-4
-> > is always false.
-> >
-> > I know that I use a large buffer, but why can't I map this buffer in on=
-e chunk?
-> >
-> > Thanks!
-> >
-> > =D1=81=D1=80, 15 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 16:53, C=
-hristoph Hellwig <hch@lst.de>:
-> >>
-> >> On Wed, Sep 15, 2021 at 03:49:52PM +0200, Jan Beulich wrote:
-> >>> But the question remains: Why does the framebuffer need to be mapped
-> >>> in a single giant chunk?
-> >>
-> >> More importantly: if you use dynamic dma mappings for your framebuffer
-> >> you're doing something wrong.
-> >
-> >
-> >
+> Isn't the real problem the race between a sysfs file action and the
+> removal of the sysfs node?
 
+Nope, that is taken care of by kernfs.
 
+> This isn't really related to module unload - except that may
+> well remove some sysfs nodes.
 
---=20
-Best Regards, Roman.
+Nope, the issue is a deadlock that can happen due to a shared lock on
+module removal and a driver sysfs operation.
+
+> This is the same problem as removing any other kind of driver callback.
+> There are three basic solutions:
+> 1) Use a global lock - not usually useful.
+> 2) Have the remove call sleep until any callbacks are complete.
+> 3) Have the remove just request removal and have a final
+>    callback (from a different context).
+
+Kernfs already does a sort of combination of 1) and 2) but 1) is using
+atomic reference counts.
+
+> If the remove can sleep (as in 2) then there is a requirement
+> on the driver code to not hold any locks across the 'remove'
+> that can be acquired during the callbacks.
+
+And this is the part that kernfs has no control over since the removal
+and sysfs operation are implementation specific.
+
+> Now, for sysfs, you probably only want to sleep the remove code
+> while a read/write is in progress - not just because the node
+> is open.
+> That probably requires marking an open node 'invalid' and
+> deferring delete to close.
+
+This is already done by kernfs.
+
+> None of this requires a reference count on the module.
+
+You are missing the point to the other aspect of the try_module_get(),
+it lets you also check if module exit has been entered. By using
+try_module_get() you let the module exit trump proceeding with an
+operation, therefore also preventing any potential use of a shared
+lock on module exit and the driver specific sysfs operation.
+
+  Luis
