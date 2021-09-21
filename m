@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099BFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 18:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F4BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 19:43:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E3D24611BD
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 18:51:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3BEF6112F
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Sep 2021 19:43:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbhIUSx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 14:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41498 "EHLO
+        id S233481AbhIUTpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 15:45:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231615AbhIUSxZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 14:53:25 -0400
+        with ESMTP id S232929AbhIUTpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 15:45:21 -0400
 Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384A5C061574
-        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 11:51:56 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id h18-20020a0cffd2000000b0037e78fb2552so3683794qvv.12
-        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 11:51:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6363AC061575
+        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 12:43:52 -0700 (PDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id u6-20020ad449a6000000b003798010ad14so4686328qvx.10
+        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 12:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=qxxb2w/M5fiqHKkhvOBDSrBf9iLSsSPoKQsdSta11bU=;
-        b=Pd3yK4io43ZZA6XcTe6q1mRXI8C4EHFbBXhptEwxeD7sLqNdc5ugPi/3s/uBnW6UsV
-         xfWUTffzb3iqfktMlPN3EBM1U0JftxjarIQ0EsXK50Jo5aYJHafX19nbP/ZlxrZ32yhH
-         UaM4mqG/8cWuHTV/s3/cDuvQCclW5bBLfryWnjEyjnwJ7yow+SsI3h/ioquJC3rKN4Xm
-         2Nlv7rsNJAPo6OFcJmkHc/EaQDIPoDO5OXjk+8SBVbJdcA+HTajJEGgFm/3EJZLC3OYT
-         JVl36dED6yfjs2pPQAsYtE9CHY4dHVuXXczwp6O/Io7KXyoOsdFZIl7d3SG725BX77Ia
-         RsGg==
+        bh=2Nm1E5fYqM+jWf7/uwd5uL7JDVTYKQ4yOjBmP2vLC7A=;
+        b=l0xqSrhqSkKXdp/rvmYs8zyIR70QOI6I5dr8fZW0m08B3GQjc1LkUj5ugdeRsW4OnA
+         ud3rmYa8VLKBZsmz7EYPviKVZUVPLt+p8NcyFq8096f32Kl/GWrtuyjuijc+k/PuVieR
+         bg1RZQB0vwjGqy4iN37tJff2FKPu/ID2aGLBe/v07/HRIsvdzA1+VbEDzMJP91iI+ukH
+         /ngZF4wqqpmp8ngWZbB3+0MvD5gS4qADo8ptyO2/sE/78WUKPaT5Slew/p38J+pSiapN
+         d5bDowJfR2NspIiCl626IGQocuEfzcsGy/vUh3nQOGjWBSFi5kN5n6zLBH4NMdr5r7XI
+         fvpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=qxxb2w/M5fiqHKkhvOBDSrBf9iLSsSPoKQsdSta11bU=;
-        b=Euou03wW0lIPaT93tgntvVEGGMaK1jOvkr5hurm8m2MMdT3lU023jDCprx4fmAqyXu
-         4RtIjO502SpefbUYzorxrDWnJ6Io7GOj+jJT8XJvwbHi8kCH+xAiGpIGs43PC5fGKMbS
-         lc7/3CyZSkOhckhjpTmrOPfQtH1fpfi4zUnlYmIz8yOhK9h9i9QjwBq10ZqLRj4SZyW/
-         O9IMF7spag7aPeOEXoQlZm3KLTMA4hWY5jk5ABAwQkQDfYKvMMdfdGYEm6GE6Vi7bGjV
-         YIe/pq7gsna5xJw/5Rfur5ub3FXojOfE2i3szmeKYGylPsLDyBUAkZFaplCWDeB/M1VE
-         MYeQ==
-X-Gm-Message-State: AOAM532qfSBSeI9NZhs9kV8NpCnrr1p8KI/HLFCtz9wYnFhGs5Xase0M
-        F11t3qhcv8rNxQHjZ7iyt/7Os421scuU
-X-Google-Smtp-Source: ABdhPJzr3+VvuTdtJ1ZDwvCQh+Off/E60wCu6siZEv/DiSq5zaz12wVOQzpBZRuYj9BDpZpr0TnljeMtnRmr
+        bh=2Nm1E5fYqM+jWf7/uwd5uL7JDVTYKQ4yOjBmP2vLC7A=;
+        b=vA34x7wnVByDhSNopsvFXUtM2QxNWTpmDW8CRvCKehbqNV0xVF46b06Qm6lnZDL+5L
+         +eKLgNtjcLY6pXfwzdUM0wbmJTPTIdcegnp8CzQL+oFa9ueF8uGPieF8N2J+lFT8i3Zr
+         A9VIrVxAq+5Nz7dLHCa/cw8YDRR3F4Rx9rB/w85Xc4OcMph9qhR9qutRBNCnbhd2ZbbK
+         ZGmZRkyNoGVe63Km2sFiMHmbR3FwcEyEHnxou7dN2ruQjoig0aHdMchw1zkZjcoUwrIC
+         NTpVaMyB5JEL5jIuQyJ/1iXG0NxaVAk8OsUiRKBLJQHapcBvT3XJSKAzhDfzC1UiBuWn
+         ww5A==
+X-Gm-Message-State: AOAM533W2iQBWaFhoS+OsvJr39/I1Hcf0V1X7v4nNJnNjJfumjUHEhof
+        UKUiiQzZJif/YSny8Rzyq6uVDHwuYaXn
+X-Google-Smtp-Source: ABdhPJxWrW0rnQTiixq/QHDVbCorUbBGLON5MX5vtuNZgZBTS4hKgMla75LEfH7uBmH9qzwQKz5J2t68DDW6
 X-Received: from bg.sfo.corp.google.com ([2620:15c:11a:202:4ba8:c770:5378:a8b7])
- (user=bgeffon job=sendgmr) by 2002:a0c:e102:: with SMTP id
- w2mr32739256qvk.44.1632250315291; Tue, 21 Sep 2021 11:51:55 -0700 (PDT)
-Date:   Tue, 21 Sep 2021 11:51:30 -0700
+ (user=bgeffon job=sendgmr) by 2002:a05:6214:1425:: with SMTP id
+ o5mr32729818qvx.5.1632253431404; Tue, 21 Sep 2021 12:43:51 -0700 (PDT)
+Date:   Tue, 21 Sep 2021 12:43:36 -0700
 In-Reply-To: <20210917210640.214211-1-bgeffon@google.com>
-Message-Id: <20210921185130.944058-1-bgeffon@google.com>
+Message-Id: <20210921194336.947226-1-bgeffon@google.com>
 Mime-Version: 1.0
 References: <20210917210640.214211-1-bgeffon@google.com>
 X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
-Subject: [PATCH v2] zram: Introduce an aged idle interface
+Subject: [PATCH v3] zram: Introduce an aged idle interface
 From:   Brian Geffon <bgeffon@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
@@ -83,6 +83,13 @@ age (in seconds) of pages to mark as idle. The idle file
 still supports 'all' as it always has. This new approach
 allows for much more control over which pages get marked
 as idle.
+
+  v2 -> v3:
+	- Correct unused variable warning when
+	  CONFIG_ZRAM_MEMORY_TRACKING is not enabled.
+  v1 -> v2:
+	- Switch to using existing idle file.
+	- Dont compare ktime directly.
 
 Signed-off-by: Brian Geffon <bgeffon@google.com>
 ---
@@ -110,7 +117,7 @@ index 700329d25f57..8c8a92e5c00c 100644
  Admin can request writeback of those idle pages at right timing via::
  
 diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index fcaf2750f68f..1d1472fe4094 100644
+index fcaf2750f68f..2af5cdb8da1a 100644
 --- a/drivers/block/zram/zram_drv.c
 +++ b/drivers/block/zram/zram_drv.c
 @@ -291,22 +291,16 @@ static ssize_t mem_used_max_store(struct device *dev,
@@ -164,13 +171,13 @@ index fcaf2750f68f..1d1472fe4094 100644
 +		struct device_attribute *attr, const char *buf, size_t len)
 +{
 +	struct zram *zram = dev_to_zram(dev);
-+	u64 age_sec;
 +	ktime_t cutoff_time = 0;
 +	ssize_t rv = -EINVAL;
  
 -	return len;
 +	if (!sysfs_streq(buf, "all")) {
 +#ifdef CONFIG_ZRAM_MEMORY_TRACKING
++		u64 age_sec;
 +		/* If it did not parse as 'all' try to treat it as an integer */
 +		if (!kstrtoull(buf, 10, &age_sec))
 +			cutoff_time = ktime_sub(ktime_get_boottime(),
