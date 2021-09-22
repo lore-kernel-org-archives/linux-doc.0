@@ -2,410 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3894C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 02:39:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816DAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 02:43:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC03A611AD
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 02:39:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64A89611AD
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 02:43:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhIVCke (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Sep 2021 22:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34230 "EHLO
+        id S229945AbhIVCov (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Sep 2021 22:44:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbhIVCkd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 22:40:33 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839BCC061574
-        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 19:39:04 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id k17so1393727pff.8
-        for <linux-doc@vger.kernel.org>; Tue, 21 Sep 2021 19:39:04 -0700 (PDT)
+        with ESMTP id S229537AbhIVCov (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Sep 2021 22:44:51 -0400
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A82EC061574;
+        Tue, 21 Sep 2021 19:43:22 -0700 (PDT)
+Received: by mail-vk1-xa35.google.com with SMTP id b67so532395vkb.13;
+        Tue, 21 Sep 2021 19:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HXZZw5ceHRWuzsyC2/uNu/OlB/7nupHoWPo7tVNzhCk=;
-        b=MXvOeY/ClSlLRuar3MMO5lMfPnnCzOXLw3iYKl1pXDF2a6RUm6aYTmxcZF+qil26VD
-         6V5K9aeF0IcpGrIb0G5jSQFnRHaR2Si57uAbG9DWZ3jMZYGsK5Ef6u5DXm9oca785Apj
-         krcqAcZYqsdyynm8ePh78jxS5H1iyB/wkmXy7n1Y3Yd1yeohoFHeLG3KVf1ada3E/TYS
-         zHmqGji8ZOK9OWtSunfOkuOdEhZdHpgN5wPxdtVNz9BGQ1WikV1Ts6AUSA4S3JqIg7Fr
-         RbF2h8godE7gN9Clv8JjMZg431WtC/Ieep1jeoU1/acKQJgbBkLv/4QL75k2eqSrmIj6
-         BPOw==
+        bh=S7XWCRLPjasbFUjEZ4/PesuafkvYctGigM6PR8jA8qw=;
+        b=SIZByzy3HwkCFWjz3NnCVwALKWHqHfi1PqlMrTZ68Ui6xualqU982XbxRXxNuXntu7
+         CEToB9R4phsCVvTljaZGidDGqsDauncHnF1dXcy2ZZiFMWpRNFBUIrOpyhblP3qfF2Zr
+         1iiNn6bWCEXMgKNzrkr83D8A0oIZyiaMKS/+/E9GD9PFfbO0qXIiDw6HvqBqsYNVoR3t
+         vqqJAZ7b5KerV90DEzd4bZiJL6cEORMZYEzeTrN0mEuk0gOZnLtk1UUeRhBwc8c5yCOt
+         oUUSxLRyOdHbqPT55+kzMqgcejPpGXiYHGLMr7Z3/2afergR13IlqKerUzOpOFploYsw
+         Lz4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HXZZw5ceHRWuzsyC2/uNu/OlB/7nupHoWPo7tVNzhCk=;
-        b=JEMQrxqoEpZeuPgRMkY00k7znALkjfOugYcqr5JdDQECGaDxoa/936nE1vq/yAkkng
-         j2oFW3YZA6noNlHKBU+mdfJS7cspUCxWQZGs0xocNJJVpPfaM/W75Aj0O4cEiHX5tpGF
-         fPvxehSTHhCle8DY8EK6nMC81NKhKurKdbLxD+iF9ygfObg4seqvzVtnrSZp+vIHQcUQ
-         bvpaZBZMD1WW7kDVnOjiyykWSPv92+FbOZxxUKovMDsYWQ2SAmXG66re2m81B6wT4N18
-         5pUExLiRdwiT6+cDo0zyonyrax06kPqXFMAn48xbEZiEKn13A6wCnC+kWZ0FZE4ewjAA
-         fEow==
-X-Gm-Message-State: AOAM532Zj9gFcw62AITyGy45Zbj7xYk1+5ZlyV0hZrxS2WdJepesqZKy
-        itUL0w0ZtDx6NTnjtfyBM8hw8n7wsjvJHqLLEznE0Q==
-X-Google-Smtp-Source: ABdhPJxtaHcv/uHvH1pzI7Dnkm1WIjwvsP8dlmoXH+7ylf2Xm+GygVLjGdwSIzRdVfVMCGHqhlVjhvu1UI+8Ll4P1O8=
-X-Received: by 2002:a63:8a44:: with SMTP id y65mr6181319pgd.335.1632278343905;
- Tue, 21 Sep 2021 19:39:03 -0700 (PDT)
+        bh=S7XWCRLPjasbFUjEZ4/PesuafkvYctGigM6PR8jA8qw=;
+        b=1Rcy/XjN4Q1//Bla752u5f5Z2t/znd2b2NLR6caSBSADHgWyLYwRCj856BY9uMBhMN
+         VevaCrydS3RB6eTaP9W/oBB67PRdlsHgjnOCxoS4TDMBgKy4/Yk4q0rb+gFAxRvZ2MYB
+         +pekUNkGeDXPpWKfBk3PID1gSNILvg/P+xEidX7MfNH1YhtiF1SyNeNNvV1aAXQzY9Yw
+         HnuGYCRyHglYGO/ISjjYgz8c5o2O56QwP5A6yUw1fA29pmdzzNYpGAb/q3ArnohK33aw
+         Bm1a1W3QtUewrQRzxG7D/hzCV1OyvSpaPu1xf+2ra2bWgvfbgdMvrKaT8pJmOY/IkCGZ
+         /M8Q==
+X-Gm-Message-State: AOAM532swPai85FkOQzasr6Bth5+dzgO6Ggkgofcp0bW2B7AqnQpvLhB
+        hYn4ub0Sj8PgYLCO/t6MxodDd6TlIGciXltLffQ=
+X-Google-Smtp-Source: ABdhPJycEuEnNxLN1CdvRqU7yLzngAuE06/owJhp1YjUIJp4yTSHs+a0gjkaVCBc9d7A/1OBAJtQEGM88S50GfDltKE=
+X-Received: by 2002:a1f:1283:: with SMTP id 125mr21948982vks.2.1632278601271;
+ Tue, 21 Sep 2021 19:43:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210917034815.80264-1-songmuchun@bytedance.com>
- <20210917034815.80264-2-songmuchun@bytedance.com> <CAGsJ_4y8mZh4RNaY-JQHa5Sr+Tv3HingV42jwK9KoJ+0m=w87A@mail.gmail.com>
- <CAMZfGtVmhHGNizHsdJXygigm84Z72B3wtUYxpT1XW3GpWh1AWQ@mail.gmail.com>
- <CAMZfGtVy7rh4p4bNu3GgX0hvPGupSLkJtfOtQuQRfDgf7ZqcYQ@mail.gmail.com>
- <CAGsJ_4x-pmqG08wkpty8zM19jptHCktHjbNFqdbHUQkusncAvw@mail.gmail.com>
- <CAMZfGtX7vmmO5CzcJAdxa6bRsqz6J48ZdXZ19pGmks_o-3g2bg@mail.gmail.com> <CAGsJ_4wC-zATatP6dvMMHUAS2eQ50oCJRrodh+1YR_zcW6ySWg@mail.gmail.com>
-In-Reply-To: <CAGsJ_4wC-zATatP6dvMMHUAS2eQ50oCJRrodh+1YR_zcW6ySWg@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 22 Sep 2021 10:38:25 +0800
-Message-ID: <CAMZfGtW=FvGObQaJ5MzYhr8Ug9guVyZeE1eyEBm+2Cqjnh5jtw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 1/4] mm: hugetlb: free the 2nd vmemmap page
- associated with each HugeTLB page
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
+ <20210917035736.3934017-15-chenhuacai@loongson.cn> <87tuii52o2.fsf@disp2133>
+ <CAAhV-H5MZ9uYyEnVoHXBXkrux1HdcPsKQ66zvB2oeMfq_AP7_A@mail.gmail.com>
+ <CAK8P3a0xghZKNBWbZ-qUWQVKyus4xqJMhSV_baQO7zKDoTtGQg@mail.gmail.com>
+ <CAAhV-H7A=C3Tujt2YNv1np9pEP_Hxc-chGnOdmDCzx5tUt7F5g@mail.gmail.com> <a0fb870d-3b79-ca77-305f-6178974729e4@twiddle.net>
+In-Reply-To: <a0fb870d-3b79-ca77-305f-6178974729e4@twiddle.net>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Wed, 22 Sep 2021 10:43:09 +0800
+Message-ID: <CAAhV-H5h9zNCmsOumR=_Bryj3-Qarbq7FH=uYbT_3++-8pwfPw@mail.gmail.com>
+Subject: Re: [PATCH V3 14/22] LoongArch: Add signal handling support
+To:     Richard Henderson <rth@twiddle.net>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 4:43 AM Barry Song <21cnbao@gmail.com> wrote:
+Hi, Richard,
+
+On Tue, Sep 21, 2021 at 5:14 AM Richard Henderson <rth@twiddle.net> wrote:
 >
-> On Wed, Sep 22, 2021 at 1:46 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> On 9/19/21 7:36 PM, Huacai Chen wrote:
+> > Hi, Arnd,
 > >
-> > On Tue, Sep 21, 2021 at 8:11 PM Barry Song <21cnbao@gmail.com> wrote:
-> > >
-> > > On Tue, Sep 21, 2021 at 10:23 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > >
-> > > > On Sat, Sep 18, 2021 at 6:06 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > > >
-> > > > > On Sat, Sep 18, 2021 at 12:39 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > > > >
-> > > > > > On Sat, Sep 18, 2021 at 12:08 AM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > > > > >
-> > > > > > > Currently, we only free 6 vmemmap pages associated with a 2MB HugeTLB
-> > > > > > > page. However, we can remap all tail vmemmap pages to the page frame
-> > > > > > > mapped to with the head vmemmap page. Finally, we can free 7 vmemmap
-> > > > > > > pages for a 2MB HugeTLB page. It is a fine gain (e.g. we can save
-> > > > > > > extra 2GB memory when there is 1TB HugeTLB pages in the system
-> > > > > > > compared with the current implementation).
-> > > > > > >
-> > > > > > > But the head vmemmap page is not freed to the buddy allocator and all
-> > > > > > > tail vmemmap pages are mapped to the head vmemmap page frame. So we
-> > > > > > > can see more than one struct page struct with PG_head (e.g. 8 per 2 MB
-> > > > > > > HugeTLB page) associated with each HugeTLB page. We should adjust
-> > > > > > > compound_head() to make it returns the real head struct page when the
-> > > > > > > parameter is the tail struct page but with PG_head flag.
-> > > > > > >
-> > > > > > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > > > > > > ---
-> > > > > > >  Documentation/admin-guide/kernel-parameters.txt |  2 +-
-> > > > > > >  include/linux/page-flags.h                      | 75 +++++++++++++++++++++++--
-> > > > > > >  mm/hugetlb_vmemmap.c                            | 60 +++++++++++---------
-> > > > > > >  mm/sparse-vmemmap.c                             | 21 +++++++
-> > > > > > >  4 files changed, 126 insertions(+), 32 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > > > > > index bdb22006f713..a154a7b3b9a5 100644
-> > > > > > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > > > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > > > > > @@ -1606,7 +1606,7 @@
-> > > > > > >                         [KNL] Reguires CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > > > > > >                         enabled.
-> > > > > > >                         Allows heavy hugetlb users to free up some more
-> > > > > > > -                       memory (6 * PAGE_SIZE for each 2MB hugetlb page).
-> > > > > > > +                       memory (7 * PAGE_SIZE for each 2MB hugetlb page).
-> > > > > > >                         Format: { on | off (default) }
-> > > > > > >
-> > > > > > >                         on:  enable the feature
-> > > > > > > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> > > > > > > index 8e1d97d8f3bd..7b1a918ebd43 100644
-> > > > > > > --- a/include/linux/page-flags.h
-> > > > > > > +++ b/include/linux/page-flags.h
-> > > > > > > @@ -184,13 +184,64 @@ enum pageflags {
-> > > > > > >
-> > > > > > >  #ifndef __GENERATING_BOUNDS_H
-> > > > > > >
-> > > > > > > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > > > > > > +extern bool hugetlb_free_vmemmap_enabled;
-> > > > > > > +
-> > > > > > > +/*
-> > > > > > > + * If the feature of freeing some vmemmap pages associated with each HugeTLB
-> > > > > > > + * page is enabled, the head vmemmap page frame is reused and all of the tail
-> > > > > > > + * vmemmap addresses map to the head vmemmap page frame (furture details can
-> > > > > > > + * refer to the figure at the head of the mm/hugetlb_vmemmap.c).  In other
-> > > > > > > + * word, there are more than one page struct with PG_head associated with each
-> > > > > > > + * HugeTLB page.  We __know__ that there is only one head page struct, the tail
-> > > > > > > + * page structs with PG_head are fake head page structs.  We need an approach
-> > > > > > > + * to distinguish between those two different types of page structs so that
-> > > > > > > + * compound_head() can return the real head page struct when the parameter is
-> > > > > > > + * the tail page struct but with PG_head.
-> > > > > > > + *
-> > > > > > > + * The page_head_if_fake() returns the real head page struct iff the @page may
-> > > > > > > + * be fake, otherwise, returns the @page if it cannot be a fake page struct.
-> > > > > > > + */
-> > > > > > > +static __always_inline const struct page *page_head_if_fake(const struct page *page)
-> > > > > > > +{
-> > > > > > > +       if (!hugetlb_free_vmemmap_enabled)
-> > > > > > > +               return page;
-> > > > > > > +
-> > > > > > > +       /*
-> > > > > > > +        * Only addresses aligned with PAGE_SIZE of struct page may be fake head
-> > > > > > > +        * struct page. The alignment check aims to avoid access the fields (
-> > > > > > > +        * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
-> > > > > > > +        * cold cacheline in some cases.
-> > > > > > > +        */
-> > > > > > > +       if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
-> > > > > > > +           test_bit(PG_head, &page->flags)) {
-> > > > > > > +               /*
-> > > > > > > +                * We can safely access the field of the @page[1] with PG_head
-> > > > > > > +                * because the @page is a compound page composed with at least
-> > > > > > > +                * two contiguous pages.
-> > > > > > > +                */
-> > > > > > > +               unsigned long head = READ_ONCE(page[1].compound_head);
-> > > > > > > +
-> > > > > > > +               if (likely(head & 1))
-> > > > > > > +                       return (const struct page *)(head - 1);
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > > +       return page;
-> > > > > > > +}
-> > > > > > > +#else
-> > > > > > > +static __always_inline const struct page *page_head_if_fake(const struct page *page)
-> > > > > > > +{
-> > > > > > > +       return page;
-> > > > > > > +}
-> > > > > > > +#endif
-> > > > > > > +
-> > > > > > >  static inline unsigned long _compound_head(const struct page *page)
-> > > > > > >  {
-> > > > > > >         unsigned long head = READ_ONCE(page->compound_head);
-> > > > > > >
-> > > > > > >         if (unlikely(head & 1))
-> > > > > > >                 return head - 1;
-> > > > > > > -       return (unsigned long)page;
-> > > > > > > +       return (unsigned long)page_head_if_fake(page);
-> > > > > >
-> > > > > > hard to read. page_head_if_fake,  what is the other side of
-> > > > > > page_head_if_not_fake?
-> > > > >
-> > > > > 1) return itself if the @page is not a fake head page.
-> > > > > 2) return head page if @page is a fake head page.
-> > > > >
-> > > > > So I want to express that page_head_if_fake returns a
-> > > > > head page only and only if the parameter of @page is a
-> > > > > fake head page. Otherwise, it returns itself.
-> > > > >
-> > > > > > I would expect something like
-> > > > > > page_to_page_head()
-> > > > > > or
-> > > > > > get_page_head()
-> > > > > >
-> > > > >
-> > > > > Those names seem to be not appropriate as well, because
-> > > > > its functionality does not make sure it can return a head
-> > > > > page. If the parameter is a head page, it definitely
-> > > > > returns a head page, otherwise, it may return itself which
-> > > > > may be a tail page.
-> > > > >
-> > > > > From this point of view, I still prefer page_head_if_fake.
-> > > > >
-> > > > > > Anyway, I am not quite sure what is the best name. but page_head_if_fake(page)
-> > > > > > sounds odd to me. just like the things have two sides, but if_fake  presents
-> > > > > > one side only.
-> > > > >
-> > > > > If others have any ideas, comments are welcome.
-> > > > >
-> > > > > >
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  #define compound_head(page)    ((typeof(page))_compound_head(page))
-> > > > > > > @@ -225,12 +276,14 @@ static inline unsigned long _compound_head(const struct page *page)
-> > > > > > >
-> > > > > > >  static __always_inline int PageTail(struct page *page)
-> > > > > > >  {
-> > > > > > > -       return READ_ONCE(page->compound_head) & 1;
-> > > > > > > +       return READ_ONCE(page->compound_head) & 1 ||
-> > > > > > > +              page_head_if_fake(page) != page;
-> > > > > >
-> > > > > > i would expect a wrapper like:
-> > > > > > page_is_fake_head()
-> > > > >
-> > > > > Good point. Will do.
-> > > > >
-> > > > > >
-> > > > > > and the above page_to_page_head() can leverage the wrapper.
-> > > > > > here too.
-> > > > > >
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static __always_inline int PageCompound(struct page *page)
-> > > > > > >  {
-> > > > > > > -       return test_bit(PG_head, &page->flags) || PageTail(page);
-> > > > > > > +       return test_bit(PG_head, &page->flags) ||
-> > > > > > > +              READ_ONCE(page->compound_head) & 1;
-> > > > > >
-> > > > > > hard to read. could it be something like the below?
-> > > > > > return PageHead(page) || PageTail(page);
-> > > > > >
-> > > > > > or do we really need to change this function? even a fake head still has
-> > > > > > the true test_bit(PG_head, &page->flags), though it is not a real head, it
-> > > > > > is still a pagecompound, right?
-> > > > >
-> > > > > Right. PageCompound() can not be changed.  It is odd but
-> > > > > efficient because calling page_head_if_fake is eliminated.
-> > > > > So I select performance not readability. I'm not sure if it's
-> > > > > worth it.
-> > > >
-> > > > In order to improve readability, I'll introduce 3 helpers as follows.
-> > > >
-> > > > 1) page_head_or_fake(), which returns true for the head page
-> > > >    or fake head page.
-> > > > 2) page_head_is_fake(), which returns true for fake head page.
-> > > > 3) page_tail_not_fake_head(), which returns true for the tail page
-> > > >    except the fake head page.
-> > > >
-> > > > In the end, PageHead(), PageTail() and PageCompound() become
-> > > > the following.
-> > > >
-> > > > static __always_inline int PageHead(struct page *page)
-> > > > {
-> > > >     return page_head_or_fake(page) && !page_head_is_fake(page);
-> > > > }
-> > > >
-> > > > static __always_inline int PageTail(struct page *page)
-> > > > {
-> > > >     return page_tail_not_fake_head(page) || page_head_is_fake(page);
-> > > > }
-> > > >
-> > > > static __always_inline int PageCompound(struct page *page)
-> > > > {
-> > > >     return page_head_or_fake(page) || page_tail_not_fake_head(page);
-> > > > }
-> > > >
-> > > > Do those look more readable?
-> > > >
-> > >
-> > > still not good enough. After a second thought, page_head_if_fake seems
-> > > to have the best performance though this function returns an odd value.
-> > > i just made a little bit refine on your code in doc:
-> >
-> > Right. page_head_if_fake is the choice for performance.
-> >
-> > >
-> > > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> > > index 2c0d11e71e26..240c2fca13c7 100644
-> > > --- a/include/linux/page-flags.h
-> > > +++ b/include/linux/page-flags.h
-> > > @@ -197,8 +197,9 @@ extern bool hugetlb_free_vmemmap_enabled;
-> > >   * compound_head() can return the real head page struct when the parameter is
-> > >   * the tail page struct but with PG_head.
-> > >   *
-> > > - * The page_head_if_fake() returns the real head page struct iff the @page may
-> > > - * be fake, otherwise, returns the @page if it cannot be a fake page struct.
-> > > + * The page_head_if_fake() returns the real head page struct if the @page is
-> > > + * fake page_head, otherwise, returns @page which can either be a true page_
-> > > + * head or tail.
-> > >   */
-> >
-> > Good annotation.
-> >
-> > >  static __always_inline const struct page *page_head_if_fake(const
-> > > struct page *page)
-> > >  {
-> > > @@ -226,6 +227,12 @@ static __always_inline const struct page
-> > > *page_head_if_fake(const struct page *p
-> > >
-> > >         return page;
-> > >  }
-> > > +
-> > > +static __always_inline const struct page *page_is_fake_head(const
-> > > struct page *page)
-> > > +{
-> > > +       return page_head_if_fake(page) != page;
-> > > +}
-> > > +
-> > >  #else
-> > >  static __always_inline const struct page *page_head_if_fake(const
-> > > struct page *page)
-> > >  {
-> > > @@ -247,7 +254,7 @@ static inline unsigned long _compound_head(const
-> > > struct page *page)
-> > >  static __always_inline int PageTail(struct page *page)
-> > >  {
-> > >         return READ_ONCE(page->compound_head) & 1 ||
-> > > -              page_head_if_fake(page) != page;
-> > > +              page_is_fake_head(page);
-> > >  }
-> >
-> > Yeah, this makes PageTail more readable. In your previous thread,
-> > you proposed that why not use PageTail in PageCompound directly
-> > to improve code readability. So I want to introduce 2 more helpers
-> > besides page_is_fake_head().
-> >
-> > static __always_inline int page_tail_not_fake_head(struct page *page)
-> > {
-> >     return READ_ONCE(page->compound_head) & 1;
-> > }
-> >
-> > static __always_inline int page_head_or_fake(struct page *page)
-> > {
-> >     return test_bit(PG_head, &page->flags);
-> > }
-> >
-> > Then PageTail() and PageCompound() change to the following.
-> >
-> > static __always_inline int PageTail(struct page *page)
-> > {
-> >     return page_tail_not_fake_head(page) || page_is_fake_head(page);
-> > }
-> >
-> > static __always_inline int PageCompound(struct page *page)
-> > {
-> >     return page_head_or_fake(page) || page_tail_not_fake_head(page);
-> > }
-> >
-> > From the point of names of helpers, they act as self-annotation.
-> > So I think PageTail and PageCompound become readable
-> > as well. But you said "still not good enough". Is it because of
-> > the names of helpers or introducing more complexity?
+> > On Sun, Sep 19, 2021 at 5:59 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> >>
+> >> On Sat, Sep 18, 2021 at 9:12 AM Huacai Chen <chenhuacai@gmail.com> wrote:
+> >>> On Sat, Sep 18, 2021 at 5:10 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> >>>> For example does LoongArch have a version without built in floating
+> >>>> point support?
+> >>>
+> >>> Some of these structures seems need rethinking, But we really have
+> >>> LoongArch-based MCUs now (no FP, no SMP, and even no MMU).
+> >>
+> >> NOMMU Linux is kind-of on the way out as interest is fading, so I hope you
+> >> don't plan on supporting this in the future.
+> >>
+> >> Do you expect to see future products with MMU but no FP or no SMP?
+> > OK, we will not care no-MMU hardware in Linux, but no-FP and no-SMP
+> > hardware will be supported.
 >
-> I really don't think it is worth this complexity. If there is anything to make
-
-Got it.
-
-> the code more readable, I would rename page_head_if_fake() to
-> page_fixed_dup_head().
-
-Here means page_fixed_up_head, right? Is it a typo?
-
-Thanks.
+> Please consider requiring the FP registers to be present even on no-FP hardware.
+>
+> With this plus the FP data movement instructions (FMOV, MOVGR2FR, MOVFR2GR, FLD, FST), it
+> is possible to implement soft-float without requiring a separate soft-float ABI.  This can
+> vastly simplify compatibility and deployment.
+OK, I'll send an updated version.
 
 >
-> this function fixes up the page:
-> 1. if the page is a fake head, we need to return its true head (things
-> get fixed.)
-> 2. if the page is not a fake head, in other words, it is either true
-> head or tail, no need to fix anything.
 >
-> >
-> > Thanks.
->
-> Thanks
-> barry
+> r~
