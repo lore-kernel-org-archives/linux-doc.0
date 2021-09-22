@@ -2,34 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66BACC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 16:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12626C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 17:28:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FA57611C9
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 16:33:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E730461131
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 17:28:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234140AbhIVQfD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 12:35:03 -0400
-Received: from mga03.intel.com ([134.134.136.65]:32777 "EHLO mga03.intel.com"
+        id S236798AbhIVR36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 13:29:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50314 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229671AbhIVQfD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Sep 2021 12:35:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="223681551"
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; 
-   d="scan'208";a="223681551"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 09:33:31 -0700
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; 
-   d="scan'208";a="550320315"
-Received: from liaol-mobl.ccr.corp.intel.com (HELO chenyu5-mobl1) ([10.249.173.146])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 09:33:25 -0700
-Date:   Thu, 23 Sep 2021 00:33:21 +0800
-From:   Chen Yu <yu.c.chen@intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S236781AbhIVR36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Sep 2021 13:29:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FB0B60F6E;
+        Wed, 22 Sep 2021 17:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632331707;
+        bh=qxovthTWLhunV065wb5c2FjpbJJiZfXE4TdmvsvSDMI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TQcu/pDhXL13HNpmyzQqZTcSJ2/6tD4xoWby1IDx6WkYy/HNINa13EjrrebrKg8UE
+         oLbnjsUYWbhTtTeq1wDfKapMrX5x8BLN0g99OM7YibV/gsG0xhk6Smi0cQGY8Xe0nn
+         Jo4Z7MbPAaLLSS7BiwRSQ/ZDI3kzhVJWycxSsRVk=
+Date:   Wed, 22 Sep 2021 19:28:25 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chen Yu <yu.c.chen@intel.com>
 Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Len Brown <len.brown@intel.com>,
@@ -45,145 +46,87 @@ Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH v3 3/5] drivers/acpi: Introduce Platform Firmware Runtime
  Update device driver
-Message-ID: <20210922163321.GA31068@chenyu5-mobl1>
+Message-ID: <YUtnuW22MH97p7+G@kroah.com>
 References: <cover.1631802162.git.yu.c.chen@intel.com>
  <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
  <YUoBSRrAyaHOCNHb@kroah.com>
  <20210922090442.GA16963@chenyu5-mobl1>
  <YUry6tzScXMD007X@kroah.com>
+ <20210922163321.GA31068@chenyu5-mobl1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YUry6tzScXMD007X@kroah.com>
+In-Reply-To: <20210922163321.GA31068@chenyu5-mobl1>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 11:10:02AM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 22, 2021 at 05:04:42PM +0800, Chen Yu wrote:
-> > Hi Greg,
-> > On Tue, Sep 21, 2021 at 05:59:05PM +0200, Greg Kroah-Hartman wrote:
-> > > On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
-> > > > Introduce the pfru_update driver which can be used for Platform Firmware
-> > > > Runtime code injection and driver update. The user is expected to provide
-> > > > the update firmware in the form of capsule file, and pass it to the driver
-> > > > via ioctl. Then the driver would hand this capsule file to the Platform
-> > > > Firmware Runtime Update via the ACPI device _DSM method. At last the low
-> > > > level Management Mode would do the firmware update.
+On Thu, Sep 23, 2021 at 12:33:21AM +0800, Chen Yu wrote:
+> On Wed, Sep 22, 2021 at 11:10:02AM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Sep 22, 2021 at 05:04:42PM +0800, Chen Yu wrote:
+> > > Hi Greg,
+> > > On Tue, Sep 21, 2021 at 05:59:05PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
+> > > > > Introduce the pfru_update driver which can be used for Platform Firmware
+> > > > > Runtime code injection and driver update. The user is expected to provide
+> > > > > the update firmware in the form of capsule file, and pass it to the driver
+> > > > > via ioctl. Then the driver would hand this capsule file to the Platform
+> > > > > Firmware Runtime Update via the ACPI device _DSM method. At last the low
+> > > > > level Management Mode would do the firmware update.
+> > > > > 
+> > > > > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
 > > > > 
-> > > > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
-> > > 
-> > > Where is the userspace code that uses this ioctl and has tested it out
-> > > to verify it works properly?  A link to that in the changelog would be
-> > > great to have.
-> > > 
-> > The patch [5/5] is a self testing tool to test the whole feature. I'll send a
-> > new version and Cc you too.
-> 
-> That tests it, but does not answer the question of who will actually use
-> this.  What userspace tool needs this new api?
->
-One end user is the cloud user. Currently there is no dedicated userspace
-tool developed to use this feature AFAIK. It was expected that the end users
-could refer to the self test tool to customize their tools. I'm not sure if
-this is the proper way to propose the feature, may I have your suggestion on
-this, should I create a separate git repository for this tool, or put it in
-tools/selftestings as it is now?
-> > > > +static void dump_update_result(struct pfru_updated_result *result)
-> > > > +{
-> > > > +	pr_debug("Update result:\n");
-> > > > +	pr_debug("Status:%d\n", result->status);
-> > > > +	pr_debug("Extended Status:%d\n", result->ext_status);
-> > > > +	pr_debug("Authentication Time Low:%lld\n", result->low_auth_time);
-> > > > +	pr_debug("Authentication Time High:%lld\n", result->high_auth_time);
-> > > > +	pr_debug("Execution Time Low:%lld\n", result->low_exec_time);
-> > > > +	pr_debug("Execution Time High:%lld\n", result->high_exec_time);
-> > > 
-> > > Why not dev_dbg()?  Same for all pr_* calls in this "driver".
-> > > 
-> > >
-> > Ok, I'll switch to dev_dbg() in next version. 
-> > > > +static long pfru_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> > > > +{
-> > > > +	void __user *p;
-> > > > +	int ret = 0, rev;
-> > > > +
-> > > > +	p = (void __user *)arg;
-> > > > +
-> > > > +	switch (cmd) {
-> > > > +	case PFRU_IOC_SET_REV:
-> > > > +		if (copy_from_user(&rev, p, sizeof(unsigned int)))
-> > > > +			return -EFAULT;
-> > > > +		if (!pfru_valid_revid(rev))
-> > > > +			return -EFAULT;
-> > > > +		pfru_dev->rev_id = rev;
-> > > > +		break;
-> > > > +	case PFRU_IOC_STAGE:
-> > > > +		ret = start_acpi_update(START_STAGE);
-> > > > +		break;
-> > > > +	case PFRU_IOC_ACTIVATE:
-> > > > +		ret = start_acpi_update(START_ACTIVATE);
-> > > > +		break;
-> > > > +	case PFRU_IOC_STAGE_ACTIVATE:
-> > > > +		ret = start_acpi_update(START_STAGE_ACTIVATE);
-> > > > +		break;
-> > > > +	default:
-> > > > +		ret = -ENOIOCTLCMD;
-> > > 
-> > > Wrong value :(
-> > Previously I thought that ENOIOCTLCMD stands for 'invalid ioctl command'.
-> > After checking the lkml discussion, it seems that ENOIOCTLCMD should not
-> > be returned to user space. ENOTTY might be more suitible if I understand
-> > correctly.
-> > http://lkml.iu.edu/hypermail/linux/kernel/0105.1/0734.html
-> 
-> Yes, ENOTTY is correct.
-> 
->
-> > > > +		break;
-> > > > +	}
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +#ifdef CONFIG_COMPAT
-> > > > +static long compat_pfru_ioctl(struct file *filep, unsigned int cmd,
-> > > > +			      unsigned long arg)
-> > > > +{
-> > > > +	return pfru_ioctl(filep, cmd, arg);
-> > > > +}
-> > > > +#endif
-> > > 
-> > > Why is this compat ioctl needed at all?
-> > > 
-> > We can not control if the user space tool would be compiled as 32bit.
-> 
-> Then create your ioctl so that a compat ioctl is not needed at all.
-> There is no need to ever use this for new ioctl commands these days.
-> 
-After checking the code, it seems that this driver only needs to deal with
-unlocked_ioctl() without touching compat_ioctl(). Because even if the user
-space is 32bit, the compat_ioctl() would invoke unlocked_ioctl() first
-with a parameter of compat_ptr(arg). It should be safe to remove the compat_ioctl
-hook in this driver.
-> > But I realize that a compat_ptr() was missing. Will fix it in next version.
-> > > > +static struct miscdevice pfru_misc_dev = {
-> > > > +	.minor = MISC_DYNAMIC_MINOR,
-> > > > +	.name = "pfru_update",
-> > > > +	.nodename = "pfru/update",
-> > > 
-> > > Why is this in a subdirectory?  What requires this?  Why not just
-> > > "pfru"?
-> > > 
-> > The pfru directory might be reused for pfru_telemetry device, whose driver
-> > is in 4/5 patch, I'll Cc you with the whole patch set in next version.
-> 
-> "might be" is not a valid reason.  Why does this simple driver deserve a
-> whole /dev/ subdirectory?
-> 
-There are pfru_update and pfru_telemetry in the patch, and there is plan to
-add a pfru_prm device in the future, which stands for "Platform Runtime Mechanism".
-I'll move them to /dev/ in next version.
+> > > > Where is the userspace code that uses this ioctl and has tested it out
+> > > > to verify it works properly?  A link to that in the changelog would be
+> > > > great to have.
+> > > > 
+> > > The patch [5/5] is a self testing tool to test the whole feature. I'll send a
+> > > new version and Cc you too.
+> > 
+> > That tests it, but does not answer the question of who will actually use
+> > this.  What userspace tool needs this new api?
+> >
+> One end user is the cloud user.
 
-Thanks,
-Chenyu
+What exactly do you mean by "cloud user"?
+
+> Currently there is no dedicated userspace tool developed to use this
+> feature AFAIK.
+
+Wonderful, then it is not needed to be added to the kernel :)
+
+> It was expected that the end users
+> could refer to the self test tool to customize their tools. I'm not sure if
+> this is the proper way to propose the feature, may I have your suggestion on
+> this, should I create a separate git repository for this tool, or put it in
+> tools/selftestings as it is now?
+
+No, do not add this to the kernel unless you have a real need and user
+for this.
+
+
+> > > > > +static struct miscdevice pfru_misc_dev = {
+> > > > > +	.minor = MISC_DYNAMIC_MINOR,
+> > > > > +	.name = "pfru_update",
+> > > > > +	.nodename = "pfru/update",
+> > > > 
+> > > > Why is this in a subdirectory?  What requires this?  Why not just
+> > > > "pfru"?
+> > > > 
+> > > The pfru directory might be reused for pfru_telemetry device, whose driver
+> > > is in 4/5 patch, I'll Cc you with the whole patch set in next version.
+> > 
+> > "might be" is not a valid reason.  Why does this simple driver deserve a
+> > whole /dev/ subdirectory?
+> > 
+> There are pfru_update and pfru_telemetry in the patch, and there is plan to
+> add a pfru_prm device in the future, which stands for "Platform Runtime Mechanism".
+> I'll move them to /dev/ in next version.
+
+That is a very generic name for a very platform specific and arch
+specific interface.  As this is an ACPI interface, why not use that name
+prefix?
+
+thanks,
+
+greg k-h
