@@ -2,89 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2650C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE6EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 09:04:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99EFF6127A
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:51:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C48E26137F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 09:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234007AbhIVIxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 04:53:12 -0400
-Received: from smtprelay0158.hostedemail.com ([216.40.44.158]:44110 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233741AbhIVIxL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 04:53:11 -0400
-Received: from omf09.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 46C8818224D8D;
-        Wed, 22 Sep 2021 08:51:40 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id A34D41E04D3;
-        Wed, 22 Sep 2021 08:51:35 +0000 (UTC)
-Message-ID: <e231bce4942848400f4286a2d4178eeab6555989.camel@perches.com>
-Subject: Re: function prototype element ordering
-From:   Joe Perches <joe@perches.com>
-To:     Alexey Dobriyan <adobriyan@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-        Christoph Lameter <cl@linux.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>, dwaipayanray1@gmail.com,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        mm-commits@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        id S234107AbhIVJG0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 05:06:26 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35756 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234071AbhIVJG0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Sep 2021 05:06:26 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="284563479"
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; 
+   d="scan'208";a="284563479"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 02:04:52 -0700
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; 
+   d="scan'208";a="550173400"
+Received: from liaol-mobl.ccr.corp.intel.com (HELO chenyu5-mobl1) ([10.249.173.146])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 02:04:46 -0700
+Date:   Wed, 22 Sep 2021 17:04:42 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Aubrey Li <aubrey.li@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
         linux-doc@vger.kernel.org
-Date:   Wed, 22 Sep 2021 01:51:34 -0700
-In-Reply-To: <YUraGKetS+Tgc7y9@localhost.localdomain>
-References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org>
-         <20210910031046.G76dQvPhV%akpm@linux-foundation.org>
-         <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
-         <202109211630.2D00627@keescook>
-         <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
-         <202109211757.F38DF644@keescook> <YUraGKetS+Tgc7y9@localhost.localdomain>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+Subject: Re: [PATCH v3 3/5] drivers/acpi: Introduce Platform Firmware Runtime
+ Update device driver
+Message-ID: <20210922090442.GA16963@chenyu5-mobl1>
+References: <cover.1631802162.git.yu.c.chen@intel.com>
+ <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
+ <YUoBSRrAyaHOCNHb@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: stsnoorhuzzsu81jzy15qc4susetbm8e
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: A34D41E04D3
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/0VQy3rI6crSuBv+vrDUQ0lyPWzhzLHhQ=
-X-HE-Tag: 1632300695-215196
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUoBSRrAyaHOCNHb@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-09-22 at 10:24 +0300, Alexey Dobriyan wrote:
-
-> Attributes should be on their own line, they can be quite lengthy.
+Hi Greg,
+On Tue, Sep 21, 2021 at 05:59:05PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
+> > Introduce the pfru_update driver which can be used for Platform Firmware
+> > Runtime code injection and driver update. The user is expected to provide
+> > the update firmware in the form of capsule file, and pass it to the driver
+> > via ioctl. Then the driver would hand this capsule file to the Platform
+> > Firmware Runtime Update via the ACPI device _DSM method. At last the low
+> > level Management Mode would do the firmware update.
+> > 
+> > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
 > 
-> 	__attribute__((...))
-> 	[static] [inline] T f(A1 arg1, ...)
-> 	{
-> 		...
-> 	}
+> Where is the userspace code that uses this ioctl and has tested it out
+> to verify it works properly?  A link to that in the changelog would be
+> great to have.
 > 
-> There will be even more attributes in the future, both added by
-> compilers and developers (const, pure, WUR), so let's make "prototype lane"
-> for them.
+The patch [5/5] is a self testing tool to test the whole feature. I'll send a
+new version and Cc you too.
+> > +static void dump_update_result(struct pfru_updated_result *result)
+> > +{
+> > +	pr_debug("Update result:\n");
+> > +	pr_debug("Status:%d\n", result->status);
+> > +	pr_debug("Extended Status:%d\n", result->ext_status);
+> > +	pr_debug("Authentication Time Low:%lld\n", result->low_auth_time);
+> > +	pr_debug("Authentication Time High:%lld\n", result->high_auth_time);
+> > +	pr_debug("Execution Time Low:%lld\n", result->low_exec_time);
+> > +	pr_debug("Execution Time High:%lld\n", result->high_exec_time);
 > 
-> Same for structures:
+> Why not dev_dbg()?  Same for all pr_* calls in this "driver".
 > 
-> 	__attribute__((packed))
-> 	struct S {
-> 	};
+>
+Ok, I'll switch to dev_dbg() in next version. 
+> > +static long pfru_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> > +{
+> > +	void __user *p;
+> > +	int ret = 0, rev;
+> > +
+> > +	p = (void __user *)arg;
+> > +
+> > +	switch (cmd) {
+> > +	case PFRU_IOC_SET_REV:
+> > +		if (copy_from_user(&rev, p, sizeof(unsigned int)))
+> > +			return -EFAULT;
+> > +		if (!pfru_valid_revid(rev))
+> > +			return -EFAULT;
+> > +		pfru_dev->rev_id = rev;
+> > +		break;
+> > +	case PFRU_IOC_STAGE:
+> > +		ret = start_acpi_update(START_STAGE);
+> > +		break;
+> > +	case PFRU_IOC_ACTIVATE:
+> > +		ret = start_acpi_update(START_ACTIVATE);
+> > +		break;
+> > +	case PFRU_IOC_STAGE_ACTIVATE:
+> > +		ret = start_acpi_update(START_STAGE_ACTIVATE);
+> > +		break;
+> > +	default:
+> > +		ret = -ENOIOCTLCMD;
+> 
+> Wrong value :(
+Previously I thought that ENOIOCTLCMD stands for 'invalid ioctl command'.
+After checking the lkml discussion, it seems that ENOIOCTLCMD should not
+be returned to user space. ENOTTY might be more suitible if I understand
+correctly.
+http://lkml.iu.edu/hypermail/linux/kernel/0105.1/0734.html
+> > +		break;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +#ifdef CONFIG_COMPAT
+> > +static long compat_pfru_ioctl(struct file *filep, unsigned int cmd,
+> > +			      unsigned long arg)
+> > +{
+> > +	return pfru_ioctl(filep, cmd, arg);
+> > +}
+> > +#endif
+> 
+> Why is this compat ioctl needed at all?
+> 
+We can not control if the user space tool would be compiled as 32bit.
+But I realize that a compat_ptr() was missing. Will fix it in next version.
+> > +static struct miscdevice pfru_misc_dev = {
+> > +	.minor = MISC_DYNAMIC_MINOR,
+> > +	.name = "pfru_update",
+> > +	.nodename = "pfru/update",
+> 
+> Why is this in a subdirectory?  What requires this?  Why not just
+> "pfru"?
+> 
+The pfru directory might be reused for pfru_telemetry device, whose driver
+is in 4/5 patch, I'll Cc you with the whole patch set in next version.
 
-Do you know if placing attributes like __packed/__aligned() before
-definitions would work for all cases for structs/substructs/unions?
-
-
+Thanks,
+Chenyu
