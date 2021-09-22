@@ -2,260 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DEBC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D62CC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 12:02:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3623060F41
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:52:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BC6C60FE6
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 12:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235850AbhIVLyK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 07:54:10 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:55080 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235802AbhIVLyH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 07:54:07 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 37CDD2221F;
-        Wed, 22 Sep 2021 11:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1632311557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zpk/uaLL1JETo1I6rhDsb+6geCHM6hrjO4lnTz+Lo1Y=;
-        b=BZ9Sid15cyrUE+mxZnJ0K57i0mNcqLnfYad81QAhMVuasHMzj/8fZmqxPB62D1TrVKchJA
-        FA1TFsStwogydoBBV6oA9BmHjkEN4CZ+x9LIv4mYj66GlrfvfYamfHsF0lsVp6PKnJRVSZ
-        Y1ozoRouTxR7OvQOBfVahKHVjCGdh/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1632311557;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zpk/uaLL1JETo1I6rhDsb+6geCHM6hrjO4lnTz+Lo1Y=;
-        b=tG09QfNmpkzmiBCXncWo+vnEWYsrnWfYmGSfZkc3p6V+RG4SVsFSX4wJvaJLT2bCbP2qCm
-        ANhN9Os1ny9JN0AA==
-Received: from echidna.suse.de (ddiss.udp.ovpn2.nue.suse.de [10.163.47.146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0C3CEA3BAE;
-        Wed, 22 Sep 2021 11:52:37 +0000 (UTC)
-From:   David Disseldorp <ddiss@suse.de>
-To:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     viro@zeniv.linux.org.uk, willy@infradead.org,
-        David Disseldorp <ddiss@suse.de>
-Subject: [PATCH 5/5] initramfs: add INITRAMFS_PRESERVE_MTIME Kconfig option
-Date:   Wed, 22 Sep 2021 13:52:22 +0200
-Message-Id: <20210922115222.8987-5-ddiss@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210922115222.8987-1-ddiss@suse.de>
-References: <20210922115222.8987-1-ddiss@suse.de>
+        id S235889AbhIVMEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 08:04:04 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:2092 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235848AbhIVMED (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 08:04:03 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18MBgBYN021542;
+        Wed, 22 Sep 2021 12:02:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=3sBFhZFoVNSwTq83JmmHVujhXJNQniK4m+OgvBy2IP4=;
+ b=f+U5n9f5UnwQ2s1jiJYFBZNdoeBx6bn1vcm3/N5QBkwBJCNHMCr39BUYpwc2x2pd+V+U
+ 9uCCALMmPzfZYWYc3eygLL9gkub1l+xCu22shQHR6n7sTv11a3zQe10v7eXJWte1X30m
+ UW4CxrFR3NjoZU4r6ElZHwTey2yJzsJDbwHHqpYuGP+pYPMpFqcFPYOfup5vRTZCkJIW
+ /bkp6CvAW+NptqXNTwfGyaxe2Lb53hwKU1HmqJ6IbV9FfmM7ebYbmNMOODN1fiv1huv/
+ MfvdXDNJ3+XlH/2WLvpe8Dpd7/WiD/9hjQuGdmKGOciKxLWH3/9lkN6t+gY4SEKRNNwK ow== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3b7q4p39un-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Sep 2021 12:02:08 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18MC0qXS072086;
+        Wed, 22 Sep 2021 12:01:49 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+        by aserp3020.oracle.com with ESMTP id 3b7q5ajeut-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Sep 2021 12:01:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VqN3yMVIYzl/hmOYAXc4yMCysLmqsHnKF/fPyZrECvVh53oGrROgCASGmKKM9EVg2TCZNSO8a+uNEgsa+lOZssDvX//nJ5Gy1PIghcP41KDrnWdLOSNQRTs59mdWQ1p2B9RXvo8Pf4umT5WoUzhUZTXXXAlb0iCfGx6wKbQTMEm4M8q+ZLeLVbLZIiWbX07MnYjTSA9m+SuqzNiAJajpn1E3bDdhPInKFRP/SkGVu8hIbz865KgrITjA5nJyuDftt3QRRj4ovsNgoTDOgRB/O/aCPRU6OyXSvJeG/ilCF5RplL6F1u85QVfAY5/W4itZgxzy7ihDGhbP+FPKvRQSbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=3sBFhZFoVNSwTq83JmmHVujhXJNQniK4m+OgvBy2IP4=;
+ b=JVe4o45SezHgrSGntx+Hg4roPeoDvKyjqkrqZ6VAWIFHfEbtpvRsyp69Tod2RfweW2lvQy9AXOF+oL4TQx+apGULrZ21hDhz9V1f70+4LjxXk0O6eu0aAowDKjptDJl6CTX4E1a9Y/dxj21/c1y+TVcYF4g8erNyw4NYDhV6km9Dn/BQDG5f7h65l3Mmhwblzp4pYu1/HlzmJGBBzgy+nP5uRvgu4A5o0DVnK1Qcv72fs1f7Wp/QZQ5FhP1oZ2wVhzzf+7+1UVyFe/YVE4hm7xTQZcSjwXFBixgi5y7g/nzVqoa9Oax+Wv9R4KMSh4D7bpQIES2KBvn6OQ2nJ+DS7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3sBFhZFoVNSwTq83JmmHVujhXJNQniK4m+OgvBy2IP4=;
+ b=uitIkPhJZkSwRdDD1yEi3n5v0KeLHw22hdYOUO4XN0INGQV5aOitB0SBGr9pWIXmdOir081uU51nUL4M5f6w9Wr8KNmNtnSHcg/bZ80L7sXzIjdr44shocucD5/Ad2IVZvSw/+UmwyO+VXfJavcfiUXMJnsp75W9BSQydxMP2SE=
+Authentication-Results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
+Received: from BN6PR1001MB2228.namprd10.prod.outlook.com
+ (2603:10b6:405:2e::38) by BN6PR10MB1380.namprd10.prod.outlook.com
+ (2603:10b6:404:45::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.17; Wed, 22 Sep
+ 2021 12:01:47 +0000
+Received: from BN6PR1001MB2228.namprd10.prod.outlook.com
+ ([fe80::3cca:22b1:cbcf:eeed]) by BN6PR1001MB2228.namprd10.prod.outlook.com
+ ([fe80::3cca:22b1:cbcf:eeed%7]) with mapi id 15.20.4523.018; Wed, 22 Sep 2021
+ 12:01:47 +0000
+Date:   Wed, 22 Sep 2021 14:01:37 +0200
+From:   Daniel Kiper <daniel.kiper@oracle.com>
+To:     Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v4 01/14] x86/boot: Fix memremap of setup_indirect
+ structures
+Message-ID: <20210922120137.3smvvedpxroi7bkw@tomti.i.net-space.pl>
+References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
+ <1630070917-9896-2-git-send-email-ross.philipson@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1630070917-9896-2-git-send-email-ross.philipson@oracle.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-ClientProxiedBy: AM5PR0602CA0018.eurprd06.prod.outlook.com
+ (2603:10a6:203:a3::28) To BN6PR1001MB2228.namprd10.prod.outlook.com
+ (2603:10b6:405:2e::38)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from tomti.i.net-space.pl (84.10.22.86) by AM5PR0602CA0018.eurprd06.prod.outlook.com (2603:10a6:203:a3::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend Transport; Wed, 22 Sep 2021 12:01:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fa8aab86-2058-4d1f-26cd-08d97dc0c08b
+X-MS-TrafficTypeDiagnostic: BN6PR10MB1380:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN6PR10MB138033D4DD81F37E79484753E3A29@BN6PR10MB1380.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WT6r6OvtNW2XKjcx/hejjc87c8dW64ACyyPQUN/odj9iwNo+7Z/VOog7xhwT50mrMPHDxCo1RBi6ick4FHTrwhNoyecu6RY3tHRFHprBainzyZIIuoHxJwSKude3m81tuEHQ90weVbhgPYu/anf2NBRb4pLU19Hd9U0LeLSxss+pxBrjLHMKSO3wzjgOsccroCxXJYV2beSv8rdZGHUsXPzJC7BrLtqZ/jQUk1eAGbWEIL48iE7FcktZm4KAYjjTomJ0YhtjvxsKuEgCNhaiHE9QKkZs8aOE/OzCutSYb46Lxok7twoaXMPGdgZDD72ngf4AfI+G4BqNm7ZDmE7713E4fRXsfEdjZyCUxBhjsfPHfsfvs2y+wj4DjeVvdxjIqoqmCaZYbACzJsDaRZEI1zC3JBY0oXe3Ud5HbyO2vDpUtUnBCCmUxoAASlylKn0MEDvdBcRK1VXXEuSrHCgMqmKstfDgFSOZPpUGHWnEryo9i7dupICADxOWWpeR4r69haAzd1U2v971RxxESOl9ixfNvo2GB8jxBhOJdj7ypq3t5SnWnTnH88pMb5arX9Exj8YCVgaSREqPdyAdBFQjKK6pLnbIhqGe1Y74oNhkBSS4CwVbmuagb3vcpar1wxu1Jun35+o/3fDHiODpiV/QI0p9shoNZNlvYzQ8XdetPPt5BOvPGRa14QXUxabX62a6iFiL/WNY73IwljfnyCe25Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1001MB2228.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(66946007)(66476007)(316002)(66556008)(5660300002)(1076003)(8676002)(4744005)(6506007)(6636002)(6666004)(7696005)(6862004)(7416002)(186003)(2906002)(956004)(38350700002)(44832011)(38100700002)(4326008)(26005)(83380400001)(55016002)(508600001)(8936002)(86362001)(9686003)(52116002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RW69mn7RYifo/V9W3cBbLKttOBMA16GHOty5ruGBvz4C0wO0r9N/b1WnxOCJ?=
+ =?us-ascii?Q?DdsOy2Dg9GcuvTKRkEc4p3L41lnlAeF4Vxw5eiZsp0KZJtOJPN5gaGdg5BD+?=
+ =?us-ascii?Q?2mL+fbQlfC1J3SHxGa+GArc6+oqdtj8OV7dgWKw22FojTcbthQ3IpzbEqQCx?=
+ =?us-ascii?Q?zZZbq0YD/4v1SfrqgFrDb2cURKFwL/CbURdexP2ovZB9Iz88UJ7XWS5tlmlL?=
+ =?us-ascii?Q?xxSpQT6HPWcwIa6tSUtcre0hPXIfbvg5MdI1cXT9bztloxbJEaMsldu7A95R?=
+ =?us-ascii?Q?Sj41N61jGpTM1YkKh/uTynuVl+FUysz4tCVqMGoQrz7UCgnELDpn+jO8DV4s?=
+ =?us-ascii?Q?UDIUHNWzKYezg6P7xxgNVFhEZ99Z1wFon72TvrdBiW53TD82beJQecikh1Cq?=
+ =?us-ascii?Q?/CEm2DUC2QhbiyRRa3Kr22Y3Xvb6YFogq5nbpxJMU17UDGEvCMZdI0KmpuV2?=
+ =?us-ascii?Q?TfMMVrokJhQyxymnSgFkYsFC6fQrpICZ1JZPwuLvaxdbLgZnmt7UTZQMV8Bn?=
+ =?us-ascii?Q?ALC8HX0KNzldpiq/fhyUM/Urlp+Tyq3tEMI0eInf3cuJe0qUqZ4JIgGXkxVd?=
+ =?us-ascii?Q?Z0LbhSSKMX0LefkTc/4KGtwnxOLjDdd/IiS2ON4pn4diELX2EWLNR4grcQiw?=
+ =?us-ascii?Q?gu6MPvA5g/Hid7sTWHHQxCvjdRfNxAXhyHJF/SUE0fSi5dtw9GvqNXOAJjMO?=
+ =?us-ascii?Q?/oGOrETO7AjawMMMv/nllCpEglNp6nKTvevF6pjDye8tEnMazQh7loqzdLtx?=
+ =?us-ascii?Q?PwYFeUBk/JW/yhahEm05+wElU/1rDoNIV7PM9On0Y73nWy5Qu4mFxl1nLOpg?=
+ =?us-ascii?Q?1xTHis1K6YJZMfxY+cV9BRoTZvOQ1AiH2yeQqyeMY1VaO1oCJ6ehOJF3N57o?=
+ =?us-ascii?Q?fbLEDOOc5rCP3DIl4IVlL9jYz7hucqbmlZsgX8UqvgSmjVqB0ClLkGTDNh+l?=
+ =?us-ascii?Q?7KlmVSKY3hXoqRmiiT1RZEMaXrRJdeqt5XdPMYfS7MTy0xz+2ni8u933JVZ/?=
+ =?us-ascii?Q?X3CFbuGmnwVOM6AodpXEin50GTSZwF0YbvWfjT42hPM7qI8WsWIxZlS1l8n/?=
+ =?us-ascii?Q?DdXB5brUCPZHhtGnllz+379/Hni8zDT0h1RBoGCnWAfn6VgIgT2JpNgiofiG?=
+ =?us-ascii?Q?tXZfAagNyj962ObAOwAAmjLoxikhIxAwDA5/qQdQnIVRBw2Qf7aD6EhIK9zr?=
+ =?us-ascii?Q?pQ80AZCSuBWeVDOqQVJsCIvwgo7MxpD2mDKLAoWTQ61MeGpNg6X7xFuCtAgX?=
+ =?us-ascii?Q?kVrWFRWiwkwtdISj7yNWNz26anlIM36fhdAMaROT/MVqRQP76wOyTumBQESC?=
+ =?us-ascii?Q?0X/fNVUoN6QbA+IpvcqePf7b?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa8aab86-2058-4d1f-26cd-08d97dc0c08b
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR1001MB2228.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 12:01:47.0881
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hSNYRrnBlEQzY1Sr1I2hijy4NHJONGTVB8i4benxNH226b8p8ZE3ISROJ9FQDCFOZW2/sKP1b/1dVuOAHBIClg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1380
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10114 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109220085
+X-Proofpoint-GUID: a314SK0ROoq0Q0UhakaBAdyllWTqP0yr
+X-Proofpoint-ORIG-GUID: a314SK0ROoq0Q0UhakaBAdyllWTqP0yr
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-initramfs cpio mtime preservation, as implemented via
-889d51a10712b6fd6175196626de2116858394f4, uses a linked list to defer
-directory mtime processing until after all other items in the cpio
-archive have been processed. This is done to ensure that parent
-directory mtimes aren't overwritten via subsequent child creation.
+On Fri, Aug 27, 2021 at 09:28:24AM -0400, Ross Philipson wrote:
+> As documented, the setup_indirect structure is nested inside
+> the setup_data structures in the setup_data list. The code currently
+> accesses the fields inside the setup_indirect structure but only
+> the sizeof(struct setup_data) is being memremapped. No crash
+> occured but this is just due to how the area is remapped under the
+> covers.
+>
+> The fix is to properly memremap both the setup_data and setup_indirect
+> structures in these cases before accessing them.
+>
+> Fixes: b3c72fc9a78e ("x86/boot: Introduce setup_indirect")
+>
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 
-This change adds a new INITRAMFS_PRESERVE_MTIME Kconfig option, which
-can be used to disable on-by-default mtime retention and in turn
-speed up initramfs extraction, particularly for cpio archives with large
-directory counts.
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 
-For a cpio archive with ~1M directories, rough 20-run local benchmarks
-demonstrated:
-				mean extraction time (s)	std dev
-INITRAMFS_PRESERVE_MTIME=y		3.789035		0.005474
-INITRAMFS_PRESERVE_MTIME unset		3.111508		0.004132
+This is the fix. So, I think it should be taken now, regardless of the
+fate of the other patches in the series.
 
-Signed-off-by: David Disseldorp <ddiss@suse.de>
----
- init/Kconfig           | 10 +++++++++
- init/Makefile          |  3 +++
- init/initramfs.c       | 42 ++----------------------------------
- init/initramfs_mtime.c | 49 ++++++++++++++++++++++++++++++++++++++++++
- init/initramfs_mtime.h | 11 ++++++++++
- 5 files changed, 75 insertions(+), 40 deletions(-)
- create mode 100644 init/initramfs_mtime.c
- create mode 100644 init/initramfs_mtime.h
-
-diff --git a/init/Kconfig b/init/Kconfig
-index 55f9f7738ebb..a79b6ba4d76c 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1324,6 +1324,16 @@ config BOOT_CONFIG
- 
- 	  If unsure, say Y.
- 
-+config INITRAMFS_PRESERVE_MTIME
-+	bool "Preserve cpio archive mtimes in initramfs"
-+	default y
-+	help
-+	  Each entry in an initramfs cpio archive carries an mtime value. When
-+	  enabled, extracted cpio items take this mtime, with directory mtime
-+	  setting deferred until after creation of any child entries.
-+
-+	  If unsure, say Y.
-+
- choice
- 	prompt "Compiler optimization level"
- 	default CC_OPTIMIZE_FOR_PERFORMANCE
-diff --git a/init/Makefile b/init/Makefile
-index 2846113677ee..d72bf80170ce 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -11,6 +11,9 @@ obj-y                          += noinitramfs.o
- else
- obj-$(CONFIG_BLK_DEV_INITRD)   += initramfs.o
- endif
-+ifeq ($(CONFIG_INITRAMFS_PRESERVE_MTIME),y)
-+obj-$(CONFIG_BLK_DEV_INITRD)   += initramfs_mtime.o
-+endif
- obj-$(CONFIG_GENERIC_CALIBRATE_DELAY) += calibrate.o
- 
- obj-y                          += init_task.o
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 7f809a1c8e89..205fd62be616 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -16,6 +16,8 @@
- #include <linux/namei.h>
- #include <linux/init_syscalls.h>
- 
-+#include "initramfs_mtime.h"
-+
- static ssize_t __init xwrite(struct file *file, const char *p, size_t count,
- 		loff_t *pos)
- {
-@@ -115,46 +117,6 @@ static void __init free_hash(void)
- 	}
- }
- 
--static long __init do_utime(char *filename, time64_t mtime)
--{
--	struct timespec64 t[2];
--
--	t[0].tv_sec = mtime;
--	t[0].tv_nsec = 0;
--	t[1].tv_sec = mtime;
--	t[1].tv_nsec = 0;
--	return init_utimes(filename, t);
--}
--
--static __initdata LIST_HEAD(dir_list);
--struct dir_entry {
--	struct list_head list;
--	char *name;
--	time64_t mtime;
--};
--
--static void __init dir_add(const char *name, time64_t mtime)
--{
--	struct dir_entry *de = kmalloc(sizeof(struct dir_entry), GFP_KERNEL);
--	if (!de)
--		panic_show_mem("can't allocate dir_entry buffer");
--	INIT_LIST_HEAD(&de->list);
--	de->name = kstrdup(name, GFP_KERNEL);
--	de->mtime = mtime;
--	list_add(&de->list, &dir_list);
--}
--
--static void __init dir_utime(void)
--{
--	struct dir_entry *de, *tmp;
--	list_for_each_entry_safe(de, tmp, &dir_list, list) {
--		list_del(&de->list);
--		do_utime(de->name, de->mtime);
--		kfree(de->name);
--		kfree(de);
--	}
--}
--
- static __initdata time64_t mtime;
- 
- /* cpio header parsing */
-diff --git a/init/initramfs_mtime.c b/init/initramfs_mtime.c
-new file mode 100644
-index 000000000000..0020deb21f76
---- /dev/null
-+++ b/init/initramfs_mtime.c
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#include <linux/init.h>
-+#include <linux/types.h>
-+#include <linux/syscalls.h>
-+#include <linux/utime.h>
-+#include <linux/file.h>
-+#include <linux/init_syscalls.h>
-+
-+#include "initramfs_mtime.h"
-+
-+long __init do_utime(char *filename, time64_t mtime)
-+{
-+	struct timespec64 t[2];
-+
-+	t[0].tv_sec = mtime;
-+	t[0].tv_nsec = 0;
-+	t[1].tv_sec = mtime;
-+	t[1].tv_nsec = 0;
-+	return init_utimes(filename, t);
-+}
-+
-+static __initdata LIST_HEAD(dir_list);
-+struct dir_entry {
-+	struct list_head list;
-+	char *name;
-+	time64_t mtime;
-+};
-+
-+void __init dir_add(const char *name, time64_t mtime)
-+{
-+	struct dir_entry *de = kmalloc(sizeof(struct dir_entry), GFP_KERNEL);
-+	if (!de)
-+		panic("can't allocate dir_entry buffer");
-+	INIT_LIST_HEAD(&de->list);
-+	de->name = kstrdup(name, GFP_KERNEL);
-+	de->mtime = mtime;
-+	list_add(&de->list, &dir_list);
-+}
-+
-+void __init dir_utime(void)
-+{
-+	struct dir_entry *de, *tmp;
-+	list_for_each_entry_safe(de, tmp, &dir_list, list) {
-+		list_del(&de->list);
-+		do_utime(de->name, de->mtime);
-+		kfree(de->name);
-+		kfree(de);
-+	}
-+}
-diff --git a/init/initramfs_mtime.h b/init/initramfs_mtime.h
-new file mode 100644
-index 000000000000..6d15c8b1171f
---- /dev/null
-+++ b/init/initramfs_mtime.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifdef CONFIG_INITRAMFS_PRESERVE_MTIME
-+long do_utime(char *filename, time64_t mtime) __init;
-+void dir_add(const char *name, time64_t mtime) __init;
-+void dir_utime(void) __init;
-+#else
-+static long __init do_utime(char *filename, time64_t mtime) { return 0; }
-+static void __init dir_add(const char *name, time64_t mtime) {}
-+static void __init dir_utime(void) {}
-+#endif
--- 
-2.31.1
-
+Daniel
