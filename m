@@ -2,131 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12626C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 17:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF771C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 18:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E730461131
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 17:28:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BC5C61153
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 18:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236798AbhIVR36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 13:29:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50314 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236781AbhIVR36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Sep 2021 13:29:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FB0B60F6E;
-        Wed, 22 Sep 2021 17:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632331707;
-        bh=qxovthTWLhunV065wb5c2FjpbJJiZfXE4TdmvsvSDMI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TQcu/pDhXL13HNpmyzQqZTcSJ2/6tD4xoWby1IDx6WkYy/HNINa13EjrrebrKg8UE
-         oLbnjsUYWbhTtTeq1wDfKapMrX5x8BLN0g99OM7YibV/gsG0xhk6Smi0cQGY8Xe0nn
-         Jo4Z7MbPAaLLSS7BiwRSQ/ZDI3kzhVJWycxSsRVk=
-Date:   Wed, 22 Sep 2021 19:28:25 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chen Yu <yu.c.chen@intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Aubrey Li <aubrey.li@intel.com>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
+        id S237093AbhIVSuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 14:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhIVSuT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 14:50:19 -0400
+X-Greylist: delayed 2656 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Sep 2021 11:48:49 PDT
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59290C061574
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 11:48:49 -0700 (PDT)
+Received: from pps.filterd (m0050102.ppops.net [127.0.0.1])
+        by m0050102.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with SMTP id 18MHgXEP014239;
+        Wed, 22 Sep 2021 19:04:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=jcdEcrP+5y+ElOaxqBnq6pN8hD6WVH7XmRChoU2VlVU=;
+ b=HRWx11JjxPV90qrB/kBcGW2YSm3mztt4FQgDoZhsNpWelR6sPVyPt4vq9fdVCgGRXCIl
+ IbszExub1Z397ocXLRqWBe7QBeWZdorwBVqdPgiBaGuQ3/PRYvVAOo/RpmJPMUGMNrLd
+ dNQ6DAs9rJHy+xm2PCGjzEc3AiSxXJ4aZv2cpfrW8FeGcMpy3JbavxH8rYJRfllJ6KMq
+ 2oQVtsCQJGCXi7rcFpy/berVAA20CwHg5oGha4U1pNdXb/oB+d0yUPbECUxEo5dy6VoU
+ qo/3+0rLmpqywLCmwEdirhXuly6Q/gzePkEM5q8ADiBvxgmrZcrgcTBcKGl7bS94PhOf BA== 
+Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
+        by m0050102.ppops.net-00190b01. with ESMTP id 3b7xa8p10x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Sep 2021 19:04:27 +0100
+Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
+        by prod-mail-ppoint5.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 18MHoZbk025387;
+        Wed, 22 Sep 2021 11:04:26 -0700
+Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
+        by prod-mail-ppoint5.akamai.com with ESMTP id 3b7q801daw-1;
+        Wed, 22 Sep 2021 11:04:26 -0700
+Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
+        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id C2A45275EE;
+        Wed, 22 Sep 2021 18:04:25 +0000 (GMT)
+Subject: Re: [PATCH v3 0/3] Trivial dynamic debug fixups
+To:     Andrew Halaney <ahalaney@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] drivers/acpi: Introduce Platform Firmware Runtime
- Update device driver
-Message-ID: <YUtnuW22MH97p7+G@kroah.com>
-References: <cover.1631802162.git.yu.c.chen@intel.com>
- <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
- <YUoBSRrAyaHOCNHb@kroah.com>
- <20210922090442.GA16963@chenyu5-mobl1>
- <YUry6tzScXMD007X@kroah.com>
- <20210922163321.GA31068@chenyu5-mobl1>
+        Jim Cromie <jim.cromie@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210920205444.20068-1-ahalaney@redhat.com>
+From:   Jason Baron <jbaron@akamai.com>
+Message-ID: <6acfb61d-4aca-ac59-7fc6-d18b4c623765@akamai.com>
+Date:   Wed, 22 Sep 2021 14:04:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210922163321.GA31068@chenyu5-mobl1>
+In-Reply-To: <20210920205444.20068-1-ahalaney@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-09-22_06:2021-09-22,2021-09-22 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
+ suspectscore=0 adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109200000
+ definitions=main-2109220117
+X-Proofpoint-GUID: 4Q997L-8KqJIZt0owHfhWYmM7aFjxdxS
+X-Proofpoint-ORIG-GUID: 4Q997L-8KqJIZt0owHfhWYmM7aFjxdxS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-22_06,2021-09-22_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 priorityscore=1501
+ adultscore=0 spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109200000
+ definitions=main-2109220118
+X-Agari-Authentication-Results: mx.akamai.com; spf=${SPFResult} (sender IP is 184.51.33.60)
+ smtp.mailfrom=jbaron@akamai.com smtp.helo=prod-mail-ppoint5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 12:33:21AM +0800, Chen Yu wrote:
-> On Wed, Sep 22, 2021 at 11:10:02AM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Sep 22, 2021 at 05:04:42PM +0800, Chen Yu wrote:
-> > > Hi Greg,
-> > > On Tue, Sep 21, 2021 at 05:59:05PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
-> > > > > Introduce the pfru_update driver which can be used for Platform Firmware
-> > > > > Runtime code injection and driver update. The user is expected to provide
-> > > > > the update firmware in the form of capsule file, and pass it to the driver
-> > > > > via ioctl. Then the driver would hand this capsule file to the Platform
-> > > > > Firmware Runtime Update via the ACPI device _DSM method. At last the low
-> > > > > level Management Mode would do the firmware update.
-> > > > > 
-> > > > > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
-> > > > 
-> > > > Where is the userspace code that uses this ioctl and has tested it out
-> > > > to verify it works properly?  A link to that in the changelog would be
-> > > > great to have.
-> > > > 
-> > > The patch [5/5] is a self testing tool to test the whole feature. I'll send a
-> > > new version and Cc you too.
-> > 
-> > That tests it, but does not answer the question of who will actually use
-> > this.  What userspace tool needs this new api?
-> >
-> One end user is the cloud user.
+Hi Andrew,
 
-What exactly do you mean by "cloud user"?
+Series looks good to me.
 
-> Currently there is no dedicated userspace tool developed to use this
-> feature AFAIK.
+Acked-by: Jason Baron <jbaron@akamai.com>
 
-Wonderful, then it is not needed to be added to the kernel :)
+Thanks,
 
-> It was expected that the end users
-> could refer to the self test tool to customize their tools. I'm not sure if
-> this is the proper way to propose the feature, may I have your suggestion on
-> this, should I create a separate git repository for this tool, or put it in
-> tools/selftestings as it is now?
+-Jason
 
-No, do not add this to the kernel unless you have a real need and user
-for this.
-
-
-> > > > > +static struct miscdevice pfru_misc_dev = {
-> > > > > +	.minor = MISC_DYNAMIC_MINOR,
-> > > > > +	.name = "pfru_update",
-> > > > > +	.nodename = "pfru/update",
-> > > > 
-> > > > Why is this in a subdirectory?  What requires this?  Why not just
-> > > > "pfru"?
-> > > > 
-> > > The pfru directory might be reused for pfru_telemetry device, whose driver
-> > > is in 4/5 patch, I'll Cc you with the whole patch set in next version.
-> > 
-> > "might be" is not a valid reason.  Why does this simple driver deserve a
-> > whole /dev/ subdirectory?
-> > 
-> There are pfru_update and pfru_telemetry in the patch, and there is plan to
-> add a pfru_prm device in the future, which stands for "Platform Runtime Mechanism".
-> I'll move them to /dev/ in next version.
-
-That is a very generic name for a very platform specific and arch
-specific interface.  As this is an ACPI interface, why not use that name
-prefix?
-
-thanks,
-
-greg k-h
+On 9/20/21 4:54 PM, Andrew Halaney wrote:
+> Hi,
+> 
+> Here is round 3 of some trivial dynamic debug improvements.
+> 
+> v2 -> v3:
+>  * Use a more clear example in the cli param examples
+> 
+> v1 -> v2:
+>  * Use different example when showing misleading error message
+>  * Justify dynamic debug scanning the whole command line
+>  * Add patch removing ddebug_query
+>  * Add patch improving cli param examples for dyndbg/$module.dyndbg
+> 
+> v2: https://urldefense.com/v3/__https://lore.kernel.org/all/20210913222440.731329-1-ahalaney@redhat.com/__;!!GjvTz_vk!E6HzrtWvnWiM_KOORWtK46YQNqqO5npPrKi9LrU8F1CdWgS2w6dxfzi_clWo1Q$ 
+> v1: https://urldefense.com/v3/__https://lore.kernel.org/all/20210909161755.61743-1-ahalaney@redhat.com/__;!!GjvTz_vk!E6HzrtWvnWiM_KOORWtK46YQNqqO5npPrKi9LrU8F1CdWgS2w6dxfzhcL6__NA$ 
+> 
+> Andrew Halaney (3):
+>   dyndbg: make dyndbg a known cli param
+>   dyndbg: Remove support for ddebug_query param
+>   Documentation: dyndbg: Improve cli param examples
+> 
+>  .../admin-guide/dynamic-debug-howto.rst       | 13 ++++-----
+>  .../admin-guide/kernel-parameters.txt         |  5 ----
+>  lib/dynamic_debug.c                           | 27 +++++--------------
+>  3 files changed, 14 insertions(+), 31 deletions(-)
+> 
