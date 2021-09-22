@@ -2,124 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF771C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 18:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC585C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 21:16:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BC5C61153
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 18:48:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AC5D61248
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 21:16:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237093AbhIVSuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 14:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        id S237927AbhIVVRf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 17:17:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhIVSuT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 14:50:19 -0400
-X-Greylist: delayed 2656 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Sep 2021 11:48:49 PDT
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59290C061574
-        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 11:48:49 -0700 (PDT)
-Received: from pps.filterd (m0050102.ppops.net [127.0.0.1])
-        by m0050102.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with SMTP id 18MHgXEP014239;
-        Wed, 22 Sep 2021 19:04:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=jcdEcrP+5y+ElOaxqBnq6pN8hD6WVH7XmRChoU2VlVU=;
- b=HRWx11JjxPV90qrB/kBcGW2YSm3mztt4FQgDoZhsNpWelR6sPVyPt4vq9fdVCgGRXCIl
- IbszExub1Z397ocXLRqWBe7QBeWZdorwBVqdPgiBaGuQ3/PRYvVAOo/RpmJPMUGMNrLd
- dNQ6DAs9rJHy+xm2PCGjzEc3AiSxXJ4aZv2cpfrW8FeGcMpy3JbavxH8rYJRfllJ6KMq
- 2oQVtsCQJGCXi7rcFpy/berVAA20CwHg5oGha4U1pNdXb/oB+d0yUPbECUxEo5dy6VoU
- qo/3+0rLmpqywLCmwEdirhXuly6Q/gzePkEM5q8ADiBvxgmrZcrgcTBcKGl7bS94PhOf BA== 
-Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
-        by m0050102.ppops.net-00190b01. with ESMTP id 3b7xa8p10x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Sep 2021 19:04:27 +0100
-Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
-        by prod-mail-ppoint5.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 18MHoZbk025387;
-        Wed, 22 Sep 2021 11:04:26 -0700
-Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
-        by prod-mail-ppoint5.akamai.com with ESMTP id 3b7q801daw-1;
-        Wed, 22 Sep 2021 11:04:26 -0700
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
-        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id C2A45275EE;
-        Wed, 22 Sep 2021 18:04:25 +0000 (GMT)
-Subject: Re: [PATCH v3 0/3] Trivial dynamic debug fixups
-To:     Andrew Halaney <ahalaney@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Cromie <jim.cromie@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210920205444.20068-1-ahalaney@redhat.com>
-From:   Jason Baron <jbaron@akamai.com>
-Message-ID: <6acfb61d-4aca-ac59-7fc6-d18b4c623765@akamai.com>
-Date:   Wed, 22 Sep 2021 14:04:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        with ESMTP id S237855AbhIVVRd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 17:17:33 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B51EC061757
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 14:16:02 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id x7so1076935edd.6
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 14:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7XJav0dfWNxK79pvtGX/UV/+fzNxl315YNj5Lb0kUtk=;
+        b=QA/EzrWbAIrSwOaNV4uqMw33DYIddOpz6ZYLeSLgSw/6W5sXis/SfJPUXmmq3UhODG
+         6HTHGK+Pi7RNxhY6fHDq1cECQSdwskC8x9GDOcCAMch8XMogspIaioLO3jy91LAe9v+p
+         zPQysb2+nkIu4xF1pvfTRTKDEaNJCficfXCxw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7XJav0dfWNxK79pvtGX/UV/+fzNxl315YNj5Lb0kUtk=;
+        b=nQcMsqmAgZMJ1BXZ0WO+YB5xxcljAZBLApvtfaFYgJ/QLe/5nvpLXnVxyX55U8YZyl
+         5nUY0GDyRAwORWx06/qOh2Ro9qepl0GFTo/X0dKHn7nomTMk2O2P73lbErZWjlfHU6K8
+         qWYlZps0y2rm88FJAQnL7EQA7maxbsgfcJSDVBpWZfmIysRbfqBayjmhiXn57WDqPKER
+         +ty7QpNbZ0ESWWOdCalC+0QvejKZzwWwI4m8/GWGIOIhF3vgYQekeWjPoNSL01wpYaGX
+         U0dvuUA0q6StwjYq14r+vp0VaM6GpL/aAskZOJdFILJY37ii2/nE8fl5bC5OextFA5oZ
+         U/0A==
+X-Gm-Message-State: AOAM531KBqVl61dQUGSiPV0Qr2Xp5JpATQcAII7k2/fp6Eijo59TVxMX
+        r+O5HYtU3MME39TT2+1KKexNamBzl6fkynrrtlI=
+X-Google-Smtp-Source: ABdhPJxtzuykek99Uh7jPc2WAYaMgvjfA30hU8TDJ2HwHxmsBAdKs0tZznMq0neQNFAHK5esIm5dIQ==
+X-Received: by 2002:a05:6402:1057:: with SMTP id e23mr1672363edu.352.1632345360731;
+        Wed, 22 Sep 2021 14:16:00 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com. [209.85.208.43])
+        by smtp.gmail.com with ESMTPSA id dm8sm1810126edb.90.2021.09.22.14.16.00
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Sep 2021 14:16:00 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id bx4so15284871edb.4
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 14:16:00 -0700 (PDT)
+X-Received: by 2002:a05:6512:12c4:: with SMTP id p4mr1044332lfg.280.1632345349597;
+ Wed, 22 Sep 2021 14:15:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210920205444.20068-1-ahalaney@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-09-22_06:2021-09-22,2021-09-22 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
- suspectscore=0 adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109200000
- definitions=main-2109220117
-X-Proofpoint-GUID: 4Q997L-8KqJIZt0owHfhWYmM7aFjxdxS
-X-Proofpoint-ORIG-GUID: 4Q997L-8KqJIZt0owHfhWYmM7aFjxdxS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-22_06,2021-09-22_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 priorityscore=1501
- adultscore=0 spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109200000
- definitions=main-2109220118
-X-Agari-Authentication-Results: mx.akamai.com; spf=${SPFResult} (sender IP is 184.51.33.60)
- smtp.mailfrom=jbaron@akamai.com smtp.helo=prod-mail-ppoint5
+References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org>
+ <20210910031046.G76dQvPhV%akpm@linux-foundation.org> <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
+ <202109211630.2D00627@keescook> <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
+ <202109211757.F38DF644@keescook> <YUraGKetS+Tgc7y9@localhost.localdomain>
+In-Reply-To: <YUraGKetS+Tgc7y9@localhost.localdomain>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 22 Sep 2021 14:15:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
+Message-ID: <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
+Subject: Re: function prototype element ordering
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+        Christoph Lameter <cl@linux.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>, dwaipayanray1@gmail.com,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        mm-commits@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrew,
+On Wed, Sep 22, 2021 at 12:24 AM Alexey Dobriyan <adobriyan@gmail.com> wrote:
+>
+> Attributes should be on their own line, they can be quite lengthy.
 
-Series looks good to me.
+No, no no. They really shouldn't.
 
-Acked-by: Jason Baron <jbaron@akamai.com>
+First off, no normal code should use that "__attribute__(())" syntax
+anyway. It's ugly and big, and many of the attributes are
+compiler-specific anyway.
 
-Thanks,
+So the "quite lengthy" argument is bogus, because the actual names you
+should use are things like "__packed" or "__pure" or "__user" etc.
 
--Jason
+But the "on their own line" is complete garbage to begin with. That
+will NEVER be a kernel rule. We should never have a rule that assumes
+things are so long that they need to be on multiple lines.
 
-On 9/20/21 4:54 PM, Andrew Halaney wrote:
-> Hi,
-> 
-> Here is round 3 of some trivial dynamic debug improvements.
-> 
-> v2 -> v3:
->  * Use a more clear example in the cli param examples
-> 
-> v1 -> v2:
->  * Use different example when showing misleading error message
->  * Justify dynamic debug scanning the whole command line
->  * Add patch removing ddebug_query
->  * Add patch improving cli param examples for dyndbg/$module.dyndbg
-> 
-> v2: https://urldefense.com/v3/__https://lore.kernel.org/all/20210913222440.731329-1-ahalaney@redhat.com/__;!!GjvTz_vk!E6HzrtWvnWiM_KOORWtK46YQNqqO5npPrKi9LrU8F1CdWgS2w6dxfzi_clWo1Q$ 
-> v1: https://urldefense.com/v3/__https://lore.kernel.org/all/20210909161755.61743-1-ahalaney@redhat.com/__;!!GjvTz_vk!E6HzrtWvnWiM_KOORWtK46YQNqqO5npPrKi9LrU8F1CdWgS2w6dxfzhcL6__NA$ 
-> 
-> Andrew Halaney (3):
->   dyndbg: make dyndbg a known cli param
->   dyndbg: Remove support for ddebug_query param
->   Documentation: dyndbg: Improve cli param examples
-> 
->  .../admin-guide/dynamic-debug-howto.rst       | 13 ++++-----
->  .../admin-guide/kernel-parameters.txt         |  5 ----
->  lib/dynamic_debug.c                           | 27 +++++--------------
->  3 files changed, 14 insertions(+), 31 deletions(-)
-> 
+We don't put function return types on their own lines either, even if
+some other projects have that rule (just to get function names at the
+beginning of lines or some other odd reason).
+
+So no, attributes do not go on their own lines, and they also
+generally don't go before the thing they describe.  Your examples are
+wrong, and explicitly against kernel rules.
+
+           Linus
