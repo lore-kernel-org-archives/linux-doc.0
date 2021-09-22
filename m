@@ -2,105 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB172C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECA3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:43:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A04B06124A
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:15:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 729C861267
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233397AbhIVIRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 04:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233617AbhIVIRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 04:17:24 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0963BC061574
-        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 01:15:55 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mSxPy-0004LS-OD; Wed, 22 Sep 2021 10:15:50 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mSxPx-0003Il-Cp; Wed, 22 Sep 2021 10:15:49 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mSxPx-0004zO-Bo; Wed, 22 Sep 2021 10:15:49 +0200
-Date:   Wed, 22 Sep 2021 10:15:49 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2] clk: expand clk_ignore_unused mechanism to keep only
- a few clks on
-Message-ID: <20210922081549.kit3lsek7lh6w6ji@pengutronix.de>
-References: <20210819121403.337833-1-u.kleine-koenig@pengutronix.de>
+        id S233950AbhIVIpP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 04:45:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34774 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233349AbhIVIpP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Sep 2021 04:45:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BCE46128E;
+        Wed, 22 Sep 2021 08:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632300225;
+        bh=wIX4Nyvh3NhY3C+0A3fE0uyB9IBDeFSOm7OFmITz9tI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CM4M2XN10RksxBCCApODxtQ2IPRq2c/vxmCmZV3YOE/940DtSnIcLvyKBKPrf6h5S
+         WMGmmNVyRc3N743l6mHHMjdXZ1q5CFPbtTdR8a6nilWKjCj8QELFY3fFO8E7VDd/A4
+         hmThC2566Pbe7I0An0kwPdtYEjjw1ehdvW0+WyWY=
+Date:   Wed, 22 Sep 2021 10:43:42 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] get_abi.pl: Check for missing symbols at the ABI
+ specs
+Message-ID: <YUrsvgf3JXUPQ2Vo@kroah.com>
+References: <cover.1631957565.git.mchehab+huawei@kernel.org>
+ <YUoN2m/OYHVLPrSl@kroah.com>
+ <20210921201633.5e6128a0@coco.lan>
+ <YUrCjhEYGXWU6M13@kroah.com>
+ <YUrLqdCQyGaCc1XJ@kroah.com>
+ <20210922093609.34d7bbca@coco.lan>
+ <YUrlFjotiFTYKXOV@kroah.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s34zflirz6cxjcg5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210819121403.337833-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <YUrlFjotiFTYKXOV@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Sep 22, 2021 at 10:11:02AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Sep 22, 2021 at 09:36:09AM +0200, Mauro Carvalho Chehab wrote:
+> > It sounds it took quite a while handling iommu cap, which sounds weird, as
+> > it should be looking just 3 What expressions:
+> > 
+> > 	[07:43:06] What: /sys/class/iommu/.*/amd\-iommu/cap
+> > 	[07:43:06] What: /sys/class/iommu/.*/intel\-iommu/cap
+> > 	[07:43:06] What: /sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap
+> > 
+> > Maybe there was a memory starvation while running the script, causing
+> > swaps. Still, it is weird that it would happen there, as the hashes
+> > and arrays used at the script are all allocated before it starts the
+> > search logic. Here, the allocation part takes ~2 seconds.
+> 
+> No memory starvation here, this thing is a beast:
+> 	$ free -h
+> 	               total        used        free      shared  buff/cache   available
+> 	Mem:           251Gi        36Gi        13Gi       402Mi       202Gi       212Gi
+> 	Swap:          4.0Gi       182Mi       3.8Gi
+> 
+> 	$ nproc
+> 	64
+> 
+> 
+> > At least on my Dell Precision 5820 (12 cpu threads), the amount of memory it
+> > uses is not huge:
+> > 
+> >     $ /usr/bin/time -v ./scripts/get_abi.pl undefined >/dev/null
+> > 	Command being timed: "./scripts/get_abi.pl undefined"
+> > 	User time (seconds): 12.68
+> > 	System time (seconds): 1.29
+> > 	Percent of CPU this job got: 99%
+> > 	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:13.98
+> > 	Average shared text size (kbytes): 0
+> > 	Average unshared data size (kbytes): 0
+> > 	Average stack size (kbytes): 0
+> > 	Average total size (kbytes): 0
+> > 	Maximum resident set size (kbytes): 212608
+> > 	Average resident set size (kbytes): 0
+> > 	Major (requiring I/O) page faults: 0
+> > 	Minor (reclaiming a frame) page faults: 52003
+> > 	Voluntary context switches: 1
+> > 	Involuntary context switches: 56
+> > 	Swaps: 0
+> > 	File system inputs: 0
+> > 	File system outputs: 0
+> > 	Socket messages sent: 0
+> > 	Socket messages received: 0
+> > 	Signals delivered: 0
+> > 	Page size (bytes): 4096
+> > 	Exit status: 0
+> > 
+> > Unfortunately, I don't have any amd-based machine here, but I'll
+> > try to run it later on a big arm server and see how it behaves.
+> 
+> I'll run that and get back to you in 30 minutes :)
 
---s34zflirz6cxjcg5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+$ /usr/bin/time -v ./scripts/get_abi.pl undefined > /dev/null
+	Command being timed: "./scripts/get_abi.pl undefined"
+	User time (seconds): 1756.94
+	System time (seconds): 0.76
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 29:18.94
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 228116
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 55862
+	Voluntary context switches: 1
+	Involuntary context switches: 17205
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
 
-Hello,
-
-On Thu, Aug 19, 2021 at 02:14:03PM +0200, Uwe Kleine-K=F6nig wrote:
-> Allow to pass an integer n that results in only keeping n unused clocks
-> enabled.
->=20
-> This helps to debug the problem if you only know that clk_ignore_unused
-> helps but you have no clue yet which clock is the culprit.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-I consider this patch really helpful, it helped me to debug a clk issue
-without having to recompile the kernel for each bisection step.
-
-On #kernelnewbies I got some positive feedback for it (1629304050 < j_ey>
-ukleinek: nice clk_ignore_unused patch, I added a pr_err there recently
-to print the clocks that were being disabled).
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---s34zflirz6cxjcg5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFK5jIACgkQwfwUeK3K
-7AmWkgf+OQ5olI3IcVW3vwjRRsrEmQwZZ1Ilbn01AT2WFD6UWAOcVtdum/Jdlld6
-R9Ib02OtzJTN415x4FZGQtignm13aAUgwONe7BEW3vroacDL7lX8O9l3VaSxbfi9
-EkXTWR24KW+HOKYivj5B6eLG4sboBfKfwYakMwlapH6T1Mkm6XsfPH+v1Kuo+f8Z
-iPrgfGbQyFhpoy6IOlnhLZaT6UtYERYZeb2F+gHogJtc6E7ct3lu6ZdO7AP1ZDgw
-Y9fQU4fKgkUNTgK7fx4WI37kQRfoRNfgoYef6Jnqgwn9CXx4vjFSzrz6yHL4n2ye
-phJ7tHaFEIyKle92crPC5CyhA5IVvQ==
-=O65D
------END PGP SIGNATURE-----
-
---s34zflirz6cxjcg5--
