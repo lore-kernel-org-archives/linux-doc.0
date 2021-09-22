@@ -2,208 +2,337 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25FB2C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5561BC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:41:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0BAA161107
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:19:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35E7861168
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 11:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235425AbhIVLVR convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 07:21:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:55531 "EHLO mga12.intel.com"
+        id S235786AbhIVLnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 07:43:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230171AbhIVLVQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Sep 2021 07:21:16 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="203065012"
-X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; 
-   d="scan'208";a="203065012"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 04:19:46 -0700
-X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; 
-   d="scan'208";a="557422965"
-Received: from vidyaram-mobl1.gar.corp.intel.com (HELO localhost) ([10.251.218.73])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2021 04:19:39 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Alexey Dobriyan <adobriyan@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>,
-        Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-        Christoph Lameter <cl@linux.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>, dwaipayanray1@gmail.com,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        mm-commits@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        linux-doc@vger.kernel.org
-Subject: Re: function prototype element ordering
-In-Reply-To: <YUraGKetS+Tgc7y9@localhost.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org> <20210910031046.G76dQvPhV%akpm@linux-foundation.org> <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com> <202109211630.2D00627@keescook> <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com> <202109211757.F38DF644@keescook> <YUraGKetS+Tgc7y9@localhost.localdomain>
-Date:   Wed, 22 Sep 2021 14:19:28 +0300
-Message-ID: <874kacn9hb.fsf@intel.com>
+        id S235730AbhIVLnS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Sep 2021 07:43:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E830260F26;
+        Wed, 22 Sep 2021 11:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632310908;
+        bh=NtJn+wAjZNf5HxZyenFf6aYlFFqZnj+NWeST+Y+XyzU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ydtWcjWe0dDy5LC+83gUnjDE3iUej5Xd2WvtatjAW9BCxlZAmOR9d4Sy5NIRzZzfz
+         fnqhyO0el7GhBblMGW0EQCnLOtAvZ1qREdpqlvqbAEusfKclrqOL66E/zGUgs5kZzc
+         r95TXX8VJmW6e589auZ+Q/8WQ6vSd48Q224cyo5w=
+Date:   Wed, 22 Sep 2021 13:41:45 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Luka Kovacic <luka.kovacic@sartura.hr>
+Cc:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, geert+renesas@glider.be,
+        Max.Merchel@tq-group.com, linux@rempel-privat.de, daniel@0x0f.com,
+        shawnguo@kernel.org, sam@ravnborg.org, arnd@arndb.de,
+        krzysztof.kozlowski@canonical.com, pavo.banicevic@sartura.hr,
+        corbet@lwn.net, lee.jones@linaro.org, pavel@ucw.cz,
+        robh+dt@kernel.org, linux@roeck-us.net, jdelvare@suse.com,
+        goran.medic@sartura.hr, luka.perkov@sartura.hr,
+        robert.marko@sartura.hr
+Subject: Re: [PATCH v9 2/7] drivers: mfd: Add a driver for IEI WT61P803
+ PUZZLE MCU
+Message-ID: <YUsWeWlfanGMCpT8@kroah.com>
+References: <20210824124438.14519-1-luka.kovacic@sartura.hr>
+ <20210824124438.14519-3-luka.kovacic@sartura.hr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210824124438.14519-3-luka.kovacic@sartura.hr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 22 Sep 2021, Alexey Dobriyan <adobriyan@gmail.com> wrote:
-> On Tue, Sep 21, 2021 at 07:25:53PM -0700, Kees Cook wrote:
->> On Tue, Sep 21, 2021 at 04:45:44PM -0700, Joe Perches wrote:
->> > On Tue, 2021-09-21 at 16:37 -0700, Kees Cook wrote:
->> > > On Fri, Sep 10, 2021 at 10:23:48AM -0700, Linus Torvalds wrote:
->> > > > On Thu, Sep 9, 2021 at 8:10 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->> > > > > 
->> > > > > +__alloc_size(1)
->> > > > >  extern void *vmalloc(unsigned long size);
->> > > > [...]
->> > > > 
->> > > > All of these are added in the wrong place - inconsistent with the very
->> > > > compiler documentation the patches add.
->> > > > 
->> > > > The function attributes are generally added _after_ the function,
->> > > > although admittedly we've been quite confused here before.
->> > > > 
->> > > > But the very compiler documentation you point to in the patch that
->> > > > adds these macros gives that as the examples both for gcc and clang:
->> > > > 
->> > > > + *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-alloc_005fsize-function-attribute
->> > > > + * clang: https://clang.llvm.org/docs/AttributeReference.html#alloc-size
->> > > > 
->> > > > and honestly I think that is the preferred format because this is
->> > > > about the *function*, not about the return type.
->> > > > 
->> > > > Do both placements work? Yes.
->> > > 
->> > > I'm cleaning this up now, and have discovered that the reason for the
->> > > before-function placement is consistency with static inlines. If I do this:
->> > > 
->> > > static __always_inline void * kmalloc(size_t size, gfp_t flags) __alloc_size(1)
->> > > {
->> > > 	...
->> > > }
->> > > 
->> > > GCC is very angry:
->> > > 
->> > > ./include/linux/slab.h:519:1: error: attributes should be specified before the declarator in a function definition
->> > >   519 | static __always_inline void *kmalloc_large(size_t size, gfp_t flags) __alloc_size(1)
->> > >       | ^~~~~~
->> > > 
->> > > It's happy if I treat it as a "return type attribute" in the ordering,
->> > > though:
->> > > 
->> > > static __always_inline void * __alloc_size(1) kmalloc(size_t size, gfp_t flags)
->> > > 
->> > > I'll do that unless you have a preference for somewhere else...
->> > 
->> > _please_ put it before the return type on a separate line.
->> > 
->> > [__attributes]
->> > [static inline const] <return type> function(<args...>)
->> 
->> Somehow Linus wasn't in CC. :P
->> 
->> Linus, what do you want here? I keep getting conflicting (or
->> uncompilable) advice. I'm also trying to prepare a patch for
->> Documentation/process/coding-style.rst ...
->> 
->> Looking through what was written before[1] and through examples in the
->> source tree, I find the following categories:
->> 
->> 1- storage class: static extern inline __always_inline
->> 2- storage class attributes/hints/???: __init __cold
->> 3- return type: void *
->> 4- return type attributes: __must_check __noreturn __assume_aligned(n)
->> 5- function attributes: __attribute_const__ __malloc
->> 6- function argument attributes: __printf(n, m) __alloc_size(n)
->> 
->> Everyone seems to basically agree on:
->> 
->> [storage class] [return type] [return type attributes] [name]([arg1type] [arg1name], ...)
->> 
->> There is a lot of disagreement over where 5 and 6 should fit in above. And
->> there is a lot of confusion over 4 (mixed between before and after the
->> function name) and 2 (see below).
->> 
->> What's currently blocking me is that 6 cannot go after the function
->> (for definitions) because it angers GCC (see quoted bit above), but 5
->> can (e.g. __attribute_const__).
->> 
->> Another inconsistency seems to be 2 (mainly section markings like
->> __init). Sometimes it's after the storage class and sometimes after the
->> return type, but it certainly feels more like a storage class than a
->> return type attribute:
->> 
->> $ git grep 'static __init int' | wc -l
->> 349
->> $ git grep 'static int __init' | wc -l
->> 8402
->> 
->> But it's clearly positioned like a return type attribute in most of the
->> tree. What's correct?
->> 
->> Regardless, given the constraints above, it seems like what Linus may
->> want is (on "one line", though it will get wrapped in pathological cases
->> like kmem_cache_alloc_node_trace):
->> 
->> [storage class] [storage class attributes] [return type] [return type attributes] [function argument attributes] [name]([arg1type] [arg1name], ...) [function attributes]
->> 
->> Joe appears to want (on two lines):
->> 
->> [storage class attributes] [function attributes] [function argument attributes]
->> [storage class] [return type] [return type attributes] [name]([arg1type] [arg1name], ...)
->> 
->> I would just like to have an arrangement that won't get NAKed by
->> someone. ;) And I'm willing to document it. :)
->
-> Attributes should be on their own line, they can be quite lengthy.
->
-> 	__attribute__((...))
-> 	[static] [inline] T f(A1 arg1, ...)
-> 	{
-> 		...
-> 	}
->
-> There will be even more attributes in the future, both added by
-> compilers and developers (const, pure, WUR), so let's make "prototype lane"
-> for them.
->
-> Same for structures:
->
-> 	__attribute__((packed))
-> 	struct S {
-> 	};
->
-> Kernel practice of hiding attributes under defines (__ro_after_init)
-> breaks ctags which parses the last identifier before semicolon as object
-> name. Naturally, it is ctags bug, but placing attributes before
-> declaration will autmatically unbreak such cases.
+On Tue, Aug 24, 2021 at 02:44:33PM +0200, Luka Kovacic wrote:
+> +++ b/drivers/mfd/iei-wt61p803-puzzle.c
+> @@ -0,0 +1,908 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* IEI WT61P803 PUZZLE MCU Driver
+> + * System management microcontroller for fan control, temperature sensor reading,
+> + * LED control and system identification on IEI Puzzle series ARM-based appliances.
+> + *
+> + * Copyright (C) 2020 Sartura Ltd.
 
-git grep seems to suggest __packed is preferred over
-__attribute__((packed)), and at the end of the struct declaration
-instead of at front:
-
-	struct S {
-		/* ... */
-        } __packed;
-
-And GNU Global handles this just fine. ;)
+It is 2021 now :(
 
 
-BR,
-Jani.
+> + * Author: Luka Kovacic <luka.kovacic@sartura.hr>
+> + */
+> +
+> +#include <linux/atomic.h>
+> +#include <linux/delay.h>
+> +#include <linux/export.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/mfd/iei-wt61p803-puzzle.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/property.h>
+> +#include <linux/sched.h>
+> +#include <linux/serdev.h>
+> +#include <linux/slab.h>
+> +#include <linux/sysfs.h>
+> +#include <asm/unaligned.h>
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Did you run checkpatch.pl on this series?
+
+> +struct iei_wt61p803_puzzle_device_attribute {
+> +	struct device_attribute dev_attr;
+> +	enum iei_wt61p803_puzzle_attribute_type type;
+> +	u8 index;
+> +};
+
+Why does a driver need a special attribute structure?  What is wrong
+with the existing one that this is required?
+
+Your "type" and index can come from the device that the attribute is
+called for, right?
+
+
+> +/**
+> + * struct iei_wt61p803_puzzle - IEI WT61P803 PUZZLE MCU Driver
+
+This isn't a driver, it's a device.
+
+> + * @serdev:		Pointer to underlying serdev device
+> + * @dev:		Pointer to underlying dev device
+> + * @reply_lock:		Reply mutex lock
+> + * @reply:		Pointer to the iei_wt61p803_puzzle_reply struct
+> + * @version:		MCU version related data
+> + * @status:		MCU status related data
+> + * @response_buffer	Command response buffer allocation
+> + * @lock		General member mutex lock
+> + */
+> +struct iei_wt61p803_puzzle {
+> +	struct serdev_device *serdev;
+> +	struct device *dev;
+
+What controls the lifespan of this object?
+
+> +	struct mutex reply_lock; /* lock to prevent multiple firmware calls */
+> +	struct iei_wt61p803_puzzle_reply *reply;
+> +	struct iei_wt61p803_puzzle_mcu_version version;
+> +	struct iei_wt61p803_puzzle_mcu_status status;
+> +	unsigned char response_buffer[IEI_WT61P803_PUZZLE_BUF_SIZE];
+> +	struct mutex lock; /* lock to protect response buffer */
+> +};
+
+> +static ssize_t show_output(struct device *dev,
+> +			   struct device_attribute *attr, char *buf)
+> +{
+> +	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev);
+> +	struct iei_wt61p803_puzzle_device_attribute *pattr = to_puzzle_dev_attr(attr);
+> +	int ret;
+> +
+> +	switch (pattr->type) {
+> +	case IEI_WT61P803_PUZZLE_VERSION:
+> +		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.version);
+
+Use sysfs_emit() for all of these please.
+
+> +	case IEI_WT61P803_PUZZLE_BUILD_INFO:
+> +		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.build_info);
+> +	case IEI_WT61P803_PUZZLE_BOOTLOADER_MODE:
+> +		return scnprintf(buf, PAGE_SIZE, "%d\n", mcu->version.bootloader_mode);
+> +	case IEI_WT61P803_PUZZLE_PROTOCOL_VERSION:
+> +		return scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.protocol_version);
+> +	case IEI_WT61P803_PUZZLE_SERIAL_NUMBER:
+> +		ret = iei_wt61p803_puzzle_get_serial_number(mcu);
+> +		if (!ret)
+> +			ret = scnprintf(buf, PAGE_SIZE, "%s\n", mcu->version.serial_number);
+> +		else
+> +			ret = 0;
+
+No error?  Why not?
+
+> +		return ret;
+> +	case IEI_WT61P803_PUZZLE_MAC_ADDRESS:
+> +		ret = iei_wt61p803_puzzle_get_mac_address(mcu, pattr->index);
+> +		if (!ret)
+> +			ret = scnprintf(buf, PAGE_SIZE, "%s\n",
+> +					mcu->version.mac_address[pattr->index]);
+> +		else
+> +			ret = 0;
+> +		return ret;
+> +	case IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS:
+> +	case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
+> +	case IEI_WT61P803_PUZZLE_POWER_STATUS:
+> +		ret = iei_wt61p803_puzzle_get_mcu_status(mcu);
+> +		if (ret)
+> +			return ret;
+> +
+> +		mutex_lock(&mcu->lock);
+> +		switch (pattr->type) {
+> +		case IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS:
+> +			ret = scnprintf(buf, PAGE_SIZE, "%x\n",
+> +					mcu->status.ac_recovery_status_flag);
+> +			break;
+> +		case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
+> +			ret = scnprintf(buf, PAGE_SIZE, "%x\n", mcu->status.power_loss_recovery);
+> +			break;
+> +		case IEI_WT61P803_PUZZLE_POWER_STATUS:
+> +			ret = scnprintf(buf, PAGE_SIZE, "%x\n", mcu->status.power_status);
+> +			break;
+> +		default:
+> +			ret = 0;
+
+No error to return?
+
+> +			break;
+> +		}
+> +		mutex_unlock(&mcu->lock);
+> +		return ret;
+> +	default:
+> +		return 0;
+
+Again, no error to return?
+
+> +	}
+> +
+> +	return 0;
+
+Shouldn't you return the size of the buffer?
+
+> +}
+> +
+> +static ssize_t store_output(struct device *dev,
+> +			    struct device_attribute *attr,
+> +			    const char *buf, size_t len)
+> +{
+> +	unsigned char serial_number[IEI_WT61P803_PUZZLE_SN_LENGTH];
+> +	unsigned char mac_address[IEI_WT61P803_PUZZLE_MAC_LENGTH];
+> +	struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev);
+> +	struct iei_wt61p803_puzzle_device_attribute *pattr = to_puzzle_dev_attr(attr);
+> +	int power_loss_recovery_action = 0;
+> +	int ret;
+> +
+> +	switch (pattr->type) {
+> +	case IEI_WT61P803_PUZZLE_SERIAL_NUMBER:
+> +		if (len != (size_t)(IEI_WT61P803_PUZZLE_SN_LENGTH + 1))
+> +			return -EINVAL;
+> +		memcpy(serial_number, buf, sizeof(serial_number));
+> +		ret = iei_wt61p803_puzzle_write_serial_number(mcu, serial_number);
+> +		if (ret)
+> +			return ret;
+> +		return len;
+> +	case IEI_WT61P803_PUZZLE_MAC_ADDRESS:
+> +		if (len != (size_t)(IEI_WT61P803_PUZZLE_MAC_LENGTH + 1))
+> +			return -EINVAL;
+> +
+> +		memcpy(mac_address, buf, sizeof(mac_address));
+> +
+> +		if (strlen(attr->attr.name) != 13)
+> +			return -EIO;
+> +
+> +		ret = iei_wt61p803_puzzle_write_mac_address(mcu, mac_address, pattr->index);
+> +		if (ret)
+> +			return ret;
+> +		return len;
+> +	case IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY:
+> +		ret = kstrtoint(buf, 10, &power_loss_recovery_action);
+> +		if (ret)
+> +			return ret;
+> +		ret = iei_wt61p803_puzzle_write_power_loss_recovery(mcu,
+> +								    power_loss_recovery_action);
+> +		if (ret)
+> +			return ret;
+> +		return len;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +#define IEI_WT61P803_PUZZLE_ATTR(_name, _mode, _show, _store, _type, _index) \
+> +	struct iei_wt61p803_puzzle_device_attribute dev_attr_##_name = \
+> +		{ .dev_attr	= __ATTR(_name, _mode, _show, _store), \
+> +		  .type		= _type, \
+> +		  .index	= _index }
+
+Again, don't use your own attribute macro mess.  Use the
+DEVICE_ATTR_RW() ones instead please.
+
+
+> +
+> +#define IEI_WT61P803_PUZZLE_ATTR_RO(_name, _type, _id) \
+> +	IEI_WT61P803_PUZZLE_ATTR(_name, 0444, show_output, NULL, _type, _id)
+
+DEVICE_ATTR_RO()
+
+> +
+> +#define IEI_WT61P803_PUZZLE_ATTR_RW(_name, _type, _id) \
+> +	IEI_WT61P803_PUZZLE_ATTR(_name, 0644, show_output, store_output, _type, _id)
+
+DEVICE_ATTR_RW()
+
+> +
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(version, IEI_WT61P803_PUZZLE_VERSION, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(build_info, IEI_WT61P803_PUZZLE_BUILD_INFO, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(bootloader_mode, IEI_WT61P803_PUZZLE_BOOTLOADER_MODE, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(protocol_version, IEI_WT61P803_PUZZLE_PROTOCOL_VERSION, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(serial_number, IEI_WT61P803_PUZZLE_SERIAL_NUMBER, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_0, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_1, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 1);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_2, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 2);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_3, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 3);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_4, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 4);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_5, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 5);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_6, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 6);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(mac_address_7, IEI_WT61P803_PUZZLE_MAC_ADDRESS, 7);
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(ac_recovery_status, IEI_WT61P803_PUZZLE_AC_RECOVERY_STATUS, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RW(power_loss_recovery, IEI_WT61P803_PUZZLE_POWER_LOSS_RECOVERY, 0);
+> +static IEI_WT61P803_PUZZLE_ATTR_RO(power_status, IEI_WT61P803_PUZZLE_POWER_STATUS, 0);
+> +
+> +static struct attribute *iei_wt61p803_puzzle_attrs[] = {
+> +	&dev_attr_version.dev_attr.attr,
+> +	&dev_attr_build_info.dev_attr.attr,
+> +	&dev_attr_bootloader_mode.dev_attr.attr,
+> +	&dev_attr_protocol_version.dev_attr.attr,
+> +	&dev_attr_serial_number.dev_attr.attr,
+> +	&dev_attr_mac_address_0.dev_attr.attr,
+> +	&dev_attr_mac_address_1.dev_attr.attr,
+> +	&dev_attr_mac_address_2.dev_attr.attr,
+> +	&dev_attr_mac_address_3.dev_attr.attr,
+> +	&dev_attr_mac_address_4.dev_attr.attr,
+> +	&dev_attr_mac_address_5.dev_attr.attr,
+> +	&dev_attr_mac_address_6.dev_attr.attr,
+> +	&dev_attr_mac_address_7.dev_attr.attr,
+> +	&dev_attr_ac_recovery_status.dev_attr.attr,
+> +	&dev_attr_power_loss_recovery.dev_attr.attr,
+> +	&dev_attr_power_status.dev_attr.attr,
+> +	NULL
+> +};
+> +ATTRIBUTE_GROUPS(iei_wt61p803_puzzle);
+> +
+> +static int iei_wt61p803_puzzle_sysfs_create(struct device *dev,
+> +					    struct iei_wt61p803_puzzle *mcu)
+> +{
+> +	int ret;
+> +
+> +	ret = sysfs_create_groups(&mcu->dev->kobj, iei_wt61p803_puzzle_groups);
+
+You just raced with userspace and lost :(
+
+Please set the default attribute group for your device in the driver and
+then the driver core will properly bind and create everything correctly
+when the driver binds to the device.
+
+As it is, userspace just did not notice these attributes showing up :(
+
+thanks,
+
+greg k-h
