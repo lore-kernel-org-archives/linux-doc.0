@@ -2,143 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECA3C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2A6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 729C861267
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F2946136F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Sep 2021 08:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233950AbhIVIpP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Sep 2021 04:45:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34774 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233349AbhIVIpP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Sep 2021 04:45:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BCE46128E;
-        Wed, 22 Sep 2021 08:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632300225;
-        bh=wIX4Nyvh3NhY3C+0A3fE0uyB9IBDeFSOm7OFmITz9tI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CM4M2XN10RksxBCCApODxtQ2IPRq2c/vxmCmZV3YOE/940DtSnIcLvyKBKPrf6h5S
-         WMGmmNVyRc3N743l6mHHMjdXZ1q5CFPbtTdR8a6nilWKjCj8QELFY3fFO8E7VDd/A4
-         hmThC2566Pbe7I0An0kwPdtYEjjw1ehdvW0+WyWY=
-Date:   Wed, 22 Sep 2021 10:43:42 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] get_abi.pl: Check for missing symbols at the ABI
- specs
-Message-ID: <YUrsvgf3JXUPQ2Vo@kroah.com>
-References: <cover.1631957565.git.mchehab+huawei@kernel.org>
- <YUoN2m/OYHVLPrSl@kroah.com>
- <20210921201633.5e6128a0@coco.lan>
- <YUrCjhEYGXWU6M13@kroah.com>
- <YUrLqdCQyGaCc1XJ@kroah.com>
- <20210922093609.34d7bbca@coco.lan>
- <YUrlFjotiFTYKXOV@kroah.com>
+        id S233969AbhIVIt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Sep 2021 04:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233792AbhIVItZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Sep 2021 04:49:25 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0097BC061574
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 01:47:56 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id w17so4411694wrv.10
+        for <linux-doc@vger.kernel.org>; Wed, 22 Sep 2021 01:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pAYhvdbQhEpv1Wh9q8xT8e96qoX2U7Z2ejQBgBlK0iM=;
+        b=swzIFR7CrUc4mZ5LIpIhb7zGqJLxmdwk6OugTiBtghMuQB8EvVhU14VWZSYAMRt05F
+         MkumWHQ5Ks6U8ix9+15Hvas02OJnP4lJsChxShwXfcska7QBxDjxX0TitfOYmLNBzCRx
+         PYR0lsyCTfx8bbSzbl9v56oISholDxIvAezSZ2PG4lYXcsdfTZrdT2t860kssrGwu7WI
+         IzmQCTEDr3KsPQWvnF04SyR4dWoZcveBXvEtOmVVvy66PlkFeLnNuwLCsN8VSQ4vwwjF
+         x3ap5/+bpjdwOfQRYMy1/O0pSGaSDeRisi6XSufUmWb/8+/MjZAFu9Scbgdq1l8r7HDl
+         +RUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pAYhvdbQhEpv1Wh9q8xT8e96qoX2U7Z2ejQBgBlK0iM=;
+        b=QSHs7e2U6BPFJMiOtNm6BsBnebwi2Uf/VxZoeGk6V6I//ueZschhsB6Y1ObUW1dq65
+         rejG/s/ziOW5DKiUkr7wbpD6Pdnw51c5X3SQ0mnEl3AMtsZZW6Tz1mxhdMYSuIsRvCo6
+         BD0QlNLLp8Uk0LAZ/RnLjmOhjmgbkKyLYF0Qo8SkugCvX/qqwibOzYQHrYS+Ss5YWTbb
+         VMdmq4XpuzwgXo/D7TCp9fGX9PbOSyBSW0HwtrJv8GJXAZLJ3O+22/XwUqkXJFZP1Xvo
+         4UKilf0pg5p7AGyd6NcUXVsYty4+h4XC8pX/NomQIxbnz3c98NT7k/YunwaPlr7+K+gZ
+         g7ng==
+X-Gm-Message-State: AOAM5320L6yIxDA/0TGnmgEN+SLa4mM+1G3l1S6jcTHKdSoriVQ5+qAg
+        fvDY7IFxteWPbOwQ9213/EwV5g==
+X-Google-Smtp-Source: ABdhPJzQIuzkLsUt7UAAr4H02X/gRK5SZ2Wy5Yh2LP4KGwipxvO7Kzusr3V3KnaDMhQX63crA26wAg==
+X-Received: by 2002:a05:600c:3506:: with SMTP id h6mr9298334wmq.62.1632300474417;
+        Wed, 22 Sep 2021 01:47:54 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:334:ac00:7d50:ff5:f5c1:e225])
+        by smtp.gmail.com with ESMTPSA id v10sm1591048wri.29.2021.09.22.01.47.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 01:47:54 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jack Winch <sunt.un.morcov@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v6 0/8] gpio: implement the configfs testing module
+Date:   Wed, 22 Sep 2021 10:47:25 +0200
+Message-Id: <20210922084733.5547-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUrlFjotiFTYKXOV@kroah.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 10:11:02AM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 22, 2021 at 09:36:09AM +0200, Mauro Carvalho Chehab wrote:
-> > It sounds it took quite a while handling iommu cap, which sounds weird, as
-> > it should be looking just 3 What expressions:
-> > 
-> > 	[07:43:06] What: /sys/class/iommu/.*/amd\-iommu/cap
-> > 	[07:43:06] What: /sys/class/iommu/.*/intel\-iommu/cap
-> > 	[07:43:06] What: /sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap
-> > 
-> > Maybe there was a memory starvation while running the script, causing
-> > swaps. Still, it is weird that it would happen there, as the hashes
-> > and arrays used at the script are all allocated before it starts the
-> > search logic. Here, the allocation part takes ~2 seconds.
-> 
-> No memory starvation here, this thing is a beast:
-> 	$ free -h
-> 	               total        used        free      shared  buff/cache   available
-> 	Mem:           251Gi        36Gi        13Gi       402Mi       202Gi       212Gi
-> 	Swap:          4.0Gi       182Mi       3.8Gi
-> 
-> 	$ nproc
-> 	64
-> 
-> 
-> > At least on my Dell Precision 5820 (12 cpu threads), the amount of memory it
-> > uses is not huge:
-> > 
-> >     $ /usr/bin/time -v ./scripts/get_abi.pl undefined >/dev/null
-> > 	Command being timed: "./scripts/get_abi.pl undefined"
-> > 	User time (seconds): 12.68
-> > 	System time (seconds): 1.29
-> > 	Percent of CPU this job got: 99%
-> > 	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:13.98
-> > 	Average shared text size (kbytes): 0
-> > 	Average unshared data size (kbytes): 0
-> > 	Average stack size (kbytes): 0
-> > 	Average total size (kbytes): 0
-> > 	Maximum resident set size (kbytes): 212608
-> > 	Average resident set size (kbytes): 0
-> > 	Major (requiring I/O) page faults: 0
-> > 	Minor (reclaiming a frame) page faults: 52003
-> > 	Voluntary context switches: 1
-> > 	Involuntary context switches: 56
-> > 	Swaps: 0
-> > 	File system inputs: 0
-> > 	File system outputs: 0
-> > 	Socket messages sent: 0
-> > 	Socket messages received: 0
-> > 	Signals delivered: 0
-> > 	Page size (bytes): 4096
-> > 	Exit status: 0
-> > 
-> > Unfortunately, I don't have any amd-based machine here, but I'll
-> > try to run it later on a big arm server and see how it behaves.
-> 
-> I'll run that and get back to you in 30 minutes :)
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-$ /usr/bin/time -v ./scripts/get_abi.pl undefined > /dev/null
-	Command being timed: "./scripts/get_abi.pl undefined"
-	User time (seconds): 1756.94
-	System time (seconds): 0.76
-	Percent of CPU this job got: 99%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 29:18.94
-	Average shared text size (kbytes): 0
-	Average unshared data size (kbytes): 0
-	Average stack size (kbytes): 0
-	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 228116
-	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 55862
-	Voluntary context switches: 1
-	Involuntary context switches: 17205
-	Swaps: 0
-	File system inputs: 0
-	File system outputs: 0
-	Socket messages sent: 0
-	Socket messages received: 0
-	Signals delivered: 0
-	Page size (bytes): 4096
-	Exit status: 0
+I'm respinning this series now because I noticed that I need to start writing
+tests for my work on the new libgpiod v2 code to make sense (it's just becoming
+too complicated to make even remotely functional without test coverage). At the
+same time I don't want to rewrite the tests using gpio-mockup if the goal is to
+replace it with gpio-sim anyway.
+
+I fixed issues pointed out by Al Viro and made sure that references are
+correctly counted (including error paths) and that memory allocated for the
+pending and live groups gets freed.
+
+===
+
+Cc'ing Viresh too.
+
+Viresh: while there's still a long way to go before the libgpio v2.0 release,
+in order to merge the Rust bindings, we'll need a test-suite similar to what
+we have now for C++ and Python bindings, except that it will have to be based
+on the gpio-sim module when it makes its way into mainline.
+
+===
+
+This series adds a new GPIO testing module based on configfs committable items
+and sysfs. The goal is to provide a testing driver that will be configurable
+at runtime (won't need module reload) and easily extensible. The control over
+the attributes is also much more fine-grained than in gpio-mockup.
+
+This series also contains a respin of the patches I sent separately to the
+configfs maintainers - these patches implement the concept of committable
+items that was well defined for a long time but never actually completed.
+
+Apart from the new driver itself, its selftests and the configfs patches, this
+series contains some changes to the bitmap API - most importantly: it adds
+devres managed variants of bitmap_alloc() and bitmap_zalloc().
+
+v1 -> v2:
+- add selftests for gpio-sim
+- add helper programs for selftests
+- update the configfs rename callback to work with the new API introduced in
+  v5.11
+- fix a missing quote in the documentation
+- use !! whenever using bits operation that are required to return 0 or 1
+- use provided bitmap API instead of reimplementing copy or fill operations
+- fix a deadlock in gpio_sim_direction_output()
+- add new read-only configfs attributes for mapping of configfs items to GPIO
+  device names
+- and address other minor issues pointed out in reviews of v1
+
+v2 -> v3:
+- use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
+  the bitmap with 1s
+- drop the patch exporting device_is_bound()
+- don't return -ENODEV from dev_nam and chip_name configfs attributes, return
+  a string indicating that the device is not available yet ('n/a')
+- fix indentation where it makes sense
+- don't protect IDA functions which use their own locking and where it's not
+  needed
+- use kmemdup() instead of kzalloc() + memcpy()
+- collected review tags
+- minor coding style fixes
+
+v3 -> v4:
+- return 'none' instead of 'n/a' from dev_name and chip_name before the device
+  is registered
+- use sysfs_emit() instead of s*printf()
+- drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
+  fine to hardcode the value
+
+v4 -> v5:
+- drop lib patches that are already upstream
+- use BIT() instead of (1UL << bit) for flags
+- fix refcounting for the configfs_dirent in rename()
+- drop d_move() from the rename() callback
+- free memory allocated for the live and pending groups in configfs_d_iput()
+  and not in detach_groups()
+- make sure that if a group of some name is in the live directory, a new group
+  with the same name cannot be created in the pending directory
+
+v5 -> v6:
+- go back to using (1UL << bit) instead of BIT()
+- if the live group dentry doesn't exist for whatever reason at the time when
+  mkdir() in the pending group is called (would be a BUG()), return -ENOENT
+  instead of -EEXIST which should only be returned if given subsystem already
+  exists in either live or pending group
+
+Bartosz Golaszewski (8):
+  configfs: increase the item name length
+  configfs: use (1UL << bit) for internal flags
+  configfs: implement committable items
+  samples: configfs: add a committable group
+  gpio: sim: new testing module
+  selftests: gpio: provide a helper for reading chip info
+  selftests: gpio: add a helper for reading GPIO line names
+  selftests: gpio: add test cases for gpio-sim
+
+ Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
+ Documentation/filesystems/configfs.rst        |   6 +-
+ drivers/gpio/Kconfig                          |   8 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sim.c                       | 877 ++++++++++++++++++
+ fs/configfs/configfs_internal.h               |  22 +-
+ fs/configfs/dir.c                             | 276 +++++-
+ include/linux/configfs.h                      |   3 +-
+ samples/configfs/configfs_sample.c            | 153 +++
+ tools/testing/selftests/gpio/.gitignore       |   2 +
+ tools/testing/selftests/gpio/Makefile         |   4 +-
+ tools/testing/selftests/gpio/config           |   1 +
+ tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
+ tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
+ tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
+ 15 files changed, 1743 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
+ create mode 100644 drivers/gpio/gpio-sim.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
+ create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+
+-- 
+2.30.1
 
