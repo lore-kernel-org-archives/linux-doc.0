@@ -3,98 +3,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F0FC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F79C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A15FD6105A
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8186661107
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241302AbhIWNbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 09:31:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44016 "EHLO mail.kernel.org"
+        id S241336AbhIWNbr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 09:31:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43986 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232316AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231974AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 23 Sep 2021 09:31:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B2BB26124D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AAC8B61164;
         Thu, 23 Sep 2021 13:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632403814;
-        bh=8VMFUTHZ/iPsGfvD7CnzQ5DNArmKj5WczRe+SXaM33w=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dV7XEHsyHQdLXTBRIIQuP2PM/xAFPYs/LcEyDXz3qnWKfJrecu+NC1r0uXVQDdMmB
-         3rqIcfdhdVgdQEORTfDEpKHt+Gj6Mcg3LCIIAsNKPn9nPGW8mfyk3BaA6Zw+CgWNIo
-         jeexH6dBuUyJNIrPw1VeAmD7qqcBPUJnAaD+AXmzEfJyoBhUUjDD+7AieoViFcSE94
-         KNlNN3mkxoovA0rhYe3JJiLZAMfzJrntprFYHaCgur2a9IEg9cSya4I0/pw59+wixt
-         nwmjmCEYJAr/ZDi4VGHy3s6lD4qgONedIJjCYQGIA6NVAdbUEcyAu/hoUukkaWUvFS
-         EEOtOVo/3FtQw==
+        bh=3hgRBay+GDZAkBnCzYWJ3psWTN3A28hgXY6M7EBS+vc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=r1Tuli7EuAb9+mP4qApjAk8+ld3C9TDOEpc1BzTyLj4dOizTbhFjdiUkfR85O2kFA
+         NNST9quGmmgmXu7LOLEyicPaWrXVbUAm9XewSLcbVncJIXijs/v35kKK5wnSrLlW4R
+         CrctqxvU2TFt1401HFRtUMknWNxSmwMwsvmsyATUCtuGkbjeRJTfeJGzmUM86qjmLx
+         64sLI7uirj3e0/simdP/0JuVdedMPSkDDkrY2s6MVM7EmkKqcvK5ZuqX1TH2Udky0l
+         wJxlaTUCBQ8skeYJBiLjTVgltqRU0dv0SwKlgvRwAM2LXptU/Ol4XJAVP5qjFVkiyO
+         lKBKeK//jo9EQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTOnl-000neQ-1K; Thu, 23 Sep 2021 15:30:13 +0200
+        id 1mTOnk-000ndj-Ln; Thu, 23 Sep 2021 15:30:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/13] scripts: get_abi.pl: ignore some sysfs nodes earlier
-Date:   Thu, 23 Sep 2021 15:30:08 +0200
-Message-Id: <596fa15a4eb564a8f923b7a49badf911f7ee3276.1632402570.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 00/13] get_abi.pl undefined: improve precision and performance
+Date:   Thu, 23 Sep 2021 15:29:58 +0200
+Message-Id: <cover.1632402570.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632402570.git.mchehab+huawei@kernel.org>
-References: <cover.1632402570.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When checking for undefined symbols, some nodes aren't easy
-or don't make sense to be checked right now. Prevent allocating
-memory for those, as they'll be ignored anyway.
+Hi Greg,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+It follows a series of improvements for get_abi.pl. it is on the top of next-20210923.
+
+With such changes, on my development tree, the script is taking 6 seconds to run 
+on my desktop:
+
+	$ !1076
+	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
+
+	real	0m6,292s
+	user	0m5,640s
+	sys	0m0,634s
+	  6838 undefined_after
+	   808 undefined_symbols
+	  7646 total
+
+And 7 seconds on a Dell Precision 5820:
+
+	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
+
+	real	0m7.162s
+	user	0m5.836s
+	sys	0m1.329s
+	6548 undefined
+	772 undefined_symbols
+
+Both tests were done against this tree (based on today's linux-next):
+
+	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
+
+It should be noticed that, as my tree has several ABI fixes,  the time to run the
+script is likely less than if you run on your tree, as there will be less symbols to
+be reported, and the algorithm is optimized to reduce the number of regexes
+when a symbol is found.
+
+Besides optimizing and improving the seek logic, this series also change the
+debug logic. It how receives a bitmap, where "8" means to print the regexes
+that will be used by "undefined" command:
+
+	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
+	real	0m17,189s
+	user	0m13,940s
+	sys	0m2,404s
+
+	$wc -l foo
+	18421939 foo
+
+	$ cat foo
+	...
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
+	...
+
+On other words, on my desktop, the /sys match is performing >18M regular 
+expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
+enabled and sent to an area on my nvme storage).
+
+Regards,
+Mauro
+
 ---
- scripts/get_abi.pl | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 3c0063d0e05e..42eb16eb78e9 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -628,6 +628,14 @@ sub parse_existing_sysfs {
- 	# Ignore cgroup and firmware
- 	return if ($file =~ m#^/sys/(fs/cgroup|firmware)/#);
- 
-+	# Ignore some sysfs nodes
-+	return if ($file =~ m#/(sections|notes)/#);
-+
-+	# Would need to check at
-+	# Documentation/admin-guide/kernel-parameters.txt, but this
-+	# is not easily parseable.
-+	return if ($file =~ m#/parameters/#);
-+
- 	my $mode = (lstat($file))[2];
- 	my $abs_file = abs_path($file);
- 
-@@ -709,14 +717,6 @@ sub check_undefined_symbols {
- 
- 		next if ($exact);
- 
--		# Ignore some sysfs nodes
--		next if ($file =~ m#/(sections|notes)/#);
--
--		# Would need to check at
--		# Documentation/admin-guide/kernel-parameters.txt, but this
--		# is not easily parseable.
--		next if ($file =~ m#/parameters/#);
--
- 		if ($hint && $defined && (!$search_string || $found_string)) {
- 			$what =~ s/\xac/\n\t/g;
- 			if ($leave ne "others") {
+Mauro Carvalho Chehab (13):
+  scripts: get_abi.pl: Better handle multiple What parameters
+  scripts: get_abi.pl: Check for missing symbols at the ABI specs
+  scripts: get_abi.pl: detect softlinks
+  scripts: get_abi.pl: add an option to filter undefined results
+  scripts: get_abi.pl: don't skip what that ends with wildcards
+  scripts: get_abi.pl: Ignore fs/cgroup sysfs nodes earlier
+  scripts: get_abi.pl: add a graph to speedup the undefined algorithm
+  scripts: get_abi.pl: improve debug logic
+  scripts: get_abi.pl: Better handle leaves with wildcards
+  scripts: get_abi.pl: ignore some sysfs nodes earlier
+  scripts: get_abi.pl: stop check loop earlier when regex is found
+  scripts: get_abi.pl: precompile what match regexes
+  scripts: get_abi.pl: ensure that "others" regex will be parsed
+
+ scripts/get_abi.pl | 388 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 372 insertions(+), 16 deletions(-)
+
 -- 
 2.31.1
+
 
