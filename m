@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D30E1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 09:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 830A2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 09:39:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B89C86023F
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 09:39:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AC586124F
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 09:39:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240154AbhIWJkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 05:40:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36006 "EHLO
+        id S240204AbhIWJk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 05:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238217AbhIWJkx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 05:40:53 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D447DC061574
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 02:39:21 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id 97-20020a9d006a000000b00545420bff9eso7691709ota.8
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 02:39:21 -0700 (PDT)
+        with ESMTP id S238217AbhIWJk6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 05:40:58 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C5DC061574
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 02:39:26 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id l7-20020a0568302b0700b0051c0181deebso7656251otv.12
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 02:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jr8iX9G3UhUpRfRv9u5Ok4WEBnefPrNqQZG3Ri2E4NY=;
-        b=NL/uf19fG5UgmYhe1Mcwmh70KiFf1CS56dI9A5yBVcfBmwkke0HfG0cvXHYr32Sad0
-         I1j7Ae2c1v+X/o6n0jIJdRY4Gpa69wRE9rRJ17QPb9dtk6urSRzERi264E2hYzqkO1pK
-         deq1+khA9xh27wyZBxvzxSoDuI1p5ZVelaKr9BidQNRyI5vi4Rt/sdAzPnpjLPFKnuGK
-         Fcuanh3SYjvM/OFVH+6F1aMaWBbGn7IW+YbUyiBK2aK4ahVCwGv6yiTo9FOQpceEM9pf
-         sEzTEpggTk1fJi9NUaF7czpcEhoR59LzqZNVZL1vfzb576sGX8NxPx/iHzOBl0aF+kzG
-         TEhQ==
+        bh=HtM1ldBd9rWQIguvbbxP2pEDIYD34l4V1N/0KWZQaGk=;
+        b=gjugM6o/zOIt1ODlO3hT40QPE2YeGqQI8jYmtGBxKti564Nm6mmarVlbKXDlqS2ol8
+         13Hv7BGqDepa9odvGv3nIcUceQSoDnI/fJQ+bnZET3Kc1HgB5bFvwgdxPRwkBKKQiJGr
+         DCZ3D/GwqCNDntbTAbCmhog8ZJg6nDhFDoS2hgOdu/yI6xJMC5AMQvcc/guhgGMdxZo9
+         rO3hUZZ42L3N+o/LoYvmtC9zLb8mbQuRfphCFwR49IEcodCYwuXRb45Cmkizj/epYdq/
+         h0ShbJEJFSDJy3Gnewie42gJW8SW++M2VD5OjZOaE2J34FL3xEIqW35+0usw7GLO4s/8
+         BfNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jr8iX9G3UhUpRfRv9u5Ok4WEBnefPrNqQZG3Ri2E4NY=;
-        b=cHrLpIfYPLD6SfesXjpuzZ9Mx7n77SWozydIfOkCU8yP/ewa3AWYGdNhqTtdQOaWJp
-         3Byq0bBySy0VWtXkKK1Ko8UhtY8M9dWryed62YjRWmaSwzwn/VRTE8K605ymI6GnW2Dn
-         004u8XD9lNxvkE73xFW8CJyAFyFOvbsPk/4nqx8hFDjI7uGovwk+aildj3HtPwL0JKq5
-         Jd6vls9p8aEtuKNzx8kbrC6i+zs0kQRWPPhupEBDKEXXp18NnAH0GAVpeeysy93NhINR
-         nmHOu67XMjcA5fNPaGfSxh2awijBHjfwbEeKCjWJTZn3a8txeERGYJLRzq3Yw0kvziOF
-         eL5g==
-X-Gm-Message-State: AOAM531ieIvZKAQg51Nx0i7kQPv12CE08g/iyhVXh8LsndzNiP+E+A4Z
-        +W7HH6O5/gERYB/cSG5grQI=
-X-Google-Smtp-Source: ABdhPJynC3Q+PqnlVs/kpG5L8YbpUBsoGkbal+r7F6PKe35eaZpisddfgTcCQUJqihJKbWsxP2VNzA==
-X-Received: by 2002:a9d:7093:: with SMTP id l19mr3408391otj.15.1632389960880;
-        Thu, 23 Sep 2021 02:39:20 -0700 (PDT)
+        bh=HtM1ldBd9rWQIguvbbxP2pEDIYD34l4V1N/0KWZQaGk=;
+        b=irSbrjk5If3w7gjOWZkfr7FSAd9zLqwdfk90HTJtPj71FXPwbuLQlHD4eLz6s6E5yb
+         40qwSYSYUr8o9MO3RWptbZ54wI5BPzIPGSsyhoqtQydE9wMaxNR92q7mhDsCXlOw7rMW
+         XFdC57K+67bpMHsx1tZ2vf6R9ZbsjT66HAq7yAMcsvG3pK+3ZTo3GWeVcMbsvg1XPZy1
+         u/++J9nyfzDWmLhl5qETA584rSaO+LBTDVY5YqS+kNMvudWed+3/ymoQ2pcsrOxI/zfi
+         tYMFXGkgL2oejdGzzoPfZw4KUG0WjyVLEe37FSZnp7H+lcvKRXYUT9wfqujA7Sp+A0t6
+         Iu9g==
+X-Gm-Message-State: AOAM533x9Frsntuv3Sq6GhYHX4MtQbBipYik5Hz9+8C+l2gvfKU4C4Jh
+        l6PdEb5PMEhgTPZtnzLgGzs=
+X-Google-Smtp-Source: ABdhPJwLWcE+0M5zR9Gxojjp6DtDwSwYvU76uYk2QrUbPkcnZpAN1yUErr3UkC+UTtsz6Y0kD4M55Q==
+X-Received: by 2002:a9d:4681:: with SMTP id z1mr3486243ote.42.1632389966208;
+        Thu, 23 Sep 2021 02:39:26 -0700 (PDT)
 Received: from localhost.localdomain ([8.26.182.165])
-        by smtp.gmail.com with ESMTPSA id a67sm1158328otb.0.2021.09.23.02.39.15
+        by smtp.gmail.com with ESMTPSA id a67sm1158328otb.0.2021.09.23.02.39.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 02:39:20 -0700 (PDT)
+        Thu, 23 Sep 2021 02:39:25 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
@@ -63,9 +63,9 @@ To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2 2/3] docs/zh_CN: typo fix and improve translation
-Date:   Thu, 23 Sep 2021 17:37:55 +0800
-Message-Id: <3adedda2b247be53defc9078104221f00b4c78cd.1632389476.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 3/3] docs/zh_CN: modify some words
+Date:   Thu, 23 Sep 2021 17:37:56 +0800
+Message-Id: <c46432c5801edd44800e679dc34bce95c5e37f85.1632389476.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1632389476.git.siyanteng@loongson.cn>
 References: <cover.1632389476.git.siyanteng@loongson.cn>
@@ -78,49 +78,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-- fix a typo.
-- modify some word to improve zh_CN/process/5.Posting.rst.
+commit message in English, we better not give the Chinese readers a wrong guidance.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- Documentation/translations/zh_CN/process/5.Posting.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../translations/zh_CN/process/submitting-patches.rst         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/5.Posting.rst b/Documentation/translations/zh_CN/process/5.Posting.rst
-index b0c65614844d..4ee7de13f373 100644
---- a/Documentation/translations/zh_CN/process/5.Posting.rst
-+++ b/Documentation/translations/zh_CN/process/5.Posting.rst
-@@ -23,7 +23,7 @@
- :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
- 和 :ref:`Documentation/translations/zh_CN/process/submit-checklist.rst <cn_submitchecklist>`。
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 4fc6d16f5196..3296b8f7bedf 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -127,8 +127,8 @@
+ URL来查找补丁描述并将其放入补丁中。也就是说，补丁（系列）及其描述应该是独立的。
+ 这对维护人员和审查人员都有好处。一些评审者可能甚至没有收到补丁的早期版本。
  
--何时邮寄
-+何时寄送
- --------
+-描述你在命令语气中的变化，例如“make xyzzy do frotz”而不是“[这个补丁]make
+-xyzzy do frotz”或“[我]changed xyzzy to do frotz”，就好像你在命令代码库改变
++描述你在命令语气中的变化，例如“make xyzzy do frotz”而不是“[This patch]make
++xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令代码库改变
+ 它的行为一样。
  
- 在补丁完全“准备好”之前，避免发布补丁是一种持续的诱惑。对于简单的补丁，这
-@@ -142,7 +142,7 @@
- 一般来说，你越把自己放在每个阅读你变更日志的人的位置上，变更日志（和内核
- 作为一个整体）就越好。
- 
--不消说，变更日志是将变更提交到版本控制系统时使用的文本。接下来将是：
-+不需要说，变更日志是将变更提交到版本控制系统时使用的文本。接下来将是：
- 
-  - 补丁本身，采用统一的（“-u”）补丁格式。使用“-p”选项来diff将使函数名与
-    更改相关联，从而使结果补丁更容易被其他人读取。
-@@ -186,10 +186,10 @@
- 
- 在补丁中添加标签时要小心：只有Cc:才适合在没有指定人员明确许可的情况下添加。
- 
--发送补丁
-+寄送补丁
- --------
- 
--在寄出补丁之前，您还需要注意以下几点：
-+在寄送补丁之前，您还需要注意以下几点：
- 
-  - 您确定您的邮件发送程序不会损坏补丁吗？被邮件客户端更改空白或修饰了行的补丁
-    无法被另一端接受，并且通常不会进行任何详细检查。如果有任何疑问，先把补丁寄
+ 如果修补程序修复了一个记录的bug条目，请按编号和URL引用该bug条目。如果补丁来
 -- 
 2.27.0
 
