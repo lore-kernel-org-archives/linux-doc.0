@@ -3,140 +3,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F9FC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C828FC433F5
 	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:41:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FFFA61029
+	by mail.kernel.org (Postfix) with ESMTP id A767D60EE4
 	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:41:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242103AbhIWPnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 11:43:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38190 "EHLO mail.kernel.org"
+        id S242105AbhIWPnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 11:43:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38300 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241995AbhIWPnD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Sep 2021 11:43:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E92961029;
-        Thu, 23 Sep 2021 15:41:32 +0000 (UTC)
+        id S242022AbhIWPnF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Sep 2021 11:43:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B16D60E8B;
+        Thu, 23 Sep 2021 15:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632411692;
-        bh=NyG6vfojY+44meObcI6XOgQLJOli3jGUvl+tK4Z6BMo=;
+        s=k20201202; t=1632411693;
+        bh=+EyXKl8VzkXaHJWK73eNZryPv9njKJxmuXis83Au4Gw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B5Bjmp/3pzHwvMHK7fmsUd03ZPHIkciQ7h0H2p4eqsY58D82PJ49l+tlUw6/BDOyz
-         vRd4S896aTGHI2JuIzY59aN9jqoK1E+PtDo9X67agsWPDSV0xxCU2z8GwTnS3zHLOK
-         S4sRpaqfvQqYFmBfkf8Gq5l5Uyz1lzWDHCbEI19KeepCO47ckVWhvGFjWqIEeQ0AGl
-         kDJzV4atoO0tWFn1PW0Mo8/b8R8IXCMPNqQgMeglGQyhTNigpxWw29l20qYlcLOD0Q
-         yfBAJgDcJ3FGLm4NOLGMkh6GF1TM3DH5P9QNCKKN1K1ke/o6jGTsgvwoekqf3QsLeW
-         wFVO81N3vx0fA==
+        b=dyLdC/4u/xN5FsRjBKemZeSBYrqTtHDMsftdKJwj95rJb0L/Vnn/rMlzcxZ4wJl+L
+         hjF8W0entvb2/st4jchL3ERtq153q/xEmryTvEcI2XobNS2s2/S88b9SZG6aHCzSZ7
+         6MYWZuXaXgmtEHWHhVfYptJeGJzvPDIrFR4m7DKpqXTFbOXM1DW3uz5AYvP/r2mOX6
+         LkhSa8TI4Bf2YJbbgdKUiF2jeWTe6SFvwI08jfY63x6d7dcTOjUt3vHzNNl30doozo
+         3znScVSarL0khGCxiAYMz4Qzzsdn9ic5cijJ4ozKlIEnWzc6AsEq6+7mcEv3B5weFS
+         bN9tIWcEY0b9g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTQqo-000p65-1p; Thu, 23 Sep 2021 17:41:30 +0200
+        id 1mTQqp-000p69-LP; Thu, 23 Sep 2021 17:41:31 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     #@kernel.org, YUyICHTRdfL8Ul7X@kroah.com,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision and performance
-Date:   Thu, 23 Sep 2021 17:41:11 +0200
-Message-Id: <cover.1632411447.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/8] scripts: get_abi.pl: Fix get_abi.pl search output
+Date:   Thu, 23 Sep 2021 17:41:12 +0200
+Message-Id: <fb27ac372e38f5ae9d088f9f4e9710c659e0b9e8.1632411447.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <YUyICHTRdfL8Ul7X@kroah.com>
-References: <YUyICHTRdfL8Ul7X@kroah.com>
+In-Reply-To: <cover.1632411447.git.mchehab+huawei@kernel.org>
+References: <cover.1632411447.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+Currently, the get_abi.pl will print an invalid symbol
+(\xac character). Fix it.
 
-As requested, this is exactly the same changes, rebased on the top of
-driver-core/driver-core-next.
+Fixes: ab9c14805b37 ("scripts: get_abi.pl: Better handle multiple What parameters")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_abi.pl | 1 +
+ 1 file changed, 1 insertion(+)
 
--
-
-It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
-
-With such changes, on my development tree, the script is taking 6 seconds to run 
-on my desktop:
-
-	$ !1076
-	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
-
-	real	0m6,292s
-	user	0m5,640s
-	sys	0m0,634s
-	  6838 undefined_after
-	   808 undefined_symbols
-	  7646 total
-
-And 7 seconds on a Dell Precision 5820:
-
-	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
-
-	real	0m7.162s
-	user	0m5.836s
-	sys	0m1.329s
-	6548 undefined
-	772 undefined_symbols
-
-Both tests were done against this tree (based on today's linux-next):
-
-	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
-
-It should be noticed that, as my tree has several ABI fixes,  the time to run the
-script is likely less than if you run on your tree, as there will be less symbols to
-be reported, and the algorithm is optimized to reduce the number of regexes
-when a symbol is found.
-
-Besides optimizing and improving the seek logic, this series also change the
-debug logic. It how receives a bitmap, where "8" means to print the regexes
-that will be used by "undefined" command:
-
-	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
-	real	0m17,189s
-	user	0m13,940s
-	sys	0m2,404s
-
-	$wc -l foo
-	18421939 foo
-
-	$ cat foo
-	...
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
-	...
-
-On other words, on my desktop, the /sys match is performing >18M regular 
-expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
-enabled and sent to an area on my nvme storage).
-
-Regards,
-Mauro
-
-
-Mauro Carvalho Chehab (8):
-  scripts: get_abi.pl: Fix get_abi.pl search output
-  scripts: get_abi.pl: call get_leave() a little late
-  scripts: get_abi.pl: improve debug logic
-  scripts: get_abi.pl: Better handle leaves with wildcards
-  scripts: get_abi.pl: ignore some sysfs nodes earlier
-  scripts: get_abi.pl: stop check loop earlier when regex is found
-  scripts: get_abi.pl: precompile what match regexes
-  scripts: get_abi.pl: ensure that "others" regex will be parsed
-
- scripts/get_abi.pl | 109 +++++++++++++++++++++++++++++++--------------
- 1 file changed, 76 insertions(+), 33 deletions(-)
-
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index c52a1cf0f49d..65261f464e25 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -501,6 +501,7 @@ sub search_symbols {
+ 
+ 		my $file = $data{$what}->{filepath};
+ 
++		$what =~ s/\xac/, /g;
+ 		my $bar = $what;
+ 		$bar =~ s/./-/g;
+ 
 -- 
 2.31.1
-
 
