@@ -2,169 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5193EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F9FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:41:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A233611B0
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:40:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FFFA61029
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:41:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242048AbhIWPl7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 11:41:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241995AbhIWPl6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 11:41:58 -0400
-Received: from rockwork.org (rockwork.org [IPv6:2001:19f0:6001:1139:5400:2ff:feee:29a2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909B0C061574;
-        Thu, 23 Sep 2021 08:40:26 -0700 (PDT)
-Received: from [IPV6:2409:8a28:c70:7540:bfbe:7940:90e7:5b7] (unknown [IPv6:2409:8a28:c70:7540:bfbe:7940:90e7:5b7])
-        by rockwork.org (Postfix) with ESMTPSA id 015D2169A07;
-        Thu, 23 Sep 2021 15:38:25 +0000 (UTC)
-Message-ID: <084bfa50-649e-5247-1c4a-b398e55e7c15@rockwork.org>
-Date:   Thu, 23 Sep 2021 23:35:08 +0800
+        id S242103AbhIWPnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 11:43:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38190 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241995AbhIWPnD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Sep 2021 11:43:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E92961029;
+        Thu, 23 Sep 2021 15:41:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632411692;
+        bh=NyG6vfojY+44meObcI6XOgQLJOli3jGUvl+tK4Z6BMo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=B5Bjmp/3pzHwvMHK7fmsUd03ZPHIkciQ7h0H2p4eqsY58D82PJ49l+tlUw6/BDOyz
+         vRd4S896aTGHI2JuIzY59aN9jqoK1E+PtDo9X67agsWPDSV0xxCU2z8GwTnS3zHLOK
+         S4sRpaqfvQqYFmBfkf8Gq5l5Uyz1lzWDHCbEI19KeepCO47ckVWhvGFjWqIEeQ0AGl
+         kDJzV4atoO0tWFn1PW0Mo8/b8R8IXCMPNqQgMeglGQyhTNigpxWw29l20qYlcLOD0Q
+         yfBAJgDcJ3FGLm4NOLGMkh6GF1TM3DH5P9QNCKKN1K1ke/o6jGTsgvwoekqf3QsLeW
+         wFVO81N3vx0fA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mTQqo-000p65-1p; Thu, 23 Sep 2021 17:41:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     #@kernel.org, YUyICHTRdfL8Ul7X@kroah.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision and performance
+Date:   Thu, 23 Sep 2021 17:41:11 +0200
+Message-Id: <cover.1632411447.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <YUyICHTRdfL8Ul7X@kroah.com>
+References: <YUyICHTRdfL8Ul7X@kroah.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:93.0) Gecko/20100101
- Thunderbird/93.0
-Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
-To:     Vipin Sharma <vipinsh@google.com>, tj@kernel.org, mkoutny@suse.com,
-        jacob.jun.pan@intel.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com,
-        brian.welty@intel.com
-Cc:     corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210330044206.2864329-1-vipinsh@google.com>
-From:   Xingyou Chen <rockrush@rockwork.org>
-In-Reply-To: <20210330044206.2864329-1-vipinsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Greg,
+
+As requested, this is exactly the same changes, rebased on the top of
+driver-core/driver-core-next.
+
+-
+
+It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
+
+With such changes, on my development tree, the script is taking 6 seconds to run 
+on my desktop:
+
+	$ !1076
+	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
+
+	real	0m6,292s
+	user	0m5,640s
+	sys	0m0,634s
+	  6838 undefined_after
+	   808 undefined_symbols
+	  7646 total
+
+And 7 seconds on a Dell Precision 5820:
+
+	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
+
+	real	0m7.162s
+	user	0m5.836s
+	sys	0m1.329s
+	6548 undefined
+	772 undefined_symbols
+
+Both tests were done against this tree (based on today's linux-next):
+
+	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
+
+It should be noticed that, as my tree has several ABI fixes,  the time to run the
+script is likely less than if you run on your tree, as there will be less symbols to
+be reported, and the algorithm is optimized to reduce the number of regexes
+when a symbol is found.
+
+Besides optimizing and improving the seek logic, this series also change the
+debug logic. It how receives a bitmap, where "8" means to print the regexes
+that will be used by "undefined" command:
+
+	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
+	real	0m17,189s
+	user	0m13,940s
+	sys	0m2,404s
+
+	$wc -l foo
+	18421939 foo
+
+	$ cat foo
+	...
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
+	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
+	...
+
+On other words, on my desktop, the /sys match is performing >18M regular 
+expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
+enabled and sent to an area on my nvme storage).
+
+Regards,
+Mauro
 
 
-在 2021/3/30 12:42, Vipin Sharma 写道:
-> Hello,
-> 
-> This patch series is creating a new misc cgroup controller for limiting
-> and tracking of resources which are not abstract like other cgroup
-> controllers.
-> 
-> This controller was initially proposed as encryption_id but after the
-> feedbacks and use cases for other resources, it is now changed to misc
-> cgroup.
-> https://lore.kernel.org/lkml/20210108012846.4134815-2-vipinsh@google.com/
-> 
-> Most of the cloud infrastructure use cgroups for knowing the host state,
-> track the resources usage, enforce limits on them, etc. They use this
-> info to optimize work allocation in the fleet and make sure no rogue job
-> consumes more than it needs and starves others.
-> 
-> There are resources on a system which are not abstract enough like other
-> cgroup controllers and are available in a limited quantity on a host.
-> 
-> One of them is Secure Encrypted Virtualization (SEV) ASID on AMD CPU.
-> SEV ASIDs are used for creating encrypted VMs. SEV is mostly be used by
-> the cloud providers for providing confidential VMs. Since SEV ASIDs are
-> limited, there is a need to schedule encrypted VMs in a cloud
-> infrastructure based on SEV ASIDs availability and also to limit its
-> usage.
-> 
-> There are similar requirements for other resource types like TDX keys,
-> IOASIDs and SEID.
-> 
-> Adding these resources to a cgroup controller is a natural choice with
-> least amount of friction. Cgroup itself says it is a mechanism to
-> distribute system resources along the hierarchy in a controlled
-> mechanism and configurable manner. Most of the resources in cgroups are
-> abstracted enough but there are still some resources which are not
-> abstract but have limited availability or have specific use cases.
-> 
-> Misc controller is a generic controller which can be used by these
-> kinds of resources.
+Mauro Carvalho Chehab (8):
+  scripts: get_abi.pl: Fix get_abi.pl search output
+  scripts: get_abi.pl: call get_leave() a little late
+  scripts: get_abi.pl: improve debug logic
+  scripts: get_abi.pl: Better handle leaves with wildcards
+  scripts: get_abi.pl: ignore some sysfs nodes earlier
+  scripts: get_abi.pl: stop check loop earlier when regex is found
+  scripts: get_abi.pl: precompile what match regexes
+  scripts: get_abi.pl: ensure that "others" regex will be parsed
 
-Will we make this dynamic? Let resources be registered via something 
-like misc_cg_res_{register,unregister}, at compile time or runtime, 
-instead of hard coded into misc_res_name/misc_res_capacity etc.
+ scripts/get_abi.pl | 109 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 76 insertions(+), 33 deletions(-)
 
-There are needs as noted in drmcg session earlier this year. We may
-make misc cgroup stable, and let device drivers to register their
-own resources.
+-- 
+2.31.1
 
-This may make misc cgroup controller more complex than expected, but
-simpler than adding multiple similar controllers.
 
-> 
-> One suggestion was to use BPF for this purpose, however, there are
-> couple of things which might not be addressed with BPF:
-> 1. Which controller to use in v1 case? These are not abstract resources
->     so in v1 where each controller have their own hierarchy it might not
->     be easy to identify the best controller to use for BPF.
-> 
-> 2. Abstracting out a single BPF program which can help with all of the
->     resources types might not be possible, because resources we are
->     working with are not similar and abstract enough, for example network
->     packets, and there will be different places in the source code to use
->     these resources.
-> 
-> A new cgroup controller tends to give much easier and well integrated
-> solution when it comes to scheduling and limiting a resource with
-> existing tools in a cloud infrastructure.
-> 
-> Changes in RFC v4:
-> 1. Misc controller patch is split into two patches. One for generic misc
->     controller and second for adding SEV and SEV-ES resource.
-> 2. Using READ_ONCE and WRITE_ONCE for variable accesses.
-> 3. Updated documentation.
-> 4. Changed EXPORT_SYMBOL to EXPORT_SYMBOL_GPL.
-> 5. Included cgroup header in misc_cgroup.h.
-> 6. misc_cg_reduce_charge changed to misc_cg_cancel_charge.
-> 7. misc_cg set to NULL after uncharge.
-> 8. Added WARN_ON if misc_cg not NULL before charging in SEV/SEV-ES.
-> 
-> Changes in RFC v3:
-> 1. Changed implementation to support 64 bit counters.
-> 2. Print kernel logs only once per resource per cgroup.
-> 3. Capacity can be set less than the current usage.
-> 
-> Changes in RFC v2:
-> 1. Documentation fixes.
-> 2. Added kernel log messages.
-> 3. Changed charge API to treat misc_cg as input parameter.
-> 4. Added helper APIs to get and release references on the cgroup.
-> 
-> [1] https://lore.kernel.org/lkml/20210218195549.1696769-1-vipinsh@google.com
-> [2] https://lore.kernel.org/lkml/20210302081705.1990283-1-vipinsh@google.com/
-> [3] https://lore.kernel.org/lkml/20210304231946.2766648-1-vipinsh@google.com/
-> 
-> Vipin Sharma (3):
->    cgroup: Add misc cgroup controller
->    cgroup: Miscellaneous cgroup documentation.
->    svm/sev: Register SEV and SEV-ES ASIDs to the misc controller
-> 
->   Documentation/admin-guide/cgroup-v1/index.rst |   1 +
->   Documentation/admin-guide/cgroup-v1/misc.rst  |   4 +
->   Documentation/admin-guide/cgroup-v2.rst       |  73 +++-
->   arch/x86/kvm/svm/sev.c                        |  70 ++-
->   arch/x86/kvm/svm/svm.h                        |   1 +
->   include/linux/cgroup_subsys.h                 |   4 +
->   include/linux/misc_cgroup.h                   | 132 ++++++
->   init/Kconfig                                  |  14 +
->   kernel/cgroup/Makefile                        |   1 +
->   kernel/cgroup/misc.c                          | 407 ++++++++++++++++++
->   10 files changed, 695 insertions(+), 12 deletions(-)
->   create mode 100644 Documentation/admin-guide/cgroup-v1/misc.rst
->   create mode 100644 include/linux/misc_cgroup.h
->   create mode 100644 kernel/cgroup/misc.c
-> 
