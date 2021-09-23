@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFADC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D039C433F5
 	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9C4A61164
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D39861107
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241403AbhIWNcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S241436AbhIWNcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 23 Sep 2021 09:32:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44090 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:44106 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241222AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S241241AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 23 Sep 2021 09:31:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0A9F61278;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C65696127A;
         Thu, 23 Sep 2021 13:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632403814;
-        bh=msj1HjB4sc3NrsgvWpq1oIvIRROwT8HAcjlFieJYSPs=;
+        bh=Iw2fDEKzMDejp/o4wtP5bv8wvrqWKI39WK/zq08eWqI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MQBNG1ocba3HbisA6audvQ3c3CGkS6sar9a+6cECKnCc4DvVQN3fmdUMd5zuGVxgC
-         qnvFMHwIsu5JZ+b4HOaDECAWlbcCLmukFB8VVglRC3Xyg3Y4LCWC8bIhxh3rlSLUEg
-         lnxQ1KayR8ceu1z9eWpa7OFtX7MwZ/eh2X2tBewHP6GFfg1H8WW9M7W9fA5dgm15/b
-         WD12TBS5H9wCWlcyHQdTX3z/X++xFQandLKpSquaDLb77E1oix1VEaT918G8q6DrMg
-         4QkItnmICvH3NafrNgQCIKkxOER8VEyZktNwLSh2wwNnzs+WF+OZ+zVObx2z4Jp7be
-         HSYq9QaXlDnIg==
+        b=RFzexhLkHpDu74xDsNDoXkaj31xWvjihNAkUu1gw2Uw7hKzb5V2HOyVtBxHRpzvVd
+         Vh3Nm/TZ2ljRDya45Hb4D6/fqED/GcRGWBM+pW4vuMmi5fjtDjhE7QnP9qiuLSO+T2
+         aUc3UeR38oxhXi34754LWXB+Ry6pGczhKdy5OGBPKArGettUghcIhAtVYkSamVfMgs
+         tHguDb1MrHXXtYwDfBrKFHPFnbhbugCLOSKe9NZVZ7n2BRFesJdMgC4vkvx63lXyZ3
+         D3aBxl2gY6ncYFrbCGj4MkELWlkOof5Ih7+GlLNKalvnZSNAxGjMre22bIPvZsYXcp
+         /0+wyVZzLGLeQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTOnl-000neM-07; Thu, 23 Sep 2021 15:30:13 +0200
+        id 1mTOnl-000neU-2Y; Thu, 23 Sep 2021 15:30:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/13] scripts: get_abi.pl: Better handle leaves with wildcards
-Date:   Thu, 23 Sep 2021 15:30:07 +0200
-Message-Id: <79b7d3f8e57dce31e11f8a2d410877b1c803c8a8.1632402570.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 11/13] scripts: get_abi.pl: stop check loop earlier when regex is found
+Date:   Thu, 23 Sep 2021 15:30:09 +0200
+Message-Id: <333efdaa5ccfce1a0d540c266897947d7853b94f.1632402570.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632402570.git.mchehab+huawei@kernel.org>
 References: <cover.1632402570.git.mchehab+huawei@kernel.org>
@@ -52,32 +52,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When the the leaf of a regex ends with a wildcard, the speedup
-algorithm to reduce the number of regexes to seek won't work.
+Right now, there are two loops used to seek for a regex. Make
+sure that both will be skip when a match is found.
 
-So, when those are found, place at the "others" exception.
-
-That slows down the search from 0.14s to 1 minute on my
-machine, but the results are a lot more consistent.
+While here, drop the unused $defined variable.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/get_abi.pl | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index bb80303fea22..3c0063d0e05e 100755
+index 42eb16eb78e9..d45e5ba56f9c 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -665,7 +665,7 @@ sub get_leave($)
- 	# However, there are a few occurences where the leave is
- 	# either a wildcard or a number. Just group such cases
- 	# altogether.
--	if ($leave =~ m/^\.\*/ || $leave eq "" || $leave =~ /^\d+$/) {
-+	if ($leave =~ m/\.\*/ || $leave eq "" || $leave =~ /\\d/) {
- 		$leave = "others";
- 	}
+@@ -685,7 +685,6 @@ sub check_undefined_symbols {
+ 		my @names = @{$$file_ref{"__name"}};
+ 		my $file = $names[0];
  
+-		my $defined = 0;
+ 		my $exact = 0;
+ 		my $found_string;
+ 
+@@ -711,13 +710,11 @@ sub check_undefined_symbols {
+ 					last;
+ 				}
+ 			}
++			last if ($exact);
+ 		}
+-
+-		$defined++;
+-
+ 		next if ($exact);
+ 
+-		if ($hint && $defined && (!$search_string || $found_string)) {
++		if ($hint && (!$search_string || $found_string)) {
+ 			$what =~ s/\xac/\n\t/g;
+ 			if ($leave ne "others") {
+ 				print "    more likely regexes:\n\t$what\n";
 -- 
 2.31.1
 
