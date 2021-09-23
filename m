@@ -5,56 +5,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F321AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFADC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA16061107
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9C4A61164
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241435AbhIWNbz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 09:31:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44098 "EHLO mail.kernel.org"
+        id S241403AbhIWNcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 09:32:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44090 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241224AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S241222AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 23 Sep 2021 09:31:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BD3CF6126A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C0A9F61278;
         Thu, 23 Sep 2021 13:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632403814;
-        bh=GfTG4NevTekER0PTzKJU9hfUyfF7/nFfc5ACOcb887E=;
+        bh=msj1HjB4sc3NrsgvWpq1oIvIRROwT8HAcjlFieJYSPs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nrXBUe+SWZjuRn7FRHxODDjRJk/ysp0Qyr5Xy0+vqdIKxhJ41YDvCx3Q5VYEnaM9F
-         BMbSB+WYbWAnvb4uqzUuuyjOhSpULMoFsEgIyZs6fHCuPQ4ZresRU8iB+s3kSyHdLV
-         01hdVRY/jSRcuI12GgE56qnfQFxOJzl0IaFHjNsK7xJJL8iSgjqxBrlA3HMokzaXlw
-         d5yfHpxY7bluKJ4zQy2vKCB9GXYXGbqSjHKlWlE7NJjlM3vBCswpVGVVQWouE9sAxs
-         GLs/S4wAhvb/PcI/xZlsAodgDarLGMHuWXQTIbAH1A0tXFAkPz/1FQnLN2v2x1CQZg
-         PqhMhP9ODSkNQ==
+        b=MQBNG1ocba3HbisA6audvQ3c3CGkS6sar9a+6cECKnCc4DvVQN3fmdUMd5zuGVxgC
+         qnvFMHwIsu5JZ+b4HOaDECAWlbcCLmukFB8VVglRC3Xyg3Y4LCWC8bIhxh3rlSLUEg
+         lnxQ1KayR8ceu1z9eWpa7OFtX7MwZ/eh2X2tBewHP6GFfg1H8WW9M7W9fA5dgm15/b
+         WD12TBS5H9wCWlcyHQdTX3z/X++xFQandLKpSquaDLb77E1oix1VEaT918G8q6DrMg
+         4QkItnmICvH3NafrNgQCIKkxOER8VEyZktNwLSh2wwNnzs+WF+OZ+zVObx2z4Jp7be
+         HSYq9QaXlDnIg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTOnk-000nds-OW; Thu, 23 Sep 2021 15:30:12 +0200
+        id 1mTOnl-000neM-07; Thu, 23 Sep 2021 15:30:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 02/13] scripts: get_abi.pl: Check for missing symbols at the ABI specs
-Date:   Thu, 23 Sep 2021 15:30:00 +0200
-Message-Id: <8612c609e77b1b057172ab13685bdfd3ce37995f.1632402570.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 09/13] scripts: get_abi.pl: Better handle leaves with wildcards
+Date:   Thu, 23 Sep 2021 15:30:07 +0200
+Message-Id: <79b7d3f8e57dce31e11f8a2d410877b1c803c8a8.1632402570.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632402570.git.mchehab+huawei@kernel.org>
 References: <cover.1632402570.git.mchehab+huawei@kernel.org>
@@ -65,156 +52,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Check for the symbols that exists under /sys but aren't
-defined at Documentation/ABI.
+When the the leaf of a regex ends with a wildcard, the speedup
+algorithm to reduce the number of regexes to seek won't work.
+
+So, when those are found, place at the "others" exception.
+
+That slows down the search from 0.14s to 1 minute on my
+machine, but the results are a lot more consistent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 90 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 88 insertions(+), 2 deletions(-)
+ scripts/get_abi.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 48077feea89c..e714bf75f5c2 100755
+index bb80303fea22..3c0063d0e05e 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -13,7 +13,9 @@ my $help = 0;
- my $man = 0;
- my $debug = 0;
- my $enable_lineno = 0;
-+my $show_warnings = 1;
- my $prefix="Documentation/ABI";
-+my $sysfs_prefix="/sys";
- 
- #
- # If true, assumes that the description is formatted with ReST
-@@ -36,7 +38,7 @@ pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
- 
- my ($cmd, $arg) = @ARGV;
- 
--pod2usage(2) if ($cmd ne "search" && $cmd ne "rest" && $cmd ne "validate");
-+pod2usage(2) if ($cmd ne "search" && $cmd ne "rest" && $cmd ne "validate" && $cmd ne "undefined");
- pod2usage(2) if ($cmd eq "search" && !$arg);
- 
- require Data::Dumper if ($debug);
-@@ -50,6 +52,8 @@ my %symbols;
- sub parse_error($$$$) {
- 	my ($file, $ln, $msg, $data) = @_;
- 
-+	return if (!$show_warnings);
-+
- 	$data =~ s/\s+$/\n/;
- 
- 	print STDERR "Warning: file $file#$ln:\n\t$msg";
-@@ -522,11 +526,88 @@ sub search_symbols {
+@@ -665,7 +665,7 @@ sub get_leave($)
+ 	# However, there are a few occurences where the leave is
+ 	# either a wildcard or a number. Just group such cases
+ 	# altogether.
+-	if ($leave =~ m/^\.\*/ || $leave eq "" || $leave =~ /^\d+$/) {
++	if ($leave =~ m/\.\*/ || $leave eq "" || $leave =~ /\\d/) {
+ 		$leave = "others";
  	}
- }
  
-+# Exclude /sys/kernel/debug and /sys/kernel/tracing from the search path
-+sub skip_debugfs {
-+	if (($File::Find::dir =~ m,^/sys/kernel,)) {
-+		return grep {!/(debug|tracing)/ } @_;
-+	}
-+
-+	if (($File::Find::dir =~ m,^/sys/fs,)) {
-+		return grep {!/(pstore|bpf|fuse)/ } @_;
-+	}
-+
-+	return @_
-+}
-+
-+my %leaf;
-+
-+my $escape_symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x29\x2b-\x2d\x3a-\x40\x7b-\xff]) }x;
-+sub parse_existing_sysfs {
-+	my $file = $File::Find::name;
-+
-+	my $mode = (stat($file))[2];
-+	return if ($mode & S_IFDIR);
-+
-+	my $leave = $file;
-+	$leave =~ s,.*/,,;
-+
-+	if (defined($leaf{$leave})) {
-+		# FIXME: need to check if the path makes sense
-+		my $what = $leaf{$leave};
-+
-+		$what =~ s/,/ /g;
-+
-+		$what =~ s/\<[^\>]+\>/.*/g;
-+		$what =~ s/\{[^\}]+\}/.*/g;
-+		$what =~ s/\[[^\]]+\]/.*/g;
-+		$what =~ s,/\.\.\./,/.*/,g;
-+		$what =~ s,/\*/,/.*/,g;
-+
-+		$what =~ s/\s+/ /g;
-+
-+		# Escape all other symbols
-+		$what =~ s/$escape_symbols/\\$1/g;
-+
-+		foreach my $i (split / /,$what) {
-+			if ($file =~ m#^$i$#) {
-+#				print "$file: $i: OK!\n";
-+				return;
-+			}
-+		}
-+
-+		print "$file: $leave is defined at $what\n";
-+
-+		return;
-+	}
-+
-+	print "$file not found.\n";
-+}
-+
-+sub undefined_symbols {
-+	foreach my $w (sort keys %data) {
-+		foreach my $what (split /\xac /,$w) {
-+			my $leave = $what;
-+			$leave =~ s,.*/,,;
-+
-+			if (defined($leaf{$leave})) {
-+				$leaf{$leave} .= " " . $what;
-+			} else {
-+				$leaf{$leave} = $what;
-+			}
-+		}
-+	}
-+
-+	find({wanted =>\&parse_existing_sysfs, preprocess =>\&skip_debugfs, no_chdir => 1}, $sysfs_prefix);
-+}
-+
- # Ensure that the prefix will always end with a slash
- # While this is not needed for find, it makes the patch nicer
- # with --enable-lineno
- $prefix =~ s,/?$,/,;
- 
-+if ($cmd eq "undefined" || $cmd eq "search") {
-+	$show_warnings = 0;
-+}
- #
- # Parses all ABI files located at $prefix dir
- #
-@@ -537,7 +618,9 @@ print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
- #
- # Handles the command
- #
--if ($cmd eq "search") {
-+if ($cmd eq "undefined") {
-+	undefined_symbols;
-+} elsif ($cmd eq "search") {
- 	search_symbols;
- } else {
- 	if ($cmd eq "rest") {
-@@ -576,6 +659,9 @@ B<rest>                  - output the ABI in ReST markup language
- 
- B<validate>              - validate the ABI contents
- 
-+B<undefined>             - existing symbols at the system that aren't
-+                           defined at Documentation/ABI
-+
- =back
- 
- =head1 OPTIONS
 -- 
 2.31.1
 
