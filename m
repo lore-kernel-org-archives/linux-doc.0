@@ -3,55 +3,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F79C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28982C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8186661107
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C79D61107
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 13:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241336AbhIWNbr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 09:31:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43986 "EHLO mail.kernel.org"
+        id S241351AbhIWNbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 09:31:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231974AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232158AbhIWNbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 23 Sep 2021 09:31:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AAC8B61164;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ACF106124A;
         Thu, 23 Sep 2021 13:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632403814;
-        bh=3hgRBay+GDZAkBnCzYWJ3psWTN3A28hgXY6M7EBS+vc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=r1Tuli7EuAb9+mP4qApjAk8+ld3C9TDOEpc1BzTyLj4dOizTbhFjdiUkfR85O2kFA
-         NNST9quGmmgmXu7LOLEyicPaWrXVbUAm9XewSLcbVncJIXijs/v35kKK5wnSrLlW4R
-         CrctqxvU2TFt1401HFRtUMknWNxSmwMwsvmsyATUCtuGkbjeRJTfeJGzmUM86qjmLx
-         64sLI7uirj3e0/simdP/0JuVdedMPSkDDkrY2s6MVM7EmkKqcvK5ZuqX1TH2Udky0l
-         wJxlaTUCBQ8skeYJBiLjTVgltqRU0dv0SwKlgvRwAM2LXptU/Ol4XJAVP5qjFVkiyO
-         lKBKeK//jo9EQ==
+        bh=NRvFsF+aAKf4uML+UvJ3Rji2lhdemLTe2QssJCX460k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DUbZmGXJm8Nkz7p6BoPCXha/yJqP6P1bMs534D2K7NI5SmrxBPk6wch5OTy26k5iN
+         OMGB2qz/1Ov83Tpn6tkoWfXz5SUzA4muge1PWd5E6Q+1eD+gdKwG02mdzk2ZQTjzS3
+         NBWh5wpIQh1LxTrFXiLiJfyxJDirKtixBqvjE8UbyMugJ0N4kpxLUshZz7O+qh8MUX
+         WoLMlaCIopRX8gtlAcL659X5ifXjgo0iWr1OoSfuopAY7wHrckGXYM/EybaoKhMRPt
+         3N1GM3VW8UFnnVzGkhxSzo/eedyy1XdETQhoyBPCqPJJNHSTzTkzldjnLNvIYkMKKC
+         j2PCCd3zmAB2g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTOnk-000ndj-Ln; Thu, 23 Sep 2021 15:30:12 +0200
+        id 1mTOnk-000ne6-Rd; Thu, 23 Sep 2021 15:30:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        Tony Luck <tony.luck@intel.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 00/13] get_abi.pl undefined: improve precision and performance
-Date:   Thu, 23 Sep 2021 15:29:58 +0200
-Message-Id: <cover.1632402570.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/13] scripts: get_abi.pl: don't skip what that ends with wildcards
+Date:   Thu, 23 Sep 2021 15:30:03 +0200
+Message-Id: <33fddc5055f9c8ceb1a726b8fd4916eec23ac954.1632402570.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1632402570.git.mchehab+huawei@kernel.org>
+References: <cover.1632402570.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,90 +53,131 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+The search algorithm used inside check_undefined_symbols
+has an optimization: it seeks only whats that have the same
+leave name. This helps not only to speedup the search, but
+it also allows providing a hint about a partial match.
 
-It follows a series of improvements for get_abi.pl. it is on the top of next-20210923.
+There's a drawback, however: when "what:" finishes with a
+wildcard, the logic will skip the what, reporting it as
+"not found".
 
-With such changes, on my development tree, the script is taking 6 seconds to run 
-on my desktop:
+Fix it by grouping the remaining cases altogether, and
+disabing any hints for such cases.
 
-	$ !1076
-	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
-
-	real	0m6,292s
-	user	0m5,640s
-	sys	0m0,634s
-	  6838 undefined_after
-	   808 undefined_symbols
-	  7646 total
-
-And 7 seconds on a Dell Precision 5820:
-
-	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
-
-	real	0m7.162s
-	user	0m5.836s
-	sys	0m1.329s
-	6548 undefined
-	772 undefined_symbols
-
-Both tests were done against this tree (based on today's linux-next):
-
-	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
-
-It should be noticed that, as my tree has several ABI fixes,  the time to run the
-script is likely less than if you run on your tree, as there will be less symbols to
-be reported, and the algorithm is optimized to reduce the number of regexes
-when a symbol is found.
-
-Besides optimizing and improving the seek logic, this series also change the
-debug logic. It how receives a bitmap, where "8" means to print the regexes
-that will be used by "undefined" command:
-
-	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
-	real	0m17,189s
-	user	0m13,940s
-	sys	0m2,404s
-
-	$wc -l foo
-	18421939 foo
-
-	$ cat foo
-	...
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
-	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
-	...
-
-On other words, on my desktop, the /sys match is performing >18M regular 
-expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
-enabled and sent to an area on my nvme storage).
-
-Regards,
-Mauro
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ scripts/get_abi.pl | 74 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 43 insertions(+), 31 deletions(-)
 
-Mauro Carvalho Chehab (13):
-  scripts: get_abi.pl: Better handle multiple What parameters
-  scripts: get_abi.pl: Check for missing symbols at the ABI specs
-  scripts: get_abi.pl: detect softlinks
-  scripts: get_abi.pl: add an option to filter undefined results
-  scripts: get_abi.pl: don't skip what that ends with wildcards
-  scripts: get_abi.pl: Ignore fs/cgroup sysfs nodes earlier
-  scripts: get_abi.pl: add a graph to speedup the undefined algorithm
-  scripts: get_abi.pl: improve debug logic
-  scripts: get_abi.pl: Better handle leaves with wildcards
-  scripts: get_abi.pl: ignore some sysfs nodes earlier
-  scripts: get_abi.pl: stop check loop earlier when regex is found
-  scripts: get_abi.pl: precompile what match regexes
-  scripts: get_abi.pl: ensure that "others" regex will be parsed
-
- scripts/get_abi.pl | 388 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 372 insertions(+), 16 deletions(-)
-
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 40f10175bb98..8f69acec4ae5 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -590,44 +590,47 @@ sub check_undefined_symbols {
+ 			$found_string = 1;
+ 		}
+ 
++		if ($leave =~ /^\d+$/ || !defined($leaf{$leave})) {
++			$leave = "others";
++		}
++
+ 		print "--> $file\n" if ($found_string && $hint);
+-		if (defined($leaf{$leave})) {
+-			my $what = $leaf{$leave};
+-			$whats .= " $what" if (!($whats =~ m/$what/));
++		my $what = $leaf{$leave};
++		$whats .= " $what" if (!($whats =~ m/$what/));
+ 
+-			foreach my $w (split / /, $what) {
+-				if ($file =~ m#^$w$#) {
+-					$exact = 1;
+-					last;
+-				}
++		foreach my $w (split / /, $what) {
++			if ($file =~ m#^$w$#) {
++				$exact = 1;
++				last;
+ 			}
+-			# Check for aliases
+-			#
+-			# TODO: this algorithm is O(w * n²). It can be
+-			# improved in the future in order to handle it
+-			# faster, by changing parse_existing_sysfs to
+-			# store the sysfs inside a tree, at the expense
+-			# on making the code less readable and/or using some
+-			# additional perl library.
+-			foreach my $a (keys %aliases) {
+-				my $new = $aliases{$a};
+-				my $len = length($new);
++		}
++		# Check for aliases
++		#
++		# TODO: this algorithm is O(w * n²). It can be
++		# improved in the future in order to handle it
++		# faster, by changing parse_existing_sysfs to
++		# store the sysfs inside a tree, at the expense
++		# on making the code less readable and/or using some
++		# additional perl library.
++		foreach my $a (keys %aliases) {
++			my $new = $aliases{$a};
++			my $len = length($new);
+ 
+-				if (substr($file, 0, $len) eq $new) {
+-					my $newf = $a . substr($file, $len);
++			if (substr($file, 0, $len) eq $new) {
++				my $newf = $a . substr($file, $len);
+ 
+-					print "    $newf\n" if ($found_string && $hint);
+-					foreach my $w (split / /, $what) {
+-						if ($newf =~ m#^$w$#) {
+-							$exact = 1;
+-							last;
+-						}
++				print "    $newf\n" if ($found_string && $hint);
++				foreach my $w (split / /, $what) {
++					if ($newf =~ m#^$w$#) {
++						$exact = 1;
++						last;
+ 					}
+ 				}
+ 			}
+-
+-			$defined++;
+ 		}
++
++		$defined++;
++
+ 		next if ($exact);
+ 
+ 		# Ignore some sysfs nodes
+@@ -638,7 +641,7 @@ sub check_undefined_symbols {
+ 		# is not easily parseable.
+ 		next if ($file =~ m#/parameters/#);
+ 
+-		if ($hint && $defined) {
++		if ($hint && $defined && $leave ne "others") {
+ 			print "$leave at $path might be one of:$whats\n"  if (!$search_string || $found_string);
+ 			next;
+ 		}
+@@ -700,7 +703,16 @@ sub undefined_symbols {
+ 			my $leave = $what;
+ 			$leave =~ s,.*/,,;
+ 
+-			next if ($leave =~ m/^\.\*/ || $leave eq "");
++			# $leave is used to improve search performance at
++			# check_undefined_symbols, as the algorithm there can seek
++			# for a small number of "what". It also allows giving a
++			# hint about a leave with the same name somewhere else.
++			# However, there are a few occurences where the leave is
++			# either a wildcard or a number. Just group such cases
++			# altogether.
++			if ($leave =~ m/^\.\*/ || $leave eq "" || $leave =~ /^\d+$/) {
++				$leave = "others" ;
++			}
+ 
+ 			# Escape all other symbols
+ 			$what =~ s/$escape_symbols/\\$1/g;
 -- 
 2.31.1
-
 
