@@ -2,274 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4BCC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 22:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C95AFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 22:53:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67EAA61241
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 22:29:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADC5961090
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 22:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243482AbhIWWbN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 18:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243451AbhIWWbM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 18:31:12 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1478C061574;
-        Thu, 23 Sep 2021 15:29:40 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id c21so28199237edj.0;
-        Thu, 23 Sep 2021 15:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cgVSKBEuHze6exBeUanURS4ipvYaInWvl/Yx3hoo6G4=;
-        b=SJwlyYoLdyelvLMaK2xHgiiR1pT0fhjReWqAq6Q5k/vB409dNGMraAGiEq9eR6fSl9
-         +Wma2r5WbaJCNcuk/HzHCqhaTJWAjju3iyIL1vAlJkLTQcZn7nTMr8vuRlLW2Zr/7C9X
-         UD+cu2FL5UJew+nGvCHT6ITCEjsMzH8uaDzJsdvwQNFhkokX0L58NhHuNax8g6IBtguG
-         +6lCYA+38bDwkNn60Ai7aL004dOj8OsQvO+7Bt6oNIEBzHuFrs+/jkLqSESE61zDTlIG
-         RfxTDfBulzZlhvIHSU3hhXljMz7vUHUZSYtCmB5RTSDRX6ZPgAwYjVj66Q7QAI9gDTQP
-         tDIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cgVSKBEuHze6exBeUanURS4ipvYaInWvl/Yx3hoo6G4=;
-        b=6AfVPvi4NIS8+fjs+FSvf3XorEA2fkf/LowEGxZ7+2tNMzH18DK/ndVG5k2gbOGaBV
-         CGVlSEI44Kmb6HW5rYsl40JTygRUV2KrfHycSAeerpehFRXBUMeJdwCr6EeJqVpffUIi
-         oTDTtDP0qKgedrP683ZYJu9Nz4cm/QJFW6vQdhx3+DNSsZdlcVCmAoq16QknnLOjJxWO
-         Xq74h/Ahz+Q6IFEQBkweWle5XdNq0ANk2B1jsj0a7YwXkRrj8IfWRJ6VQQoaxP7Am0S7
-         SJhd0MG/ORYLuQTeR81/WD6YtlT9UIovJqNk+B8Q/H6WOBddNu4wUYXfKxUUPnm4cH4i
-         Dfag==
-X-Gm-Message-State: AOAM532yONZ7fGBecNCHEkQwnkNYMx/xyYNt8knVcUnbE+V+HsGW1xIN
-        jajtLKmHQQkeg1ohxQRM9NAkWhNpn2UooYu8AIk=
-X-Google-Smtp-Source: ABdhPJxpeJzEy3InxgoPqwYS/T5aYWx5nIjPcOP0OIDq7D6ggOaxMmFEBhgQClT9kghoCMTDpL6Zn7ogrlM1EVEDjvw=
-X-Received: by 2002:a17:906:1341:: with SMTP id x1mr7826650ejb.277.1632436179312;
- Thu, 23 Sep 2021 15:29:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210922102411.34494-1-songmuchun@bytedance.com> <20210922102411.34494-5-songmuchun@bytedance.com>
-In-Reply-To: <20210922102411.34494-5-songmuchun@bytedance.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Fri, 24 Sep 2021 10:29:28 +1200
-Message-ID: <CAGsJ_4yYx-ASMGQinS2J_J=2jeUGZCMqxJ0ww+pFy70kcxU3Ow@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] selftests: vm: add a hugetlb test case
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S243431AbhIWWym (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 18:54:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40624 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236363AbhIWWyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Sep 2021 18:54:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D4EA61050;
+        Thu, 23 Sep 2021 22:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1632437589;
+        bh=C3SYeyDKvKpb/ztYsrD8obNOu9dSdXZY8PFIa55n+74=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KZ3gMZwg4rgJ9cLecymJdeyv6i54jC7zVxLOfjkazVUlux9mYsa73ABGN59P4idUi
+         vuuJ7LslTKcm3niLg6ci5tCI5QkH6FfZMbvf+dXZp6sZAMKa4FePEb/vV/DSlnR+t8
+         rrRhkFGxbVQbFrgWJXjxie+JOSrcd/pPdSnyGya8=
+Date:   Thu, 23 Sep 2021 15:53:08 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        Suleiman Souhlal <suleiman@google.com>,
+        Jesse Barnes <jsbarnes@google.com>
+Subject: Re: [PATCH v4] zram: Introduce an aged idle interface
+Message-Id: <20210923155308.9b522a77a02ee13b76e9e613@linux-foundation.org>
+In-Reply-To: <20210923130115.1344361-1-bgeffon@google.com>
+References: <20210917210640.214211-1-bgeffon@google.com>
+        <20210923130115.1344361-1-bgeffon@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 10:27 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> Since the head vmemmap page frame associated with each HugeTLB page is
-> reused, we should hide the PG_head flag of tail struct page from the
-> user. Add a tese case to check whether it is work properly. The test
-> steps are as follows.
->
->   1) alloc 2MB hugeTLB
->   2) get each page frame
->   3) apply those APIs in each page frame
->   4) Those APIs work completely the same as before.
->
-> Reading the flags of a page by /proc/kpageflags is done in
-> stable_page_flags(), which has invoked PageHead(), PageTail(),
-> PageCompound() and compound_head(). If those APIs work properly, the
-> head page must have 15 and 17 bits set. And tail pages must have 16
-> and 17 bits set but 15 bit unset. Those flags are checked in
-> check_page_flags().
->
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  tools/testing/selftests/vm/vmemmap_hugetlb.c | 144 +++++++++++++++++++++++++++
->  1 file changed, 144 insertions(+)
->  create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
->
-> diff --git a/tools/testing/selftests/vm/vmemmap_hugetlb.c b/tools/testing/selftests/vm/vmemmap_hugetlb.c
-> new file mode 100644
-> index 000000000000..4cc74dd4c333
-> --- /dev/null
-> +++ b/tools/testing/selftests/vm/vmemmap_hugetlb.c
-> @@ -0,0 +1,144 @@
-> +// SPDX-License-Identifier: GPL-2.0
+On Thu, 23 Sep 2021 06:01:15 -0700 Brian Geffon <bgeffon@google.com> wrote:
+
+> This change introduces an aged idle interface to the existing
+> idle sysfs file for zram.
+> 
+> When CONFIG_ZRAM_MEMORY_TRACKING is enabled the idle file
+> now also accepts an integer argument. This integer is the
+> age (in seconds) of pages to mark as idle. The idle file
+> still supports 'all' as it always has. This new approach
+> allows for much more control over which pages get marked
+> as idle.
+> 
+> @@ -291,22 +291,16 @@ static ssize_t mem_used_max_store(struct device *dev,
+>  	return len;
+>  }
+>  
+> -static ssize_t idle_store(struct device *dev,
+> -		struct device_attribute *attr, const char *buf, size_t len)
 > +/*
-> + * A test case of using hugepage memory in a user application using the
-> + * mmap system call with MAP_HUGETLB flag.  Before running this program
-> + * make sure the administrator has allocated enough default sized huge
-> + * pages to cover the 2 MB allocation.
-> + *
-> + * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
-> + * That means the addresses starting with 0x800000... will need to be
-> + * specified.  Specifying a fixed address is not required on ppc64, i386
-> + * or x86_64.
-> + */
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +#include <sys/mman.h>
-> +#include <fcntl.h>
-> +
-> +#define MAP_LENGTH             (2UL * 1024 * 1024)
-> +
-> +#ifndef MAP_HUGETLB
-> +#define MAP_HUGETLB            0x40000 /* arch specific */
+> + * Mark all pages which are older than or equal to cutoff as IDLE.
+> + * Callers should hold the zram init lock in read mode
+> + **/
+
+A simple "*/" is conventional.
+
+> +static void mark_idle(struct zram *zram, ktime_t cutoff)
+>  {
+> -	struct zram *zram = dev_to_zram(dev);
+> +	int is_idle = 1;
+>  	unsigned long nr_pages = zram->disksize >> PAGE_SHIFT;
+>  	int index;
+>  
+> -	if (!sysfs_streq(buf, "all"))
+> -		return -EINVAL;
+> -
+> -	down_read(&zram->init_lock);
+> -	if (!init_done(zram)) {
+> -		up_read(&zram->init_lock);
+> -		return -EINVAL;
+> -	}
+> -
+>  	for (index = 0; index < nr_pages; index++) {
+>  		/*
+>  		 * Do not mark ZRAM_UNDER_WB slot as ZRAM_IDLE to close race.
+> @@ -314,14 +308,48 @@ static ssize_t idle_store(struct device *dev,
+>  		 */
+>  		zram_slot_lock(zram, index);
+>  		if (zram_allocated(zram, index) &&
+> -				!zram_test_flag(zram, index, ZRAM_UNDER_WB))
+> -			zram_set_flag(zram, index, ZRAM_IDLE);
+> +				!zram_test_flag(zram, index, ZRAM_UNDER_WB)) {
+> +#ifdef CONFIG_ZRAM_MEMORY_TRACKING
+> +			is_idle = (!cutoff || ktime_after(cutoff, zram->table[index].ac_time));
 > +#endif
-> +
-> +#define PAGE_SIZE              4096
-> +
-> +#define PAGE_COMPOUND_HEAD     (1UL << 15)
-> +#define PAGE_COMPOUND_TAIL     (1UL << 16)
-> +#define PAGE_HUGE              (1UL << 17)
-> +
-> +#define HEAD_PAGE_FLAGS                (PAGE_COMPOUND_HEAD | PAGE_HUGE)
-> +#define TAIL_PAGE_FLAGS                (PAGE_COMPOUND_TAIL | PAGE_HUGE)
-> +
-> +#define PM_PFRAME_BITS         55
-> +#define PM_PFRAME_MASK         ~((1UL << PM_PFRAME_BITS) - 1)
-> +
-
-better to move the comment here:
-
-+ * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
-+ * That means the addresses starting with 0x800000... will need to be
-+ * specified.  Specifying a fixed address is not required on ppc64, i386
-+ * or x86_64.
-
-With the change,
-
-Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
-
-> +/* Only ia64 requires this */
-> +#ifdef __ia64__
-> +#define MAP_ADDR               (void *)(0x8000000000000000UL)
-> +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
-> +#else
-> +#define MAP_ADDR               NULL
-> +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
+> +			if (is_idle)
+> +				zram_set_flag(zram, index, ZRAM_IDLE);
+> +		}
+>  		zram_slot_unlock(zram, index);
+>  	}
+> +}
+>  
+> -	up_read(&zram->init_lock);
+> +static ssize_t idle_store(struct device *dev,
+> +		struct device_attribute *attr, const char *buf, size_t len)
+> +{
+> +	struct zram *zram = dev_to_zram(dev);
+> +	ktime_t cutoff_time = 0;
+> +	ssize_t rv = -EINVAL;
+>  
+> -	return len;
+> +	if (!sysfs_streq(buf, "all")) {
+> +#ifdef CONFIG_ZRAM_MEMORY_TRACKING
+> +		u64 age_sec;
+> +		/* If it did not parse as 'all' try to treat it as an integer */
+> +		if (!kstrtoull(buf, 0, &age_sec))
+> +			cutoff_time = ktime_sub(ktime_get_boottime(),
+> +					ns_to_ktime(age_sec * NSEC_PER_SEC));
+> +		else
 > +#endif
-> +
-> +static void write_bytes(char *addr, size_t length)
-> +{
-> +       unsigned long i;
-> +
-> +       for (i = 0; i < length; i++)
-> +               *(addr + i) = (char)i;
-> +}
-> +
-> +static unsigned long virt_to_pfn(void *addr)
-> +{
-> +       int fd;
-> +       unsigned long pagemap;
-> +
-> +       fd = open("/proc/self/pagemap", O_RDONLY);
-> +       if (fd < 0)
-> +               return -1UL;
-> +
-> +       lseek(fd, (unsigned long)addr / PAGE_SIZE * sizeof(pagemap), SEEK_SET);
-> +       read(fd, &pagemap, sizeof(pagemap));
-> +       close(fd);
-> +
-> +       return pagemap & ~PM_PFRAME_MASK;
-> +}
-> +
-> +static int check_page_flags(unsigned long pfn)
-> +{
-> +       int fd, i;
-> +       unsigned long pageflags;
-> +
-> +       fd = open("/proc/kpageflags", O_RDONLY);
-> +       if (fd < 0)
-> +               return -1;
-> +
-> +       lseek(fd, pfn * sizeof(pageflags), SEEK_SET);
-> +
-> +       read(fd, &pageflags, sizeof(pageflags));
-> +       if ((pageflags & HEAD_PAGE_FLAGS) != HEAD_PAGE_FLAGS) {
-> +               close(fd);
-> +               printf("Head page flags (%lx) is invalid\n", pageflags);
-> +               return -1;
-> +       }
-> +
-> +       /*
-> +        * pages other than the first page must be tail and shouldn't be head;
-> +        * this also verifies kernel has correctly set the fake page_head to tail
-> +        * while hugetlb_free_vmemmap is enabled.
-> +        */
-> +       for (i = 1; i < MAP_LENGTH / PAGE_SIZE; i++) {
-> +               read(fd, &pageflags, sizeof(pageflags));
-> +               if ((pageflags & TAIL_PAGE_FLAGS) != TAIL_PAGE_FLAGS ||
-> +                   (pageflags & HEAD_PAGE_FLAGS) == HEAD_PAGE_FLAGS) {
-> +                       close(fd);
-> +                       printf("Tail page flags (%lx) is invalid\n", pageflags);
-> +                       return -1;
-> +               }
-> +       }
-> +
-> +       close(fd);
-> +
-> +       return 0;
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +       void *addr;
-> +       unsigned long pfn;
-> +
-> +       addr = mmap(MAP_ADDR, MAP_LENGTH, PROT_READ | PROT_WRITE, MAP_FLAGS, -1, 0);
-> +       if (addr == MAP_FAILED) {
-> +               perror("mmap");
-> +               exit(1);
-> +       }
-> +
-> +       /* Trigger allocation of HugeTLB page. */
-> +       write_bytes(addr, MAP_LENGTH);
-> +
-> +       pfn = virt_to_pfn(addr);
-> +       if (pfn == -1UL) {
-> +               munmap(addr, MAP_LENGTH);
-> +               perror("virt_to_pfn");
-> +               exit(1);
-> +       }
-> +
-> +       printf("Returned address is %p whose pfn is %lx\n", addr, pfn);
-> +
-> +       if (check_page_flags(pfn) < 0) {
-> +               munmap(addr, MAP_LENGTH);
-> +               perror("check_page_flags");
-> +               exit(1);
-> +       }
-> +
-> +       /* munmap() length of MAP_HUGETLB memory must be hugepage aligned */
-> +       if (munmap(addr, MAP_LENGTH)) {
-> +               perror("munmap");
-> +               exit(1);
-> +       }
-> +
-> +       return 0;
-> +}
-> --
-> 2.11.0
->
+> +			goto out;
+> +	}
 
-Thanks
-barry
+The ifdef tricks are pretty ugly.  Can things be improved with IS_ENABLED()?
+
+
