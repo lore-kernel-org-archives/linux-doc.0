@@ -2,122 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAF6C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 17:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E1EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 18:50:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82EE460F24
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 17:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BA5F61029
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 18:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242448AbhIWRVu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 13:21:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50142 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235318AbhIWRVu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Sep 2021 13:21:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DFFFE60F24;
-        Thu, 23 Sep 2021 17:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632417618;
-        bh=DR0FN25Ug9Xy3RR+UsMr2wZWKepCxowsNunAN/DFPFY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bt7r94vi16o2Xp+T11fAie2jHr5vwktiVtCK3DekEUVn3V19CMKqd2jAj6+eaYnVs
-         hA7JTH8K66U8ghfgdraPsMZgiWeCOeWkOZ5zIgCSY2MriktuCyq4usBuLCu3QsN3MS
-         yEeRkcANZoTXvbDlHmoxlE1TkusL21QxvyHTwWzA=
-Date:   Thu, 23 Sep 2021 19:13:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S242793AbhIWSvv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 14:51:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242795AbhIWSvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 14:51:51 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B49AC061757
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 11:50:19 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id u18so28784001lfd.12
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 11:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G+xBDmQPXKsiGLr3VFMM2p7CpCvy6Zy6mjF1IkZrEIc=;
+        b=y3X4xo8LVdZMrchYSTb0hQnOCCOXfWzr6tEV4tU2YsVOLgy8fUwLfb1w8hP2yiP2GT
+         ZRjEuMxdtKdzMTw1ktv61HJpmLMtARrXWmld/U1ns3nWx3mn1vPDzi6zUry/stv95Mgj
+         2KYwwNIMeQ9MWVJQwIPAjHowZrMZEFPqcWRwYwBIZepnKm2qC4OeQNRnuFXWo8q3k9SG
+         DT9dDeYx6ajv7y/8OrQ9HdINic5v1tcDb25oKDYb8xSu3GA5AW/eypqW3IttgTkfcAIU
+         3FrnVA+hK5lUYEEMuNwQaqKPRYe3U8l1sPLxhZsuBvTh0mFTH3banaEkmb2Hox8BbWnT
+         LQhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G+xBDmQPXKsiGLr3VFMM2p7CpCvy6Zy6mjF1IkZrEIc=;
+        b=E7iT780f3F75otWQYEq16MCVo1jV6hwpG/gQf/JMAfitWh4N0LJiJX5msHoe3T2ezv
+         cwS5U7KdkWP8FkP8iEyp7GVKeLFn3EcA3/8FgsayKdoVRg4HWi0ICym1VJVQZaCxTt7N
+         w5+SnGeBQQ2hE1YIjrJ3p0kZOBI8CyWoc3q506A2dW6fOiw1yD7S4AiXPhL81LS0agxj
+         o0wTaE46kA22lfW0fIRKpF0Jh2y/wDWH3MjRTXyGGfHCr/s1Die89LxnFMs1PhZ8m5RM
+         4aDSxx2j4RlgDMhnCMParX5ovyjgHR8jtJ3enRyuE3TJYbfpH4f+ItrSZKM8yk3DywtA
+         UnLg==
+X-Gm-Message-State: AOAM532r09QKrgL/GEtlInKSVP3pETFiC3IW7jJZ8avAu9VGBry3ES0j
+        JoBvYiXuqgBLkv47bQalFaQPaYt5i1YBC4qpPiXnxA==
+X-Google-Smtp-Source: ABdhPJxmuOPc/eEBZuFHS88X/WSvOdyPLq05/U0zOuP+5xD4VGlhAcmpTse2JIvNDLEh6CKIOgsb+rXfqVJ408et2/8=
+X-Received: by 2002:a05:651c:20b:: with SMTP id y11mr6770656ljn.463.1632423017540;
+ Thu, 23 Sep 2021 11:50:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1631785820.git.mchehab+huawei@kernel.org> <820bb7a1d7e0e51cbea72c9bee6bce806427d1f3.1631785820.git.mchehab+huawei@kernel.org>
+In-Reply-To: <820bb7a1d7e0e51cbea72c9bee6bce806427d1f3.1631785820.git.mchehab+huawei@kernel.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 23 Sep 2021 20:49:41 +0200
+Message-ID: <CAPDyKFrZptmXAfJbf7eUyrQ0dMVSZbpdXw=CfK-LSYbEeMayig@mail.gmail.com>
+Subject: Re: [PATCH v2 05/23] dt-bindings: mmc: update mmc-card.yaml reference
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision
- and performance
-Message-ID: <YUy1oPjdLTh9rEfq@kroah.com>
-References: <YUyICHTRdfL8Ul7X@kroah.com>
- <cover.1632411447.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1632411447.git.mchehab+huawei@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh@kernel.org>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 05:41:11PM +0200, Mauro Carvalho Chehab wrote:
-> Hi Greg,
-> 
-> As requested, this is exactly the same changes, rebased on the top of
-> driver-core/driver-core-next.
-> 
-> -
-> 
-> It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
-> 
-> With such changes, on my development tree, the script is taking 6 seconds to run 
-> on my desktop:
-> 
-> 	$ !1076
-> 	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
-> 
-> 	real	0m6,292s
-> 	user	0m5,640s
-> 	sys	0m0,634s
-> 	  6838 undefined_after
-> 	   808 undefined_symbols
-> 	  7646 total
-> 
-> And 7 seconds on a Dell Precision 5820:
-> 
-> 	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
-> 
-> 	real	0m7.162s
-> 	user	0m5.836s
-> 	sys	0m1.329s
-> 	6548 undefined
-> 	772 undefined_symbols
-> 
-> Both tests were done against this tree (based on today's linux-next):
-> 
-> 	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
-> 
-> It should be noticed that, as my tree has several ABI fixes,  the time to run the
-> script is likely less than if you run on your tree, as there will be less symbols to
-> be reported, and the algorithm is optimized to reduce the number of regexes
-> when a symbol is found.
-> 
-> Besides optimizing and improving the seek logic, this series also change the
-> debug logic. It how receives a bitmap, where "8" means to print the regexes
-> that will be used by "undefined" command:
-> 
-> 	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
-> 	real	0m17,189s
-> 	user	0m13,940s
-> 	sys	0m2,404s
-> 
-> 	$wc -l foo
-> 	18421939 foo
-> 
-> 	$ cat foo
-> 	...
-> 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
-> 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
-> 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
-> 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
-> 	...
-> 
-> On other words, on my desktop, the /sys match is performing >18M regular 
-> expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
-> enabled and sent to an area on my nvme storage).
+On Thu, 16 Sept 2021 at 11:55, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Changeset 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
+> renamed: Documentation/devicetree/bindings/mmc/mmc-card.txt
+> to: Documentation/devicetree/bindings/mmc/mmc-card.yaml.
+>
+> Update its cross-reference accordingly.
+>
+> Fixes: 922eefdafc80 ("dt-bindings: mmc: Convert MMC Card binding to a schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Better, it's down to 10 minutes on my machine now:
+Applied for next, thanks!
 
-	real	10m39.218s
-	user	10m37.742s
-	sys	0m0.775s
+Kind regards
+Uffe
 
-thanks!
 
-greg k-h
+> ---
+>  drivers/mmc/host/omap_hsmmc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
+> index 7a29ad542e4a..9dafcbf969d9 100644
+> --- a/drivers/mmc/host/omap_hsmmc.c
+> +++ b/drivers/mmc/host/omap_hsmmc.c
+> @@ -1510,7 +1510,7 @@ static void omap_hsmmc_init_card(struct mmc_host *mmc, struct mmc_card *card)
+>                  * REVISIT: should be moved to sdio core and made more
+>                  * general e.g. by expanding the DT bindings of child nodes
+>                  * to provide a mechanism to provide this information:
+> -                * Documentation/devicetree/bindings/mmc/mmc-card.txt
+> +                * Documentation/devicetree/bindings/mmc/mmc-card.yaml
+>                  */
+>
+>                 np = of_get_compatible_child(np, "ti,wl1251");
+> --
+> 2.31.1
+>
