@@ -2,172 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62DEC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DADC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:39:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5B4061242
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:10:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35F9561019
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241898AbhIWPMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 11:12:03 -0400
-Received: from mga03.intel.com ([134.134.136.65]:49666 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241889AbhIWPMD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Sep 2021 11:12:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10116"; a="223904165"
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
-   d="scan'208";a="223904165"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2021 08:10:31 -0700
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
-   d="scan'208";a="551160791"
-Received: from lloh-mobl.ger.corp.intel.com (HELO localhost) ([10.249.35.91])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2021 08:10:26 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        John Harrison <John.C.Harrison@Intel.com>,
-        Michal Wajdeczko <michal.wajdeczko@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Matt Roper <matthew.d.roper@intel.com>
-Cc:     intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH] drm/i915/guc, docs: Fix pdfdocs build error by removing nested grid
-In-Reply-To: <4a227569-074f-c501-58bb-d0d8f60a8ae9@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <4a227569-074f-c501-58bb-d0d8f60a8ae9@gmail.com>
-Date:   Thu, 23 Sep 2021 18:10:23 +0300
-Message-ID: <87czozba5c.fsf@intel.com>
+        id S242049AbhIWPkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 11:40:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233143AbhIWPku (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 11:40:50 -0400
+X-Greylist: delayed 213 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Sep 2021 08:39:19 PDT
+Received: from rockwork.org (rockwork.org [IPv6:2001:19f0:6001:1139:5400:2ff:feee:29a2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46865C061574;
+        Thu, 23 Sep 2021 08:39:19 -0700 (PDT)
+Received: from [IPV6:2409:8a28:c70:7540:bfbe:7940:90e7:5b7] (unknown [IPv6:2409:8a28:c70:7540:bfbe:7940:90e7:5b7])
+        by rockwork.org (Postfix) with ESMTPSA id 8A1F11692DB;
+        Thu, 23 Sep 2021 15:42:02 +0000 (UTC)
+Message-ID: <f1955267-c009-4dea-970e-9145c7cd6dbc@rockwork.org>
+Date:   Thu, 23 Sep 2021 23:38:49 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:93.0) Gecko/20100101
+ Thunderbird/93.0
+Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
+To:     Vipin Sharma <vipinsh@google.com>, tj@kernel.org, mkoutny@suse.com,
+        jacob.jun.pan@intel.com, rdunlap@infradead.org,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com,
+        brian.welty@intel.com
+Cc:     corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        gingell@google.com, rientjes@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210330044206.2864329-1-vipinsh@google.com>
+From:   Xingyou Chen <rockrush@rockwork.org>
+In-Reply-To: <20210330044206.2864329-1-vipinsh@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 20 Sep 2021, Akira Yokosawa <akiyks@gmail.com> wrote:
-> Nested grids in grid-table cells are not specified as proper ReST
-> constructs.
-> Commit 572f2a5cd974 ("drm/i915/guc: Update firmware to v62.0.0")
-> added a couple of kerneldoc tables of the form:
->
->   +---+-------+------------------------------------------------------+
->   | 1 |  31:0 |  +------------------------------------------------+  |
->   +---+-------+  |                                                |  |
->   |...|       |  |  Embedded `HXG Message`_                       |  |
->   +---+-------+  |                                                |  |
->   | n |  31:0 |  +------------------------------------------------+  |
->   +---+-------+------------------------------------------------------+
->
-> For "make htmldocs", they happen to work as one might expect,
-> but they are incompatible with "make latexdocs" and "make pdfdocs",
-> and cause the generated gpu.tex file to become incomplete and
-> unbuildable by xelatex.
->
-> Restore the compatibility by removing those nested grids in the tables.
->
-> Size comparison of generated gpu.tex:
->
->                   Sphinx 2.4.4  Sphinx 4.2.0
->   v5.14:               3238686       3841631
->   v5.15-rc1:            376270        432729
->   with this fix:       3377846       3998095
->
-> Fixes: 572f2a5cd974 ("drm/i915/guc: Update firmware to v62.0.0")
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+On 2021/3/30 12:42, Vipin Sharma wrote:
+> Hello,
+> 
+> This patch series is creating a new misc cgroup controller for limiting
+> and tracking of resources which are not abstract like other cgroup
+> controllers.
+> 
+> This controller was initially proposed as encryption_id but after the
+> feedbacks and use cases for other resources, it is now changed to misc
+> cgroup.
+> https://lore.kernel.org/lkml/20210108012846.4134815-2-vipinsh@google.com/
+> 
+> Most of the cloud infrastructure use cgroups for knowing the host state,
+> track the resources usage, enforce limits on them, etc. They use this
+> info to optimize work allocation in the fleet and make sure no rogue job
+> consumes more than it needs and starves others.
+> 
+> There are resources on a system which are not abstract enough like other
+> cgroup controllers and are available in a limited quantity on a host.
+> 
+> One of them is Secure Encrypted Virtualization (SEV) ASID on AMD CPU.
+> SEV ASIDs are used for creating encrypted VMs. SEV is mostly be used by
+> the cloud providers for providing confidential VMs. Since SEV ASIDs are
+> limited, there is a need to schedule encrypted VMs in a cloud
+> infrastructure based on SEV ASIDs availability and also to limit its
+> usage.
+> 
+> There are similar requirements for other resource types like TDX keys,
+> IOASIDs and SEID.
+> 
+> Adding these resources to a cgroup controller is a natural choice with
+> least amount of friction. Cgroup itself says it is a mechanism to
+> distribute system resources along the hierarchy in a controlled
+> mechanism and configurable manner. Most of the resources in cgroups are
+> abstracted enough but there are still some resources which are not
+> abstract but have limited availability or have specific use cases.
+> 
+> Misc controller is a generic controller which can be used by these
+> kinds of resources.
 
-Pushed to drm-intel-gt-next, thanks for the patch.
+Will we make this dynamic? Let resources be registered via something
+like misc_cg_res_{register,unregister}, at compile time or runtime,
+instead of hard coded into misc_res_name/misc_res_capacity etc.
 
-This makes the HTML output arguably worse, but there were no comments
-from anyone and the pdf build needs to work.
+There are needs as noted in drmcg session earlier this year. We may
+make misc cgroup stable, and let device drivers to register their
+own resources.
 
-BR,
-Jani.
+This may make misc cgroup controller more complex than expected,
+but simpler than adding multiple similar controllers.
 
-
-
-> ---
-> Hi all,
->
-> I know there is little interest in building pdfdocs (or LaTeX) version
-> of kernel-doc, and this issue does not matter most of you.
->
-> But "make pdfdocs" is supposed to work, give or take those tables
-> with squeezed columns, and at least it is expected to complete
-> without fatal errors.
->
-> I have no idea who is responsible to those grid-tables, so added
-> a lot of people in the To: and Cc: lists.
->
-> Does removing those nested grids look reasonable to you?
->
-> Any feedback is welcome!
->
-> Note: This patch is against the docs-next branch of Jon's -doc tree
-> (git://git.lwn.net/linux.git).  It can be applied against v5.15-rc1
-> and v5.15-rc2 as well.
->
->         Thanks, Akira
-> --
->  .../gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h | 10 +++++-----
->  .../drm/i915/gt/uc/abi/guc_communication_mmio_abi.h    | 10 +++++-----
->  2 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> index 99e1fad5ca20..c9086a600bce 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-> @@ -102,11 +102,11 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
->   *  |   +-------+--------------------------------------------------------------+
->   *  |   |   7:0 | NUM_DWORDS = length (in dwords) of the embedded HXG message  |
->   *  +---+-------+--------------------------------------------------------------+
-> - *  | 1 |  31:0 |  +--------------------------------------------------------+  |
-> - *  +---+-------+  |                                                        |  |
-> - *  |...|       |  |  Embedded `HXG Message`_                               |  |
-> - *  +---+-------+  |                                                        |  |
-> - *  | n |  31:0 |  +--------------------------------------------------------+  |
-> + *  | 1 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | [Embedded `HXG Message`_]                                    |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
->   *  +---+-------+--------------------------------------------------------------+
->   */
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> index bbf1ddb77434..9baa3cb07d13 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h
-> @@ -38,11 +38,11 @@
->   *  +---+-------+--------------------------------------------------------------+
->   *  |   | Bits  | Description                                                  |
->   *  +===+=======+==============================================================+
-> - *  | 0 |  31:0 |  +--------------------------------------------------------+  |
-> - *  +---+-------+  |                                                        |  |
-> - *  |...|       |  |  Embedded `HXG Message`_                               |  |
-> - *  +---+-------+  |                                                        |  |
-> - *  | n |  31:0 |  +--------------------------------------------------------+  |
-> + *  | 0 |  31:0 |                                                              |
-> + *  +---+-------+                                                              |
-> + *  |...|       | [Embedded `HXG Message`_]                                    |
-> + *  +---+-------+                                                              |
-> + *  | n |  31:0 |                                                              |
->   *  +---+-------+--------------------------------------------------------------+
->   */
->  
->
-> base-commit: 242f4c77b1c8cebfdfa0ad5b40e2e4ae0316e57d
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> One suggestion was to use BPF for this purpose, however, there are
+> couple of things which might not be addressed with BPF:
+> 1. Which controller to use in v1 case? These are not abstract resources
+>     so in v1 where each controller have their own hierarchy it might not
+>     be easy to identify the best controller to use for BPF.
+> 
+> 2. Abstracting out a single BPF program which can help with all of the
+>     resources types might not be possible, because resources we are
+>     working with are not similar and abstract enough, for example network
+>     packets, and there will be different places in the source code to use
+>     these resources.
+> 
+> A new cgroup controller tends to give much easier and well integrated
+> solution when it comes to scheduling and limiting a resource with
+> existing tools in a cloud infrastructure.
+> 
+> Changes in RFC v4:
+> 1. Misc controller patch is split into two patches. One for generic misc
+>     controller and second for adding SEV and SEV-ES resource.
+> 2. Using READ_ONCE and WRITE_ONCE for variable accesses.
+> 3. Updated documentation.
+> 4. Changed EXPORT_SYMBOL to EXPORT_SYMBOL_GPL.
+> 5. Included cgroup header in misc_cgroup.h.
+> 6. misc_cg_reduce_charge changed to misc_cg_cancel_charge.
+> 7. misc_cg set to NULL after uncharge.
+> 8. Added WARN_ON if misc_cg not NULL before charging in SEV/SEV-ES.
+> 
+> Changes in RFC v3:
+> 1. Changed implementation to support 64 bit counters.
+> 2. Print kernel logs only once per resource per cgroup.
+> 3. Capacity can be set less than the current usage.
+> 
+> Changes in RFC v2:
+> 1. Documentation fixes.
+> 2. Added kernel log messages.
+> 3. Changed charge API to treat misc_cg as input parameter.
+> 4. Added helper APIs to get and release references on the cgroup.
+> 
+> [1] https://lore.kernel.org/lkml/20210218195549.1696769-1-vipinsh@google.com
+> [2] https://lore.kernel.org/lkml/20210302081705.1990283-1-vipinsh@google.com/
+> [3] https://lore.kernel.org/lkml/20210304231946.2766648-1-vipinsh@google.com/
+> 
+> Vipin Sharma (3):
+>    cgroup: Add misc cgroup controller
+>    cgroup: Miscellaneous cgroup documentation.
+>    svm/sev: Register SEV and SEV-ES ASIDs to the misc controller
+> 
+>   Documentation/admin-guide/cgroup-v1/index.rst |   1 +
+>   Documentation/admin-guide/cgroup-v1/misc.rst  |   4 +
+>   Documentation/admin-guide/cgroup-v2.rst       |  73 +++-
+>   arch/x86/kvm/svm/sev.c                        |  70 ++-
+>   arch/x86/kvm/svm/svm.h                        |   1 +
+>   include/linux/cgroup_subsys.h                 |   4 +
+>   include/linux/misc_cgroup.h                   | 132 ++++++
+>   init/Kconfig                                  |  14 +
+>   kernel/cgroup/Makefile                        |   1 +
+>   kernel/cgroup/misc.c                          | 407 ++++++++++++++++++
+>   10 files changed, 695 insertions(+), 12 deletions(-)
+>   create mode 100644 Documentation/admin-guide/cgroup-v1/misc.rst
+>   create mode 100644 include/linux/misc_cgroup.h
+>   create mode 100644 kernel/cgroup/misc.c
+> 
