@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3DDC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E81C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:45:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF89560F0F
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:43:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C48D60F0F
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Sep 2021 15:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242108AbhIWPnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 11:43:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38326 "EHLO mail.kernel.org"
+        id S242134AbhIWPnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 11:43:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242054AbhIWPnF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S242080AbhIWPnF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 23 Sep 2021 11:43:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5ECEF60F0F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CCA0610C8;
         Thu, 23 Sep 2021 15:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632411693;
-        bh=3CsCCWh413B1aUjMg8I/otDBDvIVYcP91QWTDc+Aa5w=;
+        bh=msj1HjB4sc3NrsgvWpq1oIvIRROwT8HAcjlFieJYSPs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JqjEV+JThD3fvG7zcn/7n2NkBdCJ4spQy71GCSiVyJGCkoQ9rpSDy4JIoe07TDRER
-         qDCGNKb9SyqbFqQ2VIWM+chjgEPwDwvw+LTLsm1lAiVMc55TXn9CgcJqNDpVHZcd9o
-         ANhZlZTDy+q1UT4CsXQmN8UkrYxK6rJWmHCWtVJeifSW/7/T4BuwGtNOWHvXgepuDg
-         wDUH3frBM+V3oLO7yrHlMciT6Mb/ohm/N/73dFr7u9zH52mHJVT5dBqFWI4h1mP9Bc
-         /u4J3/u+rRezuOS6gOpc1c+BWU5pYHXSkBMmu2cmtOYmjlf5Fw2VldKU5dQS+s9DMz
-         rzCu8mKfvZe8g==
+        b=ju9ZPOK+HTHz2p8VJH2qUYGspJLGfP/AJ0AHGnsQZveVWvJHIAfAegwhN54LGNehX
+         1sVi2iqIGgqHoiTjC/q8/vWuWQAtLWfqjQSL79om5Smhisb9H9hhPvSNZE0D595kzC
+         eGhw63GsXcFa9I209BnLsMh+eY0sSIhvRfvj/JsV85b1a948hodMHn/BsjVQud5+qr
+         KtvFTqIvm2WSTutdel4hI55O/hshgxZFMfo9hHZNfiFanNF5tlj/8IZlLkBnDblLJ2
+         DS5VniqNJH669vS0Yl4n2QMbFzKHCAXO0JF+FE41TssvI5kgIZsylhfrfE/Mu3e1Ku
+         QoWCOI/6vvNPA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mTQqp-000p6C-Mx; Thu, 23 Sep 2021 17:41:31 +0200
+        id 1mTQqp-000p6K-P5; Thu, 23 Sep 2021 17:41:31 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     #@kernel.org, YUyICHTRdfL8Ul7X@kroah.com,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] scripts: get_abi.pl: call get_leave() a little late
-Date:   Thu, 23 Sep 2021 17:41:13 +0200
-Message-Id: <a21631f8a884f50a962beafdd800f27891348d95.1632411447.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 4/8] scripts: get_abi.pl: Better handle leaves with wildcards
+Date:   Thu, 23 Sep 2021 17:41:15 +0200
+Message-Id: <60bb97cf337333783f9f52e114b896439e9cc215.1632411447.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632411447.git.mchehab+huawei@kernel.org>
 References: <cover.1632411447.git.mchehab+huawei@kernel.org>
@@ -53,39 +53,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The $what conversions need to replace some characters to avoid
-breaking regex expressions found on some What:.
+When the the leaf of a regex ends with a wildcard, the speedup
+algorithm to reduce the number of regexes to seek won't work.
 
-only after replacing them back, the script should get the
-$leave devnode.
+So, when those are found, place at the "others" exception.
 
-Fixes: ca8e055c2215 ("scripts: get_abi.pl: add a graph to speedup the undefined algorithm")
+That slows down the search from 0.14s to 1 minute on my
+machine, but the results are a lot more consistent.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ scripts/get_abi.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 65261f464e25..9eb8a033d363 100755
+index bb80303fea22..3c0063d0e05e 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -777,8 +777,6 @@ sub undefined_symbols {
- 			# (this happens on a few IIO definitions)
- 			$what =~ s,\s*\=.*$,,;
+@@ -665,7 +665,7 @@ sub get_leave($)
+ 	# However, there are a few occurences where the leave is
+ 	# either a wildcard or a number. Just group such cases
+ 	# altogether.
+-	if ($leave =~ m/^\.\*/ || $leave eq "" || $leave =~ /^\d+$/) {
++	if ($leave =~ m/\.\*/ || $leave eq "" || $leave =~ /\\d/) {
+ 		$leave = "others";
+ 	}
  
--			my $leave = get_leave($what);
--
- 			# Escape all other symbols
- 			$what =~ s/$escape_symbols/\\$1/g;
- 			$what =~ s/\\\\/\\/g;
-@@ -790,6 +788,7 @@ sub undefined_symbols {
- 			# Special case: IIO ABI which a parenthesis.
- 			$what =~ s/sqrt(.*)/sqrt\(.*\)/;
- 
-+			my $leave = get_leave($what);
- 			my $added = 0;
- 			foreach my $l (split /\|/, $leave) {
- 				if (defined($leaf{$l})) {
 -- 
 2.31.1
 
