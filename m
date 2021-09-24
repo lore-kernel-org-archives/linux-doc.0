@@ -2,231 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56904C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 05:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50411C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 06:43:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 342A861100
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 05:51:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 341E461250
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 06:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230452AbhIXFxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 01:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbhIXFxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 01:53:23 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34212C061574;
-        Thu, 23 Sep 2021 22:51:51 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id d13-20020a17090ad3cd00b0019e746f7bd4so3601093pjw.0;
-        Thu, 23 Sep 2021 22:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UK43SGKijJtA3EFYHtOEdO01kvNoWX55bdi7RqCfAyM=;
-        b=MWAsJG+BWWjrwLl4jGn8Eck1HlcdZtTLfn/EUL15PTlcG2l76YM+MmOBKclv6Yc10z
-         7SUJhxHAH0oFsl3wbdoWTzzCF1oHvN45S/+xYAlVLG0cUSaKANLY9FykndvIOBd2ogWK
-         d7XukgoV7jbbwhW/QjcbDAPohIepU4z6aEp2N0HzgP7ToCbuL0VZUeKcYe+mDDIcghhq
-         IoNsq0s18kCS38YOFsyx2Gpxvt0emrsqBOG0CEss11GKBErlsDD9aBXfo6DqI+LdoMqy
-         /Npk8PuIs69nj5zsX7Gd2gFPPwIT57ELPIKXig2L49YYUoa7gSdWqoa7H+vXMYN9umsH
-         Q37A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UK43SGKijJtA3EFYHtOEdO01kvNoWX55bdi7RqCfAyM=;
-        b=wcePXIAYPxwsEv76jX4tdDWMVhZtSet25yDsinYhSa/Gm7GKf8VsoX0hOFt+Bx2dYg
-         FUbyWmzABvtmzztUxCjLIG9lnstViiv75sYzB2b057XWBmXGDe4O8k0yn4jb8rcXZTp1
-         uTEZvSDoTK2Sfb44ZVNokNYZB+JZajA7jxXDHrM/dC4PuCQ/lAeQSdfLXGlF0hh0NNY6
-         MEcmKXmHvCji3JQtGsL9Osues1nknVbVjIPo6xTm3+CJd3aPP9S43Oqtdc8sFEX5e0AP
-         85Hwh0mlyCPLqkOr7MgBSHQK2+yqMyeleGItLHHz4VSTd079dvl1Qz8CKGtU31x9EldP
-         AaBA==
-X-Gm-Message-State: AOAM532snvQcoqMd+Iwu6zS0n2sfTT7jiDS5OIcW2xswxdUekuwKT83i
-        VOrDfOijSWVKNDuXCYiTfTbJkAlD5yc=
-X-Google-Smtp-Source: ABdhPJzu1iSvpdRxE9NEFNTozTipjf4Eh2AmW2zsj4/OXNCsoJpYT+6DwlFBlWSavRGSabp62dMP7w==
-X-Received: by 2002:a17:90b:3143:: with SMTP id ip3mr160444pjb.50.1632462710634;
-        Thu, 23 Sep 2021 22:51:50 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id l14sm11033229pjq.13.2021.09.23.22.51.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 22:51:50 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     alexs@kernel.org, siyanteng@loongson.cn
-Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
-Date:   Fri, 24 Sep 2021 05:51:36 +0000
-Message-Id: <20210924055135.262327-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        id S244259AbhIXGpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 02:45:06 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:46445 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244182AbhIXGpG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 02:45:06 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 172CB580591;
+        Fri, 24 Sep 2021 02:43:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 24 Sep 2021 02:43:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=8JxUh0idl2OqTGZk5RBguL60tV
+        5G7pyRJ1PUXb3KSO8=; b=UazL6jNFbUYv1RK8ZFvI998QvQhhzP8gyc4/g2VeN2
+        sHUeRdspdNoQLtL/1myW6NPN2N47+4fLHR8PHba6d6Bg0SZ4DQGaTBqy/jQhM+iw
+        9jsxicANK3u3q/F5W3GG3XXy6QTKJD3nO1R62NZ/Mgw2ai+Y0vKHEVxd7vXxxO0I
+        FkeqYHghU+mksumRTOK96yc+EpBQBEsX2LLzxOqHXArQzlzQP/2IexbbUSNcWrDq
+        t9vweO5LmYIEwF0DxYYMD+8PG1bZTNMb/iy6MBCrkgjGJqk+IjUPtus/FCNETpbr
+        219hS8JrZp8AbeQu/Pr8IrVeT+vKo+qujJazXqZ8SCeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8JxUh0idl2OqTGZk5
+        RBguL60tV5G7pyRJ1PUXb3KSO8=; b=AnHvEYhKcDFMV8oGVr0u7Pe14AyyyiQhH
+        wwTKp1bF/EWMUIo4sHWX5rNMTm81OoaWLYX2Uf8D8dFAMBFHRGUGujhXtdr+eKJ0
+        Grl4PmTYvsr9GAfbgFvzejBfvttqA/vMFyBQdj3npM6wiNUuxpBBYxtkVNIKW7aN
+        Kl+Zkts+x0e6LPi3S8QuRdDgSfgeTD+j9O65ytmPzT0MGF+mjFVhsNSOwmzNTwwr
+        AKx5Zox0RUeJa6KAI7F2aztC4zKYv5S36AoEVIddLtfcfi9+BN/SyWcDnFEPDLI1
+        1El5NHxQt4UEC1yQEyPmulIOfB84GjGYvredlE6tX8+qcB/emWXBQ==
+X-ME-Sender: <xms:lHNNYT_YRaW0CDRib44K7f-o632_sljDgiGxqOXLY-_sFsjU2RsZYA>
+    <xme:lHNNYfvID2OaXtn6bhfFWVfB0awSYBFtpfVd9YwGdJkQuLQEsVrS7pxsa_QBLwMig
+    0WGjklEspF0YWtg7Q>
+X-ME-Received: <xmr:lHNNYRBtDkXyi-hazgRBv0OnErKymeGM5e56I1El9ltnUG1IqMYyAVoLX3jdUm9NCsVt>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
+    uhelvddrvghuqeenucggtffrrghtthgvrhhnpeeiueevtdegtdffgeeggfeuteejkeekvd
+    dvkeeiueekgfefgfeuueffgeelvdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:lHNNYfc7xAwlJbnY8z6DIhlqmNFgLD9ew_CIMHQANpyzpg_6StXmBQ>
+    <xmx:lHNNYYM2ZXPseFBG9iF6TFZxCXpI5fDGDS19zPEbDCcNZdCoQLF_7A>
+    <xmx:lHNNYRmEvGydt9qLP9-zeLKD-u-Svya9Gx_HhArCcgKaWzFThkQR-Q>
+    <xmx:lXNNYXpITK9_ctPoDq7MDCrPzR7CHLI9wCWmLCE3vPi5EE66LK8v7g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Sep 2021 02:43:29 -0400 (EDT)
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers where possible
+Date:   Fri, 24 Sep 2021 08:43:07 +0200
+Message-Id: <20210924064324.229457-1-greenfoo@u92.eu>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+Hi all,
 
-Add translation zh_CN/accounting/delay-accounting.rst and links it
-to zh_CN/accounting/index.rst while clean its todo entry.
+One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+patch series is about.
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
----
-v4:
-- add Reviewed-by.
-v3:
-- add missing period.
-v2:
-- delete useless blackline.
----
- .../zh_CN/accounting/delay-accounting.rst     | 112 ++++++++++++++++++
- .../translations/zh_CN/accounting/index.rst   |   2 +-
- 2 files changed, 113 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/accounting/delay-accounting.rst
+You will find two types of changes here:
 
-diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
-new file mode 100644
-index 000000000000..065a424d9b2a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
-@@ -0,0 +1,112 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/accounting/delay-accounting.rst
-+:Translator: Yang Yang <yang.yang29@zte.com.cn>
-+
-+.. _cn_delay-accounting.rst:
-+
-+========
-+延迟计数
-+========
-+
-+任务在等待某些内核资源可用时，会造成延迟。例如一个可运行的任务可能会等待
-+一个空闲CPU来运行。
-+
-+基于每任务的延迟计数功能度量由以下情况造成的任务延迟：
-+
-+a) 等待一个CPU（任务为可运行）
-+b) 完成由该任务发起的块I/O同步请求
-+c) 页面交换
-+d) 内存回收
-+
-+并将这些统计信息通过taskstats接口提供给用户空间。
-+
-+这些延迟信息为适当的调整任务CPU优先级、io优先级、rss限制提供反馈。重要任务
-+长期延迟，表示可能需要提高其相关优先级。
-+
-+通过使用taskstats接口，本功能还可提供一个线程组（对应传统Unix进程）所有任务
-+（或线程）的总延迟统计信息。此类汇总往往是需要的，由内核来完成更加高效。
-+
-+用户空间的实体，特别是资源管理程序，可将延迟统计信息汇总到任意组中。为实现
-+这一点，任务的延迟统计信息在其生命周期内和退出时皆可获取，从而确保可进行
-+连续、完整的监控。
-+
-+接口
-+----
-+
-+延迟计数使用taskstats接口，该接口由本目录另一个单独的文档详细描述。Taskstats
-+向用户态返回一个通用数据结构，对应每pid或每tgid的统计信息。延迟计数功能填写
-+该数据结构的特定字段。见
-+
-+     include/linux/taskstats.h
-+
-+其描述了延迟计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
-+回收等的累积延迟。
-+
-+取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延迟。
-+
-+当任务退出时，内核会将包含每任务的统计信息发送给用户空间，而无需额外的命令。
-+若其为线程组最后一个退出的任务，内核还会发送每tgid的统计信息。更多详细信息见
-+taskstats接口的描述。
-+
-+tools/accounting目录中的用户空间程序getdelays.c提供了一些简单的命令，用以显示
-+延迟统计信息。其也是使用taskstats接口的示例。
-+
-+用法
-+----
-+
-+使用以下配置编译内核::
-+
-+	CONFIG_TASK_DELAY_ACCT=y
-+	CONFIG_TASKSTATS=y
-+
-+延迟计数在启动时默认关闭。
-+若需开启，在启动参数中增加::
-+
-+   delayacct
-+
-+本文后续的说明基于延迟计数已开启。也可在系统运行时，使用sysctl的kernel.task_delayacct
-+进行开关。注意，只有在启用延迟计数后启动的任务才会有相关信息。
-+
-+系统启动后，使用类似getdelays.c的工具获取任务或线程组（tgid）的延迟信息。
-+
-+getdelays命令的一般格式::
-+
-+	getdelays [-t tgid] [-p pid] [-c cmd...]
-+
-+获取pid为10的任务从系统启动后的延迟信息::
-+
-+	# ./getdelays -p 10
-+	（输出信息和下例相似）
-+
-+获取所有tgid为5的任务从系统启动后的总延迟信息::
-+
-+	# ./getdelays -t 5
-+
-+
-+	CPU	count	real total	virtual total	delay total
-+		7876	92005750	100000000	24001500
-+	IO	count	delay total
-+		0	0
-+	SWAP	count	delay total
-+		0	0
-+	RECLAIM	count	delay total
-+		0	0
-+
-+获取指定简单命令运行时的延迟信息::
-+
-+  # ./getdelays -c ls /
-+
-+  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
-+  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
-+
-+
-+  CPU	count	real total	virtual total	delay total
-+	6	4000250		4000000		0
-+  IO	count	delay total
-+	0	0
-+  SWAP	count	delay total
-+	0	0
-+  RECLAIM	count	delay total
-+	0	0
-+
-diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
-index 362e907b41f9..090f93776faa 100644
---- a/Documentation/translations/zh_CN/accounting/index.rst
-+++ b/Documentation/translations/zh_CN/accounting/index.rst
-@@ -16,10 +16,10 @@
-    :maxdepth: 1
- 
-    psi
-+   delay-accounting
- 
- Todolist:
- 
-    cgroupstats
--   delay-accounting
-    taskstats
-    taskstats-struct
+  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+    already been done in previous commits such as b7ea04d2)
+
+  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+    in the remaining places (as it has already been done in previous commits
+    such as 57037094)
+    
+Most of the changes are straight forward, except for a few cases in the "amd"
+and "i915" drivers where some extra dancing was needed to overcome the
+limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+once inside the same function (the reason being that the macro expansion
+includes *labels*, and you can not have two labels named the same inside one
+function)
+
+Notice that, even after this patch series, some places remain where
+"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+all inside drm core (which makes sense), except for two (in "amd" and "i915")
+which cannot be replaced due to the way they are being used.
+
+Changes in v2:
+
+  - Fix commit message typo
+  - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+  - Split drm/i915 patch into two simpler ones
+  - Remove drm_modeset_(un)lock_all()
+  - Fix build problems in non-x86 platforms
+
+Fernando Ramos (17):
+  drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
+  drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: remove drm_modeset_(un)lock_all()
+  doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
+
+ Documentation/gpu/todo.rst                    | 17 ----
+ Documentation/locking/ww-mutex-design.rst     |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++-----
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
+ drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
+ drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
+ drivers/gpu/drm/drm_fb_helper.c               | 10 +-
+ drivers/gpu/drm/drm_framebuffer.c             |  6 +-
+ drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
+ drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 23 ++---
+ .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
+ drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
+ drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
+ drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
+ drivers/gpu/drm/tegra/dsi.c                   |  6 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
+ drivers/gpu/drm/tegra/sor.c                   | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
+ include/drm/drm_modeset_lock.h                |  2 -
+ 30 files changed, 265 insertions(+), 292 deletions(-)
+
+
+base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
 -- 
-2.25.1
+2.33.0
 
