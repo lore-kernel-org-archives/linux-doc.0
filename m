@@ -2,121 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 362C8C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:27:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3042C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 21:32:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CD8060FDC
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:27:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA9A560F6D
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 21:32:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344963AbhIXU26 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 16:28:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344335AbhIXU25 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 16:28:57 -0400
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C84C061571;
-        Fri, 24 Sep 2021 13:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=skD/cZCNH8R8F4DM7qf42ZhB6cHTkIJXOzzw79kAsi0=; b=A/gY15IL7NXln2jUBwDOMDRjCB
-        9ZUi+IA1PiY01O2ZsoVDzjFrdxYcu+1gB2NLC5Qjnmof4COu3glftgq6qoqBzYRWnCWvhV4w7QrPC
-        f1mQgXDULuUhimPxIy6tV1VOsKm7rpecIJEYBuYYdsMLd+zTg9V9puR0XIRwZes3HFWwhm/ZHhGdI
-        Dt+dEpvNVKWLZbYzhu/wj3fpjnFskx51WKRgg54kWDOzWs8wCawi6AddtWQzuA/xS0akkkNSggeNe
-        cZwpYqgI/oIlmYb3T/a7kwtKrK8qwuP+m+ui4mW51OtCxWBKaq7DFvKuk1QBovavtZwxxAWIBGgRV
-        fpq1v1Cg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mTrn0-00FTAn-Dv; Fri, 24 Sep 2021 20:27:22 +0000
-Subject: Re: [PATCH] docs: Explain the desired position of function attributes
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-References: <20210924202302.2335542-1-keescook@chromium.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <053717cf-e1b3-15a4-97e6-e72848f6d7bd@infradead.org>
-Date:   Fri, 24 Sep 2021 13:27:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S1347407AbhIXVdg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 17:33:36 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37403 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347527AbhIXVdg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Sep 2021 17:33:36 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10117"; a="285183558"
+X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
+   d="scan'208";a="285183558"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 14:32:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
+   d="scan'208";a="704324501"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Sep 2021 14:32:00 -0700
+Received: from debox1-server.jf.intel.com (debox1-server.jf.intel.com [10.54.39.121])
+        by linux.intel.com (Postfix) with ESMTP id AFA1258096C;
+        Fri, 24 Sep 2021 14:31:57 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     hdegoede@redhat.com, mgross@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, gregkh@linuxfoundation.org,
+        srinivas.pandruvada@intel.com
+Cc:     "David E. Box" <david.e.box@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 1/2] Documentation: Update ioctl-number.rst for Intel Software Defined Silicon interface
+Date:   Fri, 24 Sep 2021 14:31:56 -0700
+Message-Id: <20210924213157.3584061-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210924202302.2335542-1-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/24/21 1:23 PM, Kees Cook wrote:
-> While discussing how to format the addition of various function
-> attributes, some "unwritten rules" of ordering surfaced[1]. Capture a
-> synthesized version of Linus's, Joe's, and Rasmus's recommendations on
-> this subject for future reference.
-> 
-> [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->   Documentation/process/coding-style.rst | 27 ++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 42969ab37b34..3559c34a9281 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -487,6 +487,33 @@ because it is a simple way to add valuable information for the reader.
->   Do not use the ``extern`` keyword with function prototypes as this makes
->   lines longer and isn't strictly necessary.
->   
-> +When writing a function prototype, please keep the `order of elements regular
-> +<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com>`_. For example::
-> +
-> +	__must_check __printf(4, 5) __malloc __init
-> +	static __always_inline void *action(enum magic value, size_t size,
-> +					    u8 count, char *fmt, ...)
-> +	{
-> +		...
-> +	}
-> +
-> +The preferred order of elements for a function prototype is:
-> +
-> +- attributes on the preceding lines
-> +
+Reserve ioctl number and range for the Intel Software Defined Silicon
+driver.
 
-I thought that idea was already nacked: (it's more of a BSD thing AFAIK)
-(and I would NAK it if I could :)
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-"""
-> Attributes should be on their own line, they can be quite lengthy.
-
-No, no no. They really shouldn't.
-""
-
-from: https://lore.kernel.org/mm-commits/CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com/
-
-> +  - return type attributes (here, ``__must_check``)
-> +  - function parameter attributes (here, ``__printf(4,5)``)
-> +  - function behavior attributes (here, ``__malloc``)
-> +  - storage class attributes (here, ``__init``)
-> +
-> +- main function prototype on the next lines
-> +
-> +  - storage class (here, ``static __always_inline`` -- even though
-> +    ``__always_inline`` is technically an attribute, it is treated like
-> +    ``inline``)
-> +  - return type (here, ``void *``)
-> +  - function name (here, ``action``)
-> +  - function parameters (as described earlier: each with type and name)
->   
->   7) Centralized exiting of functions
->   -----------------------------------
-> 
-
-
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 2e8134059c87..2a6e92639cdb 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -363,6 +363,7 @@ Code  Seq#    Include File                                           Comments
+ 0xDB  00-0F  drivers/char/mwave/mwavepub.h
+ 0xDD  00-3F                                                          ZFCP device driver see drivers/s390/scsi/
+                                                                      <mailto:aherrman@de.ibm.com>
++0xDF  all    linux/isdsi_if.h
+ 0xE5  00-3F  linux/fuse.h
+ 0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                   ChromeOS EC driver
+ 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                     sisfb (in development)
 -- 
-~Randy
+2.25.1
+
