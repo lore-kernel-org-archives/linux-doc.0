@@ -2,100 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E43BC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F39C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:23:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4222E61107
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A0EF611C8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 20:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345983AbhIXURh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 16:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33930 "EHLO
+        id S1348433AbhIXUYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 16:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344957AbhIXURh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 16:17:37 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F9BC061613
-        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 13:16:03 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id y89so29698373ede.2
-        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 13:16:03 -0700 (PDT)
+        with ESMTP id S1348434AbhIXUYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 16:24:39 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36588C0614ED
+        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 13:23:06 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id k17so9852489pff.8
+        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 13:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dma3ODYRAwAqQNgxjoPPmrM71vwSjvGubtDE6+J/Uj4=;
-        b=TCKaE7TNX17wekyhEJMq0Q25AVyKWiZRP+g/+Gp/8PWclgr/jK3NrgttQdr7wcLdXR
-         Q7Vui+5HdK/XtCPVLRA1f3pBVqdfXx9tpC6sVw/nnEysSkKizl2mQK1SQUekXcJnHoZb
-         iKS9R9k/fhu93FJDzD8w8K1oJinhGnJ23XrS0RrTKDPGUkbMcQkqosdn1u9ndrmaqYVX
-         aY+QtdNzVtWH36uUWKCcNE6ZOBnMcRs/Ux8HSJmt9kBinzOvcfA/PBdBGjSEj4T5I68L
-         agEiE1FY6qB/1zx1Jyhcyw1sMqbjO4VrSZY6VVVg4ZwmbJQMY9JC9tCVJhGtQbWB3EHK
-         KETg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q2XJIyuLuPiwmfllhtQcLNWsdYZDAyHGRwxHWCUSgAk=;
+        b=dwet/Cnw4R1aEbpy6KKiP2uMHrE7rz5g45N9sRNoGiAOaoBXG6TiDEF6Z46hZRGCqo
+         5zHAHo1WSf7QEhK7bgTj80Tnmu7l6uaSssAKIN8s8Zz1RV2kzaBOGRVUC1XBnWQD+khd
+         ysNjOrbrIxqQpk7g+bLr59JFMZKg7phwnjCzc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dma3ODYRAwAqQNgxjoPPmrM71vwSjvGubtDE6+J/Uj4=;
-        b=ad7hySzyYtvKvAl3VMRK/GZIW88hWi0LD+K1NKqBVyzXiwQxlum0D65DhN2e7KaWT0
-         SkUU09rEgtRoVVyffYFFaXYv9kZNC96ruw4ydgOTz89hB9wfIXcqJf6APXqAsEEesRKw
-         kut5qV2S5hQpWO5k/kxnaE0Z7WPBEF8qk5jDVgZ/Zb6MZmAf25GH8xO9q9uCOgb4BtuX
-         yaAOVbDLrB7Npn/4LqPJ9ERioU06yOzGkMB34e2QJ9ss0jG153UCSdt4YYIW6pQcdg2b
-         3aAcRrGxU/WifY5aKhi2sCLPd39xyku7jOJaI6camEQjBJ51EnuxzNDon7xdl9XJOZG3
-         UIQw==
-X-Gm-Message-State: AOAM532L+zYl+sXTMgys/ZIjZt1z7/zk0zlroIKEfl1vUyEYTrK5kSIV
-        oLlasBAiuH/aAKi2v3pnBedIe6WENban21CUfnhj7g==
-X-Google-Smtp-Source: ABdhPJy+GO7D85GdcvOuwQ7T61FovB7Jo/xuxyb7T+18+fqF4fp9j9ohG6KW8vkKyjgJq4w4BsZG3i2clMRE46OOnIA=
-X-Received: by 2002:a17:906:2bc3:: with SMTP id n3mr13014432ejg.548.1632514562127;
- Fri, 24 Sep 2021 13:16:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q2XJIyuLuPiwmfllhtQcLNWsdYZDAyHGRwxHWCUSgAk=;
+        b=qaOVxiypnTWuDSR/nr5oH0rOmmpHoNDHjXH1YtiJwTKp2ho91igljigd0pgOKzSKR0
+         bhyCi+sWNfztVO5f5Zx6QfmM1FaH7XdEg01bDfWv6Bp0z91Tl9f1biV9PlADG4vn8cr/
+         VyF5SiGBA6QLrgs4KDXZgvcweDfW+23gZYUpmplBhzHdkM0h9Pi0C40r+uUMSwgqXzrV
+         5GyO2oGteesptgyrSm1yJoi+CPiK+tkpYhA3WD5EkljwlZAF6vvG9EFuArvVEwYtmpIf
+         dX+iWw3gbusBL9irEULmVgUBD8BZqsla54/Sjq3BxssBqABXyvizJEZhUI0BypFuawKx
+         Njcw==
+X-Gm-Message-State: AOAM530H4W8atnVABuza6T4X+ZAvCf+j7Ih0vOXQehKd6AhvVo4lVlSx
+        5YWKeaG1ActzEYnfvgwELzb6bA==
+X-Google-Smtp-Source: ABdhPJzAt6+0yGWLndCymdd2PYackaA3Qavfcu+EpKhxYqBna1Gu7h3RCxZzyC9GOHKS6n5U0If8vg==
+X-Received: by 2002:aa7:956a:0:b0:447:96bd:8df5 with SMTP id x10-20020aa7956a000000b0044796bd8df5mr11475407pfq.35.1632514985663;
+        Fri, 24 Sep 2021 13:23:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b7sm9753023pfb.20.2021.09.24.13.23.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 13:23:05 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Joe Perches <joe@perches.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH] docs: Explain the desired position of function attributes
+Date:   Fri, 24 Sep 2021 13:23:02 -0700
+Message-Id: <20210924202302.2335542-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210917210640.214211-1-bgeffon@google.com> <20210924161128.1508015-1-bgeffon@google.com>
- <20210924125422.358374d83cdb95db055a4467@linux-foundation.org>
-In-Reply-To: <20210924125422.358374d83cdb95db055a4467@linux-foundation.org>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Fri, 24 Sep 2021 16:15:26 -0400
-Message-ID: <CADyq12xAc4Y5P4n69oahPNs6M55cUb6=7Nku=J5iEOJVMBOPTQ@mail.gmail.com>
-Subject: Re: [PATCH v5] zram: Introduce an aged idle interface
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org,
-        Suleiman Souhlal <suleiman@google.com>,
-        Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2128; h=from:subject; bh=QTO9uSZ4HV31mzUIdTms9ofAmY44hmOsdsNfkP2Fupg=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhTjOmqdYiF66xBc6cimfQFv5/sM6LDfv9vgQMC9tt aCg0zayJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYU4zpgAKCRCJcvTf3G3AJr/+EA CTKulsHK3K7wnbWaAIa1H/VS/2m0e1fD2UIdiDWcLlUJLBSEr+NVWOdNYsqNX6LHfz+3y5tkZAeqs3 Ckjjt0pnVCsaxGkYysQvJ+WSK0+Vh02+XRqbgAiN0xJOCGu48Iwtueb/wUtBiTDK5gx1gpwfYUpAkh KtqpozuINhMFHJ5WySY5WeK6FTN3nxF4FRV3gsglhsezNlcltWdSKx96DUKP4CRYldXM76KQScX9pT 0IrKxYS3c1rsghNJ/05YRNENK5kI2vKl0Hr18LQLxxHPyiozyiI8BVV5i8hv8T/01Qp0HJU6LtSYvK Mi66ElK5hLZkg6KW5DUc9ncv3mqP2uKb4FInLFMJzSNijpevw0dOyNMYGyBNQqKgNUSVNRWWyTLvDR rfTwjNGeEZP8sVMnDbP/cG6MIoOvq17cLZhVr/PYYjceF1Lt5E8CltzeBrWi2NKEyyLQZJjHSHgj7m Tbmj1KK9QCInrAZXoGowAsUDjfFOlLBnfWr3aiq8QT+vcsS03x4t8qy/uclMP9925SjzYoe7a/Hlmk 5k0VehFk2cX80K8BqHNy2wKKQfiJ3/+pr1QpDXahRKq9H2ErkrAkiZ6LcGOtlO3gqO70a1ULosoCya gsS+h6sSKlMK7KTerVGMKnVtja8h2W3yIHXy/jEMWnuryhWmPxf/oW2l3Wuw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Also this?
->
-> --- a/drivers/block/zram/zram_drv.c~zram-introduce-an-aged-idle-interface-v5-fix
-> +++ a/drivers/block/zram/zram_drv.c
-> @@ -309,9 +309,8 @@ static void mark_idle(struct zram *zram,
->                 zram_slot_lock(zram, index);
->                 if (zram_allocated(zram, index) &&
->                                 !zram_test_flag(zram, index, ZRAM_UNDER_WB)) {
-> -#ifdef CONFIG_ZRAM_MEMORY_TRACKING
-> +                       if (IS_ENABLED(CONFIG_ZRAM_MEMORY_TRACKING))
->                                 is_idle = (!cutoff || ktime_after(cutoff, zram->table[index].ac_time));
-> -#endif
->                         if (is_idle)
->                                 zram_set_flag(zram, index, ZRAM_IDLE);
->                 }
-> _
->
+While discussing how to format the addition of various function
+attributes, some "unwritten rules" of ordering surfaced[1]. Capture a
+synthesized version of Linus's, Joe's, and Rasmus's recommendations on
+this subject for future reference.
 
-Hi Andrew,
-As written that patch won't compile when
-CONFIG_ZRAM_MEMORY_TRACKING=n, my guess is that the compiler pass that
-removes the dead branch only happens after it attempts to compile the
-branch itself. So it appears that even though IS_ENABLED(..) always
-evaluates to 0, the compile will fail because table[index].ac_time
-does not exist. You should get an error like this:
+[1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com
 
-drivers/block/zram/zram_drv.c:314:57: error: no member named 'ac_time'
-in 'struct zram_table_entry'
-                                                             (!cutoff
-|| ktime_after(cutoff, zram->table[index].ac_time)))
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/process/coding-style.rst | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Brian
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 42969ab37b34..3559c34a9281 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -487,6 +487,33 @@ because it is a simple way to add valuable information for the reader.
+ Do not use the ``extern`` keyword with function prototypes as this makes
+ lines longer and isn't strictly necessary.
+ 
++When writing a function prototype, please keep the `order of elements regular
++<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com>`_. For example::
++
++	__must_check __printf(4, 5) __malloc __init
++	static __always_inline void *action(enum magic value, size_t size,
++					    u8 count, char *fmt, ...)
++	{
++		...
++	}
++
++The preferred order of elements for a function prototype is:
++
++- attributes on the preceding lines
++
++  - return type attributes (here, ``__must_check``)
++  - function parameter attributes (here, ``__printf(4,5)``)
++  - function behavior attributes (here, ``__malloc``)
++  - storage class attributes (here, ``__init``)
++
++- main function prototype on the next lines
++
++  - storage class (here, ``static __always_inline`` -- even though
++    ``__always_inline`` is technically an attribute, it is treated like
++    ``inline``)
++  - return type (here, ``void *``)
++  - function name (here, ``action``)
++  - function parameters (as described earlier: each with type and name)
+ 
+ 7) Centralized exiting of functions
+ -----------------------------------
+-- 
+2.30.2
+
