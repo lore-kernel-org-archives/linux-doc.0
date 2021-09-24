@@ -2,125 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87411C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 04:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05060C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 05:11:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DE1861107
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 04:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4ABB61164
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 05:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbhIXEMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 00:12:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37974 "EHLO
+        id S231256AbhIXFMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 01:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbhIXEMU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 00:12:20 -0400
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BAE6C061574;
-        Thu, 23 Sep 2021 21:10:48 -0700 (PDT)
-Received: by mail-vs1-xe31.google.com with SMTP id k10so8648934vsp.12;
-        Thu, 23 Sep 2021 21:10:47 -0700 (PDT)
+        with ESMTP id S229678AbhIXFMg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 01:12:36 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF3BC061574
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 22:11:03 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id n18so8738340pgm.12
+        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 22:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Bk15Hm2M8idBVgL17RzOk2yetGgHrtwFP6x5McjK4DA=;
-        b=lj+ehfoLt8PH752kmrSF3EVTC8nlA/Ayv88DSqabOxmVGnNIaV0nZVxy/OcKPrkE+G
-         GqiH3zCzvzggADBo+GtsyLhASlr5MnXZiPAjgxg4UScuDnontFjuIBF24c7lMR1bFECi
-         9mwtPlJOJqx5QlgXsV3oJQD7fiyNi60HL7mliU82r5Hr4+qoZXouquejDPJlm5+V8uGr
-         wDrvRgGcYA+ksiMKfsi8Q8MXfCwshPppdH4c4zo03DaPMB6GtTLWHPQcJqeRBKhBQCln
-         Q1D4L7dMtzAVDY1/hb9dsF1oeIeTGdd7BbGZR4haVYCJCFYjdfdPeT/ipmyVN135lrsU
-         hEkw==
+        bh=vzqjuklikXd1yyaVBqex7jIXr6EPFUdZGObWj4aWYco=;
+        b=L2Ksg0xpwm7l/+7qy95yUW5KQa6egIJ835QqbCQwPK44M2VneUTbSROw2muZDAUFOE
+         2pe3J5MHRCwW+5mNJ1Tp8f3gbivSj+QbsDecWg/nNNL2dju1+nmgs4g3FCAjBDmyu/bM
+         oyR7rgqoYrOhq6m3ZmblUnutCnKWzQXfvK596tkZkwXacJnL+k6y5/5wMFoO4pN/iSHT
+         382yS1h2BLTtjah+AH7hWyL+Rz2DJmsTfuirtyD2l4m0sN0TmRqwWRJcVEbof8dcSuEr
+         IWLCW3hN5dv/9TgOJWtJU9LS7jpdmPwgv3XAnCF4rzhGDp56c87qyclv9XZ9+kc6UWPJ
+         tQ8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Bk15Hm2M8idBVgL17RzOk2yetGgHrtwFP6x5McjK4DA=;
-        b=YB5d+OLphiDDWHzppMBcTOZxIKNbSKhZRyjORjV4Tq5C3tC11NjsaAJU7wTtu8nQfd
-         RSLgED5K3XRoLyVFsdrirww0cDOatCW+MucpW8D5MdK5ASyvBHXynqt96SM1gvy7pC/e
-         O9xdlrS4aZw+iXST2mBeVtmDc9z+RDhT2KWzyO/mt6/SEPfnzCMk1G0hP+FbFl7InE/f
-         hutMXspZnJpmw5T21PWr9JGaOTF6zEAwKrXZqtIR6iIdoJroMucLWX8IU4j1UKqweNRq
-         pyeDcnfqnjdMjXQ0Jc8/Xnev8YJnf1zewKps4H4q+H9tBdFtPobNgwAX43gsHHJySStc
-         nryQ==
-X-Gm-Message-State: AOAM53353eGNvp3BgiP/3cJDlouIN55el+hSPDSCOmSB9fz3EKabX/zE
-        AX/ViY8SDL+1kjvEI8UlsqeSYFkkgJPbBu+2nKw=
-X-Google-Smtp-Source: ABdhPJzLUfouWkKEbNgnmt6Uyf7gpyFM0hgGqGEzrmvrnmP8/pa2XDxulvhZtbJi5dwvUBMg9NmX2k9F0edVcx2hX5g=
-X-Received: by 2002:a67:ee12:: with SMTP id f18mr7989448vsp.20.1632456646925;
- Thu, 23 Sep 2021 21:10:46 -0700 (PDT)
+        bh=vzqjuklikXd1yyaVBqex7jIXr6EPFUdZGObWj4aWYco=;
+        b=u36+X8FeLMUr7LdetdtcH8iYB4QsWuMDWA8vktZlyEn/8cFRyDlLG5JqNdfdJpnVv4
+         Qp0Ejf7Bj7gioKvddGmyOtU5c8QKagSfExuKwxiGnd7GMX9HVeuKZh+v0GhPbu53g3CJ
+         D3kbmFnwMHkddz7Gvd18zoZOKK/vVPP6vzWKdEjwt5OlpCKmV9f0VXm3TvDI4KPGO+nb
+         5HFul+ndmKBxXMtqtgL1gGK05QN9EpfzMz7IHEvCdm1BIexHKciusjkT4sny0k8cJoB+
+         A9P7eWglmffM65a7GDSLpgWVsKTvsfmOZQVhRLh4FVhMEE5vl4kAXSPzUEuZdCUBn7sv
+         Wtzw==
+X-Gm-Message-State: AOAM533z5yRW/piudFn3rJ7uVJFq+j3+4GPo7EvtweaYVNTLPicYUwpN
+        fXiS/MlY+J5ci858p/h5CJba75Hi4hJ6/aeIT4kmwA==
+X-Google-Smtp-Source: ABdhPJzkE+tv3MCnLS/iXDLKnueQlx+9lpsTOIPRPuRi3tYaTN1v5cB+yOMHogKiycnI+FMp7WpvlQFLSUjypaWP65Y=
+X-Received: by 2002:a63:1a64:: with SMTP id a36mr2164845pgm.225.1632460263042;
+ Thu, 23 Sep 2021 22:11:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
- <20210917035736.3934017-2-chenhuacai@loongson.cn> <20210923205929.GA23210@duo.ucw.cz>
-In-Reply-To: <20210923205929.GA23210@duo.ucw.cz>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Fri, 24 Sep 2021 12:10:35 +0800
-Message-ID: <CAAhV-H5MPtfsBDH9Vo1e1n0oES_jHUrKJqk6Jgu=KD+WFFrKxA@mail.gmail.com>
-Subject: Re: [PATCH V3 01/22] Documentation: LoongArch: Add basic documentations
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
+References: <20210922102411.34494-1-songmuchun@bytedance.com>
+ <20210922102411.34494-5-songmuchun@bytedance.com> <CAGsJ_4yYx-ASMGQinS2J_J=2jeUGZCMqxJ0ww+pFy70kcxU3Ow@mail.gmail.com>
+In-Reply-To: <CAGsJ_4yYx-ASMGQinS2J_J=2jeUGZCMqxJ0ww+pFy70kcxU3Ow@mail.gmail.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 24 Sep 2021 13:10:24 +0800
+Message-ID: <CAMZfGtU=SRKP10B701ZSmcyrJu31uXYbfdJUFVsFu44BB3yK1g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] selftests: vm: add a hugetlb test case
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
+        Matthew Wilcox <willy@infradead.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
+        Qi Zheng <zhengqi.arch@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Pavel,
-
-On Fri, Sep 24, 2021 at 4:59 AM Pavel Machek <pavel@ucw.cz> wrote:
+On Fri, Sep 24, 2021 at 6:29 AM Barry Song <21cnbao@gmail.com> wrote:
 >
-> Hi!
->
-> > Add some basic documentations for LoongArch. LoongArch is a new RISC
-> > ISA, which is a bit like MIPS or RISC-V. LoongArch includes a reduced
-> > 32-bit version (LA32R), a standard 32-bit version (LA32S) and a 64-bit
-> > version (LA64).
+> On Wed, Sep 22, 2021 at 10:27 PM Muchun Song <songmuchun@bytedance.com> wrote:
 > >
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
->
-> > +Relationship of Loongson and LoongArch
-> > +======================================
+> > Since the head vmemmap page frame associated with each HugeTLB page is
+> > reused, we should hide the PG_head flag of tail struct page from the
+> > user. Add a tese case to check whether it is work properly. The test
+> > steps are as follows.
+> >
+> >   1) alloc 2MB hugeTLB
+> >   2) get each page frame
+> >   3) apply those APIs in each page frame
+> >   4) Those APIs work completely the same as before.
+> >
+> > Reading the flags of a page by /proc/kpageflags is done in
+> > stable_page_flags(), which has invoked PageHead(), PageTail(),
+> > PageCompound() and compound_head(). If those APIs work properly, the
+> > head page must have 15 and 17 bits set. And tail pages must have 16
+> > and 17 bits set but 15 bit unset. Those flags are checked in
+> > check_page_flags().
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  tools/testing/selftests/vm/vmemmap_hugetlb.c | 144 +++++++++++++++++++++++++++
+> >  1 file changed, 144 insertions(+)
+> >  create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
+> >
+> > diff --git a/tools/testing/selftests/vm/vmemmap_hugetlb.c b/tools/testing/selftests/vm/vmemmap_hugetlb.c
+> > new file mode 100644
+> > index 000000000000..4cc74dd4c333
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/vm/vmemmap_hugetlb.c
+> > @@ -0,0 +1,144 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * A test case of using hugepage memory in a user application using the
+> > + * mmap system call with MAP_HUGETLB flag.  Before running this program
+> > + * make sure the administrator has allocated enough default sized huge
+> > + * pages to cover the 2 MB allocation.
+> > + *
+> > + * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
+> > + * That means the addresses starting with 0x800000... will need to be
+> > + * specified.  Specifying a fixed address is not required on ppc64, i386
+> > + * or x86_64.
+> > + */
+> > +#include <stdlib.h>
+> > +#include <stdio.h>
+> > +#include <unistd.h>
+> > +#include <sys/mman.h>
+> > +#include <fcntl.h>
 > > +
-> > +LoongArch is a RISC ISA which is different from any other existing ones, while
-> > +Loongson is a family of processors. Loongson includes 3 series: Loongson-1 is
-> > +32-bit processors, Loongson-2 is low-end 64-bit processors, and Loongson-3 is
-> > +high-end 64-bit processors. Old Loongson is based on MIPS, and New
-> > Loongson is
->
-> s/processors/processor/ , I guess.
-Should be processor series here, thanks.
-
->
-> > +Official web site of Loongson and LoongArch (Loongson Technology Corp. Ltd.):
+> > +#define MAP_LENGTH             (2UL * 1024 * 1024)
 > > +
-> > +  http://www.loongson.cn/index.html
+> > +#ifndef MAP_HUGETLB
+> > +#define MAP_HUGETLB            0x40000 /* arch specific */
+> > +#endif
+> > +
+> > +#define PAGE_SIZE              4096
+> > +
+> > +#define PAGE_COMPOUND_HEAD     (1UL << 15)
+> > +#define PAGE_COMPOUND_TAIL     (1UL << 16)
+> > +#define PAGE_HUGE              (1UL << 17)
+> > +
+> > +#define HEAD_PAGE_FLAGS                (PAGE_COMPOUND_HEAD | PAGE_HUGE)
+> > +#define TAIL_PAGE_FLAGS                (PAGE_COMPOUND_TAIL | PAGE_HUGE)
+> > +
+> > +#define PM_PFRAME_BITS         55
+> > +#define PM_PFRAME_MASK         ~((1UL << PM_PFRAME_BITS) - 1)
+> > +
 >
-> It would be better to point to english version of page.
-The English version doesn't exist at present.
+> better to move the comment here:
+>
+> + * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
+> + * That means the addresses starting with 0x800000... will need to be
+> + * specified.  Specifying a fixed address is not required on ppc64, i386
+> + * or x86_64.
+>
+> With the change,
+>
+> Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
+
+Thanks. Will do.
 
 >
-> > +Developer web site of Loongson and LoongArch (Software and Documentations):
+> > +/* Only ia64 requires this */
+> > +#ifdef __ia64__
+> > +#define MAP_ADDR               (void *)(0x8000000000000000UL)
+> > +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
+> > +#else
+> > +#define MAP_ADDR               NULL
+> > +#define MAP_FLAGS              (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
+> > +#endif
+> > +
+> > +static void write_bytes(char *addr, size_t length)
+> > +{
+> > +       unsigned long i;
+> > +
+> > +       for (i = 0; i < length; i++)
+> > +               *(addr + i) = (char)i;
+> > +}
+> > +
+> > +static unsigned long virt_to_pfn(void *addr)
+> > +{
+> > +       int fd;
+> > +       unsigned long pagemap;
+> > +
+> > +       fd = open("/proc/self/pagemap", O_RDONLY);
+> > +       if (fd < 0)
+> > +               return -1UL;
+> > +
+> > +       lseek(fd, (unsigned long)addr / PAGE_SIZE * sizeof(pagemap), SEEK_SET);
+> > +       read(fd, &pagemap, sizeof(pagemap));
+> > +       close(fd);
+> > +
+> > +       return pagemap & ~PM_PFRAME_MASK;
+> > +}
+> > +
+> > +static int check_page_flags(unsigned long pfn)
+> > +{
+> > +       int fd, i;
+> > +       unsigned long pageflags;
+> > +
+> > +       fd = open("/proc/kpageflags", O_RDONLY);
+> > +       if (fd < 0)
+> > +               return -1;
+> > +
+> > +       lseek(fd, pfn * sizeof(pageflags), SEEK_SET);
+> > +
+> > +       read(fd, &pageflags, sizeof(pageflags));
+> > +       if ((pageflags & HEAD_PAGE_FLAGS) != HEAD_PAGE_FLAGS) {
+> > +               close(fd);
+> > +               printf("Head page flags (%lx) is invalid\n", pageflags);
+> > +               return -1;
+> > +       }
+> > +
+> > +       /*
+> > +        * pages other than the first page must be tail and shouldn't be head;
+> > +        * this also verifies kernel has correctly set the fake page_head to tail
+> > +        * while hugetlb_free_vmemmap is enabled.
+> > +        */
+> > +       for (i = 1; i < MAP_LENGTH / PAGE_SIZE; i++) {
+> > +               read(fd, &pageflags, sizeof(pageflags));
+> > +               if ((pageflags & TAIL_PAGE_FLAGS) != TAIL_PAGE_FLAGS ||
+> > +                   (pageflags & HEAD_PAGE_FLAGS) == HEAD_PAGE_FLAGS) {
+> > +                       close(fd);
+> > +                       printf("Tail page flags (%lx) is invalid\n", pageflags);
+> > +                       return -1;
+> > +               }
+> > +       }
+> > +
+> > +       close(fd);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +       void *addr;
+> > +       unsigned long pfn;
+> > +
+> > +       addr = mmap(MAP_ADDR, MAP_LENGTH, PROT_READ | PROT_WRITE, MAP_FLAGS, -1, 0);
+> > +       if (addr == MAP_FAILED) {
+> > +               perror("mmap");
+> > +               exit(1);
+> > +       }
+> > +
+> > +       /* Trigger allocation of HugeTLB page. */
+> > +       write_bytes(addr, MAP_LENGTH);
+> > +
+> > +       pfn = virt_to_pfn(addr);
+> > +       if (pfn == -1UL) {
+> > +               munmap(addr, MAP_LENGTH);
+> > +               perror("virt_to_pfn");
+> > +               exit(1);
+> > +       }
+> > +
+> > +       printf("Returned address is %p whose pfn is %lx\n", addr, pfn);
+> > +
+> > +       if (check_page_flags(pfn) < 0) {
+> > +               munmap(addr, MAP_LENGTH);
+> > +               perror("check_page_flags");
+> > +               exit(1);
+> > +       }
+> > +
+> > +       /* munmap() length of MAP_HUGETLB memory must be hugepage aligned */
+> > +       if (munmap(addr, MAP_LENGTH)) {
+> > +               perror("munmap");
+> > +               exit(1);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > --
+> > 2.11.0
+> >
 >
-> Documentation.
-OK, thanks.
-
-Huacai
->
-> BR,                                                             Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
+> Thanks
+> barry
