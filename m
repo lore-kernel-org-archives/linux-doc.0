@@ -2,102 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB651C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 21:46:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA904C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 22:43:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6F5961076
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 21:46:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93D3B61019
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 22:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343550AbhIXVru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 17:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244770AbhIXVrt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 17:47:49 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10943C06161E
-        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 14:46:16 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id x8so4582350plv.8
-        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 14:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pj9R2irEWaO0s1+n+LsLmweXYY63Hpa6KiQfqiA0N2E=;
-        b=blNaN+UKBFauXCPwp7waJ+lVReCH+8D1Vxvu6ZpDLEYwbmXskSTlyi7u2crkunxzrv
-         z60arbLXR5+C2OqJZxp9PgeOC+Ad1F+woM2GVGRzUeSXWM08Ev0qwLafjJSk2szllV1S
-         ZAXAwx332SBfogEuG6yPs92Yj665v9+S27ifg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pj9R2irEWaO0s1+n+LsLmweXYY63Hpa6KiQfqiA0N2E=;
-        b=b9FCWZZvYUCtYZV2Vnz4IQH3GcuSZMliHzRSKpLoN5aMRsYITljybTusmLuEAyyDN3
-         Uuc+Arck+sycYPeIAuo1XRjB+p532lBREq1HzrCWmZCzNorvNyNzB+5vWDzH/kXl6ae4
-         95R+9UG+LRt5Ae87VbzVwWtwyCwc6F87YpyPBlgmYSSofC3672uucHU0/WjGcgqoCbl3
-         1Z/VaxA6ofGT+5YjStUVWsJzhXiUI7/2vGqjhW/yfhF0CHhurKkhFVlX/0AtVNqpu+5N
-         s8rFZQ5hIQXAU6IR6zp+syMwY1F0lnNjQHXA0hjrn5dAWbWhc7Zu3Co3LN7gNM+7irAO
-         Bfmg==
-X-Gm-Message-State: AOAM531KSlWIxfUXlfAaPRvWKXy6+TSCQA9DZIc2sUhilHGTvjd8S0bT
-        xX82wdbrCS9yg5P/rTwmoNtdPQ==
-X-Google-Smtp-Source: ABdhPJyTj6m731cSp4Hd3lineRhJPbqmoPR3Z1ORTW1YqObWYHJWp28Pw5w+g61tc1vDtrl4YN13rQ==
-X-Received: by 2002:a17:90a:ee82:: with SMTP id i2mr4752094pjz.166.1632519975624;
-        Fri, 24 Sep 2021 14:46:15 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o15sm10414469pfg.14.2021.09.24.14.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 14:46:15 -0700 (PDT)
-Date:   Fri, 24 Sep 2021 14:46:14 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] docs: Explain the desired position of function attributes
-Message-ID: <202109241441.20B7EE4B@keescook>
-References: <20210924202302.2335542-1-keescook@chromium.org>
- <053717cf-e1b3-15a4-97e6-e72848f6d7bd@infradead.org>
+        id S1345264AbhIXWpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 18:45:19 -0400
+Received: from mga03.intel.com ([134.134.136.65]:22795 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345228AbhIXWpR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Sep 2021 18:45:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10117"; a="224233866"
+X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
+   d="scan'208";a="224233866"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 15:43:43 -0700
+X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
+   d="scan'208";a="704339730"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.251.20.113]) ([10.251.20.113])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 15:43:41 -0700
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
+References: <20210824053830-mutt-send-email-mst@kernel.org>
+ <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
+ <20210829112105-mutt-send-email-mst@kernel.org>
+ <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
+ <20210829181635-mutt-send-email-mst@kernel.org>
+ <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
+ <20210830163723-mutt-send-email-mst@kernel.org>
+ <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
+ <20210910054044-mutt-send-email-mst@kernel.org>
+ <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
+ <20210911195006-mutt-send-email-mst@kernel.org>
+From:   Andi Kleen <ak@linux.intel.com>
+Message-ID: <ad1e41d1-3f4e-8982-16ea-18a3b2c04019@linux.intel.com>
+Date:   Fri, 24 Sep 2021 15:43:40 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <053717cf-e1b3-15a4-97e6-e72848f6d7bd@infradead.org>
+In-Reply-To: <20210911195006-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 01:27:20PM -0700, Randy Dunlap wrote:
-> On 9/24/21 1:23 PM, Kees Cook wrote:
-> > +The preferred order of elements for a function prototype is:
-> > +
-> > +- attributes on the preceding lines
-> > +
-> 
-> I thought that idea was already nacked: (it's more of a BSD thing AFAIK)
-> (and I would NAK it if I could :)
-> 
-> """
-> > Attributes should be on their own line, they can be quite lengthy.
-> 
-> No, no no. They really shouldn't.
-> ""
-> 
-> from: https://lore.kernel.org/mm-commits/CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com/
 
-Right -- and then Joe and Rasmus had some convincing counter-arguments,
-IMO. So, given the outlined Docs patch, I'd like to see what folks can
-propose in the form of alternative patches for this topic.
+>> Hmm, yes that's true. I guess we can make it default to opt-in for
+>> pci_iomap.
+>>
+>> It only really matters for device less ioremaps.
+> OK. And same thing for other things with device, such as
+> devm_platform_ioremap_resource.
+> If we agree on all that, this will basically remove virtio
+> changes from the picture ;)
 
-I genuinely don't care. I just want to have something I can follow for the
-refactoring of the allocator attributes. :) The trouble I had with Linus's
-suggestion is that some attributes don't work[1] at the end for function
-definitions, so I'm left unable to follow his recommendations too.
+Hi we revisited this now. One problem with removing the ioremap opt-in 
+is that it's still possible for drivers to get at devices without going 
+through probe. For example they can walk the PCI device list. Some 
+drivers do that for various reasons. So if we remove the opt-in we would 
+need to audit and possibly fix all that, which would be potentially a 
+lot of churn. That's why I think it's better to keep the opt-in.
 
--Kees
 
-[1] https://lore.kernel.org/mm-commits/202109211630.2D00627@keescook/
+-Andi
 
--- 
-Kees Cook
+
