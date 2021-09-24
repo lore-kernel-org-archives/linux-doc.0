@@ -2,432 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3461C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 02:58:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C59C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 03:42:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D67860C40
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 02:58:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D9AB61214
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 03:42:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243965AbhIXC7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 22:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50266 "EHLO
+        id S244020AbhIXDoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Sep 2021 23:44:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243960AbhIXC7w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 22:59:52 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2836C061574
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 19:58:19 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id 17so8511191pgp.4
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 19:58:19 -0700 (PDT)
+        with ESMTP id S244018AbhIXDoB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 23:44:01 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3545DC061574;
+        Thu, 23 Sep 2021 20:42:29 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id h129so10954697iof.1;
+        Thu, 23 Sep 2021 20:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PmaPekGHSX6mnWu99CxltRJ9qt83XTk8VyAC7calDAc=;
-        b=3X9cXvRh7MOVkZwTnM/bhN+AxkPkhifNMcrPYmz4ypm+/xJc1WUwXCoHKpKLuOsuzg
-         1BJTogqzv1baYvxp8/jyG7vmaUuAbso55vFIQFR1mqT24KnELkirbrhxjv/5+TLEflIb
-         q8iDEb3f6SSbyU18epAOublufNV95e2612nAWY+CqtIZ4sqhhC6ICddH6jIqA9R30508
-         P/UKvfu2gCQKIgdI7us2e5ySMtlmD9N0OmEwjKLIEXQ4OOnJ44m+p+BYRm70M41Pyzrz
-         tLRuPyRW3MVoVmRPyyFtJ6LxUf/wA3qlfJftGEIgcc8mm0DqUcajde97lQ5pu+T3FIZH
-         Z2cw==
+         :cc:content-transfer-encoding;
+        bh=3UUDv1+b3n48/wDBnvG4Aoih4TKW41g6MDyvFhmeoig=;
+        b=McLlDxNTsJZ816KR3tXiM5NAeQuVnQDeYJ7t8AMc6luKvjAHdzChdy65DfuGTqV0YR
+         GnI3MUTGESWLbTVk2dh/+6v604Dy0wcqO7eKg5FF1hCAG3RHjvFNbSdDq07+QaL/qBsT
+         94U4YecrMlrKS9cSEt1oYzumzRfZRo8LqztKd6177M+H/6wLPfqP4SAXBesJFKc2oN+B
+         +alT86QA5QNKFLz4D8mkMb7pXdcTemPZm40DDn+MJfM1Q9crSw/lpzO3i6Q25JrJOKlP
+         72vPkHiSw0cEK797IUT7ItzMelDEdTo2a9S761HA7OPgLHy4BF8w7/NWwcv4e09ecIyh
+         7R/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PmaPekGHSX6mnWu99CxltRJ9qt83XTk8VyAC7calDAc=;
-        b=aOtk6ehOWNwoBdVuYTu5mY/2KYv6rNnf8/Z/KeTGNue+gv2eQTErjLkgNvZqqLIfpQ
-         JRKYWTvU+7ADxbVLaqTu/u2NOApGloktCRQNBHRv84Uw3C+kiXNJnZ7RpxpIhWPJ3f/E
-         dOd1apcPI3AZ86cGZWWwmLpnh2hAfWzg9fivOtN1v1SEB6jO2QC+EWw/uOh6GOynLDfJ
-         D4BsUDyVMaP9STVF31ncD3UVuooYPWTu8PdHzezUv2f4rBw3aHNCBNStqQ+pLPQG565y
-         xCctrPNcnht/Urx1eIQz97HR4b5S6ip68XhXxbieVFM2sDDmzQFDKKVwAearMKEsKyuv
-         ZaDw==
-X-Gm-Message-State: AOAM530aDaeIcxIYsy4VYzvPC21RgNtxu6sDqv+igbR2gjDKEpXVdu6r
-        agBqCgUCS3AWL6g2PmJensY4Phhs2TtdRpvHdm18wA==
-X-Google-Smtp-Source: ABdhPJydpatnAMw1CCeLX4NLiv2WgXSY+ddxFqile7fJsFu/jeFWAeQmKSW/poauwHXmRK36DraJQ6zuFHEVL2yZehw=
-X-Received: by 2002:aa7:848c:0:b0:43f:cbf8:49af with SMTP id
- u12-20020aa7848c000000b0043fcbf849afmr7568678pfn.32.1632452299302; Thu, 23
- Sep 2021 19:58:19 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3UUDv1+b3n48/wDBnvG4Aoih4TKW41g6MDyvFhmeoig=;
+        b=X7vYktbvrnMOQ3VoW2VfKzV7rqX5UciLsoKZDoRVnrmULft0yRwUb6gR2+403i5D21
+         xDf0ZQGIdamdnkqpxOi3LKrgPekjqPjFqG0SIkHQJakYtq3GUyj2NJWDIRHZATLhPGiv
+         +y5w4WlgikRoPmLsReLEzFTa1gqoVZCUISHO39+yL8eBihXFxlTnqiSKma+Lm5XFHKhR
+         LQkGO4wrGcqUy6Er3dtXdQ4E0sUZUHBrqWBA6cWFLHLfakjrt9/k7G51Y+AC1I/YdQp5
+         AybOhfRpS70ja8gQ4P9C7x+U0fpXpFWUdHDz39yX9p+CtdAkpID4uP2/IlAVWYUuNHiX
+         ay0Q==
+X-Gm-Message-State: AOAM530SwXgv4sps82DVG3ipEZnpfTeDnjwNChoqs3g+JJX2bMcsZyA7
+        k6onvsD33E72Vt5DKbeFTElYwizbut6hrynLdcs=
+X-Google-Smtp-Source: ABdhPJz3EMRFfj80QcMPD35uzUYzouY3diu0pGNfspwM8KJWJoPVd8GpQnPRtlACy7QhPf5qTOYb2oWNGAH6XgV5QLU=
+X-Received: by 2002:a5e:d80a:: with SMTP id l10mr6834336iok.36.1632454948282;
+ Thu, 23 Sep 2021 20:42:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922102411.34494-1-songmuchun@bytedance.com>
- <20210922102411.34494-2-songmuchun@bytedance.com> <CAGsJ_4xeySwX+BRB0MmOqWD6Pjw0vdxnuTjhzwwCX_Vo+N2-vQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4xeySwX+BRB0MmOqWD6Pjw0vdxnuTjhzwwCX_Vo+N2-vQ@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 24 Sep 2021 10:57:41 +0800
-Message-ID: <CAMZfGtXScuKRHk9UjvfP9Mk6FfvHAfuSQatQ8xUZv=hPP7DCBA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] mm: hugetlb: free the 2nd vmemmap page associated
- with each HugeTLB page
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
+References: <20210923081951.261281-1-yang.yang29@zte.com.cn>
+In-Reply-To: <20210923081951.261281-1-yang.yang29@zte.com.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Fri, 24 Sep 2021 11:41:52 +0800
+Message-ID: <CAJy-AmnDr-i6E7JPAGpt6EgVDTSxgFtygzriKJeOmuLd061P+Q@mail.gmail.com>
+Subject: Re: [PATCH v3] docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
+To:     cgel.zte@gmail.com
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, yang.yang29@zte.com.cn,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 6:21 AM Barry Song <21cnbao@gmail.com> wrote:
->
-> On Wed, Sep 22, 2021 at 10:27 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >
-> > Currently, we only free 6 vmemmap pages associated with a 2MB HugeTLB
-> > page. However, we can remap all tail vmemmap pages to the page frame
-> > mapped to with the head vmemmap page. Finally, we can free 7 vmemmap
-> > pages for a 2MB HugeTLB page. It is a fine gain (e.g. we can save
-> > extra 2GB memory when there is 1TB HugeTLB pages in the system
-> > compared with the current implementation).
-> >
-> > But the head vmemmap page is not freed to the buddy allocator and all
-> > tail vmemmap pages are mapped to the head vmemmap page frame. So we
-> > can see more than one struct page struct with PG_head (e.g. 8 per 2 MB
-> > HugeTLB page) associated with each HugeTLB page. We should adjust
-> > compound_head() to make it returns the real head struct page when the
-> > parameter is the tail struct page but with PG_head flag.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt |  2 +-
-> >  include/linux/page-flags.h                      | 77 +++++++++++++++++++++++--
-> >  mm/hugetlb_vmemmap.c                            | 60 ++++++++++---------
-> >  mm/sparse-vmemmap.c                             | 21 +++++++
-> >  4 files changed, 128 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 91ba391f9b32..5aaf2f271980 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -1617,7 +1617,7 @@
-> >                         [KNL] Reguires CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> >                         enabled.
-> >                         Allows heavy hugetlb users to free up some more
-> > -                       memory (6 * PAGE_SIZE for each 2MB hugetlb page).
-> > +                       memory (7 * PAGE_SIZE for each 2MB hugetlb page).
-> >                         Format: { on | off (default) }
-> >
-> >                         on:  enable the feature
-> > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> > index a68af80649a4..b47a7f51d2c3 100644
-> > --- a/include/linux/page-flags.h
-> > +++ b/include/linux/page-flags.h
-> > @@ -184,13 +184,68 @@ enum pageflags {
-> >
-> >  #ifndef __GENERATING_BOUNDS_H
-> >
-> > +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > +extern bool hugetlb_free_vmemmap_enabled;
-> > +
-> > +/*
-> > + * If the feature of freeing some vmemmap pages associated with each HugeTLB
-> > + * page is enabled, the head vmemmap page frame is reused and all of the tail
-> > + * vmemmap addresses map to the head vmemmap page frame (furture details can
-> > + * refer to the figure at the head of the mm/hugetlb_vmemmap.c).  In other
-> > + * words, there are more than one page struct with PG_head associated with each
-> > + * HugeTLB page.  We __know__ that there is only one head page struct, the tail
-> > + * page structs with PG_head are fake head page structs.  We need an approach
-> > + * to distinguish between those two different types of page structs so that
-> > + * compound_head() can return the real head page struct when the parameter is
-> > + * the tail page struct but with PG_head.
-> > + *
-> > + * The page_fixed_fake_head() returns the real head page struct if the @page is
-> > + * fake page head, otherwise, returns @page which can either be a true page
-> > + * head or tail.
-> > + */
-> > +static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
-> > +{
-> > +       if (!hugetlb_free_vmemmap_enabled)
-> > +               return page;
-> > +       /*
-> > +        * Only addresses aligned with PAGE_SIZE of struct page may be fake head
-> > +        * struct page. The alignment check aims to avoid access the fields (
-> > +        * e.g. compound_head) of the @page[1]. It can avoid touch a (possibly)
-> > +        * cold cacheline in some cases.
-> > +        */
-> > +       if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
-> > +           test_bit(PG_head, &page->flags)) {
-> > +               /*
-> > +                * We can safely access the field of the @page[1] with PG_head
-> > +                * because the @page is a compound page composed with at least
-> > +                * two contiguous pages.
-> > +                */
-> > +               unsigned long head = READ_ONCE(page[1].compound_head);
-> > +
-> > +               if (likely(head & 1))
-> > +                       return (const struct page *)(head - 1);
-> > +       }
-> > +       return page;
-> > +}
-> > +#else
-> > +static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
-> > +{
-> > +       return page;
-> > +}
-> > +#endif
-> > +
-> > +static __always_inline int page_is_fake_head(struct page *page)
-> > +{
-> > +       return page_fixed_fake_head(page) != page;
-> > +}
-> > +
-> >  static inline unsigned long _compound_head(const struct page *page)
-> >  {
-> >         unsigned long head = READ_ONCE(page->compound_head);
-> >
-> >         if (unlikely(head & 1))
-> >                 return head - 1;
-> > -       return (unsigned long)page;
-> > +       return (unsigned long)page_fixed_fake_head(page);
-> >  }
-> >
-> >  #define compound_head(page)    ((typeof(page))_compound_head(page))
-> > @@ -225,12 +280,13 @@ static inline unsigned long _compound_head(const struct page *page)
-> >
-> >  static __always_inline int PageTail(struct page *page)
-> >  {
-> > -       return READ_ONCE(page->compound_head) & 1;
-> > +       return READ_ONCE(page->compound_head) & 1 || page_is_fake_head(page);
-> >  }
-> >
-> >  static __always_inline int PageCompound(struct page *page)
-> >  {
-> > -       return test_bit(PG_head, &page->flags) || PageTail(page);
-> > +       return test_bit(PG_head, &page->flags) ||
-> > +              READ_ONCE(page->compound_head) & 1;
-> >  }
-> >
-> >  #define        PAGE_POISON_PATTERN     -1l
-> > @@ -675,7 +731,20 @@ static inline bool test_set_page_writeback(struct page *page)
-> >         return set_page_writeback(page);
-> >  }
-> >
-> > -__PAGEFLAG(Head, head, PF_ANY) CLEARPAGEFLAG(Head, head, PF_ANY)
-> > +static __always_inline bool folio_test_head(struct folio *folio)
-> > +{
-> > +       return test_bit(PG_head, folio_flags(folio, FOLIO_PF_ANY));
-> > +}
-> > +
-> > +static __always_inline int PageHead(struct page *page)
-> > +{
-> > +       PF_POISONED_CHECK(page);
-> > +       return test_bit(PG_head, &page->flags) && !page_is_fake_head(page);
-> > +}
-> > +
-> > +__SETPAGEFLAG(Head, head, PF_ANY)
-> > +__CLEARPAGEFLAG(Head, head, PF_ANY)
-> > +CLEARPAGEFLAG(Head, head, PF_ANY)
-> >
-> >  /* Whether there are one or multiple pages in a folio */
-> >  static inline bool folio_test_single(struct folio *folio)
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index c540c21e26f5..527bcaa44a48 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -124,9 +124,9 @@
-> >   * page of page structs (page 0) associated with the HugeTLB page contains the 4
-> >   * page structs necessary to describe the HugeTLB. The only use of the remaining
-> >   * pages of page structs (page 1 to page 7) is to point to page->compound_head.
-> > - * Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
-> > + * Therefore, we can remap pages 1 to 7 to page 0. Only 1 pages of page structs
->
-> 1 page.
-
-Great. Thanks
-
->
-> >   * will be used for each HugeTLB page. This will allow us to free the remaining
-> > - * 6 pages to the buddy allocator.
-> > + * 7 pages to the buddy allocator.
-> >   *
-> >   * Here is how things look after remapping.
-> >   *
-> > @@ -134,30 +134,30 @@
-> >   * +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-> >   * |           |                     |     0     | -------------> |     0     |
-> >   * |           |                     +-----------+                +-----------+
-> > - * |           |                     |     1     | -------------> |     1     |
-> > - * |           |                     +-----------+                +-----------+
-> > - * |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-> > - * |           |                     +-----------+                   | | | | |
-> > - * |           |                     |     3     | ------------------+ | | | |
-> > - * |           |                     +-----------+                     | | | |
-> > - * |           |                     |     4     | --------------------+ | | |
-> > - * |    PMD    |                     +-----------+                       | | |
-> > - * |   level   |                     |     5     | ----------------------+ | |
-> > - * |  mapping  |                     +-----------+                         | |
-> > - * |           |                     |     6     | ------------------------+ |
-> > - * |           |                     +-----------+                           |
-> > - * |           |                     |     7     | --------------------------+
-> > + * |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
-> > + * |           |                     +-----------+                  | | | | | |
-> > + * |           |                     |     2     | -----------------+ | | | | |
-> > + * |           |                     +-----------+                    | | | | |
-> > + * |           |                     |     3     | -------------------+ | | | |
-> > + * |           |                     +-----------+                      | | | |
-> > + * |           |                     |     4     | ---------------------+ | | |
-> > + * |    PMD    |                     +-----------+                        | | |
-> > + * |   level   |                     |     5     | -----------------------+ | |
-> > + * |  mapping  |                     +-----------+                          | |
-> > + * |           |                     |     6     | -------------------------+ |
-> > + * |           |                     +-----------+                            |
-> > + * |           |                     |     7     | ---------------------------+
-> >   * |           |                     +-----------+
-> >   * |           |
-> >   * |           |
-> >   * |           |
-> >   * +-----------+
-> >   *
-> > - * When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
-> > + * When a HugeTLB is freed to the buddy system, we should allocate 7 pages for
-> >   * vmemmap pages and restore the previous mapping relationship.
-> >   *
-> >   * For the HugeTLB page of the pud level mapping. It is similar to the former.
-> > - * We also can use this approach to free (PAGE_SIZE - 2) vmemmap pages.
-> > + * We also can use this approach to free (PAGE_SIZE - 1) vmemmap pages.
-> >   *
-> >   * Apart from the HugeTLB page of the pmd/pud level mapping, some architectures
-> >   * (e.g. aarch64) provides a contiguous bit in the translation table entries
-> > @@ -166,7 +166,13 @@
-> >   *
-> >   * The contiguous bit is used to increase the mapping size at the pmd and pte
-> >   * (last) level. So this type of HugeTLB page can be optimized only when its
-> > - * size of the struct page structs is greater than 2 pages.
-> > + * size of the struct page structs is greater than 1 pages.
->
-> 1 page.
-
-Great. Thanks
-
->
-> > + *
-> > + * Notice: The head vmemmap page is not freed to the buddy allocator and all
-> > + * tail vmemmap pages are mapped to the head vmemmap page frame. So we can see
-> > + * more than one struct page struct with PG_head (e.g. 8 per 2 MB HugeTLB page)
-> > + * associated with each HugeTLB page. The compound_head() can handle this
-> > + * correctly (more details refer to the comment above compound_head()).
-> >   */
-> >  #define pr_fmt(fmt)    "HugeTLB: " fmt
-> >
-> > @@ -175,14 +181,16 @@
-> >  /*
-> >   * There are a lot of struct page structures associated with each HugeTLB page.
-> >   * For tail pages, the value of compound_head is the same. So we can reuse first
-> > - * page of tail page structures. We map the virtual addresses of the remaining
-> > - * pages of tail page structures to the first tail page struct, and then free
-> > - * these page frames. Therefore, we need to reserve two pages as vmemmap areas.
-> > + * page of head page structures. We map the virtual addresses of all the pages
-> > + * of tail page structures to the head page struct, and then free these page
-> > + * frames. Therefore, we need to reserve one pages as vmemmap areas.
-> >   */
-> > -#define RESERVE_VMEMMAP_NR             2U
-> > +#define RESERVE_VMEMMAP_NR             1U
-> >  #define RESERVE_VMEMMAP_SIZE           (RESERVE_VMEMMAP_NR << PAGE_SHIFT)
-> >
-> > -bool hugetlb_free_vmemmap_enabled = IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-> > +bool hugetlb_free_vmemmap_enabled __read_mostly =
-> > +       IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-> > +EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled);
-> >
-> >  static int __init early_hugetlb_free_vmemmap_param(char *buf)
-> >  {
-> > @@ -236,7 +244,6 @@ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-> >          */
-> >         ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> >                                   GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
-> > -
-> >         if (!ret)
-> >                 ClearHPageVmemmapOptimized(head);
-> >
-> > @@ -282,9 +289,8 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
-> >
-> >         vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-> >         /*
-> > -        * The head page and the first tail page are not to be freed to buddy
-> > -        * allocator, the other pages will map to the first tail page, so they
-> > -        * can be freed.
-> > +        * The head page is not to be freed to buddy allocator, the other tail
-> > +        * pages will map to the head page, so they can be freed.
-> >          *
-> >          * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-> >          * on some architectures (e.g. aarch64). See Documentation/arm64/
-> > diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> > index bdce883f9286..62e3d20648ce 100644
-> > --- a/mm/sparse-vmemmap.c
-> > +++ b/mm/sparse-vmemmap.c
-> > @@ -53,6 +53,17 @@ struct vmemmap_remap_walk {
-> >         struct list_head *vmemmap_pages;
-> >  };
-> >
-> > +/*
-> > + * How many struct page structs need to be reset. When we reuse the head
-> > + * struct page, the special metadata (e.g. page->flags or page->mapping)
-> > + * cannot copy to the tail struct page structs. The invalid value will be
-> > + * checked in the free_tail_pages_check(). In order to avoid the message
-> > + * of "corrupted mapping in tail page". We need to reset at least 3 (one
-> > + * head struct page struct and two tail struct page structs) struct page
-> > + * structs.
-> > + */
-> > +#define NR_RESET_STRUCT_PAGE           3
-> > +
-> >  static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
-> >                                   struct vmemmap_remap_walk *walk)
-> >  {
-> > @@ -245,6 +256,15 @@ static void vmemmap_remap_pte(pte_t *pte, unsigned long addr,
-> >         set_pte_at(&init_mm, addr, pte, entry);
-> >  }
-> >
-> > +static inline void reset_struct_pages(struct page *start)
-> > +{
-> > +       int i;
-> > +       struct page *from = start + NR_RESET_STRUCT_PAGE;
-> > +
-> > +       for (i = 0; i < NR_RESET_STRUCT_PAGE; i++)
-> > +               memcpy(start + i, from, sizeof(*from));
-> > +}
-> > +
-> >  static void vmemmap_restore_pte(pte_t *pte, unsigned long addr,
-> >                                 struct vmemmap_remap_walk *walk)
-> >  {
-> > @@ -258,6 +278,7 @@ static void vmemmap_restore_pte(pte_t *pte, unsigned long addr,
-> >         list_del(&page->lru);
-> >         to = page_to_virt(page);
-> >         copy_page(to, (void *)walk->reuse_addr);
-> > +       reset_struct_pages(to);
->
-> Is this done unconditionally? Are we going here while
-> hugetlb_free_vmemmap_enabled=false?
-
-The whole thing is only used in the case of
-hugetlb_free_vmemmap_enabled=false.
-
-Maybe we could make vmemmap_remap_free()
-and vmemmap_remap_alloc() compiled under
-CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
-But this should be in another separate patch.
-
-Thanks.
-
->
-> >
-> >         set_pte_at(&init_mm, addr, pte, mk_pte(page, pgprot));
-> >  }
-> > --
-> > 2.11.0
-> >
->
-> Thanks
-> barry
+T24gVGh1LCBTZXAgMjMsIDIwMjEgYXQgNDoyMyBQTSA8Y2dlbC56dGVAZ21haWwuY29tPiB3cm90
+ZToNCj4NCj4gRnJvbTogWWFuZyBZYW5nIDx5YW5nLnlhbmcyOUB6dGUuY29tLmNuPg0KPg0KPiBB
+ZGQgdHJhbnNsYXRpb24gemhfQ04vYWNjb3VudGluZy9kZWxheS1hY2NvdW50aW5nLnJzdCBhbmQg
+bGlua3MgaXQNCj4gdG8gemhfQ04vYWNjb3VudGluZy9pbmRleC5yc3Qgd2hpbGUgY2xlYW4gaXRz
+IHRvZG8gZW50cnkuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbmcgWWFuZyA8eWFuZy55YW5nMjlA
+enRlLmNvbS5jbj4NCg0KSGkgWWFuZ3lhbmcsDQpZb3UgIGNvdWxkIHBpY2sgdXAgdGhlICdyZXZp
+ZXdlZC1ieScgY29udmVuaWVudGx5IHdoZW4geW91IHVwZGF0ZSB0bw0KbmV3IHZlcnNpb24uDQoN
+ClRoYW5rcw0KDQo+IC0tLQ0KPiB2MzoNCj4gLSBhZGQgbWlzc2luZyBwZXJpb2QuDQo+IHYyOg0K
+PiAtIGRlbGV0ZSB1c2VsZXNzIGJsYWNrbGluZS4NCj4gLS0tDQo+ICAuLi4vemhfQ04vYWNjb3Vu
+dGluZy9kZWxheS1hY2NvdW50aW5nLnJzdCAgICAgfCAxMTIgKysrKysrKysrKysrKysrKysrDQo+
+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvaW5kZXgucnN0ICAgfCAgIDIgKy0N
+Cj4gIDIgZmlsZXMgY2hhbmdlZCwgMTEzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hY2Nv
+dW50aW5nL2RlbGF5LWFjY291bnRpbmcucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
+aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hY2NvdW50aW5nL2RlbGF5LWFjY291bnRpbmcucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy9kZWxheS1hY2NvdW50
+aW5nLnJzdA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjA2
+NWE0MjRkOWIyYQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNs
+YXRpb25zL3poX0NOL2FjY291bnRpbmcvZGVsYXktYWNjb3VudGluZy5yc3QNCj4gQEAgLTAsMCAr
+MSwxMTIgQEANCj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+
+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vYWNjb3VudGluZy9kZWxheS1hY2NvdW50aW5nLnJz
+dA0KPiArOlRyYW5zbGF0b3I6IFlhbmcgWWFuZyA8eWFuZy55YW5nMjlAenRlLmNvbS5jbj4NCj4g
+Kw0KPiArLi4gX2NuX2RlbGF5LWFjY291bnRpbmcucnN0Og0KPiArDQo+ICs9PT09PT09PQ0KPiAr
+5bu26L+f6K6h5pWwDQo+ICs9PT09PT09PQ0KPiArDQo+ICvku7vliqHlnKjnrYnlvoXmn5Dkupvl
+hoXmoLjotYTmupDlj6/nlKjml7bvvIzkvJrpgKDmiJDlu7bov5/jgILkvovlpoLkuIDkuKrlj6/o
+v5DooYznmoTku7vliqHlj6/og73kvJrnrYnlvoUNCj4gK+S4gOS4quepuumXskNQVeadpei/kOih
+jOOAgg0KPiArDQo+ICvln7rkuo7mr4/ku7vliqHnmoTlu7bov5/orqHmlbDlip/og73luqbph4/n
+lLHku6XkuIvmg4XlhrXpgKDmiJDnmoTku7vliqHlu7bov5/vvJoNCj4gKw0KPiArYSkg562J5b6F
+5LiA5LiqQ1BV77yI5Lu75Yqh5Li65Y+v6L+Q6KGM77yJDQo+ICtiKSDlrozmiJDnlLHor6Xku7vl
+iqHlj5HotbfnmoTlnZdJL0/lkIzmraXor7fmsYINCj4gK2MpIOmhtemdouS6pOaNog0KPiArZCkg
+5YaF5a2Y5Zue5pS2DQo+ICsNCj4gK+W5tuWwhui/meS6m+e7n+iuoeS/oeaBr+mAmui/h3Rhc2tz
+dGF0c+aOpeWPo+aPkOS+m+e7meeUqOaIt+epuumXtOOAgg0KPiArDQo+ICvov5nkupvlu7bov5/k
+v6Hmga/kuLrpgILlvZPnmoTosIPmlbTku7vliqFDUFXkvJjlhYjnuqfjgIFpb+S8mOWFiOe6p+OA
+gXJzc+mZkOWItuaPkOS+m+WPjemmiOOAgumHjeimgeS7u+WKoQ0KPiAr6ZW/5pyf5bu26L+f77yM
+6KGo56S65Y+v6IO96ZyA6KaB5o+Q6auY5YW255u45YWz5LyY5YWI57qn44CCDQo+ICsNCj4gK+mA
+mui/h+S9v+eUqHRhc2tzdGF0c+aOpeWPo++8jOacrOWKn+iDvei/mOWPr+aPkOS+m+S4gOS4que6
+v+eoi+e7hO+8iOWvueW6lOS8oOe7n1VuaXjov5vnqIvvvInmiYDmnInku7vliqENCj4gK++8iOaI
+lue6v+eoi++8ieeahOaAu+W7tui/n+e7n+iuoeS/oeaBr+OAguatpOexu+axh+aAu+W+gOW+gOaY
+r+mcgOimgeeahO+8jOeUseWGheaguOadpeWujOaIkOabtOWKoOmrmOaViOOAgg0KPiArDQo+ICvn
+lKjmiLfnqbrpl7TnmoTlrp7kvZPvvIznibnliKvmmK/otYTmupDnrqHnkIbnqIvluo/vvIzlj6/l
+sIblu7bov5/nu5/orqHkv6Hmga/msYfmgLvliLDku7vmhI/nu4TkuK3jgILkuLrlrp7njrANCj4g
+K+i/meS4gOeCue+8jOS7u+WKoeeahOW7tui/n+e7n+iuoeS/oeaBr+WcqOWFtueUn+WRveWRqOac
+n+WGheWSjOmAgOWHuuaXtueahuWPr+iOt+WPlu+8jOS7juiAjOehruS/neWPr+i/m+ihjA0KPiAr
+6L+e57ut44CB5a6M5pW055qE55uR5o6n44CCDQo+ICsNCj4gK+aOpeWPow0KPiArLS0tLQ0KPiAr
+DQo+ICvlu7bov5/orqHmlbDkvb/nlKh0YXNrc3RhdHPmjqXlj6PvvIzor6XmjqXlj6PnlLHmnKzn
+m67lvZXlj6bkuIDkuKrljZXni6znmoTmlofmoaPor6bnu4bmj4/ov7DjgIJUYXNrc3RhdHMNCj4g
+K+WQkeeUqOaIt+aAgei/lOWbnuS4gOS4qumAmueUqOaVsOaNrue7k+aehO+8jOWvueW6lOavj3Bp
+ZOaIluavj3RnaWTnmoTnu5/orqHkv6Hmga/jgILlu7bov5/orqHmlbDlip/og73loavlhpkNCj4g
+K+ivpeaVsOaNrue7k+aehOeahOeJueWumuWtl+auteOAguingQ0KPiArDQo+ICsgICAgIGluY2x1
+ZGUvbGludXgvdGFza3N0YXRzLmgNCj4gKw0KPiAr5YW25o+P6L+w5LqG5bu26L+f6K6h5pWw55u4
+5YWz5a2X5q6144CC57O757uf6YCa5bi45Lul6K6h5pWw5Zmo5b2i5byP6L+U5ZueIENQVeOAgeWQ
+jOatpeWdlyBJL0/jgIHkuqTmjaLjgIHlhoXlrZgNCj4gK+WbnuaUtuetieeahOe0r+enr+W7tui/
+n+OAgg0KPiArDQo+ICvlj5bku7vliqHmn5DorqHmlbDlmajkuKTkuKrov57nu63or7vmlbDnmoTl
+t67lgLzvvIzlsIblvpfliLDku7vliqHlnKjor6Xml7bpl7Tpl7TpmpTlhoXnrYnlvoXlr7nlupTo
+tYTmupDnmoTmgLvlu7bov5/jgIINCj4gKw0KPiAr5b2T5Lu75Yqh6YCA5Ye65pe277yM5YaF5qC4
+5Lya5bCG5YyF5ZCr5q+P5Lu75Yqh55qE57uf6K6h5L+h5oGv5Y+R6YCB57uZ55So5oi356m66Ze0
+77yM6ICM5peg6ZyA6aKd5aSW55qE5ZG95Luk44CCDQo+ICvoi6XlhbbkuLrnur/nqIvnu4TmnIDl
+kI7kuIDkuKrpgIDlh7rnmoTku7vliqHvvIzlhoXmoLjov5jkvJrlj5HpgIHmr490Z2lk55qE57uf
+6K6h5L+h5oGv44CC5pu05aSa6K+m57uG5L+h5oGv6KeBDQo+ICt0YXNrc3RhdHPmjqXlj6PnmoTm
+j4/ov7DjgIINCj4gKw0KPiArdG9vbHMvYWNjb3VudGluZ+ebruW9leS4reeahOeUqOaIt+epuumX
+tOeoi+W6j2dldGRlbGF5cy5j5o+Q5L6b5LqG5LiA5Lqb566A5Y2V55qE5ZG95Luk77yM55So5Lul
+5pi+56S6DQo+ICvlu7bov5/nu5/orqHkv6Hmga/jgILlhbbkuZ/mmK/kvb/nlKh0YXNrc3RhdHPm
+jqXlj6PnmoTnpLrkvovjgIINCj4gKw0KPiAr55So5rOVDQo+ICstLS0tDQo+ICsNCj4gK+S9v+eU
+qOS7peS4i+mFjee9rue8luivkeWGheaguDo6DQo+ICsNCj4gKyAgICAgICBDT05GSUdfVEFTS19E
+RUxBWV9BQ0NUPXkNCj4gKyAgICAgICBDT05GSUdfVEFTS1NUQVRTPXkNCj4gKw0KPiAr5bu26L+f
+6K6h5pWw5Zyo5ZCv5Yqo5pe26buY6K6k5YWz6Zet44CCDQo+ICvoi6XpnIDlvIDlkK/vvIzlnKjl
+kK/liqjlj4LmlbDkuK3lop7liqA6Og0KPiArDQo+ICsgICBkZWxheWFjY3QNCj4gKw0KPiAr5pys
+5paH5ZCO57ut55qE6K+05piO5Z+65LqO5bu26L+f6K6h5pWw5bey5byA5ZCv44CC5Lmf5Y+v5Zyo
+57O757uf6L+Q6KGM5pe277yM5L2/55Soc3lzY3Rs55qEa2VybmVsLnRhc2tfZGVsYXlhY2N0DQo+
+ICvov5vooYzlvIDlhbPjgILms6jmhI/vvIzlj6rmnInlnKjlkK/nlKjlu7bov5/orqHmlbDlkI7l
+kK/liqjnmoTku7vliqHmiY3kvJrmnInnm7jlhbPkv6Hmga/jgIINCj4gKw0KPiAr57O757uf5ZCv
+5Yqo5ZCO77yM5L2/55So57G75Ly8Z2V0ZGVsYXlzLmPnmoTlt6Xlhbfojrflj5bku7vliqHmiJbn
+ur/nqIvnu4TvvIh0Z2lk77yJ55qE5bu26L+f5L+h5oGv44CCDQo+ICsNCj4gK2dldGRlbGF5c+WR
+veS7pOeahOS4gOiIrOagvOW8jzo6DQo+ICsNCj4gKyAgICAgICBnZXRkZWxheXMgWy10IHRnaWRd
+IFstcCBwaWRdIFstYyBjbWQuLi5dDQo+ICsNCj4gK+iOt+WPlnBpZOS4ujEw55qE5Lu75Yqh5LuO
+57O757uf5ZCv5Yqo5ZCO55qE5bu26L+f5L+h5oGvOjoNCj4gKw0KPiArICAgICAgICMgLi9nZXRk
+ZWxheXMgLXAgMTANCj4gKyAgICAgICDvvIjovpPlh7rkv6Hmga/lkozkuIvkvovnm7jkvLzvvIkN
+Cj4gKw0KPiAr6I635Y+W5omA5pyJdGdpZOS4ujXnmoTku7vliqHku47ns7vnu5/lkK/liqjlkI7n
+moTmgLvlu7bov5/kv6Hmga86Og0KPiArDQo+ICsgICAgICAgIyAuL2dldGRlbGF5cyAtdCA1DQo+
+ICsNCj4gKw0KPiArICAgICAgIENQVSAgICAgY291bnQgICByZWFsIHRvdGFsICAgICAgdmlydHVh
+bCB0b3RhbCAgIGRlbGF5IHRvdGFsDQo+ICsgICAgICAgICAgICAgICA3ODc2ICAgIDkyMDA1NzUw
+ICAgICAgICAxMDAwMDAwMDAgICAgICAgMjQwMDE1MDANCj4gKyAgICAgICBJTyAgICAgIGNvdW50
+ICAgZGVsYXkgdG90YWwNCj4gKyAgICAgICAgICAgICAgIDAgICAgICAgMA0KPiArICAgICAgIFNX
+QVAgICAgY291bnQgICBkZWxheSB0b3RhbA0KPiArICAgICAgICAgICAgICAgMCAgICAgICAwDQo+
+ICsgICAgICAgUkVDTEFJTSBjb3VudCAgIGRlbGF5IHRvdGFsDQo+ICsgICAgICAgICAgICAgICAw
+ICAgICAgIDANCj4gKw0KPiAr6I635Y+W5oyH5a6a566A5Y2V5ZG95Luk6L+Q6KGM5pe255qE5bu2
+6L+f5L+h5oGvOjoNCj4gKw0KPiArICAjIC4vZ2V0ZGVsYXlzIC1jIGxzIC8NCj4gKw0KPiArICBi
+aW4gICBkYXRhMSAgZGF0YTMgIGRhdGE1ICBkZXYgIGhvbWUgIG1lZGlhICBvcHQgICByb290ICBz
+cnYgICAgICAgIHN5cyAgdXNyDQo+ICsgIGJvb3QgIGRhdGEyICBkYXRhNCAgZGF0YTYgIGV0YyAg
+bGliICAgbW50ICAgIHByb2MgIHNiaW4gIHN1YmRvbWFpbiAgdG1wICB2YXINCj4gKw0KPiArDQo+
+ICsgIENQVSAgY291bnQgICByZWFsIHRvdGFsICAgICAgdmlydHVhbCB0b3RhbCAgIGRlbGF5IHRv
+dGFsDQo+ICsgICAgICAgNiAgICAgICA0MDAwMjUwICAgICAgICAgNDAwMDAwMCAgICAgICAgIDAN
+Cj4gKyAgSU8gICBjb3VudCAgIGRlbGF5IHRvdGFsDQo+ICsgICAgICAgMCAgICAgICAwDQo+ICsg
+IFNXQVAgY291bnQgICBkZWxheSB0b3RhbA0KPiArICAgICAgIDAgICAgICAgMA0KPiArICBSRUNM
+QUlNICAgICAgY291bnQgICBkZWxheSB0b3RhbA0KPiArICAgICAgIDAgICAgICAgMA0KPiArDQo+
+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hY2NvdW50aW5n
+L2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcv
+aW5kZXgucnN0DQo+IGluZGV4IDM2MmU5MDdiNDFmOS4uMDkwZjkzNzc2ZmFhIDEwMDY0NA0KPiAt
+LS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hY2NvdW50aW5nL2luZGV4LnJz
+dA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hY2NvdW50aW5nL2lu
+ZGV4LnJzdA0KPiBAQCAtMTYsMTAgKzE2LDEwIEBADQo+ICAgICA6bWF4ZGVwdGg6IDENCj4NCj4g
+ICAgIHBzaQ0KPiArICAgZGVsYXktYWNjb3VudGluZw0KPg0KPiAgVG9kb2xpc3Q6DQo+DQo+ICAg
+ICBjZ3JvdXBzdGF0cw0KPiAtICAgZGVsYXktYWNjb3VudGluZw0KPiAgICAgdGFza3N0YXRzDQo+
+ICAgICB0YXNrc3RhdHMtc3RydWN0DQo+IC0tDQo+IDIuMjUuMQ0K
