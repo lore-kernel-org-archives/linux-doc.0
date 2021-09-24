@@ -2,216 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB9EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 03:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46227C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 04:08:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0F8E60F48
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 03:48:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24B66610CB
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 04:08:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244019AbhIXDtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Sep 2021 23:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33058 "EHLO
+        id S231256AbhIXEJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 00:09:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244018AbhIXDtw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Sep 2021 23:49:52 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E3DC061756
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 20:48:19 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id x191so1698611pgd.9
-        for <linux-doc@vger.kernel.org>; Thu, 23 Sep 2021 20:48:19 -0700 (PDT)
+        with ESMTP id S229454AbhIXEJl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 00:09:41 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724B1C061574;
+        Thu, 23 Sep 2021 21:08:09 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id az15so8699228vsb.8;
+        Thu, 23 Sep 2021 21:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=55VtlyNz396+JpxRe5XzK9GihMZwj0h8DOxcyBHo9jA=;
-        b=A+HZL0TQw0/JIx2YTueXk53aoSLBZqw7hN/Kr1yTj29DNo8lPj73nMSzTIXAQ3a4pu
-         ZO7v3oRMIOvflYRwLoQPSLBvcz1Bo7qMIjaF3j9Y2mBrb738r97kk3PKLRDx8UEO8oVq
-         dil5WmIKeQgytTnZDwEjuC2Hqn+53NYASfChz3pXZZ7/rVQcvcNfvuAAdpsfqTxj9Hj5
-         1BFd5jlRfoNdFT4yVd2GJpSmMMOyMvwAGltfQXJeJrfEOSAuAuEG9OwNIJDBJpLVEc/G
-         ubIUYIkLBYXAnf9RF+PKqFVGuqcXrBuXKOqYc/kG5zQN/gD9ve/aMREw2VQW10F6gCXR
-         //mg==
+        bh=OrfZTnPPcM70O+mM7svGzbSZyFLavyq7xdJVv7AuMNA=;
+        b=AArxpfs5t7Tz2blzs1aSH0nNCrhMd8+cwSBQ19o4cZa1TsGYBouqIdFikADBbqpdbH
+         //kH56sx3wfBf3MpEP4zIyjrpGtN87iLmdvjRz9DK1j/ho8vLQ8KJ6Ffc2CrxslmlYmh
+         TewPJMNgYPbYaDcmRGDJHtCPKzIYwrhsXcFlO6SlEWY+WZBu9aHeg3xIPgoMBBHk/x9A
+         5rZLietz9KoYY9tsOgbYAjOp6HpGB7wdU5ue6AhHB48btdeupZlALSeJvWr+NWBqxtzt
+         1O+kjP3vi2La3Bq6Jd9/2fNy8EBqTDBn65OLwplhZ+ybVX87UsrvAgidu/IjtoCuWvhs
+         Vb9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=55VtlyNz396+JpxRe5XzK9GihMZwj0h8DOxcyBHo9jA=;
-        b=rBbHAsEZ2ZJFJPMpj5rv3eymU2/dTDU836eOzQqYyo+N1lhPrszGu7dtphflWoRLDE
-         +PDLHCmDWb8Lhn4i1KOfbV/qnRxFkTIVR3h8CWbC50kiYIZM4GJQyWge42VdpBQVOxb3
-         G9IQ69eiQe8rDqiS78UXNpIo28ThVYD8qOIDzigeYaKfgr/AjvCs/cdxYLiKrXssbtfE
-         roIp+0RZDh1wzwyPGGXw5JxBhAJ1BBq/4V5dm8JrndqoPekKYa2TUEJMxXNbWZ2d/+JO
-         kzj+OdteP0Z4ML//kJrGE1poOYyy7ajhIH2xteE3Uovu/QNuehP0RdVCk0S/Qy5n71v9
-         +7qQ==
-X-Gm-Message-State: AOAM530sBzVMtEC11kaVkZ5+JjBooLuAJD1ZLXCLxqUMG8BKuRRNIO7a
-        hE837gEpIdSZz0Ol+25ajy9AuK8OCVyLXsnwtLRCZw==
-X-Google-Smtp-Source: ABdhPJzsuvPN4esPZ5R7sb4qNFl6IeD82m5Yb/d/AMvrv/fx9r5w4olVNshH5RQ/pueHQP3Gk1bT5nko+hpNZRRqmjQ=
-X-Received: by 2002:a63:1a64:: with SMTP id a36mr1923133pgm.225.1632455299009;
- Thu, 23 Sep 2021 20:48:19 -0700 (PDT)
+        bh=OrfZTnPPcM70O+mM7svGzbSZyFLavyq7xdJVv7AuMNA=;
+        b=vZyrL10d+QBNnVYtQYTRYvW4V41EQuU1XYMsyYorkX2dW9wSowSyWOvuGgwvvTW/mS
+         Qzrwxit+MJ2yL5XGsM3bgPsdr/aBUgqaZDcsuLFjKhNi4DHUkiZQ61K6+v2S7M91nkJ+
+         yZlFpYI2zRKGZodPfssguNsleIWsHUZgeq0Zg4XI/tWHd0r4AMi8W7oVqftQnEP8yA4i
+         eqpIXw2nUsSt5n6D6ECjqiHrei9n4qnM7v2txI/An/L6Q5akJJlyfvps5Rgdam0lYD6f
+         H3iiufARLyIV50pzEq0nidaIz/jfmhbywph6lX8HzjPiANfPwTFwQ1npwjTYTztLJRFX
+         FMIQ==
+X-Gm-Message-State: AOAM532yTYKPc1JP577/yZwF8JVZv+zkeCvos7Z0CiWHq/dV5XZhsIaT
+        wnfvFdaGP76kSt9CngfCZxMnslpAlEi/rVDlGUU=
+X-Google-Smtp-Source: ABdhPJzBYtMAeuTPKkvolL/ISASIbDnfE9Ljusmo03aOxkckysqJQg0jrvbRLz3JEOjHsN+a0k6NC4qjSg1U/flIT5c=
+X-Received: by 2002:a05:6102:e55:: with SMTP id p21mr7453555vst.18.1632456488526;
+ Thu, 23 Sep 2021 21:08:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922102411.34494-1-songmuchun@bytedance.com>
- <20210922102411.34494-3-songmuchun@bytedance.com> <CAGsJ_4zk8KfsByum89PqwNEkez=QUW9YH0tVy5nce2E0RhQ8dw@mail.gmail.com>
-In-Reply-To: <CAGsJ_4zk8KfsByum89PqwNEkez=QUW9YH0tVy5nce2E0RhQ8dw@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 24 Sep 2021 11:47:39 +0800
-Message-ID: <CAMZfGtXd2-CbbQeHp7qsaL0z-CviLfacoQf5ToQJQ230Lrw58w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] mm: hugetlb: replace hugetlb_free_vmemmap_enabled
- with a static_key
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+References: <20210917035736.3934017-1-chenhuacai@loongson.cn>
+ <20210917035736.3934017-2-chenhuacai@loongson.cn> <20210923203705.GA1936@bug>
+In-Reply-To: <20210923203705.GA1936@bug>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 24 Sep 2021 12:07:56 +0800
+Message-ID: <CAAhV-H4=Fdsut8c+Zs3RmR9p=_4pNeYb7Bw-JA51UwV7SF9GgA@mail.gmail.com>
+Subject: Re: [PATCH V3 01/22] Documentation: LoongArch: Add basic documentations
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 6:24 AM Barry Song <21cnbao@gmail.com> wrote:
->
-> On Wed, Sep 22, 2021 at 10:27 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >
-> > The page_head_if_fake() is used throughout memory management and the
-> > conditional check requires checking a global variable, although the
-> > overhead of this check may be small, it increases when the memory
-> > cache comes under pressure. Also, the global variable will not be
-> > modified after system boot, so it is very appropriate to use static
-> > key machanism.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/linux/hugetlb.h    | 10 ++++++++--
-> >  include/linux/page-flags.h |  6 ++++--
-> >  mm/hugetlb_vmemmap.c       | 12 ++++++------
-> >  mm/memory_hotplug.c        |  2 +-
-> >  4 files changed, 19 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index 1faebe1cd0ed..4cc647a5dbf8 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -1066,9 +1066,15 @@ static inline void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr
-> >  #endif /* CONFIG_HUGETLB_PAGE */
-> >
-> >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > -extern bool hugetlb_free_vmemmap_enabled;
-> > +static inline bool hugetlb_free_vmemmap_enabled(void)
-> > +{
-> > +       return static_key_enabled(&hugetlb_free_vmemmap_enabled_key);
->
-> could it be
->        if (static_branch_maybe(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
->                                 &hugetlb_free_vmemmap_enabled_key))
->
-> then we are able to remove the duplication in page_fixed_fake_head()?
+Hi, Pavel,
 
-Definitely. I'll update in the next version.
-
-Thanks.
+On Fri, Sep 24, 2021 at 4:37 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > Add some basic documentations for LoongArch. LoongArch is a new RISC
+>
+> ... documentation ...
+OK, thanks.
 
 >
-> > +}
-> >  #else
-> > -#define hugetlb_free_vmemmap_enabled   false
-> > +static inline bool hugetlb_free_vmemmap_enabled(void)
-> > +{
-> > +       return false;
-> > +}
-> >  #endif
-> >
-> >  static inline spinlock_t *huge_pte_lock(struct hstate *h,
-> > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> > index b47a7f51d2c3..54e119e44496 100644
-> > --- a/include/linux/page-flags.h
-> > +++ b/include/linux/page-flags.h
-> > @@ -185,7 +185,8 @@ enum pageflags {
-> >  #ifndef __GENERATING_BOUNDS_H
-> >
-> >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-> > -extern bool hugetlb_free_vmemmap_enabled;
-> > +DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> > +                        hugetlb_free_vmemmap_enabled_key);
-> >
-> >  /*
-> >   * If the feature of freeing some vmemmap pages associated with each HugeTLB
-> > @@ -205,7 +206,8 @@ extern bool hugetlb_free_vmemmap_enabled;
-> >   */
-> >  static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
-> >  {
-> > -       if (!hugetlb_free_vmemmap_enabled)
-> > +       if (!static_branch_maybe(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> > +                                &hugetlb_free_vmemmap_enabled_key))
-> >                 return page;
-> >         /*
-> >          * Only addresses aligned with PAGE_SIZE of struct page may be fake head
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index 527bcaa44a48..47517e878ed5 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -188,9 +188,9 @@
-> >  #define RESERVE_VMEMMAP_NR             1U
-> >  #define RESERVE_VMEMMAP_SIZE           (RESERVE_VMEMMAP_NR << PAGE_SHIFT)
-> >
-> > -bool hugetlb_free_vmemmap_enabled __read_mostly =
-> > -       IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-> > -EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled);
-> > +DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
-> > +                       hugetlb_free_vmemmap_enabled_key);
-> > +EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled_key);
-> >
-> >  static int __init early_hugetlb_free_vmemmap_param(char *buf)
-> >  {
-> > @@ -204,9 +204,9 @@ static int __init early_hugetlb_free_vmemmap_param(char *buf)
-> >                 return -EINVAL;
-> >
-> >         if (!strcmp(buf, "on"))
-> > -               hugetlb_free_vmemmap_enabled = true;
-> > +               static_branch_enable(&hugetlb_free_vmemmap_enabled_key);
-> >         else if (!strcmp(buf, "off"))
-> > -               hugetlb_free_vmemmap_enabled = false;
-> > +               static_branch_disable(&hugetlb_free_vmemmap_enabled_key);
-> >         else
-> >                 return -EINVAL;
-> >
-> > @@ -284,7 +284,7 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
-> >         BUILD_BUG_ON(__NR_USED_SUBPAGE >=
-> >                      RESERVE_VMEMMAP_SIZE / sizeof(struct page));
-> >
-> > -       if (!hugetlb_free_vmemmap_enabled)
-> > +       if (!hugetlb_free_vmemmap_enabled())
-> >                 return;
-> >
-> >         vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-> > diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> > index 0488eed3327c..89c1fde02162 100644
-> > --- a/mm/memory_hotplug.c
-> > +++ b/mm/memory_hotplug.c
-> > @@ -1341,7 +1341,7 @@ bool mhp_supports_memmap_on_memory(unsigned long size)
-> >          *       populate a single PMD.
-> >          */
-> >         return memmap_on_memory &&
-> > -              !hugetlb_free_vmemmap_enabled &&
-> > +              !hugetlb_free_vmemmap_enabled() &&
-> >                IS_ENABLED(CONFIG_MHP_MEMMAP_ON_MEMORY) &&
-> >                size == memory_block_size_bytes() &&
-> >                IS_ALIGNED(vmemmap_size, PMD_SIZE) &&
-> > --
-> > 2.11.0
-> >
+> > +wide in LA64. $r0 is always zero, and other registers has no special feature,
 >
-> Thanks
-> barry
+> ...have no special features...
+OK, thanks.
+
+>
+> > +but we actually have an ABI register conversion as below.
+>
+> convention?
+Yes, should be convention here.
+
+>
+> > +``$r21``          ``$x``          Reserved            Unused
+> > +``$r22``          ``$fp``         Frame pointer       Yes
+> > +``$r23``-``$r31`` ``$s0``-``$s8`` Static registers    Yes
+> > +================= =============== =================== ============
+>
+> Not sure I know the term 'static registers' before.
+"Static register" comes from the MIPS code "SAVE_STATIC", maybe it is
+called "Saved register" in other places, but I think "static register"
+is also OK.
+
+Huacai
+>                                                                 Pavel
