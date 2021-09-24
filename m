@@ -2,410 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A84EAC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 18:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 241C4C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 19:43:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E3B261241
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 18:24:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F329960EE9
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 19:43:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348118AbhIXS0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 14:26:21 -0400
-Received: from sonic317-38.consmr.mail.ne1.yahoo.com ([66.163.184.49]:41721
-        "EHLO sonic317-38.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1345922AbhIXS0V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 14:26:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1632507887; bh=kom9XAq0ZMiGSHlADnfpA7BS/DVlZZGZ9hW1JiZKK/Q=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=dyCAJzr5v9U4wZHgEhnWgpXox7VagcNMXZg3UubB4YYJetNOYA6hkqbEriTkN+4vqsxfDEkBy2j9/zeDicJYZ6WZ1w0BQ6JTxxIctUpdPKQRLR/2gaLEZnhsHCK2+SAVzSqZhnI76K+R9uVMyDRMykOuwUgOTvbJifjKw9kc+8Y9hXe8a44CqvVI3kfDlPnLGb/ixYQWyTMFdJMNfeLF2meEMOEuxC6engOIybZyv917UEpvScjiDgKLabf1wuimsAwPwkrgwkzlhuz51GwN9FQmqyUOc8Cjz3USOJsg9lTMYI9gTddSH1UAeYnbVv/+sTNwf0OMRKEiqfJk6aMo2Q==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1632507887; bh=AbM/J/EpKKzcJ7k7eWQgLH0kOXuxEHmN/5Fi+p1Q8SE=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=C0tfQ/WKGWwR3BMcnpJZlEdQHAw6z+NpqmalHLxgt5z0+cD3ODUD3leobh2Jb3deuAOVTtWQRMbUJUPT/ZE7iQp/MlBn4emfpJIC3xxCTLEPjb0Wtkvlp8zl7h56Y/goFzSIQiH5cIUhMBM20kq0IU6IXxcBsPWSOhz6B4w6jpZ+o7S2fzmuzWUntaUdo7rfOpnk+i3A46FMvNwSwTTMcIiT5WinStZJqfUN9APJ7iH0V5MkWY44OACk7RD89lG1hSc6Zr3qpkVWyPaPuMY4ZuC8A9Dszw+o4kp5QeCeF6t3N1PhZTVilQy0Ly0O6RgQ6M2j1au0VNoBilLaJCjKdw==
-X-YMail-OSG: KLqmlQ0VM1n_plmRmYDLyOEGFurcrtCCFwmlmsg1y0zN9kP7w4aTOoSj7QI.UrK
- Th3I9lNjhDnc6AaZECDFe8I3D4ZU.4pnjFNjL.naN6IYIC6f5uLU77g.MVFp6X0yo8yAAN.JSrL7
- VFirR7jo8cBhDXkDDn.umHXIUKbG16Pzo6UunwD66iWvOt49kyM14KmchTkcBtfX7eDAcoZL4NUR
- ANokss8TrQSytZ.k01zGgRsNk9xKbxngek4cG5Vs5rhd.mJy.15yC5JJaYVwiTuSA3nncFE1bnnI
- QTwhogestwJ9ZlsmIUUFtl5Hev4iqb21VVIaBsSgX9LudVXEn8UiijX_rVuAI4.MHMqpt7bi6LaB
- de25xBSzrZ..wGthXak2ECyRDv4IP_3fLEv.bMzRpmtqa9l5UlaJVXdVMGtmr..UhL5m39fD54vP
- Vjx8q24yvD0lZbHgqH3exHBTaxoItgc9s3ZQm1Lrjp_RcnzW2f16XJ_zODDD3DWKHPzda85jejbM
- SrcnBlZMbtRiX9DzK1.1c4yLIib3ojSDZ_Nu4ifSbyhQIR2STPBRsLtM.MGDyQwLvwdwETnXuuDu
- k74yFbijMLPOM_oTRrvwRuQiYA_cLPJr81ipLKXeG9HX8I8FYXHJQJ4jYRt8zTDa33xQewdIn4Nn
- tnlZvIMaaPpb2gsXDsawuacjHw3KEQa0O.vO_PEbblmw9bxPzB3LBIUiHqCwmqlukzbcsdy3HuhD
- bJ.DAnQhdeQkoNpEwXh87jLzQ6Ld5almJ2gtzgXv_M5zJctI.0Pi84ZAA4c54cEVwLU7IB_NGQ.x
- 8WxLkvoRpk0OEw68HAkrNoT6QXvIz_9AAoUQMVTHYVCRXV4cEOQuqYrdcHBojJMn1GXywdG7wgcu
- jhPbjBfhCE7ah7A8rcjXD0ycQkgmjP9Wj.n9gO_tACCS6LfdiS0OjCXgp23XVChd0MlnQ8zC8bYD
- nUVSdWoDWOSDLyfDbk.mPHARpXi3Efpie9iaKNDKV1efSJjPuIp1B0cpldwKiYQfeMFgU3rElEw5
- pLJh5RT1eg6Yys5Fjo0f1DVkL_KhQaPewJuhrMMOzgl7ynFZF_wtD7zYpZQa.l5nw6DdAvzb0XzO
- nJDRG1tOfAChWLkVf_g9kdZse9tj_Whab6YK9scclyZ_20zY6jE7qr..QEBdP6g0uzdYuKewDyCs
- 91SGSlwzTv1M_j8sJQf9bw0gQ4rWI6q6UvektuIgPpH79zpJu6ysvFjPWNVsxbE87n0xK56nSL.C
- cwOjFLNHExkVq8x59h7GzvsC89rBGIzv9ZbEmwWLXZTEcY3C35IP8yNeTXq37PqwXHPS1nYr2Xcb
- ippEGIcN4_01mBdI72RusWIrtD4IHXsKMhevq1P31SyuWVo6MbrhPqkI3sQeAqvaewjU9yxCG_Kx
- KP2gNgIllJ7dC55_vgPbNyD0KazmNXR5TjTFxLLdbxeV_MVrt.itJVKm6xasmSLWCP2ztIm6xtMC
- qcJPHD_gbfLt_MOqylJMi2TgMEvRMK_uZE4r.6Q2kaaBjyiEivTPlcLVCHrqwyr0bGTg34e2tPJ0
- 0FoOXmxXZ7ZJXi2QrGAgkPsR9.ypOsiqjI0teZB2X3PGuMABQwppfOQNMVuudeAkc6a.O.7USpX.
- UYyYPDr6_jyfSDPSR8YMRkJlp2xY3uE3eXPOmmpo50HOoUzo8elJMAcY_Lw7Wg7fR55OpJTSrkse
- UEXGPzvHmlfJ4.qUeiZidCFJnSW14kd453lmFgFH247vib3ShbrbHQHBWmqcH9RDaUO_Wz0cYfRh
- TkXhJGup9ohpcjDc1FhdKL9uWdXWWDGTGtUuaswCBoxvZefiEo5jQkOBhTULm8tyE1rwIMgQi6Yd
- .oVz41Iu3HO8rrQmkYWyBGlC.1kTuakwdQrUmMI8ijqNQ8x.ahchmAlcPCWHPSjhEfR27Vdumi1a
- SngqFX11nhBPvWdWsWAolLjA9dr1K0Vw9SHgymw1gISKQJw5jYLHn4sGe1rdFdAXhmElAi95WH4D
- d76g7drokEzyojGSTDpPefnmL6_Ryfn.KJLo.J8B7BXpmJjW3S3zFqnrOpiNqu.uoaUIdiNV5jVe
- 3J3idqaeS0Ogc10J.vRl.n2qwMDRm4s1KIuWAwBgKHgOV2l6qtNVJJqwAeu8hjZIOONKpoXazUAE
- 7OUbgffmaNZY5ZKHWQMeI9M2PiMwHqdOnh2gKDPO83eUbtT32_eYH9e07EX5D8s2xpHBs6ZYZlms
- E1zF_.w7jCz4bb_NJvG1DyVbcIx8S_4sg51p3Iiq7TOtcxJacky.PLmdTsswkBfBob3zqh2bzi2.
- YDaZwulbnp45eGWu5I045T6j0NQxJTMQBy2c-
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Fri, 24 Sep 2021 18:24:47 +0000
-Received: by kubenode587.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 47dcbe6fc345351ca859b00706a0fb25;
-          Fri, 24 Sep 2021 18:24:42 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v29 27/28] LSM: Add /proc attr entry for full LSM context
-Date:   Fri, 24 Sep 2021 10:54:40 -0700
-Message-Id: <20210924175441.7943-28-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210924175441.7943-1-casey@schaufler-ca.com>
-References: <20210924175441.7943-1-casey@schaufler-ca.com>
+        id S1348194AbhIXTpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Sep 2021 15:45:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344712AbhIXTpO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Sep 2021 15:45:14 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8E8C061613
+        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 12:43:40 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id x191so3877934pgd.9
+        for <linux-doc@vger.kernel.org>; Fri, 24 Sep 2021 12:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Yh0tKFftKMpaU5zCDGgZ0wFbWRfGqnJFa/3ltlAnWS4=;
+        b=A4RrQfNq32FTd/c8bdBoYqxW/Sy/dQlKL1FezuBgHX37do9WZ7n9TbVf+3wF8wCu5T
+         gT3kkUxFzcWSrNMpzVXlqfGAF/lbUcv+KpqyY9qzc/osL1j8sfC5fJXtSgse/w54CohC
+         BkjCg8SlBRERoVcxA9VpQdfG7PqHNCIONoJVY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Yh0tKFftKMpaU5zCDGgZ0wFbWRfGqnJFa/3ltlAnWS4=;
+        b=4jRLfIToaTTcjyb4ZX9oADG9vxTMmKzFBHrpVy38S3kmoxVlZYcgCJzXJSxCPDGqdc
+         fliQIihgwbju7x6euZIfw+Ma+t94wuj0vQVPx6mop0ALacVl4Qa+fgCKiVVCHIplNU82
+         n2J/NkUP02quO4ltG2zK9EnNkozEde4zdf3H0lEd9EtSy2zmwb/kMxl7Lv7sJ9ImY65w
+         Cdgl4IgItfk3dmqGXnz7c6VCaEoklyhtQnuxsKiEKhqEhDlg2gknbZ22lnVXsk5R+Ohw
+         NUP5O2/T/oImGPCm34FYrJi1F1Ds9RFnfI1uYGjn6lmpxx9NFCsXfkKLW8wW3GpwKSwc
+         qrhA==
+X-Gm-Message-State: AOAM5332ihl7HFGlG3nsgjiZpP8/A/WgdrVu2+GYdBq6V3dTDFbe8ck4
+        UiOjqV3+pWGk9jaYvc9LomvGtQ==
+X-Google-Smtp-Source: ABdhPJz8N9L10FfNCCZ++/172JLdRltAaPOsWjfROEN1Oo+YHcmLZt2hS+BpTokuHRwxozTdKDXGKg==
+X-Received: by 2002:aa7:998a:0:b0:44b:6b98:5ae8 with SMTP id k10-20020aa7998a000000b0044b6b985ae8mr1435363pfh.35.1632512620133;
+        Fri, 24 Sep 2021 12:43:40 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g27sm9992651pfk.173.2021.09.24.12.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 12:43:39 -0700 (PDT)
+Date:   Fri, 24 Sep 2021 12:43:38 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+        Christoph Lameter <cl@linux.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>, dwaipayanray1@gmail.com,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        mm-commits@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-doc@vger.kernel.org
+Subject: Re: function prototype element ordering
+Message-ID: <202109241238.13C92BA004@keescook>
+References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org>
+ <20210910031046.G76dQvPhV%akpm@linux-foundation.org>
+ <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
+ <202109211630.2D00627@keescook>
+ <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
+ <202109211757.F38DF644@keescook>
+ <0b1c78b395a7a198a089ba8f6283d8d10829720c.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b1c78b395a7a198a089ba8f6283d8d10829720c.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry /proc/.../attr/context which displays the full
-process security "context" in compound format:
-        lsm1\0value\0lsm2\0value\0...
-This entry is not writable.
+On Tue, Sep 21, 2021 at 09:24:04PM -0700, Joe Perches wrote:
+> On Tue, 2021-09-21 at 19:25 -0700, Kees Cook wrote:
+> > [...]
+> > Looking through what was written before[1] and through examples in the
+> > source tree, I find the following categories:
+> > 
+> > 1- storage class: static extern inline __always_inline
+> > 2- storage class attributes/hints/???: __init __cold
+> > 3- return type: void *
+> > 4- return type attributes: __must_check __noreturn __assume_aligned(n)
+> > 5- function attributes: __attribute_const__ __malloc
+> > 6- function argument attributes: __printf(n, m) __alloc_size(n)
+> > 
+> > Everyone seems to basically agree on:
+> > 
+> > [storage class] [return type] [return type attributes] [name]([arg1type] [arg1name], ...)
+> > 
+> > There is a lot of disagreement over where 5 and 6 should fit in above. And
+> > there is a lot of confusion over 4 (mixed between before and after the
+> > function name) and 2 (see below).
+> > 
+> > What's currently blocking me is that 6 cannot go after the function
+> > (for definitions) because it angers GCC (see quoted bit above), but 5
+> > can (e.g. __attribute_const__).
+> > 
+> > Another inconsistency seems to be 2 (mainly section markings like
+> > __init). Sometimes it's after the storage class and sometimes after the
+> > return type, but it certainly feels more like a storage class than a
+> > return type attribute:
+> > 
+> > $ git grep 'static __init int' | wc -l
+> > 349
+> > $ git grep 'static int __init' | wc -l
+> > 8402
+> > 
+> > But it's clearly positioned like a return type attribute in most of the
+> > tree. What's correct?
+> 
+> Neither really.  'Correct' is such a difficult concept.
+> 'Preferred' might be better.
 
-A security module may decide that its policy does not allow
-this information to be displayed. In this case none of the
-information will be displayed.
+Right -- I expect it to be a guideline.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/ABI/testing/procfs-attr-context | 14 ++++
- Documentation/security/lsm.rst                | 14 ++++
- fs/proc/base.c                                |  1 +
- include/linux/lsm_hooks.h                     |  6 ++
- security/apparmor/include/procattr.h          |  2 +-
- security/apparmor/lsm.c                       |  8 +-
- security/apparmor/procattr.c                  | 22 +++---
- security/security.c                           | 79 +++++++++++++++++++
- security/selinux/hooks.c                      |  2 +-
- security/smack/smack_lsm.c                    |  2 +-
- 10 files changed, 135 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/ABI/testing/procfs-attr-context
+> btw: there are about another 100 other uses with '__init' as the
+> initial attribute, mostly in trace.
 
-diff --git a/Documentation/ABI/testing/procfs-attr-context b/Documentation/ABI/testing/procfs-attr-context
-new file mode 100644
-index 000000000000..40da1c397c30
---- /dev/null
-+++ b/Documentation/ABI/testing/procfs-attr-context
-@@ -0,0 +1,14 @@
-+What:		/proc/*/attr/context
-+Contact:	linux-security-module@vger.kernel.org,
-+Description:	The current security information used by all Linux
-+		security module (LSMs) that are active on the system.
-+		The details of permissions required to read from
-+		this interface and hence obtain the security state
-+		of the task identified is dependent on the LSMs that
-+		are active on the system.
-+		A process cannot write to this interface.
-+		The data provided by this interface will have the form:
-+			lsm_name\0lsm_data\0[lsm_name\0lsm_data\0]...
-+		where lsm_name is the name of the LSM and the following
-+		lsm_data is the process data for that LSM.
-+Users:		LSM user-space
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index b77b4a540391..070225ae6ceb 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -143,3 +143,17 @@ separated list of the active security modules.
- The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
- module for which the ``/proc/pid/attr/current`` interface will
- apply. This interface can be written to.
-+
-+The infrastructure does provide an interface for the special
-+case where multiple security modules provide a process context.
-+This is provided in compound context format.
-+
-+-  `lsm\0value\0lsm\0value\0`
-+
-+The `lsm` and `value` fields are NUL-terminated bytestrings.
-+Each field may contain whitespace or non-printable characters.
-+The NUL bytes are included in the size of a compound context.
-+The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
-+
-+The file ``/proc/pid/attr/context`` provides the security
-+context of the identified process.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 65da9d2f3060..b87977f0488b 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2824,6 +2824,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
- 	ATTR(NULL, "interface_lsm",	0666),
-+	ATTR(NULL, "context",		0444),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index d2c4bc94d47f..f6ffe8b069e2 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1397,6 +1397,12 @@
-  *	@pages contains the number of pages.
-  *	Return 0 if permission is granted.
-  *
-+ * @getprocattr:
-+ *	Provide the named process attribute for display in special files in
-+ *	the /proc/.../attr directory.  Attribute naming and the data displayed
-+ *	is at the discretion of the security modules.  The exception is the
-+ *	"context" attribute, which will contain the security context of the
-+ *	task as a nul terminated text string without trailing whitespace.
-  * @ismaclabel:
-  *	Check if the extended attribute specified by @name
-  *	represents a MAC label. Returns 1 if name is a MAC
-diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-index 31689437e0e1..03dbfdb2f2c0 100644
---- a/security/apparmor/include/procattr.h
-+++ b/security/apparmor/include/procattr.h
-@@ -11,7 +11,7 @@
- #ifndef __AA_PROCATTR_H
- #define __AA_PROCATTR_H
- 
--int aa_getprocattr(struct aa_label *label, char **string);
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline);
- int aa_setprocattr_changehat(char *args, size_t size, int flags);
- 
- #endif /* __AA_PROCATTR_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 4237536106aa..65a004597e53 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -602,6 +602,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	const struct cred *cred = get_task_cred(task);
- 	struct aa_task_ctx *ctx = task_ctx(current);
- 	struct aa_label *label = NULL;
-+	bool newline = true;
- 
- 	if (strcmp(name, "current") == 0)
- 		label = aa_get_newest_label(cred_label(cred));
-@@ -609,11 +610,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 		label = aa_get_newest_label(ctx->previous);
- 	else if (strcmp(name, "exec") == 0 && ctx->onexec)
- 		label = aa_get_newest_label(ctx->onexec);
--	else
-+	else if (strcmp(name, "context") == 0) {
-+		label = aa_get_newest_label(cred_label(cred));
-+		newline = false;
-+	} else
- 		error = -EINVAL;
- 
- 	if (label)
--		error = aa_getprocattr(label, value);
-+		error = aa_getprocattr(label, value, newline);
- 
- 	aa_put_label(label);
- 	put_cred(cred);
-diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-index c929bf4a3df1..be3b083d9b74 100644
---- a/security/apparmor/procattr.c
-+++ b/security/apparmor/procattr.c
-@@ -20,6 +20,7 @@
-  * aa_getprocattr - Return the profile information for @profile
-  * @profile: the profile to print profile info about  (NOT NULL)
-  * @string: Returns - string containing the profile info (NOT NULL)
-+ * @newline: Should a newline be added to @string.
-  *
-  * Returns: length of @string on success else error on failure
-  *
-@@ -30,20 +31,21 @@
-  *
-  * Returns: size of string placed in @string else error code on failure
-  */
--int aa_getprocattr(struct aa_label *label, char **string)
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline)
- {
- 	struct aa_ns *ns = labels_ns(label);
- 	struct aa_ns *current_ns = aa_get_current_ns();
-+	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
- 	int len;
- 
- 	if (!aa_ns_visible(current_ns, ns, true)) {
- 		aa_put_ns(current_ns);
- 		return -EACCES;
- 	}
-+	if (newline)
-+		flags |= FLAG_SHOW_MODE;
- 
--	len = aa_label_snxprint(NULL, 0, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
- 	AA_BUG(len < 0);
- 
- 	*string = kmalloc(len + 2, GFP_KERNEL);
-@@ -52,19 +54,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
- 		return -ENOMEM;
- 	}
- 
--	len = aa_label_snxprint(*string, len + 2, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
- 	if (len < 0) {
- 		aa_put_ns(current_ns);
- 		return len;
- 	}
- 
--	(*string)[len] = '\n';
--	(*string)[len + 1] = 0;
-+	if (newline) {
-+		(*string)[len] = '\n';
-+		(*string)[++len] = 0;
-+	}
- 
- 	aa_put_ns(current_ns);
--	return len + 1;
-+	return len;
- }
- 
- /**
-diff --git a/security/security.c b/security/security.c
-index 96b1d9c37d49..798e887b18fe 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -802,6 +802,57 @@ static int lsm_superblock_alloc(struct super_block *sb)
- 	return 0;
- }
- 
-+/**
-+ * append_ctx - append a lsm/context pair to a compound context
-+ * @ctx: the existing compound context
-+ * @ctxlen: size of the old context, including terminating nul byte
-+ * @lsm: new lsm name, nul terminated
-+ * @new: new context, possibly nul terminated
-+ * @newlen: maximum size of @new
-+ *
-+ * replace @ctx with a new compound context, appending @newlsm and @new
-+ * to @ctx. On exit the new data replaces the old, which is freed.
-+ * @ctxlen is set to the new size, which includes a trailing nul byte.
-+ *
-+ * Returns 0 on success, -ENOMEM if no memory is available.
-+ */
-+static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-+		      int newlen)
-+{
-+	char *final;
-+	size_t llen;
-+	size_t nlen;
-+	size_t flen;
-+
-+	llen = strlen(lsm) + 1;
-+	/*
-+	 * A security module may or may not provide a trailing nul on
-+	 * when returning a security context. There is no definition
-+	 * of which it should be, and there are modules that do it
-+	 * each way.
-+	 */
-+	nlen = strnlen(new, newlen);
-+
-+	flen = *ctxlen + llen + nlen + 1;
-+	final = kzalloc(flen, GFP_KERNEL);
-+
-+	if (final == NULL)
-+		return -ENOMEM;
-+
-+	if (*ctxlen)
-+		memcpy(final, *ctx, *ctxlen);
-+
-+	memcpy(final + *ctxlen, lsm, llen);
-+	memcpy(final + *ctxlen + llen, new, nlen);
-+
-+	kfree(*ctx);
-+
-+	*ctx = final;
-+	*ctxlen = flen;
-+
-+	return 0;
-+}
-+
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -2235,6 +2286,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	char *final = NULL;
-+	char *cp;
-+	int rc = 0;
-+	int finallen = 0;
- 	int ilsm = lsm_task_ilsm(current);
- 	int slot = 0;
- 
-@@ -2262,6 +2317,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 		return -ENOMEM;
- 	}
- 
-+	if (!strcmp(name, "context")) {
-+		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-+				     list) {
-+			rc = hp->hook.getprocattr(p, "context", &cp);
-+			if (rc == -EINVAL)
-+				continue;
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-+					cp, rc);
-+			kfree(cp);
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+		}
-+		if (final == NULL)
-+			return -EINVAL;
-+		*value = final;
-+		return finallen;
-+	}
-+
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index c3e5fcedae0b..ec045d9e240a 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6462,7 +6462,7 @@ static int selinux_getprocattr(struct task_struct *p,
- 			goto bad;
- 	}
- 
--	if (!strcmp(name, "current"))
-+	if (!strcmp(name, "current") || !strcmp(name, "context"))
- 		sid = __tsec->sid;
- 	else if (!strcmp(name, "prev"))
- 		sid = __tsec->osid;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 711fb49b4d5f..bd46921b9d28 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3477,7 +3477,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
- 	char *cp;
- 	int slen;
- 
--	if (strcmp(name, "current") != 0)
-+	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
- 		return -EINVAL;
- 
- 	cp = kstrdup(skp->smk_known, GFP_KERNEL);
+Hah, yeah.
+
+> And I still think that return type attributes like __init, which is
+> just a __section define, should go before the function storage class
+> and ideally on a separate line to simplify the parsing of the actual
+> function declaration.  Attributes like __section, __aligned, __cold,
+> etc... don't have much value when looking up a function definition.
+> 
+> > Regardless, given the constraints above, it seems like what Linus may
+> > want is (on "one line", though it will get wrapped in pathological cases
+> > like kmem_cache_alloc_node_trace):
+> 
+> Pathological is pretty common these days as the function name length
+> is rather longer now than earlier times.
+
+Agreed!
+
+> > [storage class] [storage class attributes] [return type] [return type attributes] [function argument attributes] [name]([arg1type] [arg1name], ...) [function attributes]
+> > 
+> > Joe appears to want (on two lines):
+> > 
+> > [storage class attributes] [function attributes] [function argument attributes]
+> > [storage class] [return type] [return type attributes] [name]([arg1type] [arg1name], ...)
+> 
+> I would put [return type attributes] on the initial separate line
+> even though that's not the most common use today.
+
+I found a few other people wanting separate lines too, so at the risk of
+annoying Linus, I guess I'll attempt this (again).
+
+> > I would just like to have an arrangement that won't get NAKed by
+> > someone. ;)
+> 
+> Bikeshed building dreamer...
+
+I just want to know the right place to put stuff. :P
+
+> But IMO the desire here is to ask for a bit more uniformity, not
+> require it.
+
+Yeah.
+
 -- 
-2.31.1
-
+Kees Cook
