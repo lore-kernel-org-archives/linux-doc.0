@@ -2,149 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97FDEC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 16:39:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A00C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 19:40:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72AC160F48
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 16:39:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 982FF610A3
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 19:40:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbhIYQlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Sep 2021 12:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbhIYQlG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 12:41:06 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180BCC061570;
-        Sat, 25 Sep 2021 09:39:32 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id t4so8737711plo.0;
-        Sat, 25 Sep 2021 09:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AHBJp+MjeLCe3b43/RSU7R6aEcfBrxWE3oKFx9hyVok=;
-        b=oT7FcjHWUH+wtdkvL69Y7Uyd+3Cboq+KDSIAG/J64L0XK61PMYzeWetNaifsSjmk5H
-         SuGvjlCHhwp7sDUkExGO5i4YnECa7/JR5FN6o8E6bxw2vPMWX2i79/cJYbzsQPDZCRsc
-         /JJcN5/I7X8cAdjMI4n9MOTB7SfBXhrHhGmABmXuAjO+8oqGoJA1EbIOvWxRG5TJQFpK
-         qQuC+/3Chd+p9oPr38jaUvzs9bDJocyhrZOmCzfGwPQTlEfuWEqwP4gD3bvJGihEOZ9y
-         3yYyfHSQ0bU7SsXZOLwpi02luf5AD1BWwDt4PqTpZeXG6OeImxuBQc7Da8YRDoApPPt7
-         Z4sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AHBJp+MjeLCe3b43/RSU7R6aEcfBrxWE3oKFx9hyVok=;
-        b=0e1i82AcK7yleQHZO/lh8s0YgW0honVwBKNfd6sMVfDHsl1vzPsheFjhHcBx4l0iN+
-         UJgkM1DZPAu2FO8QjT+HIQuqDjULKC/yqE7lqLhm90LDL+G0VLMKm6CBI8eS+bVhrWO9
-         mWeWGP2cRhzam4FrFpRfINkKgItXEea3/ITsji+QfNySexb6imFGNlM+z/RAm0P4hQNK
-         CS1QOq3GfE03e3Q7XejmvUaWSSdQ1kGMaDsSlgOQcE4994FpaoA9q8g7zEwjF3xwlS34
-         t/x566gOpPqwoHDlghCU42jJMO14anfDelV8vW+sCJZmmeBMcSasGXX5MWI4HYLYubGU
-         D2xA==
-X-Gm-Message-State: AOAM530PFy6SMj8gSFwZgwtHjDPbud5g4ymAxtWS22gWIoSl3vOoc2kg
-        25Txo/iIOe7fk3DEIRC0xPs=
-X-Google-Smtp-Source: ABdhPJyuy5tKNOoKz7FdMPE3OZdYtEyXHupzN0azbvGowMiT6RWmEXaRzaQf0pQ5MtxqE9kS1rr+0Q==
-X-Received: by 2002:a17:90b:17d0:: with SMTP id me16mr9062267pjb.49.1632587971281;
-        Sat, 25 Sep 2021 09:39:31 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:6005:10e3:6238:12b8:7d27:c5e3])
-        by smtp.googlemail.com with ESMTPSA id n9sm13609961pjk.3.2021.09.25.09.39.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Sep 2021 09:39:30 -0700 (PDT)
-From:   Utkarsh Verma <utkarshverma294@gmail.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        id S229862AbhIYTmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Sep 2021 15:42:20 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:43790 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229777AbhIYTmU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 15:42:20 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-235--XtKN3_VNjyVzPJ2CaVfBQ-1; Sat, 25 Sep 2021 20:40:42 +0100
+X-MC-Unique: -XtKN3_VNjyVzPJ2CaVfBQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Sat, 25 Sep 2021 20:40:41 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Sat, 25 Sep 2021 20:40:41 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>
+CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Utkarsh Verma <utkarshverma294@gmail.com>
-Subject: [PATCH] Documentation: checkpatch: Document some more message types
-Date:   Sat, 25 Sep 2021 22:08:52 +0530
-Message-Id: <20210925163852.12096-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Andrew Morton <akpm@linux-foundation.org>,
+        "apw@canonical.com" <apw@canonical.com>,
+        Christoph Lameter <cl@linux.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "mm-commits@vger.kernel.org" <mm-commits@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        "Pekka Enberg" <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: RE: function prototype element ordering
+Thread-Topic: function prototype element ordering
+Thread-Index: AQHXr/cM9YlQsZ7AakW1CvFYeW1pq6u1IqgQ
+Date:   Sat, 25 Sep 2021 19:40:41 +0000
+Message-ID: <6a85bbbf952949118cc5f93b57d48265@AcuMS.aculab.com>
+References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org>
+ <20210910031046.G76dQvPhV%akpm@linux-foundation.org>
+ <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
+ <202109211630.2D00627@keescook>
+ <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
+ <202109211757.F38DF644@keescook> <YUraGKetS+Tgc7y9@localhost.localdomain>
+ <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
+In-Reply-To: <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added and documented 3 new message types:
-- MULTILINE_DEREFERENCE
-- SINGLE_STATEMENT_DO_WHILE_MACRO
-- MULTIPLE_ASSIGNMENTS
-
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 43 ++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea2d8..dac5b89a3082 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -710,6 +710,33 @@ Indentation and Line Breaks
- 
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#breaking-long-lines-and-strings
- 
-+  **MULTILINE_DEREFERENCE**
-+    A single dereferencing identifier spanned on multiple lines like::
-+
-+      struct_identifier->member[index].
-+      member = <foo>;
-+
-+    is generally hard to follow. It can easily lead to typos and so makes
-+    the code vulnerable to bugs.
-+
-+    If fixing the multiple line dereferencing leads to an 80 column
-+    violation, then either rewrite the code in a more simple way or if the
-+    starting part of the dereferencing identifier is the same and used at
-+    multiple places then store it in a temporary variable, and use that
-+    temporary variable only at all the places. For example, if there are
-+    two dereferencing identifiers::
-+
-+      member1->member2->member3.foo1;
-+      member1->member2->member3.foo2;
-+
-+    then store the member1->member2->member3 part in a temporary variable.
-+    It not only helps to avoid the 80 column violation but also reduces
-+    the program size by removing the unnecessary dereferences.
-+
-+    But if none of the above methods work then ignore the 80 column
-+    violation because it is much easier to read a dereferencing identifier
-+    on a single line.
-+
-   **TRAILING_STATEMENTS**
-     Trailing statements (for example after any conditional) should be
-     on the next line.
-@@ -845,6 +872,17 @@ Macros, Attributes and Symbols
-     Use the `fallthrough;` pseudo keyword instead of
-     `/* fallthrough */` like comments.
- 
-+  **SINGLE_STATEMENT_DO_WHILE_MACRO**
-+    For the multi-statement macros, it is necessary to use the do-while
-+    loop to avoid unpredictable code paths. The do-while loop helps to
-+    group the multiple statements into a single one so that a
-+    function-like macro can be used as a function only.
-+
-+    But for the single statement macros, it is unnecessary to use the
-+    do-while loop. Although the code is syntactically correct but using
-+    the do-while loop is redundant. So remove the do-while loop for single
-+    statement macros.
-+
-   **WEAK_DECLARATION**
-     Using weak declarations like __attribute__((weak)) or __weak
-     can have unintended link defects.  Avoid using them.
-@@ -920,6 +958,11 @@ Functions and Variables
-     Your compiler (or rather your loader) automatically does
-     it for you.
- 
-+  **MULTIPLE_ASSIGNMENTS**
-+    Multiple assignments on a single line makes the code unnecessarily
-+    complicated. So on a single line assign value to a single variable
-+    only, this makes the code more readable and helps avoid typos.
-+
-   **RETURN_PARENTHESES**
-     return is not a function and as such doesn't need parentheses::
- 
--- 
-2.25.1
+RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjIgU2VwdGVtYmVyIDIwMjEgMjI6MTYNCi4u
+Lg0KPiBXZSBkb24ndCBwdXQgZnVuY3Rpb24gcmV0dXJuIHR5cGVzIG9uIHRoZWlyIG93biBsaW5l
+cyBlaXRoZXIsIGV2ZW4gaWYNCj4gc29tZSBvdGhlciBwcm9qZWN0cyBoYXZlIHRoYXQgcnVsZSAo
+anVzdCB0byBnZXQgZnVuY3Rpb24gbmFtZXMgYXQgdGhlDQo+IGJlZ2lubmluZyBvZiBsaW5lcyBv
+ciBzb21lIG90aGVyIG9kZCByZWFzb24pLg0KDQpJZiB0aGUgZnVuY3Rpb24gbmFtZSBzdGFydHMg
+YXQgdGhlIGJlZ2lubmluZyBvZiBhIGxpbmUgaXQgaXMNCm11Y2ggZWFzaWVyIHRvIGdyZXAgZm9y
+IHRoZSBkZWZpbml0aW9uLg0KVHJ5aW5nIHRvIGZpbmQgZnVuY3Rpb24gZGVmaW5pdGlvbnMgaW4g
+dGhlIExpbnV4IGtlcm5lbCB0cmVlDQppcyBhIFBJVEEgLSB1bmxlc3MgdGhleSBhcmUgZXhwb3J0
+ZWQgd2hlbiAnRVhQT1JULiooZnVuY3Rpb25fbmFtZSknDQp3aWxsIHRlbmQgdG8gd29yay4NCg0K
+VHJ5aW5nIHRvIGNvbXBpbGU6DQpzdGF0aWMgaW50IHgoaW50IHkpIF9fYXR0cmlidXRlX18oKHNl
+Y3Rpb24oIngiKSkpIHsgcmV0dXJuIHk7fQ0Kd2l0aCBnY2MgZ2VuZXJhdGVzICJlcnJvcjogYXR0
+cmlidXRlcyBhcmUgbm90IGFsbG93ZWQgb24gYSBmdW5jdGlvbi1kZWZpbml0aW9uIi4NCg0KUHV0
+dGluZyB0aGUgYXR0cmlidXRlIGFueXdoZXJlIGJlZm9yZSB0aGUgZnVuY3Rpb24gbmFtZSB3b3Jr
+cyBmaW5lLg0KZ2NjIHByb2JhYmx5IGFjY2VwdHM6DQpfX2lubGluZSBzdGF0aWMgX19pbmxpbmUg
+aW50IF9faW5saW5lIHgodm9pZCkge3JldHVybiAwO30gDQoNClNvIGFueSBvZiB0aG9zZSBsb2Nh
+dGlvbnMgaXMgcGxhdXNpYmxlLg0KQnV0IGFmdGVyIHRoZSBhcmd1bWVudHMgaXNuJ3QgYWxsb3dl
+ZC4NClNvIGFuIChleHRlcm4pIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIHByb2JhYmx5IHNob3VsZCBu
+b3QgcHV0IHRoZW0NCnRoZXJlIC0gaWYgb25seSBmb3IgY29uc2lzdGVuY3kuDQoNCkkgdGhpbmsg
+SSdkIGdvIGZvciAnZmlyc3QnIC0gb3B0aW9uYWxseSBvbiB0aGVpciBvd24gbGluZS4NCg0KCURh
+dmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3Vu
+dCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3
+Mzg2IChXYWxlcykNCg==
 
