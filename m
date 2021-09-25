@@ -2,101 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA904C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 22:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D6A8C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 06:27:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93D3B61019
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Sep 2021 22:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 401D660E73
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 06:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345264AbhIXWpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Sep 2021 18:45:19 -0400
-Received: from mga03.intel.com ([134.134.136.65]:22795 "EHLO mga03.intel.com"
+        id S231919AbhIYG3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Sep 2021 02:29:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345228AbhIXWpR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Sep 2021 18:45:17 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10117"; a="224233866"
-X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
-   d="scan'208";a="224233866"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 15:43:43 -0700
-X-IronPort-AV: E=Sophos;i="5.85,321,1624345200"; 
-   d="scan'208";a="704339730"
-Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.251.20.113]) ([10.251.20.113])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 15:43:41 -0700
-Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-References: <20210824053830-mutt-send-email-mst@kernel.org>
- <d21a2a2d-4670-ba85-ce9a-fc8ea80ef1be@linux.intel.com>
- <20210829112105-mutt-send-email-mst@kernel.org>
- <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
- <20210829181635-mutt-send-email-mst@kernel.org>
- <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
- <20210830163723-mutt-send-email-mst@kernel.org>
- <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
- <20210910054044-mutt-send-email-mst@kernel.org>
- <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
- <20210911195006-mutt-send-email-mst@kernel.org>
-From:   Andi Kleen <ak@linux.intel.com>
-Message-ID: <ad1e41d1-3f4e-8982-16ea-18a3b2c04019@linux.intel.com>
-Date:   Fri, 24 Sep 2021 15:43:40 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S1345279AbhIYG27 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 25 Sep 2021 02:28:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B4437610EA;
+        Sat, 25 Sep 2021 06:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632551241;
+        bh=w/RmY89HXVNcF3MIRfDsLE3A3/k+cgoLYf1wKuMYh6U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=envukjmadSqGDHOgmKb4kmDliNEB+0CbjGBRY8z0KTgHbCK8HlvfBIoILMoviWgrT
+         Yj66dY9cSnNlf7vopUZlldWQRHJrWN1cBCUh/XHcldi2i5q2gYBd3FvZ+RzwuUqzIe
+         FOzJRwx9Wbrpmx8OoX9CderpGqhUOvdUp03WKQBA=
+Date:   Sat, 25 Sep 2021 08:27:08 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     hdegoede@redhat.com, mgross@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 2/2] platform/x86: Add Intel Software Defined Silicon
+ driver
+Message-ID: <YU7BPIH123HUZKhw@kroah.com>
+References: <20210924213157.3584061-1-david.e.box@linux.intel.com>
+ <20210924213157.3584061-2-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210911195006-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210924213157.3584061-2-david.e.box@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Sep 24, 2021 at 02:31:57PM -0700, David E. Box wrote:
 
->> Hmm, yes that's true. I guess we can make it default to opt-in for
->> pci_iomap.
->>
->> It only really matters for device less ioremaps.
-> OK. And same thing for other things with device, such as
-> devm_platform_ioremap_resource.
-> If we agree on all that, this will basically remove virtio
-> changes from the picture ;)
+Quick review:
 
-Hi we revisited this now. One problem with removing the ioremap opt-in 
-is that it's still possible for drivers to get at devices without going 
-through probe. For example they can walk the PCI device list. Some 
-drivers do that for various reasons. So if we remove the opt-in we would 
-need to audit and possibly fix all that, which would be potentially a 
-lot of churn. That's why I think it's better to keep the opt-in.
+> +static int sdsi_probe(struct platform_device *pdev)
+> +{
+> +	void __iomem *disc_addr;
+> +	struct sdsi_priv *priv;
+> +	int ret;
+> +
+> +	disc_addr = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(disc_addr))
+> +		return PTR_ERR(disc_addr);
+> +
+> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&priv->kref);
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +	priv->pdev = pdev;
+> +	mutex_init(&priv->mb_lock);
+> +	mutex_init(&priv->akc_lock);
+> +
+> +	memcpy_fromio(&priv->disc_table, disc_addr, DISC_TABLE_SIZE);
+> +
+> +	ret = sdsi_map_sdsi_registers(pdev);
+> +	if (ret)
+> +		goto put_kref;
+> +
+> +	ret = sdsi_create_misc_device(pdev);
+> +	if (ret)
+> +		goto put_kref;
+> +
+> +	ret = sdsi_add_bin_attrs(pdev);
 
+You just raced with userspace and lost.  Please attach your attributes
+to the misc device before registering it.
 
--Andi
+Also, you need a Documentation/ABI/ entry for your new sysfs file(s).
 
+> +	if (ret)
+> +		goto deregister_misc;
+> +
+> +	priv->dev_present = true;
+> +
+> +	return 0;
+> +
+> +deregister_misc:
+> +	misc_deregister(&priv->miscdev);
+> +put_kref:
+> +	kref_put(&priv->kref, sdsi_priv_release);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sdsi_remove(struct platform_device *pdev)
+> +{
+> +	struct sdsi_priv *priv = platform_get_drvdata(pdev);
+> +
+> +	priv->dev_present = false;
+> +	sysfs_remove_bin_file(&priv->pdev->dev.kobj, &priv->registers_bin_attr);
+> +	misc_deregister(&priv->miscdev);
+> +	kref_put(&priv->kref, sdsi_priv_release);
 
+Why do you need a kref for a structure that already can be controlled by
+a different lifetime rule?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver sdsi_driver = {
+> +	.driver = {
+> +		.name		= SDSI_DEV_NAME,
+> +		.dev_groups	= sdsi_groups,
+> +	},
+> +	.probe  = sdsi_probe,
+> +	.remove = sdsi_remove,
+> +};
+> +module_platform_driver(sdsi_driver);
+
+What causes the platform to know to register, and enable, this platform
+driver?  Shouldn't there be some hardware involved that is discoverable
+to enable it to load dynamically?
+
+thanks,
+
+greg k-h
