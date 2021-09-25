@@ -2,100 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A00C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 19:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE4DC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 20:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 982FF610A3
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 19:40:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE795610A3
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 20:18:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbhIYTmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Sep 2021 15:42:20 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:43790 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229777AbhIYTmU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 15:42:20 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-235--XtKN3_VNjyVzPJ2CaVfBQ-1; Sat, 25 Sep 2021 20:40:42 +0100
-X-MC-Unique: -XtKN3_VNjyVzPJ2CaVfBQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Sat, 25 Sep 2021 20:40:41 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Sat, 25 Sep 2021 20:40:41 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>
-CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S229904AbhIYUTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Sep 2021 16:19:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229842AbhIYUTu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 16:19:50 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6E4C061570;
+        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id m21so13450739pgu.13;
+        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cFRX5oL5e2qGvMdyNPty95jtsNRe9TW7d1DbDiCxj1k=;
+        b=X0wbusJsedFo1QDWNmK6wN1BorZqQPIrG96Zppcsje3ck5aWklO1gORETJ6VSpIKsu
+         pgVq6v01S+Ri3Ezxn32RtpGM99jc4v5bSn1PRwcaLPiPy24vtZ2XXQFNMRb21R2a/s+D
+         CzJKMtyBfkiRPm7qKTnigRjhryulYAv3gF6cGRkg6zjZyn1R1sv2oWuKbtwbq3Ghf5Vf
+         F6PA68Xeyjyf58zGJrCv5hxdp056F7KTzjQdnS93+5st/52CleS/5tVI/w+jErsuqs8+
+         I6J+CALfFp+UByrgdB3h8EJwya6agkS8R2WClnW4Q9c37WHWG8WNocO/Hl60Q072p8+g
+         MP3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cFRX5oL5e2qGvMdyNPty95jtsNRe9TW7d1DbDiCxj1k=;
+        b=17q1cINJLA7ZgNjCpn/7woeKCTlbjuzip/J5SbWhLmmXLvyCF3bLNdRO/07IbtaYLx
+         jV95i98xXcvaYsWk9M1nnImwXDeczlbKpPd4QLb1ecer1lgaYVsFurjLMBRZ7fAyiq0F
+         DXWTePmME8HTGPiodCt89yrrRD1O+yEJ0ZMvCDEb1RYDInKWFYpsUoqF3spxl+qri9dp
+         00gyWT/PQbZPQbHzBSF3Pwtm/Jz2sl1MTHkn8e0/6ZOlhutP0yonMKEj4eaaW2384gUL
+         FBxbUVA/JWjh+3/2KudpH44KydkBf6JYfo/IAzpzmEYX15eiUdhqFs7mIAXvxxLrZqO2
+         P3uA==
+X-Gm-Message-State: AOAM533XJlqmeDDjv8qONNESYnrLSlVb/oJFeVbDQONpPUr4TDCXYwQZ
+        LGEOjyyvD58PoPkHdjPHT8iaYj6zu9fjawpSzr8=
+X-Google-Smtp-Source: ABdhPJzUFwQEa9xx9U0N8XthCPNRmf/PRh58ITRSU8CNDBfO+5RgNT5zyKevCwi3WJewo3FYtcHu6A==
+X-Received: by 2002:a05:6a00:2410:b0:40e:7d8:ad7f with SMTP id z16-20020a056a00241000b0040e07d8ad7fmr15837402pfh.25.1632601095146;
+        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:6005:10e3:6238:12b8:7d27:c5e3])
+        by smtp.googlemail.com with ESMTPSA id o11sm4811023pjr.17.2021.09.25.13.18.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Sep 2021 13:18:14 -0700 (PDT)
+From:   Utkarsh Verma <utkarshverma294@gmail.com>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
         Joe Perches <joe@perches.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "apw@canonical.com" <apw@canonical.com>,
-        Christoph Lameter <cl@linux.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "mm-commits@vger.kernel.org" <mm-commits@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        "Pekka Enberg" <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: RE: function prototype element ordering
-Thread-Topic: function prototype element ordering
-Thread-Index: AQHXr/cM9YlQsZ7AakW1CvFYeW1pq6u1IqgQ
-Date:   Sat, 25 Sep 2021 19:40:41 +0000
-Message-ID: <6a85bbbf952949118cc5f93b57d48265@AcuMS.aculab.com>
-References: <20210909200948.090d4e213ca34b5ad1325a7e@linux-foundation.org>
- <20210910031046.G76dQvPhV%akpm@linux-foundation.org>
- <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
- <202109211630.2D00627@keescook>
- <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
- <202109211757.F38DF644@keescook> <YUraGKetS+Tgc7y9@localhost.localdomain>
- <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
-In-Reply-To: <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Utkarsh Verma <utkarshverma294@gmail.com>
+Subject: [PATCH] Documentation: checkpatch: Document some more message types
+Date:   Sun, 26 Sep 2021 01:47:46 +0530
+Message-Id: <20210925201746.15917-1-utkarshverma294@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjIgU2VwdGVtYmVyIDIwMjEgMjI6MTYNCi4u
-Lg0KPiBXZSBkb24ndCBwdXQgZnVuY3Rpb24gcmV0dXJuIHR5cGVzIG9uIHRoZWlyIG93biBsaW5l
-cyBlaXRoZXIsIGV2ZW4gaWYNCj4gc29tZSBvdGhlciBwcm9qZWN0cyBoYXZlIHRoYXQgcnVsZSAo
-anVzdCB0byBnZXQgZnVuY3Rpb24gbmFtZXMgYXQgdGhlDQo+IGJlZ2lubmluZyBvZiBsaW5lcyBv
-ciBzb21lIG90aGVyIG9kZCByZWFzb24pLg0KDQpJZiB0aGUgZnVuY3Rpb24gbmFtZSBzdGFydHMg
-YXQgdGhlIGJlZ2lubmluZyBvZiBhIGxpbmUgaXQgaXMNCm11Y2ggZWFzaWVyIHRvIGdyZXAgZm9y
-IHRoZSBkZWZpbml0aW9uLg0KVHJ5aW5nIHRvIGZpbmQgZnVuY3Rpb24gZGVmaW5pdGlvbnMgaW4g
-dGhlIExpbnV4IGtlcm5lbCB0cmVlDQppcyBhIFBJVEEgLSB1bmxlc3MgdGhleSBhcmUgZXhwb3J0
-ZWQgd2hlbiAnRVhQT1JULiooZnVuY3Rpb25fbmFtZSknDQp3aWxsIHRlbmQgdG8gd29yay4NCg0K
-VHJ5aW5nIHRvIGNvbXBpbGU6DQpzdGF0aWMgaW50IHgoaW50IHkpIF9fYXR0cmlidXRlX18oKHNl
-Y3Rpb24oIngiKSkpIHsgcmV0dXJuIHk7fQ0Kd2l0aCBnY2MgZ2VuZXJhdGVzICJlcnJvcjogYXR0
-cmlidXRlcyBhcmUgbm90IGFsbG93ZWQgb24gYSBmdW5jdGlvbi1kZWZpbml0aW9uIi4NCg0KUHV0
-dGluZyB0aGUgYXR0cmlidXRlIGFueXdoZXJlIGJlZm9yZSB0aGUgZnVuY3Rpb24gbmFtZSB3b3Jr
-cyBmaW5lLg0KZ2NjIHByb2JhYmx5IGFjY2VwdHM6DQpfX2lubGluZSBzdGF0aWMgX19pbmxpbmUg
-aW50IF9faW5saW5lIHgodm9pZCkge3JldHVybiAwO30gDQoNClNvIGFueSBvZiB0aG9zZSBsb2Nh
-dGlvbnMgaXMgcGxhdXNpYmxlLg0KQnV0IGFmdGVyIHRoZSBhcmd1bWVudHMgaXNuJ3QgYWxsb3dl
-ZC4NClNvIGFuIChleHRlcm4pIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIHByb2JhYmx5IHNob3VsZCBu
-b3QgcHV0IHRoZW0NCnRoZXJlIC0gaWYgb25seSBmb3IgY29uc2lzdGVuY3kuDQoNCkkgdGhpbmsg
-SSdkIGdvIGZvciAnZmlyc3QnIC0gb3B0aW9uYWxseSBvbiB0aGVpciBvd24gbGluZS4NCg0KCURh
-dmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3Vu
-dCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3
-Mzg2IChXYWxlcykNCg==
+Added and documented 3 new message types:
+- UNNECESSARY_INT
+- UNSPECIFIED_INT
+- UNNECESSARY_ELSE
+
+Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 47 ++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index f0956e9ea2d8..2dc74682277f 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -929,6 +929,13 @@ Functions and Variables
+ 
+       return bar;
+ 
++  **UNNECESSARY_INT**
++    int used after short, long and long long is unnecessary. So remove it.
++
++  **UNSPECIFIED_INT**
++    Kernel style prefers "unsigned int <foo>" over "unsigned <foo>" and
++    "signed int <foo>" over "signed <foo>".
++
+ 
+ Permissions
+ -----------
+@@ -1166,3 +1173,43 @@ Others
+ 
+   **TYPO_SPELLING**
+     Some words may have been misspelled.  Consider reviewing them.
++
++  **UNNECESSARY_ELSE**
++    Using an else statement just after a return or a break statement is
++    unnecassary. For example::
++
++      for (i = 0; i < 100; i++) {
++              int foo = bar();
++              if (foo < 1)
++                      break;
++              else
++                      usleep(1);
++      }
++
++    is generally better written as::
++
++      for (i = 0; i < 100; i++) {
++              int foo = bar();
++              if (foo < 1)
++                      break;
++              usleep(1);
++      }
++
++    So remove the else statement. But suppose if a if-else statement each
++    with a single return statement, like::
++
++      if (foo)
++              return bar;
++      else
++              return baz;
++
++    then by removing the else statement::
++
++      if (foo)
++              return bar;
++      return baz;
++
++    their is no significant increase in the readability and one can argue
++    that the first form is more readable because of indentation, so for
++    such cases do not convert the existing code from first form to second
++    form or vice-versa.
+-- 
+2.25.1
 
