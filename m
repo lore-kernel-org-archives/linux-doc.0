@@ -2,143 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE4DC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 20:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF7FC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Sep 2021 01:53:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE795610A3
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Sep 2021 20:18:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD78261019
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Sep 2021 01:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbhIYUTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Sep 2021 16:19:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
+        id S230232AbhIZBye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Sep 2021 21:54:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbhIYUTu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 16:19:50 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6E4C061570;
-        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id m21so13450739pgu.13;
-        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
+        with ESMTP id S230211AbhIZBye (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Sep 2021 21:54:34 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AAC0C061570
+        for <linux-doc@vger.kernel.org>; Sat, 25 Sep 2021 18:52:58 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id s11so14015807pgr.11
+        for <linux-doc@vger.kernel.org>; Sat, 25 Sep 2021 18:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cFRX5oL5e2qGvMdyNPty95jtsNRe9TW7d1DbDiCxj1k=;
-        b=X0wbusJsedFo1QDWNmK6wN1BorZqQPIrG96Zppcsje3ck5aWklO1gORETJ6VSpIKsu
-         pgVq6v01S+Ri3Ezxn32RtpGM99jc4v5bSn1PRwcaLPiPy24vtZ2XXQFNMRb21R2a/s+D
-         CzJKMtyBfkiRPm7qKTnigRjhryulYAv3gF6cGRkg6zjZyn1R1sv2oWuKbtwbq3Ghf5Vf
-         F6PA68Xeyjyf58zGJrCv5hxdp056F7KTzjQdnS93+5st/52CleS/5tVI/w+jErsuqs8+
-         I6J+CALfFp+UByrgdB3h8EJwya6agkS8R2WClnW4Q9c37WHWG8WNocO/Hl60Q072p8+g
-         MP3A==
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=JdzglYwYErLJTXq1oXBXFhHc0GGgxDM+bLCxaY6dGRU=;
+        b=lPgo9aMzBGclDq2+Jhm0gDVLmgTZgWkFTeQqBrAckEvzR6bvhD/BzA6JiqIlHSkkot
+         DGkpUlX+3wW7PZ095DD7IvNtr9e3UUyP7uXOhMmQ/omwbhKVS3s6Lhvc3T0ZeFii8SJ/
+         TbWsZJQzBdcBu8qh/OTo6wh84xhB5Nha/aSmSxnJX6QfznLAPaIRrfVb8mFkab4W4g4L
+         7O9f6OVt1uxXR7/0e3SWTZQkFd6DDPFZy5R0Xc81EPvfmy7pb79A2Zz6UklIEtfXt85q
+         I51OpWsnaETP6p4qdoG/RB+CHnBDjGrC+/EG67JuN93Zv5Ec7BrAdepHBzdhuIvwtYTr
+         GX3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cFRX5oL5e2qGvMdyNPty95jtsNRe9TW7d1DbDiCxj1k=;
-        b=17q1cINJLA7ZgNjCpn/7woeKCTlbjuzip/J5SbWhLmmXLvyCF3bLNdRO/07IbtaYLx
-         jV95i98xXcvaYsWk9M1nnImwXDeczlbKpPd4QLb1ecer1lgaYVsFurjLMBRZ7fAyiq0F
-         DXWTePmME8HTGPiodCt89yrrRD1O+yEJ0ZMvCDEb1RYDInKWFYpsUoqF3spxl+qri9dp
-         00gyWT/PQbZPQbHzBSF3Pwtm/Jz2sl1MTHkn8e0/6ZOlhutP0yonMKEj4eaaW2384gUL
-         FBxbUVA/JWjh+3/2KudpH44KydkBf6JYfo/IAzpzmEYX15eiUdhqFs7mIAXvxxLrZqO2
-         P3uA==
-X-Gm-Message-State: AOAM533XJlqmeDDjv8qONNESYnrLSlVb/oJFeVbDQONpPUr4TDCXYwQZ
-        LGEOjyyvD58PoPkHdjPHT8iaYj6zu9fjawpSzr8=
-X-Google-Smtp-Source: ABdhPJzUFwQEa9xx9U0N8XthCPNRmf/PRh58ITRSU8CNDBfO+5RgNT5zyKevCwi3WJewo3FYtcHu6A==
-X-Received: by 2002:a05:6a00:2410:b0:40e:7d8:ad7f with SMTP id z16-20020a056a00241000b0040e07d8ad7fmr15837402pfh.25.1632601095146;
-        Sat, 25 Sep 2021 13:18:15 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:6005:10e3:6238:12b8:7d27:c5e3])
-        by smtp.googlemail.com with ESMTPSA id o11sm4811023pjr.17.2021.09.25.13.18.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Sep 2021 13:18:14 -0700 (PDT)
-From:   Utkarsh Verma <utkarshverma294@gmail.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Utkarsh Verma <utkarshverma294@gmail.com>
-Subject: [PATCH] Documentation: checkpatch: Document some more message types
-Date:   Sun, 26 Sep 2021 01:47:46 +0530
-Message-Id: <20210925201746.15917-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=JdzglYwYErLJTXq1oXBXFhHc0GGgxDM+bLCxaY6dGRU=;
+        b=zPvBPQk8I1PbujbcedKWsIMrfk5y/ql0s2nHz/zSvPrPlmiZfIi49K54GN2XRZLPGU
+         8e5PT+O+GwedrI7J2KqJwS2MXNNM/fA72mCKZxNRURgnrjKi3YOLwbpEKqjE0uddbAHk
+         4hnRHz+HTysGslZUf7Chg+ZEQO6q7H9vZnNo+ANbKeDHmIwpg8pzfipOp/izlKI4t990
+         GjEQrGu3WNw3gbzmX6o60uPp25uKu432pvuN+bcC5CxUMRgveCw5BoTXUIuBXpQ3ydeo
+         uKZAGXKpviFQ8lYbfF6VfQNlEJNc3mz7Fbk1xtvn5ePkzptPeVgMFxC72Tbl7N6Rxgjy
+         CAAA==
+X-Gm-Message-State: AOAM531rdUM9bBCv+PPvprpsIU5CwrH8y6obR69Axh7xcxAOAx461fXv
+        o5gzXIPAWUZ0ZA/EQsNTk4pvkNeHb1ms1Q==
+X-Google-Smtp-Source: ABdhPJzKCUPWqbooOeb8NvJYGPkM/dqOUV5Z966VD4m6o+vrlG3Njt4GTmX35SsP47FCddT0Qqre8g==
+X-Received: by 2002:aa7:968e:0:b0:447:a593:926e with SMTP id f14-20020aa7968e000000b00447a593926emr16837081pfk.27.1632621178040;
+        Sat, 25 Sep 2021 18:52:58 -0700 (PDT)
+Received: from [192.168.28.11] ([172.58.139.12])
+        by smtp.gmail.com with ESMTPSA id b11sm14471696pge.57.2021.09.25.18.52.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Sep 2021 18:52:57 -0700 (PDT)
+To:     toybox <toybox@lists.landley.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   Rob Landley <rob@landley.net>
+Subject: Does anybody want to create a new "man 2 ioctl_list"?
+Message-ID: <084d63f5-c764-837b-e460-69132f430a3b@landley.net>
+Date:   Sat, 25 Sep 2021 21:12:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added and documented 3 new message types:
-- UNNECESSARY_INT
-- UNSPECIFIED_INT
-- UNNECESSARY_ELSE
+Michael Kerrisk deleted the old ioctl_list man page last year because nobody was
+maintaining it:
 
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 47 ++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/man2?id=3de87d46840d
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea2d8..2dc74682277f 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -929,6 +929,13 @@ Functions and Variables
- 
-       return bar;
- 
-+  **UNNECESSARY_INT**
-+    int used after short, long and long long is unnecessary. So remove it.
-+
-+  **UNSPECIFIED_INT**
-+    Kernel style prefers "unsigned int <foo>" over "unsigned <foo>" and
-+    "signed int <foo>" over "signed <foo>".
-+
- 
- Permissions
- -----------
-@@ -1166,3 +1173,43 @@ Others
- 
-   **TYPO_SPELLING**
-     Some words may have been misspelled.  Consider reviewing them.
-+
-+  **UNNECESSARY_ELSE**
-+    Using an else statement just after a return or a break statement is
-+    unnecassary. For example::
-+
-+      for (i = 0; i < 100; i++) {
-+              int foo = bar();
-+              if (foo < 1)
-+                      break;
-+              else
-+                      usleep(1);
-+      }
-+
-+    is generally better written as::
-+
-+      for (i = 0; i < 100; i++) {
-+              int foo = bar();
-+              if (foo < 1)
-+                      break;
-+              usleep(1);
-+      }
-+
-+    So remove the else statement. But suppose if a if-else statement each
-+    with a single return statement, like::
-+
-+      if (foo)
-+              return bar;
-+      else
-+              return baz;
-+
-+    then by removing the else statement::
-+
-+      if (foo)
-+              return bar;
-+      return baz;
-+
-+    their is no significant increase in the readability and one can argue
-+    that the first form is more readable because of indentation, so for
-+    such cases do not convert the existing code from first form to second
-+    form or vice-versa.
--- 
-2.25.1
+But it's not actually that _hard_, just time consuming. There are about 3500
+interesting ioctl macro definitions in the current kernel source:
 
+  $ egrep --include '*.[ch]' -r '[^A-Z]_IO(|C|W|R|WR)[(]' * | \
+    grep -v 'drivers/staging' | grep -v 'tools/' | wc -l
+  3533
+
+Each of which boils down to some entry point handling it and handing it off to a
+function that does a thing. Random example, the symbol SPI_IOC_RD_MODE from the
+above list (without the wc -l) greps to drivers/spi/spidev.c in function
+spidev_ioctl which winds up being:
+
+        case SPI_IOC_RD_MODE:
+                retval = put_user(spi->mode & SPI_MODE_MASK,
+                                        (__u8 __user *)arg);
+
+which is struct spi_device *spi; which is defined in include/linux/spi/spi.h
+(Trick: grep spi_device include/ -r | grep '{' ) and then there's a comment
+block before the header which has:
+
+ * @mode: The spi mode defines how data is clocked out and in.
+ *      This may be changed by the device's driver.
+ *      The "active low" default for chipselect mode can be overridden
+ *      (by specifying SPI_CS_HIGH) as can the "MSB first" default for
+ *      each word in a transfer (by specifying SPI_LSB_FIRST).
+
+So that ioctl reads that info into the supplied field.
+
+It would be really nice if there was an automated way to do this, but so far...
+
+Rob
