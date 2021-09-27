@@ -2,43 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE006C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEF4C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 936B9610E8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93DF561207
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233978AbhI0LMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 07:12:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58594 "EHLO mail.kernel.org"
+        id S233984AbhI0LMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 07:12:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233897AbhI0LMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233960AbhI0LMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 07:12:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DB2060F91;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45693610E8;
         Mon, 27 Sep 2021 11:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632741062;
-        bh=oMBrSxV/CfHXQt045aNo2OUaH1flC9Yc+6oSQbMxeAg=;
+        bh=AqDRSHU2BAg7akPKyY0rqmG5N9F1Y4zESlaVfKItUWU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sIYp+LMMRols8opsCWjo79iFZvlKvRsm7+JsaTmC0dXzcCVyYSoUKRu0XMD5CgsaS
-         GT6bynKop7MUpt0PYiiCJmKo6rKZ6PLKoazYLCfnsrAx639vYWrUV13CCgv9dVgiau
-         ZUMaoySIDXuTF7kmrA/VOrL/jAg2E/+GyCkxJsmK1HqEAer4l3UzAWSM51WLT1rnrL
-         Soqhm7D8QHaXItb87+a4zCtSqzwGtbI7oF3zukGs6exgkzR81bwAz48d5C8o1hQchS
-         it/hbaVfk34CNNKJjjIKHV+DCOxP877ekloRUbttnSsWLV0Yhv7hufK9NCI/bbvFnq
-         VK9Y2fdjJbnrA==
+        b=C/5jo6Kl36QK8LcKcq7HXuX+ecO8WBFRu/W4xW6cjCg+8AFBjtYGU7zz2IM+rP/4a
+         5a2h3nMuFLOdy9yJDjCdtkN95gnbpTzPyLW/5oWFG292oyDn3arkbHpv9tbxYuU3/S
+         mGazF6NK0QFTlDrlKaLcAEP2GcItcJqIjnOYxXe28dV1OvXd0JGEc5J2bxhQB7255c
+         3Koz02Sa7jM7L3Yx75tY8Dqa8yXud3vRMBLLhY4jCR5ltRRL2TEt3RM8ipB4zJVi1M
+         xF3pFF4gLVuzWiTuHsaXfHmYVThudwqkyEWNt3SMpLH1cHhw3G8T/6s52xOGa7ROjs
+         XkyGR3PJyaKwA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUoXE-0005yT-Gd; Mon, 27 Sep 2021 13:11:00 +0200
+        id 1mUoXE-0005y9-8H; Mon, 27 Sep 2021 13:11:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rajat Jain <rajatja@google.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/7] ABI: sysfs-devices-removable: make a table valid as ReST markup
-Date:   Mon, 27 Sep 2021 13:10:55 +0200
-Message-Id: <bf83354747b8abaa486fe03af4be2826363469cb.1632740376.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] scripts: get_abi.pl: create a valid ReST with duplicated tags
+Date:   Mon, 27 Sep 2021 13:10:50 +0200
+Message-Id: <4ad2e3a65f781f0f8d40bb75aa5a07aca80564d6.1632740376.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632740376.git.mchehab+huawei@kernel.org>
 References: <cover.1632740376.git.mchehab+huawei@kernel.org>
@@ -49,41 +47,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 70f400d4d957 ("driver core: Move the "removable" attribute from USB to core")
-added a table to the file, but not using a valid ReST format.
+As warned, /sys/bus/iio/devices/iio:deviceX/fault_ovuv is defined 2 times:
 
-Change it to avoid build issues when producing documentation with
-"make htmldocs".
+	Warning: /sys/bus/iio/devices/iio:deviceX/fault_ovuv is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-temperature-max31856:14  ./Documentation/ABI/testing/sysfs-bus-iio-temperature-max31865:0
 
-Fixes: 70f400d4d957 ("driver core: Move the "removable" attribute from USB to core")
+The logic with joins the two entries is just places the paragraph
+for the second entry after the previous one. That could cause more
+warnings, as the produced ReST may become invalid, as in the case of
+this specific symbol, which ends with a table:
+
+	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-bus-iio-temperature-max31856:2: WARNING: Malformed table.
+	No bottom table border found or no blank line after table bottom.
+
+	===  =======================================================
+	'1'  The input voltage is negative or greater than VDD.
+	'0'  The input voltage is positive and less than VDD (normal
+	     state).
+	===  =======================================================
+	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-bus-iio-temperature-max31856:2: WARNING: Blank line required after table.
+
+Address it by adding two blank lines before joining duplicated
+symbols.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 0/7] at: https://lore.kernel.org/all/cover.1632740376.git.mchehab+huawei@kernel.org/T/#t
 
- Documentation/ABI/testing/sysfs-devices-removable | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ scripts/get_abi.pl | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-removable b/Documentation/ABI/testing/sysfs-devices-removable
-index bda6c320c8d3..754ecb4587ca 100644
---- a/Documentation/ABI/testing/sysfs-devices-removable
-+++ b/Documentation/ABI/testing/sysfs-devices-removable
-@@ -7,10 +7,12 @@ Description:
- 		bus / platform-specific way. This attribute is only present for
- 		devices that can support determining such information:
- 
--		"removable": device can be removed from the platform by the user
--		"fixed":     device is fixed to the platform / cannot be removed
-+		===========  ===================================================
-+		"removable"  device can be removed from the platform by the user
-+		"fixed"      device is fixed to the platform / cannot be removed
- 			     by the user.
--		"unknown":   The information is unavailable / cannot be deduced.
-+		"unknown"    The information is unavailable / cannot be deduced.
-+		===========  ===================================================
- 
- 		Currently this is only supported by USB (which infers the
- 		information from a combination of hub descriptor bits and
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index f25c98b1971e..c191c024f052 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -180,6 +180,7 @@ sub parse_abi {
+ 						$data{$what}->{file} = $name;
+ 						$data{$what}->{filepath} = $file;
+ 					} else {
++						$data{$what}->{description} .= "\n\n" if (defined($data{$what}->{description}));
+ 						if ($name ne $data{$what}->{file}) {
+ 							$data{$what}->{file} .= " " . $name;
+ 							$data{$what}->{filepath} .= " " . $file;
 -- 
 2.31.1
 
