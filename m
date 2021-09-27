@@ -2,69 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5740AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 17:46:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DEFCC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 17:47:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39C1F60F4B
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 17:46:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 722E760FF2
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 17:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237061AbhI0Rrq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 13:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237226AbhI0Rrn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Sep 2021 13:47:43 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC21BC04395E;
-        Mon, 27 Sep 2021 10:31:32 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8AAB3867;
-        Mon, 27 Sep 2021 17:31:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8AAB3867
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1632763892; bh=Cq1GlbNCWDIYUa8VMpjmo1bTwWlufr1ZW75WB5tCwWg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QSRtAKz7b9DjnCy7EFMe6cvZPoE7N9wHE/ApKmW/D0AM4NwllrmV5GCq5d56hha/j
-         oDadCHOtDyHlxw6BVPTqp5ZhibPcEEUvxoj+dCVNVv7DWnzTV2SbGv0JoshDuAj1tM
-         Q2N/8oLVq/BCZruq6e23Yw0FjaCthRD+Q/Nv5wi9Il4irC7AACrP+xjdoUlCJH+Jkp
-         /HUd/7KaminWXjVxPnBuT62ukM0XLKD2eWBhsqh2PvbHPLh6BRai9GrcsIZiNSBcwP
-         1QH3xxHMMQrOfviM/oAzLB7SGsPRrkV3NwGjvJM6B80Wv3BBwBj3UhmuXODBXisQMd
-         Wz99rvcxxFNFw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/no_hz: Introduce "dyntick-idle mode"
- before using it
-In-Reply-To: <20210914203355.21360-1-bp@alien8.de>
-References: <20210914203355.21360-1-bp@alien8.de>
-Date:   Mon, 27 Sep 2021 11:31:32 -0600
-Message-ID: <87bl4ehqmj.fsf@meer.lwn.net>
+        id S237917AbhI0Rt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 13:49:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237908AbhI0RtK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Sep 2021 13:49:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C3A260FF2;
+        Mon, 27 Sep 2021 17:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632764851;
+        bh=S9lPj7S6AtX8lgkNXK2TH/P606+dWXlaJ6v6Z9fSAFY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kYIzxkh3O1AON1PzqSy8BJwjZnoSXGhgyw8GrBDEmRvWBDMc8xx20gGFKic0wswfF
+         K60u/4taBh4ZXRWKkUdOBWZsrDctzoXXB/ba6ra3N/NvifCxxqnGVN686hXvo1puId
+         hwVMrV8vqUChDExnBkep9C8L8X0+Tqob1KDwPEZi759xHZduHQGVPBSf+EzKVhZXUv
+         ACV5KUdzNfpzxZtY1NEy37N0PGQQO4SFqHhPMzNIaOHRp0f1AqIkadSsiuRs36Zrqk
+         UfwQyVKDqhkjoCqQkl6AX+JWRgHYRgytWpQWUvTdoM83+aSWRD7LVcu5Q4/uCJFTqJ
+         pT/kNYGhhuljg==
+From:   Mark Brown <broonie@kernel.org>
+To:     Sugar Zhang <sugar.zhang@rock-chips.com>, heiko@sntech.de
+Cc:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-rockchip@lists.infradead.org,
+        Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] ASoC: dmaengine: Introduce module option prealloc_buffer_size_kbytes
+Date:   Mon, 27 Sep 2021 18:45:34 +0100
+Message-Id: <163276442023.18200.4927438084255861267.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <1632394246-59341-1-git-send-email-sugar.zhang@rock-chips.com>
+References: <1632394246-59341-1-git-send-email-sugar.zhang@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Borislav Petkov <bp@alien8.de> writes:
+On Thu, 23 Sep 2021 18:50:46 +0800, Sugar Zhang wrote:
+> Currently, The fixed 512KB prealloc buffer size is too larger for
+> tiny memory kernel (such as 16MB memory). This patch adds the module
+> option "prealloc_buffer_size_kbytes" to specify prealloc buffer size.
+> 
+> It's suitable for cards which use the generic dmaengine pcm driver
+> with no config.
+> 
+> [...]
 
-> From: Borislav Petkov <bp@suse.de>
->
-> The CONFIG_NO_HZ_IDLE paragraph is using "dyntick-idle mode" before
-> having defined it while the definition comes a couple of paragraphs
-> later.
->
-> That is leaving the reader with scratching head what that dyntick-idle
-> mode might be. Pull its definition up so that it is clear.
->
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> ---
->  Documentation/timers/no_hz.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Applied to
 
-Applied, thanks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-jon
+Thanks!
+
+[1/1] ASoC: dmaengine: Introduce module option prealloc_buffer_size_kbytes
+      commit: b0e3b0a7078d71455747025e7deee766d4d43432
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
