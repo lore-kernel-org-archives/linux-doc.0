@@ -2,163 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24164C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:39:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59EF1C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07A1660230
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:39:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 388AD60F41
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234557AbhI0NlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 09:41:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37626 "EHLO mail.kernel.org"
+        id S234611AbhI0Nvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 09:51:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41820 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234487AbhI0NlY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Sep 2021 09:41:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F1FD060230;
-        Mon, 27 Sep 2021 13:39:45 +0000 (UTC)
+        id S234585AbhI0Nvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Sep 2021 09:51:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 90A0360F41;
+        Mon, 27 Sep 2021 13:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632749987;
-        bh=I0VLqLGVdYksZCLnthzXJO1Cc3oa8W2vUufNiQFgCcM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=A2bGGNVaCvQPVjMNFJNXEapq6P9b55VHUoFGwfauwXxYZSPnPwJDaBvoQPbB6RTyB
-         z9Si/dqh8TvNXK+WoYM45rmh+CEYlSDo4oyRbYuMUpjwxZ8MHnVqV9uVnPvLvJLTQK
-         g+rMSylZqEF43nv+UIMge2S86T7FNn9a5CvyJyJAxLX7SeMBGt/+X8AHtg1PhSt7SF
-         l4CxJOQnA8NE9Is47lSkONwAR4KZtwwa7z17jA7LV+AKhCxMQorrRNh5OWK1QM9vlz
-         5KBeK/larkhCFk2rBFqvnHcwrRH2r6H770osFxkIuziLP0ehDlJqfT2Jx5VO2rv1RP
-         LduYzMKmadBRQ==
-Date:   Mon, 27 Sep 2021 15:39:42 +0200
+        s=k20201202; t=1632750595;
+        bh=8xhgJ1VxubUEF7re8obYZLRRe6xW79b6UPbCJOr+N1U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XKg2Mvhj9NnmZarL2zGE5MA1ZOlXsHiNjUH272XMBQVCvWYLzwELRuI0VUqmFZ9lL
+         HHWHz43SkGgz9LtVQKjYsQ/MgRBglqjzUBEX5QYnSl/hwHmS0YhLcILh5SH2YTPY6p
+         QngucrUwQskbHIRALJanBUjlOH9Q/v/kuwmpMliYOpTlxid42oj99c/gWsmgcChWog
+         QYZw+0iZ1yf2L3WAesvTm7IXa/PqHBA3JMRQo0fp5jdQJM9efl/L7VbD45yUmnR3/G
+         g4D5+AoUyKKyGq0SyyUpfkZIGD1pppAc5ELIkRsXWHrd+SvjqRfnsW+eVvMP0HNap3
+         YKYbCjqSnK0eg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mUr0z-000Ajc-M8; Mon, 27 Sep 2021 15:49:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision
- and performance
-Message-ID: <20210927153942.75bbb9cf@coco.lan>
-In-Reply-To: <YVGNiPXNbWWy3CSj@kroah.com>
-References: <YUyICHTRdfL8Ul7X@kroah.com>
-        <cover.1632411447.git.mchehab+huawei@kernel.org>
-        <YUy1oPjdLTh9rEfq@kroah.com>
-        <20210927105553.105f22c5@coco.lan>
-        <YVGNiPXNbWWy3CSj@kroah.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] scripts: get_abi.pl: update its documentation
+Date:   Mon, 27 Sep 2021 15:49:51 +0200
+Message-Id: <89fcd301e065ed86dfd8670725144b196266b6a4.1632750315.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1632750315.git.mchehab+huawei@kernel.org>
+References: <cover.1632750315.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 27 Sep 2021 11:23:20 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+The current highlight schema is not working properly. So, use,
+instead, Pod::Text.
 
-> On Mon, Sep 27, 2021 at 10:55:53AM +0200, Mauro Carvalho Chehab wrote:
-> > Em Thu, 23 Sep 2021 19:13:04 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> >   
-> > > On Thu, Sep 23, 2021 at 05:41:11PM +0200, Mauro Carvalho Chehab wrote:  
-> > > > Hi Greg,
-> > > > 
-> > > > As requested, this is exactly the same changes, rebased on the top of
-> > > > driver-core/driver-core-next.
-> > > > 
-> > > > -
-> > > > 
-> > > > It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
-> > > > 
-> > > > With such changes, on my development tree, the script is taking 6 seconds to run 
-> > > > on my desktop:
-> > > > 
-> > > > 	$ !1076
-> > > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
-> > > > 
-> > > > 	real	0m6,292s
-> > > > 	user	0m5,640s
-> > > > 	sys	0m0,634s
-> > > > 	  6838 undefined_after
-> > > > 	   808 undefined_symbols
-> > > > 	  7646 total
-> > > > 
-> > > > And 7 seconds on a Dell Precision 5820:
-> > > > 
-> > > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
-> > > > 
-> > > > 	real	0m7.162s
-> > > > 	user	0m5.836s
-> > > > 	sys	0m1.329s
-> > > > 	6548 undefined
-> > > > 	772 undefined_symbols
-> > > > 
-> > > > Both tests were done against this tree (based on today's linux-next):
-> > > > 
-> > > > 	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
-> > > > 
-> > > > It should be noticed that, as my tree has several ABI fixes,  the time to run the
-> > > > script is likely less than if you run on your tree, as there will be less symbols to
-> > > > be reported, and the algorithm is optimized to reduce the number of regexes
-> > > > when a symbol is found.
-> > > > 
-> > > > Besides optimizing and improving the seek logic, this series also change the
-> > > > debug logic. It how receives a bitmap, where "8" means to print the regexes
-> > > > that will be used by "undefined" command:
-> > > > 
-> > > > 	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
-> > > > 	real	0m17,189s
-> > > > 	user	0m13,940s
-> > > > 	sys	0m2,404s
-> > > > 
-> > > > 	$wc -l foo
-> > > > 	18421939 foo
-> > > > 
-> > > > 	$ cat foo
-> > > > 	...
-> > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
-> > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
-> > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
-> > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
-> > > > 	...
-> > > > 
-> > > > On other words, on my desktop, the /sys match is performing >18M regular 
-> > > > expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
-> > > > enabled and sent to an area on my nvme storage).    
-> > > 
-> > > Better, it's down to 10 minutes on my machine now:
-> > > 
-> > > 	real	10m39.218s
-> > > 	user	10m37.742s
-> > > 	sys	0m0.775s  
-> > 
-> > A lot better, but not clear why it is still taking ~40x more than here...
-> > It could well be due to the other ABI changes yet to be applied
-> > (I'll submit it probably later today), but it could also be related to
-> > something else. Could this be due to disk writes?  
-> 
-> Disk writes to where for what?  This is a very fast disk (nvme raid
-> array)  It's also a very "big" system, with lots of sysfs files:
-> 
-> 	$ find /sys/devices/ -type f | wc -l
-> 	44334
+While here, also update the copyright in order to reflect the latest
+changes and the e-mail I'm currently using.
 
-Ok. Maybe that partially explains why it is taking so long, as the
-number of regex to compare will increase (not linearly).
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-> compared to my laptop that only has 17k entries in /sys/devices/
-> 
-> I'll run this updated script on my laptop later today and give you some
-> numbers.
+See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1632750315.git.mchehab+huawei@kernel.org/
 
-Ok, thanks!
+ scripts/get_abi.pl | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-> And any Documentation/ABI/ updates you might have I'll gladly
-> take as well.
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index d14f5cfc3138..4978163f5b16 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -1,10 +1,12 @@
+ #!/usr/bin/env perl
+ # SPDX-License-Identifier: GPL-2.0
+ 
++BEGIN { $Pod::Usage::Formatter = 'Pod::Text::Termcap'; }
++
+ use strict;
+ use warnings;
+ use utf8;
+-use Pod::Usage;
++use Pod::Usage qw(pod2usage);
+ use Getopt::Long;
+ use File::Find;
+ use Fcntl ':mode';
+@@ -47,7 +49,7 @@ GetOptions(
+ ) or pod2usage(2);
+ 
+ pod2usage(1) if $help;
+-pod2usage(-exitstatus => 0, -verbose => 2) if $man;
++pod2usage(-exitstatus => 0, -noperldoc, -verbose => 2) if $man;
+ 
+ pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
+ 
+@@ -923,18 +925,18 @@ B<abi_book.pl> [--debug <level>] [--enable-lineno] [--man] [--help]
+ 	       [--search-string <regex>]
+ 	       <COMAND> [<ARGUMENT>]
+ 
+-Where <COMMAND> can be:
++Where B<COMMAND> can be:
+ 
+ =over 8
+ 
+-B<search> [SEARCH_REGEX] - search for [SEARCH_REGEX] inside ABI
++B<search> I<SEARCH_REGEX> - search for I<SEARCH_REGEX> inside ABI
+ 
+-B<rest>                  - output the ABI in ReST markup language
++B<rest>                   - output the ABI in ReST markup language
+ 
+-B<validate>              - validate the ABI contents
++B<validate>               - validate the ABI contents
+ 
+-B<undefined>             - existing symbols at the system that aren't
+-                           defined at Documentation/ABI
++B<undefined>              - existing symbols at the system that aren't
++                            defined at Documentation/ABI
+ 
+ =back
+ 
+@@ -950,9 +952,9 @@ the Documentation/ABI directory.
+ =item B<--rst-source> and B<--no-rst-source>
+ 
+ The input file may be using ReST syntax or not. Those two options allow
+-selecting between a rst-compliant source ABI (--rst-source), or a
++selecting between a rst-compliant source ABI (B<--rst-source>), or a
+ plain text that may be violating ReST spec, so it requres some escaping
+-logic (--no-rst-source).
++logic (B<--no-rst-source>).
+ 
+ =item B<--enable-lineno>
+ 
+@@ -972,7 +974,7 @@ following bitmask:
+ Show hints about possible definitions for the missing ABI symbols.
+ Used only when B<undefined>.
+ 
+-=item B<--search-string> [regex string]
++=item B<--search-string> I<regex string>
+ 
+ Show only occurences that match a search string.
+ Used only when B<undefined>.
+@@ -1021,11 +1023,11 @@ $ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
+ 
+ =head1 BUGS
+ 
+-Report bugs to Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
++Report bugs to Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ 
+ =head1 COPYRIGHT
+ 
+-Copyright (c) 2016-2019 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
++Copyright (c) 2016-2021 by Mauro Carvalho Chehab <mchehab+huawei@kernel.org>.
+ 
+ License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
+ 
+-- 
+2.31.1
 
-I'll be submitting it soon enough. Got sidetracked by a regression
-on my INBOX due to a fetchmail regression[1].
-
-> thanks,
-> 
-> greg k-h
-
-[1] https://gitlab.com/fetchmail/fetchmail/-/issues/39
-
-Thanks,
-Mauro
