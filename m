@@ -2,59 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F52C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87367C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C0CF60F91
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BB9260F91
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 11:11:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233992AbhI0LMn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 07:12:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58610 "EHLO mail.kernel.org"
+        id S233994AbhI0LMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 07:12:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58630 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233959AbhI0LMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S233969AbhI0LMk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 07:12:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DDB36108E;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 528736113A;
         Mon, 27 Sep 2021 11:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632741062;
-        bh=P47FrSTuUz2xeiOIAAHA2YwBt3bEeWW94qpmD8mk2ps=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YCWxIS3tp3DlVBAGjIlE0002bkC4XgWXRg/uBUKFF/eNnaYUGRbMthkceJimLsOrj
-         78PjGHJduzSpE9QiBuV89lOq6U4wyAbIpFclH1FhlCwQhfLddhxJUXRy3Yn7OQGV9Z
-         RAYKemKi8NUEUYqur5MhLOvnRCbFGhc/uN3CaXP5znAlHTzLe/dfWCxVhL//JwyA7H
-         u1Aigz8F9C5QHvm3/sfFZUCpBl6Z0ncbA9MO14wkhRjo4kzPApTwcXCcqux2EYJZIq
-         vkg7ccF9UY6aVBFPYSdZ1bbEaLifTXxEPyFwg8n9uv+Ey82vk09fh/z0o5zZQNH9wc
-         fDBr4D0SQmL6A==
+        bh=21ZJT0oZyeZmeidhnTpBQDhj3r17hlRmz1Cr8tuVvZo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BR6rQuP+6hAYWD6UuR9bPjFidiumKUvXQCaDMwQXTn6oBErd9SZKBn2RpECo3f7Tz
+         7s8eZ9GVgcbrQEHKjewuadud1bJNOrNPt/KEIs4iqsAK97qOm9yDjCG7TBomeKVLdg
+         MAp98ppaHwDQ8SaT+wYfGwo19PVThiNKuhK2h16mpUhZUCbWb0tRkG2JrSdxLo9nUH
+         X4UU8VRn0tId4wSIVdr1eMe+x7yisy3fBUNXVGGU9vx9a4C8YnXYEww0tJR5ukKMkH
+         7BeZtBMqI2UCYaR+eyaTh3YZUCB16VupNPEaEvE1gtSRBMt8h5f0CQ/66kXPuGBhpd
+         iUESxnF2GZdAw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUoXE-0005y6-73; Mon, 27 Sep 2021 13:11:00 +0200
+        id 1mUoXE-0005yL-Ct; Mon, 27 Sep 2021 13:11:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        David E Box <david.e.box@intel.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
         Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
         Pavel Hofman <pavel.hofman@ivitera.com>,
-        Perry Yuan <perry_yuan@dell.com>,
-        Rajat Jain <rajatja@google.com>,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Tamar Mashiah <tamar.mashiah@intel.com>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 0/7] Fix some issues with ABI files
-Date:   Mon, 27 Sep 2021 13:10:49 +0200
-Message-Id: <cover.1632740376.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 4/7] ABI: configfs-usb-gadget-uac1: fix a broken table
+Date:   Mon, 27 Sep 2021 13:10:53 +0200
+Message-Id: <044b0c14c35922bdcca50551fe2aa870baae9b06.1632740376.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1632740376.git.mchehab+huawei@kernel.org>
+References: <cover.1632740376.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -62,58 +51,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+Changeset 0356e6283c71 ("usb: gadget: f_uac1: add volume and mute support")
+added some new elements to the table but didn't care enough to actually
+adjust the columns, causing the output to be broken as warned by
+Sphinx when producing the documentation.
 
-All patches in this series are independent each other. This series is
-based on today's next (next-20210927). 
+Readjust it for it to be a valid ReST table.
 
-As you know, I've been busy those days adding a new feature for
-get_abi.pl to identify missing documentation. While doing that, 
-I noticed several issues at the ABI files on "make htmldocs".
-This series address them, and it is independent from the other
-patches for get_abi.pl.
+Fixes: 0356e6283c71 ("usb: gadget: f_uac1: add volume and mute support")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-Patch 1 is actually a small improvement to get_abi.pl, addressing an
-issue when there are multiple definitions for the same ABI symbol.
-While this is not allowed, and produce warnings, there are still
-3 occurrences:
+See [PATCH 0/7] at: https://lore.kernel.org/all/cover.1632740376.git.mchehab+huawei@kernel.org/T/#t
 
-	./scripts/get_abi.pl validate
-	Warning: /sys/bus/iio/devices/iio:deviceX/fault_ovuv is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-temperature-max31856:14  Documentation/ABI/testing/sysfs-bus-iio-temperature-max31865:0
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_filter_notch_center_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-temperature-max31865:12  Documentation/ABI/testing/sysfs-bus-iio:1911
-	Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  Documentation/ABI/testing/sysfs-bus-iio:91
+ .../ABI/testing/configfs-usb-gadget-uac1      | 42 +++++++++++--------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-Once those got fixed, perhaps a future patch could make get_abi.pl to
-generate an error causing the compilation to break, if WERROR is defined.
-
-Anyway, it is better to to make the script more reliable anyway, specially 
-since it is just one extra line of code.
-
-Patches 2-7 fix random warnings introduced by new patches.
-
-Regards,
-Mauro
-
-Mauro Carvalho Chehab (7):
-  scripts: get_abi.pl: create a valid ReST with duplicated tags
-  ABI: sysfs-platform-dell-privacy-wmi: correct ABI entries
-  ABI: sysfs-platform-dptf: Add tables markup to a table
-  ABI: configfs-usb-gadget-uac1: fix a broken table
-  ABI: configfs-usb-gadget-uac2: fix a broken table
-  ABI: sysfs-devices-removable: make a table valid as ReST markup
-  ABI: sysfs-platform-intel-pmc: add blank lines to make it valid for
-    ReST
-
- .../ABI/testing/configfs-usb-gadget-uac1      | 42 +++++++------
- .../ABI/testing/configfs-usb-gadget-uac2      | 43 +++++++------
- .../ABI/testing/sysfs-devices-removable       |  8 ++-
- .../testing/sysfs-platform-dell-privacy-wmi   | 60 ++++++++++++-------
- Documentation/ABI/testing/sysfs-platform-dptf |  4 ++
- .../ABI/testing/sysfs-platform-intel-pmc      |  2 +
- scripts/get_abi.pl                            |  1 +
- 7 files changed, 99 insertions(+), 61 deletions(-)
-
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac1 b/Documentation/ABI/testing/configfs-usb-gadget-uac1
+index dd647d44d975..b576b3d6ea6d 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uac1
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uac1
+@@ -4,23 +4,29 @@ KernelVersion:	4.14
+ Description:
+ 		The attributes:
+ 
+-		==========	===================================
+-		c_chmask	capture channel mask
+-		c_srate		capture sampling rate
+-		c_ssize		capture sample size (bytes)
+-		c_mute_present	capture mute control enable
++		=====================	=======================================
++		c_chmask		capture channel mask
++		c_srate			capture sampling rate
++		c_ssize			capture sample size (bytes)
++		c_mute_present		capture mute control enable
+ 		c_volume_present	capture volume control enable
+-		c_volume_min	capture volume control min value (in 1/256 dB)
+-		c_volume_max	capture volume control max value (in 1/256 dB)
+-		c_volume_res	capture volume control resolution (in 1/256 dB)
+-		p_chmask	playback channel mask
+-		p_srate		playback sampling rate
+-		p_ssize		playback sample size (bytes)
+-		p_mute_present	playback mute control enable
++		c_volume_min		capture volume control min value
++					(in 1/256 dB)
++		c_volume_max		capture volume control max value
++					(in 1/256 dB)
++		c_volume_res		capture volume control resolution
++					(in 1/256 dB)
++		p_chmask		playback channel mask
++		p_srate			playback sampling rate
++		p_ssize			playback sample size (bytes)
++		p_mute_present		playback mute control enable
+ 		p_volume_present	playback volume control enable
+-		p_volume_min	playback volume control min value (in 1/256 dB)
+-		p_volume_max	playback volume control max value (in 1/256 dB)
+-		p_volume_res	playback volume control resolution (in 1/256 dB)
+-		req_number	the number of pre-allocated request
+-				for both capture and playback
+-		==========	===================================
++		p_volume_min		playback volume control min value
++					(in 1/256 dB)
++		p_volume_max		playback volume control max value
++					(in 1/256 dB)
++		p_volume_res		playback volume control resolution
++					(in 1/256 dB)
++		req_number		the number of pre-allocated request
++					for both capture and playback
++		=====================	=======================================
 -- 
 2.31.1
-
 
