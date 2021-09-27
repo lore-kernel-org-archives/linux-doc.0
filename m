@@ -2,117 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49DBC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Sep 2021 22:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD8A0C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 01:15:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A40A760F9E
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Sep 2021 22:57:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A868E60F5D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 01:15:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbhIZW7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Sep 2021 18:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbhIZW7E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Sep 2021 18:59:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C25C061570;
-        Sun, 26 Sep 2021 15:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=BQc1AGKyGp6O8sK4Oijci/bl6DWo+e/7Ej7o6TskIdc=; b=HbipvuqyXma60Nm+c9Qr9vxZpk
-        Ya0cyfHlboAYE+Go8QlKwYpY/G08VA4TQPF1CH6OI4O5bCIHe6ijdTnXFtx8D09T/BDxjPh3SXNSs
-        9P9KSa0cvQL3FmKWEib3GjdKFm+QFOKhw059joSWY3p/sHalhdGJ8DuWKZWAMUb1FrHeR3+9nKkJU
-        Pkh3NiaDsCUdGCXZP51S7TDx4NlFAN+araqQy5RAYJ3qNb+KQRzb4qFEXXcHqmHxOpCAZdAOTmw4V
-        M8K8kPkKm628Fd6OJgUb7XTRm0GrFT/9v34Cvkd/eCgY+7yz+p1W7cxaNAX0tXC35iPlKiX5FNieV
-        UIcnqeXw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mUd5G-001D1U-Hv; Sun, 26 Sep 2021 22:57:22 +0000
-Subject: Re: [PATCH v7 1/5] d_path: fix Kernel doc validator complaints
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jia He <justin.he@arm.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        id S232108AbhI0BQ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Sep 2021 21:16:56 -0400
+Received: from mga07.intel.com ([134.134.136.100]:58567 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230174AbhI0BQx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 26 Sep 2021 21:16:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10119"; a="288047046"
+X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; 
+   d="scan'208";a="288047046"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2021 18:15:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; 
+   d="scan'208";a="519881777"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 26 Sep 2021 18:15:16 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.53])
+        by linux.intel.com (Postfix) with ESMTP id 5179258073D;
+        Sun, 26 Sep 2021 18:15:16 -0700 (PDT)
+Message-ID: <3392aea6b112926b063bbe46b1decaad4c9f9e6e.camel@linux.intel.com>
+Subject: Re: [PATCH 2/2] platform/x86: Add Intel Software Defined Silicon
+ driver
+From:   "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To:     Greg KH <gregkh@linuxfoundation.org>, lee.jones@linaro.org
+Cc:     hdegoede@redhat.com, mgross@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com
-References: <20210715011407.7449-1-justin.he@arm.com>
- <20210715011407.7449-2-justin.he@arm.com>
- <YPAPIsGkom68R1WR@smile.fi.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <92c8b22e-613e-7e8d-8cf9-b995494cf3f3@infradead.org>
-Date:   Sun, 26 Sep 2021 15:57:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        platform-driver-x86@vger.kernel.org
+Date:   Sun, 26 Sep 2021 18:15:16 -0700
+In-Reply-To: <YU7BPIH123HUZKhw@kroah.com>
+References: <20210924213157.3584061-1-david.e.box@linux.intel.com>
+         <20210924213157.3584061-2-david.e.box@linux.intel.com>
+         <YU7BPIH123HUZKhw@kroah.com>
+Organization: David E. Box
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <YPAPIsGkom68R1WR@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/15/21 3:34 AM, Andy Shevchenko wrote:
-> On Thu, Jul 15, 2021 at 09:14:03AM +0800, Jia He wrote:
->> Kernel doc validator complains:
->>    Function parameter or member 'p' not described in 'prepend_name'
->>    Excess function parameter 'buffer' description in 'prepend_name'
+On Sat, 2021-09-25 at 08:27 +0200, Greg KH wrote:
+> On Fri, Sep 24, 2021 at 02:31:57PM -0700, David E. Box wrote:
 > 
-> Yup!
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Quick review:
 > 
+> > +static int sdsi_probe(struct platform_device *pdev)
+> > +{
+> > +       void __iomem *disc_addr;
+> > +       struct sdsi_priv *priv;
+> > +       int ret;
+> > +
+> > +       disc_addr = devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(disc_addr))
+> > +               return PTR_ERR(disc_addr);
+> > +
+> > +       priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> > +       if (!priv)
+> > +               return -ENOMEM;
+> > +
+> > +       kref_init(&priv->kref);
+> > +
+> > +       platform_set_drvdata(pdev, priv);
+> > +       priv->pdev = pdev;
+> > +       mutex_init(&priv->mb_lock);
+> > +       mutex_init(&priv->akc_lock);
+> > +
+> > +       memcpy_fromio(&priv->disc_table, disc_addr, DISC_TABLE_SIZE);
+> > +
+> > +       ret = sdsi_map_sdsi_registers(pdev);
+> > +       if (ret)
+> > +               goto put_kref;
+> > +
+> > +       ret = sdsi_create_misc_device(pdev);
+> > +       if (ret)
+> > +               goto put_kref;
+> > +
+> > +       ret = sdsi_add_bin_attrs(pdev);
+> 
+> You just raced with userspace and lost.  Please attach your attributes
+> to the misc device before registering it.
+> 
+> Also, you need a Documentation/ABI/ entry for your new sysfs file(s).
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Ack
 
-Can we get someone to merge this, please?
+> 
+> > +       if (ret)
+> > +               goto deregister_misc;
+> > +
+> > +       priv->dev_present = true;
+> > +
+> > +       return 0;
+> > +
+> > +deregister_misc:
+> > +       misc_deregister(&priv->miscdev);
+> > +put_kref:
+> > +       kref_put(&priv->kref, sdsi_priv_release);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int sdsi_remove(struct platform_device *pdev)
+> > +{
+> > +       struct sdsi_priv *priv = platform_get_drvdata(pdev);
+> > +
+> > +       priv->dev_present = false;
+> > +       sysfs_remove_bin_file(&priv->pdev->dev.kobj, &priv->registers_bin_attr);
+> > +       misc_deregister(&priv->miscdev);
+> > +       kref_put(&priv->kref, sdsi_priv_release);
+> 
+> Why do you need a kref for a structure that already can be controlled by
+> a different lifetime rule?
 
->> Fixes: ad08ae586586 ("d_path: introduce struct prepend_buffer")
->> Cc: Al Viro <viro@zeniv.linux.org.uk>
->> Signed-off-by: Jia He <justin.he@arm.com>
->> ---
->>   fs/d_path.c | 8 +++-----
->>   1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/fs/d_path.c b/fs/d_path.c
->> index 23a53f7b5c71..4eb31f86ca88 100644
->> --- a/fs/d_path.c
->> +++ b/fs/d_path.c
->> @@ -33,9 +33,8 @@ static void prepend(struct prepend_buffer *p, const char *str, int namelen)
->>   
->>   /**
->>    * prepend_name - prepend a pathname in front of current buffer pointer
->> - * @buffer: buffer pointer
->> - * @buflen: allocated length of the buffer
->> - * @name:   name string and length qstr structure
->> + * @p: prepend buffer which contains buffer pointer and allocated length
->> + * @name: name string and length qstr structure
->>    *
->>    * With RCU path tracing, it may race with d_move(). Use READ_ONCE() to
->>    * make sure that either the old or the new name pointer and length are
->> @@ -108,8 +107,7 @@ static int __prepend_path(const struct dentry *dentry, const struct mount *mnt,
->>    * prepend_path - Prepend path string to a buffer
->>    * @path: the dentry/vfsmount to report
->>    * @root: root vfsmnt/dentry
->> - * @buffer: pointer to the end of the buffer
->> - * @buflen: pointer to buffer length
->> + * @p: prepend buffer which contains buffer pointer and allocated length
->>    *
->>    * The function will first try to write out the pathname without taking any
->>    * lock other than the RCU read lock to make sure that dentries won't go away.
->> -- 
+Which rule am I missing? This kref allows the structure to remain in case the device is removed
+while the file is open.
+
+> 
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static struct platform_driver sdsi_driver = {
+> > +       .driver = {
+> > +               .name           = SDSI_DEV_NAME,
+> > +               .dev_groups     = sdsi_groups,
+> > +       },
+> > +       .probe  = sdsi_probe,
+> > +       .remove = sdsi_remove,
+> > +};
+> > +module_platform_driver(sdsi_driver);
+> 
+> What causes the platform to know to register, and enable, this platform
+> driver?  Shouldn't there be some hardware involved that is discoverable
+> to enable it to load dynamically?
+
+Ah. The patch that adds the SDSi platform device string was added to a series for the intel_pmt MFD
+driver and it's still waiting review. I see that complicates things. I can combine the two series
+together.
+
+David
+
+> 
+> thanks,
+> 
+> greg k-h
 
 
--- 
-~Randy
