@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 515CEC43219
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2857FC4321E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 351C36113D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C1BE6109F
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234736AbhI0OBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 10:01:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47982 "EHLO mail.kernel.org"
+        id S234742AbhI0OBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 10:01:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47980 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234704AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234645AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 10:01:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 49A8A610A2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 447DC61058;
         Mon, 27 Sep 2021 13:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632751197;
-        bh=JSJGD8oEtr4UgVNxX4nTLt/BvMiQeGS7fW3nJC9PfHQ=;
+        bh=7/0nXXe6FTjtAGNNc9itkh+KHZ3W1UuStnEnt56IR0k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A0vKUaz5FtH5vI9VuGPWauA82jY05IzDAg8jcZvx46YnD5FnY0u3DCvuQhWi7ZlRL
-         7C2FDDA0WP/CyN4GzGQoKfc2UqWLHtpbmSRnSkkvW1uzaqkRLd4AMUzz56uJAeOU+w
-         97VfpOXhBctYEEZQMLi0QwkzFx0FMEfvr5uS4GIJlkXLrcfnffhd6EeZg3G3gsJcjg
-         gceAnm9oixMQQ703pe23KCFo5EiBHcag7vAYdDLInn6SdswB7HdviOwzXIdytkrK8y
-         Nrz1Z3b+nmjP/q344St1utX17jnjsicd1ZyvHXqwJ550Ok78We1+1P8CyEX46eQOjk
-         5yYm2iIT6jdUQ==
+        b=Cdq8fZw126fGDknzAezkHoemIBHTzOElIla/7AiBxWbSAKOPlACqd8ltLQcH3mpg5
+         DgVv/IZvQpiIraztc/ObOF/tqZLHJ4QjAbgAKBpkS5LE8JTOtIxkejAoIQDeqO7YQ2
+         BHR3z3qHbTs57j4QGuB891XJ9SBRGAgMK7tLK6IKvGpTikgrr+FHSd62N4PgErOkBs
+         y4vx+6YL3UC98CKtQa2eAqOhCTJ/od0LccFt0BWYP1xntZytf1eNsZDtpN7qhyDLxo
+         ujvQnFRWflUDcqh/k6smhhwkq4AShw9J6FPQpDnwUWQN5nEaE0ukwBXhdvAUN3nsqe
+         PZiNZq2gut5Ew==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUrAh-000Ata-8i; Mon, 27 Sep 2021 15:59:55 +0200
+        id 1mUrAh-000Atm-CU; Mon, 27 Sep 2021 15:59:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 01/17] ABI: stable/sysfs-module: better document modules
-Date:   Mon, 27 Sep 2021 15:59:34 +0200
-Message-Id: <35876c1eabbcd03170d658081030db980b403297.1632750608.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/17] ABI: sysfs-devices-power: document some RPM statistics
+Date:   Mon, 27 Sep 2021 15:59:37 +0200
+Message-Id: <d5524b966d081c650121c4c496c2f7ab3df524e9.1632750608.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632750608.git.mchehab+huawei@kernel.org>
 References: <cover.1632750608.git.mchehab+huawei@kernel.org>
@@ -47,58 +47,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of placing almost everything there as a text, use
-the proper What: for each component of the ABI.
+Changeset 8d4b9d1bfef1 ("PM / Runtime: Add runtime PM statistics (v3)")
+added runtime_active_time and runtime_suspended_time, in order
+to allow powertop to identify the amount of time a device is
+active/suspended.
 
-This allows it to be better documented and parsed by
-get_abi.pl.
-
-While here, use wildcards for MODULENAME.
+Add an ABI description for those.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
 
- Documentation/ABI/stable/sysfs-module | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ Documentation/ABI/testing/sysfs-devices-power | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
-index 6272ae5fb366..5c028af9921a 100644
---- a/Documentation/ABI/stable/sysfs-module
-+++ b/Documentation/ABI/stable/sysfs-module
-@@ -1,8 +1,7 @@
--What:		/sys/module
--Description:
--	The /sys/module tree consists of the following structure:
-+The /sys/module tree consists of the following structure:
- 
--	/sys/module/MODULENAME
-+What:		/sys/module/<MODULENAME>
+diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentation/ABI/testing/sysfs-devices-power
+index 1763e64dd152..84694b8fec8e 100644
+--- a/Documentation/ABI/testing/sysfs-devices-power
++++ b/Documentation/ABI/testing/sysfs-devices-power
+@@ -269,3 +269,17 @@ Description:
+ 		the current runtime PM status of the device, which may be
+ 		"suspended", "suspending", "resuming", "active", "error" (fatal
+ 		error), or "unsupported" (runtime PM is disabled).
++
++What:		/sys/devices/.../power/runtime_active_time
++Date:		Jul 2010
++Contact:	Arjan van de Ven <arjan@linux.intel.com>
 +Description:
- 		The name of the module that is in the kernel.  This
- 		module name will always show up if the module is loaded as a
- 		dynamic module.  If it is built directly into the kernel, it
-@@ -12,7 +11,8 @@ Description:
- 		Note: The conditions of creation in the built-in case are not
- 		by design and may be removed in the future.
- 
--	/sys/module/MODULENAME/parameters
-+What:		/sys/module/<MODULENAME>/parameters
++		Reports the total time that the device has been active.
++		Used for runtime PM statistics.
++
++What:		/sys/devices/.../power/runtime_suspended_time
++Date:		Jul 2010
++Contact:	Arjan van de Ven <arjan@linux.intel.com>
 +Description:
- 		This directory contains individual files that are each
- 		individual parameters of the module that are able to be
- 		changed at runtime.  See the individual module
-@@ -25,7 +25,8 @@ Description:
- 		individual driver documentation for details as to the
- 		stability of the different parameters.
- 
--	/sys/module/MODULENAME/refcnt
-+What:		/sys/module/<MODULENAME>/refcnt
-+Description:
- 		If the module is able to be unloaded from the kernel, this file
- 		will contain the current reference count of the module.
- 
++		Reports total time that the device has been suspended.
++		Used for runtime PM statistics.
 -- 
 2.31.1
 
