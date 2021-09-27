@@ -2,44 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA64C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE092C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:59:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B45860F39
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F6B6610A2
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:59:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234628AbhI0Nvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 09:51:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41822 "EHLO mail.kernel.org"
+        id S234711AbhI0OBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 10:01:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47898 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234587AbhI0Nvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Sep 2021 09:51:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 92C2361041;
-        Mon, 27 Sep 2021 13:49:55 +0000 (UTC)
+        id S234585AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Sep 2021 10:01:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A0E060F4F;
+        Mon, 27 Sep 2021 13:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632750595;
-        bh=zD4KYLKbpYsa+QdN3zoc7BXcSqR3F/IXfm8tiArJ/CQ=;
+        s=k20201202; t=1632751197;
+        bh=F50MTT/rxZsuxDTh38T2DApPUX2Yj+mr2Gkz9vZYxyQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TB8Ghz8NNJyqXO/SbVTTdGbuqc655VYelCJDzALh3QgVRMO0Wdn5aJEt9Rj8MYjKH
-         66MKjPIuSQcKq4/WliDtaDMyeMp0ZvSADI5Si1iUi08DuEWCnv5EHXAJiaJtYLkV0I
-         JYL1D94ugRt0EKZByivf7kkk5y7p/U/fPxNZ2dKBJW9Q/dWM9KFF5LBqbCawZYd0A7
-         mCsKp0hPZxnqhCF/EgckRGXtFWwMYSzWFdpDaTq+LJ+hX0kN+kw4dtxQZ33rY66nNo
-         L1a1GAj4etuTbB1cGVinvfqtv1J34HVIIJWUSJQ4la/WsVfKl7vC0Z+BqOwq0k10a9
-         DUvq0xNk3TQpQ==
+        b=fqahauUDxz7X7KHPhQASrwcVL8JOQd0bfUI57OaQ19E80FOEfWgsN8uYbUAMHL2Ix
+         +cZA6j00/8drQnsWhalJ4BGnSi1VQJ7+HKu8yG2z09N1sRsz/CQjs+aFQb2N4Bij/l
+         YBruzGEo7/nVJ9Uxe7BMveaMvRTsNwKMQ7+zAq9Tlt+ydx5KEdgF3diqgEJ/GEepdo
+         hldUsqxc+DZlZ9BicH4keNVtWfcfJIu6SG3XTt9EZ1L8ptrwutc5QkX4BBAOMZceoU
+         0rvVIFlDO2Nwb0AOdtlQVgc0J53jPjrYCiwGUgsZ3WcZO8NGRRXWqmNfbL1KctxIgF
+         C0tV0TUCfM9PA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUr0z-000AjY-Ki; Mon, 27 Sep 2021 15:49:53 +0200
+        id 1mUrAh-000Au2-IH; Mon, 27 Sep 2021 15:59:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] scripts: get_abi.pl: fix parse logic for DT firmware
-Date:   Mon, 27 Sep 2021 15:49:50 +0200
-Message-Id: <1c806eaec96f6706db4b041bbe6a0e2519e9637e.1632750315.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Christoph Lameter <cl@linux.com>,
+        David Windsor <dave@nullcore.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Kees Cook <keescook@chromium.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 08/17] ABI: sysfs-kernel-slab: Document some stats
+Date:   Mon, 27 Sep 2021 15:59:41 +0200
+Message-Id: <8960435734c5aa918568ce7891171448c4d68709.1632750608.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632750315.git.mchehab+huawei@kernel.org>
-References: <cover.1632750315.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1632750608.git.mchehab+huawei@kernel.org>
+References: <cover.1632750608.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -47,73 +54,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It doesn't make any sense to parse ABI entries under
-/sys/firmware, as those are either specified by ACPI specs
-or by Documentation/devicetree.
+Document three slab stats that were added in 2011 and 2017.
 
-The current logic to ignore firmware entries is incomplete,
-as it ignores just the relative name of the file, and not
-its absolute name. This cause errors while parsing the
-symlinks.
-
-So, rewrite the logic for it to do a better job.
-
-Tested with both x86 and arm64 (HiKey970) systems.
+Fixes: 49e2258586b4 ("slub: per cpu cache for partial pages")
+Fixes: 8eb8284b4129 ("usercopy: Prepare for usercopy whitelisting")
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
-See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1632750315.git.mchehab+huawei@kernel.org/
+See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
 
- scripts/get_abi.pl | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ Documentation/ABI/testing/sysfs-kernel-slab | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 26a3f8ff566a..d14f5cfc3138 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -635,20 +635,30 @@ my $escape_symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x29\x2b-\x2d\x3a-\x40\x7b-\x
- sub parse_existing_sysfs {
- 	my $file = $File::Find::name;
- 
--	# Ignore cgroup and firmware
--	return if ($file =~ m#^/sys/(fs/cgroup|firmware)/#);
--
--	# Ignore some sysfs nodes
--	return if ($file =~ m#/(sections|notes)/#);
--
--	# Would need to check at
--	# Documentation/admin-guide/kernel-parameters.txt, but this
--	# is not easily parseable.
--	return if ($file =~ m#/parameters/#);
--
- 	my $mode = (lstat($file))[2];
- 	my $abs_file = abs_path($file);
- 
-+	my @tmp;
-+	push @tmp, $file;
-+	push @tmp, $abs_file if ($abs_file ne $file);
+diff --git a/Documentation/ABI/testing/sysfs-kernel-slab b/Documentation/ABI/testing/sysfs-kernel-slab
+index 77e5840b00a5..c440f4946e12 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-slab
++++ b/Documentation/ABI/testing/sysfs-kernel-slab
+@@ -496,3 +496,24 @@ Contact:	Pekka Enberg <penberg@cs.helsinki.fi>,
+ Description:
+ 		Writing to the validate file causes SLUB to traverse all of its
+ 		cache's objects and check the validity of metadata.
 +
-+	foreach my $f(@tmp) {
-+		# Ignore cgroup, as this is big and has zero docs under ABI
-+		return if ($f =~ m#^/sys/fs/cgroup/#);
++What:		/sys/kernel/slab/<cache>/usersize
++Date:		Jun 2017
++Contact:	David Windsor <dave@nullcore.net>
++Description:
++		The usersize file is read-only and contains the usercopy
++		region size.
 +
-+		# Ignore firmware as it is documented elsewhere
-+		# Either ACPI or under Documentation/devicetree/bindings/
-+		return if ($f =~ m#^/sys/firmware/#);
++What:		/sys/kernel/slab/<cache>/slabs_cpu_partial
++Date:		Aug 2011
++Contact:	Christoph Lameter <cl@linux.com>
++Description:
++		This read-only file shows the number of partialli allocated
++		frozen slabs.
 +
-+		# Ignore some sysfs nodes that aren't actually part of ABI
-+		return if ($f =~ m#/sections|notes/#);
-+
-+		# Would need to check at
-+		# Documentation/admin-guide/kernel-parameters.txt, but this
-+		# is not easily parseable.
-+		return if ($f =~ m#/parameters/#);
-+	}
-+
- 	if (S_ISLNK($mode)) {
- 		$aliases{$file} = $abs_file;
- 		return;
++What:		/sys/kernel/slab/<cache>/cpu_partial
++Date:		Aug 2011
++Contact:	Christoph Lameter <cl@linux.com>
++Description:
++		This read-only file shows the number of per cpu partial
++		pages to keep around.
 -- 
 2.31.1
 
