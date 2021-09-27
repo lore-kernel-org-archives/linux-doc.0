@@ -2,74 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 222B7C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 04:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DFFC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 04:38:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02E1B61154
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 04:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BD5E6113A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 04:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbhI0EGO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 00:06:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49614 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229445AbhI0EGO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Sep 2021 00:06:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 30B26610A2;
-        Mon, 27 Sep 2021 04:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632715476;
-        bh=l8rONjICwE2lHMGY6qOv7rr80KcJ8HFyxEn+LuNw9d8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V7dd2NARTlgDGjZ3TONLGqhIXpIhI2ej0jM4+LCs/CqluMwgyLRPfO8iPu2CriXt9
-         +SAD2jDm3AKA5Hs7IDvBWIaaVqrAfQsP+ebPSBEVPYf3SzLpyISLRbffCpILTMOtgX
-         KBJoHevslCJxXRiDgznbWXHpwl4/pCTWn/jIalKU=
-Date:   Mon, 27 Sep 2021 06:04:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "David E. Box" <david.e.box@linux.intel.com>
-Cc:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 2/2] platform/x86: Add Intel Software Defined Silicon
- driver
-Message-ID: <YVFC0U+wOqbTgDhy@kroah.com>
-References: <20210924213157.3584061-1-david.e.box@linux.intel.com>
- <20210924213157.3584061-2-david.e.box@linux.intel.com>
- <YU7BPIH123HUZKhw@kroah.com>
- <3392aea6b112926b063bbe46b1decaad4c9f9e6e.camel@linux.intel.com>
+        id S230284AbhI0Eju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 00:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229674AbhI0Eju (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Sep 2021 00:39:50 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4BEC061570;
+        Sun, 26 Sep 2021 21:38:12 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id x7so49127644edd.6;
+        Sun, 26 Sep 2021 21:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=83Uhs6ZL7h4cnl4M9YaZp+1cwFpz7hwB6M99EqA8Pek=;
+        b=Wt/NNiCekc3wV4M98bGP4We81eFo45oWPb9JUhIjjHarMxCZFloPFPqM3DGq5qR2Xz
+         DiH9zbth9nKe+0QEEfefJ/kMmqbGgvB+Sit1HZTEZ2STfJBRbzi9Gtgrar94Ub83TfcL
+         OtESJn/asGAfl6CM5gNlX6ZvpceDUYsE0fcNIqqbxtAKsmmcNJSHNbqdOIHkYj2iDWD6
+         qROIZ3bonVnvPWKldxMTuI3J/GjNVUAu6DQj+pYPZYX18QD8Z2BY5wAvEvF9jHAxzf9/
+         RAGiDk3jrMST55boE5BE+by7r07xBkm0EcWwIJWr0GRPHv3xPfUT9H9x2x6mlh6i3vdR
+         J//A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=83Uhs6ZL7h4cnl4M9YaZp+1cwFpz7hwB6M99EqA8Pek=;
+        b=5BVkkWqOJD1apY8MVJTRVETX0PhnYH+BTnyxKnMWs+naSy0kHhVxCu7Vq9aGy7POfc
+         hL+6Q9mYlaOZwT2E/uajz9gfG03OodYOqnByH+FBlk7Z6pO6c1EZm28NLyuT7eGixizz
+         9dKxZTMI7tXfaXN6xdhqKsPvs0MggJ6VcySQrCQ5JDbSyMiND63x9yXT2ezxvdroo4vw
+         qA7T1JmBLNEaaN3GFdawfQjCEXXD7pwliZcZeEe2t8BHfIEM8YYbbibaxvfwy0Z/NEun
+         B61fJqMKbnWSLb6sve1z2idOTvRYrVpnmGicPpCrW4PAunWN9/9HJPuubYSQKyhO82Ty
+         MTGw==
+X-Gm-Message-State: AOAM533zWcWFmMgzfbRlIcikfHJeA18HbZ+blcN7gcS6lGaEbuQYxl/S
+        VD7szq2f43JW5A5GKrSUFnIaf7DILsccn2pKhMAkF+RT
+X-Google-Smtp-Source: ABdhPJy5YQteHdDUUQsfgrI8dnM7kpupflvC9srOtrZxF9O4v+93VplTgdbMJbiiGuPOl+oXENK/QY6x2Fnt98C7qIk=
+X-Received: by 2002:a05:6402:c96:: with SMTP id cm22mr21115283edb.314.1632717491292;
+ Sun, 26 Sep 2021 21:38:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3392aea6b112926b063bbe46b1decaad4c9f9e6e.camel@linux.intel.com>
+References: <20210926031339.40043-1-songmuchun@bytedance.com> <20210926031339.40043-6-songmuchun@bytedance.com>
+In-Reply-To: <20210926031339.40043-6-songmuchun@bytedance.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Mon, 27 Sep 2021 17:38:00 +1300
+Message-ID: <CAGsJ_4yFbLzHoLA=7QCOvPev1w=mn4sX61+TZNn8uKkDmA9X6A@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] mm: sparsemem: move vmemmap related to HugeTLB to CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
+        Qi Zheng <zhengqi.arch@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 26, 2021 at 06:15:16PM -0700, David E. Box wrote:
-> > > +static struct platform_driver sdsi_driver = {
-> > > +       .driver = {
-> > > +               .name           = SDSI_DEV_NAME,
-> > > +               .dev_groups     = sdsi_groups,
-> > > +       },
-> > > +       .probe  = sdsi_probe,
-> > > +       .remove = sdsi_remove,
-> > > +};
-> > > +module_platform_driver(sdsi_driver);
-> > 
-> > What causes the platform to know to register, and enable, this platform
-> > driver?  Shouldn't there be some hardware involved that is discoverable
-> > to enable it to load dynamically?
-> 
-> Ah. The patch that adds the SDSi platform device string was added to a series for the intel_pmt MFD
-> driver and it's still waiting review. I see that complicates things. I can combine the two series
-> together.
+On Sun, Sep 26, 2021 at 4:15 PM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> The vmemmap_remap_free/alloc are relevant to HugeTLB, so move those
+> functiongs to the scope of CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-Do you have a pointer to the lore.kernel.org location of that series?
+Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
 
-Your code right here will bind to any system that it is loaded on, a
-very dangerous thing...
-
-thanks,
-
-greg k-h
+> ---
+>  include/linux/mm.h  | 2 ++
+>  mm/sparse-vmemmap.c | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 00bb2d938df4..a706e7ffda94 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3182,10 +3182,12 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+>  }
+>  #endif
+>
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+>  int vmemmap_remap_free(unsigned long start, unsigned long end,
+>                        unsigned long reuse);
+>  int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+>                         unsigned long reuse, gfp_t gfp_mask);
+> +#endif
+>
+>  void *sparse_buffer_alloc(unsigned long size);
+>  struct page * __populate_section_memmap(unsigned long pfn,
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index d486a7a48512..3c7dd41c3164 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -34,6 +34,7 @@
+>  #include <asm/pgalloc.h>
+>  #include <asm/tlbflush.h>
+>
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+>  /**
+>   * struct vmemmap_remap_walk - walk vmemmap page table
+>   *
+> @@ -423,6 +424,7 @@ int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+>
+>         return 0;
+>  }
+> +#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
+>
+>  /*
+>   * Allocate a block of memory to be used to back the virtual memory map
+> --
+> 2.11.0
+>
