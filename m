@@ -2,43 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CEBC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F54C43217
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0A7260F4F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E0A561002
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234686AbhI0OBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 10:01:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48054 "EHLO mail.kernel.org"
+        id S234740AbhI0OBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 10:01:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47982 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234715AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234716AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 10:01:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A16BB61260;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCC9F61266;
         Mon, 27 Sep 2021 13:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632751197;
-        bh=tXZCTQeyF8jXhZbgmmQUTNpLQ9Rtm77QaTTOLqxCn1c=;
+        bh=pRwgBygJCF0uygrQacxkXypNnIIkSYPVhWcJIvDJP+w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z7GQxvIgsQZj6Gy7MVjPw3TU3NGkbd9LIFvtw8oBPmNAI4qGez3Xn0yqATvl7Cqo3
-         kgyOtS81yxtHiyNMKuQ6Gvtp4ZaDWRpNB1nghDAyUi5ZfsrMNLT16gkwtok72eze+G
-         nFcEbA4iJL9u/UgnSDBCsyBmm0FyVLtblcGKXeFuVK/ntJNOVVwthBVlKZ2R5GEMN0
-         4pHY5Yl/uKulZxZUJnYAnKS083Lc4j1m3wq3EMZHGDx9q2ZzJNtwlKeZsBqjmKrH2Q
-         TLYLXzDNPc1qbEBM+vjkbei+54LCidV3stbBeyBaC2gjUol4usEJw6wMYJQw8Yq+QI
-         jvp5bIyoN06bQ==
+        b=Afc7CKApuP93zxKkhdmMXgr1HeevKwd2lvd9mZA8UvYuYTgDl5vqqYZ9+kJHJnxB6
+         nnuYUnvYX3lgCnZo3uddqmyuLzr3UNTeYdGQ+1wGOdoEScLOdjg2l8VpJ+d1OHzO/x
+         RNMDwSb7y7+Zgb82dwv5XQtS5zREtXdRuxhOI1IpWxRX3MD479UtLdsKcXwKpR4Wrq
+         6S2RRAy97VbTzBhB1M4Ofg4bUEEWZW3TtmQB+DUEDtWhfl9kH/KNUdZKzHXtZhMXz5
+         I5ZIOK/2CZz4Q+ojwEbnUjlvoHljoXJoKDRPbL96AINszlO1gLZEkDBcn+S/Qvb/rN
+         d3ESzHa7H7XEA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUrAh-000AuU-UT; Mon, 27 Sep 2021 15:59:55 +0200
+        id 1mUrAi-000Auc-2l; Mon, 27 Sep 2021 15:59:56 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 15/17] ABI: obsolete/sysfs-bus-iio: add some missing blank lines
-Date:   Mon, 27 Sep 2021 15:59:48 +0200
-Message-Id: <602c52c3fb957b9d7d6b72292dc86d295b50c881.1632750608.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 17/17] ABI: sysfs-bus-platform: add modalias description
+Date:   Mon, 27 Sep 2021 15:59:50 +0200
+Message-Id: <9cdebbad008886b1d09f5f3ac5d88bee19f08d97.1632750608.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632750608.git.mchehab+huawei@kernel.org>
 References: <cover.1632750608.git.mchehab+huawei@kernel.org>
@@ -49,55 +52,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Avoid those warnings:
-	Documentation/ABI/obsolete/sysfs-bus-iio:171: WARNING: Unexpected indentation.
-	Documentation/ABI/obsolete/sysfs-bus-iio:12: WARNING: Unexpected indentation.
-	Documentation/ABI/obsolete/sysfs-bus-iio:2: WARNING: Unexpected indentation.
-	Documentation/ABI/obsolete/sysfs-bus-iio:149: WARNING: Unexpected indentation.
+Define the modalias parameter for platform devices, including
+the ones exposed via devicetree.
 
-Fixes: caf0fb3bb38a ("iio: Documentation: move incompatible ABI to obsolete")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
 
- Documentation/ABI/obsolete/sysfs-bus-iio | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/ABI/testing/sysfs-bus-platform | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/ABI/obsolete/sysfs-bus-iio b/Documentation/ABI/obsolete/sysfs-bus-iio
-index c9531bb64816..b64394b0b374 100644
---- a/Documentation/ABI/obsolete/sysfs-bus-iio
-+++ b/Documentation/ABI/obsolete/sysfs-bus-iio
-@@ -6,6 +6,7 @@ Description:
- 
- 		Since Kernel 5.11, multiple buffers are supported.
- 		so, it is better to use, instead:
+diff --git a/Documentation/ABI/testing/sysfs-bus-platform b/Documentation/ABI/testing/sysfs-bus-platform
+index ff30728595ef..c4dfe7355c2d 100644
+--- a/Documentation/ABI/testing/sysfs-bus-platform
++++ b/Documentation/ABI/testing/sysfs-bus-platform
+@@ -42,3 +42,15 @@ Date:		August 2021
+ Contact:	Barry Song <song.bao.hua@hisilicon.com>
+ Description:
+ 		This attribute will show "msi" if <N> is a valid msi irq
 +
- 			/sys/bus/iio/devices/iio:deviceX/bufferY/length
- 
- What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
-@@ -17,6 +18,7 @@ Description:
- 
- 		Since Kernel 5.11, multiple buffers are supported.
- 		so, it is better to use, instead:
++What:		/sys/bus/platform/devices/.../modalias
++Description:
++		Same as MODALIAS in the uevent at device creation.
 +
- 			/sys/bus/iio/devices/iio:deviceX/bufferY/enable
- 
- What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
-@@ -165,6 +167,7 @@ Description:
- 
- 		Since Kernel 5.11, multiple buffers are supported.
- 		so, it is better to use, instead:
++		A platform device that it is exposed via devicetree uses:
 +
- 			/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
- 
- What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
-@@ -179,4 +182,5 @@ Description:
- 
- 		Since Kernel 5.11, multiple buffers are supported.
- 		so, it is better to use, instead:
++			- of:N`of node name`T`type`
 +
- 			/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
++		Other platform devices use, instead:
++
++			- platform:`driver name`
 -- 
 2.31.1
 
