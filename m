@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59EF1C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA525C433F5
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 388AD60F41
+	by mail.kernel.org (Postfix) with ESMTP id 9E2B461041
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 13:49:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234611AbhI0Nvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234618AbhI0Nvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 27 Sep 2021 09:51:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41820 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:41818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234585AbhI0Nvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234583AbhI0Nvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 09:51:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 90A0360F41;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E52360F39;
         Mon, 27 Sep 2021 13:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632750595;
-        bh=8xhgJ1VxubUEF7re8obYZLRRe6xW79b6UPbCJOr+N1U=;
+        bh=/bOTaTmzGWeOrx1NvxdBUUcp7sjpew/tVp0sOd6hnug=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XKg2Mvhj9NnmZarL2zGE5MA1ZOlXsHiNjUH272XMBQVCvWYLzwELRuI0VUqmFZ9lL
-         HHWHz43SkGgz9LtVQKjYsQ/MgRBglqjzUBEX5QYnSl/hwHmS0YhLcILh5SH2YTPY6p
-         QngucrUwQskbHIRALJanBUjlOH9Q/v/kuwmpMliYOpTlxid42oj99c/gWsmgcChWog
-         QYZw+0iZ1yf2L3WAesvTm7IXa/PqHBA3JMRQo0fp5jdQJM9efl/L7VbD45yUmnR3/G
-         g4D5+AoUyKKyGq0SyyUpfkZIGD1pppAc5ELIkRsXWHrd+SvjqRfnsW+eVvMP0HNap3
-         YKYbCjqSnK0eg==
+        b=C2sAeA6eryJvSq866rse+8FBL6cA6CkUy9+hm51NPBXQUtNU6PM2Yz8P+zjwG88iV
+         OjipCFk3ZisQEFdyW3/x/VT5xyu4/9m670olcer6izeYdSKnpD1R1JIRS+lkmQCXUC
+         wZapp0mWJJ60RDHDPV6BEH2eRpvRY4QyNMTOiZNh0Ikg8FtGimLO3c0T8aB3ttfCJm
+         OhXp1+vPQh571NkbJq9R7TmZLvy5tIagTvJNXVNpzr0Gz7s21f0j1C3aNDQmwOYwLY
+         ntUoF1AeCeB8/tPvEppPl7OCv2G305A2btJRKeC50Lpphvsh4yL1LlToYDha+3j/Kf
+         Im891uej+k0Yg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUr0z-000Ajc-M8; Mon, 27 Sep 2021 15:49:53 +0200
+        id 1mUr0z-000AjU-JN; Mon, 27 Sep 2021 15:49:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] scripts: get_abi.pl: update its documentation
-Date:   Mon, 27 Sep 2021 15:49:51 +0200
-Message-Id: <89fcd301e065ed86dfd8670725144b196266b6a4.1632750315.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 1/3] scripts: get_abi.pl: produce an error if the ref tree is broken
+Date:   Mon, 27 Sep 2021 15:49:49 +0200
+Message-Id: <e7dd4d70e206723455d50c851802c8bb6c34941d.1632750315.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632750315.git.mchehab+huawei@kernel.org>
 References: <cover.1632750315.git.mchehab+huawei@kernel.org>
@@ -47,107 +47,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current highlight schema is not working properly. So, use,
-instead, Pod::Text.
+The logic under graph_add_file should create, for every entry, a
+__name name array for all entries of the tree. If this fails, the
+symlink parsing will break.
 
-While here, also update the copyright in order to reflect the latest
-changes and the e-mail I'm currently using.
+Add an error if this ever happens.
+
+While here, improve the output of data dumper to be more
+compact and to avoid displaying things like $VAR1=.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1632750315.git.mchehab+huawei@kernel.org/
 
- scripts/get_abi.pl | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ scripts/get_abi.pl | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index d14f5cfc3138..4978163f5b16 100755
+index c191c024f052..26a3f8ff566a 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -1,10 +1,12 @@
- #!/usr/bin/env perl
- # SPDX-License-Identifier: GPL-2.0
+@@ -27,6 +27,9 @@ my $dbg_what_open = 2;
+ my $dbg_dump_abi_structs = 4;
+ my $dbg_undefined = 8;
  
-+BEGIN { $Pod::Usage::Formatter = 'Pod::Text::Termcap'; }
++$Data::Dumper::Indent = 1;
++$Data::Dumper::Terse = 1;
 +
- use strict;
- use warnings;
- use utf8;
--use Pod::Usage;
-+use Pod::Usage qw(pod2usage);
- use Getopt::Long;
- use File::Find;
- use Fcntl ':mode';
-@@ -47,7 +49,7 @@ GetOptions(
- ) or pod2usage(2);
+ #
+ # If true, assumes that the description is formatted with ReST
+ #
+@@ -597,7 +600,6 @@ sub graph_add_link {
  
- pod2usage(1) if $help;
--pod2usage(-exitstatus => 0, -verbose => 2) if $man;
-+pod2usage(-exitstatus => 0, -noperldoc, -verbose => 2) if $man;
+ 	my @queue;
+ 	my %seen;
+-	my $base_name;
+ 	my $st;
  
- pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
+ 	push @queue, $file_ref;
+@@ -611,6 +613,12 @@ sub graph_add_link {
+ 			next if $seen{$$v{$c}};
+ 			next if ($c eq "__name");
  
-@@ -923,18 +925,18 @@ B<abi_book.pl> [--debug <level>] [--enable-lineno] [--man] [--help]
- 	       [--search-string <regex>]
- 	       <COMAND> [<ARGUMENT>]
- 
--Where <COMMAND> can be:
-+Where B<COMMAND> can be:
- 
- =over 8
- 
--B<search> [SEARCH_REGEX] - search for [SEARCH_REGEX] inside ABI
-+B<search> I<SEARCH_REGEX> - search for I<SEARCH_REGEX> inside ABI
- 
--B<rest>                  - output the ABI in ReST markup language
-+B<rest>                   - output the ABI in ReST markup language
- 
--B<validate>              - validate the ABI contents
-+B<validate>               - validate the ABI contents
- 
--B<undefined>             - existing symbols at the system that aren't
--                           defined at Documentation/ABI
-+B<undefined>              - existing symbols at the system that aren't
-+                            defined at Documentation/ABI
- 
- =back
- 
-@@ -950,9 +952,9 @@ the Documentation/ABI directory.
- =item B<--rst-source> and B<--no-rst-source>
- 
- The input file may be using ReST syntax or not. Those two options allow
--selecting between a rst-compliant source ABI (--rst-source), or a
-+selecting between a rst-compliant source ABI (B<--rst-source>), or a
- plain text that may be violating ReST spec, so it requres some escaping
--logic (--no-rst-source).
-+logic (B<--no-rst-source>).
- 
- =item B<--enable-lineno>
- 
-@@ -972,7 +974,7 @@ following bitmask:
- Show hints about possible definitions for the missing ABI symbols.
- Used only when B<undefined>.
- 
--=item B<--search-string> [regex string]
-+=item B<--search-string> I<regex string>
- 
- Show only occurences that match a search string.
- Used only when B<undefined>.
-@@ -1021,11 +1023,11 @@ $ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
- 
- =head1 BUGS
- 
--Report bugs to Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-+Report bugs to Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
- 
- =head1 COPYRIGHT
- 
--Copyright (c) 2016-2019 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
-+Copyright (c) 2016-2021 by Mauro Carvalho Chehab <mchehab+huawei@kernel.org>.
- 
- License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
- 
++			if (!defined($$v{$c}{"__name"})) {
++				printf STDERR "Error: Couldn't find a non-empty name on a children of $file/.*: ";
++				print STDERR Dumper(%{$v});
++				exit;
++			}
++
+ 			# Add new name
+ 			my $name = @{$$v{$c}{"__name"}}[0];
+ 			if ($name =~ s#^$file/#$link/#) {
 -- 
 2.31.1
 
