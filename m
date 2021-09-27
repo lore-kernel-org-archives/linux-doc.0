@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE86C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 16:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD9DC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 16:38:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0562361074
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 16:38:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B79261074
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 16:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235734AbhI0QkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 12:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59762 "EHLO
+        id S235764AbhI0Qk2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 12:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235543AbhI0Qjv (ORCPT
+        with ESMTP id S235466AbhI0Qjv (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Sep 2021 12:39:51 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709FDC061740;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B04C061604;
         Mon, 27 Sep 2021 09:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=Z9fpf5M0U5jTveKWcwBUGzCZsVjpRJIF7aylaLlST7c=; b=CZ5Qau7hpz3VUfKrXkmM9AwvEp
-        OuJEe3mDSynNQ1LBo/Y3rtk8Pz7ecl4VdIq7ec9I+c2amqbk3yFYXkA2VP+UlXoPJXQ2p8VO77hgh
-        EyHKpwfPP1Z3pBVlnR4JmSb7gC86/s5rtEe2LnjFcbg1KQOGcnNTvSYm+yYDnpHjl8ZRxpm+hFT/M
-        o0CHsrQIYxqxeV3Fa52txpDuXKEe7FXKbrGCZ/Az/AQszJ8fGlWThJdb14J4J40s+W4z04SoxlsRc
-        sWm6NwsBIfp8sSOtxHDYqe+x8ey9fyND98aJByOoMd/25OplGmrRmg4nEgv/UdNVbEdH6Jg38PdYL
-        nTYenckQ==;
+        bh=EpDjr2uCtpoo1VfT10KJe6h28mfil8D37PYMRkMG410=; b=x8pVhPuVe4/o1DO0FrsSX0aCK8
+        2Jm5eAMk2S8zLqo0VmRspazYqod+6OWWbxoMwQY33NFrnbib4CTRlK/vF3SGQ2NqUsD/FYstT3Mxy
+        xsWI7vG9qNy3NQVt3ut/bmQo5rluaJWmsHmEjUZ44mrVuZAE3L7aq1l2+TuvK9+tQBHv+NWLnIgiq
+        xly60QgQYRYZx5RJVgF8eA0eXxMfNXT1CKg0wYSySRHaZCK1B10XxcGawGLxUqmgcL1ND9SjXyIvY
+        e57Wyg2tXBvwKmqvUGUEus+HjcRz5rtx0pPD+Sq1TCT8UEkqWyWWIQE84Wpd7g4xdVE3hXWRinKbj
+        WGr351wg==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mUtdm-003ORv-D8; Mon, 27 Sep 2021 16:38:06 +0000
+        id 1mUtdm-003OS7-Ot; Mon, 27 Sep 2021 16:38:06 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     tj@kernel.org, gregkh@linuxfoundation.org,
         akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
@@ -38,19 +38,10 @@ Cc:     bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
         rostedt@goodmis.org, linux-spdx@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>,
-        Kuno Woudt <kuno@frob.nl>,
-        Richard Fontana <fontana@sharpeleven.org>,
-        copyleft-next@lists.fedorahosted.org,
-        Ciaran Farrell <Ciaran.Farrell@suse.com>,
-        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Subject: [PATCH v8 01/12] LICENSES: Add the copyleft-next-0.3.1 license
-Date:   Mon, 27 Sep 2021 09:37:54 -0700
-Message-Id: <20210927163805.808907-2-mcgrof@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v8 05/12] test_sysfs: add support to use kernfs failure injection
+Date:   Mon, 27 Sep 2021 09:37:58 -0700
+Message-Id: <20210927163805.808907-6-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927163805.808907-1-mcgrof@kernel.org>
 References: <20210927163805.808907-1-mcgrof@kernel.org>
@@ -61,348 +52,363 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the full text of the copyleft-next-0.3.1 license to the kernel
-tree as well as the required tags for reference and tooling.
-The license text was copied directly from the copyleft-next project's
-git tree [0].
+This extends test_sysfs with support for using the failure injection
+wait completion and knobs to force a few race conditions which
+demonstrates that kernfs active reference protection is sufficient
+for kobject / device protection at higher layers.
 
-Discussion of using copyleft-next-0.3.1 on Linux started since June,
-2016 [1]. In the end Linus' preference was to have drivers use
-MODULE_LICENSE("GPL") to make it clear that the GPL applies when it
-comes to Linux [2]. Additionally, even though copyleft-next-0.3.1 has
-been found to be to be GPLv2 compatible by three attorneys at SUSE and
-Redhat [3], to err on the side of caution we simply recommend to
-always use the "OR" language for this license [4].
+This adds 4 new tests which tries to remove the device attribute
+store operation in 4 different situations:
 
-Even though it has been a goal of the project to be GPL-v2 compatible
-to be certain in 2016 I asked for a clarification about what makes
-copyleft-next GPLv2 compatible and also asked for a summary of
-benefits. This prompted some small minor changes to make compatibility
-even further clear and as of copyleft 0.3.1 compatibility should
-be crystal clear [5].
+  1) at the start of kernfs_kernfs_fop_write_iter()
+  2) before the of->mutex is held in kernfs_kernfs_fop_write_iter()
+  3) after the of->mutex is held in kernfs_kernfs_fop_write_iter()
+  4) after the kernfs node active reference is taken
 
-The summary of why copyleft-next 0.3.1 is compatible with GPLv2
-is explained as follows:
+A write fails in call cases except the last one, test number #32. There
+is a good explanation for this: *once* kernfs_get_active() gets called
+we have a guarantee that the kernfs entry cannot be removed. If
+kernfs_get_active() succeeds that entry cannot be removed and so
+anything trying to remove that entry will have to wait. It is perhaps
+not obvious but since a sysfs write will trigger eventually a
+kernfs_get_active() call, and *only* if this succeeds will the sysfs
+op be called, this and the fact that you cannot remove the kernfs
+entry while the kenfs entry is active implies that a module that
+created the respective sysfs / kernfs entry *cannot* possibly be
+removed during a sysfs operation. And test number 32 provides us with
+proof of this. If it were not true test #32 should crash.
 
-  Like GPLv2, copyleft-next requires distribution of derivative works
-  ("Derived Works" in copyleft-next 0.3.x) to be under the same license.
-  Ordinarily this would make the two licenses incompatible. However,
-  copyleft-next 0.3.1 says: "If the Derived Work includes material
-  licensed under the GPL, You may instead license the Derived Work under
-  the GPL." "GPL" is defined to include GPLv2.
+No null dereferences are reproduced, even though this has been observed
+in some complex testing cases [0]. If this issue really exists we should
+have enough tools on the sysfs_test toolbox now to try to reproduce
+this easily without having to poke around other drivers. It very likley
+was the case that the issue reported [0] was possibly a side issue after
+the first bug which was zram specific. This is why it is important to
+isolate the issue and try to reproduce it in a generic form using the
+test_sysfs driver.
 
-In practice this means copyleft-next code in Linux may be licensed
-under the GPL2, however there are additional obvious gains for
-bringing contributions from Linux outbound where copyleft-next is
-preferred. A summary of benefits why projects outside of Linux might
-prefer to use copyleft-next >= 0.3.1 over GPLv2:
+[0] https://lkml.kernel.org/r/20210623215007.862787-1-mcgrof@kernel.org
 
-o It is much shorter and simpler
-o It has an explicit patent license grant, unlike GPLv2
-o Its notice preservation conditions are clearer
-o More free software/open source licenses are compatible
-  with it (via section 4)
-o The source code requirement triggered by binary distribution
-  is much simpler in a procedural sense
-o Recipients potentially have a contract claim against distributors
-  who are noncompliant with the source code requirement
-o There is a built-in inbound=outbound policy for upstream
-  contributions (cf. Apache License 2.0 section 5)
-o There are disincentives to engage in the controversial practice
-  of copyleft/ proprietary dual-licensing
-o In 15 years copyleft expires, which can be advantageous
-  for legacy code
-o There are explicit disincentives to bringing patent infringement
-  claims accusing the licensed work of infringement (see 10b)
-o There is a cure period for licensees who are not compliant
-  with the license (there is no cure opportunity in GPLv2)
-o copyleft-next has a 'built-in or-later' provision
-
-The first driver submission to Linux under this dual strategy was
-lib/test_sysctl.c through commit 9308f2f9e7f05 ("test_sysctl: add
-dedicated proc sysctl test driver") merged in July 2017. Shortly after
-that I also added test_kmod through commit d9c6a72d6fa29 ("kmod: add
-test driver to stress test the module loader") in the same month. These
-two drivers went in just a few months before the SPDX license practice
-kicked in. In 2018 Kuno Woudt went through the process to get SPDX
-identifiers for copyleft-next [6] [7]. Although there are SPDX tags
-for copyleft-next-0.3.0, we only document use in Linux starting from
-copyleft-next-0.3.1 which makes GPLv2 compatibility crystal clear.
-
-This patch will let us update the two Linux selftest drivers in
-subsequent patches with their respective SPDX license identifiers and
-let us remove repetitive license boiler plate.
-
-[0] https://github.com/copyleft-next/copyleft-next/blob/master/Releases/copyleft-next-0.3.1
-[1] https://lore.kernel.org/lkml/1465929311-13509-1-git-send-email-mcgrof@kernel.org/
-[2] https://lore.kernel.org/lkml/CA+55aFyhxcvD+q7tp+-yrSFDKfR0mOHgyEAe=f_94aKLsOu0Og@mail.gmail.com/
-[3] https://lore.kernel.org/lkml/20170516232702.GL17314@wotan.suse.de/
-[4] https://lkml.kernel.org/r/1495234558.7848.122.camel@linux.intel.com
-[5] https://lists.fedorahosted.org/archives/list/copyleft-next@lists.fedorahosted.org/thread/JTGV56DDADWGKU7ZKTZA4DLXTGTLNJ57/#SQMDIKBRAVDOCT4UVNOOCRGBN2UJIKHZ
-[6] https://spdx.org/licenses/copyleft-next-0.3.0.html
-[7] https://spdx.org/licenses/copyleft-next-0.3.1.html
-
-Cc: Goldwyn Rodrigues <rgoldwyn@suse.com>
-Cc: Kuno Woudt <kuno@frob.nl>
-Cc: Richard Fontana <fontana@sharpeleven.org>
-Cc: copyleft-next@lists.fedorahosted.org
-Cc: Ciaran Farrell <Ciaran.Farrell@suse.com>
-Cc: Christopher De Nicolo <Christopher.DeNicolo@suse.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- LICENSES/dual/copyleft-next-0.3.1 | 237 ++++++++++++++++++++++++++++++
- 1 file changed, 237 insertions(+)
- create mode 100644 LICENSES/dual/copyleft-next-0.3.1
+ lib/Kconfig.debug                      |   3 +
+ lib/test_sysfs.c                       |  31 +++++
+ tools/testing/selftests/sysfs/config   |   3 +
+ tools/testing/selftests/sysfs/sysfs.sh | 175 +++++++++++++++++++++++++
+ 4 files changed, 212 insertions(+)
 
-diff --git a/LICENSES/dual/copyleft-next-0.3.1 b/LICENSES/dual/copyleft-next-0.3.1
-new file mode 100644
-index 000000000000..086bcb74b478
---- /dev/null
-+++ b/LICENSES/dual/copyleft-next-0.3.1
-@@ -0,0 +1,237 @@
-+Valid-License-Identifier: copyleft-next-0.3.1
-+SPDX-URL: https://spdx.org/licenses/copyleft-next-0.3.1
-+Usage-Guide:
-+  This license can be used in code, it has been found to be GPLv2 compatible
-+  by attorneys at Redhat and SUSE, however to air on the side of caution,
-+  it's best to only use it together with a GPL2 compatible license using "OR".
-+  To use the copyleft-next-0.3.1 license put the following SPDX tag/value
-+  pair into a comment according to the placement guidelines in the
-+  licensing rules documentation:
-+    SPDX-License-Identifier: GPL-2.0 OR copyleft-next-0.3.1
-+    SPDX-License-Identifier: GPL-2.0-only OR copyleft-next 0.3.1
-+    SPDX-License-Identifier: GPL-2.0+ OR copyleft-next-0.3.1
-+    SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
-+License-Text:
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index a29b7d398c4e..176b822654e5 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2358,6 +2358,9 @@ config TEST_SYSFS
+ 	depends on SYSFS
+ 	depends on NET
+ 	depends on BLOCK
++	select FAULT_INJECTION
++	select FAULT_INJECTION_DEBUG_FS
++	select FAIL_KERNFS_KNOBS
+ 	help
+ 	  This builds the "test_sysfs" module. This driver enables to test the
+ 	  sysfs file system safely without affecting production knobs which
+diff --git a/lib/test_sysfs.c b/lib/test_sysfs.c
+index 2043ca494af8..c6e62de61403 100644
+--- a/lib/test_sysfs.c
++++ b/lib/test_sysfs.c
+@@ -38,6 +38,11 @@
+ #include <linux/rtnetlink.h>
+ #include <linux/genhd.h>
+ #include <linux/blkdev.h>
++#include <linux/kernfs.h>
 +
-+=======================================================================
++#ifdef CONFIG_FAIL_KERNFS_KNOBS
++MODULE_IMPORT_NS(KERNFS_DEBUG_PRIVATE);
++#endif
+ 
+ static bool enable_lock;
+ module_param(enable_lock, bool_enable_only, 0644);
+@@ -82,6 +87,13 @@ static bool enable_verbose_rmmod;
+ module_param(enable_verbose_rmmod, bool_enable_only, 0644);
+ MODULE_PARM_DESC(enable_verbose_rmmod, "enable verbose print messages on rmmod");
+ 
++#ifdef CONFIG_FAIL_KERNFS_KNOBS
++static bool enable_completion_on_rmmod;
++module_param(enable_completion_on_rmmod, bool_enable_only, 0644);
++MODULE_PARM_DESC(enable_completion_on_rmmod,
++		 "enable sending a kernfs completion on rmmod");
++#endif
 +
-+                      copyleft-next 0.3.1 ("this License")
-+                            Release date: 2016-04-29
+ static int sysfs_test_major;
+ 
+ /**
+@@ -285,6 +297,12 @@ static ssize_t config_show(struct device *dev,
+ 			"enable_verbose_writes:\t%s\n",
+ 			enable_verbose_writes ? "true" : "false");
+ 
++#ifdef CONFIG_FAIL_KERNFS_KNOBS
++	len += snprintf(buf+len, PAGE_SIZE - len,
++			"enable_completion_on_rmmod:\t%s\n",
++			enable_completion_on_rmmod ? "true" : "false");
++#endif
 +
-+1. License Grants; No Trademark License
+ 	test_dev_config_unlock(test_dev);
+ 
+ 	return len;
+@@ -904,10 +922,23 @@ static int __init test_sysfs_init(void)
+ }
+ module_init(test_sysfs_init);
+ 
++#ifdef CONFIG_FAIL_KERNFS_KNOBS
++/* The goal is to race our device removal with a pending kernfs -> store call */
++static void test_sysfs_kernfs_send_completion_rmmod(void)
++{
++	if (!enable_completion_on_rmmod)
++		return;
++	complete(&kernfs_debug_wait_completion);
++}
++#else
++static inline void test_sysfs_kernfs_send_completion_rmmod(void) {}
++#endif
 +
-+   Subject to the terms of this License, I grant You:
+ static void __exit test_sysfs_exit(void)
+ {
+ 	if (enable_debugfs)
+ 		debugfs_remove(debugfs_dir);
++	test_sysfs_kernfs_send_completion_rmmod();
+ 	if (delay_rmmod_ms)
+ 		msleep(delay_rmmod_ms);
+ 	unregister_test_dev_sysfs(first_test_dev);
+diff --git a/tools/testing/selftests/sysfs/config b/tools/testing/selftests/sysfs/config
+index 9196f452ecd5..2876a229f95b 100644
+--- a/tools/testing/selftests/sysfs/config
++++ b/tools/testing/selftests/sysfs/config
+@@ -1,2 +1,5 @@
+ CONFIG_SYSFS=m
+ CONFIG_TEST_SYSFS=m
++CONFIG_FAULT_INJECTION=y
++CONFIG_FAULT_INJECTION_DEBUG_FS=y
++CONFIG_FAIL_KERNFS_KNOBS=y
+diff --git a/tools/testing/selftests/sysfs/sysfs.sh b/tools/testing/selftests/sysfs/sysfs.sh
+index b3f4c2236c7f..f928635d0e35 100755
+--- a/tools/testing/selftests/sysfs/sysfs.sh
++++ b/tools/testing/selftests/sysfs/sysfs.sh
+@@ -62,6 +62,10 @@ ALL_TESTS="$ALL_TESTS 0025:1:1:test_dev_y:block"
+ ALL_TESTS="$ALL_TESTS 0026:1:1:test_dev_y:block"
+ ALL_TESTS="$ALL_TESTS 0027:1:0:test_dev_x:block" # deadlock test
+ ALL_TESTS="$ALL_TESTS 0028:1:0:test_dev_x:block" # deadlock test with rntl_lock
++ALL_TESTS="$ALL_TESTS 0029:1:1:test_dev_x:block" # kernfs race removal of store
++ALL_TESTS="$ALL_TESTS 0030:1:1:test_dev_x:block" # kernfs race removal before mutex
++ALL_TESTS="$ALL_TESTS 0031:1:1:test_dev_x:block" # kernfs race removal after mutex
++ALL_TESTS="$ALL_TESTS 0032:1:1:test_dev_x:block" # kernfs race removal after active
+ 
+ allow_user_defaults()
+ {
+@@ -92,6 +96,9 @@ allow_user_defaults()
+ 	if [ -z $SYSFS_DEBUGFS_DIR ]; then
+ 		SYSFS_DEBUGFS_DIR="/sys/kernel/debug/test_sysfs"
+ 	fi
++	if [ -z $KERNFS_DEBUGFS_DIR ]; then
++		KERNFS_DEBUGFS_DIR="/sys/kernel/debug/kernfs"
++	fi
+ 	if [ -z $PAGE_SIZE ]; then
+ 		PAGE_SIZE=$(getconf PAGESIZE)
+ 	fi
+@@ -167,6 +174,14 @@ modprobe_reset_enable_rtnl_lock_on_rmmod()
+ 	unset FIRST_MODPROBE_ARGS
+ }
+ 
++modprobe_reset_enable_completion()
++{
++	FIRST_MODPROBE_ARGS="enable_completion_on_rmmod=1 enable_verbose_writes=1"
++	FIRST_MODPROBE_ARGS="$FIRST_MODPROBE_ARGS enable_verbose_rmmod=1 delay_rmmod_ms=0"
++	modprobe_reset
++	unset FIRST_MODPROBE_ARGS
++}
 +
-+   a) A non-exclusive, worldwide, perpetual, royalty-free, irrevocable
-+      copyright license, to reproduce, Distribute, prepare derivative works
-+      of, publicly perform and publicly display My Work.
+ load_req_mod()
+ {
+ 	modprobe_reset
+@@ -197,6 +212,63 @@ debugfs_reset_first_test_dev_ignore_errors()
+ 	echo -n "1" >"$SYSFS_DEBUGFS_DIR"/reset_first_test_dev
+ }
+ 
++debugfs_kernfs_kernfs_fop_write_iter_exists()
++{
++	KNOB_DIR="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter"
++	if [[ ! -d $KNOB_DIR ]]; then
++		echo "kernfs debugfs does not exist $KNOB_DIR"
++		return 0;
++	fi
++	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
++	if [[ ! -d $KNOB_DEBUGFS ]]; then
++		echo -n "kernfs debugfs for coniguring fail_kernfs_fop_write_iter "
++		echo "does not exist $KNOB_DIR"
++		return 0;
++	fi
++	return 1
++}
 +
-+   b) A non-exclusive, worldwide, perpetual, royalty-free, irrevocable
-+      patent license under Licensed Patents to make, have made, use, sell,
-+      offer for sale, and import Covered Works.
++debugfs_kernfs_kernfs_fop_write_iter_set_fail_once()
++{
++	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
++	echo 1 > $KNOB_DEBUGFS/interval
++	echo 100 > $KNOB_DEBUGFS/probability
++	echo 0 > $KNOB_DEBUGFS/space
++	# Disable verbose messages on the kernel ring buffer which may
++	# confuse developers with a kernel panic.
++	echo 0 > $KNOB_DEBUGFS/verbose
 +
-+   This License does not grant any rights in My name, trademarks, service
-+   marks, or logos.
++	# Fail only once
++	echo 1 > $KNOB_DEBUGFS/times
++}
 +
-+2. Distribution: General Conditions
++debugfs_kernfs_kernfs_fop_write_iter_set_fail_never()
++{
++	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
++	echo 0 > $KNOB_DEBUGFS/times
++}
 +
-+   You may Distribute Covered Works, provided that You (i) inform
-+   recipients how they can obtain a copy of this License; (ii) satisfy the
-+   applicable conditions of sections 3 through 6; and (iii) preserve all
-+   Legal Notices contained in My Work (to the extent they remain
-+   pertinent). "Legal Notices" means copyright notices, license notices,
-+   license texts, and author attributions, but does not include logos,
-+   other graphical images, trademarks or trademark legends.
++debugfs_kernfs_set_wait_ms()
++{
++	SLEEP_AFTER_WAIT_MS="${KERNFS_DEBUGFS_DIR}/sleep_after_wait_ms"
++	echo $1 > $SLEEP_AFTER_WAIT_MS
++}
 +
-+3. Conditions for Distributing Derived Works; Outbound GPL Compatibility
++debugfs_kernfs_disable_wait_kernfs_fop_write_iter()
++{
++	ENABLE_WAIT_KNOB="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter/wait_"
++	for KNOB in ${ENABLE_WAIT_KNOB}*; do
++		echo 0 > $KNOB
++	done
++}
 +
-+   If You Distribute a Derived Work, You must license the entire Derived
-+   Work as a whole under this License, with prominent notice of such
-+   licensing. This condition may not be avoided through such means as
-+   separate Distribution of portions of the Derived Work.
++debugfs_kernfs_enable_wait_kernfs_fop_write_iter()
++{
++	ENABLE_WAIT_KNOB="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter/wait_$1"
++	echo -n "1" > $ENABLE_WAIT_KNOB
++	return $?
++}
 +
-+   If the Derived Work includes material licensed under the GPL, You may
-+   instead license the Derived Work under the GPL.
-+   
-+4. Condition Against Further Restrictions; Inbound License Compatibility
+ set_orig()
+ {
+ 	if [[ ! -z $TARGET ]] && [[ ! -z $ORIG ]]; then
+@@ -972,6 +1044,105 @@ sysfs_test_0028()
+ 	fi
+ }
+ 
++sysfs_race_kernfs_kernfs_fop_write_iter()
++{
++	TARGET="${DIR}/$(get_test_target $1)"
++	WAIT_AT=$2
++	EXPECT_WRITE_RETURNS=$3
++	MSDELAY=$4
 +
-+   When Distributing a Covered Work, You may not impose further
-+   restrictions on the exercise of rights in the Covered Work granted under
-+   this License. This condition is not excused merely because such
-+   restrictions result from Your compliance with conditions or obligations
-+   extrinsic to this License (such as a court order or an agreement with a
-+   third party).
++	modprobe_reset_enable_completion
++	ORIG=$(cat "${TARGET}")
++	TEST_STR=$(( $ORIG + 1 ))
 +
-+   However, You may Distribute a Covered Work incorporating material
-+   governed by a license that is both OSI-Approved and FSF-Free as of the
-+   release date of this License, provided that compliance with such
-+   other license would not conflict with any conditions stated in other
-+   sections of this License.
++	echo -n "Test racing removal of sysfs store op with kernfs $WAIT_AT ... "
 +
-+5. Conditions for Distributing Object Code
++	if debugfs_kernfs_kernfs_fop_write_iter_exists; then
++		echo -n "skipping test as CONFIG_FAIL_KERNFS_KNOBS "
++		echo " or CONFIG_FAULT_INJECTION_DEBUG_FS is disabled"
++		return $ksft_skip
++	fi
 +
-+   You may Distribute an Object Code form of a Covered Work, provided that
-+   you accompany the Object Code with a URL through which the Corresponding
-+   Source is made available, at no charge, by some standard or customary
-+   means of providing network access to source code.
++	# Allow for failing the kernfs_kernfs_fop_write_iter call once,
++	# we'll provide exact context shortly afterwards.
++	debugfs_kernfs_kernfs_fop_write_iter_set_fail_once
 +
-+   If you Distribute the Object Code in a physical product or tangible
-+   storage medium ("Product"), the Corresponding Source must be available
-+   through such URL for two years from the date of Your most recent
-+   Distribution of the Object Code in the Product. However, if the Product
-+   itself contains or is accompanied by the Corresponding Source (made
-+   available in a customarily accessible manner), You need not also comply
-+   with the first paragraph of this section.
++	# First disable all waits
++	debugfs_kernfs_disable_wait_kernfs_fop_write_iter
 +
-+   Each direct and indirect recipient of the Covered Work from You is an
-+   intended third-party beneficiary of this License solely as to this
-+   section 5, with the right to enforce its terms.
++	# Enable a wait_for_completion(&kernfs_debug_wait_completion) at the
++	# specified location inside the kernfs_fop_write_iter() routine
++	debugfs_kernfs_enable_wait_kernfs_fop_write_iter $WAIT_AT
 +
-+6. Symmetrical Licensing Condition for Upstream Contributions
++	# Configure kernfs so that after its wait_for_completion() it
++	# will msleep() this amount of time and schedule(). We figure this
++	# will be sufficient time to allow for our module removal to complete.
++	debugfs_kernfs_set_wait_ms $MSDELAY
 +
-+   If You Distribute a work to Me specifically for inclusion in or
-+   modification of a Covered Work (a "Patch"), and no explicit licensing
-+   terms apply to the Patch, You license the Patch under this License, to
-+   the extent of Your copyright in the Patch. This condition does not
-+   negate the other conditions of this License, if applicable to the Patch.
++	# Now we trigger a kernfs write op, which will run kernfs_fop_write_iter,
++	# but will wait until our driver sends a respective completion
++	set_test_ignore_errors &
++	write_pid=$!
 +
-+7. Nullification of Copyleft/Proprietary Dual Licensing
++	# At this point kernfs_fop_write_iter() hasn't run our op, its
++	# waiting for our completion at the specified time $WAIT_AT.
++	# We now remove our module which will send a
++	# complete(&kernfs_debug_wait_completion) right before we deregister
++	# our device and the sysfs device attributes are removed.
++	#
++	# After the completion is sent, the test_sysfs driver races with
++	# kernfs to do the device deregistration with the kernfs msleep
++	# and schedule(). This should mean we've forced trying to remove the
++	# module prior to allowing kernfs to run our store operation. If the
++	# race did happen we'll panic with a null dereference on the store op.
++	#
++	# If no race happens we should see no write operation triggered.
++	modprobe -r $TEST_DRIVER > /dev/null 2>&1
 +
-+   If I offer to license, for a fee, a Covered Work under terms other than
-+   a license that is OSI-Approved or FSF-Free as of the release date of this
-+   License or a numbered version of copyleft-next released by the
-+   Copyleft-Next Project, then the license I grant You under section 1 is no
-+   longer subject to the conditions in sections 3 through 5.
++	debugfs_kernfs_kernfs_fop_write_iter_set_fail_never
 +
-+8. Copyleft Sunset
++	wait $write_pid
++	if [[ $? -eq $EXPECT_WRITE_RETURNS ]]; then
++		echo "ok"
++	else
++		echo "FAIL" >&2
++	fi
++}
 +
-+   The conditions in sections 3 through 5 no longer apply once fifteen
-+   years have elapsed from the date of My first Distribution of My Work
-+   under this License.
++sysfs_test_0029()
++{
++	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
++		echo "Using delay-after-completion: $delay"
++		sysfs_race_kernfs_kernfs_fop_write_iter 0029 at_start 1 $delay
++	done
++}
 +
-+9. Pass-Through
++sysfs_test_0030()
++{
++	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
++		echo "Using delay-after-completion: $delay"
++		sysfs_race_kernfs_kernfs_fop_write_iter 0030 before_mutex 1 $delay
++	done
++}
 +
-+   When You Distribute a Covered Work, the recipient automatically receives
-+   a license to My Work from Me, subject to the terms of this License.
++sysfs_test_0031()
++{
++	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
++		echo "Using delay-after-completion: $delay"
++		sysfs_race_kernfs_kernfs_fop_write_iter 0031 after_mutex 1 $delay
++	done
++}
 +
-+10. Termination
++# A write only succeeds *iff* a module removal happens *after* the
++# kernfs active reference is obtained with kernfs_get_active().
++sysfs_test_0032()
++{
++	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
++		echo "Using delay-after-completion: $delay"
++		sysfs_race_kernfs_kernfs_fop_write_iter 0032 after_active 0 $delay
++	done
++}
 +
-+    Your license grants under section 1 are automatically terminated if You
-+
-+    a) fail to comply with the conditions of this License, unless You cure
-+       such noncompliance within thirty days after becoming aware of it, or
-+
-+    b) initiate a patent infringement litigation claim (excluding
-+       declaratory judgment actions, counterclaims, and cross-claims)
-+       alleging that any part of My Work directly or indirectly infringes
-+       any patent.
-+
-+    Termination of Your license grants extends to all copies of Covered
-+    Works You subsequently obtain. Termination does not terminate the
-+    rights of those who have received copies or rights from You subject to
-+    this License.
-+
-+    To the extent permission to make copies of a Covered Work is necessary
-+    merely for running it, such permission is not terminable.
-+
-+11. Later License Versions
-+
-+    The Copyleft-Next Project may release new versions of copyleft-next,
-+    designated by a distinguishing version number ("Later Versions").
-+    Unless I explicitly remove the option of Distributing Covered Works
-+    under Later Versions, You may Distribute Covered Works under any Later
-+    Version.
-+
-+** 12. No Warranty                                                       **
-+**                                                                       **
-+**     My Work is provided "as-is", without warranty. You bear the risk  **
-+**     of using it. To the extent permitted by applicable law, each      **
-+**     Distributor of My Work excludes the implied warranties of title,  **
-+**     merchantability, fitness for a particular purpose and             **
-+**     non-infringement.                                                 **
-+
-+** 13. Limitation of Liability                                           **
-+**                                                                       **
-+**     To the extent permitted by applicable law, in no event will any   **
-+**     Distributor of My Work be liable to You for any damages           **
-+**     whatsoever, whether direct, indirect, special, incidental, or     **
-+**     consequential damages, whether arising under contract, tort       **
-+**     (including negligence), or otherwise, even where the Distributor  **
-+**     knew or should have known about the possibility of such damages.  **
-+
-+14. Severability
-+
-+    The invalidity or unenforceability of any provision of this License
-+    does not affect the validity or enforceability of the remainder of
-+    this License. Such provision is to be reformed to the minimum extent
-+    necessary to make it valid and enforceable.
-+
-+15. Definitions
-+
-+    "Copyleft-Next Project" means the project that maintains the source
-+    code repository at <https://github.com/copyleft-next/copyleft-next.git/>
-+    as of the release date of this License.
-+
-+    "Corresponding Source" of a Covered Work in Object Code form means (i)
-+    the Source Code form of the Covered Work; (ii) all scripts,
-+    instructions and similar information that are reasonably necessary for
-+    a skilled developer to generate such Object Code from the Source Code
-+    provided under (i); and (iii) a list clearly identifying all Separate
-+    Works (other than those provided in compliance with (ii)) that were
-+    specifically used in building and (if applicable) installing the
-+    Covered Work (for example, a specified proprietary compiler including
-+    its version number). Corresponding Source must be machine-readable.
-+
-+    "Covered Work" means My Work or a Derived Work.
-+
-+    "Derived Work" means a work of authorship that copies from, modifies,
-+    adapts, is based on, is a derivative work of, transforms, translates or
-+    contains all or part of My Work, such that copyright permission is
-+    required. The following are not Derived Works: (i) Mere Aggregation;
-+    (ii) a mere reproduction of My Work; and (iii) if My Work fails to
-+    explicitly state an expectation otherwise, a work that merely makes
-+    reference to My Work.
-+
-+    "Distribute" means to distribute, transfer or make a copy available to
-+    someone else, such that copyright permission is required.
-+
-+    "Distributor" means Me and anyone else who Distributes a Covered Work.
-+
-+    "FSF-Free" means classified as 'free' by the Free Software Foundation.
-+
-+    "GPL" means a version of the GNU General Public License or the GNU
-+    Affero General Public License.
-+
-+    "I"/"Me"/"My" refers to the individual or legal entity that places My
-+    Work under this License. "You"/"Your" refers to the individual or legal
-+    entity exercising rights in My Work under this License. A legal entity
-+    includes each entity that controls, is controlled by, or is under
-+    common control with such legal entity. "Control" means (a) the power to
-+    direct the actions of such legal entity, whether by contract or
-+    otherwise, or (b) ownership of more than fifty percent of the
-+    outstanding shares or beneficial ownership of such legal entity.
-+
-+    "Licensed Patents" means all patent claims licensable royalty-free by
-+    Me, now or in the future, that are necessarily infringed by making,
-+    using, or selling My Work, and excludes claims that would be infringed
-+    only as a consequence of further modification of My Work.
-+
-+    "Mere Aggregation" means an aggregation of a Covered Work with a
-+    Separate Work.
-+
-+    "My Work" means the particular work of authorship I license to You
-+    under this License.
-+
-+    "Object Code" means any form of a work that is not Source Code.
-+
-+    "OSI-Approved" means approved as 'Open Source' by the Open Source
-+    Initiative.
-+
-+    "Separate Work" means a work that is separate from and independent of a
-+    particular Covered Work and is not by its nature an extension or
-+    enhancement of the Covered Work, and/or a runtime library, standard
-+    library or similar component that is used to generate an Object Code
-+    form of a Covered Work.
-+
-+    "Source Code" means the preferred form of a work for making
-+    modifications to it.
+ test_gen_desc()
+ {
+ 	echo -n "$1 x $(get_test_count $1)"
+@@ -1013,6 +1184,10 @@ list_tests()
+ 	echo "$(test_gen_desc 0026) - block test writing y larger delay and resetting device"
+ 	echo "$(test_gen_desc 0027) - test rmmod deadlock while writing x ... "
+ 	echo "$(test_gen_desc 0028) - test rmmod deadlock using rtnl_lock while writing x ..."
++	echo "$(test_gen_desc 0029) - racing removal of store op with kernfs at start"
++	echo "$(test_gen_desc 0030) - racing removal of store op with kernfs before mutex"
++	echo "$(test_gen_desc 0031) - racing removal of store op with kernfs after mutex"
++	echo "$(test_gen_desc 0032) - racing removal of store op with kernfs after active"
+ }
+ 
+ usage()
 -- 
 2.30.2
 
