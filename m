@@ -2,129 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82958C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 08:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982E9C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:07:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EBF46113A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 08:55:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E0BF6113A
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233522AbhI0I5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 04:57:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230439AbhI0I5f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Sep 2021 04:57:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEB7F610A2;
-        Mon, 27 Sep 2021 08:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632732957;
-        bh=nrxjUxZtkcxViJRTZLEt1C/yAc4qv3EH0uskY/IdXCg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UaCXWGROPjZ8fP0jsYOI0hmUwEFFtlPubWjS4ZTnTuvcMv/3K1rEKM8+6eG0T6ZUJ
-         IZpVUAC4Q1ScrMKHG6xixMWtnPy/FPtDmnTlZC+GkD5qI6cg/W++1pBhjBfCtIIR76
-         L6tFdHP996CnwJTSPjDxShKDyQqiTqOx62nLEPS1oAu34UnU31IDSBUHty+gCckWVv
-         F+lNLOf81eWZFvBE8zV7HmS0zk8WLt3xUisYKQ7pWQwEQdbI+8AxFjA5xGjkqQwam5
-         kRqLIWMdsq2pkcs+rtB8TgDdjJPU3y8xQNoAsbpewUzAFhPtU6Uba76tdLKezeoGC4
-         +hNViiMqfLhLg==
-Date:   Mon, 27 Sep 2021 10:55:53 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision
- and performance
-Message-ID: <20210927105553.105f22c5@coco.lan>
-In-Reply-To: <YUy1oPjdLTh9rEfq@kroah.com>
-References: <YUyICHTRdfL8Ul7X@kroah.com>
- <cover.1632411447.git.mchehab+huawei@kernel.org>
- <YUy1oPjdLTh9rEfq@kroah.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S233605AbhI0JJc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 05:09:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34307 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233581AbhI0JJb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Sep 2021 05:09:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1632733673;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KVP7Xe4ufaNCXcd20wpSSrMBsG9usYiBh4tpjUVxTUI=;
+        b=A87jVk+oepUAxtpitt31u+xGVoIIAZhHvRG1ytMIxJ+Evgb5oKfi/FAAY/t0EhtGY2B8lu
+        GsmusM22kaoZRJikJg9TYi0PoN98zEYTRM/R/2H1BcIJJCkx8JRF3r39x/pYwXMPCOrKZ5
+        1Co2wrNmMfgPWkUPO8PgrqhlcK68OmY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-Az0JHGvkN0CO7CxjwXh4FQ-1; Mon, 27 Sep 2021 05:07:52 -0400
+X-MC-Unique: Az0JHGvkN0CO7CxjwXh4FQ-1
+Received: by mail-wr1-f72.google.com with SMTP id r5-20020adfb1c5000000b0015cddb7216fso13776056wra.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Sep 2021 02:07:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KVP7Xe4ufaNCXcd20wpSSrMBsG9usYiBh4tpjUVxTUI=;
+        b=YKj+cSx9e4pF7xN8jamJYk/n0R5PhYsOgIodDQrI+YbaaUgaDt5HBE0QWVCfIwiwIt
+         TN0sfZ9B7jcPF3ou/q1hR3igO0kP3nwD10+6TtR7Y1natGWj51UbnERmMNfIeCi1b85D
+         /KcFFUVkIO5SzmPEzFFj9krqOqtFBRl+I9mFr223bupPnAfKLZ7ou0ARxy11qMRIRiSB
+         idFBGHEttkOzM3fQGu5PptuVzm5+CM5u4LQk2dCV88n9cbZbe2PuP9I5anoEq0faN4Kn
+         xlzPUXzeScS0nvXML7frox+9NCNcjJR5I4cR9HpjY9FyxuRIcp4KuADwXLDJ9sPTEdqH
+         mM1g==
+X-Gm-Message-State: AOAM533UGtkH8m5wvBg6BEK+d+2KX8b6b7G6bq5jjHhJ7Xvl6qnV+OUb
+        D+9lMNjVYIDa7jLReXvQJbyykTdVR3lhy7rAmXrH9vqHaTK3CUUxJ9X0wPoNZGwANMIviQtPVAG
+        hxqsEIPVfgnSHnAsp0v/z
+X-Received: by 2002:a5d:608e:: with SMTP id w14mr26547286wrt.18.1632733670886;
+        Mon, 27 Sep 2021 02:07:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwC5dYp72FkeZBf/nNTyOGuT0oOk/w7Q1ed5WCCglQAPy4Z5zq+YWXxX5Bel6h9RljJshmxpg==
+X-Received: by 2002:a5d:608e:: with SMTP id w14mr26547249wrt.18.1632733670649;
+        Mon, 27 Sep 2021 02:07:50 -0700 (PDT)
+Received: from redhat.com ([2.55.16.138])
+        by smtp.gmail.com with ESMTPSA id i203sm20492120wma.7.2021.09.27.02.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 02:07:49 -0700 (PDT)
+Date:   Mon, 27 Sep 2021 05:07:42 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "Kuppuswamy, Sathyanarayanan" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v4 11/15] pci: Add pci_iomap_shared{,_range}
+Message-ID: <20210927044738-mutt-send-email-mst@kernel.org>
+References: <20210829112105-mutt-send-email-mst@kernel.org>
+ <09b340dd-c8a8-689c-4dad-4fe0e36d39ae@linux.intel.com>
+ <20210829181635-mutt-send-email-mst@kernel.org>
+ <3a88a255-a528-b00a-912b-e71198d5f58f@linux.intel.com>
+ <20210830163723-mutt-send-email-mst@kernel.org>
+ <69fc30f4-e3e2-add7-ec13-4db3b9cc0cbd@linux.intel.com>
+ <20210910054044-mutt-send-email-mst@kernel.org>
+ <f672dc1c-5280-7bbc-7a56-7c7aab31725c@linux.intel.com>
+ <20210911195006-mutt-send-email-mst@kernel.org>
+ <ad1e41d1-3f4e-8982-16ea-18a3b2c04019@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad1e41d1-3f4e-8982-16ea-18a3b2c04019@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 23 Sep 2021 19:13:04 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-
-> On Thu, Sep 23, 2021 at 05:41:11PM +0200, Mauro Carvalho Chehab wrote:
-> > Hi Greg,
-> > 
-> > As requested, this is exactly the same changes, rebased on the top of
-> > driver-core/driver-core-next.
-> > 
-> > -
-> > 
-> > It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
-> > 
-> > With such changes, on my development tree, the script is taking 6 seconds to run 
-> > on my desktop:
-> > 
-> > 	$ !1076
-> > 	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
-> > 
-> > 	real	0m6,292s
-> > 	user	0m5,640s
-> > 	sys	0m0,634s
-> > 	  6838 undefined_after
-> > 	   808 undefined_symbols
-> > 	  7646 total
-> > 
-> > And 7 seconds on a Dell Precision 5820:
-> > 
-> > 	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
-> > 
-> > 	real	0m7.162s
-> > 	user	0m5.836s
-> > 	sys	0m1.329s
-> > 	6548 undefined
-> > 	772 undefined_symbols
-> > 
-> > Both tests were done against this tree (based on today's linux-next):
-> > 
-> > 	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
-> > 
-> > It should be noticed that, as my tree has several ABI fixes,  the time to run the
-> > script is likely less than if you run on your tree, as there will be less symbols to
-> > be reported, and the algorithm is optimized to reduce the number of regexes
-> > when a symbol is found.
-> > 
-> > Besides optimizing and improving the seek logic, this series also change the
-> > debug logic. It how receives a bitmap, where "8" means to print the regexes
-> > that will be used by "undefined" command:
-> > 
-> > 	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
-> > 	real	0m17,189s
-> > 	user	0m13,940s
-> > 	sys	0m2,404s
-> > 
-> > 	$wc -l foo
-> > 	18421939 foo
-> > 
-> > 	$ cat foo
-> > 	...
-> > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
-> > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
-> > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
-> > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
-> > 	...
-> > 
-> > On other words, on my desktop, the /sys match is performing >18M regular 
-> > expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
-> > enabled and sent to an area on my nvme storage).  
+On Fri, Sep 24, 2021 at 03:43:40PM -0700, Andi Kleen wrote:
 > 
-> Better, it's down to 10 minutes on my machine now:
+> > > Hmm, yes that's true. I guess we can make it default to opt-in for
+> > > pci_iomap.
+> > > 
+> > > It only really matters for device less ioremaps.
+> > OK. And same thing for other things with device, such as
+> > devm_platform_ioremap_resource.
+> > If we agree on all that, this will basically remove virtio
+> > changes from the picture ;)
 > 
-> 	real	10m39.218s
-> 	user	10m37.742s
-> 	sys	0m0.775s
+> Hi we revisited this now. One problem with removing the ioremap opt-in is
+> that it's still possible for drivers to get at devices without going through
+> probe. For example they can walk the PCI device list. Some drivers do that
+> for various reasons. So if we remove the opt-in we would need to audit and
+> possibly fix all that, which would be potentially a lot of churn. That's why
+> I think it's better to keep the opt-in.
+> 
+> 
+> -Andi
+> 
 
-A lot better, but not clear why it is still taking ~40x more than here...
-It could well be due to the other ABI changes yet to be applied
-(I'll submit it probably later today), but it could also be related to
-something else. Could this be due to disk writes?
+I've been thinking about why this still feels wrong to me.
 
-Thanks,
-Mauro
+Here's what I came up with: at some point someone will want one of these
+modules (poking at devices in the initcall) in the encrypted
+environment, and will change ioremap to ioremap_shared.
+At that point the allowlist will be broken again, and
+by that time it will be set in stone and too late to fix.
+
+Isn't the problem that what is actually audited is modules,
+but you are trying to add devices to allow list?
+So why not have modules/initcalls in the allowlist then?
+For built-in modules, we already have initcall_blacklisted, right?
+This could be an extension ... no?
+
+-- 
+MST
+
