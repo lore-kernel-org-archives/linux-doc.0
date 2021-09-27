@@ -2,44 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B22FBC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CEBC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C6FE610A2
+	by mail.kernel.org (Postfix) with ESMTP id F0A7260F4F
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234745AbhI0OBp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 10:01:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48040 "EHLO mail.kernel.org"
+        id S234686AbhI0OBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 10:01:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48054 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234714AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234715AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 10:01:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CC786120A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A16BB61260;
         Mon, 27 Sep 2021 13:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632751197;
-        bh=89936j+tZ0jYDs1o/lOShxHhs+4GBHhMGHQyHIhavdo=;
+        bh=tXZCTQeyF8jXhZbgmmQUTNpLQ9Rtm77QaTTOLqxCn1c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NaNX8jYrbd6tyWzzCr3/mgaEm3wRqrnuQEyusSLuFW3aKY+3krAmDfmm0rqDkzZYh
-         wEQupFMGtBbbvdgvxRRqnK3i2+MWHwi2D8uoqDPFdaDSmPbQn6JNsucPxtqOeV1Ebb
-         SMYlkjFiMr2GIREYNLF9x5Mj5ciZLVaxUjKPnQzazQRQdL4bjUC2OR+yrldF3VFRqx
-         OzjAMTPC9E7WTddHCnhdKWqRsRKg9RO6DmM/qzSX6A/s7b+RK1W63Mu5y7Pl/TgG2C
-         7NRJfPbjT8wXgwGY0zF9vmc4mEnoTyuBU2W3VzKIzuoXSE/8YnI10KrBkKk7AgNH10
-         ljECWsl+5MKag==
+        b=Z7GQxvIgsQZj6Gy7MVjPw3TU3NGkbd9LIFvtw8oBPmNAI4qGez3Xn0yqATvl7Cqo3
+         kgyOtS81yxtHiyNMKuQ6Gvtp4ZaDWRpNB1nghDAyUi5ZfsrMNLT16gkwtok72eze+G
+         nFcEbA4iJL9u/UgnSDBCsyBmm0FyVLtblcGKXeFuVK/ntJNOVVwthBVlKZ2R5GEMN0
+         4pHY5Yl/uKulZxZUJnYAnKS083Lc4j1m3wq3EMZHGDx9q2ZzJNtwlKeZsBqjmKrH2Q
+         TLYLXzDNPc1qbEBM+vjkbei+54LCidV3stbBeyBaC2gjUol4usEJw6wMYJQw8Yq+QI
+         jvp5bIyoN06bQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUrAh-000AuM-Qu; Mon, 27 Sep 2021 15:59:55 +0200
+        id 1mUrAh-000AuU-UT; Mon, 27 Sep 2021 15:59:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Rajat Jain <rajatja@google.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 13/17] ABI: sysfs-bus-usb: use a wildcard for interface name on What
-Date:   Mon, 27 Sep 2021 15:59:46 +0200
-Message-Id: <cec7048385b6a4779894e19af681226e60f4d8b9.1632750608.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 15/17] ABI: obsolete/sysfs-bus-iio: add some missing blank lines
+Date:   Mon, 27 Sep 2021 15:59:48 +0200
+Message-Id: <602c52c3fb957b9d7d6b72292dc86d295b50c881.1632750608.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632750608.git.mchehab+huawei@kernel.org>
 References: <cover.1632750608.git.mchehab+huawei@kernel.org>
@@ -50,27 +49,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use <INTERFACE> instead of INTERFACE, in order for the get_abi.pl
-script to be able to identify this as a wildcard.
+Avoid those warnings:
+	Documentation/ABI/obsolete/sysfs-bus-iio:171: WARNING: Unexpected indentation.
+	Documentation/ABI/obsolete/sysfs-bus-iio:12: WARNING: Unexpected indentation.
+	Documentation/ABI/obsolete/sysfs-bus-iio:2: WARNING: Unexpected indentation.
+	Documentation/ABI/obsolete/sysfs-bus-iio:149: WARNING: Unexpected indentation.
 
+Fixes: caf0fb3bb38a ("iio: Documentation: move incompatible ABI to obsolete")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
 
- Documentation/ABI/testing/sysfs-bus-usb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/obsolete/sysfs-bus-iio | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
-index 42103f0f54d6..7269077ce505 100644
---- a/Documentation/ABI/testing/sysfs-bus-usb
-+++ b/Documentation/ABI/testing/sysfs-bus-usb
-@@ -1,4 +1,4 @@
--What:		/sys/bus/usb/devices/INTERFACE/authorized
-+What:		/sys/bus/usb/devices/<INTERFACE>/authorized
- Date:		August 2015
- Description:
- 		This allows to authorize (1) or deauthorize (0)
+diff --git a/Documentation/ABI/obsolete/sysfs-bus-iio b/Documentation/ABI/obsolete/sysfs-bus-iio
+index c9531bb64816..b64394b0b374 100644
+--- a/Documentation/ABI/obsolete/sysfs-bus-iio
++++ b/Documentation/ABI/obsolete/sysfs-bus-iio
+@@ -6,6 +6,7 @@ Description:
+ 
+ 		Since Kernel 5.11, multiple buffers are supported.
+ 		so, it is better to use, instead:
++
+ 			/sys/bus/iio/devices/iio:deviceX/bufferY/length
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/buffer/enable
+@@ -17,6 +18,7 @@ Description:
+ 
+ 		Since Kernel 5.11, multiple buffers are supported.
+ 		so, it is better to use, instead:
++
+ 			/sys/bus/iio/devices/iio:deviceX/bufferY/enable
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/scan_elements
+@@ -165,6 +167,7 @@ Description:
+ 
+ 		Since Kernel 5.11, multiple buffers are supported.
+ 		so, it is better to use, instead:
++
+ 			/sys/bus/iio/devices/iio:deviceX/bufferY/watermark
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/buffer/data_available
+@@ -179,4 +182,5 @@ Description:
+ 
+ 		Since Kernel 5.11, multiple buffers are supported.
+ 		so, it is better to use, instead:
++
+ 			/sys/bus/iio/devices/iio:deviceX/bufferY/data_available
 -- 
 2.31.1
 
