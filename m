@@ -2,101 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B0C9C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:23:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D39C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:23:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 060426103B
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:23:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9C236103B
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 09:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233639AbhI0JYp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 05:24:45 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:43035 "EHLO 1wt.eu"
+        id S233581AbhI0JZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 05:25:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233638AbhI0JYo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Sep 2021 05:24:44 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 18R9Mama021544;
-        Mon, 27 Sep 2021 11:22:36 +0200
-Date:   Mon, 27 Sep 2021 11:22:36 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     "'Linus Torvalds'" <torvalds@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "apw@canonical.com" <apw@canonical.com>,
-        Christoph Lameter <cl@linux.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "mm-commits@vger.kernel.org" <mm-commits@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: function prototype element ordering
-Message-ID: <20210927092236.GC20117@1wt.eu>
-References: <20210910031046.G76dQvPhV%akpm@linux-foundation.org>
- <CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com>
- <202109211630.2D00627@keescook>
- <af3c775a1515f97c8dbe6a6651bd6e4b6986e8cd.camel@perches.com>
- <202109211757.F38DF644@keescook>
- <YUraGKetS+Tgc7y9@localhost.localdomain>
- <CAHk-=wjS-Jg7sGMwUPpDsjv392nDOOs0CtUtVkp=S6Q7JzFJRw@mail.gmail.com>
- <6a85bbbf952949118cc5f93b57d48265@AcuMS.aculab.com>
- <CAHk-=wjoLAYG446ZNHfg=GhjSY6nFmuB_wA8fYd5iLBNXjo9Bw@mail.gmail.com>
- <6a84e8b3fa07483092ae79aeded81797@AcuMS.aculab.com>
+        id S233587AbhI0JZA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Sep 2021 05:25:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B51FD61157;
+        Mon, 27 Sep 2021 09:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632734603;
+        bh=C+3W9J7B6ZG7F8nbyDNhMaUe9/T5jR1uVU7Ci2T0nno=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0LWq/vs/7g7LXEctYGdAq207EPtS+ElzMiUA4M38O7xG9DtIGssFpTHbhTlM0vD4v
+         iUt1rmimgksduewoe7lAm8ryEAu1dJpFZ/BAocLdVx0uji0J1AbMS7OB8WdCKGDXeQ
+         ck1kbTVVwToq/9ZM7aXfpJ8IWRmn5891mYKcFxTc=
+Date:   Mon, 27 Sep 2021 11:23:20 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision
+ and performance
+Message-ID: <YVGNiPXNbWWy3CSj@kroah.com>
+References: <YUyICHTRdfL8Ul7X@kroah.com>
+ <cover.1632411447.git.mchehab+huawei@kernel.org>
+ <YUy1oPjdLTh9rEfq@kroah.com>
+ <20210927105553.105f22c5@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a84e8b3fa07483092ae79aeded81797@AcuMS.aculab.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210927105553.105f22c5@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 08:21:24AM +0000, David Laight wrote:
-> Putting '} else {' on one line is important when reading code.
-
-I used not to like that due to "else if ()" being less readable and less
-easy to spot, but the arguments you gave regarding the end of screen are
-valid and are similar to my hate of GNU's broken "while ()" on its own
-line especially after a "do { }" block where it immediately looks like
-an accidental infinite loop.
-
-However:
-
-> But none of this is related to the location of attributes unless
-> you need to split long lines and put the attribute before the
-> function name where you may need.
+On Mon, Sep 27, 2021 at 10:55:53AM +0200, Mauro Carvalho Chehab wrote:
+> Em Thu, 23 Sep 2021 19:13:04 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 > 
-> static struct frobulate *
-> __inline ....
-> find_frobulate(....)
+> > On Thu, Sep 23, 2021 at 05:41:11PM +0200, Mauro Carvalho Chehab wrote:
+> > > Hi Greg,
+> > > 
+> > > As requested, this is exactly the same changes, rebased on the top of
+> > > driver-core/driver-core-next.
+> > > 
+> > > -
+> > > 
+> > > It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
+> > > 
+> > > With such changes, on my development tree, the script is taking 6 seconds to run 
+> > > on my desktop:
+> > > 
+> > > 	$ !1076
+> > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
+> > > 
+> > > 	real	0m6,292s
+> > > 	user	0m5,640s
+> > > 	sys	0m0,634s
+> > > 	  6838 undefined_after
+> > > 	   808 undefined_symbols
+> > > 	  7646 total
+> > > 
+> > > And 7 seconds on a Dell Precision 5820:
+> > > 
+> > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
+> > > 
+> > > 	real	0m7.162s
+> > > 	user	0m5.836s
+> > > 	sys	0m1.329s
+> > > 	6548 undefined
+> > > 	772 undefined_symbols
+> > > 
+> > > Both tests were done against this tree (based on today's linux-next):
+> > > 
+> > > 	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
+> > > 
+> > > It should be noticed that, as my tree has several ABI fixes,  the time to run the
+> > > script is likely less than if you run on your tree, as there will be less symbols to
+> > > be reported, and the algorithm is optimized to reduce the number of regexes
+> > > when a symbol is found.
+> > > 
+> > > Besides optimizing and improving the seek logic, this series also change the
+> > > debug logic. It how receives a bitmap, where "8" means to print the regexes
+> > > that will be used by "undefined" command:
+> > > 
+> > > 	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
+> > > 	real	0m17,189s
+> > > 	user	0m13,940s
+> > > 	sys	0m2,404s
+> > > 
+> > > 	$wc -l foo
+> > > 	18421939 foo
+> > > 
+> > > 	$ cat foo
+> > > 	...
+> > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
+> > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
+> > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
+> > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
+> > > 	...
+> > > 
+> > > On other words, on my desktop, the /sys match is performing >18M regular 
+> > > expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
+> > > enabled and sent to an area on my nvme storage).  
+> > 
+> > Better, it's down to 10 minutes on my machine now:
+> > 
+> > 	real	10m39.218s
+> > 	user	10m37.742s
+> > 	sys	0m0.775s
+> 
+> A lot better, but not clear why it is still taking ~40x more than here...
+> It could well be due to the other ABI changes yet to be applied
+> (I'll submit it probably later today), but it could also be related to
+> something else. Could this be due to disk writes?
 
-This is exactly the case where I hate to dig into code looking like
-that: you build, it fails to find symbol "find_frobulate()", you run
-"git grep -w find_frobulate" to figure what file provides it, or even
-"grep ^find_frobulate" if you want. And you find it in frobulate.c. You
-double-check, you find that frobulate.o was built and linked into your
-executable. Despite this it fails to find the symbol. Finally you open
-the file to discover this painful "static" two lines above, which made
-you waste 3 minutes of your time digging at the wrong place.
+Disk writes to where for what?  This is a very fast disk (nvme raid
+array)  It's also a very "big" system, with lots of sysfs files:
 
-*Just* for this reason I'm much more careful to always put the type and
-name on the same line nowadays.
+	$ find /sys/devices/ -type f | wc -l
+	44334
 
-> Especially if you need #if around the attributes.
+compared to my laptop that only has 17k entries in /sys/devices/
 
-This is the only exception I still have to the rule above. But #if by
-definition require multi-line processing anyway and they're not welcome
-in the middle of control flows.
+I'll run this updated script on my laptop later today and give you some
+numbers.  And any Documentation/ABI/ updates you might have I'll gladly
+take as well.
 
-Willy
+thanks,
+
+greg k-h
