@@ -2,41 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42097C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD41CC433F5
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D682610E8
+	by mail.kernel.org (Postfix) with ESMTP id 95744610A2
 	for <linux-doc@archiver.kernel.org>; Mon, 27 Sep 2021 14:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234757AbhI0OBj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Sep 2021 10:01:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48004 "EHLO mail.kernel.org"
+        id S234713AbhI0OBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Sep 2021 10:01:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48006 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234706AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234707AbhI0OBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 27 Sep 2021 10:01:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C395610E8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 51EBD610FC;
         Mon, 27 Sep 2021 13:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632751197;
-        bh=Sq6Z0jaQBAe5JA3Xg+ko8msje96k4/UZZLCUF2HAs60=;
+        bh=Dy6yJbWGfU8oB93VTtRBfZ0kl+qSmY3j7H3gVwdQRZs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DNa0GTSsOzMJbvBjebymioBMmaXXqRQegQ7QOKHDwA+LyggC6i+dQWKUv6KGtz9l9
-         GiUmPaD6IZTXDBBRpi8oYPF4LjqvuXhmM7rIzqM5r85b/DOJPISjXYILe8TlNinqkK
-         6I55vh4bALpMPqsy/E21zN/QuXwaY0hgajyPgi3zNX1WhfaK0E6ws+NzIqW9XbrC3v
-         gyNN48uVmmFDuMqpoJKurbBfVWCbTsJq9tJGB3K341BjDDUI8Cc0G+vVPCw2jr4TpO
-         4zpw15lg/jS1SukGjrs/tuihtH3sLJB3Swor+u1+4M69W4JGycUn5HdDlIzs1xpIpN
-         stfRbK1ABxDKA==
+        b=DEzlXLR8gr1Yz4WcvnjIN69EI/N4AQBoFurgrOLvq2ychYRNYyIIHIAZO8IK7/J9G
+         OStPM6aR7dIvRwxsZ7n+9NBow3r956aIZsjXkn5VfB5kwTgdFI5IDAa9ATYHIv/uiv
+         gMhqA1enLs7kzYGXIWUVOu1nF26e0DywN4ImXLr1ztzloJ7LZVz/dneLHn4oGjhXkp
+         MO2etskUxH19DrRhe3Lpl87kEyKs8p6nB8obbZ/7rImGTRzUEpAdvBX7Ks7H93lSzd
+         +4hA41D5lLTWXI3maVwJvX/ob8AdDOY+nZg65nfR907OIM+l8mM0+atcgQ7xii0pU8
+         in1sNcjr1lhRg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mUrAh-000Aty-Gx; Mon, 27 Sep 2021 15:59:55 +0200
+        id 1mUrAh-000AuA-LL; Mon, 27 Sep 2021 15:59:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/17] ABI: o2cb: add an obsolete file for /sys/o2cb
-Date:   Mon, 27 Sep 2021 15:59:40 +0200
-Message-Id: <25210a6af51b65808e3f102f9f08c3f90b763801.1632750608.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Amey Narkhede <ameynarkhede03@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 10/17] ABI: sysfs-bus-pci: add a alternative What fields
+Date:   Mon, 27 Sep 2021 15:59:43 +0200
+Message-Id: <15ba8c07f1b0fd7359106920c8e34a7b9af7aea6.1632750608.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632750608.git.mchehab+huawei@kernel.org>
 References: <cover.1632750608.git.mchehab+huawei@kernel.org>
@@ -47,46 +55,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This was renamed to /sys/fs/o2cb. Mark the old name as
-obsolete.
+There are some PCI ABI that aren't shown under:
+
+	/sys/bus/pci/drivers/.../
+
+Because they're registered with a different class. That's
+the case of, for instance:
+
+	/sys/bus/i2c/drivers/CHT Whiskey Cove PMIC/unbind
+
+This one is not present under /sys/bus/pci:
+
+	$ find /sys/bus/pci -name 'CHT Whiskey Cove PMIC'
+
+Although clearly this is provided by a PCI driver:
+
+	/sys/devices/pci0000:00/0000:00:02.0/i2c-4/subsystem/drivers/CHT Whiskey Cove PMIC/unbind
+
+So, add an altertate What location in order to match bind/unbind
+to such devices.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
 
- Documentation/ABI/obsolete/o2cb | 11 +++++++++++
- Documentation/ABI/stable/o2cb   |  2 +-
- 2 files changed, 12 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/obsolete/o2cb
+ Documentation/ABI/testing/sysfs-bus-pci | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/ABI/obsolete/o2cb b/Documentation/ABI/obsolete/o2cb
-new file mode 100644
-index 000000000000..fe7e45e17bc7
---- /dev/null
-+++ b/Documentation/ABI/obsolete/o2cb
-@@ -0,0 +1,11 @@
-+What:		/sys/o2cb
-+Date:		Dec 2005
-+KernelVersion:	2.6.16
-+Contact:	ocfs2-devel@oss.oracle.com
-+Description:	Ocfs2-tools looks at 'interface-revision' for versioning
-+		information. Each logmask/ file controls a set of debug prints
-+		and can be written into with the strings "allow", "deny", or
-+		"off". Reading the file returns the current state.
-+		Was renamed to /sys/fs/u2cb/
-+Users:		ocfs2-tools. It's sufficient to mail proposed changes to
-+		ocfs2-devel@oss.oracle.com.
-diff --git a/Documentation/ABI/stable/o2cb b/Documentation/ABI/stable/o2cb
-index 5eb1545e0b8d..b62a967f01a0 100644
---- a/Documentation/ABI/stable/o2cb
-+++ b/Documentation/ABI/stable/o2cb
-@@ -1,4 +1,4 @@
--What:		/sys/fs/o2cb/ (was /sys/o2cb)
-+What:		/sys/fs/o2cb/
- Date:		Dec 2005
- KernelVersion:	2.6.16
- Contact:	ocfs2-devel@oss.oracle.com
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
+index 1eeac7f59672..16afe3f59cbd 100644
+--- a/Documentation/ABI/testing/sysfs-bus-pci
++++ b/Documentation/ABI/testing/sysfs-bus-pci
+@@ -1,4 +1,5 @@
+ What:		/sys/bus/pci/drivers/.../bind
++What:		/sys/devices/pciX/.../bind
+ Date:		December 2003
+ Contact:	linux-pci@vger.kernel.org
+ Description:
+@@ -14,6 +15,7 @@ Description:
+ 		(Note: kernels before 2.6.28 may require echo -n).
+ 
+ What:		/sys/bus/pci/drivers/.../unbind
++What:		/sys/devices/pciX/.../unbind
+ Date:		December 2003
+ Contact:	linux-pci@vger.kernel.org
+ Description:
+@@ -29,6 +31,7 @@ Description:
+ 		(Note: kernels before 2.6.28 may require echo -n).
+ 
+ What:		/sys/bus/pci/drivers/.../new_id
++What:		/sys/devices/pciX/.../new_id
+ Date:		December 2003
+ Contact:	linux-pci@vger.kernel.org
+ Description:
+@@ -47,6 +50,7 @@ Description:
+ 		  # echo "8086 10f5" > /sys/bus/pci/drivers/foo/new_id
+ 
+ What:		/sys/bus/pci/drivers/.../remove_id
++What:		/sys/devices/pciX/.../remove_id
+ Date:		February 2009
+ Contact:	Chris Wright <chrisw@sous-sol.org>
+ Description:
 -- 
 2.31.1
 
