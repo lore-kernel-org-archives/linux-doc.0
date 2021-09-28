@@ -2,286 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D90C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 10:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DD71C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 10:43:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AE4361157
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 10:14:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61691610FC
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 10:43:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240131AbhI1KPu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 06:15:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39374 "EHLO mail.kernel.org"
+        id S239146AbhI1KpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 06:45:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50424 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240055AbhI1KPt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Sep 2021 06:15:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6522861157;
-        Tue, 28 Sep 2021 10:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632824050;
-        bh=El3DLDbmJPhb2L3ESpYvmqf7mQvL2dzD7LJPa5jKNW4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iRigGRFppwOCvspYwoh0pMWtmNMKPyNJbPfMwdYsDIMChuh8qR9Tz60OfdOJGENUu
-         kj49twzYKfAbXNlSfK5a/6Qv8AmAJHqeDtvxpLtYPJ51KAihQI9BcM4O5hL4s3JDpv
-         Mqub18Jh8ZBvns7LFC07ti0c/kiAVNqzagzJmqsLB7m+J6tdB358bp4o6fnb2T/wia
-         o4kRFAGhE290qwIu5smrdvN7v5kk9ExADxqU59rwn31IIIsse6ZkaKbSYRJ/Nw5X0j
-         wp1InQnNUtehT73BDmsCxgxgm2ZOmj9ANR8oeiCJaNbN4PqYNMXUURofpTkansqpKQ
-         gbP9EwH32FXqQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mVA7k-000Ti2-Ey; Tue, 28 Sep 2021 12:14:08 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] scripts: get_abi.pl: show progress
-Date:   Tue, 28 Sep 2021 12:14:03 +0200
-Message-Id: <4e581dcbec21ad8a60fff883498018f96f13dd1c.1632823172.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632823172.git.mchehab+huawei@kernel.org>
-References: <cover.1632823172.git.mchehab+huawei@kernel.org>
+        id S234543AbhI1KpV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Sep 2021 06:45:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B4842610FC;
+        Tue, 28 Sep 2021 10:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632825822;
+        bh=fkAve8tKE0y/DXgMCdT+P095PTJ4abta0bz1NSD8BBM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kUExyV2pfYCt4LLFGN4K7GmTM/FjjXtmxeOViCwHeos+zdYqMakULok5AyM1gzNKT
+         uR4fXQYuxB9bzOqg9gbsx5giKwF7vvOmEKwtiHvgTd2mY+qSqgDHmYC8rEXIfAsxlN
+         3IHJoOPN4ALWOCkkE5KAq856sPGBvlu+9h+sZPMc=
+Date:   Tue, 28 Sep 2021 12:43:40 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 0/8] (REBASED) get_abi.pl undefined: improve precision
+ and performance
+Message-ID: <YVLx3KP1BeDkqV2o@kroah.com>
+References: <YUyICHTRdfL8Ul7X@kroah.com>
+ <cover.1632411447.git.mchehab+huawei@kernel.org>
+ <YUy1oPjdLTh9rEfq@kroah.com>
+ <20210927105553.105f22c5@coco.lan>
+ <YVGNiPXNbWWy3CSj@kroah.com>
+ <20210927153942.75bbb9cf@coco.lan>
+ <YVHntS2e3FTWIjds@kroah.com>
+ <20210928120304.62319fba@coco.lan>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20210928120304.62319fba@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As parsing the sysfs entries can take a long time, add
-progress information.
+On Tue, Sep 28, 2021 at 12:03:04PM +0200, Mauro Carvalho Chehab wrote:
+> Em Mon, 27 Sep 2021 17:48:05 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> 
+> > On Mon, Sep 27, 2021 at 03:39:42PM +0200, Mauro Carvalho Chehab wrote:
+> > > Em Mon, 27 Sep 2021 11:23:20 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> > >   
+> > > > On Mon, Sep 27, 2021 at 10:55:53AM +0200, Mauro Carvalho Chehab wrote:  
+> > > > > Em Thu, 23 Sep 2021 19:13:04 +0200
+> > > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> > > > >     
+> > > > > > On Thu, Sep 23, 2021 at 05:41:11PM +0200, Mauro Carvalho Chehab wrote:    
+> > > > > > > Hi Greg,
+> > > > > > > 
+> > > > > > > As requested, this is exactly the same changes, rebased on the top of
+> > > > > > > driver-core/driver-core-next.
+> > > > > > > 
+> > > > > > > -
+> > > > > > > 
+> > > > > > > It follows a series of improvements for get_abi.pl. it is on the top of driver-core/driver-core-next.
+> > > > > > > 
+> > > > > > > With such changes, on my development tree, the script is taking 6 seconds to run 
+> > > > > > > on my desktop:
+> > > > > > > 
+> > > > > > > 	$ !1076
+> > > > > > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined_after && cat undefined_after| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined_after undefined_symbols
+> > > > > > > 
+> > > > > > > 	real	0m6,292s
+> > > > > > > 	user	0m5,640s
+> > > > > > > 	sys	0m0,634s
+> > > > > > > 	  6838 undefined_after
+> > > > > > > 	   808 undefined_symbols
+> > > > > > > 	  7646 total
+> > > > > > > 
+> > > > > > > And 7 seconds on a Dell Precision 5820:
+> > > > > > > 
+> > > > > > > 	$ time ./scripts/get_abi.pl undefined |sort >undefined && cat undefined| perl -ne 'print "$1\n" if (m#.*/(\S+) not found#)'|sort|uniq -c|sort -nr >undefined_symbols; wc -l undefined; wc -l undefined_symbols
+> > > > > > > 
+> > > > > > > 	real	0m7.162s
+> > > > > > > 	user	0m5.836s
+> > > > > > > 	sys	0m1.329s
+> > > > > > > 	6548 undefined
+> > > > > > > 	772 undefined_symbols
+> > > > > > > 
+> > > > > > > Both tests were done against this tree (based on today's linux-next):
+> > > > > > > 
+> > > > > > > 	$ https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/devel.git/log/?h=get_abi_undefined-latest
+> > > > > > > 
+> > > > > > > It should be noticed that, as my tree has several ABI fixes,  the time to run the
+> > > > > > > script is likely less than if you run on your tree, as there will be less symbols to
+> > > > > > > be reported, and the algorithm is optimized to reduce the number of regexes
+> > > > > > > when a symbol is found.
+> > > > > > > 
+> > > > > > > Besides optimizing and improving the seek logic, this series also change the
+> > > > > > > debug logic. It how receives a bitmap, where "8" means to print the regexes
+> > > > > > > that will be used by "undefined" command:
+> > > > > > > 
+> > > > > > > 	$ time ./scripts/get_abi.pl undefined --debug 8 >foo
+> > > > > > > 	real	0m17,189s
+> > > > > > > 	user	0m13,940s
+> > > > > > > 	sys	0m2,404s
+> > > > > > > 
+> > > > > > > 	$wc -l foo
+> > > > > > > 	18421939 foo
+> > > > > > > 
+> > > > > > > 	$ cat foo
+> > > > > > > 	...
+> > > > > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_voltage.*_scale_available$)$/
+> > > > > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_voltage.*_scale_available$)$/
+> > > > > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/out_altvoltage.*_scale_available$)$/
+> > > > > > > 	/sys/kernel/kexec_crash_loaded =~ /^(?^:^/sys/.*/iio\:device.*/in_pressure.*_scale_available$)$/
+> > > > > > > 	...
+> > > > > > > 
+> > > > > > > On other words, on my desktop, the /sys match is performing >18M regular 
+> > > > > > > expression searches, which takes 6,2 seconds (or 17,2 seconds, if debug is 
+> > > > > > > enabled and sent to an area on my nvme storage).      
+> > > > > > 
+> > > > > > Better, it's down to 10 minutes on my machine now:
+> > > > > > 
+> > > > > > 	real	10m39.218s
+> > > > > > 	user	10m37.742s
+> > > > > > 	sys	0m0.775s    
+> > > > > 
+> > > > > A lot better, but not clear why it is still taking ~40x more than here...
+> > > > > It could well be due to the other ABI changes yet to be applied
+> > > > > (I'll submit it probably later today), but it could also be related to
+> > > > > something else. Could this be due to disk writes?    
+> > > > 
+> > > > Disk writes to where for what?  This is a very fast disk (nvme raid
+> > > > array)  It's also a very "big" system, with lots of sysfs files:
+> > > > 
+> > > > 	$ find /sys/devices/ -type f | wc -l
+> > > > 	44334  
+> > > 
+> > > Ok. Maybe that partially explains why it is taking so long, as the
+> > > number of regex to compare will increase (not linearly).  
+> > 
+> > No idea.  I just ran it on my laptop and it took only 5 seconds.
+> 
+> Ok, 5 seconds is similar to what I got here on the machines I
+> tested so far. I'm waiting for a (shared) big machine to be available
+> in order to be able to do some tests on it.
+> 
+> > Hm, you aren't reading the values of the sysfs files, right?
+> 
+> No. Just retrieving the directory contents. That part is actually
+> fast: it takes less than 2 seconds here to read all ABI + traverse
+> sysfs directories. Also, from your past logs, the time is spent
+> later on, when it is handling the regex. On that time, there are
+> just the regex parsing and printing the results. 
+> 
+> > Anything I can do to run to help figure out where the script is taking
+> > so long?
+> 
+> Not sure if it is worth the efforts. I mean, the relationship
+> between the number of processed sysfs nodes and the number of regex
+> to be tested (using big-oh and big-omega notation) should be between
+> Ω(n . log(n)) and O(n^2 . log(n)). There's not much space left for
+> optimizing it, I guess.
+> 
+> So, I would expect that a big server would take a log more time to
+> process, it, due to the larger number of sysfs entries.
+> 
+> Also, if one wants to speedup on a big machine, it could either
+> exclude some pattern, like:
+> 
+> 	# Won't parse any PCI devices
+> 	$time ./scripts/get_abi.pl undefined --search-string '^(?!.*pci)' |wc -l
+> 	8438
+> 
+> 	real	0m3,494s
+> 	user	0m2,829s
+> 	sys	0m0,658s
 
-The progress logic will update the stats on every second,
-or on 1% steps of the progress.
+That only takes 8 seconds on this box:
+	$ time ./scripts/get_abi.pl undefined  --search-string '^(?!.*pci)' |wc -l
+	18872
 
-When STDERR is a console, it will use a single line, using
-a VT-100 command to erase the line before rewriting it.
-Otherwise, it will put one message on a separate line.
-That would help to identify what parts of sysfs checking
-that it is taking more time to process.
+	real	0m8.026s
+	user	0m7.300s
+	sys	0m0.726s
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+> or (more likely) just search for an specific part of the ABI:
+> 
+> 	# Seek ABI only for PCI devices
+>  	$ ./scripts/get_abi.pl undefined --search-string pci
 
-To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1632823172.git.mchehab+huawei@kernel.org/
+This takes much longer, I didn't want to wait the 10 minutes :)
 
- scripts/get_abi.pl | 163 ++++++++++++++++++++++++++++++---------------
- 1 file changed, 108 insertions(+), 55 deletions(-)
+> ---
+> 
+> After sleeping on it, I opted to implement some progress information.
+> 
+> That will help to identify any issues that might be causing the
+> script to take so long to finish.
+> 
+> I'll send the patches on a new series.
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index a6c91f822363..841d889747c0 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -9,6 +9,7 @@ use utf8;
- use Pod::Usage qw(pod2usage);
- use Getopt::Long;
- use File::Find;
-+use IO::Handle;
- use Fcntl ':mode';
- use Cwd 'abs_path';
- use Data::Dumper;
-@@ -702,87 +703,137 @@ sub get_leave($)
- 	return $leave;
- }
- 
--sub check_undefined_symbols {
--	foreach my $file_ref (sort @files) {
--		my @names = @{$$file_ref{"__name"}};
--		my $file = $names[0];
-+my @not_found;
- 
--		my $exact = 0;
--		my $found_string;
-+sub check_file($$)
-+{
-+	my $file_ref = shift;
-+	my $names_ref = shift;
-+	my @names = @{$names_ref};
-+	my $file = $names[0];
- 
--		my $leave = get_leave($file);
--		if (!defined($leaf{$leave})) {
--			$leave = "others";
-+	my $found_string;
-+
-+	my $leave = get_leave($file);
-+	if (!defined($leaf{$leave})) {
-+		$leave = "others";
-+	}
-+	my @expr = @{$leaf{$leave}->{expr}};
-+	die ("\rmissing rules for $leave") if (!defined($leaf{$leave}));
-+
-+	my $path = $file;
-+	$path =~ s,(.*/).*,$1,;
-+
-+	if ($search_string) {
-+		return if (!($file =~ m#$search_string#));
-+		$found_string = 1;
-+	}
-+
-+	for (my $i = 0; $i < @names; $i++) {
-+		if ($found_string && $hint) {
-+			if (!$i) {
-+				print STDERR "--> $names[$i]\n";
-+			} else {
-+				print STDERR "    $names[$i]\n";
-+			}
-+		}
-+		foreach my $re (@expr) {
-+			print STDERR "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
-+			if ($names[$i] =~ $re) {
-+				return;
-+			}
- 		}
-+	}
-+
-+	if ($leave ne "others") {
- 		my @expr = @{$leaf{$leave}->{expr}};
--		die ("missing rules for $leave") if (!defined($leaf{$leave}));
--
--		my $path = $file;
--		$path =~ s,(.*/).*,$1,;
--
--		if ($search_string) {
--			next if (!($file =~ m#$search_string#));
--			$found_string = 1;
--		}
--
- 		for (my $i = 0; $i < @names; $i++) {
--			if ($found_string && $hint) {
--				if (!$i) {
--					print STDERR "--> $names[$i]\n";
--				} else {
--					print STDERR "    $names[$i]\n";
--				}
--			}
- 			foreach my $re (@expr) {
--				print "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
-+				print STDERR "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
- 				if ($names[$i] =~ $re) {
--					$exact = 1;
--					last;
-+					return;
- 				}
- 			}
--			last if ($exact);
- 		}
--		next if ($exact);
-+	}
- 
-+	push @not_found, $file if (!$search_string || $found_string);
-+
-+	if ($hint && (!$search_string || $found_string)) {
-+		my $what = $leaf{$leave}->{what};
-+		$what =~ s/\xac/\n\t/g;
- 		if ($leave ne "others") {
--			my @expr = @{$leaf{$leave}->{expr}};
--			for (my $i = 0; $i < @names; $i++) {
--				foreach my $re (@expr) {
--					print "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
--					if ($names[$i] =~ $re) {
--						$exact = 1;
--						last;
--					}
--				}
--				last if ($exact);
--			}
--			last if ($exact);
-+			print STDERR "\r    more likely regexes:\n\t$what\n";
-+		} else {
-+			print STDERR "\r    tested regexes:\n\t$what\n";
- 		}
--		next if ($exact);
--
--		print "$file not found.\n" if (!$search_string || $found_string);
--
--		if ($hint && (!$search_string || $found_string)) {
--			my $what = $leaf{$leave}->{what};
--			$what =~ s/\xac/\n\t/g;
--			if ($leave ne "others") {
--				print STDERR "    more likely regexes:\n\t$what\n";
--			} else {
--				print STDERR "    tested regexes:\n\t$what\n";
--			}
-+	}
-+}
-+
-+sub check_undefined_symbols {
-+	my $num_files = scalar @files;
-+	my $next_i = 0;
-+	my $start_time = times;
-+
-+	my $last_time = $start_time;
-+
-+	# When either debug or hint is enabled, there's no sense showing
-+	# progress, as the progress will be overriden.
-+	if ($hint || ($debug && $dbg_undefined)) {
-+		$next_i = $num_files;
-+	}
-+
-+	my $is_console;
-+	$is_console = 1 if (-t STDERR);
-+
-+	for (my $i = 0; $i < $num_files; $i++) {
-+		my $file_ref = $files[$i];
-+		my @names = @{$$file_ref{"__name"}};
-+
-+		check_file($file_ref, \@names);
-+
-+		my $cur_time = times;
-+
-+		if ($i == $next_i || $cur_time > $last_time + 1) {
-+			my $percent = $i * 100 / $num_files;
-+
-+			my $tm = $cur_time - $start_time;
-+			my $time = sprintf "%d:%02d", int($tm), 60 * ($tm - int($tm));
-+
-+			printf STDERR "\33[2K\r", if ($is_console);
-+			printf STDERR "%s: processing sysfs files... %i%%: $names[0]", $time, $percent;
-+			printf STDERR "\n", if (!$is_console);
-+			STDERR->flush();
-+
-+			$next_i = int (($percent + 1) * $num_files / 100);
-+			$last_time = $cur_time;
- 		}
- 	}
-+
-+	my $cur_time = times;
-+	my $tm = $cur_time - $start_time;
-+	my $time = sprintf "%d:%02d", int($tm), 60 * ($tm - int($tm));
-+
-+	printf STDERR "\33[2K\r", if ($is_console);
-+	printf STDERR "%s: processing sysfs files... done\n", $time;
-+
-+	foreach my $file (@not_found) {
-+		print "$file not found.\n";
-+	}
- }
- 
- sub undefined_symbols {
-+	print STDERR "Reading $sysfs_prefix directory contents...";
- 	find({
- 		wanted =>\&parse_existing_sysfs,
- 		preprocess =>\&dont_parse_special_attributes,
- 		no_chdir => 1
- 	     }, $sysfs_prefix);
-+	print STDERR "done.\n";
- 
- 	$leaf{"others"}->{what} = "";
- 
-+	print STDERR "Converting ABI What fields into regexes...";
- 	foreach my $w (sort keys %data) {
- 		foreach my $what (split /\xac/,$w) {
- 			next if (!($what =~ m/^$sysfs_prefix/));
-@@ -871,6 +922,8 @@ sub undefined_symbols {
- 		my $abs_file = $aliases{$link};
- 		graph_add_link($abs_file, $link);
- 	}
-+	print STDERR "done.\n";
-+
- 	check_undefined_symbols;
- }
- 
--- 
-2.31.1
+Thanks, I'll go try those now...
 
+greg k-h
