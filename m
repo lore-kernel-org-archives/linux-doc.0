@@ -2,178 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099F1C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D985CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 17:18:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E18F96127A
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0A886127C
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 17:18:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241820AbhI1QtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 12:49:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42350 "EHLO mail.kernel.org"
+        id S241961AbhI1RUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 13:20:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53880 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229795AbhI1QtM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Sep 2021 12:49:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94F4B61266;
-        Tue, 28 Sep 2021 16:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632847652;
-        bh=Pskz7v+W9MM9s2/wxgcD6ILNg+ssV/7prMMIUCcGGos=;
+        id S241958AbhI1RUN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Sep 2021 13:20:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 023AE6128B;
+        Tue, 28 Sep 2021 17:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632849513;
+        bh=0LEhLL/AV21tYLWDMRT/AeZlmx4Truy1rCmrfUV0hZw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ukjaT8O8/K4SM65l1W1H/l90k2eWlyoxtNo8MnQV9+QqDl0uuiA1KiGwAmUgJ/Ppp
-         nql/PAwihw/qfo7iCWE68KsA4LouMoNM2eRGU+3lu9f0jHm90+s/J9LUTkHeJ6KTW/
-         9YqG3r5DfFVOnsgTmpxtoIEyRPNokl10iIN0CjDyA3Eh2PahR4gGfoUcR2Qd8QIo76
-         3uNSgQ1x9riGgpBNEEaZegIZnJdUVNZ22Ggb0JviTofOlA2bAg8fJ1LWrMSLGYagvY
-         rdQs+HJR4X14FDIujNjZX+YUSoH+wQ4bNdor6kQBWucDmpQLGZWixvrcYAoaXzQHwC
-         KujanvGNePzLQ==
-Date:   Tue, 28 Sep 2021 09:47:31 -0700
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Zhenguo Yao <yaozhenguo1@gmail.com>
-Cc:     mike.kravetz@oracle.com, mpe@ellerman.id.au,
-        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
-        akpm@linux-foundation.org, yaozhenguo@jd.com, willy@infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-Message-ID: <YVNHIzpmxSotbbBX@kernel.org>
-References: <20210927104149.46884-1-yaozhenguo1@gmail.com>
+        b=HiyEe/4UjuMnefFQ/cNhCe8KD72F/deEKtye7hB8WGONlUqbdXk30lQZlIoRie246
+         fS9CyxxIuPXqc3nGaahk2/2nlOvuoXyf+cvnuwOLchFr1DFreh3Q/EfbR9OVzvvBoH
+         IJC3s3+ah8z6ay4g7FfvtuuHxzJ4p253JfcOKtF8=
+Date:   Tue, 28 Sep 2021 19:18:31 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 0/3] get_abi: improve message output and fix a regression
+Message-ID: <YVNOZ3GKcpRxPXzv@kroah.com>
+References: <cover.1632823172.git.mchehab+huawei@kernel.org>
+ <YVL2trHQzxG59nXf@kroah.com>
+ <20210928142739.2ffe380b@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210927104149.46884-1-yaozhenguo1@gmail.com>
+In-Reply-To: <20210928142739.2ffe380b@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Mon, Sep 27, 2021 at 06:41:49PM +0800, Zhenguo Yao wrote:
-> We can specify the number of hugepages to allocate at boot. But the
-> hugepages is balanced in all nodes at present. In some scenarios,
-> we only need hugepages in one node. For example: DPDK needs hugepages
-> which are in the same node as NIC. if DPDK needs four hugepages of 1G
-> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
-> in kernel cmdline. But, only four hugepages are used. The others should
-> be free after boot. If the system memory is low(for example: 64G), it will
-> be an impossible task. So, Extending hugepages parameter to support
-> specifying hugepages at a specific node.
-> For example add following parameter:
+On Tue, Sep 28, 2021 at 02:27:39PM +0200, Mauro Carvalho Chehab wrote:
+> Em Tue, 28 Sep 2021 13:04:22 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 > 
-> hugepagesz=1G hugepages=0:1,1:3
+> > On Tue, Sep 28, 2021 at 12:14:01PM +0200, Mauro Carvalho Chehab wrote:
+> > > Hi Greg,
+> > > 
+> > > As promised on
+> > > 
+> > > 	https://lore.kernel.org/lkml/20210928120304.62319fba@coco.lan/T/#u
+> > > 
+> > > I'm adding progress info when  get_abi.pl is checking for undefined ABI symbols
+> > > on patches 1 and 2.
+> > > 
+> > > That will help not only to identify what is causing delays on the script, but also
+> > > to notify the user that processing it could take some time on some systems.
+> > > 
+> > > If you run it on your big server with:
+> > > 
+> > >   scripts/get_abi.pl undefined 2>logs
+> > > 
+> > > The "logs" file will contain timestamps relative to the time the script started to
+> > > do the regex matches for sysfs files. It should be printing one line every
+> > > time the progress completes 1% or one second after the last progress output.  
+> > 
+> > Adding more debugging and tweaking the script a bit to show the file it
+> > is about to check, not the one it finished checking,
 > 
-> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> Feel free to modify the script and add such debug/tweaks if you find
+> it useful. 
 > 
-> Signed-off-by: Zhenguo Yao <yaozhenguo1@gmail.com>
-> ---
+> > I got the following
+> > debug output that seems to pinpoint the problem file.
+> > 
+> > The sysfs file that is causing problems is:
+> > 	/sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap
+> > 
+> > and here's some debugging output for the regex it needs to search for
+> > this:
+> > 
+> > /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+> > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
+> > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
+> > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
+> > /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+> 
+> Hmm... interesting. Perhaps the problem is on regexes like this:
+> 
+> 	/^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+> 
+> Which actually represents this What:
+> 	/sys/devices/pciXXXX:XX/0000:XX:XX.X/dma/dma<n>chan<n>/quickdata/cap
+> 
+> The script could have done a better job escaping "." character on
+> it (but that is not too trivial) and grouping altogether ".*" 
+> repetitions, although, in this specific case, probably the best
+> regex would be, instead:
+> 
+> 	/sys/devices/pci[\da-f:\.]+/dma/dma\d+chan\d+/quickdata/cap
+> 
+> One possible long-term solution would be to directly use regexes 
+> directly on "What" fields inside Documentation/ABI, but on some parts
+> this would require some changes, like, for instance:
+> 
+> 	/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/kone/roccatkone<minor>/weight
+> 
+> Ok, we could likely use capture groups like:
+> 
+> 	(?<NAME>pattern)
+> 
+> but IMO that would make it a lot harder to be understood by humans.
+> 
+> 
+> > And sometimes this thing finishes in 20 seconds, and others, many many
+> > minutes.  It's not deterministic at all, which is odd.  Is the sysfs
+> > tree being sorted so that this should always have the same search order?
+> 
+> No, because it uses a lot of hashes in order to speed it up. Yet,
+> it shouldn't be hard - nor it would significantly affect the processing
+> time - to make it more deterministic. See the enclosed path.
 
-...
+That patch solved everything.
 
-> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
-> index 9a75ba078e1b..dd40ce6e7565 100644
-> --- a/arch/powerpc/mm/hugetlbpage.c
-> +++ b/arch/powerpc/mm/hugetlbpage.c
-> @@ -229,17 +229,22 @@ static int __init pseries_alloc_bootmem_huge_page(struct hstate *hstate)
->  	m->hstate = hstate;
->  	return 1;
->  }
-> +
-> +bool __init node_specific_alloc_support(void)
+It now only takes 10 seconds.  Every time.  Without the patch, it feels
+hung for some reason.
 
-I'd suggest to namespace this to hugetlb, e.g.
+Care to turn that into a patch that I can take?
 
-hugetlb_node_alloc_supported()
+> > Anyway, I've applied this series as well, this helps in finding the
+> > problems :)
+> 
+> Thanks!
+> 
+> > Note, I can provide an off-list tarball of /sys/ if that would help in
+> > debugging anything on your end.
+> 
+> Yeah, that can help. Feel free to send it to me.
+> 
+> Btw, I just got an arm64 server with 128 CPUs for testing. I'm trying
+> to allocate also a big x86 server here, but I'm not sure if it is AMD or
+> Intel.
 
-> +{
-> +	return false;
-> +}
->  #endif
->  
->  
-> -int __init alloc_bootmem_huge_page(struct hstate *h)
-> +int __init alloc_bootmem_huge_page(struct hstate *h, int nid)
->  {
->  
->  #ifdef CONFIG_PPC_BOOK3S_64
->  	if (firmware_has_feature(FW_FEATURE_LPAR) && !radix_enabled())
->  		return pseries_alloc_bootmem_huge_page(h);
->  #endif
-> -	return __alloc_bootmem_huge_page(h);
-> +	return __alloc_bootmem_huge_page(h, nid);
->  }
->  
->  #ifndef CONFIG_PPC_BOOK3S_64
+This is on perl 5.34 here.
 
-...
+thanks,
 
-> @@ -2868,33 +2869,41 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
->  	return ERR_PTR(-ENOSPC);
->  }
->  
-> -int alloc_bootmem_huge_page(struct hstate *h)
-> +int alloc_bootmem_huge_page(struct hstate *h, int nid)
->  	__attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
-> -int __alloc_bootmem_huge_page(struct hstate *h)
-> +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
->  {
->  	struct huge_bootmem_page *m;
->  	int nr_nodes, node;
->  
-> +	if (nid >= nr_online_nodes)
-> +		return 0;
-> +	/* do node specific alloc */
-> +	if (nid != NUMA_NO_NODE) {
-> +		m = memblock_alloc_try_nid_raw(huge_page_size(h), huge_page_size(h),
-> +				0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> +		if (m)
-> +			goto found;
-> +		else
-> +			return 0;
-
-Nit: you could make it a bit simpler with
-
-		if (!m)
-			return 0;
-		goto found;
-
-> +	}
-> +	/* do all node balanced alloc */
->  	for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
-> -		void *addr;
-> -
-> -		addr = memblock_alloc_try_nid_raw(
-> +		m = memblock_alloc_try_nid_raw(
->  				huge_page_size(h), huge_page_size(h),
->  				0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
-> -		if (addr) {
-> -			/*
-> -			 * Use the beginning of the huge page to store the
-> -			 * huge_bootmem_page struct (until gather_bootmem
-> -			 * puts them into the mem_map).
-> -			 */
-> -			m = addr;
-> +		/*
-> +		 * Use the beginning of the huge page to store the
-> +		 * huge_bootmem_page struct (until gather_bootmem
-> +		 * puts them into the mem_map).
-> +		 */
-> +		if (m)
->  			goto found;
-> -		}
-> +		else
-> +			return 0;
-
-ditto
-
->  	}
-> -	return 0;
->  
->  found:
-> -	BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
->  	/* Put them into a private list first because mem_map is not up yet */
->  	INIT_LIST_HEAD(&m->list);
->  	list_add(&m->list, &huge_boot_pages);
-
--- 
-Sincerely yours,
-Mike.
+greg k-h
