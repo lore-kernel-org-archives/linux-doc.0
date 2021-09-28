@@ -2,105 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24362C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 099F1C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:47:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 101F561262
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:41:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E18F96127A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:47:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241856AbhI1QnT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 12:43:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38759 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241870AbhI1QnR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Sep 2021 12:43:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632847297;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PRr6yH8iE3kvIOaBo9Egrh5B+ijwJWy0w0Y5bYRa2to=;
-        b=ewtAzH1LcJSjLTi/nvQXK3kzn7hAW0bYhGTDo51FzU4mRDz3kb22uSRo+vnfsdfP3QJF4h
-        rwlw4PDh4ixGGZUIJGPveWJRd26ue2P1JASZTNXLymwxroaNM/1wzQ8xoJmN3tFhhL9gta
-        eLPVmIXTIp4THsJeDuLBFRUiQiF7sQk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-RvgXvQiAOBieDx1UCGcmCg-1; Tue, 28 Sep 2021 12:41:35 -0400
-X-MC-Unique: RvgXvQiAOBieDx1UCGcmCg-1
-Received: by mail-ed1-f72.google.com with SMTP id l29-20020a50d6dd000000b003d80214566cso22409026edj.21
-        for <linux-doc@vger.kernel.org>; Tue, 28 Sep 2021 09:41:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PRr6yH8iE3kvIOaBo9Egrh5B+ijwJWy0w0Y5bYRa2to=;
-        b=o424ll+aXB/VKe0Wm14idI/0dzcS+tirk0ivxGUtSG0cEEqc7nu6qZBbs1vXAZdil3
-         CMZQL4xQChWPJnmf/Ozo4eKmLHReFYBxhJbRFUyx8NTEJKRFXmHGh4ISZHmCq0AkP+0k
-         k/7b1SCKIIC18BGZF+Nc6xKwPv1/V6FG5fFBm+aAQqg8aKM8tpr/rESEgXD2G0aj7AuY
-         fKRiHUUDHl/+0AQmKF9X84x7axqEIjCwl7Yf+RBUsfwP+MffOU+Hdw7FF5hMQnV6WlII
-         WB9FbQKNIyoGd6tE0vl/xjiIjKMtOlQBTC9dbiXzsq6d/PTwJf4aq0M5ODkSSni5Ki+T
-         rtTQ==
-X-Gm-Message-State: AOAM532OWR4CeGxlq067ToiN4LilUMzbALNyKRiBPqpdE7xrEA47GPSb
-        RmXboDRFXt2DWQWaJBkYCDEwRLb3xD5zN2u3M5Dp+xsJlH00Trn7GuTbXNA8EAL4sC/3TX4VwYh
-        yMzpM9JP1BwX4t54NYkA5
-X-Received: by 2002:a17:906:cc4a:: with SMTP id mm10mr1284268ejb.384.1632847294510;
-        Tue, 28 Sep 2021 09:41:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0B70PGd40+l8AVXMAvDDSQoARkmaV5PDGrsf3ott4UI1ydNflKd+KB9jJ04ZN4YwImVYzAg==
-X-Received: by 2002:a17:906:cc4a:: with SMTP id mm10mr1284232ejb.384.1632847294341;
-        Tue, 28 Sep 2021 09:41:34 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id d3sm13456533edv.87.2021.09.28.09.41.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Sep 2021 09:41:33 -0700 (PDT)
-Message-ID: <452d73b2-2d39-e80d-021d-f24550eaea82@redhat.com>
-Date:   Tue, 28 Sep 2021 18:41:28 +0200
+        id S241820AbhI1QtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 12:49:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42350 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229795AbhI1QtM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Sep 2021 12:49:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94F4B61266;
+        Tue, 28 Sep 2021 16:47:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632847652;
+        bh=Pskz7v+W9MM9s2/wxgcD6ILNg+ssV/7prMMIUCcGGos=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ukjaT8O8/K4SM65l1W1H/l90k2eWlyoxtNo8MnQV9+QqDl0uuiA1KiGwAmUgJ/Ppp
+         nql/PAwihw/qfo7iCWE68KsA4LouMoNM2eRGU+3lu9f0jHm90+s/J9LUTkHeJ6KTW/
+         9YqG3r5DfFVOnsgTmpxtoIEyRPNokl10iIN0CjDyA3Eh2PahR4gGfoUcR2Qd8QIo76
+         3uNSgQ1x9riGgpBNEEaZegIZnJdUVNZ22Ggb0JviTofOlA2bAg8fJ1LWrMSLGYagvY
+         rdQs+HJR4X14FDIujNjZX+YUSoH+wQ4bNdor6kQBWucDmpQLGZWixvrcYAoaXzQHwC
+         KujanvGNePzLQ==
+Date:   Tue, 28 Sep 2021 09:47:31 -0700
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Zhenguo Yao <yaozhenguo1@gmail.com>
+Cc:     mike.kravetz@oracle.com, mpe@ellerman.id.au,
+        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
+        akpm@linux-foundation.org, yaozhenguo@jd.com, willy@infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+Message-ID: <YVNHIzpmxSotbbBX@kernel.org>
+References: <20210927104149.46884-1-yaozhenguo1@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 2/6] x86/kvm: add boot parameter for adding vcpu-id
- bits
-Content-Language: en-US
-To:     Juergen Gross <jgross@suse.com>, kvm@vger.kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     maz@kernel.org, ehabkost@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>
-References: <20210903130808.30142-1-jgross@suse.com>
- <20210903130808.30142-3-jgross@suse.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20210903130808.30142-3-jgross@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927104149.46884-1-yaozhenguo1@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/09/21 15:08, Juergen Gross wrote:
-> +	if (vcpu_id_add_bits >= 0) {
-> +		n_bits += vcpu_id_add_bits;
-> +	} else {
-> +		n_bits++;		/* One additional bit for core level. */
-> +		if (topology_max_die_per_package() > 1)
-> +			n_bits++;	/* One additional bit for die level. */
+Hi,
 
-This needs to be unconditional since it is always possible to emulate a 
-multiple-die-per-package topology for a guest, even if the host has just 
-one.
+On Mon, Sep 27, 2021 at 06:41:49PM +0800, Zhenguo Yao wrote:
+> We can specify the number of hugepages to allocate at boot. But the
+> hugepages is balanced in all nodes at present. In some scenarios,
+> we only need hugepages in one node. For example: DPDK needs hugepages
+> which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
+> in kernel cmdline. But, only four hugepages are used. The others should
+> be free after boot. If the system memory is low(for example: 64G), it will
+> be an impossible task. So, Extending hugepages parameter to support
+> specifying hugepages at a specific node.
+> For example add following parameter:
+> 
+> hugepagesz=1G hugepages=0:1,1:3
+> 
+> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> 
+> Signed-off-by: Zhenguo Yao <yaozhenguo1@gmail.com>
+> ---
 
-Paolo
+...
 
+> diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpage.c
+> index 9a75ba078e1b..dd40ce6e7565 100644
+> --- a/arch/powerpc/mm/hugetlbpage.c
+> +++ b/arch/powerpc/mm/hugetlbpage.c
+> @@ -229,17 +229,22 @@ static int __init pseries_alloc_bootmem_huge_page(struct hstate *hstate)
+>  	m->hstate = hstate;
+>  	return 1;
+>  }
+> +
+> +bool __init node_specific_alloc_support(void)
+
+I'd suggest to namespace this to hugetlb, e.g.
+
+hugetlb_node_alloc_supported()
+
+> +{
+> +	return false;
+> +}
+>  #endif
+>  
+>  
+> -int __init alloc_bootmem_huge_page(struct hstate *h)
+> +int __init alloc_bootmem_huge_page(struct hstate *h, int nid)
+>  {
+>  
+>  #ifdef CONFIG_PPC_BOOK3S_64
+>  	if (firmware_has_feature(FW_FEATURE_LPAR) && !radix_enabled())
+>  		return pseries_alloc_bootmem_huge_page(h);
+>  #endif
+> -	return __alloc_bootmem_huge_page(h);
+> +	return __alloc_bootmem_huge_page(h, nid);
+>  }
+>  
+>  #ifndef CONFIG_PPC_BOOK3S_64
+
+...
+
+> @@ -2868,33 +2869,41 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
+>  	return ERR_PTR(-ENOSPC);
+>  }
+>  
+> -int alloc_bootmem_huge_page(struct hstate *h)
+> +int alloc_bootmem_huge_page(struct hstate *h, int nid)
+>  	__attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
+> -int __alloc_bootmem_huge_page(struct hstate *h)
+> +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
+>  {
+>  	struct huge_bootmem_page *m;
+>  	int nr_nodes, node;
+>  
+> +	if (nid >= nr_online_nodes)
+> +		return 0;
+> +	/* do node specific alloc */
+> +	if (nid != NUMA_NO_NODE) {
+> +		m = memblock_alloc_try_nid_raw(huge_page_size(h), huge_page_size(h),
+> +				0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> +		if (m)
+> +			goto found;
+> +		else
+> +			return 0;
+
+Nit: you could make it a bit simpler with
+
+		if (!m)
+			return 0;
+		goto found;
 
 > +	}
-> +
-> +	if (!n_bits)
+> +	/* do all node balanced alloc */
+>  	for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
+> -		void *addr;
+> -
+> -		addr = memblock_alloc_try_nid_raw(
+> +		m = memblock_alloc_try_nid_raw(
+>  				huge_page_size(h), huge_page_size(h),
+>  				0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
+> -		if (addr) {
+> -			/*
+> -			 * Use the beginning of the huge page to store the
+> -			 * huge_bootmem_page struct (until gather_bootmem
+> -			 * puts them into the mem_map).
+> -			 */
+> -			m = addr;
+> +		/*
+> +		 * Use the beginning of the huge page to store the
+> +		 * huge_bootmem_page struct (until gather_bootmem
+> +		 * puts them into the mem_map).
+> +		 */
+> +		if (m)
+>  			goto found;
+> -		}
+> +		else
+> +			return 0;
 
+ditto
+
+>  	}
+> -	return 0;
+>  
+>  found:
+> -	BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
+>  	/* Put them into a private list first because mem_map is not up yet */
+>  	INIT_LIST_HEAD(&m->list);
+>  	list_add(&m->list, &huge_boot_pages);
+
+-- 
+Sincerely yours,
+Mike.
