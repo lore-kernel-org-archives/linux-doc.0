@@ -2,46 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01259C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AACAC4332F
 	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:02:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCD9061288
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:02:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C0D56127C
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 16:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241661AbhI1QDv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 12:03:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45420 "EHLO mail.kernel.org"
+        id S241665AbhI1QDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 12:03:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45424 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241443AbhI1QDv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S241600AbhI1QDv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 28 Sep 2021 12:03:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 63AB360FE3;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68DF1611C3;
         Tue, 28 Sep 2021 16:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632844931;
-        bh=qngNMSXFSnngkap5teJiBBWtOheXF8DQC5M/s8FhoRo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bGtz3M1MznAoom+A41wyp/PiCE3p05c8PUaXLKV7n66kWl9iFXbrDw207kvYHx81y
-         F4BLMB1RFH7DSnKF0XPws72UUDV5LYCFMMPNy3a29qqkSqrWwZgw1RqzobKg+4HWav
-         6bgrIsxx8yeOwGv1ITKDtg0k1fLyeoyOk8phuAPhTrqj8NxlOmNhEvJLyqLlmt2En5
-         K7p+Ya+75B0fWE7x26wHNHraGDaYBY61pLkPWEuE2gEXuTHncmQvUvzSPkl3SqbW4v
-         CnL6HG2+Sbcqsukgow0W438nguZGhOwP+vYhfLgOGr8G2adXHQxqtncnuhxwyA+Bq5
-         DJFwFMS/6TGiw==
+        bh=Ypn3HojbrbT85EaaveFSw1KfwVtIAUxWUpfMV+DHwdU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lezL/G+3lfwwV2RmwLTSTSq8K8omcO2qR7k52ce/Yfg0xDNpbE3tC5EbYESPojYk5
+         0Fd2tjFAOJR/6oAzAmIhTg2Pv3+GmE0zpgRzCQHODOBIuWx/vXgWXmwTSb7GW75hyL
+         VkBLQhVMclzASQYC9ss1bmbbzTqiSZnTtosedf2mWCtJG5nsGGAOpkTPfvz4D4Oatt
+         N5iPHIn7RwglVH8iXzPXD/dVpaLeI1YTTp/OANST0kCXDd2mc4cQnySO/fvscXWlQC
+         qN2K5iiduSj0rw5dM6Q2x62oE1PiURVu0CYygYkelpI/O6uGY4tIS40NusZPpav6kf
+         C+5uWtlOPG1ug==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mVFYX-000Y11-Ec; Tue, 28 Sep 2021 18:02:09 +0200
+        id 1mVFYX-000Y0v-BN; Tue, 28 Sep 2021 18:02:09 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Borislav Petkov" <bp@alien8.de>, Andi Kleen <ak@linux.intel.com>,
-        Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ABI: sys-mce: add 3 missing files
-Date:   Tue, 28 Sep 2021 18:02:03 +0200
-Message-Id: <e46325fc8151eba33924483413581cb3df47bf4b.1632844726.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>, Andi Kleen <ak@linux.intel.com>
+Subject: [PATCH 0/2] ABI: add entires for MCE
+Date:   Tue, 28 Sep 2021 18:02:01 +0200
+Message-Id: <cover.1632844726.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632844726.git.mchehab+huawei@kernel.org>
-References: <cover.1632844726.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -49,51 +46,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 62fdac5913f7 ("x86, mce: Add boot options for corrected errors")
-added three more MCE files that are also exposed currently via
-sysfs.
+While checking for missing ABI documentation using get_abi.pl, I
+noticed that there's no deviced MCE symbols under Documentation/ABI.
 
-Document them.
+There is a documentation elsewhere, but it is incomplete.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+So, add one.
 
-To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/2] at: https://lore.kernel.org/all/cover.1632844726.git.mchehab+huawei@kernel.org/
+Mauro Carvalho Chehab (2):
+  ABI: sysfs-mce: add a new ABI file
+  ABI: sys-mce: add 3 missing files
 
- Documentation/ABI/testing/sysfs-mce | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ Documentation/ABI/testing/sysfs-mce | 129 ++++++++++++++++++++++++++++
+ 1 file changed, 129 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-mce
 
-diff --git a/Documentation/ABI/testing/sysfs-mce b/Documentation/ABI/testing/sysfs-mce
-index d0f5095da08b..5461ca8cc5f0 100644
---- a/Documentation/ABI/testing/sysfs-mce
-+++ b/Documentation/ABI/testing/sysfs-mce
-@@ -105,3 +105,25 @@ Description:
- 
- 		Unit: us
- 
-+What:		/sys/devices/system/machinecheck/machinecheckX/ignore_ce
-+Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
-+When:		Jun 2009
-+Description:
-+		Disables polling and CMCI for corrected errors.
-+		All corrected events are not cleared and kept in bank MSRs.
-+
-+What:		/sys/devices/system/machinecheck/machinecheckX/dont_log_ce
-+Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
-+When:		Jun 2009
-+Description:
-+		Disables logging for corrected errors.
-+		All reported corrected errors will be cleared silently.
-+
-+		This option will be useful if you never care about corrected
-+		errors.
-+
-+What:		/sys/devices/system/machinecheck/machinecheckX/cmci_disabled
-+Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
-+When:		Jun 2009
-+Description:
-+		Disables the CMCI feature.
 -- 
 2.31.1
+
 
