@@ -2,107 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E792CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 18:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70792C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 21:51:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CAC236103E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 18:34:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57E296128E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 21:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242137AbhI1Sfs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 14:35:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43986 "EHLO mail.kernel.org"
+        id S243009AbhI1VxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 17:53:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242312AbhI1Sfo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Sep 2021 14:35:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B8D096103E;
-        Tue, 28 Sep 2021 18:34:04 +0000 (UTC)
+        id S243001AbhI1VxR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Sep 2021 17:53:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 40BA26128E;
+        Tue, 28 Sep 2021 21:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632854045;
-        bh=yatOfEZCG35taMbc6RN96f4TL49hkZJdqHa9Wh8F1Jw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=aLJSFtjSQ3Ph/2Sqoip0dlh0K4tMVVjiyzvEENPDVr7MXl1kqqNWYwx+snsa8Sjrr
-         RWcB4bpj6gYLhV/eWdvVSm7w0QgKYd09oNA0C9ySSZUvbJNAyNAn7GhaUTMBGkReCM
-         XpJhGt+257pccSLaYwcMz4edFqQORsgji4HQWrVZLULgck8Kt8LsSr7dCLedjIB27A
-         XRoO9gnA1utUNqlolEvrbD1bQvyo/7GmBCeZF9U8UtpHfFOXKp4thmSbYqZ6MYw1Qa
-         Lm5CXeY2nL4hjOrwsAoyHKERhKOKnB2hXhKWJ0IIVKOKy0jyJYOA1Mu1P1fVcmN/lN
-         ubhqFltEg1u6Q==
-Date:   Tue, 28 Sep 2021 13:34:03 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Amey Narkhede <ameynarkhede03@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/17] ABI: sysfs-bus-pci: add a alternative What fields
-Message-ID: <20210928183403.GA715406@bhelgaas>
+        s=k20201202; t=1632865897;
+        bh=HU2rIkn452EBEM7riX0Tb1eZUixsiqey2KImPfM+l5U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S9qRq5tb4xy9OkjD4dw/iYDtpw5WnSE55aNbHMyC1Rvmh1GeVQVsMZqCvp+XREky1
+         TGQqJo0WwdzRO8FXLRwageGed/1CcO6rrCFjB+0WY/A7JLmmgrE/6Gyv+oaDgX+52i
+         T5iUF5R/BbYAqb75qxPnrBRK3zfvntM/FD1fFbBGiXuh4N+W3W50VihczOOexDrB29
+         OOvq2punZUr58wCaCxP2Ju5f7KqdVuu4uolmroGcZEVeM9Be2MgNNmiKFZGJ0zRB3W
+         iv7iycTPwP+8mBr+HA9Amv//+9f4joQ4e5CXRN5bqK9nfxWHYpnTEOkb8M3xGwhwv2
+         DysjJx3GoR4aQ==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mVL0h-000mPl-7Z; Tue, 28 Sep 2021 23:51:35 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: get_abi.pl: make undefined search more deterministic
+Date:   Tue, 28 Sep 2021 23:51:32 +0200
+Message-Id: <5dc55fd42e632a24a48f95212aa6c6bc4b2d11fd.1632865873.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <YVNOZ3GKcpRxPXzv@kroah.com>
+References: <YVNOZ3GKcpRxPXzv@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15ba8c07f1b0fd7359106920c8e34a7b9af7aea6.1632750608.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Probably already queued up, but:
+Sort keys on hashes during undefined search, in order to
+make the script more deterministic.
 
-s/add a alternative/add alternative/ (in subject)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_abi.pl | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-On Mon, Sep 27, 2021 at 03:59:43PM +0200, Mauro Carvalho Chehab wrote:
-> There are some PCI ABI that aren't shown under:
-> 
-> 	/sys/bus/pci/drivers/.../
-> 
-> Because they're registered with a different class. That's
-> the case of, for instance:
-> 
-> 	/sys/bus/i2c/drivers/CHT Whiskey Cove PMIC/unbind
-> 
-> This one is not present under /sys/bus/pci:
-> 
-> 	$ find /sys/bus/pci -name 'CHT Whiskey Cove PMIC'
-> 
-> Although clearly this is provided by a PCI driver:
-> 
-> 	/sys/devices/pci0000:00/0000:00:02.0/i2c-4/subsystem/drivers/CHT Whiskey Cove PMIC/unbind
-> 
-> So, add an altertate What location in order to match bind/unbind
-> to such devices.
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 841d889747c0..d32dcd7cca5d 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -775,6 +775,8 @@ sub check_undefined_symbols {
+ 	my $next_i = 0;
+ 	my $start_time = times;
+ 
++	@files = sort @files;
++
+ 	my $last_time = $start_time;
+ 
+ 	# When either debug or hint is enabled, there's no sense showing
+@@ -909,16 +911,16 @@ sub undefined_symbols {
+ 		}
+ 	}
+ 	# Compile regexes
+-	foreach my $l (keys %leaf) {
++	foreach my $l (sort keys %leaf) {
+ 		my @expr;
+-		foreach my $w(split /\xac/, $leaf{$l}->{what}) {
++		foreach my $w(sort split /\xac/, $leaf{$l}->{what}) {
+ 			push @expr, qr /^$w$/;
+ 		}
+ 		$leaf{$l}->{expr} = \@expr;
+ 	}
+ 
+ 	# Take links into account
+-	foreach my $link (keys %aliases) {
++	foreach my $link (sort keys %aliases) {
+ 		my $abs_file = $aliases{$link};
+ 		graph_add_link($abs_file, $link);
+ 	}
+-- 
+2.31.1
 
-s/altertate/alternate/
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
-> 
-> See [PATCH 00/17] at: https://lore.kernel.org/all/cover.1632750608.git.mchehab+huawei@kernel.org/
-> 
->  Documentation/ABI/testing/sysfs-bus-pci | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-> index 1eeac7f59672..16afe3f59cbd 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-pci
-> +++ b/Documentation/ABI/testing/sysfs-bus-pci
-> @@ -1,4 +1,5 @@
->  What:		/sys/bus/pci/drivers/.../bind
-> +What:		/sys/devices/pciX/.../bind
-
-Wasn't somebody just updating these wildcard-ish items in pathnames?
-
-Ah, it was you :)
-
-  https://lore.kernel.org/all/4ede4ec98e295f054f3e5a6f3f9393b5e3d5d2a7.1631782432.git.mchehab+huawei@kernel.org/
-
-Changing "virtfnN" to "virtfn<N>".
-
-Is that same sort of thing applicable here?  My system has
-
-  /sys/devices/pci0000:00/...
-
-Bjorn
