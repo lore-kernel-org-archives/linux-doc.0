@@ -2,191 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E18C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 12:27:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A4C6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 12:42:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94C6160F21
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 12:27:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63CCF61159
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Sep 2021 12:42:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240426AbhI1M3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Sep 2021 08:29:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59904 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240528AbhI1M3W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Sep 2021 08:29:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BB6160F21;
-        Tue, 28 Sep 2021 12:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632832063;
-        bh=c3sbUhnBR2XdRVf9xR/ijhK7PEwq5FoMQnG2dvdQTak=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WDAynM0HmXvjAWyY9K1FKzSM+UIU4HihEqsU6Eqbj/0LBYPNDMOzSPhQXc9VFnGS5
-         a5an7KgNuBk0KX+8uLYQP95doIXiLtbSR/xSAHP5v4C33CHlFpP75TUbi1QlLBoO0v
-         L3pKhw5PWx3cuPfKO9zgPeshCA7YTMGS3NfAGhkk8OeeLITwrRWGD5GNyBbwSqmQvl
-         xbLqrdLqaLYhtNGB36wstmoeaVUh0img6tWSAlU1GrQUrAlF2gda5dcv8H5Mb9wCd9
-         /HigAdBCz3JmZRvBJbttfatkugnHPD+lfDB9OTk+N4Zg/uDp8W2cX2Nxrqc1q1HNWB
-         tUO3V+SduXsfQ==
-Date:   Tue, 28 Sep 2021 14:27:39 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/3] get_abi: improve message output and fix a
- regression
-Message-ID: <20210928142739.2ffe380b@coco.lan>
-In-Reply-To: <YVL2trHQzxG59nXf@kroah.com>
-References: <cover.1632823172.git.mchehab+huawei@kernel.org>
-        <YVL2trHQzxG59nXf@kroah.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S240689AbhI1MoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Sep 2021 08:44:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54842 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240637AbhI1MoL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Sep 2021 08:44:11 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8ACC061575
+        for <linux-doc@vger.kernel.org>; Tue, 28 Sep 2021 05:42:32 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id b22so3315227pls.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Sep 2021 05:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=To3y7HtgYsL7Rpxh5SAGxzE+EsS01iqLlMZsdJ4HpF4=;
+        b=bVROHrCG1cgR4fnPhzWHBdKLjrMzdrTT2Nl5kQFyozSCh3sBIVtokC//8KRhMw+Ztw
+         4M7jzX0yb0tu3aU1ERqZG/dSZN4HW42CjSk5qdcxH5Afujv+Ec2Dv6xS+3gBkz532sBr
+         U+5CcxJtV/BepeGIMkQgD1Ab4dTE4z2S4CvGS4hJUT9kvp8lmmxmbeuCey6CpZ4defcO
+         Nx9TUSgruOLd7NDIBru+K112k8SbKXmlEsy4b2zzuQEwTnW4k5UgqG7uNzcj+Pif+2Gg
+         FsUHyM23PuGCLysFD8vzQuzlKJv+Wq4zsOD57zq4YOHjQI35oDVqYKaEpcdiuPD38UK9
+         Otdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=To3y7HtgYsL7Rpxh5SAGxzE+EsS01iqLlMZsdJ4HpF4=;
+        b=t8W+kg7blXlS0yWtwcE5D74qa64SpE6K9WA8K98njwgdt6XiL2Cv8rpgGNW8bjWCr4
+         KZbI8/AJH197M/GyQ9KHhl4bQAf83zFanyyvKug4Gmug3kpdCJBPMdQFL+dNYwFW9bgw
+         +KjUcZuXMqx4AZfv1LbJE8oflu8ykJDcvaJbxRHFMupKwAcV4ztkD0PEYLneevjD5fWg
+         filf4lVElj3joo/QRrKy8ZAoZSyA3TOr5TcK1fnZZ7yRY18l1LIvOCdB2y0o0YmkAUGh
+         h+/4RyRMhqc25tGy4wG5aj2NHTK3Wffr9OzPdKe/eHlVaqh1tj7kqOeZ99yTqeQ6lKQE
+         Lm4A==
+X-Gm-Message-State: AOAM530FSeG9Xw+p8YGzJHnHEMAlgcCSbH3WLLIuJ4h7VqPjfE9kZSJ/
+        eWTnVyy1QCT7IsHwzmtdzjeR3IAxbC+djA==
+X-Google-Smtp-Source: ABdhPJzW1+QNaQa05V415nL0fyGMUOcs8iH9fYrngQQVuIbM1UT/pf0j/qLf8Veewseh9p0deXDYbA==
+X-Received: by 2002:a17:90a:19c2:: with SMTP id 2mr5358344pjj.227.1632832952187;
+        Tue, 28 Sep 2021 05:42:32 -0700 (PDT)
+Received: from localhost.localdomain ([61.120.150.70])
+        by smtp.gmail.com with ESMTPSA id s17sm10055287pge.50.2021.09.28.05.42.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Sep 2021 05:42:31 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
+        corbet@lwn.net, willy@infradead.org, 21cnbao@gmail.com
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        smuchun@gmail.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v5 0/5] Free the 2nd vmemmap page associated with each HugeTLB page
+Date:   Tue, 28 Sep 2021 20:41:47 +0800
+Message-Id: <20210928124152.33634-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 28 Sep 2021 13:04:22 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+This series can minimize the overhead of struct page for 2MB HugeTLB pages
+significantly, comments and reviews are welcome. Thanks.
 
-> On Tue, Sep 28, 2021 at 12:14:01PM +0200, Mauro Carvalho Chehab wrote:
-> > Hi Greg,
-> > 
-> > As promised on
-> > 
-> > 	https://lore.kernel.org/lkml/20210928120304.62319fba@coco.lan/T/#u
-> > 
-> > I'm adding progress info when  get_abi.pl is checking for undefined ABI symbols
-> > on patches 1 and 2.
-> > 
-> > That will help not only to identify what is causing delays on the script, but also
-> > to notify the user that processing it could take some time on some systems.
-> > 
-> > If you run it on your big server with:
-> > 
-> >   scripts/get_abi.pl undefined 2>logs
-> > 
-> > The "logs" file will contain timestamps relative to the time the script started to
-> > do the regex matches for sysfs files. It should be printing one line every
-> > time the progress completes 1% or one second after the last progress output.  
-> 
-> Adding more debugging and tweaking the script a bit to show the file it
-> is about to check, not the one it finished checking,
+After the feature of "Free sonme vmemmap pages of HugeTLB page" is enabled,
+the mapping of the vmemmap addresses associated with a 2MB HugeTLB page
+becomes the figure below.
 
-Feel free to modify the script and add such debug/tweaks if you find
-it useful. 
+     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                   | | | | |
+ |           |                     |     3     | ------------------+ | | | |
+ |           |                     +-----------+                     | | | |
+ |           |                     |     4     | --------------------+ | | |
+ |    2MB    |                     +-----------+                       | | |
+ |           |                     |     5     | ----------------------+ | |
+ |           |                     +-----------+                         | |
+ |           |                     |     6     | ------------------------+ |
+ |           |                     +-----------+                           |
+ |           |                     |     7     | --------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-> I got the following
-> debug output that seems to pinpoint the problem file.
-> 
-> The sysfs file that is causing problems is:
-> 	/sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap
-> 
-> and here's some debugging output for the regex it needs to search for
-> this:
-> 
-> /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:00.2/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
-> /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:07.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:02/device:7a/physical_node/iommu/ivhd1/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
-> /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/amd\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/class/iommu/.*/intel\-iommu/cap$)$/
-> /sys/devices/pci0000:40/0000:40:01.3/0000:4a:00.0/0000:4b:0a.0/0000:50:00.0/iommu/amd-iommu/cap =~ /^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+As we can see, the 2nd vmemmap page frame (indexed by 1) is reused and remaped.
+However, the 2nd vmemmap page frame is also can be freed to the buddy allocator,
+then we can change the mapping from the figure above to the figure below.
 
-Hmm... interesting. Perhaps the problem is on regexes like this:
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                  | | | | | |
+ |           |                     |     2     | -----------------+ | | | | |
+ |           |                     +-----------+                    | | | | |
+ |           |                     |     3     | -------------------+ | | | |
+ |           |                     +-----------+                      | | | |
+ |           |                     |     4     | ---------------------+ | | |
+ |    2MB    |                     +-----------+                        | | |
+ |           |                     |     5     | -----------------------+ | |
+ |           |                     +-----------+                          | |
+ |           |                     |     6     | -------------------------+ |
+ |           |                     +-----------+                            |
+ |           |                     |     7     | ---------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-	/^(?^:^/sys/devices/pci.*.*.*.*\:.*.*/0000\:.*.*\:.*.*..*/dma/dma.*chan.*/quickdata/cap$)$/
+After we do this, all tail vmemmap pages (1-7) are mapped to the head vmemmap
+page frame (0). In other words, there are more than one page struct with
+PG_head associated with each HugeTLB page.  We __know__ that there is only one
+head page struct, the tail page structs with PG_head are fake head page structs.
+We need an approach to distinguish between those two different types of page
+structs so that compound_head(), PageHead() and PageTail() can work properly
+if the parameter is the tail page struct but with PG_head.
 
-Which actually represents this What:
-	/sys/devices/pciXXXX:XX/0000:XX:XX.X/dma/dma<n>chan<n>/quickdata/cap
+The following code snippet describes how to distinguish between real and fake
+head page struct.
 
-The script could have done a better job escaping "." character on
-it (but that is not too trivial) and grouping altogether ".*" 
-repetitions, although, in this specific case, probably the best
-regex would be, instead:
+	if (test_bit(PG_head, &page->flags)) {
+		unsigned long head = READ_ONCE(page[1].compound_head);
 
-	/sys/devices/pci[\da-f:\.]+/dma/dma\d+chan\d+/quickdata/cap
+		if (head & 1) {
+			if (head == (unsigned long)page + 1)
+				==> head page struct
+			else
+				==> tail page struct
+		} else
+			==> head page struct
+	}
 
-One possible long-term solution would be to directly use regexes 
-directly on "What" fields inside Documentation/ABI, but on some parts
-this would require some changes, like, for instance:
+We can safely access the field of the @page[1] with PG_head because the @page
+is a compound page composed with at least two contiguous pages. The main
+implementation is in the patch 1.
 
-	/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/kone/roccatkone<minor>/weight
+In our server, we can save extra 2GB memory with this patchset applied if there
+are 1 TB HugeTLB (2 MB) pages. If the size of the HugeTLB page is 1 GB, it only
+can save 4MB. For 2 MB HugeTLB page, it is a nice gain.
 
-Ok, we could likely use capture groups like:
+Changlogs in v5:
+  1. Move NR_RESET_STRUCT_PAGE to the front of reset_struct_pages().
+  2. Collect Reviewed-by tags.
 
-	(?<NAME>pattern)
+  Thanks Barry for his suggestions and reviews.
 
-but IMO that would make it a lot harder to be understood by humans.
+Changlogs in v4:
+  1. Move hugetlb_free_vmemmap_enabled from hugetlb.h to page-flags.h.
+  2. Collect Reviewed-by.
+  3. Add a new patch to move vmemmap functions related to HugeTLB to
+     the scope of the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
 
+  Thanks Barry for his suggestions and reviews.
 
-> And sometimes this thing finishes in 20 seconds, and others, many many
-> minutes.  It's not deterministic at all, which is odd.  Is the sysfs
-> tree being sorted so that this should always have the same search order?
+Changlogs in v3:
+  1. Rename page_head_if_fake() to page_fixed_fake_head().
+  2. Introducing a new helper page_is_fake_head() to make code more readable.
+  3. Update commit log of patch 3 to add more judgements.
+  4. Add some comments in check_page_flags() in the patch 4.
 
-No, because it uses a lot of hashes in order to speed it up. Yet,
-it shouldn't be hard - nor it would significantly affect the processing
-time - to make it more deterministic. See the enclosed path.
+  Thanks Barry for his suggestions and reviews.
 
-> Anyway, I've applied this series as well, this helps in finding the
-> problems :)
+Changlogs in v2:
+  1. Drop two patches of introducing PAGEFLAGS_MASK from this series.
+  2. Let page_head_if_fake() return page instead of NULL.
+  3. Add a selftest to check if PageHead or PageTail work well.
 
-Thanks!
+Muchun Song (5):
+  mm: hugetlb: free the 2nd vmemmap page associated with each HugeTLB
+    page
+  mm: hugetlb: replace hugetlb_free_vmemmap_enabled with a static_key
+  mm: sparsemem: use page table lock to protect kernel pmd operations
+  selftests: vm: add a hugetlb test case
+  mm: sparsemem: move vmemmap related to HugeTLB to
+    CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
 
-> Note, I can provide an off-list tarball of /sys/ if that would help in
-> debugging anything on your end.
+ Documentation/admin-guide/kernel-parameters.txt |   2 +-
+ include/linux/hugetlb.h                         |   6 -
+ include/linux/mm.h                              |   2 +
+ include/linux/page-flags.h                      |  90 ++++++++++++++-
+ mm/hugetlb_vmemmap.c                            |  66 ++++++-----
+ mm/memory_hotplug.c                             |   2 +-
+ mm/ptdump.c                                     |  16 ++-
+ mm/sparse-vmemmap.c                             |  72 +++++++++---
+ tools/testing/selftests/vm/vmemmap_hugetlb.c    | 144 ++++++++++++++++++++++++
+ 9 files changed, 339 insertions(+), 61 deletions(-)
+ create mode 100644 tools/testing/selftests/vm/vmemmap_hugetlb.c
 
-Yeah, that can help. Feel free to send it to me.
-
-Btw, I just got an arm64 server with 128 CPUs for testing. I'm trying
-to allocate also a big x86 server here, but I'm not sure if it is AMD or
-Intel.
-
-Thanks,
-Mauro
-
-[PATCH] scripts: get_abi.pl: make undefined search more deterministic
-
-Sort keys on hashes during undefined search, in order to
-make the script more deterministic.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 841d889747c0..d32dcd7cca5d 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -775,6 +775,8 @@ sub check_undefined_symbols {
- 	my $next_i = 0;
- 	my $start_time = times;
- 
-+	@files = sort @files;
-+
- 	my $last_time = $start_time;
- 
- 	# When either debug or hint is enabled, there's no sense showing
-@@ -909,16 +911,16 @@ sub undefined_symbols {
- 		}
- 	}
- 	# Compile regexes
--	foreach my $l (keys %leaf) {
-+	foreach my $l (sort keys %leaf) {
- 		my @expr;
--		foreach my $w(split /\xac/, $leaf{$l}->{what}) {
-+		foreach my $w(sort split /\xac/, $leaf{$l}->{what}) {
- 			push @expr, qr /^$w$/;
- 		}
- 		$leaf{$l}->{expr} = \@expr;
- 	}
- 
- 	# Take links into account
--	foreach my $link (keys %aliases) {
-+	foreach my $link (sort keys %aliases) {
- 		my $abs_file = $aliases{$link};
- 		graph_add_link($abs_file, $link);
- 	}
+-- 
+2.11.0
 
