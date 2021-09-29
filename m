@@ -2,159 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E08C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 14:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2470C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 14:51:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 009E2613CD
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 14:37:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC27F6140F
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 14:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344580AbhI2OjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 10:39:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52080 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344592AbhI2OjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 10:39:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1632926259;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zxKKmmMRHJSYhaR7u+5ryK3qo040LzhTNWQ2wFcbJqY=;
-        b=UW85NGLzcZatU8JyhiSIOv9r9vGFi9UQ85V9cdvZr0hSj8r1eNh74lwKwxMCv+u1nI4z0E
-        FeI4bH/jgBvdN71mG7tMVC0cQLSzHu2fHpxmYb7RXsC6OiU7/BdI05fze2sv+pRgMuf802
-        dwjbGBEmYqGugowh+9dQsfTkgIrcWr0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-8UlB_jwgMrCaCz7PRId56w-1; Wed, 29 Sep 2021 10:37:37 -0400
-X-MC-Unique: 8UlB_jwgMrCaCz7PRId56w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1344707AbhI2OxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 10:53:16 -0400
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:59816
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344734AbhI2OxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 10:53:16 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897568015C7;
-        Wed, 29 Sep 2021 14:37:34 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.195.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 745251017E27;
-        Wed, 29 Sep 2021 14:37:28 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v1 6/6] x86: remove memory hotplug support on X86_32
-Date:   Wed, 29 Sep 2021 16:36:00 +0200
-Message-Id: <20210929143600.49379-7-david@redhat.com>
-In-Reply-To: <20210929143600.49379-1-david@redhat.com>
-References: <20210929143600.49379-1-david@redhat.com>
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2219B3F325
+        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 14:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1632927094;
+        bh=/TquUrfUmr5oNmyuO1+Qsp/eD8gniIfYD04SJchk9B4=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=l64xjmVD9Me1aQvDrLSL5/3KuStRLNN/GJqX33pJnIviY41iMVPuuKlQzaPGAPf5t
+         Gh1e71BREzfxpb5yIGPnmhZCdxJEqds4mDHU9A2EvjzRtDIaaXs7NJIMSdHa1ILBgC
+         ywh9fAxziQHZ2TATcAf+RUJ/soub4Q9Y9mVHbgut9mgoQZU9FLTQ+lj4HGrkGS220p
+         uRR/jS8lIc3FsxekKiqAMZJljRivDYgWUKL+axoBt1d04heUGoQTMcE+XcuyztsGlc
+         eFoNom2i+aE39YF0Re5JwiWzEnLKM0+igemByAiIGMcN39inUobt9ViTl451NQgwI6
+         c31ELpX2pZbTQ==
+Received: by mail-wr1-f70.google.com with SMTP id h25-20020adfa4d9000000b001607d12a0b0so472238wrb.21
+        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 07:51:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/TquUrfUmr5oNmyuO1+Qsp/eD8gniIfYD04SJchk9B4=;
+        b=GYUDDotSINlF3jKOLUIwASnnh8HvEj2Mz8FFF90habRxbdfCURh148zEplBDoidNoa
+         wVqcGjUk6Irh4kBFOw7j7uZ8p4NXJRle0CgpEYg+b7qPxRZEKKIj0I/LGHhBiF7n4kfe
+         5U6OTkR6Rl0vTYOPMx82L/90U9stRuafVsGbqUxNyrCu5WLLE5x1l6rjz2WDLd+MawS2
+         eRHdy5cySbgmBIIxbYdQBzwguq9ZZ9t1ozX3hpHZN1maeurixhBXZuOKahhjOw4r7Uew
+         ZCjncSyviNtNO1TNur5NpBIaPL4X7AaV9I0GYe/C772AdAFiRRtEfQxJEmDdk9wFiOg+
+         YiJw==
+X-Gm-Message-State: AOAM5328JUc68iXTre0c/hK+rXhkAUlf8ciphDVUQnhIn3BtwNiwWpOr
+        7tBnZUnqG4a1QgVkX46eLQ5IzyfyUHwbyVkJoW8ekXyfpSJzvxuAuObd/f2oFh1yFMUbIZRWUfM
+        nRVCeOHVGiIcKB4MrGjcxM1Jmv5TcTbsMnLEyHw==
+X-Received: by 2002:a05:600c:4e86:: with SMTP id f6mr11084964wmq.52.1632927093809;
+        Wed, 29 Sep 2021 07:51:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy9Wf93oel0uFuiz+G/bu4P6jRU9wFw42uTqgvwTyHqxhPmb9DM6m0bHj2SXFqePSIfq7jLA==
+X-Received: by 2002:a05:600c:4e86:: with SMTP id f6mr11084945wmq.52.1632927093654;
+        Wed, 29 Sep 2021 07:51:33 -0700 (PDT)
+Received: from alex.home (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
+        by smtp.gmail.com with ESMTPSA id q7sm129478wrc.55.2021.09.29.07.51.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 07:51:33 -0700 (PDT)
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <Atish.Patra@wdc.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-efi@vger.kernel.org, linux-arch@vger.kernel.org
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: [PATCH v2 00/10] Introduce sv48 support without relocatable kernel 
+Date:   Wed, 29 Sep 2021 16:51:03 +0200
+Message-Id: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CONFIG_MEMORY_HOTPLUG was marked BROKEN over one year and we just
-restricted it to 64 bit. Let's remove the unused x86 32bit implementation
-and simplify the Kconfig.
+This patchset allows to have a single kernel for sv39 and sv48 without           
+being relocatable.                                                               
+                                                                                 
+The idea comes from Arnd Bergmann who suggested to do the same as x86,           
+that is mapping the kernel to the end of the address space, which allows         
+the kernel to be linked at the same address for both sv39 and sv48 and           
+then does not require to be relocated at runtime.                                
+                                                                                 
+This implements sv48 support at runtime. The kernel will try to                  
+boot with 4-level page table and will fallback to 3-level if the HW does not     
+support it. Folding the 4th level into a 3-level page table has almost no        
+cost at runtime.                                                                 
+                                                                                 
+Tested on:                                                                       
+  - qemu rv64 sv39: OK                                                           
+  - qemu rv64 sv48: OK                                                           
+  - qemu rv64 sv39 + kasan: OK                                                   
+  - qemu rv64 sv48 + kasan: OK                                                   
+  - qemu rv32: OK                                                                
+  - Unmatched: OK                                                                
+                                                                                 
+Changes in v2:                                                                   
+  - Rebase onto for-next                                                         
+  - Fix KASAN                                                                    
+  - Fix stack canary                                                             
+  - Get completely rid of MAXPHYSMEM configs                                     
+  - Add documentation
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- arch/x86/Kconfig      |  6 +++---
- arch/x86/mm/init_32.c | 31 -------------------------------
- 2 files changed, 3 insertions(+), 34 deletions(-)
+Alexandre Ghiti (10):
+  riscv: Allow to dynamically define VA_BITS
+  riscv: Get rid of MAXPHYSMEM configs
+  asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+  riscv: Implement sv48 support
+  riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+  riscv: Explicit comment about user virtual address space size
+  riscv: Improve virtual kernel memory layout dump
+  Documentation: riscv: Add sv48 description to VM layout
+  riscv: Initialize thread pointer before calling C functions
+  riscv: Allow user to downgrade to sv39 when hw supports sv48
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index ab83c22d274e..85f4762429f1 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -62,7 +62,7 @@ config X86
- 	select ARCH_32BIT_OFF_T			if X86_32
- 	select ARCH_CLOCKSOURCE_INIT
- 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIGRATION
--	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64 || (X86_32 && HIGHMEM)
-+	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
- 	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if (PGTABLE_LEVELS > 2) && (X86_64 || X86_PAE)
- 	select ARCH_ENABLE_THP_MIGRATION if X86_64 && TRANSPARENT_HUGEPAGE
-@@ -1615,7 +1615,7 @@ config ARCH_SELECT_MEMORY_MODEL
- 
- config ARCH_MEMORY_PROBE
- 	bool "Enable sysfs memory/probe interface"
--	depends on X86_64 && MEMORY_HOTPLUG
-+	depends on MEMORY_HOTPLUG
- 	help
- 	  This option enables a sysfs memory/probe interface for testing.
- 	  See Documentation/admin-guide/mm/memory-hotplug.rst for more information.
-@@ -2395,7 +2395,7 @@ endmenu
- 
- config ARCH_HAS_ADD_PAGES
- 	def_bool y
--	depends on X86_64 && ARCH_ENABLE_MEMORY_HOTPLUG
-+	depends on ARCH_ENABLE_MEMORY_HOTPLUG
- 
- config ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE
- 	def_bool y
-diff --git a/arch/x86/mm/init_32.c b/arch/x86/mm/init_32.c
-index bd90b8fe81e4..5cd7ea6d645c 100644
---- a/arch/x86/mm/init_32.c
-+++ b/arch/x86/mm/init_32.c
-@@ -779,37 +779,6 @@ void __init mem_init(void)
- 	test_wp_bit();
- }
- 
--#ifdef CONFIG_MEMORY_HOTPLUG
--int arch_add_memory(int nid, u64 start, u64 size,
--		    struct mhp_params *params)
--{
--	unsigned long start_pfn = start >> PAGE_SHIFT;
--	unsigned long nr_pages = size >> PAGE_SHIFT;
--	int ret;
--
--	/*
--	 * The page tables were already mapped at boot so if the caller
--	 * requests a different mapping type then we must change all the
--	 * pages with __set_memory_prot().
--	 */
--	if (params->pgprot.pgprot != PAGE_KERNEL.pgprot) {
--		ret = __set_memory_prot(start, nr_pages, params->pgprot);
--		if (ret)
--			return ret;
--	}
--
--	return __add_pages(nid, start_pfn, nr_pages, params);
--}
--
--void arch_remove_memory(u64 start, u64 size, struct vmem_altmap *altmap)
--{
--	unsigned long start_pfn = start >> PAGE_SHIFT;
--	unsigned long nr_pages = size >> PAGE_SHIFT;
--
--	__remove_pages(start_pfn, nr_pages, altmap);
--}
--#endif
--
- int kernel_set_to_readonly __read_mostly;
- 
- static void mark_nxdata_nx(void)
+ Documentation/riscv/vm-layout.rst             |  36 ++
+ arch/riscv/Kconfig                            |  35 +-
+ arch/riscv/configs/nommu_k210_defconfig       |   1 -
+ .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+ arch/riscv/configs/nommu_virt_defconfig       |   1 -
+ arch/riscv/include/asm/csr.h                  |   3 +-
+ arch/riscv/include/asm/fixmap.h               |   1 +
+ arch/riscv/include/asm/kasan.h                |   2 +-
+ arch/riscv/include/asm/page.h                 |  10 +
+ arch/riscv/include/asm/pgalloc.h              |  40 +++
+ arch/riscv/include/asm/pgtable-64.h           | 108 +++++-
+ arch/riscv/include/asm/pgtable.h              |  30 +-
+ arch/riscv/include/asm/sparsemem.h            |   6 +-
+ arch/riscv/kernel/cpu.c                       |  23 +-
+ arch/riscv/kernel/head.S                      |   4 +-
+ arch/riscv/mm/context.c                       |   4 +-
+ arch/riscv/mm/init.c                          | 323 +++++++++++++++---
+ arch/riscv/mm/kasan_init.c                    |  91 +++--
+ drivers/firmware/efi/libstub/efi-stub.c       |   2 +
+ include/asm-generic/pgalloc.h                 |  24 +-
+ include/linux/sizes.h                         |   1 +
+ 21 files changed, 615 insertions(+), 131 deletions(-)
+
 -- 
-2.31.1
+2.30.2
 
