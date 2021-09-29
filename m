@@ -2,83 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA35DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5A7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:13:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1F8E613CD
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:03:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEEF0613C8
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:13:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244490AbhI2HFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 03:05:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54362 "EHLO mail.kernel.org"
+        id S244539AbhI2HOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 03:14:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244488AbhI2HFd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Sep 2021 03:05:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE4386138E;
-        Wed, 29 Sep 2021 07:03:51 +0000 (UTC)
+        id S244486AbhI2HOn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Sep 2021 03:14:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BF3936137E;
+        Wed, 29 Sep 2021 07:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632899032;
-        bh=GcoU2MZqcGbGfGu7dqp3ky0uo+isKPbsBl/bQHfwjkA=;
+        s=korg; t=1632899583;
+        bh=VI48gGecE8JRkm15ynMz5sFO5LaSB24AzwL9LS1SRIM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LNYuFHabhSmp8WoFeFG/LNoV9ixHrrJN+WcMeeFnkuAMAKPpSgiaqs28Ie4ObbkqR
-         v79QTMO+IUwjr7Myg8tyVkc760HeuJ0qmskht5wWiLv7bTfAPZbGaTce9QEHhjS9t5
-         8qGObuF6tyv4Rkc0dHyPR8+ZCfdAi7rjyTgJnj6c=
-Date:   Wed, 29 Sep 2021 09:03:49 +0200
+        b=lYy210J4wAdrB2yLJvtCtKejQjQ80diGsETt1cajhixscF5ZqTcXuoShT7USrNfG/
+         r1bbBZHJEr3IHLTZBBUHPPRMtqG1AlWqenynvulBGjqbyZ9+3+cIfFZjEiv1MbpuEv
+         sfxXH+AASE4cyUtysbT75sWfZRFt15Ik5Ca0jtYo=
+Date:   Wed, 29 Sep 2021 09:13:01 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Avri Altman <Avri.Altman@wdc.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Bean Huo <beanhuo@micron.com>, Can Guo <cang@codeaurora.org>,
-        Daejun Park <daejun7.park@samsung.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 16/17] ABI: sysfs-driver-ufs: Add another What for
- platform drivers
-Message-ID: <YVQP1btICr0TJusK@kroah.com>
-References: <cover.1632750608.git.mchehab+huawei@kernel.org>
- <bc61469964bbcabe38d12aa88f2734d38a8741e5.1632750608.git.mchehab+huawei@kernel.org>
- <DM6PR04MB6575E3C9D13E8B41627240FDFCA99@DM6PR04MB6575.namprd04.prod.outlook.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: get_abi.pl: make undefined search more
+ deterministic
+Message-ID: <YVQR/WzopuDTTwDq@kroah.com>
+References: <YVNOZ3GKcpRxPXzv@kroah.com>
+ <5dc55fd42e632a24a48f95212aa6c6bc4b2d11fd.1632865873.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR04MB6575E3C9D13E8B41627240FDFCA99@DM6PR04MB6575.namprd04.prod.outlook.com>
+In-Reply-To: <5dc55fd42e632a24a48f95212aa6c6bc4b2d11fd.1632865873.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 06:32:40AM +0000, Avri Altman wrote:
-> > The current what expressions:
-> >         What:          /sys/bus/platform/drivers/ufshcd/*/...
-> > 
-> > Doesn't actually match what (some?) platform drivers actually
-> > export. For instance, drivers/scsi/ufs/ufs-hisi.c actually
-> > creates the sysfs struct for ufshcd inside this directory:
-> > 
-> >         /sys/devices/platform/soc/ff3c0000.ufs
-> > 
-> > Which has those aliases:
-> > 
-> >         /sys/devices/virtual/devlink/platform:fff35000.crg_ctrl--
-> > platform:ff3c0000.ufs/consumer/
-> >         /sys/bus/platform/drivers/ufshcd-hisi/ff3c0000.ufs/
-> >         /sys/bus/platform/devices/soc/ff3c0000.ufs/
-> >         /sys/bus/platform/devices/ff3c0000.ufs/
-> > 
-> > So, add another What: for such files that will match the
-> > device ufs entries, e. g.:
-> > 
-> >         What:          /sys/bus/platform/devices/*.ufs/
-> On some platforms the suffix is .ufshc
-> So Maybe use:
-> /sys/bus/platform/devices/*.ufs*/
+On Tue, Sep 28, 2021 at 11:51:32PM +0200, Mauro Carvalho Chehab wrote:
+> Sort keys on hashes during undefined search, in order to
+> make the script more deterministic.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  scripts/get_abi.pl | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+> index 841d889747c0..d32dcd7cca5d 100755
+> --- a/scripts/get_abi.pl
+> +++ b/scripts/get_abi.pl
+> @@ -775,6 +775,8 @@ sub check_undefined_symbols {
+>  	my $next_i = 0;
+>  	my $start_time = times;
+>  
+> +	@files = sort @files;
+> +
+>  	my $last_time = $start_time;
+>  
+>  	# When either debug or hint is enabled, there's no sense showing
+> @@ -909,16 +911,16 @@ sub undefined_symbols {
+>  		}
+>  	}
+>  	# Compile regexes
+> -	foreach my $l (keys %leaf) {
+> +	foreach my $l (sort keys %leaf) {
+>  		my @expr;
+> -		foreach my $w(split /\xac/, $leaf{$l}->{what}) {
+> +		foreach my $w(sort split /\xac/, $leaf{$l}->{what}) {
+>  			push @expr, qr /^$w$/;
+>  		}
+>  		$leaf{$l}->{expr} = \@expr;
+>  	}
+>  
+>  	# Take links into account
+> -	foreach my $link (keys %aliases) {
+> +	foreach my $link (sort keys %aliases) {
+>  		my $abs_file = $aliases{$link};
+>  		graph_add_link($abs_file, $link);
+>  	}
+> -- 
+> 2.31.1
+> 
 
-That's confusing.  How about describing why "ufshc" is used in another
-entry?  You all must have picked the new name for some reason to
-differentiate, right?
-
-thanks,
+Much better, now we are at a reproducable 10 seconds on my large box.
+Thanks for all the work on this, now to go and start adding the missing
+documentation :)
 
 greg k-h
