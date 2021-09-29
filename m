@@ -2,177 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B30CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 05:28:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AED7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 05:38:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05F52610E6
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 05:28:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16A80613CD
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 05:38:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244185AbhI2FaD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 01:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60766 "EHLO
+        id S244217AbhI2FkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 01:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244096AbhI2FaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 01:30:03 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98224C06161C;
-        Tue, 28 Sep 2021 22:28:22 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id 71so2731077ybe.6;
-        Tue, 28 Sep 2021 22:28:22 -0700 (PDT)
+        with ESMTP id S243585AbhI2FkH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 01:40:07 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CADC06161C;
+        Tue, 28 Sep 2021 22:38:26 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id b82so2825273ybg.1;
+        Tue, 28 Sep 2021 22:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xkRkJ9qOjdjrGLosz4wxC8UOCk09ebTeALx75shmRHk=;
-        b=mzW3OnabL+IyaZEEYwb+JP61g7PYaOMCzO9n4qA7286IkbinbiIx/EULISPQNRQp2+
-         TF06RuuYmsIt0+1EKvpSDHzO6/7O/Vver5NMYu+N81CN5ZXrEMp+uvd1TH/Qd5plEqW3
-         MP9lOC6NxdNcC1qjM0DPlMRBrPXmmnxncYvlaaJVz9khH8M3gPu5pMTZsmW/A2KQziul
-         euEkDURO1Fe86yyKlf6n7g2a433A86/5mKsJjQLdwfKujbSM6/IgPCz4XfInO6tdG6h/
-         3vKyHS2tHfcKvNkSPyKyxBfUjqtRsHc0gnNS9IMSquho0JIM1hmaRD0P+SzA0p7a7YWI
-         FMSQ==
+         :cc:content-transfer-encoding;
+        bh=5ztsiqAX3AYgWG18b943VFbtp7/SfntcI2880JjxeAU=;
+        b=f1d6CzJbbhEpoUsytAYkt/ziq9L+2m2NcmNHs3VOKO09Hty1IGqtaIs4JsoS/kdCC3
+         wMQF5JWof7knpNS3wDzN+XuhNcKDHD/eqoULwFstloRUQerKzijmhjSqd8lh1bpQpYpO
+         yTJCSWVyvMAq6Q6y/pAmaQyArgYHXUexSDX157lMQPDeexslCa9zFp1R++qrB2vMRERA
+         rE4DfzR18mycN9q8Lr0sC4d/Pqk3R93uKjCg3Vz+Ga96ItbTlcjhUKHIfdE0GiW6HQWJ
+         33Nclt37+5g07AMXv/HzcehbgLcDLhCXDgQajCNJ96W1Tw/Hms4G9e0FgqBTh2Zs27Ea
+         FL3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xkRkJ9qOjdjrGLosz4wxC8UOCk09ebTeALx75shmRHk=;
-        b=W6qmb6KOmsw1xFkvqCrHFkRTV5bR7ZyTJjl+jAhtq1mvIdrHdQIqIhSkXMTT9afshU
-         FHyqtD2bj6B4WuU4xOZKv59WjNskLURyo+T8RScljYGL9xD0FbNCh1rQGc5E47mGFZ/l
-         DeWLgL++WLbM1OUXOwOhqW5GTx3LPAhRMGUWjiFiz7dr6iyClrl5huxWtEY+r/jCRhgp
-         nE9nlpsdheJL852eeWgL6MnBbaO7V+VRQ2FRsZkXINAKbUtKEvj+ZEMZWvR9PI4DLOk1
-         0S1UpjOhEe7iHxDMVAQhyWatKrBOa6fNC0qGs3TUDpxikmFSzKHijxvKd08VHstBtZbP
-         oplQ==
-X-Gm-Message-State: AOAM532+PLyQSRh2M5i/PAkLX00BZEvFG6Xh4ZzuSpxv0d7wvDBpa/DP
-        juTY4Z996VVyU23uHAkTClntNZLftsqWghQHYz/t+MMCKHU=
-X-Google-Smtp-Source: ABdhPJzSlhEi3lM53/OYhkNRr9objwPo45o2Dy8CwQsN3BInbB7m0HUIMJZreYXf2rayc+OI7UqMw81jttGlCl6YDjw=
-X-Received: by 2002:a25:f20b:: with SMTP id i11mr10834957ybe.534.1632893301827;
- Tue, 28 Sep 2021 22:28:21 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5ztsiqAX3AYgWG18b943VFbtp7/SfntcI2880JjxeAU=;
+        b=s+c/oWygOewnJRp5MOM58CUWwgTI7Ucs3vlrprhKmchBqGRgs6mYsI33ATRaf/eBkd
+         0VD+6XEpDLo8o4r3CA5LL85Jr8mAJPcVbIPqEv/NkX1GZEP0bB5f/loVbmhCRH66e9dc
+         oVmOUR7kXs4s+T/fFyUIoriukIhV6/0CuIARvUvX7MGre9Cunrq1bZbyeGF6b9T1mA0S
+         KwfJmQ5h2AiQU6TChXZPoJGKS35Kuhf4ZPFN8uZUEL70+HJrNEyL6B5M94iE7Vq0mYaP
+         Kvpuo2uqbyaoU7pA5rPpFi0rbFWctAx7rlHBMK08r+yPhdKondNs8v9FwJx9/0EVYxix
+         rdxQ==
+X-Gm-Message-State: AOAM531W0bzMkAtP+ATteXSneuRXR1Re30MBCi08/uDQjHlFcJ/7Hj6R
+        JloRkA3LaWqiDmRJ8kDginrAw+NLGac9YRQWJ2g=
+X-Google-Smtp-Source: ABdhPJxe/ywDtg1YeCswW8swTkhx53zYX0oC7IN4j3bnhNTvMGH/NngSiQvuhMiTuZNEAr/cDBCGChTcWMI7jgwUnRc=
+X-Received: by 2002:a25:30c2:: with SMTP id w185mr11165444ybw.321.1632893906007;
+ Tue, 28 Sep 2021 22:38:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210925201746.15917-1-utkarshverma294@gmail.com>
-In-Reply-To: <20210925201746.15917-1-utkarshverma294@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Wed, 29 Sep 2021 07:28:19 +0200
-Message-ID: <CAKXUXMzEFQd1JJhx4ZbBQiuSB7Fk3bd7dwJYmPOvEtMqZopxpg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: checkpatch: Document some more message types
-To:     Utkarsh Verma <utkarshverma294@gmail.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210927104149.46884-1-yaozhenguo1@gmail.com> <YVNHIzpmxSotbbBX@kernel.org>
+In-Reply-To: <YVNHIzpmxSotbbBX@kernel.org>
+From:   Zhenguo Yao <yaozhenguo1@gmail.com>
+Date:   Wed, 29 Sep 2021 13:38:15 +0800
+Message-ID: <CA+WzARnv0Ju8F_Dei+BBU8jHtVWJj12uJ2w9He1pF7R9ZzGMQQ@mail.gmail.com>
+Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>, mpe@ellerman.id.au,
+        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
+        Andrew Morton <akpm@linux-foundation.org>, yaozhenguo@jd.com,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Overall conclusion: Patch needs more work. So a NACK from my side.
+Thanks for your advice.
 
-Jonathan, could you drop this patch from your queue again? Sorry for
-this inconvenience.
-
-Further comments inline.
-
-On Sat, Sep 25, 2021 at 10:18 PM Utkarsh Verma
-<utkarshverma294@gmail.com> wrote:
+Mike Rapoport <rppt@kernel.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=8829=E6=97=A5=
+=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=8812:47=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Added and documented 3 new message types:
-> - UNNECESSARY_INT
-> - UNSPECIFIED_INT
-> - UNNECESSARY_ELSE
+> Hi,
 >
-> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 47 ++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
+> On Mon, Sep 27, 2021 at 06:41:49PM +0800, Zhenguo Yao wrote:
+> > We can specify the number of hugepages to allocate at boot. But the
+> > hugepages is balanced in all nodes at present. In some scenarios,
+> > we only need hugepages in one node. For example: DPDK needs hugepages
+> > which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> > size in node1 and system has 16 numa nodes. We must reserve 64 hugepage=
+s
+> > in kernel cmdline. But, only four hugepages are used. The others should
+> > be free after boot. If the system memory is low(for example: 64G), it w=
+ill
+> > be an impossible task. So, Extending hugepages parameter to support
+> > specifying hugepages at a specific node.
+> > For example add following parameter:
+> >
+> > hugepagesz=3D1G hugepages=3D0:1,1:3
+> >
+> > It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> >
+> > Signed-off-by: Zhenguo Yao <yaozhenguo1@gmail.com>
+> > ---
 >
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index f0956e9ea2d8..2dc74682277f 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -929,6 +929,13 @@ Functions and Variables
+> ...
 >
->        return bar;
+> > diff --git a/arch/powerpc/mm/hugetlbpage.c b/arch/powerpc/mm/hugetlbpag=
+e.c
+> > index 9a75ba078e1b..dd40ce6e7565 100644
+> > --- a/arch/powerpc/mm/hugetlbpage.c
+> > +++ b/arch/powerpc/mm/hugetlbpage.c
+> > @@ -229,17 +229,22 @@ static int __init pseries_alloc_bootmem_huge_page=
+(struct hstate *hstate)
+> >       m->hstate =3D hstate;
+> >       return 1;
+> >  }
+> > +
+> > +bool __init node_specific_alloc_support(void)
 >
-> +  **UNNECESSARY_INT**
-> +    int used after short, long and long long is unnecessary. So remove it.
-> +
-
-This does not add significantly more explanation than what is already
-there in the checkpatch warning without the --verbose option.
-
-As we said multiple times before:
-- A reference to documentation, mailing list thread, or (in this case)
-even the section of the C standard helps. Then summarize that
-discussion or the rationale you got from that documentation.
-- Further, pointers to typical cases of false positives of this rule
-also helps developers to judge if they should address the warning or
-not.
-
-> +  **UNSPECIFIED_INT**
-> +    Kernel style prefers "unsigned int <foo>" over "unsigned <foo>" and
-> +    "signed int <foo>" over "signed <foo>".
-> +
-
-Same comment as above.
-
+> I'd suggest to namespace this to hugetlb, e.g.
 >
->  Permissions
->  -----------
-> @@ -1166,3 +1173,43 @@ Others
+> hugetlb_node_alloc_supported()
 >
->    **TYPO_SPELLING**
->      Some words may have been misspelled.  Consider reviewing them.
-> +
-> +  **UNNECESSARY_ELSE**
-> +    Using an else statement just after a return or a break statement is
-> +    unnecassary. For example::
-
-spelling mistake in unnecassary -> unnecessary.
-
-> +
-> +      for (i = 0; i < 100; i++) {
-> +              int foo = bar();
-> +              if (foo < 1)
-> +                      break;
-> +              else
-> +                      usleep(1);
-> +      }
-> +
-> +    is generally better written as::
-> +
-> +      for (i = 0; i < 100; i++) {
-> +              int foo = bar();
-> +              if (foo < 1)
-> +                      break;
-> +              usleep(1);
-> +      }
-> +
-> +    So remove the else statement. But suppose if a if-else statement each
-> +    with a single return statement, like::
-> +
-> +      if (foo)
-> +              return bar;
-> +      else
-> +              return baz;
-> +
-> +    then by removing the else statement::
-> +
-> +      if (foo)
-> +              return bar;
-> +      return baz;
-> +
-> +    their is no significant increase in the readability and one can argue
-
-s/their/there/
-
-> +    that the first form is more readable because of indentation, so for
-> +    such cases do not convert the existing code from first form to second
-> +    form or vice-versa.
-
-I am confused. So what is the recommendation the documentation is
-providing here?
-
-Lukas
-
+Looks good to me.
+> > +{
+> > +     return false;
+> > +}
+> >  #endif
+> >
+> >
+> > -int __init alloc_bootmem_huge_page(struct hstate *h)
+> > +int __init alloc_bootmem_huge_page(struct hstate *h, int nid)
+> >  {
+> >
+> >  #ifdef CONFIG_PPC_BOOK3S_64
+> >       if (firmware_has_feature(FW_FEATURE_LPAR) && !radix_enabled())
+> >               return pseries_alloc_bootmem_huge_page(h);
+> >  #endif
+> > -     return __alloc_bootmem_huge_page(h);
+> > +     return __alloc_bootmem_huge_page(h, nid);
+> >  }
+> >
+> >  #ifndef CONFIG_PPC_BOOK3S_64
+>
+> ...
+>
+> > @@ -2868,33 +2869,41 @@ struct page *alloc_huge_page(struct vm_area_str=
+uct *vma,
+> >       return ERR_PTR(-ENOSPC);
+> >  }
+> >
+> > -int alloc_bootmem_huge_page(struct hstate *h)
+> > +int alloc_bootmem_huge_page(struct hstate *h, int nid)
+> >       __attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
+> > -int __alloc_bootmem_huge_page(struct hstate *h)
+> > +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
+> >  {
+> >       struct huge_bootmem_page *m;
+> >       int nr_nodes, node;
+> >
+> > +     if (nid >=3D nr_online_nodes)
+> > +             return 0;
+> > +     /* do node specific alloc */
+> > +     if (nid !=3D NUMA_NO_NODE) {
+> > +             m =3D memblock_alloc_try_nid_raw(huge_page_size(h), huge_=
+page_size(h),
+> > +                             0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> > +             if (m)
+> > +                     goto found;
+> > +             else
+> > +                     return 0;
+>
+> Nit: you could make it a bit simpler with
+>
+>                 if (!m)
+>                         return 0;
+>                 goto found;
+>
+Looks more regular.
+> > +     }
+> > +     /* do all node balanced alloc */
+> >       for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEM=
+ORY]) {
+> > -             void *addr;
+> > -
+> > -             addr =3D memblock_alloc_try_nid_raw(
+> > +             m =3D memblock_alloc_try_nid_raw(
+> >                               huge_page_size(h), huge_page_size(h),
+> >                               0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
+> > -             if (addr) {
+> > -                     /*
+> > -                      * Use the beginning of the huge page to store th=
+e
+> > -                      * huge_bootmem_page struct (until gather_bootmem
+> > -                      * puts them into the mem_map).
+> > -                      */
+> > -                     m =3D addr;
+> > +             /*
+> > +              * Use the beginning of the huge page to store the
+> > +              * huge_bootmem_page struct (until gather_bootmem
+> > +              * puts them into the mem_map).
+> > +              */
+> > +             if (m)
+> >                       goto found;
+> > -             }
+> > +             else
+> > +                     return 0;
+>
+> ditto
+>
+> >       }
+> > -     return 0;
+> >
+> >  found:
+> > -     BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
+> >       /* Put them into a private list first because mem_map is not up y=
+et */
+> >       INIT_LIST_HEAD(&m->list);
+> >       list_add(&m->list, &huge_boot_pages);
+>
 > --
-> 2.25.1
->
+> Sincerely yours,
+> Mike.
