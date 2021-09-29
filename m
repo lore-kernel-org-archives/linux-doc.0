@@ -2,84 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66358C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:39:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F7BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 08:34:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 405AC613D1
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 07:39:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09A37613CD
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 08:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243109AbhI2HlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 03:41:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42666 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244657AbhI2HlY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Sep 2021 03:41:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 78191613C8;
-        Wed, 29 Sep 2021 07:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1632901184;
-        bh=7dRu7YsEfukSf7PESkloedYqIhpiZA3O3u/vv59OaqU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qAn/WpIuAheoyfGlkGJPpvqEn7y9MTH4TFBANF6G+HnbR/dxV1x5h9POi+A87v6Om
-         SgNfoSLeE10FtJA8pOI+yKkLujnLvteRn654YfBoVD5qk14oMLPSwhr/5g6zU4NTKl
-         fCSGLVwF2oTmiGYNm2xsSr+jOQXEmgfqhsNbrmXA=
-Date:   Wed, 29 Sep 2021 09:39:41 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Avri Altman <Avri.Altman@wdc.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S244786AbhI2Igc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 04:36:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244789AbhI2Igb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 04:36:31 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5256BC06174E;
+        Wed, 29 Sep 2021 01:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=SV4z02fQHJKU53d8jxad0OxnLv9XTsMO9xV7N7zdQ6Y=; b=rSe8TuC8imwfT6E1X6+WboQJLW
+        7k7fqZpa/U1uGtZoCJbcblrFT0JFyr7cTZW0Nch1KpeE0R432yshLdinJP7FGEW3dozL0/zimcP4V
+        PX58V37T6BdAwrcgCZTdKoOcpO4ZCw4CoUHOSwg3CH+zmkL9aLFwFe8yBQuBVXvCe+hei0usuo3wQ
+        P7QAsfy/Mg4H+o/6pDYa+Dz9uPy6qa4P7KnCQFid498eo1cODfprebhnqCKGiXw6arj4ekjmVjfU4
+        rB0ni5307qLFuCJKvxZFoG4+nkyJcSi9nC/RddFPl7QO8z3moJT26grUDEfqPwnCPwGm1+Hzl6Nk0
+        dX4aT1oA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mVV1h-00BeBj-Of; Wed, 29 Sep 2021 08:33:31 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9B38B30029A;
+        Wed, 29 Sep 2021 10:33:16 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 82F9729AD1D57; Wed, 29 Sep 2021 10:33:16 +0200 (CEST)
+Date:   Wed, 29 Sep 2021 10:33:16 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Alexander Lochmann <info@alexander-lochmann.de>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Bean Huo <beanhuo@micron.com>, Can Guo <cang@codeaurora.org>,
-        Daejun Park <daejun7.park@samsung.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 16/17] ABI: sysfs-driver-ufs: Add another What for
- platform drivers
-Message-ID: <YVQYPW5gDR2nvOcW@kroah.com>
-References: <cover.1632750608.git.mchehab+huawei@kernel.org>
- <bc61469964bbcabe38d12aa88f2734d38a8741e5.1632750608.git.mchehab+huawei@kernel.org>
- <DM6PR04MB6575E3C9D13E8B41627240FDFCA99@DM6PR04MB6575.namprd04.prod.outlook.com>
- <YVQP1btICr0TJusK@kroah.com>
- <DM6PR04MB6575B12DCA2D78A387E61852FCA99@DM6PR04MB6575.namprd04.prod.outlook.com>
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
+Message-ID: <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
+References: <20210927173348.265501-1-info@alexander-lochmann.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR04MB6575B12DCA2D78A387E61852FCA99@DM6PR04MB6575.namprd04.prod.outlook.com>
+In-Reply-To: <20210927173348.265501-1-info@alexander-lochmann.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 07:23:32AM +0000, Avri Altman wrote:
-> > On Wed, Sep 29, 2021 at 06:32:40AM +0000, Avri Altman wrote:
-> > > > The current what expressions:
-> > > >         What:          /sys/bus/platform/drivers/ufshcd/*/...
-> > > >
-> > > > Doesn't actually match what (some?) platform drivers actually
-> > > > export. For instance, drivers/scsi/ufs/ufs-hisi.c actually creates
-> > > > the sysfs struct for ufshcd inside this directory:
-> > > >
-> > > >         /sys/devices/platform/soc/ff3c0000.ufs
-> > > >
-> > > > Which has those aliases:
-> > > >
-> > > >         /sys/devices/virtual/devlink/platform:fff35000.crg_ctrl--
-> > > > platform:ff3c0000.ufs/consumer/
-> > > >         /sys/bus/platform/drivers/ufshcd-hisi/ff3c0000.ufs/
-> > > >         /sys/bus/platform/devices/soc/ff3c0000.ufs/
-> > > >         /sys/bus/platform/devices/ff3c0000.ufs/
-> > > >
-> > > > So, add another What: for such files that will match the device ufs
-> > > > entries, e. g.:
-> > > >
-> > > >         What:          /sys/bus/platform/devices/*.ufs/
-> > > On some platforms the suffix is .ufshc So Maybe use:
-> > > /sys/bus/platform/devices/*.ufs*/
-> > 
-> > That's confusing.  How about describing why "ufshc" is used in another
-> > entry?  You all must have picked the new name for some reason to
-> > differentiate, right?
-> It's a platform thing. Better let the platform guys answer that.
+On Mon, Sep 27, 2021 at 07:33:40PM +0200, Alexander Lochmann wrote:
+> The existing trace mode stores PCs in execution order. This could lead
+> to a buffer overflow if sufficient amonut of kernel code is executed.
+> Thus, a user might not see all executed PCs. KCOV_MODE_UNIQUE favors
+> completeness over execution order. While ignoring the execution order,
+> it marks a PC as exectued by setting a bit representing that PC. Each
+> bit in the shared buffer represents every fourth byte of the text
+> segment.  Since a call instruction on every supported architecture is
+> at least four bytes, it is safe to just store every fourth byte of the
+> text segment.
 
-What plaform people?
+I'm still trying to wake up, but why are call instruction more important
+than other instructions? Specifically, I'd think any branch instruction
+matters for coverage.
+
+More specifically, x86 can do a tail call with just 2 bytes.
