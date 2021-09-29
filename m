@@ -2,153 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98306C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 15:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18795C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 18:58:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80E8660F23
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 15:01:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF3B161527
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 18:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344934AbhI2PDb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 11:03:31 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:60938
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344838AbhI2PDb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 11:03:31 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8F6BA405FD
-        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 15:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1632927709;
-        bh=ZHeeeZbiilEHhtw/jMIzJY6AU5jy7F+74b86hE2E++U=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version;
-        b=rfqJGFmkfNS3ZpZYQMuDIHCpXyI/BlSP+DyqdQkvdGUUeZ7VtNvD6rbKQSEroH2bZ
-         qST16xcQtM5R0QvL0Dp8Tq1NbtLuMhnESEL3nZYn9juEMHDsu348HdjI5hZqJxvFuD
-         fjD7fbAzxga3mENYOdaRwr/mXSZZFBn3jfNUTHCb/IkGjxjSLyIoMRfY9HGAFXrnxw
-         jmQkENNrs6CHZEccSD5WB0QZ0ZC0NJyp7va4uji3xle7/vOP0Mk27Q5D5AxKhVt9g3
-         dlvWv8kef6yAfIi/qVJm1j9nD3I1/zGGtJMC+R+rbd6HEC6YfvBHer9A5zheOdprr2
-         ajkolqGoVbZvg==
-Received: by mail-wm1-f71.google.com with SMTP id x23-20020a05600c21d700b0030d23749278so602495wmj.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 08:01:49 -0700 (PDT)
+        id S1344940AbhI2TAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 15:00:21 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:34642 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244766AbhI2TAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 15:00:21 -0400
+Received: by mail-wr1-f49.google.com with SMTP id t8so5965924wri.1;
+        Wed, 29 Sep 2021 11:58:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZHeeeZbiilEHhtw/jMIzJY6AU5jy7F+74b86hE2E++U=;
-        b=xyUuVPKcS7WMGRkKOaqZGvKC7dq8NpUyVeGmdoUR4KEN3n4QdxV83cknoCKkVuIvPz
-         KkPR++0pn2lHKU1czQHjrEUgvvHhEmUy8J3kTaAhon+jv7h/KUtxmDWPBKqkcvERZ35J
-         zl8PCpU2AprNmA+erEhElPr10NUp1+GbIuIVOm++bWurTm8ThvbY+TmSg9c/I9IsuXKX
-         c4DEbmq+cpHzflCZGYT3M4qsnQcO+4rfYD5cOqSNd5oN3OAkzvFcZrtSncX22avJPrI6
-         X2M/xZ1bjkgoOnfB92THXuBbMpPQp8EDVKGekb059fT424mehJz2MF4nibnF288D9pIF
-         McTg==
-X-Gm-Message-State: AOAM532lRb7Ya2bVMCAuo3t7Qcy2P73qbw7RmERLMTEe47cO0K/N/h+i
-        5QfhBLwAZvDP5Wf1lsEIiaiO+XEWM/RUG2LiDDF+tgJFGwqTV9NOC4EHp2uJdFeO3qpMUjF8P5a
-        juh0YpXC17IQ9rVNkYueHTbBU2WUoJCyvrig2JQ==
-X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377135wry.292.1632927708042;
-        Wed, 29 Sep 2021 08:01:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9V/fnO21N7p3bEFVhHIvHS/0Ily74/OnTsvsnaHKo/n2patag3dfQoebfGKaZ+3ZNnDo6Og==
-X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377109wry.292.1632927707834;
-        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
-Received: from alex.home (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id h18sm133008wrs.75.2021.09.29.08.01.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NX7kzOlXhLlKh6a09QjwKCvbG9nCgyCouwpC4Jjr1c0=;
+        b=J3Q503Q7diec1tu9EHnjkZ7g8rTLY9YleEXr17WU5YJArSDcRchO75irT+yYkIKPyG
+         vxirKzyCwxPvIOY6P2DI7bA1rnd+jq6HoikWpOgjJb7870rtVwc5vm043ALcG9TcnR+V
+         /a1y61VZlTN0qdBWYk68YG+Q+2XEPjMFRh/ksQyD+J3dqckwLfu+Qi/003XmV77FyTsQ
+         NFmXxeJOlv7I0s1eBidXFPvQz604p4/o21ITVdmsqJQ0AicnkLA3f/s2WClvqLBHspAm
+         edzQLuTAfjovieRJLNZci/qKBfm0d2Xkn6Iy+EzCkHelz/BMfYpSyMp0ZcIoTZJK9m00
+         2XBg==
+X-Gm-Message-State: AOAM533M8z53u2JDWlLwOdHictUf7mC7US/AtZ5GT+6Lutp7PwRCnSED
+        yB8qTIEKtIGE7kQ2lVyI0GM=
+X-Google-Smtp-Source: ABdhPJyyBlk2gE76cLFYDnNAs1zIskLuX0HW15xFYCDmMjXxjdTVQLDm8F/ZK9yNz7ieyQ+tLmq0QQ==
+X-Received: by 2002:adf:f0d2:: with SMTP id x18mr1873652wro.25.1632941918820;
+        Wed, 29 Sep 2021 11:58:38 -0700 (PDT)
+Received: from localhost.localdomain ([46.166.133.199])
+        by smtp.gmail.com with ESMTPSA id r19sm578288wmp.43.2021.09.29.11.58.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+        Wed, 29 Sep 2021 11:58:38 -0700 (PDT)
+From:   Alexander Popov <alex.popov@linux.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
         Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-efi@vger.kernel.org, linux-arch@vger.kernel.org
-Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH v2 10/10] riscv: Allow user to downgrade to sv39 when hw supports sv48
-Date:   Wed, 29 Sep 2021 16:51:13 +0200
-Message-Id: <20210929145113.1935778-11-alexandre.ghiti@canonical.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
-References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Garnier <thgarnie@google.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Laura Abbott <labbott@redhat.com>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>,
+        Alexander Popov <alex.popov@linux.com>,
+        kernel-hardening@lists.openwall.com,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     notify@kernel.org
+Subject: [PATCH] Introduce the pkill_on_warn boot parameter
+Date:   Wed, 29 Sep 2021 21:58:23 +0300
+Message-Id: <20210929185823.499268-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is made possible by using the mmu-type property of the cpu node of
-the device tree.
+Currently, the Linux kernel provides two types of reaction to kernel
+warnings:
+ 1. Do nothing (by default),
+ 2. Call panic() if panic_on_warn is set. That's a very strong reaction,
+    so panic_on_warn is usually disabled on production systems.
 
-By default, the kernel will boot with 4-level page table if the hw supports
-it but it can be interesting for the user to select 3-level page table as
-it is less memory consuming and faster since it requires less memory
-accesses in case of a TLB miss.
+From a safety point of view, the Linux kernel misses a middle way of
+handling kernel warnings:
+ - The kernel should stop the activity that provokes a warning,
+ - But the kernel should avoid complete denial of service.
 
-Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+From a security point of view, kernel warning messages provide a lot of
+useful information for attackers. Many GNU/Linux distributions allow
+unprivileged users to read the kernel log, so attackers use kernel
+warning infoleak in vulnerability exploits. See the examples:
+  https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
+  https://a13xp0p0v.github.io/2021/02/09/CVE-2021-26708.html
+
+Let's introduce the pkill_on_warn boot parameter.
+If this parameter is set, the kernel kills all threads in a process
+that provoked a kernel warning. This behavior is reasonable from a safety
+point of view described above. It is also useful for kernel security
+hardening because the system kills an exploit process that hits a
+kernel warning.
+
+Signed-off-by: Alexander Popov <alex.popov@linux.com>
 ---
- arch/riscv/mm/init.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 4 ++++
+ kernel/panic.c                                  | 5 +++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index a304f2b3c178..676635f5d98a 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -641,10 +641,31 @@ static void __init disable_pgtable_l4(void)
-  * then read SATP to see if the configuration was taken into account
-  * meaning sv48 is supported.
-  */
--static __init void set_satp_mode(void)
-+static __init void set_satp_mode(uintptr_t dtb_pa)
- {
- 	u64 identity_satp, hw_satp;
- 	uintptr_t set_satp_mode_pmd;
-+	int cpus_node;
-+
-+	/* Check if the user asked for sv39 explicitly in the device tree */
-+	cpus_node = fdt_path_offset((void *)dtb_pa, "/cpus");
-+	if (cpus_node >= 0) {
-+		int node;
-+
-+		fdt_for_each_subnode(node, (void *)dtb_pa, cpus_node) {
-+			const char *mmu_type = fdt_getprop((void *)dtb_pa, node,
-+					"mmu-type", NULL);
-+			if (!mmu_type)
-+				continue;
-+
-+			if (!strcmp(mmu_type, "riscv,sv39")) {
-+				disable_pgtable_l4();
-+				return;
-+			}
-+
-+			break;
-+		}
-+	}
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 91ba391f9b32..86c748907666 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4112,6 +4112,10 @@
+ 	pirq=		[SMP,APIC] Manual mp-table setup
+ 			See Documentation/x86/i386/IO-APIC.rst.
  
- 	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
- 	create_pgd_mapping(early_pg_dir,
-@@ -802,7 +823,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- #endif
++	pkill_on_warn=	Kill all threads in a process that provoked a
++			kernel warning.
++			Format: { "0" | "1" }
++
+ 	plip=		[PPT,NET] Parallel port network link
+ 			Format: { parport<nr> | timid | 0 }
+ 			See also Documentation/admin-guide/parport.rst.
+diff --git a/kernel/panic.c b/kernel/panic.c
+index cefd7d82366f..47b728bfb1d3 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -53,6 +53,7 @@ static int pause_on_oops_flag;
+ static DEFINE_SPINLOCK(pause_on_oops_lock);
+ bool crash_kexec_post_notifiers;
+ int panic_on_warn __read_mostly;
++int pkill_on_warn __read_mostly;
+ unsigned long panic_on_taint;
+ bool panic_on_taint_nousertaint = false;
  
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
--	set_satp_mode();
-+	set_satp_mode(dtb_pa);
- #endif
+@@ -610,6 +611,9 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
  
- 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
+ 	print_oops_end_marker();
+ 
++	if (pkill_on_warn && system_state >= SYSTEM_RUNNING)
++		do_group_exit(SIGKILL);
++
+ 	/* Just a warning, don't kill lockdep. */
+ 	add_taint(taint, LOCKDEP_STILL_OK);
+ }
+@@ -694,6 +698,7 @@ core_param(panic, panic_timeout, int, 0644);
+ core_param(panic_print, panic_print, ulong, 0644);
+ core_param(pause_on_oops, pause_on_oops, int, 0644);
+ core_param(panic_on_warn, panic_on_warn, int, 0644);
++core_param(pkill_on_warn, pkill_on_warn, int, 0644);
+ core_param(crash_kexec_post_notifiers, crash_kexec_post_notifiers, bool, 0644);
+ 
+ static int __init oops_setup(char *s)
 -- 
-2.30.2
+2.31.1
 
