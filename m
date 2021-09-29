@@ -2,145 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A58EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A37C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:24:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72FBB61361
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:03:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CBCB61526
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:24:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345652AbhI2TFY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 15:05:24 -0400
-Received: from mga05.intel.com ([192.55.52.43]:36149 "EHLO mga05.intel.com"
+        id S1345485AbhI2TZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 15:25:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52020 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245025AbhI2TFX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Sep 2021 15:05:23 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310565092"
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; 
-   d="scan'208";a="310565092"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2021 12:03:40 -0700
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; 
-   d="scan'208";a="655602812"
-Received: from andrewds-mobl1.amr.corp.intel.com (HELO [10.212.171.7]) ([10.212.171.7])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2021 12:03:39 -0700
-Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
-To:     Alexander Popov <alex.popov@linux.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul McKenney <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Garnier <thgarnie@google.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Laura Abbott <labbott@redhat.com>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>,
-        kernel-hardening@lists.openwall.com,
-        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     notify@kernel.org
-References: <20210929185823.499268-1-alex.popov@linux.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <323d0784-249d-7fef-6c60-e8426d35b083@intel.com>
-Date:   Wed, 29 Sep 2021 12:03:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1343505AbhI2TZx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Sep 2021 15:25:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D669F6140F;
+        Wed, 29 Sep 2021 19:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632943452;
+        bh=Kic1xJl340EDGWe45l8iOlr2pQS1CGNbWFMeOBeCVnQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IV9s+ltdhsqghIwkv47ivP4VliZE95ZjYph5zm7PrF+feipDFsaYdAfYHrYHP+o0A
+         4XjDdKqz5o9ZKLmYkZF2bJmEqO0FE8mdOU9FAaDQfOCnPReQrWPkMvs28GQdMxaXU8
+         MB38pj16HImpN4iSocIU0nRR7gU9Niv5fMZTmXK39CczqigP9s9jSQ+kFJ7d3seBFA
+         K35UkTtgv8ZKKFtE7b+ljU8gW91H6CA6DHe8dIcv1JCHku47lSJlc8EDC5/kuwIynw
+         l6VM7HOhMvDgT8DAqopy6fodKqmpWD1AjYNKqNrn53dAP2iqyB+SeBK3/3XquBLVAE
+         J/Kno9ZVXtRCw==
+Date:   Wed, 29 Sep 2021 12:24:06 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Zhenguo Yao <yaozhenguo1@gmail.com>
+Cc:     mike.kravetz@oracle.com, mpe@ellerman.id.au,
+        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
+        rppt@kernel.org, akpm@linux-foundation.org, yaozhenguo@jd.com,
+        willy@infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
+ parameter to support node allocation
+Message-ID: <YVS9VhrAuKE2YdbF@archlinux-ax161>
+References: <20210927104149.46884-1-yaozhenguo1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210929185823.499268-1-alex.popov@linux.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927104149.46884-1-yaozhenguo1@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/21 11:58 AM, Alexander Popov wrote:
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -53,6 +53,7 @@ static int pause_on_oops_flag;
->  static DEFINE_SPINLOCK(pause_on_oops_lock);
->  bool crash_kexec_post_notifiers;
->  int panic_on_warn __read_mostly;
-> +int pkill_on_warn __read_mostly;
->  unsigned long panic_on_taint;
->  bool panic_on_taint_nousertaint = false;
->  
-> @@ -610,6 +611,9 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
->  
->  	print_oops_end_marker();
->  
-> +	if (pkill_on_warn && system_state >= SYSTEM_RUNNING)
-> +		do_group_exit(SIGKILL);
-> +
->  	/* Just a warning, don't kill lockdep. */
->  	add_taint(taint, LOCKDEP_STILL_OK);
->  }
+On Mon, Sep 27, 2021 at 06:41:49PM +0800, Zhenguo Yao wrote:
+> We can specify the number of hugepages to allocate at boot. But the
+> hugepages is balanced in all nodes at present. In some scenarios,
+> we only need hugepages in one node. For example: DPDK needs hugepages
+> which are in the same node as NIC. if DPDK needs four hugepages of 1G
+> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
+> in kernel cmdline. But, only four hugepages are used. The others should
+> be free after boot. If the system memory is low(for example: 64G), it will
+> be an impossible task. So, Extending hugepages parameter to support
+> specifying hugepages at a specific node.
+> For example add following parameter:
+> 
+> hugepagesz=1G hugepages=0:1,1:3
+> 
+> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
+> 
+> Signed-off-by: Zhenguo Yao <yaozhenguo1@gmail.com>
 
-Doesn't this tie into the warning *printing* code?  That's better than
-nothing, for sure.  But, if we're doing this for hardening, I think we
-would want to kill anyone provoking a warning, not just the first one
-that triggered *printing* the warning.
+<snip>
+
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 95dc7b83381f..ca00676a1bdd 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -66,6 +66,7 @@ static struct hstate * __initdata parsed_hstate;
+>  static unsigned long __initdata default_hstate_max_huge_pages;
+>  static bool __initdata parsed_valid_hugepagesz = true;
+>  static bool __initdata parsed_default_hugepagesz;
+> +static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
+>  
+>  /*
+>   * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_pages,
+> @@ -2868,33 +2869,41 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
+>  	return ERR_PTR(-ENOSPC);
+>  }
+>  
+> -int alloc_bootmem_huge_page(struct hstate *h)
+> +int alloc_bootmem_huge_page(struct hstate *h, int nid)
+>  	__attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
+> -int __alloc_bootmem_huge_page(struct hstate *h)
+> +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
+>  {
+>  	struct huge_bootmem_page *m;
+>  	int nr_nodes, node;
+>  
+> +	if (nid >= nr_online_nodes)
+> +		return 0;
+> +	/* do node specific alloc */
+> +	if (nid != NUMA_NO_NODE) {
+> +		m = memblock_alloc_try_nid_raw(huge_page_size(h), huge_page_size(h),
+> +				0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+> +		if (m)
+> +			goto found;
+> +		else
+> +			return 0;
+> +	}
+> +	/* do all node balanced alloc */
+>  	for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
+> -		void *addr;
+> -
+> -		addr = memblock_alloc_try_nid_raw(
+> +		m = memblock_alloc_try_nid_raw(
+>  				huge_page_size(h), huge_page_size(h),
+>  				0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
+> -		if (addr) {
+> -			/*
+> -			 * Use the beginning of the huge page to store the
+> -			 * huge_bootmem_page struct (until gather_bootmem
+> -			 * puts them into the mem_map).
+> -			 */
+> -			m = addr;
+> +		/*
+> +		 * Use the beginning of the huge page to store the
+> +		 * huge_bootmem_page struct (until gather_bootmem
+> +		 * puts them into the mem_map).
+> +		 */
+> +		if (m)
+>  			goto found;
+> -		}
+> +		else
+> +			return 0;
+>  	}
+> -	return 0;
+>  
+>  found:
+> -	BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
+>  	/* Put them into a private list first because mem_map is not up yet */
+>  	INIT_LIST_HEAD(&m->list);
+>  	list_add(&m->list, &huge_boot_pages);
+
+This hunk causes a clang warning now:
+
+mm/hugetlb.c:2957:33: error: variable 'm' is used uninitialized whenever '&&' condition is false [-Werror,-Wsometimes-uninitialized]
+        for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mm/hugetlb.c:1254:3: note: expanded from macro 'for_each_node_mask_to_alloc'
+                nr_nodes > 0 &&                                         \
+                ^~~~~~~~~~~~
+mm/hugetlb.c:2974:18: note: uninitialized use occurs here
+        INIT_LIST_HEAD(&m->list);
+                        ^
+mm/hugetlb.c:2957:33: note: remove the '&&' if its condition is always true
+        for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
+                                       ^
+mm/hugetlb.c:2942:29: note: initialize the variable 'm' to silence this warning
+        struct huge_bootmem_page *m;
+                                   ^
+                                    = NULL
+1 error generated.
+
+I am not sure if it is possible for nr_nodes to be 0 right out of the
+gate so might be a false positive?
+
+Cheers,
+Nathan
