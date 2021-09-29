@@ -2,162 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A37C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 709F9C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:34:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CBCB61526
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:24:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53A3A61527
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Sep 2021 19:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345485AbhI2TZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Sep 2021 15:25:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52020 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343505AbhI2TZx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Sep 2021 15:25:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D669F6140F;
-        Wed, 29 Sep 2021 19:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632943452;
-        bh=Kic1xJl340EDGWe45l8iOlr2pQS1CGNbWFMeOBeCVnQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IV9s+ltdhsqghIwkv47ivP4VliZE95ZjYph5zm7PrF+feipDFsaYdAfYHrYHP+o0A
-         4XjDdKqz5o9ZKLmYkZF2bJmEqO0FE8mdOU9FAaDQfOCnPReQrWPkMvs28GQdMxaXU8
-         MB38pj16HImpN4iSocIU0nRR7gU9Niv5fMZTmXK39CczqigP9s9jSQ+kFJ7d3seBFA
-         K35UkTtgv8ZKKFtE7b+ljU8gW91H6CA6DHe8dIcv1JCHku47lSJlc8EDC5/kuwIynw
-         l6VM7HOhMvDgT8DAqopy6fodKqmpWD1AjYNKqNrn53dAP2iqyB+SeBK3/3XquBLVAE
-         J/Kno9ZVXtRCw==
-Date:   Wed, 29 Sep 2021 12:24:06 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Zhenguo Yao <yaozhenguo1@gmail.com>
-Cc:     mike.kravetz@oracle.com, mpe@ellerman.id.au,
-        benh@kernel.crashing.org, paulus@samba.org, corbet@lwn.net,
-        rppt@kernel.org, akpm@linux-foundation.org, yaozhenguo@jd.com,
-        willy@infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-Message-ID: <YVS9VhrAuKE2YdbF@archlinux-ax161>
-References: <20210927104149.46884-1-yaozhenguo1@gmail.com>
+        id S244498AbhI2Tfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Sep 2021 15:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229561AbhI2Tfu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Sep 2021 15:35:50 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49DDC06161C
+        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 12:34:08 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id d8so3415490qtd.5
+        for <linux-doc@vger.kernel.org>; Wed, 29 Sep 2021 12:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YeRhNJ7jlY3oUozrJZP1T+QUmec+ncw55w2AGtphODI=;
+        b=WIEYwcinYNjedpVCgwyiHFNyRVj+yNiqCmyujbt4xu70fiFBFXhRiD8KkC3Y/hAxHt
+         xt60J6WG9Heyt1nf27SZQMkUfJv5+WCN9YXZEaJL39AFEx5mG/hCCWHP2sVtLfoib6/Q
+         120c3B1DmhrMPsjsZ1ajQi8p897EWxNx8yjIWx5ySpTIg2Y9e5yLxQOalgCa/JlbQL9p
+         DQH2bBAStB0pSRRjqynDg256re8kYFZenv9riLJNWRXM/v+HanWiuwIpa1GSSQxzDHq8
+         zWULe76apd9GV/P9SlupYhzzWIE25AS0N0h63yYulIoiuxeRdVmueYjdDVlNKwNl6vu2
+         +23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YeRhNJ7jlY3oUozrJZP1T+QUmec+ncw55w2AGtphODI=;
+        b=QI+/VOyAodi29pZiprYgSF1R5p6j8Y9iH92eQlTzEZ+9/eHneP8eZBXMRFRUwi3MXL
+         9jg7S/+Q50NpD8ur/jnCyr/fdw6tdoQ2Vlt3PUGDESQkgyVUt42ERqYGUrV+DzFSRBnE
+         rgHlu1zgAq+ymLsh4TMxc1HZpPkJSuzhs+WUgpljIdB8Aq+HTCtjhf8WBc1mdip0mSGZ
+         iELE1oAsRqFvUcdw5Wh53sGrBBJ4CR+AdyOtyznqEhGl3Hw24ary1X06FdYzHc6AdZAE
+         LA2gZCfaCqleZtto1Dcps5rOiNRQRhwsROyeuQkPePKbR9L8RkERO52XEXQ74bTWsrwB
+         EUEw==
+X-Gm-Message-State: AOAM531Q0ZyXWc5UwzY6mlx+vULIIOjOC8+TATzsxJp46MQw/B4FvhvT
+        ljpkV9HX9V82Ebu6hLQFoU2kUQ==
+X-Google-Smtp-Source: ABdhPJyPLnPnrW8O/Y248rZfGn927UBJEmhsFQuMX5UkUptbaNnvSEd9XSlEGuo3ZaVbqSWxhCJTBg==
+X-Received: by 2002:a05:622a:1a86:: with SMTP id s6mr1957356qtc.43.1632944046995;
+        Wed, 29 Sep 2021 12:34:06 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id 188sm402364qkm.21.2021.09.29.12.34.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 12:34:06 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mVfLB-007fLb-Ml; Wed, 29 Sep 2021 16:34:05 -0300
+Date:   Wed, 29 Sep 2021 16:34:05 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Joao Martins <joao.m.martins@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>
+Cc:     linux-mm@kvack.org, Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
+ of subpages
+Message-ID: <20210929193405.GZ3544071@ziepe.ca>
+References: <20210827145819.16471-1-joao.m.martins@oracle.com>
+ <20210827145819.16471-9-joao.m.martins@oracle.com>
+ <20210827162552.GK1200268@ziepe.ca>
+ <da90638d-d97f-bacb-f0fa-01f5fd9f2504@oracle.com>
+ <20210830130741.GO1200268@ziepe.ca>
+ <cda6d8fb-bd48-a3de-9d4e-96e4a43ebe58@oracle.com>
+ <20210831170526.GP1200268@ziepe.ca>
+ <8c23586a-eb3b-11a6-e72a-dcc3faad4e96@oracle.com>
+ <20210928180150.GI3544071@ziepe.ca>
+ <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210927104149.46884-1-yaozhenguo1@gmail.com>
+In-Reply-To: <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 06:41:49PM +0800, Zhenguo Yao wrote:
-> We can specify the number of hugepages to allocate at boot. But the
-> hugepages is balanced in all nodes at present. In some scenarios,
-> we only need hugepages in one node. For example: DPDK needs hugepages
-> which are in the same node as NIC. if DPDK needs four hugepages of 1G
-> size in node1 and system has 16 numa nodes. We must reserve 64 hugepages
-> in kernel cmdline. But, only four hugepages are used. The others should
-> be free after boot. If the system memory is low(for example: 64G), it will
-> be an impossible task. So, Extending hugepages parameter to support
-> specifying hugepages at a specific node.
-> For example add following parameter:
+On Wed, Sep 29, 2021 at 12:50:15PM +0100, Joao Martins wrote:
+
+> > If the get_dev_pagemap has to remain then it just means we have to
+> > flush before changing pagemap pointers
+> Right -- I don't think we should need it as that discussion on the other
+> thread goes.
 > 
-> hugepagesz=1G hugepages=0:1,1:3
-> 
-> It will allocate 1 hugepage in node0 and 3 hugepages in node1.
-> 
-> Signed-off-by: Zhenguo Yao <yaozhenguo1@gmail.com>
+> OTOH, using @pgmap might be useful to unblock gup-fast FOLL_LONGTERM
+> for certain devmap types[0] (like MEMORY_DEVICE_GENERIC [device-dax]
+> can support it but not MEMORY_DEVICE_FSDAX [fsdax]).
 
-<snip>
+When looking at Logan's patches I think it is pretty clear to me that
+page->pgmap must never be a dangling pointer if the caller has a
+legitimate refcount on the page.
 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 95dc7b83381f..ca00676a1bdd 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -66,6 +66,7 @@ static struct hstate * __initdata parsed_hstate;
->  static unsigned long __initdata default_hstate_max_huge_pages;
->  static bool __initdata parsed_valid_hugepagesz = true;
->  static bool __initdata parsed_default_hugepagesz;
-> +static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
->  
->  /*
->   * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_pages,
-> @@ -2868,33 +2869,41 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
->  	return ERR_PTR(-ENOSPC);
->  }
->  
-> -int alloc_bootmem_huge_page(struct hstate *h)
-> +int alloc_bootmem_huge_page(struct hstate *h, int nid)
->  	__attribute__ ((weak, alias("__alloc_bootmem_huge_page")));
-> -int __alloc_bootmem_huge_page(struct hstate *h)
-> +int __alloc_bootmem_huge_page(struct hstate *h, int nid)
->  {
->  	struct huge_bootmem_page *m;
->  	int nr_nodes, node;
->  
-> +	if (nid >= nr_online_nodes)
-> +		return 0;
-> +	/* do node specific alloc */
-> +	if (nid != NUMA_NO_NODE) {
-> +		m = memblock_alloc_try_nid_raw(huge_page_size(h), huge_page_size(h),
-> +				0, MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-> +		if (m)
-> +			goto found;
-> +		else
-> +			return 0;
-> +	}
-> +	/* do all node balanced alloc */
->  	for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
-> -		void *addr;
-> -
-> -		addr = memblock_alloc_try_nid_raw(
-> +		m = memblock_alloc_try_nid_raw(
->  				huge_page_size(h), huge_page_size(h),
->  				0, MEMBLOCK_ALLOC_ACCESSIBLE, node);
-> -		if (addr) {
-> -			/*
-> -			 * Use the beginning of the huge page to store the
-> -			 * huge_bootmem_page struct (until gather_bootmem
-> -			 * puts them into the mem_map).
-> -			 */
-> -			m = addr;
-> +		/*
-> +		 * Use the beginning of the huge page to store the
-> +		 * huge_bootmem_page struct (until gather_bootmem
-> +		 * puts them into the mem_map).
-> +		 */
-> +		if (m)
->  			goto found;
-> -		}
-> +		else
-> +			return 0;
->  	}
-> -	return 0;
->  
->  found:
-> -	BUG_ON(!IS_ALIGNED(virt_to_phys(m), huge_page_size(h)));
->  	/* Put them into a private list first because mem_map is not up yet */
->  	INIT_LIST_HEAD(&m->list);
->  	list_add(&m->list, &huge_boot_pages);
+For instance the migrate and stuff all blindly calls
+is_device_private_page() on the struct page expecting a valid
+page->pgmap.
 
-This hunk causes a clang warning now:
+This also looks like it is happening, ie
 
-mm/hugetlb.c:2957:33: error: variable 'm' is used uninitialized whenever '&&' condition is false [-Werror,-Wsometimes-uninitialized]
-        for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-mm/hugetlb.c:1254:3: note: expanded from macro 'for_each_node_mask_to_alloc'
-                nr_nodes > 0 &&                                         \
-                ^~~~~~~~~~~~
-mm/hugetlb.c:2974:18: note: uninitialized use occurs here
-        INIT_LIST_HEAD(&m->list);
-                        ^
-mm/hugetlb.c:2957:33: note: remove the '&&' if its condition is always true
-        for_each_node_mask_to_alloc(h, nr_nodes, node, &node_states[N_MEMORY]) {
-                                       ^
-mm/hugetlb.c:2942:29: note: initialize the variable 'm' to silence this warning
-        struct huge_bootmem_page *m;
-                                   ^
-                                    = NULL
-1 error generated.
+void __put_page(struct page *page)
+{
+	if (is_zone_device_page(page)) {
+		put_dev_pagemap(page->pgmap);
 
-I am not sure if it is possible for nr_nodes to be 0 right out of the
-gate so might be a false positive?
+Is indeed putting the pgmap ref back when the page becomes ungettable.
 
-Cheers,
-Nathan
+This properly happens when the page refcount goes to zero and so it
+should fully interlock with __page_cache_add_speculative():
+
+	if (unlikely(!page_ref_add_unless(page, count, 0))) {
+
+Thus, in gup.c, if we succeed at try_grab_compound_head() then
+page->pgmap is a stable pointer with a valid refcount.
+
+So, all the external pgmap stuff in gup.c is completely pointless.
+try_grab_compound_head() provides us with an equivalent protection at
+lower cost. Remember gup.c doesn't deref the pgmap at all.
+
+Dan/Alistair/Felix do you see any hole in that argument??
+
+So lets just delete it!
+
+Jason
