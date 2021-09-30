@@ -2,42 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABA7C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4054CC433F5
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:40:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B41C6197A
+	by mail.kernel.org (Postfix) with ESMTP id 18FC461880
 	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349480AbhI3Jls (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1349467AbhI3Jls (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Sep 2021 05:41:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41024 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:41016 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349464AbhI3Jls (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1349419AbhI3Jls (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Sep 2021 05:41:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B60CB615E2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BA41961278;
         Thu, 30 Sep 2021 09:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632994805;
-        bh=CMZyP1rNsKEbJUnU9kPXngE6AmQWtCmd3sbj/WSyJGs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=koZwPLKPMKjwsPRGREt+/s0prMCoBWfRAT0/wpoT1Rs/3XRhU/jnix9yLqZ/6NPSm
-         M+1X9cG0rdSIEPzBXb5T5W/qeQSlYZ1CCunTVsFDxBCob+C68f91tScv+YFJLCizX3
-         tkqdC1gd8WObNLgDMj5sReD8lxwAuOR1/70syfYKs057Bti67w+mfELmn9yrLnLxtj
-         Qom1MSIKCBPgCWE3WgqnEOXYyu4NiQJN84Fxh/EsMNjo7a18PXHS0SDNlXY3hI6rlz
-         PK4g7AkmwXoFK32Ja/q7plm62TCFXcJhMhZlFpxMCBpVe2iAJTDDLFJpL+se1HiyZE
-         vgn9zTb43vWcw==
+        bh=1Vw8fcSkpK0woRsf4e90wZNiyBVuq6lfsSSLZttvsxU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DODIksv/T6GvyDDqFGESqqh1R7Ir0hr+FKy3+OskLFDV8rhKYKaR8sEoA2uxFML+1
+         QvccjfbuIGfEQplIhDhD5H+hsIO3Slj7Zz+ClF12vvhDHOSAJv+hKHwutkjAdmbDND
+         8kmJJpGQlfKNushXrWc1NX2vA3GUBJ7Py1b4/QyvKzvlpxOgmEPpGNC3EUVKcGV7h2
+         VGNmWVhsEXBkO71y6nf0iKyhAfOuQAY50vJCcW147NnuousmFJsxr9e/EG39baMQBB
+         t3bddTBd5yiR0EoSCOiGNiRhvLmDphniSjRRWgMbp1IHDZtXxglr7E2fAG7chyA+U9
+         yLhGeKTRAV/9g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mVsXr-002AEp-JH; Thu, 30 Sep 2021 11:40:03 +0200
+        id 1mVsXr-002AEz-MK; Thu, 30 Sep 2021 11:40:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 0/2] get_abi.pl: some fixes
-Date:   Thu, 30 Sep 2021 11:39:58 +0200
-Message-Id: <cover.1632994565.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] scripts: get_abi.pl: better generate regex from what fields
+Date:   Thu, 30 Sep 2021 11:40:00 +0200
+Message-Id: <c69c01c12b1b30466177dcb17e45f833fb47713d.1632994565.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1632994565.git.mchehab+huawei@kernel.org>
+References: <cover.1632994565.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -45,30 +47,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+Using repeating sequencies of .* seem to slow down the
+processing speed on some cases. Also, currently, a "."
+character is not properly handled as such.
 
-This small series contain:
+Change the way regexes are created, in order to produce
+better search expressions.
 
-patch 1: 
-  - fixes a rule that searches for some additional regexes.
-    This will make the script slower but will avoid some false-positives
-    (10 seconds instead of 6 seconds here)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-patch 2:
-  - contain some cleanups to the regexes. That will likely make
-    some regular expressions to run faster.
+To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH 0/2] at: https://lore.kernel.org/all/cover.1632994565.git.mchehab+huawei@kernel.org/
 
-I have an idea that might speedup the script again, but I need
-to do some tests.
+ scripts/get_abi.pl | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Mauro Carvalho Chehab (2):
-  scripts: get_abi.pl: fix fallback rule for undefined symbols
-  scripts: get_abi.pl: better generate regex from what fields
-
- scripts/get_abi.pl | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 2f3674bb3c9e..6212f58b69c6 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -842,8 +842,8 @@ sub undefined_symbols {
+ 
+ 			# Convert what into regular expressions
+ 
+-			$what =~ s,/\.\.\./,/*/,g;
+-			$what =~ s,\*,.*,g;
++			# Escape dot characters
++			$what =~ s/\./\xf6/g;
+ 
+ 			# Temporarily change [0-9]+ type of patterns
+ 			$what =~ s/\[0\-9\]\+/\xff/g;
+@@ -859,6 +859,8 @@ sub undefined_symbols {
+ 			$what =~ s/[\{\<\[]([\w_]+)(?:[,|]+([\w_]+)){1,}[\}\>\]]/($1|$2)/g;
+ 
+ 			# Handle wildcards
++			$what =~ s,\*,.*,g;
++			$what =~ s,/\xf6..,/.*,g;
+ 			$what =~ s/\<[^\>]+\>/.*/g;
+ 			$what =~ s/\{[^\}]+\}/.*/g;
+ 			$what =~ s/\[[^\]]+\]/.*/g;
+@@ -891,6 +893,13 @@ sub undefined_symbols {
+ 			# Special case: IIO ABI which a parenthesis.
+ 			$what =~ s/sqrt(.*)/sqrt\(.*\)/;
+ 
++			# Simplify regexes with multiple .*
++			$what =~ s#(?:\.\*){2,}##g;
++#			$what =~ s#\.\*/\.\*#.*#g;
++
++			# Recover dot characters
++			$what =~ s/\xf6/\./g;
++
+ 			my $leave = get_leave($what);
+ 
+ 			my $added = 0;
 -- 
 2.31.1
-
 
