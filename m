@@ -2,44 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CF2C4707A
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:45:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B71C07E95
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:45:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 972BE61884
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:45:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 075856197A
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 09:45:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349460AbhI3Jqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Sep 2021 05:46:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46524 "EHLO mail.kernel.org"
+        id S1349542AbhI3Jqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Sep 2021 05:46:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349510AbhI3Jqo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1349514AbhI3Jqo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 30 Sep 2021 05:46:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A194A61875;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB83A615E5;
         Thu, 30 Sep 2021 09:45:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1632995101;
-        bh=fdTI9W97nWGgWipBrkiQEXu+hBS4pKQhl3Kr1mmrqRw=;
+        bh=oDk3Xte6LUuXxMEKmNTpij3KGwX2DRHuVkgkafiYT9s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kgrTFF1hB1TCj74BXfJcoTxmzp86NO1f4SYC3GijIz7g/NEV7sQ717/XUVTcw6I6h
-         LSUpoLGoq/QwSPv7BJDrEaD3+tLzJfZYJNc1Vkqmau7iz6Lo50cZEI1DxgIwc0OQsT
-         XMVJcFgx/YVgB69Vr1QeqKkizZayv5F/jhDDWCoVuaq8yo7PAxl/MQRTiYTwm5Y++3
-         Jm9Taw0wQAm3YWijyr1QPIIUogcs54+YAhuuFDUPDFOuiyD1vby8CpNXoaSZQ5XEBy
-         t0a5puGjC/djtVdTl8zu1HJ81V2z/guTUz0fK516DyuL9uQipEdqyl3gepnFD7KjVC
-         cyKDRmnTbS8dQ==
+        b=uByD8y42+qnvmla5BX2u4BZw1rk3Gpgp9zdF4BDRMwrkgfyOfafr4ucktROB64rp4
+         /LJqRSrWnE0ozJiLltEeemydgAdM4CXCy95w35lb0g/QP+f0t7+NhyqoqpS1BZ15+I
+         oCaFNbNA3Dx4e2UrhLWs5P3Tcvy1ckP1E2+IvT9y/vKlOPAbiB6A50ubx2BZSfXHvj
+         9Rrh6aGIBtK9KbgSma0ggwVsrLCNfZcKX5Q3JGndhCo1pUPA8vW53hYe4Gj8E6aPZq
+         C2zUz/n45vX+rL2JWEjTb6dx9m85JxqQeQx5b8vn61LRPRv88gtEVtnE0oM9UsVwI+
+         +6bxMQ52vM2Xg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mVscd-002ATC-NA; Thu, 30 Sep 2021 11:44:59 +0200
+        id 1mVscd-002ATK-PE; Thu, 30 Sep 2021 11:44:59 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/7] ABI: sysfs-class-hwmon: add a description for tempY_crit_alarm
-Date:   Thu, 30 Sep 2021 11:44:50 +0200
-Message-Id: <a14f98e1b23ea14cf14da3c3169955343ec28bbe.1632994837.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 5/7] ABI: sysfs-mce: add 3 missing files
+Date:   Thu, 30 Sep 2021 11:44:52 +0200
+Message-Id: <f9c13aff3f5a2cae0d4495eccd17f431f3a4c55a.1632994837.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632994837.git.mchehab+huawei@kernel.org>
 References: <cover.1632994837.git.mchehab+huawei@kernel.org>
@@ -50,41 +49,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Such ABI symbol is currently not described. Document it.
+Changeset 62fdac5913f7 ("x86, mce: Add boot options for corrected errors")
+added three more MCE files that are also exposed currently via
+sysfs.
+
+Document them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH v2 0/7] at: https://lore.kernel.org/all/cover.1632994837.git.mchehab+huawei@kernel.org/
 
- Documentation/ABI/testing/sysfs-class-hwmon | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ Documentation/ABI/testing/sysfs-mce | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
-index ea5a129ae082..1f20687def44 100644
---- a/Documentation/ABI/testing/sysfs-class-hwmon
-+++ b/Documentation/ABI/testing/sysfs-class-hwmon
-@@ -410,6 +410,20 @@ Description:
+diff --git a/Documentation/ABI/testing/sysfs-mce b/Documentation/ABI/testing/sysfs-mce
+index 686fbfa02cdc..c8cd989034b4 100644
+--- a/Documentation/ABI/testing/sysfs-mce
++++ b/Documentation/ABI/testing/sysfs-mce
+@@ -105,3 +105,25 @@ Description:
  
- 		RW
+ 		Unit: us
  
-+What:		/sys/class/hwmon/hwmonX/tempY_crit_alarm
++What:		/sys/devices/system/machinecheck/machinecheckX/ignore_ce
++Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
++Date:		Jun 2009
 +Description:
-+		Critical high temperature alarm flag.
++		Disables polling and CMCI for corrected errors.
++		All corrected events are not cleared and kept in bank MSRs.
 +
-+		- 0: OK
-+		- 1: temperature has reached tempY_crit
++What:		/sys/devices/system/machinecheck/machinecheckX/dont_log_ce
++Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
++Date:		Jun 2009
++Description:
++		Disables logging for corrected errors.
++		All reported corrected errors will be cleared silently.
 +
-+		RW
++		This option will be useful if you never care about corrected
++		errors.
 +
-+		Contrary to regular alarm flags which clear themselves
-+		automatically when read, this one sticks until cleared by
-+		the user. This is done by writing 0 to the file. Writing
-+		other values is unsupported.
-+
- What:		/sys/class/hwmon/hwmonX/tempY_crit_hyst
- Description:
- 		Temperature hysteresis value for critical limit.
++What:		/sys/devices/system/machinecheck/machinecheckX/cmci_disabled
++Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
++Date:		Jun 2009
++Description:
++		Disables the CMCI feature.
 -- 
 2.31.1
 
