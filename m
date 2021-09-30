@@ -2,145 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DE0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 793DEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9AD8C615A2
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:52:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63E8561A59
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343860AbhI3WyJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Sep 2021 18:54:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39326 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbhI3WyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 18:54:08 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE9FC06176A
-        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 15:52:25 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id k26so6295284pfi.5
-        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 15:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ni4nyZssVA0HCPlkWl3l8E5QliLBQndePk3trvnSSHU=;
-        b=OCXVRooELMPDR5vP/0FkKufYRz4/kjAycU8DNXkbNF4KEV/aczDDNSkrG1XAuXYdXo
-         l5bN9q7eW3qQuJCtNlrdddP1PhgFlLzdU6xL9UNCUf8qMHHn0KQb03ABlHwApGXLGFmX
-         TvgbAFLg0QUow1TdTUEZAcUFp8JC0NEpqlH3Q=
+        id S230108AbhI3XAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Sep 2021 19:00:05 -0400
+Received: from mail-lf1-f46.google.com ([209.85.167.46]:40888 "EHLO
+        mail-lf1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348921AbhI3XAC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 19:00:02 -0400
+Received: by mail-lf1-f46.google.com with SMTP id b15so31326655lfe.7;
+        Thu, 30 Sep 2021 15:58:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ni4nyZssVA0HCPlkWl3l8E5QliLBQndePk3trvnSSHU=;
-        b=K0D2WF0RJqgHs1K1e8+gciYVg8/oHHn8yeu6hGoXUtvtW5qACNOuhz2D4GRKllSlH7
-         bPMlcAX6teIOMJmGRkyrD1oCjr0TcBq/U+AdHXvGDzkFt6WVYp3dt0nFGpj83z5PXSwY
-         Z0R6RHoq9iAB0DR4WabzELd2H+QHPQuMBI8dkTPkY07fPoX8NbQuopXNSfdnX0A2VV94
-         wMcUSjMPQvd0C3hnIHVlu1htxuWoq3uhyoF6ByS46p+CjHcPxCSAqPQX0vdRu3ZW5Mr0
-         DlQk3ZuAQVVs9hQ7fhQmb46yWidJewtYt0huc/hDQ6fBE4U1huVFmZQNYwp1S+m2HLXS
-         DhTg==
-X-Gm-Message-State: AOAM533ihLXCn7qUp/UfuQW5wlb1AJzUv4iaCCXhKm+s9UnztHXxu37K
-        Xtz4iHUAsC59cD74V2mJ3OZCYA==
-X-Google-Smtp-Source: ABdhPJyoNHG1hhvA0wi/BOMWLe4d9VE1eod01oNtCdYPOhCIVx87DO3cv7o+OAsA/k4SIY6lM8H9Uw==
-X-Received: by 2002:a65:47c6:: with SMTP id f6mr7150340pgs.450.1633042345253;
-        Thu, 30 Sep 2021 15:52:25 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 126sm4510926pgi.86.2021.09.30.15.52.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Sep 2021 15:52:24 -0700 (PDT)
-Date:   Thu, 30 Sep 2021 15:52:23 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] docs: Explain the desired position of function
- attributes
-Message-ID: <202109301530.4BAFDBB1@keescook>
-References: <20210930192417.1332877-1-keescook@chromium.org>
- <c273a5d9-ecd7-64fa-bf2c-af0d22c4a68c@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XyaNvh9Xs6AkDGl/pcn1sfY9JyqCtB/i0b3ibbUEjPU=;
+        b=dWqMuUqkRrK6htRz3LMLeJzisXgwrZsCZuI7aS//dKPSNb9eFu4DVsqJr43k/XO3vG
+         6lhHTMzGMaz/7lrReHe4o3eT1nk1WaadvzcRhwCM1FArnv0/IvfOd+u8vzm8sPXpDxCW
+         2Wn66oXGiaFbZZiiElTmbzlg7T3VyTmKu2KAAESoWiBjo4tNIBhCHh3J59LNuTuZNYel
+         IBMvm9nvEEXTjI/TmPNdWyUyJR2VJFKySIhcwhfE7BzLcxe91OetrEoLJNN8ye6BgzhE
+         x5A3CF4ODdgkZw+jRea4dXLhMgujUyvf3ceB9cyNZCNHODvvkHCieD0HdBtZwFd5CLD1
+         gFxQ==
+X-Gm-Message-State: AOAM531czLgECHirXnN+SGI5xr+zcWz3XCbL7m4uZeWEiZoP4sGJF03+
+        E5Iqg1aizKAQG9JLMUFzj6PJr8+BtXnHFjkqGnU=
+X-Google-Smtp-Source: ABdhPJy5CVwrSpfRhPw00RtBuvbmvtiTNsnmpjnMCPQ6mTw1yTZs90kdBTwdZwETe3ArmExmBZzDAcGFyzLu0CyxgVI=
+X-Received: by 2002:a2e:1609:: with SMTP id w9mr5346671ljd.90.1633042697541;
+ Thu, 30 Sep 2021 15:58:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c273a5d9-ecd7-64fa-bf2c-af0d22c4a68c@infradead.org>
+References: <20210915195306.612966-1-kaleshsingh@google.com> <CAC_TJvdv7sT-FmD1S-ZHnpAGvFR=1WBc6jEKBm+q5Wpp6S34PQ@mail.gmail.com>
+In-Reply-To: <CAC_TJvdv7sT-FmD1S-ZHnpAGvFR=1WBc6jEKBm+q5Wpp6S34PQ@mail.gmail.com>
+From:   Namhyung Kim <namhyung@kernel.org>
+Date:   Thu, 30 Sep 2021 15:58:06 -0700
+Message-ID: <CAM9d7ciQC1sV8hOOsgHVLxk7sze_Qp_dBqBkK_FrtVhZ0=AzZQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] tracing: Extend histogram triggers expression parsing
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 01:11:34PM -0700, Randy Dunlap wrote:
-> On 9/30/21 12:24 PM, Kees Cook wrote:
-> > While discussing how to format the addition of various function
-> > attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
-> > close as possible to Linus's preferences for future reference.
-> > 
-> > (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
-> > others that would prefer all attributes live on a separate leading line.)
-> > 
-> > [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >   Documentation/process/coding-style.rst | 30 ++++++++++++++++++++++++++
-> >   1 file changed, 30 insertions(+)
-> > 
-> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> > index 42969ab37b34..6b4feb1c71e7 100644
-> > --- a/Documentation/process/coding-style.rst
-> > +++ b/Documentation/process/coding-style.rst
-> > @@ -487,6 +487,36 @@ because it is a simple way to add valuable information for the reader.
-> >   Do not use the ``extern`` keyword with function prototypes as this makes
-> >   lines longer and isn't strictly necessary.
-> > +When writing a function declarations, please keep the `order of elements regular
-> > +<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/>`_.
-> > +For example::
-> > +
-> > + extern __init void * __must_check void action(enum magic value, size_t size,
-> 
-> Drop that second "void" ?  or what does it mean?
-> Can __must_check and void be used together?
+Hi Kalesh,
 
-Gah, thanks. Fixed now in v3.
+On Wed, Sep 15, 2021 at 1:09 PM Kalesh Singh <kaleshsingh@google.com> wrote:
+>
+> On Wed, Sep 15, 2021 at 12:53 PM Kalesh Singh <kaleshsingh@google.com> wrote:
+> >
+> > The frequency of the rss_stat trace event is known to be of the same
+> > magnitude as that of the sched_switch event on Android devices. This can
+> > cause flooding of the trace buffer with rss_stat traces leading to a
+> > decreased trace buffer capacity and loss of data.
+> >
+> > If it is not necessary to monitor very small changes in rss (as is the
+> > case in Android) then the rss_stat tracepoint can be throttled to only
+> > emit the event once there is a large enough change in the rss size.
+> > The original patch that introduced the rss_stat tracepoint also proposed
+> > a fixed throttling mechanism that only emits the rss_stat event
+> > when the rss size crosses a 512KB boundary. It was concluded that more
+> > generic support for this type of filtering/throttling was need, so that
+> > it can be applied to any trace event. [1]
+> >
+> > From the discussion in [1], histogram triggers seemed the most likely
+> > candidate to support this type of throttling. For instance to achieve the
+> > same throttling as was proposed in [1]:
+> >
+> >   (1) Create a histogram variable to save the 512KB bucket of the rss size
+> >   (2) Use the onchange handler to generate a synthetic event when the
+> >       rss size bucket changes.
+> >
+> > The only missing pieces to support such a hist trigger are:
+> >   (1) Support for setting a hist variable to a specific value -- to set
+> >       the bucket size / granularity.
+> >   (2) Support for division arithmetic operation -- to determine the
+> >       corresponding bucket for an rss size.
+> >
+> > This series extends histogram trigger expressions to:
+> >   (1) Allow assigning numeric literals to hist variable (eg. x=1234)
+> >       and using literals directly in expressions (eg. x=size/1234)
+> >   (2) Support division and multiplication in hist expressions.
+> >       (eg. a=$x/$y*z); and
+> >   (3) Fixes expression parsing for non-associative operators: subtraction
+> >       and division. (eg. 8-4-2 should be 2 not 6)
+> >
+> > The rss_stat event can then be throttled using histogram triggers as
+> > below:
+> >
+> >   # Create a synthetic event to monitor instead of the high frequency
+> >   # rss_stat event
+> >   echo 'rss_stat_throttled unsigned int mm_id; unsigned int curr;
+> >          int member; long size' >> tracing/synthetic_events
+> >
+> >   # Create a hist trigger that emits the synthetic rss_stat_throttled
+> >   # event only when the rss size crosses a 512KB boundary.
+> >   echo 'hist:keys=common_pid:bucket=size/0x80000:onchange($bucket)
+> >               .rss_stat_throttled(mm_id,curr,member,size)'
+> >         >> events/kmem/rss_stat/trigger
+> >
+>
+> Sorry, I have a clerical mistake here. The above key should be:
+> s/keys=common_pid/keys=keys=mm_id,member
+>
+> The rss size is specific to the mm struct's member not the pid.
+> The results below were captured with the correct key so no changes there.
+>
+> >  ------ Test Results ------
+> > Histograms can also be used to evaluate the effectiveness of this
+> > throttling by noting the Total Hits on each trigger:
+> >
+> >   echo 'hist:keys=common_pid' >> events/sched/sched_switch/trigger
+> >   echo 'hist:keys=common_pid' >> events/kmem/rss_stat/trigger
+> >   echo 'hist:keys=common_pid'
+> >            >> events/synthetic/rss_stat_throttled/trigger
+> >
+> > Allowing the above example (512KB granularity) run for 5 minutes on
+> > an arm64 device with 5.10 kernel:
+> >
+> >    sched_switch      : total hits = 147153
+> >    rss_stat          : total hits =  38863
+> >    rss_stat_throttled: total hits =   2409
+> >
+> > The synthetic rss_stat_throttled event is ~16x less frequent than the
+> > rss_stat event when using a 512KB granularity.
+> >
+> >
+> > The results are more pronounced when rss size is changing at a higher
+> > rate in small increments. For instance the following results were obtained
+> > by recording the hits on the above events for a run of Android's
+> > lmkd_unit_test [2], which continually forks processes that map anonymous
+> > memory until there is an oom kill:
+> >
+> >    sched_switch      : total hits =  148832
+> >    rss_stat          : total hits = 4754802
+> >    rss_stat_throttled: total hits =   96214
+> >
+> > In this stress this, the  synthetic rss_stat_throttled event is ~50x less
+> > frequent than the rss_stat event when using a 512KB granularity.
+> >
+> >
+> > [1] https://lore.kernel.org/lkml/20190903200905.198642-1-joel@joelfernandes.org/
+> > [2] https://cs.android.com/android/platform/superproject/+/master:system/memory/lmkd/tests/lmkd_test.cpp
+> >
+> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
 
-> 
-> > + 	u8 count, char *fmt, ...) __printf(4, 5) __malloc;
-> > +
-> > +The preferred order of elements for a function prototype is:
-> > +
-> > +- storage class (here, ``extern``, and things like ``static __always_inline`` even though
-> > +  ``__always_inline`` is technically an attribute, it is treated like ``inline``)
-> > +- storage class attributes (here, ``__init`` -- i.e. section declarations, but also things like ``__cold``)
-> > +- return type (here, ``void *``)
-> > +- return type attributes (here, ``__must_check``)
-> 
-> I'm not trying to get you to change this, but I would prefer to see
-> 
-> extern __init __must_check void *action(...) <attributes>;
-> 
-> i.e., with the return type adjacent to the function name.
+Reviewed-by: Namhyung Kim <namhyung@kernel.org>
 
-I have read and re-read Linus's emails, and did a frequency count in the
-kernel, and it looks like the preference is [return type] [return type attrs]
-but I personally agree with you. :)
-
-# regex I built from __must_check hits...
-$ re='((struct .*|void|char) \* ?|((unsigned )?(long|int)|bool|size_t)($| ))'
-
-# type before __must_check
-$ git grep -E "$re"'__must_check' | wc -l
-746
-
-# type after __must_check
-$ git grep -E '\b(static (__always_)?inline )?__must_check($| '"$re"')' | wc -l
-297
-
-# type split(!) across __must_check or otherwise weird...
-$ git grep -E '\b__must_check\b' | grep -Ev '\b(static (__always_)?inline )?__must_check($| '"$re"')' | grep -Ev "$re"'__must_check\b' | wc -l
-44
+Thanks,
+Namhyung
 
 
--- 
-Kees Cook
+> >
+> > Kalesh Singh (5):
+> >   tracing: Add support for creating hist trigger variables from literal
+> >   tracing: Add division and multiplication support for hist triggers
+> >   tracing: Fix operator precedence for hist triggers expression
+> >   tracing/selftests: Add tests for hist trigger expression parsing
+> >   tracing/histogram: Document expression arithmetic and constants
+> >
+> >  Documentation/trace/histogram.rst             |  14 +
+> >  kernel/trace/trace_events_hist.c              | 318 +++++++++++++++---
+> >  .../testing/selftests/ftrace/test.d/functions |   4 +-
+> >  .../trigger/trigger-hist-expressions.tc       |  73 ++++
+> >  4 files changed, 357 insertions(+), 52 deletions(-)
+> >  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
+> >
+> >
+> > base-commit: 3ca706c189db861b2ca2019a0901b94050ca49d8
+> > --
+> > 2.33.0.309.g3052b89438-goog
+> >
