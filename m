@@ -2,185 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793DEC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D7AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 23:25:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63E8561A59
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 22:58:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 065DF619E7
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Sep 2021 23:25:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbhI3XAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Sep 2021 19:00:05 -0400
-Received: from mail-lf1-f46.google.com ([209.85.167.46]:40888 "EHLO
-        mail-lf1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348921AbhI3XAC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 19:00:02 -0400
-Received: by mail-lf1-f46.google.com with SMTP id b15so31326655lfe.7;
-        Thu, 30 Sep 2021 15:58:18 -0700 (PDT)
+        id S1348717AbhI3X0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Sep 2021 19:26:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230201AbhI3X0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 19:26:48 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C50C06176D
+        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 16:25:05 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id w11so5086044plz.13
+        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 16:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eh34nKlBtcXIhSkXFiXgZHHEXy1pUVrM2m/QPvjGZhs=;
+        b=Hs3DNk4Z5KQlgSeNyHreuKuvEU3//1qlQHAU6a7/5w5PaGkR53udvoJVoOdC9VYM+4
+         oclqUS4GaVHxlcKo64+K6oVPlWjJLs2LIrFdjEdhbknM3o0FBpyNLGRmyykcmR2LSMoz
+         9dsuPdW3grv3wXZx7jpKUG0rnO+B3L23iItAo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XyaNvh9Xs6AkDGl/pcn1sfY9JyqCtB/i0b3ibbUEjPU=;
-        b=dWqMuUqkRrK6htRz3LMLeJzisXgwrZsCZuI7aS//dKPSNb9eFu4DVsqJr43k/XO3vG
-         6lhHTMzGMaz/7lrReHe4o3eT1nk1WaadvzcRhwCM1FArnv0/IvfOd+u8vzm8sPXpDxCW
-         2Wn66oXGiaFbZZiiElTmbzlg7T3VyTmKu2KAAESoWiBjo4tNIBhCHh3J59LNuTuZNYel
-         IBMvm9nvEEXTjI/TmPNdWyUyJR2VJFKySIhcwhfE7BzLcxe91OetrEoLJNN8ye6BgzhE
-         x5A3CF4ODdgkZw+jRea4dXLhMgujUyvf3ceB9cyNZCNHODvvkHCieD0HdBtZwFd5CLD1
-         gFxQ==
-X-Gm-Message-State: AOAM531czLgECHirXnN+SGI5xr+zcWz3XCbL7m4uZeWEiZoP4sGJF03+
-        E5Iqg1aizKAQG9JLMUFzj6PJr8+BtXnHFjkqGnU=
-X-Google-Smtp-Source: ABdhPJy5CVwrSpfRhPw00RtBuvbmvtiTNsnmpjnMCPQ6mTw1yTZs90kdBTwdZwETe3ArmExmBZzDAcGFyzLu0CyxgVI=
-X-Received: by 2002:a2e:1609:: with SMTP id w9mr5346671ljd.90.1633042697541;
- Thu, 30 Sep 2021 15:58:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210915195306.612966-1-kaleshsingh@google.com> <CAC_TJvdv7sT-FmD1S-ZHnpAGvFR=1WBc6jEKBm+q5Wpp6S34PQ@mail.gmail.com>
-In-Reply-To: <CAC_TJvdv7sT-FmD1S-ZHnpAGvFR=1WBc6jEKBm+q5Wpp6S34PQ@mail.gmail.com>
-From:   Namhyung Kim <namhyung@kernel.org>
-Date:   Thu, 30 Sep 2021 15:58:06 -0700
-Message-ID: <CAM9d7ciQC1sV8hOOsgHVLxk7sze_Qp_dBqBkK_FrtVhZ0=AzZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] tracing: Extend histogram triggers expression parsing
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eh34nKlBtcXIhSkXFiXgZHHEXy1pUVrM2m/QPvjGZhs=;
+        b=e2l509+bu7vwOiAE0SBNCkF+1zpDqrsTh4vwwxU1o7z7rIe7iizRNhunYxmEbCTyZO
+         /curbGSb1k3R24Hat1h59BIcZjxf445p7QkDzw3aVG6tznt5jkYJNE7GRz5jCjOoIkJY
+         L3JUP/fsh6Pikow5JicN+8/a414UODHK8Xw1AjafZ6pr7OcMB48uF56o4HpZ9t8FqHLk
+         vqFjW6KAMCR/Cg6f0EoYlVORwFwkxEVUF38agBx270mzRGXWI2Z1Qy52JjV6rY7+dzZ9
+         /TPO82VJUpCxNKRWNYDucG+6N2gawOjW3Wru/IZpLq3GDZ4ts6yTixZUBvz4JtRv0PLp
+         7Yrw==
+X-Gm-Message-State: AOAM5323JGB+2RiBO8rCkCrFv5EWC1c88SAfP7n31aywJt8twPWTAjmi
+        Yzahxyai8fz+LNdTa/4pnFcwxw==
+X-Google-Smtp-Source: ABdhPJylqjkv4pN89l4jFNBRqBmfAjaekWIwj3On6XS7U+IYWAgJXHbj5PZrkmGMBxnVbJZPind/Dg==
+X-Received: by 2002:a17:902:b205:b0:13d:b0a1:da90 with SMTP id t5-20020a170902b20500b0013db0a1da90mr6640971plr.26.1633044304955;
+        Thu, 30 Sep 2021 16:25:04 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 23sm4600716pfw.97.2021.09.30.16.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Sep 2021 16:25:03 -0700 (PDT)
+Date:   Thu, 30 Sep 2021 16:25:02 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
+ anonymous memory
+Message-ID: <202109301621.3E03AE14F@keescook>
+References: <20210902231813.3597709-1-surenb@google.com>
+ <20210902231813.3597709-2-surenb@google.com>
+ <YTZIGhbSTghbUay+@casper.infradead.org>
+ <CAJuCfpEYOC+6FPmVzzV2od3H8vqWVCsb1hiu5CiDS0-hSg6cfQ@mail.gmail.com>
+ <CAJuCfpH8LtKG+1LpVb8JM73dL11yaqR7io8+HDHLGNUVZYVTQw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpH8LtKG+1LpVb8JM73dL11yaqR7io8+HDHLGNUVZYVTQw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kalesh,
+On Thu, Sep 30, 2021 at 11:56:12AM -0700, Suren Baghdasaryan wrote:
+> I thought more about these alternative suggestions for userspace to
+> record allocations but that would introduce considerable complexity
+> into userspace. Userspace would have to collect and consolidate this
+> data by some daemon, all users would have to query it for the data
+> (IPC or something similar), in case this daemon crashes the data would
+> need to be somehow recovered. So, in short, it's possible but makes
+> things much more complex compared to proposed in-kernel
+> implementation.
 
-On Wed, Sep 15, 2021 at 1:09 PM Kalesh Singh <kaleshsingh@google.com> wrote:
->
-> On Wed, Sep 15, 2021 at 12:53 PM Kalesh Singh <kaleshsingh@google.com> wrote:
-> >
-> > The frequency of the rss_stat trace event is known to be of the same
-> > magnitude as that of the sched_switch event on Android devices. This can
-> > cause flooding of the trace buffer with rss_stat traces leading to a
-> > decreased trace buffer capacity and loss of data.
-> >
-> > If it is not necessary to monitor very small changes in rss (as is the
-> > case in Android) then the rss_stat tracepoint can be throttled to only
-> > emit the event once there is a large enough change in the rss size.
-> > The original patch that introduced the rss_stat tracepoint also proposed
-> > a fixed throttling mechanism that only emits the rss_stat event
-> > when the rss size crosses a 512KB boundary. It was concluded that more
-> > generic support for this type of filtering/throttling was need, so that
-> > it can be applied to any trace event. [1]
-> >
-> > From the discussion in [1], histogram triggers seemed the most likely
-> > candidate to support this type of throttling. For instance to achieve the
-> > same throttling as was proposed in [1]:
-> >
-> >   (1) Create a histogram variable to save the 512KB bucket of the rss size
-> >   (2) Use the onchange handler to generate a synthetic event when the
-> >       rss size bucket changes.
-> >
-> > The only missing pieces to support such a hist trigger are:
-> >   (1) Support for setting a hist variable to a specific value -- to set
-> >       the bucket size / granularity.
-> >   (2) Support for division arithmetic operation -- to determine the
-> >       corresponding bucket for an rss size.
-> >
-> > This series extends histogram trigger expressions to:
-> >   (1) Allow assigning numeric literals to hist variable (eg. x=1234)
-> >       and using literals directly in expressions (eg. x=size/1234)
-> >   (2) Support division and multiplication in hist expressions.
-> >       (eg. a=$x/$y*z); and
-> >   (3) Fixes expression parsing for non-associative operators: subtraction
-> >       and division. (eg. 8-4-2 should be 2 not 6)
-> >
-> > The rss_stat event can then be throttled using histogram triggers as
-> > below:
-> >
-> >   # Create a synthetic event to monitor instead of the high frequency
-> >   # rss_stat event
-> >   echo 'rss_stat_throttled unsigned int mm_id; unsigned int curr;
-> >          int member; long size' >> tracing/synthetic_events
-> >
-> >   # Create a hist trigger that emits the synthetic rss_stat_throttled
-> >   # event only when the rss size crosses a 512KB boundary.
-> >   echo 'hist:keys=common_pid:bucket=size/0x80000:onchange($bucket)
-> >               .rss_stat_throttled(mm_id,curr,member,size)'
-> >         >> events/kmem/rss_stat/trigger
-> >
->
-> Sorry, I have a clerical mistake here. The above key should be:
-> s/keys=common_pid/keys=keys=mm_id,member
->
-> The rss size is specific to the mm struct's member not the pid.
-> The results below were captured with the correct key so no changes there.
->
-> >  ------ Test Results ------
-> > Histograms can also be used to evaluate the effectiveness of this
-> > throttling by noting the Total Hits on each trigger:
-> >
-> >   echo 'hist:keys=common_pid' >> events/sched/sched_switch/trigger
-> >   echo 'hist:keys=common_pid' >> events/kmem/rss_stat/trigger
-> >   echo 'hist:keys=common_pid'
-> >            >> events/synthetic/rss_stat_throttled/trigger
-> >
-> > Allowing the above example (512KB granularity) run for 5 minutes on
-> > an arm64 device with 5.10 kernel:
-> >
-> >    sched_switch      : total hits = 147153
-> >    rss_stat          : total hits =  38863
-> >    rss_stat_throttled: total hits =   2409
-> >
-> > The synthetic rss_stat_throttled event is ~16x less frequent than the
-> > rss_stat event when using a 512KB granularity.
-> >
-> >
-> > The results are more pronounced when rss size is changing at a higher
-> > rate in small increments. For instance the following results were obtained
-> > by recording the hits on the above events for a run of Android's
-> > lmkd_unit_test [2], which continually forks processes that map anonymous
-> > memory until there is an oom kill:
-> >
-> >    sched_switch      : total hits =  148832
-> >    rss_stat          : total hits = 4754802
-> >    rss_stat_throttled: total hits =   96214
-> >
-> > In this stress this, the  synthetic rss_stat_throttled event is ~50x less
-> > frequent than the rss_stat event when using a 512KB granularity.
-> >
-> >
-> > [1] https://lore.kernel.org/lkml/20190903200905.198642-1-joel@joelfernandes.org/
-> > [2] https://cs.android.com/android/platform/superproject/+/master:system/memory/lmkd/tests/lmkd_test.cpp
-> >
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Agreed: this is something for the kernel to manage.
 
-Reviewed-by: Namhyung Kim <namhyung@kernel.org>
+> OTOH, the only downside of the current implementation is the
+> additional memory required to store anon vma names. I checked the
+> memory consumption on the latest Android with these patches and
+> because we share vma names during fork, the actual memory required to
+> store vma names is no more than 600kB. Even on older phones like Pixel
+> 3 with 4GB RAM, this is less than 0.015% of total memory. IMHO, this
+> is an acceptable price to pay.
 
-Thanks,
-Namhyung
+I think that's entirely fine. We don't end up with any GUP games, and
+everything is refcounted.
 
+I think a v10 with the various nits fixed would be a good next step
+here. What do you think Matthew?
 
-> >
-> > Kalesh Singh (5):
-> >   tracing: Add support for creating hist trigger variables from literal
-> >   tracing: Add division and multiplication support for hist triggers
-> >   tracing: Fix operator precedence for hist triggers expression
-> >   tracing/selftests: Add tests for hist trigger expression parsing
-> >   tracing/histogram: Document expression arithmetic and constants
-> >
-> >  Documentation/trace/histogram.rst             |  14 +
-> >  kernel/trace/trace_events_hist.c              | 318 +++++++++++++++---
-> >  .../testing/selftests/ftrace/test.d/functions |   4 +-
-> >  .../trigger/trigger-hist-expressions.tc       |  73 ++++
-> >  4 files changed, 357 insertions(+), 52 deletions(-)
-> >  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
-> >
-> >
-> > base-commit: 3ca706c189db861b2ca2019a0901b94050ca49d8
-> > --
-> > 2.33.0.309.g3052b89438-goog
-> >
+-- 
+Kees Cook
