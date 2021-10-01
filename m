@@ -2,117 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D31C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28290C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:05:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B81B61159
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:01:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1036261A38
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355356AbhJATDO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 15:03:14 -0400
-Received: from mga04.intel.com ([192.55.52.120]:30129 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355327AbhJATDO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 15:03:14 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="223640002"
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; 
-   d="scan'208";a="223640002"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 12:00:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; 
-   d="scan'208";a="619340954"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
-  by fmsmga001.fm.intel.com with SMTP; 01 Oct 2021 12:00:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Oct 2021 22:00:50 +0300
-Date:   Fri, 1 Oct 2021 22:00:50 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Sean Paul <sean@poorly.run>
-Cc:     Fernando Ramos <greenfoo@u92.eu>, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_*
- helpers where possible
-Message-ID: <YVda4jNSGuQf50JV@intel.com>
-References: <20210924064324.229457-1-greenfoo@u92.eu>
- <20211001183655.GW2515@art_vandelay>
+        id S1355360AbhJATHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 15:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34166 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354887AbhJATHY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 15:07:24 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E29EC06177E
+        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 12:05:39 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id i4so42934510lfv.4
+        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 12:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UIyzFyagBnHT8jP6LfBQs4hFyHSv/A2jIyX9+OpUkIE=;
+        b=nA4P9JdJGml1jm/hMC5wepVvR3aeNB4EBKNviekcJuiAXO1yBMXi+XAd/mgcCxlbl2
+         MkacKDtknLlEqgaVsRRR0HYVEBfgQxtM36Rb6C9w+X8v5ldMr3VQYkbFwRlf6hWoFMAs
+         OC/Ko3YbeaSJKK3Qxv/kxTCxFv7ktQQyvoq6E7gFKdHXouxkk7ieZ+EVh6OwoWKyROCt
+         dpLND0SWgIXUFCV3GKg2KGnXUfvl6rpPRDEBRtV8t0GnyEhT88YooGRvAIwEMkv62f2c
+         3cmVYpaR1RLmQ6bwX419Zi+wCFNJD2nSEJNel7NMxOAONBqUXgGp5vkPtkUenaaEJ8hx
+         vX9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UIyzFyagBnHT8jP6LfBQs4hFyHSv/A2jIyX9+OpUkIE=;
+        b=aca0Pb5ujXpAl5alkV4C93AiyeCToysZ7plhHZY2/uNM+3BImG+mUBmJG9sVFeofKH
+         H7kahhmRc40qO9vFyq758J75eMrUK4HqHiX9Bb3rzeZXS6ygoW7wJH5HVO62ScdtJc59
+         vXjeMUVPqgZJaAWLKXO4NbeW5ts9iUd7aGwWVnYpd3a7a+zjtCMMfFJsK4O52e6YYuwy
+         xCYUMw5SPlXkHFBP1DyB5XgczJzQxa8kCHfJW2d3kw5t/4zYgcwl8PoJIDhaj9SJZNyC
+         XM6q4MNoA6CY3RBtnM+PcTAEKGwAu3cTs+v05waWTHWx3xdEDF4TRg3bRnGRxiwT90KZ
+         rmMA==
+X-Gm-Message-State: AOAM532kw6JJJ5g5IdB55hYqozHDEVdLmK54GhEJjdvqTKed+hT4gc3N
+        k3RCnpDW4GU/DMvkly+7Ug1meNX5TXkRPJzszsqROA==
+X-Google-Smtp-Source: ABdhPJw7k2Ejrd33oH7X93vPMhlcsMxINKoeiF3I5eE7NKcckSZiHU8x+5kOur6gKKpbidK9YUU9xE2a1k9qlWmWoec=
+X-Received: by 2002:a05:6512:3ba5:: with SMTP id g37mr6867797lfv.651.1633115137559;
+ Fri, 01 Oct 2021 12:05:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211001183655.GW2515@art_vandelay>
-X-Patchwork-Hint: comment
+References: <20210930235754.2635912-1-keescook@chromium.org>
+In-Reply-To: <20210930235754.2635912-1-keescook@chromium.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 1 Oct 2021 12:05:25 -0700
+Message-ID: <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
+Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
+To:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
-> On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
-> > Hi all,
-> > 
-> > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
-> > "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
-> > patch series is about.
-> > 
-> > You will find two types of changes here:
-> > 
-> >   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
-> >     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
-> >     already been done in previous commits such as b7ea04d2)
-> > 
-> >   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
-> >     in the remaining places (as it has already been done in previous commits
-> >     such as 57037094)
-> >     
-> > Most of the changes are straight forward, except for a few cases in the "amd"
-> > and "i915" drivers where some extra dancing was needed to overcome the
-> > limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
-> > once inside the same function (the reason being that the macro expansion
-> > includes *labels*, and you can not have two labels named the same inside one
-> > function)
-> > 
-> > Notice that, even after this patch series, some places remain where
-> > "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
-> > all inside drm core (which makes sense), except for two (in "amd" and "i915")
-> > which cannot be replaced due to the way they are being used.
-> > 
-> > Changes in v2:
-> > 
-> >   - Fix commit message typo
-> >   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
-> >   - Split drm/i915 patch into two simpler ones
-> >   - Remove drm_modeset_(un)lock_all()
-> >   - Fix build problems in non-x86 platforms
-> > 
-> > Fernando Ramos (17):
-> >   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
-> >   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> >   drm: cleanup: remove drm_modeset_(un)lock_all()
-> >   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
-> > 
-> 
-> Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
-> with the necessary drm-tip conflict resolutions).
+On Thu, Sep 30, 2021 at 4:58 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> While discussing how to format the addition of various function
+> attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
+> close as possible to Linus's preferences for future reference.
+>
+> (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
+> others that would prefer all attributes live on a separate leading line.)
+>
+> [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
+>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Ugh. Did anyone actually review the locking changes this does?
-I shot the previous i915 stuff down because the commit messages
-did not address any of it.
+While I appreciate you getting the ball across the finish line (having
+_any_ documentation to point to in future bikesheds), I can't help but
+shake the feeling that the chosen policy will harm the ability of
+existing automated code formatting tools from being able to automate
+code formatting on the kernel.
+
+> ---
+> v4:
+> - fix another stray "void"! This is why code needs a compiler... (thx randy)
+> ---
+>  Documentation/process/coding-style.rst | 30 ++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 42969ab37b34..45b48510f5ec 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -487,6 +487,36 @@ because it is a simple way to add valuable information for the reader.
+>  Do not use the ``extern`` keyword with function prototypes as this makes
+>  lines longer and isn't strictly necessary.
+>
+> +When writing a function declarations, please keep the `order of elements regular
+> +<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/>`_.
+> +For example::
+> +
+> + extern __init void * __must_check action(enum magic value, size_t size, u8 count,
+> +                                         char *fmt, ...) __printf(4, 5) __malloc;
+> +
+> +The preferred order of elements for a function prototype is:
+> +
+> +- storage class (here, ``extern``, and things like ``static __always_inline`` even though
+> +  ``__always_inline`` is technically an attribute, it is treated like ``inline``)
+> +- storage class attributes (here, ``__init`` -- i.e. section declarations, but also things like ``__cold``)
+> +- return type (here, ``void *``)
+> +- return type attributes (here, ``__must_check``)
+> +- function name (here, ``action``)
+> +- function parameters (here, ``(enum magic value, size_t size, u8 count, char *fmt, ...)``, noting that parameter names should always be included)
+> +- function parameter attributes (here, ``__printf(4, 5)``)
+> +- function behavior attributes (here, ``__malloc``)
+> +
+> +Note that for a function definition (e.g. ``static inline``), the compiler does
+> +not allow function parameter attributes after the function parameters. In these
+> +cases, they should go after the storage class attributes (e.g. note the changed
+> +position of ``__printf(4, 5)``)::
+> +
+> + static __always_inline __init __printf(4, 5) void * __must_check action(enum magic value,
+> +               size_t size, u8 count, char *fmt, ...)
+> +               __malloc
+> + {
+> +       ...
+> + }
+>
+>  7) Centralized exiting of functions
+>  -----------------------------------
+> --
+> 2.30.2
+>
+
 
 -- 
-Ville Syrjälä
-Intel
+Thanks,
+~Nick Desaulniers
