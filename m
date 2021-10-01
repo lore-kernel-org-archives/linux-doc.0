@@ -2,113 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6A3C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 01:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0772BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 01:28:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F167E611C1
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 01:16:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9BC260F5B
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 01:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350914AbhJABSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Sep 2021 21:18:40 -0400
-Received: from smtprelay0063.hostedemail.com ([216.40.44.63]:49436 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1350757AbhJABSj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 21:18:39 -0400
-Received: from omf03.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id B778D1844CABE;
-        Fri,  1 Oct 2021 01:16:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 213F713D94;
-        Fri,  1 Oct 2021 01:16:54 +0000 (UTC)
-Message-ID: <d6472a0e635941de55b83ba2ec3e673a74a123b6.camel@perches.com>
-Subject: Re: [PATCH v2] docs: Explain the desired position of function
- attributes
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1351218AbhJAB37 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Sep 2021 21:29:59 -0400
+Received: from mga06.intel.com ([134.134.136.31]:56854 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230214AbhJAB37 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Sep 2021 21:29:59 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="286348495"
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
+   d="scan'208";a="286348495"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 18:28:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
+   d="scan'208";a="521417044"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 30 Sep 2021 18:28:15 -0700
+Received: from debox1-server.jf.intel.com (debox1-server.jf.intel.com [10.54.39.121])
+        by linux.intel.com (Postfix) with ESMTP id CB5965808E0;
+        Thu, 30 Sep 2021 18:28:15 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
+        bhelgaas@google.com, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com
+Cc:     "David E. Box" <david.e.box@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Date:   Thu, 30 Sep 2021 18:16:53 -0700
-In-Reply-To: <20210930192417.1332877-1-keescook@chromium.org>
-References: <20210930192417.1332877-1-keescook@chromium.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [PATCH 0/5] Move intel_pm from MFD to Auxiliary bus
+Date:   Thu, 30 Sep 2021 18:28:10 -0700
+Message-Id: <20211001012815.1999501-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 213F713D94
-X-Stat-Signature: ujgbpioktaqsrtjrxgy5rahpxik4n9gj
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+AIz+C5GLAKLO+2UlaBU/F6jtP3ogEOmw=
-X-HE-Tag: 1633051014-100887
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-09-30 at 12:24 -0700, Kees Cook wrote:
-> While discussing how to format the addition of various function
-> attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
-> close as possible to Linus's preferences for future reference.
-> 
-> (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
-> others that would prefer all attributes live on a separate leading line.)
-> 
-> [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Documentation/process/coding-style.rst | 30 ++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 42969ab37b34..6b4feb1c71e7 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -487,6 +487,36 @@ because it is a simple way to add valuable information for the reader.
->  Do not use the ``extern`` keyword with function prototypes as this makes
->  lines longer and isn't strictly necessary.
->  
-> 
-> +When writing a function declarations, please keep the `order of elements regular
-> +<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/>`_.
-> +For example::
-> +
-> + extern __init void * __must_check void action(enum magic value, size_t size,
-> + 	u8 count, char *fmt, ...) __printf(4, 5) __malloc;
-> +
+This patch series converts the intel_pmt driver from an MFD driver to an
+auxiliary bus driver. The series also combines and supersedes two previous
+patch sets [1] and [2]. Though starting from V1, revision history from each
+series is summarized for each patch.
 
-Read the paragraph above.  extern should not be used in an example.
+David E. Box (5):
+  PCI: Add #defines for accessing PCIe DVSEC fields
+  platform/x86/intel: Move intel_pmt from MFD to Auxiliary Bus
+  platform/x86/intel: extended_caps: Add support for PCIe VSEC
+    structures
+  Documentation: Update ioctl-number.rst for Intel Software Defined
+    Silicon interface
+  platform/x86: Add Intel Software Defined Silicon driver
 
-> +The preferred order of elements for a function prototype is:
-> +
-> +- storage class (here, ``extern``, and things like ``static __always_inline`` even though
-> +  ``__always_inline`` is technically an attribute, it is treated like ``inline``)
-> +- storage class attributes (here, ``__init`` -- i.e. section declarations, but also things like ``__cold``)
-> +- return type (here, ``void *``)
-> +- return type attributes (here, ``__must_check``)
-> +- function name (here, ``action``)
-> +- function parameters (here, ``(enum magic value, size_t size, u8 count, char *fmt, ...)``, noting that parameter names should always be included)
-> +- function parameter attributes (here, ``__printf(4, 5)``)
-> +- function behavior attributes (here, ``__malloc``)
-> +
-> +Note that for a function definition (e.g. ``static inline``), the compiler does
-> +not allow function parameter attributes after the function parameters. In these
-> +cases, they should go after the storage class attributes (e.g. note the changed
-> +position of ``__printf(4, 5)``)::
-> +
-> + static __always_inline __init __printf(4, 5) void * __must_check void action(
-> + 		enum magic value, size_t size, u8 count, char *fmt, ...)
-> + 		__malloc
-> + {
-> + 	...
-> + }
->  
-> 
->  7) Centralized exiting of functions
->  -----------------------------------
+ .../ABI/testing/sysfs-driver-intel_sdsi       |  28 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ MAINTAINERS                                   |  16 +-
+ drivers/mfd/Kconfig                           |  10 -
+ drivers/mfd/Makefile                          |   1 -
+ drivers/mfd/intel_pmt.c                       | 261 -------
+ drivers/platform/x86/intel/Kconfig            |  23 +
+ drivers/platform/x86/intel/Makefile           |   4 +
+ drivers/platform/x86/intel/extended_caps.c    | 401 ++++++++++
+ drivers/platform/x86/intel/extended_caps.h    |  42 ++
+ drivers/platform/x86/intel/pmt/Kconfig        |   4 +-
+ drivers/platform/x86/intel/pmt/class.c        |  18 +-
+ drivers/platform/x86/intel/pmt/class.h        |   5 +-
+ drivers/platform/x86/intel/pmt/crashlog.c     |  43 +-
+ drivers/platform/x86/intel/pmt/telemetry.c    |  47 +-
+ drivers/platform/x86/intel/sdsi.c             | 692 ++++++++++++++++++
+ include/uapi/linux/pci_regs.h                 |   4 +
+ include/uapi/linux/sdsi_if.h                  |  47 ++
+ 18 files changed, 1318 insertions(+), 329 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel_sdsi
+ delete mode 100644 drivers/mfd/intel_pmt.c
+ create mode 100644 drivers/platform/x86/intel/extended_caps.c
+ create mode 100644 drivers/platform/x86/intel/extended_caps.h
+ create mode 100644 drivers/platform/x86/intel/sdsi.c
+ create mode 100644 include/uapi/linux/sdsi_if.h
 
+-- 
+2.25.1
 
