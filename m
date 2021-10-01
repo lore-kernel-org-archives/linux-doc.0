@@ -2,80 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E91EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:57:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A3BCC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 13:43:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1172561ACD
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:57:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11D3761262
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 13:43:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353557AbhJAM7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 08:59:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33052 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353742AbhJAM6R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:58:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6BC2561AA9;
-        Fri,  1 Oct 2021 12:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633092992;
-        bh=5IMVnxeKQmBGq+kXHX3jRdtYUAtJAhxvUWwsyEEOvVA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hmj4WfbXy2M53h5olsPyPCxcLcmYrXcIyXenWUIVYkk7W1xo3o74CZjJl0MxtvPa8
-         hLm7UUxL0eKoaXvBA/oru4AY9S06YY3AV36NkT+d18zfP2NCq9SxbA+EyQIExJ4yiA
-         7OKhOJ0t1apmY1WiM9RdA3Pcwwtxy29HQcDD++TeUW0mib0O8GnWHVtHpEZ3r4wYty
-         CDhyybsAKd0TGHU1QJgYkKVPdZdz1xS4so6RaYPr6FYdSdAF7C06IU58jb1CAs/hTC
-         HKAO1r8CzBxdDaJzIysq2KhGeBXc0qzgaHfGynDWM2RHWnVCwg+n/z4k2tOo4cI3Hv
-         tws+Fhtj/Xyig==
-From:   SeongJae Park <sj@kernel.org>
-To:     akpm@linux-foundation.org
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
-        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
-        david@redhat.com, dwmw@amazon.com, elver@google.com,
-        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
-        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/7] selftests/damon: Add 'schemes' debugfs tests
-Date:   Fri,  1 Oct 2021 12:56:03 +0000
-Message-Id: <20211001125604.29660-7-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211001125604.29660-1-sj@kernel.org>
-References: <20211001125604.29660-1-sj@kernel.org>
+        id S231751AbhJANou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 09:44:50 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:42622 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231753AbhJANou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 09:44:50 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 29D4222618;
+        Fri,  1 Oct 2021 13:43:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1633095785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=Vp9MNLMt6ZxPe3s0tPbZwy0Z7Q9QNdY4N5TIKWunCik=;
+        b=frbQCjj++MqRWxOh6hsNkgq9cOwlbQ9RUpBCBSf2h7pJrRmvqExX0+dInT1uFYZfnIclXn
+        cedToqnDkLcRZUziTswRuA+vG/RrKlEQ5AsxKW8Djh5YeoSDaUXiCnlPrlB11cs+6iyoPu
+        fgohlaNPeRMj+ZImRppEA+vSCd1bync=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1633095785;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=Vp9MNLMt6ZxPe3s0tPbZwy0Z7Q9QNdY4N5TIKWunCik=;
+        b=J4f2ZQZZ5y14W7N7OgTixk99CqUj3NZ9vjRFM7hqDqFFqv73M/EA/Og232ojnZMhNYMZaf
+        Ms/6BhUIFIEEupCA==
+Received: from echidna.suse.de (unknown [10.163.47.146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id D6079A3B88;
+        Fri,  1 Oct 2021 13:43:04 +0000 (UTC)
+From:   David Disseldorp <ddiss@suse.de>
+To:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: [PATCH v3 0/5]: initramfs: "crc" cpio format and INITRAMFS_PRESERVE_MTIME
+Date:   Fri,  1 Oct 2021 15:42:51 +0200
+Message-Id: <20211001134256.5581-1-ddiss@suse.de>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds simple selftets for 'schemes' debugfs file of DAMON.
+This patchset does some minor refactoring of cpio header magic checking
+and corrects documentation.
+Patches 4/5 and 5/5 allow cpio entry mtime preservation to be disabled
+via a new INITRAMFS_PRESERVE_MTIME Kconfig option.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- tools/testing/selftests/damon/debugfs_attrs.sh | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Changes since previous version:
+- curb enthusiasm in 1/5 commit message
+- add cover letter
 
-diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
-index bfabb19dc0d3..639cfb6a1f65 100755
---- a/tools/testing/selftests/damon/debugfs_attrs.sh
-+++ b/tools/testing/selftests/damon/debugfs_attrs.sh
-@@ -57,6 +57,19 @@ test_write_fail "$file" "1 2 3 5 4" "$orig_content" \
- test_content "$file" "$orig_content" "1 2 3 4 5" "successfully written"
- echo "$orig_content" > "$file"
- 
-+# Test schemes file
-+# =================
-+
-+file="$DBGFS/schemes"
-+orig_content=$(cat "$file")
-+
-+test_write_succ "$file" "1 2 3 4 5 6 4" \
-+	"$orig_content" "valid input"
-+test_write_fail "$file" "1 2
-+3 4 5 6 3" "$orig_content" "multi lines"
-+test_write_succ "$file" "" "$orig_content" "disabling"
-+echo "$orig_content" > "$file"
-+
- # Test target_ids file
- # ====================
- 
--- 
-2.17.1
+ .../early-userspace/buffer-format.rst         | 24 +++-----
+ init/Kconfig                                  | 10 ++++
+ init/Makefile                                 |  3 +
+ init/initramfs.c                              | 57 +++----------------
+ init/initramfs_mtime.c                        | 49 ++++++++++++++++
+ init/initramfs_mtime.h                        | 11 ++++
+ 6 files changed, 88 insertions(+), 66 deletions(-)
 
