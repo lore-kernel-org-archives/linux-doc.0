@@ -2,145 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28290C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE4EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:10:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1036261A38
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:05:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2FA561ABD
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 19:10:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355360AbhJATHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 15:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34166 "EHLO
+        id S1355082AbhJATLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 15:11:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354887AbhJATHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 15:07:24 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E29EC06177E
-        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 12:05:39 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id i4so42934510lfv.4
-        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 12:05:39 -0700 (PDT)
+        with ESMTP id S229882AbhJATLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 15:11:48 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1272C061775;
+        Fri,  1 Oct 2021 12:10:03 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id g2so8781014pfc.6;
+        Fri, 01 Oct 2021 12:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UIyzFyagBnHT8jP6LfBQs4hFyHSv/A2jIyX9+OpUkIE=;
-        b=nA4P9JdJGml1jm/hMC5wepVvR3aeNB4EBKNviekcJuiAXO1yBMXi+XAd/mgcCxlbl2
-         MkacKDtknLlEqgaVsRRR0HYVEBfgQxtM36Rb6C9w+X8v5ldMr3VQYkbFwRlf6hWoFMAs
-         OC/Ko3YbeaSJKK3Qxv/kxTCxFv7ktQQyvoq6E7gFKdHXouxkk7ieZ+EVh6OwoWKyROCt
-         dpLND0SWgIXUFCV3GKg2KGnXUfvl6rpPRDEBRtV8t0GnyEhT88YooGRvAIwEMkv62f2c
-         3cmVYpaR1RLmQ6bwX419Zi+wCFNJD2nSEJNel7NMxOAONBqUXgGp5vkPtkUenaaEJ8hx
-         vX9A==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hC2UBNs65Z8LHcHw5QkhAHkvVyU6e6QpHcC0iOHliZA=;
+        b=JikkKp3sd2dAd7c1mNcj+ilWqZ4WMctWP+E0t9X4J304rifPDTbt0J/1Q0sdFy/t6F
+         thmPrDc1rdcSCIXSMw6tyqZOxwi5vT/wOc80yiLIqu7BTAnhrd7AQ2omoyvmrQ1lsqKw
+         gKSZ2VUHRCUk4l4Wx6Jsp+Qw69KDBkaKD0ijYk99937q2phAOf0gWXrIlWIed+mKjdDx
+         cJehJhQPVi4PDGA4BqEwivDPYIO73iloA/K+BGLNF7OPsfGCPZifX1n/TThfap/5sVFO
+         wizpbEyKf2xr0DWVQc1javH7LEE9zie2zxNpnyL8KtCMM0knrNkidLHgmVp9hLZByDN4
+         2Xaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UIyzFyagBnHT8jP6LfBQs4hFyHSv/A2jIyX9+OpUkIE=;
-        b=aca0Pb5ujXpAl5alkV4C93AiyeCToysZ7plhHZY2/uNM+3BImG+mUBmJG9sVFeofKH
-         H7kahhmRc40qO9vFyq758J75eMrUK4HqHiX9Bb3rzeZXS6ygoW7wJH5HVO62ScdtJc59
-         vXjeMUVPqgZJaAWLKXO4NbeW5ts9iUd7aGwWVnYpd3a7a+zjtCMMfFJsK4O52e6YYuwy
-         xCYUMw5SPlXkHFBP1DyB5XgczJzQxa8kCHfJW2d3kw5t/4zYgcwl8PoJIDhaj9SJZNyC
-         XM6q4MNoA6CY3RBtnM+PcTAEKGwAu3cTs+v05waWTHWx3xdEDF4TRg3bRnGRxiwT90KZ
-         rmMA==
-X-Gm-Message-State: AOAM532kw6JJJ5g5IdB55hYqozHDEVdLmK54GhEJjdvqTKed+hT4gc3N
-        k3RCnpDW4GU/DMvkly+7Ug1meNX5TXkRPJzszsqROA==
-X-Google-Smtp-Source: ABdhPJw7k2Ejrd33oH7X93vPMhlcsMxINKoeiF3I5eE7NKcckSZiHU8x+5kOur6gKKpbidK9YUU9xE2a1k9qlWmWoec=
-X-Received: by 2002:a05:6512:3ba5:: with SMTP id g37mr6867797lfv.651.1633115137559;
- Fri, 01 Oct 2021 12:05:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hC2UBNs65Z8LHcHw5QkhAHkvVyU6e6QpHcC0iOHliZA=;
+        b=SrvCQuIorEhY/CbV4Fy/PRWkIDX05EwDlkYW+DWWKOlbhsiP7U4eSQwbCJPp7C2Ekx
+         fLD+1BdBEe/Wt3bGzgowc0HYsMBUlCtF2P/KH+HO9gYrV7LngTp5QlIUWnPO1f2SpvK/
+         6odrd+f1qju8sElYP7rchiPlYUTnSEk6RrWnx6yiYdKpQLP865ZpCbT/bYWHXd/Lt1WM
+         Pi3lBY1tVn4PxlxHJrVrRF60t4kc13TlRjQQroeUqANe1iryotNsnW9tJJF8m18AKebO
+         QqQD5OF+Yjfx05IhVaiL/CF3xbveIEn9xARYAbkGRMZ7ARNciSB8jma7cljbrYnGruuS
+         HQ/A==
+X-Gm-Message-State: AOAM530M89QvQWeehdMR/Xz0KRvwnzshVzUWmSmpftwhoDthx8VMoas9
+        I0/kP9WZ/TLxEOsuNZ/eM4o7B1FE4FHDtfPT3+Q=
+X-Google-Smtp-Source: ABdhPJyJXl1C8v1QKuUPEnkJrI2Xdx0cbewyJ7JUJIVSR4SCGfdjjyXCgAdyk6dXfnDztDA9S64nVA==
+X-Received: by 2002:a63:f5e:: with SMTP id 30mr10809591pgp.283.1633115403318;
+        Fri, 01 Oct 2021 12:10:03 -0700 (PDT)
+Received: from uver-machine ([2405:201:6006:a148:c9bc:b8d0:c5af:34e3])
+        by smtp.gmail.com with ESMTPSA id 3sm5578188pjb.19.2021.10.01.12.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Oct 2021 12:10:02 -0700 (PDT)
+Date:   Sat, 2 Oct 2021 00:39:27 +0530
+From:   Utkarsh Verma <utkarshverma294@gmail.com>
+To:     Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: checkpatch: Document some more message
+ types
+Message-ID: <20211001190927.GA18097@uver-machine>
+References: <20210925201746.15917-1-utkarshverma294@gmail.com>
+ <875yulj4m8.fsf@meer.lwn.net>
+ <06f4c72fefeedb5145a940e5a78d50e610acdcc4.camel@perches.com>
 MIME-Version: 1.0
-References: <20210930235754.2635912-1-keescook@chromium.org>
-In-Reply-To: <20210930235754.2635912-1-keescook@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 1 Oct 2021 12:05:25 -0700
-Message-ID: <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
-Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
-To:     Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joe Perches <joe@perches.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <06f4c72fefeedb5145a940e5a78d50e610acdcc4.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 4:58 PM Kees Cook <keescook@chromium.org> wrote:
->
-> While discussing how to format the addition of various function
-> attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
-> close as possible to Linus's preferences for future reference.
->
-> (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
-> others that would prefer all attributes live on a separate leading line.)
->
-> [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On Mon, Sep 27, 2021 at 10:53:05AM -0700, Joe Perches wrote:
+> On Mon, 2021-09-27 at 11:43 -0600, Jonathan Corbet wrote:
+> > Utkarsh Verma <utkarshverma294@gmail.com> writes:
+> > 
+> > > Added and documented 3 new message types:
+> > > - UNNECESSARY_INT
+> > > - UNSPECIFIED_INT
+> > > - UNNECESSARY_ELSE
+> > > 
+> > > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> > > ---
+> > >  Documentation/dev-tools/checkpatch.rst | 47 ++++++++++++++++++++++++++
+> > >  1 file changed, 47 insertions(+)
+> > 
+> > So...when you send multiple patches with the same subject line that's
+> > always a bad sign.  We really want a "git --oneline" listing to give a
+> > good idea of what the patch does, and that depends on more descriptive
+> > subject lines.
+> > 
+> > In this case, something like:
+> > 
+> >   docs: checkpatch: add UNNECESSARY/UNSPECIFIED_INT and UNNECESSARY_ELSE
+> > 
+> > I can fix up these two patches, but please try to keep this in mind for
+> > future work.
+> > 
+> > (applying the patches now).
+> 
+> The unnecessary_else description isn't particularly good as the
+> checkpatch output doesn't describe multiple if/else if/else if type
+> returns where the message should not apply.
+> 
+> For this type of use, the checkpatch message is not necessarily correct
+> and because it could be a patch context, there's no way for checkpatch
+> to know if it's correct or not.
+> 
+> 	if (foo) {
+> 		...
+> 	} else if (bar) {
+> 		...
+> 		return [val];
+> 	} else {
+> 		...
+> 	}
+> 
 
-While I appreciate you getting the ball across the finish line (having
-_any_ documentation to point to in future bikesheds), I can't help but
-shake the feeling that the chosen policy will harm the ability of
-existing automated code formatting tools from being able to automate
-code formatting on the kernel.
+Sorry, my bad. I have sent a new patch for the UNNECESSARY_ELSE test.
+So please do review it.
 
-> ---
-> v4:
-> - fix another stray "void"! This is why code needs a compiler... (thx randy)
-> ---
->  Documentation/process/coding-style.rst | 30 ++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
->
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 42969ab37b34..45b48510f5ec 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -487,6 +487,36 @@ because it is a simple way to add valuable information for the reader.
->  Do not use the ``extern`` keyword with function prototypes as this makes
->  lines longer and isn't strictly necessary.
->
-> +When writing a function declarations, please keep the `order of elements regular
-> +<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/>`_.
-> +For example::
-> +
-> + extern __init void * __must_check action(enum magic value, size_t size, u8 count,
-> +                                         char *fmt, ...) __printf(4, 5) __malloc;
-> +
-> +The preferred order of elements for a function prototype is:
-> +
-> +- storage class (here, ``extern``, and things like ``static __always_inline`` even though
-> +  ``__always_inline`` is technically an attribute, it is treated like ``inline``)
-> +- storage class attributes (here, ``__init`` -- i.e. section declarations, but also things like ``__cold``)
-> +- return type (here, ``void *``)
-> +- return type attributes (here, ``__must_check``)
-> +- function name (here, ``action``)
-> +- function parameters (here, ``(enum magic value, size_t size, u8 count, char *fmt, ...)``, noting that parameter names should always be included)
-> +- function parameter attributes (here, ``__printf(4, 5)``)
-> +- function behavior attributes (here, ``__malloc``)
-> +
-> +Note that for a function definition (e.g. ``static inline``), the compiler does
-> +not allow function parameter attributes after the function parameters. In these
-> +cases, they should go after the storage class attributes (e.g. note the changed
-> +position of ``__printf(4, 5)``)::
-> +
-> + static __always_inline __init __printf(4, 5) void * __must_check action(enum magic value,
-> +               size_t size, u8 count, char *fmt, ...)
-> +               __malloc
-> + {
-> +       ...
-> + }
->
->  7) Centralized exiting of functions
->  -----------------------------------
-> --
-> 2.30.2
->
+Maybe we should add a check for the continue statement also, because it is
+similar to the break and return statements, and using else after continue
+statement is unnecessary.
 
-
--- 
-Thanks,
-~Nick Desaulniers
+Regards,
+Utkarsh Verma
