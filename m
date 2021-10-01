@@ -2,125 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87ABFC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 20:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17610C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 20:48:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BAD461ADF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 20:43:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E38CB61ABF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 20:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355501AbhJAUpQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 16:45:16 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8613 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355475AbhJAUpN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 16:45:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="205059066"
-X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
-   d="scan'208";a="205059066"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 13:43:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
-   d="scan'208";a="619392045"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2021 13:43:24 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.53])
-        by linux.intel.com (Postfix) with ESMTP id 846A6580689;
-        Fri,  1 Oct 2021 13:43:24 -0700 (PDT)
-Message-ID: <f559b543ce28a3333e6690ba217758a08ffadf15.camel@linux.intel.com>
-Subject: Re: [PATCH 5/5] platform/x86: Add Intel Software Defined Silicon
- driver
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
-        bhelgaas@google.com, andriy.shevchenko@linux.intel.com,
-        srinivas.pandruvada@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Date:   Fri, 01 Oct 2021 13:43:24 -0700
-In-Reply-To: <YVbwgkncsQtWuh/k@kroah.com>
-References: <20211001012815.1999501-1-david.e.box@linux.intel.com>
-         <20211001012815.1999501-6-david.e.box@linux.intel.com>
-         <YVa46eU1VX7CM+Xd@kroah.com>
-         <45b6454a3421ac064dff3ba159e02985d3e55440.camel@linux.intel.com>
-         <YVbwgkncsQtWuh/k@kroah.com>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S1355475AbhJAUuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 16:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355470AbhJAUuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 16:50:02 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD6CC06177F
+        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 13:48:18 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id t2so10207559qtx.8
+        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 13:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=poorly.run; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=fTwGjqOo2qpFUBnSVDlFyolMyzUY3P07s+PYc+sfnxY=;
+        b=DoDhvCYRyP3bI52k2WCEwtOJHIoz8ay9LklCmI5z0nlSjdj2gKo5hP9c/Xbp0MpgYa
+         QkDbjNuGI1fN3ObZzMb/IffcrHuMfDl1JqpDiziGrymys0Mj0bpC18FoM/SQRJ2yhh+H
+         mokkTqv/ZnP32g0hiEA/BcCjek8ynV3GjR40GtWy0/S2DA10ernlOVr5p65Kb0An0xqp
+         ZaOOZjGcZtf04Mml416DbxGvTXbpoK3UueGTN5Jdjky0/3POHDtxBxU2PKWtUz0cjVCU
+         D9jMXomhHB/OKNZVK51aa82CckJviyHHBn4r+QId2nGXfkZzAme7XSAZs0jtbiyCVQ2n
+         AokQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=fTwGjqOo2qpFUBnSVDlFyolMyzUY3P07s+PYc+sfnxY=;
+        b=S3XErB6PgmgOKlghI142tA8Og4O6TdiJaGvYxcUXZvxB+9muwvEOzpC2jaBnPyUNhF
+         ZPbkXtUXT7P8DquYCxSWqO6UKafPKxo9urTzaQE7p9nqfj2Zo4kWKhaYp+uiNbrFvpuO
+         qeZkSJgkIzmR/TL0Bd+IYsmuhS+Z/vB9ik/Qm4U9nTEX7V09gtJzVSqHwvjGU/rcG/f5
+         02gVgv3rwWKI7d6Mwjt03IVpWx+5oRZpZxL5wt2tM+srGsazijX1h9zRwZhqpFXWAVNR
+         zyHzFOw7CnrCJn3ZhPy/ZAa02efBmDbNdOfkogRrkf92u4F7TbLz5w/3TnukXK/Od3zL
+         W70A==
+X-Gm-Message-State: AOAM530xsDWWFKz4FK1tDqiyOiABZUPy6zH6GtEsaFPRR0hUb54AuCLy
+        lKEExfA8wfOQufuf3Z5RqAq5wQ==
+X-Google-Smtp-Source: ABdhPJxa6tbnxCBVxCCTZMZ2tB2zzEWn+wtu5XraFB8rYcu4iq9lSU2A8XqbxRaJTOI7W1N9S6DK7A==
+X-Received: by 2002:a05:622a:1206:: with SMTP id y6mr82618qtx.68.1633121297387;
+        Fri, 01 Oct 2021 13:48:17 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+        by smtp.gmail.com with ESMTPSA id d16sm3951352qtw.14.2021.10.01.13.48.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 01 Oct 2021 13:48:17 -0700 (PDT)
+Date:   Fri, 1 Oct 2021 16:48:15 -0400
+From:   Sean Paul <sean@poorly.run>
+To:     Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc:     Sean Paul <sean@poorly.run>, Fernando Ramos <greenfoo@u92.eu>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_*
+ helpers where possible
+Message-ID: <20211001204815.GA2515@art_vandelay>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVda4jNSGuQf50JV@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-10-01 at 13:26 +0200, Greg KH wrote:
-> On Fri, Oct 01, 2021 at 04:13:58AM -0700, David E. Box wrote:
-> > On Fri, 2021-10-01 at 09:29 +0200, Greg KH wrote:
-> > > On Thu, Sep 30, 2021 at 06:28:15PM -0700, David E. Box wrote:
-> > > > +static long sdsi_device_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> > > > +{
-> > > > +       struct miscdevice *miscdev = file->private_data;
-> > > > +       struct sdsi_priv *priv = to_sdsi_priv(miscdev);
-> > > > +       void __user *argp = (void __user *)arg;
-> > > > +       long ret = -EINVAL;
-> > > > +
-> > > > +       if (!priv->dev_present)
-> > > > +               return -ENODEV;
-> > > > +
-> > > > +       if (!priv->sdsi_enabled)
-> > > > +               return -EPERM;
-> > > > +
-> > > > +       if (cmd == SDSI_IF_READ_STATE)
-> > > > +               return sdsi_if_read_state_cert(priv, argp);
-> > > > +
-> > > > +       mutex_lock(&priv->akc_lock);
-> > > > +       switch (cmd) {
-> > > > +       case SDSI_IF_PROVISION_AKC:
-> > > > +               /*
-> > > > +                * While writing an authentication certificate disallow other openers
-> > > > +                * from using AKC or CAP.
-> > > > +                */
-> > > > +               if (!priv->akc_owner)
-> > > > +                       priv->akc_owner = file;
-> > > > +
-> > > > +               if (priv->akc_owner != file) {
+On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrj�l� wrote:
+> On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
+> > On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
+> > > Hi all,
 > > > 
-> > > Please explain how this test would ever trigger and how you tested it?
+> > > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> > > "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+> > > patch series is about.
 > > > 
-> > > What exactly are you trying to protect from here?  If userspace has your
-> > > file descriptor, it can do whatever it wants, don't try to be smarter
-> > > than it as you will never win.
+> > > You will find two types of changes here:
 > > > 
-> > > And why are you using ioctls at all here?  As you are just
-> > > reading/writing to the hardware directly, why not just use a binary
-> > > sysfs file to be that pipe?  What requires an ioctl at all?
+> > >   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+> > >     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+> > >     already been done in previous commits such as b7ea04d2)
+> > > 
+> > >   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+> > >     in the remaining places (as it has already been done in previous commits
+> > >     such as 57037094)
+> > >     
+> > > Most of the changes are straight forward, except for a few cases in the "amd"
+> > > and "i915" drivers where some extra dancing was needed to overcome the
+> > > limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+> > > once inside the same function (the reason being that the macro expansion
+> > > includes *labels*, and you can not have two labels named the same inside one
+> > > function)
+> > > 
+> > > Notice that, even after this patch series, some places remain where
+> > > "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+> > > all inside drm core (which makes sense), except for two (in "amd" and "i915")
+> > > which cannot be replaced due to the way they are being used.
+> > > 
+> > > Changes in v2:
+> > > 
+> > >   - Fix commit message typo
+> > >   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+> > >   - Split drm/i915 patch into two simpler ones
+> > >   - Remove drm_modeset_(un)lock_all()
+> > >   - Fix build problems in non-x86 platforms
+> > > 
+> > > Fernando Ramos (17):
+> > >   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
+> > >   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > >   drm: cleanup: remove drm_modeset_(un)lock_all()
+> > >   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
+> > > 
 > > 
-> > So an original internal version of this did use binary attributes. But there was concern during
-> > review that a flow, particularly when doing the two write operations, could not be handled
-> > atomically while exposed as separate files. Above is the attempt to handle the situation in the
-> > ioctl. That is, whichever opener performs AKC write first would lock out all other openers from
-> > performing any write until that file is closed. This is to avoid interfering with that process,
-> > should the opener also decide to perform a CAP operation.
+> > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+> > with the necessary drm-tip conflict resolutions).
 > 
-> Unfortunately, your code here does not prevent that at all, so your
-> moving off of a binary sysfs attribute changed nothing.
-> 
-> You can "prevent" this from happening just as easily through a sysfs
-> attribute as you can a character device node.
-> 
-> > There may be future commands requiring RW ioctls as well.
-> 
-> How am I or anyone else supposed to know that?  We write code and review
-> it for _today_, not what might be sometime in the future someday.  As
-> that will be dealt with when it actually happens.
+> Ugh. Did anyone actually review the locking changes this does?
+> I shot the previous i915 stuff down because the commit messages
+> did not address any of it.
 
-Sure. Thanks for the insightful review. I'll take your comments back and submit with the reviewed-by
-tag. Will probably switch back to sysfs.
+I reviewed the set on 9/17, I didn't see your feedback on that thread.
 
-David
+Sean
 
 > 
-> greg k-h
+> -- 
+> Ville Syrj�l�
+> Intel
 
-
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
