@@ -2,165 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5C3C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:03:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BA0C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:10:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9038D610EA
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:03:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCA1461A8D
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354191AbhJAMEr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 08:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354146AbhJAMEp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 08:04:45 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 096E2C061775;
-        Fri,  1 Oct 2021 05:03:02 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id k23-20020a17090a591700b001976d2db364so7055474pji.2;
-        Fri, 01 Oct 2021 05:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6X7OZ3yKyxWtxfNg1xFjeO1sjefTXPgV8TXGpkXtteM=;
-        b=kAcTJBh+fxfpM0kTNrGW5RufHhmq7BdV2ZCMTt/0dw5Hze4VSq0G4o/RNILN0DtXm3
-         Bf+gQrKUpFNLlqQJxXTnYsQRg5EgnIGCkKzH/McvfAhKriPDnWW1GKqPlvohzpwvoMs9
-         pCs6M34RQF9FN9Z8x9k02kte1oNeV2Y1/vVTnCuNZ5mhA0vi0Ss3QYh1zHoAX9Atd0gs
-         cxa6/KhPaCwxjJznv0aMd/QsLjHzfiLyDpi3Ydj6IdqWe3BzLyEWmOLYZiqcKcWJ2wYm
-         LWx6/B2mv85igK1km87GjDc+Q9+dveLPWXgYLX970sMrB1fQa9ykY0E4dZFZcVnNMz3V
-         JXGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6X7OZ3yKyxWtxfNg1xFjeO1sjefTXPgV8TXGpkXtteM=;
-        b=mWZncVqYKqMwyDQD9UL/48q3vfDM89nydpJwCuDvQlxKztk9YbbjBSRTThLWp0ygU6
-         k4q56yox5J5M/ulcbe8ob1+7WWF7sNFZlsfZ/eJ8MXLrA56z5CzYDmKVu7N1Wx/QA+22
-         z/tiHunT0MQrCd8sOuVrNgP5DoUvePchd4nOqU2YEI3uE4nyAdwF+aGk3xyDotMmFQ1d
-         4zVNfnZ3HnwZG9S1ynqHAbOZUg/V7vcEYUd/y4eZZfVaKrkYNqbuHC6VHqt5RF5ADNYW
-         Jx9hmn2e9dVVP7MIr6jNLv0WSufVGx4O5fv7WC42Cq/G49l3SbrWx7nqiiVZ33jxgPqB
-         LpEw==
-X-Gm-Message-State: AOAM5336/Ue6iItjw6dtVQpgaHZdHIO7AvaL8DmbE+TMQ5wSpx8Y3i29
-        Pid9OvOtz0nuHy2fqn4DJfMLRaxBCaJuWUOS
-X-Google-Smtp-Source: ABdhPJyLWqAkoE+6QLwi05GhH2Xyrd+Ps2OxTlXniNxHksEcUc/3WJb2dOopJUPgbw8CPpPgbwBbXA==
-X-Received: by 2002:a17:902:ab58:b0:13e:28bd:cd82 with SMTP id ij24-20020a170902ab5800b0013e28bdcd82mr10391559plb.58.1633089780068;
-        Fri, 01 Oct 2021 05:03:00 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:6006:a148:b4a:28d4:38a0:4379])
-        by smtp.googlemail.com with ESMTPSA id u22sm3250146pje.10.2021.10.01.05.02.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Oct 2021 05:02:59 -0700 (PDT)
-From:   Utkarsh Verma <utkarshverma294@gmail.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Utkarsh Verma <utkarshverma294@gmail.com>
-Subject: [PATCH] docs: checkpatch: add UNNECESSARY_ELSE message
-Date:   Fri,  1 Oct 2021 17:32:18 +0530
-Message-Id: <20211001120218.28751-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <06f4c72fefeedb5145a940e5a78d50e610acdcc4.camel@perches.com>
-References: <06f4c72fefeedb5145a940e5a78d50e610acdcc4.camel@perches.com>
+        id S1354289AbhJAMLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 08:11:44 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:53186 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354146AbhJAMLm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 08:11:42 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id D7D55223FF;
+        Fri,  1 Oct 2021 12:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1633090196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZMNtJrbC0GnzRHpRVHcvpxd5r5byMIwvTLIh1FKx91I=;
+        b=sXm0w2uUnG8p6tiV2Z1mK1CVCNFn3B50GQ0XrAGn2QOR5GIUB+/8cEE6DSKYRJgsyCmxev
+        PSwoqv6ESRnPMVUC+IJNmxsyjyv7E2S2IoGx/0BdkhUcz41PQ7cHBX/YAbnJgobD9cAFk4
+        vUr0IHQweYKklazQJmidOEv16+HHW1s=
+Received: from suse.cz (pathway.suse.cz [10.100.12.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id C1854A3B81;
+        Fri,  1 Oct 2021 12:09:55 +0000 (UTC)
+Date:   Fri, 1 Oct 2021 14:09:55 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Popov <alex.popov@linux.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Garnier <thgarnie@google.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Laura Abbott <labbott@redhat.com>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>,
+        kernel-hardening@lists.openwall.com,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, notify@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
+Message-ID: <20211001120955.GA965@pathway.suse.cz>
+References: <20210929185823.499268-1-alex.popov@linux.com>
+ <d290202d-a72d-0821-9edf-efbecf6f6cef@linux.com>
+ <20210929194924.GA880162@paulmck-ThinkPad-P17-Gen-1>
+ <YVWAPXSzFNbHz6+U@alley>
+ <20210930125903.0783b06e@oasis.local.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210930125903.0783b06e@oasis.local.home>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added and documented UNNECESSARY_ELSE message type.
+On Thu 2021-09-30 12:59:03, Steven Rostedt wrote:
+> On Thu, 30 Sep 2021 11:15:41 +0200
+> Petr Mladek <pmladek@suse.com> wrote:
+> 
+> > On Wed 2021-09-29 12:49:24, Paul E. McKenney wrote:
+> > > On Wed, Sep 29, 2021 at 10:01:33PM +0300, Alexander Popov wrote:  
+> > > > On 29.09.2021 21:58, Alexander Popov wrote:  
+> > > > > Currently, the Linux kernel provides two types of reaction to kernel
+> > > > > warnings:
+> > > > >  1. Do nothing (by default),
+> > > > >  2. Call panic() if panic_on_warn is set. That's a very strong reaction,
+> > > > >     so panic_on_warn is usually disabled on production systems.  
+> > 
+> > Honestly, I am not sure if panic_on_warn() or the new pkill_on_warn()
+> > work as expected. I wonder who uses it in practice and what is
+> > the experience.
+> 
+> Several people use it, as I see reports all the time when someone can
+> trigger a warn on from user space, and it's listed as a DOS of the
+> system.
 
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 77 ++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+Good to know.
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea2d8..e0f1ea1a0911 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1166,3 +1166,80 @@ Others
- 
-   **TYPO_SPELLING**
-     Some words may have been misspelled.  Consider reviewing them.
-+
-+  **UNNECESSARY_ELSE**
-+    Using an else statement just after a return or a break statement is
-+    unnecessary. For example::
-+
-+      for (i = 0; i < 100; i++) {
-+              int foo = bar();
-+              if (foo < 1)
-+                      break;
-+              else
-+                      usleep(1);
-+      }
-+
-+    is generally better written as::
-+
-+      for (i = 0; i < 100; i++) {
-+              int foo = bar();
-+              if (foo < 1)
-+                      break;
-+              usleep(1);
-+      }
-+
-+    It helps to reduce the indentation and removes the unnecessary else
-+    statement. But note there can be some false positives because of the
-+    way it is implemented in the checkpatch script. The checkpatch script
-+    throws this warning message if it finds an else statement and the line
-+    above it is a break or return statement indented at one tab more than
-+    the else statement. So there can be some false positives like::
-+
-+      int n = 15;
-+      if (n > 10)
-+              n--;
-+      else if (n == 10)
-+              return 0;
-+      else
-+              n++;
-+
-+    Now the checkpatch will give a warning for the use of else after return
-+    statement. If the else statement is removed then::
-+
-+      int n = 15;
-+      if (n > 10)
-+              n--;
-+      else if (n == 10)
-+              return 0;
-+      n++;
-+
-+    Now both the n-- and n++ statements will be executed which is different
-+    from the logic in the first case. Because the if block doesn't have
-+    a return statement, so removing the else statement is wrong.
-+
-+    Always check the previous if/else if blocks, for break/return
-+    statements, and do not blindly follow the checkpatch advice. One
-+    patch https://lore.kernel.org/all/20200615155131.GA4563@sevic69/
-+    even made it to the mainline, which was again reverted and fixed.
-+    Commit 98fe05e21a6e ("staging: rtl8712: Remove unnecesary else
-+    after return statement.")
-+
-+    Also, do not change the code if there is only a single return/break
-+    statement inside if-else block, like::
-+
-+      if (a > b)
-+              return a;
-+      else
-+              return b;
-+
-+    now if the else statement is removed::
-+
-+      if (a > b)
-+              return a;
-+      return b;
-+
-+    there is no considerable increase in the readability and one can argue
-+    that the first form is more readable because of the indentation. So
-+    do not remove the else statement in case of a single return/break
-+    statements inside the if-else block.
-+    See: https://lore.kernel.org/lkml/20140925032215.GK7996@ZenIV.linux.org.uk/
--- 
-2.25.1
+> > The problem is that many developers do not know about this behavior.
+> > They use WARN() when they are lazy to write more useful message or when
+> > they want to see all the provided details: task, registry, backtrace.
+> 
+> WARN() Should never be used just because of laziness. If it is, then
+> that's a bug. Let's not use that as an excuse to shoot down this
+> proposal. WARN() should only be used to test assumptions where you do
+> not believe something can happen. I use it all the time when the logic
+> prevents some state, and have the WARN() enabled if that state is hit.
+> Because to me, it shows something that shouldn't happen happened, and I
+> need to fix the code.
 
+I have just double checked code written or reviewed by me and it
+mostly follow the rules. But it is partly just by chance. I did not
+have these rather clear rules in my head.
+
+But for example, the following older WARN() in format_decode() in
+lib/vsprintf.c is questionable:
+
+	WARN_ONCE(1, "Please remove unsupported %%%c in format string\n", *fmt);
+
+I guess that the WARN() was used to easily locate the caller. But it
+is not a reason the reboot the system or kill the process, definitely.
+
+Maybe, we could implement an alternative macro for these situations,
+e.g. DEBUG() or warn().
+
+> > Well, this might be different. Developers might learn this the hard
+> > way from bug reports. But there will be bug reports only when
+> > anyone really enables this behavior. They will enable it only
+> > when it works the right way most of the time.
+> 
+> The panic_on_warn() has been used for years now. I do not think this is
+> an issue.
+
+If panic_on_warn() is widely used then pkill_on_warn() is fine as well.
+
+Best Regards,
+Petr
