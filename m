@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC10DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:53:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09941C4167B
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:53:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C83C361A10
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:53:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1AAA61A10
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:53:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355588AbhJARys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 13:54:48 -0400
+        id S1355610AbhJARyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 13:54:51 -0400
 Received: from mail-mw2nam10on2068.outbound.protection.outlook.com ([40.107.94.68]:22784
         "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1355527AbhJARyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 13:54:44 -0400
+        id S1355503AbhJARyp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 13:54:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cogXvKqXFA1sEFHEzgpUDot76lctGXejklMwU6GuryebrA+3we3QRU4325mfePbu4FLYDPiQsTKZIg9qYeKm4K8Kcjc4ls3SDofcwH9WMz1RlbA4LjebVTJL0RJ2G51hQF/SG94f0P7/0UArDLFyMrfyGpRvgy8W1H3wVgPIqtVRowswqa6hJUv7JilNtnCuY7uzUl8XxvKAeuqmyHWICqmCCq1vuQQp5WdG7NEA+qGXspHLPaHGGawLi2OB0ugXHlyiigsww/EnXtQZe0qAg0LrSGouhg/bByc0RvewdiDVkhDbsr3v7pav0CruAJlLRbzbdc13s9cBhEAb5fbXdQ==
+ b=E/ZC2tf4jdBKfBWdnZ71Neq0JkUpk4teiu5CvdnI0R85Zg2Ful01PAi2eYP16OK0J5Po8y4xm5E8Xs3q1kZ4STwHVxCap1LO6lz54UAr6cZxPUsjnAl3y33wYPosOlvJIsUlhWnHIwy5196/KiAF/euYNHl7u6CbWJZ7oszAc5XHve0LAKYi4ervEVbmZUx2wTnQjNSID0HwU7LxEoc1P+wQIXNBEDUNpNGNnYTjN/hQkVc6MMQPdB9z1TlncvwqrnP+mTxUusle2mqto0ra/DmZRqZ+e1/LbhD+DrIzPeOZZ8ORC/ZNID/RQS3mJuXV3qEKy8aFgmB/WZvc2yEo2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CsGMr5LHVaWbM8ZmJ+WXqcS4MozvEdilF4vXkB3vl1M=;
- b=GE6ZUV1OTnpSZ7iW2+IAUuuMXvwvLWcagv2Bl8SaDUUyZDDmpeRveSaaOOzp9f6LQc2leytRmiiZZ7ua2EqXyEUMjaAURfg9R9uOP3o4xGKQik30s1gLpD5GBSUsMSulsrLN4owVm4VHhd7hd8GQG3ML0Qr4FZ5sStbos2YH6I0hNwKaJbWYTMFbC/SX4PKUsCTkC5ppsJpVDtubI9lajp3UXcqI0wnzNFxALIOOlLq52Z+piSa81tFdorCMQLHjdixqn+mu4Qejj/VkjwwEARYAQQxjnLM9X6DixSWi2DL8piZojhXkpS5jOpBc9FeIoD7dZ+cdy2fmt+ZCiomziA==
+ bh=qdJYkQFGtlcO2xO0G8alywJKE1dQhnzZz8ywW9PbMtg=;
+ b=VM6vmJfLgBkNjgr9CzdltZ1AsMuyHcgLa3Q+6YzETsunRoynBiBR7HyvWjmvCydijhkt6w1qF8Woc0VfD5etUKqnAOMns1lZk5ME5ZsKIOaJKYHbMsKnWDblE0VFkpULVfwEqvw7ZrCfTlKzs74c8Z/Pug1lRbzr6fIGXtfpf3bdMFRgnnTATCV4Rm39j+snLBNnOVjlOcij3v4c/lzpX26hmvLu77lT12iQNBHkwWnNlytXk7njNXbvdY+J6Io4Pmg95sEYfLLccV1utB1Noxfm+wGahrJoibOXWjy/r0qdeh0qSmpljnTWvHjyBEck/oHh2/MjdZdsVcs6LJ3SVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CsGMr5LHVaWbM8ZmJ+WXqcS4MozvEdilF4vXkB3vl1M=;
- b=WOSbXDXeoZGifHofADBD71iZiII8eTU+ZkpYfd+PH/+0oRhWqY9DBc706qgXd0C3FUSYEnNfKiS0L/u0BfymSAWuXs7qB+6vTHLq+tCG+O5yV3nGNC76jKZOr8+YL61o15sa1zeTGxrSTjdUzyKaj1zLAGfQIvhnvPdQimln9FycyAyCJdvcUhuBMCsKOJzJvNTNmP7FO4cNejQPt5bCaWotIFYaMd01jHTLqx295OFb3vvnxg36BiMbOPt0D4UYj944vkW1fRywpv8FfGUa0orqqYZvJy4n0nbL3h6ujnyUR/Eh1Xn6ifpQDijY6BniVtTR4eCA2/kx/Jaem5Kafw==
+ bh=qdJYkQFGtlcO2xO0G8alywJKE1dQhnzZz8ywW9PbMtg=;
+ b=ma9Gl0gZq6JqDLBjVyq0UKPJywi7FyNEuHoE2dC7TjVhTwbWORZ6iJu4gRY9MlbFoH/WTfc09NRoWD661P/6GI6MV1WDMTHeZzxLkrT9zG9ZqImM/kAaNoS3qAiZKvFMO8utZYGUFsDqrKXhg3dTAc6aR0J2hkyrSrndPd0SztKkfa3wMckNUXOaCU0EqBMNcuc1Jcwkq8DHimMqWfcPzXbt7KLrs+y6ne6pm3H2p/AFcnmm8Mm4+KTXHf8PLrkLg+tcGrPN1J33ye9sZbYgOynBsTdEz61iHlOl9cDeHs2Ft7e0c5nRo1YP65VQkXWMgDIqMnYXB3+Kj8SeZpTpnw==
 Authentication-Results: linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
@@ -70,399 +70,422 @@ To:     David Airlie <airlied@linux.ie>,
         Zhi Wang <zhi.a.wang@intel.com>
 Cc:     Christoph Hellwig <hch@infradead.org>,
         Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 06/10] vfio/mdev: Consolidate all the device_api sysfs into the core code
-Date:   Fri,  1 Oct 2021 14:52:47 -0300
-Message-Id: <6-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Subject: [PATCH v3 10/10] vfio/ccw: Move the lifecycle of the struct vfio_ccw_private to the mdev
+Date:   Fri,  1 Oct 2021 14:52:51 -0300
+Message-Id: <10-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 In-Reply-To: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR07CA0005.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::15) To BL0PR12MB5506.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR07CA0030.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::40) To BL0PR12MB5506.namprd12.prod.outlook.com
  (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR07CA0005.namprd07.prod.outlook.com (2603:10b6:208:1a0::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.20 via Frontend Transport; Fri, 1 Oct 2021 17:52:53 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mWMiK-00989K-68; Fri, 01 Oct 2021 14:52:52 -0300
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR07CA0030.namprd07.prod.outlook.com (2603:10b6:208:1a0::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend Transport; Fri, 1 Oct 2021 17:52:53 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mWMiK-00989b-Az; Fri, 01 Oct 2021 14:52:52 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 18be6b34-073a-403e-bd5c-08d985044af4
+X-MS-Office365-Filtering-Correlation-Id: c107206e-8f2d-4760-ff3e-08d985044b10
 X-MS-TrafficTypeDiagnostic: BL1PR12MB5207:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5207F43F5A74F7C7E904525BC2AB9@BL1PR12MB5207.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
+X-Microsoft-Antispam-PRVS: <BL1PR12MB520734879C0E38FC0B566C1CC2AB9@BL1PR12MB5207.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:81;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2RWc/Uzg0cYe9KgWWpP/+oPyZdcCCwEYlncETgjjttAQ9CRmGJBEV8Ckovgxs9ZKQQKuHz8H307T+ffAEermH6KRdAl4XyUp0gYZApn7QnIWceinJMhTzL9/uv9g5PRSVge7RCzCYHjRQK/o3zbxhpS6KlBlYsVXWKnf5WlxtoRrYNdoQGYciqAympmO7LBY4J3hOafP0fcxnw6KOl85Qr84LgIoFo4B0YD3Lre2SVZrgVuJvqwmRTBRpYpuH16ihrccK+AYA8lic9IR8cRNeWj5/SgHdp9gEBeETOQhXg9b7Mr1BqAB3Qh8kR7PmwdDwWyQrGewojh4/ef1OusQvO+RyC6yQ+W2WJB6PYFfSodKrP9O214cqH8fiSI/04u65pX4gn4Cj8VkRx2s7cYPig8Xf2q0V2yg8HYqKHW9H0h5mVo7AQdDbb+rktLagTMTIqeVnokln2yBg1whAw6P7QXcWB6B8okVyJjMoCoVTZVKMuXohl+k1w+cRX4JJSG+uYnNpo1WO7ZhWzRhA3Vsw2OTdM1c/hKRv8TzMJWiIbBkKjVPGkjTnd6UGRfht71iYy2gNLwZ0iqcWZWEsZtXT+jNu0fwXjNHsnzEIjaCPO2bIEUc223tsteE6yGSUFx3BT//r61zbLz0hc1KxhQ2Gt82B7KfdRn4WKnsIJ/yqfxL3xk3cRCROqF2kd3pwkc6rne9QGPBiZtX4SWGBMdtDA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66946007)(2906002)(83380400001)(66556008)(8676002)(38100700002)(66476007)(5660300002)(2616005)(508600001)(426003)(9786002)(26005)(186003)(6666004)(9746002)(54906003)(36756003)(7416002)(4326008)(110136005)(86362001)(8936002)(921005)(30864003)(316002)(4216001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: YlQCUbCeA/y5wpSyBYjumGq6PrjrmzG99Bs5lPPwp8MDl4kFXed/HM/di/Z0aP0yb/MhNP/BBNKo2yAY6N/bgFRlSUh8X4hnaRApzkfsCG5j4JGmyKc75DNj4N/egloBMekI4iTLYC2gm28ft45T8GodGrdoF1IKO443QMvNT+wonShK1TroYD2duUFN/I+sV8oRKcuMzorU9SQaXpzilF58g1TvQ4AG2sxlF1/4os4LC+NtvpgkrclEQ+SRuWNJcEtuKYZbvvFKxPfVnPU/NejC24PQMUoSXipQ5dhkB/0Sn7RbQX8aGG6koFagg2MFOUO4nafQYWVRIiGnspv62coEeu28FZ8/kNuYuzWst0jeXvjUzQVwnHvG24R+saKK54YpzR0Ay+dgru/tTkW6l0a5oXhFiE6C3Xeff4eQUEfUUalUulf+1V1+TPeJZGI/ZPDAg4RYSD/EmDflvLLwg9bko7LeM/aJNhEr8pn/nu3SqG1ANJnsD5OIDkeVykRZjdpkRYJujwSVsku3NiQ0IpsDrlTruvrU8SqAseRc4KyM8hjQaTGcQrICSZ3cq9ne+GwcxdAFmLhOatWDBFdd4mJERO7o2TiINrCGqYiASwgB57CLd0qu93ZG4jNwaCO7chFzuB8XVvbeZLOHeTXIW+Lcqj9IjJeYrYBDyZu4cthrKtlma1Trv0DjRaHZTJmM
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66946007)(2906002)(83380400001)(66556008)(8676002)(38100700002)(66476007)(5660300002)(2616005)(508600001)(426003)(9786002)(26005)(186003)(9746002)(54906003)(36756003)(7416002)(4326008)(110136005)(86362001)(8936002)(921005)(30864003)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YWuc43/RDIfHx3txlmFMNdITSziUNxaIJ0cPc9sXnfdWyb0JJqdzbLOclncK?=
- =?us-ascii?Q?65w57JpTIIoT6zLq4sRK/4kiHKpCIOyrQGKcfGfdTsGdc6ajYiecxvQCrlgk?=
- =?us-ascii?Q?KhDRB45OIZeGVeidtG/IJT9VCeRJaJeikHRVWVtbc+Cgy9NaU3u6988yTGHh?=
- =?us-ascii?Q?xWqFFxvueuBHEB1oMgZFAqJfyXle/gu9OkLT7+aYy3T2QFH+VAFSrQ2Uwlad?=
- =?us-ascii?Q?3U8ePd3BumfJQmdIinieNj00HFiMkBNMZlLhpGrCKr8UzTePfBZm62gYhB3S?=
- =?us-ascii?Q?B+72Q1xPAtSHppU49eI6ZuAmeFoL64kg+4CJXRYLUS+U/K+5EyAt+e/ilQmj?=
- =?us-ascii?Q?pRkIZE6FhOL/vGHWPDxRbZvHz3H5YKAYsoY/vBxoFwFisSBbbtCyg4PaqcKF?=
- =?us-ascii?Q?VgnXDp8ZGRAF/ZxIk0XrXOV+llPhjhfcg41Q89CF++ERutMB3glTtl7PlBOo?=
- =?us-ascii?Q?r6r0R3p7yyyuHO4EXER2aThUZX28hTXOKFFMdRHceAbGiBGIFiG7cM9qgOyk?=
- =?us-ascii?Q?QMPQz18x19TVwifrghTUfOZm+/dAgqjPa2nE5hO6XdIEFIYSD6PitNdHFrYp?=
- =?us-ascii?Q?k/ckkc4pKKFFgEbgSD0Ek1knX5ryaHUVeWudE7AEFNBl1ehprbsAWKZ7Xlca?=
- =?us-ascii?Q?DVLMJHN68387SYwAz285Yc5kAPu1ZwRSJWIcm5m2a0RjKLM5N5q1TETUBTyL?=
- =?us-ascii?Q?tXf6ZykHd4U6999WpeJfOAhKz8orhkLU1/gpCw27YuMmJ7qHKRdaQjOlCDKf?=
- =?us-ascii?Q?cp2QDOMuejOP4LFSedYtMJWC2/BB2h/l+7D/jDai1T1AxYH/RUTxygGsQMkc?=
- =?us-ascii?Q?/ae37wPMBA8bxTfegBWXG2mCDSDKE0LNpYuHWQ8MmbbRD5nobePd/+rqwsNg?=
- =?us-ascii?Q?+qXqGOiYNxsGF6/o3fHXuHaLEwOOvg4COqIoKVXpBDmRzDJtcJ1OYllMcgzq?=
- =?us-ascii?Q?1cjyGpOJ3pRvIlzyasAv26+uYTfxu7aKZOc5GMWUIrTNhfag+p6YhoqYXAFh?=
- =?us-ascii?Q?ixgqtnC962vUnLiQMQj845PcAPRDgyUiKczDotpVdGdAw6qplBmbHo0REeuK?=
- =?us-ascii?Q?18YsDE2eeV5ucy90TsUfwvtCxJcQeUZyUwPX0o8xLNN1GaigB3n1eHdnvQY2?=
- =?us-ascii?Q?vpTzOV9+UahM+FghtoDtDKVIu3GY3yRQss+iGxC5P5yOpR88ZxfvGXQe5vKP?=
- =?us-ascii?Q?pXsgak4LtZB0vlQ6dIoP82eoEvFOtznzWJ0NCddc2XW0gqhURK4RWDVC3hXs?=
- =?us-ascii?Q?6LgHxF+wCuayBH71snb0uBlUk0AxH8fRqfZkybg/o5jIVUOYxRsbqRJbJjUn?=
- =?us-ascii?Q?fdanb5EacxCaORoiax6oXtE9?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BA0adI8Pr1QYQuVhJAamhVwzBD6yorXXoemeGjpXMUkl8xI8a0J4+PZSkH5i?=
+ =?us-ascii?Q?8ps6s973lqFG0CELH5AHYqIbvMRod6f8U81Ahk21ARbrJZzUXGjp4zMk8jh8?=
+ =?us-ascii?Q?DpCZGoiff09NCFmzmstpfNzfPM8xxi8p6rCs0LWeTFXihhMNgyNr9fwUWqp9?=
+ =?us-ascii?Q?oTwMgUi9wXK9MSWS/tppAPogeOV2EwmQ7wOTU28mbFoWV/MXGO1EWJ2c3bdL?=
+ =?us-ascii?Q?gDeF7k69otOmLMJVSijVjX/jBoeo1J+47A6qHih7e+kiW65gAFiE4QhQUczT?=
+ =?us-ascii?Q?UV/xcJ9YXxd6Jw6ba7D8ek56ItstjcIBFygz4+G7WTI+whLHesHrzRn7Qf53?=
+ =?us-ascii?Q?krJoDGhY9vS92WTqq6S+rZ8szVubTILhOC7ruK8CYvN1iXEdURq2G4GzAj2M?=
+ =?us-ascii?Q?d8SqHX+rK4FYRlszJgMgZchqVHVyEAEpx5vNDSuK/hHREGKptAjRRKW7pP5E?=
+ =?us-ascii?Q?gpqKjS7EBYgF6f2u3ov+nmMEpqkqZH1U4dHc9QOtXlgIvzH+gN8L/9SqE2w4?=
+ =?us-ascii?Q?LvXRkryLo9+ctku7n9mvUluTxznrl6oR9BDYxqqADXjaRXani62kq1ch4zcK?=
+ =?us-ascii?Q?6B1/UqDJxTQzrKfgYdxpkR412hm+tWNiWyTTvABpDBiC4PgqaaOqYBaCWCmv?=
+ =?us-ascii?Q?E7+T4MmwIuC3rpFWM2J50jm78tSNXuMIwuuIyYG308YjonJ/zM1nFL4xmbfA?=
+ =?us-ascii?Q?w03WHuW//hDWde/WEwU0AMTVzhFGFe3X9p8gH9CkUmw0xEHmNvTqR7AwSicM?=
+ =?us-ascii?Q?QbEnsaUPiWePXAUkCzhuXOm/c21HbMKuLTvarQepEVWCciXQaVTJ1GxuIMbr?=
+ =?us-ascii?Q?CXB0sJBJZWrti4mTIhqZpASAMTHINqNb8m88lPBNArnfggyW2/1APVVKj9A3?=
+ =?us-ascii?Q?ZiI8whRVGNNuZ2pjk1Jj51ocEKtCtUetegmrIaMcRKxQPUj+qIODWE12FfGr?=
+ =?us-ascii?Q?j92pBGDbT9K+G5b/uQ5l2OpM1QP9k6CebwkHbZbnB38XVobuWcdHma8H/OPw?=
+ =?us-ascii?Q?Z3CTLvHhm4n0y0gt7jQAUe2DOc7zr8mRKuGog3PoK85w365xhN6G/vv/75Zo?=
+ =?us-ascii?Q?LRfRt43mN6h7xr9yTCq3/FrnvRot2crts/rDo0fRc7WmL6HGwZ/Ruof+ap2G?=
+ =?us-ascii?Q?HbDi4XJB5RFADfH0+mZeIL6HaQsnQK5IOmXuzbqM1DVsypHcHMusS+PqS+UZ?=
+ =?us-ascii?Q?GhjzWCsYeo0BgdVivl4vOXNcD3PJVreJB52M2ti+SG9I1Rd6AF0Wo4SU5qMf?=
+ =?us-ascii?Q?1kqij7YkQvETzs8LOy2/obpDqR+Datl2WGt2w3pkp78+E8qAcFTH04aicdTh?=
+ =?us-ascii?Q?M2zFLj6nuU4lYnZlI284men9?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18be6b34-073a-403e-bd5c-08d985044af4
+X-MS-Exchange-CrossTenant-Network-Message-Id: c107206e-8f2d-4760-ff3e-08d985044b10
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.6310
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.7973
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9DE58mJWO2JSkaZbcwPfL9QNZQBv5w+O2Q2CKa/2CjGBO3f3YKRwKnm+1RL2ae99
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7wQ9oUMFtSrKcakP2GqFUXq075t/XKwIaUMpCJUOBCQH7QepIwLTzzL2PcQBlPd2
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5207
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Every driver just emits a static string, simply feed it through the ops
-and provide a standard sysfs show function.
+The css_driver's main purpose is to create/destroy the mdev and relay the
+shutdown, irq, sch_event, and chp_event css_driver ops to the single
+created vfio_device, if it exists.
+
+Reframe the boundary where the css_driver domain switches to the vfio
+domain by using rcu to read and refcount the vfio_device out of the sch's
+drvdata. The mdev probe/remove will manage the drvdata of the parent.
+
+The vfio core code refcounting thus guarantees that when a css_driver
+callback is running the vfio_device is registered, simplifying the
+understanding of the whole lifecycle.
+
+Finally the vfio_ccw_private is allocated/freed during probe/remove of the
+mdev like any other vfio_device struct.
 
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- .../driver-api/vfio-mediated-device.rst       |  4 ++-
- drivers/gpu/drm/i915/gvt/kvmgt.c              |  9 +------
- drivers/s390/cio/vfio_ccw_ops.c               |  9 +------
- drivers/s390/crypto/vfio_ap_ops.c             |  9 +------
- drivers/vfio/mdev/mdev_core.c                 |  2 +-
- drivers/vfio/mdev/mdev_sysfs.c                | 27 ++++++++++++++++---
- include/linux/mdev.h                          |  7 ++---
- samples/vfio-mdev/mbochs.c                    |  9 +------
- samples/vfio-mdev/mdpy.c                      |  9 +------
- samples/vfio-mdev/mtty.c                      | 10 +------
- 10 files changed, 36 insertions(+), 59 deletions(-)
+ drivers/s390/cio/vfio_ccw_drv.c     | 67 ++++++++++++++---------------
+ drivers/s390/cio/vfio_ccw_ops.c     | 40 +++++++----------
+ drivers/s390/cio/vfio_ccw_private.h | 23 +++++++++-
+ 3 files changed, 69 insertions(+), 61 deletions(-)
 
-diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
-index 9f26079cacae35..f410a1cd98bb06 100644
---- a/Documentation/driver-api/vfio-mediated-device.rst
-+++ b/Documentation/driver-api/vfio-mediated-device.rst
-@@ -137,6 +137,7 @@ The structures in the mdev_parent_ops structure are as follows:
- * mdev_attr_groups: attributes of the mediated device
- * supported_config: attributes to define supported configurations
- * device_driver: device driver to bind for mediated device instances
-+* device_api: String to pass through the sysfs file below
- 
- The mdev_parent_ops also still has various functions pointers.  Theses exist
- for historical reasons only and shall not be used for new drivers.
-@@ -225,7 +226,8 @@ Directories and files under the sysfs for Each Physical Device
- * device_api
- 
-   This attribute should show which device API is being created, for example,
--  "vfio-pci" for a PCI device.
-+  "vfio-pci" for a PCI device. The core code maintins this sysfs using the
-+  device_api member of mdev_parent_ops.
- 
- * available_instances
- 
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index 7efa386449d104..d198cc3d132277 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -161,12 +161,6 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
- 	return sprintf(buf, "%u\n", num);
- }
- 
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_PCI_STRING);
--}
--
- static ssize_t description_show(struct mdev_type *mtype,
- 				struct mdev_type_attribute *attr, char *buf)
+diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+index 18ad047811d111..c5582fc9c46c9e 100644
+--- a/drivers/s390/cio/vfio_ccw_drv.c
++++ b/drivers/s390/cio/vfio_ccw_drv.c
+@@ -86,13 +86,19 @@ static void vfio_ccw_crw_todo(struct work_struct *work)
+  */
+ static void vfio_ccw_sch_irq(struct subchannel *sch)
  {
-@@ -187,12 +181,10 @@ static ssize_t description_show(struct mdev_type *mtype,
+-	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
++	struct vfio_ccw_private *private = vfio_ccw_get_priv(sch);
++
++	/* IRQ should not be delivered after the mdev is destroyed */
++	if (WARN_ON(!private))
++		return;
+ 
+ 	inc_irq_stat(IRQIO_CIO);
+ 	vfio_ccw_fsm_event(private, VFIO_CCW_EVENT_INTERRUPT);
++	vfio_device_put(&private->vdev);
  }
  
- static MDEV_TYPE_ATTR_RO(available_instances);
--static MDEV_TYPE_ATTR_RO(device_api);
- static MDEV_TYPE_ATTR_RO(description);
- 
- static struct attribute *gvt_type_attrs[] = {
- 	&mdev_type_attr_available_instances.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_description.attr,
- 	NULL,
- };
-@@ -1750,6 +1742,7 @@ static const struct attribute_group *intel_vgpu_groups[] = {
- 
- static struct mdev_parent_ops intel_vgpu_ops = {
- 	.mdev_attr_groups       = intel_vgpu_groups,
-+	.device_api		= VFIO_DEVICE_API_PCI_STRING,
- 	.create			= intel_vgpu_create,
- 	.remove			= intel_vgpu_remove,
- 
-diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
-index bd4d08afa3e4dc..a7f642be9c8898 100644
---- a/drivers/s390/cio/vfio_ccw_ops.c
-+++ b/drivers/s390/cio/vfio_ccw_ops.c
-@@ -70,13 +70,6 @@ static ssize_t name_show(struct mdev_type *mtype,
- }
- static MDEV_TYPE_ATTR_RO(name);
- 
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_CCW_STRING);
--}
--static MDEV_TYPE_ATTR_RO(device_api);
--
- static ssize_t available_instances_show(struct mdev_type *mtype,
- 					struct mdev_type_attribute *attr,
- 					char *buf)
-@@ -90,7 +83,6 @@ static MDEV_TYPE_ATTR_RO(available_instances);
- 
- static struct attribute *mdev_types_attrs[] = {
- 	&mdev_type_attr_name.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_available_instances.attr,
- 	NULL,
- };
-@@ -640,6 +632,7 @@ struct mdev_driver vfio_ccw_mdev_driver = {
- static const struct mdev_parent_ops vfio_ccw_mdev_ops = {
- 	.owner			= THIS_MODULE,
- 	.device_driver		= &vfio_ccw_mdev_driver,
-+	.device_api		= VFIO_DEVICE_API_CCW_STRING,
- 	.supported_type_groups  = mdev_type_groups,
- };
- 
-diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
-index 2341425f69675a..f80246b30aff30 100644
---- a/drivers/s390/crypto/vfio_ap_ops.c
-+++ b/drivers/s390/crypto/vfio_ap_ops.c
-@@ -401,17 +401,9 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
- 
- static MDEV_TYPE_ATTR_RO(available_instances);
- 
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_AP_STRING);
--}
--
--static MDEV_TYPE_ATTR_RO(device_api);
- 
- static struct attribute *vfio_ap_mdev_type_attrs[] = {
- 	&mdev_type_attr_name.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_available_instances.attr,
- 	NULL,
- };
-@@ -1387,6 +1379,7 @@ static struct mdev_driver vfio_ap_matrix_driver = {
- static const struct mdev_parent_ops vfio_ap_matrix_ops = {
- 	.owner			= THIS_MODULE,
- 	.device_driver		= &vfio_ap_matrix_driver,
-+	.device_api		= VFIO_DEVICE_API_AP_STRING,
- 	.supported_type_groups	= vfio_ap_mdev_type_groups,
- };
- 
-diff --git a/drivers/vfio/mdev/mdev_core.c b/drivers/vfio/mdev/mdev_core.c
-index b314101237fe22..c3018e8e6d3258 100644
---- a/drivers/vfio/mdev/mdev_core.c
-+++ b/drivers/vfio/mdev/mdev_core.c
-@@ -129,7 +129,7 @@ int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops)
- 	char *envp[] = { env_string, NULL };
- 
- 	/* check for mandatory ops */
--	if (!ops || !ops->supported_type_groups)
-+	if (!ops || !ops->supported_type_groups || !ops->device_api)
- 		return -EINVAL;
- 	if (!ops->device_driver && (!ops->create || !ops->remove))
- 		return -EINVAL;
-diff --git a/drivers/vfio/mdev/mdev_sysfs.c b/drivers/vfio/mdev/mdev_sysfs.c
-index f5cf1931c54e48..d4b99440d19e9a 100644
---- a/drivers/vfio/mdev/mdev_sysfs.c
-+++ b/drivers/vfio/mdev/mdev_sysfs.c
-@@ -74,9 +74,30 @@ static ssize_t create_store(struct mdev_type *mtype,
- 
- 	return count;
- }
--
- static MDEV_TYPE_ATTR_WO(create);
- 
-+static ssize_t device_api_show(struct mdev_type *mtype,
-+			       struct mdev_type_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", mtype->parent->ops->device_api);
-+}
-+static MDEV_TYPE_ATTR_RO(device_api);
-+
-+static struct attribute *mdev_types_std_attrs[] = {
-+	&mdev_type_attr_create.attr,
-+	&mdev_type_attr_device_api.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group mdev_type_std_group = {
-+	.attrs = mdev_types_std_attrs,
-+};
-+
-+static const struct attribute_group *mdev_type_groups[] = {
-+	&mdev_type_std_group,
-+	NULL,
-+};
-+
- static void mdev_type_release(struct kobject *kobj)
+-static struct vfio_ccw_private *vfio_ccw_alloc_private(struct subchannel *sch)
++struct vfio_ccw_private *vfio_ccw_alloc_private(struct mdev_device *mdev,
++						struct subchannel *sch)
  {
- 	struct mdev_type *type = to_mdev_type(kobj);
-@@ -123,7 +144,7 @@ static struct mdev_type *add_mdev_supported_type(struct mdev_parent *parent,
- 		return ERR_PTR(ret);
+ 	struct vfio_ccw_private *private;
+ 
+@@ -100,6 +106,8 @@ static struct vfio_ccw_private *vfio_ccw_alloc_private(struct subchannel *sch)
+ 	if (!private)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	vfio_init_group_dev(&private->vdev, &mdev->dev,
++			    &vfio_ccw_dev_ops);
+ 	private->sch = sch;
+ 	mutex_init(&private->io_mutex);
+ 	private->state = VFIO_CCW_STATE_CLOSED;
+@@ -145,11 +153,12 @@ static struct vfio_ccw_private *vfio_ccw_alloc_private(struct subchannel *sch)
+ 	kfree(private->cp.guest_cp);
+ out_free_private:
+ 	mutex_destroy(&private->io_mutex);
++	vfio_uninit_group_dev(&private->vdev);
+ 	kfree(private);
+ 	return ERR_PTR(-ENOMEM);
+ }
+ 
+-static void vfio_ccw_free_private(struct vfio_ccw_private *private)
++void vfio_ccw_free_private(struct vfio_ccw_private *private)
+ {
+ 	struct vfio_ccw_crw *crw, *temp;
+ 
+@@ -164,14 +173,14 @@ static void vfio_ccw_free_private(struct vfio_ccw_private *private)
+ 	kmem_cache_free(vfio_ccw_io_region, private->io_region);
+ 	kfree(private->cp.guest_cp);
+ 	mutex_destroy(&private->io_mutex);
+-	kfree(private);
++	vfio_uninit_group_dev(&private->vdev);
++	kfree_rcu(private, rcu);
+ }
+ 
+ static int vfio_ccw_sch_probe(struct subchannel *sch)
+ {
+ 	struct pmcw *pmcw = &sch->schib.pmcw;
+-	struct vfio_ccw_private *private;
+-	int ret = -ENOMEM;
++	int ret;
+ 
+ 	if (pmcw->qf) {
+ 		dev_warn(&sch->dev, "vfio: ccw: does not support QDIO: %s\n",
+@@ -179,15 +188,9 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+ 		return -ENODEV;
  	}
  
--	ret = sysfs_create_file(&type->kobj, &mdev_type_attr_create.attr);
-+	ret = sysfs_create_groups(&type->kobj, mdev_type_groups);
+-	private = vfio_ccw_alloc_private(sch);
+-	if (IS_ERR(private))
+-		return PTR_ERR(private);
+-
+-	dev_set_drvdata(&sch->dev, private);
+-
+-	ret = vfio_ccw_mdev_reg(sch);
++	ret = mdev_register_device(&sch->dev, &vfio_ccw_mdev_ops);
  	if (ret)
- 		goto attr_create_failed;
+-		goto out_free;
++		return ret;
  
-@@ -144,7 +165,7 @@ static struct mdev_type *add_mdev_supported_type(struct mdev_parent *parent,
- attrs_failed:
- 	kobject_put(type->devices_kobj);
- attr_devices_failed:
--	sysfs_remove_file(&type->kobj, &mdev_type_attr_create.attr);
-+	sysfs_remove_groups(&type->kobj, mdev_type_groups);
- attr_create_failed:
- 	kobject_del(&type->kobj);
- 	kobject_put(&type->kobj);
-diff --git a/include/linux/mdev.h b/include/linux/mdev.h
-index 15d03f6532d073..8a5fc5d54f9b76 100644
---- a/include/linux/mdev.h
-+++ b/include/linux/mdev.h
-@@ -36,6 +36,7 @@ struct device *mtype_get_parent_dev(struct mdev_type *mtype);
-  *
-  * @owner:		The module owner.
-  * @device_driver:	Which device driver to probe() on newly created devices
-+ * @device_api:		String to return for the device_api sysfs
-  * @dev_attr_groups:	Attributes of the parent device.
-  * @mdev_attr_groups:	Attributes of the mediated device.
-  * @supported_type_groups: Attributes to define supported types. It is mandatory
-@@ -80,6 +81,7 @@ struct device *mtype_get_parent_dev(struct mdev_type *mtype);
- struct mdev_parent_ops {
- 	struct module   *owner;
- 	struct mdev_driver *device_driver;
-+	const char *device_api;
- 	const struct attribute_group **dev_attr_groups;
- 	const struct attribute_group **mdev_attr_groups;
- 	struct attribute_group **supported_type_groups;
-@@ -108,11 +110,6 @@ struct mdev_type_attribute {
- 			 size_t count);
- };
- 
--#define MDEV_TYPE_ATTR(_name, _mode, _show, _store)		\
--struct mdev_type_attribute mdev_type_attr_##_name =		\
--	__ATTR(_name, _mode, _show, _store)
--#define MDEV_TYPE_ATTR_RW(_name) \
--	struct mdev_type_attribute mdev_type_attr_##_name = __ATTR_RW(_name)
- #define MDEV_TYPE_ATTR_RO(_name) \
- 	struct mdev_type_attribute mdev_type_attr_##_name = __ATTR_RO(_name)
- #define MDEV_TYPE_ATTR_WO(_name) \
-diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
-index cd41bec5fdeb39..1c5b51390b3a87 100644
---- a/samples/vfio-mdev/mbochs.c
-+++ b/samples/vfio-mdev/mbochs.c
-@@ -1358,17 +1358,9 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
+ 	if (dev_get_uevent_suppress(&sch->dev)) {
+ 		dev_set_uevent_suppress(&sch->dev, 0);
+@@ -198,22 +201,11 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+ 			   sch->schid.cssid, sch->schid.ssid,
+ 			   sch->schid.sch_no);
+ 	return 0;
+-
+-out_free:
+-	dev_set_drvdata(&sch->dev, NULL);
+-	vfio_ccw_free_private(private);
+-	return ret;
  }
- static MDEV_TYPE_ATTR_RO(available_instances);
  
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_PCI_STRING);
--}
--static MDEV_TYPE_ATTR_RO(device_api);
+ static void vfio_ccw_sch_remove(struct subchannel *sch)
+ {
+-	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
 -
- static struct attribute *mdev_types_attrs[] = {
- 	&mdev_type_attr_name.attr,
- 	&mdev_type_attr_description.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_available_instances.attr,
- 	NULL,
- };
-@@ -1417,6 +1409,7 @@ static struct mdev_driver mbochs_driver = {
- static const struct mdev_parent_ops mdev_fops = {
- 	.owner			= THIS_MODULE,
- 	.device_driver		= &mbochs_driver,
-+	.device_api		= VFIO_DEVICE_API_PCI_STRING,
- 	.supported_type_groups	= mdev_type_groups,
- };
+-	vfio_ccw_mdev_unreg(sch);
+-
+-	dev_set_drvdata(&sch->dev, NULL);
+-
+-	vfio_ccw_free_private(private);
++	mdev_unregister_device(&sch->dev);
  
-diff --git a/samples/vfio-mdev/mdpy.c b/samples/vfio-mdev/mdpy.c
-index fe5d43e797b6d3..402a7ebe656371 100644
---- a/samples/vfio-mdev/mdpy.c
-+++ b/samples/vfio-mdev/mdpy.c
-@@ -670,17 +670,9 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
+ 	VFIO_CCW_MSG_EVENT(4, "unbound from subchannel %x.%x.%04x\n",
+ 			   sch->schid.cssid, sch->schid.ssid,
+@@ -222,10 +214,14 @@ static void vfio_ccw_sch_remove(struct subchannel *sch)
+ 
+ static void vfio_ccw_sch_shutdown(struct subchannel *sch)
+ {
+-	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
++	struct vfio_ccw_private *private = vfio_ccw_get_priv(sch);
++
++	if (!private)
++		return;
+ 
+ 	vfio_ccw_fsm_event(private, VFIO_CCW_EVENT_CLOSE);
+ 	vfio_ccw_fsm_event(private, VFIO_CCW_EVENT_BROKEN);
++	vfio_device_put(&private->vdev);
  }
- static MDEV_TYPE_ATTR_RO(available_instances);
  
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_PCI_STRING);
--}
--static MDEV_TYPE_ATTR_RO(device_api);
+ /**
+@@ -240,14 +236,14 @@ static void vfio_ccw_sch_shutdown(struct subchannel *sch)
+  */
+ static int vfio_ccw_sch_event(struct subchannel *sch, int process)
+ {
+-	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
++	struct vfio_ccw_private *private = vfio_ccw_get_priv(sch);
+ 	unsigned long flags;
+ 	int rc = -EAGAIN;
+ 
+-	spin_lock_irqsave(sch->lock, flags);
+-	if (!device_is_registered(&sch->dev))
+-		goto out_unlock;
++	if (!private)
++		return -EAGAIN;
+ 
++	spin_lock_irqsave(sch->lock, flags);
+ 	if (work_pending(&sch->todo_work))
+ 		goto out_unlock;
+ 
+@@ -260,7 +256,7 @@ static int vfio_ccw_sch_event(struct subchannel *sch, int process)
+ 
+ out_unlock:
+ 	spin_unlock_irqrestore(sch->lock, flags);
 -
- static struct attribute *mdev_types_attrs[] = {
- 	&mdev_type_attr_name.attr,
- 	&mdev_type_attr_description.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_available_instances.attr,
- 	NULL,
++	vfio_device_put(&private->vdev);
+ 	return rc;
+ }
+ 
+@@ -294,7 +290,7 @@ static void vfio_ccw_queue_crw(struct vfio_ccw_private *private,
+ static int vfio_ccw_chp_event(struct subchannel *sch,
+ 			      struct chp_link *link, int event)
+ {
+-	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
++	struct vfio_ccw_private *private = vfio_ccw_get_priv(sch);
+ 	int mask = chp_ssd_get_mask(&sch->ssd_info, link);
+ 	int retry = 255;
+ 
+@@ -307,8 +303,10 @@ static int vfio_ccw_chp_event(struct subchannel *sch,
+ 			   sch->schid.ssid, sch->schid.sch_no,
+ 			   mask, event);
+ 
+-	if (cio_update_schib(sch))
++	if (cio_update_schib(sch)) {
++		vfio_device_put(&private->vdev);
+ 		return -ENODEV;
++	}
+ 
+ 	switch (event) {
+ 	case CHP_VARY_OFF:
+@@ -338,6 +336,7 @@ static int vfio_ccw_chp_event(struct subchannel *sch,
+ 		break;
+ 	}
+ 
++	vfio_device_put(&private->vdev);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+index 68aae25a0a4be0..414b11ea7eebf9 100644
+--- a/drivers/s390/cio/vfio_ccw_ops.c
++++ b/drivers/s390/cio/vfio_ccw_ops.c
+@@ -17,8 +17,6 @@
+ 
+ #include "vfio_ccw_private.h"
+ 
+-static const struct vfio_device_ops vfio_ccw_dev_ops;
+-
+ static int vfio_ccw_mdev_reset(struct vfio_ccw_private *private)
+ {
+ 	/*
+@@ -88,26 +86,27 @@ static struct attribute_group *mdev_type_groups[] = {
+ 
+ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
+ {
+-	struct vfio_ccw_private *private = dev_get_drvdata(mdev->dev.parent);
++	struct subchannel *sch = to_subchannel(mdev->dev.parent);
++	struct vfio_ccw_private *private;
+ 	int ret;
+ 
+-	memset(&private->vdev, 0, sizeof(private->vdev));
+-	vfio_init_group_dev(&private->vdev, &mdev->dev,
+-			    &vfio_ccw_dev_ops);
++	private = vfio_ccw_alloc_private(mdev, sch);
++	if (IS_ERR(private))
++		return PTR_ERR(private);
+ 
+ 	VFIO_CCW_MSG_EVENT(2, "mdev %s, sch %x.%x.%04x: create\n",
+-			   dev_name(private->vdev.dev),
+-			   private->sch->schid.cssid, private->sch->schid.ssid,
+-			   private->sch->schid.sch_no);
++			   dev_name(private->vdev.dev), sch->schid.cssid,
++			   sch->schid.ssid, sch->schid.sch_no);
+ 
+ 	ret = vfio_register_emulated_iommu_dev(&private->vdev);
+ 	if (ret)
+-		goto err_init;
++		goto err_alloc;
+ 	dev_set_drvdata(&mdev->dev, private);
++	dev_set_drvdata(&sch->dev, private);
+ 	return 0;
+ 
+-err_init:
+-	vfio_uninit_group_dev(&private->vdev);
++err_alloc:
++	vfio_ccw_free_private(private);
+ 	return ret;
+ }
+ 
+@@ -120,8 +119,9 @@ static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
+ 			   private->sch->schid.cssid, private->sch->schid.ssid,
+ 			   private->sch->schid.sch_no);
+ 
++	dev_set_drvdata(&private->sch->dev, NULL);
+ 	vfio_unregister_group_dev(&private->vdev);
+-	vfio_uninit_group_dev(&private->vdev);
++	vfio_ccw_free_private(private);
+ }
+ 
+ static int vfio_ccw_mdev_open_device(struct vfio_device *vdev)
+@@ -595,7 +595,7 @@ static unsigned int vfio_ccw_get_available(struct mdev_type *mtype)
+ 	return 1;
+ }
+ 
+-static const struct vfio_device_ops vfio_ccw_dev_ops = {
++const struct vfio_device_ops vfio_ccw_dev_ops = {
+ 	.open_device = vfio_ccw_mdev_open_device,
+ 	.close_device = vfio_ccw_mdev_close_device,
+ 	.read = vfio_ccw_mdev_read,
+@@ -615,19 +615,9 @@ struct mdev_driver vfio_ccw_mdev_driver = {
+ 	.get_available = vfio_ccw_get_available,
  };
-@@ -728,6 +720,7 @@ static struct mdev_driver mdpy_driver = {
- static const struct mdev_parent_ops mdev_fops = {
+ 
+-static const struct mdev_parent_ops vfio_ccw_mdev_ops = {
++const struct mdev_parent_ops vfio_ccw_mdev_ops = {
  	.owner			= THIS_MODULE,
- 	.device_driver          = &mdpy_driver,
-+	.device_api		= VFIO_DEVICE_API_PCI_STRING,
- 	.supported_type_groups	= mdev_type_groups,
- };
- 
-diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
-index a0e1a469bd47af..5dc1b6a4c02cbc 100644
---- a/samples/vfio-mdev/mtty.c
-+++ b/samples/vfio-mdev/mtty.c
-@@ -1281,17 +1281,8 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
- 
- static MDEV_TYPE_ATTR_RO(available_instances);
- 
--static ssize_t device_api_show(struct mdev_type *mtype,
--			       struct mdev_type_attribute *attr, char *buf)
--{
--	return sprintf(buf, "%s\n", VFIO_DEVICE_API_PCI_STRING);
--}
--
--static MDEV_TYPE_ATTR_RO(device_api);
--
- static struct attribute *mdev_types_attrs[] = {
- 	&mdev_type_attr_name.attr,
--	&mdev_type_attr_device_api.attr,
- 	&mdev_type_attr_available_instances.attr,
- 	NULL,
- };
-@@ -1333,6 +1324,7 @@ static struct mdev_driver mtty_driver = {
- static const struct mdev_parent_ops mdev_fops = {
- 	.owner                  = THIS_MODULE,
- 	.device_driver		= &mtty_driver,
-+	.device_api		= VFIO_DEVICE_API_PCI_STRING,
- 	.dev_attr_groups        = mtty_dev_groups,
+ 	.device_driver		= &vfio_ccw_mdev_driver,
+ 	.device_api		= VFIO_DEVICE_API_CCW_STRING,
  	.supported_type_groups  = mdev_type_groups,
  };
+-
+-int vfio_ccw_mdev_reg(struct subchannel *sch)
+-{
+-	return mdev_register_device(&sch->dev, &vfio_ccw_mdev_ops);
+-}
+-
+-void vfio_ccw_mdev_unreg(struct subchannel *sch)
+-{
+-	mdev_unregister_device(&sch->dev);
+-}
+diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
+index 67ee9c624393b0..852ff94fc107d6 100644
+--- a/drivers/s390/cio/vfio_ccw_private.h
++++ b/drivers/s390/cio/vfio_ccw_private.h
+@@ -24,6 +24,8 @@
+ #include "css.h"
+ #include "vfio_ccw_cp.h"
+ 
++struct mdev_device;
++
+ #define VFIO_CCW_OFFSET_SHIFT   10
+ #define VFIO_CCW_OFFSET_TO_INDEX(off)	(off >> VFIO_CCW_OFFSET_SHIFT)
+ #define VFIO_CCW_INDEX_TO_OFFSET(index)	((u64)(index) << VFIO_CCW_OFFSET_SHIFT)
+@@ -69,6 +71,7 @@ struct vfio_ccw_crw {
+ /**
+  * struct vfio_ccw_private
+  * @vdev: Embedded VFIO device
++ * @rcu: head for kfree_rcu()
+  * @sch: pointer to the subchannel
+  * @state: internal state of the device
+  * @completion: synchronization helper of the I/O completion
+@@ -91,6 +94,7 @@ struct vfio_ccw_crw {
+  */
+ struct vfio_ccw_private {
+ 	struct vfio_device vdev;
++	struct rcu_head rcu;
+ 	struct subchannel	*sch;
+ 	int			state;
+ 	struct completion	*completion;
+@@ -115,10 +119,25 @@ struct vfio_ccw_private {
+ 	struct work_struct	crw_work;
+ } __aligned(8);
+ 
+-extern int vfio_ccw_mdev_reg(struct subchannel *sch);
+-extern void vfio_ccw_mdev_unreg(struct subchannel *sch);
++struct vfio_ccw_private *vfio_ccw_alloc_private(struct mdev_device *mdev,
++						struct subchannel *sch);
++void vfio_ccw_free_private(struct vfio_ccw_private *private);
+ 
+ extern struct mdev_driver vfio_ccw_mdev_driver;
++extern const struct mdev_parent_ops vfio_ccw_mdev_ops;
++extern const struct vfio_device_ops vfio_ccw_dev_ops;
++
++static inline struct vfio_ccw_private *vfio_ccw_get_priv(struct subchannel *sch)
++{
++	struct vfio_ccw_private *private;
++
++	rcu_read_lock();
++	private = dev_get_drvdata(&sch->dev);
++	if (private && !vfio_device_try_get(&private->vdev))
++		private = NULL;
++	rcu_read_unlock();
++	return private;
++}
+ 
+ /*
+  * States of the device statemachine.
 -- 
 2.33.0
 
