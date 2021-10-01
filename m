@@ -2,608 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CF2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 16:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BC5C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:52:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D507261A7A
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 16:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 422F861A8E
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 17:52:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354459AbhJAQ74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 12:59:56 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:46968 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353953AbhJAQ7z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 12:59:55 -0400
-Received: by mail-ot1-f48.google.com with SMTP id o59-20020a9d2241000000b0054745f28c69so12255055ota.13;
-        Fri, 01 Oct 2021 09:58:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4Q7Yakx1bnlDnZP0EqNwqBXdC+CI5UVFLyCydfGIqOI=;
-        b=Ua14CiV5oUNIJwxbpVC6tNh8YXwLbimtRwveGhhSMBABcbr1umxxPk6mAZj9tBX4sr
-         YHQ3Yi5c7zFsHWoUs/VTSXPJ+HxLl8RnbezXnASbVT/y1LJGBJFXlJCrY3pFOlJINFPd
-         BMHKcYndSMXwNpfbSdxrVUvmkTxdbwtb4BOiqQtrmjwQVzyxyVOt3KsjxqnweTGXGsBp
-         vvARuTm2eAqMYTJ1yTmmG4lKuDOIpyiKYsL5FM128o50iuCMqqk41aGP8CXVfvTBUmMt
-         YSiklgDrSTB7b1r2dXOm4O9R2qZR1fdnT9yDZ3vYZfJGzt1AY6vWbDaghoPQ6SXF8wE0
-         a9TA==
-X-Gm-Message-State: AOAM530pqDfOXHL6UDxIXhnRUhLdcK+DErBrzq2Ru/RfgYm72dZS8yKW
-        KmKEwlHrTZL192piZ7Zg7l3sfoCtZyMMjZJIYC4=
-X-Google-Smtp-Source: ABdhPJwxFgmO5d8BqoelU8CpCnJ63tTHgrHp5DeTnh2s+RBrqa1H3RRYBdY5TRP0Do6riBN1yw1Q0YUwl+Wcg2TVOQA=
-X-Received: by 2002:a05:6830:82b:: with SMTP id t11mr11082122ots.319.1633107490735;
- Fri, 01 Oct 2021 09:58:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1632994837.git.mchehab+huawei@kernel.org> <6417aeca2f0c450545469b82f6b9bb615d1fa8ea.1632994837.git.mchehab+huawei@kernel.org>
-In-Reply-To: <6417aeca2f0c450545469b82f6b9bb615d1fa8ea.1632994837.git.mchehab+huawei@kernel.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 1 Oct 2021 18:57:59 +0200
-Message-ID: <CAJZ5v0iZ=r_jj8unogt28JcmaUYuWFSYZAGXNDyJg3tEQ3x0XA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] ABI: sysfs-class-thermal: create a file with
- thermal_zone ABI
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1355518AbhJARyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 13:54:41 -0400
+Received: from mail-mw2nam10on2087.outbound.protection.outlook.com ([40.107.94.87]:56769
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1355513AbhJARyk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 13:54:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C8NfjF6lZu93qHmmNgx4tRumUUwvJpDWPrlMGvyGiJ6YHppD3dzF09c9UUrqU0+XOw+VLzdD88DLJB68ua4r/P5Qp+SR5W1HckNpnMzwQJbqjP4GYfIX7kfgvlc797hjjEIVMtIUb7YloJPy/VVaZ5yB3kabHn0CojFCTAR3e1pRH4bCBLyOuhsa0QPteZi/z6KKdALHn4Fb1C57ZhEf+52EuoJQqnB6zfBuivH4k2hQh3p3xNLcpeSE32QyhM1twtRRuqPDA9fw2b51k9dq2GsiGUSFNIoXSvIHX1yUTqJQWP4MzEs3QPdNYFSGBq5AJWRHxilUp0QqboVUbvaMuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T3h60LbB9T2bw+FmiqhpUTI2SUnXhU19LuBMGoKf83U=;
+ b=KvnoNx1lLm3mquWP13tw0xqVdj96nvGNYcDaTJkpkEfgsY9bXzeXR1rglFGEHmIuWdz6Db/mFBoLXeUFpLfufMdqckDzdVXbJgPJp3Z5zloEgRIRidx1bt/XmJ2PTStQWh7vs0WaqEViF+WvaaYHw8TQhR6QcQiEm9RUIEiUFUwpdZ3WAq5RLKRh8h48sGEccofd0RTcpFoMAp7MIROi7FLiPOD6qQQHetD4z7wuuDedPO+CnttarrApttB8RiXP8fyWy8mDeP0nC5PhJ9aLQHvW9DhvaKMiRKs4bGUwwREwVbc8NjH3ksQZR8qtMGqN6nJKeZqc4DASjqGGG18Pxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T3h60LbB9T2bw+FmiqhpUTI2SUnXhU19LuBMGoKf83U=;
+ b=sohRkCQsthXoAP2kdZjxKl8Pm2tm4OOn+7fzd50dHD7TD72LOGYdGBJWOzv8p3icypjwY4Pb+vYgzgn66fwKtDIP70vyPAIi7fC5+XCKSwhoSvRUa3UN1Nj0vvWqqg95wTASQpxKDjYoGXU31QE9A+iRdYzSA254DY+y+aDNt9GpVEW+Vd64nn9j3R0LWf9NqTyCBAGculskhGFw5ah9s2DP618MmoWB3AUwywQLGDonZEga0shF/RJUAoc95pzxYpHmII8ttDhGxt3EODu9XZjuVTkt2o6qN7ePh7iALLKlhTgO0FzPSjzwV1gAbreepVNCTKvJ3S+1119jly+/9Q==
+Authentication-Results: linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Fri, 1 Oct
+ 2021 17:52:53 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4566.019; Fri, 1 Oct 2021
+ 17:52:53 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Amit Kucheria <amitk@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v3 01/10] vfio/ccw: Remove unneeded GFP_DMA
+Date:   Fri,  1 Oct 2021 14:52:42 -0300
+Message-Id: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+In-Reply-To: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+References: 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0411.namprd13.prod.outlook.com
+ (2603:10b6:208:2c2::26) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+Received: from mlx.ziepe.ca (142.162.113.129) by BL1PR13CA0411.namprd13.prod.outlook.com (2603:10b6:208:2c2::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.7 via Frontend Transport; Fri, 1 Oct 2021 17:52:52 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mWMiK-009890-0L; Fri, 01 Oct 2021 14:52:52 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c4df22c1-9842-4489-11c8-08d985044aa4
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB51260E0DA447F39616397950C2AB9@BL1PR12MB5126.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1mcHjGiHJ8JmWzJgqh63htCHRwPWm4tasgW7nWj0YAFftK/iDpLDI7ei6ZM+9qO4oAHcXTSr/TNuVSo4Qbh8Vf7mnJkBvQD1gl+scBEUCpc1i3a2FKgv7oog72JEudHl+1KulPbRff/A6XYI+YRMhvGYWuXhHzOivSOa85Rs0VYxpf1terqnarMj6JjR34Qvth0ID07ISiEZ/VaWwnAcEFT+7ikseSBjQRY23+TbMP2eS2MW6HPVlRvEo0+w7oRNSGhgIH4sS30j0sQuTBr5Vz9JX5X2MiPito9U1bubJynkxNGHGtTr1e6fenBbyidOT+upRyqUSOGm7jvWl1zoFcX35bz4Ne8HWyGyx8uoQIYQn+OUs6n3/X1zZoxtZL7mfKpkDkSg/YMmffZFfwYQ0QxTlX5/1BltgrrCoYUvv+4xDo4yo+7i8N+vPTPHQU9pw56NMFaONGdUGe2CpKb9UgZPeMK3dvmX92X4/6jcJInmDQCXoBIeIyYOWjf1Kp86S2Np4rniDhuL7wGVNQv0Qg1hAYjDPFysm9eMBIu7MFRjPjEynQ22CsHYSo0aTVp8yEwjQ35IxN97PbiVow7MoVTrFTFfTy4s4rYhRNp3xH7HAGQjtbI/QsopzaauY0xZAxHTZ/aev67k1D4qNqqSYHH/eP8PqQOI6saNAZz21CdGrf9MBs1irRZ96b4FsMhIU+AMyl4w4Vq9ZohC4Qp52SDolu0q9UsWvocgaYdASTE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(508600001)(921005)(2616005)(26005)(83380400001)(6666004)(186003)(426003)(9746002)(2906002)(86362001)(9786002)(38100700002)(4326008)(36756003)(8676002)(66556008)(66946007)(110136005)(54906003)(316002)(7416002)(4744005)(5660300002)(8936002)(66476007)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T1mqXLARw9nCuZeMG45C1g6tYW6zAxw0Edj52oYrAvWswcGR1dTWFPm0fJ5q?=
+ =?us-ascii?Q?SlI/D3aEJEhg2Ai7qvCXhurULQsF/MUp+y2SFvV4HH1bwV9w+jFNeW3mIa63?=
+ =?us-ascii?Q?COsFASpVZWiieiArf+wymAYLpjuUynFbPDh119b+xWSo4vdHtusIT0Trkxn5?=
+ =?us-ascii?Q?4bfkPMpHyom5T2iZ7eS6gDGv4Clt8Xd3/fZVgUrDl+oRzvOwIllMuYkUyNzX?=
+ =?us-ascii?Q?sIdKnEKXqBjy2pMprEy56NO0IroZ6GB6EMb8qL3ioKXEGEFHtV126i9lEFKi?=
+ =?us-ascii?Q?jyfuyQ3EdKgDBpqRS9RQRMDR+v9sVkodGaRp+HgVgq/3XH7TZcZ8XCw8Vp48?=
+ =?us-ascii?Q?gMK8GP9gqC+FkEnMqQcw0JNx9QLb87I5t2M+7bXyvppZEdPs0t2a6gYe4OOX?=
+ =?us-ascii?Q?zy2ldE/niyB/T3g+S//n7JTlBxPzdoInNx9UN3LwpCkwn2LL5hGsUdM/7GVw?=
+ =?us-ascii?Q?5I7sIGX9Kpy6A4PNfmDptaUIvzfXQy/Vp/cOhAW2AK6e3+c8ux20wLq66oWO?=
+ =?us-ascii?Q?X9O9RZEWmG5ECggHQFXmacQN20w41JR5XnBVecEpV9AoltV9d6JjZWTcR127?=
+ =?us-ascii?Q?rE0oe+DPL/wEbP3RUR7JK6UQ1W7R+no+O6c7sP5stc/kElOBLE8lMfMHjokN?=
+ =?us-ascii?Q?hD3TaSHTQu5jzewmTPIb1sbwV7f2wwblk+bEEOuMPGVKbDmForOTVzJWPsHd?=
+ =?us-ascii?Q?MpMCOX/BhjSameRtZI6qe8bavczzXEAhGAEDS50fS1EZDa7epDTi0N+9BYA6?=
+ =?us-ascii?Q?GUB0NdZOV3QRZuYFrKDgtlXLQIXDMgJ4yYT64m5aDldHCoqQHpkZf5sr7ff+?=
+ =?us-ascii?Q?7oMk5cAGdmU8yfJV8Nhr3RlpDo6ibrgjk2yPw/vkoQ9yisf7TrX0wVScjJim?=
+ =?us-ascii?Q?ELYFJMCw4MsovaoA3NBxk330Q0JulE0CKXmeX2GgS14XNppL5NsU+YiT88CL?=
+ =?us-ascii?Q?JwTymXh1WLwDXdxL2B+C56zl7IdLb5HsxN89KK6B/zzyyKtxk9/LGAO1Tx5/?=
+ =?us-ascii?Q?H+Sz9BCgzHxvVu2uInBM/1lQ5ihYlJ6z/wjdh2RRjHkbSXzX0YF3mnKvjbLs?=
+ =?us-ascii?Q?i8frogJUUex2ZNFUpuS4qF+ksVOjvs9wk/egqnEYiiX8lt9p10ic4EFvRIDJ?=
+ =?us-ascii?Q?p+c+quNYbvKHBjjN1IfUAofHFOxGxohmaIzjdIzFisCBrPplfi9yP/Lh/HE0?=
+ =?us-ascii?Q?EfMFke40Xm46f1Tt+HH0B44d32bpVPBw1c1mSGwbZX3iq/ws0lqAe4ITj05v?=
+ =?us-ascii?Q?lqVz/kgPK124pD15C5RtMLokobz6zcwmoGixt1N4BZKA35oFPflEYtzpRQQV?=
+ =?us-ascii?Q?mI+8hYTkQQ47EIhU8knF7lxwD16zOUfF5wjHk08IUltkcA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4df22c1-9842-4489-11c8-08d985044aa4
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.0296
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: krAd+ZCZhpxQZgULtYYczwDhfiB0wDJH1Fb4X78bnQRNpAVRQ2fXCzq9hC1P04Cn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5126
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 11:45 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> The thermal ABI is described, together with the internal
-> development details at:
->
->         Documentation/driver-api/thermal/sysfs-api.rst
->
-> Move the sysfs API description to Documentation/ABI,
-> ensuring that scripts/get_abi.pl will properly parse it.
+Since the ccw_io_region was split out of the private the allocation no
+longer needs the GFP_DMA. Remove it.
 
-So the subject of the patch should be something like
+Reported-by: Christoph Hellwig <hch@infradead.org>
+Fixes: c98e16b2fa12 ("s390/cio: Convert ccw_io_region to pointer")
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ drivers/s390/cio/vfio_ccw_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thermal: Move ABI documentation do Documentation/ABI
+diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+index 76099bcb765b45..371558ec92045d 100644
+--- a/drivers/s390/cio/vfio_ccw_drv.c
++++ b/drivers/s390/cio/vfio_ccw_drv.c
+@@ -161,7 +161,7 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+ 		return -ENODEV;
+ 	}
+ 
+-	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
++	private = kzalloc(sizeof(*private), GFP_KERNEL);
+ 	if (!private)
+ 		return -ENOMEM;
+ 
+-- 
+2.33.0
 
-Also please mention the MAINTAINERS update in the changelog.
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->
-> See [PATCH v2 0/7] at: https://lore.kernel.org/all/cover.1632994837.git.mchehab+huawei@kernel.org/
->
->  Documentation/ABI/testing/sysfs-class-thermal | 259 ++++++++++++++++++
->  .../driver-api/thermal/sysfs-api.rst          | 225 +--------------
->  MAINTAINERS                                   |   2 +
->  3 files changed, 264 insertions(+), 222 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-thermal
->
-> diff --git a/Documentation/ABI/testing/sysfs-class-thermal b/Documentation/ABI/testing/sysfs-class-thermal
-> new file mode 100644
-> index 000000000000..2c52bb1f864c
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-thermal
-> @@ -0,0 +1,259 @@
-> +What:          /sys/class/thermal/thermal_zoneX/type
-> +Description:
-> +               Strings which represent the thermal zone type.
-> +               This is given by thermal zone driver as part of registration.
-> +               E.g: "acpitz" indicates it's an ACPI thermal device.
-> +               In order to keep it consistent with hwmon sys attribute; this
-> +               shouldbe a short, lowercase string, not containing spaces nor
-> +               dashes.
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/temp
-> +Description:
-> +               Current temperature as reported by thermal zone (sensor).
-> +
-> +               Unit: millidegree Celsius
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/mode
-> +Description:
-> +               One of the predefined values in [enabled, disabled].
-> +               This file gives information about the algorithm that is
-> +               currently managing the thermal zone. It can be either default
-> +               kernel based algorithm or user space application.
-> +
-> +               enabled
-> +                               enable Kernel Thermal management.
-> +               disabled
-> +                               Preventing kernel thermal zone driver actions upon
-> +                               trip points so that user application can take full
-> +                               charge of the thermal management.
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/policy
-> +Description:
-> +               One of the various thermal governors used for a particular zone.
-> +
-> +               RW, Required
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/available_policies
-> +Description:
-> +               Available thermal governors which can be used for a
-> +               particular zone.
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/trip_point_Y_temp
-> +Description:
-> +               The temperature above which trip point will be fired.
-> +
-> +               Unit: millidegree Celsius
-> +
-> +               RO, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/trip_point_Y_type
-> +Description:
-> +               Strings which indicate the type of the trip point.
-> +
-> +               E.g. it can be one of critical, hot, passive, `active[0-*]`
-> +               for ACPI thermal zone.
-> +
-> +               RO, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/trip_point_Y_hyst
-> +Description:
-> +               The hysteresis value for a trip point, represented as an
-> +               integer.
-> +
-> +               Unit: Celsius
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/cdevY
-> +Description:
-> +       Sysfs link to the thermal cooling device node where the sys I/F
-> +       for cooling device throttling control represents.
-> +
-> +       RO, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/cdevY_trip_point
-> +Description:
-> +               The trip point in this thermal zone which `cdev[0-*]` is
-> +               associated with; -1 means the cooling device is not
-> +               associated with any trip point.
-> +
-> +               RO, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/cdevY_weight
-> +Description:
-> +               The influence of `cdev[0-*]` in this thermal zone. This value
-> +               is relative to the rest of cooling devices in the thermal
-> +               zone. For example, if a cooling device has a weight double
-> +               than that of other, it's twice as effective in cooling the
-> +               thermal zone.
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/emul_temp
-> +Description:
-> +               Interface to set the emulated temperature method in thermal zone
-> +               (sensor). After setting this temperature, the thermal zone may
-> +               pass this temperature to platform emulation function if
-> +               registered or cache it locally. This is useful in debugging
-> +               different temperature threshold and its associated cooling
-> +               action. This is write only node and writing 0 on this node
-> +               should disable emulation.
-> +
-> +               Unit: millidegree Celsius
-> +
-> +               WO, Optional
-> +
-> +               WARNING:
-> +                   Be careful while enabling this option on production systems,
-> +                   because userland can easily disable the thermal policy by simply
-> +                   flooding this sysfs node with low temperature values.
-> +
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/k_d
-> +Description:
-> +               The derivative term of the power allocator governor's PID
-> +               controller. For more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/k_i
-> +Description:
-> +               The integral term of the power allocator governor's PID
-> +               controller. This term allows the PID controller to compensate
-> +               for long term drift. For more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/k_po
-> +Description:
-> +               The proportional term of the power allocator governor's PID
-> +               controller during temperature overshoot. Temperature overshoot
-> +               is when the current temperature is above the "desired
-> +               temperature" trip point. For more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/k_pu
-> +Description:
-> +               The proportional term of the power allocator governor's PID
-> +               controller during temperature undershoot. Temperature undershoot
-> +               is when the current temperature is below the "desired
-> +               temperature" trip point. For more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/integral_cutoff
-> +Description:
-> +               Temperature offset from the desired temperature trip point
-> +               above which the integral term of the power allocator
-> +               governor's PID controller starts accumulating errors. For
-> +               example, if integral_cutoff is 0, then the integral term only
-> +               accumulates error when temperature is above the desired
-> +               temperature trip point. For more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               Unit: millidegree Celsius
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/slope
-> +Description:
-> +               The slope constant used in a linear extrapolation model
-> +               to determine a hotspot temperature based off the sensor's
-> +               raw readings. It is up to the device driver to determine
-> +               the usage of these values.
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/offset
-> +Description:
-> +               The offset constant used in a linear extrapolation model
-> +               to determine a hotspot temperature based off the sensor's
-> +               raw readings. It is up to the device driver to determine
-> +               the usage of these values.
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/thermal_zoneX/sustainable_power
-> +Description:
-> +               An estimate of the sustained power that can be dissipated by
-> +               the thermal zone. Used by the power allocator governor. For
-> +               more information see
-> +               Documentation/driver-api/thermal/power_allocator.rst
-> +
-> +               Unit: milliwatts
-> +
-> +               RW, Optional
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/type
-> +Description:
-> +               String which represents the type of device, e.g:
-> +
-> +               - for generic ACPI: should be "Fan", "Processor" or "LCD"
-> +               - for memory controller device on intel_menlow platform:
-> +               should be "Memory controller".
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/max_state
-> +Description:
-> +               The maximum permissible cooling state of this cooling device.
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/cur_state
-> +Description:
-> +               The current cooling state of this cooling device.
-> +               The value can any integer numbers between 0 and max_state:
-> +
-> +               - cur_state == 0 means no cooling
-> +               - cur_state == max_state means the maximum cooling.
-> +
-> +               RW, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/stats/reset
-> +Description:
-> +               Writing any value resets the cooling device's statistics.
-> +
-> +               WO, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/stats/time_in_state_ms:
-> +Description:
-> +               The amount of time spent by the cooling device in various
-> +               cooling states. The output will have "<state> <time>" pair
-> +               in each line, which will mean this cooling device spent <time>
-> +               msec of time at <state>.
-> +
-> +               Output will have one line for each of the supported states.
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/stats/total_trans
-> +Description:
-> +               A single positive value showing the total number of times
-> +               the state of a cooling device is changed.
-> +
-> +               RO, Required
-> +
-> +What:          /sys/class/thermal/cooling_deviceX/stats/trans_table
-> +Description:
-> +               This gives fine grained information about all the cooling state
-> +               transitions. The cat output here is a two dimensional matrix,
-> +               where an entry <i,j> (row i, column j) represents the number
-> +               of transitions from State_i to State_j. If the transition
-> +               table is bigger than PAGE_SIZE, reading this will return
-> +               an -EFBIG error.
-> +
-> +               RO, Required
-> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-> index c93fa5e961a0..2e0f79a9e2ee 100644
-> --- a/Documentation/driver-api/thermal/sysfs-api.rst
-> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
-> @@ -428,6 +428,9 @@ of thermal zone device. E.g. the generic thermal driver registers one hwmon
->  class device and build the associated hwmon sysfs I/F for all the registered
->  ACPI thermal zones.
->
-> +Please read Documentation/ABI/testing/sysfs-class-thermal for thermal
-> +zone and cooling device attribute details.
-> +
->  ::
->
->    /sys/class/hwmon/hwmon[0-*]:
-> @@ -437,228 +440,6 @@ ACPI thermal zones.
->
->  Please read Documentation/hwmon/sysfs-interface.rst for additional information.
->
-> -Thermal zone attributes
-> ------------------------
-> -
-> -type
-> -       Strings which represent the thermal zone type.
-> -       This is given by thermal zone driver as part of registration.
-> -       E.g: "acpitz" indicates it's an ACPI thermal device.
-> -       In order to keep it consistent with hwmon sys attribute; this should
-> -       be a short, lowercase string, not containing spaces nor dashes.
-> -       RO, Required
-> -
-> -temp
-> -       Current temperature as reported by thermal zone (sensor).
-> -       Unit: millidegree Celsius
-> -       RO, Required
-> -
-> -mode
-> -       One of the predefined values in [enabled, disabled].
-> -       This file gives information about the algorithm that is currently
-> -       managing the thermal zone. It can be either default kernel based
-> -       algorithm or user space application.
-> -
-> -       enabled
-> -                         enable Kernel Thermal management.
-> -       disabled
-> -                         Preventing kernel thermal zone driver actions upon
-> -                         trip points so that user application can take full
-> -                         charge of the thermal management.
-> -
-> -       RW, Optional
-> -
-> -policy
-> -       One of the various thermal governors used for a particular zone.
-> -
-> -       RW, Required
-> -
-> -available_policies
-> -       Available thermal governors which can be used for a particular zone.
-> -
-> -       RO, Required
-> -
-> -`trip_point_[0-*]_temp`
-> -       The temperature above which trip point will be fired.
-> -
-> -       Unit: millidegree Celsius
-> -
-> -       RO, Optional
-> -
-> -`trip_point_[0-*]_type`
-> -       Strings which indicate the type of the trip point.
-> -
-> -       E.g. it can be one of critical, hot, passive, `active[0-*]` for ACPI
-> -       thermal zone.
-> -
-> -       RO, Optional
-> -
-> -`trip_point_[0-*]_hyst`
-> -       The hysteresis value for a trip point, represented as an integer
-> -       Unit: Celsius
-> -       RW, Optional
-> -
-> -`cdev[0-*]`
-> -       Sysfs link to the thermal cooling device node where the sys I/F
-> -       for cooling device throttling control represents.
-> -
-> -       RO, Optional
-> -
-> -`cdev[0-*]_trip_point`
-> -       The trip point in this thermal zone which `cdev[0-*]` is associated
-> -       with; -1 means the cooling device is not associated with any trip
-> -       point.
-> -
-> -       RO, Optional
-> -
-> -`cdev[0-*]_weight`
-> -       The influence of `cdev[0-*]` in this thermal zone. This value
-> -       is relative to the rest of cooling devices in the thermal
-> -       zone. For example, if a cooling device has a weight double
-> -       than that of other, it's twice as effective in cooling the
-> -       thermal zone.
-> -
-> -       RW, Optional
-> -
-> -emul_temp
-> -       Interface to set the emulated temperature method in thermal zone
-> -       (sensor). After setting this temperature, the thermal zone may pass
-> -       this temperature to platform emulation function if registered or
-> -       cache it locally. This is useful in debugging different temperature
-> -       threshold and its associated cooling action. This is write only node
-> -       and writing 0 on this node should disable emulation.
-> -       Unit: millidegree Celsius
-> -
-> -       WO, Optional
-> -
-> -         WARNING:
-> -           Be careful while enabling this option on production systems,
-> -           because userland can easily disable the thermal policy by simply
-> -           flooding this sysfs node with low temperature values.
-> -
-> -sustainable_power
-> -       An estimate of the sustained power that can be dissipated by
-> -       the thermal zone. Used by the power allocator governor. For
-> -       more information see Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       Unit: milliwatts
-> -
-> -       RW, Optional
-> -
-> -k_po
-> -       The proportional term of the power allocator governor's PID
-> -       controller during temperature overshoot. Temperature overshoot
-> -       is when the current temperature is above the "desired
-> -       temperature" trip point. For more information see
-> -       Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       RW, Optional
-> -
-> -k_pu
-> -       The proportional term of the power allocator governor's PID
-> -       controller during temperature undershoot. Temperature undershoot
-> -       is when the current temperature is below the "desired
-> -       temperature" trip point. For more information see
-> -       Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       RW, Optional
-> -
-> -k_i
-> -       The integral term of the power allocator governor's PID
-> -       controller. This term allows the PID controller to compensate
-> -       for long term drift. For more information see
-> -       Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       RW, Optional
-> -
-> -k_d
-> -       The derivative term of the power allocator governor's PID
-> -       controller. For more information see
-> -       Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       RW, Optional
-> -
-> -integral_cutoff
-> -       Temperature offset from the desired temperature trip point
-> -       above which the integral term of the power allocator
-> -       governor's PID controller starts accumulating errors. For
-> -       example, if integral_cutoff is 0, then the integral term only
-> -       accumulates error when temperature is above the desired
-> -       temperature trip point. For more information see
-> -       Documentation/driver-api/thermal/power_allocator.rst
-> -
-> -       Unit: millidegree Celsius
-> -
-> -       RW, Optional
-> -
-> -slope
-> -       The slope constant used in a linear extrapolation model
-> -       to determine a hotspot temperature based off the sensor's
-> -       raw readings. It is up to the device driver to determine
-> -       the usage of these values.
-> -
-> -       RW, Optional
-> -
-> -offset
-> -       The offset constant used in a linear extrapolation model
-> -       to determine a hotspot temperature based off the sensor's
-> -       raw readings. It is up to the device driver to determine
-> -       the usage of these values.
-> -
-> -       RW, Optional
-> -
-> -Cooling device attributes
-> --------------------------
-> -
-> -type
-> -       String which represents the type of device, e.g:
-> -
-> -       - for generic ACPI: should be "Fan", "Processor" or "LCD"
-> -       - for memory controller device on intel_menlow platform:
-> -         should be "Memory controller".
-> -
-> -       RO, Required
-> -
-> -max_state
-> -       The maximum permissible cooling state of this cooling device.
-> -
-> -       RO, Required
-> -
-> -cur_state
-> -       The current cooling state of this cooling device.
-> -       The value can any integer numbers between 0 and max_state:
-> -
-> -       - cur_state == 0 means no cooling
-> -       - cur_state == max_state means the maximum cooling.
-> -
-> -       RW, Required
-> -
-> -stats/reset
-> -       Writing any value resets the cooling device's statistics.
-> -       WO, Required
-> -
-> -stats/time_in_state_ms:
-> -       The amount of time spent by the cooling device in various cooling
-> -       states. The output will have "<state> <time>" pair in each line, which
-> -       will mean this cooling device spent <time> msec of time at <state>.
-> -       Output will have one line for each of the supported states.
-> -       RO, Required
-> -
-> -
-> -stats/total_trans:
-> -       A single positive value showing the total number of times the state of a
-> -       cooling device is changed.
-> -
-> -       RO, Required
-> -
-> -stats/trans_table:
-> -       This gives fine grained information about all the cooling state
-> -       transitions. The cat output here is a two dimensional matrix, where an
-> -       entry <i,j> (row i, column j) represents the number of transitions from
-> -       State_i to State_j. If the transition table is bigger than PAGE_SIZE,
-> -       reading this will return an -EFBIG error.
-> -       RO, Required
-> -
->  3. A simple implementation
->  ==========================
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9b765cbc90d1..179eadaebe76 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18653,7 +18653,9 @@ L:      linux-pm@vger.kernel.org
->  S:     Supported
->  Q:     https://patchwork.kernel.org/project/linux-pm/list/
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git
-> +F:     Documentation/ABI/testing/sysfs-class-thermal
->  F:     Documentation/devicetree/bindings/thermal/
-> +F:     Documentation/driver-api/thermal/
->  F:     drivers/thermal/
->  F:     include/linux/cpu_cooling.h
->  F:     include/linux/thermal.h
-> --
-> 2.31.1
->
