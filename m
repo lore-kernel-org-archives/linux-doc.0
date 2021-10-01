@@ -2,119 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35163C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:23:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AE3C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22D6961A85
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:23:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97DAB61A8E
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230498AbhJAMZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 08:25:37 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:56636 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbhJAMZe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 08:25:34 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 0E7CB22644;
-        Fri,  1 Oct 2021 12:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1633091029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wtBZ7U5ewDlKJ28ZtqZTNSvN7kEYRmILRT2iVxUTj2c=;
-        b=m/wphk5uR59ODqBgPtgUELkhpG+snjW4Ik51wxuXL7I+dgCA/YWVS6i8kfqV3u/+B2rFRf
-        nuk6zDSKvhAs2QhrlRxWlDH53/17tz18jDnmmyRctW1FYjWNFKCdFZkZjrQGIpTzSWjafn
-        dUFZjBihk0jDWceRW3LSio4aswzbFdw=
-Received: from suse.cz (pathway.suse.cz [10.100.12.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 799EFA3B81;
-        Fri,  1 Oct 2021 12:23:48 +0000 (UTC)
-Date:   Fri, 1 Oct 2021 14:23:48 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Alexander Popov <alex.popov@linux.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will.deacon@arm.com>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>,
-        kernel-hardening@lists.openwall.com,
-        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, notify@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
-Message-ID: <20211001122348.GB965@pathway.suse.cz>
-References: <20210929185823.499268-1-alex.popov@linux.com>
- <d290202d-a72d-0821-9edf-efbecf6f6cef@linux.com>
- <20210929194924.GA880162@paulmck-ThinkPad-P17-Gen-1>
- <YVWAPXSzFNbHz6+U@alley>
- <a09c1d4d-1d5b-9092-ae3a-61bc22689dd2@linux.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a09c1d4d-1d5b-9092-ae3a-61bc22689dd2@linux.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S231555AbhJAM55 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 08:57:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60830 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231434AbhJAM55 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 08:57:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A040D61A83;
+        Fri,  1 Oct 2021 12:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633092973;
+        bh=i3wWGOOEmKmXHqCyVU2+U7UgkYZRj4bRP5WgsDEYdis=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OUQzdC6vmsowD9c3WEY5zdZwe9kZK+FxiofXaYgyKPCzq2ZG5Yw5eHr6zrr251ef9
+         7+8mCT8vLjYvWzp+HccrsmPgj5oTT2QCWQxEnCEa9AVkkuiHl4Ks6PAPX2ek0BsWfW
+         jyg8v6So+aYl7NDn8aF3SZCgQ1QDyEsYQoAajxYQC5c0+e6MLqjgdv2J6Gci9PlhV2
+         ur9AAGyzVf8ItEQuJs1B+zOrODbhygwJucJJw25/1oLQ2zq82WnC6rHNeMCBmC6L0Y
+         x/WY+bzPqtx5m0xsow6trv9jSAZAPMEyCb5GOxpc6G2fsqMhi3TQUk20iuj2ejxQig
+         Q+lrbtsvRvBFg==
+From:   SeongJae Park <sj@kernel.org>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
+        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
+        david@redhat.com, dwmw@amazon.com, elver@google.com,
+        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
+        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] Implement Data Access Monitoring-based Memory Operation Schemes
+Date:   Fri,  1 Oct 2021 12:55:57 +0000
+Message-Id: <20211001125604.29660-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-09-30 18:05:54, Alexander Popov wrote:
-> On 30.09.2021 12:15, Petr Mladek wrote:
-> > On Wed 2021-09-29 12:49:24, Paul E. McKenney wrote:
-> >> On Wed, Sep 29, 2021 at 10:01:33PM +0300, Alexander Popov wrote:
-> >>> This patch was tested using CONFIG_LKDTM.
-> >>> The kernel kills a process that performs this:
-> >>>   echo WARNING > /sys/kernel/debug/provoke-crash/DIRECT
-> >>>
-> >>> If you are fine with this approach, I will prepare a patch adding the
-> >>> pkill_on_warn sysctl.
-> >>
-> >> I suspect that you need a list of kthreads for which you are better
-> >> off just invoking panic().  RCU's various kthreads, for but one set
-> >> of examples.
-> > 
-> > I wonder if kernel could survive killing of any kthread. I have never
-> > seen a code that would check whether a kthread was killed and
-> > restart it.
-> 
-> The do_group_exit() function calls do_exit() from kernel/exit.c, which is also
-> called during a kernel oops. This function cares about a lot of special cases
-> depending on the current task_struct. Is it fine?
+Changes from Previous Version (RFC[1])
+======================================
 
-IMHO, the bigger problem is that nobody will start the kthreads again.
-As a result, some kernel functionality will not longer work.
+- Rebase on latest -mm tree
 
-User space threads are different. The user/admin typically
-have a chance to start them again.
+[1] https://lore.kernel.org/linux-mm/20201216084404.23183-1-sjpark@amazon.com/
 
-We might get inspiration in OOM killer. It never kills kthreads
-and the init process, see oom_unkillable_task().
+Introduction
+============
 
-It would be better to panic() when WARN() is called from a kthread
-or the init process.
+DAMON[1] can be used as a primitive for data access aware memory management
+optimizations.  For that, users who want such optimizations should run DAMON,
+read the monitoring results, analyze it, plan a new memory management scheme,
+and apply the new scheme by themselves.  Such efforts will be inevitable for
+some complicated optimizations.
 
-Best Regards,
-Petr
+However, in many other cases, the users would simply want the system to apply a
+memory management action to a memory region of a specific size having a
+specific access frequency for a specific time.  For example, "page out a memory
+region larger than 100 MiB keeping only rare accesses more than 2 minutes", or
+"Do not use THP for a memory region larger than 2 MiB rarely accessed for more
+than 1 seconds".
+
+To make the works easier and non-redundant, this patchset implements a new
+feature of DAMON, which is called Data Access Monitoring-based Operation
+Schemes (DAMOS).  Using the feature, users can describe the normal schemes in a
+simple way and ask DAMON to execute those on its own.
+
+[1] https://damonitor.github.io
+
+Evaluations
+===========
+
+DAMOS is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, 'ethp', removes 76.15% of
+THP memory overheads while preserving 51.25% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 93.38% of residential sets and 23.63% of system memory footprint while
+incurring only 1.22% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimental THP optimization and proactive reclamation are not
+for production but only for proof of concepts.
+
+Please refer to the showcase web site's evaluation document[1] for detailed
+evaluation setup and results.
+
+[1] https://damonitor.github.io/doc/html/v34/vm/damon/eval.html
+
+Baseline and Complete Git Tree
+==============================
+
+The patches are based on the latest -mm tree
+(v5.15-rc3-mmots-2021-09-30-19-38)[1].  You can also clone the complete git
+tree:
+
+    $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git -b damos/patches/v1
+
+The web is also available:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/tag/?h=damos/patches/v1
+
+[1] https://github.com/hnaz/linux-mm/tree/v5.15-rc3-mmots-2021-09-30-19-38
+
+Development Trees
+-----------------
+
+There are a couple of trees for entire DAMON patchset series.
+
+- For latest release: https://git.kernel.org/sj/h/damon/master
+- For next release: https://git.kernel.org/sj/h/damon/next
+
+Long-term Support Trees
+-----------------------
+
+For people who want to test DAMON but using LTS kernels, there are another
+couple of trees based on two latest LTS kernels respectively and containing the
+'damon/master' backports.
+
+- For v5.4.y: https://git.kernel.org/sj/h/damon/for-v5.4.y
+- For v5.10.y: https://git.kernel.org/sj/h/damon/for-v5.10.y
+
+Sequence Of Patches
+===================
+
+The 1st patch accounts age of each region.  The 2nd patch implements the core
+of the DAMON-based operation schemes feature.  The 3rd patch makes the default
+monitoring primitives for virtual address spaces to support the schemes.  From
+this point, the kernel space users can use DAMOS.  The 4th patch exports the
+feature to the user space via the debugfs interface.  The 5th patch implements
+schemes statistics feature for easier tuning of the schemes and runtime access
+pattern analysis, and the 6th patch adds selftests for these changes.  Finally,
+the 7th patch documents this new feature.
+
+Patch History
+=============
+
+Changes from RFC v15.1
+(https://lore.kernel.org/linux-mm/20201216084404.23183-1-sjpark@amazon.com/)
+- Rebase on latest -mm tree
+
+Please refer to RFC v15.1 for previous history.
+
+SeongJae Park (7):
+  mm/damon/core: Account age of target regions
+  mm/damon/core: Implement DAMON-based Operation Schemes (DAMOS)
+  mm/damon/vaddr: Support DAMON-based Operation Schemes
+  mm/damon/dbgfs: Support DAMON-based Operation Schemes
+  mm/damon/schemes: Implement statistics feature
+  selftests/damon: Add 'schemes' debugfs tests
+  Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
+
+ Documentation/admin-guide/mm/damon/start.rst  |  11 ++
+ Documentation/admin-guide/mm/damon/usage.rst  |  51 +++++-
+ include/linux/damon.h                         |  86 +++++++++
+ mm/damon/core.c                               | 127 ++++++++++++++
+ mm/damon/dbgfs.c                              | 166 +++++++++++++++++-
+ mm/damon/vaddr.c                              |  58 ++++++
+ .../testing/selftests/damon/debugfs_attrs.sh  |  13 ++
+ 7 files changed, 507 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
+
