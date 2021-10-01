@@ -2,98 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C8DC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 18:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744F7C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 18:37:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 206756135E
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 18:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C0AF60FDA
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 18:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232126AbhJASSW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 14:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
+        id S1355832AbhJASis (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 14:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhJASSW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 14:18:22 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7FBC06177E
-        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 11:16:37 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id bi20-20020a05620a319400b0045df2735d63so17636916qkb.2
-        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 11:16:37 -0700 (PDT)
+        with ESMTP id S1354510AbhJASir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 14:38:47 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E58C06177F
+        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 11:37:02 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id d207so10159587qkg.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 11:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=hcUl3oIGrwuelQo171PiNoZTnRPOWfpk2tqnEmzSPUM=;
-        b=U3DVvg5YX2tw78WA0Ma0btjs8nGR6214yfthJjRFJzABQJAr4AKKvnTiDKhJD4yGJE
-         mTNP93z3WZPREcWF3MuzV6X4LtvxjnMVSgVAy2kQcOtDjbm4mWMLarJ12xaUG3PMPKS8
-         WuLXtTzxigOHJLl6X15GLtjRX63mRhUQs9PB5QgnayqT+3cdkxSo60QSTsScYEZkCVJB
-         rh9pXGZkHxot98fMChmh6P3mB6SoxRkshnAOcN784IEP6U2BKqp4/POJpkg0UuFXbz5p
-         at7mNmpzAAA+sqsOulSp1+0ddZ6LYrmpVgFZHFF0M8Ydh2d8YXfIjHV5SvZuVbgsML/Y
-         Didw==
+        d=poorly.run; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JgfrJwCNWFHH92jY3FPdA9RZ/LFPeXIIQjB7fHIn7dg=;
+        b=V8txkH5WI9HVciSyj1K7GFWAguDGZ/uXpIIG9EZ8p1BWDzPEjYQLZX8hkzqhAtGLq3
+         0zaBWthaBgGK9P7iiaKk9B0pHHR1AdI21rhVaoWSc8hi9Z+gpoWuop68GB8eYw9c0Edo
+         0PZowRL4+MdB5eM48MtFd1F9JNKsN4VAjm/nbCwKPlOON2/csYHi5DgXvGQirVfR1Ym0
+         n7hGaR89pQw7VgrXXh8Sp9pDzgoRNsEBiiCvqTnZmxgA4ZNi0/qNiyNSZvT9oxJp0DPI
+         WDMxP4cYbRd4iqwJx1MBtRACoEH8Jv6KqJM/xkc4y2BrTvRuySUmcx4KVmNqnuSpRWii
+         cWRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=hcUl3oIGrwuelQo171PiNoZTnRPOWfpk2tqnEmzSPUM=;
-        b=EBHmHZRK3Fxo1hwLAbJPHnciuduoopOH5vjTG3yJZbslVPRFVVRXNHbTQSIKb2AeHl
-         cJspISUBX5b7k5XNu2Ff5M9rUfYCvbTBBlDr0h0lIS7dSw5ilIjL7R6FVr/kxfc0+Tvg
-         bhH0+y7Q6p4Py0YIOSydHXoemkqpjJou+NoxscRqZraLODiwBANXs5up9+IqE0gK1bag
-         MIgS2TXh0gdOdxEot4PzLuQWiKPEK2Xkb7aSbAiPuUzwUq0ZhQ8BpU/0wNhszEXCRvpc
-         KI/TCg3lR7dbbkk4zRMmyvErCp1/EX/59HAxr2qe0FamoQCJZDyI8EkXaMP6yU3Tw64K
-         7RuA==
-X-Gm-Message-State: AOAM532jvhqiHIGcpf1v0rVv0f7wrTyjK/2XwRak9iaISEz8VvwwDaSb
-        B0GHBgtZG8ad1l7u+ttcg7QQN9Kk1mtr
-X-Google-Smtp-Source: ABdhPJzDnSE+EX9s57FI34EkdjuBVpq4eMQ7zpwsHvBPxiVUB2waooHWFd5M88cumNrwRUlCxamXk2cBZbwo
-X-Received: from bg.sfo.corp.google.com ([2620:15c:11a:202:8b2d:acba:ea70:44e7])
- (user=bgeffon job=sendgmr) by 2002:a05:6214:226c:: with SMTP id
- gs12mr5905396qvb.58.1633112196862; Fri, 01 Oct 2021 11:16:36 -0700 (PDT)
-Date:   Fri,  1 Oct 2021 11:16:27 -0700
-Message-Id: <20211001181627.394921-1-bgeffon@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-Subject: [PATCH] zram: Allow backing device to be assigned after init
-From:   Brian Geffon <bgeffon@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        Suleiman Souhlal <suleiman@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Brian Geffon <bgeffon@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JgfrJwCNWFHH92jY3FPdA9RZ/LFPeXIIQjB7fHIn7dg=;
+        b=KpSOhO/yzj/irQBV41MxLLw6fWjZtgsYduPsWx6ll3h9zBg91uOfT63qS965ZC2sYY
+         HJpQRvg2QjEhv05XXsq6l57G6AzAqr29L6Z8IupSTekeyzjaOCwMIUH3wYZVuRLJfy5U
+         FtIR/0npxs3/6DO16Em8eGmiiUled0h03oUNT9DN+puuqrMSkIveynyZH8xl/cYT6mqo
+         Tw8ldfNiXEifq5M7I6oPzWbm6hrjm+9OD9E9kJJ9ED1v7hBuD7uAr8zLH24oW7nzMrly
+         vNVyXgJoqBRyCAOr1WHSyxoLdnIZZUucXejKV4z2/cByYjfKul8TpSeUF9FoW6yz1fKA
+         qw3Q==
+X-Gm-Message-State: AOAM5315TowgRVDGEJcsJF8nqfkBn4aCfUAqrRd/oriKOHRLgzc3de6H
+        5Yy86N5JimpM3IXg02DwMFLc1A==
+X-Google-Smtp-Source: ABdhPJzWLClrfa9cLP4JuqHXPKnm/GKbHbnm/Gpfe4qg6W378uFn/9WMBNa1f4gXolzUfArP3s/wvw==
+X-Received: by 2002:ae9:dc84:: with SMTP id q126mr11328203qkf.128.1633113421775;
+        Fri, 01 Oct 2021 11:37:01 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+        by smtp.gmail.com with ESMTPSA id c26sm3392066qka.33.2021.10.01.11.37.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 01 Oct 2021 11:37:01 -0700 (PDT)
+Date:   Fri, 1 Oct 2021 14:36:55 -0400
+From:   Sean Paul <sean@poorly.run>
+To:     Fernando Ramos <greenfoo@u92.eu>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        sean@poorly.run, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_*
+ helpers where possible
+Message-ID: <20211001183655.GW2515@art_vandelay>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210924064324.229457-1-greenfoo@u92.eu>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There does not appear to be a technical reason to not
-allow the zram backing device to be assigned after the
-zram device is initialized.
+On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
+> Hi all,
+> 
+> One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+> patch series is about.
+> 
+> You will find two types of changes here:
+> 
+>   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+>     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+>     already been done in previous commits such as b7ea04d2)
+> 
+>   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+>     in the remaining places (as it has already been done in previous commits
+>     such as 57037094)
+>     
+> Most of the changes are straight forward, except for a few cases in the "amd"
+> and "i915" drivers where some extra dancing was needed to overcome the
+> limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+> once inside the same function (the reason being that the macro expansion
+> includes *labels*, and you can not have two labels named the same inside one
+> function)
+> 
+> Notice that, even after this patch series, some places remain where
+> "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+> all inside drm core (which makes sense), except for two (in "amd" and "i915")
+> which cannot be replaced due to the way they are being used.
+> 
+> Changes in v2:
+> 
+>   - Fix commit message typo
+>   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+>   - Split drm/i915 patch into two simpler ones
+>   - Remove drm_modeset_(un)lock_all()
+>   - Fix build problems in non-x86 platforms
+> 
+> Fernando Ramos (17):
+>   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
+>   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+>   drm: cleanup: remove drm_modeset_(un)lock_all()
+>   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
+> 
 
-This change will allow for the backing device to be assigned
-as long as no backing device is already assigned. In that
-event backing_dev would return -EEXIST.
+Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+with the necessary drm-tip conflict resolutions).
 
-Signed-off-by: Brian Geffon <bgeffon@google.com>
----
- drivers/block/zram/zram_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Sean
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index fcaf2750f68f..12b4555ee079 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -462,9 +462,9 @@ static ssize_t backing_dev_store(struct device *dev,
- 		return -ENOMEM;
- 
- 	down_write(&zram->init_lock);
--	if (init_done(zram)) {
--		pr_info("Can't setup backing device for initialized device\n");
--		err = -EBUSY;
-+	if (zram->backing_dev) {
-+		pr_info("Backing device is already assigned\n");
-+		err = -EEXIST;
- 		goto out;
- 	}
- 
+>  Documentation/gpu/todo.rst                    | 17 ----
+>  Documentation/locking/ww-mutex-design.rst     |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++-----
+>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
+>  drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
+>  drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
+>  drivers/gpu/drm/drm_fb_helper.c               | 10 +-
+>  drivers/gpu/drm/drm_framebuffer.c             |  6 +-
+>  drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
+>  drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
+>  drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+>  drivers/gpu/drm/i915/display/intel_display.c  | 23 ++---
+>  .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
+>  drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
+>  drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
+>  drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
+>  .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
+>  drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
+>  drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
+>  drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
+>  drivers/gpu/drm/tegra/dsi.c                   |  6 +-
+>  drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
+>  drivers/gpu/drm/tegra/sor.c                   | 11 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
+>  include/drm/drm_modeset_lock.h                |  2 -
+>  30 files changed, 265 insertions(+), 292 deletions(-)
+> 
+> 
+> base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+> -- 
+> 2.33.0
+> 
+
 -- 
-2.33.0.800.g4c38ced690-goog
-
+Sean Paul, Software Engineer, Google / Chromium OS
