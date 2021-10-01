@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF49C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1D6C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A9B761ABD
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 310ED61A40
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 12:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbhJAM6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1353446AbhJAM6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 1 Oct 2021 08:58:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32994 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:33134 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353644AbhJAM6O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:58:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36B5B61AAD;
-        Fri,  1 Oct 2021 12:56:28 +0000 (UTC)
+        id S1354417AbhJAM6U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 08:58:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 776F860F41;
+        Fri,  1 Oct 2021 12:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633092989;
-        bh=BZepMOmxnbzsYrCr+omcsm5Nr1F8FXZedhdKBsgW9qA=;
+        s=k20201202; t=1633092996;
+        bh=6jdDpNw+ejDlTJ+/f9GYU6iAwLrn82qyI/um3a8PjZ4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qgiUwbTuesDk9LEA8buYAaCKZdEpMWofBmz3eGhknn4qQ/lOC/nocrFGfOAHbMsom
-         IgdrhcRAPYUfKsSGWa3q6JKf0clHz37gvnWi1BSa5DsOFynbEjwy6kbvSP/ttz/vc7
-         hOlcXF4jbntXsp7kDmCPhVjRRyJoLxq1f+FK1GnHzOdb9N8qgXUZJFK9kWj99SAnBy
-         bxRzvj90Qp2HAuBps1SvkVh5zayP+yWoas2jIZf2hFhG1HSwOEYfxHQPQYUnC3g3uM
-         RMm0BCOj2kNYN9A7Puozak3XuOPIqsUBgAgw+cg0aVAwmcZoh4gPqi01nToBavXPxI
-         L+g1IecWpxMHA==
+        b=jb3I9G/GvCsFTVach3cgiPySw91zs/3YBIwnn83VdbME6FFdn+p6o7K5lkgu3bPc9
+         +AbMo9u9PvkF6F5kEmMQ4ny3aD2P+P4elNE5vfiyWKDEme88Gf18xKMomwPxWOA2YD
+         DJrB06BUnKOMGhluH0ko7mnedFO7YJqufUTmA5fY67SlYtnK974jutG792BMTfcMIT
+         UvWrSf3qn8yPqF5l9HdHM8R7A5hETBF/HnRtRTrb8JoYeX8w0fshEVkogQDVtTV37N
+         Cj6R1Y+9jkOJQFS2D+udEWbfhBx2ScDhy6/KCoz+uEUblNkGLN3f6zc+7YmuPWIwxS
+         EFbQ1PEQAnNyQ==
 From:   SeongJae Park <sj@kernel.org>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
@@ -35,9 +35,9 @@ Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
         rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] mm/damon/schemes: Implement statistics feature
-Date:   Fri,  1 Oct 2021 12:56:02 +0000
-Message-Id: <20211001125604.29660-6-sj@kernel.org>
+Subject: [PATCH 7/7] Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
+Date:   Fri,  1 Oct 2021 12:56:04 +0000
+Message-Id: <20211001125604.29660-8-sj@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211001125604.29660-1-sj@kernel.org>
 References: <20211001125604.29660-1-sj@kernel.org>
@@ -45,139 +45,106 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To tune the DAMON-based operation schemes, knowing how many and how
-large regions are affected by each of the schemes will be helful.  Those
-stats could be used for not only the tuning, but also monitoring of the
-working set size and the number of regions, if the scheme does not
-change the program behavior too much.
-
-For the reason, this commit implements the statistics for the schemes.
-The total number and size of the regions that each scheme is applied are
-exported to users via '->stat_count' and '->stat_sz' of 'struct damos'.
-Admins can also check the number by reading 'schemes' debugfs file.  The
-last two integers now represents the stats.  To allow collecting the
-stats without changing the program behavior, this commit also adds new
-scheme action, 'DAMOS_STAT'.  Note that 'DAMOS_STAT' is not only making
-no memory operation actions, but also does not reset the age of regions.
+This commit add description of DAMON-based operation schemes in the
+DAMON documents.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- include/linux/damon.h | 10 +++++++++-
- mm/damon/core.c       |  7 ++++++-
- mm/damon/dbgfs.c      |  5 +++--
- mm/damon/vaddr.c      |  2 ++
- 4 files changed, 20 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/mm/damon/start.rst | 11 +++++
+ Documentation/admin-guide/mm/damon/usage.rst | 51 +++++++++++++++++++-
+ 2 files changed, 60 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index be6b6e81e8ee..f301bb53381c 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -78,6 +78,7 @@ struct damon_target {
-  * @DAMOS_PAGEOUT:	Call ``madvise()`` for the region with MADV_PAGEOUT.
-  * @DAMOS_HUGEPAGE:	Call ``madvise()`` for the region with MADV_HUGEPAGE.
-  * @DAMOS_NOHUGEPAGE:	Call ``madvise()`` for the region with MADV_NOHUGEPAGE.
-+ * @DAMOS_STAT:		Do nothing but count the stat.
-  */
- enum damos_action {
- 	DAMOS_WILLNEED,
-@@ -85,6 +86,7 @@ enum damos_action {
- 	DAMOS_PAGEOUT,
- 	DAMOS_HUGEPAGE,
- 	DAMOS_NOHUGEPAGE,
-+	DAMOS_STAT,		/* Do nothing but only record the stat */
- };
+diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
+index 9b313a66298d..e6a6d8ba51c3 100644
+--- a/Documentation/admin-guide/mm/damon/start.rst
++++ b/Documentation/admin-guide/mm/damon/start.rst
+@@ -108,6 +108,17 @@ the results as separate image files. ::
+ You can show the images in a web page [1]_ .  Those made with other realistic
+ workloads are also available [2]_ [3]_ [4]_.
  
- /**
-@@ -96,9 +98,13 @@ enum damos_action {
-  * @min_age_region:	Minimum age of target regions.
-  * @max_age_region:	Maximum age of target regions.
-  * @action:		&damo_action to be applied to the target regions.
-+ * @stat_count:		Total number of regions that this scheme is applied.
-+ * @stat_sz:		Total size of regions that this scheme is applied.
-  * @list:		List head for siblings.
-  *
-- * Note that both the minimums and the maximums are inclusive.
-+ * For each aggregation interval, DAMON applies @action to monitoring target
-+ * regions fit in the condition and updates the statistics.  Note that both
-+ * the minimums and the maximums are inclusive.
-  */
- struct damos {
- 	unsigned long min_sz_region;
-@@ -108,6 +114,8 @@ struct damos {
- 	unsigned int min_age_region;
- 	unsigned int max_age_region;
- 	enum damos_action action;
-+	unsigned long stat_count;
-+	unsigned long stat_sz;
- 	struct list_head list;
- };
++
++Data Access Pattern Aware Memory Management
++===========================================
++
++Below three commands make every memory region of size >=4K that doesn't
++accessed for >=60 seconds in your workload to be swapped out. ::
++
++    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > scheme
++    $ echo "4K        max      0       0       60s     max     pageout" >> scheme
++    $ damo schemes -c my_thp_scheme <pid of your workload>
++
+ .. [1] https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/start.html#visualizing-recorded-patterns
+ .. [2] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
+ .. [3] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index a72cda374aba..c0296c14babf 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -34,8 +34,8 @@ the reason, this document describes only the debugfs interface
+ debugfs Interface
+ =================
  
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 0ed97b21cbb6..2f6785737902 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -103,6 +103,8 @@ struct damos *damon_new_scheme(
- 	scheme->min_age_region = min_age_region;
- 	scheme->max_age_region = max_age_region;
- 	scheme->action = action;
-+	scheme->stat_count = 0;
-+	scheme->stat_sz = 0;
- 	INIT_LIST_HEAD(&scheme->list);
+-DAMON exports three files, ``attrs``, ``target_ids``, and ``monitor_on`` under
+-its debugfs directory, ``<debugfs>/damon/``.
++DAMON exports four files, ``attrs``, ``target_ids``, ``schemes`` and
++``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
  
- 	return scheme;
-@@ -544,9 +546,12 @@ static void damon_do_apply_schemes(struct damon_ctx *c,
- 			continue;
- 		if (r->age < s->min_age_region || s->max_age_region < r->age)
- 			continue;
-+		s->stat_count++;
-+		s->stat_sz += sz;
- 		if (c->primitive.apply_scheme)
- 			c->primitive.apply_scheme(c, t, r, s);
--		r->age = 0;
-+		if (s->action != DAMOS_STAT)
-+			r->age = 0;
- 	}
- }
  
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index 78b7a04490c5..28d6abf27763 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -106,11 +106,11 @@ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
+ Attributes
+@@ -74,6 +74,53 @@ check it again::
+ Note that setting the target ids doesn't start the monitoring.
  
- 	damon_for_each_scheme(s, c) {
- 		rc = scnprintf(&buf[written], len - written,
--				"%lu %lu %u %u %u %u %d\n",
-+				"%lu %lu %u %u %u %u %d %lu %lu\n",
- 				s->min_sz_region, s->max_sz_region,
- 				s->min_nr_accesses, s->max_nr_accesses,
- 				s->min_age_region, s->max_age_region,
--				s->action);
-+				s->action, s->stat_count, s->stat_sz);
- 		if (!rc)
- 			return -ENOMEM;
  
-@@ -159,6 +159,7 @@ static bool damos_action_valid(int action)
- 	case DAMOS_PAGEOUT:
- 	case DAMOS_HUGEPAGE:
- 	case DAMOS_NOHUGEPAGE:
-+	case DAMOS_STAT:
- 		return true;
- 	default:
- 		return false;
-diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-index 3e1c74d36bab..953c145b4f08 100644
---- a/mm/damon/vaddr.c
-+++ b/mm/damon/vaddr.c
-@@ -705,6 +705,8 @@ int damon_va_apply_scheme(struct damon_ctx *ctx, struct damon_target *t,
- 	case DAMOS_NOHUGEPAGE:
- 		madv_action = MADV_NOHUGEPAGE;
- 		break;
-+	case DAMOS_STAT:
-+		return 0;
- 	default:
- 		pr_warn("Wrong action %d\n", scheme->action);
- 		return -EINVAL;
++Schemes
++-------
++
++For usual DAMON-based data access aware memory management optimizations, users
++would simply want the system to apply a memory management action to a memory
++region of a specific size having a specific access frequency for a specific
++time.  DAMON receives such formalized operation schemes from the user and
++applies those to the target processes.  It also counts the total number and
++size of regions that each scheme is applied.  This statistics can be used for
++online analysis or tuning of the schemes.
++
++Users can get and set the schemes by reading from and writing to ``schemes``
++debugfs file.  Reading the file also shows the statistics of each scheme.  To
++the file, each of the schemes should be represented in each line in below form:
++
++    min-size max-size min-acc max-acc min-age max-age action
++
++Note that the ranges are closed interval.  Bytes for the size of regions
++(``min-size`` and ``max-size``), number of monitored accesses per aggregate
++interval for access frequency (``min-acc`` and ``max-acc``), number of
++aggregate intervals for the age of regions (``min-age`` and ``max-age``), and a
++predefined integer for memory management actions should be used.  The supported
++numbers and their meanings are as below.
++
++ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
++ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
++ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
++ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
++ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
++ - 5: Do nothing but count the statistics
++
++You can disable schemes by simply writing an empty string to the file.  For
++example, below commands applies a scheme saying "If a memory region of size in
++[4KiB, 8KiB] is showing accesses per aggregate interval in [0, 5] for aggregate
++interval in [10, 20], page out the region", check the entered scheme again, and
++finally remove the scheme. ::
++
++    # cd <debugfs>/damon
++    # echo "4096 8192    0 5    10 20    2" > schemes
++    # cat schemes
++    4096 8192 0 5 10 20 2 0 0
++    # echo > schemes
++
++The last two integers in the 4th line of above example is the total number and
++the total size of the regions that the scheme is applied.
++
++
+ Turning On/Off
+ --------------
+ 
 -- 
 2.17.1
 
