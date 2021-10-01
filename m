@@ -2,79 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF200C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 02:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DD6C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 03:44:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5F8161452
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 02:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 307C66136A
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 03:44:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351762AbhJAC4T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Sep 2021 22:56:19 -0400
-Received: from smtprelay0011.hostedemail.com ([216.40.44.11]:59690 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230346AbhJAC4S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 22:56:18 -0400
-Received: from omf15.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 064913A7B4;
-        Fri,  1 Oct 2021 02:54:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 1DDCBC4178;
-        Fri,  1 Oct 2021 02:54:31 +0000 (UTC)
-Message-ID: <77c24172a2fea727881ef4c4c901af7f3adecb4f.camel@perches.com>
-Subject: Re: [PATCH v2] docs: Explain the desired position of function
- attributes
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Date:   Thu, 30 Sep 2021 19:54:30 -0700
-In-Reply-To: <202109301530.4BAFDBB1@keescook>
-References: <20210930192417.1332877-1-keescook@chromium.org>
-         <c273a5d9-ecd7-64fa-bf2c-af0d22c4a68c@infradead.org>
-         <202109301530.4BAFDBB1@keescook>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+        id S230434AbhJADqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Sep 2021 23:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230389AbhJADqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Sep 2021 23:46:21 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22E3C06176A
+        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 20:44:37 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id d131so447205ybd.5
+        for <linux-doc@vger.kernel.org>; Thu, 30 Sep 2021 20:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nUyg5XpqEcjYRAILgiFJJzvxtqym2vAvVPMoISCLLDM=;
+        b=WSQqQNNaNU6sKZN/vcVig76MwzWnqgyH3Y4g0q3bhSkAt+RLn8RiLo9wYfPmdxHEwj
+         Ng8YvHClCtVSVSAlLJD7bFcHsn+Mw6Qh5uOBvYc84llJZCKuAdCRumGL9aV7ROzSVNoX
+         zirkUMQUH0UsWfjfwIIuFEvQ5VJvlPVKeUYG791Ing+efx25wLB+Id73SD2iHg2OvmTz
+         Du7tMGJLrwlhyzbwCZxrUiHX+uGM3N+Uq+mX6x8CcaSZaSQ/9ckaZzVNWy7/m5xwlPfO
+         Ji+FZCzzvSsOgww9JvFT2qwCaP3NlgC1vAVpZ1vnahhCM7JpRWh6MSStXgxBI+Rfb4u7
+         /awA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nUyg5XpqEcjYRAILgiFJJzvxtqym2vAvVPMoISCLLDM=;
+        b=xsQfFzWBZqvzbFNSDhK5AU1KOCnSMqtJtEb4D4THcxa9aKu4HW6NHAnwQqZTy2By/d
+         c399Sps9WXf7yZ8SjjqvWIsR4HNIsNrrB2PZs392tU1LxnE9h6C3MrcA80JcBah/KZBg
+         nmUBFLvKDZspl7H2PYKyyEwrXRskU4B4XX5iNUa5bLpKVr9ioD5mMc8roVqIiZo7zY+5
+         U23zv+5WtITIzkF/5XrMAMq9psp5EfxzWy5693hLDH9PcCBpDXFX/z9YOGyPLVrrVU0+
+         9heVBpQoGREiVxWqwhLhTZjHyiJcYoozn6NnoewG6goBcCmiEQAu/VdBkXWUbOag7RYR
+         A7sA==
+X-Gm-Message-State: AOAM530QJLOV/UoKRSQnNJofA47Yk1RgulUR4PVIase64gbR1FfMO/Bo
+        ct295alGwdGtaaq9gSFEyBUE8iLdqmHZLZoWOxCPGA==
+X-Google-Smtp-Source: ABdhPJwc5YLWIpcCTp3KGzbsilLzZduRPuL3k5mA3LZsQk/Ms1ALPyxgKMWk6t/kOh+hE/j2nM/pGCogCW7YMRK3JKs=
+X-Received: by 2002:a25:8411:: with SMTP id u17mr3282073ybk.376.1633059876528;
+ Thu, 30 Sep 2021 20:44:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: q7qaun6o513refy4ey5h1c6eesg85xjt
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 1DDCBC4178
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+MCFVHU7V1tbh/ZMSEEIqUz16AlGeZr9w=
-X-HE-Tag: 1633056871-605293
+References: <20210902231813.3597709-1-surenb@google.com> <20210902231813.3597709-2-surenb@google.com>
+ <202109031439.B58932AF0@keescook> <CAJuCfpEQAJqu2DLf5D5pCkv4nq+dtVOpiJSnsxwGrgb9H6inQA@mail.gmail.com>
+ <202109031522.ACDF5BA8@keescook>
+In-Reply-To: <202109031522.ACDF5BA8@keescook>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 30 Sep 2021 20:44:25 -0700
+Message-ID: <CAJuCfpGVgSpvW_oXaGVc3TiobaGaYUtu3WR_DhrhWnEr_V=7TQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/3] mm: add a field to store names for private
+ anonymous memory
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-09-30 at 15:52 -0700, Kees Cook wrote:
-> I have read and re-read Linus's emails, and did a frequency count in the
-> kernel, and it looks like the preference is [return type] [return type attrs]
+On Fri, Sep 3, 2021 at 3:28 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Sep 03, 2021 at 02:56:21PM -0700, Suren Baghdasaryan wrote:
+> > On Fri, Sep 3, 2021 at 2:47 PM Kees Cook <keescook@chromium.org> wrote:
+> > >
+> > > (Sorry, a few more things jumped out at me when I looked again...)
+> > >
+> > > On Thu, Sep 02, 2021 at 04:18:12PM -0700, Suren Baghdasaryan wrote:
+> > > > [...]
+> > > > diff --git a/kernel/sys.c b/kernel/sys.c
+> > > > index 72c7639e3c98..25118902a376 100644
+> > > > --- a/kernel/sys.c
+> > > > +++ b/kernel/sys.c
+> > > > @@ -2299,6 +2299,64 @@ int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
+> > > >
+> > > >  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
+> > > >
+> > > > +#ifdef CONFIG_MMU
+> > > > +
+> > > > +#define ANON_VMA_NAME_MAX_LEN        256
+> > > > +
+> > > > +static inline bool is_valid_name_char(char ch)
+> > > > +{
+> > > > +     /* printable ascii characters, except [ \ ] */
+> > > > +     return (ch > 0x1f && ch < 0x5b) || (ch > 0x5d && ch < 0x7f);
+> > > > +}
+> > >
+> > > In the back of my mind, I feel like disallowing backtick would be nice,
+> > > but then if $, (, and ) are allowed, it doesn't matter, and that seems
+> > > too limiting. :)
+> >
+> > It's not used by the only current user (Android) and we can always
+> > allow more chars later. However going the other direction and
+> > disallowing some of them I think would be harder (need to make sure
+> > nobody uses them). WDYT if we keep it stricter and relax if needed?
+>
+> I'd say, if we can also drop each of: ` $ ( )
+> then let's do it. Better to keep the obvious shell meta-characters out
+> of this, although I don't feel strongly about it. Anything that might
+> get confused by this would be similarly confused by binary names too:
+>
+> $ cat /proc/3407216/maps
+> 560bdafd4000-560bdafd6000 r--p 00000000 fd:02 2621909 /tmp/yay`wat
+>
+> And it's probably easier to change a binary name than to call prctl. :P
+>
+> I'm good either way. What you have now is great, but if we wanted to be
+> extra extra strict, we can add the other 4 above.
 
-Please don't read too much into frequency counts as it really depends
-on age of code.
+While testing v10 I found one case when () are used in the name
+"dalvik-main space (region space)". So I can add ` and $ to the
+restricted set but not ( and ). Kees, would you be happy with:
 
-> but I personally agree with you. :)
-> 
-> # regex I built from __must_check hits...
-> $ re='((struct .*|void|char) \* ?|((unsigned )?(long|int)|bool|size_t)($| ))'
-> 
-> # type before __must_check
-> $ git grep -E "$re"'__must_check' | wc -l
-> 746
-> 
-> # type after __must_check
-> $ git grep -E '\b(static (__always_)?inline )?__must_check($| '"$re"')' | wc -l
-> 297
+static inline bool is_valid_name_char(char ch)
+{
+    return ch > 0x1f && ch < 0x7f && !strchr("\\`$[]", ch);
+}
 
-Hmm.
+?
 
-$ git grep -w __must_check -- '*.[ch]' | wc -l
-909
-
-
+>
+> --
+> Kees Cook
