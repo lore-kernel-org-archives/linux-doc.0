@@ -2,529 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0515C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 14:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B698DC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 14:52:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D41161A54
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 14:44:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B90761A8A
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 14:52:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354620AbhJAOqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 10:46:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36828 "EHLO mail.kernel.org"
+        id S1354662AbhJAOyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 10:54:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39328 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231679AbhJAOqi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Oct 2021 10:46:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D33F61507;
-        Fri,  1 Oct 2021 14:44:52 +0000 (UTC)
+        id S1354585AbhJAOya (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 10:54:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D585761A0A;
+        Fri,  1 Oct 2021 14:52:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633099494;
-        bh=kW1nbTbPViw2Eexz6j5X/QeQwlMFoMZPoAxUe02NroY=;
+        s=k20201202; t=1633099962;
+        bh=aWcV7X/o9vfJj+yYm+DsbIaF5f9jbq9DkASovtKBnQs=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=o1ecg72m2s/x5Gr6txaiOO7744W7HXqEQqPyd0DflURkx6nBXEQ0tZ4oL5/3Mi/P0
-         NvmFjO1I6y3krA9Rm2s2NOXVOkErnyyUiACeqPALNcSzPiECReYKHIuZ+tpWJphFNp
-         AK8DwNOvr7jZWEbUDSEO3EPUn+exjq02AAzcauf12n35Jt6GKTlGyjuFKQ0JA5rMzW
-         4DV+upXZE2RYBi48Jaw9q1f7vwdPPwKjrNP1DKMu1WHJWvJdO/W88v+wMP/C5toAFg
-         KuW0o6mJnlZdJaF8BRpEJKzpJmPwRwJj1t8gaR/rj+XbOiJ4F5EyhaBuB8Srt+G0ah
-         OgOTiM0SqffkA==
-Message-ID: <8dacc93a76aa37ff4a412f9739e50e9248024e8a.camel@kernel.org>
-Subject: Re: [RFC PATCH v2] fscache, 9p, afs, nfs: Deal with some warnings
- from W=1
-From:   Jeff Layton <jlayton@kernel.org>
-To:     David Howells <dhowells@redhat.com>, torvalds@linux-foundation.org
-Cc:     Dominique Martinet <asmadeus@codewreck.org>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 01 Oct 2021 10:44:51 -0400
-In-Reply-To: <163281899704.2790286.9177774252843775348.stgit@warthog.procyon.org.uk>
-References: <163281899704.2790286.9177774252843775348.stgit@warthog.procyon.org.uk>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        b=tRMFxvBz3BKO3cJpwDhcUEgX1l2ucCRs9WEaii/ygUOyj4eHQ0UPsoYsS4quuK5QN
+         klcwM+OiO+UVId6R/FWq4AATYUYRauSxZ97k8oI6h5a9iaSf47mtilhM57IghMyD0U
+         fInpuYF+cMlbhbok+hGp7zDWIp4mkrFLuE7gKIICGGautUE2L/oYLGxW4p1HLsV7W5
+         YwIDGpYXsSdxvV1f4tjgJMgHdKmepWRC4T4wSswenwgfAKl9PraqDM3fLabrVcDmdC
+         3YQvokREkUqamjbUfTskmboouM6G/n/i/eJbKWYIqqxa32V4R4SUR7G5t1zOKhFSVc
+         S3c3iXdF9Komw==
+Message-ID: <9d94c72879282ae695933879d0a415ea98c81a65.camel@kernel.org>
+Subject: Re: [PATCH v6 2/2] x86/sgx: Add an attribute for the amount of SGX
+ memory in a NUMA node
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>, reinette.chatre@intel.com,
+        tony.luck@intel.com, linux-sgx@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date:   Fri, 01 Oct 2021 17:52:39 +0300
+In-Reply-To: <YVQUMihamfDgZkAp@kroah.com>
+References: <20210928031350.63464-1-jarkko@kernel.org>
+         <20210928031350.63464-2-jarkko@kernel.org> <YVKgFj7op4YyBxSK@kroah.com>
+         <86b22ff01ca550ed74f73d0d463f697728335f29.camel@kernel.org>
+         <YVQUMihamfDgZkAp@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-09-28 at 09:49 +0100, David Howells wrote:
-> Deal with some warnings generated from make W=1:
-> 
->  (1) Add/remove/fix kerneldoc parameters descriptions.
-> 
->  (2) afs_sillyrename() isn't an API functions, so remove the kerneldoc
->      annotation.
-> 
->  (3) The fscache object CREATE_OBJECT work state isn't used, so remove it.
-> 
->  (4) Move __add_fid() from between v9fs_fid_add() and its comment.
-> 
->  (5) 9p's caches_show() doesn't really make sense as an API function, show
->      remove the kerneldoc annotation.  It's also not prefixed with 'v9fs_'.
-> 
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Reviewed-by: Dominique Martinet <asmadeus@codewreck.org>
-> cc: Jeff Layton <jlayton@kernel.org>
-> cc: Marc Dionne <marc.dionne@auristor.com>
-> cc: Trond Myklebust <trond.myklebust@hammerspace.com>
-> cc: Anna Schumaker <anna.schumaker@netapp.com>
-> cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> cc: v9fs-developer@lists.sourceforge.net
-> cc: linux-afs@lists.infradead.org
-> cc: linux-nfs@vger.kernel.org
-> cc: linux-fsdevel@vger.kernel.org
-> cc: linux-doc@vger.kernel.org
-> ---
-> 
->  fs/9p/fid.c            |   14 +++++++-------
->  fs/9p/v9fs.c           |    8 +++-----
->  fs/9p/vfs_addr.c       |   15 ++++++++++-----
->  fs/9p/vfs_file.c       |   33 ++++++++++++---------------------
->  fs/9p/vfs_inode.c      |   24 ++++++++++++++++--------
->  fs/9p/vfs_inode_dotl.c |   11 +++++++++--
->  fs/afs/dir_silly.c     |    4 ++--
->  fs/fscache/object.c    |    2 +-
->  fs/fscache/operation.c |    3 +++
->  fs/nfs_common/grace.c  |    1 -
->  10 files changed, 63 insertions(+), 52 deletions(-)
-> 
-> diff --git a/fs/9p/fid.c b/fs/9p/fid.c
-> index 9d9de62592be..b8863dd0de5c 100644
-> --- a/fs/9p/fid.c
-> +++ b/fs/9p/fid.c
-> @@ -19,18 +19,18 @@
->  #include "v9fs_vfs.h"
->  #include "fid.h"
->  
-> +static inline void __add_fid(struct dentry *dentry, struct p9_fid *fid)
-> +{
-> +	hlist_add_head(&fid->dlist, (struct hlist_head *)&dentry->d_fsdata);
-> +}
-> +
-> +
->  /**
->   * v9fs_fid_add - add a fid to a dentry
->   * @dentry: dentry that the fid is being added to
->   * @fid: fid to add
->   *
->   */
-> -
-> -static inline void __add_fid(struct dentry *dentry, struct p9_fid *fid)
-> -{
-> -	hlist_add_head(&fid->dlist, (struct hlist_head *)&dentry->d_fsdata);
-> -}
-> -
->  void v9fs_fid_add(struct dentry *dentry, struct p9_fid *fid)
->  {
->  	spin_lock(&dentry->d_lock);
-> @@ -67,7 +67,7 @@ static struct p9_fid *v9fs_fid_find_inode(struct inode *inode, kuid_t uid)
->  
->  /**
->   * v9fs_open_fid_add - add an open fid to an inode
-> - * @dentry: inode that the fid is being added to
-> + * @inode: inode that the fid is being added to
->   * @fid: fid to add
->   *
->   */
-> diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
-> index cdb99507ef33..2e0fa7c932db 100644
-> --- a/fs/9p/v9fs.c
-> +++ b/fs/9p/v9fs.c
-> @@ -155,6 +155,7 @@ int v9fs_show_options(struct seq_file *m, struct dentry *root)
->  /**
->   * v9fs_parse_options - parse mount options into session structure
->   * @v9ses: existing v9fs session information
-> + * @opts: The mount option string
->   *
->   * Return 0 upon success, -ERRNO upon failure.
->   */
-> @@ -542,12 +543,9 @@ extern int v9fs_error_init(void);
->  static struct kobject *v9fs_kobj;
->  
->  #ifdef CONFIG_9P_FSCACHE
-> -/**
-> - * caches_show - list caches associated with a session
-> - *
-> - * Returns the size of buffer written.
-> +/*
-> + * List caches associated with a session
->   */
-> -
->  static ssize_t caches_show(struct kobject *kobj,
->  			   struct kobj_attribute *attr,
->  			   char *buf)
-> diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
-> index 15017b7ce8f8..cff99f5c05e3 100644
-> --- a/fs/9p/vfs_addr.c
-> +++ b/fs/9p/vfs_addr.c
-> @@ -61,7 +61,7 @@ static void v9fs_init_rreq(struct netfs_read_request *rreq, struct file *file)
->  }
->  
->  /**
-> - * v9fs_req_ceanup - Cleanup request initialized by v9fs_init_rreq
-> + * v9fs_req_cleanup - Cleanup request initialized by v9fs_init_rreq
->   * @mapping: unused mapping of request to cleanup
->   * @priv: private data to cleanup, a fid, guaranted non-null.
->   */
-> @@ -104,7 +104,7 @@ static const struct netfs_read_request_ops v9fs_req_ops = {
->  
->  /**
->   * v9fs_vfs_readpage - read an entire page in from 9P
-> - * @filp: file being read
-> + * @file: file being read
->   * @page: structure to page
->   *
->   */
-> @@ -124,6 +124,8 @@ static void v9fs_vfs_readahead(struct readahead_control *ractl)
->  
->  /**
->   * v9fs_release_page - release the private state associated with a page
-> + * @page: The page to be released
-> + * @gfp: The caller's allocation restrictions
->   *
->   * Returns 1 if the page can be released, false otherwise.
->   */
-> @@ -144,9 +146,9 @@ static int v9fs_release_page(struct page *page, gfp_t gfp)
->  
->  /**
->   * v9fs_invalidate_page - Invalidate a page completely or partially
-> - *
-> - * @page: structure to page
-> - * @offset: offset in the page
-> + * @page: The page to be invalidated
-> + * @offset: offset of the invalidated region
-> + * @length: length of the invalidated region
->   */
->  
->  static void v9fs_invalidate_page(struct page *page, unsigned int offset,
-> @@ -206,6 +208,8 @@ static int v9fs_vfs_writepage(struct page *page, struct writeback_control *wbc)
->  
->  /**
->   * v9fs_launder_page - Writeback a dirty page
-> + * @page: The page to be cleaned up
-> + *
->   * Returns 0 on success.
->   */
->  
-> @@ -225,6 +229,7 @@ static int v9fs_launder_page(struct page *page)
->  /**
->   * v9fs_direct_IO - 9P address space operation for direct I/O
->   * @iocb: target I/O control block
-> + * @iter: The data/buffer to use
->   *
->   * The presence of v9fs_direct_IO() in the address space ops vector
->   * allowes open() O_DIRECT flags which would have failed otherwise.
-> diff --git a/fs/9p/vfs_file.c b/fs/9p/vfs_file.c
-> index 7ed76a4c18f1..80052497f00f 100644
-> --- a/fs/9p/vfs_file.c
-> +++ b/fs/9p/vfs_file.c
-> @@ -359,14 +359,11 @@ static int v9fs_file_flock_dotl(struct file *filp, int cmd,
->  }
->  
->  /**
-> - * v9fs_file_read - read from a file
-> - * @filp: file pointer to read
-> - * @udata: user data buffer to read data into
-> - * @count: size of buffer
-> - * @offset: offset at which to read data
-> + * v9fs_file_read_iter - read from a file
-> + * @iocb: The operation parameters
-> + * @to: The buffer to read into
->   *
->   */
-> -
->  static ssize_t
->  v9fs_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  {
-> @@ -388,11 +385,9 @@ v9fs_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  }
->  
->  /**
-> - * v9fs_file_write - write to a file
-> - * @filp: file pointer to write
-> - * @data: data buffer to write data from
-> - * @count: size of buffer
-> - * @offset: offset at which to write data
-> + * v9fs_file_write_iter - write to a file
-> + * @iocb: The operation parameters
-> + * @from: The data to write
->   *
->   */
->  static ssize_t
-> @@ -574,11 +569,9 @@ v9fs_vm_page_mkwrite(struct vm_fault *vmf)
->  }
->  
->  /**
-> - * v9fs_mmap_file_read - read from a file
-> - * @filp: file pointer to read
-> - * @data: user data buffer to read data into
-> - * @count: size of buffer
-> - * @offset: offset at which to read data
-> + * v9fs_mmap_file_read_iter - read from a file
-> + * @iocb: The operation parameters
-> + * @to: The buffer to read into
->   *
->   */
->  static ssize_t
-> @@ -589,11 +582,9 @@ v9fs_mmap_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  }
->  
->  /**
-> - * v9fs_mmap_file_write - write to a file
-> - * @filp: file pointer to write
-> - * @data: data buffer to write data from
-> - * @count: size of buffer
-> - * @offset: offset at which to write data
-> + * v9fs_mmap_file_write_iter - write to a file
-> + * @iocb: The operation parameters
-> + * @from: The data to write
->   *
->   */
->  static ssize_t
-> diff --git a/fs/9p/vfs_inode.c b/fs/9p/vfs_inode.c
-> index 795706520b5e..08f48b70a741 100644
-> --- a/fs/9p/vfs_inode.c
-> +++ b/fs/9p/vfs_inode.c
-> @@ -218,7 +218,7 @@ v9fs_blank_wstat(struct p9_wstat *wstat)
->  
->  /**
->   * v9fs_alloc_inode - helper function to allocate an inode
-> - *
-> + * @sb: The superblock to allocate the inode from
->   */
->  struct inode *v9fs_alloc_inode(struct super_block *sb)
->  {
-> @@ -238,7 +238,7 @@ struct inode *v9fs_alloc_inode(struct super_block *sb)
->  
->  /**
->   * v9fs_free_inode - destroy an inode
-> - *
-> + * @inode: The inode to be freed
->   */
->  
->  void v9fs_free_inode(struct inode *inode)
-> @@ -343,7 +343,7 @@ int v9fs_init_inode(struct v9fs_session_info *v9ses,
->   * v9fs_get_inode - helper function to setup an inode
->   * @sb: superblock
->   * @mode: mode to setup inode with
-> - *
-> + * @rdev: The device numbers to set
->   */
->  
->  struct inode *v9fs_get_inode(struct super_block *sb, umode_t mode, dev_t rdev)
-> @@ -369,7 +369,7 @@ struct inode *v9fs_get_inode(struct super_block *sb, umode_t mode, dev_t rdev)
->  }
->  
->  /**
-> - * v9fs_clear_inode - release an inode
-> + * v9fs_evict_inode - Remove an inode from the inode cache
->   * @inode: inode to release
->   *
->   */
-> @@ -665,14 +665,15 @@ v9fs_create(struct v9fs_session_info *v9ses, struct inode *dir,
->  
->  /**
->   * v9fs_vfs_create - VFS hook to create a regular file
-> + * @mnt_userns: The user namespace of the mount
-> + * @dir: The parent directory
-> + * @dentry: The name of file to be created
-> + * @mode: The UNIX file mode to set
-> + * @excl: True if the file must not yet exist
->   *
->   * open(.., O_CREAT) is handled in v9fs_vfs_atomic_open().  This is only called
->   * for mknod(2).
->   *
-> - * @dir: directory inode that is being created
-> - * @dentry:  dentry that is being deleted
-> - * @mode: create permissions
-> - *
->   */
->  
->  static int
-> @@ -696,6 +697,7 @@ v9fs_vfs_create(struct user_namespace *mnt_userns, struct inode *dir,
->  
->  /**
->   * v9fs_vfs_mkdir - VFS mkdir hook to create a directory
-> + * @mnt_userns: The user namespace of the mount
->   * @dir:  inode that is being unlinked
->   * @dentry: dentry that is being unlinked
->   * @mode: mode for new directory
-> @@ -900,10 +902,12 @@ int v9fs_vfs_rmdir(struct inode *i, struct dentry *d)
->  
->  /**
->   * v9fs_vfs_rename - VFS hook to rename an inode
-> + * @mnt_userns: The user namespace of the mount
->   * @old_dir:  old dir inode
->   * @old_dentry: old dentry
->   * @new_dir: new dir inode
->   * @new_dentry: new dentry
-> + * @flags: RENAME_* flags
->   *
->   */
->  
-> @@ -1009,6 +1013,7 @@ v9fs_vfs_rename(struct user_namespace *mnt_userns, struct inode *old_dir,
->  
->  /**
->   * v9fs_vfs_getattr - retrieve file metadata
-> + * @mnt_userns: The user namespace of the mount
->   * @path: Object to query
->   * @stat: metadata structure to populate
->   * @request_mask: Mask of STATX_xxx flags indicating the caller's interests
-> @@ -1050,6 +1055,7 @@ v9fs_vfs_getattr(struct user_namespace *mnt_userns, const struct path *path,
->  
->  /**
->   * v9fs_vfs_setattr - set file metadata
-> + * @mnt_userns: The user namespace of the mount
->   * @dentry: file whose metadata to set
->   * @iattr: metadata assignment structure
->   *
-> @@ -1285,6 +1291,7 @@ static int v9fs_vfs_mkspecial(struct inode *dir, struct dentry *dentry,
->  
->  /**
->   * v9fs_vfs_symlink - helper function to create symlinks
-> + * @mnt_userns: The user namespace of the mount
->   * @dir: directory inode containing symlink
->   * @dentry: dentry for symlink
->   * @symname: symlink data
-> @@ -1340,6 +1347,7 @@ v9fs_vfs_link(struct dentry *old_dentry, struct inode *dir,
->  
->  /**
->   * v9fs_vfs_mknod - create a special file
-> + * @mnt_userns: The user namespace of the mount
->   * @dir: inode destination for new link
->   * @dentry: dentry for file
->   * @mode: mode for creation
-> diff --git a/fs/9p/vfs_inode_dotl.c b/fs/9p/vfs_inode_dotl.c
-> index e1c0240b51c0..01b9e1281a29 100644
-> --- a/fs/9p/vfs_inode_dotl.c
-> +++ b/fs/9p/vfs_inode_dotl.c
-> @@ -37,7 +37,10 @@ v9fs_vfs_mknod_dotl(struct user_namespace *mnt_userns, struct inode *dir,
->  		    struct dentry *dentry, umode_t omode, dev_t rdev);
->  
->  /**
-> - * v9fs_get_fsgid_for_create - Helper function to get the gid for creating a
-> + * v9fs_get_fsgid_for_create - Helper function to get the gid for a new object
-> + * @dir_inode: The directory inode
-> + *
-> + * Helper function to get the gid for creating a
->   * new file system object. This checks the S_ISGID to determine the owning
->   * group of the new file system object.
->   */
-> @@ -211,12 +214,13 @@ int v9fs_open_to_dotl_flags(int flags)
->  
->  /**
->   * v9fs_vfs_create_dotl - VFS hook to create files for 9P2000.L protocol.
-> + * @mnt_userns: The user namespace of the mount
->   * @dir: directory inode that is being created
->   * @dentry:  dentry that is being deleted
->   * @omode: create permissions
-> + * @excl: True if the file must not yet exist
->   *
->   */
-> -
->  static int
->  v9fs_vfs_create_dotl(struct user_namespace *mnt_userns, struct inode *dir,
->  		     struct dentry *dentry, umode_t omode, bool excl)
-> @@ -361,6 +365,7 @@ v9fs_vfs_atomic_open_dotl(struct inode *dir, struct dentry *dentry,
->  
->  /**
->   * v9fs_vfs_mkdir_dotl - VFS mkdir hook to create a directory
-> + * @mnt_userns: The user namespace of the mount
->   * @dir:  inode that is being unlinked
->   * @dentry: dentry that is being unlinked
->   * @omode: mode for new directory
-> @@ -537,6 +542,7 @@ static int v9fs_mapped_iattr_valid(int iattr_valid)
->  
->  /**
->   * v9fs_vfs_setattr_dotl - set file metadata
-> + * @mnt_userns: The user namespace of the mount
->   * @dentry: file whose metadata to set
->   * @iattr: metadata assignment structure
->   *
-> @@ -816,6 +822,7 @@ v9fs_vfs_link_dotl(struct dentry *old_dentry, struct inode *dir,
->  
->  /**
->   * v9fs_vfs_mknod_dotl - create a special file
-> + * @mnt_userns: The user namespace of the mount
->   * @dir: inode destination for new link
->   * @dentry: dentry for file
->   * @omode: mode for creation
-> diff --git a/fs/afs/dir_silly.c b/fs/afs/dir_silly.c
-> index dae9a57d7ec0..45cfd50a9521 100644
-> --- a/fs/afs/dir_silly.c
-> +++ b/fs/afs/dir_silly.c
-> @@ -86,8 +86,8 @@ static int afs_do_silly_rename(struct afs_vnode *dvnode, struct afs_vnode *vnode
->  	return afs_do_sync_operation(op);
->  }
->  
-> -/**
-> - * afs_sillyrename - Perform a silly-rename of a dentry
-> +/*
-> + * Perform silly-rename of a dentry.
->   *
->   * AFS is stateless and the server doesn't know when the client is holding a
->   * file open.  To prevent application problems when a file is unlinked while
-> diff --git a/fs/fscache/object.c b/fs/fscache/object.c
-> index d7eab46dd826..86ad941726f7 100644
-> --- a/fs/fscache/object.c
-> +++ b/fs/fscache/object.c
-> @@ -77,7 +77,6 @@ static WORK_STATE(INIT_OBJECT,		"INIT", fscache_initialise_object);
->  static WORK_STATE(PARENT_READY,		"PRDY", fscache_parent_ready);
->  static WORK_STATE(ABORT_INIT,		"ABRT", fscache_abort_initialisation);
->  static WORK_STATE(LOOK_UP_OBJECT,	"LOOK", fscache_look_up_object);
-> -static WORK_STATE(CREATE_OBJECT,	"CRTO", fscache_look_up_object);
->  static WORK_STATE(OBJECT_AVAILABLE,	"AVBL", fscache_object_available);
->  static WORK_STATE(JUMPSTART_DEPS,	"JUMP", fscache_jumpstart_dependents);
->  
-> @@ -907,6 +906,7 @@ static void fscache_dequeue_object(struct fscache_object *object)
->   * @object: The object to ask about
->   * @data: The auxiliary data for the object
->   * @datalen: The size of the auxiliary data
-> + * @object_size: The size of the object according to the server.
->   *
->   * This function consults the netfs about the coherency state of an object.
->   * The caller must be holding a ref on cookie->n_active (held by
-> diff --git a/fs/fscache/operation.c b/fs/fscache/operation.c
-> index 433877107700..e002cdfaf3cc 100644
-> --- a/fs/fscache/operation.c
-> +++ b/fs/fscache/operation.c
-> @@ -22,7 +22,10 @@ static void fscache_operation_dummy_cancel(struct fscache_operation *op)
->  
->  /**
->   * fscache_operation_init - Do basic initialisation of an operation
-> + * @cookie: The cookie to operate on
->   * @op: The operation to initialise
-> + * @processor: The function to perform the operation
-> + * @cancel: A function to handle operation cancellation
->   * @release: The release function to assign
->   *
->   * Do basic initialisation of an operation.  The caller must still set flags,
-> diff --git a/fs/nfs_common/grace.c b/fs/nfs_common/grace.c
-> index edec45831585..0a9b72685f98 100644
-> --- a/fs/nfs_common/grace.c
-> +++ b/fs/nfs_common/grace.c
-> @@ -42,7 +42,6 @@ EXPORT_SYMBOL_GPL(locks_start_grace);
->  
->  /**
->   * locks_end_grace
-> - * @net: net namespace that this lock manager belongs to
->   * @lm: who this grace period is for
->   *
->   * Call this function to state that the given lock manager is ready to
-> 
-> 
+On Wed, 2021-09-29 at 09:22 +0200, Greg Kroah-Hartman wrote:
+> On Tue, Sep 28, 2021 at 09:20:41PM +0300, Jarkko Sakkinen wrote:
+> > On Tue, 2021-09-28 at 06:54 +0200, Greg Kroah-Hartman wrote:
+> > > On Tue, Sep 28, 2021 at 06:13:50AM +0300, Jarkko Sakkinen wrote:
+> > > > The amount of SGX memory on the system is determined by the BIOS an=
+d it
+> > > > varies wildly between systems.  It can be from dozens of MB's on de=
+sktops
+> > > > or VM's, up to many GB's on servers.  Just like for regular memory,=
+ it is
+> > > > sometimes useful to know the amount of usable SGX memory in the sys=
+tem.
+> > > >=20
+> > > > Add an attribute for the amount of SGX memory in bytes to each NUMA
+> > > > node. The path is /sys/devices/system/node/node[0-9]*/sgx/memory_si=
+ze.
+> > > > Calculate these values by summing up EPC section sizes for each nod=
+e
+> > > > during the driver initalization.
+> > > >=20
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > > > ---
+> > > >=20
+> > > > v6:
+> > > > * Initialize node->size to zero in sgx_setup_epc_section(), when th=
+e
+> > > >   node is first accessed. The bug report:
+> > > >   https://lore.kernel.org/linux-sgx/f45245ba-41b8-62ae-38b5-64725a2=
+14bad@intel.com/
+> > > >=20
+> > > > v5:
+> > > > * A new patch based on the discussion on
+> > > >   https://lore.kernel.org/linux-sgx/3a7cab4115b4f902f3509ad8652e616=
+b91703e1d.camel@kernel.org/T/#t
+> > > >=20
+> > > >  Documentation/x86/sgx.rst      | 14 ++++++
+> > >=20
+> > > sysfs files have to be documented in Documentation/ABI/ so that they =
+can
+> > > be automatically checked, and added to the documentation output
+> > > properly.  Please do that here as well.
+> >=20
+> > Right, I'll document it to sysfs-devices-node.
+> >=20
+> > > >  arch/x86/kernel/cpu/sgx/main.c | 91 ++++++++++++++++++++++++++++++=
+++++
+> > > >  arch/x86/kernel/cpu/sgx/sgx.h  |  2 +
+> > > >  3 files changed, 107 insertions(+)
+> > > >=20
+> > > > diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+> > > > index dd0ac96ff9ef..f9d9cfa6dbf9 100644
+> > > > --- a/Documentation/x86/sgx.rst
+> > > > +++ b/Documentation/x86/sgx.rst
+> > > > @@ -250,3 +250,17 @@ user wants to deploy SGX applications both on =
+the host and in guests
+> > > >  on the same machine, the user should reserve enough EPC (by taking=
+ out
+> > > >  total virtual EPC size of all SGX VMs from the physical EPC size) =
+for
+> > > >  host SGX applications so they can run with acceptable performance.
+> > > > +
+> > > > +Per NUMA node SGX attributes
+> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > > > +
+> > > > +NUMA nodes devices expose SGX specific attributes in the following=
+ path:
+> > > > +
+> > > > +	/sys/devices/system/node/node[0-9]*/sgx/
+> > > > +
+> > > > +Attributes
+> > > > +----------
+> > > > +
+> > > > +memory_size
+> > > > +                Total available physical SGX memory, also known as=
+ Enclave
+> > > > +                Page Cache (EPC), in bytes.
+> > > > diff --git a/arch/x86/kernel/cpu/sgx/main.c b/arch/x86/kernel/cpu/s=
+gx/main.c
+> > > > index a6e313f1a82d..4f1e3b5e3d14 100644
+> > > > --- a/arch/x86/kernel/cpu/sgx/main.c
+> > > > +++ b/arch/x86/kernel/cpu/sgx/main.c
+> > > > @@ -714,9 +714,11 @@ static bool __init sgx_page_cache_init(void)
+> > > >  			spin_lock_init(&sgx_numa_nodes[nid].lock);
+> > > >  			INIT_LIST_HEAD(&sgx_numa_nodes[nid].free_page_list);
+> > > >  			node_set(nid, sgx_numa_mask);
+> > > > +			sgx_numa_nodes[nid].size =3D 0;
+> > > >  		}
+> > > > =20
+> > > >  		sgx_epc_sections[i].node =3D  &sgx_numa_nodes[nid];
+> > > > +		sgx_numa_nodes[nid].size +=3D size;
+> > > > =20
+> > > >  		sgx_nr_epc_sections++;
+> > > >  	}
+> > > > @@ -790,6 +792,87 @@ int sgx_set_attribute(unsigned long *allowed_a=
+ttributes,
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(sgx_set_attribute);
+> > > > =20
+> > > > +#ifdef CONFIG_NUMA
+> > > > +static void sgx_numa_exit(void)
+> > > > +{
+> > > > +	int nid;
+> > > > +
+> > > > +	for (nid =3D 0; nid < num_possible_nodes(); nid++) {
+> > > > +		if (!sgx_numa_nodes[nid].kobj)
+> > > > +			continue;
+> > > > +
+> > > > +		kobject_put(sgx_numa_nodes[nid].kobj);
+> > > > +	}
+> > > > +}
+> > > > +
+> > > > +#define SGX_NODE_ATTR_RO(_name) \
+> > > > +	static struct kobj_attribute _name##_attr =3D __ATTR_RO(_name)
+> > >=20
+> > > Why are you dealing with a "raw" kobject?  Shouldn't you have a devic=
+e
+> > > and use a device attribute?
+> > >=20
+> > > > +static bool sgx_numa_init(void)
+> > > > +{
+> > > > +	struct sgx_numa_node *node;
+> > > > +	struct device *dev;
+> > > > +	int nid;
+> > > > +	int ret;
+> > > > +
+> > > > +	for (nid =3D 0; nid < num_possible_nodes(); nid++) {
+> > > > +		if (!sgx_numa_nodes[nid].size)
+> > > > +			continue;
+> > > > +
+> > > > +		node =3D &sgx_numa_nodes[nid];
+> > > > +		dev =3D &node_devices[nid]->dev;
+> > > > +
+> > > > +		node->kobj =3D kobject_create_and_add("sgx", &dev->kobj);
+> > >=20
+> > > You just "broke" the tree by putting a raw kobject below a struct
+> > > device.  Please do not do that.
+> >=20
+> > I looked how hugetlb was implemented as a starting point, since it is
+> > existing mainline code, i.e. in mm/hugetlb.c:
+> >=20
+> > - hugetlb_register_node()
+> > - hugetlb_register_all_nodes()
+> > - HSTATE_ATTR_RO()
+> >=20
+> > hugetlb code attaches raw kobjects to the node device, by using this
+> > (perhaps anti)pattern.
+>=20
+> Never look at the memory code for how to use sysfs "properly" :)
+>=20
+> It deals with raw kobjects as it is not tied into the driver model at
+> all.  You are, so do not try to route around it, userspace will not be
+> happy with you if you do so.
+>=20
+> > > > +		if (!node->kobj) {
+> > > > +			sgx_numa_exit();
+> > > > +			return false;
+> > > > +		}
+> > > > +
+> > > > +		ret =3D sysfs_create_group(node->kobj, &sgx_node_attr_group);
+> > >=20
+> > > And you raced with userspace and lost.
+> > >=20
+> > > Wait, you have a kobject _just_ for a subdirectory name?  Why?  Use a
+> > > named attribute group, that's exactly what that is for.
+> > >=20
+> > > Properly attach your attributes to the device you have, don't do extr=
+a
+> > > work and complex code that you do not have to at all.
+> >=20
+> > Here the reference was hugetlb_sysfs_init() and hugetlb_sysfs_add_hstat=
+e().
+> > Agreed, that a named group would make a lot more sense.
+>=20
+> Again, ignore all sysfs code for the memory subsystem please :)
 
-Looks good -- it's almost all kerneldoc fixes, and so should be fairly
-safe overall. It may be best to split this up into separate patches --
-maybe one each for 9p, AFS, fscache, and nfs since that may be easier on
-people doing backports (for stable kernels, etc.).
+OK, cool, thank you. I can do that.
 
-In any case, you can add this regardless of whether you decide to stick
-with the jumbo patch or split it up:
+>=20
+> thanks,
+>=20
+> greg k-h
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-
+/Jarkko
