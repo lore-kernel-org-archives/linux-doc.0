@@ -2,84 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EEBC433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 06:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7573BC433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 07:13:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0EDF611C8
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 06:31:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53ED0619E5
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 07:13:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232461AbhJBGdg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 02:33:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232082AbhJBGdg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 Oct 2021 02:33:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 11CB4611EF;
-        Sat,  2 Oct 2021 06:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1633156311;
-        bh=AJrsXzFUww//Sq2IUPcn/NGN5cBiVIJRCZ/GrLQZrJQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AuYbpeu41OUBA5UcXGjtCdDkwCNMsT0Lci0ph+udMCaMvcDtfbNLaFT7cLO5xJXqh
-         ZMj3T5u69dbnbiicWI7d7hPj+4PbxP4en/6BArcdMEVhxQvLEigINJiZBcn9A0Icl8
-         wxIN9bf0fpBih/0lp3GFoM4MjZS8/96h1tyKgRqw=
-Date:   Sat, 2 Oct 2021 08:31:46 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joe Perches <joe@perches.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S232519AbhJBHPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Oct 2021 03:15:19 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:53327 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232355AbhJBHPT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 03:15:19 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id EFE27581013;
+        Sat,  2 Oct 2021 03:13:30 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Sat, 02 Oct 2021 03:13:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=h
+        kdwWmElPEdAAxaQYiaUG9iDPW9L8k80trrD6uyRPLo=; b=b+qy2lC7OANZhdcFY
+        lTuHru7sN/+DtcqTrF4SpXic1GmtM7cUT2qmnPzpzBoOwlJLK+z7eh8TFrUFqSQD
+        TQ8jkhtPZqfnj2vBf+fDgE4RoYWo8WlREzgRC0Kgkb5u5KRBrrNW9I+jLw68qq5K
+        nR1QEz/T3vXeMOnlNj/Kte72tUeYYrYxUq90NqOZhz8H/aQau8o3YqPwNJNR9p51
+        IjEDlpgp6u3tl97X5eFyj1ScaFTQnCPDxidv6nerNdEjj30tannDQtOgGzaF9LP9
+        ywzRJBQ3oe9A57JmpNxlJeehLxTyoJAGbhhjUtwcTPnRaupVb4E9JI7Bx0avudQu
+        wU7Zw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=hkdwWmElPEdAAxaQYiaUG9iDPW9L8k80trrD6uyRP
+        Lo=; b=D/XRLalTmeWLNXMgGrYTT36Ur+ARcjhRea20l1zZycriBriaimr4jYDvH
+        Y/163WSY2WWorF7d3pv3hpERLm6NZDJlTk//5jLEVXcIMWmMoPJNQxbhgBi1BWBn
+        Cya7cwjtn+FBF1NZP0fA4N1ZLelGM6CeBzY0yS2wBDAcnYs2k7uqp2sBcpzNWjb6
+        i2zLNiZLVqztUinKNFfAh4HmJdPap30w+S9jG7OBxVgGj0AGGzwot5oYlTBmBwa3
+        wt4cnG/tw8mgyWw7yKANX9GzEEYCNUrYCiZAngxSNFSdx9IvgQwTnhE894+IssxT
+        TFpzih5gWDYejAq9jm76uBihYwVjQ==
+X-ME-Sender: <xms:mQZYYR7VpWIekz5jKw9rfJZPtY7gObW-Ps2HK3WAeJ6thHYPvyedzQ>
+    <xme:mQZYYe7NssF99qddped0Oz3y0xvsSlXqyEN9IInl1E0lXOHMmNnU3P09OPy6-VZVV
+    Kq6QxkN1Uw7cqd15Q>
+X-ME-Received: <xmr:mQZYYYfa7VDv6N19FC4M0Vettj4NdhNIg1PrJFkZXVaEfhz91yBv0dzwZCvP5KfF1YQRSpIl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekjedgudduhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefhvghr
+    nhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrg
+    htthgvrhhnpeffleelfeejkefgfffhvdffjedvteelhefgvdfftdehfefghfdtgeevgfek
+    keeuleenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdptddurdhorhhgne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvggv
+    nhhfohhosehuledvrdgvuh
+X-ME-Proxy: <xmx:mgZYYaLB8vJT6HmaAyecptRqqdECxDA3-U7v-ucSTdOqaK0yFO0hbA>
+    <xmx:mgZYYVLC78TXBxqTVCuTBFhpEgbixvlFTNJh-8rLG1dppSYC7Y77OQ>
+    <xmx:mgZYYTwFKgNks0BLJyv6wDGWqMfiEngurGR3Api93phNOr_Ls8Qtcg>
+    <xmx:mgZYYSCN8z0NaX2WnaxUXdRraVDUxKHnoPfZ_ydCt_0QpVQB9btRYQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Oct 2021 03:13:26 -0400 (EDT)
+Date:   Sat, 2 Oct 2021 09:13:22 +0200
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v4] docs: Explain the desired position of function
- attributes
-Message-ID: <YVf80rXg8Yd19Hmw@kroah.com>
-References: <20210930235754.2635912-1-keescook@chromium.org>
- <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+Message-ID: <YVgGklsHT5fkavDL@zacax395.localdomain>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay>
+ <YVeGOyLzuhN7zzV7@intel.com>
+ <YVfEWaLfYWdhezCa@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVfEWaLfYWdhezCa@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 01, 2021 at 12:05:25PM -0700, Nick Desaulniers wrote:
-> On Thu, Sep 30, 2021 at 4:58 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > While discussing how to format the addition of various function
-> > attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
-> > close as possible to Linus's preferences for future reference.
-> >
-> > (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
-> > others that would prefer all attributes live on a separate leading line.)
-> >
-> > [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
-> >
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
+On 21/10/02 05:30AM, Ville Syrjälä wrote:
+> On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
+> > On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
+> > > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
+> > > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
+> > > > > 
+> > > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+> > > > > with the necessary drm-tip conflict resolutions).
+> > > > 
+> > > > Ugh. Did anyone actually review the locking changes this does?
+> > > > I shot the previous i915 stuff down because the commit messages
+> > > > did not address any of it.
+> > > 
+> > > I reviewed the set on 9/17, I didn't see your feedback on that thread.
+> > 
+> > It was much earlir than that.
+> > https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+> > 
+> > And I think I might have also shot down a similar thing earlier.
+> > 
+> > I was actually half considering sending a patch to nuke that
+> > misleading TODO item. I don't think anything which changes
+> > which locks are taken should be considred a starter level task.
+> > And the commit messages here don't seem to address any of it.
 > 
-> While I appreciate you getting the ball across the finish line (having
-> _any_ documentation to point to in future bikesheds), I can't help but
-> shake the feeling that the chosen policy will harm the ability of
-> existing automated code formatting tools from being able to automate
-> code formatting on the kernel.
+> And i915 is now broken :(
+> 
+> https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_10680/fi-bwr-2160/boot.html
 
-Why would documenting the expected format have an affect on tools not
-being able to follow that exact expected format?  Are we defining a
-format that is somehow impossible for them to use?
+I completely overlooked the side effects of not having a global context anymore.
+Sorry for all the trouble.
 
-If anything I would think that now we have a format that the tools can
-actually follow, while before it was semi-random as to what to pick as
-the "one true way".
+Sean, could you revert the whole patch series? I'll have a deeper look into the
+patch set and come up with a v3 where all these issues will be addressed.
 
-What am I missing here?
+Thanks and sorry once again for the extra overhead this might have caused.
 
-thanks,
 
-greg k-h
