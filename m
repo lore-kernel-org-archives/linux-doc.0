@@ -2,125 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7573BC433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 07:13:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B01C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 10:42:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53ED0619E5
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 07:13:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 344CB61AEE
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 10:42:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbhJBHPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 03:15:19 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:53327 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232355AbhJBHPT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 03:15:19 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id EFE27581013;
-        Sat,  2 Oct 2021 03:13:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Sat, 02 Oct 2021 03:13:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=h
-        kdwWmElPEdAAxaQYiaUG9iDPW9L8k80trrD6uyRPLo=; b=b+qy2lC7OANZhdcFY
-        lTuHru7sN/+DtcqTrF4SpXic1GmtM7cUT2qmnPzpzBoOwlJLK+z7eh8TFrUFqSQD
-        TQ8jkhtPZqfnj2vBf+fDgE4RoYWo8WlREzgRC0Kgkb5u5KRBrrNW9I+jLw68qq5K
-        nR1QEz/T3vXeMOnlNj/Kte72tUeYYrYxUq90NqOZhz8H/aQau8o3YqPwNJNR9p51
-        IjEDlpgp6u3tl97X5eFyj1ScaFTQnCPDxidv6nerNdEjj30tannDQtOgGzaF9LP9
-        ywzRJBQ3oe9A57JmpNxlJeehLxTyoJAGbhhjUtwcTPnRaupVb4E9JI7Bx0avudQu
-        wU7Zw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=hkdwWmElPEdAAxaQYiaUG9iDPW9L8k80trrD6uyRP
-        Lo=; b=D/XRLalTmeWLNXMgGrYTT36Ur+ARcjhRea20l1zZycriBriaimr4jYDvH
-        Y/163WSY2WWorF7d3pv3hpERLm6NZDJlTk//5jLEVXcIMWmMoPJNQxbhgBi1BWBn
-        Cya7cwjtn+FBF1NZP0fA4N1ZLelGM6CeBzY0yS2wBDAcnYs2k7uqp2sBcpzNWjb6
-        i2zLNiZLVqztUinKNFfAh4HmJdPap30w+S9jG7OBxVgGj0AGGzwot5oYlTBmBwa3
-        wt4cnG/tw8mgyWw7yKANX9GzEEYCNUrYCiZAngxSNFSdx9IvgQwTnhE894+IssxT
-        TFpzih5gWDYejAq9jm76uBihYwVjQ==
-X-ME-Sender: <xms:mQZYYR7VpWIekz5jKw9rfJZPtY7gObW-Ps2HK3WAeJ6thHYPvyedzQ>
-    <xme:mQZYYe7NssF99qddped0Oz3y0xvsSlXqyEN9IInl1E0lXOHMmNnU3P09OPy6-VZVV
-    Kq6QxkN1Uw7cqd15Q>
-X-ME-Received: <xmr:mQZYYYfa7VDv6N19FC4M0Vettj4NdhNIg1PrJFkZXVaEfhz91yBv0dzwZCvP5KfF1YQRSpIl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekjedgudduhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefhvghr
-    nhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrg
-    htthgvrhhnpeffleelfeejkefgfffhvdffjedvteelhefgvdfftdehfefghfdtgeevgfek
-    keeuleenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdptddurdhorhhgne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvggv
-    nhhfohhosehuledvrdgvuh
-X-ME-Proxy: <xmx:mgZYYaLB8vJT6HmaAyecptRqqdECxDA3-U7v-ucSTdOqaK0yFO0hbA>
-    <xmx:mgZYYVLC78TXBxqTVCuTBFhpEgbixvlFTNJh-8rLG1dppSYC7Y77OQ>
-    <xmx:mgZYYTwFKgNks0BLJyv6wDGWqMfiEngurGR3Api93phNOr_Ls8Qtcg>
-    <xmx:mgZYYSCN8z0NaX2WnaxUXdRraVDUxKHnoPfZ_ydCt_0QpVQB9btRYQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Oct 2021 03:13:26 -0400 (EDT)
-Date:   Sat, 2 Oct 2021 09:13:22 +0200
-From:   Fernando Ramos <greenfoo@u92.eu>
-To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
- DRM_MODESET_LOCK_ALL_* helpers where possible
-Message-ID: <YVgGklsHT5fkavDL@zacax395.localdomain>
-References: <20210924064324.229457-1-greenfoo@u92.eu>
- <20211001183655.GW2515@art_vandelay>
- <YVda4jNSGuQf50JV@intel.com>
- <20211001204815.GA2515@art_vandelay>
- <YVeGOyLzuhN7zzV7@intel.com>
- <YVfEWaLfYWdhezCa@intel.com>
+        id S232727AbhJBKoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Oct 2021 06:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232621AbhJBKoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 06:44:37 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F6DBC061570;
+        Sat,  2 Oct 2021 03:42:52 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id d18so14535755iof.13;
+        Sat, 02 Oct 2021 03:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2Osma+ZoY9LB956joAB5f2LyabZrBd+3JOYnpTaKn98=;
+        b=AZA7gEItNhKh1XJTh7QZQayfq7PVl0xLGa5hb/b/laX+qbam8EDGNoMPJvHaHacnMI
+         HtRA/Awer9UHEEvgs29F71U8AM4k1XU3kcKRUkspE30kG9CbUMnlKygqBg1ZzEQ2Fj9g
+         +JiEqTvAViUTfW7JDbMcrBdMYB9l7gNaTLO8GwWFMET1BjWRNVcjSfULzdrU5gYLuV96
+         a3ocG4kUSUSn+SKxAG9r10sDCQ+wS8zYEocdXb+lY645IKXxKXIZaOc3BxgQpJABmIlY
+         wkuMfUSF/ii4JaayjcJqcw6JBTN3H8oKPi/h4xF1Doa3auF0JIJ1hMkJK/QjWU/vdvOG
+         o8mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2Osma+ZoY9LB956joAB5f2LyabZrBd+3JOYnpTaKn98=;
+        b=oTDY71MbNucIQLWgxOZUS7Wp49ixwnu+mLN8xlRulWyUmw1OMGhwzkPRp83kKuk3j6
+         BxciGxg/fx2nQBUJbXL6yi3cAwZ6MdTXuO9izn3A6LFeFPhZkWk4amFyt5+8YzqBpb9o
+         PgE5mCA9GkFKdflRWslFhyALK+3aEgOjr/Uc5h09ztGLkEIE6h55j4nTvwiPXhufttta
+         HpRrRYUlMVb/9R9xV5wb+Q4wn9chun1Cuhbi/+eAX8/DYw/NUJVvKVYTsLztMNOkya4m
+         FtL6xsc4ZJXTpg/Ez/QdjBDqxjgALdyXri4cVRXXm3YiaY3rmHeD50IPu/WlcVbJ68Yw
+         A1tA==
+X-Gm-Message-State: AOAM531bAXxXgfWu2OtD7Jua0ECaR7JoL90c7CBUkSb6Tzq7cFJFh4e2
+        /c9qX0jSEpEOOxMYnI+iVlhnwOshhP08wfYW8pQ=
+X-Google-Smtp-Source: ABdhPJxuEAK4ZOjYd7EF/1e7D6z07isVKPcr4xyWh9Zb1t1TyGx6rtYErz2wRSd6SNyRWmJ302ZOb1G+07YE0jGhgWk=
+X-Received: by 2002:a05:6638:d89:: with SMTP id l9mr2376403jaj.46.1633171371734;
+ Sat, 02 Oct 2021 03:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YVfEWaLfYWdhezCa@intel.com>
+References: <20210930235754.2635912-1-keescook@chromium.org>
+ <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com> <YVf80rXg8Yd19Hmw@kroah.com>
+In-Reply-To: <YVf80rXg8Yd19Hmw@kroah.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 2 Oct 2021 12:42:40 +0200
+Message-ID: <CANiq72=T9b_RgZGHuKDjj=E46c0nB2CHH3+Wsdws2Wt9YWcHVw@mail.gmail.com>
+Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/10/02 05:30AM, Ville Syrjälä wrote:
-> On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
-> > On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
-> > > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
-> > > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
-> > > > > 
-> > > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
-> > > > > with the necessary drm-tip conflict resolutions).
-> > > > 
-> > > > Ugh. Did anyone actually review the locking changes this does?
-> > > > I shot the previous i915 stuff down because the commit messages
-> > > > did not address any of it.
-> > > 
-> > > I reviewed the set on 9/17, I didn't see your feedback on that thread.
-> > 
-> > It was much earlir than that.
-> > https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
-> > 
-> > And I think I might have also shot down a similar thing earlier.
-> > 
-> > I was actually half considering sending a patch to nuke that
-> > misleading TODO item. I don't think anything which changes
-> > which locks are taken should be considred a starter level task.
-> > And the commit messages here don't seem to address any of it.
-> 
-> And i915 is now broken :(
-> 
-> https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_10680/fi-bwr-2160/boot.html
+On Sat, Oct 2, 2021 at 8:31 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> Why would documenting the expected format have an affect on tools not
+> being able to follow that exact expected format?  Are we defining a
+> format that is somehow impossible for them to use?
 
-I completely overlooked the side effects of not having a global context anymore.
-Sorry for all the trouble.
+From a quick test, clang-format-12 with our current config keeps
+attributes in the same line and it does not seem to reorder them, so
+it seems OK (the developer has to do it by hand, but that is fine)
+except for the `__malloc` in the second example which is in a
+different line (but not in the first). Is that intended?
 
-Sean, could you revert the whole patch series? I'll have a deeper look into the
-patch set and come up with a v3 where all these issues will be addressed.
+> If anything I would think that now we have a format that the tools can
+> actually follow, while before it was semi-random as to what to pick as
+> the "one true way".
 
-Thanks and sorry once again for the extra overhead this might have caused.
+In the future, clang-format could have a configuration option to pass
+a sort order, in which case, having the sort order already defined in
+the kernel would definitely be helpful.
 
+In fact, we could use the fact that the kernel has one as a way to
+tell upstream that such a feature would be nice to have :)
 
+Cheers,
+Miguel
