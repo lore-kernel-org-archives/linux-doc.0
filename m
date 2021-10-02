@@ -2,103 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 373B1C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 23:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBC8C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:00:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2226761A58
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Oct 2021 23:53:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5661F61AA4
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232166AbhJAXzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 19:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43286 "EHLO
+        id S232168AbhJBACT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 20:02:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230368AbhJAXzT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 19:55:19 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A77C061775;
-        Fri,  1 Oct 2021 16:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=5wv6+Frhzsf9ZnmXfBPxgpN4ah/vIcnKRwBiCvQp04A=; b=qERDYPBjPMhHVtObbuD90nXjqT
-        RYLeXP5T/UT0ArNmr4bzLPIJw/dGdWxQAIWzuZFwhWDPQsi42IMeRANWSKDN8JDwjsLc9UnUZupE7
-        8HFHGisNfDKnJfwq+R8ag1MWSEgcgUJXKVGalm/VlXXSnip8VFIpO+2D8gny4vQ6kawWRDDUMwHDL
-        F6XcGAqLpLtF9tTyeg+hDpTvuxDVZuKmAq9LKIAehGSDMQWgK+LFltyEh2GyPotVj7lny60LqmZSC
-        eNvYgABxCYBhLVzxRWJG7hNaPlEVTYcBScXfJm8kTL/zG3bw1a9oAjdpEdT6adTyBUCDsU3hHJN/N
-        noYy+RWA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mWSLN-001Ull-9d; Fri, 01 Oct 2021 23:53:33 +0000
-Subject: Re: [RFC v2 02/11] drivers: Add hardware timestamp engine (HTE)
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        warthog618@gmail.com, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org
-References: <20210930232617.6396-1-dipenp@nvidia.com>
- <20210930232617.6396-3-dipenp@nvidia.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <010426c7-74ed-33fb-0c06-c42408cffc0e@infradead.org>
-Date:   Fri, 1 Oct 2021 16:53:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S232148AbhJBACS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 20:02:18 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEC8C0613E2
+        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 17:00:33 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id r201so4900455pgr.4
+        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 17:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NyR0BLvLKJGXSob9Ifla3i3P7VKq6NSER7OryFjz5kw=;
+        b=D4Rb5NZpuDSNx+ISAjTu3oceC69bI/BD0movoPn7MtXhmP43veptQrEEN/0rzGA4Dm
+         zXXstG72cbUCZmZHjnewO0K79iI86YeELhOXvwnrBZ/tLgIw2jvae+0nhAn66b8PX+w1
+         mywHvk3IWE87W7vLyN2kUTnHuOvl65/nv3CAA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NyR0BLvLKJGXSob9Ifla3i3P7VKq6NSER7OryFjz5kw=;
+        b=B0AbSqnIs9IrQhxCN+ESqitobhyg/Xu1TuGOGMjpnvfajQEBH7XepY/J3zaXvP1fnQ
+         ZIqG8fE2qVFtdZD5zv71G69teOtXi0xGabkMsAsp779yEJ8hNB9dAAhydIprASgjlpM+
+         KXvg1+uaSqQDf8SsDhw35XlRqKMtfeVzVEiKzXRCUxXWVesVSyKdHnvbjEgiVbtjHgzG
+         a91QhY0dOdvayPyoq8qAkVOx1MUrxmsJS79cCVPf40bi++5KMjl3ZaM1W7ZqjdY0JqES
+         Q9BXCIeLZjgvaXp8HSD3bLcdTLT0HORtqKetj8LMhq+gQbAzY0TpXiMqOTMKjGtiBf6D
+         XXUA==
+X-Gm-Message-State: AOAM533KefCE05L5mJ9SzqcW4+iAiE6O4Pk4BBLbcZSAfliqhG84EuK0
+        YxSzXrNMRbyiFm3iRJOcCu2RUw==
+X-Google-Smtp-Source: ABdhPJxirD6G77cIgR1B9Ulclv1SoHM6YoexC3zTvyOlIEV0bu2e93K9nYsNB0fJBidlnhqx0zGAWw==
+X-Received: by 2002:a63:4457:: with SMTP id t23mr685389pgk.354.1633132833327;
+        Fri, 01 Oct 2021 17:00:33 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j17sm3282047pga.55.2021.10.01.17.00.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Oct 2021 17:00:32 -0700 (PDT)
+Date:   Fri, 1 Oct 2021 17:00:31 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4] docs: Explain the desired position of function
+ attributes
+Message-ID: <202110011659.F4F81D4196@keescook>
+References: <20210930235754.2635912-1-keescook@chromium.org>
+ <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210930232617.6396-3-dipenp@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/30/21 4:26 PM, Dipen Patel wrote:
-> diff --git a/drivers/hte/Kconfig b/drivers/hte/Kconfig
-> new file mode 100644
-> index 000000000000..6fdf243d281b
-> --- /dev/null
-> +++ b/drivers/hte/Kconfig
-> @@ -0,0 +1,22 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +menuconfig HTE
-> +	bool "Hardware Timestamping Engine (HTE) Support"
-> +	help
-> +	  Hardware Timestamping Engine (HTE) Support.
-> +
-> +	  Some devices provide hardware timestamping engine which can timestamp
+On Fri, Oct 01, 2021 at 12:05:25PM -0700, Nick Desaulniers wrote:
+> On Thu, Sep 30, 2021 at 4:58 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > While discussing how to format the addition of various function
+> > attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
+> > close as possible to Linus's preferences for future reference.
+> >
+> > (Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
+> > others that would prefer all attributes live on a separate leading line.)
+> >
+> > [1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
+> >
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> While I appreciate you getting the ball across the finish line (having
+> _any_ documentation to point to in future bikesheds), I can't help but
+> shake the feeling that the chosen policy will harm the ability of
+> existing automated code formatting tools from being able to automate
+> code formatting on the kernel.
 
-	               provide a hardware
+I am but the messenger here. Is there something specific that'll break
+if we follow this?
 
-> +	  certain device lines/signals in realtime. This way to provide
-
-	                                            This provides a
-
-> +	  hardware assisted timestamp to generic signals like GPIOs, IRQs lines
-
-	  hardware-assisted                              like GPIOs or IRQ lines.
-
-
-> +	  comes with benefit for the applications like autonomous machines
-
-	  It comes with a benefit for applications like
-
-> +	  needing accurate timestamping event with less jitter.
-> +
-> +	  This framework provides a generic interface to such HTE devices
-> +	  within the Linux kernel. It provides an API to register and
-> +	  unregister a HTE provider chip, configurable sw buffer to
-
-	                                               software
-
-> +	  store the timestamps, push the timestamp from the HTE providers and
-> +	  retrieve timestamps for the consumers. It also provides means for the
-> +	  consumers to request signals it wishes to hardware timestamp and
-> +	  release them if not required.
-> +
-> +	  If unsure, say no.
-
-
-HTH.
 -- 
-~Randy
+Kees Cook
