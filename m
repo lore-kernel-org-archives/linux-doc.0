@@ -2,205 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F18C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:54:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2215DC433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 02:30:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2D8A61AEE
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:54:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 010C561A58
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 02:30:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbhJBA4P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 20:56:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231175AbhJBA4P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 20:56:15 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F419C0613E5
-        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 17:54:30 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id y8so9364019pfa.7
-        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 17:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Dz4gCHHRlMiAuhNya+sXKLhxyvHziFcWxfMt2VtitXk=;
-        b=Y40BfZx3kfEmj6oc4wP5edmnI0YKLH+C3ENpc7kzLwXGrrHiZdQziSHpXelsyAoY1w
-         EtcmpmSl5Og9+N7Kt7sCR52juVA7j2786Emq6SUx3JGVk7WjOsHCOnC+UNUb6fF1tUtL
-         j2q0xpeZiIAYBBE3uA8X2a8Xtq66TpgOi+Rmh91gVo6H/e8vcEoXwUgPagHW7RsQoici
-         y+5SG1wYYDRFNNsRdUegMCWSc/jDIVQl7kUuPQETyQ865ASPAmsR481VN3MQGhEjM9se
-         I0zpQ+u2q8nPqA5oz+GbtEe79Hw7pE/m3iE+GccEUSu+8ZIDjVHkEtM1Om00wlKTr4cv
-         zSPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Dz4gCHHRlMiAuhNya+sXKLhxyvHziFcWxfMt2VtitXk=;
-        b=WFWJrG8zSDRcNC/SBEydJ29YNeGrnUAubHLxheIQXwR82KD2FFO9MJMSYD0dNv4YzM
-         Lg23A6nJ9UfGQzdO8fCGhqpkeDNVsmE/IRyWYX5XWXFilWgH4hdms2TqMxeQu17E7YT6
-         VRZuYeXZfYtylP8nElWawLvhTYPHStoNvgbfjOwMwT7CptL5vnOykxmyvx4WSPCvAa43
-         ty7N/KQWn7OCjqJhvN9hGpnDDBtJg1bSIx67YNR0ehBP8UA3LiuKjqLfNAa4bvCR4KEz
-         na6RgqrKXbfMOZUiCJHvXZY1YZuG1bztJ0HP2XkRMFzPzZC4fBHyMMNyYgU4gGYCBv2Z
-         dhYQ==
-X-Gm-Message-State: AOAM532ZTycdGOm7BJrzrP3Yhz4QxCT4ueliyVIMCatethz5hKZC29t2
-        His4oKgxs7pcTJwj9uvk/tpciR1mm51pkk7mgWPc4g==
-X-Google-Smtp-Source: ABdhPJxoT43ANHvidEjUrlGXpA1JKWY6SOUCbiH6H03kpY+tlMRisQkFbKCxN1Bqckr4Ege0uDyW1EzA4erC5l+jEkM=
-X-Received: by 2002:a63:f346:: with SMTP id t6mr822842pgj.345.1633136069808;
- Fri, 01 Oct 2021 17:54:29 -0700 (PDT)
+        id S232464AbhJBCcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 22:32:39 -0400
+Received: from mga17.intel.com ([192.55.52.151]:57897 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230386AbhJBCcj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Oct 2021 22:32:39 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="205792401"
+X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
+   d="scan'208";a="205792401"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 19:30:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; 
+   d="scan'208";a="521577655"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+  by fmsmga008.fm.intel.com with SMTP; 01 Oct 2021 19:30:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Sat, 02 Oct 2021 05:30:49 +0300
+Date:   Sat, 2 Oct 2021 05:30:49 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Sean Paul <sean@poorly.run>
+Cc:     Fernando Ramos <greenfoo@u92.eu>, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+Message-ID: <YVfEWaLfYWdhezCa@intel.com>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay>
+ <YVeGOyLzuhN7zzV7@intel.com>
 MIME-Version: 1.0
-References: <20210915195306.612966-1-kaleshsingh@google.com>
- <CAC_TJvdv7sT-FmD1S-ZHnpAGvFR=1WBc6jEKBm+q5Wpp6S34PQ@mail.gmail.com> <CAM9d7ciQC1sV8hOOsgHVLxk7sze_Qp_dBqBkK_FrtVhZ0=AzZQ@mail.gmail.com>
-In-Reply-To: <CAM9d7ciQC1sV8hOOsgHVLxk7sze_Qp_dBqBkK_FrtVhZ0=AzZQ@mail.gmail.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Fri, 1 Oct 2021 17:54:18 -0700
-Message-ID: <CAC_TJvdV-WD_ChfOkErQ7znjgMur1-ubAy_4k6R1sFCPZE=DTw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] tracing: Extend histogram triggers expression parsing
-To:     Namhyung Kim <namhyung@kernel.org>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVeGOyLzuhN7zzV7@intel.com>
+X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 3:58 PM Namhyung Kim <namhyung@kernel.org> wrote:
->
-> Hi Kalesh,
->
-> On Wed, Sep 15, 2021 at 1:09 PM Kalesh Singh <kaleshsingh@google.com> wrote:
-> >
-> > On Wed, Sep 15, 2021 at 12:53 PM Kalesh Singh <kaleshsingh@google.com> wrote:
-> > >
-> > > The frequency of the rss_stat trace event is known to be of the same
-> > > magnitude as that of the sched_switch event on Android devices. This can
-> > > cause flooding of the trace buffer with rss_stat traces leading to a
-> > > decreased trace buffer capacity and loss of data.
-> > >
-> > > If it is not necessary to monitor very small changes in rss (as is the
-> > > case in Android) then the rss_stat tracepoint can be throttled to only
-> > > emit the event once there is a large enough change in the rss size.
-> > > The original patch that introduced the rss_stat tracepoint also proposed
-> > > a fixed throttling mechanism that only emits the rss_stat event
-> > > when the rss size crosses a 512KB boundary. It was concluded that more
-> > > generic support for this type of filtering/throttling was need, so that
-> > > it can be applied to any trace event. [1]
-> > >
-> > > From the discussion in [1], histogram triggers seemed the most likely
-> > > candidate to support this type of throttling. For instance to achieve the
-> > > same throttling as was proposed in [1]:
-> > >
-> > >   (1) Create a histogram variable to save the 512KB bucket of the rss size
-> > >   (2) Use the onchange handler to generate a synthetic event when the
-> > >       rss size bucket changes.
-> > >
-> > > The only missing pieces to support such a hist trigger are:
-> > >   (1) Support for setting a hist variable to a specific value -- to set
-> > >       the bucket size / granularity.
-> > >   (2) Support for division arithmetic operation -- to determine the
-> > >       corresponding bucket for an rss size.
-> > >
-> > > This series extends histogram trigger expressions to:
-> > >   (1) Allow assigning numeric literals to hist variable (eg. x=1234)
-> > >       and using literals directly in expressions (eg. x=size/1234)
-> > >   (2) Support division and multiplication in hist expressions.
-> > >       (eg. a=$x/$y*z); and
-> > >   (3) Fixes expression parsing for non-associative operators: subtraction
-> > >       and division. (eg. 8-4-2 should be 2 not 6)
-> > >
-> > > The rss_stat event can then be throttled using histogram triggers as
-> > > below:
-> > >
-> > >   # Create a synthetic event to monitor instead of the high frequency
-> > >   # rss_stat event
-> > >   echo 'rss_stat_throttled unsigned int mm_id; unsigned int curr;
-> > >          int member; long size' >> tracing/synthetic_events
-> > >
-> > >   # Create a hist trigger that emits the synthetic rss_stat_throttled
-> > >   # event only when the rss size crosses a 512KB boundary.
-> > >   echo 'hist:keys=common_pid:bucket=size/0x80000:onchange($bucket)
-> > >               .rss_stat_throttled(mm_id,curr,member,size)'
-> > >         >> events/kmem/rss_stat/trigger
-> > >
-> >
-> > Sorry, I have a clerical mistake here. The above key should be:
-> > s/keys=common_pid/keys=keys=mm_id,member
-> >
-> > The rss size is specific to the mm struct's member not the pid.
-> > The results below were captured with the correct key so no changes there.
-> >
-> > >  ------ Test Results ------
-> > > Histograms can also be used to evaluate the effectiveness of this
-> > > throttling by noting the Total Hits on each trigger:
-> > >
-> > >   echo 'hist:keys=common_pid' >> events/sched/sched_switch/trigger
-> > >   echo 'hist:keys=common_pid' >> events/kmem/rss_stat/trigger
-> > >   echo 'hist:keys=common_pid'
-> > >            >> events/synthetic/rss_stat_throttled/trigger
-> > >
-> > > Allowing the above example (512KB granularity) run for 5 minutes on
-> > > an arm64 device with 5.10 kernel:
-> > >
-> > >    sched_switch      : total hits = 147153
-> > >    rss_stat          : total hits =  38863
-> > >    rss_stat_throttled: total hits =   2409
-> > >
-> > > The synthetic rss_stat_throttled event is ~16x less frequent than the
-> > > rss_stat event when using a 512KB granularity.
-> > >
-> > >
-> > > The results are more pronounced when rss size is changing at a higher
-> > > rate in small increments. For instance the following results were obtained
-> > > by recording the hits on the above events for a run of Android's
-> > > lmkd_unit_test [2], which continually forks processes that map anonymous
-> > > memory until there is an oom kill:
-> > >
-> > >    sched_switch      : total hits =  148832
-> > >    rss_stat          : total hits = 4754802
-> > >    rss_stat_throttled: total hits =   96214
-> > >
-> > > In this stress this, the  synthetic rss_stat_throttled event is ~50x less
-> > > frequent than the rss_stat event when using a 512KB granularity.
-> > >
-> > >
-> > > [1] https://lore.kernel.org/lkml/20190903200905.198642-1-joel@joelfernandes.org/
-> > > [2] https://cs.android.com/android/platform/superproject/+/master:system/memory/lmkd/tests/lmkd_test.cpp
-> > >
-> > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
->
-> Reviewed-by: Namhyung Kim <namhyung@kernel.org>
+On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
+> On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
+> > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
+> > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
+> > > > On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
+> > > > > Hi all,
+> > > > > 
+> > > > > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> > > > > "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+> > > > > patch series is about.
+> > > > > 
+> > > > > You will find two types of changes here:
+> > > > > 
+> > > > >   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+> > > > >     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+> > > > >     already been done in previous commits such as b7ea04d2)
+> > > > > 
+> > > > >   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+> > > > >     in the remaining places (as it has already been done in previous commits
+> > > > >     such as 57037094)
+> > > > >     
+> > > > > Most of the changes are straight forward, except for a few cases in the "amd"
+> > > > > and "i915" drivers where some extra dancing was needed to overcome the
+> > > > > limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+> > > > > once inside the same function (the reason being that the macro expansion
+> > > > > includes *labels*, and you can not have two labels named the same inside one
+> > > > > function)
+> > > > > 
+> > > > > Notice that, even after this patch series, some places remain where
+> > > > > "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+> > > > > all inside drm core (which makes sense), except for two (in "amd" and "i915")
+> > > > > which cannot be replaced due to the way they are being used.
+> > > > > 
+> > > > > Changes in v2:
+> > > > > 
+> > > > >   - Fix commit message typo
+> > > > >   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+> > > > >   - Split drm/i915 patch into two simpler ones
+> > > > >   - Remove drm_modeset_(un)lock_all()
+> > > > >   - Fix build problems in non-x86 platforms
+> > > > > 
+> > > > > Fernando Ramos (17):
+> > > > >   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
+> > > > >   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+> > > > >   drm: cleanup: remove drm_modeset_(un)lock_all()
+> > > > >   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
+> > > > > 
+> > > > 
+> > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+> > > > with the necessary drm-tip conflict resolutions).
+> > > 
+> > > Ugh. Did anyone actually review the locking changes this does?
+> > > I shot the previous i915 stuff down because the commit messages
+> > > did not address any of it.
+> > 
+> > I reviewed the set on 9/17, I didn't see your feedback on that thread.
+> 
+> It was much earlir than that.
+> https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+> 
+> And I think I might have also shot down a similar thing earlier.
+> 
+> I was actually half considering sending a patch to nuke that
+> misleading TODO item. I don't think anything which changes
+> which locks are taken should be considred a starter level task.
+> And the commit messages here don't seem to address any of it.
 
-Thanks for the review Namhyung!
+And i915 is now broken :(
 
->
-> Thanks,
-> Namhyung
->
->
-> > >
-> > > Kalesh Singh (5):
-> > >   tracing: Add support for creating hist trigger variables from literal
-> > >   tracing: Add division and multiplication support for hist triggers
-> > >   tracing: Fix operator precedence for hist triggers expression
-> > >   tracing/selftests: Add tests for hist trigger expression parsing
-> > >   tracing/histogram: Document expression arithmetic and constants
-> > >
-> > >  Documentation/trace/histogram.rst             |  14 +
-> > >  kernel/trace/trace_events_hist.c              | 318 +++++++++++++++---
-> > >  .../testing/selftests/ftrace/test.d/functions |   4 +-
-> > >  .../trigger/trigger-hist-expressions.tc       |  73 ++++
-> > >  4 files changed, 357 insertions(+), 52 deletions(-)
-> > >  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
-> > >
-> > >
-> > > base-commit: 3ca706c189db861b2ca2019a0901b94050ca49d8
-> > > --
-> > > 2.33.0.309.g3052b89438-goog
-> > >
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_10680/fi-bwr-2160/boot.html
+
+-- 
+Ville Syrjälä
+Intel
