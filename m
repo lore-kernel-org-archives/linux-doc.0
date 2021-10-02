@@ -2,123 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E420BC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6817AC433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:41:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9E6E61AF7
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:05:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CEE461ACE
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232832AbhJBLHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 07:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232821AbhJBLHJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 07:07:09 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0B67C061570;
-        Sat,  2 Oct 2021 04:05:23 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id y28so447443vsd.3;
-        Sat, 02 Oct 2021 04:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lOvScWWdsWCsTrT9qAyN9hFCi3UuNxTHx/MbnP0X/8w=;
-        b=eDB0oNVafDTVhCe4pMIfJK9Mt77dkoTCfFD7fFEOfugZAuhWkUbHwE0SnYahtcNKh8
-         8PY70r5RXCS4Wf+eB3UADhNuyHgLiBmbL5WLpMtloWhunmTW0xDPhKBluAH/+udwYwkE
-         aqdDG2ok4sf5/ScKdcIUFrTAf3QUmA49bImqk1AFeCeBk7p+Ez2aHa+xKpgGymSiSQdQ
-         FpzcW+w50fPo6ARbHEFcZNh+ktGsic6WAOPm0LPn8k9ARKYVAqd4rvtrb8P4EtRzG6dz
-         PHqidp0wulGCdCyl8trZWfNxENS3IR1yVBTNTTRiDaeOd7rjMIOSytI9DzmRRJOpp43e
-         tQKA==
+        id S232882AbhJBLn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Oct 2021 07:43:26 -0400
+Received: from mail-ed1-f46.google.com ([209.85.208.46]:45894 "EHLO
+        mail-ed1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232887AbhJBLnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 07:43:25 -0400
+Received: by mail-ed1-f46.google.com with SMTP id r18so44363770edv.12;
+        Sat, 02 Oct 2021 04:41:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lOvScWWdsWCsTrT9qAyN9hFCi3UuNxTHx/MbnP0X/8w=;
-        b=hQ/U4xDc+UjoS0D338l137a6APgtN7oO7/sea2nHAVLRdoA1KjuxRPauCXQ329Cy9q
-         L6N5KfUXfNbMSzq+802f7aNUhV8G9bud4Zs2gbY+pUMQo2rSTG73ZkS1uSMmhcbTsjGg
-         2WDyc57eH7/oN6jw6e5OGcw+Eujl5/URponvJ6bZj1QyRd7c5bW8l2xzbXeA5eNhpnJK
-         +hyjpTs1TsC7IjH3tFcKpbm04rJfp5bmOCOjvlPvQlcb3VW8dN38IY8KcJ7uYdksnPnn
-         GvPBxRGV0fUuC3re5oJ9kWOpBcuxfo4dju5P3q310NR/gLI24Xg94swZ596qP/EdbDFN
-         2iQQ==
-X-Gm-Message-State: AOAM530QNhub2tTlrFxcqn0HRoUByQqkEd9LriedR0V8QBDIBgtnPOEF
-        8Kmt/KoYZJ0kMnfV+7n0dXjwYKB+3LcvKGENZ6Y=
-X-Google-Smtp-Source: ABdhPJyYK98qTlp9uh3k6KKGXFm8Vao/jKxUvntwx3UlQqUZMeVdbLPcD3ZJIHUb94lr8wncJBSjP2mk6YHRercHls8=
-X-Received: by 2002:a67:ee12:: with SMTP id f18mr8135716vsp.20.1633172723091;
- Sat, 02 Oct 2021 04:05:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210927064300.624279-1-chenhuacai@loongson.cn>
- <20210927064300.624279-8-chenhuacai@loongson.cn> <YVbrPHsDkhTl4FTA@hirez.programming.kicks-ass.net>
-In-Reply-To: <YVbrPHsDkhTl4FTA@hirez.programming.kicks-ass.net>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Sat, 2 Oct 2021 19:05:10 +0800
-Message-ID: <CAAhV-H5yA1_63OeYH-6KEgw1m8FUMDGHV0g_sw=F758HJhQ66w@mail.gmail.com>
-Subject: Re: [PATCH V4 07/22] LoongArch: Add atomic/locking headers
-To:     Peter Zijlstra <peterz@infradead.org>, yili0568@gmail.com
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=9tDiOVgsOJM22Fe9m6y3O2Yzwc8y2p0M/sgl00e/dH4=;
+        b=QYz6aUt9kyrNtreu2+4dXVd4VxZfo0adaTR9T+3eomGjmIH+1ljKMCKSP1/dJ2T2JA
+         jPBdZI+ICE1HGkO+ccvoWf975Q3tnR5P0KTyJtIS9uAlWtKzIoCPvA9/SeIQmI5sDO90
+         eXmImYirHKZ+EZQTM8xdbfM58iQp1YI/tv7TxvXV/xPadq23wzKq/igTYz17RBDsC+je
+         Ud1IQa04+VzUhdadKC11IGoHkfW6RuTmlPVpv0q73twGK828fYcSV7HLyj0QpI2IQ07k
+         PCnat8gQfInRHacDzOYZjSlbfzQaZyPeinV3jhh4gGrLBleSXluxQpYzB2CouX4ZnAo2
+         eNWQ==
+X-Gm-Message-State: AOAM532rCcAHRMjFaVFuAXMR2cjv46TYEcgH3JEuhNzx731XbHOCcGvT
+        U6IPmRKR3keaQDxYNJh3XG8=
+X-Google-Smtp-Source: ABdhPJxJ7mL8CuDeamuLJyE93IBziQGzJIvvcMtkhnIEfPrNJtB4lpsvJK/qZiDiTKzyLd8ktoP4LA==
+X-Received: by 2002:a17:906:608e:: with SMTP id t14mr3627978ejj.441.1633174898735;
+        Sat, 02 Oct 2021 04:41:38 -0700 (PDT)
+Received: from [10.9.0.26] ([46.166.133.199])
+        by smtp.gmail.com with ESMTPSA id r26sm4091367ejd.85.2021.10.02.04.41.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Oct 2021 04:41:38 -0700 (PDT)
+Reply-To: alex.popov@linux.com
+Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will.deacon@arm.com>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        notify@kernel.org
+References: <20210929185823.499268-1-alex.popov@linux.com>
+ <d290202d-a72d-0821-9edf-efbecf6f6cef@linux.com>
+ <20210929194924.GA880162@paulmck-ThinkPad-P17-Gen-1> <YVWAPXSzFNbHz6+U@alley>
+ <CAHk-=widOm3FXMPXXK0cVaoFuy3jCk65=5VweLceQCuWdep=Hg@mail.gmail.com>
+From:   Alexander Popov <alex.popov@linux.com>
+Message-ID: <ba67ead7-f075-e7ad-3274-d9b2bc4c1f44@linux.com>
+Date:   Sat, 2 Oct 2021 14:41:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAHk-=widOm3FXMPXXK0cVaoFuy3jCk65=5VweLceQCuWdep=Hg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Peter,
+On 01.10.2021 22:59, Linus Torvalds wrote:
+> On Thu, Sep 30, 2021 at 2:15 AM Petr Mladek <pmladek@suse.com> wrote:
+>>
+>> Honestly, I am not sure if panic_on_warn() or the new pkill_on_warn()
+>> work as expected. I wonder who uses it in practice and what is
+>> the experience.
+> 
+> Afaik, there are only two valid uses for panic-on-warn:
+> 
+>  (a) test boxes (particularly VM's) that are literally running things
+> like syzbot and want to report any kernel warnings
+> 
+>  (b) the "interchangeable production machinery" fail-fast kind of situation
+> 
+> So in that (a) case, it's literally that you consider a warning to be
+> a failure case, and just want to stop. Very useful as a way to get
+> notified by syzbot that "oh, that assert can actually trigger".
+> 
+> And the (b) case is more of a "we have 150 million machines, we expect
+> about a thousand of them to fail for any random reason any day
+> _anyway_ - perhaps simply due to hardware failure, and we'd rather
+> take a machine down quickly and then perhaps look at why only much
+> later when we have some pattern to the failures".
+> 
+> You shouldn't expect panic-on-warn to ever be the case for any actual
+> production machine that _matters_. If it is, that production
+> maintainer only has themselves to blame if they set that flag.
+> 
+> But yes, the expectation is that warnings are for "this can't happen,
+> but if it does, it's not necessarily fatal, I want to know about it so
+> that I can think about it".
+> 
+> So it might be a case that you don't handle, but that isn't
+> necessarily _wrong_ to not handle. You are ok returning an error like
+> -ENOSYS for that case, for example, but at the same time you are "If
+> somebody uses this, we should perhaps react to it".
+> 
+> In many cases, a "pr_warn()" is much better. But if you are unsure
+> just _how_ the situation can happen, and want a call trace and
+> information about what process did it, and it really is a "this
+> shouldn't ever happen" situation, a WARN_ON() or a WARN_ON_ONCE() is
+> certainly not wrong.
+> 
+> So think of WARN_ON() as basically an assert, but an assert with the
+> intention to be able to continue so that the assert can actually be
+> reported. BUG_ON() and friends easily result in a machine that is
+> dead. That's unacceptable.
+> 
+> And think of "panic-on-warn" as people who can deal with their own
+> problems. It's fundamentally not your issue.  They took that choice,
+> it's their problem, and the security arguments are pure BS - because
+> WARN_ON() just shouldn't be something you can trigger anyway.
 
-On Fri, Oct 1, 2021 at 7:04 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Sep 27, 2021 at 02:42:44PM +0800, Huacai Chen wrote:
-> > diff --git a/arch/loongarch/include/asm/spinlock.h b/arch/loongarch/include/asm/spinlock.h
-> > new file mode 100644
-> > index 000000000000..2544ee546596
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/asm/spinlock.h
-> > @@ -0,0 +1,12 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
-> > + */
-> > +#ifndef _ASM_SPINLOCK_H
-> > +#define _ASM_SPINLOCK_H
-> > +
-> > +#include <asm/processor.h>
-> > +#include <asm/qspinlock.h>
-> > +#include <asm/qrwlock.h>
-> > +
-> > +#endif /* _ASM_SPINLOCK_H */
-> > diff --git a/arch/loongarch/include/asm/spinlock_types.h b/arch/loongarch/include/asm/spinlock_types.h
-> > new file mode 100644
-> > index 000000000000..91f258401ef9
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/asm/spinlock_types.h
-> > @@ -0,0 +1,11 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
-> > + */
-> > +#ifndef _ASM_SPINLOCK_TYPES_H
-> > +#define _ASM_SPINLOCK_TYPES_H
-> > +
-> > +#include <asm-generic/qspinlock_types.h>
-> > +#include <asm-generic/qrwlock_types.h>
-> > +
-> > +#endif
->
-> Also see the many lkml threads on this, is there big enough loongson to
-> justify qspinlock? Have you tried a ticket lock?
-Loongson-3A5000 supports NUMA, we have as many as 16 nodes, 64 cores
-in total. And we have tried ticket lock which is worse than qspinlock.
-Maybe Jun Yi (yili0568@gmail.com) can give some performace data?
+Thanks, Linus.
+And what do you think about the proposed pkill_on_warn?
 
-Huacai
+Let me quote the rationale behind it.
+
+Currently, the Linux kernel provides two types of reaction to kernel warnings:
+ 1. Do nothing (by default),
+ 2. Call panic() if panic_on_warn is set. That's a very strong reaction,
+    so panic_on_warn is usually disabled on production systems.
+
+From a safety point of view, the Linux kernel misses a middle way of handling
+kernel warnings:
+ - The kernel should stop the activity that provokes a warning,
+ - But the kernel should avoid complete denial of service.
+
+From a security point of view, kernel warning messages provide a lot of useful
+information for attackers. Many GNU/Linux distributions allow unprivileged users
+to read the kernel log (for various reasons), so attackers use kernel warning
+infoleak in vulnerability exploits. See the examples:
+https://a13xp0p0v.github.io/2021/02/09/CVE-2021-26708.html
+https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
+https://googleprojectzero.blogspot.com/2018/09/a-cache-invalidation-bug-in-linux.html
+
+Let's introduce the pkill_on_warn parameter.
+If this parameter is set, the kernel kills all threads in a process that
+provoked a kernel warning. This behavior is reasonable from a safety point of
+view described above. It is also useful for kernel security hardening because
+the system kills an exploit process that hits a kernel warning.
+
+Linus, how do you see the proper way of handling WARN_ON() in kthreads if
+pkill_on_warn is enabled?
+
+Thanks!
+
+Best regards,
+Alexander
