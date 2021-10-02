@@ -2,30 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 255C6C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 15:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1AAC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 16:27:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 145DF61B00
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 15:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FCDC61507
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 16:27:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233510AbhJBPXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 11:23:55 -0400
-Received: from smtprelay0029.hostedemail.com ([216.40.44.29]:37466 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233508AbhJBPXy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 11:23:54 -0400
-Received: from omf11.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id AE189182CED28;
-        Sat,  2 Oct 2021 15:22:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 3E13B20A294;
-        Sat,  2 Oct 2021 15:22:05 +0000 (UTC)
-Message-ID: <0cbd2549be1245b445796f6c57a27b910fa4dc9d.camel@perches.com>
-Subject: Re: [PATCH v4] docs: Explain the desired position of function
- attributes
-From:   Joe Perches <joe@perches.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        id S233601AbhJBQ3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Oct 2021 12:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34356 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233594AbhJBQ3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 12:29:00 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC55C0613EC;
+        Sat,  2 Oct 2021 09:27:14 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id r75so15277575iod.7;
+        Sat, 02 Oct 2021 09:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vd+gTZwolgcCYNprrURY6Og3fy+5eYa5b4XVVJG/2QE=;
+        b=o5fhWcKmht8xoMVSBgIwpxCx+YGRwbIeOsXFkbCWKiy10keg2Cu43Mh7aYr7Cn8rus
+         WER83mWeztZiqvVzGW9R21HLAX2gYFJulGrY9sPoWz6lWKzebHEpxr9lI84nzhTKrK/O
+         3UDvZHwjjDClG4aALZsMaKFNETlm8uCvkIp+QiDSQ5jSJf6m9mGErrbRD2J+Czcs/TSM
+         zDr24oK4v7Jg2kFWUSX2eoKddf7l6X8RqbhqGTQbAuhW3nFDYM56zVliAnFXSI4SihL/
+         IxTvF5NFWeRcf3YaLmLu8UiFWwFV5xsulgMPjAsGx7C17647T5Y1Q87P3/M2xXeNJjLU
+         CoCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vd+gTZwolgcCYNprrURY6Og3fy+5eYa5b4XVVJG/2QE=;
+        b=UxLfpMuLmm9ynHC61OHODJHVxMhE0k9xvT61lD6q12bPcQi9kXL3XejY5zqzVLXqIN
+         MvVXsDyw5DorbidetE5A2rXXXauHzuTkqYvWSdaWOhHrLfg6EYk3RdAqrufMfUV0TKwI
+         hhNbezB6RyRKpRgCIvIULPZAC6rFHDd2SZj9EpX4MB/S2I/wgwJ0IQ+gjHMfZpRioIkQ
+         cANUQIMnrSwsz7MY8xs3Ah/sOcxLHnwGE0OEFCqC4KPc9JzM4a5yy7P863kxIRarbYe1
+         7TQQrtw242BWIAeWOGKp1HZUum+06q3m7wXR9zRGe/YaTN/SeBKdcgAK2UA+Q1+c9cK/
+         cjmw==
+X-Gm-Message-State: AOAM532+MgLuCxJ1s8eezuJIhzgxkZ5R6FLZfApZ8LY2zJMo5xbK9e7i
+        OM1o4jPXheDycudkhm+JAMZPHDlx0P5TOqi3IoJK2VXJ3jpvl8P6ilk=
+X-Google-Smtp-Source: ABdhPJzyRUDP3QBgjDmsYwv+5cTa+DybnD8O7sIBKNMVWYP7phxkZm32TpmnOh1j9vJ23XqGKaeaxBw5e1WkQe8Q0Ho=
+X-Received: by 2002:a05:6638:14d0:: with SMTP id l16mr3382380jak.142.1633192033477;
+ Sat, 02 Oct 2021 09:27:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210930235754.2635912-1-keescook@chromium.org>
+ <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
+ <YVf80rXg8Yd19Hmw@kroah.com> <9f262a81acffffb6e267d5832b29d8596d8046e2.camel@perches.com>
+In-Reply-To: <9f262a81acffffb6e267d5832b29d8596d8046e2.camel@perches.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 2 Oct 2021 18:27:02 +0200
+Message-ID: <CANiq72m7gRxNmHUJb9jJ+JMiYHyMuNf6Yc1+7N87yz_RLc3atA@mail.gmail.com>
+Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
+To:     Joe Perches <joe@perches.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -37,31 +69,24 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-hardening@vger.kernel.org
-Date:   Sat, 02 Oct 2021 08:22:04 -0700
-In-Reply-To: <CANiq72=T9b_RgZGHuKDjj=E46c0nB2CHH3+Wsdws2Wt9YWcHVw@mail.gmail.com>
-References: <20210930235754.2635912-1-keescook@chromium.org>
-         <CAKwvOdm37zpJZkLvbHvVkXax=XGQ-Ym3iPfx7LtTUnZhADnYCA@mail.gmail.com>
-         <YVf80rXg8Yd19Hmw@kroah.com>
-         <CANiq72=T9b_RgZGHuKDjj=E46c0nB2CHH3+Wsdws2Wt9YWcHVw@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 3E13B20A294
-X-Stat-Signature: yanmkicwt4zwyzm7d6m19nhnm1p8j4c5
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/U9EYoX2BCER/gqYqYndT+x8+0TM0IkdI=
-X-HE-Tag: 1633188125-535750
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2021-10-02 at 12:42 +0200, Miguel Ojeda wrote:
-> In the future, clang-format could have a configuration option to pass
-> a sort order, in which case, having the sort order already defined in
-> the kernel would definitely be helpful.
+On Sat, Oct 2, 2021 at 5:22 PM Joe Perches <joe@perches.com> wrote:
+>
+> If automated scripts exist to change all the code to that new
+> 'one true way', it wouldn't be applied.
 
-It's not so much a sort order so much as it's a positional one.
+I think nobody is saying we should reformat all code at once, just
+that agreeing on a given style allows us to eventually automate it (it
+also makes humans more likely to be consistent).
 
+> Try writing a regex for the proposal and make sure to separate out
+> all the various __<foo> attributes into their proper locations...
 
+It does not need to be a regex...
+
+Cheers,
+Miguel
