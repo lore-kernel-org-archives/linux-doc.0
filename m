@@ -2,204 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFAEC4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D71C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:52:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 128CC61AFA
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:18:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22D9361AF7
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 00:52:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231192AbhJBAU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Oct 2021 20:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49028 "EHLO
+        id S230344AbhJBAyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Oct 2021 20:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbhJBAU1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 20:20:27 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22C4C061775;
-        Fri,  1 Oct 2021 17:18:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=RqX8/wclMPh8rdKmPHIqwNBBYNDwMU8vPuFzjp1ZKig=; b=RVvzTboaKRM1qFIDREl9FccXN8
-        U9jmnJ4h6Zg6gnVkYw1Aui63VaCOXtf/4dd3UAAvWDMjQMDQG5aCKykfzsV0/lpmpr1x4pc8Q0Ekx
-        CJ33ImURpLylkWsOdwvDfIZjCOjuzARAX1eEwIIdGRWWs7VOy9DqAwKYid6ND8BROeNljGLRG+x7U
-        eFNSchp2R2gNMRoBA5oNhyaXwDch6/FvC3EmDEoYII0emZ8JKw/G/4epmUfPsO6n2KUQJh8n2IECl
-        A3u50OmYNI8z7U/8Ji9NjcfRgFKby4m5FArnDrJIITZtKtv6yQbI0JQj/t+TQjaXsCBZO87gaYiJz
-        E0Tz9EvA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mWSji-001XMM-2a; Sat, 02 Oct 2021 00:18:42 +0000
-Subject: Re: [RFC v2 01/11] Documentation: Add HTE subsystem guide
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        warthog618@gmail.com, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org
-References: <20210930232617.6396-1-dipenp@nvidia.com>
- <20210930232617.6396-2-dipenp@nvidia.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <70321686-276c-b972-302a-e649f28412de@infradead.org>
-Date:   Fri, 1 Oct 2021 17:18:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S230062AbhJBAyY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Oct 2021 20:54:24 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8502DC061775
+        for <linux-doc@vger.kernel.org>; Fri,  1 Oct 2021 17:52:39 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id s4so7614518ybs.8
+        for <linux-doc@vger.kernel.org>; Fri, 01 Oct 2021 17:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L8Rp4f/3LTcWcsABgUbxkyZKMylwzyOZ2rjywnv7e9g=;
+        b=jtyw/jHSR3zJy3bp5sMcf1IJXYrh7wyktV14F4IKdliz3ggiVG6ZN1ln8h51IcBKbz
+         NPMtSDrr4WDihVPG50rrLqSLZ1vnSLWEDoMCYuwQ7r2gyFik8prAJ/NR0RFqgFENuxBS
+         YG6KIw8Txrfb+IyJTvuBCX0KqDWwTOzg264e5M20dZOy+ndO7XHyG4jOoZ7nW4lVk+Mj
+         +WdVhS0UafcvGaiqTlmb8yoQQCoKsvf0fUb/gfZGRwbCf41L3suU5u+MUijdFXHH2X8I
+         yyUmGMNXGTqKYifbq2/sP8fbEOhxtn/OSIOY8/xRirNWqkx9Hk4Ibx+SKRiq9QgTwDdT
+         RNkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L8Rp4f/3LTcWcsABgUbxkyZKMylwzyOZ2rjywnv7e9g=;
+        b=GT5VO9i+ta/vvs75TZ2u/IYmkVESWD+SfVPPWpSXY+uW8louCDkHu1ncfXKwSvuB8l
+         bZrlxeMnJV5IOX7lX14kL6ZjLXyM9OKaHyfQDc76tkGh7uhSNsJ//U65r/YomY7gd6JY
+         7dYStE46oScQocSULTwaXg9yfbRZfNGbBXXdNNzdnQs0nz2FnRYLndF4piQBbkCn133l
+         9rXEUyD/Y7s5YXLNKwvi6isal8zSOFRNSGxUSTZ+AIgAM8pNEXUbsQ17dZ6eP+FPeTrV
+         xuYVjhGt23z/IuXZzRE4rVnjnSjcqONbNlzZbBoRy+iTT1cWTYSl1ZGMkewSJpywcq+w
+         6OzA==
+X-Gm-Message-State: AOAM53306gT10GDAv1vwW1x1i5omGLwfjCrG815kUU7pjAgWuYk81xGe
+        yusT+nkDOM1BBVh3YagHrQywzj25OB/1ci0jEaF2RA==
+X-Google-Smtp-Source: ABdhPJw2kFgqD0WRKR1BC6Gy8VGESSrssnKuvc2ZmTYYncVxGyWrTdGQfNZ7C5A5O5TLs7MMb2BHBhIufTQhiRkTuXk=
+X-Received: by 2002:a25:3:: with SMTP id 3mr982859yba.418.1633135958226; Fri,
+ 01 Oct 2021 17:52:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210930232617.6396-2-dipenp@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-2-surenb@google.com>
+ <20211001160830.700c36b32b736478000b3420@linux-foundation.org>
+In-Reply-To: <20211001160830.700c36b32b736478000b3420@linux-foundation.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Fri, 1 Oct 2021 17:52:27 -0700
+Message-ID: <CAJuCfpGpMru4z=ZMezRQW56tHNjrWHU3jWhG3qzuXvuUytq-3w@mail.gmail.com>
+Subject: Re: [PATCH v10 2/3] mm: add a field to store names for private
+ anonymous memory
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/30/21 4:26 PM, Dipen Patel wrote:
-> Adding hte document which can help understand various APIs implemented
-> in HTE framework for the HTE producers and the consumers.
-> 
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
-> ---
-> Changes in v2:
-> - Removed explanation, instead added kernel-doc references.
-> 
->   Documentation/hte/hte.rst | 83 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 83 insertions(+)
->   create mode 100644 Documentation/hte/hte.rst
-> 
-> diff --git a/Documentation/hte/hte.rst b/Documentation/hte/hte.rst
-> new file mode 100644
-> index 000000000000..c9b1badae601
-> --- /dev/null
-> +++ b/Documentation/hte/hte.rst
-> @@ -0,0 +1,83 @@
-> +============================================
-> +The Linux Hardware Timestamping Engine (HTE)
-> +============================================
-> +
-> +:Author: Dipen Patel
-> +
-> +Introduction
-> +------------
-> +
-> +Certain devices have built in hardware timestamping engines which can
-> +monitor sets of system signals, lines, buses etc... in realtime for state
-> +change; upon detecting the change they can automatically store the timestamp at
-> +the moment of occurrence. Such functionality may help achieve better accuracy
-> +in obtaining timestamp than using software counterparts i.e. ktime and friends.
+On Fri, Oct 1, 2021 at 4:08 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Fri,  1 Oct 2021 13:56:56 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> > From: Colin Cross <ccross@google.com>
+> >
+> > In many userspace applications, and especially in VM based applications
+> > like Android uses heavily, there are multiple different allocators in use.
+> >  At a minimum there is libc malloc and the stack, and in many cases there
+> > are libc malloc, the stack, direct syscalls to mmap anonymous memory, and
+> > multiple VM heaps (one for small objects, one for big objects, etc.).
+> > Each of these layers usually has its own tools to inspect its usage;
+> > malloc by compiling a debug version, the VM through heap inspection tools,
+> > and for direct syscalls there is usually no way to track them.
+> >
+> > On Android we heavily use a set of tools that use an extended version of
+> > the logic covered in Documentation/vm/pagemap.txt to walk all pages mapped
+> > in userspace and slice their usage by process, shared (COW) vs.  unique
+> > mappings, backing, etc.  This can account for real physical memory usage
+> > even in cases like fork without exec (which Android uses heavily to share
+> > as many private COW pages as possible between processes), Kernel SamePage
+> > Merging, and clean zero pages.  It produces a measurement of the pages
+> > that only exist in that process (USS, for unique), and a measurement of
+> > the physical memory usage of that process with the cost of shared pages
+> > being evenly split between processes that share them (PSS).
+> >
+> > If all anonymous memory is indistinguishable then figuring out the real
+> > physical memory usage (PSS) of each heap requires either a pagemap walking
+> > tool that can understand the heap debugging of every layer, or for every
+> > layer's heap debugging tools to implement the pagemap walking logic, in
+> > which case it is hard to get a consistent view of memory across the whole
+> > system.
+> >
+> > Tracking the information in userspace leads to all sorts of problems.
+> > It either needs to be stored inside the process, which means every
+> > process has to have an API to export its current heap information upon
+> > request, or it has to be stored externally in a filesystem that
+> > somebody needs to clean up on crashes.  It needs to be readable while
+> > the process is still running, so it has to have some sort of
+> > synchronization with every layer of userspace.  Efficiently tracking
+> > the ranges requires reimplementing something like the kernel vma
+> > trees, and linking to it from every layer of userspace.  It requires
+> > more memory, more syscalls, more runtime cost, and more complexity to
+> > separately track regions that the kernel is already tracking.
+> >
+> > This patch adds a field to /proc/pid/maps and /proc/pid/smaps to show a
+> > userspace-provided name for anonymous vmas.  The names of named anonymous
+> > vmas are shown in /proc/pid/maps and /proc/pid/smaps as [anon:<name>].
+> >
+> > Userspace can set the name for a region of memory by calling
+> > prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, start, len, (unsigned long)name);
+>
+> So this can cause a vma to be split, if [start,len] doesn't exactly
+> describe an existing vma?  If so, is this at all useful?  If not then
+> `len' isn't needed - just pass in some address within an existing vma?
 
-                 timestamps
+Technically one could mmap a large chunk of memory and then assign
+different names to its parts to use for different purposes, which
+would cause the vma to split. I don't think Android uses it that way
+but I'll have to double-check. I think one advantage of doing this
+could be to minimize the number of mmap syscalls.
 
-> +
-> +This document describes the API that can be used by hardware timestamping
-> +engine provider and consumer drivers that want to use the hardware timestamping
-> +engine (HTE) framework. Both consumers and providers must
-> +#include <linux/hte.h>.
-> +
-> +The HTE framework APIs for the providers
-> +----------------------------------------
-> +
-> +.. kernel-doc:: drivers/hte/hte.c
-> +   :functions: devm_hte_register_chip hte_push_ts_ns
-> +
-> +The HTE framework APIs for the consumers
-> +----------------------------------------
-> +
-> +.. kernel-doc:: drivers/hte/hte.c
-> +   :functions: devm_of_hte_request_ts hte_req_ts_by_hte_name hte_release_ts hte_enable_ts hte_disable_ts hte_get_clk_src_info
-> +
-> +The HTE framework public structures
-> +-----------------------------------
-> +.. kernel-doc:: include/linux/hte.h
-> +
-> +
-> +More on the HTE timestamp data
-> +------------------------------
-> +The struct hte_ts_data is used to pass timestamp details between the consumers
-> +and the providers. It expresses timestamp data in nano second in u64 data
+> > Setting the name to NULL clears it. The name length limit is 80 bytes
+> > including NUL-terminator and is checked to contain only printable ascii
+> > characters (including space), except '[',']','\','$' and '`'.
+> >
+> > The name is stored in a pointer in the shared union in vm_area_struct
+> > that points to a null terminated string. Anonymous vmas with the same
+> > name (equivalent strings) and are otherwise mergeable will be merged.
+>
+> So this can prevent vma merging if used incorrectly (or maliciously -
+> can't think how)?  What are the potential impacts of this?
 
-                                                      nanosesconds
-                                              possibly:           in a __u64 data
+Potential impact would be that otherwise mergeable vmas would not be
+merged due to the name difference. This is a known downside of naming
+an anon vma which I documented in my manual pages description as "Note
+that assigning an  attribute to a virtual memory area might prevent it
+from being merged with adjacent virtual memory areas due to the
+difference in that attribute's value.". In Android we see an increase
+in the number of VMAs due to this feature but it was not significant.
+I'll try to dig up the numbers or will rerun the test to get them.
+If a process maliciously wants to increase the number of vmas in the
+system it could generate lots of vmas with different names in its
+address space, however this can be done even without this feature by
+mapping vmas while toggling a protection bit. Something like this:
 
-> +type. For now all the HTE APIs using struct hte_ts_data requires tsc to be in
+int prot = PROT_WRITE;
+for (i = 0; i < count; i++) {
+    mmap(NULL, size_bytes, prot, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+    prot = (prot ^ PROT_READ) & (PROT_READ | PROT_WRITE);
+}
 
-                                                            require tsc to be in
+> > The name pointers are not shared between vmas even if they contain the
+> > same name. The name pointer is stored in a union with fields that are
+> > only used on file-backed mappings, so it does not increase memory usage.
+> >
+> > The patch is based on the original patch developed by Colin Cross, more
+> > specifically on its latest version [1] posted upstream by Sumit Semwal.
+> > It used a userspace pointer to store vma names. In that design, name
+> > pointers could be shared between vmas. However during the last upstreaming
+> > attempt, Kees Cook raised concerns [2] about this approach and suggested
+> > to copy the name into kernel memory space, perform validity checks [3]
+> > and store as a string referenced from vm_area_struct.
+> > One big concern is about fork() performance which would need to strdup
+> > anonymous vma names. Dave Hansen suggested experimenting with worst-case
+> > scenario of forking a process with 64k vmas having longest possible names
+> > [4]. I ran this experiment on an ARM64 Android device and recorded a
+> > worst-case regression of almost 40% when forking such a process. This
+> > regression is addressed in the followup patch which replaces the pointer
+> > to a name with a refcounted structure that allows sharing the name pointer
+> > between vmas of the same name. Instead of duplicating the string during
+> > fork() or when splitting a vma it increments the refcount.
+>
+> Generally, the patch adds a bunch of code which a lot of users won't
+> want.  Did we bust a gut to reduce this impact?  Was a standalone
+> config setting considered?
 
-> +nano seconds. An example of the typical hte_ts_data data life cycle, for the
+I didn't consider a standalone config for this feature because when
+not used it has no memory impact at runtime. As for the image size, I
+built Linus' ToT with and without this patchset with allmodconfig and
+the sizes are:
+Without the patchset:
+$ size vmlinux
+   text    data     bss     dec     hex filename
+40763556 58424519 29016228 128204303 7a43e0f vmlinux
 
-    nanoseconds.
+With the patchset:
+$ size vmlinux
+   text    data     bss     dec     hex filename
+40765068 58424671 29016228 128205967 7a4448f vmlinux
 
-> +GPIO line is as follows::
-> +
-> + - Monitors GPIO line change.
-> + - Detects the state change on GPIO line.
-> + - Converts timestamps in nano seconds and stores it in tsc.
+The increase seems quite small, so I'm not sure if it warrants a
+separate config option.
 
-                              nanoseconds
+> And what would be the impact of making this feature optional?  Is a
+> proliferation of formats in /proc/pid/maps going to make userspace
+> parsers harder to develop and test?
 
-> + - Stores GPIO direction in dir variable if the provider has that hardware
-> + capability.
-> + - Pushes this hte_ts_data object to HTE subsystem.
-> + - HTE subsystem increments seq counter and invokes consumer provided callback.
-> + Based on callback return value, the HTE starts kernel thread and invokes
+I'm guessing having one format is simpler and therefore preferable?
 
-                                             starts a kernel thread
+> I do think that saying "The names of named anonymous vmas are shown in
+> /proc/pid/maps and /proc/pid/smaps as [anon:<name>]." is a bit thin.
+> Please provide sample output so we can consider these things better.
 
-> + secondary callback in the thread context.
-> +
-> +HTE subsystem debugfs attributes
-> +--------------------------------
-> +HTE subsystem creates debugfs attributes at ``/sys/kernel/debug/hte/``.
-> +It also creates line/signal related debugfs attributes at
+Sure. Here is a sample /proc/$pid/maps output (partial):
 
-                         signal-related
+6ffacb6000-6ffacd6000 r--s 00000000 00:10 361
+  /dev/__properties__/properties_serial
+6ffacd6000-6ffacd9000 rw-p 00000000 00:00 0
+  [anon:System property context nodes]
+6ffacd9000-6ffaceb000 r--s 00000000 00:10 79
+  /dev/__properties__/property_info
+6ffaceb000-6ffad4f000 r--p 00000000 00:00 0
+  [anon:linker_alloc]
+6ffad4f000-6ffad51000 rw-p 00000000 00:00 0
+  [anon:bionic_alloc_small_objects]
+6ffad51000-6ffad52000 r--p 00000000 00:00 0
+  [anon:atexit handlers]
+6ffad52000-6ffbc2c000 ---p 00000000 00:00 0
+6ffbc2c000-6ffbc2e000 rw-p 00000000 00:00 0
+6ffbc2e000-6ffbd52000 ---p 00000000 00:00 0
+6ffbd52000-6ffbd53000 ---p 00000000 00:00 0
+6ffbd53000-6ffbd5b000 rw-p 00000000 00:00 0
+  [anon:thread signal stack]
+6ffbd5b000-6ffbd5c000 rw-p 00000000 00:00 0
+  [anon:arc4random data]
+6ffbd5c000-6ffbd5d000 r--p 0000d000 07:90 59
+  /apex/com.android.art/javalib/arm64/boot-okhttp.art
+6ffbd5d000-6ffbd5e000 r--p 00014000 07:90 56
+  /apex/com.android.art/javalib/arm64/boot-core-libart.art
+6ffbd5e000-6ffbd5f000 rw-p 00000000 00:00 0
+  [anon:arc4random data]
+6ffbd5f000-6ffbd61000 r--p 00000000 00:00 0                              [vvar]
+6ffbd61000-6ffbd62000 r-xp 00000000 00:00 0                              [vdso]
 
-> +``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
-> +
-> +`ts_requested`
-> +		The total number of entities requested from the given provider,
-> +		where entity is the provider specific and could represent
+and sample /proc/$pid/smaps output (partial):
 
-		             is specified by the provider and could
-(just guessing here; I could not parse it.)
+6ffad4f000-6ffad51000 rw-p 00000000 00:00 0
+  [anon:bionic_alloc_small_objects]
+Size:                  8 kB
+KernelPageSize:        4 kB
+MMUPageSize:           4 kB
+Rss:                   0 kB
+Pss:                   0 kB
+Shared_Clean:          0 kB
+Shared_Dirty:          0 kB
+Private_Clean:         0 kB
+Private_Dirty:         0 kB
+Referenced:            0 kB
+Anonymous:             0 kB
+LazyFree:              0 kB
+AnonHugePages:         0 kB
+ShmemPmdMapped:        0 kB
+FilePmdMapped:         0 kB
+Shared_Hugetlb:        0 kB
+Private_Hugetlb:       0 kB
+Swap:                  8 kB
+SwapPss:               8 kB
+Locked:                0 kB
+THPeligible:    0
+VmFlags: rd wr mr mw me ac
 
-> +		lines, GPIO, chip signals, buses etc...
-> +                The attribute will be availble at
+>
+> What are the risks that existing parsers will be broken by such changes?
 
-		                         available
-
-> +		``/sys/kernel/debug/hte/<provider>/``.
-> +
-> +		Read only value
-
-		Read-only value
-
-> +
-> +`total_ts`
-> +		The total number of entities supported by the provider.
-> +                The attribute will be availble at
-
-		                         available
-
-> +		``/sys/kernel/debug/hte/<provider>/``.
-> +
-> +		Read only value
-
-		Read-only value
-
-> +
-> +`dropped_timestamps`
-> +		The dropped timestamps for a given line.
-> +                The attribute will be availble at
-
-		                         available
-
-> +		``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
-> +
-> +		Read only value
-
-		Read-only value
-> 
-
-
--- 
-~Randy
+That I can't really answer. It would depend on how the parser is
+written. The implementation follows the same pattern as [stack],
+[vdso] and other non-filebacked sections are named, however if a
+parser is written so that it does not ignore an unknown entry then it
+would fail to parse [anon:...] name if some process decides to name
+its anonymous vmas.
