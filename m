@@ -2,279 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B15EC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA99C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 12:14:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A4BC61B02
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 11:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55EC061B1C
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Oct 2021 12:14:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232885AbhJBLt4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 07:49:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232868AbhJBLt4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 07:49:56 -0400
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC94CC061570;
-        Sat,  2 Oct 2021 04:48:10 -0700 (PDT)
-Received: by mail-vs1-xe34.google.com with SMTP id 66so14272784vsd.11;
-        Sat, 02 Oct 2021 04:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bSQRibgDnpTqOXZp7vnqZJ1QVyQSI1d0M4GZTbpWPbU=;
-        b=W/E1MGjEbSDDZHveDGcgEYVt58pIGf0/RE9j+KpAk4NDuaoWQ9IS7HgGovoyUX8910
-         GTdOu0RmK04aLK2JRZpzNgn39vidIk9Kr9Qby6tDKfVo34X52nKRgu3A0JRXhBxYqDis
-         yNKvVJKvhe0o4YOzoZrGR5bDqc6S1kj3Uw5tldfK+0hzMW8eF9xA0Zm5oZmJM1iaxXA3
-         RULDAeUuP5BDYCTC4XfS9v3R2qw69RMlW9QvaEmKG1oZYB8P0LQu1pPTueghbeNhYU4l
-         tVCw/DJFlGrhbkLJibBLm78UlpaaL/AEmGVkcsIVLjY0EHbfqE+2ViiyNFvLFPKPvCl9
-         LC4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bSQRibgDnpTqOXZp7vnqZJ1QVyQSI1d0M4GZTbpWPbU=;
-        b=zrYHuaXoPoVOG77PkzPSU5xIDbGB45lwN003uTa9k+W2mh27D75ndS+0Laqs6Gtba+
-         j8WHY3eRU6IFXoto2TCS8vqE7txklMboZGdOyJqQgYHw45UpyWwvR3+g8Z28ghPgDs7M
-         kId6XXNYLkr8E7OxK4UanZ3lT0RqpYEtAkmdFDZxEqA0v7KuINR5lbm3C83RDKituwyw
-         PsOQn4RaNuFrSZPkp/PKS+b7BWtICb7v/HrF7rkNs5LC0SdPoFsB+SpoKTBLRGgTMH7A
-         xXxmEAiIOZvHxxBkmQmWSPWJFikf69fof7992T/mDvw6TamJoFCnOFu6/AoDi6Daip62
-         MctQ==
-X-Gm-Message-State: AOAM530I/0lSTmp42GgRuKfl5sKPaoueGYia0e7MalF6F5GvW7ysORaq
-        QqLYXnN8VBaoE/z/PC89dipFLnMOPnGyk/2a5Wo=
-X-Google-Smtp-Source: ABdhPJwRsEo96AY3MSUxRf4j9Wd8RJCHH3n6Q8CjvmcG7cUdh2FNyaWj2sAHEU0GGWIcRqdfBaRR717SOm4gEBp1LtQ=
-X-Received: by 2002:a67:cb96:: with SMTP id h22mr7891227vsl.3.1633175289819;
- Sat, 02 Oct 2021 04:48:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210927064300.624279-1-chenhuacai@loongson.cn>
- <20210927064300.624279-8-chenhuacai@loongson.cn> <YVbogd2gihouyWJd@hirez.programming.kicks-ass.net>
-In-Reply-To: <YVbogd2gihouyWJd@hirez.programming.kicks-ass.net>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Sat, 2 Oct 2021 19:47:58 +0800
-Message-ID: <CAAhV-H7MNU7oYMH44hrjFGKQvmDrgbBKAy2e8dfrMWq=bgxBQA@mail.gmail.com>
-Subject: Re: [PATCH V4 07/22] LoongArch: Add atomic/locking headers
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        id S233096AbhJBMPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Oct 2021 08:15:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39430 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233008AbhJBMPr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 2 Oct 2021 08:15:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A0DE961A38;
+        Sat,  2 Oct 2021 12:14:01 +0000 (UTC)
+Date:   Sat, 2 Oct 2021 08:13:59 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alexander Popov <alex.popov@linux.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will.deacon@arm.com>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        notify@kernel.org
+Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
+Message-ID: <20211002081359.5de4e2b1@oasis.local.home>
+In-Reply-To: <ba67ead7-f075-e7ad-3274-d9b2bc4c1f44@linux.com>
+References: <20210929185823.499268-1-alex.popov@linux.com>
+        <d290202d-a72d-0821-9edf-efbecf6f6cef@linux.com>
+        <20210929194924.GA880162@paulmck-ThinkPad-P17-Gen-1>
+        <YVWAPXSzFNbHz6+U@alley>
+        <CAHk-=widOm3FXMPXXK0cVaoFuy3jCk65=5VweLceQCuWdep=Hg@mail.gmail.com>
+        <ba67ead7-f075-e7ad-3274-d9b2bc4c1f44@linux.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Peter,
+On Sat, 2 Oct 2021 14:41:34 +0300
+Alexander Popov <alex.popov@linux.com> wrote:
 
-On Fri, Oct 1, 2021 at 6:54 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Sep 27, 2021 at 02:42:44PM +0800, Huacai Chen wrote:
-> > diff --git a/arch/loongarch/include/asm/bitops.h b/arch/loongarch/include/asm/bitops.h
-> > new file mode 100644
-> > index 000000000000..8b05d9683571
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/asm/bitops.h
-> > @@ -0,0 +1,220 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
-> > + */
-> > +#ifndef _ASM_BITOPS_H
-> > +#define _ASM_BITOPS_H
-> > +
-> > +#ifndef _LINUX_BITOPS_H
-> > +#error only <linux/bitops.h> can be included directly
-> > +#endif
-> > +
-> > +#include <linux/compiler.h>
-> > +#include <linux/types.h>
-> > +#include <asm/barrier.h>
-> > +#include <asm/byteorder.h>
-> > +#include <asm/compiler.h>
-> > +#include <asm/cpu-features.h>
-> > +
-> > +#if _LOONGARCH_SZLONG == 32
-> > +#define __LL         "ll.w   "
-> > +#define __SC         "sc.w   "
-> > +#define __AMADD              "amadd.w        "
-> > +#define __AMAND_SYNC "amand_db.w     "
-> > +#define __AMOR_SYNC  "amor_db.w      "
-> > +#define __AMXOR_SYNC "amxor_db.w     "
-> > +#elif _LOONGARCH_SZLONG == 64
-> > +#define __LL         "ll.d   "
-> > +#define __SC         "sc.d   "
-> > +#define __AMADD              "amadd.d        "
-> > +#define __AMAND_SYNC "amand_db.d     "
-> > +#define __AMOR_SYNC  "amor_db.d      "
-> > +#define __AMXOR_SYNC "amxor_db.d     "
-> > +#endif
-> > +
-> > +/*
-> > + * set_bit - Atomically set a bit in memory
-> > + * @nr: the bit to set
-> > + * @addr: the address to start counting from
-> > + */
-> > +static inline void set_bit(unsigned long nr, volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMOR_SYNC "$zero, %1, %0        \n"
-> > +     : "+ZB" (*m)
-> > +     : "r" (1UL << bit)
-> > +     : "memory");
-> > +}
-> > +
-> > +/*
-> > + * clear_bit - Clears a bit in memory
-> > + * @nr: Bit to clear
-> > + * @addr: Address to start counting from
-> > + */
-> > +static inline void clear_bit(unsigned long nr, volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMAND_SYNC "$zero, %1, %0       \n"
-> > +     : "+ZB" (*m)
-> > +     : "r" (~(1UL << bit))
-> > +     : "memory");
-> > +}
-> > +
-> > +/*
-> > + * clear_bit_unlock - Clears a bit in memory
-> > + * @nr: Bit to clear
-> > + * @addr: Address to start counting from
-> > + */
-> > +static inline void clear_bit_unlock(unsigned long nr, volatile unsigned long *addr)
-> > +{
-> > +     clear_bit(nr, addr);
-> > +}
-> > +
-> > +/*
-> > + * change_bit - Toggle a bit in memory
-> > + * @nr: Bit to change
-> > + * @addr: Address to start counting from
-> > + */
-> > +static inline void change_bit(unsigned long nr, volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMXOR_SYNC "$zero, %1, %0       \n"
-> > +     : "+ZB" (*m)
-> > +     : "r" (1UL << bit)
-> > +     : "memory");
-> > +}
-> > +
-> > +/*
-> > + * test_and_set_bit - Set a bit and return its old value
-> > + * @nr: Bit to set
-> > + * @addr: Address to count from
-> > + */
-> > +static inline int test_and_set_bit(unsigned long nr,
-> > +     volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     unsigned long res;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMOR_SYNC "%1, %2, %0       \n"
-> > +     : "+ZB" (*m), "=&r" (res)
-> > +     : "r" (1UL << bit)
-> > +     : "memory");
-> > +
-> > +     res = res & (1UL << bit);
-> > +
-> > +     return res != 0;
-> > +}
-> > +
-> > +/*
-> > + * test_and_set_bit_lock - Set a bit and return its old value
-> > + * @nr: Bit to set
-> > + * @addr: Address to count from
-> > + */
-> > +static inline int test_and_set_bit_lock(unsigned long nr,
-> > +     volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     unsigned long res;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMOR_SYNC "%1, %2, %0       \n"
-> > +     : "+ZB" (*m), "=&r" (res)
-> > +     : "r" (1UL << bit)
-> > +     : "memory");
-> > +
-> > +     res = res & (1UL << bit);
-> > +
-> > +     return res != 0;
-> > +}
-> > +/*
-> > + * test_and_clear_bit - Clear a bit and return its old value
-> > + * @nr: Bit to clear
-> > + * @addr: Address to count from
-> > + */
-> > +static inline int test_and_clear_bit(unsigned long nr,
-> > +     volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     unsigned long res, temp;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMAND_SYNC "%1, %2, %0      \n"
-> > +     : "+ZB" (*m), "=&r" (temp)
-> > +     : "r" (~(1UL << bit))
-> > +     : "memory");
-> > +
-> > +     res = temp & (1UL << bit);
-> > +
-> > +     return res != 0;
-> > +}
-> > +
-> > +/*
-> > + * test_and_change_bit - Change a bit and return its old value
-> > + * @nr: Bit to change
-> > + * @addr: Address to count from
-> > + */
-> > +static inline int test_and_change_bit(unsigned long nr,
-> > +     volatile unsigned long *addr)
-> > +{
-> > +     int bit = nr % BITS_PER_LONG;
-> > +     unsigned long res;
-> > +     volatile unsigned long *m = &addr[BIT_WORD(nr)];
-> > +
-> > +     __asm__ __volatile__(
-> > +     "   " __AMXOR_SYNC "%1, %2, %0      \n"
-> > +     : "+ZB" (*m), "=&r" (res)
-> > +     : "r" (1UL << bit)
-> > +     : "memory");
-> > +
-> > +     res = res & (1UL << bit);
-> > +
-> > +     return res != 0;
-> > +}
->
-> Why is asm-generic/bitops/atomic.h not working for you?
-It seems that __clear_bit_unlock() needs an additional mb() after the
-generic version, all other functions are the same as the generic
-version.
+> Currently, the Linux kernel provides two types of reaction to kernel warnings:
+>  1. Do nothing (by default),
+>  2. Call panic() if panic_on_warn is set. That's a very strong reaction,
+>     so panic_on_warn is usually disabled on production systems.
+> 
+> >From a safety point of view, the Linux kernel misses a middle way of handling  
+> kernel warnings:
+>  - The kernel should stop the activity that provokes a warning,
+>  - But the kernel should avoid complete denial of service.
+> 
+> >From a security point of view, kernel warning messages provide a lot of useful  
+> information for attackers. Many GNU/Linux distributions allow unprivileged users
+> to read the kernel log (for various reasons), so attackers use kernel warning
+> infoleak in vulnerability exploits. See the examples:
+> https://a13xp0p0v.github.io/2021/02/09/CVE-2021-26708.html
+> https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
+> https://googleprojectzero.blogspot.com/2018/09/a-cache-invalidation-bug-in-linux.html
+> 
+> Let's introduce the pkill_on_warn parameter.
+> If this parameter is set, the kernel kills all threads in a process that
+> provoked a kernel warning. This behavior is reasonable from a safety point of
+> view described above. It is also useful for kernel security hardening because
+> the system kills an exploit process that hits a kernel warning.
 
-Huacai
->
+How does this help? It only kills the process that caused the warning,
+it doesn't kill the process that spawned it. This is trivial to get
+around. Just fork a process, trigger the warning (it gets killed) and
+then read the kernel log.
+
+If this is your rationale, then I'm not convinced this helps at all.
+
+-- Steve
