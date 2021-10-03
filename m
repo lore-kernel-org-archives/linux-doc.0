@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40511C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 21:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E4DC433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 21:59:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26BBA6137D
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 21:53:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82DA561264
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 21:59:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbhJCVzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Oct 2021 17:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51932 "EHLO
+        id S231765AbhJCWBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Oct 2021 18:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231791AbhJCVzb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 17:55:31 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526CAC061782
-        for <linux-doc@vger.kernel.org>; Sun,  3 Oct 2021 14:53:43 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id g41so63119427lfv.1
-        for <linux-doc@vger.kernel.org>; Sun, 03 Oct 2021 14:53:43 -0700 (PDT)
+        with ESMTP id S231785AbhJCWBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 18:01:15 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6F0C061781
+        for <linux-doc@vger.kernel.org>; Sun,  3 Oct 2021 14:59:20 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id x27so62994847lfa.9
+        for <linux-doc@vger.kernel.org>; Sun, 03 Oct 2021 14:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zQuxP1MZok62PVOHOixX2gK9b5pmOmj0zPtylyLISBM=;
-        b=YnNPejGcLDR7PYwmNMrJheHemalLMCIn66/M6TwmlLLLkgYZcrcwtjy0l4qcgH6Bgj
-         BBKR+UQFdAmPbAVWfyfmh4upW+tvmYvfG0WaZ3elMPCz59YeRYB4RZ9yC+Gw0q1rz5Jj
-         Xiu3Nfk/BTAElHPOMtMrMJgthcxdQ2Idm539gPTIhtl50BYdmEjZV6RPYwM11bULYgZt
-         NLhhfe8ViFOGwDShqp6tXhxDuS513CuQHzcYLUSZChctTf07IaSixIAK36BOqffUy/wN
-         0RdgZhBEhMSv1WOTeECuxqFbKoV7Q9JNc5JUAuolLZGZ0evheWjkIo6WSxcZS3z4X0Ri
-         CzMg==
+        bh=bbZ8owU4QzLAqnCanW0nVCBDjaAKFcd+haR1u53mZxo=;
+        b=oFaTwE5zeVG0+n6KGHulHMvwJzZ3781+WF2XtvkhlepwAM5J5wUMTTQiSFugBdL70q
+         d8XK6BO+dlbewNQwEAKa21QiEpFWi6coUT/5fOXHCo3VoD26bp11NUzTNovETNjQlNvI
+         YTK2D9Tu5qj6oR1RROuHR4I3Cu+6YB8eHnvoOWINbvsTWtpAhH9GcPd4u53CyGdcOfuV
+         mCnlKZ7Npq98YgLDMJ99Dt7PVAY0o5YXQ7z5V+/NlnAZwMT4kUkavSzX4OgrAEa+KHJy
+         /wPm0ZMN8h3JxUZR4bhxm5djIk8uGlQE77AjOmQAAaYqQyOC+SOA7H8AR0mpHtnubzfQ
+         jYAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zQuxP1MZok62PVOHOixX2gK9b5pmOmj0zPtylyLISBM=;
-        b=Y0Paq7Hq6JndP+7ZFOwfRJyaaoY9Aw1oDyj67ugxz32S6oUDqcOmog+Q1ZktFhkiZO
-         RsQs+glN+7NaLFmZaK3tLhSyc4R+uF3cIvrXZ+cr4XXWnua3rim4AmmTZJdY21VlhTlK
-         RIchIWqxgcleILYEzv2aqBPPCunLyiI6CBsNAqCbldmEEacy1ZnRArfKzAJf+ce45DY/
-         c1syDRfCYr2aqTrLcX7vVWTdqKWZvhKWYYR3nS7pQC5mmKy64kO6VaLC3XNO4HXoesSc
-         zx4JG/3n8nibro0M1VtqtApiYHjHu0UrvyZlse2sXsmnZeNqEAd6gxNwcvDjXZ0pm3nG
-         X/Hg==
-X-Gm-Message-State: AOAM5315eQ0bsWxMtuUUSJn0ju1ZbLhg0J5r+GztnPCPb0/9R/tQMgUK
-        S8Dj228hc5WUsZ5v+26T0Gm2O15ZB8II8V0AvERIUg==
-X-Google-Smtp-Source: ABdhPJzTky9Q+kSzk8fgBuakm+p/fp3fkzIRW/8cdw08f5Vs1MDiylFigiyMY+e+LqXTbVslY4OftBBNQyeuL78bcOU=
-X-Received: by 2002:a05:6512:1303:: with SMTP id x3mr10928432lfu.291.1633298021551;
- Sun, 03 Oct 2021 14:53:41 -0700 (PDT)
+        bh=bbZ8owU4QzLAqnCanW0nVCBDjaAKFcd+haR1u53mZxo=;
+        b=labr9FQzwEmOxRrSWEyC4UwtxcSaP1H3u3uyhv9uwtdYX34Uzr0D7fUH9TEuEb/Jyu
+         YbmymtiHPK7NwLZmxCgq4VgpcsF22+pKXPWdkByK+fmyAcxIF0o/iQV5fNpC1ZUfRzMB
+         o74r5lLiABBnA1MVak3IBSJTIdPmQoOm/xSZftyxx9oyimuPGa66q9xNw8W+3/xkvtns
+         TBQUUVVbGrajLG1/kVAbgin1EfsTZ3EEE8ghDxcjOrUuK1QGEtg2KhdtMuPWucQENwGj
+         AvYr4pF81iuhDNOgkz7rDPQND81E9tTyzrlLc35LGHXjxgQAEiUMeooXQWdyHmOz6e5b
+         Qd2w==
+X-Gm-Message-State: AOAM530Xv7hztl4iv+DsCOBF8UVF5hkiwRh72GY91p29V3vwYUwhTWFT
+        xBpF2JAqLFGs32mgUZhkQ+bKCFBTayVeGsGLaHiKqg==
+X-Google-Smtp-Source: ABdhPJwq2rCDKkckKnqGQIQgPlkVHUV2j+E4mP2OxxdKrVv9rwlmy+s2Io9q0Bq5Ud9YzKo5KaJXq0leO/5Ce32JG9M=
+X-Received: by 2002:a2e:4e11:: with SMTP id c17mr11617702ljb.19.1633298358986;
+ Sun, 03 Oct 2021 14:59:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210930232617.6396-1-dipenp@nvidia.com> <20210930232617.6396-5-dipenp@nvidia.com>
-In-Reply-To: <20210930232617.6396-5-dipenp@nvidia.com>
+References: <20210930232617.6396-1-dipenp@nvidia.com> <20210930232617.6396-9-dipenp@nvidia.com>
+In-Reply-To: <20210930232617.6396-9-dipenp@nvidia.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 3 Oct 2021 23:53:30 +0200
-Message-ID: <CACRpkdZudrH2oigFqiAAS0wZPdWAd8tpeH==3snsG7pSD8QQEg@mail.gmail.com>
-Subject: Re: [RFC v2 04/11] dt-bindings: Add HTE bindings
+Date:   Sun, 3 Oct 2021 23:59:08 +0200
+Message-ID: <CACRpkdYvevVHLe112ZHDzPTfzs_FWRtkk+1dD+8OT-nB66XuSg@mail.gmail.com>
+Subject: Re: [RFC v2 08/11] gpiolib: cdev: Add hardware timestamp clock type
 To:     Dipen Patel <dipenp@nvidia.com>
 Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>,
@@ -72,19 +72,27 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri, Oct 1, 2021 at 1:26 AM Dipen Patel <dipenp@nvidia.com> wrote:
 
-> Introduces HTE devicetree binding details for the HTE subsystem. It
-> includes examples for the consumers, binding details for the providers
-> and specific binding details for the Tegra194 based HTE providers.
+> This patch adds new clock type for the GPIO controller which can
+> timestamp gpio lines in realtime using hardware means. To expose such
+> functionalities to the userspace, code has been added in this patch
+> where during line create call, it checks for new clock type and if
+> requested, calls hardware timestamp related API from gpiolib.c.
+> During line change event, the HTE subsystem pushes timestamp data
+> through callbacks.
 >
 > Signed-off-by: Dipen Patel <dipenp@nvidia.com>
 > ---
 > Changes in v2:
-> - Replace hte with hardware-timestamp for property names
-> - Renamed file
-> - Removed example from the common dt binding file.
+> - Added hte_dir and static structure hte_ts_desc.
+> - Added callbacks which get invoked by HTE when new data is available.
+> - Better use of hte_dir and seq from hte_ts_desc.
+> - Modified sw debounce function to accommodate hardware timestamping.
 
-This looks good to me!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+This looks pretty much like I imagined it would, good work!
+I am a bit busy now and unable to do an in-depth review
+(brain parse the code and make sure all is sane) but it looks
+really good, so at least I can say:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
