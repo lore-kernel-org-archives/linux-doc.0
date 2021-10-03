@@ -2,88 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C88A2C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 02:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACE8C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 04:38:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A64AE61AE0
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 02:50:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57F8D61352
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 04:38:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbhJCCwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Oct 2021 22:52:19 -0400
-Received: from zeniv-ca.linux.org.uk ([142.44.231.140]:41542 "EHLO
-        zeniv-ca.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbhJCCwS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Oct 2021 22:52:18 -0400
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mWrXy-009Wzm-I7; Sun, 03 Oct 2021 02:48:14 +0000
-Date:   Sun, 3 Oct 2021 02:48:14 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Huacai Chen <chenhuacai@loongson.cn>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH V4 11/22] LoongArch: Add process management
-Message-ID: <YVkZ7jLWJpvZz9us@zeniv-ca.linux.org.uk>
-References: <20210927064300.624279-1-chenhuacai@loongson.cn>
- <20210927064300.624279-12-chenhuacai@loongson.cn>
+        id S229538AbhJCEkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Oct 2021 00:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229450AbhJCEkR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 00:40:17 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7EBC0613EC;
+        Sat,  2 Oct 2021 21:38:30 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id i4so56710454lfv.4;
+        Sat, 02 Oct 2021 21:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GBzF2o/olSqI5VSwY6RloUi89r97A89V2tyJ+1MXYw0=;
+        b=TjRRMhTY8qWrT+y4fk6cuBRqBqFP/B2X2PH92VXDEB1WfEKwxcf7mae0f0w72Pe5/v
+         6GsIMy5suA9690UZN1fyitqUtyEO1Qrgqg7tCiIezHeakrVsSOzYjtNq1ALWJRzx4J7U
+         8oVcJaIQMz/kzguefgyN8xCoyIv4eUiK+UuVEBUZnYCo9iCmQpZx0A9mBGYqgMqAr5/w
+         +rREZHO2Z5CEqgYxPX+1OJkHa32IJMQJtJ5xvpd5iFgmEheAllJ4m4g5FcLFqps7pvYx
+         ZpEFWxWA/uQDx7htGr2nb75cJNiUy2o2sZDfb/xlEVL0ii/VA4pibPDd9WCHuSQQb2zC
+         WuKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GBzF2o/olSqI5VSwY6RloUi89r97A89V2tyJ+1MXYw0=;
+        b=NnCrULC135CDTWc4HCWMdRWjgpZ6cHIILwEENaafhpsEdVTdA4hoB28mzVTDGYc8sZ
+         wLPuVOYp8AnkD9CziF9dVyAWmBOu4DGlt0ZFCww8uRIqVKveEf314F4+3ATs5nZIA4bM
+         w/RdcEAQJv0YnKigKKYgAjWPzrUjfC4BmDT8DN4ZdaECUbI+WnyHyfwK8m/OPRQoOrvt
+         oVOsOHsH+VyRs8hGJj3krQu7wWUGlwLfoHHyLsejRacsK5OEYsCDjOa5qOoH5eK/rnLG
+         hS477ydsfFObht/+ig9VztPFDpB4fscVN2F+pTdgF/HDq4fh5NW8uZH3QpmHR0bcoOn1
+         fBtg==
+X-Gm-Message-State: AOAM530frq3GEuMUpbOiNMjNbniQOr2rHn8PXIxCFSBoExwbMnl2kj40
+        sbu4kwqq8ixOnehzl1f07+lAu8HOUn/3v5hy7Vw=
+X-Google-Smtp-Source: ABdhPJwqNDiATd6Ic8j+bXMYMemj3oTRLXV/smqCd5DUvmymaQtt+oiG1dUuE9ZF4P0j4Q9n3tWYzuhUWioTjn2C1uk=
+X-Received: by 2002:a05:6512:3c95:: with SMTP id h21mr7316515lfv.128.1633235908556;
+ Sat, 02 Oct 2021 21:38:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210927064300.624279-12-chenhuacai@loongson.cn>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20211001120218.28751-1-utkarshverma294@gmail.com> <20211002144506.29974-1-utkarshverma294@gmail.com>
+In-Reply-To: <20211002144506.29974-1-utkarshverma294@gmail.com>
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date:   Sun, 3 Oct 2021 10:08:17 +0530
+Message-ID: <CABJPP5Bpc_0c=b8kymo0fgXZARNZJ8EM5F=Gpx1=y+vOfPWM8Q@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: checkpatch: add UNNECESSARY_ELSE message
+To:     Utkarsh Verma <utkarshverma294@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 02:42:48PM +0800, Huacai Chen wrote:
-
-> +/*
-> + * Does the process account for user or for system time?
-> + */
-> +#define user_mode(regs) (((regs)->csr_prmd & PLV_MASK) == PLV_USER)
-> +
-> +static inline int is_syscall_success(struct pt_regs *regs)
-> +{
-> +	return !regs->regs[7];
-> +}
+On Sat, Oct 2, 2021 at 8:15 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
 >
-> +static inline long regs_return_value(struct pt_regs *regs)
-> +{
-> +	if (is_syscall_success(regs) || !user_mode(regs))
-> +		return regs->regs[4];
-> +	else
-> +		return -regs->regs[4];
-> +}
+> Added and documented UNNECESSARY_ELSE message type.
+>
+> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> ---
+> Changes in v2:
+>   - Included the continue statement.
+>
+>  Documentation/dev-tools/checkpatch.rst | 77 ++++++++++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index f0956e9ea2d8..b7c41e876d1d 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -1166,3 +1166,80 @@ Others
+>
+>    **TYPO_SPELLING**
+>      Some words may have been misspelled.  Consider reviewing them.
+> +
+> +  **UNNECESSARY_ELSE**
+> +    Using an else statement just after a return/break/continue statement is
+> +    unnecessary. For example::
+> +
+> +      for (i = 0; i < 100; i++) {
+> +              int foo = bar();
+> +              if (foo < 1)
+> +                      break;
+> +              else
+> +                      usleep(1);
+> +      }
+> +
+> +    is generally better written as::
+> +
+> +      for (i = 0; i < 100; i++) {
+> +              int foo = bar();
+> +              if (foo < 1)
+> +                      break;
+> +              usleep(1);
+> +      }
+> +
+> +    It helps to reduce the indentation and removes the unnecessary else
+> +    statement. But note, there can be some false positives because of the
+> +    way it is implemented in the checkpatch script. The checkpatch script
+> +    throws this warning message if it finds an else statement and the line
+> +    above it is a break/continue/return statement indented at one tab more
+> +    than the else statement. So there can be some false positives like::
+> +
+> +      int n = 15;
+> +      if (n > 10)
+> +              n--;
+> +      else if (n == 10)
+> +              return 0;
+> +      else
+> +              n++;
+> +
+> +    Now the checkpatch will give a warning for the use of else after return
+> +    statement. If the else statement is removed then::
+> +
+> +      int n = 15;
+> +      if (n > 10)
+> +              n--;
+> +      else if (n == 10)
+> +              return 0;
+> +      n++;
+> +
+> +    Now both the n-- and n++ statements will be executed which is different
+> +    from the logic in the first case. As the if block doesn't have a return
+> +    statement, so removing the else statement is wrong.
+> +
+> +    Always check the previous if/else if blocks, for break/continue/return
+> +    statements, and do not blindly follow the checkpatch advice. One
+> +    patch (https://lore.kernel.org/all/20200615155131.GA4563@sevic69/)
+> +    even made it to the mainline, which was again reverted and fixed.
+> +    Commit 98fe05e21a6e ("staging: rtl8712: Remove unnecesary else
 
-Huh???  That looks like you've copied those from MIPS, but on MIPS we have
-things like
-        li      t0, -EMAXERRNO - 1      # error?
-        sltu    t0, t0, v0
-        sd      t0, PT_R7(sp)           # set error flag
-        beqz    t0, 1f
+s/unnecesary/unnecessary
+> +    after return statement.")
+> +
+> +    Also, do not change the code if there is only a single return statement
+> +    inside if-else block, like::
+> +
+> +      if (a > b)
+> +              return a;
+> +      else
+> +              return b;
+> +
+> +    now if the else statement is removed::
+> +
+> +      if (a > b)
+> +              return a;
+> +      return b;
+> +
+> +    there is no considerable increase in the readability and one can argue
+> +    that the first form is more readable because of the indentation. So
+> +    do not remove the else statement in case of a single return statement
+> +    inside the if-else block.
+> +    See: https://lore.kernel.org/lkml/20140925032215.GK7996@ZenIV.linux.org.uk/
+> --
+> 2.25.1
+>
 
-        ld      t1, PT_R2(sp)           # syscall number
-        dnegu   v0                      # error
-        sd      t1, PT_R0(sp)           # save it for syscall restarting
-1:      sd      v0, PT_R2(sp)           # result
-right after the call of sys_...(), along with the restart logics
-looking like
-        if (regs->regs[0]) {
-                switch(regs->regs[2]) {
-                case ERESTART_RESTARTBLOCK:
-                case ERESTARTNOHAND:
-IOW, syscall return values from -EMAXERRNO to -1 are negated, with
-regs[7] set accordingly.  Nothing of that sort is done in your
-patchset after syscall, and if it had been, your restart logics in
-signal handling would've been wrong anyway.
+I think this message is unnecessarily long for a warning that's understandable
+at best without the verbose part. Try to shorten it up with only what's
+required for a user to understand why the warning is there.
 
-What's going on there?
+Dwaipayan.
