@@ -2,82 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 447BFC433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 22:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A18C1C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 22:07:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 246D8611CE
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 22:02:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A92A61163
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 22:07:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231824AbhJCWEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Oct 2021 18:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53854 "EHLO
+        id S231785AbhJCWJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Oct 2021 18:09:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231820AbhJCWEH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 18:04:07 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E1CBC061780
-        for <linux-doc@vger.kernel.org>; Sun,  3 Oct 2021 15:02:19 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id x27so63015356lfa.9
-        for <linux-doc@vger.kernel.org>; Sun, 03 Oct 2021 15:02:19 -0700 (PDT)
+        with ESMTP id S231778AbhJCWJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 18:09:08 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483DDC0613EC;
+        Sun,  3 Oct 2021 15:07:20 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id l7so33640664edq.3;
+        Sun, 03 Oct 2021 15:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sryZZWOb+Z8lt57Kp1waSiIepNfRLtFgQuykU/s70UY=;
-        b=vrk9/2uJIRZZxlXfTkUaUVXdhC99Q+8vIzJoCDlBhZZqzDclY3nateRSufwL1SVC2N
-         dt25zKGwP472R1HYjBxNzox9NHqPDwSVxstNecwC/BEaHUZYPAi3p/LleUtbnqdlgash
-         Lc8R0Q38Tjxde6KiMMj4iecFSZ9YhzUTEdK19lQD9M53D3z2cIZtXow3HbkIh1abYQvS
-         zsQ3eUO1fvcNc2vJFgIP9q8EqKgw/PfznsZx16yxyEfpsDd8hIBOUOaq9SRhshi6WCoE
-         uKIgidfHdNIdPNHVZ9BJyE5PFdJWot2sFTHs3868v/ib1Xln+3XA7YSEnDhQkoT2NHv8
-         NqBQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X+zfN8c5xt2vdVy2ldqN2FzfEzIZMzL2oB0grlacJ+c=;
+        b=WWUitL54IQsvd5vbR9xZi8MJcwF1ITohE4FFpcPuUFsW+DwvcGctwofvxeVirDrXN7
+         PcGQX4ftIdWB3VR4qaoKGU53ej2/SXUkmNgWAkYPrYRUohZSykaMYXQGWy2khY+zSjZR
+         dEJQcqJWtnBVYctJiLeDATkF/MXvBcoKfHnYsn9Ix6UqzX+6fYeedRTrq0QfBBcRGM+h
+         E1rL9vKfa4Al0Ui88mFS82Mimcd5oixSk/Fb/o+mj45JASBqkq9CmqeivQAoC4FbzNUm
+         dozniYhwWKPhTbwju4VtHwA8139yEP9yDMVlMmsWi87aVivpHD7zVHptoGA5UrB9T9HH
+         vPNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sryZZWOb+Z8lt57Kp1waSiIepNfRLtFgQuykU/s70UY=;
-        b=eU3vQ5SjmtfCHdBT+CouDNuVHbtg2m+AsY3XIIXXLBnUrsNy4+KoBTGfVHBWRPGR22
-         m8QfFgpAP8tLl+03mSx2xUOYkUYH5Rx9IFgj7TQeilnf70wftGQCyz3EkmdRTIjKzzjU
-         wF006nTt+T2gsaGg2zA4ARbgqQGaEYiNWlMK6u6ZA1MnBF1/zKXKs48Y9QxaRaQbrMI/
-         tjltxbfKPzuov4MNRVuX/AXrKyGbdoYAJbbFyyOQIoGF7/7ThhOK5fXx9hOgKssvZ+Gm
-         a9hYnfAW4I//eNkokspJ+OxHXMM754V5XsptdC1nGa+bE1h8H+3lUxNit3kGcKSFGgN5
-         8B2A==
-X-Gm-Message-State: AOAM533NaCZyKKXCPRXhB965Hb5WRaDR6f2flEsm9EorezPg9YqkJv/y
-        BKQvd1gTDvK7AHeYWHwaEVjiRkz1TyF+ew3mIflnaA==
-X-Google-Smtp-Source: ABdhPJyZK4OJYvU+mdcWAQOrh2+vdlNRlc0qq1hNRXAX9txSIOFqUHqzfk2zSxeKXbOyzyILb2hsjIestzb0c9Ric3M=
-X-Received: by 2002:a19:c10a:: with SMTP id r10mr9127968lff.95.1633298537543;
- Sun, 03 Oct 2021 15:02:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X+zfN8c5xt2vdVy2ldqN2FzfEzIZMzL2oB0grlacJ+c=;
+        b=CWrxNFp0TUQojnHI/RzfJZVrzwphOYypkTSbh4L9DL6pFkEseik/GEKp5AoY6l4tC6
+         oaHQ9yk+LA9S47OgK/vPdEol3+wLX+7afqhYnMt0glknEWj0MqJuqW7YjnjeNR26MNA2
+         5/bZHe4TeNdnAQkhJA7TyiJHkZUmehqLM3rQzuVV38e1EFCiZR9+pfvZOvfDsiCk8p5r
+         +NuQDa8M9Gm3KNHsHV8Q6TPdc7gps8b8QFR3l8uOGMKrJwGYhMSagup18A+Mx6UBNOqe
+         +3JiLal+fZvUjFyIQrAQRQ7tqKVeGNJ/cWtMrUCdKy6UeJezy0A4lOVqZ1RA7vGz/EEP
+         tZyw==
+X-Gm-Message-State: AOAM533zdTiwOwLrPDnYBoqvma3AoMvspDmSzmYSH6Ff2jIZhfoH2Xjr
+        kM/M9vHEBUlabEhMiFsyckI=
+X-Google-Smtp-Source: ABdhPJwcEjZHbb+i4MoySgtqmwdAwNLoEBlcDprkT5Z3GDVoW2QLHSZllQ4lr4cCBlRg8KN60adQIQ==
+X-Received: by 2002:a17:906:cc9b:: with SMTP id oq27mr5987560ejb.17.1633298838643;
+        Sun, 03 Oct 2021 15:07:18 -0700 (PDT)
+Received: from tom-desktop.station (net-5-94-68-71.cust.vodafonedsl.it. [5.94.68.71])
+        by smtp.gmail.com with ESMTPSA id dh16sm6246702edb.63.2021.10.03.15.07.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Oct 2021 15:07:18 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     tomm.merciai@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: update file link location
+Date:   Mon,  4 Oct 2021 00:07:04 +0200
+Message-Id: <20211003220706.7784-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210930232617.6396-1-dipenp@nvidia.com> <20210930232617.6396-10-dipenp@nvidia.com>
-In-Reply-To: <20210930232617.6396-10-dipenp@nvidia.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 4 Oct 2021 00:02:06 +0200
-Message-ID: <CACRpkdZqB=abQ-p4muj2myn2E7tzrc2+YnFKs4fQogxmZX+x9g@mail.gmail.com>
-Subject: Re: [RFC v2 09/11] tools: gpio: Add new hardware clock type
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Kent Gibson <warthog618@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 1, 2021 at 1:26 AM Dipen Patel <dipenp@nvidia.com> wrote:
+Fix web error: this site can't be reached
 
-> gpiolib-cdev is extended to support hardware clock type, this
-> patch reflects that fact.
->
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ Documentation/process/submitting-drivers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+diff --git a/Documentation/process/submitting-drivers.rst b/Documentation/process/submitting-drivers.rst
+index 3861887e0ca5..8413b693d10d 100644
+--- a/Documentation/process/submitting-drivers.rst
++++ b/Documentation/process/submitting-drivers.rst
+@@ -185,7 +185,7 @@ Linux USB project:
+ 	http://www.linux-usb.org/
+ 
+ How to NOT write kernel driver by Arjan van de Ven:
+-	http://www.fenrus.org/how-to-not-write-a-device-driver-paper.pdf
++	https://landley.net/kdocs/ols/2002/ols2002-pages-545-555.pdf
+ 
+ Kernel Janitor:
+ 	https://kernelnewbies.org/KernelJanitors
+-- 
+2.25.1
 
-Yours,
-Linus Walleij
