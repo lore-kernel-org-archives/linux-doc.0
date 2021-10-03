@@ -2,192 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 833A2C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 05:31:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF8CC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 09:09:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58CF061205
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 05:31:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E027061B46
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Oct 2021 09:09:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbhJCFdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Oct 2021 01:33:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
+        id S229588AbhJCJLi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Oct 2021 05:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbhJCFdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 01:33:16 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA23C0613EC;
-        Sat,  2 Oct 2021 22:31:29 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id z5so29930018ybj.2;
-        Sat, 02 Oct 2021 22:31:29 -0700 (PDT)
+        with ESMTP id S229522AbhJCJLi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Oct 2021 05:11:38 -0400
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78228C0613EC;
+        Sun,  3 Oct 2021 02:09:51 -0700 (PDT)
+Received: by mail-vk1-xa33.google.com with SMTP id h132so6331357vke.8;
+        Sun, 03 Oct 2021 02:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=JA8BpNVx/07HEt9LkRmrDBd1h/iounEe1GX4FH457YY=;
-        b=cL3s9DqfYNLIQCFByg0DyDdAc/lhproKnLj93ca9B3WcXS8TW6AH44dg8VEzrUs7TE
-         CaX0EyCkRNW9kz/D4QZVC5q0idDO6RwWgmFShX4Qrk5t0+EMfd5zRUTWYcfezAq4m0r/
-         DneYlrTtG9c1QGMxSvx3UvwlEY3iqYJm2N4PDQCI7FPynDrb247MYmM5F958NCGHhpb6
-         aElDUdbobNoePEb6Cb2AOBIfp2XMoP80KviNDT5H0k7wRgnhyA8jDP5YYsfZx71RDKo+
-         d2sumE0Ht73gnGwT4ZBfqLG10wckze09q9OH8PZpFbjmC/k3/dgc/y7Msz8xP9cKvnby
-         5LPg==
+        bh=1a09NfC0dZaTGSyNXP7YpV6IMJS3eCI+qR6k57xC1hY=;
+        b=SPtlNUxzyCGS8ZIu8rhhw9KsG+/NDyKz6hE/b0ZbISCL/NG8edbZLMHXbthMc6mH/J
+         Fae7MBoMrKPw1r+8snn9bUlXnDbUhbpaIsO9Zc+s8A6aUx5YiVRApST1BAulUyC94uZD
+         1iIPCjIc2SqQv5itQh471wEJbOZPpr8gU8fG8YMvHiwESRf590ghIJuQiullZNj52R96
+         qzLXHXNZuGKyTJ7pOSEMqGuQa1Kv7fVb6Z6x2v9ogDxs5Y5/DtAELzE25wiIN3IgoM/w
+         jdEvG2+Bb2Djr3ftoQQo7kwjB9sks/8BffUrFjYfz6kp2l2xku3Ux3Yy+AOO/Q4iFCdX
+         QvBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=JA8BpNVx/07HEt9LkRmrDBd1h/iounEe1GX4FH457YY=;
-        b=kZ3Quf3HjfKJuRB2djMqiGgvgnVCPWV4RfEKCCVzdxw79FXMwKIk6Q4NgXEs2CKzbH
-         ZQjJgS2dUVqLOEO7JLFihaXyPIY+0iVlfmDhIF4Tf5W1PFVK1VFm9UYtLpeeUM6I33jI
-         WMwUqf3Y1o47kU5l0YPv0xfOksr1YjXxVLqiz4/WuDmNPnAy4/HzRkwCbxWdIoNVE5nn
-         lLmMB3D3Si+nqqq36E5rrwN5Uo/7RvEiczpwCWadaVPkWJXkW362v8QNA/qhpakR5LP+
-         aLYRS+8IskjL/Fus3k+4MIxb4RLwIRa39YjxywiCm9lTokM2QlUlB26WLcHY0pKHiGIW
-         O58Q==
-X-Gm-Message-State: AOAM533QYicCRPZ5gRB7fFBpDnhNsX2zcKTejOP+hZH4kZ2ZzT5AbNQP
-        +B9TW0Kh/L6ahfvNJ/b9tErNw+KtfYHl177TvD8=
-X-Google-Smtp-Source: ABdhPJzkiTANOK4MzORReAXu0NcfiYqTNJmg0e0AflmHFVNb1wrNvWZFW2/bHn1pcNtB7lBV5fAM0jv7VB3pIEKczgc=
-X-Received: by 2002:a25:5604:: with SMTP id k4mr7761232ybb.359.1633239088499;
- Sat, 02 Oct 2021 22:31:28 -0700 (PDT)
+        bh=1a09NfC0dZaTGSyNXP7YpV6IMJS3eCI+qR6k57xC1hY=;
+        b=1RM9mKOb8Nh67X+yRg/mN8oqhr8Y2lm6Um8cOyz1h2n/CGTF3l3/jSEYG2ncS4syaJ
+         OEUhXT0Mo9MFWKAVTA3MKkdEeZOflboFtDd18j34BS/gr+TYQODXQRvWFFq2bC/pdnXu
+         EfdOtbKTfYPshlI99Zu+r8HaS0GyPjcXv42apqWPlqjmYC+WbB/oMrESlJlRJATdVDEb
+         oKUf0xnjVfR6CUUzzprdrnsUnKTHVoPWaNwxdlgDDzW+xo1OvO1TiOyr9AJw/nOT5hkg
+         b9nsTCNDySmqJ3MRP7AzZAySHH1a6Uwtw9WYph2MxecL+71rPMKrOp4DZ51wTl9pdonk
+         wuHw==
+X-Gm-Message-State: AOAM533Utabsn9a6sc4g4HyNf0GvmQ6yMoXVpl+AvJwupBSBkg8/46V5
+        XZE0M7JYa1g/UYTM3gtpCS+0h8rjJ8ynO4FYYW0=
+X-Google-Smtp-Source: ABdhPJwlJdZUSdB2pmCEUkoCQ/2cdUAgQYYcNSqu8vU5hzyv9CRIwGm023JUFg3iO2qnuy1ja3T1Ba1mP0SbAJwcOKA=
+X-Received: by 2002:a1f:b2d6:: with SMTP id b205mr12461416vkf.11.1633252190627;
+ Sun, 03 Oct 2021 02:09:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001120218.28751-1-utkarshverma294@gmail.com>
- <20211002144506.29974-1-utkarshverma294@gmail.com> <CABJPP5Bpc_0c=b8kymo0fgXZARNZJ8EM5F=Gpx1=y+vOfPWM8Q@mail.gmail.com>
- <20211003051935.GA2687@uver-machine>
-In-Reply-To: <20211003051935.GA2687@uver-machine>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Sun, 3 Oct 2021 07:31:17 +0200
-Message-ID: <CAKXUXMz=nGRQyTUfXjmMdqLo2m9fSU23O+EOkyEVNWk19v3gOA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: checkpatch: add UNNECESSARY_ELSE message
-To:     Utkarsh Verma <utkarshverma294@gmail.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>,
+References: <20210927064300.624279-1-chenhuacai@loongson.cn>
+ <20210927064300.624279-15-chenhuacai@loongson.cn> <YVkVeREEIy23yVFX@zeniv-ca.linux.org.uk>
+In-Reply-To: <YVkVeREEIy23yVFX@zeniv-ca.linux.org.uk>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Sun, 3 Oct 2021 17:09:38 +0800
+Message-ID: <CAAhV-H5oex-q_Pq4ibhXzvoQTQORmi+O8waJQwEm6jyDJ=xF4A@mail.gmail.com>
+Subject: Re: [PATCH V4 14/22] LoongArch: Add signal handling support
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Eric Biederman <ebiederm@xmission.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 3, 2021 at 7:19 AM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
->
-> On Sun, Oct 03, 2021 at 10:08:17AM +0530, Dwaipayan Ray wrote:
-> > On Sat, Oct 2, 2021 at 8:15 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
-> > >
-> > > Added and documented UNNECESSARY_ELSE message type.
-> > >
-> > > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> > > ---
-> > > Changes in v2:
-> > >   - Included the continue statement.
-> > >
-> > >  Documentation/dev-tools/checkpatch.rst | 77 ++++++++++++++++++++++++++
-> > >  1 file changed, 77 insertions(+)
-> > >
-> > > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> > > index f0956e9ea2d8..b7c41e876d1d 100644
-> > > --- a/Documentation/dev-tools/checkpatch.rst
-> > > +++ b/Documentation/dev-tools/checkpatch.rst
-> > > @@ -1166,3 +1166,80 @@ Others
-> > >
-> > >    **TYPO_SPELLING**
-> > >      Some words may have been misspelled.  Consider reviewing them.
-> > > +
-> > > +  **UNNECESSARY_ELSE**
-> > > +    Using an else statement just after a return/break/continue statement is
-> > > +    unnecessary. For example::
-> > > +
-> > > +      for (i = 0; i < 100; i++) {
-> > > +              int foo = bar();
-> > > +              if (foo < 1)
-> > > +                      break;
-> > > +              else
-> > > +                      usleep(1);
-> > > +      }
-> > > +
-> > > +    is generally better written as::
-> > > +
-> > > +      for (i = 0; i < 100; i++) {
-> > > +              int foo = bar();
-> > > +              if (foo < 1)
-> > > +                      break;
-> > > +              usleep(1);
-> > > +      }
-> > > +
-> > > +    It helps to reduce the indentation and removes the unnecessary else
-> > > +    statement. But note, there can be some false positives because of the
-> > > +    way it is implemented in the checkpatch script. The checkpatch script
-> > > +    throws this warning message if it finds an else statement and the line
-> > > +    above it is a break/continue/return statement indented at one tab more
-> > > +    than the else statement. So there can be some false positives like::
-> > > +
-> > > +      int n = 15;
-> > > +      if (n > 10)
-> > > +              n--;
-> > > +      else if (n == 10)
-> > > +              return 0;
-> > > +      else
-> > > +              n++;
-> > > +
-> > > +    Now the checkpatch will give a warning for the use of else after return
-> > > +    statement. If the else statement is removed then::
-> > > +
-> > > +      int n = 15;
-> > > +      if (n > 10)
-> > > +              n--;
-> > > +      else if (n == 10)
-> > > +              return 0;
-> > > +      n++;
-> > > +
-> > > +    Now both the n-- and n++ statements will be executed which is different
-> > > +    from the logic in the first case. As the if block doesn't have a return
-> > > +    statement, so removing the else statement is wrong.
-> > > +
-> > > +    Always check the previous if/else if blocks, for break/continue/return
-> > > +    statements, and do not blindly follow the checkpatch advice. One
-> > > +    patch (https://lore.kernel.org/all/20200615155131.GA4563@sevic69/)
-> > > +    even made it to the mainline, which was again reverted and fixed.
-> > > +    Commit 98fe05e21a6e ("staging: rtl8712: Remove unnecesary else
-> >
-> > s/unnecesary/unnecessary
->
-> It is a spelling mistake in the commit message itself, and I have quoted
-> that message, so I didn't change the message.
->
-> > > +    after return statement.")
+Hi, Al,
 
-I wonder if this detailed description of the example belongs here; and
-we summarize it as:
-
-Do not blindly follow checkpatch's advice here, as blind changes due
-to this rule have already caused some disturbance, see commit ....
-
-> > > +
-> > > +    Also, do not change the code if there is only a single return statement
-> > > +    inside if-else block, like::
-> > > +
-> > > +      if (a > b)
-> > > +              return a;
-> > > +      else
-> > > +              return b;
-> > > +
-> > > +    now if the else statement is removed::
-> > > +
-> > > +      if (a > b)
-> > > +              return a;
-> > > +      return b;
-> > > +
-> > > +    there is no considerable increase in the readability and one can argue
-> > > +    that the first form is more readable because of the indentation. So
-> > > +    do not remove the else statement in case of a single return statement
-> > > +    inside the if-else block.
-> > > +    See: https://lore.kernel.org/lkml/20140925032215.GK7996@ZenIV.linux.org.uk/
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > I think this message is unnecessarily long for a warning that's understandable
-> > at best without the verbose part. Try to shorten it up with only what's
-> > required for a user to understand why the warning is there.
-> >
+On Sun, Oct 3, 2021 at 10:36 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
 >
-> Okay, I will try writing it more precisely as Lukas said.
+> On Mon, Sep 27, 2021 at 02:42:51PM +0800, Huacai Chen wrote:
+> > This patch adds signal handling support for LoongArch.
 >
-> > Dwaipayan.
+> No matter what you get in regs[4] after sys_rt_sigreturn(),
+> you should *NOT* treat it as restartable.  IOW, you need to set
+> regs[0] to 0 in there (or in restore_sigcontext()).  See e.g.
+> 653d48b22166 for details of similar bug on arm.
+Thanks, regs[0] should be cleared here.
+
+Huacai
