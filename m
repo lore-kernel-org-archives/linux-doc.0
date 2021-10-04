@@ -2,223 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41825C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CEFC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:29:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15C8961350
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6C9E6138B
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:29:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238013AbhJDSWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 14:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
+        id S238653AbhJDSaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Oct 2021 14:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237989AbhJDSWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 14:22:05 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A76C061746
-        for <linux-doc@vger.kernel.org>; Mon,  4 Oct 2021 11:20:15 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id k23so1289030pji.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Oct 2021 11:20:15 -0700 (PDT)
+        with ESMTP id S238633AbhJDSaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 14:30:52 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9CD1C061749;
+        Mon,  4 Oct 2021 11:29:02 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id rm6-20020a17090b3ec600b0019ece2bdd20so565904pjb.1;
+        Mon, 04 Oct 2021 11:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pEjTxCQKuPkdzyQQSESkdNKEWA1LvyzgE120tyKjY/k=;
-        b=rGnHyMlngVZkVwcemVB84QoJgkH1XLR0Hg7szuZRrfBs+vpJHEce6HZlQJyes1QbVm
-         SbpROkR94JhvXXXC5WkOwInC9p0RM1G5uqrOOUv2b9BVFzJo16pY2Bd/+UJFUEpH+gMm
-         hZfXJdrboGH78IJt6C83lbLsW71NNip/Op9Rcr2O1vMhYiFYF4oxzQVGHxYNd6Vd3Wcg
-         817+jvBFq+t5osSy8FUpDwF8Rt4paPtwvELMG6/seyy/AsVlXzD0QUshhKcKVgpuM3b1
-         EM9MLqKWPIQA8hZ6vVSDG3YG3ZAOq6OHjrZ2xU7jufjBDvNJjlH70KxyuJT6nd2+5ZwM
-         0ajQ==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ksk0ituITPDur7VOi1jCXxieV8Du5TeIguFZkpAVdZs=;
+        b=iccVLZIu59DB5VPOrdxx0bcJFMS/iGHtuLWCAMdKR/gBUXElbZvJTn6B5bMYOsrHnZ
+         xuWo7RKx36K5p+IvSTKGNUw3YM2W1xLIucrR8Z1UrutBLiLzi5mgNGVjtJAz/QJxQ9Jt
+         kWB7Cmh5xaWcTrNSlXGdozrtBCeu5w5iY4y7aVE0DEwqyxChwAhcrolcXYIj1J5Uk3KC
+         f/UA+RvUyKkT8c+fWJ8zmNbTMufzlrrAoqu4C6y/oP0GxY1e6n3XlDOoZ2VTRNNNIq8i
+         piENPpRSmZV1YQLjeTi6b1SlzLg/LndQ8R8JQIR4+Oo7na8633EximFc9+QZ4+MIMb2t
+         RxeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=pEjTxCQKuPkdzyQQSESkdNKEWA1LvyzgE120tyKjY/k=;
-        b=fxwwdV1W6p1v+VecyjCYYAZi2NFQPUXAj0RZuEWn4uPrchdKiS3hV8+BlqdQX+6ora
-         lNOLfaaGRETbLpFzBpxnCvFutVLiISsIffTT4pWgO+oFCkzqyI+WC7L6H/jgxtjHZhTW
-         PECkuMpTyvGNqJfGomvs8Jm0pL3SKf/wnr5aUNYSRISiVruKjxXgDsUIVg0iWyqLwY6h
-         N2zishrreLvaLSuBnX8YUMGekO8SffysLd8b1By30azQZHW9fWWCYbW8taBlaka3Fvg7
-         Lyw7IS6NmlGEJ9F/w9RttwlVC3WV23AO6A4ic/yKLME00KojkadLwYeIpstAwJz++0Hl
-         r+oQ==
-X-Gm-Message-State: AOAM531NVOi5eUByrjenfZfFDjLGTwHzqNFjIkFfM+7FnpiDwwJmNou/
-        cp84Crbunef2Bgd4UMOogkpAOw==
-X-Google-Smtp-Source: ABdhPJzK5iZkh9VfvvOe8LwLx7+UekY7XK1kf6LgOA8CSZG1sCV/38BCb5MgWXDwf85wkTC4ZS3fHA==
-X-Received: by 2002:a17:90a:5d11:: with SMTP id s17mr22510232pji.230.1633371614886;
-        Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id x13sm699826pgt.80.2021.10.04.11.20.13
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=ksk0ituITPDur7VOi1jCXxieV8Du5TeIguFZkpAVdZs=;
+        b=2yZcF7Y2kT9E+r4MIx7oYk+h+ihA24voUKO80KxYQALro7N5AVKGjXHptP7c/Zz0xw
+         GCT4939HzIXCIVGtQEc3NT/+qkZbiUm2x9eg65Vpl0Rhcbc89rDAb9/30g1VVtIRaYAZ
+         u716kdm9MmTNXJXnMGLFOfD+NKc3QCOSokaaJxgLjM6Mimm+BvRlUks742lnCjwNa9yZ
+         vhC/4/F4MJt7Or2/uH9yR2WhqZeU37Ej5XGFDRSh5CQF3hmEJ3gb5Mr+/VGRuZI+Vudt
+         DJq8zPnd1swZDNKnjzYBCExQmwoYgPdHu10P18/tpQAZNhkF/osTMLiw8iYwrgW81wyX
+         47RA==
+X-Gm-Message-State: AOAM532NVNtN5PYQebiuJtmgag4RVsz1VTLqi+mFIomfVH6cWLWtUPgq
+        RzIuJ0zfzoz1uTdPRBcPtEI=
+X-Google-Smtp-Source: ABdhPJx6K9cY4Ez2SM0zDinX5vRHY+dnuuStKoVmdFQ59mUKuTYIX3wud8X0wgvomj/ZkUoS6lac+Q==
+X-Received: by 2002:a17:90a:5d01:: with SMTP id s1mr32191111pji.16.1633372142227;
+        Mon, 04 Oct 2021 11:29:02 -0700 (PDT)
+Received: from google.com ([2620:15c:211:201:db55:938c:e15a:4670])
+        by smtp.gmail.com with ESMTPSA id 17sm15888836pgr.10.2021.10.04.11.29.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
-Date:   Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
-X-Google-Original-Date: Mon, 04 Oct 2021 11:20:12 PDT (-0700)
-Subject:     Re: [v3 00/10] Improve RISC-V Perf support using SBI PMU and sscofpmf extension
-In-Reply-To: <20210910192757.2309100-1-atish.patra@wdc.com>
-CC:     linux-kernel@vger.kernel.org, Atish Patra <Atish.Patra@wdc.com>,
-        alexander.shishkin@linux.intel.com,
-        Anup Patel <Anup.Patel@wdc.com>, ardb@kernel.org,
-        djwong@kernel.org, devicetree@vger.kernel.org,
-        guoren@linux.alibaba.com, xypron.glpk@gmx.de, jolsa@redhat.com,
-        john.garry@huawei.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        mick@ics.forth.gr, Paul Walmsley <paul.walmsley@sifive.com>,
-        robh+dt@kernel.org, vincent.chen@sifive.com
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     Atish Patra <Atish.Patra@wdc.com>
-Message-ID: <mhng-62d18ad4-0547-42bb-87a0-5e96e5354650@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Mon, 04 Oct 2021 11:29:01 -0700 (PDT)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Mon, 4 Oct 2021 11:28:59 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        Suleiman Souhlal <suleiman@google.com>,
+        Jesse Barnes <jsbarnes@google.com>
+Subject: Re: [PATCH] zram: Allow backing device to be assigned after init
+Message-ID: <YVtH60zyzq9AhUv2@google.com>
+References: <20211001181627.394921-1-bgeffon@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211001181627.394921-1-bgeffon@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Sep 2021 12:27:47 PDT (-0700), Atish Patra wrote:
-> This series adds improved perf support for RISC-V based system using
-> SBI PMU extension[1] and Sscofpmf extension[2]. The SBI PMU extension allows
+On Fri, Oct 01, 2021 at 11:16:27AM -0700, Brian Geffon wrote:
+> There does not appear to be a technical reason to not
+> allow the zram backing device to be assigned after the
+> zram device is initialized.
+> 
+> This change will allow for the backing device to be assigned
+> as long as no backing device is already assigned. In that
+> event backing_dev would return -EEXIST.
+> 
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
+> ---
+>  drivers/block/zram/zram_drv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+> index fcaf2750f68f..12b4555ee079 100644
+> --- a/drivers/block/zram/zram_drv.c
+> +++ b/drivers/block/zram/zram_drv.c
+> @@ -462,9 +462,9 @@ static ssize_t backing_dev_store(struct device *dev,
+>  		return -ENOMEM;
+>  
+>  	down_write(&zram->init_lock);
+> -	if (init_done(zram)) {
+> -		pr_info("Can't setup backing device for initialized device\n");
+> -		err = -EBUSY;
+> +	if (zram->backing_dev) {
+> +		pr_info("Backing device is already assigned\n");
+> +		err = -EEXIST;
+>  		goto out;
 
-Last we talked the SBI-0.3 stuff was in an uncertain state and I'm not 
-sure we ever got to a point of agreement there.  I've decided to just 
-stop worrying about the state of extensions, so if you guys want the 
-SBI-0.3 stuff merged then just go say it's frozen and that'll be good 
-enough for me.
+Hi Brian,
 
-> the kernel to program the counters for different events and start/stop counters
-> while the sscofpmf extension allows the counter overflow interrupt and privilege
-> mode filtering. An hardware platform can leverage SBI PMU extension without
-> the sscofpmf extension if it supports mcountinhibit and mcounteren. However,
-> the reverse is not true. With both of these extension enabled, a platform can
-> take advantage of all both event counting and sampling using perf tool.
->
-> This series introduces a platform perf driver instead of a existing arch
-> specific implementation. The new perf implementation has adopted a modular
-> approach where most of the generic event handling is done in the core library
-> while individual PMUs need to only implement necessary features specific to
-> the PMU. This is easily extensible and any future RISC-V PMU implementation
-> can leverage this. Currently, SBI PMU driver & legacy PMU driver are implemented
-> as a part of this series.
->
-> The legacy driver tries to reimplement the existing minimal perf under a new
-> config to maintain backward compatibility. This implementation only allows
-> monitoring of always running cycle/instruction counters. Moreover, they can
-> not be started or stopped. In general, this is very limited and not very useful.
-> That's why, I am not very keen to carry the support into the new driver.
-> However, I don't want to break perf for any existing hardware platforms.
-> If nobody really uses perf currently, I will be happy to drop PATCH 4.
->
-> This series has been tested in Qemu on both RV64 & RV32. Qemu[5] & OpenSBI [3]
-> patches are required to test it. Qemu changes are not backward compatible.
-> That means, you can not use perf anymore on older Qemu versions with latest
-> OpenSBI and/or Kernel. However, newer kernel will just use legacy pmu driver if
-> old OpenSBI is detected or hardware doesn't implement mcountinhibit.
->
-> Here is an output of perf stat/report while running hackbench with OpenSBI & Linux
-> kernel patches applied [3].
->
-> Perf stat:
-> =========
->
-> [root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e r8000000000000007
-> -e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e branch-misses
-> -e cache-misses -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses
-> -e cycles -e instructions ./hackbench -pipe 15 process
-> Running with 15*40 (== 600) tasks.
-> Time: 6.578
->
->  Performance counter stats for './hackbench -pipe 15 process':
->
->              6,491      r8000000000000005      (52.59%) --> SBI_PMU_FW_SET_TIMER
->             20,433      r8000000000000007      (60.74%) --> SBI_PMU_FW_IPI_RECVD
->             21,271      r8000000000000006      (68.71%) --> SBI_PMU_FW_IPI_SENT
->                  0      r0000000000020002      (76.55%)
->      <not counted>      r0000000000020004      (0.00%)
->      <not counted>      branch-misses          (0.00%)
->      <not counted>      cache-misses           (0.00%)
->         57,537,853      dTLB-load-misses       (9.49%)
->          2,821,147      dTLB-store-misses      (18.64%)
->         52,928,130      iTLB-load-misses       (27.53%)
->     89,521,791,110      cycles                 (36.08%)
->     90,678,132,464      instructions #    1.01  insn per cycle (44.44%)
->
->        6.975908032 seconds time elapsed
->
->        3.130950000 seconds user
->       24.353310000 seconds sys
->
-> The patches can also be found in the github[4].
->
-> Perf record:
-> ============
-> [root@fedora-riscv riscv]# perf record -e cycles -e instructions -e \
-> dTLB-load-misses -e dTLB-store-misses -c 1000 ./hackbench -pipe 15 process 15
-> Running with 15*40 (== 600) tasks.
-> Time: 1.238
-> [ perf record: Woken up 1 times to write data ]
-> [ perf record: Captured and wrote 0.106 MB perf.data (1020 samples) ]
->
-> [root@fedora-riscv riscv]# perf report
-> Available samples
-> 372 cycles                                                                     ◆
-> 372 instructions                                                               ▒
-> 262 dTLB-load-misses                                                           ▒
-> 14 dTLB-store-misses
->
-> The patches can also be found in the github[4].
->
-> [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
-> [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
-> [3] https://github.com/atishp04/opensbi/tree/pmu_sscofpmf
-> [4] https://github.com/atishp04/linux/tree/riscv_pmu_v3
-> [5] https://github.com/atishp04/qemu/tree/riscv_pmu_v2
->
-> Changes from v3->v4:
-> 1. Added interrupt overflow support.
-> 2. Cleaned up legacy driver initialization.
-> 3. Supports perf record now.
-> 4. Added the DT binding and maintainers file.
-> 5. Changed cpu hotplug notifier to be multi-state.
-> 6. OpenSBI doesn't disable cycle/instret counter during boot. Update the
->    perf code to disable all the counter during the boot.
->
-> Changes from v1->v2
-> 1. Implemented the latest SBI PMU extension specification.
-> 2. The core platform driver was changed to operate as a library while only
->    sbi based PMU is built as a driver. The legacy one is just a fallback if
->    SBI PMU extension is not available.
->
-> Atish Patra (10):
-> RISC-V: Remove the current perf implementation
-> RISC-V: Add CSR encodings for all HPMCOUNTERS
-> RISC-V: Add a perf core library for pmu drivers
-> RISC-V: Add a simple platform driver for RISC-V legacy perf
-> RISC-V: Add RISC-V SBI PMU extension definitions
-> dt-binding: pmu: Add RISC-V PMU DT bindings
-> RISC-V: Add perf platform driver based on SBI PMU extension
-> RISC-V: Add interrupt support for perf
-> Documentation: riscv: Remove the old documentation
-> MAINTAINERS: Add entry for RISC-V PMU drivers
->
-> .../devicetree/bindings/perf/riscv,pmu.yaml   |  51 ++
-> Documentation/riscv/pmu.rst                   | 255 ------
-> MAINTAINERS                                   |  10 +
-> arch/riscv/Kconfig                            |  13 -
-> arch/riscv/include/asm/csr.h                  |  66 +-
-> arch/riscv/include/asm/perf_event.h           |  72 --
-> arch/riscv/include/asm/sbi.h                  |  97 +++
-> arch/riscv/kernel/Makefile                    |   1 -
-> arch/riscv/kernel/perf_event.c                | 485 ------------
-> drivers/perf/Kconfig                          |  25 +
-> drivers/perf/Makefile                         |   5 +
-> drivers/perf/riscv_pmu.c                      | 331 ++++++++
-> drivers/perf/riscv_pmu_legacy.c               | 143 ++++
-> drivers/perf/riscv_pmu_sbi.c                  | 731 ++++++++++++++++++
-> include/linux/cpuhotplug.h                    |   1 +
-> include/linux/perf/riscv_pmu.h                |  69 ++
-> 16 files changed, 1528 insertions(+), 827 deletions(-)
-> create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
-> delete mode 100644 Documentation/riscv/pmu.rst
-> delete mode 100644 arch/riscv/kernel/perf_event.c
-> create mode 100644 drivers/perf/riscv_pmu.c
-> create mode 100644 drivers/perf/riscv_pmu_legacy.c
-> create mode 100644 drivers/perf/riscv_pmu_sbi.c
-> create mode 100644 include/linux/perf/riscv_pmu.h
+I am worry about the inconsistency with other interface of current zram
+set up. They were supposed to set it up before zram disksize setting
+because it makes code more simple/maintainalbe in that we don't need
+to check some feature on the fly.
+
+Let's think about when zram extends the writeback of incompressible
+page on demand. The write path will need the backing_dev under
+down_read(&zarm->init_lock) or other conditional variable to check
+whether the feature is enabled or not on the fly.
+It adds locking dependency as well as performance overhead(I don't
+think it's a good deal that scarfice hot path for rare event even
+though it's not that big).
