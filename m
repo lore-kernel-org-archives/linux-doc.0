@@ -2,169 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70DC5C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 17:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41825C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:20:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5681461407
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 17:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15C8961350
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234757AbhJDRhq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 13:37:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:18958 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234034AbhJDRhq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 13:37:46 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 194HHURi019448;
-        Mon, 4 Oct 2021 17:35:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=Xe8hYBo/rL7gJTQALFCSEiQFaML4p/Hv6VFPJKmdiUs=;
- b=SqjJtie3pAPmTbfPDoRMypJx4/9vmqsC4aqLodgNc+NImDq/L9zrcD1meUWm1R1RZjHd
- AuVTcjjrMSJb4wr3xr+5eKk7sWxTzuISXp7AJ48msRcIZTlJsWVarAVHE/RFHkpx6BTT
- LlH4LBFYbDgH5IAS26+Ixr5AHj7/lx4i2AwBmklijf2YmD+b0ASprVaX9ed72a2XOQY1
- XzUINMbX/ParxKSzTwSIyK7vZh1sIWTaaAcOiSiWnUUfIq+tJfxvc7x6wNP42CaFa6j9
- nCYlhfT4e3sowHOBgahxKKDE6TvTgQvm5WvI0KsmfnTaHbW+kkXVZaB1bnTrfNadN6tQ Fw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3bg3p59gxc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 04 Oct 2021 17:35:25 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 194HYbor195294;
-        Mon, 4 Oct 2021 17:34:55 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-        by userp3030.oracle.com with ESMTP id 3bf0s57eqe-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 04 Oct 2021 17:34:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IGrg4rEU4K5ZKk+T2DSK5hfRGNCw+RqDGu/FEd1ggKJuoS10sLfLb3OAdLNqdZ1noDGo/4q13X/Dm0XCC/Id3dpG0OcIkykP5s5dc5e3qy8GkgCPCdbvpzr7GmcMtyPHxgD/o+V1+JnV8HRsPT67ywBHn/2Wh0x1j3cfI8X6BzoNhcyMDYSfsAGAb+f5eO8stV0dnaLobkhGlNudnQCf+qLhSEDeepmj73/l/+AzeJKt7XYu4Gg09bxPhlRRPdTtA5dDnhyRioiL6rMykQX+PrEV7HlZUQxI7oVA96bz+b2yhe8p9aqlyD9mHHPSwsFir8Myz3J9SqlTeSL5LpwRIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xe8hYBo/rL7gJTQALFCSEiQFaML4p/Hv6VFPJKmdiUs=;
- b=dR7UgZoCvCiWFA2Fj99j+C3ibUZUiH/P26hLB+hbVLzlO7IrPrV2HV0US5tzj6XXCSp5hmIQswsI4pXwM22arBZCBiLYLQxrN5inU0ma2cqJ/q7gPJmB8AD2ixMkxFQYtqktjevCkFNC0KcYfu9GgvPStTD9E25yD1g2sLB1cN71ati/Guv3gDNWjRhR2X26gX0blUITAj9DQXcYlVoI0dhBG+zXPf1nEPsO3NA/NDjmpo6sw2US96VCkI62cIkZHu4QT1RXlcsa6ABE/D6MJDRibNYfArSOBNAa853nLqWrTn4WEOrsM5HyNbV/hsXMUIQTTGvE37tmAITKJxNfmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S238013AbhJDSWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Oct 2021 14:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237989AbhJDSWF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 14:22:05 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A76C061746
+        for <linux-doc@vger.kernel.org>; Mon,  4 Oct 2021 11:20:15 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id k23so1289030pji.0
+        for <linux-doc@vger.kernel.org>; Mon, 04 Oct 2021 11:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xe8hYBo/rL7gJTQALFCSEiQFaML4p/Hv6VFPJKmdiUs=;
- b=d9rwxHQ2+C+atxxINACkmnoxmOjgQlEWp01+CzXtE0DjUH7oJgAssIaltBje9/zfD8chtE+kZD/rsfjNqgGY8MtRgY6ty+84LSxeJO+Cfq8rqzCxvXcLmuQxhPHFk4W0h7oDyEiiRQ3fdS9U74Zkb7LUNFvhLcGBWTUz66X6wH8=
-Authentication-Results: kvack.org; dkim=none (message not signed)
- header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by BY5PR10MB3810.namprd10.prod.outlook.com (2603:10b6:a03:1fb::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Mon, 4 Oct
- 2021 17:34:52 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5%6]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 17:34:52 +0000
-Subject: Re: [PATCH v7] hugetlbfs: Extend the definition of hugepages
- parameter to support node allocation
-To:     Zhenguo Yao <yaozhenguo1@gmail.com>
-Cc:     mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        corbet@lwn.net, Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, yaozhenguo@jd.com,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <20210927104149.46884-1-yaozhenguo1@gmail.com>
- <c83bffef-53ca-5448-38b5-27282ba97499@oracle.com>
- <CA+WzAR=eVOYamSoEyuphiL89qXh+=0kBZAPkxAnuqamMWgrTSQ@mail.gmail.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <669bd927-397e-f2d8-3be4-798b9d7c4e8d@oracle.com>
-Date:   Mon, 4 Oct 2021 10:34:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-In-Reply-To: <CA+WzAR=eVOYamSoEyuphiL89qXh+=0kBZAPkxAnuqamMWgrTSQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MWHPR19CA0051.namprd19.prod.outlook.com
- (2603:10b6:300:94::13) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
-MIME-Version: 1.0
-Received: from [192.168.2.123] (50.38.35.18) by MWHPR19CA0051.namprd19.prod.outlook.com (2603:10b6:300:94::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.17 via Frontend Transport; Mon, 4 Oct 2021 17:34:51 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bf5a162b-021c-49cf-788b-08d9875d45be
-X-MS-TrafficTypeDiagnostic: BY5PR10MB3810:
-X-Microsoft-Antispam-PRVS: <BY5PR10MB3810F6B9EAD42D04187B7FCEE2AE9@BY5PR10MB3810.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mnpYi+hnTr0SfZ0TGdzam55ZyBhM48ZCqtxr6cy6aZ2AOZOFQtyYtPxMfXWVDKQ7ZZYYDrKFNorioe/8QmZiW54zu/KZDTfVO0/wKBRjNwkvOvFGARMvD2o6KV2mxEFaPWV9k2HNXN2s8QtbhdPWY2sxZ+2VTadZrXIjYhdwGHGl3yslZXqVs0YCDIjXnSzAko6nrEmBeEzMnztNK7D5r/UYJ7R2wRSvAHqmAMLyW8xJJIH2kjvmvTGblyeJD/OzO6iX5OT6SrOq98QEmEMdXAfSAMyyBm1xadub0rrymG/oQtTUqgJeYtQjlK6cXzYJkpXH8cnIuCf721F+F3HsRBlYwvqH5df6r79w2VLeiI1DvLbhBeE6gyuTngnqfLAYSZGFhQHjcqZQBPOOcG/zYwMxvoWprK0iwcAEC6yHKYu+qMXts37O+A1k/GSBOilYYms+8uV5RajVQVDClvqIQOvj4HQQHqVlmfRbNu+k1AOZfwLQqZVd0w5Mv05gtS6GNxDwaZUwQ5suwCwe6VtF/n1rBb6vPCCktPW1ShHmBjbosXS1+Gw9IaolUHqxbtCrMgGhz+xlPyvlMXDTi9llreSOqeH3iAZnWUINPcOczaTflNV+HJQJ1oltfxCxBKHvQnFXrqm6G9vsuT6C82TXeiShfdTwFN9QlXtcF3y8t+7JFtk29DwxToQ/Dry4IO6Nh6U+GyyZ8FziP+R6ldZ/+k4mFQ+1kDa+cOvZH2kN6i11oyUxSxYH28SxWZqJJ/xoVJG+IAY3kduKhquwV2HFbA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(7416002)(6916009)(26005)(44832011)(31696002)(508600001)(2906002)(53546011)(956004)(2616005)(5660300002)(36756003)(52116002)(83380400001)(31686004)(8676002)(186003)(66556008)(16576012)(66476007)(8936002)(86362001)(6486002)(4326008)(38350700002)(38100700002)(4744005)(54906003)(316002)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkZUd1FHNCs1RTdibHAvbmZCY3FpNjNabkVidmc5NUY5SFRhdE94T2l6VTIv?=
- =?utf-8?B?Y2lwd1RTRksxQTg1VnN2SlA4RmVOU05kTzZhNjRScGtkOUFTcklaNXUwNjla?=
- =?utf-8?B?aEptQjRRNTNIR0kzS3Avak5sWkI4cEpYaWdwelRKMnZXdk0rM2YvWXEyY1hR?=
- =?utf-8?B?cmo5TlhlbkZsbGxReGhiVjE2eVl1bkQ3S3hFK09tbnRDOGNsalBYWXNKdVhh?=
- =?utf-8?B?WklNK0tuT2tjWDFYdHZsMlZ0dkZiakZpWFZHOU9zdTVXY3BrSWR3TFZXQWRU?=
- =?utf-8?B?RzllNnFMdU1oanVLcVA2SFVqMmh2ajdqcVJUcGdTaHNWZnU1OHEvbVphV3Yw?=
- =?utf-8?B?MVF6Um56ZmJXRG1HWkEyOWIxQXY2VjYvcUN0SE5ZcUZhQjZ5ZHp6ZVE2ZGJ5?=
- =?utf-8?B?SFNHL3pTOXNCcEhhZ0thUDJjLyt3SURWSlNXUC81WGIwNEM5SWl0d2p0eFo4?=
- =?utf-8?B?NU1rYUFLY2RoSVQ4K0FOakIxUWM4Yk1IS0F1Rzl0RnZMdjB0SWhTMkxyZ0dk?=
- =?utf-8?B?YStIdi9MYXhIRDdpU2d5cU1aMmJaejVCWnNTbkhCaDBXbjJpWWJGck5PcFhD?=
- =?utf-8?B?cWFTZHRGU3VKcDFIME9HVmtwLzRxNDM3RzZ3VndIbTBtSTJya3d6SjRqYjlE?=
- =?utf-8?B?bUlubTNqTVI1RjBhbDVkamhKUVQ3N1FOK29xZ20vUUtTUWlzbGdPM3BGYytG?=
- =?utf-8?B?eldiUlFYQm1aQ3dqN3Z3VS9YRW9jaUQyWUVLSnJvcGF2UWhRWnUvb09NWmNu?=
- =?utf-8?B?ZDNvN2gvTDZwaHFSaFRCQkhWOGVabjJTbTZ1REtEVmVobSsyNGhyUHNDcGdC?=
- =?utf-8?B?TmRCUExLcERxS2JsQ1dTRjhIMzFyMk5DQTZIZWltTmt6OGpKc2U4am9KbjNm?=
- =?utf-8?B?UE5FZEhWMStRekkrQ1I0WkJMbkxFdXZkVWhCT0FCLy9JRFBvVE1SMFRINXNP?=
- =?utf-8?B?MGs4MEZENkE4YzBGR2RlVFN0NnpFakp4TVVpcURSQUNOSnUzc1htaTA1ZTUv?=
- =?utf-8?B?Vk0yYW0zcU50cGY0ejQvNkRuTU5lZE4ybVNiSlc0SSs3TmtKT2hFV1podjht?=
- =?utf-8?B?RVM0TEp1WmZEZEdEdW1IUTlvd2duWXNCYVdyckE4bGwvQTlTNzE2Y2h0Tko2?=
- =?utf-8?B?KzB4ZXorbGV4aWE5TGVUbXFoWHAyamJ0M1VvZ0FZSGJPSVd6bTBTSTNHNHpS?=
- =?utf-8?B?bkUxMkE2WHptRlFYNWkwdVkvZWFrZi9MUWpRblV5dmhuMlZwVmxPUG1WdVlV?=
- =?utf-8?B?UDJPeTJhT0djWnhEK3pWVUtnK1NQNmkvMDg1Q0lldHBRcVFiMDl5MnhvQlBm?=
- =?utf-8?B?ZDh4MVYvNmdMMFMwSmdUem9HU1pyMnZJWkh0SGhuYU5pUE5WL3dqYXlaMVdY?=
- =?utf-8?B?akdyem5aMExmVmxYY3c1UjBHVmQ0ckU1bmdlcGVKM2VpdnFJaVR0VmtPMWRG?=
- =?utf-8?B?VzhuZ0FLOExxNHdkeEhaM3pmZi8wVjl2b29ZVHp2MjgrK2RkR0VNWDdCTk5M?=
- =?utf-8?B?WWRSMGRrUDRvd3Q1bmhML3J2dXVwVEtTVkFaUy85cUw2b0Q2S0Y0R2hSMFpk?=
- =?utf-8?B?c1BrRXlDUENYdGM5RE9zSnlDblFZa3NSUWNTZUhielJ3YWNDcmtnSml4V0hW?=
- =?utf-8?B?NFpQUERrWWpTdDZzeW8rd2Z2T3h1SGpnYkR0U1ppb25ET3JiTXZZSDlCd0Mr?=
- =?utf-8?B?ZVdCK0Y4VC8xSCtsU0hjVFhxdXNWR1hLMFJDcXFOa2FNcGZVbVBnTHJ1YTFO?=
- =?utf-8?Q?z5nmCN00D+oKxiHQRL0bw4+cLN1+jIghAmssPI8?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf5a162b-021c-49cf-788b-08d9875d45be
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 17:34:52.5268
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QVasbj9/P3oa6bSbAqZHDvT4OhafYyZVZoI0rEFyZB2yCVvDegQDBzLBQ0atfJETPSQzqqI66LnuZetfdSnt/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3810
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10127 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 adultscore=0
- mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110040121
-X-Proofpoint-ORIG-GUID: JbCKXeCggu3MyM5nAL2GHjgmboMwJ81o
-X-Proofpoint-GUID: JbCKXeCggu3MyM5nAL2GHjgmboMwJ81o
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pEjTxCQKuPkdzyQQSESkdNKEWA1LvyzgE120tyKjY/k=;
+        b=rGnHyMlngVZkVwcemVB84QoJgkH1XLR0Hg7szuZRrfBs+vpJHEce6HZlQJyes1QbVm
+         SbpROkR94JhvXXXC5WkOwInC9p0RM1G5uqrOOUv2b9BVFzJo16pY2Bd/+UJFUEpH+gMm
+         hZfXJdrboGH78IJt6C83lbLsW71NNip/Op9Rcr2O1vMhYiFYF4oxzQVGHxYNd6Vd3Wcg
+         817+jvBFq+t5osSy8FUpDwF8Rt4paPtwvELMG6/seyy/AsVlXzD0QUshhKcKVgpuM3b1
+         EM9MLqKWPIQA8hZ6vVSDG3YG3ZAOq6OHjrZ2xU7jufjBDvNJjlH70KxyuJT6nd2+5ZwM
+         0ajQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=pEjTxCQKuPkdzyQQSESkdNKEWA1LvyzgE120tyKjY/k=;
+        b=fxwwdV1W6p1v+VecyjCYYAZi2NFQPUXAj0RZuEWn4uPrchdKiS3hV8+BlqdQX+6ora
+         lNOLfaaGRETbLpFzBpxnCvFutVLiISsIffTT4pWgO+oFCkzqyI+WC7L6H/jgxtjHZhTW
+         PECkuMpTyvGNqJfGomvs8Jm0pL3SKf/wnr5aUNYSRISiVruKjxXgDsUIVg0iWyqLwY6h
+         N2zishrreLvaLSuBnX8YUMGekO8SffysLd8b1By30azQZHW9fWWCYbW8taBlaka3Fvg7
+         Lyw7IS6NmlGEJ9F/w9RttwlVC3WV23AO6A4ic/yKLME00KojkadLwYeIpstAwJz++0Hl
+         r+oQ==
+X-Gm-Message-State: AOAM531NVOi5eUByrjenfZfFDjLGTwHzqNFjIkFfM+7FnpiDwwJmNou/
+        cp84Crbunef2Bgd4UMOogkpAOw==
+X-Google-Smtp-Source: ABdhPJzK5iZkh9VfvvOe8LwLx7+UekY7XK1kf6LgOA8CSZG1sCV/38BCb5MgWXDwf85wkTC4ZS3fHA==
+X-Received: by 2002:a17:90a:5d11:: with SMTP id s17mr22510232pji.230.1633371614886;
+        Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id x13sm699826pgt.80.2021.10.04.11.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
+Date:   Mon, 04 Oct 2021 11:20:14 -0700 (PDT)
+X-Google-Original-Date: Mon, 04 Oct 2021 11:20:12 PDT (-0700)
+Subject:     Re: [v3 00/10] Improve RISC-V Perf support using SBI PMU and sscofpmf extension
+In-Reply-To: <20210910192757.2309100-1-atish.patra@wdc.com>
+CC:     linux-kernel@vger.kernel.org, Atish Patra <Atish.Patra@wdc.com>,
+        alexander.shishkin@linux.intel.com,
+        Anup Patel <Anup.Patel@wdc.com>, ardb@kernel.org,
+        djwong@kernel.org, devicetree@vger.kernel.org,
+        guoren@linux.alibaba.com, xypron.glpk@gmx.de, jolsa@redhat.com,
+        john.garry@huawei.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        mick@ics.forth.gr, Paul Walmsley <paul.walmsley@sifive.com>,
+        robh+dt@kernel.org, vincent.chen@sifive.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Atish Patra <Atish.Patra@wdc.com>
+Message-ID: <mhng-62d18ad4-0547-42bb-87a0-5e96e5354650@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/4/21 8:06 AM, Zhenguo Yao wrote:
-> Hi Mike:
-> 
-> Thanks for your review. I notice that this patch has already been in
-> linux-next. Do I need to submit another version of this patch or
-> provide a new patch to fix the problems  you pointed out?
+On Fri, 10 Sep 2021 12:27:47 PDT (-0700), Atish Patra wrote:
+> This series adds improved perf support for RISC-V based system using
+> SBI PMU extension[1] and Sscofpmf extension[2]. The SBI PMU extension allows
 
-This change goes through Andrew Morton's tree, and he will decide how to
-update.
+Last we talked the SBI-0.3 stuff was in an uncertain state and I'm not 
+sure we ever got to a point of agreement there.  I've decided to just 
+stop worrying about the state of extensions, so if you guys want the 
+SBI-0.3 stuff merged then just go say it's frozen and that'll be good 
+enough for me.
 
-My suggestion is to send a new version with suggested updates as well as
-my 'Reviewed-by:".
-
-Thanks,
--- 
-Mike Kravetz
+> the kernel to program the counters for different events and start/stop counters
+> while the sscofpmf extension allows the counter overflow interrupt and privilege
+> mode filtering. An hardware platform can leverage SBI PMU extension without
+> the sscofpmf extension if it supports mcountinhibit and mcounteren. However,
+> the reverse is not true. With both of these extension enabled, a platform can
+> take advantage of all both event counting and sampling using perf tool.
+>
+> This series introduces a platform perf driver instead of a existing arch
+> specific implementation. The new perf implementation has adopted a modular
+> approach where most of the generic event handling is done in the core library
+> while individual PMUs need to only implement necessary features specific to
+> the PMU. This is easily extensible and any future RISC-V PMU implementation
+> can leverage this. Currently, SBI PMU driver & legacy PMU driver are implemented
+> as a part of this series.
+>
+> The legacy driver tries to reimplement the existing minimal perf under a new
+> config to maintain backward compatibility. This implementation only allows
+> monitoring of always running cycle/instruction counters. Moreover, they can
+> not be started or stopped. In general, this is very limited and not very useful.
+> That's why, I am not very keen to carry the support into the new driver.
+> However, I don't want to break perf for any existing hardware platforms.
+> If nobody really uses perf currently, I will be happy to drop PATCH 4.
+>
+> This series has been tested in Qemu on both RV64 & RV32. Qemu[5] & OpenSBI [3]
+> patches are required to test it. Qemu changes are not backward compatible.
+> That means, you can not use perf anymore on older Qemu versions with latest
+> OpenSBI and/or Kernel. However, newer kernel will just use legacy pmu driver if
+> old OpenSBI is detected or hardware doesn't implement mcountinhibit.
+>
+> Here is an output of perf stat/report while running hackbench with OpenSBI & Linux
+> kernel patches applied [3].
+>
+> Perf stat:
+> =========
+>
+> [root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e r8000000000000007
+> -e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e branch-misses
+> -e cache-misses -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses
+> -e cycles -e instructions ./hackbench -pipe 15 process
+> Running with 15*40 (== 600) tasks.
+> Time: 6.578
+>
+>  Performance counter stats for './hackbench -pipe 15 process':
+>
+>              6,491      r8000000000000005      (52.59%) --> SBI_PMU_FW_SET_TIMER
+>             20,433      r8000000000000007      (60.74%) --> SBI_PMU_FW_IPI_RECVD
+>             21,271      r8000000000000006      (68.71%) --> SBI_PMU_FW_IPI_SENT
+>                  0      r0000000000020002      (76.55%)
+>      <not counted>      r0000000000020004      (0.00%)
+>      <not counted>      branch-misses          (0.00%)
+>      <not counted>      cache-misses           (0.00%)
+>         57,537,853      dTLB-load-misses       (9.49%)
+>          2,821,147      dTLB-store-misses      (18.64%)
+>         52,928,130      iTLB-load-misses       (27.53%)
+>     89,521,791,110      cycles                 (36.08%)
+>     90,678,132,464      instructions #    1.01  insn per cycle (44.44%)
+>
+>        6.975908032 seconds time elapsed
+>
+>        3.130950000 seconds user
+>       24.353310000 seconds sys
+>
+> The patches can also be found in the github[4].
+>
+> Perf record:
+> ============
+> [root@fedora-riscv riscv]# perf record -e cycles -e instructions -e \
+> dTLB-load-misses -e dTLB-store-misses -c 1000 ./hackbench -pipe 15 process 15
+> Running with 15*40 (== 600) tasks.
+> Time: 1.238
+> [ perf record: Woken up 1 times to write data ]
+> [ perf record: Captured and wrote 0.106 MB perf.data (1020 samples) ]
+>
+> [root@fedora-riscv riscv]# perf report
+> Available samples
+> 372 cycles                                                                     ◆
+> 372 instructions                                                               ▒
+> 262 dTLB-load-misses                                                           ▒
+> 14 dTLB-store-misses
+>
+> The patches can also be found in the github[4].
+>
+> [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+> [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+> [3] https://github.com/atishp04/opensbi/tree/pmu_sscofpmf
+> [4] https://github.com/atishp04/linux/tree/riscv_pmu_v3
+> [5] https://github.com/atishp04/qemu/tree/riscv_pmu_v2
+>
+> Changes from v3->v4:
+> 1. Added interrupt overflow support.
+> 2. Cleaned up legacy driver initialization.
+> 3. Supports perf record now.
+> 4. Added the DT binding and maintainers file.
+> 5. Changed cpu hotplug notifier to be multi-state.
+> 6. OpenSBI doesn't disable cycle/instret counter during boot. Update the
+>    perf code to disable all the counter during the boot.
+>
+> Changes from v1->v2
+> 1. Implemented the latest SBI PMU extension specification.
+> 2. The core platform driver was changed to operate as a library while only
+>    sbi based PMU is built as a driver. The legacy one is just a fallback if
+>    SBI PMU extension is not available.
+>
+> Atish Patra (10):
+> RISC-V: Remove the current perf implementation
+> RISC-V: Add CSR encodings for all HPMCOUNTERS
+> RISC-V: Add a perf core library for pmu drivers
+> RISC-V: Add a simple platform driver for RISC-V legacy perf
+> RISC-V: Add RISC-V SBI PMU extension definitions
+> dt-binding: pmu: Add RISC-V PMU DT bindings
+> RISC-V: Add perf platform driver based on SBI PMU extension
+> RISC-V: Add interrupt support for perf
+> Documentation: riscv: Remove the old documentation
+> MAINTAINERS: Add entry for RISC-V PMU drivers
+>
+> .../devicetree/bindings/perf/riscv,pmu.yaml   |  51 ++
+> Documentation/riscv/pmu.rst                   | 255 ------
+> MAINTAINERS                                   |  10 +
+> arch/riscv/Kconfig                            |  13 -
+> arch/riscv/include/asm/csr.h                  |  66 +-
+> arch/riscv/include/asm/perf_event.h           |  72 --
+> arch/riscv/include/asm/sbi.h                  |  97 +++
+> arch/riscv/kernel/Makefile                    |   1 -
+> arch/riscv/kernel/perf_event.c                | 485 ------------
+> drivers/perf/Kconfig                          |  25 +
+> drivers/perf/Makefile                         |   5 +
+> drivers/perf/riscv_pmu.c                      | 331 ++++++++
+> drivers/perf/riscv_pmu_legacy.c               | 143 ++++
+> drivers/perf/riscv_pmu_sbi.c                  | 731 ++++++++++++++++++
+> include/linux/cpuhotplug.h                    |   1 +
+> include/linux/perf/riscv_pmu.h                |  69 ++
+> 16 files changed, 1528 insertions(+), 827 deletions(-)
+> create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+> delete mode 100644 Documentation/riscv/pmu.rst
+> delete mode 100644 arch/riscv/kernel/perf_event.c
+> create mode 100644 drivers/perf/riscv_pmu.c
+> create mode 100644 drivers/perf/riscv_pmu_legacy.c
+> create mode 100644 drivers/perf/riscv_pmu_sbi.c
+> create mode 100644 include/linux/perf/riscv_pmu.h
