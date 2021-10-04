@@ -2,195 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E67E6C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 07:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E35E4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 08:01:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D374861029
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 07:31:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE12261360
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 08:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbhJDHdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 03:33:31 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:54008
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230006AbhJDHda (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 03:33:30 -0400
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2898940799
-        for <linux-doc@vger.kernel.org>; Mon,  4 Oct 2021 07:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1633332701;
-        bh=yMz7a2U4h7tYNWu8HY/sX3yR4RwoKAQESOaigGzONNc=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=rzrp8eHoUu/E0MdyIqiNeLjtLUTo5RU1aQSi400AAWw97HpP9MfAqwqmGFJV0UeUV
-         nHfYSJEFH9wo1vSNaGjgZkDhU1/t+h+sxtwFSK7HpC9jBPyKcY1vaKhOHM++gDTfvF
-         MsSPc3vYZMKfHom9X/V7jh8GIhowcJWG3a+et5nkAD+uJHPeo6dM4q+lFQM3BFqean
-         +6luO2A6mfDCwF6sBYjEXnw/TXQHZty4LOohtkIYoy0XA/48T8z6ZkNvBfdZ634YWB
-         2YRp7sxx1PZv4Ii7Vxp/IGEmqKNveu3N0vMGtvzU57Du4gJSzSuBSvbjCPSuesnkZ1
-         KYDh0UJTEgvuw==
-Received: by mail-ed1-f72.google.com with SMTP id y15-20020a50ce0f000000b003dab997cf7dso12739009edi.9
-        for <linux-doc@vger.kernel.org>; Mon, 04 Oct 2021 00:31:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yMz7a2U4h7tYNWu8HY/sX3yR4RwoKAQESOaigGzONNc=;
-        b=8ACj+Se0ZtnGsmcOUG63tDmmmjnzNVZ5xcBkRItVyqLCOKk+6PkKu3bwAotshRFQuV
-         mFjgPylkyPt82msiSwRdz6tuC4oCmeaMKYzm6jTw7j7P5Iln7FvXkM2gX+JlyCqH0EO4
-         AuXCceDqmOp9guaDLRftYNxKeW3QpQaKNKZfOO65j/25PA9pMIAm0IucvD82fsBQqirS
-         IZpFseCCRyuu5gLbIoP8iv2E4/N9GxS51snZzzQ2Hl8wV5xu1B09Nq/lZiEF5SUSOyG2
-         32gyjwHSet02sx7kmRXZQYvOz1oJTRvYSTdCLYlpBmsiAC8Cnyv0wz2XYwdI60nxGkvj
-         R+Bg==
-X-Gm-Message-State: AOAM530UOcnvEWdGDEriEdZ8WKbW8juc11s46gY/aL4mu7RjPKu4Sujq
-        wHryGHel/vBoKkEX7Lx5D0jL+XVczJOgBOq+yh7SqGrx8n0tiWkJa92/qNpxvabcADivsjwTerU
-        lcnhQb5nqP49EV/uzV6v/M48ARFDiQgOv5mSqLH4CyBaeKYyGKNaU+g==
-X-Received: by 2002:a17:906:ed1:: with SMTP id u17mr16035061eji.304.1633332699391;
-        Mon, 04 Oct 2021 00:31:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHAhKgffAcQ9Ok5Z/TiUwt7wu3AralX9OFoEmbqnI+tZ2U37Ef48COxQfqHUgegwirzhI9KM/V5gt3fvDAjXQ=
-X-Received: by 2002:a17:906:ed1:: with SMTP id u17mr16035032eji.304.1633332699195;
- Mon, 04 Oct 2021 00:31:39 -0700 (PDT)
+        id S229716AbhJDIDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Oct 2021 04:03:09 -0400
+Received: from mga04.intel.com ([192.55.52.120]:11362 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229487AbhJDIDH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Oct 2021 04:03:07 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="224091266"
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
+   d="scan'208";a="224091266"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 01:01:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
+   d="scan'208";a="482808264"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+  by fmsmga007.fm.intel.com with SMTP; 04 Oct 2021 01:01:02 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 04 Oct 2021 11:01:01 +0300
+Date:   Mon, 4 Oct 2021 11:01:01 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Fernando Ramos <greenfoo@u92.eu>
+Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+Message-ID: <YVq0vZgFUpSXEBFh@intel.com>
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay>
+ <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay>
+ <YVeGOyLzuhN7zzV7@intel.com>
+ <YVfEWaLfYWdhezCa@intel.com>
+ <YVgGklsHT5fkavDL@zacax395.localdomain>
+ <YViWomXZWdy/81uT@zacax395.localdomain>
 MIME-Version: 1.0
-References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
- <20210929145113.1935778-5-alexandre.ghiti@canonical.com> <748a2c58-4d69-6457-0aa5-89797cb45a5c@sholland.org>
-In-Reply-To: <748a2c58-4d69-6457-0aa5-89797cb45a5c@sholland.org>
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Mon, 4 Oct 2021 09:31:26 +0200
-Message-ID: <CA+zEjCv-2ONyXykRLP2dabELimYbbCmREP5v6DfeV5zk5T+zRg@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] riscv: Implement sv48 support
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        linux-doc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YViWomXZWdy/81uT@zacax395.localdomain>
+X-Patchwork-Hint: comment
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 4, 2021 at 3:34 AM Samuel Holland <samuel@sholland.org> wrote:
->
-> On 9/29/21 9:51 AM, Alexandre Ghiti wrote:
-> > By adding a new 4th level of page table, give the possibility to 64bit
-> > kernel to address 2^48 bytes of virtual address: in practice, that offers
-> > 128TB of virtual address space to userspace and allows up to 64TB of
-> > physical memory.
-> >
-> > If the underlying hardware does not support sv48, we will automatically
-> > fallback to a standard 3-level page table by folding the new PUD level into
-> > PGDIR level. In order to detect HW capabilities at runtime, we
-> > use SATP feature that ignores writes with an unsupported mode.
-> >
-> > Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-> > ---
-> >  arch/riscv/Kconfig                      |   4 +-
-> >  arch/riscv/include/asm/csr.h            |   3 +-
-> >  arch/riscv/include/asm/fixmap.h         |   1 +
-> >  arch/riscv/include/asm/kasan.h          |   2 +-
-> >  arch/riscv/include/asm/page.h           |  10 +
-> >  arch/riscv/include/asm/pgalloc.h        |  40 ++++
-> >  arch/riscv/include/asm/pgtable-64.h     | 108 ++++++++++-
-> >  arch/riscv/include/asm/pgtable.h        |  13 +-
-> >  arch/riscv/kernel/head.S                |   3 +-
-> >  arch/riscv/mm/context.c                 |   4 +-
-> >  arch/riscv/mm/init.c                    | 237 ++++++++++++++++++++----
-> >  arch/riscv/mm/kasan_init.c              |  91 +++++++--
-> >  drivers/firmware/efi/libstub/efi-stub.c |   2 +
-> >  13 files changed, 453 insertions(+), 65 deletions(-)
-> >
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index 13e9c4298fbc..69c5533955ed 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -149,7 +149,7 @@ config PAGE_OFFSET
-> >       hex
-> >       default 0xC0000000 if 32BIT
-> >       default 0x80000000 if 64BIT && !MMU
-> > -     default 0xffffffe000000000 if 64BIT
-> > +     default 0xffffc00000000000 if 64BIT
-> >
-> >  config ARCH_FLATMEM_ENABLE
-> >       def_bool !NUMA
-> > @@ -197,7 +197,7 @@ config FIX_EARLYCON_MEM
-> >
-> >  config PGTABLE_LEVELS
-> >       int
-> > -     default 3 if 64BIT
-> > +     default 4 if 64BIT
-> >       default 2
-> >
-> >  config LOCKDEP_SUPPORT
-> > diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-> > index 87ac65696871..3fdb971c7896 100644
-> > --- a/arch/riscv/include/asm/csr.h
-> > +++ b/arch/riscv/include/asm/csr.h
-> > @@ -40,14 +40,13 @@
-> >  #ifndef CONFIG_64BIT
-> >  #define SATP_PPN     _AC(0x003FFFFF, UL)
-> >  #define SATP_MODE_32 _AC(0x80000000, UL)
-> > -#define SATP_MODE    SATP_MODE_32
-> >  #define SATP_ASID_BITS       9
-> >  #define SATP_ASID_SHIFT      22
-> >  #define SATP_ASID_MASK       _AC(0x1FF, UL)
-> >  #else
-> >  #define SATP_PPN     _AC(0x00000FFFFFFFFFFF, UL)
-> >  #define SATP_MODE_39 _AC(0x8000000000000000, UL)
-> > -#define SATP_MODE    SATP_MODE_39
-> > +#define SATP_MODE_48 _AC(0x9000000000000000, UL)
-> >  #define SATP_ASID_BITS       16
-> >  #define SATP_ASID_SHIFT      44
-> >  #define SATP_ASID_MASK       _AC(0xFFFF, UL)
-> > diff --git a/arch/riscv/include/asm/fixmap.h b/arch/riscv/include/asm/fixmap.h
-> > index 54cbf07fb4e9..58a718573ad6 100644
-> > --- a/arch/riscv/include/asm/fixmap.h
-> > +++ b/arch/riscv/include/asm/fixmap.h
-> > @@ -24,6 +24,7 @@ enum fixed_addresses {
-> >       FIX_HOLE,
-> >       FIX_PTE,
-> >       FIX_PMD,
-> > +     FIX_PUD,
-> >       FIX_TEXT_POKE1,
-> >       FIX_TEXT_POKE0,
-> >       FIX_EARLYCON_MEM_BASE,
-> > diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
-> > index a2b3d9cdbc86..1dcf5fa93aa0 100644
-> > --- a/arch/riscv/include/asm/kasan.h
-> > +++ b/arch/riscv/include/asm/kasan.h
-> > @@ -27,7 +27,7 @@
-> >   */
-> >  #define KASAN_SHADOW_SCALE_SHIFT     3
-> >
-> > -#define KASAN_SHADOW_SIZE    (UL(1) << ((CONFIG_VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
-> > +#define KASAN_SHADOW_SIZE    (UL(1) << ((VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
->
-> Does this change belong in patch 1, where you remove CONFIG_VA_BITS?
+On Sat, Oct 02, 2021 at 07:28:02PM +0200, Fernando Ramos wrote:
+> On 21/10/02 09:13AM, Fernando Ramos wrote:
+> > On 21/10/02 05:30AM, Ville Syrjälä wrote:
+> > > On Sat, Oct 02, 2021 at 01:05:47AM +0300, Ville Syrjälä wrote:
+> > > > On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
+> > > > > On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
+> > > > > > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
+> > > > > > > 
+> > > > > > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
+> > > > > > > with the necessary drm-tip conflict resolutions).
+> > > > > > 
+> > > > > > Ugh. Did anyone actually review the locking changes this does?
+> > > > > > I shot the previous i915 stuff down because the commit messages
+> > > > > > did not address any of it.
+> > > > > 
+> > > > > I reviewed the set on 9/17, I didn't see your feedback on that thread.
+> > > > 
+> > > > It was much earlir than that.
+> > > > https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+> 
+> Sorry, I'm new to this and it did not occur to me to search for similar patches
+> in the mailing list archives in case there were additional comments that applied
+> to my change set.
+> 
+> In case I had done that I would have found that, as you mentioned, you had
+> already raised two issues back in June:
+> 
+>     On Tue, Jun 29, 2021, Ville Syrjälä wrote:
+>     >
+>     > That looks wrong. You're using a private ctx here, but still
+>     > passing dev->mode_config.acquire_ctx to the lower level stuff.
+>     > 
+>     > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
+>     > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
+>     > mode_config.mutex. So would need a proper review whether we
+>     > actually need that lock or not.
+> 
+> The first one was pointing out the same error I would later repeat in my patch
+> series (ups).
+> 
+> After further inspection of the code it looks to me that changing this:
+> 
+>     intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
+> 
+> ...into this:
+> 
+>     intel_modeset_setup_hw_state(dev, &ctx);
+> 
+> ...would be enough.
 
-Indeed, I fixed KASAN in this version and wrongly rebased the changes.
+Yes.
 
-Thanks!
+> 
+> Why? The only difference between the old drm_modeset_{lock,unlock}_all()
+> functions and the new DRM_MODESET_LOCK_ALL_{BEGIN,END}() macros is that the
+> former use a global context stored in dev->mode_config.acquire_ctx while the
+> latter depend on a user provided one (typically in the stack).
+> 
+> In the old (working) code the global context structure is freed in
+> drm_modeset_unlock_all() thus we are sure no one is holding a reference to it at
+> that point. This means that as long as no one accesses the global
+> dev->mode_config.acquire_ctx context in the block that runs between lock/BEGIN
+> and unlock/END, the code should be equivalent before and after my changes.
+> 
+> In fact, now that my patch series removes the drm_modeset_{lock,unlock}_all()
+> functions, the acquire_ctx field of the drm_mode_config structure should be
+> deleted:
+> 
+>     /**
+>      * @acquire_ctx:
+>      *
+>      * Global implicit acquire context used by atomic drivers for legacy
+>      * IOCTLs. Deprecated, since implicit locking contexts make it
+>      * impossible to use driver-private &struct drm_modeset_lock. Users of
+>      * this must hold @mutex.
+>      */
+>     struct drm_modeset_acquire_ctx *acquire_ctx;
+> 
+> If I had done that (ie. removing this field) I would have detected the problem
+> when compiling.
+> 
+> There is another place (in the amdgpu driver) where this field is still being
+> referenced, but before I investigate that I would like to know if you agree that
+> this is a good path to follow.
 
-Alex
+Yeah, removing the mode_config.acquire_ctx is a good idea if it's
+no longer needed.
 
->
-> Regards,
-> Samuel
+> 
+> Regarding the second issue you raised...
+> 
+>     > Also DRM_MODESET_LOCK_ALL_{BEGIN,END}() do not seem to be
+>     > equivalent to drm_modeset_{lock,unlock}_all() when it comes to 
+>     > mode_config.mutex. So would need a proper review whether we
+>     > actually need that lock or not.
+> 
+> ...the only difference regarding mode_config.mutex I see is that in the new
+> macros the mutex is locked only under this condition:
+> 
+>     if (!drm_drv_uses_atomic_modeset(dev))
+> 
+> ...which seems reasonable, right? Is this what you were referring to or is it
+> something else?
+
+In order to eliminate the lock one first has to determine what that lock
+might be protecting here, and then prove that such protection is not
+actually needed.
+
+-- 
+Ville Syrjälä
+Intel
