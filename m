@@ -2,106 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E3CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 08:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF78C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 10:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FD796139D
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 08:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 629A66128A
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 10:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231629AbhJDIlY convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 04:41:24 -0400
-Received: from mga12.intel.com ([192.55.52.136]:47483 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231566AbhJDIlX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Oct 2021 04:41:23 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="205473733"
-X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
-   d="scan'208";a="205473733"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 01:39:34 -0700
-X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; 
-   d="scan'208";a="621779755"
-Received: from pmittal1-mobl.gar.corp.intel.com (HELO localhost) ([10.251.223.27])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 01:39:30 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Fernando Ramos <greenfoo@u92.eu>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers where possible
-In-Reply-To: <YVq49SWuC3T7i1a6@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210924064324.229457-1-greenfoo@u92.eu> <20211001183655.GW2515@art_vandelay> <YVda4jNSGuQf50JV@intel.com> <20211001204815.GA2515@art_vandelay> <YVeGOyLzuhN7zzV7@intel.com> <YVfEWaLfYWdhezCa@intel.com> <YVgGklsHT5fkavDL@zacax395.localdomain> <YVjd7hLKtYG2bkY7@zacax395.localdomain> <YVq49SWuC3T7i1a6@intel.com>
-Date:   Mon, 04 Oct 2021 11:39:27 +0300
-Message-ID: <87ee912ngg.fsf@intel.com>
+        id S231731AbhJDKPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Oct 2021 06:15:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29591 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229505AbhJDKPC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 06:15:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633342393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uCf9+2XTU54Gj/OtnQlqxxYbAga8gRYYuCZmIxMpfzQ=;
+        b=TU2G2PxL3WP84wwxT9n2nRmoygrlBiwsQS7Q4oYpgH7sRwxDsiOt6n03aYkav4ZkCpmcR5
+        ZRO2MfdgJeytX3l8W6z54e1zDPVljQ3vG5SI4cLUdgU2mRqDcg6LVX7armjkM0LH8MWG8L
+        Ca1qg0aqRNm9z8GvkM88170T63oddhA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-jdCcP78sMda25iVAq9LBIg-1; Mon, 04 Oct 2021 06:13:12 -0400
+X-MC-Unique: jdCcP78sMda25iVAq9LBIg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90A531006AA3;
+        Mon,  4 Oct 2021 10:13:10 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC5E5C1BB;
+        Mon,  4 Oct 2021 10:13:07 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+To:     torvalds@linux-foundation.org
+Cc:     Dominique Martinet <asmadeus@codewreck.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        dhowells@redhat.com, linux-kernel@vger.kernel.org
+Subject: Do you want warning quashing patches at this point in the cycle?
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <270323.1633342386.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Mon, 04 Oct 2021 11:13:06 +0100
+Message-ID: <270324.1633342386@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 04 Oct 2021, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> On Sun, Oct 03, 2021 at 12:32:14AM +0200, Fernando Ramos wrote:
->> On 21/10/02 09:13AM, Fernando Ramos wrote:
->> > 
->> > Sean, could you revert the whole patch series? I'll have a deeper look into the
->> > patch set and come up with a v3 where all these issues will be addressed.
->> > 
->> 
->> Hi Sean,
->> 
->> I now understand the nature of the issue that caused the problem with i915 and
->> have proceed to remove the global context structure (which revealed a similar
->> issue in the amdgpu driver).
->> 
->> I have prepared a V3 version of the patch set where these issues should
->> hopefully be fixed for both the i915 and amdgpu drivers.
->> 
->> In order to prevent causing more disruption, could you tell me what the proper
->> way to proceed would be? In particular:
->> 
->>   1. Is there any place where I can push my changes so that they are tested
->>      on a i915 machine? (Some type of automated pool)
->
-> cc:intel-gfx, which it looks like you did, _but_ your patches did
-> did not even apply against drm-tip so our CI rejected it. There was
-> a reply to the patches from CI indicating that. And that is one
-> reason I probably just ignored the whole thing. If it doesn't
-> even apply/build it's not worth my time to read.
->
->> 
->>   2. I can test the amdgpu driver on my machine but, what about all the other
->>      architectures? What is the standard procedure? Should I simply publish V3
->>      and wait for feedback from the different vendors? (I would hate to cause a
->>      simular situation again)
->> 
->>   3. Should I post V3 on top of drm-next or drm-misc-next?
->
-> The normal rule is: always work on drm-tip. That is what gets
-> tested by our CI as well. Yes, it does mean a bit of extra hurdles
-> during development since drm-tip is a rebasing tree, but there are
-> tools like dim retip to help out here.
->
-> As for where to merge them. I would generally recommed against merging
-> i915 patches through drm-misc unless there is a very compelling reason
-> to do so. i915 is a fast moving target and if there are significant
-> changes coming in via drm-misc they usually will cause conflicts for
-> people during drm-tip rebuild. Also I would expect to see an ack
-> requested from i915 maintainers for merging anything significant via
-> drm-misc, which I don't think happened in this case.
+Hi Linus,
 
-Indeed. All other things aside, it looks like it has enough conflict
-potential to warrant merging via drm-intel anyway.
+Do you want patches that quash warnings from W=3D1 (mostly kerneldoc warni=
+ngs in
+comments in this case[1]) at this point in the cycle, or would you rather =
+they
+waited till the next merge window?
 
-BR,
-Jani.
+David
 
+[1] https://lore.kernel.org/r/163281899704.2790286.9177774252843775348.stg=
+it@warthog.procyon.org.uk/
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
