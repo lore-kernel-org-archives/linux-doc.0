@@ -2,119 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5732CC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:41:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5C4C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 19:04:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3799361414
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 18:41:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 202A161425
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Oct 2021 19:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235056AbhJDSnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 14:43:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53974 "EHLO
+        id S238849AbhJDTFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Oct 2021 15:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233311AbhJDSnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 14:43:20 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5747C061745
-        for <linux-doc@vger.kernel.org>; Mon,  4 Oct 2021 11:41:30 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id g8so68696228edt.7
-        for <linux-doc@vger.kernel.org>; Mon, 04 Oct 2021 11:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=56z64RfaxhBPHKBxrKpIeCmw/JUaEkC5bctLSO4zbPw=;
-        b=TeduhA16QD2I64VEL8/9gJBRrib/Wz2GZLhomm/YNweUBFDosOQiR+aEnQJnaC/TEW
-         rWsreaFR7KDYuJkO4zUwgtEpOzn0aWtEK98XFefnumwNRlaJWh40mZStymnEvzxnk88j
-         zDo4oOfjR9VHkw/c9lvbymAKvxfNTxpPsFq1WjxD2EJQn7uAHEXlvxUE0ZDh8ArzT3S3
-         IN7GxnAFJHJscNHTl/7O5IHo/wjzjI6qPDHcjl38P3ERDrNyZmRb+PV0I2QJFQEEbjmb
-         Rl2RjOVG0xNzpAGCG8S4/Ttiouc5c/C40giJRPxQDoKP3cpZSlQL13Qvzm3tYuWW3oDN
-         pVMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=56z64RfaxhBPHKBxrKpIeCmw/JUaEkC5bctLSO4zbPw=;
-        b=iGzAzcS5LgA/JqhIl4oknVqFdIPfD+jJRNbOMevdYBl8kZnt09t626Vybwae6dNdu0
-         hXeWggHylIKM70lzw2u5cnC7Swd48xyClozQLYpZ0Fem1JR/6NVglQkzz0w15POdPF+d
-         GeooD48kKNRmkSC9p4Boyh5mplp97Rl1/p6ksS3eNdzrvMoGFUjJeogqabyVE6cvwIwb
-         sEPZTxgEDMsVOVfWtgFRmpRleE+nNsJC55Kyn1m0t9/jYjTlHrD+HMPatJhYonuuB4Sw
-         lMjByFNWuZjywpsKyHYcpRWkK3Q748cuPVUb9CMJ57UF192s5Dog4Nhu7SQOAW3qHwjY
-         1+fA==
-X-Gm-Message-State: AOAM532zoXfF13CHGGFVog/cNV2KIyKKPRA6Pk1f2bJMm95XFCZcOWfa
-        +ibettNgUCCpgTy6ryljrjgperEWqjpocZGoYM4WHg==
-X-Google-Smtp-Source: ABdhPJz2rknpyNQ8MGXFJG1LnJpKskoos7OkxWt2/J14Md3TpbhY+emzD05svJEHbtaRNGKVB9WKg4SX3f/nTp+xnhM=
-X-Received: by 2002:a17:906:b098:: with SMTP id x24mr19388219ejy.88.1633372888755;
- Mon, 04 Oct 2021 11:41:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001181627.394921-1-bgeffon@google.com> <YVtH60zyzq9AhUv2@google.com>
-In-Reply-To: <YVtH60zyzq9AhUv2@google.com>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Mon, 4 Oct 2021 14:40:52 -0400
-Message-ID: <CADyq12xk-2Fhnf_rJQ70oC1_98OEBJqwxOt6z=PpJa5V=X3dFQ@mail.gmail.com>
-Subject: Re: [PATCH] zram: Allow backing device to be assigned after init
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        with ESMTP id S238855AbhJDTFu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 15:05:50 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B239FC061749;
+        Mon,  4 Oct 2021 12:04:00 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0fe4009c23c25c98857304.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:e400:9c23:c25c:9885:7304])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 774201EC03D2;
+        Mon,  4 Oct 2021 21:03:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1633374238;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=0Nms4auAY3J/VUVtMgcFZcZpc069CLLUqzM+bdeYLVk=;
+        b=hB1AzTSsB1cgjjLDziTXH0QngoL3aO0oKRg7k+c5hPO68B1wguz1yl6+QrOaVKi3NLEbrh
+        joloXjbwL8oGdS5mMnbNgevjUzDOetUYM2ffcG/crFVIlxNq94ibITOrm89OrC30+oHyJW
+        th69nz+SBcfqNS7StlH4IeV54nrlyNI=
+Date:   Mon, 4 Oct 2021 21:03:55 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Iwona Winiarska <iwona.winiarska@intel.com>
+Cc:     linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        x86@kernel.org, devicetree@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org,
-        Suleiman Souhlal <suleiman@google.com>,
-        Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Zev Weiss <zweiss@equinix.com>,
+        David Muller <d.mueller@elsoft.ch>
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Message-ID: <YVtQG+idmwKn0qLe@zn.tnic>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-2-iwona.winiarska@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210803113134.2262882-2-iwona.winiarska@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 4, 2021 at 2:29 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> On Fri, Oct 01, 2021 at 11:16:27AM -0700, Brian Geffon wrote:
-> > There does not appear to be a technical reason to not
-> > allow the zram backing device to be assigned after the
-> > zram device is initialized.
-> >
-> > This change will allow for the backing device to be assigned
-> > as long as no backing device is already assigned. In that
-> > event backing_dev would return -EEXIST.
-> >
-> > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > ---
-> >  drivers/block/zram/zram_drv.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > index fcaf2750f68f..12b4555ee079 100644
-> > --- a/drivers/block/zram/zram_drv.c
-> > +++ b/drivers/block/zram/zram_drv.c
-> > @@ -462,9 +462,9 @@ static ssize_t backing_dev_store(struct device *dev,
-> >               return -ENOMEM;
-> >
-> >       down_write(&zram->init_lock);
-> > -     if (init_done(zram)) {
-> > -             pr_info("Can't setup backing device for initialized device\n");
-> > -             err = -EBUSY;
-> > +     if (zram->backing_dev) {
-> > +             pr_info("Backing device is already assigned\n");
-> > +             err = -EEXIST;
-> >               goto out;
->
-> Hi Brian,
->
+On Tue, Aug 03, 2021 at 01:31:20PM +0200, Iwona Winiarska wrote:
+> Baseboard management controllers (BMC) often run Linux but are usually
+> implemented with non-X86 processors. They can use PECI to access package
+> config space (PCS) registers on the host CPU and since some information,
+> e.g. figuring out the core count, can be obtained using different
+> registers on different CPU generations, they need to decode the family
+> and model.
+> 
+> Move the data from arch/x86/include/asm/intel-family.h into a new file
+> include/linux/x86/intel-family.h so that it can be used by other
+> architectures.
+> 
+> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> ---
+> To limit tree-wide changes and help people that were expecting
+> intel-family defines in arch/x86 to find it more easily without going
+> through git history, we're not removing the original header
+> completely, we're keeping it as a "stub" that includes the new one.
+> If there is a consensus that the tree-wide option is better,
+> we can choose this approach.
 
-Hi Minchan,
+Why can't the linux/ namespace header include the x86 one so that
+nothing changes for arch/x86/?
 
-> I am worry about the inconsistency with other interface of current zram
-> set up. They were supposed to set it up before zram disksize setting
-> because it makes code more simple/maintainalbe in that we don't need
-> to check some feature on the fly.
->
-> Let's think about when zram extends the writeback of incompressible
-> page on demand. The write path will need the backing_dev under
-> down_read(&zarm->init_lock) or other conditional variable to check
-> whether the feature is enabled or not on the fly.
+And if it is really only a handful of families you need, you might just
+as well copy them into the peci headers and slap a comment above it
+saying where they come from and save yourself all that churn...
 
-I don't follow what you mean by that, writeback_store already holds
-down_read(&zarm->init_lock).
+-- 
+Regards/Gruss,
+    Boris.
 
-Brian
+https://people.kernel.org/tglx/notes-about-netiquette
