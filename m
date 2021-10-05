@@ -2,143 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1AFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 06:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0289EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0AA261184
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 06:47:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBC896128A
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232630AbhJEGtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 02:49:04 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:55956 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232591AbhJEGtE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 02:49:04 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id A1FFE222E2;
-        Tue,  5 Oct 2021 06:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1633416433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+hu0tR8lBYn9WH+wcRG4FyBIY4ea4HDt1SjNBpAD4Gs=;
-        b=0HhWcFv/fktmx96///qz2dbqSemmIVyKiStwUtuNUi5EHR2B4nRHfySavSGX1N+vVzTo1B
-        HDNcabIZz45QtazUpgz9pPHqIIel6xDRknxTyof8DZNE8zTRkZBPR6sBkRTWwnDZlnDBgC
-        Y411m7WtGCq4xVqA3S3QLdh35H9TSMw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1633416433;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+hu0tR8lBYn9WH+wcRG4FyBIY4ea4HDt1SjNBpAD4Gs=;
-        b=mwNVmIajDzdHGvlg7BhAsSWA4wg6Y/iRDOD6mZRR9cTWrmEtfVzpJ1YfOW1K5Uxap5gG5k
-        Y4MPjFzU86Ddu1BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 79FB81342A;
-        Tue,  5 Oct 2021 06:47:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 2Pq0HPH0W2GLOAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Tue, 05 Oct 2021 06:47:13 +0000
-Message-ID: <1cead398-2241-dc05-0518-7861c1e4515f@suse.de>
-Date:   Tue, 5 Oct 2021 08:47:12 +0200
+        id S232108AbhJEIam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 04:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230286AbhJEIal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 04:30:41 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C504CC061745;
+        Tue,  5 Oct 2021 01:28:51 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id d11so21044309ilc.8;
+        Tue, 05 Oct 2021 01:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jxntDmAn7pyc+6bbfF1hzJvhGPEpkzavUN7ynxK4EDM=;
+        b=d0VG/7IwzKhSeSVkEXyX8+vqtEaNLONPlemle0rf98iFOOGAT1E/b6MIx1eAkCmuZC
+         OH3gwqGQwe3RhST5ewUzbkE9JZ1/womyxeYComV+do2cteAaq8eGLjs8Yz5zt1+fTNrN
+         CX5aqkWAetjmhTKa/bJzPWFK2bc9mvX/cVbMBcjBWJsPTQMjKNPQJc3AWKnDyGma1p26
+         LxtuarShq+XOwuQFS1F7eWLtxMxye3pZDXaoTNsAuWSbc/pc+gqezUnVCB054uoPeQYt
+         UpAIXzorrIo6vf0Oq7OAkUsO1oIqtQd8Q+te3kkwko5wpLj0kHJKJrXc0FcXZBdpIGQg
+         1l3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jxntDmAn7pyc+6bbfF1hzJvhGPEpkzavUN7ynxK4EDM=;
+        b=V+MJQWakWfFoIdvx1KXDsa1qsFP0woTpWctOyhfg+J/hHth6N6J1wGX3n6ms1mlXN7
+         RsSNagSA5DeHdtwD/ezsBzDMUdQItVKb81yN9+QjjCBy8joAGopbHGKRdbmJydGKJQck
+         k4HJ4YISa8Mt9T5H6LCwwDZMfS3trBfgpKeO4hWLwNWALcHM5GPVrPlJqtNWJGCeH+qR
+         PVrLE3MsnPp/QIs0nTV8rQPu/g5kywZ6C4VAP9n/iZ1Ru/jqj4FwUOO7A89WjpdlF8fr
+         JI99FVnxjds+bqDYHGec7Pq8Jqm6wCIUcll/01vO7aqFve/wISTeXx5RlkVceQ5exnab
+         3wdA==
+X-Gm-Message-State: AOAM530LHCoT8PIznnlplenEChAY2N2UyyK5yBqM3hvSlxFsTMQi9bri
+        /8oxiuQ1ItjLI+bw2EgR62mZqHgY6caRTrcMOUo=
+X-Google-Smtp-Source: ABdhPJzHm6OHvKeXKD6v6d9vbtQDlLspmnLKVdoMZNAsJtn10HUY8fIMcH41bal7yxgpl0eUvlbYPEn6fvMvsrg8HwI=
+X-Received: by 2002:a05:6e02:1d86:: with SMTP id h6mr2164806ila.5.1633422531046;
+ Tue, 05 Oct 2021 01:28:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH] DRM: delete DRM IRQ legacy midlayer docs
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-References: <20211005025312.20913-1-rdunlap@infradead.org>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211005025312.20913-1-rdunlap@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DIjCGkAyd5DDzKcVeKdN9qYh"
+References: <20210930235754.2635912-1-keescook@chromium.org> <87h7dw75gh.fsf@meer.lwn.net>
+In-Reply-To: <87h7dw75gh.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 5 Oct 2021 10:28:40 +0200
+Message-ID: <CANiq72mTmYCJ4_7KVRMMKCDTMrnE9wCXBKViCMzkW1ErpdZKHg@mail.gmail.com>
+Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DIjCGkAyd5DDzKcVeKdN9qYh
-Content-Type: multipart/mixed; boundary="------------KtZHZu2h0AuPS5749nMcYvt3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <1cead398-2241-dc05-0518-7861c1e4515f@suse.de>
-Subject: Re: [PATCH] DRM: delete DRM IRQ legacy midlayer docs
-References: <20211005025312.20913-1-rdunlap@infradead.org>
-In-Reply-To: <20211005025312.20913-1-rdunlap@infradead.org>
+On Tue, Oct 5, 2021 at 1:57 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> In this case I think we're as close as to consensus as things get.  In
+> the absence of a strong reason to the contrary, I'll apply this before
+> too long.
 
---------------KtZHZu2h0AuPS5749nMcYvt3
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+No strong reason, but there was the question about the `__malloc` in a
+separate line in the second example which seems to contradict the
+declaration and it is not explained otherwise (+ clang-format does it
+differently).
 
-SGkNCg0KQW0gMDUuMTAuMjEgdW0gMDQ6NTMgc2NocmllYiBSYW5keSBEdW5sYXA6DQo+IFJl
-bW92ZSBkb2N1bWVudGF0aW9uIGFzc29jaWF0ZWQgd2l0aCB0aGUgcmVtb3ZhbCBvZiB0aGUg
-RFJNIElSUSBsZWdhY3kNCj4gbWlkbGF5ZXIuDQo+IA0KPiBFbGltaW5hdGVzIHRoZXNlIGRv
-Y3VtZW50YXRpb24gd2FybmluZ3M6DQo+IA0KPiAuLi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ly
-cS5jOjE6IHdhcm5pbmc6ICdpcnEgaGVscGVycycgbm90IGZvdW5kDQo+IC4uL2RyaXZlcnMv
-Z3B1L2RybS9kcm1faXJxLmM6MTogd2FybmluZzogbm8gc3RydWN0dXJlZCBjb21tZW50cyBm
-b3VuZA0KPiANCj4gRml4ZXM6IGMxNzM2YjkwMDhjYiAoImRybTogSVJRIG1pZGxheWVyIGlz
-IG5vdyBsZWdhY3kiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBA
-aW5mcmFkZWFkLm9yZz4NCj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPg0KPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPg0KPiBDYzog
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogSm9uYXRoYW4gQ29yYmV0
-IDxjb3JiZXRAbHduLm5ldD4NCj4gQ2M6IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmcNCj4g
-Q2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4NCj4gQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4NCg0KQXBwbGllZCB0byBkcm0tbWlzYy1maXhlcy4gVGhh
-bmtzIGZvciB0aGUgcGF0Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+
-ICAgRG9jdW1lbnRhdGlvbi9ncHUvZHJtLWludGVybmFscy5yc3QgfCAgICA5IC0tLS0tLS0t
-LQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA5IGRlbGV0aW9ucygtKQ0KPiANCj4gLS0tIGxueC01
-MTUtcmM0Lm9yaWcvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLWludGVybmFscy5yc3QNCj4gKysr
-IGxueC01MTUtcmM0L0RvY3VtZW50YXRpb24vZ3B1L2RybS1pbnRlcm5hbHMucnN0DQo+IEBA
-IC0xMTEsMTUgKzExMSw2IEBAIENvbXBvbmVudCBIZWxwZXIgVXNhZ2UNCj4gICAuLiBrZXJu
-ZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0KPiAgICAgIDpkb2M6IGNvbXBv
-bmVudCBoZWxwZXIgdXNhZ2UgcmVjb21tZW5kYXRpb25zDQo+ICAgDQo+IC1JUlEgSGVscGVy
-IExpYnJhcnkNCj4gLX5+fn5+fn5+fn5+fn5+fn5+fg0KPiAtDQo+IC0uLiBrZXJuZWwtZG9j
-OjogZHJpdmVycy9ncHUvZHJtL2RybV9pcnEuYw0KPiAtICAgOmRvYzogaXJxIGhlbHBlcnMN
-Cj4gLQ0KPiAtLi4ga2VybmVsLWRvYzo6IGRyaXZlcnMvZ3B1L2RybS9kcm1faXJxLmMNCj4g
-LSAgIDpleHBvcnQ6DQo+IC0NCj4gICBNZW1vcnkgTWFuYWdlciBJbml0aWFsaXphdGlvbg0K
-PiAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+ICAgDQo+IA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0K
-
---------------KtZHZu2h0AuPS5749nMcYvt3--
-
---------------DIjCGkAyd5DDzKcVeKdN9qYh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFb9PAFAwAAAAAACgkQlh/E3EQov+A1
-mBAAg5pJMbrPiLOCdtHi2//ggsKFS8SEBKe+5furHdayiC/TVdrXvN4Q/jFRKDpk2QMbQbDtMLvY
-ngK4qfIMvAH6akaaewB8DFCMmzbOPiCPhPspPED3ccirycI9VPzzd3TdpB7c2dha/+Vr/rkTiuKa
-5X2niXUFMEiJlqetHQMjZvzp38r+DRLWwMk05CL3omzlTA5WqJ6wHl6R+JrBdY7KtDsWbk+z8cO/
-/4xdK4HXBCyvGBZJSGcyxFBCsT/+hRYCGP1oZBpWUbYihsrkLyAlOxdqujv+pD0MB4Qb754vjnz+
-C9vdB/5tpW0oEkSl9h7fo7Y5QMUlwXB9Ge55f/hmN4FH/Vpm9I2539OJcAH46HnGewzwc0RhvDyD
-Zv1/el5YfCsuYuow8XAKzno3qyLTnoLQ8UsogWv4DLxH6HaB1JwhJHMMZre0nAoFZkDbKnKvL7Cb
-odcG7OKURuP9ZnzRz7J0Gck9YCkaO7B/c3GTQ8eIPmmGbkj4XmZ5s9JK99CFeqjdgF/OCCKB2q7I
-cy6KU1jfnuNJY6aXhiVfWrg0XxIvPW+KvKJkFTOy5SBsMX0+ugXenNCxvV0285m9jOCWK8uU97+6
-C5EBi/daDnFdpUflk4rECDkxzCrnkP9bFr/u9G70uxF1yBVK4iQ6KmxruPjHD4iR/73j2lNN7cfm
-lAM=
-=aN0i
------END PGP SIGNATURE-----
-
---------------DIjCGkAyd5DDzKcVeKdN9qYh--
+Cheers,
+Miguel
