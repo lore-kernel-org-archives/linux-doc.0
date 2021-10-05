@@ -2,88 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F194C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 02:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60207C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 04:08:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 515F96140A
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 02:53:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F2BE61406
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 04:08:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231483AbhJECzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Oct 2021 22:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53198 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232108AbhJECzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Oct 2021 22:55:12 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBF3C061745
-        for <linux-doc@vger.kernel.org>; Mon,  4 Oct 2021 19:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=dHO9VUU6KIilj0lSjEjuS5kklUS8u1rXgZVZwATXFzM=; b=QXLvtliynWfXMR/PiV+6HOZMjx
-        0nBWYBFXB5Y2soBGHToXqbW5uh98LkNpW57bfqX9Zts2qzwcmfHOEvnxxhaXAhv76f9B6aoJyTEHo
-        GOgGSbOaLwzzmNVYcrZMeBzFKca5TV+fqJiHm2hK2U4Ff7Eu+bMcwxmXAxSF0BfnxdJME/mSavCTy
-        IXWwk3t2aXBRpEqs8UV527apYxrFErCoIB7sYBglSWB6OZdwKxIzY0vTZJ+hiv3bA36UQrcTqiaDo
-        nAFNGE4+T9Jxr7OuUMhn/gU7qNN+huubBAbyFhHBC55OBQnrTEgdX4MMJEv/jo2XYJyk6dPcgTpy+
-        HkKVJTCw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXaZt-008jNR-OF; Tue, 05 Oct 2021 02:53:13 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] DRM: delete DRM IRQ legacy midlayer docs
-Date:   Mon,  4 Oct 2021 19:53:12 -0700
-Message-Id: <20211005025312.20913-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S229488AbhJEEKc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 00:10:32 -0400
+Received: from mga17.intel.com ([192.55.52.151]:5183 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229446AbhJEEKb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Oct 2021 00:10:31 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="206462198"
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; 
+   d="scan'208";a="206462198"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 21:08:41 -0700
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; 
+   d="scan'208";a="487835896"
+Received: from yilai-mobl1.ccr.corp.intel.com (HELO chenyu5-mobl1) ([10.249.172.101])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2021 21:08:35 -0700
+Date:   Tue, 5 Oct 2021 12:08:31 +0800
+From:   Chen Yu <yu.c.chen@intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Aubrey Li <aubrey.li@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 3/5] drivers/acpi: Introduce Platform Firmware Runtime
+ Update device driver
+Message-ID: <20211005040831.GA7134@chenyu5-mobl1>
+References: <cover.1631802162.git.yu.c.chen@intel.com>
+ <90d270c031401430445cb2c4ba1b9b0c265cf9d4.1631802163.git.yu.c.chen@intel.com>
+ <YUoBSRrAyaHOCNHb@kroah.com>
+ <20210922090442.GA16963@chenyu5-mobl1>
+ <YUry6tzScXMD007X@kroah.com>
+ <20210922163321.GA31068@chenyu5-mobl1>
+ <YUtnuW22MH97p7+G@kroah.com>
+ <CAJZ5v0gDHA34a+4pO7Pb8=wc7FPiMvDj9k7WrO0Cc8mcMNzMxg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0gDHA34a+4pO7Pb8=wc7FPiMvDj9k7WrO0Cc8mcMNzMxg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove documentation associated with the removal of the DRM IRQ legacy
-midlayer.
+On Mon, Sep 27, 2021 at 07:40:39PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Sep 22, 2021 at 7:28 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Sep 23, 2021 at 12:33:21AM +0800, Chen Yu wrote:
+> > > On Wed, Sep 22, 2021 at 11:10:02AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Sep 22, 2021 at 05:04:42PM +0800, Chen Yu wrote:
+> > > > > Hi Greg,
+> > > > > On Tue, Sep 21, 2021 at 05:59:05PM +0200, Greg Kroah-Hartman wrote:
+> > > > > > On Fri, Sep 17, 2021 at 12:02:18AM +0800, Chen Yu wrote:
+> > > > > > > Introduce the pfru_update driver which can be used for Platform Firmware
+> > > > > > > Runtime code injection and driver update. The user is expected to provide
+> > > > > > > the update firmware in the form of capsule file, and pass it to the driver
+> > > > > > > via ioctl. Then the driver would hand this capsule file to the Platform
+> > > > > > > Firmware Runtime Update via the ACPI device _DSM method. At last the low
+> > > > > > > level Management Mode would do the firmware update.
+> > > > > > >
+> > > > > > > Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+> > > > > >
+> > > > > > Where is the userspace code that uses this ioctl and has tested it out
+> > > > > > to verify it works properly?  A link to that in the changelog would be
+> > > > > > great to have.
+> > > > > >
+> > > > > The patch [5/5] is a self testing tool to test the whole feature. I'll send a
+> > > > > new version and Cc you too.
+> > > >
+> > > > That tests it, but does not answer the question of who will actually use
+> > > > this.  What userspace tool needs this new api?
+> > > >
+> > > Currently there is no dedicated userspace tool developed to use this
+> > > feature AFAIK.
+> >
+> > Wonderful, then it is not needed to be added to the kernel :)
+> >
+[snip]
+> > > It was expected that the end users
+> > > could refer to the self test tool to customize their tools. I'm not sure if
+> > > this is the proper way to propose the feature, may I have your suggestion on
+> > > this, should I create a separate git repository for this tool, or put it in
+> > > tools/selftestings as it is now?
+> >
+> > No, do not add this to the kernel unless you have a real need and user
+> > for this.
+After revisiting this patch set, I'll revise it to better describe the background
+and usage model, and also propose the user space tool to fully demonstrate how to
+use this feature.
 
-Eliminates these documentation warnings:
-
-../drivers/gpu/drm/drm_irq.c:1: warning: 'irq helpers' not found
-../drivers/gpu/drm/drm_irq.c:1: warning: no structured comments found
-
-Fixes: c1736b9008cb ("drm: IRQ midlayer is now legacy")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- Documentation/gpu/drm-internals.rst |    9 ---------
- 1 file changed, 9 deletions(-)
-
---- lnx-515-rc4.orig/Documentation/gpu/drm-internals.rst
-+++ lnx-515-rc4/Documentation/gpu/drm-internals.rst
-@@ -111,15 +111,6 @@ Component Helper Usage
- .. kernel-doc:: drivers/gpu/drm/drm_drv.c
-    :doc: component helper usage recommendations
- 
--IRQ Helper Library
--~~~~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/drm_irq.c
--   :doc: irq helpers
--
--.. kernel-doc:: drivers/gpu/drm/drm_irq.c
--   :export:
--
- Memory Manager Initialization
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
+thanks,
+Chenyu
