@@ -2,120 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F77BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 09:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46092C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 09:24:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85376615A3
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 09:20:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26FD2610C9
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 09:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233738AbhJEJWp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 05:22:45 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:51142 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233723AbhJEJWo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 05:22:44 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 59A8B1FFFB;
-        Tue,  5 Oct 2021 09:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1633425652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mf8VJfVMIA+k3Bsw/G2xHgLY8J7xFCmSVY3uxV1UuE0=;
-        b=ousjmab2qPFeIHEyaA7FI4cVaHn6d2U1WkOqmsNx571ZG9fss2RfjzhZ8M2XbZxFeNoJut
-        KkYSX089bN7jIbrTgOwwXYFMwvWswTBP/vi8h3HbkHe2KkEykNTk7WTzhHZ5CClMXJP+2e
-        0wG6YtaEosgYvr/jFZA+2QKduI2z/d8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1633425652;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mf8VJfVMIA+k3Bsw/G2xHgLY8J7xFCmSVY3uxV1UuE0=;
-        b=1SXNJ+3yLxZznTYY6j5SXI3wv8HosWt7G25kBydvsEv+oBV7oAdP/MKz5tZF1x3YWKGM2B
-        d5dtPPwK3UTu7ZCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1753713C1B;
-        Tue,  5 Oct 2021 09:20:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id VxndBPQYXGHkfQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 05 Oct 2021 09:20:52 +0000
-Message-ID: <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
-Date:   Tue, 5 Oct 2021 11:20:51 +0200
+        id S233071AbhJEJ0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 05:26:01 -0400
+Received: from forward500o.mail.yandex.net ([37.140.190.195]:59362 "EHLO
+        forward500o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232871AbhJEJ0B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 05:26:01 -0400
+X-Greylist: delayed 377 seconds by postgrey-1.27 at vger.kernel.org; Tue, 05 Oct 2021 05:25:59 EDT
+Received: from myt5-6c0659e8c6cb.qloud-c.yandex.net (myt5-6c0659e8c6cb.qloud-c.yandex.net [IPv6:2a02:6b8:c12:271e:0:640:6c06:59e8])
+        by forward500o.mail.yandex.net (Yandex) with ESMTP id A206F941E36;
+        Tue,  5 Oct 2021 12:17:48 +0300 (MSK)
+Received: from myt5-ca5ec8faf378.qloud-c.yandex.net (2a02:6b8:c12:2514:0:640:ca5e:c8fa [2a02:6b8:c12:2514:0:640:ca5e:c8fa])
+        by myt5-6c0659e8c6cb.qloud-c.yandex.net (mxback/Yandex) with ESMTP id IyV6tEzelD-HkDqMhNI;
+        Tue, 05 Oct 2021 12:17:48 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1633425468;
+        bh=CrnGMerQ4LBYjjGbgeqFgGHVtZrQ+QTtn5a0VX0cO1Y=;
+        h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+        b=dehZ7uZt+fO6YaaLE03MQykhBGAWbnTmJAz787q5v+kP+tnjCX9x7H9RnogO2XnQp
+         o2LRZpnAlGHdRWJteqIyL14dh5xgLy2vRi3CnyXYsauaUBuFMzC+aXli5//Spgpk63
+         AQfi00eYfDiMTtzwMWrmEkxl0sCLVfek9C7+wa9k=
+Authentication-Results: myt5-6c0659e8c6cb.qloud-c.yandex.net; dkim=pass header.i=@maquefel.me
+Received: by myt5-ca5ec8faf378.qloud-c.yandex.net (smtp/Yandex) with ESMTPS id 43frcM9OPL-HjPCRD6R;
+        Tue, 05 Oct 2021 12:17:46 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
+Date:   Tue, 5 Oct 2021 12:17:44 +0300
+From:   Nikita Shubin <nikita.shubin@maquefel.me>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Anup Patel <anup.patel@wdc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Darrick J. Wong" <djwong@kernel.org>, devicetree@vger.kernel.org,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jiri Olsa <jolsa@redhat.com>,
+        John Garry <john.garry@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: Re: [v3 00/10] Improve RISC-V Perf support using SBI PMU and
+ sscofpmf extension
+Message-ID: <20211005121744.728385be@redslave.neermore.group>
+In-Reply-To: <20210910192757.2309100-1-atish.patra@wdc.com>
+References: <20210910192757.2309100-1-atish.patra@wdc.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Content-Language: en-US
-To:     NeilBrown <neilb@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-        ". Dave Chinner" <david@fromorbit.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741778.29351.16920832234899124642.stgit@noble.brown>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <163184741778.29351.16920832234899124642.stgit@noble.brown>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/17/21 04:56, NeilBrown wrote:
-> __GFP_NOFAIL is documented both in gfp.h and memory-allocation.rst.
-> The details are not entirely consistent.
-> 
-> This patch ensures both places state that:
->  - there is a risk of deadlock with reclaim/writeback/oom-kill
->  - it should only be used when there is no real alternative
->  - it is preferable to an endless loop
->  - it is strongly discourages for costly-order allocations.
-> 
-> Signed-off-by: NeilBrown <neilb@suse.de>
+On Fri, 10 Sep 2021 12:27:47 -0700
+Atish Patra <atish.patra@wdc.com> wrote:
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Hello Atish,
 
-Nit below:
-
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index 55b2ec1f965a..1d2a89e20b8b 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -209,7 +209,11 @@ struct vm_area_struct;
->   * used only when there is no reasonable failure policy) but it is
->   * definitely preferable to use the flag rather than opencode endless
->   * loop around allocator.
-> - * Using this flag for costly allocations is _highly_ discouraged.
-> + * Use of this flag may lead to deadlocks if locks are held which would
-> + * be needed for memory reclaim, write-back, or the timely exit of a
-> + * process killed by the OOM-killer.  Dropping any locks not absolutely
-> + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
-> + * Using this flag for costly allocations (order>1) is _highly_ discouraged.
-
-We define costly as 3, not 1. But sure it's best to avoid even order>0 for
-__GFP_NOFAIL. Advising order>1 seems arbitrary though?
-
->   */
->  #define __GFP_IO	((__force gfp_t)___GFP_IO)
->  #define __GFP_FS	((__force gfp_t)___GFP_FS)
+> Perf stat:
+> =========
 > 
+> [root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e
+> r8000000000000007 -e r8000000000000006 -e r0000000000020002 -e
+> r0000000000020004 -e branch-misses -e cache-misses -e
+> dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -e cycles
+> -e instructions ./hackbench -pipe 15 process Running with 15*40 (==
+> 600) tasks. Time: 6.578
 > 
+>  Performance counter stats for './hackbench -pipe 15 process':
 > 
+>              6,491      r8000000000000005      (52.59%) -->
+> SBI_PMU_FW_SET_TIMER 20,433      r8000000000000007      (60.74%) -->
+> SBI_PMU_FW_IPI_RECVD 21,271      r8000000000000006      (68.71%) -->
+> SBI_PMU_FW_IPI_SENT 0      r0000000000020002      (76.55%)
+>      <not counted>      r0000000000020004      (0.00%)
+>      <not counted>      branch-misses          (0.00%)
+>      <not counted>      cache-misses           (0.00%)
+>         57,537,853      dTLB-load-misses       (9.49%)
+>          2,821,147      dTLB-store-misses      (18.64%)
+>         52,928,130      iTLB-load-misses       (27.53%)
+>     89,521,791,110      cycles                 (36.08%)
+>     90,678,132,464      instructions #    1.01  insn per cycle
+> (44.44%)
+> 
+>        6.975908032 seconds time elapsed
+> 
+>        3.130950000 seconds user
+>       24.353310000 seconds sys
+> 
+
+Tested your patch series with qemu and got results as expected:
+
+perf stat -e r8000000000000005 -e r8000000000000007 \
+-e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e
+branch-misses \ -e cache-misses -e dTLB-load-misses -e
+dTLB-store-misses -e iTLB-load-misses \ -e cycles -e instructions
+./hackbench -pipe 15 process
+
+Running with 15*40 (== 600) tasks.nch -pipe 15 process
+Time: 20.027
+
+ Performance counter stats for './hackbench -pipe 15 process':
+
+              4896      r8000000000000005
+                            (53.34%) 0      r8000000000000007
+                                                (61.20%) 0
+              r8000000000000006
+                  (68.88%) 0      r0000000000020002
+                                      (76.53%) <not counted>
+              r0000000000020004
+                  (0.00%) <not counted>      branch-misses
+                                                 (0.00%) <not counted>
+                  cache-misses
+                      (0.00%) 48414917      dTLB-load-misses
+                                                (9.87%) 2427413
+              dTLB-store-misses
+                  (19.43%) 46958092      iTLB-load-misses
+                                             (28.58%) 69245163600
+              cycles
+                  (37.09%) 70334279943      instructions              #
+                 1.02  insn per cycle           (45.24%)
+
+      20.895871900 seconds time elapsed
+
+       2.724942000 seconds user
+      18.126277000 seconds sys
+
+perf top/record also works.
+
+Tested-by: Nikita Shubin <n.shubin@yadro.com>
+
+Yours,
+Nikita Shubin
+
 
