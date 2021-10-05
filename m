@@ -2,104 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D31C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:15:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 912C3C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9227E6137C
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:15:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 746F2610C8
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235277AbhJETRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 15:17:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
+        id S235080AbhJETXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 15:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235176AbhJETRF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 15:17:05 -0400
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D55C061749;
-        Tue,  5 Oct 2021 12:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=FbGbTzVN9zJ2FK467mGNFjxVX9oK9l7Rkf+moaDWL/0=; b=Z4+g5nBtCXAhTOPi8DhfZwuL3m
-        npca5yx9Hhy/QGu/cX7271mH8AQusLVQxhczjcmRWL+yCO2TQfC60VKSoL2kMUPpNhY1RkAX+ZT32
-        6N/hqhkj+mlvSdBXjRgx7iigKH/1ju92pUlA1H31FvLgu8H774gTvme2lScB7a7kHb/hCcMaes1jM
-        M+x7lVVSDQ8gd2factizIqidruofZ9yJs/ZINmw9FZyOiRHn5Dv8UFKnjZhYaGP9oIT+CVBcrndzj
-        m68i7thVbN8Ict3e3Sp/rwZ36ymaPSPuzHZHP+1wDu3a57VLPz1WdafsHnwDOp9O0nhD+2lUzudUD
-        OjgcQZ7g==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXpuD-00BdhP-RL; Tue, 05 Oct 2021 19:15:13 +0000
-Subject: Re: [PATCH v5] docs: Explain the desired position of function
- attributes
-To:     Kees Cook <keescook@chromium.org>, Joe Perches <joe@perches.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        with ESMTP id S229662AbhJETXT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 15:23:19 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2156C061749
+        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 12:21:28 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id d13-20020a17090ad3cd00b0019e746f7bd4so2797471pjw.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 12:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7y0UQJo2ebCqon0Bb7OI4csD0ePdDv5zBX9x3Gtz6Mg=;
+        b=ftC3Y73kipN8EROGIeJDV8NTUjflmrLwE19qsFs3y5p12F2JvJ1fDy3W7Ypic1NX81
+         2v3cMbEpRUcZWhC6ttcRhGFCOMwikEjPQa8wJrz32tAVOxWEOBLrUobOQT01GkU2+fRm
+         W4qbRjDRbrdUfClhtSjntPBzH4/bRmjW/H1v8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7y0UQJo2ebCqon0Bb7OI4csD0ePdDv5zBX9x3Gtz6Mg=;
+        b=D+yxKTbAr6VtJ0KcRwGJ0ao3gTmbssOsBQqwsE7pMddSBNE5qgH69K0e6Rkk+3YQ+/
+         3vvPUHWdMY/wAWSfYAAfPCNuuu4LrwTvOocBM0P5T/sW30LPuaXolcIlNvB3x5T2+92L
+         Sx7zXX2Qgu8yXr0Y7Aa3twCgHiTs3wyUccWVDEPL7wJL1p/Upp23M/2KbZwVPAjjbvZR
+         fR6sBtjq0Sp+G6tlgmTGVCwTL9j5IBtgktl8/vtVbbDPvgC1PMZNGj+QS/VFs8o/r+se
+         7eRXpuiPDubLkvxzzclefGUdvg6dggcDvLp1o32PjTID126iXlRtFU3bc7kYv2/lFqBu
+         ZnCA==
+X-Gm-Message-State: AOAM530cP8ATrE0HO4X/ew2E6UhA8+C0W/3KJaKWt7OGBSRGGhKiQA+k
+        jd8vpKcQ1C8v0taauhQ2hi3etw==
+X-Google-Smtp-Source: ABdhPJzezE2wUAuBWYAjH/zFwBXPaMFO3rBxvvJeba7vRgIkChPqAHZkAWQhGASVRMyeAEnLl+lViw==
+X-Received: by 2002:a17:902:a3c2:b0:13d:be85:43ca with SMTP id q2-20020a170902a3c200b0013dbe8543camr6965857plb.0.1633461688236;
+        Tue, 05 Oct 2021 12:21:28 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a5sm8228807pff.219.2021.10.05.12.21.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 12:21:27 -0700 (PDT)
+Date:   Tue, 5 Oct 2021 12:21:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-References: <20211005152611.4120605-1-keescook@chromium.org>
- <7f6e53d04849daabd3e85c23f9974b2eb4a20c13.camel@perches.com>
- <202110051004.C4D9EBA0@keescook>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <742567f3-f043-6fab-235a-5835ca025f54@infradead.org>
-Date:   Tue, 5 Oct 2021 12:15:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <202110051220.FFD4C604EF@keescook>
+References: <20211001205657.815551-1-surenb@google.com>
+ <20211001205657.815551-3-surenb@google.com>
+ <20211005184211.GA19804@duo.ucw.cz>
+ <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <202110051004.C4D9EBA0@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/5/21 10:04 AM, Kees Cook wrote:
-> On Tue, Oct 05, 2021 at 08:39:14AM -0700, Joe Perches wrote:
->> On Tue, 2021-10-05 at 08:26 -0700, Kees Cook wrote:
->>> While discussing how to format the addition of various function
->>> attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
->>> close as possible to Linus's preferences for future reference.
->>> +For example, using this function declaration example::
->>> +
->>> + __init void * __must_check action(enum magic value, size_t size, u8 count,
->>> +				   char *fmt, ...) __printf(4, 5) __malloc;
->>
->> trivia: almost all fmt declarations should be const char *
+On Tue, Oct 05, 2021 at 12:14:59PM -0700, Suren Baghdasaryan wrote:
+> On Tue, Oct 5, 2021 at 11:42 AM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > On Fri 2021-10-01 13:56:57, Suren Baghdasaryan wrote:
+> > > While forking a process with high number (64K) of named anonymous vmas the
+> > > overhead caused by strdup() is noticeable. Experiments with ARM64
+> > Android
+> >
+> > I still believe you should simply use numbers and do the
+> > numbers->strings mapping in userspace. We should not need to optimize
+> > strdups in kernel...
 > 
-> Heh, good point!
+> Here are complications with mapping numbers to strings in the userspace:
+> Approach 1: hardcode number->string in some header file and let all
+> tools use that mapping. The issue is that whenever that mapping
+> changes all the tools that are using it (including 3rd party ones)
+> have to be rebuilt. This is not really maintainable since we don't
+> control 3rd party tools and even for the ones we control, it will be a
+> maintenance issue figuring out which version of the tool used which
+> header file.
+> Approach 2: have a centralized facility (a process or a DB)
+> maintaining number->string mapping. This would require an additional
+> request to this facility whenever we want to make a number->string
+> conversion. Moreover, when we want to name a VMA, we would have to
+> register a new VMA name in that facility or check that one already
+> exists and get its ID. So each prctl() call to name a VMA will be
+> preceded by such a request (IPC call), maybe with some optimizations
+> to cache already known number->string pairs. This would be quite
+> expensive performance-wise. Additional issue with this approach is
+> that this mapping will have to be persistent to handle a case when the
+> facility crashes and has to be restored.
 > 
->>> +Note that for a function **definition** (i.e. the actual function body),
->>> +the compiler does not allow function parameter attributes after the
->>> +function parameters. In these cases, they should go after the storage
->>> +class attributes (e.g. note the changed position of ``__printf(4, 5)``
->>> +below, compared to the **declaration** example above)::
->>> +
->>> + static __always_inline __init __printf(4, 5) void * __must_check action(enum magic value,
->>> +		size_t size, u8 count, char *fmt, ...) __malloc
->>
->> here too, and 80 columns?
-> 
-> Kernel standard is now 100. *shrug*
+> As I said before, it complicates userspace quite a bit. Is that a good
+> enough reason to store the names in the kernel and pay a little more
+> memory for that? IMHO yes, but I might be wrong.
 
-That's more for exceptions, not the common rule.
-AFAIUI.
-
-> 
->>> + {
->>> +	...
->>> + }
->>
->> Or just put all the attributes before the storage class... <grumble/chuckle>
-> 
-> I hear ya...
-> 
-
+FWIW, I prefer the strings. It's more human-readable, which is important
+for the kinds of cases where the maps are being used for diagnostics,
+etc.
 
 -- 
-~Randy
+Kees Cook
