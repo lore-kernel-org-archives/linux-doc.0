@@ -2,82 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73997C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 14:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DCDC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 14:58:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5499761503
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 14:37:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63E5361244
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 14:58:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235190AbhJEOjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
+        id S231226AbhJEPAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 11:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234084AbhJEOjZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 10:39:25 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCDCC061749;
-        Tue,  5 Oct 2021 07:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=NXVT547q11vxBmN0JnCHuyJ+/+kUBjr0nC1nL/Y5gs8=; b=mP1JnpeUdMoGUG0of2rU8oOvaR
-        n7csvi9rY8/SEFwTuD6fzd+RSWW8AjhudXBQEJl2V5sOSMGFsjQbWG/AH5UhHDHKEuXfglXOGm25M
-        JgVLJRTXxeg/i3Gq7waOsj2cBgOS3kPVMTolADirJaGu8H0NCsnkgZtZ7+Mf5WKWa/8kRTyIUFUBI
-        q8PL3uMiyVJJmGBXP7KUAhgouW2MeZzn4zZny0oK8FZ18stFi47qmgU3NROIBuavFPsqzM/F+bNuZ
-        xmAPZ5YvZqGVFtxTLfqX9PFJdQW9XVgPe1GCuqvR59RoAecUagUq6sUF1/NG3yy8HzY6st8oSDua+
-        Njbx8NBw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXlZI-00846d-FS; Tue, 05 Oct 2021 14:37:20 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9DD7930019C;
-        Tue,  5 Oct 2021 16:37:19 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7D60D2038E211; Tue,  5 Oct 2021 16:37:19 +0200 (CEST)
-Date:   Tue, 5 Oct 2021 16:37:19 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Marco Elver <elver@google.com>
-Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH -rcu/kcsan 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <YVxjH2AtjvB8BDMD@hirez.programming.kicks-ass.net>
-References: <20211005105905.1994700-1-elver@google.com>
- <20211005105905.1994700-24-elver@google.com>
+        with ESMTP id S231513AbhJEPAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 11:00:24 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A417C061749
+        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 07:58:34 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q201so7368349pgq.12
+        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 07:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bgoHCxSMWvrI+zzIWEUSO5wxgiEm1xpuQV4K1NeO+Fo=;
+        b=n2VxdJdbtIt7YREvkC5LomLZ+1AYzH92N+DmBobCEQ++KbLOQ8yWMf95N4fS11aFkC
+         zNijFy/PhpP4oXtf82j8SMrtpMxI6+JjjR8Ar9xP6xG+CnKLSYEaS1eGtVzSxxUp/A3a
+         +BrhTp99Mh8EZQ6jnxN7BZCQu/VMjcGoA93pQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bgoHCxSMWvrI+zzIWEUSO5wxgiEm1xpuQV4K1NeO+Fo=;
+        b=7svNM0c2J6p91gJ25Muh8QortNOtx36zWlVgJq0tnLNNdJZjJjO+YOjG+PuuIeaVY5
+         dMFHBaTLHGWQ1T3y3GMG2N/jyuyHazxim1dHP3iZM0mIUykp55MZoavE3FA3YWdwdlDx
+         DsUuB4AbH1JWFdyYTQdHQHi4cN5AXSsZ6YcpedRqn6agtvyIvryfM2MVAgZazINoylCf
+         O+uH5zE/fVMYoDwSjcLRFv/Tcw6BN69AT8bA8YnevZyhxjkGCCGq2C9Em1TdbCc+5jHe
+         b4FD+h5qahnA5oqA3/E11yyqio3iWrnwEfjjGhn9u+EW6fMnwPIXXBMUUaeMU5YDSgPf
+         /t8g==
+X-Gm-Message-State: AOAM531YEcCILQoxidCBlwFrFttBkS6yWivEUBjSo6Sxs8hWYbMhFn4X
+        B/V/cUR3s/UFEsCODAG9G1982g==
+X-Google-Smtp-Source: ABdhPJwiCrol/8Yn1vfrch619l1Kejw3+LZHyiDtgtNjkiBiVAGbNI4qLOTTVNP5HnHCXg70FEGGbw==
+X-Received: by 2002:a63:3549:: with SMTP id c70mr13028802pga.179.1633445913710;
+        Tue, 05 Oct 2021 07:58:33 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id mt5sm2512942pjb.12.2021.10.05.07.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 07:58:33 -0700 (PDT)
+Date:   Tue, 5 Oct 2021 07:58:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4] docs: Explain the desired position of function
+ attributes
+Message-ID: <202110050758.E7470639D@keescook>
+References: <20210930235754.2635912-1-keescook@chromium.org>
+ <87h7dw75gh.fsf@meer.lwn.net>
+ <CANiq72mTmYCJ4_7KVRMMKCDTMrnE9wCXBKViCMzkW1ErpdZKHg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211005105905.1994700-24-elver@google.com>
+In-Reply-To: <CANiq72mTmYCJ4_7KVRMMKCDTMrnE9wCXBKViCMzkW1ErpdZKHg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 12:59:05PM +0200, Marco Elver wrote:
-> Teach objtool to turn instrumentation required for memory barrier
-> modeling into nops in noinstr text.
+On Tue, Oct 05, 2021 at 10:28:40AM +0200, Miguel Ojeda wrote:
+> On Tue, Oct 5, 2021 at 1:57 AM Jonathan Corbet <corbet@lwn.net> wrote:
+> >
+> > In this case I think we're as close as to consensus as things get.  In
+> > the absence of a strong reason to the contrary, I'll apply this before
+> > too long.
 > 
-> The __tsan_func_entry/exit calls are still emitted by compilers even
-> with the __no_sanitize_thread attribute. The memory barrier
-> instrumentation will be inserted explicitly (without compiler help), and
-> thus needs to also explicitly be removed.
+> No strong reason, but there was the question about the `__malloc` in a
+> separate line in the second example which seems to contradict the
+> declaration and it is not explained otherwise (+ clang-format does it
+> differently).
 
-How is arm64 and others using kernel/entry + noinstr going to fix this?
+I'll send a v5 -- the "extern" also needs to be dropped.
 
-ISTR they fully rely on the compilers not emitting instrumentation,
-since they don't have objtool to fix up stray issues like this.
+-- 
+Kees Cook
