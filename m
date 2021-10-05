@@ -2,158 +2,444 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 511FEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 794A6C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:51:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3946C613B5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:49:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 617116103B
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 19:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231417AbhJETvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 15:51:25 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:55402 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230333AbhJETvY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 15:51:24 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51]:54136)
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1mXqRI-00BOhD-Fk; Tue, 05 Oct 2021 13:49:24 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:41390 helo=email.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1mXqRH-008ayT-2v; Tue, 05 Oct 2021 13:49:24 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Alexander Popov <alex.popov@linux.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will.deacon@arm.com>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-hardening@vger.kernel.org,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        notify@kernel.org
-References: <20210929185823.499268-1-alex.popov@linux.com>
-        <d290202d-a72d-0821-9edf-efbecf6f6cef@linux.com>
-        <20210929194924.GA880162@paulmck-ThinkPad-P17-Gen-1>
-        <YVWAPXSzFNbHz6+U@alley>
-        <CAHk-=widOm3FXMPXXK0cVaoFuy3jCk65=5VweLceQCuWdep=Hg@mail.gmail.com>
-        <ba67ead7-f075-e7ad-3274-d9b2bc4c1f44@linux.com>
-        <CAHk-=whrLuVEC0x+XzYUNV2de5kM-k39GkJWwviQNuCdZ0nfKg@mail.gmail.com>
-        <0e847d7f-7bf0-cdd4-ba6e-a742ce877a38@linux.com>
-Date:   Tue, 05 Oct 2021 14:48:47 -0500
-In-Reply-To: <0e847d7f-7bf0-cdd4-ba6e-a742ce877a38@linux.com> (Alexander
-        Popov's message of "Sun, 3 Oct 2021 00:05:56 +0300")
-Message-ID: <87zgrnqmlc.fsf@disp2133>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S235545AbhJETx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 15:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235134AbhJETxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 15:53:25 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3FAC061755
+        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 12:51:35 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id 75so357898pga.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 12:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=c248+YsMzL9W0qCEd1iDHyrRshzyg80e+KsJR5NsZNM=;
+        b=I6EHoGSdu3KoBtbKasywVsL+zTRgSEXt22cxdTFwLWr4xn/flSD2xtXn1VaSpCqPhp
+         g88hv14ARss37ze+/b8ioywDIwAU/qCuH0Xlb4lnNlfMXDFaS3NbbU+lnpD39poKxNtm
+         i//q0VDL8a9ea6JTn1lH7LSvf1aOAvMS+9KoU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=c248+YsMzL9W0qCEd1iDHyrRshzyg80e+KsJR5NsZNM=;
+        b=vwALXFK8+6uhi/QSbMwpdgwzbD3ny9bEEESetbmjCNTf5DQgc9UjO7n5zNz5wI2CBm
+         9njU7gGVTFknsM+0PWuX1e19ax+/I4954Sf0dBhUAQt7M9Z2QC7xboRQqlyBEgX7eKsU
+         gNTj/u3fm4+wlA1q2PVhish6mxgXS3OuPRijBjEyL+rMHgxI8xid0SYujtdTKM54kSr2
+         2jBPBUbdM51rabn/B7apkK7HFbfzCLIif4Y8k9gR0RE6W2yry76DGDb22UqJNbdYgpEs
+         vDh9ZRYxWxqJDIRUQw4InkhM4XFCiXbnSf9vsvPZ6mMiFo/dzcz/DAktPFYSszS9AiIq
+         /0ew==
+X-Gm-Message-State: AOAM533U1giU3XfDWlGG0aXsx7sJobiHsdWnw49UBoVSO4CAMiz4vp7t
+        5SOjJ75ILnMtftZKjNtKPycnbd5Tfn0JgQ==
+X-Google-Smtp-Source: ABdhPJz7SItMl/gwavRck2FczeV8C2olPc8vu/fElDdn6AKXulzTkdGczLNMtutPlrJXnUhl6xgBZQ==
+X-Received: by 2002:a05:6a00:1ad4:b0:44c:619e:f386 with SMTP id f20-20020a056a001ad400b0044c619ef386mr12723497pfv.66.1633463494468;
+        Tue, 05 Oct 2021 12:51:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t2sm2886284pjf.1.2021.10.05.12.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 12:51:34 -0700 (PDT)
+Date:   Tue, 5 Oct 2021 12:51:33 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 05/12] test_sysfs: add support to use kernfs failure
+ injection
+Message-ID: <202110051248.FCF2E89@keescook>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-6-mcgrof@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1mXqRH-008ayT-2v;;;mid=<87zgrnqmlc.fsf@disp2133>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19LbUxC2F3Wifzbmkmxv5sYTECcq8ioZjc=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH] Introduce the pkill_on_warn boot parameter
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927163805.808907-6-mcgrof@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexander Popov <alex.popov@linux.com> writes:
+On Mon, Sep 27, 2021 at 09:37:58AM -0700, Luis Chamberlain wrote:
+> This extends test_sysfs with support for using the failure injection
+> wait completion and knobs to force a few race conditions which
+> demonstrates that kernfs active reference protection is sufficient
+> for kobject / device protection at higher layers.
+> 
+> This adds 4 new tests which tries to remove the device attribute
+> store operation in 4 different situations:
+> 
+>   1) at the start of kernfs_kernfs_fop_write_iter()
+>   2) before the of->mutex is held in kernfs_kernfs_fop_write_iter()
+>   3) after the of->mutex is held in kernfs_kernfs_fop_write_iter()
+>   4) after the kernfs node active reference is taken
+> 
+> A write fails in call cases except the last one, test number #32. There
+> is a good explanation for this: *once* kernfs_get_active() gets called
+> we have a guarantee that the kernfs entry cannot be removed. If
+> kernfs_get_active() succeeds that entry cannot be removed and so
+> anything trying to remove that entry will have to wait. It is perhaps
+> not obvious but since a sysfs write will trigger eventually a
+> kernfs_get_active() call, and *only* if this succeeds will the sysfs
+> op be called, this and the fact that you cannot remove the kernfs
+> entry while the kenfs entry is active implies that a module that
+> created the respective sysfs / kernfs entry *cannot* possibly be
+> removed during a sysfs operation. And test number 32 provides us with
+> proof of this. If it were not true test #32 should crash.
+> 
+> No null dereferences are reproduced, even though this has been observed
+> in some complex testing cases [0]. If this issue really exists we should
+> have enough tools on the sysfs_test toolbox now to try to reproduce
+> this easily without having to poke around other drivers. It very likley
+> was the case that the issue reported [0] was possibly a side issue after
+> the first bug which was zram specific. This is why it is important to
+> isolate the issue and try to reproduce it in a generic form using the
+> test_sysfs driver.
+> 
+> [0] https://lkml.kernel.org/r/20210623215007.862787-1-mcgrof@kernel.org
+> 
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  lib/Kconfig.debug                      |   3 +
+>  lib/test_sysfs.c                       |  31 +++++
+>  tools/testing/selftests/sysfs/config   |   3 +
+>  tools/testing/selftests/sysfs/sysfs.sh | 175 +++++++++++++++++++++++++
+>  4 files changed, 212 insertions(+)
+> 
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index a29b7d398c4e..176b822654e5 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2358,6 +2358,9 @@ config TEST_SYSFS
+>  	depends on SYSFS
+>  	depends on NET
+>  	depends on BLOCK
+> +	select FAULT_INJECTION
+> +	select FAULT_INJECTION_DEBUG_FS
+> +	select FAIL_KERNFS_KNOBS
 
-> On 02.10.2021 19:52, Linus Torvalds wrote:
->> On Sat, Oct 2, 2021 at 4:41 AM Alexander Popov <alex.popov@linux.com> wrote:
->>>
->>> And what do you think about the proposed pkill_on_warn?
->> 
->> Honestly, I don't see the point.
->> 
->> If you can reliably trigger the WARN_ON some way, you can probably
->> cause more problems by fooling some other process to trigger it.
->> 
->> And if it's unintentional, then what does the signal help?
->> 
->> So rather than a "rationale" that makes little sense, I'd like to hear
->> of an actual _use_ case. That's different. That's somebody actually
->> _using_ that pkill to good effect for some particular load.
->
-> I was thinking about a use case for you and got an insight.
->
-> Bugs usually don't come alone. Killing the process that got WARN_ON() prevents
-> possible bad effects **after** the warning. For example, in my exploit for
-> CVE-2019-18683, the kernel warning happens **before** the memory corruption
-> (use-after-free in the V4L2 subsystem).
-> https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
->
-> So pkill_on_warn allows the kernel to stop the process when the first signs of
-> wrong behavior are detected. In other words, proceeding with the code execution
-> from the wrong state can bring more disasters later.
->
->> That said, I don't much care in the end. But it sounds like a
->> pointless option to just introduce yet another behavior to something
->> that should never happen anyway, and where the actual
->> honest-to-goodness reason for WARN_ON() existing is already being
->> fulfilled (ie syzbot has been very effective at flushing things like
->> that out).
->
-> Yes, we slowly get rid of kernel warnings.
-> However, the syzbot dashboard still shows a lot of them.
-> Even my small syzkaller setup finds plenty of new warnings.
-> I believe fixing all of them will take some time.
-> And during that time, pkill_on_warn may be a better reaction to WARN_ON() than
-> ignoring and proceeding with the execution.
->
-> Is that reasonable?
+I don't like seeing "select" for user-configurable CONFIGs -- things
+tend to end up weird. This should simply be:
 
-I won't comment on the sanity of the feature but I will say that calling
-it oops_on_warn (rather than pkill_on_warn), and using the usual oops
-facilities rather than rolling oops by hand sounds like a better
-implementation.
+	depends on FAIL_KERNFS_KNOBS
 
-Especially as calling do_group_exit(SIGKILL) from a random location is
-not a clean way to kill a process.  Strictly speaking it is not even
-killing the process.
+>  	help
+>  	  This builds the "test_sysfs" module. This driver enables to test the
+>  	  sysfs file system safely without affecting production knobs which
+> diff --git a/lib/test_sysfs.c b/lib/test_sysfs.c
+> index 2043ca494af8..c6e62de61403 100644
+> --- a/lib/test_sysfs.c
+> +++ b/lib/test_sysfs.c
+> @@ -38,6 +38,11 @@
+>  #include <linux/rtnetlink.h>
+>  #include <linux/genhd.h>
+>  #include <linux/blkdev.h>
+> +#include <linux/kernfs.h>
+> +
+> +#ifdef CONFIG_FAIL_KERNFS_KNOBS
 
-Partly this is just me seeing the introduction of a
-do_group_exit(SIGKILL) call and not likely the maintenance that will be
-needed.  I am still sorting out the problems with other randomly placed
-calls to do_group_exit(SIGKILL) and interactions with ptrace and
-PTRACE_EVENT_EXIT in particular.
+This isn't an optional config here (and following)?
 
-Which is a long winded way of saying if I can predictably trigger a
-warning that calls do_group_exit(SIGKILL), on some architectures I can
-use ptrace and  can convert that warning into a way to manipulate the
-kernel stack to have the contents of my choice.
+> +MODULE_IMPORT_NS(KERNFS_DEBUG_PRIVATE);
+> +#endif
+>  
+>  static bool enable_lock;
+>  module_param(enable_lock, bool_enable_only, 0644);
+> @@ -82,6 +87,13 @@ static bool enable_verbose_rmmod;
+>  module_param(enable_verbose_rmmod, bool_enable_only, 0644);
+>  MODULE_PARM_DESC(enable_verbose_rmmod, "enable verbose print messages on rmmod");
+>  
+> +#ifdef CONFIG_FAIL_KERNFS_KNOBS
+> +static bool enable_completion_on_rmmod;
+> +module_param(enable_completion_on_rmmod, bool_enable_only, 0644);
+> +MODULE_PARM_DESC(enable_completion_on_rmmod,
+> +		 "enable sending a kernfs completion on rmmod");
+> +#endif
+> +
+>  static int sysfs_test_major;
+>  
+>  /**
+> @@ -285,6 +297,12 @@ static ssize_t config_show(struct device *dev,
+>  			"enable_verbose_writes:\t%s\n",
+>  			enable_verbose_writes ? "true" : "false");
+>  
+> +#ifdef CONFIG_FAIL_KERNFS_KNOBS
+> +	len += snprintf(buf+len, PAGE_SIZE - len,
+> +			"enable_completion_on_rmmod:\t%s\n",
+> +			enable_completion_on_rmmod ? "true" : "false");
+> +#endif
+> +
+>  	test_dev_config_unlock(test_dev);
+>  
+>  	return len;
+> @@ -904,10 +922,23 @@ static int __init test_sysfs_init(void)
+>  }
+>  module_init(test_sysfs_init);
+>  
+> +#ifdef CONFIG_FAIL_KERNFS_KNOBS
+> +/* The goal is to race our device removal with a pending kernfs -> store call */
+> +static void test_sysfs_kernfs_send_completion_rmmod(void)
+> +{
+> +	if (!enable_completion_on_rmmod)
+> +		return;
+> +	complete(&kernfs_debug_wait_completion);
+> +}
+> +#else
+> +static inline void test_sysfs_kernfs_send_completion_rmmod(void) {}
+> +#endif
+> +
+>  static void __exit test_sysfs_exit(void)
+>  {
+>  	if (enable_debugfs)
+>  		debugfs_remove(debugfs_dir);
+> +	test_sysfs_kernfs_send_completion_rmmod();
+>  	if (delay_rmmod_ms)
+>  		msleep(delay_rmmod_ms);
+>  	unregister_test_dev_sysfs(first_test_dev);
+> diff --git a/tools/testing/selftests/sysfs/config b/tools/testing/selftests/sysfs/config
+> index 9196f452ecd5..2876a229f95b 100644
+> --- a/tools/testing/selftests/sysfs/config
+> +++ b/tools/testing/selftests/sysfs/config
+> @@ -1,2 +1,5 @@
+>  CONFIG_SYSFS=m
+>  CONFIG_TEST_SYSFS=m
+> +CONFIG_FAULT_INJECTION=y
+> +CONFIG_FAULT_INJECTION_DEBUG_FS=y
+> +CONFIG_FAIL_KERNFS_KNOBS=y
+> diff --git a/tools/testing/selftests/sysfs/sysfs.sh b/tools/testing/selftests/sysfs/sysfs.sh
+> index b3f4c2236c7f..f928635d0e35 100755
+> --- a/tools/testing/selftests/sysfs/sysfs.sh
+> +++ b/tools/testing/selftests/sysfs/sysfs.sh
+> @@ -62,6 +62,10 @@ ALL_TESTS="$ALL_TESTS 0025:1:1:test_dev_y:block"
+>  ALL_TESTS="$ALL_TESTS 0026:1:1:test_dev_y:block"
+>  ALL_TESTS="$ALL_TESTS 0027:1:0:test_dev_x:block" # deadlock test
+>  ALL_TESTS="$ALL_TESTS 0028:1:0:test_dev_x:block" # deadlock test with rntl_lock
+> +ALL_TESTS="$ALL_TESTS 0029:1:1:test_dev_x:block" # kernfs race removal of store
+> +ALL_TESTS="$ALL_TESTS 0030:1:1:test_dev_x:block" # kernfs race removal before mutex
+> +ALL_TESTS="$ALL_TESTS 0031:1:1:test_dev_x:block" # kernfs race removal after mutex
+> +ALL_TESTS="$ALL_TESTS 0032:1:1:test_dev_x:block" # kernfs race removal after active
+>  
+>  allow_user_defaults()
+>  {
+> @@ -92,6 +96,9 @@ allow_user_defaults()
+>  	if [ -z $SYSFS_DEBUGFS_DIR ]; then
+>  		SYSFS_DEBUGFS_DIR="/sys/kernel/debug/test_sysfs"
+>  	fi
+> +	if [ -z $KERNFS_DEBUGFS_DIR ]; then
+> +		KERNFS_DEBUGFS_DIR="/sys/kernel/debug/kernfs"
+> +	fi
+>  	if [ -z $PAGE_SIZE ]; then
+>  		PAGE_SIZE=$(getconf PAGESIZE)
+>  	fi
+> @@ -167,6 +174,14 @@ modprobe_reset_enable_rtnl_lock_on_rmmod()
+>  	unset FIRST_MODPROBE_ARGS
+>  }
+>  
+> +modprobe_reset_enable_completion()
+> +{
+> +	FIRST_MODPROBE_ARGS="enable_completion_on_rmmod=1 enable_verbose_writes=1"
+> +	FIRST_MODPROBE_ARGS="$FIRST_MODPROBE_ARGS enable_verbose_rmmod=1 delay_rmmod_ms=0"
+> +	modprobe_reset
+> +	unset FIRST_MODPROBE_ARGS
+> +}
+> +
+>  load_req_mod()
+>  {
+>  	modprobe_reset
+> @@ -197,6 +212,63 @@ debugfs_reset_first_test_dev_ignore_errors()
+>  	echo -n "1" >"$SYSFS_DEBUGFS_DIR"/reset_first_test_dev
+>  }
+>  
+> +debugfs_kernfs_kernfs_fop_write_iter_exists()
+> +{
+> +	KNOB_DIR="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter"
+> +	if [[ ! -d $KNOB_DIR ]]; then
+> +		echo "kernfs debugfs does not exist $KNOB_DIR"
+> +		return 0;
+> +	fi
+> +	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
+> +	if [[ ! -d $KNOB_DEBUGFS ]]; then
+> +		echo -n "kernfs debugfs for coniguring fail_kernfs_fop_write_iter "
+> +		echo "does not exist $KNOB_DIR"
+> +		return 0;
+> +	fi
+> +	return 1
+> +}
+> +
+> +debugfs_kernfs_kernfs_fop_write_iter_set_fail_once()
+> +{
+> +	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
+> +	echo 1 > $KNOB_DEBUGFS/interval
+> +	echo 100 > $KNOB_DEBUGFS/probability
+> +	echo 0 > $KNOB_DEBUGFS/space
+> +	# Disable verbose messages on the kernel ring buffer which may
+> +	# confuse developers with a kernel panic.
+> +	echo 0 > $KNOB_DEBUGFS/verbose
+> +
+> +	# Fail only once
+> +	echo 1 > $KNOB_DEBUGFS/times
+> +}
+> +
+> +debugfs_kernfs_kernfs_fop_write_iter_set_fail_never()
+> +{
+> +	KNOB_DEBUGFS="${KERNFS_DEBUGFS_DIR}/fail_kernfs_fop_write_iter"
+> +	echo 0 > $KNOB_DEBUGFS/times
+> +}
+> +
+> +debugfs_kernfs_set_wait_ms()
+> +{
+> +	SLEEP_AFTER_WAIT_MS="${KERNFS_DEBUGFS_DIR}/sleep_after_wait_ms"
+> +	echo $1 > $SLEEP_AFTER_WAIT_MS
+> +}
+> +
+> +debugfs_kernfs_disable_wait_kernfs_fop_write_iter()
+> +{
+> +	ENABLE_WAIT_KNOB="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter/wait_"
+> +	for KNOB in ${ENABLE_WAIT_KNOB}*; do
+> +		echo 0 > $KNOB
+> +	done
+> +}
+> +
+> +debugfs_kernfs_enable_wait_kernfs_fop_write_iter()
+> +{
+> +	ENABLE_WAIT_KNOB="${KERNFS_DEBUGFS_DIR}/config_fail_kernfs_fop_write_iter/wait_$1"
+> +	echo -n "1" > $ENABLE_WAIT_KNOB
+> +	return $?
+> +}
+> +
+>  set_orig()
+>  {
+>  	if [[ ! -z $TARGET ]] && [[ ! -z $ORIG ]]; then
+> @@ -972,6 +1044,105 @@ sysfs_test_0028()
+>  	fi
+>  }
+>  
+> +sysfs_race_kernfs_kernfs_fop_write_iter()
+> +{
+> +	TARGET="${DIR}/$(get_test_target $1)"
+> +	WAIT_AT=$2
+> +	EXPECT_WRITE_RETURNS=$3
+> +	MSDELAY=$4
+> +
+> +	modprobe_reset_enable_completion
+> +	ORIG=$(cat "${TARGET}")
+> +	TEST_STR=$(( $ORIG + 1 ))
+> +
+> +	echo -n "Test racing removal of sysfs store op with kernfs $WAIT_AT ... "
+> +
+> +	if debugfs_kernfs_kernfs_fop_write_iter_exists; then
+> +		echo -n "skipping test as CONFIG_FAIL_KERNFS_KNOBS "
+> +		echo " or CONFIG_FAULT_INJECTION_DEBUG_FS is disabled"
+> +		return $ksft_skip
+> +	fi
+> +
+> +	# Allow for failing the kernfs_kernfs_fop_write_iter call once,
+> +	# we'll provide exact context shortly afterwards.
+> +	debugfs_kernfs_kernfs_fop_write_iter_set_fail_once
+> +
+> +	# First disable all waits
+> +	debugfs_kernfs_disable_wait_kernfs_fop_write_iter
+> +
+> +	# Enable a wait_for_completion(&kernfs_debug_wait_completion) at the
+> +	# specified location inside the kernfs_fop_write_iter() routine
+> +	debugfs_kernfs_enable_wait_kernfs_fop_write_iter $WAIT_AT
+> +
+> +	# Configure kernfs so that after its wait_for_completion() it
+> +	# will msleep() this amount of time and schedule(). We figure this
+> +	# will be sufficient time to allow for our module removal to complete.
+> +	debugfs_kernfs_set_wait_ms $MSDELAY
+> +
+> +	# Now we trigger a kernfs write op, which will run kernfs_fop_write_iter,
+> +	# but will wait until our driver sends a respective completion
+> +	set_test_ignore_errors &
+> +	write_pid=$!
+> +
+> +	# At this point kernfs_fop_write_iter() hasn't run our op, its
+> +	# waiting for our completion at the specified time $WAIT_AT.
+> +	# We now remove our module which will send a
+> +	# complete(&kernfs_debug_wait_completion) right before we deregister
+> +	# our device and the sysfs device attributes are removed.
+> +	#
+> +	# After the completion is sent, the test_sysfs driver races with
+> +	# kernfs to do the device deregistration with the kernfs msleep
+> +	# and schedule(). This should mean we've forced trying to remove the
+> +	# module prior to allowing kernfs to run our store operation. If the
+> +	# race did happen we'll panic with a null dereference on the store op.
+> +	#
+> +	# If no race happens we should see no write operation triggered.
+> +	modprobe -r $TEST_DRIVER > /dev/null 2>&1
+> +
+> +	debugfs_kernfs_kernfs_fop_write_iter_set_fail_never
+> +
+> +	wait $write_pid
+> +	if [[ $? -eq $EXPECT_WRITE_RETURNS ]]; then
+> +		echo "ok"
+> +	else
+> +		echo "FAIL" >&2
+> +	fi
+> +}
+> +
+> +sysfs_test_0029()
+> +{
+> +	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
+> +		echo "Using delay-after-completion: $delay"
+> +		sysfs_race_kernfs_kernfs_fop_write_iter 0029 at_start 1 $delay
+> +	done
+> +}
+> +
+> +sysfs_test_0030()
+> +{
+> +	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
+> +		echo "Using delay-after-completion: $delay"
+> +		sysfs_race_kernfs_kernfs_fop_write_iter 0030 before_mutex 1 $delay
+> +	done
+> +}
+> +
+> +sysfs_test_0031()
+> +{
+> +	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
+> +		echo "Using delay-after-completion: $delay"
+> +		sysfs_race_kernfs_kernfs_fop_write_iter 0031 after_mutex 1 $delay
+> +	done
+> +}
+> +
+> +# A write only succeeds *iff* a module removal happens *after* the
+> +# kernfs active reference is obtained with kernfs_get_active().
+> +sysfs_test_0032()
+> +{
+> +	for delay in 0 2 4 8 16 32 64 128 246 512 1024; do
+> +		echo "Using delay-after-completion: $delay"
+> +		sysfs_race_kernfs_kernfs_fop_write_iter 0032 after_active 0 $delay
+> +	done
+> +}
+> +
+>  test_gen_desc()
+>  {
+>  	echo -n "$1 x $(get_test_count $1)"
+> @@ -1013,6 +1184,10 @@ list_tests()
+>  	echo "$(test_gen_desc 0026) - block test writing y larger delay and resetting device"
+>  	echo "$(test_gen_desc 0027) - test rmmod deadlock while writing x ... "
+>  	echo "$(test_gen_desc 0028) - test rmmod deadlock using rtnl_lock while writing x ..."
+> +	echo "$(test_gen_desc 0029) - racing removal of store op with kernfs at start"
+> +	echo "$(test_gen_desc 0030) - racing removal of store op with kernfs before mutex"
+> +	echo "$(test_gen_desc 0031) - racing removal of store op with kernfs after mutex"
+> +	echo "$(test_gen_desc 0032) - racing removal of store op with kernfs after active"
+>  }
+>  
+>  usage()
+> -- 
+> 2.30.2
+> 
 
-If anyone goes forward with this please use the existing oops
-infrastructure so the ptrace interactions and anything else that comes
-up only needs to be fixed once.
-
-Eric
+-- 
+Kees Cook
