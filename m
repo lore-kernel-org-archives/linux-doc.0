@@ -2,144 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED8AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 004E8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:26:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4135961526
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:19:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA78561165
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235679AbhJEPVH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 11:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
+        id S235974AbhJEP2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 11:28:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235613AbhJEPVH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 11:21:07 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3BF3C061753
-        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 08:19:16 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id p11so228491edy.10
-        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 08:19:16 -0700 (PDT)
+        with ESMTP id S234440AbhJEP2F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 11:28:05 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBB7C06174E
+        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 08:26:14 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id t11so2539571plq.11
+        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 08:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uXvbj1RYdFStR8mOgmKx85W1SzZn5CdUbt0kPqVxu7U=;
-        b=GPL5pcd4au0pQkOdAj5r+sYOunLp6UQmEpcQ/49JUfIfltVmskiS2/jbeuPp0aAMnm
-         x9EPY+9YI2ZdYSYqNLsd01wpWaSHSbyVleHVTGsTrzM0oaFy+ExmM4IUUSlSY1v7tXII
-         B9dYh7FTmb5K14gbIy0mIdBuZspzKrQ5+8oe1F9T65PaVl1boqLAidmynvOW7Na9tlSg
-         7BShU7N3lwJjXfeyV6rAt0IAEQs7MrXWmPoLeXcVOOrTMvE/+NyC2gmmjHB4OZeHcaqt
-         2BQtsSMsShgsVVYxcygnepxH9ygmJsGeKJVozSBDFSaqfyvpfJvt65oz0RJUtHv3PGXI
-         aCmw==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y+CXagab7PxUntsHmQwSoW+7QEad0PGh6YiwvwQ6POk=;
+        b=Ovx8ePeVuaBdXaf4sSei8G5RhV6+tpMwlizyNVN3nW+SVon5m8Ua5sGldNqflgatAx
+         rwdjxxKeNJArumIHX0gFSTntD3ymrbSaTSf5bt6xLje5nvCWKSeZGwWuxgsnRbq4GGSF
+         WutTrXQIRB1LLydhTMmdIUXNlvUdfLNo7yBXk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uXvbj1RYdFStR8mOgmKx85W1SzZn5CdUbt0kPqVxu7U=;
-        b=a2YDrDZz9ulcx/L2GfadN7htWzD4+4xup/nxjFVtGmUiEB70WZwiKp8MsSB7xwypRB
-         +1GMf5426ada7m4mVhJe3H33qrVe60kH9KFrr8o64qHQYOjCoSkhq82g2wOe5wxkKHRQ
-         8sOfqS65XVOz9ePoN0rsLruRJasqBTlszyJG3WWIdK1qtwZFNJMKmzNxFWvHT6M+iTpU
-         opk3bGAP532qg3BEsl59VRw9qV/c/r7Hkt2dmnaj1ekgFk7nmhFxwwdDw4Ws0sxWk1Cq
-         4H53kperwNxsHZ5gARe0DdwLBBWs3z7+vHXkLpAkXpwdIb6yOJ/JBD7KXokR7IyoguLj
-         k5og==
-X-Gm-Message-State: AOAM531XWWU6YSNZUFBOmCLSsvxPI8gDmhlKrcDt7pnqOkEQQMPHhmRr
-        1t8iJbxwS/uDTj22boV7Ze7bpnBfBVkKoptPzlrksA==
-X-Google-Smtp-Source: ABdhPJzEQTdR5MwSCJAa5eFfsQ2wk6xnibaZV36SS9TXJwF5RMyWkT1NJxJygIIntOrS5zPGE2vGNq9slkBa9xX4Oa8=
-X-Received: by 2002:a50:cf87:: with SMTP id h7mr27483539edk.152.1633447154850;
- Tue, 05 Oct 2021 08:19:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y+CXagab7PxUntsHmQwSoW+7QEad0PGh6YiwvwQ6POk=;
+        b=2K+LRzZ2za2hz0gQLCcU86/zswcQ3MzZjVcplO2XzjVkZUrhFwu69W4Z1E5n2Mzwl4
+         PO1a86SBJJAJl8u4DTPXbu5rxCN3fGFcPsvVvh8kpzMk7NH+9vhjGJsdwi4u3P05ImNZ
+         ElJ2Ww6Qsa1yeOIGMfUrEQO4LZzdKneKhHV5femdo2qyozddVvSFq4IUmDy/Np/CLYmD
+         e/h/kEUluW6nNiwejRcoWNiLey5CiVszMtoYmxjuZSApa6+SGk8LUisszmQyWCrGROOX
+         sBd1i8b5MQgBW8G/HuR1i/cjXZJ0A/KqA8DyYWWYjnuanpJE29Sn+bkpIIilhwJtK6c5
+         Ci7Q==
+X-Gm-Message-State: AOAM530Rxs/ZPbhSqTF8kTBgs/v3q821H7ei48Mx6H3yO/CIZ3ihyCL9
+        euNUwK3O10xuPUE44LwkXFHsnw==
+X-Google-Smtp-Source: ABdhPJyRZBdwICMPJo0CuxPpnxFK9DLNA0nPaq+dBQBT9mLkSZg7waLpinbeDbR1PHVabABWDKkXlw==
+X-Received: by 2002:a17:90b:350f:: with SMTP id ls15mr4556493pjb.220.1633447574039;
+        Tue, 05 Oct 2021 08:26:14 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b11sm17916356pge.57.2021.10.05.08.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 08:26:13 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joe Perches <joe@perches.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: [PATCH v5] docs: Explain the desired position of function attributes
+Date:   Tue,  5 Oct 2021 08:26:11 -0700
+Message-Id: <20211005152611.4120605-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211001181627.394921-1-bgeffon@google.com> <YVtH60zyzq9AhUv2@google.com>
- <CADyq12xk-2Fhnf_rJQ70oC1_98OEBJqwxOt6z=PpJa5V=X3dFQ@mail.gmail.com>
- <YVtqHv+p3uYkbu5E@google.com> <CADyq12w2sHdeBhAKVP+5GghHMqNZN+h36ydV7gi8QxOcHZ7f7A@mail.gmail.com>
-In-Reply-To: <CADyq12w2sHdeBhAKVP+5GghHMqNZN+h36ydV7gi8QxOcHZ7f7A@mail.gmail.com>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Tue, 5 Oct 2021 11:18:38 -0400
-Message-ID: <CADyq12zNcXAS8+7GwMPsbFNgn-M-7e+mtR=_9PXBTOfX65yoew@mail.gmail.com>
-Subject: Re: [PATCH] zram: Allow backing device to be assigned after init
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org,
-        Suleiman Souhlal <suleiman@google.com>,
-        Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3306; h=from:subject; bh=GIC8/+ECEEVVphKjAgK5jYr49AQgjKc8vhWqATkcXOY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhXG6SA1IwEIkRJ1pStDILLhURumXRkW0dEyB/ZV2+ 5OBpELmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYVxukgAKCRCJcvTf3G3AJlBgD/ 0YJawfHIAq0WAexvhUBbygFNQvyCdz3MJ8pKUgFn6i5Q/N6Akd8wjBcAMxnwQB0UUyK1OC61qXpUrR fFbbOkmHolcPQatD3opKofWmoAfVgkWh/0YUPejwRib/UCJQLYr8QQcc5NsY0TY4y74K084h+lzNA1 D4i4I3EWHsCP/G9DQMUZGSzAj4Tv5yb7+djpBJY8v7a/EyTp9HakVYee9GjTuqeiG8sZNzJqldr0Fe OkEsitQvoDA+2k191Jy70Kokw6Tg+d9a92TgIyN3tgULrUi4sZMDAs73jYzgas53YraYrm5r110LN7 ulKjfr/e4D+UJhfrsHqCO8QWMm43sVivjrzLvH2iFwtVTTCWFnZTv1R6GNbOD24GmVFPzJv1Vgnx9N pravIMIlKPJumR+FLPT7nzk+FXNXZtnGwEazBcTFr/jEa0tLrYVPT7CBGe1RAjPEYkgRmkYlDEbdex NrZljr3yixJ4s9c+9FcKxXsvr0/S8H1XZGP+stgLsICwNP1GL/LdVRWrBdnzj6QcjaItUAcgj0Xgdq IgFMqSmDA5u9nsjF14KILeqng9fFXemAqgvljrO9Lmt12fHmUhK1GPXUJWvfp3c5zjvDci592WFGZm G+RadowBi+k2WZeqGH9R64PRpbPjXOsXqIw59sHkqtCr7TGxH8saFBoz9zgA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Mon, Oct 4, 2021 at 4:55 PM Minchan Kim <minchan@kernel.org> wrote:
-> >
-> > On Mon, Oct 04, 2021 at 02:40:52PM -0400, Brian Geffon wrote:
-> > > On Mon, Oct 4, 2021 at 2:29 PM Minchan Kim <minchan@kernel.org> wrote:
-> > > >
-> > > > On Fri, Oct 01, 2021 at 11:16:27AM -0700, Brian Geffon wrote:
-> > > > > There does not appear to be a technical reason to not
-> > > > > allow the zram backing device to be assigned after the
-> > > > > zram device is initialized.
-> > > > >
-> > > > > This change will allow for the backing device to be assigned
-> > > > > as long as no backing device is already assigned. In that
-> > > > > event backing_dev would return -EEXIST.
-> > > > >
-> > > > > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > > > > ---
-> > > > >  drivers/block/zram/zram_drv.c | 6 +++---
-> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > > > > index fcaf2750f68f..12b4555ee079 100644
-> > > > > --- a/drivers/block/zram/zram_drv.c
-> > > > > +++ b/drivers/block/zram/zram_drv.c
-> > > > > @@ -462,9 +462,9 @@ static ssize_t backing_dev_store(struct device *dev,
-> > > > >               return -ENOMEM;
-> > > > >
-> > > > >       down_write(&zram->init_lock);
-> > > > > -     if (init_done(zram)) {
-> > > > > -             pr_info("Can't setup backing device for initialized device\n");
-> > > > > -             err = -EBUSY;
-> > > > > +     if (zram->backing_dev) {
-> > > > > +             pr_info("Backing device is already assigned\n");
-> > > > > +             err = -EEXIST;
-> > > > >               goto out;
-> > > >
-> > > > Hi Brian,
-> > > >
-> > >
-> > > Hi Minchan,
-> > >
-> > > > I am worry about the inconsistency with other interface of current zram
-> > > > set up. They were supposed to set it up before zram disksize setting
-> > > > because it makes code more simple/maintainalbe in that we don't need
-> > > > to check some feature on the fly.
-> > > >
-> > > > Let's think about when zram extends the writeback of incompressible
-> > > > page on demand. The write path will need the backing_dev under
-> > > > down_read(&zarm->init_lock) or other conditional variable to check
-> > > > whether the feature is enabled or not on the fly.
-> > >
-> > > I don't follow what you mean by that, writeback_store already holds
-> > > down_read(&zarm->init_lock).
-> >
-> > I should have explained a bit more. Sorry about that.
-> > I am thinking about a feature to deal with incompressible page.
-> > Let's have an example to handle incompressible page for that.
-> >
-> > zram_bvec_rw
-> >   zram_bvec_write
-> >     if (comp_len >= huge_class)
-> >         zs_page_writeback
-> >             down_read(&zram->init_lock) or some other way
-> >
-> > It's just idea for incompressible page but we might intorduce
-> > the way for other compresible pages, too at some condition.
+While discussing how to format the addition of various function
+attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
+close as possible to Linus's preferences for future reference.
 
-(sorry for the top post before)
+(Though I note the dissent voiced by Joe Perches, Alexey Dobriyan, and
+others that would prefer all attributes live on a separate leading line.)
 
-Hi Minchan,
-I guess the point I was trying to make was that so long as we allow a
-reset operation we'll need to be taking the init lock in read mode
-before doing any writeback. Does that seem right?
+[1] https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/
 
-Brian
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+v5:
+- drop extern (joe)
+- fix __malloc position (miguel)
+v4: https://lore.kernel.org/lkml/20210930235754.2635912-1-keescook@chromium.org
+---
+ Documentation/process/coding-style.rst | 37 +++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 42969ab37b34..5756ff775233 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -480,13 +480,48 @@ closing function brace line.  E.g.:
+ 	}
+ 	EXPORT_SYMBOL(system_is_up);
+ 
++6.1) Function prototypes
++************************
++
+ In function prototypes, include parameter names with their data types.
+ Although this is not required by the C language, it is preferred in Linux
+ because it is a simple way to add valuable information for the reader.
+ 
+-Do not use the ``extern`` keyword with function prototypes as this makes
++Do not use the ``extern`` keyword with function declarations as this makes
+ lines longer and isn't strictly necessary.
+ 
++When writing function prototypes, please keep the `order of elements regular
++<https://lore.kernel.org/mm-commits/CAHk-=wiOCLRny5aifWNhr621kYrJwhfURsa0vFPeUEm8mF0ufg@mail.gmail.com/>`_.
++For example, using this function declaration example::
++
++ __init void * __must_check action(enum magic value, size_t size, u8 count,
++				   char *fmt, ...) __printf(4, 5) __malloc;
++
++The preferred order of elements for a function prototype is:
++
++- storage class (below, ``static __always_inline``, noting that ``__always_inline``
++  is technically an attribute but is treated like ``inline``)
++- storage class attributes (here, ``__init`` -- i.e. section declarations, but also
++  things like ``__cold``)
++- return type (here, ``void *``)
++- return type attributes (here, ``__must_check``)
++- function name (here, ``action``)
++- function parameters (here, ``(enum magic value, size_t size, u8 count, char *fmt, ...)``,
++  noting that parameter names should always be included)
++- function parameter attributes (here, ``__printf(4, 5)``)
++- function behavior attributes (here, ``__malloc``)
++
++Note that for a function **definition** (i.e. the actual function body),
++the compiler does not allow function parameter attributes after the
++function parameters. In these cases, they should go after the storage
++class attributes (e.g. note the changed position of ``__printf(4, 5)``
++below, compared to the **declaration** example above)::
++
++ static __always_inline __init __printf(4, 5) void * __must_check action(enum magic value,
++		size_t size, u8 count, char *fmt, ...) __malloc
++ {
++	...
++ }
+ 
+ 7) Centralized exiting of functions
+ -----------------------------------
+-- 
+2.30.2
+
