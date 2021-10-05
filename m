@@ -2,84 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0289EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B5CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:49:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBC896128A
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:28:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4827F613D5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 08:49:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232108AbhJEIam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 04:30:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44054 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbhJEIal (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 04:30:41 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C504CC061745;
-        Tue,  5 Oct 2021 01:28:51 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id d11so21044309ilc.8;
-        Tue, 05 Oct 2021 01:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jxntDmAn7pyc+6bbfF1hzJvhGPEpkzavUN7ynxK4EDM=;
-        b=d0VG/7IwzKhSeSVkEXyX8+vqtEaNLONPlemle0rf98iFOOGAT1E/b6MIx1eAkCmuZC
-         OH3gwqGQwe3RhST5ewUzbkE9JZ1/womyxeYComV+do2cteAaq8eGLjs8Yz5zt1+fTNrN
-         CX5aqkWAetjmhTKa/bJzPWFK2bc9mvX/cVbMBcjBWJsPTQMjKNPQJc3AWKnDyGma1p26
-         LxtuarShq+XOwuQFS1F7eWLtxMxye3pZDXaoTNsAuWSbc/pc+gqezUnVCB054uoPeQYt
-         UpAIXzorrIo6vf0Oq7OAkUsO1oIqtQd8Q+te3kkwko5wpLj0kHJKJrXc0FcXZBdpIGQg
-         1l3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jxntDmAn7pyc+6bbfF1hzJvhGPEpkzavUN7ynxK4EDM=;
-        b=V+MJQWakWfFoIdvx1KXDsa1qsFP0woTpWctOyhfg+J/hHth6N6J1wGX3n6ms1mlXN7
-         RsSNagSA5DeHdtwD/ezsBzDMUdQItVKb81yN9+QjjCBy8joAGopbHGKRdbmJydGKJQck
-         k4HJ4YISa8Mt9T5H6LCwwDZMfS3trBfgpKeO4hWLwNWALcHM5GPVrPlJqtNWJGCeH+qR
-         PVrLE3MsnPp/QIs0nTV8rQPu/g5kywZ6C4VAP9n/iZ1Ru/jqj4FwUOO7A89WjpdlF8fr
-         JI99FVnxjds+bqDYHGec7Pq8Jqm6wCIUcll/01vO7aqFve/wISTeXx5RlkVceQ5exnab
-         3wdA==
-X-Gm-Message-State: AOAM530LHCoT8PIznnlplenEChAY2N2UyyK5yBqM3hvSlxFsTMQi9bri
-        /8oxiuQ1ItjLI+bw2EgR62mZqHgY6caRTrcMOUo=
-X-Google-Smtp-Source: ABdhPJzHm6OHvKeXKD6v6d9vbtQDlLspmnLKVdoMZNAsJtn10HUY8fIMcH41bal7yxgpl0eUvlbYPEn6fvMvsrg8HwI=
-X-Received: by 2002:a05:6e02:1d86:: with SMTP id h6mr2164806ila.5.1633422531046;
- Tue, 05 Oct 2021 01:28:51 -0700 (PDT)
+        id S232871AbhJEIva (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 04:51:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41977 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233290AbhJEIv3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 04:51:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633423779;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=yWuvkskdEI9r2ThEQjUFBlxKCU4JS4TIq1nVqm3oeN8=;
+        b=ZoJuzOt78h0hbMpmuG3Nk7HDne1S5zbwrEZGYgkqTYt01QTkns1xbLKlV/c2d0RY4fANPS
+        GeGZNvnajv0ZICINpGESdL3qXn8liedFe0SkKIKf2a4hFhrjL3XV66vhRCsOVWLqtIz26k
+        S9LJLQw1qJM52JfT9S4NZ+99cVsa15M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-ZXH9L7g7PKSPz5-zvYCjiw-1; Tue, 05 Oct 2021 04:49:38 -0400
+X-MC-Unique: ZXH9L7g7PKSPz5-zvYCjiw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F1E819057A0;
+        Tue,  5 Oct 2021 08:49:36 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4A15360657;
+        Tue,  5 Oct 2021 08:49:24 +0000 (UTC)
+Subject: [PATCH v3 0/5] fscache, afs, 9p, nfs: Warning fixes
+From:   David Howells <dhowells@redhat.com>
+To:     Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Dominique Martinet <asmadeus@codewreck.org>
+Cc:     Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Marc Dionne <marc.dionne@auristor.com>,
+        linux-nfs@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        v9fs-developer@lists.sourceforge.net,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        linux-afs@lists.infradead.org, dhowells@redhat.com,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        torvalds@linux-foundation.org,
+        v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-cachefs@redhat.com, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 05 Oct 2021 09:49:23 +0100
+Message-ID: <163342376338.876192.10313278824682848704.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-References: <20210930235754.2635912-1-keescook@chromium.org> <87h7dw75gh.fsf@meer.lwn.net>
-In-Reply-To: <87h7dw75gh.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 5 Oct 2021 10:28:40 +0200
-Message-ID: <CANiq72mTmYCJ4_7KVRMMKCDTMrnE9wCXBKViCMzkW1ErpdZKHg@mail.gmail.com>
-Subject: Re: [PATCH v4] docs: Explain the desired position of function attributes
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joe Perches <joe@perches.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 5, 2021 at 1:57 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> In this case I think we're as close as to consensus as things get.  In
-> the absence of a strong reason to the contrary, I'll apply this before
-> too long.
 
-No strong reason, but there was the question about the `__malloc` in a
-separate line in the second example which seems to contradict the
-declaration and it is not explained otherwise (+ clang-format does it
-differently).
+Here's a set of warning fixes for fscache, afs, 9p and nfs. It's mostly
+kerneldoc fixes plus one unused static variable removal.  I've split the
+old patch up into per-subsys chunks and put the variable removal in its own
+patch at the end.
 
-Cheers,
-Miguel
+The patches are on a branch here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=fscache-fixes
+
+Thanks,
+David
+
+Changes
+=======
+ver #3:
+ - Dealt with the kerneldoc warnings in fs/9p/cache.c.
+ - Split the single patch up.
+
+ver #2:
+ - Dropped already upstreamed cifs changes.
+ - Fixed more 9p kerneldoc bits.
+
+Link: https://lore.kernel.org/r/163214005516.2945267.7000234432243167892.stgit@warthog.procyon.org.uk/ # rfc v1
+Link: https://lore.kernel.org/r/163281899704.2790286.9177774252843775348.stgit@warthog.procyon.org.uk/ # rfc v2
+---
+David Howells (5):
+      nfs: Fix kerneldoc warning shown up by W=1
+      afs: Fix kerneldoc warning shown up by W=1
+      9p: Fix a bunch of kerneldoc warnings shown up by W=1
+      fscache: Fix some kerneldoc warnings shown up by W=1
+      fscache: Remove an unused static variable
+
+
+ fs/9p/cache.c          |  8 ++++----
+ fs/9p/fid.c            | 14 +++++++-------
+ fs/9p/v9fs.c           |  8 +++-----
+ fs/9p/vfs_addr.c       | 14 +++++++++-----
+ fs/9p/vfs_file.c       | 33 ++++++++++++---------------------
+ fs/9p/vfs_inode.c      | 24 ++++++++++++++++--------
+ fs/9p/vfs_inode_dotl.c | 11 +++++++++--
+ fs/afs/dir_silly.c     |  4 ++--
+ fs/fscache/object.c    |  2 +-
+ fs/fscache/operation.c |  3 +++
+ 10 files changed, 66 insertions(+), 55 deletions(-)
+
+
