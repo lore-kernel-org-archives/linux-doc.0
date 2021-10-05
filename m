@@ -2,96 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B61C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 11:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08360C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 11:45:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0CDB61181
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 11:10:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E24AE61371
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 11:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233727AbhJELLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 07:11:53 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:51026 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233449AbhJELLw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 07:11:52 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id AED1322312;
-        Tue,  5 Oct 2021 11:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1633432200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oSQVXrxwytTOvVX5IUNIPqRozXx0ZQPzC5QYUn5uXWU=;
-        b=pKrrhANTXeIml7kLM167UDYZbKQyQXPNx3t/wOQIs1bfleWEq3LCE9k4OBQTOerJBWWswL
-        edtifxt35dK99ea2K/VGTfMZkCE+nWuLDDSSwDUhdTSrdw+ZZZwtkVbcrPmQAoVsnjeUiw
-        4MB2uWI2IDResdUN+s8kZrM8jqeP3DU=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 6A9C7A3B84;
-        Tue,  5 Oct 2021 11:10:00 +0000 (UTC)
-Date:   Tue, 5 Oct 2021 13:09:56 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     NeilBrown <neilb@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        ". Dave Chinner" <david@fromorbit.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741778.29351.16920832234899124642.stgit@noble.brown>
- <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
+        id S233862AbhJELr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 07:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233672AbhJELrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 07:47:25 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F544C061749;
+        Tue,  5 Oct 2021 04:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ffKpkAKU6pM8rv8h0B9+33I0DIIEdsYkyFi/KKBw/n4=; b=QwhZudjTLBG5nEAkb328sCh1aC
+        62/JNAedSpu4Qut6TyMZcJ898Y3DXPP4LNIj+gM7jtgaMVxBfjPGp86OmO1tc8WGBv1j9J5PlL2uX
+        WojOanTqeqJreTOaVIi2Dhhb8IqdFsnG4/cWBZounxROwWtOj1PEOrpNGjDDI5XfjWjtRQhXban1z
+        csGWJ7AT6EhvkR1xcCqQKhtMewKVKy4ReI6O8HC8MEkuCCdPlA7y6QN/jwBwfhh7UGtHbQXTIov1t
+        xCopFaLHP5Qwm+AJh9vLQ+rSVoVqKTwFM177Yc4pe97YTC0SBJObSJm8glMXLT4ZYcm5+HjDCiD4Q
+        iwQEbJ2Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mXiox-000MNr-Vi; Tue, 05 Oct 2021 11:41:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 622C630026F;
+        Tue,  5 Oct 2021 13:41:18 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 452272038E207; Tue,  5 Oct 2021 13:41:18 +0200 (CEST)
+Date:   Tue, 5 Oct 2021 13:41:18 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Marco Elver <elver@google.com>
+Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH -rcu/kcsan 05/23] kcsan: Add core memory barrier
+ instrumentation functions
+Message-ID: <YVw53mP3VkWyCzxn@hirez.programming.kicks-ass.net>
+References: <20211005105905.1994700-1-elver@google.com>
+ <20211005105905.1994700-6-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
+In-Reply-To: <20211005105905.1994700-6-elver@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 05-10-21 11:20:51, Vlastimil Babka wrote:
-[...]
-> > --- a/include/linux/gfp.h
-> > +++ b/include/linux/gfp.h
-> > @@ -209,7 +209,11 @@ struct vm_area_struct;
-> >   * used only when there is no reasonable failure policy) but it is
-> >   * definitely preferable to use the flag rather than opencode endless
-> >   * loop around allocator.
-> > - * Using this flag for costly allocations is _highly_ discouraged.
-> > + * Use of this flag may lead to deadlocks if locks are held which would
-> > + * be needed for memory reclaim, write-back, or the timely exit of a
-> > + * process killed by the OOM-killer.  Dropping any locks not absolutely
-> > + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
-> > + * Using this flag for costly allocations (order>1) is _highly_ discouraged.
-> 
-> We define costly as 3, not 1. But sure it's best to avoid even order>0 for
-> __GFP_NOFAIL. Advising order>1 seems arbitrary though?
+On Tue, Oct 05, 2021 at 12:58:47PM +0200, Marco Elver wrote:
+> +static __always_inline void kcsan_atomic_release(int memorder)
+> +{
+> +	if (memorder == __ATOMIC_RELEASE ||
+> +	    memorder == __ATOMIC_SEQ_CST ||
+> +	    memorder == __ATOMIC_ACQ_REL)
+> +		__kcsan_release();
+> +}
+> +
+>  #define DEFINE_TSAN_ATOMIC_LOAD_STORE(bits)                                                        \
+>  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder);                      \
+>  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder)                       \
+>  	{                                                                                          \
+> +		kcsan_atomic_release(memorder);                                                    \
+>  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
+>  			check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_ATOMIC, _RET_IP_);    \
+>  		}                                                                                  \
+> @@ -1156,6 +1187,7 @@ EXPORT_SYMBOL(__tsan_init);
+>  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder);                   \
+>  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder)                    \
+>  	{                                                                                          \
+> +		kcsan_atomic_release(memorder);                                                    \
+>  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
+>  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
+>  				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC, _RET_IP_);          \
+> @@ -1168,6 +1200,7 @@ EXPORT_SYMBOL(__tsan_init);
+>  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder);                 \
+>  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder)                  \
+>  	{                                                                                          \
+> +		kcsan_atomic_release(memorder);                                                    \
+>  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
+>  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
+>  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
+> @@ -1200,6 +1233,7 @@ EXPORT_SYMBOL(__tsan_init);
+>  	int __tsan_atomic##bits##_compare_exchange_##strength(u##bits *ptr, u##bits *exp,          \
+>  							      u##bits val, int mo, int fail_mo)    \
+>  	{                                                                                          \
+> +		kcsan_atomic_release(mo);                                                          \
+>  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
+>  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
+>  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
+> @@ -1215,6 +1249,7 @@ EXPORT_SYMBOL(__tsan_init);
+>  	u##bits __tsan_atomic##bits##_compare_exchange_val(u##bits *ptr, u##bits exp, u##bits val, \
+>  							   int mo, int fail_mo)                    \
+>  	{                                                                                          \
+> +		kcsan_atomic_release(mo);                                                          \
+>  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
+>  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
+>  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
+> @@ -1246,6 +1281,7 @@ DEFINE_TSAN_ATOMIC_OPS(64);
+>  void __tsan_atomic_thread_fence(int memorder);
+>  void __tsan_atomic_thread_fence(int memorder)
+>  {
+> +	kcsan_atomic_release(memorder);
+>  	__atomic_thread_fence(memorder);
+>  }
+>  EXPORT_SYMBOL(__tsan_atomic_thread_fence);
 
-This is not completely arbitrary. We have a warning for any higher order
-allocation.
-rmqueue:
-	WARN_ON_ONCE((gfp_flags & __GFP_NOFAIL) && (order > 1));
-
-I do agree that "Using this flag for higher order allocations is
-_highly_ discouraged.
-
-
-> >   */
-> >  #define __GFP_IO	((__force gfp_t)___GFP_IO)
-> >  #define __GFP_FS	((__force gfp_t)___GFP_FS)
-> > 
-> > 
-> > 
-
--- 
-Michal Hocko
-SUSE Labs
+I find that very hard to read.. kcsan_atomic_release() it not in fact a
+release. It might be a release if @memorder implies one.
