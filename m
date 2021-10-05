@@ -2,103 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F9DC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 13:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D65A5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 13:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DF0161881
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 13:13:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEA5661207
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 13:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234437AbhJENP2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 09:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234209AbhJENP1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 09:15:27 -0400
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF03C06174E
-        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 06:13:37 -0700 (PDT)
-Received: by mail-oo1-xc29.google.com with SMTP id y16-20020a4ade10000000b002b5dd6f4c8dso6369904oot.12
-        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 06:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6G7malU1QffNFlLHyGnF0GE1rVke+5aiG8YVR53mxq8=;
-        b=Uo5Dxx/8CK3cBObyCN+G6zjFAZKGtDxuUZOCiZhE8emJWurCVGfpeQbXCqRz/ifw8h
-         5hJG4lOZ1j+wsv17NwZ2izgQ7JLzW/ft2ZZ3ui7naNTAy9MMSaSzlMSgOCEBE0K7Qs0t
-         PGSRYvlOSlUpoORJazPfM8UN/kLb9qnhtdMtq0XuKNTETS4ZCdnWTuLhsuCks3oPF//n
-         wf8xGuAxUqWcWqkBx+CDmE/gNFN5HOJjTlwmMXm8VSDfCjJt1mgSLS0RjAeKs7jE1lCa
-         uTfhMSHLyVhB2mkQfBO+UMdTDtPE/eSnpRBBglK2HfZhOmKx3KBZqBW59LtAzXHqvVZb
-         JaFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6G7malU1QffNFlLHyGnF0GE1rVke+5aiG8YVR53mxq8=;
-        b=KRVChzYGDBbcYU8Mief20qYNhnCdi53STky2XQCOgEtvW3p34RmRTsWtKZbHTMaF9D
-         Zpg6kaHWZu66P+jhq8V4h/8x33VqeqRQ8EGjtO6lVQy3viiBIQcpGiE87ONskdE4QDvR
-         uvFhipNPjUMu2QS8tu6CW7qWiJ7lP19HlkV36F5gM/Ne191QPtg/TvHXE5iK10geHzKg
-         B0+Yn7gXEynT/EmA1Uczz01vE7CrbZOcfEQY15AwiO4nDmIw/6nEgA3JlZ3NabI+ucuM
-         Md0yHbpVAneFyOAk9QClnvS6vFoCce7824HyaB6fQNSY7b771/TlVaSAfe0zrgfdS+Ds
-         tOlA==
-X-Gm-Message-State: AOAM532qr4oS2BIOQ9hSI37IAcDi3r7RUrskemWR6ai2DFeaUwADdVtq
-        n7UUKUtknPR1yvkO6pOsemu2e+cYj3BQtvB1ww6zeQ==
-X-Google-Smtp-Source: ABdhPJxqMq8cjDTc9QTKdqIRvlnQBOs1H6JCXbF5h1q6usAXXwdA/S40EKnb/uwBvgOd/CGMKkYqHGw1riXb4Giu+98=
-X-Received: by 2002:a4a:de57:: with SMTP id z23mr13364623oot.70.1633439616620;
- Tue, 05 Oct 2021 06:13:36 -0700 (PDT)
+        id S234761AbhJENhb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 09:37:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24004 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234170AbhJENhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 09:37:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633440940;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=KbQMyQ3OBXFxJwor2dj+AzBaJlpfPumA3y+3T9hS3ck=;
+        b=akRwU/zhP9co3fp50wQGfm9RVbgCMIeAVH/tT+wea/OHO9WuTQe9eJUjxD9ivDjfiakNAW
+        MMyn4JHKcawD8mNyotKxu62Sk1RPuX/7ylc+X5zVR7pvP3jJ5yyK9PSaW1PXcbbJzQE4zo
+        aFDrmQ74exWM4S7IQxiVnywsQbX7o30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-p9vWSj-wP-G3pUDdrQWKnw-1; Tue, 05 Oct 2021 09:34:47 -0400
+X-MC-Unique: p9vWSj-wP-G3pUDdrQWKnw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50907802921;
+        Tue,  5 Oct 2021 13:34:45 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7085B2619A;
+        Tue,  5 Oct 2021 13:34:40 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+To:     torvalds@linux-foundation.org
+Cc:     dhowells@redhat.com, Dominique Martinet <asmadeus@codewreck.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [GIT PULL] fscache, 9p, afs, nfs: Fix kerneldoc warnings and one unused variable
 MIME-Version: 1.0
-References: <20211005105905.1994700-1-elver@google.com> <20211005105905.1994700-5-elver@google.com>
- <YVxKplLAMJJUlg/w@hirez.programming.kicks-ass.net>
-In-Reply-To: <YVxKplLAMJJUlg/w@hirez.programming.kicks-ass.net>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 5 Oct 2021 15:13:25 +0200
-Message-ID: <CANpmjNMk0ubjYEVjdx=gg-S=zy7h=PSjZDXZRVfj_BsNzd6zkg@mail.gmail.com>
-Subject: Re: [PATCH -rcu/kcsan 04/23] kcsan: Add core support for a subset of
- weak memory modeling
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1082804.1633440879.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Tue, 05 Oct 2021 14:34:39 +0100
+Message-ID: <1082805.1633440879@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 5 Oct 2021 at 14:53, Peter Zijlstra <peterz@infradead.org> wrote:
-> On Tue, Oct 05, 2021 at 12:58:46PM +0200, Marco Elver wrote:
-> > +#if !defined(CONFIG_ARCH_WANTS_NO_INSTR) || defined(CONFIG_STACK_VALIDATION)
-> > +/*
-> > + * Arch does not rely on noinstr, or objtool will remove memory barrier
-> > + * instrumentation, and no instrumentation of noinstr code is expected.
-> > + */
-> > +#define kcsan_noinstr
->
-> I think this still wants to be at the very least:
->
-> #define kcsan_noinstr noinline notrace
->
-> without noinline it is possible LTO (or similarly daft things) will end
-> up inlining the calls, and since we rely on objtool to NOP out CALLs
-> this must not happen.
+Hi Linus,
 
-Good point about noinline, will add.
+Could you consider pulling these changes please?
 
-> And since you want to mark these functions as uaccess_safe, there must
-> not be any tracing on, hence notrace.
+The first four patches fix kerneldoc warnings in fscache, afs, 9p and nfs =
+-
+they're mostly just comment changes, though there's one place in 9p where =
+a
+comment got detached from the function it was attached to (v9fs_fid_add)
+and has to switch places with a function that got inserted between
+(__add_fid).
 
-In the Makefile we've relied on:
+The patch on the end removes an unused symbol in fscache - I moved it last
+so you can discard it if you'd rather not pull that one just now.
 
-  CFLAGS_REMOVE_core.o = $(CC_FLAGS_FTRACE)
+David
 
-just to disable it for all code here. That should be enough, right?
+Link: https://lore.kernel.org/r/163214005516.2945267.7000234432243167892.s=
+tgit@warthog.procyon.org.uk/ # rfc v1
+Link: https://lore.kernel.org/r/163281899704.2790286.9177774252843775348.s=
+tgit@warthog.procyon.org.uk/ # rfc v2
+Link: https://lore.kernel.org/r/163342376338.876192.10313278824682848704.s=
+tgit@warthog.procyon.org.uk/ # split up
+
+---
+The following changes since commit 9e1ff307c779ce1f0f810c7ecce3d95bbae4089=
+6:
+
+  Linux 5.15-rc4 (2021-10-03 14:08:47 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git tags=
+/warning-fixes-20211005
+
+for you to fetch changes up to ef31499a87cf842bdf6719f44473d93e99d09fe2:
+
+  fscache: Remove an unused static variable (2021-10-04 22:13:12 +0100)
+
+----------------------------------------------------------------
+Warning fixes
+
+----------------------------------------------------------------
+David Howells (5):
+      nfs: Fix kerneldoc warning shown up by W=3D1
+      afs: Fix kerneldoc warning shown up by W=3D1
+      9p: Fix a bunch of kerneldoc warnings shown up by W=3D1
+      fscache: Fix some kerneldoc warnings shown up by W=3D1
+      fscache: Remove an unused static variable
+
+ fs/9p/cache.c          |  8 ++++----
+ fs/9p/fid.c            | 14 +++++++-------
+ fs/9p/v9fs.c           |  8 +++-----
+ fs/9p/vfs_addr.c       | 14 +++++++++-----
+ fs/9p/vfs_file.c       | 33 ++++++++++++---------------------
+ fs/9p/vfs_inode.c      | 24 ++++++++++++++++--------
+ fs/9p/vfs_inode_dotl.c | 11 +++++++++--
+ fs/afs/dir_silly.c     |  4 ++--
+ fs/fscache/object.c    |  2 +-
+ fs/fscache/operation.c |  3 +++
+ fs/nfs_common/grace.c  |  1 -
+ 11 files changed, 66 insertions(+), 56 deletions(-)
+
