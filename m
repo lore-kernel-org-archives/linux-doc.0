@@ -2,96 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA64C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 16:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56D8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 17:04:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCDCC611C5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 16:48:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B74DC6120F
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 17:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236606AbhJEQuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 12:50:12 -0400
-Received: from ale.deltatee.com ([204.191.154.188]:44372 "EHLO
-        ale.deltatee.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236690AbhJEQuM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 12:50:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
-        :references:content-disposition:in-reply-to;
-        bh=uErNDWtyHIBmid4jyg5TQAPNLYpHrbLQkRhkR2esVR8=; b=fMq9tnv8/txWnsmOLZm7Jl46h3
-        OzCzofJjTVJUsi8x30NxDM7dmkHDhtYPQIZ8VZt8ot2qvrz6sWJD+rtKR6jdnqTBpKQ5qso0A1IqI
-        WUvk90XQnveXWIERxGpUTNoWEauvGyJL1zjuZgrm9ZGdrfSdfFhmormcljE4Intry3ciaDhUA/tuk
-        mL+2O6yolkZrDDGezArriWW6RhRavD67de0CjXLVSFWCCSy6Qr/mAY4JQVWDluGBkdgV3fd3c5stt
-        Y0O5WWUuMpTIS9neSCxo+8F3xTtIUXyWvy3dTEzbYP4Y4zBncP0eWQfrdgZBOdKfyS0Lg6t0jkrGB
-        GkaUeTyQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-        by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1mXnc0-0007Y9-G4; Tue, 05 Oct 2021 10:48:18 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1mXnby-00049r-R6; Tue, 05 Oct 2021 10:48:14 -0600
-From:   Logan Gunthorpe <logang@deltatee.com>
-To:     Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org
-Cc:     linux-doc@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Date:   Tue,  5 Oct 2021 10:48:12 -0600
-Message-Id: <20211005164812.15938-1-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
+        id S236260AbhJERGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 13:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235716AbhJERGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 13:06:44 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F3FC06174E
+        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 10:04:53 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id rm6-20020a17090b3ec600b0019ece2bdd20so110186pjb.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 10:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vSYITVv9Opuwe9M6O6zYQtoXiPoiIGHreSsa+qkzCrs=;
+        b=j5cNb02j9NR1tp+RRzowbUKsKgPcgcKIIDTWz2vfRGOfA1QJluBUpfEvxY/Zw9XwQp
+         rc2D7mSK+OHItxR8L4OGt2sAj7HrAGTzuJHIhl4A9X4KmXxGQd9RzHQ1wBabNFuhbGlK
+         Bwdil95qqISUgEvRNrOZjtyPz/5godYZAX9+Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vSYITVv9Opuwe9M6O6zYQtoXiPoiIGHreSsa+qkzCrs=;
+        b=RBwhX123aSC2l1+3IAJ+XzIF2mKD3q+eEv8Doi285VGWcqMtVSI8bRHB0OAj/5nLpn
+         ha7uArPk8EALVk7iniD8L6U+SdQg9ar+Sgx1aP6WT5sqy1K18FIMBig52exuF5CZeJs3
+         yHrJuz3CDSclbPPWQdaCl2iFZLh06PBCkGHiRykrJ4gYSe3kitAuISYO7K3YGDijV+wu
+         zCq75k9MsZN3FtXHcZGvqmxgWaUWzHYtMNS6xSBoa3JomGPpoUJXL53TAIJN5ZrxRjC4
+         XHNzbn/Osu9sMNYlCAYrfhvr1fv3mNdXA/2WnQeXghQF3Wxfp4wU2PCCkOr4T+g1EzN4
+         mQWA==
+X-Gm-Message-State: AOAM533HAosyb6iFfLclOrEm1yPQqWVTI0Dq+1PIKM4zgIIZg891D2OI
+        stb2lS2Q5Pt2dv9LdhR6DjiasHEer94OQA==
+X-Google-Smtp-Source: ABdhPJwFnnlqDeCEB4r6Ta4t43jY/7gO7eXD7cWifhoILGgiHrBbAxGs/fGWxKfoL5gS5Y2mIob9rA==
+X-Received: by 2002:a17:902:a385:b0:13e:99e9:17f3 with SMTP id x5-20020a170902a38500b0013e99e917f3mr6231006pla.65.1633453493002;
+        Tue, 05 Oct 2021 10:04:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 17sm18260614pfh.216.2021.10.05.10.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 10:04:52 -0700 (PDT)
+Date:   Tue, 5 Oct 2021 10:04:51 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH v5] docs: Explain the desired position of function
+ attributes
+Message-ID: <202110051004.C4D9EBA0@keescook>
+References: <20211005152611.4120605-1-keescook@chromium.org>
+ <7f6e53d04849daabd3e85c23f9974b2eb4a20c13.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: hch@lst.de, iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org, logang@deltatee.com, sfr@canb.auug.org.au
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH] dma-mapping: fix the kerneldoc for dma_map_sgtable()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f6e53d04849daabd3e85c23f9974b2eb4a20c13.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-htmldocs began producing the following warnings:
+On Tue, Oct 05, 2021 at 08:39:14AM -0700, Joe Perches wrote:
+> On Tue, 2021-10-05 at 08:26 -0700, Kees Cook wrote:
+> > While discussing how to format the addition of various function
+> > attributes, some "unwritten rules" of ordering surfaced[1]. Capture as
+> > close as possible to Linus's preferences for future reference.
+> > +For example, using this function declaration example::
+> > +
+> > + __init void * __must_check action(enum magic value, size_t size, u8 count,
+> > +				   char *fmt, ...) __printf(4, 5) __malloc;
+> 
+> trivia: almost all fmt declarations should be const char *
 
-  kernel/dma/mapping.c:256: WARNING: Definition list ends without a
-             blank line; unexpected unindent.
-  kernel/dma/mapping.c:257: WARNING: Bullet list ends without a blank
-             line; unexpected unindent.
+Heh, good point!
 
-Reformatting the list without hyphens fixes the warnings and produces
-both a readable text and HTML output.
+> > +Note that for a function **definition** (i.e. the actual function body),
+> > +the compiler does not allow function parameter attributes after the
+> > +function parameters. In these cases, they should go after the storage
+> > +class attributes (e.g. note the changed position of ``__printf(4, 5)``
+> > +below, compared to the **declaration** example above)::
+> > +
+> > + static __always_inline __init __printf(4, 5) void * __must_check action(enum magic value,
+> > +		size_t size, u8 count, char *fmt, ...) __malloc
+> 
+> here too, and 80 columns?
 
-Fixes: fffe3cc8c219 ("dma-mapping: allow map_sg() ops to return negative error code")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- kernel/dma/mapping.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Kernel standard is now 100. *shrug*
 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 06fec5547e7c..49885023c223 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -249,12 +249,12 @@ EXPORT_SYMBOL(dma_map_sg_attrs);
-  * Returns 0 on success or a negative error code on error. The following
-  * error codes are supported with the given meaning:
-  *
-- *   -EINVAL - An invalid argument, unaligned access or other error
-- *	       in usage. Will not succeed if retried.
-- *   -ENOMEM - Insufficient resources (like memory or IOVA space) to
-- *	       complete the mapping. Should succeed if retried later.
-- *   -EIO    - Legacy error code with an unknown meaning. eg. this is
-- *	       returned if a lower level call returned DMA_MAPPING_ERROR.
-+ *   -EINVAL	An invalid argument, unaligned access or other error
-+ *		in usage. Will not succeed if retried.
-+ *   -ENOMEM	Insufficient resources (like memory or IOVA space) to
-+ *		complete the mapping. Should succeed if retried later.
-+ *   -EIO	Legacy error code with an unknown meaning. eg. this is
-+ *		returned if a lower level call returned DMA_MAPPING_ERROR.
-  */
- int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
- 		    enum dma_data_direction dir, unsigned long attrs)
+> > + {
+> > +	...
+> > + }
+> 
+> Or just put all the attributes before the storage class... <grumble/chuckle>
 
-base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+I hear ya...
+
 -- 
-2.30.2
-
+Kees Cook
