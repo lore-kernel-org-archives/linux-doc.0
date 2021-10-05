@@ -2,146 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F96C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E5B6C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:05:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A6A7611F0
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:01:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F251613D5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Oct 2021 15:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235545AbhJEPDo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Oct 2021 11:03:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235496AbhJEPDn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Oct 2021 11:03:43 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13825C061749
-        for <linux-doc@vger.kernel.org>; Tue,  5 Oct 2021 08:01:53 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id l7so9319edq.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 Oct 2021 08:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MCRBn6b3qoryRYKrN4/1JLdhAV/hIrIuL5Vq/GngAlY=;
-        b=mYs57AFKIU7i2tGt83F0nC59rmMH39ZE/i0lP71h3TsKRyHDKezP9q7FrxkmATPtlf
-         dGa0kEDJIDfss8qfgAnlRnyfYvQ2i7mQoH2I3P1abTTtt+OeEy/LCUGj8P5NvKjX05mN
-         xnmD4sdB0mtma37jmJXKGdTP/xu9ChYuEBX9+txpvXX0uXxrdPpbd23pNmiG+/8J8FIv
-         Ae0Vl22NZITYbOHKF0lnHOpEIpJ0l4aR7hdvwJ6AzlazgpMmFAmyJC6QJ70tekXfKEq7
-         91eoo0kkirf4et2kRi+3OckOh4yzKDKhGcpSeA27bU8c5sO570Oz5HcDbIJrP6QLAezc
-         V27w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MCRBn6b3qoryRYKrN4/1JLdhAV/hIrIuL5Vq/GngAlY=;
-        b=y28ubz3KlSnoK/Hi+qKC8PFVNSdTlbh4ZBE2lcB8EdqKXaxRV5Wn7nOtEevfFP71+I
-         14hIa4FoZ7MX2QX2oVi+r02wKHuf0WUo569waNDz+MfLAKDFr6mhDt913FR+B5jqvO9Q
-         ZpurTGZH+pci5acqK7HMjNUet4nKcePLYEhFOKdoYVjlpGP0FHlZJz3cDGJtfLtRIcUZ
-         4YX3mrEi/IzxCh5dW0+5JDcG8OL/GO20S1SsympLTuwNy5N4i5oh7iRMeCxzD7CPcJdK
-         uR9kkzCL9RCxqNCLm/nkQUY6XYigakhkM2yUNgoso75ynnR9SxBKepEUOprT75ypd72H
-         F4eg==
-X-Gm-Message-State: AOAM5304FrEk/M5LqdtwOc814QZiKS0ifu0JvUXn9JiOIvt3cJNPbvlK
-        lfbFvuZ32GVt/nATzsUozDyYUfdpfyYoyK1eMSdBCQ==
-X-Google-Smtp-Source: ABdhPJxAQ/4UsSMxvuXIEURMPvaas9ykcgFi/q1H4N/drfI2wcYk/4KQHSLGIJlx20Qi7odiErbbeE2ik8768PcSvV4=
-X-Received: by 2002:a05:6402:450:: with SMTP id p16mr26584475edw.162.1633446111422;
- Tue, 05 Oct 2021 08:01:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001181627.394921-1-bgeffon@google.com> <YVtH60zyzq9AhUv2@google.com>
- <CADyq12xk-2Fhnf_rJQ70oC1_98OEBJqwxOt6z=PpJa5V=X3dFQ@mail.gmail.com> <YVtqHv+p3uYkbu5E@google.com>
-In-Reply-To: <YVtqHv+p3uYkbu5E@google.com>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Tue, 5 Oct 2021 11:01:15 -0400
-Message-ID: <CADyq12w2sHdeBhAKVP+5GghHMqNZN+h36ydV7gi8QxOcHZ7f7A@mail.gmail.com>
-Subject: Re: [PATCH] zram: Allow backing device to be assigned after init
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        id S235335AbhJEPHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Oct 2021 11:07:31 -0400
+Received: from mga11.intel.com ([192.55.52.93]:35661 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235022AbhJEPHb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Oct 2021 11:07:31 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="223169434"
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; 
+   d="scan'208";a="223169434"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 07:26:24 -0700
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; 
+   d="scan'208";a="523793505"
+Received: from ftbalow-mobl.amr.corp.intel.com (HELO [10.212.210.174]) ([10.212.210.174])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2021 07:26:22 -0700
+Subject: Re: [PATCH v30 01/32] Documentation/x86: Add CET description
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org,
-        Suleiman Souhlal <suleiman@google.com>,
-        Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>
+References: <20210830181528.1569-1-yu-cheng.yu@intel.com>
+ <20210830181528.1569-2-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <e1f8debd-3097-a283-413a-1a54f79a579c@intel.com>
+Date:   Tue, 5 Oct 2021 07:26:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210830181528.1569-2-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Minchan,
-Thank you for expanding on that. The only situation where there will
-be lock contention that is problematic is when we're storing the
-backing device the first time, all other times the lock will be held
-as a read. Once the backing device has been set it cannot be set again
-(it would return -EEXIST). I think no matter what if we're doing
-writeback, even with the optimization you're describing, you'd have to
-hold the zram->init_lock as read to validate that you have a writeback
-device. Does that make sense?
+On 8/30/21 11:14 AM, Yu-cheng Yu wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index bdb22006f713..3bc1a917dfef 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3319,6 +3319,13 @@
+>  			noexec=on: enable non-executable mappings (default)
+>  			noexec=off: disable non-executable mappings
+>  
+> +	no_user_shstk	[X86-64] Disable Shadow Stack for user-mode
+> +			applications.  Disabling shadow stack also disables
+> +			IBT.
+> +
+> +	no_user_ibt	[X86-64] Disable Indirect Branch Tracking for user-mode
+> +			applications.
+> +
+>  	nosmap		[X86,PPC]
+>  			Disable SMAP (Supervisor Mode Access Prevention)
+>  			even if it is supported by processor.
 
-Brian
+Please add this documentation in the patch that *implements* the
+command-line options.
 
-On Mon, Oct 4, 2021 at 4:55 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> On Mon, Oct 04, 2021 at 02:40:52PM -0400, Brian Geffon wrote:
-> > On Mon, Oct 4, 2021 at 2:29 PM Minchan Kim <minchan@kernel.org> wrote:
-> > >
-> > > On Fri, Oct 01, 2021 at 11:16:27AM -0700, Brian Geffon wrote:
-> > > > There does not appear to be a technical reason to not
-> > > > allow the zram backing device to be assigned after the
-> > > > zram device is initialized.
-> > > >
-> > > > This change will allow for the backing device to be assigned
-> > > > as long as no backing device is already assigned. In that
-> > > > event backing_dev would return -EEXIST.
-> > > >
-> > > > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > > > ---
-> > > >  drivers/block/zram/zram_drv.c | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > > > index fcaf2750f68f..12b4555ee079 100644
-> > > > --- a/drivers/block/zram/zram_drv.c
-> > > > +++ b/drivers/block/zram/zram_drv.c
-> > > > @@ -462,9 +462,9 @@ static ssize_t backing_dev_store(struct device *dev,
-> > > >               return -ENOMEM;
-> > > >
-> > > >       down_write(&zram->init_lock);
-> > > > -     if (init_done(zram)) {
-> > > > -             pr_info("Can't setup backing device for initialized device\n");
-> > > > -             err = -EBUSY;
-> > > > +     if (zram->backing_dev) {
-> > > > +             pr_info("Backing device is already assigned\n");
-> > > > +             err = -EEXIST;
-> > > >               goto out;
-> > >
-> > > Hi Brian,
-> > >
-> >
-> > Hi Minchan,
-> >
-> > > I am worry about the inconsistency with other interface of current zram
-> > > set up. They were supposed to set it up before zram disksize setting
-> > > because it makes code more simple/maintainalbe in that we don't need
-> > > to check some feature on the fly.
-> > >
-> > > Let's think about when zram extends the writeback of incompressible
-> > > page on demand. The write path will need the backing_dev under
-> > > down_read(&zarm->init_lock) or other conditional variable to check
-> > > whether the feature is enabled or not on the fly.
-> >
-> > I don't follow what you mean by that, writeback_store already holds
-> > down_read(&zarm->init_lock).
->
-> I should have explained a bit more. Sorry about that.
-> I am thinking about a feature to deal with incompressible page.
-> Let's have an example to handle incompressible page for that.
->
-> zram_bvec_rw
->   zram_bvec_write
->     if (comp_len >= huge_class)
->         zs_page_writeback
->             down_read(&zram->init_lock) or some other way
->
-> It's just idea for incompressible page but we might intorduce
-> the way for other compresible pages, too at some condition.
+
+> +++ b/Documentation/x86/intel_cet.rst
+> @@ -0,0 +1,139 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================================
+> +Control-flow Enforcement Technology (CET)
+> +=========================================
+> +
+> +[1] Overview
+> +============
+> +
+> +Control-flow Enforcement Technology (CET) is an Intel processor feature
+> +that provides protection against return/jump-oriented programming (ROP)
+> +attacks.  It can be set up to protect both applications and the kernel.
+> +Only user-mode protection is implemented in the 64-bit kernel, including
+> +shadow stack support for running legacy 32-bit applications.  IBT is not
+> +supported for 32-bit applications.
+> +
+> +CET introduces Shadow Stack and Indirect Branch Tracking.
+...
+
+This is a *bit* confusing now.  AMD's manual describes shadow stacks,
+but does not mention IBT.
+
+We should probably consider whether "intel_cet.rst" is the best filename
+for this.
