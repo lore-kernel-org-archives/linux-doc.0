@@ -2,23 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E021C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 17:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4700BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:18:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF0D861042
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 17:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 268F761151
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbhJFSAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 14:00:16 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:51146 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbhJFSAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 14:00:16 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 213951C0B87; Wed,  6 Oct 2021 19:58:22 +0200 (CEST)
-Date:   Wed, 6 Oct 2021 19:58:21 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Suren Baghdasaryan <surenb@google.com>
+        id S238578AbhJFSUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 14:20:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238119AbhJFSUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 14:20:35 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FD8C061755
+        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 11:18:43 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id u32so7436344ybd.9
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 11:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tS0Q/doPfkgcSn/P1ry79XfUH0i7iJLfycZHaCEByaw=;
+        b=TYlphAvwMJftzt6RU5u9b6mLtXkIqYWFA04tNKYd2B2kJaBNHrvFS+iWcxQyx65O49
+         VEw0jFjeBxrJigtMkEwMctb8oSbx+fuz5GPExgicIXWNFArloubetA2TV3UEBOxGB59S
+         4/eOuXBnAvuNH7y8YiILc6KY9YVEnat4qn2XUv33xrzz3GJLMCPCjq1bI/veMmjJStMA
+         mw1RSKpfndHUtx7NSTXL90xYj4QC8EJDHuoNRRjBjJoyYzyw7iirxJ6l/qIOOS8/aEEI
+         zLEZyLx56Nk0A1AScwAL4V61zvIuQvil+E41AYH4QmyoGC+u+esm8H+BU3U5aLJkJiKd
+         +gpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tS0Q/doPfkgcSn/P1ry79XfUH0i7iJLfycZHaCEByaw=;
+        b=boRgC4qRHhAtNZs+KMIHYjQq0ubG+NDQOJBAh9fwjyARdJ6d/EiZy+jBWdQ2uQIK0C
+         vhL1zwRQRGrmyM0ckGpD3OiwxsIzDKSxosyuFAZJForudUOfLBhzGeGK9CjLwDtsoiqj
+         3wNv+JoYjIb+u24OWr+REephh3dAS0DT5a9pMYjMvxj9koqcdyO/z9KabYc0Hy0zWWE8
+         JrivNv/Y5i10/HbZmzMSeBWqRct3Jng6hW+W1rr8DFD2sUqPpa4dsTIv8MaE3hCjdJGs
+         nLIHq6sh2w829zh9L4MwIQZZDcpK5PeVZqW8hZ24gTnk1gdSLO7mur/0hl8au8DFMXkR
+         KjaA==
+X-Gm-Message-State: AOAM530eKPYy6OjwOLKBxOTnq4s6TNbUIbATQ2y+8t7Q8c4jtrfrZVVn
+        Wo+zQnw9yREVFD1pC5GwGK0bCaGDdm5AsZUKKDjF9w==
+X-Google-Smtp-Source: ABdhPJxugzCMn7sZu79C5fnZMRKkgBcjmMuKl0Fdq3TPkxzrJccYHRxTws0QUusFhxlrkQ2KrgfrvvthwxjhDBttraA=
+X-Received: by 2002:a25:552:: with SMTP id 79mr29984731ybf.202.1633544322361;
+ Wed, 06 Oct 2021 11:18:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-3-surenb@google.com>
+ <20211005184211.GA19804@duo.ucw.cz> <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+ <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+ <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+ <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com> <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+ <20211006175821.GA1941@duo.ucw.cz>
+In-Reply-To: <20211006175821.GA1941@duo.ucw.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 6 Oct 2021 11:18:31 -0700
+Message-ID: <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     David Hildenbrand <david@redhat.com>,
         Michal Hocko <mhocko@suse.com>,
         John Hubbard <jhubbard@nvidia.com>,
@@ -39,7 +79,7 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
         <chinwen.chang@mediatek.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -49,7 +89,8 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
         Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
         Rolf Eike Beer <eb@emlix.com>,
@@ -62,82 +103,75 @@ Cc:     David Hildenbrand <david@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <20211006175821.GA1941@duo.ucw.cz>
-References: <20211001205657.815551-1-surenb@google.com>
- <20211001205657.815551-3-surenb@google.com>
- <20211005184211.GA19804@duo.ucw.cz>
- <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz>
- <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
- <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
- <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---45Z9DzgjV8m4Oswq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > I can understand that having a string can be quite beneficial e.g., when
-> > dumping mmaps. If only user space knows the id <-> string mapping, that
-> > can be quite tricky.
+On Wed, Oct 6, 2021 at 10:58 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > > I can understand that having a string can be quite beneficial e.g., when
+> > > dumping mmaps. If only user space knows the id <-> string mapping, that
+> > > can be quite tricky.
+> > >
+> > > However, I also do wonder if there would be a way to standardize/reserve
+> > > ids, such that a given id always corresponds to a specific user. If we
+> > > use an uint64_t for an id, there would be plenty room to reserve ids ...
+> > >
+> > > I'd really prefer if we can avoid using strings and instead using ids.
 > >
-> > However, I also do wonder if there would be a way to standardize/reserve
-> > ids, such that a given id always corresponds to a specific user. If we
-> > use an uint64_t for an id, there would be plenty room to reserve ids ...
-> >
-> > I'd really prefer if we can avoid using strings and instead using ids.
->=20
-> I wish it was that simple and for some names like [anon:.bss] or
-> [anon:dalvik-zygote space] reserving a unique id would work, however
-> some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
-> are generated dynamically at runtime and include package name.
+> > I wish it was that simple and for some names like [anon:.bss] or
+> > [anon:dalvik-zygote space] reserving a unique id would work, however
+> > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
+> > are generated dynamically at runtime and include package name.
+>
+> I'd be careful; if you allow special characters like that, you will
+> confuse some kind of parser.
 
-I'd be careful; if you allow special characters like that, you will
-confuse some kind of parser.
+That's why I think having a separate config option with default being
+disabled would be useful here. It can be enabled on the systems which
+handle [anon:...] correctly without affecting all other systems.
 
-> Packages are constantly evolving, new ones are developed, names can
-> change, etc. So assigning a unique id for these names is not really
-> feasible.
-> That leaves us with the central facility option, which as I described
-> in my previous email would be prohibitive from performance POV (IPC
-> every time we have a new name or want to convert id to name).
+>
+> > Packages are constantly evolving, new ones are developed, names can
+> > change, etc. So assigning a unique id for these names is not really
+> > feasible.
+> > That leaves us with the central facility option, which as I described
+> > in my previous email would be prohibitive from performance POV (IPC
+> > every time we have a new name or want to convert id to name).
+>
+> That "central facility" option can be as simple as "mkdir
+> /somewhere/sanitized_id", using inode numbers for example. You don't
+> really need IPC.
 
-That "central facility" option can be as simple as "mkdir
-/somewhere/sanitized_id", using inode numbers for example. You don't
-really need IPC.
+Hmm, so the suggestion is to have some directory which contains files
+representing IDs, each containing the string name of the associated
+vma? Then let's say we are creating a new VMA and want to name it. We
+would have to scan that directory, check all files and see if any of
+them contain the name we want to reuse the same ID. This is while we
+are doing mmap() call, which is often a part of time sensitive
+operation (for example app is starting and allocating some memory to
+operate). App startup time is one of the main metrics our users care
+about and regressing that would not go well with our QA team.
 
-Plus, I don't really believe the IPC cost would be prohibitive.
+>
+> Plus, I don't really believe the IPC cost would be prohibitive.
 
-Or you could simply hash the string and use the hash as id...
+This option was discussed by the Android performance team and rejected
+8 years ago. The problem is that these operations are often happening
+in performance-sensitive areas of the process lifecycle.
 
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+>
+> Or you could simply hash the string and use the hash as id...
 
---45Z9DzgjV8m4Oswq
-Content-Type: application/pgp-signature; name="signature.asc"
+I don't see how this would help. You still need to register your
+hash->name association somewhere for that hash to be converted back to
+the name. Did I misunderstand your suggestion?
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYV3jvQAKCRAw5/Bqldv6
-8lyUAKCwEv6bdJTV+wggIi1c2UYNr58JwwCfey84lnBPdV/qEtwDzRe+bL2Ytrw=
-=5AmT
------END PGP SIGNATURE-----
-
---45Z9DzgjV8m4Oswq--
+>
+> Best regards,
+>                                                                 Pavel
+> --
+> http://www.livejournal.com/~pavelmachek
