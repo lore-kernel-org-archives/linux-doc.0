@@ -2,62 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E98BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00770C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:08:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA0F361154
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:02:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7B99611C3
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:08:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239047AbhJFPEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 11:04:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238436AbhJFPEA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 11:04:00 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E89AC061753
-        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 08:02:08 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id d131so6119708ybd.5
-        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 08:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MzEyLfp/eaHfYFCvoWfOxrcj4KYXSDgQLbhw8YX+9RQ=;
-        b=ta783nvpkwKOOuucrK44IRRZ9hsio5xXDjvuB9yPa0HD0qE19p3Q4KAilwYpao2Q1n
-         /nNINPBvLQE6n0Mjih3w+sAS+eNMP0JqJynoUtkoX3L8FnPZ6D909MtUhWc0x1lqIwKr
-         I75rTIamcY3eF7Zn2h7FYdOKahWN6t0lE2WxcbNT3KPeSXoG9FnXjf4zkYEVH8bdehPD
-         AES4Z8OtqtuO0iGM7ej/L8A3TQn3beFpQ+dLiQlBnMalAJDGX0ac669Mqpjv94Xxb8oX
-         ldmGzRMon9eDT7CoGa6HBE1/ZEcLnn8xoWaZW6Jx3Ln4YtFCGcJ4lJfPw8yndXkoqCt5
-         UGng==
+        id S239153AbhJFPJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 11:09:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46467 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239051AbhJFPJy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 11:09:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633532880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iml3pNlbn9tn2FywzhER1zlHgKoPS0AbJRacW4jzMgU=;
+        b=BYnKwWw+ErSe7dbeP1y/OpWJRWVNHdJzKmxHo9oS/tHdHJ5TJPME+eq2Zl+RXybmUd54Fm
+        Dx0BeW/GnpcaEGszxibF4/SVodgSTzupsL2fh+YzW+0YDJeJCANYgwvCZHYvrujN1JsVZ5
+        cKpAwWFh9lmg227NLt6WsRu7rgCwwf8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-9jNWrsYSMCuRz3tirK66lg-1; Wed, 06 Oct 2021 11:08:00 -0400
+X-MC-Unique: 9jNWrsYSMCuRz3tirK66lg-1
+Received: by mail-wr1-f70.google.com with SMTP id x14-20020a5d60ce000000b00160b27b5fd1so2302837wrt.5
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 08:07:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MzEyLfp/eaHfYFCvoWfOxrcj4KYXSDgQLbhw8YX+9RQ=;
-        b=o4fWnkhxQB/Y/6V1O/VmZHyqrZg4LcPw/UFpZ8CLkI3xTKeDtD0Jr/uYYfXq9VWvcM
-         DMDEFqiYN4EEM80Bwa3uDV+EBWl/DWYZw5YyD3Bl/z+obp3A+NrVmr/BdoQm9jhgrsMK
-         VpRhbmd9jytpqQEm7qy9uv5SdE2w/I9kr8DwV3GVDvwtC7GKZtTy8iQGaACa6gQmTAvv
-         89tPebfiiIgBlPU7vzJQiJWdISvHcCpe/yItxh11FCRG5dQzo+onTcp/nWKxrIf2rt27
-         rOZsEttkkkO5SUXggGUPbSrOusU/g6AE+4n46nTfQf8sc/0VpqW4zXx9phEqm3x1Eztj
-         NQEA==
-X-Gm-Message-State: AOAM532PCellZW/spCoHDHbGAFV4rL4+OOF5u4D82Q6JvROQu7muOOR1
-        P2MALCRvf7AzbUTJiku21TCkq5dVXIUq1OBYit80rw==
-X-Google-Smtp-Source: ABdhPJzHHjr+U17m6GiWu/VvrpzHwzmwnyEEuH0irvtCoZwtYfAaRRTS4+nFij482usItX590WL/sqUymh0V1yrnZeU=
-X-Received: by 2002:a25:3:: with SMTP id 3mr29737607yba.418.1633532527401;
- Wed, 06 Oct 2021 08:02:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-3-surenb@google.com>
- <20211005184211.GA19804@duo.ucw.cz> <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
-In-Reply-To: <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 6 Oct 2021 08:01:56 -0700
-Message-ID: <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     David Hildenbrand <david@redhat.com>
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=iml3pNlbn9tn2FywzhER1zlHgKoPS0AbJRacW4jzMgU=;
+        b=o5tPTIfFdZurk4i/9ck0RsndCMsdN2o4JvugJrm0fN8ZImUQIyYwomr0cYV2tLjtX1
+         OdfXixUaCXd9VA0F6r6NsfjNGZloiBR3p3+s9DlaMXzKl39OVKy8dNP1eEzfsNp72z4G
+         XqFz1daEMLtYMgaGArmAcbCmVTrtbsEy+G1QMuDvVKfy3xCcuoPNK95MqquSLdw+oSUa
+         3SWfCLb07fQLZfuGw+g6/itrYzLh/CZP+LE20mNm7Os5QetTLWddVqMyy4zH9SPpRhrR
+         xwGS7GLUPHa0ocguPBYoEx4QTsXrQgPUNTT436+e+iAjPHfoLhpkkL1H7tmfwPRbheTp
+         gJ9Q==
+X-Gm-Message-State: AOAM531gu4z2zEcxXTwtzLwACnC/u+MUoMnIsPRBnMibpn2EPLE43Knp
+        nBnfTfDm2xoK7iX/jRrDiA8zv6xyfbBnv/4usaL7DpFQUS4D1W3rzy7qEcOEbG7SIOTBh4VmmYg
+        FqIamDYHKz1Ps7WdeqCac
+X-Received: by 2002:a05:600c:4fc6:: with SMTP id o6mr10488624wmq.147.1633532878751;
+        Wed, 06 Oct 2021 08:07:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIy7edjiF6tYBwyhRpW4cHms5SJrrTE90lW3+gTLtxOFwCuTMHSR1zVPnDBv3OjX9leQiDZw==
+X-Received: by 2002:a05:600c:4fc6:: with SMTP id o6mr10488572wmq.147.1633532878499;
+        Wed, 06 Oct 2021 08:07:58 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6529.dip0.t-ipconnect.de. [91.12.101.41])
+        by smtp.gmail.com with ESMTPSA id w11sm2259159wmc.44.2021.10.06.08.07.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Oct 2021 08:07:58 -0700 (PDT)
+To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     Michal Hocko <mhocko@suse.com>, John Hubbard <jhubbard@nvidia.com>,
         Pavel Machek <pavel@ucw.cz>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -100,61 +97,90 @@ Cc:     Michal Hocko <mhocko@suse.com>, John Hubbard <jhubbard@nvidia.com>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211001205657.815551-1-surenb@google.com>
+ <20211001205657.815551-3-surenb@google.com>
+ <20211005184211.GA19804@duo.ucw.cz>
+ <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+ <20211005200411.GB19804@duo.ucw.cz>
+ <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+ <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
+ <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+ <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
+ <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <192438ab-a095-d441-6843-432fbbb8e38a@redhat.com>
+Date:   Wed, 6 Oct 2021 17:07:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 06.10.21 10:27, Michal Hocko wrote:
-> > On Tue 05-10-21 23:57:36, John Hubbard wrote:
-> > [...]
-> >> 1) Yes, just leave the strings in the kernel, that's simple and
-> >> it works, and the alternatives don't really help your case nearly
-> >> enough.
-> >
-> > I do not have a strong opinion. Strings are easier to use but they
-> > are more involved and the necessity of kref approach just underlines
-> > that. There are going to be new allocations and that always can lead
-> > to surprising side effects.  These are small (80B at maximum) so the
-> > overall footpring shouldn't all that large by default but it can grow
-> > quite large with a very high max_map_count. There are workloads which
-> > really require the default to be set high (e.g. heavy mremap users). So
-> > if anything all those should be __GFP_ACCOUNT and memcg accounted.
-> >
-> > I do agree that numbers are just much more simpler from accounting,
-> > performance and implementation POV.
->
-> +1
->
-> I can understand that having a string can be quite beneficial e.g., when
-> dumping mmaps. If only user space knows the id <-> string mapping, that
-> can be quite tricky.
->
-> However, I also do wonder if there would be a way to standardize/reserve
-> ids, such that a given id always corresponds to a specific user. If we
-> use an uint64_t for an id, there would be plenty room to reserve ids ...
->
-> I'd really prefer if we can avoid using strings and instead using ids.
+On 06.10.21 17:01, Suren Baghdasaryan wrote:
+> On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> On 06.10.21 10:27, Michal Hocko wrote:
+>>> On Tue 05-10-21 23:57:36, John Hubbard wrote:
+>>> [...]
+>>>> 1) Yes, just leave the strings in the kernel, that's simple and
+>>>> it works, and the alternatives don't really help your case nearly
+>>>> enough.
+>>>
+>>> I do not have a strong opinion. Strings are easier to use but they
+>>> are more involved and the necessity of kref approach just underlines
+>>> that. There are going to be new allocations and that always can lead
+>>> to surprising side effects.  These are small (80B at maximum) so the
+>>> overall footpring shouldn't all that large by default but it can grow
+>>> quite large with a very high max_map_count. There are workloads which
+>>> really require the default to be set high (e.g. heavy mremap users). So
+>>> if anything all those should be __GFP_ACCOUNT and memcg accounted.
+>>>
+>>> I do agree that numbers are just much more simpler from accounting,
+>>> performance and implementation POV.
+>>
+>> +1
+>>
+>> I can understand that having a string can be quite beneficial e.g., when
+>> dumping mmaps. If only user space knows the id <-> string mapping, that
+>> can be quite tricky.
+>>
+>> However, I also do wonder if there would be a way to standardize/reserve
+>> ids, such that a given id always corresponds to a specific user. If we
+>> use an uint64_t for an id, there would be plenty room to reserve ids ...
+>>
+>> I'd really prefer if we can avoid using strings and instead using ids.
+> 
+> I wish it was that simple and for some names like [anon:.bss] or
+> [anon:dalvik-zygote space] reserving a unique id would work, however
+> some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
+> are generated dynamically at runtime and include package name.
 
-I wish it was that simple and for some names like [anon:.bss] or
-[anon:dalvik-zygote space] reserving a unique id would work, however
-some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
-are generated dynamically at runtime and include package name.
-Packages are constantly evolving, new ones are developed, names can
-change, etc. So assigning a unique id for these names is not really
-feasible.
-That leaves us with the central facility option, which as I described
-in my previous email would be prohibitive from performance POV (IPC
-every time we have a new name or want to convert id to name).
+Valuable information
 
-I'm all for simplicity but the simple approach of using ids instead of
-names unfortunately would not work for our usecases.
+> Packages are constantly evolving, new ones are developed, names can
+> change, etc. So assigning a unique id for these names is not really
+> feasible.
 
->
-> --
-> Thanks,
->
-> David / dhildenb
->
+So, you'd actually want to generate/reserve an id for a given string at 
+runtime, assign that id to the VMA, and have a way to match id <-> 
+string somehow?
+
+That reservation service could be inside the kernel or even (better?) in 
+user space. The service could for example de-duplicates strings.
+
+My question would be, if we really have to expose these strings to the 
+kernel, or if an id is sufficient. Sure, it would move complexity to 
+user space, but keeping complexity out of the kernel is usually a good idea.
+
+-- 
+Thanks,
+
+David / dhildenb
+
