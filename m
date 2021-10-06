@@ -2,130 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 206B8C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 21:38:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93506C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 23:36:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06C716120F
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 21:38:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6607A610A1
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 23:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239496AbhJFVkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 17:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbhJFVkd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 17:40:33 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7127CC061746;
-        Wed,  6 Oct 2021 14:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=tg4X4L3elpkm4nMQLNG1D3VF06qVZxJG1TCyclH2NOk=; b=2jaMrD+/+75vd+kikRHG/lPo9x
-        BrwIi/WPCWC7/y41ffxfp4dFhq8MrSDv1nBtgl6xbufI48jUQjxM6jF4cI5oTvpoKpLlrF2m8hfW+
-        V5jFZ+HG+BaO8bIkTahPJ67/LeGZcl/DkaGgZv+dEmbHSxjPIVp6j+3ltrky3jpNxVrepxcMjMTiL
-        cTLopmD/lfqKeVXqyi96sKeDXI7+OsD9mpSV3ScwZ12V+o0QdPbkuycORRsKfY6H4p2HDdwdNAR/E
-        EEx4vOTFF9PBCGAkKCfxczs/w5SHLQnqpyz7wjDd73xQLl1oNTMKdEph6YT9FCVte184GlZl55MeO
-        ws9digkA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mYEcS-00FcJk-MV; Wed, 06 Oct 2021 21:38:33 +0000
-Subject: Re: [PATCH v7 1/5] d_path: fix Kernel doc validator complaints
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jia He <justin.he@arm.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
+        id S231241AbhJFXit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 19:38:49 -0400
+Received: from mail108.syd.optusnet.com.au ([211.29.132.59]:39572 "EHLO
+        mail108.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230300AbhJFXis (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 19:38:48 -0400
+X-Greylist: delayed 1318 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Oct 2021 19:38:48 EDT
+Received: from dread.disaster.area (pa49-195-238-16.pa.nsw.optusnet.com.au [49.195.238.16])
+        by mail108.syd.optusnet.com.au (Postfix) with ESMTPS id 3BA985E92DF;
+        Thu,  7 Oct 2021 10:14:54 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1mYG7g-003Hvo-Gu; Thu, 07 Oct 2021 10:14:52 +1100
+Date:   Thu, 7 Oct 2021 10:14:52 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>, nd@arm.com,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20210715011407.7449-1-justin.he@arm.com>
- <20210715011407.7449-2-justin.he@arm.com>
- <YPAPIsGkom68R1WR@smile.fi.intel.com>
- <92c8b22e-613e-7e8d-8cf9-b995494cf3f3@infradead.org>
-Message-ID: <9bb23730-3c1e-4144-2955-99dccacf010f@infradead.org>
-Date:   Wed, 6 Oct 2021 14:38:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+Message-ID: <20211006231452.GF54211@dread.disaster.area>
+References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
+ <163184741778.29351.16920832234899124642.stgit@noble.brown>
+ <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
+ <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <92c8b22e-613e-7e8d-8cf9-b995494cf3f3@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=615e2df0
+        a=DzKKRZjfViQTE5W6EVc0VA==:117 a=DzKKRZjfViQTE5W6EVc0VA==:17
+        a=kj9zAlcOel0A:10 a=8gfv0ekSlNoA:10 a=VwQbUJbxAAAA:8 a=7-415B0cAAAA:8
+        a=y7N-FL6dZ1VV32BAIJQA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+        a=biEYGPWJfzWAr4FL6Ov7:22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/26/21 3:57 PM, Randy Dunlap wrote:
-> On 7/15/21 3:34 AM, Andy Shevchenko wrote:
->> On Thu, Jul 15, 2021 at 09:14:03AM +0800, Jia He wrote:
->>> Kernel doc validator complains:
->>>    Function parameter or member 'p' not described in 'prepend_name'
->>>    Excess function parameter 'buffer' description in 'prepend_name'
->>
->> Yup!
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>
+On Tue, Oct 05, 2021 at 02:27:45PM +0200, Vlastimil Babka wrote:
+> On 10/5/21 13:09, Michal Hocko wrote:
+> > On Tue 05-10-21 11:20:51, Vlastimil Babka wrote:
+> > [...]
+> >> > --- a/include/linux/gfp.h
+> >> > +++ b/include/linux/gfp.h
+> >> > @@ -209,7 +209,11 @@ struct vm_area_struct;
+> >> >   * used only when there is no reasonable failure policy) but it is
+> >> >   * definitely preferable to use the flag rather than opencode endless
+> >> >   * loop around allocator.
+> >> > - * Using this flag for costly allocations is _highly_ discouraged.
+> >> > + * Use of this flag may lead to deadlocks if locks are held which would
+> >> > + * be needed for memory reclaim, write-back, or the timely exit of a
+> >> > + * process killed by the OOM-killer.  Dropping any locks not absolutely
+> >> > + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
+> >> > + * Using this flag for costly allocations (order>1) is _highly_ discouraged.
+> >> 
+> >> We define costly as 3, not 1. But sure it's best to avoid even order>0 for
+> >> __GFP_NOFAIL. Advising order>1 seems arbitrary though?
+> > 
+> > This is not completely arbitrary. We have a warning for any higher order
+> > allocation.
+> > rmqueue:
+> > 	WARN_ON_ONCE((gfp_flags & __GFP_NOFAIL) && (order > 1));
 > 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Oh, I missed that.
 > 
-> Can we get someone to merge this, please?
-
-Ho hum.  Justin, please resubmit your patch with Andy's Reviewed-by:
-and my Acked-by:.  Send it to Andrew Morton and ask him to merge it.
-
-Thanks.
-
-
-(cf. https://lore.kernel.org/all/20210628014613.11296-1-rdunlap@infradead.org/
-from 2021-06-27)
-
->>> Fixes: ad08ae586586 ("d_path: introduce struct prepend_buffer")
->>> Cc: Al Viro <viro@zeniv.linux.org.uk>
->>> Signed-off-by: Jia He <justin.he@arm.com>
->>> ---
->>>   fs/d_path.c | 8 +++-----
->>>   1 file changed, 3 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/fs/d_path.c b/fs/d_path.c
->>> index 23a53f7b5c71..4eb31f86ca88 100644
->>> --- a/fs/d_path.c
->>> +++ b/fs/d_path.c
->>> @@ -33,9 +33,8 @@ static void prepend(struct prepend_buffer *p, const char *str, int namelen)
->>>   /**
->>>    * prepend_name - prepend a pathname in front of current buffer pointer
->>> - * @buffer: buffer pointer
->>> - * @buflen: allocated length of the buffer
->>> - * @name:   name string and length qstr structure
->>> + * @p: prepend buffer which contains buffer pointer and allocated length
->>> + * @name: name string and length qstr structure
->>>    *
->>>    * With RCU path tracing, it may race with d_move(). Use READ_ONCE() to
->>>    * make sure that either the old or the new name pointer and length are
->>> @@ -108,8 +107,7 @@ static int __prepend_path(const struct dentry *dentry, const struct mount *mnt,
->>>    * prepend_path - Prepend path string to a buffer
->>>    * @path: the dentry/vfsmount to report
->>>    * @root: root vfsmnt/dentry
->>> - * @buffer: pointer to the end of the buffer
->>> - * @buflen: pointer to buffer length
->>> + * @p: prepend buffer which contains buffer pointer and allocated length
->>>    *
->>>    * The function will first try to write out the pathname without taking any
->>>    * lock other than the RCU read lock to make sure that dentries won't go away.
->>> -- 
+> > I do agree that "Using this flag for higher order allocations is
+> > _highly_ discouraged.
 > 
-> 
+> Well, with the warning in place this is effectively forbidden, not just
+> discouraged.
 
+Yup, especially as it doesn't obey __GFP_NOWARN.
 
+See commit de2860f46362 ("mm: Add kvrealloc()") as a direct result
+of unwittingly tripping over this warning when adding __GFP_NOFAIL
+annotations to replace open coded high-order kmalloc loops that have
+been in place for a couple of decades without issues.
+
+Personally I think that the way __GFP_NOFAIL is first of all
+recommended over open coded loops and then only later found to be
+effectively forbidden and needing to be replaced with open coded
+loops to be a complete mess.
+
+Not to mention on the impossibility of using __GFP_NOFAIL with
+kvmalloc() calls. Just what do we expect kmalloc_node(__GFP_NORETRY
+| __GFP_NOFAIL) to do, exactly?
+
+So, effectively, we have to open-code around kvmalloc() in
+situations where failure is not an option. Even if we pass
+__GFP_NOFAIL to __vmalloc(), it isn't guaranteed to succeed because
+of the "we won't honor gfp flags passed to __vmalloc" semantics it
+has.
+
+Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
+fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
+kvmalloc via memalloc_nofs_save/restore(), so this behavioural
+restriction w.r.t. gfp flags just makes no sense at all.
+
+That leads to us having to go back to writing extremely custom open
+coded loops to avoid awful high-order kmalloc direct reclaim
+behaviour and still fall back to vmalloc and to still handle NOFAIL
+semantics we need:
+
+https://lore.kernel.org/linux-xfs/20210902095927.911100-8-david@fromorbit.com/
+
+So, really, the problems are much deeper here than just badly
+documented, catch-22 rules for __GFP_NOFAIL - we can't even use
+__GFP_NOFAIL consistently across the allocation APIs because it
+changes allocation behaviours in unusable, self-defeating ways....
+
+Cheers,
+
+Dave.
 -- 
-~Randy
+Dave Chinner
+david@fromorbit.com
