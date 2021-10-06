@@ -2,76 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 112B6C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C05EAC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:58:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E261D6113E
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:29:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A569561152
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:58:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbhJFUbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 16:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbhJFUa7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 16:30:59 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B46BC061746;
-        Wed,  6 Oct 2021 13:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=f+7pNJVIdJVibgfPLSCv/f+yDUP48wbFM1/ma1uhFjg=; b=Ogm6pNPXdME5gAs0wNEr+Wj30b
-        fPTa/NAwwNJQa00AQL9dWyvTpT6FHp2bP2CR8cCdAZp5zsTJarPeZnQae0GxfZaQThA+r4JGZivlF
-        u2az0ImavUx2gGxcv/ny8iialIURoUnmnJqc1EilxOjebsvhwGuu9A8m5VashhfR1j2QHpuDjaNPu
-        pUBjbu9FqrmbQeGsy2zgme6Q2pXc8b1AoaTSOv3jeee6Wcc7luOkpOD7hiKyzWg3DFlILM8vTyHqv
-        gn8mM/QYmX+iIUu9N0Main2nWJU7v/biu1fYPxT83VRiGejnpNQU3mNQ1jUYRa8Zn4QKrhZfbFRw9
-        Qg+77kNA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mYDXF-00FV0W-Ef; Wed, 06 Oct 2021 20:29:05 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Xie Yongji <xieyongji@bytedance.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        virtualization@lists.linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] VDUSE: fix documentation underline warning
-Date:   Wed,  6 Oct 2021 13:29:04 -0700
-Message-Id: <20211006202904.30241-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S234016AbhJFVAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 17:00:20 -0400
+Received: from mga14.intel.com ([192.55.52.115]:54692 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229657AbhJFVAU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Oct 2021 17:00:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="226412795"
+X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
+   d="scan'208";a="226412795"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:58:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
+   d="scan'208";a="713074765"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 06 Oct 2021 13:58:22 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.53])
+        by linux.intel.com (Postfix) with ESMTP id B6EEC5807FC;
+        Wed,  6 Oct 2021 13:58:22 -0700 (PDT)
+Message-ID: <668f263e1d2606ad7485c40ce41933300ec4b8a3.camel@linux.intel.com>
+Subject: Re: [PATCH 2/5] platform/x86/intel: Move intel_pmt from MFD to
+ Auxiliary Bus
+From:   "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
+        bhelgaas@google.com, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Date:   Wed, 06 Oct 2021 13:58:22 -0700
+In-Reply-To: <YV1lTMwBSVlvadiG@unreal>
+References: <20211001012815.1999501-1-david.e.box@linux.intel.com>
+         <20211001012815.1999501-3-david.e.box@linux.intel.com>
+         <YV1lTMwBSVlvadiG@unreal>
+Organization: David E. Box
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a VDUSE documentation build warning:
+On Wed, 2021-10-06 at 11:58 +0300, Leon Romanovsky wrote:
+> On Thu, Sep 30, 2021 at 06:28:12PM -0700, David E. Box wrote:
+> > Intel Platform Monitoring Technology (PMT) support is indicated by presence
+> > of an Intel defined PCIe DVSEC structure with a PMT ID. However DVSEC
+> > structures may also be used by Intel to indicate support for other
+> > capabilities unrelated to PMT.  The Out Of Band Management Services Module
+> > (OOBMSM) is an example of a device that can have both PMT and non-PMT
+> > capabilities. In order to support these capabilities it is necessary to
+> > modify the intel_pmt driver to handle the creation of platform devices more
+> > generically. To that end the following changes are made.
+> > 
+> > Convert the driver and child drivers from MFD to the Auxiliary Bus. This
+> > architecture is more suitable anyway since the driver partitions a
+> > multifunctional PCIe device. This also moves the driver out of the MFD
+> > subsystem and into platform/x86/intel.
+> > 
+> > Before, devices were named by their capability (e.g. pmt_telemetry).
+> > Instead, generically name them by their capability ID (e.g.
+> > intel_extended_cap.2). This allows the IDs to be created automatically,
+> > minimizing the code needed to support future capabilities. However, to
+> > ensure that unsupported devices aren't created, use an allow list to
+> > specify supported capabilities. Along these lines, rename the driver from
+> > intel_pmt to intel_extended_caps to better reflect the purpose.
+> > 
+> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> > ---
+> > 
+> > V1:     New patch. However incorporates some elements of [1] which was
+> >         dropped. Namely enumerating features generically and creating an
+> >         allow list. Also cleans up probe by moving some code to functions
+> >         and using a bool instead of an int to track whether a device was
+> >         added.
+> > 
+> > [1] https://lore.kernel.org/all/20210922213007.2738388-3-david.e.box@linux.intel.com/
+> 
+> <...>
+> 
+> > +static int extended_caps_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> > +{
+> > +       struct extended_caps_platform_info *info;
+> > +       bool have_devices = false;
+> > +       unsigned long quirks = 0;
+> > +       int ret;
+> > +
+> > +       ret = pcim_enable_device(pdev);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       info = (struct extended_caps_platform_info *)id->driver_data;
+> 
+> pci_get_drvdata() in all places and no need to cast void *.
 
-Documentation/userspace-api/vduse.rst:21: WARNING: Title underline too short.
+This is coming from the id not the pdev. The data here is type kernel_ulong_t.
 
-Fixes: 7bc7f61897b6 ("Documentation: Add documentation for VDUSE")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Xie Yongji <xieyongji@bytedance.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: virtualization@lists.linux-foundation.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/vduse.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> > +       if (info)
+> > +               quirks = info->quirks;
+> > +
+> > +       have_devices |= extended_caps_walk_dvsec(pdev, quirks);
+> > +
+> > +       if (info && (info->quirks & EXT_CAPS_QUIRK_NO_DVSEC))
+> > +               have_devices |= extended_caps_walk_header(pdev, quirks, info->capabilities);
+> > +
+> > +       if (!have_devices)
+> > +               return -ENODEV;
+> > +
+> > +       return 0;
+> > +}
+> 
+> <...>
+> 
+> > -static struct platform_driver pmt_telem_driver = {
+> > -       .driver = {
+> > -               .name   = TELEM_DEV_NAME,
+> > -       },
+> > -       .remove = pmt_telem_remove,
+> > -       .probe  = pmt_telem_probe,
+> > +static const struct auxiliary_device_id pmt_telem_aux_id_table[] = {
+> > +       { .name = "intel_extended_caps.2", },
+> 
+> Why "2" in the name?
 
---- lnx-515-rc4.orig/Documentation/userspace-api/vduse.rst
-+++ lnx-515-rc4/Documentation/userspace-api/vduse.rst
-@@ -18,7 +18,7 @@ types can be added after the security is
- is clarified or fixed in the future.
- 
- Create/Destroy VDUSE devices
--------------------------
-+----------------------------
- 
- VDUSE devices are created as follows:
- 
+This is being changed to a string for the next version after similar comment. Thanks.
+
+David
+
+> 
+> Thanks
+> 
+> > +       {},
+> > +};
+> > +MODULE_DEVICE_TABLE(auxiliary, pmt_telem_aux_id_table);
+> > +
+> > +static struct auxiliary_driver pmt_telem_aux_driver = {
+> > +       .id_table       = pmt_telem_aux_id_table,
+> > +       .remove         = pmt_telem_remove,
+> > +       .probe          = pmt_telem_probe,
+> >  };
+> >  
+
+
