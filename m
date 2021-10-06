@@ -2,176 +2,291 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4700BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C4FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:27:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 268F761151
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:18:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F68161130
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 18:27:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238578AbhJFSUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 14:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        id S239093AbhJFS3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 14:29:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238119AbhJFSUf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 14:20:35 -0400
+        with ESMTP id S238975AbhJFS3b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 14:29:31 -0400
 Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FD8C061755
-        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 11:18:43 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id u32so7436344ybd.9
-        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 11:18:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0563FC061755
+        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 11:27:39 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id h2so7449410ybi.13
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 11:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=atishpatra.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tS0Q/doPfkgcSn/P1ry79XfUH0i7iJLfycZHaCEByaw=;
-        b=TYlphAvwMJftzt6RU5u9b6mLtXkIqYWFA04tNKYd2B2kJaBNHrvFS+iWcxQyx65O49
-         VEw0jFjeBxrJigtMkEwMctb8oSbx+fuz5GPExgicIXWNFArloubetA2TV3UEBOxGB59S
-         4/eOuXBnAvuNH7y8YiILc6KY9YVEnat4qn2XUv33xrzz3GJLMCPCjq1bI/veMmjJStMA
-         mw1RSKpfndHUtx7NSTXL90xYj4QC8EJDHuoNRRjBjJoyYzyw7iirxJ6l/qIOOS8/aEEI
-         zLEZyLx56Nk0A1AScwAL4V61zvIuQvil+E41AYH4QmyoGC+u+esm8H+BU3U5aLJkJiKd
-         +gpw==
+         :cc:content-transfer-encoding;
+        bh=Y+skB1HbPSAUXUVGPBTXTTzBDV28QLRW6pLRxEsII1I=;
+        b=XRaOmyhpTkYI2RNEZjrVdOZFE24IBvyG0AwZo+gC8CvTKCZZpHlStkZ3/VzgVf4a+c
+         5oamGtKVoPxKx/kyEpHBPTRpcc9zAJEmncyYDGvFfaTe7BzFi5MupxT1jxXYZR18iaO8
+         MxU3QlNTTtLIGmCoB7kvuSVziK/lFf7Tq45Uk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tS0Q/doPfkgcSn/P1ry79XfUH0i7iJLfycZHaCEByaw=;
-        b=boRgC4qRHhAtNZs+KMIHYjQq0ubG+NDQOJBAh9fwjyARdJ6d/EiZy+jBWdQ2uQIK0C
-         vhL1zwRQRGrmyM0ckGpD3OiwxsIzDKSxosyuFAZJForudUOfLBhzGeGK9CjLwDtsoiqj
-         3wNv+JoYjIb+u24OWr+REephh3dAS0DT5a9pMYjMvxj9koqcdyO/z9KabYc0Hy0zWWE8
-         JrivNv/Y5i10/HbZmzMSeBWqRct3Jng6hW+W1rr8DFD2sUqPpa4dsTIv8MaE3hCjdJGs
-         nLIHq6sh2w829zh9L4MwIQZZDcpK5PeVZqW8hZ24gTnk1gdSLO7mur/0hl8au8DFMXkR
-         KjaA==
-X-Gm-Message-State: AOAM530eKPYy6OjwOLKBxOTnq4s6TNbUIbATQ2y+8t7Q8c4jtrfrZVVn
-        Wo+zQnw9yREVFD1pC5GwGK0bCaGDdm5AsZUKKDjF9w==
-X-Google-Smtp-Source: ABdhPJxugzCMn7sZu79C5fnZMRKkgBcjmMuKl0Fdq3TPkxzrJccYHRxTws0QUusFhxlrkQ2KrgfrvvthwxjhDBttraA=
-X-Received: by 2002:a25:552:: with SMTP id 79mr29984731ybf.202.1633544322361;
- Wed, 06 Oct 2021 11:18:42 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Y+skB1HbPSAUXUVGPBTXTTzBDV28QLRW6pLRxEsII1I=;
+        b=Br9eapZk+oxh323Xem/zi1FwpaKeu9UrNBAWdiK1BwdNOeud5e2kouJ3v91JVvGK9R
+         GrnsBwkrCbxVrkwJK7Q08tftINU14W4vVVMlIEuS3GKSNoeni7iyLfvmh4yuOeU3/Fvh
+         zQopWZinuJPNmy8Ur+QavYJJlB/to16LVOkb8NjTqrvIDwWMm/xOR/qQNTj6Ql3mESus
+         G4IJZuDjWW0xrtOdLsZ1CvfSFtRQkH1aKMBmdgpVA/Zrl2Mi8W59CchETlMZWb/6ybHT
+         qfHIIOk03Nw2FPkctvDNZK2c/08d7dwS50rJLDVj/EMCWlyoeYfRBb+hBkhXzkG3qoyG
+         pP4w==
+X-Gm-Message-State: AOAM531/uKsCTwuCftawDJMLrseFVtpt09o2FsbOmNx+TnihWXfgF0mr
+        CQfkUV+NL0b8zY8GyN51fCjSeOzpR1xaltxiwH6a
+X-Google-Smtp-Source: ABdhPJyp/2YLRyXJo6+aWq4mpFiZsUtJsZlQfWTMIcq9NiqSxw30dtz063tTJ00RXPrb5oBYG6dUzbJMOdXUMYea800=
+X-Received: by 2002:a5b:2d2:: with SMTP id h18mr32560878ybp.526.1633544858074;
+ Wed, 06 Oct 2021 11:27:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-3-surenb@google.com>
- <20211005184211.GA19804@duo.ucw.cz> <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com> <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <20211006175821.GA1941@duo.ucw.cz>
-In-Reply-To: <20211006175821.GA1941@duo.ucw.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 6 Oct 2021 11:18:31 -0700
-Message-ID: <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
+References: <20210910192757.2309100-1-atish.patra@wdc.com> <mhng-62d18ad4-0547-42bb-87a0-5e96e5354650@palmerdabbelt-glaptop>
+In-Reply-To: <mhng-62d18ad4-0547-42bb-87a0-5e96e5354650@palmerdabbelt-glaptop>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Wed, 6 Oct 2021 11:27:26 -0700
+Message-ID: <CAOnJCUK4rbM5ouAfd-ZsfMBiGg1uxjV4EW1iu7-fkwf3Ztk1iA@mail.gmail.com>
+Subject: Re: [v3 00/10] Improve RISC-V Perf support using SBI PMU and sscofpmf extension
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     Atish Patra <Atish.Patra@wdc.com>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        alexander.shishkin@linux.intel.com,
+        Anup Patel <Anup.Patel@wdc.com>,
+        Ard Biesheuvel <ardb@kernel.org>, djwong@kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>, jolsa@redhat.com,
+        john.garry@huawei.com, Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 6, 2021 at 10:58 AM Pavel Machek <pavel@ucw.cz> wrote:
+On Mon, Oct 4, 2021 at 11:21 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
 >
-> Hi!
+> On Fri, 10 Sep 2021 12:27:47 PDT (-0700), Atish Patra wrote:
+> > This series adds improved perf support for RISC-V based system using
+> > SBI PMU extension[1] and Sscofpmf extension[2]. The SBI PMU extension a=
+llows
 >
-> > > I can understand that having a string can be quite beneficial e.g., when
-> > > dumping mmaps. If only user space knows the id <-> string mapping, that
-> > > can be quite tricky.
-> > >
-> > > However, I also do wonder if there would be a way to standardize/reserve
-> > > ids, such that a given id always corresponds to a specific user. If we
-> > > use an uint64_t for an id, there would be plenty room to reserve ids ...
-> > >
-> > > I'd really prefer if we can avoid using strings and instead using ids.
+> Last we talked the SBI-0.3 stuff was in an uncertain state and I'm not
+> sure we ever got to a point of agreement there.  I've decided to just
+> stop worrying about the state of extensions, so if you guys want the
+> SBI-0.3 stuff merged then just go say it's frozen and that'll be good
+> enough for me.
+>
+
+Now, there is a freeze/ratification process[1] and DoD policy[2] in
+place for non-ISA specifications.
+Thus, we are following the process to get it approved by the TSC.
+
+[1] https://docs.google.com/document/d/1KkTmcPuor3DipS2JIUeR3DJhIN5i51bj3VF=
+-L7QQShw/edit#heading=3Dh.hym1mtuc89he
+[2] https://docs.google.com/document/d/1A4gZlXXFT_a9QGzlc9g2RHg853e6ZDB59co=
+ANEYN3Aw/edit
+
+There will be another release v0.3.1 which will be approved by the TSC
+and will be called frozen officially.
+There are no functional changes between v0.3 and v0.3.1. It is created
+just to follow the newly defined process.
+I will update the mailing list as soon as it is submitted for approval.
+
+> > the kernel to program the counters for different events and start/stop =
+counters
+> > while the sscofpmf extension allows the counter overflow interrupt and =
+privilege
+> > mode filtering. An hardware platform can leverage SBI PMU extension wit=
+hout
+> > the sscofpmf extension if it supports mcountinhibit and mcounteren. How=
+ever,
+> > the reverse is not true. With both of these extension enabled, a platfo=
+rm can
+> > take advantage of all both event counting and sampling using perf tool.
 > >
-> > I wish it was that simple and for some names like [anon:.bss] or
-> > [anon:dalvik-zygote space] reserving a unique id would work, however
-> > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
-> > are generated dynamically at runtime and include package name.
+> > This series introduces a platform perf driver instead of a existing arc=
+h
+> > specific implementation. The new perf implementation has adopted a modu=
+lar
+> > approach where most of the generic event handling is done in the core l=
+ibrary
+> > while individual PMUs need to only implement necessary features specifi=
+c to
+> > the PMU. This is easily extensible and any future RISC-V PMU implementa=
+tion
+> > can leverage this. Currently, SBI PMU driver & legacy PMU driver are im=
+plemented
+> > as a part of this series.
+> >
+> > The legacy driver tries to reimplement the existing minimal perf under =
+a new
+> > config to maintain backward compatibility. This implementation only all=
+ows
+> > monitoring of always running cycle/instruction counters. Moreover, they=
+ can
+> > not be started or stopped. In general, this is very limited and not ver=
+y useful.
+> > That's why, I am not very keen to carry the support into the new driver=
+.
+> > However, I don't want to break perf for any existing hardware platforms=
+.
+> > If nobody really uses perf currently, I will be happy to drop PATCH 4.
+> >
+> > This series has been tested in Qemu on both RV64 & RV32. Qemu[5] & Open=
+SBI [3]
+> > patches are required to test it. Qemu changes are not backward compatib=
+le.
+> > That means, you can not use perf anymore on older Qemu versions with la=
+test
+> > OpenSBI and/or Kernel. However, newer kernel will just use legacy pmu d=
+river if
+> > old OpenSBI is detected or hardware doesn't implement mcountinhibit.
+> >
+> > Here is an output of perf stat/report while running hackbench with Open=
+SBI & Linux
+> > kernel patches applied [3].
+> >
+> > Perf stat:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > [root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e r800000000=
+0000007
+> > -e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e branc=
+h-misses
+> > -e cache-misses -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-m=
+isses
+> > -e cycles -e instructions ./hackbench -pipe 15 process
+> > Running with 15*40 (=3D=3D 600) tasks.
+> > Time: 6.578
+> >
+> >  Performance counter stats for './hackbench -pipe 15 process':
+> >
+> >              6,491      r8000000000000005      (52.59%) --> SBI_PMU_FW_=
+SET_TIMER
+> >             20,433      r8000000000000007      (60.74%) --> SBI_PMU_FW_=
+IPI_RECVD
+> >             21,271      r8000000000000006      (68.71%) --> SBI_PMU_FW_=
+IPI_SENT
+> >                  0      r0000000000020002      (76.55%)
+> >      <not counted>      r0000000000020004      (0.00%)
+> >      <not counted>      branch-misses          (0.00%)
+> >      <not counted>      cache-misses           (0.00%)
+> >         57,537,853      dTLB-load-misses       (9.49%)
+> >          2,821,147      dTLB-store-misses      (18.64%)
+> >         52,928,130      iTLB-load-misses       (27.53%)
+> >     89,521,791,110      cycles                 (36.08%)
+> >     90,678,132,464      instructions #    1.01  insn per cycle (44.44%)
+> >
+> >        6.975908032 seconds time elapsed
+> >
+> >        3.130950000 seconds user
+> >       24.353310000 seconds sys
+> >
+> > The patches can also be found in the github[4].
+> >
+> > Perf record:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > [root@fedora-riscv riscv]# perf record -e cycles -e instructions -e \
+> > dTLB-load-misses -e dTLB-store-misses -c 1000 ./hackbench -pipe 15 proc=
+ess 15
+> > Running with 15*40 (=3D=3D 600) tasks.
+> > Time: 1.238
+> > [ perf record: Woken up 1 times to write data ]
+> > [ perf record: Captured and wrote 0.106 MB perf.data (1020 samples) ]
+> >
+> > [root@fedora-riscv riscv]# perf report
+> > Available samples
+> > 372 cycles                                                             =
+        =E2=97=86
+> > 372 instructions                                                       =
+        =E2=96=92
+> > 262 dTLB-load-misses                                                   =
+        =E2=96=92
+> > 14 dTLB-store-misses
+> >
+> > The patches can also be found in the github[4].
+> >
+> > [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sb=
+i.adoc
+> > [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/e=
+dit
+> > [3] https://github.com/atishp04/opensbi/tree/pmu_sscofpmf
+> > [4] https://github.com/atishp04/linux/tree/riscv_pmu_v3
+> > [5] https://github.com/atishp04/qemu/tree/riscv_pmu_v2
+> >
+> > Changes from v3->v4:
+> > 1. Added interrupt overflow support.
+> > 2. Cleaned up legacy driver initialization.
+> > 3. Supports perf record now.
+> > 4. Added the DT binding and maintainers file.
+> > 5. Changed cpu hotplug notifier to be multi-state.
+> > 6. OpenSBI doesn't disable cycle/instret counter during boot. Update th=
+e
+> >    perf code to disable all the counter during the boot.
+> >
+> > Changes from v1->v2
+> > 1. Implemented the latest SBI PMU extension specification.
+> > 2. The core platform driver was changed to operate as a library while o=
+nly
+> >    sbi based PMU is built as a driver. The legacy one is just a fallbac=
+k if
+> >    SBI PMU extension is not available.
+> >
+> > Atish Patra (10):
+> > RISC-V: Remove the current perf implementation
+> > RISC-V: Add CSR encodings for all HPMCOUNTERS
+> > RISC-V: Add a perf core library for pmu drivers
+> > RISC-V: Add a simple platform driver for RISC-V legacy perf
+> > RISC-V: Add RISC-V SBI PMU extension definitions
+> > dt-binding: pmu: Add RISC-V PMU DT bindings
+> > RISC-V: Add perf platform driver based on SBI PMU extension
+> > RISC-V: Add interrupt support for perf
+> > Documentation: riscv: Remove the old documentation
+> > MAINTAINERS: Add entry for RISC-V PMU drivers
+> >
+> > .../devicetree/bindings/perf/riscv,pmu.yaml   |  51 ++
+> > Documentation/riscv/pmu.rst                   | 255 ------
+> > MAINTAINERS                                   |  10 +
+> > arch/riscv/Kconfig                            |  13 -
+> > arch/riscv/include/asm/csr.h                  |  66 +-
+> > arch/riscv/include/asm/perf_event.h           |  72 --
+> > arch/riscv/include/asm/sbi.h                  |  97 +++
+> > arch/riscv/kernel/Makefile                    |   1 -
+> > arch/riscv/kernel/perf_event.c                | 485 ------------
+> > drivers/perf/Kconfig                          |  25 +
+> > drivers/perf/Makefile                         |   5 +
+> > drivers/perf/riscv_pmu.c                      | 331 ++++++++
+> > drivers/perf/riscv_pmu_legacy.c               | 143 ++++
+> > drivers/perf/riscv_pmu_sbi.c                  | 731 ++++++++++++++++++
+> > include/linux/cpuhotplug.h                    |   1 +
+> > include/linux/perf/riscv_pmu.h                |  69 ++
+> > 16 files changed, 1528 insertions(+), 827 deletions(-)
+> > create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yam=
+l
+> > delete mode 100644 Documentation/riscv/pmu.rst
+> > delete mode 100644 arch/riscv/kernel/perf_event.c
+> > create mode 100644 drivers/perf/riscv_pmu.c
+> > create mode 100644 drivers/perf/riscv_pmu_legacy.c
+> > create mode 100644 drivers/perf/riscv_pmu_sbi.c
+> > create mode 100644 include/linux/perf/riscv_pmu.h
 >
-> I'd be careful; if you allow special characters like that, you will
-> confuse some kind of parser.
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-That's why I think having a separate config option with default being
-disabled would be useful here. It can be enabled on the systems which
-handle [anon:...] correctly without affecting all other systems.
 
->
-> > Packages are constantly evolving, new ones are developed, names can
-> > change, etc. So assigning a unique id for these names is not really
-> > feasible.
-> > That leaves us with the central facility option, which as I described
-> > in my previous email would be prohibitive from performance POV (IPC
-> > every time we have a new name or want to convert id to name).
->
-> That "central facility" option can be as simple as "mkdir
-> /somewhere/sanitized_id", using inode numbers for example. You don't
-> really need IPC.
 
-Hmm, so the suggestion is to have some directory which contains files
-representing IDs, each containing the string name of the associated
-vma? Then let's say we are creating a new VMA and want to name it. We
-would have to scan that directory, check all files and see if any of
-them contain the name we want to reuse the same ID. This is while we
-are doing mmap() call, which is often a part of time sensitive
-operation (for example app is starting and allocating some memory to
-operate). App startup time is one of the main metrics our users care
-about and regressing that would not go well with our QA team.
-
->
-> Plus, I don't really believe the IPC cost would be prohibitive.
-
-This option was discussed by the Android performance team and rejected
-8 years ago. The problem is that these operations are often happening
-in performance-sensitive areas of the process lifecycle.
-
->
-> Or you could simply hash the string and use the hash as id...
-
-I don't see how this would help. You still need to register your
-hash->name association somewhere for that hash to be converted back to
-the name. Did I misunderstand your suggestion?
-
->
-> Best regards,
->                                                                 Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
+--
+Regards,
+Atish
