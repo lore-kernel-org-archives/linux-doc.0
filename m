@@ -2,186 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52B4C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCC35C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 17:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B743460F6D
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 15:20:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EBFB61130
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 17:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239167AbhJFPWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 11:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49906 "EHLO
+        id S231528AbhJFRCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 13:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238994AbhJFPWY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 11:22:24 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7328FC061755
-        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 08:20:32 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id g6so6286574ybb.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 08:20:32 -0700 (PDT)
+        with ESMTP id S239495AbhJFRCU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 13:02:20 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEB4C061753
+        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 10:00:28 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id jo30so2346234qvb.3
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 10:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ToWLSh1nym/rn5R/pSIAH+olMraiA1xkOFeogqJaaLs=;
-        b=f9kn9JCx2oUBAwY8E2iW/mbf7AvxnjIXVRaac9UV50eeIWLqUTCWu0BV3L74owunwZ
-         T8+Ksi5PO1UrZo7J2XqHRGiNW3/QgmcjUvcNnegrQMOjspJwLlWRfGdXHYBbE3rWHFYT
-         S5HR7U+eS+bLsWztsK+kURy3vTEiXFEwh+pGSta6oNHQNPLwhb44AARlY/BokOnZ8PT3
-         fRkA+WKzmNJyGLRRzch90e6kNwJ0x5Tb1XAfePiZXDH+a5NenIaapda/NDaFLES+s62d
-         5T0tvNJCfu0HEP2gi7mvJw5gLrUCYZCyQ+xFv77F6JuWgCYj94+gOqouoXSP/PgcHZFX
-         3xtQ==
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4fxSi8PqelwXGAM49ee3GDsiOvmrlfsT7dixC4BvaXM=;
+        b=DKI6N9arBNA5oyVG0LDMFRu1ic1bKetEFLPqkbH9XNMMZ+LVAfHnPxcnamhx0DqrS8
+         nQjiwOCxkisKYxsbtnFKeeEbV2+g6TKqX8Wywj8U7UR0wr9v5m7lchTwPk8weCA5HRb6
+         ocOn5uy2BrK8JXUUQFe1gzNbN4MSLankSnEAk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ToWLSh1nym/rn5R/pSIAH+olMraiA1xkOFeogqJaaLs=;
-        b=D7UJsRNYkAxEOM1lVAqeomNfzgtsoLw0jLQcdKUfEVaL/0HnDv+vFuWRGQX6iyAoeS
-         334sixs3Ex0/2bv3wcL2HZcWj7hydViQzIy95fy1CFJJn4e4G1mgivK43gQD8BKjEi/t
-         x5/8/qtMdNSbhV0117+FM1HWIz3Qodw7lUOqeE8P5gHGiTh6oGPaaPUM/RTjflS2WeJE
-         BdGCzW2hLK88YfwghBjQC5M4QjFqC9bGJdaqoBo/LtWnwllx2NssJLj/TxF4oaGR7Dtr
-         5BCjvOIsYuivy0uMp4tSOgC10O7F5khsrkrl1/IoELM6exxYaUred6u2Jnz2nKn1kRV5
-         GWBg==
-X-Gm-Message-State: AOAM530NULiUbAC/ap9y0DM4xK9TQrmI9H9UsC1wZAt+QT4Rb53BLRai
-        ny+8wq13/D1KhpBmt1NAfrd+yXrY3t7FOlrzh+8ntQ==
-X-Google-Smtp-Source: ABdhPJznFIkWV5cysIjYInnizr+OQ6ABZBYR0C1kpMgLSGjmxpkDb2Dph4kHq6ZH+DZeHiU/+bV2NT5qG2v6pWR5drM=
-X-Received: by 2002:a25:3:: with SMTP id 3mr29846057yba.418.1633533631382;
- Wed, 06 Oct 2021 08:20:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-3-surenb@google.com>
- <20211005184211.GA19804@duo.ucw.cz> <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com> <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <192438ab-a095-d441-6843-432fbbb8e38a@redhat.com>
-In-Reply-To: <192438ab-a095-d441-6843-432fbbb8e38a@redhat.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 6 Oct 2021 08:20:20 -0700
-Message-ID: <CAJuCfpH4KT=fOAWsYhaAb_LLg-VwPvL4Bmv32NYuUtZ3Ceo+PA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Michal Hocko <mhocko@suse.com>, John Hubbard <jhubbard@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4fxSi8PqelwXGAM49ee3GDsiOvmrlfsT7dixC4BvaXM=;
+        b=qj1mf//LeY2zD8/RlEZ5eVreVEXTncR6w4eDLHA3MJ742wCTibLmE6klNp7LhDNoUo
+         HZPtd7Sjrm2U0wAU69xjTJhWpMcAIEWiYKcjmmSO06NkVkAIcDgKpeWtzoOh9uLvuSqD
+         iY7qu0zXQ6BdKUnqIiSaJRerzElBzODlhiMogfKrLktPVH4rbstjOVRoM1SCbiqccnFF
+         WeTn6LnlonXdi91NK8s2qjTR7ahBtKAnoVrjJgADJvZjXF2L33j9u9b0NbyQLeXWTLjs
+         CEACJPMQMgRL0gK1G68l82BTLcZzt98LW7T8IA2aP9rU+RCrOqg2vWXeJ4eMXXvimJQt
+         5ATA==
+X-Gm-Message-State: AOAM531m/BMnurYJT9fY2VonRO23y/f7JTs/VbhRo4OwTCB0feZan19C
+        E7sNAi+hna5E+Qr8E0BMOEK3EkMrNi0HQQ==
+X-Google-Smtp-Source: ABdhPJzPYxfIoYs7SZ8Pytg71GoZRSSALKsxoy4g2ZYi2Cf3Cs43GAGXQv4b6ifdDRPegOEgAna+Mg==
+X-Received: by 2002:ad4:574c:: with SMTP id q12mr4186418qvx.47.1633539627372;
+        Wed, 06 Oct 2021 10:00:27 -0700 (PDT)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-32-216-209-220-181.dsl.bell.ca. [216.209.220.181])
+        by smtp.gmail.com with ESMTPSA id v3sm11898770qkd.20.2021.10.06.10.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Oct 2021 10:00:26 -0700 (PDT)
+Date:   Wed, 6 Oct 2021 13:00:25 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] docs: submitting-patches: make section on linking
+ more explicit
+Message-ID: <20211006170025.qw3glxvocczfuhar@meerkat.local>
+References: <7dff33afec555fed0bf033c910ca59f9f19f22f1.1633537634.git.linux@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7dff33afec555fed0bf033c910ca59f9f19f22f1.1633537634.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 6, 2021 at 8:08 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 06.10.21 17:01, Suren Baghdasaryan wrote:
-> > On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
-> >>
-> >> On 06.10.21 10:27, Michal Hocko wrote:
-> >>> On Tue 05-10-21 23:57:36, John Hubbard wrote:
-> >>> [...]
-> >>>> 1) Yes, just leave the strings in the kernel, that's simple and
-> >>>> it works, and the alternatives don't really help your case nearly
-> >>>> enough.
-> >>>
-> >>> I do not have a strong opinion. Strings are easier to use but they
-> >>> are more involved and the necessity of kref approach just underlines
-> >>> that. There are going to be new allocations and that always can lead
-> >>> to surprising side effects.  These are small (80B at maximum) so the
-> >>> overall footpring shouldn't all that large by default but it can grow
-> >>> quite large with a very high max_map_count. There are workloads which
-> >>> really require the default to be set high (e.g. heavy mremap users). So
-> >>> if anything all those should be __GFP_ACCOUNT and memcg accounted.
-> >>>
-> >>> I do agree that numbers are just much more simpler from accounting,
-> >>> performance and implementation POV.
-> >>
-> >> +1
-> >>
-> >> I can understand that having a string can be quite beneficial e.g., when
-> >> dumping mmaps. If only user space knows the id <-> string mapping, that
-> >> can be quite tricky.
-> >>
-> >> However, I also do wonder if there would be a way to standardize/reserve
-> >> ids, such that a given id always corresponds to a specific user. If we
-> >> use an uint64_t for an id, there would be plenty room to reserve ids ...
-> >>
-> >> I'd really prefer if we can avoid using strings and instead using ids.
-> >
-> > I wish it was that simple and for some names like [anon:.bss] or
-> > [anon:dalvik-zygote space] reserving a unique id would work, however
-> > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
-> > are generated dynamically at runtime and include package name.
->
-> Valuable information
+On Wed, Oct 06, 2021 at 06:37:38PM +0200, Thorsten Leemhuis wrote:
+> +Add 'Link:' tags with URLs pointing to related discussions and rationale
+> +behind the change whenever that makes sense. If your patch for example
+> +fixes a bug, add a tag with a URL referencing the report in the mailing
+> +list archives or a bug tracker; if the patch follows from a mailing list
+> +discussion, point to it. When linking to mailing list archives, use the
+> +https://lkml.kernel.org/r/ redirector with a ``Message-Id``, to ensure
 
-Yeah, I should have described it clearer the first time around.
+We shouldn't be using "lkml.kernel.org" because that domain name can create
+confusion that this is only valid for messages sent to "the LKML"
+(linux-kernel@vger.kernel.org). The convention has been to use
+https://lore.kernel.org/r/msgid for this reason. I would also reword that a
+bit:
 
->
-> > Packages are constantly evolving, new ones are developed, names can
-> > change, etc. So assigning a unique id for these names is not really
-> > feasible.
->
-> So, you'd actually want to generate/reserve an id for a given string at
-> runtime, assign that id to the VMA, and have a way to match id <->
-> string somehow?
+    ... or a bug tracker; if the patch was discussed on a mailing list, you
+    may point to it using the lore.kernel.org message archiver service. To
+    create the link URL, use the contents of the ``Message-Id`` header of the
+    patch message without the surrounding angle brackets. For example::
 
-If we go with ids then yes, that is what we would have to do.
+    Link: https://lore.kernel.org/r/git-send-email.555-1234@example.org
 
-> That reservation service could be inside the kernel or even (better?) in
-> user space. The service could for example de-duplicates strings.
+    Please check the link to make sure that it is actually working and points
+    to the relevant message.
 
-Yes but it would require an IPC call to that service potentially on
-every mmap() when we want to name a mapped vma. This would be
-prohibitive. Even on consumption side, instead of just dumping
-/proc/$pid/maps we would have to parse the file and convert all
-[anon:id] into [anon:name] with each conversion requiring an IPC call
-(assuming no id->name pair caching on the client side).
-
-> My question would be, if we really have to expose these strings to the
-> kernel, or if an id is sufficient. Sure, it would move complexity to
-> user space, but keeping complexity out of the kernel is usually a good idea.
-
-My worry here is not the additional complexity on the userspace side
-but the performance hit we would have to endure due to these
-conversions.
-
-> --
-> Thanks,
->
-> David / dhildenb
->
+-K
