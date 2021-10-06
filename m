@@ -2,509 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AC3C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 07:16:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDAF6C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 08:02:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C604C610EA
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 07:16:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C403961019
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 08:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237491AbhJFHSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 03:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49516 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237470AbhJFHRz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 03:17:55 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D8DC061760
-        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 00:16:03 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id y26so6259310lfa.11
-        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 00:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XK8Sdkqxly1oUw1aMlNCOwYBPYx0+ngCF8/a3huLQbY=;
-        b=T+86KlYlKNpaaEU6srwbMONeUDSZ1pdcERtp15toosu1emUomz/q+ijZjgr2u1t6pi
-         qb9UvwrEq84OD41MhUXs8ONo30PwNmWpEl9RCQbzmZXTK+GF5ouEIoZbd6oLig9/4l4B
-         dP2/vuR/PwEX9DAQ5oVe7eLSOEBhTp5+Ev43Pkmhj5UeVQp4EVhWIFZ1OpdnlihaTvTZ
-         H14jj019vPQhi5Ba+fOu6p6Xadb7XCBxfCvWpo+GXz307mn31E7cs7zBuymz9t2kZN/A
-         DQakQ+NoOE70Dl4bdGLYF4AUZa2aqHdTPC38KftoMy/gj8Epe/E1dWnKfVzduiOxXEmu
-         KPKQ==
+        id S237593AbhJFID4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 04:03:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33077 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237637AbhJFIDf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 04:03:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633507302;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=c35aybOfo9pBjuNizm0LjauEBD0q9opIWAMl2tyAep0=;
+        b=ew1kRMcaZlDAs3lOHkbXAsJmzOQJhQJ0m9jpJqbTuHAlc1VpXvwayozFr/uoTgE9K+0qSM
+        pF7bn2a4Ofm17u5Y+60d39faDaGT7+DR0A6cpLVsq79Pei06MO9sTxfIE7++O4G6xCTs3K
+        GsP/cEQqvwXCKP3Z3JPunqt73X9U2cg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-r0YpvjBgOz-9GB7YJhiNiA-1; Wed, 06 Oct 2021 04:01:41 -0400
+X-MC-Unique: r0YpvjBgOz-9GB7YJhiNiA-1
+Received: by mail-wr1-f69.google.com with SMTP id h11-20020adfa4cb000000b00160c791a550so1153994wrb.6
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 01:01:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XK8Sdkqxly1oUw1aMlNCOwYBPYx0+ngCF8/a3huLQbY=;
-        b=HmsDwNvAzTlWfsyyzAc9zFBzuEB7m+sSk7ciTDhWtCMkGJbHuclNblxLwpFHhK66cu
-         t9DwgR8D/p3pHel9EIF2EAL99feu+/A7y7KAFtxNjGIx34wLwut6uNVeNgnu+0sc1mdS
-         xhmsrKiwGzgmpvpglC12C5stkJuLWiaoQsknGMhTzphAI+ZPgA4RdCC3klc+xw6U747D
-         f0yoinYEV1HqJLtW+2mWILXH8tQL+z8SEMSMsSqnk/1oI7zsZsS2Va+Blr3+hjAAWAxj
-         UKwgYN54xmZ49CtsTnkSXASnlHVxdpF+gr+6nUMjBGwOsHHKE/SHFfpdaUHLtsI8IcHO
-         S0kw==
-X-Gm-Message-State: AOAM530fauTcLhizfdrpwd4nMZJ6zAtQN4nsZ92CWeo+qYQBuH8qlfnW
-        R8+jps9JBU3vLoV8quXRyVODIw==
-X-Google-Smtp-Source: ABdhPJzJb+7p8L56VwhhxfDjTAUFmoDEWLBeucjWTsHgOjbrIjwqysoIBqeMnmtDfkHNRNwKQiXoUg==
-X-Received: by 2002:a2e:8011:: with SMTP id j17mr26619606ljg.145.1633504561360;
-        Wed, 06 Oct 2021 00:16:01 -0700 (PDT)
-Received: from jade.ideon.se ([85.235.10.227])
-        by smtp.gmail.com with ESMTPSA id y7sm960376lfk.143.2021.10.06.00.16.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Oct 2021 00:16:01 -0700 (PDT)
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=c35aybOfo9pBjuNizm0LjauEBD0q9opIWAMl2tyAep0=;
+        b=REXYborLWMoxtJ5BVEiS3rbxofnN6dAWu7Cq8Vg1+P6XBVc/L+blhA646zegi7Sjt+
+         apRgQ4hXH5TdIaUHHk0N0gp0UxdIJQhE0UiH6VTi9ESYWZkYvIJ5qHwr71UGu7/2L2Kl
+         AVb1HaRMn5+MBWVBpBaXzpJxmSFRzpMMS0ioGJPDI+i1Rkq7jRJ3tFm5D6GwgjU0BSRF
+         N9pDev54IYMxQxqq+xy95l8rzOwpJZ4V/yxJw4hCD7V6/H05tzoYVbnpaVUpLcpKAeSQ
+         HoeECn2NVGBwbBzm1ATTxEZwrORzpanzB+4VujhsLiSOt4vwjYfzFvJbXPJzMPvx/5WY
+         yLeg==
+X-Gm-Message-State: AOAM5312yXNFc2XkZNbPZYTCE1dATtxqy2I1ktTvSW8TS0txG0nZJq/i
+        98OL0NDjVah49n3GafIyocMfPXwNsF2Lx+rnlLHyQAfo0uQtMcaWCmQg7hDFc5KDFsYL9qUWT0H
+        jSEjh5SgGRc+gLVQylJgm
+X-Received: by 2002:a05:600c:1992:: with SMTP id t18mr2699800wmq.48.1633507300590;
+        Wed, 06 Oct 2021 01:01:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyJvYkKNT0PnZsl8y/R4yENzonm/o0NU+J2mMwAgmnH5NfAQA3pCU7qmNSg1WRzAjBTWX+Xg==
+X-Received: by 2002:a05:600c:1992:: with SMTP id t18mr2699788wmq.48.1633507300300;
+        Wed, 06 Oct 2021 01:01:40 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6529.dip0.t-ipconnect.de. [91.12.101.41])
+        by smtp.gmail.com with ESMTPSA id a2sm6465397wru.82.2021.10.06.01.01.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Oct 2021 01:01:39 -0700 (PDT)
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v6 5/6] optee: separate notification functions
-Date:   Wed,  6 Oct 2021 09:15:45 +0200
-Message-Id: <20211006071546.2540920-6-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211006071546.2540920-1-jens.wiklander@linaro.org>
-References: <20211006071546.2540920-1-jens.wiklander@linaro.org>
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20210930144117.23641-1-david@redhat.com>
+ <20210930144117.23641-4-david@redhat.com> <YVzvYmf4xWC1DORO@kernel.org>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 3/3] memory-hotplug.rst: document the "auto-movable"
+ online policy
+Message-ID: <4bab9000-0b49-a852-d574-1c8b2fe10de1@redhat.com>
+Date:   Wed, 6 Oct 2021 10:01:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YVzvYmf4xWC1DORO@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Renames struct optee_wait_queue to struct optee_notif and all related
-functions to optee_notif_*().
+On 06.10.21 02:35, Mike Rapoport wrote:
+> On Thu, Sep 30, 2021 at 04:41:17PM +0200, David Hildenbrand wrote:
+>> In commit e83a437faa62 ("mm/memory_hotplug: introduce "auto-movable" online
+>> policy") we introduced a new memory online policy to automatically
+>> select a zone for memory blocks to be onlined. We added a way to
+>> set the active online policy and tunables for the auto-movable online
+>> policy. In follow-up commits we tweaked the "auto-movable" policy to also
+>> consider memory device details when selecting zones for memory blocks to
+>> be onlined.
+>>
+>> Let's document the new toggles and how the two online policies we have
+>> work.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   .../admin-guide/mm/memory-hotplug.rst         | 128 +++++++++++++++---
+>>   1 file changed, 108 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> index ee00b70dedde..c20a2c0031cf 100644
+>> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+>> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> @@ -165,9 +165,8 @@ Or alternatively::
+>>   
+>>   	% echo 1 > /sys/devices/system/memory/memoryXXX/online
+>>   
+>> -The kernel will select the target zone automatically, usually defaulting to
+>> -``ZONE_NORMAL`` unless ``movable_node`` has been specified on the kernel
+>> -command line or if the memory block would intersect the ZONE_MOVABLE already.
+>> +The kernel will select the target zone automatically, depending on the
+>> +configured ``online_policy``.
+>>   
+>>   One can explicitly request to associate an offline memory block with
+>>   ZONE_MOVABLE by::
+>> @@ -198,6 +197,9 @@ Auto-onlining can be enabled by writing ``online``, ``online_kernel`` or
+>>   
+>>   	% echo online > /sys/devices/system/memory/auto_online_blocks
+>>   
+>> +Similarly to manual onlining, with ``online`` the kernel will select the
+>> +target zone automatically, depending on the configured ``online_policy``.
+>> +
+>>   Modifying the auto-online behavior will only affect all subsequently added
+>>   memory blocks only.
+>>   
+>> @@ -393,9 +395,11 @@ command line parameters are relevant:
+>>   ======================== =======================================================
+>>   ``memhp_default_state``	 configure auto-onlining by essentially setting
+>>                            ``/sys/devices/system/memory/auto_online_blocks``.
+>> -``movable_node``	 configure automatic zone selection in the kernel. When
+>> -			 set, the kernel will default to ZONE_MOVABLE, unless
+>> -			 other zones can be kept contiguous.
+>> +``movable_node``	 configure automatic zone selection in the kernel when
+>> +			 using the ``contig-zones`` online policy. When
+>> +			 set, the kernel will default to ZONE_MOVABLE when
+>> +			 onlining a memory block, unless other zones can be kept
+>> +			 contiguous.
+> 
+> The movable_node main purpose is to allow unplugging an entire node. Zone
+> selection is a consequence of this. You may want to cite the description of
+> movable_node in kernel-paramenters.txt here.
 
-The implementation is changed to allow sending a notification from an
-atomic state, that is from the top half of an interrupt handler.
+Right, I only document the effects of these parameters on memory 
+hot(un)plug.
 
-Waiting for keys is currently only used when secure world is waiting for
-a mutex or condition variable. The old implementation could handle any
-32-bit key while this new implementation is restricted to only 8 bits or
-the maximum value 255. A upper value is needed since a bitmap is
-allocated to allow an interrupt handler to only set a bit in case the
-waiter hasn't had the time yet to allocate and register a completion.
+What about:
 
-The keys are currently only representing secure world threads which
-number usually are never even close to 255 so it should be safe for now.
-In future ABI updates the maximum value of the key will be communicated
-while the driver is initializing.
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst 
+b/Documentation/admin-guide/mm/memory-hotplug.rst
+index c20a2c0031cf..f8976ded0863 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -402,6 +402,9 @@ command line parameters are relevant:
+                          contiguous.
+  ======================== 
+=======================================================
 
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
----
- drivers/tee/optee/Makefile        |   1 +
- drivers/tee/optee/core.c          |  12 ++-
- drivers/tee/optee/notif.c         | 125 ++++++++++++++++++++++++++++++
- drivers/tee/optee/optee_private.h |  19 +++--
- drivers/tee/optee/optee_rpc_cmd.h |  31 ++++----
- drivers/tee/optee/rpc.c           |  73 ++---------------
- 6 files changed, 170 insertions(+), 91 deletions(-)
- create mode 100644 drivers/tee/optee/notif.c
++See Documentation/admin-guide/kernel-parameters.txt for a more generic
++description of these command line parameters.
++
+  Module Parameters
+  ------------------
 
-diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
-index 3aa33ea9e6a6..df55e4ad5370 100644
---- a/drivers/tee/optee/Makefile
-+++ b/drivers/tee/optee/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_OPTEE) += optee.o
- optee-objs += core.o
- optee-objs += call.o
-+optee-objs += notif.o
- optee-objs += rpc.o
- optee-objs += supp.o
- optee-objs += shm_pool.o
-diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-index 5ce13b099d7d..8531184f98f4 100644
---- a/drivers/tee/optee/core.c
-+++ b/drivers/tee/optee/core.c
-@@ -592,6 +592,7 @@ static int optee_remove(struct platform_device *pdev)
- 	 */
- 	optee_disable_shm_cache(optee);
- 
-+	optee_notif_uninit(optee);
- 	/*
- 	 * The two devices have to be unregistered before we can free the
- 	 * other resources.
-@@ -602,7 +603,6 @@ static int optee_remove(struct platform_device *pdev)
- 	tee_shm_pool_free(optee->pool);
- 	if (optee->memremaped_shm)
- 		memunmap(optee->memremaped_shm);
--	optee_wait_queue_exit(&optee->wait_queue);
- 	optee_supp_uninit(&optee->supp);
- 	mutex_destroy(&optee->call_queue.mutex);
- 
-@@ -712,11 +712,17 @@ static int optee_probe(struct platform_device *pdev)
- 
- 	mutex_init(&optee->call_queue.mutex);
- 	INIT_LIST_HEAD(&optee->call_queue.waiters);
--	optee_wait_queue_init(&optee->wait_queue);
- 	optee_supp_init(&optee->supp);
- 	optee->memremaped_shm = memremaped_shm;
- 	optee->pool = pool;
- 
-+	platform_set_drvdata(pdev, optee);
-+	rc = optee_notif_init(optee, 255);
-+	if (rc) {
-+		optee_remove(pdev);
-+		return rc;
-+	}
-+
- 	/*
- 	 * Ensure that there are no pre-existing shm objects before enabling
- 	 * the shm cache so that there's no chance of receiving an invalid
-@@ -731,8 +737,6 @@ static int optee_probe(struct platform_device *pdev)
- 	if (optee->sec_caps & OPTEE_SMC_SEC_CAP_DYNAMIC_SHM)
- 		pr_info("dynamic shared memory is enabled\n");
- 
--	platform_set_drvdata(pdev, optee);
--
- 	rc = optee_enumerate_devices(PTA_CMD_GET_DEVICES);
- 	if (rc) {
- 		optee_remove(pdev);
-diff --git a/drivers/tee/optee/notif.c b/drivers/tee/optee/notif.c
-new file mode 100644
-index 000000000000..a28fa03dcd0e
---- /dev/null
-+++ b/drivers/tee/optee/notif.c
-@@ -0,0 +1,125 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2015-2021, Linaro Limited
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/arm-smccc.h>
-+#include <linux/errno.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+#include <linux/tee_drv.h>
-+#include "optee_private.h"
-+
-+struct notif_entry {
-+	struct list_head link;
-+	struct completion c;
-+	u_int key;
-+};
-+
-+static bool have_key(struct optee *optee, u_int key)
-+{
-+	struct notif_entry *entry;
-+
-+	list_for_each_entry(entry, &optee->notif.db, link)
-+		if (entry->key == key)
-+			return true;
-+
-+	return false;
-+}
-+
-+int optee_notif_wait(struct optee *optee, u_int key)
-+{
-+	unsigned long flags;
-+	struct notif_entry *entry;
-+	int rc = 0;
-+
-+	if (key > optee->notif.max_key)
-+		return -EINVAL;
-+
-+	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-+	if (!entry)
-+		return -ENOMEM;
-+	init_completion(&entry->c);
-+	entry->key = key;
-+
-+	spin_lock_irqsave(&optee->notif.lock, flags);
-+
-+	/*
-+	 * If the bit is already set it means that the key has already
-+	 * been posted and we must not wait.
-+	 */
-+	if (test_bit(key, optee->notif.bitmap)) {
-+		clear_bit(key, optee->notif.bitmap);
-+		goto out;
-+	}
-+
-+	/*
-+	 * Check if someone is already waiting for this key. If there is
-+	 * it's a programming error.
-+	 */
-+	if (have_key(optee, key)) {
-+		rc = -EBUSY;
-+		goto out;
-+	}
-+
-+	list_add_tail(&entry->link, &optee->notif.db);
-+
-+	/*
-+	 * Unlock temporarily and wait for completion.
-+	 */
-+	spin_unlock_irqrestore(&optee->notif.lock, flags);
-+	wait_for_completion(&entry->c);
-+	spin_lock_irqsave(&optee->notif.lock, flags);
-+
-+	list_del(&entry->link);
-+out:
-+	spin_unlock_irqrestore(&optee->notif.lock, flags);
-+
-+	kfree(entry);
-+
-+	return rc;
-+}
-+
-+int optee_notif_send(struct optee *optee, u_int key)
-+{
-+	unsigned long flags;
-+	struct notif_entry *entry;
-+
-+	if (key > optee->notif.max_key)
-+		return -EINVAL;
-+
-+	spin_lock_irqsave(&optee->notif.lock, flags);
-+
-+	list_for_each_entry(entry, &optee->notif.db, link)
-+		if (entry->key == key) {
-+			complete(&entry->c);
-+			goto out;
-+		}
-+
-+	/* Only set the bit in case there where nobody waiting */
-+	set_bit(key, optee->notif.bitmap);
-+out:
-+	spin_unlock_irqrestore(&optee->notif.lock, flags);
-+
-+	return 0;
-+}
-+
-+int optee_notif_init(struct optee *optee, u_int max_key)
-+{
-+	spin_lock_init(&optee->notif.lock);
-+	INIT_LIST_HEAD(&optee->notif.db);
-+	optee->notif.bitmap = bitmap_zalloc(max_key, GFP_KERNEL);
-+	if (!optee->notif.bitmap)
-+		return -ENOMEM;
-+
-+	optee->notif.max_key = max_key;
-+
-+	return 0;
-+}
-+
-+void optee_notif_uninit(struct optee *optee)
-+{
-+	kfree(optee->notif.bitmap);
-+}
-diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-index dbdd367be156..76a16d9b6cf4 100644
---- a/drivers/tee/optee/optee_private.h
-+++ b/drivers/tee/optee/optee_private.h
-@@ -35,10 +35,12 @@ struct optee_call_queue {
- 	struct list_head waiters;
- };
- 
--struct optee_wait_queue {
--	/* Serializes access to this struct */
--	struct mutex mu;
-+struct optee_notif {
-+	u_int max_key;
-+	/* Serializes access to the elements below in this struct */
-+	spinlock_t lock;
- 	struct list_head db;
-+	u_long *bitmap;
- };
- 
- /**
-@@ -72,8 +74,7 @@ struct optee_supp {
-  * @teedev:		client device
-  * @invoke_fn:		function to issue smc or hvc
-  * @call_queue:		queue of threads waiting to call @invoke_fn
-- * @wait_queue:		queue of threads from secure world waiting for a
-- *			secure world sync object
-+ * @notif:		notification synchronization struct
-  * @supp:		supplicant synchronization struct for RPC to supplicant
-  * @pool:		shared memory pool
-  * @memremaped_shm	virtual address of memory in shared memory pool
-@@ -88,7 +89,7 @@ struct optee {
- 	struct tee_device *teedev;
- 	optee_invoke_fn *invoke_fn;
- 	struct optee_call_queue call_queue;
--	struct optee_wait_queue wait_queue;
-+	struct optee_notif notif;
- 	struct optee_supp supp;
- 	struct tee_shm_pool *pool;
- 	void *memremaped_shm;
-@@ -131,8 +132,10 @@ void optee_handle_rpc(struct tee_context *ctx, struct optee_rpc_param *param,
- 		      struct optee_call_ctx *call_ctx);
- void optee_rpc_finalize_call(struct optee_call_ctx *call_ctx);
- 
--void optee_wait_queue_init(struct optee_wait_queue *wq);
--void optee_wait_queue_exit(struct optee_wait_queue *wq);
-+int optee_notif_init(struct optee *optee, u_int max_key);
-+void optee_notif_uninit(struct optee *optee);
-+int optee_notif_wait(struct optee *optee, u_int key);
-+int optee_notif_send(struct optee *optee, u_int key);
- 
- u32 optee_supp_thrd_req(struct tee_context *ctx, u32 func, size_t num_params,
- 			struct tee_param *param);
-diff --git a/drivers/tee/optee/optee_rpc_cmd.h b/drivers/tee/optee/optee_rpc_cmd.h
-index b8275140cef8..f3f06e0994a7 100644
---- a/drivers/tee/optee/optee_rpc_cmd.h
-+++ b/drivers/tee/optee/optee_rpc_cmd.h
-@@ -28,24 +28,27 @@
- #define OPTEE_RPC_CMD_GET_TIME		3
- 
- /*
-- * Wait queue primitive, helper for secure world to implement a wait queue.
-+ * Notification from/to secure world.
-  *
-- * If secure world needs to wait for a secure world mutex it issues a sleep
-- * request instead of spinning in secure world. Conversely is a wakeup
-- * request issued when a secure world mutex with a thread waiting thread is
-- * unlocked.
-+ * If secure world needs to wait for something, for instance a mutex, it
-+ * does a notification wait request instead of spinning in secure world.
-+ * Conversely can a synchronous notification can be sent when a secure
-+ * world mutex with a thread waiting thread is unlocked.
-  *
-- * Waiting on a key
-- * [in]    value[0].a	    OPTEE_RPC_WAIT_QUEUE_SLEEP
-- * [in]    value[0].b	    Wait key
-+ * This interface can also be used to wait for a asynchronous notification
-+ * which instead is sent via a non-secure interrupt.
-  *
-- * Waking up a key
-- * [in]    value[0].a	    OPTEE_RPC_WAIT_QUEUE_WAKEUP
-- * [in]    value[0].b	    Wakeup key
-+ * Waiting on notification
-+ * [in]    value[0].a	    OPTEE_RPC_NOTIFICATION_WAIT
-+ * [in]    value[0].b	    notification value
-+ *
-+ * Sending a synchronous notification
-+ * [in]    value[0].a	    OPTEE_RPC_NOTIFICATION_SEND
-+ * [in]    value[0].b	    notification value
-  */
--#define OPTEE_RPC_CMD_WAIT_QUEUE	4
--#define OPTEE_RPC_WAIT_QUEUE_SLEEP	0
--#define OPTEE_RPC_WAIT_QUEUE_WAKEUP	1
-+#define OPTEE_RPC_CMD_NOTIFICATION	4
-+#define OPTEE_RPC_NOTIFICATION_WAIT	0
-+#define OPTEE_RPC_NOTIFICATION_SEND	1
- 
- /*
-  * Suspend execution
-diff --git a/drivers/tee/optee/rpc.c b/drivers/tee/optee/rpc.c
-index efbaff7ad7e5..fa492655843a 100644
---- a/drivers/tee/optee/rpc.c
-+++ b/drivers/tee/optee/rpc.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2015-2016, Linaro Limited
-+ * Copyright (c) 2015-2021, Linaro Limited
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-@@ -14,23 +14,6 @@
- #include "optee_smc.h"
- #include "optee_rpc_cmd.h"
- 
--struct wq_entry {
--	struct list_head link;
--	struct completion c;
--	u32 key;
--};
--
--void optee_wait_queue_init(struct optee_wait_queue *priv)
--{
--	mutex_init(&priv->mu);
--	INIT_LIST_HEAD(&priv->db);
--}
--
--void optee_wait_queue_exit(struct optee_wait_queue *priv)
--{
--	mutex_destroy(&priv->mu);
--}
--
- static void handle_rpc_func_cmd_get_time(struct optee_msg_arg *arg)
- {
- 	struct timespec64 ts;
-@@ -143,48 +126,6 @@ static void handle_rpc_func_cmd_i2c_transfer(struct tee_context *ctx,
- }
- #endif
- 
--static struct wq_entry *wq_entry_get(struct optee_wait_queue *wq, u32 key)
--{
--	struct wq_entry *w;
--
--	mutex_lock(&wq->mu);
--
--	list_for_each_entry(w, &wq->db, link)
--		if (w->key == key)
--			goto out;
--
--	w = kmalloc(sizeof(*w), GFP_KERNEL);
--	if (w) {
--		init_completion(&w->c);
--		w->key = key;
--		list_add_tail(&w->link, &wq->db);
--	}
--out:
--	mutex_unlock(&wq->mu);
--	return w;
--}
--
--static void wq_sleep(struct optee_wait_queue *wq, u32 key)
--{
--	struct wq_entry *w = wq_entry_get(wq, key);
--
--	if (w) {
--		wait_for_completion(&w->c);
--		mutex_lock(&wq->mu);
--		list_del(&w->link);
--		mutex_unlock(&wq->mu);
--		kfree(w);
--	}
--}
--
--static void wq_wakeup(struct optee_wait_queue *wq, u32 key)
--{
--	struct wq_entry *w = wq_entry_get(wq, key);
--
--	if (w)
--		complete(&w->c);
--}
--
- static void handle_rpc_func_cmd_wq(struct optee *optee,
- 				   struct optee_msg_arg *arg)
- {
-@@ -196,11 +137,13 @@ static void handle_rpc_func_cmd_wq(struct optee *optee,
- 		goto bad;
- 
- 	switch (arg->params[0].u.value.a) {
--	case OPTEE_RPC_WAIT_QUEUE_SLEEP:
--		wq_sleep(&optee->wait_queue, arg->params[0].u.value.b);
-+	case OPTEE_RPC_NOTIFICATION_WAIT:
-+		if (optee_notif_wait(optee, arg->params[0].u.value.b))
-+			goto bad;
- 		break;
--	case OPTEE_RPC_WAIT_QUEUE_WAKEUP:
--		wq_wakeup(&optee->wait_queue, arg->params[0].u.value.b);
-+	case OPTEE_RPC_NOTIFICATION_SEND:
-+		if (optee_notif_send(optee, arg->params[0].u.value.b))
-+			goto bad;
- 		break;
- 	default:
- 		goto bad;
-@@ -463,7 +406,7 @@ static void handle_rpc_func_cmd(struct tee_context *ctx, struct optee *optee,
- 	case OPTEE_RPC_CMD_GET_TIME:
- 		handle_rpc_func_cmd_get_time(arg);
- 		break;
--	case OPTEE_RPC_CMD_WAIT_QUEUE:
-+	case OPTEE_RPC_CMD_NOTIFICATION:
- 		handle_rpc_func_cmd_wq(optee, arg);
- 		break;
- 	case OPTEE_RPC_CMD_SUSPEND:
+
+> 
+> And, pardon my ignorance, how movable_node will play with auto-movable
+> policy?
+
+It's essentially ignored with the auto-movable policy for memory 
+hotplugged after boot (!MEMBLOCK_HOTPLUG). That's why only the 
+description of "contig-zones" below describes how it interacts with the 
+``movable_node``, and we make it clear here that it's restricted to the 
+"contig-zones" policy as well.
+
+<details>
+Bare metal, where we care about reliably unplugging hotplugged memory 
+usually configures auto-onlining to "online_movable": for example, 
+that's the case on RHEL. auto-movable doesn't make too much sense for 
+bare metal: the nature of "movable_node" is to essentially online 
+anything that might get hotunplugged MOVABLE, especially after 
+hotplugging memory and rebooting: that is highly dangerous especially in 
+virtualized environments.
+
+"auto-movable" is valuable in virtualized environments, where we add 
+memory via:
+* add_memory_driver_managed() like virtio-mem, whereby such memory is
+   never part of the firmware provided memory-map, so the policy is
+   always in control even after a reboot.
+* Hotplugged virtual DIMMs, such as provided by x86-64/arm64, whereby we
+   don't include these DIMMs in the firmware-provided memory map, but
+   ACPI code adds them after early boot, making it behave similar to
+   add_memory_driver_managed() -- the policy is always in control even
+   after a reboot.
+</details>
+
+
+Thanks!
+
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
