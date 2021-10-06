@@ -2,154 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C05EAC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206B8C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 21:38:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A569561152
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 20:58:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06C716120F
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 21:38:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234016AbhJFVAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 17:00:20 -0400
-Received: from mga14.intel.com ([192.55.52.115]:54692 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229657AbhJFVAU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Oct 2021 17:00:20 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="226412795"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="226412795"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2021 13:58:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; 
-   d="scan'208";a="713074765"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Oct 2021 13:58:22 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.53])
-        by linux.intel.com (Postfix) with ESMTP id B6EEC5807FC;
-        Wed,  6 Oct 2021 13:58:22 -0700 (PDT)
-Message-ID: <668f263e1d2606ad7485c40ce41933300ec4b8a3.camel@linux.intel.com>
-Subject: Re: [PATCH 2/5] platform/x86/intel: Move intel_pmt from MFD to
- Auxiliary Bus
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
-        bhelgaas@google.com, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
-Date:   Wed, 06 Oct 2021 13:58:22 -0700
-In-Reply-To: <YV1lTMwBSVlvadiG@unreal>
-References: <20211001012815.1999501-1-david.e.box@linux.intel.com>
-         <20211001012815.1999501-3-david.e.box@linux.intel.com>
-         <YV1lTMwBSVlvadiG@unreal>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S239496AbhJFVkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 17:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229464AbhJFVkd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 17:40:33 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7127CC061746;
+        Wed,  6 Oct 2021 14:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=tg4X4L3elpkm4nMQLNG1D3VF06qVZxJG1TCyclH2NOk=; b=2jaMrD+/+75vd+kikRHG/lPo9x
+        BrwIi/WPCWC7/y41ffxfp4dFhq8MrSDv1nBtgl6xbufI48jUQjxM6jF4cI5oTvpoKpLlrF2m8hfW+
+        V5jFZ+HG+BaO8bIkTahPJ67/LeGZcl/DkaGgZv+dEmbHSxjPIVp6j+3ltrky3jpNxVrepxcMjMTiL
+        cTLopmD/lfqKeVXqyi96sKeDXI7+OsD9mpSV3ScwZ12V+o0QdPbkuycORRsKfY6H4p2HDdwdNAR/E
+        EEx4vOTFF9PBCGAkKCfxczs/w5SHLQnqpyz7wjDd73xQLl1oNTMKdEph6YT9FCVte184GlZl55MeO
+        ws9digkA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mYEcS-00FcJk-MV; Wed, 06 Oct 2021 21:38:33 +0000
+Subject: Re: [PATCH v7 1/5] d_path: fix Kernel doc validator complaints
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jia He <justin.he@arm.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>, nd@arm.com,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20210715011407.7449-1-justin.he@arm.com>
+ <20210715011407.7449-2-justin.he@arm.com>
+ <YPAPIsGkom68R1WR@smile.fi.intel.com>
+ <92c8b22e-613e-7e8d-8cf9-b995494cf3f3@infradead.org>
+Message-ID: <9bb23730-3c1e-4144-2955-99dccacf010f@infradead.org>
+Date:   Wed, 6 Oct 2021 14:38:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <92c8b22e-613e-7e8d-8cf9-b995494cf3f3@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-10-06 at 11:58 +0300, Leon Romanovsky wrote:
-> On Thu, Sep 30, 2021 at 06:28:12PM -0700, David E. Box wrote:
-> > Intel Platform Monitoring Technology (PMT) support is indicated by presence
-> > of an Intel defined PCIe DVSEC structure with a PMT ID. However DVSEC
-> > structures may also be used by Intel to indicate support for other
-> > capabilities unrelated to PMT.  The Out Of Band Management Services Module
-> > (OOBMSM) is an example of a device that can have both PMT and non-PMT
-> > capabilities. In order to support these capabilities it is necessary to
-> > modify the intel_pmt driver to handle the creation of platform devices more
-> > generically. To that end the following changes are made.
-> > 
-> > Convert the driver and child drivers from MFD to the Auxiliary Bus. This
-> > architecture is more suitable anyway since the driver partitions a
-> > multifunctional PCIe device. This also moves the driver out of the MFD
-> > subsystem and into platform/x86/intel.
-> > 
-> > Before, devices were named by their capability (e.g. pmt_telemetry).
-> > Instead, generically name them by their capability ID (e.g.
-> > intel_extended_cap.2). This allows the IDs to be created automatically,
-> > minimizing the code needed to support future capabilities. However, to
-> > ensure that unsupported devices aren't created, use an allow list to
-> > specify supported capabilities. Along these lines, rename the driver from
-> > intel_pmt to intel_extended_caps to better reflect the purpose.
-> > 
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > 
-> > V1:     New patch. However incorporates some elements of [1] which was
-> >         dropped. Namely enumerating features generically and creating an
-> >         allow list. Also cleans up probe by moving some code to functions
-> >         and using a bool instead of an int to track whether a device was
-> >         added.
-> > 
-> > [1] https://lore.kernel.org/all/20210922213007.2738388-3-david.e.box@linux.intel.com/
+On 9/26/21 3:57 PM, Randy Dunlap wrote:
+> On 7/15/21 3:34 AM, Andy Shevchenko wrote:
+>> On Thu, Jul 15, 2021 at 09:14:03AM +0800, Jia He wrote:
+>>> Kernel doc validator complains:
+>>>    Function parameter or member 'p' not described in 'prepend_name'
+>>>    Excess function parameter 'buffer' description in 'prepend_name'
+>>
+>> Yup!
+>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>
 > 
-> <...>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 > 
-> > +static int extended_caps_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> > +{
-> > +       struct extended_caps_platform_info *info;
-> > +       bool have_devices = false;
-> > +       unsigned long quirks = 0;
-> > +       int ret;
-> > +
-> > +       ret = pcim_enable_device(pdev);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       info = (struct extended_caps_platform_info *)id->driver_data;
-> 
-> pci_get_drvdata() in all places and no need to cast void *.
+> Can we get someone to merge this, please?
 
-This is coming from the id not the pdev. The data here is type kernel_ulong_t.
+Ho hum.  Justin, please resubmit your patch with Andy's Reviewed-by:
+and my Acked-by:.  Send it to Andrew Morton and ask him to merge it.
 
-> 
-> > +       if (info)
-> > +               quirks = info->quirks;
-> > +
-> > +       have_devices |= extended_caps_walk_dvsec(pdev, quirks);
-> > +
-> > +       if (info && (info->quirks & EXT_CAPS_QUIRK_NO_DVSEC))
-> > +               have_devices |= extended_caps_walk_header(pdev, quirks, info->capabilities);
-> > +
-> > +       if (!have_devices)
-> > +               return -ENODEV;
-> > +
-> > +       return 0;
-> > +}
-> 
-> <...>
-> 
-> > -static struct platform_driver pmt_telem_driver = {
-> > -       .driver = {
-> > -               .name   = TELEM_DEV_NAME,
-> > -       },
-> > -       .remove = pmt_telem_remove,
-> > -       .probe  = pmt_telem_probe,
-> > +static const struct auxiliary_device_id pmt_telem_aux_id_table[] = {
-> > +       { .name = "intel_extended_caps.2", },
-> 
-> Why "2" in the name?
-
-This is being changed to a string for the next version after similar comment. Thanks.
-
-David
-
-> 
-> Thanks
-> 
-> > +       {},
-> > +};
-> > +MODULE_DEVICE_TABLE(auxiliary, pmt_telem_aux_id_table);
-> > +
-> > +static struct auxiliary_driver pmt_telem_aux_driver = {
-> > +       .id_table       = pmt_telem_aux_id_table,
-> > +       .remove         = pmt_telem_remove,
-> > +       .probe          = pmt_telem_probe,
-> >  };
-> >  
+Thanks.
 
 
+(cf. https://lore.kernel.org/all/20210628014613.11296-1-rdunlap@infradead.org/
+from 2021-06-27)
+
+>>> Fixes: ad08ae586586 ("d_path: introduce struct prepend_buffer")
+>>> Cc: Al Viro <viro@zeniv.linux.org.uk>
+>>> Signed-off-by: Jia He <justin.he@arm.com>
+>>> ---
+>>>   fs/d_path.c | 8 +++-----
+>>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/fs/d_path.c b/fs/d_path.c
+>>> index 23a53f7b5c71..4eb31f86ca88 100644
+>>> --- a/fs/d_path.c
+>>> +++ b/fs/d_path.c
+>>> @@ -33,9 +33,8 @@ static void prepend(struct prepend_buffer *p, const char *str, int namelen)
+>>>   /**
+>>>    * prepend_name - prepend a pathname in front of current buffer pointer
+>>> - * @buffer: buffer pointer
+>>> - * @buflen: allocated length of the buffer
+>>> - * @name:   name string and length qstr structure
+>>> + * @p: prepend buffer which contains buffer pointer and allocated length
+>>> + * @name: name string and length qstr structure
+>>>    *
+>>>    * With RCU path tracing, it may race with d_move(). Use READ_ONCE() to
+>>>    * make sure that either the old or the new name pointer and length are
+>>> @@ -108,8 +107,7 @@ static int __prepend_path(const struct dentry *dentry, const struct mount *mnt,
+>>>    * prepend_path - Prepend path string to a buffer
+>>>    * @path: the dentry/vfsmount to report
+>>>    * @root: root vfsmnt/dentry
+>>> - * @buffer: pointer to the end of the buffer
+>>> - * @buflen: pointer to buffer length
+>>> + * @p: prepend buffer which contains buffer pointer and allocated length
+>>>    *
+>>>    * The function will first try to write out the pathname without taking any
+>>>    * lock other than the RCU read lock to make sure that dentries won't go away.
+>>> -- 
+> 
+> 
+
+
+-- 
+~Randy
